@@ -215,7 +215,7 @@ import SwiftData
             let path = argument.hasPrefix("/")
                 ? argument
                 : FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                    .appendingPathComponent(argument).path
+                .appendingPathComponent(argument).path
             let context = container.mainContext
             guard let data = FileManager.default.contents(atPath: path) else {
                 print("DemoData: -piruImportFile could not read '\(path)'")

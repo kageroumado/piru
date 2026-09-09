@@ -6,7 +6,9 @@ import SwiftUI
 enum WidgetColors {
     /// The skin's text-safe accent — the same symbol the app's `Theme.accent`
     /// resolves to, so a widget never drifts from the app.
-    static var accent: Color { Skin.current.accent }
+    static var accent: Color {
+        Skin.current.accent
+    }
 
     static let backgroundGradientTop = Color(red: 0.06, green: 0.04, blue: 0.08)
     static let backgroundGradientBottom = Color(red: 0.10, green: 0.05, blue: 0.10)

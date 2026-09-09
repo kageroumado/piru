@@ -268,7 +268,7 @@ nonisolated extension SceneRenderer {
             let driftFreq = 0.3 + rng.unit() * 0.7
             let driftPhase = rng.unit() * 6.28
             let x0 = rng.unit()
-            let y0 = -200 + rng.unit() * 1000
+            let y0 = -200 + rng.unit() * 1_000
             let birth = rng.unit() * 20
             let age = time + birth
             let wrapped = (y0 + age * speed).truncatingRemainder(dividingBy: size.height + 20) - 10

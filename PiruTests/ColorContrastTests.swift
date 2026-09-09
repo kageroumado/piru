@@ -361,7 +361,6 @@ struct ColorContrastTests {
         )
     }
 
-
     /// `Theme.secondaryLabel` — graduated from known gap to real gate in
     /// migration phase 3.
     ///

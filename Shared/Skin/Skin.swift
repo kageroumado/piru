@@ -68,7 +68,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// ramp as the semantic colours, their molecule ring behind everything.
     case doseWiki
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     /// Skins kept in the code but out of the picker for now. Paper Garden is
     /// shelved (2026-09-09) until its paper surface and garden get a polish
@@ -76,7 +78,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     nonisolated static let shelved: Set<Skin> = [.paperGarden]
 
     /// What the picker offers.
-    static var available: [Skin] { allCases.filter { !shelved.contains($0) } }
+    static var available: [Skin] {
+        allCases.filter { !shelved.contains($0) }
+    }
 
     /// Picker name. Localized like every user-facing string.
     var displayName: LocalizedStringResource {
@@ -124,7 +128,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// see `SkinStore`. The app installs a provider that reads the observable
     /// store (so reads inside a `body` are tracked); before that, and in the
     /// extensions, it falls back to the persisted choice.
-    nonisolated static var current: Skin { currentProvider() }
+    nonisolated static var current: Skin {
+        currentProvider()
+    }
 
     /// Replaced once by `SkinStore.activate()` at launch; read on the main
     /// thread from view bodies. `nonisolated(unsafe)` because the members of
@@ -157,33 +163,49 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// Label colour on an ``accentMark`` fill (buttons, tab stickers). Gated
     /// 4.5:1 against ``accent``. The default skin's white-on-accent is the
     /// system's own choice for `.glassProminent`.
-    var onAccent: Color { palette.onAccent }
+    var onAccent: Color {
+        palette.onAccent
+    }
 
     /// Brand accent and control tint. **Text-safe** in every skin: the app uses
     /// one token for both copy and marks, so where a skin's vivid mark colour
     /// fails as small text (ely.pink's hot pink on cream, 2.9:1) this is the
     /// darker `accent/text` twin and ``accentMark`` carries the vivid one.
-    var accent: Color { palette.accent }
+    var accent: Color {
+        palette.accent
+    }
 
     /// The vivid accent for standalone marks: rings, glows, selection fills
     /// under white text. Gated at the 3:1 non-text floor, never used as copy.
-    var accentMark: Color { palette.accentMark }
+    var accentMark: Color {
+        palette.accentMark
+    }
 
     /// De-emphasized body text. Gated AA 4.5:1 on `cardBackground`.
-    var secondaryLabel: Color { palette.secondaryLabel }
+    var secondaryLabel: Color {
+        palette.secondaryLabel
+    }
 
     /// Page backdrop.
-    var background: Color { palette.background }
+    var background: Color {
+        palette.background
+    }
 
     /// Card / raised surface fill.
-    var cardBackground: Color { palette.cardBackground }
+    var cardBackground: Color {
+        palette.cardBackground
+    }
 
     /// Text-field and other input fills.
-    var inputBackground: Color { palette.inputBackground }
+    var inputBackground: Color {
+        palette.inputBackground
+    }
 
     /// Eyebrows, section labels, sticker shadows — the skin's "wine". The
     /// default skin has no such role and uses secondary text.
-    var eyebrow: Color { palette.eyebrow }
+    var eyebrow: Color {
+        palette.eyebrow
+    }
 
     /// Status colours. Skins may re-seed the L1 ladder; the roles and the
     /// `text` / `accent` split are fixed by the design system.
@@ -394,29 +416,29 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         // The site's `h1`: hot pink at night, near-black in pink mode, with a
         // hard drop (wine at night, hot pink in pink mode).
         case .elyPink: SkinTitleOutline(
-            fill: palette.titleFill, stroke: palette.titleStroke,
-            shadow: palette.titleShadow, shadowOffset: CGSize(width: 3, height: 3), shadowBlur: 0,
-        )
+                fill: palette.titleFill, stroke: palette.titleStroke,
+                shadow: palette.titleShadow, shadowOffset: CGSize(width: 3, height: 3), shadowBlur: 0,
+            )
         case .astrelia: SkinTitleOutline(
-            fill: palette.titleFill, stroke: palette.titleStroke,
-            shadow: palette.titleShadow, shadowOffset: CGSize(width: 3, height: 3), shadowBlur: 0,
-        )
+                fill: palette.titleFill, stroke: palette.titleStroke,
+                shadow: palette.titleShadow, shadowOffset: CGSize(width: 3, height: 3), shadowBlur: 0,
+            )
         // Soft skins: no outline, the label colour, a coloured glow beneath.
         // dose.wiki's glow is fuchsia, the halo their wordmark sits in.
         case .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki: SkinTitleOutline(
-            fill: nil, stroke: nil,
-            shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 14,
-        )
+                fill: nil, stroke: nil,
+                shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 14,
+            )
         // Ink with a hard sakura drop, no outline: a stamp on paper.
         case .paperGarden: SkinTitleOutline(
-            fill: palette.titleFill, stroke: nil,
-            shadow: palette.titleShadow, shadowOffset: CGSize(width: 2, height: 2), shadowBlur: 0,
-        )
+                fill: palette.titleFill, stroke: nil,
+                shadow: palette.titleShadow, shadowOffset: CGSize(width: 2, height: 2), shadowBlur: 0,
+            )
         // A neon sign: cyan tube, magenta glow.
         case .hebi: SkinTitleOutline(
-            fill: palette.titleFill, stroke: nil,
-            shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 10,
-        )
+                fill: palette.titleFill, stroke: nil,
+                shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 10,
+            )
         }
     }
 
@@ -432,13 +454,13 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .linen: .paper(stroke: palette.stroke, grain: palette.shadow)
         case .slate: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 10)
         case .elyPink: .edged(
-            stroke: palette.stroke, strokeWidth: 2.5,
-            shadow: palette.shadow, shadowOffset: CGSize(width: 3, height: 3),
-        )
+                stroke: palette.stroke, strokeWidth: 2.5,
+                shadow: palette.shadow, shadowOffset: CGSize(width: 3, height: 3),
+            )
         case .astrelia: .edged(
-            stroke: palette.stroke, strokeWidth: 2.5,
-            shadow: palette.shadow, shadowOffset: CGSize(width: 4, height: 5),
-        )
+                stroke: palette.stroke, strokeWidth: 2.5,
+                shadow: palette.shadow, shadowOffset: CGSize(width: 4, height: 5),
+            )
         case .tsuki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 14)
         case .jellyfish: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 18)
         case .hotaru: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 16)
@@ -713,12 +735,16 @@ struct SkinTypeface: Equatable, Sendable {
 
 /// The L1 status roles. A closed set — see `design-system/README.md`.
 enum SemanticRole: CaseIterable, Sendable {
-    case danger, caution, success, info
+    case danger
+    case caution
+    case success
+    case info
 }
 
 /// `text` is small copy (gated 4.5:1); `accent` is a standalone mark (3:1).
 enum SemanticVariant: CaseIterable, Sendable {
-    case text, accent
+    case text
+    case accent
 }
 
 // MARK: - Decorations
@@ -842,7 +868,7 @@ struct SkinNightSky: Sendable {
     let moon: Bool
     /// The moon as drawn art — Tsuki's own icon, lifted with its glow — or
     /// `nil` to draw a crescent by hand.
-    var moonImage: ImageResource? = nil
+    var moonImage: ImageResource?
     /// The hand-drawn crescent's closed eyes and smile, and its blush.
     var moonInk: Color = .black
     var moonBlush: Color = .pink
@@ -910,9 +936,13 @@ enum SkinSurface: Equatable, Sendable {
 
 /// The user's light/dark override. `system` defers to iOS.
 enum SkinColorScheme: String, CaseIterable, Identifiable, Sendable {
-    case system, light, dark
+    case system
+    case light
+    case dark
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     /// Distinct from the dose-tier key `"Light"` (轻度), which is a different word.
     var displayName: LocalizedStringResource {

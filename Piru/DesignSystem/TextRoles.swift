@@ -60,7 +60,9 @@ extension Font {
     /// Pinned to `.system(size: 38, weight: .bold)`, the most frequent form in
     /// the 38–40 pt cluster across `Piru/Views` (3 sites; next is
     /// `size: 40, weight: .heavy, design: .rounded` at 2).
-    static var heroStat: Font { .piru(size: 38, weight: .bold, relativeTo: .largeTitle, scaling: false) }
+    static var heroStat: Font {
+        .piru(size: 38, weight: .bold, relativeTo: .largeTitle, scaling: false)
+    }
 
     /// 17 pt semibold — a heading that must hold a fixed optical size beside a
     /// chart or a fixed-height header.
@@ -71,5 +73,7 @@ extension Font {
     /// Pinned to `.system(size: 17, weight: .semibold)`, the most frequent form
     /// in the 17 pt cluster across `Piru/Views` (5 sites; next is
     /// `size: 17, weight: .bold` at 1).
-    static var sectionTitle: Font { .piru(size: 17, weight: .semibold, relativeTo: .headline, scaling: false) }
+    static var sectionTitle: Font {
+        .piru(size: 17, weight: .semibold, relativeTo: .headline, scaling: false)
+    }
 }

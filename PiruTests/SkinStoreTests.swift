@@ -14,16 +14,16 @@ struct SkinStoreTests {
         return defaults
     }
 
-    @Test("Starts on the default skin, following the system scheme")
-    func defaults() {
+    @Test
+    func `Starts on the default skin, following the system scheme`() {
         let store = SkinStore(defaults: freshDefaults())
         #expect(store.current == SkinDefaults.skinDefault)
         #expect(store.colorScheme == .system)
         #expect(store.colorScheme.colorScheme == nil)
     }
 
-    @Test("A chosen skin survives a new store on the same suite")
-    func skinPersists() {
+    @Test
+    func `A chosen skin survives a new store on the same suite`() {
         let defaults = freshDefaults()
         let store = SkinStore(defaults: defaults)
         store.setSkin(.piru)
@@ -32,8 +32,8 @@ struct SkinStoreTests {
         #expect(SkinDefaults.storedSkin(in: defaults) == .piru)
     }
 
-    @Test("A chosen colour scheme survives a new store on the same suite")
-    func colorSchemePersists() {
+    @Test
+    func `A chosen colour scheme survives a new store on the same suite`() {
         let defaults = freshDefaults()
         let store = SkinStore(defaults: defaults)
         store.setColorScheme(.dark)
@@ -43,16 +43,16 @@ struct SkinStoreTests {
         #expect(SkinColorScheme.light.colorScheme == .light)
     }
 
-    @Test("A stored skin this build doesn't know falls back to the default")
-    func unknownSkinFallsBack() {
+    @Test
+    func `A stored skin this build doesn't know falls back to the default`() {
         let defaults = freshDefaults()
         defaults.set("not-a-skin", forKey: SkinDefaults.skinKey)
         #expect(SkinDefaults.storedSkin(in: defaults) == SkinDefaults.skinDefault)
         #expect(SkinStore(defaults: defaults).current == SkinDefaults.skinDefault)
     }
 
-    @Test("Decorations toggle persists and only decorated skins carry a set")
-    func decorations() {
+    @Test
+    func `Decorations toggle persists and only decorated skins carry a set`() {
         let defaults = freshDefaults()
         let store = SkinStore(defaults: defaults)
         #expect(store.decorationsEnabled == SkinDefaults.decorationsDefault)
@@ -62,8 +62,8 @@ struct SkinStoreTests {
         #expect((Skin.elyPink.decorations?.glyphs.count ?? 0) >= 8)
     }
 
-    @Test("Theme resolves through the active skin's palette")
-    func themeFollowsSkin() {
+    @Test
+    func `Theme resolves through the active skin's palette`() {
         let skin = SkinStore.shared.current
         #expect(Theme.accent == skin.accent)
         #expect(Theme.secondaryLabel == skin.secondaryLabel)
@@ -72,8 +72,8 @@ struct SkinStoreTests {
         #expect(Theme.inputBackground == skin.inputBackground)
     }
 
-    @Test("The default skin keeps the app's shipped treatment")
-    func defaultSkinIsUnchanged() {
+    @Test
+    func `The default skin keeps the app's shipped treatment`() {
         #expect(Skin.piru.surface == .glass)
         #expect(Skin.piru.fontDesign == nil)
         #expect(Skin.allCases.first == .piru)

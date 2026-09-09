@@ -6,8 +6,8 @@ import UIKit
 @MainActor
 @Suite("Skin typography")
 struct SkinTypeTests {
-    @Test("The bundled display and label faces are registered")
-    func fontsRegistered() {
+    @Test
+    func `The bundled display and label faces are registered`() {
         // UIAppFonts in Piru/Info.plist; both families ship in Piru/Fonts.
         #expect(UIFont(name: "Fredoka-Regular", size: 17) != nil)
         #expect(UIFont(name: "Fredoka-Bold", size: 17) != nil)
@@ -16,8 +16,8 @@ struct SkinTypeTests {
         #expect(UIFont.familyNames.contains("DotGothic16"))
     }
 
-    @Test("Every skin's typeface names a family the bundle actually has")
-    func typefacesResolve() {
+    @Test
+    func `Every skin's typeface names a family the bundle actually has`() {
         for skin in Skin.allCases {
             for family in [skin.typeface.display, skin.typeface.label].compactMap(\.self) {
                 #expect(UIFont.familyNames.contains(family), "\(skin.rawValue) names \(family), which is not bundled")
@@ -25,8 +25,8 @@ struct SkinTypeTests {
         }
     }
 
-    @Test("The resolver returns registered face names per weight")
-    func facesResolve() {
+    @Test
+    func `The resolver returns registered face names per weight`() {
         // SwiftUI's `Font.custom` + `.weight()` on a family name rendered the
         // system font on device; explicit face names are what reliably resolve.
         #expect(SkinFace.registered("Fredoka", weight: .regular) == "Fredoka-Regular")
@@ -38,8 +38,8 @@ struct SkinTypeTests {
         #expect(SkinFace.registered("NoSuchFamily", weight: .bold) == nil)
     }
 
-    @Test("With ely.pink active, display and label roles resolve to Fredoka and DotGothic16")
-    func elyPinkResolves() {
+    @Test
+    func `With ely.pink active, display and label roles resolve to Fredoka and DotGothic16`() {
         let store = SkinStore.shared
         let previous = store.current
         defer { store.setSkin(previous) }
@@ -53,8 +53,8 @@ struct SkinTypeTests {
         #expect(Font.piru(size: 20, weight: .bold) != Font.system(size: 20, weight: .bold))
     }
 
-    @Test("A skin with a custom face has no root font design")
-    func fontDesignAndFacesAreExclusive() {
+    @Test
+    func `A skin with a custom face has no root font design`() {
         // A root `.fontDesign` replaces every SwiftUI font in the tree, wrapped
         // custom faces included; only UIKit's navigation bar escapes it.
         for skin in Skin.allCases where skin.typeface.display != nil || skin.typeface.label != nil {
@@ -62,23 +62,27 @@ struct SkinTypeTests {
         }
     }
 
-    @Test("Only the five display styles are display")
-    func displayStyles() {
+    @Test
+    func `Only the five display styles are display`() {
         let display: [Font.TextStyle] = [.largeTitle, .title, .title2, .title3, .headline]
         let rest: [Font.TextStyle] = [.subheadline, .body, .callout, .footnote, .caption, .caption2]
-        for style in display { #expect(style.isDisplay) }
-        for style in rest { #expect(!style.isDisplay) }
+        for style in display {
+            #expect(style.isDisplay)
+        }
+        for style in rest {
+            #expect(!style.isDisplay)
+        }
     }
 
-    @Test("Default point sizes match the system's large-content sizes")
-    func defaultSizes() {
+    @Test
+    func `Default point sizes match the system's large-content sizes`() {
         #expect(Font.TextStyle.largeTitle.defaultPointSize == 34)
         #expect(Font.TextStyle.body.defaultPointSize == 17)
         #expect(Font.TextStyle.caption2.defaultPointSize == 11)
     }
 
-    @Test("A skin without custom faces resolves to the plain system styles")
-    func defaultSkinIsSystem() {
+    @Test
+    func `A skin without custom faces resolves to the plain system styles`() {
         #expect(Skin.piru.typeface == SkinTypeface(display: nil, label: nil))
         // Font is not Equatable by value across custom/system, so check the
         // resolution path: with no family, both helpers hand back the system style.

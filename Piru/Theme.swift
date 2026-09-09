@@ -8,18 +8,24 @@ import SwiftUI
 /// being touched. Each skin returns Xcode's generated catalog symbol for its
 /// namespace — never a string lookup, so a renamed colorset is a compile error.
 enum Theme {
-    private static var skin: Skin { SkinStore.shared.current }
+    private static var skin: Skin {
+        SkinStore.shared.current
+    }
 
     /// Brand accent and control tint. Soft pink light / hot pink dark in the
     /// default skin.
-    static var accent: Color { skin.accent }
+    static var accent: Color {
+        skin.accent
+    }
 
     /// De-emphasized body text. Kept as an accessor over the catalog symbol
     /// for its ~600 call sites; gated by `ColorContrastTests`.
     ///
     /// Never swap this for the system `.secondary`: it measures 2.17:1 on the
     /// light card and fails WCAG AA.
-    static var secondaryLabel: Color { skin.secondaryLabel }
+    static var secondaryLabel: Color {
+        skin.secondaryLabel
+    }
 
     // MARK: - Surfaces
 
@@ -28,13 +34,19 @@ enum Theme {
     // variants.
 
     /// Page backdrop. True black in dark mode for OLED in the default skin.
-    static var background: Color { skin.background }
+    static var background: Color {
+        skin.background
+    }
 
     /// Card / raised surface fill.
-    static var cardBackground: Color { skin.cardBackground }
+    static var cardBackground: Color {
+        skin.cardBackground
+    }
 
     /// Text-field and other input fills.
-    static var inputBackground: Color { skin.inputBackground }
+    static var inputBackground: Color {
+        skin.inputBackground
+    }
 
     // MARK: - Card geometry
 
@@ -204,7 +216,7 @@ extension View {
     /// A capsule, or — under an edged skin, whose chips and fields are all
     /// squared — the skin's input rounding.
     func themeCapsule() -> some View {
-        let shape: AnyShape = switch SkinStore.shared.current.surface {
+        let shape = switch SkinStore.shared.current.surface {
         case .glass, .soft, .frosted: AnyShape(Capsule())
         case .edged, .paper: AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.input, style: .continuous))
         case .neon: AnyShape(RoundedRectangle(cornerRadius: 2, style: .continuous))

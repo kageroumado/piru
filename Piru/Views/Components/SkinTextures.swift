@@ -16,7 +16,7 @@ enum SkinTextures {
     /// The tiles a scene needs; empty for scenes without textures.
     static func tiles(for scene: SkinScene, dark: Bool, scale: CGFloat) -> Tiles {
         switch scene {
-        case .paper: Tiles(grain: grainTile(dark: dark, scale: scale), scanlines: nil)
+        case let .paper(garden): Tiles(grain: grainTile(color: garden.groove, dark: dark, scale: scale), scanlines: nil)
         case .arcade: Tiles(grain: nil, scanlines: dark ? scanlineTile(scale: scale) : nil)
         default: Tiles()
         }
@@ -25,11 +25,13 @@ enum SkinTextures {
     /// Origami's `WashiBackground` grain — 1.5pt dots on a 3pt stride at
     /// 1–4% — as a shape style for the paper surface.
     static func grain(_ color: Color, dark: Bool) -> ImagePaint {
-        ImagePaint(image: grainTile(dark: dark, scale: 3) ?? Image(systemName: "circle"), scale: 1 / 3)
+        ImagePaint(image: grainTile(color: color, dark: dark, scale: 3) ?? Image(systemName: "circle"), scale: 1 / 3)
     }
 
-    static func grainTile(dark: Bool, scale: CGFloat) -> Image? {
-        let key = "grain|\(dark)|\(scale)"
+    /// Dots in the skin's grain colour; a scene passes its groove, a card its
+    /// surface's grain token.
+    static func grainTile(color: Color, dark: Bool, scale: CGFloat) -> Image? {
+        let key = "grain|\(String(describing: color))|\(dark)|\(scale)"
         if let cached = cache[key] { return cached }
         let side: CGFloat = 96
         let renderer = ImageRenderer(content: Canvas { context, _ in
@@ -40,7 +42,7 @@ enum SkinTextures {
                     let jitter = rng.unit() * 1.2
                     context.fill(
                         Path(ellipseIn: CGRect(x: x + jitter, y: y + jitter, width: 1.5, height: 1.5)),
-                        with: .color((dark ? Color.white : Color.brown).opacity(alpha)),
+                        with: .color(color.opacity(alpha)),
                     )
                 }
             }

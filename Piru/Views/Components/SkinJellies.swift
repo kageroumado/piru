@@ -27,7 +27,9 @@ nonisolated struct JellyMotion {
     let rise: Double
     let phase: Double
 
-    var contraction: (Double) -> Double { JellyKit.contraction }
+    var contraction: (Double) -> Double {
+        JellyKit.contraction
+    }
 
     /// Where the body is at `t`, relative to its lane.
     func offset(at t: TimeInterval) -> CGPoint {
@@ -111,8 +113,12 @@ nonisolated enum JellyKit {
         }
         var path = Path()
         path.move(to: left[0])
-        for p in left.dropFirst() { path.addLine(to: p) }
-        for p in right.reversed() { path.addLine(to: p) }
+        for p in left.dropFirst() {
+            path.addLine(to: p)
+        }
+        for p in right.reversed() {
+            path.addLine(to: p)
+        }
         path.closeSubpath()
         return path
     }
@@ -129,7 +135,9 @@ nonisolated enum JellyKit {
         Path(ellipseIn: CGRect(x: cx - rx, y: cy - ry, width: rx * 2, height: ry * 2))
     }
 
-    static func lerp(_ a: Double, _ b: Double, _ t: Double) -> Double { a + (b - a) * t }
+    static func lerp(_ a: Double, _ b: Double, _ t: Double) -> Double {
+        a + (b - a) * t
+    }
 
     /// A radial bloom that reaches zero at its own edge — every soft glow in
     /// the cast, because a gradient reads as light and a disc reads as a disc.
@@ -163,7 +171,9 @@ nonisolated enum JellyKit {
 
     /// The ambient light level: a slow breath, brighter than the mascot's idle
     /// because down here the creature is the lamp.
-    static func light(_ time: TimeInterval) -> Double { 0.5 + 0.2 * sin(time * 2 * .pi / 3.2) }
+    static func light(_ time: TimeInterval) -> Double {
+        0.5 + 0.2 * sin(time * 2 * .pi / 3.2)
+    }
 }
 
 private nonisolated extension Color {
@@ -248,7 +258,9 @@ private nonisolated enum Remi {
         var path: Path {
             var path = Path()
             path.move(to: start)
-            for curve in curves { path.addCurve(to: curve.to, control1: curve.c1, control2: curve.c2) }
+            for curve in curves {
+                path.addCurve(to: curve.to, control1: curve.c1, control2: curve.c2)
+            }
             return path
         }
     }
@@ -394,7 +406,9 @@ private nonisolated enum Bitjelly {
         let light = Remi.P.bellRim
         // The glyph ripples outward on a slow clock.
         let w = ((time / 3.4).truncatingRemainder(dividingBy: 1) + 1).truncatingRemainder(dividingBy: 1)
-        func bump(_ off: Double) -> Double { max(0, 1 - ((w - off + 1).truncatingRemainder(dividingBy: 1)) * 3.4) }
+        func bump(_ off: Double) -> Double {
+            max(0, 1 - ((w - off + 1).truncatingRemainder(dividingBy: 1)) * 3.4)
+        }
         let levels = (core: max(0.35, bump(0)), ring: max(0.1, bump(0.16)), edge: max(0.1, bump(0.32)))
 
         if dark { ctx.blendMode = .plusLighter }
@@ -414,13 +428,17 @@ private nonisolated enum Bitjelly {
         ctx.fill(edgeLights, with: .color(light.opacity(0.20 + 0.75 * levels.edge)))
         for (cells, level) in [(glyphRing, levels.ring), (glyphCore, levels.core)] {
             var path = Path()
-            for spot in cells where spot.r < grid.count && grid[spot.r][spot.q] != "." { path.addRect(rect(spot.q, spot.r)) }
+            for spot in cells where spot.r < grid.count && grid[spot.r][spot.q] != "." {
+                path.addRect(rect(spot.q, spot.r))
+            }
             ctx.fill(path, with: .color(light.opacity(0.12 + 0.83 * level)))
         }
         if showFace {
             let blink = (time / 3.6 + motion.phase).truncatingRemainder(dividingBy: 1) < 0.05
             var eyes = Path()
-            for q in eyeCols { eyes.addRect(rect(q, blink ? eyeRow + 1 : eyeRow, rows: blink ? 1 : 2)) }
+            for q in eyeCols {
+                eyes.addRect(rect(q, blink ? eyeRow + 1 : eyeRow, rows: blink ? 1 : 2))
+            }
             ctx.fill(eyes, with: .color(Remi.P.eye.opacity(0.95)))
         }
 
@@ -439,7 +457,9 @@ private nonisolated enum Bitjelly {
                 if (k + i) % 4 == 3 { continue }
                 let wanted = hemCentre + (Double(restCol) - restCentre) * (hemHalf / restHalf)
                 var root = hemCells[0]
-                for q in hemCells where abs(Double(q) - wanted) < abs(Double(root) - wanted) { root = q }
+                for q in hemCells where abs(Double(q) - wanted) < abs(Double(root) - wanted) {
+                    root = q
+                }
                 var col = root
                 for step in 0 ... k {
                     let sway = sin(time * 2 * .pi * 0.6 / (2.4 + Double(i) * 0.3) - Double(step) * 0.7)
@@ -480,7 +500,9 @@ private nonisolated enum Koko {
         let dx = lag.x * 0.35, dy = lag.y * 0.40
         let lobes = 5
         let rest = waist + (s - waist) * 0.52
-        func wave(_ off: Double) -> Double { sin(time * 2 * .pi / 3.0 - off + motion.phase * 6.28) }
+        func wave(_ off: Double) -> Double {
+            sin(time * 2 * .pi / 3.0 - off + motion.phase * 6.28)
+        }
         let tilt = wave(0) * 0.058
 
         // Wisps, drawn where the body used to be.
@@ -564,7 +586,9 @@ private nonisolated enum Aurora {
         let sagY = h * 0.24 * 1.15
         let rimX = w * 0.94
         let hem = [CGPoint(x: rimX, y: 0), CGPoint(x: w * 0.58, y: sagY), CGPoint(x: -w * 0.58, y: sagY), CGPoint(x: -rimX, y: 0)]
-        func rootAt(_ u: Double) -> CGPoint { JellyKit.bez3(hem[0], hem[1], hem[2], hem[3], u) }
+        func rootAt(_ u: Double) -> CGPoint {
+            JellyKit.bez3(hem[0], hem[1], hem[2], hem[3], u)
+        }
         var bell = Path()
         bell.move(to: CGPoint(x: -rimX, y: 0))
         bell.addCurve(to: CGPoint(x: 0, y: -h * 1.30), control1: CGPoint(x: -w * 1.08, y: -h * 0.44), control2: CGPoint(x: -w * 0.78, y: -h * 1.30))
@@ -650,7 +674,9 @@ private nonisolated enum Sparkler {
         let sagY = h * 0.19 * 1.30
         let rimX = w * 0.88
         let hem = [CGPoint(x: rimX, y: 0), CGPoint(x: w * 0.55, y: sagY), CGPoint(x: -w * 0.55, y: sagY), CGPoint(x: -rimX, y: 0)]
-        func rootAt(_ u: Double) -> CGPoint { JellyKit.bez3(hem[0], hem[1], hem[2], hem[3], u) }
+        func rootAt(_ u: Double) -> CGPoint {
+            JellyKit.bez3(hem[0], hem[1], hem[2], hem[3], u)
+        }
         var bell = Path()
         bell.move(to: CGPoint(x: -rimX, y: 0))
         bell.addCurve(to: CGPoint(x: 0, y: -h * 1.34), control1: CGPoint(x: -w * 1.06, y: -h * 0.52), control2: CGPoint(x: -w * 0.86, y: -h * 1.34))

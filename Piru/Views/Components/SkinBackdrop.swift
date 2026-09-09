@@ -107,7 +107,7 @@ nonisolated struct SceneClock: Sendable {
 
     init(date: Date) {
         let parts = Calendar.current.dateComponents([.hour, .minute, .month], from: date)
-        dayFraction = (Double(parts.hour ?? 12) * 60 + Double(parts.minute ?? 0)) / 1440
+        dayFraction = (Double(parts.hour ?? 12) * 60 + Double(parts.minute ?? 0)) / 1_440
         month = parts.month ?? 6
     }
 }
@@ -220,7 +220,7 @@ nonisolated struct SceneRenderer {
     func drawGlyphs(in context: inout GraphicsContext, share: Double) {
         let glyphs = decor.glyphs
         guard size.width > 0, size.height > 0, !glyphs.isEmpty else { return }
-        var rng = SeededRNG(seed: UInt64(size.width) &* 7919 &+ UInt64(size.height) &* 104_729)
+        var rng = SeededRNG(seed: UInt64(size.width) &* 7_919 &+ UInt64(size.height) &* 104_729)
         let columns = 4
         let rows = max(6, Int(size.height / 110))
         let cellW = size.width / CGFloat(columns)
@@ -343,7 +343,9 @@ nonisolated struct SceneRenderer {
         }
         let ink = sky.moonInk.opacity(0.85)
         let stroke = StrokeStyle(lineWidth: max(1.2, r * 0.035), lineCap: .round)
-        func at(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: center.x + x * r, y: center.y + y * r) }
+        func at(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
+            CGPoint(x: center.x + x * r, y: center.y + y * r)
+        }
         // Happy closed eyes: "∩" arcs.
         var eyes = Path()
         for eye in [at(-0.75, 0.18), at(-0.60, 0.15)] {
@@ -610,7 +612,9 @@ private enum GlyphAtlas {
 nonisolated struct SeededRNG {
     private var state: UInt64
 
-    init(seed: UInt64) { state = seed }
+    init(seed: UInt64) {
+        state = seed
+    }
 
     mutating func next() -> UInt64 {
         state &+= 0x9E37_79B9_7F4A_7C15
@@ -685,88 +689,90 @@ private struct TapTrail: ViewModifier {
     }
 
     #if canImport(UIKit)
-    @ViewBuilder
-    private func trail(_ content: Content) -> some View {
-        if let glyph = skins.current.decorations?.tapGlyph, skins.decorationsEnabled, !reduceMotion {
-            content
-                // Not a SwiftUI gesture: a `simultaneousGesture` tap on an
-                // ancestor cancels `List` row selection, so NavigationLinks
-                // in the Library stopped opening. A window-level recognizer
-                // that only *observes* (and always fails) never competes.
-                .background {
-                    TouchObserver { point in
-                        puffs.append(Puff(point: point))
-                        if puffs.count > 12 { puffs.removeFirst() }
-                    }
-                }
-                .overlay {
-                    ForEach(puffs) { puff in
-                        TapPuff(glyph: glyph, at: puff.point) {
-                            puffs.removeAll { $0.id == puff.id }
+        @ViewBuilder
+        private func trail(_ content: Content) -> some View {
+            if let glyph = skins.current.decorations?.tapGlyph, skins.decorationsEnabled, !reduceMotion {
+                content
+                    // Not a SwiftUI gesture: a `simultaneousGesture` tap on an
+                    // ancestor cancels `List` row selection, so NavigationLinks
+                    // in the Library stopped opening. A window-level recognizer
+                    // that only *observes* (and always fails) never competes.
+                    .background {
+                        TouchObserver { point in
+                            puffs.append(Puff(point: point))
+                            if puffs.count > 12 { puffs.removeFirst() }
                         }
                     }
-                    .allowsHitTesting(false)
-                    // Touch points come in window coordinates.
-                    .ignoresSafeArea()
-                }
-        } else {
-            content
+                    .overlay {
+                        ForEach(puffs) { puff in
+                            TapPuff(glyph: glyph, at: puff.point) {
+                                puffs.removeAll { $0.id == puff.id }
+                            }
+                        }
+                        .allowsHitTesting(false)
+                        // Touch points come in window coordinates.
+                        .ignoresSafeArea()
+                    }
+            } else {
+                content
+            }
         }
-    }
     #endif
 }
 
 #if canImport(UIKit)
-/// Reports every touch-down in the window, in window coordinates, without
-/// taking part in gesture resolution: the recognizer fails as soon as a touch
-/// begins, and cancels nothing, so every control underneath sees the touch
-/// exactly as it would without it.
-private struct TouchObserver: UIViewRepresentable {
-    let onTouch: (CGPoint) -> Void
+    /// Reports every touch-down in the window, in window coordinates, without
+    /// taking part in gesture resolution: the recognizer fails as soon as a touch
+    /// begins, and cancels nothing, so every control underneath sees the touch
+    /// exactly as it would without it.
+    private struct TouchObserver: UIViewRepresentable {
+        let onTouch: (CGPoint) -> Void
 
-    func makeUIView(context: Context) -> HostView {
-        let view = HostView()
-        view.onTouch = onTouch
-        return view
-    }
-
-    func updateUIView(_ uiView: HostView, context: Context) {
-        uiView.onTouch = onTouch
-    }
-
-    final class HostView: UIView {
-        var onTouch: ((CGPoint) -> Void)?
-        private let spy = TouchSpy()
-
-        override func didMoveToWindow() {
-            super.didMoveToWindow()
-            spy.view?.removeGestureRecognizer(spy)
-            guard let window else { return }
-            spy.onTouch = { [weak self] point in self?.onTouch?(point) }
-            window.addGestureRecognizer(spy)
+        func makeUIView(context _: Context) -> HostView {
+            let view = HostView()
+            view.onTouch = onTouch
+            return view
         }
 
-        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? { nil }
-    }
-
-    final class TouchSpy: UIGestureRecognizer {
-        var onTouch: ((CGPoint) -> Void)?
-
-        init() {
-            super.init(target: nil, action: nil)
-            cancelsTouchesInView = false
-            delaysTouchesBegan = false
-            delaysTouchesEnded = false
+        func updateUIView(_ uiView: HostView, context _: Context) {
+            uiView.onTouch = onTouch
         }
 
-        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-            if let touch = touches.first, let view {
-                onTouch?(touch.location(in: view))
+        final class HostView: UIView {
+            var onTouch: ((CGPoint) -> Void)?
+            private let spy = TouchSpy()
+
+            override func didMoveToWindow() {
+                super.didMoveToWindow()
+                spy.view?.removeGestureRecognizer(spy)
+                guard let window else { return }
+                spy.onTouch = { [weak self] point in self?.onTouch?(point) }
+                window.addGestureRecognizer(spy)
             }
-            state = .failed
+
+            override func hitTest(_: CGPoint, with _: UIEvent?) -> UIView? {
+                nil
+            }
+        }
+
+        final class TouchSpy: UIGestureRecognizer {
+            var onTouch: ((CGPoint) -> Void)?
+
+            init() {
+                super.init(target: nil, action: nil)
+                cancelsTouchesInView = false
+                delaysTouchesBegan = false
+                delaysTouchesEnded = false
+            }
+
+            override func touchesBegan(_ touches: Set<UITouch>, with _: UIEvent) {
+                if let touch = touches.first, let view {
+                    onTouch?(touch.location(in: view))
+                }
+                state = .failed
+            }
         }
     }
-}
 #endif
 
 /// One glyph from a tap: rises, shrinks, turns and fades over 0.8 s — the
