@@ -9308,8 +9308,19 @@ class Build:
                 ).rowcount
                 self.stats["dosewiki_identifiers"] += changed
 
-        for alias in identification.get("alternative_names") or []:
-            self._add_alias(sid, dosewiki_clean(alias), slug)
+        for raw_alias in identification.get("alternative_names") or []:
+            alias = dosewiki_clean(raw_alias)
+            # An alias that is another substance's canonical name sends search to
+            # the wrong compound. dose.wiki's alternative_names carry plant common
+            # names and brands Piru files as rows of their own (Datura lists
+            # "Angel's Trumpets", Quetiapine "Xeroquel"), and one outright error:
+            # its memantine page lists DMAA, a different amine entirely.
+            owner = self.substance_ids.get(normalise(alias))
+            if owner is not None and owner != sid:
+                self.stats["dosewiki_alias_names_another_substance"] += 1
+                self.note_reject("dosewiki_alias_names_another_substance", alias, slug=rec["slug"])
+                continue
+            self._add_alias(sid, alias, slug)
 
     def _dosewiki_reviewed(self, sid: int, slug: str, rec: dict, spellings: dict[str, str]) -> None:
         """Everything gated on `expert_reviewed`: ladders, curves, half-lives,

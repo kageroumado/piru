@@ -54,6 +54,61 @@ struct SourcePriorityResolutionTests {
     }
 }
 
+/// `source_field_priority` — a source's rank for ONE field, where its material
+/// there is better than its overall position says. dose.wiki is last in the
+/// order and stays last for every number it carries; only its expert-reviewed
+/// summaries resolve above the wikis, and only for `descriptions`.
+@Suite("Per-field source priority")
+struct SourceFieldPriorityTests {
+    @Test
+    @MainActor
+    func `A reviewed dose.wiki summary wins the overview`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        store.languageOverride = .en
+        // MDMA, Methamphetamine and Caffeine each carry an English overview from
+        // PsychonautWiki (a wiki lead copied whole) and one from dose.wiki
+        // (written for its own article). On source priority alone PsychonautWiki
+        // would win every time — it ranks 4th and dose.wiki last.
+        for name in ["MDMA", "Methamphetamine", "Caffeine"] {
+            let overview = try #require(store.lookup(name)?.overview, "\(name) has no overview")
+            #expect(overview.sourceSlug == "dosewiki", "\(name) resolved \(overview.sourceSlug)")
+            #expect(overview.machineTranslated == false)
+        }
+    }
+
+    @Test
+    @MainActor
+    func `The override moves the overview and nothing else`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        // Every other field resolves on plain source priority, where dose.wiki is
+        // last — so it may only win one where no other source has a value.
+        let prov = try #require(store.provenance(forSubstanceName: "MDMA"))
+        #expect(prov.categorySource != "dosewiki")
+        #expect(prov.mechanismSource != "dosewiki")
+        for (_, route) in prov.routesBySource {
+            #expect(route.doseSource != "dosewiki")
+            #expect(route.durationSource != "dosewiki")
+        }
+    }
+
+    @Test
+    @MainActor
+    func `A Chinese reader still gets FreeOD's native prose`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        // The language clause is ordered ahead of any rank, so an override
+        // cannot float English text above matching-language text.
+        store.languageOverride = .zhHans
+        let overview = try #require(store.lookup("MDMA")?.overview)
+        #expect(overview.sourceSlug == "freeodwiki")
+    }
+}
+
 /// Locale-first text resolution: FreeOD Wiki's native Chinese descriptions and
 /// effects win when the app runs in Chinese, while English never shows raw zh.
 @Suite("FreeOD locale resolution")
@@ -143,17 +198,17 @@ struct FreeODLocaleResolutionTests {
 
     @Test
     @MainActor
-    func `Authentic PsychonautWiki overview is attributed to PW, not FreeOD`() throws {
+    func `An English overview is never attributed to FreeOD's Chinese page`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         store.languageOverride = .en
-        // Methamphetamine's FreeOD page is Chinese-titled, but the English text
-        // comes from PsychonautWiki — attribution must follow the real source so
-        // the credit row links to PW (not a 404 FreeOD page).
+        // Methamphetamine's FreeOD page is Chinese-titled and its English text
+        // comes from elsewhere, so attribution must follow the real source or
+        // the credit row links to a 404 FreeOD page.
         let overview = try #require(store.lookup("Methamphetamine")?.overview)
         #expect(overview.machineTranslated == false)
-        #expect(overview.sourceSlug == "psychonautwiki")
+        #expect(overview.sourceSlug != "freeodwiki")
     }
 
     @Test

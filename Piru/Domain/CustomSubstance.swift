@@ -202,6 +202,7 @@ extension Substance {
             references: references,
             drugCommunitySlug: drugCommunitySlug,
             freeodwikiSlug: freeodwikiSlug,
+            dosewikiSlug: dosewikiSlug,
             overview: overview,
             smiles: smiles,
             iupacName: iupacName,

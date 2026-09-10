@@ -6980,7 +6980,6 @@
       "4-Acetoxy-MET",
       "4acomet",
       "Metacetin",
-      "Mipracetin",
       "O-Acetylmetocin",
       "O-Acetylmiprocin"
     ],
@@ -23963,7 +23962,6 @@
     "name": "Datura",
     "display_name": "",
     "aliases": [
-      "Angel's Trumpets",
       "Datura stramonium",
       "Devil's Apple",
       "Devil's Trumpet",
@@ -31044,7 +31042,6 @@
     "display_name": "",
     "aliases": [
       "FBZ",
-      "JYI-73",
       "Liquid Xanax",
       "f-lam",
       "flam"
@@ -41418,7 +41415,6 @@
       "Akatinol",
       "Axura",
       "D-145",
-      "DMAA",
       "DRG-0267",
       "Ebixa",
       "Memantina",
@@ -52819,7 +52815,6 @@
     "name": "Proscaline",
     "display_name": "",
     "aliases": [
-      "P",
       "普罗斯卡林"
     ],
     "category": "Psychedelic",
@@ -53850,8 +53845,7 @@
       "Ketilept",
       "Ketipinor",
       "Seroquel",
-      "Seroquel XR",
-      "Xeroquel"
+      "Seroquel XR"
     ],
     "category": "Antipsychotic",
     "display_class": "dual_use",

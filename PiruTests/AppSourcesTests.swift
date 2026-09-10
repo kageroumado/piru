@@ -46,4 +46,34 @@ struct AppSourcesTests {
         let names = AppSources.all.map(\.name)
         #expect(Set(names).count == names.count)
     }
+
+    @Test
+    func `Every slug the DB attributes maps to a named source`() {
+        // `license(forSlug:)` and the Sources list both go through this map, so
+        // a bundled slug missing from it shows an unlicensed, unnamed row.
+        for slug in ["dosewiki", "freeodwiki", "psychonautwiki", "tripsit"] {
+            let name = try? #require(AppSources.slugToName[slug])
+            #expect(name != nil, "\(slug) has no display name")
+            #expect(AppSources.info(for: name ?? "") != nil, "\(slug) names no source")
+        }
+    }
+
+    @Test
+    func `dose.wiki declares the license it ships under`() {
+        let dosewiki = AppSources.info(for: "dose.wiki")
+        #expect(dosewiki?.url == "https://dose.wiki")
+        #expect(dosewiki?.license == "CC0 1.0")
+    }
+
+    @Test
+    func `A dose.wiki link needs the captured slug`() {
+        // Never the site root: a row labelled with a substance that opens a
+        // homepage reads as a working link and hides the missing slug.
+        #expect(AppSources.dosewikiURL(slug: nil) == nil)
+        #expect(AppSources.dosewikiURL(slug: "") == nil)
+        #expect(
+            AppSources.dosewikiURL(slug: "4-meo-butyrfentanyl")?.absoluteString
+                == "https://dose.wiki/4-meo-butyrfentanyl",
+        )
+    }
 }

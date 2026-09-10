@@ -222,7 +222,7 @@ struct SubstanceReadModel {
 
         do {
             return try db.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, substance_uid, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, smiles, iupac_name, logp, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c\(editorialColumns) FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, substance_uid, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, dosewiki_slug, smiles, iupac_name, logp, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c\(editorialColumns) FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -240,6 +240,7 @@ struct SubstanceReadModel {
                 let isStub = (coreRow["is_stub"] as Int64? ?? 0) != 0
                 let drugCommunitySlug: String? = coreRow["drug_community_slug"]
                 let freeodwikiSlug: String? = coreRow["freeodwiki_slug"]
+                let dosewikiSlug: String? = coreRow["dosewiki_slug"]
                 let smiles: String? = coreRow["smiles"]
                 let iupacName: String? = coreRow["iupac_name"]
                 // Curated editorial JSON blobs (piru-curated, popular-substances
@@ -324,6 +325,7 @@ struct SubstanceReadModel {
                     references: references,
                     drugCommunitySlug: drugCommunitySlug,
                     freeodwikiSlug: freeodwikiSlug,
+                    dosewikiSlug: dosewikiSlug,
                     overview: overview,
                     smiles: smiles,
                     iupacName: iupacName,
@@ -664,20 +666,37 @@ struct SubstanceReadModel {
     /// than a blank section. The table is aliased `t`; the returned row also carries
     /// `machine_translated` + `source_slug` so callers build their typed value.
     /// `table` is a fixed internal literal (no injection surface).
+    ///
+    /// `fieldPriority`, when given, names a field in `source_field_priority` —
+    /// the bundled DB's per-field rank overrides. A source with a row there
+    /// resolves this one field at that rank instead of its position in the
+    /// user's source order, and a tie falls back to that order. It is passed by
+    /// the descriptions resolver alone: an override has to be asked for, so a
+    /// row added to the table cannot move a field nobody meant to move.
     private func resolvedTextRow(
         db: Database, from table: String, selecting columns: String,
-        substanceID: Int64,
+        substanceID: Int64, fieldPriority: String? = nil,
     ) throws -> Row? {
         let lang = language.clauses(column: "t.language")
+        let overrideJoin = fieldPriority.map {
+            """
+            LEFT JOIN source_field_priority sfp
+                   ON sfp.source_id = t.source_id AND sfp.field = '\($0.replacingOccurrences(of: "'", with: "''"))'
+            """
+        } ?? ""
+        let rank = fieldPriority == nil
+            ? priorityCaseSQL
+            : "COALESCE(sfp.priority, \(priorityCaseSQL))"
         // Primary: the highest-priority enabled source, in the preferred language.
         if let row = try Row.fetchOne(db, sql: """
             SELECT \(columns), t.machine_translated, src.slug AS source_slug, t.language AS row_language
               FROM \(table) t
               JOIN sources src ON src.id = t.source_id
+              \(overrideJoin)
              WHERE t.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
                \(lang.whereAnd)
-             ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
+             ORDER BY \(lang.orderPrefix)\(rank) ASC, \(priorityCaseSQL) ASC
              LIMIT 1
         """, arguments: [substanceID]) {
             return row
@@ -696,18 +715,25 @@ struct SubstanceReadModel {
             SELECT \(columns), t.machine_translated, src.slug AS source_slug, t.language AS row_language
               FROM \(table) t
               JOIN sources src ON src.id = t.source_id
+              \(overrideJoin)
              WHERE t.substance_id = ?
                \(lang.whereAnd)
-             ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
+             ORDER BY \(lang.orderPrefix)\(rank) ASC, \(priorityCaseSQL) ASC
              LIMIT 1
         """, arguments: [substanceID])
     }
 
     /// Substance overview prose (descriptions table), resolved locale-first.
+    ///
+    /// The one field that consults `source_field_priority`. A dose.wiki summary
+    /// on an expert-reviewed article was written for that article, where
+    /// PsychonautWiki's is a wiki lead copied whole and FreeOD's English is
+    /// machine-translated — so the bundled DB ranks dose.wiki directly beneath
+    /// `piru-curated` here, while its doses and durations stay last.
     private func resolvedDescription(db: Database, substanceID: Int64) throws -> SubstanceOverview? {
         guard let row = try resolvedTextRow(
             db: db, from: "descriptions", selecting: "t.text",
-            substanceID: substanceID,
+            substanceID: substanceID, fieldPriority: "descriptions",
         ) else { return nil }
         let text: String = row["text"]
         guard !text.isEmpty else { return nil }

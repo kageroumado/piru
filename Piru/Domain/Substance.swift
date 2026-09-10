@@ -112,6 +112,11 @@ struct Substance: Identifiable {
     /// page titles are Chinese, so the slug can't be derived from `name`).
     /// Detail-only; nil when there's no FreeOD entry.
     let freeodwikiSlug: String?
+    /// dose.wiki page slug, for deep-linking `dose.wiki/<slug>`. Its slugs are
+    /// lowercase-hyphenated forms of names Piru often spells differently
+    /// ("4-meo-butyrfentanyl" for "4-Methoxybutyrfentanyl"), so the slug can't
+    /// be derived from `name`. Detail-only; nil when there's no dose.wiki entry.
+    let dosewikiSlug: String?
     /// Long-form overview prose ("what it is / history / risk profile"),
     /// resolved locale-first (native Chinese when the app runs in Chinese,
     /// machine-translated English as a fallback). Detail-only; nil when no
@@ -180,6 +185,7 @@ struct Substance: Identifiable {
         references: [Citation] = [],
         drugCommunitySlug: String? = nil,
         freeodwikiSlug: String? = nil,
+        dosewikiSlug: String? = nil,
         overview: SubstanceOverview? = nil,
         smiles: String? = nil,
         iupacName: String? = nil,
@@ -222,6 +228,7 @@ struct Substance: Identifiable {
         self.references = references
         self.drugCommunitySlug = drugCommunitySlug
         self.freeodwikiSlug = freeodwikiSlug
+        self.dosewikiSlug = dosewikiSlug
         self.overview = overview
         self.smiles = smiles
         self.iupacName = iupacName
@@ -753,6 +760,7 @@ extension Substance: Codable {
         drugCommunitySlug = try c.decodeIfPresent(String.self, forKey: .drugCommunitySlug)
         // Detail/browse-only metadata, never part of the serialized Substance.
         freeodwikiSlug = nil
+        dosewikiSlug = nil
         overview = nil
         smiles = nil
         iupacName = nil
