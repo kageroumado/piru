@@ -810,29 +810,58 @@ class DoseWikiRecord:
     data: dict
 
 
-def load_dosewiki(weights: Weights) -> tuple[list[DoseWikiRecord], str]:
-    """dose.wiki records joined to Piru rows by row id, never by name.
+DOSEWIKI_IDS = REPO / "data/curated/dosewiki-ids.json"
 
-    Prefers an ingested `data/sources/dosewiki.json` when the source exists;
+
+def load_dosewiki(
+    weights: Weights, conn: sqlite3.Connection | None = None
+) -> tuple[list[DoseWikiRecord], str]:
+    """dose.wiki records joined to Piru rows by structure, never by name.
+
+    Prefers the committed snapshot `data/sources/dosewiki.json`, whose records
+    are keyed by dose.wiki slug and joined through the hand-reviewed
+    `data/curated/dosewiki-ids.json` (slug -> substance_uid) against the DB;
     falls back to the evidence API records joined through `mapping.json`. An
-    absent join is not an error — the parallel ingest may not have landed.
+    absent join is not an error — the ingest may not have landed.
     """
-    if DOSEWIKI_SOURCE.exists():
+    if DOSEWIKI_SOURCE.exists() and conn is not None:
         with DOSEWIKI_SOURCE.open() as handle:
             payload = json.load(handle)
-        records = payload if isinstance(payload, list) else payload.get("substances", [])
-        out = [
-            DoseWikiRecord(
-                slug=entry.get("slug", ""),
-                substance_id=int(entry["piru_id"]),
-                relationship=entry.get("relationship", "identical"),
-                confidence=entry.get("confidence", "high"),
-                expert_reviewed=bool(entry.get("expert_reviewed")),
-                data=entry.get("data", entry),
+        records = payload.get("records", []) if isinstance(payload, dict) else payload
+        uid_by_slug: dict[str, str] = {}
+        if DOSEWIKI_IDS.exists():
+            with DOSEWIKI_IDS.open() as handle:
+                for slug, entry in json.load(handle).items():
+                    if isinstance(entry, dict) and entry.get("substance_uid"):
+                        uid_by_slug[slug] = entry["substance_uid"]
+        id_by_uid = {
+            uid: int(row_id)
+            for row_id, uid in conn.execute(
+                "SELECT id, substance_uid FROM substances WHERE substance_uid IS NOT NULL"
             )
-            for entry in records
-            if entry.get("piru_id")
-        ]
+        }
+        id_by_slug = {
+            slug: int(row_id)
+            for row_id, slug in conn.execute(
+                "SELECT id, dosewiki_slug FROM substances WHERE dosewiki_slug IS NOT NULL"
+            )
+        }
+        out = []
+        for entry in records:
+            slug = entry.get("slug", "")
+            substance_id = id_by_uid.get(uid_by_slug.get(slug, "")) or id_by_slug.get(slug)
+            if not substance_id:
+                continue
+            out.append(
+                DoseWikiRecord(
+                    slug=slug,
+                    substance_id=substance_id,
+                    relationship="identical",
+                    confidence="high",
+                    expert_reviewed=bool(entry.get("expert_reviewed")),
+                    data=entry,
+                )
+            )
         return out, str(DOSEWIKI_SOURCE)
     if not (DOSEWIKI_MAPPING.exists() and DOSEWIKI_API.is_dir()):
         return [], "absent"
@@ -2556,6 +2585,19 @@ def popularity_tier(popularity: float) -> str:
     return "unranked (0)"
 
 
+def unjoined_dosewiki_articles() -> list[tuple[str, str]]:
+    """The slugs the curated join maps to nothing, with the reason recorded there."""
+    if not DOSEWIKI_IDS.exists():
+        return []
+    with DOSEWIKI_IDS.open() as handle:
+        entries = json.load(handle)
+    return sorted(
+        (slug, str(entry.get("note") or ""))
+        for slug, entry in entries.items()
+        if isinstance(entry, dict) and not entry.get("substance_uid")
+    )
+
+
 def write_summary(
     path: Path,
     cells: list[Cell],
@@ -2689,6 +2731,22 @@ def write_summary(
     )[:30]:
         lines.append(f"| {substance} | {popularity:.3f} | {count} |")
     lines.append("")
+
+    unjoined = unjoined_dosewiki_articles()
+    if unjoined:
+        lines.append("## Unjoined dose.wiki articles")
+        lines.append("")
+        lines.append(
+            "Articles `data/curated/dosewiki-ids.json` deliberately leaves unmapped, "
+            "so nothing above has voted on them. Each is a claim Piru cannot place: "
+            "usually a structure that belongs to a different compound on one side."
+        )
+        lines.append("")
+        lines.append("| dose.wiki slug | why it is unjoined |")
+        lines.append("|---|---|")
+        for slug, note in unjoined:
+            lines.append(f"| `{slug}` | {note[:200]} |")
+        lines.append("")
 
     lines.append("## Source reliability")
     lines.append("")
@@ -2898,7 +2956,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.write_target_map:
         for (raw,) in conn.execute("SELECT DISTINCT target FROM bindings"):
             target_map[raw] = normalize_target(raw)
-        records, _origin = load_dosewiki(weights)
+        records, _origin = load_dosewiki(weights, conn)
         for record in records:
             for entry in (record.data.get("pharmacology") or {}).get("binding_sites") or []:
                 raw = entry.get("target") or entry.get("receptor")
@@ -2912,10 +2970,10 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
-    dosewiki_all, dosewiki_origin = load_dosewiki(weights)
+    dosewiki_all, dosewiki_origin = load_dosewiki(weights, conn)
     if dosewiki_all:
         notes.append(
-            f"dose.wiki: {len(dosewiki_all):,} record(s) joined by Piru row id from "
+            f"dose.wiki: {len(dosewiki_all):,} record(s) joined by structure from "
             f"`{Path(dosewiki_origin).name}`."
         )
     else:
