@@ -1,0 +1,128 @@
+{
+  "_readme": [
+    "Every tunable number the adjudicator uses. Calibration edits this file, never",
+    "adjudicate.py: the code computes features, this file decides what they are worth.",
+    "Each cell's raw feature vector is written to cells.jsonl alongside its probability,",
+    "so a later refit can solve for these weights instead of guessing at them."
+  ],
+  "clustering": {
+    "_doc": "Two source-values are the same value (one copied from the other) when they agree to within relative_tolerance. A cluster votes once, plus copy_vote_increment for each extra member — so three copies of PsychonautWiki cannot outvote one independent measurement.",
+    "relative_tolerance": 0.005,
+    "copy_vote_increment": 0.15,
+    "string_case_insensitive": true
+  },
+  "reliability": {
+    "_doc": "Per-source, per-column weights, iterated: uniform start -> outlier rate -> weight -> new consensus -> repeat. rate is smoothed by a Beta prior so a source with four values cannot earn an extreme weight. weight falls linearly from 1.0 at rate 0 to min_weight at rate_cap.",
+    "iterations": 5,
+    "outlier_log_delta": 0.301,
+    "rate_cap": 0.5,
+    "min_weight": 0.15,
+    "prior_outliers": 1.0,
+    "prior_observations": 5.0
+  },
+  "class_prior": {
+    "_doc": "Log-normal distribution of the same column across class peers, leave-one-out, as a robust z (0.6745 * (x - median) / MAD). mad_floor_decades stops a tight class from turning a 20% difference into z = 40. A class with fewer than min_members after leave-one-out yields no signal at all, and the cell says so.",
+    "min_members": 4,
+    "mad_floor_decades": 0.15,
+    "z_cap": 8.0,
+    "levels": [
+      "class_context",
+      "drug_class",
+      "interaction_class",
+      "category"
+    ]
+  },
+  "slips": {
+    "_doc": "A value that is almost exactly 1000x or 10x the consensus is a unit slip (ug read as mg) or a decimal slip, which is a different and much stronger claim than 'somewhat high'.",
+    "ratios": [
+      1000.0,
+      100.0,
+      10.0
+    ],
+    "relative_tolerance": 0.05
+  },
+  "citation": {
+    "_doc": "Fractions of one point of citation quality. A row with a DOI or PMID from a review, graded HIGH, with species and assay recorded, scores 1.0.",
+    "has_identifier": 0.4,
+    "is_review": 0.15,
+    "confidence_high": 0.3,
+    "confidence_medium": 0.15,
+    "confidence_low": 0.0,
+    "assay_context": 0.15
+  },
+  "features": {
+    "_doc": "Logistic weights. Every one multiplies a feature emitted in cells.jsonl. Continuous features are already scaled into roughly [0, 1] by the code (log_delta is decades / 3, class_z is |z| / z_cap).",
+    "log_delta": 5.0,
+    "sole_dissenter": 1.3,
+    "no_corroboration": 0.35,
+    "copy_only_support": 0.4,
+    "class_z": 2.6,
+    "citation_missing": 0.5,
+    "source_unreliability": 1.1,
+    "ladder_break": 1.4,
+    "bounds_inverted": 1.6,
+    "point_estimate": 0.45,
+    "route_order_violation": 1.0,
+    "slip_1000x": 2.5,
+    "slip_100x": 1.8,
+    "slip_10x": 1.5,
+    "unit_qualified": 0.4,
+    "context_conflict": 1.5,
+    "identity_skeleton_mismatch": 3.0,
+    "identity_stereo_mismatch": 2.0,
+    "cas_checkdigit_fail": 3.0,
+    "inchikey_smiles_mismatch": 1.8,
+    "unit_basis_mismatch": 0.9,
+    "assay_context_differs": 0.0
+  },
+  "_features_doc_zero": "A feature weighted 0.0 is explanatory, not incriminating: it is emitted, it is named in the `why` column, and it moves no probability. `assay_context_differs` is one — a human EC50 and a rat one differing is pharmacology, and scoring it would report the literature as a transcription error.",
+  "bias": -3.6,
+  "source_dependencies": {
+    "_doc": "Sources derived from another source. A dependent value joins its parent's cluster whatever it says, because it carries no information the parent does not: rdkit-smiles is recomputed from piru-stored's own SMILES, so counting it as a second vote lets Piru corroborate itself and makes every outside correction look like the lone dissenter. Where the two disagree that is `inchikey_smiles_mismatch` on the parent, which is a fact about the parent and evidence for or against nobody else.",
+    "rdkit-smiles": "piru-stored"
+  },
+  "pinned_weights": {
+    "_doc": "Weights held fixed after the iteration, for a source whose job is to disagree with the middle. piru-curated exists to override a consensus that copied a wrong number, so its distance from that consensus measures its purpose and not its reliability. The derived weight and the raw outlier rate are still reported beside the pinned one.",
+    "piru-curated": 0.85
+  },
+  "thresholds": {
+    "_doc": "needs_manual fires on any of these. tie_ratio is a two-cluster standoff nothing breaks; class_violation_z judges a value that has no cross-source corroboration at all.",
+    "needs_manual_probability": 0.5,
+    "tie_ratio": 3.0,
+    "tie_citation_margin": 0.2,
+    "class_violation_z": 3.5,
+    "report_min_probability": 0.4
+  },
+  "evidence_levels": {
+    "_doc": "Independent clusters, not raw values. Below `single` the cell carries no cross-source information and is judged only by its class prior and its own internal consistency.",
+    "none": 0,
+    "single": 1,
+    "weak": 2,
+    "moderate": 3,
+    "strong": 4
+  },
+  "dosewiki": {
+    "_doc": "The dose.wiki join. Numeric columns take at most one record per Piru substance, the best-ranked by relationship then confidence, and only from relationships that name the same molecule. Chemistry takes EVERY mapped record, because two dose.wiki compounds claiming one Piru row IS the finding.",
+    "numeric_relationships": [
+      "identical",
+      "salt",
+      "stereo",
+      "salt+stereo",
+      "unverified"
+    ],
+    "relationship_rank": {
+      "identical": 0,
+      "salt": 1,
+      "stereo": 2,
+      "salt+stereo": 3,
+      "unverified": 4,
+      "different": 5,
+      "no_piru_match": 6
+    },
+    "confidence_rank": {
+      "high": 0,
+      "medium": 1,
+      "low": 2
+    }
+  }
+}

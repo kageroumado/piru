@@ -87,3 +87,9 @@ Audits/
 
 # App Store marketing assets (screenshots + capture scaffolding), not app source
 Store/
+
+# Adjudicator output (script: pipeline/audit/adjudicate.py) — evidence for a
+# hand-written resolution table, regenerated in seconds from the built SQLite.
+# cells.jsonl alone is ~40 MB and is rewritten wholesale on every calibration
+# pass; the verdicts that come out of reading it belong in data/curated/.
+data/adjudication/
