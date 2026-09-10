@@ -197,6 +197,92 @@ class Clustering(unittest.TestCase):
         self.assertEqual(reference, 10.0)
 
 
+class SameSourceRows(unittest.TestCase):
+    def test_two_rows_from_one_source_are_one_vote(self):
+        # drug.community publishes 0.25 and 0.2 for JWH-018's inhaled light
+        # dose. Left apart they were two clusters that outvoted the three
+        # sources saying 1, and the curated value was then the lone dissenter.
+        subject = cell(
+            values=[
+                value("piru-curated", 1.0),
+                value("psychonautwiki", 1.0),
+                value("dosewiki-api", 1.0),
+                value("drug.community", 0.25),
+                value("drug.community", 0.2),
+            ]
+        )
+        self.assertEqual(_mod.cluster_values(subject, WEIGHTS), 2)
+
+    def test_a_source_disagreeing_with_itself_is_recorded(self):
+        subject = cell(values=[value("drug.community", 40.0), value("drug.community", 20.0)])
+        _mod.cluster_values(subject, WEIGHTS)
+        self.assertEqual(subject.values[0].provenance["within_source_spread"], 2.0)
+        self.assertGreater(_mod.within_source_feature(subject.values[0]), 0.0)
+
+    def test_two_upstream_records_stay_two_claims(self):
+        # Two dose.wiki articles claiming one Piru row are two claims about
+        # which molecule it is, not one article listing two numbers.
+        subject = cell(
+            column="chemistry",
+            key="chemistry|inchikey",
+            values=[
+                value("dosewiki-api", text="OMDKHOOGGJRLLX-UHFFFAOYSA-N", slug="4-aco-met"),
+                value("dosewiki-api", text="CIDMXLOVFPIHDS-UHFFFAOYSA-N", slug="4-aco-mipt"),
+            ],
+        )
+        self.assertEqual(_mod.cluster_values(subject, WEIGHTS), 2)
+
+
+class ThinClassPrior(unittest.TestCase):
+    def _prior(self, peers):
+        subject = cell(
+            column="duration",
+            key="duration|intravenous|||comeup|max",
+            values=[
+                value("dosewiki", 0.0833),
+                value("psychonautwiki", 0.0833),
+                value("drug.community", 29.5),
+            ],
+        )
+        substance = _mod.Substance(
+            id=1,
+            uid=None,
+            name="Heroin",
+            popularity=0.9,
+            inchikey=None,
+            cas=None,
+            formula=None,
+            molecular_weight=None,
+            smiles=None,
+            drug_class=None,
+            classes=["classical-opioids"],
+        )
+        priors = {("class_context", "classical-opioids", subject.key): peers}
+        return _mod.class_prior_for(subject, substance, priors, WEIGHTS)
+
+    def test_peers_echoing_one_party_do_not_count_as_evidence(self):
+        # Three of heroin's five classical-opioid peers are a number
+        # drug.community published alone; a prior fitted on those then rules for
+        # drug.community against the two sources contradicting it.
+        echoes = frozenset({"drug.community"})
+        peers = {
+            2: (4.5, echoes),
+            3: (10.0, echoes),
+            4: (28.2, echoes),
+            5: (20.0, frozenset({"dosewiki", "psychonautwiki"})),
+            6: (5.0, frozenset({"dosewiki", "psychonautwiki"})),
+        }
+        prior = self._prior(peers)
+        self.assertIsNotNone(prior)
+        self.assertLess(prior.members, int(WEIGHTS.class_prior["min_class_members"]))
+
+    def test_peers_with_their_own_backing_do_count(self):
+        outside = frozenset({"tripsit", "medtap"})
+        peers = {index: (float(index), outside) for index in range(2, 9)}
+        prior = self._prior(peers)
+        self.assertGreaterEqual(prior.members, int(WEIGHTS.class_prior["min_class_members"]))
+
+
 class DerivedSources(unittest.TestCase):
     def test_a_recomputation_never_corroborates_the_row_it_was_computed_from(self):
         # rdkit-smiles is derived from piru-stored's own SMILES. Counting it as a
@@ -309,7 +395,9 @@ class Probability(unittest.TestCase):
             "cas_checkdigit_fail",
             "inchikey_smiles_mismatch",
             "unit_basis_mismatch",
+            "within_source_disagreement",
             "assay_context_differs",
+            "class_signal_thin",
             "slip_1000x",
             "slip_100x",
             "slip_10x",

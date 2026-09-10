@@ -23,6 +23,8 @@
   "class_prior": {
     "_doc": "Log-normal distribution of the same column across class peers, leave-one-out, as a robust z (0.6745 * (x - median) / MAD). mad_floor_decades stops a tight class from turning a 20% difference into z = 40. A class with fewer than min_members after leave-one-out yields no signal at all, and the cell says so.",
     "min_members": 4,
+    "_min_class_members_doc": "Peers the leave-one-out distribution must have before the prior is allowed to score anything or break a tie. `min_members` decides which class level the cascade settles on; this decides whether that level may speak. Heroin's intravenous come-up has a handful of class peers, and a prior fitted on those preferred drug.community's 29.5 minutes over the two sources saying five seconds — a thin class is an opinion, not evidence, and it says so with `class_signal_thin`.",
+    "min_class_members": 5,
     "mad_floor_decades": 0.15,
     "z_cap": 8.0,
     "levels": [
@@ -73,7 +75,9 @@
     "cas_checkdigit_fail": 3.0,
     "inchikey_smiles_mismatch": 1.8,
     "unit_basis_mismatch": 0.9,
-    "assay_context_differs": 0.0
+    "within_source_disagreement": 0.8,
+    "assay_context_differs": 0.0,
+    "class_signal_thin": 0.0
   },
   "_features_doc_zero": "A feature weighted 0.0 is explanatory, not incriminating: it is emitted, it is named in the `why` column, and it moves no probability. `assay_context_differs` is one — a human EC50 and a rat one differing is pharmacology, and scoring it would report the literature as a transcription error.",
   "bias": -3.6,

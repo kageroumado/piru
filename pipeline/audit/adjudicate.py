@@ -691,6 +691,9 @@ class Cell:
     evidence_level: str = "none"
     class_level: str | None = None
     class_members: int = 0
+    #: Sources standing behind this cell's consensus. A class prior built out of
+    #: peers whose consensus rests on one source cannot then judge that source.
+    consensus_sources: frozenset[str] = field(default_factory=frozenset)
     flags: list[str] = field(default_factory=list)
     unit: str = ""
 
@@ -1913,9 +1916,41 @@ def cluster_values(cell: Cell, weights: Weights) -> int:
         if not placed:
             value.cluster = len(representatives)
             representatives.append((value.numeric, value.text))
+    fold_same_source(cell)
     fold_dependents(cell, weights)
     cell.n_clusters = len({value.cluster for value in cell.values})
     return cell.n_clusters
+
+
+def fold_same_source(cell: Cell) -> None:
+    """One source is one vote, however many rows it carries.
+
+    drug.community publishes two inhalation rows for JWH-018, 0.25 mg and
+    0.2 mg. Left apart they are two clusters that between them outvote the three
+    sources saying 1 mg, and the curated value is then reported as the lone
+    dissenter from a consensus one source invented by disagreeing with itself.
+
+    The fold key is source *and* upstream record: two dose.wiki articles that
+    both claim one Piru row are two claims about which molecule it is, not one
+    article listing two numbers.
+    """
+    groups: dict[tuple[str, str | None], list[Value]] = defaultdict(list)
+    for value in cell.values:
+        groups[(value.source, value.provenance.get("slug"))].append(value)
+    for members in groups.values():
+        if len(members) < 2:
+            continue
+        target = min(member.cluster for member in members)
+        numbers = [m.numeric for m in members if m.numeric and m.numeric > 0]
+        spread = max(numbers) / min(numbers) if len(numbers) > 1 else None
+        if spread is None and len({(m.text or "").strip() for m in members}) > 1:
+            spread = float("inf")
+        for member in members:
+            member.cluster = target
+            if spread is not None and spread > 1.0:
+                member.provenance["within_source_spread"] = (
+                    "different values" if spread == float("inf") else round(spread, 4)
+                )
 
 
 def fold_dependents(cell: Cell, weights: Weights) -> None:
@@ -1945,6 +1980,23 @@ def fold_dependents(cell: Cell, weights: Weights) -> None:
     order = {old: new for new, old in enumerate(sorted({v.cluster for v in cell.values}))}
     for value in cell.values:
         value.cluster = order[value.cluster]
+
+
+def backing_sources(cell: Cell, settled: float | str | None, weights: Weights) -> frozenset[str]:
+    """The sources whose own value is the cell's consensus.
+
+    Derived sources do not count: they restate the row they were computed from.
+    """
+    if settled is None:
+        return frozenset()
+    threshold = float(weights.reliability["outlier_log_delta"])
+    return frozenset(
+        value.source
+        for value in cell.values
+        if "derived_from" not in value.provenance
+        and (compare(value, settled) or 0.0) <= threshold
+        and compare(value, settled) is not None
+    )
 
 
 def cluster_members(cell: Cell) -> dict[int, list[Value]]:
@@ -2045,13 +2097,15 @@ def class_keys(substance: Substance, weights: Weights) -> list[tuple[str, str]]:
 
 def build_class_priors(
     cells: list[Cell], substances: dict[int, Substance], weights: Weights
-) -> dict[tuple[str, str, str], dict[int, float]]:
-    """`(level, class key, cell key) -> {substance_id: consensus}`.
+) -> dict[tuple[str, str, str], dict[int, tuple[float, frozenset[str]]]]:
+    """`(level, class key, cell key) -> {substance_id: (consensus, backing sources)}`.
 
     For binding columns the cell key is folded to the *base* target, so subunit
-    and site variants of one receptor still populate one distribution.
+    and site variants of one receptor still populate one distribution. Each peer
+    carries who stands behind its number, because a distribution assembled out
+    of one source's rows cannot be used to judge that source.
     """
-    out: dict[tuple[str, str, str], dict[int, float]] = defaultdict(dict)
+    out: dict[tuple[str, str, str], dict[int, tuple[float, frozenset[str]]]] = defaultdict(dict)
     for cell in cells:
         if cell.consensus is None or cell.consensus <= 0:
             continue
@@ -2060,7 +2114,10 @@ def build_class_priors(
             continue
         key = prior_cell_key(cell)
         for level, class_key in class_keys(substance, weights):
-            out[(level, class_key, key)][cell.substance_id] = cell.consensus
+            out[(level, class_key, key)][cell.substance_id] = (
+                cell.consensus,
+                cell.consensus_sources,
+            )
     return out
 
 
@@ -2080,27 +2137,41 @@ def prior_cell_key(cell: Cell) -> str:
 def class_prior_for(
     cell: Cell,
     substance: Substance,
-    priors: dict[tuple[str, str, str], dict[int, float]],
+    priors: dict[tuple[str, str, str], dict[int, tuple[float, frozenset[str]]]],
     weights: Weights,
 ) -> ClassPrior | None:
+    """The peer distribution for this cell, and how many peers stand apart from it.
+
+    `members` counts only peers that are not simply this argument's own
+    participants restated. Heroin's intravenous come-up has five classical-opioid
+    peers, and three of them are a number drug.community published alone — a
+    prior fitted on those then rules for drug.community against the two sources
+    contradicting it, which is the source deciding its own case. Such a peer is
+    dropped from the count, and a class left thin says `class_signal_thin`
+    instead of scoring anybody.
+    """
     minimum = int(weights.class_prior["min_members"])
     floor = float(weights.class_prior["mad_floor_decades"])
+    parties = {value.source for value in cell.values}
     key = prior_cell_key(cell)
     for level, class_key in class_keys(substance, weights):
         peers = priors.get((level, class_key, key))
         if not peers:
             continue
-        values = [
-            math.log10(value)
-            for substance_id, value in peers.items()
-            if substance_id != cell.substance_id and value > 0
-        ]
+        values: list[float] = []
+        independent = 0
+        for substance_id, (value, backing) in peers.items():
+            if substance_id == cell.substance_id or value <= 0:
+                continue
+            values.append(math.log10(value))
+            if len(backing) > 1 or not backing or not backing <= parties:
+                independent += 1
         if len(values) < minimum:
             continue
         median = statistics.median(values)
         deviations = [abs(value - median) for value in values]
         mad = max(statistics.median(deviations), floor)
-        return ClassPrior(level=level, members=len(values), median_log=median, mad_log=mad)
+        return ClassPrior(level=level, members=independent, median_log=median, mad_log=mad)
     return None
 
 
@@ -2233,6 +2304,22 @@ def citation_quality(provenance: dict, weights: Weights) -> float:
     return min(total, 1.0)
 
 
+def within_source_feature(value: Value) -> float:
+    """How far one source's own rows for this cell are from each other.
+
+    A source that publishes 0.25 mg and 0.2 mg for the same band has an
+    editorial disagreement with itself, and a duplicated row is often the reason.
+    Scaled in decades like `log_delta`; a mismatch between two strings is a full
+    decade, since there is no distance between two spellings of an identifier.
+    """
+    spread = value.provenance.get("within_source_spread")
+    if spread is None:
+        return 0.0
+    if not isinstance(spread, int | float):
+        return 1.0 / 3.0
+    return min(math.log10(spread), 3.0) / 3.0 if spread > 1 else 0.0
+
+
 def slip_features(delta_ratio: float | None, weights: Weights) -> dict[str, float]:
     """Whether a value is almost exactly a power-of-ten multiple of consensus."""
     out = {"slip_1000x": 0.0, "slip_100x": 0.0, "slip_10x": 0.0}
@@ -2262,6 +2349,7 @@ def score_cell(
         cell.class_level = prior.level
         cell.class_members = prior.members
     z_cap = float(weights.class_prior["z_cap"])
+    min_class_members = int(weights.class_prior["min_class_members"])
     tie_ratio = weights.threshold("tie_ratio")
 
     largest_cluster = max((len(values) for values in members.values()), default=0)
@@ -2319,7 +2407,9 @@ def score_cell(
             else 0.0,
             "inchikey_smiles_mismatch": 1.0 if value.provenance.get("derived_disagrees") else 0.0,
             "unit_basis_mismatch": 1.0 if unit_basis else 0.0,
+            "within_source_disagreement": within_source_feature(value),
             "assay_context_differs": 1.0 if value.provenance.get("assay_context_differs") else 0.0,
+            "class_signal_thin": 0.0,
         }
         # A slip is a claim about a *number*. When the two sides are not
         # counting the same thing, the ratio is the unit factor and says
@@ -2333,11 +2423,17 @@ def score_cell(
             value.provenance["log_delta_unscored"] = round(delta, 3)
 
         # A class prior compares this substance to its peers on the peers' basis.
-        # A row counted in a different thing is not on that basis.
+        # A row counted in a different thing is not on that basis, and a class
+        # of four peers is an opinion rather than a distribution — it says so
+        # instead of scoring, so it cannot settle an argument it cannot see.
         if prior and value.numeric and value.numeric > 0 and not unit_basis:
-            z = abs(prior.z(value.numeric))
-            features["class_z"] = min(z, z_cap) / z_cap
-            value.provenance["class_z"] = round(prior.z(value.numeric), 3)
+            if prior.members < min_class_members:
+                features["class_signal_thin"] = 1.0
+                value.provenance["class_members"] = prior.members
+            else:
+                z = abs(prior.z(value.numeric))
+                features["class_z"] = min(z, z_cap) / z_cap
+                value.provenance["class_z"] = round(prior.z(value.numeric), 3)
 
         if cell.column == "chemistry" and cell.key.endswith("inchikey"):
             reference_text = reference if isinstance(reference, str) else None
@@ -2374,6 +2470,7 @@ def score_cell(
         cell.consensus = float(settled)
     elif isinstance(settled, str):
         cell.consensus_text = settled
+    cell.consensus_sources = backing_sources(cell, settled, weights)
 
     levels = weights.evidence_levels
     for name in ("strong", "moderate", "weak", "single", "none"):
@@ -2423,6 +2520,10 @@ def score_cell(
             flags.append("needs_manual")
     if any(value.provenance.get("assay_context_differs") for value in cell.values):
         flags.append("assay_context_differs")
+    if any(value.provenance.get("within_source_spread") for value in cell.values):
+        flags.append("within_source_disagreement")
+    if any(value.features.get("class_signal_thin") for value in cell.values):
+        flags.append("class_signal_thin")
     if any(value.provenance.get("derived_disagrees") for value in cell.values):
         flags.append("inchikey_smiles_mismatch")
     if any(
@@ -2501,6 +2602,8 @@ def tie_broken(cell: Cell, weights: Weights) -> bool:
                     "ladder_break",
                     "bounds_inverted",
                     "route_order_violation",
+                    "point_estimate",
+                    "within_source_disagreement",
                     "slip_1000x",
                     "slip_10x",
                 )
@@ -3044,6 +3147,7 @@ def main(argv: list[str] | None = None) -> int:
         }
         settled = cell_consensus(cell, column_weights, weights, None)
         cell.consensus = float(settled) if isinstance(settled, int | float) else None
+        cell.consensus_sources = backing_sources(cell, settled, weights)
     priors = build_class_priors(cells, substances, weights)
 
     for cell in cells:
