@@ -1,0 +1,1103 @@
+{
+  "_comment": "dose.wiki slug -> the Piru substance its article is about. Seeded from a 577-row structural comparison (InChIKey recomputed from both sides' SMILES, CAS check-digit validated, contested cases adjudicated against PubChem) and reviewed by hand. `name` is how the ingest resolves the row, because substance_uid is assigned long after ingest; `substance_uid` is the durable half, checked against data/curated/substance-ids.json so a rename cannot silently move a join. `substance_uid: null` means deliberately unmapped and the note says why. Every published dose.wiki slug must appear here or ingest_dosewiki fails the build — a slug nobody has decided about is the one way a whole article lands on the wrong molecule.",
+  "1-4-butanediol": {
+    "name": "1,4-Butanediol",
+    "substance_uid": "WERYXYBDKMZEQL"
+  },
+  "1b-lsd": {
+    "name": "1B-LSD",
+    "substance_uid": "SVRFNPSJPIDUBC",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "1cp-al-lad": {
+    "name": "1cP-AL-LAD",
+    "substance_uid": "VSABTUDYQCMWKE",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "1cp-lsd": {
+    "name": "1Cp-LSD",
+    "substance_uid": "BYIVGHIYNFQIJX"
+  },
+  "1cp-mipla": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: 1cP-MiPLA) — missing structure on Piru side"
+  },
+  "1p-eth-lad": {
+    "name": "1P-ETH-LAD",
+    "substance_uid": "MLOFCBXSOAYCIF",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "1p-lsd": {
+    "name": "1P-LSD",
+    "substance_uid": "JSMQOVGXBIDBIE"
+  },
+  "1v-lsd": {
+    "name": "1V-LSD",
+    "substance_uid": "GIIBVGJWUZNECE",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "2-aminoindane": {
+    "name": "2-Aminoindane",
+    "substance_uid": "3PWAQOHOFGMCMO",
+    "note": "dw frags=1 piru frags=2"
+  },
+  "2-chloroephenidine": {
+    "substance_uid": null,
+    "note": "dose.wiki's structure is a different compound (nearest: 2-Chloro-Ephenidine) — block1 CIZLUPKWIPWOID vs MSFHPMGDFAHNRH"
+  },
+  "2-fa": {
+    "name": "2-Fluoroamphetamine",
+    "substance_uid": "GDSXNLDTQFFIEU"
+  },
+  "2-fea": {
+    "name": "2-FEA",
+    "substance_uid": "NIWYLNFSJJLYHU"
+  },
+  "2-fluorodeschloroketamine": {
+    "name": "2-Fluorodeschloroketamine",
+    "substance_uid": "PHFAGYYTDLITTB"
+  },
+  "2-fma": {
+    "name": "2-FMA",
+    "substance_uid": "XNWIKJYFOIDUGD"
+  },
+  "2-mmc": {
+    "substance_uid": null,
+    "note": "dose.wiki's structure is a different compound (nearest: 2-MMC) — dose.wiki's 2-MMC page carries plain METHCATHINONE's structure (CNC(C(=O)C1=CC=CC=C1)C, LPLLVINFLBSFRP-UHFFFAOYSA-N, C10H13NO, 163.22) — the 2-methyl on the ring is missing, and the page is byte-identical in structure to their own `methcathinone` page. Piru's 2-MMC (id 23, CC(NC)C(=O)c1ccccc1C, PRGXFAWAMOFULD-UHFFFAOYSA-N, C11H15NO, 177.24, CAS 1246911-71-6) is correct. dose.wiki marks this page expert_reviewed: true."
+  },
+  "25b-nboh": {
+    "name": "25B-NBOH",
+    "substance_uid": "RSUNJYKZRKIBNB"
+  },
+  "25b-nbome": {
+    "name": "25B-NBOMe",
+    "substance_uid": "SUXGNJVVBGJEFB"
+  },
+  "25c-nboh": {
+    "name": "25C-NBOH",
+    "substance_uid": "VHWXICYYQMMZCW"
+  },
+  "25c-nbome": {
+    "name": "25C-NBOMe",
+    "substance_uid": "FJFPOGCVVLUYAQ"
+  },
+  "25d-nbome": {
+    "name": "25D-NBOMe",
+    "substance_uid": "UTVHBNXCFSATDB"
+  },
+  "25e-nboh": {
+    "name": "25E-NBOH",
+    "substance_uid": "SYBINTRPEZWFLZ"
+  },
+  "25e-nbome": {
+    "name": "25E-NBOMe",
+    "substance_uid": "PXDVGFGXPVCNAB"
+  },
+  "25i-nbmd": {
+    "name": "25I-NBMD",
+    "substance_uid": "NJNMIPDEUMTYNV"
+  },
+  "25i-nboh": {
+    "name": "25I-NBOH",
+    "substance_uid": "FEUZHYRXGQTBRO"
+  },
+  "25i-nbome": {
+    "name": "25I-NBOMe",
+    "substance_uid": "ZFUOLNAKPBFDIJ"
+  },
+  "25ip-nbome": {
+    "name": "25Ip-NBOMe",
+    "substance_uid": "KMZZEEDFQLXSQF"
+  },
+  "2c-b": {
+    "name": "2C-B",
+    "substance_uid": "YMHOBZXQZVXHBM"
+  },
+  "2c-b-fly": {
+    "name": "2C-B-FLY",
+    "substance_uid": "YZDFADGMVOSVIX"
+  },
+  "2c-c": {
+    "name": "2C-C",
+    "substance_uid": "CGKQFIWIPSIVAS"
+  },
+  "2c-d": {
+    "name": "2C-D",
+    "substance_uid": "UNQQFDCVEMVQHM"
+  },
+  "2c-e": {
+    "name": "2C-E",
+    "substance_uid": "VDRGNAMREYBIHA"
+  },
+  "2c-g": {
+    "name": "2C-G",
+    "substance_uid": "NFOHGLKGLZIHJQ"
+  },
+  "2c-i": {
+    "name": "2C-I",
+    "substance_uid": "PQHQBRJAAZQXHL"
+  },
+  "2c-p": {
+    "name": "2C-P",
+    "substance_uid": "PZJOKFZGPTVNBF"
+  },
+  "2c-t": {
+    "name": "2C-T",
+    "substance_uid": "UPZMYCMLLQTYEM"
+  },
+  "2c-t-2": {
+    "name": "2C-T-2",
+    "substance_uid": "HCWQGDLBIKOJPM"
+  },
+  "2c-t-21": {
+    "name": "2C-T-21",
+    "substance_uid": "ZBUUUKBTOCTOPW"
+  },
+  "2c-t-4": {
+    "name": "2C-T-4",
+    "substance_uid": "HDYZSVKZKDPLDT"
+  },
+  "2c-t-7": {
+    "name": "2C-T-7",
+    "substance_uid": "OLEVEPDJOFPJTF"
+  },
+  "2m2b": {
+    "name": "2-Methyl-2-Butanol",
+    "substance_uid": "MSXVEPNJUHWQHW"
+  },
+  "3-cmc": {
+    "name": "3-Chloromethcathinone",
+    "substance_uid": "VOEFELLSAAJCHJ"
+  },
+  "3-fa": {
+    "name": "3-Fluoroamphetamine",
+    "substance_uid": "PIOCLGPCMNPZFT"
+  },
+  "3-fea": {
+    "name": "3-Fluoroethamphetamine",
+    "substance_uid": "4PTGYOCOZRIQXA",
+    "note": "dw frags=1 piru frags=2"
+  },
+  "3-fmc": {
+    "name": "3-Fluoromethcathinone",
+    "substance_uid": "PQIBROLLUQSNQI"
+  },
+  "3-ho-pce": {
+    "name": "3-HO-PCE",
+    "substance_uid": "MIKNPNLBFHVMKK"
+  },
+  "3-ho-pcp": {
+    "name": "3-HO-PCP",
+    "substance_uid": "AMSXTZUCNOKUEN"
+  },
+  "3-me-pcpy": {
+    "name": "3-Me-PCPy",
+    "substance_uid": "JZVMREFYFTZXGN"
+  },
+  "3-mec": {
+    "name": "3-MEC",
+    "substance_uid": "GEKLDGQKEZAPFZ"
+  },
+  "3-meo-pce": {
+    "name": "3-MeO-PCE",
+    "substance_uid": "OFGOOZLOGUNDFS"
+  },
+  "3-meo-pcmo": {
+    "name": "3-MeO-PCMO",
+    "substance_uid": "BOGOEDFWPOXWQE"
+  },
+  "3-meo-pcp": {
+    "name": "3-MeO-PCP",
+    "substance_uid": "BQQSZHHKGPOXLN"
+  },
+  "3-meo-pcpr": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: 3-MeO-PCPR) — missing structure on Piru side"
+  },
+  "3-meo-pcpy": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: 3-MeO-PCPY) — missing structure on Piru side"
+  },
+  "3-mmc": {
+    "name": "3-MMC",
+    "substance_uid": "QDNXSIYWHYGMCD"
+  },
+  "4-aco-det": {
+    "name": "4-AcO-DET",
+    "substance_uid": "WYEVVQJLTXBMPM"
+  },
+  "4-aco-dipt": {
+    "name": "4-AcO-DiPT",
+    "substance_uid": "ZPAOVGZYDSXCPK"
+  },
+  "4-aco-dmt": {
+    "name": "4-AcO-DMT",
+    "substance_uid": "RTLRUOSYLFOFHV"
+  },
+  "4-aco-met": {
+    "substance_uid": null,
+    "note": "dose.wiki's structure is a different compound (nearest: 4-AcO-MET) — block1 OMDKHOOGGJRLLX vs CIDMXLOVFPIHDS"
+  },
+  "4-aco-mipt": {
+    "name": "4-AcO-MET",
+    "substance_uid": "CIDMXLOVFPIHDS",
+    "note": "Structurally matches Piru id 1011, which is NAMED 4-AcO-MET but holds 4-AcO-MiPT's structure, formula and CAS. Piru's correctly-named 4-AcO-MiPT row (1012) is empty. Same defect seen from the other side at dw_slug 4-aco-met."
+  },
+  "4-cmc": {
+    "name": "4-CMC",
+    "substance_uid": "UEJBEYOXRNGPEI"
+  },
+  "4-emc": {
+    "name": "4-EMC",
+    "substance_uid": "FUYPDKFWOHBUFT"
+  },
+  "4-fa": {
+    "name": "4-Fluoroamphetamine",
+    "substance_uid": "DGXWNDGLEOIEGT"
+  },
+  "4-fluorobutyrfentanyl": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: Parafluorobutyrfentanyl) — missing structure on Piru side"
+  },
+  "4-fma": {
+    "name": "4-FMA",
+    "substance_uid": "YCWZPIHKUYZTFM"
+  },
+  "4-fmc": {
+    "name": "Flephedrone",
+    "substance_uid": "MWKQPIROPJSFRI"
+  },
+  "4-ho-dipt": {
+    "name": "4-HO-DiPT",
+    "substance_uid": "KBRYKXCBGISXQV"
+  },
+  "4-ho-met": {
+    "name": "4-HO-MET",
+    "substance_uid": "ORWQBKPSGDRPPA"
+  },
+  "4-ho-mipt": {
+    "name": "4-HO-MiPT",
+    "substance_uid": "RXKGHZCQFXXWFQ"
+  },
+  "4-mec": {
+    "name": "4-MEC",
+    "substance_uid": "ZOXZWYWOECCBSH"
+  },
+  "4-meo-butyrfentanyl": {
+    "name": "4-Methoxybutyrfentanyl",
+    "substance_uid": "FNVSEQCPMXWQKG"
+  },
+  "4-meo-pcp": {
+    "name": "4-MeO-PCP",
+    "substance_uid": "MUZGGFNYVLGUFS"
+  },
+  "4-methylmethylphenidate": {
+    "name": "4-Methylmethylphenidate",
+    "substance_uid": "WJZNCJIOIACDBR",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "5-apb": {
+    "name": "5-APB",
+    "substance_uid": "VKUMKUZDZWHMQU"
+  },
+  "5-mapb": {
+    "name": "5-MAPB",
+    "substance_uid": "ZOVRTIPCNFERHY"
+  },
+  "5-meo-dipt": {
+    "name": "5-MeO-DiPT",
+    "substance_uid": "DNBPMBJFRRVTSJ"
+  },
+  "5-meo-dmt": {
+    "name": "5-MeO-DMT",
+    "substance_uid": "ZSTKHSQDNIGFLM"
+  },
+  "5-meo-mipt": {
+    "name": "5-MeO-MiPT",
+    "substance_uid": "HEDOODBJFVUQMS"
+  },
+  "5-methylethylone": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: 5-Methyl-bk-MDEA) — missing structure on Piru side"
+  },
+  "6-apb": {
+    "name": "6-APB",
+    "substance_uid": "FQDAMYLMQQKPRX"
+  },
+  "a-pvp": {
+    "name": "A-pvp",
+    "substance_uid": "YDIIDRWHPFMLGR"
+  },
+  "ab-fubinaca": {
+    "name": "Ab-fubinaca",
+    "substance_uid": "AKOOIMKXADOPDA"
+  },
+  "acetylfentanyl": {
+    "name": "Acetylfentanyl",
+    "substance_uid": "FYIUUQUPOKIKNI"
+  },
+  "acrylfentanyl": {
+    "name": "Acrylfentanyl",
+    "substance_uid": "RFQNLMWUIJJEQF"
+  },
+  "adrafinil": {
+    "name": "Adrafinil",
+    "substance_uid": "CGNMLOKEMNBUAI"
+  },
+  "al-lad": {
+    "name": "AL-LAD",
+    "substance_uid": "JCQLEPDZFXGHHQ"
+  },
+  "alcohol": {
+    "name": "Alcohol",
+    "substance_uid": "LFQSCWFLJHTTHZ"
+  },
+  "ald-52": {
+    "name": "ALD-52",
+    "substance_uid": "FJOWXGYLIWJFCH",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "aleph": {
+    "name": "ALEPH",
+    "substance_uid": "COBYBOVXXDQRAU"
+  },
+  "aleph-2": {
+    "name": "ALEPH-2",
+    "substance_uid": "MCYCODJKXUJSAT"
+  },
+  "allylescaline": {
+    "name": "Allylescaline",
+    "substance_uid": "JNUAYHHGCXYBHX"
+  },
+  "alprazolam": {
+    "name": "Alprazolam",
+    "substance_uid": "VREFGVBLTWBCJP"
+  },
+  "amobarbital": {
+    "name": "Amobarbital",
+    "substance_uid": "VIROVYVQCGLCII"
+  },
+  "amphetamine": {
+    "name": "Amphetamine",
+    "substance_uid": "KWTSXDURSIMDCE"
+  },
+  "amt": {
+    "name": "AMT",
+    "substance_uid": "QSQQQURBVYWZKJ"
+  },
+  "armodafinil": {
+    "name": "Modafinil",
+    "substance_uid": "YFGHCGITMMYXAQ",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "ayahuasca": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: Ayahuasca) — missing structure on dose.wiki side"
+  },
+  "baclofen": {
+    "name": "Baclofen",
+    "substance_uid": "KPYSYYIEGFHWSV"
+  },
+  "bk-2c-b": {
+    "name": "bk-2C-B",
+    "substance_uid": "HFYJGAIOBIDRPX"
+  },
+  "bromazepam": {
+    "name": "Bromazepam",
+    "substance_uid": "VMIYHDSEFNYJSL"
+  },
+  "bromazolam": {
+    "name": "Bromazolam",
+    "substance_uid": "KCEIOBKDDQAYCM"
+  },
+  "bromo-dragonfly": {
+    "name": "Bromo-dragonfly",
+    "substance_uid": "GIKPTWKWYXCBEC"
+  },
+  "brotizolam": {
+    "name": "Brotizolam",
+    "substance_uid": "UMSGKTJDUHERQW"
+  },
+  "buprenorphine": {
+    "name": "Buprenorphine",
+    "substance_uid": "RMRJXGBAOAMLHD",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "bupropion": {
+    "name": "Bupropion",
+    "substance_uid": "SNPPWIUOZRMYNY"
+  },
+  "butylone": {
+    "name": "Butylone",
+    "substance_uid": "CGKQZIULZRXRRJ"
+  },
+  "butyrfentanyl": {
+    "name": "Butyrfentanyl",
+    "substance_uid": "QQOMYEQLWQJRKK"
+  },
+  "caffeine": {
+    "name": "Caffeine",
+    "substance_uid": "RYYVLZVUVIJVGH"
+  },
+  "cannabis": {
+    "name": "Cannabis",
+    "substance_uid": "0AWGLHKETRPPVZ",
+    "note": "Plant (Cannabis sativa). Piru has a dedicated Cannabis row with no structure; dose.wiki's identification block carries delta-9-THC (CYQFCXCEBYINGO-IAGOWNOFSA-N). Not a match to Piru's THC row (677)."
+  },
+  "carisoprodol": {
+    "name": "Carisoprodol",
+    "substance_uid": "OFZCIYFFPZCNJE"
+  },
+  "clobazam": {
+    "name": "Clobazam",
+    "substance_uid": "CXOXHMZGEKVPMT"
+  },
+  "clonazepam": {
+    "name": "Clonazepam",
+    "substance_uid": "DGBIGWXXNGSACT"
+  },
+  "clonazolam": {
+    "name": "Clonazolam",
+    "substance_uid": "XJRGLCAWBRZUFC"
+  },
+  "cocaine": {
+    "name": "Cocaine",
+    "substance_uid": "ZPUCINDJVBIVPJ",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "codeine": {
+    "name": "Codeine",
+    "substance_uid": "OROGSEYTTFOCAN"
+  },
+  "datura": {
+    "name": "Datura",
+    "substance_uid": "9QSGXAVGWSSHOJ",
+    "note": "Plant (Datura spp.). Piru has a dedicated Datura row (235) with no structure; dose.wiki's identification block carries scopolamine. Not a match to Piru's Scopolamine row (1264-family)."
+  },
+  "delorazepam": {
+    "name": "Delorazepam",
+    "substance_uid": "CHIFCDOIPRCHCF"
+  },
+  "deschloroetizolam": {
+    "name": "Deschloroetizolam",
+    "substance_uid": "JIOBORXCOGMHSV"
+  },
+  "deschloroketamine": {
+    "name": "Deschloroketamine",
+    "substance_uid": "ZAGBSZSITDFFAF"
+  },
+  "desmethylflunitrazepam": {
+    "name": "Desmethylflunitrazepam",
+    "substance_uid": "KNGIGRDYBQPXKQ"
+  },
+  "desomorphine": {
+    "name": "Desomorphine",
+    "substance_uid": "LNNWVNGFPYWNQE",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "desoxypipradrol": {
+    "name": "2-DPMP",
+    "substance_uid": "RWTNXJXZVGHMGI"
+  },
+  "det": {
+    "name": "DET",
+    "substance_uid": "LSSUMOWDTKZHHT"
+  },
+  "dexmethylphenidate": {
+    "name": "Methylphenidate",
+    "substance_uid": "DUGOZIWVEXMGBE",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "dextroamphetamine": {
+    "name": "Amphetamine",
+    "substance_uid": "KWTSXDURSIMDCE",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "dextromethorphan": {
+    "name": "Dextromethorphan",
+    "substance_uid": "6SQMQNZLQDDIBX"
+  },
+  "diazepam": {
+    "name": "Diazepam",
+    "substance_uid": "AAOVKJBEBIDNHE"
+  },
+  "diclazepam": {
+    "name": "Diclazepam",
+    "substance_uid": "VPAYQWRBBOGGPY"
+  },
+  "dihydrocodeine": {
+    "name": "Dihydrocodeine",
+    "substance_uid": "RBOXVHNMENFORY",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "dimenhydrinate": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: Dimenhydrinate) — Piru has a dedicated but structure-less Dimenhydrinate row (257, CAS 523-87-5) which matches dose.wiki's CAS exactly. Baseline matched Diphenhydramine, the salt's amine component only. dose.wiki's 2-fragment SMILES (diphenhydramine + 8-chlorotheophylline, NFLLKCVHYJRNRH-UHFFFAOYSA-N) is correct for dimenhydrinate."
+  },
+  "diphenhydramine": {
+    "name": "Diphenhydramine",
+    "substance_uid": "ZZVUWRFHKOJYTH"
+  },
+  "diphenidine": {
+    "name": "Diphenidine",
+    "substance_uid": "JQWJJJYHVHNXJH"
+  },
+  "dipt": {
+    "name": "DIPT",
+    "substance_uid": "ZRVAAGAZUWXRIP"
+  },
+  "dmt": {
+    "name": "DMT",
+    "substance_uid": "DMULVCHRPCFFGV"
+  },
+  "dmxe": {
+    "name": "DMXE",
+    "substance_uid": "WIMLPRYZJQNQLE"
+  },
+  "dob": {
+    "name": "DOB",
+    "substance_uid": "FXMWUTGUCAKGQL"
+  },
+  "doc": {
+    "name": "DOC",
+    "substance_uid": "ACRITBNCBMTINK"
+  },
+  "doet": {
+    "name": "DOET",
+    "substance_uid": "HXJKWPGVENNMCC"
+  },
+  "doi": {
+    "name": "DOI",
+    "substance_uid": "BGMZUEKZENQUJY"
+  },
+  "dom": {
+    "name": "DOM",
+    "substance_uid": "NTJQREUGJKIARY"
+  },
+  "dpt": {
+    "name": "DPT",
+    "substance_uid": "BOOQTIHIKDDPRW"
+  },
+  "ephedrine": {
+    "name": "Ephedrine",
+    "substance_uid": "5DQVGKTPMFKOPS"
+  },
+  "ephenidine": {
+    "name": "Ephenidine",
+    "substance_uid": "IGFZMQXEKIZPDR"
+  },
+  "escaline": {
+    "name": "Escaline",
+    "substance_uid": "RHOGRSKNWDNCDN"
+  },
+  "eszopiclone": {
+    "name": "Zopiclone",
+    "substance_uid": "GBBSUAFBMRNDJC",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "eth-lad": {
+    "name": "ETH-LAD",
+    "substance_uid": "MYNOUXJLOHVSMQ"
+  },
+  "ethketamine": {
+    "name": "Ethketamine",
+    "substance_uid": "ITBBBZIIFJJMDU"
+  },
+  "ethylmorphine": {
+    "name": "Ethylmorphine",
+    "substance_uid": "OGDVEMNWJVYAJL",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "ethylone": {
+    "name": "Ethylone",
+    "substance_uid": "MJEMIOXXNCZZFK"
+  },
+  "ethylphenidate": {
+    "name": "Ethylphenidate",
+    "substance_uid": "AIVSIRYZIBXTMM"
+  },
+  "etizolam": {
+    "name": "Etizolam",
+    "substance_uid": "VMZUTJCNQWMAGF"
+  },
+  "eutylone": {
+    "name": "Eutylone",
+    "substance_uid": "YERSNXHEOIYEGX"
+  },
+  "f-phenibut": {
+    "name": "4-Fluorophenibut",
+    "substance_uid": "QWHXHLDNSXLAPX"
+  },
+  "fentanyl": {
+    "name": "Fentanyl",
+    "substance_uid": "PJMPHNIQZUBGLI"
+  },
+  "flualprazolam": {
+    "name": "Flualprazolam",
+    "substance_uid": "MPZVLJCMGPYWQQ"
+  },
+  "flubromazepam": {
+    "name": "Flubromazepam",
+    "substance_uid": "ZRKDDZBVSZLOFS"
+  },
+  "flubromazolam": {
+    "name": "Flubromazolam",
+    "substance_uid": "VXGSZBZQCBNUIP"
+  },
+  "fluclotizolam": {
+    "name": "Fluclotizolam",
+    "substance_uid": "ZDYRCUZZLRLMHG"
+  },
+  "flunitrazepam": {
+    "name": "Flunitrazepam",
+    "substance_uid": "PPTYJKAXVCCBDU"
+  },
+  "flunitrazolam": {
+    "name": "Flunitrazolam",
+    "substance_uid": "RDLAGIOILLWVTM"
+  },
+  "furanylfentanyl": {
+    "name": "Furanylfentanyl",
+    "substance_uid": "NYISTOZKVCMVEL"
+  },
+  "gabapentin": {
+    "name": "Gabapentin",
+    "substance_uid": "UGJMXCAKCUNAIE"
+  },
+  "gbl": {
+    "name": "GBL",
+    "substance_uid": "YEJRWHAVMIAJKC"
+  },
+  "ghb": {
+    "name": "GHB",
+    "substance_uid": "SJZRECIVHVDYJC"
+  },
+  "h-2c-b": {
+    "name": "βH-2C-B",
+    "substance_uid": "PCSKDXWCLQXURQ"
+  },
+  "heroin": {
+    "name": "Heroin",
+    "substance_uid": "GVGLGOZIDCSQPN"
+  },
+  "hxe": {
+    "name": "HXE",
+    "substance_uid": "CQERUJSORROCGH"
+  },
+  "hydrocodone": {
+    "name": "Hydrocodone",
+    "substance_uid": "LLPOLZWFYMWNKH"
+  },
+  "hydromorphone": {
+    "name": "Hydromorphone",
+    "substance_uid": "WVLOADHCBXTIJK"
+  },
+  "hydroxyzine": {
+    "name": "Hydroxyzine",
+    "substance_uid": "ZQDWXGKKHFNSQK"
+  },
+  "ibogaine": {
+    "name": "Ibogaine",
+    "substance_uid": "HSIBGVUMFOSJPD",
+    "note": "Piru resolved / dose.wiki flat"
+  },
+  "isomethadone": {
+    "name": "Isomethadone",
+    "substance_uid": "IFKPLJWIEQBPGG"
+  },
+  "jwh-018": {
+    "name": "JWH-018",
+    "substance_uid": "JDNLPKCAXICMBW"
+  },
+  "jwh-073": {
+    "name": "JWH-073",
+    "substance_uid": "VCHHHSMPMLNVGS"
+  },
+  "k-2c-i": {
+    "name": "bk-2C-I",
+    "substance_uid": "5WJKQMUCVHFJMG"
+  },
+  "kanna": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: Kanna) — missing structure on Piru side"
+  },
+  "kava": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: Kava) — missing structure on Piru side"
+  },
+  "ketamine": {
+    "name": "Ketamine",
+    "substance_uid": "YQEZLKZALYSWHR"
+  },
+  "khat": {
+    "name": "Khat",
+    "substance_uid": "6CIWTAUTAIXGZP",
+    "note": "Plant (Catha edulis). Piru has a dedicated Khat row with no structure; dose.wiki's identification block carries the active principle S-(-)-cathinone (PUAQLLVFLMYYJJ-ZETCQYMHSA-N). Not a match to Piru's Cathinone row."
+  },
+  "kratom": {
+    "name": "Mitragynine",
+    "substance_uid": "LELBFTMXCIIKKX"
+  },
+  "lean": {
+    "name": "Codeine",
+    "substance_uid": "OROGSEYTTFOCAN",
+    "note": "Preparation (codeine + promethazine syrup). Neither side carries a structure; Piru has no Lean row but holds Lean/Purple Drank/sizzurp as aliases of Codeine (id 218). Baseline matched Dextromethorphan, which is wrong."
+  },
+  "lisdexamfetamine": {
+    "name": "Lisdexamfetamine",
+    "substance_uid": "VOBHXZCDAVEXEY",
+    "note": "both resolved, different"
+  },
+  "lithium": {
+    "substance_uid": null,
+    "note": "dose.wiki's structure is a different compound (nearest: Lithium) — block1 WHXSMMKQMYFTQS vs KRKNYBCHXYNGOX"
+  },
+  "lorazepam": {
+    "name": "Lorazepam",
+    "substance_uid": "DIWRORZWFLOCLC"
+  },
+  "lsa": {
+    "name": "LSA",
+    "substance_uid": "GENAHGKEFJLNJB"
+  },
+  "lsd": {
+    "name": "LSD",
+    "substance_uid": "VAYOSLLFUXYJDT"
+  },
+  "lsz": {
+    "name": "LSZ",
+    "substance_uid": "DUKNIHFTDAXJON"
+  },
+  "mda": {
+    "name": "3,4-Methylenedioxyamphetamine",
+    "substance_uid": "NGBBVGZWCFBOGO"
+  },
+  "mdma": {
+    "name": "MDMA",
+    "substance_uid": "SHXWCVYOXRDMCX"
+  },
+  "mdpv": {
+    "name": "MDPV",
+    "substance_uid": "SYHGEUNFJIGTRX"
+  },
+  "meclonazepam": {
+    "name": "Meclonazepam",
+    "substance_uid": "LMUVYJCAFWGNSY"
+  },
+  "melatonin": {
+    "name": "Melatonin",
+    "substance_uid": "DRLFMBDRBRZALE"
+  },
+  "memantine": {
+    "name": "Memantine",
+    "substance_uid": "BUGYDGFZZOZRHP"
+  },
+  "mephedrone": {
+    "name": "Mephedrone",
+    "substance_uid": "YELGFTGWJGBAQU"
+  },
+  "mescaline": {
+    "name": "Mescaline",
+    "substance_uid": "8EJQJHALTLWLLY"
+  },
+  "met": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: Met) — missing structure on Piru side"
+  },
+  "methadone": {
+    "name": "Methadone",
+    "substance_uid": "USSIQXCVUWKGNF"
+  },
+  "methallylescaline": {
+    "name": "Methallylescaline",
+    "substance_uid": "FOXJFBFFGULACD"
+  },
+  "methamphetamine": {
+    "name": "Methamphetamine",
+    "substance_uid": "MYWUZJCMWCOHBA"
+  },
+  "methaqualone": {
+    "name": "Methaqualone",
+    "substance_uid": "JEYCTXHKTXCGPB"
+  },
+  "methcathinone": {
+    "name": "Methcathinone",
+    "substance_uid": "LPLLVINFLBSFRP"
+  },
+  "methiopropamine": {
+    "name": "Methiopropamine",
+    "substance_uid": "HPHUWHKFQXTZPS"
+  },
+  "methoxetamine": {
+    "name": "Methoxetamine",
+    "substance_uid": "LPKTWLVEGBNOOX"
+  },
+  "methoxyacetyl-fentanyl": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: Methoxyacetyl-fentanyl) — missing structure on Piru side"
+  },
+  "methoxyketamine": {
+    "substance_uid": null,
+    "note": "no Piru row carries this structure — dose.wiki's compound is 2-(2-methoxyphenyl)-2-(methylamino)cyclohexan-1-one, PubChem CID 57483650, OYAUVHORXFUVAJ-UHFFFAOYSA-N (ortho-OMe, the direct ketamine analogue). Piru's Methoxmetamine (472) is the meta-OMe regioisomer ZGQWDAOLJNAADS-UHFFFAOYSA-N / CID 117067863. Piru has no row for the ortho compound (no InChIKey or name hit)."
+  },
+  "methylmethaqualone": {
+    "name": "Methylmethaqualone",
+    "substance_uid": "MPMDMUROZIYIIM"
+  },
+  "methylone": {
+    "name": "Methylone",
+    "substance_uid": "VKEQBMCRQDSRET"
+  },
+  "methylphenidate": {
+    "name": "Methylphenidate",
+    "substance_uid": "DUGOZIWVEXMGBE"
+  },
+  "metizolam": {
+    "name": "Metizolam",
+    "substance_uid": "NQSSWDKQLVBUQN"
+  },
+  "midazolam": {
+    "name": "Midazolam",
+    "substance_uid": "DDLIGBOFAVUZHB"
+  },
+  "mipla": {
+    "substance_uid": null,
+    "note": "one side carries no structure, so the join could not be checked (nearest: MiPLA) — missing structure on Piru side"
+  },
+  "modafinil": {
+    "name": "Modafinil",
+    "substance_uid": "YFGHCGITMMYXAQ"
+  },
+  "morphine": {
+    "name": "Morphine",
+    "substance_uid": "BQJCRHHNABKAKU",
+    "note": "both resolved, different"
+  },
+  "n-methylbisfluoromodafinil": {
+    "name": "N-Methylbisfluoromodafinil",
+    "substance_uid": "1TGXSMPPWCHGVU"
+  },
+  "nep": {
+    "name": "N-Ethylpentedrone",
+    "substance_uid": "QQAHEGDXEXIQPR"
+  },
+  "nicomorphine": {
+    "name": "Nicomorphine",
+    "substance_uid": "HNDXBGYRMHRUFN",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "nicotine": {
+    "name": "Nicotine",
+    "substance_uid": "SNICXCGAKADSCV"
+  },
+  "nifoxipam": {
+    "name": "Nifoxipam",
+    "substance_uid": "UHFIFTRHLBAWGY"
+  },
+  "nitemazepam": {
+    "name": "Nitemazepam",
+    "substance_uid": "QRWVNMAJJIQCEG"
+  },
+  "nitrazepam": {
+    "name": "Nitrazepam",
+    "substance_uid": "KJONHKAYOJNZEC"
+  },
+  "nitrous": {
+    "name": "Nitrous",
+    "substance_uid": "GQPLMRYTRLFLPF"
+  },
+  "nm-2-ai": {
+    "name": "NM-2-AI",
+    "substance_uid": "SXWZQUCTTOBHJT"
+  },
+  "noopept": {
+    "name": "Noopept",
+    "substance_uid": "PJNSMUBMSNAEEN"
+  },
+  "nutmeg": {
+    "name": "Myristicin",
+    "substance_uid": "BNWJOHGLIBDBOB"
+  },
+  "o-desmethyltramadol": {
+    "name": "O-desmethyltramadol",
+    "substance_uid": "UWJUQVWARXYRCG",
+    "note": "dose.wiki resolved / Piru flat"
+  },
+  "o-pce": {
+    "name": "O-pce",
+    "substance_uid": "IDLSBAANXISGEI"
+  },
+  "oxazepam": {
+    "name": "Oxazepam",
+    "substance_uid": "ADIMAYPTOBDMTL"
+  },
+  "oxycodone": {
+    "name": "Oxycodone",
+    "substance_uid": "BRUQQQPBMZOVGD"
+  },
+  "oxymorphone": {
+    "name": "Oxymorphone",
+    "substance_uid": "UQCNKQCJZOAFTQ"
+  },
+  "parafluorofentanyl": {
+    "name": "Parafluorofentanyl",
+    "substance_uid": "KXUBAVLIJFTASZ"
+  },
+  "pce": {
+    "name": "PCE",
+    "substance_uid": "IFYLVUHLOOCYBG"
+  },
+  "pcp": {
+    "name": "PCP",
+    "substance_uid": "JTJMJGYZQZDUJJ"
+  },
+  "pentobarbital": {
+    "name": "Pentobarbital",
+    "substance_uid": "WEXRUCMBJFQVBZ"
+  },
+  "phenazepam": {
+    "name": "Phenazepam",
+    "substance_uid": "CGMJQQJSWIRRRL"
+  },
+  "phenethylamine": {
+    "name": "Phenethylamine",
+    "substance_uid": "BHHGXPLMPWCGHP"
+  },
+  "phenibut": {
+    "name": "Phenibut",
+    "substance_uid": "DAFOCGYVTAOKAJ"
+  },
+  "phenobarbital": {
+    "name": "Phenobarbital",
+    "substance_uid": "DDBREPKUVSBGFI"
+  },
+  "phenylpiracetam": {
+    "name": "Phenylpiracetam",
+    "substance_uid": "LYONXVJRBWWGQO"
+  },
+  "pipradrol": {
+    "name": "Pipradrol",
+    "substance_uid": "XSWHNYGMWWVAIE"
+  },
+  "piracetam": {
+    "name": "Piracetam",
+    "substance_uid": "GMZVRMREEHBGGF"
+  },
+  "pregabalin": {
+    "name": "Pregabalin",
+    "substance_uid": "AYXYPKUFHZROOJ",
+    "note": "both resolved, different"
+  },
+  "promethazine": {
+    "name": "Promethazine",
+    "substance_uid": "PWWVAXIEGOYWEE"
+  },
+  "propranolol": {
+    "name": "Propranolol",
+    "substance_uid": "AQHHHDLHHXJYJD"
+  },
+  "proscaline": {
+    "name": "Proscaline",
+    "substance_uid": "HYWLMSUAZVDUFW"
+  },
+  "psilocybin-mushrooms": {
+    "name": "Psilocybin",
+    "substance_uid": "QVDSEJDULKLHCG"
+  },
+  "pyrazolam": {
+    "name": "Pyrazolam",
+    "substance_uid": "BGRWSFIQQPVEML"
+  },
+  "quetiapine": {
+    "name": "Quetiapine",
+    "substance_uid": "URKOMYMAXPYINW"
+  },
+  "salvia": {
+    "name": "Salvinorin A",
+    "substance_uid": "OBSYBRPAKCASQB"
+  },
+  "scopolamine": {
+    "name": "Scopolamine",
+    "substance_uid": "STECJAGHUSJQJN",
+    "note": "both resolved, different"
+  },
+  "secobarbital": {
+    "name": "Secobarbital",
+    "substance_uid": "KQPKPCNLIDLUMF"
+  },
+  "sertraline": {
+    "name": "Sertraline",
+    "substance_uid": "VGKDLMBJGBXTGI"
+  },
+  "tapentadol": {
+    "name": "Tapentadol",
+    "substance_uid": "KWTWDQCKEHXFFR",
+    "note": "both resolved, different"
+  },
+  "temazepam": {
+    "name": "Temazepam",
+    "substance_uid": "SEQDDYPDSLOBDC"
+  },
+  "theanine": {
+    "name": "L-Theanine",
+    "substance_uid": "5IMXSDQYAJPWJT"
+  },
+  "thiopental": {
+    "name": "Thiopental",
+    "substance_uid": "IUJDSEJGGMCXSG"
+  },
+  "thiopropamine": {
+    "name": "Thiopropamine",
+    "substance_uid": "MJRDCJBNRNAXIK",
+    "note": "dw frags=1 piru frags=2"
+  },
+  "tianeptine": {
+    "name": "Tianeptine",
+    "substance_uid": "APNKSKXHMUCNSY"
+  },
+  "tma-2": {
+    "name": "TMA-2",
+    "substance_uid": "TVSIMAWGATVNGK"
+  },
+  "tma-6": {
+    "name": "TMA-6",
+    "substance_uid": "DDGNOUVDFKXADP"
+  },
+  "tobacco": {
+    "name": "Nicotine",
+    "substance_uid": "SNICXCGAKADSCV"
+  },
+  "tramadol": {
+    "name": "Tramadol",
+    "substance_uid": "TVYLLZQTGLZFBW"
+  },
+  "trazodone": {
+    "name": "Trazodone",
+    "substance_uid": "PHLBKPHSAVXXEF"
+  },
+  "triazolam": {
+    "name": "Triazolam",
+    "substance_uid": "JOFWLTCLBGQGBO"
+  },
+  "u-47700": {
+    "name": "U-47700",
+    "substance_uid": "JGPNMZWFVRQNGU",
+    "note": "both resolved, different"
+  },
+  "valerylfentanyl": {
+    "name": "Valerylfentanyl",
+    "substance_uid": "VCCPXHWAJYWQMR"
+  },
+  "zaleplon": {
+    "name": "Zaleplon",
+    "substance_uid": "HUNXMJYCHXQEGX"
+  },
+  "zolpidem": {
+    "name": "Zolpidem",
+    "substance_uid": "ZAFYATHCZYHLPB"
+  },
+  "zopiclone": {
+    "name": "Zopiclone",
+    "substance_uid": "GBBSUAFBMRNDJC"
+  }
+}
