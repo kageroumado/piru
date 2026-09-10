@@ -82,6 +82,7 @@
     "substance_classes":         {"surface": "drugClass",            "note": "UNREAD — which substances belong to a class context"},
 
     "browse_extra_categories":   {"surface": null, "note": "browse plumbing"},
+    "source_field_priority":     {"surface": null, "note": "a source's rank for one field, replacing its position in the user's source order there; what reaches the screen is which source's overview wins"},
     "manifest":                  {"surface": null, "note": "build metadata"}
   },
 

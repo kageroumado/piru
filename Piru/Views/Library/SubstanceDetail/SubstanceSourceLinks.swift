@@ -20,6 +20,11 @@ enum SubstanceSourceLinks {
         if slug == "freeodwiki" {
             return AppSources.freeodwikiURL(slug: substance.freeodwikiSlug)
         }
+        // dose.wiki slugs are lowercase-hyphenated forms of names Piru often
+        // spells differently, so the captured slug is the only working link.
+        if slug == "dosewiki" {
+            return AppSources.dosewikiURL(slug: substance.dosewikiSlug)
+        }
         // The Shulgin books (PiHKAL/TiHKAL) only have a book homepage, not a
         // per-substance page. The citation carries the real chapter link, so
         // don't offer the misleading homepage — `mergedLinks` upgrades the

@@ -74,11 +74,12 @@
       "BD",
       "BDO",
       "Butylene Glycol",
+      "Liquid Fantasy",
       "One Comma Four",
       "One Four B-D-O",
       "One Four Bee",
-      "butane-1,4-DIOL",
-      "tetramethylene glycol"
+      "Tetramethylene glycol",
+      "butane-1,4-DIOL"
     ],
     "category": "Depressant",
     "display_class": "recreational",
@@ -375,6 +376,7 @@
       "1-(cyclopropanoyl)-LSD",
       "1-CPA-LSD",
       "1-cyclopropanecarbonyl-LSD",
+      "1-cyclopropanoyl-LSD",
       "1-cyclopropionyl-LSD",
       "1-环丙酰基-D-麦角酸二乙酰胺",
       "1cP",
@@ -644,7 +646,8 @@
     "name": "1V-LSD",
     "display_name": "",
     "aliases": [
-      "1-戊酰基-D-麦角酸二乙酰胺"
+      "1-戊酰基-D-麦角酸二乙酰胺",
+      "Valerie"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -1022,7 +1025,10 @@
       "DESOXY",
       "Desoxypipradol",
       "Desoxypipradrol",
-      "Ivory Wave"
+      "Ivory Wave",
+      "Pippy",
+      "Purple Wave",
+      "VanillaSky"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -1062,7 +1068,9 @@
       "2-F-ethylamphetamine",
       "2-Fluoroethamphetamine",
       "2-fluoroethylamphetamine",
-      "2-氟乙基苯丙胺"
+      "2-氟乙基苯丙胺",
+      "o-Fluoroethamphetamine",
+      "ortho-Fluoroethamphetamine"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -1505,7 +1513,9 @@
     "aliases": [
       "2-甲基-2-丁醇",
       "2M2B",
-      "tert-amyl alcohol"
+      "Amylene hydrate",
+      "TAA",
+      "tert-Amyl alcohol"
     ],
     "category": "Depressant",
     "display_class": "recreational",
@@ -2289,6 +2299,8 @@
     "aliases": [
       "25d",
       "2C-D-NBOMe",
+      "Divination",
+      "N-Bomb",
       "NBOMe-2C-D"
     ],
     "category": "Psychedelic",
@@ -2322,7 +2334,10 @@
   {
     "name": "25E-NBOH",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "2C-E-NBOH",
+      "NBOH-2C-E"
+    ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
@@ -2598,8 +2613,11 @@
       "25I",
       "2C-I-NBOMe",
       "Cimbi-5",
-      "N-bomb",
-      "NBOMe-2C-I"
+      "N-Bomb",
+      "NBOMe-2C-I",
+      "Smiles",
+      "Solaris",
+      "Wizard"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2856,8 +2874,12 @@
       "2cb",
       "BDMPEA",
       "Bees",
+      "Bromo Mescaline",
       "Bromo-mescaline",
+      "Erox",
       "Nexus",
+      "Performax",
+      "Tripstacy",
       "Venus"
     ],
     "category": "Psychedelic",
@@ -2887,7 +2909,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 111.0,
     "mechanism_summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
     "effects": [
       "Acuity enhancement",
@@ -2944,9 +2966,7 @@
       "https://en.wikipedia.org/wiki/2C-B",
       "https://erowid.org/library/books_online/pihkal/pihkal020.shtml"
     ],
-    "data_gaps": [
-      "half_life_minutes"
-    ]
+    "data_gaps": []
   },
   {
     "name": "2C-B-AN",
@@ -2986,8 +3006,8 @@
     "display_name": "",
     "aliases": [
       "2C-Bromo-FLY",
-      "2CBFLY",
-      "2cb-FLY"
+      "2CB-FLY",
+      "2CBFLY"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -3230,10 +3250,10 @@
     "aliases": [
       "2,5-二甲氧基-4-乙基苯乙胺",
       "2ce",
+      "Aquarust",
       "CAS 71539-34-9",
       "Eternity",
-      "aqua rust",
-      "aquarust"
+      "aqua rust"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -3568,6 +3588,7 @@
       "2C I",
       "2CI",
       "Cimbi-88",
+      "Smiles",
       "Smiles”"
     ],
     "category": "Psychedelic",
@@ -3781,7 +3802,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 1140.0,
     "mechanism_summary": "2C-P 是 2C 家族中一种相对强效且长效的致幻苯乙胺，同时也具有兴奋剂类型的效果。它最早由亚历山大·舒尔金在他的书 PiHKAL 中描述。\n\n2C-P 已被证明能产生各种强烈的 致幻 效果，从意识和感知的剧烈变化，到睁眼和闭眼视觉效果。按同等剂量计算，2C-P 被认为是 2C-x 化合物中最强的一种，只有 2C-TFM 能与之匹敌呢。\n\n2C-P 的 致幻 效果被认为来自于它作为 部分激动剂 对 5-HT2A 受体 的功效。然而，这些相互作用的作用以及它们如何导致 致幻 体验仍然是个谜哦。",
     "effects": [
       "Acuity enhancement",
@@ -3837,9 +3858,7 @@
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal036.shtml"
     ],
-    "data_gaps": [
-      "half_life_minutes"
-    ]
+    "data_gaps": []
   },
   {
     "name": "2C-P-NBOMe",
@@ -4199,7 +4218,8 @@
       "2CT4",
       "2c-t4",
       "2ct-4",
-      "PSI-2C-T-4"
+      "PSI-2C-T-4",
+      "T-4"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -4758,6 +4778,7 @@
       "SKF-5",
       "Sally",
       "Sass",
+      "Sass-a-frass",
       "Sassafras",
       "Tenamfetamine",
       "methylendioxyamphetamine"
@@ -4789,12 +4810,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 480.0,
+    "half_life_minutes": 654.0,
     "mechanism_summary": "Serotonin-Predominant Monoamine Releasing Agent",
     "effects": [],
     "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal100.shtml",
-      "Acute effects of MDMA, MDA, lysine-MDMA, and lysine-MDA in a randomized, double-blind, placebo-controlled, crossover trial in healthy participants"
+      "https://erowid.org/library/books_online/pihkal/pihkal100.shtml"
     ],
     "data_gaps": []
   },
@@ -4976,7 +4996,7 @@
       "3-CMC",
       "3-氯甲卡西酮",
       "3cmc",
-      "clophedrone",
+      "Clophedrone",
       "m-chloro-methcathinone"
     ],
     "category": "Stimulant",
@@ -5391,7 +5411,9 @@
     "display_name": "",
     "aliases": [
       "3-HO-Eticyclidine",
+      "3-Hydroxy PCE",
       "3-Hydroxyeticyclidine",
+      "3-OH-PCE",
       "3-hydroxy-PCE",
       "3HOPCE",
       "HO-PCE",
@@ -5438,6 +5460,7 @@
       "3-HOPCP",
       "3-Hydroxy-PCP",
       "3-Hydroxyphencyclidine",
+      "3-OH-PCP",
       "3hopcp",
       "Hydroxyphencyclidine"
     ],
@@ -5561,7 +5584,8 @@
       "3-MePCPy",
       "3-Methylrolicyclidine",
       "3-methyl-PCPy",
-      "M3ppy"
+      "M3ppy",
+      "Tolicyclidine"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -5594,7 +5618,9 @@
   {
     "name": "3-MEC",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "3-MeEC"
+    ],
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
@@ -5636,8 +5662,8 @@
       "3-Methoxy-eticyclidine",
       "3-Methoxyeticyclidine",
       "3meopce",
+      "Methoxieticyclidine",
       "Methoxyeticyclidine",
-      "methoxieticyclidine",
       "methoxyieticyclidine"
     ],
     "category": "Dissociative",
@@ -5740,12 +5766,14 @@
     "all_routes": [
       "inhalation",
       "insufflation",
-      "oral"
+      "oral",
+      "rectal"
     ],
     "routes_with_dose": [
       "inhalation",
       "insufflation",
-      "oral"
+      "oral",
+      "rectal"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -5998,9 +6026,12 @@
       "3-MEPH",
       "3-Methylmethcathinone",
       "3-mephedrone",
+      "3M",
       "3methylmethcathinone",
       "3mmc",
-      "Metaphedrone"
+      "Metaphedrone",
+      "mcat",
+      "meow"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -6743,7 +6774,7 @@
     "aliases": [
       "4-Acetoxy-DET",
       "Ethacetin",
-      "ethylacybin"
+      "Ethylacybin"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -6780,11 +6811,12 @@
     "name": "4-AcO-DiPT",
     "display_name": "",
     "aliases": [
+      "4-ACE",
       "4-Acetoxy-DiPT",
       "4acodipt",
       "Aces",
       "Ipracetin",
-      "iprocetyl"
+      "Iprocetyl"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -6948,7 +6980,8 @@
       "4-Acetoxy-MET",
       "4acomet",
       "Metacetin",
-      "O-Acetylmetocin"
+      "O-Acetylmetocin",
+      "O-Acetylmiprocin"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -6957,11 +6990,13 @@
       "research-chemical",
       "tryptamine"
     ],
-    "default_route": "oral",
+    "default_route": "inhalation",
     "all_routes": [
+      "inhalation",
       "oral"
     ],
     "routes_with_dose": [
+      "inhalation",
       "oral"
     ],
     "has_dose_data": true,
@@ -7893,7 +7928,8 @@
     "aliases": [
       "4-Fluoromethamphetamine",
       "4-fluromethamphetamine",
-      "4fma"
+      "4fma",
+      "para-Fluoromethamphetamine"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -8044,15 +8080,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 204.0,
     "mechanism_summary": "与大多数致幻性色胺一样，4-HO-DiPT 被认为主要作为 5-HT 受体部分激动剂发挥作用。人们认为其致幻效果源于 4-HO-DiPT 对 5-HT 受体的结合效能。然而，这些相互作用的具体角色以及它们如何导致致幻体验的过程，目前在科学界仍然是一个谜呢。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal17.shtml"
     ],
-    "data_gaps": [
-      "half_life_minutes"
-    ]
+    "data_gaps": []
   },
   {
     "name": "4-HO-DPT",
@@ -8532,7 +8566,8 @@
     "aliases": [
       "4-MeEC",
       "4-Methylethcathinone",
-      "4mec"
+      "4mec",
+      "NRG-2"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -8606,6 +8641,7 @@
     "name": "4-MeO-PCP",
     "display_name": "",
     "aliases": [
+      "4-Methoxy-PCP",
       "4-Methoxyphencyclidine",
       "4meopcp",
       "Methoxydine"
@@ -9697,7 +9733,7 @@
     "aliases": [
       "5apb",
       "Benzo Fury",
-      "benzofury"
+      "Benzofury"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -10453,12 +10489,16 @@
       "5meo",
       "5meodmt",
       "Bufo",
+      "Five-methoxy",
       "Jaguar",
       "MeODMT",
+      "Mebufotenin",
       "Methoxybufotenin",
       "Methylbufotenine",
+      "O-methylbufotenin",
       "O-methylbufotenine",
       "The God Molecule",
+      "The Power",
       "Toad",
       "bufotenine methyl ether",
       "toad venom",
@@ -10481,11 +10521,15 @@
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
-      "insufflation"
+      "insufflation",
+      "oral",
+      "sublingual"
     ],
     "routes_with_dose": [
       "inhalation",
-      "insufflation"
+      "insufflation",
+      "oral",
+      "sublingual"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -10686,11 +10730,13 @@
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
+      "insufflation",
       "oral",
       "sublingual"
     ],
     "routes_with_dose": [
       "inhalation",
+      "insufflation",
       "oral",
       "sublingual"
     ],
@@ -12302,6 +12348,8 @@
     "name": "Acetylfentanyl",
     "display_name": "",
     "aliases": [
+      "Acetyl Fentanyl",
+      "Desmethyl Fentanyl",
       "a-f",
       "acetyl-fentanyl",
       "乙酰芬太尼"
@@ -12323,8 +12371,12 @@
       "oral",
       "sublingual"
     ],
-    "routes_with_dose": [],
-    "has_dose_data": false,
+    "routes_with_dose": [
+      "insufflation",
+      "oral",
+      "sublingual"
+    ],
+    "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -12345,7 +12397,6 @@
     ],
     "references": [],
     "data_gaps": [
-      "dose_ranges_by_route",
       "half_life_minutes",
       "references"
     ]
@@ -12747,6 +12798,7 @@
     "name": "Adrafinil",
     "display_name": "",
     "aliases": [
+      "CRL 40028",
       "CRL-40,028",
       "Olmifon",
       "艾捉菲尼"
@@ -13346,7 +13398,7 @@
     "name": "ALEPH",
     "display_name": "",
     "aliases": [
-      "Aleph-1",
+      "ALEPH-1",
       "DOT",
       "para-DOT"
     ],
@@ -13676,6 +13728,7 @@
     "display_name": "",
     "aliases": [
       "AL",
+      "Allylmescaline",
       "烯丙沙林",
       "烯丙艾斯卡林"
     ],
@@ -14061,13 +14114,22 @@
     "aliases": [
       "Alprax",
       "Alprazolamum",
+      "Bars",
       "Cassadan",
+      "Footballs",
+      "Handlebars",
+      "Kalma",
       "Ksalol",
+      "Niravam",
       "Tafil",
       "Trankimazin",
       "Xanax",
+      "Xanbars",
+      "Xannies",
+      "Xans",
+      "Z-bars",
+      "Zannies",
       "Zopax",
-      "niravam",
       "prazolam",
       "贊安諾",
       "赞安诺",
@@ -14845,6 +14907,13 @@
       "Amylobarbitone",
       "Amytal",
       "Blue Heavens/Blues",
+      "Blue angels",
+      "Blue birds",
+      "Blue devils",
+      "Blue heavens",
+      "Blue velvet",
+      "Blues",
+      "Sodium Amytal",
       "Sodium amobarbital"
     ],
     "category": "Depressant",
@@ -14975,6 +15044,7 @@
       "Adzenys XR-ODT",
       "Amphetamine（安非他命）",
       "Attentin",
+      "Bennies",
       "Benzedrine",
       "DL-amphetamine",
       "Dex",
@@ -14982,6 +15052,7 @@
       "Dexamfetamine",
       "Dexedrine",
       "Dexedrine Spansule",
+      "Dexies",
       "Dextroamphetamine",
       "Dextroamphetamine-Amphetamine",
       "Dextrostat",
@@ -15011,14 +15082,12 @@
       "amphetamin",
       "amphetamines",
       "base",
-      "bennies",
       "beta-Aminopropylbenzene",
       "beta-Phenylisopropylamine",
       "beta-phenylisopropylamin",
       "black beauties",
       "d-amph",
       "desoxynorephedrine",
-      "dexies",
       "dextroamphetamine/amphetamine",
       "dextroamphetamine/dextroamphetamine/amphetamine/amphetamine",
       "goey",
@@ -15122,6 +15191,7 @@
       "IT-290",
       "IT-403",
       "Indopan",
+      "Spirals",
       "U-14,164E",
       "a-MT",
       "alphamethyltryptamine",
@@ -16288,6 +16358,7 @@
       "Fleqsuvy",
       "Gablofen",
       "Kemstro",
+      "Liofen",
       "Lioresal",
       "Lyvispah",
       "Ozobax",
@@ -16316,12 +16387,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 240.0,
     "mechanism_summary": "Selective GABA-B Receptor Agonist",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "references"
     ]
   },
@@ -18362,6 +18432,7 @@
       "Brozam",
       "Calmepam",
       "Creosedin",
+      "Durazanil",
       "Lectopam",
       "Lekotam",
       "Lexatin",
@@ -18410,6 +18481,8 @@
     "name": "Bromazolam",
     "display_name": "",
     "aliases": [
+      "Brom",
+      "Bromaz",
       "XLI-268",
       "xli268"
     ],
@@ -18449,6 +18522,8 @@
     "name": "Bromo-dragonfly",
     "display_name": "",
     "aliases": [
+      "3C-Bromo-Dragonfly",
+      "ABDF",
       "B-DFLY",
       "BDFLY",
       "DOB-DragonFLY",
@@ -18627,11 +18702,20 @@
     "name": "Brotizolam",
     "display_name": "",
     "aliases": [
+      "Bondormin",
+      "Brometon",
+      "Dormex",
+      "Goodmin",
       "Lendorm",
       "Lendormin",
+      "Lindormin",
       "Mederantil",
       "Nimbisan",
+      "Noctilan",
+      "Noxtal",
       "Sintonal",
+      "Sorentmin",
+      "WE-941",
       "WE-941-BS"
     ],
     "category": "Benzodiazepine",
@@ -18915,16 +18999,20 @@
       "Belbuca",
       "Brixadi / Buvidal",
       "Bunavail",
+      "Bupe",
       "Buprenex",
       "Butrans",
       "Cizdol",
+      "Oranges",
+      "Sobos",
+      "Strips",
       "Sublocade",
       "Suboxone",
+      "Subs",
       "Subutex",
+      "Temgesic",
       "Transtec",
       "Zubsolv",
-      "bupe",
-      "subs",
       "丁丙诺啡"
     ],
     "category": "Opioid",
@@ -18967,6 +19055,7 @@
     "name": "Bupropion",
     "display_name": "",
     "aliases": [
+      "Amfebutamone",
       "Aplenzin",
       "Forfivo",
       "Forfivo XL",
@@ -18974,7 +19063,6 @@
       "Wellbutrin SR",
       "Wellbutrin XL",
       "Zyban",
-      "amfebutamone",
       "威博隽",
       "安非他酮",
       "载班"
@@ -19283,6 +19371,7 @@
       "Caffeinum",
       "Caféine",
       "Coffein",
+      "Coffeine",
       "Guaranine",
       "Koffein",
       "Mateine",
@@ -19338,10 +19427,10 @@
       "Vasoconstriction",
       "Wakefulness"
     ],
-    "references": [
-      "Caffeine disposition in obesity."
-    ],
-    "data_gaps": []
+    "references": [],
+    "data_gaps": [
+      "references"
+    ]
   },
   {
     "name": "CagriSema",
@@ -19629,6 +19718,7 @@
       "Concentrates",
       "Dabs",
       "Flower",
+      "Ganja",
       "Grass",
       "Green",
       "Hash",
@@ -19916,6 +20006,8 @@
       "Carisoprodolum",
       "Isomeprobamate",
       "Isopropyl meprobamate",
+      "Mio Relax",
+      "Rela",
       "Soma",
       "Somadril",
       "Vanadom",
@@ -21780,6 +21872,7 @@
       "Noiafren",
       "Onfi",
       "Sympazan",
+      "Urbadan",
       "Urbanil",
       "Urbanol",
       "Urbanyl"
@@ -22029,9 +22122,12 @@
     "aliases": [
       "Clonapam",
       "Iktorivil",
+      "K",
+      "K-Pin",
       "K-Pins",
       "K-pins\"",
       "Klonopin",
+      "Pin",
       "RO 5-4023",
       "Rivotril",
       "kpin",
@@ -22454,6 +22550,7 @@
       "Girl",
       "Nose Candy",
       "Perico",
+      "Rock",
       "Roxanne",
       "Snow",
       "White",
@@ -22466,7 +22563,6 @@
       "freebase cocaine",
       "hard",
       "methyl benzoylecgonine",
-      "rock",
       "rocks",
       "supercoke",
       "yeyo",
@@ -22571,16 +22667,20 @@
     "display_name": "",
     "aliases": [
       "3-Methylmorphine",
+      "Act",
+      "Barre",
+      "Dirty Sprite",
+      "Drank",
       "Lean",
       "Promethazine+Codeine",
+      "Purp",
       "Purple Drank",
+      "Purple Stuff",
+      "Sizzurp",
       "Syrup",
-      "barre",
-      "drank",
+      "Texas Tea",
       "methylmorphine",
       "pint",
-      "sizzurp",
-      "texas tea",
       "wock",
       "可待因"
     ],
@@ -23863,7 +23963,18 @@
     "display_name": "",
     "aliases": [
       "Datura stramonium",
+      "Devil's Apple",
+      "Devil's Trumpet",
+      "Devil's Weed",
+      "Hell's Bells",
+      "Jamestown Weed",
       "Jimson Weed",
+      "Loco Seed",
+      "Malpitte",
+      "Moonflower",
+      "Stinkweed",
+      "Thorn Apple",
+      "Toloache",
       "jimsonweed",
       "曼陀罗属"
     ],
@@ -24075,7 +24186,10 @@
     "name": "Delorazepam",
     "display_name": "",
     "aliases": [
-      "nordiclazepam"
+      "Chlordesmethyldiazepam",
+      "Dadumir",
+      "EN",
+      "Nordiclazepam"
     ],
     "category": "Benzodiazepine",
     "display_class": "recreational",
@@ -24096,12 +24210,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 5850.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -24576,6 +24689,7 @@
     "name": "Desomorphine",
     "display_name": "",
     "aliases": [
+      "Croc",
       "Crocodile",
       "Deoxydihydromorphine D",
       "Dihydrodeoxymorphine",
@@ -24733,11 +24847,17 @@
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
-      "oral"
+      "insufflation",
+      "intravenous",
+      "oral",
+      "rectal"
     ],
     "routes_with_dose": [
       "inhalation",
-      "oral"
+      "insufflation",
+      "intravenous",
+      "oral",
+      "rectal"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -25473,10 +25593,18 @@
     "name": "Dihydrocodeine",
     "display_name": "",
     "aliases": [
+      "DF-118",
       "DF118",
+      "DH-Codeine",
       "DHC",
       "DHC Continus",
+      "Drocode",
       "Panlor DC",
+      "Paracodeine",
+      "Paramol",
+      "Parzone",
+      "Remedeine",
+      "Synalgos DC",
       "二氢可待因"
     ],
     "category": "Opioid",
@@ -25830,6 +25958,7 @@
       "Childrens Benadryl Dye-free Allergy",
       "Childrens Wal-dryl Allergy",
       "DPH",
+      "Dimedrol",
       "First Aid Shot Therapy Sleep Aid",
       "Good Sense Allergy Relief",
       "Good Sense Nighttime Sleep Aid",
@@ -25949,6 +26078,7 @@
     "aliases": [
       "1,2-DEP",
       "DEP",
+      "DND",
       "DPD",
       "DPH"
     ],
@@ -26626,15 +26756,19 @@
     "name": "DMT",
     "display_name": "",
     "aliases": [
+      "Businessman's Special",
+      "Businessman's Trip",
+      "DiMiTri",
       "Dimethyltryptamine",
-      "Dimitri",
       "Dmitry",
+      "Fantasia",
       "Indolalkylamine der",
       "Mimitryp",
       "N,N-DMT",
       "N,N-Dimethyltryptamine",
       "N,N-dimetiltriptamina",
       "N,N-二甲基色胺",
+      "Spirit Molecule",
       "The Glory",
       "The Spirit Molecule",
       "二甲基色胺"
@@ -26724,6 +26858,7 @@
       "3-Me-2'-oxo-PCE",
       "3D-MXE",
       "Deoxymethoxetamine",
+      "Warm-K",
       "脱氧甲氧基氯胺酮"
     ],
     "category": "Dissociative",
@@ -26737,11 +26872,13 @@
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
-      "oral"
+      "oral",
+      "sublingual"
     ],
     "routes_with_dose": [
       "insufflation",
-      "oral"
+      "oral",
+      "sublingual"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -26792,7 +26929,8 @@
       "4-溴-2,5-二甲氧基苯丙胺",
       "Brolamfetamine",
       "Brolamphetamine",
-      "Bromo-DMA"
+      "Bromo-DMA",
+      "Dimethoxybromoamphetamine"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -27000,6 +27138,7 @@
     "name": "DOET",
     "display_name": "",
     "aliases": [
+      "DMEA",
       "DOE",
       "HECATE"
     ],
@@ -28449,6 +28588,7 @@
     "aliases": [
       "Efedrina",
       "Ephedra",
+      "Isofedrol",
       "Ma huang",
       "racemic ephedrine"
     ],
@@ -28865,6 +29005,7 @@
     "name": "Escaline",
     "display_name": "",
     "aliases": [
+      "E",
       "艾斯卡林",
       "艾斯卡林d"
     ],
@@ -29085,6 +29226,7 @@
     "name": "ETH-LAD",
     "display_name": "",
     "aliases": [
+      "N-Ethyl-nor-LSD",
       "N6-ethyl-norlysergic acid diethylamide",
       "ethlad"
     ],
@@ -29356,6 +29498,7 @@
       "3-ethylmorphine",
       "Codethyline",
       "Dionine",
+      "Ethyl morphine",
       "乙基吗啡"
     ],
     "category": "Opioid",
@@ -29406,6 +29549,7 @@
     "name": "Ethylone",
     "display_name": "",
     "aliases": [
+      "3,4-MDEC",
       "MDEC",
       "bk-MDEA"
     ],
@@ -29604,13 +29748,14 @@
       "Dezolam",
       "Eticalm",
       "Etilaam",
+      "Etiz",
       "Etizest",
       "Etizex",
       "Etizola",
+      "Etizzy",
       "Pasaden",
       "Sedekopan",
       "Y-7131",
-      "etiz",
       "inxity",
       "lamet",
       "towa",
@@ -29879,6 +30024,7 @@
       "EDB",
       "N-Ethylbutylone",
       "bk-EBDB",
+      "euty",
       "β-keto-ethylbenzodioxolylbutanamine"
     ],
     "category": "Stimulant",
@@ -30438,16 +30584,28 @@
     "aliases": [
       "Abstral",
       "Actiq",
+      "Apache",
+      "China Girl",
+      "China White",
+      "Dance Fever",
       "Duragesic",
       "Durogesic",
+      "Fent",
       "Fentora",
+      "Fenty",
+      "Fetty",
+      "Friend",
+      "Goodfella",
       "Haldid",
       "Instanyl",
+      "Jackpot",
       "Lazanda",
       "Matrifen",
+      "Murder 8",
       "Onsolis",
       "Sublimaze",
-      "fent",
+      "TNT",
+      "Tango and Cash",
       "fentanil",
       "phentanyl",
       "吩坦尼",
@@ -30662,6 +30820,7 @@
       "4F-MCAT",
       "4fmc",
       "CAS 7589-39-7",
+      "drone",
       "fpephedrone"
     ],
     "category": "Stimulant",
@@ -30782,6 +30941,8 @@
     "name": "Flualprazolam",
     "display_name": "",
     "aliases": [
+      "2'-Fluoro-Alprazolam",
+      "F-Alp",
       "Flualp",
       "氟阿普唑仑"
     ],
@@ -30825,8 +30986,8 @@
     "aliases": [
       "F-bromazepam",
       "Fluorobromazepam",
+      "Iso-flubromazepam",
       "JYI-42",
-      "iso-flubromazepam",
       "氟溴西泮"
     ],
     "category": "Benzodiazepine",
@@ -30881,6 +31042,7 @@
     "display_name": "",
     "aliases": [
       "FBZ",
+      "Liquid Xanax",
       "f-lam",
       "flam"
     ],
@@ -31295,6 +31457,8 @@
     "name": "Flunitrazolam",
     "display_name": "",
     "aliases": [
+      "FNTZ",
+      "Flunazolam",
       "fln",
       "氟硝唑仑"
     ],
@@ -31311,7 +31475,8 @@
     ],
     "default_route": "oral",
     "all_routes": [
-      "oral"
+      "oral",
+      "sublingual"
     ],
     "routes_with_dose": [
       "oral"
@@ -32568,6 +32733,7 @@
       "DM-1796",
       "Gabapentinum",
       "Gabarone",
+      "Gabbies",
       "Gralise",
       "Horizant",
       "Neurontin",
@@ -32814,9 +32980,12 @@
     "aliases": [
       "1,2-Butanolide",
       "1,4-butanolide",
+      "1,4-lactone",
       "1,4-内酯",
+      "4-butyrolactone",
       "4-丁内酯",
       "4-羟基丁酸内酯",
+      "Blue Nitro",
       "Butyrolactone",
       "Easy Lay",
       "G",
@@ -32827,7 +32996,10 @@
       "Juice",
       "Liquid Ecstasy",
       "Liquid X",
+      "Renewtrient",
+      "Revivarant",
       "Scoop",
+      "gamma-BL",
       "γ-butyrolactone",
       "γ-丁内酯",
       "γ-羟基丁酸内酯",
@@ -34103,14 +34275,21 @@
     "aliases": [
       "3,6-Diacetylmorphine",
       "Black tar",
+      "Boy",
       "Brown",
+      "Chiva",
       "Diacetylmorphine",
       "Diamorphine",
+      "Dope",
+      "Gear",
       "H",
+      "Hammer",
+      "Harry",
       "Horse",
       "Junk",
       "No.3",
       "No.4",
+      "Skag",
       "Smack",
       "二乙酰吗啡",
       "垃圾",
@@ -34133,12 +34312,14 @@
     "all_routes": [
       "inhalation",
       "insufflation",
-      "intravenous"
+      "intravenous",
+      "oral"
     ],
     "routes_with_dose": [
       "inhalation",
       "insufflation",
-      "intravenous"
+      "intravenous",
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -34765,7 +34946,8 @@
     "aliases": [
       "3-HO-2'-氧代-PCE",
       "3-HO-2-oxo-PCE",
-      "Hydroxetamine"
+      "Hydroxetamine",
+      "O-desmethyl Methoxetamine"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -34899,14 +35081,20 @@
     "aliases": [
       "Co-Gesic",
       "Dihydrocodeinone",
+      "Hycodan",
+      "Hydro",
       "Hydrocodone polistirex",
       "Hysingla ER",
+      "Lorcet",
       "Lortab",
       "Norco",
       "Tussionex",
       "Vicodin",
+      "Vicoprofen",
+      "Vics",
+      "Vike",
+      "Watson-387",
       "Zohydro ER",
-      "hydro",
       "氢可酮",
       "氫可酮"
     ],
@@ -35073,12 +35261,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 138.0,
     "mechanism_summary": "Hydromorphone is a semisynthetic full opioid agonist that binds to opioid receptors (primarily mu-opioid receptors) blocking transmission of nociceptive signals and inhibiting other pain pathways. The primary therapeutic action is analgesia, however, this agent also exhibits dose-related degrees of anxiolysis, euphoria, sedation, respiratory depression, and gastrointestinal system smooth muscle contraction.",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "references"
     ]
   },
@@ -35127,6 +35314,10 @@
     "display_name": "",
     "aliases": [
       "Atarax",
+      "Ataraxoid",
+      "Hyzine",
+      "Rezine",
+      "Vistaject",
       "Vistaril",
       "羟嗪"
     ],
@@ -35204,6 +35395,7 @@
       "Iboga",
       "Iboga TA (total alkaloid) extract",
       "Ibogamine-class indole alkaloid",
+      "NIH 10567",
       "T. iboga root bark",
       "Tabernanthe iboga",
       "伊博格碱"
@@ -37147,8 +37339,11 @@
     "name": "Ketamine",
     "display_name": "",
     "aliases": [
+      "2-CL-2'-oxo-PCM",
+      "2-CXM",
       "Arketamine",
       "Cat Tranquilizer",
+      "Cat Valium",
       "Esketamine",
       "JNJ-54135419",
       "Jet",
@@ -37158,6 +37353,7 @@
       "Ketanest",
       "Ketanest S",
       "Ketaset",
+      "Kit Kat",
       "Kitty",
       "K他命",
       "K粉",
@@ -37421,26 +37617,37 @@
   {
     "name": "Khat",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "Abyssinian Tea",
+      "Arabian Tea",
+      "Bushman's Tea",
+      "Chat",
+      "Gat",
+      "Jaad",
+      "Kat",
+      "Miraa",
+      "Qaad",
+      "Qat"
+    ],
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "habit-forming"
     ],
-    "default_route": "",
-    "all_routes": [],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
     "routes_with_dose": [],
     "has_dose_data": false,
-    "has_duration_data": false,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 180.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -38416,9 +38623,10 @@
       "L-赖氨酸-右旋苯丙胺",
       "LDX",
       "Lisdexamphetamine",
+      "Lisdextroamphetamine",
+      "Tyvense",
       "Vyvanse",
       "lisdextroamfetamine",
-      "lisdextroamphetamine",
       "利右苯丙胺",
       "利右苯丙胺（Lisdexamfetamine）"
     ],
@@ -39025,8 +39233,9 @@
     "display_name": "",
     "aliases": [
       "Ergine",
+      "LA-111",
       "Morning",
-      "d-lysergamide",
+      "d-Lysergamide",
       "d-lysergic acid amide",
       "d-麦角酸酰胺",
       "hbmg",
@@ -39117,6 +39326,7 @@
       "LSD 25",
       "LSD-25",
       "Lucy",
+      "Lysergide",
       "N,N-diethyllysergamide",
       "Tabs",
       "blotter acid",
@@ -39127,7 +39337,6 @@
       "lysergic acid amide",
       "lysergic acid diethylamide",
       "lysergic acid diethylamide-25",
-      "lysergide",
       "mellow yellow",
       "microdot",
       "window pane",
@@ -40665,9 +40874,12 @@
       "Cloud Nine",
       "Ivory Wave",
       "MDPK",
+      "Magic",
       "Methylenedioxypyrovalerone",
+      "Monkey Dust",
       "NRG-1",
       "NRG-1,3,4-亚甲双氧基吡咯戊酮",
+      "Super Coke",
       "Vanilla Sky",
       "bath_salts"
     ],
@@ -41098,6 +41310,7 @@
       "Melatol",
       "Melatonin (synth.) standard-grade",
       "Melatonin (synth.) ultra-pure",
+      "Melatonine",
       "Melatoninum",
       "Melovine",
       "Pineal hormone",
@@ -41209,6 +41422,7 @@
       "Memaxa",
       "Namenda",
       "Namenda XR",
+      "Namzaric",
       "Namzaric (with donepezil",
       "both extended-release)",
       "美金刚"
@@ -41589,7 +41803,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 237.0,
     "mechanism_summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
     "effects": [
       "Acuity enhancement",
@@ -41641,9 +41855,7 @@
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal168.shtml"
     ],
-    "data_gaps": [
-      "half_life_minutes"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Mesyl Sal B",
@@ -41886,9 +42098,14 @@
     "display_name": "",
     "aliases": [
       "Adolan",
+      "Amidone",
+      "Biscuits",
+      "Chocolate Chip Cookies",
       "Depridol",
       "Diskets",
+      "Dolls",
       "Dolophine",
+      "Fizzies",
       "Heptadon",
       "Heptanon",
       "Ketalgin",
@@ -41898,7 +42115,11 @@
       "Methadonum",
       "Methadose",
       "Methadose Dispersible",
+      "Metho",
+      "Mud",
       "Physeptone",
+      "Polamidon",
+      "Wafers",
       "dl-methadone",
       "美沙冬",
       "美沙酮"
@@ -42194,16 +42415,24 @@
     "display_name": "",
     "aliases": [
       "714s",
+      "Disco biscuits",
       "Dr. Jekyll and Mr. Hyde",
+      "Lemmon 714",
+      "Lemons",
       "Ludes",
+      "Mandies",
       "Mandrakes",
       "Mandrax",
       "Mequelone",
+      "Mequin",
+      "Parest",
       "Quaalude",
       "Quaaludes",
       "Quack",
       "Quacks",
+      "Rorer 714",
       "Soaper",
+      "Soapers",
       "Sopes",
       "Sopor",
       "Vitamin Q",
@@ -42269,12 +42498,16 @@
       "Bathtub Speed",
       "Cadillac Express",
       "Cat",
+      "Catnip",
       "Cosmos",
       "Ephedrone",
       "Gagers",
       "Gaggers",
       "Goog",
+      "Intash",
       "Jeff",
+      "Kat",
+      "M-Kat",
       "MC",
       "Methcat",
       "Mulka",
@@ -42400,6 +42633,7 @@
     "name": "Methiopropamine",
     "display_name": "",
     "aliases": [
+      "Blow",
       "MPA",
       "甲基噻吩丙胺"
     ],
@@ -42410,14 +42644,18 @@
       "habit-forming",
       "research-chemical"
     ],
-    "default_route": "insufflation",
+    "default_route": "inhalation",
     "all_routes": [
+      "inhalation",
       "insufflation",
-      "oral"
+      "oral",
+      "rectal"
     ],
     "routes_with_dose": [
+      "inhalation",
       "insufflation",
-      "oral"
+      "oral",
+      "rectal"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -43304,6 +43542,7 @@
     "aliases": [
       "Adhansia XR",
       "Aptensio XR",
+      "Attenade",
       "Biphentin",
       "Biphentin/Equasym XL/Medikinet XL",
       "Concerta",
@@ -43311,12 +43550,15 @@
       "Daytrana",
       "Dexmethylphenidate",
       "Dexmethylphenidate Hydrochloride Extended-release",
+      "Diet Coke",
       "Equasym",
       "Equasym XL",
       "Focalin",
       "Focalin XR",
       "Foquest",
       "Jornay PM",
+      "Kibbles and bits",
+      "Kiddie cocaine",
       "MPH",
       "Medikinet",
       "Medikinet Retard",
@@ -43327,9 +43569,12 @@
       "Methylin",
       "Methylphenidate Hcl Oral Solution",
       "Methylphenidate-transdermal",
+      "Pineapple",
+      "Poor man's cocaine",
       "Quillichew ER",
       "Quillivant XR",
       "Quillivant/QuilliChew",
+      "R-ball",
       "Relexxii",
       "Relexxii Ritalin",
       "Riphenidate",
@@ -43337,7 +43582,11 @@
       "Ritalin LA",
       "Ritalin SR",
       "Rubifen SR",
+      "Skippy",
+      "The smart drug",
+      "Vitamin R",
       "d,l-threo-methylphenidate",
+      "d-MPH",
       "d-threo-methylphenidate",
       "利他林",
       "哌甲酯",
@@ -43499,7 +43748,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 204.0,
     "mechanism_summary": "",
     "effects": [
       "Amnesia",
@@ -43520,7 +43769,6 @@
     ],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -43917,14 +44165,16 @@
       "habit-forming",
       "imidazobenzodiazepine"
     ],
-    "default_route": "intramuscular",
+    "default_route": "insufflation",
     "all_routes": [
+      "insufflation",
       "intramuscular",
       "intravenous",
       "oral",
       "rectal"
     ],
     "routes_with_dose": [
+      "insufflation",
       "intramuscular",
       "intravenous",
       "oral",
@@ -44390,9 +44640,21 @@
     "display_name": "",
     "aliases": [
       "9-methoxycorynantheidine",
+      "Biak",
+      "Biak-Biak",
+      "Ithang",
+      "Kakuam",
+      "Ketum",
+      "Krathom",
       "MG",
       "MIT",
-      "SK&F 12711"
+      "Madat",
+      "Maeng Da",
+      "Mambog",
+      "Mitragynine speciosa",
+      "SK&F 12711",
+      "Thang",
+      "Thom"
     ],
     "category": "Opioid",
     "display_class": "recreational",
@@ -44731,6 +44993,7 @@
       "Modalert",
       "Modavigil",
       "Modiodal",
+      "Modvigil",
       "Neoresotyl",
       "Nuvigil",
       "Provigil",
@@ -44991,6 +45254,7 @@
     "aliases": [
       "Arymo ER",
       "Avinza",
+      "Dreamer",
       "Duramorph",
       "Embeda",
       "God’s Drug",
@@ -45003,6 +45267,7 @@
       "MSIR",
       "Miss Emma",
       "Mister Blue",
+      "Monkey",
       "Morf",
       "Morphabond",
       "Morphia",
@@ -45015,6 +45280,7 @@
       "Sevredol",
       "Statex",
       "Unkie",
+      "White Stuff",
       "Zomorph",
       "吗啡",
       "嗎啡"
@@ -45470,8 +45736,11 @@
     "name": "Myristicin",
     "display_name": "",
     "aliases": [
+      "Jaiphal",
       "MMDA-precursor",
+      "Mace",
       "Nutmeg",
+      "Pala",
       "constituent of Myristica fragrans (nutmeg) and mace",
       "nutmeg principal",
       "principal aromatic ether in nutmeg oil",
@@ -45640,6 +45909,7 @@
       "alpha-ethylaminopentiophenone",
       "nor",
       "α-EAPP",
+      "α-ethylamino-valerophenone",
       "α-ethylaminopentiophenone"
     ],
     "category": "Stimulant",
@@ -46659,6 +46929,7 @@
       "Good Neighbor Pharmacy Nicotine",
       "Members Mark Nicotine",
       "NRT",
+      "Nic",
       "Nicoderm CQ",
       "Nicorette",
       "Nicotine Polacrilex",
@@ -46759,6 +47030,8 @@
     "display_name": "",
     "aliases": [
       "3-Hydroxydesmethylflunitrazepam",
+      "3-OH-Norflunitrazepam",
+      "DP 370",
       "尼氟西泮"
     ],
     "category": "Benzodiazepine",
@@ -46944,12 +47217,24 @@
     "name": "Nitrazepam",
     "display_name": "",
     "aliases": [
+      "Alodorm",
+      "Apodorm",
+      "Arem",
+      "Dumolid",
+      "Insoma",
       "Mogadon",
       "N05CD02",
+      "Nitrados",
+      "Nitrazadon",
       "Nitrazepamum",
       "Nitrazépam",
+      "Ormodon",
+      "Paxadorm",
       "RO 4-5360",
       "RO 5-3059",
+      "Radedorm",
+      "Remnos",
+      "Somnite",
       "baronite",
       "dormin",
       "dreem",
@@ -48384,10 +48669,15 @@
     "name": "Oxazepam",
     "display_name": "",
     "aliases": [
+      "Alepam",
+      "Ceresta",
+      "Murelax",
+      "Praxiten",
       "Serax",
       "Serepax",
       "Seresta",
       "Sobril",
+      "Tazepam",
       "Zaxopam"
     ],
     "category": "Benzodiazepine",
@@ -48534,22 +48824,27 @@
       "Codilek",
       "Dihydrohydroxycodeinone",
       "Endone",
+      "Hillbilly Heroin",
+      "O.C.",
       "Oxaydo",
       "Oxecta",
       "Oxy",
       "OxyContin",
       "OxyIR",
+      "OxyNEO",
       "Oxycodonum",
+      "Oxycotton",
       "Oxydor",
       "Oxygesic",
       "Oxynor",
+      "Oxynorm",
       "Percocet",
       "Percodan",
       "Percs",
       "Redocam",
       "Roxicodone",
+      "Roxies",
       "Xtampza ER",
-      "oxynorm",
       "羟考酮",
       "羥考酮"
     ],
@@ -48673,6 +48968,7 @@
     "aliases": [
       "Numorphan",
       "Opana",
+      "Stop Signs",
       "stopsigns",
       "羟吗啡酮"
     ],
@@ -49229,6 +49525,8 @@
     "name": "PCE",
     "display_name": "",
     "aliases": [
+      "CI-400",
+      "Cyclohexamine",
       "Eticyclidine"
     ],
     "category": "Dissociative",
@@ -49637,8 +49935,9 @@
     "display_name": "",
     "aliases": [
       "Nembutal",
+      "Pentobarbitone",
+      "Yellow Jackets",
       "novopentobarb",
-      "pentobarbitone",
       "戊巴比妥"
     ],
     "category": "Depressant",
@@ -49973,10 +50272,14 @@
     "name": "Phenazepam",
     "display_name": "",
     "aliases": [
+      "Bonsai",
       "Bonsai supersleep",
       "Bromdihydrochlorphenylbenzodiazepine",
+      "Fenaz",
       "Fenazepam",
+      "Panda",
       "Phenzitat",
+      "Soviet Benzo",
       "Феназепам",
       "芬纳西泮"
     ],
@@ -50219,9 +50522,12 @@
     "display_name": "",
     "aliases": [
       "Anvifen",
+      "Bifren",
+      "Citrocard",
       "Fenibut",
       "Noofen",
       "PhGABA",
+      "Phenigam",
       "Phenybut",
       "phenigamma",
       "β-phenyl-GABA",
@@ -50977,6 +51283,7 @@
     "name": "Pipradrol",
     "display_name": "",
     "aliases": [
+      "Alertonic",
       "Meratran",
       "diphenyl(piperidin-2-yl)methanol"
     ],
@@ -51050,10 +51357,12 @@
       "Euvifor",
       "Gabacet",
       "Genogris",
+      "Geratam",
       "Lucetam",
       "Memo-Puren",
       "Memotopil",
       "Nootron",
+      "Nootrop",
       "Nootropil",
       "Nootropyl",
       "Normabrain",
@@ -51064,7 +51373,6 @@
       "UCB-6215",
       "biotropil",
       "breinox",
-      "geratam",
       "noostan",
       "oikamid",
       "吡拉西坦"
@@ -51841,6 +52149,7 @@
       "Nervalin",
       "PD-144723",
       "PGB",
+      "Pregab",
       "pregablin",
       "α2δ calcium-channel ligand",
       "普瑞巴林"
@@ -52341,13 +52650,22 @@
     "name": "Propranolol",
     "display_name": "",
     "aliases": [
+      "Anaprilin",
+      "Avlocardyl",
+      "Bedranol SR",
+      "Ciplar",
+      "Deralin",
+      "Dociton",
       "Hemangeol",
       "Hemangiol",
       "Inderal",
       "Inderal IR",
       "Inderal LA",
+      "Inderal XL",
+      "Inderalici",
       "InnoPran XL",
       "LA & XR",
+      "Sumial",
       "innopran"
     ],
     "category": "Cardiovascular",
@@ -52775,6 +53093,14 @@
     "aliases": [
       "4-PO-DMT",
       "4-磷酰氧基-N,N-二甲基色胺",
+      "Boomers",
+      "Magic Mushrooms",
+      "Magic Truffles",
+      "Mushies",
+      "Psilocybe",
+      "Psychedelic Mushrooms",
+      "Shrooms",
+      "Teonanacatl",
       "indocybin",
       "psilocin phosphate ester",
       "psilocybine",
@@ -53202,6 +53528,7 @@
     "display_name": "",
     "aliases": [
       "Pirazolam",
+      "SH-I-04",
       "吡溴唑仑"
     ],
     "category": "Benzodiazepine",
@@ -53514,6 +53841,9 @@
     "name": "Quetiapine",
     "display_name": "",
     "aliases": [
+      "Derin",
+      "Ketilept",
+      "Ketipinor",
       "Seroquel",
       "Seroquel XR"
     ],
@@ -55517,6 +55847,8 @@
     "name": "Scopolamine",
     "display_name": "",
     "aliases": [
+      "Burundanga",
+      "Devil's Breath",
       "Hyoscine",
       "Hyoscine butylbromide",
       "Transderm Scop",
@@ -55625,9 +55957,13 @@
     "name": "Secobarbital",
     "display_name": "",
     "aliases": [
+      "Quinalbarbitone",
+      "Red Birds",
+      "Red Devils",
+      "Reds",
       "Secobarbitone",
       "Seconal",
-      "quinalbarbitone",
+      "Seggy",
       "司可巴比妥",
       "司可巴比妥酮",
       "速可眠"
@@ -55650,12 +55986,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 1650.0,
     "mechanism_summary": "GABA-A Positive Allosteric Modulator (Barbiturate)",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "references"
     ]
   },
@@ -57281,7 +57616,9 @@
     "display_name": "",
     "aliases": [
       "Nucynta",
+      "Nucynta ER",
       "Palexia",
+      "Palexia SR",
       "Yantil",
       "Yantil SR",
       "塔喷他多"
@@ -57562,13 +57899,21 @@
     "display_name": "",
     "aliases": [
       "Apo-Temazepam",
+      "Eggs",
       "Euhypnos",
+      "Green Eggs",
+      "Jellies",
+      "King Kong Pills",
+      "Mazzies",
+      "Methyloxazepam",
       "Normison",
+      "Norries",
       "Remestan",
       "Restoril",
+      "Rugby Balls",
       "Temaze",
+      "Tems",
       "duck eggs",
-      "jellies",
       "替马西泮"
     ],
     "category": "Benzodiazepine",
@@ -58258,6 +58603,8 @@
       "Penthiobarbital",
       "Pentothal",
       "Sodipental",
+      "Sodium pentothal",
+      "Sodium thiopental",
       "Thiomebumal",
       "Thionembutal",
       "Thiopental Sodium",
@@ -58602,12 +58949,16 @@
     "display_name": "",
     "aliases": [
       "Coaxil",
+      "Pegasus",
       "Stablon",
       "Stablon sodium salt",
       "Tatinol",
       "Tianeptin",
       "Tianeptine sodium",
       "Tianeptine sulfate",
+      "Tianna Red",
+      "ZaZa",
+      "gas station heroin",
       "tianeptine Na",
       "噻奈普汀",
       "塔提诺",
@@ -59052,7 +59403,8 @@
       "2,4,5-TMA",
       "2,4,5-Trimethoxyamphetamine",
       "2,4,5-三甲氧基苯丙胺",
-      "5-Trimethoxyamphetamine"
+      "5-Trimethoxyamphetamine",
+      "DOMeO"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -59178,7 +59530,8 @@
     "display_name": "",
     "aliases": [
       "2,4,6-trimethoxyamphetamine",
-      "2,4,6-三甲氧基苯丙胺"
+      "2,4,6-三甲氧基苯丙胺",
+      "Ψ-TMA-2"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -59561,6 +59914,8 @@
     "aliases": [
       "ConZip",
       "Qdolo",
+      "Ralivia",
+      "Ryzolt",
       "Tadol",
       "Tramacur",
       "Tramadol Er",
@@ -59696,10 +60051,14 @@
     "aliases": [
       "AF-1161",
       "Desyrel",
+      "Desyrel Dividose",
+      "Donaren",
       "Molipaxin",
       "Oleptro",
+      "Raldesy",
       "Thombran",
       "Trazolan",
+      "Trazorel",
       "Trittico"
     ],
     "category": "Antidepressant",
@@ -59864,7 +60223,12 @@
     "name": "Triazolam",
     "display_name": "",
     "aliases": [
+      "Apo-Triazo",
       "Halcion",
+      "Hypam",
+      "Novodorm",
+      "Trilam",
+      "Up Johns",
       "三唑仑"
     ],
     "category": "Benzodiazepine",
@@ -60245,6 +60609,10 @@
     "name": "U-47700",
     "display_name": "",
     "aliases": [
+      "Pink",
+      "Pink Heroin",
+      "Pinky",
+      "U4",
       "u47700"
     ],
     "category": "Opioid",

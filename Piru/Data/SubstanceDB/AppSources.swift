@@ -40,6 +40,13 @@ enum AppSources {
             license: "CC BY-SA 4.0",
         ),
         SourceInfo(
+            name: "dose.wiki",
+            url: "https://dose.wiki",
+            detail: "dose.wiki",
+            description: "Public-domain substance encyclopedia compiled from PsychonautWiki, TripSit and Erowid, with each article marked for whether a subject-matter expert has read it. Piru reads its chemistry into fields nothing else fills, and takes its dosage, duration and receptor tables only from reviewed articles.",
+            license: "CC0 1.0",
+        ),
+        SourceInfo(
             name: "DrugBank",
             url: "https://go.drugbank.com",
             detail: "go.drugbank.com",
@@ -106,6 +113,7 @@ enum AppSources {
         "erowid-pihkal": "PiHKAL",
         "erowid-tihkal": "TiHKAL",
         "freeodwiki": "FreeOD Wiki",
+        "dosewiki": "dose.wiki",
     ]
 
     /// Deep link to a FreeOD Wiki substance page. The pages are titled in
@@ -122,6 +130,19 @@ enum AppSources {
         else { return nil }
         // MkDocs renders each page as `药物/<title>.html` (not a directory URL).
         return URL(string: "https://freeodwiki.org/药物/\(encoded).html")
+    }
+
+    /// Deep link to a dose.wiki substance page. Its slugs are lowercase-
+    /// hyphenated forms of names Piru often spells differently, so the
+    /// per-substance `dosewiki_slug` captured at build time is required.
+    ///
+    /// Returns `nil` rather than the site root, for the reason spelled out on
+    /// ``freeodwikiURL(slug:)``.
+    static func dosewikiURL(slug: String?) -> URL? {
+        guard let slug, !slug.isEmpty,
+              let encoded = slug.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+        else { return nil }
+        return URL(string: "https://dose.wiki/\(encoded)")
     }
 
     /// Deep link to a source's page for a substance, keyed by the DB `slug`

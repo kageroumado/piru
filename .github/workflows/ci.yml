@@ -149,6 +149,8 @@ jobs:
         run: python3 pipeline/build/tests/test_medtap_pk.py
       - name: PSID assignment and stability
         run: python3 pipeline/build/tests/test_psid.py
+      - name: dose.wiki snapshot, join and ingest gates
+        run: python3 pipeline/build/tests/test_dosewiki.py
 
   swift-lint:
     name: Swift (format + lint)

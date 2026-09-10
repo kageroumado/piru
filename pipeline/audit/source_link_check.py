@@ -202,6 +202,15 @@ def freeodwiki_url(sub: Substance) -> str | None:
     return "https://freeodwiki.org/药物/" + swift_path_encode(sub.freeodwiki_slug) + ".html"
 
 
+def dosewiki_url(sub: Substance) -> str | None:
+    # dose.wiki slugs are lowercase-hyphenated forms of names Piru often spells
+    # differently, so the build captures `dosewiki_slug`; without one the app
+    # offers no link, which is NO_LINK rather than HOMEPAGE.
+    if not sub.dosewiki_slug:
+        return None
+    return "https://dose.wiki/" + swift_path_encode(sub.dosewiki_slug)
+
+
 def drug_community_url(sub: Substance) -> str | None:
     # SubstanceSourceLinks returns nil without the captured slug (the site has no
     # alias fallback), so a missing slug is NO_LINK, not a homepage.
@@ -277,6 +286,14 @@ SOURCES: dict[str, SourceSpec] = {
             "page",
             freeodwiki_url,
             control="MDMA",
+        ),
+        SourceSpec(
+            "dosewiki",
+            "dose.wiki",
+            "https://dose.wiki",
+            "page",
+            dosewiki_url,
+            control="mdma",
         ),
         SourceSpec(
             "drug.community",
@@ -433,6 +450,7 @@ class Substance:
     aliases: list[str]
     freeodwiki_slug: str | None
     drug_community_slug: str | None
+    dosewiki_slug: str | None
 
     def mention_terms(self) -> list[str]:
         """Names a real page for this substance should contain. Short Latin
@@ -470,10 +488,10 @@ def load_pairs(db_path: Path) -> tuple[dict[int, Substance], list[tuple[str, int
     try:
         substances: dict[int, Substance] = {}
         for row in conn.execute(
-            "SELECT id, canonical_name, display_name, freeodwiki_slug, drug_community_slug "
-            "FROM substances"
+            "SELECT id, canonical_name, display_name, freeodwiki_slug, drug_community_slug, "
+            "dosewiki_slug FROM substances"
         ):
-            substances[row[0]] = Substance(row[0], row[1], row[2], [], row[3], row[4])
+            substances[row[0]] = Substance(row[0], row[1], row[2], [], row[3], row[4], row[5])
         for sid, alias in conn.execute("SELECT substance_id, alias FROM aliases"):
             if sid in substances:
                 substances[sid].aliases.append(alias)
@@ -1013,7 +1031,15 @@ def working_alias(spec: SourceSpec, sub: Substance, throttle: HostThrottle) -> s
         if normalize_for_match(alias) == normalize_for_match(sub.name):
             continue
         candidate = spec.build(
-            Substance(sub.id, alias, None, [], sub.freeodwiki_slug, sub.drug_community_slug)
+            Substance(
+                sub.id,
+                alias,
+                None,
+                [],
+                sub.freeodwiki_slug,
+                sub.drug_community_slug,
+                sub.dosewiki_slug,
+            )
         )
         if not candidate:
             continue

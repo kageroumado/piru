@@ -24,6 +24,8 @@ if [ "$MODE" = "full" ]; then
   # drug.community is a manual snapshot → data/sources/drug-community.json (no script)
   step "1b/8 Fetch SubFxOnEx ontology → data/sources/subfxonex.json"
   python3 pipeline/fetch/subfxonex.py
+  step "1c/8 Fetch dose.wiki published articles → data/sources/dosewiki.json"
+  python3 pipeline/fetch/dosewiki.py
 
   step "2/8  Merge scraped web sources (Swift collector) → data/intermediate/sourced-substances.json"
   # TripSit + Wikidata + PubChem + Erowid + DEA. The collector also reads the
@@ -74,6 +76,7 @@ python3 pipeline/build/tests/test_overlay_integrity.py
 python3 pipeline/build/tests/test_psid.py
 python3 pipeline/build/tests/test_product_codes.py
 python3 pipeline/fetch/brushers/test_freeodwiki_extract.py
+python3 pipeline/build/tests/test_dosewiki.py
 python3 pipeline/build/tests/test_drugbank_adjudications.py
 
 step "10/10  Citation link gate (offline — no network)"

@@ -826,6 +826,12 @@
   "title": "Drug-drug interactions between psychiatric medications and MDMA or psilocybin: a systematic review",
   "year": 2022
  },
+ "doi:10.1007/s00213-022-06279-2": {
+  "journal": "Psychopharmacology",
+  "subjects": [],
+  "title": "Use of the head-twitch response to investigate the structure-activity relationships of 4-thio-substituted 2,5-dimethoxyphenylalkylamines",
+  "year": "2023"
+ },
  "doi:10.1007/s00216-008-2486-x": {
   "journal": "Analytical and Bioanalytical Chemistry",
   "subjects": [],
@@ -1072,6 +1078,12 @@
   "subjects": [],
   "title": "",
   "year": ""
+ },
+ "doi:10.1016/0024-3205(91)90150-a": {
+  "journal": "Life sciences",
+  "subjects": [],
+  "title": "Mu receptor binding of some commonly used opioids and their metabolites",
+  "year": "1991"
  },
  "doi:10.1016/0024-3205(93)90152-s": {
   "journal": "Life Sciences",
@@ -1718,6 +1730,12 @@
   "title": "Receptor interaction profiles of novel N-2-methoxybenzyl (NBOMe) derivatives of 2,5-dimethoxy-substituted phenethylamines (2C drugs)",
   "year": 2015
  },
+ "doi:10.1016/j.neuropharm.2016.06.017": {
+  "journal": "Neuropharmacology",
+  "subjects": [],
+  "title": "Inhibition of Rac1 activity in the hippocampus impaired extinction of contextual fear",
+  "year": 2016
+ },
  "doi:10.1016/j.neuropharm.2016.08.004": {
   "journal": "Neuropharmacology",
   "subjects": [],
@@ -1876,6 +1894,12 @@
   "subjects": [],
   "title": "Binding of ligands to the aryl hydrocarbon receptor: An overview of methods",
   "year": 2025
+ },
+ "doi:10.1016/j.vascn.2019.106583": {
+  "journal": "Journal of Pharmacological and Toxicological Methods",
+  "subjects": [],
+  "title": "Assessment of NMDA receptor inhibition of phencyclidine analogues using a high-throughput drebrin immunocytochemical assay",
+  "year": 2019
  },
  "doi:10.1016/j.yebeh.2011.03.009": {
   "journal": "Epilepsy &amp; Behavior",
@@ -4653,6 +4677,12 @@
   "title": "Memantine blocks alpha7* nicotinic acetylcholine receptors more potently than n-methyl-D-aspartate receptors in rat hippocampal neurons",
   "year": "2005"
  },
+ "doi:10.1124/jpet.104.080101": {
+  "journal": "The Journal of pharmacology and experimental therapeutics",
+  "subjects": [],
+  "title": "Relationship between the serotonergic activity and reinforcing effects of a series of amphetamine analogs",
+  "year": "2005"
+ },
  "doi:10.1124/jpet.105.085639": null,
  "doi:10.1124/jpet.105.094276": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
@@ -5170,6 +5200,12 @@
   "subjects": [],
   "title": "[Interaction of the hypnotic lormetazepam with central benzodiazepine receptor subtypes omega 1, omega 2 and omega 3]",
   "year": "1991"
+ },
+ "doi:10.1254/jjp.41.191": {
+  "journal": "Japanese journal of pharmacology",
+  "subjects": [],
+  "title": "Studies of monoamine oxidase and semicarbazide-sensitive amine oxidase. II. Inhibition by alpha-methylated substrate-analogue monoamines, alpha-methyltryptamine, alpha-methylbenzylamine and two enantiomers of alpha-methylbenzylamine",
+  "year": "1986"
  },
  "doi:10.1254/jjp.42.189": {
   "journal": "Japanese journal of pharmacology",
@@ -11093,6 +11129,12 @@
   "title": "The blood-to-plasma ratio and predicted GABA(A)-binding affinity of designer benzodiazepines.",
   "year": "2022"
  },
+ "pmid:36477925": {
+  "journal": "Psychopharmacology",
+  "subjects": [],
+  "title": "Use of the head-twitch response to investigate the structure-activity relationships of 4-thio-substituted 2,5-dimethoxyphenylalkylamines.",
+  "year": "2023"
+ },
  "pmid:36498963": {
   "journal": "International journal of molecular sciences",
   "subjects": [],
@@ -11171,6 +11213,12 @@
   "title": "Carfentanil is a \u03b2-arrestin-biased agonist at the \u03bc opioid receptor.",
   "year": "2023"
  },
+ "pmid:37082754": {
+  "journal": "ACS pharmacology & translational science",
+  "subjects": [],
+  "title": "Receptor Binding Profiles for Tryptamine Psychedelics and Effects of 4-Propionoxy-N,N-dimethyltryptamine in Mice.",
+  "year": "2023"
+ },
  "pmid:37132222": {
   "journal": "Open biology",
   "subjects": [],
@@ -11200,6 +11248,12 @@
   "subjects": [],
   "title": "The Kappa Opioid Receptor Agonist 16-Bromo Salvinorin A Has Anti-Cocaine Effects without Significant Effects on Locomotion, Food Reward, Learning and Memory, or Anxiety and Depressive-like Behaviors.",
   "year": "2023"
+ },
+ "pmid:3747266": {
+  "journal": "Japanese journal of pharmacology",
+  "subjects": [],
+  "title": "Studies of monoamine oxidase and semicarbazide-sensitive amine oxidase. II. Inhibition by alpha-methylated substrate-analogue monoamines, alpha-methyltryptamine, alpha-methylbenzylamine and two enantiomers of alpha-methylbenzylamine.",
+  "year": "1986"
  },
  "pmid:37474114": {
   "journal": "ACS chemical neuroscience",
