@@ -119,6 +119,12 @@ class Weights:
         self.citation: dict = data["citation"]
         self.dosewiki: dict = data["dosewiki"]
         self.evidence_levels: dict = data["evidence_levels"]
+        self.dependencies: dict[str, str] = {
+            k: v for k, v in data.get("source_dependencies", {}).items() if not k.startswith("_")
+        }
+        self.pinned: dict[str, float] = {
+            k: float(v) for k, v in data.get("pinned_weights", {}).items() if not k.startswith("_")
+        }
 
     def threshold(self, name: str) -> float:
         return float(self.thresholds[name])
@@ -731,6 +737,10 @@ class Substance:
     molecular_weight: float | None
     smiles: str | None
     drug_class: str | None
+    #: The molecule this preparation's numbers are really about, when it is a
+    #: preparation. Cannabis dosed in grams of plant against THC dosed in
+    #: milligrams is a basis difference, not a thousandfold disagreement.
+    active_ingredient_id: int | None = None
     classes: list[str] = field(default_factory=list)
     interaction_classes: list[str] = field(default_factory=list)
     categories: list[str] = field(default_factory=list)
@@ -740,7 +750,7 @@ def load_substances(conn: sqlite3.Connection) -> dict[int, Substance]:
     out: dict[int, Substance] = {}
     for row in conn.execute(
         "SELECT id, substance_uid, canonical_name, popularity, inchikey, cas, formula, "
-        "molecular_weight, smiles, drug_class FROM substances"
+        "molecular_weight, smiles, drug_class, active_ingredient_substance_id FROM substances"
     ):
         out[row[0]] = Substance(
             id=row[0],
@@ -753,6 +763,7 @@ def load_substances(conn: sqlite3.Connection) -> dict[int, Substance]:
             molecular_weight=row[7],
             smiles=row[8],
             drug_class=row[9],
+            active_ingredient_id=row[10],
         )
     for substance_id, slug in conn.execute(
         "SELECT sc.substance_id, cc.slug FROM substance_classes sc "
@@ -851,6 +862,43 @@ def load_dosewiki(weights: Weights) -> tuple[list[DoseWikiRecord], str]:
     return out, str(DOSEWIKI_API)
 
 
+#: The registry slug the dose.wiki ingest writes its rows under.
+DOSEWIKI_DB_SLUG = "dosewiki"
+
+#: Which table each numeric column's DB rows live in.
+DOSEWIKI_DB_TABLES = {
+    "dose": "dose_ranges",
+    "duration": "durations",
+    "halflife": "half_lives",
+    "binding": "bindings",
+}
+
+
+def dosewiki_in_db(conn: sqlite3.Connection) -> dict[str, set[int]]:
+    """Substances whose dose.wiki numbers are already ingested, per column.
+
+    Once the ingest lands a substance's rows, the evidence records for it are the
+    same claim read a second way, and counting both would have dose.wiki
+    corroborating itself. Chemistry is not in this map: the ingest fills gaps
+    only, so the DB never carries dose.wiki's competing identifiers, and the
+    evidence records stay the only place that disagreement is visible.
+    """
+    row = conn.execute("SELECT id FROM sources WHERE slug = ?", (DOSEWIKI_DB_SLUG,)).fetchone()
+    if row is None:
+        return {}
+    source_id = row[0]
+    out: dict[str, set[int]] = {}
+    for column, table in DOSEWIKI_DB_TABLES.items():
+        out[column] = {
+            record[0]
+            for record in conn.execute(
+                f"SELECT DISTINCT substance_id FROM {table} WHERE source_id = ?",  # noqa: S608
+                (source_id,),
+            )
+        }
+    return out
+
+
 def pick_numeric_dosewiki(
     records: list[DoseWikiRecord], weights: Weights
 ) -> dict[int, DoseWikiRecord]:
@@ -909,6 +957,7 @@ def build_dose_cells(
     sources: dict[int, tuple[str, int, bool]],
     citations: dict[int, dict],
     dosewiki: dict[int, DoseWikiRecord],
+    ingested: set[int],
 ) -> list[Cell]:
     columns = ", ".join(dose_sanity.LADDER)
     rows = list(
@@ -1020,6 +1069,8 @@ def build_dose_cells(
             )
 
     for substance_id, record in dosewiki.items():
+        if substance_id in ingested:
+            continue  # its dose.wiki numbers are already DB rows
         if substance_id not in substances:
             continue
         for route_entry in (record.data.get("dosage") or {}).get("routes") or []:
@@ -1061,7 +1112,35 @@ def build_dose_cells(
                 )
     built = list(cells.values())
     attach_context_alternatives(built)
+    mark_unit_basis(built, substances)
     return built
+
+
+def mark_unit_basis(cells: list[Cell], substances: dict[int, Substance]) -> None:
+    """Mark the cells whose claims are not counted in the same thing.
+
+    Psilocybin mushrooms oral: piru-curated says 2.5 stored as `g`, PsychonautWiki
+    says 2.5 stored as `mg`. Both numbers are 2.5 — one counts dried fruiting
+    body and the other counts psilocybin, and folding them to milligrams turns a
+    disagreement about the *basis* into a hundredfold disagreement about a dose.
+    The fix is to settle which unit the row should carry, so it must not be
+    scored as though someone typed a wrong number.
+    """
+    for cell in cells:
+        units = {
+            (value.provenance.get("unit") or "").strip().lower()
+            for value in cell.values
+            if value.provenance.get("unit")
+        }
+        substance = substances.get(cell.substance_id)
+        preparation = bool(substance and substance.active_ingredient_id)
+        # Clustering has not run yet, so the preparation arm reads the raw
+        # spread: two claims about a preparation that are far apart are the
+        # plant and the molecule, not two opinions about the plant.
+        if len(units) > 1 or (preparation and cell.spread >= 2.0):
+            for value in cell.values:
+                value.provenance["unit_basis_mismatch"] = True
+                value.provenance["stored_units"] = sorted(units)
 
 
 def attach_context_alternatives(cells: list[Cell]) -> None:
@@ -1197,6 +1276,7 @@ def build_duration_cells(
     sources: dict[int, tuple[str, int, bool]],
     citations: dict[int, dict],
     dosewiki: dict[int, DoseWikiRecord],
+    ingested: set[int],
 ) -> list[Cell]:
     cells: dict[tuple[int, str], Cell] = {}
 
@@ -1264,6 +1344,8 @@ def build_duration_cells(
             )
 
     for substance_id, record in dosewiki.items():
+        if substance_id in ingested:
+            continue  # its dose.wiki numbers are already DB rows
         if substance_id not in substances:
             continue
         for route_entry in (record.data.get("duration") or {}).get("routes") or []:
@@ -1310,6 +1392,7 @@ def build_halflife_cells(
     sources: dict[int, tuple[str, int, bool]],
     citations: dict[int, dict],
     dosewiki: dict[int, DoseWikiRecord],
+    ingested: set[int],
 ) -> list[Cell]:
     cells: dict[int, Cell] = {}
 
@@ -1354,6 +1437,8 @@ def build_halflife_cells(
         )
 
     for substance_id, record in dosewiki.items():
+        if substance_id in ingested:
+            continue  # its dose.wiki numbers are already DB rows
         stated: list[float] = []
         for route_entry in (record.data.get("duration") or {}).get("routes") or []:
             parsed = parse_duration_text(route_entry.get("half_life"))
@@ -1391,6 +1476,7 @@ def build_binding_cells(
     sources: dict[int, tuple[str, int, bool]],
     citations: dict[int, dict],
     dosewiki: dict[int, DoseWikiRecord],
+    ingested: set[int],
     target_map: dict[str, TargetName],
 ) -> list[Cell]:
     cells: dict[tuple[int, str], Cell] = {}
@@ -1450,6 +1536,8 @@ def build_binding_cells(
             "is_review": bool(is_review),
             "confidence": confidence,
             "assay_context": bool(species) and bool(assay),
+            "species": species,
+            "assay_system": assay,
         }
         for column, measure in zip(
             ("ki_nm", "ec50_nm", "ic50_nm"), ("Ki", "EC50", "IC50"), strict=True
@@ -1459,6 +1547,8 @@ def build_binding_cells(
                 add(substance_id, target, measure, slug, value, provenance)
 
     for substance_id, record in dosewiki.items():
+        if substance_id in ingested:
+            continue  # its dose.wiki numbers are already DB rows
         pharmacology = record.data.get("pharmacology") or {}
         for entry in pharmacology.get("binding_sites") or []:
             raw_target = entry.get("target") or entry.get("receptor")
@@ -1488,11 +1578,38 @@ def build_binding_cells(
                     "is_review": False,
                     "confidence": None,
                     "assay_context": False,
+                    "species": None,
+                    "assay_system": None,
                     "affinity_is_range": is_range,
                     "join_relationship": record.relationship,
                 },
             )
-    return list(cells.values())
+    built = list(cells.values())
+    mark_assay_context(built)
+    return built
+
+
+def mark_assay_context(cells: list[Cell]) -> None:
+    """Mark binding cells whose claims were measured in different systems.
+
+    MDMA's DAT EC50 is 22,000 nM in human recombinant cells and 51.2 nM in rat
+    synaptosomes. That is a four-hundredfold gap and both numbers are right —
+    the reader has to see the systems named or they will read it as a
+    transcription error and 'fix' one of them.
+    """
+    for cell in cells:
+        systems = {
+            (value.provenance.get("species"), value.provenance.get("assay_system"))
+            for value in cell.values
+        }
+        stated = {pair for pair in systems if pair != (None, None)}
+        if len(stated) < 2:
+            continue
+        for value in cell.values:
+            value.provenance["assay_context_differs"] = True
+            value.provenance["assay_systems"] = sorted(
+                f"{species or '?'}/{system or '?'}" for species, system in stated
+            )
 
 
 CHEMISTRY_FIELDS = ("inchikey", "connectivity", "cas", "formula", "molecular_weight")
@@ -1730,6 +1847,10 @@ def cluster_values(cell: Cell, weights: Weights) -> int:
     PsychonautWiki's ladders exactly, dose.wiki repeats them too, and TripSit
     and PsychonautWiki have copied each other in both directions. Three copies
     are one claim.
+
+    A *derived* source is folded into its parent even when the two disagree —
+    `rdkit-smiles` is recomputed from `piru-stored`'s own SMILES and can only
+    ever restate or contradict it, never corroborate it independently.
     """
     tolerance = float(weights.clustering["relative_tolerance"])
     representatives: list[tuple[float | None, str | None]] = []
@@ -1763,8 +1884,38 @@ def cluster_values(cell: Cell, weights: Weights) -> int:
         if not placed:
             value.cluster = len(representatives)
             representatives.append((value.numeric, value.text))
-    cell.n_clusters = len(representatives)
+    fold_dependents(cell, weights)
+    cell.n_clusters = len({value.cluster for value in cell.values})
     return cell.n_clusters
+
+
+def fold_dependents(cell: Cell, weights: Weights) -> None:
+    """Move every derived value into its parent's cluster, and renumber.
+
+    Where a derived value contradicts the source it was derived from, the
+    disagreement is recorded on the *parent* — `piru-stored`'s stated InChIKey
+    against the one RDKit computes from `piru-stored`'s own SMILES is a fact
+    about that row, and says nothing about whoever else is in the cell.
+    """
+    parents = {
+        value.source: value.cluster
+        for value in cell.values
+        if value.source in set(weights.dependencies.values())
+    }
+    for value in cell.values:
+        parent_source = weights.dependencies.get(value.source)
+        if parent_source is None or parent_source not in parents:
+            continue
+        if value.cluster != parents[parent_source]:
+            for other in cell.values:
+                if other.source == parent_source:
+                    other.provenance["derived_disagrees"] = True
+                    other.provenance["derived_value"] = value.display
+        value.cluster = parents[parent_source]
+        value.provenance["derived_from"] = parent_source
+    order = {old: new for new, old in enumerate(sorted({v.cluster for v in cell.values}))}
+    for value in cell.values:
+        value.cluster = order[value.cluster]
 
 
 def cluster_members(cell: Cell) -> dict[int, list[Value]]:
@@ -1816,9 +1967,13 @@ def cell_consensus(
         if cluster == exclude_cluster:
             continue
         weight = cluster_weight(values, source_weights, weights)
-        representative = values[0]
+        # A derived value never speaks for its cluster: it was folded in whether
+        # or not it agrees, so letting it set the cluster's value would let a
+        # recomputation overwrite the number the source actually publishes.
+        speaking = [v for v in values if "derived_from" not in v.provenance] or values
+        representative = speaking[0]
         if representative.numeric is not None:
-            numbers = [value.numeric for value in values if value.numeric is not None]
+            numbers = [value.numeric for value in speaking if value.numeric is not None]
             numeric.append((statistics.median(numbers), weight))
         elif representative.text is not None:
             textual[representative.text] += weight
@@ -1959,8 +2114,28 @@ def iterate_reliability(
                 # both sides the outlier from the other — which would tell every
                 # source it is always wrong and drive every weight to the floor.
                 reference = cell_consensus(cell, source_weights, weights, None)
+                deltas = {id(value): compare(value, reference) for value in cell.values}
+                # Only a cell whose consensus more than one source stands behind
+                # can teach anything about a source. Where two claims simply
+                # disagree, whichever side the median falls on is an artifact of
+                # the weights being fitted, and counting it hardens the first
+                # round's accident into a verdict.
+                #
+                # Sources, not clusters, on purpose: being out of step with a
+                # figure the field repeats is a fact about a source even when
+                # the repetition is copying, and the report says so by counting
+                # "outlier in" over contested cells rather than over all of them.
+                agreeing = {
+                    value.source
+                    for value in cell.values
+                    if deltas[id(value)] is not None
+                    and deltas[id(value)] <= threshold
+                    and "derived_from" not in value.provenance
+                }
+                if len(agreeing) < 2:
+                    continue
                 for value in cell.values:
-                    delta = compare(value, reference)
+                    delta = deltas[id(value)]
                     if delta is None:
                         continue
                     observed[value.source] += 1
@@ -1973,10 +2148,16 @@ def iterate_reliability(
                 scaled = min(rate, rate_cap) / rate_cap
                 new_weights[source] = (1.0 - scaled) * (1.0 - min_weight) + min_weight
                 counts[source] = (outliers.get(source, 0), total)
+            derived = dict(new_weights)
+            # Pins are applied inside the loop, so the pinned source votes at its
+            # pinned strength in the next round's consensus too.
+            new_weights.update({s: w for s, w in weights.pinned.items() if s in new_weights})
             source_weights = new_weights
         out[column] = {
             source: {
                 "weight": round(source_weights[source], 4),
+                "pinned": source in weights.pinned,
+                "derived_weight": round(derived[source], 4),
                 "outlier_in": counts.get(source, (0, 0))[0],
                 "contested_cells": counts.get(source, (0, 0))[1],
                 "outlier_rate": round(counts.get(source, (0, 0))[0] / counts[source][1], 4)
@@ -2055,6 +2236,24 @@ def score_cell(
     tie_ratio = weights.threshold("tie_ratio")
 
     largest_cluster = max((len(values) for values in members.values()), default=0)
+    # How many *independent* claims land on the consensus. A cluster being a
+    # singleton is not dissent when nothing else agrees either: three sources
+    # naming three different InChIKeys are three claims and no majority, and
+    # calling each of them the odd one out is a verdict the data cannot support.
+    settled = cell_consensus(cell, source_weights, weights, None)
+    outlier_threshold = float(weights.reliability["outlier_log_delta"])
+    corroborating = {
+        cluster
+        for cluster, values in members.items()
+        if any(
+            (compare(v, settled) or 0.0) <= outlier_threshold
+            for v in values
+            if compare(v, settled) is not None
+        )
+    }
+    majority = len(corroborating) >= 2
+    unit_basis = any(value.provenance.get("unit_basis_mismatch") for value in cell.values)
+
     for value in cell.values:
         reference = cell_consensus(cell, source_weights, weights, value.cluster)
         delta = compare(value, reference)
@@ -2066,11 +2265,12 @@ def score_cell(
             and value.numeric > 0
         ):
             ratio = value.numeric / reference
-        siblings = len(members[value.cluster])
-        others_agree = cell.n_clusters >= 3 and siblings == 1
+        others_agree = majority and value.cluster not in corroborating
 
         features: dict[str, float] = {
-            "log_delta": min((delta or 0.0), 3.0) / 3.0 if delta is not None else 0.0,
+            "log_delta": 0.0
+            if unit_basis
+            else (min((delta or 0.0), 3.0) / 3.0 if delta is not None else 0.0),
             "sole_dissenter": 1.0 if others_agree else 0.0,
             "no_corroboration": 1.0 if cell.n_clusters < 2 else 0.0,
             "copy_only_support": 1.0 if cell.n_clusters == 1 and largest_cluster > 1 else 0.0,
@@ -2088,17 +2288,24 @@ def score_cell(
             "cas_checkdigit_fail": 1.0
             if value.provenance.get("cas_checkdigit_ok") is False
             else 0.0,
-            # A contested join is evidence about *identity*. Two different
-            # molecules routinely share a formula and a mass, so letting it
-            # score those cells would flag agreement as a problem.
-            "join_conflict": 1.0
-            if value.provenance.get("join_relationship") in ("different", "no_piru_match")
-            and cell.key.rsplit("|", 1)[-1] in ("inchikey", "connectivity", "cas")
-            else 0.0,
+            "inchikey_smiles_mismatch": 1.0 if value.provenance.get("derived_disagrees") else 0.0,
+            "unit_basis_mismatch": 1.0 if unit_basis else 0.0,
+            "assay_context_differs": 1.0 if value.provenance.get("assay_context_differs") else 0.0,
         }
-        features.update(slip_features(ratio, weights))
+        # A slip is a claim about a *number*. When the two sides are not
+        # counting the same thing, the ratio is the unit factor and says
+        # nothing about anyone's arithmetic.
+        features.update(
+            dict.fromkeys(("slip_1000x", "slip_100x", "slip_10x"), 0.0)
+            if unit_basis
+            else slip_features(ratio, weights)
+        )
+        if unit_basis and delta is not None:
+            value.provenance["log_delta_unscored"] = round(delta, 3)
 
-        if prior and value.numeric and value.numeric > 0:
+        # A class prior compares this substance to its peers on the peers' basis.
+        # A row counted in a different thing is not on that basis.
+        if prior and value.numeric and value.numeric > 0 and not unit_basis:
             z = abs(prior.z(value.numeric))
             features["class_z"] = min(z, z_cap) / z_cap
             value.provenance["class_z"] = round(prior.z(value.numeric), 3)
@@ -2113,13 +2320,23 @@ def score_cell(
 
         value.features = features
         value.probability = logistic(features, weights)
-        value.reasons = [
+        scored = [
             name
             for name, magnitude in sorted(
                 features.items(), key=lambda item: -item[1] * weights.features.get(item[0], 0.0)
             )
             if magnitude > 0 and weights.features.get(name, 0.0) > 0
         ][:4]
+        # A feature weighted zero still belongs in `why`: it explains the gap
+        # rather than blaming anyone for it, and a reader who cannot see
+        # `assay_context_differs` reads a rat number against a human one as a
+        # typo and corrects the wrong row.
+        explanatory = [
+            name
+            for name, magnitude in sorted(features.items())
+            if magnitude > 0 and weights.features.get(name, 0.0) == 0
+        ]
+        value.reasons = scored + explanatory
 
     cell.consensus = None
     cell.consensus_text = None
@@ -2138,10 +2355,16 @@ def score_cell(
     flags: list[str] = []
     if cell.max_probability >= weights.threshold("needs_manual_probability"):
         flags.append("needs_manual")
-    if cell.n_clusters == 2 and cell.spread >= tie_ratio and not tie_broken(cell, weights):
-        flags.append("unresolved_disagreement")
-        if "needs_manual" not in flags:
-            flags.append("needs_manual")
+    # A standoff nothing settles: two or more claims, no corroborated majority,
+    # and no tiebreaker. With three mutually disagreeing InChIKeys there is no
+    # majority either, and naming one of them the error would be a verdict.
+    numeric_standoff = cell.consensus is not None and cell.spread >= tie_ratio
+    categorical_standoff = cell.consensus is None and cell.n_clusters >= 2
+    if not majority and (numeric_standoff or categorical_standoff):
+        if not tie_broken(cell, weights):
+            flags.append("unresolved_disagreement")
+            if "needs_manual" not in flags:
+                flags.append("needs_manual")
     if cell.n_clusters <= 1 and prior:
         violation = max(
             (abs(value.provenance.get("class_z", 0.0)) for value in cell.values), default=0.0
@@ -2165,11 +2388,65 @@ def score_cell(
         flags.append("therapeutic_resolves")
         if "needs_manual" not in flags:
             flags.append("needs_manual")
+    if unit_basis:
+        flags.append("unit_basis_mismatch")
+        if "needs_manual" not in flags:
+            flags.append("needs_manual")
+    if any(value.provenance.get("assay_context_differs") for value in cell.values):
+        flags.append("assay_context_differs")
+    if any(value.provenance.get("derived_disagrees") for value in cell.values):
+        flags.append("inchikey_smiles_mismatch")
+    if any(
+        value.provenance.get("join_relationship") in ("different", "no_piru_match")
+        for value in cell.values
+    ):
+        # Which molecule this row is about is contested. Not scored against
+        # anyone: the relationship was itself derived by comparing these very
+        # identifiers, so using it as evidence would be circular.
+        flags.append("identity_join_conflict")
     if cell.n_clusters < 2:
         flags.append("unanimous" if len(cell.values) > 1 else "single_value")
     if prior is None and cell.column != "chemistry":
         flags.append("no_class_signal")
+    if cell.popularity == 0:
+        # The Wikipedia-pageview score is 0 for a substance with no chemical
+        # article, which includes real ones (Zolpidem, A-PVP, alpha-PHP). It
+        # means "unranked", never "obscure", and the top-100 worksheet silently
+        # excludes every one of them.
+        flags.append("popularity_missing")
+    if "unresolved_disagreement" in flags:
+        symmetrize(cell, weights)
+        if cell.max_probability >= weights.threshold("needs_manual_probability"):
+            if "needs_manual" not in flags:
+                flags.append("needs_manual")
     cell.flags = flags
+
+
+#: Features that describe the *source* rather than this value. In a standoff
+#: they are the only thing left that could separate the sides, and separating
+#: the sides is exactly what the data does not support.
+SOURCE_PRIOR_FEATURES = ("source_unreliability", "citation_missing")
+
+
+def symmetrize(cell: Cell, weights: Weights) -> None:
+    """Equalize the source-level features across a standoff nothing settles.
+
+    When two claims disagree, nothing corroborates either, and no tiebreaker
+    exists, which one is wrong is undetermined — so the output must say
+    "undetermined" and not quietly rank them by how a source scored elsewhere.
+    A reliability weight is a prior about a source, not evidence about this
+    value, and letting it decide here manufactures a verdict out of an average.
+    """
+    if not cell.values:
+        return
+    shared = {
+        name: sum(value.features.get(name, 0.0) for value in cell.values) / len(cell.values)
+        for name in SOURCE_PRIOR_FEATURES
+    }
+    for value in cell.values:
+        value.features.update(shared)
+        value.probability = logistic(value.features, weights)
+        value.provenance["symmetrized"] = True
 
 
 def tie_broken(cell: Cell, weights: Weights) -> bool:
@@ -2364,6 +2641,19 @@ def write_summary(
     for tier in ("top (>=0.85)", "known (0.50-0.85)", "long tail (>0)", "unranked (0)"):
         cells_count, flagged_count = tiers[tier]
         lines.append(f"| {tier} | {cells_count:,} | {flagged_count:,} |")
+    lines.append("")
+    unranked = {cell.substance for cell in cells if cell.popularity == 0}
+    unranked_flagged = {
+        cell.substance for cell in cells if cell.popularity == 0 and "needs_manual" in cell.flags
+    }
+    lines.append(
+        f"**{len(unranked):,} substance(s) here score 0** — `substances.popularity` is "
+        "English-Wikipedia pageviews, and 0 means no chemical article rather than no "
+        f"users. Zolpidem, A-PVP and alpha-PHP are among them; {len(unranked_flagged):,} "
+        "of them have a flagged cell. The top-100 worksheet cannot see any of them, so "
+        "read it as 'the 100 most *documented*', and use `--substance` for the rest. "
+        "Cells from an unranked substance carry `popularity_missing`."
+    )
     lines.append("")
 
     lines.append("## Widest gaps")
@@ -2631,18 +2921,41 @@ def main(argv: list[str] | None = None) -> int:
     else:
         notes.append("dose.wiki: no records available; it contributes nothing to this run.")
     dosewiki_numeric = pick_numeric_dosewiki(dosewiki_all, weights)
+    ingested = dosewiki_in_db(conn)
+    if ingested:
+        notes.append(
+            "dose.wiki is an ingested source; its evidence records are skipped for "
+            + ", ".join(
+                f"{column} ({len(rows):,} substance(s))"
+                for column, rows in sorted(ingested.items())
+                if rows
+            )
+            + " so it does not vote twice."
+        )
 
     wanted = set(args.column) if args.column else set(COLUMNS)
     cells: list[Cell] = []
     if "dose" in wanted:
-        cells += build_dose_cells(conn, substances, sources, citations, dosewiki_numeric)
+        cells += build_dose_cells(
+            conn, substances, sources, citations, dosewiki_numeric, ingested.get("dose", set())
+        )
     if "duration" in wanted:
-        cells += build_duration_cells(conn, substances, sources, citations, dosewiki_numeric)
+        cells += build_duration_cells(
+            conn, substances, sources, citations, dosewiki_numeric, ingested.get("duration", set())
+        )
     if "halflife" in wanted:
-        cells += build_halflife_cells(conn, substances, sources, citations, dosewiki_numeric)
+        cells += build_halflife_cells(
+            conn, substances, sources, citations, dosewiki_numeric, ingested.get("halflife", set())
+        )
     if "binding" in wanted:
         cells += build_binding_cells(
-            conn, substances, sources, citations, dosewiki_numeric, target_map
+            conn,
+            substances,
+            sources,
+            citations,
+            dosewiki_numeric,
+            ingested.get("binding", set()),
+            target_map,
         )
     if "chemistry" in wanted:
         chembl = load_chembl(CHEMBL_CACHE)

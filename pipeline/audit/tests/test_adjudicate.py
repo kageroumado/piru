@@ -14,6 +14,7 @@ Run from the repo root:
 
 import importlib.util
 import json
+import sqlite3
 import sys
 import unittest
 from pathlib import Path
@@ -196,6 +197,67 @@ class Clustering(unittest.TestCase):
         self.assertEqual(reference, 10.0)
 
 
+class DerivedSources(unittest.TestCase):
+    def test_a_recomputation_never_corroborates_the_row_it_was_computed_from(self):
+        # rdkit-smiles is derived from piru-stored's own SMILES. Counting it as a
+        # second vote let Piru corroborate itself and made every outside
+        # correction read as the lone dissenter.
+        subject = cell(
+            column="chemistry",
+            key="chemistry|inchikey",
+            values=[
+                value("piru-stored", text="BQJCRHHNABKAKU-NOSXKOESSA-N"),
+                value("rdkit-smiles", text="BQJCRHHNABKAKU-NOSXKOESSA-N"),
+                value("dosewiki-api", text="BQJCRHHNABKAKU-KBQPJGBKSA-N"),
+            ],
+        )
+        self.assertEqual(_mod.cluster_values(subject, WEIGHTS), 2)
+        uniform = dict.fromkeys(("piru-stored", "rdkit-smiles", "dosewiki-api"), 1.0)
+        # One vote each side, so the heavier source cannot be outvoted by a
+        # recomputation of itself.
+        members = _mod.cluster_members(subject)
+        weights_by_cluster = [
+            _mod.cluster_weight(values, uniform, WEIGHTS) for values in members.values()
+        ]
+        self.assertLess(max(weights_by_cluster), 2.0)
+
+    def test_a_disagreeing_recomputation_is_recorded_on_the_parent(self):
+        subject = cell(
+            column="chemistry",
+            key="chemistry|inchikey",
+            values=[
+                value("piru-stored", text="AAAAAAAAAAAAAA-SSDOTTSWSA-N"),
+                value("rdkit-smiles", text="AAAAAAAAAAAAAA-ZETCQYMHSA-N"),
+            ],
+        )
+        self.assertEqual(_mod.cluster_values(subject, WEIGHTS), 1)
+        parent = subject.values[0]
+        self.assertTrue(parent.provenance.get("derived_disagrees"))
+        self.assertTrue(subject.values[1].provenance.get("derived_from"), "piru-stored")
+
+    def test_the_parent_speaks_for_the_cluster(self):
+        subject = cell(values=[value("piru-stored", 10.0), value("rdkit-smiles", 1000.0)])
+        _mod.cluster_values(subject, WEIGHTS)
+        uniform = {"piru-stored": 1.0, "rdkit-smiles": 1.0}
+        self.assertEqual(_mod.cell_consensus(subject, uniform, WEIGHTS, None), 10.0)
+
+
+class Symmetry(unittest.TestCase):
+    def test_a_standoff_is_scored_the_same_on_both_sides(self):
+        subject = cell(
+            column="chemistry",
+            key="chemistry|inchikey",
+            values=[
+                value("piru-stored", text="AAAAAAAAAAAAAA-SSDOTTSWSA-N"),
+                value("dosewiki-api", text="AAAAAAAAAAAAAA-ZETCQYMHSA-N"),
+            ],
+        )
+        subject.values[0].features = {"source_unreliability": 0.1, "citation_missing": 1.0}
+        subject.values[1].features = {"source_unreliability": 0.9, "citation_missing": 1.0}
+        _mod.symmetrize(subject, WEIGHTS)
+        self.assertEqual(subject.values[0].probability, subject.values[1].probability)
+
+
 class LadderConsistency(unittest.TestCase):
     def test_a_ladder_that_stops_rising_names_both_bands(self):
         violations = _mod.ladder_violations(
@@ -245,7 +307,9 @@ class Probability(unittest.TestCase):
             "identity_skeleton_mismatch",
             "identity_stereo_mismatch",
             "cas_checkdigit_fail",
-            "join_conflict",
+            "inchikey_smiles_mismatch",
+            "unit_basis_mismatch",
+            "assay_context_differs",
             "slip_1000x",
             "slip_100x",
             "slip_10x",
@@ -319,6 +383,19 @@ class WeightsFile(unittest.TestCase):
         ):
             self.assertIn(section, raw)
 
+    def test_a_pin_overrides_the_derived_weight(self):
+        # piru-curated exists to override a consensus that copied a wrong
+        # number, so its distance from that consensus is not its reliability.
+        self.assertIn("piru-curated", WEIGHTS.pinned)
+
+    def test_the_derived_source_names_its_parent(self):
+        self.assertEqual(WEIGHTS.dependencies.get("rdkit-smiles"), "piru-stored")
+
+    def test_an_explanatory_feature_moves_no_probability(self):
+        # assay_context_differs names why two numbers differ; scoring it would
+        # report a rat EC50 against a human one as a transcription error.
+        self.assertEqual(WEIGHTS.features["assay_context_differs"], 0.0)
+
     def test_evidence_levels_are_ordered(self):
         levels = WEIGHTS.evidence_levels
         counts = [
@@ -345,6 +422,29 @@ class DoseWikiJoin(unittest.TestCase):
         # row; its dose ladder describes that other molecule.
         picked = _mod.pick_numeric_dosewiki([self._record("4-aco-met", "different")], WEIGHTS)
         self.assertEqual(picked, {})
+
+    def test_an_absent_ingest_leaves_the_evidence_records_in_play(self):
+        # The ingest may not have landed; nothing may assume it has.
+        conn = sqlite3.connect(":memory:")
+        conn.execute(
+            "CREATE TABLE sources (id INTEGER PRIMARY KEY, slug TEXT, display_name TEXT, "
+            "default_priority INTEGER, default_enabled INTEGER)"
+        )
+        self.assertEqual(_mod.dosewiki_in_db(conn), {})
+
+    def test_an_ingested_substance_stops_the_evidence_record_voting(self):
+        conn = sqlite3.connect(":memory:")
+        conn.execute(
+            "CREATE TABLE sources (id INTEGER PRIMARY KEY, slug TEXT, display_name TEXT, "
+            "default_priority INTEGER, default_enabled INTEGER)"
+        )
+        conn.execute("INSERT INTO sources VALUES (1, 'dosewiki', 'dose.wiki', 3, 1)")
+        for table in _mod.DOSEWIKI_DB_TABLES.values():
+            conn.execute(f"CREATE TABLE {table} (substance_id INTEGER, source_id INTEGER)")
+        conn.execute("INSERT INTO dose_ranges VALUES (7, 1)")
+        ingested = _mod.dosewiki_in_db(conn)
+        self.assertEqual(ingested["dose"], {7})
+        self.assertEqual(ingested["duration"], set())
 
     def test_the_best_join_wins_when_two_records_claim_one_row(self):
         picked = _mod.pick_numeric_dosewiki(

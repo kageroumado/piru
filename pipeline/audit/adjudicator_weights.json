@@ -71,9 +71,20 @@
     "identity_skeleton_mismatch": 3.0,
     "identity_stereo_mismatch": 2.0,
     "cas_checkdigit_fail": 3.0,
-    "join_conflict": 1.6
+    "inchikey_smiles_mismatch": 1.8,
+    "unit_basis_mismatch": 0.9,
+    "assay_context_differs": 0.0
   },
+  "_features_doc_zero": "A feature weighted 0.0 is explanatory, not incriminating: it is emitted, it is named in the `why` column, and it moves no probability. `assay_context_differs` is one — a human EC50 and a rat one differing is pharmacology, and scoring it would report the literature as a transcription error.",
   "bias": -3.6,
+  "source_dependencies": {
+    "_doc": "Sources derived from another source. A dependent value joins its parent's cluster whatever it says, because it carries no information the parent does not: rdkit-smiles is recomputed from piru-stored's own SMILES, so counting it as a second vote lets Piru corroborate itself and makes every outside correction look like the lone dissenter. Where the two disagree that is `inchikey_smiles_mismatch` on the parent, which is a fact about the parent and evidence for or against nobody else.",
+    "rdkit-smiles": "piru-stored"
+  },
+  "pinned_weights": {
+    "_doc": "Weights held fixed after the iteration, for a source whose job is to disagree with the middle. piru-curated exists to override a consensus that copied a wrong number, so its distance from that consensus measures its purpose and not its reliability. The derived weight and the raw outlier rate are still reported beside the pinned one.",
+    "piru-curated": 0.85
+  },
   "thresholds": {
     "_doc": "needs_manual fires on any of these. tie_ratio is a two-cluster standoff nothing breaks; class_violation_z judges a value that has no cross-source corroboration at all.",
     "needs_manual_probability": 0.5,

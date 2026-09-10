@@ -281,11 +281,12 @@ Per cell:
 
 | | |
 |---|---|
-| **clusters** | Values agreeing to within a tolerance are *one* claim several sources repeat. Copying is the dominant failure mode here — freeodwiki and dose.wiki both carry PsychonautWiki's ladders verbatim — and counting copies as votes is how one upstream error becomes a majority. `evidence_level` counts clusters, not values. |
+| **clusters** | Values agreeing to within a tolerance are *one* claim several sources repeat. Copying is the dominant failure mode here — freeodwiki and dose.wiki both carry PsychonautWiki's ladders verbatim — and counting copies as votes is how one upstream error becomes a majority. A source **derived** from another (`source_dependencies`: rdkit-smiles ← piru-stored) joins its parent's cluster whatever it says, so Piru cannot corroborate itself; where the two disagree that is `inchikey_smiles_mismatch` on Piru's row. `evidence_level` counts clusters, not values. |
 | **consensus** | Weighted median over clusters; each cluster votes once plus a small increment per repetition. |
-| **reliability** | Per source, per column, iterated: uniform start → outlier rate against the consensus → weight → new consensus, five rounds. Reported in `sources.json`. This is the number that replaces the ranking. |
+| **reliability** | Per source, per column, iterated: uniform start → outlier rate against the consensus → weight → new consensus, five rounds. Counted only over cells whose consensus **two or more sources stand behind** — in a bare standoff whichever side the median lands on is an artifact of the weights being fitted. `pinned_weights` holds a source's weight fixed afterwards (piru-curated: its job is to override a consensus that copied a wrong number, so distance from that consensus measures its purpose, not its reliability); the derived weight and raw rate are reported beside the pin. Reported in `sources.json`. This is the number that replaces the ranking. |
 | **class prior** | The log-normal spread of the same column across the substance's class peers, leave-one-out, as a robust z. Cascades class context → drug class → interaction class → category. A compound with no class, or a class of one, gets **no** signal and the cell says `no_class_signal` rather than inventing one. |
 | **consistency** | What one row says about itself: ladders that stop rising, ranges that run backwards, `min == max`, a route ordering that needs more drug the more direct it gets (`dose_sanity.ROUTE_RANK`), ratios that are exactly 10x/100x/1000x, a qualifier hidden in a unit string, an InChIKey that disagrees with its own SMILES, a CAS check digit that does not check, a therapeutic ladder outranking a recreational one. |
+| **basis** | Two claims can disagree because they are not counting the same thing. `unit_basis_mismatch` fires where the stored unit strings differ (psilocybin mushrooms: 2.5 `g` of dried fruiting body against 2.5 `mg` of psilocybin) or where a preparation is being compared against its `active_ingredient_substance_id` molecule. It suppresses `log_delta`, the slip features and the class prior for that cell — the ratio is the unit factor and says nothing about anyone's arithmetic — and flags the cell so the unit gets settled rather than a number picked. `assay_context_differs` names the systems when `species`/`assay_system` disagree across binding claims (MDMA's DAT EC50 is 22,000 nM human-recombinant and 51.2 nM rat-synaptosome, and both are right). |
 
 ### How to read P
 
@@ -295,9 +296,12 @@ Read it with `evidence_level`, always:
 - **P ≥ 0.9** — several independent sources and this one is far from all of them,
   or it contradicts itself outright. Fix the data.
 - **0.5 ≤ P < 0.9** — the `needs_manual` band. Look at it.
-- **P < 0.5 with `unresolved_disagreement`** — two claims, no majority, nothing
-  in the data breaking the tie. Neither value is suspect on its own; the *cell*
-  needs a person.
+- **`unresolved_disagreement` at any P** — claims that disagree, no corroborated
+  majority, nothing in the data breaking the tie. Every value in such a cell is
+  scored *identically*: the source-level features are equalized, because a
+  reliability weight is a prior about a source and not evidence about this
+  value, and letting it break the tie would manufacture a verdict out of an
+  average. Neither side is suspect on its own; the *cell* needs a person.
 - **P < 0.5 with `single_value` or `unanimous`** — one independent claim. A low P
   here means "nothing contradicts it", which is not the same as "it is right".
 
@@ -305,6 +309,19 @@ Read it with `evidence_level`, always:
 one source's probable errors with the competing values beside them, and
 `calibration-top100.md` is a worksheet: every flagged cell among the 100 most
 popular substances, with a blank verdict column.
+
+**The top 100 is by `substances.popularity`, which is English-Wikipedia
+pageviews.** A substance with no chemical article scores 0 — Zolpidem, A-PVP and
+alpha-PHP among them — so the worksheet is the 100 most *documented*, not the
+100 most used, and 261 real substances are invisible to it. Their cells carry
+`popularity_missing` and `summary.md` counts them; reach them with `--substance`.
+
+**dose.wiki enters twice, never at once.** While the ingest has not landed it is
+the virtual `dosewiki-api`, read from the evidence records. Once a substance has
+`dosewiki` rows in the DB, the virtual claims for that substance and column are
+skipped — the same claim read a second way is not a second opinion. Chemistry
+keeps the virtual source either way: the ingest fills gaps only, so the DB never
+carries dose.wiki's competing identifiers.
 
 ### How to calibrate
 
@@ -316,7 +333,11 @@ feature absent from that object is zero). So calibration is:
 2. Edit numbers in `adjudicator_weights.json` — `features` for the logistic
    weights, `bias` for where the whole distribution sits, `thresholds` for when
    `needs_manual` fires, `clustering.relative_tolerance` for what counts as a
-   copy, `class_prior.min_members` for how small a class may be and still speak.
+   copy, `class_prior.min_members` for how small a class may be and still speak,
+   `source_dependencies` for which source is computed from which, and
+   `pinned_weights` for a source the iteration should not judge. A feature
+   weighted **0.0** is explanatory: emitted, named in `why`, moving no
+   probability.
 3. Re-run and compare. Never edit `adjudicate.py` to change a verdict: the code
    computes features, the file decides what they are worth.
 
