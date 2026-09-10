@@ -8,11 +8,19 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import sqlite3
+import sys
 import unittest
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
 SNAPSHOT = REPO / "data/sources/dosewiki.json"
+CURATED_IDS = REPO / "data/curated/dosewiki-ids.json"
+SUBSTANCE_IDS = REPO / "data/curated/substance-ids.json"
+DB = REPO / "Piru/Data/piru-substances.sqlite"
+
+sys.path.insert(0, str(REPO / "pipeline" / "build"))
+import sqlite as build  # noqa: E402
 
 
 def _load_fetcher():
@@ -82,6 +90,256 @@ class TestSnapshot(unittest.TestCase):
                     reference.get("doi") or reference.get("pmid"),
                     f"{record['slug']}: reference with no DOI and no PMID",
                 )
+
+
+class TestCuratedJoin(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not SNAPSHOT.exists() or not CURATED_IDS.exists():
+            raise unittest.SkipTest("dose.wiki snapshot or curated join not present")
+        cls.records = json.loads(SNAPSHOT.read_text())["records"]
+        cls.entries = build.load_dosewiki_ids()
+
+    def test_every_published_slug_is_decided(self):
+        """A slug is either joined to a substance or explicitly unmapped.
+
+        `ingest_dosewiki` fails the build on an undecided slug; this says so
+        before the build does, and names them.
+        """
+        undecided = [r["slug"] for r in self.records if r["slug"] not in self.entries]
+        self.assertEqual([], undecided)
+
+    def test_an_unmapped_slug_says_why(self):
+        for slug, entry in self.entries.items():
+            if entry.get("substance_uid") is None:
+                self.assertTrue(entry.get("note"), f"{slug}: unmapped with no note")
+
+    def test_every_mapped_uid_matches_its_pinned_name(self):
+        """The PSID registry is what makes the uid the durable half of an entry.
+
+        `substance_uid` is assigned long after ingest, so the ingest resolves by
+        name; the uid is the check that the name still points where the join
+        said it did.
+        """
+        pinned = {
+            name: uid
+            for name, uid in json.loads(SUBSTANCE_IDS.read_text()).items()
+            if not name.startswith("_")
+        }
+        wrong = [
+            f"{slug}: {entry['name']} is pinned {pinned.get(entry['name'])!r}, "
+            f"entry says {entry['substance_uid']!r}"
+            for slug, entry in self.entries.items()
+            if entry.get("substance_uid")
+            and pinned.get(entry.get("name")) != entry["substance_uid"]
+        ]
+        self.assertEqual([], wrong)
+
+
+class TestParsers(unittest.TestCase):
+    def test_dose_tier_names_land_on_pirus_ladder(self):
+        self.assertEqual("common", build.DOSEWIKI_TIERS["moderate"])
+        self.assertEqual("light", build.DOSEWIKI_TIERS["light"])
+
+    def test_both_micro_signs_read_as_one_unit(self):
+        for sign in ("µg", "μg"):
+            self.assertEqual("µg", build.canonical_mass_unit(sign))
+
+    def test_route_casing_and_abbreviation(self):
+        self.assertEqual("oral", build.normalise_route("Oral"))
+        self.assertEqual("insufflation", build.normalise_route("Insufflated"))
+        self.assertEqual("intramuscular", build.normalise_route("I.M."))
+        self.assertEqual("inhalation", build.normalise_route("vapourized"))
+
+    def test_duration_stages_convert_to_minutes(self):
+        stages = {
+            "onset": {"min": 20, "max": 70, "unit": "minutes"},
+            "come_up": {"min": 30, "max": 60, "unit": "minutes"},
+            "peak": {"min": 2, "max": 3.5, "unit": "hours"},
+            "after_effects": {"min": 2, "max": 24, "unit": "hours"},
+            "total_duration": {"min": 3, "max": 6, "unit": "hours"},
+        }
+        profile = build.dosewiki_duration_profile(stages)
+        self.assertEqual({"min": 20.0, "max": 70.0}, profile["onset"])
+        self.assertEqual({"min": 30.0, "max": 60.0}, profile["comeup"])
+        self.assertEqual({"min": 120.0, "max": 210.0}, profile["peak"])
+        self.assertEqual({"min": 120.0, "max": 1440.0}, profile["afterglow"])
+        self.assertEqual({"min": 180.0, "max": 360.0}, profile["total"])
+
+    def test_half_life_text_yields_a_midpoint(self):
+        self.assertEqual(510.0, build.dosewiki_half_life_minutes("7-10 hours"))
+        self.assertEqual(39.0, build.dosewiki_half_life_minutes("~39 minutes"))
+        self.assertEqual(3.0 * 1440, build.dosewiki_half_life_minutes("3 days"))
+        for text in ("", "variable", "several hours", "unknown"):
+            self.assertIsNone(build.dosewiki_half_life_minutes(text))
+
+    def test_only_a_stated_value_with_a_unit_is_an_affinity(self):
+        self.assertEqual(("ec50_nm", 74.3), build.dosewiki_affinity("EC50 74.3 nM (racemate)"))
+        self.assertEqual(("ki_nm", 345.0), build.dosewiki_affinity("Ki 345 ± 118 nM in an assay"))
+        self.assertEqual(("ic50_nm", 1280.0), build.dosewiki_affinity("IC50 1.28 µM"))
+        for text in (
+            "Ki <10 μM",
+            "Ki >30,000 nM",
+            "pKi 9.4",
+            "nanomolar",
+            "Lower affinity",
+            "40 nM (DXM), 484 nM (DXO)",
+            "",
+        ):
+            self.assertIsNone(build.dosewiki_affinity(text), text)
+
+    def test_an_action_is_mapped_or_the_row_is_dropped(self):
+        self.assertEqual(
+            "partialAgonist", build.dosewiki_action("5-HT2A receptor agonist (partial)", None)
+        )
+        self.assertEqual("agonist", build.dosewiki_action("5-HT2A receptor agonist (full)", None))
+        self.assertEqual("releasingAgent", build.dosewiki_action("Serotonin releasing agent", None))
+        self.assertEqual(
+            "positiveAllostericModulator",
+            build.dosewiki_action(
+                "GABA-A receptor positive allosteric modulator (benzo site)", None
+            ),
+        )
+        self.assertEqual("antagonist", build.dosewiki_action(None, "Antagonist"))
+        self.assertEqual(
+            "enzymeInhibitor", build.dosewiki_action("Monoamine oxidase inhibitor (MAO-A)", None)
+        )
+        # A row whose tag and efficacy name different actions, and one that
+        # names none: both are dropped rather than guessed at. The second pair
+        # is methylone's SERT row, where "also acts as" adds an action the
+        # single `action` column has no room for.
+        self.assertIsNone(
+            build.dosewiki_action("Alpha-1 adrenergic receptor agonist", "Antagonist")
+        )
+        self.assertIsNone(
+            build.dosewiki_action("Serotonin releasing agent", "Also acts as reuptake inhibitor")
+        )
+        self.assertIsNone(build.dosewiki_action(None, None))
+        self.assertIsNone(build.dosewiki_action("Potential target; unverified", None))
+        self.assertIsNone(
+            build.dosewiki_action(
+                "Described as full agonist in some sources and partial agonist in others", None
+            )
+        )
+
+    def test_a_transporter_row_states_the_measure_its_action_implies(self):
+        self.assertTrue(build.dosewiki_measure_fits_action("SERT", "releasingAgent", "ec50_nm"))
+        self.assertTrue(build.dosewiki_measure_fits_action("DAT", "reuptakeInhibitor", "ki_nm"))
+        self.assertFalse(build.dosewiki_measure_fits_action("DAT", "releasingAgent", "ki_nm"))
+        self.assertFalse(build.dosewiki_measure_fits_action("NET", "reuptakeInhibitor", "ec50_nm"))
+        # Only the monoamine transporters carry the release/uptake distinction.
+        self.assertTrue(build.dosewiki_measure_fits_action("5-HT2A", "agonist", "ki_nm"))
+
+    def test_only_a_row_naming_its_own_source_is_citable(self):
+        references = {"doi-x": {"doi": "10.1000/x"}, "pm-y": {"pmid": "123456"}}
+        self.assertEqual(
+            "doi:10.1000/x",
+            build.dosewiki_row_reference({"affinity": "Ki 4 nM[cite:doi-x]"}, references),
+        )
+        self.assertEqual(
+            "pmid:123456", build.dosewiki_row_reference({"tag": "agonist[cite:pm-y]"}, references)
+        )
+        self.assertIsNone(build.dosewiki_row_reference({"affinity": "Ki 4 nM"}, references))
+        self.assertIsNone(
+            build.dosewiki_row_reference({"affinity": "Ki 4 nM[cite:missing]"}, references)
+        )
+
+    def test_a_cas_number_passes_its_own_check_digit(self):
+        self.assertTrue(build.cas_check_digit_holds("50-78-2"))  # aspirin
+        self.assertTrue(build.cas_check_digit_holds("42542-10-9"))  # MDMA
+        self.assertFalse(build.cas_check_digit_holds("42542-10-8"))
+        self.assertFalse(build.cas_check_digit_holds("not-a-cas"))
+
+    def test_a_target_folds_the_way_the_app_folds_it(self):
+        self.assertEqual("NMDA", build.display_receptor_target("NMDA receptor (PCP site)"))
+        self.assertEqual("MOR", build.display_receptor_target("MOR (+)-tramadol"))
+        self.assertEqual("5-ht2a", build.fold_receptor_target("5-HT2A  receptor"))
+
+
+class TestBuiltDatabase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not DB.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(DB)
+        cls.db.row_factory = sqlite3.Row
+        row = cls.db.execute("SELECT id FROM sources WHERE slug='dosewiki'").fetchone()
+        if row is None:
+            raise unittest.SkipTest("dosewiki not in the shipped sources table")
+        cls.source_id = row["id"]
+
+    @classmethod
+    def tearDownClass(cls):
+        if hasattr(cls, "db"):
+            cls.db.close()
+
+    def test_dosewiki_is_last_in_the_default_order(self):
+        last = self.db.execute(
+            "SELECT slug FROM sources ORDER BY default_priority DESC LIMIT 1"
+        ).fetchone()
+        self.assertEqual("dosewiki", last["slug"])
+
+    def test_it_never_drives_a_class_field(self):
+        """Category and tags are what the interaction engine keys on, so
+        dose.wiki is barred from them the same way drug.community is."""
+        for table in ("categories", "tags"):
+            count = self.db.execute(
+                f"SELECT COUNT(*) FROM {table} WHERE source_id = ?", (self.source_id,)
+            ).fetchone()[0]
+            self.assertEqual(0, count, table)
+
+    def test_every_binding_carries_a_number_a_citation_and_a_low_confidence(self):
+        rows = self.db.execute(
+            "SELECT ki_nm, ec50_nm, ic50_nm, confidence, action, citation_id"
+            "  FROM bindings WHERE source_id = ?",
+            (self.source_id,),
+        ).fetchall()
+        for row in rows:
+            self.assertTrue(
+                row["ki_nm"] is not None or row["ec50_nm"] is not None or row["ic50_nm"] is not None
+            )
+            self.assertIsNotNone(row["citation_id"])
+            self.assertEqual("LOW", row["confidence"])
+            self.assertNotEqual("modulator", row["action"])
+
+    def test_dose_rows_carry_the_recreational_regime(self):
+        """`salt_form` is deliberately not checked: dose.wiki never states a
+        basis so the ingester writes NULL, and `apply_salt_metadata` then stamps
+        the family's salt onto every row of a salt member, dose.wiki's included.
+        """
+        rows = self.db.execute(
+            "SELECT dose_context FROM dose_ranges WHERE source_id = ?", (self.source_id,)
+        ).fetchall()
+        self.assertTrue(rows)
+        for row in rows:
+            self.assertEqual("recreational", row["dose_context"])
+
+    def test_a_half_life_says_which_route_and_what_the_source_wrote(self):
+        """The stored number is the midpoint of a range; the note is what makes
+        the interval and the approximation sign it came from readable."""
+        rows = self.db.execute(
+            "SELECT half_life_minutes, notes FROM half_lives WHERE source_id = ?",
+            (self.source_id,),
+        ).fetchall()
+        self.assertTrue(rows)
+        for row in rows:
+            self.assertGreater(row["half_life_minutes"], 0)
+            self.assertIn(":", row["notes"] or "")
+
+    def test_a_reviewed_summary_outranks_the_copied_and_translated_ones(self):
+        """The field-priority override is what puts it there; on source priority
+        alone dose.wiki resolves last, behind both."""
+        override = self.db.execute(
+            "SELECT priority FROM source_field_priority"
+            " WHERE field = 'descriptions' AND source_id = ?",
+            (self.source_id,),
+        ).fetchone()
+        self.assertIsNotNone(override)
+        for slug in ("psychonautwiki", "freeodwiki"):
+            rank = self.db.execute(
+                "SELECT default_priority - 1 FROM sources WHERE slug = ?", (slug,)
+            ).fetchone()[0]
+            self.assertLess(override["priority"], rank)
 
 
 if __name__ == "__main__":

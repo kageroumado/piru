@@ -74,6 +74,7 @@ fix, not noise to tolerate.
 | `by-volume-dosing.json` | `by_volume_dosing`, `drink_presets` | which substances are dosed as concentration × measured volume, the density that converts it, and the tappable presets |
 | `zero-order-kinetics.json` | `zero_order_kinetics` | which substances clear at a fixed mass-per-time, and the Vmax/ka the dose-scaled curve is drawn from |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
+| `dosewiki-ids.json` | — | which Piru substance each dose.wiki article is about, or an explicit `null` with the reason. See [dose.wiki](#dosewiki) |
 | `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
 | `class-mechanisms.json` | `mechanisms_summary`, `bindings` | the eight class-level receptor profiles that say something their own summary does not (a tricyclic's H1/M1/α1, a barbiturate's AMPA/kainate). Written only where the substance has no measured row for that target, uncited, marked `class-level generalisation` in `notes` — see the file's `_meta.rule` and the gate in `tests/test_sqlite.py` |
 
@@ -151,6 +152,8 @@ deliberately NOT committed — only the built SQLite is.
   `build/sqlite.py::build_product_codes` maps them onto the built alias table
   into `coded_products` + `product_codes` (GTIN-14 keyed). Shared GTIN/name
   primitives live in `pipeline/product_codes.py`.
+- **`dosewiki.py`** — dose.wiki's public API (CC0 1.0); writes
+  `data/sources/dosewiki.json` + `.meta.json`. See [dose.wiki](#dosewiki).
 - **`brushers/extract.py`** — extracts the four out-of-repo datasets
   (`~/Developer/piru-data`: TripSit-benzos, MedTAP, NPS DataHub,
   Pyrls) into `Substance`-shaped JSON written to `/tmp/piru-extract`
@@ -243,6 +246,67 @@ LLM-assisted research used to fill gaps external sources don't cover
 - **`dump_for_verification.py`** — emits richer per-substance dumps
   suitable for parallel human or LLM review. Output is gitignored under
   `data/snapshots/verification-dump/`.
+
+## dose.wiki
+
+`dose.wiki` is a CC0 encyclopedia compiled from ten reference sites —
+PsychonautWiki, TripSit and Erowid among them — with an editorial merge on top
+and a first-pass prose review recorded per article as `expert_reviewed`. It sits
+**last** in `SOURCES`, so appending it shifted no existing rank and
+`SubstanceStore.currentSourceOrderMigration` stays where it is. It is
+deliberately absent from `SubstanceStore.reorderableSourceSlugs`.
+
+**The fetch decides what may be stored** (`fetch/dosewiki.py`). The projection is
+an allowlist, and two exclusions are load-bearing because a snapshot committed to
+this public repo is a redistribution of whatever is in it: `priority: low` drafts
+are never requested, and the `interactions` / `reagent_testing` fields carry
+TripSit's and ProtestKit's terms rather than dose.wiki's and may never reach
+`data/sources/`. `build/tests/test_dosewiki.py` walks the whole file asserting no
+blocked or dropped key survives at any depth.
+
+**The join is hand-reviewed and structural** —
+`data/curated/dosewiki-ids.json`, seeded from an InChIKey/CAS comparison of all
+577 articles against the catalog. `name` is what the ingest resolves (a
+`substance_uid` is assigned long after ingest), and `substance_uid` is checked
+against `substance-ids.json` so a rename cannot silently move a join. A slug the
+file does not decide **fails the build**: joining a dose.wiki article by name
+alone put its *2C-B* page onto *bk-2C-B*, a different molecule, and nothing in a
+value comparison can see that.
+
+**What `ingest_dosewiki` writes**, and the gate on each:
+
+| written | gate |
+|---|---|
+| `substances` chemistry — SMILES/InChIKey/CAS/formula/MW/IUPAC | any published article, and only into a column that is NULL or empty. The InChIKey is recomputed with RDKit and must equal the stated one; the CAS must pass its check digit; a structure another substance already carries is refused (dose.wiki gives a plant its active molecule's structure) |
+| `aliases` | any published article |
+| `dose_ranges`, `durations`, `half_lives` | `expert_reviewed`. `moderate` → `common`; both micro signs fold to `µg`; `come_up`/`after_effects` → `comeup`/`afterglow`; `dose_context = recreational`; the half-life is written only where neither `half_lives` nor `pk_routes` has one |
+| `bindings` | `expert_reviewed`, a stated Ki/EC50/IC50 with a unit (never a `<`/`>` threshold), an action mapped explicitly from `tag`/`efficacy`, and an inline `[cite:…]` resolving to a DOI or PMID. `confidence = LOW` |
+| `descriptions` | `expert_reviewed`, after `prose.enforce_voice`, skipped if the banned phrase survives |
+
+Two refusals have their own reason. An action that maps to nothing leaves the row
+out rather than falling back to `modulator` — that fallback un-classifies a
+substance. And a monoamine-transporter row whose measure disagrees with its
+action (a releaser reported as a Ki) is dropped rather than re-filed, because the
+label is the whole claim about which experiment produced the number.
+
+`add_category` refuses `dosewiki` outright, the same way it refuses
+`drug.community`: category is what the interaction engine keys on.
+
+### The descriptions override
+
+A reviewed dose.wiki summary is written for its own article; PsychonautWiki's is
+a wiki lead copied whole and FreeOD's English is machine-translated. So for that
+one field dose.wiki reads better than either, while its numbers stay last.
+
+`source_field_priority(field, source_id, priority)` is how that is said. The
+build writes it from `SOURCE_FIELD_PRIORITY` in `build/sqlite.py`, which declares
+the override as *"directly beneath `piru-curated`"* and stores that source's
+position plus one. `SubstanceReadModel.resolvedTextRow` joins the table **only
+for `descriptions`** and orders by `COALESCE(override, source rank)`, so a source
+with no row keeps its position and a tie falls back to the ordinary order. Every
+other field resolves on source priority with nothing in front of it, and a
+resolver has to join the table deliberately to honour an override — which is what
+keeps a row added here from moving a field nobody meant to move.
 
 ## Researching a claim
 

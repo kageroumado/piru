@@ -1,6 +1,6 @@
 {
-  "content_version": "2026-09-07.0",
-  "generated_at": "2026-09-07T23:40:10.680847+00:00",
+  "content_version": "2026-09-10.0",
+  "generated_at": "2026-09-10T11:17:28.609614+00:00",
   "generator_version": "pipeline/build/sqlite.py",
   "schema_version": 6,
   "sources": {
@@ -18,6 +18,11 @@
       "bindings": 0,
       "categories": 0,
       "dose_ranges": 0
+    },
+    "dosewiki": {
+      "bindings": 12,
+      "categories": 0,
+      "dose_ranges": 299
     },
     "drug.community": {
       "bindings": 0,
@@ -60,7 +65,7 @@
       "dose_ranges": 0
     },
     "piru-curated": {
-      "bindings": 456,
+      "bindings": 454,
       "categories": 649,
       "dose_ranges": 237
     },
@@ -91,7 +96,7 @@
     }
   },
   "sqlite_path": "piru-substances.sqlite",
-  "sqlite_sha256": "7ca051848e579377ac6194f1297b8ed028b284df9120b3ad2d9b77625aa8ea50",
-  "sqlite_size_bytes": 19062784,
+  "sqlite_sha256": "130dee390e98e4ff926fa6eda379b577b88008b1fefe445a100489cd2f793a76",
+  "sqlite_size_bytes": 19365888,
   "substance_count": 1689
 }

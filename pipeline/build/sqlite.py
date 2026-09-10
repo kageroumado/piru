@@ -9133,6 +9133,353 @@ class Build:
                 f"full list at {report}"
             )
 
+    def _dosewiki_target_spellings(self) -> dict[str, str]:
+        """Fold key -> the spelling Piru already uses most for that target.
+
+        `bindings.target` is free text and 35 of Piru's 137 targets are written
+        more than one way, so a dose.wiki row inserted under its own spelling
+        would add a 36th. Folding onto the majority spelling keeps a per-target
+        query reaching every row for that receptor.
+        """
+        counts: dict[str, Counter[str]] = defaultdict(Counter)
+        for (target,) in self.cur.execute(
+            "SELECT target FROM bindings WHERE target IS NOT NULL"
+        ).fetchall():
+            counts[fold_receptor_target(target)][display_receptor_target(target)] += 1
+        return {key: spellings.most_common(1)[0][0] for key, spellings in counts.items()}
+
+    def ingest_dosewiki(self, path: Path) -> None:
+        """dose.wiki (CC0 1.0) — the snapshot's shape is in pipeline/fetch/dosewiki.py.
+
+        Last in the source order, so its doses, durations, half-lives and
+        bindings resolve only where nothing else carries the field. Its
+        summaries are the exception: `source_field_priority` lifts them above
+        the copied and machine-translated overviews for the `descriptions`
+        field alone.
+
+        Two gates, and they draw the line at what a reader could act on.
+        **Every published article** contributes chemistry and aliases, because
+        an identifier is right or wrong rather than better or worse, and
+        dose.wiki's are internally consistent — across all 577 records every
+        stated InChIKey recomputes from its own SMILES and every CAS passes its
+        check digit. **Only `expert_reviewed` articles** contribute a dose, a
+        duration, a half-life, a binding or prose.
+
+        Nothing here creates a substance. dose.wiki's 267 are a subset of a
+        catalog Piru already covers at 1,689, and a new row from the bottom of
+        the order is a dedup hazard that buys nothing.
+        """
+        if not path.exists():
+            return
+        slug = "dosewiki"
+        records = json.loads(path.read_text()).get("records") or []
+        entries = load_dosewiki_ids()
+        pinned = (
+            {
+                name: uid
+                for name, uid in json.loads(SUBSTANCE_IDS.read_text()).items()
+                if not name.startswith("_")
+            }
+            if SUBSTANCE_IDS.exists()
+            else {}
+        )
+        spellings = self._dosewiki_target_spellings()
+        alias_index = self._alias_index()
+        # Which substances already carry each connectivity skeleton. dose.wiki
+        # gives a plant its active molecule's structure — Khat carries
+        # cathinone's SMILES, Cannabis THC's — so writing that structure onto
+        # Piru's preparation row would file one molecule under two identities.
+        # Piru points a preparation at its molecule with
+        # `active_ingredient_substance_id` and leaves the structure columns
+        # empty instead.
+        skeleton_owners: dict[str, set[int]] = defaultdict(set)
+        for owner_id, key in self.cur.execute(
+            "SELECT id, inchikey FROM substances WHERE inchikey IS NOT NULL AND inchikey != ''"
+        ).fetchall():
+            skeleton_owners[key[:14]].add(owner_id)
+
+        undecided = [rec["slug"] for rec in records if rec["slug"] not in entries]
+        if undecided:
+            raise SystemExit(
+                "dose.wiki published these articles and data/curated/dosewiki-ids.json "
+                "does not say which substance they are about. Add each one with the "
+                "Piru substance it names, or an explicit null with the reason:\n  "
+                + "\n  ".join(sorted(undecided))
+            )
+        misfiled = [
+            f"{dw}: {entry['name']} is pinned {pinned.get(entry['name'])!r}, "
+            f"the join says {entry['substance_uid']!r}"
+            for dw, entry in entries.items()
+            if entry.get("substance_uid")
+            and entry.get("name") in pinned
+            and pinned[entry["name"]] != entry["substance_uid"]
+        ]
+        if misfiled:
+            raise SystemExit(
+                "data/curated/dosewiki-ids.json points at a substance whose identity "
+                "moved. Re-check the structure before re-pinning:\n  " + "\n  ".join(misfiled)
+            )
+
+        unresolved: list[str] = []
+        for rec in records:
+            entry = entries[rec["slug"]]
+            name = entry.get("name") if entry.get("substance_uid") else None
+            if not name:
+                self.stats["dosewiki_unmapped"] += 1
+                continue
+            key = normalise(name)
+            sid = self.substance_ids.get(key) or alias_index.get(key)
+            if sid is None:
+                unresolved.append(f"{rec['slug']} -> {name}")
+                continue
+            self.stats["dosewiki_matched"] += 1
+            self.cur.execute(
+                "UPDATE substances SET dosewiki_slug=COALESCE(dosewiki_slug, ?) WHERE id=?",
+                (rec["slug"], sid),
+            )
+            self._dosewiki_identity(sid, slug, rec, skeleton_owners)
+            if rec.get("expert_reviewed"):
+                self._dosewiki_reviewed(sid, slug, rec, spellings)
+
+        if unresolved:
+            # A private external extract Piru's public build does not have can
+            # be what supplies the substance, so this reports rather than fails.
+            print(
+                f"⚠️  [dosewiki] {len(unresolved)} joined names resolve to no substance:\n     "
+                + "\n     ".join(sorted(unresolved)),
+                file=sys.stderr,
+            )
+        print(
+            f"[dosewiki] {len(records)} articles: {self.stats['dosewiki_matched']} matched, "
+            f"{self.stats['dosewiki_unmapped']} deliberately unmapped — "
+            f"{self.stats['dosewiki_identifiers']} identifier fields filled, "
+            f"{self.stats['dosewiki_doses']} doses, {self.stats['dosewiki_durations']} durations, "
+            f"{self.stats['dosewiki_half_lives']} half-lives, "
+            f"{self.stats['dosewiki_bindings']} bindings, "
+            f"{self.stats['dosewiki_descriptions']} summaries"
+        )
+
+    def _dosewiki_identity(
+        self, sid: int, slug: str, rec: dict, skeleton_owners: dict[str, set[int]]
+    ) -> None:
+        """Chemistry and names, from any published article.
+
+        Every column is written under an is-empty condition, so this only ever
+        fills a hole. Where dose.wiki and Piru both hold a value and they
+        disagree, the disagreement is a question for a person, not something an
+        ingester should settle by overwriting.
+        """
+        identification = rec.get("identification") or {}
+        smiles = (identification.get("smiles") or "").strip()
+        stated_key = (identification.get("inchi_key") or "").strip()
+        inchikey = inchikey_from_smiles(smiles) if smiles else None
+        if inchikey and stated_key and inchikey != stated_key:
+            self.stats["dosewiki_inchikey_mismatch"] += 1
+            self.note_reject(
+                "dosewiki_inchikey_mismatch", stated_key, slug=rec["slug"], computed=inchikey
+            )
+            inchikey = None
+        if inchikey and skeleton_owners.get(inchikey[:14], set()) - {sid}:
+            self.stats["dosewiki_structure_owned_elsewhere"] += 1
+            self.note_reject("dosewiki_structure_owned_elsewhere", inchikey, slug=rec["slug"])
+        else:
+            cas = (identification.get("cas_number") or "").strip()
+            if cas and not cas_check_digit_holds(cas):
+                self.stats["dosewiki_bad_cas"] += 1
+                self.note_reject("dosewiki_bad_cas", cas, slug=rec["slug"])
+                cas = ""
+            # "393.522 g/mol" — g/mol is the only unit dose.wiki writes.
+            stated_weight = (identification.get("molecular_weight") or "").split()
+            columns = {
+                "smiles": smiles or None,
+                "inchikey": inchikey,
+                "cas": cas or None,
+                "formula": (identification.get("molecular_formula") or "").strip() or None,
+                "molecular_weight": to_float(stated_weight[0]) if stated_weight else None,
+                "iupac_name": latin_iupac((identification.get("iupac_name") or "").strip() or None),
+            }
+            for column, value in columns.items():
+                if value is None:
+                    continue
+                changed = self.cur.execute(
+                    f"UPDATE substances SET {column} = ? "
+                    f" WHERE id = ? AND ({column} IS NULL OR {column} = '')",
+                    (value, sid),
+                ).rowcount
+                self.stats["dosewiki_identifiers"] += changed
+
+        for alias in identification.get("alternative_names") or []:
+            self._add_alias(sid, dosewiki_clean(alias), slug)
+
+    def _dosewiki_reviewed(self, sid: int, slug: str, rec: dict, spellings: dict[str, str]) -> None:
+        """Everything gated on `expert_reviewed`: ladders, curves, half-lives,
+        bindings and the overview."""
+        name = self.cur.execute(
+            "SELECT canonical_name FROM substances WHERE id=?", (sid,)
+        ).fetchone()[0]
+        exception_key = name.strip().lower()
+        skip_doses = self._dose_skip_map(slug).get(exception_key, False)
+        drop_routes = self._route_drop_map(slug).get(exception_key, False)
+        drop_durations = self._duration_drop_map(slug).get(exception_key, False)
+
+        def excepted(mapping: set[str] | None | bool, route: str) -> bool:
+            return mapping is None or bool(mapping and normalise_route(route) in mapping)
+
+        for entry in (rec.get("dosage") or {}).get("routes") or []:
+            route = entry.get("route") or ""
+            if excepted(drop_routes, route) or excepted(skip_doses, route):
+                self.stats["dose_skipped"] += 1
+                continue
+            bands = entry.get("dose_ranges") or {}
+            # A ladder mixing units within one route is unintelligible: the
+            # tiers are then in two magnitudes with nothing saying which.
+            units = {
+                (band or {}).get("unit") for band in bands.values() if (band or {}).get("unit")
+            }
+            canonical = {canonical_mass_unit(unit) for unit in units}
+            if len(canonical) != 1:
+                self.stats["dosewiki_mixed_units"] += 1
+                continue
+            tiers: dict[str, object] = {}
+            for raw_tier, band in bands.items():
+                tier = DOSEWIKI_TIERS.get(raw_tier)
+                if not tier or not isinstance(band, dict):
+                    continue
+                low, high = to_float(band.get("min")), to_float(band.get("max"))
+                if low is None and high is None:
+                    continue
+                if tier in ("threshold", "heavy"):
+                    # Both are open-ended in Piru's schema: a single number.
+                    tiers[tier] = low if low is not None else high
+                else:
+                    tiers[tier] = {"lower": low, "upper": high if high is not None else low}
+            if not tiers:
+                continue
+            before = self.stats["dose_ranges"]
+            self.add_dose(
+                sid,
+                slug,
+                route,
+                canonical.pop(),
+                threshold=tiers.get("threshold"),
+                light=tiers.get("light"),
+                common=tiers.get("common"),
+                strong=tiers.get("strong"),
+                heavy=tiers.get("heavy"),
+                # The ladder is what dose.wiki adds here. Its route `notes` are
+                # an AI-drafted paragraph about the substance rather than a
+                # qualifier on these numbers, and they carry the phrase the
+                # voice rule bans, so they stay out.
+                notes=None,
+                # dose.wiki never states a salt basis. Its ladders come from
+                # TripSit and PsychonautWiki, which usually leave it unstated
+                # too, so claiming one here would invent the fact.
+                salt_form=None,
+            )
+            self.stats["dosewiki_doses"] += self.stats["dose_ranges"] - before
+
+        for entry in (rec.get("duration") or {}).get("routes") or []:
+            route = entry.get("route") or ""
+            if excepted(drop_routes, route) or excepted(drop_durations, route):
+                self.stats["duration_skipped"] += 1
+                continue
+            profile = dosewiki_duration_profile(entry.get("stages"))
+            if profile:
+                before = self.stats["durations"]
+                self.add_duration_profile(sid, slug, route, profile)
+                self.stats["dosewiki_durations"] += self.stats["durations"] - before
+
+        self._dosewiki_half_lives(sid, slug, rec)
+
+        references = {ref["id"]: ref for ref in rec.get("references") or [] if ref.get("id")}
+        for row in (rec.get("pharmacology") or {}).get("binding_sites") or []:
+            target = dosewiki_clean(row.get("target"))
+            affinity = dosewiki_affinity(row.get("affinity"))
+            action = dosewiki_action(row.get("tag"), row.get("efficacy"))
+            reference = dosewiki_row_reference(row, references)
+            if not target or not affinity or not action or not reference:
+                self.stats["dosewiki_bindings_skipped"] += 1
+                continue
+            column, value = affinity
+            if not dosewiki_measure_fits_action(target, action, column):
+                self.stats["dosewiki_binding_measure_mismatch"] += 1
+                continue
+            self.add_binding(
+                sid,
+                slug,
+                {
+                    "target": spellings.get(
+                        fold_receptor_target(target), display_receptor_target(target)
+                    ),
+                    "action": action,
+                    column: value,
+                    "reference": reference,
+                    "confidence": "low",
+                    "notes": dosewiki_clean(row.get("efficacy")) or None,
+                },
+            )
+            self.stats["dosewiki_bindings"] += 1
+
+        summary = enforce_voice(clean_wiki_prose(dosewiki_clean(rec.get("summary"))))
+        if summary and not BANNED_PHRASE.search(summary):
+            before = self.stats.get("descriptions", 0)
+            self.add_description(sid, slug, summary, language="en")
+            self.stats["dosewiki_descriptions"] += self.stats.get("descriptions", 0) - before
+        elif summary:
+            self.stats["dosewiki_summary_off_voice"] += 1
+
+    def _dosewiki_half_lives(self, sid: int, slug: str, rec: dict) -> None:
+        """One half-life per substance, from the first route that states one.
+
+        dose.wiki files a half-life per route, but elimination is a property of
+        the compound rather than of how it was taken, and `half_lives` holds one
+        number per source. So the routes are read in a stable order and the
+        first parseable value wins; the rest would be restatements of it.
+
+        Written only where the substance has no elimination figure at all, in
+        either column. A `pk_routes.half_life_min` becomes a `half_lives` row
+        later (``derive_half_lives_from_pk``) carrying the source and citation
+        of the study it came from, and that derivation is skipped for any
+        substance that already has a row — so a free-text half-life written here
+        beside a measured one would replace a cited value with an uncited one.
+        """
+        already = self.cur.execute(
+            "SELECT EXISTS(SELECT 1 FROM half_lives WHERE substance_id = ?) "
+            "    OR EXISTS(SELECT 1 FROM pk_routes "
+            "               WHERE substance_id = ? AND half_life_min IS NOT NULL)",
+            (sid, sid),
+        ).fetchone()[0]
+        if already:
+            self.stats["dosewiki_half_life_skipped"] += 1
+            return
+        pharmacology = rec.get("pharmacology") or {}
+        stated: list[tuple[str, str]] = [
+            (str(route), str(text))
+            for route, text in (pharmacology.get("route_half_life") or {}).items()
+            if text
+        ]
+        stated += [
+            (str(entry.get("route") or ""), str(entry.get("half_life") or ""))
+            for entry in (rec.get("duration") or {}).get("routes") or []
+            if entry.get("half_life")
+        ]
+        for route, text in sorted(stated):
+            minutes = dosewiki_half_life_minutes(text)
+            if minutes is None:
+                continue
+            before = self.stats["half_lives"]
+            # The midpoint is what a curve can use; the interval and the "~" it
+            # was stated with are what a reader needs, so the note keeps them.
+            self.add_half_life(
+                sid,
+                slug,
+                minutes,
+                notes=f"{normalise_route(route) or route}: {dosewiki_clean(text)}",
+            )
+            if self.stats["half_lives"] > before:
+                self.stats["dosewiki_half_lives"] += 1
+            return
+
     def ingest_pyrls(self, path: Path) -> None:
         """Prescription-drug clinical reference. Adds NEW medical substances
         (trackable, dose-suppressed by policy) plus regulatory status,
@@ -13794,6 +14141,14 @@ def main() -> int:
         f"After nps (identifier backfill): {build.stats.get('nps_identifier_matches', 0)} matches",
         file=sys.stderr,
     )
+
+    # Last of the sources that carry substance data. It joins by a hand-reviewed
+    # slug -> name map and creates no substance, so it needs every source that
+    # can add one to have run — a name resolved against a half-built catalog
+    # would report as unmatched and drop the article. Still ahead of the
+    # class-mechanism pass, whose "no measured row for this target" skip is what
+    # keeps a class generalisation from sitting beside a measurement.
+    build.ingest_dosewiki(DOSEWIKI)
 
     # Curated MOA prose + bindings (relocated from the iOS Swift file). Runs
     # AFTER every substance exists so names resolve regardless of origin.
