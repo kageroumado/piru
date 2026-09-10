@@ -243,6 +243,88 @@ LLM-assisted research used to fill gaps external sources don't cover
 - **`dump_for_verification.py`** — emits richer per-substance dumps
   suitable for parallel human or LLM review. Output is gitignored under
   `data/snapshots/verification-dump/`.
+- **`adjudicate.py`** — scores every source's claim about every comparable
+  number and says which are probably wrong. See
+  [The adjudicator](#the-adjudicator) below.
+
+## The adjudicator
+
+`audit/adjudicate.py` exists because the shipped resolution is one global source
+ranking. `sources.default_priority` says PsychonautWiki beats TripSit for every
+substance, every route and every field — an average that is wrong wherever the
+average is not the case, and silently so.
+
+```bash
+python3 pipeline/audit/adjudicate.py                       # everything, ~4s
+python3 pipeline/audit/adjudicate.py --top-substances 100  # the popular end
+python3 pipeline/audit/adjudicate.py --column binding --min-prob 0.7
+python3 pipeline/audit/adjudicate.py --substance Morphine
+python3 pipeline/audit/adjudicate.py --source freeodwiki
+```
+
+Offline and deterministic; it reads the built SQLite, `data/sources/chembl-cache.json`,
+RDKit, and the dose.wiki records, and writes to the gitignored `data/adjudication/`.
+**It decides nothing** — the output is evidence for a resolution table a human
+writes, and nothing in the build reads any of it.
+
+### What it computes
+
+A **cell** is one comparable quantity for one substance: a dose band bound per
+(route, salt, isomer, dose context), a duration phase bound, a half-life, a
+binding measure per (target, Ki/EC50/IC50), or a chemical identifier. Every
+source that has a value for that cell is one claim, alongside four virtual ones
+for chemistry — Piru's stored column, RDKit recomputed from Piru's own SMILES,
+the ChEMBL cache joined on connectivity block, and dose.wiki joined by Piru row
+id through `Specs/evidence/dosewiki/mapping.json` (never by name).
+
+Per cell:
+
+| | |
+|---|---|
+| **clusters** | Values agreeing to within a tolerance are *one* claim several sources repeat. Copying is the dominant failure mode here — freeodwiki and dose.wiki both carry PsychonautWiki's ladders verbatim — and counting copies as votes is how one upstream error becomes a majority. `evidence_level` counts clusters, not values. |
+| **consensus** | Weighted median over clusters; each cluster votes once plus a small increment per repetition. |
+| **reliability** | Per source, per column, iterated: uniform start → outlier rate against the consensus → weight → new consensus, five rounds. Reported in `sources.json`. This is the number that replaces the ranking. |
+| **class prior** | The log-normal spread of the same column across the substance's class peers, leave-one-out, as a robust z. Cascades class context → drug class → interaction class → category. A compound with no class, or a class of one, gets **no** signal and the cell says `no_class_signal` rather than inventing one. |
+| **consistency** | What one row says about itself: ladders that stop rising, ranges that run backwards, `min == max`, a route ordering that needs more drug the more direct it gets (`dose_sanity.ROUTE_RANK`), ratios that are exactly 10x/100x/1000x, a qualifier hidden in a unit string, an InChIKey that disagrees with its own SMILES, a CAS check digit that does not check, a therapeutic ladder outranking a recreational one. |
+
+### How to read P
+
+`P` is a weighted logistic over those features — an ordering, not a frequency.
+Read it with `evidence_level`, always:
+
+- **P ≥ 0.9** — several independent sources and this one is far from all of them,
+  or it contradicts itself outright. Fix the data.
+- **0.5 ≤ P < 0.9** — the `needs_manual` band. Look at it.
+- **P < 0.5 with `unresolved_disagreement`** — two claims, no majority, nothing
+  in the data breaking the tie. Neither value is suspect on its own; the *cell*
+  needs a person.
+- **P < 0.5 with `single_value` or `unanimous`** — one independent claim. A low P
+  here means "nothing contradicts it", which is not the same as "it is right".
+
+`data/adjudication/summary.md` is the readable overview, `sources/<slug>.md` is
+one source's probable errors with the competing values beside them, and
+`calibration-top100.md` is a worksheet: every flagged cell among the 100 most
+popular substances, with a blank verdict column.
+
+### How to calibrate
+
+Every weight and threshold lives in `audit/adjudicator_weights.json`, and every
+feature that fired is written next to its probability in `cells.jsonl` (a
+feature absent from that object is zero). So calibration is:
+
+1. Fill in the verdict column of `calibration-top100.md` by hand.
+2. Edit numbers in `adjudicator_weights.json` — `features` for the logistic
+   weights, `bias` for where the whole distribution sits, `thresholds` for when
+   `needs_manual` fires, `clustering.relative_tolerance` for what counts as a
+   copy, `class_prior.min_members` for how small a class may be and still speak.
+3. Re-run and compare. Never edit `adjudicate.py` to change a verdict: the code
+   computes features, the file decides what they are worth.
+
+`binding_target_map.json` beside it is the receptor-name normalization the
+binding cells are keyed by — Piru carries 17 spellings of the mu-opioid receptor
+and 33 of GABA-A, and two values cannot be compared until they agree what they
+are about. Regenerate it with `--write-target-map` after new binding rows land;
+it is tracked so the rest of the pipeline can key off the same names.
 
 ## Researching a claim
 

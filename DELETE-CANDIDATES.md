@@ -32,6 +32,27 @@ Two kinds of entry, both ending in a deletion:
   per-item constraints.
 - **Found**: 2026-08-04
 
+## `pipeline/audit/dose_sanity.py` — the SOURCE check
+
+- **What**: the `SOURCE` mode only (`check_sources`, `check_source_group`,
+  `check_source_pair`, and the `source` value of `--check`). ROUTE and LADDER
+  stay, and so do the module's tables — `adjudicate.py` imports `ROUTE_RANK`,
+  `ROUTE_ALIASES`, `UNITS`, `LADDER`, `LADDER_SEQUENCES` and `TIER_BOUNDS` from
+  it rather than restating them.
+- **Looks dead because**: `pipeline/audit/adjudicate.py` answers the same
+  question with strictly more evidence — the same median-of-the-others
+  comparison, plus copy-clustering (so freeodwiki repeating PsychonautWiki is
+  one vote, which SOURCE counts as two), per-source reliability weights, a
+  class-level prior, and a probability instead of a ratio threshold. Every
+  SOURCE finding appears in `data/adjudication/summary.md`.
+- **Not deleted because**: nothing in the repo invokes it — no CI job, no
+  `build.sh` step — so its callers, if any, are habits and notes outside this
+  tree, and `--gate` exits non-zero on HIGH in a way someone may rely on.
+- **To confirm**: `rg 'dose_sanity' ~/Developer` and ask whether anyone runs
+  `--check source` by hand; then delete the three functions and the `source`
+  choice, leaving ROUTE, LADDER and the tables.
+- **Found**: 2026-09-10
+
 `ActiveIngredient.swift` and the class/rule tables in
 `Piru/Data/Services/Interactions.swift` were on this list and are gone:
 `substances.active_ingredient_substance_id`, `interaction_rules`,

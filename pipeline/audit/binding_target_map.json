@@ -1,0 +1,3486 @@
+{
+  "_readme": "Receptor-target spellings folded onto canonical names, produced by pipeline/audit/adjudicate.py --write-target-map. `cell` is the name two values must share before they may be compared; `base` is the receptor with every qualifier removed, which is what a class-level prior groups by. A `dropped` qualifier described the assay (species, tissue, radioligand); a `kept` one named a different entity or a different subunit/site and so keeps the rows apart.",
+  "targets": {
+    "(prodrug — no direct affinity)": {
+      "base": "prodrug-no-direct-affinity",
+      "cell": "prodrug-no-direct-affinity [entity:prodrug]",
+      "dropped": [],
+      "kept": [
+        "entity:prodrug"
+      ]
+    },
+    "5'-nucleotidase": {
+      "base": "5-nucleotidase",
+      "cell": "5-nucleotidase",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT receptors": {
+      "base": "5-ht",
+      "cell": "5-ht",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT1": {
+      "base": "5-ht1",
+      "cell": "5-ht1",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT1A": {
+      "base": "5-HT1A",
+      "cell": "5-HT1A",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT1A and adrenergic receptors": {
+      "base": "5-ht1a-and-adrenergic",
+      "cell": "5-ht1a-and-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT1B": {
+      "base": "5-ht1b",
+      "cell": "5-ht1b",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT1B/D": {
+      "base": "5-ht1b-d",
+      "cell": "5-ht1b-d",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT1D": {
+      "base": "5-ht1d",
+      "cell": "5-ht1d",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT1E": {
+      "base": "5-ht1e",
+      "cell": "5-ht1e",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT1F": {
+      "base": "5-ht1f",
+      "cell": "5-ht1f",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT2": {
+      "base": "5-ht2",
+      "cell": "5-ht2",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT2 (subtype not resolved)": {
+      "base": "5-ht2",
+      "cell": "5-ht2 [subtype:not-resolved]",
+      "dropped": [],
+      "kept": [
+        "subtype:not-resolved"
+      ]
+    },
+    "5-HT2A": {
+      "base": "5-HT2A",
+      "cell": "5-HT2A",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT2A (as psilocin)": {
+      "base": "5-HT2A",
+      "cell": "5-HT2A [entity:as-psilocin]",
+      "dropped": [],
+      "kept": [
+        "entity:as-psilocin"
+      ]
+    },
+    "5-HT2A (human)": {
+      "base": "5-HT2A",
+      "cell": "5-HT2A",
+      "dropped": [
+        "human"
+      ],
+      "kept": []
+    },
+    "5-HT2A (rat cortex)": {
+      "base": "5-HT2A",
+      "cell": "5-HT2A",
+      "dropped": [
+        "rat cortex"
+      ],
+      "kept": []
+    },
+    "5-HT2A[cite:doi-10-3389-fphar-2021-794254]": {
+      "base": "5-ht2a-cite-doi-10-3389-fphar-2021-794254",
+      "cell": "5-ht2a-cite-doi-10-3389-fphar-2021-794254",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT2B": {
+      "base": "5-HT2B",
+      "cell": "5-HT2B",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT2B (human)": {
+      "base": "5-HT2B",
+      "cell": "5-HT2B",
+      "dropped": [
+        "human"
+      ],
+      "kept": []
+    },
+    "5-HT2C": {
+      "base": "5-HT2C",
+      "cell": "5-HT2C",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT2C (as psilocin)": {
+      "base": "5-HT2C",
+      "cell": "5-HT2C [entity:as-psilocin]",
+      "dropped": [],
+      "kept": [
+        "entity:as-psilocin"
+      ]
+    },
+    "5-HT2C (human)": {
+      "base": "5-HT2C",
+      "cell": "5-HT2C",
+      "dropped": [
+        "human"
+      ],
+      "kept": []
+    },
+    "5-HT2C[cite:doi-10-3389-fphar-2021-794254]": {
+      "base": "5-ht2c-cite-doi-10-3389-fphar-2021-794254",
+      "cell": "5-ht2c-cite-doi-10-3389-fphar-2021-794254",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT3": {
+      "base": "5-HT3",
+      "cell": "5-HT3",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT3 receptor": {
+      "base": "5-HT3",
+      "cell": "5-HT3",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT3A": {
+      "base": "5-ht3a",
+      "cell": "5-ht3a",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT5A": {
+      "base": "5-ht5a",
+      "cell": "5-ht5a",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT6": {
+      "base": "5-HT6",
+      "cell": "5-HT6",
+      "dropped": [],
+      "kept": []
+    },
+    "5-HT7": {
+      "base": "5-HT7",
+      "cell": "5-HT7",
+      "dropped": [],
+      "kept": []
+    },
+    "50S ribosomal subunit": {
+      "base": "50s-ribosomal-subunit",
+      "cell": "50s-ribosomal-subunit",
+      "dropped": [],
+      "kept": []
+    },
+    "A2A adenosine": {
+      "base": "a2a-adenosine",
+      "cell": "a2a-adenosine",
+      "dropped": [],
+      "kept": []
+    },
+    "AMPA": {
+      "base": "AMPA",
+      "cell": "AMPA",
+      "dropped": [],
+      "kept": []
+    },
+    "AMPA (GluR2)": {
+      "base": "AMPA",
+      "cell": "AMPA [subtype:glur2]",
+      "dropped": [],
+      "kept": [
+        "subtype:glur2"
+      ]
+    },
+    "AMPA receptor": {
+      "base": "AMPA",
+      "cell": "AMPA",
+      "dropped": [],
+      "kept": []
+    },
+    "AMPA/kainate": {
+      "base": "ampa-kainate",
+      "cell": "ampa-kainate",
+      "dropped": [],
+      "kept": []
+    },
+    "AMPK": {
+      "base": "ampk",
+      "cell": "ampk",
+      "dropped": [],
+      "kept": []
+    },
+    "AOC3": {
+      "base": "aoc3",
+      "cell": "aoc3",
+      "dropped": [],
+      "kept": []
+    },
+    "ATM kinase": {
+      "base": "atm-kinase",
+      "cell": "atm-kinase",
+      "dropped": [],
+      "kept": []
+    },
+    "Acetylcholinesterase": {
+      "base": "acetylcholinesterase",
+      "cell": "acetylcholinesterase",
+      "dropped": [],
+      "kept": []
+    },
+    "Adenosine": {
+      "base": "adenosine",
+      "cell": "adenosine",
+      "dropped": [],
+      "kept": []
+    },
+    "Adenosine A1": {
+      "base": "adenosine-a1",
+      "cell": "adenosine-a1",
+      "dropped": [],
+      "kept": []
+    },
+    "Adenosine A2A": {
+      "base": "adenosine-a2a",
+      "cell": "adenosine-a2a",
+      "dropped": [],
+      "kept": []
+    },
+    "Adenosine transporter": {
+      "base": "adenosine-transporter",
+      "cell": "adenosine-transporter",
+      "dropped": [],
+      "kept": []
+    },
+    "Adrenergic receptors": {
+      "base": "adrenergic",
+      "cell": "adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Adrenoreceptors": {
+      "base": "adrenoreceptors",
+      "cell": "adrenoreceptors",
+      "dropped": [],
+      "kept": []
+    },
+    "Alpha adrenergic receptor": {
+      "base": "alpha-adrenergic",
+      "cell": "alpha-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Alpha-1 adrenergic": {
+      "base": "alpha-1-adrenergic",
+      "cell": "alpha-1-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Alpha-1A": {
+      "base": "alpha-1a",
+      "cell": "alpha-1a",
+      "dropped": [],
+      "kept": []
+    },
+    "Alpha-1A adrenergic": {
+      "base": "alpha-1a-adrenergic",
+      "cell": "alpha-1a-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Alpha-1B adrenergic": {
+      "base": "alpha-1b-adrenergic",
+      "cell": "alpha-1b-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Alpha-1B adrenergic receptor": {
+      "base": "alpha-1b-adrenergic",
+      "cell": "alpha-1b-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Alpha-2 adrenergic": {
+      "base": "alpha-2-adrenergic",
+      "cell": "alpha-2-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Alpha-2A adrenergic": {
+      "base": "alpha-2a-adrenergic",
+      "cell": "alpha-2a-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Androgen receptor": {
+      "base": "androgen",
+      "cell": "androgen",
+      "dropped": [],
+      "kept": []
+    },
+    "Aromatase": {
+      "base": "aromatase",
+      "cell": "aromatase",
+      "dropped": [],
+      "kept": []
+    },
+    "BCAT-1": {
+      "base": "bcat-1",
+      "cell": "bcat-1",
+      "dropped": [],
+      "kept": []
+    },
+    "Benzodiazepine": {
+      "base": "benzodiazepine",
+      "cell": "benzodiazepine",
+      "dropped": [],
+      "kept": []
+    },
+    "Benzodiazepine receptor (peripheral)": {
+      "base": "benzodiazepine",
+      "cell": "benzodiazepine",
+      "dropped": [
+        "peripheral"
+      ],
+      "kept": []
+    },
+    "Beta adrenergic": {
+      "base": "beta-adrenergic",
+      "cell": "beta-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Beta adrenergic receptor": {
+      "base": "beta-adrenergic",
+      "cell": "beta-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Beta-1": {
+      "base": "beta-1",
+      "cell": "beta-1",
+      "dropped": [],
+      "kept": []
+    },
+    "Beta-2": {
+      "base": "beta-2",
+      "cell": "beta-2",
+      "dropped": [],
+      "kept": []
+    },
+    "CART": {
+      "base": "cart",
+      "cell": "cart",
+      "dropped": [],
+      "kept": []
+    },
+    "CB1": {
+      "base": "CB1",
+      "cell": "CB1",
+      "dropped": [],
+      "kept": []
+    },
+    "CB1 (human)": {
+      "base": "CB1",
+      "cell": "CB1",
+      "dropped": [
+        "human"
+      ],
+      "kept": []
+    },
+    "CB2": {
+      "base": "CB2",
+      "cell": "CB2",
+      "dropped": [],
+      "kept": []
+    },
+    "COX (central)": {
+      "base": "cox",
+      "cell": "cox",
+      "dropped": [
+        "central"
+      ],
+      "kept": []
+    },
+    "COX-1": {
+      "base": "cox-1",
+      "cell": "cox-1",
+      "dropped": [],
+      "kept": []
+    },
+    "COX-2": {
+      "base": "cox-2",
+      "cell": "cox-2",
+      "dropped": [],
+      "kept": []
+    },
+    "CXCR4": {
+      "base": "cxcr4",
+      "cell": "cxcr4",
+      "dropped": [],
+      "kept": []
+    },
+    "CYP17A1": {
+      "base": "cyp17a1",
+      "cell": "cyp17a1",
+      "dropped": [],
+      "kept": []
+    },
+    "CYP19 (Aromatase)": {
+      "base": "cyp19",
+      "cell": "cyp19 [subtype:aromatase]",
+      "dropped": [],
+      "kept": [
+        "subtype:aromatase"
+      ]
+    },
+    "Calcium channels": {
+      "base": "calcium-channels",
+      "cell": "calcium-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "Calmodulin": {
+      "base": "calmodulin",
+      "cell": "calmodulin",
+      "dropped": [],
+      "kept": []
+    },
+    "Carbonic anhydrase": {
+      "base": "carbonic-anhydrase",
+      "cell": "carbonic-anhydrase",
+      "dropped": [],
+      "kept": []
+    },
+    "Cav3.2": {
+      "base": "cav3-2",
+      "cell": "cav3-2",
+      "dropped": [],
+      "kept": []
+    },
+    "Choline O-acetyltransferase": {
+      "base": "choline-o-acetyltransferase",
+      "cell": "choline-o-acetyltransferase",
+      "dropped": [],
+      "kept": []
+    },
+    "Cholinesterase": {
+      "base": "cholinesterase",
+      "cell": "cholinesterase",
+      "dropped": [],
+      "kept": []
+    },
+    "CysLT1": {
+      "base": "cyslt1",
+      "cell": "cyslt1",
+      "dropped": [],
+      "kept": []
+    },
+    "D1": {
+      "base": "D1",
+      "cell": "D1",
+      "dropped": [],
+      "kept": []
+    },
+    "D1/D2": {
+      "base": "d1-d2",
+      "cell": "d1-d2",
+      "dropped": [],
+      "kept": []
+    },
+    "D2": {
+      "base": "D2",
+      "cell": "D2",
+      "dropped": [],
+      "kept": []
+    },
+    "D2 (human)": {
+      "base": "D2",
+      "cell": "D2",
+      "dropped": [
+        "human"
+      ],
+      "kept": []
+    },
+    "D2 (postsynaptic)": {
+      "base": "D2",
+      "cell": "D2",
+      "dropped": [
+        "postsynaptic"
+      ],
+      "kept": []
+    },
+    "D2High": {
+      "base": "d2high",
+      "cell": "d2high",
+      "dropped": [],
+      "kept": []
+    },
+    "D3": {
+      "base": "D3",
+      "cell": "D3",
+      "dropped": [],
+      "kept": []
+    },
+    "D4": {
+      "base": "D4",
+      "cell": "D4",
+      "dropped": [],
+      "kept": []
+    },
+    "D5": {
+      "base": "D5",
+      "cell": "D5",
+      "dropped": [],
+      "kept": []
+    },
+    "DAGL-α": {
+      "base": "dagl-alpha",
+      "cell": "dagl-alpha",
+      "dropped": [],
+      "kept": []
+    },
+    "DAT": {
+      "base": "DAT",
+      "cell": "DAT",
+      "dropped": [],
+      "kept": []
+    },
+    "DAT (S-enantiomer, rat)": {
+      "base": "DAT",
+      "cell": "DAT [entity:s-enantiomer]",
+      "dropped": [],
+      "kept": [
+        "entity:s-enantiomer"
+      ]
+    },
+    "DAT (allosteric site)": {
+      "base": "DAT",
+      "cell": "DAT [subtype:allosteric]",
+      "dropped": [],
+      "kept": [
+        "subtype:allosteric"
+      ]
+    },
+    "DAT (human, HEK293)": {
+      "base": "DAT",
+      "cell": "DAT",
+      "dropped": [
+        "human, HEK293"
+      ],
+      "kept": []
+    },
+    "DAT (release)": {
+      "base": "DAT",
+      "cell": "DAT [subtype:release]",
+      "dropped": [],
+      "kept": [
+        "subtype:release"
+      ]
+    },
+    "DAT (release, [3H]-DA from rat synaptosomes)": {
+      "base": "DAT",
+      "cell": "DAT [subtype:release]",
+      "dropped": [],
+      "kept": [
+        "subtype:release"
+      ]
+    },
+    "DAT (uptake inhibition)": {
+      "base": "DAT",
+      "cell": "DAT [subtype:uptake]",
+      "dropped": [],
+      "kept": [
+        "subtype:uptake"
+      ]
+    },
+    "DAT (uptake inhibition, human)": {
+      "base": "DAT",
+      "cell": "DAT [subtype:uptake]",
+      "dropped": [],
+      "kept": [
+        "subtype:uptake"
+      ]
+    },
+    "DAT (uptake)": {
+      "base": "DAT",
+      "cell": "DAT [subtype:uptake]",
+      "dropped": [],
+      "kept": [
+        "subtype:uptake"
+      ]
+    },
+    "DAT (uptake, human)": {
+      "base": "DAT",
+      "cell": "DAT [subtype:uptake]",
+      "dropped": [],
+      "kept": [
+        "subtype:uptake"
+      ]
+    },
+    "DAT/NET (uptake)": {
+      "base": "dat-net",
+      "cell": "dat-net [subtype:uptake]",
+      "dropped": [],
+      "kept": [
+        "subtype:uptake"
+      ]
+    },
+    "DAT/NET/SERT": {
+      "base": "dat-net-sert",
+      "cell": "dat-net-sert",
+      "dropped": [],
+      "kept": []
+    },
+    "DAT/NET/SERT (parent compound)": {
+      "base": "dat-net-sert",
+      "cell": "dat-net-sert [entity:parent-compound]",
+      "dropped": [],
+      "kept": [
+        "entity:parent-compound"
+      ]
+    },
+    "DAT[cite:doi-10-1007-164-2018-124]": {
+      "base": "dat-cite-doi-10-1007-164-2018-124",
+      "cell": "dat-cite-doi-10-1007-164-2018-124",
+      "dropped": [],
+      "kept": []
+    },
+    "DAT[cite:doi-10-1016-j-neuropharm-2023-109704]": {
+      "base": "dat-cite-doi-10-1016-j-neuropharm-2023-109704",
+      "cell": "dat-cite-doi-10-1016-j-neuropharm-2023-109704",
+      "dropped": [],
+      "kept": []
+    },
+    "DNA-PK": {
+      "base": "dna-pk",
+      "cell": "dna-pk",
+      "dropped": [],
+      "kept": []
+    },
+    "DOR": {
+      "base": "DOR",
+      "cell": "DOR",
+      "dropped": [],
+      "kept": []
+    },
+    "DYRK1A": {
+      "base": "dyrk1a",
+      "cell": "dyrk1a",
+      "dropped": [],
+      "kept": []
+    },
+    "Dopamine": {
+      "base": "dopamine",
+      "cell": "dopamine",
+      "dropped": [],
+      "kept": []
+    },
+    "Dopamine receptors": {
+      "base": "dopamine",
+      "cell": "dopamine",
+      "dropped": [],
+      "kept": []
+    },
+    "Dopamine receptors[citation-needed]": {
+      "base": "dopamine-citation-needed",
+      "cell": "dopamine-citation-needed",
+      "dropped": [],
+      "kept": []
+    },
+    "Dopamine reuptake inhibitor (moderate)": {
+      "base": "dopamine-reuptake-inhibitor",
+      "cell": "dopamine-reuptake-inhibitor [subtype:moderate]",
+      "dropped": [],
+      "kept": [
+        "subtype:moderate"
+      ]
+    },
+    "Dopaminergic (indirect, downstream)": {
+      "base": "dopaminergic",
+      "cell": "dopaminergic",
+      "dropped": [
+        "indirect, downstream"
+      ],
+      "kept": []
+    },
+    "Dopaminergic neurotransmission": {
+      "base": "dopaminergic-neurotransmission",
+      "cell": "dopaminergic-neurotransmission",
+      "dropped": [],
+      "kept": []
+    },
+    "EAAT3 (SLC1A1)": {
+      "base": "eaat3",
+      "cell": "eaat3 [subtype:slc1a1]",
+      "dropped": [],
+      "kept": [
+        "subtype:slc1a1"
+      ]
+    },
+    "ENT1": {
+      "base": "ent1",
+      "cell": "ent1",
+      "dropped": [],
+      "kept": []
+    },
+    "ERRα": {
+      "base": "erralpha",
+      "cell": "erralpha",
+      "dropped": [],
+      "kept": []
+    },
+    "ERRβ": {
+      "base": "errbeta",
+      "cell": "errbeta",
+      "dropped": [],
+      "kept": []
+    },
+    "ERRγ": {
+      "base": "errgamma",
+      "cell": "errgamma",
+      "dropped": [],
+      "kept": []
+    },
+    "Endocannabinoid reuptake (via AM404)": {
+      "base": "endocannabinoid-reuptake",
+      "cell": "endocannabinoid-reuptake [entity:via-am404]",
+      "dropped": [],
+      "kept": [
+        "entity:via-am404"
+      ]
+    },
+    "Endogenous opioids": {
+      "base": "endogenous-opioids",
+      "cell": "endogenous-opioids",
+      "dropped": [],
+      "kept": []
+    },
+    "Eosinophil peroxidase": {
+      "base": "eosinophil-peroxidase",
+      "cell": "eosinophil-peroxidase",
+      "dropped": [],
+      "kept": []
+    },
+    "Epinephrine transporter": {
+      "base": "epinephrine-transporter",
+      "cell": "epinephrine-transporter",
+      "dropped": [],
+      "kept": []
+    },
+    "Epithelial sodium channels": {
+      "base": "epithelial-sodium-channels",
+      "cell": "epithelial-sodium-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "Estrogen receptor": {
+      "base": "estrogen",
+      "cell": "estrogen",
+      "dropped": [],
+      "kept": []
+    },
+    "Estrogen receptor α": {
+      "base": "estrogen-alpha",
+      "cell": "estrogen-alpha",
+      "dropped": [],
+      "kept": []
+    },
+    "Estrogen receptor β": {
+      "base": "estrogen-beta",
+      "cell": "estrogen-beta",
+      "dropped": [],
+      "kept": []
+    },
+    "FAAH": {
+      "base": "faah",
+      "cell": "faah",
+      "dropped": [],
+      "kept": []
+    },
+    "FAAH1": {
+      "base": "faah1",
+      "cell": "faah1",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA": {
+      "base": "gaba",
+      "cell": "gaba",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA receptors": {
+      "base": "gaba",
+      "cell": "gaba",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA transaminase": {
+      "base": "gaba-transaminase",
+      "cell": "gaba-transaminase",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA-A": {
+      "base": "GABA-A",
+      "cell": "GABA-A",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA-A (benzodiazepine site)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A (via TCE metabolite)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [entity:via-tce-metabolite]",
+      "dropped": [],
+      "kept": [
+        "entity:via-tce-metabolite"
+      ]
+    },
+    "GABA-A (α1)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1"
+      ]
+    },
+    "GABA-A (β subunit)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:beta]",
+      "dropped": [],
+      "kept": [
+        "subtype:beta"
+      ]
+    },
+    "GABA-A BZ site (rat)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [
+        "rat"
+      ],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A BZD site": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A benzodiazepine site": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A benzodiazepine site (BZ1/omega1, cerebellum)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine; subtype:benzodiazepine-omega1]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine",
+        "subtype:benzodiazepine-omega1"
+      ]
+    },
+    "GABA-A benzodiazepine site (alpha1beta3gamma2)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1beta3gamma2; subtype:benzodiazepine]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1beta3gamma2",
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A benzodiazepine site (cerebellum)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [
+        "cerebellum"
+      ],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A benzodiazepine site (cortex)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [
+        "cortex"
+      ],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A benzodiazepine site (omega1)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine; subtype:benzodiazepine-omega1]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine",
+        "subtype:benzodiazepine-omega1"
+      ]
+    },
+    "GABA-A benzodiazepine site (whole-brain)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [
+        "whole-brain"
+      ],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A receptor benzodiazepine site": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A α1": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1"
+      ]
+    },
+    "GABA-A α1 subunit": {
+      "base": "gaba-a-alpha1-subunit",
+      "cell": "gaba-a-alpha1-subunit",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA-A α1β2γ2": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1beta2gamma2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1beta2gamma2"
+      ]
+    },
+    "GABA-A α1β2γ2 (human recombinant)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1beta2gamma2]",
+      "dropped": [
+        "human recombinant"
+      ],
+      "kept": [
+        "subtype:alpha1beta2gamma2"
+      ]
+    },
+    "GABA-A α1β2γ2 (meprobamate metabolite + parent)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [entity:meprobamate-metabolite-parent; subtype:alpha1beta2gamma2]",
+      "dropped": [],
+      "kept": [
+        "entity:meprobamate-metabolite-parent",
+        "subtype:alpha1beta2gamma2"
+      ]
+    },
+    "GABA-A α1β2γ2S": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1beta2gamma2s]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1beta2gamma2s"
+      ]
+    },
+    "GABA-A α1β2γ2S (functional EC50 for GABA potentiation)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1beta2gamma2s; subtype:ec50-for-gaba-potentiation]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1beta2gamma2s",
+        "subtype:ec50-for-gaba-potentiation"
+      ]
+    },
+    "GABA-A α1β3γ2": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1beta3gamma2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1beta3gamma2"
+      ]
+    },
+    "GABA-A α1β3γ2 (human recombinant)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1beta3gamma2]",
+      "dropped": [
+        "human recombinant"
+      ],
+      "kept": [
+        "subtype:alpha1beta3gamma2"
+      ]
+    },
+    "GABA-A α1βγ2 (BZD site)": {
+      "base": "gaba-a-alpha1betagamma2",
+      "cell": "gaba-a-alpha1betagamma2 [subtype:benzodiazepine]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABA-A α2 subunit": {
+      "base": "gaba-a-alpha2-subunit",
+      "cell": "gaba-a-alpha2-subunit",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA-A α2β2γ2": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha2beta2gamma2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha2beta2gamma2"
+      ]
+    },
+    "GABA-A α3β2γ2": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha3beta2gamma2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha3beta2gamma2"
+      ]
+    },
+    "GABA-A α4β3δ (extrasynaptic)": {
+      "base": "gaba-a-alpha4beta3delta",
+      "cell": "gaba-a-alpha4beta3delta [subtype:extrasynaptic]",
+      "dropped": [],
+      "kept": [
+        "subtype:extrasynaptic"
+      ]
+    },
+    "GABA-A α5β2γ2": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha5beta2gamma2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha5beta2gamma2"
+      ]
+    },
+    "GABA-A α5β3γ2": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha5beta3gamma2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha5beta3gamma2"
+      ]
+    },
+    "GABA-A[cite:who-ecdd-clonazolam-2020]": {
+      "base": "gaba-a-cite-who-ecdd-clonazolam-2020",
+      "cell": "gaba-a-cite-who-ecdd-clonazolam-2020",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA-B": {
+      "base": "GABA-B",
+      "cell": "GABA-B",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA-B (rat brain)": {
+      "base": "GABA-B",
+      "cell": "GABA-B",
+      "dropped": [
+        "rat brain"
+      ],
+      "kept": []
+    },
+    "GABA-B (recombinant hR1a/R2)": {
+      "base": "GABA-B",
+      "cell": "GABA-B [subtype:hr1a-r2]",
+      "dropped": [],
+      "kept": [
+        "subtype:hr1a-r2"
+      ]
+    },
+    "GABA-B + α2δ-1 (rat brain) — by close analogy to phenibut": {
+      "base": "gaba-b-alpha2delta-1",
+      "cell": "gaba-b-alpha2delta-1",
+      "dropped": [
+        "rat brain"
+      ],
+      "kept": []
+    },
+    "GABA-B R1": {
+      "base": "gaba-b-r1",
+      "cell": "gaba-b-r1",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA-B R2": {
+      "base": "gaba-b-r2",
+      "cell": "gaba-b-r2",
+      "dropped": [],
+      "kept": []
+    },
+    "GABA-B receptor (rat brain)": {
+      "base": "GABA-B",
+      "cell": "GABA-B",
+      "dropped": [
+        "rat brain"
+      ],
+      "kept": []
+    },
+    "GABA-transaminase (GABA-T)": {
+      "base": "gaba-transaminase",
+      "cell": "gaba-transaminase [subtype:gaba-t]",
+      "dropped": [],
+      "kept": [
+        "subtype:gaba-t"
+      ]
+    },
+    "GABAA": {
+      "base": "GABA-A",
+      "cell": "GABA-A",
+      "dropped": [],
+      "kept": []
+    },
+    "GABAA (benzo site)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:benzodiazepine]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "GABAA (α1 subunit)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1"
+      ]
+    },
+    "GABAA (α2 subtype)": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha2"
+      ]
+    },
+    "GABAA α1": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha1]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha1"
+      ]
+    },
+    "GABAA α5": {
+      "base": "GABA-A",
+      "cell": "GABA-A [subtype:alpha5]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha5"
+      ]
+    },
+    "GABAC": {
+      "base": "gabac",
+      "cell": "gabac",
+      "dropped": [],
+      "kept": []
+    },
+    "GABAergic neurotransmission": {
+      "base": "gabaergic-neurotransmission",
+      "cell": "gabaergic-neurotransmission",
+      "dropped": [],
+      "kept": []
+    },
+    "GABAergic system": {
+      "base": "gabaergic-system",
+      "cell": "gabaergic-system",
+      "dropped": [],
+      "kept": []
+    },
+    "GAD": {
+      "base": "gad",
+      "cell": "gad",
+      "dropped": [],
+      "kept": []
+    },
+    "GHB": {
+      "base": "ghb",
+      "cell": "ghb",
+      "dropped": [],
+      "kept": []
+    },
+    "GHB receptor": {
+      "base": "ghb",
+      "cell": "ghb",
+      "dropped": [],
+      "kept": []
+    },
+    "GHB receptor / GABA-B (after conversion)": {
+      "base": "ghb-gaba-b",
+      "cell": "ghb-gaba-b [entity:after-conversion]",
+      "dropped": [],
+      "kept": [
+        "entity:after-conversion"
+      ]
+    },
+    "GHB-specific high-affinity binding site (distinct from GABA-B)": {
+      "base": "ghb-specific-high-affinity-binding-site",
+      "cell": "ghb-specific-high-affinity-binding-site [subtype:distinct-gaba-b]",
+      "dropped": [],
+      "kept": [
+        "subtype:distinct-gaba-b"
+      ]
+    },
+    "GIRK1": {
+      "base": "girk1",
+      "cell": "girk1",
+      "dropped": [],
+      "kept": []
+    },
+    "GIRK2": {
+      "base": "girk2",
+      "cell": "girk2",
+      "dropped": [],
+      "kept": []
+    },
+    "GIRK4": {
+      "base": "girk4",
+      "cell": "girk4",
+      "dropped": [],
+      "kept": []
+    },
+    "GLP-1R": {
+      "base": "glp-1r",
+      "cell": "glp-1r",
+      "dropped": [],
+      "kept": []
+    },
+    "GPR55": {
+      "base": "gpr55",
+      "cell": "gpr55",
+      "dropped": [],
+      "kept": []
+    },
+    "GSK-3α": {
+      "base": "gsk-3alpha",
+      "cell": "gsk-3alpha",
+      "dropped": [],
+      "kept": []
+    },
+    "GSK-3β": {
+      "base": "gsk-3beta",
+      "cell": "gsk-3beta",
+      "dropped": [],
+      "kept": []
+    },
+    "GluA2": {
+      "base": "glua2",
+      "cell": "glua2",
+      "dropped": [],
+      "kept": []
+    },
+    "GluA2 (AMPA)": {
+      "base": "glua2",
+      "cell": "glua2 [subtype:ampa]",
+      "dropped": [],
+      "kept": [
+        "subtype:ampa"
+      ]
+    },
+    "GluK2": {
+      "base": "gluk2",
+      "cell": "gluk2",
+      "dropped": [],
+      "kept": []
+    },
+    "GluK2 (Kainate)": {
+      "base": "gluk2",
+      "cell": "gluk2 [subtype:kainate]",
+      "dropped": [],
+      "kept": [
+        "subtype:kainate"
+      ]
+    },
+    "GluN2A": {
+      "base": "glun2a",
+      "cell": "glun2a",
+      "dropped": [],
+      "kept": []
+    },
+    "GluN2B": {
+      "base": "glun2b",
+      "cell": "glun2b",
+      "dropped": [],
+      "kept": []
+    },
+    "GluN2C": {
+      "base": "glun2c",
+      "cell": "glun2c",
+      "dropped": [],
+      "kept": []
+    },
+    "GluN2D": {
+      "base": "glun2d",
+      "cell": "glun2d",
+      "dropped": [],
+      "kept": []
+    },
+    "GluR1": {
+      "base": "glur1",
+      "cell": "glur1",
+      "dropped": [],
+      "kept": []
+    },
+    "GluR2": {
+      "base": "glur2",
+      "cell": "glur2",
+      "dropped": [],
+      "kept": []
+    },
+    "GluR2 (AMPA)": {
+      "base": "glur2",
+      "cell": "glur2 [subtype:ampa]",
+      "dropped": [],
+      "kept": [
+        "subtype:ampa"
+      ]
+    },
+    "GluR3": {
+      "base": "glur3",
+      "cell": "glur3",
+      "dropped": [],
+      "kept": []
+    },
+    "GluR4": {
+      "base": "glur4",
+      "cell": "glur4",
+      "dropped": [],
+      "kept": []
+    },
+    "Glutamate receptors (NMDA/AMPA/kainate, low-affinity)": {
+      "base": "glutamate",
+      "cell": "glutamate [subtype:nmda-ampa-kainate]",
+      "dropped": [],
+      "kept": [
+        "subtype:nmda-ampa-kainate"
+      ]
+    },
+    "Glutamate release": {
+      "base": "glutamate-release",
+      "cell": "glutamate-release",
+      "dropped": [],
+      "kept": []
+    },
+    "Glutamate transporter": {
+      "base": "glutamate-transporter",
+      "cell": "glutamate-transporter",
+      "dropped": [],
+      "kept": []
+    },
+    "Glutamatergic system": {
+      "base": "glutamatergic-system",
+      "cell": "glutamatergic-system",
+      "dropped": [],
+      "kept": []
+    },
+    "Glutamine transporter": {
+      "base": "glutamine-transporter",
+      "cell": "glutamine-transporter",
+      "dropped": [],
+      "kept": []
+    },
+    "Glycine": {
+      "base": "glycine",
+      "cell": "glycine",
+      "dropped": [],
+      "kept": []
+    },
+    "Glycine receptor": {
+      "base": "glycine",
+      "cell": "glycine",
+      "dropped": [],
+      "kept": []
+    },
+    "Glycine receptor α1 (homomeric)": {
+      "base": "glycine-alpha1",
+      "cell": "glycine-alpha1 [subtype:homomeric]",
+      "dropped": [],
+      "kept": [
+        "subtype:homomeric"
+      ]
+    },
+    "Glycine α1": {
+      "base": "glycine-alpha1",
+      "cell": "glycine-alpha1",
+      "dropped": [],
+      "kept": []
+    },
+    "Glycine α2": {
+      "base": "glycine-alpha2",
+      "cell": "glycine-alpha2",
+      "dropped": [],
+      "kept": []
+    },
+    "GnRH receptor": {
+      "base": "gnrh",
+      "cell": "gnrh",
+      "dropped": [],
+      "kept": []
+    },
+    "H1": {
+      "base": "H1",
+      "cell": "H1",
+      "dropped": [],
+      "kept": []
+    },
+    "H1 (human)": {
+      "base": "H1",
+      "cell": "H1",
+      "dropped": [
+        "human"
+      ],
+      "kept": []
+    },
+    "H2": {
+      "base": "H2",
+      "cell": "H2",
+      "dropped": [],
+      "kept": []
+    },
+    "H4": {
+      "base": "H4",
+      "cell": "H4",
+      "dropped": [],
+      "kept": []
+    },
+    "HCN1": {
+      "base": "hcn1",
+      "cell": "hcn1",
+      "dropped": [],
+      "kept": []
+    },
+    "HDAC": {
+      "base": "hdac",
+      "cell": "hdac",
+      "dropped": [],
+      "kept": []
+    },
+    "HDACs": {
+      "base": "hdacs",
+      "cell": "hdacs",
+      "dropped": [],
+      "kept": []
+    },
+    "HIF-1": {
+      "base": "hif-1",
+      "cell": "hif-1",
+      "dropped": [],
+      "kept": []
+    },
+    "Histamine": {
+      "base": "histamine",
+      "cell": "histamine",
+      "dropped": [],
+      "kept": []
+    },
+    "Histamine (downstream)": {
+      "base": "histamine",
+      "cell": "histamine",
+      "dropped": [
+        "downstream"
+      ],
+      "kept": []
+    },
+    "Histamine H1": {
+      "base": "histamine-h1",
+      "cell": "histamine-h1",
+      "dropped": [],
+      "kept": []
+    },
+    "Histamine N-methyltransferase": {
+      "base": "histamine-n-methyltransferase",
+      "cell": "histamine-n-methyltransferase",
+      "dropped": [],
+      "kept": []
+    },
+    "Histamine receptors": {
+      "base": "histamine",
+      "cell": "histamine",
+      "dropped": [],
+      "kept": []
+    },
+    "I1": {
+      "base": "i1",
+      "cell": "i1",
+      "dropped": [],
+      "kept": []
+    },
+    "I1 imidazoline (rostral ventrolateral medulla)": {
+      "base": "i1-imidazoline",
+      "cell": "i1-imidazoline [subtype:rostral-ventrolateral-medulla]",
+      "dropped": [],
+      "kept": [
+        "subtype:rostral-ventrolateral-medulla"
+      ]
+    },
+    "I2 imidazoline receptor": {
+      "base": "i2-imidazoline",
+      "cell": "i2-imidazoline",
+      "dropped": [],
+      "kept": []
+    },
+    "IGF-1R": {
+      "base": "igf-1r",
+      "cell": "igf-1r",
+      "dropped": [],
+      "kept": []
+    },
+    "IMPase": {
+      "base": "impase",
+      "cell": "impase",
+      "dropped": [],
+      "kept": []
+    },
+    "IP3 receptor": {
+      "base": "ip3",
+      "cell": "ip3",
+      "dropped": [],
+      "kept": []
+    },
+    "Imidazoline I1": {
+      "base": "imidazoline-i1",
+      "cell": "imidazoline-i1",
+      "dropped": [],
+      "kept": []
+    },
+    "Imidazoline-1": {
+      "base": "imidazoline-1",
+      "cell": "imidazoline-1",
+      "dropped": [],
+      "kept": []
+    },
+    "Inositol monophosphatase (IMPase)": {
+      "base": "inositol-monophosphatase",
+      "cell": "inositol-monophosphatase [subtype:impase]",
+      "dropped": [],
+      "kept": [
+        "subtype:impase"
+      ]
+    },
+    "KCNQ3": {
+      "base": "kcnq3",
+      "cell": "kcnq3",
+      "dropped": [],
+      "kept": []
+    },
+    "KCNQ5": {
+      "base": "kcnq5",
+      "cell": "kcnq5",
+      "dropped": [],
+      "kept": []
+    },
+    "KOR": {
+      "base": "KOR",
+      "cell": "KOR",
+      "dropped": [],
+      "kept": []
+    },
+    "KOR (-)": {
+      "base": "KOR",
+      "cell": "KOR",
+      "dropped": [
+        "-"
+      ],
+      "kept": []
+    },
+    "Kainate": {
+      "base": "kainate",
+      "cell": "kainate",
+      "dropped": [],
+      "kept": []
+    },
+    "Kainate (GluK2)": {
+      "base": "kainate",
+      "cell": "kainate [subtype:gluk2]",
+      "dropped": [],
+      "kept": [
+        "subtype:gluk2"
+      ]
+    },
+    "L-type calcium channel": {
+      "base": "l-type-calcium-channel",
+      "cell": "l-type-calcium-channel",
+      "dropped": [],
+      "kept": []
+    },
+    "L-type calcium channel α1C": {
+      "base": "l-type-calcium-channel-alpha1c",
+      "cell": "l-type-calcium-channel-alpha1c",
+      "dropped": [],
+      "kept": []
+    },
+    "Ligand-gated ion channels": {
+      "base": "ligand-gated-ion-channels",
+      "cell": "ligand-gated-ion-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "Lymphocyte antigen 96": {
+      "base": "lymphocyte-antigen-96",
+      "cell": "lymphocyte-antigen-96",
+      "dropped": [],
+      "kept": []
+    },
+    "M1": {
+      "base": "M1",
+      "cell": "M1",
+      "dropped": [],
+      "kept": []
+    },
+    "M1 mAChR": {
+      "base": "m1-machr",
+      "cell": "m1-machr",
+      "dropped": [],
+      "kept": []
+    },
+    "M1 muscarinic receptor": {
+      "base": "M1",
+      "cell": "M1",
+      "dropped": [],
+      "kept": []
+    },
+    "M2": {
+      "base": "M2",
+      "cell": "M2",
+      "dropped": [],
+      "kept": []
+    },
+    "M3": {
+      "base": "M3",
+      "cell": "M3",
+      "dropped": [],
+      "kept": []
+    },
+    "M4": {
+      "base": "M4",
+      "cell": "M4",
+      "dropped": [],
+      "kept": []
+    },
+    "M4 muscarinic receptor": {
+      "base": "M4",
+      "cell": "M4",
+      "dropped": [],
+      "kept": []
+    },
+    "M5": {
+      "base": "M5",
+      "cell": "M5",
+      "dropped": [],
+      "kept": []
+    },
+    "MAO": {
+      "base": "mao",
+      "cell": "mao",
+      "dropped": [],
+      "kept": []
+    },
+    "MAO-A": {
+      "base": "MAO-A",
+      "cell": "MAO-A",
+      "dropped": [],
+      "kept": []
+    },
+    "MAO-A (human, recombinant)": {
+      "base": "MAO-A",
+      "cell": "MAO-A",
+      "dropped": [
+        "human, recombinant"
+      ],
+      "kept": []
+    },
+    "MAO-B": {
+      "base": "MAO-B",
+      "cell": "MAO-B",
+      "dropped": [],
+      "kept": []
+    },
+    "MAO-B (human)": {
+      "base": "MAO-B",
+      "cell": "MAO-B",
+      "dropped": [
+        "human"
+      ],
+      "kept": []
+    },
+    "MOR": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [],
+      "kept": []
+    },
+    "MOR (+)-O-DSMT": {
+      "base": "mor-o-dsmt",
+      "cell": "mor-o-dsmt",
+      "dropped": [
+        "+"
+      ],
+      "kept": []
+    },
+    "MOR (+)-tramadol": {
+      "base": "mor-tramadol",
+      "cell": "mor-tramadol",
+      "dropped": [
+        "+"
+      ],
+      "kept": []
+    },
+    "MOR (R-methadone)": {
+      "base": "MOR",
+      "cell": "MOR [entity:r-methadone]",
+      "dropped": [],
+      "kept": [
+        "entity:r-methadone"
+      ]
+    },
+    "MOR (S-methadone)": {
+      "base": "MOR",
+      "cell": "MOR [entity:s-methadone]",
+      "dropped": [],
+      "kept": [
+        "entity:s-methadone"
+      ]
+    },
+    "MOR (levorphanol active metabolite)": {
+      "base": "MOR",
+      "cell": "MOR [entity:levorphanol-active-metabolite]",
+      "dropped": [],
+      "kept": [
+        "entity:levorphanol-active-metabolite"
+      ]
+    },
+    "MOR (mu-opioid receptor)": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [
+        "mu-opioid receptor"
+      ],
+      "kept": []
+    },
+    "MOR (nortilidine)": {
+      "base": "MOR",
+      "cell": "MOR [entity:nortilidine]",
+      "dropped": [],
+      "kept": [
+        "entity:nortilidine"
+      ]
+    },
+    "MOR (parent tilidine)": {
+      "base": "MOR",
+      "cell": "MOR [entity:parent-tilidine]",
+      "dropped": [],
+      "kept": [
+        "entity:parent-tilidine"
+      ]
+    },
+    "MOR (parent)": {
+      "base": "MOR",
+      "cell": "MOR [entity:parent]",
+      "dropped": [],
+      "kept": [
+        "entity:parent"
+      ]
+    },
+    "MOR (μ1)": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [
+        "mu1"
+      ],
+      "kept": []
+    },
+    "MOR (−)-O-DSMT": {
+      "base": "mor-o-dsmt",
+      "cell": "mor-o-dsmt",
+      "dropped": [
+        "-"
+      ],
+      "kept": []
+    },
+    "MOR (−)-tramadol": {
+      "base": "mor-tramadol",
+      "cell": "mor-tramadol",
+      "dropped": [
+        "-"
+      ],
+      "kept": []
+    },
+    "MOR / DOR / KOR / NOP": {
+      "base": "mor-dor-kor-nop",
+      "cell": "mor-dor-kor-nop",
+      "dropped": [],
+      "kept": []
+    },
+    "MT1": {
+      "base": "mt1",
+      "cell": "mt1",
+      "dropped": [],
+      "kept": []
+    },
+    "MT2": {
+      "base": "mt2",
+      "cell": "mt2",
+      "dropped": [],
+      "kept": []
+    },
+    "Mitochondrial complex I": {
+      "base": "mitochondrial-complex-i",
+      "cell": "mitochondrial-complex-i",
+      "dropped": [],
+      "kept": []
+    },
+    "Monoamine transporters": {
+      "base": "monoamine-transporters",
+      "cell": "monoamine-transporters",
+      "dropped": [],
+      "kept": []
+    },
+    "Muscarinic": {
+      "base": "muscarinic",
+      "cell": "muscarinic",
+      "dropped": [],
+      "kept": []
+    },
+    "Muscarinic (non-selective)": {
+      "base": "muscarinic",
+      "cell": "muscarinic",
+      "dropped": [
+        "non-selective"
+      ],
+      "kept": []
+    },
+    "Muscarinic ACh": {
+      "base": "muscarinic-ach",
+      "cell": "muscarinic-ach",
+      "dropped": [],
+      "kept": []
+    },
+    "Muscarinic acetylcholine receptor": {
+      "base": "muscarinic-acetylcholine",
+      "cell": "muscarinic-acetylcholine",
+      "dropped": [],
+      "kept": []
+    },
+    "Muscarinic acetylcholine receptors": {
+      "base": "muscarinic-acetylcholine",
+      "cell": "muscarinic-acetylcholine",
+      "dropped": [],
+      "kept": []
+    },
+    "Muscarinic receptors": {
+      "base": "muscarinic",
+      "cell": "muscarinic",
+      "dropped": [],
+      "kept": []
+    },
+    "Myeloperoxidase": {
+      "base": "myeloperoxidase",
+      "cell": "myeloperoxidase",
+      "dropped": [],
+      "kept": []
+    },
+    "Myostatin": {
+      "base": "myostatin",
+      "cell": "myostatin",
+      "dropped": [],
+      "kept": []
+    },
+    "N-type calcium channel": {
+      "base": "n-type-calcium-channel",
+      "cell": "n-type-calcium-channel",
+      "dropped": [],
+      "kept": []
+    },
+    "NADPH oxidase": {
+      "base": "nadph-oxidase",
+      "cell": "nadph-oxidase",
+      "dropped": [],
+      "kept": []
+    },
+    "NET": {
+      "base": "NET",
+      "cell": "NET",
+      "dropped": [],
+      "kept": []
+    },
+    "NET (norepinephrine transporter)": {
+      "base": "NET",
+      "cell": "NET [subtype:norepinephrine-transporter]",
+      "dropped": [],
+      "kept": [
+        "subtype:norepinephrine-transporter"
+      ]
+    },
+    "NET (release)": {
+      "base": "NET",
+      "cell": "NET [subtype:release]",
+      "dropped": [],
+      "kept": [
+        "subtype:release"
+      ]
+    },
+    "NET (release, [3H]-NE from rat synaptosomes)": {
+      "base": "NET",
+      "cell": "NET [subtype:release]",
+      "dropped": [],
+      "kept": [
+        "subtype:release"
+      ]
+    },
+    "NET (uptake)": {
+      "base": "NET",
+      "cell": "NET [subtype:uptake]",
+      "dropped": [],
+      "kept": [
+        "subtype:uptake"
+      ]
+    },
+    "NET (−)-tramadol": {
+      "base": "net-tramadol",
+      "cell": "net-tramadol",
+      "dropped": [
+        "-"
+      ],
+      "kept": []
+    },
+    "NET, DAT and SERT": {
+      "base": "net-dat-and-sert",
+      "cell": "net-dat-and-sert",
+      "dropped": [],
+      "kept": []
+    },
+    "NET[cite:doi-10-1007-164-2018-124]": {
+      "base": "net-cite-doi-10-1007-164-2018-124",
+      "cell": "net-cite-doi-10-1007-164-2018-124",
+      "dropped": [],
+      "kept": []
+    },
+    "NET[cite:doi-10-1111-bph-13547]": {
+      "base": "net-cite-doi-10-1111-bph-13547",
+      "cell": "net-cite-doi-10-1111-bph-13547",
+      "dropped": [],
+      "kept": []
+    },
+    "NK1 (substance-P receptor)": {
+      "base": "nk1",
+      "cell": "nk1 [subtype:substance-p]",
+      "dropped": [],
+      "kept": [
+        "subtype:substance-p"
+      ]
+    },
+    "NMDA": {
+      "base": "NMDA",
+      "cell": "NMDA",
+      "dropped": [],
+      "kept": []
+    },
+    "NMDA (MK-801 site)": {
+      "base": "NMDA",
+      "cell": "NMDA [subtype:mk-801]",
+      "dropped": [],
+      "kept": [
+        "subtype:mk-801"
+      ]
+    },
+    "NMDA (MK-801 site, R-enantiomer)": {
+      "base": "NMDA",
+      "cell": "NMDA [entity:mk-801-r-enantiomer]",
+      "dropped": [],
+      "kept": [
+        "entity:mk-801-r-enantiomer"
+      ]
+    },
+    "NMDA (MK-801 site, S-enantiomer)": {
+      "base": "NMDA",
+      "cell": "NMDA [entity:mk-801-s-enantiomer]",
+      "dropped": [],
+      "kept": [
+        "entity:mk-801-s-enantiomer"
+      ]
+    },
+    "NMDA (MK-801 site, racemate)": {
+      "base": "NMDA",
+      "cell": "NMDA [entity:mk-801-racemate]",
+      "dropped": [],
+      "kept": [
+        "entity:mk-801-racemate"
+      ]
+    },
+    "NMDA (NR1/NR2A or NR1/NR2B; current inhibition)": {
+      "base": "NMDA",
+      "cell": "NMDA [subtype:nr1-nr2a-nr2b]",
+      "dropped": [],
+      "kept": [
+        "subtype:nr1-nr2a-nr2b"
+      ]
+    },
+    "NMDA (open-channel block)": {
+      "base": "NMDA",
+      "cell": "NMDA [subtype:open-block]",
+      "dropped": [],
+      "kept": [
+        "subtype:open-block"
+      ]
+    },
+    "NMDA 3A": {
+      "base": "nmda-3a",
+      "cell": "nmda-3a",
+      "dropped": [],
+      "kept": []
+    },
+    "NMDA receptor": {
+      "base": "NMDA",
+      "cell": "NMDA",
+      "dropped": [],
+      "kept": []
+    },
+    "NMDA receptor (MK-801 site)": {
+      "base": "NMDA",
+      "cell": "NMDA [subtype:mk-801]",
+      "dropped": [],
+      "kept": [
+        "subtype:mk-801"
+      ]
+    },
+    "NMDA receptor (PCP site)": {
+      "base": "NMDA",
+      "cell": "NMDA [subtype:pcp]",
+      "dropped": [],
+      "kept": [
+        "subtype:pcp"
+      ]
+    },
+    "NMDA receptor (PCP site, channel)": {
+      "base": "NMDA",
+      "cell": "NMDA [subtype:pcp]",
+      "dropped": [],
+      "kept": [
+        "subtype:pcp"
+      ]
+    },
+    "NMDA receptor (levorphanol)": {
+      "base": "NMDA",
+      "cell": "NMDA [entity:levorphanol]",
+      "dropped": [],
+      "kept": [
+        "entity:levorphanol"
+      ]
+    },
+    "NMDA receptor (rat cortex)": {
+      "base": "NMDA",
+      "cell": "NMDA",
+      "dropped": [
+        "rat cortex"
+      ],
+      "kept": []
+    },
+    "NMDA receptor TCP/PCP site (GluN2B assay)": {
+      "base": "nmda-tcp-pcp-site",
+      "cell": "nmda-tcp-pcp-site [subtype:glun2b]",
+      "dropped": [],
+      "kept": [
+        "subtype:glun2b"
+      ]
+    },
+    "NMDA[cite:doi-10-1007-164-2018-124]": {
+      "base": "nmda-cite-doi-10-1007-164-2018-124",
+      "cell": "nmda-cite-doi-10-1007-164-2018-124",
+      "dropped": [],
+      "kept": []
+    },
+    "NMDA[cite:doi-10-1016-j-vascn-2019-106583]": {
+      "base": "nmda-cite-doi-10-1016-j-vascn-2019-106583",
+      "cell": "nmda-cite-doi-10-1016-j-vascn-2019-106583",
+      "dropped": [],
+      "kept": []
+    },
+    "NOP (ORL-1)": {
+      "base": "NOP",
+      "cell": "NOP",
+      "dropped": [
+        "ORL-1"
+      ],
+      "kept": []
+    },
+    "NOS1 (nitric oxide synthase)": {
+      "base": "nos1",
+      "cell": "nos1 [subtype:nitric-oxide-synthase]",
+      "dropped": [],
+      "kept": [
+        "subtype:nitric-oxide-synthase"
+      ]
+    },
+    "NR1I2 (PXR)": {
+      "base": "nr1i2",
+      "cell": "nr1i2 [subtype:pxr]",
+      "dropped": [],
+      "kept": [
+        "subtype:pxr"
+      ]
+    },
+    "Nav1.2 (voltage-gated Na channel)": {
+      "base": "nav1-2",
+      "cell": "nav1-2 [subtype:voltage-gated-na]",
+      "dropped": [],
+      "kept": [
+        "subtype:voltage-gated-na"
+      ]
+    },
+    "Nav1.5 (late Na current, cardiac)": {
+      "base": "nav1-5",
+      "cell": "nav1-5 [subtype:late-na-cardiac]",
+      "dropped": [],
+      "kept": [
+        "subtype:late-na-cardiac"
+      ]
+    },
+    "Na⁺ channels": {
+      "base": "na-channels",
+      "cell": "na-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "Nociceptin (ORL-1)": {
+      "base": "nociceptin",
+      "cell": "nociceptin [subtype:orl-1]",
+      "dropped": [],
+      "kept": [
+        "subtype:orl-1"
+      ]
+    },
+    "Noradrenergic receptors": {
+      "base": "noradrenergic",
+      "cell": "noradrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "Norepinephrine reuptake inhibitor (moderate)": {
+      "base": "norepinephrine-reuptake-inhibitor",
+      "cell": "norepinephrine-reuptake-inhibitor [subtype:moderate]",
+      "dropped": [],
+      "kept": [
+        "subtype:moderate"
+      ]
+    },
+    "Norepinephrine transporter": {
+      "base": "norepinephrine-transporter",
+      "cell": "norepinephrine-transporter",
+      "dropped": [],
+      "kept": []
+    },
+    "Nuclear receptor subfamily 1 group I member 2 (PXR)": {
+      "base": "nuclear-subfamily-1-group-i-member-2",
+      "cell": "nuclear-subfamily-1-group-i-member-2 [subtype:pxr]",
+      "dropped": [],
+      "kept": [
+        "subtype:pxr"
+      ]
+    },
+    "OX2R (orexin-2)": {
+      "base": "ox2r",
+      "cell": "ox2r [subtype:orexin-2]",
+      "dropped": [],
+      "kept": [
+        "subtype:orexin-2"
+      ]
+    },
+    "OXTR": {
+      "base": "oxtr",
+      "cell": "oxtr",
+      "dropped": [],
+      "kept": []
+    },
+    "Opioid receptors": {
+      "base": "opioid",
+      "cell": "opioid",
+      "dropped": [],
+      "kept": []
+    },
+    "Orexin (downstream)": {
+      "base": "orexin",
+      "cell": "orexin",
+      "dropped": [
+        "downstream"
+      ],
+      "kept": []
+    },
+    "Orexin/hypocretin system": {
+      "base": "orexin-hypocretin-system",
+      "cell": "orexin-hypocretin-system",
+      "dropped": [],
+      "kept": []
+    },
+    "PBPs (transpeptidases)": {
+      "base": "pbps",
+      "cell": "pbps [subtype:transpeptidases]",
+      "dropped": [],
+      "kept": [
+        "subtype:transpeptidases"
+      ]
+    },
+    "PCP site 2": {
+      "base": "pcp-site-2",
+      "cell": "pcp-site-2",
+      "dropped": [],
+      "kept": []
+    },
+    "PDE4": {
+      "base": "pde4",
+      "cell": "pde4",
+      "dropped": [],
+      "kept": []
+    },
+    "PDE5": {
+      "base": "pde5",
+      "cell": "pde5",
+      "dropped": [],
+      "kept": []
+    },
+    "PI3K (alpha, beta, delta isoforms)": {
+      "base": "pi3k",
+      "cell": "pi3k [subtype:alpha-beta-delta-isoforms]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha-beta-delta-isoforms"
+      ]
+    },
+    "PPAR-δ": {
+      "base": "ppar-delta",
+      "cell": "ppar-delta",
+      "dropped": [],
+      "kept": []
+    },
+    "PPARγ": {
+      "base": "ppargamma",
+      "cell": "ppargamma",
+      "dropped": [],
+      "kept": []
+    },
+    "PPARδ": {
+      "base": "ppardelta",
+      "cell": "ppardelta",
+      "dropped": [],
+      "kept": []
+    },
+    "PXR (NR1I2)": {
+      "base": "pxr",
+      "cell": "pxr [subtype:nr1i2]",
+      "dropped": [],
+      "kept": [
+        "subtype:nr1i2"
+      ]
+    },
+    "Phosphodiesterase": {
+      "base": "phosphodiesterase",
+      "cell": "phosphodiesterase",
+      "dropped": [],
+      "kept": []
+    },
+    "Potassium channels": {
+      "base": "potassium-channels",
+      "cell": "potassium-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "QR2 / NQO2 (MT3)": {
+      "base": "qr2-nqo2",
+      "cell": "qr2-nqo2 [subtype:mt3]",
+      "dropped": [],
+      "kept": [
+        "subtype:mt3"
+      ]
+    },
+    "REV-ERBα": {
+      "base": "rev-erbalpha",
+      "cell": "rev-erbalpha",
+      "dropped": [],
+      "kept": []
+    },
+    "REV-ERBβ": {
+      "base": "rev-erbbeta",
+      "cell": "rev-erbbeta",
+      "dropped": [],
+      "kept": []
+    },
+    "ROR-beta": {
+      "base": "ror-beta",
+      "cell": "ror-beta",
+      "dropped": [],
+      "kept": []
+    },
+    "Ribosyldihydronicotinamide dehydrogenase [quinone]": {
+      "base": "ribosyldihydronicotinamide-dehydrogenase-quinone",
+      "cell": "ribosyldihydronicotinamide-dehydrogenase-quinone",
+      "dropped": [],
+      "kept": []
+    },
+    "Ryanodine receptor 1": {
+      "base": "ryanodine-1",
+      "cell": "ryanodine-1",
+      "dropped": [],
+      "kept": []
+    },
+    "SERT": {
+      "base": "SERT",
+      "cell": "SERT",
+      "dropped": [],
+      "kept": []
+    },
+    "SERT (+)-tramadol": {
+      "base": "sert-tramadol",
+      "cell": "sert-tramadol",
+      "dropped": [
+        "+"
+      ],
+      "kept": []
+    },
+    "SERT (allosteric)": {
+      "base": "SERT",
+      "cell": "SERT [subtype:allosteric]",
+      "dropped": [],
+      "kept": [
+        "subtype:allosteric"
+      ]
+    },
+    "SERT (orthosteric)": {
+      "base": "SERT",
+      "cell": "SERT [subtype:orthosteric]",
+      "dropped": [],
+      "kept": [
+        "subtype:orthosteric"
+      ]
+    },
+    "SERT (rat brain)": {
+      "base": "SERT",
+      "cell": "SERT",
+      "dropped": [
+        "rat brain"
+      ],
+      "kept": []
+    },
+    "SERT (release)": {
+      "base": "SERT",
+      "cell": "SERT [subtype:release]",
+      "dropped": [],
+      "kept": [
+        "subtype:release"
+      ]
+    },
+    "SERT (release, [3H]-5-HT from rat synaptosomes)": {
+      "base": "SERT",
+      "cell": "SERT [subtype:release-5]",
+      "dropped": [],
+      "kept": [
+        "subtype:release-5"
+      ]
+    },
+    "SERT (serotonin transporter)": {
+      "base": "SERT",
+      "cell": "SERT [subtype:serotonin-transporter]",
+      "dropped": [],
+      "kept": [
+        "subtype:serotonin-transporter"
+      ]
+    },
+    "SERT (uptake)": {
+      "base": "SERT",
+      "cell": "SERT [subtype:uptake]",
+      "dropped": [],
+      "kept": [
+        "subtype:uptake"
+      ]
+    },
+    "SERT (uptake, human)": {
+      "base": "SERT",
+      "cell": "SERT [subtype:uptake]",
+      "dropped": [],
+      "kept": [
+        "subtype:uptake"
+      ]
+    },
+    "SERT/NET": {
+      "base": "sert-net",
+      "cell": "sert-net",
+      "dropped": [],
+      "kept": []
+    },
+    "SERT/NET/DAT": {
+      "base": "sert-net-dat",
+      "cell": "sert-net-dat",
+      "dropped": [],
+      "kept": []
+    },
+    "SERT[cite:doi-10-1007-164-2018-124]": {
+      "base": "sert-cite-doi-10-1007-164-2018-124",
+      "cell": "sert-cite-doi-10-1007-164-2018-124",
+      "dropped": [],
+      "kept": []
+    },
+    "SERT[cite:doi-10-1016-j-neuropharm-2023-109704]": {
+      "base": "sert-cite-doi-10-1016-j-neuropharm-2023-109704",
+      "cell": "sert-cite-doi-10-1016-j-neuropharm-2023-109704",
+      "dropped": [],
+      "kept": []
+    },
+    "SLC22A3": {
+      "base": "slc22a3",
+      "cell": "slc22a3",
+      "dropped": [],
+      "kept": []
+    },
+    "SLC22A5": {
+      "base": "slc22a5",
+      "cell": "slc22a5",
+      "dropped": [],
+      "kept": []
+    },
+    "SV2A": {
+      "base": "sv2a",
+      "cell": "sv2a",
+      "dropped": [],
+      "kept": []
+    },
+    "Serotonin receptors": {
+      "base": "serotonin",
+      "cell": "serotonin",
+      "dropped": [],
+      "kept": []
+    },
+    "Serotonin reuptake inhibitor (moderate)": {
+      "base": "serotonin-reuptake-inhibitor",
+      "cell": "serotonin-reuptake-inhibitor [subtype:moderate]",
+      "dropped": [],
+      "kept": [
+        "subtype:moderate"
+      ]
+    },
+    "Sigma": {
+      "base": "sigma",
+      "cell": "sigma",
+      "dropped": [],
+      "kept": []
+    },
+    "Sigma-1": {
+      "base": "sigma-1",
+      "cell": "sigma-1",
+      "dropped": [],
+      "kept": []
+    },
+    "Sigma-2": {
+      "base": "sigma-2",
+      "cell": "sigma-2",
+      "dropped": [],
+      "kept": []
+    },
+    "Sodium channels": {
+      "base": "sodium-channels",
+      "cell": "sodium-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "Substance P": {
+      "base": "substance-p",
+      "cell": "substance-p",
+      "dropped": [],
+      "kept": []
+    },
+    "T-type Ca²⁺ channels": {
+      "base": "t-type-ca2-channels",
+      "cell": "t-type-ca2-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "TAAR1": {
+      "base": "TAAR1",
+      "cell": "TAAR1",
+      "dropped": [],
+      "kept": []
+    },
+    "TAAR1 (mouse)": {
+      "base": "TAAR1",
+      "cell": "TAAR1",
+      "dropped": [
+        "mouse"
+      ],
+      "kept": []
+    },
+    "TAAR1 (rat)": {
+      "base": "TAAR1",
+      "cell": "TAAR1",
+      "dropped": [
+        "rat"
+      ],
+      "kept": []
+    },
+    "TAAR1 agonist (trace amine-associated": {
+      "base": "taar1-agonist",
+      "cell": "taar1-agonist [subtype:trace-amine-associated]",
+      "dropped": [],
+      "kept": [
+        "subtype:trace-amine-associated"
+      ]
+    },
+    "TLR4[citation-needed]": {
+      "base": "tlr4-citation-needed",
+      "cell": "tlr4-citation-needed",
+      "dropped": [],
+      "kept": []
+    },
+    "TREK-1": {
+      "base": "trek-1",
+      "cell": "trek-1",
+      "dropped": [],
+      "kept": []
+    },
+    "TRPA1": {
+      "base": "trpa1",
+      "cell": "trpa1",
+      "dropped": [],
+      "kept": []
+    },
+    "TRPV1": {
+      "base": "trpv1",
+      "cell": "trpv1",
+      "dropped": [],
+      "kept": []
+    },
+    "TRPV1 (via AM404)": {
+      "base": "trpv1",
+      "cell": "trpv1 [entity:via-am404]",
+      "dropped": [],
+      "kept": [
+        "entity:via-am404"
+      ]
+    },
+    "TSPO": {
+      "base": "tspo",
+      "cell": "tspo",
+      "dropped": [],
+      "kept": []
+    },
+    "TSPO (peripheral benzodiazepine receptor)": {
+      "base": "tspo",
+      "cell": "tspo [subtype:benzodiazepine]",
+      "dropped": [],
+      "kept": [
+        "subtype:benzodiazepine"
+      ]
+    },
+    "Thyroid hormone receptors (TRα/TRβ)": {
+      "base": "thyroid-hormone",
+      "cell": "thyroid-hormone [subtype:tralpha-trbeta]",
+      "dropped": [],
+      "kept": [
+        "subtype:tralpha-trbeta"
+      ]
+    },
+    "Trace amine receptors": {
+      "base": "trace-amine",
+      "cell": "trace-amine",
+      "dropped": [],
+      "kept": []
+    },
+    "Translocator protein": {
+      "base": "translocator-protein",
+      "cell": "translocator-protein",
+      "dropped": [],
+      "kept": []
+    },
+    "TrkB": {
+      "base": "trkb",
+      "cell": "trkb",
+      "dropped": [],
+      "kept": []
+    },
+    "TrkB (NTRK2)": {
+      "base": "trkb",
+      "cell": "trkb [subtype:ntrk2]",
+      "dropped": [],
+      "kept": [
+        "subtype:ntrk2"
+      ]
+    },
+    "VDSC": {
+      "base": "vdsc",
+      "cell": "vdsc",
+      "dropped": [],
+      "kept": []
+    },
+    "VKORC1": {
+      "base": "vkorc1",
+      "cell": "vkorc1",
+      "dropped": [],
+      "kept": []
+    },
+    "VMAT": {
+      "base": "vmat",
+      "cell": "vmat",
+      "dropped": [],
+      "kept": []
+    },
+    "VMAT-2": {
+      "base": "vmat-2",
+      "cell": "vmat-2",
+      "dropped": [],
+      "kept": []
+    },
+    "VMAT2": {
+      "base": "VMAT2",
+      "cell": "VMAT2",
+      "dropped": [],
+      "kept": []
+    },
+    "VPAC1": {
+      "base": "vpac1",
+      "cell": "vpac1",
+      "dropped": [],
+      "kept": []
+    },
+    "VPAC2": {
+      "base": "vpac2",
+      "cell": "vpac2",
+      "dropped": [],
+      "kept": []
+    },
+    "Voltage-gated calcium channels": {
+      "base": "voltage-gated-calcium-channels",
+      "cell": "voltage-gated-calcium-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "Voltage-gated potassium channels": {
+      "base": "voltage-gated-potassium-channels",
+      "cell": "voltage-gated-potassium-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "Voltage-gated sodium channels": {
+      "base": "voltage-gated-sodium-channels",
+      "cell": "voltage-gated-sodium-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "Voltage-gated sodium channels[cite:pmid-2450203]": {
+      "base": "voltage-gated-sodium-channels-cite-pmid-2450203",
+      "cell": "voltage-gated-sodium-channels-cite-pmid-2450203",
+      "dropped": [],
+      "kept": []
+    },
+    "Voltage-sensitive calcium channels": {
+      "base": "voltage-sensitive-calcium-channels",
+      "cell": "voltage-sensitive-calcium-channels",
+      "dropped": [],
+      "kept": []
+    },
+    "acetylcholinesterase (rat brain)": {
+      "base": "acetylcholinesterase",
+      "cell": "acetylcholinesterase",
+      "dropped": [
+        "rat brain"
+      ],
+      "kept": []
+    },
+    "alanine transaminase (ALA-T)": {
+      "base": "alanine-transaminase",
+      "cell": "alanine-transaminase [subtype:ala-t]",
+      "dropped": [],
+      "kept": [
+        "subtype:ala-t"
+      ]
+    },
+    "alpha-1-containing GABA-A receptor (omega-1/BZ1)": {
+      "base": "alpha-1-containing-gaba-a",
+      "cell": "alpha-1-containing-gaba-a [subtype:omega-1-benzodiazepine-omega1]",
+      "dropped": [],
+      "kept": [
+        "subtype:omega-1-benzodiazepine-omega1"
+      ]
+    },
+    "alpha2delta-1 (CACNA2D1)": {
+      "base": "alpha-2-delta-1",
+      "cell": "alpha-2-delta-1 [subtype:cacna2d1]",
+      "dropped": [],
+      "kept": [
+        "subtype:cacna2d1"
+      ]
+    },
+    "alpha2delta-2 (CACNA2D2)": {
+      "base": "alpha-2-delta-2",
+      "cell": "alpha-2-delta-2 [subtype:cacna2d2]",
+      "dropped": [],
+      "kept": [
+        "subtype:cacna2d2"
+      ]
+    },
+    "amylin receptor": {
+      "base": "amylin",
+      "cell": "amylin",
+      "dropped": [],
+      "kept": []
+    },
+    "hERG": {
+      "base": "hERG",
+      "cell": "hERG",
+      "dropped": [],
+      "kept": []
+    },
+    "hERG (S-methadone)": {
+      "base": "hERG",
+      "cell": "hERG [entity:s-methadone]",
+      "dropped": [],
+      "kept": [
+        "entity:s-methadone"
+      ]
+    },
+    "hERG (norpropoxyphene)": {
+      "base": "hERG",
+      "cell": "hERG [entity:norpropoxyphene]",
+      "dropped": [],
+      "kept": [
+        "entity:norpropoxyphene"
+      ]
+    },
+    "hTAAR1": {
+      "base": "TAAR1",
+      "cell": "TAAR1",
+      "dropped": [],
+      "kept": []
+    },
+    "human 5-HT2A": {
+      "base": "human-5-ht2a",
+      "cell": "human-5-ht2a",
+      "dropped": [],
+      "kept": []
+    },
+    "kappa-opioid": {
+      "base": "KOR",
+      "cell": "KOR",
+      "dropped": [],
+      "kept": []
+    },
+    "mAChR": {
+      "base": "machr",
+      "cell": "machr",
+      "dropped": [],
+      "kept": []
+    },
+    "mGluR": {
+      "base": "mglur",
+      "cell": "mglur",
+      "dropped": [],
+      "kept": []
+    },
+    "mGluR (group I)": {
+      "base": "mglur",
+      "cell": "mglur [subtype:group-i]",
+      "dropped": [],
+      "kept": [
+        "subtype:group-i"
+      ]
+    },
+    "mTOR": {
+      "base": "mtor",
+      "cell": "mtor",
+      "dropped": [],
+      "kept": []
+    },
+    "mu-opioid": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [],
+      "kept": []
+    },
+    "mu-opioid (endogenous release, not direct binding)": {
+      "base": "MOR",
+      "cell": "MOR [subtype:endogenous-release-not-direct]",
+      "dropped": [],
+      "kept": [
+        "subtype:endogenous-release-not-direct"
+      ]
+    },
+    "muscarinic M1": {
+      "base": "muscarinic-m1",
+      "cell": "muscarinic-m1",
+      "dropped": [],
+      "kept": []
+    },
+    "nAChR": {
+      "base": "nAChR",
+      "cell": "nAChR",
+      "dropped": [],
+      "kept": []
+    },
+    "nAChR (β2-subunit-containing)": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:beta2]",
+      "dropped": [],
+      "kept": [
+        "subtype:beta2"
+      ]
+    },
+    "nAChR alpha-4": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha-4]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha-4"
+      ]
+    },
+    "nAChR α10": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha10]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha10"
+      ]
+    },
+    "nAChR α2": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha2"
+      ]
+    },
+    "nAChR α4": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha4]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha4"
+      ]
+    },
+    "nAChR α4β2": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha4beta2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha4beta2"
+      ]
+    },
+    "nAChR α7": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha7]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha7"
+      ]
+    },
+    "nAChR α9": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha9]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha9"
+      ]
+    },
+    "nAChR β2": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:beta2]",
+      "dropped": [],
+      "kept": [
+        "subtype:beta2"
+      ]
+    },
+    "nNOS": {
+      "base": "nnos",
+      "cell": "nnos",
+      "dropped": [],
+      "kept": []
+    },
+    "nicotinic alpha7 nAChR": {
+      "base": "nicotinic-nachr",
+      "cell": "nicotinic-nachr [subtype:alpha7]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha7"
+      ]
+    },
+    "prohibitin": {
+      "base": "prohibitin",
+      "cell": "prohibitin",
+      "dropped": [],
+      "kept": []
+    },
+    "sigma (combined)": {
+      "base": "sigma",
+      "cell": "sigma",
+      "dropped": [
+        "combined"
+      ],
+      "kept": []
+    },
+    "sigma-1": {
+      "base": "sigma-1",
+      "cell": "sigma-1",
+      "dropped": [],
+      "kept": []
+    },
+    "sigma-2": {
+      "base": "sigma-2",
+      "cell": "sigma-2",
+      "dropped": [],
+      "kept": []
+    },
+    "voltage-gated Na+ channel": {
+      "base": "voltage-gated-na-channel",
+      "cell": "voltage-gated-na-channel",
+      "dropped": [],
+      "kept": []
+    },
+    "α-2 adrenergic receptor": {
+      "base": "alpha-2-adrenergic",
+      "cell": "alpha-2-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "α1": {
+      "base": "alpha-1",
+      "cell": "alpha-1",
+      "dropped": [],
+      "kept": []
+    },
+    "α1 adrenergic": {
+      "base": "alpha-1",
+      "cell": "alpha-1",
+      "dropped": [],
+      "kept": []
+    },
+    "α1-adrenergic": {
+      "base": "alpha-1",
+      "cell": "alpha-1",
+      "dropped": [],
+      "kept": []
+    },
+    "α1-adrenergic receptor": {
+      "base": "alpha-1",
+      "cell": "alpha-1",
+      "dropped": [],
+      "kept": []
+    },
+    "α1A": {
+      "base": "alpha-1A",
+      "cell": "alpha-1A",
+      "dropped": [],
+      "kept": []
+    },
+    "α1A adrenergic": {
+      "base": "alpha1a-adrenergic",
+      "cell": "alpha1a-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "α1B": {
+      "base": "alpha-1B",
+      "cell": "alpha-1B",
+      "dropped": [],
+      "kept": []
+    },
+    "α1D adrenergic": {
+      "base": "alpha1d-adrenergic",
+      "cell": "alpha1d-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "α1a adrenergic": {
+      "base": "alpha1a-adrenergic",
+      "cell": "alpha1a-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "α2 adrenergic": {
+      "base": "alpha-2",
+      "cell": "alpha-2",
+      "dropped": [],
+      "kept": []
+    },
+    "α2-adrenergic": {
+      "base": "alpha-2",
+      "cell": "alpha-2",
+      "dropped": [],
+      "kept": []
+    },
+    "α2-adrenergic receptor (subtype non-selective)": {
+      "base": "alpha-2",
+      "cell": "alpha-2",
+      "dropped": [
+        "subtype non-selective"
+      ],
+      "kept": []
+    },
+    "α2-adrenergic receptors": {
+      "base": "alpha-2",
+      "cell": "alpha-2",
+      "dropped": [],
+      "kept": []
+    },
+    "α2-adrenoceptor": {
+      "base": "alpha-2",
+      "cell": "alpha-2",
+      "dropped": [],
+      "kept": []
+    },
+    "α2A": {
+      "base": "alpha-2A",
+      "cell": "alpha-2A",
+      "dropped": [],
+      "kept": []
+    },
+    "α2A adrenergic": {
+      "base": "alpha-2A",
+      "cell": "alpha-2A",
+      "dropped": [],
+      "kept": []
+    },
+    "α2A adrenergic (rat)": {
+      "base": "alpha-2A",
+      "cell": "alpha-2A",
+      "dropped": [
+        "rat"
+      ],
+      "kept": []
+    },
+    "α2A-adrenergic": {
+      "base": "alpha-2A",
+      "cell": "alpha-2A",
+      "dropped": [],
+      "kept": []
+    },
+    "α2B": {
+      "base": "alpha2b",
+      "cell": "alpha2b",
+      "dropped": [],
+      "kept": []
+    },
+    "α2B-adrenergic": {
+      "base": "alpha2b-adrenergic",
+      "cell": "alpha2b-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "α2C": {
+      "base": "alpha2c",
+      "cell": "alpha2c",
+      "dropped": [],
+      "kept": []
+    },
+    "α2C adrenergic": {
+      "base": "alpha2c-adrenergic",
+      "cell": "alpha2c-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "α2C-adrenergic": {
+      "base": "alpha2c-adrenergic",
+      "cell": "alpha2c-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "α2a adrenergic": {
+      "base": "alpha-2A",
+      "cell": "alpha-2A",
+      "dropped": [],
+      "kept": []
+    },
+    "α2δ VGCC": {
+      "base": "alpha2delta-vgcc",
+      "cell": "alpha2delta-vgcc",
+      "dropped": [],
+      "kept": []
+    },
+    "α2δ subunit-containing VDCCs": {
+      "base": "alpha2delta-subunit-containing-vdccs",
+      "cell": "alpha2delta-subunit-containing-vdccs",
+      "dropped": [],
+      "kept": []
+    },
+    "α2δ-1": {
+      "base": "alpha-2-delta-1",
+      "cell": "alpha-2-delta-1",
+      "dropped": [],
+      "kept": []
+    },
+    "α2δ-1 (VGCC auxiliary subunit)": {
+      "base": "alpha-2-delta-1",
+      "cell": "alpha-2-delta-1 [subtype:vgcc-auxiliary]",
+      "dropped": [],
+      "kept": [
+        "subtype:vgcc-auxiliary"
+      ]
+    },
+    "α2δ-1 (porcine cerebral cortex)": {
+      "base": "alpha-2-delta-1",
+      "cell": "alpha-2-delta-1",
+      "dropped": [
+        "porcine cerebral cortex"
+      ],
+      "kept": []
+    },
+    "α2δ-1 (rat brain)": {
+      "base": "alpha-2-delta-1",
+      "cell": "alpha-2-delta-1",
+      "dropped": [
+        "rat brain"
+      ],
+      "kept": []
+    },
+    "α2δ-1 (recombinant human)": {
+      "base": "alpha-2-delta-1",
+      "cell": "alpha-2-delta-1",
+      "dropped": [
+        "recombinant human"
+      ],
+      "kept": []
+    },
+    "α2δ-1 (voltage-gated calcium channel)": {
+      "base": "alpha-2-delta-1",
+      "cell": "alpha-2-delta-1 [subtype:voltage-gated-calcium]",
+      "dropped": [],
+      "kept": [
+        "subtype:voltage-gated-calcium"
+      ]
+    },
+    "α2δ-2": {
+      "base": "alpha-2-delta-2",
+      "cell": "alpha-2-delta-2",
+      "dropped": [],
+      "kept": []
+    },
+    "α2δ-2 (recombinant human)": {
+      "base": "alpha-2-delta-2",
+      "cell": "alpha-2-delta-2",
+      "dropped": [
+        "recombinant human"
+      ],
+      "kept": []
+    },
+    "α3β2 nAChR": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha3beta2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha3beta2"
+      ]
+    },
+    "α3β4 nAChR": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha3beta4]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha3beta4"
+      ]
+    },
+    "α4β2 nAChR": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha4beta2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha4beta2"
+      ]
+    },
+    "α4β2 nAChR (HS, (α4)₂(β2)₃)": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha4beta2; subtype:hs-alpha4-2-beta2-3]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha4beta2",
+        "subtype:hs-alpha4-2-beta2-3"
+      ]
+    },
+    "α4β2 nAChR (LS, (α4)₃(β2)₂)": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha4beta2; subtype:ls-alpha4-3-beta2-2]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha4beta2",
+        "subtype:ls-alpha4-3-beta2-2"
+      ]
+    },
+    "α4β2 nAChR (human / rat)": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha4beta2]",
+      "dropped": [
+        "human / rat"
+      ],
+      "kept": [
+        "subtype:alpha4beta2"
+      ]
+    },
+    "α4β2 nAChR (rat brain)": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha4beta2]",
+      "dropped": [
+        "rat brain"
+      ],
+      "kept": [
+        "subtype:alpha4beta2"
+      ]
+    },
+    "α4β2 nAChR (rat striatum)": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha4beta2]",
+      "dropped": [
+        "rat striatum"
+      ],
+      "kept": [
+        "subtype:alpha4beta2"
+      ]
+    },
+    "α4β3δ GABA-A (extrasynaptic)": {
+      "base": "alpha4beta3delta-gaba-a",
+      "cell": "alpha4beta3delta-gaba-a [subtype:extrasynaptic]",
+      "dropped": [],
+      "kept": [
+        "subtype:extrasynaptic"
+      ]
+    },
+    "α6β2* nAChR (rat/monkey striatum)": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha6beta2]",
+      "dropped": [
+        "rat/monkey striatum"
+      ],
+      "kept": [
+        "subtype:alpha6beta2"
+      ]
+    },
+    "α7 nAChR": {
+      "base": "nAChR",
+      "cell": "nAChR [subtype:alpha7]",
+      "dropped": [],
+      "kept": [
+        "subtype:alpha7"
+      ]
+    },
+    "β1": {
+      "base": "beta-1",
+      "cell": "beta-1",
+      "dropped": [],
+      "kept": []
+    },
+    "β1 adrenergic": {
+      "base": "beta1-adrenergic",
+      "cell": "beta1-adrenergic",
+      "dropped": [],
+      "kept": []
+    },
+    "β2": {
+      "base": "beta-2",
+      "cell": "beta-2",
+      "dropped": [],
+      "kept": []
+    },
+    "β2-adrenergic": {
+      "base": "beta-2",
+      "cell": "beta-2",
+      "dropped": [],
+      "kept": []
+    },
+    "β3-adrenergic receptor": {
+      "base": "beta-3",
+      "cell": "beta-3",
+      "dropped": [],
+      "kept": []
+    },
+    "δ-opioid": {
+      "base": "DOR",
+      "cell": "DOR",
+      "dropped": [],
+      "kept": []
+    },
+    "δ-opioid receptor": {
+      "base": "DOR",
+      "cell": "DOR",
+      "dropped": [],
+      "kept": []
+    },
+    "δ-opioid receptor (human, hDOR)": {
+      "base": "DOR",
+      "cell": "DOR",
+      "dropped": [
+        "human, hDOR"
+      ],
+      "kept": []
+    },
+    "κ-opioid": {
+      "base": "KOR",
+      "cell": "KOR",
+      "dropped": [],
+      "kept": []
+    },
+    "κ-opioid (KOR)": {
+      "base": "KOR",
+      "cell": "KOR",
+      "dropped": [
+        "KOR"
+      ],
+      "kept": []
+    },
+    "κ-opioid receptor": {
+      "base": "KOR",
+      "cell": "KOR",
+      "dropped": [],
+      "kept": []
+    },
+    "κ-opioid receptor (human)": {
+      "base": "KOR",
+      "cell": "KOR",
+      "dropped": [
+        "human"
+      ],
+      "kept": []
+    },
+    "μ-opioid": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [],
+      "kept": []
+    },
+    "μ-opioid (MOR)": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [
+        "MOR"
+      ],
+      "kept": []
+    },
+    "μ-opioid (peripheral)": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [
+        "peripheral"
+      ],
+      "kept": []
+    },
+    "μ-opioid (via morphine)": {
+      "base": "MOR",
+      "cell": "MOR [entity:via-morphine]",
+      "dropped": [],
+      "kept": [
+        "entity:via-morphine"
+      ]
+    },
+    "μ-opioid receptor": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [],
+      "kept": []
+    },
+    "μ-opioid receptor (human, hMOR)": {
+      "base": "MOR",
+      "cell": "MOR",
+      "dropped": [
+        "human, hMOR"
+      ],
+      "kept": []
+    },
+    "μ-opioid[cite:doi-10-1016-0024-3205-91-90150-a]": {
+      "base": "mu-opioid-cite-doi-10-1016-0024-3205-91-90150-a",
+      "cell": "mu-opioid-cite-doi-10-1016-0024-3205-91-90150-a",
+      "dropped": [],
+      "kept": []
+    },
+    "μ–δ-opioid receptor heteromer": {
+      "base": "mu-delta-opioid-heteromer",
+      "cell": "mu-delta-opioid-heteromer",
+      "dropped": [],
+      "kept": []
+    },
+    "σ": {
+      "base": "sigma",
+      "cell": "sigma",
+      "dropped": [],
+      "kept": []
+    },
+    "σ1": {
+      "base": "sigma-1",
+      "cell": "sigma-1",
+      "dropped": [],
+      "kept": []
+    },
+    "σ1 (+)": {
+      "base": "sigma-1",
+      "cell": "sigma-1",
+      "dropped": [
+        "+"
+      ],
+      "kept": []
+    },
+    "σ1 (sigma-1)": {
+      "base": "sigma-1",
+      "cell": "sigma-1",
+      "dropped": [
+        "sigma-1"
+      ],
+      "kept": []
+    },
+    "σ2": {
+      "base": "sigma-2",
+      "cell": "sigma-2",
+      "dropped": [],
+      "kept": []
+    },
+    "σ2 (racemate)": {
+      "base": "sigma-2",
+      "cell": "sigma-2 [entity:racemate]",
+      "dropped": [],
+      "kept": [
+        "entity:racemate"
+      ]
+    }
+  }
+}
