@@ -115,8 +115,8 @@ extension SubstanceReadModel {
         order: [String],
     ) throws -> [Int64: [SubstanceRoute]] {
         guard !substanceIDs.isEmpty, !order.isEmpty else { return [:] }
-        let priorityCaseSQL = priorityCaseSQL(order)
         let enabledSourceListSQL = enabledSourceListSQL(order)
+        let doseRank = fieldRankSQL(field: "doses", alias: "d", order: order, doseContextLast: true)
         // `substance_id IN (…)` over the id set. The ids are our own Int64 row
         // ids (never user input), so interpolation is safe and lets one
         // statement serve any id-set size without a parameter blowup.
@@ -132,9 +132,10 @@ extension SubstanceReadModel {
               FROM (
                 SELECT d.*, ROW_NUMBER() OVER (
                     PARTITION BY d.substance_id, d.route, d.salt_form, d.isomer
-                    ORDER BY \(priorityCaseSQL) ASC) AS rn
+                    ORDER BY \(doseRank.orderBy)) AS rn
                   FROM dose_ranges d
                   JOIN sources src ON src.id = d.source_id
+                  \(doseRank.join)
                  WHERE d.substance_id IN (\(idListSQL))
                    AND src.slug IN (\(enabledSourceListSQL))
             ) WHERE rn = 1
@@ -163,10 +164,7 @@ extension SubstanceReadModel {
         // offset while PsychonautWiki fills comeup/afterglow). Keyed by
         // (substance, route, salt); a salt-tagged dose variant takes its own
         // salt's duration, the unspecified base takes the NULL-salt rows.
-        let durationByKey = try resolveDurations(
-            db: db, idListSQL: idListSQL,
-            priorityCaseSQL: priorityCaseSQL, enabledSourceListSQL: enabledSourceListSQL,
-        )
+        let durationByKey = try resolveDurations(db: db, idListSQL: idListSQL, order: order)
 
         // Assemble dose-bearing routes. Per-salt variants of a route fold into
         // one SubstanceRoute (default salt mirrored at top level by makeRoute).
@@ -197,9 +195,10 @@ extension SubstanceReadModel {
     /// by ``resolveRoutes`` and the detail path's auxiliary route fill, so the
     /// phase-merge logic lives in exactly one place.
     nonisolated static func resolveDurations(
-        db: Database, idListSQL: String,
-        priorityCaseSQL: String, enabledSourceListSQL: String,
+        db: Database, idListSQL: String, order: [String],
     ) throws -> [RouteSaltKey: DurationProfile] {
+        let enabledSourceListSQL = enabledSourceListSQL(order)
+        let rank = fieldRankSQL(field: "durations", alias: "du", order: order)
         var phasesByKey: [RouteSaltKey: [String: DurationRange]] = [:]
         for row in try Row.fetchAll(db, sql: """
             SELECT substance_id, route, salt_form, isomer, phase, min_minutes, max_minutes
@@ -208,9 +207,10 @@ extension SubstanceReadModel {
                        du.min_minutes, du.max_minutes,
                        ROW_NUMBER() OVER (
                            PARTITION BY du.substance_id, du.route, du.phase, du.salt_form, du.isomer
-                           ORDER BY \(priorityCaseSQL) ASC) AS rn
+                           ORDER BY \(rank.orderBy)) AS rn
                   FROM durations du
                   JOIN sources src ON src.id = du.source_id
+                  \(rank.join)
                  WHERE du.substance_id IN (\(idListSQL))
                    AND src.slug IN (\(enabledSourceListSQL))
             ) WHERE rn = 1

@@ -32,15 +32,25 @@ nonisolated enum AttributableField: Hashable {
     case halfLife
     case mechanism
 
-    /// (table, extra WHERE fragment, extra bound args) for the availability query.
-    fileprivate var query: (table: String, whereClause: String, args: [DatabaseValueConvertible]) {
+    /// (table, `source_field_priority` field, extra WHERE fragment, extra bound
+    /// args) for the availability query. The field name is what ranks the list
+    /// the same way the resolver ranked the value.
+    fileprivate var query: (
+        table: String, field: String?, whereClause: String, args: [DatabaseValueConvertible],
+    ) {
         switch self {
-        case let .dose(route): ("dose_ranges", "AND t.route = ?", [route.rawValue])
-        case let .duration(route): ("durations", "AND t.route = ?", [route.rawValue])
-        case .category: ("categories", "", [])
-        case .halfLife: ("half_lives", "", [])
-        case .mechanism: ("mechanisms_summary", "", [])
+        case let .dose(route): ("dose_ranges", "doses", "AND t.route = ?", [route.rawValue])
+        case let .duration(route): ("durations", "durations", "AND t.route = ?", [route.rawValue])
+        case .category: ("categories", nil, "", [])
+        case .halfLife: ("half_lives", nil, "", [])
+        case .mechanism: ("mechanisms_summary", nil, "", [])
         }
+    }
+
+    /// `dose_ranges` is the one table carrying `dose_context`.
+    fileprivate var ranksTherapeuticLast: Bool {
+        if case .dose = self { return true }
+        return false
     }
 }
 
@@ -84,23 +94,31 @@ extension SubstanceReadModel {
                 // RAW DB route string and looked up by `route.rawValue`, which
                 // preserves the exact-equality semantics of a `d.route = ?`
                 // probe — an `oral_er` row must not be normalized onto `.oral`.
-                let winningSlugByRawRoute = { (table: String) throws -> [String: String] in
+                let enabledList = self.enabledSourceListSQL
+                let winningSlugByRawRoute = { (table: String, rank: FieldRankSQL) throws -> [String: String] in
                     let rows = try Row.fetchAll(db, sql: """
                         SELECT route, slug FROM (
                           SELECT t.route AS route, src.slug AS slug,
                                  ROW_NUMBER() OVER (
                                      PARTITION BY t.route
-                                     ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                                     ORDER BY \(rank.orderBy)) AS rn
                             FROM \(table) t
                             JOIN sources src ON src.id = t.source_id
+                            \(rank.join)
                            WHERE t.substance_id = :id
-                             AND src.slug IN (\(self.enabledSourceListSQL))
+                             AND src.slug IN (\(enabledList))
                         ) WHERE rn = 1
                     """, arguments: ["id": substanceID])
                     return Dictionary(uniqueKeysWithValues: rows.map { ($0["route"], $0["slug"]) })
                 }
-                let doseSlugs = try winningSlugByRawRoute("dose_ranges")
-                let durationSlugs = try winningSlugByRawRoute("durations")
+                let doseSlugs = try winningSlugByRawRoute(
+                    "dose_ranges",
+                    Self.fieldRankSQL(field: "doses", alias: "t", order: self.order, doseContextLast: true),
+                )
+                let durationSlugs = try winningSlugByRawRoute(
+                    "durations",
+                    Self.fieldRankSQL(field: "durations", alias: "t", order: self.order),
+                )
 
                 let routes = try resolvedRoutes(db: db, substanceID: substanceID).map(\.route)
                 var routesBySource: [RouteOfAdministration: RouteProvenance] = [:]
@@ -131,15 +149,29 @@ extension SubstanceReadModel {
     /// "why this source?" explainer — higher-priority sources absent from the list
     /// simply had no value for this field, which is *why* a lower one won.
     func sourcesProviding(_ field: AttributableField, substanceID: Int64) -> [String] {
-        let (table, whereClause, args) = field.query
+        let (table, priorityField, whereClause, args) = field.query
+        let rank = Self.fieldRankSQL(
+            field: priorityField, alias: "t", order: order,
+            doseContextLast: field.ranksTherapeuticLast,
+        )
+        // One row per source, ranked by its best row — a source that carries both
+        // a therapeutic and a recreational ladder is listed where the ladder that
+        // could actually win puts it.
+        let bestPerSource = rank.terms.enumerated()
+            .map { "MIN(\($1)) AS r\($0)" }.joined(separator: ", ")
+        let orderBy = rank.terms.indices.map { "r\($0) ASC" }.joined(separator: ", ")
         do {
             return try db.read { db in
                 try String.fetchAll(db, sql: """
-                    SELECT DISTINCT src.slug FROM \(table) t
-                      JOIN sources src ON src.id = t.source_id
-                     WHERE t.substance_id = ? \(whereClause)
-                       AND src.slug IN (\(enabledSourceListSQL))
-                     ORDER BY \(priorityCaseSQL) ASC
+                    SELECT slug FROM (
+                      SELECT src.slug AS slug, \(bestPerSource)
+                        FROM \(table) t
+                        JOIN sources src ON src.id = t.source_id
+                        \(rank.join)
+                       WHERE t.substance_id = ? \(whereClause)
+                         AND src.slug IN (\(enabledSourceListSQL))
+                       GROUP BY src.slug
+                    ) ORDER BY \(orderBy)
                 """, arguments: StatementArguments([substanceID] + args))
             }
         } catch {
