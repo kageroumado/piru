@@ -121,17 +121,18 @@ struct DoseTitleTests {
 
     @Test
     func `Dose level classifies against the isomer's ladder`() {
-        // 7 mg is "common" on the D ladder (5–10) but nowhere near common on
-        // racemic methylphenidate's (20–40). The row read the racemic ladder while
-        // the staged editor and edit mode read the D one, so the same dose was
-        // labelled differently in three places and visibly flipped on Edit/Cancel.
-        // (7, not 10: 10 sits exactly on the D ladder's common/strong boundary,
-        // where the classifier takes the higher band.)
-        let dex = DayEntryCore.make(from: [entry("Methylphenidate", isomer: "D", amount: 7)])
-        #expect(dex.first?.doseLevel == .common)
+        // 15 mg is "light" on the D ladder (TripSit: light 10–20, common 20–30)
+        // and "common" on racemic methylphenidate's (drug.community: common
+        // 10–30). The row read the racemic ladder while the staged editor and edit
+        // mode read the D one, so the same dose was labelled differently in three
+        // places and visibly flipped on Edit/Cancel. Methylphenidate is schedule II,
+        // so the only D ladder that ships is the recreational one — the curated
+        // 5–10 mg Focalin ladder is therapeutic and stripped at build.
+        let dex = DayEntryCore.make(from: [entry("Methylphenidate", isomer: "D", amount: 15)])
+        #expect(dex.first?.doseLevel == .light)
 
-        let racemic = DayEntryCore.make(from: [entry("Methylphenidate", amount: 7)])
-        #expect(racemic.first?.doseLevel != .common, "the same 7 mg is not a common racemic dose")
+        let racemic = DayEntryCore.make(from: [entry("Methylphenidate", amount: 15)])
+        #expect(racemic.first?.doseLevel == .common, "the same 15 mg is a common racemic dose")
     }
 
     @Test
