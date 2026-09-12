@@ -6980,8 +6980,7 @@
       "4-Acetoxy-MET",
       "4acomet",
       "Metacetin",
-      "O-Acetylmetocin",
-      "O-Acetylmiprocin"
+      "O-Acetylmetocin"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -6990,13 +6989,11 @@
       "research-chemical",
       "tryptamine"
     ],
-    "default_route": "inhalation",
+    "default_route": "oral",
     "all_routes": [
-      "inhalation",
       "oral"
     ],
     "routes_with_dose": [
-      "inhalation",
       "oral"
     ],
     "has_dose_data": true,
@@ -12371,12 +12368,8 @@
       "oral",
       "sublingual"
     ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral",
-      "sublingual"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -12397,6 +12390,7 @@
     ],
     "references": [],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "references"
     ]
@@ -22332,10 +22326,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -22343,6 +22335,7 @@
     "effects": [],
     "references": [],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -32546,8 +32539,7 @@
       "oral"
     ],
     "routes_with_dose": [
-      "insufflation",
-      "oral"
+      "insufflation"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -42708,10 +42700,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 72.0,
@@ -42721,7 +42711,9 @@
       "https://en.wikipedia.org/wiki/Methocarbamol",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=52584-073"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "dose_ranges_by_route"
+    ]
   },
   {
     "name": "Methoxetamine",
@@ -43612,13 +43604,11 @@
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
-      "oral",
-      "transdermal"
+      "oral"
     ],
     "routes_with_dose": [
       "insufflation",
-      "oral",
-      "transdermal"
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -48592,10 +48582,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 840.0,
@@ -48605,7 +48593,9 @@
       "https://en.wikipedia.org/wiki/Orphenadrine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0115-2011"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "dose_ranges_by_route"
+    ]
   },
   {
     "name": "ORTHO-DOT",
@@ -50648,13 +50638,12 @@
       "very-long-half-life",
       "withdrawal-treatment-tool"
     ],
-    "default_route": "intravenous",
+    "default_route": "oral",
     "all_routes": [
       "intravenous",
       "oral"
     ],
     "routes_with_dose": [
-      "intravenous",
       "oral"
     ],
     "has_dose_data": true,
@@ -54069,10 +54058,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 90.0,
@@ -54081,7 +54068,9 @@
     "references": [
       "https://en.wikipedia.org/wiki/Ramelteon"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "dose_ranges_by_route"
+    ]
   },
   {
     "name": "Ramipril",
@@ -59312,10 +59301,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
@@ -59325,7 +59312,9 @@
       "https://www.ncbi.nlm.nih.gov/books/NBK519505/",
       "https://en.wikipedia.org/wiki/Tizanidine"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "dose_ranges_by_route"
+    ]
   },
   {
     "name": "TM",
@@ -60924,14 +60913,10 @@
       "tentative",
       "wooden-chest-syndrome-risk"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -60939,6 +60924,7 @@
     "effects": [],
     "references": [],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
@@ -61063,14 +61049,10 @@
       "renally-cleared",
       "smoking-cessation"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
@@ -61081,6 +61063,7 @@
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021928s011lbl.pdf"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route"
     ]
   },
@@ -62416,8 +62399,7 @@
       "sublingual"
     ],
     "routes_with_dose": [
-      "oral",
-      "sublingual"
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,

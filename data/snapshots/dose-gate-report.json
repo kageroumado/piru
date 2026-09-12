@@ -1,0 +1,51 @@
+[
+  {
+    "rule": "class ceiling · fentanyl-anilidopiperidines ≤ 2 mg",
+    "substance": "Valerylfentanyl",
+    "source": "tripsit",
+    "route": "oral",
+    "detail": "light_lower 50 mg — 2 tier(s) above the ceiling; fentanyl is dosed in tens of micrograms and no anilidopiperidine in human use is more than ~100× weaker (PMID 40721041 ranks six analogs within a decade of fentanyl in vivo); a tier above 2 mg is a milligram written for a microgram"
+  },
+  {
+    "rule": "class ceiling · fentanyl-anilidopiperidines ≤ 2 mg",
+    "substance": "Acetylfentanyl",
+    "source": "dosewiki",
+    "route": "oral",
+    "detail": "strong_upper 7 mg — 6 tier(s) above the ceiling; fentanyl is dosed in tens of micrograms and no anilidopiperidine in human use is more than ~100× weaker (PMID 40721041 ranks six analogs within a decade of fentanyl in vivo); a tier above 2 mg is a milligram written for a microgram"
+  },
+  {
+    "rule": "class ceiling · fentanyl-anilidopiperidines ≤ 2 mg",
+    "substance": "Acetylfentanyl",
+    "source": "dosewiki",
+    "route": "sublingual",
+    "detail": "strong_upper 20 mg — 6 tier(s) above the ceiling; fentanyl is dosed in tens of micrograms and no anilidopiperidine in human use is more than ~100× weaker (PMID 40721041 ranks six analogs within a decade of fentanyl in vivo); a tier above 2 mg is a milligram written for a microgram"
+  },
+  {
+    "rule": "class ceiling · fentanyl-anilidopiperidines ≤ 2 mg",
+    "substance": "Acetylfentanyl",
+    "source": "dosewiki",
+    "route": "insufflation",
+    "detail": "strong_upper 20 mg — 6 tier(s) above the ceiling; fentanyl is dosed in tens of micrograms and no anilidopiperidine in human use is more than ~100× weaker (PMID 40721041 ranks six analogs within a decade of fentanyl in vivo); a tier above 2 mg is a milligram written for a microgram"
+  },
+  {
+    "rule": "class ceiling · benzimidazole-nitazenes ≤ 2 mg",
+    "substance": "Clonitazene",
+    "source": "tripsit",
+    "route": "oral",
+    "detail": "strong_upper 15 mg — 6 tier(s) above the ceiling; etonitazene is ~1,000× morphine and the weakest nitazenes in circulation are still morphine-range per milligram (EMCDDA nitazene risk assessments), so a tier above 2 mg is not a dose"
+  },
+  {
+    "rule": "absorption floor · phase under 1 min on an absorbed route",
+    "substance": "Nicotine",
+    "source": "freeodwiki",
+    "route": "oral",
+    "detail": "comeup 0.0833333–0.166667 min"
+  },
+  {
+    "rule": "absorption floor · phase under 1 min on an absorbed route",
+    "substance": "Methamphetamine",
+    "source": "freeodwiki",
+    "route": "oral",
+    "detail": "comeup 0.0833333–0.166667 min"
+  }
+]

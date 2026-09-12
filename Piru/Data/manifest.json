@@ -1,6 +1,6 @@
 {
-  "content_version": "2026-09-10.2",
-  "generated_at": "2026-09-10T11:41:31.877181+00:00",
+  "content_version": "2026-09-11.6",
+  "generated_at": "2026-09-11T21:26:12.764078+00:00",
   "generator_version": "pipeline/build/sqlite.py",
   "schema_version": 6,
   "sources": {
@@ -22,12 +22,12 @@
     "dosewiki": {
       "bindings": 12,
       "categories": 0,
-      "dose_ranges": 299
+      "dose_ranges": 295
     },
     "drug.community": {
       "bindings": 0,
       "categories": 0,
-      "dose_ranges": 843
+      "dose_ranges": 839
     },
     "erowid-pihkal": {
       "bindings": 0,
@@ -67,7 +67,7 @@
     "piru-curated": {
       "bindings": 454,
       "categories": 649,
-      "dose_ranges": 237
+      "dose_ranges": 220
     },
     "psychonautwiki": {
       "bindings": 0,
@@ -87,7 +87,7 @@
     "tripsit": {
       "bindings": 0,
       "categories": 411,
-      "dose_ranges": 586
+      "dose_ranges": 582
     },
     "wikidata": {
       "bindings": 0,
@@ -96,7 +96,7 @@
     }
   },
   "sqlite_path": "piru-substances.sqlite",
-  "sqlite_sha256": "fd25e01d633470e0cb2a8e3d9375c42aaea4d56d8d1d08feffcea0d1661eda1f",
+  "sqlite_sha256": "b3cbde7fe64d845920c3eda3d11d1300c0c1833fde681d248732c645e3a3bee3",
   "sqlite_size_bytes": 19365888,
   "substance_count": 1689
 }
