@@ -74,6 +74,13 @@ T = {
     # Brand picker IR/XR grouping (2026-09-04)
     "Unbranded": ("无品牌", "無品牌"),
     "Immediate-release": ("速释", "速釋"),
+    # Branded formulations section on substance detail (2026-09-12)
+    "Branded formulations": ("品牌制剂", "品牌製劑"),
+    "Substance default": ("物质默认", "物質預設"),
+    "Doses stay the substance's own — only the duration curve changes.": (
+        "剂量仍为该物质本身的剂量——只有作用时长曲线会改变。",
+        "劑量仍為該物質本身的劑量——只有作用時長曲線會改變。",
+    ),
     # Injection Levels tool (2026-09-04)
     "Injection Levels": ("注射水平", "注射水平"),
     "Project hormone levels from injectable esters": (
@@ -6720,6 +6727,10 @@ if __name__ == "__main__":
         # Brand picker IR/XR grouping (2026-09-04)
         "Unbranded",
         "Immediate-release",
+        # Branded formulations section on substance detail (2026-09-12)
+        "Branded formulations",
+        "Substance default",
+        "Doses stay the substance's own — only the duration curve changes.",
         # Injection Levels tool (2026-09-04)
         "Injection Levels",
         "Project hormone levels from injectable esters",
