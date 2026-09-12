@@ -235,13 +235,14 @@
     "substance_uid": "RTLRUOSYLFOFHV"
   },
   "4-aco-met": {
-    "substance_uid": null,
-    "note": "dose.wiki's structure is a different compound (nearest: 4-AcO-MET) — block1 OMDKHOOGGJRLLX vs CIDMXLOVFPIHDS"
-  },
-  "4-aco-mipt": {
     "name": "4-AcO-MET",
     "substance_uid": "CIDMXLOVFPIHDS",
-    "note": "Structurally matches Piru id 1011, which is NAMED 4-AcO-MET but holds 4-AcO-MiPT's structure, formula and CAS. Piru's correctly-named 4-AcO-MiPT row (1012) is empty. Same defect seen from the other side at dw_slug 4-aco-met."
+    "note": "Piru's 4-AcO-MET row carried 4-AcO-MiPT's structure until 2026-09-11 (identifier-corrections-manual.json); its PSID family stays pinned to the MiPT block by the derive-once rule, which is why the uid here does not match the article's skeleton."
+  },
+  "4-aco-mipt": {
+    "name": "4-AcO-MiPT",
+    "substance_uid": "7XKAILDRTAUYWE",
+    "note": "The row was structure-less until 2026-09-11 and its PSID family is a name-hash for the same reason."
   },
   "4-cmc": {
     "name": "4-CMC",
@@ -386,9 +387,9 @@
     "substance_uid": "QSQQQURBVYWZKJ"
   },
   "armodafinil": {
-    "name": "Modafinil",
+    "name": "Armodafinil",
     "substance_uid": "YFGHCGITMMYXAQ",
-    "note": "dose.wiki resolved / Piru flat"
+    "note": "An enantiomer article. Joined to the enantiomer's own row, which fold_isomer_families later files under the racemic parent with an isomer facet; joined to the parent directly, its ladder landed as a second unfaceted racemic ladder (the 3.75 mg 'amphetamine' threshold was dextroamphetamine's)."
   },
   "ayahuasca": {
     "substance_uid": null,
@@ -504,14 +505,14 @@
     "substance_uid": "LSSUMOWDTKZHHT"
   },
   "dexmethylphenidate": {
-    "name": "Methylphenidate",
+    "name": "Dexmethylphenidate",
     "substance_uid": "DUGOZIWVEXMGBE",
-    "note": "dose.wiki resolved / Piru flat"
+    "note": "An enantiomer article. Joined to the enantiomer's own row, which fold_isomer_families later files under the racemic parent with an isomer facet; joined to the parent directly, its ladder landed as a second unfaceted racemic ladder (the 3.75 mg 'amphetamine' threshold was dextroamphetamine's)."
   },
   "dextroamphetamine": {
-    "name": "Amphetamine",
+    "name": "Dextroamphetamine",
     "substance_uid": "KWTSXDURSIMDCE",
-    "note": "dose.wiki resolved / Piru flat"
+    "note": "An enantiomer article. Joined to the enantiomer's own row, which fold_isomer_families later files under the racemic parent with an isomer facet; joined to the parent directly, its ladder landed as a second unfaceted racemic ladder (the 3.75 mg 'amphetamine' threshold was dextroamphetamine's)."
   },
   "dextromethorphan": {
     "name": "Dextromethorphan",
@@ -591,9 +592,9 @@
     "substance_uid": "RHOGRSKNWDNCDN"
   },
   "eszopiclone": {
-    "name": "Zopiclone",
+    "name": "Eszopiclone",
     "substance_uid": "GBBSUAFBMRNDJC",
-    "note": "dose.wiki resolved / Piru flat"
+    "note": "An enantiomer article. Joined to the enantiomer's own row, which fold_isomer_families later files under the racemic parent with an isomer facet; joined to the parent directly, its ladder landed as a second unfaceted racemic ladder (the 3.75 mg 'amphetamine' threshold was dextroamphetamine's)."
   },
   "eth-lad": {
     "name": "ETH-LAD",

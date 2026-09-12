@@ -24,16 +24,16 @@ struct Build: AsyncParsableCommand {
     )
 
     @Option(name: .long, help: "Output JSON path for the merged dataset. Input to pipeline/build/sqlite.py.")
-    var output: String = "../../data/intermediate/substances-bundled.json"
+    var output: String = "../../../data/intermediate/substances-bundled.json"
 
     @Option(name: .long, help: "Output JSON path for the per-record sourced dataset. Each entry retains its provenance + dedup identifiers so the SQLite builder can attribute every fact to the right source. Pre-merge.")
-    var sourcedOutput: String = "../../data/intermediate/sourced-substances.json"
+    var sourcedOutput: String = "../../../data/intermediate/sourced-substances.json"
 
     @Option(name: .long, help: "HTTP cache directory.")
     var cacheDir: String = ".cache"
 
     @Option(name: .long, help: "Curated substances directory (one JSON file per compound).")
-    var curatedOverlay: String = "../../data/curated/substances"
+    var curatedOverlay: String = "../../../data/curated/substances"
 
     @Flag(name: .long, help: "Don't make any network requests; rely solely on the cache.")
     var noNetwork: Bool = false

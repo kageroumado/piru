@@ -342,5 +342,168 @@ class TestBuiltDatabase(unittest.TestCase):
             self.assertLess(override["priority"], rank)
 
 
+class IdentityCorrectionTests(unittest.TestCase):
+    """`dosewiki_identity_corrections` writes only where the stored row
+    contradicts itself and dose.wiki's record is consistent with itself."""
+
+    def test_key_from_own_smiles(self):
+        # 4-EMC: flat SMILES, a stereo layer fabricated onto the key.
+        stored = {
+            "smiles": "CC(NC)C(=O)c1ccc(CC)cc1",
+            "inchikey": "FUYPDKFWOHBUFT-VIFPVBQESA-N",
+            "cas": None,
+        }
+        claimed = {"smiles": "CC(NC)C(=O)c1ccc(CC)cc1", "inchikey": "", "cas": ""}
+        self.assertEqual(
+            [("inchikey", "FUYPDKFWOHBUFT-UHFFFAOYSA-N", "key_from_own_smiles")],
+            build.dosewiki_identity_corrections(stored, claimed),
+        )
+
+    def test_smiles_from_own_key(self):
+        # 2C-B drawn as the 2,4-dimethoxy-5-bromo regioisomer under the right key.
+        stored = {
+            "smiles": "NCCc1cc(Br)c(OC)cc1OC",
+            "inchikey": "YMHOBZXQZVXHBM-UHFFFAOYSA-N",
+            "cas": None,
+        }
+        claimed = {"smiles": "BrC1=CC(=C(C=C1OC)CCN)OC", "inchikey": "", "cas": ""}
+        rules = [rule for _, _, rule in build.dosewiki_identity_corrections(stored, claimed)]
+        self.assertEqual(["smiles_from_own_key"], rules)
+
+    def test_freebase_replaces_salt(self):
+        stored = {
+            "smiles": "[Cl-].CC(N)Cc1cccs1.[H+]",
+            "inchikey": "MJRDCJBNRNAXIK-UHFFFAOYSA-N",
+            "cas": None,
+        }
+        claimed = {"smiles": "CC(CC1=CC=CS1)N", "inchikey": "", "cas": ""}
+        out = build.dosewiki_identity_corrections(stored, claimed)
+        self.assertEqual({"smiles", "inchikey", "formula"}, {column for column, _, _ in out})
+        self.assertTrue(all(rule == "freebase_replaces_salt" for _, _, rule in out))
+
+    def test_consistent_rows_are_left_alone(self):
+        stored = {
+            "smiles": "CC(CC1=CC=CS1)N",
+            "inchikey": "NYVQQTOGYLBBDQ-UHFFFAOYSA-N",
+            "cas": "30433-93-3",
+        }
+        claimed = {"smiles": "CC(CC1=CC=CS1)N", "inchikey": "", "cas": "30433-93-3"}
+        self.assertEqual([], build.dosewiki_identity_corrections(stored, claimed))
+
+    def test_two_stereo_layers_are_never_settled(self):
+        # Morphine as stored before 2026-09-11 (isomorphine) against dose.wiki's
+        # morphine: same skeleton, both stereo-specified, consistent on each
+        # side — no rule may pick one.
+        stored = {
+            "smiles": "CN1CC[C@]23c4c5ccc(O)c4O[C@H]2[C@H](O)C=C[C@H]3[C@H]1C5",
+            "inchikey": "BQJCRHHNABKAKU-NOSXKOESSA-N",
+            "cas": "57-27-2",
+        }
+        claimed = {
+            "smiles": "CN1CC[C@]23[C@@H]4[C@H]1CC5=C2C(=C(C=C5)O)O[C@H]3[C@H](C=C4)O",
+            "inchikey": "",
+            "cas": "57-27-2",
+        }
+        self.assertEqual([], build.dosewiki_identity_corrections(stored, claimed))
+
+    def test_bad_check_digit_yields_to_a_valid_cas(self):
+        stored = {
+            "smiles": "CC(CC1=CC=CS1)N",
+            "inchikey": "NYVQQTOGYLBBDQ-UHFFFAOYSA-N",
+            "cas": "30433-93-4",
+        }
+        claimed = {"smiles": "CC(CC1=CC=CS1)N", "inchikey": "", "cas": "30433-93-3"}
+        self.assertEqual(
+            [("cas", "30433-93-3", "cas_check_digit")],
+            build.dosewiki_identity_corrections(stored, claimed),
+        )
+
+    def test_a_self_inconsistent_claim_is_no_arbiter(self):
+        stored = {
+            "smiles": "CC(NC)C(=O)c1ccc(CC)cc1",
+            "inchikey": "FUYPDKFWOHBUFT-VIFPVBQESA-N",
+            "cas": None,
+        }
+        claimed = {
+            "smiles": "CC(NC)C(=O)c1ccc(CC)cc1",
+            "inchikey": "FUYPDKFWOHBUFT-VIFPVBQESA-N",  # does not recompute
+            "cas": "",
+        }
+        self.assertEqual([], build.dosewiki_identity_corrections(stored, claimed))
+
+
+class DoseGateTests(unittest.TestCase):
+    """The rules in `build/dose_gates.py` against a throwaway database."""
+
+    @classmethod
+    def setUpClass(cls):
+        import importlib.util
+        import sqlite3
+
+        spec = importlib.util.spec_from_file_location(
+            "dose_gates", Path(__file__).resolve().parents[1] / "dose_gates.py"
+        )
+        cls.gates = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.gates)
+        cls.sqlite3 = sqlite3
+
+    def _db(self):
+        con = self.sqlite3.connect(":memory:")
+        con.executescript(
+            """
+            CREATE TABLE substances (id INTEGER PRIMARY KEY, canonical_name TEXT);
+            CREATE TABLE sources (id INTEGER PRIMARY KEY, slug TEXT);
+            CREATE TABLE class_contexts (id INTEGER PRIMARY KEY, slug TEXT);
+            CREATE TABLE substance_classes (substance_id INTEGER, class_context_id INTEGER);
+            CREATE TABLE dose_ranges (id INTEGER PRIMARY KEY, substance_id INTEGER, route TEXT,
+                source_id INTEGER, unit TEXT, threshold REAL, light_lower REAL, light_upper REAL,
+                common_lower REAL, common_upper REAL, strong_lower REAL, strong_upper REAL,
+                heavy REAL, citation_id INTEGER);
+            CREATE TABLE durations (id INTEGER PRIMARY KEY, substance_id INTEGER, route TEXT,
+                source_id INTEGER, phase TEXT, min_minutes REAL, max_minutes REAL);
+            INSERT INTO substances VALUES (1, 'Acetylfentanyl'), (2, 'Fentanyl'), (3, 'Meth');
+            INSERT INTO sources VALUES (1, 'tripsit'), (2, 'piru-curated');
+            INSERT INTO class_contexts VALUES (10, 'fentanyl-anilidopiperidines');
+            INSERT INTO substance_classes VALUES (1, 10), (2, 10);
+            INSERT INTO dose_ranges (substance_id, route, source_id, unit, common_lower, common_upper)
+                VALUES (1, 'oral', 1, 'mg', 3, 5),       -- milligrams on a fentanyl: gated
+                       (2, 'oral', 1, 'µg', 50, 100),    -- micrograms: kept
+                       (1, 'oral', 2, 'mg', 3, 5);       -- exempt source: kept
+            INSERT INTO dose_ranges (substance_id, route, source_id, unit, common_lower, common_upper, citation_id)
+                VALUES (1, 'sublingual', 1, 'mg', 3, 5, 7);  -- cited: kept
+            INSERT INTO durations (substance_id, route, source_id, phase, min_minutes, max_minutes)
+                VALUES (3, 'oral', 1, 'comeup', 0.08, 0.17),   -- seconds on a pill: gated
+                       (3, 'intravenous', 1, 'comeup', 0.08, 0.17),  -- seconds IV: kept
+                       (3, 'oral', 1, 'onset', 15, 45);
+            """
+        )
+        return con
+
+    def test_class_ceiling_and_absorption_floor(self):
+        con = self._db()
+        gates = [
+            {
+                "class_context": "fentanyl-anilidopiperidines",
+                "max_tier_mg": 2.0,
+                "exempt_sources": ["piru-curated"],
+                "reason": "test",
+            }
+        ]
+        result = self.gates.GateResult()
+        self.gates.apply_class_ceilings(con.cursor(), gates, result)
+        self.gates.apply_absorption_floor(con.cursor(), result)
+        self.assertEqual(
+            [("Acetylfentanyl", "tripsit", "oral"), ("Meth", "tripsit", "oral")],
+            sorted((h.substance, h.source, h.route) for h in result.hits),
+        )
+        self.assertEqual(3, con.execute("SELECT COUNT(*) FROM dose_ranges").fetchone()[0])
+        self.assertEqual(2, con.execute("SELECT COUNT(*) FROM durations").fetchone()[0])
+
+    def test_non_mass_units_are_outside_the_ceiling(self):
+        self.assertIsNone(self.gates.mg_factor("µg/kg"))
+        self.assertEqual(0.001, self.gates.mg_factor("µg"))
+        self.assertEqual(1.0, self.gates.mg_factor("mg (freebase)"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

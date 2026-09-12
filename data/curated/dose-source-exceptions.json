@@ -557,6 +557,24 @@
         "oral"
       ],
       "note": "strong ceiling 1.5 mg is 3x the FDA-labeled MAXIMUM of 0.5 mg/day (Halcion label 2.1). freeodwiki's 0.5-0.75 backfills and sits at the label ceiling."
+    },
+    {
+      "name": "Furanylfentanyl",
+      "routes": [
+        "insufflation",
+        "oral"
+      ],
+      "note": "light 200–400 / strong 800–1,600 µg insufflated and 300–1,600 µg oral on a compound with the highest MOR affinity of six fentanyl analogs, 3.8× fentanyl, mouse ED50 within ~1.3× of fentanyl (PMID 40721041); fatal femoral blood 0.41–2.47 ng/g (PMID 28096302). About 10× a lethal-range dose. TripSit's ladder verbatim."
+    }
+  ],
+  "dosewiki": [
+    {
+      "name": "Furanylfentanyl",
+      "routes": [
+        "insufflation",
+        "oral"
+      ],
+      "note": "Same ladder as the TripSit entry, on an expert-reviewed article; reported to dose.wiki 2026-09-11."
     }
   ]
 }

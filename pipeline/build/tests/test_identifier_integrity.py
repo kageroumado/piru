@@ -53,7 +53,16 @@ ANCHORS = {
     "Etizolam": "VMZUTJCNQWMAGF-UHFFFAOYSA-N",
     "LSD": "VAYOSLLFUXYJDT-RDTXWAMCSA-N",
     "MXiPr": "FTQIVDGNGXPEKP-UHFFFAOYSA-N",
-    "Morphine": "BQJCRHHNABKAKU-NOSXKOESSA-N",
+    # Re-anchored 2026-09-11. The previous value, -NOSXKOESSA-N, is isomorphine
+    # (CID 5324287, the 7-epimer); morphine is CID 5288826. Pinned from a
+    # cleanup that fixed the skeleton and kept the wrong stereo layer.
+    "Morphine": "BQJCRHHNABKAKU-KBQPJGBKSA-N",
+    "Pregabalin": "AYXYPKUFHZROOJ-ZETCQYMHSA-N",
+    "Lisdexamfetamine": "VOBHXZCDAVEXEY-JSGCOSHPSA-N",
+    "Tapentadol": "KWTWDQCKEHXFFR-SMDDNHRTSA-N",
+    "U-47700": "JGPNMZWFVRQNGU-GJZGRUSLSA-N",
+    "4-AcO-MET": "OMDKHOOGGJRLLX-UHFFFAOYSA-N",
+    "4-AcO-MiPT": "CIDMXLOVFPIHDS-UHFFFAOYSA-N",
     "Oxiracetam": "IHLAQQPQKRMGSS-UHFFFAOYSA-N",
     "Phenmetrazine": "OOBHFESNSZDWIU-UHFFFAOYSA-N",
     "Salvinorin B": "BLTMVAIOAAGYAR-CEFSSPBYSA-N",

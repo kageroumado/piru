@@ -41,6 +41,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — shared modules
 
 import collision_registry  # noqa: E402
+import dose_gates  # noqa: E402
 import product_codes as product_code_keys  # noqa: E402
 import psid  # noqa: E402
 from contraindication_flags import FLAG_LABELS as CONTRAINDICATION_FLAGS  # noqa: E402
@@ -298,15 +299,6 @@ def check_external_sources() -> None:
         sys.exit(2)
 
 
-# Note: data/curated/overlay.json used to be referenced here, but the Python
-# build pipeline reads data/intermediate/sourced-substances.json — which
-# already has the curated overlay merged in by the Swift SubstanceCollector
-# (Curation/CuratedOverlay.swift, step 5/5 of the build). Keeping a separate
-# `CURATED` constant here was dead code and a second files-of-truth that
-# misled anyone reading the script. New curated overrides go into
-# data/curated/overlay.json and are baked into sourced-substances.json by
-# the next SubstanceCollector run.
-
 # Default source priority. Lower number = higher priority. User can override.
 SOURCES = [
     (
@@ -394,8 +386,11 @@ SOURCES = [
 #: source order. The number is a fixed rank in the same space the user's source
 #: order uses, so reordering sources moves the others around it.
 #:
-#: Read by the descriptions resolver alone (``SubstanceReadModel``); every other
-#: field resolves on source priority with nothing in front of it.
+#: Three fields consult it — ``descriptions``, ``doses`` and ``durations`` —
+#: each through its own resolver in ``SubstanceReadModel``, so a row here moves
+#: exactly the field it names. Every other field resolves on source priority
+#: with nothing in front of it. The Python mirrors (``snapshots.py``,
+#: ``audit/dump_substance_library.py``) read the same table.
 SOURCE_FIELD_PRIORITY: tuple[tuple[str, str, str, str], ...] = (
     (
         "descriptions",
@@ -406,6 +401,21 @@ SOURCE_FIELD_PRIORITY: tuple[tuple[str, str, str, str], ...] = (
         "whole, and FreeOD's English is machine-translated from Chinese — so for "
         "this one field dose.wiki reads better than either, while its doses, "
         "durations and bindings stay last.",
+    ),
+    (
+        "durations",
+        "drug.community",
+        "dosewiki",
+        "drug.community records a timeline as single absolute boundaries "
+        "(onset ends at 0.5 min, peak runs 30–60 min), so every phase length "
+        "Piru derives from it is a point with no interval: 2,555 of its 3,988 "
+        "duration rows have min == max, against 1 of 1,637 for PsychonautWiki. "
+        "At its overall rank those points beat every wiki's interval — IV heroin "
+        "shipped a 29.5-minute come-up beside a PsychonautWiki row saying "
+        "seconds — and dose.wiki sided with PsychonautWiki in 489 of 537 such "
+        "contests. Its dose ladders are real ranges and keep their rank; only "
+        "the timeline drops to the very end, beneath every source that states "
+        "an interval, so it fills the routes nobody else describes.",
     ),
 )
 
@@ -765,6 +775,101 @@ def inchikey_from_smiles(smiles: str) -> str | None:
     return MolToInchiKey(mol) or None
 
 
+def largest_fragment_smiles(smiles: str) -> str | None:
+    """The heaviest disconnected fragment of `smiles` — the parent of a salt."""
+    try:
+        from rdkit import Chem, RDLogger
+    except ImportError:
+        return None
+    RDLogger.DisableLog("rdApp.*")
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        return None
+    fragments = Chem.GetMolFrags(mol, asMols=True)
+    if len(fragments) < 2:
+        return smiles
+    return Chem.MolToSmiles(max(fragments, key=lambda m: m.GetNumHeavyAtoms()))
+
+
+_STEREO_UNSPECIFIED = "UHFFFAOYSA"
+
+
+def dosewiki_identity_corrections(
+    stored: dict[str, str | None], claimed: dict[str, str | None]
+) -> list[tuple[str, str, str | None]]:
+    """What dose.wiki's chemistry settles about a Piru row that is wrong about
+    itself. Returns ``(column, new_value, rule)`` triples; an empty list means
+    the stored identity stands.
+
+    `stored` and `claimed` each carry ``smiles``, ``inchikey`` (as stated) and
+    ``cas``. Only a row that contradicts *itself* is corrected, and only where
+    dose.wiki's record is internally consistent and names the same skeleton —
+    the correction then restores the row's own claim rather than importing a
+    foreign one. Where the two sides both state a stereo layer and disagree,
+    nothing here can say which is right, so nothing is written; that is a
+    question for a person and it is listed in the build report.
+
+    Rules, each named in the triple it emits:
+
+    * ``key_from_own_smiles`` — Piru's InChIKey does not recompute from Piru's
+      SMILES, and dose.wiki's key equals that recomputation. The structure was
+      right and the key was the fabrication (the pattern of the 2026-06 cleanup).
+    * ``smiles_from_own_key`` — Piru's SMILES draws a different skeleton from
+      the one its own key names (2C-B was stored as the 2,4-dimethoxy-5-bromo
+      regioisomer under the right key), and dose.wiki's SMILES recomputes to
+      exactly that key. The key was right; the drawing is replaced.
+    * ``smiles_regains_stereo`` — Piru's SMILES is stereo-flat while its key
+      carries a stereo layer, and dose.wiki's SMILES recomputes to exactly that
+      key. The key already asserted the stereo; the SMILES now draws it.
+    * ``freebase_replaces_salt`` — Piru stores a multi-fragment (salt) SMILES
+      whose parent skeleton is dose.wiki's freebase. Piru's own convention is
+      the freebase parent, so the SMILES and key are replaced by dose.wiki's
+      and the formula and mass are nulled for ``reconcile_formula_from_structure``
+      to rederive.
+    * ``cas_check_digit`` — Piru's CAS fails its own check digit and
+      dose.wiki's passes, on the same skeleton.
+    """
+    out: list[tuple[str, str, str | None]] = []
+    claimed_smiles = (claimed.get("smiles") or "").strip()
+    claimed_key = inchikey_from_smiles(claimed_smiles) if claimed_smiles else None
+    stated = (claimed.get("inchikey") or "").strip()
+    if not claimed_key or (stated and stated != claimed_key):
+        return out  # dose.wiki is silent or disagrees with itself: no arbiter
+    stored_smiles = (stored.get("smiles") or "").strip()
+    stored_key = (stored.get("inchikey") or "").strip()
+    recomputed = inchikey_from_smiles(stored_smiles) if stored_smiles else None
+
+    if stored_smiles and "." in stored_smiles:
+        parent = largest_fragment_smiles(stored_smiles)
+        parent_key = inchikey_from_smiles(parent) if parent else None
+        if parent_key and parent_key[:14] == claimed_key[:14]:
+            out.append(("smiles", claimed_smiles, "freebase_replaces_salt"))
+            out.append(("inchikey", claimed_key, "freebase_replaces_salt"))
+            out.append(("formula", "", "freebase_replaces_salt"))
+    elif stored_key and recomputed and recomputed != stored_key:
+        if stored_key[:14] != claimed_key[:14]:
+            pass  # a different skeleton is a join question, not a correction
+        elif claimed_key == recomputed:
+            out.append(("inchikey", claimed_key, "key_from_own_smiles"))
+        elif claimed_key == stored_key and recomputed[:14] != stored_key[:14]:
+            out.append(("smiles", claimed_smiles, "smiles_from_own_key"))
+        elif claimed_key == stored_key and recomputed[15:25] == _STEREO_UNSPECIFIED:
+            out.append(("smiles", claimed_smiles, "smiles_regains_stereo"))
+
+    stored_cas = (stored.get("cas") or "").strip()
+    claimed_cas = (claimed.get("cas") or "").strip()
+    same_skeleton = bool(stored_key) and stored_key[:14] == claimed_key[:14]
+    if (
+        stored_cas
+        and claimed_cas
+        and same_skeleton
+        and not cas_check_digit_holds(stored_cas)
+        and cas_check_digit_holds(claimed_cas)
+    ):
+        out.append(("cas", claimed_cas, "cas_check_digit"))
+    return out
+
+
 def dosewiki_duration_profile(stages: dict | None) -> dict:
     """dose.wiki's stages as `add_duration_profile`'s {phase: {min, max}}, in
     minutes. A stage missing either bound is left out — a half-open phase says
@@ -938,9 +1043,10 @@ CREATE TABLE sources (
 -- the ordinary source order. Seeded from SOURCE_FIELD_PRIORITY in
 -- pipeline/build/sqlite.py, which is where the reason for each row is written.
 --
--- Consulted by the descriptions resolver only. A resolver that wants to honour
--- an override has to join this table deliberately, so adding a row here cannot
--- move a field nobody meant to move.
+-- Consulted by the descriptions, doses and durations resolvers, each joining on
+-- its own field name. A resolver that wants to honour an override has to join
+-- this table deliberately, so adding a row here cannot move a field nobody
+-- meant to move.
 CREATE TABLE source_field_priority (
     field     TEXT NOT NULL,
     source_id INTEGER NOT NULL REFERENCES sources(id),
@@ -6011,6 +6117,13 @@ class Build:
         # hyphen) rather than data the rule was written to catch. Set
         # PIRU_REJECTS=<path> to write them; off by default.
         self.rejects: dict[str, list[dict]] = defaultdict(list)
+        #: Identifier columns a source was allowed to overwrite, one dict per
+        #: write, for the build report — an overwrite that leaves no trace is
+        #: indistinguishable from the corruption it replaced.
+        self.corrections: list[dict] = []
+        #: dose.wiki's chemistry per joined substance id, applied as corrections
+        #: after the PubChem reconciliation passes.
+        self.dosewiki_claims: dict[int, dict[str, str]] = {}
 
     # ---- seeds ----
 
@@ -9162,8 +9275,11 @@ class Build:
         an identifier is right or wrong rather than better or worse, and
         dose.wiki's are internally consistent — across all 577 records every
         stated InChIKey recomputes from its own SMILES and every CAS passes its
-        check digit. **Only `expert_reviewed` articles** contribute a dose, a
-        duration, a half-life, a binding or prose.
+        check digit. That consistency is also what lets it *correct* a Piru row
+        that contradicts itself (see ``dosewiki_identity_corrections``); every
+        such overwrite is listed in the build report. **Only `expert_reviewed`
+        articles** contribute a dose, a duration, a half-life, a binding or
+        prose.
 
         Nothing here creates a substance. dose.wiki's 267 are a subset of a
         catalog Piru already covers at 1,689, and a new row from the bottom of
@@ -9264,10 +9380,13 @@ class Build:
     ) -> None:
         """Chemistry and names, from any published article.
 
-        Every column is written under an is-empty condition, so this only ever
-        fills a hole. Where dose.wiki and Piru both hold a value and they
-        disagree, the disagreement is a question for a person, not something an
-        ingester should settle by overwriting.
+        The fill writes under an is-empty condition. Before it, a Piru row that
+        contradicts itself — a key its own SMILES does not recompute to, a
+        salt where the convention is the freebase, a CAS that fails its check
+        digit — is corrected from dose.wiki's consistent record of the same
+        skeleton (``dosewiki_identity_corrections``). Where both sides state a
+        stereo layer and disagree, the disagreement is a question for a person,
+        and it is counted and logged rather than settled by overwriting.
         """
         identification = rec.get("identification") or {}
         smiles = (identification.get("smiles") or "").strip()
@@ -9279,6 +9398,17 @@ class Build:
                 "dosewiki_inchikey_mismatch", stated_key, slug=rec["slug"], computed=inchikey
             )
             inchikey = None
+        if inchikey and not (skeleton_owners.get(inchikey[:14], set()) - {sid}):
+            # Kept for `apply_dosewiki_identity_corrections`, which runs after the
+            # PubChem reconciliation passes: those write a SMILES without its
+            # key (or a name-lookup's structure), so the contradiction they can
+            # leave behind is only visible once they have run.
+            self.dosewiki_claims[sid] = {
+                "slug": rec["slug"],
+                "smiles": smiles,
+                "inchikey": stated_key,
+                "cas": (identification.get("cas_number") or "").strip(),
+            }
         if inchikey and skeleton_owners.get(inchikey[:14], set()) - {sid}:
             self.stats["dosewiki_structure_owned_elsewhere"] += 1
             self.note_reject("dosewiki_structure_owned_elsewhere", inchikey, slug=rec["slug"])
@@ -9321,6 +9451,67 @@ class Build:
                 self.note_reject("dosewiki_alias_names_another_substance", alias, slug=rec["slug"])
                 continue
             self._add_alias(sid, alias, slug)
+
+    def apply_dosewiki_identity_corrections(self) -> int:
+        """Correct every joined row that contradicts itself from dose.wiki's
+        consistent record of the same skeleton (``dosewiki_identity_corrections``).
+
+        Runs after ``apply_identifier_reconciliation``: the automated PubChem
+        name lookup writes a SMILES without its key — 1P-LSD, ETH-LAD and LSA
+        come out of it with a stereo SMILES under a flat key — and it is that
+        lookup, resolving "4-AcO-MET" to the MiPT, that put a wrong molecule on
+        a named row. A record that is consistent with itself and names the
+        same skeleton is the better arbiter, and each write is listed in the
+        build report. Where both sides state a stereo layer and disagree,
+        nothing is written and the row is counted for a person.
+        """
+        written = 0
+        for sid, claimed in sorted(self.dosewiki_claims.items()):
+            row = self.cur.execute(
+                "SELECT smiles, inchikey, cas FROM substances WHERE id = ?", (sid,)
+            ).fetchone()
+            if row is None:
+                continue  # merged away by dedup
+            stored = {"smiles": row[0], "inchikey": row[1], "cas": row[2]}
+            for column, value, rule in dosewiki_identity_corrections(stored, claimed):
+                if column == "formula":
+                    self.cur.execute(
+                        "UPDATE substances SET formula = NULL, molecular_weight = NULL WHERE id = ?",
+                        (sid,),
+                    )
+                else:
+                    self.cur.execute(
+                        f"UPDATE substances SET {column} = ? WHERE id = ?", (value, sid)
+                    )
+                written += 1
+                self.corrections.append(
+                    {
+                        "substance_id": sid,
+                        "slug": claimed["slug"],
+                        "column": column,
+                        "was": stored.get(column),
+                        "now": value or None,
+                        "rule": rule,
+                    }
+                )
+            claimed_key = inchikey_from_smiles(claimed["smiles"]) if claimed["smiles"] else None
+            stored_key = stored["inchikey"] or ""
+            if claimed_key and stored_key and stored_key[:14] == claimed_key[:14]:
+                stereo = (stored_key[15:25], claimed_key[15:25])
+                if (
+                    stereo[0] != stereo[1]
+                    and _STEREO_UNSPECIFIED not in stereo
+                    and inchikey_from_smiles(stored["smiles"] or "") == stored_key
+                ):
+                    self.stats["dosewiki_stereo_conflict"] += 1
+                    self.note_reject(
+                        "dosewiki_stereo_conflict",
+                        claimed_key,
+                        slug=claimed["slug"],
+                        stored=stored_key,
+                    )
+        self.stats["dosewiki_identity_corrected"] = written
+        return written
 
     def _dosewiki_reviewed(self, sid: int, slug: str, rec: dict, spellings: dict[str, str]) -> None:
         """Everything gated on `expert_reviewed`: ladders, curves, half-lives,
@@ -13487,11 +13678,20 @@ class Build:
         # narrow-therapeutic-index drug is the last thing that should carry a
         # dose ladder here. Magnesium and the other salt families are OTC, so
         # this pass never reaches them.
+        # A recreational-class substance can be a prescription or scheduled
+        # medicine too — methylphenidate is schedule II and `recreational` — and
+        # its therapeutic ladder is the same medical advice whatever class the
+        # catalog files it under. OTC classes keep theirs: magnesium is
+        # `rx_otc_dependent` because the IV sulfate is prescribed, and its
+        # supplement salt ladders are the product a person buys.
         rows = self.cur.execute(
             """DELETE FROM dose_ranges
                 WHERE dose_context = 'therapeutic'
                   AND substance_id IN (SELECT id FROM substances
-                                        WHERE display_class IN ('medical_rx','dual_use'))"""
+                                        WHERE display_class IN ('medical_rx','dual_use')
+                                           OR (display_class = 'recreational'
+                                               AND (regulatory_status = 'rx'
+                                                    OR regulatory_status LIKE 'controlled_schedule_%')))"""
         ).rowcount
         # Titration schedules go by REGULATORY STATUS, not display_class. A
         # prescriber's schedule for a scheduled medicine is the sharpest form of
@@ -14161,6 +14361,22 @@ def main() -> int:
     # keeps a class generalisation from sitting beside a measurement.
     build.ingest_dosewiki(DOSEWIKI)
 
+    # Every source that carries a dose or a timeline has now spoken. The gates
+    # judge each row on its own terms — a class ceiling, an absorption floor —
+    # and delete what fails, so a claim no other source contests cannot ship on
+    # the strength of being uncontested. Before dedup, so the survivors are
+    # what merges.
+    gate_result = dose_gates.run(build.cur)
+    dose_gates.write_report(gate_result)
+    print(
+        f"Dose gates: {len(gate_result.hits)} row(s) deleted → {dose_gates.REPORT_PATH.name}",
+        file=sys.stderr,
+    )
+    for hit in gate_result.hits:
+        print(
+            f"  GATED {hit.substance} / {hit.source} / {hit.route}: {hit.detail}", file=sys.stderr
+        )
+
     # Curated MOA prose + bindings (relocated from the iOS Swift file). Runs
     # AFTER every substance exists so names resolve regardless of origin.
     build.ingest_curated_mechanisms(MECHANISMS)
@@ -14404,6 +14620,13 @@ def main() -> int:
             f"smiles={rec_m['smiles']} cas={rec_m['cas']} formula={rec_m['formula']}",
             file=sys.stderr,
         )
+
+    corrected = build.apply_dosewiki_identity_corrections()
+    print(
+        f"dose.wiki identity corrections: {corrected} column(s) on self-contradicting rows, "
+        f"{build.stats['dosewiki_stereo_conflict']} stereo conflict(s) left to a person",
+        file=sys.stderr,
+    )
 
     # Backstop for the correction files above: anything RDKit still can't parse
     # is not a structure, and every downstream consumer degrades silently on it.
@@ -15021,6 +15244,32 @@ def main() -> int:
     for t in tables:
         n = db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
         lines.append(f"| {t} | {n:,} |")
+    lines.append("")
+    if build.corrections:
+        lines.append("## Identifier corrections")
+        lines.append("")
+        lines.append(
+            "Identifier columns a source was allowed to overwrite because the stored row "
+            "contradicted itself (`dosewiki_identity_corrections` in `pipeline/build/sqlite.py`)."
+        )
+        lines.append("")
+        lines.append("| substance | column | rule | was | now |")
+        lines.append("|---|---|---|---|---|")
+        for fix in build.corrections:
+            name = db.execute(
+                "SELECT canonical_name FROM substances WHERE id = ?", (fix["substance_id"],)
+            ).fetchone()
+            lines.append(
+                f"| {name[0] if name else fix['substance_id']} | {fix['column']} | {fix['rule']} "
+                f"| `{fix['was'] or ''}` | `{fix['now'] or ''}` |"
+            )
+        lines.append("")
+    lines.append("## Dose gates")
+    lines.append("")
+    lines.append(
+        f"{len(gate_result.hits)} row(s) deleted by `pipeline/build/dose_gates.py`; "
+        "the rows are in `data/snapshots/dose-gate-report.md`."
+    )
     lines.append("")
     lines.append("## Per-source coverage")
     lines.append("")

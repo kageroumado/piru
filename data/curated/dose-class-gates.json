@@ -1,0 +1,17 @@
+{
+  "_comment": "Class ceilings the build enforces over dose_ranges (pipeline/build/dose_gates.py). For a class whose members are dosed in micrograms, a ladder tier above `max_tier_mg` is a unit slip or a copied error rather than a dose, and the row is deleted unless it carries a citation or comes from an exempt source. Every deletion is listed in data/snapshots/dose-gate-report.md. Keyed by class_contexts.slug.",
+  "gates": [
+    {
+      "class_context": "fentanyl-anilidopiperidines",
+      "max_tier_mg": 2.0,
+      "exempt_sources": ["piru-curated"],
+      "reason": "fentanyl is dosed in tens of micrograms and no anilidopiperidine in human use is more than ~100× weaker (PMID 40721041 ranks six analogs within a decade of fentanyl in vivo); a tier above 2 mg is a milligram written for a microgram"
+    },
+    {
+      "class_context": "benzimidazole-nitazenes",
+      "max_tier_mg": 2.0,
+      "exempt_sources": ["piru-curated"],
+      "reason": "etonitazene is ~1,000× morphine and the weakest nitazenes in circulation are still morphine-range per milligram (EMCDDA nitazene risk assessments), so a tier above 2 mg is not a dose"
+    }
+  ]
+}

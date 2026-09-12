@@ -191,6 +191,12 @@ LLM-assisted research used to fill gaps external sources don't cover
   every web/enrichment/external source, resolves per-field priority, writes
   `Piru/Data/piru-substances.sqlite` + `manifest.json` +
   `data/snapshots/build-report.md`.
+- **`dose_gates.py`** — deletes dose and duration rows that fail a rule about
+  themselves after every source has ingested: a tier above the ceiling of a
+  microgram-dosed class (`data/curated/dose-class-gates.json`), a phase under a
+  minute on a route that has to absorb. Every deletion is written to
+  `data/snapshots/dose-gate-report.md` (+ `.json`). See
+  [Gates and corrections](#gates-and-corrections).
 - **`snapshots.py`** — GitHub-friendly mirror at `data/snapshots/`, generated
   FROM the built SQLite (resolved + deterministic), so it reflects exactly what
   the app ships.
@@ -249,6 +255,11 @@ LLM-assisted research used to fill gaps external sources don't cover
 - **`adjudicate.py`** — scores every source's claim about every comparable
   number and says which are probably wrong. See
   [The adjudicator](#the-adjudicator) below.
+- **`upstream_report.py`** — writes the defect report one source's maintainer
+  can act on (`dosewiki`, `drug.community`): rows that contradict themselves,
+  values the other sources contradict (from the adjudicator), rows Piru refuses
+  and why. Output under `Specs/evidence/upstream-reports/`. See
+  [Gates and corrections](#gates-and-corrections).
 
 ## The adjudicator
 
@@ -380,7 +391,7 @@ value comparison can see that.
 
 | written | gate |
 |---|---|
-| `substances` chemistry — SMILES/InChIKey/CAS/formula/MW/IUPAC | any published article, and only into a column that is NULL or empty. The InChIKey is recomputed with RDKit and must equal the stated one; the CAS must pass its check digit; a structure another substance already carries is refused (dose.wiki gives a plant its active molecule's structure) |
+| `substances` chemistry — SMILES/InChIKey/CAS/formula/MW/IUPAC | any published article. Into a column that is NULL or empty at ingest; and, after the PubChem reconciliation passes, *over* a Piru row that contradicts itself — a key its own SMILES does not recompute to, a salt stored as the parent, a CAS that fails its check digit — when dose.wiki's consistent record names the same skeleton (`dosewiki_identity_corrections`; every write is listed in the build report). The InChIKey is recomputed with RDKit and must equal the stated one; a structure another substance already carries is refused (dose.wiki gives a plant its active molecule's structure); two stated stereo layers that disagree are counted and left to a person |
 | `aliases` | any published article |
 | `dose_ranges`, `durations`, `half_lives` | `expert_reviewed`. `moderate` → `common`; both micro signs fold to `µg`; `come_up`/`after_effects` → `comeup`/`afterglow`; `dose_context = recreational`; the half-life is written only where neither `half_lives` nor `pk_routes` has one |
 | `bindings` | `expert_reviewed`, a stated Ki/EC50/IC50 with a unit (never a `<`/`>` threshold), an action mapped explicitly from `tag`/`efficacy`, and an inline `[cite:…]` resolving to a DOI or PMID. `confidence = LOW` |
@@ -395,21 +406,71 @@ label is the whole claim about which experiment produced the number.
 `add_category` refuses `dosewiki` outright, the same way it refuses
 `drug.community`: category is what the interaction engine keys on.
 
-### The descriptions override
+### Per-field source priority
 
-A reviewed dose.wiki summary is written for its own article; PsychonautWiki's is
-a wiki lead copied whole and FreeOD's English is machine-translated. So for that
-one field dose.wiki reads better than either, while its numbers stay last.
+One source order for every field is an average, and a source can be excellent
+at one field and poor at another. `source_field_priority(field, source_id,
+priority)` is how the build says so per field. It is written from
+`SOURCE_FIELD_PRIORITY` in `build/sqlite.py`, which declares each override as
+*"directly beneath `<anchor>`"* and stores the anchor's position plus one, with
+the reason beside it. A source with no row keeps its position; a tie falls back
+to the ordinary order; the user's reordering moves the others around the fixed
+rank.
 
-`source_field_priority(field, source_id, priority)` is how that is said. The
-build writes it from `SOURCE_FIELD_PRIORITY` in `build/sqlite.py`, which declares
-the override as *"directly beneath `piru-curated`"* and stores that source's
-position plus one. `SubstanceReadModel.resolvedTextRow` joins the table **only
-for `descriptions`** and orders by `COALESCE(override, source rank)`, so a source
-with no row keeps its position and a tie falls back to the ordinary order. Every
-other field resolves on source priority with nothing in front of it, and a
-resolver has to join the table deliberately to honour an override — which is what
-keeps a row added here from moving a field nobody meant to move.
+Three fields consult it, each through its own resolver in
+`SubstanceReadModel` (`descriptions`, `doses`, `durations`), so a row moves
+exactly the field it names and a resolver has to join the table deliberately.
+The rows today:
+
+| field | source | beneath | why |
+|---|---|---|---|
+| `descriptions` | dosewiki | piru-curated | a reviewed summary written for its article beats a copied wiki lead and machine-translated Chinese |
+| `durations` | drug.community | dosewiki (last) | its timelines are single boundaries, so every derived phase is a point (2,555 of 3,988 rows min == max); beneath every source that states an interval it fills the routes nobody else describes |
+
+drug.community's dose ladders are real ranges and keep their overall rank.
+Whether they should is an open question: the adjudicated top-25 disagreements
+split evenly, and the adjudicator's outlier rates are biased against any source
+that is not a PsychonautWiki copy.
+
+The dose resolvers also order `dose_context = 'therapeutic'` rows after every
+recreational or unknown row in the same partition, whatever the source rank: a
+therapeutic ladder beside a logged recreational dose reads as medical advice.
+
+## Gates and corrections
+
+The source order decides which claim shows when sources disagree. Two more
+mechanisms decide what a claim may say at all, and both leave a record.
+
+**Dose gates** (`build/dose_gates.py`, run after every source has ingested and
+before dedup). A row is judged on its own terms and deleted when it fails:
+
+- a **class ceiling** from `data/curated/dose-class-gates.json` — for a class
+  context whose members are dosed in micrograms (fentanyls, nitazenes), any
+  tier above the stated mass is a unit slip or a copied error, unless the row
+  carries a citation or comes from an exempt source;
+- the **absorption floor** — a phase under one minute on a route that has to
+  absorb through a membrane (oral, sublingual, buccal, rectal, transdermal,
+  insufflation) is a units error whatever the source.
+
+Every deletion goes to `data/snapshots/dose-gate-report.md` with the rule and
+the values, and the same rows as JSON beside it. Per-row exceptions with their
+evidence stay in `data/curated/dose-source-exceptions.json`; the gate is for the
+class of error, the exception for the row the literature settles.
+
+**Identity corrections.** `apply_identifier_reconciliation` applies the PubChem
+snapshot and the hand-verified `identifier-corrections-manual.json`; then
+`Build.apply_dosewiki_identity_corrections` lets dose.wiki's consistent chemistry
+overwrite any joined row that still contradicts itself (see the dose.wiki table
+above). The build report's *Identifier corrections* section lists every column
+written, with the rule.
+
+**Telling the source.** `audit/upstream_report.py <source>` turns all of the
+above into one Markdown file per source under `Specs/evidence/upstream-reports/`
+(gitignored): section A is what the source's own data says about itself,
+section B is every value the independent sources contradict (from the
+adjudicator, only where this source's value scores highest in the cell), section
+C is what Piru refuses and why. Run the adjudicator first; the report refuses a
+`cells.jsonl` older than the built DB.
 
 ## Researching a claim
 
