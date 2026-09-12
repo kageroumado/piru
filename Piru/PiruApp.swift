@@ -163,6 +163,13 @@ struct PiruApp: App {
                     // daily meds), so they key on substance identity instead of a
                     // name — additive, never-drop, guarded once. See D.2.3.
                     CuratedIdentityBackfillMigration.runIfNeeded(container: container)
+                    // One-time: re-pin the 15 families corrected on 2026-09-12 so a
+                    // dose stamped with the OLD family (which the name-gated backfills
+                    // never revisit) doesn't split from a freshly logged one — see
+                    // PSIDRepinMigration. Runs after the backfills so any row they
+                    // just stamped (already the corrected family from this build's DB)
+                    // is untouched and only legacy rows are rewritten.
+                    PSIDRepinMigration.runIfNeeded(container: container)
                     // One-time: reclassify rows typed as an ester name ("Estradiol
                     // Valerate") onto the base substance + ester facet, so they title,
                     // feed the Injection Levels tool, and dedup like a picker-logged

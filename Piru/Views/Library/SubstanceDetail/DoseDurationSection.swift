@@ -93,14 +93,38 @@ struct DoseDurationSection: View {
 
     /// The dialed dose, published up from the card so the Log button can name it.
     @State private var loggableDose: String?
+    /// The branded formulation whose duration envelope redraws the curve, or `nil`
+    /// for the substance's own default curve. Card-local: it answers "how long does
+    /// Concerta run?" in the moment and resets to the default next visit.
+    @State private var selectedBrandProduct: String?
 
     private var substance: Substance {
         routes.substance
     }
 
+    /// The substance's branded products that carry an authored duration envelope
+    /// (`product_durations`) — the options for the Branded formulations picker.
+    /// Empty unless the acute timeline is shown, so an implausible-duration or
+    /// no-duration compound never surfaces the section.
+    private var brandedDurations: [BrandedDurationOption] {
+        guard routes.durationVisible, let uid = substance.substanceUID else { return [] }
+        return SubstanceLibrary.brandProducts(forUID: uid).compactMap { brand in
+            guard let duration = SubstanceLibrary.productDuration(for: brand.name) else { return nil }
+            return BrandedDurationOption(
+                name: brand.name, isExtendedRelease: brand.isExtendedRelease, duration: duration,
+            )
+        }
+    }
+
     var body: some View {
         if let route = routes.activeSubstanceRoute {
             let salt = routes.activeDoseVariant
+            let baseDuration = routes.durationVisible ? (salt?.duration ?? route.duration) : nil
+            // A selected brand's envelope redraws the curve; the dose ladder below
+            // is untouched — doses are the substance's own, never branded here.
+            let options = brandedDurations
+            let effectiveDuration = selectedBrandProduct
+                .flatMap { name in options.first { $0.name == name }?.duration } ?? baseDuration
             Section {
                 if routes.presentableRoutes.count > 1 {
                     RouteChips(
@@ -139,7 +163,7 @@ struct DoseDurationSection: View {
                     DoseEffectsCard(
                         unit: salt?.unit ?? route.unit,
                         doses: salt?.doses ?? route.doses,
-                        duration: routes.durationVisible ? (salt?.duration ?? route.duration) : nil,
+                        duration: effectiveDuration,
                         releaseWindow: route.durationOfAction?.formattedWindow,
                         elementalFraction: salt?.elementalFraction,
                         showsDoseLadder: routes.showsDoseLadder,
@@ -170,6 +194,14 @@ struct DoseDurationSection: View {
                 .listRowSeparator(.hidden)
             } header: {
                 Text("Dose & Duration")
+            }
+
+            if !options.isEmpty {
+                BrandedFormulationsSection(
+                    options: options,
+                    selection: $selectedBrandProduct,
+                    accent: substance.category.color,
+                )
             }
         }
     }
