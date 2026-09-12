@@ -1,0 +1,19 @@
+{
+  "_comment": "True prodrugs — the parent is essentially inactive and what a person feels is an active metabolite. The effect TIMELINE is driven by the durations table and is already right; this fixes the BODY-LOAD / elimination readouts (Active Now %, cleared time, the PK tools, the PDF PK chart), which read the substance's half-life and otherwise say a prodrug is cleared while the person is still dosed. Each entry gives the felt-duration half-life to resolve: `via_substance` borrows a catalog metabolite's own stored half-life (the number is the metabolite's own, shown as its row shows it — the curated claim is the prodrug->metabolite link, also in `metabolism`, so no separate citation is needed), or an explicit `half_life_minutes` + `citation` for a metabolite Piru has no standalone row for. Written as a piru-curated half_lives row that wins the source order over the parent's measured plasma value (which stays under its own source). This is the data-layer twin of the felt-effect ke patches in SubstanceModelDatabase.swift, generalized and moved into the data. Only TRUE prodrugs belong here; a drug with active metabolites that merely extend its own action (codeine, oxycodone, tramadol, diazepam, venlafaxine) keeps its own half-life. An entry whose prodrug or metabolite is absent, or whose metabolite has no stored half-life, is logged and skipped at build.",
+  "entries": [
+    { "prodrug": "Heroin", "active_metabolite": "6-MAM then morphine", "via_substance": "Morphine", "note": "Diacetylmorphine's plasma half-life is ~2-8 min; the felt duration is 6-monoacetylmorphine and morphine." },
+    { "prodrug": "Lisdexamfetamine", "active_metabolite": "dextroamphetamine", "half_life_minutes": 581, "citation": "pmid:18285619", "note": "Therapeutically inactive; hydrolyzed to d-amphetamine (t1/2 ~9.7 h single-dose, ~10.1 h steady-state). The stored 25 min is the intact prodrug. d-amphetamine is a stereoisomer facet of Amphetamine, so the value is explicit." },
+    { "prodrug": "Adrafinil", "active_metabolite": "modafinil", "via_substance": "Modafinil", "note": "Pure prodrug for modafinil; its own plasma half-life ~1 h, wakefulness lasts most of a day." },
+    { "prodrug": "Psilocybin", "active_metabolite": "psilocin", "via_substance": "Psilocin", "note": "Dephosphorylated to psilocin, the active species." },
+    { "prodrug": "Phendimetrazine", "active_metabolite": "phenmetrazine", "via_substance": "Phenmetrazine", "note": "Largely a prodrug for phenmetrazine." },
+    { "prodrug": "1cP-LSD", "active_metabolite": "LSD", "via_substance": "LSD", "note": "Prodrug for LSD." },
+    { "prodrug": "1P-LSD", "active_metabolite": "LSD", "via_substance": "LSD", "note": "Prodrug for LSD (was previously stored with LSD's value directly; now via the link)." },
+    { "prodrug": "1B-LSD", "active_metabolite": "LSD", "via_substance": "LSD", "note": "Prodrug for LSD." },
+    { "prodrug": "ALD-52", "active_metabolite": "LSD", "via_substance": "LSD", "note": "1-acetyl-LSD; prodrug for LSD." },
+    { "prodrug": "4-AcO-DMT", "active_metabolite": "psilocin", "via_substance": "Psilocin", "note": "4-acetoxy-DMT is deacetylated to psilocin (4-HO-DMT)." },
+    { "prodrug": "4-AcO-DiPT", "active_metabolite": "4-HO-DiPT", "via_substance": "4-HO-DiPT", "note": "Deacetylated to 4-HO-DiPT, the active." },
+    { "prodrug": "Clorazepate", "active_metabolite": "nordazepam", "via_substance": "Nordazepam", "note": "Decarboxylated in the stomach to nordazepam, which carries the whole effect." },
+    { "prodrug": "Medazepam", "active_metabolite": "diazepam", "via_substance": "Diazepam", "note": "Prodrug metabolized to diazepam and onward to nordazepam." },
+    { "prodrug": "Primidone", "active_metabolite": "phenobarbital", "via_substance": "Phenobarbital", "note": "Metabolized to phenobarbital (and PEMA); phenobarbital governs the long tail." }
+  ]
+}

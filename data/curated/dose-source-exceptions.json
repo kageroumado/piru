@@ -575,6 +575,14 @@
         "oral"
       ],
       "note": "Same ladder as the TripSit entry, on an expert-reviewed article; reported to dose.wiki 2026-09-11."
+    },
+    {
+      "name": "5-MeO-DMT",
+      "routes": [
+        "oral"
+      ],
+      "drop": "route",
+      "note": "dose.wiki's only oral entry: a 5–10 mg ladder with a 1–5 min onset and a 15–45 HOUR total. Oral 5-MeO-DMT is inactive without an MAOI, an oral onset of minutes is physically impossible, and no other source offers the route — so the whole route is dropped rather than shipping an implausible curve. Reported to dose.wiki 2026-09-12."
     }
   ]
 }

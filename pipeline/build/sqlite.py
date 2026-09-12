@@ -2905,11 +2905,16 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     "MDA": {"inchikey": "NGBBVGZWCFBOGO-UHFFFAOYSA-N"},
     "Tropacocaine": {"inchikey": "XQJMXPAEFMWDOZ-UHFFFAOYSA-N"},
     "25CN-NBOH": {"inchikey": "VWEDZTZAXHMZIL-UHFFFAOYSA-N"},
-    # Flat (stereo-less) InChIKey, consistent with the stored stereo-less SMILES
-    # and the anchor test. Structural dedup keys on the first-14 skeleton —
-    # identical for any stereo layer — and no other ZPUCINDJVBIVPJ tropane is in
-    # the catalogue, so a stereo key gave no collision protection. CID 446220.
-    "Cocaine": {"inchikey": "ZPUCINDJVBIVPJ-UHFFFAOYSA-N"},
+    # (−)-cocaine, the natural product and the medication (PubChem CID 446220):
+    # the (1R,2R,3S,5S) enantiomer. The row was previously flattened because
+    # dedup keys on the first-14 skeleton and no other ZPUCINDJVBIVPJ tropane
+    # collides — but a stereo-less SMILES draws the wrong molecule, and the house
+    # rule is to store the stereoisomer that is actually the drug. Both key and
+    # SMILES are the chiral form so they stay self-consistent.
+    "Cocaine": {
+        "inchikey": "ZPUCINDJVBIVPJ-LJISPDSOSA-N",
+        "smiles": "CN1[C@H]2CC[C@@H]1[C@H]([C@H](C2)OC(=O)C3=CC=CC=C3)C(=O)OC",
+    },
     # Formula/MW were the hydrochloride salt while the InChIKey/SMILES are the
     # free base — desalt the formula to match the structure (MW recomputed by
     # reconcile_formula_mass). PubChem CID 5284603.
@@ -11375,6 +11380,101 @@ class Build:
                 pass
         return stats
 
+    def ingest_prodrug_effective_halflives(self) -> dict[str, int]:
+        """Give a true prodrug the felt-duration half-life of its active metabolite.
+
+        A prodrug's own plasma half-life is the wrong number for an effects
+        curve: heroin's diamorphine clears in minutes while what a person feels
+        is 6-MAM and morphine, and lisdexamfetamine's 25-minute figure is the
+        intact prodrug, not the dextroamphetamine it liberates. Both were patched
+        for the mechanistic engine in `SubstanceModelDatabase.swift`; this is the
+        same correction for the classic timeline, moved into the data where it is
+        cited and applies to every substance uniformly.
+
+        `data/curated/prodrugs.json` names, per prodrug, the active metabolite and
+        the number to use — either an explicit `half_life_minutes` with its own
+        citation (for a metabolite Piru has no standalone row for, e.g.
+        dextroamphetamine, which is a stereoisomer facet of Amphetamine), or a
+        `via_substance` naming a catalog substance whose already-cited half-life
+        is borrowed (heroin → Morphine), so the number is never copied twice.
+        Written as a `piru-curated` row, which wins the source order, so it
+        resolves ahead of the parent's measured plasma value; the plasma value
+        stays in the table under its own source for anyone who wants it.
+
+        Refuses a row it cannot both value and cite — a felt-duration half-life
+        with no source is a guess wearing a curated row's clothes."""
+        path = CURATED_DIR.parent / "prodrugs.json"
+        stats = {"inserted": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        curated = self.source_ids["piru-curated"]
+        for entry in payload.get("entries", []):
+            sid = index.get(normalise(entry["prodrug"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            minutes = to_float(entry.get("half_life_minutes"))
+            citation_id = self.cite(entry.get("citation"))
+            # `via_substance`: borrow the metabolite's own resolved half-life and
+            # the citation it already carries. The number is not a new claim —
+            # it is the metabolite's own value, shown exactly as the metabolite's
+            # own row shows it — and the curated claim is the prodrug→metabolite
+            # link (recorded here and in `metabolism`), so a borrowed value needs
+            # no citation of its own. An explicit `half_life_minutes` is a new
+            # number and still does.
+            borrowed = False
+            if minutes is None and entry.get("via_substance"):
+                via_sid = index.get(normalise(entry["via_substance"]))
+                if via_sid is not None:
+                    row = self.cur.execute(
+                        "SELECT h.half_life_minutes, h.citation_id FROM half_lives h "
+                        "  JOIN sources s ON s.id = h.source_id "
+                        " WHERE h.substance_id = ? AND h.half_life_minutes > 0 "
+                        " ORDER BY s.default_priority ASC LIMIT 1",
+                        (via_sid,),
+                    ).fetchone()
+                    if row:
+                        minutes = to_float(row[0])
+                        citation_id = citation_id or row[1]
+                        borrowed = True
+            if not minutes or minutes <= 0 or (citation_id is None and not borrowed):
+                print(
+                    f"  prodrugs: refusing {entry['prodrug']!r} — "
+                    f"minutes {minutes!r}, citation {entry.get('citation')!r}, "
+                    f"via {entry.get('via_substance')!r}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            metabolite = (
+                entry.get("active_metabolite")
+                or entry.get("via_substance")
+                or "its active metabolite"
+            )
+            note = (
+                f"Felt-duration half-life — {metabolite}, the active metabolite; "
+                f"the prodrug's own plasma value is shorter and stays under its source. "
+                f"{entry.get('note', '')}"
+            ).strip()
+            try:
+                self.cur.execute(
+                    "INSERT INTO half_lives(substance_id, source_id, half_life_minutes, notes,"
+                    " citation_id) VALUES (?, ?, ?, ?, ?)",
+                    (sid, curated, minutes, note, citation_id),
+                )
+                stats["inserted"] += 1
+            except sqlite3.IntegrityError:
+                # A piru-curated half_lives row already exists for this prodrug.
+                self.cur.execute(
+                    "UPDATE half_lives SET half_life_minutes = ?, notes = ?, citation_id = ? "
+                    " WHERE substance_id = ? AND source_id = ?",
+                    (minutes, note, citation_id, sid, curated),
+                )
+                stats["inserted"] += 1
+        return stats
+
     def ingest_by_volume_dosing(self) -> dict[str, int]:
         """Fill `by_volume_dosing` + `drink_presets` from curated JSON. Resolved by
         name OR alias.
@@ -15012,6 +15112,11 @@ def main() -> int:
 
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
+    # After every other half-life pass, so a prodrug can borrow its active
+    # metabolite's value whether that came from a source, the curated file,
+    # or the PK-derived promotion above.
+    prodrug_half_lives = build.ingest_prodrug_effective_halflives()
+    print(f"Prodrug felt-duration half-lives: {prodrug_half_lives}", file=sys.stderr)
 
     alias_facets = build.annotate_alias_facets()
     print(f"Alias facet annotation: {alias_facets}", file=sys.stderr)

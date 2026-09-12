@@ -16,7 +16,7 @@
   },
   "1cp-lsd": {
     "name": "1Cp-LSD",
-    "substance_uid": "BYIVGHIYNFQIJX"
+    "substance_uid": "RAFUPYYDHPFASC"
   },
   "1cp-mipla": {
     "substance_uid": null,
@@ -236,13 +236,13 @@
   },
   "4-aco-met": {
     "name": "4-AcO-MET",
-    "substance_uid": "CIDMXLOVFPIHDS",
-    "note": "Piru's 4-AcO-MET row carried 4-AcO-MiPT's structure until 2026-09-11 (identifier-corrections-manual.json); its PSID family stays pinned to the MiPT block by the derive-once rule, which is why the uid here does not match the article's skeleton."
+    "substance_uid": "OMDKHOOGGJRLLX",
+    "note": "Piru's 4-AcO-MET row carried 4-AcO-MiPT's structure until 2026-09-11 (identifier-corrections-manual.json); the PSID family was re-pinned to the correct block OMDKHOOGGJRLLX on 2026-09-12."
   },
   "4-aco-mipt": {
     "name": "4-AcO-MiPT",
-    "substance_uid": "7XKAILDRTAUYWE",
-    "note": "The row was structure-less until 2026-09-11 and its PSID family is a name-hash for the same reason."
+    "substance_uid": "CIDMXLOVFPIHDS",
+    "note": "The row was structure-less until 2026-09-11; the PSID family was re-pinned to CIDMXLOVFPIHDS on 2026-09-12."
   },
   "4-cmc": {
     "name": "4-CMC",
@@ -659,7 +659,7 @@
   },
   "furanylfentanyl": {
     "name": "Furanylfentanyl",
-    "substance_uid": "NYISTOZKVCMVEL"
+    "substance_uid": "FZJVHWISUGFFQV"
   },
   "gabapentin": {
     "name": "Gabapentin",
@@ -1049,12 +1049,12 @@
   },
   "thiopropamine": {
     "name": "Thiopropamine",
-    "substance_uid": "MJRDCJBNRNAXIK",
+    "substance_uid": "NYVQQTOGYLBBDQ",
     "note": "dw frags=1 piru frags=2"
   },
   "tianeptine": {
     "name": "Tianeptine",
-    "substance_uid": "APNKSKXHMUCNSY"
+    "substance_uid": "JICJBGPOMZQUBB"
   },
   "tma-2": {
     "name": "TMA-2",
