@@ -1,0 +1,93 @@
+// Overview of the Piru data pipeline — the stage-level picture.
+// The complete node-per-file graph is PIPELINE-MAP.dot; the prose is PIPELINE-MAP.md.
+// Render: dot -Tsvg pipeline/PIPELINE-MAP-overview.dot -o pipeline/PIPELINE-MAP-overview.svg
+digraph piru_pipeline_overview {
+  rankdir=LR; splines=polyline; nodesep=0.35; ranksep=0.9; newrank=true;
+  fontname="Helvetica"; fontsize=11;
+  node [fontname="Helvetica", fontsize=10, style=filled, fillcolor=white, color="#444444"];
+  edge [fontname="Helvetica", fontsize=8.5, color="#555555", arrowsize=0.7];
+
+  subgraph cluster_upstream {
+    label="Upstream (network; `build.sh full`, or a fetcher run by hand)"; style=dashed; color="#888888";
+    node [shape=box3d];
+    web       [label="Web sources\nPsychonautWiki · TripSit · Erowid\nWikidata · PubChem · DEA"];
+    dw_api    [label="dose.wiki API\n(CC0, published articles)"];
+    dc_export [label="drug.community export\n(manual snapshot)"];
+    freeod    [label="FreeOD Wiki\n(zh, CC BY-SA)"];
+    pubchem   [label="PubChem PUG REST\nPubMed · Wikipedia pageviews"];
+    private   [label="~/Developer/piru-data\nDrugBank · MedTAP · Pyrls · NPS\n(private, never shipped)"];
+  }
+
+  subgraph cluster_fetch {
+    label="pipeline/fetch — snapshots into data/sources/"; style=dashed; color="#888888";
+    node [shape=ellipse];
+    collector  [label="SubstanceCollector (Swift)\nbuild.sh full step 2"];
+    fetch_pw   [label="psychonautwiki.py · subfxonex.py\ndosewiki.py · product_codes.py\nbuild.sh full steps 1, 1b, 1c, 2b"];
+    fetch_hand [label="fetch_drug_community.py · fetch_tripsit.py\nfetch_pubchem_*.py · freeodwiki_extract.py\nwikipedia_popularity · pubmed_pubtypes\nreconcile_identifiers_pubchem.py\n(13 fetchers build.sh never calls)", fillcolor="#eeeeee"];
+    extract    [label="brushers/extract.py\nbuild.sh step 3 (offline)"];
+  }
+
+  subgraph cluster_inputs {
+    label="Committed inputs"; style=dashed; color="#888888";
+    node [shape=box];
+    sources      [label="data/sources/*.json\n18 source snapshots + caches\n(PubChem, ChEMBL, Europe PMC, links)"];
+    intermediate [label="data/intermediate/\nsourced-substances.json"];
+    curated      [label="data/curated/\n739 substance files + 40 rule files\n(exceptions, class gates, ids,\nidentifier corrections, half-lives…)", fillcolor="#fff5d6"];
+    enrichment   [label="data/enrichment/raw/*.json\nLLM swarm output, per class\n(cited bindings, PK, metabolism)"];
+    ext_extract  [label="/tmp/piru-extract/*.json\n(from piru-data; build warns if absent)"];
+  }
+
+  subgraph cluster_build {
+    label="pipeline/build — `build.sh fast` (offline, reproducible)"; style=dashed; color="#888888";
+    node [shape=ellipse];
+    validate [label="validate_curated.py\nstep 5"];
+    sqlite   [label="sqlite.py  (15k lines)\nstep 6 — ingest in priority order:\ncurated → sourced → PW → dc → FreeOD\n→ enrichment → external → dose.wiki\nthen gates, dedup, PubChem reconciliation,\ndose.wiki identity corrections, classify,\ntherapeutic-dose suppression, finalize", fillcolor="#e8f0ff"];
+    gates    [label="dose_gates.py\nclass ceilings + absorption floor\n→ data/snapshots/dose-gate-report.md", fillcolor="#e8f0ff"];
+    snaps    [label="snapshots.py · signature_coverage.py\nsteps 7–8"];
+    tests    [label="7 build test files + validate_links --gate\nsteps 9–10"];
+  }
+
+  subgraph cluster_ship {
+    label="Shipped artifacts"; style=dashed; color="#888888";
+    node [shape=box];
+    db       [label="Piru/Data/piru-substances.sqlite\n(gitignored, ~19 MB)\n+ manifest.json (tracked, sha256)", fillcolor="#e6ffe6"];
+    release  [label="GitHub `db` release tag\npublish-db.sh / fetch-db.sh"];
+    app      [label="Piru app\nSubstanceReadModel resolves per field:\nuser source order × source_field_priority\n× dose_context", fillcolor="#e6ffe6"];
+    snapshots[label="data/snapshots/\nbuild-report.md · substances.json\ndose-gate-report.md (tracked mirrors)"];
+  }
+
+  subgraph cluster_audit {
+    label="pipeline/audit — standalone, read the built DB, never on the build path"; style=dashed; color="#888888";
+    node [shape=ellipse, fillcolor="#eeeeee"];
+    adjudicate [label="adjudicate.py\nscores every claim of every source\n→ data/adjudication/ (gitignored)"];
+    upstream   [label="upstream_report.py\ndefect report per source\n→ Specs/evidence/upstream-reports/"];
+    audits     [label="compare_to_drugbank · compare_to_pw\ndump_substance_library · dose_sanity\nhalflife_from_primary · verify_citations …"];
+    ci         [label="CI (.github/workflows/ci.yml)\nfetches the DB, runs 9 audit gates + 21 tests\nnever builds", shape=box];
+  }
+
+  subgraph cluster_dead {
+    label="Dead — zero references (DELETE-CANDIDATES.md)"; style=dashed; color="#c03030"; fontcolor="#c03030";
+    dead [label="source_link_check.py (1,738 lines, working --gate)\napply_citation_fixes.py + 4 citation-*-2026-08-04 inputs\nvalidate_metabolites.py · fix_enrichment_inchikeys.py\nfreeodwiki_translate.py · drug-community-{names,combinations}.json\nsqlite.py dose_context_for()", shape=box, color="#c03030", fontcolor="#c03030", fillcolor="#fff0f0"];
+  }
+
+  legend [shape=note, fillcolor="#fafafa", label="Legend\nbox = file/data · ellipse = script\nblue = build path · yellow = hand-authored\ngreen = shipped · gray = run by hand · red = dead"];
+
+  // upstream → fetch
+  web -> collector; dw_api -> fetch_pw; web -> fetch_pw;
+  dc_export -> fetch_hand; freeod -> fetch_hand; pubchem -> fetch_hand;
+  private -> extract;
+  // fetch → inputs
+  collector -> intermediate; fetch_pw -> sources; fetch_hand -> sources; extract -> ext_extract;
+  // inputs → build
+  curated -> validate -> sqlite;
+  sources -> sqlite; intermediate -> sqlite; enrichment -> sqlite; ext_extract -> sqlite;
+  sqlite -> gates [dir=both, label="after all ingest,\nbefore dedup"];
+  sqlite -> db; db -> snaps -> snapshots; db -> tests;
+  gates -> snapshots [style=dashed];
+  // ship
+  db -> release [label="publish-db.sh"]; release -> app [label="OTA update\n(manifest sha256)"]; db -> app [label="bundled"];
+  // audit
+  db -> adjudicate; sources -> adjudicate [style=dashed, constraint=false]; adjudicate -> upstream; db -> audits;
+  release -> ci [label="fetch-db.sh", constraint=false]; upstream -> curated [style=dashed, constraint=false, label="findings become\nexceptions / gates / corrections"];
+  audits -> curated [style=dashed, constraint=false];
+}

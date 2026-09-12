@@ -1,0 +1,338 @@
+/*
+ * Piru data pipeline — files are boxes, scripts are ellipses, edges are
+ * reads/writes. Render with:  dot -Tsvg pipeline/PIPELINE-MAP.dot -o pipeline.svg
+ *
+ * Colour key
+ *   default (black)  on the build path (pipeline/build.sh) or a CI gate
+ *   gray             standalone / manual: a human runs it, nothing calls it
+ *   red              dead: nothing references it at all
+ *   dashed edge      a path that is manual, stale, or broken (labelled)
+ */
+digraph piru_pipeline {
+  rankdir=LR;
+  compound=true;
+  newrank=true;
+  fontname="Helvetica";
+  node [fontname="Helvetica", fontsize=10];
+  edge [fontname="Helvetica", fontsize=9, color="#555555"];
+
+  node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#333333"];
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_upstream {
+    label="Upstream services (network — full mode only)";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=cylinder, fillcolor="#f4f4f4"];
+    u_pw    [label="api.psychonautwiki.org"];
+    u_dw    [label="dose.wiki/api/v1"];
+    u_sfx   [label="SubFxOnEx release\n(raw.githubusercontent)"];
+    u_fda   [label="openFDA NDC\n+ ANSM BDPM"];
+    u_coll  [label="TripSit / Wikidata\n/ PubChem / Erowid"];
+    u_dc    [label="drug.community\n/api/data/bootstrap"];
+    u_pubmed[label="NCBI eutils"];
+    u_wiki  [label="Wikipedia / Wikidata\npageviews"];
+    u_pubchem[label="PubChem PUG REST"];
+  }
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_fetch {
+    label="pipeline/fetch";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=ellipse, style=filled, fillcolor="#ffffff"];
+    f_pw   [label="psychonautwiki.py"];
+    f_dw   [label="dosewiki.py"];
+    f_sfx  [label="subfxonex.py"];
+    f_pc   [label="fetch/product_codes.py"];
+    f_coll [label="SubstanceCollector\n(Swift)"];
+    f_ext  [label="brushers/extract.py"];
+
+    /* fetchers nothing invokes, whose output IS on the build path */
+    node [fillcolor="#eeeeee", color="#888888", fontcolor="#444444"];
+    f_dc     [label="brushers/\nfetch_drug_community.py"];
+    f_ts     [label="brushers/fetch_tripsit.py"];
+    f_pubmed [label="fetch/pubmed_pubtypes.py"];
+    f_cids   [label="brushers/\nfetch_pubchem_cids.py"];
+    f_props  [label="brushers/\nfetch_pubchem_properties.py"];
+    f_pop    [label="brushers/\nfetch_wikipedia_popularity.py"];
+    f_recon  [label="brushers/\nreconcile_identifiers_pubchem.py"];
+    f_medtap [label="brushers/medtap_pk.py"];
+    f_fod    [label="brushers/\nfreeodwiki_extract.py"];
+
+    /* dead */
+    node [fillcolor="#ffecec", color="#cc0000", fontcolor="#990000"];
+    f_fodtr  [label="brushers/\nfreeodwiki_translate.py"];
+    f_fixik  [label="brushers/\nfix_enrichment_inchikeys.py"];
+  }
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_private {
+    label="Out of repo";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=folder, style=filled, fillcolor="#f4f4f4", color="#333333", fontcolor="#000000"];
+    p_data [label="~/Developer/piru-data\n(DrugBank XML, MedTAP,\nPyrls, NPS, benzos)"];
+    p_tmp  [label="/tmp/piru-extract\n(4 *.substances.json)"];
+    p_pap  [label="~/Developer/papers"];
+  }
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_sources {
+    label="data/sources + data/intermediate";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#333333", fontcolor="#000000"];
+    s_pw    [label="psychonautwiki.json"];
+    s_dw    [label="dosewiki.json"];
+    s_sfx   [label="subfxonex.json"];
+    s_pc    [label="product-codes-openfda.json\nproduct-codes-bdpm.json"];
+    s_src   [label="intermediate/\nsourced-substances.json"];
+    s_bun   [label="intermediate/\nsubstances-bundled.json"];
+    s_dc    [label="drug-community.json"];
+    s_dcx   [label="drug-community-spectra.json\ndrug-community-effects.json"];
+    s_ts    [label="tripsit.json"];
+    s_fod   [label="freeodwiki.json"];
+    s_medtap[label="medtap-pk.json"];
+    s_pubchem[label="pubchem-cids.json\npubchem-properties*.json\nidentifier-corrections*.json"];
+    s_pop   [label="wikipedia-popularity.json"];
+    s_link  [label="link-cache.json"];
+    s_pt    [label="pubmed-pubtypes.json"];
+    s_vcache[label="citation-verify-cache.json\ncitation-abstract-cache.json"];
+    s_chembl[label="chembl-cache.json\neuropepmc-cache.json\n(gitignored)"];
+
+    node [fillcolor="#ffecec", color="#cc0000", fontcolor="#990000"];
+    s_dccomb [label="drug-community-\ncombinations.json\n(written, never read)"];
+    s_dcname [label="drug-community-names.json\n(no writer, no reader)"];
+  }
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_curated {
+    label="data/curated (hand-authored)";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#333333", fontcolor="#000000"];
+    c_sub   [label="substances/*.json\n(739 files)"];
+    c_side  [label="~35 sidecar .json\n+ ester_pk/"];
+    c_dse   [label="dose-source-exceptions.json\n(107 entries)"];
+    c_dwids [label="dosewiki-ids.json"];
+    c_hl    [label="half-lives.json"];
+    c_ids   [label="substance-ids.json\n(PSID pins)"];
+    c_rem   [label="removed-substances.json"];
+    c_sdup  [label="structural-duplicates.json"];
+    c_dbadj [label="drugbank-adjudications.json"];
+
+    node [fillcolor="#ffecec", color="#cc0000", fontcolor="#990000"];
+    c_cfix  [label="citation-drops-2026-08-04.json\ncitation-fixes-2026-08-04.json\n…-likely.json  …-research.json"];
+  }
+
+  e_raw [label="data/enrichment/raw/*.json"];
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_build {
+    label="pipeline/build (build.sh steps 5-7)";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=ellipse, style=filled, fillcolor="#ffffff", color="#333333", fontcolor="#000000"];
+    b_val  [label="validate_curated.py"];
+    b_sql  [label="sqlite.py\n(15,054 lines)"];
+    b_snap [label="snapshots.py"];
+  }
+
+  /* build-time libraries imported by sqlite.py */
+  node [shape=ellipse, style=filled, fillcolor="#ffffff", color="#333333", fontcolor="#000000"];
+  l_coll [label="collision_registry.py"];
+  l_psid [label="psid.py"];
+  l_pcodes [label="product_codes.py"];
+  l_chem [label="chem_ids.py"];
+  l_dce  [label="drug_community_effects.py"];
+  l_prose[label="prose.py"];
+  l_vocab[label="effect_vocab.py /\npw_effect_categories.py"];
+  l_shapes[label="molecule_shapes.py"];
+  l_dedupe[label="dedupe.py"];
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_out {
+    label="Shipped artifacts";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#333333", fontcolor="#000000"];
+    o_db   [label="Piru/Data/\npiru-substances.sqlite\n(untracked, ~19 MB)"];
+    o_man  [label="Piru/Data/manifest.json\n(TRACKED — holds the sha256)"];
+    o_rep  [label="data/snapshots/\nbuild-report.md"];
+    o_snap [label="data/snapshots/\nsubstances.json + .csv\ngaps.csv"];
+    o_sig  [label="data/snapshots/\nsignature-coverage.json"];
+    o_app  [label="Piru app\nSubstanceReadModel"];
+  }
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_gates {
+    label="Gates on the build path / in CI";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=ellipse, style=filled, fillcolor="#ffffff", color="#333333", fontcolor="#000000"];
+    g_sig  [label="signature_coverage.py\n--write / --gate"];
+    g_vl   [label="validate_links.py --gate\n(NETWORK)"];
+    g_tests[label="7 build.sh tests\n+ 16 CI checks"];
+    g_ci   [label="ci_local.py\n(pre-push, parses ci.yml)"];
+    g_fdb  [label="fetch-db.sh"];
+  }
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_standalone {
+    label="Standalone audit — nothing in build.sh or CI calls these";
+    style=dashed; color="#999999"; fontsize=11;
+    node [shape=ellipse, style=filled, fillcolor="#eeeeee", color="#888888", fontcolor="#444444"];
+    a_adj  [label="adjudicate.py\n(3,239 lines)"];
+    a_dbk  [label="compare_to_drugbank.py"];
+    a_hlp  [label="halflife_from_primary.py"];
+    a_pw   [label="compare_to_pw.py"];
+    a_cs   [label="citation_sourcing.py"];
+    a_dump [label="dump_substance_library.py\ndump_for_verification.py"];
+    a_surv [label="survey_curated_overlay.py\nclean_curated_overlay.py"];
+    a_cid  [label="cited_identifiers.py"];
+    a_dose [label="dose_sanity.py (CLI)"];
+    a_pub  [label="publish-db.sh"];
+
+    node [shape=box, style="rounded,filled", fillcolor="#eeeeee", color="#888888", fontcolor="#444444"];
+    a_out  [label="data/adjudication/*\n(gitignored)\ncells.jsonl, sources.json,\nsummary.md, calibration-top100.md"];
+    a_w    [label="adjudicator_weights.json\nbinding_target_map.json"];
+  }
+
+  /* ---------------------------------------------------------------- */
+  subgraph cluster_dead {
+    label="Dead — zero references anywhere";
+    style=dashed; color="#cc0000"; fontsize=11;
+    node [shape=ellipse, style=filled, fillcolor="#ffecec", color="#cc0000", fontcolor="#990000"];
+    d_slc  [label="source_link_check.py\n(1,738 lines, has a --gate)"];
+    d_acf  [label="apply_citation_fixes.py"];
+    d_vm   [label="validate_metabolites.py"];
+    d_rm   [label="remove_members.py"];
+    d_sd   [label="split_decls.py"];
+    d_pr   [label="promote.sh"];
+    node [shape=folder, fillcolor="#ffecec"];
+    d_val  [label="pipeline/validator/\n(empty dir, untracked)"];
+    node [shape=box, style="rounded,filled", fillcolor="#ffecec"];
+    d_merged [label="data/enrichment/\nmerged.json, class-context.json,\ncoverage.csv"];
+  }
+
+  /* enrichment swarm (manual) */
+  node [shape=ellipse, style=filled, fillcolor="#eeeeee", color="#888888", fontcolor="#444444"];
+  n_groups [label="enrichment/build_groups.py"];
+  n_merge  [label="enrichment/merge.py"];
+  node [shape=box, style="rounded,filled", fillcolor="#eeeeee", color="#888888", fontcolor="#444444"];
+  n_grp    [label="data/enrichment/groups/*.json"];
+  n_swarm  [label="LLM enrichment swarm\n(external, prompts/system.md)"];
+
+  /* ================= EDGES: fetch ================= */
+  u_pw     -> f_pw;
+  u_dw     -> f_dw;
+  u_sfx    -> f_sfx;
+  u_fda    -> f_pc;
+  u_coll   -> f_coll;
+  u_dc     -> f_dc;
+  u_pubmed -> f_pubmed;
+  u_wiki   -> f_pop;
+  u_pubchem-> f_cids;
+  u_pubchem-> f_props;
+  u_pubchem-> f_recon;
+  u_coll   -> f_ts;
+
+  f_pw    -> s_pw;
+  f_dw    -> s_dw;
+  f_sfx   -> s_sfx;
+  f_pc    -> s_pc;
+  f_coll  -> s_src [label="../../data/… →\npipeline/data/ (BROKEN)", style=dashed, color="#cc0000", fontcolor="#990000"];
+  f_coll  -> s_bun [style=dashed, color="#cc0000"];
+  f_dc    -> s_dc;
+  f_dc    -> s_dcx;
+  f_dc    -> s_dccomb [color="#cc0000"];
+  f_ts    -> s_ts;
+  f_pubmed-> s_pt;
+  f_cids  -> s_pubchem;
+  f_props -> s_pubchem;
+  f_recon -> s_pubchem;
+  f_pop   -> s_pop;
+  f_medtap-> s_medtap;
+  f_fod   -> s_fod;
+  p_data  -> f_ext;
+  f_ext   -> p_tmp;
+  p_data  -> f_medtap;
+  o_db    -> f_cids  [style=dashed, label="reads the last build"];
+  o_db    -> f_props [style=dashed];
+  o_db    -> f_pop   [style=dashed];
+  o_db    -> f_recon [style=dashed];
+  o_db    -> f_pubmed[style=dashed];
+  o_snap  -> f_pc    [label="name allowlist\n(feedback cycle)", style=dashed];
+  c_sub   -> f_coll  [label="--curated-overlay\n(path missing)", style=dashed, color="#cc0000"];
+  f_fodtr -> s_fod   [style=dashed, color="#cc0000", label="writes /tmp only"];
+  f_fixik -> e_raw   [style=dashed, color="#cc0000"];
+
+  /* ================= EDGES: build ================= */
+  c_sub  -> b_val;
+  c_sub  -> b_sql;
+  c_side -> b_sql;
+  c_dse  -> b_sql [label="ingest-time filter\n(4 sites)"];
+  c_dwids-> b_sql [label="hand join;\nan undecided slug\nFAILS the build"];
+  c_hl   -> b_sql;
+  c_ids  -> b_sql;
+  c_rem  -> b_sql [label="outranks\nthe curated layer"];
+  c_sdup -> b_sql;
+  c_dbadj-> b_sql;
+
+  s_pw -> b_sql; s_dw -> b_sql; s_sfx -> b_sql; s_pc -> b_sql;
+  s_src -> b_sql; s_bun -> b_sql [style=dashed, label="fallback only"];
+  s_dc -> b_sql; s_dcx -> b_sql; s_ts -> b_sql; s_fod -> b_sql;
+  s_medtap -> b_sql; s_pubchem -> b_sql; s_pop -> b_sql;
+  s_link -> b_sql [label="drops dead citations"];
+  s_pt -> b_sql [label="is_review"];
+  e_raw -> b_sql;
+  p_tmp -> b_sql [label="pyrls / medtap /\nbenzos / nps"];
+
+  l_coll -> b_sql [style=dotted, label="import"];
+  l_psid -> b_sql [style=dotted];
+  l_pcodes -> b_sql [style=dotted];
+  l_dce -> b_sql [style=dotted];
+  l_prose -> b_sql [style=dotted];
+  l_vocab -> b_sql [style=dotted];
+  l_shapes -> b_sql [style=dotted];
+  l_dedupe -> b_sql [style=dotted];
+  l_pcodes -> f_pc [style=dotted];
+  l_chem -> g_tests [style=dotted];
+
+  b_sql -> o_db;
+  b_sql -> o_man;
+  b_sql -> o_rep;
+  o_db  -> b_snap;
+  b_snap-> o_snap;
+  o_db  -> g_sig -> o_sig;
+  o_db  -> g_vl  -> s_link;
+  o_db  -> g_tests;
+  o_man -> g_fdb;
+  g_fdb -> o_db [label="CI + fresh clone\nfetch the DB"];
+  o_db  -> o_app;
+  o_man -> o_app [label="PiruManifestURL\nOTA update"];
+  a_pub -> o_db  [style=dashed, label="publishes to\nthe db release tag"];
+  g_ci  -> g_tests [style=dotted];
+
+  /* ================= EDGES: enrichment (manual) ================= */
+  s_bun    -> n_groups;
+  s_dc     -> n_groups;
+  n_groups -> n_grp -> n_swarm -> e_raw;
+  e_raw    -> n_merge -> d_merged;
+
+  /* ================= EDGES: standalone audit ================= */
+  o_db -> a_adj; a_w -> a_adj; s_chembl -> a_adj; s_dw -> a_adj; c_dwids -> a_adj;
+  a_adj -> a_out;
+  a_out -> c_side [style=dashed, label="only via a human\nediting curated data"];
+
+  o_db -> a_dbk; p_data -> a_dbk; c_dbadj -> a_dbk;
+  o_db -> a_hlp; p_data -> a_hlp; p_pap -> a_hlp;
+  a_hlp -> c_hl [label="--write (the only\nsanctioned writer)"];
+  o_db -> a_pw;
+  o_db -> a_cs; s_chembl -> a_cs; p_pap -> a_cs;
+  o_db -> a_dump;
+  o_db -> a_surv; c_sub -> a_surv; a_surv -> c_sub [style=dashed, label="--apply"];
+  o_db -> a_cid -> p_pap;
+  o_db -> a_dose;
+  a_dose -> a_adj [style=dotted, label="import: LADDER,\nROUTE_RANK, units"];
+  s_vcache -> g_tests;
+
+  /* ================= EDGES: dead ================= */
+  o_db    -> d_slc [color="#cc0000", style=dashed, label="never run"];
+  c_cfix  -> d_acf [color="#cc0000"];
+  d_acf   -> e_raw [color="#cc0000", style=dashed];
+  e_raw   -> d_vm  [color="#cc0000", style=dashed];
+}

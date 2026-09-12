@@ -60,3 +60,44 @@ Two kinds of entry, both ending in a deletion:
 `HalfLifeDatabase.swift` left it too, deleted rather than migrated — 221 of its
 534 keys were estimates for compounds with no published human pharmacokinetics,
 and the rest duplicated values the DB already resolved.
+
+## `pipeline/audit/source_link_check.py` — 1,738 lines, never invoked
+
+- **What**: verifies every per-substance source link lands on a page about that substance (soft-404 detection, homepage fallback) plus a static audit of `AppSources.swift`; has a working `--gate`.
+- **Looks dead because**: no `build.sh` step, no CI job, no skill or doc invokes it (`rg source_link_check .` → only itself).
+- **Not deleted because**: it is the only link-topicality check the repo has; `validate_links.py` checks reachability, not aboutness. Someone may run it by hand before a release.
+- **To confirm**: ask Kiri whether it runs before submissions; if yes, wire it into CI as a nightly, if no, delete.
+- **Found**: 2026-09-11 (pipeline map)
+
+## `pipeline/audit/apply_citation_fixes.py` + `data/curated/citation-{drops,fixes,fixes-likely,fixes-research}-2026-08-04.json`
+
+- **What**: the script applies adjudicated citation replace/drop decisions to `data/enrichment/raw/*.json` and `data/curated/`; the four JSON files are its inputs.
+- **Looks dead because**: zero references to the script or to any of the four files outside themselves. They are the residue of one completed citation-repair pass (2026-08-04).
+- **Not deleted because**: whether the pass was fully applied is not recorded anywhere; the inputs are the only record of what was decided.
+- **To confirm**: `git log --oneline -- data/enrichment/raw | head` around 2026-08-04 shows the applied diff → delete all five together.
+- **Found**: 2026-09-11 (pipeline map)
+
+## `pipeline/audit/validate_metabolites.py`, `pipeline/fetch/brushers/fix_enrichment_inchikeys.py`, `pipeline/fetch/brushers/freeodwiki_translate.py`
+
+- **What**: three one-pass enrichment tools — LLM-batch metabolite validation into `metabolites-active.json`; in-place InChIKey recompute over `data/enrichment/raw`; stage 1 of a FreeOD prose-translation pass writing to `/tmp/freeod-trans/` (executes at import, no `main()`).
+- **Looks dead because**: nothing references any of them; their outputs are either already merged or read by nothing.
+- **Not deleted because**: each documents how a batch of committed data was produced, and an enrichment re-run would want the same procedure.
+- **To confirm**: Kiri says whether enrichment batches will ever be re-run; if not, delete and keep the procedure in `pipeline/enrichment/prompts/`.
+- **Found**: 2026-09-11 (pipeline map)
+
+## `data/sources/drug-community-names.json`, `data/sources/drug-community-combinations.json`
+
+- **What**: two drug.community extracts. `-names` has no reader and no writer; `-combinations` is written by `fetch_drug_community.py` and read by nothing.
+- **Looks dead because**: `rg` finds no consumer of either.
+- **Not deleted because**: the combinations matrix is the kind of thing an interaction feature would read next, and the admin of drug.community is a contact — the file may be a deliberate hold.
+- **To confirm**: ask Kiri; delete `-names` regardless if she does not recognize it.
+- **Found**: 2026-09-11 (pipeline map)
+
+## `pipeline/build/sqlite.py` — `dose_context_for()`
+
+- **What**: the insert-time dose-context classifier, called once from `add_dose`.
+- **Looks dead because**: every value it writes is overwritten by `assign_dose_contexts()`, which re-applies the same table in SQL plus the curated rule; the only rows its value could survive on get `"unknown"`, the column default.
+- **Not deleted because**: `add_dose` callers in tests may assert the interim value; needs a test run after removal.
+- **To confirm**: delete the call and the function, run `pipeline/build/tests/test_sqlite.py`.
+- **Found**: 2026-09-11 (pipeline map)
+
