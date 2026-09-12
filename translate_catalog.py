@@ -9,6 +9,89 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # SubstanceCategory.classSummary — category descriptions shown atop each
+    # browse list; LocalizedStringResource literals the extractor misses, inserted
+    # via NEW_KEYS and persistent because they carry a translation.
+    "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to.": (
+        "5-HT2A 受体的激动剂。这一个作用便重塑了知觉、思维和自我感；这一族按化学结构分为苯乙胺类、色胺类，以及 LSD 所属的麦角酰胺类。",
+        "5-HT2A 受體的激動劑。這一個作用便重塑了知覺、思維和自我感；這一族按化學結構分為苯乙胺類、色胺類，以及 LSD 所屬的麥角醯胺類。",
+    ),
+    "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia.": (
+        "阻断 NMDA 谷氨酸受体，使知觉与报告它的身体脱离。效应随剂量急剧变化，从镇痛直至麻醉。",
+        "阻斷 NMDA 麩胺酸受體，使知覺與回報它的身體脫離。效應隨劑量急劇變化，從鎮痛直至麻醉。",
+    ),
+    "Act at the κ-opioid receptor rather than 5-HT2A, which is why the experience is nothing like a classical psychedelic — dysphoric, disorienting, and usually brief.": (
+        "作用于 κ-阿片受体而非 5-HT2A，因此体验与经典致幻剂截然不同——烦躁不安、方向迷失，且通常短暂。",
+        "作用於 κ-類鴉片受體而非 5-HT2A，因此體驗與經典致幻劑截然不同——煩躁不安、方向迷失，且通常短暫。",
+    ),
+    "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognised as unreal — alongside amnesia and a narrow margin to toxicity.": (
+        "阻断毒蕈碱型乙酰胆碱受体。与致幻剂不同，它们产生真正的幻觉——并不存在、且不被察觉为虚假的事物——并伴随健忘和狭窄的中毒安全边际。",
+        "阻斷蕈毒鹼型乙醯膽鹼受體。與致幻劑不同，它們產生真正的幻覺——並不存在、且不被察覺為虛假的事物——並伴隨健忘和狹窄的中毒安全邊際。",
+    ),
+    "Agonists at the µ-opioid receptor: analgesia, warmth and sedation, and depressed breathing by the same mechanism. Tolerance to the first outpaces tolerance to the last, which is what makes the margin narrow.": (
+        "μ-阿片受体的激动剂：镇痛、温暖与镇静，以及由同一机制导致的呼吸抑制。对前者的耐受快于对后者的耐受，这正是安全边际狭窄的原因。",
+        "μ-類鴉片受體的激動劑：鎮痛、溫暖與鎮靜，以及由同一機制導致的呼吸抑制。對前者的耐受快於對後者的耐受，這正是安全邊際狹窄的原因。",
+    ),
+    "Positive allosteric modulators at GABA-A — they amplify the brain's own inhibitory signal rather than acting on their own. That ceiling is why they are relatively safe alone and dangerous with anything else that sedates.": (
+        "GABA-A 的正向别构调节剂——它们放大大脑自身的抑制信号，而非独立起作用。这一上限使它们单独使用时相对安全，却与任何其他镇静物质同用时危险。",
+        "GABA-A 的正向異位調節劑——它們放大大腦自身的抑制訊號，而非獨立起作用。這一上限使它們單獨使用時相對安全，卻與任何其他鎮靜物質同用時危險。",
+    ),
+    "Bind the α2δ subunit of voltage-gated calcium channels, reducing excitatory transmitter release. Not GABAergic despite the name.": (
+        "结合电压门控钙通道的 α2δ 亚基，减少兴奋性递质释放。名称虽如此，但并非 GABA 能药物。",
+        "結合電壓閘控鈣通道的 α2δ 次單元，減少興奮性遞質釋放。名稱雖如此，但並非 GABA 能藥物。",
+    ),
+    "Release serotonin, along with dopamine and noradrenaline — warmth, closeness and emotional openness rather than the perceptual change of a psychedelic. Most are amphetamines with a methylenedioxy ring.": (
+        "释放血清素，以及多巴胺和去甲肾上腺素——带来温暖、亲近和情感开放，而非致幻剂的知觉改变。多数是带有亚甲二氧基环的苯丙胺。",
+        "釋放血清素，以及多巴胺和去甲腎上腺素——帶來溫暖、親近和情感開放，而非致幻劑的知覺改變。多數是帶有亞甲二氧基環的安非他命。",
+    ),
+    "Act at the CB1 receptor. The phytocannabinoids are partial agonists with a natural ceiling; the synthetic ones are full agonists without it, which is the whole of the difference in risk.": (
+        "作用于 CB1 受体。植物大麻素是有天然上限的部分激动剂；合成大麻素则是没有上限的完全激动剂，风险的差异全在于此。",
+        "作用於 CB1 受體。植物大麻素是有天然上限的部分激動劑；合成大麻素則是沒有上限的完全激動劑，風險的差異全在於此。",
+    ),
+    "A functional grouping rather than a mechanistic one: compounds taken for cognition, with radically different pharmacology and, mostly, thin human evidence.": (
+        "这是按功能而非机制划分的一类：为改善认知而服用的化合物，药理各不相同，且大多缺乏充分的人体证据。",
+        "這是按功能而非機制劃分的一類：為改善認知而服用的化合物，藥理各不相同，且大多缺乏充分的人體證據。",
+    ),
+    "Positive allosteric modulators of the AMPA glutamate receptor. The high-impact ones carry convulsant liability; the low-impact ones are safer and weaker.": (
+        "AMPA 谷氨酸受体的正向别构调节剂。作用强的有致惊厥风险；作用弱的更安全，也更弱。",
+        "AMPA 麩胺酸受體的正向異位調節劑。作用強的有致驚厥風險；作用弱的更安全，也更弱。",
+    ),
+    "Promote wakefulness without the dopaminergic surge of a classical stimulant. Mechanism is still argued over; the effect is alertness without much euphoria.": (
+        "在没有经典兴奋剂那种多巴胺激增的情况下促进清醒。机制仍有争议；效果是警觉，而少有欣快。",
+        "在沒有經典興奮劑那種多巴胺激增的情況下促進清醒。機制仍有爭議；效果是警覺，而少有欣快。",
+    ),
+    "Slow central nervous system activity, mostly through GABA. Their doses add up with each other in a way that is easy to underestimate.": (
+        "减缓中枢神经系统活动，主要通过 GABA。它们的剂量彼此叠加，其程度容易被低估。",
+        "減緩中樞神經系統活動，主要透過 GABA。它們的劑量彼此疊加，其程度容易被低估。",
+    ),
+    "Block the orexin receptors that hold wakefulness in place, rather than enhancing GABA. They add next-day sedation with other depressants but not brainstem respiratory depression.": (
+        "阻断维持清醒的食欲素受体，而非增强 GABA。与其他抑制剂同用会叠加次日镇静，但不会导致脑干性呼吸抑制。",
+        "阻斷維持清醒的食慾素受體，而非增強 GABA。與其他抑制劑同用會疊加次日鎮靜，但不會導致腦幹性呼吸抑制。",
+    ),
+    "Raise serotonin, noradrenaline or dopamine signalling over weeks rather than hours. The class matters here mostly for what it blocks or stacks with.": (
+        "在数周而非数小时内提升血清素、去甲肾上腺素或多巴胺信号。这一类在此主要因其阻断或叠加的对象而重要。",
+        "在數週而非數小時內提升血清素、去甲腎上腺素或多巴胺訊號。這一類在此主要因其阻斷或疊加的對象而重要。",
+    ),
+    "Block dopamine D2 receptors, and usually several serotonin receptors alongside. Sedating, and a common blunting agent for other substances.": (
+        "阻断多巴胺 D2 受体，通常同时阻断数种血清素受体。具镇静作用，也是常见的钝化其他物质效果的药物。",
+        "阻斷多巴胺 D2 受體，通常同時阻斷數種血清素受體。具鎮靜作用，也是常見的鈍化其他物質效果的藥物。",
+    ),
+    "Block histamine H1 receptors. The first-generation ones cross into the brain and are strongly anticholinergic, which is why they sedate — and, in quantity, deliriate.": (
+        "阻断组胺 H1 受体。第一代药物能进入大脑且抗胆碱能作用强，因此会镇静——而大剂量下会致谵妄。",
+        "阻斷組織胺 H1 受體。第一代藥物能進入大腦且抗膽鹼能作用強，因此會鎮靜——而大劑量下會致譫妄。",
+    ),
+    "Vitamins, minerals, amino acids and plant preparations. Pharmacologically a mixed bag, and the place where interactions are most often assumed to be absent.": (
+        "维生素、矿物质、氨基酸和植物制剂。药理上参差不齐，也是人们最常想当然地以为不存在相互作用的一类。",
+        "維生素、礦物質、胺基酸和植物製劑。藥理上參差不齊，也是人們最常想當然地以為不存在交互作用的一類。",
+    ),
+    "Short chains of amino acids acting at hormone or growth-factor receptors. Almost all are injected, and almost none have long-term human data.": (
+        "作用于激素或生长因子受体的短链氨基酸。几乎全为注射给药，也几乎都没有长期人体数据。",
+        "作用於激素或生長因子受體的短鏈胺基酸。幾乎全為注射給藥，也幾乎都沒有長期人體數據。",
+    ),
+    "Damp excessive neuronal firing, by sodium-channel block, GABA enhancement or SV2A binding depending on the drug.": (
+        "抑制过度的神经元放电，视药物不同，通过阻断钠通道、增强 GABA 或结合 SV2A 实现。",
+        "抑制過度的神經元放電，視藥物不同，透過阻斷鈉通道、增強 GABA 或結合 SV2A 實現。",
+    ),
     # Skins (Settings → Appearance)
     "Appearance": ("外观", "外觀"),
     "Skin": ("皮肤", "皮膚"),
@@ -6677,6 +6760,27 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # SubstanceCategory.classSummary (extractor-invisible LocalizedStringResource)
+        "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to.",
+        "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia.",
+        "Act at the κ-opioid receptor rather than 5-HT2A, which is why the experience is nothing like a classical psychedelic — dysphoric, disorienting, and usually brief.",
+        "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognised as unreal — alongside amnesia and a narrow margin to toxicity.",
+        "Agonists at the µ-opioid receptor: analgesia, warmth and sedation, and depressed breathing by the same mechanism. Tolerance to the first outpaces tolerance to the last, which is what makes the margin narrow.",
+        "Positive allosteric modulators at GABA-A — they amplify the brain's own inhibitory signal rather than acting on their own. That ceiling is why they are relatively safe alone and dangerous with anything else that sedates.",
+        "Bind the α2δ subunit of voltage-gated calcium channels, reducing excitatory transmitter release. Not GABAergic despite the name.",
+        "Release serotonin, along with dopamine and noradrenaline — warmth, closeness and emotional openness rather than the perceptual change of a psychedelic. Most are amphetamines with a methylenedioxy ring.",
+        "Act at the CB1 receptor. The phytocannabinoids are partial agonists with a natural ceiling; the synthetic ones are full agonists without it, which is the whole of the difference in risk.",
+        "A functional grouping rather than a mechanistic one: compounds taken for cognition, with radically different pharmacology and, mostly, thin human evidence.",
+        "Positive allosteric modulators of the AMPA glutamate receptor. The high-impact ones carry convulsant liability; the low-impact ones are safer and weaker.",
+        "Promote wakefulness without the dopaminergic surge of a classical stimulant. Mechanism is still argued over; the effect is alertness without much euphoria.",
+        "Slow central nervous system activity, mostly through GABA. Their doses add up with each other in a way that is easy to underestimate.",
+        "Block the orexin receptors that hold wakefulness in place, rather than enhancing GABA. They add next-day sedation with other depressants but not brainstem respiratory depression.",
+        "Raise serotonin, noradrenaline or dopamine signalling over weeks rather than hours. The class matters here mostly for what it blocks or stacks with.",
+        "Block dopamine D2 receptors, and usually several serotonin receptors alongside. Sedating, and a common blunting agent for other substances.",
+        "Block histamine H1 receptors. The first-generation ones cross into the brain and are strongly anticholinergic, which is why they sedate — and, in quantity, deliriate.",
+        "Vitamins, minerals, amino acids and plant preparations. Pharmacologically a mixed bag, and the place where interactions are most often assumed to be absent.",
+        "Short chains of amino acids acting at hormone or growth-factor receptors. Almost all are injected, and almost none have long-term human data.",
+        "Damp excessive neuronal firing, by sodium-channel block, GABA enhancement or SV2A binding depending on the drug.",
         # Skins
         "Appearance",
         "Skin",

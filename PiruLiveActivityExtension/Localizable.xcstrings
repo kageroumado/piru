@@ -559,7 +559,20 @@
       }
     },
     "Hebi Arcade (WIP)" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi Arcade (WIP)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi Arcade (WIP)"
+          }
+        }
+      }
     },
     "High confidence" : {
       "localizations" : {
@@ -595,7 +608,20 @@
       }
     },
     "Hotaru (WIP)" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru (WIP)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru (WIP)"
+          }
+        }
+      }
     },
     "Inhalation" : {
       "localizations" : {
