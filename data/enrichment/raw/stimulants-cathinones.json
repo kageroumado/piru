@@ -2112,11 +2112,12 @@
       "binding": [
         {
           "target": "DAT (uptake)",
-          "ic50_nm": 500,
+          "ic50_nm": 120,
           "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": "pmid:33689284"
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "pmid:33689284",
+          "notes": "Abstract and Table 1 of the cited paper: eutylone DAT uptake IC50 0.12 ± 0.01 µM in rat brain synaptosomes. Corrected 2026-09-11 from a stored 500 nM / human HEK293 that the paper does not contain."
         },
         {
           "target": "SERT (uptake)",

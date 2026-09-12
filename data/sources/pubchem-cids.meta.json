@@ -168,5 +168,6 @@
       28360827
     ]
   },
-  "note": "CID resolved from the substance's own InChIKey, so it is CID↔InChIKey-consistent by construction. chosen = min(CID) when PubChem holds duplicate records for one InChIKey."
+  "note": "CID resolved from the substance's own InChIKey, so it is CID↔InChIKey-consistent by construction. chosen = min(CID) when PubChem holds duplicate records for one InChIKey.",
+  "hand_added_2026-09-11": "13 records for the InChIKeys the 2026-09-11 identifier corrections introduced (identifier-corrections-manual.json + dosewiki_identity_corrections), read from PubChem PUG REST by InChIKey the same day."
 }

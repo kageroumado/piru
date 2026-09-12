@@ -123,6 +123,10 @@
     "cid": 125889,
     "formula": "C8H17NO2"
   },
+  "AYXYPKUFHZROOJ-ZETCQYMHSA-N": {
+    "cid": 5486971,
+    "formula": "C8H17NO2"
+  },
   "AZPUAKGNQXURGA-ZWLNRFIDSA-N": {
     "cid": 73347341,
     "formula": "C24H27NO8S"
@@ -214,6 +218,10 @@
   "BPZSYCZIITTYBL-YJYMSZOUSA-N": {
     "cid": 3083544,
     "formula": "C19H24N2O4"
+  },
+  "BQJCRHHNABKAKU-KBQPJGBKSA-N": {
+    "cid": 5288826,
+    "formula": "C17H19NO3"
   },
   "BQJCRHHNABKAKU-NOSXKOESSA-N": {
     "cid": 5324287,
@@ -307,9 +315,17 @@
     "cid": 129597835,
     "formula": "C21H29FN2O3"
   },
+  "CIDMXLOVFPIHDS-UHFFFAOYSA-N": {
+    "cid": 46783587,
+    "formula": "C16H22N2O2"
+  },
   "CIGWUZUBQBQZAO-UHFFFAOYSA-N": {
     "cid": 129844558,
     "formula": "C17H23NO2"
+  },
+  "CIZLUPKWIPWOID-UHFFFAOYSA-N": {
+    "cid": 43489092,
+    "formula": "C16H18ClN"
   },
   "CJCSPKMFHVPWAR-JTQLQIEISA-N": {
     "cid": 38853,
@@ -626,6 +642,10 @@
   "FZEIVUHEODGHML-UHFFFAOYSA-N": {
     "cid": 43174741,
     "formula": "C12H17NO"
+  },
+  "FZJVHWISUGFFQV-UHFFFAOYSA-N": {
+    "cid": 13653606,
+    "formula": "C24H26N2O2"
   },
   "GBBSUAFBMRNDJC-INIZCTEOSA-N": {
     "cid": 969472,
@@ -1015,6 +1035,10 @@
     "cid": 3686,
     "formula": "C19H30O5"
   },
+  "JGPNMZWFVRQNGU-GJZGRUSLSA-N": {
+    "cid": 71719125,
+    "formula": "C16H22Cl2N2O"
+  },
   "JHGDCSPZKQLBOP-UHFFFAOYSA-N": {
     "cid": 129318262,
     "formula": "C12H17NO2"
@@ -1221,6 +1245,10 @@
   },
   "KWTWDQCKEHXFFR-FZMZJTMJSA-N": {
     "cid": 23654757,
+    "formula": "C14H23NO"
+  },
+  "KWTWDQCKEHXFFR-SMDDNHRTSA-N": {
+    "cid": 9838022,
     "formula": "C14H23NO"
   },
   "KXPMRPNOYIOXFY-UHFFFAOYSA-N": {
@@ -1631,6 +1659,10 @@
     "cid": 60575,
     "formula": "C22H27FN2O2"
   },
+  "NYVQQTOGYLBBDQ-UHFFFAOYSA-N": {
+    "cid": 6484133,
+    "formula": "C7H11NS"
+  },
   "OBWASQILIWPZMG-UHFFFAOYSA-N": {
     "cid": 73151030,
     "formula": "C23H27ClO7"
@@ -1690,6 +1722,10 @@
   "OMBOXYLBBHNWHL-YJNKXOJESA-N": {
     "cid": 170832,
     "formula": "C16H21NO2"
+  },
+  "OMDKHOOGGJRLLX-UHFFFAOYSA-N": {
+    "cid": 71308138,
+    "formula": "C15H20N2O2"
   },
   "OOBHFESNSZDWIU-UHFFFAOYSA-N": {
     "cid": 4762,
@@ -1979,6 +2015,10 @@
     "cid": 6918554,
     "formula": "C24H28N2O3"
   },
+  "RAFUPYYDHPFASC-DYESRHJHSA-N": {
+    "cid": 155884675,
+    "formula": "C24H29N3O2"
+  },
   "RAPZEAPATHNIPO-UHFFFAOYSA-N": {
     "cid": 5073,
     "formula": "C23H27FN4O2"
@@ -2106,6 +2146,10 @@
   "RZZPDXZPRHQOCG-OJAKKHQRSA-M": {
     "cid": 25202509,
     "formula": "C14H25N4O11P2-"
+  },
+  "RZZPDXZPRHQOCG-OJAKKHQRSA-N": {
+    "cid": 13804,
+    "formula": "C14H26N4O11P2"
   },
   "SAADBVWGJQAEFS-UHFFFAOYSA-N": {
     "cid": 3393,
@@ -2434,6 +2478,10 @@
   "VMZUTJCNQWMAGF-UHFFFAOYSA-N": {
     "cid": 3307,
     "formula": "C17H15ClN4S"
+  },
+  "VOBHXZCDAVEXEY-JSGCOSHPSA-N": {
+    "cid": 11597698,
+    "formula": "C15H25N3O"
   },
   "VOBHXZCDAVEXEY-OCCSQVGLSA-N": {
     "cid": 71771784,

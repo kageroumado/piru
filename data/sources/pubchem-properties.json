@@ -8918,5 +8918,122 @@
     "hba": 3,
     "complexity": 757.0,
     "iupac": "N,N-diethyl-7-methyl-4-(3-trimethylsilylpropanoyl)-6,6a,8,9-tetrahydroindolo[4,3-fg]quinoline-9-carboxamide"
+  },
+  "5288826": {
+    "formula": "C17H19NO3",
+    "molecular_weight": 285.34,
+    "xlogp": 0.8,
+    "tpsa": 52.9,
+    "hbd": 2,
+    "hba": 4,
+    "iupac": "(4R,4aR,7S,7aR,12bS)-3-methyl-2,4,4a,7,7a,13-hexahydro-1H-4,12-methanobenzofuro[3,2-e]isoquinoline-7,9-diol"
+  },
+  "5486971": {
+    "formula": "C8H17NO2",
+    "molecular_weight": 159.23,
+    "xlogp": -1.6,
+    "tpsa": 63.3,
+    "hbd": 2,
+    "hba": 3,
+    "iupac": "(3S)-3-(aminomethyl)-5-methylhexanoic acid"
+  },
+  "11597698": {
+    "formula": "C15H25N3O",
+    "molecular_weight": 263.38,
+    "xlogp": 1.2,
+    "tpsa": 81.1,
+    "hbd": 3,
+    "hba": 3,
+    "iupac": "(2S)-2,6-diamino-N-[(2S)-1-phenylpropan-2-yl]hexanamide"
+  },
+  "9838022": {
+    "formula": "C14H23NO",
+    "molecular_weight": 221.34,
+    "xlogp": 3.5,
+    "tpsa": 23.5,
+    "hbd": 1,
+    "hba": 2,
+    "iupac": "3-[(2R,3R)-1-(dimethylamino)-2-methylpentan-3-yl]phenol"
+  },
+  "71719125": {
+    "formula": "C16H22Cl2N2O",
+    "molecular_weight": 329.3,
+    "xlogp": 4.0,
+    "tpsa": 23.6,
+    "hbd": 0,
+    "hba": 2,
+    "iupac": "3,4-dichloro-N-[(1S,2S)-2-(dimethylamino)cyclohexyl]-N-methylbenzamide"
+  },
+  "43489092": {
+    "formula": "C16H18ClN",
+    "molecular_weight": 259.77,
+    "xlogp": 4.3,
+    "tpsa": 12.0,
+    "hbd": 1,
+    "hba": 1,
+    "iupac": "2-(2-chlorophenyl)-N-ethyl-1-phenylethanamine"
+  },
+  "155253443": {
+    "formula": "C14H18N2O",
+    "molecular_weight": 230.31,
+    "xlogp": 2.5,
+    "tpsa": 39.3,
+    "hbd": 2,
+    "hba": 2,
+    "iupac": "3-[2-[cyclopropyl(methyl)amino]ethyl]-1H-indol-4-ol"
+  },
+  "13804": {
+    "formula": "C14H26N4O11P2",
+    "molecular_weight": 488.32,
+    "xlogp": -4.0,
+    "tpsa": 214.0,
+    "hbd": 4,
+    "hba": 11,
+    "iupac": "[[(2R,3S,4R,5R)-5-(4-amino-2-oxopyrimidin-1-yl)-3,4-dihydroxyoxolan-2-yl]methoxy-hydroxyphosphoryl] 2-(trimethylazaniumyl)ethyl phosphate"
+  },
+  "71308138": {
+    "formula": "C15H20N2O2",
+    "molecular_weight": 260.33,
+    "xlogp": 2.5,
+    "tpsa": 45.3,
+    "hbd": 1,
+    "hba": 3,
+    "iupac": "[3-[2-[ethyl(methyl)amino]ethyl]-1H-indol-4-yl] acetate"
+  },
+  "46783587": {
+    "formula": "C16H22N2O2",
+    "molecular_weight": 274.36,
+    "xlogp": 2.9,
+    "tpsa": 45.3,
+    "hbd": 1,
+    "hba": 3,
+    "iupac": "[3-[2-[methyl(propan-2-yl)amino]ethyl]-1H-indol-4-yl] acetate"
+  },
+  "155884675": {
+    "formula": "C24H29N3O2",
+    "molecular_weight": 391.5,
+    "xlogp": 3.2,
+    "tpsa": 45.6,
+    "hbd": 0,
+    "hba": 3,
+    "iupac": "(6aR,9R)-4-(cyclopropanecarbonyl)-N,N-diethyl-7-methyl-6,6a,8,9-tetrahydroindolo[4,3-fg]quinoline-9-carboxamide"
+  },
+  "13653606": {
+    "formula": "C24H26N2O2",
+    "molecular_weight": 374.5,
+    "xlogp": 4.6,
+    "tpsa": 36.7,
+    "hbd": 0,
+    "hba": 3,
+    "iupac": "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]furan-2-carboxamide"
+  },
+  "6484133": {
+    "formula": "C7H11NS",
+    "molecular_weight": 141.24,
+    "xlogp": 1.8,
+    "tpsa": 54.3,
+    "hbd": 1,
+    "hba": 2,
+    "iupac": "1-thiophen-2-ylpropan-2-amine"
   }
 }

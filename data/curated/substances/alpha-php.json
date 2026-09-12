@@ -7,28 +7,7 @@
   ],
   "category": "Stimulant",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 7,
-          "upper": 15
-        },
-        "common": {
-          "lower": 15,
-          "upper": 25
-        },
-        "strong": {
-          "lower": 25,
-          "upper": 40
-        },
-        "heavy": 50
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Hexyl analog of α-PVP — similar potency profile",
     "Compulsive redose risk",

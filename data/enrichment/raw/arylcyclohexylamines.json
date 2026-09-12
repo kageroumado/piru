@@ -1807,11 +1807,12 @@
         },
         {
           "target": "σ1",
-          "ki_nm": 50,
-          "action": "agonist",
+          "ki_nm": 4519,
+          "action": "modulator",
           "species": "guinea pig",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "comparable_set": "roth-2013-guinea-pig-transporter"
+          "comparable_set": "roth-2013-guinea-pig-transporter",
+          "notes": "Roth 2013 Table 2: pKi 5.3±0.1 (4,519 nM) in a displacement screen; the assay establishes affinity, not action. Corrected 2026-09-11 from the stored 50 nM agonist, which the cited paper does not contain."
         }
       ],
       "functional": [],

@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-10T10:48:26+00:00",
+  "fetched_at": "2026-09-11T20:41:33+00:00",
   "license": "CC0 1.0. The interaction and reagent fields are excluded: they carry TripSit's and ProtestKit's terms, not dose.wiki's.",
   "license_url": "https://dose.wiki/docs/license",
   "records": [
@@ -102978,7 +102978,7 @@
                 "unit": "µg"
               }
             },
-            "notes": "The exceptional potency of fentanyl makes precise dosage measurement essential for this route. The risk of respiratory depression remains significant at all experience levels.",
+            "notes": "The exceptional potency of fentanyl makes precise dosage measurement essential for this route. The risk of respiratory depression remains significant at all experience levels. Sublingual use of transdermal systems through methods such as chewing is relatively undocumented in scientific literature and is largely available as case reports.",
             "reference_ids": [],
             "route": "sublingual"
           },
@@ -103196,7 +103196,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "3de8fc6431484bfa46aadf755d31bf16e6ea9dbe7119c00887d2b72d5f63603f",
+      "publicRevision": "ed5d6bba1793caf84fce2e0f507760b461e94d095164be00f5963283ea0320f1",
       "references": [
         {
           "access": "abstract_only",
@@ -103802,6 +103802,38 @@
           "url": "https://doi.org/10.1378/chest.12-2131",
           "volume": null,
           "year": 2013
+        },
+        {
+          "access": "unknown",
+          "accessedAt": null,
+          "apaText": null,
+          "articleNumber": null,
+          "authors": [
+            "I. A. Liappas",
+            "N. P. Dimopoulos",
+            "E. Mellos",
+            "O. E. Gitsa",
+            "A. I. Liappas",
+            "A. D. Rabavilas"
+          ],
+          "containerTitle": null,
+          "date": null,
+          "doi": "10.1177/0269881104042634",
+          "id": "doi-10-1177-0269881104042634",
+          "isbn": null,
+          "issue": null,
+          "pages": null,
+          "pmid": null,
+          "publisher": null,
+          "quality": "fallback",
+          "siteName": null,
+          "sourceType": "primary_literature",
+          "supportStatus": "needs_review",
+          "title": "Oral Transmucosal Abuse of Transdermal Fentanyl",
+          "type": "journal_article",
+          "url": "https://doi.org/10.1177/0269881104042634",
+          "volume": null,
+          "year": 2004
         }
       ],
       "slug": "fentanyl",

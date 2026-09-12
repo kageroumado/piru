@@ -2,14 +2,17 @@
   "api": "https://dose.wiki/api/v1",
   "draft_skipped": 310,
   "dropped_fields": {
+    "citations": "landing pages, not citeable works",
     "comparisons": "empty on every record",
+    "harm_potential": "AI-graded risk with no rubric and no surface",
     "history_culture": "AI-drafted narrative, no surface",
     "legality": "per-country legal claims with no surface",
     "pharmacology.receptor_profile": "a restatement of binding_sites",
+    "source_citations": "landing pages, not citeable works",
     "subjective_effects": "effect prose Piru sources elsewhere"
   },
   "expert_reviewed_count": 201,
-  "fetched_at": "2026-09-10T10:48:26+00:00",
+  "fetched_at": "2026-09-11T20:41:33+00:00",
   "human_url_pattern": "https://dose.wiki/{slug}",
   "license": "CC0 1.0. The interaction and reagent fields are excluded: they carry TripSit's and ProtestKit's terms, not dose.wiki's.",
   "license_blocked_fields": [
@@ -19,9 +22,9 @@
   ],
   "license_url": "https://dose.wiki/docs/license",
   "published_count": 267,
-  "records_unchanged": 0,
+  "records_unchanged": 266,
   "records_written": 267,
-  "reference_count": 4257,
+  "reference_count": 4258,
   "roster_total": 577,
   "source": "dose.wiki public API"
 }
