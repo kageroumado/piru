@@ -138,6 +138,67 @@ struct SubstanceReadModel {
         sourceOrderSQL(order).enabledList
     }
 
+    /// The SQL a source-attributed table is ranked by: the `source_field_priority`
+    /// join and the `ORDER BY` terms. Every resolver of a field builds this from
+    /// the same call, so the value shown and the source attributed to it cannot
+    /// come out of different orderings.
+    nonisolated struct FieldRankSQL {
+        /// `LEFT JOIN source_field_priority …`, spliced in after the `sources`
+        /// join. Empty when the field has no override.
+        let join: String
+        /// Ranking expressions, most significant first.
+        let terms: [String]
+
+        /// The terms as an `ORDER BY` list.
+        var orderBy: String {
+            terms.map { "\($0) ASC" }.joined(separator: ", ")
+        }
+    }
+
+    /// Ranking SQL for one field of a source-attributed table aliased `alias`.
+    ///
+    /// `field`, when given, names a field in `source_field_priority` — the
+    /// bundled DB's per-field rank overrides. A source with a row there resolves
+    /// that one field at that rank instead of its position in the user's source
+    /// order, which is why the plain priority case stays on as the last term: a
+    /// tie falls back to the ordinary order. Passing nil ranks on the source
+    /// order alone, so an override has to be asked for and a row added to the
+    /// table cannot move a field nobody meant to move.
+    ///
+    /// `doseContextLast` sorts a `dose_context = 'therapeutic'` row behind every
+    /// recreational or unknown one before rank is consulted at all. A therapeutic
+    /// ladder next to a dose somebody logged reads as a recommendation to take
+    /// that much, and it is the recreational ladder their number means anything
+    /// against.
+    ///
+    /// `field` and `alias` are fixed internal literals (no injection surface).
+    nonisolated static func fieldRankSQL(
+        field: String?,
+        alias: String,
+        order: [String],
+        doseContextLast: Bool = false,
+    ) -> FieldRankSQL {
+        let priorityCase = priorityCaseSQL(order)
+        var terms: [String] = []
+        if doseContextLast {
+            terms.append("(\(alias).dose_context = 'therapeutic')")
+        }
+        guard let field else {
+            terms.append(priorityCase)
+            return FieldRankSQL(join: "", terms: terms)
+        }
+        terms.append("COALESCE(sfp.priority, \(priorityCase))")
+        terms.append(priorityCase)
+        return FieldRankSQL(
+            join: """
+            LEFT JOIN source_field_priority sfp
+                   ON sfp.source_id = \(alias).source_id
+                  AND sfp.field = '\(field.replacingOccurrences(of: "'", with: "''"))'
+            """,
+            terms: terms,
+        )
+    }
+
     private nonisolated static func buildPriorityCaseSQL(_ order: [String]) -> String {
         guard !order.isEmpty else {
             return "999"
@@ -550,10 +611,7 @@ struct SubstanceReadModel {
 
         // Duration-only routes — durations but no dose ladder. Take the NULL-salt
         // (base) duration, matching the legacy `resolvedDurationForRoute` default.
-        let durationByKey = try Self.resolveDurations(
-            db: db, idListSQL: idListSQL,
-            priorityCaseSQL: priorityCaseSQL, enabledSourceListSQL: enabledSourceListSQL,
-        )
+        let durationByKey = try Self.resolveDurations(db: db, idListSQL: idListSQL, order: order)
         let durationRoutes = Set(durationByKey.keys.map(\.route))
         for routeStr in durationRoutes.sorted() {
             let ra = RouteOfAdministration.from(string: routeStr)
@@ -667,26 +725,16 @@ struct SubstanceReadModel {
     /// `machine_translated` + `source_slug` so callers build their typed value.
     /// `table` is a fixed internal literal (no injection surface).
     ///
-    /// `fieldPriority`, when given, names a field in `source_field_priority` —
-    /// the bundled DB's per-field rank overrides. A source with a row there
-    /// resolves this one field at that rank instead of its position in the
-    /// user's source order, and a tie falls back to that order. It is passed by
-    /// the descriptions resolver alone: an override has to be asked for, so a
-    /// row added to the table cannot move a field nobody meant to move.
+    /// `fieldPriority` names this table's field in `source_field_priority`; see
+    /// ``fieldRankSQL(field:alias:order:doseContextLast:)``. It is passed by the
+    /// descriptions resolver alone.
     private func resolvedTextRow(
         db: Database, from table: String, selecting columns: String,
         substanceID: Int64, fieldPriority: String? = nil,
     ) throws -> Row? {
         let lang = language.clauses(column: "t.language")
-        let overrideJoin = fieldPriority.map {
-            """
-            LEFT JOIN source_field_priority sfp
-                   ON sfp.source_id = t.source_id AND sfp.field = '\($0.replacingOccurrences(of: "'", with: "''"))'
-            """
-        } ?? ""
-        let rank = fieldPriority == nil
-            ? priorityCaseSQL
-            : "COALESCE(sfp.priority, \(priorityCaseSQL))"
+        let rank = Self.fieldRankSQL(field: fieldPriority, alias: "t", order: order)
+        let overrideJoin = rank.join
         // Primary: the highest-priority enabled source, in the preferred language.
         if let row = try Row.fetchOne(db, sql: """
             SELECT \(columns), t.machine_translated, src.slug AS source_slug, t.language AS row_language
@@ -696,7 +744,7 @@ struct SubstanceReadModel {
              WHERE t.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
                \(lang.whereAnd)
-             ORDER BY \(lang.orderPrefix)\(rank) ASC, \(priorityCaseSQL) ASC
+             ORDER BY \(lang.orderPrefix)\(rank.orderBy)
              LIMIT 1
         """, arguments: [substanceID]) {
             return row
@@ -718,7 +766,7 @@ struct SubstanceReadModel {
               \(overrideJoin)
              WHERE t.substance_id = ?
                \(lang.whereAnd)
-             ORDER BY \(lang.orderPrefix)\(rank) ASC, \(priorityCaseSQL) ASC
+             ORDER BY \(lang.orderPrefix)\(rank.orderBy)
              LIMIT 1
         """, arguments: [substanceID])
     }
@@ -901,8 +949,8 @@ struct SubstanceReadModel {
     /// ladder the detail view shows.
     nonisolated static func referenceDoseMg(substanceID: Int64, db queue: DatabaseQueue, order: [String]) -> Double? {
         guard !order.isEmpty else { return nil }
-        let priorityCaseSQL = priorityCaseSQL(order)
         let enabledSourceListSQL = enabledSourceListSQL(order)
+        let doseRank = fieldRankSQL(field: "doses", alias: "d", order: order, doseContextLast: true)
         let rows: [(route: String, isomer: String?, common: Double?, strong: Double?, heavy: Double?)]
         do {
             rows = try queue.read { db in
@@ -911,9 +959,10 @@ struct SubstanceReadModel {
                       FROM (
                         SELECT d.*, ROW_NUMBER() OVER (
                             PARTITION BY d.substance_id, d.route, d.salt_form, d.isomer
-                            ORDER BY \(priorityCaseSQL) ASC) AS rn
+                            ORDER BY \(doseRank.orderBy)) AS rn
                           FROM dose_ranges d
                           JOIN sources src ON src.id = d.source_id
+                          \(doseRank.join)
                          WHERE d.substance_id = ?
                            AND src.slug IN (\(enabledSourceListSQL))
                     ) WHERE rn = 1

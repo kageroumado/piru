@@ -86,13 +86,68 @@ struct SourceFieldPriorityTests {
 
         // Every other field resolves on plain source priority, where dose.wiki is
         // last — so it may only win one where no other source has a value.
+        // Durations are exempt: an override can rank a source beneath dose.wiki
+        // there, which is what `durations`/drug.community does.
         let prov = try #require(store.provenance(forSubstanceName: "MDMA"))
         #expect(prov.categorySource != "dosewiki")
         #expect(prov.mechanismSource != "dosewiki")
         for (_, route) in prov.routesBySource {
             #expect(route.doseSource != "dosewiki")
-            #expect(route.durationSource != "dosewiki")
         }
+    }
+
+    @Test
+    @MainActor
+    func `drug.community's timeline ranks beneath the wikis`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        // drug.community outranks both wikis in the user's order, and its
+        // timelines are point estimates where theirs are intervals — so a
+        // `durations` override drops it beneath them for phases alone.
+        for (name, route) in [
+            ("Heroin", RouteOfAdministration.intravenous),
+            ("Methamphetamine", .inhalation),
+        ] {
+            let prov = try #require(store.provenance(forSubstanceName: name))
+            let source = try #require(prov.routesBySource[route]?.durationSource, "\(name) \(route)")
+            #expect(source != "drug.community", "\(name) \(route) resolved \(source)")
+        }
+
+        // The number the override exists for: PsychonautWiki puts intravenous
+        // heroin's come-up at 0–5 seconds, drug.community at 29.5 minutes.
+        let iv = try #require(
+            store.lookup("Heroin")?.routes.first { $0.route == .intravenous },
+            "Heroin has no intravenous route",
+        )
+        let comeup = try #require(iv.duration?.comeup, "Heroin intravenous has no come-up")
+        #expect(comeup.max < 1, "come-up resolved \(comeup.max) min")
+    }
+
+    @Test
+    @MainActor
+    func `The override moves durations and not doses`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        // drug.community's dose ladders keep its ordinary rank, which for
+        // intravenous heroin is above both wikis.
+        let prov = try #require(store.provenance(forSubstanceName: "Heroin"))
+        #expect(prov.routesBySource[.intravenous]?.doseSource == "drug.community")
+    }
+
+    @Test
+    @MainActor
+    func `A recreational ladder outranks a therapeutic one`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        // Nicotine carries a curated NRT ladder (therapeutic, 8–16 mg oral) and
+        // PsychonautWiki's recreational one (3–5 mg). piru-curated leads the
+        // source order, so on rank alone the lozenge ladder would sit beside a
+        // logged recreational dose and read as the dose to take.
+        let prov = try #require(store.provenance(forSubstanceName: "Nicotine"))
+        #expect(prov.routesBySource[.oral]?.doseSource == "psychonautwiki")
     }
 
     @Test
