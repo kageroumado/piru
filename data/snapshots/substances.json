@@ -257,12 +257,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 240.0,
     "mechanism_summary": "基于其与 LSD 的结构相似性，1B-LSD 可能作为 5-HT 受体的部分激动剂。 迷幻效应被认为主要源于其对分布在整个大脑中的 5-HT 受体的效力。1B-LSD 还可能在广泛的单胺受体（如多巴胺和去甲肾上腺素受体）上表现出结合活性。然而，目前还没有数据支持这些说法。\n\n研究表明，1B-LSD（以及酰基同系物 1P-LSD 和 ALD-52）在体内通过 CYP1A2 和 CYP3A4 脱酰基，通过消除丁酸转化为 LSD，这在人类血清和大鼠的研究中都得到了证实哦。",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "references"
     ]
   },
@@ -405,12 +404,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 240.0,
     "mechanism_summary": "更多信息请见：迷幻剂\n\n基于其与 LSD 的结构相似性，1cP-LSD 可能作为 5-HT 受体的受体激动剂（部分激动剂）发挥作用喵。 迷幻剂效应被认为主要源于它在分布于整个大脑的 5-HT 受体上的效力。1cP-LSD 可能还对广泛的单胺受体显示出结合活性，例如多巴胺和去甲肾上腺素受体。不过，目前还没有数据支持这些说法呢。\n\n由于其与 LSD 的结构相似性，可以提出以下假设：大多数血清素类迷幻剂没有显著的多巴胺活性，因此 1cP-LSD 在这方面被认为是异类喵。在 D 受体上的任何激动活性都可能对其在人类身上的精神活性产生贡献。此外，1cP-LSD 可能会结合除 5-HT 和 5-HT 受体之外的大多数血清素受体亚型。然而，大多数这些受体的亲和力太低，不足以被大约 10–20 nM 的大脑浓度充分激活。娱乐剂量可能会影响 5-HT、5-HT、5-HT、5-HT、5-HT [在克隆的大鼠组织中] 和 5-HT 受体哦。\n\n1cP-LSD 可能是偏向激动剂，它会诱导血清素受体产生一种构象，从而优先招募 β-arrestin 而不是激活 G 蛋白。5-HT 与 1cP-LSD 结合的晶体结构显示，一个胞外环在结合腔的二乙酰胺端形成了一个“盖子”，这解释了它从血清素受体上解离速度缓慢的原因喵。",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "references"
     ]
   },
@@ -6836,12 +6834,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 204.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -6880,7 +6877,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 120.0,
     "mechanism_summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
     "effects": [
       "Acuity enhancement",
@@ -6933,11 +6930,10 @@
       "Teeth grinding",
       "Temperature regulation suppression"
     ],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "Clinical Pharmacokinetics of Psilocin After Psilocybin Administration: A Systematic Review and Post-Hoc Analysis"
+    ],
+    "data_gaps": []
   },
   {
     "name": "4-AcO-DPT",
@@ -10519,13 +10515,11 @@
     "all_routes": [
       "inhalation",
       "insufflation",
-      "oral",
       "sublingual"
     ],
     "routes_with_dose": [
       "inhalation",
       "insufflation",
-      "oral",
       "sublingual"
     ],
     "has_dose_data": true,
@@ -12819,7 +12813,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 60.0,
+    "half_life_minutes": 900.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -13350,12 +13344,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 240.0,
     "mechanism_summary": "ALD-52 通过其代谢产物 LSD 作用于大多数血清素受体亚型，作为部分激动剂，包括 5-HT1A、5-HT2A、5-HT2B、5-HT2C 和 5-HT6 受体喵。它也可以预期作为多巴胺受体（如 D2）的激动剂。人们认为其致幻效果源于 ALD-52 在 5-HT2A 受体亚型的效能呢。\n\nALD-52 与 1P-LSD 和 1B-LSD 一样，是 LSD 的前药，目前尚不清楚它作为母体物质是否能发挥自身的效果。研究发现，ALD-52 除了主要代谢物 LSD 外，还会代谢成两种不同的代谢产物：N-脱乙基 ALD-52 和 N-脱甲基 ALD-52（nor-ALD-52）喵。ALD-52 由 CYP3A4 酶进行 N-脱烷基化代谢，此外，CYP2D6 也参与了羟基化过程哦。",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
       "references"
     ]
   },
@@ -22401,14 +22394,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 4200.0,
     "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "Clinical Pharmacokinetics of Diazepam"
+    ],
+    "data_gaps": []
   },
   {
     "name": "Clotiazepam",
@@ -34316,7 +34308,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 7.6,
+    "half_life_minutes": 174.0,
     "mechanism_summary": "Prodrug deacetylated to 6-MAM and morphine, both potent μ-opioid receptor (MOR) full agonists.",
     "effects": [
       "Anxiety suppression",
@@ -34335,7 +34327,8 @@
       "Sedation"
     ],
     "references": [
-      "Population Pharmacokinetics of Heroin and its Major Metabolites"
+      "Population Pharmacokinetics of Heroin and its Major Metabolites",
+      "Morphine and metabolite behavior after different routes of morphine administration: Demonstration of the importance of the active metabolite morphine-6-glucuronide"
     ],
     "data_gaps": []
   },
@@ -38643,7 +38636,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 25.0,
+    "half_life_minutes": 581.0,
     "mechanism_summary": "Prodrug of Dextroamphetamine (Monoamine Releasing Agent)",
     "effects": [],
     "references": [
@@ -41153,14 +41146,14 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 2760.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "Pharmacokinetics and pharmacodynamics of oral diazepam: effect of dose, plasma concentration, and time"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -50365,7 +50358,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 240.0,
+    "half_life_minutes": 480.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -52221,15 +52214,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 4800.0,
     "mechanism_summary": "Primidone is an analog of phenobarbital and prodrug of phenobarbital and phenylethylmalonamide (PEMA), both active metabolites. These agents are barbiturates that bind to and activate the gamma-aminobutyric acid (GABA)-A receptor, thereby mimicking and enhancing the inhibitory actions of GABA in the brain.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Phenobarbital pharmacokinetics and bioavailability in adults"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -53124,12 +53117,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 50.0,
+    "half_life_minutes": 120.0,
     "mechanism_summary": "Prodrug → Psilocin (5-HT2A Agonist)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Psilocybin",
-      "Pharmacokinetics of Psilocybin: A Systematic Review"
+      "Pharmacokinetics of Psilocybin: A Systematic Review",
+      "Clinical Pharmacokinetics of Psilocin After Psilocybin Administration: A Systematic Review and Post-Hoc Analysis"
     ],
     "data_gaps": []
   },

@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-09-11.6 → `Piru/Data/piru-substances.sqlite` (19,365,888 bytes, sha256 `b3cbde7fe64d845920c3eda3d11d1300c0c1833fde681d248732c645e3a3bee3`)
+Built 2026-09-12.2 → `Piru/Data/piru-substances.sqlite` (19,369,984 bytes, sha256 `a4d13d7ea69cc158a487e2beb41370df0cd98cae58bfa493c1322af9eb0c0f67`)
 
 ## Row counts
 
@@ -13,9 +13,9 @@ Built 2026-09-11.6 → `Piru/Data/piru-substances.sqlite` (19,365,888 bytes, sha
 | citations | 2,886 |
 | categories | 1,560 |
 | tags | 7,050 |
-| dose_ranges | 2,765 |
-| durations | 10,554 |
-| half_lives | 703 |
+| dose_ranges | 2,764 |
+| durations | 10,552 |
+| half_lives | 716 |
 | mechanisms_summary | 1,146 |
 | effects | 2,952 |
 | subjective_effects | 23,503 |
@@ -114,4 +114,4 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
 | freeodwiki | 320 | 0 | 28 | 0 |
-| dosewiki | 294 | 12 | 0 | 0 |
+| dosewiki | 293 | 12 | 0 | 0 |
