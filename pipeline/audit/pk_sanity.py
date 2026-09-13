@@ -22,9 +22,12 @@ This cross-checks each substance that carries both columns:
 Only human and unstated-species pk_routes rows are compared — an animal row's
 half-life is scaled downstream and would flag as a disagreement it isn't.
 
-Known-but-unfixed contradictions are waived in WAIVERS below, each naming its
-reason; fix the data (in `data/curated/`, then `pipeline/build.sh fast`),
-remove the waiver, and the gate holds it fixed.
+Known-but-unfixed contradictions are waived in
+`data/curated/elimination-consistency-allowlist.json` — the same file the Swift
+EliminationConsistencyTests reads, so a waiver is written once and both gates
+honor it. Only its `halflife-pk` entries apply here; `override` entries compare
+a different pair. Fix the data (in `data/curated/`, then `pipeline/build.sh
+fast`), remove the waiver, and the gate holds it fixed.
 
     python3 pipeline/audit/pk_sanity.py                # ranked report
     python3 pipeline/audit/pk_sanity.py --gate         # exit 1 on unexplained
@@ -36,6 +39,7 @@ Offline and deterministic — it reads only the built SQLite.
 from __future__ import annotations
 
 import argparse
+import json
 import sqlite3
 import sys
 from collections import defaultdict
@@ -44,10 +48,22 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 DEFAULT_DB = REPO / "Piru/Data/piru-substances.sqlite"
 
-#: Substances whose unexplained contradiction is known, logged, and awaiting a
-#: sourced fix (Specs/found-defects.md). A waiver only suppresses the gate; the
-#: report still prints the row. Remove the entry when the data is corrected.
-WAIVERS: dict[str, str] = {}
+ALLOWLIST = REPO / "data/curated/elimination-consistency-allowlist.json"
+
+#: The `pair` value naming the comparison this gate makes. The file also carries
+#: `override` entries, which compare the felt-effect ke patch instead.
+WAIVED_PAIR = "halflife-pk"
+
+
+def load_waivers(path: Path) -> dict[str, str]:
+    """Substance name (lowercased) -> the prose reason the contradiction stands.
+
+    A waiver only suppresses the gate; the report still prints the row.
+    """
+    if not path.exists():
+        return {}
+    entries = json.loads(path.read_text())["entries"]
+    return {e["name"].lower(): e["note"] for e in entries if e.get("pair") == WAIVED_PAIR}
 
 
 def load(db_path: Path):
@@ -71,7 +87,7 @@ def load(db_path: Path):
     return half_lives, pk_routes
 
 
-def findings(half_lives, pk_routes, ratio_gate: float):
+def findings(half_lives, pk_routes, ratio_gate: float, waivers: dict[str, str]):
     rows = []
     for name in sorted(set(half_lives) & set(pk_routes)):
         hl_values = half_lives[name]
@@ -91,7 +107,7 @@ def findings(half_lives, pk_routes, ratio_gate: float):
                 "half_lives": sorted(hl_values),
                 "pk_routes": sorted(pk_routes[name], key=lambda rm: rm[1]),
                 "route_explained": pk_spread >= 2.0,
-                "waived": name in WAIVERS,
+                "waived": name.lower() in waivers,
             }
         )
     rows.sort(key=lambda r: r["ratio"], reverse=True)
@@ -113,9 +129,12 @@ def main() -> int:
         return 2
 
     half_lives, pk_routes = load(args.db)
-    rows = findings(half_lives, pk_routes, args.ratio)
+    waivers = load_waivers(ALLOWLIST)
+    rows = findings(half_lives, pk_routes, args.ratio, waivers)
 
-    stale_waivers = sorted(set(WAIVERS) - {r["name"] for r in rows})
+    # Reported, never gated: EliminationConsistencyTests compares a wider set of
+    # pairs against the same file, so an entry can be live there and quiet here.
+    stale_waivers = sorted(set(waivers) - {r["name"].lower() for r in rows})
     unexplained = [r for r in rows if not r["route_explained"] and not r["waived"]]
 
     def fmt(r) -> str:
@@ -138,7 +157,7 @@ def main() -> int:
         print(f"\nWAIVED ({len(waived_rows)}) — known contradictions awaiting a sourced fix:")
         for r in waived_rows:
             print(fmt(r))
-            print(f"          note: {WAIVERS[r['name']]}")
+            print(f"          note: {waivers[r['name'].lower()]}")
     if unexplained:
         print(
             f"\nUNEXPLAINED ({len(unexplained)}) — no pairing agrees and the routes agree with each other:"
@@ -147,12 +166,13 @@ def main() -> int:
             print(fmt(r))
     if stale_waivers:
         print(
-            f"\nSTALE WAIVERS — no longer tripping, delete from WAIVERS: {', '.join(stale_waivers)}"
+            f"\nQUIET HERE ({len(stale_waivers)}) — waived in the allowlist, not tripping this "
+            f"gate: {', '.join(stale_waivers)}"
         )
     if not rows and not stale_waivers:
         print("pk_sanity: no half_lives vs pk_routes disagreement above the threshold.")
 
-    if args.gate and (unexplained or stale_waivers):
+    if args.gate and unexplained:
         return 1
     return 0
 

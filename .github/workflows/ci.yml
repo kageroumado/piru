@@ -138,6 +138,8 @@ jobs:
       # on two screens. Route-spread cases are pharmacology; the rest are gated.
       - name: half_lives and pk_routes tell one story
         run: python3 pipeline/audit/pk_sanity.py --gate
+      - name: pk_sanity waiver plumbing
+        run: python3 pipeline/audit/tests/test_pk_sanity.py
       # One dash spelling out of six, or the wrong micro sign, makes a quantity
       # parser match the leading number and drop the unit — a wrong value that
       # reads as a parsed one.
