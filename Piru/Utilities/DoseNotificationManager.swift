@@ -116,6 +116,7 @@ enum DoseNotificationManager {
             newAmount: entry.amount,
             unit: entry.unit,
             route: entry.route,
+            doseTime: entry.timestamp,
             existingEntries: recentEntries,
         )
         guard shouldAlert else { return }
@@ -125,6 +126,7 @@ enum DoseNotificationManager {
             totalAmount: total,
             unit: totalUnit,
             category: resolved.substance?.category,
+            doseTime: entry.timestamp,
             displayName: resolved.displayName,
         )
     }
@@ -141,7 +143,11 @@ enum DoseNotificationManager {
         in context: ModelContext?,
     ) -> (substance: Substance?, duration: DurationProfile?, displayName: String?) {
         let substance = library(for: entry)
-        let duration = substance?.resolveDuration(for: entry.route)
+        // The envelope the reminders are timed from — a named ER product's own
+        // authored one ("Concerta" peaks hours after Ritalin would), the base
+        // route profile otherwise: the same precedence the live session and
+        // the timeline draw from, so a phase alert lands where the curve says.
+        let duration = ActiveSessionManager.resolveDuration(substance: substance, entry: entry)
         // The name to *show* in copy — the brand the dose was logged as
         // ("Concerta"), so a notification never reverts to "Methylphenidate".
         let displayName = DoseTitle.resolve(for: entry)

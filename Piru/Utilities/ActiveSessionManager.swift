@@ -68,6 +68,11 @@ final class ActiveSessionManager {
     /// ``LiveActivityManager/recoverEntriesFromActivity()``.
     func recoverSession(container: ModelContainer) {
         guard activeEntries.isEmpty else { return }
+        defer {
+            // A Live Activity that outlived the process has had no update
+            // source since it was pushed; give it the recovered session now.
+            LiveActivityManager.shared.resumeIfRunning()
+        }
 
         if recoverFromStore(container: container) { return }
 

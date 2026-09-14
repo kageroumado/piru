@@ -59,7 +59,7 @@ private struct PushRouteView: View {
             // is gone, render nothing.
             if let entry = lookupEntry(id: id, near: timestamp),
                let substance = SubstanceLibrary.resolveFull(entry.substance),
-               let duration = substance.resolveDuration(for: entry.route) {
+               let duration = ActiveSessionManager.resolveDuration(substance: substance, entry: entry) {
                 RampDownView(entry: entry, duration: duration)
             }
 

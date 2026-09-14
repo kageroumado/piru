@@ -268,7 +268,6 @@ struct TrayMetaChips: View {
                     },
                     set: { model.time = .custom($0) },
                 ),
-                in: ...Date.now,
             )
             .datePickerStyle(.graphical)
             .frame(width: 320)

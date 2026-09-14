@@ -124,8 +124,11 @@ struct EntryReadContent: View {
         }
     }
 
+    /// The envelope the ramp-down screen and its comedown alert run on — a
+    /// named ER product's own, the base route profile otherwise, and none for
+    /// a form the app declines to model. Same precedence as the timeline.
     private var resolvedDuration: DurationProfile? {
-        substance?.resolveDuration(for: entry.route)
+        ActiveSessionManager.resolveDuration(substance: substance, entry: entry)
     }
 
     private var hasActiveRampDown: Bool {

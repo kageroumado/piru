@@ -64,10 +64,11 @@ struct DoseSnapshot {
     ///
     /// Singleton owned by the app process. Responsibilities:
     /// - Starts, updates, and ends the `Activity<PiruActivityAttributes>` widget.
-    /// - Drives a 60-second periodic refresh `Timer` while a session is active so the
-    ///   widget's timeline graph and "last updated" timestamp stay current.
+    /// - Drives a phase-boundary-aligned refresh `Timer` while a session is active so
+    ///   the widget's phase label, timeline graph, and countdown target stay current.
     /// - Recovers session state across cold launches by reading the running activity's
-    ///   `contentState` (see `recoverEntriesFromActivity`).
+    ///   `contentState` (see `recoverEntriesFromActivity`), and re-arms every update
+    ///   source for an adopted activity (see `resumeIfRunning`).
     /// - Posts a Darwin notification so other targets (the widget extension) can
     ///   re-render when content changes.
     /// - Schedules background app refresh via `BGTaskScheduler` to keep the widget
@@ -170,10 +171,38 @@ struct DoseSnapshot {
 
             if currentActivity != nil {
                 startUpdateTimer()
+                scheduleBackgroundRefresh()
                 pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
             } else if isAutoStartEnabled {
                 startActivity(state: state)
             }
+        }
+
+        /// Re-arm every update source for an activity that is already on the
+        /// Lock Screen: a fresh push (so the phase label and the countdown's
+        /// target boundary are current, and ``staleDate()`` is measured from
+        /// now), the foreground tick, and the background refresh.
+        ///
+        /// Called on cold launch after session recovery and whenever the app
+        /// returns to the foreground. Without it an adopted activity has no
+        /// update source at all — `init` only takes the reference — so the
+        /// widget keeps the label and boundary of its last push until the user
+        /// logs another dose: the "time and phase frozen" report.
+        ///
+        /// Only a running activity is refreshed; this never starts one, so a
+        /// widget the user dismissed stays dismissed across a relaunch.
+        func resumeIfRunning() {
+            guard currentActivity != nil else { return }
+            let session = ActiveSessionManager.shared
+            session.refresh()
+            guard !session.activeEntries.isEmpty else {
+                stopUpdateTimer()
+                return
+            }
+            let state = session.buildContentState(colorMap: session.cachedColorMap)
+            startUpdateTimer()
+            scheduleBackgroundRefresh()
+            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
         }
 
         /// Manually start (or refresh) the Live Activity for the current session,
@@ -460,6 +489,7 @@ struct DoseSnapshot {
         }
 
         func sessionDidChange() {}
+        func resumeIfRunning() {}
         func sessionCleared() {}
         func startLiveActivity() {}
         func hideLiveActivity() {}

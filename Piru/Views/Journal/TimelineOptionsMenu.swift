@@ -25,9 +25,15 @@ nonisolated enum TimelineBubbleStyle: String, Codable {
 }
 
 /// The vertical timeline's display options as one `Menu` — zoom and curve
-/// mode as submenus that show their current value, then the four toggles. Both surfaces that draw the strip (the pushed Timeline screen's
-/// toolbar and the Journal's Timeline grouping) present this same menu over
-/// the same app-group defaults, so a change made on either shows on the other.
+/// mode as submenus that show their current value, then the three toggles.
+/// Both surfaces that draw the strip (the pushed Timeline screen's toolbar
+/// and the Journal's Timeline grouping) present this same menu over the same
+/// app-group defaults, so a change made on either shows on the other.
+///
+/// Zoom, curves, and gap compression describe the strip's geometry, so with
+/// the axis off — the bubbles stacked as a plain list — they are left out
+/// rather than offered with no visible effect. (`.disabled` on a menu-style
+/// `Picker` inside a `Menu` renders it fully active on iOS 26.)
 struct TimelineOptionsMenu<Label: View>: View {
     @Binding var zoom: Double
     @Binding var compressGaps: Bool
@@ -45,27 +51,31 @@ struct TimelineOptionsMenu<Label: View>: View {
 
     var body: some View {
         Menu {
-            Picker(selection: $zoom) {
-                ForEach(TimelineZoom.presets, id: \.self) { preset in
-                    Text(TimelineZoom.label(preset)).tag(preset)
+            if showsAxis {
+                Picker(selection: $zoom) {
+                    ForEach(TimelineZoom.presets, id: \.self) { preset in
+                        Text(TimelineZoom.label(preset)).tag(preset)
+                    }
+                } label: {
+                    Text("Zoom")
+                    Text(TimelineZoom.label(zoom))
                 }
-            } label: {
-                Text("Zoom")
-                Text(TimelineZoom.label(zoom))
+                .pickerStyle(.menu)
+                Picker(selection: $pkCurves) {
+                    Text("Effect curves").tag(false)
+                    Text("Body load (PK)").tag(true)
+                } label: {
+                    Text("Curves")
+                    Text(pkCurves ? "Body load (PK)" : "Effect curves")
+                }
+                .pickerStyle(.menu)
+                Divider()
             }
-            .pickerStyle(.menu)
-            Picker(selection: $pkCurves) {
-                Text("Effect curves").tag(false)
-                Text("Body load (PK)").tag(true)
-            } label: {
-                Text("Curves")
-                Text(pkCurves ? "Body load (PK)" : "Effect curves")
-            }
-            .pickerStyle(.menu)
-            Divider()
             Toggle("Show Timeline Axis", isOn: $showsAxis)
             Toggle("Compact Entries", isOn: compactEntries)
-            Toggle("Compress Empty Time", isOn: $compressGaps)
+            if showsAxis {
+                Toggle("Compress Empty Time", isOn: $compressGaps)
+            }
         } label: {
             label()
         }

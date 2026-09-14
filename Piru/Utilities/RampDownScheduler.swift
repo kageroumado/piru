@@ -17,9 +17,9 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 ///
 /// Doses logged within a rolling 6-hour window share a notification
 /// `threadIdentifier` so iOS groups them into a single session in
-/// Notification Center. Cumulative-dose alerts and other wellness reminders
-/// are deduplicated within a 90-minute window against the pending request
-/// queue to avoid spamming the user during a multi-dose session.
+/// Notification Center. Hydration and sleep reminders are deduplicated within
+/// a 90-minute window against the pending request queue to avoid spamming the
+/// user during a multi-dose session.
 ///
 /// Comedown alerts are keyed off a stable per-entry string (see
 /// ``entryKey(for:)``) derived from the dose's stable identity, so the
@@ -622,14 +622,22 @@ enum RampDownScheduler {
     /// (200 mg + 0.3 g) compare truthfully against the dose ladder; an entry
     /// with no conversion path (mL, sprays, IU) contributes nothing rather than
     /// summing as a raw number in the wrong unit.
+    ///
+    /// `doseTime` is the new dose's own timestamp. A dose outside the window —
+    /// backdated past it, or dated ahead of now — never alerts: the alert
+    /// fires seconds after logging, and "a high cumulative dose today" is a
+    /// false claim about a dose taken a year ago.
     static func checkCumulativeDose(
         substanceName: String,
         newAmount: Double,
         unit: String,
         route: RouteOfAdministration,
+        doseTime: Date = .now,
         existingEntries: [DoseEntry],
     ) -> (total: Double, unit: String, shouldAlert: Bool) {
-        let windowStart = Date.now.addingTimeInterval(-Timing.cumulativeDoseWindow)
+        let now = Date.now
+        let windowStart = now.addingTimeInterval(-Timing.cumulativeDoseWindow)
+        let newDoseIsCurrent = doseTime >= windowStart && doseTime <= now
         let recentSame = existingEntries.filter {
             $0.substance.lowercased() == substanceName.lowercased() &&
                 $0.timestamp >= windowStart
@@ -651,6 +659,7 @@ enum RampDownScheduler {
             sum + (substance.convert(amount: entry.amount, from: entry.unit, toRoute: route) ?? 0)
         }
         let total = priorTotal + (substance.convert(amount: newAmount, from: unit, toRoute: route) ?? newAmount)
+        guard newDoseIsCurrent else { return (total, routeUnit, false) }
 
         // Alert if cumulative is at or above the heavy threshold
         if let heavy = doseRange.heavy, total >= heavy {

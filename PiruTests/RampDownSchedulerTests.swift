@@ -242,6 +242,41 @@ struct RampDownSchedulerTests {
     }
 
     @Test
+    func `A dose backdated past the window never alerts`() {
+        // 5 g of caffeine is far past any ladder's heavy threshold; the only
+        // thing standing between it and an alert is the dose's own date.
+        let (current, _, alertsNow) = RampDownScheduler.checkCumulativeDose(
+            substanceName: "caffeine",
+            newAmount: 5_000,
+            unit: "mg",
+            route: .oral,
+            existingEntries: [],
+        )
+        #expect(current == 5_000)
+        #expect(alertsNow)
+
+        let (_, _, alertsBackdated) = RampDownScheduler.checkCumulativeDose(
+            substanceName: "caffeine",
+            newAmount: 5_000,
+            unit: "mg",
+            route: .oral,
+            doseTime: Date.now.addingTimeInterval(-400 * 86_400),
+            existingEntries: [],
+        )
+        #expect(!alertsBackdated)
+
+        let (_, _, alertsFuture) = RampDownScheduler.checkCumulativeDose(
+            substanceName: "caffeine",
+            newAmount: 5_000,
+            unit: "mg",
+            route: .oral,
+            doseTime: Date.now.addingTimeInterval(3_600),
+            existingEntries: [],
+        )
+        #expect(!alertsFuture)
+    }
+
+    @Test
     func `Mixed-unit entries are converted before summing`() {
         // 0.2 g logged earlier + 100 mg now = 300 mg, not 100.2 of anything.
         let entry = DoseEntry(

@@ -42,6 +42,9 @@ struct ContentView: View {
             .onChange(of: scenePhase) {
                 if scenePhase == .active {
                     ActiveSessionManager.shared.refresh()
+                    // The foreground tick died with the suspension; the Lock
+                    // Screen widget gets a current push and a re-armed tick.
+                    LiveActivityManager.shared.resumeIfRunning()
                 }
             }
     }
