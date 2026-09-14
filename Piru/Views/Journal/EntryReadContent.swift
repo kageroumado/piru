@@ -155,7 +155,7 @@ struct EntryReadContent: View {
 
     /// Grams of ethanol in this committed dose, when the unit is a mass.
     private var entryGramsEthanol: Double? {
-        guard isAlcoholEntry else { return nil }
+        guard isAlcoholEntry, !entry.isUnknownDose else { return nil }
         switch entry.unit.trimmingCharacters(in: .whitespaces).lowercased() {
         case "g", "gram", "grams": return entry.amount
         case "mg", "milligram", "milligrams": return entry.amount / 1_000
@@ -184,6 +184,7 @@ struct EntryReadHero: View {
                             amount: entry.amount,
                             unit: entry.unit,
                             isApproximate: entry.isApproximate,
+                            isUnknown: entry.isUnknownDose,
                             numberStyle: .largeTitle,
                             numberWeight: .bold,
                             unitStyle: .title3,
@@ -237,7 +238,7 @@ struct EntryReadHero: View {
     /// was logged on — isomer included. Omitting the isomer here while the edit
     /// path includes it made the two modes disagree about the same dose.
     private var committedDoseLevel: DoseLevel? {
-        guard let sub = substance, sub.displayClass.showsDoseLadder,
+        guard !entry.isUnknownDose, let sub = substance, sub.displayClass.showsDoseLadder,
               let range = sub.doseRange(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer) else { return nil }
         let refUnit = sub.unit(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer)
         let amount = entry.unit.caseInsensitiveCompare(refUnit) == .orderedSame

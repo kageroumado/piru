@@ -41,7 +41,7 @@ struct TimelineDoseBubble: View {
     }
 
     private var doseText: String {
-        "\(item.amount.doseFormatted) \(item.unit)"
+        "\(item.isUnknownDose ? "?" : item.amount.doseFormatted) \(item.unit)"
     }
 
     var body: some View {

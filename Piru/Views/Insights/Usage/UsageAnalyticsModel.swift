@@ -170,8 +170,10 @@ final class UsageAnalyticsModel {
                 substanceIndex: substanceIndex,
                 categoryIndex: categoryIndex,
                 routeIndex: routeIndices[entry.route] ?? 0,
-                doseLevelIndex: ladder?.levelIndex(for: entry.amount, unit: entry.unit),
-                commonDoses: ladder?.commonDoses(for: entry.amount, unit: entry.unit),
+                // An unknown dose is counted but has no tier and no common-dose
+                // multiple — a 0 would read as the lowest tier.
+                doseLevelIndex: entry.isUnknownDose ? nil : ladder?.levelIndex(for: entry.amount, unit: entry.unit),
+                commonDoses: entry.isUnknownDose ? nil : ladder?.commonDoses(for: entry.amount, unit: entry.unit),
                 timestamp: entry.timestamp,
             ))
         }

@@ -287,6 +287,7 @@ struct ReportsView: View {
                     route: entry.route.displayName,
                     timestamp: entry.timestamp,
                     notes: entry.notes,
+                    isUnknownDose: entry.isUnknownDose,
                     identityKey: entry.identityKey,
                     routeRaw: entry.route.rawValue,
                     substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),

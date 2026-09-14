@@ -21,6 +21,10 @@ struct MeasurementLabel: View {
     /// like a measured figure. Off for the cumulative "In Your Body" totals,
     /// which are computed, not guessed.
     var isApproximate: Bool = false
+    /// Whether the amount is unknown (``DoseEntry/isUnknownDose``) — the numeral
+    /// is a `?` in the same rounded face, the unit still trails it, and VoiceOver
+    /// reads "unknown amount". Takes precedence over ``isApproximate``.
+    var isUnknown: Bool = false
     /// The numeral's text style — the tunable "size" of the readout.
     var numberStyle: Font.TextStyle = .title3
     var numberWeight: Font.Weight = .semibold
@@ -30,7 +34,7 @@ struct MeasurementLabel: View {
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: Spacing.xxs) {
-            Text(verbatim: "\(isApproximate ? "~" : "")\(amount.doseFormatted)")
+            Text(verbatim: numeral)
                 .font(.system(numberStyle, design: .rounded).weight(numberWeight))
                 .foregroundStyle(.primary)
             Text(displayUnit)
@@ -42,8 +46,14 @@ struct MeasurementLabel: View {
         .accessibilityLabel(accessibilityText)
     }
 
+    private var numeral: String {
+        if isUnknown { return "?" }
+        return "\(isApproximate ? "~" : "")\(amount.doseFormatted)"
+    }
+
     private var accessibilityText: Text {
-        isApproximate
+        if isUnknown { return Text("unknown amount") }
+        return isApproximate
             ? Text("approximately \(amount.doseFormatted) \(displayUnit)")
             : Text(verbatim: "\(amount.doseFormatted) \(displayUnit)")
     }

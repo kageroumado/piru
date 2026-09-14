@@ -92,6 +92,8 @@ enum ActiveSubstanceCalculator {
             // A per-product envelope (Concerta, Adderall XR) models the extended
             // release, so its dose contributes a body-load estimate with the right
             // absorption limb — unlike a bare unmodeled form, which we still skip.
+            // No amount, no body load: 0 remaining of 0 dosed is not a fraction.
+            if entry.isUnknownDose { continue }
             let productDuration = entry.productDuration
             let isDepot = PKResolver.isDepot(entry: entry)
             // A depot bypasses the unmodeled-form skip (it has no acute form to model,
@@ -242,6 +244,10 @@ extension ActiveSubstanceState {
     /// *does* have a curve (a daily-med amphetamine), filtered in
     /// ``TimelineWindowModel``.
     static func from(entry: DoseEntry, colorHex: String) -> ActiveSubstanceState? {
+        // A dose of unknown amount has no intensity to draw; it lands as a
+        // timestamp marker. This one guard is what keeps it out of Active Now,
+        // the Live Activity, the timeline curves, and the session effect models.
+        if entry.isUnknownDose { return nil }
         // Timeline path: the lightweight batch row carries everything used below
         // (category, dose-ranges, durations, half-life, aliases) without the
         // heavy per-substance chem/mechanism SQL. Falls back to the full lookup

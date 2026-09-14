@@ -27,8 +27,14 @@ struct RecentDoseEntry: TimelineEntry {
     let substance: String?
     let amount: Double
     let unit: String
+    /// A dose logged with no amount — shown as `?`.
+    var isUnknownDose = false
     let doseTime: Date?
     let colorHex: String
+
+    var amountDisplay: String {
+        isUnknownDose ? "?" : amount.doseFormatted
+    }
 }
 
 // MARK: - Provider
@@ -96,6 +102,7 @@ struct RecentDoseProvider: TimelineProvider {
             substance: shownSubstance,
             amount: entry.amount,
             unit: entry.unit,
+            isUnknownDose: entry.isUnknownDose,
             doseTime: entry.timestamp,
             colorHex: hex,
         )
@@ -139,7 +146,7 @@ struct RecentDoseView: View {
                     Text(substance)
                         .font(.subheadline.weight(.semibold))
                         .lineLimit(1)
-                    Text("\(entry.amount.doseFormatted) \(entry.unit)")
+                    Text("\(entry.amountDisplay) \(entry.unit)")
                         .font(.title3.weight(.bold))
                         .foregroundStyle(WidgetColors.accent)
                     if let doseTime = entry.doseTime {
@@ -195,7 +202,7 @@ struct RecentDoseView: View {
                     // Amount + unit are verbatim numerals — nothing to localize.
                     // The relative component self-updates as time passes.
                     HStack(spacing: 0) {
-                        Text(verbatim: "\(entry.amount.doseFormatted) \(entry.unit) · ")
+                        Text(verbatim: "\(entry.amountDisplay) \(entry.unit) · ")
                         if let doseTime = entry.doseTime {
                             Text(doseTime, style: .relative)
                         }

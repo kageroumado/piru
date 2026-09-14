@@ -87,7 +87,8 @@ struct TodaySummaryProvider: TimelineProvider {
         for entry in entries {
             let key = entry.substance
             var existing = grouped[key] ?? (total: 0, unit: entry.unit, count: 0, lastTime: entry.timestamp)
-            existing.total += entry.amount
+            // An unknown dose counts as a dose taken but adds nothing to the total.
+            if !entry.isUnknownDose { existing.total += entry.amount }
             existing.count += 1
             if entry.timestamp > existing.lastTime { existing.lastTime = entry.timestamp }
             grouped[key] = existing

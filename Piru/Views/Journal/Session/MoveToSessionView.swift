@@ -66,7 +66,7 @@ struct MoveToSessionView: View {
                                 Text(CustomSubstanceStore.shared.displayName(for: dose.substance))
                                     .cardTitle()
                                 Spacer()
-                                Text("\(dose.amount.doseFormatted) \(dose.unit)")
+                                Text("\(dose.amountDisplay) \(dose.unit)")
                                     .font(.subheadline)
                                     .foregroundStyle(Theme.secondaryLabel)
                             }

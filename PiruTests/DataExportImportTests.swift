@@ -707,6 +707,18 @@ struct DataExportImportFormatTests {
         )
         context.insert(med)
         med.session = session
+        let guess = DoseEntry(
+            substance: "Ketamine", amount: 50, unit: "mg", route: .insufflation,
+            timestamp: Date(timeIntervalSince1970: 1_700_007_200), isApproximate: true,
+        )
+        context.insert(guess)
+        guess.session = session
+        let unknown = DoseEntry(
+            substance: "Cocaine", amount: 0, unit: "mg", route: .insufflation,
+            timestamp: Date(timeIntervalSince1970: 1_700_010_800), isUnknownDose: true,
+        )
+        context.insert(unknown)
+        unknown.session = session
         context.insert(FavoriteSubstance(substance: "MDMA"))
         try context.save()
 
@@ -723,16 +735,25 @@ struct DataExportImportFormatTests {
         let sessions = try context.fetch(FetchDescriptor<Session>())
         let restored = try #require(sessions.first { $0.title == "Festival Saturday" })
         #expect(restored.note == "great set")
-        #expect(restored.orderedDoses.count == 2)
+        #expect(restored.orderedDoses.count == 4)
 
         let entries = try context.fetch(FetchDescriptor<DoseEntry>())
         let mdma = try #require(entries.first { $0.substance == "MDMA" })
         #expect(mdma.tags == ["party"])
         #expect(mdma.isBackgroundMed == false)
+        #expect(mdma.isApproximate == false)
+        #expect(mdma.isUnknownDose == false)
         #expect(mdma.locationName == "Main Stage")
         #expect(mdma.session?.id == restored.id)
         let mag = try #require(entries.first { $0.substance == "Magnesium" })
         #expect(mag.isBackgroundMed == true)
+        let ketamine = try #require(entries.first { $0.substance == "Ketamine" })
+        #expect(ketamine.isApproximate == true)
+        #expect(ketamine.amount == 50)
+        let cocaine = try #require(entries.first { $0.substance == "Cocaine" })
+        #expect(cocaine.isUnknownDose == true)
+        #expect(cocaine.amount == 0)
+        #expect(cocaine.isApproximate == false)
 
         let favorites = try context.fetch(FetchDescriptor<FavoriteSubstance>())
         #expect(favorites.contains { $0.substance == "MDMA" })

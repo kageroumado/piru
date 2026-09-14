@@ -1462,6 +1462,16 @@ T = {
     ),
     # ---- Approximate dose flag ----
     "Approximate amount": ("近似用量", "近似用量"),
+    "Unknown amount": ("用量未知", "用量未知"),
+    "unknown amount": ("用量未知", "用量未知"),
+    "Logs the dose with no number; it stays out of curves, totals, and tolerance.": (
+        "不记录数值；这条记录不会计入曲线、总量和耐受性。",
+        "不記錄數值；這條記錄不會計入曲線、總量和耐受性。",
+    ),
+    "Logged with no number — stays out of curves, totals, and tolerance.": (
+        "不记录数值——不会计入曲线、总量和耐受性。",
+        "不記錄數值——不會計入曲線、總量和耐受性。",
+    ),
     "Shows the dose with a ~; the estimate still drives the curves.": (
         "剂量会显示为 ~；这个估计值仍会用于绘制曲线。",
         "劑量會顯示為 ~；這個估計值仍會用於繪製曲線。",
@@ -7179,6 +7189,11 @@ if __name__ == "__main__":
         "Approximate amount",
         "Shows the dose with a ~; the estimate still drives the curves.",
         "approximately %@ %@",
+        # Unknown-dose flag (CLI-added; Xcode hasn't extracted them yet).
+        "Unknown amount",
+        "unknown amount",
+        "Logs the dose with no number; it stays out of curves, totals, and tolerance.",
+        "Logged with no number — stays out of curves, totals, and tolerance.",
         # Label scanner strings (CLI-added; Xcode hasn't extracted them yet).
         "Scan a label",
         "Close scanner",

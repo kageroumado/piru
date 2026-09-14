@@ -178,7 +178,7 @@ struct ToleranceDoseRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: Spacing.xxs) {
-                Text("\(entry.amount.doseFormatted) \(entry.unit)")
+                Text("\(entry.amountDisplay) \(entry.unit)")
                     .font(.subheadline)
                 Text(entry.route.localizedName)
                     .font(.caption2)

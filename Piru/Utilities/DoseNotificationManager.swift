@@ -111,6 +111,9 @@ enum DoseNotificationManager {
     static func doseLogged(entry: DoseEntry, recentEntries: [DoseEntry], in context: ModelContext? = nil) {
         let resolved = scheduleTimingReminders(for: entry, recentEntries: recentEntries, in: context)
 
+        // A dose of unknown amount adds nothing to a running total, and a total
+        // it is part of is not one worth alerting on.
+        guard !entry.isUnknownDose else { return }
         let (total, totalUnit, shouldAlert) = RampDownScheduler.checkCumulativeDose(
             substanceName: entry.substance,
             newAmount: entry.amount,

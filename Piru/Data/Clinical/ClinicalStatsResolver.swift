@@ -65,8 +65,9 @@ enum ClinicalStatsResolver {
                 ))
             }
 
-            let doseMg = DoseUnit.convert(entry.amount, from: entry.unit, to: "mg")
-            let exposure = exposureValue(
+            // An unknown dose is a dose taken with no exposure to sum.
+            let doseMg = entry.isUnknownDose ? nil : DoseUnit.convert(entry.amount, from: entry.unit, to: "mg")
+            let exposure = entry.isUnknownDose ? nil : exposureValue(
                 currency: meta.currency, substance: meta.substance, entry: entry,
                 doseMg: doseMg, opioids: opioids, benzos: benzos,
             )

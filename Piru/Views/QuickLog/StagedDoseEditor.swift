@@ -84,7 +84,8 @@ struct StagedDoseEditor: View {
             // where they can't share the row without truncating each other
             // into unreadability (matching `TrayCommitBar`'s chips).
             pillLayout {
-                if byVolumeCapability != nil, byDrinkPreferred {
+                StagedDoseUnknownAmountPill(isOn: $item.isUnknownAmount, pillHeight: pillHeight)
+                if byVolumeCapability != nil, byDrinkPreferred, !item.isUnknownAmount {
                     drinkTypeChip
                 }
                 StagedDoseRouteMenu(item: $item, pillHeight: pillHeight, namespace: namespace)
@@ -130,6 +131,15 @@ struct StagedDoseEditor: View {
         }
         .sensoryFeedback(.increase, trigger: model.stepTick)
         .onAppear(perform: seedOnAppear)
+        // Declaring the amount unknown takes the number input off the surface,
+        // so the keyboard it owned goes with it.
+        .onChange(of: item.isUnknownAmount) {
+            if item.isUnknownAmount {
+                amountFocused = false
+                abvFocused = false
+                volumeFocused = false
+            }
+        }
         .onChange(of: noteFocused) {
             // Fold an untouched note row back into the pill.
             if !noteFocused, item.note.isEmpty {
@@ -175,11 +185,13 @@ struct StagedDoseEditor: View {
         }
     }
 
-    /// The amount surface: the alcohol logger, the branded-pill picker, or the
-    /// plain −/+ stepper.
+    /// The amount surface: the `?` placeholder for an unknown amount, the alcohol
+    /// logger, the branded-pill picker, or the plain −/+ stepper.
     @ViewBuilder
     private var inputBlock: some View {
-        if let capability = byVolumeCapability {
+        if item.isUnknownAmount {
+            StagedDoseUnknownAmountBlock(item: $item, model: model, namespace: namespace)
+        } else if let capability = byVolumeCapability {
             // The concentration+volume logger vs the plain mass stepper. Labels
             // adapt to the kind: By Drink/By Weight for alcohol, By Volume/By Mass
             // for an injectable ester.
@@ -330,8 +342,9 @@ struct StagedDoseEditor: View {
             model.showAmount(item.amount)
         }
         // Don't pop the keyboard for by-volume substances (drink presets are
-        // the primary action) or branded pills (tap a strength chip, don't type).
-        if item.amount <= 0, byVolumeCapability == nil, tabletProduct == nil { amountFocused = true }
+        // the primary action), branded pills (tap a strength chip, don't type),
+        // or an amount already declared unknown (there is nothing to type).
+        if item.amount <= 0, !item.isUnknownAmount, byVolumeCapability == nil, tabletProduct == nil { amountFocused = true }
         if profileStore.grapefruitLoggingEnabled {
             model.resolveGrapefruitSubstrate(substanceName: item.substanceName)
         }
