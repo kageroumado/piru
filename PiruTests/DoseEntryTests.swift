@@ -52,6 +52,26 @@ struct DoseEntryTests {
         #expect(entry.amount == 99_999)
     }
 
+    // MARK: - Unknown amount
+
+    @Test
+    func `Unknown-dose flag defaults to false and the amount reads as a number`() {
+        let entry = DoseEntry(substance: "Caffeine", amount: 100)
+        #expect(entry.isUnknownDose == false)
+        #expect(entry.amountDisplay == "100")
+    }
+
+    @Test
+    func `An unknown dose stores amount 0, reads as ?, and is never approximate`() {
+        let entry = DoseEntry(substance: "Cocaine", amount: 40, unit: "mg", route: .insufflation, isApproximate: true, isUnknownDose: true)
+        #expect(entry.isUnknownDose)
+        #expect(entry.amount == 0)
+        #expect(entry.amountDisplay == "?")
+        #expect(entry.isApproximate == false)
+        #expect(entry.unit == "mg")
+        #expect(entry.route == .insufflation)
+    }
+
     // MARK: - Location
 
     @Test

@@ -27,6 +27,8 @@ struct DayEntryCore: Equatable {
     let substanceKey: String
     /// Whether the logged amount is the user's estimate — draws a leading `~`.
     let isApproximate: Bool
+    /// Whether the dose has no amount at all — draws `?`, no level, no rail.
+    let isUnknownDose: Bool
 
     /// Resolve each dose row's substance facts once: title, dose level, and the
     /// rail's window.
@@ -52,7 +54,7 @@ struct DayEntryCore: Equatable {
             // ladder and shown as such in the staged editor — as "light" against
             // racemic methylphenidate's, and disagreed with `EntryDetailView`'s
             // edit mode, so tapping Edit visibly flipped the badge.
-            let doseLevel = substance(entry.substance)?
+            let doseLevel = entry.isUnknownDose ? nil : substance(entry.substance)?
                 .doseRange(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer)?
                 .level(for: entry.amount)
             return DayEntryCore(
@@ -69,6 +71,7 @@ struct DayEntryCore: Equatable {
                 totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
                 substanceKey: entry.substance.lowercased(),
                 isApproximate: entry.isApproximate,
+                isUnknownDose: entry.isUnknownDose,
             )
         }
     }
@@ -215,8 +218,13 @@ struct EntryRowView: View {
     /// row's hero, and the strength tier is carried separately by the ``strengthChip``
     /// below, so the dose itself needn't double as a tier color.
     private var doseText: some View {
-        MeasurementLabel(amount: display.core.amount, unit: display.core.unit, isApproximate: display.core.isApproximate)
-            .accessibilityLabel(doseAccessibilityLabel)
+        MeasurementLabel(
+            amount: display.core.amount,
+            unit: display.core.unit,
+            isApproximate: display.core.isApproximate,
+            isUnknown: display.core.isUnknownDose,
+        )
+        .accessibilityLabel(doseAccessibilityLabel)
     }
 
     private var chevron: some View {
@@ -334,6 +342,7 @@ struct EntryRowView: View {
     /// VoiceOver spells out the dose *and* its level, since the level is conveyed
     /// only by color on screen.
     private var doseAccessibilityLabel: Text {
+        if display.core.isUnknownDose { return Text("unknown amount") }
         let formatted = display.core.amount.doseFormatted
         let dose = display.core.isApproximate
             ? String(localized: "approximately \(formatted) \(display.core.unit)")

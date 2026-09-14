@@ -19,6 +19,15 @@ final class EntryDraft {
     /// The amount is an estimate, not a measured figure — carried onto the entry
     /// and shown as a `~` prefix.
     var isApproximate = false
+    /// The dose has no amount at all — committed as `amount = 0` with
+    /// ``DoseEntry/isUnknownDose`` set, and the amount field is irrelevant.
+    var isUnknownDose = false
+
+    /// Whether Done may commit: an unknown dose needs no number; any other needs
+    /// a parseable, positive one.
+    var canCommit: Bool {
+        isUnknownDose || parsedAmount != nil
+    }
 
     // By-volume editing (alcohol %ABV → grams).
     var byVolumeMode = false
@@ -83,6 +92,8 @@ final class EntryDraft {
         notes = entry.notes ?? ""
         tags = entry.tags
         isApproximate = entry.isApproximate
+        isUnknownDose = entry.isUnknownDose
+        if entry.isUnknownDose { amount = "" }
         if let name = entry.locationName, let lat = entry.latitude, let lng = entry.longitude {
             location = PickedLocation(name: name, latitude: lat, longitude: lng)
         } else {
@@ -92,7 +103,7 @@ final class EntryDraft {
         // By-volume round-trip: if this entry was logged by volume, restore the
         // drink-mode fields from its structured volume/ABV/name.
         byVolumeMode = false
-        if hasByVolumeCapability, let ml = entry.volumeML, let abv = entry.abv {
+        if hasByVolumeCapability, !entry.isUnknownDose, let ml = entry.volumeML, let abv = entry.abv {
             byVolumeMode = true
             // Display the stored milliliters in the current unit without mutating
             // `volumeUnit` (which would fire the conversion onChange on the

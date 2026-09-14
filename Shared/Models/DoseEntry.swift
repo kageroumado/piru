@@ -24,7 +24,8 @@ import SwiftData
 ///   and the tag set is small and read-mostly. Whitespace is trimmed on read.
 ///
 /// ## Invariants
-/// - ``amount`` is clamped to be non-negative at construction time.
+/// - ``amount`` is clamped to be non-negative at construction time, and is `0`
+///   for an ``isUnknownDose`` entry.
 @Model
 final class DoseEntry {
     // `timestamp` is the dominant sort/filter key across the app — the journal's reverse-chron
@@ -158,6 +159,21 @@ final class DoseEntry {
     /// have. Defaults `false`, keeping the field-add a lightweight migration.
     var isApproximate: Bool = false
 
+    /// Whether the dose was taken without knowing how much — a line, a pill of
+    /// unknown strength, some of someone's drink. The dose is a record (substance,
+    /// route, time, notes, tags) with no number: ``amount`` is `0`, the readouts
+    /// print `?`, and every numeric engine — curves, body load, tolerance,
+    /// cumulative totals, statistics, inventory — leaves it out. Supersedes
+    /// ``isApproximate``, which is a claim about a number this dose does not have.
+    /// Defaults `false`, keeping the field-add a lightweight migration.
+    var isUnknownDose: Bool = false
+
+    /// The amount as a journal readout: `?` for an unknown dose, else the
+    /// magnitude-rounded numeral. The one string every "amount unit" line prints.
+    var amountDisplay: String {
+        isUnknownDose ? "?" : amount.doseFormatted
+    }
+
     /// By-volume input metadata for drinks logged by concentration × volume
     /// (alcohol). ``amount`` remains the canonical grams the PK/ladder run on;
     /// these record *how it was measured* so the dose round-trips as a drink on
@@ -225,12 +241,13 @@ final class DoseEntry {
         longitude: Double? = nil,
         hadGrapefruit: Bool? = nil,
         isApproximate: Bool = false,
+        isUnknownDose: Bool = false,
         volumeML: Double? = nil,
         abv: Double? = nil,
         drinkName: String? = nil,
     ) {
         self.substance = substance
-        self.amount = max(0, amount)
+        self.amount = isUnknownDose ? 0 : max(0, amount)
         self.unit = unit
         self.route = route
         self.saltForm = saltForm
@@ -247,7 +264,8 @@ final class DoseEntry {
         self.latitude = latitude
         self.longitude = longitude
         self.hadGrapefruit = hadGrapefruit
-        self.isApproximate = isApproximate
+        self.isApproximate = isApproximate && !isUnknownDose
+        self.isUnknownDose = isUnknownDose
         self.volumeML = volumeML
         self.abv = abv
         self.drinkName = drinkName

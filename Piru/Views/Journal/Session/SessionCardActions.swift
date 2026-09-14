@@ -155,7 +155,7 @@ private struct MoveDosesSheet: View {
                                         .captionSecondary()
                                 }
                                 Spacer()
-                                Text("\(dose.amount.doseFormatted) \(dose.unit)")
+                                Text("\(dose.amountDisplay) \(dose.unit)")
                                     .font(.subheadline)
                                     .foregroundStyle(Theme.secondaryLabel)
                                 Image(systemName: "chevron.right")

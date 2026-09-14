@@ -471,6 +471,8 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
         let timestamp: Date
         let amount: Double
         let unit: String
+        /// Whether the dose has no amount — the bubble prints `?` for it.
+        let isUnknownDose: Bool
         let route: RouteOfAdministration
         /// The dose's title, resolved once here (a derive layer) through the shared
         /// ``DoseTitle/resolve(for:)`` — so the bubble shows the brand ("Medikinet")
@@ -489,6 +491,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             timestamp = entry.timestamp
             amount = entry.amount
             unit = entry.unit
+            isUnknownDose = entry.isUnknownDose
             route = entry.route
             self.displayName = displayName
             self.color = color
@@ -501,6 +504,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             case timestamp
             case amount
             case unit
+            case isUnknownDose
             case route
             case displayName
             case color
@@ -514,6 +518,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             timestamp = try c.decode(Date.self, forKey: .timestamp)
             amount = try c.decode(Double.self, forKey: .amount)
             unit = try c.decode(String.self, forKey: .unit)
+            isUnknownDose = try c.decodeIfPresent(Bool.self, forKey: .isUnknownDose) ?? false
             route = try c.decode(RouteOfAdministration.self, forKey: .route)
             displayName = try c.decode(String.self, forKey: .displayName)
             color = try Color(hex: c.decode(String.self, forKey: .color))
@@ -527,6 +532,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             try c.encode(timestamp, forKey: .timestamp)
             try c.encode(amount, forKey: .amount)
             try c.encode(unit, forKey: .unit)
+            try c.encode(isUnknownDose, forKey: .isUnknownDose)
             try c.encode(route, forKey: .route)
             try c.encode(displayName, forKey: .displayName)
             try c.encode(color.cacheHex(), forKey: .color)

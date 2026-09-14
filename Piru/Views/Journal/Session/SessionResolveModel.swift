@@ -110,6 +110,8 @@ enum SessionResolveModel {
             // estimate would inherit that. A dose whose form we decline to model
             // is left out rather than modelled wrong.
             guard !entry.namesUnmodeledForm else { return nil }
+            // No amount, no simulated dose.
+            guard !entry.isUnknownDose else { return nil }
             return MechanisticSessionModel.DoseInput(
                 name: entry.substance,
                 amount: entry.amount,
@@ -142,6 +144,7 @@ enum SessionResolveModel {
             hasher.combine(entry.persistentModelID)
             hasher.combine(entry.timestamp)
             hasher.combine(entry.amount)
+            hasher.combine(entry.isUnknownDose)
             hasher.combine(entry.substance)
             hasher.combine(entry.route)
         }

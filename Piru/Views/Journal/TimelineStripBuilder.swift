@@ -943,7 +943,9 @@ struct TimelineStripBuilder {
         var substanceCache: [String: Substance?] = [:]
         let now = Date.now
 
-        for entry in entries {
+        // An unknown dose has no amount to eliminate; its bubble shows no
+        // remaining percentage.
+        for entry in entries where !entry.isUnknownDose {
             let key = entry.substance.lowercased()
             let substance: Substance?
             if let cached = substanceCache[key] {

@@ -141,6 +141,11 @@ struct StagedDose: Identifiable, Equatable {
     /// Per-dose "had grapefruit" flag (Stage 4c). Only ever toggled for CYP3A4-heavy
     /// substrates when grapefruit logging is enabled; carried onto the committed entry.
     var hadGrapefruit = false
+    /// The user took this without knowing how much. The staged components are
+    /// kept (toggling back restores them) but the row reads `?`, no level or
+    /// breakdown is shown, and the dose commits as ``DoseEntry/isUnknownDose``
+    /// with `amount = 0`.
+    var isUnknownAmount = false
     /// By-volume metadata recorded when a custom drink is logged (alcohol),
     /// carried onto the committed entry's structured fields so it round-trips on
     /// edit. `nil` for preset/grams doses.
@@ -198,7 +203,7 @@ struct StagedDose: Identifiable, Equatable {
     /// "2 × 150" / "150 + 182" — shown wherever the merged total alone would
     /// hide how the dose was assembled.
     var breakdownLabel: String? {
-        guard components.count > 1 || (components.first?.count ?? 1) > 1 else { return nil }
+        guard !isUnknownAmount, components.count > 1 || (components.first?.count ?? 1) > 1 else { return nil }
         return components
             .map { $0.count > 1 ? "\($0.count) × \($0.amount.doseFormatted)" : $0.amount.doseFormatted }
             .joined(separator: " + ")
@@ -210,7 +215,7 @@ struct StagedDose: Identifiable, Equatable {
     /// no dose data must show no qualifier at all). Amounts in a different unit
     /// are converted to the route's reference unit first.
     var doseLevel: DoseLevel? {
-        guard let librarySubstance, librarySubstance.displayClass.showsDoseLadder,
+        guard !isUnknownAmount, let librarySubstance, librarySubstance.displayClass.showsDoseLadder,
               let range = librarySubstance.doseRange(for: route, saltForm: saltForm, isomer: isomer),
               range.hasAnyValue else { return nil }
         let referenceUnit = librarySubstance.unit(for: route, saltForm: saltForm, isomer: isomer)
@@ -447,8 +452,9 @@ final class DoseTrayModel {
         if nowEmpty != isEmpty { isEmpty = nowEmpty }
     }
 
+    /// Every staged dose carries a number, or has declared it has none.
     var isCommittable: Bool {
-        !staged.isEmpty && staged.allSatisfy { $0.totalAmount > 0 }
+        !staged.isEmpty && staged.allSatisfy { $0.isUnknownAmount || $0.totalAmount > 0 }
     }
 
     /// How many of a given chip are staged (drives the chip's count badge).

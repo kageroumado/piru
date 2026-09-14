@@ -56,8 +56,9 @@ enum InventoryMath {
     /// across the batch, so this re-filter is what keeps a later-started item
     /// from counting pre-tracking doses.
     static func doses(for item: InventoryItem, in buckets: [String: [DoseEntry]]) -> [DoseEntry] {
+        // A dose of unknown amount cannot be drawn down from stock.
         (buckets[matchKey(for: item.substance)] ?? []).filter {
-            $0.timestamp >= item.trackingStart && $0.saltForm == item.saltForm
+            $0.timestamp >= item.trackingStart && $0.saltForm == item.saltForm && !$0.isUnknownDose
         }
     }
 

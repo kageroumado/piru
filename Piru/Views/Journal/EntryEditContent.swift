@@ -25,6 +25,7 @@ struct EntryEditContent: View {
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
+                .disabled(draft.isUnknownDose)
             }
             if draft.byVolumeMode, let capability = byVolumeCapability {
                 ByVolumeDoseInputView(
@@ -37,12 +38,14 @@ struct EntryEditContent: View {
                     name: $draft.drinkName,
                     onSelectPreset: draft.applyDrinkPreset,
                 )
+                .disabled(draft.isUnknownDose)
             } else {
                 HStack {
                     TextField("Amount", text: $draft.amount)
                         .decimalKeyboard()
                         .focused($amountFocused)
                         .foregroundStyle(draftDoseLevel?.swiftUIColor ?? .primary)
+                        .disabled(draft.isUnknownDose)
                     if let level = draftDoseLevel {
                         DoseLevelBadge(level: level)
                             .transition(.opacity.combined(with: .scale))
@@ -59,6 +62,20 @@ struct EntryEditContent: View {
                     Text("Approximate amount")
                     Text("Shows the dose with a ~; the estimate still drives the curves.")
                         .captionSecondary()
+                }
+            }
+            .disabled(draft.isUnknownDose)
+            Toggle(isOn: $draft.isUnknownDose) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
+                    Text("Unknown amount")
+                    Text("Logs the dose with no number; it stays out of curves, totals, and tolerance.")
+                        .captionSecondary()
+                }
+            }
+            .onChange(of: draft.isUnknownDose) {
+                if draft.isUnknownDose {
+                    draft.isApproximate = false
+                    amountFocused = false
                 }
             }
             Picker("Route", selection: $draft.route) {
@@ -184,6 +201,7 @@ struct EntryEditContent: View {
 
     /// Draft amount converted to the substance's native unit, for accurate level comparison.
     private var normalizedDraftAmount: Double? {
+        guard !draft.isUnknownDose else { return nil }
         guard let parsed = draft.parsedAmount, let sub = substance else { return draft.parsedAmount }
         return sub.convert(amount: parsed, from: draft.unit, toRoute: draft.route, saltForm: draft.saltForm) ?? parsed
     }
@@ -232,7 +250,7 @@ struct EntryEditContent: View {
     /// A throwaway, uninserted entry mirroring the in-progress drafts so the graph
     /// tracks edits live; an unparseable amount falls back to the committed entry.
     private var previewEntry: DoseEntry? {
-        guard let amount = draft.parsedAmount else { return nil }
+        guard !draft.isUnknownDose, let amount = draft.parsedAmount else { return nil }
         return DoseEntry(
             substance: entry.substance,
             amount: amount,
@@ -242,7 +260,11 @@ struct EntryEditContent: View {
         )
     }
 
+    /// `nil` while the draft is an unknown dose — there is no number to draw a
+    /// curve from, and the committed entry's curve would preview a state the
+    /// edit is about to discard.
     private var previewState: ActiveSubstanceState? {
-        ActiveSubstanceState.from(entry: previewEntry ?? entry, colorHex: colorHex)
+        guard !draft.isUnknownDose else { return nil }
+        return ActiveSubstanceState.from(entry: previewEntry ?? entry, colorHex: colorHex)
     }
 }

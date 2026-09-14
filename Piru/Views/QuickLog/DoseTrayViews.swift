@@ -629,7 +629,7 @@ struct TrayRow: View {
             Spacer(minLength: 8)
             // A zero-amount dose blocks the Log button — flag it on the row,
             // otherwise the disabled button gives no clue which dose is why.
-            if dose.totalAmount <= 0 {
+            if dose.totalAmount <= 0, !dose.isUnknownAmount {
                 Image(systemName: "exclamationmark.circle.fill")
                     .font(.body)
                     .foregroundStyle(.cautionAccent)
@@ -641,9 +641,12 @@ struct TrayRow: View {
                 // "subling…". Pin it to its intrinsic width for the animation.
                 .fixedSize()
                 .trayMorph(id: "route-\(dose.id)", in: namespace)
-            Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
+            Text(verbatim: dose.isUnknownAmount
+                ? "? \(dose.unit)"
+                : "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
+                .accessibilityLabel(dose.isUnknownAmount ? Text("unknown amount") : Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))"))
                 // During the collapse morph the matched siblings carry
                 // inflated mid-flight frames, squeezing this text into a
                 // momentary "37.…" ellipsis. Fixed-size keeps it at its

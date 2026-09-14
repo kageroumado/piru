@@ -440,7 +440,7 @@ struct QuickLogView: View {
             for item in stagedItems {
                 let entry = DoseEntry(
                     substance: item.substanceName,
-                    amount: item.totalAmount,
+                    amount: item.isUnknownAmount ? 0 : item.totalAmount,
                     unit: item.unit,
                     route: item.route,
                     saltForm: item.saltForm,
@@ -457,17 +457,19 @@ struct QuickLogView: View {
                     latitude: location?.latitude,
                     longitude: location?.longitude,
                     hadGrapefruit: item.hadGrapefruit ? true : nil,
-                    volumeML: item.volumeML,
-                    abv: item.abv,
-                    drinkName: item.drinkName,
+                    isUnknownDose: item.isUnknownAmount,
+                    volumeML: item.isUnknownAmount ? nil : item.volumeML,
+                    abv: item.isUnknownAmount ? nil : item.abv,
+                    drinkName: item.isUnknownAmount ? nil : item.drinkName,
                 )
                 batch.append((entry, item.librarySubstance))
 
                 // Record each component's chip amount (not the merged total) so
                 // the curated list floats the chips the user actually tapped,
                 // without minting a chip for every sum. Daily routine items keep
-                // their own surface and don't mint quick-log chips.
-                if !item.isFromDailySet {
+                // their own surface and don't mint quick-log chips; an unknown
+                // amount tapped no chip and mints none.
+                if !item.isFromDailySet, !item.isUnknownAmount {
                     for component in item.components {
                         curation.append(QuickLogManager.LoggedDose(
                             substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit,

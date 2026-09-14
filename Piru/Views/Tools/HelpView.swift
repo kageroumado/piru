@@ -591,7 +591,7 @@ struct HelpView: View {
                             .sectionLabel()
 
                         HStack(spacing: Spacing.xs) {
-                            Text("\(entry.amount.doseFormatted) \(entry.unit)")
+                            Text("\(entry.amountDisplay) \(entry.unit)")
                             Middot()
                                 .foregroundStyle(.tertiary)
                             Text(entry.route.localizedName)
@@ -699,7 +699,7 @@ struct HelpView: View {
                 let name = logged.caseInsensitiveCompare(canonical) == .orderedSame
                     ? canonical
                     : "\(canonical) (logged as \(logged))"
-                var line = "- \(name) \(entry.amount.doseFormatted) \(entry.unit) \(String(localized: entry.route.localizedName).lowercased()) — \(formatter.string(from: entry.timestamp))"
+                var line = "- \(name) \(entry.amountDisplay) \(entry.unit) \(String(localized: entry.route.localizedName).lowercased()) — \(formatter.string(from: entry.timestamp))"
                 if let notes = entry.notes, !notes.isEmpty {
                     line += " (\(notes))"
                 }

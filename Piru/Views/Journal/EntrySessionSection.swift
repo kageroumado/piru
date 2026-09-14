@@ -120,7 +120,7 @@ struct EntrySiblingRow: View {
         let time = sessionActive
             ? EntryDoseFormat.relativeText(from: dose.timestamp, now: .now)
             : dose.timestamp.formatted(date: .omitted, time: .shortened)
-        let detail = "\(name) \(dose.amount.doseFormatted) \(dose.unit) · \(time)"
+        let detail = "\(name) \(dose.amountDisplay) \(dose.unit) · \(time)"
         return HStack(spacing: Spacing.md) {
             Image(systemName: "circle.fill")
                 .font(.chartAnnotation)

@@ -28784,6 +28784,22 @@
         }
       }
     },
+    "Logged with no number — stays out of curves, totals, and tolerance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不记录数值——不会计入曲线、总量和耐受性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不記錄數值——不會計入曲線、總量和耐受性。"
+          }
+        }
+      }
+    },
     "Logged, but missing the pharmacokinetics the model needs — so it's blind here, which is not the same as no tolerance. %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -28828,6 +28844,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "以此單位記錄時會自動換算為質量。"
+          }
+        }
+      }
+    },
+    "Logs the dose with no number; it stays out of curves, totals, and tolerance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不记录数值；这条记录不会计入曲线、总量和耐受性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不記錄數值；這條記錄不會計入曲線、總量和耐受性。"
           }
         }
       }
@@ -51523,6 +51555,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未知"
+          }
+        }
+      }
+    },
+    "unknown amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用量未知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用量未知"
+          }
+        }
+      }
+    },
+    "Unknown amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用量未知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用量未知"
           }
         }
       }

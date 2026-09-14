@@ -63,6 +63,12 @@ nonisolated enum PDFReportGenerator {
         let route: String
         let timestamp: Date
         let notes: String?
+        /// A dose with no amount: printed as `?`, left out of the average.
+        var isUnknownDose = false
+
+        var amountDisplay: String {
+            isUnknownDose ? "?" : amount.doseFormatted
+        }
         /// Adherence-join fields mirroring ``AdherenceCalculator/matches`` —
         /// the PSID identity key plus the raw route, so the PDF's adherence
         /// table credits exactly what the in-app screen credits.
@@ -712,7 +718,10 @@ nonisolated enum PDFReportGenerator {
         let grouped = Dictionary(grouping: entries) { $0.substance }
         return grouped.map { name, entries in
             let sorted = entries.sorted { $0.timestamp < $1.timestamp }
-            let avgDose = (entries.map(\.amount).reduce(0, +) / Double(entries.count))
+            // The average is over the doses that have a number; an unknown dose
+            // is counted but cannot be averaged.
+            let known = entries.filter { !$0.isUnknownDose }
+            let avgDose = known.isEmpty ? 0 : known.map(\.amount).reduce(0, +) / Double(known.count)
             let mostCommonUnit = Dictionary(grouping: entries, by: \.unit)
                 .max(by: { $0.value.count < $1.value.count })?.key ?? "mg"
             let mostCommonRoute = Dictionary(grouping: entries, by: \.route)
@@ -989,7 +998,7 @@ nonisolated enum PDFReportGenerator {
                 xPos += nameStr.size(withAttributes: nameAttr).width + 6
 
                 // Dose info
-                "\(entry.amount.doseFormatted) \(entry.unit) (\(entry.route))".draw(
+                "\(entry.amountDisplay) \(entry.unit) (\(entry.route))".draw(
                     at: CGPoint(x: xPos, y: cursor.y), withAttributes: doseAttr,
                 )
                 cursor.y += 14

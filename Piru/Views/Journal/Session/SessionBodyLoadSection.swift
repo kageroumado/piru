@@ -196,7 +196,7 @@ struct SessionBodyLoadModel {
             var products: Set<String> = []
         }
         var groups: [String: Group] = [:]
-        for entry in entries {
+        for entry in entries where !entry.isUnknownDose {
             let canonical = SubstanceLibrary.lookup(entry.substance)?.name ?? entry.substance
             let key = canonical.lowercased()
             let product = entry.productName?.trimmingCharacters(in: .whitespaces) ?? ""

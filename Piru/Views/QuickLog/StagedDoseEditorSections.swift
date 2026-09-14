@@ -235,6 +235,73 @@ struct StagedDoseUnitMenu: View {
     }
 }
 
+// MARK: - Unknown amount
+
+/// The amount surface for a dose of unknown amount: a `?` in the stepper's
+/// 42pt capsule — the unit stays choosable, since "some mg of something" is
+/// still a fact — over a one-line statement of what an unknown dose is.
+struct StagedDoseUnknownAmountBlock: View {
+    @Binding var item: StagedDose
+    let model: StagedDoseEditorModel
+    let namespace: Namespace.ID
+
+    var body: some View {
+        VStack(alignment: .center, spacing: 5) {
+            Text(verbatim: "?")
+                .screenTitle()
+                .frame(height: 42)
+                .frame(maxWidth: .infinity)
+                .background(Color.platformSecondarySystemFill, in: skinChipShape())
+                .accessibilityLabel("Amount")
+                .accessibilityValue(Text("unknown amount"))
+                .overlay(alignment: .trailing) {
+                    StagedDoseUnitMenu(unit: $item.unit, choices: model.unitMenuChoices(current: item.unit))
+                        .padding(.trailing, Spacing.xl)
+                }
+                .trayMorph(id: "amount-\(item.id)", in: namespace, isSource: false)
+            Text("Logged with no number — stays out of curves, totals, and tolerance.")
+                .font(.caption.weight(.medium))
+                .foregroundStyle(Theme.secondaryLabel)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+        }
+    }
+}
+
+/// The "Unknown amount" toggle pill — the same grammar as the grapefruit pill:
+/// neutral off, accent-tinted on. Sits first in the pill row, directly under the
+/// amount input it replaces.
+struct StagedDoseUnknownAmountPill: View {
+    @Binding var isOn: Bool
+    let pillHeight: CGFloat
+
+    var body: some View {
+        Button {
+            withAnimation(.snappy) { isOn.toggle() }
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: "questionmark.circle")
+                    .imageScale(.small)
+                    .accessibilityHidden(true)
+                Text("Unknown amount")
+                    .lineLimit(1)
+            }
+            .font(.footnote.weight(.semibold))
+            .fixedSize(horizontal: true, vertical: false)
+            .padding(.horizontal, 11)
+            .frame(height: pillHeight)
+            .background(
+                isOn ? AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)) : AnyShapeStyle(Color.platformSecondarySystemFill),
+                in: Capsule(),
+            )
+            .foregroundStyle(isOn ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.primary))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Unknown amount"))
+        .accessibilityAddTraits(isOn ? [.isSelected] : [])
+    }
+}
+
 // MARK: - By Drink (strength + volume steppers)
 
 /// Strength (%ABV) and Volume steppers — the exact grams-picker control (42pt

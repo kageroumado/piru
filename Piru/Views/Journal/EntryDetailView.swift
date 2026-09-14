@@ -130,7 +130,7 @@ struct EntryDetailView: View {
                     deleteEntry()
                 }
             } message: {
-                Text("\(entry.amount.doseFormatted) \(entry.unit) \(DoseTitle.resolve(for: entry)) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
+                Text("\(entry.amountDisplay) \(entry.unit) \(DoseTitle.resolve(for: entry)) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
             }
             .sheet(isPresented: $showColorPicker) {
                 SubstanceColorPickerView(
@@ -188,7 +188,7 @@ struct EntryDetailView: View {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Done") { commitEdits() }
                     .fontWeight(.semibold)
-                    .disabled(draft.parsedAmount == nil)
+                    .disabled(!draft.canCommit)
             }
         } else {
             // Two explicit trailing buttons in the same accent tint — "Edit"
@@ -220,12 +220,14 @@ struct EntryDetailView: View {
     /// Commit drafts to the entry and re-sync the active session / Live Activity
     /// + widgets.
     private func commitEdits() {
-        guard let parsed = draft.parsedAmount else { return }
+        guard draft.canCommit else { return }
         let sub = substanceInfo
 
         // Normalize a colloquial alias (e.g. "drink") to its canonical physical
         // unit so cumulative dose, level chips, and PK scaling see the right number.
+        // An unknown dose has no number to normalize: it stores 0 in the draft unit.
         let (storedAmount, storedUnit): (Double, String) = {
+            guard !draft.isUnknownDose, let parsed = draft.parsedAmount else { return (0, draft.unit) }
             if let sub, let alias = sub.unitAliases.first(where: { $0.label == draft.unit }) {
                 return (parsed * alias.amountPerUnit, alias.unit)
             }
@@ -247,12 +249,15 @@ struct EntryDetailView: View {
         entry.displayNameSnapshot = DoseTitle.snapshot(canonicalName: entry.substance, isomer: draft.isomer, releaseForm: entry.releaseForm)
         entry.timestamp = draft.timestamp
         entry.session?.refreshDoseBounds()
-        entry.isApproximate = draft.isApproximate
+        entry.isUnknownDose = draft.isUnknownDose
+        entry.isApproximate = draft.isApproximate && !draft.isUnknownDose
         entry.notes = draft.notes.isEmpty ? nil : draft.notes
-        // By-volume metadata, set when logged as a drink, cleared otherwise.
-        entry.volumeML = draft.byVolumeMode ? draft.enteredVolumeML : nil
-        entry.abv = draft.byVolumeMode ? draft.enteredABV : nil
-        entry.drinkName = draft.byVolumeMode ? draft.trimmedDrinkName : nil
+        // By-volume metadata, set when logged as a drink, cleared otherwise — and
+        // cleared for an unknown dose, whose volume and strength are the unknowns.
+        let keepsVolume = draft.byVolumeMode && !draft.isUnknownDose
+        entry.volumeML = keepsVolume ? draft.enteredVolumeML : nil
+        entry.abv = keepsVolume ? draft.enteredABV : nil
+        entry.drinkName = keepsVolume ? draft.trimmedDrinkName : nil
         entry.tags = Array(Set(draft.tags + TagExtractor.extractTags(from: draft.notes)))
         entry.locationName = draft.location?.name
         entry.latitude = draft.location?.latitude

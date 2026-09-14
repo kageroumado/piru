@@ -195,7 +195,7 @@ enum SteadyStateProjectionBuilder {
             return result
         }
 
-        for entry in entries where entry.timestamp >= cutoff {
+        for entry in entries where entry.timestamp >= cutoff && !entry.isUnknownDose {
             let substance = lookup(entry.substance)
             if entry.productDuration == nil, entry.namesUnmodeledForm { continue }
             let name = substance?.name ?? entry.substance

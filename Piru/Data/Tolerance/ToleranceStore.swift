@@ -305,12 +305,21 @@ final class ToleranceStore {
         let timestamp: Date
     }
 
+    /// The replay's view of a dose log: every dose that carries a number. An
+    /// unknown dose has no concentration to replay, so it is not in the log at
+    /// all here — every entry point folds entries through this one function.
+    private nonisolated static func snapshots(of entries: [DoseEntry]) -> [DoseSnapshot] {
+        entries.compactMap {
+            $0.isUnknownDose ? nil : DoseSnapshot(substance: $0.substance, amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
+        }
+    }
+
     @DatabaseActor
     private static func fetchSnapshots(since cutoff: Date, container: ModelContainer) -> [DoseSnapshot] {
         let context = ModelContext(container)
         let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= cutoff })
         let entries = (try? context.fetch(descriptor)) ?? []
-        return entries.map { DoseSnapshot(substance: $0.substance, amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
+        return snapshots(of: entries)
     }
 
     /// Recompute every target's tolerance from the dose log and refresh the cache. Call after the dose
@@ -321,8 +330,7 @@ final class ToleranceStore {
     /// the cooperative pool so the UI never stalls. A signature gate skips the work entirely when the
     /// inputs are unchanged, so navigating back into the tool is free.
     func recompute(from entries: [DoseEntry], now: Date = .now) async {
-        let snapshots = entries.map { DoseSnapshot(substance: $0.substance, amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
-        await recompute(snapshots: snapshots, now: now)
+        await recompute(snapshots: Self.snapshots(of: entries), now: now)
     }
 
     /// ``recompute(from:now:)`` over value snapshots — the shape both the tool's
@@ -363,7 +371,7 @@ final class ToleranceStore {
         step: TimeInterval = 3 * 3_600,
     ) async -> [(date: Date, load: Double)] {
         let weightKg = UserProfileStore.shared.effectiveWeightKg
-        let doses = entries.map {
+        let doses = Self.snapshots(of: entries).map {
             SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
         }
         let uniqueNames = Array(Set(doses.map(\.substance) + SubstanceStore.shared.classRepresentativeNames()))
@@ -381,7 +389,7 @@ final class ToleranceStore {
     /// per-substance mode appears, so the default per-mechanism view never pays for it.
     func recomputePerSubstance(from entries: [DoseEntry], now: Date = .now) async {
         let weightKg = UserProfileStore.shared.effectiveWeightKg
-        let snapshots = entries.map { DoseSnapshot(substance: $0.substance, amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
+        let snapshots = Self.snapshots(of: entries)
         let signature = Self.signature(entries: snapshots, weightKg: weightKg, now: now)
         if signature == perSubstanceSignature { return }
 
@@ -570,7 +578,7 @@ final class ToleranceStore {
         representativeNames: [String] = [],
         resolve: (String) -> PharmacologyParameters?,
     ) -> [ReceptorClasses.ReceptorClass: ClassTolerance] {
-        let doses = entries.map {
+        let doses = snapshots(of: entries).map {
             SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
         }
         var params: [String: PharmacologyParameters] = [:]

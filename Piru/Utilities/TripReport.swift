@@ -22,6 +22,12 @@ struct TripReport {
         let amount: Double
         let unit: String
         let route: String
+        /// A dose with no amount; the table prints `?` for it.
+        var isUnknownDose = false
+
+        var amountDisplay: String {
+            isUnknownDose ? "?" : amount.doseFormatted
+        }
     }
 
     struct Note: Identifiable {
@@ -80,6 +86,7 @@ struct TripReport {
                 amount: entry.amount,
                 unit: entry.unit,
                 route: entry.route.displayName,
+                isUnknownDose: entry.isUnknownDose,
             )
         }
         let notes = session.orderedNotes.filter { $0.kind != .summary && $0.hasContent }.map { note in
@@ -250,7 +257,7 @@ struct TripReport {
         out.append("| T+ | Time | Substance | Dose | Route |")
         out.append("|---|---|---|---|---|")
         for dose in doses {
-            out.append("| \(tPlus(dose.timestamp)) | \(time.string(from: dose.timestamp)) | \(Self.cell(dose.name)) | \(dose.amount.doseFormatted) \(dose.unit) | \(dose.route.lowercased()) |")
+            out.append("| \(tPlus(dose.timestamp)) | \(time.string(from: dose.timestamp)) | \(Self.cell(dose.name)) | \(dose.amountDisplay) \(dose.unit) | \(dose.route.lowercased()) |")
         }
         out.append("")
 

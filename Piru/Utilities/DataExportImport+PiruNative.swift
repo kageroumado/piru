@@ -162,6 +162,10 @@ nonisolated struct PiruDoseData: Codable {
     var locationName: String?
     var latitude: Double?
     var longitude: Double?
+    /// The dose's amount qualifiers. Always emitted; optional on decode so files
+    /// written before either flag existed import with both `false`.
+    var isApproximate: Bool?
+    var isUnknownDose: Bool?
 }
 
 nonisolated struct PiruDailyDoseData: Codable {
@@ -248,6 +252,7 @@ extension DataExportImport {
                 timestamp: e.timestamp.msSince1970, notes: e.notes, tags: e.tags,
                 isBackgroundMed: e.isBackgroundMed,
                 locationName: e.locationName, latitude: e.latitude, longitude: e.longitude,
+                isApproximate: e.isApproximate, isUnknownDose: e.isUnknownDose,
             )
         }
 
@@ -361,6 +366,7 @@ extension DataExportImport {
                 substanceUID: d.substanceUID, displayNameSnapshot: d.displayNameSnapshot,
                 timestamp: timestamp, notes: d.notes, tags: d.tags, isBackgroundMed: d.isBackgroundMed,
                 locationName: d.locationName, latitude: d.latitude, longitude: d.longitude,
+                isApproximate: d.isApproximate ?? false, isUnknownDose: d.isUnknownDose ?? false,
             )
             if let id = d.id, seenIDs.insert(id).inserted {
                 entry.id = id
