@@ -1,4 +1,5 @@
 import SwiftUI
+import Synchronization
 
 // Five scenes for the second batch of skins — a paper garden (Origami +
 // Kaze), fireflies and an aurora (Hotaru), snow (Yuki), a neon arcade (Hebi)
@@ -494,8 +495,9 @@ private nonisolated extension Path {
 
 /// Hebi's game, replayed for the backdrop: a snake on a grid that chases the
 /// food with the three turns the real game allows, growing as it eats. It is a
-/// pure function of (grid, seed, step), simulated from the start each frame —
-/// at most `tapeLength` cheap steps — so the renderer keeps no state.
+/// pure function of (grid, seed, step). The whole tape is simulated once per
+/// grid and kept — `tapeLength` states of at most `maxLength` cells — so a
+/// frame is one array read rather than a replay of every step before it.
 nonisolated struct SnakeGame {
     struct State {
         /// Head first.
@@ -510,13 +512,34 @@ nonisolated struct SnakeGame {
 
     let cols: Int, rows: Int, seed: UInt64
 
+    private struct TapeKey: Hashable {
+        let cols: Int, rows: Int, seed: UInt64
+    }
+
+    /// One tape per grid: the canvas draws every frame, and a frame that
+    /// replayed the game from step 0 walked up to 900 steps each time.
+    private static let tapes = Mutex<[TapeKey: [State]]>([:])
+
     func state(atStep target: Int) -> State {
+        let key = TapeKey(cols: cols, rows: rows, seed: seed)
+        let step = max(0, min(target, Self.tapeLength - 1))
+        if let tape = Self.tapes.withLock({ $0[key] }) { return tape[step] }
+        let tape = simulateTape()
+        Self.tapes.withLock { $0[key] = tape }
+        return tape[step]
+    }
+
+    /// Every state from step 0 through `tapeLength - 1`, in order.
+    func simulateTape() -> [State] {
         var rng = SeededRNG(seed: seed)
         var body = Self.freshSnake(cols: cols, rows: rows)
         var dir = (1, 0)
         var food = Self.placeFood(avoiding: body, cols: cols, rows: rows, rng: &rng)
+        var tape: [State] = []
+        tape.reserveCapacity(Self.tapeLength)
+        tape.append(State(body: body, food: food))
         var step = 0
-        while step < target {
+        while tape.count < Self.tapeLength {
             step += 1
             let head = body[0]
             // The three legal moves, forward first; the tail cell frees up
@@ -539,6 +562,7 @@ nonisolated struct SnakeGame {
                 body = Self.freshSnake(cols: cols, rows: rows)
                 dir = (1, 0)
                 food = Self.placeFood(avoiding: body, cols: cols, rows: rows, rng: &rng)
+                tape.append(State(body: body, food: food))
                 continue
             }
             dir = move
@@ -550,8 +574,9 @@ nonisolated struct SnakeGame {
             } else {
                 body.removeLast()
             }
+            tape.append(State(body: body, food: food))
         }
-        return State(body: body, food: food)
+        return tape
     }
 
     private static func freshSnake(cols: Int, rows: Int) -> [(Int, Int)] {

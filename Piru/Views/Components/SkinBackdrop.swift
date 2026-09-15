@@ -29,9 +29,11 @@ struct SkinBackdrop: View {
     /// The screen this backs is on screen. Every tab root and every pushed
     /// screen keeps its backdrop alive; only the visible one may tick.
     @State private var visible = false
+    @State private var power = SkinPower.shared
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.displayScale) private var displayScale
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ZStack {
@@ -43,10 +45,21 @@ struct SkinBackdrop: View {
                 // Resolved outside the canvas: reads inside the renderer
                 // closure are not tracked by Observation.
                 let dark = colorScheme == .dark
-                let animate = !reduceMotion && visible
-                let interval: Double = if case .stickers = decor.scene { 1 / 20 } else { 1 / 30 }
+                // `visible` says this screen is on top of its stack; the scene
+                // phase says the app is on screen at all, so the clock stops
+                // the moment the app is backgrounded rather than whenever the
+                // timeline notices. It does not catch a macOS scene that state
+                // restoration rebuilt without a window: that scene reports
+                // `.active` and its canvas ticks like a visible one.
+                let animate = !reduceMotion && visible && scenePhase != .background && !power.isThermallyConstrained
+                let interval = Self.frameInterval(stickers: decor.scene.isStickers, lowPower: power.isLowPower)
                 let atlas = GlyphAtlas.images(for: skins.current, decor: decor, dark: dark, scale: displayScale)
                 let textures = SkinTextures.tiles(for: decor.scene, dark: dark, scale: displayScale)
+                // Stays in the screen's own graph. Hosting the canvas in its
+                // own hosting controller was measured: the display link still
+                // reached the screen's `ForEach` evictors once per tick, and
+                // the hosting view added a layout pass per tick on top — more
+                // work, not less, on both platforms.
                 TimelineView(.animation(minimumInterval: interval, paused: !animate)) { timeline in
                     let t = reduceMotion ? 0 : timeline.date.timeIntervalSinceReferenceDate
                     // Polled, not observed — see `SkinMotion.tilt`.
@@ -73,6 +86,16 @@ struct SkinBackdrop: View {
                 }
             }
         }
+    }
+
+    /// Seconds between frames. The sticker scene reads fine at 20 fps (its
+    /// motion is a slow bob of bitmap blits); every other scene runs at 30.
+    /// Low Power Mode halves both: every frame is a full SwiftUI transaction
+    /// and a Core Animation commit, so the frame count, more than the drawing
+    /// in it, is what the battery pays for.
+    nonisolated static func frameInterval(stickers: Bool, lowPower: Bool) -> Double {
+        let base: Double = stickers ? 1 / 20 : 1 / 30
+        return lowPower ? base * 2 : base
     }
 
     /// The site's `radial-gradient(115% 70% at 50% -6%, pink 0.12)`.

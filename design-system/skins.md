@@ -224,12 +224,35 @@ composite `plusLighter` (additive) so a colour reads as emitting, not paler.
 surface and type only, nothing moving, for people who want none of it. Two
 night skies never share a star map: `SkinNightSky.seed` differs per skin.
 
-**Parallax.** `SkinMotion` low-pass filters device gravity into a resting
-reference and reports the deviation as a tilt; every layer slides opposite
-the tilt scaled by its depth (rays far, small jellies farther than big ones,
-bubbles by size, stars by tier, the moon nearest) — the window into the
-aquarium. Zero on the simulator, on the Mac, and under Reduce Motion; the
-motion manager runs only while a backdrop is on screen.
+**Parallax.** `SkinMotion` low-pass filters the accelerometer into a gravity
+estimate, then into a resting reference, and reports the deviation as a tilt;
+every layer slides opposite the tilt scaled by its depth (rays far, small
+jellies farther than big ones, bubbles by size, stars by tier, the moon
+nearest) — the window into the aquarium. Zero on the simulator, on the Mac,
+and under Reduce Motion; the accelerometer runs at 20 Hz only while a
+backdrop is on screen. Never the fused `deviceMotion` feed: it keeps the
+gyroscope powered for as long as the skin is showing, and the parallax only
+needs which way is down.
+
+**What a frame costs.** Measured on the native macOS build idling on the
+Journal under Jellyfish (Instruments, SwiftUI template): the scene's own
+drawing is about a third of each frame; the SwiftUI transaction around it,
+the display-list build and the Core Animation commit are the rest, and the
+transaction also evaluates every `ForEach` evictor in the screen (~22 on the
+Journal) whether or not the rows changed. So the frame *count* is the lever,
+not the draw code: on the simulator the animated skins idle at 5–9 % of a
+core (Jellyfish, Hotaru, Starfield and Hebi at the top) against 0 % for a
+static skin, and every fps removed is proportional. The policy in
+`SkinBackdrop`: 30 fps (stickers 20), halved under Low Power Mode, stopped at
+a serious thermal state (`SkinPower`), stopped when the screen is not on top
+of its stack, and stopped the moment the app is backgrounded (scene phase).
+Hebi's snake is a cached tape, one array read per frame, rather than a
+replay of every step before it. Two things were measured and rejected:
+hosting the canvas in its own hosting controller (the display link still
+reached the screen's evictors, plus a layout pass per tick), and caching the
+water's static gradients (3 % of the draw; the eight jellies are two thirds).
+Known and open: on macOS, state restoration can rebuild a scene with no
+window behind it, and that scene reports `.active` and ticks at full rate.
 
 Graph code that *fills* with `Theme.background` (dot rings, fades) is
 untouched — it never went through `.background()`.

@@ -767,6 +767,10 @@ enum SkinScene: Sendable {
     /// ely.pink: a warm glow at the top and a faint dotted ground; the
     /// stickers carry the scene.
     case stickers
+
+    var isStickers: Bool {
+        if case .stickers = self { true } else { false }
+    }
     /// A night sky: a twinkling, haloed starfield over nebula glows.
     case nightSky(SkinNightSky)
     /// Deep water: a depth gradient, light rays, rising bubbles, and

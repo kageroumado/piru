@@ -30,14 +30,19 @@ final class SkinMotion {
 
     /// Balanced by ``release()``. A backdrop calls this on appear. A Mac
     /// has no tilt; the scene stays still there.
+    ///
+    /// The accelerometer alone, at 20 Hz: the parallax only needs gravity's
+    /// direction, and the fused `deviceMotion` feed keeps the gyroscope
+    /// powered for the whole time a decorated skin is on screen. Gravity is
+    /// separated from hand motion by the low-pass in ``ingest(x:y:)``.
     func retain() {
         users += 1
         #if os(iOS)
-            guard users == 1, manager.isDeviceMotionAvailable, !manager.isDeviceMotionActive else { return }
-            manager.deviceMotionUpdateInterval = 1 / 30
-            manager.startDeviceMotionUpdates(to: .main) { [weak self] motion, _ in
-                guard let self, let g = motion?.gravity else { return }
-                MainActor.assumeIsolated { self.ingest(x: g.x, y: g.y) }
+            guard users == 1, manager.isAccelerometerAvailable, !manager.isAccelerometerActive else { return }
+            manager.accelerometerUpdateInterval = 1 / 20
+            manager.startAccelerometerUpdates(to: .main) { [weak self] data, _ in
+                guard let self, let a = data?.acceleration else { return }
+                MainActor.assumeIsolated { self.ingest(x: a.x, y: a.y) }
             }
         #endif
     }
@@ -46,13 +51,21 @@ final class SkinMotion {
         users = max(0, users - 1)
         guard users == 0 else { return }
         #if os(iOS)
-            manager.stopDeviceMotionUpdates()
+            manager.stopAccelerometerUpdates()
         #endif
         rest = nil
+        gravity = nil
         tilt = .zero
     }
 
-    private func ingest(x: Double, y: Double) {
+    /// Raw acceleration smoothed into a gravity estimate (≈0.15 s to settle),
+    /// so a footstep or a tap reads as a nudge, not a lurch.
+    private var gravity: (x: Double, y: Double)?
+
+    private func ingest(x rawX: Double, y rawY: Double) {
+        let g = gravity.map { (x: $0.x + (rawX - $0.x) * 0.3, y: $0.y + (rawY - $0.y) * 0.3) } ?? (x: rawX, y: rawY)
+        gravity = g
+        let x = g.x, y = g.y
         guard let rest else {
             rest = (x, y)
             return
