@@ -293,19 +293,22 @@ enum RoutineOccurrenceService {
     private nonisolated static func corresponds(_ occurrence: some LiveOccurrence, to item: ItemSnapshot, slot: Int?) -> Bool {
         occurrence.slotMinutes == slot
             && occurrence.route == item.route
-            && identityMatches(nameA: occurrence.substance, uidA: occurrence.substanceUID, nameB: item.substance, uidB: item.substanceUID)
+            && MedSchedule.identityMatches(
+                keyA: occurrence.substanceUID, nameA: occurrence.substance,
+                keyB: item.substanceUID, nameB: item.substance,
+            )
     }
 
-    /// Entry ↔ occurrence match: identity (uid when both sides have one, else
-    /// case-insensitive name) and route (spec §D).
+    /// Entry ↔ occurrence match: identity and route (spec §D). Identity runs
+    /// through ``MedSchedule/identityMatches(keyA:nameA:keyB:nameB:)``, the
+    /// same join the quick-log chips and the adherence calendar use, so the
+    /// checklist and the Log sheet agree on what has been taken today.
     private nonisolated static func matches(entry: EntrySnapshot, occurrence: some LiveOccurrence) -> Bool {
         entry.route == occurrence.route
-            && identityMatches(nameA: entry.substance, uidA: entry.substanceUID, nameB: occurrence.substance, uidB: occurrence.substanceUID)
-    }
-
-    private nonisolated static func identityMatches(nameA: String, uidA: String?, nameB: String, uidB: String?) -> Bool {
-        if let uidA, let uidB { return uidA == uidB }
-        return nameA.lowercased() == nameB.lowercased()
+            && MedSchedule.identityMatches(
+                keyA: entry.substanceUID, nameA: entry.substance,
+                keyB: occurrence.substanceUID, nameB: occurrence.substance,
+            )
     }
 
     private nonisolated static func minutesOfDay(_ date: Date) -> Int {

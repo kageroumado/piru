@@ -137,6 +137,26 @@ struct RoutineOccurrenceTests {
     }
 
     @Test
+    func `A re-pinned PSID still matches by name, so the checklist agrees with the Log sheet`() throws {
+        let container = try makeContainer()
+        let context = container.mainContext
+        // The med was scheduled against one PSID family and the dose logged
+        // against the family it was re-pinned to. The quick-log chips credit
+        // this by name; the checklist must too, or one screen reads 0/1 while
+        // the other shows a tick (`Specs/open-items.md`, b46 batch C).
+        addItem("Methylphenidate", uid: "psid:41276", in: context)
+        let entry = addEntry("Methylphenidate", uid: "psid:4158", in: context)
+
+        RoutineOccurrenceService.reconcile(in: context)
+        let occurrence = try #require(try occurrences(in: context).first)
+        #expect(occurrence.state == .logged)
+        #expect(occurrence.satisfyingEntryID == entry.id)
+        #expect(try AdherenceCalculator.entryMatches(entry: entry, item: #require(
+            try context.fetch(FetchDescriptor<DailyDoseItem>()).first,
+        )))
+    }
+
+    @Test
     func `A route mismatch does not match`() throws {
         let container = try makeContainer()
         let context = container.mainContext

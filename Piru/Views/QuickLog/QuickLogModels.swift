@@ -349,8 +349,9 @@ final class QuickLogContentModel {
 
     /// Today's logged doses — the "done today" source for the daily groups and
     /// the due-now strip. Kept as entries (not a pre-aggregated identity dict)
-    /// so the done-check runs through ``AdherenceCalculator/entryMatches(entry:item:)``,
-    /// the same identity-or-name join MyMedsCard uses — a dose's PSID can
+    /// so the done-check runs through ``AdherenceCalculator/entryMatches(entry:item:)``
+    /// → ``MedSchedule/identityMatches(keyA:nameA:keyB:nameB:)``, the same join
+    /// the My Meds checklist's occurrence records run — a dose's PSID can
     /// resolve differently than its schedule item, so only matching through
     /// entries, never a strict identity key, keeps the two screens agreeing.
     private(set) var cachedTodayEntries: [DoseEntry] = []

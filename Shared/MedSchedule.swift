@@ -52,14 +52,27 @@ nonisolated enum MedSchedule {
 
     /// Whether a logged dose satisfies a scheduled med: the substance identity
     /// AND the route must match (the same substance by another route is
-    /// deliberately a plain journal entry, not adherence credit). Identity
-    /// joins by identity key with a lowercased-name fallback, so a
-    /// PSID-resolved item still credits a legacy name-only dose.
+    /// deliberately a plain journal entry, not adherence credit).
     static func matches(
         entryKey: String, entryName: String, entryRoute: RouteOfAdministration,
         itemKey: String, itemName: String, itemRoute: RouteOfAdministration,
     ) -> Bool {
         guard entryRoute == itemRoute else { return false }
-        return entryKey == itemKey || entryName.lowercased() == itemName.lowercased()
+        return identityMatches(keyA: entryKey, nameA: entryName, keyB: itemKey, nameB: itemName)
+    }
+
+    /// Whether two substance references name the same drug: their identity
+    /// keys agree, or their names do. This is the one identity join every
+    /// "already taken today" surface runs — the quick-log chips, the adherence
+    /// calendar, the widget, and the My Meds checklist's occurrence records —
+    /// so a dose can never read as taken on one screen and missing on another.
+    ///
+    /// The name arm is load-bearing on both ends of PSID resolution: it credits
+    /// a legacy dose logged before its substance resolved to an id, and a dose
+    /// whose PSID family was re-pinned after the med was scheduled, where both
+    /// sides carry ids that no longer agree.
+    static func identityMatches(keyA: String?, nameA: String, keyB: String?, nameB: String) -> Bool {
+        if let keyA, let keyB, !keyA.isEmpty, !keyB.isEmpty, keyA == keyB { return true }
+        return nameA.lowercased() == nameB.lowercased()
     }
 }
