@@ -21,6 +21,7 @@ struct ContentView: View {
     var body: some View {
         MainTabView()
             .sheetStackPresenter(navigator)
+            .dismissesKeyboardOnTap()
             .modifier(OnboardingGateModifier())
             .modifier(DiscordInviteModifier())
             .modifier(StoreDiagnosticsModifier())

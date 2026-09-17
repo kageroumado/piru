@@ -27,6 +27,7 @@ struct SteadyStateView: View {
             }
             .padding()
         }
+        .scrollDismissesKeyboard(.interactively)
         .skinBackdrop()
         .onChange(of: inputs.recomputeKey) { inputs.refresh() }
     }

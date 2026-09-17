@@ -351,44 +351,40 @@ struct QuickLogDock: View {
         // riding the keyboard animation, half staged — which read as chaos.
         // Search results live at the top, so nothing needed is hidden.
         .ignoresSafeArea(.keyboard)
-        // The dose fields use the decimal pad, which has no return key. Rather
-        // than the lone floating "Done" accessory (unpolished), a tap anywhere
-        // outside the focused field dismisses the keyboard — the value is
-        // already committed live per keystroke, so there is nothing to submit.
-        // A window-level recognizer is what catches taps in the sheet's large
-        // empty area, not just within the laid-out content (see
-        // ``KeyboardDismissTap``). Drag/scroll dismissal still applies too.
+        // The dose fields use the decimal pad, which has no return key: a tap
+        // anywhere outside the focused field puts the keyboard down, via the
+        // window-level recognizer the root installs (``View/dismissesKeyboardOnTap()``),
+        // which is what catches taps in the sheet's large empty area, not just
+        // within the laid-out content. Drag/scroll dismissal still applies too.
+        //
+        // The staged-array read (collapsed-card estimate) lives in this
+        // zero-size leaf, not in this body — otherwise every amount keystroke
+        // in a staged editor would re-run the whole dock.
+        .background {
+            TrayDerivedObserver(
+                tray: tray,
+                onStagedEstimate: { newValue in
+                    if newValue != stagedCardEstimate { stagedCardEstimate = newValue }
+                },
+            )
+        }
         #if canImport(UIKit)
-            .background { KeyboardDismissTap() }
+        .background { SheetHostProbe(box: bookkeeping.host) }
         #endif
-            // The staged-array read (collapsed-card estimate) lives in this
-            // zero-size leaf, not in this body — otherwise every amount keystroke
-            // in a staged editor would re-run the whole dock.
-            .background {
-                TrayDerivedObserver(
-                    tray: tray,
-                    onStagedEstimate: { newValue in
-                        if newValue != stagedCardEstimate { stagedCardEstimate = newValue }
-                    },
-                )
-            }
-        #if canImport(UIKit)
-            .background { SheetHostProbe(box: bookkeeping.host) }
-        #endif
-            // The empty⇄staged face swap mounts/unmounts dock content with NO
-            // animation: the sheet's detent change is the one animated element,
-            // and the content — laid out at its final frame from the first
-            // moment — just rides under the growing platter (the native sheet
-            // feel). Without this, the call sites' `withAnimation` played the
-            // staged card as a scale-from-center bloom inside the resize. Scoped
-            // to the *emptiness* flip only: adding to or removing from an
-            // already-visible staged list keeps the callers' animation, so the
-            // card grows/shrinks in step with the sheet instead of snapping a
-            // row in before the platter has moved. Sits *inside* the isBare
-            // animation below so it wins for updates where both change (staging
-            // the first dose from the bare pill).
-            .transaction(value: tray.isEmpty) { $0.animation = nil }
-            .animation(.snappy, value: isBare)
+        // The empty⇄staged face swap mounts/unmounts dock content with NO
+        // animation: the sheet's detent change is the one animated element,
+        // and the content — laid out at its final frame from the first
+        // moment — just rides under the growing platter (the native sheet
+        // feel). Without this, the call sites' `withAnimation` played the
+        // staged card as a scale-from-center bloom inside the resize. Scoped
+        // to the *emptiness* flip only: adding to or removing from an
+        // already-visible staged list keeps the callers' animation, so the
+        // card grows/shrinks in step with the sheet instead of snapping a
+        // row in before the platter has moved. Sits *inside* the isBare
+        // animation below so it wins for updates where both change (staging
+        // the first dose from the bare pill).
+        .transaction(value: tray.isEmpty) { $0.animation = nil }
+        .animation(.snappy, value: isBare)
         // Presentation configuration (detents, clear background, background
         // interaction) is applied by `QuickLogView` at the sheet closure's
         // root — attached in here it competes with the nested `.sheet`/
@@ -891,105 +887,6 @@ struct QuickLogDock: View {
         }
     }
 }
-
-#if canImport(UIKit)
-
-    // MARK: - Tap-outside-to-dismiss
-
-    /// Installs a tap recognizer on the host window that resigns the keyboard on a
-    /// tap outside the focused field — the polished substitute for a "Done"
-    /// accessory the decimal pad can't host (it has no return key). The dose fields
-    /// commit their value live on every keystroke, so dismissing *is* the only job.
-    ///
-    /// Why window-level (not a SwiftUI `onTapGesture`): the sheet's empty region —
-    /// the tall gap below a short staged card when the keyboard is up — lies
-    /// *outside* the laid-out content, where a content-attached gesture never
-    /// fires. A window recognizer sees every tap in the presentation.
-    ///
-    /// `cancelsTouchesInView = false` lets the tap still reach whatever it hit, so
-    /// buttons/steppers/menus keep working; the delegate declines taps that land in
-    /// a text input (`UITextField`/`UITextView`, which back SwiftUI's amount and
-    /// note fields) so *re-tapping a field* doesn't immediately blur it. The
-    /// recognizer is torn down with the dock, so it's live only while staging.
-    private struct KeyboardDismissTap: UIViewRepresentable {
-        func makeCoordinator() -> Coordinator {
-            Coordinator()
-        }
-
-        func makeUIView(context: Context) -> InstallerView {
-            let view = InstallerView()
-            view.isUserInteractionEnabled = false
-            view.coordinator = context.coordinator
-            return view
-        }
-
-        func updateUIView(_: InstallerView, context _: Context) {}
-
-        static func dismantleUIView(_: InstallerView, coordinator: Coordinator) {
-            coordinator.detach()
-        }
-
-        /// Installs/removes the recognizer as it actually enters and leaves a
-        /// window — `didMoveToWindow` is the reliable hook (the window is not yet
-        /// attached inside `makeUIView`).
-        final class InstallerView: UIView {
-            weak var coordinator: Coordinator?
-            override func didMoveToWindow() {
-                super.didMoveToWindow()
-                if let window { coordinator?.attach(to: window) } else { coordinator?.detach() }
-            }
-        }
-
-        final class Coordinator: NSObject, UIGestureRecognizerDelegate {
-            private weak var window: UIWindow?
-            private weak var recognizer: UITapGestureRecognizer?
-
-            func attach(to window: UIWindow) {
-                guard self.recognizer == nil else { return }
-                let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-                tap.cancelsTouchesInView = false
-                tap.delegate = self
-                window.addGestureRecognizer(tap)
-                self.window = window
-                self.recognizer = tap
-            }
-
-            func detach() {
-                if let recognizer { window?.removeGestureRecognizer(recognizer) }
-                recognizer = nil
-                window = nil
-            }
-
-            @objc
-            private func handleTap() {
-                UIApplication.shared.sendAction(
-                    #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
-                )
-            }
-
-            /// Let the sheet's own pan/scroll gestures run alongside this tap.
-            func gestureRecognizer(
-                _: UIGestureRecognizer,
-                shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
-            ) -> Bool {
-                true
-            }
-
-            /// Don't fire when the tap lands in a text input — that tap is the user
-            /// (re)focusing a field, and dismissing would fight it.
-            func gestureRecognizer(
-                _: UIGestureRecognizer, shouldReceive touch: UITouch,
-            ) -> Bool {
-                var view = touch.view
-                while let current = view {
-                    if current is UITextField || current is UITextView { return false }
-                    view = current.superview
-                }
-                return true
-            }
-        }
-    }
-#endif
 
 // MARK: - Geometry & tray leaves
 
