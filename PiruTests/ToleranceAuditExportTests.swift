@@ -21,7 +21,7 @@ import Testing
 /// Opt-in: set `PIRU_AUDIT_EXPORT=1` (`TEST_RUNNER_PIRU_AUDIT_EXPORT=1` under xcodebuild). Run:
 /// ```
 /// TEST_RUNNER_PIRU_AUDIT_EXPORT=1 xcodebuild test -scheme Piru \
-///   -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.4' \
+///   -destination 'platform=iOS Simulator,name=iPhone 18 Pro Max,OS=27.0' \
 ///   -only-testing:PiruTests/ToleranceAuditExportTests
 /// ```
 @Suite("Tolerance audit export")

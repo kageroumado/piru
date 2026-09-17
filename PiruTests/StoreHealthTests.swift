@@ -42,12 +42,40 @@ struct StoreHealthTests {
     }
 
     @Test
-    func `A real SwiftData store passes the read-write integrity probe`() throws {
-        // Empirically confirms the read-write probe reads a WAL-backed SwiftData
-        // store without false-flagging it (the reason `isReadable` does not open
-        // read-only).
+    func `A real SwiftData store passes the integrity probe`() throws {
+        // A WAL-backed SwiftData store is read by the read-only probe without
+        // being false-flagged.
         let url = tmpStoreURL()
         try seedStore(at: url, entries: 3)
+        #expect(StoreHealth.isReadable(at: url))
+    }
+
+    @Test
+    func `The probe leaves the WAL in place — it never checkpoints`() throws {
+        // The read-write probe used to checkpoint and delete the -wal on close,
+        // an fsync on the App Group store that iOS suspended the process in.
+        let url = tmpStoreURL()
+        try seedStore(at: url, entries: 3)
+        let footprint = { () -> [String] in
+            [url.path, url.path + "-wal"].map { path in
+                let attributes = (try? FileManager.default.attributesOfItem(atPath: path)) ?? [:]
+                return "\(attributes[.size] ?? 0)|\(attributes[.modificationDate] ?? "missing")"
+            }
+        }
+        let before = footprint()
+        #expect(StoreHealth.isReadable(at: url))
+        #expect(footprint() == before)
+    }
+
+    @Test
+    func `A store the process may not open is inconclusive, not corrupt`() throws {
+        // Data Protection on a locked device throws EPERM at a background
+        // launch; treating that as corruption would hand the recovery path a
+        // reason to replace the user's store with an older candidate.
+        let url = tmpStoreURL()
+        try seedStore(at: url, entries: 3)
+        try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: url.path)
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path) }
         #expect(StoreHealth.isReadable(at: url))
     }
 

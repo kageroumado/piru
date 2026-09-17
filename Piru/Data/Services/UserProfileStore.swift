@@ -276,6 +276,7 @@ final class UserProfileStore {
             var config = Configuration()
             config.readonly = true
             config.label = "piru-user-prefs-legacy"
+            config.observesSuspensionNotifications = true
             let legacy = try DatabaseQueue(path: legacyURL.path, configuration: config)
             let raw = try legacy.read { db -> String? in
                 let hasTable = try Int.fetchOne(

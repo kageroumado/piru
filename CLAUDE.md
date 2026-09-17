@@ -41,7 +41,7 @@ Voice governs register; these govern *claims*. Each was gotten wrong at least on
 **When a test run reports 0 tests, use `pipeline/run-tests.sh`.** The IDE/MCP test runner intermittently wedges — the test host never pairs with `testmanagerd`, so nothing executes and the run hangs indefinitely (cause and A/B in the `xcode-test-hang-lldb-attach` memory). The script is the bounded escape hatch: `build-for-testing` once, then
 
 ```bash
-xcodebuild build-for-testing -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'
+xcodebuild build-for-testing -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 18 Pro Max,OS=27.0'
 pipeline/run-tests.sh                  # full suite, ~20s healthy
 pipeline/run-tests.sh -only SomeSuite  # one suite (repeatable; use the Swift type name)
 ```
@@ -50,8 +50,8 @@ pipeline/run-tests.sh -only SomeSuite  # one suite (repeatable; use the Swift ty
 
 ```bash
 # Fallback only (prefer the Xcode MCP above):
-xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build
-xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' test
+xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 18 Pro Max' build
+xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 18 Pro Max' test
 
 ```
 

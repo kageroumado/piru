@@ -42,7 +42,7 @@ Prefer building through Xcode over scripting `xcodebuild` — it surfaces errors
 legibly, and it won't race another build against the same DerivedData. A headless build, when you need one:
 
 ```sh
-xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build
+xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 18 Pro Max' build
 ```
 
 Requires **Xcode 26+** and **Swift 6** (strict concurrency, `@MainActor` by default).
@@ -53,7 +53,7 @@ The suite uses the **Apple Testing framework** (Swift Testing, not XCTest) — h
 models, the data layer, the PK/effect math, the interaction rules, and navigation:
 
 ```sh
-xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' test
+xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 18 Pro Max' test
 ```
 
 If you change any non-UI logic — a PK or effect formula, an interaction rule, a dose/duration resolver, the

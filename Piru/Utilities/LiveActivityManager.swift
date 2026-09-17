@@ -272,8 +272,12 @@ struct DoseSnapshot {
             // Complete the BGTask only after the activity update has actually
             // landed — completing while a fire-and-forget update is still in
             // flight lets iOS suspend the process before the widget refreshes.
+            // The refresh resolves substances, so it runs with the databases
+            // resumed and hands the locks back before the task completes.
             let work = Task {
-                await self.performBackgroundUpdate()
+                await DatabaseSuspension.withResumed {
+                    await self.performBackgroundUpdate()
+                }
                 task.setTaskCompleted(success: !Task.isCancelled)
             }
             task.expirationHandler = { @Sendable in

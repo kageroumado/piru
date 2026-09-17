@@ -40,6 +40,11 @@ struct PiruApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
+        // Release every GRDB lock when the app is backgrounded, before the first
+        // connection opens (the store probe below is one): a lock held into
+        // suspension is a 0xdead10cc kill. See DatabaseSuspension.
+        DatabaseSuspension.install()
+
         // Recover the canonical store BEFORE opening it: if the App Group store
         // is empty/absent but a legacy or backed-up store holds the user's data,
         // restore it (backing up the empty store first; never deleting). This

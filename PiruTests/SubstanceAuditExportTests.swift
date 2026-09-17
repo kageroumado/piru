@@ -17,7 +17,7 @@ import Testing
 /// `<repo>/Audits/` (the test resolves the repo root from `#filePath`). Run:
 /// ```
 /// xcodebuild test -scheme Piru \
-///   -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.4' \
+///   -destination 'platform=iOS Simulator,name=iPhone 18 Pro Max,OS=27.0' \
 ///   -only-testing:PiruTests/SubstanceAuditExportTests
 /// ```
 /// (with the scheme's TEST env carrying `PIRU_AUDIT_EXPORT=1`), or invoke the

@@ -51,12 +51,15 @@ final class SubstanceStore {
     /// `categorySummary`/`all` materialization). A `DatabaseQueue` serializes
     /// *all* access through one SQLite connection, so the ~500 ms batch resolve
     /// run on `substancesDB` would block every foreground read behind it — the
-    /// tab-switch / detail-push hangs in the trace. The file is opened read-only
-    /// and never written, so two independent connections read it concurrently
-    /// (no WAL needed — DELETE-mode read-only allows multiple shared-lock
-    /// readers). Keeping the batch on its own connection is what lets a detail
-    /// push resolve immediately while the prewarm is still running.
+    /// tab-switch / detail-push hangs in the trace. Both connections open the
+    /// file `immutable` (see ``immutableSQLiteURI(for:)``), so they read
+    /// concurrently without ever taking a lock. Keeping the batch on its own
+    /// connection is what lets a detail push resolve immediately while the
+    /// prewarm is still running.
     let substancesBatchDB: DatabaseQueue
+    /// Source priorities, profile and overrides. WAL mode, observing
+    /// ``DatabaseSuspension``: reads keep working while the app is suspended in
+    /// the background; writes are user-driven and foreground-only.
     private let userPrefsDB: DatabaseQueue
 
     #if DEBUG
@@ -67,7 +70,27 @@ final class SubstanceStore {
         func closeUserPrefsForTesting() {
             try? userPrefsDB.close()
         }
+
+        /// The prefs store's `PRAGMA journal_mode`, for the test that pins WAL.
+        func userPrefsJournalModeForTesting() -> String? {
+            try? userPrefsDB.read { db in try String.fetchOne(db, sql: "PRAGMA journal_mode") }
+        }
     #endif
+
+    /// The `file:` URI that opens `url` with SQLite's `immutable=1` parameter:
+    /// the file is declared unchanging, so SQLite takes no lock on it, reads no
+    /// `-wal`, and creates no `-shm`. This is what keeps the substance
+    /// connections out of the `0xdead10cc` suspension kill — there is no lock
+    /// to be caught holding. Both files it is used on hold still: the bundled
+    /// resource is immutable, and an applied update is replaced by unlink and
+    /// rename, which leaves an open connection reading the old inode.
+    /// Apple's SQLite is built with URI filenames enabled, so no open flag is
+    /// needed. `?`, `#` and `%` in the path are percent-encoded, as the URI
+    /// grammar requires.
+    nonisolated static func immutableSQLiteURI(for url: URL) -> String {
+        let path = url.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? url.path
+        return "file:\(path)?immutable=1"
+    }
 
     /// Ordered list of enabled source slugs (highest priority first). Re-read
     /// on every priority change. Bundled defaults seed the user DB on first
@@ -331,21 +354,24 @@ final class SubstanceStore {
     /// `-wal`/`-shm` (commonly left when the app is killed mid-write) is deleted
     /// and recreated rather than crashing the app at launch.
     ///
-    /// If even a *fresh* on-disk store can't be created, fall back to an
-    /// in-memory queue instead of crashing. The dominant reason an otherwise
-    /// healthy sandbox refuses the open is Data Protection: when the app is
-    /// launched into the background while the device is still locked (widget
-    /// timeline refresh, background task), files with complete protection are
-    /// unreadable and the create throws `EPERM`. That is transient — a plain
-    /// foreground launch would have succeeded — so a persistent, launch-time
-    /// crash is the wrong response. In-memory prefs are non-persisted (the user
-    /// falls back to bundled-default source priorities for that session) but let
-    /// the app run; the next disk open re-persists them.
+    /// Only *corruption* (`SQLITE_NOTADB`, `SQLITE_CORRUPT`) earns the delete.
+    /// The other reason an otherwise healthy sandbox refuses the open is Data
+    /// Protection: when the app is launched into the background while the
+    /// device is still locked (widget timeline refresh, background task), files
+    /// with complete protection are unreadable and the open throws `EPERM`.
+    /// That is transient — a plain foreground launch would have succeeded — so
+    /// deleting the user's priorities over it would be data loss, and crashing
+    /// would be a launch-time crash on every locked-device wake. Such an open
+    /// falls through to an in-memory queue: prefs are non-persisted for that
+    /// session (bundled-default source priorities) but the app runs, and the
+    /// next disk open sees the untouched file.
     private static func openUserPrefs(at url: URL, configuration: Configuration) -> DatabaseQueue {
+        var memoryConfiguration = configuration
+        memoryConfiguration.journalMode = .default
         do {
             return try DatabaseQueue(path: url.path, configuration: configuration)
-        } catch {
-            logger.error("user-prefs DB unopenable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); recreating from bundled defaults")
+        } catch let error as DatabaseError where error.indicatesCorruption {
+            logger.error("user-prefs DB corrupt at \(url.path, privacy: .public) (\(error.description, privacy: .public)); recreating from bundled defaults")
             let fm = FileManager.default
             let siblings = [url, URL(fileURLWithPath: url.path + "-wal"), URL(fileURLWithPath: url.path + "-shm")]
             for sibling in siblings where fm.fileExists(atPath: sibling.path) {
@@ -355,12 +381,19 @@ final class SubstanceStore {
                 return try DatabaseQueue(path: url.path, configuration: configuration)
             } catch {
                 logger.error("user-prefs DB unrecreatable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); falling back to an in-memory prefs store")
-                if let memory = try? DatabaseQueue(named: nil, configuration: configuration) {
-                    return memory
-                }
-                fatalError("Failed to open even an in-memory user-prefs DB: \(error)")
+                return openInMemoryPrefs(configuration: memoryConfiguration, after: error)
             }
+        } catch {
+            logger.error("user-prefs DB unopenable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); keeping the file and using an in-memory prefs store this session")
+            return openInMemoryPrefs(configuration: memoryConfiguration, after: error)
         }
+    }
+
+    private static func openInMemoryPrefs(configuration: Configuration, after error: any Error) -> DatabaseQueue {
+        if let memory = try? DatabaseQueue(named: nil, configuration: configuration) {
+            return memory
+        }
+        fatalError("Failed to open even an in-memory user-prefs DB: \(error)")
     }
 
     /// Designated initializer — the testability seam. Tests construct an
@@ -386,11 +419,10 @@ final class SubstanceStore {
 
     init(substancesDBURL: URL, userPrefsDBURL: URL, prewarmsAllCache: Bool = true) {
         self.prewarmsAllCache = prewarmsAllCache
-        // The substances DB is opened read-only — both the bundled copy
-        // (immutable resource bundle) and any opt-in update applied to
-        // Documents/ (we never modify it after sha256-verified install).
-        // readonly = true also allows multiple processes (app + extension)
-        // to open the same file safely if we ever share it across targets.
+        // The substances DB is opened read-only and immutable — both the
+        // bundled copy (immutable resource bundle) and any opt-in update
+        // applied to Documents/ (never modified after its sha256-verified
+        // install). Immutable means lock-free: see `immutableSQLiteURI(for:)`.
         var bundleConfig = Configuration()
         bundleConfig.readonly = true
         bundleConfig.label = "piru-substances"
@@ -402,7 +434,7 @@ final class SubstanceStore {
         // failure stays fatal (see ``bundledSubstancesDBURL``).
         let openedSubstancesURL: URL
         do {
-            self.substancesDB = try DatabaseQueue(path: substancesDBURL.path, configuration: bundleConfig)
+            self.substancesDB = try DatabaseQueue(path: Self.immutableSQLiteURI(for: substancesDBURL), configuration: bundleConfig)
             openedSubstancesURL = substancesDBURL
         } catch {
             let bundleURL = Self.bundledSubstancesDBURL()
@@ -415,7 +447,7 @@ final class SubstanceStore {
                 SubstanceDBUpdater.quarantineAppliedDB()
             }
             do {
-                self.substancesDB = try DatabaseQueue(path: bundleURL.path, configuration: bundleConfig)
+                self.substancesDB = try DatabaseQueue(path: Self.immutableSQLiteURI(for: bundleURL), configuration: bundleConfig)
             } catch {
                 fatalError("Failed to open bundled substances DB at \(bundleURL.path): \(error)")
             }
@@ -429,13 +461,15 @@ final class SubstanceStore {
         var batchConfig = bundleConfig
         batchConfig.label = "piru-substances-batch"
         do {
-            self.substancesBatchDB = try DatabaseQueue(path: openedSubstancesURL.path, configuration: batchConfig)
+            self.substancesBatchDB = try DatabaseQueue(path: Self.immutableSQLiteURI(for: openedSubstancesURL), configuration: batchConfig)
         } catch {
             fatalError("Failed to open substances batch DB at \(openedSubstancesURL.path): \(error)")
         }
 
         var prefsConfig = Configuration()
         prefsConfig.label = "piru-user-prefs"
+        prefsConfig.journalMode = .wal
+        prefsConfig.observesSuspensionNotifications = true
         self.userPrefsDB = Self.openUserPrefs(at: userPrefsDBURL, configuration: prefsConfig)
 
         seedUserPrefsIfNeeded()
