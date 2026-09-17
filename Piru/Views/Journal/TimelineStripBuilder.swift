@@ -109,6 +109,10 @@ struct TimelineStripBuilder {
         let hexMap = colors.hexColorMap
         var states: [ActiveSubstanceState] = []
         var statesByEntry: [PersistentIdentifier: ActiveSubstanceState] = [:]
+        // The doses whose spans may hold the axis open. A background med is
+        // a baseline by declaration — `TimelineWindowModel` keeps it off the
+        // window graph the same way — so it draws but never protects.
+        var protectingStates: [ActiveSubstanceState] = []
         for entry in entries {
             // Depot doses get no effect state (ActiveSubstanceState.from returns nil
             // for them centrally) — no acute curve or phase, just the dose bubble.
@@ -116,6 +120,9 @@ struct TimelineStripBuilder {
             guard let state = ActiveSubstanceState.from(entry: entry, colorHex: hex) else { continue }
             states.append(state)
             statesByEntry[entry.persistentModelID] = state
+            if !entry.isBackgroundMed {
+                protectingStates.append(state)
+            }
         }
         statesBySubstance = Dictionary(grouping: states) { $0.substanceName.lowercased() }
         var bySubstance = Dictionary(grouping: entries) { $0.substance.lowercased() }
@@ -174,11 +181,13 @@ struct TimelineStripBuilder {
             ),
         )
 
-        // Where each curve is still above threshold — the spans compression
-        // must leave at the uniform scale.
-        let activeIntervals: [DateInterval] = style.pkMode
-            ? Self.pkActiveIntervals(entries: entries)
-            : Self.activeIntervals(states: states)
+        // Where each curve is still above threshold and not yet a baseline —
+        // the spans compression must leave at the uniform scale.
+        let activeIntervals = Self.protectingIntervals(
+            style.pkMode
+                ? Self.pkActiveSpans(entries: entries.filter { !$0.isBackgroundMed })
+                : Self.activeSpans(states: protectingStates),
+        )
         let activeByDay: [Date: Date] = Dictionary(
             activeIntervals.map { (calendar.startOfDay(for: $0.start), $0.end) },
             uniquingKeysWith: { Swift.max($0, $1) },
@@ -266,12 +275,39 @@ struct TimelineStripBuilder {
     /// Body-load mode: a dose stops holding the axis open this many
     /// half-lives after it, whatever fraction of its peak remains.
     nonisolated static let pkActiveHalfLives = 2.0
-    /// Ceiling on any one dose's active span, in either mode. The horizontal
-    /// graph frames its window by the same rule (``TimelineCurveModel``'s
-    /// `renderedTail` drops curves that have not decayed inside
-    /// ``TimelineCurveModel/maxDisplayMinutes``): a curve still up two days
-    /// on is background, and background does not keep dead time uniform.
-    nonisolated static let maximumActiveMinutes = 48.0 * 60
+    /// Activity continuous for longer than this is a baseline, not an
+    /// event, and a baseline does not keep dead time uniform. It caps one
+    /// dose's own span in either mode, and it caps how long a substance's
+    /// unbroken run of doses protects the axis. The horizontal graph frames
+    /// by the same rule (``TimelineCurveModel``'s `renderedTail` drops curves
+    /// that have not decayed inside ``TimelineCurveModel/maxDisplayMinutes``).
+    nonisolated static let baselineMinutes = 48.0 * 60
+
+    /// One dose's active span, tagged with its substance so runs of the
+    /// same substance can be chained.
+    nonisolated struct ActiveSpan {
+        let key: String
+        let interval: DateInterval
+    }
+
+    /// The spans that hold the axis open: per substance, the merged runs of
+    /// its active spans, each run cut at ``baselineMinutes``. A substance
+    /// active without a break for longer than that has become a baseline —
+    /// the daily med whose curves chain into one unbroken span and would
+    /// otherwise keep every night at the uniform scale. A gap below
+    /// threshold resets the clock, so a med stopped and restarted protects
+    /// its first two days again. The curves still draw their whole run.
+    nonisolated static func protectingIntervals(_ spans: [ActiveSpan]) -> [DateInterval] {
+        var result: [DateInterval] = []
+        for group in Dictionary(grouping: spans, by: \.key).values {
+            for run in TimelineTimeMap.merged(group.map(\.interval)) {
+                result.append(run.duration > baselineMinutes * 60
+                    ? DateInterval(start: run.start, duration: baselineMinutes * 60)
+                    : run)
+            }
+        }
+        return result
+    }
 
     /// Room a slice's cards need so they never spill into the next day:
     /// every card stacked from under the day tag, with envelope padding
@@ -292,7 +328,7 @@ struct TimelineStripBuilder {
     /// nothing does. Drawn beside a heavy dose, a light one sits under a
     /// device pixel long before it reaches its own baseline, and a tail
     /// nobody can see must not hold the axis open.
-    nonisolated static func activeIntervals(states: [ActiveSubstanceState]) -> [DateInterval] {
+    nonisolated static func activeSpans(states: [ActiveSubstanceState]) -> [ActiveSpan] {
         // Sweep in dose order: two curves overlap exactly when the later dose
         // lands before the earlier curve ends, so every pair meets once,
         // while the earlier dose is still open.
@@ -314,28 +350,31 @@ struct TimelineStripBuilder {
                 peerMagnitude: peers[i],
                 threshold: activeThreshold,
             )
-            return DateInterval(
-                start: ordered[i].doseTimestamp,
-                duration: min(max(minutes, 1), maximumActiveMinutes) * 60,
+            return ActiveSpan(
+                key: ordered[i].substanceName.lowercased(),
+                interval: DateInterval(
+                    start: ordered[i].doseTimestamp,
+                    duration: min(max(minutes, 1), baselineMinutes) * 60,
+                ),
             )
         }
     }
 
     /// Body-load mode: minutes a dose holds the axis open — until its
     /// concentration falls below ``activeThreshold`` of its peak, but never
-    /// past ``pkActiveHalfLives`` half-lives or ``maximumActiveMinutes``.
+    /// past ``pkActiveHalfLives`` half-lives or ``baselineMinutes``.
     /// The curve itself still draws its whole tail; a 70 h half-life would
     /// otherwise keep twelve days per dose at the uniform scale.
     nonisolated static func pkActiveMinutes(halfLife: Double, ke: Double, ka: Double) -> Double {
         let toThreshold = PKModel.timeToFraction(activeThreshold, ke: ke, ka: ka)
-        return max(min(toThreshold, halfLife * pkActiveHalfLives, maximumActiveMinutes), 1)
+        return max(min(toThreshold, halfLife * pkActiveHalfLives, baselineMinutes), 1)
     }
 
     /// Body-load mode: ``pkActiveMinutes(halfLife:ke:ka:)`` from each dose.
     /// Doses that draw no body-load curve contribute nothing.
-    private static func pkActiveIntervals(entries: [DoseEntry]) -> [DateInterval] {
+    private static func pkActiveSpans(entries: [DoseEntry]) -> [ActiveSpan] {
         var constantsCache: [String: PKConstants?] = [:]
-        var intervals: [DateInterval] = []
+        var spans: [ActiveSpan] = []
         for entry in entries {
             let key = entry.substance.lowercased()
             let constants: PKConstants?
@@ -347,9 +386,9 @@ struct TimelineStripBuilder {
             }
             guard let constants else { continue }
             let minutes = pkActiveMinutes(halfLife: constants.halfLife, ke: constants.ke, ka: constants.ka)
-            intervals.append(DateInterval(start: entry.timestamp, duration: minutes * 60))
+            spans.append(ActiveSpan(key: key, interval: DateInterval(start: entry.timestamp, duration: minutes * 60)))
         }
-        return intervals
+        return spans
     }
 
     /// Body-load mode's activity end per dose: six half-lives, the same cutoff
