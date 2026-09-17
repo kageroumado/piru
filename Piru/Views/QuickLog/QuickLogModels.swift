@@ -236,23 +236,58 @@ struct DailyCategoryGroup: Identifiable {
     let icon: String
     let items: [DailyDoseItem]
     let remaining: [DailyDoseItem]
+    /// The members whose earliest uncovered slot has opened *in this group* —
+    /// a med at 8:00 and 20:00 is due on the Morning pill in the morning and
+    /// never on Evening's until its second slot opens. Empty for PRN meds.
+    let due: [DueNowSlot]
+
+    var isDue: Bool {
+        !due.isEmpty
+    }
+
+    /// The earliest open slot, as minutes from midnight; `nil` when only
+    /// anytime meds are due.
+    var dueSlotMinutes: Int? {
+        due.compactMap(\.slotMinutes).min()
+    }
+
+    /// Staged count of one member, read off the tray's per-identity snapshot
+    /// under the identity ``DoseTrayModel/stage(dailyItem:colorLookup:)``
+    /// files it under: a med the catalog resolves keys by uid, one it cannot
+    /// by bare name. The two are disjoint, so checking both never false-matches.
+    static func stagedQuantity(of item: DailyDoseItem, in staged: [String: StagedChipCounts]) -> Int {
+        let library = SubstanceLibrary.lookup(item.substance.lowercased())
+        let resolved = DoseTrayModel.stagedIdentity(substance: item.substance, productName: item.productName, librarySubstance: library, route: item.route)
+        let nameOnly = DoseTrayModel.stagedIdentity(substance: item.substance, productName: item.productName, librarySubstance: nil, route: item.route)
+        let counts = staged[resolved] ?? staged[nameOnly] ?? .empty
+        return counts.count(route: item.route, amount: item.amount, unit: item.unit)
+    }
+
+    /// Members not yet in the tray — what one tap on the pill stages.
+    func unstaged(in staged: [String: StagedChipCounts]) -> [DailyDoseItem] {
+        items.filter { Self.stagedQuantity(of: $0, in: staged) == 0 }
+    }
+
+    func isFullyStaged(in staged: [String: StagedChipCounts]) -> Bool {
+        unstaged(in: staged).isEmpty
+    }
 }
 
-/// One uncovered med slot that is due right now — the quick-log screen's
-/// "what should I take *now*?" answer (Specs/meds-ux-review.md §5). Derived
-/// per (med × earliest uncovered slot); a med never shows more than one row.
+/// One uncovered med slot that is due right now — the "what should I take
+/// *now*?" answer (Specs/meds-ux-review.md §5) behind a My Meds pill's due
+/// state and the tab-bar accessory badge. Derived per (med × earliest
+/// uncovered slot); a med never has more than one.
 struct DueNowSlot: Identifiable {
-    /// `identityKey|slot` — stable across rebuilds for row identity.
+    /// `identityKey|slot` — stable across rebuilds.
     let id: String
     let item: DailyDoseItem
     /// Minutes from midnight, or `nil` for an "anytime" med (due all day).
     let slotMinutes: Int?
-    let isQuiet: Bool
 
     /// How far ahead of a slot's set time it starts counting as "due now".
     static let dueSoonLeadMinutes = 60
 
-    /// The due-now derivation, shared by the quick-log strip and the tab-bar
+    /// The due-now derivation, shared by the My Meds pills and the tab-bar
     /// accessory badge: for each non-PRN med due today, the earliest
     /// uncovered slot whose time is within ``dueSoonLeadMinutes`` (or already
     /// past) — "covered" assigns today's logged doses to the earliest slots
@@ -276,20 +311,14 @@ struct DueNowSlot: Identifiable {
             let times = item.reminderTimesMinutes.sorted()
             if times.isEmpty {
                 guard taken == 0 else { continue }
-                slots.append(DueNowSlot(
-                    id: "\(item.identityKey)|any",
-                    item: item, slotMinutes: nil, isQuiet: item.isQuiet,
-                ))
+                slots.append(DueNowSlot(id: "\(item.identityKey)|any", item: item, slotMinutes: nil))
                 continue
             }
             // The earliest uncovered slot, and only if its window has opened.
             guard taken < times.count else { continue }
             let slot = times[taken]
             guard slot <= nowMinutes + dueSoonLeadMinutes else { continue }
-            slots.append(DueNowSlot(
-                id: "\(item.identityKey)|\(slot)",
-                item: item, slotMinutes: slot, isQuiet: item.isQuiet,
-            ))
+            slots.append(DueNowSlot(id: "\(item.identityKey)|\(slot)", item: item, slotMinutes: slot))
         }
         return slots.sorted {
             ($0.slotMinutes ?? .max, $0.item.sortOrder) < ($1.slotMinutes ?? .max, $1.item.sortOrder)
@@ -353,8 +382,8 @@ final class QuickLogContentModel {
     private(set) var cachedLibraryResults: [SubstanceMatch] = []
     private(set) var cachedColorLookup: [String: String] = [:]
 
-    /// Today's logged doses — the "done today" source for the daily groups and
-    /// the due-now strip. Kept as entries (not a pre-aggregated identity dict)
+    /// Today's logged doses — the "done today" and "due now" source for the
+    /// daily groups. Kept as entries (not a pre-aggregated identity dict)
     /// so the done-check runs through ``AdherenceCalculator/entryMatches(entry:item:)``
     /// → ``MedSchedule/identityMatches(keyA:nameA:keyB:nameB:)``, the same join
     /// the My Meds checklist's occurrence records run — a dose's PSID can
@@ -387,9 +416,6 @@ final class QuickLogContentModel {
     private(set) var cachedFavoriteLibrarySubstances: [Substance] = []
 
     private(set) var cachedDailyGroups: [DailyCategoryGroup] = []
-    /// Med slots due right now (uncovered, at/past their time — or "anytime"
-    /// meds not yet taken). The screen's top strip; empty = strip hidden.
-    private(set) var cachedDueNow: [DueNowSlot] = []
 
     /// Gates the empty-state placeholder: it must not show until the first
     /// rebuild has actually run, or the sheet briefly flashes "No Previous
@@ -504,10 +530,9 @@ final class QuickLogContentModel {
         cachedMostRecent = badges
         cachedRecentLocations = locations
         cachedTagSuggestions = Array((used + extras).prefix(8))
-        // `makeDailyGroups`/`makeDueNow` read `cachedTodayEntries` (the "done"
-        // check), so they must rebuild after that's assigned above.
+        // `makeDailyGroups` reads `cachedTodayEntries` (the "done" and "due"
+        // checks), so it must rebuild after that's assigned above.
         cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
-        cachedDueNow = makeDueNow(dailyDoseItems: dailyDoseItems)
     }
 
     /// The title a card shows when it names more than the plain substance —
@@ -660,7 +685,6 @@ final class QuickLogContentModel {
     /// row or daily item, but history is unchanged).
     func rebuildDailyGroups(dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) {
         cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
-        cachedDueNow = makeDueNow(dailyDoseItems: dailyDoseItems)
     }
 
     /// The Meds redesign's group pills: one pill per derived time-of-day
@@ -669,10 +693,19 @@ final class QuickLogContentModel {
     /// groups never double-stages it. As-needed meds are NOT one all-or-
     /// nothing group — different PRN meds serve different moments, so each
     /// gets its own single-med pill (a pre-workout stack is still one tap
-    /// per med, never "stage every PRN med I own"). The `routines` parameter
-    /// is retained for call-site stability but no longer read.
-    func makeDailyGroups(dailyDoseItems: [DailyDoseItem], routines _: [DoseRoutine]) -> [DailyCategoryGroup] {
+    /// per med, never "stage every PRN med I own"). Each group carries the
+    /// ``DueNowSlot``s that opened inside it, so the pill can answer "what
+    /// should I take now?" itself. The `routines` parameter is retained for
+    /// call-site stability but no longer read.
+    func makeDailyGroups(dailyDoseItems: [DailyDoseItem], routines _: [DoseRoutine], now: Date = .now) -> [DailyCategoryGroup] {
         guard !dailyDoseItems.isEmpty else { return [] }
+
+        let dueSlots = DueNowSlot.derive(items: dailyDoseItems, todayEntries: cachedTodayEntries, now: now)
+        func due(in group: MedTimeGroup) -> [DueNowSlot] {
+            dueSlots.filter { slot in
+                slot.slotMinutes.map { MedTimeGroup.group(forMinutes: $0) == group } ?? (group == .anytime)
+            }
+        }
 
         func remaining(in items: [DailyDoseItem]) -> [DailyDoseItem] {
             // Join via the shared adherence matcher (identity OR name, same
@@ -702,6 +735,7 @@ final class QuickLogContentModel {
                 icon: group.symbol,
                 items: items,
                 remaining: remaining(in: items),
+                due: due(in: group),
             )
         }
 
@@ -715,14 +749,10 @@ final class QuickLogContentModel {
                 icon: "cross.vial",
                 items: [item],
                 remaining: capped ? [] : [item],
+                due: [],
             ))
         }
         return groups
-    }
-
-    /// Derive the due-now strip — see ``DueNowSlot/derive(items:todayEntries:now:)``.
-    func makeDueNow(dailyDoseItems: [DailyDoseItem], now: Date = .now) -> [DueNowSlot] {
-        DueNowSlot.derive(items: dailyDoseItems, todayEntries: cachedTodayEntries, now: now)
     }
 
     // MARK: Search

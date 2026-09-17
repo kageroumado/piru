@@ -204,7 +204,7 @@ struct DockLabelText: View {
 extension DockLabelContext {
     /// Gathers the label inputs off today's doses (one indexed fetch) and the
     /// most recent dose (one limit-1 fetch). "Due" is the same derivation as
-    /// the quick-log due strip, so the dock and the Log sheet never disagree.
+    /// the Log sheet's My Meds pills, so the dock and the sheet never disagree.
     @MainActor
     static func derive(items: [DailyDoseItem], in modelContext: ModelContext, now: Date) -> DockLabelContext {
         var context = DockLabelContext(now: now)
@@ -273,7 +273,7 @@ extension DockLabelContext {
 // MARK: - Due Badge
 
 /// The meds-due count on the "+", the app-icon badge idiom: it says there is
-/// something to do in the Log sheet, where the due strip is first on screen.
+/// something to do in the Log sheet, where the due pills are first on screen.
 struct DockDueBadge: View {
     let count: Int
 
