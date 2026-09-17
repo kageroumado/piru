@@ -89,6 +89,12 @@ final class InventoryItem {
     /// "Single dose" in ``unit``, powering "~N doses left". Optional, **not**
     /// prefilled; `nil` or `0` hides the doses-left value.
     var doseSize: Double?
+    /// Milligrams of substance in one ``unit`` when the stock is counted in
+    /// pieces (`"tabs"`, `"caps"`) — the strength printed on the box. It is the
+    /// bridge that lets a dose logged in milligrams draw down a count, and a
+    /// count merge into a mass-denominated item. `nil` for a mass or volume
+    /// unit, or when the strength is unknown.
+    var unitStrengthMG: Double?
     /// Cache of ``InventoryMath/quantity(for:in:)`` for cheap badge/widget reads.
     /// Pure-derived, so a stale value self-heals on the next recompute.
     var currentQuantity: Double = 0
@@ -121,6 +127,7 @@ final class InventoryItem {
         lowStockThreshold: Double? = nil,
         baselineQuantity: Double? = nil,
         doseSize: Double? = nil,
+        unitStrengthMG: Double? = nil,
         manualEvents: [ManualEvent] = [],
         createdAt: Date = .now,
         sortOrder: Int = 0,
@@ -134,6 +141,7 @@ final class InventoryItem {
         self.lowStockNotified = false
         self.baselineQuantity = baselineQuantity
         self.doseSize = doseSize
+        self.unitStrengthMG = unitStrengthMG
         self.currentQuantity = 0
         self.restocksData = (try? JSONEncoder().encode(manualEvents)) ?? Data()
         self.createdAt = createdAt

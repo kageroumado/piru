@@ -52,7 +52,7 @@ struct SubstanceCardView: View, Equatable {
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     /// Tracked inventory items — drives the passive "X left" hint. A `@Query`
     /// here re-renders only this card when stock changes, never the whole list.
-    @Query private var inventoryItems: [InventoryItem]
+    @Query(sort: \InventoryItem.createdAt) private var inventoryItems: [InventoryItem]
     /// Substances whose PK badge has been expanded into the full advice card.
     @State private var expandedPK = false
     /// (substance|route) groups showing their full chip set instead of the
@@ -158,12 +158,10 @@ struct SubstanceCardView: View, Equatable {
         .accessibilityElement(children: .contain)
     }
 
-    /// The matching tracked item for this card's substance (salt-agnostic — the
-    /// card isn't salt-specific; prefer the base form).
+    /// The tracked item for this card's substance, by resolved identity (the
+    /// card isn't salt-specific; the base form wins when several are tracked).
     private var inventoryItem: InventoryItem? {
-        let name = card.substanceName.lowercased()
-        let matches = inventoryItems.filter { $0.substance.lowercased() == name }
-        return matches.first { $0.saltForm == nil } ?? matches.first
+        InventoryService.find(substance: card.substanceName, preferringSalt: nil, among: inventoryItems)
     }
 
     /// Passive stock hint (1B): a supply bar (only when a baseline is set) with

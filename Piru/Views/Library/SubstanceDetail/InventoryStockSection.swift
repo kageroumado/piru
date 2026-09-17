@@ -17,11 +17,7 @@ struct InventoryStockSection: View {
     /// item stocked under an alias (e.g. "IC-26") still shows on its canonical
     /// substance's page ("Methiodone").
     private var trackedItem: InventoryItem? {
-        let key = InventoryMath.matchKey(for: substanceName)
-        let matches = inventoryItems.filter { InventoryMath.matchKey(for: $0.substance) == key }
-        return matches.first { $0.saltForm == selectedSaltForm }
-            ?? matches.first { $0.saltForm == nil }
-            ?? matches.first
+        InventoryService.find(substance: substanceName, preferringSalt: selectedSaltForm, among: inventoryItems)
     }
 
     var body: some View {

@@ -185,6 +185,16 @@ struct PiruApp: App {
                         EsterIdentityBackfillMigration.runIfNeeded(container: container)
                     }
                     ActiveSessionManager.shared.recoverSession(container: container)
+                    // One-time: fold inventory items that share a substance
+                    // identity (two scanned boxes, an alias and its canonical
+                    // name) into one, before the recompute below replays the
+                    // survivors. `create` enforces the identity at the write,
+                    // so this only finds work in a store older than that.
+                    LaunchPassGate.run("inventoryIdentityMerge", container: container) {
+                        for id in InventoryService.mergeDuplicateItems(in: container.mainContext) {
+                            DoseNotificationManager.cancelInventoryLowStock(itemID: id)
+                        }
+                    }
                     // Warm the inventory caches so badges/widget read fresh
                     // numbers on first paint. Stock edits recompute their own item
                     // as they save, so only a dose-log change can leave a stale
