@@ -409,4 +409,251 @@ struct InventoryTests {
         await InventoryService.recompute(forSubstances: [drug], replayingOffMainIn: ctx)
         #expect(item.currentQuantity == expected)
     }
+
+    // MARK: - One identity per substance
+
+    private func allItems(_ ctx: ModelContext) throws -> [InventoryItem] {
+        try ctx.fetch(FetchDescriptor<InventoryItem>())
+    }
+
+    @Test
+    func `create twice is one item with a restock, and the box note stays on the event`() throws {
+        let ctx = try makeContext()
+        let first = InventoryService.create(
+            substance: drug, saltForm: nil, unit: "mg", initial: 180,
+            threshold: nil, setBaseline: false, note: "Box · 60 tablets", in: ctx,
+        )
+        let second = InventoryService.create(
+            substance: drug.uppercased(), saltForm: nil, unit: "mg", initial: 270,
+            threshold: nil, setBaseline: false, note: "Box · 90 tablets", in: ctx,
+        )
+        #expect(second.id == first.id)
+        #expect(try allItems(ctx).count == 1)
+        #expect(first.currentQuantity == 450)
+        #expect(first.manualEvents.map(\.kind) == [.initial, .restock])
+        #expect(first.manualEvents.map(\.note) == ["Box · 60 tablets", "Box · 90 tablets"])
+    }
+
+    @Test
+    func `create keeps salts apart`() throws {
+        let ctx = try makeContext()
+        InventoryService.create(substance: drug, saltForm: nil, unit: "mg", initial: 10, threshold: nil, setBaseline: false, in: ctx)
+        InventoryService.create(substance: drug, saltForm: "HCl", unit: "mg", initial: 10, threshold: nil, setBaseline: false, in: ctx)
+        #expect(try allItems(ctx).count == 2)
+    }
+
+    @Test
+    func `create folds a counted box into a milligram item through its strength`() throws {
+        let ctx = try makeContext()
+        let item = InventoryService.create(substance: drug, saltForm: nil, unit: "mg", initial: 90, threshold: nil, setBaseline: false, in: ctx)
+        InventoryService.create(
+            substance: drug, saltForm: nil, unit: "tabs", initial: 30,
+            threshold: nil, setBaseline: false, unitStrengthMG: 3, in: ctx,
+        )
+        #expect(try allItems(ctx).count == 1)
+        #expect(item.unit == "mg")
+        #expect(item.currentQuantity == 180)
+    }
+
+    @Test
+    func `create folds a milligram box into a counted item through its strength`() throws {
+        let ctx = try makeContext()
+        let item = InventoryService.create(
+            substance: drug, saltForm: nil, unit: "tabs", initial: 30,
+            threshold: nil, setBaseline: false, unitStrengthMG: 3, in: ctx,
+        )
+        InventoryService.create(substance: drug, saltForm: nil, unit: "mg", initial: 90, threshold: nil, setBaseline: false, in: ctx)
+        #expect(try allItems(ctx).count == 1)
+        #expect(item.unit == "tabs")
+        #expect(item.unitStrengthMG == 3)
+        #expect(item.currentQuantity == 60)
+    }
+
+    @Test
+    func `Counted stock is drawn down by a milligram dose through its strength`() throws {
+        let ctx = try makeContext()
+        let item = makeItem(ctx, unit: "tabs", initial: 28)
+        item.unitStrengthMG = 36
+        logDose(ctx, amount: 36, at: 1)
+        logDose(ctx, amount: 18, at: 2)
+        #expect(InventoryMath.quantity(for: item, in: ctx) == 26.5)
+    }
+
+    @Test
+    func `Import of the same file twice is one item with its events once`() throws {
+        let ctx = try makeContext()
+        InventoryService.create(substance: drug, saltForm: nil, unit: "mg", initial: 180, threshold: nil, setBaseline: false, in: ctx)
+        try ctx.save()
+        let data = try DataExportImport.exportJSON(context: ctx)
+        try DataExportImport.deleteAll(context: ctx)
+        try ctx.save()
+
+        try DataExportImport.importJSON(data: data, context: ctx)
+        try DataExportImport.importJSON(data: data, context: ctx)
+
+        let items = try allItems(ctx)
+        #expect(items.count == 1)
+        #expect(items.first?.manualEvents.count == 1)
+        #expect(items.first?.currentQuantity == 180)
+    }
+
+    @Test
+    func `Import folds two rows of one identity into one item`() throws {
+        let ctx = try makeContext()
+        // Two rows for one identity, as a store written before `create`
+        // enforced it would export them.
+        _ = makeItem(ctx, substance: drug, initial: 180)
+        _ = makeItem(ctx, substance: drug.lowercased(), initial: 270)
+        try ctx.save()
+        let data = try DataExportImport.exportJSON(context: ctx)
+        try DataExportImport.deleteAll(context: ctx)
+        try ctx.save()
+
+        try DataExportImport.importJSON(data: data, context: ctx)
+
+        let items = try allItems(ctx)
+        #expect(items.count == 1)
+        #expect(items.first?.currentQuantity == 450)
+    }
+
+    @Test
+    func `mergeDuplicateItems keeps the older id, concatenates events, and counts each dose once`() throws {
+        let ctx = try makeContext()
+        let older = makeItem(ctx, substance: drug, trackingStart: now, initial: 180)
+        older.createdAt = now
+        let newer = makeItem(ctx, substance: drug.uppercased(), trackingStart: now.addingTimeInterval(3_600), initial: 270)
+        newer.createdAt = now.addingTimeInterval(3_600)
+        newer.baselineQuantity = 450
+        let olderID = older.id
+        logDose(ctx, amount: 3, at: 2)
+
+        let newerID = newer.id
+        #expect(InventoryService.mergeDuplicateItems(in: ctx) == [newerID])
+
+        let items = try allItems(ctx)
+        #expect(items.count == 1)
+        let kept = try #require(items.first)
+        #expect(kept.id == olderID)
+        #expect(kept.trackingStart == now)
+        #expect(kept.manualEvents.map(\.amount) == [180, 270])
+        #expect(kept.baselineQuantity == 450)
+        #expect(kept.currentQuantity == 447)
+        #expect(InventoryService.mergeDuplicateItems(in: ctx).isEmpty)
+    }
+
+    @Test
+    func `mergeDuplicateItems converts a duplicate into the keeper's unit`() throws {
+        let ctx = try makeContext()
+        let keeper = makeItem(ctx, unit: "mg", initial: 500)
+        keeper.createdAt = now
+        let dup = makeItem(ctx, unit: "g", initial: 1)
+        dup.createdAt = now.addingTimeInterval(60)
+
+        InventoryService.mergeDuplicateItems(in: ctx)
+
+        #expect(try allItems(ctx).count == 1)
+        #expect(keeper.unit == "mg")
+        #expect(keeper.currentQuantity == 1_500)
+    }
+
+    @Test
+    func `mergeDuplicateItems leaves an unreconcilable duplicate alone`() throws {
+        let ctx = try makeContext()
+        let keeper = makeItem(ctx, unit: "mg", initial: 500)
+        keeper.createdAt = now
+        let dup = makeItem(ctx, unit: "mL", initial: 30)
+        dup.createdAt = now.addingTimeInterval(60)
+
+        #expect(InventoryService.mergeDuplicateItems(in: ctx).isEmpty)
+        #expect(try allItems(ctx).count == 2)
+    }
+
+    // MARK: - Count × strength
+
+    @Test
+    func `A scanned pack opens as a count at its strength and is stored that way`() throws {
+        let ctx = try makeContext()
+        let draft = InventoryAmountDraft(
+            prefill: InventoryPrefill(count: 28, unit: "tabs", strengthMG: 36, note: nil),
+            existingItem: nil,
+        )
+        #expect(draft.mode == .pieces)
+        let stated = draft.stated
+        #expect(stated.amount == 28)
+        #expect(stated.unit == "tabs")
+        #expect(stated.unitStrengthMG == 36)
+
+        let item = InventoryService.create(
+            substance: drug, saltForm: nil, unit: stated.unit, initial: stated.amount,
+            threshold: nil, setBaseline: false, unitStrengthMG: stated.unitStrengthMG, in: ctx,
+        )
+        #expect(item.unit == "tabs")
+        #expect(item.currentQuantity == 28)
+        #expect(item.unitStrengthMG == 36)
+        #expect(item.doseSize == nil)
+    }
+
+    @Test
+    func `A bare piece count defaults to tabs, a liquid stays an amount`() {
+        let pieces = InventoryAmountDraft(prefill: InventoryPrefill(count: 30, unit: nil, strengthMG: nil, note: nil), existingItem: nil)
+        #expect(pieces.mode == .pieces)
+        #expect(pieces.countUnit == "tabs")
+        #expect(pieces.strengthMG == 0)
+
+        let liquid = InventoryAmountDraft(prefill: InventoryPrefill(count: 118, unit: "mL", strengthMG: nil, note: nil), existingItem: nil)
+        #expect(liquid.mode == .amount)
+        #expect(liquid.stated.unit == "mL")
+        #expect(liquid.stated.amount == 118)
+    }
+
+    @Test
+    func `A restock from a scanned box adopts a counted item's unit and fills its strength`() throws {
+        let ctx = try makeContext()
+        let caps = makeItem(ctx, unit: "caps", initial: 10)
+        let draft = InventoryAmountDraft(
+            prefill: InventoryPrefill(count: 30, unit: "tabs", strengthMG: 3, note: nil),
+            existingItem: caps,
+        )
+        #expect(draft.mode == .pieces)
+        #expect(draft.countUnit == "caps")
+        #expect(draft.restockAmount(for: caps) == 30)
+
+        InventoryService.restock(caps, amount: 30, note: nil, setBaseline: false, unitStrengthMG: 3, in: ctx)
+        #expect(caps.unitStrengthMG == 3)
+        #expect(caps.currentQuantity == 40)
+    }
+
+    @Test
+    func `unitStrengthMG survives an export round-trip`() throws {
+        let ctx = try makeContext()
+        InventoryService.create(
+            substance: drug, saltForm: nil, unit: "tabs", initial: 28,
+            threshold: nil, setBaseline: false, unitStrengthMG: 36, in: ctx,
+        )
+        try ctx.save()
+        let data = try DataExportImport.exportJSON(context: ctx)
+        try DataExportImport.deleteAll(context: ctx)
+        try ctx.save()
+
+        try DataExportImport.importJSON(data: data, context: ctx)
+
+        let item = try #require(try allItems(ctx).first)
+        #expect(item.unit == "tabs")
+        #expect(item.unitStrengthMG == 36)
+        #expect(item.currentQuantity == 28)
+    }
+
+    @Test
+    func `A restock stated as a box reconciles into the item's unit`() throws {
+        let ctx = try makeContext()
+        let milligrams = makeItem(ctx, unit: "mg", initial: 90)
+        let draft = InventoryAmountDraft(prefill: nil, existingItem: milligrams)
+        draft.mode = .pieces
+        draft.count = 30
+        draft.strengthMG = 3
+        #expect(draft.restockAmount(for: milligrams) == 90)
+
+        let liquid = makeItem(ctx, substance: "ZZLiquid", unit: "mL", initial: 30)
+        #expect(draft.restockAmount(for: liquid) == nil)
+    }
 }

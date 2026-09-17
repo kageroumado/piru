@@ -15,13 +15,14 @@ nonisolated struct PackCount: Hashable {
     let count: Double
     let unit: Unit
 
-    /// The inventory unit this pack counts in.
-    var inventoryUnit: String {
+    /// The inventory unit this pack counts in; `nil` for a bare piece count,
+    /// which names no unit the inventory offers.
+    var inventoryUnit: String? {
         switch unit {
         case .tablet: "tabs"
         case .capsule: "caps"
         case .milliliter: "mL"
-        case .piece: "pieces"
+        case .piece: nil
         }
     }
 }
