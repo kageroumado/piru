@@ -806,6 +806,29 @@
     ]
   },
   {
+    "name": "Estradiol",
+    "summary": "Estrogen Receptor Agonist (ERα / ERβ)",
+    "description": "The principal endogenous estrogen. It binds and activates both estrogen receptor subtypes: 17β-estradiol competes for binding at ERα and ERβ with very similar preference, and the two subtypes are expressed in different tissues — ERα in uterus, pituitary, ovary and kidney, ERβ in prostate, ovary, lung, bladder and brain (rat tissue) — a difference that could contribute to tissue-selective estrogen action (Kuiper 1997). An injected ester is a prodrug released from its oil depot: estradiol valerate is split by enzymatic hydrolysis into 17β-estradiol and its fatty acid, and that estradiol is metabolized the same way after intravenous and intramuscular injection (Düsterberg 1985). Release governs the time course: after 5 mg intramuscularly in oil, plasma estradiol peaks at about 2 days for the valerate and 4 days for the cypionate, and stays elevated for 7–8 and about 11 days respectively (Oriowo 1980); subcutaneous and intramuscular injection of the cypionate give similar peak, timing and exposure (Sierra-Ramírez 2011). Swallowed, estradiol valerate undergoes extensive first-pass metabolism (Düsterberg 1985).",
+    "bindings": [
+      {
+        "target": "Estrogen receptor α",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Estrogen receptor β",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ],
+    "references": [
+      "10.1210/endo.138.3.4979",
+      "10.1159/000180039",
+      "10.1016/s0010-7824(80)80018-7",
+      "10.1016/j.contraception.2011.03.014"
+    ]
+  },
+  {
     "name": "GBL",
     "summary": "Prodrug → GHB (GABA-B Agonist)",
     "description": "A prodrug rapidly converted to GHB (gamma-hydroxybutyrate) by peripheral lactonases. The active form acts as an agonist at GHB receptors and GABA-B receptors. Faster onset than oral GHB owing to more rapid absorption and conversion, but carries the same steep dose-response curve and overdose risk.",

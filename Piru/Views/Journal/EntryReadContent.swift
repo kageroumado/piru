@@ -82,6 +82,13 @@ struct EntryReadContent: View {
             activeOnly: true,
         )
 
+        // A depot ester's serum curve — the Injection Levels tool's chart, drawn
+        // from the whole log so this dose is seen in its cycle, with the tool one
+        // tap away.
+        if let analyte = DepotLevels.analyte(for: entry) {
+            DepotLevelsSection(analyte: analyte)
+        }
+
         // Directly under In Your Body: that card says how much is left, this one
         // says of what. Unlike the library's copy of this surface it is not
         // tier-gated — see ``ActiveMetaboliteEntrySection``.
