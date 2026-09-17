@@ -1358,6 +1358,12 @@
   "year": 2006
  },
  "doi:10.1016/j.clpt.2025.09.012": null,
+ "doi:10.1016/j.contraception.2011.03.014": {
+  "journal": "Contraception",
+  "subjects": [],
+  "title": "Comparative pharmacokinetics and pharmacodynamics after subcutaneous and intramuscular administration of medroxyprogesterone acetate (25 mg) and estradiol cypionate (5 mg)",
+  "year": "2011"
+ },
  "doi:10.1016/j.coph.2014.07.017": {
   "journal": "Current Opinion in Pharmacology",
   "subjects": [],
@@ -1944,6 +1950,12 @@
   "subjects": [],
   "title": "Norpropoxyphene-induced cardiotoxicity is associated with changes in ion-selectivity and gating of HERG currents",
   "year": "1999"
+ },
+ "doi:10.1016/s0010-7824(80)80018-7": {
+  "journal": "Contraception",
+  "subjects": [],
+  "title": "A comparison of the pharmacokinetic properties of three estradiol esters",
+  "year": "1980"
  },
  "doi:10.1016/s0014-2999(00)00538-4": null,
  "doi:10.1016/s0014-2999(02)01830-7": {
@@ -4951,6 +4963,12 @@
   "title": "Comparison of sublingual and oral prazepam in normal subjects. II. Pharmacokinetic and pharmacodynamic data",
   "year": "1988"
  },
+ "doi:10.1159/000180039": {
+  "journal": "Hormone research",
+  "subjects": [],
+  "title": "Pharmacokinetics and biotransformation of estradiol valerate in ovariectomized women",
+  "year": "1985"
+ },
  "doi:10.1159/000237839": {
   "journal": "Chemotherapy",
   "subjects": [],
@@ -5158,6 +5176,12 @@
   "subjects": [],
   "title": "Real Patient and its Virtual Twin: Application of Quantitative Systems Toxicology Modelling in the Cardiac Safety Assessment of Citalopram",
   "year": "2017"
+ },
+ "doi:10.1210/endo.138.3.4979": {
+  "journal": "Endocrinology",
+  "subjects": [],
+  "title": "Comparison of the ligand binding specificity and transcript tissue distribution of estrogen receptors alpha and beta",
+  "year": "1997"
  },
  "doi:10.1212/01.wnl.0000031426.21683.e2": {
   "journal": "Neurology",

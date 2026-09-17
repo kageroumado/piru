@@ -61,10 +61,17 @@ enum StoreHealth {
     /// read-write open remains as the fallback for the case where it cannot.
     /// Both connections observe suspension so an in-flight `quick_check` is
     /// interrupted rather than holding its lock into suspension.
+    ///
+    /// The busy timeout waits out a lock another connection is still letting go
+    /// of — the widget finishing a read of the App Group store, or a container
+    /// released a moment ago — so the header is actually read and judged. Without
+    /// it a busy store returns `SQLITE_BUSY` before the header is examined,
+    /// which reads as inconclusive and lets a corrupt file through the gate.
     private nonisolated static func probe(at url: URL) -> Verdict {
         var config = Configuration()
         config.label = "piru-storehealth"
         config.observesSuspensionNotifications = true
+        config.busyMode = .timeout(1)
         var readOnly = config
         readOnly.readonly = true
         let queue: DatabaseQueue

@@ -71,12 +71,31 @@ enum InventoryMath {
         doses(for: item, in: dosesByMatchKey(since: item.trackingStart, in: ctx))
     }
 
-    /// Convert a dose amount into the item's unit. Delegates to the existing
-    /// mass-family conversion (µg ↔ mg ↔ g), which also returns the amount
-    /// unchanged for an exact-unit match (mL→mL, caps→caps). Anything else
-    /// (mg vs mL, IU, drops) returns `nil` → that dose is skipped, never blocked.
-    static func convert(_ amount: Double, from: String, to: String) -> Double? {
-        DoseUnit.convert(amount, from: from, to: to)
+    /// The units that count pieces rather than measure them — the two the
+    /// inventory unit pickers offer. A stock in one of these needs a
+    /// ``InventoryItem/unitStrengthMG`` to meet a dose logged in milligrams.
+    nonisolated static let countUnits: Set<String> = ["tabs", "caps"]
+
+    nonisolated static func isCountUnit(_ unit: String) -> Bool {
+        countUnits.contains(unit.trimmingCharacters(in: .whitespaces).lowercased())
+    }
+
+    /// Convert an amount into the item's unit. The mass family (µg ↔ mg ↔ g)
+    /// and an exact-unit match (mL→mL, caps→caps) convert directly; a mass
+    /// meets a count unit through `unitStrengthMG` (36 mg against 36 mg tabs
+    /// is one tab; 2 tabs against a milligram stock is 72 mg). Anything else
+    /// (mg vs mL, IU, drops, a count with no strength) returns `nil` → that
+    /// dose is skipped, never blocked.
+    nonisolated static func convert(_ amount: Double, from: String, to: String, unitStrengthMG: Double? = nil) -> Double? {
+        if let direct = DoseUnit.convert(amount, from: from, to: to) { return direct }
+        guard let unitStrengthMG, unitStrengthMG > 0 else { return nil }
+        if isCountUnit(to), let mg = DoseUnit.convert(amount, from: from, to: "mg") {
+            return mg / unitStrengthMG
+        }
+        if isCountUnit(from) {
+            return DoseUnit.convert(amount * unitStrengthMG, from: "mg", to: to)
+        }
+        return nil
     }
 
     /// A `Sendable` snapshot of one consumption dose, so the stock replay can run
@@ -94,6 +113,7 @@ enum InventoryMath {
     static func quantity(for item: InventoryItem, in ctx: ModelContext) -> Double {
         replayQuantity(
             unit: item.unit,
+            unitStrengthMG: item.unitStrengthMG,
             events: item.manualEvents,
             doses: doses(for: item, in: ctx).map {
                 DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
@@ -106,13 +126,18 @@ enum InventoryMath {
     /// recompute both go through, so their results are identical by construction.
     /// `nonisolated` so the scoped log-path recompute can run it in a detached
     /// task while the main actor drives the dismissal animation.
-    nonisolated static func replayQuantity(unit: String, events: [ManualEvent], doses: [DoseSnapshot]) -> Double {
+    nonisolated static func replayQuantity(
+        unit: String,
+        unitStrengthMG: Double? = nil,
+        events: [ManualEvent],
+        doses: [DoseSnapshot],
+    ) -> Double {
         struct Tick { let date: Date; let delta: Double; let floors: Bool }
         var ticks: [Tick] = events.map {
             Tick(date: $0.date, delta: $0.amount, floors: $0.kind == .adjustment)
         }
         for dose in doses {
-            guard let converted = DoseUnit.convert(dose.amount, from: dose.unit, to: unit) else { continue }
+            guard let converted = convert(dose.amount, from: dose.unit, to: unit, unitStrengthMG: unitStrengthMG) else { continue }
             ticks.append(Tick(date: dose.timestamp, delta: -converted, floors: true))
         }
         var balance = 0.0
@@ -189,7 +214,7 @@ enum InventoryMath {
         let daysWithADose = Set(recent.map { calendar.startOfDay(for: $0.timestamp) }).count
         guard daysWithADose >= 5 else { return nil }
         let consumed = recent.reduce(0.0) { sum, dose in
-            sum + (convert(dose.amount, from: dose.unit, to: item.unit) ?? 0)
+            sum + (convert(dose.amount, from: dose.unit, to: item.unit, unitStrengthMG: item.unitStrengthMG) ?? 0)
         }
         let dailyAvg = consumed / 7
         guard dailyAvg > 0 else { return nil }
@@ -206,15 +231,42 @@ enum InventoryMath {
 /// honest so a future dip re-fires.
 @MainActor
 enum InventoryService {
-    /// Existing tracked item for a `(substance, salt)` pair, if any.
+    /// Existing tracked item for a `(substance, salt)` pair, if any. Identity
+    /// is ``InventoryMath/matchKey(for:)``, so "IC-26" and "Methiodone" are one
+    /// item; salt is strict (`nil == nil`).
     static func find(substance: String, saltForm: String?, in ctx: ModelContext) -> InventoryItem? {
-        let key = InventoryMath.matchKey(for: substance)
-        let all = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
-        return all.first { InventoryMath.matchKey(for: $0.substance) == key && $0.saltForm == saltForm }
+        find(substance: substance, saltForm: saltForm, among: (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
     }
 
-    /// Start tracking a substance with an optional initial amount. With
-    /// `setBaseline: true`, pins the post-event total as the baseline (100%).
+    /// ``find(substance:saltForm:in:)`` over an already-fetched list.
+    static func find(substance: String, saltForm: String?, among items: [InventoryItem]) -> InventoryItem? {
+        let key = InventoryMath.matchKey(for: substance)
+        return items.first { InventoryMath.matchKey(for: $0.substance) == key && $0.saltForm == saltForm }
+    }
+
+    /// The tracked item to *show* for a substance among `items`: the exact salt
+    /// when there is one, else the base form, else any — so a salt-agnostic
+    /// surface (the quick-log card, a substance page) still finds the stock.
+    /// Same identity as ``find(substance:saltForm:in:)``; use that one before a
+    /// write, where the salt must match.
+    static func find(substance: String, preferringSalt saltForm: String?, among items: [InventoryItem]) -> InventoryItem? {
+        let key = InventoryMath.matchKey(for: substance)
+        let matches = items.filter { InventoryMath.matchKey(for: $0.substance) == key }
+        return matches.first { $0.saltForm == saltForm }
+            ?? matches.first { $0.saltForm == nil }
+            ?? matches.first
+    }
+
+    /// Start tracking a substance with an optional initial amount — or, when
+    /// the `(substance, salt)` pair is already tracked, add to that item: one
+    /// identity per substance is enforced here, at the write, so a second
+    /// scanned box is a restock of the first rather than a second item. The
+    /// amount is reconciled into the existing item's unit (mass family, or
+    /// count ↔ mass through a known strength); when it cannot be, the item
+    /// moves to the new unit and is recounted to `initial`, since the stock on
+    /// hand is what was just stated. With `setBaseline: true`, pins the
+    /// post-event total as the baseline (100%). `note` rides on the event
+    /// ("Concerta · 28 tablets").
     @discardableResult
     static func create(
         substance: String,
@@ -223,11 +275,33 @@ enum InventoryService {
         initial: Double,
         threshold: Double?,
         setBaseline: Bool,
+        note: String? = nil,
+        unitStrengthMG: Double? = nil,
         in ctx: ModelContext,
     ) -> InventoryItem {
+        let strength = InventoryMath.isCountUnit(unit) ? normalizedPositive(unitStrengthMG) : nil
+        if let existing = find(substance: substance, saltForm: saltForm, in: ctx) {
+            if existing.lowStockThreshold == nil { existing.lowStockThreshold = normalizedPositive(threshold) }
+            if existing.unitStrengthMG == nil, existing.unit == unit { existing.unitStrengthMG = strength }
+            guard let reconciled = InventoryMath.convert(
+                initial, from: unit, to: existing.unit,
+                unitStrengthMG: existing.unitStrengthMG ?? normalizedPositive(unitStrengthMG),
+            ) else {
+                changeUnit(existing, to: unit, in: ctx)
+                existing.unitStrengthMG = strength
+                correctTo(existing, exact: initial, note: note, in: ctx)
+                if setBaseline { existing.baselineQuantity = normalizedPositive(initial) }
+                return existing
+            }
+            if reconciled != 0 || setBaseline {
+                restock(existing, amount: reconciled, note: note, setBaseline: setBaseline, in: ctx)
+            }
+            return existing
+        }
+
         var events: [ManualEvent] = []
         if initial != 0 {
-            events.append(ManualEvent(kind: .initial, amount: initial, date: .now, setsBaseline: setBaseline))
+            events.append(ManualEvent(kind: .initial, amount: initial, date: .now, note: note, setsBaseline: setBaseline))
         }
         let item = InventoryItem(
             substance: substance,
@@ -235,6 +309,7 @@ enum InventoryService {
             unit: unit,
             trackingStart: .now,
             lowStockThreshold: normalizedPositive(threshold),
+            unitStrengthMG: strength,
             manualEvents: events,
             sortOrder: nextSortOrder(in: ctx),
         )
@@ -245,15 +320,73 @@ enum InventoryService {
         return item
     }
 
+    /// Fold every item that shares another's identity into the oldest of its
+    /// group: events concatenated (converted into the keeper's unit), tracking
+    /// from the earliest start, the keeper's settings kept and its gaps filled
+    /// from the others, the keeper's `id` — so a sheet route or a deep link to
+    /// it stays valid. Quantities are replayed afterwards, so each dose counts
+    /// once instead of once per duplicate. A duplicate whose unit cannot be
+    /// reconciled with the keeper's is left alone. Idempotent: a store with one
+    /// item per identity changes nothing. Runs at launch behind
+    /// `LaunchPassGate` for stores written before `create` enforced identity.
+    ///
+    /// Returns the ids of the items merged away. They are removed from the
+    /// context directly, never through ``delete(_:in:)``: that clears the
+    /// item's low-stock banner over a synchronous round-trip to the
+    /// notification service, which does not belong inside a store pass — the
+    /// caller clears the banners for the returned ids afterwards.
+    @discardableResult
+    static func mergeDuplicateItems(in ctx: ModelContext) -> [UUID] {
+        let all = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
+        let groups = Dictionary(grouping: all) {
+            IdentityKey(key: InventoryMath.matchKey(for: $0.substance), saltForm: $0.saltForm)
+        }
+        var merged: [UUID] = []
+        for group in groups.values where group.count > 1 {
+            let ordered = group.sorted { $0.createdAt < $1.createdAt }
+            let keeper = ordered[0]
+            for other in ordered.dropFirst() {
+                let strength = keeper.unitStrengthMG ?? other.unitStrengthMG
+                guard let factor = InventoryMath.convert(1, from: other.unit, to: keeper.unit, unitStrengthMG: strength) else { continue }
+                var events = keeper.manualEvents
+                events.append(contentsOf: other.manualEvents.map { event in
+                    var converted = event
+                    converted.amount = event.amount * factor
+                    return converted
+                })
+                keeper.manualEvents = events.sorted { $0.date < $1.date }
+                keeper.trackingStart = min(keeper.trackingStart, other.trackingStart)
+                if keeper.unitStrengthMG == nil, keeper.unit == other.unit { keeper.unitStrengthMG = other.unitStrengthMG }
+                if keeper.lowStockThreshold == nil { keeper.lowStockThreshold = other.lowStockThreshold.map { $0 * factor } }
+                if keeper.baselineQuantity == nil { keeper.baselineQuantity = other.baselineQuantity.map { $0 * factor } }
+                if keeper.doseSize == nil { keeper.doseSize = other.doseSize.map { $0 * factor } }
+                ctx.delete(other)
+                merged.append(other.id)
+            }
+            recompute(keeper, in: ctx, notify: false)
+        }
+        return merged
+    }
+
+    private struct IdentityKey: Hashable {
+        let key: String
+        let saltForm: String?
+    }
+
     /// Add stock. With `setBaseline: true`, captures the post-restock total as the
-    /// new baseline and tags the event's provenance.
+    /// new baseline and tags the event's provenance. A counted item that has no
+    /// strength yet takes `unitStrengthMG` from the box being added.
     static func restock(
         _ item: InventoryItem,
         amount: Double,
         note: String?,
         setBaseline: Bool,
+        unitStrengthMG: Double? = nil,
         in ctx: ModelContext,
     ) {
+        if item.unitStrengthMG == nil, InventoryMath.isCountUnit(item.unit) {
+            item.unitStrengthMG = normalizedPositive(unitStrengthMG)
+        }
         var events = item.manualEvents
         events.append(ManualEvent(
             kind: .restock, amount: amount, date: .now, note: note, setsBaseline: setBaseline,
@@ -316,7 +449,7 @@ enum InventoryService {
         let oldUnit = item.unit
         guard oldUnit != newUnit else { return }
 
-        let factor = InventoryMath.convert(1, from: oldUnit, to: newUnit)
+        let factor = InventoryMath.convert(1, from: oldUnit, to: newUnit, unitStrengthMG: item.unitStrengthMG)
         if let factor {
             item.manualEvents = item.manualEvents.map { event in
                 var converted = event
@@ -332,6 +465,7 @@ enum InventoryService {
             item.lowStockThreshold = nil
             item.doseSize = nil
         }
+        if !InventoryMath.isCountUnit(newUnit) { item.unitStrengthMG = nil }
         item.unit = newUnit
         recompute(item, in: ctx)
     }
@@ -380,6 +514,7 @@ enum InventoryService {
         for item in items {
             item.currentQuantity = InventoryMath.replayQuantity(
                 unit: item.unit,
+                unitStrengthMG: item.unitStrengthMG,
                 events: item.manualEvents,
                 doses: InventoryMath.doses(for: item, in: buckets).map {
                     InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
@@ -407,16 +542,18 @@ enum InventoryService {
         // actor — one shared bucketed fetch, same as the synchronous batch core.
         guard let earliest = affected.map(\.trackingStart).min() else { return }
         let buckets = InventoryMath.dosesByMatchKey(since: earliest, in: ctx)
-        let snapshots: [(unit: String, events: [ManualEvent], doses: [InventoryMath.DoseSnapshot])] = affected.map { item in
+        let snapshots: [(unit: String, strength: Double?, events: [ManualEvent], doses: [InventoryMath.DoseSnapshot])] = affected.map { item in
             let doses = InventoryMath.doses(for: item, in: buckets).map {
                 InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
             }
-            return (item.unit, item.manualEvents, doses)
+            return (item.unit, item.unitStrengthMG, item.manualEvents, doses)
         }
 
         // Pure stock replay off the main actor.
         let quantities = await Task.detached(priority: .utility) {
-            snapshots.map { InventoryMath.replayQuantity(unit: $0.unit, events: $0.events, doses: $0.doses) }
+            snapshots.map {
+                InventoryMath.replayQuantity(unit: $0.unit, unitStrengthMG: $0.strength, events: $0.events, doses: $0.doses)
+            }
         }.value
 
         // Apply the cache writes + low-stock evaluation back on the actor.

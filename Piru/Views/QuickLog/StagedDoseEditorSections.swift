@@ -123,7 +123,7 @@ struct StagedDoseReadout: View {
 // MARK: - Amount stepper
 
 /// The amount −/+ stepper and its breakdown/level readout — the default for every
-/// substance, and the "By Weight" mode for alcohol.
+/// substance, and the "By Mass" mode for alcohol and an injectable ester.
 struct StagedDoseStepperBlock: View {
     @Binding var item: StagedDose
     @Bindable var model: StagedDoseEditorModel
@@ -302,7 +302,7 @@ struct StagedDoseUnknownAmountPill: View {
     }
 }
 
-// MARK: - By Drink (strength + volume steppers)
+// MARK: - By Volume (strength + volume steppers)
 
 /// Strength (%ABV) and Volume steppers — the exact grams-picker control (42pt
 /// capsule, centered number, unit as a trailing overlay) — plus a live grams /

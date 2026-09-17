@@ -52,7 +52,7 @@ struct SubstanceCardView: View, Equatable {
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     /// Tracked inventory items — drives the passive "X left" hint. A `@Query`
     /// here re-renders only this card when stock changes, never the whole list.
-    @Query private var inventoryItems: [InventoryItem]
+    @Query(sort: \InventoryItem.createdAt) private var inventoryItems: [InventoryItem]
     /// Substances whose PK badge has been expanded into the full advice card.
     @State private var expandedPK = false
     /// (substance|route) groups showing their full chip set instead of the
@@ -158,12 +158,10 @@ struct SubstanceCardView: View, Equatable {
         .accessibilityElement(children: .contain)
     }
 
-    /// The matching tracked item for this card's substance (salt-agnostic — the
-    /// card isn't salt-specific; prefer the base form).
+    /// The tracked item for this card's substance, by resolved identity (the
+    /// card isn't salt-specific; the base form wins when several are tracked).
     private var inventoryItem: InventoryItem? {
-        let name = card.substanceName.lowercased()
-        let matches = inventoryItems.filter { $0.substance.lowercased() == name }
-        return matches.first { $0.saltForm == nil } ?? matches.first
+        InventoryService.find(substance: card.substanceName, preferringSalt: nil, among: inventoryItems)
     }
 
     /// Passive stock hint (1B): a supply bar (only when a baseline is set) with
@@ -218,13 +216,16 @@ struct SubstanceCardView: View, Equatable {
                         colorHex: group.colorHex,
                         librarySubstance: group.librarySubstance,
                         productName: group.stageProductName,
+                        saltForm: group.saltForm,
                     )
                 }
             } label: {
-                Image(systemName: "slider.horizontal.3")
-                    .font(.subheadline.weight(.medium))
-                    .padding(.horizontal, Spacing.xl)
-                    .padding(.vertical, 7)
+                // `Text(Image)`, so the symbol takes the dose chips' text line
+                // box and the pill comes out the same height as its neighbors.
+                Text(Image(systemName: "slider.horizontal.3"))
+                    .font(OneRowChipMetrics.font)
+                    .padding(.horizontal, OneRowChipMetrics.horizontalPadding)
+                    .padding(.vertical, OneRowChipMetrics.verticalPadding)
                     .background(.tint.opacity(Theme.Opacity.tint))
                     .foregroundStyle(.tint)
                     .clipShape(skinChipShape())
@@ -249,6 +250,7 @@ struct SubstanceCardView: View, Equatable {
                     colorHex: group.colorHex,
                     librarySubstance: group.librarySubstance,
                     productName: group.stageProductName,
+                    saltForm: chip.saltForm,
                     volumeML: chip.volumeML,
                     abv: chip.abv,
                     drinkName: chip.drinkName,
@@ -266,9 +268,9 @@ struct SubstanceCardView: View, Equatable {
             #endif
         } label: {
             chipLabel(chip)
-                .font(.subheadline.weight(.medium))
-                .padding(.horizontal, Spacing.xl)
-                .padding(.vertical, chip.hasDrinkDetail ? 8 : 6)
+                .font(OneRowChipMetrics.font)
+                .padding(.horizontal, OneRowChipMetrics.horizontalPadding)
+                .padding(.vertical, chip.hasDrinkDetail ? 8 : OneRowChipMetrics.verticalPadding)
                 .background(stagedCount > 0 ? color : color.opacity(Theme.Opacity.tint))
                 .foregroundStyle(stagedCount > 0 ? .white : color)
                 .clipShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.container, style: .continuous)) : AnyShape(Capsule()))
@@ -312,8 +314,7 @@ struct SubstanceCardView: View, Equatable {
                     }
                 }
                 Text(chip.detailLine)
-                    .font(.caption2.weight(.semibold))
-                    .opacity(0.9)
+                    .font(.caption.weight(.semibold))
             }
         } else {
             Text("\(chip.formattedAmount) \(chip.unit.unitDisplay(for: chip.amount))")

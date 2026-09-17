@@ -46,6 +46,11 @@ struct SubstanceDetailLayout: View {
         // 3. Your history — the user's own data leads (only when entries exist).
         if !historyEntries.isEmpty {
             HistorySection(entries: historyEntries, model: model, defaultUnit: substance.defaultUnit)
+            // A hormone with depot ester curves: the serum level those doses add
+            // up to, straight from the Injection Levels tool.
+            if let analyte = DepotLevels.analyte(forSubstanceUID: substance.substanceUID) {
+                DepotLevelsSection(analyte: analyte)
+            }
         }
 
         // 3. Dose & Duration — the single most-consulted card (proto10). Inline on

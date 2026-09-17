@@ -7,9 +7,11 @@ import Foundation
 /// rules are testable without a store.
 ///
 /// Three kinds of stretch:
-/// - **Active time** — any span where a curve is still above ~5 % of its own
-///   peak — always keeps the uniform scale. Compression squeezes only dead
-///   time, never the inside of a curve.
+/// - **Active time** — any span the builder reports a curve still legibly
+///   above baseline (``TimelineStripBuilder/activeThreshold``) and not yet a
+///   baseline of its own (``TimelineStripBuilder/baselineMinutes``) — always
+///   keeps the uniform scale. Compression squeezes only dead time, never the
+///   inside of an event's curve.
 /// - **Dead time** in the past is capped per segment (`gapCap`), so an empty
 ///   night costs a bounded strip; the hour ticks bunching together is the
 ///   compression cue.

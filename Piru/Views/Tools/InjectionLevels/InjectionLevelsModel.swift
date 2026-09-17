@@ -45,6 +45,19 @@ struct DepotCurveResult: Equatable, Sendable {
 @Observable
 @MainActor
 final class InjectionLevelsModel {
+    /// `@AppStorage` keys for the calibration preferences the tool persists. Shared
+    /// with ``DepotLevelsSection`` so an embedded curve reads the same calibration
+    /// the tool shows.
+    enum StorageKey {
+        static let personalMultiplier = "injLevelsPersonalMultiplier"
+        static let autoCalibrate = "injLevelsAutoCalibrate"
+        static let fitRates = "injLevelsFitRates"
+        /// Vial strength for mL-logged injections, per analyte (`0` = unset).
+        static func volumeConcentration(_ analyte: Analyte) -> String {
+            "injLevelsVolumeConcentration.\(analyte.key)"
+        }
+    }
+
     // MARK: Inputs
 
     var analyte: Analyte = .estradiol

@@ -75,5 +75,6 @@ struct PackCountParserTests {
         #expect(PackCount(count: 1, unit: .tablet).inventoryUnit == "tabs")
         #expect(PackCount(count: 1, unit: .capsule).inventoryUnit == "caps")
         #expect(PackCount(count: 1, unit: .milliliter).inventoryUnit == "mL")
+        #expect(PackCount(count: 30, unit: .piece).inventoryUnit == nil)
     }
 }

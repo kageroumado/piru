@@ -155,6 +155,12 @@ struct StagedDose: Identifiable, Equatable {
     /// Emoji of the selected drink preset, carried onto the quick-log chip so a
     /// re-logged drink keeps its glyph. Display-only; not persisted on `DoseEntry`.
     var emoji: String?
+    /// The user opened this row to type into it (the sliders pill, a row tap),
+    /// so the editor focuses the amount field on appear — even over a seeded
+    /// reference dose. The editor clears it once consumed. Stays false for
+    /// rows the dock re-opens on its own (growing out of compact), which must
+    /// never raise the keyboard unasked.
+    var wantsAmountFocus = false
 
     init(
         substanceName: String,
@@ -622,10 +628,20 @@ final class DoseTrayModel {
         )
     }
 
-    /// Stage a draft (from search / the ⋯ chip) and open it for editing.
-    /// Prefilled with the library's common dose when one is known — the
-    /// editor focuses the amount field only when it opens empty. A draft for
-    /// an already-staged substance opens that row instead of duplicating it.
+    /// Open a staged row for editing on the user's behalf: expands it and asks
+    /// the editor to focus the amount field (see ``StagedDose/wantsAmountFocus``).
+    func openForEditing(_ id: UUID) {
+        if let index = staged.firstIndex(where: { $0.id == id }) {
+            staged[index].wantsAmountFocus = true
+        }
+        expandedItemIDs.insert(id)
+    }
+
+    /// Stage a draft (from search / the sliders pill) and open it for editing.
+    /// Prefilled with the library's common dose when one is known; the editor
+    /// focuses the amount field either way, since the user asked to type. A
+    /// draft for an already-staged substance opens that row instead of
+    /// duplicating it.
     func stageDraft(
         substance: String,
         route: RouteOfAdministration,
@@ -636,23 +652,24 @@ final class DoseTrayModel {
         saltForm: String? = nil,
     ) {
         // A by-volume substance (alcohol) must draft in its canonical unit —
-        // the drink editor (By Drink / By Weight) gates on it, so a draft
+        // the drink editor (By Volume / By Mass) gates on it, so a draft
         // arriving as "units" (a recent's chip unit) would silently lose the
         // whole volumetric logger.
         let unit = librarySubstance?.byVolumeDosing?.canonicalUnit ?? unit
         let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route, saltForm: saltForm)
         if let index = stagedIndex(identity: identity, route: route, unit: unit) {
-            expandedItemIDs.insert(staged[index].id)
+            openForEditing(staged[index].id)
             return
         }
         let saltForm = saltForm ?? librarySubstance?.saltForms(for: route).first
-        // By-volume substances (alcohol) start empty so the drink presets build the
-        // dose up from zero, rather than adding onto a reference-dose default.
+        // By-volume substances (alcohol, an injectable ester) start at zero: the
+        // editor seeds the drink or vial from the substance's last by-volume
+        // log, which is a better default than a reference dose in grams.
         let isByVolume = librarySubstance?.byVolumeDosing.map { unit == $0.canonicalUnit } ?? false
         let seedAmount = isByVolume
             ? 0
             : (StagedDose.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit, saltForm: saltForm) ?? 0)
-        let draft = StagedDose(
+        var draft = StagedDose(
             substanceName: substance,
             amount: seedAmount,
             unit: unit,
@@ -663,6 +680,7 @@ final class DoseTrayModel {
             colorHex: colorHex,
             librarySubstance: librarySubstance,
         )
+        draft.wantsAmountFocus = true
         staged.append(draft)
         expandedItemIDs.insert(draft.id)
         stageTick += 1

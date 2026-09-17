@@ -82,7 +82,7 @@ struct SubstanceGroup: Identifiable, Equatable {
         // in the editor's preset library, not the card.
         chipEntries
             .sorted { $0.sortOrder < $1.sortOrder }
-            .map { DoseChip(amount: $0.amount, unit: $0.unit, drinkName: $0.drinkName, emoji: $0.emoji, volumeML: $0.volumeML, abv: $0.abv) }
+            .map { DoseChip(amount: $0.amount, unit: $0.unit, saltForm: saltForm, drinkName: $0.drinkName, emoji: $0.emoji, volumeML: $0.volumeML, abv: $0.abv) }
     }
 
     init(
@@ -155,10 +155,13 @@ struct SubstanceGroup: Identifiable, Equatable {
 /// A single tappable dose amount within a `SubstanceGroup`. For a by-volume
 /// substance (alcohol) a chip carries the recorded drink detail — emoji, name,
 /// volume, and %ABV — so it renders as "🍺 IPA · 330 mL · 6% · 16 g" and
-/// re-stages that exact drink; a plain mass dose is just its amount.
+/// re-stages that exact drink; a plain mass dose is just its amount. The salt
+/// or ester rides along so a tapped chip stages the form its card names
+/// ("Estradiol Enanthate", in the title) rather than the route's default salt.
 struct DoseChip: Identifiable, Equatable {
     let amount: Double
     let unit: String
+    let saltForm: String?
     let drinkName: String?
     let emoji: String?
     let volumeML: Double?
@@ -167,6 +170,7 @@ struct DoseChip: Identifiable, Equatable {
     init(
         amount: Double,
         unit: String,
+        saltForm: String? = nil,
         drinkName: String? = nil,
         emoji: String? = nil,
         volumeML: Double? = nil,
@@ -174,6 +178,7 @@ struct DoseChip: Identifiable, Equatable {
     ) {
         self.amount = amount
         self.unit = unit
+        self.saltForm = saltForm
         self.drinkName = drinkName
         self.emoji = emoji
         self.volumeML = volumeML
@@ -206,7 +211,8 @@ struct DoseChip: Identifiable, Equatable {
     /// shown when known); falls back to just the amount.
     var detailLine: String {
         var parts: [String] = []
-        if let volumeML { parts.append("\(Int(volumeML.rounded())) mL") }
+        // `doseFormatted`, so a 0.12 mL draw reads as itself and never "0 mL".
+        if let volumeML { parts.append("\(volumeML.doseFormatted) mL") }
         if let abv {
             // Alcohol (canonical "g") logs %ABV; a mass-per-volume ester logs a
             // concentration in <unit>/mL.
@@ -504,20 +510,35 @@ final class QuickLogContentModel {
         cachedDueNow = makeDueNow(dailyDoseItems: dailyDoseItems)
     }
 
-    /// The product/form title a card shows, or `nil` for a plain card (which
-    /// titles from the regionalized display name). Mirrors ``DoseTitle``'s
-    /// precedence — a relabel outranks the product, which outranks the composed
-    /// form title — so a card and its doses' journal rows never disagree.
+    /// The title a card shows when it names more than the plain substance —
+    /// a relabel, the product the user logged ("Concerta"), a composed form
+    /// ("Methylphenidate XR"), or an injectable ester folded into the name
+    /// ("Estradiol Enanthate") so no chip has to say it — or `nil` for a plain
+    /// card, which titles from the regionalized display name. Mirrors
+    /// ``DoseTitle``'s precedence — a relabel outranks the product, which
+    /// outranks the composed form title, and neither is ester-folded — so a
+    /// card and its doses' journal rows never disagree.
     private static func cardTitle(for group: SubstanceGroup) -> String? {
         let hasProduct = group.productName?.trimmingCharacters(in: .whitespaces).isEmpty == false
         let namesForm = (group.isomer?.isEmpty == false && group.isomer != "0")
             || (group.releaseForm?.isEmpty == false && group.releaseForm != "0")
-        guard hasProduct || namesForm else { return nil }
-        if let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: group.substanceName) {
-            return relabel
+        let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: group.substanceName)
+        if hasProduct || namesForm {
+            if let relabel { return relabel }
+            if hasProduct { return group.productName }
+        } else if relabel != nil {
+            // The display name already is the relabel; nothing folds over it.
+            return nil
         }
-        if hasProduct { return group.productName }
-        return SubstanceLibrary.formTitle(for: group.substanceName, isomer: group.isomer, release: group.releaseForm)
+        let composed = namesForm
+            ? SubstanceLibrary.formTitle(for: group.substanceName, isomer: group.isomer, release: group.releaseForm)
+            : nil
+        let uid = group.substanceUID ?? group.librarySubstance?.substanceUID
+        guard let ester = group.saltForm, SubstanceStore.shared.isEster(ester, forParentUID: uid) else {
+            return composed
+        }
+        let base = composed ?? CustomSubstanceStore.shared.displayName(for: group.substanceName)
+        return base.localizedCaseInsensitiveContains(ester) ? base : "\(base) \(ester)"
     }
 
     func rebuildCards(quickLogDoses: [QuickLogDose], favorites: [FavoriteSubstance]) {

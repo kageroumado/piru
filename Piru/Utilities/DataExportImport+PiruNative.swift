@@ -209,6 +209,7 @@ nonisolated struct PiruInventoryData: Codable {
     var lowStockThreshold: Double?
     var baselineQuantity: Double?
     var doseSize: Double?
+    var unitStrengthMG: Double?
     var createdAt: Int64
     var manualEvents: [PiruManualEventData]
 }
@@ -299,6 +300,7 @@ extension DataExportImport {
                     lowStockThreshold: item.lowStockThreshold,
                     baselineQuantity: item.baselineQuantity,
                     doseSize: item.doseSize,
+                    unitStrengthMG: item.unitStrengthMG,
                     createdAt: item.createdAt.msSince1970,
                     manualEvents: item.manualEvents.map { event in
                         PiruManualEventData(
@@ -445,13 +447,16 @@ extension DataExportImport {
             ))
         }
 
-        // Inventory — merge by (substance, salt): union manual events by id so a
-        // re-import is idempotent, keep the earliest trackingStart, and fill any
-        // missing scalar settings. Then recompute caches now that doses and
-        // inventory are both in — silently, so a restore doesn't fire a low-stock
-        // alert per item.
+        // Inventory — merge by substance identity + salt (the same key
+        // `InventoryService.find` uses, so an alias and its canonical name are
+        // one item): union manual events by id so a re-import is idempotent,
+        // keep the earliest trackingStart, and fill any missing scalar
+        // settings. Rows inserted here join the match set, so a file that
+        // carries two rows for one identity still lands as one item. Then
+        // recompute caches now that doses and inventory are both in —
+        // silently, so a restore doesn't fire a low-stock alert per item.
         if let importedInventory = file.inventory, !importedInventory.isEmpty {
-            let existingItems = (try? context.fetch(FetchDescriptor<InventoryItem>())) ?? []
+            var existingItems = (try? context.fetch(FetchDescriptor<InventoryItem>())) ?? []
             for inv in importedInventory {
                 let importedEvents = inv.manualEvents.map { event in
                     ManualEvent(
@@ -463,9 +468,7 @@ extension DataExportImport {
                         setsBaseline: event.setsBaseline,
                     )
                 }
-                if let item = existingItems.first(where: {
-                    $0.substance.lowercased() == inv.substance.lowercased() && $0.saltForm == inv.saltForm
-                }) {
+                if let item = InventoryService.find(substance: inv.substance, saltForm: inv.saltForm, among: existingItems) {
                     var byID = Dictionary(item.manualEvents.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
                     for event in importedEvents where byID[event.id] == nil {
                         byID[event.id] = event
@@ -476,8 +479,9 @@ extension DataExportImport {
                     if item.lowStockThreshold == nil { item.lowStockThreshold = inv.lowStockThreshold }
                     if item.baselineQuantity == nil { item.baselineQuantity = inv.baselineQuantity }
                     if item.doseSize == nil { item.doseSize = inv.doseSize }
+                    if item.unitStrengthMG == nil, item.unit == inv.unit { item.unitStrengthMG = inv.unitStrengthMG }
                 } else {
-                    context.insert(InventoryItem(
+                    let item = InventoryItem(
                         substance: inv.substance,
                         saltForm: inv.saltForm,
                         unit: inv.unit,
@@ -485,9 +489,12 @@ extension DataExportImport {
                         lowStockThreshold: inv.lowStockThreshold,
                         baselineQuantity: inv.baselineQuantity,
                         doseSize: inv.doseSize,
+                        unitStrengthMG: inv.unitStrengthMG,
                         manualEvents: importedEvents,
                         createdAt: Date(ms: inv.createdAt),
-                    ))
+                    )
+                    context.insert(item)
+                    existingItems.append(item)
                 }
             }
         }

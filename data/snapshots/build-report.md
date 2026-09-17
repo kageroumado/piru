@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-09-12.2 → `Piru/Data/piru-substances.sqlite` (19,369,984 bytes, sha256 `a4d13d7ea69cc158a487e2beb41370df0cd98cae58bfa493c1322af9eb0c0f67`)
+Built 2026-09-17.0 → `Piru/Data/piru-substances.sqlite` (19,374,080 bytes, sha256 `7110e82f3aeee298af2bf22487ccda1fcf8f88170dc053911d6d0fe6303b59d2`)
 
 ## Row counts
 
@@ -10,13 +10,13 @@ Built 2026-09-12.2 → `Piru/Data/piru-substances.sqlite` (19,369,984 bytes, sha
 | aliases | 5,716 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,886 |
+| citations | 2,890 |
 | categories | 1,560 |
 | tags | 7,050 |
 | dose_ranges | 2,764 |
 | durations | 10,552 |
 | half_lives | 716 |
-| mechanisms_summary | 1,146 |
+| mechanisms_summary | 1,147 |
 | effects | 2,952 |
 | subjective_effects | 23,503 |
 | subjective_effect_concepts | 506 |
@@ -25,7 +25,7 @@ Built 2026-09-12.2 → `Piru/Data/piru-substances.sqlite` (19,369,984 bytes, sha
 | indications | 1,133 |
 | contraindications | 1,412 |
 | diazepam_equivalents | 32 |
-| bindings | 1,460 |
+| bindings | 1,462 |
 | functional_assays | 179 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
@@ -97,7 +97,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 220 | 442 | 649 | 2,264 |
+| piru-curated | 220 | 444 | 649 | 2,264 |
 | peer-review-primary | 0 | 1,006 | 0 | 1,582 |
 | drug.community | 839 | 0 | 0 | 125 |
 | psychonautwiki | 374 | 0 | 63 | 316 |

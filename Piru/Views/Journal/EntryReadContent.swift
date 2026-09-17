@@ -82,6 +82,13 @@ struct EntryReadContent: View {
             activeOnly: true,
         )
 
+        // A depot ester's serum curve — the Injection Levels tool's chart, drawn
+        // from the whole log so this dose is seen in its cycle, with the tool one
+        // tap away.
+        if let analyte = DepotLevels.analyte(for: entry) {
+            DepotLevelsSection(analyte: analyte)
+        }
+
         // Directly under In Your Body: that card says how much is left, this one
         // says of what. Unlike the library's copy of this surface it is not
         // tier-gated — see ``ActiveMetaboliteEntrySection``.
@@ -195,9 +202,10 @@ struct EntryReadHero: View {
                         // corner radius.
                         HStack(spacing: Spacing.sm) {
                             if let saltForm = entry.saltForm {
-                                // Chemical proper noun — not localized.
-                                Text(saltForm)
-                                    .capsuleOutlineChip(stroke: substanceColor)
+                                // Chemical proper noun — not localized. Lowercased
+                                // like the route pill beside it: one badge grammar.
+                                Text(saltForm.lowercased())
+                                    .heroOutlineChip(stroke: substanceColor)
                             }
                             ROAPill(route: entry.route, size: .regular)
                             EntryStrengthChip(level: committedDoseLevel)
@@ -209,7 +217,7 @@ struct EntryReadHero: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .monospacedDigit()
                     if let drinkLine = byVolumeDisplayLine {
-                        Label(drinkLine, systemImage: "wineglass")
+                        Label(drinkLine, systemImage: byVolumeSymbol)
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(substanceColor)
                     }
@@ -218,6 +226,20 @@ struct EntryReadHero: View {
                 EntryLiveStatus(state: state, now: context.date, clearedDate: clearedDate)
             }
         }
+    }
+
+    /// The glyph beside the by-volume line: a syringe for a vial drawn by
+    /// concentration, else the curated drink preset the log is named after
+    /// (a "Beer" log gets the mug), with the wineglass for a drink of the
+    /// user's own naming.
+    private var byVolumeSymbol: String {
+        guard let capability = substance?.byVolumeDosing else { return "wineglass" }
+        if capability.isMassPerVolume { return "syringe" }
+        let name = entry.drinkName?.trimmingCharacters(in: .whitespaces) ?? ""
+        let preset = capability.drinkPresets.first {
+            String(localized: $0.name).caseInsensitiveCompare(name) == .orderedSame
+        }
+        return preset?.systemImage ?? "wineglass"
     }
 
     /// "IPA · 568 mL · 6% ABV" for alcohol, "40 mL · 40 mg/mL" for an injectable
