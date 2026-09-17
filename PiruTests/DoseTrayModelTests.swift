@@ -78,6 +78,41 @@ struct DoseTrayModelTests {
         #expect((snapshot["aspirin"] ?? .empty) == .empty)
     }
 
+    /// The sliders pill: one staging event, the draft expanded and asking for
+    /// the amount field. Both facts land in the same mutation, which is what
+    /// the dock's detent policy resolves to a single move to `.medium`.
+    @Test
+    func `stageDraft opens the draft for editing in one staging event`() {
+        let tray = DoseTrayModel()
+        let tickBefore = tray.stageTick
+        tray.stageDraft(substance: "Caffeine", route: .oral, unit: "mg", colorHex: nil, librarySubstance: nil)
+
+        #expect(tray.staged.count == 1)
+        #expect(tray.stageTick == tickBefore + 1)
+        #expect(!tray.isEmpty)
+        let draft = tray.staged[0]
+        #expect(tray.expandedItemIDs == [draft.id])
+        #expect(draft.wantsAmountFocus)
+    }
+
+    /// A second draft for the same substance re-opens the existing row — no
+    /// duplicate, no staging event, still asking for focus.
+    @Test
+    func `stageDraft for a staged substance re-opens its row`() {
+        let tray = DoseTrayModel()
+        stage(tray, "Caffeine", amount: 100)
+        let row = tray.staged[0]
+        tray.expandedItemIDs.removeAll()
+        let tickBefore = tray.stageTick
+
+        tray.stageDraft(substance: "Caffeine", route: .oral, unit: "mg", colorHex: nil, librarySubstance: nil)
+
+        #expect(tray.staged.count == 1)
+        #expect(tray.stageTick == tickBefore)
+        #expect(tray.expandedItemIDs == [row.id])
+        #expect(tray.staged[0].wantsAmountFocus)
+    }
+
     /// Two different substances are two rows, each visible to the card snapshot —
     /// the "Log 2 Doses" button counts rows, and every counted row needs a card.
     @Test

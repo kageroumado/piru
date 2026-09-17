@@ -93,7 +93,7 @@ nonisolated struct ByVolumeDosing: Hashable {
 
     /// Inverse of ``grams(volumeML:abv:densityGramsPerML:)`` — the volume in mL
     /// that yields `grams` of ethanol at the given `abv`. Used to keep the
-    /// By-Drink volume consistent when the dose is edited by grams (By Weight).
+    /// By Volume fields consistent when the dose is edited by grams (By Mass).
     /// Non-finite / non-positive inputs yield 0.
     nonisolated static func volumeML(
         grams: Double,
@@ -212,11 +212,10 @@ extension ByVolumeDosing {
         isMassPerVolume ? "\(canonicalUnit)/mL" : "%"
     }
 
-    /// The two input-mode labels: (volume-mode, mass-mode). "By Volume"/"By Mass"
-    /// for an ester; "By Drink"/"By Weight" for alcohol.
-    var modeLabels: (volume: LocalizedStringResource, mass: LocalizedStringResource) {
-        isMassPerVolume ? ("By Volume", "By Mass") : ("By Drink", "By Weight")
-    }
+    /// The two input-mode labels: (volume-mode, mass-mode). One pair for every
+    /// adopter — the same editor serves a drink and a vial, and a user who logs
+    /// both should meet the same two words.
+    static let modeLabels: (volume: LocalizedStringResource, mass: LocalizedStringResource) = ("By Volume", "By Mass")
 
     /// Trim a numeric value for display/storage: integer when whole, else one
     /// decimal. Shared by the input field, the presets, and the breadcrumb.

@@ -583,7 +583,7 @@ struct TrayRow: View {
     let namespace: Namespace.ID
 
     private func expand() {
-        withAnimation(.snappy) { _ = model.expandedItemIDs.insert(dose.id) }
+        withAnimation(.snappy) { model.openForEditing(dose.id) }
     }
 
     var body: some View {

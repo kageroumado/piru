@@ -52,6 +52,29 @@ enum QuickLogDockMetrics {
     }
 }
 
+// MARK: - Detent policy
+
+/// Where the dock rests once doses are staged. Pure so the answer every
+/// staging handler reaches can be checked without a sheet.
+enum DockDetentPolicy {
+    /// The selection for a non-empty tray. `current` stays whenever it is a
+    /// member of the staged set and not the compact detent being re-minted;
+    /// otherwise the dock lands on `compact` — unless a row is open for
+    /// editing, in which case it lands on `.medium`, because compact fits
+    /// collapsed rows only (landing there is what collapses them).
+    static func stagedSelection(
+        current: PresentationDetent,
+        wasCompact: Bool,
+        compact: PresentationDetent,
+        hasExpandedRows: Bool,
+    ) -> PresentationDetent {
+        let staged: Set<PresentationDetent> = [compact, .medium, .large]
+        let needsMove = wasCompact || !staged.contains(current)
+        guard needsMove else { return current }
+        return hasExpandedRows ? .medium : compact
+    }
+}
+
 // MARK: - Live sheet geometry
 
 /// The dock sheet's live content height, reported by geometry every layout
@@ -420,7 +443,11 @@ struct QuickLogDock: View {
         guard !tray.expandedItemIDs.isEmpty,
               detent == QuickLogDockMetrics.peekDetent || detent == bookkeeping.compactDetent
         else { return }
-        moveDetent(to: .medium)
+        // Through the shared refresh, not a bare `.medium` move: an expansion
+        // that arrives in the same transaction as the staging (the sliders
+        // pill, a library card) races the staging handlers, and only one
+        // ``applyDetents`` wins — so every contender must resolve `.medium`.
+        refreshDetents()
     }
 
     private func handleTrayEmptinessChanged() {
@@ -489,6 +516,14 @@ struct QuickLogDock: View {
     /// Swap the detent set for the tray's current shape, keeping the
     /// selection valid (and pinned to compact while it's the selection).
     /// `onSettled` fires once the sheet is at rest at the new selection.
+    ///
+    /// Every handler that reacts to a staging mutation funnels through here,
+    /// and a single mutation fans out to several of them in one transaction
+    /// (`stageDraft` flips `staged`, `expandedItemIDs`, `stageTick` and
+    /// `isEmpty` together). Only the last ``applyDetents`` call survives the
+    /// generation guard, so all of them must compute the same answer — which
+    /// is why the selection rule lives in ``DockDetentPolicy`` and not in the
+    /// individual handlers.
     private func refreshDetents(onSettled: (() -> Void)? = nil) {
         if tray.isEmpty {
             bookkeeping.compactDetent = nil
@@ -517,11 +552,16 @@ struct QuickLogDock: View {
             bookkeeping.compactDetent = newCompact
             bookkeeping.compactValue = newValue
             let target: Set<PresentationDetent> = [newCompact, .medium, .large]
-            let needsMove = wasCompact || !target.contains(detent)
+            let selection = DockDetentPolicy.stagedSelection(
+                current: detent,
+                wasCompact: wasCompact,
+                compact: newCompact,
+                hasExpandedRows: !tray.expandedItemIDs.isEmpty,
+            )
             applyDetents(
                 target,
-                selecting: needsMove ? newCompact : detent,
-                height: needsMove ? newValue : nil,
+                selecting: selection,
+                height: selection == newCompact ? newValue : nil,
                 onSettled: onSettled,
             )
         }
