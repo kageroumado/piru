@@ -2955,6 +2955,7 @@
       }
     },
     "%lld meds" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5373,7 +5374,6 @@
       }
     },
     "A functional grouping rather than a mechanistic one: compounds taken for cognition, with radically different pharmacology and, mostly, thin human evidence." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5839,7 +5839,6 @@
       }
     },
     "A summary of how the drug affects the brain's three main signaling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6379,7 +6378,6 @@
       }
     },
     "Act at the CB1 receptor. The phytocannabinoids are partial agonists with a natural ceiling; the synthetic ones are full agonists without it, which is the whole of the difference in risk." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6396,7 +6394,6 @@
       }
     },
     "Act at the κ-opioid receptor rather than 5-HT2A, which is why the experience is nothing like a classical psychedelic — dysphoric, disorienting, and usually brief." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7344,6 +7341,22 @@
         }
       }
     },
+    "Added at this strength, in the item's unit." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按此规格换算后，以该项目的单位计入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按此規格換算後，以該項目的單位計入。"
+          }
+        }
+      }
+    },
     "Added drowsiness and next-day grogginess, with more fall and coordination risk. Unlike a benzo, an orexin antagonist doesn't suppress breathing, so this isn't the deadly opioid+benzo combination — but still use less, and don't drive." : {
       "localizations" : {
         "zh-Hans" : {
@@ -7628,6 +7641,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "為此劑量新增備註"
+          }
+        }
+      }
+    },
+    "Adds a per-dose grapefruit toggle for substances whose breakdown grapefruit slows (CYP3A4), so the entry records it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为西柚会减缓其分解 (CYP3A4) 的物质添加逐剂西柚开关，让记录保留这一信息。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為葡萄柚會減緩其分解 (CYP3A4) 的物質加入逐劑葡萄柚開關，讓記錄保留這一資訊。"
           }
         }
       }
@@ -7938,7 +7967,6 @@
       }
     },
     "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7955,7 +7983,6 @@
       }
     },
     "Agonists at the µ-opioid receptor: analgesia, warmth and sedation, and depressed breathing by the same mechanism. Tolerance to the first outpaces tolerance to the last, which is what makes the margin narrow." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8583,7 +8610,6 @@
       }
     },
     "Always show the full-height timeline. When off, graphs start compact — expand from the graph menu." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10602,7 +10628,6 @@
       }
     },
     "Bind the α2δ subunit of voltage-gated calcium channels, reducing excitatory transmitter release. Not GABAergic despite the name." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10862,7 +10887,6 @@
       }
     },
     "Block dopamine D2 receptors, and usually several serotonin receptors alongside. Sedating, and a common blunting agent for other substances." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10879,7 +10903,6 @@
       }
     },
     "Block histamine H1 receptors. The first-generation ones cross into the brain and are strongly anticholinergic, which is why they sedate — and, in quantity, deliriate." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10896,7 +10919,6 @@
       }
     },
     "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognised as unreal — alongside amnesia and a narrow margin to toxicity." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10913,7 +10935,6 @@
       }
     },
     "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10930,7 +10951,6 @@
       }
     },
     "Block the orexin receptors that hold wakefulness in place, rather than enhancing GABA. They add next-day sedation with other depressants but not brainstem respiratory depression." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11660,7 +11680,6 @@
       }
     },
     "Buprenorphine is a partial agonist with a ceiling on its effect on breathing, so risk doesn't scale the way a full agonist's does. CDC excludes it from MME entirely and says it should not be counted toward a daily total." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11759,6 +11778,7 @@
       }
     },
     "By Drink" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11855,6 +11875,7 @@
       }
     },
     "By Weight" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13251,7 +13272,6 @@
       }
     },
     "Clinical consensus" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15106,7 +15126,6 @@
       }
     },
     "Count" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15118,6 +15137,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "數量"
+          }
+        }
+      }
+    },
+    "Count × strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "片数 × 规格"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "片數 × 規格"
+          }
+        }
+      }
+    },
+    "Counted in %@. A dose logged in mg is taken off at this strength." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以 %@ 计数。以 mg 记录的剂量会按此规格扣除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以 %@ 計數。以 mg 記錄的劑量會按此規格扣除。"
           }
         }
       }
@@ -15812,7 +15863,6 @@
       }
     },
     "Damp excessive neuronal firing, by sodium-channel block, GABA enhancement or SV2A binding depending on the drug." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18739,6 +18789,7 @@
       }
     },
     "Due" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18750,6 +18801,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "待服用"
+          }
+        }
+      }
+    },
+    "Due at %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 应服"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 應服"
           }
         }
       }
@@ -20618,6 +20685,22 @@
         }
       }
     },
+    "Entry" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入方式"
+          }
+        }
+      }
+    },
     "Enzyme Inhibitor" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20860,7 +20943,6 @@
       }
     },
     "Estimates from primary literature." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24120,6 +24202,22 @@
         }
       }
     },
+    "Heart rate and blood pressure on each session's timeline, read from Health." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每条记录的时间轴上显示从“健康”读取的心率和血压。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每條記錄的時間軸上顯示從「健康」讀取的心率和血壓。"
+          }
+        }
+      }
+    },
     "Heart rhythm disorder" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24958,6 +25056,22 @@
         }
       }
     },
+    "How many substances a session needs before it splits into lanes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一条记录需要多少种物质才会拆分为泳道。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一條記錄需要多少種物質才會拆分為泳道。"
+          }
+        }
+      }
+    },
     "How much detail?" : {
       "localizations" : {
         "zh-Hans" : {
@@ -25199,7 +25313,6 @@
       }
     },
     "How your body breaks the drug down — which liver enzymes do the work, what byproducts (metabolites) form, and whether those are still active. The percentage is each enzyme's rough share of clearance." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30049,7 +30162,6 @@
       }
     },
     "Merge repeat doses into one curve. When off, each dose draws its own line." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35262,6 +35374,22 @@
         }
       }
     },
+    "Open Injection Levels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开注射水平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟注射水平"
+          }
+        }
+      }
+    },
     "Open Settings" : {
       "localizations" : {
         "zh-Hans" : {
@@ -36276,6 +36404,7 @@
       }
     },
     "Pause silences everything without losing your choices. Live Activity shows tracking on your Lock Screen." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37848,7 +37977,6 @@
       }
     },
     "Positive allosteric modulators at GABA-A — they amplify the brain's own inhibitory signal rather than acting on their own. That ceiling is why they are relatively safe alone and dangerous with anything else that sedates." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37865,7 +37993,6 @@
       }
     },
     "Positive allosteric modulators of the AMPA glutamate receptor. The high-impact ones carry convulsant liability; the low-impact ones are safer and weaker." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38416,7 +38543,6 @@
       }
     },
     "Promote wakefulness without the dopaminergic surge of a classical stimulant. Mechanism is still argued over; the effect is alertness without much euphoria." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38900,7 +39026,6 @@
       }
     },
     "Raise serotonin, noradrenaline or dopamine signalling over weeks rather than hours. The class matters here mostly for what it blocks or stacks with." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40291,7 +40416,6 @@
       }
     },
     "Release serotonin, along with dopamine and noradrenaline — warmth, closeness and emotional openness rather than the perceptual change of a psychedelic. Most are amphetamines with a methylenedioxy ring." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40516,7 +40640,6 @@
       }
     },
     "Reminders fire at each med's times. Quiet meds share one reminder per time of day. Logging a dose clears its follow-ups." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42266,6 +42389,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已儲存的副本"
+          }
+        }
+      }
+    },
+    "Scales the modeled half-life of substances CYP2D6 clears — slow lasts longer, rapid shorter — and notes it on their pages; Unknown counts as typical." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按此缩放由 CYP2D6 清除的物质的模型半衰期——慢代谢更久，快代谢更短——并在其页面注明；“未知”按典型处理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依此縮放由 CYP2D6 清除的物質的模型半衰期——慢代謝更久，快代謝更短——並在其頁面註明；「未知」視為典型。"
           }
         }
       }
@@ -44112,7 +44251,6 @@
       }
     },
     "Short chains of amino acids acting at hormone or growth-factor receptors. Almost all are injected, and almost none have long-term human data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44209,7 +44347,6 @@
       }
     },
     "Show a Live Activity on your Lock Screen when tracking starts. You can also start one from any session." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44481,6 +44618,22 @@
         }
       }
     },
+    "Shows the acetaldehyde build-up on alcohol entries — the flush is the ALDH2 variant that lets it accumulate." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在酒精记录上显示乙醛蓄积——脸红正是让乙醛累积的 ALDH2 变异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在酒精記錄上顯示乙醛蓄積——臉紅正是讓乙醛累積的 ALDH2 變異。"
+          }
+        }
+      }
+    },
     "Shows the dose with a ~; the estimate still drives the curves." : {
       "localizations" : {
         "zh-Hans" : {
@@ -44627,7 +44780,6 @@
       }
     },
     "Silences everything without losing your choices below." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44789,6 +44941,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "皮膚"
+          }
+        }
+      }
+    },
+    "Skins, decorations, and light or dark." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤、装饰，以及浅色或深色。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚、裝飾，以及淺色或深色。"
           }
         }
       }
@@ -45147,7 +45315,6 @@
       }
     },
     "Slow central nervous system activity, mostly through GABA. Their doses add up with each other in a way that is easy to underestimate." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -45823,6 +45990,22 @@
         }
       }
     },
+    "Splits a busy session's overlapping curves into one lane per substance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将繁忙记录中重叠的曲线按物质拆分为各自的泳道。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將繁忙記錄中重疊的曲線按物質拆分為各自的泳道。"
+          }
+        }
+      }
+    },
     "Sporadic" : {
       "localizations" : {
         "zh-Hans" : {
@@ -46017,6 +46200,7 @@
       }
     },
     "Stacking merges redoses into one curve and splits busy sessions into lanes. Expanding starts the graph full-height." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46097,6 +46281,7 @@
       }
     },
     "Stages this dose" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47045,7 +47230,6 @@
       }
     },
     "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47674,7 +47858,6 @@
       }
     },
     "Suppresses the enzyme that makes serotonin, so recovery takes weeks." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -50123,7 +50306,6 @@
       }
     },
     "Timed from the typical onset and duration of each dose you log, for its substance and route. These are estimates from published data — Piru doesn't sense anything." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -50236,6 +50418,7 @@
       }
     },
     "Timing is based on published pharmacology data. Piru estimates — it never senses anything." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -50621,7 +50804,6 @@
       }
     },
     "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -50896,7 +51078,6 @@
       }
     },
     "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -52244,6 +52425,38 @@
         }
       }
     },
+    "Using the average 60 kg. Apple Health has never been connected on this device — connect it, or set your weight, so estimates fit your body." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正使用平均值 60 kg。此设备从未连接过 Apple 健康——连接它或设置你的体重，让估算贴合你自己。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正使用平均值 60 kg。此裝置從未連接過 Apple 健康——連接它或設定你的體重，讓估算貼合你自己。"
+          }
+        }
+      }
+    },
+    "Using the average 60 kg. Health returned no weight — check Settings ▸ Privacy & Security ▸ Health ▸ Piru, or set yours by hand." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正使用平均值 60 kg。“健康”未返回体重——请检查“设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru”，或手动设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正使用平均值 60 kg。「健康」未回傳體重——請檢查「設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru」，或手動設定。"
+          }
+        }
+      }
+    },
     "Using the average 60 kg. Set yours above so estimates fit your body — the same dose hits harder the less you weigh." : {
       "localizations" : {
         "zh-Hans" : {
@@ -52256,6 +52469,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正使用平均值 60 kg。在上方設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。"
+          }
+        }
+      }
+    },
+    "Using the average 60 kg. Set yours so estimates fit your body — the same dose hits harder the less you weigh." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正使用平均值 60 kg。设置你的体重，让估算贴合你自己——越轻，同样的剂量作用越强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正使用平均值 60 kg。設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。"
           }
         }
       }
@@ -52567,7 +52796,6 @@
       }
     },
     "Vitamins, minerals, amino acids and plant preparations. Pharmacologically a mixed bag, and the place where interactions are most often assumed to be absent." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -53385,6 +53613,22 @@
         }
       }
     },
+    "Where a day begins and how the timeline stacks its curves." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一天从何时开始，以及时间轴如何叠放曲线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一天從何時開始，以及時間軸如何疊放曲線。"
+          }
+        }
+      }
+    },
     "Where a regular dose settles, from your own cadence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -53462,6 +53706,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "數據來自哪裡"
+          }
+        }
+      }
+    },
+    "Which alerts Piru sends, when it asks again, and when it stays quiet." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 发送哪些提醒、何时再次询问、何时保持安静。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 發送哪些提醒、何時再次詢問、何時保持安靜。"
           }
         }
       }
@@ -54299,6 +54559,22 @@
         }
       }
     },
+    "Your Body" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的身体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的身體"
+          }
+        }
+      }
+    },
     "Your body is processing and eliminating the substance." : {
       "localizations" : {
         "zh-Hans" : {
@@ -54894,6 +55170,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的體重"
+          }
+        }
+      }
+    },
+    "Your weight and metabolism, and what each one changes in the estimates." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的体重与代谢，以及各自会改变估算的哪些部分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的體重與代謝，以及各自會改變估算的哪些部分。"
           }
         }
       }

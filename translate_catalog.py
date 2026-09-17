@@ -6565,6 +6565,87 @@ T = {
     "Medium": ("中", "中"),
     "Close": ("近", "近"),
     "Zoom": ("缩放", "縮放"),
+    # b53 feedback batches (2026-09-17)
+    "Open Injection Levels": (
+        "打开注射水平",
+        "開啟注射水平",
+    ),
+    "Entry": (
+        "输入方式",
+        "輸入方式",
+    ),
+    "Count × strength": (
+        "片数 × 规格",
+        "片數 × 規格",
+    ),
+    "Added at this strength, in the item's unit.": (
+        "按此规格换算后，以该项目的单位计入。",
+        "按此規格換算後，以該項目的單位計入。",
+    ),
+    "Counted in %@. A dose logged in mg is taken off at this strength.": (
+        "以 %@ 计数。以 mg 记录的剂量会按此规格扣除。",
+        "以 %@ 計數。以 mg 記錄的劑量會按此規格扣除。",
+    ),
+    "Due at %@": (
+        "%@ 应服",
+        "%@ 應服",
+    ),
+    "Your Body": (
+        "你的身体",
+        "你的身體",
+    ),
+    "Which alerts Piru sends, when it asks again, and when it stays quiet.": (
+        "Piru 发送哪些提醒、何时再次询问、何时保持安静。",
+        "Piru 發送哪些提醒、何時再次詢問、何時保持安靜。",
+    ),
+    "Where a day begins and how the timeline stacks its curves.": (
+        "一天从何时开始，以及时间轴如何叠放曲线。",
+        "一天從何時開始，以及時間軸如何疊放曲線。",
+    ),
+    "Skins, decorations, and light or dark.": (
+        "皮肤、装饰，以及浅色或深色。",
+        "皮膚、裝飾，以及淺色或深色。",
+    ),
+    "Heart rate and blood pressure on each session's timeline, read from Health.": (
+        "在每条记录的时间轴上显示从“健康”读取的心率和血压。",
+        "在每條記錄的時間軸上顯示從「健康」讀取的心率和血壓。",
+    ),
+    "Your weight and metabolism, and what each one changes in the estimates.": (
+        "你的体重与代谢，以及各自会改变估算的哪些部分。",
+        "你的體重與代謝，以及各自會改變估算的哪些部分。",
+    ),
+    "Splits a busy session's overlapping curves into one lane per substance.": (
+        "将繁忙记录中重叠的曲线按物质拆分为各自的泳道。",
+        "將繁忙記錄中重疊的曲線按物質拆分為各自的泳道。",
+    ),
+    "How many substances a session needs before it splits into lanes.": (
+        "一条记录需要多少种物质才会拆分为泳道。",
+        "一條記錄需要多少種物質才會拆分為泳道。",
+    ),
+    "Using the average 60 kg. Apple Health has never been connected on this device — connect it, or set your weight, so estimates fit your body.": (
+        "正使用平均值 60 kg。此设备从未连接过 Apple 健康——连接它或设置你的体重，让估算贴合你自己。",
+        "正使用平均值 60 kg。此裝置從未連接過 Apple 健康——連接它或設定你的體重，讓估算貼合你自己。",
+    ),
+    "Using the average 60 kg. Health returned no weight — check Settings ▸ Privacy & Security ▸ Health ▸ Piru, or set yours by hand.": (
+        "正使用平均值 60 kg。“健康”未返回体重——请检查“设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru”，或手动设置。",
+        "正使用平均值 60 kg。「健康」未回傳體重——請檢查「設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru」，或手動設定。",
+    ),
+    "Using the average 60 kg. Set yours so estimates fit your body — the same dose hits harder the less you weigh.": (
+        "正使用平均值 60 kg。设置你的体重，让估算贴合你自己——越轻，同样的剂量作用越强。",
+        "正使用平均值 60 kg。設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。",
+    ),
+    "Adds a per-dose grapefruit toggle for substances whose breakdown grapefruit slows (CYP3A4), so the entry records it.": (
+        "为西柚会减缓其分解 (CYP3A4) 的物质添加逐剂西柚开关，让记录保留这一信息。",
+        "為葡萄柚會減緩其分解 (CYP3A4) 的物質加入逐劑葡萄柚開關，讓記錄保留這一資訊。",
+    ),
+    "Shows the acetaldehyde build-up on alcohol entries — the flush is the ALDH2 variant that lets it accumulate.": (
+        "在酒精记录上显示乙醛蓄积——脸红正是让乙醛累积的 ALDH2 变异。",
+        "在酒精記錄上顯示乙醛蓄積——臉紅正是讓乙醛累積的 ALDH2 變異。",
+    ),
+    "Scales the modeled half-life of substances CYP2D6 clears — slow lasts longer, rapid shorter — and notes it on their pages; Unknown counts as typical.": (
+        "按此缩放由 CYP2D6 清除的物质的模型半衰期——慢代谢更久，快代谢更短——并在其页面注明；“未知”按典型处理。",
+        "依此縮放由 CYP2D6 清除的物質的模型半衰期——慢代謝更久，快代謝更短——並在其頁面註明；「未知」視為典型。",
+    ),
 }
 
 # Widget translations
@@ -7544,6 +7625,27 @@ if __name__ == "__main__":
         "Medium",
         "Close",
         "Zoom",
+        # b53 feedback batches (2026-09-17)
+        "Open Injection Levels",
+        "Entry",
+        "Count × strength",
+        "Added at this strength, in the item's unit.",
+        "Counted in %@. A dose logged in mg is taken off at this strength.",
+        "Due at %@",
+        "Your Body",
+        "Which alerts Piru sends, when it asks again, and when it stays quiet.",
+        "Where a day begins and how the timeline stacks its curves.",
+        "Skins, decorations, and light or dark.",
+        "Heart rate and blood pressure on each session's timeline, read from Health.",
+        "Your weight and metabolism, and what each one changes in the estimates.",
+        "Splits a busy session's overlapping curves into one lane per substance.",
+        "How many substances a session needs before it splits into lanes.",
+        "Using the average 60 kg. Apple Health has never been connected on this device — connect it, or set your weight, so estimates fit your body.",
+        "Using the average 60 kg. Health returned no weight — check Settings ▸ Privacy & Security ▸ Health ▸ Piru, or set yours by hand.",
+        "Using the average 60 kg. Set yours so estimates fit your body — the same dose hits harder the less you weigh.",
+        "Adds a per-dose grapefruit toggle for substances whose breakdown grapefruit slows (CYP3A4), so the entry records it.",
+        "Shows the acetaldehyde build-up on alcohol entries — the flush is the ALDH2 variant that lets it accumulate.",
+        "Scales the modeled half-life of substances CYP2D6 clears — slow lasts longer, rapid shorter — and notes it on their pages; Unknown counts as typical.",
     }
 
     print("--- Piru main app catalog ---")
