@@ -14,31 +14,44 @@ struct JournalSettingsView: View {
                 Section {
                     Stepper(value: $dayBoundaryHour, in: 0 ... 12) {
                         HStack {
-                            Label("Day Starts At", systemImage: "moon.stars")
+                            CaptionedRowLabel(
+                                title: "Day Starts At",
+                                systemImage: "moon.stars",
+                                caption: Text("Doses before this hour count toward the previous day. Set to 12 AM for standard calendar days."),
+                            )
                             Spacer()
                             Text(boundaryHourLabel)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
-                } footer: {
-                    Text("Doses before this hour count toward the previous day. Set to 12 AM for standard calendar days.")
                 }
 
                 Section {
                     Toggle(isOn: $stackRedoses) {
-                        Label("Stack Redoses", systemImage: "chart.line.uptrend.xyaxis")
+                        CaptionedRowLabel(
+                            title: "Stack Redoses",
+                            systemImage: "chart.line.uptrend.xyaxis",
+                            caption: Text("Merge repeat doses into one curve. When off, each dose draws its own line."),
+                        )
                     }
                     .tint(Theme.accent)
 
                     Toggle(isOn: $stackedLanesEnabled) {
-                        Label("Stack Busy Sessions", systemImage: "square.stack.3d.up")
+                        CaptionedRowLabel(
+                            title: "Stack Busy Sessions",
+                            systemImage: "square.stack.3d.up",
+                            caption: Text("Splits a busy session's overlapping curves into one lane per substance."),
+                        )
                     }
                     .tint(Theme.accent)
 
                     if stackedLanesEnabled {
                         Stepper(value: $laneModeThreshold, in: LaneModeDefaults.thresholdRange) {
                             HStack {
-                                Text("Stack From")
+                                CaptionedRowLabel(
+                                    title: "Stack From",
+                                    caption: Text("How many substances a session needs before it splits into lanes."),
+                                )
                                 Spacer()
                                 Text(laneModeThreshold, format: .number)
                                     .foregroundStyle(Theme.secondaryLabel)
@@ -47,13 +60,15 @@ struct JournalSettingsView: View {
                     }
 
                     Toggle(isOn: $sessionGraphEnlarged) {
-                        Label("Expand Session Graph", systemImage: "arrow.up.backward.and.arrow.down.forward")
+                        CaptionedRowLabel(
+                            title: "Expand Session Graph",
+                            systemImage: "arrow.up.backward.and.arrow.down.forward",
+                            caption: Text("Always show the full-height timeline. When off, graphs start compact — expand from the graph menu."),
+                        )
                     }
                     .tint(Theme.accent)
                 } header: {
                     Text("Timeline")
-                } footer: {
-                    Text("Stacking merges redoses into one curve and splits busy sessions into lanes. Expanding starts the graph full-height.")
                 }
             }
             .listRowBackground(CardBackground())

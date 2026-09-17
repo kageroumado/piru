@@ -47,17 +47,23 @@ struct NotificationSettingsView: View {
     private var globalSection: some View {
         Section {
             Toggle(isOn: pauseAllBinding) {
-                Label("Pause All Notifications", systemImage: "bell.slash")
+                CaptionedRowLabel(
+                    title: "Pause All Notifications",
+                    systemImage: "bell.slash",
+                    caption: Text("Silences everything without losing your choices below."),
+                )
             }
             .tint(Theme.accent)
             .disabled(authStatus == .denied)
 
             Toggle(isOn: $autoLiveActivity) {
-                Label("Automatic Live Activity", systemImage: "bolt.heart")
+                CaptionedRowLabel(
+                    title: "Automatic Live Activity",
+                    systemImage: "bolt.heart",
+                    caption: Text("Show a Live Activity on your Lock Screen when tracking starts. You can also start one from any session."),
+                )
             }
             .tint(Theme.accent)
-        } footer: {
-            Text("Pause silences everything without losing your choices. Live Activity shows tracking on your Lock Screen.")
         }
     }
 
@@ -71,19 +77,18 @@ struct NotificationSettingsView: View {
                         disabled: rowsDisabled,
                     )
                 } label: {
-                    VStack(alignment: .leading, spacing: Spacing.xs) {
-                        Label(category.title, systemImage: category.symbol)
-                        Text(enabledSummary(for: category))
-                            .captionSecondary()
-                    }
+                    CaptionedRowLabel(
+                        title: category.title,
+                        systemImage: category.symbol,
+                        caption: Text(category.rowCaption),
+                        detail: Text(enabledSummary(for: category)),
+                    )
                 }
                 .disabled(rowsDisabled)
                 .opacity(rowsDisabled ? 0.55 : 1)
             }
         } header: {
             Text("Alerts")
-        } footer: {
-            Text("Timing is based on published pharmacology data. Piru estimates — it never senses anything.")
         }
     }
 
@@ -103,7 +108,11 @@ struct NotificationSettingsView: View {
     private var quietHoursSection: some View {
         Section {
             Toggle(isOn: quietHoursBinding) {
-                Label("Quiet Hours", systemImage: "moon")
+                CaptionedRowLabel(
+                    title: "Quiet Hours",
+                    systemImage: "moon",
+                    caption: Text("Nudges and re-asks stay silent during quiet hours. Scheduled reminders and safety warnings still come through."),
+                )
             }
             .tint(Theme.accent)
             .disabled(authStatus == .denied)
@@ -127,8 +136,6 @@ struct NotificationSettingsView: View {
             }
         } header: {
             Text("Quiet Hours")
-        } footer: {
-            Text("Nudges and re-asks stay silent during quiet hours. Scheduled reminders and safety warnings still come through.")
         }
     }
 
@@ -377,6 +384,19 @@ struct NotificationTypeDetailSheet: View {
 }
 
 extension NotificationCategory {
+    /// The caption under the category's row on the Notifications screen: what
+    /// its alerts are timed from and what clears them.
+    var rowCaption: LocalizedStringKey {
+        switch self {
+        case .reminders:
+            "Reminders fire at each med's times. Quiet meds share one reminder per time of day. Logging a dose clears its follow-ups."
+        case .session:
+            "Timed from the typical onset and duration of each dose you log, for its substance and route. These are estimates from published data — Piru doesn't sense anything."
+        case .safety:
+            "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it."
+        }
+    }
+
     var sectionFooter: LocalizedStringKey {
         switch self {
         case .reminders:

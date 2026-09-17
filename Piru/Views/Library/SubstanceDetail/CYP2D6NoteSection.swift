@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// A pharmacogenomic note shown on CYP2D6-dependent substance detail pages when the user has
-/// set their CYP2D6 metabolizer status in Settings → Metabolism. Self-hides when the status
+/// set their CYP2D6 metabolizer status in Settings ▸ Your Body. Self-hides when the status
 /// is `.unknown` or when the substance is not a CYP2D6-major substrate.
 ///
 /// The note distinguishes **prodrug** patterns (CYP2D6 creates the active metabolite — codeine,

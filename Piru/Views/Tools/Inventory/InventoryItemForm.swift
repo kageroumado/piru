@@ -231,6 +231,7 @@ struct InventoryItemForm: View {
                 baselineSection
                 noteSection
             }
+            .scrollDismissesKeyboard(.interactively)
             .themedPage()
             .navigationTitle(navTitle)
             .inlineNavigationTitle()
