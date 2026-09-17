@@ -29172,14 +29172,16 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 2160.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Estrogen Receptor Agonist (ERα / ERβ)",
     "effects": [],
     "references": [
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0179-0073"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0179-0073",
+      "Comparison of the ligand binding specificity and transcript tissue distribution of estrogen receptors alpha and beta",
+      "Pharmacokinetics and biotransformation of estradiol valerate in ovariectomized women",
+      "A comparison of the pharmacokinetic properties of three estradiol esters",
+      "Comparative pharmacokinetics and pharmacodynamics after subcutaneous and intramuscular administration of medroxyprogesterone acetate (25 mg) and estradiol cypionate (5 mg)"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Estrogens, Conjugated",
