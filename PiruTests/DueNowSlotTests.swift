@@ -2,8 +2,8 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// The shared "what should I take now?" derivation behind the quick-log due
-/// strip and the tab-bar accessory badge.
+/// The shared "what should I take now?" derivation behind the quick-log My
+/// Meds pills' due state and the tab-bar accessory badge.
 @MainActor
 @Suite("DueNowSlot")
 struct DueNowSlotTests {
@@ -15,7 +15,6 @@ struct DueNowSlotTests {
     private func med(
         _ substance: String,
         times: [Int] = [],
-        isQuiet: Bool = false,
         isAsNeeded: Bool = false,
         frequency: DoseFrequency = .daily,
         sortOrder: Int = 0,
@@ -23,7 +22,7 @@ struct DueNowSlotTests {
         DailyDoseItem(
             substance: substance, amount: 10, unit: "mg", sortOrder: sortOrder,
             frequency: frequency, reminderTimesMinutes: times,
-            isQuiet: isQuiet, isAsNeeded: isAsNeeded,
+            isAsNeeded: isAsNeeded,
         )
     }
 
@@ -84,11 +83,44 @@ struct DueNowSlotTests {
         #expect(slots.isEmpty)
     }
 
+    // MARK: My Meds pills
+
     @Test
-    func `Quiet flag rides through for the strip's supplement fold`() {
-        let supp = med("Magnesium glycinate", times: [480], isQuiet: true)
-        let slots = DueNowSlot.derive(items: [supp], todayEntries: [], now: noon)
-        #expect(slots.first?.isQuiet == true)
+    func `A group pill is due for the member whose slot opened, in that slot's own group`() {
+        // 8:00 and 20:00: the morning slot is open at noon, the evening one is
+        // not, so only the Morning pill wears the due state.
+        let twice = med("Methylphenidate", times: [480, 20 * 60])
+        let later = med("Melatonin", times: [22 * 60])
+        let vitamin = med("Vitamin D")
+        let content = QuickLogContentModel()
+        let groups = content.makeDailyGroups(dailyDoseItems: [twice, later, vitamin], routines: [], now: noon)
+        let byID = Dictionary(uniqueKeysWithValues: groups.map { ($0.id, $0) })
+
+        #expect(byID["morning"]?.due.map(\.item.substance) == ["Methylphenidate"])
+        #expect(byID["morning"]?.dueSlotMinutes == 480)
+        #expect(byID["evening"]?.isDue == false)
+        #expect(byID["night"]?.isDue == false)
+        // An anytime med is due all day, with no slot time to show.
+        #expect(byID["anytime"]?.isDue == true)
+        #expect(byID["anytime"]?.dueSlotMinutes == nil)
+    }
+
+    @Test
+    func `Staging the due pill's member flips it to staged`() throws {
+        let item = med("Sertraline", times: [480])
+        let content = QuickLogContentModel()
+        let group = try #require(content.makeDailyGroups(dailyDoseItems: [item], routines: [], now: noon).first)
+        #expect(group.isDue)
+
+        let tray = DoseTrayModel()
+        #expect(group.isFullyStaged(in: tray.stagedCountsBySubstance()) == false)
+        #expect(group.unstaged(in: tray.stagedCountsBySubstance()).count == 1)
+
+        // The same path the pill's tap takes; the snapshot keys by the
+        // resolved identity, which is what the pill must read it back under.
+        tray.stage(dailyItem: item, colorLookup: [:])
+        #expect(group.isFullyStaged(in: tray.stagedCountsBySubstance()))
+        #expect(group.unstaged(in: tray.stagedCountsBySubstance()).isEmpty)
     }
 
     @Test
