@@ -178,7 +178,7 @@ struct TimelineStripBuilder {
         // must leave at the uniform scale.
         let activeIntervals: [DateInterval] = style.pkMode
             ? Self.pkActiveIntervals(entries: entries)
-            : states.map { Self.activeInterval(of: $0) }
+            : Self.activeIntervals(states: states)
         let activeByDay: [Date: Date] = Dictionary(
             activeIntervals.map { (calendar.startOfDay(for: $0.start), $0.end) },
             uniquingKeysWith: { Swift.max($0, $1) },
@@ -259,9 +259,19 @@ struct TimelineStripBuilder {
     private static let futureMarginSeconds: TimeInterval = 30 * 60
     /// Ceiling on the future extent, whatever is still active.
     private static let maximumFutureSeconds: TimeInterval = 24 * 3_600
-    /// A curve counts as active while it is above this fraction of its own
-    /// peak; below it, the span is dead time compression may squeeze.
-    static let activeThreshold = 0.05
+    /// A curve counts as active while it is above this fraction of the
+    /// tallest curve it is drawn beside; below it, the span is dead time
+    /// compression may squeeze.
+    nonisolated static let activeThreshold = 0.05
+    /// Body-load mode: a dose stops holding the axis open this many
+    /// half-lives after it, whatever fraction of its peak remains.
+    nonisolated static let pkActiveHalfLives = 2.0
+    /// Ceiling on any one dose's active span, in either mode. The horizontal
+    /// graph frames its window by the same rule (``TimelineCurveModel``'s
+    /// `renderedTail` drops curves that have not decayed inside
+    /// ``TimelineCurveModel/maxDisplayMinutes``): a curve still up two days
+    /// on is background, and background does not keep dead time uniform.
+    nonisolated static let maximumActiveMinutes = 48.0 * 60
 
     /// Room a slice's cards need so they never spill into the next day:
     /// every card stacked from under the day tag, with envelope padding
@@ -277,20 +287,52 @@ struct TimelineStripBuilder {
     /// Clear space a session envelope keeps above the slice's bottom edge.
     private static let sliceBottomMargin: CGFloat = 12
 
-    /// Effect mode: from the dose to the moment its curve drops below
-    /// ``activeThreshold`` of its own peak.
-    private static func activeInterval(of state: ActiveSubstanceState) -> DateInterval {
-        let minutes = TimelineCurveModel.visibleExtent(
-            for: state,
-            peerMagnitude: state.doseMagnitude,
-            threshold: activeThreshold,
-        )
-        return DateInterval(start: state.doseTimestamp, duration: max(minutes, 1) * 60)
+    /// Effect mode: from each dose to the moment its curve drops below
+    /// ``activeThreshold`` of the tallest curve overlapping it — its own when
+    /// nothing does. Drawn beside a heavy dose, a light one sits under a
+    /// device pixel long before it reaches its own baseline, and a tail
+    /// nobody can see must not hold the axis open.
+    nonisolated static func activeIntervals(states: [ActiveSubstanceState]) -> [DateInterval] {
+        // Sweep in dose order: two curves overlap exactly when the later dose
+        // lands before the earlier curve ends, so every pair meets once,
+        // while the earlier dose is still open.
+        let ordered = states.sorted { $0.doseTimestamp < $1.doseTimestamp }
+        let ends = ordered.map { TimelineWindowEvaluator.activityInterval(of: $0).end }
+        var peers = ordered.map(\.doseMagnitude)
+        var open: [Int] = []
+        for i in ordered.indices {
+            open.removeAll { ends[$0] < ordered[i].doseTimestamp }
+            for j in open {
+                peers[i] = max(peers[i], ordered[j].doseMagnitude)
+                peers[j] = max(peers[j], ordered[i].doseMagnitude)
+            }
+            open.append(i)
+        }
+        return ordered.indices.map { i in
+            let minutes = TimelineCurveModel.visibleExtent(
+                for: ordered[i],
+                peerMagnitude: peers[i],
+                threshold: activeThreshold,
+            )
+            return DateInterval(
+                start: ordered[i].doseTimestamp,
+                duration: min(max(minutes, 1), maximumActiveMinutes) * 60,
+            )
+        }
     }
 
-    /// Body-load mode: from the dose to the moment its concentration drops
-    /// below ``activeThreshold`` of its own peak. Doses that draw no
-    /// body-load curve contribute nothing.
+    /// Body-load mode: minutes a dose holds the axis open — until its
+    /// concentration falls below ``activeThreshold`` of its peak, but never
+    /// past ``pkActiveHalfLives`` half-lives or ``maximumActiveMinutes``.
+    /// The curve itself still draws its whole tail; a 70 h half-life would
+    /// otherwise keep twelve days per dose at the uniform scale.
+    nonisolated static func pkActiveMinutes(halfLife: Double, ke: Double, ka: Double) -> Double {
+        let toThreshold = PKModel.timeToFraction(activeThreshold, ke: ke, ka: ka)
+        return max(min(toThreshold, halfLife * pkActiveHalfLives, maximumActiveMinutes), 1)
+    }
+
+    /// Body-load mode: ``pkActiveMinutes(halfLife:ke:ka:)`` from each dose.
+    /// Doses that draw no body-load curve contribute nothing.
     private static func pkActiveIntervals(entries: [DoseEntry]) -> [DateInterval] {
         var constantsCache: [String: PKConstants?] = [:]
         var intervals: [DateInterval] = []
@@ -304,8 +346,8 @@ struct TimelineStripBuilder {
                 constantsCache[key] = constants
             }
             guard let constants else { continue }
-            let minutes = PKModel.timeToFraction(activeThreshold, ke: constants.ke, ka: constants.ka)
-            intervals.append(DateInterval(start: entry.timestamp, duration: max(minutes, 1) * 60))
+            let minutes = pkActiveMinutes(halfLife: constants.halfLife, ke: constants.ke, ka: constants.ka)
+            intervals.append(DateInterval(start: entry.timestamp, duration: minutes * 60))
         }
         return intervals
     }
