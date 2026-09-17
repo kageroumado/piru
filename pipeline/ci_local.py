@@ -13,6 +13,16 @@ Usage:
     python3 pipeline/ci_local.py --all     # including identifier integrity (~200s)
     python3 pipeline/ci_local.py --only identifier_integrity
 
+Requires three things on the `python3` the hook runs as. PyYAML is this script's
+own import; ruff and rdkit are what the mirrored steps shell out to, and divergence
+2 below means nothing installs them for you:
+
+    python3 -m pip install --user --break-system-packages pyyaml rdkit==2026.3.4
+    brew install ruff
+
+Without rdkit, `structural_dupes --gate` and the dose.wiki ingest gates fail on an
+import rather than on anything they measure.
+
 Wired as a pre-push hook in .pre-commit-config.yaml. Exits non-zero if any check
 fails, which is what blocks the push.
 
@@ -37,7 +47,15 @@ import sys
 import time
 from pathlib import Path
 
-import yaml
+try:
+    import yaml
+except ModuleNotFoundError:  # PyYAML is this script's only third-party import.
+    sys.exit(
+        "ci-local: PyYAML is missing, so the workflow cannot be read and the pre-push\n"
+        "gate is not running. Install the local dependency set once:\n\n"
+        "    python3 -m pip install --user --break-system-packages pyyaml rdkit==2026.3.4\n\n"
+        "Per point 2 above, this script will not install them for you."
+    )
 
 REPO = Path(__file__).resolve().parents[1]
 WORKFLOW = REPO / ".github/workflows/ci.yml"
