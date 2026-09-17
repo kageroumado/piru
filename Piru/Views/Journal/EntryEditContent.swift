@@ -20,8 +20,8 @@ struct EntryEditContent: View {
         Section {
             if byVolumeCapability != nil {
                 Picker("Input", selection: $draft.byVolumeMode) {
-                    Text("By Drink").tag(true)
-                    Text("By Weight").tag(false)
+                    Text(ByVolumeDosing.modeLabels.volume).tag(true)
+                    Text(ByVolumeDosing.modeLabels.mass).tag(false)
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()

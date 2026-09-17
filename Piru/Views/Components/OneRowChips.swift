@@ -1,5 +1,20 @@
 import SwiftUI
 
+// MARK: - Chip metrics
+
+/// The one line box every quick-log chip shares — a dose amount, the "+N"
+/// fold, the sliders pill. Same text style, same padding, so a row of them is
+/// one height whether a member holds a number or a symbol (a symbol goes
+/// through `Text(Image)` to take the text's line box rather than its own).
+enum OneRowChipMetrics {
+    static var font: Font {
+        .subheadline.weight(.medium)
+    }
+
+    static let horizontalPadding: CGFloat = Spacing.xl
+    static let verticalPadding: CGFloat = 6
+}
+
 // MARK: - One-Row Chip Fold
 
 /// Lays out chips on exactly one row, folding whatever doesn't fit into a
@@ -33,9 +48,9 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
     }
 
     private func candidateRow(visibleCount: Int) -> some View {
-        // `maxHeight: .infinity` lets every item grow to the row's tallest child
-        // (a two-line drink chip pulls the plain gram chips + trailing controls up
-        // to match), so the row reads as one even height. A no-op for uniform rows.
+        // Every member keeps its own height and sits on the row's midline: a
+        // two-line drink chip is taller than the fold and the sliders pill
+        // beside it, and the visible capsule is exactly the frame it gets.
         HStack(spacing: Spacing.sm) {
             ForEach(items.prefix(visibleCount)) { item in
                 chip(item)
@@ -43,14 +58,13 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
                     // "fits" and the widest always wins. The last candidate
                     // stays compressible as the give-up fallback.
                     .fixedSize(horizontal: visibleCount > 1, vertical: false)
-                    .frame(maxHeight: .infinity)
             }
             if visibleCount < items.count {
                 Button(action: onExpand) {
                     Text(verbatim: "+\(items.count - visibleCount)")
-                        .font(.subheadline.weight(.medium))
-                        .padding(.horizontal, Spacing.xl)
-                        .frame(maxHeight: .infinity)
+                        .font(OneRowChipMetrics.font)
+                        .padding(.horizontal, OneRowChipMetrics.horizontalPadding)
+                        .padding(.vertical, OneRowChipMetrics.verticalPadding)
                         .background(Color.platformSecondarySystemFill)
                         .foregroundStyle(Theme.secondaryLabel)
                         .clipShape(skinChipShape())
@@ -62,7 +76,6 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
             }
             trailing()
                 .fixedSize(horizontal: true, vertical: false)
-                .frame(maxHeight: .infinity)
         }
     }
 }

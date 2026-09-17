@@ -218,13 +218,16 @@ struct SubstanceCardView: View, Equatable {
                         colorHex: group.colorHex,
                         librarySubstance: group.librarySubstance,
                         productName: group.stageProductName,
+                        saltForm: group.saltForm,
                     )
                 }
             } label: {
-                Image(systemName: "slider.horizontal.3")
-                    .font(.subheadline.weight(.medium))
-                    .padding(.horizontal, Spacing.xl)
-                    .padding(.vertical, 7)
+                // `Text(Image)`, so the symbol takes the dose chips' text line
+                // box and the pill comes out the same height as its neighbors.
+                Text(Image(systemName: "slider.horizontal.3"))
+                    .font(OneRowChipMetrics.font)
+                    .padding(.horizontal, OneRowChipMetrics.horizontalPadding)
+                    .padding(.vertical, OneRowChipMetrics.verticalPadding)
                     .background(.tint.opacity(Theme.Opacity.tint))
                     .foregroundStyle(.tint)
                     .clipShape(skinChipShape())
@@ -249,6 +252,7 @@ struct SubstanceCardView: View, Equatable {
                     colorHex: group.colorHex,
                     librarySubstance: group.librarySubstance,
                     productName: group.stageProductName,
+                    saltForm: chip.saltForm,
                     volumeML: chip.volumeML,
                     abv: chip.abv,
                     drinkName: chip.drinkName,
@@ -266,9 +270,9 @@ struct SubstanceCardView: View, Equatable {
             #endif
         } label: {
             chipLabel(chip)
-                .font(.subheadline.weight(.medium))
-                .padding(.horizontal, Spacing.xl)
-                .padding(.vertical, chip.hasDrinkDetail ? 8 : 6)
+                .font(OneRowChipMetrics.font)
+                .padding(.horizontal, OneRowChipMetrics.horizontalPadding)
+                .padding(.vertical, chip.hasDrinkDetail ? 8 : OneRowChipMetrics.verticalPadding)
                 .background(stagedCount > 0 ? color : color.opacity(Theme.Opacity.tint))
                 .foregroundStyle(stagedCount > 0 ? .white : color)
                 .clipShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.container, style: .continuous)) : AnyShape(Capsule()))
@@ -312,8 +316,7 @@ struct SubstanceCardView: View, Equatable {
                     }
                 }
                 Text(chip.detailLine)
-                    .font(.caption2.weight(.semibold))
-                    .opacity(0.9)
+                    .font(.caption.weight(.semibold))
             }
         } else {
             Text("\(chip.formattedAmount) \(chip.unit.unitDisplay(for: chip.amount))")

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 import SwiftUI
 
 // MARK: - Staged Dose Editor Model
@@ -151,8 +152,8 @@ final class StagedDoseEditorModel {
     }
 
     /// Fill the ABV/volume fields from the staged dose's structured metadata (or,
-    /// if it only has grams from a By-Weight edit, derive a volume at a default
-    /// strength) so By Drink is never blank. `force` overwrites existing text.
+    /// if it only has grams from a By-Mass edit, derive a volume at a default
+    /// strength) so By Volume is never blank. `force` overwrites existing text.
     func seedByDrinkFieldsIfNeeded(from item: StagedDose, capability: ByVolumeDosing?, force: Bool = false) {
         guard let capability else { return }
         if !force, !(volumeText.isEmpty && abvText.isEmpty) { return }
@@ -161,7 +162,7 @@ final class StagedDoseEditorModel {
             volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
         } else if item.amount > 0, !capability.isMassPerVolume {
             // Alcohol grams-only dose: hold a default 5% ABV and back-derive volume
-            // so By Drink is never blank. An ester has no default concentration to
+            // so By Volume is never blank. An ester has no default concentration to
             // assume — leave the fields blank for the user to enter the vial's mg/mL.
             let abv = item.abv ?? 5
             abvText = ByVolumeDefaults.format(abv)
@@ -170,8 +171,52 @@ final class StagedDoseEditorModel {
         }
     }
 
-    /// In By Weight, keep `item.volumeML` consistent with the edited grams by
-    /// re-deriving volume at the held ABV — so flipping back to By Drink shows a
+    /// Give a fresh by-volume draft the substance's most recent by-volume log
+    /// as its starting point — the same drink or the same vial, ready to adjust
+    /// — instead of 0 mL at 0 %. Only a draft with nothing entered yet takes
+    /// the seed; a row re-opened with its own volume, strength, or grams keeps
+    /// them. The concentration and volume land on the dose itself so the
+    /// By Mass ↔ By Volume flips re-derive from consistent numbers.
+    func seedFromLastByVolumeLog(item: inout StagedDose, capability: ByVolumeDosing, context: ModelContext) {
+        guard item.abv == nil, item.volumeML == nil, item.amount <= 0,
+              let last = Self.lastByVolumeEntry(substance: item.substanceName, saltForm: item.saltForm, context: context),
+              let abv = last.abv, let ml = last.volumeML, abv > 0, ml > 0
+        else { return }
+        item.abv = abv
+        item.volumeML = ml
+        if capability.isMassPerVolume {
+            // A vial's concentration is the durable fact; the last draw's volume
+            // is the first candidate for this one.
+            item.drinkName = last.drinkName
+        } else if let name = last.drinkName?.trimmingCharacters(in: .whitespaces), !name.isEmpty {
+            item.drinkName = name
+            item.emoji = Self.presetEmoji(named: name, substance: item.substanceName, context: context)
+        }
+    }
+
+    private static func lastByVolumeEntry(substance: String, saltForm: String?, context: ModelContext) -> DoseEntry? {
+        var descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.substance == substance && $0.saltForm == saltForm && $0.volumeML != nil && $0.abv != nil },
+            sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
+        )
+        descriptor.fetchLimit = 1
+        return try? context.fetch(descriptor).first
+    }
+
+    /// The glyph of the saved preset a logged drink was named after — the entry
+    /// itself keeps no emoji.
+    private static func presetEmoji(named name: String, substance: String, context: ModelContext) -> String? {
+        let lower = substance.lowercased()
+        var descriptor = FetchDescriptor<CustomDrinkPreset>(
+            predicate: #Predicate { $0.substanceName == lower && $0.name == name },
+        )
+        descriptor.fetchLimit = 1
+        guard let emoji = try? context.fetch(descriptor).first?.emoji, !emoji.isEmpty else { return nil }
+        return emoji
+    }
+
+    /// In By Mass, keep `item.volumeML` consistent with the edited grams by
+    /// re-deriving volume at the held ABV — so flipping back to By Volume shows a
     /// matching volume rather than a stale or zeroed one.
     func reprojectVolumeFromGrams(item: inout StagedDose, capability: ByVolumeDosing) {
         if capability.isMassPerVolume {

@@ -69,6 +69,19 @@ extension Text {
         capsuleChip(text: text, fill: fill, size: .hero)
     }
 
+    /// The outline grammar at the **hero** size: ``capsuleOutlineChip(stroke:)``'s
+    /// identity-colored stroke on ``ROAPill``'s `.regular` line box, so an
+    /// ester badge beside the route pill is one height with it.
+    func heroOutlineChip(stroke: Color) -> some View {
+        skinOutlineChip(
+            stroke: stroke,
+            style: CapsuleChipSize.hero.textStyle,
+            weight: .semibold,
+            horizontal: CapsuleChipSize.hero.horizontalPadding,
+            vertical: CapsuleChipSize.hero.verticalPadding,
+        )
+    }
+
     /// A bordered, **unfilled** chip for freeform tags — deliberately a
     /// different grammar from the filled ``capsuleChip`` (route/strength/severity)
     /// so a rarely-used tag reads as a quiet annotation rather than competing with

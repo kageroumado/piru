@@ -26,13 +26,14 @@ struct StagedDoseEditor: View {
     @State private var profileStore = UserProfileStore.shared
 
     /// The volume-vs-mass choice persists across doses, separately per kind:
-    /// alcohol defaults to By Drink (it has presets), an injectable ester to By
-    /// Mass (concentration is user-entered, so typing mg is the low-friction path).
+    /// alcohol defaults to By Volume (it has drink presets), an injectable ester
+    /// to By Mass (concentration is user-entered, so typing mg is the
+    /// low-friction path).
     @AppStorage("alcoholEditorByDrink") private var alcoholByVolume = true
     @AppStorage("esterEditorByVolume") private var esterByVolume = false
 
-    /// Whether the current dose edits by volume (By Drink / By Volume) rather than
-    /// mass, reading the preference that matches this substance's concentration kind.
+    /// Whether the current dose edits by volume rather than mass, reading the
+    /// preference that matches this substance's concentration kind.
     private var byDrinkPreferred: Bool {
         byVolumeCapability?.isMassPerVolume == true ? esterByVolume : alcoholByVolume
     }
@@ -53,19 +54,12 @@ struct StagedDoseEditor: View {
     @FocusState private var volumeFocused: Bool
 
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     /// One shared height for the route/note pills — a TextField's intrinsic
     /// height differs from a Menu label's, so padding alone won't match them.
     /// Scaled with the pills' footnote type so they don't clip at
     /// accessibility sizes.
     @ScaledMetric(relativeTo: .footnote) private var pillHeight: CGFloat = 33
-
-    private var pillLayout: AnyLayout {
-        dynamicTypeSize.isAccessibilitySize
-            ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.md))
-            : AnyLayout(HStackLayout(spacing: Spacing.md))
-    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
@@ -80,10 +74,11 @@ struct StagedDoseEditor: View {
 
             inputBlock
 
-            // Pills side by side normally; stacked at accessibility sizes,
-            // where they can't share the row without truncating each other
-            // into unreadability (matching `TrayCommitBar`'s chips).
-            pillLayout {
+            // Pills wrap onto further rows as they run out of width — nine of
+            // them can be live at once (unknown amount, drink, route, salt,
+            // ester, brand, isomer, note, grapefruit), and at accessibility
+            // sizes even two won't share a row without truncating each other.
+            FlowLayout(spacing: Spacing.md) {
                 StagedDoseUnknownAmountPill(isOn: $item.isUnknownAmount, pillHeight: pillHeight)
                 if byVolumeCapability != nil, byDrinkPreferred, !item.isUnknownAmount {
                     drinkTypeChip
@@ -149,8 +144,8 @@ struct StagedDoseEditor: View {
         // Keep the staged grams + by-volume metadata synced with the custom logger.
         .onChange(of: customDrinkGrams) { if byDrinkPreferred { syncCustomDrink() } }
         .onChange(of: model.drinkName) { if byDrinkPreferred { syncCustomDrink() } }
-        // In By Weight, editing grams re-projects the volume (holding ABV) so the
-        // By Drink fields stay consistent when the user flips back — never zeroed.
+        // In By Mass, editing grams re-projects the volume (holding ABV) so the
+        // By Volume fields stay consistent when the user flips back — never zeroed.
         .onChange(of: item.amount) {
             guard let capability = byVolumeCapability, !byDrinkPreferred else { return }
             model.reprojectVolumeFromGrams(item: &item, capability: capability)
@@ -158,7 +153,7 @@ struct StagedDoseEditor: View {
         .onChange(of: byDrinkPreferred) {
             if byDrinkPreferred {
                 // Re-derive the drink fields from the (possibly grams-edited) dose
-                // so By Drink is never blank, then re-sync the metadata.
+                // so By Volume is never blank, then re-sync the metadata.
                 model.seedByDrinkFieldsIfNeeded(from: item, capability: byVolumeCapability, force: true)
                 syncCustomDrink()
             } else {
@@ -192,10 +187,9 @@ struct StagedDoseEditor: View {
         if item.isUnknownAmount {
             StagedDoseUnknownAmountBlock(item: $item, model: model, namespace: namespace)
         } else if let capability = byVolumeCapability {
-            // The concentration+volume logger vs the plain mass stepper. Labels
-            // adapt to the kind: By Drink/By Weight for alcohol, By Volume/By Mass
-            // for an injectable ester.
-            let modes = capability.modeLabels
+            // The concentration+volume logger vs the plain mass stepper: one
+            // label pair for a drink and a vial alike.
+            let modes = ByVolumeDosing.modeLabels
             Picker("Input", selection: byDrinkBinding) {
                 Text(modes.volume).tag(true)
                 Text(modes.mass).tag(false)
@@ -341,21 +335,34 @@ struct StagedDoseEditor: View {
         if item.amount > 0 {
             model.showAmount(item.amount)
         }
-        // Don't pop the keyboard for by-volume substances (drink presets are
-        // the primary action), branded pills (tap a strength chip, don't type),
-        // or an amount already declared unknown (there is nothing to type).
-        if item.amount <= 0, !item.isUnknownAmount, byVolumeCapability == nil, tabletProduct == nil { amountFocused = true }
+        focusAmountIfWanted()
         if profileStore.grapefruitLoggingEnabled {
             model.resolveGrapefruitSubstrate(substanceName: item.substanceName)
         }
         // Seed the custom-drink fields from a dose already logged by volume, so
-        // re-opening it shows its strength/volume/name.
+        // re-opening it shows its strength/volume/name; a fresh draft takes the
+        // substance's last by-volume log instead of opening on 0 / 0.
         if let capability = byVolumeCapability {
             CustomDrinkPreset.seedIfNeeded(for: item.substanceName, capability: capability, context: modelContext)
+            model.seedFromLastByVolumeLog(item: &item, capability: capability, context: modelContext)
             model.seedByDrinkFieldsIfNeeded(from: item, capability: capability)
             model.drinkName = item.drinkName ?? ""
             model.drinkEmoji = item.emoji ?? ""
+            syncCustomDrink()
         }
+    }
+
+    /// Raise the keyboard on the amount field when it is on screen and the row
+    /// is one the user opened to type into (``StagedDose/wantsAmountFocus``),
+    /// or when it opened empty. The field is absent for a branded pill (tap a
+    /// strength chip), an unknown amount, and the drink logger (presets are the
+    /// primary action) — an ester in By Mass shows it and gets the focus.
+    private func focusAmountIfWanted() {
+        let fieldShown = !item.isUnknownAmount && tabletProduct == nil
+            && (byVolumeCapability == nil || !byDrinkPreferred)
+        let wanted = item.wantsAmountFocus || (item.amount <= 0 && byVolumeCapability == nil)
+        if item.wantsAmountFocus { item.wantsAmountFocus = false }
+        if fieldShown, wanted { amountFocused = true }
     }
 
     private func syncCustomDrink() {
@@ -452,8 +459,13 @@ private struct DrinkPresetMenu: View {
             .font(.footnote.weight(.semibold))
             .padding(.horizontal, 11)
             .frame(height: pillHeight)
-            .background(Theme.accent.opacity(Theme.Opacity.tint), in: skinChipShape())
-            .foregroundStyle(Theme.accent)
+            // Neutral until a preset is chosen, like the note pill: an accent
+            // fill on the placeholder read as a selection that had not happened.
+            .background(
+                currentName.isEmpty ? AnyShapeStyle(Color.platformSecondarySystemFill) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
+                in: skinChipShape(),
+            )
+            .foregroundStyle(currentName.isEmpty ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
         }
         .buttonStyle(.plain)
         .accessibilityLabel(currentName.isEmpty ? Text("Choose drink") : Text("Drink: \(currentName)"))
