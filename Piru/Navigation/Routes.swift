@@ -122,6 +122,11 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// Where a regularly-dosed substance settles: steady-state plateau projected
     /// from the log's own inferred median dose + interval, off `SteadyStateModel`.
     case steadyStateProjection
+    /// Estimated serum hormone level (estradiol / testosterone) over time, summed
+    /// per logged ester and calibrated to the user's own labs — the first-class,
+    /// log-driven counterpart to the prediction Tool (`Tool.injectionLevels`).
+    /// Retrospective, so it lives in Insights (`Specs/injection-levels-v3.md`).
+    case hormoneLevels
     /// Record-and-model patterns for self or a clinician: days used, cumulative
     /// exposure (clinical equivalents where they exist), dose trend, and
     /// co-exposure. Off the shared `ClinicalStats` layer the PDF report also uses.

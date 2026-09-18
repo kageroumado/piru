@@ -1,31 +1,32 @@
-# Resolved category breakdown — 1909 substances
+# Resolved category breakdown — 1689 substances
 
 | Category | Count | File |
 |---|---:|---|
-| Psychedelic | 353 | [Psychedelic.txt](Psychedelic.txt) |
-| (no category) | 314 | [_no_category_.txt](_no_category_.txt) |
-| Stimulant | 241 | [Stimulant.txt](Stimulant.txt) |
-| Opioid | 98 | [Opioid.txt](Opioid.txt) |
-| Peptide | 83 | [Peptide.txt](Peptide.txt) |
-| Other | 79 | [Other.txt](Other.txt) |
-| Dissociative | 78 | [Dissociative.txt](Dissociative.txt) |
-| Depressant | 76 | [Depressant.txt](Depressant.txt) |
-| Benzodiazepine | 63 | [Benzodiazepine.txt](Benzodiazepine.txt) |
-| Empathogen | 60 | [Empathogen.txt](Empathogen.txt) |
-| Nootropic | 58 | [Nootropic.txt](Nootropic.txt) |
-| Supplement | 51 | [Supplement.txt](Supplement.txt) |
+| (no category) | 364 | [_no_category_.txt](_no_category_.txt) |
+| Psychedelic | 299 | [Psychedelic.txt](Psychedelic.txt) |
+| Stimulant | 201 | [Stimulant.txt](Stimulant.txt) |
+| Opioid | 93 | [Opioid.txt](Opioid.txt) |
+| Benzodiazepine | 73 | [Benzodiazepine.txt](Benzodiazepine.txt) |
+| Dissociative | 54 | [Dissociative.txt](Dissociative.txt) |
+| Depressant | 52 | [Depressant.txt](Depressant.txt) |
+| Supplement | 52 | [Supplement.txt](Supplement.txt) |
 | Endocrine | 51 | [Endocrine.txt](Endocrine.txt) |
-| Cannabinoid | 50 | [Cannabinoid.txt](Cannabinoid.txt) |
-| Antidepressant | 46 | [Antidepressant.txt](Antidepressant.txt) |
+| Peptide | 50 | [Peptide.txt](Peptide.txt) |
+| Cannabinoid | 49 | [Cannabinoid.txt](Cannabinoid.txt) |
+| Nootropic | 42 | [Nootropic.txt](Nootropic.txt) |
+| Empathogen | 41 | [Empathogen.txt](Empathogen.txt) |
 | Cardiovascular | 38 | [Cardiovascular.txt](Cardiovascular.txt) |
-| Antimicrobial | 27 | [Antimicrobial.txt](Antimicrobial.txt) |
-| Antipsychotic | 24 | [Antipsychotic.txt](Antipsychotic.txt) |
-| Antihistamine | 23 | [Antihistamine.txt](Antihistamine.txt) |
+| Other | 37 | [Other.txt](Other.txt) |
+| Antidepressant | 34 | [Antidepressant.txt](Antidepressant.txt) |
+| Antimicrobial | 26 | [Antimicrobial.txt](Antimicrobial.txt) |
+| Antipsychotic | 25 | [Antipsychotic.txt](Antipsychotic.txt) |
+| Antihistamine | 22 | [Antihistamine.txt](Antihistamine.txt) |
 | Dysdelic | 19 | [Dysdelic.txt](Dysdelic.txt) |
-| Analgesic | 17 | [Analgesic.txt](Analgesic.txt) |
-| AMPAkine | 17 | [AMPAkine.txt](AMPAkine.txt) |
-| Anticonvulsant | 17 | [Anticonvulsant.txt](Anticonvulsant.txt) |
-| Deliriant | 9 | [Deliriant.txt](Deliriant.txt) |
-| Eugeroic | 8 | [Eugeroic.txt](Eugeroic.txt) |
-| GABAergic | 5 | [GABAergic.txt](GABAergic.txt) |
-| Gastrointestinal | 4 | [Gastrointestinal.txt](Gastrointestinal.txt) |
+| Analgesic | 16 | [Analgesic.txt](Analgesic.txt) |
+| Anticonvulsant | 15 | [Anticonvulsant.txt](Anticonvulsant.txt) |
+| GABAergic | 9 | [GABAergic.txt](GABAergic.txt) |
+| Deliriant | 8 | [Deliriant.txt](Deliriant.txt) |
+| Gastrointestinal | 6 | [Gastrointestinal.txt](Gastrointestinal.txt) |
+| Eugeroic | 5 | [Eugeroic.txt](Eugeroic.txt) |
+| AMPAkine | 5 | [AMPAkine.txt](AMPAkine.txt) |
+| OrexinAntagonist | 3 | [OrexinAntagonist.txt](OrexinAntagonist.txt) |

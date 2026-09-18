@@ -1,55 +1,48 @@
-# Anticonvulsant — 17 substances (sorted by popularity)
+# Anticonvulsant — 15 substances (sorted by popularity)
 # fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Brivaracetam  <medical_rx>  — oral mg: common 50-100, heavy 200
-      aka: Briviact|UCB-34714|ucb 34714
-      #CYP2C19-substrate  #PET-confirmed-target-engagement  #SV2A-high-affinity  #SV2A-ligand  #US-Schedule-V  #amidase-hydrolysis  #anticonvulsant  #prescription-only  #racetam
-  Carbamazepine  <medical_rx>  — oral mg: common 400-800, heavy 1600
-      aka: Carbatrol|Epitol|Equetro|Tegretol
-      #anticonvulsant  #antimanic  #mood-stabilizer  #narrow-therapeutic-index  #prescription-only  #sodium-channel-blocker  #tablet, extended-release tablet, chewable tablet, extended-release capsule, suspension
-  CBDV  <medical_rx>  — inhalation mg: common 5-15, heavy 30
-      aka: CBD-varin|Cannabidivarin|GWP42006|varinic CBD
-      #TRPA1-agonist  #TRPV1-agonist  #anticonvulsant  #anticonvulsant-mechanism  #cannabinoid  #class:Phytocannabinoid  #non-intoxicating  #phytocannabinoid  #therapeutic
-      also: Cannabinoid
-  Epidiolex  <medical_rx>  — oral mg: common 5-10, heavy 20
-      aka: Cannabidiol oral solution|GWP42003-P|Plant-derived CBD
-      #FDA-approved  #US-Schedule-V  #anticonvulsant  #cannabinoid  #non-intoxicating  #phytocannabinoid  #prescription-only  #therapeutic
-  Fenfluramine  <medical_rx>
-      aka: Adifax|DL-fenfluramine|Fintepla|Ponderax|Pondimin|Rotondin
-      #5-HT2B-via-metabolite  #SERT-releaser  #anticonvulsant-Dravet  #class:Phenethylamine; substituted amphetamine (trifluoromethyl-substituted)  #valvulopathic
-  Lacosamide  <medical_rx>  — oral mg: common 150-300, heavy 400
-      aka: Vimpat
-      #anticonvulsant  #prescription-only  #sodium-channel-blocker  #tablet, solution
-  Lamotrigine  <medical_rx>  — oral mg: common 50-150, heavy 300
-      aka: LTG|Lamictal|Subvenite
-      #HLA-B*15:02-test-required  #SJS-TEN-risk  #UGT1A4-substrate  #anticonvulsant  #antimanic  #class:Phenyl-triazine anticonvulsant  #sodium-channel-blocker  #tablet, orally disintegrating tablet, extended-release tablet, tablet for suspension (chewable)  #use-dependent-block
-  Levetiracetam  <medical_rx>  — oral mg: common 750-1500, heavy 4000
-      aka: Elepsia|Keppra|Levetiracetam Extended-release|Roweepra|Spritam|UCB-LO59|etiracetam S-enantiomer
-      #SV2A-ligand  #SV2A-prototype  #anticonvulsant  #behavioral-AEs  #no-CYP-metabolism  #prescription-only  #racetam  #renal-eliminated  #tablet, extended-release tablet, tablet for suspension (dissolvable), solution
-  Lithium  <medical_rx>  — oral mg: common 600-900, heavy 1800
+  Lithium  <medical_rx>
       aka: Eskalith|Lithium Carbonate|Lithium orotate|Lithobid|Lithonate
       #GSK-3-inhibitor  #antimanic  #mood-stabilizer  #narrow-therapeutic-index  #nootropic  #prescription-only  #renal-excretion  #supplement
-  Mirogabalin  <medical_rx>  — oral mg: common 10-30, heavy 40
-      aka: DS-5565|Tarlige
-      #class:Gabapentinoid (structurally related to gabapentin and pregabalin)
-  Oxcarbazepine  <medical_rx>  — oral mg: common 600-1200, heavy 2400
+  Epidiolex  <medical_rx>
+      aka: Cannabidiol oral solution|GWP42003-P|Plant-derived CBD
+      #FDA-approved  #US-Schedule-V  #anticonvulsant  #cannabinoid  #non-intoxicating  #phytocannabinoid  #prescription-only  #therapeutic
+  Lamotrigine  <medical_rx>
+      aka: LTG|Lamictal|Subvenite|拉莫三嗪
+      #HLA-B*15:02-test-required  #SJS-TEN-risk  #UGT1A4-substrate  #anticonvulsant  #antimanic  #class:Phenyl-triazine anticonvulsant  #mood-stabilizer  #prescription-only  #sodium-channel-blocker  #use-dependent-block
+  Topiramate  <medical_rx>
+      aka: Eprontia|Qudexy|Qudexy XR|Topamax|Topiragen|Trokendi|Trokendi XR
+      #GABA-modulator  #anticonvulsant  #appetite-suppressant  #mood-stabilizer  #prescription-only  #teratogenic
+  Carbamazepine  <medical_rx>
+      aka: Carbatrol|Epitol|Equetro|Tegretol
+      #anticonvulsant  #antimanic  #mood-stabilizer  #narrow-therapeutic-index  #prescription-only  #sodium-channel-blocker
+  Valproate  <medical_rx>
+      aka: Depacon|Depakene|Depakote|Divalproex|Epilim|Valproic Acid|divalproex sodium
+      #GABA-modulator  #anticonvulsant  #antimanic  #mood-stabilizer  #narrow-therapeutic-index  #prescription-only  #teratogenic
+  Levetiracetam  <medical_rx>
+      aka: Elepsia|Keppra|Levetiracetam Extended-release|Roweepra|Spritam|UCB-LO59|etiracetam S-enantiomer
+      #SV2A-ligand  #SV2A-prototype  #anticonvulsant  #behavioral-AEs  #no-CYP-metabolism  #prescription-only  #racetam  #renal-eliminated
+  Phenytoin  <medical_rx>
+      aka: Dilantin|Diphenylhydantoin|Phenytek|Phenytoin Sodium
+      #anticonvulsant  #narrow-therapeutic-index  #prescription-only  #sodium-channel-blocker
+  Oxcarbazepine  <medical_rx>
       aka: Oxtellar|Oxtellar XR|Trileptal
-      #anticonvulsant  #mood-stabilizer  #prescription-only  #sodium-channel-blocker  #tablet, extended-release tablet, suspension
-  Perampanel  <medical_rx>  — oral mg: common 4-8, heavy 12
+      #anticonvulsant  #mood-stabilizer  #prescription-only  #sodium-channel-blocker
+  Lacosamide  <medical_rx>
+      aka: Vimpat
+      #anticonvulsant  #prescription-only  #sodium-channel-blocker
+  Primidone  <medical_rx>
+      aka: Mysoline
+      #anticonvulsant  #barbiturate
+  Brivaracetam  <medical_rx>
+      aka: Briviact|UCB-34714|ucb 34714
+      #CYP2C19-substrate  #PET-confirmed-target-engagement  #SV2A-high-affinity  #SV2A-ligand  #US-Schedule-V  #amidase-hydrolysis  #anticonvulsant  #prescription-only  #racetam
+  Perampanel  <medical_rx>
       aka: Fycompa
       #AMPA-antagonist  #US-Schedule-V  #anticonvulsant  #glutamate-modulator  #prescription-only  #psychiatric-warning
-  Phenytoin  <medical_rx>  — oral mg: common 200-300, heavy 400
-      aka: Dilantin|Diphenylhydantoin|Phenytek|Phenytoin Sodium
-      #anticonvulsant  #extended-release capsule, chewable tablet, suspension  #narrow-therapeutic-index  #prescription-only  #sodium-channel-blocker
-  Primidone  (STUB)  <medical_rx>
-      aka: Mysoline
-      #anticonvulsant  #barbiturate  #tablet
-  Topiramate  <medical_rx>  — oral mg: common 50-100, heavy 400
-      aka: Eprontia|Qudexy|Qudexy XR|Topamax|Topiragen|Trokendi|Trokendi XR
-      #GABA-modulator  #anticonvulsant  #appetite-suppressant  #mood-stabilizer  #prescription-only  #tablet, sprinkle capsule, extended-release capsule, extended-release sprinkle capsule, solution  #teratogenic
-  Valproate  <medical_rx>  — oral mg: common 500-1000, heavy 2000
-      aka: Depacon|Depakene|Depakote|Divalproex|Epilim|Valproic Acid
-      #GABA-modulator  #anticonvulsant  #antimanic  #capsule, delayed-release sprinkle capsule, delayed-release tablet, extended-release tablet, solution  #mood-stabilizer  #narrow-therapeutic-index  #prescription-only  #teratogenic
-  Zonisamide  <medical_rx>  — oral mg: common 200-300, heavy 600
+  CBDV  <medical_rx>
+      aka: CBD-varin|Cannabidivarin|GWP42006|varinic CBD
+      #TRPA1-agonist  #TRPV1-agonist  #anticonvulsant  #anticonvulsant-mechanism  #cannabinoid  #non-intoxicating  #phytocannabinoid  #therapeutic
+  Zonisamide  <medical_rx>
       aka: Zonegran
       #GABA-modulator  #anticonvulsant  #appetite-suppressant  #prescription-only  #sodium-channel-blocker

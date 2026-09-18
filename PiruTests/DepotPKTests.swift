@@ -102,6 +102,81 @@ struct DepotPKTests {
         #expect(curve.first?.date == start)
         #expect(try abs(#require(curve.last?.date.timeIntervalSince(end))) < 1)
     }
+
+    // MARK: - Multi-ester summation
+
+    @Test
+    func `A single summed contribution equals its own depot curve`() {
+        let start = Date(timeIntervalSinceReferenceDate: 0)
+        let end = start.addingTimeInterval(60 * 86_400)
+        let inj = [(date: start, doseMg: 5.0), (date: start.addingTimeInterval(14 * 86_400), doseMg: 5.0)]
+        let single = PKModel.depotCurve(injections: inj, over: start ... end, parameters: Self.cypionate, pointCount: 50)
+        let summed = PKModel.depotCurveSummed(
+            contributions: [.init(injections: inj, parameters: Self.cypionate)],
+            over: start ... end, pointCount: 50,
+        )
+        #expect(summed.total.count == 50)
+        #expect(summed.contributions.count == 1)
+        for (a, b) in zip(single, summed.total) {
+            #expect(a.date == b.date)
+            #expect(abs(a.pgPerML - b.value) < 1e-9)
+        }
+    }
+
+    @Test
+    func `The summed total is the elementwise sum of two esters on a shared grid`() {
+        let start = Date(timeIntervalSinceReferenceDate: 0)
+        let end = start.addingTimeInterval(60 * 86_400)
+        let valerate = [(date: start, doseMg: 4.0)]
+        let cypionate = [(date: start.addingTimeInterval(21 * 86_400), doseMg: 3.0)]
+        let a = PKModel.depotCurve(injections: valerate, over: start ... end, parameters: Self.valerate, pointCount: 80)
+        let b = PKModel.depotCurve(injections: cypionate, over: start ... end, parameters: Self.cypionate, pointCount: 80)
+        let summed = PKModel.depotCurveSummed(
+            contributions: [
+                .init(injections: valerate, parameters: Self.valerate),
+                .init(injections: cypionate, parameters: Self.cypionate),
+            ],
+            over: start ... end, pointCount: 80,
+        )
+        #expect(summed.contributions.count == 2)
+        for i in 0 ..< 80 {
+            #expect(summed.contributions[0][i].date == summed.total[i].date)
+            #expect(abs(summed.contributions[0][i].value - a[i].pgPerML) < 1e-9)
+            #expect(abs(summed.contributions[1][i].value - b[i].pgPerML) < 1e-9)
+            #expect(abs(summed.total[i].value - (a[i].pgPerML + b[i].pgPerML)) < 1e-9)
+        }
+    }
+
+    @Test
+    func `A one-point summed curve returns a single sample per contribution`() {
+        let start = Date(timeIntervalSinceReferenceDate: 0)
+        let inj = [(date: start.addingTimeInterval(-5 * 86_400), doseMg: 5.0)]
+        let summed = PKModel.depotCurveSummed(
+            contributions: [.init(injections: inj, parameters: Self.cypionate)],
+            over: start ... start, pointCount: 1,
+        )
+        #expect(summed.total.count == 1)
+        #expect(summed.contributions.count == 1)
+        #expect(summed.total[0].value > 0)
+    }
+
+    @Test
+    func `depotConcentrationSummed adds each contribution at an instant`() {
+        let start = Date(timeIntervalSinceReferenceDate: 0)
+        let at = start.addingTimeInterval(10 * 86_400)
+        let valerate = [(date: start, doseMg: 4.0)]
+        let cypionate = [(date: start, doseMg: 3.0)]
+        let summed = PKModel.depotConcentrationSummed(
+            contributions: [
+                .init(injections: valerate, parameters: Self.valerate),
+                .init(injections: cypionate, parameters: Self.cypionate),
+            ],
+            at: at,
+        )
+        let a = PKModel.depotConcentrationMultiDose(injections: valerate, at: at, parameters: Self.valerate)
+        let b = PKModel.depotConcentrationMultiDose(injections: cypionate, at: at, parameters: Self.cypionate)
+        #expect(abs(summed - (a + b)) < 1e-9)
+    }
 }
 
 @Suite("Depot calibration")
@@ -184,6 +259,43 @@ struct DepotCalibrationTests {
         #expect(abs((result?.scale ?? 0) - 1.5) < 5e-3)
         // Two params through two points → residual ≈ 0.
         #expect((result?.residualRMS ?? 99) < 1e-2)
+    }
+
+    @Test
+    func `Summed calibration recovers a person-wide amplitude scale across two esters`() {
+        let now = Date(timeIntervalSinceReferenceDate: 0)
+        let valerate = [(date: now, doseMg: 4.0)]
+        let cypionate = [(date: now.addingTimeInterval(7 * 86_400), doseMg: 3.0)]
+        let contributions = [
+            PKModel.DepotContribution(injections: valerate, parameters: DepotPKTests.valerate),
+            PKModel.DepotContribution(injections: cypionate, parameters: DepotPKTests.cypionate),
+        ]
+        /// A user who runs 1.8× the population sum, fit amplitude-only.
+        func trueLevel(_ days: Double) -> Double {
+            1.8 * PKModel.depotConcentrationSummed(contributions: contributions, at: now.addingTimeInterval(days * 86_400))
+        }
+        let measurements = [
+            DepotCalibration.Measurement(date: now.addingTimeInterval(10 * 86_400), value: trueLevel(10)),
+            DepotCalibration.Measurement(date: now.addingTimeInterval(17 * 86_400), value: trueLevel(17)),
+        ]
+        let result = DepotCalibration.calibrateSummed(contributions: contributions, measurements: measurements, fitRate: false)
+        #expect(abs((result?.scale ?? 0) - 1.8) < 1e-6)
+        #expect(result?.k1Scale == 1.0)
+        #expect((result?.residualRMS ?? 99) < 1e-3)
+    }
+
+    @Test
+    func `Summed calibration with no usable point returns nil`() {
+        let now = Date(timeIntervalSinceReferenceDate: 0)
+        let contributions = [
+            PKModel.DepotContribution(injections: [(date: now.addingTimeInterval(86_400), doseMg: 4)], parameters: DepotPKTests.valerate),
+        ]
+        // Measurement before the only injection → predicted 0 → nothing to fit.
+        let result = DepotCalibration.calibrateSummed(
+            contributions: contributions,
+            measurements: [.init(date: now, value: 100)],
+        )
+        #expect(result == nil)
     }
 
     @Test

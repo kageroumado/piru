@@ -175,23 +175,35 @@ struct InjectionLevelsView: View {
             if entry.volumeML != nil, let concentration = entry.abv, concentration > 0 {
                 log.latestLoggedConcentration = concentration
             }
-            let mg: Double
-            if let scale = DoseEquivalent.milligramScale(ofDoseUnit: entry.unit) {
-                mg = entry.amount * scale
-            } else if Self.isVolumeUnit(entry.unit) {
-                log.volumeLoggedCount += 1
-                guard let concentration = volumeConcentrationMgPerML, concentration > 0 else { continue }
-                mg = entry.amount * concentration
-            } else {
-                continue
-            }
-            guard mg > 0 else { continue }
+            let mass = Self.doseMassMg(entry, volumeConcentrationMgPerML: volumeConcentrationMgPerML)
+            if mass.isVolumeUnit { log.volumeLoggedCount += 1 }
+            guard let mg = mass.mg else { continue }
             log.injections.append((entry.timestamp, mg))
         }
         return log
     }
 
-    private static func isVolumeUnit(_ unit: String) -> Bool {
+    /// The injectable mass one logged dose contributes (canonical mg), and whether it
+    /// was logged in a volume unit. A dose in mg/µg converts by its unit scale; a dose
+    /// in mL joins at `volumeConcentrationMgPerML` (its `mg` is `nil` until a vial
+    /// strength is known, but it is still counted as volume-logged). Anything else
+    /// (a non-mass, non-volume unit) contributes nothing.
+    static func doseMassMg(
+        _ entry: DoseEntry, volumeConcentrationMgPerML: Double?,
+    ) -> (mg: Double?, isVolumeUnit: Bool) {
+        if let scale = DoseEquivalent.milligramScale(ofDoseUnit: entry.unit) {
+            let mg = entry.amount * scale
+            return (mg > 0 ? mg : nil, false)
+        }
+        if isVolumeUnit(entry.unit) {
+            guard let concentration = volumeConcentrationMgPerML, concentration > 0 else { return (nil, true) }
+            let mg = entry.amount * concentration
+            return (mg > 0 ? mg : nil, true)
+        }
+        return (nil, false)
+    }
+
+    static func isVolumeUnit(_ unit: String) -> Bool {
         let normalized = unit.trimmingCharacters(in: .whitespaces).lowercased()
         return normalized == "ml" || normalized == "cc"
     }
@@ -318,7 +330,7 @@ private struct InjectionLevelsInputSection: View {
 
 // MARK: - Metrics
 
-private struct InjectionLevelsMetricsCard: View {
+struct InjectionLevelsMetricsCard: View {
     let result: DepotCurveResult
     let analyte: Analyte
 

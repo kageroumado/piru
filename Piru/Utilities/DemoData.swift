@@ -67,6 +67,12 @@ import SwiftData
             /// the ester picker real IM doses to attribute and the Injection Levels
             /// tool a steady-state log-driven curve with lab calibration.
             case transfemHRT
+            /// Masculinizing HRT: testosterone cypionate 100 mg SC weekly for ~12
+            /// weeks, plus two total-T draws (calibration), two aromatized-E2 points,
+            /// and two rising hematocrit points — the transmasc fixture for the
+            /// Hormone Levels insight (serum-T curve + reference band + companion
+            /// monitoring axes).
+            case transmascT
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -113,6 +119,7 @@ import SwiftData
             case .medsLowStock: seedMedsPersona(context: context, sporadic: false, lowStock: true)
             case .psychonaut: seedPsychonaut(context: context)
             case .transfemHRT: seedTransfemHRT(context: context)
+            case .transmascT: seedTransmascT(context: context)
             }
 
             // Inventory caches are a replay over doses, so they can only be
@@ -191,6 +198,73 @@ import SwiftData
 
             context.insert(SubstanceColor(substance: "estradiol", hexColor: "f5a3c7"))
             context.insert(QuickLogDose(substance: "Estradiol", route: .intramuscular, amount: 4, unit: "mg", sortOrder: 0))
+        }
+
+        /// Masculinizing HRT fixture: testosterone cypionate 100 mg SC weekly for ~12
+        /// weeks (`saltForm: "Cypionate"`, so the log attributes to testosterone
+        /// cypionate), plus two total-T draws for calibration, two aromatized-E2
+        /// points, and two rising hematocrit points — so the Hormone Levels insight
+        /// shows the serum-T curve inside the reference band with its companion
+        /// monitoring axes populated.
+        @MainActor
+        private static func seedTransmascT(context: ModelContext) {
+            var rng = SeededRNG(seed: 20_260_918)
+            let cal = Calendar.current
+            let today = cal.startOfDay(for: .now)
+
+            var daysAgo = 84
+            while daysAgo >= 0 {
+                let jitter = Double.random(in: -0.4 ... 0.4, using: &rng) * 3_600
+                let ts = today.addingTimeInterval(-Double(daysAgo) * 86_400 + 9 * 3_600 + jitter)
+                context.insert(DoseEntry(
+                    substance: "Testosterone",
+                    amount: 100, unit: "mg", route: .subcutaneous,
+                    saltForm: "Cypionate",
+                    timestamp: ts,
+                    tags: ["hrt"],
+                ))
+                daysAgo -= 7
+            }
+
+            // Two total-T draws, midway between injections, reading a touch apart so
+            // the calibrated curve isn't flat.
+            context.insert(LabMeasurement(
+                date: today.addingTimeInterval(-49 * 86_400 + 8 * 3_600),
+                analyteKey: "testosterone", value: 520, inputUnit: "ng/dL",
+                esterID: "testosterone_cypionate",
+            ))
+            context.insert(LabMeasurement(
+                date: today.addingTimeInterval(-14 * 86_400 + 8 * 3_600),
+                analyteKey: "testosterone", value: 610, inputUnit: "ng/dL",
+                esterID: "testosterone_cypionate",
+            ))
+
+            // Aromatized estradiol — measured companion, not calibration.
+            context.insert(LabMeasurement(
+                date: today.addingTimeInterval(-49 * 86_400 + 8 * 3_600),
+                analyteKey: "estradiol", value: 34, inputUnit: "pg/mL",
+                excludedFromCalibration: true,
+            ))
+            context.insert(LabMeasurement(
+                date: today.addingTimeInterval(-14 * 86_400 + 8 * 3_600),
+                analyteKey: "estradiol", value: 41, inputUnit: "pg/mL",
+                excludedFromCalibration: true,
+            ))
+
+            // Hematocrit — the T-specific monitoring axis, rising over the first months.
+            context.insert(LabMeasurement(
+                date: today.addingTimeInterval(-77 * 86_400 + 8 * 3_600),
+                analyteKey: "hematocrit", value: 44.5, inputUnit: "%",
+                excludedFromCalibration: true,
+            ))
+            context.insert(LabMeasurement(
+                date: today.addingTimeInterval(-14 * 86_400 + 8 * 3_600),
+                analyteKey: "hematocrit", value: 48.2, inputUnit: "%",
+                excludedFromCalibration: true,
+            ))
+
+            context.insert(SubstanceColor(substance: "testosterone", hexColor: "6c9bd1"))
+            context.insert(QuickLogDose(substance: "Testosterone", route: .subcutaneous, amount: 100, unit: "mg", sortOrder: 0))
         }
 
         // MARK: - Import fixture (-piruImportFile <path>)

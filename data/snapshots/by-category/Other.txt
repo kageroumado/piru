@@ -1,229 +1,108 @@
-# Other — 79 substances (sorted by popularity)
+# Other — 37 substances (sorted by popularity)
 # fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Gonadorelin  <recreational>
-      aka: Fertagyl|GnRH|GnRH-I|Gonadoliberin I|Gonadorelin decapeptide|Gonadorelina|Gonadorelinum|Gonadoréline|Gonadotropin-releasing hormone|Luteinizing Hormone-releasing Factor Diacetate Tetrahydrate
-      #no-human-data  #tryptamine
-  Afamelanotide  <recreational>
-      aka: MT-I|NDP-MSH|melanotan 1|melanotan I|α-NDP-MSH
-      #no-human-data  #tryptamine
-  Cake  [🍰 Cake]  <recreational>  — oral g: common 65-100, heavy 300
-      aka: Caky|Cokoo
-      #easter-egg  #fictional
+  Buspirone  <medical_rx>
+      aka: BuSpar
+      #5-HT1A-agonist  #anxiolytic  #azapirone  #prescription-only  #serotonin-agonist
       also: Depressant
-  2-(Phenethylamino)ethanol  (STUB)  <recreational>
-      #miscategorised  #no-human-data  #phenethylamine
-  2-hydroxy-N-methyltryptamine  [2-HO-NMT]  (STUB)  <recreational>
-      aka: 2-HO-NMT
-      #no-human-data  #tryptamine
-  3-Hydroxytyramine hydrobromide  (STUB)  <recreational>
+  Sildenafil  <recreational>  — oral mg: common 30-50, heavy 100
+      aka: Revatio|Viagra
+      #phosphodiesterase-5 inhibitor
+  Epinephrine  <recreational>
+      aka: Articaine Hydrochloride And Epinephrine|L-adrenaline|L-dethylaminoethanolcatechol|L-epirenamine|Marcaine|Orabloc|Septocaine And Epinephrine|adrenalin|adrenaline|articaine/epinephrine
       #no-human-data  #phenethylamine
-  3-O-methyldopamine  (STUB)  <recreational>
-      aka: 3-MT|3-methoxytyramine
-      #no-human-data  #phenethylamine
-  4'-Fluoro-4-methylaminorex  [4-FPO]  <recreational>  — insufflation mg: common 40-80, heavy 120
-      aka: 4-FPO|4F-MAR|4′-F-4-MAR|p-F-4-MAR
-      #class:Aminorex (2-amino-5-aryloxazoline) stimulant
-  4-CMA  (STUB)  <recreational>
-      #research-chemical
-  4-Fluorotryptamine  [4-FT]  (STUB)  <recreational>
-      aka: 4-FT|PAL-551
-      #no-human-data  #tryptamine
-  4-FPM  (STUB)  <recreational>
-      #research-chemical
-  4-Methylthiodimethyltryptamine  [4-MeS-DMT]  (STUB)  <recreational>
-      aka: 4-MeS-DMT
-      #no-human-data  #tryptamine
-  4-O-methyldopamine  (STUB)  <recreational>
-      aka: Lopac-H-3132
-      #no-human-data  #phenethylamine
-  5-(2-Aminoethyl)-2,3-Dimethoxyphenol  (STUB)  <recreational>
-      aka: 3-O-desmethylmescaline
-      #metabolite  #no-human-data  #phenethylamine
-  5-Bromotryptamine  [5-Br-T]  (STUB)  <recreational>
-      aka: 5-Br-T|PAL-518
-      #no-human-data  #tryptamine
-  5-Carboxamidotryptamine  [5-CT]  (STUB)  <recreational>
-      aka: 5-CT|5-Carboxamide tryptamine|5-Carboxyamidotryptamine
-      #no-human-data  #tryptamine
-  5-chloro-N,N-dimethyltryptamine  [5-Chloro-DMT]  (STUB)  <recreational>
-      aka: 5-Chloro-DMT
-      #no-human-data  #tryptamine
-  5-fluoro-N,N-dimethyltryptamine  [5-Fluoro-DMT]  (STUB)  <recreational>
-      aka: 5-Fluoro-DMT
-      #no-human-data  #tryptamine
-  5-Hydroxydopamine  (STUB)  <recreational>
-      aka: 3,4,5-Trihydroxyphenethylamine|3,4,5-Trihydroxyphenylethylamine|5-OHDA
-      #neurotoxin-NE  #no-human-data  #phenethylamine  #research-only
-  5-MeO-AET  (STUB)  <recreational>
-      #no-human-data  #tryptamine
-  5-MeO-NET  (STUB)  <recreational>
-      #no-human-data  #tryptamine
-  5-methoxy-N-isopropyltryptamine  [5-MeO-NiPT]  (STUB)  <recreational>
-      aka: 5-MeO-NiPT
-      #no-human-data  #tryptamine
-  5-methoxy-N-methyl-N-ethyltryptamine  [5-MeO-MET]  (STUB)  <recreational>
-      aka: 5-MeO-MET
-      #no-human-data  #tryptamine
-  5-Methoxy-Α-Methyltryptamine  [5-MeO-AMT]  (STUB)  <recreational>
-      aka: 5-MeO-AMT|α,O-Dimethylserotonin
-      #no-human-data  #tryptamine
-  5-Methoxytryptamine  (STUB)  <recreational>
-      aka: Lopac-M-6628|methoxytryptamine|mexamine|mexamine base
-      #no-human-data  #tryptamine
+  Tadalafil  <recreational>  — oral mg: common 5-10, heavy 20
+      aka: Adcirca|Alyq|Cialis
+      #phosphodiesterase-5 inhibitor
+  Phenylephrine  <recreational>  — insufflation %: common 0.25-1, heavy 3
+      aka: DayQuil Sinex|Mydcombi|Mydfrin|Neo-Synephrine|Omidria|PEF100|Phenylephrine-nasal|R(-)-phenylephrine|Sudafed PE|Sudogest PE|Vazculep|m-oxedrine|m-synephrine|metasynephrine
+      #OTC  #alpha-agonist  #alpha1-agonist  #class:Phenylethanolamine  #decongestant  #ineffective-oral  #no-human-data  #phenethylamine  #vasoconstrictor  #α1-direct-agonist
+  Sumatriptan  <medical_rx>
+      aka: Imitrex|Migraine Pack|Sumavel DosePro|Treximet|Zembrace
+      #5-ht1b/1d agonist  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #triptan
+  Theobromine  <recreational>  — oral mg: common 200-300, heavy 600
+  Guaifenesin  <otc>  — oral mg: common 400-800, heavy 2400
+      aka: Humibid|Mucinex|Robitussin
+      #OTC  #expectorant  #muscle-relaxant-mild
+  Disulfiram  <medical_rx>
+      aka: Antabuse|Tetraethylthiuram disulfide
+      #ALDH-inhibitor  #AUD-treatment  #aversive-conditioning  #prescription-only
   Acamprosate  <medical_rx>  — oral mg: common 1332-1998, heavy 1998
       aka: Acetyl homotaurine|Campral
       #AUD-treatment  #GABA-modulator  #NMDA-modulator  #anti-craving  #prescription-only
+  Rizatriptan  <medical_rx>
+      aka: Maxalt|Maxalt-MLT
+      #5-ht1b/1d agonist  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #triptan
+  Moclobemide  <recreational>  — oral mg: common 300-300, heavy 600
+      aka: Aurorex|Aurorix|Manerix|Ro 11-1163
+      #CYP2C19-substrate  #MAO-A-selective  #MAOI-A  #RIMA  #tyramine-safe
+  Eletriptan  <medical_rx>
+      aka: Relpax
+      #5-ht1b/1d agonist  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #triptan
+  Gepirone  <medical_rx>  — oral mg: common 36.4-72.8, heavy 109.2
+      aka: Ariza|Exxua
+      #5-HT1A-agonist  #anxiolytic  #azapirone  #prescription-only  #serotonin-agonist
+  Dihydroergotamine  <medical_rx>  — insufflation mg: common 1-2, heavy 4
+      aka: DHE 45|Migranal|Trudhesa
+      #antimigraine  #ergot-alkaloid  #prescription-only  #serotonin-agonist  #vasoconstrictor
+  Afamelanotide  <recreational>
+      aka: MT-I|NDP-MSH|melanotan 1|melanotan I|α-NDP-MSH
+      #no-human-data  #tryptamine
+  N-methylphenethylamine  [NMPEA]  (STUB)  <recreational>
+      aka: N-methyl-β-PEA|NMPEA
+      #TAAR1-agonist  #endogenous-trace-amine  #no-human-data  #phenethylamine
+  Hordenine  (STUB)  <recreational>
+      aka: N,N-Dimethyltyramine|anhaline|dimethyltyramine
+      #MAO-B-substrate  #TAAR1-agonist  #no-human-data  #phenethylamine
+  Benzphetamine  <recreational>  — oral mg: common 50-100, heavy 150
+      aka: (alphaS)-N,alpha-dimethylphenethylamine|Benzfetamina|Benzfetamine|Benzfetaminum|Benzylamphetamine|Didrex|benzaphetamine
+      #Schedule-III-US  #no-human-data  #phenethylamine  #prodrug
+  Gonadorelin  <recreational>
+      aka: Fertagyl|GnRH|GnRH-I|Gonadoliberin I|Gonadorelin decapeptide|Gonadorelina|Gonadorelinum|Gonadoréline|Gonadotropin-releasing hormone|Luteinizing Hormone-releasing Factor Diacetate Tetrahydrate
+      #no-human-data  #tryptamine
+  Norbaeocystin  (STUB)  <recreational>
+      aka: 4-PO-T|4-phosphoryloxytryptamine
+      #mushroom-minor-alkaloid  #no-human-data  #no-psychedelic-activity  #tryptamine
+  4-Chloromethamphetamine  [4-CMA]  <recreational>  — oral mg: common 15-30, heavy 45
+      aka: 4-CMA|CMA|PCMA|Ro 4-6861|p-Chloromethamphetamine|para-Chloromethamphetamine
+      #research-chemical  #serotonergic-neurotoxin
+  Norpsilocin  <recreational>
+      aka: 4-HO-NMT
+      #no-HTR  #no-human-data  #peripherally-restricted-5-HT2A  #tryptamine
+  5-chloro-N,N-dimethyltryptamine  [5-Chloro-DMT]  (STUB)  <recreational>
+      aka: 5-Chloro-DMT
+      #no-human-data  #tryptamine
+  Acetildenafil  <recreational>  — oral mg: common 15-30, heavy 40
+      aka: Hongdenafil
+      #research-chemical
+  5-MeO-AET  (STUB)  <recreational>
+      #no-human-data  #tryptamine
+  PRE-084  <recreational>  — insufflation mg: common 8-20, heavy 40
+      aka: Research ligand PRE-084
+      #tentative
+  Homosildenafil  <recreational>  — oral mg: common 25-50, heavy 100
+      #research-chemical
+  2-NMC  <recreational>  — inhalation mg: common 10-20, heavy 30
+      aka: 2'-Propionaphthone|2-naphthyl methcathinone|2-naphthylmethcathinone|2NMC
+      #inactive
+  4-FPM  (STUB)  <recreational>
+      #research-chemical
   alpha-N,N-trimethyltryptamine  [ATMT]  (STUB)  <recreational>
       aka: ATMT
       #no-human-data  #tryptamine
   Aminotadalafil  <recreational>  — oral mg: common 10-20, heavy 30
-  APAP  <recreational>  — oral mg: common 200-500, heavy 500
-      aka: acetaminophen|paracetamol|tylenol
-      #common
-  Apomorphine  <recreational>  — subcutaneous mg: common 2-6, heavy 10
-      aka: Apo-Go PEN|Apo-Go pump|Apo-go|Apokyn|Ixense|Kynmobi|Movapo|Onapgo|Uprima
-      #D2/D3-agonist  #Parkinsons-rescue  #QT-moderate  #class:Morphine derivative (non-ergoline)  #not-opioid
-  Buspirone  <medical_rx>  — oral mg: common 15-30, heavy 60
-      aka: BuSpar
-      #5HT1A-agonist  #anxiolytic  #azapirone  #prescription-only  #serotonin-agonist  #tablet
+  Cake  [🍰 Cake]  <recreational>  — oral g: common 65-100, heavy 300
+      aka: Caky|Cokoo
       also: Depressant
-  Cannabicyclol  <medical_rx>
-      aka: CBL|Cannabipinol
-      #class:Phytocannabinoid
-  D-synephrine(1+)  (STUB)  <recreational>
-      aka: D-(-)-synephrine|d-synephrine cation
-      #no-human-data  #phenethylamine
-  Deoxyepinephrine  (STUB)  <recreational>
-      aka: Deoxyephinephrine|Desoxyepinephrine|Epinin|Epinine|Epyamine|N-methyldopamine
-      #no-human-data  #phenethylamine
-  Desglymidodrine  (STUB)  <recreational>
-      aka: ST-1059|de-glymidodrine
-      #alpha-1-agonist  #miscategorised  #no-human-data  #phenethylamine
-  Dihydroergotamine  <medical_rx>  — insufflation mg: common 1-2, heavy 4
-      aka: DHE 45|Migranal|Trudhesa
-      #antimigraine  #ergot-alkaloid  #prescription-only  #serotonin-agonist  #vasoconstrictor
-  Disulfiram  <medical_rx>  — oral mg: common 250-500, heavy 500
-      aka: Antabuse|Tetraethylthiuram disulfide
-      #ALDH-inhibitor  #AUD-treatment  #aversive-conditioning  #prescription-only
-  Dopamine  (STUB)  <recreational>
-      aka: 3,4-Dihydroxyphenethylamine|3,4-Dihydroxyphenylethylamine|3-Hydroxytyramine|DA|Deoxyepinephrine|Dopamin|Dopamina|Dopaminum|Dopastat|Dophamine|Dynatra|Hydroxytyramin|Hydroxytyramine|Intropin|Oxytyramine|Revivan
-      #IV-pressor  #neurotransmitter  #no-human-data  #phenethylamine
-  Eletriptan  <medical_rx>  — oral mg: common 40-40, heavy 80
-      aka: Relpax
-      #5-ht1b/1d agonist  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #tablet  #triptan
-  Epinephrine  (STUB)  <recreational>
-      aka: Articaine Hydrochloride And Epinephrine|L-adrenaline|L-dethylaminoethanolcatechol|L-epirenamine|Marcaine|Orabloc|Septocaine And Epinephrine|adrenalin|articaine/epinephrine
-      #no-human-data  #phenethylamine
-  Etryptamine  (STUB)  <recreational>
-      aka: alpha-ethyltryptamine|α-ethyltryptamine|αET
-      #no-human-data  #tryptamine
-  Gepirone  <medical_rx>  — oral mg: common 36.4-72.8, heavy 109.2
-      aka: Ariza|Exxua
-      #5HT1A-agonist  #anxiolytic  #azapirone  #prescription-only  #serotonin-agonist
-  Guaifenesin  <otc>  — oral mg: common 400-800, heavy 2400
-      aka: Humibid|Mucinex|Robitussin
-      #OTC  #expectorant  #muscle-relaxant-mild
-  Homosildenafil  <recreational>  — oral mg: common 25-50, heavy 100
-      #research-chemical
-  Hordenine  (STUB)  <recreational>
-      aka: N,N-Dimethyltyramine|anhaline|dimethyltyramine
-      #MAO-B-substrate  #TAAR1-agonist  #no-human-data  #phenethylamine
-  M-Tyramine  (STUB)  <recreational>
-      aka: 3-Hydroxyphenethylamine|3-Hydroxyphenylethylamine|3-Tyramine|M-Hydroxyphenethylamine|Meta-tyramine|Metatyramine
-      #no-human-data  #phenethylamine
   Mephtetramine  (STUB)  <recreational>
       aka: mtta
       #research-chemical  #tentative
-  Metanephrine  (STUB)  <recreational>
-      aka: 3-Methoxy-adrenaline|3-Methoxyadrenaline|3-O-Methylepinephrine|DL-Metanephrine|m-O-Methyladrenaline|metadrenaline
-      #biomarker  #catecholamine-metabolite  #miscategorised  #no-human-data  #phenethylamine
   Methylenedioxydeschlorobupropion  [MDPT]  (STUB)  <recreational>
       aka: D-Tertylone|MDPT|Tertylone|tBuONE
       #DAT-NET-blocker-predicted  #bupropion-analog  #no-human-data  #phenethylamine
-  N,N-diethyltryptamine  [DET]  (STUB)  <recreational>
-      aka: DET|Diethyltryptamine
-      #no-human-data  #tryptamine
-  N,N-dimethyl-5-methoxytryptamine  [5-MeO-DMT]  (STUB)  <recreational>
-      aka: 5-MeO-DMT|5-methoxydimethyltryptamine|MeODMT|Methoxybufotenin|Methylbufotenine|O-methylbufotenine
-      #no-human-data  #tryptamine
-  N-desmethyl zolmitriptan  (STUB)  <recreational>
-      aka: 183C91|N-desmethylzolmitriptan
-      #no-human-data  #tryptamine  #zolmitriptan-active-metabolite
   N-Ethylphenethylamine hydrochloride  (STUB)  <recreational>
       aka: N-ethyl-β-PEA|NEPEA
       #no-human-data  #phenethylamine
-  N-methylphenethylamine  [NMPEA]  (STUB)  <recreational>
-      aka: N-methyl-β-PEA|NMPEA
-      #TAAR1-agonist  #endogenous-trace-amine  #no-human-data  #phenethylamine
-  N-methylphenylethanolaminium  (STUB)  <recreational>
-      aka: N-methylphenylethanolaminium cation|alpha-(Methylaminomethyl)benzyl alcohol
-      #miscategorised  #no-human-data  #phenethylamine
-  N-methyltryptamine  [NMT]  (STUB)  <recreational>
-      aka: Dipterine|Dl-Methyltryptamine|Methyltryptamine|N(omega)-methyltryptamine|N-Omega-methyltryptamine|N-monomethyltryptamine|NMT
-      #endogenous  #no-human-data  #tryptamine
-  N-methyltyramine  (STUB)  <recreational>
-      aka: Methyl-4-tyramine|NMT|p-NMT
-      #no-human-data  #phenethylamine
-  Norbaeocystin  (STUB)  <recreational>
-      aka: 4-PO-T|4-phosphoryloxytryptamine
-      #mushroom-minor-alkaloid  #no-human-data  #no-psychedelic-activity  #tryptamine
-  Norepinephrine  (STUB)  <recreational>
-      aka: Adrenor|Aktamin|Arterenol|L-3,4-Dihydroxyphenylethanolamine|L-Arterenol|L-noradrenaline|Levarterenol|Levarterenol®|Levoarterenol|Levonor|Levonoradrenaline|Levophed|Nor-Epirenan|Nor-adrenaline|Noradrenalin|Noradrenaline|Norartrinal|Norepinefrina|Norepinephrinum|Norepirenamine|Sympathin E
-      #catecholamine  #miscategorised  #no-human-data  #phenethylamine
-  Normetanephrine  (STUB)  <recreational>
-      aka: 3-Methoxy-Noradrenaline|Dl-N-Normetanephrine|Dl-Normetanephrine|N111|Normetadrenaline|O-Methylnoradrenaline|m-O-Methylnorepinephrine
-      #biomarker  #catecholamine-metabolite  #miscategorised  #no-human-data  #phenethylamine
-  Norpsilocin  (STUB)  <recreational>
-      aka: 4-HO-NMT
-      #no-HTR  #no-human-data  #peripherally-restricted-5-HT2A  #tryptamine
-  Octopamine  (STUB)  <recreational>
-      aka: beta-hydroxytyramine|norsynephrine|p-octopamine
-      #TAAR1-agonist  #endogenous-trace-amine  #no-human-data  #phenethylamine
-  Oxedrine  (STUB)  <recreational>
-      aka: Sympatol|p-synephrine
-      #no-human-data  #phenethylamine  #trace-amine  #α1-agonist-weak
-  Oxidopamine  (STUB)  <recreational>
-      aka: 2,4,5-trihydroxyphenethylamine|6-Hydroxy-Dopamine|6-OHDA|6-hydroxydopamine|hydroxydopamine|topamine
-      #neurotoxin  #no-human-data  #phenethylamine  #research-only
-  Phenethyl Isothiocyanate  [PEITC]  (STUB)  <recreational>
-      aka: 2-Phenylethyl isothiocyanate|PEITC|Phenethyl mustard oil|Phenylethyl isothiocyanate|beta-phenethyl isothiocyanate|beta-phenylethyl isothiocyanate
-      #no-human-data  #phenethylamine
-  Phenylephrine  <recreational>  — insufflation %: common 0.25-1, heavy 3
-      aka: DayQuil Sinex|Mydcombi|Mydfrin|Neo-Synephrine|Omidria|PEF100|Phenylephrine-nasal|R(-)-phenylephrine|Sudafed PE|Sudogest PE|Vazculep|m-oxedrine|m-synephrine|metasynephrine
-      #OTC  #alpha adrenergic agonist  #alpha1-agonist  #class:Phenylethanolamine  #decongestant  #ineffective-oral  #nasal spray, nasal drops  #no-human-data  #phenethylamine  #vasoconstrictor  #α1-direct-agonist
-      also: Stimulant
-  Phenylethanolaminium  (STUB)  <recreational>
-      aka: phenylethanolaminium cation
-      #miscategorised  #no-human-data  #phenethylamine
-  Resedine  (STUB)  <recreational>
-      #no-human-data  #phenethylamine
-  Rizatriptan  <medical_rx>  — oral mg: common 5-10, heavy 30
-      aka: Maxalt|Maxalt-MLT
-      #5-ht1b/1d agonist  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #tablet, orally disintegrating tablet  #triptan
-  Serotonin  (STUB)  <recreational>
-      aka: 5-HT|5-HTA|5-Hydroxyltryptamine|5-Hydroxytryptamine|5-hydroxy-tryptamine|7-GTA|Antemoqua|Antemovis|DS substance|Enteramin|Enteramine|Hippophaine|sérotonine|thrombocytin|thrombotonin
-      #endogenous-neurotransmitter  #no-human-data  #tryptamine
-  Serotonin(1+)  (STUB)  <recreational>
-      aka: protonated serotonin|serotonin cation
-      #no-human-data  #tryptamine
-  Sumatriptan  <medical_rx>  — oral mg: common 50-100, heavy 200
-      aka: Imitrex|Migraine Pack|Sumavel DosePro|Treximet|Zembrace
-      #5-ht1b/1d agonist  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #tablet  #triptan
-  Tadalafil  <recreational>  — oral mg: common 5-10, heavy 20
-      aka: Adcirca|Alyq|Cialis
-      #phosphodiesterase-5 inhibitor  #tablet
-  Theobromine  <recreational>  — oral mg: common 200-300, heavy 600
-  Tryptamine  (STUB)  <recreational>
-      aka: 3-Indoleethanamine|3-Indoleethylamine|Abramovitch–Shapiro tryptamine synthesis|Tryptamin
-      #TAAR1-agonist  #endogenous-trace-amine  #no-human-data  #tryptamine
-  Tyramine  (STUB)  <recreational>
-      aka: 4-Hydroxy-Benzeneethanamine|4-Hydroxyphenylethylamine|4-hydroxyphenethylamine|P-beta-Aminoethylphenol|Systogene|Tenosin-wirkstoff|Tocosine|Tyramine base|Tyrosamine|Uteramine|p-hydroxyphenethylamine|p-hydroxyphenylethylamine|p-tyramine|tyramin
-      #TAAR1-agonist  #cheese-reaction-MAOI  #endogenous-trace-amine  #no-human-data  #phenethylamine
-  Viagra  <recreational>  — oral mg: common 30-50, heavy 100
-  Zolmitriptan  (STUB)  <recreational>
+  Zolmitriptan  <recreational>
       aka: Zomig
-      #5-ht1b/1d agonist  #5HT1B-1D-agonist  #CYP1A2-substrate  #MAO-A-substrate  #no-human-data  #tablet, orally disintegrating tablet  #triptan  #tryptamine
-  α-Pyrrolidinopropiophenone  [APPP]  <recreational>  — inhalation mg: common 10-25, heavy 40
-      aka: APPP|a-PPP|alpha-PPP
-      #class:Pyrrolidinophenone cathinone stimulant
+      #5-ht1b/1d agonist  #5HT1B-1D-agonist  #CYP1A2-substrate  #MAO-A-substrate  #no-human-data  #triptan  #tryptamine

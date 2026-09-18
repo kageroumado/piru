@@ -1343,7 +1343,10 @@ CREATE TABLE ester_pk (
     k3           REAL,
     confidence   TEXT NOT NULL,
     provenance   TEXT NOT NULL,
-    routes       TEXT NOT NULL
+    routes       TEXT NOT NULL,
+    -- Optional safety caution surfaced when the ester is logged (e.g. the Aveed
+    -- boxed POME/anaphylaxis warning for testosterone undecanoate). NULL for most.
+    caution      TEXT
 );
 
 -- Marketed products the box scanner identifies by barcode (Specs/box-scanner-
@@ -12805,8 +12808,8 @@ class Build:
             self.cur.execute(
                 "INSERT OR REPLACE INTO ester_pk "
                 "(ester_id, analyte, parent, substance_id, parent_uid, ester_label, "
-                "modelable, d, k1, k2, k3, confidence, provenance, routes) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "modelable, d, k1, k2, k3, confidence, provenance, routes, caution) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (
                     row["ester_id"],
                     row["analyte"],
@@ -12819,6 +12822,7 @@ class Build:
                     row["confidence"],
                     row["provenance"],
                     json.dumps(row.get("routes", ["IM"])),
+                    row.get("caution"),
                 ),
             )
             inserted += 1

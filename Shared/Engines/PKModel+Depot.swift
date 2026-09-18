@@ -113,6 +113,91 @@ extension PKModel {
         return out
     }
 
+    // MARK: - Multi-ester summation
+
+    /// One ester's dose history and the depot parameters to model it with — a single
+    /// input to a summed multi-ester serum curve. A user who switches esters
+    /// (valerate → cypionate) or mixes them at different concentrations produces one
+    /// contribution per ester, each carrying **that ester's own** rate constants.
+    nonisolated struct DepotContribution: Sendable {
+        let injections: [(date: Date, doseMg: Double)]
+        let parameters: DepotParameters
+
+        init(injections: [(date: Date, doseMg: Double)], parameters: DepotParameters) {
+            self.injections = injections
+            self.parameters = parameters
+        }
+    }
+
+    /// A summed multi-ester serum curve: the serum total at each sample plus each
+    /// ester's own depot contribution, all on the **same** time grid (`contributions`
+    /// and `total` share the `date` at every index).
+    nonisolated struct SummedDepotCurve: Sendable {
+        /// Per-contribution sampled curves, aligned to the input order — index `i` is
+        /// `input[i]`'s own depot curve, so a switch or a mix reads honestly rather
+        /// than being flattened to one dominant ester.
+        let contributions: [[(date: Date, value: Double)]]
+        /// The serum total: the elementwise sum of every contribution over the grid.
+        let total: [(date: Date, value: Double)]
+    }
+
+    /// Sum several esters' depot curves on one shared time grid: each contribution is
+    /// sampled with its own `DepotParameters` at the same sample dates, then summed
+    /// into the serum total. The per-ester arrays are kept for the "assumed depot
+    /// levels" display; the total is what a lab measures and what calibration fits
+    /// against (Specs/injection-levels-v3.md §4).
+    ///
+    /// The single-ester `depotCurve` is the one-contribution special case — the sum
+    /// of one curve is that curve.
+    nonisolated static func depotCurveSummed(
+        contributions: [DepotContribution],
+        over dateRange: ClosedRange<Date>,
+        pointCount: Int = 600,
+    ) -> SummedDepotCurve {
+        guard pointCount > 1 else {
+            let date = dateRange.lowerBound
+            let per = contributions.map { c in
+                [(date, depotConcentrationMultiDose(injections: c.injections, at: date, parameters: c.parameters))]
+            }
+            let total = [(date, per.reduce(0.0) { $0 + ($1.first?.1 ?? 0) })]
+            return SummedDepotCurve(contributions: per, total: total)
+        }
+        let start = dateRange.lowerBound.timeIntervalSinceReferenceDate
+        let end = dateRange.upperBound.timeIntervalSinceReferenceDate
+        let span = end - start
+        var dates: [Date] = []
+        dates.reserveCapacity(pointCount)
+        for i in 0 ..< pointCount {
+            let frac = Double(i) / Double(pointCount - 1)
+            dates.append(Date(timeIntervalSinceReferenceDate: start + span * frac))
+        }
+        var perEster: [[(date: Date, value: Double)]] = []
+        perEster.reserveCapacity(contributions.count)
+        var total = dates.map { (date: $0, value: 0.0) }
+        for c in contributions {
+            var series: [(date: Date, value: Double)] = []
+            series.reserveCapacity(pointCount)
+            for (idx, date) in dates.enumerated() {
+                let value = depotConcentrationMultiDose(injections: c.injections, at: date, parameters: c.parameters)
+                series.append((date, value))
+                total[idx].value += value
+            }
+            perEster.append(series)
+        }
+        return SummedDepotCurve(contributions: perEster, total: total)
+    }
+
+    /// Serum total across every contribution at one instant — the multi-ester
+    /// superposition sum, for calibrating against a lab draw's exact time.
+    nonisolated static func depotConcentrationSummed(
+        contributions: [DepotContribution],
+        at date: Date,
+    ) -> Double {
+        contributions.reduce(0.0) { acc, c in
+            acc + depotConcentrationMultiDose(injections: c.injections, at: date, parameters: c.parameters)
+        }
+    }
+
     // MARK: - Internals
 
     nonisolated static let secondsPerDay = 86_400.0

@@ -42,6 +42,13 @@ struct InYourBodyView: View {
         ScrollView {
             VStack(spacing: Spacing.xxl) {
                 chartSection
+                // Cross-link for the person who thinks of their serum hormone as
+                // "what's in me": the same card the Insights landing shows, pushing to
+                // the same Hormone Levels detail (Specs/injection-levels-v3.md §1.2).
+                // Gated on an injectable ester being logged.
+                if HormoneLevelsLog.hasInjectableHormone(in: allEntries) {
+                    HormoneLevelsInsightCard()
+                }
                 activeSection
                 steadyStateSection
                 relatedSection

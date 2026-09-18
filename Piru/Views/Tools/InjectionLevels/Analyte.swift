@@ -79,4 +79,27 @@ enum Analyte: String, CaseIterable, Identifiable, Sendable {
     func fromCanonical(_ value: Double, to unit: String) -> Double {
         unit == molarUnit ? value * molarPerCanonical : value
     }
+
+    /// A citable laboratory **reference region** for the analyte, in the canonical
+    /// unit — a shaded band on the chart, never a target. Testosterone ships the male
+    /// range 300–1000 ng/dL (FDA Aveed label + Wang 2010, PMID 20133964). Estradiol
+    /// ships none: transfem serum-estradiol goals vary widely and are the user's to
+    /// set, so the app asserts no band there.
+    var referenceRegion: ClosedRange<Double>? {
+        switch self {
+        case .estradiol: nil
+        case .testosterone: 300 ... 1000
+        }
+    }
+
+    /// A clinical monitoring **goal** the user may opt into as their own reference
+    /// lines — labeled "a common clinical goal," never an app-set target
+    /// (Specs/injection-levels-v3.md §9). Testosterone: 400–700 ng/dL, the Endocrine
+    /// Society / WPATH SOC8 masc-HRT monitoring goal. Estradiol: none shipped.
+    var clinicalGoal: ClosedRange<Double>? {
+        switch self {
+        case .estradiol: nil
+        case .testosterone: 400 ... 700
+        }
+    }
 }

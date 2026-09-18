@@ -44,7 +44,7 @@ struct DepotCurveResult: Equatable, Sendable {
 /// user's own.
 @Observable
 @MainActor
-final class InjectionLevelsModel {
+final class InjectionLevelsModel: DepotCalibrating {
     /// `@AppStorage` keys for the calibration preferences the tool persists. Shared
     /// with ``DepotLevelsSection`` so an embedded curve reads the same calibration
     /// the tool shows.
@@ -179,6 +179,11 @@ final class InjectionLevelsModel {
     /// Whether the user has any lab measurements included in calibration.
     var hasLabs: Bool {
         !calibrationMeasurements.isEmpty
+    }
+
+    /// How many lab points feed the fit — the ``DepotCalibrating`` surface.
+    var calibrationMeasurementCount: Int {
+        calibrationMeasurements.count
     }
 
     /// Whether the current curve is driven by a lab fit (auto on + labs present).
@@ -318,7 +323,7 @@ final class InjectionLevelsModel {
             injections: injections, over: rangeStart ... rangeEnd, parameters: params,
         )
 
-        let band = bandFraction(confidence: ester.confidence, calibrated: cal != nil)
+        let band = Self.bandFraction(confidence: ester.confidence, calibrated: cal != nil)
         // A manual start level is a depot already in the body: it decays from
         // today at the terminal rate, under the scheduled doses.
         let baseline = startsFromEnteredLevel ? max(0, startingLevel ?? 0) : 0
@@ -447,7 +452,7 @@ final class InjectionLevelsModel {
     /// inter-individual variation (wide on purpose — the invitation to calibrate);
     /// post-calibration reflects only shape + assay + within-individual noise
     /// (Specs/injection-levels-tool.md §4). Mapped from the ester's confidence tier.
-    private func bandFraction(confidence: String, calibrated: Bool) -> Double {
+    static func bandFraction(confidence: String, calibrated: Bool) -> Double {
         switch (confidence, calibrated) {
         case ("high", false): 0.25
         case ("high", true): 0.18

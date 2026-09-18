@@ -84,6 +84,70 @@ enum DepotCalibration {
         return fit.result
     }
 
+    /// Calibrate a **multi-ester** summed serum curve to the user's labs
+    /// (Specs/injection-levels-v3.md §4). The person-wide amplitude `scale` and (with
+    /// ≥2 points and `fitRate`) the terminal-rate `k1Scale` are fitted **globally**,
+    /// applied uniformly to every ester's own population parameters — labs cannot
+    /// resolve per-ester rates from a mixed log, so a single scale/rate is the honest
+    /// fit. Each contribution keeps its own population amplitude `d`; the returned
+    /// `scale` multiplies the whole sum (1.0 = population), so it is what the caller
+    /// applies to each ester's `d`. `calibratedAmplitude` carries the same `scale`
+    /// (there is no single population `d` to divide by across esters).
+    static func calibrateSummed(
+        contributions: [PKModel.DepotContribution],
+        measurements: [Measurement],
+        fitRate: Bool = true,
+    ) -> Result? {
+        guard !contributions.isEmpty else { return nil }
+
+        func unitSum(_ date: Date, k1Scale: Double) -> Double {
+            contributions.reduce(0.0) { acc, c in
+                acc + PKModel.depotConcentrationMultiDose(
+                    injections: c.injections, at: date, parameters: c.parameters.withK1Scale(k1Scale),
+                )
+            }
+        }
+
+        let usable = measurements.filter { unitSum($0.date, k1Scale: 1) > 0 }
+        guard !usable.isEmpty else { return nil }
+
+        func fit(k1Scale: Double) -> (scale: Double, sumOfSquares: Double, count: Int)? {
+            var num = 0.0, den = 0.0
+            var pairs: [(observed: Double, predicted: Double)] = []
+            for m in usable {
+                let predicted = unitSum(m.date, k1Scale: k1Scale)
+                guard predicted > 0 else { continue }
+                num += m.value * predicted
+                den += predicted * predicted
+                pairs.append((m.value, predicted))
+            }
+            guard den > 0, !pairs.isEmpty else { return nil }
+            let scale = num / den
+            let ss = pairs.reduce(0.0) { acc, pair in
+                let r = pair.observed - scale * pair.predicted
+                return acc + r * r
+            }
+            return (scale, ss, pairs.count)
+        }
+
+        func result(from f: (scale: Double, sumOfSquares: Double, count: Int), k1Scale: Double) -> Result {
+            Result(
+                calibratedAmplitude: f.scale, scale: f.scale, k1Scale: k1Scale,
+                residualRMS: f.count >= 2 ? (f.sumOfSquares / Double(f.count)).squareRoot() : nil,
+                usedCount: f.count,
+            )
+        }
+
+        guard fitRate, usable.count >= 2 else {
+            return fit(k1Scale: 1).map { result(from: $0, k1Scale: 1.0) }
+        }
+        let bestScale = goldenSectionMinimum(in: k1ScaleRange) { s in fit(k1Scale: s)?.sumOfSquares ?? .greatestFiniteMagnitude }
+        if let f = fit(k1Scale: bestScale) {
+            return result(from: f, k1Scale: bestScale)
+        }
+        return fit(k1Scale: 1).map { result(from: $0, k1Scale: 1.0) }
+    }
+
     /// The weighted least-squares amplitude at a fixed `k1Scale`, with its residuals.
     /// `d_cal = Σⱼ(E₂ⱼ·pⱼ) / Σⱼ(pⱼ²)` where `pⱼ` is the unit-amplitude prediction at
     /// the scaled `k1`; with one measurement this is the ratio `E₂_obs / p_obs`.

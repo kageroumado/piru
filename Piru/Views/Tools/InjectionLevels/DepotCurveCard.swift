@@ -6,16 +6,29 @@ import SwiftUI
 /// zoom menu. Pinch zooms continuously; the menu picks a preset.
 ///
 /// ``DepotCurveCard`` wraps it in the tool's card; ``DepotLevelsSection`` places it
-/// bare inside a list row, where the row is already the card.
+/// bare inside a list row, where the row is already the card; ``HormoneLevelsView``
+/// renders the summed serum curve through it. The zoom state is passed as bindings so
+/// the chart is decoupled from any one model (Specs/injection-levels-v3.md §2).
 struct DepotCurveChart: View {
-    @Bindable var model: InjectionLevelsModel
     let result: DepotCurveResult
     let analyte: Analyte
-    let referenceLow: Double?
-    let referenceHigh: Double?
+    var referenceLow: Double?
+    var referenceHigh: Double?
+    @Binding var chartRange: InjectionLevelsModel.ChartRange
+    @Binding var pinchVisibleDays: Double?
+    /// Overrides the header (e.g. "Estimated serum estradiol" for the summed curve);
+    /// defaults to the Tool's "Estimated <hormone> level".
+    var title: LocalizedStringResource?
+    /// A citable laboratory reference region shaded behind the curve (the male total-T
+    /// range) — a reference, not a target.
+    var referenceBand: ClosedRange<Double>?
 
     /// The visible days at the start of a pinch, so the gesture scales from there.
     @State private var pinchBaseDays: Double?
+
+    private var effectiveVisibleDays: Double? {
+        pinchVisibleDays ?? chartRange.days
+    }
 
     /// The whole logged span in days — the pinch's zoomed-out limit.
     private var totalSpanDays: Double {
@@ -25,13 +38,20 @@ struct DepotCurveChart: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             HStack {
-                Text("Estimated \(String(localized: analyte.displayName)) level")
+                Text(title ?? "Estimated \(String(localized: analyte.displayName)) level")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                 Spacer()
                 rangeMenu
             }
             Chart {
+                if let referenceBand {
+                    RectangleMark(
+                        yStart: .value("Reference low", referenceBand.lowerBound),
+                        yEnd: .value("Reference high", referenceBand.upperBound),
+                    )
+                    .foregroundStyle(Theme.secondaryLabel.opacity(0.08))
+                }
                 ForEach(Array(result.points.enumerated()), id: \.offset) { _, point in
                     AreaMark(
                         x: .value("Date", point.date),
@@ -87,20 +107,20 @@ struct DepotCurveChart: View {
     /// insights charts. Picking one clears any pinch override.
     private var rangeMenu: some View {
         Menu {
-            Picker("Range", selection: $model.chartRange) {
+            Picker("Range", selection: $chartRange) {
                 ForEach(InjectionLevelsModel.ChartRange.allCases) { range in
                     Text(range.label).tag(range)
                 }
             }
         } label: {
             HStack(spacing: 2) {
-                Text(model.chartRange.label)
+                Text(chartRange.label)
                 Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
             }
             .font(.caption.weight(.semibold))
             .foregroundStyle(Theme.accent)
         }
-        .onChange(of: model.chartRange) { model.pinchVisibleDays = nil }
+        .onChange(of: chartRange) { pinchVisibleDays = nil }
     }
 
     /// Pinch to zoom the visible window continuously between one week and the whole
@@ -108,12 +128,72 @@ struct DepotCurveChart: View {
     private var pinchZoom: some Gesture {
         MagnifyGesture()
             .onChanged { value in
-                let base = pinchBaseDays ?? (model.effectiveVisibleDays ?? totalSpanDays)
+                let base = pinchBaseDays ?? (effectiveVisibleDays ?? totalSpanDays)
                 if pinchBaseDays == nil { pinchBaseDays = base }
                 let next = (base / value.magnification).clamped(to: 7 ... max(7, totalSpanDays))
-                model.pinchVisibleDays = next
+                pinchVisibleDays = next
             }
             .onEnded { _ in pinchBaseDays = nil }
+    }
+}
+
+/// A legend-less, non-interactive preview of a depot serum curve: the band + line
+/// with the user's reference lines and a "now" marker, axis-hidden at a fixed height.
+/// The Insights "Hormone Levels" card's inline chart (Specs/injection-levels-v3.md
+/// §2.2) — the `usageChart` treatment applied to the depot band, reading the same
+/// ``DepotCurveResult`` the full ``DepotCurveChart`` draws so the two never diverge.
+struct DepotCurveMiniChart: View {
+    let result: DepotCurveResult
+    let analyte: Analyte
+    var tint: Color = Theme.accent
+    var referenceLow: Double?
+    var referenceHigh: Double?
+    var referenceBand: ClosedRange<Double>?
+    var height: CGFloat = 76
+
+    var body: some View {
+        Chart {
+            if let referenceBand {
+                RectangleMark(
+                    yStart: .value("Reference low", referenceBand.lowerBound),
+                    yEnd: .value("Reference high", referenceBand.upperBound),
+                )
+                .foregroundStyle(Theme.secondaryLabel.opacity(0.08))
+            }
+            ForEach(Array(result.points.enumerated()), id: \.offset) { _, point in
+                AreaMark(
+                    x: .value("Date", point.date),
+                    yStart: .value("Low", point.bandLow),
+                    yEnd: .value("High", point.bandHigh),
+                )
+                .foregroundStyle(tint.opacity(Theme.Opacity.tint))
+                .interpolationMethod(.catmullRom)
+            }
+            ForEach(Array(result.points.enumerated()), id: \.offset) { _, point in
+                LineMark(x: .value("Date", point.date), y: .value("Level", point.level))
+                    .foregroundStyle(tint)
+                    .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round))
+                    .interpolationMethod(.catmullRom)
+            }
+            if let low = referenceLow {
+                RuleMark(y: .value("Reference low", low))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
+                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 3]))
+            }
+            if let high = referenceHigh {
+                RuleMark(y: .value("Reference high", high))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
+                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 3]))
+            }
+            RuleMark(x: .value("Now", Date.now))
+                .foregroundStyle(tint.opacity(0.35))
+                .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
+        }
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
+        .frame(height: height)
+        .accessibilityLabel(Text("Estimated \(String(localized: analyte.displayName)) level over time"))
+        .accessibilityValue(Text(String(localized: "About \(Int(result.trough.rounded())) to \(Int(result.peak.rounded())) \(analyte.canonicalUnit) across the cycle")))
     }
 }
 
@@ -127,11 +207,12 @@ struct DepotCurveCard: View {
 
     var body: some View {
         DepotCurveChart(
-            model: model,
             result: result,
             analyte: analyte,
             referenceLow: referenceLow,
             referenceHigh: referenceHigh,
+            chartRange: $model.chartRange,
+            pinchVisibleDays: $model.pinchVisibleDays,
         )
         .padding()
         .themeCard()

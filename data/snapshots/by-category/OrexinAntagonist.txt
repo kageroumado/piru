@@ -1,0 +1,12 @@
+# OrexinAntagonist — 3 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
+
+  Suvorexant  <medical_rx>  — oral mg: common 10-20, heavy 20
+      aka: Belsomra
+      #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic
+  Lemborexant  <medical_rx>  — oral mg: common 5-10, heavy 10
+      aka: Dayvigo
+      #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic
+  Daridorexant  <medical_rx>  — oral mg: common 25-50, heavy 50
+      aka: Quviviq
+      #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic

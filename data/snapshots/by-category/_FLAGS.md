@@ -3,7 +3,7 @@
 Heuristic — review before acting. Sections:
 
 
-## all_caps_name (213) — All-caps names not on the acronym allow-list (casing bug, e.g. IBOGAINE).
+## all_caps_name (193) — All-caps names not on the acronym allow-list (casing bug, e.g. IBOGAINE).
 
 - 1-(2,3,4-Trimethoxybenzyl)piperazine  (display='2,3,4-TMBZP')
 - 1-(2,5-Dimethoxybenzyl) piperazine  (display='2,5-DMBZP')
@@ -13,8 +13,6 @@ Heuristic — review before acting. Sections:
 - 1P-ETH-LAD  (display=None)
 - 1S-LSD  (display=None)
 - 1V-LSD  (display=None)
-- 1ZP2MA  (display=None)
-- 2,3-Methylenedioxymethamphetamine  (display='2,3-MDMA')
 - 2-BR-4,5-MDA  (display=None)
 - 2-DPMP  (display=None)
 - 2-MAPB  (display=None)
@@ -23,7 +21,6 @@ Heuristic — review before acting. Sections:
 - 2-MPPP  (display=None)
 - 2-TFMXP  (display=None)
 - 2-TOET  (display=None)
-- 2-hydroxy-N-methyltryptamine  (display='2-HO-NMT')
 - 25B-NBOH  (display=None)
 - 25C-NBOH  (display=None)
 - 25CN-NBOH  (display=None)
@@ -41,17 +38,17 @@ Heuristic — review before acting. Sections:
 - 3,4-Methylenedioxyphenmetrazine  (display='3-MDPM')
 - 3,4-Trimethylenepentedrone  (display='3,4-TMPD')
 - 3,6-DMPM  (display=None)
+- 3-CL-PCP  (display=None)
+- 3-F-PCP  (display=None)
 - 3-HO-PCE  (display=None)
 - 3-HO-PCP  (display=None)
-- 3-Methyl-4-fluoro-Α-pyrrolidinovalerophenone  (display='MFPVP')
+- 3-Methyl-4-fluoro-A-pyrrolidinovalerophenone  (display='MFPVP')
 - 3-PIP-OH-BTCP  (display=None)
 - 3-T-TRIS  (display=None)
 - 3-TASB  (display=None)
+- 4'-DMA-7,8-DHF  (display=None)
 - 4,4-DMAR  (display=None)
-- 4,5-MDO-DMT  (display=None)
 - 4-BR-3,5-DMA  (display=None)
-- 4-BR-DMT  (display=None)
-- 4-CL-DMT  (display=None)
 - 4-CL-PPP  (display=None)
 - 4-HO-DBT  (display=None)
 - 4-HO-DET  (display=None)
@@ -65,7 +62,6 @@ Heuristic — review before acting. Sections:
 - 4-TASB  (display=None)
 - 4B-MAR  (display=None)
 - 4F-DMT  (display=None)
-- 4F-EPH  (display=None)
 - 4F-MABP  (display=None)
 - 4F-MDMB-BINACA  (display=None)
 - 4F-NEB  (display=None)
@@ -76,22 +72,18 @@ Heuristic — review before acting. Sections:
 - 5-APDB  (display=None)
 - 5-APDI  (display=None)
 - 5-BPDI  (display=None)
-- 5-BR-DMT  (display=None)
 - 5-EAPB  (display=None)
-- 5-F-DMT  (display=None)
 - 5-MAPB  (display=None)
 - 5-MES-DMT  (display=None)
 - 5-PPDI  (display=None)
 - 5-TASB  (display=None)
 - 5-TOET  (display=None)
+- 5F-ADB-PINACA  (display=None)
 - 5F-MDMB-PICA  (display=None)
 - 6-APDB  (display=None)
 - 6-EAPB  (display=None)
-- 6-F-DMT  (display=None)
 - 6-MAPB  (display=None)
 - 6-MDDM  (display=None)
-- 7-CL-DMT  (display=None)
-- A-PHP  (display=None)
 - ADB-BUTINACA  (display=None)
 - ADB-HEXINACA  (display=None)
 - ADB-INACA  (display=None)
@@ -103,16 +95,13 @@ Heuristic — review before acting. Sections:
 - ALEPH-6  (display=None)
 - ALEPH-7  (display=None)
 - AMB-CHMICA  (display=None)
-- APAP  (display=None)
 - APICA  (display=None)
 - BIS-TOM  (display=None)
-- BOH-2C-B  (display=None)
 - BOHD  (display=None)
 - BTCP  (display=None)
 - CBDV  (display=None)
 - CBN-O  (display=None)
 - CBNA  (display=None)
-- DESOXY  (display=None)
 - DMAA  (display=None)
 - DMAE  (display=None)
 - DMCPA  (display=None)
@@ -120,9 +109,7 @@ Heuristic — review before acting. Sections:
 - DMMDA  (display=None)
 - DMMDA-2  (display=None)
 - DMNPC  (display=None)
-- DMPC  (display=None)
 - DMPEA  (display=None)
-- DMXM  (display=None)
 - DOAM  (display=None)
 - DOBU  (display=None)
 - DOEF  (display=None)
@@ -131,26 +118,22 @@ Heuristic — review before acting. Sections:
 - DSIP  (display=None)
 - EDMC  (display=None)
 - EIPT  (display=None)
-- ETH-CAT  (display=None)
 - ETHYL-J  (display=None)
-- ETHYL-K  (display=None)
 - FLEA  (display=None)
 - FOXO4-DRI  (display=None)
 - GHRP-2  (display=None)
 - GHRP-6  (display=None)
-- GSK1360707F  (display=None)
 - H4CBD  (display=None)
 - HDEP-28  (display=None)
-- HDMP-28  (display=None)
 - HHC-O  (display=None)
 - HHCP  (display=None)
 - IDNNA  (display=None)
 - IDRA-21  (display=None)
+- IHCH-711  (display=None)
 - IRIS  (display=None)
 - MADAM-6  (display=None)
 - MBDB  (display=None)
 - MBZP  (display=None)
-- MD-PHP  (display=None)
 - MDAL  (display=None)
 - MDBU  (display=None)
 - MDBZ  (display=None)
@@ -160,11 +143,12 @@ Heuristic — review before acting. Sections:
 - MDIP  (display=None)
 - MDMEO  (display=None)
 - MDMP  (display=None)
+- MDNEB  (display=None)
+- MDNMP  (display=None)
 - MDOH  (display=None)
 - MDPA  (display=None)
 - MDPBP  (display=None)
 - MDPEA  (display=None)
-- MDPH  (display=None)
 - MDPHP  (display=None)
 - MDPL  (display=None)
 - MDPPP  (display=None)
@@ -175,7 +159,6 @@ Heuristic — review before acting. Sections:
 - META-DOT  (display=None)
 - METHYL-DMA  (display=None)
 - METHYL-DOB  (display=None)
-- METHYL-J  (display=None)
 - METHYL-K  (display=None)
 - METHYL-MA  (display=None)
 - METHYL-MMDA-2  (display=None)
@@ -187,95 +170,70 @@ Heuristic — review before acting. Sections:
 - N-Pyrrolidino-etonitazene  (display='PYRETZ')
 - N-Pyrrolidino-metonitazene  (display='PYRMTZ')
 - N-methylphenethylamine  (display='NMPEA')
+- N-甲基环唑酮  (display=None)
 - NBOC-DMT  (display=None)
 - NM-2-AI  (display=None)
-- O-PCA  (display=None)
 - O-PCP  (display=None)
 - ORTHO-DOT  (display=None)
-- PAL-AHK  (display=None)
-- PAL-GHK  (display=None)
 - PARGY-LAD  (display=None)
-- PEPA  (display=None)
 - PGPIPN  (display=None)
 - PRO-LAD  (display=None)
-- PSI-2C-T-4  (display=None)
-- PYR-T  (display=None)
-- Phenethyl Isothiocyanate  (display='PEITC')
 - Phenylpropylaminopentane  (display='PPAP')
 - Pyrrolidino-protonitazene  (display='PYRPTZ')
-- R-(-)-MDMA  (display=None)
-- S-(+)-MDMA  (display=None)
+- RGPU-95  (display=None)
 - SLU-PP-332  (display=None)
-- SNAP-8  (display=None)
-- SYN-AKE  (display=None)
-- SYN-COLL  (display=None)
 - THC-O  (display=None)
 - THCP  (display=None)
 - THCV  (display=None)
-- TMPEA  (display=None)
 - TOMSO  (display=None)
 - TRIS  (display=None)
 - alpha-N,N-trimethyltryptamine  (display='ATMT')
-- ΒK-2C-B  (display=None)
 - α-Pyrrolidinopropiophenone  (display='APPP')
+- 复方甘草片  (display=None)
+- 多拉西敏  (display=None)
+- 大果柯拉豆  (display=None)
+- 橙黄鹅膏  (display=None)
+- 石山碱甲  (display=None)
+- 羟吗啡酮腙  (display=None)
+- 萘哌甲酯  (display=None)
+- 麦斯卡林  (display=None)
+- 鼠尾草素乙  (display=None)
 
-## raw_iupac_no_display (7) — Long raw-IUPAC canonical names with no display_name (need a friendly name).
+## raw_iupac_no_display (3) — Long raw-IUPAC canonical names with no display_name (need a friendly name).
 
-- [Other] 5-(2-Aminoethyl)-2,3-Dimethoxyphenol
-- [Stimulant] 1-(3-Chlorophenyl)-4-(2-phenylethyl)piperazine
-- [Stimulant] 1-Benzyl-4-(2-(diphenylmethoxy)ethyl)piperidine
-- [Stimulant] 1-Methyl-3-propyl-4-(p-chlorophenyl)piperidine
-- [Stimulant] 4-Fluoro-1-pyrazin-2-ylazepane
-- [Stimulant] 4-Fluoro-Α-pyrrolidinopropiophenone
-- [Stimulant] N,N-Dimethyl-3,3-diphenylcyclobutanamine
+- [(no category)] 1,3-Dimethyl-8-Chloroxanthine
+- [Empathogen] 3,4-Methylenedioxyamphetamine
+- [Stimulant] 4-Fluoro-A-pyrrolidinopropiophenone
 
-## category_conflict_3plus (19) — Substances categorized 3+ different ways across sources.
+## category_conflict_3plus (20) — Substances categorized 3+ different ways across sources.
 
-- 5-HTP: Supplement@piru-curated, Nootropic@psychonautwiki, Supplement@tripsit, Other@wikidata
-- ALEPH: Empathogen@tripsit, Psychedelic@drug.community, Psychedelic@erowid-pihkal, Other@wikidata
+- 2-DPMP: Stimulant@tripsit, Psychedelic@erowid-pihkal, Other@wikidata
+- 3,4-Methylenedioxyamphetamine: Empathogen@tripsit, Psychedelic@erowid-pihkal, Stimulant@wikidata
+- 5-Hydroxytryptophan: Supplement@piru-curated, Nootropic@psychonautwiki, Other@wikidata
+- ALEPH: Empathogen@tripsit, Psychedelic@erowid-pihkal, Other@wikidata
 - Datura: Deliriant@piru-curated, Dysdelic@psychonautwiki, Depressant@tripsit
-- Dimenhydrinate: Deliriant@piru-curated, Depressant@tripsit, Antihistamine@drug.community
 - Diphenhydramine: Deliriant@piru-curated, Dysdelic@psychonautwiki, Depressant@tripsit, Antihistamine@pyrls
 - Doxylamine: Deliriant@piru-curated, Depressant@tripsit, Antihistamine@pyrls
-- Gabapentin: GABAergic@piru-curated, Depressant@psychonautwiki, Depressant@tripsit, Anticonvulsant@drug.community, Anticonvulsant@pyrls
-- Ibogaine: Psychedelic@psychonautwiki, Dysdelic@tripsit, Dissociative@drug.community, Dysdelic@erowid-tihkal
-- MDA: Psychedelic@psychonautwiki, Empathogen@tripsit, Psychedelic@drug.community, Psychedelic@erowid-pihkal, Stimulant@wikidata
-- MDMA: Empathogen@piru-curated, Empathogen@psychonautwiki, Empathogen@tripsit, Psychedelic@drug.community, Psychedelic@erowid-pihkal, Antidepressant@wikidata
-- MDPV: Stimulant@piru-curated, Empathogen@psychonautwiki, Stimulant@tripsit, Antidepressant@drug.community
-- Melatonin: Nootropic@tripsit, Endocrine@drug.community, Psychedelic@erowid-tihkal, Other@wikidata
-- Nicotine: Stimulant@piru-curated, Depressant@psychonautwiki, Nootropic@tripsit, Stimulant@drug.community
-- Oxiracetam: Nootropic@piru-curated, Stimulant@psychonautwiki, Nootropic@drug.community, Other@tripsit
-- Phenethylamine: Nootropic@tripsit, Stimulant@drug.community, Other@wikidata
-- Pregabalin: GABAergic@piru-curated, Depressant@psychonautwiki, Depressant@tripsit, GABAergic@drug.community, Anticonvulsant@pyrls
+- Gabapentin: GABAergic@piru-curated, Depressant@tripsit, Anticonvulsant@pyrls
+- MDMA: Empathogen@piru-curated, Psychedelic@erowid-pihkal, Antidepressant@wikidata, Stimulant@freeodwiki
+- Melatonin: Supplement@piru-curated, Nootropic@tripsit, Psychedelic@erowid-tihkal, Other@wikidata
+- Mephedrone: Empathogen@tripsit, Stimulant@freeodwiki, Other@wikidata
+- Mirtazapine: Antidepressant@piru-curated, Dysdelic@psychonautwiki, Deliriant@freeodwiki
+- Nicotine: Stimulant@piru-curated, Depressant@psychonautwiki, Nootropic@tripsit
+- Oxiracetam: Nootropic@piru-curated, Stimulant@psychonautwiki, Other@tripsit
+- Para-Methoxyamphetamine: Empathogen@psychonautwiki, Stimulant@tripsit, Psychedelic@erowid-pihkal
+- Phenethylamine: Nootropic@tripsit, Psychedelic@erowid-pihkal, Other@wikidata
+- Pregabalin: GABAergic@piru-curated, Depressant@tripsit, Anticonvulsant@pyrls
 - Promethazine: Antihistamine@piru-curated, Dysdelic@psychonautwiki, Other@tripsit
-- Psilocin: Psychedelic@piru-curated, Psychedelic@psychonautwiki, Empathogen@tripsit, Other@wikidata
-- Tianeptine sulfate: Antidepressant@piru-curated, Nootropic@psychonautwiki, Opioid@tripsit
+- Psilocin: Psychedelic@piru-curated, Empathogen@tripsit, Other@wikidata
+- Tianeptine: Antidepressant@piru-curated, Nootropic@psychonautwiki, Opioid@tripsit
 
-## dup_same_inchikey_block (23) — Different names sharing an InChIKey connectivity block (likely dupes).
+## dup_same_inchikey_block (4) — Different names sharing an InChIKey connectivity block (likely dupes).
 
-- BRRSNXCXLSVPFC: 3-MMC | Myristicin
-- CYQFCXCEBYINGO: Cannabis | THC
-- DBGIVFWFUFKIQN: 4-Chloroamphetamine | Fenfluramine
-- DUGOZIWVEXMGBE: Dexmethylphenidate | Methylphenidate | Tilidine
-- GBBSUAFBMRNDJC: Eszopiclone | Zopiclone
-- GJJFMKBJSRMPLA: Levomilnacipran | Milnacipran
-- GVHJOSCBOCMTMQ: 4F-MDMB-BINACA | AMB-CHMICA
 - HPHUVLMMVZITSG: Etiracetam | Levetiracetam
-- JURKNVYFZMSNLP: Cyclobenzaprine | Methylone
 - KWGRBVOPPLSCSI: Ephedrine | Pseudoephedrine
-- KWTSXDURSIMDCE: Amphetamine | Dextroamphetamine
-- MEZLKOACVSPNER: Picamilon | Selegiline
-- MYWUZJCMWCOHBA: D-methamphetamine | L-methamphetamine | Methamphetamine
-- QXACEHWTBCFNSA: CBC | CBG
-- QZAYGJVTTNCVMB: Serotonin | Serotonin(1+)
+- MKXZASYAUGDDCJ: Dextromethorphan | Levomethorphan
 - RHCSKNNOAZULRK: 4-D | Mescaline | beta-D
-- SHXWCVYOXRDMCX: MDMA | R-(-)-MDMA | S-(+)-MDMA
-- WSEQXVZVJXJVFP: Citalopram | Escitalopram
-- XLMALTXPSGQGBX: Dextropropoxyphene | Propoxyphene
-- YFGHCGITMMYXAQ: Armodafinil | Modafinil
-- YQEZLKZALYSWHR: Arketamine | Esketamine | Ketamine
-- YRCWQPVGYLYSOX: D-synephrine(1+) | Oxedrine
-- ZROLHBHDLIHEMS: CBDV | THCV
 
 ## dup_same_normalized (0) — Different names sharing a normalized_name (likely dupes).
 

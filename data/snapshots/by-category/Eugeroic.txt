@@ -1,32 +1,22 @@
-# Eugeroic — 8 substances (sorted by popularity)
+# Eugeroic — 5 substances (sorted by popularity)
 # fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Armodafinil  <recreational>  — oral mg: common 100-150, heavy 250
-      aka: Artvigil|Neoresotyl|Nuvigil|R-Modawake|R-modafinil|Waklert
-      #CYP2C19-inhibitor-weak  #CYP3A4-inducer-moderate  #DAT-inhibitor  #US-Schedule-IV  #afinil  #atypical-DAT-inhibitor  #class:Benzhydryl sulfoxide (R-enantiomer of modafinil)  #class:benzhydryl  #eugeroic  #habit-forming  #prescription-only
+  Modafinil  <recreational>  — oral mg: common 100-150, heavy 250
+      aka: 2-(diphenylmethylsulfinyl)acetamide|Alertec|Armodafinil|Artvigil|Modalert|Modavigil|Modiodal|Modvigil|Neoresotyl|Nuvigil|Provigil|R-Modawake|Waklert|莫达菲尼|莫达非尼（Modafinil）|阿莫达菲尼
+      #CYP2C19-inhibitor-weak  #CYP3A4-inducer-weak  #DAT-inhibitor  #DAT-inhibitor-weak  #US-Schedule-IV  #afinil  #atypical-DAT-inhibitor  #class:benzhydryl  #eugeroic  #habit-forming  #prescription-only
       also: Stimulant
-  Adrafinil  <recreational>  — oral mg: common 600-900, heavy 1500
-      aka: CRL-40,028|Olmifon
-      #afinil  #class:benzhydryl  #eugeroic  #habit-forming  #hepatotoxic-monitor  #hepatotoxic-potential  #prodrug
+  Adrafinil  <recreational>  — oral mg: common 250-400, heavy 600
+      aka: CRL 40028|CRL-40,028|Olmifon|艾捉菲尼
+      #afinil  #class:benzhydryl  #eugeroic  #habit-forming  #hepatotoxic-monitor  #hepatotoxic-potential  #prodrug  #research-chemical
+      also: Stimulant
+  Flmodafinil  <recreational>  — insufflation mg: common 20-35, heavy 50
+      aka: Bisfluoromodafinil|CRL-40,940|CRL-40-940|Flodafinil|Fluoromodafinil|Lauflumide|NLS-4|二氟莫达菲尼|二氟莫达非尼|氟代莫达非尼|氟莫达非尼|氟达非尼
+      #DAT-selective  #afinil  #atypical-DAT-inhibitor  #eugeroic  #no-human-data  #research-chemical  #tentative
       also: Stimulant
   Fladrafinil  <recreational>  — oral mg: common 100-250, heavy 350
       aka: Bisfluoroadrafinil|CRL-40,941|CRL-40-941|Fluorafinil|fluoromodafinil
       #afinil  #eugeroic  #no-human-data  #prodrug  #research-chemical  #tentative
       also: Stimulant
-  Flmodafinil  <recreational>  — insufflation mg: common 20-35, heavy 50
-      aka: Bisfluoromodafinil|CRL-40,940|CRL-40-940|Flodafinil|Fluoromodafinil|Lauflumide|NLS-4
-      #DAT-selective  #afinil  #atypical-DAT-inhibitor  #class:Diphenylmethyl-sulfoxide acetamide (bis-4-fluoro analogue of modafinil)  #eugeroic  #no-human-data  #research-chemical  #tentative
-      also: Stimulant
-  Hydrafinil  (STUB)  <recreational>
-      aka: 9-Hydroxyfluorene|9-fluorenol|9H-fluoren-9-ol|Fluorenol
+  Fluorenol  (STUB)  <recreational>
+      aka: 9-Hydroxyfluorene|9-fluorenol|9H-fluoren-9-OL|Hydrafinil
       #afinil  #eugeroic  #no-human-data  #poorly-characterized  #research-chemical  #weak-DAT
-  Modafinil  <recreational>  — oral mg: common 150-200, heavy 400
-      aka: 2-(diphenylmethylsulfinyl)acetamide|Alertec|Modalert|Modavigil|Modiodal|Provigil
-      #DAT-inhibitor  #DAT-inhibitor-weak  #US-Schedule-IV  #afinil  #class:benzhydryl  #common  #eugeroic  #habit-forming  #prescription-only
-      also: Stimulant
-  Modafinil acid  (STUB)  <recreational>
-      aka: CRL-40,467|Modafinilic acid
-      #eugeroic  #inactive  #inactive-metabolite  #metabolite  #no-human-data
-  Modafinil sulfone  (STUB)  <recreational>
-      aka: Modafinil sulphone
-      #accumulating  #eugeroic  #inactive  #inactive-metabolite  #metabolite  #no-human-data

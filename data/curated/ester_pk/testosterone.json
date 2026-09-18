@@ -1,0 +1,49 @@
+{
+  "_comment": "Depot (oil/IM) three-compartment PK parameters for injectable testosterone esters, feeding the Injection Levels tool + the Hormone Levels insight (Specs/injection-levels-v3.md §5). Model form and units per estradiol.json, except the output unit is ng/dL (testosterone's canonical unit) per mg; rates per DAY. There is NO open-source transmasculine depot PK simulator (estrannaise.js is estradiol-only), so unlike the estradiol esters these are NOT library fits — each k1 is the cited TERMINAL half-life (k1 = ln2 / t½), the rise shape (k2/k3) is borrowed by oil-depot analogy from the matched estradiol ester (same ester chain + vehicle) and rescaled, and undecanoate's k2/k3 are fit to the Aveed-label Tmax since it has no estradiol analogue. Amplitude `d` is an UNVALIDATED placeholder for every ester (no retrievable paper publishes a single-injection Cmax for masc-dose oil solution) — exactly why the tool offers per-user lab calibration to pin it; the band stays wide until then. Full evidence + citations: Specs/evidence/testosterone-esters/README.md. Fit method + parameters reproducible via that spec's fit script. Consumed by pipeline/build/sqlite.py build_ester_pk() -> the `ester_pk` table.",
+  "analyte": "testosterone",
+  "parent": "Testosterone",
+  "esters": [
+    {
+      "ester_id": "testosterone_cypionate",
+      "ester_label": "Cypionate",
+      "d": 75.0,
+      "k1": 0.0866,
+      "k2": 3.57,
+      "k3": 0.669,
+      "confidence": "medium",
+      "provenance": "Terminal half-life ~8 d from the FDA Depo-Testosterone label sets k1. The absorption shape (k2/k3) is borrowed from the estradiol cypionate oil-depot fit — the same ester chain and vehicle — giving Tmax ~3.8 d. Amplitude (d) is unvalidated. SC is treated as IM (McFarland/Spratt 2017, PMID 29264562: weekly SC cypionate stayed stable and in-range in trans men). Calibrate to your own labs.",
+      "routes": ["IM", "SC"]
+    },
+    {
+      "ester_id": "testosterone_enanthate",
+      "ester_label": "Enanthate",
+      "d": 48.0,
+      "k1": 0.154,
+      "k2": 3.57,
+      "k3": 0.669,
+      "confidence": "low",
+      "provenance": "Terminal half-life ~4.5 d is a textbook figure (Schulte-Beerbühl & Nieschlag 1980, PMID 7353699 — no extractable primary concentration-time curve), which sets k1. Rise shape borrowed from cypionate; amplitude (d) unvalidated; the band is kept wide. Near-interchangeable with cypionate in community masc HRT. Calibrate to your own labs.",
+      "routes": ["IM", "SC"]
+    },
+    {
+      "ester_id": "testosterone_undecanoate",
+      "ester_label": "Undecanoate",
+      "d": 30.0,
+      "k1": 0.0204,
+      "k2": 2.709,
+      "k3": 0.508,
+      "confidence": "medium",
+      "provenance": "Terminal half-life 33.9 d (castor-oil vehicle; Behre 1999, PMID 10229906 — the cleanest primary in the set) sets k1. k2/k3 are fit to the Aveed label's Tmax (median 7 d) keeping cypionate's absorption ratio. Amplitude (d) unvalidated. Steady state is reached only around the third injection (~14 wk). Calibrate to your own labs.",
+      "caution": "The undecanoate products Aveed and Nebido carry a boxed warning for pulmonary oil microembolism (POME) and anaphylaxis; clinical protocols observe for 30 minutes after each injection. This is why undecanoate is largely clinical rather than DIY.",
+      "routes": ["IM"]
+    },
+    {
+      "ester_id": "testosterone_propionate",
+      "ester_label": "Propionate",
+      "modelable": false,
+      "confidence": "none",
+      "provenance": "Short-acting propionate (terminal half-life ~0.8 d, textbook). No retrievable human concentration-time study parameterizes a release/elimination curve, so Piru logs, titles, and searches it but does not project a serum level rather than fabricating one. Dosed every 1–3 days when used at all; now largely historical.",
+      "routes": ["IM"]
+    }
+  ]
+}

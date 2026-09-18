@@ -1,16 +1,22 @@
-# Gastrointestinal — 4 substances (sorted by popularity)
+# Gastrointestinal — 6 substances (sorted by popularity)
 # fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Droperidol  <medical_rx>  — intravenous mg: common 1.25-2.5, heavy 10
-      aka: Inapsine
-      #D2-antagonist  #EPS-risk  #QT-prolonging  #antiemetic  #butyrophenone  #dopamine-antagonist  #prescription-only  #sedating
-  Metoclopramide  <medical_rx>  — oral mg: common 10-20, heavy 60
-      aka: Metozolv ODT|Reglan
-      #D2-antagonist  #EPS-risk  #antiemetic  #dopamine-antagonist  #prescription-only  #tardive-dyskinesia-risk
   Ondansetron  <medical_rx>  — intravenous mg: common 4-8, heavy 16
       aka: Ondansetron ODT|Zofran|Zuplenz
-      #5-ht3 receptor antagonist  #antiemetic  #class:Carbazole derivative (selective serotonin 5-HT3 receptor antagonist)  #tablet, orally disintegrating tablet, solution
-  Prochlorperazine  <dual_use>  — oral mg: common 10-20, heavy 40
-      aka: Buccastem|Compazine|Compro|Phenotil|Stemetil|Stemzine
-      #D2-antagonist  #EPS-risk  #QT-prolonging  #antiemetic  #class:phenothiazine  #dopamine-antagonist  #phenothiazine  #prescription-only
+      #5-HT3-antagonist  #antiemetic
+  Metoclopramide  <medical_rx>
+      aka: Metozolv ODT|Reglan
+      #D2-antagonist  #EPS-risk  #antiemetic  #dopamine-antagonist  #prescription-only  #tardive-dyskinesia-risk
+  Prochlorperazine  <dual_use>  — oral mg: common 5-20, heavy 40
+      aka: Buccastem|Compazine|Compro|Phenotil|Stemetil|Stemzine|丙氯拉嗪
+      #D2-antagonist  #EPS-risk  #QT-prolonging  #antiemetic  #dopamine-antagonist  #phenothiazine  #prescription-only
       also: Antipsychotic
+  Droperidol  <medical_rx>
+      aka: Inapsine
+      #D2-antagonist  #EPS-risk  #QT-prolonging  #antiemetic  #butyrophenone  #dopamine-antagonist  #prescription-only  #sedating
+  Magnesium/Magaldrate  (STUB)  <otc>
+      aka: Zantanol Tab.
+      #OTC  #antacid  #combination-product
+  Magnesium/Sodium  (STUB)  <otc>
+      aka: Stomachin Antacid
+      #OTC  #antacid  #combination-product

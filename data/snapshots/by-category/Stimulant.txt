@@ -1,712 +1,585 @@
-# Stimulant — 241 substances (sorted by popularity)
+# Stimulant — 201 substances (sorted by popularity)
 # fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
+  Methamphetamine  <recreational>  — inhalation mg: common 10-20, heavy 60
+      aka: (alphaS)-N,alpha-dimethylbenzeneethanamine|(αS)-N,α-dimethylbenzeneethanamine|Crank|Crystal|D-methamphetamine|DL-metamphetamine|DL-methamphetamine|Desoxyn|Glass|Ice|L-metamphetamine|L-methamphetamine|Levmetamfetamine|Ma|Meth|N-methylamphetamine|N-methylamphetamine pito-1342|N-甲基苯丙胺|S-(+)-methamphetamine|Shabu|Shard|Speed|T|Tina|Tweak|Yaba|base|chalk|crypto|crystal meth|d-N-methylamphetamine|d-deoxyephedrine|d-desoxyephedrine|d-meth|d-phenylisopropylmethylamine|desoxyephedrine|fast|l-desoxyephedrine|metamfetamine|methyl-beta-phenylisopropylamine|methyl-β-phenylisopropylamine|methylamphetamine|pure|racemic methamphetamine|shards|tik|wax|whiz|冰毒|甲基安非他命|甲基苯丙胺
+      #DA-NE-releaser  #DRI  #NDRI  #NE-selective  #TAAR1  #TAAR1-agonist  #TIHKAL  #class:amphetamine  #class:substituted amphetamines  #common  #habit-forming  #neurotoxic-chronic
+      also: Psychedelic
+  Cocaine  <recreational>  — inhalation mg: common 15-30, heavy 45
+      aka: Benzoylmethylecgonine（苯甲酰甲基芽子碱）|Blow|Chari|Coca|Coke|Crack|Gear|Girl|Nose Candy|Perico|Rock|Roxanne|Snow|White|Yayo|base|benzoylmethylecgonine|charlie|cocaine base|flake|freebase cocaine|hard|methyl benzoylecgonine|rocks|supercoke|yeyo|古柯碱|古柯鹼|可卡因
+      #BChE-substrate  #Nav1.5-blocker  #class:Tropane alkaloid  #class:substituted tropanes  #common  #fast-binding-DAT  #fast-onset  #hERG-moderate  #habit-forming  #high-abuse-liability
+  Methylphenidate  <recreational>  — insufflation mg: common 10-20, heavy 30
+      aka: Adhansia XR|Aptensio XR|Attenade|Biphentin|Biphentin/Equasym XL/Medikinet XL|Concerta|Cotempla XR-ODT|Daytrana|Dexmethylphenidate|Dexmethylphenidate Hydrochloride Extended-release|Diet Coke|Equasym|Equasym XL|Focalin|Focalin XR|Foquest|Jornay PM|Kibbles and bits|Kiddie cocaine|MPH|Medikinet|Medikinet Retard|Medikinet XL|Metadate|Metadate CD|Metadate ER|Methylin|Methylphenidate Hcl Oral Solution|Methylphenidate-transdermal|Pineapple|Poor man's cocaine|Quillichew ER|Quillivant XR|Quillivant/QuilliChew|R-ball|Relexxii|Relexxii Ritalin|Riphenidate|Ritalin|Ritalin LA|Ritalin SR|Rubifen SR|Skippy|The smart drug|Vitamin R|d,l-threo-methylphenidate|d-MPH|d-threo-methylphenidate|利他林|哌甲酯|哌甲酯（Methylphenidate）
+      #ADHD  #CES1-substrate  #DAT-inhibitor  #NET-inhibitor  #US-Schedule-II  #class:Piperidine derivative  #class:substituted phenidates  #common  #first-pass-stereoselective  #habit-forming  #prescription-only  #single-enantiomer
+  Amphetamine  <recreational>  — insufflation mg: common 10-30, heavy 50
+      aka: (AlphaS)-alpha-methylbenzeneethanamine|Adderall|Adderall IR|Adderall XR|Addys|Adzenys ER|Adzenys XR-ODT|Amphetamine（安非他命）|Attentin|Bennies|Benzedrine|DL-amphetamine|Dex|Dex/Levo-amphetamine|Dexamfetamine|Dexedrine|Dexedrine Spansule|Dexies|Dextroamphetamine|Dextroamphetamine-Amphetamine|Dextrostat|Dyanavel XR|Evekeo|Evekeo ODT|MAS|MAS-IR|MAS-XR|Mixed Amphetamine Salts|Mydayis|Pep|ProCentra|S-(+)-amphetamine|Speed|Xelstrym|Zenzedi|adderal|aderal|aderall|alpha-Methylbenzeneethaneamine|alpha-methylphenethylamine|alpha-methylphenylethylamine|amfetamine|amfetaminum|amph|amphetamin|amphetamines|base|beta-Aminopropylbenzene|beta-Phenylisopropylamine|beta-phenylisopropylamin|black beauties|d-amph|desoxynorephedrine|dextroamphetamine/amphetamine|dextroamphetamine/dextroamphetamine/amphetamine/amphetamine|goey|hearts|louee|mixed amphetamine salts; MAS|pep pills|pepp|racemic amphetamine|uppers|whiz|whizz|α-methylbenzeneethaneamine|α-methylphenethylamine|α-甲基苯乙胺|β-aminopropylbenzene|β-phenylisopropylamine|安非他命|安非他明|苯丙胺
+      #ADHD-treatment  #DA-NE-releaser  #DRI  #NDRI  #SERT-weak  #TAAR1  #TAAR1-agonist  #brand-of-dextroamphetamine  #common  #habit-forming  #mixed-enantiomer  #no-human-data
+  Lisdexamfetamine  <recreational>  — oral mg: common 30-50, heavy 100
+      aka: Elvanse|L-赖氨酸-右旋苯丙胺|LDX|Lisdexamphetamine|Lisdextroamphetamine|Tyvense|Vyvanse|lisdextroamfetamine|利右苯丙胺|利右苯丙胺（Lisdexamfetamine）
+      #RBC-activated  #class:amphetamine  #class:substituted amphetamines  #habit-forming  #low-IV-abuse-liability  #prodrug  #stimulant
   Caffeine  <recreational>  — inhalation mg: common 75-125, heavy 175
-      aka: 1,3,7-trimethylxanthine|7-methyltheophylline|Cafeína|Caffeinum|Caféine|Coffein|Guaranine|Koffein|Mateine|Methyltheobromine|Theine|咖啡因
+      aka: 1,3,7-trimethylxanthine|1,3,7-三甲基黄嘌呤|7-methyltheophylline|Cafeína|Caffeinum|Caféine|Coffein|Coffeine|Guaranine|Koffein|Mateine|Methyltheobromine|Theine|咖啡因|咖啡碱
       #class:Methylxanthine  #class:xanthines  #common  #habit-forming
-  Nicotine  <recreational>  — buccal mg: common 2-4, heavy 6
-      aka: Equaline Nicotine|Good Neighbor Pharmacy Nicotine|Members Mark Nicotine|NRT|Nicoderm CQ|Nicorette|Nicotine Polacrilex|Nicotrol|Rexall Nicotine|Zonnic Nicotine|nicotinic acetylcholine receptor agonist|tobacco alkaloid|尼古丁|烟碱|菸鹼
+  Nicotine  <recreational>  — buccal mg: common 4-8, heavy 14
+      aka: Equaline Nicotine|Good Neighbor Pharmacy Nicotine|Members Mark Nicotine|NRT|Nic|Nicoderm CQ|Nicorette|Nicotine Polacrilex|Nicotrol|Rexall Nicotine|Zonnic Nicotine|nicotinic acetylcholine receptor agonist|tobacco alkaloid|尼古丁|烟碱|菸鹼
       #CYP2A6-substrate  #alpha4beta2-full-agonist  #class:Pyridine/pyrrolidine alkaloid  #class:pyridine  #class:substituted pyrrolidines  #common  #habit-forming  #high-abuse-liability  #receptor-upregulation
       also: Depressant, Nootropic
-  Amphetamine  <recreational>  — insufflation mg: common 10-30, heavy 50
-      aka: Adderall|Adderall IR|Adderall XR|Addys|Adzenys ER|Adzenys XR-ODT|Benzedrine|DL-amphetamine|Dex/Levo-amphetamine|Dexedrine|Dyanavel XR|Evekeo|Evekeo ODT|MAS|MAS-IR|MAS-XR|Mydayis|adderal|aderal|aderall|alpha-Methylbenzeneethaneamine|alpha-methylphenethylamine|alpha-methylphenylethylamine|amfetamine|amfetaminum|amph|amphetamin|amphetamines|base|bennies|beta-Aminopropylbenzene|beta-Phenylisopropylamine|beta-phenylisopropylamin|black beauties|d-amph|desoxynorephedrine|dexies|dextroamphetamine/amphetamine|dextroamphetamine/dextroamphetamine/amphetamine/amphetamine|goey|hearts|louee|mixed amphetamine salts|mixed amphetamine salts; MAS|pep|pep pills|pepp|racemic amphetamine|speed|uppers|whiz|whizz|α-methylbenzeneethaneamine|α-methylphenethylamine|β-aminopropylbenzene|β-phenylisopropylamine|安非他命|安非他明|苯丙胺
-      #ADHD-treatment  #DA-NE-releaser  #DRI  #NDRI  #SERT-weak  #TAAR1  #TAAR1-agonist  #class:Phenethylamine  #class:Substituted amphetamine phenethylamines (d- and l-amphetamine salts: sulfate, saccharate, aspartate monohydrate)  #class:substituted phenethylamines  #common  #habit-forming
-  Cocaine  <recreational>  — inhalation mg: common 15-30, heavy 45
-      aka: Blow|Chari|Coca|Crack|Gear|Girl|Nose Candy|Perico|Roxanne|Snow|White|Yayo|base|benzoylmethylecgonine|charlie|cocaine base|coke|flake|freebase cocaine|hard|methyl benzoylecgonine|rock|rocks|supercoke|yeyo|古柯碱|古柯鹼|可卡因
-      #BChE-substrate  #Nav1.5-blocker  #class:Tropane alkaloid  #class:Tropane alkaloid (free‑base of benzoylmethylecgonine)  #class:substituted tropanes  #common  #fast-binding-DAT  #fast-onset  #hERG-moderate  #habit-forming  #high-abuse-liability
-  Methamphetamine  <recreational>  — inhalation mg: common 10-20, heavy 60
-      aka: Crank|Crystal|DL-metamphetamine|DL-methamphetamine|Glass|Ma|N-methylamphetamine|Shabu|Shard|Speed|T|Tina|Tweak|Yaba|desoxyephedrine|desoxyn|ice|metamfetamine|meth|racemic methamphetamine|shards|tik|冰毒|甲基安非他命|甲基苯丙胺
-      #DA-NE-releaser  #DRI  #NDRI  #TAAR1  #TAAR1-agonist  #class:Phenethylamine (Amphetamine class)  #class:amphetamine  #class:substituted amphetamines  #common  #habit-forming  #neurotoxic-chronic  #no-human-data
-  Methylphenidate  <recreational>  — insufflation mg: common 10-20, heavy 30
-      aka: Adhansia XR|Aptensio XR|Biphentin/Equasym XL/Medikinet XL|Cotempla XR-ODT|Daytrana|Equasym XL|Jornay PM|Metadate|Metadate CD|Metadate ER|Methylin|Methylphenidate Hcl Oral Solution|Quillichew ER|Quillivant XR|Quillivant/QuilliChew|Relexxii|Relexxii Ritalin|Riphenidate|Ritalin LA|Ritalin SR|Rubifen SR|biphentin|concerta|d,l-threo-methylphenidate|mph|ritalin|利他林|哌甲酯
-      #CES1-substrate  #class:Piperidine derivative  #class:substituted phenidates  #common  #first-pass-stereoselective  #habit-forming  #stimulant  #tablet, extended release tablet (osmotic release oral delivery system [oros]), extended release tablet (various non-oros), chewable tablet, chewable extended release tablet, orally disintegrating tablet, extended release capsule, solution, extended release suspension
-  D-methamphetamine  (STUB)  <recreational>
-      aka: (alphaS)-N,alpha-dimethylbenzeneethanamine|(αS)-N,α-dimethylbenzeneethanamine|Desoxyn|N-methylamphetamine pito-1342|S-(+)-methamphetamine|S-methamphetamine|base|chalk|crank|crypto|crystal|crystal meth|d-N-methylamphetamine|d-deoxyephedrine|d-desoxyephedrine|d-meth|d-phenylisopropylmethylamine|desoxyephedrine|dextromethamphetamine|fast|glass|ice|metamfetamine|meth|methamphetamine|methyl-beta-phenylisopropylamine|methyl-β-phenylisopropylamine|methylamphetamine|pure|speed|tweak|wax|whiz
-      #DRI  #NDRI  #TAAR1  #TAAR1-agonist  #no-human-data  #phenethylamine  #σ1-agonist
-  Dexedrine  <recreational>  — oral mg: common 10-20, heavy 30
-      aka: dexamfetamine|dextroamphetamine
-      #brand-of-dextroamphetamine  #common  #habit-forming
-  Lisdexamfetamine  <recreational>  — oral mg: common 30-50, heavy 100
-      aka: Elvanse|LDX|Vyvanse|lisdexamphetamine|lisdextroamfetamine|lisdextroamphetamine
-      #RBC-activated  #capsule, chewable tablet  #class:Phenethylamine (Amphetamine derivative)  #class:amphetamine  #class:substituted amphetamines  #common  #habit-forming  #low-IV-abuse-liability  #prodrug  #stimulant
-  Dexmethylphenidate  <recreational>  — oral mg: common 5-10, heavy 40
-      aka: Dexmethylphenidate Hydrochloride Extended-release|Focalin|Focalin XR|d-threo-methylphenidate|dextromethylphenidate
-      #ADHD  #CES1-substrate  #DAT-inhibitor  #NET-inhibitor  #US-Schedule-II  #common  #habit-forming  #prescription-only  #single-enantiomer  #stimulant  #tablet, extended release capsule
-  MDPV  <recreational>  — inhalation mg: common 2-4, heavy 8
-      aka: 3,4-methylenedioxypyrovalerone|Bath Salts|Cloud Nine|Ivory Wave|MDPK|Methylenedioxypyrovalerone|NRG-1|Vanilla Sky|bath_salts
-      #CYP2D6-CYP2C19-substrate  #DAT-selective-extreme  #DRI  #TAAR1-inactive-human  #class:Pyrrolidinophenone cathinone stimulant  #class:Substituted cathinone (pyrrolidinophenone)  #class:mdxx  #class:substituted cathinones  #class:substituted pyrrolidines  #hERG-direct-block  #habit-forming  #high-psychosis-risk
-      also: Antidepressant, Empathogen
-  1-(2,5-Dimethoxybenzyl) piperazine  [2,5-DMBZP]  <recreational>  — oral mg: common 40-80, heavy 120
-      aka: 2,5-DMBZP|2,5-dimethoxybenzylpiperazine|DMBZP
-      #class:benzylpiperazine (piperazine)
-  1-(3-Chlorophenyl)-4-(2-phenylethyl)piperazine  (STUB)  <recreational>
-      #no-human-data  #piperazine  #research-chemical  #stimulant
-  1-Benzyl-4-(2-(diphenylmethoxy)ethyl)piperidine  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #research-chemical
-  1-Methyl-3-propyl-4-(p-chlorophenyl)piperidine  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #research-chemical
-  1ZP2MA  (STUB)  <recreational>
-      #investigational  #no-human-data  #research-chemical
-  2,3-Dimethoxyamphetamine  [2,3-DMA]  (STUB)  <recreational>
-      aka: 2,3-DMA
-      #DRI  #NDRI  #TAAR1  #no-human-data  #phenethylamine
-  2,3-Methylenedioxyamphetamine  [2,3-MDA]  (STUB)  <recreational>
-      aka: 2,3-MDA
-      #DRI  #NDRI  #TAAR1  #no-human-data  #phenethylamine  #weak-activity
-  2,3-Methylenedioxymethamphetamine  [2,3-MDMA]  (STUB)  <recreational>
-      aka: 2,3-MDMA
-      #DRI  #NDRI  #TAAR1  #no-human-data  #phenethylamine  #weak-activity
-  2-AI  <recreational>  — oral mg: common 10-20, heavy 40
-      aka: 2-aminoindan|2ai
-      #habit-forming  #research-chemical  #tentative
-  2-Aminoindane  <recreational>  — insufflation mg: common 15-40, heavy 80
-      aka: 2,3‑dihydro‑1H‑inden‑2‑amine|2-AI|2-aminoindan|2‑indanamine
-      #class:Unsubstituted aminoindane (rigid amphetamine analogue)  #class:aminoindane
-  2-CMC  (STUB)  <recreational>
-      aka: 2-Chloromethcathinone
-      #cathinone  #less-toxic-than-4CMC  #neurotoxic-evidence-preliminary  #no-human-data  #research-chemical  #weak-substrate-releaser
-  2-DPMP  <recreational>  — insufflation mg: common 3-4, heavy 6
-      aka: 2-desoxypiperadol|2dpmp|2‑desoxypiperadol|2‑diphenylmethylpiperidine|Ivory Wave|desoxypipradol|desoxypipradrol
-      #class:Piperidine derivative (diphenylmethylpiperidine)  #class:substituted piperidines  #habit-forming  #research-chemical  #tentative
+  Atomoxetine  <recreational>  — oral mg: common 18-40, heavy 80
+      aka: LY139603|Strattera
+      #CYP2D6-substrate  #SNRI  #no-abuse-liability  #non-stimulant  #selective-NRI  #tentative
       also: Antidepressant
-  2-FEA  <recreational>  — insufflation mg: common 30-40, heavy 60
-      aka: 2-fluoroethamphetamine|2-fluoroethylamphetamine
-      #class:substituted amphetamines  #research-chemical  #tentative
-      also: Empathogen
-  2-Fluoroamphetamine  [2-FA]  <recreational>  — insufflation mg: common 20-30, heavy 50
-      aka: 2-F-amphetamine|2-FA|2-fmp|2fa|o-FA|ortho-fluoroamphetamine
-      #DA-selective-releaser  #class:Substituted amphetamine (phenethylamine, fluoroamphetamine subclass)  #class:substituted amphetamines  #habit-forming  #research-chemical
-  2-FMA  <recreational>  — insufflation mg: common 15-30, heavy 50
-      aka: 2-fluoromethamphetamine|2fma
-      #class:amphetamine  #class:substituted amphetamines  #habit-forming  #research-chemical
-  2-FMC  (STUB)  <recreational>
-      aka: 2-Fluoromethcathinone
-      #cathinone  #no-human-data  #research-chemical  #weak-releaser-predicted
-  2-Me-PiHP  <recreational>
-      aka: 2-Me-α-PiHP
-      #autopsy-cases  #cathinone  #high-abuse-potential  #no-human-data  #pyrovalerone  #research-chemical
-  2-MEC  <recreational>  — insufflation mg: common 50-100, heavy 250
-      #habit-forming  #research-chemical  #tentative
-  2-Methylamphetamine  [2-MeA]  <recreational>  — insufflation mg: common 30-50, heavy 70
-      aka: 2-Me-AMP|2-MeA|2-ma|Ortetamine|o-Methylamphetamine|o-TAP|o-Tolylaminopropane|ortho-methylamphetamine
-      #DRI  #NDRI  #TAAR1  #class:substituted amphetamine  #habit-forming  #phenethylamine  #research-chemical  #tentative
-  2-MMC  <recreational>  — insufflation mg: common 60-120, heavy 250
-      aka: 2-Methylmethcathinone
-      #cathinone  #habit-forming  #research-chemical  #tentative  #weak-substrate-releaser-predicted
-  2-MPPP  <recreational>  — insufflation mg: common 30-60, heavy 110
-      aka: 2‑MPPP|n-piperidinecathinone|piperidinyl ketone
-      #DAT-blocker-predicted  #class:β-keto phenylpiperidine (piperidinyl ketone)  #habit-forming  #research-chemical  #tentative
-  2-PA  <recreational>  — insufflation mg: common 15-35, heavy 60
-      aka: 1-aminoethyl phenyl ketone|2-aminopropiophenone|2-phenylacetamide|beta-keto-amphetamine|bk-AMP|bk-amphetamine|cathinone
-      #class:substituted cathinone (beta-keto amphetamine)  #habit-forming  #no-human-data  #phenethylamine  #research-chemical  #tentative
+  Pseudoephedrine  <recreational>  — oral mg: common 60-90, heavy 120
+      aka: Sudafed
+      #OTC-decongestant  #alpha/beta-adrenergic agonist  #decongestant
+  Ephedrine  <recreational>  — insufflation mg: common 20-40, heavy 60
+      aka: Efedrina|Ephedra|Isofedrol|Ma huang|racemic ephedrine
+      #class:amphetamine  #habit-forming  #indirect-sympathomimetic  #no-human-data  #phenethylamine
       also: Other
-  2-PTA  <recreational>  — oral mg: common 20-40, heavy 80
-      aka: 2-(p-tolyl)acetamide|4-methyl-2-pa
-      #habit-forming  #research-chemical  #tentative
-  3,3-Diphenylcyclobutanamine  [3-DPCB]  <recreational>  — oral mg: common 20-35, heavy 50
-      aka: 3|3,3-Diphenylcyclobutylamine|3-DPCB|DPCB
-      #class:Diphenyl-substituted cyclobutylamine
-  3,4-CTMP  <recreational>  — oral mg: common 4-6, heavy 6
-      aka: 3,4-DCMP|3,4-dichloromethylphenidate|34ctmp
-      #class:substituted phenidates  #habit-forming  #high-DAT-affinity  #long-duration  #research-chemical
-  3,4-Dimethoxy-Α-PHP  <recreational>  — inhalation mg: common 10-20, heavy 30
-      aka: 3,4-DMPV”|3,4-DiMeO-α-PHP|DMO-PHP
-      #class:pyrrolidinophenone (substituted cathinone / pyrovalerone family)  #pyrrolidinophenone-predicted
-  3,6-DMPM  (STUB)  <recreational>
-      #research-chemical  #tentative
-  3-CEC  <recreational>  — insufflation mg: common 30-60, heavy 100
-      aka: 3-Cl-ethcathinone|3-chloro-NEC|3-chloroethcathinone
-      #class:Substituted cathinone (β-keto phenethylamine)  #hybrid-DAT-preferring-predicted
-  3-Chloromethcathinone  [3-CMC]  <recreational>  — insufflation mg: common 40-80, heavy 120
-      aka: 3-CMC|clophedrone|m-chloro-methcathinone
-      #DRI  #cathinone  #class:substituted cathinone (β-keto phenethylamine)  #no-human-data  #phenethylamine
+  Phentermine  <recreational>  — oral mg: common 20-40, heavy 70
+      aka: Adipex-P|Ionamin|α,α-dimethylphenethylamine|α-methylamphetamine
+      #FDA-approved-anorectic  #NE-selective  #no-5-HT2B-activity  #tentative
+  Fenethylline  <recreational>  — insufflation mg: common 40-80, heavy 120
+      aka: Amfetyline|Captagon|Ethyltheophylline-amphetamine codrug|Fenetylline|Fenetyllinum|amphetaminoethyltheophylline
+      #amphetamine-theophylline-codrug  #class:amphetamine  #class:substituted amphetamines  #class:xanthines  #prodrug
+  3-MMC  <recreational>  — insufflation mg: common 50-100, heavy 250
+      aka: 3-MEPH|3-Methylmethcathinone|3-mephedrone|3M|3methylmethcathinone|3mmc|Metaphedrone|mcat|meow
+      #CYP2D6-substrate  #DAT-preferring  #cathinone  #empathogen-adjacent  #first-in-human-published  #habit-forming  #research-chemical  #stimulant  #substrate-releaser
       also: Empathogen
+  Viloxazine  <recreational>  — oral mg: common 75-150, heavy 150
+      aka: Catatrol|Qelbree|Vivalan
+      #5-HT2C-partial-agonist  #CYP1A2-inhibitor-strong  #NRI  #tentative
+  Bisacodyl  <recreational>
+      aka: Carters Little Pills|Dulcolax|Health Sense Ducodyl|Unit Dose Bisacodyl|Womens Gentle Laxative
+      #stimulant laxative
+  DMAA  <recreational>  — oral mg: common 20-50, heavy 100
+      aka: 1,3-DMAA|1,3-dimethylamylamine|1,3-二甲基戊胺|Geranamine|methylhexanamine|甲基己胺
+      #NDRA  #banned-FDA  #habit-forming  #research-chemical  #supplement-stimulant
+  Dimethocaine  <recreational>  — insufflation mg: common 15-30, heavy 50
+      aka: CMD|DMC|Larocaine
+      #habit-forming  #research-chemical  #tentative
+  MDPV  <recreational>  — inhalation mg: common 2-4, heavy 8
+      aka: 3,4-Methylenedioxypyrovalerone|Bath Salts|Cloud Nine|Ivory Wave|MDPK|Magic|Methylenedioxypyrovalerone|Monkey Dust|NRG-1|NRG-1,3,4-亚甲双氧基吡咯戊酮|Super Coke|Vanilla Sky|bath_salts
+      #CYP2D6-CYP2C19-substrate  #DAT-selective-extreme  #DRI  #TAAR1-inactive-human  #cathinone  #class:Pyrrolidinophenone cathinone stimulant  #class:mdxx  #class:substituted pyrrolidines  #hERG-direct-block  #habit-forming  #high-psychosis-risk  #pure-reuptake-inhibitor
+      also: Empathogen
+  Methcathinone  <recreational>  — insufflation mg: common 20-40, heavy 80
+      aka: AL-422|AL-463|AL-464|Bathtub Speed|Cadillac Express|Cat|Catnip|Cosmos|Ephedrone|Gagers|Gaggers|Goog|Intash|Jeff|Kat|M-Kat|MC|Methcat|Mulka|N-methylcathinone|Speed|The C|UR-1431 (UR(W)1431)|Wild Cat|Wonder Star|monomethylpropion|α-methylamino-propiophenone|α-methylaminopropiophenone|甲卡西酮
+      #DA-NE-selective  #DRI  #US-Schedule-I  #cathinone  #manganese-toxicity-synthesis-contaminant  #no-human-data  #phenethylamine  #substrate-releaser
+      also: Empathogen
+  Sibutramine  <recreational>  — oral mg: common 10-15, heavy 20
+      aka: Butramin|Medaria|Meridia|Reductil|Sibutramine hydrochloride monohydrate
+  3-Chloromethcathinone  [3-CMC]  <recreational>  — insufflation mg: common 40-80, heavy 100
+      aka: 3-CMC|3-氯甲卡西酮|3cmc|Clophedrone|m-chloro-methcathinone
+      #DA-preferring  #DRI  #cathinone  #delayed-cytotoxicity  #fatalities-reported  #habit-forming  #neurotoxic-evidence-preliminary  #no-human-data  #phenethylamine  #research-chemical  #substrate-releaser  #tentative
+  Phenmetrazine  <recreational>  — oral mg: common 25-50, heavy 50
+      aka: Preludin
+      #NDRA  #VMAT2-substrate  #habit-forming
+  Methylone  <recreational>  — insufflation mg: common 75-150, heavy 250
+      aka: 3,4-Methylenedioxymethcathinone|Ease|Explosion|M1|MDMC|MDMCAT|beta-keto-MDMA|bk-MDMA|βk-MDMA
+      #MDMA-analog  #cathinone  #empathogen-adjacent  #habit-forming  #linear-PK  #research-chemical  #substrate-releaser
+      also: Empathogen
+  BZP  <recreational>  — oral mg: common 70-100, heavy 130
+      aka: 1-benzylpiperazine|A2|Benzylpiperazine|Frenzy|N-benzylpiperazine|Nemesis|party pills
+      #habit-forming  #piperazine  #research-chemical
+  Propylhexedrine  <recreational>  — insufflation mg: common 30-75, heavy 100
+      aka: Benzedrex|Hexahydromethamphetamine|hexahdromethamphetamine|propylhexadrine|奥贝辛|环己丙甲胺|苯齐德雷克斯
+      #OTC-decongestant  #class:cycloalkylamines  #cyclohexyl-amphetamine  #habit-forming
+  2-MMC  <recreational>  — insufflation mg: common 60-120, heavy 250
+      aka: 2-Methylmethcathinone|2-甲基甲卡西酮|Orthophedrone
+      #cathinone  #habit-forming  #research-chemical  #tentative  #weak-substrate-releaser-predicted
+  N-Ethylpentedrone  <recreational>  — inhalation mg: common 15-30, heavy 50
+      aka: Ethyl-Pentedrone|N-ethyl-norpentedrone|N-ethylnorpentedrone|NEP|NEPD|alpha-ethylaminopentiophenone|nor|α-EAPP|α-ethylamino-valerophenone|α-ethylaminopentiophenone
+      #DAT-selective  #cathinone  #pure-DAT-NET-blocker  #research-chemical  #tentative
+      also: Empathogen
+  4-CMC  <recreational>  — insufflation mg: common 30-60, heavy 100
+      aka: 4-CL-MC|4-Chloromethcathinone|4cmc|Clephedrone|p-Chloromethcathinone
+      #DRI  #SNDRA  #cathinone  #fatalities-reported  #habit-forming  #neurotoxic-evidence-preliminary  #no-human-data  #oxidative-stress-toxicity  #para-chloro-neurotoxicity-flag  #phenethylamine  #research-chemical  #substrate-releaser
+  MDPHP  <recreational>  — inhalation mg: common 10-25, heavy 40
+      aka: 3'|3,4-MDPHP|MD-PHP|MDPH|methylenedioxypyrolidinohexiophenone|monkey dust|monkey-dust|zombie dust
+      #NDRI  #PIHKAL  #habit-forming  #phenethylamine  #pyrovalerone-cathinone  #research-chemical  #stimulant-not-entactogen  #tentative
+      also: Psychedelic
+  Pyrovalerone  <recreational>  — insufflation mg: common 15-40, heavy 80
+      aka: O-2371|beta-keto-prolintane
+      #class:Pyrrolidinophenone cathinone
+  Methedrone  <recreational>
+      aka: 4-methoxymethcathinone|PMMC|bk-PMMA
+      #SERT-preferring-cathinone  #fatal-toxicity  #habit-forming  #research-chemical
+  Pemoline  <recreational>  — oral mg: common 20-40, heavy 80
+      aka: Betanamin|Ceractiv|Cylert|Magnesium pemoline|PemADD|Pemoline magnesium|Phenoxazole|Phenylisohydantoin|Tradon
+      #DA-selective  #habit-forming  #hepatotoxic  #withdrawn-US-2005
+  DMHA  <recreational>  — insufflation mg: common 75-100, heavy 150
+      aka: 1,5-DMHA|1,5-dimethylhexylamine|2-aminoisoheptane|Amidrine|Octodrine|SK&F-51|SKF-51|Vaporpac
+      #NDRA-aliphatic  #supplement-stimulant
+  Mazindol  <recreational>  — oral mg: common 1.5-2, heavy 4
+      aka: 42-548|AN-448|Mazanor|Sanorex|Teronac
+      #NDRI  #OX2R-agonist  #US-Schedule-IV  #anorectic  #class:Tricyclic, piperidine derivative  #prescription-only
+  Amfepramone  <recreational>  — insufflation mg: common 20-40, heavy 60
+      aka: 2-(diethylamino)propiophenone|Amfepramon|Diethylcathinone|Diethylpropion|Neobes|Nobesine|Phepranon|Préfamone|Regenon|Regibon|Tenuate|Tenuate Dospan|Tepanil
+      #CYP3A4-substrate  #FDA-approved-anorectic  #Schedule-IV  #prodrug
+  Aminorex  <recreational>  — insufflation mg: common 8-15, heavy 25
+      aka: Menocil
+      #PPH-causing  #SERT-component  #habit-forming  #tentative  #withdrawn
+  Ethylphenidate  <recreational>  — oral mg: common 40-100, heavy 150
+      aka: EPH|d-threo-ethylphenidate
+      #CES1-substrate  #DAT-selective  #class:substituted phenidates  #habit-forming  #research-chemical
+  Clobenzorex  <recreational>  — insufflation mg: common 15-30, heavy 60
+      aka: Asenlix|Dinintel|Finedal|Itravil|SD-271-12|氯苄雷司
+  Pipradrol  <recreational>  — oral mg: common 2-4, heavy 10
+      aka: Alertonic|Meratran|diphenyl(piperidin-2-yl)methanol
+      #NDRI  #stimulant-miscategorized
+  Cyclazodone  <recreational>  — oral mg: common 15-25, heavy 60
+      aka: N-cyclopropyl-pemoline|N-cyclopropylpemoline|NCP-pemoline
+      #class:4-oxazolidinone  #class:substituted aminorexes
+  4-Methylaminorex  <recreational>  — inhalation mg: common 10-20, heavy 25
+      aka: 4-MAR|4-MAX|4-甲基阿米雷司|Euphoria|Ice|McN-822|McN822|U4Euh
+      #habit-forming  #long-duration  #potent-DA-releaser  #research-chemical  #tentative
+  Phenylpropylaminopentane  [PPAP]  <recreational>  — insufflation mg: common 5-15, heavy 30
+      aka: DPPEA|MK-306|PPAP|α,N-dipropylphenethylamine
+  2-FMA  <recreational>  — insufflation mg: common 15-30, heavy 50
+      aka: 2-fluoromethamphetamine|2-氟甲基苯丙胺|2fma
+      #class:amphetamine  #class:substituted amphetamines  #habit-forming  #research-chemical
+  3-FPM  <recreational>  — inhalation mg: common 20-25, heavy 50
+      aka: 3-FPH|3-Fluorophenmetrazine|3FPM|3f-P|3f-phenmetrazine|3fp|PAL-593|PAL-593,3-Fluorophenmetrazine
+      #NDRA  #VMAT2-substrate  #class:phenylmorpholine  #class:substituted amphetamines  #habit-forming  #research-chemical
+  Eutylone  <recreational>  — insufflation mg: common 25-50, heavy 80
+      aka: ED-DB|EDB|N-Ethylbutylone|bk-EBDB|euty|β-keto-ethylbenzodioxolylbutanamine
+      #DAT-preferring  #MDMA-analog  #cathinone  #fatalities-mdma-substitution  #fatalities-reported  #research-chemical
+  Pentedrone  <recreational>  — insufflation mg: common 5-10, heavy 20
+      aka: Drone|α-Methylamino-valerophenone
+      #DAT-NET-blocker  #DAT-selective  #cathinone  #habit-forming  #research-chemical
+  Theacrine  <recreational>  — insufflation mg: common 25-100, heavy 100
+      aka: Temorine|Temurin
+      #class:purine alkaloid  #class:xanthines
+  Prolintane  <recreational>  — insufflation mg: common 20-35, heavy 60
+      aka: 1-(α-propylphenethyl)pyrrolidine|ATC N06BX14|Katovit|catovit|promotil|villescon|βk-Prolintane analog class relates to α-PVP|普罗林坦|苯基吡咯烷基戊烷
+      #class:amphetamine  #class:substituted amphetamines  #class:substituted pyrrolidines  #habit-forming  #research-chemical  #tentative
+  4F-MPH  <recreational>  — insufflation mg: common 8-14, heavy 20
+      aka: 4-FL-MPH|4-FMPH|4-Fluoro-methylphenidate|4-Fluoromethylphenidate|4-fluoro-MPH|4-氟哌甲酯|4F Ritalin|4fmph|erythro-4F-MPH|pF-MPH|para-fluoromethylphenidate|threo-4F-MPH
+      #DAT-selective  #class:substituted phenidates  #habit-forming  #high-potency  #research-chemical  #tentative
+  Phendimetrazine  <recreational>  — oral mg: common 35-70, heavy 105
+      aka: Adipost|Bontril|Fendique ER|Melfiat|Statobex
+      #anorectic  #prodrug
+  2-DPMP  <recreational>  — insufflation mg: common 3-4, heavy 6
+      aka: 2-desoxypiperadol|2-diphenylmethylpiperidine|2-二苯甲基哌啶|2dpmp|4-desoxymescaline|DESOXY|Desoxypipradol|Desoxypipradrol|Ivory Wave|Pippy|Purple Wave|VanillaSky
+      #PIHKAL  #class:substituted piperidines  #habit-forming  #no-human-data  #phenethylamine  #research-chemical  #tentative
+      also: Other, Psychedelic
+  4-Methylmethylphenidate  <recreational>  — insufflation mg: common 20-45, heavy 70
+      aka: 4'-Methylmethylphenidate|4-MMPH|4-Me-TMP|4-metmp|4M-TMP|Threo-4-methylmethylphenidate|p-Methyl methylphenidate
+      #habit-forming  #research-chemical  #tentative
+  MPPP  <recreational>
+      aka: 4-MePPP
+      #cathinone  #no-human-data  #pure-DAT-blocker  #pyrrolidinophenone  #research-chemical
+  Serdexmethylphenidate  <recreational>
+      aka: Azstarys SDX component|KP-415 inner salt|SDX|Serdexmethylphenidate chloride
+      #extended-duration  #low-IV-abuse-liability  #prodrug
+  N-Ethylpentylone  <recreational>  — insufflation mg: common 25-50, heavy 100
+      aka: Ephylone|MDNEP|N-Ethylnorpentylone|bk-EBDP|bk-ethyl-K|βk-EBDP|βk-Ethyl-K
+      #MDMA-analog  #cathinone  #fatalities-mdma-substitution  #fatalities-reported  #high-risk  #pure-reuptake-inhibitor  #research-chemical  #triple-blocker
+      also: Empathogen
+  4-Benzylpiperidine  [4-BP]  <recreational>  — oral mg: common 125-200, heavy 350
+      aka: 4-BP|4-PMPD
+      #DRI  #habit-forming  #no-human-data  #research-chemical  #tentative
+  N-Ethylhexedrone  <recreational>  — inhalation mg: common 5-10, heavy 20
+      aka: Ethyl-Hexedrone|Hex-en|Hexen|NEH|n-ethyl-hexedrone
+      #cathinone  #habit-forming  #research-chemical  #tentative
+  Thozalinone  <recreational>  — oral mg: common 30-50, heavy 50
+      aka: CL-39808|Stimsen
+      #discontinued  #historical  #research-chemical  #stimulant
+  Methiopropamine  <recreational>  — inhalation mg: common 10-20, heavy 30
+      aka: Blow|MPA|甲基噻吩丙胺
+      #class:thiophene  #habit-forming  #research-chemical
+  2-Fluoroamphetamine  [2-FA]  <recreational>  — insufflation mg: common 20-30, heavy 50
+      aka: 2-F-amphetamine|2-FA|2-FMP|2-氟苯丙胺|2fa|o-FA|ortho-fluoroamphetamine
+      #DA-selective-releaser  #class:substituted amphetamines  #habit-forming  #research-chemical
+  3-Fluoroamphetamine  [3-FA]  <recreational>  — insufflation mg: common 10-20, heavy 30
+      aka: 3-FA|3-氟苯丙胺|3F-AMP|3fa|PAL-353|m-fluoroamphetamine|meta-fluoroamphetamine
+      #DA-NE-releaser  #class:amphetamine  #class:substituted amphetamines  #habit-forming  #research-chemical  #tentative
+  Naphyrone  <recreational>  — insufflation mg: common 20-50, heavy 100
+      aka: Energy-1|NRG-1|Naphthylpyrovalerone|O-2482|α-naphyrone|β-naphyrone
+      #cathinone  #habit-forming  #pure-reuptake-inhibitor  #pyrrolidinophenone  #research-chemical  #triple-reuptake-inhibitor
+  4-Chloroamphetamine  [4-CA]  <recreational>  — oral mg: common 8-20, heavy 40
+      aka: 4-CA|4-氯苯丙胺|PCA|p-Chloroamphetamine|para-Chloroamphetamine|对氯苯丙胺
+      #MAO-A-inhibitor  #serotonergic-neurotoxin
+  Tropacocaine  <recreational>
+      aka: benzoylpseudotropine|descarbomethoxycocaine|pseudotropine benzoate
+      #cocaine-adulterant  #local-anesthetic  #research-chemical  #tropane-alkaloid
+  Butylone  <recreational>  — insufflation mg: common 100-150, heavy 250
+      aka: B1|MDNMB|beta-keto-MBDB|bk-MBDB|bk-methyl-j|β-Keto-MBDB|β-酮基-N-甲基苯并二氧杂丁胺|βk-MBDB
+      #MDMA-analog  #cathinone  #class:mdxx  #habit-forming  #hybrid-DAT-blocker-SERT-substrate  #research-chemical
+      also: Empathogen
+  Brephedrone  <recreational>  — insufflation mg: common 40-80, heavy 120
+      aka: 4-BMC|4-Bromomethcathinone|BrMcat|para-Bromomethcathinone
+      #para-bromo-neurotoxicity-flag  #substrate-releaser
+  4-MPD  <recreational>  — inhalation mg: common 15-35, heavy 60
+      aka: 4-Methylpentedrone|p-methyl pentedrone|para-methyl pentedrone
+      #habit-forming  #tentative
+  2-Aminoindane  <recreational>  — insufflation mg: common 15-40, heavy 80
+      aka: 2-AI|2-aminoindan|2-indanamine|2ai
+      #class:aminoindane  #habit-forming  #research-chemical  #tentative
+  Isopropylphenidate  <recreational>  — insufflation mg: common 10-20, heavy 35
+      aka: IPH|IPP|IPPD|IPPH|isopropyl phenidate
+      #DAT-selective  #class:substituted phenidates  #habit-forming  #long-duration  #research-chemical  #tentative
+  Troparil  <recreational>  — oral mg: common 20-30, heavy 60
+      #habit-forming  #research-chemical  #tentative
+  Dipentylone  <recreational>  — insufflation mg: common 15-40, heavy 70
+      aka: BU crystal|DM-Pentylone|DMBDP|Dimethylpentylone|KU|KU crystals|N,N-Dimethylpentylone|bk-DMBDP
+      #DAT-preferring  #fatalities-mdma-substitution  #post-eutylone-market-successor
+  DMNPC  <recreational>
+      #designer-drug  #high-abuse-potential  #no-human-data  #research-chemical
+  Pentylone  <recreational>  — oral mg: common 20-40, heavy 80
+      aka: 4-meppp|bk-MBDP|bk-methyl-K|β-Keto-methylbenzodioxolylpentanamine
+      #DAT-preferring  #MDMA-analog  #cathinone  #fatalities-reported  #habit-forming  #hybrid-DAT-blocker-SERT-partial-substrate  #research-chemical
+      also: Psychedelic
+  Amfonelic acid  <recreational>  — oral mg: common 4-10, heavy 10
+      aka: AA|AFA|Amfonelicacid|WIN 25,978|WIN-25,978|win25978
+      #DAT-selective  #DRI  #habit-forming  #investigational  #neuroprotective-vs-meth  #no-human-data  #research-chemical
+  Meprylcaine  <recreational>
+      aka: Epirocaine|Oracaine
+      #aminoester  #historical  #local-anesthetic  #stimulant
+  Ethylone  <recreational>  — oral mg: common 150-250, heavy 400
+      aka: 3,4-MDEC|MDEC|bk-MDEA
+      #5-HT-shifted  #MDMA-analog  #cathinone  #habit-forming  #research-chemical  #substrate-releaser
+      also: Empathogen
+  3,4-Methylenedioxyphenmetrazine  [3-MDPM]  <recreational>  — insufflation mg: common 60-100, heavy 150
+      aka: 3,4-MD-phenmetrazine|3,4-MDPM|3-MDPM|MDPM|Methylenedioxyphenmetrazine
+      #NDRA
+  Buphedrone  <recreational>  — oral mg: common 30-50, heavy 50
+      aka: α-Methylamino-butyrophenone
+      #NE-preferring  #cathinone  #habit-forming  #hybrid-releaser-blocker  #research-chemical
+  Amfecloral  <recreational>  — oral mg: common 25-50, heavy 75
+      aka: Acutran|Amphecloral|DB08924
+  Flephedrone  <recreational>  — insufflation mg: common 75-150, heavy 250
+      aka: 4-FMC|4-Fluoromethcathinone|4-氟甲卡西酮|4F-MCAT|4fmc|CAS 7589-39-7|drone|fpephedrone
+      #DA-selective  #cathinone  #habit-forming  #research-chemical  #substrate-releaser
+  3,4-CTMP  <recreational>  — oral mg: common 4-6, heavy 6
+      aka: 3,4-DCMP|3,4-dichloromethylphenidate|34ctmp|4-二氯哌甲酯
+      #class:substituted phenidates  #habit-forming  #high-DAT-affinity  #long-duration  #research-chemical
+  CE-123  <recreational>
+      #DAT-selective  #DRI  #atypical-DAT-inhibitor  #investigational  #no-human-data  #research-chemical
+      also: Other
+  4-MEC  <recreational>  — insufflation mg: common 40-100, heavy 150
+      aka: 4-MeEC|4-Methylethcathinone|4mec|NRG-2
+      #cathinone  #fatalities-reported  #habit-forming  #hybrid-DAT-blocker-SERT-substrate  #research-chemical
+  Dasotraline  <recreational>
+      aka: SEP-225289
+      #NDRI  #SNDRI  #investigational  #low-abuse-liability  #research-chemical  #ultra-long-halflife
+  Indatraline  <recreational>
+      aka: LU-19-005
+      #SNDRI  #investigational  #long-duration  #research-chemical  #slow-onset
+  MBZP  <recreational>  — oral mg: common 80-120, heavy 160
+      aka: methylbenylpiperazine
+      #habit-forming  #research-chemical  #tentative
+  D2pm  <recreational>  — oral mg: common 20-35, heavy 50
+      aka: diphenylprolinol
+      #habit-forming  #tentative
+  3-Fluoromethcathinone  [3-FMC]  <recreational>  — insufflation mg: common 25-60, heavy 100
+      aka: 3-FMC|3F-MC
+      #cathinone  #habit-forming  #no-human-data  #research-chemical  #substrate-releaser
+  3,4-DMMC  <recreational>  — insufflation mg: common 60-120, heavy 180
+      aka: 3,4-dimethyl methcathinone|3,4-dimethylmethcathinone|4-dimethyl-methcathinone|DMMC|M2
+      #substrate-releaser-predicted
+  BTCP  <recreational>
+      aka: Benzothiophenylcyclohexylpiperidine|benocyclidine
+      #DAT-selective-inhibitor  #DRI  #arylcyclohexylamine  #investigational  #liver-toxicity  #no-human-data  #research-chemical  #stimulant-not-dissociative
+  Hexedrone  <recreational>  — oral mg: common 70-100, heavy 125
+      aka: α-Methylamino-hexanophenone
+      #DAT-NET-blocker  #cathinone  #habit-forming  #no-human-data  #research-chemical  #tentative
+  Thiopropamine  <recreational>  — oral mg: common 50-100, heavy 125
+      aka: normethiopropamine|tpa
+      #habit-forming  #research-chemical
+  N-Methylbisfluoromodafinil  <recreational>  — oral mg: common 100-150, heavy 200
+      aka: 4'-difluoro-modafinil|Dehydroxy-fluorafinil|Dehydroxyfluorafinil|Modafiendz|N-Methyl-4|N-甲基二氟莫达菲尼
+      #class:benzhydryl  #research-chemical  #tentative
+  3-FMA  <recreational>  — oral mg: common 15-30, heavy 60
+      aka: 3-Fluoromethamphetamine|3fma
+      #class:amphetamine  #class:substituted amphetamines  #habit-forming  #research-chemical
+      also: Empathogen
+  Methylnaphthidate  <recreational>  — insufflation mg: common 8-14, heavy 28
+      aka: HDMP-28|methylnaphtidate
+      #class:substituted phenidates  #habit-forming  #research-chemical  #tentative
+  2-Methylamphetamine  [2-MeA]  <recreational>  — insufflation mg: common 30-50, heavy 70
+      aka: 2-MA|2-Me-AMP|2-MeA|Ortetamine|o-Methylamphetamine|o-TAP|o-Tolylaminopropane|ortho-methylamphetamine
+      #DRI  #NDRI  #TAAR1  #class:substituted amphetamine  #habit-forming  #phenethylamine  #research-chemical  #tentative
+  3-Fluoroethamphetamine  [3-FEA]  <recreational>  — insufflation mg: common 35-60, heavy 60
+      aka: 3-FEA|meta-fluoro ethylamphetamine
+      #class:amphetamine  #class:substituted amphetamines  #habit-forming  #research-chemical  #tentative
+      also: Empathogen
+  JJC8-088  <recreational>
+      #DRI  #cocaine-like-DAT  #hERG-liability  #hERG-strong  #investigational  #no-human-data  #outward-open-DAT  #research-chemical
+  Pfbt  <recreational>  — insufflation mg: common 50-70, heavy 110
+      aka: 4-fluorotropacocaine
+      #habit-forming  #local-anaesthetic  #research-chemical  #tentative  #weak-DAT
+  RTI-111  <recreational>  — inhalation mg: common 7.5-20, heavy 50
+      aka: Dichloropane
+      #class:substituted tropanes  #habit-forming  #research-chemical  #tentative
+  MDPPP  <recreational>
+      #cathinone  #low-potency-MDPV-analog  #no-human-data  #pyrrolidinophenone  #research-chemical
+  4-MBC  <recreational>  — insufflation mg: common 60-120, heavy 200
+      aka: (colloquial) benzyl-mephedrone|4-methylbenzylcathinone|Benzedrone
+      #weak-DAT-blocker-predicted
+  4-Bromoamphetamine  [4-BA]  <recreational>  — oral mg: common 10-20, heavy 30
+      aka: 4-BA|4-BR-AMP|PBA|p-BA|p-Bromoamphetamine|para-Bromoamphetamine
+      #MAO-A-inhibitor  #serotonergic-neurotoxin
+  NM-2-AI  <recreational>  — insufflation mg: common 40-80, heavy 120
+      aka: N-methyl-2-AI|N-甲基-2-AI|NM-2AI|NM2AI|NMe-2-AI
+      #aminoindane-class  #class:Aminoindane  #class:aminoindane  #class:amphetamine
+      also: Empathogen
+  RTI-55  <recreational>
+      aka: Iometopane|RTI-4229-55|β-CIT
+      #DAT-SERT-dual  #SDRI  #SPECT-tracer  #investigational  #no-human-data  #radioligand-origin  #research-chemical
   3-Chlorophenmetrazine  <recreational>  — inhalation mg: common 25-40, heavy 60
       aka: 3-CPM|3-chloro-phenmetrazine|PAL-594|PAL594
       #NDRA  #class:Substituted phenylmorpholine
-  3-CMC  <recreational>  — insufflation mg: common 75-150, heavy 250
-      aka: 3-Chloromethcathinone|3cmc|clophedrone
-      #DA-preferring  #cathinone  #delayed-cytotoxicity  #fatalities-reported  #habit-forming  #neurotoxic-evidence-preliminary  #research-chemical  #substrate-releaser  #tentative
-  3-FA  <recreational>  — oral mg: common 15-30, heavy 60
-      aka: 3-Fluoroamphetamine|3fa|PAL-353
-      #class:amphetamine  #class:substituted amphetamines  #habit-forming  #research-chemical  #tentative
-  3-FEA  <recreational>  — insufflation mg: common 35-60, heavy 60
-      #class:amphetamine  #class:substituted amphetamines  #habit-forming  #research-chemical  #tentative
+  MDPBP  <recreational>
+      #cathinone  #no-human-data  #pure-reuptake-inhibitor  #pyrrolidinophenone  #research-chemical
+  WIN-35428  <recreational>
+      aka: CFT|β-CFT
+      #DRI  #cocaine-like-DAT  #investigational  #no-human-data  #radioligand  #radioligand-origin  #research-chemical
+  4'-Fluoro-4-methylaminorex  [4-FPO]  <recreational>  — insufflation mg: common 40-80, heavy 120
+      aka: 4'-F-4-MAR|4-FPO|4F-MAR|P-F-4-MAR
+  Diclofensine  <recreational>  — oral mg: common 40-60, heavy 60
+      aka: ro8-4650
+      #habit-forming  #research-chemical  #tentative
+  4-EMC  <recreational>  — insufflation mg: common 40-80, heavy 120
+      aka: 4-Ethylmethcathinone|4Et-MC
+      #cathinone  #habit-forming  #no-human-data  #research-chemical  #substrate-releaser-predicted
+  Brasofensine  <recreational>
+      aka: BMS-204756|NS-2214
+      #SNDRI  #discontinued  #investigational  #research-chemical
+  EDMC  <recreational>  — insufflation mg: common 60-130, heavy 220
+      aka: 3,4-EDMC|4-EDMC|4-Ethylenedioxymethcathinone|ED-MC|βk-EDMA
+      #SNDRA-predicted
+  O-2172  (STUB)  <recreational>
+      #DRI  #investigational  #no-human-data  #radioligand-origin  #research-chemical
+  Propylphenidate  <recreational>  — oral mg: common 25-60, heavy 100
+      aka: PPH
+      #DAT-selective  #habit-forming  #research-chemical  #tentative
+  2-FEA  [2-FEA]  <recreational>  — insufflation mg: common 30-40, heavy 60
+      aka: 2-F-ethylamphetamine|2-Fluoroethamphetamine|2-fluoroethylamphetamine|2-氟乙基苯丙胺|o-Fluoroethamphetamine|ortho-Fluoroethamphetamine
+      #class:substituted amphetamines  #research-chemical  #tentative
       also: Empathogen
-  3-Fluoroamphetamine  [3-FA]  <recreational>  — insufflation mg: common 10-20, heavy 30
-      aka: 3-FA|3F-AMP|PAL-353|m-fluoroamphetamine|meta-fluoroamphetamine
-      #DA-NE-releaser  #class:Phenethylamine (Amphetamine analogue)
-  3-Fluoromethcathinone  [3-FMC]  <recreational>  — insufflation mg: common 25-60, heavy 100
-      aka: 3-FMC|3F-MC
-      #cathinone  #class:Substituted cathinone (β-keto phenethylamine)  #habit-forming  #no-human-data  #research-chemical  #substrate-releaser
-      also: Empathogen
-  3-Fluorophenmetrazine  <recreational>  — inhalation mg: common 20-25, heavy 50
-      aka: 3-FPH|3-fpm|3FPM|3f-p|3f-phenmetrazine|3fp|PAL-593
-      #NDRA  #VMAT2-substrate  #class:Phenylmorpholine (substituted phenmetrazine)
-  3-FMA  <recreational>  — oral mg: common 15-30, heavy 60
-      aka: 3-fluoromethamphetamine|3fma
-      #class:amphetamine  #class:substituted amphetamines  #habit-forming  #research-chemical
-      also: Empathogen
-  3-FPM  <recreational>  — insufflation mg: common 20-35, heavy 50
-      aka: 3-fluorophenmetrazine|3-fph|3f-p|3f-phenmetrazine|3fp|3fpm|pal-593
-      #class:phenylmorpholine  #class:substituted amphetamines  #habit-forming  #research-chemical
+  4′-Chloro-4-methylaminorex  [4-Cl-MAR]  <recreational>  — insufflation mg: common 25-50, heavy 80
+      aka: 4-CL-MAR|4C-MAR
+  G-130  (STUB)  <recreational>
+      #research-chemical  #tentative
+  HDEP-28  <recreational>  — insufflation mg: common 15-35, heavy 60
+      aka: ethylnaphthidate
+      #habit-forming  #research-chemical  #tentative
+  Fluminorex  <recreational>  — inhalation mg: common 2-5, heavy 10
+      aka: 4-(trifluoromethyl)aminorex|4-CF3-aminorex|McN-1107
+  JNJ-7925476  <recreational>
+      #SNDRI  #investigational  #research-chemical
+  RTI-113  <recreational>
+      #DAT-selective  #DRI  #cocaine-substitution-candidate  #investigational  #long-duration  #no-human-data  #radioligand-origin  #research-chemical
+  3,4-Trimethylenepentedrone  [3,4-TMPD]  <recreational>  — insufflation mg: common 20-40, heavy 60
+      aka: 3,4-TMPD|TMPD
+      #DAT-NET-blocker-predicted
+  3F-PiHP  <recreational>  — inhalation mg: common 25-50, heavy 80
+      aka: 3-Fluoro-PiHP|3F-Alpha-PHIP|3F-PHIP|3F-alpha-PiHP|3F-Α-PiHP
+      #pyrrolidinophenone-predicted
+  Nitracaine  <recreational>  — insufflation mg: common 30-40, heavy 50
+      #habit-forming  #tentative
+  4-Fluoroethylphenidate  <recreational>  — oral mg: common 10-30, heavy 50
+      aka: 4-FEPH|4-氟哌乙酯|4F-EPH
+      #DAT-selective  #class:substituted phenidates  #habit-forming  #research-chemical  #tentative
+  EXP-561  (STUB)  <recreational>
+      #NDRI  #bicyclic-amine  #failed-clinical  #investigational  #research-chemical  #triple-reuptake-inhibitor
+  SoRI-20041  <recreational>
+      #DAT-allosteric  #DRI  #atypical  #investigational  #no-human-data  #research-chemical
+  4F-PVP  <recreational>  — insufflation mg: common 10-20, heavy 25
+      aka: 4-fluoro-Α-PVP|4f-A-PVP|pfpvp
+      #DRI  #habit-forming  #pure-DAT-NET-blocker  #pyrrolidinophenone  #research-chemical  #synthetic-cannabinoid  #tentative  #weaker-than-PVP
+  4F-PHP  <recreational>  — insufflation mg: common 15-30, heavy 50
+      aka: 4'-fluoro-Α-PHP|4F-alpha-PHP|4F-Α-PHP
+      #MISCATEGORIZED  #actually-synthetic-cathinone  #habit-forming  #pyrrolidinophenone  #research-chemical  #stimulant  #synthetic-cannabinoid  #tentative
+  3-CAF  <recreational>  — insufflation mg: common 5-12, heavy 20
+      aka: 3-CA|3-chloroamphetamine|MCA|m-CA|meta-chloroamphetamine
+  Dibutylone  <recreational>
+      aka: bk-DMBDB|bk-MMBDB
+      #DAT-NET-blocker  #MDMA-analog  #cathinone  #inactive  #no-human-data  #research-chemical
+      also: Other
+  Cyputylone  <recreational>  — insufflation mg: common 30-60, heavy 100
+      aka: BDCP|N-CMC|N-Cyclohexylmethylone
+      #DAT-NET-blocker-predicted
+  2-FMC  (STUB)  <recreational>
+      aka: 2-Fluoromethcathinone
+      #cathinone  #no-human-data  #research-chemical  #weak-releaser-predicted
+  LR-1111  <recreational>
+      #DAT-selective-extreme  #DRI  #investigational  #no-human-data  #research-chemical
+  2-CMC  <recreational>
+      aka: 2-Chloromethcathinone
+      #cathinone  #less-toxic-than-4CMC  #neurotoxic-evidence-preliminary  #no-human-data  #research-chemical  #weak-substrate-releaser
+  2-Me-PiHP  <recreational>
+      aka: 2-Me-Α-PiHP
+      #autopsy-cases  #cathinone  #high-abuse-potential  #no-human-data  #pyrovalerone  #research-chemical
+  2-Methylethcathinone  [2-MEC]  <recreational>  — insufflation mg: common 50-100, heavy 250
+      aka: 2-MEC|ortho-methylethcathinone
+      #habit-forming  #research-chemical  #tentative  #weak-predicted
+  2-MPPP  <recreational>  — insufflation mg: common 30-60, heavy 110
+      aka: n-piperidinecathinone|piperidinyl ketone
+      #DAT-blocker-predicted  #habit-forming  #research-chemical  #tentative
+  2-PTA  <recreational>  — oral mg: common 20-40, heavy 80
+      aka: 2-(p-tolyl)acetamide|4-methyl-2-PA
+      #habit-forming  #research-chemical  #tentative
+  3,4-CFPP  <recreational>  — insufflation mg: common 15-40, heavy 70
+      aka: CFPP|Kleferein
+  3,4-Dimethoxy-A-PHP  <recreational>  — inhalation mg: common 10-20, heavy 30
+      aka: 3,4-DMPV”|3,4-DiMeO-Α-PHP|DMO-PHP
+      #pyrrolidinophenone-predicted
+  3,6-DMPM  (STUB)  <recreational>
+      #research-chemical  #tentative
+  3-CEC  <recreational>  — insufflation mg: common 30-60, heavy 100
+      aka: 3-CL-ethcathinone|3-Chloroethcathinone|3-chloro-NEC
+      #hybrid-DAT-preferring-predicted
   3-MEC  <recreational>  — insufflation mg: common 50-100, heavy 150
+      aka: 3-MeEC
       #cathinone  #habit-forming  #hybrid-DAT-preferring-predicted  #no-human-data  #research-chemical  #tentative
-  3-Methyl-4-fluoro-Α-pyrrolidinovalerophenone  [MFPVP]  <recreational>  — inhalation mg: common 10-15, heavy 20
-      aka: 3-Me-4-F-α-PVP|4F-3Me-PVP|4F-3Me-α-PVP|MF-PVP|MFPVP
-      #class:Substituted cathinone; pyrrolidinophenone  #fatalities-reported  #pure-DAT-NET-blocker
+  3-Methyl-4-fluoro-A-pyrrolidinovalerophenone  [MFPVP]  <recreational>  — inhalation mg: common 10-15, heavy 20
+      aka: 3-Me-4-F-Α-PVP|4F-3Me-PVP|4F-3Me-Α-PVP|MF-PVP|MFPVP
+      #fatalities-reported  #pure-DAT-NET-blocker
   3-Methylaminorex  <recreational>  — inhalation mg: common 5-10, heavy 20
       aka: 3-MAR
-      #class:Aminorex (oxazolidin-imine) derivative
-  3-MMC  <recreational>  — insufflation mg: common 50-100, heavy 250
-      aka: 3-Methylmethcathinone|3-meph|3-mephedrone|3methylmethcathinone|3mmc|Metaphedrone
-      #CYP2D6-substrate  #DAT-preferring  #cathinone  #class:cathinone  #empathogen-adjacent  #first-in-human-published  #habit-forming  #research-chemical  #stimulant  #substrate-releaser
-      also: Empathogen
-  3-PIP-OH-BTCP  (STUB)  <recreational>
+  3-PIP-OH-BTCP  <recreational>
       #DAT-inhibitor  #DRI  #arylcyclohexylamine  #metabolite  #no-human-data  #research-chemical
-  3F-PiHP  <recreational>  — inhalation mg: common 25-50, heavy 80
-      aka: 3-fluoro-PiHP|3F-PHIP|3F-alpha-PiHP|3F-α-PiHP
-      #class:Pyrrolidinophenone cathinone (β‑keto phenethylamine)  #pyrrolidinophenone-predicted
-  4,4'-Dimethylaminorex  <recreational>  — insufflation mg: common 5-10, heavy 20
-      aka: 4,4'-DMAR|4,4′-DMAR|4-M-4-MAR|4-methyl-U4Euh|4-methyl-euphoria|Serotoni
-      #balanced-SNDRA  #class:Aminorex (2-amino-5-phenyl-2-oxazoline) derivative; synthetic substituted oxazoline  #fatal-overdose-risk
-  4-Benzylpiperidine  [4-BP]  <recreational>  — oral mg: common 125-200, heavy 350
-      aka: 4-BP|4-pmpd
-      #DRI  #habit-forming  #no-human-data  #research-chemical  #tentative
   4-CEC  <recreational>  — oral mg: common 50-100, heavy 200
       aka: 4-Chloroethcathinone|p-chloro-ethcathinone|para-chloro-ethcathinone
-      #SERT-selective  #class:Substituted cathinone  #hybrid-DAT-blocker-SERT-substrate  #para-chloro-neurotoxicity-flag
-  4-Chloroamphetamine  [4-CA]  <recreational>  — oral mg: common 8-20, heavy 40
-      aka: 4-CA|PCA|p-Chloroamphetamine|para-Chloroamphetamine
-      #MAO-A-inhibitor  #class:Substituted amphetamine (phenethylamine)  #serotonergic-neurotoxin
-  4-Chloromethamphetamine  [4-CMA]  <recreational>  — oral mg: common 15-30, heavy 45
-      aka: 4-CMA|CMA|PCMA|Ro 4-6861|p-Chloromethamphetamine|para-Chloromethamphetamine
-      #class:Substituted amphetamine (phenethylamine)  #serotonergic-neurotoxin
-  4-Chloromethcathinone  [4-CMC]  (STUB)  <recreational>
-      aka: 4-CMC|clephedrone
-      #DRI  #cathinone  #no-human-data  #phenethylamine
+      #SERT-selective  #cathinone  #hybrid-DAT-blocker-SERT-substrate  #para-chloro-neurotoxicity-flag
+  4-Chlorobuphedrone  <recreational>  — insufflation mg: common 50-80, heavy 100
+      aka: 4-CBC|4-chloro-buphedrone|4-chloro-butyrophenone cathinone|para-Chloro-buphedrone
+      #habit-forming  #hybrid-DAT-blocker-SERT-substrate-predicted  #para-chloro-neurotoxicity-flag  #research-chemical
+      also: Empathogen
   4-CL-PPP  <recreational>  — insufflation mg: common 10-25, heavy 40
-      aka: 4-Cl-α-PPP|4-chloro-PPP|p-chloro-α-PPP
-      #class:Substituted cathinone (pyrrolidinophenone)
-  4-CMC  <recreational>  — insufflation mg: common 75-150, heavy 250
-      aka: 4-Chloromethcathinone|4-Cl-MC|4cmc|Clephedrone|p-Chloromethcathinone
-      #SNDRA  #cathinone  #class:Cathinone (substituted cathinone, beta-keto amphetamine)  #fatalities-reported  #habit-forming  #neurotoxic-evidence-preliminary  #oxidative-stress-toxicity  #para-chloro-neurotoxicity-flag  #research-chemical  #substrate-releaser
-      also: Empathogen
-  4-EMC  <recreational>  — insufflation mg: common 40-80, heavy 120
-      aka: 4-Ethylmethcathinone|4Et‑MC|4‑Ethylmethcathinone|4′‑Ethyl‑2‑(methylamino)propiophenone
-      #cathinone  #class:Substituted cathinone (β‑keto phenethylamine)  #habit-forming  #no-human-data  #research-chemical  #substrate-releaser-predicted
-      also: Empathogen
+      aka: 4-CL-Α-PPP|4-chloro-PPP|p-chloro-α-PPP
+  4-EEC  <recreational>  — insufflation mg: common 60-120, heavy 200
+      aka: 4-Ethyl-ethcathinone|4-Ethylethcathinone|p-ethyl ethcathinone|para-ethyl ethcathinone
+      #hybrid-predicted
   4-EPD  <recreational>  — insufflation mg: common 20-30, heavy 50
       aka: 4-ethylpentedrone
       #DAT-preferring-predicted  #habit-forming  #tentative
-  4-FEA  <recreational>  — oral mg: common 50-75, heavy 150
-      aka: 4-fluoroethylamphetamine
+  4-Fluoro-A-pyrrolidinopropiophenone  <recreational>  — insufflation mg: common 15-30, heavy 45
+      aka: 4-FPPP|4F-PPP|pFPPP
+  4-Fluoroethamphetamine  [4-FEA]  <recreational>  — insufflation mg: common 60-120, heavy 180
+      aka: 4-FEA|4-FNEA|4-fluoroethylamphetamine|p-FEA|para-fluoroethamphetamine
       #research-chemical  #tentative
-  4-Fluoro-1-pyrazin-2-ylazepane  (STUB)  <recreational>
-      #investigational  #no-human-data  #research-chemical  #stimulant
-  4-Fluoro-alpha-PHP  <recreational>  — insufflation mg: common 8-20, heavy 30
-      aka: 4F-PHP|4F-α-PHP|4′-fluoro-α-PHP
-      #class:Cathinone (substituted cathinone; pyrrolidinophenone)  #pyrrolidinophenone
-  4-Fluoro-Α-pyrrolidinopropiophenone  <recreational>  — insufflation mg: common 15-30, heavy 45
-      aka: 4F-PPP|4‑FPPP|pFPPP|para‑fluoro‑α‑PPP
-      #class:Pyrrolidinophenone cathinone (β‑keto phenethylamine)
-  4-Fluoroethylphenidate  <recreational>  — oral mg: common 10-30, heavy 50
-      aka: 4-feph|4f-eph
-      #DAT-selective  #habit-forming  #research-chemical  #tentative
-  4-Fluoromethylphenidate  <recreational>  — oral mg: common 10-15, heavy 20
-      aka: 4-fl-mph|4-fluoro-mph|4-fmph|4f-mph|4fmph
-      #habit-forming  #research-chemical  #tentative
   4-Fluoropentedrone  <recreational>  — insufflation mg: common 25-60, heavy 90
-      aka: 4-f-pentedrone|4-fpd|4F-PD|4f-pentedrone
-      #DAT-NET-blocker-predicted  #class:Substituted cathinone (β-keto phenethylamine)  #habit-forming  #research-chemical  #tentative
-      also: Empathogen
+      aka: 4-F-pentedrone|4-FPD|4F-PD|4f-pentedrone
+      #DAT-NET-blocker-predicted  #habit-forming  #research-chemical  #tentative
   4-Me-NEB  <recreational>  — insufflation mg: common 20-50, heavy 80
       aka: 4-methyl NEB
-      #class:Substituted cathinone (β-ketone phenethylamine)  #hybrid-predicted
-  4-MEC  <recreational>  — insufflation mg: common 100-200, heavy 400
-      aka: 4-MeEC|4-Methylethcathinone|4mec
-      #cathinone  #class:Substituted cathinone  #fatalities-reported  #habit-forming  #hybrid-DAT-blocker-SERT-substrate  #research-chemical
-      also: Empathogen
-  4-Methylaminorex  <recreational>  — inhalation mg: common 10-20, heavy 25
-      aka: 4-MAR|4-MAX|Euphoria|McN-822|McN822|U4Euh|ice
-      #class:Aminorex (oxazoline) derivative  #habit-forming  #long-duration  #potent-DA-releaser  #research-chemical  #tentative
-  4-Methylmethylphenidate  <recreational>  — insufflation mg: common 20-45, heavy 70
-      aka: 4'-Methylmethylphenidate|4-me-tmp|4-metmp|4-mmph|4M-TMP|Threo-4-methylmethylphenidate|p-Methyl methylphenidate
-      #class:Phenidate (piperidine-based stimulant)  #habit-forming  #research-chemical  #tentative
-  4-Methylphenmetrazine  <recreational>  — insufflation mg: common 20-60, heavy 90
-      aka: 4-MPM|4-Me-phenmetrazine|p-Methylphenmetrazine|para-methylphenmetrazine
-      #class:Substituted phenylmorpholine  #entactogen-like  #non-selective-releaser
-  4-Methylthioamphetamine  [MTA]  <recreational>  — oral mg: common 20-30, heavy 40
-      aka: 4-(methylthio)amphetamine|Flatliners|MTA|p-methylthioamphetamine|para-methylthioamphetamine
-      #MAO-A-inhibitor  #SERT-dominant  #class:Phenethylamine (amphetamine derivative; thioamphetamine)  #serotonergic-toxin
-  4-MPD  <recreational>  — inhalation mg: common 15-35, heavy 60
-      aka: 4-methylpentedrone|p-methyl pentedrone|para-methyl pentedrone
-      #class:Substituted cathinone (β-keto phenethylamine)  #habit-forming  #tentative
-      also: Empathogen
+      #hybrid-predicted
   4B-MAR  <recreational>  — inhalation mg: common 5-15, heavy 30
-      aka: 4-Bromo Aminorex|4B‑MAR|4‑bromo‑4‑methylaminorex|4′‑Br‑4‑MAR|para‑bromo‑4‑methylaminorex|p‑bromo‑4‑methylaminorex
-      #class:Substituted aminorex (2‑amino‑5‑aryloxazoline) stimulant
-  4F-EPH  <recreational>  — oral mg: common 10-15, heavy 30
-      aka: 4-FEPH
-      #class:substituted phenidates
+      aka: 4'-BR-4-MAR|4-Bromo Aminorex
   4F-MABP  <recreational>  — insufflation mg: common 30-70, heavy 120
-      aka: 4-fluorobuphedrone|4F-buphedrone|4F‑MABP|4F‑buphedrone
-      #DAT-NET-blocker-predicted  #class:substituted cathinone
-  4F-MPH  <recreational>  — insufflation mg: common 8-14, heavy 20
-      aka: 4-FMPH|4-Fluoromethylphenidate|4F Ritalin|4‑FMPH|4‑Fluoro‑methylphenidate|erythro‑4F‑MPH|pF‑MPH|para-fluoromethylphenidate|para‑fluoromethylphenidate|threo-4F-MPH|threo‑4F‑MPH
-      #DAT-selective  #class:Phenidate; piperidine (substituted phenidate)  #class:substituted phenidates  #high-potency
-  4F-PHP  <recreational>  — insufflation mg: common 15-30, heavy 50
-      aka: 4F-alpha-PHP|4F-α-PHP
-      #MISCLASSIFICATION  #actually-synthetic-cathinone  #habit-forming  #pyrrolidinophenone  #research-chemical  #stimulant  #synthetic-cannabinoid  #tentative
-  4F-PVP  <recreational>  — insufflation mg: common 10-20, heavy 25
-      aka: 4-fluoro-α-PVP|4f-a-pvp|pfpvp
-      #DRI  #habit-forming  #pure-DAT-NET-blocker  #pyrrolidinophenone  #research-chemical  #synthetic-cannabinoid  #tentative  #weaker-than-PVP
-  4′-Chloro-4-methylaminorex  [4-Cl-MAR]  <recreational>  — insufflation mg: common 25-50, heavy 80
-      aka: 4-Cl-MAR|4-Cl‑MAR|4C-MAR|4C‑MAR|para‑chloro‑4‑MAR|p‑chloro‑4‑methylaminorex
-      #class:Substituted aminorex (2-amino-5-aryloxazoline)
+      aka: 4-fluorobuphedrone|4F-buphedrone
+      #DAT-NET-blocker-predicted  #cathinone
   5-BPDI  <recreational>  — insufflation mg: common 8-20, heavy 35
       aka: Indanyl-alpha-PHP|Indanyl-α-PHP
-      #class:Substituted cathinone (pyrrolidinophenone)  #habit-forming  #research-chemical  #tentative
+      #habit-forming  #research-chemical  #tentative
   5-Dbfpv  <recreational>  — inhalation mg: common 5-10, heavy 20
       aka: 3-desoxy-MDPV|5-DBF-PV
-      #class:Synthetic cathinone (α-pyrrolidinophenone subtype)  #habit-forming  #research-chemical  #tentative
-      also: Antidepressant
+      #habit-forming  #research-chemical  #tentative
   5-Methyl-bk-MDEA  <recreational>  — insufflation mg: common 60-150, heavy 300
-      aka: 5-me|5-methyl-ethylone
+      aka: 5-Me|5-methyl-ethylone
       #SNDRA-predicted  #research-chemical
   5-PPDI  <recreational>  — oral mg: common 30-50, heavy 70
       #habit-forming  #research-chemical  #tentative
-  A-PHP  <recreational>  — inhalation mg: common 5-10, heavy 20
-      aka: PV7|alpha-PHP|α-PHP
-      #class:cathinone  #class:substituted cathinones  #class:substituted pyrrolidines
-  A-pihp  <recreational>  — inhalation mg: common 10-20, heavy 30
-      aka: pihp|α-PiHP
-      #NDRI  #habit-forming  #pyrovalerone-cathinone  #research-chemical  #stimulant-not-entactogen  #tentative
-      also: Empathogen
+  A-pbp  <recreational>  — oral mg: common 25-50, heavy 50
+      aka: alpha-pbp
+      #habit-forming  #research-chemical  #tentative
   A-pvp  <recreational>  — inhalation mg: common 5-15, heavy 25
-      aka: Flak|Gravel|O-2387|Prolintanone|alpha-Pyrrolidinopentiophenone|alpha-pvp|apvp|desmethylpyrovalerone|flakka|flocka|α-Pyrrolidinopentiophenone|α-pvp|αpvp|β-ketone-prolintane
-      #DAT-NET-selective  #DRI  #TAAR1-inactive-human  #cathinone  #class:cathinone  #class:substituted cathinones  #class:substituted pyrrolidines  #fatalities-reported  #habit-forming  #high-psychosis-risk  #high-risk  #pure-reuptake-inhibitor
+      aka: Flak|Flakka|Gravel|O-2387|Prolintanone|alpha-PVP|alpha-Pyrrolidinopentiophenone|apvp|desmethylpyrovalerone|flocka|α-PVP|α-Pyrrolidinopentiophenone|α-pyrrolidinovalerophenone|αpvp|β-ketone-prolintane
+      #DAT-NET-selective  #DRI  #TAAR1-inactive-human  #cathinone  #class:substituted pyrrolidines  #fatalities-reported  #habit-forming  #high-psychosis-risk  #high-risk  #pure-reuptake-inhibitor  #pyrrolidinophenone  #research-chemical
   A-pvt  (STUB)  <recreational>
       aka: apvt
       #habit-forming  #research-chemical  #tentative
-  AHN 1-055  (STUB)  <recreational>
+  AHN 1-055  <recreational>
       #DRI  #anticholinergic  #atypical-DAT-inhibitor  #investigational  #no-human-data  #research-chemical  #slow-binding
   alpha-D2PV  <recreational>  — inhalation mg: common 10-25, heavy 35
-      aka: a-D2PV|alpha D2PV|α-D2PV
-      #class:Synthetic cathinone; pyrrolidinophenone; diarylethyl-ketone (phenylacetyl-substituted α-PVP analogue).
+      aka: A-D2PV|alpha D2PV|Α-D2PV
   alpha-PiHP  <recreational>  — inhalation mg: common 10-20, heavy 30
-      aka: A-PHiP|A-PiHP|alpha-PHiP|alpha-pyrrolidinoisohexanophenone|alpha‑pyrrolidinoisohexanophenone|α-PHiP|α-PiHP|α-Pyrrolidinoisohexaphenone|α‑pyrrolidinoisohexanophenone
-      #cathinone  #class:Cathinone (substituted cathinone, pyrrolidinophenone)  #fatalities-reported  #no-human-data  #pure-DAT-NET-blocker  #pyrrolidinophenone  #research-chemical
-  alpha-Pyrrolidinohexiophenone  <recreational>  — inhalation mg: common 8-20, heavy 30
-      aka: PV-7|PV7|a-PHP|alpha-PHP|aphp|α-PHP|α-Pyrrolidinohexiophenone|αphp
-      #DAT-NET-selective  #TAAR1-inactive-human  #cathinone  #class:Cathinone (substituted cathinone, pyrrolidine class)  #fatalities-reported  #habit-forming  #high-risk  #pure-reuptake-inhibitor  #pyrrolidinophenone  #research-chemical  #tentative
-  Amfecloral  <recreational>  — oral mg: common 25-50, heavy 75
-      aka: Acutran|Amphecloral|DB08924
-      #class:Phenethylamine; substituted amphetamine; imine (Schiff base) of amphetamine and chloral; dual prodrug yielding amphetamine + chloral hydrate
-  Amfepramone  <recreational>  — insufflation mg: common 20-40, heavy 60
-      aka: 2-(diethylamino)propiophenone|Amfepramon|Diethylcathinone|Diethylpropion|Neobes|Nobesine|Phepranon|Préfamone|Regenon|Regibon|Tenuate|Tenuate Dospan|Tepanil
-      #CYP3A4-substrate  #FDA-approved-anorectic  #Schedule-IV  #class:Aminoketone; substituted cathinone; phenethylamine  #prodrug
-  Amfonelic acid  (STUB)  <recreational>
-      aka: AA|AFA|WIN 25,978|WIN-25,978
-      #DAT-selective  #DRI  #investigational  #neuroprotective-vs-meth  #no-human-data  #research-chemical
-  Amfonelicacid  <recreational>  — oral mg: common 4-10, heavy 10
-      aka: aa|afa|win25978
-      #habit-forming  #research-chemical
-  Aminorex  <recreational>  — insufflation mg: common 8-15, heavy 25
-      aka: Menocil
-      #PPH-causing  #SERT-component  #class:2-amino-5-phenyloxazoline (oxazoline derivative; amphetamine-like anorectic)  #habit-forming  #tentative  #withdrawn
-  Arecoline  <recreational>  — buccal mg arecoline freebase: common 4-8, heavy 15
-      aka: Areca alkaloid
-      #class:Piperidine alkaloid (esterified nipecotic acid derivative)
-  Atomoxetine  <recreational>  — oral mg: common 18-40, heavy 80
-      aka: LY139603|strattera
-      #CYP2D6-substrate  #capsule  #no-abuse-liability  #non-stimulant  #selective-NRI  #snri  #tentative
-      also: Antidepressant
-  Benzphetamine  <recreational>  — oral mg: common 50-100, heavy 150
-      aka: (alphaS)-N,alpha-dimethylphenethylamine|Benzfetamina|Benzfetamine|Benzfetaminum|Didrex|benzaphetamine|benzylamphetamine
-      #Schedule-III-US  #class:Phenethylamine (substituted amphetamine)  #no-human-data  #phenethylamine  #prodrug
-      also: Other
-  Bisacodyl  (STUB)  <recreational>
-      aka: Carters Little Pills|Dulcolax|Health Sense Ducodyl|Unit Dose Bisacodyl|Womens Gentle Laxative
-      #oral extended release tablet, rectal suppository  #stimulant laxative
+      aka: A-PHiP|A-PiHP|alpha-PHiP|alpha-pyrrolidinoisohexanophenone|pihp|α-PHiP|α-PiHP|α-Pyrrolidinoisohexaphenone|α-pyrrolidinoisohexanophenone
+      #NDRI  #cathinone  #fatalities-reported  #habit-forming  #no-human-data  #pure-DAT-NET-blocker  #pyrovalerone-cathinone  #pyrrolidinophenone  #research-chemical  #stimulant-not-entactogen  #tentative
+      also: Empathogen
+  alpha-Pyrrolidinohexiophenone  <recreational>  — inhalation mg: common 5-10, heavy 20
+      aka: A-PHP|PV-7|PV7|alpha-PHP|aphp|α-PHP|α-PHiP|α-PiHP|α-Pyrrolidinohexiophenone|αphp
+      #DAT-NET-selective  #TAAR1-inactive-human  #cathinone  #class:substituted pyrrolidines  #fatalities-reported  #habit-forming  #high-risk  #pure-reuptake-inhibitor  #pyrrolidinophenone  #research-chemical  #tentative
   bk-BZP  <recreational>
       aka: 1-BZP|1-benzoylpiperazine|benzoylpiperazine|phenyl(piperazin-1-yl)methanone
       #no-human-data  #piperazine  #research-chemical
   Bk-ivp  <recreational>  — oral mg: common 100-150, heavy 200
       #research-chemical  #tentative
-  Brasofensine  (STUB)  <recreational>
-      aka: BMS-204756|NS-2214
-      #SNDRI  #discontinued  #investigational  #research-chemical
-  BTCP  (STUB)  <recreational>
-      aka: Benzothiophenylcyclohexylpiperidine|benocyclidine
-      #DAT-selective-inhibitor  #DRI  #arylcyclohexylamine  #investigational  #liver-toxicity  #no-human-data  #research-chemical  #stimulant-not-dissociative
-  Buphedrone  <recreational>  — insufflation mg: common 75-125, heavy 250
-      aka: α-Methylamino-butyrophenone
-      #NE-preferring  #cathinone  #habit-forming  #hybrid-releaser-blocker  #research-chemical
-  Butylcathinone  (STUB)  <recreational>
-      aka: Butylaminopropiophenone|N-butylcathinone
-      #DRI  #cathinone  #no-human-data  #phenethylamine  #weak-blocker-predicted
-  Butylone  <recreational>  — insufflation mg: common 100-150, heavy 250
-      aka: b1|beta‑keto‑MBDB|bk-MBDB|bk-methyl-j|β-Keto-MBDB|βk-MBDB|βk‑MBDB|β‑keto‑MBDB
-      #MDMA-analog  #cathinone  #class:Substituted cathinone (β‑keto amphetamine; phenethylamine)  #class:cathinone  #class:mdxx  #class:substituted cathinones  #habit-forming  #hybrid-DAT-blocker-SERT-substrate  #research-chemical
-      also: Empathogen
-  BZP  <recreational>  — oral mg: common 70-100, heavy 130
-      aka: 1-benzylpiperazine|A2|Benzylpiperazine|Frenzy|N-benzylpiperazine|Nemesis|party pills
-      #class:Piperazine  #habit-forming  #research-chemical
-  Carphedon  <recreational>  — oral mg: common 100-200, heavy 200
-      aka: phenotropil|phenylpiracetam
-      #research-chemical
-  CE-123  (STUB)  <recreational>
-      #DAT-selective  #DRI  #atypical-DAT-inhibitor  #investigational  #no-human-data  #research-chemical
+  Cathine  <recreational>
+      aka: Adiposetten|Exponcit|Norpseudoephedrine|d-Norpseudoephedrine|卡西宁|去甲伪麻黄碱
+      #anorectic  #khat  #natural-product  #stimulant
+  Cathinone  <recreational>  — insufflation mg: common 15-35, heavy 60
+      aka: 1-aminoethyl phenyl ketone|2-Aminopropiophenone|2-PA|Norephedrone|beta-keto-amphetamine|bk-AMP|bk-amphetamine|β-keto-amphetamine|卡西酮|阿拉伯茶碱
+      #cathinone  #habit-forming  #khat  #natural-product  #no-human-data  #phenethylamine  #research-chemical  #stimulant  #tentative
       also: Other
-  Clobenzorex  <recreational>  — insufflation mg: common 15-30, heavy 60
-      aka: Asenlix|Dinintel|Finedal|Itravil|SD-271-12
-      #class:N-substituted amphetamine (phenethylamine)
-  Clofenciclan  (STUB)  <recreational>
-      #investigational  #research-chemical  #stimulant
-  Cyclazodone  <recreational>  — oral mg: common 15-25, heavy 60
-      aka: N-cyclopropyl-pemoline|N-cyclopropylpemoline|NCP-pemoline
-      #class:4-oxazolidinone  #class:Oxazolone (related to pemoline and 4-methylaminorex)  #class:substituted aminorexes
-  D-161  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #research-chemical
-  D2pm  <recreational>  — oral mg: common 20-35, heavy 50
-      aka: diphenylprolinol
-      #habit-forming  #tentative
-  Dasotraline  (STUB)  <recreational>
-      aka: SEP-225289
-      #NDRI  #SNDRI  #investigational  #low-abuse-liability  #research-chemical  #ultra-long-halflife
-  Dehydroxyfluorafinil  <recreational>  — oral mg: common 100-150, heavy 200
-      aka: Dehydroxy-fluorafinil|modafiendz
-      #class:Diphenylmethyl-sulfinyl acetamide (modafinil analogue)  #research-chemical  #tentative
-      also: Eugeroic
-  Dextroamphetamine  <recreational>  — insufflation mg: common 7.5-12, heavy 21.5
-      aka: (AlphaS)-alpha-methylbenzeneethanamine|Attentin|Dex|Dexamfetamine|Dexedrine|Dexedrine Spansule|Dextrostat|ProCentra|S-(+)-amphetamine|Xelstrym|Zenzedi|d-amphetamine|dexamphetamine|dexies"
-      #DA-NE-releaser  #DRI  #NDRI  #TAAR1  #TAAR1-agonist  #class:Phenethylamine (subclass: amphetamine)  #class:substituted phenethylamines  #no-human-data  #phenethylamine  #stimulant  #tablet, extended release capsule, solution
   Dextroamphetamine-Amphetamine  (STUB)  <recreational>
       aka: Adderall|Adderall XR|Mydayis
-      #stimulant  #tablet, extended release capsule
-  Dibutylone  (STUB)  <recreational>
-      aka: bk-DMBDB|bk-MMBDB
-      #DAT-NET-blocker  #MDMA-analog  #cathinone  #inactive  #no-human-data  #research-chemical
-      also: Other
-  Dichloropane  <recreational>  — inhalation mg: common 7.5-20, heavy 50
-      aka: RTI-111
-      #class:substituted tropanes
-  Diclofensine  <recreational>  — oral mg: common 40-60, heavy 60
-      aka: ro8-4650
-      #habit-forming  #research-chemical  #tentative
-  Dimethocaine  <recreational>  — insufflation mg: common 15-30, heavy 50
-      aka: CMD|DMC|Larocaine
-      #habit-forming  #research-chemical  #tentative
-  DMAA  <recreational>  — oral mg: common 20-50, heavy 100
-      aka: 1,3-DMAA|1,3-dimethylamylamine|Geranamine|methylhexanamine
-      #NDRA  #banned-FDA  #habit-forming  #research-chemical  #supplement-stimulant
-  DMHA  <recreational>  — insufflation mg: common 75-100, heavy 150
-      aka: 1,5-DMHA|1,5-dimethylhexylamine|2-aminoisoheptane|Amidrine|Octodrine|SK&F-51|SKF-51|Vaporpac
-      #NDRA-aliphatic  #class:Aliphatic amine (sympathomimetic)  #supplement-stimulant
-  DMNPC  <recreational>
-      #designer-drug  #high-abuse-potential  #no-human-data  #research-chemical
-  DMPC  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #research-chemical
-  Ephedrine  <recreational>  — insufflation mg: common 20-40, heavy 60
-      aka: Efedrina|Ephedra|Ma huang|racemic ephedrine
-      #class:Phenethylamine (Ephedra alkaloid)  #class:amphetamine  #habit-forming  #indirect-sympathomimetic  #no-human-data  #phenethylamine
-      also: Other
-  ETH-CAT  <recreational>  — insufflation mg: common 35-70, heavy 100
-      aka: Ethcathinone|Ethylpropion
-      #class:cathinone
-  Ethylone  <recreational>  — oral mg: common 150-250, heavy 400
-      aka: MDEC|bk-MDEA
-      #5-HT-shifted  #MDMA-analog  #cathinone  #habit-forming  #research-chemical  #substrate-releaser
-      also: Empathogen
-  Ethylphenidate  <recreational>  — oral mg: common 40-100, heavy 150
-      aka: d-threo-ethylphenidate|eph
-      #CES1-substrate  #DAT-selective  #class:substituted phenidates  #common  #habit-forming  #research-chemical
-  Etifelmine  (STUB)  <recreational>
-      #NDRI  #discontinued
-  Eutylone  <recreational>  — insufflation mg: common 100-150, heavy 300
-      aka: ED-DB|EDB|N-Ethylbutylone|bk-EBDB|β-keto-ethylbenzodioxolylbutanamine
-      #DAT-preferring  #MDMA-analog  #cathinone  #class:Cathinone (substituted cathinone; beta-keto amphetamine)  #fatalities-mdma-substitution  #fatalities-reported  #research-chemical
-      also: Empathogen
-  Fenethylline  <recreational>  — insufflation mg: common 40-80, heavy 120
-      aka: Amfetyline|Captagon|Ethyltheophylline-amphetamine codrug|Fenetylline|Fenetyllinum|amphetaminoethyltheophylline
-      #amphetamine-theophylline-codrug  #class:Phenethylamine–Methylxanthine conjugate (amphetamine + theophylline)  #class:amphetamine  #class:substituted amphetamines  #class:xanthines  #prodrug
-  Flephedrone  <recreational>  — insufflation mg: common 75-150, heavy 250
-      aka: 4-FMC|4-Fluoromethcathinone|4fmc|CAS 7589-39-7|fpephedrone
-      #DA-selective  #cathinone  #class:Synthetic cathinone (β-keto phenethylamine)  #habit-forming  #research-chemical  #substrate-releaser
-      also: Empathogen
-  Fluminorex  <recreational>  — inhalation mg: common 2-5, heavy 10
-      aka: 4-(trifluoromethyl)aminorex|4-CF3-aminorex|McN-1107
-      #class:2-Amino-5-aryl-2-oxazoline (aminorex analogue)
-  G-130  (STUB)  <recreational>
-      #research-chemical  #tentative
-  GSK1360707F  (STUB)  <recreational>
-      #SNDRI  #investigational  #research-chemical
-  HDEP-28  <recreational>  — insufflation mg: common 15-35, heavy 60
-      aka: ethylnaphthidate
-      #habit-forming  #research-chemical  #tentative
-  HDMP-28  <recreational>  — oral mg: common 15-30, heavy 50
-      aka: methylnaphtidate
-      #habit-forming  #research-chemical  #tentative
-  Hexacyclonate  (STUB)  <recreational>
-      #discontinued  #stimulant
-  Hexedrone  <recreational>  — oral mg: common 70-100, heavy 125
-      aka: Hexen|α-Methylamino-hexanophenone
-      #DAT-NET-blocker  #cathinone  #class:cathinone  #habit-forming  #no-human-data  #research-chemical  #tentative
-  Hexen  <recreational>  — oral mg: common 25-40, heavy 50
-      aka: ethyl-hexedrone|hex-en|n-ethyl-hexedrone|n-ethylhexedrone
-      #habit-forming  #research-chemical  #tentative
-  Homomazindol  (STUB)  <recreational>
+      #stimulant
+  Ethylcathinone  <recreational>  — insufflation mg: common 35-70, heavy 100
+      aka: ETH-CAT|Ethcathinone|Ethylpropion|N-Ethylcathinone|NEC|e-cat|乙卡西酮
+      #DRI  #amfepramone-active-metabolite  #cathinone  #habit-forming  #research-chemical  #substrate-releaser
+      also: Psychedelic
+  Homomazindol  <recreational>
       #NDRI  #habit-forming  #research-chemical  #tentative
-  Indanorex  (STUB)  <recreational>
-      aka: Dietor
-      #NDRI  #anorectic  #discontinued
   Indapyrophenidone  <recreational>  — inhalation mg: common 10-25, heavy 50
       #habit-forming  #research-chemical  #stimulant  #tentative
-  Indatraline  (STUB)  <recreational>
-      aka: Lu-19-005
-      #SNDRI  #investigational  #long-duration  #research-chemical  #slow-onset
-  Indriline  (STUB)  <recreational>
-      #no-human-data  #research-chemical  #stimulant
   Isophenmetrazine  <recreational>  — insufflation mg: common 5-15, heavy 40
       #habit-forming  #research-chemical  #tentative
-  Isopropylphenidate  <recreational>  — insufflation mg: common 10-20, heavy 35
-      aka: iph|ipp|ippd|ipph|isopropyl phenidate
-      #DAT-selective  #class:Piperidine (phenidate analogue)  #class:substituted phenidates  #habit-forming  #long-duration  #research-chemical  #tentative
-      also: Antidepressant
-  JHW-007  (STUB)  <recreational>
+  JHW-007  <recreational>
       aka: N-butyl-AHN-1055
       #DRI  #atypical-DAT-inhibitor  #cocaine-antagonist  #investigational  #no-human-data  #research-chemical  #sigma-antagonist
-  JJC8-088  (STUB)  <recreational>
-      #DRI  #cocaine-like-DAT  #hERG-liability  #hERG-strong  #investigational  #no-human-data  #outward-open-DAT  #research-chemical
-  Khat  (STUB)  <recreational>
+  Khat  <recreational>
+      aka: Abyssinian Tea|Arabian Tea|Bushman's Tea|Chat|Gat|Jaad|Kat|Miraa|Qaad|Qat
       #habit-forming
-  L-methamphetamine  (STUB)  <recreational>
-      aka: L-metamphetamine|Levmetamfetamine|Levomethamphetamine|R-methamphetamine|l-desoxyephedrine
-      #DRI  #NDRI  #NE-selective  #TAAR1  #no-human-data  #peripheral-sympathomimetic  #phenethylamine
-  Lomevactone  (STUB)  <recreational>
-      #no-human-data  #research-chemical  #stimulant
-  LR-1111  (STUB)  <recreational>
-      #DAT-selective-extreme  #DRI  #investigational  #no-human-data  #research-chemical
-  LR-5182  (STUB)  <recreational>
-      #DRI  #NDRI  #investigational  #no-human-data  #research-chemical  #stereoisomer-divergent
-  Mazindol  <recreational>  — oral mg: common 1.5-2, heavy 4
-      aka: 42-548|AN-448|Mazanor|Sanorex|Teronac
-      #NDRI  #OX2R-agonist  #US-Schedule-IV  #anorectic  #class:Tricyclic, piperidine derivative  #prescription-only
-  MBZP  <recreational>  — oral mg: common 80-120, heavy 160
-      aka: methylbenylpiperazine
-      #habit-forming  #research-chemical  #tentative
   mCPP  <recreational>  — oral mg: common 50-120, heavy 150
+      aka: 间氯苯哌嗪
       #class:substituted piperazines  #research-chemical  #tentative
-  MD-PHP  <recreational>  — inhalation mg: common 10-25, heavy 40
-      aka: 3,4-MDPHP|MDPH|MDPHP|methylenedioxypyrolidinohexiophenone|monkey dust|zombie dust
-      #NDRI  #class:Synthetic cathinone (pyrrolidinophenone series)  #pyrovalerone-cathinone  #stimulant-not-entactogen
   MD-PiHP  <recreational>  — inhalation mg: common 5-20, heavy 40
       aka: 3,4-MD-PiHP|MDPiHP
-      #NDRI  #class:Synthetic cathinone (pyrrolidinophenone)  #pyrovalerone-cathinone  #stimulant-not-entactogen
-      also: Antidepressant
-  MDPBP  (STUB)  <recreational>
-      #cathinone  #no-human-data  #pure-reuptake-inhibitor  #pyrrolidinophenone  #research-chemical
-  MDPHP  <recreational>  — insufflation mg: common 10-20, heavy 20
-      aka: monkey-dust
-      #habit-forming  #research-chemical  #tentative
-  MDPPP  (STUB)  <recreational>
-      #cathinone  #low-potency-MDPV-analog  #no-human-data  #pyrrolidinophenone  #research-chemical
-  Meprylcaine  <recreational>
-      aka: Epirocaine|Oracaine
-      #aminoester  #historical  #local-anesthetic  #stimulant
-  Methcathinone  <recreational>  — insufflation mg: common 40-80, heavy 150
-      aka: AL-422|AL-463|AL-464|Bathtub Speed|Cadillac Express|Cat|Cosmos|Ephedrone|Gagers|Gaggers|Goog|Jeff|MC|Methcat|Mulka|N-methylcathinone|Speed|The C|UR-1431 (UR(W)1431)|Wild Cat|Wonder Star|monomethylpropion|α-methylamino-propiophenone|α-methylaminopropiophenone
-      #DA-NE-selective  #DRI  #US-Schedule-I  #cathinone  #class:Cathinone (β‑keto amphetamine)  #class:cathinone  #class:substituted cathinones  #manganese-toxicity-synthesis-contaminant  #no-human-data  #phenethylamine  #substrate-releaser
-      also: Empathogen
-  Methedrone  (STUB)  <recreational>
-      aka: 4-methoxymethcathinone|PMMC|bk-pmma
-      #SERT-preferring-cathinone  #fatal-toxicity  #habit-forming  #research-chemical
-  Methiopropamine  <recreational>  — insufflation mg: common 20-40, heavy 60
-      aka: MPA
-      #class:thiophene
+      #NDRI  #pyrovalerone-cathinone  #stimulant-not-entactogen
+  MDNMP  <recreational>  — oral mg: common 20-40, heavy 80
+      aka: 3,4-亚甲二氧基戊酮
+  Methylamino  <recreational>  — oral mg: common 60-120, heavy 180
+      aka: 伪麻黄碱|麻黄碱
   Methylmorphenate  (STUB)  <recreational>
       #habit-forming  #research-chemical  #tentative
-  Methylnaphthidate  <recreational>  — insufflation mg: common 8-14, heavy 28
-      aka: HDMP-28
-      #class:substituted phenidates
-  Methylone  <recreational>  — insufflation mg: common 75-150, heavy 250
-      aka: 3,4-Methylenedioxymethcathinone|Ease|Explosion|M1|MDMC|MDMCAT|beta-keto-MDMA|bk-MDMA|βk-MDMA
-      #MDMA-analog  #cathinone  #class:Substituted cathinone; beta-keto phenethylamine; methylenedioxy-substituted cathinone and beta-keto analogue of MDMA  #class:cathinone  #common  #empathogen-adjacent  #habit-forming  #linear-PK  #research-chemical  #substrate-releaser
-      also: Empathogen
-  Methylphenidate-transdermal  (STUB)  <recreational>
-      aka: Daytrana
-      #patch  #stimulant
   Mexedrone  <recreational>  — insufflation mg: common 80-120, heavy 200
-      aka: 4-MMC-MeO|4-methylmethcathinone β-methoxy|4-mmeoc
-      #cathinone  #class:cathinone  #habit-forming  #research-chemical  #tentative  #weak-SSRA
+      aka: 4-MMC-MeO|4-MMeOC|4-methylmethcathinone β-methoxy
+      #cathinone  #habit-forming  #research-chemical  #tentative  #weak-SSRA
       also: Empathogen
-  MPA  <recreational>  — oral mg: common 20-40, heavy 60
-      aka: methiopropamine
-      #habit-forming  #research-chemical
-  MPPP  (STUB)  <recreational>
-      aka: 4-MePPP
-      #cathinone  #no-human-data  #pure-DAT-blocker  #pyrrolidinophenone  #research-chemical
-  N,N-Dimethyl-3,3-diphenylcyclobutanamine  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #research-chemical
-  N-Ethylcathinone  [NEC]  <recreational>  — insufflation mg: common 35-70, heavy 100
-      aka: Ethcathinone|Ethylcathinone|NEC|e-cat|eth-cat
-      #DRI  #amfepramone-active-metabolite  #cathinone  #habit-forming  #no-human-data  #research-chemical  #substrate-releaser
-      also: Psychedelic
-  N-Ethylhexedrone  <recreational>  — inhalation mg: common 5-10, heavy 20
-      aka: Ethyl-Hexedrone|Hex-en|Hexen|NEH
-      #class:cathinone
-  N-Ethylpentedrone  <recreational>  — inhalation mg: common 15-30, heavy 50
-      aka: Ethyl-Pentedrone|N-ethyl-norpentedrone|N-ethylnorpentedrone|NEP|NEPD|alpha-ethylaminopentiophenone|α-EAPP|α-ethylaminopentiophenone|α‑EAPP
-      #DAT-selective  #class:Synthetic cathinone (β‑keto amphetamine)  #class:cathinone  #pure-DAT-NET-blocker  #research-chemical  #tentative
-      also: Empathogen
-  N-Ethylpentylone  <recreational>  — insufflation mg: common 25-50, heavy 100
-      aka: Ephylone|N-Ethylnorpentylone|bk-EBDP|βk-Ethyl-K
-      #MDMA-analog  #cathinone  #fatalities-mdma-substitution  #fatalities-reported  #high-risk  #pure-reuptake-inhibitor  #research-chemical  #triple-blocker
-  N-Methylbisfluoromodafinil  <recreational>  — oral mg: common 100-150, heavy 200
-      aka: Dehydroxyfluorafinil|Modafiendz
-      #class:benzhydryl
-  Naphyrone  <recreational>  — insufflation mg: common 20-50, heavy 100
-      aka: Energy-1|NRG-1|Naphthylpyrovalerone|O-2482|α‑naphyrone|β‑naphyrone
-      #cathinone  #class:Pyrrolidinophenone cathinone (pyrovalerone analogue)  #habit-forming  #pure-reuptake-inhibitor  #pyrrolidinophenone  #research-chemical  #triple-reuptake-inhibitor
+  N-Methyl-Cyclazodone  <recreational>  — oral mg: common 10-15, heavy 30
+      aka: Cyclazodone N-methyl analogue|N-methyl-cyclaz|N-methyl-cyclazadone|N-methylcyclazodone|NMC|NMCY
+      #DAT-NET-inhibitor  #stimulant
   Neb  <recreational>  — insufflation mg: common 15-30, heavy 45
       aka: n-ethylbuphedrone|α-ethylaminobutyrophenone
       #DA-NE-blocker-predicted  #habit-forming  #research-chemical
-  Nitracaine  <recreational>  — insufflation mg: common 30-40, heavy 50
-      #habit-forming  #tentative
-  NM-2-AI  <recreational>  — insufflation mg: common 40-80, heavy 120
-      aka: N-methyl-2-AI|NM-2AI|NM2AI|NMe-2-AI
-      #aminoindane-class  #class:Aminoindane  #class:aminoindane  #class:amphetamine
-      also: Empathogen
-  O-2172  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #radioligand-origin  #research-chemical
-  Pemoline  <recreational>  — oral mg: common 20-40, heavy 80
-      aka: Betanamin|Ceractiv|Cylert|Magnesium pemoline|PemADD|Pemoline magnesium|Phenoxazole|Phenylisohydantoin|Tradon
-      #DA-selective  #class:Oxazoline derivative (specifically, a 2-oxazolinone)  #habit-forming  #hepatotoxic  #withdrawn-US-2005
-  Pentedrone  <recreational>  — insufflation mg: common 75-125, heavy 200
-      aka: Drone|α-Methylamino-valerophenone
-      #DAT-NET-blocker  #DAT-selective  #cathinone  #class:cathinone  #habit-forming  #research-chemical
-  Pentylone  <recreational>  — insufflation mg: common 50-100, heavy 200
-      aka: 4-meppp|bk-mbdp|bk-methyl-k|β-Keto-methylbenzodioxolylpentanamine
-      #DAT-preferring  #MDMA-analog  #cathinone  #fatalities-reported  #habit-forming  #hybrid-DAT-blocker-SERT-partial-substrate  #research-chemical
-      also: Psychedelic
-  Pfbt  <recreational>  — insufflation mg: common 50-70, heavy 110
-      aka: 4-fluorotropacocaine
-      #habit-forming  #local-anaesthetic  #research-chemical  #tentative  #weak-DAT
-  Phendimetrazine  <recreational>  — oral mg: common 35-70, heavy 105
-      aka: Adipost|Bontril|Fendique ER|Melfiat|Statobex
-      #anorectic  #class:Phenylmorpholine (related to amphetamines)  #prodrug
   Phenetrazine  <recreational>  — insufflation mg: common 20-35, heavy 50
       #habit-forming  #tentative
-  Phenmetrazine  <recreational>  — oral mg: common 25-50, heavy 50
-      aka: preludin
-      #NDRA  #VMAT2-substrate  #habit-forming
-  Phentermine  <recreational>  — oral mg: common 20-40, heavy 70
-      aka: Adipex-P|Ionamin|α,α-dimethylphenethylamine|α-methylamphetamine
-      #FDA-approved-anorectic  #NE-selective  #no-5-HT2B-activity  #tentative
-  Phentermine+Fenfluramine  <recreational>  — oral mg (P/F): common 15-30, heavy 45
-      aka: Adipex-P + Pondimin|Fen-Phen|Phen/Fen|Pondimin + phentermine|Redux (dexfenfluramine) + phentermine|phen-fen|phentermine + (dex)fenfluramine|phentermine + fenfluramine|phentermine/fenfluramine
-      #PPH  #class:Substituted amphetamine & substituted amphetamine analogue (phenethylamine derivatives)  #valvulopathy  #withdrawn-1997
-  Phenylbutenamine  (STUB)  <recreational>
-      #NDRI  #investigational  #no-human-data  #research-chemical
-  Phenylbutynamine  (STUB)  <recreational>
-      #NDRI  #investigational  #no-human-data  #research-chemical
-  Phenylpropylaminopentane  [PPAP]  <recreational>  — insufflation mg: common 5-15, heavy 30
-      aka: DPPEA|MK-306|PPAP|α,N-dipropylphenethylamine
-      #class:Substituted phenethylamine / amphetamine analogue
-  PR-000608  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #research-chemical
-  Prolintane  <recreational>  — insufflation mg: common 20-35, heavy 60
-      aka: 1-(α-propylphenethyl)pyrrolidine|ATC N06BX14|Katovit|catovit|promotil|villescon|βk‑Prolintane analog class relates to α‑PVP
-      #class:Phenylalkylpyrrolidine (phenethylamine-derived N-alkylpyrrolidine) stimulant  #class:amphetamine  #class:substituted amphetamines  #class:substituted pyrrolidines  #habit-forming  #research-chemical  #tentative
-      also: Antidepressant
-  Propylhexedrine  <recreational>  — insufflation mg: common 30-75, heavy 100
-      aka: Hexahydromethamphetamine|benzedrex|hexahdromethamphetamine|propylhexadrine
-      #OTC-decongestant  #class:cycloalkylamines  #common  #cyclohexyl-amphetamine  #habit-forming
-  Propylphenidate  <recreational>  — oral mg: common 25-60, heavy 100
-      aka: pph
-      #DAT-selective  #habit-forming  #research-chemical  #tentative
-  PRX-14040  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #research-chemical
-  Pseudoephedrine  <recreational>  — oral mg: common 60-90, heavy 120
-      aka: Sudafed
-      #OTC-decongestant  #alpha/beta-adrenergic agonist  #common  #decongestant  #tablet, extended release tablet, syrup, liquid
   PV-8  <recreational>  — oral mg: common 20-40, heavy 60
       aka: a-phpp
       #habit-forming  #research-chemical  #tentative
   Pyrophenidone  <recreational>  — inhalation mg: common 10-25, heavy 50
       #habit-forming  #research-chemical  #stimulant  #tentative
-  Pyrovalerone  <recreational>  — insufflation mg: common 15-40, heavy 80
-      aka: O-2371|beta-keto-prolintane
-      #class:Pyrrolidinophenone cathinone
-  RTI-111  <recreational>  — insufflation mg: common 10-20, heavy 40
-      aka: dichloropane
-      #habit-forming  #research-chemical  #tentative
-  RTI-113  (STUB)  <recreational>
-      #DAT-selective  #DRI  #cocaine-substitution-candidate  #investigational  #long-duration  #no-human-data  #radioligand-origin  #research-chemical
-  RTI-133  (STUB)  <recreational>
-      #DAT-selective  #DRI  #investigational  #no-human-data  #radioligand-origin  #research-chemical
-  RTI-150  (STUB)  <recreational>
-      #DRI  #cocaine-like-DAT  #high-DAT-affinity  #investigational  #no-human-data  #radioligand-origin  #research-chemical
-  RTI-55  (STUB)  <recreational>
-      aka: Iometopane|RTI-4229-55|β-CIT
-      #DAT-SERT-dual  #SDRI  #SPECT-tracer  #investigational  #no-human-data  #radioligand-origin  #research-chemical
   Senna  (STUB)  <recreational>
       aka: Ex-Lax|Senokot
-      #stimulant laxative  #tablet, chewable tablet, liquid, syrup
+      #stimulant laxative
   Senna-Docusate  (STUB)  <recreational>
       aka: Senna Plus|Senokot-S
-      #stimulant laxative  #stool softener  #tablet
-  SEP-225289  (STUB)  <recreational>
-      aka: Dasotraline
-      #NDRI  #investigational  #research-chemical
-  Setazindol  (STUB)  <recreational>
-      #NDRI  #investigational  #no-human-data  #research-chemical
-  Sibutramine  <recreational>  — oral mg: common 10-15, heavy 20
-      aka: Butramin|Medaria|Meridia|Reductil|Sibutramine hydrochloride monohydrate
-      #class:Phenethylamine (structurally related to amphetamines)
-  SoRI-20041  (STUB)  <recreational>
-      #DAT-allosteric  #DRI  #atypical  #investigational  #no-human-data  #research-chemical
-  Tametraline  (STUB)  <recreational>
-      aka: CP-24,441
-      #NDRI  #historical  #investigational  #research-chemical
+      #stimulant laxative  #stool softener
   Th-pvp  <recreational>  — inhalation mg: common 15-25, heavy 35
       aka: tetrahydronaphthyl-PVP
       #DRI  #habit-forming  #pyrrolidinophenone  #pyrrolidinophenone-predicted  #research-chemical  #tentative
-  Theacrine  <recreational>  — insufflation mg: common 25-100, heavy 100
-      aka: Temorine|Temurin
-      #class:purine alkaloid  #class:xanthines
-  Thiopropamine  <recreational>  — oral mg: common 50-100, heavy 125
-      aka: normethiopropamine|tpa
-      #habit-forming  #research-chemical
-  Thozalinone  <recreational>  — oral mg: common 30-50, heavy 50
-      aka: CL-39808|Stimsen
-      #discontinued  #historical  #research-chemical  #stimulant
-  Tropacocaine  <recreational>
-      aka: benzoylpseudotropine|descarbomethoxycocaine|pseudotropine benzoate
-      #cocaine-adulterant  #local-anesthetic  #research-chemical  #tropane-alkaloid
-  Troparil  <recreational>  — oral mg: common 20-30, heavy 60
-      #habit-forming  #research-chemical  #tentative
-  Tropoxane  (STUB)  <recreational>
-      #DRI  #investigational  #no-human-data  #radioligand-origin  #research-chemical
-  Tyrosine  <recreational>  — oral mg: common 1000-2000, heavy 3000
-      aka: 4-Hydroxyphenylalanine
-      #class:amino acid  #class:substituted phenethylamines
-  Viloxazine  <recreational>  — oral mg: common 75-150, heavy 150
-      aka: Catatrol|Qelbree|Vivalan
-      #5-HT2C-partial-agonist  #CYP1A2-inhibitor-strong  #NRI  #tentative
-  WIN-35428  (STUB)  <recreational>
-      aka: CFT|β-CFT
-      #DRI  #cocaine-like-DAT  #investigational  #no-human-data  #radioligand  #radioligand-origin  #research-chemical
   Yerba-mate  <recreational>  — oral mg: common 1000-1500, heavy 1500
-      #common  #habit-forming
-  Α-pbp  <recreational>  — oral mg: common 25-50, heavy 50
-      aka: a-pbp|alpha-pbp
-      #habit-forming  #research-chemical  #tentative
+      #habit-forming
   α-PCYP  <recreational>  — insufflation mg: common 5-15, heavy 25
-      aka: A‑PCYP|alpha-PCyP|alpha-Pyrrolidinocyclohexanophenone
-      #class:Pyrrolidinophenone cathinone (substituted cathinone)
-  Α-Pyrrolidinopentiophenone  <recreational>  — insufflation mg: common 8-15, heavy 25
-      aka: A‑PVP|O-2387|O‑2387|a-PVP|alfa-PvP|alpha-PVP|desmethylpyrovalerone|flakka|gravel|prolintanone|α-PVP|α-Pyrrolidinovalerophenone|α‑PVP|α‑pyrrolidinovalerophenone|β-keto-prolintane
-      #class:Cathinone (substituted cathinone, pyrrolidinophenone)  #no-human-data  #phenethylamine
-      also: Other
+      aka: A-PCYP|alpha-PCyP|alpha-PyrrolidinoCyclohexanoPhenone
+  α-Pyrrolidinopropiophenone  [APPP]  <recreational>  — inhalation mg: common 10-25, heavy 40
+      aka: APPP|a-PPP|alpha-PPP
+      #class:Pyrrolidinophenone cathinone stimulant
+  环唑酮  (STUB)  <recreational>
+      aka: N-环丙基匹莫林
+  苦茶碱  <recreational>  — insufflation mg: common 25-100, heavy 100
+      aka: 1,3,7,9-四甲基尿酸
+  萘哌甲酯  <recreational>  — oral mg: common 8-14, heavy 28

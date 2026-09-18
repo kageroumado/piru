@@ -96,8 +96,8 @@ struct LabCalibrationSection: View {
 /// read-only (plus a note when the shape — the terminal rate — was fitted too); with
 /// no labs or auto off, it's a hand-set multiplier. Never a target: it scales the
 /// estimate to the person, it doesn't recommend a level.
-private struct CalibrationControl: View {
-    @Bindable var model: InjectionLevelsModel
+struct CalibrationControl<Model: DepotCalibrating>: View {
+    @Bindable var model: Model
 
     private var multiplierText: String {
         "×\(model.effectiveMultiplier.formatted(.number.precision(.fractionLength(2))))"
@@ -133,7 +133,7 @@ private struct CalibrationControl: View {
                         .font(.caption2)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
-                if model.calibrationMeasurements.count >= 2 {
+                if model.calibrationMeasurementCount >= 2 {
                     Toggle(isOn: $model.fitRates) {
                         Text("Fit shape as well as height")
                             .font(.subheadline)
@@ -164,8 +164,8 @@ private struct CalibrationControl: View {
 
 // MARK: - Reference lines
 
-private struct ReferenceLinesEditor: View {
-    @Bindable var model: InjectionLevelsModel
+struct ReferenceLinesEditor<Model: DepotCalibrating>: View {
+    @Bindable var model: Model
     let unit: String
 
     var body: some View {

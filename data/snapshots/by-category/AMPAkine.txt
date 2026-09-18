@@ -1,45 +1,18 @@
-# AMPAkine — 17 substances (sorted by popularity)
+# AMPAkine — 5 substances (sorted by popularity)
 # fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
   Aniracetam  <recreational>  — oral mg: common 750-1500, heavy 4500
-      aka: Ampamet|Draganon|Memodrin|Ro 13-5057|Sarple/Sarpul|Sarpul
-      #AMPA-PAM  #class:Racetam (pyrrolidone derivative)  #class:racetams  #nootropic  #racetam  #research-chemical
+      aka: Ampamet|Draganon|Memodrin|Ro 13-5057|Sarple/Sarpul|Sarpul|茴拉西坦
+      #AMPA-PAM  #nootropic  #racetam  #research-chemical
       also: Nootropic
-  CX-1739  (STUB)  <recreational>
-      #AMPA-PAM  #Cortex-Pharmaceuticals  #investigational  #low-impact-AMPAkine  #research-chemical  #respiratory-depression-rescue
-  CX-1942  (STUB)  <recreational>
-      #AMPA-PAM  #Cortex-Pharmaceuticals  #investigational  #no-human-data  #no-published-binding-data  #preclinical-only  #research-chemical
-  CX-516  (STUB)  <recreational>
-      aka: Ampalex|BDP-12
-      #AMPA-PAM  #Cortex-Pharmaceuticals  #abandoned-clinical-development  #deactivation-slower  #high-impact-AMPAkine  #investigational  #research-chemical
-  CX-546  (STUB)  <recreational>
-      #AMPA-PAM  #Cortex-Pharmaceuticals  #TARP-dependent-modulation  #desensitization-blocker  #investigational  #no-human-data  #preclinical-only  #research-chemical
-  CX-614  (STUB)  <recreational>
-      #AMPA-PAM  #Cortex-Pharmaceuticals  #Gq-coupled  #convulsant-liability  #desensitization-blocker  #high-impact-AMPAkine  #investigational  #no-human-data  #research-chemical
-  CX-691  (STUB)  <recreational>
-      aka: Farampator|Org 24448
-      #AMPA-PAM  #Cortex-Pharmaceuticals  #benzothiadiazine  #cardiotoxicity-signal  #high-impact-AMPAkine  #investigational  #research-chemical  #schizophrenia-failed
-  CX-717  (STUB)  <recreational>
-      #ADHD-investigational  #AMPA-PAM  #Cortex-Pharmaceuticals  #investigational  #low-impact-AMPAkine  #research-chemical  #sleep-deprivation-reversal
-  IDRA-21  (STUB)  <recreational>
-      #AMPA-PAM  #AMPA-PAM-prototype  #benzothiadiazine  #investigational  #no-human-PK  #no-human-data  #research-chemical  #research-chemical-popular
-  LY-404187  (STUB)  <recreational>
-      #AMPA-PAM  #biarylpropylsulfonamide  #flip-selective  #high-impact-AMPAkine  #investigational  #no-human-data  #research-chemical  #research-tool
-  LY-451646  (STUB)  <recreational>
-      aka: Mibampator|Pesampator
-      #AMPA-PAM  #biarylpropylsulfonamide  #high-impact-AMPAkine  #investigational  #preclinical  #research-chemical
-  LY-503430  (STUB)  <recreational>
-      #AMPA-PAM  #BDNF-inducer  #biarylpropylsulfonamide  #high-impact-AMPAkine  #investigational  #no-human-data  #preclinical  #research-chemical
-  Org 26576  (STUB)  <recreational>
-      aka: MK-8777
-      #AMPA-PAM  #Merck-abandoned  #failed-MDD-Phase2  #investigational  #low-impact-AMPAkine  #research-chemical
-  PEPA  (STUB)  <recreational>
-      #AMPA-PAM  #desensitization-blocker  #flop-selective  #investigational  #no-human-data  #preclinical-only  #research-chemical  #sulfonamide-AMPAkine
-  S-18986  (STUB)  <recreational>
-      #AMPA-PAM  #Servier-tool  #anti-aging-cognitive  #benzothiadiazine  #investigational  #no-human-data  #preclinical-only  #research-chemical
   Sunifiram  (STUB)  <recreational>
       aka: DM-235
       #AMPA-PAM  #investigational  #mechanism-uncertain  #no-direct-AMPA-binding-shown  #no-human-data  #racetam-adjacent  #research-chemical  #research-chemical-popular
+  IDRA-21  (STUB)  <recreational>
+      #AMPA-PAM  #AMPA-PAM-prototype  #benzothiadiazine  #investigational  #no-human-PK  #no-human-data  #research-chemical  #research-chemical-popular
   Unifiram  (STUB)  <recreational>
       aka: DM-232
       #AMPA-PAM  #investigational  #mechanism-uncertain  #no-direct-AMPA-binding-shown  #no-human-data  #preclinical-only  #racetam-adjacent  #research-chemical
+  CX-516  (STUB)  <recreational>
+      aka: Ampalex|BDP-12
+      #AMPA-PAM  #Cortex-Pharmaceuticals  #abandoned-clinical-development  #deactivation-slower  #high-impact-AMPAkine  #investigational  #research-chemical

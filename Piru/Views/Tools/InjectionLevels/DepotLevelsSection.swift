@@ -51,11 +51,12 @@ struct DepotLevelsSection: View {
         Section {
             if let result = model.result {
                 DepotCurveChart(
-                    model: model,
                     result: result,
                     analyte: analyte,
                     referenceLow: model.referenceLow,
                     referenceHigh: model.referenceHigh,
+                    chartRange: $model.chartRange,
+                    pinchVisibleDays: $model.pinchVisibleDays,
                 )
                 .padding(.vertical, Spacing.xs)
             } else if model.volumeLoggedInjectionCount > 0 {

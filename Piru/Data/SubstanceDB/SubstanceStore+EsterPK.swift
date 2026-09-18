@@ -28,6 +28,9 @@ struct EsterPKRecord: Equatable, Identifiable, Sendable {
     let provenance: String
     /// Routes the parameters apply to (`["IM"]` or `["IM","SC"]`).
     let routes: [String]
+    /// A safety caution to surface when this ester is logged (e.g. the Aveed boxed
+    /// POME/anaphylaxis warning for testosterone undecanoate); `nil` for most esters.
+    let caution: String?
 
     var id: String {
         esterID

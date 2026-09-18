@@ -932,7 +932,7 @@ final class SubstanceStore {
             let rows = try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
                 SELECT ester_id, analyte, parent, parent_uid, ester_label,
-                       modelable, d, k1, k2, k3, confidence, provenance, routes
+                       modelable, d, k1, k2, k3, confidence, provenance, routes, caution
                   FROM ester_pk
                 """)
             }
@@ -961,6 +961,7 @@ final class SubstanceStore {
                     confidence: row["confidence"] as String,
                     provenance: row["provenance"] as String,
                     routes: routes,
+                    caution: row["caution"] as String?,
                 )
             }
             self.esterPKIndex = index

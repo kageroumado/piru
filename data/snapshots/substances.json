@@ -44992,7 +44992,7 @@
     "display_class": "recreational",
     "tags": [
       "CYP2C19-inhibitor-weak",
-      "CYP3A4-inducer-moderate",
+      "CYP3A4-inducer-weak",
       "DAT-inhibitor",
       "DAT-inhibitor-weak",
       "US-Schedule-IV",
@@ -58057,7 +58057,10 @@
     "display_name": "",
     "aliases": [
       "Testopel",
+      "Testosterone Cypionate",
       "Testosterone Enanthate",
+      "Testosterone Propionate",
+      "Testosterone Undecanoate",
       "Vogelxo"
     ],
     "category": "",

@@ -1,21 +1,32 @@
-# GABAergic — 5 substances (sorted by popularity)
+# GABAergic — 9 substances (sorted by popularity)
 # fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
   Gabapentin  <recreational>  — oral mg: common 600-900, heavy 1200
-      aka: 1-(Aminomethyl)cyclohexaneacetic acid|CI-945|DM-1796|Gabapentinum|Gabarone|Gralise|Horizant|neurontin|加巴喷丁|加巴噴丁
-      #NOT-GABA-receptor-ligand  #alpha-2-delta-ligand  #alpha2-delta-ligand  #anticonvulsant  #capsule, tablet, extended-release tablet, solution  #class:GABA analogue (structural analogue of gamma-aminobutyric acid)  #class:gabapentinoids  #gabapentinoid  #habit-forming  #neuropathic analgesic  #no-CYP-metabolism  #prescription-only
+      aka: 1-(Aminomethyl)cyclohexaneacetic acid|CI-945|DM-1796|Gabapentinum|Gabarone|Gabbies|Gralise|Horizant|Neurontin|加巴喷丁|加巴噴丁
+      #NOT-GABA-receptor-ligand  #alpha-2-delta-ligand  #alpha2-delta-ligand  #anticonvulsant  #class:gabapentinoids  #gabapentinoid  #habit-forming  #neuropathic analgesic  #no-CYP-metabolism  #prescription-only  #renally-cleared  #saturable-absorption-LAT1
       also: Anticonvulsant, Depressant
   Pregabalin  <recreational>  — insufflation mg: common 75-200, heavy 400
-      aka: CI-1008|DB00230|Nervalin|PD-144723|PGB|lyrica|pregablin|α2δ calcium-channel ligand|普瑞巴林
-      #alpha-2-delta-ligand  #alpha2-delta-ligand  #anticonvulsant  #anxiolytic  #capsule, extended-release tablet, solution  #class:Gabapentinoid; GABA analogue (does not act at GABA-A/B receptors)  #class:gabapentinoids  #common  #gabapentinoid  #habit-forming  #high-affinity-vs-gabapentin  #linear-PK
+      aka: 3-Isobutyl GABA|CI-1008|DB00230|Lyrica|Nervalin|PD-144723|PGB|Pregab|pregablin|α2δ calcium-channel ligand|普瑞巴林
+      #alpha-2-delta-ligand  #alpha2-delta-ligand  #anticonvulsant  #anxiolytic  #class:gabapentinoids  #gabapentinoid  #habit-forming  #high-affinity-vs-gabapentin  #linear-PK  #neuropathic analgesic  #prescription-only  #renally-cleared
       also: Anticonvulsant, Depressant
+  Chloral Hydrate  <recreational>  — oral mg: common 200-500, heavy 1000
+      aka: Aquachloral|Knockout drops|Mickey Finn|Noctec|Somnote|Trichloroacetaldehyde monohydrate|Welldorm|chloral-hydrate|somnos
+      #ADH-substrate-prodrug  #GABA-A-PAM-via-metabolite  #IARC-2A  #habit-forming
+      also: Depressant
   Phenibut  <recreational>  — oral mg: common 500-1000, heavy 2000
-      aka: Anvifen|Fenibut|Noofen|PhGABA|Phenybut|phenigamma|β-phenyl-GABA
-      #GABA-B-agonist  #GABA-B-partial-agonist  #GABAergic  #alpha-2-delta-ligand  #class:gabapentinoids  #habit-forming  #high-dependence-risk  #nootropic  #protracted-withdrawal
+      aka: Anvifen|Bifren|Citrocard|Fenibut|Noofen|PhGABA|Phenigam|Phenybut|phenigamma|β-phenyl-GABA|菲尼布特
+      #GABA-B-agonist  #GABA-B-partial-agonist  #GABAergic  #alpha-2-delta-ligand  #class:gabapentinoids  #habit-forming  #high-dependence-risk  #nootropic  #protracted-withdrawal  #research-chemical
+      also: Depressant
+  1,4-BDO  <recreational>  — oral mL: common 1-2.5, heavy 4
+      aka: 1,4-B|1,4-butylene glycol|4-Butanediol|BDO|butane-1,4-DIOL|liquid fantasy|one comma four|one-four bee|tetramethylene glycol
+  Mirogabalin  <recreational>  — oral mg: common 10-30, heavy 40
+      aka: DS-5565|Tarlige
+  4-Fluorophenibut  <recreational>  — oral mg: common 100-150, heavy 250
+      aka: 4-F-Phenibut|F-Phenibut|F-Phenibut FAA|Fluorobut|Fluorophenibut|氟菲尼布特
+      #GABA-B-agonist  #GABA-B-partial-agonist  #GABAergic  #alpha-2-delta-ligand  #class:gabapentinoids  #habit-forming  #high-dependence-risk  #research-chemical  #tentative
       also: Depressant
   CL-218,872  <recreational>
       #gaba-a-tool-compound  #lab-reagent  #no-human-data  #research-chemical
-  F-Phenibut  <recreational>  — oral mg: common 100-200, heavy 400
-      aka: Fluorobut|Fluorophenibut
-      #GABA-B-agonist  #GABAergic  #class:gabapentinoids  #duplicate-of-4-fluorophenibut  #high-dependence-risk  #research-chemical
-      also: Depressant
+  Aceburic acid  <recreational>  — insufflation mg: common 900-1800, heavy 2800
+      aka: 4-OAc-GHB|4-acetoxybutanoic acid|4-acetoxybutyric acid
+      #GHB-prodrug-ester
