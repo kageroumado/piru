@@ -19,17 +19,20 @@
 # strips `self.` that the compiler REQUIRES in escaping/Sendable closures (e.g.
 # GRDB's db.read { … }), breaking the build. Leave self management to the author.
 #
-# wrapIfStatementBodies / wrapIfExpressionBodies became default rules in
-# SwiftFormat 0.62; they force single-line `if x { return }` guard bodies onto
-# their own lines. The codebase deliberately uses single-line bodies (1,300+ of
-# them), so keep them off rather than reflow the whole tree.
---disable wrapMultilineStatementBraces,wrapMultilineConditionalAssignment,blankLinesBetweenScopes,redundantInternal,redundantSelf,wrapIfStatementBodies,wrapIfExpressionBodies
+# The whole wrap*Bodies family is off. SwiftFormat turned these on by default
+# across 0.62/0.63, and each one expands a body this codebase writes on one line
+# deliberately: `if x { return }`, `for p in tree { kill(p) }`,
+# `var isActive: Bool { NSApp.isActive }`, `func id() -> String { rawValue }`.
+# A single-line body is the house style wherever the body is one expression.
+--disable wrapMultilineStatementBraces,wrapMultilineConditionalAssignment,blankLinesBetweenScopes,redundantInternal,redundantSelf,wrapIfStatementBodies,wrapIfExpressionBodies,wrapLoopBodies,wrapPropertyBodies,wrapFunctionBodies
 
 # Header stripping
 --header strip
 
-# Numeric formatting
---decimalgrouping 3
+# Numeric formatting — left as written. No threshold serves both `8081`, a port
+# that must not be broken, and a byte count that reads better grouped; the author
+# knows which a literal is.
+--decimalgrouping ignore
 
 # Import grouping
 --importgrouping testable-last
