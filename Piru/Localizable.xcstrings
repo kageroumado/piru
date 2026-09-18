@@ -1825,6 +1825,22 @@
         }
       }
     },
+    "%@ The file was written by %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 此文件由 %@ 导出。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 此檔案由 %@ 匯出。"
+          }
+        }
+      }
+    },
     "%@ this month" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -49000,6 +49016,22 @@
         }
       }
     },
+    "The file is empty. Nothing was saved into it, so export again and wait for the save to finish before importing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件是空的。没有任何内容保存进去，请重新导出，等保存完成后再导入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案是空的。沒有任何內容儲存進去，請重新匯出，等儲存完成後再匯入。"
+          }
+        }
+      }
+    },
     "The file is missing a required field: %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -49738,6 +49770,22 @@
         }
       }
     },
+    "This file isn't a Piru export or a PsychonautWiki journal." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件不是 Piru 导出文件，也不是 PsychonautWiki 日志。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案不是 Piru 匯出檔案，也不是 PsychonautWiki 日誌。"
+          }
+        }
+      }
+    },
     "This file isn't a valid Piru backup." : {
       "localizations" : {
         "zh-Hans" : {
@@ -49750,6 +49798,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此檔案不是有效的 Piru 備份。"
+          }
+        }
+      }
+    },
+    "This file uses export format %lld, which this version of Piru can't read yet. Update Piru, then import it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件使用导出格式 %lld，当前版本的 Piru 还无法读取。请更新 Piru 后再导入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案使用匯出格式 %lld，目前版本的 Piru 還無法讀取。請更新 Piru 後再匯入。"
           }
         }
       }
@@ -49782,6 +49846,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這是反彈效應。它會過去。"
+          }
+        }
+      }
+    },
+    "This is an encrypted Piru backup. Use Restore Encrypted Backup and enter its passphrase." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是加密的 Piru 备份。请使用「恢复加密备份」并输入其密码短语。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是加密的 Piru 備份。請使用「還原加密備份」並輸入其密碼短語。"
           }
         }
       }

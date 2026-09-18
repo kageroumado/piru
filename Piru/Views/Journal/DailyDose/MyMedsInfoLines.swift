@@ -2,7 +2,7 @@ import SwiftUI
 
 // The My Meds card's trailing info lines, one view per fact so each
 // invalidates on its own inputs. All three share ``MedsInfoLineLayout`` —
-// a glyph, one caption line, and a trailing control.
+// a glyph, up to two caption lines, and a trailing control.
 
 /// "Memantine · 6 days left" — tap opens the restock sheet.
 struct RestockInfoLine: View {
@@ -16,8 +16,7 @@ struct RestockInfoLine: View {
                 Text("\(name) · \(daysLeft) days left")
             } trailing: {
                 Image(systemName: "chevron.right")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                    .infoLineTrailingSlot()
                     .accessibilityHidden(true)
             }
         }
@@ -38,8 +37,7 @@ struct NextDueInfoLine: View {
                 Text("Next: \(name) at \(timeText)")
             } trailing: {
                 Image(systemName: "chevron.right")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                    .infoLineTrailingSlot()
                     .accessibilityHidden(true)
             }
         }
@@ -67,10 +65,7 @@ struct MissedYesterdayInfoLine: View {
         } trailing: {
             Button(action: onDismiss) {
                 Image(systemName: "xmark")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-                    .frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
-                    .contentShape(Rectangle())
+                    .infoLineTrailingSlot()
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text("Dismiss"))
@@ -96,7 +91,9 @@ struct MissedYesterdayInfoLine: View {
 }
 
 /// Glyph · caption text · trailing control, at the slot rows' leading inset so
-/// the lines read as part of the checklist rather than a footer.
+/// the lines read as part of the checklist rather than a footer. The text may
+/// wrap to a second line; the glyph sits on its first baseline and the trailing
+/// control stays centered on the whole line.
 struct MedsInfoLineLayout<Content: View, Trailing: View>: View {
     let systemImage: String
     let tint: Color
@@ -105,20 +102,34 @@ struct MedsInfoLineLayout<Content: View, Trailing: View>: View {
 
     var body: some View {
         HStack(spacing: Spacing.lg) {
-            Image(systemName: systemImage)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(tint)
-                .frame(width: 18)
-                .accessibilityHidden(true)
-            content()
-                .font(.footnote)
-                .foregroundStyle(Theme.secondaryLabel)
-                .lineLimit(1)
-                .minimumScaleFactor(0.85)
-            Spacer(minLength: 4)
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.lg) {
+                Image(systemName: systemImage)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(tint)
+                    .frame(width: 18)
+                    .accessibilityHidden(true)
+                content()
+                    .font(.footnote)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             trailing()
         }
         .padding(.vertical, Spacing.sm)
         .contentShape(Rectangle())
+    }
+}
+
+extension View {
+    /// The trailing control's slot on an info line and the card header: one
+    /// fixed frame whose glyph hugs the card's trailing edge, where the slot
+    /// rows' dose text ends, so a chevron and an ✕ on neighboring lines form
+    /// one column. Sized for a fingertip so the dismiss ✕ stays tappable.
+    func infoLineTrailingSlot() -> some View {
+        font(.caption.weight(.semibold))
+            .foregroundStyle(.tertiary)
+            .frame(width: IconSize.iconCompact, height: IconSize.iconCompact, alignment: .trailing)
+            .contentShape(Rectangle())
     }
 }

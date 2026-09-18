@@ -126,7 +126,7 @@ struct MyMedsHubView: View {
                             }
                         }
                     } header: {
-                        HStack(spacing: Spacing.sm) {
+                        HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                             Image(systemName: group.symbol)
                                 .accessibilityHidden(true)
                             Text(group.label)

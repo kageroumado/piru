@@ -89,6 +89,27 @@ nonisolated struct PiruFile: Codable {
     var inventory: [PiruInventoryData]?
 }
 
+extension PiruFile {
+    /// Every section defaults to empty when its key is absent, so a file from a
+    /// build that had no favorites, custom substances, or inventory yet, or one
+    /// trimmed by hand, still imports what it does carry. The version stays
+    /// required: without it the file is not a Piru export.
+    nonisolated init(from decoder: any Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        piruExportVersion = try c.decode(Int.self, forKey: .piruExportVersion)
+        appVersion = try c.decodeIfPresent(String.self, forKey: .appVersion) ?? "?"
+        exportedAt = try c.decodeIfPresent(Int64.self, forKey: .exportedAt) ?? 0
+        sessions = try c.decodeIfPresent([PiruSessionData].self, forKey: .sessions) ?? []
+        orphanDoses = try c.decodeIfPresent([PiruDoseData].self, forKey: .orphanDoses) ?? []
+        dailyDoseItems = try c.decodeIfPresent([PiruDailyDoseData].self, forKey: .dailyDoseItems) ?? []
+        substanceColors = try c.decodeIfPresent([PiruColorData].self, forKey: .substanceColors) ?? []
+        userColors = try c.decodeIfPresent([PiruUserColorData].self, forKey: .userColors) ?? []
+        favorites = try c.decodeIfPresent([PiruFavoriteData].self, forKey: .favorites) ?? []
+        customSubstances = try c.decodeIfPresent([PiruCustomSubstanceData].self, forKey: .customSubstances) ?? []
+        inventory = try c.decodeIfPresent([PiruInventoryData].self, forKey: .inventory)
+    }
+}
+
 nonisolated struct PiruSessionData: Codable {
     var id: UUID
     var startDate: Int64
@@ -281,7 +302,7 @@ extension DataExportImport {
         }
 
         return PiruFile(
-            piruExportVersion: 1,
+            piruExportVersion: DataExportImport.piruExportVersion,
             appVersion: appVersionString,
             exportedAt: Date.now.msSince1970,
             sessions: sessionData,

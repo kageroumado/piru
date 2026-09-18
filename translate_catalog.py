@@ -6565,6 +6565,24 @@ T = {
     "Medium": ("中", "中"),
     "Close": ("近", "近"),
     "Zoom": ("缩放", "縮放"),
+    # import file errors (2026-09-18)
+    "The file is empty. Nothing was saved into it, so export again and wait for the save to finish before importing.": (
+        "文件是空的。没有任何内容保存进去，请重新导出，等保存完成后再导入。",
+        "檔案是空的。沒有任何內容儲存進去，請重新匯出，等儲存完成後再匯入。",
+    ),
+    "This file isn't a Piru export or a PsychonautWiki journal.": (
+        "此文件不是 Piru 导出文件，也不是 PsychonautWiki 日志。",
+        "此檔案不是 Piru 匯出檔案，也不是 PsychonautWiki 日誌。",
+    ),
+    "This is an encrypted Piru backup. Use Restore Encrypted Backup and enter its passphrase.": (
+        "这是加密的 Piru 备份。请使用「恢复加密备份」并输入其密码短语。",
+        "這是加密的 Piru 備份。請使用「還原加密備份」並輸入其密碼短語。",
+    ),
+    "This file uses export format %lld, which this version of Piru can't read yet. Update Piru, then import it.": (
+        "此文件使用导出格式 %lld，当前版本的 Piru 还无法读取。请更新 Piru 后再导入。",
+        "此檔案使用匯出格式 %lld，目前版本的 Piru 還無法讀取。請更新 Piru 後再匯入。",
+    ),
+    "%@ The file was written by %@.": ("%@ 此文件由 %@ 导出。", "%@ 此檔案由 %@ 匯出。"),
     # b53 feedback batches (2026-09-17)
     "Open Injection Levels": (
         "打开注射水平",
@@ -7625,6 +7643,12 @@ if __name__ == "__main__":
         "Medium",
         "Close",
         "Zoom",
+        # import file errors (2026-09-18)
+        "The file is empty. Nothing was saved into it, so export again and wait for the save to finish before importing.",
+        "This file isn't a Piru export or a PsychonautWiki journal.",
+        "This is an encrypted Piru backup. Use Restore Encrypted Backup and enter its passphrase.",
+        "This file uses export format %lld, which this version of Piru can't read yet. Update Piru, then import it.",
+        "%@ The file was written by %@.",
         # b53 feedback batches (2026-09-17)
         "Open Injection Levels",
         "Entry",

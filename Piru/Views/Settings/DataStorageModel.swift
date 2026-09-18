@@ -45,6 +45,9 @@ final class DataStorageModel {
     private var exportedFileToClean: URL?
 
     private(set) var plainExportDocument: PiruDocument?
+    /// Named when the document is built, so the file carries the export's own
+    /// time rather than the moment the screen was first drawn.
+    private(set) var plainExportFilename: String?
     private(set) var generatingFormat: ExportFormat?
 
     /// Recoverable copies — loaded async (enumerating sidecars opens each store).
@@ -74,6 +77,7 @@ final class DataStorageModel {
         do {
             let data = try await DataExportImport.exportJSONInBackground(format: format, context: context)
             plainExportDocument = PiruDocument(data: data)
+            plainExportFilename = DataExportImport.exportFilename
             return true
         } catch {
             notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
@@ -83,6 +87,7 @@ final class DataStorageModel {
 
     func finishPlainExport(_ result: Result<URL, Error>) {
         plainExportDocument = nil
+        plainExportFilename = nil
         if case let .failure(error) = result {
             notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
         }

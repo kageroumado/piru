@@ -78,7 +78,7 @@ struct DataStorageView: View {
             isPresented: $showingPlainExporter,
             document: model.plainExportDocument,
             contentType: .json,
-            defaultFilename: DataExportImport.exportFilename,
+            defaultFilename: model.plainExportFilename,
         ) { result in
             model.finishPlainExport(result)
         }

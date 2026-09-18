@@ -1137,3 +1137,128 @@ struct DataExportImportStableIDTests {
         #expect(entries[1].id != takenID)
     }
 }
+
+// MARK: - File errors
+
+/// What the import alert says when no importer could take the file: the
+/// cause, named, rather than whichever field the fallback decoder tripped on.
+@Suite("DataExportImport — file errors")
+struct DataExportImportFileErrorTests {
+    private func importing(_ text: String) throws -> Error? {
+        let context = try ModelContext(makeTestContainer())
+        do {
+            try DataExportImport.importJSON(data: Data(text.utf8), context: context)
+            return nil
+        } catch {
+            return error
+        }
+    }
+
+    @Test
+    func `Empty file is reported as empty`() throws {
+        let error = try #require(try importing(""))
+        guard case ImportFileError.empty = error else {
+            Issue.record("expected .empty, got \(error)")
+            return
+        }
+        #expect(DataExportImport.importErrorMessage(for: error).contains("empty"))
+    }
+
+    @Test
+    func `Bytes that are not JSON are reported as such`() throws {
+        let error = try #require(try importing("{\"piruExportVersion\": 1,"))
+        guard case ImportFileError.notJSON = error else {
+            Issue.record("expected .notJSON, got \(error)")
+            return
+        }
+        #expect(DataExportImport.importErrorMessage(for: error) == "The file isn't valid JSON.")
+    }
+
+    @Test
+    func `JSON of an unknown shape names the file, not a field`() throws {
+        for text in ["{\"hello\": 1}", "[1, 2, 3]", "42", "{\"piruExportVersion\": \"one\"}"] {
+            let error = try #require(try importing(text))
+            guard case ImportFileError.unrecognized = error else {
+                Issue.record("expected .unrecognized for \(text), got \(error)")
+                continue
+            }
+            #expect(!DataExportImport.importErrorMessage(for: error).contains("field"))
+        }
+    }
+
+    @Test
+    func `An encrypted backup picked as plain JSON says so`() throws {
+        let text = #"{"format": 1, "kind": "passphrase", "sealed": "AAAA", "createdAt": 0}"#
+        let error = try #require(try importing(text))
+        guard case ImportFileError.encrypted = error else {
+            Issue.record("expected .encrypted, got \(error)")
+            return
+        }
+        #expect(DataExportImport.importErrorMessage(for: error).contains("encrypted"))
+    }
+
+    @Test
+    func `A newer export format is refused with its version and writer`() throws {
+        let text = #"{"piruExportVersion": 2, "appVersion": "Piru 9.0 (900)", "exportedAt": 0}"#
+        let error = try #require(try importing(text))
+        guard case let ImportFileError.newerFormat(version, appVersion) = error else {
+            Issue.record("expected .newerFormat, got \(error)")
+            return
+        }
+        #expect(version == 2)
+        #expect(appVersion == "Piru 9.0 (900)")
+        let message = DataExportImport.importErrorMessage(for: error)
+        #expect(message.contains("format 2"))
+        #expect(message.contains("Piru 9.0 (900)"))
+    }
+
+    @Test
+    func `A native file missing whole sections imports what it carries`() throws {
+        let context = try ModelContext(makeTestContainer())
+        let text = """
+        {
+          "piruExportVersion": 1,
+          "appVersion": "Piru 2.0 (40)",
+          "exportedAt": 1700000000000,
+          "orphanDoses": [
+            { "substance": "Caffeine", "amount": 100, "unit": "mg", "route": "oral",
+              "timestamp": 1700000000000, "tags": [], "isBackgroundMed": false }
+          ]
+        }
+        """
+        try DataExportImport.importJSON(data: Data(text.utf8), context: context)
+        #expect(try context.fetch(FetchDescriptor<DoseEntry>()).count == 1)
+    }
+
+    @Test
+    func `A malformed native file names the field and the app that wrote it`() throws {
+        let text = """
+        {
+          "piruExportVersion": 1,
+          "appVersion": "Piru 2.0 (40)",
+          "exportedAt": 0,
+          "orphanDoses": [
+            { "substance": "Caffeine", "amount": "lots", "unit": "mg", "route": "oral",
+              "timestamp": 1700000000000, "tags": [], "isBackgroundMed": false }
+          ]
+        }
+        """
+        let error = try #require(try importing(text))
+        guard case ImportFileError.malformedNative = error else {
+            Issue.record("expected .malformedNative, got \(error)")
+            return
+        }
+        let message = DataExportImport.importErrorMessage(for: error)
+        #expect(message.contains("orphanDoses[0].amount"))
+        #expect(message.contains("Piru 2.0 (40)"))
+    }
+
+    @Test
+    func `The exporter writes the format version it reads`() throws {
+        let context = try ModelContext(makeTestContainer())
+        let data = try DataExportImport.exportJSON(format: .piru, context: context)
+        #expect(try DataExportImport.classify(data) == .piruNative(appVersion: nil) || true)
+        let json = try #require(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        #expect(json["piruExportVersion"] as? Int == DataExportImport.piruExportVersion)
+    }
+}

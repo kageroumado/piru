@@ -400,8 +400,7 @@ private struct MyMedsHeader: View {
                     statusHint
                 }
                 Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                    .infoLineTrailingSlot()
             }
             .contentShape(Rectangle())
         }
