@@ -9,6 +9,94 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    "%lld day streak": ("连续 %lld 天", "連續 %lld 天"),
+    # Injection Levels v3 / Hormone Levels — the testosterone esters, the
+    # companion series, and the calibration copy.
+    "%@ %@ on %@": ("%@ %@（%@）", "%@ %@（%@）"),
+    "%lld %@ injections logged. No serum curve is drawn for it — no validated release data.": (
+        "已记录 %lld 次 %@ 注射。不为其绘制血清曲线——没有经过验证的释放数据。",
+        "已記錄 %lld 次 %@ 注射。不為其繪製血清曲線——沒有經過驗證的釋放數據。",
+    ),
+    "A level only means something with its draw time: for cypionate and enanthate, measure midway between injections; for undecanoate, measure at trough, just before the next dose.": (
+        "一个数值只有配上采血时间才有意义：环戊丙酸酯和庚酸酯在两次注射的中点测量；十一酸酯在谷值测量，即下一次给药之前。",
+        "一個數值只有配上採血時間才有意義：環戊丙酸酯和庚酸酯在兩次注射的中點測量；十一酸酯在谷值測量，即下一次給藥之前。",
+    ),
+    "About %lld to %lld %@ across the cycle": (
+        "整个周期内约 %lld 至 %lld %@",
+        "整個週期內約 %lld 至 %lld %@",
+    ),
+    "Add %@": ("添加%@", "新增%@"),
+    "An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. This curve sums your logged esters into the serum level a blood test would read.": (
+        "注射的酯从油性储库中缓慢释放，分解为游离激素，然后被清除。这条曲线把你记录的各种酯汇总为一次血检会读到的血清水平。",
+        "注射的酯從油性貯庫中緩慢釋放，分解為游離激素，然後被清除。這條曲線把你記錄的各種酯彙總為一次血檢會讀到的血清水平。",
+    ),
+    "Aromatized estradiol": ("芳香化生成的雌二醇", "芳香化生成的雌二醇"),
+    "Assumed depot levels": ("假定的储库水平", "假定的貯庫水平"),
+    "Decreased": ("下降", "下降"),
+    "Each ester's own release, before they sum to the serum estimate above.": (
+        "每种酯各自的释放，在汇总为上方的血清估计值之前。",
+        "每種酯各自的釋放，在彙總為上方的血清估計值之前。",
+    ),
+    "Estimated %@ level over time": ("%@ 水平随时间的估计", "%@ 水平隨時間的估計"),
+    "Estimated serum estradiol": ("估计的血清雌二醇", "估計的血清雌二醇"),
+    "Estimated serum estradiol or testosterone from your logged esters": (
+        "根据你记录的酯估计的血清雌二醇或睾酮",
+        "根據你記錄的酯估計的血清雌二醇或睪固酮",
+    ),
+    "Estimated serum testosterone": ("估计的血清睾酮", "估計的血清睪固酮"),
+    "Hematocrit": ("血细胞比容", "血球容積比"),
+    "Hemoglobin": ("血红蛋白", "血紅素"),
+    "Hormone Levels": ("激素水平", "荷爾蒙水平"),
+    "Increased": ("上升", "上升"),
+    "It estimates a level. It never suggests a dose or a target. Lab results calibrate it to you, and the reference lines are your own.": (
+        "它估计一个水平，从不建议剂量或目标。化验结果把它校准到你身上，参考线是你自己的。",
+        "它估計一個水平，從不建議劑量或目標。化驗結果把它校準到你身上，參考線是你自己的。",
+    ),
+    "Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. Retest after any change in dose, ester, interval, or site.": (
+        "不同人之间水平差异很大，所以未校准的曲线是一个起点，不是一次读数。剂量、酯、间隔或注射部位有任何变化后都要重新检测。",
+        "不同人之間水平差異很大，所以未校準的曲線是一個起點，不是一次讀數。劑量、酯、間隔或注射部位有任何變化後都要重新檢測。",
+    ),
+    "Log an injectable estradiol or testosterone ester to see your estimated hormone levels here.": (
+        "记录一次可注射的雌二醇或睾酮酯，就能在这里看到你的激素水平估计。",
+        "記錄一次可注射的雌二醇或睪固酮酯，就能在這裡看到你的荷爾蒙水平估計。",
+    ),
+    "Monitored alongside hematocrit on T. Your measured points, plotted.": (
+        "用 T 期间与血细胞比容一同监测。这是你实测数据点的绘图。",
+        "用 T 期間與血球容積比一同監測。這是你實測數據點的繪圖。",
+    ),
+    "Note the time since your last injection when you draw — a peak and a trough tell different stories, and the curve reads both against your dose times.": (
+        "采血时记下距上次注射过了多久——峰值和谷值说的是两回事，曲线会把两者都对照你的给药时间来读。",
+        "採血時記下距上次注射過了多久——峰值和谷值說的是兩回事，曲線會把兩者都對照你的給藥時間來讀。",
+    ),
+    "Shaded: the 300–1000 ng/dL male reference range (FDA label; Wang 2010). A reference, not a target.": (
+        "阴影部分：300–1000 ng/dL 的男性参考范围（FDA 说明书；Wang 2010）。这是参考，不是目标。",
+        "陰影部分：300–1000 ng/dL 的男性參考範圍（FDA 說明書；Wang 2010）。這是參考，不是目標。",
+    ),
+    "Testosterone (suppression)": ("睾酮（抑制）", "睪固酮（抑制）"),
+    "Testosterone aromatizes to estradiol, so E2 often rises on T. Piru plots your measured points — the conversion is person-specific, not modeled.": (
+        "睾酮会芳香化为雌二醇，所以用 T 期间 E2 常会上升。Piru 绘制你的实测点——这种转化因人而异，未被建模。",
+        "睪固酮會芳香化為雌二醇，所以用 T 期間 E2 常會上升。Piru 繪製你的實測點——這種轉化因人而異，未被建模。",
+    ),
+    "Testosterone ester curves are fit from label and primary-literature half-lives — there is no community PK simulator for them, so the band stays wide until your labs pin it.": (
+        "睾酮酯曲线由说明书和原始文献中的半衰期拟合而来——它们没有社区 PK 模拟器，所以在你的化验把它钉住之前，误差带会一直很宽。",
+        "睪固酮酯曲線由說明書和原始文獻中的半衰期擬合而來——它們沒有社群 PK 模擬器，所以在你的化驗把它釘住之前，誤差帶會一直很寬。",
+    ),
+    "Testosterone raises red-cell production, so hematocrit is monitored on T (largest rise in the first year). These are your measured points, plotted, not a prediction.": (
+        "睾酮会提高红细胞生成，所以用 T 期间要监测血细胞比容（第一年升幅最大）。这些是你实测点的绘图，不是预测。",
+        "睪固酮會提高紅血球生成，所以用 T 期間要監測血球容積比（第一年升幅最大）。這些是你實測點的繪圖，不是預測。",
+    ),
+    "The Endocrine Society / WPATH SOC8 monitoring goal. Tapping sets it as your own reference lines — Piru still sets no target.": (
+        "内分泌学会 / WPATH SOC8 的监测目标。点按会把它设为你自己的参考线——Piru 仍然不设定目标。",
+        "內分泌學會 / WPATH SOC8 的監測目標。點按會把它設為你自己的參考線——Piru 仍然不設定目標。",
+    ),
+    "Use the common clinical goal (%lld–%lld %@)": (
+        "使用常见临床目标（%lld–%lld %@）",
+        "使用常見臨床目標（%lld–%lld %@）",
+    ),
+    "Your measured testosterone. On estradiol, T usually falls; Piru plots your points rather than modeling suppression.": (
+        "你实测的睾酮。用雌二醇期间 T 通常会下降；Piru 绘制你的数据点，而不是对抑制建模。",
+        "你實測的睪固酮。用雌二醇期間 T 通常會下降；Piru 繪製你的數據點，而不是對抑制建模。",
+    ),
     # ADHD audience fit v2 — curve milestones, word-state glance, the late-dose
     # sleep clause, and the de-shamed adherence surfaces.
     "Kicks in": ("开始起效", "開始起效"),
@@ -189,10 +277,6 @@ T = {
     "Project hormone levels from injectable esters": (
         "根据注射用酯类推算激素水平",
         "根據注射用酯類推算激素水平",
-    ),
-    "Injectable ester data isn't available in this build.": (
-        "此版本未包含注射用酯类数据。",
-        "此版本未包含注射用酯類數據。",
     ),
     "Hormone": ("激素", "激素"),
     "Ester": ("酯类", "酯類"),
@@ -508,10 +592,6 @@ T = {
         "每種效應一條曲線，由本次記錄中所有物質和劑量合成。",
     ),
     "Overdose": ("过量", "過量"),
-    "Pause silences everything without losing your choices. Live Activity shows tracking on your Lock Screen.": (
-        "暂停会静音所有通知，但保留你的设置。实时活动会在锁定屏幕上显示追踪。",
-        "暫停會靜音所有通知，但保留你的設定。即時動態會在鎖定畫面上顯示追蹤。",
-    ),
     "Peak opioid load %lld MME/day — above the CDC 90 MME reference.": (
         "阿片负荷峰值 %lld MME/天，高于 CDC 90 MME 参考值。",
         "鴉片類負荷峰值 %lld MME/天，高於 CDC 90 MME 參考值。",
@@ -576,10 +656,6 @@ T = {
     ),
     "Slow": ("缓慢", "緩慢"),
     "Social": ("社交", "社交"),
-    "Stacking merges redoses into one curve and splits busy sessions into lanes. Expanding starts the graph full-height.": (
-        "堆叠会将补剂合并为一条曲线，并将繁忙的记录分成多条泳道。展开则以全高显示图表。",
-        "堆疊會將補劑合併為一條曲線，並將繁忙的記錄分成多條泳道。展開則以全高顯示圖表。",
-    ),
     "Substance Info": ("物质信息", "物質資訊"),
     "Swipe up or down to change the dose": ("上下滑动调整剂量", "上下滑動調整劑量"),
     "Tap to view": ("轻点查看", "輕點查看"),
@@ -606,10 +682,6 @@ T = {
     "This permanently deletes all your data and cannot be undone. If iCloud backup is on, it will be disabled and the backup removed.": (
         "这将永久删除你的所有数据，且无法撤销。若已开启 iCloud 备份，将关闭并删除备份。",
         "這將永久刪除你的所有資料，且無法復原。若已開啟 iCloud 備份，將關閉並刪除備份。",
-    ),
-    "Timing is based on published pharmacology data. Piru estimates — it never senses anything.": (
-        "时间基于已发表的药理数据。Piru 只做估算，不会感测任何东西。",
-        "時間基於已發表的藥理資料。Piru 只做估算，不會感測任何東西。",
     ),
     "Tramadol becomes a strong opioid only after CYP2D6 converts it to O-DSMT, so the ceiling depends on your genes: most people plateau, ultra-rapid metabolizers don't. Repeated dosing raises tramadol's own absorption (~75% → 90–100%), and CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion) mute the opioid effect while leaving the parent's serotonergic and seizure risk.": (
         "曲马多只有经 CYP2D6 转化为 O-DSMT 后才成为强效阿片，因此上限取决于基因：多数人会达到平台期，超快代谢者则不会。重复给药会提高曲马多自身的吸收（约 75% → 90–100%），而 CYP2D6 抑制剂（帕罗西汀、氟西汀、安非他酮）会减弱阿片效应，但母体的血清素能和癫痫风险不变。",
@@ -650,19 +722,6 @@ T = {
     "β-adrenoceptor": ("β 肾上腺素受体", "β 腎上腺素受體"),
     "μ-opioid receptor (MOR)": ("μ 阿片受体（MOR）", "μ 鴉片類受體（MOR）"),
     "Vial concentration": ("药瓶浓度", "藥瓶濃度"),
-    "%lld injections logged in mL are converted at this strength": (
-        "已按此浓度换算 %lld 次以 mL 记录的注射",
-        "已按此濃度換算 %lld 次以 mL 記錄的注射",
-    ),
-    "%lld injections are logged in mL — enter the vial strength to include them": (
-        "%lld 次注射以 mL 记录 — 输入药瓶浓度以纳入",
-        "%lld 次注射以 mL 記錄 — 輸入藥瓶濃度以納入",
-    ),
-    "Projected from today": ("从今天起推算", "從今天起推算"),
-    "Projected from today, continuing from your log": (
-        "从今天起推算，接续你的记录",
-        "從今天起推算，接續你的記錄",
-    ),
     "Manual schedule": ("手动方案", "手動方案"),
     "%lld injections from your log": ("来自你记录的 %lld 次注射", "來自你記錄的 %lld 次注射"),
     "Every": ("每", "每"),
@@ -679,73 +738,20 @@ T = {
         "周期内，位于两条参考线之间",
         "週期內，位於兩條參考線之間",
     ),
-    "An injected ester releases slowly from an oil depot, is cleaved to the free hormone, then cleared. This curve models that from your doses.": (
-        "注射用酯类会从油性储库缓慢释放，被裂解为游离激素，再被清除。此曲线据此从你的剂量建模。",
-        "注射用酯類會從油性儲庫緩慢釋放，被裂解為游離激素，再被清除。此曲線據此從你的劑量建模。",
-    ),
-    "It estimates a level from doses you enter — it never recommends a dose or a level to aim for. Add lab results to calibrate it to you.": (
-        "它根据你输入的剂量推算水平——绝不建议剂量或目标水平。添加化验结果即可校准到你自己。",
-        "它根據你輸入的劑量推算水平——絕不建議劑量或目標水平。加入化驗結果即可校準到你自己。",
-    ),
     "Estradiol": ("雌二醇", "雌二醇"),
     "Testosterone": ("睾酮", "睾酮"),
-    "Calibrate to your lab results": ("校准到你的化验结果", "校準到你的化驗結果"),
     "Uncalibrated": ("未校准", "未校準"),
     "1 result": ("1 项结果", "1 項結果"),
     "Calibrated · %lld results": ("已校准 · %lld 项结果", "已校準 · %lld 項結果"),
-    "Add a blood test to pin this curve to your own levels. The band narrows once you do.": (
-        "添加一次血检，把曲线锚定到你自己的水平。添加后范围带会变窄。",
-        "加入一次血檢，把曲線錨定到你自己的水平。加入後範圍帶會變窄。",
-    ),
     "Add lab result": ("添加化验结果", "加入化驗結果"),
     "Reference lines": ("参考线", "參考線"),
     "Low line": ("下参考线", "下參考線"),
     "High line": ("上参考线", "上參考線"),
-    "Lines you choose to see — not a target the app sets.": (
-        "你自行选择显示的线——并非应用设定的目标。",
-        "你自行選擇顯示的線——並非應用設定的目標。",
-    ),
-    "Where these numbers come from": ("这些数值的来源", "這些數值的來源"),
-    "Older lab data used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs whichever assay your lab uses.": (
-        "较早的化验数据用放射免疫法；现代 LC-MS/MS 读数更低。校准到你自己的结果可消化你所用化验方法的差异。",
-        "較早的化驗數據用放射免疫法；現代 LC-MS/MS 讀數更低。校準到你自己的結果可消化你所用化驗方法的差異。",
-    ),
-    "Parameters from estrannaise.js (MIT), cross-checked against primary literature": (
-        "参数来自 estrannaise.js（MIT），并与原始文献交叉核对",
-        "參數來自 estrannaise.js（MIT），並與原始文獻交叉核對",
-    ),
-    "Subcutaneous injection reaches levels close to intramuscular for these esters — 196 vs 190 pg/mL in one head-to-head — so the same curve serves both routes (Herndon 2023; Misakian 2025).": (
-        "对这些酯类，皮下注射达到的水平与肌肉注射接近——一项头对头比较中为 196 对 190 pg/mL——因此同一条曲线可用于两种途径（Herndon 2023；Misakian 2025）。",
-        "對這些酯類，皮下注射達到的水平與肌肉注射接近——一項頭對頭比較中為 196 對 190 pg/mL——因此同一條曲線可用於兩種途徑（Herndon 2023；Misakian 2025）。",
-    ),
     "More on injectable estradiol dosing (diyhrt.info)": (
         "更多注射用雌二醇剂量信息（diyhrt.info）",
         "更多注射用雌二醇劑量資訊（diyhrt.info）",
     ),
-    "Population curves scatter widely between people, so uncalibrated numbers are a starting point, not a reading. A blood test pins the height to you; two on different days pin the shape as well. Retesting after any change — dose, ester, interval, injection site — keeps the fit honest, because one measurement can't tell a high peak from a slow decline.": (
-        "人群曲线在不同人之间差异很大，因此未校准的数值只是起点，而非读数。一次血检可把高度锚定到你；不同日期的两次血检还能锚定形状。任何改变——剂量、酯类、间隔、注射部位——之后重新检测能让拟合保持可靠，因为单次测量无法分辨高峰值与缓慢下降。",
-        "人群曲線在不同人之間差異很大，因此未校準的數值只是起點，而非讀數。一次血檢可把高度錨定到你；不同日期的兩次血檢還能錨定形狀。任何改變——劑量、酯類、間隔、注射部位——之後重新檢測能讓擬合保持可靠，因為單次測量無法分辨高峰值與緩慢下降。",
-    ),
     "Personal calibration": ("个人校准", "個人校準"),
-    "Set from my lab results": ("根据我的化验结果设定", "根據我的化驗結果設定"),
-    "Amplitude and shape both fit to your results — your terminal release ran %@.": (
-        "幅度和形状均已拟合到你的结果——你的末端释放%@。",
-        "幅度和形狀均已擬合到你的結果——你的末端釋放%@。",
-    ),
-    "faster than the population (%@×)": ("比人群更快（%@×）", "比人群更快（%@×）"),
-    "slower than the population (%@×)": ("比人群更慢（%@×）", "比人群更慢（%@×）"),
-    "Amplitude fit to your result. Add a second test on a different day and the curve's shape fits too.": (
-        "幅度已拟合到你的结果。在不同日期再做一次检测，曲线形状也能拟合。",
-        "幅度已擬合到你的結果。在不同日期再做一次檢測，曲線形狀也能擬合。",
-    ),
-    "Fit the curve's shape, not just its height": (
-        "拟合曲线的形状，而不只是高度",
-        "擬合曲線的形狀，而不只是高度",
-    ),
-    "Nudge this if you run higher or lower than average. A blood test replaces it with a fit to your own levels — far better than a guess.": (
-        "如果你比平均水平偏高或偏低，可微调此值。一次血检会用对你自身水平的拟合取而代之——远胜于猜测。",
-        "如果你比平均水平偏高或偏低，可微調此值。一次血檢會用對你自身水平的擬合取而代之——遠勝於猜測。",
-    ),
     "Enter the vial's concentration — a volume alone isn't a dose.": (
         "请输入药瓶的浓度——仅有体积并不构成剂量。",
         "請輸入藥瓶的濃度——僅有體積並不構成劑量。",
@@ -763,10 +769,6 @@ T = {
     "Serum level": ("血清水平", "血清水平"),
     "Included in calibration": ("已纳入校准", "已納入校準"),
     "Excluded from calibration": ("已排除于校准", "已排除於校準"),
-    "Your result is stored in %@; enter it in whichever unit your lab reported.": (
-        "你的结果以 %@ 存储；可按化验单上报告的任意单位输入。",
-        "你的結果以 %@ 儲存；可按化驗單上報告的任意單位輸入。",
-    ),
     # Timeline options menu (2026-09-02)
     "Compress Empty Time": ("压缩空闲时间", "壓縮空閒時間"),
     "Curves": ("曲线", "曲線"),
@@ -927,10 +929,6 @@ T = {
     "%@ is due": ("%@ 该服用了", "%@ 該服用了"),
     "%@ · %lld days left": ("%@ · 剩余 %lld 天", "%@ · 剩餘 %lld 天"),
     "%lld doses due": ("%lld 次剂量待服用", "%lld 次劑量待服用"),
-    "%lld of yesterday's doses weren't logged": (
-        "昨天有 %lld 次剂量未记录",
-        "昨天有 %lld 次劑量未記錄",
-    ),
     "Add Title…": ("添加标题…", "新增標題…"),
     "By Category": ("按类别", "按類別"),
     "By Substance": ("按物质", "按物質"),
@@ -939,7 +937,6 @@ T = {
     "Move Doses": ("移动剂量", "移動劑量"),
     "Move Doses…": ("移动剂量…", "移動劑量…"),
     "Next: %@ at %@": ("下一次：%@，%@", "下一次：%@，%@"),
-    "Nothing due right now": ("目前没有待服用的", "目前沒有待服用的"),
     "Opens the restock form": ("打开补货表单", "開啟補貨表單"),
     "Pick a dose to move to another session.": (
         "选择要移到其他时段的剂量。",
@@ -1029,15 +1026,10 @@ T = {
         "备份、导出与导入在「工具 › 数据与备份」；偏好设置在「设置」。",
         "備份、匯出與匯入在「工具 › 資料與備份」；偏好設定在「設定」。",
     ),
-    "That's everything today — %lld days and counting": (
-        "今天的都完成了 — 已连续 %lld 天",
-        "今天的都完成了 — 已連續 %lld 天",
-    ),
     "That's everything today": ("今天的都完成了", "今天的都完成了"),
     "· %lld of %lld": ("· 已服 %1$lld / %2$lld", "· 已服 %1$lld / %2$lld"),
     "%lld of %lld logged today": ("今天已记录 %1$lld / %2$lld", "今天已記錄 %1$lld / %2$lld"),
     "Dose Times": ("用药时间", "用藥時間"),
-    "Edit Dose Times…": ("编辑用药时间…", "編輯用藥時間…"),
     "The quick offsets in the “Now” menu when logging a dose.": (
         "记录剂量时“现在”菜单中的快捷时间偏移。",
         "記錄劑量時「現在」選單中的快捷時間偏移。",
@@ -1197,11 +1189,6 @@ T = {
     "Marked anxiety or agitation": ("明显焦虑或激越", "明顯焦慮或激動"),
     "Around surgery": ("手术前后", "手術前後"),
     "Patterns": ("规律", "規律"),
-    "Log doses to see your patterns": ("记录剂量以查看你的规律", "記錄劑量以查看你的規律"),
-    "Days used, cumulative exposure, dose trend, and overlap — for you or your doctor": (
-        "用药天数、累积暴露、剂量趋势与重叠——供你或你的医生参考",
-        "用藥天數、累積暴露、劑量趨勢與重疊——供你或你的醫生參考",
-    ),
     "Days used, exposure, dose trend, and overlap": (
         "用药天数、暴露、剂量趋势与重叠",
         "用藥天數、暴露、劑量趨勢與重疊",
@@ -1294,7 +1281,6 @@ T = {
     ),
     "Nothing in your body at this time": ("此刻体内没有留存", "此刻體內沒有留存"),
     "Tolerance & Receptors": ("耐受与受体", "耐受與受體"),
-    "Your streak and this month's rate": ("你的连续天数与本月比例", "你的連續天數與本月比例"),
     "When and how much you log": ("你在何时、记录了多少", "你在何時、記錄了多少"),
     "Predicted per-mechanism tolerance": ("按机制预测的耐受", "按機制預測的耐受"),
     "What's still active in your body right now": (
@@ -1326,15 +1312,6 @@ T = {
     "Where a regular dose settles, from your own cadence": (
         "按你自己的节奏，规律剂量最终稳定在何处",
         "按你自己的節奏，規律劑量最終穩定在何處",
-    ),
-    "No Steady Cadence Yet": ("尚无规律的用药节奏", "尚無規律的用藥節奏"),
-    "Steady state needs a regular schedule. Log a substance on a consistent cadence and its plateau appears here.": (
-        "稳态需要规律的用药安排。按固定节奏记录某种物质，其平台值就会显示在这里。",
-        "穩態需要規律的用藥安排。按固定節奏記錄某種物質，其平台值就會顯示在這裡。",
-    ),
-    "A projection from your median dose and spacing, assuming you keep that cadence and linear kinetics. Body content in the dose's units, not a plasma level.": (
-        "这是根据你的中位剂量与间隔做出的推算，假设你保持该节奏且动力学为线性。数值为以该剂量单位计的体内含量，而非血药浓度。",
-        "這是根據你的中位劑量與間隔做出的推算，假設你保持該節奏且動力學為線性。數值為以該劑量單位計的體內含量，而非血藥濃度。",
     ),
     "Plateau": ("平台", "平台"),
     "Buildup": ("累积", "累積"),
@@ -1925,8 +1902,6 @@ T = {
         "静音全部通知，但保留你在下方的选择。",
         "靜音全部通知，但保留你在下方的選擇。",
     ),
-    "Dose Reminders": ("剂量提醒", "劑量提醒"),
-    "During a Session": ("使用期间", "使用期間"),
     "Supplies": ("库存", "庫存"),
     "Safety & Supplies": ("安全与库存", "安全與庫存"),
     "Session Alerts": ("使用期间提醒", "使用期間提醒"),
@@ -1976,18 +1951,6 @@ T = {
     "Allow Notifications": ("允许通知", "允許通知"),
     "Asking…": ("正在请求…", "正在請求…"),
     "Checking Permission…": ("正在检查权限…", "正在檢查權限…"),
-    "Notifications for Piru are turned off in Settings. None of the alerts below can be delivered until they're allowed again.": (
-        "「设置」中已关闭 Piru 的通知。在重新允许之前，下方所有提醒都无法送达。",
-        "「設定」中已關閉 Piru 的通知。在重新允許之前，下方所有提醒都無法送達。",
-    ),
-    "Piru asks the system once. You choose exactly what it's allowed to send below.": (
-        "Piru 只会向系统请求一次。它能发送什么，完全由你在下方决定。",
-        "Piru 只會向系統請求一次。它能傳送什麼，完全由你在下方決定。",
-    ),
-    "Piru only sends the notifications listed on this screen.": (
-        "Piru 只会发送此页面列出的通知。",
-        "Piru 只會傳送此頁面列出的通知。",
-    ),
     "Next: %@": ("下一次：%@", "下一次：%@"),
     "Comedown Alerts": ("缓和期提醒", "緩和期提醒"),
     "Hydration Reminders": ("补水提醒", "補水提醒"),
@@ -2034,10 +1997,6 @@ T = {
         "距離你的上一劑已經過了足夠的時間。這是模型估算——請遵循處方醫生的安排。",
     ),
     "Quiet Hours": ("勿扰时段", "勿擾時段"),
-    "Session nudges, re-asks, and next-dose reminders inside this window stay silent. Routine reminders at times you set, and cumulative dose warnings, still come through.": (
-        "此时间段内的使用期间提醒、再次提醒和下一剂窗口提醒将保持静默。你设定了时间的日常提醒和累积剂量警告仍会送达。",
-        "此時間段內的使用期間提醒、再次提醒和下一劑窗口提醒將保持靜默。你設定了時間的日常提醒和累積劑量警告仍會送達。",
-    ),
     "Start time": ("开始时间", "開始時間"),
     "End time": ("结束时间", "結束時間"),
     "Start": ("开始", "開始"),
@@ -2415,10 +2374,6 @@ T = {
     "mechanism of action": ("作用机制", "作用機制"),
     "primary receptor targets": ("主要受体靶点", "主要受體靶點"),
     "primary target potency": ("主要靶点效价", "主要靶點效價"),
-    "Substances you log will appear here while they're still estimated to be in your body.": (
-        "你记录的物质在预计仍留存于体内期间会显示在这里。",
-        "你記錄的物質在預計仍留存於體內期間會顯示在這裡。",
-    ),
     "Related": ("相关", "相關"),
     "Model a single dose's decay over time": (
         "模拟单次剂量随时间的衰减",
@@ -2430,7 +2385,6 @@ T = {
     ),
     "entries": ("条记录", "筆記錄"),
     "%@/day": ("%@/天", "%@/天"),
-    "Past 2 weeks": ("过去两周", "過去兩週"),
     "Doses logged per day over the past two weeks": (
         "过去两周每天记录的剂量数",
         "過去兩週每天記錄的劑量數",
@@ -3825,7 +3779,6 @@ T = {
         "您%5$@服用的 %3$@ %4$@，体内仍约有 %1$@ %2$@（约 %6$lld%%）",
         "您%5$@服用的 %3$@ %4$@，體內仍約有 %1$@ %2$@（約 %6$lld%%）",
     ),
-    "Fixed Order": ("固定顺序", "固定順序"),
     "Create custom substance": ("创建自定义物质", "建立自訂物質"),
     "Find a Place…": ("查找地点…", "尋找地點…"),
     "Location access is off": ("定位权限已关闭", "定位權限已關閉"),
@@ -3848,13 +3801,8 @@ T = {
     "Notifications": ("通知", "通知"),
     "Preferences": ("偏好设置", "偏好設定"),
     "Data": ("数据", "資料"),
-    "Day Grouping": ("分日方式", "分日方式"),
     "No Substance Colors": ("暂无物质配色", "暫無物質配色"),
     "No Substances Yet": ("暂无物质", "暫無物質"),
-    "Doses logged before this hour count toward the previous day — so a 2 AM dose stays with the night before instead of starting a new day at midnight. Set to 12 AM for standard calendar days.": (
-        "在此时刻之前记录的剂量将归入前一天——因此凌晨 2 点的剂量会留在前一晚，而不是在午夜开启新的一天。设为午夜 12 点即按标准日历日分组。",
-        "在此時刻之前記錄的劑量將歸入前一天——因此凌晨 2 點的劑量會留在前一晚，而不是在午夜開啟新的一天。設為午夜 12 點即按標準日曆日分組。",
-    ),
     "Data from peer-reviewed literature, FDA labels, and community databases. Not medical advice — talk to a doctor before making decisions about substance use.": (
         "数据来源于同行评审文献、FDA 标签与社区数据库。不构成医疗建议——在做出有关物质使用的决定前，请咨询医生。",
         "資料來源於同行評審文獻、FDA 標籤與社群資料庫。不構成醫療建議——在做出有關物質使用的決定前，請諮詢醫師。",
@@ -3951,10 +3899,6 @@ T = {
         "檔案在此處包含非預期的值：%@。",
     ),
     "Report": ("报告", "報告"),
-    "Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.": (
-        "永久删除每一条剂量、记录和设置。删除前会先创建可恢复的快照。",
-        "永久刪除每一筆劑量、記錄和設定。刪除前會先建立可還原的快照。",
-    ),
     "Delete Failed": ("删除失败", "刪除失敗"),
     # Data storage & recovery (DataStorageView, store-recovery + diagnostics UI)
     "%lld records": ("%lld 条记录", "%lld 筆記錄"),
@@ -3990,10 +3934,6 @@ T = {
     "Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted** — your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only — never your dose data.": (
         "Piru 这次未能打开你的日志，目前正以临时存储运行。**没有任何数据被删除**——你的剂量和记录仍安全保存在这台设备上，未来的更新会自动恢复它们。\n\n发送日志能帮助我们更快推出修复。日志只描述存储问题本身——绝不包含你的剂量数据。",
         "Piru 這次未能開啟你的日誌，目前正以暫時儲存空間執行。**沒有任何資料被刪除**——你的劑量和記錄仍安全保存在這部裝置上，未來的更新會自動還原它們。\n\n傳送記錄檔能幫助我們更快推出修正。記錄檔只描述儲存問題本身——絕不包含你的劑量資料。",
-    ),
-    "Piru never deletes a store outright. Copies set aside automatically (after an upgrade hiccup) or before you deleted or restored data appear here, ready to restore.": (
-        "Piru 绝不会直接删除数据存储。系统自动留存的副本（升级出现问题后），或在你删除、恢复数据之前留存的副本，都会显示在这里，随时可以恢复。",
-        "Piru 絕不會直接刪除資料儲存。系統自動留存的副本（升級出現問題後），或在你刪除、還原資料之前留存的副本，都會顯示在這裡，隨時可以還原。",
     ),
     "Piru, PsychonautWiki, or an encrypted backup": (
         "Piru、PsychonautWiki 或加密备份",
@@ -4056,15 +3996,10 @@ T = {
     "Move to Back": ("移到最后", "移到最後"),
     "Select": ("选择", "選擇"),
     "Remove from Quick Log": ("从快速记录中移除", "從快速記錄中移除"),
-    "Keep Quick-Log Order": ("保持快速记录顺序", "保持快速記錄順序"),
     "Expand Session Graph": ("展开记录图表", "展開記錄圖表"),
     "Always show the full-height timeline. When off, graphs start compact — expand from the graph menu.": (
         "始终显示全高时间线。关闭后图表以紧凑模式显示——从图表菜单展开。",
         "始終顯示全高時間軸。關閉後圖表以精簡模式顯示——從圖表選單展開。",
-    ),
-    "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.": (
-        "让快速记录中的剂量保持固定顺序。关闭时，记录某个剂量会将其移到最前，使常用剂量始终置顶。",
-        "讓快速記錄中的劑量保持固定順序。關閉時，記錄某個劑量會將其移到最前，使常用劑量始終置頂。",
     ),
     # Categories (SubstanceCategory)
     "Stimulant": ("兴奋剂", "興奮劑"),
@@ -4424,10 +4359,6 @@ T = {
         "请在「设置」中开启通知以使用缓和期提醒。",
         "請在「設定」中開啟通知以使用緩和期提醒。",
     ),
-    "Are you sure you want to delete all your data? This action cannot be undone.": (
-        "确定要删除所有数据吗？此操作无法撤销。",
-        "確定要刪除所有資料嗎？此操作無法復原。",
-    ),
     "Import": ("导入", "匯入"),
     "Cancel Alert": ("取消提醒", "取消提醒"),
     "Cancel Ramp Down?": ("取消缓和期提醒？", "取消緩和期提醒？"),
@@ -4488,10 +4419,6 @@ T = {
     "{name} wearing off": ("{name} 效果消退中", "{name} 效果消退中"),
     "{name} effects fading": ("{name} 效果减弱中", "{name} 效果減弱中"),
     # Comedown messages
-    "Eat a nutritious meal, drink water, and rest. Magnesium and vitamin C may help. Don't fight the tiredness — your body needs recovery.": (
-        "吃一顿营养餐、喝水并休息。镁和维生素 C 可能有帮助。不要对抗疲劳 — 您的身体需要恢复。",
-        "吃一頓營養餐、喝水並休息。鎂和維生素 C 可能有幫助。不要對抗疲勞 — 您的身體需要恢復。",
-    ),
     "The low mood is temporary and normal. Eat light foods, stay warm, and rest. Be kind to yourself over the next few days.": (
         "情绪低落是暂时且正常的。吃清淡食物、保暖、休息。接下来几天善待自己。",
         "情緒低落是暫時且正常的。吃清淡食物、保暖、休息。接下來幾天善待自己。",
@@ -5867,8 +5794,6 @@ T = {
     "Usage Entries": ("使用记录", "使用記錄"),
     "Most common: %@ %@": ("最常见:%@ %@", "最常見:%@ %@"),
     "Milestones": ("里程碑", "里程碑"),
-    "day streak": ("天连续", "天連續"),
-    "days streak": ("天连续", "天連續"),
     "this month": ("本月", "本月"),
     # Frequency-related
     # Distance / time formatted
@@ -6041,10 +5966,6 @@ T = {
     # 2026-06 — stacked-lane (small multiples) timeline preference
     "Stack Busy Sessions": ("拆分繁忙记录图表", "拆分繁忙記錄圖表"),
     "Stack From": ("拆分阈值", "拆分閾值"),
-    "When a session reaches this many different substances, the timeline splits overlapping curves into separate stacked lanes — one per substance — so a busy session stays readable. When off, every curve is always overlaid on one graph.": (
-        "当某次记录达到这么多种不同物质时，时间线会将重叠的曲线拆分为独立的堆叠泳道——每种物质一条——让繁忙的记录依然清晰可读。关闭后，所有曲线始终叠加在同一张图上。",
-        "當某次記錄達到這麼多種不同物質時，時間線會將重疊的曲線拆分為獨立的堆疊泳道——每種物質一條——讓繁忙的記錄依然清晰可讀。關閉後，所有曲線始終疊加在同一張圖上。",
-    ),
     # Pharmacology axis Stage 6 — Ceiling Effect tool (2026-06-22)
     "Ceiling Effect": ("封顶效应", "封頂效應"),
     "When dose and exposure aren't proportional": (
@@ -6126,8 +6047,6 @@ T = {
         "食用大麻起效也很慢——通常為 30 分鐘到 2 小時——而且持續時間長得多，常達 6–10 小時。這種緩慢起效正是重複用藥的陷阱：再次服用前至少等待 2 小時，否則你可能疊加出遠比預期更強、更長的劑量。",
     ),
     # Alcohol by-volume input (2026-06-22)
-    "By Drink": ("按饮品", "按飲品"),
-    "By Weight": ("按重量", "按重量"),
     "By Volume": ("按体积", "按體積"),
     "By Mass": ("按质量", "按質量"),
     "Session complete": ("记录已结束", "記錄已結束"),
@@ -6407,7 +6326,6 @@ T = {
     "%lld due": ("%lld 项待服用", "%lld 項待服用"),
     "%lld meds due": ("%lld 项用药待服用", "%lld 項用藥待服用"),
     "Staged": ("已暂存", "已暫存"),
-    "Stages this dose": ("将此剂量加入暂存", "將此劑量加入暫存"),
     "Your Substances": ("你的物质", "你的物質"),
     "Log a Dose": ("记录一次用药", "記錄一次用藥"),
     "Logs this dose": ("记录此剂量", "記錄此劑量"),
@@ -6889,22 +6807,6 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
-        # ADHD audience fit v2
-        "Kicks in",
-        "Full effect",
-        "Begins to wear off",
-        "Clear for sleep",
-        "Effects end",
-        "around %@",
-        "Coming up",
-        "Wearing off",
-        "%@ active until ~%@",
-        "%lld of %lld scheduled doses",
-        "Which days you took your meds",
-        "Morning dose not logged",
-        "Evening dose not logged",
-        "{name} easing off",
-        "The plateau has ended. If your day has a second dose, this is the window it usually falls in — and food and water help the stretch either way.",
         # SubstanceCategory.classSummary (extractor-invisible LocalizedStringResource)
         "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to.",
         "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia.",
