@@ -199,13 +199,10 @@ struct MyMedsCard: View {
     }
 
     private func header(slots: [MedSlot]) -> some View {
-        let due = slots.filter(\.isDueNow)
-        return MyMedsHeader(
+        MyMedsHeader(
             takenCount: slots.count(where: \.taken),
             total: slots.count,
             streak: model.streak,
-            dueCount: due.count,
-            firstDueName: due.first.map { displayName(for: $0.item) },
             onTap: { navigator.push(.myMeds) },
         )
     }
@@ -372,15 +369,13 @@ struct MyMedsCard: View {
 
 // MARK: - Header
 
-/// The card's tappable header: the completion ring, the title, and the status
-/// line under it. Value inputs only, so a row logging elsewhere in the card
-/// doesn't re-evaluate the ring's animation state.
+/// The card's tappable header: the title and the progress chip. No due hint
+/// here: a pending row and its "due" chip already say it. Value inputs only,
+/// so a row logging elsewhere in the card doesn't re-evaluate the chip.
 private struct MyMedsHeader: View {
     let takenCount: Int
     let total: Int
     let streak: Int?
-    let dueCount: Int
-    let firstDueName: String?
     let onTap: () -> Void
 
     private var isComplete: Bool {
@@ -396,9 +391,6 @@ private struct MyMedsHeader: View {
                     progressChip
                 }
                 Spacer()
-                if !isComplete {
-                    statusHint
-                }
                 Image(systemName: "chevron.right")
                     .infoLineTrailingSlot()
             }
@@ -408,21 +400,6 @@ private struct MyMedsHeader: View {
         .accessibilityLabel("My Meds")
         .accessibilityValue("\(takenCount) of \(total) taken")
         .accessibilityHint("Opens your meds")
-    }
-
-    @ViewBuilder
-    private var statusHint: some View {
-        if dueCount == 1, let firstDueName {
-            Text("\(firstDueName) is due")
-                .font(.caption)
-                .foregroundStyle(Theme.accent)
-                .lineLimit(1)
-        } else if dueCount > 1 {
-            Text("\(dueCount) due")
-                .font(.caption)
-                .foregroundStyle(Theme.accent)
-                .lineLimit(1)
-        }
     }
 
     @ViewBuilder
