@@ -8,8 +8,8 @@ import Foundation
 ///
 /// Three kinds of stretch:
 /// - **Active time** — any span the builder reports a curve still legibly
-///   above baseline (``TimelineStripBuilder/activeThreshold``) and not yet a
-///   baseline of its own (``TimelineStripBuilder/baselineMinutes``) — always
+///   above baseline (``TimelineActivity/activeThreshold``) and not yet a
+///   baseline of its own (``TimelineActivity/baselineMinutes``) — always
 ///   keeps the uniform scale. Compression squeezes only dead time, never the
 ///   inside of an event's curve.
 /// - **Dead time** in the past is capped per segment (`gapCap`), so an empty

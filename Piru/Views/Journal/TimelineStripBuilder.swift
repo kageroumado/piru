@@ -79,9 +79,7 @@ struct TimelineStripBuilder {
     /// curve continuous across slice boundaries.
     private var peakCache: [String: Double] = [:]
     /// PK mode: per-substance resolved rate constants, cached across slices.
-    private var pkConstantsCache: [String: PKConstants?] = [:]
-
-    typealias PKConstants = (halfLife: Double, ke: Double, ka: Double)
+    private var pkConstantsCache: [String: TimelineActivity.PKConstants?] = [:]
 
     var sliceCount: Int {
         slices.count
@@ -170,7 +168,7 @@ struct TimelineStripBuilder {
         let globalStart = byDay[oldestDay]!.map(\.timestamp).min()!.addingTimeInterval(-5 * 60)
         let currentTime = now
         let modeledEnds: [Date] = style.pkMode
-            ? Self.pkActivityEnds(entries: entries)
+            ? TimelineActivity.pkActivityEnds(entries: entries)
             : states.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }
         let curvesEnd = modeledEnds.filter { $0 > currentTime }.max()
         let globalEnd = max(
@@ -183,10 +181,10 @@ struct TimelineStripBuilder {
 
         // Where each curve is still above threshold and not yet a baseline —
         // the spans compression must leave at the uniform scale.
-        let activeIntervals = Self.protectingIntervals(
+        let activeIntervals = TimelineActivity.protectingIntervals(
             style.pkMode
-                ? Self.pkActiveSpans(entries: entries.filter { !$0.isBackgroundMed })
-                : Self.activeSpans(states: protectingStates),
+                ? TimelineActivity.pkActiveSpans(entries: entries.filter { !$0.isBackgroundMed })
+                : TimelineActivity.activeSpans(states: protectingStates),
         )
         let activeByDay: [Date: Date] = Dictionary(
             activeIntervals.map { (calendar.startOfDay(for: $0.start), $0.end) },
@@ -268,46 +266,6 @@ struct TimelineStripBuilder {
     private static let futureMarginSeconds: TimeInterval = 30 * 60
     /// Ceiling on the future extent, whatever is still active.
     private static let maximumFutureSeconds: TimeInterval = 24 * 3_600
-    /// A curve counts as active while it is above this fraction of the
-    /// tallest curve it is drawn beside; below it, the span is dead time
-    /// compression may squeeze.
-    nonisolated static let activeThreshold = 0.05
-    /// Body-load mode: a dose stops holding the axis open this many
-    /// half-lives after it, whatever fraction of its peak remains.
-    nonisolated static let pkActiveHalfLives = 2.0
-    /// Activity continuous for longer than this is a baseline, not an
-    /// event, and a baseline does not keep dead time uniform. It caps one
-    /// dose's own span in either mode, and it caps how long a substance's
-    /// unbroken run of doses protects the axis. The horizontal graph frames
-    /// by the same rule (``TimelineCurveModel``'s `renderedTail` drops curves
-    /// that have not decayed inside ``TimelineCurveModel/maxDisplayMinutes``).
-    nonisolated static let baselineMinutes = 48.0 * 60
-
-    /// One dose's active span, tagged with its substance so runs of the
-    /// same substance can be chained.
-    nonisolated struct ActiveSpan {
-        let key: String
-        let interval: DateInterval
-    }
-
-    /// The spans that hold the axis open: per substance, the merged runs of
-    /// its active spans, each run cut at ``baselineMinutes``. A substance
-    /// active without a break for longer than that has become a baseline —
-    /// the daily med whose curves chain into one unbroken span and would
-    /// otherwise keep every night at the uniform scale. A gap below
-    /// threshold resets the clock, so a med stopped and restarted protects
-    /// its first two days again. The curves still draw their whole run.
-    nonisolated static func protectingIntervals(_ spans: [ActiveSpan]) -> [DateInterval] {
-        var result: [DateInterval] = []
-        for group in Dictionary(grouping: spans, by: \.key).values {
-            for run in TimelineTimeMap.merged(group.map(\.interval)) {
-                result.append(run.duration > baselineMinutes * 60
-                    ? DateInterval(start: run.start, duration: baselineMinutes * 60)
-                    : run)
-            }
-        }
-        return result
-    }
 
     /// Room a slice's cards need so they never spill into the next day:
     /// every card stacked from under the day tag, with envelope padding
@@ -322,96 +280,6 @@ struct TimelineStripBuilder {
 
     /// Clear space a session envelope keeps above the slice's bottom edge.
     private static let sliceBottomMargin: CGFloat = 12
-
-    /// Effect mode: from each dose to the moment its curve drops below
-    /// ``activeThreshold`` of the tallest curve overlapping it — its own when
-    /// nothing does. Drawn beside a heavy dose, a light one sits under a
-    /// device pixel long before it reaches its own baseline, and a tail
-    /// nobody can see must not hold the axis open.
-    nonisolated static func activeSpans(states: [ActiveSubstanceState]) -> [ActiveSpan] {
-        // Sweep in dose order: two curves overlap exactly when the later dose
-        // lands before the earlier curve ends, so every pair meets once,
-        // while the earlier dose is still open.
-        let ordered = states.sorted { $0.doseTimestamp < $1.doseTimestamp }
-        let ends = ordered.map { TimelineWindowEvaluator.activityInterval(of: $0).end }
-        var peers = ordered.map(\.doseMagnitude)
-        var open: [Int] = []
-        for i in ordered.indices {
-            open.removeAll { ends[$0] < ordered[i].doseTimestamp }
-            for j in open {
-                peers[i] = max(peers[i], ordered[j].doseMagnitude)
-                peers[j] = max(peers[j], ordered[i].doseMagnitude)
-            }
-            open.append(i)
-        }
-        return ordered.indices.map { i in
-            let minutes = TimelineCurveModel.visibleExtent(
-                for: ordered[i],
-                peerMagnitude: peers[i],
-                threshold: activeThreshold,
-            )
-            return ActiveSpan(
-                key: ordered[i].substanceName.lowercased(),
-                interval: DateInterval(
-                    start: ordered[i].doseTimestamp,
-                    duration: min(max(minutes, 1), baselineMinutes) * 60,
-                ),
-            )
-        }
-    }
-
-    /// Body-load mode: minutes a dose holds the axis open — until its
-    /// concentration falls below ``activeThreshold`` of its peak, but never
-    /// past ``pkActiveHalfLives`` half-lives or ``baselineMinutes``.
-    /// The curve itself still draws its whole tail; a 70 h half-life would
-    /// otherwise keep twelve days per dose at the uniform scale.
-    nonisolated static func pkActiveMinutes(halfLife: Double, ke: Double, ka: Double) -> Double {
-        let toThreshold = PKModel.timeToFraction(activeThreshold, ke: ke, ka: ka)
-        return max(min(toThreshold, halfLife * pkActiveHalfLives, baselineMinutes), 1)
-    }
-
-    /// Body-load mode: ``pkActiveMinutes(halfLife:ke:ka:)`` from each dose.
-    /// Doses that draw no body-load curve contribute nothing.
-    private static func pkActiveSpans(entries: [DoseEntry]) -> [ActiveSpan] {
-        var constantsCache: [String: PKConstants?] = [:]
-        var spans: [ActiveSpan] = []
-        for entry in entries {
-            let key = entry.substance.lowercased()
-            let constants: PKConstants?
-            if let cached = constantsCache[key] {
-                constants = cached
-            } else {
-                constants = resolvePKConstants(key: key, name: entry.substance)
-                constantsCache[key] = constants
-            }
-            guard let constants else { continue }
-            let minutes = pkActiveMinutes(halfLife: constants.halfLife, ke: constants.ke, ka: constants.ka)
-            spans.append(ActiveSpan(key: key, interval: DateInterval(start: entry.timestamp, duration: minutes * 60)))
-        }
-        return spans
-    }
-
-    /// Body-load mode's activity end per dose: six half-lives, the same cutoff
-    /// ``computeRemainingFractions(entries:)`` treats as cleared. Doses that
-    /// draw no body-load curve (supplements, no half-life) contribute nothing.
-    private static func pkActivityEnds(entries: [DoseEntry]) -> [Date] {
-        var substanceCache: [String: Substance?] = [:]
-        var ends: [Date] = []
-        for entry in entries {
-            let key = entry.substance.lowercased()
-            let substance: Substance?
-            if let cached = substanceCache[key] {
-                substance = cached
-            } else {
-                substance = SubstanceLibrary.lookup(entry.substance)
-                substanceCache[key] = substance
-            }
-            if substance?.category == .supplement { continue }
-            guard let halfLife = PKResolver.halfLifeMinutes(substance: substance, entryName: entry.substance) else { continue }
-            ends.append(entry.timestamp.addingTimeInterval(halfLife * 6 * 60))
-        }
-        return ends
-    }
 
     private func globalY(_ t: Date) -> CGFloat {
         map.reversedY(t)
@@ -834,25 +702,10 @@ struct TimelineStripBuilder {
         return Array(points[max(first - 1, 0) ... min(last + 1, points.count - 1)])
     }
 
-    /// PK mode: a substance's rate constants; `nil` for substances that draw
-    /// no body-load curve (no half-life, supplements).
-    private static func resolvePKConstants(key: String, name: String) -> PKConstants? {
-        guard let substance = SubstanceLibrary.lookup(key),
-              substance.category != .supplement,
-              let halfLife = PKResolver.halfLifeMinutes(substance: substance, entryName: name),
-              halfLife > 0 else { return nil }
-        let (ke, ka) = PKResolver.rateConstants(
-            halfLifeMinutes: halfLife,
-            duration: substance.resolveDuration(for: .oral),
-        )
-        guard PKModel.cmax(ke: ke, ka: ka) > 0 else { return nil }
-        return (halfLife, ke, ka)
-    }
-
-    /// ``resolvePKConstants(key:name:)`` memoized across slices.
-    private mutating func cachedPKConstants(key: String, name: String) -> PKConstants? {
+    /// ``TimelineActivity/resolvePKConstants(key:name:)`` memoized across slices.
+    private mutating func cachedPKConstants(key: String, name: String) -> TimelineActivity.PKConstants? {
         if let cached = pkConstantsCache[key] { return cached }
-        let resolved = Self.resolvePKConstants(key: key, name: name)
+        let resolved = TimelineActivity.resolvePKConstants(key: key, name: name)
         pkConstantsCache[key] = resolved
         return resolved
     }
@@ -860,7 +713,7 @@ struct TimelineStripBuilder {
     /// PK mode: the substance's all-time stacked peak concentration,
     /// evaluated at each dose's own peak moment. Cached — the normalization
     /// scale for every slice.
-    private mutating func globalPKPeak(key: String, pk: PKConstants) -> Double {
+    private mutating func globalPKPeak(key: String, pk: TimelineActivity.PKConstants) -> Double {
         if let cached = peakCache["pk|\(key)"] { return cached }
         let substanceEntries = entriesBySubstance[key] ?? []
         let tmax = pk.ka > pk.ke ? log(pk.ka / pk.ke) / (pk.ka - pk.ke) : pk.halfLife

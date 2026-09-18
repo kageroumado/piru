@@ -105,14 +105,14 @@ struct TimelineActiveSpanTests {
 
     @Test
     func `A light dose under a heavy one stops counting where it stops being legible`() throws {
-        let intervals = TimelineStripBuilder.activeSpans(states: [memantine, amphetamine, kratom]).map(\.interval)
+        let intervals = TimelineActivity.activeSpans(states: [memantine, amphetamine, kratom]).map(\.interval)
         let byName = Dictionary(uniqueKeysWithValues: zip(["Memantine", "Amphetamine", "Kratom"], intervals.sorted { $0.start < $1.start }))
 
         // Compared against its own peak, the 15 mg memantine curve (magnitude
         // 0.125) stays "active" for 1,153.7 min; beside the 30 mg amphetamine
         // (0.5) it is under the 5 % bar from 959.9 min on.
         let selfCompared = TimelineCurveModel.visibleExtent(
-            for: memantine, peerMagnitude: memantine.doseMagnitude, threshold: TimelineStripBuilder.activeThreshold,
+            for: memantine, peerMagnitude: memantine.doseMagnitude, threshold: TimelineActivity.activeThreshold,
         )
         #expect(abs(selfCompared - 1_153.69) < 0.5)
         #expect(try abs(#require(byName["Memantine"]?.duration) / 60 - 959.85) < 0.5)
@@ -130,7 +130,7 @@ struct TimelineActiveSpanTests {
             phases: (onset: 32.5, comeup: 70, peak: 190, offset: 325, total: 330),
             magnitude: 0.5, tachyphylaxis: 0.75,
         )
-        let intervals = TimelineStripBuilder.activeSpans(states: [later, memantine]).map(\.interval)
+        let intervals = TimelineActivity.activeSpans(states: [later, memantine]).map(\.interval)
         let first = try #require(intervals.min { $0.start < $1.start })
         #expect(first.start == memantine.doseTimestamp)
         #expect(abs(first.duration / 60 - 1_153.69) < 0.5)
@@ -142,12 +142,12 @@ struct TimelineActiveSpanTests {
         let start = yesterday.addingTimeInterval(-minutes(5))
         let before = map(
             activeIntervals: states.map { s in
-                let m = TimelineCurveModel.visibleExtent(for: s, peerMagnitude: s.doseMagnitude, threshold: TimelineStripBuilder.activeThreshold)
+                let m = TimelineCurveModel.visibleExtent(for: s, peerMagnitude: s.doseMagnitude, threshold: TimelineActivity.activeThreshold)
                 return DateInterval(start: s.doseTimestamp, duration: minutes(m))
             },
             from: start,
         )
-        let after = map(activeIntervals: TimelineStripBuilder.activeSpans(states: states).map(\.interval), from: start)
+        let after = map(activeIntervals: TimelineActivity.activeSpans(states: states).map(\.interval), from: start)
 
         // Dose → now: 1,153.7 uniform minutes + one capped gap before,
         // 959.9 + the same gap after — 1,705.2 pt → 1,433.8 pt at 1.4 pt/min.
@@ -178,19 +178,19 @@ struct TimelineActiveSpanTests {
         let memantineKe = PKModel.ke(fromHalfLifeMinutes: 4_200)
         let memantineKa = PKModel.estimateKa(timeToPeak: 120, ke: memantineKe)
         #expect(abs(PKModel.timeToFraction(0.05, ke: memantineKe, ka: memantineKa) - 18_293.3) < 1)
-        #expect(TimelineStripBuilder.pkActiveMinutes(halfLife: 4_200, ke: memantineKe, ka: memantineKa) == 2_880)
+        #expect(TimelineActivity.pkActiveMinutes(halfLife: 4_200, ke: memantineKe, ka: memantineKa) == 2_880)
 
         // Amphetamine: t½ 10 h → 2,681 min to 5 %; two half-lives (1,200) wins.
         let ampKe = PKModel.ke(fromHalfLifeMinutes: 600)
         let ampKa = PKModel.estimateKa(timeToPeak: 70, ke: ampKe)
         #expect(abs(PKModel.timeToFraction(0.05, ke: ampKe, ka: ampKa) - 2_681.0) < 1)
-        #expect(TimelineStripBuilder.pkActiveMinutes(halfLife: 600, ke: ampKe, ka: ampKa) == 1_200)
+        #expect(TimelineActivity.pkActiveMinutes(halfLife: 600, ke: ampKe, ka: ampKa) == 1_200)
 
         // Kratom: t½ 23.2 h → 6,067 min to 5 %; two half-lives (2,780) wins.
         let kratomKe = PKModel.ke(fromHalfLifeMinutes: 1_390)
         let kratomKa = PKModel.estimateKa(timeToPeak: 50, ke: kratomKe)
         #expect(abs(PKModel.timeToFraction(0.05, ke: kratomKe, ka: kratomKa) - 6_066.8) < 1)
-        #expect(TimelineStripBuilder.pkActiveMinutes(halfLife: 1_390, ke: kratomKe, ka: kratomKa) == 2_780)
+        #expect(TimelineActivity.pkActiveMinutes(halfLife: 1_390, ke: kratomKe, ka: kratomKa) == 2_780)
 
         // A short half-life too: 5 % of peak lies log2(20) ≈ 4.3 half-lives
         // past the peak, so two half-lives (180) decides before the threshold
@@ -198,7 +198,7 @@ struct TimelineActiveSpanTests {
         let shortKe = PKModel.ke(fromHalfLifeMinutes: 90)
         let shortKa = PKModel.estimateKa(timeToPeak: 30, ke: shortKe)
         #expect(abs(PKModel.timeToFraction(0.05, ke: shortKe, ka: shortKa) - 430.7) < 1)
-        #expect(TimelineStripBuilder.pkActiveMinutes(halfLife: 90, ke: shortKe, ka: shortKa) == 180)
+        #expect(TimelineActivity.pkActiveMinutes(halfLife: 90, ke: shortKe, ka: shortKa) == 180)
     }
 
     @Test
@@ -213,7 +213,7 @@ struct TimelineActiveSpanTests {
             from: start,
         )
         let after = map(
-            activeIntervals: [DateInterval(start: dose, duration: minutes(TimelineStripBuilder.pkActiveMinutes(halfLife: 4_200, ke: ke, ka: ka)))],
+            activeIntervals: [DateInterval(start: dose, duration: minutes(TimelineActivity.pkActiveMinutes(halfLife: 4_200, ke: ke, ka: ka)))],
             from: start,
         )
         let gap = TimelineTimeMap.gapCap(pointsPerMinute: ppm)
@@ -224,14 +224,14 @@ struct TimelineActiveSpanTests {
 
     // MARK: - A substance active for two days straight is a baseline
 
-    private func span(_ key: String, from start: Date, minutes m: Double) -> TimelineStripBuilder.ActiveSpan {
+    private func span(_ key: String, from start: Date, minutes m: Double) -> TimelineActivity.ActiveSpan {
         .init(key: key, interval: DateInterval(start: start, duration: minutes(m)))
     }
 
     @Test
     func `A run of one substance protects its first 48 h and a gap resets the clock`() {
         let t0 = now.addingTimeInterval(-10 * 86_400)
-        let protected = TimelineStripBuilder.protectingIntervals([
+        let protected = TimelineActivity.protectingIntervals([
             // Three doses 20 h apart, each active 24 h: one 64 h run.
             span("memantine", from: t0, minutes: 1_440),
             span("memantine", from: t0.addingTimeInterval(minutes(1_200)), minutes: 1_440),
@@ -311,14 +311,14 @@ struct TimelineActiveSpanTests {
         let anchors = states.map(\.doseTimestamp)
         let selfCompared = weekMap(
             activeIntervals: states.map { s in
-                let m = TimelineCurveModel.visibleExtent(for: s, peerMagnitude: s.doseMagnitude, threshold: TimelineStripBuilder.activeThreshold)
+                let m = TimelineCurveModel.visibleExtent(for: s, peerMagnitude: s.doseMagnitude, threshold: TimelineActivity.activeThreshold)
                 return DateInterval(start: s.doseTimestamp, duration: minutes(m))
             },
             anchors: anchors,
         )
-        let spans = TimelineStripBuilder.activeSpans(states: states)
+        let spans = TimelineActivity.activeSpans(states: states)
         let unchained = weekMap(activeIntervals: spans.map(\.interval), anchors: anchors)
-        let chained = weekMap(activeIntervals: TimelineStripBuilder.protectingIntervals(spans), anchors: anchors)
+        let chained = weekMap(activeIntervals: TimelineActivity.protectingIntervals(spans), anchors: anchors)
 
         // Day 0 09:00 → now is 7,380 min. Every memantine curve overlaps the
         // next dose's, so peer comparison alone leaves the whole run uniform
@@ -348,15 +348,15 @@ struct TimelineActiveSpanTests {
     func `Twice-daily memantine stops owning the strip after two days, in body-load mode`() {
         let ke = PKModel.ke(fromHalfLifeMinutes: 4_200)
         let ka = PKModel.estimateKa(timeToPeak: 120, ke: ke)
-        let perDose = TimelineStripBuilder.pkActiveMinutes(halfLife: 4_200, ke: ke, ka: ka)
+        let perDose = TimelineActivity.pkActiveMinutes(halfLife: 4_200, ke: ke, ka: ka)
         let memantine = memantineWeek.map { span("memantine", from: $0.doseTimestamp, minutes: perDose) }
         let ampKe = PKModel.ke(fromHalfLifeMinutes: 600)
         let kratomKe = PKModel.ke(fromHalfLifeMinutes: 1_390)
         let others = [
-            span("amphetamine", from: at(day: 3, hour: 10), minutes: TimelineStripBuilder.pkActiveMinutes(
+            span("amphetamine", from: at(day: 3, hour: 10), minutes: TimelineActivity.pkActiveMinutes(
                 halfLife: 600, ke: ampKe, ka: PKModel.estimateKa(timeToPeak: 70, ke: ampKe),
             )),
-            span("kratom", from: at(day: 3, hour: 14), minutes: TimelineStripBuilder.pkActiveMinutes(
+            span("kratom", from: at(day: 3, hour: 14), minutes: TimelineActivity.pkActiveMinutes(
                 halfLife: 1_390, ke: kratomKe, ka: PKModel.estimateKa(timeToPeak: 50, ke: kratomKe),
             )),
         ]
@@ -367,7 +367,7 @@ struct TimelineActiveSpanTests {
         // first two days; the amphetamine (20 h) and kratom (46 h) spans
         // keep day 3 10:00 → now uniform.
         let unchained = weekMap(activeIntervals: (memantine + others).map(\.interval), anchors: anchors)
-        let chained = weekMap(activeIntervals: TimelineStripBuilder.protectingIntervals(memantine + others), anchors: anchors)
+        let chained = weekMap(activeIntervals: TimelineActivity.protectingIntervals(memantine + others), anchors: anchors)
         #expect(abs(unchained.height(from: day0, to: now) - 10_332) < 1)
         #expect(abs(chained.height(from: day0, to: now) - 8_496) < 1)
         #expect(abs(chained.height(from: at(day: 2, hour: 9), to: at(day: 3, hour: 10)) - 264) < 1)
@@ -376,7 +376,7 @@ struct TimelineActiveSpanTests {
         // Memantine alone: 10,332 pt → 2,880 uniform minutes plus six capped
         // gaps between the remaining dose anchors.
         let memantineOnly = weekMap(
-            activeIntervals: TimelineStripBuilder.protectingIntervals(memantine),
+            activeIntervals: TimelineActivity.protectingIntervals(memantine),
             anchors: memantineWeek.map(\.doseTimestamp),
         )
         #expect(abs(memantineOnly.height(from: day0, to: now) - 4_572) < 1)
