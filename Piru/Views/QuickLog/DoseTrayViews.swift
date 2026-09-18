@@ -82,42 +82,64 @@ struct TrayCommitBar: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @State private var interactions: [InteractionResult] = []
+    @State private var sleepWarnings: [SleepWarning] = []
+
+    /// A staged dose whose class holds sleep off and whose modeled effects run
+    /// past the hours most people sleep, at the time it is about to be logged.
+    struct SleepWarning: Identifiable, Equatable {
+        let name: String
+        let end: Date
+
+        var id: String {
+            name
+        }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
             if !dynamicTypeSize.isAccessibilitySize {
-                interactionBanner
+                warningBanner
                 TrayMetaChips(model: model, content: content)
                 commitButton
                     .padding(.top, 14)
             } else {
-                interactionBanner
+                warningBanner
                 commitButton
             }
         }
         .onChange(of: model.staged.map(\.substanceName)) { _, names in
             recheckInteractions(names)
+            recheckSleep()
         }
-        .task { recheckInteractions(model.staged.map(\.substanceName)) }
+        .onChange(of: model.time) { _, _ in recheckSleep() }
+        .task {
+            recheckInteractions(model.staged.map(\.substanceName))
+            recheckSleep()
+        }
     }
 
-    // MARK: Interactions
+    // MARK: Warnings
 
+    /// Interactions and the late-dose sleep clause share one element: both are
+    /// consequences of what the button is about to log, stated before it is
+    /// pressed rather than discovered after.
     @ViewBuilder
-    private var interactionBanner: some View {
+    private var warningBanner: some View {
         let shown = interactions.admitted(.notable)
-        if !shown.isEmpty {
+        if !shown.isEmpty || !sleepWarnings.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 ForEach(Array(shown.prefix(3).enumerated()), id: \.offset) { _, warning in
-                    HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
-                        Image(systemName: warning.severity == .dangerous
-                            ? warning.mechanism.filledIconName : warning.mechanism.iconName)
-                            .foregroundStyle(warning.severity.labelColor)
-                            .font(.caption)
-                            .accessibilityHidden(true)
+                    warningRow(
+                        symbol: warning.severity == .dangerous
+                            ? warning.mechanism.filledIconName : warning.mechanism.iconName,
+                        color: warning.severity.labelColor,
+                    ) {
                         Text(warning.leadClause)
-                            .font(.caption.weight(.medium))
-                            .foregroundStyle(warning.severity.labelColor)
+                    }
+                }
+                ForEach(sleepWarnings.prefix(2)) { warning in
+                    warningRow(symbol: DosePhaseGlyph.sleep, color: Color.Semantic.Caution.text) {
+                        Text("\(warning.name) active until ~\(Self.clock(warning.end))")
                     }
                 }
             }
@@ -127,9 +149,40 @@ struct TrayCommitBar: View {
         }
     }
 
+    private func warningRow(symbol: String, color: Color, @ViewBuilder text: () -> Text) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
+            Image(systemName: symbol)
+                .foregroundStyle(color)
+                .font(.caption)
+                .accessibilityHidden(true)
+            text()
+                .font(.caption.weight(.medium))
+                .foregroundStyle(color)
+        }
+    }
+
+    private static func clock(_ date: Date) -> String {
+        date.formatted(date: .omitted, time: .shortened)
+    }
+
     private func recheckInteractions(_ names: [String]) {
         guard names.count >= 2 else { interactions = []; return }
         interactions = InteractionChecker.checkBatch(names, against: [], policy: .warn)
+    }
+
+    /// The staged doses whose effects the model runs into the night. Recomputed
+    /// on staging and on the When chip, because the answer is a function of the
+    /// clock the dose is being filed at, not of when the dock was opened.
+    private func recheckSleep() {
+        let time = model.time.resolved
+        sleepWarnings = model.staged.compactMap { dose in
+            guard let end = MedTimeConsequence.nightEnd(
+                substance: dose.librarySubstance,
+                route: dose.route,
+                at: time,
+            ) else { return nil }
+            return SleepWarning(name: dose.productName ?? dose.substanceName, end: end)
+        }
     }
 
     // MARK: Commit

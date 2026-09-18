@@ -571,6 +571,7 @@ struct TimelineGraphView: View, Equatable {
                             }
                         }
                     noteGlyphs(geom: geom)
+                    milestoneGlyphs(geom: geom)
                     scrubCallout(geom: geom)
                 }
             }
@@ -788,6 +789,57 @@ struct TimelineGraphView: View, Equatable {
                 }
             }
         }
+    }
+
+    /// The dose's phase boundaries, marked on its own curve: the glyph at the
+    /// height the curve has there, the clock time under it.
+    ///
+    /// One curve only. With two the glyphs belong to different drugs and the
+    /// reader has to work out which — the vertical timeline has room to say so
+    /// with a rung to the mark, and this graph does not.
+    @ViewBuilder
+    private func milestoneGlyphs(geom: TimelineGraphRenderer.GraphGeometry) -> some View {
+        if substances.count == 1, let dose = substances.first, geom.width > 0, visibleSpan > 0 {
+            let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
+            ForEach(Self.milestones(of: dose), id: \.minutes) { milestone in
+                let global = offset + milestone.minutes
+                let x = geom.inset + CGFloat((global - visibleStart) / visibleSpan) * geom.width
+                let value = renderer.scrubSamples(atMinute: global).first?.value
+                if x >= geom.inset, x <= geom.inset + geom.width, let value {
+                    VStack(spacing: 1) {
+                        Image(systemName: milestone.symbol)
+                            .font(.system(size: 9, weight: .semibold))
+                            .foregroundStyle(Color(hex: dose.colorHex))
+                        Text(verbatim: "~\(renderer.scrubClockTime(atMinute: global))")
+                            .font(.system(size: 9, weight: .medium, design: .rounded).monospacedDigit())
+                            .foregroundStyle(.secondary)
+                    }
+                    .fixedSize()
+                    .position(x: x, y: max(14, geom.top + geom.height * (1 - value) - 16))
+                    .accessibilityHidden(true)
+                }
+            }
+        }
+    }
+
+    /// A dose's four modeled moments, in minutes from the dose.
+    ///
+    /// Boundaries at or past the curve's end contribute nothing, and two that
+    /// land within a few minutes of each other are the same pixel — the later
+    /// one is dropped rather than drawn on top of the earlier.
+    private static func milestones(of dose: ActiveSubstanceState) -> [(minutes: Double, symbol: String)] {
+        let candidates: [(Double, String)] = [
+            (dose.onsetEndMinutes, DosePhaseGlyph.comeup),
+            (dose.comeupEndMinutes, DosePhaseGlyph.peak),
+            (dose.peakEndMinutes, DosePhaseGlyph.offset),
+            (dose.totalMinutes, DosePhaseGlyph.ended),
+        ]
+        var kept: [(minutes: Double, symbol: String)] = []
+        for (minutes, symbol) in candidates where minutes > 0 {
+            if let last = kept.last, minutes - last.minutes < dose.totalMinutes * 0.06 { continue }
+            kept.append((minutes, symbol))
+        }
+        return kept
     }
 
     /// The glyph for a note kind: a quote for an observation, a bell for a

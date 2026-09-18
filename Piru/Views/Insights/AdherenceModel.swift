@@ -1,8 +1,8 @@
 import SwiftData
 import SwiftUI
 
-/// The adherence figures ``AdherenceView`` renders: the displayed month, today,
-/// and the current streak.
+/// The adherence figures ``AdherenceView`` renders: the displayed month and
+/// today.
 ///
 /// The month pass groups a whole journal by day and calls
 /// ``AdherenceCalculator/adherence(for:entries:dailyItems:)`` once per day, so it
@@ -23,29 +23,26 @@ final class AdherenceModel {
     /// Today strip survives browsing back through the calendar.
     private(set) var today: DayAdherence?
 
-    private(set) var streak: Int = 0
-
     let calendar = Calendar.current
 
-    /// Share of scheduled doses taken across the displayed month, counting only
-    /// days that had something due and have already happened.
-    var adherenceRate: Double {
-        let actionable = monthAdherence.filter { $0.status != .noData && $0.date <= .now }
-        let totalDue = actionable.reduce(0) { $0 + $1.totalCount }
-        guard totalDue > 0 else { return 0 }
-        let totalTaken = actionable.reduce(0) { $0 + $1.takenCount }
-        return Double(totalTaken) / Double(totalDue)
+    /// The displayed month's days that had something due and have already
+    /// happened — the only ones a count can honestly be taken over.
+    private var actionableDays: [DayAdherence] {
+        monthAdherence.filter { $0.status != .noData && $0.date <= .now }
     }
 
-    func recompute(
-        entries: [DoseEntry],
-        dailyItems: [DailyDoseItem],
-        month: Date,
-        container: ModelContainer,
-    ) async {
+    /// Scheduled doses taken so far this month, and how many were scheduled.
+    var monthDosesTaken: Int {
+        actionableDays.reduce(0) { $0 + $1.takenCount }
+    }
+
+    var monthDosesDue: Int {
+        actionableDays.reduce(0) { $0 + $1.totalCount }
+    }
+
+    func recompute(entries: [DoseEntry], dailyItems: [DailyDoseItem], month: Date) {
         recomputeMonth(entries: entries, dailyItems: dailyItems, month: month)
         today = AdherenceCalculator.adherence(for: .now, entries: entries, dailyItems: dailyItems)
-        await refreshStreak(dailyItems: dailyItems, container: container)
     }
 
     func recomputeMonth(entries: [DoseEntry], dailyItems: [DailyDoseItem], month: Date) {
@@ -70,13 +67,5 @@ final class AdherenceModel {
 
         monthAdherence = data
         monthAdherenceByDay = byDay
-    }
-
-    private func refreshStreak(dailyItems: [DailyDoseItem], container: ModelContainer) async {
-        guard !dailyItems.isEmpty else {
-            streak = 0
-            return
-        }
-        streak = await AdherenceStreakStore.shared.currentStreak(items: dailyItems, container: container)
     }
 }

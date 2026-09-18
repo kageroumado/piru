@@ -377,6 +377,14 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
     let doseDots: [DoseDot]
     let connectors: [Connector]
     let noteMarks: [NoteMark]
+    /// Phase boundaries of the one dose that has the slice to itself, in the
+    /// lane beside its curve. Empty whenever more than one dose is running:
+    /// two curves make a lone glyph ambiguous about which drug it belongs to.
+    let milestones: [Milestone]
+    /// The plain word for what the one running dose is doing at `now`, for
+    /// the gutter under the "Now" tag. `nil` on every slice but the live edge,
+    /// and whenever the milestones are empty for the same reason.
+    let wordState: WordState?
     /// Heart rate across the slice as (y, 0…1) points, y ascending. Empty
     /// unless the health overlay is on and the slice holds enough samples to
     /// read as a line.

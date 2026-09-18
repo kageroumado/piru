@@ -23,6 +23,7 @@ extension Insight {
         case .bodyLoad: "In your body over time"
         case .receptorLoad: "Receptor load over time"
         case .steadyStateProjection: "Steady state"
+        case .hormoneLevels: "Hormone Levels"
         case .patterns: "Patterns"
         case .reports: "Reports"
         }
@@ -37,6 +38,7 @@ extension Insight {
         case .bodyLoad: "waveform.path.ecg"
         case .receptorLoad: "chart.xyaxis.line"
         case .steadyStateProjection: "arrow.up.forward.circle"
+        case .hormoneLevels: "waveform.path.ecg"
         case .patterns: "list.clipboard"
         case .reports: "square.and.arrow.up.on.square"
         }
@@ -51,6 +53,7 @@ extension Insight {
         case .bodyLoad: .indigo
         case .receptorLoad: .pink
         case .steadyStateProjection: .mint
+        case .hormoneLevels: .pink
         case .patterns: .brown
         case .reports: .indigo
         }
@@ -59,13 +62,14 @@ extension Insight {
     /// One-line description shown under the title in a group list.
     var blurb: LocalizedStringKey {
         switch self {
-        case .adherence: "Your streak and this month's rate"
+        case .adherence: "Which days you took your meds"
         case .usage: "When and how much you log"
         case .tolerance: "Predicted per-mechanism tolerance"
         case .inSystem: "What's still active in your body right now"
         case .bodyLoad: "How body-load has moved over time"
         case .receptorLoad: "How hard each mechanism has been driven over time"
         case .steadyStateProjection: "Where a regular dose settles, from your own cadence"
+        case .hormoneLevels: "Estimated serum estradiol or testosterone from your logged esters"
         case .patterns: "Days used, exposure, dose trend, and overlap"
         case .reports: "Export sessions, generate clinical reports"
         }

@@ -23,11 +23,40 @@ struct ItemAdherence: Identifiable {
 }
 
 struct DayAdherence: Identifiable {
+    /// A day whose scheduled doses fall on both sides of noon, counted per
+    /// half. A single circle can say "you missed one"; two halves say *which
+    /// end of the day* went missing, which is the fact a two-a-day routine
+    /// actually turns on.
+    struct Halves: Equatable, Hashable {
+        let morningTaken: Int
+        let morningTotal: Int
+        let eveningTaken: Int
+        let eveningTotal: Int
+
+        var morning: AdherenceStatus {
+            Self.status(taken: morningTaken, total: morningTotal)
+        }
+
+        var evening: AdherenceStatus {
+            Self.status(taken: eveningTaken, total: eveningTotal)
+        }
+
+        private static func status(taken: Int, total: Int) -> AdherenceStatus {
+            if total == 0 { return .noData }
+            if taken >= total { return .complete }
+            return taken > 0 ? .partial : .missed
+        }
+    }
+
     let date: Date
     let status: AdherenceStatus
     let takenCount: Int
     let totalCount: Int
     let items: [ItemAdherence]
+    /// The day split at noon, or `nil` when the split would say nothing: a
+    /// routine that lives entirely in one half of the day, or one whose meds
+    /// carry no reminder times to place them by.
+    var halves: Halves?
     var id: Date {
         date
     }
@@ -95,6 +124,13 @@ enum AdherenceCalculator {
         var itemResults: [ItemAdherence] = []
         var matched = 0
         var expected = 0
+        // The same counting again, split at noon. It stays a separate tally
+        // rather than a sum of halves: an item with no reminder times has a
+        // slot but no hour to file it under, and one such item takes the whole
+        // day's split away (see `splittable` below) without disturbing the
+        // headline count.
+        var morningTaken = 0, morningTotal = 0, eveningTaken = 0, eveningTotal = 0
+        var splittable = true
         for item in dueItems {
             // A multi-time med expects one dose slot per reminder time.
             let itemExpected = max(1, item.reminderTimesMinutes.count)
@@ -103,6 +139,17 @@ enum AdherenceCalculator {
             itemResults.append(ItemAdherence(item: item, takenCount: itemTaken, totalCount: itemExpected))
             matched += itemTaken
             expected += itemExpected
+
+            let times = item.reminderTimesMinutes
+            guard !times.isEmpty else { splittable = false; continue }
+            let morningSlots = times.count { $0 < noonMinutes }
+            let eveningSlots = times.count - morningSlots
+            let itemDoses = dayEntries.filter { entryMatches(entry: $0, item: item) }
+            let morningHits = itemDoses.count { minutesOfDay($0.timestamp, calendar: calendar) < noonMinutes }
+            morningTotal += morningSlots
+            eveningTotal += eveningSlots
+            morningTaken += min(morningHits, morningSlots)
+            eveningTaken += min(itemDoses.count - morningHits, eveningSlots)
         }
 
         let status: AdherenceStatus = if matched == expected {
@@ -113,7 +160,25 @@ enum AdherenceCalculator {
             .missed
         }
 
-        return DayAdherence(date: date, status: status, takenCount: matched, totalCount: expected, items: itemResults)
+        let halves: DayAdherence.Halves? = splittable && morningTotal > 0 && eveningTotal > 0
+            ? DayAdherence.Halves(
+                morningTaken: morningTaken, morningTotal: morningTotal,
+                eveningTaken: eveningTaken, eveningTotal: eveningTotal,
+            )
+            : nil
+
+        return DayAdherence(
+            date: date, status: status, takenCount: matched, totalCount: expected,
+            items: itemResults, halves: halves,
+        )
+    }
+
+    /// Noon, as minutes from midnight — the seam the day's halves are cut at.
+    /// A local clock hour, not a claim about anyone's morning.
+    static let noonMinutes = 12 * 60
+
+    private static func minutesOfDay(_ date: Date, calendar: Calendar) -> Int {
+        calendar.component(.hour, from: date) * 60 + calendar.component(.minute, from: date)
     }
 
     static func currentStreak(adherenceData: [DayAdherence]) -> Int {

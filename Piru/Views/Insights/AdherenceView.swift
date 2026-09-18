@@ -5,7 +5,6 @@ struct AdherenceView: View {
     @Environment(\.appNavigator) private var navigator
     @Query(sort: \DoseEntry.timestamp) private var allEntries: [DoseEntry]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
-    @Environment(\.modelContext) private var modelContext
 
     @State private var model = AdherenceModel()
     @State private var displayedMonth: Date = .now
@@ -20,25 +19,20 @@ struct AdherenceView: View {
                     AdherenceTodayCard(today: model.today) {
                         navigator.present(.quickLog(routine: nil))
                     }
-                    AdherenceStreakCard(streak: model.streak, adherenceRate: model.adherenceRate)
                     AdherenceCalendar(
                         displayedMonth: $displayedMonth,
                         monthAdherenceByDay: model.monthAdherenceByDay,
                         selectedDay: $selectedDay,
                         calendar: model.calendar,
                     )
+                    AdherenceMonthCard(taken: model.monthDosesTaken, due: model.monthDosesDue)
                     AdherenceRemindersLink()
                 }
                 .padding()
             }
             .skinBackdrop()
             .task(id: DoseLogService.shared.revision) {
-                await model.recompute(
-                    entries: allEntries,
-                    dailyItems: dailyItems,
-                    month: displayedMonth,
-                    container: modelContext.container,
-                )
+                model.recompute(entries: allEntries, dailyItems: dailyItems, month: displayedMonth)
             }
             .onChange(of: displayedMonth) {
                 model.recomputeMonth(entries: allEntries, dailyItems: dailyItems, month: displayedMonth)
@@ -185,36 +179,35 @@ private struct TodayAdherenceRow: View {
     }
 }
 
-// MARK: - Streak Card
+// MARK: - Month Card
 
-private struct AdherenceStreakCard: View {
-    let streak: Int
-    let adherenceRate: Double
+/// The month as a count, under the calendar that already showed its shape.
+///
+/// No streak counter here, and no flame: a streak a single missed day resets to
+/// zero is a scoreboard, and this screen is read by people for whom a scoreboard
+/// is a shame vector rather than a nudge. The count only ever goes up.
+private struct AdherenceMonthCard: View {
+    let taken: Int
+    let due: Int
 
     var body: some View {
         HStack(spacing: 14) {
-            Image(systemName: "flame.fill")
-                .font(.piru(.largeTitle))
-                .foregroundStyle(.orange)
+            Image(systemName: "calendar")
+                .font(.piru(.title2))
+                .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: Spacing.xxs) {
-                Text("\(streak)")
-                    .font(.piru(.largeTitle, design: .rounded, weight: .bold))
-                Text(streak == 1 ? "day streak" : "days streak")
+                Text("\(taken) of \(due) scheduled doses")
+                    .font(.piru(.body, design: .rounded, weight: .semibold))
+                Text(Date.now.formatted(.dateTime.month(.wide)))
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
-            VStack(alignment: .trailing, spacing: Spacing.xxs) {
-                Text("\(Int(adherenceRate * 100))%")
-                    .font(.piru(.title2, design: .rounded, weight: .semibold))
-                    .foregroundStyle(adherenceRate >= 0.8 ? Color.successText : adherenceRate >= 0.5 ? Color.Semantic.Caution.text : Color.Semantic.Danger.text)
-                Text("this month")
-                    .captionSecondary()
-            }
         }
         .padding()
         .themeCard()
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -333,6 +326,7 @@ private struct AdherenceCalendarGrid: View {
                             day: calendar.component(.day, from: date),
                             status: isFuture ? .noData : (adherence?.status ?? .missed),
                             isToday: isToday,
+                            halves: isFuture ? nil : adherence?.halves,
                         )
                     }
                     .buttonStyle(.plain)
@@ -365,11 +359,20 @@ struct AdherenceCalendarCell: View {
     let day: Int
     let status: AdherenceStatus
     let isToday: Bool
+    /// The day's two halves, when it has them — morning on the leading side,
+    /// evening on the trailing one. The shaded half is the one that went
+    /// unlogged, so a glance at the month says which end of the day slips.
+    var halves: DayAdherence.Halves?
 
     var body: some View {
         ZStack {
-            Circle()
-                .fill(backgroundColor)
+            if let halves {
+                HalfDisc(side: .leading).fill(Self.fill(for: halves.morning))
+                HalfDisc(side: .trailing).fill(Self.fill(for: halves.evening))
+            } else {
+                Circle()
+                    .fill(backgroundColor)
+            }
             if isToday {
                 Circle()
                     .stroke(Theme.accent, lineWidth: 2)
@@ -388,11 +391,14 @@ struct AdherenceCalendarCell: View {
     }
 
     private var statusDescription: LocalizedStringResource {
+        if let halves, halves.morning != halves.evening {
+            return halves.morning == .complete ? "Evening dose not logged" : "Morning dose not logged"
+        }
         switch status {
-        case .complete: "All taken"
-        case .partial: "Partially taken"
-        case .missed: "All missed"
-        case .noData: "Nothing due"
+        case .complete: return "All taken"
+        case .partial: return "Partially taken"
+        case .missed: return "All missed"
+        case .noData: return "Nothing due"
         }
     }
 
@@ -421,12 +427,44 @@ struct AdherenceCalendarCell: View {
     }
 
     private var backgroundColor: Color {
+        Self.fill(for: status)
+    }
+
+    private static func fill(for status: AdherenceStatus) -> Color {
         switch status {
         case .complete: Color.successAccent.opacity(Theme.Opacity.tint)
         case .partial: Color.Semantic.Caution.accent.opacity(Theme.Opacity.tint)
         case .missed: Color.Semantic.Danger.accent.opacity(Theme.Opacity.tint)
         case .noData: Color.platformSecondarySystemBackground.opacity(Theme.Opacity.dimmed)
         }
+    }
+}
+
+/// One half of the day's disc, cut vertically. Two of these fill the same
+/// square, so the seam lands dead centre and the halves never drift apart.
+private nonisolated struct HalfDisc: Shape {
+    enum Side {
+        case leading
+        case trailing
+    }
+
+    let side: Side
+
+    func path(in rect: CGRect) -> Path {
+        let diameter = min(rect.width, rect.height)
+        let circle = CGRect(
+            x: rect.midX - diameter / 2,
+            y: rect.midY - diameter / 2,
+            width: diameter,
+            height: diameter,
+        )
+        let half = CGRect(
+            x: side == .leading ? circle.minX : circle.midX,
+            y: circle.minY,
+            width: diameter / 2,
+            height: diameter,
+        )
+        return Path(ellipseIn: circle).intersection(Path(half))
     }
 }
 

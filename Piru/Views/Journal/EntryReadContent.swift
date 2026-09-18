@@ -223,7 +223,15 @@ struct EntryReadHero: View {
                     }
                 }
 
-                EntryLiveStatus(state: state, now: context.date, clearedDate: clearedDate)
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    EntryLiveStatus(state: state, now: context.date, clearedDate: clearedDate)
+                    if let state, context.date < state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60) {
+                        DoseSleepClause(
+                            effectsEnd: state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60),
+                            affectsSleep: substance.map { SubstanceCategory.wakePromoting.contains($0.category) } ?? false,
+                        )
+                    }
+                }
             }
         }
     }
@@ -338,7 +346,7 @@ struct EntryEndedReceipt: View {
                 Text("Effects ended ~\(SessionBodyLoadModel.milestoneText(end))")
             }
         } icon: {
-            Image(systemName: "checkmark.circle")
+            Image(systemName: DosePhaseGlyph.ended)
                 .accessibilityHidden(true)
         }
         .captionSecondary()

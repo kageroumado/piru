@@ -289,6 +289,22 @@
         }
       }
     },
+    "{name} easing off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{name} 正在消退"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{name} 正在消退"
+          }
+        }
+      }
+    },
     "{name} effects fading" : {
       "localizations" : {
         "zh-Hans" : {
@@ -773,6 +789,16 @@
         }
       }
     },
+    "%@ %@ on %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ on %3$@"
+          }
+        }
+      }
+    },
     "%@ %@ remaining after %@" : {
       "localizations" : {
         "en" : {
@@ -933,6 +959,51 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ +%2$lld 更多"
+          }
+        }
+      }
+    },
+    "%@ active until ~%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ active until ~%2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 预计持续到约 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 預計持續到約 %@"
+          }
+        }
+      }
+    },
+    "%@ active until ~%@ — after most bedtimes" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ active until ~%2$@ — after most bedtimes"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 预计持续到约 %@ — 晚于多数人的就寝时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 預計持續到約 %@ — 晚於多數人的就寢時間"
           }
         }
       }
@@ -1432,6 +1503,7 @@
       }
     },
     "%@ is due" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2423,6 +2495,16 @@
         }
       }
     },
+    "%lld %@ injections logged. No serum curve is drawn for it — no validated release data." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@ injections logged. No serum curve is drawn for it — no validated release data."
+          }
+        }
+      }
+    },
     "%lld atoms" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3165,6 +3247,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天已記錄 %1$lld / %2$lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld scheduled doses" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld scheduled doses"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / %lld 次计划剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / %lld 次計劃劑量"
           }
         }
       }
@@ -5501,6 +5605,9 @@
         }
       }
     },
+    "A level only means something with its draw time: for cypionate and enanthate, measure midway between injections; for undecanoate, measure at trough, just before the next dose." : {
+
+    },
     "A model estimate, not a measurement. What's in your body and what you feel don't always line up." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6077,6 +6184,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按相同劑量計,強度約為 %2$@ 的 %1$@ 倍。"
+          }
+        }
+      }
+    },
+    "About %lld to %lld %@ across the cycle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About %1$lld to %2$lld %3$@ across the cycle"
           }
         }
       }
@@ -6729,6 +6846,9 @@
           }
         }
       }
+    },
+    "Add %@" : {
+
     },
     "Add a blood test to fit the curve to you. The band narrows." : {
       "localizations" : {
@@ -8868,6 +8988,9 @@
         }
       }
     },
+    "An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. This curve sums your logged esters into the serum level a blood test would read." : {
+
+    },
     "An opioid overdose is a sudden loss of consciousness with no warning — you can't give yourself naloxone. Don't use alone: someone with you needs naloxone and should call emergency services. Nodding off can also lead to choking on vomit or burns, so never use where you might pass out unattended." : {
       "localizations" : {
         "zh-Hans" : {
@@ -9366,6 +9489,25 @@
         }
       }
     },
+    "Aromatized estradiol" : {
+
+    },
+    "around %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約 %@"
+          }
+        }
+      }
+    },
     "Around surgery" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9525,6 +9667,9 @@
           }
         }
       }
+    },
+    "Assumed depot levels" : {
+
     },
     "at common or above" : {
       "localizations" : {
@@ -10511,6 +10656,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Befrienders Kenya"
+          }
+        }
+      }
+    },
+    "Begins to wear off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始消退"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始消退"
           }
         }
       }
@@ -13143,6 +13304,22 @@
         }
       }
     },
+    "Clear for sleep" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再影响睡眠"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再影響睡眠"
+          }
+        }
+      }
+    },
     "Clear for sleep ~%@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14039,6 +14216,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩和期窗口已過"
+          }
+        }
+      }
+    },
+    "Coming up" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上头中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上頭中"
           }
         }
       }
@@ -16170,6 +16363,7 @@
       }
     },
     "day streak" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16218,6 +16412,7 @@
       }
     },
     "days streak" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16345,6 +16540,9 @@
           }
         }
       }
+    },
+    "Decreased" : {
+
     },
     "deep" : {
       "localizations" : {
@@ -19031,6 +19229,9 @@
         }
       }
     },
+    "Each ester's own release, before they sum to the serum estimate above." : {
+
+    },
     "Each line as a share of its own peak" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19064,6 +19265,7 @@
       }
     },
     "Eat a nutritious meal, drink water, and rest. Magnesium and vitamin C may help. Don't fight the tiredness — your body needs recovery." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19693,6 +19895,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "效應可能超過上述時長：%2$@ 的標註時長結束時，%1$@ 仍在體內。"
+          }
+        }
+      }
+    },
+    "Effects end" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果结束"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果結束"
           }
         }
       }
@@ -20862,6 +21080,9 @@
         }
       }
     },
+    "Estimated %@ level over time" : {
+
+    },
     "Estimated from effect curves · %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20925,6 +21146,15 @@
           }
         }
       }
+    },
+    "Estimated serum estradiol" : {
+
+    },
+    "Estimated serum estradiol or testosterone from your logged esters" : {
+
+    },
+    "Estimated serum testosterone" : {
+
     },
     "Estimated trough" : {
       "localizations" : {
@@ -21115,6 +21345,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "晚上"
+          }
+        }
+      }
+    },
+    "Evening dose not logged" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "晚间剂量未记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "晚間劑量未記錄"
           }
         }
       }
@@ -22937,6 +23183,22 @@
         }
       }
     },
+    "Full effect" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完全起效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完全起效"
+          }
+        }
+      }
+    },
     "Full effect; the experience is the thing, ordinary activity set aside." : {
       "localizations" : {
         "zh-Hans" : {
@@ -24460,6 +24722,12 @@
         }
       }
     },
+    "Hematocrit" : {
+
+    },
+    "Hemoglobin" : {
+
+    },
     "Hidden" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24798,6 +25066,9 @@
           }
         }
       }
+    },
+    "Hormone Levels" : {
+
     },
     "Hormones, thyroid, and metabolic drugs." : {
       "localizations" : {
@@ -26469,6 +26740,9 @@
         }
       }
     },
+    "Increased" : {
+
+    },
     "Increased anxiety and vasoconstriction — stimulants can intensify difficult trips." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27049,6 +27323,9 @@
         }
       }
     },
+    "It estimates a level. It never suggests a dose or a target. Lab results calibrate it to you, and the reference lines are your own." : {
+
+    },
     "It estimates a level. It never suggests a dose or a target. Lab results calibrate it to you." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27417,6 +27694,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "起效與消退時間來自這款藥物自身的持續時間資料——與時間線所用的模型相同。這是估算。"
+          }
+        }
+      }
+    },
+    "Kicks in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始起效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始起效"
           }
         }
       }
@@ -27860,6 +28153,9 @@
           }
         }
       }
+    },
+    "Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. Retest after any change in dose, ester, interval, or site." : {
+
     },
     "Library" : {
       "localizations" : {
@@ -28702,6 +28998,9 @@
           }
         }
       }
+    },
+    "Log an injectable estradiol or testosterone ester to see your estimated hormone levels here." : {
+
     },
     "Log Anyway" : {
       "localizations" : {
@@ -31123,6 +31422,9 @@
         }
       }
     },
+    "Monitored alongside hematocrit on T. Your measured points, plotted." : {
+
+    },
     "Monoamine oxidase inhibitor" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31378,6 +31680,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上午"
+          }
+        }
+      }
+    },
+    "Morning dose not logged" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早间剂量未记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早間劑量未記錄"
           }
         }
       }
@@ -34260,6 +34578,9 @@
           }
         }
       }
+    },
+    "Note the time since your last injection when you draw — a peak and a trough tell different stories, and the curve reads both against your dose times." : {
+
     },
     "Notes" : {
       "localizations" : {
@@ -44057,6 +44378,9 @@
         }
       }
     },
+    "Shaded: the 300–1000 ng/dL male reference range (FDA label; Wang 2010). A reference, not a target." : {
+
+    },
     "Share" : {
       "localizations" : {
         "zh-Hans" : {
@@ -48614,6 +48938,18 @@
         }
       }
     },
+    "Testosterone (suppression)" : {
+
+    },
+    "Testosterone aromatizes to estradiol, so E2 often rises on T. Piru plots your measured points — the conversion is person-specific, not modeled." : {
+
+    },
+    "Testosterone ester curves are fit from label and primary-literature half-lives — there is no community PK simulator for them, so the band stays wide until your labs pin it." : {
+
+    },
+    "Testosterone raises red-cell production, so hematocrit is monitored on T (largest rise in the first year). These are your measured points, plotted, not a prediction." : {
+
+    },
     "Text" : {
       "localizations" : {
         "zh-Hans" : {
@@ -48903,6 +49239,9 @@
           }
         }
       }
+    },
+    "The Endocrine Society / WPATH SOC8 monitoring goal. Tapping sets it as your own reference lines — Piru still sets no target." : {
+
     },
     "The engine can simulate these as part of a plan, but they need a calibrated substance in the same plan to anchor the curve." : {
       "localizations" : {
@@ -49381,6 +49720,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "原有症狀重新出現，並在短期內比之前更強。"
+          }
+        }
+      }
+    },
+    "The plateau has ended. If your day has a second dose, this is the window it usually falls in — and food and water help the stretch either way." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平台期已经结束。如果你这一天还有第二次剂量，通常就落在这个时间窗内 — 无论如何，进食和补水都有助于接下来的这段时间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平台期已經結束。如果你這一天還有第二次劑量，通常就落在這個時間窗內 — 無論如何，進食和補水都有助於接下來的這段時間。"
           }
         }
       }
@@ -49915,6 +50270,7 @@
       }
     },
     "this month" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -52413,6 +52769,16 @@
         }
       }
     },
+    "Use the common clinical goal (%lld–%lld %@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Use the common clinical goal (%1$lld–%2$lld %3$@)"
+          }
+        }
+      }
+    },
     "Used %lld of %lld days (%lld%%)." : {
       "localizations" : {
         "en" : {
@@ -53195,6 +53561,22 @@
         }
       }
     },
+    "Wearing off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消退中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消退中"
+          }
+        }
+      }
+    },
     "Weekly" : {
       "localizations" : {
         "zh-Hans" : {
@@ -53819,6 +54201,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它該歸到哪一類是有爭議的——這個標籤是約定俗成的說法，而不是定論。"
+          }
+        }
+      }
+    },
+    "Which days you took your meds" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "哪些天服了药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "哪些天服了藥"
           }
         }
       }
@@ -55013,6 +55411,9 @@
         }
       }
     },
+    "Your measured testosterone. On estradiol, T usually falls; Piru plots your points rather than modeling suppression." : {
+
+    },
     "Your modeled GABA-A load has essentially cleared — past the point where the drug itself is still leaving your system. The bands below say when symptoms tend to follow." : {
       "localizations" : {
         "zh-Hans" : {
@@ -55207,6 +55608,7 @@
       }
     },
     "Your streak and this month's rate" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

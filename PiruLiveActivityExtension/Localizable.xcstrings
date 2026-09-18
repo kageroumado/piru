@@ -253,6 +253,22 @@
         }
       }
     },
+    "Coming up" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上头中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上頭中"
+          }
+        }
+      }
+    },
     "Concentration" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1356,6 +1372,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "和紙、枯山水、櫻花"
+          }
+        }
+      }
+    },
+    "Wearing off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消退中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消退中"
           }
         }
       }

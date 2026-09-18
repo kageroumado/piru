@@ -414,4 +414,39 @@ struct AdherenceCalculatorTests {
         ]
         #expect(AdherenceCalculator.currentStreak(adherenceData: data) == 1)
     }
+
+    // MARK: - Half-lit days
+
+    @Test
+    func `A day scheduled on both sides of noon splits into halves`() {
+        let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 20 * 60])
+        let morningDose = makeEntry(substance: "Testine", timestamp: today.addingTimeInterval(8 * 3_600))
+        let day = AdherenceCalculator.adherence(for: today, entries: [morningDose], dailyItems: [item])
+        #expect(day.halves?.morning == .complete)
+        #expect(day.halves?.evening == .missed)
+    }
+
+    @Test
+    func `An evening-only miss shades the trailing half`() {
+        let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 20 * 60])
+        let eveningDose = makeEntry(substance: "Testine", timestamp: today.addingTimeInterval(20 * 3_600))
+        let day = AdherenceCalculator.adherence(for: today, entries: [eveningDose], dailyItems: [item])
+        #expect(day.halves?.morning == .missed)
+        #expect(day.halves?.evening == .complete)
+    }
+
+    @Test
+    func `A routine living in one half of the day gets no split`() {
+        let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 10 * 60])
+        let day = AdherenceCalculator.adherence(for: today, entries: [], dailyItems: [item])
+        #expect(day.halves == nil)
+    }
+
+    @Test
+    func `A med with no reminder times takes the whole day's split away`() {
+        let timed = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 20 * 60])
+        let untimed = makeItem(substance: "Otherine")
+        let day = AdherenceCalculator.adherence(for: today, entries: [], dailyItems: [timed, untimed])
+        #expect(day.halves == nil)
+    }
 }

@@ -29,6 +29,9 @@ struct DayEntryCore: Equatable {
     let isApproximate: Bool
     /// Whether the dose has no amount at all — draws `?`, no level, no rail.
     let isUnknownDose: Bool
+    /// The dose's class, carried so the row can state a sleep clause without a
+    /// lookup of its own. `nil` for a substance the catalog cannot resolve.
+    let category: SubstanceCategory?
 
     /// Resolve each dose row's substance facts once: title, dose level, and the
     /// rail's window.
@@ -54,7 +57,8 @@ struct DayEntryCore: Equatable {
             // ladder and shown as such in the staged editor — as "light" against
             // racemic methylphenidate's, and disagreed with `EntryDetailView`'s
             // edit mode, so tapping Edit visibly flipped the badge.
-            let doseLevel = entry.isUnknownDose ? nil : substance(entry.substance)?
+            let resolved = substance(entry.substance)
+            let doseLevel = entry.isUnknownDose ? nil : resolved?
                 .doseRange(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer)?
                 .level(for: entry.amount)
             return DayEntryCore(
@@ -72,6 +76,7 @@ struct DayEntryCore: Equatable {
                 substanceKey: entry.substance.lowercased(),
                 isApproximate: entry.isApproximate,
                 isUnknownDose: entry.isUnknownDose,
+                category: resolved?.category,
             )
         }
     }
@@ -285,6 +290,10 @@ struct EntryRowView: View {
 
                 if let total, active {
                     railRow(elapsed: elapsed, total: total, now: now)
+                    DoseSleepClause(
+                        effectsEnd: display.core.timestamp.addingTimeInterval(total * 60),
+                        affectsSleep: display.core.category.map { SubstanceCategory.wakePromoting.contains($0) } ?? false,
+                    )
                 }
             }
         }

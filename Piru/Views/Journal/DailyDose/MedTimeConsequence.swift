@@ -87,9 +87,59 @@ struct MedTimeConsequence: Equatable {
     /// Whether effects run into the hours most people are asleep. A population
     /// statement, and the only kind available: Piru holds no bedtime for anyone.
     func landsInNight(minutesOfDay: Int, on reference: Date = .now, calendar: Calendar = .current) -> Bool {
-        let end = clockTimes(minutesOfDay: minutesOfDay, on: reference, calendar: calendar).effectsEnd
-        let hour = calendar.component(.hour, from: end)
-        return hour >= Self.nightStartHour || hour < Self.nightEndHour
+        Self.isNight(clockTimes(minutesOfDay: minutesOfDay, on: reference, calendar: calendar).effectsEnd, calendar: calendar)
+    }
+
+    /// Whether a moment falls in the hours most people are asleep.
+    static func isNight(_ date: Date, calendar: Calendar = .current) -> Bool {
+        let hour = calendar.component(.hour, from: date)
+        return hour >= nightStartHour || hour < nightEndHour
+    }
+}
+
+extension MedTimeConsequence {
+    /// When a dose logged at `time` is one whose effects the model runs past
+    /// the hours most people sleep — and the hour they end. `nil` for anything
+    /// else: a dose that clears before the night, a class the app may not talk
+    /// about bedtime for, or a substance with no acute curve.
+    ///
+    /// The quick-log dock states this beside the interaction warnings. By the
+    /// time a 6 PM stimulant is being logged, the useful fact is not that it
+    /// will work — it is the hour it stops.
+    static func nightEnd(
+        substance: Substance?,
+        route: RouteOfAdministration,
+        at time: Date,
+        calendar: Calendar = .current,
+    ) -> Date? {
+        guard let consequence = resolve(substance: substance, route: route), consequence.affectsSleep else { return nil }
+        let minutesOfDay = calendar.component(.hour, from: time) * 60 + calendar.component(.minute, from: time)
+        guard consequence.landsInNight(minutesOfDay: minutesOfDay, on: time, calendar: calendar) else { return nil }
+        return consequence.clockTimes(minutesOfDay: minutesOfDay, on: time, calendar: calendar).effectsEnd
+    }
+}
+
+/// "Clear for sleep ~6:35 AM" beside a dose that is still running.
+///
+/// The one fact a stimulant logged at 1 AM raises and the curve does not answer
+/// on its own: the graph's own window usually ends before the tail does, and the
+/// hour the effects run out is the hour that decides the night. Draws only for a
+/// class the app may talk about bedtime for, and only when the end actually
+/// lands in the night — a morning dose says nothing here.
+struct DoseSleepClause: View {
+    let effectsEnd: Date
+    let affectsSleep: Bool
+
+    var body: some View {
+        if affectsSleep, MedTimeConsequence.isNight(effectsEnd) {
+            Label {
+                Text("Clear for sleep ~\(effectsEnd.formatted(date: .omitted, time: .shortened))")
+            } icon: {
+                Image(systemName: DosePhaseGlyph.sleep)
+                    .accessibilityHidden(true)
+            }
+            .captionSecondary()
+        }
     }
 }
 

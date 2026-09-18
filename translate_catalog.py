@@ -9,6 +9,26 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # ADHD audience fit v2 — curve milestones, word-state glance, the late-dose
+    # sleep clause, and the de-shamed adherence surfaces.
+    "Kicks in": ("开始起效", "開始起效"),
+    "Full effect": ("完全起效", "完全起效"),
+    "Begins to wear off": ("开始消退", "開始消退"),
+    "Clear for sleep": ("不再影响睡眠", "不再影響睡眠"),
+    "Effects end": ("效果结束", "效果結束"),
+    "around %@": ("约 %@", "約 %@"),
+    "Coming up": ("上头中", "上頭中"),
+    "Wearing off": ("消退中", "消退中"),
+    "%@ active until ~%@": ("%@ 预计持续到约 %@", "%@ 預計持續到約 %@"),
+    "%lld of %lld scheduled doses": ("%lld / %lld 次计划剂量", "%lld / %lld 次計劃劑量"),
+    "Which days you took your meds": ("哪些天服了药", "哪些天服了藥"),
+    "Morning dose not logged": ("早间剂量未记录", "早間劑量未記錄"),
+    "Evening dose not logged": ("晚间剂量未记录", "晚間劑量未記錄"),
+    "{name} easing off": ("{name} 正在消退", "{name} 正在消退"),
+    "The plateau has ended. If your day has a second dose, this is the window it usually falls in — and food and water help the stretch either way.": (
+        "平台期已经结束。如果你这一天还有第二次剂量，通常就落在这个时间窗内 — 无论如何，进食和补水都有助于接下来的这段时间。",
+        "平台期已經結束。如果你這一天還有第二次劑量，通常就落在這個時間窗內 — 無論如何，進食和補水都有助於接下來的這段時間。",
+    ),
     # SubstanceCategory.classSummary — category descriptions shown atop each
     # browse list; LocalizedStringResource literals the extractor misses, inserted
     # via NEW_KEYS and persistent because they carry a translation.
@@ -6869,6 +6889,22 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # ADHD audience fit v2
+        "Kicks in",
+        "Full effect",
+        "Begins to wear off",
+        "Clear for sleep",
+        "Effects end",
+        "around %@",
+        "Coming up",
+        "Wearing off",
+        "%@ active until ~%@",
+        "%lld of %lld scheduled doses",
+        "Which days you took your meds",
+        "Morning dose not logged",
+        "Evening dose not logged",
+        "{name} easing off",
+        "The plateau has ended. If your day has a second dose, this is the window it usually falls in — and food and water help the stretch either way.",
         # SubstanceCategory.classSummary (extractor-invisible LocalizedStringResource)
         "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to.",
         "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia.",

@@ -36,6 +36,11 @@ struct TimelineStripDayContent: View {
             ZStack(alignment: .topLeading) {
                 strip(bubbleLeft: bubbleLeft, columnX: columnX)
                 noteMarks(bubbleLeft: bubbleLeft, laneWidth: max(0, Self.maxAmplitudeFraction * (geo.size.width - TimelineGutter.axisX)))
+                milestoneMarks(
+                    bubbleLeft: bubbleLeft,
+                    laneWidth: max(0, Self.maxAmplitudeFraction * (geo.size.width - TimelineGutter.axisX)),
+                    trailingEdge: geo.size.width - TimelineGutter.edgeInset,
+                )
                 gutterMarks
                 doseDots
                 bubbleColumn(width: columnWidth)
@@ -77,7 +82,34 @@ struct TimelineStripDayContent: View {
                 TimelineNowMark()
                     .offset(x: TimelineGutter.edgeInset, y: y - TimelineGutterMarkMetrics.singleLineHeight / 2)
             }
+            if let wordState = day.wordState {
+                TimelineWordStateMark(state: wordState)
+                    .offset(x: TimelineGutter.edgeInset, y: wordState.y - TimelineGutterMarkMetrics.singleLineHeight / 2)
+            }
         }
+    }
+
+    /// The one running dose's phase boundaries, each in the lane at the outer
+    /// edge of the curves. The dot on the curve and the connector to the mark
+    /// are drawn on the canvas; only the marks are views, so each is one label
+    /// the reader can actually read at any text size.
+    private func milestoneMarks(bubbleLeft: CGFloat, laneWidth: CGFloat, trailingEdge: CGFloat) -> some View {
+        let x = TimelineMilestoneLane.markX(axisX: TimelineGutter.axisX, curveWidth: laneWidth)
+        return ForEach(day.milestones) { milestone in
+            if TimelineMilestoneLane.fits(
+                markX: x, bubbleLeft: bubbleLeft,
+                trailingEdge: trailingEdge, clearOfCards: milestone.clearOfCards,
+            ) {
+                TimelineMilestoneMark(milestone: milestone, color: milestoneColor)
+                    .offset(x: x, y: milestone.y - TimelineMilestoneLane.markHeight / 2)
+            }
+        }
+    }
+
+    /// A milestone takes the color of the curve it belongs to — the slice's
+    /// only series, since milestones draw only while one dose is running.
+    private var milestoneColor: Color {
+        day.series.first?.color ?? Theme.accent
     }
 
     /// Session notes in the lane, each at its own moment and pushed clear of
@@ -244,6 +276,10 @@ struct TimelineStripDayContent: View {
             )
         }
 
+        drawMilestones(
+            in: &context, axisX: axisX, curveWidth: curveWidth,
+            bubbleLeft: bubbleLeft, trailingEdge: size.width - TimelineGutter.edgeInset,
+        )
         drawConnectors(in: &context, axisX: axisX, bubbleLeft: bubbleLeft)
 
         if let y = day.nowY {
@@ -271,6 +307,43 @@ struct TimelineStripDayContent: View {
                 ),
             )
             context.blendMode = .normal
+        }
+    }
+
+    /// A milestone's dot on the curve, and the hairline rung out to its mark
+    /// in the lane. The rung fades toward the mark so the dot — the moment
+    /// itself — stays the darker end.
+    private func drawMilestones(
+        in context: inout GraphicsContext,
+        axisX: CGFloat,
+        curveWidth: CGFloat,
+        bubbleLeft: CGFloat,
+        trailingEdge: CGFloat,
+    ) {
+        let markX = TimelineMilestoneLane.markX(axisX: axisX, curveWidth: curveWidth)
+        let color = milestoneColor
+        for milestone in day.milestones where TimelineMilestoneLane.fits(
+            markX: markX, bubbleLeft: bubbleLeft,
+            trailingEdge: trailingEdge, clearOfCards: milestone.clearOfCards,
+        ) {
+            let dotX = axisX + curveWidth * CGFloat(milestone.curveFraction)
+            var rung = Path()
+            rung.move(to: CGPoint(x: dotX, y: milestone.y))
+            rung.addLine(to: CGPoint(x: markX, y: milestone.y))
+            context.stroke(
+                rung,
+                with: .linearGradient(
+                    Gradient(colors: [color.opacity(0.45), color.opacity(0.12)]),
+                    startPoint: CGPoint(x: dotX, y: 0),
+                    endPoint: CGPoint(x: markX, y: 0),
+                ),
+                lineWidth: 1,
+            )
+            let r = TimelineMilestoneLane.dotRadius
+            context.fill(
+                Path(ellipseIn: CGRect(x: dotX - r, y: milestone.y - r, width: r * 2, height: r * 2)),
+                with: .color(color),
+            )
         }
     }
 

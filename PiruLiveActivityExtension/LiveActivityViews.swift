@@ -92,11 +92,11 @@ enum SessionPhase {
 
     var symbolName: String {
         switch self {
-        case .comeup: "arrow.up.right"
-        case .peak: "sparkles"
-        case .offset: "arrow.down.right"
-        case .afterglow: "moon.stars"
-        case .ended: "checkmark.circle"
+        case .comeup: DosePhaseGlyph.comeup
+        case .peak: DosePhaseGlyph.peak
+        case .offset: DosePhaseGlyph.offset
+        case .afterglow: DosePhaseGlyph.afterglow
+        case .ended: DosePhaseGlyph.ended
         }
     }
 
@@ -451,7 +451,7 @@ struct CompactTrailingView: View {
         } else {
             // No upcoming boundary — the session has run its course (elapsed
             // already lives on the leading side).
-            Image(systemName: "checkmark.circle")
+            Image(systemName: DosePhaseGlyph.ended)
                 .font(.system(size: CompactMetrics.iconFontSize, weight: .semibold))
                 .foregroundStyle(SessionTiming.colors(context.state).first ?? .white)
                 .frame(width: CompactMetrics.iconSide, height: CompactMetrics.iconSide)

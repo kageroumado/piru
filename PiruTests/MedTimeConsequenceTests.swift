@@ -109,4 +109,25 @@ struct MedTimeConsequenceTests {
         let consequence = try #require(MedTimeConsequence.resolve(substance: stimulant(duration: flat), route: .oral))
         #expect(!consequence.statesWearOff)
     }
+
+    // MARK: - nightEnd
+
+    @Test
+    func `A late wake-promoting dose reports the hour its effects end`() throws {
+        let sixPM = try #require(Calendar.current.date(from: DateComponents(year: 2_026, month: 3, day: 12, hour: 18)))
+        let end = try #require(MedTimeConsequence.nightEnd(substance: stimulant(), route: .oral, at: sixPM))
+        // 8 h total from 6 PM lands at 2 AM the next morning.
+        #expect(Calendar.current.component(.hour, from: end) == 2)
+    }
+
+    @Test
+    func `A morning dose of the same med reports nothing`() {
+        #expect(MedTimeConsequence.nightEnd(substance: stimulant(), route: .oral, at: nineAM) == nil)
+    }
+
+    @Test
+    func `A late dose of a class that does not hold sleep off reports nothing`() throws {
+        let sixPM = try #require(Calendar.current.date(from: DateComponents(year: 2_026, month: 3, day: 12, hour: 18)))
+        #expect(MedTimeConsequence.nightEnd(substance: stimulant(category: .antidepressant), route: .oral, at: sixPM) == nil)
+    }
 }

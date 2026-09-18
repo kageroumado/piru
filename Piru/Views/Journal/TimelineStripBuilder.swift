@@ -441,6 +441,18 @@ struct TimelineStripBuilder {
                 )
             }
 
+        // Milestones and the word-state read the effect curves' own phases, so
+        // they are effect-mode only; body-load curves model no phases at all.
+        let milestones = style.showsAxis && !pkCurves
+            ? milestones(slice: slice, localY: localY, series: series, groups: groups, envelopes: envelopes)
+            : []
+        let wordState = showsLiveEdge ? self.wordState(
+            nowY: nowY,
+            hourTicks: hourTicks,
+            groups: groups,
+            mapHeight: mapHeight,
+        ) : nil
+
         let heartRatePoints = Self.heartRatePoints(
             samples: heartRate,
             from: slice.bottomTime,
@@ -461,6 +473,8 @@ struct TimelineStripBuilder {
             doseDots: doseDots,
             connectors: connectors,
             noteMarks: noteMarks,
+            milestones: milestones,
+            wordState: wordState,
             heartRate: heartRatePoints,
             hourTicks: hourTicks,
             nowY: nowY,
@@ -519,6 +533,111 @@ struct TimelineStripBuilder {
             widest = max(widest, a.v + (b.v - a.v) * f)
         }
         return widest
+    }
+
+    // MARK: Milestones
+
+    /// The phase boundaries of a dose that is running alone, marked in the
+    /// lane beside its own curve.
+    ///
+    /// Single-substance by construction: with two curves in the lane a lone
+    /// `↗` says nothing about which of them turned. A dose earns marks only
+    /// while no other dose's effect window overlaps its own — stricter than
+    /// "one dose in the slice", and looser in the case that matters: a morning
+    /// dose whose curve has run out before the afternoon one lands still earns
+    /// its own set, and so does the afternoon one.
+    private func milestones(
+        slice: Slice,
+        localY: (Date) -> CGFloat,
+        series: [TimelineDayLayout.CurveSeries],
+        groups: [TimelineDayLayout.CardGroup],
+        envelopes: [TimelineDayLayout.SessionEnvelope],
+    ) -> [TimelineDayLayout.Milestone] {
+        let cardSpans = groups.map { (top: $0.topY, bottom: $0.bottomY) }
+            + envelopes.map { (top: $0.yStart, bottom: $0.yEnd) }
+        let all = statesBySubstance.values.flatMap(\.self)
+        func window(_ state: ActiveSubstanceState) -> DateInterval {
+            DateInterval(start: state.doseTimestamp, duration: max(state.totalMinutes, 1) * 60)
+        }
+        var wakePromoting: [String: Bool] = [:]
+        func affectsSleep(_ name: String) -> Bool {
+            let key = name.lowercased()
+            if let cached = wakePromoting[key] { return cached }
+            let category = SubstanceLibrary.lookup(name)?.category
+            let resolved = category.map { SubstanceCategory.wakePromoting.contains($0) } ?? false
+            wakePromoting[key] = resolved
+            return resolved
+        }
+
+        var result: [TimelineDayLayout.Milestone] = []
+        for state in all {
+            let own = window(state)
+            guard own.end >= slice.bottomTime, own.start <= slice.topTime else { continue }
+            let alone = !all.contains { other in
+                guard other.doseTimestamp != state.doseTimestamp || other.substanceName != state.substanceName else { return false }
+                return window(other).intersects(own)
+            }
+            guard alone else { continue }
+
+            let doseKey = "\(state.substanceName)|\(Int(state.doseTimestamp.timeIntervalSince1970))"
+            let sleep = affectsSleep(state.substanceName)
+            let moments: [(TimelineDayLayout.Milestone.Kind, Double)] = [
+                (.comeup, state.onsetEndMinutes),
+                (.peak, state.comeupEndMinutes),
+                (.offset, state.peakEndMinutes),
+                (.end, state.totalMinutes),
+            ]
+            for (kind, minutes) in moments {
+                guard minutes > 0 else { continue }
+                let t = state.doseTimestamp.addingTimeInterval(minutes * 60)
+                guard t >= slice.bottomTime, t < slice.topTime else { continue }
+                let y = localY(t)
+                result.append(TimelineDayLayout.Milestone(
+                    doseKey: doseKey,
+                    kind: kind,
+                    time: t,
+                    y: y,
+                    curveFraction: Self.curveFraction(at: y, series: series),
+                    affectsSleep: sleep,
+                    clearOfCards: TimelineMilestoneLane.clearOfCards(y: y, spans: cardSpans),
+                ))
+            }
+        }
+        return TimelineMilestoneLane.thinned(result)
+    }
+
+    /// The gutter word for the one dose running at `now`: nothing while
+    /// several are running, and nothing when the row it would take is already
+    /// spoken for by an hour label or a dose capsule. It is a courtesy on a
+    /// crowded strip, so it yields rather than overprints.
+    private func wordState(
+        nowY: CGFloat?,
+        hourTicks: [TimelineDayLayout.HourTick],
+        groups: [TimelineDayLayout.CardGroup],
+        mapHeight: CGFloat,
+    ) -> TimelineDayLayout.WordState? {
+        guard style.showsAxis, !pkCurves, let nowY else { return nil }
+        let running = statesBySubstance.values.flatMap(\.self).filter { state in
+            let elapsed = now.timeIntervalSince(state.doseTimestamp) / 60
+            return elapsed >= 0 && elapsed <= state.totalMinutes
+        }
+        guard running.count == 1, let state = running.first else { return nil }
+
+        let height = TimelineGutterLabels.hourLabelHeight
+        let y = nowY + (TimelineGutterLabels.nowLabelHeight + height) / 2 + TimelineGutterLabels.gap
+        guard y <= mapHeight - height / 2 else { return nil }
+        let frame = TimelineGutterLabels.Frame(center: y, height: height)
+        let occupied = hourTicks.filter { $0.label != nil }.map(\.y)
+            + groups.filter(\.showsTimeLabel).map(\.timeY)
+        guard occupied.allSatisfy({
+            !frame.collides(with: TimelineGutterLabels.Frame(center: $0, height: height))
+        }) else { return nil }
+
+        return TimelineDayLayout.WordState(
+            state: state,
+            elapsedMinutes: now.timeIntervalSince(state.doseTimestamp) / 60,
+            y: y,
+        )
     }
 
     // MARK: Hour ruler

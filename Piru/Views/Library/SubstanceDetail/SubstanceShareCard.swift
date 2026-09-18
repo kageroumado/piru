@@ -320,7 +320,7 @@ struct SubstanceShareCard: View {
         HStack(spacing: 0) {
             trioCell("arrow.up.forward", "Onset", duration.onset)
             trioDivider
-            trioCell("sparkles", "Peak", duration.peak)
+            trioCell(DosePhaseGlyph.peak, "Peak", duration.peak)
             trioDivider
             trioCell("clock", "Total", duration.total)
         }
@@ -441,9 +441,9 @@ struct SubstanceShareCard: View {
     private func phaseGrid(_ duration: DurationProfile) -> some View {
         HStack(spacing: Spacing.sm) {
             phaseCell("arrow.up.forward", "Onset", duration.onset)
-            phaseCell("arrow.up.right", "Come-up", duration.comeup)
-            phaseCell("sparkles", "Peak", duration.peak)
-            phaseCell("arrow.down.right", "Offset", duration.offset)
+            phaseCell(DosePhaseGlyph.comeup, "Come-up", duration.comeup)
+            phaseCell(DosePhaseGlyph.peak, "Peak", duration.peak)
+            phaseCell(DosePhaseGlyph.offset, "Offset", duration.offset)
         }
     }
 

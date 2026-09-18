@@ -535,10 +535,16 @@ enum RampDownScheduler {
 
     private static func comedownMessage(for category: SubstanceCategory?) -> (title: String, body: String) {
         switch category {
+        // Stimulants are the one class where this alert mostly lands on a
+        // prescription routine, and "wearing off" is the wrong news for it: a
+        // twice-daily user already knows, and what they can act on is where the
+        // second dose usually falls. Forewarning, and never an instruction to
+        // take one — Piru does not know this person's schedule and says so by
+        // making the clause conditional on theirs.
         case .stimulant:
             (
-                String(localized: "{name} wearing off"),
-                String(localized: "Eat a nutritious meal, drink water, and rest. Magnesium and vitamin C may help. Don't fight the tiredness — your body needs recovery."),
+                String(localized: "{name} easing off"),
+                String(localized: "The plateau has ended. If your day has a second dose, this is the window it usually falls in — and food and water help the stretch either way."),
             )
         case .empathogen:
             (

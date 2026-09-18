@@ -16,12 +16,10 @@ final class InsightsModel {
     }
 
     struct AdherenceSummary {
-        let streak: Int
-        let monthPct: Int
+        /// Scheduled doses taken so far this month, and how many were due.
+        let taken: Int
+        let due: Int
         let hasData: Bool
-        var monthText: String {
-            "\(monthPct)%"
-        }
     }
 
     struct UsageSummary {
@@ -70,7 +68,6 @@ final class InsightsModel {
         entries: [DoseEntry],
         dailyItems: [DailyDoseItem],
         substanceColors: [SubstanceColor],
-        container: ModelContainer,
     ) async {
         let token = changeToken(substanceColors: substanceColors, dailyItemCount: dailyItems.count)
         if computedToken == token {
@@ -97,8 +94,6 @@ final class InsightsModel {
         activeComputedAt = .now
         dailyCounts = computeDailyCounts(cal: cal, entriesByDay: entriesByDay)
         computedToken = token
-
-        await refreshStreak(dailyItems: dailyItems, container: container)
     }
 
     private func computeDailyCounts(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> [DailyCount] {
@@ -130,21 +125,13 @@ final class InsightsModel {
     private static func monthAdherence(fromCells cells: [DayAdherence?]) -> AdherenceSummary {
         let month = cells.compactMap(\.self)
         guard !month.isEmpty else {
-            return AdherenceSummary(streak: 0, monthPct: 0, hasData: false)
+            return AdherenceSummary(taken: 0, due: 0, hasData: false)
         }
         let actionable = month.filter { $0.status != .noData && $0.date <= .now }
         let due = actionable.reduce(0) { $0 + $1.totalCount }
         let taken = actionable.reduce(0) { $0 + $1.takenCount }
-        let pct = due > 0 ? Int((Double(taken) / Double(due)) * 100) : 0
 
-        return AdherenceSummary(streak: 0, monthPct: pct, hasData: due > 0)
-    }
-
-    private func refreshStreak(dailyItems: [DailyDoseItem], container: ModelContainer) async {
-        guard !dailyItems.isEmpty else { return }
-        let streak = await AdherenceStreakStore.shared.currentStreak(items: dailyItems, container: container)
-        guard let current = adherence else { return }
-        adherence = AdherenceSummary(streak: streak, monthPct: current.monthPct, hasData: current.hasData || streak > 0)
+        return AdherenceSummary(taken: taken, due: due, hasData: due > 0)
     }
 
     private func computeUsage(entries: [DoseEntry]) -> UsageSummary {
@@ -172,7 +159,6 @@ struct InsightsView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
     @Query private var substanceColors: [SubstanceColor]
-    @Environment(\.modelContext) private var modelContext
 
     @State private var model = InsightsModel()
 
@@ -187,6 +173,9 @@ struct InsightsView: View {
             VStack(alignment: .leading, spacing: Spacing.xxl) {
                 usageCard
                 adherenceCard
+                if HormoneLevelsLog.hasInjectableHormone(in: allEntries) {
+                    HormoneLevelsInsightCard()
+                }
                 inYourBodyCard
                 InsightsToleranceCard()
                 InsightsReceptorLoadCard()
@@ -219,7 +208,6 @@ struct InsightsView: View {
                 entries: allEntries,
                 dailyItems: dailyItems,
                 substanceColors: substanceColors,
-                container: modelContext.container,
             )
         }
     }
@@ -295,28 +283,29 @@ struct InsightsView: View {
 
     // MARK: - Adherence
 
+    /// The month's shape first, its count second.
+    ///
+    /// No streak counter here, and no flame: a streak a single missed day
+    /// resets to zero is a scoreboard, and this card is read by people for whom
+    /// a scoreboard is a shame vector rather than a nudge. The calendar says
+    /// which days; the count only ever goes up.
     private var adherenceCard: some View {
-        largeCard(icon: "flame.fill", tint: .orange, title: "Adherence", route: .insight(.adherence)) {
+        largeCard(icon: "calendar", tint: Theme.accent, title: "Adherence", route: .insight(.adherence)) {
             if dailyItems.isEmpty {
                 emptyContent("Add your meds to see adherence")
             } else {
                 VStack(alignment: .leading, spacing: 14) {
-                    HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
-                        if let a = model.adherence {
-                            Text("\(a.streak)")
-                                .font(.piru(.title2, design: .rounded, weight: .bold))
-                            Text("day streak")
-                                .font(.subheadline)
-                                .foregroundStyle(Theme.secondaryLabel)
+                    miniCalendar
+                    if let a = model.adherence, a.hasData {
+                        HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
+                            Text("\(a.taken) of \(a.due) scheduled doses")
+                                .font(.piru(.body, design: .rounded, weight: .semibold))
                             Spacer()
-                            Text("\(a.monthText)")
-                                .font(.piru(.title2, design: .rounded, weight: .bold))
                             Text(Date.now.formatted(.dateTime.month(.wide)))
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
-                    miniCalendar
                 }
             }
         }
