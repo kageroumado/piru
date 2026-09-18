@@ -1192,6 +1192,14 @@ def main() -> int:
     parser.add_argument(
         "--abstract-cache", type=Path, default=ABSTRACT_CACHE, help="abstract cache location"
     )
+    parser.add_argument(
+        "--no-write-cache",
+        action="store_true",
+        help="never write the abstract cache — for the CI/pre-push gate, which must "
+        "not modify tracked files as a side effect. The papers-cache fill still runs "
+        "in memory so coverage is unchanged; enriching the committed cache is a "
+        "deliberate run without this flag.",
+    )
     parser.add_argument("--gate", action="store_true", help="exit 1 on a confident WRONG_SUBSTANCE")
     parser.add_argument(
         "--gate-absent",
@@ -1252,6 +1260,12 @@ def main() -> int:
     meta = load_cache()  # data/sources/citation-verify-cache.json — read only
     abstracts = load_abstracts(args.abstract_cache)
 
+    def persist_abstracts() -> None:
+        # The gate passes --no-write-cache so a pre-push run never dirties the
+        # tracked cache; a plain (enriching) run persists as before.
+        if not args.no_write_cache:
+            persist_abstracts()
+
     wanted = sorted({cid for cid, _ in attachments})
     if args.limit:
         wanted = wanted[: args.limit]
@@ -1291,7 +1305,7 @@ def main() -> int:
                 )
         if filled:
             print(f"Filled {filled} abstract(s) from the papers cache", file=sys.stderr)
-            save_abstracts(args.abstract_cache, abstracts)
+            persist_abstracts()
 
     if not args.offline:
         want_pmids = [
@@ -1303,7 +1317,7 @@ def main() -> int:
             print(f"Fetching {len(want_pmids)} abstract(s) from PubMed…", file=sys.stderr)
             for pmid, text in fetch_pubmed_abstracts(want_pmids).items():
                 abstracts[f"pmid:{pmid}"] = text
-            save_abstracts(args.abstract_cache, abstracts)
+            persist_abstracts()
         want_dois = [
             citations[c]["doi"]
             for c in wanted
@@ -1315,9 +1329,9 @@ def main() -> int:
                 abstracts[f"doi:{doi}"] = fetch_crossref_abstract(doi)
                 if n % 50 == 0:
                     print(f"  {n}/{len(want_dois)}", file=sys.stderr)
-                    save_abstracts(args.abstract_cache, abstracts)
+                    persist_abstracts()
                 time.sleep(0.12)
-            save_abstracts(args.abstract_cache, abstracts)
+            persist_abstracts()
 
         # Whatever PubMed and Crossref still have no abstract for, ask Europe PMC.
         # It is not a third opinion — it is a different corpus: it carries an
@@ -1346,10 +1360,12 @@ def main() -> int:
                     abstracts[key] = record.abstract
                 if n % 50 == 0:
                     print(f"  {n}/{len(still_missing)}", file=sys.stderr)
-                    api.save()
-                    save_abstracts(args.abstract_cache, abstracts)
-            api.save()
-            save_abstracts(args.abstract_cache, abstracts)
+                    if not args.no_write_cache:
+                        api.save()
+                    persist_abstracts()
+            if not args.no_write_cache:
+                api.save()
+            persist_abstracts()
 
     # The accusation index: name → substances answering to it, minus every name
     # too short, too English, or too generic to survive contact with a title.
