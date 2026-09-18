@@ -163,6 +163,16 @@ struct InteractionCheckerTests {
         }
     }
 
+    @Test
+    func `Modafinil in the blood lowers logged estradiol via CYP3A4 induction`() throws {
+        // Estradiol carries CYP3A4/CYP1A2 metabolism rows (data/enrichment/raw/
+        // hormones-endocrine.json); modafinil is a curated CYP3A4 inducer. An active
+        // modafinil dose must surface the enzyme interaction that lowers estradiol.
+        let modafinil = try Self.makeEntry(substance: "Modafinil")
+        let results = InteractionChecker.check("Estradiol", against: [modafinil], policy: .explore)
+        #expect(results.contains { $0.ruleKey == "enzyme:modafinil|CYP3A4" })
+    }
+
     // MARK: - checkBatch()
 
     @Test
