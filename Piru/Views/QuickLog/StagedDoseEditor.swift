@@ -74,13 +74,12 @@ struct StagedDoseEditor: View {
 
             inputBlock
 
-            // Pills wrap onto further rows as they run out of width — nine of
-            // them can be live at once (unknown amount, drink, route, salt,
-            // ester, brand, isomer, note, grapefruit), and at accessibility
-            // sizes even two won't share a row without truncating each other.
+            // Pills wrap onto further rows as they run out of width — eight of
+            // them can be live at once (drink, route, salt, ester, brand,
+            // isomer, note, grapefruit), and at accessibility sizes even two
+            // won't share a row without truncating each other.
             FlowLayout(spacing: Spacing.md) {
-                StagedDoseUnknownAmountPill(isOn: $item.isUnknownAmount, pillHeight: pillHeight)
-                if byVolumeCapability != nil, byDrinkPreferred, !item.isUnknownAmount {
+                if byVolumeCapability != nil, byDrinkPreferred {
                     drinkTypeChip
                 }
                 StagedDoseRouteMenu(item: $item, pillHeight: pillHeight, namespace: namespace)
@@ -126,15 +125,6 @@ struct StagedDoseEditor: View {
         }
         .sensoryFeedback(.increase, trigger: model.stepTick)
         .onAppear(perform: seedOnAppear)
-        // Declaring the amount unknown takes the number input off the surface,
-        // so the keyboard it owned goes with it.
-        .onChange(of: item.isUnknownAmount) {
-            if item.isUnknownAmount {
-                amountFocused = false
-                abvFocused = false
-                volumeFocused = false
-            }
-        }
         .onChange(of: noteFocused) {
             // Fold an untouched note row back into the pill.
             if !noteFocused, item.note.isEmpty {
@@ -180,13 +170,12 @@ struct StagedDoseEditor: View {
         }
     }
 
-    /// The amount surface: the `?` placeholder for an unknown amount, the alcohol
-    /// logger, the branded-pill picker, or the plain −/+ stepper.
+    /// The amount surface: the alcohol logger, the branded-pill picker, or the
+    /// plain −/+ stepper. An unknown amount is a state *of* the stepper's field —
+    /// emptied text, an "Unknown" placeholder — not a surface of its own.
     @ViewBuilder
     private var inputBlock: some View {
-        if item.isUnknownAmount {
-            StagedDoseUnknownAmountBlock(item: $item, model: model, namespace: namespace)
-        } else if let capability = byVolumeCapability {
+        if let capability = byVolumeCapability {
             // The concentration+volume logger vs the plain mass stepper: one
             // label pair for a drink and a vial alike.
             let modes = ByVolumeDosing.modeLabels
@@ -355,10 +344,10 @@ struct StagedDoseEditor: View {
     /// Raise the keyboard on the amount field when it is on screen and the row
     /// is one the user opened to type into (``StagedDose/wantsAmountFocus``),
     /// or when it opened empty. The field is absent for a branded pill (tap a
-    /// strength chip), an unknown amount, and the drink logger (presets are the
-    /// primary action) — an ester in By Mass shows it and gets the focus.
+    /// strength chip) and the drink logger (presets are the primary action) — an
+    /// ester in By Mass shows it and gets the focus.
     private func focusAmountIfWanted() {
-        let fieldShown = !item.isUnknownAmount && tabletProduct == nil
+        let fieldShown = tabletProduct == nil
             && (byVolumeCapability == nil || !byDrinkPreferred)
         let wanted = item.wantsAmountFocus || (item.amount <= 0 && byVolumeCapability == nil)
         if item.wantsAmountFocus { item.wantsAmountFocus = false }

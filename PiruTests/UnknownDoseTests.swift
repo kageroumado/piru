@@ -90,6 +90,31 @@ struct UnknownDoseTests {
     }
 
     @Test
+    func `Emptying the amount field declares the amount unknown, typing takes it back`() {
+        var dose = StagedDose(substanceName: "Caffeine", amount: 100, unit: "mg", route: .oral)
+        let model = StagedDoseEditorModel()
+
+        model.amountText = ""
+        model.commitAmountText(to: &dose)
+        #expect(dose.isUnknownAmount)
+        #expect(dose.totalAmount == 0)
+
+        model.amountText = "50"
+        model.commitAmountText(to: &dose)
+        #expect(!dose.isUnknownAmount)
+        #expect(dose.totalAmount == 50)
+    }
+
+    @Test
+    func `Stepping the amount off zero clears the unknown flag`() {
+        var dose = StagedDose(substanceName: "Caffeine", amount: 0, unit: "mg", route: .oral)
+        dose.isUnknownAmount = true
+        StagedDoseEditorModel().setAmount(25, item: &dose)
+        #expect(!dose.isUnknownAmount)
+        #expect(dose.totalAmount == 25)
+    }
+
+    @Test
     func `Declaring a staged amount unknown keeps its components for toggling back`() {
         var dose = StagedDose(substanceName: "Caffeine", amount: 100, unit: "mg", route: .oral)
         dose.isUnknownAmount = true

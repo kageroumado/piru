@@ -159,7 +159,13 @@ struct StagedDoseStepperBlock: View {
             } animation: { _ in
                 .snappy(duration: 0.15)
             }
-            if item.breakdownLabel != nil || item.doseLevel != nil {
+            if item.isUnknownAmount {
+                Text("Logged with no number — stays out of curves, totals, and tolerance.")
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+            } else if item.breakdownLabel != nil || item.doseLevel != nil {
                 StagedDoseReadout(
                     breakdown: item.breakdownLabel.map { "= \($0) \(item.unit)" },
                     level: item.doseLevel,
@@ -171,7 +177,7 @@ struct StagedDoseStepperBlock: View {
     /// The amount is centered in the pill itself; the unit menu is a trailing
     /// overlay so it never shifts the number off-center.
     private var amountField: some View {
-        TextField("0", text: $model.amountText)
+        TextField(text: $model.amountText, prompt: prompt) { Text("Amount") }
             .decimalKeyboard()
             .focused(amountFocus)
             .multilineTextAlignment(.center)
@@ -192,6 +198,13 @@ struct StagedDoseStepperBlock: View {
                     .padding(.trailing, Spacing.xl)
             }
             .trayMorph(id: "amount-\(item.id)", in: namespace, isSource: false)
+    }
+
+    /// The placeholder carries the state of an empty field: `0` while nothing has
+    /// been typed yet, `Unknown` once a number has been cleared away — which is
+    /// the gesture that declares the amount unknown.
+    private var prompt: Text {
+        item.isUnknownAmount ? Text("Unknown") : Text(verbatim: "0")
     }
 }
 
@@ -232,73 +245,6 @@ struct StagedDoseUnitMenu: View {
             .accessibilityLabel("Dose unit")
             .accessibilityValue(unit)
         }
-    }
-}
-
-// MARK: - Unknown amount
-
-/// The amount surface for a dose of unknown amount: a `?` in the stepper's
-/// 42pt capsule — the unit stays choosable, since "some mg of something" is
-/// still a fact — over a one-line statement of what an unknown dose is.
-struct StagedDoseUnknownAmountBlock: View {
-    @Binding var item: StagedDose
-    let model: StagedDoseEditorModel
-    let namespace: Namespace.ID
-
-    var body: some View {
-        VStack(alignment: .center, spacing: 5) {
-            Text(verbatim: "?")
-                .screenTitle()
-                .frame(height: 42)
-                .frame(maxWidth: .infinity)
-                .background(Color.platformSecondarySystemFill, in: skinChipShape())
-                .accessibilityLabel("Amount")
-                .accessibilityValue(Text("unknown amount"))
-                .overlay(alignment: .trailing) {
-                    StagedDoseUnitMenu(unit: $item.unit, choices: model.unitMenuChoices(current: item.unit))
-                        .padding(.trailing, Spacing.xl)
-                }
-                .trayMorph(id: "amount-\(item.id)", in: namespace, isSource: false)
-            Text("Logged with no number — stays out of curves, totals, and tolerance.")
-                .font(.caption.weight(.medium))
-                .foregroundStyle(Theme.secondaryLabel)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity)
-        }
-    }
-}
-
-/// The "Unknown amount" toggle pill — the same grammar as the grapefruit pill:
-/// neutral off, accent-tinted on. Sits first in the pill row, directly under the
-/// amount input it replaces.
-struct StagedDoseUnknownAmountPill: View {
-    @Binding var isOn: Bool
-    let pillHeight: CGFloat
-
-    var body: some View {
-        Button {
-            withAnimation(.snappy) { isOn.toggle() }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: "questionmark.circle")
-                    .imageScale(.small)
-                    .accessibilityHidden(true)
-                Text("Unknown amount")
-                    .lineLimit(1)
-            }
-            .font(.footnote.weight(.semibold))
-            .fixedSize(horizontal: true, vertical: false)
-            .padding(.horizontal, 11)
-            .frame(height: pillHeight)
-            .background(
-                isOn ? AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)) : AnyShapeStyle(Color.platformSecondarySystemFill),
-                in: Capsule(),
-            )
-            .foregroundStyle(isOn ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.primary))
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text("Unknown amount"))
-        .accessibilityAddTraits(isOn ? [.isSelected] : [])
     }
 }
 

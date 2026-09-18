@@ -92,6 +92,7 @@ final class StagedDoseEditorModel {
     func setAmount(_ value: Double, item: inout StagedDose) {
         stepTick += 1
         item.amount = value
+        item.isUnknownAmount = false
         let newText = value > 0 ? value.doseFormatted : ""
         // Only arm the suppress flag when onChange will actually fire, otherwise
         // it would stay latched and swallow the next keystroke.
@@ -113,8 +114,13 @@ final class StagedDoseEditorModel {
             suppressAmountSync = false
             return
         }
-        item.amount = Double(amountText.replacingOccurrences(of: ",", with: "."))
-            ?? (try? Double(amountText, format: .number))
+        // Clearing the field is how an unknown amount is declared: there is no
+        // number left to log, and "0" would be a claim the user did not make.
+        // Typing a digit back takes the row out of that state.
+        let trimmed = amountText.trimmingCharacters(in: .whitespaces)
+        item.isUnknownAmount = trimmed.isEmpty
+        item.amount = Double(trimmed.replacingOccurrences(of: ",", with: "."))
+            ?? (try? Double(trimmed, format: .number))
             ?? 0
     }
 
@@ -237,6 +243,7 @@ final class StagedDoseEditorModel {
     func syncCustomDrink(item: inout StagedDose, capability: ByVolumeDosing?, byDrinkPreferred: Bool) {
         guard byDrinkPreferred, let capability, let grams = customDrinkGrams(capability: capability) else { return }
         item.components = [StagedDose.Component(amount: (grams * 10).rounded() / 10)]
+        item.isUnknownAmount = false
         item.unit = capability.canonicalUnit
         item.volumeML = enteredVolumeML
         item.abv = enteredABV
@@ -264,6 +271,7 @@ final class StagedDoseEditorModel {
         if pillCount < 1 { pillCount = 1 }
         pillStrength = mg
         item.components = [StagedDose.Component(amount: mg, count: pillCount)]
+        item.isUnknownAmount = false
         stepTick += 1
     }
 
@@ -280,6 +288,7 @@ final class StagedDoseEditorModel {
         pillCount = clamped
         if let strength = pillStrength {
             item.components = [StagedDose.Component(amount: strength, count: clamped)]
+            item.isUnknownAmount = false
         }
         stepTick += 1
     }
