@@ -25,10 +25,13 @@ struct TripReportMarkdownTests {
         )
     }
 
-    private func note(worked: Int? = nil, shulgin: Int? = nil, mood: Int? = nil) -> TripReport.Note {
+    private func note(
+        worked: Int? = nil, shulgin: Int? = nil, mood: Int? = nil, social: Int? = nil,
+    ) -> TripReport.Note {
         TripReport.Note(
             id: UUID(), timestamp: start.addingTimeInterval(3_600), kind: .checkIn, text: "steady",
-            shulgin: shulgin, mood: mood, energy: nil, worked: worked, heartRate: nil, descriptors: [],
+            shulgin: shulgin, mood: mood, energy: nil, social: social, worked: worked,
+            heartRate: nil, descriptors: [],
         )
     }
 
@@ -69,9 +72,22 @@ struct TripReportMarkdownTests {
     }
 
     @Test
+    func `A Social column appears only for a session that recorded one`() {
+        let with = report(doses: [dose("MDMA", phases: true)], notes: [note(shulgin: 2, social: 3)])
+            .markdown(locale: locale, calendar: calendar)
+        #expect(with.contains("| Social |"))
+
+        let without = report(doses: [dose("LSD", phases: true)], notes: [note(shulgin: 2)])
+            .markdown(locale: locale, calendar: calendar)
+        #expect(!without.contains("| Social |"))
+    }
+
+    @Test
     func `The structure line carries the medication answer beside the rest`() {
-        let line = TripReport.structureLine(shulgin: 2, mood: 1, energy: nil, worked: -1, heartRate: 84)
-        #expect(line == "++ · less than usual · mood +1 · ♥ 84")
+        let line = TripReport.structureLine(
+            shulgin: 2, mood: 1, energy: nil, social: 3, worked: -1, heartRate: 84,
+        )
+        #expect(line == "++ · less than usual · mood +1 · social +3 · ♥ 84")
         #expect(TripReport.structureLine(shulgin: nil, mood: nil, energy: nil, heartRate: nil).isEmpty)
     }
 }

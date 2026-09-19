@@ -111,6 +111,61 @@ enum CheckInScheduler {
             .filter { $0 > now.addingTimeInterval(5) }
     }
 
+    /// One prompt in a session's schedule, as the session screen shows it.
+    nonisolated struct Planned: Identifiable, Hashable {
+        /// Why a row reads the way it does. A schedule that listed every time
+        /// as "coming" would be wrong twice over: a prompt whose hour has gone
+        /// is not coming, and one inside quiet hours is never scheduled at all
+        /// (``sync(session:)`` skips it).
+        enum State: Hashable {
+            case scheduled
+            case quietHours
+            case passed
+        }
+
+        let offsetMinutes: Int
+        let date: Date
+        let state: State
+
+        var id: Int {
+            offsetMinutes
+        }
+    }
+
+    /// The whole schedule a session runs, past prompts included — what
+    /// ``fireDates(cadence:custom:anchor:now:)`` computes, without dropping
+    /// what has already gone. Pure, for tests.
+    nonisolated static func plan(
+        cadence: Cadence,
+        custom: [Int] = [],
+        anchor: Date,
+        now: Date = .now,
+    ) -> [Planned] {
+        offsetMinutes(cadence: cadence, custom: custom).map { minutes in
+            let date = anchor.addingTimeInterval(minutes * 60)
+            let state: Planned.State = if date <= now {
+                .passed
+            } else if NotificationPreferencesStore.isInQuietHours(date) {
+                .quietHours
+            } else {
+                .scheduled
+            }
+            return Planned(offsetMinutes: Int(minutes), date: date, state: state)
+        }
+    }
+
+    /// The session's schedule, or nil when it runs none.
+    static func plan(for session: Session, now: Date = .now) -> [Planned]? {
+        guard let cadence = Cadence(storedMinutes: session.checkInIntervalMinutes) else { return nil }
+        return plan(cadence: cadence, custom: session.checkInOffsetMinutes, anchor: anchor(for: session), now: now)
+    }
+
+    /// `true` when check-in notifications are off app-wide, so a session's
+    /// schedule exists but nothing it lists will arrive.
+    nonisolated static var isMutedByPreferences: Bool {
+        !NotificationPreferencesStore.allows(.checkIn)
+    }
+
     /// Apply the session's stored cadence: cancel what is pending and schedule
     /// afresh from the latest dose. Call after the cadence changes and after a
     /// dose is added to the session (the anchor moved).

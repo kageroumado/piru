@@ -9,6 +9,51 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # The check-in schedule section on the session screen, the sociability
+    # scale, and the per-class reassurance added with the split lens sets.
+    "Sociability": ("社交欲", "社交慾"),
+    "Alone": ("独处", "獨處"),
+    "Passed": ("已过", "已過"),
+    "%lld earlier": ("更早的 %lld 条", "更早的 %lld 條"),
+    "Quiet hours": ("勿扰时段", "勿擾時段"),
+    "Edit times": ("编辑时间", "編輯時間"),
+    "No times on this schedule yet.": ("这份计划里还没有时间。", "這份計劃裡還沒有時間。"),
+    "All of these have passed. Times are measured from your latest dose.": (
+        "这些都已经过去了。时间是从你最近一次剂量算起的。",
+        "這些都已經過去了。時間是從你最近一次劑量算起的。",
+    ),
+    "Times are measured from your latest dose, so logging another moves them.": (
+        "时间是从你最近一次剂量算起的，所以再记录一次就会把它们往后推。",
+        "時間是從你最近一次劑量算起的，所以再記錄一次就會把它們往後推。",
+    ),
+    "Check-in notifications are off in Settings, so none of these will arrive.": (
+        "签到通知在设置里是关闭的，所以这些都不会送达。",
+        "簽到通知在設定裡是關閉的，所以這些都不會送達。",
+    ),
+    "This class stops memories forming while it is active, so the blanks stay blank. What you write down now is the record.": (
+        "这一类药在起效期间会阻止记忆形成，所以空白就是空白。你现在写下的就是记录。",
+        "這一類藥在起效期間會阻止記憶形成，所以空白就是空白。你現在寫下的就是記錄。",
+    ),
+    "Coordination goes before you notice it has. Stairs and the kitchen are where that lands.": (
+        "协调性会在你察觉之前先走。楼梯和厨房是最容易出事的地方。",
+        "協調性會在你察覺之前先走。樓梯和廚房是最容易出事的地方。",
+    ),
+    "Vision softening at this dose is usual, and it clears as the dose does.": (
+        "这个剂量下视觉发虚很常见，会随着剂量一起消退。",
+        "這個劑量下視覺發虛很常見，會隨著劑量一起消退。",
+    ),
+    "What you are seeing is not there, however solid it looks. It goes as the dose does.": (
+        "你看到的东西并不存在，不管它看起来多真实。它会随着剂量一起消失。",
+        "你看到的東西並不存在，不管它看起來多真實。它會隨著劑量一起消失。",
+    ),
+    "This class blocks the signal to the bladder. If it has not eased once the dose has, get seen.": (
+        "这一类药会阻断通往膀胱的信号。如果剂量过去了还没缓解，去看医生。",
+        "這一類藥會阻斷通往膀胱的信號。如果劑量過去了還沒緩解，去看醫生。",
+    ),
+    "Feeling bad here is the drug's character rather than a sign something has gone wrong.": (
+        "这里感觉糟糕是这个药的性格，而不是出了什么问题的信号。",
+        "這裡感覺糟糕是這個藥的性格，而不是出了什麼問題的信號。",
+    ),
     # Check-in lenses, the derived ladder, and the "did it work?" scale
     # (Specs/adhd-audience-fit-v2.md §5).
     "Did it work?": ("起效了吗？", "起效了嗎？"),

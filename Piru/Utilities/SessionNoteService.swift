@@ -24,6 +24,7 @@ enum SessionNoteService {
         shulgin: Int? = nil,
         mood: Int? = nil,
         energy: Int? = nil,
+        social: Int? = nil,
         worked: Int? = nil,
         descriptors: [String] = [],
         heartRate: Double? = nil,
@@ -38,7 +39,7 @@ enum SessionNoteService {
         let note = SessionNote(
             timestamp: timestamp,
             text: text.trimmingCharacters(in: .whitespacesAndNewlines),
-            shulgin: shulgin, mood: mood, energy: energy, worked: worked,
+            shulgin: shulgin, mood: mood, energy: energy, social: social, worked: worked,
             descriptors: descriptors, heartRate: heartRate,
             kind: kind,
         )
@@ -59,6 +60,7 @@ enum SessionNoteService {
         shulgin: Int?,
         mood: Int?,
         energy: Int?,
+        social: Int?,
         worked: Int?,
         descriptors: [String],
         heartRate: Double?,
@@ -68,6 +70,7 @@ enum SessionNoteService {
         note.shulgin = shulgin
         note.mood = mood
         note.energy = energy
+        note.social = social
         note.worked = worked
         note.descriptors = descriptors
         note.heartRate = heartRate

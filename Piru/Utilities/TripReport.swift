@@ -53,6 +53,7 @@ struct TripReport {
         let shulgin: Int?
         let mood: Int?
         let energy: Int?
+        let social: Int?
         let worked: Int?
         let heartRate: Int?
         /// Descriptor concepts the vocabulary resolves, in the order they were
@@ -115,6 +116,7 @@ struct TripReport {
                 shulgin: note.shulgin,
                 mood: note.mood,
                 energy: note.energy,
+                social: note.social,
                 worked: note.worked,
                 heartRate: note.heartRate.map { Int($0.rounded()) },
                 descriptors: note.descriptors.compactMap { id in
@@ -195,16 +197,18 @@ struct TripReport {
     // MARK: - Structure line
 
     /// The structured part of a note as one line: `++ · about right · mood +2 ·
-    /// energy −1 · ♥ 84` — every piece optional, nothing invented. Empty when
-    /// the note has no structure.
+    /// energy −1 · social +3 · ♥ 84` — every piece optional, nothing invented.
+    /// Empty when the note has no structure.
     nonisolated static func structureLine(
-        shulgin: Int?, mood: Int?, energy: Int?, worked: Int? = nil, heartRate: Int?,
+        shulgin: Int?, mood: Int?, energy: Int?, social: Int? = nil, worked: Int? = nil,
+        heartRate: Int?,
     ) -> String {
         var parts: [String] = []
         if let shulgin, let glyph = ShulginScale.glyph(shulgin) { parts.append(glyph) }
         if let worked, let word = WorkedScale.exportWord(worked) { parts.append(word) }
         if let mood { parts.append("mood \(signed(mood))") }
         if let energy { parts.append("energy \(signed(energy))") }
+        if let social { parts.append("social \(signed(social))") }
         if let heartRate { parts.append("♥ \(heartRate)") }
         return parts.joined(separator: " · ")
     }
@@ -220,7 +224,8 @@ struct TripReport {
         let ontology = SubjectiveEffectOntology.shared
         var pieces: [String] = []
         let structure = structureLine(
-            shulgin: note.shulgin, mood: note.mood, energy: note.energy, worked: note.worked,
+            shulgin: note.shulgin, mood: note.mood, energy: note.energy,
+            social: note.social, worked: note.worked,
             heartRate: note.heartRate.map { Int($0.rounded()) },
         )
         if !structure.isEmpty { pieces.append("[\(structure)]") }
@@ -328,10 +333,12 @@ struct TripReport {
         let hasShulgin = notes.contains { $0.shulgin != nil }
         let hasWorked = notes.contains { $0.worked != nil }
         let hasMoodEnergy = notes.contains { $0.mood != nil || $0.energy != nil || $0.heartRate != nil }
+        let hasSocial = notes.contains { $0.social != nil }
         var headers = ["T+", "Time"]
         if hasWorked { headers.append("Worked") }
         if hasShulgin { headers.append("Shulgin") }
         if hasMoodEnergy { headers.append("Mood / Energy") }
+        if hasSocial { headers.append("Social") }
         headers.append("Note")
 
         out.append("## Timeline")
@@ -345,6 +352,7 @@ struct TripReport {
             if hasMoodEnergy {
                 cells.append(Self.moodEnergyCell(mood: note.mood, energy: note.energy, heartRate: note.heartRate))
             }
+            if hasSocial { cells.append(note.social.map(Self.signed) ?? "") }
             var text: [String] = []
             if note.kind == .checkIn { text.append("**Check-in**") }
             if !note.text.isEmpty { text.append(Self.cell(note.text)) }

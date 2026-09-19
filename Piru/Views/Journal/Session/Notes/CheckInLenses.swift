@@ -21,6 +21,9 @@ enum CheckInLenses {
         var intensity = false
         var mood = true
         var energy = true
+        /// Desire to be around people. On for the classes people take *for*
+        /// company — an empathogen above all, and a stimulant often enough.
+        var social = false
         /// Descriptor slugs offered as a visible chip row: the effects someone
         /// takes this class *for*.
         var highlights: [String] = []
@@ -33,6 +36,7 @@ enum CheckInLenses {
         case .stimulant, .eugeroic, .nootropic, .ampakine:
             LensSet(
                 worked: true,
+                social: true,
                 highlights: ["increased-focus", "motivation-enhancement", "talkativeness", "social-openness"],
                 sideEffects: [
                     "anxiety", "restlessness", "bruxism", "jaw-tension", "loss-of-appetite",
@@ -42,17 +46,35 @@ enum CheckInLenses {
         case .empathogen:
             LensSet(
                 intensity: true,
+                social: true,
                 highlights: ["empathy-enhancement", "social-openness", "euphoria", "emotional-warmth"],
                 sideEffects: [
                     "bruxism", "jaw-tension", "anxiety", "nausea", "temperature-fluctuation",
                     "dry-mouth", "restlessness",
                 ],
             )
-        case .psychedelic, .dysdelic, .deliriant:
+        case .psychedelic:
             LensSet(
                 intensity: true,
                 highlights: ["geometric-imagery", "euphoria", "awe", "time-dilation"],
                 sideEffects: ["anxiety", "nausea", "confusion", "paranoia", "muscle-tension", "dizziness"],
+            )
+        case .deliriant:
+            // No highlights: nobody takes a deliriant *for* something, and a
+            // row of pleasant effects here would be an invitation the
+            // pharmacology does not support. The chips are what to watch.
+            LensSet(
+                intensity: true,
+                sideEffects: [
+                    "complex-visual-hallucination", "amnesia", "confusion", "blurred-vision",
+                    "dry-mouth", "urinary-retention", "palpitations", "anxiety",
+                ],
+            )
+        case .dysdelic:
+            LensSet(
+                intensity: true,
+                highlights: ["ego-dissolution", "derealization", "time-dilation"],
+                sideEffects: ["dysphoria", "confusion", "anxiety", "incoordination", "nausea", "dizziness"],
             )
         case .dissociative:
             LensSet(
@@ -66,7 +88,25 @@ enum CheckInLenses {
                 highlights: ["pain-relief", "euphoria", "warmth", "calmness"],
                 sideEffects: ["itching", "nausea", "constipation", "drowsiness", "vomiting", "dizziness"],
             )
-        case .benzodiazepine, .depressant, .gabapentinoid, .orexinAntagonist, .antihistamine:
+        case .benzodiazepine:
+            LensSet(
+                worked: true,
+                highlights: ["anxiety-relief", "calmness", "muscle-relaxation", "sedation"],
+                sideEffects: [
+                    "amnesia", "drowsiness", "incoordination", "impaired-balance",
+                    "confusion", "dizziness",
+                ],
+            )
+        case .gabapentinoid:
+            LensSet(
+                worked: true,
+                highlights: ["anxiety-relief", "pain-relief", "calmness", "euphoria"],
+                sideEffects: [
+                    "dizziness", "drowsiness", "incoordination", "blurred-vision",
+                    "nausea", "dry-mouth",
+                ],
+            )
+        case .depressant, .orexinAntagonist, .antihistamine:
             LensSet(
                 worked: true,
                 highlights: ["anxiety-relief", "calmness", "muscle-relaxation", "sedation"],
@@ -110,6 +150,12 @@ enum CheckInLenses {
         case "confusion": "Thinking gets loose here and comes back. Nothing to fix."
         case "dizziness": "Sit down until it passes. It usually goes with the peak."
         case "memory-impairment": "Gaps here are normal, and the memory comes back after."
+        case "amnesia": "This class stops memories forming while it is active, so the blanks stay blank. What you write down now is the record."
+        case "incoordination", "impaired-balance": "Coordination goes before you notice it has. Stairs and the kitchen are where that lands."
+        case "blurred-vision": "Vision softening at this dose is usual, and it clears as the dose does."
+        case "complex-visual-hallucination": "What you are seeing is not there, however solid it looks. It goes as the dose does."
+        case "urinary-retention": "This class blocks the signal to the bladder. If it has not eased once the dose has, get seen."
+        case "dysphoria": "Feeling bad here is the drug's character rather than a sign something has gone wrong."
         case "itching": "Opioids release histamine — the itch is that, not an allergy."
         case "temperature-fluctuation": "Running hot and cold is part of it. Cool down, and sip steadily rather than a lot at once."
         default: nil
@@ -134,6 +180,7 @@ struct CheckInForm {
     var intensityNames: [String] = []
     var showsMood = true
     var showsEnergy = true
+    var showsSocial = false
     var highlights: [String] = []
     var sideEffects: [String] = []
     /// How many distinct substances the session carries. One means every
@@ -165,6 +212,7 @@ struct CheckInForm {
             }
             form.showsMood = form.showsMood || lenses.mood
             form.showsEnergy = form.showsEnergy || lenses.energy
+            form.showsSocial = form.showsSocial || lenses.social
             form.highlights += lenses.highlights.filter { !form.highlights.contains($0) }
             form.sideEffects += lenses.sideEffects.filter { !form.sideEffects.contains($0) }
         }

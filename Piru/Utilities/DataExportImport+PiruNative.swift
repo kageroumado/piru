@@ -133,6 +133,7 @@ nonisolated struct PiruSessionNoteData: Codable {
     var shulgin: Int?
     var mood: Int?
     var energy: Int?
+    var social: Int?
     var worked: Int?
     var descriptors: [String]
     var heartRate: Double?
@@ -145,6 +146,7 @@ nonisolated struct PiruSessionNoteData: Codable {
         shulgin = note.shulgin
         mood = note.mood
         energy = note.energy
+        social = note.social
         worked = note.worked
         descriptors = note.descriptors
         heartRate = note.heartRate
@@ -352,7 +354,8 @@ extension DataExportImport {
                 id: data.id,
                 timestamp: Date(ms: data.timestamp),
                 text: data.text,
-                shulgin: data.shulgin, mood: data.mood, energy: data.energy, worked: data.worked,
+                shulgin: data.shulgin, mood: data.mood, energy: data.energy,
+                social: data.social, worked: data.worked,
                 descriptors: data.descriptors, heartRate: data.heartRate,
                 kind: SessionNote.Kind(rawValue: data.kind) ?? .observation,
                 session: session,

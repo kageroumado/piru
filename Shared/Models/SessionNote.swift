@@ -46,6 +46,11 @@ final class SessionNote {
     /// Energy, `-3…+3` (sedated … stimulated). `nil` = not captured.
     var energy: Int?
 
+    /// Desire to be around people, `-3…+3` (alone … social). `nil` = not
+    /// captured. Separate from ``mood``: wanting company and feeling good are
+    /// different axes, and on an empathogen they are the axis people report.
+    var social: Int?
+
     /// Whether the dose did its job, `-1…+1` (less than usual, about right,
     /// more than usual). `nil` = not captured. A separate question from
     /// ``shulgin``: that scale measures how strong an experience is, this one
@@ -76,6 +81,7 @@ final class SessionNote {
         shulgin: Int? = nil,
         mood: Int? = nil,
         energy: Int? = nil,
+        social: Int? = nil,
         worked: Int? = nil,
         descriptors: [String] = [],
         heartRate: Double? = nil,
@@ -88,6 +94,7 @@ final class SessionNote {
         self.shulgin = shulgin
         self.mood = mood
         self.energy = energy
+        self.social = social
         self.worked = worked
         self.descriptors = descriptors
         self.heartRate = heartRate
@@ -99,7 +106,8 @@ final class SessionNote {
     /// sheet's Save gate and the export's "skip empty" test.
     var hasContent: Bool {
         !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            || shulgin != nil || mood != nil || energy != nil || worked != nil
+            || shulgin != nil || mood != nil || energy != nil
+            || social != nil || worked != nil
             || !descriptors.isEmpty || heartRate != nil
     }
 }

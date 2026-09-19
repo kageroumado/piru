@@ -129,3 +129,32 @@ struct CheckInLadderTests {
         #expect(CheckInLadder.summary([]).isEmpty)
     }
 }
+
+/// What the session screen shows for a schedule that is already running.
+@Suite("CheckInScheduler plan")
+struct CheckInSchedulerPlanTests {
+    @Test
+    func `A plan keeps the times that have gone and marks them`() {
+        let anchor = Date(timeIntervalSince1970: 0)
+        let now = anchor.addingTimeInterval(150 * 60)
+        let plan = CheckInScheduler.plan(cadence: .everyHour, anchor: anchor, now: now)
+
+        // fireDates drops the past; the plan does not — a schedule that listed
+        // only what is left could not say what had already happened.
+        #expect(plan.count == CheckInScheduler.Cadence.everyHour.fixedOffsetMinutes.count)
+        #expect(plan.prefix(2).allSatisfy { $0.state == .passed })
+        #expect(plan.dropFirst(2).allSatisfy { $0.state != .passed })
+        #expect(plan.first?.offsetMinutes == 60)
+    }
+
+    @Test
+    func `A custom plan runs the session's own times`() {
+        let anchor = Date(timeIntervalSince1970: 0)
+        let plan = CheckInScheduler.plan(
+            cadence: .custom, custom: [45, 120, 300], anchor: anchor, now: anchor,
+        )
+        #expect(plan.map(\.offsetMinutes) == [45, 120, 300])
+        #expect(plan.allSatisfy { $0.state != .passed })
+        #expect(plan[1].date == anchor.addingTimeInterval(120 * 60))
+    }
+}

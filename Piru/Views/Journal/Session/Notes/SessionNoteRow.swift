@@ -11,6 +11,7 @@ struct SessionNoteDisplay: Equatable, Identifiable {
     let shulgin: Int?
     let mood: Int?
     let energy: Int?
+    let social: Int?
     let worked: Int?
     let heartRate: Int?
     /// Descriptor names, in the order chosen; ids the vocabulary no longer
@@ -29,6 +30,7 @@ struct SessionNoteDisplay: Equatable, Identifiable {
                 shulgin: note.shulgin,
                 mood: note.mood,
                 energy: note.energy,
+                social: note.social,
                 worked: note.worked,
                 heartRate: note.heartRate.map { Int($0.rounded()) },
                 descriptors: note.descriptors.compactMap(ontology.name(for:)),
@@ -58,7 +60,10 @@ struct SessionNoteRow: View, Equatable {
     }
 
     private var structure: String {
-        TripReport.structureLine(shulgin: display.shulgin, mood: display.mood, energy: display.energy, heartRate: display.heartRate)
+        TripReport.structureLine(
+            shulgin: display.shulgin, mood: display.mood, energy: display.energy,
+            social: display.social, heartRate: display.heartRate,
+        )
     }
 
     var body: some View {

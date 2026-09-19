@@ -213,7 +213,8 @@ extension SessionStateExport {
                 NoteLine(
                     id: note.id, timestamp: note.timestamp, kind: note.kind, text: note.text,
                     structure: TripReport.structureLine(
-                        shulgin: note.shulgin, mood: note.mood, energy: note.energy, worked: note.worked,
+                        shulgin: note.shulgin, mood: note.mood, energy: note.energy,
+                        social: note.social, worked: note.worked,
                         heartRate: note.heartRate.map { Int($0.rounded()) },
                     ),
                     descriptors: note.descriptors.compactMap(ontology.name(for:)),

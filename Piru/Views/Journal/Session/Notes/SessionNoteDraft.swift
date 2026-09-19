@@ -16,6 +16,7 @@ final class SessionNoteDraft {
     var shulgin: Int?
     var mood: Int?
     var energy: Int?
+    var social: Int?
     var worked: Int?
     var descriptors: [String]
     /// Heart rate captured for `timestamp` — the note's own value when editing,
@@ -37,6 +38,7 @@ final class SessionNoteDraft {
         shulgin = existing?.shulgin
         mood = existing?.mood
         energy = existing?.energy
+        social = existing?.social
         worked = existing?.worked
         descriptors = existing?.descriptors ?? []
         heartRate = existing?.heartRate
@@ -48,7 +50,8 @@ final class SessionNoteDraft {
 
     var hasContent: Bool {
         !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            || shulgin != nil || mood != nil || energy != nil || worked != nil
+            || shulgin != nil || mood != nil || energy != nil
+            || social != nil || worked != nil
             || !descriptors.isEmpty
     }
 
@@ -115,13 +118,13 @@ final class SessionNoteDraft {
         if let existing {
             SessionNoteService.update(
                 existing, timestamp: timestamp, text: text,
-                shulgin: shulgin, mood: mood, energy: energy, worked: worked,
+                shulgin: shulgin, mood: mood, energy: energy, social: social, worked: worked,
                 descriptors: descriptors, heartRate: heartRate,
             )
         } else {
             SessionNoteService.add(
                 to: session, timestamp: timestamp, text: text,
-                shulgin: shulgin, mood: mood, energy: energy, worked: worked,
+                shulgin: shulgin, mood: mood, energy: energy, social: social, worked: worked,
                 descriptors: descriptors, heartRate: heartRate, kind: kind,
             )
         }

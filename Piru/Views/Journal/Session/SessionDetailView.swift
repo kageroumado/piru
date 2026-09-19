@@ -233,6 +233,13 @@ struct SessionDetailView: View {
                         CheckInOfferBanner(session: session)
                     }
 
+                    // The schedule, once there is one — the offer above and this
+                    // are mutually exclusive, since `shouldOffer` requires that
+                    // the session runs none.
+                    if session.checkInIntervalMinutes != nil {
+                        SessionCheckInSection(session: session)
+                    }
+
                     let notes = session.orderedNotes
                     SessionEntryListSection(
                         entries: entries, displays: entryDisplays(day),

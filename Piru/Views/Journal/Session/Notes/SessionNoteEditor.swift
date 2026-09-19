@@ -249,13 +249,16 @@ struct SessionNoteEditor: View {
 
     @ViewBuilder
     private var moodEnergySection: some View {
-        if form.showsMood || form.showsEnergy {
+        if form.showsMood || form.showsEnergy || form.showsSocial {
             Section {
                 if form.showsMood {
                     SevenStepRow(title: "Mood", low: "Low", high: "High", value: $draft.mood)
                 }
                 if form.showsEnergy {
                     SevenStepRow(title: "Energy", low: "Sedated", high: "Stimulated", value: $draft.energy)
+                }
+                if form.showsSocial {
+                    SevenStepRow(title: "Sociability", low: "Alone", high: "Social", value: $draft.social)
                 }
             } footer: {
                 Text("Optional — leave them where they are to record nothing.")
