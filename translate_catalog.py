@@ -7467,8 +7467,8 @@ T = {
     ),
     "Restores keep a snapshot": ("恢复会保留快照", "還原會保留快照"),
     "Risk of fatal serotonin syndrome — MAOIs block the enzyme that clears the serotonin an empathogen releases.": (
-        "有致命 5-HT 综合征的风险——MAOI 会阻断清除移情剂所释放 5-HT 的酶。",
-        "有致命 5-HT 症候群的風險——MAOI 會阻斷清除移情劑所釋放 5-HT 的酵素。",
+        "有致命 5-HT 综合征的风险——MAOI 会阻断清除共情剂所释放 5-HT 的酶。",
+        "有致命 5-HT 症候群的風險——MAOI 會阻斷清除共情劑所釋放 5-HT 的酵素。",
     ),
     "Serotonin syndrome — potentially fatal. MAOIs block the enzyme that clears serotonin.": (
         "5-HT 综合征——可能致命。MAOI 会阻断清除 5-HT 的酶。",
@@ -7576,8 +7576,8 @@ T = {
     ),
     "Where your journal lives": ("你的日志存放在哪里", "你的日誌存放在哪裡"),
     "With daily phenibut or F-phenibut, dependence develops within weeks and withdrawal can be protracted.": (
-        "每日使用 phenibut 或 F-phenibut，数周内就会形成依赖，戒断可能迁延很久。",
-        "每日使用 phenibut 或 F-phenibut，數週內就會形成依賴，戒斷可能遷延很久。",
+        "每日使用苯尼布特或 F-苯尼布特，数周内就会形成依赖，戒断可能迁延很久。",
+        "每日使用苯尼布特或 F-苯尼布特，數週內就會形成依賴，戒斷可能遷延很久。",
     ),
     "Your entries, your meds and dose trends, as one document": (
         "你的条目、你的药物和剂量趋势，汇为一份文档",

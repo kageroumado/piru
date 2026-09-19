@@ -41863,13 +41863,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有致命 5-HT 综合征的风险——MAOI 会阻断清除移情剂所释放 5-HT 的酶。"
+            "value" : "有致命 5-HT 综合征的风险——MAOI 会阻断清除共情剂所释放 5-HT 的酶。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有致命 5-HT 症候群的風險——MAOI 會阻斷清除移情劑所釋放 5-HT 的酵素。"
+            "value" : "有致命 5-HT 症候群的風險——MAOI 會阻斷清除共情劑所釋放 5-HT 的酵素。"
           }
         }
       }
@@ -53761,13 +53761,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每日使用 phenibut 或 F-phenibut，数周内就会形成依赖，戒断可能迁延很久。"
+            "value" : "每日使用苯尼布特或 F-苯尼布特，数周内就会形成依赖，戒断可能迁延很久。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每日使用 phenibut 或 F-phenibut，數週內就會形成依賴，戒斷可能遷延很久。"
+            "value" : "每日使用苯尼布特或 F-苯尼布特，數週內就會形成依賴，戒斷可能遷延很久。"
           }
         }
       }
