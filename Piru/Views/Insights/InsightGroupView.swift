@@ -32,7 +32,7 @@ extension Insight {
 
     var icon: String {
         switch self {
-        case .adherence: "flame.fill"
+        case .adherence: "calendar"
         case .usage: "chart.bar.fill"
         case .tolerance: "chart.line.downtrend.xyaxis"
         case .inSystem: "hourglass"
