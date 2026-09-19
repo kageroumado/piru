@@ -328,10 +328,10 @@ struct PiruApp: App {
     /// worst outcome, fragmenting data across two stores.
     private static func makeContainer() -> ModelContainer {
         let storeURL = StoreRecovery.canonicalStoreURL()
-        // .none is critical: the app carries iCloud (CloudDocuments) entitlements
-        // for encrypted file backups, and SwiftData would otherwise auto-enable
-        // CloudKit mirroring — which this schema can't satisfy (non-optional
-        // attributes, .unique constraints), failing every container open.
+        // .none is critical: SwiftData would otherwise auto-enable CloudKit
+        // mirroring, which this schema can't satisfy (non-optional attributes,
+        // .unique constraints), failing every container open. iCloud entitlements
+        // are removed for App Store submission (Guideline 5.1.3(ii)).
         let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .none)
 
         // 1. Integrity pre-check, then automatic lightweight migration (also the

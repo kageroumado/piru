@@ -161,14 +161,20 @@ struct InteractionCheckerView: View {
     private var resultsSection: some View {
         if selected.count >= 2 {
             if results.isEmpty {
-                HStack(spacing: Spacing.lg) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Color.successAccent)
-                        .font(.piru(.title3))
-                        .accessibilityHidden(true)
-                    Text("No known interactions found.")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
+                VStack(spacing: Spacing.md) {
+                    HStack(spacing: Spacing.lg) {
+                        Image(systemName: "info.circle")
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .font(.piru(.title3))
+                            .accessibilityHidden(true)
+                        Text("No interactions found in Piru's database.")
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    Text("Coverage is incomplete — absence of a listed interaction does not mean absence of risk.")
+                        .font(.caption)
+                        .foregroundStyle(Color.platformTertiaryLabel)
+                        .multilineTextAlignment(.center)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Spacing.xxl)

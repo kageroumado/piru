@@ -126,19 +126,20 @@ enum RampDownScheduler {
     }
 
     /// Schedule the main comedown notification, with category-tailored aftercare
-    /// guidance (rest, hydration, nutrition)
+    /// guidance (rest, hydration, nutrition).
+    ///
+    /// Gated for App Store submission: individualized timing recommendation
+    /// (Guideline 1.4.2). The UI entry point is removed; this guard ensures
+    /// no comedown notification fires even if old persisted state requests one.
     static func scheduleNotification(
         substanceName: String,
         doseTime: Date,
         duration: DurationProfile,
         entryKey: String,
         category: SubstanceCategory? = nil,
-        // The name to *show* — the brand the dose was logged as ("Concerta"),
-        // resolved via `DoseTitle` by the caller. `substanceName` stays canonical
-        // for identity; only the copy uses this. Falls back to canonical.
         displayName: String? = nil,
     ) {
-        guard NotificationPreferencesStore.allows(.comedown) else { return }
+        return // gated for App Store submission
         let center = UNUserNotificationCenter.current()
 
         let comedownTime = comedownStartTime(doseTime: doseTime, duration: duration)

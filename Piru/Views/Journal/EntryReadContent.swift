@@ -112,23 +112,9 @@ struct EntryReadContent: View {
 
         EntryAboutSection(entry: entry, substance: substance)
 
-        if resolvedDuration != nil {
-            Section {
-                NavigationLink(value: PushRoute.rampDown(timestamp: entry.timestamp, id: entry.id)) {
-                    HStack {
-                        Label("Comedown Alert", systemImage: "bell.badge")
-                        Spacer()
-                        if hasActiveRampDown {
-                            Text("Active")
-                                .font(.caption)
-                                .foregroundStyle(.green)
-                        }
-                    }
-                }
-            } footer: {
-                Text("Get care reminders as effects fade — hydration, rest, and recovery tips.")
-            }
-        }
+        // Comedown alert removed for App Store submission (individualized
+        // timing recommendation; Guideline 1.4.2). Wellness and phase
+        // notifications remain — they are descriptive, not prescriptive.
     }
 
     /// The envelope the ramp-down screen and its comedown alert run on — a

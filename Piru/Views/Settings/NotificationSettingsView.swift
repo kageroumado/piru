@@ -216,7 +216,7 @@ nonisolated enum NotificationCategory: CaseIterable {
     var types: [NotificationType] {
         switch self {
         case .reminders: [.routine, .routineFollowUp, .nextDose]
-        case .session: [.comedown, .phase, .hydration, .sleep, .checkIn]
+        case .session: [.phase, .hydration, .sleep, .checkIn]
         case .safety: [.cumulative, .inventory]
         }
     }

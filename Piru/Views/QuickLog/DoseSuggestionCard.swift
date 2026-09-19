@@ -107,10 +107,6 @@ struct DosePKBadge: View {
     private var label: String {
         let amount = activeAmount.doseFormatted
         let ago = DosePK.shortElapsed(since: lastDoseTimestamp)
-        if waitMinutes > 1 {
-            let wait = DosePK.shortDuration(minutes: waitMinutes)
-            return String(localized: "≈\(amount) \(unit) active · \(ago) ago · \(wait) left")
-        }
         return String(localized: "≈\(amount) \(unit) active · \(ago) ago")
     }
 }
@@ -132,7 +128,7 @@ struct DoseSuggestionCard: View {
         }
     }
 
-    private func cardContent(remainingPercent: Double, waitMinutes: Double) -> some View {
+    private func cardContent(remainingPercent: Double, waitMinutes _: Double) -> some View {
         let activeAmount = lastDoseAmount * remainingPercent / 100
         return HStack(alignment: .top, spacing: Spacing.md) {
             Image(systemName: "info.circle")
@@ -142,16 +138,12 @@ struct DoseSuggestionCard: View {
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {
-                // Leads with the same absolute amount as the badge — the two
-                // surfaces must never look like they disagree.
                 Text("≈\(activeAmount.doseFormatted) \(unit) of your \(lastDoseAmount.doseFormatted) \(unit) dose (\(timeAgo)) is still active — ~\(Int(remainingPercent))%")
                     .font(.caption)
                     .foregroundStyle(.primary)
 
-                if remainingPercent > 10, waitMinutes > 1 {
-                    Text("Consider waiting ~\(formattedWait(waitMinutes)) more")
-                        .captionSecondary()
-                }
+                Text("Model estimate · individual clearance varies")
+                    .captionSecondary()
             }
         }
         .padding(Spacing.lg)
@@ -178,18 +170,5 @@ struct DoseSuggestionCard: View {
         }
         let d = Int(hours / 24)
         return String(localized: "\(d)d ago")
-    }
-
-    private func formattedWait(_ minutes: Double) -> String {
-        if minutes < 60 {
-            let m = Int(minutes)
-            return String(localized: "\(m)m")
-        }
-        let hours = minutes / 60
-        if hours == hours.rounded(.toNearestOrEven) {
-            let h = Int(hours)
-            return String(localized: "\(h)h")
-        }
-        return String(localized: "\(String(format: "%.1f", hours))h")
     }
 }

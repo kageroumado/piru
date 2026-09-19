@@ -53,15 +53,9 @@ private struct PushRouteView: View {
                 EntryDetailView(entry: entry)
             }
 
-        case let .rampDown(timestamp, id):
-            // Resolve the entry like `.entry`, then re-derive the duration
-            // profile the same way EntryDetailView gates its link — if either
-            // is gone, render nothing.
-            if let entry = lookupEntry(id: id, near: timestamp),
-               let substance = SubstanceLibrary.resolveFull(entry.substance),
-               let duration = ActiveSessionManager.resolveDuration(substance: substance, entry: entry) {
-                RampDownView(entry: entry, duration: duration)
-            }
+        case .rampDown:
+            // Gated for App Store submission (Guideline 1.4.2).
+            EmptyView()
 
         case .comedownGuide:
             ComedownGuideView()

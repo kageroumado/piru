@@ -49,7 +49,7 @@ struct DataStorageView: View {
     var body: some View {
         List {
             LocalStorageSection()
-            ICloudBackupSection()
+            // ICloudBackupSection() — gated for App Store submission (Guideline 5.1.3(ii))
             ExportImportSection(
                 isGenerating: model.isGenerating,
                 onExportPlain: exportPlain,
@@ -225,7 +225,7 @@ private struct LocalStorageSection: View {
         } header: {
             Text("On This Device")
         } footer: {
-            Text("Everything Piru stores locally. Your dose data lives only on this device unless you turn on iCloud backup.")
+            Text("Everything Piru stores locally. Your dose data lives only on this device unless you export it.")
         }
     }
 }
@@ -403,7 +403,9 @@ private struct ExportImportSection: View {
 
             DataActionRow(
                 title: "Import & Restore…",
-                subtitle: "From a file, an encrypted backup, or iCloud",
+                subtitle: manager.iCloudAvailable
+                    ? "From a file, an encrypted backup, or iCloud"
+                    : "From a file or an encrypted backup",
                 systemImage: "square.and.arrow.down",
             ) {
                 showingImportOptions = true
