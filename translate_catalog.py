@@ -9,6 +9,34 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Custom check-in schedule — the editor sheet, the offer banner, the menu.
+    "Custom…": ("自定…", "自訂…"),
+    "Pick my own times": ("自己挑选时间", "自己挑選時間"),
+    "A quiet prompt at a few points in the session, each opening a timestamped note. Off unless you turn it on, and you pick the times.": (
+        "在这次体验的几个时间点上安静地提示一下，每次都会打开一条带时间戳的笔记。默认关闭，时间由你来定。",
+        "在這次體驗的幾個時間點上安靜地提示一下，每次都會打開一條帶時間戳的筆記。預設關閉，時間由你來定。",
+    ),
+    "Check-in times": ("签到时间", "簽到時間"),
+    "After your latest dose": ("在你最近一次剂量之后", "在你最近一次劑量之後"),
+    "No times yet. Add one below and the prompts start from your latest dose.": (
+        "还没有设定时间。在下方添加一个，提示就会从你最近一次剂量开始计算。",
+        "還沒有設定時間。在下方新增一個，提示就會從你最近一次劑量開始計算。",
+    ),
+    "Up to %lld prompts, from %lld minutes to 24 hours after the dose. Each one opens a timestamped note; none of them is required.": (
+        "最多 %lld 条提示，落在服用后 %lld 分钟到 24 小时之间。每条都会打开一则带时间戳的笔记；没有一条是必须的。",
+        "最多 %lld 條提示，落在服用後 %lld 分鐘到 24 小時之間。每條都會打開一則帶時間戳的筆記；沒有一條是必須的。",
+    ),
+    "Add a time": ("添加一个时间", "新增一個時間"),
+    "%@ is already on the list.": ("%@ 已经在列表里了。", "%@ 已經在列表裡了。"),
+    "That's the most one session can carry. Remove one to add another.": (
+        "这已经是一次体验能带的上限了。要再加一个，先移除一个。",
+        "這已經是一次體驗能帶的上限了。要再加一個，先移除一個。",
+    ),
+    "The first prompt arrives at least %lld minutes after the dose.": (
+        "第一条提示至少落在服用后 %lld 分钟。",
+        "第一條提示至少落在服用後 %lld 分鐘。",
+    ),
+    "%lld m": ("%lld 分钟", "%lld 分鐘"),
     "%lld day streak": ("连续 %lld 天", "連續 %lld 天"),
     # Injection Levels v3 / Hormone Levels — the testosterone esters, the
     # companion series, and the calibration copy.
@@ -7475,7 +7503,6 @@ if __name__ == "__main__":
         "Choose at least one minute.",
         "Adds “%@”.",
         "These appear in the “When” menu when logging a dose, alongside Now and the full date picker. Swipe to remove, drag to reorder.",
-        "%lld h",
         "Minutes",
         # Benzo effect ladder + occupancy / withdrawal (CLI-added; Xcode hasn't extracted them yet).
         "Faded",

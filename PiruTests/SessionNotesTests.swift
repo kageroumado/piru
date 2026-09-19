@@ -345,6 +345,28 @@ struct CheckInSchedulerTests {
         #expect(CheckInScheduler.Cadence(storedMinutes: nil) == nil)
         #expect(CheckInScheduler.Cadence(storedMinutes: 0) == .ladder)
         #expect(CheckInScheduler.Cadence(storedMinutes: 60) == .everyHour)
+        #expect(CheckInScheduler.Cadence(storedMinutes: -1) == .custom)
+    }
+
+    @Test
+    func `Only the hour and a custom schedule are offered`() {
+        #expect(CheckInScheduler.Cadence.offerable == [.everyHour, .custom])
+    }
+
+    @Test
+    func `A custom schedule fires at the session's own times`() {
+        let anchor = Date(timeIntervalSince1970: 1_700_000_000)
+        let dates = CheckInScheduler.fireDates(
+            cadence: .custom, custom: [90, 20, 300], anchor: anchor, now: anchor,
+        )
+        // Normalized on the way through: ascending, whatever order they arrived in.
+        #expect(dates.map { Int(($0.timeIntervalSince(anchor) / 60).rounded()) } == [20, 90, 300])
+    }
+
+    @Test
+    func `A custom schedule with no times of its own schedules nothing`() {
+        let anchor = Date(timeIntervalSince1970: 1_700_000_000)
+        #expect(CheckInScheduler.fireDates(cadence: .custom, anchor: anchor, now: anchor).isEmpty)
     }
 
     @Test

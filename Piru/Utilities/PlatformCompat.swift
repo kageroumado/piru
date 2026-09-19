@@ -214,6 +214,17 @@ extension View {
         #endif
     }
 
+    /// A spinning wheel where one exists, the platform default elsewhere:
+    /// `.wheel` is unavailable on macOS, where a pop-up menu is the idiom for
+    /// the same short, bounded list.
+    func wheelPickerStyle() -> some View {
+        #if os(iOS)
+            self.pickerStyle(.wheel)
+        #else
+            self.pickerStyle(.menu)
+        #endif
+    }
+
     func decimalKeyboard() -> some View {
         #if canImport(UIKit)
             self.keyboardType(.decimalPad)

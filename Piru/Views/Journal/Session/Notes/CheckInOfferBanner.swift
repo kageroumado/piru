@@ -6,6 +6,7 @@ import SwiftUI
 /// offer so it never returns for this session.
 struct CheckInOfferBanner: View {
     let session: Session
+    @Environment(\.appNavigator) private var navigator
 
     var body: some View {
         Section {
@@ -18,7 +19,7 @@ struct CheckInOfferBanner: View {
                     VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("Check in as it unfolds?")
                             .sectionLabel()
-                        Text("A quiet prompt at a few points in the session, each opening a timestamped note. Off unless you turn it on; stops after eight hours.")
+                        Text("A quiet prompt at a few points in the session, each opening a timestamped note. Off unless you turn it on, and you pick the times.")
                             .captionSecondary()
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -34,17 +35,18 @@ struct CheckInOfferBanner: View {
                 }
                 VStack(spacing: Spacing.md) {
                     Button {
-                        enable(.ladder)
+                        enable(.everyHour)
                     } label: {
-                        Text("T+30 m · 1 h · 2 h · 4 h · 6 h")
+                        Text("Every hour")
                             .frame(maxWidth: .infinity)
                     }
                     .skinButtonStyle(.prominent)
                     .tint(Theme.accent)
                     Button {
-                        enable(.everyHour)
+                        session.checkInOffered = true
+                        navigator.present(.checkInSchedule(sessionID: session.id))
                     } label: {
-                        Text("Every hour")
+                        Text("Pick my own times")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.bordered)

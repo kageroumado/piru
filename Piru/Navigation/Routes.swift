@@ -199,6 +199,9 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// note `.checkIn` (the landing state for a check-in notification tap), and
     /// `summary` makes it the session's summary.
     case sessionNoteEditor(sessionID: UUID, noteID: UUID? = nil, checkIn: Bool = false, summary: Bool = false)
+    /// Choose when a session's check-in prompts fire — the custom schedule
+    /// behind `Cadence.custom`.
+    case checkInSchedule(sessionID: UUID)
     /// Entry detail sheet. Carries the entry's stable `id` with `timestamp`
     /// as the resolution fallback (see `PushRoute` — same compatibility
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).

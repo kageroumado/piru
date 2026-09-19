@@ -46,6 +46,7 @@ struct SessionTimelineSection: View {
                     vitalsBandEnlarged: timelineEnlarged,
                     focusAroundNow: hasOngoingDose,
                     chartFrame: true,
+                    showsMilestones: CurveMilestonePolicy.allows(states),
                     synchronous: true,
                 )
             }

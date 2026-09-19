@@ -15,14 +15,26 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 enum CheckInScheduler {
     nonisolated static let categoryID = "checkIn"
 
-    /// The cadence a session can choose. Stored as minutes on the session;
-    /// `ladder` is the `0` sentinel.
+    /// The schedule a session runs, stored as minutes on the session.
+    ///
+    /// Two of these are ever *offered*: ``everyHour`` and ``custom`` (see
+    /// ``offerable``). The three fixed cadences below it are what sessions from
+    /// `v2.2-b52` and earlier stored, and they keep decoding and firing — a
+    /// session already running its prompts must not go quiet because the picker
+    /// stopped listing its cadence.
     nonisolated enum Cadence: Hashable, CaseIterable, Identifiable {
+        case everyHour
+        /// The times on the session (``Session/checkInOffsetMinutes``).
+        case custom
         /// T+30 m, 1 h, 2 h, 4 h, 6 h — dense while things change, sparse later.
         case ladder
         case every30Minutes
-        case everyHour
         case every2Hours
+
+        /// What the banner and the menu put in front of someone choosing now.
+        /// A fixed ladder is someone else's guess at when a session matters;
+        /// `custom` lets the person who is in it say.
+        static let offerable: [Cadence] = [.everyHour, .custom]
 
         var id: Self {
             self
@@ -30,9 +42,10 @@ enum CheckInScheduler {
 
         var storedMinutes: Double {
             switch self {
+            case .everyHour: 60
+            case .custom: -1
             case .ladder: 0
             case .every30Minutes: 30
-            case .everyHour: 60
             case .every2Hours: 120
             }
         }
@@ -40,6 +53,7 @@ enum CheckInScheduler {
         init?(storedMinutes: Double?) {
             guard let storedMinutes else { return nil }
             switch storedMinutes {
+            case -1: self = .custom
             case 0: self = .ladder
             case 30: self = .every30Minutes
             case 60: self = .everyHour
@@ -48,26 +62,35 @@ enum CheckInScheduler {
             }
         }
 
-        /// Offsets from the anchor dose, in seconds. Interval cadences run for
-        /// eight hours — long enough for a whole psychedelic session, short
-        /// enough that a forgotten toggle stops on its own.
-        var offsets: [TimeInterval] {
+        /// Fixed offsets from the anchor dose, in minutes. Interval cadences run
+        /// for eight hours — long enough for a whole psychedelic session, short
+        /// enough that a forgotten toggle stops on its own. `custom` has none of
+        /// its own: its times live on the session.
+        var fixedOffsetMinutes: [Double] {
             switch self {
-            case .ladder: [30, 60, 120, 240, 360].map { $0 * 60 }
-            case .every30Minutes: stride(from: 30.0, through: 480, by: 30).map { $0 * 60 }
-            case .everyHour: stride(from: 60.0, through: 480, by: 60).map { $0 * 60 }
-            case .every2Hours: stride(from: 120.0, through: 480, by: 120).map { $0 * 60 }
+            case .custom: []
+            case .ladder: [30, 60, 120, 240, 360]
+            case .every30Minutes: Array(stride(from: 30.0, through: 480, by: 30))
+            case .everyHour: Array(stride(from: 60.0, through: 480, by: 60))
+            case .every2Hours: Array(stride(from: 120.0, through: 480, by: 120))
             }
         }
 
         var title: LocalizedStringResource {
             switch self {
+            case .everyHour: "Every hour"
+            case .custom: "Custom…"
             case .ladder: "T+30 m, 1 h, 2 h, 4 h, 6 h"
             case .every30Minutes: "Every 30 minutes"
-            case .everyHour: "Every hour"
             case .every2Hours: "Every 2 hours"
             }
         }
+    }
+
+    /// The offsets a session actually runs, in minutes: the cadence's own, or
+    /// the session's list when it chose them itself.
+    nonisolated static func offsetMinutes(cadence: Cadence, custom: [Int]) -> [Double] {
+        cadence == .custom ? CheckInOffsets.normalized(custom).map(Double.init) : cadence.fixedOffsetMinutes
     }
 
     /// Anchor time for a session's check-ins: its latest dose.
@@ -75,10 +98,17 @@ enum CheckInScheduler {
         session.lastDoseDate ?? session.startDate
     }
 
-    /// The fire dates a cadence yields from `anchor`, dropping any already past
+    /// The fire dates a schedule yields from `anchor`, dropping any already past
     /// `now`. Pure, for tests.
-    nonisolated static func fireDates(cadence: Cadence, anchor: Date, now: Date = .now) -> [Date] {
-        cadence.offsets.map { anchor.addingTimeInterval($0) }.filter { $0 > now.addingTimeInterval(5) }
+    nonisolated static func fireDates(
+        cadence: Cadence,
+        custom: [Int] = [],
+        anchor: Date,
+        now: Date = .now,
+    ) -> [Date] {
+        offsetMinutes(cadence: cadence, custom: custom)
+            .map { anchor.addingTimeInterval($0 * 60) }
+            .filter { $0 > now.addingTimeInterval(5) }
     }
 
     /// Apply the session's stored cadence: cancel what is pending and schedule
@@ -88,7 +118,11 @@ enum CheckInScheduler {
         cancel(sessionID: session.id)
         guard let cadence = Cadence(storedMinutes: session.checkInIntervalMinutes) else { return }
         guard NotificationPreferencesStore.allows(.checkIn) else { return }
-        let dates = fireDates(cadence: cadence, anchor: anchor(for: session))
+        let dates = fireDates(
+            cadence: cadence,
+            custom: session.checkInOffsetMinutes,
+            anchor: anchor(for: session),
+        )
         let center = UNUserNotificationCenter.current()
         let thread = RampDownScheduler.sessionIdentifier(for: session.startDate)
         for (index, date) in dates.enumerated() {

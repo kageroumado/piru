@@ -65,6 +65,14 @@ struct TimelineGraphView: View, Equatable {
     /// only by the session-detail host; every compact/thumbnail/widget context
     /// leaves it off.
     var chartFrame: Bool = false
+    /// Annotate each curve with its phase boundaries — a glyph at the height the
+    /// curve has there, over the clock time it lands at.
+    ///
+    /// The **caller** decides, and only the app ever asks: the rule turns on drug
+    /// class, this file also compiles into the widget and Live Activity targets,
+    /// and neither of those shows milestones at all. So the class lookup stays in
+    /// the app (`CurveMilestonePolicy`) and this view is handed the verdict.
+    var showsMilestones: Bool = false
 
     // Zoom & pan state (only active when !compact)
     @State private var zoom: CGFloat = 1.0
@@ -172,6 +180,7 @@ struct TimelineGraphView: View, Equatable {
               lhs.vitals == rhs.vitals,
               lhs.vitalsBandEnlarged == rhs.vitalsBandEnlarged,
               lhs.focusAroundNow == rhs.focusAroundNow,
+              lhs.showsMilestones == rhs.showsMilestones,
               lhs.substances == rhs.substances
         else { return false }
         guard lhs.showNowIndicator else { return true }
@@ -200,6 +209,7 @@ struct TimelineGraphView: View, Equatable {
         vitalsBandEnlarged: Bool = false,
         focusAroundNow: Bool = false,
         chartFrame: Bool = false,
+        showsMilestones: Bool = false,
         synchronous: Bool = false,
     ) {
         self.substances = substances
@@ -218,6 +228,7 @@ struct TimelineGraphView: View, Equatable {
         self.vitalsBandEnlarged = vitalsBandEnlarged
         self.focusAroundNow = focusAroundNow
         self.chartFrame = chartFrame
+        self.showsMilestones = showsMilestones
         let key = DerivedKey(substances: substances, markers: markers, stackRedoses: stackRedoses, dayBounded: dayBounded)
         if synchronous {
             // Live Activity / widget snapshots render in one synchronous pass —
@@ -791,32 +802,38 @@ struct TimelineGraphView: View, Equatable {
         }
     }
 
-    /// The dose's phase boundaries, marked on its own curve: the glyph at the
-    /// height the curve has there, the clock time under it.
+    /// Each dose's phase boundaries, marked on its own curve: the glyph at the
+    /// height that curve has there, the clock time under it.
     ///
-    /// One curve only. With two the glyphs belong to different drugs and the
-    /// reader has to work out which — the vertical timeline has room to say so
-    /// with a rung to the mark, and this graph does not.
+    /// The glyph takes its curve's color and sits at its curve's height, which is
+    /// what tells two doses' marks apart — and `showsMilestones` has already
+    /// ruled out the pairs where that would not be enough.
     @ViewBuilder
     private func milestoneGlyphs(geom: TimelineGraphRenderer.GraphGeometry) -> some View {
-        if substances.count == 1, let dose = substances.first, geom.width > 0, visibleSpan > 0 {
-            let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
-            ForEach(Self.milestones(of: dose), id: \.minutes) { milestone in
-                let global = offset + milestone.minutes
-                let x = geom.inset + CGFloat((global - visibleStart) / visibleSpan) * geom.width
-                let value = renderer.scrubSamples(atMinute: global).first?.value
-                if x >= geom.inset, x <= geom.inset + geom.width, let value {
-                    VStack(spacing: 1) {
-                        Image(systemName: milestone.symbol)
-                            .font(.system(size: 9, weight: .semibold))
-                            .foregroundStyle(Color(hex: dose.colorHex))
-                        Text(verbatim: "~\(renderer.scrubClockTime(atMinute: global))")
-                            .font(.system(size: 9, weight: .medium, design: .rounded).monospacedDigit())
-                            .foregroundStyle(.secondary)
+        if showsMilestones, geom.width > 0, visibleSpan > 0 {
+            ForEach(substances, id: \.self) { dose in
+                let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
+                ForEach(Self.milestones(of: dose), id: \.minutes) { milestone in
+                    let global = offset + milestone.minutes
+                    let x = geom.inset + CGFloat((global - visibleStart) / visibleSpan) * geom.width
+                    // The sample for *this* curve, not the tallest one there: with
+                    // two doses drawn, `scrubSamples` is sorted strongest-first and
+                    // its head can easily belong to the other one.
+                    let value = renderer.scrubSamples(atMinute: global)
+                        .first { $0.name == dose.substanceName }?.value
+                    if x >= geom.inset, x <= geom.inset + geom.width, let value {
+                        VStack(spacing: 1) {
+                            Image(systemName: milestone.symbol)
+                                .font(.system(size: 9, weight: .semibold))
+                                .foregroundStyle(Color(hex: dose.colorHex))
+                            Text(verbatim: "~\(renderer.scrubClockTime(atMinute: global))")
+                                .font(.system(size: 9, weight: .medium, design: .rounded).monospacedDigit())
+                                .foregroundStyle(.secondary)
+                        }
+                        .fixedSize()
+                        .position(x: x, y: max(14, geom.top + geom.height * (1 - value) - 16))
+                        .accessibilityHidden(true)
                     }
-                    .fixedSize()
-                    .position(x: x, y: max(14, geom.top + geom.height * (1 - value) - 16))
-                    .accessibilityHidden(true)
                 }
             }
         }

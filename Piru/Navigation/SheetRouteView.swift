@@ -41,6 +41,9 @@ struct SheetRouteView: View {
         case let .sessionNoteEditor(sessionID, noteID, checkIn, summary):
             SessionNoteEditorHost(sessionID: sessionID, noteID: noteID, checkIn: checkIn, summary: summary)
 
+        case let .checkInSchedule(sessionID):
+            CheckInScheduleHost(sessionID: sessionID)
+
         case let .entryDetail(timestamp, id):
             EntryLookupView(id: id, timestamp: timestamp) { entry in
                 NavigationStack(path: navigator.sheetPathBinding(atDepth: depth)) {
@@ -281,6 +284,21 @@ private struct TimeAdjustHost: View {
         // Pending reminders are keyed to the old timestamp — a moved dose
         // must drop them and reschedule from its new time.
         DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original, in: modelContext)
+    }
+}
+
+/// Resolves the session for the check-in schedule sheet; a session that no
+/// longer exists renders nothing.
+private struct CheckInScheduleHost: View {
+    let sessionID: UUID
+    @Environment(\.modelContext) private var modelContext
+
+    var body: some View {
+        if let session = try? modelContext.fetch(
+            FetchDescriptor<Session>(predicate: #Predicate { $0.id == sessionID }),
+        ).first {
+            CheckInScheduleEditor(session: session)
+        }
     }
 }
 

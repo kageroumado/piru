@@ -62,3 +62,58 @@ struct TimelineMilestoneLaneTests {
         #expect(milestone(y: 0, kind: .end).symbolName == DosePhaseGlyph.ended)
     }
 }
+
+/// Which curve sets the horizontal graph may annotate. The rule lives in the
+/// app because it turns on drug class; the graph itself compiles into the
+/// widget targets and is only ever handed the verdict.
+@Suite("CurveMilestonePolicy")
+@MainActor
+struct CurveMilestonePolicyTests {
+    private func state(_ name: String) -> ActiveSubstanceState? {
+        ActiveSubstanceState(
+            name: name,
+            colorHex: "#FF0000",
+            timestamp: .now,
+            amount: 10,
+            unit: "mg",
+            routeDisplayName: "Oral",
+            duration: DurationProfile(
+                onset: DurationRange(min: 20, max: 40),
+                comeup: DurationRange(min: 20, max: 40),
+                peak: DurationRange(min: 150, max: 210),
+                offset: DurationRange(min: 90, max: 150),
+                afterglow: nil,
+                total: DurationRange(min: 420, max: 540),
+            ),
+            category: .stimulant,
+        )
+    }
+
+    @Test
+    func `Nothing to annotate is not annotated`() {
+        #expect(!CurveMilestonePolicy.allows([]))
+    }
+
+    @Test
+    func `Three curves are past the point of reading them`() throws {
+        let three = try (0 ..< 3).map { try #require(state("Sub\($0)")) }
+        #expect(!CurveMilestonePolicy.allows(three))
+    }
+
+    @Test
+    func `One curve is always annotated`() throws {
+        #expect(try CurveMilestonePolicy.allows([#require(state("Methylphenidate"))]))
+    }
+
+    @Test
+    func `Two stimulants land their boundaries on the same minutes, so neither is annotated`() throws {
+        let pair = try [state("Methylphenidate"), state("Caffeine")].map { try #require($0) }
+        #expect(!CurveMilestonePolicy.allows(pair))
+    }
+
+    @Test
+    func `A stimulant beside something that moves differently stays legible`() throws {
+        let pair = try [state("Methylphenidate"), state("L-Theanine")].map { try #require($0) }
+        #expect(CurveMilestonePolicy.allows(pair))
+    }
+}

@@ -71,10 +71,23 @@ final class Session {
     @Relationship(deleteRule: .cascade, inverse: \SessionNote.session)
     var notes: [SessionNote]?
 
-    /// Minutes between scheduled check-in notifications, `nil` = check-ins off
-    /// (the default; opt-in per session). `0` selects the T+30 m / 1 h / 2 h / 4 h /
-    /// 6 h ladder rather than a fixed interval.
+    /// Which check-in schedule this session runs, as
+    /// ``CheckInScheduler/Cadence/storedMinutes``. `nil` = off, the default.
+    /// A positive value is an interval; the two sentinels are `0` (the fixed
+    /// T+30 m / 1 h / 2 h / 4 h / 6 h ladder) and `-1` (the times in
+    /// ``checkInOffsetMinutes``).
     var checkInIntervalMinutes: Double?
+
+    /// Custom check-in times, in minutes after the session's latest dose. Read
+    /// only while ``checkInIntervalMinutes`` holds the custom sentinel; JSON in
+    /// a blob, like every other list on a model here.
+    var checkInOffsetsData: Data = Data()
+
+    /// ``checkInOffsetsData`` as minutes — ascending, unique, positive.
+    var checkInOffsetMinutes: [Int] {
+        get { (try? JSONDecoder().decode([Int].self, from: checkInOffsetsData)) ?? [] }
+        set { checkInOffsetsData = (try? JSONEncoder().encode(CheckInOffsets.normalized(newValue))) ?? Data() }
+    }
 
     /// Set once the check-in offer has been shown for this session (accepted or
     /// dismissed), so it is offered exactly once.

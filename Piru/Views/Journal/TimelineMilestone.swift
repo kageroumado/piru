@@ -240,3 +240,31 @@ struct TimelineWordStateMark: View {
         .accessibilityElement(children: .combine)
     }
 }
+
+// MARK: - Policy
+
+/// Whether the horizontal graph may annotate its curves with phase milestones.
+///
+/// It lives here, in the app, because the answer turns on drug class and
+/// ``TimelineGraphView`` also compiles into the widget and Live Activity
+/// targets — which carry no substance catalog and show no milestones anyway.
+/// The view is handed the verdict rather than the means to reach it.
+@MainActor
+enum CurveMilestonePolicy {
+    /// Past this many curves the glyphs are clutter whoever they belong to.
+    static let maximumCurves = 2
+
+    /// Two stimulant curves run almost the same shape, so their boundaries land
+    /// on almost the same minutes: four glyphs become eight in a column, and
+    /// color is the only thing left saying which arrow is whose. One stimulant
+    /// beside something that moves differently stays legible.
+    static func allows(_ substances: [ActiveSubstanceState]) -> Bool {
+        guard !substances.isEmpty, substances.count <= maximumCurves else { return false }
+        guard substances.count == maximumCurves else { return true }
+        return substances.count { isStimulant($0) } < maximumCurves
+    }
+
+    private static func isStimulant(_ state: ActiveSubstanceState) -> Bool {
+        SubstanceLibrary.lookup(state.substanceName)?.category == .stimulant
+    }
+}

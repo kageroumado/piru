@@ -365,6 +365,7 @@ struct EntryTimelineGraph: View {
             currentTime: .now,
             compact: false,
             chartFrame: chartFrame,
+            showsMilestones: CurveMilestonePolicy.allows([state]),
             synchronous: chartFrame,
         )
         .frame(height: chartFrame ? 176 : 160)

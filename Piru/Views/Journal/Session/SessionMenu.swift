@@ -22,6 +22,7 @@ struct SessionMenu: View {
     let onToggleLiveActivity: () -> Void
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appNavigator) private var navigator
     @Environment(\.sessionEditingService) private var editing
     @AppStorage(SessionGraphDefaults.enlargedKey, store: UserDefaults(suiteName: SessionGraphDefaults.suite))
     private var timelineEnlarged = SessionGraphDefaults.enlargedDefault
@@ -131,7 +132,7 @@ struct SessionMenu: View {
         Menu {
             Picker("Check-ins", selection: cadenceSelection) {
                 Text("Off").tag(CheckInScheduler.Cadence?.none)
-                ForEach(CheckInScheduler.Cadence.allCases) { cadence in
+                ForEach(offeredCadences) { cadence in
                     Text(cadence.title).tag(CheckInScheduler.Cadence?.some(cadence))
                 }
             }
@@ -140,11 +141,28 @@ struct SessionMenu: View {
         }
     }
 
+    /// The two choices on offer, plus whatever this session already runs — a
+    /// session still on one of the retired fixed cadences shows it rather than
+    /// reading as "Off" and losing it on the next tap.
+    private var offeredCadences: [CheckInScheduler.Cadence] {
+        let offered = CheckInScheduler.Cadence.offerable
+        guard let current = CheckInScheduler.Cadence(storedMinutes: session.checkInIntervalMinutes),
+              !offered.contains(current) else { return offered }
+        return offered + [current]
+    }
+
     private var cadenceSelection: Binding<CheckInScheduler.Cadence?> {
         Binding(
             get: { CheckInScheduler.Cadence(storedMinutes: session.checkInIntervalMinutes) },
             set: { cadence in
                 session.checkInOffered = true
+                // Picking "Custom…" opens the editor rather than committing a
+                // schedule: an empty custom list would schedule nothing while
+                // the menu claimed check-ins were on.
+                guard cadence != .custom else {
+                    navigator.present(.checkInSchedule(sessionID: session.id))
+                    return
+                }
                 session.checkInIntervalMinutes = cadence?.storedMinutes
                 Task {
                     if cadence != nil { _ = await DoseNotificationManager.requestAuthorization() }

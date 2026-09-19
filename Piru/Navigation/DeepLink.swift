@@ -375,7 +375,8 @@ nonisolated enum DeepLink {
              .sourcePriority,
              .doseSources,
              .advancedSearch,
-             .inventoryItemEdit:
+             .inventoryItemEdit,
+             .checkInSchedule:
             return nil
         }
 

@@ -1491,6 +1491,22 @@
         }
       }
     },
+    "%@ is already on the list." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 已经在列表里了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 已經在列表裡了。"
+          }
+        }
+      }
+    },
     "%@ is due" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3015,6 +3031,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已讀取 %lld 行"
+          }
+        }
+      }
+    },
+    "%lld m" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘"
           }
         }
       }
@@ -5747,7 +5779,24 @@
         }
       }
     },
+    "A quiet prompt at a few points in the session, each opening a timestamped note. Off unless you turn it on, and you pick the times." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在这次体验的几个时间点上安静地提示一下，每次都会打开一条带时间戳的笔记。默认关闭，时间由你来定。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在這次體驗的幾個時間點上安靜地提示一下，每次都會打開一條帶時間戳的筆記。預設關閉，時間由你來定。"
+          }
+        }
+      }
+    },
     "A quiet prompt at a few points in the session, each opening a timestamped note. Off unless you turn it on; stops after eight hours." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6950,6 +6999,22 @@
         }
       }
     },
+    "Add a time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加一个时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一個時間"
+          }
+        }
+      }
+    },
     "Add a Time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7971,6 +8036,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄你已選擇開啟的藥物後，會在下一劑窗口開啟時提醒你。這只是估算，並非醫療建議——請按藥物逐一開啟。"
+          }
+        }
+      }
+    },
+    "After your latest dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你最近一次剂量之后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你最近一次劑量之後"
           }
         }
       }
@@ -12857,6 +12938,22 @@
         }
       }
     },
+    "Check-in times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "签到时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "簽到時間"
+          }
+        }
+      }
+    },
     "Check-ins" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15845,6 +15942,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自訂單位"
+          }
+        }
+      }
+    },
+    "Custom…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂…"
           }
         }
       }
@@ -33750,6 +33863,22 @@
         }
       }
     },
+    "No times yet. Add one below and the prompts start from your latest dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有设定时间。在下方添加一个，提示就会从你最近一次剂量开始计算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還沒有設定時間。在下方新增一個，提示就會從你最近一次劑量開始計算。"
+          }
+        }
+      }
+    },
     "no tolerance" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -37203,6 +37332,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇日期和時間…"
+          }
+        }
+      }
+    },
+    "Pick my own times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自己挑选时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自己挑選時間"
           }
         }
       }
@@ -47694,6 +47839,7 @@
       }
     },
     "T+30 m · 1 h · 2 h · 4 h · 6 h" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48450,6 +48596,22 @@
         }
       }
     },
+    "That's the most one session can carry. Remove one to add another." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这已经是一次体验能带的上限了。要再加一个，先移除一个。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這已經是一次體驗能帶的上限了。要再加一個，先移除一個。"
+          }
+        }
+      }
+    },
     "The amount that counts as a full supply for the bar. Set to 0 to hide the bar." : {
       "localizations" : {
         "zh-Hans" : {
@@ -48830,6 +48992,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示第一個適用的標籤；都不適用時顯示「—」。"
+          }
+        }
+      }
+    },
+    "The first prompt arrives at least %lld minutes after the dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第一条提示至少落在服用后 %lld 分钟。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第一條提示至少落在服用後 %lld 分鐘。"
           }
         }
       }
@@ -51810,6 +51988,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最多 %lld 個字元。"
+          }
+        }
+      }
+    },
+    "Up to %lld prompts, from %lld minutes to 24 hours after the dose. Each one opens a timestamped note; none of them is required." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Up to %1$lld prompts, from %2$lld minutes to 24 hours after the dose. Each one opens a timestamped note; none of them is required."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最多 %lld 条提示，落在服用后 %lld 分钟到 24 小时之间。每条都会打开一则带时间戳的笔记；没有一条是必须的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最多 %lld 條提示，落在服用後 %lld 分鐘到 24 小時之間。每條都會打開一則帶時間戳的筆記；沒有一條是必須的。"
           }
         }
       }
