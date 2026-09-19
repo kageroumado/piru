@@ -1036,8 +1036,6 @@ T = {
     "Delete this note?": ("删除这条笔记？", "刪除這則筆記？"),
     "Descriptors": ("描述词", "描述詞"),
     "Edit Summary": ("编辑总结", "編輯總結"),
-    "Every 2 hours": ("每 2 小时", "每 2 小時"),
-    "Every 30 minutes": ("每 30 分钟", "每 30 分鐘"),
     "Every hour": ("每小时", "每小時"),
     "Expands the group": ("展开分组", "展開分組"),
     "Full effect; the experience is the thing, ordinary activity set aside.": (

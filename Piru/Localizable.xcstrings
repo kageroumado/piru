@@ -21748,22 +21748,6 @@
         }
       }
     },
-    "Every 2 hours" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 2 小时"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 2 小時"
-          }
-        }
-      }
-    },
     "Every 2 weeks" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21840,22 +21824,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每 12 小時"
-          }
-        }
-      }
-    },
-    "Every 30 minutes" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 30 分钟"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 30 分鐘"
           }
         }
       }
@@ -48626,22 +48594,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "T+30 分 · 1 時 · 2 時 · 4 時 · 6 時"
-          }
-        }
-      }
-    },
-    "T+30 m, 1 h, 2 h, 4 h, 6 h" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "T+30 分、1 时、2 时、4 时、6 时"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "T+30 分、1 時、2 時、4 時、6 時"
           }
         }
       }

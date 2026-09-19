@@ -132,23 +132,13 @@ struct SessionMenu: View {
         Menu {
             Picker("Check-ins", selection: cadenceSelection) {
                 Text("Off").tag(CheckInScheduler.Cadence?.none)
-                ForEach(offeredCadences) { cadence in
+                ForEach(CheckInScheduler.Cadence.allCases) { cadence in
                     Text(cadence.title).tag(CheckInScheduler.Cadence?.some(cadence))
                 }
             }
         } label: {
             Label("Check-ins", systemImage: "quote.bubble")
         }
-    }
-
-    /// The two choices on offer, plus whatever this session already runs — a
-    /// session still on one of the retired fixed cadences shows it rather than
-    /// reading as "Off" and losing it on the next tap.
-    private var offeredCadences: [CheckInScheduler.Cadence] {
-        let offered = CheckInScheduler.Cadence.offerable
-        guard let current = CheckInScheduler.Cadence(storedMinutes: session.checkInIntervalMinutes),
-              !offered.contains(current) else { return offered }
-        return offered + [current]
     }
 
     private var cadenceSelection: Binding<CheckInScheduler.Cadence?> {

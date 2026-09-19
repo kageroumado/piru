@@ -581,7 +581,7 @@ import SwiftData
             func titledSession(_ title: String?, start: Date, checkIns: Bool = false) -> Session {
                 let session = Session(startDate: start, title: title)
                 if checkIns {
-                    session.checkInIntervalMinutes = CheckInScheduler.Cadence.ladder.storedMinutes
+                    session.checkInIntervalMinutes = CheckInScheduler.Cadence.everyHour.storedMinutes
                     session.checkInOffered = true
                 }
                 context.insert(session)

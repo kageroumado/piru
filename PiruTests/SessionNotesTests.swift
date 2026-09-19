@@ -335,22 +335,22 @@ struct CheckInSchedulerTests {
     @Test
     func `Fire dates follow the cadence from the anchor and skip the past`() {
         let anchor = Date(timeIntervalSince1970: 1_700_000_000)
-        let ladder = CheckInScheduler.fireDates(cadence: .ladder, anchor: anchor, now: anchor)
-        #expect(ladder.map { $0.timeIntervalSince(anchor) / 60 } == [30, 60, 120, 240, 360])
-
         let late = CheckInScheduler.fireDates(cadence: .everyHour, anchor: anchor, now: anchor.addingTimeInterval(150 * 60))
         #expect(late.first.map { Int($0.timeIntervalSince(anchor).rounded()) } == 180 * 60)
         #expect(late.count == 6)
 
         #expect(CheckInScheduler.Cadence(storedMinutes: nil) == nil)
-        #expect(CheckInScheduler.Cadence(storedMinutes: 0) == .ladder)
         #expect(CheckInScheduler.Cadence(storedMinutes: 60) == .everyHour)
         #expect(CheckInScheduler.Cadence(storedMinutes: -1) == .custom)
     }
 
     @Test
-    func `Only the hour and a custom schedule are offered`() {
-        #expect(CheckInScheduler.Cadence.offerable == [.everyHour, .custom])
+    func `The hour and a custom schedule are the only cadences`() {
+        #expect(CheckInScheduler.Cadence.allCases == [.everyHour, .custom])
+        // A value no cadence claims reads as off rather than resurrecting one.
+        #expect(CheckInScheduler.Cadence(storedMinutes: 0) == nil)
+        #expect(CheckInScheduler.Cadence(storedMinutes: 30) == nil)
+        #expect(CheckInScheduler.Cadence(storedMinutes: 120) == nil)
     }
 
     @Test
