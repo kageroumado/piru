@@ -7,9 +7,12 @@
 # is on disk does not already match, so it is a no-op on a correct checkout and
 # safe to run on every build.
 #
-# Never track the database in Git LFS: SubstanceDBUpdater fetches it over plain
-# HTTP, and raw.githubusercontent.com serves an LFS path as its 133-byte pointer
-# rather than the file.
+# This is how a CHECKOUT gets the database. The app reads the copy in its own
+# bundle and fetches nothing at runtime.
+#
+# Never track the database in Git LFS: raw.githubusercontent.com serves an LFS
+# path as its 133-byte pointer rather than the file, so a fetch would land
+# pointer text where a database belongs.
 #
 # USAGE
 #   pipeline/fetch-db.sh              # ensure the DB is present and correct

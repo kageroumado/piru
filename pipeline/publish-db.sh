@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #
-# Publish a freshly built substance database to the host that serves it.
+# Publish a freshly built substance database to the host that serves CLONES AND
+# CI. The app reads the copy in its own bundle and fetches nothing at runtime;
+# this release exists so a checkout can get a file too large to track.
 #
 # The database is untracked and manifest.json is committed, so a rebuild is only
 # half-published when it is committed: the manifest describes a database nobody

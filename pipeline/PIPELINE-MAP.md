@@ -170,7 +170,9 @@ Curated files `sqlite.py` consults directly (path constants at lines 112–176 a
 
 ### CI (`.github/workflows/ci.yml`) — a different, larger set of gates
 
-CI never runs `build.sh`. It fetches the DB with `pipeline/fetch-db.sh`, then
+CI never runs `build.sh`. It fetches the DB with `pipeline/fetch-db.sh` — the
+checkout's way in, not the app's; the app ships its own copy and fetches
+nothing — then
 runs 9 audit gates + 5 audit tests + 11 build tests + ruff + the curated
 validator. Only two audit scripts are on *both* the build path and CI
 (`signature_coverage.py`, and `validate_links.py` only on the build path).

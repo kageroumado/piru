@@ -95,6 +95,8 @@ pre-commit install --hook-type pre-commit --hook-type pre-push     # once per cl
 
 ### The bundled DB is not in git — it is fetched
 
+**This is how a *checkout* gets the database, not how the app does.** The app reads the copy in its own bundle and fetches nothing at runtime.
+
 `Piru/Data/piru-substances.sqlite` is ~19 MB and is rewritten wholesale on nearly every data pass, so it is **gitignored and hosted** rather than tracked. `pipeline/fetch-db.sh` puts it in place:
 
 ```bash
@@ -104,11 +106,9 @@ pipeline/fetch-db.sh --force    # re-download regardless
 
 - **Run it after cloning, and before any build.** `Piru/Data` is a filesystem-synchronized Xcode group, so the app bundles the DB by its merely being there, and `SubstanceStore` calls `fatalError` at launch when the bundle lacks it. Both CI jobs that read it run the script right after checkout.
 - **`manifest.json` beside it stays tracked.** It is small, and its `sqlite_sha256` is what the download is verified against — so a host serving a database this checkout does not expect is rejected rather than installed. The checksum comes from the tracked manifest, never from the server.
-- **It is served from the `db` release tag**, which holds both files. The shipped app reads the same pair: `Info.plist`'s `PiruManifestURL` points at the manifest, and `SubstanceDBUpdater` resolves `sqlite_path` against the manifest's own directory — so keeping the two together is all that is required, and the build and the OTA updater cannot disagree about what the current database is.
+- **It is served from the `db` release tag**, which holds both files. Only clones and CI read it.
 - **Run `pipeline/publish-db.sh` after every rebuild.** The manifest is committed and the database it describes is not, so a manifest pushed without its database fails every later fetch. The script refuses to publish a database the committed manifest does not describe, and verifies what the release serves afterwards.
-- **Never put it in Git LFS.** `raw.githubusercontent.com` serves an LFS path as its 133-byte pointer, so an LFS-tracked DB ships pointer text to every device asking for an update.
-
-Builds through `v2.2-b38` have the old `raw.githubusercontent.com` URL compiled in and no longer receive updates; they keep working on their bundled data.
+- **Never put it in Git LFS.** `raw.githubusercontent.com` serves an LFS path as its 133-byte pointer, so an LFS-tracked DB would hand `fetch-db.sh` 133 bytes of pointer text instead of a database.
 
 ## Architecture
 
@@ -121,7 +121,7 @@ Piru/
 │   ├── Insights/    # Adherence, half-life calc, activity charts, usage stats
 │   └── Components/
 ├── Data/            # per-concern subfolders (all filesystem-synchronized groups):
-│   ├── SubstanceDB/     # SubstanceStore (GRDB over bundled SQLite) + extensions, SubstanceLibrary façade, AppSources, DB updater/manifest, search history
+│   ├── SubstanceDB/     # SubstanceStore (GRDB over bundled SQLite) + extensions, SubstanceLibrary façade, AppSources, search history
 │   ├── Persistence/     # SwiftData store lifecycle: StoreRecovery, StoreHealth, StoreDiagnostics, backfill migrations
 │   ├── Backup/          # BackupManager, BackupCrypto (AES-256-GCM encrypted backups)
 │   ├── Pharmacology/    # the science: MechanismOfActionDatabase, receptor/metabolism/effect models
@@ -155,7 +155,6 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 | `Data/SubstanceDB/SubstanceStore.swift` | `@Observable @MainActor` singleton — identity (name/alias/uid indexes), caches, connection lifecycle, source-priority prefs. Delegates resolution to `SubstanceReadModel` via its `reader` property |
 | `Data/SubstanceDB/SubstanceReadModel.swift` | The source-priority resolution engine: per-substance record assembly, every per-field resolver, the batch loader, and the priority-SQL fragments. **New read paths go here** (or a `SubstanceReadModel+<Concern>` extension), not on `SubstanceStore` |
 | `Data/SubstanceDB/SubstanceLibrary.swift` | The `SubstanceLibrary` static façade (overlay-aware lookups) — the only intended resolution path for app code |
-| `Data/SubstanceDB/SubstanceDBUpdater.swift` | Opt-in over-the-air updates for the bundled substance DB (manifest + checksum) |
 | `Data/Persistence/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
 | `Data/Services/Interactions.swift` | The interaction engine. Classes, rules and severities all resolve from the bundled DB (`interaction_rules`, `substance_interaction_classes`, `category_interaction_classes`); the localized sentence per class pair is `InteractionRuleCopy.swift` |
 | `Shared/Engines/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
@@ -173,7 +172,7 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 ## Data Layer
 
 - **Persistence**: SwiftData for user data (DoseEntry, DailyDoseItem, SubstanceColor, FavoriteSubstance, UserColor)
-- **Substance data**: Ships as a bundled SQLite DB (`Piru/Data/piru-substances.sqlite`) built by `pipeline/build.sh` from TripSit/PsychonautWiki/DailyMed + curated data — editing pipeline JSON does nothing without a rebuild. `SubstanceStore` resolves each field by per-source priority (user-reorderable); `SubstanceDBUpdater` handles opt-in DB updates
+- **Substance data**: Ships as a bundled SQLite DB (`Piru/Data/piru-substances.sqlite`) built by `pipeline/build.sh` from TripSit/PsychonautWiki/DailyMed + curated data — editing pipeline JSON does nothing without a rebuild. `SubstanceStore` resolves each field by per-source priority (user-reorderable). The app opens only the bundled file; there is no runtime update path
 - **Queries**: Use `@Query` macro in views for SwiftData, `SubstanceLibrary.all` for substance lookups
 - **Substance lookups go through the `SubstanceLibrary` façade** (`SubstanceLibrary.swift`), never raw `SubstanceStore.shared.lookup*` — the façade overlays `CustomSubstanceStore` user edits (duration overrides, relabels); bypassing it silently drops those overrides
 - **`SubstanceLibrary.lookup` is the default resolve; `resolveFull` is detail-screens-only.** `lookup` is a dict hit over the batch projection (name, category, routes, per-salt dose ladders, durations, half-life — enough for everything but a detail page). `resolveFull` loads the full per-field record at ~21 SQL per uncached substance, and `ensureAllLoaded()` never warms its cache — so it belongs only where mechanism/bindings/chemistry are shown. Any task that resolves substances must `await SubstanceStore.shared.ensureAllLoaded()` first: a cold `SubstanceStore.all` on the main actor **asserts in DEBUG** (the release fallback is a ~500 ms hang, which is why the assert exists).
@@ -204,7 +203,7 @@ struct DoseEntryTests {
 }
 ```
 
-**Coverage areas**: Models (Substance, DoseEntry, DoseRange, DurationProfile, RouteOfAdministration, etc.), Data (BundledDatabase, SourcePriorityResolution, SubstanceLibrary, SubstanceCustomOverlay, Interactions, AppSources, StoreRecovery, BackupCrypto/BackupManager, SubstanceDBUpdater), Utilities (AdherenceCalculator, DataExportImport, PKModel, RampDownScheduler, TagExtractor, ColorHex, SessionClustering, SessionService), Features (FuzzySearch, NotificationGrouping, Navigation/DeepLink).
+**Coverage areas**: Models (Substance, DoseEntry, DoseRange, DurationProfile, RouteOfAdministration, etc.), Data (BundledDatabase, SourcePriorityResolution, SubstanceLibrary, SubstanceCustomOverlay, Interactions, AppSources, StoreRecovery, BackupCrypto/BackupManager), Utilities (AdherenceCalculator, DataExportImport, PKModel, RampDownScheduler, TagExtractor, ColorHex, SessionClustering, SessionService), Features (FuzzySearch, NotificationGrouping, Navigation/DeepLink).
 
 ## Conventions
 
