@@ -159,6 +159,9 @@ struct InsightsView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
     @Query private var substanceColors: [SubstanceColor]
+    /// Any note carrying a "did it work?" answer. The card appears once there
+    /// is something for it to read; nobody who never rates a dose sees it.
+    @Query(filter: #Predicate<SessionNote> { $0.worked != nil }) private var ratedNotes: [SessionNote]
 
     @State private var model = InsightsModel()
 
@@ -167,6 +170,10 @@ struct InsightsView: View {
         GridItem(.flexible(), spacing: Spacing.xl),
         GridItem(.flexible(), spacing: Spacing.xl),
     ]
+
+    private var hasRatedNotes: Bool {
+        !ratedNotes.isEmpty
+    }
 
     var body: some View {
         ScrollView {
@@ -188,6 +195,15 @@ struct InsightsView: View {
                         subtitle: "Trends, exposure, and overlap",
                         route: .insight(.patterns),
                     )
+                    if hasRatedNotes {
+                        InsightCompactCard(
+                            icon: "checkmark.bubble",
+                            tint: .teal,
+                            title: "Did it work?",
+                            subtitle: "What your ratings line up with",
+                            route: .insight(.feltPatterns),
+                        )
+                    }
                     InsightCompactCard(
                         icon: "square.and.arrow.up.on.square",
                         tint: .indigo,

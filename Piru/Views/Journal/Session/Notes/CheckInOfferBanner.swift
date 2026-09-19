@@ -1,12 +1,19 @@
 import SwiftUI
 
-/// Offered once per session, only while a psychedelic or dissociative dose is
-/// still in its window: turn on timed "How is it going?" prompts. Accepting
-/// stores a cadence on the session and schedules it; dismissing records the
-/// offer so it never returns for this session.
+/// Offered once per session, while a dose is still in its window: turn on timed
+/// "How is it going?" prompts. Accepting stores the times on the session and
+/// schedules them; dismissing records the offer so it never returns for this
+/// session.
+///
+/// The primary button offers **this session's own times** — read off the phase
+/// boundaries of what was actually taken (``CheckInLadder``), so a long session
+/// is asked about several times and a short one once or twice. A fixed hourly
+/// run stays reachable from the session menu; it is not what gets offered,
+/// because an interval is a guess where the curve is an answer.
 struct CheckInOfferBanner: View {
     let session: Session
     @Environment(\.appNavigator) private var navigator
+    @State private var suggested: [Int] = []
 
     var body: some View {
         Section {
@@ -35,10 +42,17 @@ struct CheckInOfferBanner: View {
                 }
                 VStack(spacing: Spacing.md) {
                     Button {
-                        enable(.everyHour)
+                        useSuggested()
                     } label: {
-                        Text("Every hour")
-                            .frame(maxWidth: .infinity)
+                        VStack(spacing: 2) {
+                            Text(suggested.isEmpty ? "Every hour" : "Use these times")
+                            if !suggested.isEmpty {
+                                Text(verbatim: CheckInLadder.summary(suggested))
+                                    .font(.caption2.monospacedDigit())
+                                    .opacity(Theme.Opacity.strong)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
                     }
                     .skinButtonStyle(.prominent)
                     .tint(Theme.accent)
@@ -56,6 +70,22 @@ struct CheckInOfferBanner: View {
             }
             .padding(.vertical, Spacing.xs)
         }
+        .task {
+            await SubstanceStore.shared.ensureAllLoaded()
+            suggested = CheckInLadder.suggestedOffsets(for: session)
+        }
+    }
+
+    /// Take the derived times, or fall back to the hourly run when nothing in
+    /// the session models a curve to read them off.
+    private func useSuggested() {
+        guard !suggested.isEmpty else { return enable(.everyHour) }
+        withAnimation(.smooth(duration: 0.25)) {
+            session.checkInOffered = true
+            session.checkInOffsetMinutes = suggested
+            session.checkInIntervalMinutes = CheckInScheduler.Cadence.custom.storedMinutes
+        }
+        schedule()
     }
 
     private func enable(_ cadence: CheckInScheduler.Cadence) {
@@ -63,6 +93,10 @@ struct CheckInOfferBanner: View {
             session.checkInOffered = true
             session.checkInIntervalMinutes = cadence.storedMinutes
         }
+        schedule()
+    }
+
+    private func schedule() {
         Task {
             _ = await DoseNotificationManager.requestAuthorization()
             CheckInScheduler.sync(session: session)
@@ -70,6 +104,7 @@ struct CheckInOfferBanner: View {
     }
 
     private func dismiss() {
+        CheckInScheduler.recordOfferDeclined()
         withAnimation(.smooth(duration: 0.25)) { session.checkInOffered = true }
     }
 }

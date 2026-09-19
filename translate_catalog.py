@@ -9,6 +9,139 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Check-in lenses, the derived ladder, and the "did it work?" scale
+    # (Specs/adhd-audience-fit-v2.md §5).
+    "Did it work?": ("起效了吗？", "起效了嗎？"),
+    "Is it working?": ("现在起效了吗？", "現在起效了嗎？"),
+    "Less than usual": ("比平时弱", "比平時弱"),
+    "About right": ("和平时差不多", "和平時差不多"),
+    "More than usual": ("比平时强", "比平時強"),
+    "Less": ("偏弱", "偏弱"),
+    "One tap records how this dose is going — less than usual, about right, or more.": (
+        "一次轻点就能记下这次剂量的表现——比平时弱、和平时差不多，还是比平时强。",
+        "一次輕點就能記下這次劑量的表現——比平時弱、和平時差不多，還是比平時強。",
+    ),
+    "Noticing": ("正注意到", "正注意到"),
+    "Any side effects?": ("有副作用吗？", "有副作用嗎？"),
+    "Optional — leave them where they are to record nothing.": (
+        "都是可选的——不动它们就等于什么都不记。",
+        "都是可選的——不動它們就等於什麼都不記。",
+    ),
+    "Opens how this compares with your other days": (
+        "打开它与你其他日子的对照",
+        "打開它與你其他日子的對照",
+    ),
+    "Use these times": ("就用这些时间", "就用這些時間"),
+    "Use this session's own times": ("用这次体验自己的时间", "用這次體驗自己的時間"),
+    "Up to %lld prompts, from %lld minutes to 24 hours after the dose. The suggested times come from the modeled phases of what you logged. Each one opens a timestamped note; none of them is required.": (
+        "最多 %lld 条提示，落在服用后 %lld 分钟到 24 小时之间。建议的时间来自你所记录物质的各阶段模型。每条都会打开一则带时间戳的笔记；没有一条是必须的。",
+        "最多 %lld 條提示，落在服用後 %lld 分鐘到 24 小時之間。建議的時間來自你所記錄物質的各階段模型。每條都會打開一則帶時間戳的筆記；沒有一條是必須的。",
+    ),
+    # Side-effect reassurance — the comedown guide's register, in one line each.
+    "This is the drug, not you. It eases as the dose wears off.": (
+        "这是药物，不是你。随着剂量消退它会缓下来。",
+        "這是藥物，不是你。隨著劑量消退它會緩下來。",
+    ),
+    "Common here. Moving a little settles it better than sitting still.": (
+        "这里很常见。稍微动一动比坐着不动更能安定下来。",
+        "這裡很常見。稍微動一動比坐著不動更能安定下來。",
+    ),
+    "Jaw clenching is typical. Magnesium and something to chew help.": (
+        "咬紧下颌是典型反应。镁和一点能嚼的东西会有帮助。",
+        "咬緊下頜是典型反應。鎂和一點能嚼的東西會有幫助。",
+    ),
+    "Appetite comes back as it wears off. Something small now still counts.": (
+        "食欲会随着消退回来。现在吃一点小东西也算数。",
+        "食慾會隨著消退回來。現在吃一點小東西也算數。",
+    ),
+    "Expected while it's still active — the curve says until when.": (
+        "只要还在起效就是预料之中的——曲线会告诉你到什么时候。",
+        "只要還在起效就是預料之中的——曲線會告訴你到什麼時候。",
+    ),
+    "A faster heart is common at this dose. If it stays hard or hurts, get it looked at.": (
+        "这个剂量下心跳变快很常见。如果一直很重或者疼，去看一下。",
+        "這個劑量下心跳變快很常見。如果一直很重或者疼，去看一下。",
+    ),
+    "Chemical, not character. It lifts as levels drop.": (
+        "这是化学作用，不是性格。随着浓度下降它会散去。",
+        "這是化學作用，不是性格。隨著濃度下降它會散去。",
+    ),
+    "Hands shake at this dose and stop on the way down.": (
+        "这个剂量下手会抖，下行时就会停。",
+        "這個劑量下手會抖，下行時就會停。",
+    ),
+    "Usually passes in the first hour. Small sips rather than gulps.": (
+        "通常第一个小时内就过去了。小口喝，别大口灌。",
+        "通常第一個小時內就過去了。小口喝，別大口灌。",
+    ),
+    "Once it settles, sip water — small and often.": (
+        "等它平息下来，小口喝水——少量多次。",
+        "等它平息下來，小口喝水——少量多次。",
+    ),
+    "It's the drug talking. It fades with the peak.": (
+        "是药物在说话。它会随着峰值一起淡去。",
+        "是藥物在說話。它會隨著峰值一起淡去。",
+    ),
+    "Thinking gets loose here and comes back. Nothing to fix.": (
+        "思路在这里会松散，之后会回来。不用去修它。",
+        "思路在這裡會鬆散，之後會回來。不用去修它。",
+    ),
+    "Sit down until it passes. It usually goes with the peak.": (
+        "坐下来等它过去。通常会随峰值一起走。",
+        "坐下來等它過去。通常會隨峰值一起走。",
+    ),
+    "Gaps here are normal, and the memory comes back after.": (
+        "这里出现断片是正常的，记忆之后会回来。",
+        "這裡出現斷片是正常的，記憶之後會回來。",
+    ),
+    "Opioids release histamine — the itch is that, not an allergy.": (
+        "阿片类会释放组胺——痒是因为这个，不是过敏。",
+        "阿片類會釋放組胺——癢是因為這個，不是過敏。",
+    ),
+    "Running hot and cold is part of it. Cool down, and sip steadily rather than a lot at once.": (
+        "忽冷忽热是其中的一部分。降降温，稳着小口喝，别一次喝太多。",
+        "忽冷忽熱是其中的一部分。降降溫，穩著小口喝，別一次喝太多。",
+    ),
+    # The felt-patterns insight.
+    "Your days, side by side": ("你的日子，并排摆着", "你的日子，並排擺著"),
+    'Each comparison cuts your rated days on one thing at a time and counts how often the dose read "about right" or better.': (
+        "每一组对照每次只按一件事切分你打过分的日子，数一数其中有多少次读作“和平时差不多”或更好。",
+        "每一組對照每次只按一件事切分你打過分的日子，數一數其中有多少次讀作「和平時差不多」或更好。",
+    ),
+    "Nothing rated yet": ("还没有打过分", "還沒有打過分"),
+    "A check-in asks whether a dose worked the way it usually does. Once a few days carry an answer, this screen shows what they line up with.": (
+        "签到会问这次剂量是不是像平时那样起效。等有几天带上了答案，这个页面就会显示它们和什么对得上。",
+        "簽到會問這次劑量是不是像平時那樣起效。等有幾天帶上了答案，這個頁面就會顯示它們和什麼對得上。",
+    ),
+    "Days rated": ("已打分的天数", "已打分的天數"),
+    "Not enough yet. A comparison needs at least %lld rated days on each side before it means anything — below that, one bad week writes the headline.": (
+        "还不够。一组对照需要每边至少 %lld 个打过分的日子才有意义——不到这个数，一个糟糕的星期就会写成结论。",
+        "還不夠。一組對照需要每邊至少 %lld 個打過分的日子才有意義——不到這個數，一個糟糕的星期就會寫成結論。",
+    ),
+    "These are your own days next to each other — one person, no control group. A difference here is something to notice, not a reason.": (
+        "这些只是你自己的日子摆在一起——一个人，没有对照组。这里的差异值得注意，但不是原因。",
+        "這些只是你自己的日子擺在一起——一個人，沒有對照組。這裡的差異值得注意，但不是原因。",
+    ),
+    "Both sides read about the same.": ("两边读起来差不多。", "兩邊讀起來差不多。"),
+    "%lld of %lld days about right or better": (
+        "%lld / %lld 天和平时差不多或更好",
+        "%lld / %lld 天和平時差不多或更好",
+    ),
+    "Time of day": ("一天中的时间", "一天中的時間"),
+    "Caffeine before it": ("之前的咖啡因", "之前的咖啡因"),
+    "Before %@": ("%@ 之前", "%@ 之前"),
+    "%@ or later": ("%@ 或更晚", "%@ 或更晚"),
+    "Under %@": ("低于 %@", "低於 %@"),
+    "%@ or more": ("%@ 或更多", "%@ 或更多"),
+    "Weekdays": ("工作日", "工作日"),
+    "Weekends": ("周末", "週末"),
+    "No caffeine first": ("之前没有咖啡因", "之前沒有咖啡因"),
+    "Caffeine within the hour": ("一小时内有咖啡因", "一小時內有咖啡因"),
+    'What your "did it work?" answers line up with': (
+        "你的“起效了吗？”答案和什么对得上",
+        "你的「起效了嗎？」答案和什麼對得上",
+    ),
+    "What your ratings line up with": ("你的评分和什么对得上", "你的評分和什麼對得上"),
     # Custom check-in schedule — the editor sheet, the offer banner, the menu.
     "Custom…": ("自定…", "自訂…"),
     "Pick my own times": ("自己挑选时间", "自己挑選時間"),

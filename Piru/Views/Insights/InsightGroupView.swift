@@ -25,6 +25,7 @@ extension Insight {
         case .steadyStateProjection: "Steady state"
         case .hormoneLevels: "Hormone Levels"
         case .patterns: "Patterns"
+        case .feltPatterns: "Did it work?"
         case .reports: "Reports"
         }
     }
@@ -40,6 +41,7 @@ extension Insight {
         case .steadyStateProjection: "arrow.up.forward.circle"
         case .hormoneLevels: "waveform.path.ecg"
         case .patterns: "list.clipboard"
+        case .feltPatterns: "checkmark.bubble"
         case .reports: "square.and.arrow.up.on.square"
         }
     }
@@ -55,6 +57,7 @@ extension Insight {
         case .steadyStateProjection: .mint
         case .hormoneLevels: .pink
         case .patterns: .brown
+        case .feltPatterns: .teal
         case .reports: .indigo
         }
     }
@@ -71,6 +74,7 @@ extension Insight {
         case .steadyStateProjection: "Where a regular dose settles, from your own cadence"
         case .hormoneLevels: "Estimated serum estradiol or testosterone from your logged esters"
         case .patterns: "Days used, exposure, dose trend, and overlap"
+        case .feltPatterns: "What your \"did it work?\" answers line up with"
         case .reports: "Export sessions, generate clinical reports"
         }
     }

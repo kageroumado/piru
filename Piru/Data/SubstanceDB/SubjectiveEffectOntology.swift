@@ -44,6 +44,7 @@ final class SubjectiveEffectOntology {
     private var rollupList: [SubjectiveEffectConcept] = []
     private var atomicsByParent: [String: [SubjectiveEffectConcept]] = [:]
     private var byID: [String: SubjectiveEffectConcept] = [:]
+    private var bySlug: [String: SubjectiveEffectConcept] = [:]
     /// `(normalized label, display label, concept id)`, sorted by label.
     private var aliasIndex: [(normalized: String, label: String, effectID: String)] = []
 
@@ -62,6 +63,20 @@ final class SubjectiveEffectOntology {
     func concept(id: String) -> SubjectiveEffectConcept? {
         load()
         return byID[id]
+    }
+
+    /// Look a concept up by its stable slug — how curated Swift-side shortcuts
+    /// (the check-in chip rows) name one, since a slug survives a vocabulary
+    /// release that re-mints ids and reads as itself in a diff.
+    func concept(slug: String) -> SubjectiveEffectConcept? {
+        load()
+        return bySlug[slug]
+    }
+
+    /// Concept ids for a list of slugs, in order, dropping any the loaded
+    /// vocabulary does not carry.
+    func ids(forSlugs slugs: [String]) -> [String] {
+        slugs.compactMap { concept(slug: $0)?.id }
     }
 
     /// The rollup a concept belongs to (itself, for a rollup).
@@ -170,6 +185,7 @@ final class SubjectiveEffectOntology {
                 return (concepts, aliases)
             }
             byID = Dictionary(concepts.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            bySlug = Dictionary(concepts.map { ($0.slug, $0) }, uniquingKeysWith: { first, _ in first })
             rollupList = concepts.filter(\.isRollup)
             atomicsByParent = Dictionary(grouping: concepts.filter { !$0.isRollup && $0.parentID != nil }, by: { $0.parentID! })
             aliasIndex = aliases.map { (normalized: $0.0, label: $0.1, effectID: $0.2) }

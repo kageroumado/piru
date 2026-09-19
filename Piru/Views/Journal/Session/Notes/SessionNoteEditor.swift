@@ -2,9 +2,16 @@ import SwiftData
 import SwiftUI
 
 /// The add / edit sheet for one timestamped session note: the text first, then
-/// the optional structure — Shulgin rating, mood and energy, descriptor chips —
-/// then the moment it belongs to. Presented via `SheetRoute.sessionNoteEditor`
-/// (the ⋯ menu, a note row, the dock shortcut, a check-in notification).
+/// the optional structure, then the moment it belongs to. Presented via
+/// `SheetRoute.sessionNoteEditor` (the ⋯ menu, a note row, the dock shortcut,
+/// a check-in notification).
+///
+/// **The structure is shaped by what the session carries** (``CheckInForm``).
+/// A medication asks whether it worked; a psychedelic asks how strong it is;
+/// a session carrying both asks each question once, with the substance named.
+/// Someone mid-experience is not going to read a form — the front of the sheet
+/// is a handful of taps, and everything that is only sometimes relevant sits
+/// behind a disclosure.
 struct SessionNoteEditor: View {
     let session: Session
     /// The note to edit; nil composes a new one.
@@ -19,6 +26,8 @@ struct SessionNoteEditor: View {
     @State private var draft: SessionNoteDraft
     @State private var showShulginInfo = false
     @State private var confirmDelete = false
+    @State private var showSideEffects = false
+    @State private var form = CheckInForm.unresolved
     @FocusState private var textFocused: Bool
     @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
     private var showSessionVitals = false
@@ -46,8 +55,11 @@ struct SessionNoteEditor: View {
             Form {
                 textSection
                 if draft.kind != .summary {
-                    shulginSection
+                    if form.asksWorked { workedSection }
+                    if form.asksIntensity { shulginSection }
                     moodEnergySection
+                    if !form.highlights.isEmpty { highlightsSection }
+                    if !form.sideEffects.isEmpty { sideEffectsSection }
                     descriptorSection
                 }
                 timeSection
@@ -92,6 +104,8 @@ struct SessionNoteEditor: View {
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
         .task {
+            await SubstanceStore.shared.ensureAllLoaded()
+            form = CheckInForm.build(for: session)
             await draft.loadHeartRate(showSessionVitals: showSessionVitals, provided: vitals)
         }
         .onChange(of: draft.timestamp) { _, _ in
@@ -119,6 +133,83 @@ struct SessionNoteEditor: View {
         }
     }
 
+    /// "Did it work?" — the reference point is this person's own usual result,
+    /// which is why the words are comparative and there is no scale to read.
+    private var workedSection: some View {
+        Section {
+            Picker("Did it work?", selection: $draft.worked) {
+                Text("—").tag(Int?.none)
+                ForEach(WorkedScale.levels, id: \.self) { level in
+                    if let label = WorkedScale.shortLabel(level) {
+                        Text(label).tag(Int?.some(level))
+                    }
+                }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+        } header: {
+            sectionHeader("Did it work?", tag: form.tag(form.workedNames))
+        }
+    }
+
+    /// The effects this class is taken for, one tap each. They are ordinary
+    /// descriptors — the same vocabulary the picker below offers in full.
+    private var highlightsSection: some View {
+        Section {
+            DescriptorToggleChips(slugs: form.highlights, draft: draft)
+        } header: {
+            Text("Noticing")
+        }
+    }
+
+    /// Collapsed by default: the list is long, most of it is absent most of the
+    /// time, and an open one would be the first thing between someone and Save.
+    private var sideEffectsSection: some View {
+        Section {
+            DisclosureGroup(isExpanded: $showSideEffects) {
+                DescriptorToggleChips(slugs: form.sideEffects, draft: draft)
+                ForEach(draft.selected(among: form.sideEffects), id: \.self) { slug in
+                    if let line = CheckInLenses.reassurance(for: slug) {
+                        Label {
+                            Text(line)
+                        } icon: {
+                            Image(systemName: "info.circle")
+                        }
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.top, Spacing.xs)
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Any side effects?")
+                    Spacer()
+                    let count = draft.selected(among: form.sideEffects).count
+                    if count > 0 {
+                        Text("\(count)")
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+            }
+        }
+    }
+
+    /// A section header with an optional trailing substance name — present only
+    /// when the session carries more than one substance and the question would
+    /// otherwise be ambiguous about which.
+    private func sectionHeader(_ title: LocalizedStringKey, tag: String?) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
+            if let tag {
+                Text(tag)
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .textCase(nil)
+            }
+        }
+    }
+
     private var shulginSection: some View {
         Section {
             Picker("Intensity", selection: $draft.shulgin) {
@@ -132,6 +223,12 @@ struct SessionNoteEditor: View {
         } header: {
             HStack {
                 Text("Shulgin scale")
+                if let tag = form.tag(form.intensityNames) {
+                    Text(tag)
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .textCase(nil)
+                }
                 Spacer()
                 Button {
                     showShulginInfo = true
@@ -150,12 +247,19 @@ struct SessionNoteEditor: View {
         }
     }
 
+    @ViewBuilder
     private var moodEnergySection: some View {
-        Section {
-            SevenStepRow(title: "Mood", low: "Low", high: "High", value: $draft.mood)
-            SevenStepRow(title: "Energy", low: "Sedated", high: "Stimulated", value: $draft.energy)
-        } footer: {
-            Text("Both optional. Leave them where they are to record nothing.")
+        if form.showsMood || form.showsEnergy {
+            Section {
+                if form.showsMood {
+                    SevenStepRow(title: "Mood", low: "Low", high: "High", value: $draft.mood)
+                }
+                if form.showsEnergy {
+                    SevenStepRow(title: "Energy", low: "Sedated", high: "Stimulated", value: $draft.energy)
+                }
+            } footer: {
+                Text("Optional — leave them where they are to record nothing.")
+            }
         }
     }
 
@@ -285,6 +389,56 @@ private struct ShulginInfoView: View {
             Text(text)
                 .font(.subheadline)
         }
+    }
+}
+
+// MARK: - Toggle chips
+
+/// A row of one-tap descriptor chips built from curated slugs: filled when the
+/// note carries that concept, outlined when it does not.
+///
+/// A slug the loaded vocabulary cannot resolve draws nothing, so a database
+/// older than a curated list degrades to a shorter row rather than a dead chip.
+private struct DescriptorToggleChips: View {
+    let slugs: [String]
+    @Bindable var draft: SessionNoteDraft
+    @State private var ontology = SubjectiveEffectOntology.shared
+
+    private var resolved: [(slug: String, name: String)] {
+        slugs.compactMap { slug in ontology.concept(slug: slug).map { (slug: slug, name: $0.name) } }
+    }
+
+    var body: some View {
+        FlowLayout(spacing: Spacing.sm) {
+            ForEach(resolved, id: \.slug) { slug, name in
+                let isOn = draft.hasDescriptor(slug: slug)
+                Button {
+                    draft.toggleDescriptor(slug: slug)
+                } label: {
+                    Text(name)
+                        .font(.caption.weight(.medium))
+                        .padding(.horizontal, Spacing.lg)
+                        .padding(.vertical, Spacing.sm)
+                        .background(
+                            Theme.accent.opacity(isOn ? Theme.Opacity.tint : 0),
+                            in: skinChipShape(),
+                        )
+                        .overlay {
+                            skinChipShape()
+                                .stroke(
+                                    isOn ? Theme.accent : Color.secondary.opacity(Theme.Opacity.muted),
+                                    lineWidth: 1,
+                                )
+                        }
+                        .foregroundStyle(isOn ? Theme.accent : Theme.secondaryLabel)
+                        .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : .isButton)
+            }
+        }
+        .padding(.vertical, Spacing.xs)
+        .animation(.smooth(duration: 0.15), value: draft.descriptors)
     }
 }
 

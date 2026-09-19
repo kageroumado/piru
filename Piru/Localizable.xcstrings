@@ -1684,6 +1684,38 @@
         }
       }
     },
+    "%@ or later" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 或更晚"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 或更晚"
+          }
+        }
+      }
+    },
+    "%@ or more" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 或更多"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 或更多"
+          }
+        }
+      }
+    },
     "%@ pieces" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3246,6 +3278,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld / %lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld days about right or better" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld days about right or better"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / %lld 天和平时差不多或更好"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / %lld 天和平時差不多或更好"
           }
         }
       }
@@ -5379,6 +5433,22 @@
         }
       }
     },
+    "A check-in asks whether a dose worked the way it usually does. Once a few days carry an answer, this screen shows what they line up with." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "签到会问这次剂量是不是像平时那样起效。等有几天带上了答案，这个页面就会显示它们和什么对得上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "簽到會問這次劑量是不是像平時那樣起效。等有幾天帶上了答案，這個頁面就會顯示它們和什麼對得上。"
+          }
+        }
+      }
+    },
     "A color for every substance you log" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5487,6 +5557,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "同一次使用內會很快減弱，大量使用時還會有一點更慢的變化。加大劑量仍然有用——但落差和風險都會跟著上去，而對心臟的負擔幾乎不會減弱。"
+          }
+        }
+      }
+    },
+    "A faster heart is common at this dose. If it stays hard or hurts, get it looked at." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个剂量下心跳变快很常见。如果一直很重或者疼，去看一下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個劑量下心跳變快很常見。如果一直很重或者疼，去看一下。"
           }
         }
       }
@@ -6336,6 +6422,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關於單胺特徵"
+          }
+        }
+      }
+    },
+    "About right" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和平时差不多"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和平時差不多"
           }
         }
       }
@@ -9308,6 +9410,22 @@
         }
       }
     },
+    "Any side effects?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有副作用吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有副作用嗎？"
+          }
+        }
+      }
+    },
     "anytime" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9368,6 +9486,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大量使用後,食慾變化和睡眠紊亂很常見。"
+          }
+        }
+      }
+    },
+    "Appetite comes back as it wears off. Something small now still counts." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "食欲会随着消退回来。现在吃一点小东西也算数。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "食慾會隨著消退回來。現在吃一點小東西也算數。"
           }
         }
       }
@@ -10602,6 +10736,22 @@
         }
       }
     },
+    "Before %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 之前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 之前"
+          }
+        }
+      }
+    },
     "before 12:00" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11526,6 +11676,7 @@
       }
     },
     "Both optional. Leave them where they are to record nothing." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11569,6 +11720,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "兩者都會升高血清素，因此可能出現血清素症候群——躁動、顫抖、出汗、心跳加快，最常見於開始用藥的頭幾週。這個組合本就是醫師有意開出並加以監測的；SSRI 不會升高鋰的血藥濃度。"
+          }
+        }
+      }
+    },
+    "Both sides read about the same." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两边读起来差不多。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩邊讀起來差不多。"
           }
         }
       }
@@ -12072,6 +12239,22 @@
         }
       }
     },
+    "Caffeine before it" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "之前的咖啡因"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "之前的咖啡因"
+          }
+        }
+      }
+    },
     "Caffeine in moderation can help with grogginess." : {
       "localizations" : {
         "zh-Hans" : {
@@ -12084,6 +12267,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "適量咖啡因有助於緩解昏沉。"
+          }
+        }
+      }
+    },
+    "Caffeine within the hour" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一小时内有咖啡因"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一小時內有咖啡因"
           }
         }
       }
@@ -13030,6 +13229,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在檢查…"
+          }
+        }
+      }
+    },
+    "Chemical, not character. It lifts as levels drop." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是化学作用，不是性格。随着浓度下降它会散去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是化學作用，不是性格。隨著濃度下降它會散去。"
           }
         }
       }
@@ -14332,6 +14547,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每週常規劑量數，7 天滾動平均"
+          }
+        }
+      }
+    },
+    "Common here. Moving a little settles it better than sitting still." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这里很常见。稍微动一动比坐着不动更能安定下来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡很常見。稍微動一動比坐著不動更能安定下來。"
           }
         }
       }
@@ -16380,6 +16611,22 @@
         }
       }
     },
+    "Days rated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已打分的天数"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已打分的天數"
+          }
+        }
+      }
+    },
     "Days used" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16984,6 +17231,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "地西泮、氯氮䓬、氯硝西泮"
+          }
+        }
+      }
+    },
+    "Did it work?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起效了吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起效了嗎？"
           }
         }
       }
@@ -19122,6 +19385,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每張卡片是該物質自身的貢獻。機制是共享的，所以你的整體水平（上方圖表或「按機制」）可能更高。"
+          }
+        }
+      }
+    },
+    "Each comparison cuts your rated days on one thing at a time and counts how often the dose read \"about right\" or better." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一组对照每次只按一件事切分你打过分的日子，数一数其中有多少次读作“和平时差不多”或更好。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一組對照每次只按一件事切分你打過分的日子，數一數其中有多少次讀作「和平時差不多」或更好。"
           }
         }
       }
@@ -21917,6 +22196,22 @@
         }
       }
     },
+    "Expected while it's still active — the curve says until when." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只要还在起效就是预料之中的——曲线会告诉你到什么时候。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只要還在起效就是預料之中的——曲線會告訴你到什麼時候。"
+          }
+        }
+      }
+    },
     "Experimental" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23447,6 +23742,22 @@
         }
       }
     },
+    "Gaps here are normal, and the memory comes back after." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这里出现断片是正常的，记忆之后会回来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡出現斷片是正常的，記憶之後會回來。"
+          }
+        }
+      }
+    },
     "Gastrointestinal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24117,6 +24428,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "處理與儲存"
+          }
+        }
+      }
+    },
+    "Hands shake at this dose and stop on the way down." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个剂量下手会抖，下行时就会停。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個劑量下手會抖，下行時就會停。"
           }
         }
       }
@@ -27202,6 +27529,22 @@
         }
       }
     },
+    "Is it working?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在起效了吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在起效了嗎？"
+          }
+        }
+      }
+    },
     "Isomer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27266,6 +27609,22 @@
         }
       }
     },
+    "It's the drug talking. It fades with the peak." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是药物在说话。它会随着峰值一起淡去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是藥物在說話。它會隨著峰值一起淡去。"
+          }
+        }
+      }
+    },
     "Items" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -27295,6 +27654,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "IUPAC 名稱"
+          }
+        }
+      }
+    },
+    "Jaw clenching is typical. Magnesium and something to chew help." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "咬紧下颌是典型反应。镁和一点能嚼的东西会有帮助。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "咬緊下頜是典型反應。鎂和一點能嚼的東西會有幫助。"
           }
         }
       }
@@ -27964,6 +28339,22 @@
         }
       }
     },
+    "Less" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏弱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏弱"
+          }
+        }
+      }
+    },
     "Less than a day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27976,6 +28367,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不到一天"
+          }
+        }
+      }
+    },
+    "Less than usual" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比平时弱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比平時弱"
           }
         }
       }
@@ -31513,6 +31920,22 @@
         }
       }
     },
+    "More than usual" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比平时强"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比平時強"
+          }
+        }
+      }
+    },
     "More…" : {
       "comment" : "Brand picker: submenu of niche brands",
       "localizations" : {
@@ -33047,6 +33470,22 @@
         }
       }
     },
+    "No caffeine first" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "之前没有咖啡因"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "之前沒有咖啡因"
+          }
+        }
+      }
+    },
     "No Classes" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34296,6 +34735,22 @@
         }
       }
     },
+    "Not enough yet. A comparison needs at least %lld rated days on each side before it means anything — below that, one bad week writes the headline." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还不够。一组对照需要每边至少 %lld 个打过分的日子才有意义——不到这个数，一个糟糕的星期就会写成结论。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還不夠。一組對照需要每邊至少 %lld 個打過分的日子才有意義——不到這個數，一個糟糕的星期就會寫成結論。"
+          }
+        }
+      }
+    },
     "Not in the Ashton Manual's equivalence table, and not sourced elsewhere — treat the number as a rough guide and dose by this drug's own threshold." : {
       "localizations" : {
         "zh-Hans" : {
@@ -34778,6 +35233,22 @@
         }
       }
     },
+    "Nothing rated yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有打过分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還沒有打過分"
+          }
+        }
+      }
+    },
     "Nothing to Model" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34822,6 +35293,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暫無可彙總內容"
+          }
+        }
+      }
+    },
+    "Noticing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正注意到"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正注意到"
           }
         }
       }
@@ -35355,6 +35842,22 @@
         }
       }
     },
+    "Once it settles, sip water — small and often." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等它平息下来，小口喝水——少量多次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等它平息下來，小口喝水——少量多次。"
+          }
+        }
+      }
+    },
     "Once the compensatory response is conditioned, presenting the cues without the drug leaves the push-back running unopposed. The result feels like the drug's mirror: a stimulant's familiar setting without the stimulant can produce fatigue, an opioid's without the opioid can produce aches. This is one route into situational withdrawal." : {
       "localizations" : {
         "zh-Hans" : {
@@ -35469,6 +35972,22 @@
         }
       }
     },
+    "One tap records how this dose is going — less than usual, about right, or more." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次轻点就能记下这次剂量的表现——比平时弱、和平时差不多，还是比平时强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次輕點就能記下這次劑量的表現——比平時弱、和平時差不多，還是比平時強。"
+          }
+        }
+      }
+    },
     "Onset" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35561,6 +36080,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開 %@"
+          }
+        }
+      }
+    },
+    "Opens how this compares with your other days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开它与你其他日子的对照"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開它與你其他日子的對照"
           }
         }
       }
@@ -35789,6 +36324,22 @@
         }
       }
     },
+    "Opioids release histamine — the itch is that, not an allergy." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阿片类会释放组胺——痒是因为这个，不是过敏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阿片類會釋放組胺——癢是因為這個，不是過敏。"
+          }
+        }
+      }
+    },
     "Opioids: peak day ≈ %@ MME" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35817,6 +36368,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可選"
+          }
+        }
+      }
+    },
+    "Optional — leave them where they are to record nothing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "都是可选的——不动它们就等于什么都不记。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "都是可選的——不動它們就等於什麼都不記。"
           }
         }
       }
@@ -41996,6 +42563,22 @@
         }
       }
     },
+    "Running hot and cold is part of it. Cool down, and sip steadily rather than a lot at once." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "忽冷忽热是其中的一部分。降降温，稳着小口喝，别一次喝太多。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "忽冷忽熱是其中的一部分。降降溫，穩著小口喝，別一次喝太多。"
+          }
+        }
+      }
+    },
     "Running low on %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44879,6 +45462,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "穩定地小口喝水,但不要過量。每 30 至 60 分鐘一杯即可。"
+          }
+        }
+      }
+    },
+    "Sit down until it passes. It usually goes with the peak." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "坐下来等它过去。通常会随峰值一起走。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "坐下來等它過去。通常會隨峰值一起走。"
           }
         }
       }
@@ -49526,6 +50125,22 @@
         }
       }
     },
+    "These are your own days next to each other — one person, no control group. A difference here is something to notice, not a reason." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些只是你自己的日子摆在一起——一个人，没有对照组。这里的差异值得注意，但不是原因。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些只是你自己的日子擺在一起——一個人，沒有對照組。這裡的差異值得注意，但不是原因。"
+          }
+        }
+      }
+    },
     "These curves are built from %@. %@ sit outside the model." : {
       "localizations" : {
         "zh-Hans" : {
@@ -49602,6 +50217,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些數值並非在同一實驗中測得——每個都來自各自的研究。此處排列只為呈現量級。"
+          }
+        }
+      }
+    },
+    "Thinking gets loose here and comes back. Nothing to fix." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "思路在这里会松散，之后会回来。不用去修它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "思路在這裡會鬆散，之後會回來。不用去修它。"
           }
         }
       }
@@ -49826,6 +50457,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這是暫時的。接下來幾天您的大腦會補充。"
+          }
+        }
+      }
+    },
+    "This is the drug, not you. It eases as the dose wears off." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是药物，不是你。随着剂量消退它会缓下来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是藥物，不是你。隨著劑量消退它會緩下來。"
           }
         }
       }
@@ -50164,6 +50811,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在範圍內的時間"
+          }
+        }
+      }
+    },
+    "Time of day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一天中的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一天中的時間"
           }
         }
       }
@@ -51592,6 +52255,22 @@
         }
       }
     },
+    "Under %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低于 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低於 %@"
+          }
+        }
+      }
+    },
     "under a day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -51993,6 +52672,7 @@
       }
     },
     "Up to %lld prompts, from %lld minutes to 24 hours after the dose. Each one opens a timestamped note; none of them is required." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -52010,6 +52690,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最多 %lld 條提示，落在服用後 %lld 分鐘到 24 小時之間。每條都會打開一則帶時間戳的筆記；沒有一條是必須的。"
+          }
+        }
+      }
+    },
+    "Up to %lld prompts, from %lld minutes to 24 hours after the dose. The suggested times come from the modeled phases of what you logged. Each one opens a timestamped note; none of them is required." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Up to %1$lld prompts, from %2$lld minutes to 24 hours after the dose. The suggested times come from the modeled phases of what you logged. Each one opens a timestamped note; none of them is required."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最多 %lld 条提示，落在服用后 %lld 分钟到 24 小时之间。建议的时间来自你所记录物质的各阶段模型。每条都会打开一则带时间戳的笔记；没有一条是必须的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最多 %lld 條提示，落在服用後 %lld 分鐘到 24 小時之間。建議的時間來自你所記錄物質的各階段模型。每條都會打開一則帶時間戳的筆記；沒有一條是必須的。"
           }
         }
       }
@@ -52389,6 +53091,38 @@
         }
       }
     },
+    "Use these times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就用这些时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就用這些時間"
+          }
+        }
+      }
+    },
+    "Use this session's own times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用这次体验自己的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用這次體驗自己的時間"
+          }
+        }
+      }
+    },
     "Used %lld of %lld days (%lld%%)." : {
       "localizations" : {
         "en" : {
@@ -52541,6 +53275,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正使用平均值 60 kg。設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。"
+          }
+        }
+      }
+    },
+    "Usually passes in the first hour. Small sips rather than gulps." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通常第一个小时内就过去了。小口喝，别大口灌。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通常第一個小時內就過去了。小口喝，別大口灌。"
           }
         }
       }
@@ -53187,6 +53937,38 @@
         }
       }
     },
+    "Weekdays" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "工作日"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "工作日"
+          }
+        }
+      }
+    },
+    "Weekends" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周末"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "週末"
+          }
+        }
+      }
+    },
     "Weekly" : {
       "localizations" : {
         "zh-Hans" : {
@@ -53460,6 +54242,22 @@
         }
       }
     },
+    "What your \"did it work?\" answers line up with" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的“起效了吗？”答案和什么对得上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的「起效了嗎？」答案和什麼對得上"
+          }
+        }
+      }
+    },
     "What your body makes from this dose. Not a measured level." : {
       "localizations" : {
         "zh-Hans" : {
@@ -53472,6 +54270,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "身體從這次劑量中生成的物質。並非實測數值。"
+          }
+        }
+      }
+    },
+    "What your ratings line up with" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的评分和什么对得上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的評分和什麼對得上"
           }
         }
       }
@@ -54839,6 +55653,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的資料已還原。請強制結束並重新開啟 Piru 以載入。"
+          }
+        }
+      }
+    },
+    "Your days, side by side" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的日子，并排摆着"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的日子，並排擺著"
           }
         }
       }

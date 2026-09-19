@@ -46,6 +46,12 @@ final class SessionNote {
     /// Energy, `-3…+3` (sedated … stimulated). `nil` = not captured.
     var energy: Int?
 
+    /// Whether the dose did its job, `-1…+1` (less than usual, about right,
+    /// more than usual). `nil` = not captured. A separate question from
+    /// ``shulgin``: that scale measures how strong an experience is, this one
+    /// whether a medication performed the way it usually does.
+    var worked: Int?
+
     /// SubFxOnEx concept ids (`subjective_effect_concepts.id`) — the vocabulary
     /// lives in the bundled DB, so a note stores identity, never the display name.
     var descriptors: [String]
@@ -70,6 +76,7 @@ final class SessionNote {
         shulgin: Int? = nil,
         mood: Int? = nil,
         energy: Int? = nil,
+        worked: Int? = nil,
         descriptors: [String] = [],
         heartRate: Double? = nil,
         kind: Kind = .observation,
@@ -81,6 +88,7 @@ final class SessionNote {
         self.shulgin = shulgin
         self.mood = mood
         self.energy = energy
+        self.worked = worked
         self.descriptors = descriptors
         self.heartRate = heartRate
         kindRaw = kind.rawValue
@@ -91,8 +99,47 @@ final class SessionNote {
     /// sheet's Save gate and the export's "skip empty" test.
     var hasContent: Bool {
         !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            || shulgin != nil || mood != nil || energy != nil
+            || shulgin != nil || mood != nil || energy != nil || worked != nil
             || !descriptors.isEmpty || heartRate != nil
+    }
+}
+
+/// The three answers to "did it work?" — the scale a medication is read on,
+/// where the reference point is this person's own usual result rather than any
+/// population figure. Shared by the note sheet, the note rows, the report and
+/// the Insights pass that groups days by it.
+nonisolated enum WorkedScale {
+    static let levels = [-1, 0, 1]
+
+    /// The on-screen word for a level, localized.
+    static func label(_ level: Int) -> LocalizedStringResource? {
+        switch level {
+        case -1: "Less than usual"
+        case 0: "About right"
+        case 1: "More than usual"
+        default: nil
+        }
+    }
+
+    /// The short form the segmented control shows, localized.
+    static func shortLabel(_ level: Int) -> LocalizedStringResource? {
+        switch level {
+        case -1: "Less"
+        case 0: "About right"
+        case 1: "More"
+        default: nil
+        }
+    }
+
+    /// The English word the portable exports write, so a report reads the same
+    /// whatever locale produced it.
+    static func exportWord(_ level: Int) -> String? {
+        switch level {
+        case -1: "less than usual"
+        case 0: "about right"
+        case 1: "more than usual"
+        default: nil
+        }
     }
 }
 

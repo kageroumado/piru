@@ -125,11 +125,21 @@ enum CheckInScheduler {
         )
         let center = UNUserNotificationCenter.current()
         let thread = RampDownScheduler.sessionIdentifier(for: session.startDate)
+        // A session that only carries medication is asked the medication
+        // question, in the words its own control uses.
+        let form = CheckInForm.build(for: session)
+        let isMedication = form.asksWorked && !form.asksIntensity
+        let title = isMedication
+            ? String(localized: "Is it working?")
+            : String(localized: "How is it going?")
+        let body = isMedication
+            ? String(localized: "One tap records how this dose is going — less than usual, about right, or more.")
+            : String(localized: "Add a note to your session — what you notice, at this moment.")
         for (index, date) in dates.enumerated() {
             if NotificationPreferencesStore.isInQuietHours(date) { continue }
             let content = UNMutableNotificationContent(
-                title: String(localized: "How is it going?"),
-                body: String(localized: "Add a note to your session — what you notice, at this moment."),
+                title: title,
+                body: body,
                 category: categoryID,
                 threadIdentifier: thread,
             )
@@ -159,14 +169,45 @@ enum CheckInScheduler {
         }
     }
 
-    /// Whether a session should be *offered* check-ins: the offer appears once,
-    /// only for a session carrying a psychedelic or dissociative dose that is
-    /// still in its effect window.
+    /// Classes where a timed prompt has something to learn: a psychoactive dose
+    /// with a course someone can report on. A supplement or an antibiotic is
+    /// logged, not experienced, so asking about it hourly would be noise.
+    nonisolated static let offerableCategories: Set<SubstanceCategory> = [
+        .psychedelic, .dissociative, .dysdelic, .deliriant, .empathogen,
+        .stimulant, .eugeroic, .cannabinoid, .opioid, .benzodiazepine,
+        .depressant, .gabapentinoid,
+    ]
+
+    /// How many times the offer may be turned down before it stops appearing.
+    ///
+    /// The offer is per-session, and someone who takes a medication daily starts
+    /// a session a day — without this, declining once would mean declining every
+    /// morning forever. Two says it clearly enough.
+    nonisolated static let maximumDeclines = 2
+    private nonisolated static let declineKey = "checkInOfferDeclines"
+
+    private nonisolated static var defaults: UserDefaults {
+        UserDefaults(suiteName: "group.dev.yumeji.piru") ?? .standard
+    }
+
+    /// Record that the banner was dismissed rather than accepted.
+    nonisolated static func recordOfferDeclined() {
+        defaults.set(defaults.integer(forKey: declineKey) + 1, forKey: declineKey)
+    }
+
+    nonisolated static var isOfferMuted: Bool {
+        defaults.integer(forKey: declineKey) >= maximumDeclines
+    }
+
+    /// Whether a session should be *offered* check-ins: once per session, while
+    /// a dose of an ``offerableCategories`` class is still in its effect window,
+    /// and only until the offer has been turned down ``maximumDeclines`` times.
     static func shouldOffer(session: Session, hasOngoingDose: Bool) -> Bool {
         guard hasOngoingDose, !session.checkInOffered, session.checkInIntervalMinutes == nil else { return false }
+        guard !isOfferMuted else { return false }
         return (session.doses ?? []).contains { dose in
             guard let category = SubstanceLibrary.lookup(dose.substance)?.category else { return false }
-            return category == .psychedelic || category == .dissociative
+            return offerableCategories.contains(category)
         }
     }
 }

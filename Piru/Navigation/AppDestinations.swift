@@ -166,6 +166,7 @@ private struct PushRouteView: View {
         case .steadyStateProjection: InYourBodyView().navigationTitle("In Your Body")
         case .hormoneLevels: HormoneLevelsView().navigationTitle("Hormone Levels")
         case .patterns: PatternsView().navigationTitle("Patterns")
+        case .feltPatterns: FeltPatternsView().navigationTitle("Did it work?")
         case .reports: ReportsView().navigationTitle("Reports")
         }
     }

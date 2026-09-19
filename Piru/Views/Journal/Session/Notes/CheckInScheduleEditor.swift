@@ -14,6 +14,8 @@ struct CheckInScheduleEditor: View {
     /// The draft hours/minutes in the add row.
     @State private var hours = 1
     @State private var minutes = 0
+    /// Times read off this session's own curve — the empty state's one tap.
+    @State private var suggested: [Int] = []
 
     private var offsets: [Int] {
         session.checkInOffsetMinutes
@@ -30,6 +32,10 @@ struct CheckInScheduleEditor: View {
                 addSection
             }
             .insetGroupedListStyle()
+            .task {
+                await SubstanceStore.shared.ensureAllLoaded()
+                suggested = CheckInLadder.suggestedOffsets(for: session)
+            }
             .navigationTitle("Check-in times")
             .inlineNavigationTitle()
             .toolbar {
@@ -48,6 +54,18 @@ struct CheckInScheduleEditor: View {
             if offsets.isEmpty {
                 Text("No times yet. Add one below and the prompts start from your latest dose.")
                     .captionSecondary()
+                if !suggested.isEmpty {
+                    Button {
+                        apply(suggested)
+                    } label: {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Label("Use this session's own times", systemImage: "wand.and.sparkles")
+                            Text(verbatim: CheckInLadder.summary(suggested))
+                                .font(.caption.monospacedDigit())
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+                }
             } else {
                 ForEach(offsets, id: \.self) { offset in
                     HStack {
@@ -66,7 +84,7 @@ struct CheckInScheduleEditor: View {
         } header: {
             Text("After your latest dose")
         } footer: {
-            Text("Up to \(CheckInOffsets.maximumCount) prompts, from \(CheckInOffsets.minimumMinutes) minutes to 24 hours after the dose. Each one opens a timestamped note; none of them is required.")
+            Text("Up to \(CheckInOffsets.maximumCount) prompts, from \(CheckInOffsets.minimumMinutes) minutes to 24 hours after the dose. The suggested times come from the modeled phases of what you logged. Each one opens a timestamped note; none of them is required.")
         }
     }
 

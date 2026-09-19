@@ -16,6 +16,7 @@ final class SessionNoteDraft {
     var shulgin: Int?
     var mood: Int?
     var energy: Int?
+    var worked: Int?
     var descriptors: [String]
     /// Heart rate captured for `timestamp` — the note's own value when editing,
     /// otherwise the nearest Health sample within ±2 min once fetched.
@@ -36,6 +37,7 @@ final class SessionNoteDraft {
         shulgin = existing?.shulgin
         mood = existing?.mood
         energy = existing?.energy
+        worked = existing?.worked
         descriptors = existing?.descriptors ?? []
         heartRate = existing?.heartRate
     }
@@ -46,8 +48,34 @@ final class SessionNoteDraft {
 
     var hasContent: Bool {
         !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            || shulgin != nil || mood != nil || energy != nil
+            || shulgin != nil || mood != nil || energy != nil || worked != nil
             || !descriptors.isEmpty
+    }
+
+    // MARK: - Descriptor chips
+
+    /// Whether the concept behind `slug` is already on the note.
+    func hasDescriptor(slug: String) -> Bool {
+        guard let id = SubjectiveEffectOntology.shared.concept(slug: slug)?.id else { return false }
+        return descriptors.contains(id)
+    }
+
+    /// Add or remove the concept behind `slug` — what a check-in chip does.
+    /// A slug the loaded vocabulary does not carry is a no-op; the chip for it
+    /// is never drawn in the first place.
+    func toggleDescriptor(slug: String) {
+        guard let id = SubjectiveEffectOntology.shared.concept(slug: slug)?.id else { return }
+        if let index = descriptors.firstIndex(of: id) {
+            descriptors.remove(at: index)
+        } else {
+            descriptors.append(id)
+        }
+    }
+
+    /// The slugs from `slugs` that are on the note, in the order given — what
+    /// the reassurance lines are drawn from.
+    func selected(among slugs: [String]) -> [String] {
+        slugs.filter { hasDescriptor(slug: $0) }
     }
 
     // MARK: - Heart rate
@@ -87,13 +115,13 @@ final class SessionNoteDraft {
         if let existing {
             SessionNoteService.update(
                 existing, timestamp: timestamp, text: text,
-                shulgin: shulgin, mood: mood, energy: energy,
+                shulgin: shulgin, mood: mood, energy: energy, worked: worked,
                 descriptors: descriptors, heartRate: heartRate,
             )
         } else {
             SessionNoteService.add(
                 to: session, timestamp: timestamp, text: text,
-                shulgin: shulgin, mood: mood, energy: energy,
+                shulgin: shulgin, mood: mood, energy: energy, worked: worked,
                 descriptors: descriptors, heartRate: heartRate, kind: kind,
             )
         }

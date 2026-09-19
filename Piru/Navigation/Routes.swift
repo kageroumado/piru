@@ -131,6 +131,10 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// exposure (clinical equivalents where they exist), dose trend, and
     /// co-exposure. Off the shared `ClinicalStats` layer the PDF report also uses.
     case patterns
+    /// What the "did it work?" answers on session notes line up with — dose
+    /// hour, amount, day of week, caffeine before it. The interpretive half of
+    /// a note, kept out of the note itself (`Specs/adhd-audience-fit-v2.md` §5).
+    case feltPatterns
     /// Export hub: multi-select sessions for batch export (images, markdown),
     /// generate a clinical PDF with key findings first and compressed
     /// interactions, filter by substance and precise dates.
