@@ -318,11 +318,6 @@ T = {
     "Which days you took your meds": ("哪些天服了药", "哪些天服了藥"),
     "Morning dose not logged": ("早间剂量未记录", "早間劑量未記錄"),
     "Evening dose not logged": ("晚间剂量未记录", "晚間劑量未記錄"),
-    "{name} easing off": ("{name} 正在消退", "{name} 正在消退"),
-    "The plateau has ended. If your day has a second dose, this is the window it usually falls in — and food and water help the stretch either way.": (
-        "平台期已经结束。如果你这一天还有第二次剂量，通常就落在这个时间窗内 — 无论如何，进食和补水都有助于接下来的这段时间。",
-        "平台期已經結束。如果你這一天還有第二次劑量，通常就落在這個時間窗內 — 無論如何，進食和補水都有助於接下來的這段時間。",
-    ),
     # SubstanceCategory.classSummary — category descriptions shown atop each
     # browse list; LocalizedStringResource literals the extractor misses, inserted
     # via NEW_KEYS and persistent because they carry a translation.
@@ -583,10 +578,6 @@ T = {
     "%@%%": ("%@%%", "%@%%"),
     "%lld×": ("%lld×", "%lld×"),
     "DAT:SERT %@": ("DAT:SERT %@", "DAT:SERT %@"),
-    "doi:10.1001/archpsyc.1990.01810220015002": (
-        "doi:10.1001/archpsyc.1990.01810220015002",
-        "doi:10.1001/archpsyc.1990.01810220015002",
-    ),
     "LogP": ("LogP", "LogP"),
     "SMILES": ("SMILES", "SMILES"),
     "TPSA": ("TPSA", "TPSA"),
@@ -605,7 +596,6 @@ T = {
         "%@ 剂量上升，报告期内 +%lld%%（%@ → %@ %@）。",
         "%@ 劑量上升，報告期內 +%lld%%（%@ → %@ %@）。",
     ),
-    "%lld percent tolerance": ("耐受 %lld%%", "耐受 %lld%%"),
     "%lld reports": ("%lld 份报告", "%lld 份報告"),
     "%lld selected": ("已选 %lld 项", "已選 %lld 項"),
     "%lld%% load": ("负荷 %lld%%", "負荷 %lld%%"),
@@ -625,13 +615,8 @@ T = {
         "发现已有的 iCloud 备份。与当前数据合并以恢复，或删除它重新开始。",
         "發現已有的 iCloud 備份。與目前資料合併以還原，或刪除它重新開始。",
     ),
-    "Automatic backups are off until you turn them on. Replacing your data on restore takes a recoverable snapshot first.": (
-        "自动备份默认关闭，需手动开启。恢复时替换数据前会先保存可恢复的快照。",
-        "自動備份預設關閉，需手動開啟。還原時取代資料前會先儲存可還原的快照。",
-    ),
     "Backup Merged": ("备份已合并", "備份已合併"),
     "Backup Removed": ("备份已删除", "備份已刪除"),
-    "Backups are opt-in": ("备份需手动开启", "備份需手動開啟"),
     "Benzodiazepine effect kinetics: Vinkers & Olivier 2012; Piot & Jovanovic 2026.": (
         "苯二氮䓬效应动力学：Vinkers & Olivier 2012；Piot & Jovanovic 2026。",
         "苯二氮䓬效應動力學：Vinkers & Olivier 2012；Piot & Jovanovic 2026。",
@@ -674,10 +659,6 @@ T = {
     "Conditioned tolerance: Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971.": (
         "条件性耐受：Siegel 1976；Siegel, Hinson, Krank & McCully 1982；Weise-Kelly & Siegel 2001；Carlton & Wolgin 1971。",
         "條件性耐受：Siegel 1976；Siegel, Hinson, Krank & McCully 1982；Weise-Kelly & Siegel 2001；Carlton & Wolgin 1971。",
-    ),
-    "Connect Apple Health to show your heart rate on the graph beside your doses. Read-only.": (
-        "连接 Apple 健康，在剂量旁的图表上显示心率。只读。",
-        "連接 Apple 健康，在劑量旁的圖表上顯示心率。唯讀。",
     ),
     "Copies set aside automatically (after an upgrade hiccup) or before a restore appear here, ready to restore.": (
         "自动保存的副本（升级出错后）或恢复前的副本会显示在这里，可随时恢复。",
@@ -806,10 +787,6 @@ T = {
         "阿片负荷峰值 %lld MME/天，达到或高于 CDC 50 MME 参考值。",
         "鴉片類負荷峰值 %lld MME/天，達到或高於 CDC 50 MME 參考值。",
     ),
-    "Permanently deletes every dose, session, and setting. If iCloud backup is on, it is disabled and the backup is removed.": (
-        "永久删除所有剂量、记录和设置。若已开启 iCloud 备份，将关闭并删除备份。",
-        "永久刪除所有劑量、記錄和設定。若已開啟 iCloud 備份，將關閉並刪除備份。",
-    ),
     "Phenotype": ("表型", "表型"),
     "Piru asks the system once. You choose exactly what it sends below.": (
         "Piru 只向系统请求一次。在下方选择要发送的内容。",
@@ -819,7 +796,6 @@ T = {
         "单室模型中的群体平均半衰期。",
         "單室模型中的群體平均半衰期。",
     ),
-    "Prescribing label": ("处方说明书", "處方說明書"),
     "Projected Steady State": ("预计稳态", "預計穩態"),
     "Psychedelics": ("致幻剂", "致幻劑"),
     "Pull": ("拉动", "拉動"),
@@ -885,10 +861,6 @@ T = {
         "这一组合对心血管的负担超过单用任一者，且生成的乙苯哌酯比哌甲酯本身更持久，因此心脏负荷被拉长而非简单叠加。",
         "這一組合對心血管的負擔超過單用任一者，且生成的乙苯哌酯比哌甲酯本身更持久，因此心臟負荷被拉長而非簡單疊加。",
     ),
-    "This permanently deletes all your data and cannot be undone. If iCloud backup is on, it will be disabled and the backup removed.": (
-        "这将永久删除你的所有数据，且无法撤销。若已开启 iCloud 备份，将关闭并删除备份。",
-        "這將永久刪除你的所有資料，且無法復原。若已開啟 iCloud 備份，將關閉並刪除備份。",
-    ),
     "Tramadol becomes a strong opioid only after CYP2D6 converts it to O-DSMT, so the ceiling depends on your genes: most people plateau, ultra-rapid metabolizers don't. Repeated dosing raises tramadol's own absorption (~75% → 90–100%), and CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion) mute the opioid effect while leaving the parent's serotonergic and seizure risk.": (
         "曲马多只有经 CYP2D6 转化为 O-DSMT 后才成为强效阿片，因此上限取决于基因：多数人会达到平台期，超快代谢者则不会。重复给药会提高曲马多自身的吸收（约 75% → 90–100%），而 CYP2D6 抑制剂（帕罗西汀、氟西汀、安非他酮）会减弱阿片效应，但母体的血清素能和癫痫风险不变。",
         "曲馬多只有經 CYP2D6 轉化為 O-DSMT 後才成為強效鴉片類，因此上限取決於基因：多數人會達到平台期，超快代謝者則不會。重複給藥會提高曲馬多自身的吸收（約 75% → 90–100%），而 CYP2D6 抑制劑（帕羅西汀、氟西汀、安非他酮）會減弱鴉片效應，但母體的血清素能和癲癇風險不變。",
@@ -916,10 +888,6 @@ T = {
     "Where each regularly dosed substance settles, based on your log's cadence": (
         "根据你的记录节奏，每种规律服用的物质将稳定在何处",
         "根據你的記錄節奏，每種規律服用的物質將穩定在何處",
-    ),
-    "Within a session the high fades faster than the blood-pressure rise, so a redose stacks onto it.": (
-        "一次记录中，兴奋感消退快于血压上升，因此补剂会叠加在上面。",
-        "一次記錄中，興奮感消退快於血壓上升，因此補劑會疊加在上面。",
     ),
     "Yesterday's %@ weren't logged": ("昨天的 %@ 未记录", "昨天的 %@ 未記錄"),
     "α₂-adrenoceptor": ("α₂ 肾上腺素受体", "α₂ 腎上腺素受體"),
@@ -1007,10 +975,6 @@ T = {
     ),
     "%lld notes": ("%lld 条笔记", "%lld 則筆記"),
     "1 note": ("1 条笔记", "1 則筆記"),
-    "A quiet prompt at a few points in the session, each opening a timestamped note. Off unless you turn it on; stops after eight hours.": (
-        "会在过程中的几个时点轻声提醒，每次打开一条带时间戳的笔记。默认关闭；八小时后自动停止。",
-        "會在過程中的幾個時點輕聲提醒，每次開啟一則帶時間戳的筆記。預設關閉；八小時後自動停止。",
-    ),
     "A rare, peak, transcendental state — a serene and all-encompassing experience; the person, and the rating, are describing something outside the ordinary scale.": (
         "罕见的巅峰、超越性状态——宁静而包容一切的体验；这个人和这个评级描述的都是常规量表之外的东西。",
         "罕見的巔峰、超越性狀態——寧靜而包容一切的體驗；這個人和這個評級描述的都是常規量表之外的東西。",
@@ -1020,10 +984,6 @@ T = {
     "Add a note to your session — what you notice, at this moment.": (
         "为这次记录添加一条笔记——此刻你注意到了什么。",
         "為這次記錄新增一則筆記——此刻你注意到了什麼。",
-    ),
-    "Both optional. Leave them where they are to record nothing.": (
-        "两者均可选。保持原位即不记录。",
-        "兩者皆可選。保持原位即不記錄。",
     ),
     "Check in as it unfolds?": ("要在过程中签到吗？", "要在過程中簽到嗎？"),
     "Check-in": ("签到", "簽到"),
@@ -1058,10 +1018,6 @@ T = {
     ),
     "Shulgin scale": ("舒尔金量表", "舒爾金量表"),
     "Stimulated": ("兴奋", "興奮"),
-    "T+30 m · 1 h · 2 h · 4 h · 6 h": (
-        "T+30 分 · 1 时 · 2 时 · 4 时 · 6 时",
-        "T+30 分 · 1 時 · 2 時 · 4 時 · 6 時",
-    ),
     "T+30 m, 1 h, 2 h, 4 h, 6 h": (
         "T+30 分、1 时、2 时、4 时、6 时",
         "T+30 分、1 時、2 時、4 時、6 時",
@@ -1325,15 +1281,7 @@ T = {
         "美沙酮的半衰期長且個體差異大，對呼吸的最強抑制出現得比鎮痛高峰更晚、持續更久——因此換算出的劑量看起來足夠時，風險可能仍在累積。CDC 確實公布了一個用於人群統計的換算係數，但 Piru 不會用它來換算劑量。這一項應交由臨床醫師處理。",
     ),
     # Why transdermal fentanyl cannot share the mg-based table.
-    "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors.": (
-        "透皮芬太尼以每小时微克数给药——那是速率而非质量，与以毫克为单位的换算表不在同一单位体系（CDC 给出每 mcg/hr 折合 2.4 MME）。其吸收还会随体温和其他因素变化。",
-        "穿皮吩坦尼以每小時微克數給藥——那是速率而非質量，與以毫克為單位的換算表不在同一單位體系（CDC 給出每 mcg/hr 折合 2.4 MME）。其吸收還會隨體溫和其他因素變化。",
-    ),
     # Why buprenorphine is excluded from MME entirely.
-    "Buprenorphine is a partial agonist with a ceiling on its effect on breathing, so risk doesn't scale the way a full agonist's does. CDC excludes it from MME entirely and says it should not be counted toward a daily total.": (
-        "丁丙诺啡是部分激动剂，对呼吸的抑制存在封顶效应，因此风险不会像完全激动剂那样随剂量线性上升。CDC 将其完全排除在 MME 之外，并指出不应计入每日总量。",
-        "丁丙諾啡是部分激動劑，對呼吸的抑制存在封頂效應，因此風險不會像完全激動劑那樣隨劑量線性上升。CDC 將其完全排除在 MME 之外，並指出不應計入每日總量。",
-    ),
     # The signalling cascade's own label in the pharmacology card, so it does
     # not read as a second mechanism description.
     "Downstream": ("下游", "下游"),
@@ -1342,56 +1290,10 @@ T = {
     "No half-life data": ("无半衰期数据", "無半衰期數據"),
     # Contraindication flag labels — Piru's own wording for a normalized
     # label contraindication (see Piru/Domain/ContraindicationFlag.swift).
-    "Known allergy to it": ("已知对它过敏", "已知對它過敏"),
-    "With an MAOI, or within 14 days of one": (
-        "与单胺氧化酶抑制剂同用，或停药 14 天内",
-        "與單胺氧化酶抑制劑同用，或停藥 14 天內",
-    ),
-    "With other CNS depressants": ("与其他中枢神经抑制剂同用", "與其他中樞神經抑制劑同用"),
-    "With a strong CYP3A4 inhibitor": ("与强效 CYP3A4 抑制剂同用", "與強效 CYP3A4 抑制劑同用"),
-    "With a QT-prolonging drug": ("与延长 QT 间期的药物同用", "與延長 QT 間期的藥物同用"),
-    "With a live vaccine": ("与活疫苗同用", "與活疫苗同用"),
-    "With a nitrate or a guanylate cyclase stimulator": (
-        "与硝酸酯类或鸟苷酸环化酶激动剂同用",
-        "與硝酸酯類或鳥苷酸環化酶激動劑同用",
-    ),
     "With alcohol": ("与酒精同用", "與酒精同用"),
-    "With an anticoagulant": ("与抗凝药同用", "與抗凝藥同用"),
-    "Existing respiratory depression": ("已有呼吸抑制", "已有呼吸抑制"),
-    "During an acute asthma attack": ("哮喘急性发作期间", "氣喘急性發作期間"),
-    "Bowel obstruction": ("肠梗阻", "腸阻塞"),
-    "Active bleeding": ("活动性出血", "活動性出血"),
-    "Liver disease": ("肝病", "肝病"),
-    "Kidney disease": ("肾病", "腎病"),
-    "Anuria": ("无尿", "無尿"),
-    "Recent heart attack or heart surgery": ("近期心肌梗死或心脏手术", "近期心肌梗塞或心臟手術"),
-    "Uncontrolled high blood pressure": ("血压控制不佳", "血壓控制不佳"),
-    "Heart rhythm disorder": ("心律失常", "心律不整"),
-    "Heart failure": ("心力衰竭", "心臟衰竭"),
-    "Seizure disorder": ("癫痫", "癲癇"),
-    "Narrow-angle glaucoma": ("闭角型青光眼", "閉角型青光眼"),
     "Urinary retention": ("尿潴留", "尿滯留"),
-    "Adrenal insufficiency": ("肾上腺功能不全", "腎上腺功能不全"),
-    "Systemic fungal infection": ("全身性真菌感染", "全身性真菌感染"),
-    "Porphyria": ("卟啉症", "紫質症"),
-    "Pheochromocytoma": ("嗜铬细胞瘤", "嗜鉻細胞瘤"),
-    "Untreated thyroid disease": ("未经治疗的甲状腺疾病", "未經治療的甲狀腺疾病"),
     "Pregnancy": ("妊娠", "懷孕"),
-    "Breastfeeding": ("哺乳", "哺乳"),
     "Children": ("儿童", "兒童"),
-    "Eating disorder": ("进食障碍", "飲食障礙"),
-    "Myasthenia gravis": ("重症肌无力", "重症肌無力"),
-    "Sleep apnea": ("睡眠呼吸暂停", "睡眠呼吸中止"),
-    "Smoking over the age of 35": ("35 岁以上且吸烟", "35 歲以上且吸菸"),
-    "During low blood sugar": ("低血糖期间", "低血糖期間"),
-    "Low potassium": ("低血钾", "低血鉀"),
-    "High potassium": ("高血钾", "高血鉀"),
-    "Personal or family history of thyroid cancer": (
-        "本人或家族有甲状腺癌病史",
-        "本人或家族有甲狀腺癌病史",
-    ),
-    "Marked anxiety or agitation": ("明显焦虑或激越", "明顯焦慮或激動"),
-    "Around surgery": ("手术前后", "手術前後"),
     "Patterns": ("规律", "規律"),
     "Days used, exposure, dose trend, and overlap": (
         "用药天数、暴露、剂量趋势与重叠",
@@ -1403,20 +1305,11 @@ T = {
     ),
     # Reports & Export hub (Insights → Reports)
     "Reports": ("报告", "報告"),
-    "Export sessions, generate clinical reports": (
-        "导出记录、生成临床报告",
-        "匯出記錄、產生臨床報告",
-    ),
     "Latest": ("最近", "最近"),
     "By Date": ("按日期", "按日期"),
     "Select sessions": ("选择记录", "選擇記錄"),
     "Select Sessions": ("选择记录", "選擇記錄"),
     "%lld of %lld sessions": ("%lld / %lld 条记录", "%lld / %lld 條記錄"),
-    "Clinical Report": ("临床报告", "臨床報告"),
-    "Key findings, medication summary, dose trends — for your doctor": (
-        "关键发现、用药概要、剂量趋势——供你的医生参考",
-        "關鍵發現、用藥概要、劑量趨勢——供你的醫生參考",
-    ),
     "Session Images": ("记录图片", "記錄圖片"),
     "Stitched Image": ("拼接图片", "拼接圖片"),
     "All selected sessions in one tall image": (
@@ -1438,20 +1331,12 @@ T = {
     ),
     "Nothing to Summarize": ("暂无可汇总内容", "暫無可彙總內容"),
     "Nothing logged in this range.": ("此范围内没有记录。", "此範圍內沒有記錄。"),
-    "A record and a model, not medical advice. Exposure uses clinical equivalents where they're established, and the substance's typical dose otherwise.": (
-        "这是记录与模型，并非医疗建议。暴露在有公认临床当量时采用当量，否则采用该物质的常见剂量。",
-        "這是記錄與模型，並非醫療建議。暴露在有公認臨床當量時採用當量，否則採用該物質的常見劑量。",
-    ),
     "Days used": ("用药天数", "用藥天數"),
     "of %lld days": ("共 %lld 天", "共 %lld 天"),
     "of days": ("天数占比", "天數占比"),
     "longest break": ("最长间断", "最長間斷"),
     "since last": ("距上次", "距上次"),
     "Cumulative exposure": ("累积暴露", "累積暴露"),
-    "Total taken this range, in each substance's clinical or common-dose unit": (
-        "此范围内的总量，以各物质的临床当量或常见剂量为单位",
-        "此範圍內的總量，以各物質的臨床當量或常見劑量為單位",
-    ),
     "Benzodiazepines ≈ %@ mg diazepam-eq/day": (
         "苯二氮䓬类 ≈ %@ mg 地西泮当量/天",
         "苯二氮平類 ≈ %@ mg 地西泮當量/天",
@@ -1505,10 +1390,6 @@ T = {
     "None of your logged substances in this range drive a modeled mechanism.": (
         "此范围内记录的物质都不驱动任何可建模的机制。",
         "此範圍內記錄的物質都不驅動任何可建模的機制。",
-    ),
-    "A predicted relative load from your logged doses, not a measurement. It's a model of receptor drive, not of how you feel.": (
-        "这是根据记录剂量预测的相对负荷，并非实测。它建模的是受体驱动，而非你的主观感受。",
-        "這是根據記錄劑量預測的相對負荷，並非實測。它建模的是受體驅動，而非你的主觀感受。",
     ),
     "Nothing driven at this time": ("此刻没有被驱动的机制", "此刻沒有被驅動的機制"),
     "Toggles this mechanism's line": ("切换该机制的曲线", "切換該機制的曲線"),
@@ -1582,29 +1463,9 @@ T = {
         "当前 GABA-A 负荷约为近期峰值的 %lld%%，已合并计入所有仍在起效的物质。",
         "目前 GABA-A 負荷約為近期峰值的 %lld%%，已合併計入所有仍在起效的物質。",
     ),
-    "Combined load across your active GABAergics, relative to your recent peak.": (
-        "你所有仍在起效的 GABA 类物质的合并负荷，相对于近期峰值。",
-        "你所有仍在起效的 GABA 類物質的合併負荷，相對於近期峰值。",
-    ),
-    "Combined load across your active GABAergics, relative to your recent peak. Alcohol is included; it loads the receptor at a different site.": (
-        "你所有仍在起效的 GABA 类物质的合并负荷，相对于近期峰值。已计入酒精；它作用于受体的另一位点。",
-        "你所有仍在起效的 GABA 類物質的合併負荷，相對於近期峰值。已計入酒精；它作用於受體的另一位點。",
-    ),
     "GABA-A receptor load over time": (
         "随时间变化的 GABA-A 受体负荷",
         "隨時間變化的 GABA-A 受體負荷",
-    ),
-    "Combined load relative to your recent peak, currently about %lld percent, clearing over the following days.": (
-        "相对于近期峰值的合并负荷，目前约为百分之 %lld，将在随后几天内清除。",
-        "相對於近期峰值的合併負荷，目前約為百分之 %lld，將在隨後幾天內清除。",
-    ),
-    'Three things people call "withdrawal" that behave differently, and roughly when each starts for drugs like the ones you\'ve logged.': (
-        "人们所说的三种“戒断”，它们表现各不相同，以及对于你记录的这类药物，各自大致何时开始。",
-        "人們所說的三種「戒斷」，它們表現各不相同，以及對於你記錄的這類藥物，各自大致何時開始。",
-    ),
-    "A model of your dose log, not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures.": (
-        "这是基于你用药记录的模型，并非医疗建议。规律使用后突然停用苯二氮䓬可能引发癫痫发作。",
-        "這是基於你用藥記錄的模型，並非醫療建議。規律使用後突然停用苯二氮平可能引發癲癇發作。",
     ),
     "Estimating how much is still in your system…": (
         "正在估算你体内还剩多少……",
@@ -1613,19 +1474,6 @@ T = {
     "Your modeled GABA-A load has essentially cleared — past the point where the drug itself is still leaving your system. The bands below say when symptoms tend to follow.": (
         "你的 GABA-A 负荷模型显示已基本清除——药物本身已过了仍在离开体内的阶段。下方的区间表示症状通常何时随之出现。",
         "你的 GABA-A 負荷模型顯示已基本清除——藥物本身已過了仍在離開體內的階段。下方的區間表示症狀通常何時隨之出現。",
-    ),
-    "under a day": ("不到一天", "不到一天"),
-    "Your modeled GABA-A load is still about %lld%% of your recent peak — the drug is still clearing, so withdrawal hasn't started yet.": (
-        "你的 GABA-A 负荷模型仍约为近期峰值的 %lld%%——药物仍在清除，因此戒断尚未开始。",
-        "你的 GABA-A 負荷模型仍約為近期峰值的 %lld%%——藥物仍在清除，因此戒斷尚未開始。",
-    ),
-    "Your modeled GABA-A load is still about %lld%% of your recent peak — the drug is still clearing, so withdrawal hasn't started. On your current clearance it drops into the onset range in about %@.": (
-        "你的 GABA-A 负荷模型仍约为近期峰值的 %1$lld%%——药物仍在清除，因此戒断尚未开始。按你目前的清除速度，大约再过 %2$@ 会进入起始区间。",
-        "你的 GABA-A 負荷模型仍約為近期峰值的 %1$lld%%——藥物仍在清除，因此戒斷尚未開始。按你目前的清除速度，大約再過 %2$@ 會進入起始區間。",
-    ),
-    "Research findings, not medical advice. Benzodiazepine discontinuation can be medically dangerous.": (
-        "这些是研究结果，并非医疗建议。停用苯二氮䓬在医学上可能有危险。",
-        "這些是研究結果，並非醫療建議。停用苯二氮平在醫學上可能有危險。",
     ),
     "Effect-selective tolerance": ("效应选择性耐受", "效應選擇性耐受"),
     "Some effects fade, others don't": ("有些效应会减弱，有些不会", "有些效應會減弱，有些不會"),
@@ -1639,8 +1487,6 @@ T = {
         "GABA-A 由多種 α 亞型構成，它們以不同的速度適應。α1 負責鎮靜並會脫敏（先解偶聯，隨後受體被從突觸中移除）；α5 是鎮靜耐受得以形成的必要條件；而負責抗焦慮的 α2 和 α3 並不適應。因此，那個不再讓你睏倦的劑量，對記憶和協調能力的損害與第一天完全一樣——耐受就是這樣悄悄把劑量推高的。",
     ),
     "Why these effects differ": ("这些效应为何不同", "這些效應為何不同"),
-    "Prediction": ("预测", "預測"),
-    "Prediction from a model": ("来自模型的预测", "來自模型的預測"),
     # ---- Custom units (Settings) ----
     "Custom Units": ("自定义单位", "自訂單位"),
     "No Custom Units": ("暂无自定义单位", "尚無自訂單位"),
@@ -1692,7 +1538,6 @@ T = {
         "对准条形码或标签，然后轻点高亮区域",
         "對準條碼或標籤，然後輕點高亮區域",
     ),
-    "Resolving…": ("识别中…", "辨識中…"),
     "Add to Log": ("添加到记录", "新增至記錄"),
     "Scan Again": ("重新扫描", "重新掃描"),
     "No match": ("无匹配", "無匹配"),
@@ -1714,57 +1559,16 @@ T = {
     # I.ref — GABA withdrawal reference card (WithdrawalReferenceView).
     # Population-level relapse/rebound/withdrawal taxonomy + onset bands.
     # ---------------------------------------------------------------
-    "If You Stop": ("如果你停用", "如果你停用"),
-    "If you stop: withdrawal timing": ("如果你停用：戒断时间", "如果你停用：戒斷時間"),
     'What stopping looks like, at the population level — three things people call "withdrawal" that behave differently, and roughly when each starts for drugs like the ones you\'ve logged. Timing is from research populations, not a prediction for you.': (
         "从群体层面看停药会怎样——人们所说的“戒断”其实包含三种表现不同的情况，以及对于你记录过的这类药物，每种大约何时开始。这些时间来自研究人群，并非对你个人的预测。",
         "從群體層面看停藥會怎樣——人們所說的「戒斷」其實包含三種表現不同的情況，以及對於你記錄過的這類藥物，每種大約何時開始。這些時間來自研究人群，並非對你個人的預測。",
     ),
-    'Three kinds of "withdrawal"': ("三种“戒断”", "三種「戒斷」"),
-    "Since your last dose": ("距上次用药", "距上次用藥"),
-    "Less than a day": ("不到一天", "不到一天"),
     "1 day": ("1 天", "1 天"),
-    "your drugs": ("你的药物", "你的藥物"),
     "long-acting": ("长效", "長效"),
     "intermediate": ("中效", "中效"),
     "short-acting": ("短效", "短效"),
-    "diazepam, chlordiazepoxide, clonazepam": (
-        "地西泮、氯氮䓬、氯硝西泮",
-        "地西泮、氯氮䓬、氯硝西泮",
-    ),
-    "temazepam, bromazepam": ("替马西泮、溴西泮", "替馬西泮、溴西泮"),
-    "triazolam, alprazolam, lorazepam, oxazepam": (
-        "三唑仑、阿普唑仑、劳拉西泮、奥沙西泮",
-        "三唑侖、阿普唑侖、勞拉西泮、奧沙西泮",
-    ),
-    "1–2 days": ("1–2 天", "1–2 天"),
-    "Relapse": ("复发", "復發"),
     "Rebound": ("反跳", "反跳"),
     "Withdrawal": ("戒断", "戒斷"),
-    "The original symptoms return — the thing the drug was treating comes back.": (
-        "原有症状重新出现——药物本来在治疗的问题又回来了。",
-        "原有症狀重新出現——藥物本來在治療的問題又回來了。",
-    ),
-    "The original symptoms return, briefly stronger than before.": (
-        "原有症状重新出现，并在短期内比之前更强。",
-        "原有症狀重新出現，並在短期內比之前更強。",
-    ),
-    "New symptoms the drug wasn't treating — insomnia, tremor, and, after regular use, seizure risk.": (
-        "药物原本并未治疗的新症状——失眠、震颤，规律使用后还有癫痫发作风险。",
-        "藥物原本並未治療的新症狀——失眠、震顫，規律使用後還有癲癇發作風險。",
-    ),
-    "Gradual onset, persists until treated.": (
-        "逐渐出现，直到得到治疗才缓解。",
-        "逐漸出現，直到得到治療才緩解。",
-    ),
-    "Onset 1–2 days, time-limited (days).": (
-        "1–2 天出现，持续时间有限（数天）。",
-        "1–2 天出現，持續時間有限（數天）。",
-    ),
-    "2–4 weeks, with a protracted tail in some people.": (
-        "持续 2–4 周，部分人有迁延的尾期。",
-        "持續 2–4 週，部分人有遷延的尾期。",
-    ),
     # ---------------------------------------------------------------
     # Live Activity timer labels — orphaned in PiruLiveActivityExtension's own
     # catalog, so they shipped English to zh users on the Lock Screen.
@@ -2002,8 +1806,6 @@ T = {
     # dose card.
     "Log this": ("记录这次", "記錄這次"),
     "Prescribing": ("处方信息", "處方資訊"),
-    "Approved uses": ("已批准用途", "已批准用途"),
-    "Boxed warning": ("黑框警告", "黑框警告"),
     "Fewer": ("收起", "收起"),
     "Dose sources": ("剂量来源", "劑量來源"),
     "In use": ("使用中", "使用中"),
@@ -2115,7 +1917,6 @@ T = {
     "Hydration": ("补水", "補水"),
     "Sleep": ("睡眠", "睡眠"),
     "Phase": ("阶段", "階段"),
-    "Next-Dose": ("下一剂", "下一劑"),
     "Re-ask %lld": ("第 %lld 次再问", "第 %lld 次再問"),
     "Add Re-ask": ("添加再问", "新增再問"),
     "Remove Last": ("移除最后一个", "移除最後一個"),
@@ -2156,31 +1957,14 @@ T = {
     "Asking…": ("正在请求…", "正在請求…"),
     "Checking Permission…": ("正在检查权限…", "正在檢查權限…"),
     "Next: %@": ("下一次：%@", "下一次：%@"),
-    "Comedown Alerts": ("缓和期提醒", "緩和期提醒"),
     "Hydration Reminders": ("补水提醒", "補水提醒"),
     "Sleep Reminders": ("睡眠提醒", "睡眠提醒"),
     "Phase Alerts": ("阶段提醒", "階段提醒"),
     "Cumulative Dose Warnings": ("累积剂量警告", "累積劑量警告"),
     "Low Stock Alerts": ("低库存提醒", "低庫存提醒"),
-    "Warns you before a dose wears off, so the drop doesn't catch you off guard. Turned on per dose from its comedown alert screen.": (
-        "在药效消退前提醒你，让落差不至于让你措手不及。需在每剂的缓和期提醒页面单独开启。",
-        "在藥效消退前提醒你，讓落差不至於讓你措手不及。需在每劑的緩和期提醒頁面單獨開啟。",
-    ),
-    "Water nudges timed to your dose — stimulants and empathogens mask thirst.": (
-        "按剂量时间安排的补水提醒——兴奋剂和共情剂会掩盖口渴感。",
-        "按劑量時間安排的補水提醒——興奮劑和共情劑會掩蓋口渴感。",
-    ),
-    "A wind-down reminder late into long stimulant sessions, when sleep is the best recovery.": (
-        "在长时间兴奋剂使用的后段提醒你放松入睡——此时睡眠是最好的恢复。",
-        "在長時間興奮劑使用的後段提醒你放鬆入睡——此時睡眠是最好的恢復。",
-    ),
     "Timing cues at onset, come-up, and peak so you can anchor what you feel to the timeline.": (
         "在起效、上升期和巅峰时给出时间提示，让你把感受对应到时间线上。",
         "在起效、上升期和巔峰時給出時間提示，讓你把感受對應到時間線上。",
-    ),
-    "A heads-up when your 12-hour total of one substance reaches a heavy range. Turning this off removes a safety net.": (
-        "当某一物质 12 小时内的累积量达到大剂量范围时提醒你。关闭它等于拆掉一道安全网。",
-        "當某一物質 12 小時內的累積量達到大劑量範圍時提醒你。關閉它等於拆掉一道安全網。",
     ),
     "A heads-up when something you track runs low or out — before the empty bottle surprises you.": (
         "当你追踪的物品所剩不多或已用完时提前提醒——别等到瓶子空了才发现。",
@@ -2189,13 +1973,8 @@ T = {
     "Notification Settings": ("通知设置", "通知設定"),
     # Notifications Stage 3+4 — occurrences, next-dose, quiet hours, actions,
     # progressive onboarding (2026-07-18).
-    "Next-Dose Window": ("下一剂窗口", "下一劑窗口"),
     "Next-dose window reminder": ("下一剂窗口提醒", "下一劑窗口提醒"),
     "Next-dose window — %@": ("下一剂窗口——%@", "下一劑窗口——%@"),
-    "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med.": (
-        "记录你已选择开启的药物后，会在下一剂窗口开启时提醒你。这只是估算，并非医疗建议——请按药物逐一开启。",
-        "記錄你已選擇開啟的藥物後，會在下一劑窗口開啟時提醒你。這只是估算，並非醫療建議——請按藥物逐一開啟。",
-    ),
     "Enough time has passed since your last dose. This is a model estimate — follow your prescriber's schedule.": (
         "距离你的上一剂已经过了足够的时间。这是模型估算——请遵循处方医生的安排。",
         "距離你的上一劑已經過了足夠的時間。這是模型估算——請遵循處方醫生的安排。",
@@ -2206,7 +1985,6 @@ T = {
     "Start": ("开始", "開始"),
     "End": ("结束", "結束"),
     "Skip Today": ("今天跳过", "今天跳過"),
-    "View Timeline": ("查看时间线", "查看時間線"),
     "Notifications, your pick": ("通知，由你决定", "通知，由你決定"),
     "Choose what Piru may send. Everything stays adjustable in Settings, switch by switch.": (
         "选择 Piru 可以发送的内容。所有开关之后都能在设置中逐一调整。",
@@ -2235,11 +2013,6 @@ T = {
         "時效性通知可以突破專注模式和通知摘要。不希望立即送達的可以在這裡關閉。",
     ),
     "Ask Again": ("再次提醒", "再次提醒"),
-    "Comedown alerts are turned off": ("缓和期提醒已关闭", "緩和期提醒已關閉"),
-    "Turn comedown alerts back on in Notification Settings to turn one on for this dose.": (
-        "在通知设置中重新开启缓和期提醒，才能为这一剂设置提醒。",
-        "在通知設定中重新開啟緩和期提醒，才能為這一劑設定提醒。",
-    ),
     # Effect Estimator — the what-if / compare-two-meds sandbox tool (2026-07-17).
     "Effect Estimator": ("效果估算器", "效果估算器"),
     "Compare substances and preview how they may feel": (
@@ -2416,14 +2189,6 @@ T = {
         "先講思路，再逐一拆解從你的劑量到圖上那條線的每個階段。",
     ),
     "The calculation, step by step": ("逐步拆解计算过程", "逐步拆解計算過程"),
-    "The model's prediction of effect shape and direction — an estimate from typical pharmacology, not a dosing guide.": (
-        "模型对效果形态与方向的预测——基于典型药理学的估算，不是给药指南。",
-        "模型對效果形態與方向的預測——基於典型藥理學的估算，不是給藥指南。",
-    ),
-    "Your own response shifts with tolerance, body chemistry, and the day. Talk to a prescriber about your medication.": (
-        "你自身的反应会随耐受度、身体状况和当天情况而变化。有关你的用药，请咨询开药医生。",
-        "你自身的反應會隨耐受度、身體狀況和當天情況而變化。有關你的用藥，請諮詢開藥醫生。",
-    ),
     "Reading these estimates": ("解读这些估算", "解讀這些估算"),
     "Choose substance": ("选择物质", "選擇物質"),
     "start": ("起始", "起始"),
@@ -2447,10 +2212,6 @@ T = {
     "Blood pressure": ("血压", "血壓"),
     "Connect Apple Health": ("连接“健康”App", "連接「健康」App"),
     # Apple Health onboarding step redesign (2026-07-07).
-    "Your body weight sizes every estimate to you — and your heart rate shows how your body actually answered each dose, right on the session timeline.": (
-        "你的体重会让每项估算贴合你自己——而你的心率会直接在记录时间线上，显示身体对每次用量的真实反应。",
-        "你的體重會讓每項估算貼合你自己——而你的心率會直接在記錄時間軸上，顯示身體對每次用量的真實反應。",
-    ),
     "Synced from Apple Health — check the number looks right.": (
         "已从“健康”同步——请确认数值无误。",
         "已從「健康」同步——請確認數值無誤。",
@@ -2458,10 +2219,6 @@ T = {
     "Couldn't read a weight from Health. Set it above instead.": (
         "无法从“健康”读取体重，请在上方手动设置。",
         "無法從「健康」讀取體重，請在上方手動設定。",
-    ),
-    "Health access is read-only. Turn it off anytime in Settings.": (
-        "“健康”访问为只读，可随时在“设置”中关闭。",
-        "「健康」存取為唯讀，可隨時在「設定」中關閉。",
     ),
     "Connecting…": ("连接中…", "連線中…"),
     "Alcohol": ("酒精", "酒精"),
@@ -2493,14 +2250,6 @@ T = {
     "Use the average (60 kg)": ("使用平均值（60 kg）", "使用平均值（60 kg）"),
     "Show heart data on sessions": ("在记录中显示心脏数据", "在記錄中顯示心臟數據"),
     "Heart data": ("心脏数据", "心臟數據"),
-    "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect.": (
-        "连接一次即可从“健康”读取你的体重、心率和血压——全部仅供读取，存于你的设备。锻炼记录也会一并读取，只为避免把一次跑步当成某次用药的效果。",
-        "連接一次即可從「健康」讀取你的體重、心率和血壓——全部僅供讀取，存於你的裝置。運動記錄也會一併讀取，只為避免把一次跑步當成某次用藥的效果。",
-    ),
-    "Overlays your heart rate and blood pressure on each session's timeline — read-only. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.": (
-        "在每次记录的时间线上叠加显示你的心率和血压——仅供读取。若有项目未能连接（尤其是血压，iOS 不一定会弹出请求），请前往 **设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru** 手动开启。",
-        "在每次記錄的時間軸上疊加顯示你的心率和血壓——僅供讀取。若有項目未能連接（尤其是血壓，iOS 不一定會彈出請求），請前往 **設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru** 手動開啟。",
-    ),
     "On": ("开", "開"),
     "Off": ("关", "關"),
     "avg %lld · peak %lld bpm": ("平均 %lld · 峰值 %lld bpm", "平均 %lld · 峰值 %lld bpm"),
@@ -2604,7 +2353,6 @@ T = {
     "Tapentadol": ("他喷他多", "他噴他多"),
     "Methadone": ("美沙酮", "美沙酮"),
     "Buprenorphine": ("丁丙诺啡", "丁丙諾啡"),
-    "Opioid Equivalence": ("阿片等效换算", "阿片等效換算"),
     "Convert a dose of one opioid to another through oral morphine milligram equivalents (MME), using the CDC 2022 conversion factors.": (
         "通过口服吗啡毫克当量（MME），使用 CDC 2022 换算系数，将一种阿片的剂量换算为另一种。",
         "透過口服嗎啡毫克當量（MME），使用 CDC 2022 換算係數，將一種阿片的劑量換算為另一種。",
@@ -2619,31 +2367,13 @@ T = {
         "目標阿片無法進行線性換算——請參見下方說明。",
     ),
     "Pick two opioids and a dose.": ("请选择两种阿片和一个剂量。", "請選擇兩種阿片和一個劑量。"),
-    "Not a simple conversion": ("并非简单换算", "並非簡單換算"),
-    "Incomplete cross-tolerance": ("不完全交叉耐受", "不完全交叉耐受"),
     "When switching opioids, the equianalgesic dose is an over-estimate: tolerance to one opioid doesn't fully transfer to another. Clinicians start the new opioid **25–50% lower** than the calculated dose (more for high doses or frail/elderly people) and re-titrate. Never take the full converted dose.": (
         "更换阿片时，等效镇痛剂量会被高估：对一种阿片的耐受不会完全转移到另一种。临床医生会将新阿片的起始剂量定为比计算值 **低 25–50%**（剂量高或体弱/年长者更低），再重新滴定。切勿直接服用完整的换算剂量。",
         "更換阿片時，等效鎮痛劑量會被高估：對一種阿片的耐受不會完全轉移到另一種。臨床醫生會將新阿片的起始劑量定為比計算值 **低 25–50%**（劑量高或體弱/年長者更低），再重新滴定。切勿直接服用完整的換算劑量。",
     ),
-    "Individual variation is large — genetics (e.g. CYP2D6 for codeine, tramadol, oxycodone), liver and kidney function all shift real potency.": (
-        "个体差异很大——遗传因素（如可待因、曲马多、羟考酮涉及的 CYP2D6）、肝肾功能都会改变实际效价。",
-        "個體差異很大——遺傳因素（如可待因、曲馬多、羥考酮涉及的 CYP2D6）、肝腎功能都會改變實際效價。",
-    ),
-    "These oral factors don't cover every route or product. Transdermal, buccal, and IV forms differ.": (
-        "这些口服换算系数并不涵盖所有给药途径或剂型。透皮、口颊和静脉剂型各不相同。",
-        "這些口服換算係數並不涵蓋所有給藥途徑或劑型。透皮、口頰和靜脈劑型各不相同。",
-    ),
-    "Opioids plus benzodiazepines, alcohol, or other depressants sharply raise overdose risk. Tolerance also drops fast after a break — a dose you once handled can be fatal.": (
-        "阿片与苯二氮䓬、酒精或其他抑制剂合用会大幅提高过量风险。而且中断一段时间后耐受会迅速下降——你以前能承受的剂量也可能致命。",
-        "阿片與苯二氮䓬、酒精或其他抑制劑合用會大幅提高過量風險。而且中斷一段時間後耐受會迅速下降——你以前能承受的劑量也可能致命。",
-    ),
     "Don't use alone and don't mix with other downers. An overdose is a sudden blackout with no warning — you can't naloxone yourself, so someone with you needs it and should call emergency services.": (
         "不要独自使用，也不要与其他抑制剂混用。过量会毫无预兆地突然失去意识——你无法给自己使用纳洛酮，因此身边的人需要备有纳洛酮，并应拨打急救电话。",
         "不要獨自使用，也不要與其他抑制劑混用。過量會毫無預兆地突然失去意識——你無法給自己使用納洛酮，因此身邊的人需要備有納洛酮，並應撥打急救電話。",
-    ),
-    "An opioid overdose is a sudden loss of consciousness with no warning — you can't give yourself naloxone. Don't use alone: someone with you needs naloxone and should call emergency services. Nodding off can also lead to choking on vomit or burns, so never use where you might pass out unattended.": (
-        "阿片过量会毫无预兆地突然失去意识——你无法给自己使用纳洛酮。不要独自使用：身边的人需要备有纳洛酮，并应拨打急救电话。昏睡还可能导致呕吐物窒息或烧伤，因此绝不要在无人陪伴、可能昏睡过去的地方使用。",
-        "阿片過量會毫無預兆地突然失去意識——你無法給自己使用納洛酮。不要獨自使用：身邊的人需要備有納洛酮，並應撥打急救電話。昏睡還可能導致嘔吐物窒息或燒傷，因此絕不要在無人陪伴、可能昏睡過去的地方使用。",
     ),
     "%lld%% tolerance": ("耐受 %lld%%", "耐受 %lld%%"),
     "Education": ("学习", "學習"),
@@ -2676,7 +2406,6 @@ T = {
     "volume of distribution": ("分布容积", "分佈容積"),
     "clearance": ("清除率", "清除率"),
     "%@ h": ("%@ 小时", "%@ 小時"),
-    "How Tolerance Works": ("耐受性原理", "耐受性原理"),
     "Convert opioid doses to morphine (MME)": (
         "将阿片剂量换算为吗啡（MME）",
         "將阿片劑量換算為嗎啡（MME）",
@@ -2690,10 +2419,6 @@ T = {
         "瀏覽每種物質的藥物動力學",
     ),
     # Tolerance improvements (2026-07-02): stimulant CV two-mechanism copy (§6) + Insights card (§7).
-    "With regular use, your resting heart rate and blood pressure tend to settle over weeks.": (
-        "长期规律使用，你静息时的心率和血压通常会在几周内慢慢回落。",
-        "長期規律使用，你靜息時的心率和血壓通常會在幾週內慢慢回落。",
-    ),
     # Alcohol by-drink logging (2026-07-02) — preset list, steppers, a11y labels.
     "Drink": ("饮品", "飲品"),
     "Choose drink": ("选择饮品", "選擇飲品"),
@@ -2732,22 +2457,14 @@ T = {
         "记录你摄入的一切——并了解它如何影响你的身体。",
         "記錄你攝入的一切——並了解它如何影響你的身體。",
     ),
-    "Private by design": ("隐私为先", "隱私為先"),
     "Piru is built for sensitive data. Yours never leaves your device unless you choose.": (
         "Piru 专为敏感数据而打造。除非你选择，你的数据绝不会离开设备。",
         "Piru 專為敏感資料而打造。除非你選擇，你的資料絕不會離開裝置。",
     ),
-    "Stays on your device": ("只留在你的设备上", "只留在你的裝置上"),
-    "Your journal lives locally. No sign-up, no account required.": (
-        "你的日志保存在本地。无需注册，无需账号。",
-        "你的日誌保存在本機。無需註冊，無需帳號。",
-    ),
-    "No cloud unless you ask": ("云端由你决定", "雲端由你決定"),
     "Backups are opt-in and end-to-end encrypted with your key.": (
         "备份需你主动开启，并用你的密钥进行端到端加密。",
         "備份需你主動開啟，並用你的密鑰進行端到端加密。",
     ),
-    "Never sold or shared": ("绝不出售或分享", "絕不出售或分享"),
     "There are no ads and no trackers. Your data is yours alone.": (
         "没有广告，也没有追踪器。你的数据只属于你。",
         "沒有廣告，也沒有追蹤器。你的資料只屬於你。",
@@ -3119,10 +2836,6 @@ T = {
     "Severe": ("严重", "嚴重"),
     "High": ("高", "高"),
     "Moderate": ("中等", "中等"),
-    "Predicted from receptor occupancy · %@.": (
-        "依据受体占据率预测 · %@。",
-        "依據受體佔據率預測 · %@。",
-    ),
     "Estimated from effect curves · %@.": (
         "依据效应曲线估算 · %@。",
         "依據效應曲線估算 · %@。",
@@ -3166,10 +2879,6 @@ T = {
     "Peak level": (
         "峰浓度",
         "峰濃度",
-    ),
-    "%@ · predicted (model, %@).": (
-        "%@ · 预测（模型，%@）。",
-        "%@ · 預測（模型，%@）。",
     ),
     "Grapefruit dose logging": ("西柚剂量记录", "葡萄柚劑量記錄"),
     "Metabolism Interactions": ("代谢相互作用", "代謝交互作用"),
@@ -3242,10 +2951,6 @@ T = {
         "用着用着会减弱，要好几周才回得来。MDMA 这类更慢，因为它连血清素的供应一起伤到了。",
         "用著用著會減弱，要好幾週才回得來。MDMA 這類更慢，因為它連血清素的供應一起傷到了。",
     ),
-    "Suppresses the enzyme that makes serotonin, so recovery takes weeks.": (
-        "它会抑制生成血清素的那种酶，所以恢复要几周。",
-        "它會抑制生成血清素的那種酶，所以恢復要幾週。",
-    ),
     "These values were not measured together — each is its own study. Ranked here for scale.": (
         "这些数值并非在同一实验中测得——每个都来自各自的研究。此处排列只为呈现量级。",
         "這些數值並非在同一實驗中測得——每個都來自各自的研究。此處排列只為呈現量級。",
@@ -3269,7 +2974,6 @@ T = {
     "Minor": ("影响轻微", "影響輕微"),
     "Clinically significant": ("具有临床意义", "具有臨床意義"),
     "Real but bounded": ("确有影响但有限", "確有影響但有限"),
-    "Not clinically dominant": ("在临床上并不占主导", "在臨床上並不佔主導"),
     # Benzodiazepine duration ladder. The caption's negation is deliberate: every
     # reader arrives believing half-life is how long the drug is felt.
     "How Long It Stays": ("在体内停留多久", "在體內停留多久"),
@@ -3281,29 +2985,9 @@ T = {
     # Antidepressant class card.
     "Drug Class": ("药物类别", "藥物類別"),
     "The rest of the family": ("同类其他药物", "同類其他藥物"),
-    "When it peaks": (
-        "最严重的时候",
-        "最嚴重的時候",
-    ),
-    "Worst around %@": (
-        "大约在%@最严重",
-        "大約在%@最嚴重",
-    ),
     "%lld hours": (
         "%lld小时",
         "%lld小時",
-    ),
-    "From a trial that stopped 57 people abruptly after a year or more of daily use and assessed them every day. Longer-acting drugs peak later because the drug is still leaving your system; active metabolites (diazepam, chlordiazepoxide, clonazepam) push it later still. When symptoms *start* is not shown because no source survives checking — the figures in circulation land at or after the measured peak, which cannot be right.": (
-        "数据来自一项试验：57人在连续每日使用一年以上后骤然停药，并接受每日评估。长效药物达到最严重的时间更晚，因为药物仍在排出体内；活性代谢物（地西泮、氯氮䓬、氯硝西泮）会把这个时间推得更晚。这里不显示症状“开始”的时间，因为没有经得起核查的来源——流传的那些数字落在实测峰值当天或之后，这不可能成立。",
-        "數據來自一項試驗：57人在連續每日使用一年以上後驟然停藥，並接受每日評估。長效藥物達到最嚴重的時間更晚，因為藥物仍在排出體內；活性代謝物（地西泮、氯二氮平、氯硝西泮）會把這個時間推得更晚。這裡不顯示症狀「開始」的時間，因為沒有經得起核查的來源——流傳的那些數字落在實測峰值當天或之後，這不可能成立。",
-    ),
-    "Peak timing: Rickels K, et al. Long-term therapeutic use of benzodiazepines. I. Effects of abrupt discontinuation. Arch Gen Psychiatry. 1990;47(10):899-907.": (
-        "峰值时间来源：Rickels K 等，《苯二氮䓬类药物的长期治疗性使用（一）：骤然停药的影响》，《普通精神病学文献》1990;47(10):899-907。",
-        "峰值時間來源：Rickels K 等，《苯二氮平類藥物的長期治療性使用（一）：驟然停藥的影響》，《普通精神病學文獻》1990;47(10):899-907。",
-    ),
-    "Symptom groups and drug classes: Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.": (
-        "症状分组与药物分类来源：Navarrete F 等，《苯二氮䓬类依赖：临床与分子层面、预防策略与治疗方法》，《国际分子科学杂志》2026;27(3):1430。",
-        "症狀分組與藥物分類來源：Navarrete F 等，《苯二氮平類依賴：臨床與分子層面、預防策略與治療方法》，《國際分子科學雜誌》2026;27(3):1430。",
     ),
     "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SSRIs do not raise lithium levels.": (
         "两者都会升高5-羟色胺，因此可能出现5-羟色胺综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SSRI 不会升高锂的血药浓度。",
@@ -3329,17 +3013,9 @@ T = {
         "MDMA 会大量释放5-羟色胺，锂在此之上再加一份，因此主要风险是5-羟色胺综合征。锂与经典致幻剂合用有癫痫发作的报告；MDMA 没有被同样地研究过。",
         "MDMA 會大量釋放血清素，鋰在此之上再加一份，因此主要風險是血清素症候群。鋰與經典致幻劑合用有癲癇發作的報告；MDMA 沒有被同樣地研究過。",
     ),
-    "Source: the Ashton Manual's equivalence table, which calls these doses approximate and notes that not every clinician agrees with them.": (
-        "来源：Ashton 手册的等效剂量表。该表自称这些剂量只是近似值，并指出并非所有临床医生都认同这些换算。",
-        "來源：Ashton 手冊的等效劑量表。該表自稱這些劑量只是近似值，並指出並非所有臨床醫師都認同這些換算。",
-    ),
     "Not in the Ashton Manual's equivalence table, and not sourced elsewhere — treat the number as a rough guide and dose by this drug's own threshold.": (
         "不在 Ashton 手册的等效剂量表中，也没有其他来源——这个数字只能当作粗略参考，请按这个药自身的阈值来把握剂量。",
         "不在 Ashton 手冊的等效劑量表中，也沒有其他來源——這個數字只能當作粗略參考，請按這個藥自身的閾值來拿捏劑量。",
-    ),
-    "One of these is from the Ashton Manual's equivalence table; the other is not in it and is not sourced elsewhere. Equivalences are approximate either way.": (
-        "其中一个来自 Ashton 手册的等效剂量表，另一个不在表中、也没有其他来源。无论哪种，等效换算都只是近似。",
-        "其中一個來自 Ashton 手冊的等效劑量表，另一個不在表中、也沒有其他來源。無論哪種，等效換算都只是近似。",
     ),
     "Which class this belongs in is argued over — the label is the conventional one, not a settled one.": (
         "它该归到哪一类是有争议的——这个标签是约定俗成的说法，而不是定论。",
@@ -3419,25 +3095,9 @@ T = {
     "MDMA": ("MDMA", "MDMA"),
     # Antidepressant + empathogen reframed as myth-buster (blunting, not serotonin syndrome) (2026-06-21)
     # Serotonergic special cases — evidence-grounded rules (Foundation-C run, 2026-06-22)
-    "SSRIs usually blunt MDMA — it may feel much weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.": (
-        "SSRI 通常会减弱 MDMA 的效果——可能明显变弱，于是人们常常追加剂量而出问题（过热、心脏负担）。两者单独合用不会引起血清素综合征。",
-        "SSRI 通常會減弱 MDMA 的效果——可能明顯變弱，於是人們常常追加劑量而出問題（過熱、心臟負擔）。兩者單獨併用不會引起血清素症候群。",
-    ),
-    "SNRIs usually blunt MDMA — it may feel weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.": (
-        "SNRI 通常会减弱 MDMA 的效果——可能变弱，于是人们常常追加剂量而出问题（过热、心脏负担）。两者单独合用不会引起血清素综合征。",
-        "SNRI 通常會減弱 MDMA 的效果——可能變弱，於是人們常常追加劑量而出問題（過熱、心臟負擔）。兩者單獨併用不會引起血清素症候群。",
-    ),
-    "TCAs usually blunt MDMA rather than boosting it, so people may redose; the bigger concern is added strain on heart rate and blood pressure.": (
-        "三环类抗抑郁药通常会减弱 MDMA 等药物的效果，而非增强，因此人们可能追加剂量；更需注意的是对心率和血压的额外负担。",
-        "三環類抗憂鬱藥通常會減弱 MDMA 等藥物的效果，而非增強，因此人們可能追加劑量；更需注意的是對心率和血壓的額外負擔。",
-    ),
     "Serotonin syndrome risk — these drugs add serotonin on top of an empathogen's surge. Some (tramadol, meperidine) can also trigger seizures.": (
         "血清素综合征风险——这些药物会在摇头丸（MDMA）已升高的血清素之上继续增加。部分药物（曲马多、哌替啶）还可能诱发癫痫发作。",
         "血清素症候群風險——這些藥物會在搖頭丸（MDMA）已升高的血清素之上繼續增加。部分藥物（曲馬多、哌替啶）還可能誘發癲癇發作。",
-    ),
-    "Serotonin syndrome — potentially fatal. Do not combine.": (
-        "血清素综合征——可能致命。请勿合用。",
-        "血清素症候群——可能致命。請勿併用。",
     ),
     "Serotonin syndrome risk — two serotonin-raising drugs stacked together.": (
         "血清素综合征风险——两种升高血清素的药物叠加使用。",
@@ -3460,10 +3120,6 @@ T = {
         "强烈镇静，伴心率和呼吸危险性减慢。纳洛酮能逆转阿片，但无法逆转 alpha-2 的作用——即使用了纳洛酮，也要进行人工呼吸并呼叫求助。",
         "強烈鎮靜，伴心率和呼吸危險性減慢。納洛酮能逆轉鴉片，但無法逆轉 alpha-2 的作用——即使用了納洛酮，也要進行人工呼吸並呼叫求助。",
     ),
-    "Adds up sedation and lowers blood pressure further — expect stronger drowsiness and dizziness. Use less and don't drive.": (
-        "镇静叠加并进一步降低血压——困倦和头晕会更明显。减量，且不要开车。",
-        "鎮靜疊加並進一步降低血壓——睏倦和頭暈會更明顯。減量，且不要開車。",
-    ),
     "Compounded sedation and low blood pressure — stronger drowsiness and dizziness.": (
         "镇静与低血压叠加——困倦和头晕加重。",
         "鎮靜與低血壓疊加——睏倦和頭暈加重。",
@@ -3475,14 +3131,6 @@ T = {
     "Tricyclics can cancel out clonidine-type blood-pressure lowering, so blood pressure may rise — a medical issue more than an overdose risk.": (
         "三环类抗抑郁药可能抵消可乐定类药物的降压作用，使血压升高——这更多是医疗问题，而非过量风险。",
         "三環類抗憂鬱藥可能抵消可樂定類藥物的降壓作用，使血壓升高——這更多是醫療問題，而非過量風險。",
-    ),
-    "Don't stop the clonidine-type drug suddenly while on a beta-blocker — it can spike blood pressure to dangerous levels. Taper it slowly.": (
-        "在使用 beta 受体阻滞剂期间，不要突然停用可乐定类药物——可能使血压骤升至危险水平。请缓慢减量。",
-        "在使用 beta 受體阻滯劑期間，不要突然停用可樂定類藥物——可能使血壓驟升至危險水平。請緩慢減量。",
-    ),
-    "The old “never mix” warning is largely a medical myth — large reviews found no real harm. Both still strain the heart, so it isn't a green light to combine them.": (
-        "“绝不可同用”的旧说法在很大程度上是医学误区——大型综述未发现真正的危害。但两者都会增加心脏负担，因此也并非可以随意同用。",
-        "「絕不可同用」的舊說法在很大程度上是醫學迷思——大型綜述未發現真正的危害。但兩者都會增加心臟負擔，因此也並非可以隨意同用。",
     ),
     "Both can lower blood pressure and add to dizziness — you may feel faint, especially standing up.": (
         "两者都会降低血压并增加头晕——可能感到眩晕，尤其是起身时。",
@@ -3504,7 +3152,6 @@ T = {
     "~%lld weeks": ("~%lld 周", "~%lld 週"),
     "~%lld days": ("~%lld 天", "~%lld 天"),
     "~%lld hours": ("~%lld 小时", "~%lld 小時"),
-    "under an hour": ("不到一小时", "不到一小時"),
     # Tolerance tool + explainer rewrite (Stage J, 2026-06-30). Friendly, second-person register
     # (a knowledgeable friend, not a textbook): 你, plain verbs, no academic 使/之/其, no cutesy particles.
     "Your brain adapts to what you keep giving it": (
@@ -3525,10 +3172,6 @@ T = {
     ),
     "The idea": ("原理", "原理"),
     "Within a session": ("同一次使用之内", "同一次使用之內"),
-    "A second dose soon after the first lands weaker — the fast-releasing pool runs thin (tachyphylaxis). It refills overnight, so it's separate from the slower tolerance below. Chasing it with more rarely works and stacks the risk.": (
-        "第一次之后没多久再补一剂，效果会更弱——快速释放的那一部分被用得差不多了（快速耐受）。它过一夜就会补回来，所以和下面那种慢一点的耐受是两回事。靠多用来追效果很少奏效，反而把风险叠上去。",
-        "第一次之後沒多久再補一劑，效果會更弱——快速釋放的那一部分被用得差不多了（快速耐受）。它過一夜就會補回來，所以和下面那種慢一點的耐受是兩回事。靠多用來追效果很少奏效，反而把風險疊上去。",
-    ),
     "Over days to weeks": ("几天到几周之间", "幾天到幾週之間"),
     "Receptors and enzymes adjust, and your baseline shifts down — this is the tolerance most people mean, and what the bar on each card shows. It returns once you stop, at a pace set by the receptor.": (
         "受体和酶会做出调整，你的基线也往下移——大多数人说的耐受就是这种，每张卡片上那条进度条显示的也是它。你一停它就会回来，快慢由受体决定。",
@@ -3593,10 +3236,6 @@ T = {
         "干净、好预测的耐受——咖啡因就是这种。",
         "乾淨、好預測的耐受——咖啡因就是這種。",
     ),
-    "A fast within-session fade, plus a modest, slower shift with heavy use. A bigger dose still works — but ramps the comedown and the risk, while the effect on your heart barely fades.": (
-        "同一次使用内会很快减弱，大量使用时还会有一点更慢的变化。加大剂量仍然有用——但落差和风险都会跟着上去，而对心脏的负担几乎不会减弱。",
-        "同一次使用內會很快減弱，大量使用時還會有一點更慢的變化。加大劑量仍然有用——但落差和風險都會跟著上去，而對心臟的負擔幾乎不會減弱。",
-    ),
     "Mostly fast receptor desensitization that recovers between uses rather than a lasting change.": (
         "主要是受体的快速脱敏，在两次使用之间就会恢复，而不是一种持久的变化。",
         "主要是受體的快速去敏感化，在兩次使用之間就會恢復，而不是一種持久的變化。",
@@ -3618,21 +3257,9 @@ T = {
         "記幾次劑量，你的預測耐受就會出現在這裡。最近沒用過的都算沒耐受。",
     ),
     "Can't predict yet": ("还无法预测", "還無法預測"),
-    "Logged, but missing the pharmacokinetics the model needs — so it's blind here, which is not the same as no tolerance. %@.": (
-        "已经记下了，但缺少模型需要的药代动力学数据——所以这里它看不清，这和没耐受不是一回事。%@。",
-        "已經記下了，但缺少模型需要的藥代動力學數據——所以這裡它看不清，這和沒耐受不是一回事。%@。",
-    ),
     "high tolerance": ("耐受高", "耐受高"),
     "no tolerance": ("没耐受", "沒耐受"),
-    "Little tolerance builds — the thing to watch is stopping suddenly.": (
-        "几乎不会形成耐受——要当心的是突然停用。",
-        "幾乎不會形成耐受——要當心的是突然停用。",
-    ),
     "No tolerance": ("没耐受", "沒耐受"),
-    "Mild tolerance": ("轻微耐受", "輕微耐受"),
-    "Moderate tolerance": ("中等耐受", "中等耐受"),
-    "High tolerance": ("耐受较高", "耐受較高"),
-    "Very high tolerance": ("耐受很高", "耐受很高"),
     "Most of it fades in %@ if you stop now.": (
         "如果现在停用，大部分会在 %@ 内消退。",
         "如果現在停用，大部分會在 %@ 內消退。",
@@ -3661,8 +3288,6 @@ T = {
         "长期大量使用已经把你的基线压低了；最深的那部分要几个月才能恢复。",
         "長期大量使用已經把你的基線壓低了；最深的那部分要幾個月才能恢復。",
     ),
-    "%@ · S ≈ %@×": ("%@ · S ≈ %@×", "%@ · S ≈ %@×"),
-    "Engaged layers: %@": ("涉及的层：%@", "涉及的層：%@"),
     "acute": ("急性", "急性"),
     "adaptive": ("适应性", "適應性"),
     "deep": ("深层", "深層"),
@@ -3676,11 +3301,6 @@ T = {
     "%lldmo": ("%lld 个月", "%lld 個月"),
     "%lldwk": ("%lld 周", "%lld 週"),
     "%lldd": ("%lld 天", "%lld 天"),
-    "Recovery if you stop now": ("现在停用的话，恢复情况", "現在停用的話，恢復情況"),
-    "Everything's rested — nothing recovering right now.": (
-        "一切都休息好了——现在没有在恢复的。",
-        "一切都休息好了——現在沒有在恢復的。",
-    ),
     "Cards": ("卡片", "卡片"),
     # Pharmacology axis Stage 0 — confidence tiers + body-weight UI (2026-06-21)
     "High confidence": ("高可信度", "高可信度"),
@@ -3781,10 +3401,6 @@ T = {
     "Mood, psychiatric, and cognitive medications.": (
         "情绪、精神与认知类药物。",
         "情緒、精神與認知類藥物。",
-    ),
-    "Clinical medications, by therapeutic class.": (
-        "临床药物，按治疗类别划分。",
-        "臨床藥物，按治療類別劃分。",
     ),
     "Vitamins, minerals, and nutrients.": ("维生素、矿物质与营养素。", "維生素、礦物質與營養素。"),
     "Novel and lesser-characterized compounds.": (
@@ -3927,10 +3543,7 @@ T = {
     "Page %lld of %lld": ("第 %lld 页，共 %lld 页", "第 %lld 頁，共 %lld 頁"),
     "Locating…": ("定位中…", "定位中…"),
     "Concentration over time": ("浓度随时间变化", "濃度隨時間變化"),
-    "Tolerance recovery": ("耐受恢复", "耐受恢復"),
     "Recovery by mechanism": ("按机制的恢复", "按機制的恢復"),
-    "Convert from": ("从", "從"),
-    "Convert to": ("转换为", "轉換為"),
     "morning": ("上午", "上午"),
     "afternoon": ("下午", "下午"),
     "evening": ("傍晚", "傍晚"),
@@ -3950,10 +3563,6 @@ T = {
     "Starts at %@, fading toward none.": (
         "从 %@ 开始，逐渐消退至无。",
         "從 %@ 開始，逐漸消退至無。",
-    ),
-    "%lld mechanisms plotted, each fading from its current tolerance toward none.": (
-        "已绘制 %lld 种机制，各自从当前耐受逐渐消退至无。",
-        "已繪製 %lld 種機制，各自從當前耐受逐漸消退至無。",
     ),
     "Now %@; peaked %@ about %@ after the first dose": (
         "当前 %@；在首次剂量后约 %@ 达到 %@ 峰值",
@@ -4007,10 +3616,6 @@ T = {
     "Data": ("数据", "資料"),
     "No Substance Colors": ("暂无物质配色", "暫無物質配色"),
     "No Substances Yet": ("暂无物质", "暫無物質"),
-    "Data from peer-reviewed literature, FDA labels, and community databases. Not medical advice — talk to a doctor before making decisions about substance use.": (
-        "数据来源于同行评审文献、FDA 标签与社区数据库。不构成医疗建议——在做出有关物质使用的决定前，请咨询医生。",
-        "資料來源於同行評審文獻、FDA 標籤與社群資料庫。不構成醫療建議——在做出有關物質使用的決定前，請諮詢醫師。",
-    ),
     "Colors appear here after you log your first entry. Tap one to change it.": (
         "记录第一条条目后，配色会显示在这里。点按即可更改。",
         "記錄第一筆項目後，配色會顯示在這裡。點按即可更改。",
@@ -4229,29 +3834,9 @@ T = {
         "竞争性阻断食欲素（下丘脑分泌素）受体 OX1R 和 OX2R，这两种受体是外侧下丘脑释放的促醒神经肽食欲素-A 和食欲素-B 的作用靶点。它不像 GABA 能催眠药那样广泛抑制大脑，而是撤除一种维持觉醒的特定“保持清醒”驱动力——让人自然过渡到睡眠，同时基本保留睡眠结构和可唤醒性。由于它既不增强 GABA，也不抑制脑干呼吸中枢，因此没有苯二氮䓬类、Z 类药物及其他 GABA 能镇静剂所特有的呼吸抑制协同作用和依赖风险。",
         "競爭性阻斷食慾素（下視丘分泌素）受體 OX1R 和 OX2R，這兩種受體是外側下視丘釋放的促醒神經肽食慾素-A 和食慾素-B 的作用標的。它不像 GABA 能催眠藥那樣廣泛抑制大腦，而是撤除一種維持覺醒的特定「保持清醒」驅動力——讓人自然過渡到睡眠，同時基本保留睡眠結構和可喚醒性。由於它既不增強 GABA，也不抑制腦幹呼吸中樞，因此沒有苯二氮平類、Z 類藥物及其他 GABA 能鎮靜劑所特有的呼吸抑制協同作用和依賴風險。",
     ),
-    "Added drowsiness and next-day grogginess, with more fall and coordination risk. Unlike a benzo, an orexin antagonist doesn't suppress breathing, so this isn't the deadly opioid+benzo combination — but still use less, and don't drive.": (
-        "会增加困倦和次日昏沉，跌倒和协调障碍风险更高。与苯二氮䓬类不同，食欲素拮抗剂不会抑制呼吸，因此这不是致命的阿片+苯二氮䓬组合——但仍应减量，且不要开车。",
-        "會增加睏倦和隔日昏沉，跌倒和協調障礙風險更高。與苯二氮平類不同，食慾素拮抗劑不會抑制呼吸，因此這不是致命的鴉片+苯二氮平組合——但仍應減量，且不要開車。",
-    ),
     "Alcohol stacks psychomotor and memory impairment on top of the sleep med (and raises lemborexant's blood levels) — expect worse next-day grogginess and unsteadiness. The labels advise against drinking with these.": (
         "酒精会在这类安眠药之上叠加精神运动和记忆损害（并会升高莱博雷生的血药浓度）——次日昏沉和站立不稳会更明显。药品说明书建议服用期间不要饮酒。",
         "酒精會在這類安眠藥之上疊加精神運動和記憶損害（並會升高萊博雷生的血藥濃度）——隔日昏沉和站立不穩會更明顯。藥品仿單建議服用期間不要飲酒。",
-    ),
-    "Two sleep-promoting drugs stacked — additive next-day sedation and fall risk, and largely redundant. Not the respiratory danger of benzo+opioid, but heavier grogginess and impaired coordination.": (
-        "两种促眠药叠加——次日镇静和跌倒风险相加，且大多重复。虽然不像苯二氮䓬+阿片那样有呼吸危险，但会带来更重的昏沉和协调障碍。",
-        "兩種促眠藥疊加——隔日鎮靜和跌倒風險相加，且大多重複。雖然不像苯二氮平+鴉片那樣有呼吸危險，但會帶來更重的昏沉和協調障礙。",
-    ),
-    "Additive sedation and next-day grogginess — more drowsiness, dizziness, and fall risk. Use less and avoid driving.": (
-        "镇静作用和次日昏沉相加——更明显的困倦、头晕和跌倒风险。请减量并避免开车。",
-        "鎮靜作用和隔日昏沉相加——更明顯的睏倦、頭暈和跌倒風險。請減量並避免開車。",
-    ),
-    "Compounded sedation — stronger, deeper drowsiness. The orexin antagonist doesn't add respiratory depression itself, but GHB can, so keep doses low and don't combine when alone.": (
-        "镇静作用叠加——困倦更强、更深。食欲素拮抗剂本身不会加重呼吸抑制，但 GHB 会，因此请保持低剂量，独处时不要合用。",
-        "鎮靜作用疊加——睏倦更強、更深。食慾素拮抗劑本身不會加重呼吸抑制，但 GHB 會，因此請保持低劑量，獨處時不要合用。",
-    ),
-    "Both cause drowsiness — expect additive next-day sedation and grogginess. Use less and don't drive.": (
-        "两者都会引起困倦——次日镇静和昏沉会相加。请减量，且不要开车。",
-        "兩者都會引起睏倦——隔日鎮靜和昏沉會相加。請減量，且不要開車。",
     ),
     "Antidepressant": ("抗抑郁药", "抗抑鬱藥"),
     "Antipsychotic": ("抗精神病药", "抗精神病藥"),
@@ -4387,7 +3972,6 @@ T = {
     "Day Starts At": ("一天起始时间", "一天起始時間"),
     "About": ("关于", "關於"),
     "Sources": ("数据来源", "資料來源"),
-    "Sources & References": ("数据来源与参考", "資料來源與參考"),
     "Version": ("版本", "版本"),
     "Import Data": ("导入数据", "匯入資料"),
     "Delete Everything": ("删除所有数据", "刪除所有資料"),
@@ -4396,7 +3980,6 @@ T = {
     "Phase Notifications": ("阶段通知", "階段通知"),
     "Stack Redoses": ("叠加重复剂量", "疊加重複劑量"),
     "Interaction Alerts": ("相互作用警报", "相互作用警示"),
-    "Comedown Alert": ("缓和期提醒", "緩和期提醒"),
     # Common labels
     "Substance": ("物质", "物質"),
     "Substance name": ("物质名称", "物質名稱"),
@@ -4445,7 +4028,6 @@ T = {
     "Target": ("作用位点", "作用位點"),
     "Classification": ("分类", "分類"),
     "Safety": ("安全性", "安全性"),
-    "How it works": ("如何工作", "如何運作"),
     "What is this?": ("这是什么？", "這是什麼？"),
     "From": ("从", "從"),
     "To": ("到", "到"),
@@ -4463,7 +4045,6 @@ T = {
     "No Logged Entries": ("无已记录的条目", "無已記錄的條目"),
     "No Previous Substances": ("无历史物质", "無歷史物質"),
     "No data": ("无数据", "無資料"),
-    "No active overlap": ("无活跃重叠", "無活躍重疊"),
     "No known interactions found.": ("未发现已知的相互作用。", "未發現已知的相互作用。"),
     "Try a different search term.": ("尝试其他搜索词。", "嘗試其他搜尋詞。"),
     "Try adjusting your filters.": ("尝试调整筛选条件。", "嘗試調整篩選條件。"),
@@ -4527,7 +4108,6 @@ T = {
     "Tags: %@": ("标签：%@", "標籤：%@"),
     # Database & Settings
     "Substance Database": ("物质数据库", "物質資料庫"),
-    "Check for Updates": ("检查更新", "檢查更新"),
     # Prescriptions / Daily Doses
     "Prescriptions": ("处方", "處方"),
     "Current Medications": ("目前用药", "目前用藥"),
@@ -4558,20 +4138,9 @@ T = {
     "Edit Substance": ("编辑物质", "編輯物質"),
     "Duplicate Name": ("名称重复", "名稱重複"),
     # Help / Alerts
-    "Notifications Disabled": ("通知已关闭", "通知已關閉"),
-    "Please enable notifications in Settings to use Ramp Down alerts.": (
-        "请在「设置」中开启通知以使用缓和期提醒。",
-        "請在「設定」中開啟通知以使用緩和期提醒。",
-    ),
     "Import": ("导入", "匯入"),
-    "Cancel Alert": ("取消提醒", "取消提醒"),
-    "Cancel Ramp Down?": ("取消缓和期提醒？", "取消緩和期提醒？"),
-    "This will cancel the comedown notification.": ("这将取消缓和期通知。", "這將取消緩和期通知。"),
     "Ramp Down": ("缓和期", "緩和期"),
-    "Enable Comedown Alert": ("启用缓和期提醒", "啟用緩和期提醒"),
     "Comedown alert": ("缓和期提醒", "緩和期提醒"),
-    "Alert scheduled": ("提醒已安排", "提醒已排程"),
-    "Comedown window has passed": ("缓和期窗口已过", "緩和期窗口已過"),
     # Notification copy
     "Stay hydrated": ("保持水分", "保持水分"),
     "Hydration check": ("饮水检查", "飲水檢查"),
@@ -4620,8 +4189,6 @@ T = {
         "巅峰来临。保持安全和警觉。",
         "巔峰來臨。保持安全和警覺。",
     ),
-    "{name} wearing off": ("{name} 效果消退中", "{name} 效果消退中"),
-    "{name} effects fading": ("{name} 效果减弱中", "{name} 效果減弱中"),
     # Comedown messages
     "The low mood is temporary and normal. Eat light foods, stay warm, and rest. Be kind to yourself over the next few days.": (
         "情绪低落是暂时且正常的。吃清淡食物、保暖、休息。接下来几天善待自己。",
@@ -4635,21 +4202,9 @@ T = {
         "保持水分。不要追加以追求感觉——没用的。",
         "保持水分。不要追加以追求感覺——沒用的。",
     ),
-    "Stay somewhere comfortable and safe. Eat and hydrate when you can. Avoid driving.": (
-        "留在舒适且安全的地方。能吃喝时就补充水分和食物。避免驾驶。",
-        "留在舒適且安全的地方。能吃喝時就補充水分和食物。避免駕駛。",
-    ),
     "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out.": (
         "反弹性焦虑是暂时的。避免咖啡因和酒精。呼吸练习:吸气 4 秒、屏住 7 秒、呼气 8 秒。",
         "反彈性焦慮是暫時的。避免咖啡因和酒精。呼吸練習:吸氣 4 秒、屏住 7 秒、呼氣 8 秒。",
-    ),
-    "Drink water and eat something with electrolytes. Rest in a cool, dark room if your head hurts.": (
-        "喝水并吃含电解质的东西。如果头痛,请在凉爽、昏暗的房间里休息。",
-        "喝水並吃含電解質的東西。如果頭痛,請在涼爽、昏暗的房間裡休息。",
-    ),
-    "Drink water, eat something balanced. If foggy, a short walk or fresh air helps clear it.": (
-        "喝水、吃均衡的食物。如感到迷糊,短暂散步或呼吸新鲜空气有助清醒。",
-        "喝水、吃均衡的食物。如感到迷糊,短暫散步或呼吸新鮮空氣有助清醒。",
     ),
     "Take care of yourself — eat, hydrate, and rest. The effects will fade with time.": (
         "照顾好自己 — 吃饭、补水、休息。效果会随时间消退。",
@@ -4734,7 +4289,6 @@ T = {
     "Current Estimated Amount": ("当前估算剂量", "當前估算劑量"),
     "Peak concentration": ("峰值浓度", "峰值濃度"),
     "Reached after %@": ("%@ 后达到", "%@ 後達到"),
-    "Peak ends ~": ("巅峰结束 ~", "巔峰結束 ~"),
     "Peak %@": ("巅峰 %@", "巔峰 %@"),
     "Conc": ("浓度", "濃度"),
     "Estimates from pharmacokinetic modeling.": (
@@ -4984,7 +4538,6 @@ T = {
         "帮助就在身边。你不必独自面对。",
         "幫助就在身邊。你不必獨自面對。",
     ),
-    "You're going to be okay": ("一切都会好的", "一切都會好的"),
     "You're going to be okay. This feeling is temporary.": (
         "一切都会好的。这种感觉是暂时的。",
         "一切都會好的。這種感覺是暫時的。",
@@ -5102,10 +4655,6 @@ T = {
     "Respiratory depression and CNS shutdown — potentially fatal combination.": (
         "呼吸抑制及中枢神经停摆 — 可能致命的组合。",
         "呼吸抑制及中樞神經停擺 — 可能致命的組合。",
-    ),
-    "Risk of fatal serotonin syndrome — do not combine.": (
-        "有致命血清素综合征的风险 — 切勿合用。",
-        "有致命血清素綜合徵的風險 — 切勿合用。",
     ),
     "Serotonin syndrome — potentially fatal. Allow 2+ week washout.": (
         "血清素综合征 — 可能致命。需 2 周以上的清除期。",
@@ -5705,10 +5254,6 @@ T = {
         "能睡就睡。身体在无意识时做最好的恢复工作。",
         "能睡就睡。身體在無意識時做最好的恢復工作。",
     ),
-    "If withdrawal symptoms concern you, seek medical advice. Help exists.": (
-        "如果担心戒断症状,请寻求医疗建议。帮助是存在的。",
-        "如果擔心戒斷症狀,請尋求醫療建議。幫助是存在的。",
-    ),
     "Don't redose to chase the feeling — tolerance builds fast and that path is dangerous.": (
         "不要为了追求感觉而再次服用 — 耐受性会快速建立,这条路很危险。",
         "不要為了追求感覺而再次服用 — 耐受性會快速建立,這條路很危險。",
@@ -5940,21 +5485,11 @@ T = {
         "感觉回到基线前不要驾驶或做重要决定。",
         "感覺回到基線前不要駕駛或做重要決定。",
     ),
-    "Full recovery guide": ("完整恢复指南", "完整恢復指南"),
     "View Full Recovery Guide": ("查看完整恢复指南", "查看完整恢復指南"),
     "Get care reminders as effects fade — hydration, rest, and recovery tips.": (
         "效果消退时获得护理提醒 — 补水、休息和恢复提示。",
         "效果消退時獲得護理提醒 — 補水、休息和恢復提示。",
     ),
-    "You'll get care reminders as the effects begin to fade — hydration, nutrition, and recovery tips.": (
-        "效果开始消退时,您会收到护理提醒 — 补水、营养和恢复提示。",
-        "效果開始消退時,您會收到護理提醒 — 補水、營養和恢復提示。",
-    ),
-    "Piru will notify you as the comedown approaches with practical care reminders — hydration, nutrition, and rest tips tailored to what you took.": (
-        "缓和期来临时,Piru 会以实用的护理提醒通知您 — 根据您所服用的物质,提供补水、营养和休息建议。",
-        "緩和期來臨時,Piru 會以實用的護理提醒通知您 — 根據您所服用的物質,提供補水、營養和休息建議。",
-    ),
-    "Currently In Your System": ("目前体内活跃", "目前體內活躍"),
     "In Your System": ("体内活跃", "體內活躍"),
     "Showing guidance for substances in your system. Tap above for the full guide.": (
         "正在显示您体内物质的指导。点击上方查看完整指南。",
@@ -5966,10 +5501,7 @@ T = {
     ),
     # Reports
     "Generate PDF Report": ("生成 PDF 报告", "產生 PDF 報告"),
-    "Medical Report": ("医疗报告", "醫療報告"),
-    "Patient Name (Optional)": ("患者姓名(可选)", "患者姓名(可選)"),
     "Name (for the report header)": ("姓名(用于报告标题)", "姓名(用於報告標題)"),
-    "Add notes for your doctor...": ("为您的医生添加备注…", "為您的醫生新增備註…"),
     "These notes will appear at the end of the PDF report.": (
         "这些备注将出现在 PDF 报告末尾。",
         "這些備註將出現在 PDF 報告末尾。",
@@ -6014,7 +5546,6 @@ T = {
     "Missed %@ of %@": ("漏服 %@ 的 %@", "漏服 %@ 的 %@"),
     "%lld/%lld taken": ("%lld/%lld 已服用", "%lld/%lld 已服用"),
     # Day detail
-    "Dose taken": ("已服用剂量", "已服用劑量"),
     # Format strings
     "Log %lld Item%@": ("记录 %1$lld 个项目", "記錄 %1$lld 個項目"),
     "Log %@": ("记录 %@", "記錄 %@"),
@@ -6041,7 +5572,6 @@ T = {
     "×": ("×", "×"),
     "S": ("S", "S"),
     "#": ("#", "#"),
-    "(past)": ("(已过)", "(已過)"),
     "0": ("0", "0"),
     "--": ("--", "--"),
     "FFAACC": ("FFAACC", "FFAACC"),
@@ -6195,11 +5725,6 @@ T = {
     "GHB / GBL": ("GHB / GBL", "GHB / GBL"),
     "Codeine → morphine": ("可待因 → 吗啡", "可待因 → 嗎啡"),
     # Pharmacology axis Stage 6 — Benzo equivalence converter (2026-06-23)
-    "Benzo Equivalence": ("苯二氮䓬等效换算", "苯二氮䓬等效換算"),
-    "Compare benzodiazepine doses to diazepam": (
-        "将苯二氮䓬剂量与地西泮比较",
-        "將苯二氮䓬劑量與地西泮比較",
-    ),
     "If you have been drinking heavily and daily for weeks, stopping abruptly can be medically dangerous — seizures and delirium tremens peak 2–4 days after the last drink. Seek medical advice before going cold turkey.": (
         "如果你连续数周每天大量饮酒，突然戒断可能非常危险——癫痫发作和震颤性谵妄通常在最后一杯后 2–4 天达到高峰。戒酒前请先咨询医生。",
         "如果你連續數週每天大量飲酒，突然戒斷可能非常危險——癲癇發作和震顫性譫妄通常在最後一杯後 2–4 天達到高峰。戒酒前請先諮詢醫師。",
@@ -6209,19 +5734,6 @@ T = {
     "≈ %@ mg": ("≈ %@ mg", "≈ %@ mg"),
     "%@ mg %@ ≈ %@ mg %@": ("%@ mg %@ ≈ %@ mg %@", "%@ mg %@ ≈ %@ mg %@"),
     "(≈ %@ mg diazepam)": ("（≈ %@ mg 地西泮）", "（≈ %@ mg 地西泮）"),
-    "Enter a dose to convert.": ("输入剂量以进行换算。", "輸入劑量以進行換算。"),
-    "No numeric equivalence is available for this substance.": (
-        "该物质没有可用的数值等效数据。",
-        "該物質沒有可用的數值等效資料。",
-    ),
-    "No numeric equivalence is available for the target substance.": (
-        "目标物质没有可用的数值等效数据。",
-        "目標物質沒有可用的數值等效資料。",
-    ),
-    "Pick both substances and a dose.": (
-        "请选择两种物质并输入剂量。",
-        "請選擇兩種物質並輸入劑量。",
-    ),
     "This converts and compares — it is not a taper schedule. Plan any dose reduction with a clinician.": (
         "本工具用于换算与比较，并非减量方案。任何减量都应与临床医生一起制定。",
         "本工具用於換算與比較，並非減量方案。任何減量都應與臨床醫師一起制定。",
@@ -6229,10 +5741,6 @@ T = {
     "Never stop a benzodiazepine abruptly. Withdrawal can be dangerous (seizures); a slow taper is the safe path.": (
         "切勿骤然停用苯二氮䓬。戒断可能有危险（癫痫发作）；缓慢递减才是安全之道。",
         "切勿驟然停用苯二氮䓬。戒斷可能有危險（癲癇發作）；緩慢遞減才是安全之道。",
-    ),
-    "Single-dose equivalence isn't steady-state equivalence — long-acting metabolites accumulate over days.": (
-        "单次剂量的等效并不等于稳态下的等效——长效代谢物会在数日内累积。",
-        "單次劑量的等效並不等於穩態下的等效——長效代謝物會在數日內累積。",
     ),
     "~%lld min": ("~%lld 分钟", "~%lld 分鐘"),
     "~%@ h": ("~%@ 小时", "~%@ 小時"),
@@ -6294,10 +5802,6 @@ T = {
     "Recovers over weeks": ("数周内恢复", "數週內恢復"),
     "Recovers over a month+": ("一个多月内恢复", "一個多月內恢復"),
     "Recovers over months": ("数月内恢复", "數月內恢復"),
-    "Strong and fast: a second trip soon after is much weaker. Resets within a few days.": (
-        "强而快：短期内再次体验会弱很多。数天内重置。",
-        "強而快：短期內再次體驗會弱很多。數天內重置。",
-    ),
     "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous — taper.": (
         "既有耐受也有躯体依赖；长期大量使用后骤停可能危险——应逐步减量。",
         "既有耐受也有軀體依賴；長期大量使用後驟停可能危險——應逐步減量。",
@@ -6307,10 +5811,6 @@ T = {
         "又快又真實，但停用後恢復得相當快。",
     ),
     # Session detail "In Your Body" section + row redesign (2026-07-09).
-    "How much of each substance is still in your body — what's left and what you feel don't always line up.": (
-        "每种物质在你体内的残留量——剩余量与体感并不总是一致。",
-        "每種物質在你體內的殘留量——剩餘量與體感並不總是一致。",
-    ),
     "soon": ("很快", "很快"),
     "All recovery tips": ("全部恢复提示", "全部恢復提示"),
     "%lld%% eliminated · clear ~%@": (
@@ -6348,10 +5848,6 @@ T = {
     "A busy session": ("复杂的记录", "複雜的記錄"),
     "Modeled from pharmacology": ("基于药理学建模", "基於藥理學建模"),
     "How this works": ("运作原理", "運作原理"),
-    "Higher is better. Pleasure and warmth rise above the line; the comedown dips below.": (
-        "越高越好。愉悦与暖意升至基线之上；退效期则跌至其下。",
-        "越高越好。愉悅與暖意升至基線之上；退效期則跌至其下。",
-    ),
     "Higher is livelier. Drive rises above the line, sedation sits below.": (
         "越高越有活力。驱动力升至基线之上，镇静则落于其下。",
         "越高越有活力。驅動力升至基線之上，鎮靜則落於其下。",
@@ -6365,10 +5861,6 @@ T = {
     "Higher is more pleasure. The opioid warmth signal.": (
         "越高愉悦越强。阿片温暖信号。",
         "越高愉悅越強。阿片溫暖信號。",
-    ),
-    "Lower is better. The pull to take another dose.": (
-        "越低越好。再服一剂的冲动。",
-        "越低越好。再服一劑的衝動。",
     ),
     "What these curves cover": ("这些曲线涵盖什么", "這些曲線涵蓋什麼"),
     "The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions.": (
@@ -6494,10 +5986,6 @@ T = {
         "若某次用药未被记录，“再次询问”会再问一次 —“默认”遵循通知设置中的节奏。它从不是责备，只是轻轻提醒。",
         "若某次用藥未被記錄，「再次詢問」會再問一次 —「預設」遵循通知設定中的節奏。它從不是責備，只是輕輕提醒。",
     ),
-    "A nudge at each med's set time so a dose never slips your mind. Tapping it opens Quick Log with that time's meds staged.": (
-        "在每项用药的设定时间轻轻提醒，让你不会忘记服药。轻点即可打开快速记录，并预先放入该时段的用药。",
-        "在每項用藥的設定時間輕輕提醒，讓你不會忘記服藥。點一下即可開啟快速記錄，並預先放入該時段的用藥。",
-    ),
     "Asks again a little later if a med still isn't logged — like snooze for an alarm. Adjustable per med.": (
         "如果某项用药仍未被记录，稍后会再问一次 — 就像闹钟的稍后提醒。可为每项用药单独调整。",
         "如果某項用藥仍未被記錄，稍後會再問一次 — 就像鬧鐘的稍後提醒。可為每項用藥單獨調整。",
@@ -6548,106 +6036,25 @@ T = {
     # PK card: how many distinct studies stand behind one route (2026-07-25).
     "%lld studies": ("%lld 项研究", "%lld 項研究"),
     # Intervention ledger — GABA discontinuation evidence (§J, 2026-08-06).
-    "Discontinuation evidence": ("停药证据", "停藥證據"),
-    "Discontinuation Evidence": ("停药证据", "停藥證據"),
-    "Clinical trial evidence for interventions during benzodiazepine discontinuation. Each row is what the study found — not a recommendation.": (
-        "苯二氮卓类停药干预措施的临床试验证据。每行是研究发现——不是建议。",
-        "苯二氮卓類停藥干預措施的臨床試驗證據。每行是研究發現——不是建議。",
-    ),
-    "Supported by evidence": ("有证据支持", "有證據支持"),
-    "Not supported by evidence": ("无证据支持", "無證據支持"),
-    "This half is the more useful half.": ("这一半更有用。", "這一半更有用。"),
-    "CBT + gradual taper": ("认知行为疗法 + 逐步减量", "認知行為療法 + 逐步減量"),
-    "The strongest result in the literature. Discontinuation significantly higher than taper alone at both 3 months and 6–12 months.": (
-        "文献中最强的结果。停药率在3个月和6–12个月时均显著高于单纯减量。",
-        "文獻中最強的結果。停藥率在3個月和6–12個月時均顯著高於單純減量。",
-    ),
     "Meta-analysis": ("荟萃分析", "薈萃分析"),
     "Gradual taper": ("逐步减量", "逐步減量"),
-    "About two-thirds discontinue short-term; roughly one-third sustain long-term. Consensus is to taper gradually over 4–6 weeks; there is no agreed rate — the trials here used 25% per week.": (
-        "约三分之二短期成功停药；约三分之一长期维持。共识是在4–6周内逐步减量；减量速率没有公认标准——此处的试验采用每周减少25%。",
-        "約三分之二短期成功停藥；約三分之一長期維持。共識是在4–6週內逐步減量；減量速率沒有公認標準——此處的試驗採用每週減少25%。",
-    ),
-    "Clinical consensus": ("临床共识", "臨床共識"),
     "Imipramine": ("丙米嗪", "丙米嗪"),
-    "Taper success 82.6% vs 37.5% placebo.": (
-        "减量成功率82.6% vs 安慰剂37.5%。",
-        "減量成功率82.6% vs 安慰劑37.5%。",
-    ),
     "%lld–%lld days": ("%lld–%lld 天", "%lld–%lld 天"),
     "%lld–%lld hours": ("%lld–%lld 小时", "%lld–%lld 小時"),
-    "RCT, n = %lld": ("随机对照试验，n = %lld", "隨機對照試驗，n = %lld"),
     "n = %lld": ("n = %lld", "n = %lld"),
-    "n = %lld, underpowered": ("n = %lld，统计效力不足", "n = %lld，統計效力不足"),
     "%lld RCTs": ("%lld项随机对照试验", "%lld項隨機對照試驗"),
     "%lld trials": ("%lld项试验", "%lld項試驗"),
-    "1 RCT (n = %lld) + open study (n = 282)": (
-        "1项随机对照试验 (n = %lld) + 开放研究 (n = 282)",
-        "1項隨機對照試驗 (n = %lld) + 開放研究 (n = 282)",
-    ),
-    "More patients BZD-free at week 5; lower withdrawal incidence and anxiety in elderly.": (
-        "第5周时更多患者已停用苯二氮卓；老年患者戒断发生率和焦虑均降低。",
-        "第5週時更多患者已停用苯二氮卓；老年患者戒斷發生率和焦慮均降低。",
-    ),
     "Pregabalin": ("普瑞巴林", "普瑞巴林"),
-    "Safe and effective for tapering off long-term use; improved sleep.": (
-        "对长期使用者减量安全有效；改善睡眠。",
-        "對長期使用者減量安全有效；改善睡眠。",
-    ),
     "Valproate": ("丙戊酸盐", "丙戊酸鹽"),
-    "79% abstinent at 5 weeks post-taper vs placebo. No effect at 12 weeks.": (
-        "减量后第5周79%戒断 vs 安慰剂。第12周时无效果。",
-        "減量後第5週79%戒斷 vs 安慰劑。第12週時無效果。",
-    ),
     "RCT": ("随机对照试验", "隨機對照試驗"),
     "Flumazenil": ("氟马西尼", "氟馬西尼"),
-    "Reversed withdrawal scores and craving vs oxazepam taper and placebo. Inpatient IV only — dangerous in chronic users (precipitated withdrawal).": (
-        "逆转了戒断评分和渴求（对比奥沙西泮减量和安慰剂）。仅限住院静脉注射——对长期使用者危险（诱发戒断）。",
-        "逆轉了戒斷評分和渴求（對比奧沙西泮減量和安慰劑）。僅限住院靜脈注射——對長期使用者危險（誘發戒斷）。",
-    ),
     "Melatonin": ("褪黑素", "褪黑素"),
-    "One small positive trial (n = 34); two larger negative trials (n = 80, n = 38 at 1-year follow-up). Improved sleep quality without improving discontinuation.": (
-        "一项小型阳性试验 (n = 34)；两项较大的阴性试验 (n = 80, n = 38，1年随访)。改善了睡眠质量但未改善停药率。",
-        "一項小型陽性試驗 (n = 34)；兩項較大的陰性試驗 (n = 80, n = 38，1年隨訪)。改善了睡眠品質但未改善停藥率。",
-    ),
-    "Long-acting benzo switch": ("换用长效苯二氮卓", "換用長效苯二氮卓"),
-    "Insufficient evidence to support the efficacy of this strategy — despite being the standard move and the core of the Ashton method.": (
-        "证据不足以支持该策略的有效性——尽管它是标准操作且是Ashton方法的核心。",
-        "證據不足以支持該策略的有效性——儘管它是標準操作且是Ashton方法的核心。",
-    ),
     "Gabapentin": ("加巴喷丁", "加巴噴丁"),
-    "No difference vs placebo.": ("与安慰剂无差异。", "與安慰劑無差異。"),
     "Lithium": ("锂盐", "鋰鹽"),
-    "More than 60% discontinuation in both arms; no difference.": (
-        "两组停药率均超过60%；无差异。",
-        "兩組停藥率均超過60%；無差異。",
-    ),
     "Progesterone": ("黄体酮", "黃體酮"),
-    "No difference on withdrawal severity, anxiety, or drug-free status.": (
-        "戒断严重程度、焦虑或无药状态均无差异。",
-        "戒斷嚴重程度、焦慮或無藥狀態均無差異。",
-    ),
-    "Magnesium aspartate": ("天冬氨酸镁", "天冬氨酸鎂"),
-    "No difference on any endpoint.": ("所有终点均无差异。", "所有終點均無差異。"),
     "Ondansetron": ("昂丹司琼", "昂丹司瓊"),
-    "No effect on taper rate, withdrawal severity, or anxiety.": (
-        "对减量速率、戒断严重程度或焦虑无效。",
-        "對減量速率、戒斷嚴重程度或焦慮無效。",
-    ),
     "Buspirone": ("丁螺环酮", "丁螺環酮"),
-    "Four small trials with contradictory results.": (
-        "四项小型试验，结果相互矛盾。",
-        "四項小型試驗，結果相互矛盾。",
-    ),
     "Propranolol": ("普萘洛尔", "普萘洛爾"),
-    "Reduced symptom severity in completers; no effect on dropout rate or incidence.": (
-        "完成者的症状严重程度降低；对退出率或发生率无影响。",
-        "完成者的症狀嚴重程度降低；對退出率或發生率無影響。",
-    ),
-    "Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.": (
-        "Navarrete F 等。苯二氮卓类依赖：临床和分子方面、预防策略和治疗方法。Int J Mol Sci. 2026;27(3):1430.",
-        "Navarrete F 等。苯二氮卓類依賴：臨床和分子方面、預防策略和治療方法。Int J Mol Sci. 2026;27(3):1430.",
-    ),
     "doi:10.3390/ijms27031430": ("doi:10.3390/ijms27031430", "doi:10.3390/ijms27031430"),
     # CYP2D6 metabolizer status (§F, 2026-08-06).
     "CYP2D6 status": ("CYP2D6状态", "CYP2D6狀態"),
@@ -6805,6 +6212,1385 @@ T = {
     "Scales the modeled half-life of substances CYP2D6 clears — slow lasts longer, rapid shorter — and notes it on their pages; Unknown counts as typical.": (
         "按此缩放由 CYP2D6 清除的物质的模型半衰期——慢代谢更久，快代谢更短——并在其页面注明；“未知”按典型处理。",
         "依此縮放由 CYP2D6 清除的物質的模型半衰期——慢代謝更久，快代謝更短——並在其頁面註明；「未知」視為典型。",
+    ),
+    # Strings the catalog already carries, restored so the table and the
+    # catalog hold the same set.
+    "%@": ("%@", "%@"),
+    "%@ %@ of %@ left.": ("%3$@还剩 %1$@ %2$@。", "%3$@還剩 %1$@ %2$@。"),
+    "%@ %@ · %@": ("%1$@ %2$@ · %3$@", "%1$@ %2$@ · %3$@"),
+    "%@ and %@ over time; the model shows no overlapping window.": (
+        "%@ 与 %@ 随时间变化；模型未显示重叠的窗口。",
+        "%@ 與 %@ 隨時間變化；模型未顯示重疊的視窗。",
+    ),
+    "%@ g/mol": ("%@ g/mol", "%@ g/mol"),
+    "%@ left": ("还剩 %@", "還剩 %@"),
+    "%@ mg %@, by the CDC 2022 factor": (
+        "%@ mg %@，按 CDC 2022 换算系数",
+        "%@ mg %@，按 CDC 2022 換算係數",
+    ),
+    "%@ modeled active until ~%@": ("%@ 模型估计活跃至约 %@", "%@ 模型估計活躍至約 %@"),
+    "%@ → %@": ("%@ → %@", "%@ → %@"),
+    "%@, source: %@": ("%@，来源：%@", "%@，來源：%@"),
+    "%@h": ("%@ 小时", "%@ 小時"),
+    "%@h ago": ("%@ 小时前", "%@ 小時前"),
+    "%@–%@ days": ("%@–%@ 天", "%@–%@ 天"),
+    "%@–%@ months": ("%@–%@ 个月", "%@–%@ 個月"),
+    "%@–%@ weeks": ("%@–%@ 周", "%@–%@ 週"),
+    "%lld days logged": ("已记录 %lld 天", "已記錄 %lld 天"),
+    "%lld distinct substances, %lld first recorded this period": (
+        "%lld 种不同物质，其中 %lld 种为本期首次记录",
+        "%lld 種不同物質，其中 %lld 種為本期首次記錄",
+    ),
+    "%lld doses": ("%lld 剂", "%lld 劑"),
+    "%lld first recorded this period": ("本期首次记录 %lld 种", "本期首次記錄 %lld 種"),
+    "%lld min": ("%lld 分钟", "%lld 分鐘"),
+    "%lld of %lld": ("%lld / %lld", "%lld / %lld"),
+    "%lld of %lld days about right or more": (
+        "%lld / %lld 天和平时差不多或更强",
+        "%lld / %lld 天和平時差不多或更強",
+    ),
+    "%lldd ago": ("%lld 天前", "%lld 天前"),
+    "%lldh %lldm": ("%1$lld 小时 %2$lld 分钟", "%1$lld 小時 %2$lld 分鐘"),
+    "%lldh %lldm ago": ("%1$lld 小时 %2$lld 分钟前", "%1$lld 小時 %2$lld 分鐘前"),
+    "%lldh ago": ("%lld 小时前", "%lld 小時前"),
+    "%lldm": ("%lld 分钟", "%lld 分鐘"),
+    "%lldm ago": ("%lld 分钟前", "%lld 分鐘前"),
+    "%lldmin": ("%lld 分钟", "%lld 分鐘"),
+    "+%lld earlier": ("还有 %lld 次更早", "還有 %lld 次更早"),
+    "0m": ("0 分钟", "0 分鐘"),
+    "1 dose": ("1 剂", "1 劑"),
+    "A passphrase is required.": ("需要口令。", "需要通行碼。"),
+    "A relative model score for load on the body. It measures neither toxicity nor damage.": (
+        "身体负荷的相对模型评分。它衡量的既不是毒性，也不是损伤。",
+        "身體負荷的相對模型評分。它衡量的既不是毒性，也不是損傷。",
+    ),
+    "A reminder to drink some water.": ("提醒你喝点水。", "提醒你喝點水。"),
+    "A reminder to drink some water. Stimulants can mask thirst.": (
+        "提醒你喝点水。兴奋剂可能掩盖口渴。",
+        "提醒你喝點水。興奮劑可能掩蓋口渴。",
+    ),
+    "A reminder to have some water if you can.": (
+        "提醒你方便的话喝点水。",
+        "提醒你方便的話喝點水。",
+    ),
+    "A reminder to sip, and to favor electrolytes. With this class more water is not safer.": (
+        "提醒你小口喝，并优先选含电解质的饮品。对这一类来说，水喝得更多并不更安全。",
+        "提醒你小口喝，並優先選含電解質的飲品。對這一類來說，水喝得更多並不更安全。",
+    ),
+    "A warm bath can ease the achy, restless feeling — with someone in earshot.": (
+        "泡个热水澡能缓解酸痛和坐立不安——让人待在听得见你的地方。",
+        "泡個熱水澡能緩解痠痛和坐立不安——讓人待在聽得見你的地方。",
+    ),
+    "A warm shower or light stretching helps tight muscles.": (
+        "冲个热水澡或做点轻柔拉伸，有助于放松紧绷的肌肉。",
+        "衝個熱水澡或做點輕柔拉伸，有助於放鬆緊繃的肌肉。",
+    ),
+    "AI-Assisted Content": ("AI 辅助内容", "AI 輔助內容"),
+    "About Piru": ("关于 Piru", "關於 Piru"),
+    "Acetaminophen (paracetamol) after heavy alcohol use adds stress to the liver.": (
+        "大量饮酒后服用对乙酰氨基酚（扑热息痛）会加重肝脏负担。",
+        "大量飲酒後服用對乙醯氨基酚（撲熱息痛）會加重肝臟負擔。",
+    ),
+    "Add the guideline reference range (%lld–%lld %@)": (
+        "添加指南参考范围（%lld–%lld %@）",
+        "新增指南參考範圍（%lld–%lld %@）",
+    ),
+    "Add to Favorites": ("添加到收藏", "加入收藏"),
+    "After a stimulant wears off, fatigue, irritability and low mood are commonly reported.": (
+        "兴奋剂消退之后，疲劳、易怒和情绪低落是常见的报告。",
+        "興奮劑消退之後，疲勞、易怒和情緒低落是常見的報告。",
+    ),
+    "After regular use, a seizure or severe confusion on stopping is an emergency.": (
+        "长期规律使用后，停药时出现抽搐或严重意识混乱属于急症。",
+        "長期規律使用後，停藥時出現抽搐或嚴重意識混亂屬於急症。",
+    ),
+    "Alcohol acts on the same receptors, and the combination can stop breathing.": (
+        "酒精作用于同一类受体，两者合用可能使呼吸停止。",
+        "酒精作用於同一類受體，兩者合用可能使呼吸停止。",
+    ),
+    "Alcohol disrupts the sleep you need.": (
+        "酒精会扰乱你需要的睡眠。",
+        "酒精會擾亂你需要的睡眠。",
+    ),
+    "Alcohol, benzodiazepines and opioids on top of a dissociative raise the risk of stopped breathing.": (
+        "在解离剂之上叠加酒精、苯二氮䓬类或阿片类，会提高呼吸停止的风险。",
+        "在解離劑之上疊加酒精、苯二氮䓬類或阿片類，會提高呼吸停止的風險。",
+    ),
+    "Alcohol, benzodiazepines and other depressants on top of an opioid raise the risk of stopped breathing.": (
+        "在阿片类之上叠加酒精、苯二氮䓬类或其他抑制剂，会提高呼吸停止的风险。",
+        "在阿片類之上疊加酒精、苯二氮䓬類或其他抑制劑，會提高呼吸停止的風險。",
+    ),
+    "All Database Sources": ("全部数据库来源", "全部資料庫來源"),
+    "An estimate from population data, not a measurement. It doesn't say when another dose is safe.": (
+        "这是基于人群数据的估计，不是测量值。它不说明何时再服一剂是安全的。",
+        "這是基於人群資料的估計，不是測量值。它不說明何時再服一劑是安全的。",
+    ),
+    "An export or backup is made when you ask and saved where you choose.": (
+        "只有在你要求时才会生成导出或备份，并保存到你选择的位置。",
+        "只有在你要求時才會生成匯出或備份，並儲存到你選擇的位置。",
+    ),
+    "An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. This curve sums your logged esters into an illustrative serum estimate. It is not a laboratory result.": (
+        "注射的酯从油性储库中缓慢释放，分解为游离激素，然后被清除。这条曲线把你记录的各种酯汇总为一个示意性的血清估计值。它不是化验结果。",
+        "注射的酯從油性儲庫中緩慢釋放，分解為遊離激素，然後被清除。這條曲線把你記錄的各種酯彙總為一個示意性的血清估計值。它不是化驗結果。",
+    ),
+    "Any": ("任意", "任意"),
+    "Appetite and sleep were likely pushed aside for hours, and both come due now.": (
+        "食欲和睡眠很可能被搁置了好几个小时，现在两者都要补上。",
+        "食慾和睡眠很可能被擱置了好幾個小時，現在兩者都要補上。",
+    ),
+    "Apple Watch": ("Apple Watch", "Apple Watch"),
+    "As a benzodiazepine wears off, rebound anxiety and restlessness are commonly reported.": (
+        "苯二氮䓬类消退时，反跳性焦虑和坐立不安是常见的报告。",
+        "苯二氮䓬類消退時，反跳性焦慮和坐立不安是常見的報告。",
+    ),
+    "As a depressant wears off, feeling shaky, anxious or nauseous is commonly reported.": (
+        "抑制剂消退时，发抖、焦虑或恶心是常见的报告。",
+        "抑制劑消退時，發抖、焦慮或噁心是常見的報告。",
+    ),
+    "As an opioid fades, increased pain sensitivity, restlessness and mild nausea are commonly reported.": (
+        "阿片类消退时，痛觉敏感增加、坐立不安和轻度恶心是常见的报告。",
+        "阿片類消退時，痛覺敏感增加、坐立不安和輕度噁心是常見的報告。",
+    ),
+    "Automatic Live Activity": ("自动实时活动", "自動即時動態"),
+    "Availability": ("获取方式", "取得方式"),
+    "Avoid hot baths or showers alone — you may not feel temperature accurately.": (
+        "避免独自泡热水澡或冲热水澡——你可能无法准确感知温度。",
+        "避免獨自泡熱水澡或衝熱水澡——你可能無法準確感知溫度。",
+    ),
+    "Avoid screens and doom-scrolling while you're this impressionable.": (
+        "在你还这么容易受影响的时候，避开屏幕和无休止的负面刷屏。",
+        "在你還這麼容易受影響的時候，避開螢幕和無休止的負面刷屏。",
+    ),
+    "Backing up…": ("正在备份…", "正在備份…"),
+    "Backup": ("备份", "備份"),
+    "Bacteriostatic water": ("抑菌注射用水", "抑菌注射用水"),
+    "Be patient with yourself over the next few days.": (
+        "接下来几天对自己耐心一点。",
+        "接下來幾天對自己耐心一點。",
+    ),
+    "Breathe slowly. 4 seconds in, hold for 4, out for 4.": (
+        "慢慢呼吸。吸气 4 秒，屏住 4 秒，呼气 4 秒。",
+        "慢慢呼吸。吸氣 4 秒，屏住 4 秒，呼氣 4 秒。",
+    ),
+    "Built from your log alone, so an unlogged dose is invisible to it.": (
+        "只根据你的记录建立，所以没有记录的剂量它看不到。",
+        "只根據你的記錄建立，所以沒有記錄的劑量它看不到。",
+    ),
+    "CAS": ("CAS 号", "CAS 號"),
+    "Caffeine adds to the load on the heart.": (
+        "咖啡因会增加心脏的负担。",
+        "咖啡因會增加心臟的負擔。",
+    ),
+    "Caffeine amplifies rebound anxiety.": ("咖啡因会放大反跳性焦虑。", "咖啡因會放大反跳性焦慮。"),
+    "Cannabis is widely reported to bring the effects back, sometimes unpleasantly.": (
+        "许多报告提到大麻会把效果带回来，有时并不愉快。",
+        "許多報告提到大麻會把效果帶回來，有時並不愉快。",
+    ),
+    "Check how substances interact": ("查看物质间的相互作用", "查看物質間的相互作用"),
+    "Check the arithmetic independently.": ("请另行核对这些算术。", "請另行核對這些算術。"),
+    "Chemistry": ("化学信息", "化學資訊"),
+    "Chest pain, a pounding heart that won't settle, or a severe headache needs medical help.": (
+        "胸痛、心跳剧烈且无法平复，或严重头痛，需要就医。",
+        "胸痛、心跳劇烈且無法平復，或嚴重頭痛，需要就醫。",
+    ),
+    "Clear Filters": ("清除筛选", "清除篩選"),
+    "Collapses the model estimate": ("收起模型估计", "收起模型估計"),
+    "Comedown and aftercare tips": ("恢复期的护理建议", "恢復期的護理建議"),
+    "Commonly reported early on. Small sips rather than gulps.": (
+        "早期常见。小口喝，别大口灌。",
+        "早期常見。小口喝，別大口灌。",
+    ),
+    "Commonly reported here. Some people find moving a little easier than sitting still.": (
+        "这里很常见。有些人觉得稍微动一动比坐着不动更好受。",
+        "這裡很常見。有些人覺得稍微動一動比坐著不動更好受。",
+    ),
+    "Commonly reported on the way down. Worth noting when it started.": (
+        "下行阶段常见。值得记下它是什么时候开始的。",
+        "下行階段常見。值得記下它是什麼時候開始的。",
+    ),
+    "Commonly reported while a stimulating dose is active. The curve is an estimate and can't say when you will sleep.": (
+        "在有兴奋作用的剂量仍然活跃期间很常见。曲线只是估计，无法说明你什么时候能睡着。",
+        "在有興奮作用的劑量仍然活躍期間很常見。曲線只是估計，無法說明你什麼時候能睡著。",
+    ),
+    "Commonly reported with this class. A familiar person or place helps more than arguing with the thought.": (
+        "这一类常见的报告。熟悉的人或地方，比和这个念头争辩更有用。",
+        "這一類常見的報告。熟悉的人或地方，比和這個念頭爭辯更有用。",
+    ),
+    "Commonly reported with this class. Something small now still counts.": (
+        "这一类常见的报告。现在吃一点小东西也算数。",
+        "這一類常見的報告。現在吃一點小東西也算數。",
+    ),
+    "Commonly reported with this class. The timeline can't say how long yours will last — company and a quieter room are worth having.": (
+        "这一类常见的报告。时间线无法说明你的会持续多久——有人陪伴、换个安静点的房间都值得。",
+        "這一類常見的報告。時間線無法說明你的會持續多久——有人陪伴、換個安靜點的房間都值得。",
+    ),
+    "Compounded sedation — stronger, deeper drowsiness. GHB suppresses breathing on its own, and added sedation makes that harder to notice.": (
+        "镇静叠加——更强、更深的困倦。GHB 本身就会抑制呼吸，而额外的镇静会让这一点更难被察觉。",
+        "鎮靜疊加——更強、更深的睏倦。GHB 本身就會抑制呼吸，而額外的鎮靜會讓這一點更難被察覺。",
+    ),
+    "Concentration and solvent volume for a solution": (
+        "溶液的浓度与溶剂体积",
+        "溶液的濃度與溶劑體積",
+    ),
+    "Confirm Passphrase": ("确认口令", "確認通行碼"),
+    "Copies only when you ask": ("只在你要求时才生成副本", "只在你要求時才生成副本"),
+    "Couldn't access the secure keychain.": ("无法访问安全钥匙串。", "無法存取安全鑰匙圈。"),
+    "Couldn't decrypt this backup. The passphrase may be wrong, or the file may be damaged.": (
+        "无法解密此备份。口令可能有误，或文件已损坏。",
+        "無法解密此備份。通行碼可能有誤，或檔案已損毀。",
+    ),
+    "Couldn't derive a key from the passphrase.": (
+        "无法从口令派生密钥。",
+        "無法從通行碼衍生金鑰。",
+    ),
+    "Course": ("疗程", "療程"),
+    "Coverage is incomplete — absence of a listed interaction does not mean absence of risk.": (
+        "覆盖并不完整——没有列出相互作用，不代表没有风险。",
+        "覆蓋並不完整——沒有列出相互作用，不代表沒有風險。",
+    ),
+    "DOI": ("DOI", "DOI"),
+    "Data Sources & Licenses": ("数据来源与许可", "資料來源與許可"),
+    "Database Sources": ("数据库来源", "資料庫來源"),
+    "Deliriant": ("谵妄剂", "譫妄劑"),
+    "Diazepam equivalent": ("地西泮等效剂量", "地西泮等效劑量"),
+    "Display as (e.g. joint)": ("显示为（例如 joint）", "顯示為（例如 joint）"),
+    "Display name": ("显示名称", "顯示名稱"),
+    "Distress or perceptual changes that persist for days are worth taking to a professional.": (
+        "持续数天的痛苦或知觉变化，值得去找专业人士看看。",
+        "持續數天的痛苦或知覺變化，值得去找專業人士看看。",
+    ),
+    "Do not drive or operate machinery. Feeling normal does not establish that you can drive safely.": (
+        "不要开车或操作机械。感觉正常并不能证明你可以安全驾驶。",
+        "不要開車或操作機械。感覺正常並不能證明你可以安全駕駛。",
+    ),
+    "Do not drive. Feeling less sedated does not establish that memory or coordination are unimpaired.": (
+        "不要开车。感觉没那么困，并不能证明记忆或协调性没有受损。",
+        "不要開車。感覺沒那麼困，並不能證明記憶或協調性沒有受損。",
+    ),
+    "Do not drive. Feeling normal does not establish that you can drive safely.": (
+        "不要开车。感觉正常并不能证明你可以安全驾驶。",
+        "不要開車。感覺正常並不能證明你可以安全駕駛。",
+    ),
+    "Do not drive. Impairment outlasts the feeling of being high.": (
+        "不要开车。功能受损持续的时间比“嗨”的感觉更长。",
+        "不要開車。功能受損持續的時間比「嗨」的感覺更長。",
+    ),
+    "Dose & duration": ("剂量与时长", "劑量與時長"),
+    "Dose Ranges": ("剂量范围", "劑量範圍"),
+    "Dose data": ("剂量数据", "劑量資料"),
+    "Dose ladders, durations, top-line warnings. Skip the deep pharmacology.": (
+        "剂量阶梯、持续时间与主要警告，略去深入的药理学内容。",
+        "劑量階梯、持續時間與主要警告，略去深入的藥理學內容。",
+    ),
+    "Doses you log sync between your iPhone and a paired Apple Watch.": (
+        "你记录的剂量会在 iPhone 和已配对的 Apple Watch 之间同步。",
+        "你記錄的劑量會在 iPhone 和已配對的 Apple Watch 之間同步。",
+    ),
+    "Download": ("下载", "下載"),
+    "Draw": ("抽取量", "抽取量"),
+    "Drink water and eat something.": ("喝点水，吃点东西。", "喝點水，吃點東西。"),
+    "Drink water or an electrolyte drink, in sips.": (
+        "小口喝水或电解质饮料。",
+        "小口喝水或電解質飲料。",
+    ),
+    "Drink water, in sips. Eat something light.": (
+        "小口喝水。吃点清淡的东西。",
+        "小口喝水。吃點清淡的東西。",
+    ),
+    "Drink water. A dry mouth is an effect of cannabis itself and doesn't by itself mean dehydration.": (
+        "喝点水。口干是大麻本身的作用，单凭它并不代表脱水。",
+        "喝點水。口乾是大麻本身的作用，單憑它並不代表脫水。",
+    ),
+    "Duration data": ("持续时间数据", "持續時間資料"),
+    "EC50 %@ nM": ("EC50 %@ nM", "EC50 %@ nM"),
+    'Each comparison cuts your rated days on one thing at a time and counts how often the dose read "about right" or more. These describe your entries; they don\'t show that a substance, dose, or timing caused a difference.': (
+        "每一组对照每次只按一件事切分你打过分的日子，数一数其中有多少次读作“和平时差不多”或更强。这些只是在描述你的记录；它们并不说明是某种物质、剂量或时间造成了差异。",
+        "每一組對照每次只按一件事切分你打過分的日子，數一數其中有多少次讀作「和平時差不多」或更強。這些只是在描述你的記錄；它們並不說明是某種物質、劑量或時間造成了差異。",
+    ),
+    "Each substance page lists which of these supplied each field.": (
+        "每个物质页面都会列出各个字段由其中哪个来源提供。",
+        "每個物質頁面都會列出各個欄位由其中哪個來源提供。",
+    ),
+    "Eat light foods: fruit, toast, soup.": (
+        "吃点清淡的：水果、吐司、汤。",
+        "吃點清淡的：水果、吐司、湯。",
+    ),
+    "Eat something balanced.": ("吃点营养均衡的东西。", "吃點營養均衡的東西。"),
+    "Eat something with salt, protein, and carbs.": (
+        "吃点含盐、蛋白质和碳水的东西。",
+        "吃點含鹽、蛋白質和碳水的東西。",
+    ),
+    "Eat something, even without hunger. Protein and complex carbs are the usual suggestion.": (
+        "即使不饿也吃点东西。通常建议蛋白质和复合碳水。",
+        "即使不餓也吃點東西。通常建議蛋白質和複合碳水。",
+    ),
+    "Edibles also come on slowly — usually 30 minutes to 2 hours — and last much longer, often 6–10 hours. That slow start is the redose trap: more taken before the first dose has arrived stacks into a far stronger, longer experience than intended.": (
+        "食用型起效也慢——通常要 30 分钟到 2 小时——而且持续得久得多，常常 6–10 小时。这种慢起效正是追加的陷阱：在第一剂还没上来之前再吃，叠起来的体验会比预想的强得多、久得多。",
+        "食用型起效也慢——通常要 30 分鐘到 2 小時——而且持續得久得多，常常 6–10 小時。這種慢起效正是追加的陷阱：在第一劑還沒上來之前再吃，疊起來的體驗會比預想的強得多、久得多。",
+    ),
+    "Edit Personalization…": ("编辑个性化…", "編輯個人化…"),
+    "Effects": ("效果", "效果"),
+    "Encrypt": ("加密", "加密"),
+    "Enter Passphrase": ("输入口令", "輸入通行碼"),
+    "Enter a dose.": ("请输入剂量。", "請輸入劑量。"),
+    "Enter a vial amount, diluent volume, and target dose.": (
+        "请输入瓶内总量、溶剂体积和目标剂量。",
+        "請輸入瓶內總量、溶劑體積與目標劑量。",
+    ),
+    "Estimate active levels over time": ("估算活性水平随时间的变化", "估算活性水平隨時間的變化"),
+    "Estimated decline": ("估计的消退", "估計的消退"),
+    "Estimated end of effects": ("估计的效果结束", "估計的效果結束"),
+    "Estimated onset": ("估计的起效", "估計的起效"),
+    "Estimated onset from reference data. How are you feeling?": (
+        "根据参考数据估计的起效时间。你现在感觉怎么样？",
+        "根據參考資料估計的起效時間。你現在感覺怎麼樣？",
+    ),
+    "Estimated onset ~%@": ("估计起效约 %@", "估計起效約 %@"),
+    "Estimated onset ~%@ · easing off ~%@": (
+        "估计起效约 %@ · 约 %@ 开始减弱",
+        "估計起效約 %@ · 約 %@ 開始減弱",
+    ),
+    "Estimated peak window from reference data. How are you feeling?": (
+        "根据参考数据估计的峰值窗口。你现在感觉怎么样？",
+        "根據參考資料估計的峰值視窗。你現在感覺怎麼樣？",
+    ),
+    "Estimates only. Verify against your product and a clinician.": (
+        "仅为估算。请结合您的产品并咨询临床医生核实。",
+        "僅為估算。請結合您的產品並諮詢臨床醫師核實。",
+    ),
+    "European Union Drugs Agency": ("欧盟毒品管理局", "歐盟毒品管理局"),
+    "Every dose lands on a timeline — see how they overlap, and when the model has them fading.": (
+        "每一剂都会落在时间线上——看它们如何重叠，以及模型中它们何时消退。",
+        "每一劑都會落在時間線上——看它們如何重疊，以及模型中它們何時消退。",
+    ),
+    "Every source recorded in the substance database that ships with Piru.": (
+        "Piru 随附的物质数据库中记录的每一个来源。",
+        "Piru 隨附的物質資料庫中記錄的每一個來源。",
+    ),
+    "Everything — receptor binding tables, biased agonism, CYP metabolism, citations down to DOI.": (
+        "全部内容 — 受体结合表、偏向性激动、CYP 代谢，以及精确到 DOI 的文献引用。",
+        "全部內容 — 受體結合表、偏向性激動、CYP 代謝，以及精確到 DOI 的文獻引用。",
+    ),
+    "Export Failed": ("导出失败", "匯出失敗"),
+    "Exports and backups": ("导出与备份", "匯出與備份"),
+    "Express a recorded opioid dose in oral morphine milligram equivalents (MME), the unit CDC uses to compare opioid load, using the CDC 2022 factors.": (
+        "用 CDC 2022 换算系数，把一次已记录的阿片类剂量表示为口服吗啡毫克当量（MME）——CDC 用来比较阿片类负荷的单位。",
+        "用 CDC 2022 換算係數，把一次已記錄的阿片類劑量表示為口服嗎啡毫克當量（MME）——CDC 用來比較阿片類負荷的單位。",
+    ),
+    "Express an opioid dose in morphine milligram equivalents": (
+        "把阿片类剂量表示为吗啡毫克当量",
+        "把阿片類劑量表示為嗎啡毫克當量",
+    ),
+    "Feeling bad is a listed effect of this class. It still deserves attention — Piru can't tell whether a symptom is harmless.": (
+        "感觉糟糕是这一类列出的效应。它仍然值得重视——Piru 无法判断一个症状是否无害。",
+        "感覺糟糕是這一類列出的效應。它仍然值得重視——Piru 無法判斷一個症狀是否無害。",
+    ),
+    "Feeling emotionally open, contemplative, or just tired afterwards is commonly reported.": (
+        "事后感到情感开放、若有所思，或只是疲惫，是常见的报告。",
+        "事後感到情感開放、若有所思，或只是疲憊，是常見的報告。",
+    ),
+    "Feeling foggy or unreal for a while afterwards is commonly reported.": (
+        "事后一段时间感觉昏沉或不真实，是常见的报告。",
+        "事後一段時間感覺昏沉或不真實，是常見的報告。",
+    ),
+    "Feeling foggy, lethargic or mildly irritable afterwards is commonly reported.": (
+        "事后感觉昏沉、倦怠或轻微易怒，是常见的报告。",
+        "事後感覺昏沉、倦怠或輕微易怒，是常見的報告。",
+    ),
+    "Feeling hot and cold is commonly reported. A high temperature that rest and cooling don't bring down is an emergency.": (
+        "忽冷忽热是常见的报告。休息和降温都压不下去的高热属于急症。",
+        "忽冷忽熱是常見的報告。休息和降溫都壓不下去的高熱屬於急症。",
+    ),
+    "Feeling less sedated does not establish that memory or coordination are unimpaired — tolerance to sedation builds faster than tolerance to impairment.": (
+        "感觉没那么困，并不能证明记忆或协调性没有受损——对镇静的耐受比对功能受损的耐受形成得更快。",
+        "感覺沒那麼困，並不能證明記憶或協調性沒有受損——對鎮靜的耐受比對功能受損的耐受形成得更快。",
+    ),
+    "Filters": ("筛选", "篩選"),
+    "Find any substance by name or alias.": (
+        "按名称或别名查找任意物质。",
+        "依名稱或別名尋找任何物質。",
+    ),
+    "Formula": ("分子式", "分子式"),
+    "Freeze": ("冷冻", "冷凍"),
+    "Fresh air and gentle light": ("新鲜空气和柔和的光线", "新鮮空氣和柔和的光線"),
+    "From a file or an encrypted backup": ("来自文件或加密备份", "來自檔案或加密備份"),
+    "From your last 48 hours": ("来自你最近 48 小时", "來自你最近 48 小時"),
+    "Gentle massage eases a sore jaw.": ("轻轻按摩能缓解下颌酸痛。", "輕輕按摩能緩解下頜痠痛。"),
+    "Group by": ("分组方式", "分組方式"),
+    "Half-Life Calculator": ("半衰期计算器", "半衰期計算器"),
+    "Half-life": ("半衰期", "半衰期"),
+    "Handling & storage": ("处理与储存", "處理與儲存"),
+    "Have feedback, questions, or want to discuss the app? Join our Discord — we'd love to hear from you.": (
+        "有反馈、疑问，或想讨论这款应用？加入我们的 Discord — 期待听到你的声音。",
+        "有回饋、疑問，或想討論這款應用程式？加入我們的 Discord — 期待聽到你的聲音。",
+    ),
+    "Headaches and fatigue are common.": ("头痛和疲劳很常见。", "頭痛和疲勞很常見。"),
+    "Help": ("帮助", "說明"),
+    "How Encryption Works": ("加密原理", "加密原理"),
+    "How long that lasts varies between people, and the kinetics in humans aren't well measured.": (
+        "持续多久因人而异，人体中的动力学也没有被很好地测量过。",
+        "持續多久因人而異，人體中的動力學也沒有被很好地測量過。",
+    ),
+    "How strong that is tracks how much and how often you've been using.": (
+        "其强度取决于你用了多少、多频繁。",
+        "其強度取決於你用了多少、多頻繁。",
+    ),
+    "How you feel depends on what you took, how much, and your own body.": (
+        "你的感受取决于你用了什么、用了多少，以及你自己的身体。",
+        "你的感受取決於你用了什麼、用了多少，以及你自己的身體。",
+    ),
+    "If someone is hard to wake or breathing slowly, call emergency services.": (
+        "如果有人难以叫醒或呼吸缓慢，请呼叫急救。",
+        "如果有人難以叫醒或呼吸緩慢，請呼叫急救。",
+    ),
+    "If someone is hard to wake, breathing slowly, or has blue lips, call emergency services. Give naloxone if you have it, following its instructions.": (
+        "如果有人难以叫醒、呼吸缓慢或嘴唇发紫，请呼叫急救。如果手边有纳洛酮，请按其说明使用。",
+        "如果有人難以叫醒、呼吸緩慢或嘴唇發紫，請呼叫急救。如果手邊有納洛酮，請按其說明使用。",
+    ),
+    "If someone is hard to wake, breathing slowly, or vomiting while drowsy, put them on their side and call emergency services.": (
+        "如果有人难以叫醒、呼吸缓慢，或在昏沉中呕吐，请让其侧卧并呼叫急救。",
+        "如果有人難以叫醒、呼吸緩慢，或在昏沉中嘔吐，請讓其側臥並呼叫急救。",
+    ),
+    "If someone is hard to wake, breathing slowly, overheating or having a seizure, this is the wrong page — call emergency services.": (
+        "如果有人难以叫醒、呼吸缓慢、体温过高或正在抽搐，这个页面帮不上忙——请呼叫急救。",
+        "如果有人難以叫醒、呼吸緩慢、體溫過高或正在抽搐，這個頁面幫不上忙——請呼叫急救。",
+    ),
+    "If the experience was intense: the acute effects of this class are time-limited, and company helps.": (
+        "如果体验很强烈：这一类的急性效应是有时限的，有人陪伴会有帮助。",
+        "如果體驗很強烈：這一類的急性效應是有時限的，有人陪伴會有幫助。",
+    ),
+    "If you feel anxious, slow your breathing. Anxiety is a listed effect of this class.": (
+        "如果感到焦虑，放慢呼吸。焦虑是这一类列出的效应。",
+        "如果感到焦慮，放慢呼吸。焦慮是這一類列出的效應。",
+    ),
+    "If you feel nauseous, lie on your side.": ("如果感到恶心，请侧卧。", "如果感到噁心，請側臥。"),
+    "If you lose this passphrase, the backup can't be recovered. There is no reset.": (
+        "如果你丢失此口令，备份将无法恢复。无法重置。",
+        "如果你遺失此通行碼，備份將無法還原。無法重設。",
+    ),
+    "Important decisions and emotionally charged messages read differently tomorrow.": (
+        "重要的决定和带情绪的消息，到明天读起来会不一样。",
+        "重要的決定和帶情緒的訊息，到明天讀起來會不一樣。",
+    ),
+    "In your system": ("体内残留", "體內殘留"),
+    "InChIKey": ("InChIKey", "InChIKey"),
+    "Interactions, mechanisms, subjective effects, and source citations.": (
+        "相互作用、作用机制、主观效果，以及来源引用。",
+        "交互作用、作用機制、主觀效果，以及來源引用。",
+    ),
+    "It estimates a level. It never suggests a dose or a target. Your lab results fit the model to your measurements, which doesn't establish accuracy between them.": (
+        "它估计一个水平，从不建议剂量或目标。你的化验结果让模型贴合你的测量值，但这并不能证明各次测量之间的准确性。",
+        "它估計一個水平，從不建議劑量或目標。你的化驗結果讓模型貼合你的測量值，但這並不能證明各次測量之間的準確性。",
+    ),
+    "It estimates a level. It never suggests a dose or a target. Your lab results fit the model to your measurements, which doesn't establish accuracy between them. The reference lines are your own.": (
+        "它估计一个水平，从不建议剂量或目标。你的化验结果让模型贴合你的测量值，但这并不能证明各次测量之间的准确性。参考线是你自己的。",
+        "它估計一個水平，從不建議劑量或目標。你的化驗結果讓模型貼合你的測量值，但這並不能證明各次測量之間的準確性。參考線是你自己的。",
+    ),
+    "Jaw clenching is commonly reported. Something to chew spares your teeth.": (
+        "咬紧下颌是常见的报告。嚼点东西可以保护牙齿。",
+        "咬緊下頜是常見的報告。嚼點東西可以保護牙齒。",
+    ),
+    "Join Discord": ("加入 Discord", "加入 Discord"),
+    "Join the community": ("加入社区", "加入社群"),
+    "Just now": ("刚刚", "剛剛"),
+    "Ki %@ nM": ("Ki %@ nM", "Ki %@ nM"),
+    "Ki ≤ %lld nM": ("Ki ≤ %lld nM", "Ki ≤ %lld nM"),
+    "Last Backup": ("上次备份", "上次備份"),
+    "Last backup failed: %@": ("上次备份失败：%@", "上次備份失敗：%@"),
+    "Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. One blood test fits the height. Two on different days fit the shape too. Retest after any change in dose, ester, interval, or site.": (
+        "不同人之间水平差异很大，所以未校准的曲线是一个起点，不是一次读数。一次血检拟合高度，不同日子的两次还能拟合形状。剂量、酯、间隔或注射部位有任何变化后都要重新检测。",
+        "不同人之間水平差異很大，所以未校準的曲線是一個起點，不是一次讀數。一次血檢擬合高度，不同日子的兩次還能擬合形狀。劑量、酯、間隔或注射部位有任何變化後都要重新檢測。",
+    ),
+    "License": ("许可", "許可"),
+    "Lie down even if sleep doesn't come immediately.": (
+        "即使一时睡不着，也躺下来。",
+        "即使一時睡不著，也躺下來。",
+    ),
+    "Light movement helps — even a short walk.": (
+        "轻度活动有帮助——哪怕只是短短走一走。",
+        "輕度活動有幫助——哪怕只是短短走一走。",
+    ),
+    "Limited human data": ("人体数据有限", "人體數據有限"),
+    "Lingering visual or thought patterns are reported too, and usually fade over hours.": (
+        "也有报告提到残留的视觉或思维模式，通常会在数小时内消退。",
+        "也有報告提到殘留的視覺或思維模式，通常會在數小時內消退。",
+    ),
+    "Listed for this class. Piru can't tell what is causing a change in vision or when it ends — sudden loss of vision or eye pain needs urgent care.": (
+        "这一类列出的效应。Piru 无法判断视觉变化的原因或它何时结束——突然失明或眼痛需要紧急就医。",
+        "這一類列出的效應。Piru 無法判斷視覺變化的原因或它何時結束——突然失明或眼痛需要緊急就醫。",
+    ),
+    "Log": ("记录", "記錄"),
+    "Log a few doses and the modeled tolerance shows up here. The model sees only what is logged, so an empty screen says nothing about your actual tolerance.": (
+        "记录几次剂量，模型估计的耐受就会显示在这里。模型只看得到已记录的内容，所以空白的页面并不说明你实际的耐受情况。",
+        "記錄幾次劑量，模型估計的耐受就會顯示在這裡。模型只看得到已記錄的內容，所以空白的頁面並不說明你實際的耐受情況。",
+    ),
+    "Log dose": ("记录剂量", "記錄劑量"),
+    "Log medications and substances, record how you feel, and explore referenced information. Piru is a record and a reference, not medical advice.": (
+        "记录药物和物质，记下你的感受，并查阅有出处的信息。Piru 是一份记录和参考资料，不是医疗建议。",
+        "記錄藥物和物質，記下你的感受，並查閱有出處的資訊。Piru 是一份記錄和參考資料，不是醫療建議。",
+    ),
+    "Look up interactions, explore a tolerance model, track your stock, and work out a solution's concentration.": (
+        "查询相互作用、探索耐受模型、追踪库存，并计算溶液的浓度。",
+        "查詢相互作用、探索耐受模型、追蹤庫存，並計算溶液的濃度。",
+    ),
+    "Low mood after a stimulant is commonly reported. If it turns into thoughts of harming yourself, use the numbers in Get Help.": (
+        "兴奋剂之后情绪低落是常见的报告。如果它变成了伤害自己的念头，请使用“获取帮助”里的号码。",
+        "興奮劑之後情緒低落是常見的報告。如果它變成了傷害自己的念頭，請使用「獲取幫助」裡的號碼。",
+    ),
+    "Low mood, fatigue and emotional sensitivity in the days after are commonly reported.": (
+        "之后几天情绪低落、疲劳和情绪敏感是常见的报告。",
+        "之後幾天情緒低落、疲勞和情緒敏感是常見的報告。",
+    ),
+    "Lower Ki means tighter binding. Affinity below ~100 nM is usually considered high.": (
+        "Ki 越低表示结合越紧密。亲和力低于约 100 nM 通常被视为较高。",
+        "Ki 越低表示結合越緊密。親和力低於約 100 nM 通常被視為較高。",
+    ),
+    "Lyophilized powder (vial)": ("冻干粉（药瓶）", "凍乾粉（藥瓶）"),
+    "Make an encrypted backup whenever you're ready, from Tools.": (
+        "准备好时，随时可以在“工具”中制作加密备份。",
+        "準備好時，隨時可以在「工具」中製作加密備份。",
+    ),
+    "Mechanism": ("作用机制", "作用機制"),
+    "Memory and coordination can stay impaired after the sedation lifts.": (
+        "镇静感消退后，记忆和协调性仍可能受损。",
+        "鎮靜感消退後，記憶和協調性仍可能受損。",
+    ),
+    "Merge With Current Data": ("与当前数据合并", "與目前資料合併"),
+    "Merge keeps your current entries and adds the backup's. Replace deletes your current data first (a recovery snapshot is taken automatically) and restores only the backup.": (
+        "合并会保留你当前的记录并加入备份中的记录。替换会先删除你当前的数据（系统会自动创建可恢复的快照），然后仅恢复备份内容。",
+        "合併會保留你目前的記錄並加入備份中的記錄。取代會先刪除你目前的資料（系統會自動建立可還原的快照），然後僅還原備份內容。",
+    ),
+    "Model near zero": ("模型接近零", "模型接近零"),
+    "Model reaches zero": ("模型归零", "模型歸零"),
+    "Modeled as active": ("模型估计仍活跃", "模型估計仍活躍"),
+    "Modeled effects end ~%@": ("模型估计效果结束于约 %@", "模型估計效果結束於約 %@"),
+    "Modeled effects end ~%@ — after most bedtimes.": (
+        "模型估计效果结束于约 %@——晚于大多数人的就寝时间。",
+        "模型估計效果結束於約 %@——晚於大多數人的就寢時間。",
+    ),
+    "Modeled level over time": ("模型估计水平随时间变化", "模型估計水平隨時間變化"),
+    "Modeled levels": ("模型估计水平", "模型估計水平"),
+    "Modeled levels over time": ("模型估计水平随时间变化", "模型估計水平隨時間變化"),
+    "Molar mass": ("摩尔质量", "莫耳質量"),
+    "More cannabis to soften the comedown moves the comedown later.": (
+        "用更多大麻来缓和消退，只会把消退往后推。",
+        "用更多大麻來緩和消退，只會把消退往後推。",
+    ),
+    "More of a depressant to ease the morning moves the morning later.": (
+        "再用抑制剂来缓解早晨的不适，只会把这个早晨往后推。",
+        "再用抑制劑來緩解早晨的不適，只會把這個早晨往後推。",
+    ),
+    "Most entries: %@": ("条目最多：%@", "條目最多：%@"),
+    "Never": ("从不", "從不"),
+    "No ads, no analytics, no trackers.": (
+        "没有广告，没有分析，没有追踪器。",
+        "沒有廣告，沒有分析，沒有追蹤器。",
+    ),
+    "No bindings match these filters.": (
+        "没有符合这些筛选条件的结合数据。",
+        "沒有符合這些篩選條件的結合資料。",
+    ),
+    "No daily limit entered": ("未填写每日上限", "未填寫每日上限"),
+    "No doses logged yet": ("尚未记录任何剂量", "尚未記錄任何劑量"),
+    "No iCloud backup was found for this account yet.": (
+        "尚未找到此账户的 iCloud 备份。",
+        "尚未找到此帳戶的 iCloud 備份。",
+    ),
+    "No interactions found in Piru's database.": (
+        "在 Piru 的数据库中未找到相互作用。",
+        "在 Piru 的資料庫中未找到相互作用。",
+    ),
+    "No overlap shown by this model. The interaction may still apply.": (
+        "此模型未显示重叠。相互作用仍可能存在。",
+        "此模型未顯示重疊。相互作用仍可能存在。",
+    ),
+    "Not logged: %@ %@": ("未记录：%@ %@", "未記錄：%@ %@"),
+    "Nothing active right now": ("当前无活性物质", "目前無活性物質"),
+    "Nothing notable in the model": ("模型中没有值得注意的内容", "模型中沒有值得注意的內容"),
+    "OTC / Prescription": ("非处方 / 处方", "非處方 / 處方"),
+    "On a U-100 syringe": ("U-100 注射器刻度", "U-100 注射器刻度"),
+    "Open Source": ("开源", "開源"),
+    "Opioid MME": ("阿片类 MME", "阿片類 MME"),
+    "Opioid and dose": ("阿片类药物与剂量", "阿片類藥物與劑量"),
+    "Opioids release histamine, and itching is commonly reported. Piru can't tell that from an allergy — swelling of the mouth or throat, or trouble breathing, is an emergency.": (
+        "阿片类会释放组胺，瘙痒是常见的报告。Piru 无法把它与过敏区分开——口腔或喉咙肿胀，或呼吸困难，属于急症。",
+        "阿片類會釋放組胺，瘙癢是常見的報告。Piru 無法把它與過敏區分開——口腔或喉嚨腫脹，或呼吸困難，屬於急症。",
+    ),
+    "Optional dose tiers, in your chosen unit. Leave blank to keep the library values.": (
+        "可选剂量分级，使用你选择的单位。留空则保留库中数值。",
+        "可選劑量分級，使用你選擇的單位。留空則保留資料庫數值。",
+    ),
+    "Optional. Feeds the active-substance and clearance estimates.": (
+        "可选。用于活性物质与清除估算。",
+        "可選。用於活性物質與清除估算。",
+    ),
+    "Oral capsule": ("口服胶囊", "口服膠囊"),
+    "Oral morphine equivalent": ("口服吗啡当量", "口服嗎啡當量"),
+    "Over-the-counter": ("非处方", "非處方"),
+    "Overlap": ("重叠", "重疊"),
+    "Passphrase": ("口令", "通行碼"),
+    "Passphrase backups": ("口令备份", "通行碼備份"),
+    "Passphrases don't match yet.": ("两次输入的口令尚不一致。", "兩次輸入的通行碼尚不一致。"),
+    "Passphrases match.": ("口令一致。", "通行碼一致。"),
+    "Peptide — protocol reference": ("肽 — 方案参考", "胜肽 — 方案參考"),
+    "Personalize": ("个性化", "個人化"),
+    "Pharma": ("药理", "藥理"),
+    "Pharma Search": ("药理搜索", "藥理搜尋"),
+    "Phenethylamines I Have Known and Loved — Shulgin & Shulgin (1991)": (
+        "Phenethylamines I Have Known and Loved — Shulgin & Shulgin (1991)",
+        "Phenethylamines I Have Known and Loved — Shulgin & Shulgin (1991)",
+    ),
+    "Physical activity helps with the fog.": (
+        "身体活动有助于驱散昏沉。",
+        "身體活動有助於驅散昏沉。",
+    ),
+    "Piru can't assess heart symptoms. With chest pain, shortness of breath or fainting, call emergency services.": (
+        "Piru 无法评估心脏症状。如伴有胸痛、呼吸急促或晕厥，请呼叫急救。",
+        "Piru 無法評估心臟症狀。如伴有胸痛、呼吸急促或暈厥，請呼叫急救。",
+    ),
+    "Piru can't assess how you are. The people at the numbers below can.": (
+        "Piru 无法评估你的状况。下面这些号码另一端的人可以。",
+        "Piru 無法評估你的狀況。下面這些號碼另一端的人可以。",
+    ),
+    "Piru does not monitor emergencies. If someone is in danger, call your local emergency number.": (
+        "Piru 不会监测紧急情况。如果有人处于危险之中，请拨打当地的急救电话。",
+        "Piru 不會監測緊急情況。如果有人處於危險之中，請撥打當地的急救電話。",
+    ),
+    "Piru doesn't establish a safe interval for adding medicines or supplements. MAOIs are the documented danger with this class.": (
+        "Piru 不确立添加药物或补充剂的安全间隔。对这一类来说，有文献记录的危险是 MAOI。",
+        "Piru 不確立新增藥物或補充劑的安全間隔。對這一類來說，有文獻記錄的危險是 MAOI。",
+    ),
+    "Piru doesn't measure any of this. It describes what sources report for the class.": (
+        "这些 Piru 都不测量。它描述的是各来源对这一类的报告。",
+        "這些 Piru 都不測量。它描述的是各來源對這一類的報告。",
+    ),
+    "Piru doesn't measure any of this. It describes what sources report.": (
+        "这些 Piru 都不测量。它描述的是各来源的报告。",
+        "這些 Piru 都不測量。它描述的是各來源的報告。",
+    ),
+    "Piru's source code is available under the GNU GPL v3.": (
+        "Piru 的源代码以 GNU GPL v3 许可提供。",
+        "Piru 的原始碼以 GNU GPL v3 許可提供。",
+    ),
+    "Popularity": ("热门程度", "熱門程度"),
+    "Prescription medication": ("处方药", "處方藥"),
+    "Prescription only": ("仅限处方", "僅限處方"),
+    "Privacy": ("隐私", "隱私"),
+    "Privacy Policy": ("隐私政策", "隱私政策"),
+    "Protect from light": ("避光保存", "避光保存"),
+    "Protocol — %@": ("方案 — %@", "方案 — %@"),
+    "Ready-to-inject solution": ("即用型注射溶液", "即用型注射溶液"),
+    "Receptor Literature": ("受体文献", "受體文獻"),
+    "Receptor target": ("受体靶点", "受體標靶"),
+    "Reconstitute with": ("复溶溶剂", "復溶溶劑"),
+    "Reconstitution calculator": ("复溶计算器", "復溶計算器"),
+    "Record what you can now. Piru can't tell what caused a gap or whether the memory returns.": (
+        "趁现在把能记的记下来。Piru 无法判断断片的原因，也无法判断记忆是否会回来。",
+        "趁現在把能記的記下來。Piru 無法判斷斷片的原因，也無法判斷記憶是否會回來。",
+    ),
+    "Reference": ("参考文献", "參考文獻"),
+    "Reference onset for this route: %lld-%lld minutes.": (
+        "该途径的参考起效时间：%lld-%lld 分钟。",
+        "該途徑的參考起效時間：%lld-%lld 分鐘。",
+    ),
+    "Refrigerate (2–8 °C)": ("冷藏（2–8 °C）", "冷藏（2–8 °C）"),
+    "Release window": ("释放窗口", "釋放窗口"),
+    "Remove %@": ("移除 %@", "移除 %@"),
+    "Remove from Favorites": ("取消收藏", "取消收藏"),
+    "Replace Everything": ("替换全部", "取代全部"),
+    "Report a correction": ("报告更正", "報告更正"),
+    "Research / performance compound": ("研究/增效化合物", "研究／增效化合物"),
+    "Reset Personalization": ("重置个性化", "重設個人化"),
+    "Rest when you can.": ("能休息的时候就休息。", "能休息的時候就休息。"),
+    "Rest when your body asks for it": ("身体想休息时就休息", "身體想休息時就休息"),
+    "Rest with someone nearby if you can.": (
+        "可以的话，在有人在旁的情况下休息。",
+        "可以的話，在有人在旁的情況下休息。",
+    ),
+    "Rest with someone nearby. A person who can't be woken needs help, not sleep.": (
+        "在有人在旁的情况下休息。叫不醒的人需要的是救助，不是睡眠。",
+        "在有人在旁的情況下休息。叫不醒的人需要的是救助，不是睡眠。",
+    ),
+    "Restore": ("恢复", "還原"),
+    "Restore Backup": ("恢复备份", "還原備份"),
+    "Restore Complete": ("恢复完成", "還原完成"),
+    "Restore Failed": ("恢复失败", "還原失敗"),
+    "Restore Latest iCloud Backup": ("恢复最新的 iCloud 备份", "還原最新的 iCloud 備份"),
+    "Results (%lld)": ("结果 (%lld)", "結果 (%lld)"),
+    "Room temperature": ("室温", "室溫"),
+    "Route not yet migrated:": ("路径尚未迁移：", "途徑尚未遷移："),
+    "SNRIs usually blunt MDMA — it may feel weaker, and the documented harm is taking more to compensate (overheating, heart strain). Case reports don't show serotonin syndrome from this pair alone; MAOIs are the documented danger.": (
+        "SNRI 通常会削弱 MDMA——它可能感觉更弱，而有文献记录的危害是为了补偿而多服（过热、心脏负担）。病例报告并未显示仅这一组合就会引起血清素综合征；有文献记录的危险是 MAOI。",
+        "SNRI 通常會削弱 MDMA——它可能感覺更弱，而有文獻記錄的危害是為了補償而多服（過熱、心臟負擔）。病例報告並未顯示僅這一組合就會引起血清素綜合徵；有文獻記錄的危險是 MAOI。",
+    ),
+    "SSRIs usually blunt MDMA — it may feel much weaker, and the documented harm is taking more to compensate (overheating, heart strain). Case reports don't show serotonin syndrome from this pair alone; MAOIs are the documented danger.": (
+        "SSRI 通常会削弱 MDMA——它可能感觉弱得多，而有文献记录的危害是为了补偿而多服（过热、心脏负担）。病例报告并未显示仅这一组合就会引起血清素综合征；有文献记录的危险是 MAOI。",
+        "SSRI 通常會削弱 MDMA——它可能感覺弱得多，而有文獻記錄的危害是為了補償而多服（過熱、心臟負擔）。病例報告並未顯示僅這一組合就會引起血清素綜合徵；有文獻記錄的危險是 MAOI。",
+    ),
+    "Schedule %@ (controlled)": ("%@ 类管制药物", "%@ 類管制藥物"),
+    "Search Substances": ("搜索物质", "搜尋物質"),
+    "Search scope": ("搜索范围", "搜尋範圍"),
+    "See the model's estimate of what is still active": (
+        "查看模型对仍在活跃的内容的估计",
+        "檢視模型對仍在活躍的內容的估計",
+    ),
+    "Seeing things that aren't there is listed for this class. If you can't tell what is real, get someone with you. Piru can't predict when it ends.": (
+        "看到并不存在的东西是这一类列出的效应。如果你分不清什么是真的，找个人陪着你。Piru 无法预测它何时结束。",
+        "看到並不存在的東西是這一類列出的效應。如果你分不清什麼是真的，找個人陪著你。Piru 無法預測它何時結束。",
+    ),
+    "Sequence": ("氨基酸序列", "胺基酸序列"),
+    "Set a Passphrase": ("设置口令", "設定通行碼"),
+    "Short-term memory gaps are commonly reported. Piru can't tell what caused one.": (
+        "短期记忆断片是常见的报告。Piru 无法判断它的原因。",
+        "短期記憶斷片是常見的報告。Piru 無法判斷它的原因。",
+    ),
+    "Showing the guide for the classes you logged in the last 48 hours. Tap above for the full guide.": (
+        "正在显示你最近 48 小时内所记录类别的指南。点按上方查看完整指南。",
+        "正在顯示你最近 48 小時內所記錄類別的指南。點按上方檢視完整指南。",
+    ),
+    'Shown everywhere in place of "%@". Leave blank to keep the original name. Your dose history is unaffected.': (
+        "在所有位置代替“%@”显示。留空则保留原名称。你的剂量记录不受影响。",
+        "在所有位置代替「%@」顯示。留空則保留原名稱。你的劑量記錄不受影響。",
+    ),
+    "Shows the model estimate for your last dose": (
+        "显示模型对你上一剂的估计",
+        "顯示模型對你上一劑的估計",
+    ),
+    "Sign in to iCloud and turn on iCloud Drive to enable automatic encrypted backups.": (
+        "登录 iCloud 并开启 iCloud 云盘以启用自动加密备份。",
+        "登入 iCloud 並開啟 iCloud 雲碟以啟用自動加密備份。",
+    ),
+    "Sip rather than gulp, and favor electrolytes. Over-drinking water is its own danger with this class — more is not safer.": (
+        "小口喝，别大口灌，并优先选含电解质的饮品。对这一类来说，饮水过量本身就是一种危险——喝得更多并不更安全。",
+        "小口喝，別大口灌，並優先選含電解質的飲品。對這一類來說，飲水過量本身就是一種危險——喝得更多並不更安全。",
+    ),
+    "Sleep may be disrupted tonight.": ("今晚的睡眠可能会受到干扰。", "今晚的睡眠可能會受到干擾。"),
+    "Sleep quality may be off tonight.": ("今晚的睡眠质量可能不佳。", "今晚的睡眠質量可能不佳。"),
+    "Slow-release implant": ("缓释植入剂", "緩釋植入劑"),
+    "Small sips once it settles. Vomiting while very drowsy is an emergency — stay on your side and get help.": (
+        "等它平息后小口喝水。在非常昏沉时呕吐属于急症——保持侧卧并寻求帮助。",
+        "等它平息後小口喝水。在非常昏沉時嘔吐屬於急症——保持側臥並尋求幫助。",
+    ),
+    "Solution Math": ("溶液计算", "溶液計算"),
+    "Solutions": ("溶液", "溶液"),
+    "Some reference text was drafted with AI assistance and reviewed before publication. AI output is not treated as evidence. Quantitative and safety-critical claims are checked against identified sources, which are listed on each substance page.": (
+        "部分参考文字由 AI 辅助起草，并在发布前经过审阅。AI 的输出不被当作证据。定量的和与安全相关的说法都会对照已标明的来源进行核对，这些来源列在每个物质页面上。",
+        "部分參考文字由 AI 輔助起草，並在釋出前經過審閱。AI 的輸出不被當作證據。定量的和與安全相關的說法都會對照已標明的來源進行核對，這些來源列在每個物質頁面上。",
+    ),
+    "Something to chew eases a tight jaw.": (
+        "嚼点东西能缓解紧绷的下颌。",
+        "嚼點東西能緩解緊繃的下頜。",
+    ),
+    "Sort": ("排序", "排序"),
+    "Stable ~%@ days once reconstituted": ("复溶后约可稳定 %@ 天", "復溶後約可穩定 %@ 天"),
+    "Start Live Activity": ("开启实时活动", "開啟即時動態"),
+    "Stay somewhere calm and safe.": ("待在平静、安全的地方。", "待在平靜、安全的地方。"),
+    "Stay with someone, or let someone know to check on you. Heavy snoring or gurgling in sleep is a warning sign, not rest.": (
+        "和别人待在一起，或者让人知道要来看看你。睡眠中鼾声很重或有咕噜声是警示信号，不是在休息。",
+        "和別人待在一起，或者讓人知道要來看看你。睡眠中鼾聲很重或有咕嚕聲是警示訊號，不是在休息。",
+    ),
+    "Stop Live Activity": ("停止实时活动", "停止即時動態"),
+    "Strong encryption": ("强加密", "強加密"),
+    "Substance contains…": ("物质包含…", "物質包含…"),
+    "Supplied as": ("供应形式", "供應形式"),
+    "TCAs usually blunt MDMA rather than boosting it, which leads people to take more; the bigger concern is added strain on heart rate and blood pressure.": (
+        "TCA 通常会削弱而不是增强 MDMA，这会让人服用更多；更大的问题是对心率和血压的额外负担。",
+        "TCA 通常會削弱而不是增強 MDMA，這會讓人服用更多；更大的問題是對心率和血壓的額外負擔。",
+    ),
+    "Taking more in reaction to the rebound reinforces the cycle.": (
+        "因为反跳就再服，会强化这个循环。",
+        "因為反跳就再服，會強化這個迴圈。",
+    ),
+    "Taking more to put off the crash moves the crash later.": (
+        "为了推迟崩溃而多服，只会把崩溃往后推。",
+        "為了推遲崩潰而多服，只會把崩潰往後推。",
+    ),
+    "Taking more to put off the low moves the low later.": (
+        "为了推迟低落而多服，只会把低落往后推。",
+        "為了推遲低落而多服，只會把低落往後推。",
+    ),
+    "Taking more within the same session adds to what is still active.": (
+        "在同一次体验中再服，会叠加到仍在活跃的部分上。",
+        "在同一次體驗中再服，會疊加到仍在活躍的部分上。",
+    ),
+    "Target dose": ("目标剂量", "目標劑量"),
+    "Text detected from the label. Check the name, strength and formulation before saving — a scan can't verify what is inside the box. Not medical advice.": (
+        "从标签上识别出的文字。保存前请核对名称、规格和剂型——扫描无法验证盒子里面装的是什么。非医疗建议。",
+        "從標籤上識別出的文字。儲存前請核對名稱、規格和劑型——掃描無法驗證盒子裡面裝的是什麼。非醫療建議。",
+    ),
+    "That total is in the heavy range of the sources. Overheating, confusion or rigid muscles need emergency help.": (
+        "这个总量已处于各来源所列的重度范围。过热、意识混乱或肌肉僵直需要紧急救助。",
+        "這個總量已處於各來源所列的重度範圍。過熱、意識混亂或肌肉僵直需要緊急救助。",
+    ),
+    "The Endocrine Society / WPATH SOC8 monitoring range for adults on masculinizing testosterone, drawn as reference lines. The range from your clinician or laboratory report takes precedence.": (
+        "内分泌学会 / WPATH SOC8 针对接受男性化睾酮治疗的成人的监测范围，绘制为参考线。以你的临床医生或化验报告给出的范围为准。",
+        "內分泌學會 / WPATH SOC8 針對接受男性化睪固酮治療的成人的監測範圍，繪製為參考線。以你的臨床醫生或化驗報告給出的範圍為準。",
+    ),
+    "The fog is reported to clear over hours. If it doesn't, get it looked at.": (
+        "据报告，昏沉感会在数小时内散去。如果没有，就去检查一下。",
+        "據報告，昏沉感會在數小時內散去。如果沒有，就去檢查一下。",
+    ),
+    "The groups within it": ("其中的分类", "其中的分類"),
+    "The model puts ≈%@ %@ of your %@ %@ dose (%@) as still active — ~%lld%%": (
+        "模型估计你 %3$@ %4$@ 的剂量（%5$@）中约有 ≈%1$@ %2$@ 仍在活跃——约 %6$lld%%",
+        "模型估計你 %3$@ %4$@ 的劑量（%5$@）中約有 ≈%1$@ %2$@ 仍在活躍——約 %6$lld%%",
+    ),
+    "The old “never mix” warning rests on little — large reviews did not find the harm it predicts. Both still strain the heart.": (
+        "过去那条“绝不可混用”的警告依据很少——大型综述并未发现它所预言的危害。两者仍然都会给心脏增加负担。",
+        "過去那條「絕不可混用」的警告依據很少——大型綜述並未發現它所預言的危害。兩者仍然都會給心臟增加負擔。",
+    ),
+    "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data.": (
+        "下方方案反映社区或试验性用途，并非经过验证的人体剂量或医疗建议。其中许多化合物被 WADA 禁用，且缺乏人体安全数据。",
+        "下方方案反映社群或試驗性用途，並非經過驗證的人體劑量或醫療建議。其中許多化合物被 WADA 禁用，且缺乏人體安全數據。",
+    ),
+    "Things feeling 'weird' for a while is commonly reported.": (
+        "一段时间内感觉“怪怪的”是常见的报告。",
+        "一段時間內感覺「怪怪的」是常見的報告。",
+    ),
+    "This backup uses a newer format (v%lld) than this version of Piru understands. Please update the app.": (
+        "此备份使用的格式（v%lld）比当前 Piru 版本更新。请更新应用。",
+        "此備份使用的格式（v%lld）比目前 Piru 版本更新。請更新 App。",
+    ),
+    "This class can stop memories forming while it is active. What you write down now is the record.": (
+        "这一类在起效期间可能阻止记忆形成。你现在写下的就是记录。",
+        "這一類在起效期間可能阻止記憶形成。你現在寫下的就是記錄。",
+    ),
+    "This class raises body temperature. Feeling very hot, confused or rigid is an emergency — cool down and call for help.": (
+        "这一类会升高体温。感觉非常热、意识混乱或肌肉僵直属于急症——降温并呼叫救助。",
+        "這一類會升高體溫。感覺非常熱、意識混亂或肌肉僵直屬於急症——降溫並呼叫救助。",
+    ),
+    "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds.": (
+        "该化合物没有经过验证的人体剂量数据。以下信息仅供参考 — 原始文献请参阅所链接的来源。请勿根据相关化合物推算剂量。",
+        "該化合物沒有經過驗證的人體劑量數據。以下資訊僅供參考 — 原始文獻請參閱所連結的來源。請勿根據相關化合物推算劑量。",
+    ),
+    "This device's backup key isn't available yet. If you just signed in, give iCloud Keychain a moment to sync.": (
+        "此设备的备份密钥尚不可用。如果你刚刚登录，请稍候让 iCloud 钥匙串完成同步。",
+        "此裝置的備份金鑰尚無法使用。若你剛登入，請稍候讓 iCloud 鑰匙圈完成同步。",
+    ),
+    "This file is too large to be a Piru backup.": (
+        "此文件太大，不是有效的 Piru 备份。",
+        "此檔案太大，不是有效的 Piru 備份。",
+    ),
+    "This file isn't a valid Piru backup.": (
+        "此文件不是有效的 Piru 备份。",
+        "此檔案不是有效的 Piru 備份。",
+    ),
+    "This opioid has no linear MME factor — see the note below.": (
+        "这种阿片类没有线性的 MME 系数——见下方说明。",
+        "這種阿片類沒有線性的 MME 係數——見下方說明。",
+    ),
+    "Titration": ("剂量滴定", "劑量滴定"),
+    "Today": ("今天", "今天"),
+    "Tolerance drops quickly after a break. A dose you handled before is the documented cause of many overdoses.": (
+        "停用一段时间后耐受会迅速下降。以前承受得住的剂量，是许多过量事件有文献记录的原因。",
+        "停用一段時間後耐受會迅速下降。以前承受得住的劑量，是許多過量事件有文獻記錄的原因。",
+    ),
+    "Too short — use at least %lld characters.": (
+        "太短了——请至少使用 %lld 个字符。",
+        "太短了——請至少使用 %lld 個字元。",
+    ),
+    "Tools for the details": ("处理细节的工具", "處理細節的工具"),
+    "Topical formulation": ("外用制剂", "外用製劑"),
+    "Tracking started.": ("已开始追踪。", "已開始追蹤。"),
+    "Tryptamines I Have Known and Loved — Shulgin & Shulgin (1997)": (
+        "Tryptamines I Have Known and Loved — Shulgin & Shulgin (1997)",
+        "Tryptamines I Have Known and Loved — Shulgin & Shulgin (1997)",
+    ),
+    "Two sleep-promoting drugs stacked — additive next-day sedation, fall risk and impaired coordination. The labels warn about combining with other CNS depressants.": (
+        "两种助眠药叠加——次日镇静、跌倒风险和协调性受损都会叠加。说明书对与其他中枢抑制剂合用提出了警示。",
+        "兩種助眠藥疊加——次日鎮靜、跌倒風險和協調性受損都會疊加。說明書對與其他中樞抑制劑合用提出了警示。",
+    ),
+    "Typical protocol": ("典型方案", "典型方案"),
+    "Unknown": ("未知", "未知"),
+    "Use at least %lld characters. A phrase of several words is stronger and easier to remember than a short password.": (
+        "请至少使用 %lld 个字符。由多个单词组成的短语比短密码更安全，也更容易记住。",
+        "請至少使用 %lld 個字元。由多個單字組成的片語比短密碼更安全，也更容易記住。",
+    ),
+    "Values are modeled body content in the dose's units.": (
+        "数值是模型估计的体内含量，以该剂量的单位表示。",
+        "數值是模型估計的體內含量，以該劑量的單位表示。",
+    ),
+    "Vial amount": ("瓶内总量", "瓶內總量"),
+    "WHO Expert Committee on Drug Dependence": (
+        "世界卫生组织药物依赖性专家委员会",
+        "世界衛生組織藥物依賴性專家委員會",
+    ),
+    "What sources report about the hours after each class wears off. It describes the class, never your condition.": (
+        "各来源对每一类消退后数小时的报告。它描述的是这一类，从不描述你的状况。",
+        "各來源對每一類消退後數小時的報告。它描述的是這一類，從不描述你的狀況。",
+    ),
+    "What the model estimates is still active": (
+        "模型估计仍在活跃的内容",
+        "模型估計仍在活躍的內容",
+    ),
+    "Work out a solution's concentration, or the solvent a target concentration needs.": (
+        "计算溶液的浓度，或达到目标浓度所需的溶剂量。",
+        "計算溶液的濃度，或達到目標濃度所需的溶劑量。",
+    ),
+    "You don't have to do this alone": ("你不必独自面对", "你不必獨自面對"),
+    "You don't have to do this alone. Help is one tap away.": (
+        "你不必独自面对。帮助只需轻点一下。",
+        "你不必獨自面對。協助只需輕點一下。",
+    ),
+    "Your Notes": ("你的备注", "你的備註"),
+    "Your backup was restored.": ("你的备份已恢复。", "你的備份已還原。"),
+    "Your journal": ("你的日志", "你的日誌"),
+    "Your own read of how affected you are is unreliable while dissociated.": (
+        "处于解离状态时，你对自己受影响程度的判断并不可靠。",
+        "處於解離狀態時，你對自己受影響程度的判斷並不可靠。",
+    ),
+    "Your recorded amounts, timing, and self-reported effects — at a glance.": (
+        "你记录的用量、时间和自我报告的效果——一目了然。",
+        "你記錄的用量、時間和自我報告的效果——一目瞭然。",
+    ),
+    "amount": ("数量", "數量"),
+    "dailymed.nlm.nih.gov — NLM/FDA Drug Label Database": (
+        "dailymed.nlm.nih.gov — NLM/FDA 药品说明书数据库",
+        "dailymed.nlm.nih.gov — NLM/FDA 藥品說明書資料庫",
+    ),
+    "drug.community": ("drug.community", "drug.community"),
+    "est. %@ %@ active · %@ ago": ("估计 %@ %@ 活跃 · %@ 前", "估計 %@ %@ 活躍 · %@ 前"),
+    "estimated %@ %@ active, last dose %@ ago": (
+        "估计 %@ %@ 活跃，上一剂在 %@ 前",
+        "估計 %@ %@ 活躍，上一劑在 %@ 前",
+    ),
+    "freeodwiki.org": ("freeodwiki.org", "freeodwiki.org"),
+    "github.com/Di-lemma/SubFxOnEx — subjective-effects ontology": (
+        "github.com/Di-lemma/SubFxOnEx — 主观效应本体",
+        "github.com/Di-lemma/SubFxOnEx — 主觀效應本體",
+    ),
+    "iCloud Drive isn't available. Check that you're signed in to iCloud and that iCloud Drive is on.": (
+        "iCloud 云盘不可用。请确认你已登录 iCloud 并已开启 iCloud 云盘。",
+        "iCloud 雲碟無法使用。請確認你已登入 iCloud 並已開啟 iCloud 雲碟。",
+    ),
+    "just now": ("刚刚", "剛剛"),
+    "left": ("剩余", "剩餘"),
+    "minutes": ("分钟", "分鐘"),
+    "modeled in body": ("模型估计体内含量", "模型估計體內含量"),
+    "open.fda.gov — National Drug Code directory": (
+        "open.fda.gov — 国家药品代码（NDC）目录",
+        "open.fda.gov — 國家藥品代碼（NDC）目錄",
+    ),
+    "psychonautwiki.org": ("psychonautwiki.org", "psychonautwiki.org"),
+    "pubchem.ncbi.nlm.nih.gov — National Library of Medicine": (
+        "pubchem.ncbi.nlm.nih.gov — 美国国家医学图书馆",
+        "pubchem.ncbi.nlm.nih.gov — 美國國家醫學圖書館",
+    ),
+    "pubmed.ncbi.nlm.nih.gov": ("pubmed.ncbi.nlm.nih.gov", "pubmed.ncbi.nlm.nih.gov"),
+    "tripsit.me": ("tripsit.me", "tripsit.me"),
+    "wikidata.org": ("wikidata.org", "wikidata.org"),
+    "· DOI": ("· DOI", "· DOI"),
+    "· PMID %lld": ("· PMID %lld", "· PMID %lld"),
+    "≈ %@ MME": ("≈ %@ MME", "≈ %@ MME"),
+    # The App Store readiness pass: renamed screens, the modeled-tolerance
+    # wording, the license and privacy copy, and the sources rewritten as
+    # community databases.
+    "%@ mg %@": ("%@ mg %@", "%@ mg %@"),
+    "%@ · modeled (%@).": ("%@ · 模型推算（%@）。", "%@ · 模型推算（%@）。"),
+    "%lld mechanisms plotted from their modeled level now.": (
+        "%lld 条机制，按各自当前的模型推算水平绘制。",
+        "%lld 條機制，按各自目前的模型推算水平繪製。",
+    ),
+    "%lld percent, modeled": ("百分之 %lld，模型推算", "百分之 %lld，模型推算"),
+    "A benzodiazepine amount in diazepam, per Ashton": (
+        "按 Ashton 换算成地西泮的苯二氮䓬用量",
+        "依 Ashton 換算成地西泮的苯二氮平類用量",
+    ),
+    "A benzodiazepine amount in milligrams of diazepam, from the Ashton Manual's table.": (
+        "取自 Ashton 手册表格的苯二氮䓬用量，以地西泮的毫克数表示。",
+        "取自 Ashton 手冊表格的苯二氮平類用量，以地西泮的毫克數表示。",
+    ),
+    "A fast within-session fade, plus a modest, slower shift with heavy use. The effect on the heart fades far less than the felt effect.": (
+        "场次内的快速衰减，加上重度使用时幅度不大、更慢的变化。对心脏的作用衰减远小于主观感受到的作用。",
+        "場次內的快速衰減，加上重度使用時幅度不大、更慢的變化。對心臟的作用衰減遠小於主觀感受到的作用。",
+    ),
+    "A heads-up when your 12-hour total of one substance reaches the heavy range listed in its sources.": (
+        "当某一物质 12 小时内的累计量达到其来源列出的重剂量区间时提醒你。",
+        "當某一物質 12 小時內的累計量達到其來源列出的重劑量區間時提醒你。",
+    ),
+    "A modeled relative load from your logged doses. It models receptor drive, not how you feel.": (
+        "根据你记录的剂量推算出的相对负荷。它推算的是受体驱动，不是你的感受。",
+        "根據你記錄的劑量推算出的相對負荷。它推算的是受體驅動，不是你的感受。",
+    ),
+    "A record and a model, not medical advice. Exposure uses published equivalents where they exist, and the substance's typical dose otherwise.": (
+        "这是一份记录和一个模型，不是医疗建议。暴露量在有已发表等效换算时采用该换算，否则采用该物质的典型剂量。",
+        "這是一份紀錄和一個模型，不是醫療建議。暴露量在有已發表等效換算時採用該換算，否則採用該物質的典型劑量。",
+    ),
+    "A reminder at each time you set for a med. Tapping it opens Quick Log with that time's meds staged.": (
+        "在你为药物设定的每个时间提醒你。点按提醒会打开快速记录，并预先载入该时间的药物。",
+        "在你為藥物設定的每個時間提醒你。點按提醒會開啟快速記錄，並預先載入該時間的藥物。",
+    ),
+    "A second dose soon after the first lands weaker — the fast-releasing pool runs thin (tachyphylaxis). It refills overnight, so it's separate from the slower tolerance below.": (
+        "第一剂之后很快再来一剂，效果会更弱——快速释放的储备变稀薄了（快速耐受）。它会在一夜之间补回，因此和下面那种更慢的耐受是两回事。",
+        "第一劑之後很快再來一劑，效果會更弱——快速釋放的儲備變稀薄了（快速耐受）。它會在一夜之間補回，因此和下面那種更慢的耐受是兩回事。",
+    ),
+    "A wind-down reminder late into long stimulant sessions.": (
+        "在长时间兴奋剂场次的后段提醒你收尾。",
+        "在長時間興奮劑場次的後段提醒你收尾。",
+    ),
+    "Add a note...": ("添加备注…", "新增備註…"),
+    "Added drowsiness and next-day grogginess, with more fall and coordination risk. The labels warn about combining with other CNS depressants, opioids included.": (
+        "会更困倦、次日更昏沉，跌倒和协调性风险也更高。说明书警告不要与包括阿片类在内的其他中枢神经抑制剂合用。",
+        "會更睏倦、次日更昏沉，跌倒和協調性風險也更高。說明書警告不要與包括鴉片類在內的其他中樞神經抑制劑併用。",
+    ),
+    "Additive sedation and next-day grogginess — more drowsiness, dizziness, and fall risk.": (
+        "镇静与次日昏沉相叠加——更困、更晕，跌倒风险更高。",
+        "鎮靜與次日昏沉相疊加——更睏、更暈，跌倒風險更高。",
+    ),
+    "Adds up sedation and lowers blood pressure further — stronger drowsiness and dizziness.": (
+        "镇静叠加，血压进一步降低——困倦和头晕更强。",
+        "鎮靜疊加，血壓進一步降低——睏倦和頭暈更強。",
+    ),
+    "After a break or in a new setting, tolerance drops — a dose that felt fine before can stop your breathing.": (
+        "停用一段时间后，或换了环境，耐受会下降——以前没事的剂量可能让你停止呼吸。",
+        "停用一段時間後，或換了環境，耐受會下降——以前沒事的劑量可能讓你停止呼吸。",
+    ),
+    "After regular use, stopping abruptly can be dangerous.": (
+        "规律使用后，突然停用可能有危险。",
+        "規律使用後，突然停用可能有危險。",
+    ),
+    "All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact.": (
+        "所有物质数据都随应用一起附带。调整来源顺序，即可决定它们对同一事实有分歧时以哪一个为准。",
+        "所有物質資料都隨 App 一起附帶。調整來源順序，即可決定它們對同一事實有分歧時以哪一個為準。",
+    ),
+    "Ashton, Benzodiazepines: How They Work and How to Withdraw, Table 1. Shown as published; Piru makes no claim to its correctness.": (
+        "Ashton, Benzodiazepines: How They Work and How to Withdraw, Table 1。按原文呈现；Piru 不对其正确性作任何主张。",
+        "Ashton, Benzodiazepines: How They Work and How to Withdraw, Table 1。按原文呈現；Piru 不對其正確性作任何主張。",
+    ),
+    "Barely builds tolerance; stopping suddenly can make blood pressure rebound hard.": (
+        "几乎不产生耐受；突然停用可能让血压强烈反弹。",
+        "幾乎不產生耐受；突然停用可能讓血壓強烈反彈。",
+    ),
+    "Barely builds tolerance; stopping suddenly can make heart rate and blood pressure rebound.": (
+        "几乎不产生耐受；突然停用可能让心率和血压反弹。",
+        "幾乎不產生耐受；突然停用可能讓心率和血壓反彈。",
+    ),
+    "Biomedical literature index.": ("生物医学文献索引。", "生物醫學文獻索引。"),
+    "Both cause drowsiness — additive next-day sedation and grogginess.": (
+        "两者都会引起困倦——次日的镇静和昏沉会叠加。",
+        "兩者都會引起睏倦——次日的鎮靜和昏沉會疊加。",
+    ),
+    "CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022, oral MME conversion factors. Shown as published; Piru makes no claim to their correctness.": (
+        "CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022，口服 MME 换算系数。按原文呈现；Piru 不对其正确性作任何主张。",
+        "CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022，口服 MME 換算係數。按原文呈現；Piru 不對其正確性作任何主張。",
+    ),
+    "CDC excludes buprenorphine from MME.": (
+        "CDC 未将丁丙诺啡纳入 MME。",
+        "CDC 未將丁基原啡因納入 MME。",
+    ),
+    "Change what Piru can see anytime in the Health app's settings.": (
+        "你随时可以在“健康”App 的设置中更改 Piru 能看到的内容。",
+        "你隨時可以在「健康」App 的設定中更改 Piru 能看到的內容。",
+    ),
+    "Chinese-language community wiki.": ("中文社区维基。", "中文社群維基。"),
+    "Commonly reported with this class. A severe tremor, or one that comes with confusion or a high temperature, is a reason to get help now.": (
+        "该类药物常有这种报告。严重的震颤，或伴随意识混乱、高热的震颤，应当立刻求助。",
+        "該類藥物常有這種回報。嚴重的顫抖，或伴隨意識混亂、高燒的顫抖，應當立刻求助。",
+    ),
+    "Community database.": ("社区数据库。", "社群資料庫。"),
+    "Community database. TripSit's combination data is a quick overview; research each combination further.": (
+        "社区数据库。TripSit 的组合数据只是快速概览；请对每一种组合再作查证。",
+        "社群資料庫。TripSit 的組合資料只是快速概覽；請對每一種組合再作查證。",
+    ),
+    "Community encyclopedia.": ("社区百科。", "社群百科。"),
+    "Connect Apple Health to show your heart rate on the graph beside your entries.": (
+        "连接 Apple Health，即可在条目旁的图表上显示你的心率。",
+        "連接 Apple Health，即可在項目旁的圖表上顯示你的心率。",
+    ),
+    "Content outside those licenses — quotations from published books, manufacturers' label text, and figures from reference tables — belongs to its owners, and is shown for reference under their terms. Piru makes no claim to the correctness of any source.": (
+        "这些许可之外的内容——引自出版书籍的段落、生产商的说明书文本、参考表格中的数值——归其所有者所有，并按其条款在此供参考。Piru 不对任何来源的正确性作任何主张。",
+        "這些授權之外的內容——引自出版書籍的段落、製造商的說明書文字、參考表格中的數值——歸其所有者所有，並按其條款在此供參考。Piru 不對任何來源的正確性作任何主張。",
+    ),
+    "Created when you ask and saved where you choose. Exports are unencrypted unless you choose an encrypted backup.": (
+        "由你发起创建，保存到你选择的位置。除非你选择加密备份，否则导出的文件不加密。",
+        "由你發起建立，儲存到你選擇的位置。除非你選擇加密備份，否則匯出的檔案不加密。",
+    ),
+    "Data from dose.wiki, Wikidata and openFDA.": (
+        "数据来自 dose.wiki、Wikidata 和 openFDA。",
+        "資料來自 dose.wiki、Wikidata 和 openFDA。",
+    ),
+    "Data from published literature, product labels, and community databases, provided as is and without warranty. Not medical advice.": (
+        "数据来自已发表文献、产品说明书和社区数据库，按原样提供，不附带任何保证。不是医疗建议。",
+        "資料來自已發表文獻、產品說明書和社群資料庫，按原樣提供，不附帶任何保證。不是醫療建議。",
+    ),
+    "Details are in Settings under About Piru.": (
+        "详情见“设置”中的“关于 Piru”。",
+        "詳情見「設定」中的「關於 Piru」。",
+    ),
+    "Diazepam Equivalence": ("地西泮等效量", "地西泮等效量"),
+    "Dosing shown reflects published or community protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below.": (
+        "此处所示剂量反映的是已发表或社区的方案，不是医疗建议。肽类由复溶的粉末注射——请按下文说明处理和储存。",
+        "此處所示劑量反映的是已發表或社群的方案，不是醫療建議。胜肽由復溶的粉末注射——請按下文說明處理和儲存。",
+    ),
+    "Each substance page names the source of each field. Text from PsychonautWiki and FreeOD Wiki is used under CC BY-SA 4.0, edited and merged with other sources, and remains available under that license.": (
+        "每个物质页面都会标明每个字段的来源。来自 PsychonautWiki 和 FreeOD Wiki 的文本依 CC BY-SA 4.0 使用，经编辑并与其他来源合并，并继续依该许可提供。",
+        "每個物質頁面都會標明每個欄位的來源。來自 PsychonautWiki 和 FreeOD Wiki 的文字依 CC BY-SA 4.0 使用，經編輯並與其他來源合併，並繼續依該授權提供。",
+    ),
+    "Encrypted exports turn your passphrase into a key with 600,000 rounds of PBKDF2. Piru keeps no copy of the passphrase and cannot recover it. Plain exports are unencrypted.": (
+        "加密导出会用 600,000 轮 PBKDF2 把你的口令转换成密钥。Piru 不保存口令的副本，也无法找回。普通导出不加密。",
+        "加密匯出會用 600,000 輪 PBKDF2 把你的通行密語轉換成金鑰。Piru 不保存通行密語的副本，也無法找回。一般匯出不加密。",
+    ),
+    "Enter an amount.": ("请输入用量。", "請輸入用量。"),
+    "European Union agency publications.": ("欧盟机构出版物。", "歐盟機構出版品。"),
+    "Everything Piru stores in the app on this device. Device and iCloud backups made by your settings include it.": (
+        "Piru 在本设备的应用内存储的全部内容。按你的设置所做的设备备份和 iCloud 备份也会包含它。",
+        "Piru 在本裝置的 App 內儲存的全部內容。按你的設定所做的裝置備份和 iCloud 備份也會包含它。",
+    ),
+    "Expert committee reviews.": ("专家委员会评审。", "專家委員會審查。"),
+    "Export sessions and journal summaries": ("导出场次和日志摘要", "匯出場次和日誌摘要"),
+    "GRDB.swift. Copyright © Gwendal Roué.": (
+        "GRDB.swift。版权所有 © Gwendal Roué。",
+        "GRDB.swift。版權所有 © Gwendal Roué。",
+    ),
+    "Help is available through the numbers in Get Help.": (
+        "可以通过“获取帮助”中的电话号码求助。",
+        "可以透過「取得協助」中的電話號碼求助。",
+    ),
+    "Higher is more pull toward another dose.": (
+        "数值越高，想再来一剂的拉力越强。",
+        "數值越高，想再來一劑的拉力越強。",
+    ),
+    "How Modeled Tolerance Works": ("模型推算耐受的原理", "模型推算耐受的原理"),
+    "How much is estimated to be in your body, using only data from this session.": (
+        "仅用本场次的数据估算出的体内存量。",
+        "僅用本場次的資料估算出的體內存量。",
+    ),
+    "If you have been drinking heavily and daily for weeks, stopping abruptly can be dangerous — seizures and delirium tremens peak 2–4 days after the last drink.": (
+        "如果你已经连续数周每日大量饮酒，突然停酒可能有危险——癫痫发作和震颤谵妄在最后一次饮酒后 2–4 天达到高峰。",
+        "如果你已經連續數週每日大量飲酒，突然停酒可能有危險——癲癇發作和震顫譫妄在最後一次飲酒後 2–4 天達到高峰。",
+    ),
+    "Individual response varies with tolerance, body chemistry, and the day.": (
+        "个体反应会因耐受、体质和当天状态而不同。",
+        "個體反應會因耐受、體質和當天狀態而不同。",
+    ),
+    "Journal Summary": ("日志摘要", "日誌摘要"),
+    "Licenses": ("许可", "授權"),
+    "Likely to matter": ("可能有影响", "可能有影響"),
+    "Logged, but the model has no data for these, so they are left out: %@.": (
+        "已记录，但模型没有这些的数据，因此未计入：%@。",
+        "已記錄，但模型沒有這些的資料，因此未計入：%@。",
+    ),
+    "Meds, by class.": ("药物，按类别。", "藥物，依類別。"),
+    "Methadone's half-life is long and variable, and its effect on breathing peaks later than its pain relief. CDC publishes a single population factor for it; Piru shows no figure.": (
+        "美沙酮的半衰期长且变异大，它对呼吸的作用峰值晚于镇痛的峰值。CDC 只为它发布了一个群体换算系数；Piru 不显示数值。",
+        "美沙冬的半衰期長且變異大，它對呼吸的作用峰值晚於止痛的峰值。CDC 只為它發布了一個族群換算係數；Piru 不顯示數值。",
+    ),
+    "Modeled": ("模型推算", "模型推算"),
+    "Modeled Tolerance": ("模型推算耐受", "模型推算耐受"),
+    "Modeled Tolerance & Receptors": ("模型推算耐受与受体", "模型推算耐受與受體"),
+    "Modeled as Active": ("模型推算为活性中", "模型推算為活性中"),
+    "Modeled combined load across your logged GABAergics, relative to your recent peak.": (
+        "你记录的 GABA 能物质的模型推算合并负荷，相对于你近期的峰值。",
+        "你記錄的 GABA 能物質的模型推算合併負荷，相對於你近期的峰值。",
+    ),
+    "Modeled combined load across your logged GABAergics, relative to your recent peak. Alcohol is included; it loads the receptor at a different site.": (
+        "你记录的 GABA 能物质的模型推算合并负荷，相对于你近期的峰值。酒精也计入其中；它作用于受体的另一个位点。",
+        "你記錄的 GABA 能物質的模型推算合併負荷，相對於你近期的峰值。酒精也計入其中；它作用於受體的另一個位點。",
+    ),
+    "Modeled combined load relative to your recent peak, about %lld percent now.": (
+        "相对于你近期峰值的模型推算合并负荷，现在约为百分之 %lld。",
+        "相對於你近期峰值的模型推算合併負荷，目前約為百分之 %lld。",
+    ),
+    "Modeled from receptor occupancy · %@.": (
+        "由受体占据率模型推算 · %@。",
+        "由受體佔據率模型推算 · %@。",
+    ),
+    "Modeled receptor load": ("模型推算受体负荷", "模型推算受體負荷"),
+    "Modeled tolerance": ("模型推算耐受", "模型推算耐受"),
+    "Modeled tolerance by mechanism": ("按机制分的模型推算耐受", "按機制分的模型推算耐受"),
+    "Modeled tolerance over time": ("模型推算耐受随时间的变化", "模型推算耐受隨時間的變化"),
+    "Name (Optional)": ("名称（可选）", "名稱（選填）"),
+    "No account": ("无需账户", "無需帳號"),
+    "No ads or trackers": ("无广告、无追踪器", "無廣告、無追蹤程式"),
+    "No dosing is shown here. What follows is for recognition and reference only.": (
+        "此处不显示剂量。以下内容仅供辨识和参考。",
+        "此處不顯示劑量。以下內容僅供辨識和參考。",
+    ),
+    "No figure": ("无数值", "無數值"),
+    "No sign-up, and no Piru server that receives your journal.": (
+        "无需注册，也没有任何接收你日志的 Piru 服务器。",
+        "無需註冊，也沒有任何接收你日誌的 Piru 伺服器。",
+    ),
+    "Not in the Ashton Manual's table. Shown as recorded; Piru makes no claim to its correctness.": (
+        "不在 Ashton 手册的表格中。按记录呈现；Piru 不对其正确性作任何主张。",
+        "不在 Ashton 手冊的表格中。按記錄呈現；Piru 不對其正確性作任何主張。",
+    ),
+    "Not modeled": ("未纳入模型", "未納入模型"),
+    "Nothing in Piru encourages or facilitates the use, acquisition or possession of any substance, and you alone are responsible for complying with the laws that apply to you. Piru is for adults 18 and over. Use of Piru is subject to the Terms of Use.": (
+        "Piru 中没有任何内容鼓励或便利任何物质的使用、获取或持有，遵守适用于你的法律完全由你自己负责。Piru 供 18 岁及以上的成年人使用。使用 Piru 须遵守《使用条款》。",
+        "Piru 中沒有任何內容鼓勵或便利任何物質的使用、取得或持有，遵守適用於你的法律完全由你自己負責。Piru 供 18 歲及以上的成年人使用。使用 Piru 須遵守《使用條款》。",
+    ),
+    "Nothing modeled.": ("没有模型推算的内容。", "沒有模型推算的內容。"),
+    "Open chemistry database.": ("开放化学数据库。", "開放化學資料庫。"),
+    "Open knowledge base.": ("开放知识库。", "開放知識庫。"),
+    "Other sources are listed above under their own terms, and each substance page names the source of each field.": (
+        "其他来源已在上方按各自条款列出，每个物质页面也会标明每个字段的来源。",
+        "其他來源已在上方按各自條款列出，每個物質頁面也會標明每個欄位的來源。",
+    ),
+    "Permanently deletes every dose, session, and setting in the app. Copies you exported, and device or iCloud backups, are not affected.": (
+        "永久删除应用中的每一条剂量、场次和设置。你已导出的副本，以及设备或 iCloud 备份，不受影响。",
+        "永久刪除 App 中的每一筆劑量、場次和設定。你已匯出的副本，以及裝置或 iCloud 備份，不受影響。",
+    ),
+    "Piru can't tell a passing muddle from a serious one. Confusion that deepens, or comes with a high temperature, is a reason to get help now.": (
+        "Piru 分不出一时的迷糊和严重的意识混乱。不断加重的意识混乱，或伴随高热时，应当立刻求助。",
+        "Piru 分不出一時的迷糊和嚴重的意識混亂。不斷加重的意識混亂，或伴隨高燒時，應當立刻求助。",
+    ),
+    "Piru is a personal record and a general reference, provided as is and without warranty of any kind. It is not medical advice and not a medical device, and it is not for diagnosis, treatment, dosing decisions or emergencies.": (
+        "Piru 是一份个人记录和一份通用参考，按原样提供，不附带任何形式的保证。它不是医疗建议，也不是医疗器械，不用于诊断、治疗、剂量决策或紧急情况。",
+        "Piru 是一份個人紀錄和一份通用參考，按原樣提供，不附帶任何形式的保證。它不是醫療建議，也不是醫療器材，不用於診斷、治療、劑量決策或緊急情況。",
+    ),
+    "Piru's source code.": ("Piru 的源代码。", "Piru 的原始碼。"),
+    "Pleasure and warmth rise above the line; the comedown dips below.": (
+        "愉悦和暖意升到线以上；退落期沉到线以下。",
+        "愉悅和暖意升到線以上；退落期沉到線以下。",
+    ),
+    "Reference content is compiled from third-party, community and curated sources and may be incomplete, outdated or wrong. Every curve, level and estimate is an illustrative model, not a measurement.": (
+        "参考内容汇编自第三方、社区和人工整理的来源，可能不完整、已过时或有误。每一条曲线、每一个水平和每一项估算都是示意性的模型，不是测量值。",
+        "參考內容彙編自第三方、社群和人工整理的來源，可能不完整、已過時或有誤。每一條曲線、每一個水平和每一項估算都是示意性的模型，不是測量值。",
+    ),
+    "Reference only": ("仅供参考", "僅供參考"),
+    "Reference text by Alexander and Ann Shulgin.": (
+        "参考文本由 Alexander 和 Ann Shulgin 撰写。",
+        "參考文字由 Alexander 和 Ann Shulgin 撰寫。",
+    ),
+    "Regular use over weeks builds physical dependence — stopping abruptly can be dangerous even if you don't feel tolerant.": (
+        "连续数周规律使用会形成躯体依赖——即使你感觉不到耐受，突然停用也可能有危险。",
+        "連續數週規律使用會形成生理依賴——即使你感覺不到耐受，突然停用也可能有危險。",
+    ),
+    "Repeated vomiting that only hot showers relieve is a recognized syndrome.": (
+        "反复呕吐、且只有热水澡能缓解，是一种已被认识的综合征。",
+        "反覆嘔吐、且只有熱水澡能緩解，是一種已被認識的症候群。",
+    ),
+    "Replacing your data on restore takes a recoverable snapshot first.": (
+        "恢复时替换你的数据之前，会先做一份可恢复的快照。",
+        "還原時取代你的資料之前，會先做一份可還原的快照。",
+    ),
+    "Restores keep a snapshot": ("恢复会保留快照", "還原會保留快照"),
+    "Risk of fatal serotonin syndrome — MAOIs block the enzyme that clears the serotonin an empathogen releases.": (
+        "有致命 5-HT 综合征的风险——MAOI 会阻断清除移情剂所释放 5-HT 的酶。",
+        "有致命 5-HT 症候群的風險——MAOI 會阻斷清除移情劑所釋放 5-HT 的酵素。",
+    ),
+    "Serotonin syndrome — potentially fatal. MAOIs block the enzyme that clears serotonin.": (
+        "5-HT 综合征——可能致命。MAOI 会阻断清除 5-HT 的酶。",
+        "5-HT 症候群——可能致命。MAOI 會阻斷清除 5-HT 的酵素。",
+    ),
+    "Serotonin syndrome — potentially fatal. The labels require a washout of weeks between them.": (
+        "5-HT 综合征——可能致命。说明书要求两者之间有数周的洗脱期。",
+        "5-HT 症候群——可能致命。說明書要求兩者之間有數週的沖洗期。",
+    ),
+    "Show your body weight and heart rate from Health alongside your journal entries, on the session timeline.": (
+        "在场次时间线上，把“健康”中的体重和心率与你的日志条目并排显示。",
+        "在場次時間軸上，把「健康」中的體重和心率與你的日誌項目並排顯示。",
+    ),
+    "Shows your body weight, heart rate, blood pressure and workouts from Health alongside your journal. Change what Piru can see in the Health app's settings.": (
+        "把“健康”中的体重、心率、血压和锻炼与你的日志并排显示。可在“健康”App 的设置中更改 Piru 能看到的内容。",
+        "把「健康」中的體重、心率、血壓和體能訓練與你的日誌並排顯示。可在「健康」App 的設定中更改 Piru 能看到的內容。",
+    ),
+    "Shows your heart rate and blood pressure on each session's timeline. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.": (
+        "在每个场次的时间线上显示你的心率和血压。如果有项目没连上——尤其是血压，iOS 并不总会为它弹出询问——请打开 **设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru**，在那里开启。",
+        "在每個場次的時間軸上顯示你的心率和血壓。如果有項目沒連上——尤其是血壓，iOS 並不總會為它跳出詢問——請開啟 **設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru**，在那裡開啟。",
+    ),
+    "Sit or lie down so a fall can't happen. Fainting, or dizziness with chest pain, is a reason to get help now.": (
+        "坐下或躺下，让摔倒无从发生。昏厥，或头晕伴胸痛，应当立刻求助。",
+        "坐下或躺下，讓摔倒無從發生。昏厥，或頭暈伴胸痛，應當立刻求助。",
+    ),
+    "Stopping a beta-blocker abruptly after regular use can make heart rate and blood pressure rebound.": (
+        "规律使用后突然停用 β 受体阻滞剂，可能让心率和血压反弹。",
+        "規律使用後突然停用 β 阻斷劑，可能讓心率和血壓反彈。",
+    ),
+    "Stopping an α₂-agonist abruptly after regular use can make blood pressure rebound.": (
+        "规律使用后突然停用 α₂ 激动剂，可能让血压反弹。",
+        "規律使用後突然停用 α₂ 致效劑，可能讓血壓反彈。",
+    ),
+    "Stopping the clonidine-type drug suddenly while on a beta-blocker can spike blood pressure to dangerous levels.": (
+        "在使用 β 受体阻滞剂期间突然停用可乐定类药物，可能让血压飙升到危险水平。",
+        "在使用 β 阻斷劑期間突然停用可樂定類藥物，可能讓血壓飆升到危險水平。",
+    ),
+    "Stored in the app on this device, and in any device or iCloud backup your settings make of it. Anyone who can unlock the device can read it.": (
+        "存储在本设备的应用内，以及你的设置为它所做的任何设备备份或 iCloud 备份中。任何能解锁这台设备的人都能读到它。",
+        "儲存在本裝置的 App 內，以及你的設定為它所做的任何裝置備份或 iCloud 備份中。任何能解鎖這台裝置的人都能讀到它。",
+    ),
+    "Strong and fast: a repeat exposure soon after has much less effect. Resets within a few days.": (
+        "又强又快：不久之后再次接触，效果会弱得多。几天内恢复。",
+        "又強又快：不久之後再次接觸，效果會弱得多。幾天內恢復。",
+    ),
+    "Subjective-effects vocabulary.": ("主观效应词表。", "主觀效應詞表。"),
+    "Terms of Use": ("使用条款", "使用條款"),
+    "Terms, sources and licenses, and where your data is kept.": (
+        "条款、来源与许可，以及你的数据存放在哪里。",
+        "條款、來源與授權，以及你的資料存放在哪裡。",
+    ),
+    "Text from PsychonautWiki and FreeOD Wiki, as edited and merged in Piru.": (
+        "来自 PsychonautWiki 和 FreeOD Wiki 的文本，经 Piru 编辑并合并。",
+        "來自 PsychonautWiki 和 FreeOD Wiki 的文字，經 Piru 編輯並合併。",
+    ),
+    "The SubFxOnEx effects vocabulary. Copyright © Di-lemma.": (
+        "SubFxOnEx 效应词表。版权所有 © Di-lemma。",
+        "SubFxOnEx 效應詞表。版權所有 © Di-lemma。",
+    ),
+    "The model's estimate of effect shape and direction, from typical pharmacology.": (
+        "模型依据典型药理学对效应形状和方向的估算。",
+        "模型依據典型藥理學對效應形狀和方向的估算。",
+    ),
+    "The modeled level from now, fading over the days shown.": (
+        "从现在起的模型推算水平，在所示的天数内逐渐衰减。",
+        "從現在起的模型推算水平，在所示的天數內逐漸衰減。",
+    ),
+    "The table has no figure for this one.": (
+        "表格里没有这一项的数值。",
+        "表格裡沒有這一項的數值。",
+    ),
+    "This class can block the signal to the bladder. Not being able to pass urine at all is a reason to get help now rather than wait for the timeline.": (
+        "该类药物可能阻断通往膀胱的信号。完全排不出尿，应当立刻求助，而不是等时间线走完。",
+        "該類藥物可能阻斷通往膀胱的訊號。完全排不出尿，應當立刻求助，而不是等時間軸走完。",
+    ),
+    "This permanently deletes all your data in the app and cannot be undone. Copies you exported, and device or iCloud backups, are not affected.": (
+        "这会永久删除你在应用中的全部数据，且无法撤销。你已导出的副本，以及设备或 iCloud 备份，不受影响。",
+        "這會永久刪除你在 App 中的全部資料，且無法復原。你已匯出的副本，以及裝置或 iCloud 備份，不受影響。",
+    ),
+    "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous.": (
+        "既有耐受，也有躯体依赖；长期大量规律使用后突然停用可能有危险。",
+        "既有耐受，也有生理依賴；長期大量規律使用後突然停用可能有危險。",
+    ),
+    "Total taken this range, in each substance's common-dose unit": (
+        "本区间的总摄入量，以各物质的常用剂量单位计",
+        "本區間的總攝入量，以各物質的常用劑量單位計",
+    ),
+    "Transdermal fentanyl is dosed in micrograms per hour, a rate rather than a mass, so it has no figure in this mg-based table.": (
+        "透皮芬太尼按每小时微克计量，是速率而不是质量，因此在这张以 mg 为基准的表格中没有数值。",
+        "穿皮吩坦尼按每小時微克計量，是速率而不是質量，因此在這張以 mg 為基準的表格中沒有數值。",
+    ),
+    "U.S. government open data.": ("美国政府开放数据。", "美國政府開放資料。"),
+    "U.S. product label database. Label text is written by each manufacturer.": (
+        "美国产品说明书数据库。说明书文本由各生产商撰写。",
+        "美國產品說明書資料庫。說明書文字由各製造商撰寫。",
+    ),
+    "Unlikely to dominate": ("不太可能占主导", "不太可能佔主導"),
+    "Used only when you connect it, for display beside your journal.": (
+        "仅在你连接之后使用，用于在你的日志旁显示。",
+        "僅在你連接之後使用，用於在你的日誌旁顯示。",
+    ),
+    "Water reminders timed from your entry.": (
+        "以你的条目时间为起点的饮水提醒。",
+        "以你的項目時間為起點的喝水提醒。",
+    ),
+    "Where your journal lives": ("你的日志存放在哪里", "你的日誌存放在哪裡"),
+    "With daily phenibut or F-phenibut, dependence develops within weeks and withdrawal can be protracted.": (
+        "每日使用 phenibut 或 F-phenibut，数周内就会形成依赖，戒断可能迁延很久。",
+        "每日使用 phenibut 或 F-phenibut，數週內就會形成依賴，戒斷可能遷延很久。",
+    ),
+    "Your entries, your meds and dose trends, as one document": (
+        "你的条目、你的药物和剂量趋势，汇为一份文档",
+        "你的項目、你的藥物和劑量趨勢，彙為一份文件",
+    ),
+    "Your journal is stored in the app on this device.": (
+        "你的日志存储在本设备的应用内。",
+        "你的日誌儲存在本裝置的 App 內。",
+    ),
+    "substance.wiki": ("substance.wiki", "substance.wiki"),
+    "swift-collections and swift-async-algorithms. Copyright © Apple Inc. and the Swift project authors.": (
+        "swift-collections 和 swift-async-algorithms。版权所有 © Apple Inc. 和 Swift 项目作者。",
+        "swift-collections 和 swift-async-algorithms。版權所有 © Apple Inc. 和 Swift 專案作者。",
     ),
 }
 
@@ -7250,7 +8036,6 @@ if __name__ == "__main__":
         "Of 62 reports of this combination, 47% described a seizure and 39% involved medical attention — against none of 34 reports for lamotrigine. Self-reported, so the rate is not a measured one, but no other pairing shows a signal like it.",
         "MDMA releases serotonin in bulk and lithium adds to it, so serotonin syndrome is the main risk. Seizures are reported for lithium with classic psychedelics; MDMA has not been looked at the same way.",
         "Source: the Ashton Manual's equivalence table, which calls these doses approximate and notes that not every clinician agrees with them.",
-        "Not in the Ashton Manual's equivalence table, and not sourced elsewhere — treat the number as a rough guide and dose by this drug's own threshold.",
         "One of these is from the Ashton Manual's equivalence table; the other is not in it and is not sourced elsewhere. Equivalences are approximate either way.",
         "Which class this belongs in is argued over — the label is the conventional one, not a settled one.",
         "Noradrenaline reuptake inhibitor",
@@ -7266,7 +8051,6 @@ if __name__ == "__main__":
         "%lld trials",
         "1 RCT (n = %lld) + open study (n = 282)",
         "%@ (transdermal)",
-        "Methadone's half-life is long and variable, and its peak effect on breathing arrives later and lasts longer than its peak pain relief — so a converted dose can look adequate while the risk is still building. CDC publishes a single factor for population-level accounting; Piru will not use it to convert a dose. This one belongs to a clinician.",
         "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors.",
         "Buprenorphine is a partial agonist with a ceiling on its effect on breathing, so risk doesn't scale the way a full agonist's does. CDC excludes it from MME entirely and says it should not be counted toward a daily total.",
         "<1% elemental",
@@ -7379,7 +8163,6 @@ if __name__ == "__main__":
         "Your streak and this month's rate",
         "When and how much you log",
         "Predicted per-mechanism tolerance",
-        "What's still active in your body right now",
         "How body-load has moved over time",
         "Receptor load over time",
         "Receptor Load",
@@ -7706,8 +8489,6 @@ if __name__ == "__main__":
         "Combined load relative to your recent peak, currently about %lld percent, clearing over the following days.",
         'Three things people call "withdrawal" that behave differently, and roughly when each starts for drugs like the ones you\'ve logged.',
         "A model of your dose log, not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures.",
-        "Estimating how much is still in your system…",
-        "Your modeled GABA-A load has essentially cleared — past the point where the drug itself is still leaving your system. The bands below say when symptoms tend to follow.",
         "under a day",
         "Your modeled GABA-A load is still about %lld%% of your recent peak — the drug is still clearing, so withdrawal hasn't started yet.",
         "Your modeled GABA-A load is still about %lld%% of your recent peak — the drug is still clearing, so withdrawal hasn't started. On your current clearance it drops into the onset range in about %@.",

@@ -55,7 +55,7 @@ struct ToleranceExplainerView: View {
                 icon: "clock.arrow.circlepath",
                 tint: .teal,
                 title: "Within a session",
-                body: "A second dose soon after the first lands weaker — the fast-releasing pool runs thin (tachyphylaxis). It refills overnight, so it's separate from the slower tolerance below. Chasing it with more rarely works and stacks the risk.",
+                body: "A second dose soon after the first lands weaker — the fast-releasing pool runs thin (tachyphylaxis). It refills overnight, so it's separate from the slower tolerance below.",
             )
             concept(
                 icon: "chart.line.downtrend.xyaxis",
@@ -225,11 +225,11 @@ struct ToleranceExplainerView: View {
     private func meaning(_ cls: ReceptorClasses.ReceptorClass) -> LocalizedStringResource {
         switch cls {
         case .psychedelic5HT2A:
-            "Strong and fast: a second trip soon after is much weaker. Resets within a few days."
+            "Strong and fast: a repeat exposure soon after has much less effect. Resets within a few days."
         case .muOpioid:
             "Real tolerance that drops after a break or a change of setting — which is exactly what makes returning to an old dose dangerous."
         case .gaba:
-            "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous — taper."
+            "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous."
         case .nmdaAntagonist:
             "Builds its own tolerance, and can also slow opioid tolerance when taken together."
         case .cannabinoidCB1:
@@ -237,7 +237,7 @@ struct ToleranceExplainerView: View {
         case .adenosine:
             "Clean, predictable tolerance — the caffeine case."
         case .catecholamineStimulant:
-            "A fast within-session fade, plus a modest, slower shift with heavy use. A bigger dose still works — but ramps the comedown and the risk, while the effect on your heart barely fades."
+            "A fast within-session fade, plus a modest, slower shift with heavy use. The effect on the heart fades far less than the felt effect."
         case .serotonergicReleaser:
             "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply as well as the receptors."
         case .nicotinic:
@@ -245,9 +245,9 @@ struct ToleranceExplainerView: View {
         case .alpha2Delta:
             "Sedative tolerance builds; dependence can develop within weeks of daily use. Phenibut withdrawal is among the most severe."
         case .alpha2Agonist:
-            "Barely builds tolerance — the real risk is stopping suddenly: blood pressure can rebound hard. Taper, don't quit cold."
+            "Barely builds tolerance; stopping suddenly can make blood pressure rebound hard."
         case .betaBlocker:
-            "Barely builds tolerance — the real risk is stopping suddenly: heart rate and blood pressure can rebound. Taper, don't quit cold."
+            "Barely builds tolerance; stopping suddenly can make heart rate and blood pressure rebound."
         case .unknown:
             "Generic class-default kinetics at the lowest confidence."
         }

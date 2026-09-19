@@ -53,16 +53,8 @@ struct GABALoadingCard: View {
         Group {
             if peakLoad >= Self.visibilityFloor {
                 VStack(alignment: .leading, spacing: Spacing.lg) {
-                    HStack(alignment: .firstTextBaseline) {
-                        Text("Receptor load")
-                            .cardTitle()
-                        Spacer()
-                        PredictionCapsule()
-                    }
-                    Text("About \(Int((loadNow * 100).rounded()))% of your recent peak GABA-A load right now, summed across everything active.")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-
+                    Text("Modeled receptor load")
+                        .cardTitle()
                     chart
 
                     Text(caption)
@@ -84,8 +76,8 @@ struct GABALoadingCard: View {
 
     private var caption: LocalizedStringResource {
         includesAlcohol
-            ? "Combined load across your active GABAergics, relative to your recent peak. Alcohol is included; it loads the receptor at a different site."
-            : "Combined load across your active GABAergics, relative to your recent peak."
+            ? "Modeled combined load across your logged GABAergics, relative to your recent peak. Alcohol is included; it loads the receptor at a different site."
+            : "Modeled combined load across your logged GABAergics, relative to your recent peak."
     }
 
     private var chart: some View {
@@ -136,7 +128,7 @@ struct GABALoadingCard: View {
         .frame(height: 150)
         .chartSummaryAccessibility(
             label: Text("GABA-A receptor load over time"),
-            value: Text("Combined load relative to your recent peak, currently about \(Int((loadNow * 100).rounded())) percent, clearing over the following days."),
+            value: Text("Modeled combined load relative to your recent peak, about \(Int((loadNow * 100).rounded())) percent now."),
         )
     }
 }

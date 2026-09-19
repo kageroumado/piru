@@ -3,34 +3,6 @@ import SwiftUI
 import Vision
 import VisionKit
 
-/// Orchestrates a scanned barcode payload into a resolved substance: GS1 parse →
-/// GTIN/UPC → openFDA → alias match. The OCR path is resolved directly by
-/// ``LabelMatcher``; this covers the network-backed barcode path only.
-enum ScanResolver {
-    static func resolveBarcode(_ payload: String) async -> ResolvedDrug? {
-        // GS1 DataMatrix / GS1-128 with a GTIN Application Identifier.
-        if let gtin = GS1Parser.parse(payload).gtin,
-           let product = await NDCResolver.lookup(gtin: gtin),
-           let resolved = LabelMatcher.resolve(product: product) {
-            return resolved
-        }
-
-        // Plain retail barcodes: UPC-A (12) or a UPC-A wrapped in an EAN-13 (a
-        // leading zero). The label endpoint takes the raw 12 digits.
-        let digits = payload.filter(\.isNumber)
-        let upc: String? = switch digits.count {
-        case 12: digits
-        case 13 where digits.first == "0": String(digits.dropFirst())
-        default: nil
-        }
-        if let upc, let product = await NDCResolver.lookup(upc: upc),
-           let resolved = LabelMatcher.resolve(product: product) {
-            return resolved
-        }
-        return nil
-    }
-}
-
 /// Drives the scanner UI: what the live camera has recognized and how it resolved.
 @Observable
 @MainActor
@@ -45,7 +17,6 @@ final class LabelScanModel {
 
     enum Phase {
         case scanning
-        case resolving
         case resolved(ResolvedDrug)
         /// No substance matched. `canSearch` is true for OCR text (offer manual
         /// search with `text`), false for an unrecognized barcode.
@@ -89,7 +60,6 @@ final class LabelScanModel {
             gather([item])
             return
         }
-        if case .resolving = phase { return }
         switch item {
         case let .barcode(barcode):
             if let payload = barcode.payloadStringValue {
@@ -160,13 +130,11 @@ final class LabelScanModel {
     }
 
     private func resolveBarcode(_ payload: String) {
-        phase = .resolving
-        Task {
-            if let resolved = await ScanResolver.resolveBarcode(payload) {
-                phase = .resolved(resolved)
-            } else {
-                phase = .noMatch(text: "", canSearch: false)
-            }
+        if let hit = SubstanceStore.shared.productCode(forBarcode: payload),
+           let resolved = LabelMatcher.resolve(hit: hit) {
+            phase = .resolved(resolved)
+        } else {
+            phase = .noMatch(text: "", canSearch: false)
         }
     }
 

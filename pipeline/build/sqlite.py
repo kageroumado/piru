@@ -44,8 +44,6 @@ import collision_registry  # noqa: E402
 import dose_gates  # noqa: E402
 import product_codes as product_code_keys  # noqa: E402
 import psid  # noqa: E402
-from contraindication_flags import FLAG_LABELS as CONTRAINDICATION_FLAGS  # noqa: E402
-from contraindication_flags import normalize as normalize_contraindication  # noqa: E402
 from dedupe import dedupe_database  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     reported_effects as dc_reported_effects,
@@ -130,6 +128,36 @@ CURATED_DIR = REPO / "data/curated/substances"
 # rows). One JSON array, ingested as `piru-curated` AFTER all substances exist.
 MECHANISMS = REPO / "data/curated/mechanisms.json"
 CLASS_MECHANISMS = REPO / "data/curated/class-mechanisms.json"
+# Piru's own one-sentence mechanism line for each Pyrls medication no curated
+# mechanism covers, keyed by Pyrls record name. Pyrls prose is read as evidence
+# and never shipped — its terms forbid copying (Specs/reference/pyrls-licence.md).
+# pipeline/audit/claim_language.py gates the wording.
+MECHANISM_LINES = REPO / "data/curated/mechanism-lines.json"
+#: MedTAP records whose label mechanism prose Piru ships nothing in place of.
+#: Ten already carry a Piru line under another name, so a medtap row would be a
+#: second `piru-curated` summary for one substance; the rest state no molecular
+#: mechanism, and `D-glucose` and `sodium` carry another drug's prose entirely
+#: (heparin's and iron gluconate's), which is a name-matching defect upstream.
+MEDTAP_MECHANISM_DROPS = frozenset(
+    {
+        "Asenapine",
+        "Carbonic anhydrase 6",
+        "D-glucose",
+        "Felbamate",
+        "Lumefantrine",
+        "Meloxicam",
+        "Naratriptan",
+        "Nifedipine",
+        "Nitrofurantoin",
+        "Olanzapine",
+        "Pantoprazole",
+        "Peginterferon alfa-2b",
+        "Phenytoin",
+        "Zolmitriptan",
+        "Zolpidem",
+        "sodium",
+    }
+)
 # Flagship pharmacology seed: graded, citation-verified Vd / Kᵢ / EC₅₀ for the
 # pharmacology-axis flagship substances (transcribed from the private evidence
 # run; the raw graded records stay out of the repo). Ingested AFTER all
@@ -253,9 +281,9 @@ EXTERNAL_SOURCES = [
     (
         PYRLS_EXT,
         "pyrls",
-        "Rx clinical reference: regulatory status, indications, contraindications, MOA",
+        "Rx clinical reference: regulatory status, drug classes, tags",
     ),
-    (MEDTAP_EXT, "medtap", "FDA structured product labels: regulatory status, indications, MOA"),
+    (MEDTAP_EXT, "medtap", "FDA structured product labels: regulatory status, MOA"),
     (
         BENZOS_EXT,
         "benzos-cited",
@@ -303,33 +331,33 @@ def check_external_sources() -> None:
 SOURCES = [
     (
         "piru-curated",
-        "Piru hand-curated overlay",
-        "Curated by the Piru maintainers, prioritized for accuracy on the compounds where being wrong costs most.",
+        "Piru editors",
+        "Maintained by Piru's editors.",
     ),
     (
         "peer-review-primary",
-        "Primary peer-reviewed literature",
-        "Cited DOI/PMID from primary journal articles. Deep-pharma enrichment swarm output.",
+        "Published literature",
+        "Cited journal articles.",
     ),
     # drug.community is our preferred dose/duration source (curated by a former
     # pharma-industry contributor, cross-checked in-app) — ranked above the
     # volunteer wikis so it wins per-field where it has data; PsychonautWiki and
     # TripSit backfill any gaps. Genuine dc dose bugs are corrected in the
     # piru-curated layer (which outranks everything).
-    ("drug.community", "drug.community", "Curated dose/duration & effects dataset (preferred)."),
-    ("psychonautwiki", "PsychonautWiki", "Community-written drug information wiki."),
-    ("tripsit", "TripSit factsheets", "Community-written factsheets and combo matrix."),
-    ("dailymed", "FDA DailyMed", "FDA-approved prescribing labels."),
+    ("drug.community", "substance.wiki", "Community database."),
+    ("psychonautwiki", "PsychonautWiki", "Community wiki. CC BY-SA 4.0."),
+    ("tripsit", "TripSit", "Community database."),
+    ("dailymed", "DailyMed", "U.S. product labels."),
     (
         "erowid-pihkal",
-        "Erowid PIHKAL Part 2",
-        "Shulgin phenethylamine compendium, Erowid Part 2 only (non-commercial redistribution permitted).",
+        "PiHKAL (Erowid)",
+        "Reference text by Alexander and Ann Shulgin.",
     ),
-    ("erowid-tihkal", "Erowid TIHKAL Part 2", "Shulgin tryptamine compendium, Erowid Part 2 only."),
-    ("pdsp", "UNC PDSP Ki database", "Canonical receptor affinity database (Roth lab)."),
-    ("pubchem", "PubChem", "NIH chemical compound identifiers."),
-    ("wikidata", "Wikidata", "CC0 structured data; identifier-only for long-tail compounds."),
-    ("dea-orange-book", "DEA Orange Book", "US controlled-substance scheduling."),
+    ("erowid-tihkal", "TiHKAL (Erowid)", "Reference text by Alexander and Ann Shulgin."),
+    ("pdsp", "PDSP Ki database", "Receptor affinity database."),
+    ("pubchem", "PubChem", "Open chemistry database."),
+    ("wikidata", "Wikidata", "Open knowledge base. CC0."),
+    ("dea-orange-book", "DEA Orange Book", "U.S. controlled-substance schedules."),
     # Appended at lowest priority so they only FILL GAPS (existing recreational
     # sources win on conflict). pyrls/medtap supply regulatory status,
     # indications, contraindications, and per-compound mechanism for the
@@ -338,22 +366,22 @@ SOURCES = [
     (
         "pyrls",
         "Pyrls clinical reference",
-        "Prescription-drug clinical reference: mechanism, indications, contraindications, regulatory status.",
+        "Prescription-drug clinical reference: regulatory status and drug classes.",
     ),
     (
         "medtap",
-        "MedTAP FDA labels",
-        "FDA structured product labels: indications, contraindications, OTC/Rx status.",
+        "MedTAP",
+        "U.S. product labels.",
     ),
     (
         "benzos-cited",
-        "TripSit benzo equivalency",
-        "TripSit-format benzodiazepine data; source of cross-benzo diazepam-equivalency.",
+        "Benzodiazepine equivalence table",
+        "Community table.",
     ),
     (
         "nps-datahub",
         "NPS Data Hub",
-        "Forensic NPS chemistry catalogue; chemical identifiers (CAS/InChIKey/SMILES/formula/MW) only.",
+        "Chemistry catalogue.",
     ),
     # Lowest priority: a Chinese-language source whose text only WINS when the
     # app runs in Chinese (the resolver floats matching-language text above
@@ -361,7 +389,7 @@ SOURCES = [
     (
         "freeodwiki",
         "FreeOD Wiki",
-        "Chinese community drug wiki (CC BY-SA 4.0): native zh descriptions, pharmacology, effects, dose/duration.",
+        "Chinese-language community wiki. CC BY-SA 4.0.",
     ),
     # Appended LAST, which is both the honest rank and the cheap one: a source
     # that never wins a dose, duration, category or half-life against anything
@@ -371,10 +399,7 @@ SOURCES = [
     (
         "dosewiki",
         "dose.wiki",
-        "CC0 substance encyclopedia compiled from PsychonautWiki, TripSit and Erowid. "
-        "Piru reads its chemistry into empty fields only, and takes doses, durations, "
-        "half-lives, bindings and summaries from its expert-reviewed articles at the "
-        "bottom of the order, so they resolve where nothing else has a value.",
+        "Community encyclopedia. CC0.",
     ),
 ]
 
@@ -2098,39 +2123,19 @@ CREATE TABLE tolerance_modulation (
     PRIMARY KEY (modulator_class, affected_class)
 );
 
+-- Build-only: dropped before the database is sealed, so no indication text
+-- reaches the app. It survives the build because `assign_dose_contexts` uses
+-- "this compound has a label indication" to tell a therapeutic curated dose
+-- ladder from a recreational one, and `regulatory_status` alone misses fifteen
+-- compounds that carry a plainly clinical ladder.
 CREATE TABLE indications (
     id           INTEGER PRIMARY KEY,
     substance_id INTEGER NOT NULL REFERENCES substances(id),
     source_id    INTEGER NOT NULL REFERENCES sources(id),
     text         TEXT NOT NULL,
-    -- The label or guideline the block came from. Pyrls carries a reference id
-    -- per block and a resolvable title+URL for it; MedTAP rows cite their own
-    -- label by NDC. These were the only substantive text tables that
-    -- structurally could not name a source, which made them the only claims in
-    -- the app a reader had no way to check.
-    citation_id  INTEGER REFERENCES citations(id),
     UNIQUE (substance_id, source_id, text)
 );
 CREATE INDEX idx_indications_substance ON indications(substance_id);
-
-CREATE TABLE contraindications (
-    id               INTEGER PRIMARY KEY,
-    substance_id     INTEGER NOT NULL REFERENCES substances(id),
-    source_id        INTEGER NOT NULL REFERENCES sources(id),
-    -- Exactly one of `text` and `flag` is set. `text` survives only when the
-    -- row already arrived as a name — a condition ("Anuria"), or a boxed
-    -- warning's FDA section title. Everything else is a prescriber-facing
-    -- sentence that resolves to a `flag`, and the app supplies its own
-    -- localized wording for it; see pipeline/build/contraindication_flags.py.
-    text             TEXT,
-    flag             TEXT,
-    is_boxed_warning INTEGER NOT NULL DEFAULT 0,
-    -- See `indications.citation_id`.
-    citation_id      INTEGER REFERENCES citations(id),
-    CHECK ((text IS NULL) != (flag IS NULL)),
-    UNIQUE (substance_id, source_id, text, flag)
-);
-CREATE INDEX idx_contraindications_substance ON contraindications(substance_id);
 
 -- Dose equivalence to 10 mg diazepam. The tolerance engine multiplies a logged
 -- dose by this ratio to model a PK-less benzodiazepine AS diazepam, and promotes
@@ -3578,21 +3583,6 @@ def dedup_pk_routes(con) -> dict:
 #: assayed on Δ9-THC) and draws the same molecule twice on every comparison, so
 #: the build rejects one rather than letting a curated mechanism reintroduce it.
 ACTIVE_INGREDIENT_PROXIES = {"cannabis": "THC"}
-
-
-def assert_contraindication_flags_are_known(con) -> None:
-    """Every `flag` in the table is one the app has a string for.
-
-    The app renders a flag by looking it up; an id it does not know renders as
-    nothing, so a typo in a pattern would silently empty a row rather than
-    failing loudly here.
-    """
-    unknown = [
-        row[0]
-        for row in con.execute("SELECT DISTINCT flag FROM contraindications WHERE flag IS NOT NULL")
-        if row[0] not in CONTRAINDICATION_FLAGS
-    ]
-    assert not unknown, f"contraindication flags with no label: {sorted(unknown)}"
 
 
 def grade_ordinal_only_bindings(con) -> dict:
@@ -6088,6 +6078,9 @@ class Build:
         self.db = db
         self.cur = db.cursor()
         self.source_ids: dict[str, int] = {}
+        # Pyrls record name -> substance id, filled by ingest_pyrls so the mechanism
+        # lines keyed by that name land on the same row without a second resolve.
+        self._pyrls_sids: dict[str, int] = {}
         # Normalised salt-variant names (Magnesium Citrate, …) folded into a
         # salt-family parent — protected from the chemnoise alias purge so the
         # variant stays searchable. Populated by fold_salt_families().
@@ -7294,54 +7287,19 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
-    def add_indication(
-        self, sid: int, source_slug: str, text: str, reference: str | None = None
-    ) -> None:
+    def add_indication(self, sid: int, source_slug: str, text: str) -> None:
         # A label that repeats its own heading inside the body yields the word
         # "indications" as an indication; a pointer to "see below" points at a
         # section Piru does not ship.
         text = clean_label_prose(text)
         if not text:
             return
-        src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO indications(substance_id, source_id, text, citation_id) "
-                "VALUES (?, ?, ?, ?)",
-                (sid, src, text, self.cite(reference)),
+                "INSERT INTO indications(substance_id, source_id, text) VALUES (?, ?, ?)",
+                (sid, self.source_ids[source_slug], text),
             )
             self.stats["indications"] += 1
-        except sqlite3.IntegrityError:
-            pass
-
-    def add_contraindication(
-        self,
-        sid: int,
-        source_slug: str,
-        text: str,
-        *,
-        boxed: bool = False,
-        reference: str | None = None,
-    ) -> None:
-        text = clean_label_prose(text)
-        if not text:
-            return
-        flag, kept = normalize_contraindication(text, boxed=boxed)
-        if flag is None and kept is None:
-            self.stats["contraindication_unmatched"] += 1
-            self.note_reject(
-                "contraindication_unmatched", text, sid=sid, source=source_slug, boxed=boxed
-            )
-            return
-        src = self.source_ids[source_slug]
-        try:
-            self.cur.execute(
-                "INSERT INTO contraindications(substance_id, source_id, text, flag, is_boxed_warning, "
-                "citation_id) VALUES (?, ?, ?, ?, ?, ?)",
-                (sid, src, kept, flag, 1 if boxed else 0, self.cite(reference)),
-            )
-            self.stats["contraindications"] += 1
-            self.stats["contraindication_flagged" if flag else "contraindication_named"] += 1
         except sqlite3.IntegrityError:
             pass
 
@@ -8146,6 +8104,76 @@ class Build:
         if skipped:
             print(
                 f"  WARNING: curated mechanisms skipped (no substance match): {skipped}",
+                file=sys.stderr,
+            )
+
+    def ingest_mechanism_lines(self, path: Path = MECHANISM_LINES) -> None:
+        """Piru's one-sentence mechanism line for each Pyrls medication that no curated
+        mechanism covers, as ``piru-curated``.
+
+        Keyed by Pyrls record name and resolved through ``ingest_pyrls``'s own mapping,
+        so a line lands on the row that record became. Runs after
+        ``ingest_curated_mechanisms`` and before ``ingest_class_mechanisms``: a
+        per-substance curated record keeps its slot (the insert collides and is
+        counted as ``mechanism_lines_superseded``), and a line, being about this one
+        drug, keeps a class paragraph off it."""
+        if not path.exists():
+            return
+        lines = json.loads(path.read_text())["lines"]
+        written = superseded = 0
+        unmatched: list[str] = []
+        for name, line in sorted(lines.items()):
+            sid = self._pyrls_sids.get(name)
+            if sid is None:
+                unmatched.append(name)
+                continue
+            before = self.stats["mechanisms_summary"]
+            self.add_mechanism_summary(sid, "piru-curated", line)
+            if self.stats["mechanisms_summary"] > before:
+                written += 1
+            else:
+                superseded += 1
+        self.stats["mechanism_lines"] = written
+        self.stats["mechanism_lines_superseded"] = superseded
+        if unmatched:
+            print(
+                f"  WARNING: mechanism lines with no pyrls substance: {unmatched}",
+                file=sys.stderr,
+            )
+
+    def apply_mechanism_overrides(self, path: Path = MECHANISM_LINES) -> None:
+        """Replace the English mechanism prose of a row whose source Piru cannot edit.
+
+        A cached scrape has no editable origin in this repo, so a sentence in it that
+        claims efficacy or hands out guidance can only be corrected here. The
+        replacement keeps the source's pharmacology and its attribution; only the
+        claim is cut. Keyed by canonical substance name, applied after every ingester
+        so the row it rewrites exists. `piru-curated` rows are left alone: Piru edits
+        those at their source, and a substance can carry both. `pipeline/audit/claim_language.py` gates the
+        replacements.
+        """
+        if not path.exists():
+            return
+        overrides = json.loads(path.read_text()).get("overrides", {})
+        applied = 0
+        unmatched: list[str] = []
+        for name, prose in sorted(overrides.items()):
+            n = self.cur.execute(
+                """UPDATE mechanisms_summary
+                      SET summary = ?, description = NULL
+                    WHERE language = 'en'
+                      AND source_id <> (SELECT id FROM sources WHERE slug = 'piru-curated')
+                      AND substance_id = (SELECT id FROM substances WHERE canonical_name = ?)""",
+                (prose, name),
+            ).rowcount
+            if n:
+                applied += n
+            else:
+                unmatched.append(name)
+        self.stats["mechanism_overrides"] = applied
+        if unmatched:
+            print(
+                f"  WARNING: mechanism overrides with no English row: {unmatched}",
                 file=sys.stderr,
             )
 
@@ -9693,7 +9721,10 @@ class Build:
     def ingest_pyrls(self, path: Path) -> None:
         """Prescription-drug clinical reference. Adds NEW medical substances
         (trackable, dose-suppressed by policy) plus regulatory status,
-        mechanism, indications, contraindications. No recreational dose."""
+        regulatory status, categories and tags. No recreational dose.
+
+        Pyrls's own mechanism prose is evidence only; what ships in its place is
+        Piru's wording, applied later by ``ingest_mechanism_lines``."""
         if not path.exists():
             return
         slug = "pyrls"
@@ -9707,22 +9738,14 @@ class Build:
             )
             if sid is None:
                 continue
+            self._pyrls_sids[name] = sid
             cat = rec.get("category")
             if cat and cat != "Other":
                 self.add_category(sid, slug, cat)
             for t in rec.get("tags") or []:
                 self.add_tag(sid, slug, t)
-            moa = rec.get("mechanismOfAction") or {}
-            if moa.get("summary"):
-                self.add_mechanism_summary(sid, slug, moa["summary"], moa.get("description"))
-            indication_ref = rec.get("x_indications_reference")
-            contra_ref = rec.get("x_contraindications_reference")
             for ind in self._as_text_list(rec.get("x_indications")):
-                self.add_indication(sid, slug, ind, reference=indication_ref)
-            for c in self._as_text_list(rec.get("x_contraindications")):
-                self.add_contraindication(sid, slug, c, reference=contra_ref)
-            for b in self._as_text_list(rec.get("x_boxed_warning")):
-                self.add_contraindication(sid, slug, b, boxed=True, reference=contra_ref)
+                self.add_indication(sid, slug, ind)
 
     # Protein-target / non-drug junk rows in medtap (e.g. "Mu-type opioid
     # receptor", "5-hydroxytryptamine receptor 2A", "30S ribosomal protein S12",
@@ -9740,9 +9763,14 @@ class Build:
     def ingest_medtap(self, path: Path) -> None:
         """FDA structured product labels. Like pyrls but lower priority and with
         a junk/combo filter. Category intentionally NOT ingested (322/387 'Other'
-        with mislabels). Supplies regulatory status, mechanism, indications."""
+        with mislabels). Supplies regulatory status and mechanism."""
         if not path.exists():
             return
+        medtap_lines = (
+            json.loads(MECHANISM_LINES.read_text()).get("medtap_lines", {})
+            if MECHANISM_LINES.exists()
+            else {}
+        )
         slug = "medtap"
         for rec in json.loads(path.read_text()):
             name = (rec.get("name") or "").strip()
@@ -9756,14 +9784,15 @@ class Build:
             )
             if sid is None:
                 continue
-            moa = rec.get("mechanismOfAction") or {}
-            if moa.get("summary"):
-                self.add_mechanism_summary(sid, slug, moa["summary"], moa.get("description"))
-            label_ref = rec.get("x_label_reference")
+            line = medtap_lines.get(name)
+            if line is not None:
+                self.add_mechanism_summary(sid, "piru-curated", line)
+            elif name not in MEDTAP_MECHANISM_DROPS:
+                moa = rec.get("mechanismOfAction") or {}
+                if moa.get("summary"):
+                    self.add_mechanism_summary(sid, slug, moa["summary"], moa.get("description"))
             for ind in self._as_text_list(rec.get("x_indications")):
-                self.add_indication(sid, slug, ind, reference=label_ref)
-            for c in self._as_text_list(rec.get("x_contraindications")):
-                self.add_contraindication(sid, slug, c, reference=label_ref)
+                self.add_indication(sid, slug, ind)
 
     # "Alprazolam - 0.5mg ~=10mg Diazepam." → (0.5, 10.0)
     _DIAZ_RE = re.compile(r"(\d+(?:\.\d+)?)\s*mg\b.*?(\d+(?:\.\d+)?)\s*mg", re.IGNORECASE)
@@ -9905,13 +9934,10 @@ class Build:
                     display_text=display,
                     citation=self._ashton_citation(canon, dose_mg, equiv_mg),
                 )
-            # x_summary → a plain description; x_avoid → a contraindication
-            # (discontinuation/combination warning, not a boxed warning);
-            # x_tolerance → the tolerance note; x_bioavailability → pk_routes
-            # rows (one per route segment, with a numeric % where parseable).
+            # x_summary → a plain description; x_tolerance → the tolerance
+            # note; x_bioavailability → pk_routes rows (one per route segment,
+            # with a numeric % where parseable).
             self.add_description(sid, slug, rec.get("x_summary") or "")
-            if rec.get("x_avoid"):
-                self.add_contraindication(sid, slug, rec["x_avoid"])
             if rec.get("x_tolerance"):
                 self.add_tolerance(sid, slug, {"notes": rec["x_tolerance"]})
             for route, pct, note in _parse_bioavailability(rec.get("x_bioavailability")):
@@ -13227,7 +13253,6 @@ class Build:
                 "mechanisms_summary",
                 "metabolism",
                 "pk_routes",
-                "indications",
             ):
                 n += cur.execute(
                     f"SELECT COUNT(*) FROM {t} WHERE substance_id=?", (sid,)
@@ -14500,6 +14525,12 @@ def main() -> int:
 
     # Class-level targets, fanned out per member. LAST of the binding passes on purpose: it
     # writes a row only where no source measured that target, so it must see the final panel.
+    build.ingest_mechanism_lines(MECHANISM_LINES)
+    print(
+        f"After mechanism lines: {build.stats.get('mechanism_lines', 0)} written, "
+        f"{build.stats.get('mechanism_lines_superseded', 0)} superseded by a curated record",
+        file=sys.stderr,
+    )
     build.ingest_class_mechanisms(CLASS_MECHANISMS)
     print(
         f"After class mechanisms: {build.stats.get('class_mechanism_prose', 0)} prose rows + "
@@ -14901,16 +14932,6 @@ def main() -> int:
     spelling = enforce_us_english(build.cur.connection)
     print(f"US-English rewrites: {spelling['rewritten']}", file=sys.stderr)
 
-    assert_contraindication_flags_are_known(build.cur.connection)
-    flagged = build.stats.get("contraindication_flagged", 0)
-    named = build.stats.get("contraindication_named", 0)
-    unmatched = build.stats.get("contraindication_unmatched", 0)
-    print(
-        f"Contraindications: {flagged} normalized to a flag, {named} kept as a name, "
-        f"{unmatched} dropped as unmatched prose",
-        file=sys.stderr,
-    )
-
     grades = grade_ordinal_only_bindings(build.cur.connection)
     print(
         f"Binding confidence: {grades['graded_low']} ordinal-only rows graded LOW "
@@ -15246,6 +15267,18 @@ def main() -> int:
         print(line)
     db.commit()
 
+    build.apply_mechanism_overrides(MECHANISM_LINES)
+    print(
+        f"Mechanism overrides: {build.stats.get('mechanism_overrides', 0)} row(s) replaced",
+        file=sys.stderr,
+    )
+    db.commit()
+
+    # Build-only scaffolding, dropped before the file is sealed: indication
+    # text is evidence for `assign_dose_contexts`, never something the app shows.
+    db.execute("DROP TABLE IF EXISTS indications")
+    db.commit()
+
     # Vacuum + analyze for deterministic, optimised output. The shipped file
     # must be self-contained: a WAL-mode DB opened read-only from the app
     # bundle fails with SQLITE_CANTOPEN unless its -shm/-wal sidecars ship
@@ -15306,8 +15339,6 @@ def main() -> int:
         "subjective_effect_concepts",
         "subjective_effect_concept_aliases",
         "tolerance",
-        "indications",
-        "contraindications",
         "diazepam_equivalents",
         "bindings",
         "functional_assays",

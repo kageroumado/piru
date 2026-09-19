@@ -1,29 +1,27 @@
 # Piru SQLite build report
 
-Built 2026-09-18.2 → `Piru/Data/piru-substances.sqlite` (19,374,080 bytes, sha256 `5308a4892ef5144c52a8e28918bda002e997d42e0ebc1b93147d402f7cad293f`)
+Built 2026-09-19.3 → `Piru/Data/piru-substances.sqlite` (17,620,992 bytes, sha256 `790364b565fcd6753d505f7711f66514b808ddb272c270fb7195e9ee0ddd79ca`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,689 |
+| substances | 1,688 |
 | aliases | 5,719 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,890 |
+| citations | 2,461 |
 | categories | 1,560 |
 | tags | 7,050 |
 | dose_ranges | 2,764 |
 | durations | 10,552 |
 | half_lives | 716 |
-| mechanisms_summary | 1,147 |
+| mechanisms_summary | 1,211 |
 | effects | 2,952 |
 | subjective_effects | 23,503 |
 | subjective_effect_concepts | 506 |
 | subjective_effect_concept_aliases | 1,178 |
 | tolerance | 322 |
-| indications | 1,133 |
-| contraindications | 1,412 |
 | diazepam_equivalents | 32 |
 | bindings | 1,462 |
 | functional_assays | 179 |
@@ -39,7 +37,7 @@ Built 2026-09-18.2 → `Piru/Data/piru-substances.sqlite` (19,374,080 bytes, sha
 | off_targets | 209 |
 | class_contexts | 50 |
 | substance_classes | 680 |
-| molecule_shapes | 958 |
+| molecule_shapes | 957 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |
 | substance_flags | 13 |

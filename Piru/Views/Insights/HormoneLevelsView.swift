@@ -372,18 +372,18 @@ private struct HormoneLabCalibrationCard: View {
             CalibrationControl(model: model)
             ReferenceLinesEditor(model: model, unit: model.analyte.canonicalUnit)
 
-            if let goal = model.analyte.clinicalGoal {
+            if let goal = model.analyte.labeledGoal {
                 Button {
                     model.referenceLow = goal.lowerBound
                     model.referenceHigh = goal.upperBound
                 } label: {
-                    Text("Use the common clinical goal (\(Int(goal.lowerBound))–\(Int(goal.upperBound)) \(model.analyte.canonicalUnit))")
+                    Text("Add the guideline reference range (\(Int(goal.lowerBound))–\(Int(goal.upperBound)) \(model.analyte.canonicalUnit))")
                         .font(.caption.weight(.medium))
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)
                 .tint(Theme.accent)
-                Text("The Endocrine Society / WPATH SOC8 monitoring goal. Tapping sets it as your own reference lines — Piru still sets no target.")
+                Text("The Endocrine Society / WPATH SOC8 monitoring range for adults on masculinizing testosterone, drawn as reference lines. The range from your clinician or laboratory report takes precedence.")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -509,9 +509,9 @@ private struct HormoneLevelsExplanationCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
-            Text("An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. This curve sums your logged esters into the serum level a blood test would read.")
+            Text("An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. This curve sums your logged esters into an illustrative serum estimate. It is not a laboratory result.")
                 .captionSecondary()
-            Text("It estimates a level. It never suggests a dose or a target. Lab results calibrate it to you, and the reference lines are your own.")
+            Text("It estimates a level. It never suggests a dose or a target. Your lab results fit the model to your measurements, which doesn't establish accuracy between them. The reference lines are your own.")
                 .captionSecondary()
             Text("Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. Retest after any change in dose, ester, interval, or site.")
                 .captionSecondary()

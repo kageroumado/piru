@@ -416,7 +416,7 @@ private struct MyMedsHeader: View {
 
     private var chipText: String {
         if let streak, streak > 1 {
-            String(localized: "\(streak) day streak")
+            String(localized: "\(streak) days logged")
         } else {
             String(localized: "Done")
         }

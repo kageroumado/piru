@@ -2,8 +2,8 @@ import Foundation
 import Testing
 @testable import Piru
 
-@Suite("ClinicalFindings")
-struct ClinicalFindingsTests {
+@Suite("SummaryFindings")
+struct SummaryFindingsTests {
     private let cal: Calendar = {
         var c = Calendar(identifier: .gregorian)
         c.timeZone = TimeZone(identifier: "UTC")!
@@ -15,12 +15,12 @@ struct ClinicalFindingsTests {
         base.addingTimeInterval(Double(n) * 86_400)
     }
 
-    private func substance(_ name: String, _ currency: ExposureCurrency) -> ClinicalSubstance {
-        ClinicalSubstance(name: name, displayName: name, colorHex: "#FF0000", unit: "mg", currency: currency)
+    private func substance(_ name: String, _ currency: ExposureCurrency) -> SummarySubstance {
+        SummarySubstance(name: name, displayName: name, colorHex: "#FF0000", unit: "mg", currency: currency)
     }
 
     private func report(
-        substances: [ClinicalSubstance] = [],
+        substances: [SummarySubstance] = [],
         totalDays: Int = 0,
         daysUsed: Int = 0,
         longestBreakDays: Int = 0,
@@ -28,8 +28,8 @@ struct ClinicalFindingsTests {
         exposure: [ExposureStat] = [],
         escalation: [EscalationStat] = [],
         overlaps: [OverlapStat] = [],
-    ) -> ClinicalReport {
-        ClinicalReport(
+    ) -> JournalSummary {
+        JournalSummary(
             start: base,
             end: base.addingTimeInterval(Double(max(totalDays, 1)) * 86_400),
             substances: substances,
@@ -45,7 +45,7 @@ struct ClinicalFindingsTests {
     @Test
     func `Empty report yields no findings`() {
         let r = report()
-        let findings = ClinicalStats.findings(report: r, interactions: [])
+        let findings = SummaryStats.findings(report: r, interactions: [])
         #expect(findings.isEmpty)
     }
 
@@ -62,7 +62,7 @@ struct ClinicalFindingsTests {
                 EscalationStat(substanceIndex: 0, direction: .rising, change: 0.4, earlyMedian: 10, lateMedian: 14, doseCount: 12),
             ],
         )
-        let findings = ClinicalStats.findings(report: r, interactions: [])
+        let findings = SummaryStats.findings(report: r, interactions: [])
         let escalation = try #require(findings.first { $0.kind == .escalation })
         #expect(escalation.severity == .warning)
         #expect(escalation.summary.contains("Oxycodone"))
@@ -84,7 +84,7 @@ struct ClinicalFindingsTests {
                 ExposureStat(substanceIndex: 0, currency: .mme, total: 1_500, peakDay: 75, dailyMean: 50, cumulative: []),
             ],
         )
-        let findings = ClinicalStats.findings(report: r, interactions: [])
+        let findings = SummaryStats.findings(report: r, interactions: [])
         let opioid = try #require(findings.first { $0.kind == .opioidLoad })
         #expect(opioid.severity == .warning)
         #expect(opioid.summary.contains("75 MME/day"))
@@ -102,7 +102,7 @@ struct ClinicalFindingsTests {
                 ExposureStat(substanceIndex: 0, currency: .mme, total: 3_000, peakDay: 100, dailyMean: 100, cumulative: []),
             ],
         )
-        let findings = ClinicalStats.findings(report: r, interactions: [])
+        let findings = SummaryStats.findings(report: r, interactions: [])
         let opioid = try #require(findings.first { $0.kind == .opioidLoad })
         #expect(opioid.summary.contains("90 MME"))
     }
@@ -118,7 +118,7 @@ struct ClinicalFindingsTests {
                 ExposureStat(substanceIndex: 0, currency: .mme, total: 300, peakDay: 30, dailyMean: 10, cumulative: []),
             ],
         )
-        let findings = ClinicalStats.findings(report: r, interactions: [])
+        let findings = SummaryStats.findings(report: r, interactions: [])
         #expect(findings.allSatisfy { $0.kind != .opioidLoad })
     }
 
@@ -146,7 +146,7 @@ struct ClinicalFindingsTests {
                 description: "Combined respiratory depression",
             ),
         ]
-        let findings = ClinicalStats.findings(report: r, interactions: interactions)
+        let findings = SummaryStats.findings(report: r, interactions: interactions)
         let coExposure = try #require(findings.first { $0.kind == .coExposure })
         #expect(coExposure.severity == .warning)
         #expect(coExposure.summary.contains("Oxycodone") || coExposure.summary.contains("Alprazolam"))
@@ -163,7 +163,7 @@ struct ClinicalFindingsTests {
             daysUsed: 28,
             longestBreakDays: 1,
         )
-        let findings = ClinicalStats.findings(report: r, interactions: [])
+        let findings = SummaryStats.findings(report: r, interactions: [])
         let cadence = try #require(findings.first { $0.kind == .cadence })
         #expect(cadence.severity == .info)
         #expect(cadence.summary.contains("28 of 30"))
@@ -177,7 +177,7 @@ struct ClinicalFindingsTests {
             totalDays: 10,
             daysUsed: 10,
         )
-        let findings = ClinicalStats.findings(report: r, interactions: [])
+        let findings = SummaryStats.findings(report: r, interactions: [])
         #expect(findings.allSatisfy { $0.kind != .cadence })
     }
 
@@ -198,7 +198,7 @@ struct ClinicalFindingsTests {
                 EscalationStat(substanceIndex: 0, direction: .rising, change: 0.5, earlyMedian: 10, lateMedian: 15, doseCount: 12),
             ],
         )
-        let findings = ClinicalStats.findings(report: r, interactions: [])
+        let findings = SummaryStats.findings(report: r, interactions: [])
         #expect(findings.count >= 3)
         let warnings = findings.filter { $0.severity == .warning }
         let infos = findings.filter { $0.severity == .info }
@@ -227,7 +227,7 @@ struct ClinicalFindingsTests {
             (.unsafe, "Cocaine", "MDA", "Cardiovascular strain and serotonergic", [.stimulant], [.empathogen]),
         ]
 
-        let compressed = ClinicalStats.compressInteractions(raw)
+        let compressed = SummaryStats.compressInteractions(raw)
         #expect(compressed.count == 2)
 
         let opioidBenzo = compressed.first { $0.id == "benzodiazepine|opioid" }

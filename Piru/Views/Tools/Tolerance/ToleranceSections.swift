@@ -18,9 +18,9 @@ struct ToleranceEmptyState: View {
     var body: some View {
         Section {
             VStack(alignment: .leading, spacing: Spacing.md) {
-                Label("Nothing to show yet", systemImage: "checkmark.circle")
+                Label("Nothing to show yet", systemImage: "chart.line.flattrend.xyaxis")
                     .sectionLabel()
-                Text("Log a few doses and your predicted tolerance shows up here. Anything you haven't taken recently counts as no tolerance.")
+                Text("Log a few doses and the modeled tolerance shows up here. The model sees only what is logged, so an empty screen says nothing about your actual tolerance.")
                     .captionSecondary()
             }
             .padding(.vertical, Spacing.xs)
@@ -37,9 +37,9 @@ struct ToleranceIncompleteDataSection: View {
         if !names.isEmpty {
             Section {
                 VStack(alignment: .leading, spacing: Spacing.md) {
-                    Label("Can't predict yet", systemImage: "questionmark.circle")
+                    Label("Not modeled", systemImage: "questionmark.circle")
                         .sectionLabel()
-                    Text("Logged, but missing the pharmacokinetics the model needs — so it's blind here, which is not the same as no tolerance. \(toleranceListPhrase(names)).")
+                    Text("Logged, but the model has no data for these, so they are left out: \(toleranceListPhrase(names)).")
                         .captionSecondary()
                 }
                 .padding(.vertical, Spacing.xs)

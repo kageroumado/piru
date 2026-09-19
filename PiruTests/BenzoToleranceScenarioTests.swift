@@ -19,9 +19,7 @@ struct BenzoToleranceScenarioTests {
     static let now = Cal.now
     static let weightKg = 70.0
 
-    /// Presence threshold shared with `WithdrawalReferenceView` — below this combined occupancy the drug
-    /// is treated as essentially cleared. Kept in sync deliberately: these tests describe what the
-    /// withdrawal surface reads.
+    /// Presence threshold: below this combined occupancy the drug is treated as essentially cleared.
     static let presenceFloor = 0.05
 
     private func gaba(_ doses: [ToleranceStore.SimDose], _ params: [String: PharmacologyParameters]) -> ClassTolerance? {

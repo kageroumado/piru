@@ -155,8 +155,7 @@ enum SectionPlacement: Hashable {
 /// The two presentational spines the detail page chooses between up front. A
 /// recreational/dual-use/OTC compound gets the dose-gauge/effects/combinations
 /// spine; a prescription/non-recreational compound gets the medical spine
-/// (indications, boxed warning, contraindications) with no dose gauge, no
-/// effects-by-dose, no misconceptions.
+/// with no dose gauge, no effects-by-dose, no misconceptions.
 enum DetailSpine: Hashable {
     case recreational
     case medical
@@ -178,10 +177,6 @@ enum DetailSection: Hashable, CaseIterable {
     case combinations
     case water
     case misconceptions
-    // Medical spine
-    case medicalUses
-    case boxedWarning
-    case contraindications
 }
 
 extension DisclosurePolicy {
@@ -227,11 +222,9 @@ extension DisclosurePolicy {
         // medical one (no dose gauge / effects / water / misconceptions on a statin).
         case .doseDuration, .effects, .combinations, .water, .misconceptions:
             spine == .recreational ? .inline : .hidden
-        // The user's own history + the safety/medical lead (indications, boxed
-        // warning, contraindications): always inline on both spines. Sections
-        // self-hide when empty, so a recreational compound with no boxed warning
-        // simply renders nothing here.
-        case .history, .medicalUses, .boxedWarning, .contraindications:
+        // The user's own history: always inline on both spines, and
+        // self-hiding when empty.
+        case .history:
             .inline
         }
     }

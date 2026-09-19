@@ -335,7 +335,6 @@ struct DueNowSlot: Identifiable {
 /// card's badge + expanded card need, never the live `DoseEntry`.
 struct CardPKBadge: Equatable {
     let remainingPercent: Double
-    let waitMinutes: Double
     let lastDoseAmount: Double
     let lastDoseUnit: String
     let lastDoseTimestamp: Date
@@ -352,11 +351,7 @@ struct CardPKBadge: Equatable {
     var accessibilityValue: String {
         let active = (lastDoseAmount * remainingPercent / 100).doseFormatted
         let ago = DosePK.shortElapsed(since: lastDoseTimestamp)
-        if waitMinutes > 1 {
-            let wait = DosePK.shortDuration(minutes: waitMinutes)
-            return String(localized: "about \(active) \(lastDoseUnit) active, last dose \(ago) ago, \(wait) left")
-        }
-        return String(localized: "about \(active) \(lastDoseUnit) active, last dose \(ago) ago")
+        return String(localized: "estimated \(active) \(lastDoseUnit) active, last dose \(ago) ago")
     }
 }
 
@@ -508,17 +503,16 @@ final class QuickLogContentModel {
         badges.reserveCapacity(mostRecentEntry.count)
         for (identity, entry) in mostRecentEntry {
             // A form whose kinetics we decline to model (Concerta, a depot) draws
-            // no "≈X active · Yh left" badge — that is base-form timing wearing the
+            // no "est. X active" badge — that is base-form timing wearing the
             // product's name, exactly what D.4 withholds everywhere else.
             guard !entry.namesUnmodeledForm else { continue }
-            guard let status = DosePK.status(
+            guard let remainingPercent = DosePK.status(
                 substanceName: entry.substance,
                 route: entry.route,
                 lastDoseTimestamp: entry.timestamp,
             ) else { continue }
             badges[identity] = CardPKBadge(
-                remainingPercent: status.remainingPercent,
-                waitMinutes: status.waitMinutes,
+                remainingPercent: remainingPercent,
                 lastDoseAmount: entry.amount,
                 lastDoseUnit: entry.unit,
                 lastDoseTimestamp: entry.timestamp,

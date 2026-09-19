@@ -8,7 +8,7 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 
 // MARK: - Ramp Down & Wellness Notification Scheduler
 
-/// Schedules harm-reduction local notifications around logged doses.
+/// Schedules local notifications around logged doses.
 ///
 /// Categories are registered once at launch by
 /// `DoseNotificationManager.registerCategories()`; requests are keyed with
@@ -21,15 +21,9 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// a 90-minute window against the pending request queue to avoid spamming the
 /// user during a multi-dose session.
 ///
-/// Comedown alerts are keyed off a stable per-entry string (see
-/// ``entryKey(for:)``) derived from the dose's stable identity, so the
-/// "alert scheduled" state and the pending notification identifier survive
-/// both app relaunches and edits to the dose's fields (including its
-/// timestamp).
-///
 /// Scheduling never requests the OS grant (no ambient permission sites):
-/// permission is asked from the management screen, onboarding, or an
-/// explicit comedown arm via `DoseNotificationManager.requestAuthorization()`.
+/// permission is asked from the management screen or onboarding via
+/// `DoseNotificationManager.requestAuthorization()`.
 /// Requests added before the grant simply deliver once the user allows.
 enum RampDownScheduler {
     // MARK: - Timing Constants
@@ -64,7 +58,6 @@ enum RampDownScheduler {
 
     // Internal + nonisolated: `NotificationType.identifierPrefixes` derives
     // its cancel-by-prefix sets from these so the two can't drift.
-    nonisolated static let rampDownCategoryID = "rampDown"
     nonisolated static let hydrationCategoryID = "hydration"
     nonisolated static let sleepCategoryID = "sleepReminder"
     nonisolated static let cumulativeCategoryID = "cumulativeDose"
@@ -77,40 +70,7 @@ enum RampDownScheduler {
         return "session_\(Int(startOfDay.timeIntervalSince1970))_\(window)"
     }
 
-    // MARK: - Comedown Timing
-
-    /// The moment the comedown begins (start of the offset phase).
-    ///
-    /// This is when the user most needs recovery reminders — peak has ended
-    /// and the descent is beginning.
-    static func comedownStartTime(
-        doseTime: Date,
-        duration: DurationProfile,
-    ) -> Date {
-        let boundaries = duration.phaseBoundaries
-        let peakEndMinutes = boundaries.peakEnd
-        let comeupMinutes = boundaries.comeupEnd - boundaries.onsetEnd
-
-        let redoseMinutes = peakEndMinutes - comeupMinutes
-        return doseTime.addingTimeInterval(max(0, redoseMinutes) * 60)
-    }
-
-    /// Suggested redose amount (kept for users who explicitly want it)
-    static func suggestedRedoseAmount(_ initialAmount: Double) -> Double {
-        (initialAmount * 0.33).rounded(toPlaces: 1)
-    }
-
-    // MARK: - Notifications
-
-    /// Stable per-entry key for the comedown alert: the entry's stable
-    /// ``DoseEntry/id``. Unlike the earlier `substance-timestamp` key, it
-    /// survives re-timing a dose (no orphaned alert), and unlike
-    /// `persistentModelID.hashValue` (`Hashable` is seeded per process) it
-    /// survives relaunches. Keys persisted under the older formats orphan and
-    /// are dropped on read — see ``loadActiveEntries()``.
-    static func entryKey(for entry: DoseEntry) -> String {
-        entry.id.uuidString
-    }
+    // MARK: - Permission
 
     static func requestPermissionIfNeeded() async -> Bool {
         let center = UNUserNotificationCenter.current()
@@ -123,86 +83,6 @@ enum RampDownScheduler {
         default:
             return false
         }
-    }
-
-    /// Schedule the main comedown notification, with category-tailored aftercare
-    /// guidance (rest, hydration, nutrition).
-    ///
-    /// Gated for App Store submission: individualized timing recommendation
-    /// (Guideline 1.4.2). The UI entry point is removed; this guard ensures
-    /// no comedown notification fires even if old persisted state requests one.
-    static func scheduleNotification(
-        substanceName: String,
-        doseTime: Date,
-        duration: DurationProfile,
-        entryKey: String,
-        category: SubstanceCategory? = nil,
-        displayName: String? = nil,
-    ) {
-        return // gated for App Store submission
-        let center = UNUserNotificationCenter.current()
-
-        let comedownTime = comedownStartTime(doseTime: doseTime, duration: duration)
-        let timeInterval = comedownTime.timeIntervalSince(.now)
-
-        guard timeInterval > 5 else {
-            logger.warning("Comedown time already passed (\(Int(timeInterval))s ago)")
-            return
-        }
-
-        let message = comedownMessage(for: category)
-
-        let content = UNMutableNotificationContent(
-            title: message.title.replacingOccurrences(of: "{name}", with: displayName ?? substanceName),
-            body: message.body,
-            category: rampDownCategoryID,
-            threadIdentifier: sessionIdentifier(for: doseTime),
-        )
-        // Body tap / View Timeline land on the dose's detail (entryKey is the
-        // dose's stable id; the timestamp keeps id-less legacy resolution).
-        content.userInfo = [
-            DoseNotificationManager.deepLinkUserInfoKey:
-                "\(DeepLink.scheme)://entry/\(Int(doseTime.timeIntervalSince1970))?id=\(entryKey)",
-        ]
-
-        let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: timeInterval,
-            repeats: false,
-        )
-
-        let request = UNNotificationRequest(
-            identifier: notificationIdentifier(entryKey: entryKey),
-            content: content,
-            trigger: trigger,
-        )
-
-        center.add(request) { error in
-            if let error {
-                logger.error("Failed to schedule comedown notification: \(error.localizedDescription)")
-            } else {
-                let mins = Int(timeInterval / 60)
-                logger.info("Comedown notification scheduled in \(mins) min for \(substanceName)")
-            }
-        }
-    }
-
-    static func cancelNotification(for entryKey: String) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(
-            withIdentifiers: [
-                notificationIdentifier(entryKey: entryKey),
-                legacyNotificationIdentifier(entryKey: entryKey),
-            ],
-        )
-    }
-
-    private static func notificationIdentifier(entryKey: String) -> String {
-        NotificationType.comedown.identifier(anchor: entryKey)
-    }
-
-    /// Pre-grammar identifier — cancelled alongside the current one so a
-    /// comedown alert armed before the update still cancels cleanly.
-    private static func legacyNotificationIdentifier(entryKey: String) -> String {
-        "\(rampDownCategoryID)_\(entryKey)"
     }
 
     // MARK: - Wellness Notifications (Auto-scheduled on dose log)
@@ -429,13 +309,13 @@ enum RampDownScheduler {
             switch phase {
             case .onset:
                 if let onset = duration.onset {
-                    return String(localized: "Effects should start within \(Int(onset.min))-\(Int(onset.max)) minutes.")
+                    return String(localized: "Reference onset for this route: \(Int(onset.min))-\(Int(onset.max)) minutes.")
                 }
-                return String(localized: "Tracking started. Effects on the way.")
+                return String(localized: "Tracking started.")
             case .comeup:
-                return String(localized: "First effects starting now. Find your spot.")
+                return String(localized: "Estimated onset from reference data. How are you feeling?")
             case .peak:
-                return String(localized: "Peak is hitting. Stay safe and aware.")
+                return String(localized: "Estimated peak window from reference data. How are you feeling?")
             }
         }
 
@@ -534,72 +414,16 @@ enum RampDownScheduler {
 
     // MARK: - Category-Aware Messages
 
-    private static func comedownMessage(for category: SubstanceCategory?) -> (title: String, body: String) {
-        switch category {
-        // Stimulants are the one class where this alert mostly lands on a
-        // prescription routine, and "wearing off" is the wrong news for it: a
-        // twice-daily user already knows, and what they can act on is where the
-        // second dose usually falls. Forewarning, and never an instruction to
-        // take one — Piru does not know this person's schedule and says so by
-        // making the clause conditional on theirs.
-        case .stimulant:
-            (
-                String(localized: "{name} easing off"),
-                String(localized: "The plateau has ended. If your day has a second dose, this is the window it usually falls in — and food and water help the stretch either way."),
-            )
-        case .empathogen:
-            (
-                String(localized: "{name} wearing off"),
-                String(localized: "The low mood is temporary and normal. Eat light foods, stay warm, and rest. Be kind to yourself over the next few days."),
-            )
-        case .psychedelic:
-            (
-                String(localized: "{name} effects fading"),
-                String(localized: "You're coming back to baseline. Rest, eat something light. Give yourself time to process the experience."),
-            )
-        case .opioid:
-            (
-                String(localized: "{name} wearing off"),
-                String(localized: "Stay hydrated. Don't redose to chase it — it doesn't work."),
-            )
-        case .dissociative:
-            (
-                String(localized: "{name} wearing off"),
-                String(localized: "Stay somewhere comfortable and safe. Eat and hydrate when you can. Avoid driving."),
-            )
-        case .benzodiazepine:
-            (
-                String(localized: "{name} wearing off"),
-                String(localized: "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out."),
-            )
-        case .depressant:
-            (
-                String(localized: "{name} wearing off"),
-                String(localized: "Drink water and eat something with electrolytes. Rest in a cool, dark room if your head hurts."),
-            )
-        case .cannabinoid:
-            (
-                String(localized: "{name} wearing off"),
-                String(localized: "Drink water, eat something balanced. If foggy, a short walk or fresh air helps clear it."),
-            )
-        default:
-            (
-                String(localized: "{name} wearing off"),
-                String(localized: "Take care of yourself — eat, hydrate, and rest. The effects will fade with time."),
-            )
-        }
-    }
-
     private static func hydrationMessage(for category: SubstanceCategory?) -> String {
         switch category {
         case .stimulant:
-            String(localized: "Drink some water. Stimulants mask thirst — your body needs more fluids than you realize.")
+            String(localized: "A reminder to drink some water. Stimulants can mask thirst.")
         case .empathogen:
-            String(localized: "Sip some water — a glass every 30-60 minutes. Don't overdo it, just stay steady.")
+            String(localized: "A reminder to sip, and to favor electrolytes. With this class more water is not safer.")
         case .dissociative:
-            String(localized: "Have some water if you can. Your body needs fluids even if you don't feel thirsty.")
+            String(localized: "A reminder to have some water if you can.")
         default:
-            String(localized: "Drink some water. Your body needs it, especially right now.")
+            String(localized: "A reminder to drink some water.")
         }
     }
 
@@ -608,7 +432,7 @@ enum RampDownScheduler {
         case .stimulant:
             String(localized: "Remember to hydrate, eat, and try to get some sleep. Your heart has been working hard.")
         case .empathogen:
-            String(localized: "Your serotonin system is taking a hit. Rest.")
+            String(localized: "That total is in the heavy range of the sources. Overheating, confusion or rigid muscles need emergency help.")
         case .opioid:
             String(localized: "Don't use alone and don't mix with other downers. An overdose is a sudden blackout with no warning — you can't naloxone yourself, so someone with you needs it and should call emergency services.")
         case .benzodiazepine:
@@ -693,52 +517,5 @@ enum RampDownScheduler {
         }
         guard let earliest = stimEntries.map(\.timestamp).min() else { return nil }
         return Date.now.timeIntervalSince(earliest) / 3_600
-    }
-
-    // MARK: - Persistence
-
-    private static let storageKey = "rampDownEntryIDs"
-
-    static func saveActiveEntry(_ entryKey: String) {
-        var ids = loadActiveEntries()
-        ids.insert(entryKey)
-        UserDefaults.standard.set(Array(ids), forKey: storageKey)
-    }
-
-    static func removeActiveEntry(_ entryKey: String) {
-        var ids = loadActiveEntries()
-        ids.remove(entryKey)
-        UserDefaults.standard.set(Array(ids), forKey: storageKey)
-    }
-
-    static func isActive(for entryKey: String) -> Bool {
-        loadActiveEntries().contains(entryKey)
-    }
-
-    /// Forget every armed comedown alert — called when the comedown type is
-    /// disabled in Notification Settings (their pending requests are cancelled
-    /// there; this keeps the per-entry "alert active" state honest).
-    static func clearActiveEntries() {
-        UserDefaults.standard.removeObject(forKey: storageKey)
-    }
-
-    private static func loadActiveEntries() -> Set<String> {
-        let stored = UserDefaults.standard.stringArray(forKey: storageKey) ?? []
-        // Current keys are `DoseEntry.id` UUID strings. Drop legacy formats on
-        // read (the next save/remove persists the cleaned set): per-launch
-        // `persistentModelID.hashValue` ints, and the interim
-        // `substance-timestamp` strings — both unmatched by current keys, so
-        // keeping them would only leak. Their pending notifications, if any,
-        // orphan and fire once; acceptable for a PRN feature.
-        return Set(stored.filter { UUID(uuidString: $0) != nil })
-    }
-}
-
-// MARK: - Double Rounding Helper
-
-private extension Double {
-    func rounded(toPlaces places: Int) -> Double {
-        let multiplier = pow(10.0, Double(places))
-        return (self * multiplier).rounded() / multiplier
     }
 }

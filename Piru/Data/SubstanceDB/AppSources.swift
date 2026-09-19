@@ -3,97 +3,118 @@ import Foundation
 struct SourceInfo {
     let name: String
     let url: String
-    let detail: String
-    let description: String
-    /// Content license, surfaced for attribution. Set for the copyleft community
-    /// wikis Piru bundles (CC BY-SA 4.0); nil for sources used only as outbound
-    /// reference links or whose factual data carries no license obligation.
+    /// One line under the name: the site's address, or what the source is.
+    let detail: LocalizedStringResource
+    let description: LocalizedStringResource
+    /// The license identifier shown beside a source whose text or data Piru
+    /// bundles. `nil` when the source's own terms are linked through ``url``.
     var license: String?
 }
 
 enum AppSources {
+    /// Display name of the European Union Drugs Agency entry, shared by ``all``
+    /// and ``substanceURL(for:substance:)``.
+    private static let euda = "EUDA (formerly EMCDDA)"
+
     static let all: [SourceInfo] = [
         SourceInfo(
             name: "TripSit",
             url: "https://tripsit.me",
             detail: "tripsit.me",
-            description: "Harm reduction community providing factsheets on psychoactive substances, including dosage ranges, duration, interactions, and safety information.",
+            description: "Community database. TripSit's combination data is a quick overview; research each combination further.",
+            license: "Free for non-commercial use",
         ),
         SourceInfo(
             name: "OpenFDA",
             url: "https://open.fda.gov",
-            detail: "open.fda.gov — FDA Drug Labels API",
-            description: "U.S. Food and Drug Administration open data API providing drug labeling information, pharmacologic classes, routes of administration, and brand/generic names.",
+            detail: "open.fda.gov — National Drug Code directory",
+            description: "U.S. government open data.",
+            license: "CC0 1.0",
         ),
         SourceInfo(
             name: "PsychonautWiki",
             url: "https://psychonautwiki.org",
             detail: "psychonautwiki.org",
-            description: "Community-driven encyclopedia of psychoactive substances providing dosage, duration, pharmacology, subjective effects, and harm reduction information.",
+            description: "Community encyclopedia.",
             license: "CC BY-SA 4.0",
         ),
         SourceInfo(
             name: "FreeOD Wiki",
             url: "https://freeodwiki.org",
             detail: "freeodwiki.org",
-            description: "Chinese-language community harm-reduction wiki providing native Chinese descriptions, pharmacology, subjective effects, and dosage/duration data.",
+            description: "Chinese-language community wiki.",
             license: "CC BY-SA 4.0",
         ),
         SourceInfo(
             name: "dose.wiki",
             url: "https://dose.wiki",
             detail: "dose.wiki",
-            description: "Public-domain substance encyclopedia compiled from PsychonautWiki, TripSit and Erowid, with each article marked for whether a subject-matter expert has read it. Piru reads its chemistry into fields nothing else fills, and takes its dosage, duration and receptor tables only from reviewed articles.",
+            description: "Community encyclopedia.",
             license: "CC0 1.0",
-        ),
-        SourceInfo(
-            name: "DrugBank",
-            url: "https://go.drugbank.com",
-            detail: "go.drugbank.com",
-            description: "Comprehensive pharmaceutical knowledge base combining detailed drug data with drug target information. Used for pharmacokinetic parameters and drug properties.",
         ),
         SourceInfo(
             name: "PubMed",
             url: "https://pubmed.ncbi.nlm.nih.gov",
             detail: "pubmed.ncbi.nlm.nih.gov",
-            description: "Biomedical literature database maintained by the National Library of Medicine, providing access to peer-reviewed research articles and clinical studies.",
+            description: "Biomedical literature index.",
         ),
         SourceInfo(
             name: "PiHKAL",
-            url: "https://isomerdesign.com/PiHKAL/PiHKAL/",
+            url: "https://isomerdesign.com/pihkal/browse/pk",
             detail: "Phenethylamines I Have Known and Loved — Shulgin & Shulgin (1991)",
-            description: "Pharmacological reference text by Alexander and Ann Shulgin documenting the synthesis, dosage, duration, and qualitative effects of phenethylamine compounds.",
+            description: "Reference text by Alexander and Ann Shulgin.",
+            license: "Book II · non-commercial reproduction",
         ),
         SourceInfo(
             name: "TiHKAL",
-            url: "https://isomerdesign.com/PiHKAL/TiHKAL/",
+            url: "https://isomerdesign.com/pihkal/browse/tk",
             detail: "Tryptamines I Have Known and Loved — Shulgin & Shulgin (1997)",
-            description: "Pharmacological reference text by Alexander and Ann Shulgin documenting the synthesis, dosage, duration, and qualitative effects of tryptamine compounds.",
+            description: "Reference text by Alexander and Ann Shulgin.",
+            license: "Book II · non-commercial reproduction",
         ),
         SourceInfo(
             name: "DailyMed",
             url: "https://dailymed.nlm.nih.gov",
             detail: "dailymed.nlm.nih.gov — NLM/FDA Drug Label Database",
-            description: "Official FDA drug labeling database maintained by the National Library of Medicine, containing approved product labeling (package inserts) for prescription and OTC drugs.",
+            description: "U.S. product label database. Label text is written by each manufacturer.",
         ),
         SourceInfo(
-            name: "EMCDDA",
-            url: "https://www.emcdda.europa.eu",
-            detail: "European Monitoring Centre for Drugs and Drug Addiction",
-            description: "EU agency providing risk assessments and pharmacological profiles of new psychoactive substances (NPS) and novel research chemicals.",
+            name: euda,
+            url: "https://www.euda.europa.eu",
+            detail: "European Union Drugs Agency",
+            description: "European Union agency publications.",
         ),
         SourceInfo(
-            name: "SubFxOnEx (drug.community)",
+            name: "SubFxOnEx",
             url: "https://github.com/Di-lemma/SubFxOnEx",
             detail: "github.com/Di-lemma/SubFxOnEx — subjective-effects ontology",
-            description: "Bottom-up ontology of subjective effects built from first-hand experience reports, powering drug.community's effect parser. Piru bundles its concepts and aliases as the descriptor vocabulary for session notes.",
+            description: "Subjective-effects vocabulary.",
             license: "LGPL-2.1",
         ),
         SourceInfo(
+            name: "substance.wiki",
+            url: "https://substance.wiki",
+            detail: "substance.wiki",
+            description: "Community database.",
+        ),
+        SourceInfo(
+            name: "PubChem",
+            url: "https://pubchem.ncbi.nlm.nih.gov",
+            detail: "pubchem.ncbi.nlm.nih.gov — National Library of Medicine",
+            description: "Open chemistry database.",
+        ),
+        SourceInfo(
+            name: "Wikidata",
+            url: "https://www.wikidata.org",
+            detail: "wikidata.org",
+            description: "Open knowledge base.",
+            license: "CC0 1.0",
+        ),
+        SourceInfo(
             name: "WHO",
-            url: "https://www.who.int/teams/health-product-and-policy-standards/medicines-selection-and-ip",
+            url: "https://www.who.int/groups/ecdd",
             detail: "WHO Expert Committee on Drug Dependence",
-            description: "World Health Organization critical reviews and assessments of psychoactive substances, including pharmacological evaluations and scheduling recommendations.",
+            description: "Expert committee reviews.",
         ),
     ]
 
@@ -114,6 +135,7 @@ enum AppSources {
         "erowid-tihkal": "TiHKAL",
         "freeodwiki": "FreeOD Wiki",
         "dosewiki": "dose.wiki",
+        "drug.community": "substance.wiki",
     ]
 
     /// Deep link to a FreeOD Wiki substance page. The pages are titled in
@@ -180,10 +202,10 @@ enum AppSources {
             let query = substance
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? substance
             return URL(string: "https://pubmed.ncbi.nlm.nih.gov/?term=\(query)+pharmacology")
-        case "EMCDDA":
+        case euda:
             let query = substance
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? substance
-            return URL(string: "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=\(query)")
+            return URL(string: "https://www.euda.europa.eu/publications/drug-profiles_en?search=\(query)")
         default:
             // No per-substance page for this source. Never fall back to the
             // source homepage: it renders as a substance-specific link that

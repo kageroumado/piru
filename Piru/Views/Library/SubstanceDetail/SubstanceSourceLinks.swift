@@ -6,14 +6,14 @@ import Foundation
 /// substance, factored out of the view so each section resolves links without
 /// carrying the logic or forcing the parent to pass closures down.
 enum SubstanceSourceLinks {
-    /// Deep link for a source-attribution row. drug.community's `/drug/<slug>`
+    /// Deep link for a source-attribution row. substance.wiki's `/drug/<slug>`
     /// page resolves only the canonical slug captured at build time (no alias
     /// fallback), so it can't be derived from the app's name; every other source
     /// deep-links from the substance name via ``AppSources``.
     static func deepLink(_ slug: String, substance: Substance) -> URL? {
         if slug == "drug.community" {
             guard let dc = substance.drugCommunitySlug else { return nil }
-            return URL(string: "https://drug.community/drug/\(dc)")
+            return URL(string: "https://substance.wiki/drug/\(dc)")
         }
         // FreeOD Wiki pages are titled in Chinese, so deep-link the captured
         // page slug rather than the app's (English) substance name.
@@ -33,7 +33,7 @@ enum SubstanceSourceLinks {
         // The hand-curated overlay has no per-substance page of its own. When we
         // curated a real reference for the compound (NIH ODS / examine.com for a
         // supplement, a paper for an RC), link the attribution to that source
-        // instead of dead-ending on the bare "Piru hand-curated overlay" label.
+        // instead of dead-ending on the bare "Piru editors" label.
         if slug == "piru-curated" {
             return substance.references.first(where: { $0.resolvedURL != nil })?.resolvedURL
         }
@@ -48,11 +48,8 @@ enum SubstanceSourceLinks {
         return SubstanceStore.shared.sourceDisplayName(forSlug: slug)
     }
 
-    /// The content license a source's material is bundled under, when it carries
-    /// one. Only the copyleft community wikis do (CC BY-SA 4.0), and naming the
-    /// license is part of what that license asks for — ``SourceInfo/license`` has
-    /// been populated since the sources were added but was never displayed
-    /// anywhere, so the Sources list is where that obligation is discharged.
+    /// The license or terms label ``AppSources`` records for a source, shown in
+    /// the Sources list. Naming the license is part of what CC BY-SA asks for.
     static func license(forSlug slug: String) -> String? {
         guard let name = AppSources.slugToName[slug] else { return nil }
         return AppSources.info(for: name)?.license

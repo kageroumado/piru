@@ -29,7 +29,7 @@ struct PKInteractionRow: View {
                         .multilineTextAlignment(.trailing)
                 }
             }
-            if let effect = hit.clinicalEffect {
+            if let effect = hit.labeledEffect {
                 Text(verbatim: effect)
                     .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)

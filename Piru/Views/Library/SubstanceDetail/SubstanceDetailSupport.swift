@@ -24,7 +24,7 @@ struct DetailSourceLink: Identifiable {
 ///
 /// The displayed source name is resolved from the bundled `sources` table
 /// via ``SubstanceStore/sourceDisplayName(forSlug:)`` so users see the
-/// human-readable name ("TripSit factsheets") instead of the wire slug
+/// human-readable name ("TripSit") instead of the wire slug
 /// ("tripsit").
 /// The one folded-section look used across the whole substance screen — a
 /// `DisclosureGroup` with a semibold subheadline label and an optional count

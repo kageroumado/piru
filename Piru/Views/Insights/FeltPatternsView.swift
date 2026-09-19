@@ -51,7 +51,7 @@ struct FeltPatternsView: View {
                 VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text("Your days, side by side")
                         .sectionLabel()
-                    Text("Each comparison cuts your rated days on one thing at a time and counts how often the dose read \"about right\" or better.")
+                    Text("Each comparison cuts your rated days on one thing at a time and counts how often the dose read \"about right\" or more. These describe your entries; they don't show that a substance, dose, or timing caused a difference.")
                         .captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -163,6 +163,6 @@ private struct SplitSideRow: View {
         .padding(.vertical, Spacing.xxs)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(label))
-        .accessibilityValue(Text("\(tally.asExpected) of \(tally.days) days about right or better"))
+        .accessibilityValue(Text("\(tally.asExpected) of \(tally.days) days about right or more"))
     }
 }

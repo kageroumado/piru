@@ -26,7 +26,7 @@ struct ElevenHydroxyTHCCard: View {
                     Text("Swallowed THC passes through your liver first, which turns much of it into 11-hydroxy-THC — an active by-product that reaches the brain more easily and binds the CB1 receptor far more strongly than THC itself. That's why an edible tends to feel stronger, milligram for milligram, than the same amount smoked.")
                         .captionSecondary()
 
-                    Text("Edibles also come on slowly — usually 30 minutes to 2 hours — and last much longer, often 6–10 hours. That slow start is the redose trap: wait at least 2 hours before taking more, or you can stack a far stronger, longer dose than you meant to.")
+                    Text("Edibles also come on slowly — usually 30 minutes to 2 hours — and last much longer, often 6–10 hours. That slow start is the redose trap: more taken before the first dose has arrived stacks into a far stronger, longer experience than intended.")
                         .captionSecondary()
                 }
                 .accessibilityElement(children: .combine)

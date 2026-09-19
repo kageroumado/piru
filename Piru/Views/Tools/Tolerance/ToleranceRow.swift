@@ -12,10 +12,9 @@ struct ToleranceRow: Identifiable {
         snapshot.receptorClass
     }
 
-    /// Minimum severity for a non-safety class to earn a card — the "No tolerance" / "Mild" bucket
+    /// Minimum severity for a non-safety class to earn a card — the rested / mild bucket
     /// boundary (``ToleranceBucket``: rested at responseFraction ≥ 0.90 ⇒ severity ≤ 0.10). Below it a
-    /// card would render while labeling itself "No tolerance" and quoting a "fades in under an hour"
-    /// recovery, which is noise — it's how a drug with only trace activity at the class's target (e.g.
+    /// card would render for a level the gauge draws as empty, which is noise — it's how a drug with only trace activity at the class's target (e.g.
     /// amphetamine's weak SERT release) slipped into the chart. Safety-critical classes bypass it.
     static let minimumCardSeverity = 0.10
 
@@ -58,23 +57,6 @@ struct ToleranceRow: Identifiable {
         }
     }
 
-    // MARK: - Lede
-
-    /// The card's one-line summary — **only** when it adds something the gauge doesn't already show.
-    /// The plain level (mild / high / …) is read off the gauge, so a generic "Mild tolerance — your
-    /// usual dose does a little less" would just restate it; those return `nil`. MDMA-type synthesis
-    /// and the adrenergic rebound hosts carry real extra information, so they keep a line.
-    var lede: LocalizedStringResource? {
-        switch snapshot.receptorClass {
-        case .alpha2Agonist, .betaBlocker:
-            "Little tolerance builds — the thing to watch is stopping suddenly."
-        case .serotonergicReleaser where snapshot.sSynthesis > 0.05:
-            "Suppresses the enzyme that makes serotonin, so recovery takes weeks."
-        default:
-            nil
-        }
-    }
-
     // MARK: - Recovery curve / windows
 
     /// Forward-decay the engaged layers over `[0, window]` and convert each `S(t)` to a **tolerance
@@ -107,19 +89,6 @@ struct ToleranceRow: Identifiable {
     var xAxisDays: [Double] {
         let windowDays = recoveryWindowMinutes / 1_440
         return [0, windowDays * 0.25, windowDays * 0.5, windowDays * 0.75, windowDays]
-    }
-
-    var chartCaption: LocalizedStringResource {
-        let u = snapshot.uncertaintyFraction
-        let optimisticMinutes = max(recoveryMinutes(toTolerance: 0.10, shiftScale: 1 / (1 + u)) ?? 0, 0)
-        let pessimisticMinutes = max(recoveryMinutes(toTolerance: 0.10, shiftScale: 1 + u) ?? 0, 0)
-        let lo = durationPhrase(minutes: min(optimisticMinutes, pessimisticMinutes))
-        let hi = durationPhrase(minutes: max(optimisticMinutes, pessimisticMinutes))
-        let phrase = lo == hi ? lo : "\(lo)–\(hi)"
-        if snapshot.sDeep > 0.05 {
-            return "Most of it fades in \(phrase) if you stop now — the deep part takes months."
-        }
-        return "Most of it fades in \(phrase) if you stop now."
     }
 
     /// Recovery window `W` (minutes) for the chart's X axis — time for tolerance to fade to ~5% if
@@ -158,7 +127,7 @@ struct ToleranceRow: Identifiable {
     /// key on chronicity (duration of regular use), not tolerance magnitude —
     /// therapeutic-dose dependence develops without measurable tolerance (NAV26 §5.6).
     /// Adrenergic rebound always shows (it's the whole point of those faint-tolerance cards).
-    func safetyNotes(tier: UserProfile) -> [ToleranceSafetyNote] {
+    func safetyNotes() -> [ToleranceSafetyNote] {
         var notes: [ToleranceSafetyNote] = []
 
         func add(
@@ -173,59 +142,25 @@ struct ToleranceRow: Identifiable {
         switch params.safetyAxis {
         case .resetOverdose:
             if hasTolerance {
-                add("After a break or in a new setting, tolerance drops — a dose that felt fine before can stop your breathing. Restart low.")
+                add("After a break or in a new setting, tolerance drops — a dose that felt fine before can stop your breathing.")
             }
         case .dependenceKindling:
             if snapshot.chronicExposure > 0.10 {
-                add("Regular use over weeks builds physical dependence — stopping abruptly can be dangerous even if you don't feel tolerant. Taper gradually.")
+                add("Regular use over weeks builds physical dependence — stopping abruptly can be dangerous even if you don't feel tolerant.")
             }
         case .alpha2Rebound:
-            add("Don't stop α₂-agonists cold after regular use — blood pressure can rebound. Taper.")
+            add("Stopping an α₂-agonist abruptly after regular use can make blood pressure rebound.")
         case .betaRebound:
-            add("Don't stop beta-blockers cold after regular use — heart rate and blood pressure can rebound. Taper.")
+            add("Stopping a beta-blocker abruptly after regular use can make heart rate and blood pressure rebound.")
         default:
             break
         }
 
         if snapshot.safetyEndpointKind == .cognitiveImpairment, hasTolerance {
-            add("The dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one.")
-        }
-
-        if snapshot.safetyEndpointKind == .cardiovascular {
-            add("Within a session the high fades faster than the blood-pressure rise, so a redose stacks onto it.")
-            if let cardiovascular = snapshot.safetyShiftFactor, cardiovascular > 1.05 {
-                add(
-                    "With regular use, your resting heart rate and blood pressure tend to settle over weeks.",
-                    tint: Theme.secondaryLabel, image: "clock.arrow.circlepath",
-                )
-            }
-        }
-
-        if tier != .casual, snapshot.sDeep > 0.05 {
-            add(
-                "Heavy chronic use has shifted your baseline; the deepest part recovers over months.",
-                tint: Theme.secondaryLabel, image: "clock.arrow.circlepath",
-            )
+            add("Feeling less sedated does not establish that memory or coordination are unimpaired — tolerance to sedation builds faster than tolerance to impairment.")
         }
 
         return notes
-    }
-
-    // MARK: - Pharma Nerd footer
-
-    var confidenceAndShift: LocalizedStringResource {
-        let shift = String(format: "%.1f", snapshot.shiftFactor)
-        return "\(String(localized: snapshot.confidence.label)) · S ≈ \(shift)×"
-    }
-
-    var engagedLayers: LocalizedStringResource {
-        var names: [String] = []
-        if snapshot.sAcute > 0.01 { names.append(String(localized: "acute")) }
-        if snapshot.sAdaptive > 0.01 { names.append(String(localized: "adaptive")) }
-        if snapshot.sDeep > 0.01 { names.append(String(localized: "deep")) }
-        if snapshot.sSynthesis > 0.01 { names.append(String(localized: "synthesis")) }
-        let joined = names.isEmpty ? String(localized: "none") : ListFormatter.localizedString(byJoining: names)
-        return "Engaged layers: \(joined)"
     }
 }
 
@@ -257,7 +192,7 @@ struct ToleranceSafetyNote: Identifiable {
     let systemImage: String
 }
 
-/// Five tolerance buckets keyed on the response fraction — drives the capsule word and the note gating.
+/// Five tolerance buckets keyed on the response fraction — gates which safety notes show.
 enum ToleranceBucket {
     case rested
     case mild
@@ -272,18 +207,6 @@ enum ToleranceBucket {
         case 0.50 ..< 0.70: self = .moderate
         case 0.30 ..< 0.50: self = .high
         default: self = .veryHigh
-        }
-    }
-
-    /// The tolerance level in words — used both as the gauge's capsule/legend word and as its VoiceOver
-    /// label so screen-reader users get the level without reading five bars.
-    var word: LocalizedStringResource {
-        switch self {
-        case .rested: "No tolerance"
-        case .mild: "Mild tolerance"
-        case .moderate: "Moderate tolerance"
-        case .high: "High tolerance"
-        case .veryHigh: "Very high tolerance"
         }
     }
 }
@@ -302,20 +225,10 @@ func toleranceClassName(
     }
 }
 
-func durationPhrase(minutes: Double) -> String {
-    let hours = minutes / 60
-    let days = hours / 24
-    if days >= 60 { return String(localized: "~\(Int((days / 30).rounded())) months") }
-    if days >= 14 { return String(localized: "~\(Int((days / 7).rounded())) weeks") }
-    if days >= 1.5 { return String(localized: "~\(Int(days.rounded())) days") }
-    if hours >= 1 { return String(localized: "~\(Int(hours.rounded())) hours") }
-    return String(localized: "under an hour")
-}
-
 /// A compact X-axis tick label. Ticks sit at 0·W … 1·W in quarter-window steps, so a coarse
 /// (whole-hour / whole-day) unit collides on adjacent ticks for short windows — the "1h · 2h · 2h" bug.
 /// Each magnitude drops to the next-finer unit (minutes < 2 h, hours < 4 d, days < 4 wk) so neighboring
-/// ticks always round apart; the load-bearing recovery copy is the caption below the chart.
+/// ticks always round apart.
 func axisDayLabel(days: Double) -> String {
     let value = max(0, days)
     if value <= 0 { return String(localized: "now") }

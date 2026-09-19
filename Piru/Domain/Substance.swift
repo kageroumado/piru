@@ -58,10 +58,6 @@ struct Substance: Identifiable {
     /// True when the total duration exceeds 24h (the vitamin problem); OTC
     /// duration is suppressed when set. Recreational/dual-use are exempt.
     let durationImplausible: Bool
-    /// Clinical indications (what it's prescribed for), for medical/OTC display.
-    let indications: [String]
-    /// Contraindications + boxed warnings, for medical/OTC display.
-    let contraindications: [Contraindication]
     /// Cross-benzo diazepam equivalency (benzodiazepines only).
     let diazepamEquivalent: DiazepamEquivalent?
     /// PSID FAMILY — the stable substance-identity anchor (InChIKey connectivity
@@ -170,8 +166,6 @@ struct Substance: Identifiable {
         displayClass: CompoundDisplayClass = .recreational,
         regulatoryStatus: String? = nil,
         durationImplausible: Bool = false,
-        indications: [String] = [],
-        contraindications: [Contraindication] = [],
         diazepamEquivalent: DiazepamEquivalent? = nil,
         substanceUID: String? = nil,
         cas: String? = nil,
@@ -213,8 +207,6 @@ struct Substance: Identifiable {
         self.displayClass = displayClass
         self.regulatoryStatus = regulatoryStatus
         self.durationImplausible = durationImplausible
-        self.indications = indications
-        self.contraindications = contraindications
         self.diazepamEquivalent = diazepamEquivalent
         self.substanceUID = substanceUID
         self.cas = cas
@@ -702,8 +694,6 @@ extension Substance: Codable {
         case displayClass
         case regulatoryStatus
         case durationImplausible
-        case indications
-        case contraindications
         case diazepamEquivalent
         case substanceUID
         case cas
@@ -744,8 +734,6 @@ extension Substance: Codable {
         displayClass = try c.decodeIfPresent(CompoundDisplayClass.self, forKey: .displayClass) ?? .recreational
         regulatoryStatus = try c.decodeIfPresent(String.self, forKey: .regulatoryStatus)
         durationImplausible = try c.decodeIfPresent(Bool.self, forKey: .durationImplausible) ?? false
-        indications = try c.decodeIfPresent([String].self, forKey: .indications) ?? []
-        contraindications = try c.decodeIfPresent([Contraindication].self, forKey: .contraindications) ?? []
         diazepamEquivalent = try c.decodeIfPresent(DiazepamEquivalent.self, forKey: .diazepamEquivalent)
         substanceUID = try c.decodeIfPresent(String.self, forKey: .substanceUID)
         cas = try c.decodeIfPresent(String.self, forKey: .cas)
@@ -798,12 +786,6 @@ extension Substance: Codable {
         try c.encodeIfPresent(regulatoryStatus, forKey: .regulatoryStatus)
         if durationImplausible {
             try c.encode(durationImplausible, forKey: .durationImplausible)
-        }
-        if !indications.isEmpty {
-            try c.encode(indications, forKey: .indications)
-        }
-        if !contraindications.isEmpty {
-            try c.encode(contraindications, forKey: .contraindications)
         }
         try c.encodeIfPresent(diazepamEquivalent, forKey: .diazepamEquivalent)
         try c.encodeIfPresent(substanceUID, forKey: .substanceUID)

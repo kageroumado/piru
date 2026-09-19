@@ -125,7 +125,7 @@ struct MoveToSessionView: View {
                 RetimeMoveView(dose: dose, session: session) { newDate in
                     let previousTimestamp = dose.timestamp
                     dose.timestamp = newDate
-                    DoseNotificationManager.doseRescheduled(entry: dose, previousTimestamp: previousTimestamp, in: modelContext)
+                    DoseNotificationManager.doseRescheduled(entry: dose, previousTimestamp: previousTimestamp)
                     move(to: session)
                 }
             }

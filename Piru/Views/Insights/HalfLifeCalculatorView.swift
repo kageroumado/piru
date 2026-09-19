@@ -421,8 +421,8 @@ private struct HalfLifeRelatedLinks: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
 
-            GlanceCard(icon: "hourglass", title: Text("In Your System"), route: .insight(.inSystem)) {
-                Text("See what's active in your body right now")
+            GlanceCard(icon: "hourglass", title: Text("Modeled as Active"), route: .insight(.inSystem)) {
+                Text("See the model's estimate of what is still active")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }

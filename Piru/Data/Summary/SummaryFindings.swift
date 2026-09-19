@@ -49,7 +49,7 @@ nonisolated struct Finding: Sendable, Identifiable {
 
 // MARK: - Finding generation
 
-extension ClinicalStats {
+extension SummaryStats {
     // MARK: Interaction compression
 
     static func compressInteractions(
@@ -116,7 +116,7 @@ extension ClinicalStats {
     // MARK: Findings
 
     static func findings(
-        report: ClinicalReport,
+        report: JournalSummary,
         interactions: [CompressedInteraction],
     ) -> [Finding] {
         var results: [Finding] = []
@@ -135,7 +135,7 @@ extension ClinicalStats {
     // MARK: - Threshold rules
 
     private static func appendEscalationFindings(
-        from report: ClinicalReport,
+        from report: JournalSummary,
         to results: inout [Finding],
     ) {
         for stat in report.escalation where stat.direction == .rising && abs(stat.change) > 0.15 {
@@ -156,7 +156,7 @@ extension ClinicalStats {
     }
 
     private static func appendOpioidLoadFindings(
-        from report: ClinicalReport,
+        from report: JournalSummary,
         to results: inout [Finding],
     ) {
         guard let peakMME = report.opioidPeakDayMME, peakMME >= 50 else { return }
@@ -179,7 +179,7 @@ extension ClinicalStats {
     }
 
     private static func appendCoExposureFindings(
-        from report: ClinicalReport,
+        from report: JournalSummary,
         interactions: [CompressedInteraction],
         to results: inout [Finding],
     ) {
@@ -230,7 +230,7 @@ extension ClinicalStats {
     }
 
     private static func appendCadenceFindings(
-        from report: ClinicalReport,
+        from report: JournalSummary,
         to results: inout [Finding],
     ) {
         let h = report.holidays

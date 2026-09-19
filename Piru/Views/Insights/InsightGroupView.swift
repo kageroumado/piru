@@ -7,7 +7,7 @@ extension InsightGroup {
     var title: LocalizedStringKey {
         switch self {
         case .inYourBody: "In Your Body"
-        case .toleranceReceptors: "Tolerance & Receptors"
+        case .toleranceReceptors: "Modeled Tolerance & Receptors"
         }
     }
 }
@@ -18,9 +18,9 @@ extension Insight {
         switch self {
         case .adherence: "Adherence"
         case .usage: "Usage"
-        case .tolerance: "Tolerance"
-        case .inSystem: "In your system"
-        case .bodyLoad: "In your body over time"
+        case .tolerance: "Modeled Tolerance"
+        case .inSystem: "Modeled as active"
+        case .bodyLoad: "Modeled levels over time"
         case .receptorLoad: "Receptor load over time"
         case .steadyStateProjection: "Steady state"
         case .hormoneLevels: "Hormone Levels"
@@ -67,15 +67,15 @@ extension Insight {
         switch self {
         case .adherence: "Which days you took your meds"
         case .usage: "When and how much you log"
-        case .tolerance: "Predicted per-mechanism tolerance"
-        case .inSystem: "What's still active in your body right now"
+        case .tolerance: "Modeled tolerance by mechanism"
+        case .inSystem: "What the model estimates is still active"
         case .bodyLoad: "How body-load has moved over time"
         case .receptorLoad: "How hard each mechanism has been driven over time"
         case .steadyStateProjection: "Where a regular dose settles, from your own cadence"
         case .hormoneLevels: "Estimated serum estradiol or testosterone from your logged esters"
         case .patterns: "Days used, exposure, dose trend, and overlap"
         case .feltPatterns: "What your \"did it work?\" answers line up with"
-        case .reports: "Export sessions, generate clinical reports"
+        case .reports: "Export sessions and journal summaries"
         }
     }
 }

@@ -254,7 +254,7 @@ extension LibraryFamily {
         LibraryFamily(
             id: "pharmaceutical",
             title: "Pharmaceuticals",
-            blurb: "Clinical medications, by therapeutic class.",
+            blurb: "Meds, by class.",
             icon: "cross.case.fill",
             color: .Family.Pharmaceutical.accent,
             molecule: "aspirin",

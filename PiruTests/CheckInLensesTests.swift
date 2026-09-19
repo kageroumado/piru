@@ -58,13 +58,13 @@ struct CheckInLensesTests {
     }
 
     @Test
-    func `Reassurance exists for what frightens people and nothing else`() {
-        #expect(CheckInLenses.reassurance(for: "anxiety") != nil)
-        #expect(CheckInLenses.reassurance(for: "palpitations") != nil)
-        #expect(CheckInLenses.reassurance(for: "itching") != nil)
-        // A dry mouth needs no reassuring.
-        #expect(CheckInLenses.reassurance(for: "dry-mouth") == nil)
-        #expect(CheckInLenses.reassurance(for: "not-a-slug") == nil)
+    func `A note exists for what frightens people and nothing else`() {
+        #expect(CheckInLenses.note(for: "anxiety") != nil)
+        #expect(CheckInLenses.note(for: "palpitations") != nil)
+        #expect(CheckInLenses.note(for: "itching") != nil)
+        // A dry mouth needs no note.
+        #expect(CheckInLenses.note(for: "dry-mouth") == nil)
+        #expect(CheckInLenses.note(for: "not-a-slug") == nil)
     }
 
     // MARK: - The form

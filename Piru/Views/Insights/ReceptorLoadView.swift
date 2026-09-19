@@ -214,7 +214,7 @@ struct ReceptorLoadView: View {
     }
 
     private var disclaimer: some View {
-        Text("A predicted relative load from your logged doses, not a measurement. It's a model of receptor drive, not of how you feel.")
+        Text("A modeled relative load from your logged doses. It models receptor drive, not how you feel.")
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)

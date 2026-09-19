@@ -22,8 +22,8 @@ struct ComedownGuideView: View {
         )
     }
 
-    /// First-seen guided category per dose, newest-first — the "what's
-    /// relevant to this user right now" list this guide and Get Help share.
+    /// First-seen guided category per dose, newest-first — the recently
+    /// logged classes this guide and Get Help share.
     static func recentGuidedCategories(
         in entries: some Sequence<DoseEntry>, cutoff: Date,
     ) -> [SubstanceCategory] {
@@ -47,7 +47,7 @@ struct ComedownGuideView: View {
                 aboutSection
 
                 if !recentCategories.isEmpty {
-                    Section("Relevant to you") {
+                    Section("From your last 48 hours") {
                         ForEach(recentCategories, id: \.self) { cat in
                             ComedownCategoryDisclosure(category: cat)
                         }
@@ -80,7 +80,9 @@ struct ComedownGuideView: View {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 Label("What is this?", systemImage: "heart.text.clipboard")
                     .sectionLabel()
-                Text("Tips as substances wear off — tap a category below.")
+                Text("What sources report about the hours after each class wears off. It describes the class, never your condition.")
+                    .captionSecondary()
+                Text("If someone is hard to wake, breathing slowly, overheating or having a seizure, this is the wrong page — call emergency services.")
                     .captionSecondary()
             }
             .padding(.vertical, Spacing.xs)
@@ -94,8 +96,8 @@ struct ComedownGuideView: View {
             VStack(alignment: .leading, spacing: Spacing.lg) {
                 tipRow(icon: "drop.fill", color: .blue, text: "Hydrate — water or electrolyte drinks, sip steadily")
                 tipRow(icon: "fork.knife", color: .orange, text: "Eat something nutritious — protein, carbs, and fruit")
-                tipRow(icon: "bed.double.fill", color: .indigo, text: "Sleep when your body lets you — don't fight it")
-                tipRow(icon: "sun.max.fill", color: .yellow, text: "Fresh air and gentle light help reset your system")
+                tipRow(icon: "bed.double.fill", color: .indigo, text: "Rest when your body asks for it")
+                tipRow(icon: "sun.max.fill", color: .yellow, text: "Fresh air and gentle light")
                 tipRow(icon: "figure.walk", color: .green, text: "Light movement or stretching — nothing intense")
                 tipRow(icon: "iphone.slash", color: .gray, text: "Put the phone down — screens can amplify restlessness")
                 tipRow(icon: "person.2.fill", color: .pink, text: "Reach out to someone you trust if you feel overwhelmed")
@@ -130,51 +132,51 @@ struct ComedownGuideView: View {
         case .stimulant:
             CategoryGuide(
                 whatsHappening: [
-                    "Your brain burned through dopamine and norepinephrine faster than usual.",
-                    "The crash is your nervous system demanding rest and replenishment.",
-                    "Fatigue, irritability, and low mood are all normal parts of this process.",
+                    "After a stimulant wears off, fatigue, irritability and low mood are commonly reported.",
+                    "Appetite and sleep were likely pushed aside for hours, and both come due now.",
+                    "Piru doesn't measure any of this. It describes what sources report for the class.",
                 ],
                 rightNow: [
-                    "Eat something — even if you're not hungry. Protein and complex carbs help most.",
-                    "Drink water or an electrolyte drink. You've been dehydrating without noticing.",
-                    "Magnesium can help with jaw tension and muscle tightness.",
-                    "Vitamin C may support your body's recovery.",
+                    "Eat something, even without hunger. Protein and complex carbs are the usual suggestion.",
+                    "Drink water or an electrolyte drink, in sips.",
+                    "Something to chew eases a tight jaw.",
+                    "Chest pain, a pounding heart that won't settle, or a severe headache needs medical help.",
                 ],
                 nextHours: [
-                    "Don't fight the fatigue — lie down even if sleep doesn't come immediately.",
+                    "Lie down even if sleep doesn't come immediately.",
                     "Dark room, comfortable temperature, no screens.",
-                    "A warm shower or light stretching helps your muscles release.",
-                    "The low mood is chemical. It lifts.",
+                    "A warm shower or light stretching helps tight muscles.",
+                    "Low mood after a stimulant is commonly reported. If it turns into thoughts of harming yourself, use the numbers in Get Help.",
                 ],
                 avoid: [
-                    "Don't redose to escape the crash — it only delays and worsens recovery.",
-                    "Skip the caffeine — your cardiovascular system has worked hard enough.",
-                    "Don't make important decisions or send emotionally charged messages right now.",
-                    "Avoid alcohol — it worsens dehydration and disrupts the sleep you need.",
+                    "Taking more to put off the crash moves the crash later.",
+                    "Caffeine adds to the load on the heart.",
+                    "Important decisions and emotionally charged messages read differently tomorrow.",
+                    "Alcohol disrupts the sleep you need.",
                 ],
             )
         case .empathogen:
             CategoryGuide(
                 whatsHappening: [
-                    "Your serotonin reserves are depleted — that's why everything feels flat or low.",
-                    "This is temporary. Your brain will replenish over the next few days.",
-                    "Emotional sensitivity and fatigue are part of it.",
+                    "Low mood, fatigue and emotional sensitivity in the days after are commonly reported.",
+                    "How long that lasts varies between people, and the kinetics in humans aren't well measured.",
+                    "Piru doesn't measure any of this. It describes what sources report for the class.",
                 ],
                 rightNow: [
-                    "Stay warm — your body's temperature regulation is still off.",
-                    "Sip water steadily, but don't overdo it. A glass every 30-60 minutes is fine.",
-                    "Eat light foods: fruit, toast, soup. Your stomach may be sensitive.",
-                    "If your jaw is sore, gentle massage and magnesium help.",
+                    "This class raises body temperature. Feeling very hot, confused or rigid is an emergency — cool down and call for help.",
+                    "Sip rather than gulp, and favor electrolytes. Over-drinking water is its own danger with this class — more is not safer.",
+                    "Eat light foods: fruit, toast, soup.",
+                    "Gentle massage eases a sore jaw.",
                 ],
                 nextHours: [
                     "Rest in a comfortable, calm space. Soft music or silence both work.",
-                    "Be patient with yourself for the next 1-3 days. Low mood is the serotonin dip.",
+                    "Be patient with yourself over the next few days.",
                     "A walk outside helps when you're ready.",
                     "Talk to someone you trust — connection helps more than isolation.",
                 ],
                 avoid: [
-                    "Don't redose — the magic is in spacing. Frequent use causes lasting harm.",
-                    "Avoid 5-HTP supplements for at least 24 hours after your last dose.",
+                    "Taking more to put off the low moves the low later.",
+                    "Piru doesn't establish a safe interval for adding medicines or supplements. MAOIs are the documented danger with this class.",
                     "Skip intense social situations — you may feel emotionally raw.",
                     "Don't judge your baseline mood by how you feel right now.",
                 ],
@@ -182,35 +184,35 @@ struct ComedownGuideView: View {
         case .psychedelic:
             CategoryGuide(
                 whatsHappening: [
-                    "Your serotonin receptors are returning to their normal sensitivity.",
-                    "You may feel emotionally open, contemplative, or just tired.",
-                    "Some residual visual or thought patterns can linger — this is normal and fades.",
+                    "Feeling emotionally open, contemplative, or just tired afterwards is commonly reported.",
+                    "Lingering visual or thought patterns are reported too, and usually fade over hours.",
+                    "Piru doesn't measure any of this. It describes what sources report for the class.",
                 ],
                 rightNow: [
-                    "You're safe. If the experience was intense, remind yourself: it's temporary.",
+                    "If the experience was intense: the acute effects of this class are time-limited, and company helps.",
                     "Eat something grounding — warm food, fruit, or anything that sounds appealing.",
                     "Drink water. Wrap up in something comfortable.",
                     "Write down anything meaningful before the details fade.",
                 ],
                 nextHours: [
-                    "Rest. Sleep often comes easily once the peak is past.",
+                    "Rest when you can.",
                     "Don't try to 'figure it all out' right now. Integration takes days.",
                     "Nature, art, or quiet music can help you process gently.",
-                    "Be easy with yourself — big experiences need time to settle.",
+                    "Distress or perceptual changes that persist for days are worth taking to a professional.",
                 ],
                 avoid: [
                     "Don't make big life decisions based on acute revelations — wait a week.",
-                    "Avoid screens and doom-scrolling. Your mind is still very impressionable.",
-                    "Don't smoke cannabis unless you know how it interacts with your afterglow.",
+                    "Avoid screens and doom-scrolling while you're this impressionable.",
+                    "Cannabis is widely reported to bring the effects back, sometimes unpleasantly.",
                     "Skip intense or crowded environments until you feel grounded.",
                 ],
             )
         case .dissociative:
             CategoryGuide(
                 whatsHappening: [
-                    "Your NMDA receptors are returning to baseline, which can feel foggy or unreal.",
+                    "Feeling foggy or unreal for a while afterwards is commonly reported.",
                     "Motor coordination and spatial awareness may still be impaired.",
-                    "Some dissociative afterglow is common — the world may feel slightly 'off' for a while.",
+                    "Piru doesn't measure any of this. It describes what sources report for the class.",
                 ],
                 rightNow: [
                     "Stay seated or lying down. Your balance may not be what you think it is.",
@@ -219,129 +221,129 @@ struct ComedownGuideView: View {
                     "Avoid stairs, sharp objects, and anything requiring fine motor skills.",
                 ],
                 nextHours: [
-                    "Sleep when you can — your brain recovers fastest during rest.",
-                    "The foggy feeling will clear. Give it hours.",
+                    "Rest with someone nearby if you can.",
+                    "The fog is reported to clear over hours. If it doesn't, get it looked at.",
                     "Gentle sensory input (music, soft textures) can help you reconnect.",
-                    "Don't worry if things feel 'weird' — your perception is still recalibrating.",
+                    "Things feeling 'weird' for a while is commonly reported.",
                 ],
                 avoid: [
-                    "Absolutely do not drive or operate machinery.",
-                    "Don't mix with depressants (alcohol, benzos, opioids) — respiratory depression risk.",
-                    "Avoid hot baths/showers alone — you may not feel temperature accurately.",
-                    "Don't redose while still dissociated — you can't gauge your level clearly.",
+                    "Do not drive or operate machinery. Feeling normal does not establish that you can drive safely.",
+                    "Alcohol, benzodiazepines and opioids on top of a dissociative raise the risk of stopped breathing.",
+                    "Avoid hot baths or showers alone — you may not feel temperature accurately.",
+                    "Your own read of how affected you are is unreliable while dissociated.",
                 ],
             )
         case .opioid:
             CategoryGuide(
                 whatsHappening: [
-                    "Your endorphin system was temporarily overridden. As the drug fades, sensitivity returns.",
-                    "You may feel increased pain sensitivity, restlessness, or mild nausea.",
-                    "These effects are proportional to how much and how often you've been using.",
+                    "As an opioid fades, increased pain sensitivity, restlessness and mild nausea are commonly reported.",
+                    "How strong that is tracks how much and how often you've been using.",
+                    "Piru doesn't measure any of this. It describes what sources report for the class.",
                 ],
                 rightNow: [
-                    "Stay hydrated — opioids are dehydrating and constipating.",
-                    "Eat something light. Your appetite may be suppressed but food helps.",
-                    "If you feel nauseous, lie on your side and sip ginger tea or plain water.",
+                    "If someone is hard to wake, breathing slowly, or has blue lips, call emergency services. Give naloxone if you have it, following its instructions.",
+                    "Drink water, in sips. Eat something light.",
+                    "If you feel nauseous, lie on your side.",
                     "Fresh air can help with the foggy, closed-in feeling.",
                 ],
                 nextHours: [
-                    "Light movement helps — even a short walk speeds recovery.",
-                    "A warm bath can ease the achy, restless feeling.",
-                    "Sleep if you can. Your body does its best recovery work unconscious.",
-                    "If withdrawal symptoms concern you, seek medical advice. Help exists.",
+                    "Stay with someone, or let someone know to check on you. Heavy snoring or gurgling in sleep is a warning sign, not rest.",
+                    "Light movement helps — even a short walk.",
+                    "A warm bath can ease the achy, restless feeling — with someone in earshot.",
+                    "Help is available through the numbers in Get Help.",
                 ],
                 avoid: [
-                    "Don't redose to chase the feeling — tolerance builds fast and that path is dangerous.",
-                    "Never mix with alcohol, benzos, or other depressants.",
+                    "Tolerance drops quickly after a break. A dose you handled before is the documented cause of many overdoses.",
+                    "Alcohol, benzodiazepines and other depressants on top of an opioid raise the risk of stopped breathing.",
                     "Don't isolate yourself. Let someone know where you are.",
-                    "Avoid driving — reaction time and judgment may still be affected.",
+                    "Do not drive. Feeling normal does not establish that you can drive safely.",
                 ],
             )
         case .benzodiazepine:
             CategoryGuide(
                 whatsHappening: [
-                    "Your GABA receptors are readjusting — anxiety or restlessness may temporarily increase.",
-                    "This is a rebound effect. It passes.",
-                    "If you've been using regularly, talk to a doctor about tapering — never stop abruptly.",
+                    "As a benzodiazepine wears off, rebound anxiety and restlessness are commonly reported.",
+                    "Memory and coordination can stay impaired after the sedation lifts.",
+                    "After regular use, stopping abruptly can be dangerous.",
                 ],
                 rightNow: [
-                    "Stay somewhere calm and safe. The rebound anxiety is temporary.",
-                    "Drink water and eat something — stable blood sugar helps mood.",
+                    "Stay somewhere calm and safe.",
+                    "Drink water and eat something.",
                     "Breathing exercises: 4 seconds in, 7 seconds hold, 8 seconds out.",
-                    "Avoid caffeine — it amplifies the rebound anxiety.",
+                    "Caffeine amplifies rebound anxiety.",
                 ],
                 nextHours: [
-                    "Sleep may be disrupted tonight — melatonin or chamomile tea can help.",
+                    "Sleep may be disrupted tonight.",
                     "Light activity like walking helps burn off anxious energy.",
-                    "The discomfort peaks and then fades. Give it time.",
+                    "If someone is hard to wake or breathing slowly, call emergency services.",
                     "If this is frequent for you, consider talking to a professional about alternatives.",
                 ],
                 avoid: [
-                    "Don't redose reactively — it reinforces the cycle.",
-                    "Avoid alcohol completely — it acts on the same receptors.",
-                    "Don't make this worse by doom-scrolling health anxiety forums.",
-                    "Never abruptly stop after regular use — benzo withdrawal can be medically serious.",
+                    "Taking more in reaction to the rebound reinforces the cycle.",
+                    "Alcohol acts on the same receptors, and the combination can stop breathing.",
+                    "Do not drive. Feeling less sedated does not establish that memory or coordination are unimpaired.",
+                    "After regular use, a seizure or severe confusion on stopping is an emergency.",
                 ],
             )
         case .depressant:
             CategoryGuide(
                 whatsHappening: [
-                    "Your central nervous system was being suppressed and is now rebounding.",
-                    "You may feel shaky, anxious, or nauseous as your body recalibrates.",
-                    "Headaches and fatigue are common — this is your body processing the substance.",
+                    "As a depressant wears off, feeling shaky, anxious or nauseous is commonly reported.",
+                    "Headaches and fatigue are common.",
+                    "Piru doesn't measure any of this. It describes what sources report for the class.",
                 ],
                 rightNow: [
-                    "Drink water — depressants are dehydrating, especially alcohol.",
-                    "Eat something with salt, protein, and carbs. Your body needs fuel to recover.",
+                    "If someone is hard to wake, breathing slowly, or vomiting while drowsy, put them on their side and call emergency services.",
+                    "Drink water or an electrolyte drink, in sips.",
+                    "Eat something with salt, protein, and carbs.",
                     "If nauseous, small sips of water and lying on your side help.",
-                    "An electrolyte drink is better than plain water if available.",
                 ],
                 nextHours: [
-                    "Sleep it off if you can — your body needs rest to metabolize and recover.",
+                    "Rest with someone nearby. A person who can't be woken needs help, not sleep.",
                     "A cool, dark room helps with headaches and overstimulation.",
                     "Light food every few hours, even if you don't feel hungry.",
                     "Fresh air and gentle movement when you're ready.",
                 ],
                 avoid: [
-                    "Don't 'hair of the dog' — more depressant just delays recovery.",
-                    "If you have been drinking heavily and daily for weeks, stopping abruptly can be medically dangerous — seizures and delirium tremens peak 2–4 days after the last drink. Seek medical advice before going cold turkey.",
-                    "If you are using phenibut or F-phenibut daily, dependence develops within weeks. Protracted withdrawal can last months — taper gradually with medical guidance.",
-                    "Avoid painkillers that stress the liver (acetaminophen) after heavy alcohol use.",
-                    "Don't drive or make important decisions until fully sober.",
+                    "More of a depressant to ease the morning moves the morning later.",
+                    "If you have been drinking heavily and daily for weeks, stopping abruptly can be dangerous — seizures and delirium tremens peak 2–4 days after the last drink.",
+                    "With daily phenibut or F-phenibut, dependence develops within weeks and withdrawal can be protracted.",
+                    "Acetaminophen (paracetamol) after heavy alcohol use adds stress to the liver.",
+                    "Do not drive. Feeling normal does not establish that you can drive safely.",
                     "Avoid greasy, heavy food — it sounds good but often makes nausea worse.",
                 ],
             )
         case .cannabinoid:
             CategoryGuide(
                 whatsHappening: [
-                    "Your endocannabinoid system is returning to baseline.",
-                    "You may feel foggy, lethargic, or mildly irritable.",
+                    "Feeling foggy, lethargic or mildly irritable afterwards is commonly reported.",
                     "Appetite changes and sleep disruption are common after heavy sessions.",
+                    "Piru doesn't measure any of this. It describes what sources report for the class.",
                 ],
                 rightNow: [
-                    "Drink water — cotton mouth means you've been dehydrating.",
-                    "Eat something balanced. The munchies may have had you eating junk.",
-                    "If you feel anxious, focus on slow breathing. It passes.",
+                    "Drink water. A dry mouth is an effect of cannabis itself and doesn't by itself mean dehydration.",
+                    "Eat something balanced.",
+                    "If you feel anxious, slow your breathing. Anxiety is a listed effect of this class.",
                     "A change of scenery — even moving to a different room — can shift your headspace.",
                 ],
                 nextHours: [
-                    "Physical activity helps clear the fog faster than anything.",
-                    "Caffeine in moderation can help with grogginess.",
-                    "Sleep quality may be off tonight — melatonin can help.",
+                    "Physical activity helps with the fog.",
+                    "Sleep quality may be off tonight.",
                     "If you feel spacey, grounding exercises: name 5 things you can see, 4 you can touch.",
+                    "Repeated vomiting that only hot showers relieve is a recognized syndrome.",
                 ],
                 avoid: [
-                    "Don't drive until the fog fully clears — it takes longer than you think.",
-                    "Avoid more cannabis to 'take the edge off' the comedown.",
-                    "Don't panic about short-term memory gaps — they resolve with sobriety.",
+                    "Do not drive. Impairment outlasts the feeling of being high.",
+                    "More cannabis to soften the comedown moves the comedown later.",
+                    "Short-term memory gaps are commonly reported. Piru can't tell what caused one.",
                     "Skip intense social obligations if you're not feeling up to it.",
                 ],
             )
         default:
             CategoryGuide(
                 whatsHappening: [
-                    "Your body is processing and eliminating the substance.",
-                    "How you feel depends on what you took, how much, and your body's chemistry.",
+                    "How you feel depends on what you took, how much, and your own body.",
+                    "Piru doesn't measure any of this. It describes what sources report.",
                 ],
                 rightNow: [
                     "Drink water and eat something nutritious.",
@@ -349,14 +351,14 @@ struct ComedownGuideView: View {
                     "If you feel unwell, don't hesitate to call for help.",
                 ],
                 nextHours: [
-                    "Sleep is your best recovery tool.",
+                    "Rest with someone nearby if you can.",
                     "Light food and fluids every few hours.",
                     "Give yourself time.",
                 ],
                 avoid: [
-                    "Don't redose — tolerance builds fast within a session.",
+                    "Taking more within the same session adds to what is still active.",
                     "Mixing adds risk.",
-                    "Don't drive or make important decisions until you feel baseline.",
+                    "Do not drive. Feeling normal does not establish that you can drive safely.",
                 ],
             )
         }

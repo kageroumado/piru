@@ -114,7 +114,7 @@ nonisolated enum PDFReportGenerator {
         let endDate: Date
         let notes: String
         let patientName: String
-        var clinical: ClinicalReport?
+        var clinical: JournalSummary?
         var findings: [Finding] = []
         var compressedInteractions: [CompressedInteraction] = []
     }

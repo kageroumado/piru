@@ -127,37 +127,37 @@ enum CheckInLenses {
         }
     }
 
-    /// A short, plain line shown when a side effect is checked: what it is, and
-    /// that it passes. Same register as the comedown guide, which is where this
-    /// reader has already met these sentences.
+    /// A short, plain line shown when a side effect is checked: what the
+    /// sources report for the class, and the accompanying signs that are a
+    /// reason to get help now.
     ///
-    /// Only the ones someone is likely to be frightened by have a line; a dry
-    /// mouth needs no reassuring. Nothing here is an instruction to take
-    /// anything, and nothing promises a timescale the data does not carry.
-    static func reassurance(for slug: String) -> LocalizedStringResource? {
+    /// Every line describes the class and leaves the person's own symptom
+    /// unjudged: Piru has the log, and a log cannot tell a listed effect from an
+    /// emergency or say when a symptom ends. No line names something to take.
+    static func note(for slug: String) -> LocalizedStringResource? {
         switch slug {
-        case "anxiety": "This is the drug, not you. It eases as the dose wears off."
-        case "restlessness": "Common here. Moving a little settles it better than sitting still."
-        case "bruxism", "jaw-tension": "Jaw clenching is typical. Magnesium and something to chew help."
-        case "loss-of-appetite": "Appetite comes back as it wears off. Something small now still counts."
-        case "difficulty-falling-asleep": "Expected while it's still active — the curve says until when."
-        case "palpitations": "A faster heart is common at this dose. If it stays hard or hurts, get it looked at."
-        case "irritability": "Chemical, not character. It lifts as levels drop."
-        case "tremor": "Hands shake at this dose and stop on the way down."
-        case "nausea": "Usually passes in the first hour. Small sips rather than gulps."
-        case "vomiting": "Once it settles, sip water — small and often."
-        case "paranoia": "It's the drug talking. It fades with the peak."
-        case "confusion": "Thinking gets loose here and comes back. Nothing to fix."
-        case "dizziness": "Sit down until it passes. It usually goes with the peak."
-        case "memory-impairment": "Gaps here are normal, and the memory comes back after."
-        case "amnesia": "This class stops memories forming while it is active, so the blanks stay blank. What you write down now is the record."
+        case "anxiety": "Commonly reported with this class. The timeline can't say how long yours will last — company and a quieter room are worth having."
+        case "restlessness": "Commonly reported here. Some people find moving a little easier than sitting still."
+        case "bruxism", "jaw-tension": "Jaw clenching is commonly reported. Something to chew spares your teeth."
+        case "loss-of-appetite": "Commonly reported with this class. Something small now still counts."
+        case "difficulty-falling-asleep": "Commonly reported while a stimulating dose is active. The curve is an estimate and can't say when you will sleep."
+        case "palpitations": "Piru can't assess heart symptoms. With chest pain, shortness of breath or fainting, call emergency services."
+        case "irritability": "Commonly reported on the way down. Worth noting when it started."
+        case "tremor": "Commonly reported with this class. A severe tremor, or one that comes with confusion or a high temperature, is a reason to get help now."
+        case "nausea": "Commonly reported early on. Small sips rather than gulps."
+        case "vomiting": "Small sips once it settles. Vomiting while very drowsy is an emergency — stay on your side and get help."
+        case "paranoia": "Commonly reported with this class. A familiar person or place helps more than arguing with the thought."
+        case "confusion": "Piru can't tell a passing muddle from a serious one. Confusion that deepens, or comes with a high temperature, is a reason to get help now."
+        case "dizziness": "Sit or lie down so a fall can't happen. Fainting, or dizziness with chest pain, is a reason to get help now."
+        case "memory-impairment": "Record what you can now. Piru can't tell what caused a gap or whether the memory returns."
+        case "amnesia": "This class can stop memories forming while it is active. What you write down now is the record."
         case "incoordination", "impaired-balance": "Coordination goes before you notice it has. Stairs and the kitchen are where that lands."
-        case "blurred-vision": "Vision softening at this dose is usual, and it clears as the dose does."
-        case "complex-visual-hallucination": "What you are seeing is not there, however solid it looks. It goes as the dose does."
-        case "urinary-retention": "This class blocks the signal to the bladder. If it has not eased once the dose has, get seen."
-        case "dysphoria": "Feeling bad here is the drug's character rather than a sign something has gone wrong."
-        case "itching": "Opioids release histamine — the itch is that, not an allergy."
-        case "temperature-fluctuation": "Running hot and cold is part of it. Cool down, and sip steadily rather than a lot at once."
+        case "blurred-vision": "Listed for this class. Piru can't tell what is causing a change in vision or when it ends — sudden loss of vision or eye pain needs urgent care."
+        case "complex-visual-hallucination": "Seeing things that aren't there is listed for this class. If you can't tell what is real, get someone with you. Piru can't predict when it ends."
+        case "urinary-retention": "This class can block the signal to the bladder. Not being able to pass urine at all is a reason to get help now rather than wait for the timeline."
+        case "dysphoria": "Feeling bad is a listed effect of this class. It still deserves attention — Piru can't tell whether a symptom is harmless."
+        case "itching": "Opioids release histamine, and itching is commonly reported. Piru can't tell that from an allergy — swelling of the mouth or throat, or trouble breathing, is an emergency."
+        case "temperature-fluctuation": "Feeling hot and cold is commonly reported. A high temperature that rest and cooling don't bring down is an emergency."
         default: nil
         }
     }

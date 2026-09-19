@@ -78,9 +78,13 @@ python3 pipeline/build/tests/test_product_codes.py
 python3 pipeline/fetch/brushers/test_freeodwiki_extract.py
 python3 pipeline/build/tests/test_dosewiki.py
 python3 pipeline/build/tests/test_drugbank_adjudications.py
+python3 pipeline/audit/tests/test_claim_language.py
 
 step "10/10  Citation link gate (offline — no network)"
 python3 pipeline/audit/validate_links.py --gate
+
+step "10b/10 Claim-language gate on Piru's mechanism wording"
+python3 pipeline/audit/claim_language.py --gate
 
 step "Done. Commit: Piru/Data/piru-substances.sqlite, Piru/Data/manifest.json,"
 echo  "       data/snapshots/build-report.md (+ data/ inputs only if they changed)."

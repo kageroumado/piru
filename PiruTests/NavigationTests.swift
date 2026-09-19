@@ -488,11 +488,6 @@ struct RoutesCodableTests {
             timestamp: Date(timeIntervalSince1970: 1_700_000_500),
             id: UUID(uuidString: "00000000-0000-0000-0000-000000000060"),
         ),
-        PushRoute.rampDown(timestamp: Date(timeIntervalSince1970: 1_700_000_600), id: nil),
-        PushRoute.rampDown(
-            timestamp: Date(timeIntervalSince1970: 1_700_000_600),
-            id: UUID(uuidString: "00000000-0000-0000-0000-000000000061"),
-        ),
         PushRoute.substance(name: "LSD"),
         .libraryCategory(.stimulant),
         .libraryCategory(.psychedelic),
@@ -517,12 +512,6 @@ struct RoutesCodableTests {
         #expect(
             try decoder.decode(PushRoute.self, from: oldEntry)
                 == .entry(timestamp: Date(timeIntervalSinceReferenceDate: 700_000_000), id: nil),
-        )
-
-        let oldRampDown = Data(#"{"rampDown":{"timestamp":700000000}}"#.utf8)
-        #expect(
-            try decoder.decode(PushRoute.self, from: oldRampDown)
-                == .rampDown(timestamp: Date(timeIntervalSinceReferenceDate: 700_000_000), id: nil),
         )
 
         let oldEntryDetail = Data(#"{"entryDetail":{"timestamp":700000000}}"#.utf8)

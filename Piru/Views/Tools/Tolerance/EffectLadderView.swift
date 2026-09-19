@@ -81,6 +81,6 @@ private struct EffectLadderRowView: View {
         .frame(height: 9)
         .accessibilityElement()
         .accessibilityLabel(row.axis.displayName)
-        .accessibilityValue(Text("\(Int((row.toleranceFraction * 100).rounded())) percent tolerance"))
+        .accessibilityValue(Text("\(Int((row.toleranceFraction * 100).rounded())) percent, modeled"))
     }
 }

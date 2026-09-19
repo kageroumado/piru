@@ -339,12 +339,12 @@ private struct SandboxChartPager: View {
 
     private func footer(for lens: EffectLens) -> LocalizedStringKey {
         switch lens {
-        case .feeling: "Higher is better. Pleasure and warmth rise above the line; the comedown dips below."
+        case .feeling: "Pleasure and warmth rise above the line; the comedown dips below."
         case .wanting: "Higher is more pull. The rush and craving signal."
         case .liking: "Higher is more pleasure. The opioid warmth signal."
         case .energy: "Higher is livelier. Drive rises above the line, sedation sits below."
-        case .compulsion: "Lower is better. The pull to take another dose."
-        case .strain: "Lower is better. Load on the body."
+        case .compulsion: "Higher is more pull toward another dose."
+        case .strain: "A relative model score for load on the body. It measures neither toxicity nor damage."
         case .timeline: ""
         }
     }

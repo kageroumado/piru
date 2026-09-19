@@ -372,7 +372,7 @@ struct InteractionTimelineView: View {
                     let window = overlapWindow(in: data)
                     return window.map { w in
                         Text("\(substanceA) and \(substanceB) over time; both active from \(formatHours(w.start)) to \(formatHours(w.end)).")
-                    } ?? Text("\(substanceA) and \(substanceB) over time; no overlapping active window.")
+                    } ?? Text("\(substanceA) and \(substanceB) over time; the model shows no overlapping window.")
                 }(),
             )
 
@@ -427,15 +427,17 @@ struct InteractionTimelineView: View {
             Divider().padding(.leading, 22)
 
             HStack(spacing: Spacing.md) {
-                Image(systemName: window != nil ? "clock.arrow.2.circlepath" : "checkmark.circle.fill")
+                // Neutral when the curves miss each other: the interaction is
+                // documented either way, and a green mark here reads as "safe".
+                Image(systemName: window != nil ? "clock.arrow.2.circlepath" : "info.circle")
                     .font(.caption)
-                    .foregroundStyle(window != nil ? severity.labelColor : Color.successText)
+                    .foregroundStyle(window != nil ? severity.labelColor : Theme.secondaryLabel)
                     .accessibilityHidden(true)
                 if let window {
                     Text("Both active \(formatHours(window.start))–\(formatHours(window.end)) (\(formatHours(window.end - window.start)) overlap)")
                         .captionSecondary()
                 } else {
-                    Text("No active overlap at this timing")
+                    Text("No overlap shown by this model. The interaction may still apply.")
                         .captionSecondary()
                 }
             }
@@ -587,7 +589,7 @@ struct InteractionTimelineView: View {
     private func depressionCaveat(_ d: CombinedDepressionResult) -> String {
         let confidence = String(localized: d.confidence.label)
         if d.isFullyModeled {
-            return String(localized: "Predicted from receptor occupancy · \(confidence).")
+            return String(localized: "Modeled from receptor occupancy · \(confidence).")
         }
         if d.modeledCount == 0 {
             return String(localized: "Estimated from effect curves · \(confidence).")

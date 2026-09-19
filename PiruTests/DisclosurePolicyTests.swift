@@ -167,21 +167,8 @@ struct DisclosurePolicyTests {
             for section in recreationalOnly {
                 #expect(p.placement(for: section, spine: .medical) == .hidden)
             }
-            // ...and leads with the medical sections, inline at every tier.
-            for section in [DetailSection.medicalUses, .boxedWarning, .contraindications] {
-                #expect(p.placement(for: section, spine: .medical) == .inline)
-            }
-        }
-    }
-
-    @Test
-    func `Boxed warnings stay inline even on the recreational spine`() {
-        // Safety-critical: an opioid (recreational spine) must still surface its
-        // boxed warning inline at every tier.
-        for profile in UserProfile.allCases {
-            let p = DisclosurePolicy(profile: profile)
-            #expect(p.placement(for: .boxedWarning, spine: .recreational) == .inline)
-            #expect(p.placement(for: .contraindications, spine: .recreational) == .inline)
+            // ...and keeps the shared history section inline at every tier.
+            #expect(p.placement(for: .history, spine: .medical) == .inline)
         }
     }
 
@@ -192,6 +179,6 @@ struct DisclosurePolicyTests {
         #expect(spine == .medical)
         #expect(p.placement(for: .doseDuration, spine: spine) == .hidden)
         #expect(p.placement(for: .misconceptions, spine: spine) == .hidden)
-        #expect(p.placement(for: .medicalUses, spine: spine) == .inline)
+        #expect(p.placement(for: .history, spine: spine) == .inline)
     }
 }

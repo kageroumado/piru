@@ -96,7 +96,7 @@ enum Analyte: String, CaseIterable, Identifiable, Sendable {
     /// lines — labeled "a common clinical goal," never an app-set target
     /// (Specs/injection-levels-v3.md §9). Testosterone: 400–700 ng/dL, the Endocrine
     /// Society / WPATH SOC8 masc-HRT monitoring goal. Estradiol: none shipped.
-    var clinicalGoal: ClosedRange<Double>? {
+    var labeledGoal: ClosedRange<Double>? {
         switch self {
         case .estradiol: nil
         case .testosterone: 400 ... 700

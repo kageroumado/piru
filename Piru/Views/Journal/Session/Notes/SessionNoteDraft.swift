@@ -76,7 +76,7 @@ final class SessionNoteDraft {
     }
 
     /// The slugs from `slugs` that are on the note, in the order given — what
-    /// the reassurance lines are drawn from.
+    /// the side-effect notes are drawn from.
     func selected(among slugs: [String]) -> [String] {
         slugs.filter { hasDescriptor(slug: $0) }
     }

@@ -94,7 +94,7 @@ struct HealthSettingsView: View {
         } header: {
             Text("Apple Health")
         } footer: {
-            Text("Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect.")
+            Text("Shows your body weight, heart rate, blood pressure and workouts from Health alongside your journal. Change what Piru can see in the Health app's settings.")
         }
         .listRowBackground(CardBackground())
     }
@@ -115,7 +115,7 @@ struct HealthSettingsView: View {
         } header: {
             Text("Heart data")
         } footer: {
-            Text("Overlays your heart rate and blood pressure on each session's timeline — read-only. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.")
+            Text("Shows your heart rate and blood pressure on each session's timeline. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.")
         }
         .listRowBackground(CardBackground())
     }

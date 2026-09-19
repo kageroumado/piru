@@ -31,7 +31,6 @@ struct SubstanceDetailLayout: View {
     /// The user's personal-override notes for this substance, if any.
     let personalNotes: String?
     let showAllEffects: Binding<Bool>
-    let cautionsExpanded: Binding<Bool>
     let onGlossary: (PharmacologyGlossarySheet.Topic) -> Void
 
     private func placement(_ section: DetailSection) -> SectionPlacement {
@@ -129,20 +128,14 @@ struct SubstanceDetailLayout: View {
         // with no data of its own this is most of what there is to read.
         ClassContextSection(model: model)
 
-        // Safety — combinations, water & heat, contraindications, and myth
+        // Safety — combinations, water & heat, and myth
         // corrections in one card below the pharmacology, beside Prescribing.
         // Self-hides when a compound carries none of them.
         SafetySection(
             substance: substance,
             policy: policy,
             accent: substance.category.color,
-            cautionsExpanded: cautionsExpanded,
         )
-
-        // Prescribing / medical label — self-hides when the compound carries no
-        // indication or boxed-warning data (so it drops out for the recreational
-        // spine, leads for the medical one).
-        MedicalInfoSection(substance: substance)
 
         // Peptide protocol/reconstitution (self-hides for non-peptides).
         SubstancePeptideSection(substance: substance)

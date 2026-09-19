@@ -28,7 +28,7 @@
   ],
   "halfLifeMinutes": 3000,
   "mechanismOfAction": {
-    "summary": "Selective β3-adrenergic receptor agonist; bladder relaxation at approved doses; BAT thermogenesis at supratherapeutic doses.",
+    "summary": "Selective β3-adrenergic receptor agonist; bladder detrusor relaxation at clinical exposures, brown adipose tissue thermogenesis at higher exposures.",
     "description": "Selective β3-AR agonist (β1/β2 sparing at approved doses); FDA-approved for overactive bladder via bladder detrusor relaxation. Activates brown adipose tissue thermogenesis and increases energy expenditure at supratherapeutic doses (200 mg). Tmax ~3.5 h; oral bioavailability 29–35% (food-dependent). Moderate CYP2D6 inhibitor — raises plasma levels of metoprolol, digoxin, and other CYP2D6 substrates.",
     "primaryTargets": [
       "β3-adrenergic receptor"

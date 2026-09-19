@@ -501,7 +501,7 @@ struct QuickLogView: View {
                 // quick-log open or a widget refresh.
                 deferredBookkeeping: {
                     for entry in createdEntries {
-                        DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries, in: context)
+                        DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
                     }
                 },
             )

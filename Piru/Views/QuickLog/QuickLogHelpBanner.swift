@@ -16,7 +16,7 @@ struct QuickLogHelpBanner: View {
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text("Take a breath.")
                         .cardTitle()
-                    Text("You're going to be okay. This feeling is temporary.")
+                    Text("You don't have to do this alone. Help is one tap away.")
                         .captionSecondary()
                 }
             }
@@ -30,7 +30,7 @@ struct QuickLogHelpBanner: View {
                 helpBannerLink(title: "Crisis Text: HOME to 741741", url: "sms:741741&body=HOME")
             }
 
-            Text("Breathe slowly. 4 seconds in, hold for 4, out for 4. You are safe.")
+            Text("Breathe slowly. 4 seconds in, hold for 4, out for 4.")
                 .captionSecondary()
         }
         .padding(14)

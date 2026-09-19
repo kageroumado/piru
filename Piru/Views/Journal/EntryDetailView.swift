@@ -277,7 +277,7 @@ struct EntryDetailView: View {
 
         // Pending reminders are keyed to the old timestamp — a moved dose must
         // drop them and reschedule from its new time.
-        DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: previousTimestamp, in: modelContext)
+        DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: previousTimestamp)
 
         // The tick every derived surface keys its rebuild on — the timeline
         // strip lays a moved dose out at its new time only after this.

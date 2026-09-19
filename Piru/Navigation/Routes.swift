@@ -26,9 +26,6 @@ nonisolated enum AppTab: String, Hashable, Codable, CaseIterable {
 nonisolated enum PushRoute: Hashable, Codable {
     case session(id: UUID)
     case entry(timestamp: Date, id: UUID?)
-    /// Comedown-alert screen for a dose, identified like `.entry`; the
-    /// duration profile is re-derived from the resolved entry.
-    case rampDown(timestamp: Date, id: UUID?)
     case comedownGuide
     case timeline
     case substance(name: String)
@@ -129,7 +126,7 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     case hormoneLevels
     /// Record-and-model patterns for self or a clinician: days used, cumulative
     /// exposure (clinical equivalents where they exist), dose trend, and
-    /// co-exposure. Off the shared `ClinicalStats` layer the PDF report also uses.
+    /// co-exposure. Off the shared `SummaryStats` layer the PDF report also uses.
     case patterns
     /// What the "did it work?" answers on session notes line up with — dose
     /// hour, amount, day of week, caffeine before it. The interpretive half of

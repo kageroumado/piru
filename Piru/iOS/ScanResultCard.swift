@@ -29,14 +29,6 @@ struct ScanResultCard: View {
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
 
-        case .resolving:
-            HStack(spacing: Spacing.lg) {
-                ProgressView()
-                Text("Resolving…")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-
         case let .resolved(resolved):
             resolvedContent(resolved)
 
@@ -149,7 +141,6 @@ struct ScanResultCard: View {
     private var phaseKey: Int {
         switch phase {
         case .scanning: 0
-        case .resolving: 1
         case .resolved: 2
         case .noMatch: 3
         case .reading: 4

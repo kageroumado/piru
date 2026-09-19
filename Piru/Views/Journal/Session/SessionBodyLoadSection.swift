@@ -410,7 +410,7 @@ struct SessionBodyLoadSection: View {
                 Text(header)
             } footer: {
                 if !model.active.isEmpty {
-                    Text("How much of each substance is still in your body — what's left and what you feel don't always line up.")
+                    Text("How much is estimated to be in your body, using only data from this session.")
                 }
             }
             // Open the first substance's curve by default, so the fold — and the

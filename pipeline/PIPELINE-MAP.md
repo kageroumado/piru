@@ -230,8 +230,8 @@ the UI: `piru-curated`, `peer-review-primary`, `drug.community`,
 
 Priority is **per field, not per record**. Category, half-life, dose ladders,
 durations, tolerance, diazepam equivalents, mechanism prose, descriptions,
-metabolism and PK interactions are priority picks. Tags, indications,
-contraindications, effects, subjective effects, citations and peptide profiles
+metabolism and PK interactions are priority picks. Tags, effects,
+subjective effects, citations and peptide profiles
 are **unions** across all enabled sources. `resolvedTextRow` additionally fails
 open: if no enabled source has prose, it re-runs the query without the enabled
 filter (`:713-726`) so a substance still shows something.

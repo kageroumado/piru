@@ -87,7 +87,7 @@ struct OnboardingWelcomeStep: View {
             title: "Welcome to Piru",
             subtitle: hasICloudBackup
                 ? "We found an existing backup in your iCloud. Pick up where you left off, or start fresh."
-                : "Track what you take — and understand how it affects your body.",
+                : "Log medications and substances, record how you feel, and explore referenced information. Piru is a record and a reference, not medical advice.",
         ) {
             OnboardingAppIconHero(size: 108)
         } footer: {
@@ -129,26 +129,26 @@ struct OnboardingPrivacyStep: View {
 
     var body: some View {
         OnboardingLayout(
-            title: "Private by design",
-            subtitle: "Piru is built for sensitive data. Yours never leaves your device unless you choose.",
+            title: "Where your journal lives",
+            subtitle: "Your journal is stored in the app on this device.",
         ) {
             OnboardingIconHero(symbol: "lock.shield")
         } mid: {
             VStack(spacing: 18) {
                 OnboardingBulletRow(
                     symbol: "iphone",
-                    title: "Stays on your device",
-                    detail: "Your journal lives locally. No sign-up, no account required.",
+                    title: "No account",
+                    detail: "No sign-up, and no Piru server that receives your journal.",
                 )
                 OnboardingBulletRow(
-                    symbol: "icloud.slash",
-                    title: "No cloud unless you ask",
-                    detail: "Backups are opt-in and end-to-end encrypted with your key.",
+                    symbol: "square.and.arrow.up",
+                    title: "Copies only when you ask",
+                    detail: "An export or backup is made when you ask and saved where you choose.",
                 )
                 OnboardingBulletRow(
                     symbol: "hand.raised",
-                    title: "Never sold or shared",
-                    detail: "There are no ads and no trackers. Your data is yours alone.",
+                    title: "No ads or trackers",
+                    detail: "Details are in Settings under About Piru.",
                 )
             }
             .onboardingGroupedCard()
@@ -295,8 +295,6 @@ struct OnboardingRemindersStep: View {
         let prefs = NotificationPreferencesStore.shared
         prefs.setEnabled(.routine, doseReminders)
         prefs.setEnabled(.routineFollowUp, doseReminders)
-        prefs.setEnabled(.nextDose, doseReminders)
-        prefs.setEnabled(.comedown, sessionAlerts)
         prefs.setEnabled(.hydration, sessionAlerts)
         prefs.setEnabled(.sleep, sessionAlerts)
         prefs.setEnabled(.phase, sessionAlerts)
@@ -361,7 +359,7 @@ struct OnboardingDoneStep: View {
                 OnboardingBulletRow(
                     symbol: "lock.shield",
                     title: "Back up anytime",
-                    detail: "Turn on end-to-end encrypted backups whenever you're ready.",
+                    detail: "Make an encrypted backup whenever you're ready, from Tools.",
                 )
             }
             .onboardingGroupedCard()

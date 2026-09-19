@@ -62,11 +62,11 @@ nonisolated struct OpioidEquivalence: Identifiable {
         case .linear:
             nil
         case .nonlinear:
-            "Methadone's half-life is long and variable, and its peak effect on breathing arrives later and lasts longer than its peak pain relief — so a converted dose can look adequate while the risk is still building. CDC publishes a single factor for population-level accounting; Piru will not use it to convert a dose. This one belongs to a clinician."
+            "Methadone's half-life is long and variable, and its effect on breathing peaks later than its pain relief. CDC publishes a single population factor for it; Piru shows no figure."
         case .transdermal:
-            "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors."
+            "Transdermal fentanyl is dosed in micrograms per hour, a rate rather than a mass, so it has no figure in this mg-based table."
         case .excluded:
-            "Buprenorphine is a partial agonist with a ceiling on its effect on breathing, so risk doesn't scale the way a full agonist's does. CDC excludes it from MME entirely and says it should not be counted toward a daily total."
+            "CDC excludes buprenorphine from MME."
         }
     }
 
@@ -74,14 +74,5 @@ nonisolated struct OpioidEquivalence: Identifiable {
     func mme(forDoseMg doseMg: Double) -> Double? {
         guard doseMg > 0, let factor = mmePerMg else { return nil }
         return doseMg * factor
-    }
-
-    /// `doseMg` of this opioid expressed as an equivalent dose of `target`,
-    /// routed through morphine (MME) as the common unit. `nil` unless both
-    /// sides are linear.
-    func equivalentDose(forDoseMg doseMg: Double, in target: OpioidEquivalence) -> Double? {
-        guard let mme = mme(forDoseMg: doseMg),
-              let targetFactor = target.mmePerMg, targetFactor > 0 else { return nil }
-        return mme / targetFactor
     }
 }

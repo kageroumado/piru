@@ -122,7 +122,7 @@ struct InYourBodyView: View {
     }
 
     private func chartCard(_ trail: BodyLoadTrail) -> some View {
-        UsageSectionCard(title: "In your body over time", subtitle: "Each line as a share of its own peak") {
+        UsageSectionCard(title: "Modeled levels over time", subtitle: "Each line as a share of its own peak") {
             let filtered = filteredSeries(from: trail)
             let visible = filtered.filter { !hidden.contains($0.id) }
             let series = visible.isEmpty ? filtered : visible
@@ -233,7 +233,7 @@ struct InYourBodyView: View {
     private var activeSection: some View {
         if !activeSubstances.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.lg) {
-                Text("In your system")
+                Text("Modeled as active")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                     .padding(.leading, Spacing.xs)

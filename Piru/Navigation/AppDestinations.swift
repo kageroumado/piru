@@ -53,10 +53,6 @@ private struct PushRouteView: View {
                 EntryDetailView(entry: entry)
             }
 
-        case .rampDown:
-            // Gated for App Store submission (Guideline 1.4.2).
-            EmptyView()
-
         case .comedownGuide:
             ComedownGuideView()
 
@@ -153,7 +149,7 @@ private struct PushRouteView: View {
         switch insight {
         case .adherence: AdherenceView().navigationTitle("Adherence")
         case .usage: UsageStatsView().navigationTitle("Usage")
-        case .tolerance: ToleranceToolView().navigationTitle("Tolerance")
+        case .tolerance: ToleranceToolView().navigationTitle("Modeled Tolerance")
         case .inSystem: InYourBodyView().navigationTitle("In Your Body")
         case .bodyLoad: InYourBodyView().navigationTitle("In Your Body")
         case .receptorLoad: ReceptorLoadView().navigationTitle("Receptor Load")

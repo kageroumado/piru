@@ -169,7 +169,7 @@ struct SessionNoteEditor: View {
             DisclosureGroup(isExpanded: $showSideEffects) {
                 DescriptorToggleChips(slugs: form.sideEffects, draft: draft)
                 ForEach(draft.selected(among: form.sideEffects), id: \.self) { slug in
-                    if let line = CheckInLenses.reassurance(for: slug) {
+                    if let line = CheckInLenses.note(for: slug) {
                         Label {
                             Text(line)
                         } icon: {

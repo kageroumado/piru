@@ -34,10 +34,9 @@ struct ResolvedDrug {
     }
 }
 
-/// Turns scanned label text (or an openFDA product) into a `ResolvedDrug` by
-/// fuzzy-matching against Piru's bundled substance name + alias indexes. The
-/// matching itself is fully offline; only the barcode → openFDA hop upstream of
-/// `resolve(product:)` touches the network.
+/// Turns scanned label text, or a barcode the bundled registry knows, into a
+/// `ResolvedDrug` by matching against Piru's bundled substance name + alias
+/// indexes. Everything here runs on the device.
 enum LabelMatcher {
     // MARK: Strength
 
@@ -120,19 +119,17 @@ enum LabelMatcher {
         )
     }
 
-    /// Resolve an openFDA product (from the barcode path) to a substance.
-    static func resolve(product: NDCProduct) -> ResolvedDrug? {
-        guard let name = product.displayName,
-              let (substance, aliasBrand) = matchSubstance(in: name)
-        else { return nil }
-        let strength = product.strengthText.flatMap(parseStrength)
+    /// A barcode the bundled registry knows, as a dose to stage: the substance the
+    /// registry row is sold as, under the brand and strength printed on the pack.
+    static func resolve(hit: ProductCodeHit) -> ResolvedDrug? {
+        guard let substance = SubstanceLibrary.lookup(hit.canonicalName) else { return nil }
+        let strength = hit.parsedStrength
         return ResolvedDrug(
             substance: substance,
-            // Prefer openFDA's own brand string; fall back to the matched alias.
-            brandName: product.brandName ?? aliasBrand,
+            brandName: hit.brand,
             strength: strength?.amount,
             unit: strength?.unit,
-            route: route(fromOpenFDA: product.routes),
+            route: hit.route.flatMap { route(fromOpenFDA: [$0]) },
         )
     }
 

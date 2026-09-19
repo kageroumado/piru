@@ -23,7 +23,7 @@ struct PKInteractionReadPathTests {
         let clarithromycin = rows.first { $0.withSubstance.localizedCaseInsensitiveContains("clarithromycin") }
         let hit = clarithromycin
         #expect(hit?.mechanism?.contains("CYP3A4") == true)
-        #expect(hit?.clinicalEffect?.isEmpty == false)
+        #expect(hit?.labeledEffect?.isEmpty == false)
     }
 
     @Test
@@ -35,7 +35,7 @@ struct PKInteractionReadPathTests {
     func `A slash-separated counterpart splits into its individual names`() {
         let hit = SubstanceStore.PKInteractionHit(
             id: 1, withSubstance: "ketoconazole / itraconazole", mechanism: nil,
-            kiMicromolar: nil, clinicalEffect: nil, sourceSlug: "peer-review-primary",
+            kiMicromolar: nil, labeledEffect: nil, sourceSlug: "peer-review-primary",
             doi: nil, pmid: nil,
         )
         #expect(hit.counterpartNames == ["ketoconazole", "itraconazole"])

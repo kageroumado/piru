@@ -122,7 +122,7 @@ struct DataStorageView: View {
             Button("Delete", role: .destructive) { model.deleteAllData(context: modelContext) }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This permanently deletes all your data and cannot be undone. If iCloud backup is on, it will be disabled and the backup removed.")
+            Text("This permanently deletes all your data in the app and cannot be undone. Copies you exported, and device or iCloud backups, are not affected.")
         }
         .alert("Restore This Copy?", isPresented: restoreConfirmBinding, presenting: pendingRestore) { store in
             Button("Restore", role: .destructive) { restore(store) }
@@ -225,7 +225,7 @@ private struct LocalStorageSection: View {
         } header: {
             Text("On This Device")
         } footer: {
-            Text("Everything Piru stores locally. Your dose data lives only on this device unless you export it.")
+            Text("Everything Piru stores in the app on this device. Device and iCloud backups made by your settings include it.")
         }
     }
 }
@@ -584,19 +584,14 @@ private struct HowEncryptionWorksSection: View {
                 detail: "Sealed with AES-256-GCM. Tampering is detected and refused.",
             )
             HowItWorksRow(
-                icon: "key.icloud",
-                title: "Your key, your device",
-                detail: "Automatic backups use a random key kept in your iCloud Keychain. It never leaves your devices in readable form, so iCloud only ever holds an unreadable blob.",
-            )
-            HowItWorksRow(
                 icon: "key.horizontal",
                 title: "Passphrase backups",
-                detail: "Manual exports turn your passphrase into a key with 600,000 rounds of PBKDF2. The passphrase is never saved or sent. Choose one you won't forget — there's no recovery.",
+                detail: "Encrypted exports turn your passphrase into a key with 600,000 rounds of PBKDF2. Piru keeps no copy of the passphrase and cannot recover it. Plain exports are unencrypted.",
             )
             HowItWorksRow(
                 icon: "checkmark.shield",
-                title: "Backups are opt-in",
-                detail: "Automatic backups are off until you turn them on. Replacing your data on restore takes a recoverable snapshot first.",
+                title: "Restores keep a snapshot",
+                detail: "Replacing your data on restore takes a recoverable snapshot first.",
             )
         } header: {
             Text("How Encryption Works")
@@ -701,7 +696,7 @@ private struct DeleteEverythingSection: View {
             }
             .listRowBackground(CardBackground())
         } footer: {
-            Text("Permanently deletes every dose, session, and setting. If iCloud backup is on, it is disabled and the backup is removed.")
+            Text("Permanently deletes every dose, session, and setting in the app. Copies you exported, and device or iCloud backups, are not affected.")
         }
     }
 }

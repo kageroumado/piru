@@ -15,6 +15,7 @@ struct SettingsView: View {
                     Text("Meds are in the Journal tab. Custom substances, colors, and units are under Yours in the Library tab. Data & Backup and the substance database are in the Tools tab.")
                 }
 
+                AboutSection()
                 AppVersionFooter()
             }
             .listRowBackground(CardBackground())
@@ -131,6 +132,24 @@ private struct YourBodySection: View {
                     title: "Your Body",
                     systemImage: "figure.stand",
                     caption: Text("Your weight and metabolism, and what each one changes in the estimates."),
+                )
+            }
+        }
+    }
+}
+
+// MARK: - About
+
+private struct AboutSection: View {
+    var body: some View {
+        Section {
+            NavigationLink {
+                AboutView()
+            } label: {
+                CaptionedRowLabel(
+                    title: "About Piru",
+                    systemImage: "info.circle",
+                    caption: Text("Terms, sources and licenses, and where your data is kept."),
                 )
             }
         }

@@ -272,10 +272,10 @@ struct SubstanceReadModel {
     /// run under this snapshot's source order and language. Uncached and
     /// ~21 SQL per call; ``SubstanceStore/resolveSubstance`` is the cached
     /// entry, and `editorialColumns` is the store's per-DB column probe
-    /// (an older OTA-applied copy may predate some curated columns).
+    /// (a fixture database may lack some curated columns).
     func substance(id: Int64, editorialColumns ec: Set<String>) -> Substance? {
         // Include each curated editorial column only when the opened DB actually
-        // has it — an older OTA-applied copy may predate some of them.
+        // has it — a fixture database may lack some of them.
         let editorialColumns = ["popular_aliases", "misconceptions", "combinations", "water_heat"]
             .filter { ec.contains($0) }
             .map { ", \($0)" }
@@ -346,8 +346,6 @@ struct SubstanceReadModel {
                 let overview = try resolvedDescription(db: db, substanceID: id)
                 let sources = try citedSources(db: db, substanceID: id)
                 let toleranceInfo = try resolvedTolerance(db: db, substanceID: id)
-                let indications = try resolvedIndications(db: db, substanceID: id)
-                let contraindications = try resolvedContraindications(db: db, substanceID: id)
                 let diazepamEquivalent = try resolvedDiazepamEquivalent(db: db, substanceID: id)
 
                 routes.sort { Self.routeRank($0.route) < Self.routeRank($1.route) }
@@ -371,8 +369,6 @@ struct SubstanceReadModel {
                     displayClass: displayClass,
                     regulatoryStatus: regulatoryStatus,
                     durationImplausible: durationImplausible,
-                    indications: indications,
-                    contraindications: contraindications,
                     diazepamEquivalent: diazepamEquivalent,
                     substanceUID: substanceUID,
                     cas: cas,
@@ -431,46 +427,6 @@ struct SubstanceReadModel {
                AND t.hidden = 0
              ORDER BY tag
         """, arguments: [substanceID])
-    }
-
-    /// Clinical indications — additive union across enabled sources.
-    private func resolvedIndications(db: Database, substanceID: Int64) throws -> [String] {
-        try String.fetchAll(db, sql: """
-            SELECT DISTINCT text
-              FROM indications i
-              JOIN sources src ON src.id = i.source_id
-             WHERE i.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY text
-        """, arguments: [substanceID])
-    }
-
-    /// Contraindications + boxed warnings — boxed warnings sorted first.
-    ///
-    /// Grouped by content, not by row. A compound with several manufacturers has
-    /// a DailyMed label per manufacturer, and each repeats the same
-    /// contraindication under its own citation — so methylphenidate listed
-    /// "Glaucoma" twice and "Known allergy to it" twice. One citation of the
-    /// several is kept; they say the same thing.
-    private func resolvedContraindications(db: Database, substanceID: Int64) throws -> [Contraindication] {
-        let rows = try Row.fetchAll(db, sql: """
-            SELECT c.text, c.flag, c.is_boxed_warning, MIN(ci.url) AS url
-              FROM contraindications c
-              JOIN sources src ON src.id = c.source_id
-              LEFT JOIN citations ci ON ci.id = c.citation_id
-             WHERE c.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-             GROUP BY COALESCE(c.flag, c.text), c.is_boxed_warning
-             ORDER BY c.is_boxed_warning DESC, COALESCE(c.text, c.flag)
-        """, arguments: [substanceID])
-        return rows.map {
-            Contraindication(
-                flag: ($0["flag"] as String?).flatMap(ContraindicationFlag.init(rawValue:)),
-                text: $0["text"],
-                isBoxedWarning: ($0["is_boxed_warning"] as Int64? ?? 0) != 0,
-                sourceURL: $0["url"],
-            )
-        }
     }
 
     /// Diazepam-equivalency (benzodiazepines only) — highest-priority source.

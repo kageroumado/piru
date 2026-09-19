@@ -26,7 +26,7 @@
     "fatal cases reported (pyrovalerone class)"
   ],
   "mechanismOfAction": {
-    "summary": "Highly DAT-selective reuptake inhibitor (DAT IC50 = 7.6 nM); DAT/SERT selectivity ratio >40× cocaine → very high addiction and abuse potential.",
+    "summary": "Highly DAT-selective reuptake inhibitor (DAT IC50 = 7.6 nM), with a DAT/SERT selectivity ratio over 40× that of cocaine.",
     "description": "Synthetic cathinone, pyrovalerone subgroup (β-keto pyrrolidinophenone). Ortho ring-methyl isomer of α-PiHP. Peer-reviewed DAT IC50 = 7.6 nM (Forensic Sci Int 2025, PMID 40992254). NET not significantly inhibited. Documented in 113 Swedish seizures 2022–2025 and 5 forensic autopsy detections. No established human dose; strong 'no dose / high addiction potential' warning applies.",
     "primaryTargets": [
       "DAT"

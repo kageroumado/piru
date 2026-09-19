@@ -40,7 +40,7 @@ private struct SteadyStateExplanationCard: View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             Text("On a fixed schedule doses overlap and the level climbs until intake and clearance balance: steady state.")
                 .captionSecondary()
-            Text("Values are body content in the dose's units.")
+            Text("Values are modeled body content in the dose's units.")
                 .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -279,8 +279,8 @@ private struct SteadyStateRelatedLinks: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
-            GlanceCard(icon: "hourglass", title: Text("In Your System"), route: .insight(.inSystem)) {
-                Text("See what's active in your body right now")
+            GlanceCard(icon: "hourglass", title: Text("Modeled as Active"), route: .insight(.inSystem)) {
+                Text("See the model's estimate of what is still active")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -390,7 +390,7 @@ private struct SteadyStateChart: View {
             context.draw(axisLabel, at: CGPoint(x: leftPad + plotW, y: baseline + labelArea / 2 + 2), anchor: .trailing)
         }
         .accessibilityElement()
-        .accessibilityLabel(Text("Level over time"))
+        .accessibilityLabel(Text("Modeled level over time"))
         .accessibilityValue(accessibilityValue)
     }
 

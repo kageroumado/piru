@@ -66,7 +66,7 @@ struct BodyLoadChart: View {
                     .font(.caption2)
             }
         }
-        .chartSummaryAccessibility(label: Text("In your body over time"), value: Text(summary))
+        .chartSummaryAccessibility(label: Text("Modeled levels over time"), value: Text(summary))
     }
 
     private var summary: String {

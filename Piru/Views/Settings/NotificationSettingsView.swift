@@ -215,7 +215,7 @@ nonisolated enum NotificationCategory: CaseIterable {
 
     var types: [NotificationType] {
         switch self {
-        case .reminders: [.routine, .routineFollowUp, .nextDose]
+        case .reminders: [.routine, .routineFollowUp]
         case .session: [.phase, .hydration, .sleep, .checkIn]
         case .safety: [.cumulative, .inventory]
         }
@@ -515,14 +515,12 @@ private struct NotificationTypeRow: View {
 extension NotificationType {
     var rowTitle: LocalizedStringKey {
         switch self {
-        case .comedown: "Comedown Alerts"
         case .hydration: "Hydration Reminders"
         case .sleep: "Sleep Reminders"
         case .phase: "Phase Alerts"
         case .cumulative: "Cumulative Dose Warnings"
         case .routine: "Med Reminders"
         case .routineFollowUp: "Ask Again"
-        case .nextDose: "Next-Dose Window"
         case .inventory: "Low Stock Alerts"
         case .checkIn: "Check-ins"
         }
@@ -530,14 +528,12 @@ extension NotificationType {
 
     var shortTitle: LocalizedStringResource {
         switch self {
-        case .comedown: "Comedown"
         case .hydration: "Hydration"
         case .sleep: "Sleep"
         case .phase: "Phase"
         case .cumulative: "Cumulative"
         case .routine: "Reminders"
         case .routineFollowUp: "Ask Again"
-        case .nextDose: "Next-Dose"
         case .inventory: "Low Stock"
         case .checkIn: "Check-ins"
         }
@@ -545,14 +541,12 @@ extension NotificationType {
 
     var rowSymbol: String {
         switch self {
-        case .comedown: "chart.line.downtrend.xyaxis"
         case .hydration: "drop"
         case .sleep: "moon.zzz"
         case .phase: "waveform.path.ecg"
         case .cumulative: "exclamationmark.triangle"
         case .routine: "repeat"
         case .routineFollowUp: "clock.arrow.circlepath"
-        case .nextDose: "timer"
         case .inventory: "archivebox"
         case .checkIn: "quote.bubble"
         }
@@ -560,22 +554,18 @@ extension NotificationType {
 
     var rowWhy: LocalizedStringKey {
         switch self {
-        case .comedown:
-            "Warns you before a dose wears off, so the drop doesn't catch you off guard. Turned on per dose from its comedown alert screen."
         case .hydration:
-            "Water nudges timed to your dose — stimulants and empathogens mask thirst."
+            "Water reminders timed from your entry."
         case .sleep:
-            "A wind-down reminder late into long stimulant sessions, when sleep is the best recovery."
+            "A wind-down reminder late into long stimulant sessions."
         case .phase:
             "Timing cues at onset, come-up, and peak so you can anchor what you feel to the timeline."
         case .cumulative:
-            "A heads-up when your 12-hour total of one substance reaches a heavy range. Turning this off removes a safety net."
+            "A heads-up when your 12-hour total of one substance reaches the heavy range listed in its sources."
         case .routine:
-            "A nudge at each med's set time so a dose never slips your mind. Tapping it opens Quick Log with that time's meds staged."
+            "A reminder at each time you set for a med. Tapping it opens Quick Log with that time's meds staged."
         case .routineFollowUp:
             "Asks again a little later if a med still isn't logged — like snooze for an alarm. Adjustable per med."
-        case .nextDose:
-            "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med."
         case .inventory:
             "A heads-up when something you track runs low or out — before the empty bottle surprises you."
         case .checkIn:

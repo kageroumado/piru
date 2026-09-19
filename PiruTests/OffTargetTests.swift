@@ -61,7 +61,7 @@ struct OffTargetTests {
         let hits = store.offTargets(forSubstanceName: "Mephedrone")
         let herg = try #require(hits.first { $0.target.lowercased() == "herg" })
         #expect(herg.concern == .low)
-        #expect(herg.clinicalConsequence?.isEmpty == false)
+        #expect(herg.labeledConsequence?.isEmpty == false)
     }
 
     @Test

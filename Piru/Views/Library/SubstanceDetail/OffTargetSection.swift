@@ -63,7 +63,7 @@ struct OffTargetRow: View {
                 Spacer(minLength: 6)
                 ConcernMark(concern: hit.concern)
             }
-            if let consequence = hit.clinicalConsequence, !consequence.isEmpty {
+            if let consequence = hit.labeledConsequence, !consequence.isEmpty {
                 // Authored per row in the curated data, so it ships in English
                 // regardless of locale — `verbatim` keeps it out of the catalog
                 // rather than minting ~200 untranslatable keys.
@@ -111,9 +111,9 @@ private struct ConcernMark: View {
 
     private var accessibilityLabel: LocalizedStringResource {
         switch concern {
-        case .high: "Clinically significant"
+        case .high: "Likely to matter"
         case .moderate: "Real but bounded"
-        case .low: "Not clinically dominant"
+        case .low: "Unlikely to dominate"
         }
     }
 

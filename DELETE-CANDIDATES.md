@@ -100,4 +100,3 @@ and the rest duplicated values the DB already resolved.
 - **Not deleted because**: `add_dose` callers in tests may assert the interim value; needs a test run after removal.
 - **To confirm**: delete the call and the function, run `pipeline/build/tests/test_sqlite.py`.
 - **Found**: 2026-09-11 (pipeline map)
-

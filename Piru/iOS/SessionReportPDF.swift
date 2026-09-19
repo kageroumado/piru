@@ -331,14 +331,14 @@ struct SessionReportView: View {
         case let .firstOrder(_, remaining, fraction, _, _, _):
             HStack(alignment: .firstTextBaseline, spacing: 5) {
                 Text(fmt(remaining, group.unit)).font(.system(size: 16, weight: .bold, design: .monospaced))
-                Text("in body").font(.system(size: 12)).foregroundStyle(ink2)
+                Text("modeled in body").font(.system(size: 12)).foregroundStyle(ink2)
                 Text("\(Text(verbatim: "· \(Int(((1 - fraction) * 100).rounded()))%")) \(Text("gone"))")
                     .font(.system(size: 12, weight: .bold)).foregroundStyle(Theme.accent)
             }
         case let .zeroOrder(grams, _, _, _, _):
             HStack(alignment: .firstTextBaseline, spacing: 5) {
                 Text(fmt(grams, "g")).font(.system(size: 16, weight: .bold, design: .monospaced))
-                Text("left in body").font(.system(size: 12)).foregroundStyle(ink2)
+                Text("modeled in body").font(.system(size: 12)).foregroundStyle(ink2)
             }
         case .unknown:
             Text("No half-life data — elimination not modeled")
@@ -369,13 +369,13 @@ struct SessionReportView: View {
             return [
                 (String(localized: "50% eliminated"), clock(t50)),
                 (String(localized: "90% eliminated"), clock(t90)),
-                (String(localized: "Effectively clear"), clock(cleared)),
+                (String(localized: "Model near zero"), clock(cleared)),
             ]
         case let .zeroOrder(_, _, t50, t90, sober):
             return [
                 (String(localized: "50% eliminated"), clock(t50)),
                 (String(localized: "90% eliminated"), clock(t90)),
-                (String(localized: "Sober"), clock(sober)),
+                (String(localized: "Model reaches zero"), clock(sober)),
             ]
         case .unknown:
             return []

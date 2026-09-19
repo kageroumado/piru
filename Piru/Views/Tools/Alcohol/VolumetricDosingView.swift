@@ -4,7 +4,6 @@ struct VolumetricDosingView: View {
     enum Mode: String, CaseIterable, Identifiable {
         case solventNeeded = "Solvent Needed"
         case concentration = "Concentration"
-        case doseVolume = "Dose Volume"
         var id: String {
             rawValue
         }
@@ -13,7 +12,6 @@ struct VolumetricDosingView: View {
             switch self {
             case .solventNeeded: "Solvent Needed"
             case .concentration: "Concentration"
-            case .doseVolume: "Dose Volume"
             }
         }
     }
@@ -24,7 +22,6 @@ struct VolumetricDosingView: View {
     @State private var substanceAmount = ""
     @State private var solventVolume = ""
     @State private var concentrationValue = ""
-    @State private var desiredDose = ""
 
     var body: some View {
         ScrollView {
@@ -61,9 +58,9 @@ struct VolumetricDosingView: View {
                 .font(.piru(.largeTitle))
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
-            Text("Volumetric Dosing")
+            Text("Solution Math")
                 .screenTitle()
-            Text("Calculate measurements for dissolving substances in liquid solvents.")
+            Text("Work out a solution's concentration, or the solvent a target concentration needs.")
                 .captionSecondary()
                 .multilineTextAlignment(.center)
         }
@@ -83,9 +80,6 @@ struct VolumetricDosingView: View {
             case .concentration:
                 numericField("Substance Amount", value: $substanceAmount, unit: "mg")
                 numericField("Solvent Volume", value: $solventVolume, unit: "ml")
-            case .doseVolume:
-                numericField("Solution Concentration", value: $concentrationValue, unit: "mg/ml")
-                numericField("Desired Dose", value: $desiredDose, unit: "mg")
             }
         }
         .padding()
@@ -124,11 +118,6 @@ struct VolumetricDosingView: View {
             guard let amount = Double(substanceAmount), amount > 0,
                   let volume = Double(solventVolume), volume > 0 else { return nil }
             return amount / volume
-
-        case .doseVolume:
-            guard let conc = Double(concentrationValue), conc > 0,
-                  let dose = Double(desiredDose), dose > 0 else { return nil }
-            return dose / conc
         }
     }
 
@@ -136,7 +125,6 @@ struct VolumetricDosingView: View {
         switch mode {
         case .solventNeeded: "Solvent Needed"
         case .concentration: "Concentration"
-        case .doseVolume: "Volume to Dose"
         }
     }
 
@@ -144,7 +132,6 @@ struct VolumetricDosingView: View {
         switch mode {
         case .solventNeeded: "ml"
         case .concentration: "mg/ml"
-        case .doseVolume: "ml"
         }
     }
 
@@ -193,7 +180,7 @@ struct VolumetricDosingView: View {
 
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 safetyPoint("Always label solutions with substance name and concentration.")
-                safetyPoint("Verify calculations independently before use.")
+                safetyPoint("Check the arithmetic independently.")
                 safetyPoint("Use a milligram scale and graduated cylinder for accuracy.")
                 safetyPoint("Store solutions in clearly marked, child-proof containers.")
             }

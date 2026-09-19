@@ -289,7 +289,6 @@ nonisolated enum DeepLink {
         // adding a PushRoute case forces a deliberate decision here instead of
         // silently falling out of deep-link coverage.
         case .entry,
-             .rampDown,
              .comedownGuide,
              .timeline,
              .libraryCategory,

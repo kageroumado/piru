@@ -208,7 +208,7 @@ struct InsightsView: View {
                         icon: "square.and.arrow.up.on.square",
                         tint: .indigo,
                         title: "Reports",
-                        subtitle: "Export sessions, generate clinical reports",
+                        subtitle: "Export sessions and journal summaries",
                         route: .insight(.reports),
                     )
                 }
@@ -275,7 +275,7 @@ struct InsightsView: View {
     // MARK: - In Your Body
 
     private var inYourBodyCard: some View {
-        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "In your body", route: .insightGroup(.inYourBody)) {
+        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "Modeled levels", route: .insightGroup(.inYourBody)) {
             if model.active.isEmpty {
                 emptyContent("Nothing active right now")
             } else {
@@ -454,17 +454,17 @@ private var notableToleranceStates: [ClassTolerance] {
 private struct InsightsToleranceCard: View {
     var body: some View {
         let notable = notableToleranceStates
-        largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Tolerance", route: .insight(.tolerance)) {
+        largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Modeled Tolerance", route: .insight(.tolerance)) {
             if notable.isEmpty {
                 HStack(alignment: .center, spacing: 14) {
-                    Image(systemName: "checkmark.seal.fill")
+                    Image(systemName: "chart.line.flattrend.xyaxis")
                         .font(.piru(.title))
-                        .foregroundStyle(Color.successAccent)
+                        .foregroundStyle(Theme.secondaryLabel)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: Spacing.xxs) {
-                        Text("Receptors rested")
+                        Text("Nothing notable in the model")
                             .sectionLabel()
-                        Text("No notable predicted tolerance right now")
+                        Text("Built from your log alone, so an unlogged dose is invisible to it.")
                             .captionSecondary()
                     }
                     Spacer()

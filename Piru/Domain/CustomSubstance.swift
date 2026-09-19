@@ -181,8 +181,6 @@ extension Substance {
             displayClass: displayClass,
             regulatoryStatus: regulatoryStatus,
             durationImplausible: durationImplausible,
-            indications: indications,
-            contraindications: contraindications,
             diazepamEquivalent: diazepamEquivalent,
             substanceUID: substanceUID,
             cas: cas,

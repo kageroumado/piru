@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import Piru
 
@@ -7,8 +8,8 @@ struct AppSourcesTests {
     func `All sources have name and description`() {
         for source in AppSources.all {
             #expect(!source.name.isEmpty, "\(source.name) should have a name")
-            #expect(!source.description.isEmpty, "\(source.name) should have a description")
-            #expect(!source.detail.isEmpty, "\(source.name) should have a detail")
+            #expect(!String(localized: source.description).isEmpty, "\(source.name) should have a description")
+            #expect(!String(localized: source.detail).isEmpty, "\(source.name) should have a detail")
         }
     }
 
@@ -37,8 +38,39 @@ struct AppSourcesTests {
         #expect(names.contains("TripSit"))
         #expect(names.contains("OpenFDA"))
         #expect(names.contains("PsychonautWiki"))
-        #expect(names.contains("DrugBank"))
         #expect(names.contains("PubMed"))
+        #expect(names.contains("PubChem"))
+        #expect(names.contains("Wikidata"))
+    }
+
+    @Test
+    func `Only sources whose data ships are listed`() {
+        // DrugBank is a build-time cross-check; none of its values reach the
+        // bundled database, so a row for it would claim data Piru lacks.
+        #expect(AppSources.info(for: "DrugBank") == nil)
+    }
+
+    @Test
+    func `Source descriptions keep the house voice`() {
+        for source in AppSources.all {
+            let description = String(localized: source.description).lowercased()
+            #expect(!description.contains("harm reduction"), "\(source.name)")
+            #expect(!description.contains("harm-reduction"), "\(source.name)")
+        }
+    }
+
+    @Test
+    func `The EU drugs agency is listed under its current name`() {
+        let euda = AppSources.info(for: "EUDA (formerly EMCDDA)")
+        #expect(euda?.url == "https://www.euda.europa.eu")
+        #expect(AppSources.info(for: "EMCDDA") == nil)
+    }
+
+    @Test
+    func `Every source URL parses`() {
+        for source in AppSources.all {
+            #expect(URL(string: source.url) != nil, "\(source.name)")
+        }
     }
 
     @Test

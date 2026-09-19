@@ -16,23 +16,19 @@ enum DoseNotificationManager {
     // MARK: - Authorization + category registry
 
     /// The single OS-permission entry point (spec §B): invoked from the
-    /// management screen's header, onboarding's reminders step, and the
-    /// explicit per-dose comedown arm — never lazily from a scheduling path.
+    /// management screen's header and onboarding's reminders step — never
+    /// lazily from a scheduling path.
     static func requestAuthorization() async -> Bool {
         await RampDownScheduler.requestPermissionIfNeeded()
     }
 
-    /// Register every notification category once at launch — previously the
-    /// only registration happened as a side effect of scheduling a comedown
-    /// alert, which wiped the category set down to `rampDown` and left every
-    /// other `categoryIdentifier` pointing at nothing.
+    /// Register every notification category once at launch.
     ///
     /// Actions: routine + follow-up get **Log** (opens the pre-filled Quick
     /// Log, same landing as the body tap) and **Skip Today** (a background
     /// action — marks the occurrences skipped and cancels the remaining
     /// re-asks *without launching the UI*, so dismissing a nag is
-    /// friction-free). Comedown and next-dose get **View Timeline**.
-    /// Inventory gets **Restock** (opens the item's form via deep link).
+    /// friction-free). Inventory gets **Restock** (opens the item's form via deep link).
     static func registerCategories() {
         let log = UNNotificationAction(
             identifier: logActionID,
@@ -43,11 +39,6 @@ enum DoseNotificationManager {
             identifier: skipTodayActionID,
             title: String(localized: "Skip Today"),
             options: [],
-        )
-        let viewTimeline = UNNotificationAction(
-            identifier: viewTimelineActionID,
-            title: String(localized: "View Timeline"),
-            options: [.foreground],
         )
         let restock = UNNotificationAction(
             identifier: restockActionID,
@@ -64,11 +55,6 @@ enum DoseNotificationManager {
         for identifier in [routineCategoryID, routineFollowUpCategoryID] {
             categories.insert(UNNotificationCategory(
                 identifier: identifier, actions: [log, skip], intentIdentifiers: [], options: [],
-            ))
-        }
-        for identifier in [RampDownScheduler.rampDownCategoryID, nextDoseCategoryID] {
-            categories.insert(UNNotificationCategory(
-                identifier: identifier, actions: [viewTimeline], intentIdentifiers: [], options: [],
             ))
         }
         categories.insert(UNNotificationCategory(
@@ -92,24 +78,21 @@ enum DoseNotificationManager {
 
     nonisolated static let routineCategoryID = "routine"
     nonisolated static let routineFollowUpCategoryID = "routineFollowUp"
-    nonisolated static let nextDoseCategoryID = "nextDose"
     nonisolated static let inventoryCategoryID = "inventory"
 
     nonisolated static let logActionID = "piru.action.log"
     nonisolated static let skipTodayActionID = "piru.action.skipToday"
-    nonisolated static let viewTimelineActionID = "piru.action.viewTimeline"
     nonisolated static let restockActionID = "piru.action.restock"
     nonisolated static let addNoteActionID = "piru.action.addNote"
 
     // MARK: - Dose lifecycle
 
-    /// Schedule the wellness + phase set (and run the cumulative-dose check,
-    /// and the per-item next-dose reminder when a context is supplied) for a
+    /// Schedule the wellness + phase set and run the cumulative-dose check for a
     /// freshly logged dose. Doses logged in the past schedule nothing —
     /// every fire time is computed from the dose time and past intervals are
     /// skipped.
-    static func doseLogged(entry: DoseEntry, recentEntries: [DoseEntry], in context: ModelContext? = nil) {
-        let resolved = scheduleTimingReminders(for: entry, recentEntries: recentEntries, in: context)
+    static func doseLogged(entry: DoseEntry, recentEntries: [DoseEntry]) {
+        let resolved = scheduleTimingReminders(for: entry, recentEntries: recentEntries)
 
         // A dose of unknown amount adds nothing to a running total, and a total
         // it is part of is not one worth alerting on.
@@ -135,15 +118,13 @@ enum DoseNotificationManager {
     }
 
     /// Resolve the dose's substance, duration, and display brand, then arm the
-    /// timing reminders both a fresh log and a re-time share: wellness, phase,
-    /// and — when a context is supplied — the opt-in next-dose window. Returns
+    /// timing reminders both a fresh log and a re-time share: wellness and phase. Returns
     /// the resolved trio so a caller can layer its own alert (the
     /// cumulative-dose check) without repeating the heavy substance lookup.
     @discardableResult
     private static func scheduleTimingReminders(
         for entry: DoseEntry,
         recentEntries: [DoseEntry],
-        in context: ModelContext?,
     ) -> (substance: Substance?, duration: DurationProfile?, displayName: String?) {
         let substance = library(for: entry)
         // The envelope the reminders are timed from — a named ER product's own
@@ -169,90 +150,25 @@ enum DoseNotificationManager {
             duration: duration,
             displayName: displayName,
         )
-        if let context {
-            scheduleNextDoseReminder(for: entry, duration: duration, displayName: displayName, in: context)
-        }
         return (substance, duration, displayName)
-    }
-
-    // MARK: - Next-dose window reminder (spec §E)
-
-    /// If the dose matches a daily-med item the user opted into next-dose
-    /// reminders, schedule "your next dose window is open" at the model's
-    /// redose time. Opt-in lives on the item — the app never guesses
-    /// therapeutic vs. recreational intent.
-    private static func scheduleNextDoseReminder(
-        for entry: DoseEntry,
-        duration: DurationProfile?,
-        displayName: String?,
-        in context: ModelContext,
-    ) {
-        guard NotificationPreferencesStore.allows(.nextDose), let duration else { return }
-        let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
-        let optedIn = items.contains { item in
-            item.nextDoseReminder
-                && item.route == entry.route
-                && itemIdentityMatches(item: item, entry: entry)
-        }
-        guard optedIn else { return }
-
-        let windowOpens = RampDownScheduler.comedownStartTime(doseTime: entry.timestamp, duration: duration)
-        let interval = windowOpens.timeIntervalSince(.now)
-        guard interval > 60 else { return }
-        // A dose reminder — silenced inside the quiet window (spec §B).
-        guard !NotificationPreferencesStore.isInQuietHours(windowOpens) else { return }
-
-        let shownName = displayName ?? entry.substance
-        let content = UNMutableNotificationContent(
-            title: String(localized: "Next-dose window — \(shownName)"),
-            // Honesty: a prompt and an estimate, never a directive (spec §Honesty).
-            body: String(localized: "Enough time has passed since your last dose. This is a model estimate — follow your prescriber's schedule."),
-            category: nextDoseCategoryID,
-            threadIdentifier: RampDownScheduler.sessionIdentifier(for: entry.timestamp),
-            interruptionLevel: NotificationPreferencesStore.interruptionLevel(for: .nextDose),
-        )
-        let linkTimestamp = Int(entry.timestamp.timeIntervalSince1970)
-        content.userInfo = [
-            deepLinkUserInfoKey: "\(DeepLink.scheme)://entry/\(linkTimestamp)?id=\(entry.id.uuidString)",
-        ]
-        UNUserNotificationCenter.current().add(UNNotificationRequest(
-            identifier: NotificationType.nextDose.identifier(anchor: entry.id.uuidString),
-            content: content,
-            trigger: UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false),
-        ))
-    }
-
-    private static func itemIdentityMatches(item: DailyDoseItem, entry: DoseEntry) -> Bool {
-        if let itemUID = item.substanceUID, let entryUID = entry.substanceUID {
-            return itemUID == entryUID
-        }
-        return item.substance.lowercased() == entry.substance.lowercased()
     }
 
     /// The dose moved in time (edit, retime, move-to-session): wellness and
     /// phase reminders are keyed to the old timestamp, so cancel those and
     /// reschedule from the new time. A dose moved into the past schedules
     /// nothing — which is the fix for a backdated dose still pinging
-    /// "Stay hydrated" at its original fire times. An armed comedown alert is
-    /// re-armed at the dose's new comedown time (it's keyed by the stable
-    /// entry id, so without this it would keep its stale fire time).
+    /// "Stay hydrated" at its original fire times.
     static func doseRescheduled(
         entry: DoseEntry,
         previousTimestamp: Date,
         recentEntries: [DoseEntry] = [],
-        in context: ModelContext? = nil,
     ) {
         guard previousTimestamp != entry.timestamp else { return }
-        let wasArmed = RampDownScheduler.isActive(for: RampDownScheduler.entryKey(for: entry))
         cancelDoseNotifications(entryID: entry.id, timestamp: previousTimestamp)
-        let resolved = scheduleTimingReminders(for: entry, recentEntries: recentEntries, in: context)
-        if wasArmed, let duration = resolved.duration {
-            armComedownAlert(entry: entry, duration: duration)
-        }
+        scheduleTimingReminders(for: entry, recentEntries: recentEntries)
     }
 
-    /// The dose is gone — so are its pending reminders, including an armed
-    /// comedown alert. The timestamp rides along for the pre-grammar
+    /// The dose is gone — so are its pending reminders. The timestamp rides along for the pre-grammar
     /// epoch-keyed pending items.
     static func doseDeleted(entryID: UUID, timestamp: Date) {
         cancelDoseNotifications(entryID: entryID, timestamp: timestamp)
@@ -261,38 +177,6 @@ enum DoseNotificationManager {
     private static func cancelDoseNotifications(entryID: UUID, timestamp: Date) {
         RampDownScheduler.cancelWellnessNotifications(entryID: entryID, doseTimestamp: timestamp)
         RampDownScheduler.cancelPhaseNotifications(entryID: entryID, doseTimestamp: timestamp)
-        // An armed comedown alert dies with its dose too — a missed cancel
-        // here is exactly the stale-notification class this manager exists
-        // to prevent (it would fire for a dose that no longer exists).
-        RampDownScheduler.cancelNotification(for: entryID.uuidString)
-        RampDownScheduler.removeActiveEntry(entryID.uuidString)
-        UNUserNotificationCenter.current().removePendingNotificationRequests(
-            withIdentifiers: [NotificationType.nextDose.identifier(anchor: entryID.uuidString)],
-        )
-    }
-
-    // MARK: - Comedown (armed per dose from the ramp-down screen)
-
-    /// Arm the comedown alert for a dose — the façade path RampDownView uses
-    /// instead of driving the scheduler and its persistence by hand.
-    static func armComedownAlert(entry: DoseEntry, duration: DurationProfile) {
-        let entryKey = RampDownScheduler.entryKey(for: entry)
-        RampDownScheduler.scheduleNotification(
-            substanceName: entry.substance,
-            doseTime: entry.timestamp,
-            duration: duration,
-            entryKey: entryKey,
-            category: SubstanceLibrary.resolveFull(entry.substance)?.category,
-            displayName: DoseTitle.resolve(for: entry),
-        )
-        RampDownScheduler.saveActiveEntry(entryKey)
-    }
-
-    /// Cancel a dose's armed comedown alert and forget its armed state.
-    static func cancelComedownAlert(entry: DoseEntry) {
-        let entryKey = RampDownScheduler.entryKey(for: entry)
-        RampDownScheduler.cancelNotification(for: entryKey)
-        RampDownScheduler.removeActiveEntry(entryKey)
     }
 
     private static func library(for entry: DoseEntry) -> Substance? {
@@ -625,8 +509,8 @@ enum DoseNotificationManager {
         }
 
         // Follow-ups are the compressible tail of the SHARED 64-pending-
-        // request budget (next-dose, cumulative, inventory, and comedown
-        // requests draw from the same pool). Keep only the nearest ones so
+        // request budget (cumulative and inventory requests draw from the
+        // same pool). Keep only the nearest ones so
         // primaries and the other schedulers always fit; the horizon rolls
         // forward on every sync, so trimmed re-asks reappear as their day
         // approaches.
@@ -943,11 +827,10 @@ final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
                 if let skipTarget {
                     DoseNotificationManager.skipMedsToday(target: skipTarget)
                 }
-            // The body tap and every foreground action (Log, View Timeline)
+            // The body tap and every foreground action (Log, Restock, Add Note)
             // land at the notification's deep link; dismissals do nothing.
             case UNNotificationDefaultActionIdentifier,
                  DoseNotificationManager.logActionID,
-                 DoseNotificationManager.viewTimelineActionID,
                  DoseNotificationManager.restockActionID,
                  DoseNotificationManager.addNoteActionID:
                 guard let link,

@@ -22,7 +22,7 @@ struct TodayMedsWidget: Widget {
                 }
         }
         .configurationDisplayName("Today's Meds")
-        .description("See today's med schedule and take one right from the Home Screen.")
+        .description("See today's med schedule and record a dose from the Home Screen.")
         .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular])
     }
 }

@@ -74,10 +74,10 @@ struct UsageOverviewSection: View {
         UsageOverviewCard(
             title: "Substances",
             value: "\(overview.uniqueSubstances)",
-            caption: overview.newSubstances > 0 ? Text("\(overview.newSubstances) new this period") : nil,
+            caption: overview.newSubstances > 0 ? Text("\(overview.newSubstances) first recorded this period") : nil,
             captionColor: Theme.secondaryLabel,
             accessibilityValue: overview.newSubstances > 0
-                ? String(localized: "\(overview.uniqueSubstances) distinct substances, \(overview.newSubstances) new this period")
+                ? String(localized: "\(overview.uniqueSubstances) distinct substances, \(overview.newSubstances) first recorded this period")
                 : String(localized: "\(overview.uniqueSubstances) distinct substances"),
         ) {
             EmptyView()
@@ -90,7 +90,7 @@ struct UsageOverviewSection: View {
         UsageOverviewCard(
             title: "Per day",
             value: overview.averagePerDay.formatted(.number.precision(.fractionLength(0 ... 1))),
-            caption: busiestWeekdayName.map { Text("Most active: \($0)") },
+            caption: busiestWeekdayName.map { Text("Most entries: \($0)") },
             captionColor: Theme.secondaryLabel,
             accessibilityValue: busiestWeekdayName.map {
                 String(localized: "\(averageSpoken) entries per day, most active on \($0)")

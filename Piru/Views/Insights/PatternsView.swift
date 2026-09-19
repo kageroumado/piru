@@ -5,14 +5,14 @@ import SwiftUI
 /// Insights → Patterns. The record-and-model view a user can read for themselves
 /// or hand a clinician: days used vs off, cumulative exposure (in clinical
 /// equivalents where they exist), whether a dose has crept up, and where two
-/// substances were active at once. All four are one ``ClinicalReport`` — the same
+/// substances were active at once. All four are one ``JournalSummary`` — the same
 /// value the PDF clinician report renders, so the app and the print-out agree.
 struct PatternsView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 
     @State private var range: UsageTimeRange = .ninetyDays
-    @State private var report: ClinicalReport?
+    @State private var report: JournalSummary?
     @State private var loaded = false
 
     var body: some View {
@@ -74,11 +74,11 @@ struct PatternsView: View {
         }
         // Resolve on the main actor (equivalence / ladder lookups), then run the
         // aggregation — the overlap pass is a per-hour body-load sample — off main.
-        let (substances, doses) = ClinicalStatsResolver.resolve(
+        let (substances, doses) = SummaryStatsResolver.resolve(
             entries: allEntries, hexMap: substanceColors.hexColorMap, start: start, end: now,
         )
         report = await Task.detached {
-            ClinicalStats.report(substances: substances, doses: doses, start: start, end: now, calendar: .current)
+            SummaryStats.report(substances: substances, doses: doses, start: start, end: now, calendar: .current)
         }.value
         loaded = true
     }
@@ -96,7 +96,7 @@ struct PatternsView: View {
     }
 
     private var disclaimer: some View {
-        Text("A record and a model, not medical advice. Exposure uses clinical equivalents where they're established, and the substance's typical dose otherwise.")
+        Text("A record and a model, not medical advice. Exposure uses published equivalents where they exist, and the substance's typical dose otherwise.")
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -138,12 +138,12 @@ private struct HolidayCard: View {
 // MARK: - Exposure
 
 private struct ExposureCard: View {
-    let report: ClinicalReport
+    let report: JournalSummary
 
     var body: some View {
-        UsageSectionCard(title: "Cumulative exposure", subtitle: "Total taken this range, in each substance's clinical or common-dose unit") {
+        UsageSectionCard(title: "Cumulative exposure", subtitle: "Total taken this range, in each substance's common-dose unit") {
             if report.opioidPeakDayMME != nil || report.benzoDiazepamPerDay != nil {
-                clinicalCallout
+                summaryCallout
             }
             VStack(spacing: Spacing.lg) {
                 ForEach(report.exposure) { stat in
@@ -153,7 +153,7 @@ private struct ExposureCard: View {
         }
     }
 
-    private var clinicalCallout: some View {
+    private var summaryCallout: some View {
         VStack(spacing: Spacing.md) {
             if let peak = report.opioidPeakDayMME {
                 MMEBand(peakDayMME: peak, dailyMean: report.opioidMMEPerDay ?? 0)
@@ -209,7 +209,7 @@ private struct MMEBand: View {
 
 private struct ExposureRow: View {
     let stat: ExposureStat
-    let substance: ClinicalSubstance
+    let substance: SummarySubstance
 
     var body: some View {
         HStack(spacing: Spacing.lg) {
@@ -247,7 +247,7 @@ private struct ExposureRow: View {
 // MARK: - Escalation
 
 private struct EscalationCard: View {
-    let report: ClinicalReport
+    let report: JournalSummary
 
     var body: some View {
         UsageSectionCard(title: "Dose trend") {
@@ -262,7 +262,7 @@ private struct EscalationCard: View {
 
 private struct EscalationRow: View {
     let stat: EscalationStat
-    let substance: ClinicalSubstance
+    let substance: SummarySubstance
 
     private var glyph: (name: String, color: Color) {
         switch stat.direction {
@@ -313,7 +313,7 @@ private struct EscalationRow: View {
 // MARK: - Overlap
 
 private struct OverlapCard: View {
-    let report: ClinicalReport
+    let report: JournalSummary
 
     var body: some View {
         UsageSectionCard(title: "Active together") {

@@ -98,13 +98,6 @@ final class DailyDoseItem {
     /// other dose unless the user opts in. See ``SessionClustering``.
     var isBackgroundMed: Bool = false
 
-    /// Per-item opt-in for the next-dose window reminder: after logging a
-    /// dose of this med, a nudge fires when the model says the next dose
-    /// window opens (notifications spec §E — a maintenance need the *user*
-    /// declares; never inferred, and off by default so a recreational one-off
-    /// never reads as a redose prompt).
-    var nextDoseReminder: Bool = false
-
     // Meds redesign (Specs/meds-reminders-redesign.md) — all additive with
     // defaults, so a pure lightweight migration. Dormant until the My Meds hub
     // ships, except adherence, which reads ``reminderTimesMinutes`` for

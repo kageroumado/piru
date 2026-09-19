@@ -25,7 +25,7 @@ nonisolated struct PKInteractionHit: Identifiable, Hashable {
     /// Inhibition constant in µM, when the source measured one.
     let kiMicromolar: Double?
     /// What it does to exposure, in the source's own terms.
-    let clinicalEffect: String?
+    let labeledEffect: String?
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
@@ -72,7 +72,7 @@ extension SubstanceReadModel {
                         withSubstance: row["with_substance"],
                         mechanism: row["mechanism"],
                         kiMicromolar: row["ki_um"],
-                        clinicalEffect: row["clinical_effect"],
+                        labeledEffect: row["clinical_effect"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),

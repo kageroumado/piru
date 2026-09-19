@@ -96,11 +96,11 @@ struct HelpView: View {
                     .foregroundStyle(Theme.accent)
                     .accessibilityHidden(true)
 
-                Text("You're going to be okay")
+                Text("You don't have to do this alone")
                     .font(.piru(.title2, weight: .semibold))
                     .accessibilityAddTraits(.isHeader)
 
-                Text("Help is available. You don't have to do this alone.")
+                Text("Piru can't assess how you are. The people at the numbers below can.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .multilineTextAlignment(.center)
@@ -188,7 +188,7 @@ struct HelpView: View {
         } header: {
             Text("Recovery \u{2014} Right Now")
         } footer: {
-            Text("Showing guidance for substances in your system. Tap above for the full guide.")
+            Text("Showing the guide for the classes you logged in the last 48 hours. Tap above for the full guide.")
         }
     }
 
@@ -565,7 +565,7 @@ struct HelpView: View {
                 .accessibilityElement(children: .combine)
             }
         } header: {
-            Text("Currently In Your System")
+            Text("Modeled as Active")
         } footer: {
             Text("Estimates from pharmacokinetic modeling.")
         }

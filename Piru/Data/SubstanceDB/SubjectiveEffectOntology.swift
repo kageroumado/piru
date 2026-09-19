@@ -157,8 +157,8 @@ final class SubjectiveEffectOntology {
 
     // MARK: - Load
 
-    /// Read both tables once. A database without them (an OTA update from
-    /// before the vocabulary shipped) loads as empty rather than failing.
+    /// Read both tables once. A database without them loads as empty rather
+    /// than failing.
     func load() {
         guard !isLoaded else { return }
         isLoaded = true

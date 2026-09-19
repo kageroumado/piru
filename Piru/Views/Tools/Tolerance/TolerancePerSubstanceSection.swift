@@ -92,7 +92,6 @@ struct ToleranceSubstanceCard: View {
                     ToleranceMechanismRow(
                         color: snapshot.receptorClass.familyColor,
                         name: toleranceClassName(snapshot.receptorClass, tier: tier),
-                        word: ToleranceBucket(responseFraction: snapshot.responseFraction).word,
                         severity: snapshot.severity,
                     )
                 }
@@ -139,12 +138,11 @@ struct ToleranceSubstanceCard: View {
     }
 }
 
-/// One mechanism line inside a per-substance card: the class name + its tolerance word, over a slim
-/// family-colored level bar.
+/// One mechanism line inside a per-substance card: the class name over a slim family-colored level
+/// bar.
 struct ToleranceMechanismRow: View {
     let color: Color
     let name: LocalizedStringResource
-    let word: LocalizedStringResource
     let severity: Double
 
     var body: some View {
@@ -154,9 +152,6 @@ struct ToleranceMechanismRow: View {
                 Text(name)
                     .font(.subheadline)
                 Spacer(minLength: 8)
-                Text(word)
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(color)
             }
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
@@ -167,6 +162,9 @@ struct ToleranceMechanismRow: View {
             }
             .frame(height: 7)
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(name))
+        .accessibilityValue(Text(min(1, max(0, severity)), format: .percent.precision(.fractionLength(0))))
     }
 }
 

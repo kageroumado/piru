@@ -69,24 +69,6 @@ struct ToleranceToolView: View {
                                         contributors: row.snapshot.contributors,
                                         color: row.familyColor,
                                     )
-                                    if row.snapshot.chronicExposure > 0.10 {
-                                        NavigationLink {
-                                            WithdrawalReferenceView(
-                                                contributors: row.snapshot.contributors,
-                                                lastDoseDate: lastDoseDate(for: row.snapshot.contributors),
-                                                effectiveHalfLifeMinutes: effectiveHalfLives(for: row.snapshot.contributors),
-                                            )
-                                        } label: {
-                                            Label("If you stop: withdrawal timing", systemImage: "calendar.badge.clock")
-                                                .font(.subheadline)
-                                        }
-                                    }
-                                    NavigationLink {
-                                        InterventionLedgerView()
-                                    } label: {
-                                        Label("Discontinuation evidence", systemImage: "list.bullet.clipboard")
-                                            .font(.subheadline)
-                                    }
                                 }
                             }
                         }
@@ -106,7 +88,7 @@ struct ToleranceToolView: View {
         }
         .insetGroupedListStyle()
         .themedPage()
-        .appNavigationBar("Tolerance", showsOverflow: false)
+        .appNavigationBar("Modeled Tolerance", showsOverflow: false)
         .toolbar {
             optionsButton
         }
@@ -129,30 +111,6 @@ struct ToleranceToolView: View {
 
     private var tier: UserProfile {
         profile.disclosureTier
-    }
-
-    /// The most recent logged dose among a class's contributors — feeds the withdrawal card's "since
-    /// your last dose" marker. `entries` is already sorted most-recent-first, so the first match wins.
-    private func lastDoseDate(for contributors: [String]) -> Date? {
-        let names = Set(contributors)
-        return entries.first { names.contains($0.substance) }?.timestamp
-    }
-
-    /// Metabolite-extended half-life (minutes) per GABA contributor — the slowest of the parent's own
-    /// half-life and its foldable active metabolites' (K.5). This is what lets the withdrawal card
-    /// classify a prodrug benzo (clorazepate, ketazolam → nordazepam) as long-acting via its
-    /// metabolite tail rather than its short parent (I.full).
-    private func effectiveHalfLives(for contributors: [String]) -> [String: Double] {
-        var out: [String: Double] = [:]
-        for name in contributors {
-            let params = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name)
-            let parent = params.halfLifeMinutes
-            let slowestMetabolite = params.metabolites.filter(\.canFold).map(\.halfLifeMinutes).max()
-            if let effective = [parent, slowestMetabolite].compactMap(\.self).max() {
-                out[name] = effective
-            }
-        }
-        return out
     }
 
     private var recomputeSignature: String {
@@ -266,14 +224,12 @@ struct ToleranceToolView: View {
     private func recoverySeries() -> [ToleranceRecoverySeries] {
         let window = sharedRecoveryWindowMinutes
         return recoveryRows.map { row in
-            let recoveryMinutesTo90 = max(row.recoveryMinutes(toTolerance: 0.10) ?? 0, 0)
-            return ToleranceRecoverySeries(
+            ToleranceRecoverySeries(
                 id: row.snapshot.receptorClass,
                 legendKey: String(reflecting: row.snapshot.receptorClass),
                 name: toleranceClassName(row.snapshot.receptorClass, tier: tier),
                 color: row.familyColor,
                 points: row.recoveryCurve(overMinutes: window, sampleCount: 28),
-                recoveryPhrase: durationPhrase(minutes: recoveryMinutesTo90),
             )
         }
     }
@@ -290,8 +246,8 @@ struct ToleranceToolView: View {
 
 extension ReceptorClasses.ReceptorClass {
     /// The card's identity color for this mechanism family — the dot, gauge fill, capsule tint, and
-    /// recovery line. The color identifies the *class*; the tolerance level is carried by the word, not
-    /// by a red/green severity ramp. Lives here (not in `ReceptorClasses`) so the engine stays free of a
+    /// recovery line. The color identifies the *class*; the level is carried by the bar's fill, never by
+    /// a red/green severity ramp. Lives here (not in `ReceptorClasses`) so the engine stays free of a
     /// SwiftUI import.
     var familyColor: Color {
         switch self {

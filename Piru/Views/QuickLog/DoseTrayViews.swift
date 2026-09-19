@@ -139,7 +139,7 @@ struct TrayCommitBar: View {
                 }
                 ForEach(sleepWarnings.prefix(2)) { warning in
                     warningRow(symbol: DosePhaseGlyph.sleep, color: Color.Semantic.Caution.text) {
-                        Text("\(warning.name) active until ~\(Self.clock(warning.end))")
+                        Text("\(warning.name) modeled active until ~\(Self.clock(warning.end))")
                     }
                 }
             }

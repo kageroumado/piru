@@ -74,7 +74,7 @@ struct FeatureTourPage: Identifiable {
         FeatureTourPage(
             id: "journal",
             title: "Log it in seconds",
-            caption: "Every dose lands on a timeline so you can see what's active — and when it fades.",
+            caption: "Every dose lands on a timeline — see how they overlap, and when the model has them fading.",
             mock: AnyView(JournalMock()),
         ),
         FeatureTourPage(
@@ -85,14 +85,14 @@ struct FeatureTourPage: Identifiable {
         ),
         FeatureTourPage(
             id: "tools",
-            title: "Tools that have your back",
-            caption: "Check interactions, model tolerance, track your stock, and dose liquids safely.",
+            title: "Tools for the details",
+            caption: "Look up interactions, explore a tolerance model, track your stock, and work out a solution's concentration.",
             mock: AnyView(ToolsMock()),
         ),
         FeatureTourPage(
             id: "insights",
             title: "See your patterns",
-            caption: "Usage over time, times of day, and what's in your system right now — at a glance.",
+            caption: "Your recorded amounts, timing, and self-reported effects — at a glance.",
             mock: AnyView(InsightsMock()),
         ),
     ]
@@ -266,7 +266,7 @@ private struct LibraryMock: View {
             molecule: "amphetamine",
             icon: "bolt.fill",
             title: "Stimulants",
-            samples: "Amphetamine · Cocaine · Modafinil",
+            samples: "Amphetamine · Methylphenidate · Modafinil",
             count: "237",
         ),
         Family(
@@ -334,7 +334,7 @@ private struct ToolsMock: View {
         ("chart.line.downtrend.xyaxis", "Tolerance", MockPalette.blue),
         ("archivebox.fill", "Inventory", MockPalette.purple),
         ("timer", "Half-Life", MockPalette.green),
-        ("eyedropper.halffull", "Volumetric", MockPalette.orange),
+        ("eyedropper.halffull", "Solutions", MockPalette.orange),
         ("cross.case.fill", "Recovery", MockPalette.teal),
     ]
 

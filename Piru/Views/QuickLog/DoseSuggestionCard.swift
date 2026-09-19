@@ -3,7 +3,7 @@ import SwiftUI
 /// Shared "how much of the last dose is still active" computation, used by the
 /// full `DoseSuggestionCard` and the compact `DosePKBadge`.
 enum DosePK {
-    static func status(substanceName: String, route: RouteOfAdministration, lastDoseTimestamp: Date) -> (remainingPercent: Double, waitMinutes: Double)? {
+    static func status(substanceName: String, route: RouteOfAdministration, lastDoseTimestamp: Date) -> Double? {
         // Only half-life + duration are needed, both carried by the lightweight batch
         // cache — resolve **once** through it rather than two full overlay-aware
         // `lookupByNameOrAlias` calls (≈18 SQL + chem/mechanism decode each). This runs
@@ -29,21 +29,7 @@ enum DosePK {
         let elapsed = Date.now.timeIntervalSince(lastDoseTimestamp) / 60
         guard elapsed >= 0 else { return nil }
 
-        let remainingPercent = PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka) * 100
-
-        // "How long until this stops being felt": prefer the substance's real
-        // duration-of-effects profile; the half-life → 10%-body-load
-        // projection is only the fallback for substances without duration
-        // data (it wildly overstates for long-half-life drugs).
-        let waitMinutes: Double
-        if let duration, duration.estimatedTotalMinutes > 0 {
-            waitMinutes = max(0, duration.estimatedTotalMinutes - elapsed)
-        } else {
-            let timeTo10 = PKModel.timeToFraction(0.10, ke: ke, ka: ka)
-            waitMinutes = max(0, timeTo10 - elapsed)
-        }
-
-        return (remainingPercent, waitMinutes)
+        return PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka) * 100
     }
 
     /// Bare elapsed-time label for the badge ("23m", "5.9h", "2d").
@@ -75,7 +61,6 @@ struct DosePKBadge: View {
     let remainingPercent: Double
     let lastDoseAmount: Double
     let unit: String
-    let waitMinutes: Double
     let lastDoseTimestamp: Date
 
     private var activeAmount: Double {
@@ -107,7 +92,7 @@ struct DosePKBadge: View {
     private var label: String {
         let amount = activeAmount.doseFormatted
         let ago = DosePK.shortElapsed(since: lastDoseTimestamp)
-        return String(localized: "≈\(amount) \(unit) active · \(ago) ago")
+        return String(localized: "est. \(amount) \(unit) active · \(ago) ago")
     }
 }
 
@@ -118,17 +103,17 @@ struct DoseSuggestionCard: View {
     let unit: String
     let route: RouteOfAdministration
 
-    private var pkResult: (remainingPercent: Double, waitMinutes: Double)? {
+    private var remainingPercent: Double? {
         DosePK.status(substanceName: substanceName, route: route, lastDoseTimestamp: lastDoseTimestamp)
     }
 
     var body: some View {
-        if let result = pkResult, result.remainingPercent > 5 {
-            cardContent(remainingPercent: result.remainingPercent, waitMinutes: result.waitMinutes)
+        if let remainingPercent, remainingPercent > 5 {
+            cardContent(remainingPercent: remainingPercent)
         }
     }
 
-    private func cardContent(remainingPercent: Double, waitMinutes _: Double) -> some View {
+    private func cardContent(remainingPercent: Double) -> some View {
         let activeAmount = lastDoseAmount * remainingPercent / 100
         return HStack(alignment: .top, spacing: Spacing.md) {
             Image(systemName: "info.circle")
@@ -138,11 +123,11 @@ struct DoseSuggestionCard: View {
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {
-                Text("≈\(activeAmount.doseFormatted) \(unit) of your \(lastDoseAmount.doseFormatted) \(unit) dose (\(timeAgo)) is still active — ~\(Int(remainingPercent))%")
+                Text("The model puts ≈\(activeAmount.doseFormatted) \(unit) of your \(lastDoseAmount.doseFormatted) \(unit) dose (\(timeAgo)) as still active — ~\(Int(remainingPercent))%")
                     .font(.caption)
                     .foregroundStyle(.primary)
 
-                Text("Model estimate · individual clearance varies")
+                Text("An estimate from population data, not a measurement. It doesn't say when another dose is safe.")
                     .captionSecondary()
             }
         }

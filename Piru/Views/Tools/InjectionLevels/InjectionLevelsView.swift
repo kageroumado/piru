@@ -387,9 +387,9 @@ private struct InjectionLevelsExplanationCard: View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             Text("An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. The curve models that from your doses.")
                 .captionSecondary()
-            Text("It estimates a level. It never suggests a dose or a target. Lab results calibrate it to you.")
+            Text("It estimates a level. It never suggests a dose or a target. Your lab results fit the model to your measurements, which doesn't establish accuracy between them.")
                 .captionSecondary()
-            Text("Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. One blood test sets the height. Two on different days set the shape too. Retest after any change in dose, ester, interval, or site.")
+            Text("Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. One blood test fits the height. Two on different days fit the shape too. Retest after any change in dose, ester, interval, or site.")
                 .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)

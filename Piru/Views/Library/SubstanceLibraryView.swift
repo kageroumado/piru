@@ -126,7 +126,7 @@ private struct SubstanceSearchResultsList: View {
                     VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("Take a breath.")
                             .screenTitle()
-                        Text("You're going to be okay. Whatever you're feeling right now is temporary.")
+                        Text("You don't have to do this alone. Help is one tap away.")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                     }

@@ -126,8 +126,6 @@ extension SubstanceReadModel {
         ("metabolism", .pharmacokinetics),
         ("pharmacogenetics", .pharmacokinetics),
         ("tolerance", .tolerance),
-        ("indications", .prescribing),
-        ("contraindications", .prescribing),
         ("drug_interactions_pk", .interactions),
         ("aliases", .identity),
         ("tags", .identity),
@@ -149,8 +147,6 @@ extension SubstanceReadModel {
         // 2,700 rows of label and guideline prose, and until the column existed
         // they were the only substantive claims in the app whose source a
         // reader could not reach.
-        ("indications", .prescribing),
-        ("contraindications", .prescribing),
     ]
 
     /// Builds the contribution ledger for one substance. A cheap local read (a

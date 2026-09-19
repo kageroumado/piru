@@ -131,11 +131,11 @@ struct ReportsView: View {
             ExportCard(
                 icon: "doc.richtext",
                 tint: .red,
-                title: "Clinical Report",
-                description: "Key findings, medication summary, dose trends — for your doctor",
+                title: "Journal Summary",
+                description: "Your entries, your meds and dose trends, as one document",
             ) {
                 #if canImport(UIKit)
-                    await generateClinicalReport()
+                    await generateJournalSummary()
                 #endif
             }
 
@@ -269,7 +269,7 @@ struct ReportsView: View {
     // MARK: - Export actions
 
     #if canImport(UIKit)
-        private func generateClinicalReport() async {
+        private func generateJournalSummary() async {
             model.isExporting = true
             defer { model.isExporting = false }
 
@@ -321,7 +321,7 @@ struct ReportsView: View {
             }
 
             let hexMap = substanceColors.reduce(into: [String: String]()) { $0[$1.substance] = $1.hexColor }
-            let clinicalReport = ClinicalStatsResolver.report(
+            let journalSummary = SummaryStatsResolver.report(
                 entries: filteredEntries, hexMap: hexMap, start: range.start, end: range.end,
             )
 
@@ -335,8 +335,8 @@ struct ReportsView: View {
                     drugClassesB: $0.drugClassesB,
                 )
             }
-            let compressed = ClinicalStats.compressInteractions(compressedRaw)
-            let findings = ClinicalStats.findings(report: clinicalReport, interactions: compressed)
+            let compressed = SummaryStats.compressInteractions(compressedRaw)
+            let findings = SummaryStats.findings(report: journalSummary, interactions: compressed)
 
             var data = PDFReportGenerator.ReportData(
                 entries: entrySnapshots,
@@ -347,7 +347,7 @@ struct ReportsView: View {
                 notes: model.notes,
                 patientName: model.patientName,
             )
-            data.clinical = clinicalReport
+            data.clinical = journalSummary
             data.findings = findings
             data.compressedInteractions = compressed
 

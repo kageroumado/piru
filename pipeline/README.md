@@ -77,6 +77,7 @@ fix, not noise to tolerate.
 | `dosewiki-ids.json` | — | which Piru substance each dose.wiki article is about, or an explicit `null` with the reason. See [dose.wiki](#dosewiki) |
 | `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
 | `class-mechanisms.json` | `mechanisms_summary`, `bindings` | the eight class-level receptor profiles that say something their own summary does not (a tricyclic's H1/M1/α1, a barbiturate's AMPA/kainate). Written only where the substance has no measured row for that target, uncited, marked `class-level generalisation` in `notes` — see the file's `_meta.rule` and the gate in `tests/test_sqlite.py` |
+| `mechanism-lines.json` | `mechanisms_summary` | one sentence, target + action, for each Pyrls medication no curated mechanism covers. Gated by `pipeline/audit/claim_language.py` (no treatment, efficacy, dosing, safety or second-person language) |
 
 Adding one is: a path read in the ingester, DDL in `SCHEMA_SQL`, a method on
 `Build`, a call + `print` in `main()`, the table in the build-report row-count

@@ -119,7 +119,7 @@ extension MedTimeConsequence {
     }
 }
 
-/// "Clear for sleep ~6:35 AM" beside a dose that is still running.
+/// "Modeled effects end ~6:35 AM" beside a dose that is still running.
 ///
 /// The one fact a stimulant logged at 1 AM raises and the curve does not answer
 /// on its own: the graph's own window usually ends before the tail does, and the
@@ -133,7 +133,7 @@ struct DoseSleepClause: View {
     var body: some View {
         if affectsSleep, MedTimeConsequence.isNight(effectsEnd) {
             Label {
-                Text("Clear for sleep ~\(effectsEnd.formatted(date: .omitted, time: .shortened))")
+                Text("Modeled effects end ~\(effectsEnd.formatted(date: .omitted, time: .shortened))")
             } icon: {
                 Image(systemName: DosePhaseGlyph.sleep)
                     .accessibilityHidden(true)
@@ -185,9 +185,9 @@ struct MedTimeConsequenceLine: View {
     private var effectText: some View {
         let moments = times
         if consequence.statesWearOff {
-            Text("Kicks in ~\(Self.clock(moments.onset)) · easing off ~\(Self.clock(moments.wearOff))")
+            Text("Estimated onset ~\(Self.clock(moments.onset)) · easing off ~\(Self.clock(moments.wearOff))")
         } else {
-            Text("Kicks in ~\(Self.clock(moments.onset))")
+            Text("Estimated onset ~\(Self.clock(moments.onset))")
         }
     }
 
@@ -195,9 +195,9 @@ struct MedTimeConsequenceLine: View {
     private var sleepText: some View {
         let end = Self.clock(times.effectsEnd)
         if landsInNight {
-            Text("Clear for sleep ~\(end) — after most bedtimes.")
+            Text("Modeled effects end ~\(end) — after most bedtimes.")
         } else {
-            Text("Clear for sleep ~\(end)")
+            Text("Modeled effects end ~\(end)")
         }
     }
 

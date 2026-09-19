@@ -18,7 +18,7 @@
     "HPTA suppression (preclinical)"
   ],
   "mechanismOfAction": {
-    "summary": "Nonsteroidal AR partial agonist (Ki ~5 nM, ~64% DHT efficacy); anabolic:androgenic ratio ~2.45:1 in rat.",
+    "summary": "Nonsteroidal AR partial agonist (Ki ~5 nM, ~64% of the maximal DHT response); anabolic:androgenic ratio ~2.45:1 in rat.",
     "description": "Bicyclic azabicyclooctane scaffold SARM; potent AR partial agonist in cell-based assays, selective over other nuclear receptors. Never tested in humans — all data from rat studies. No published PK in any species.",
     "primaryTargets": [
       "Androgen receptor"

@@ -22,7 +22,7 @@ nonisolated struct OffTargetHit: Identifiable, Hashable {
     /// row with a `low` concern is worth showing rather than filtering out:
     /// "binds, and it doesn't matter" is the answer to a question readers
     /// otherwise answer for themselves, wrongly.
-    let clinicalConsequence: String?
+    let labeledConsequence: String?
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
@@ -94,7 +94,7 @@ extension SubstanceReadModel {
                         // claim of safety nobody made. `moderate` is the neutral middle.
                         concern: (row["concern_level"] as String?)
                             .flatMap { OffTargetConcern(rawValue: $0.lowercased()) } ?? .moderate,
-                        clinicalConsequence: row["clinical_consequence"],
+                        labeledConsequence: row["clinical_consequence"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),

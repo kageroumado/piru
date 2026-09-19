@@ -1553,18 +1553,18 @@
         }
       }
     },
-    "See today's med schedule and take one right from the Home Screen." : {
+    "See today's med schedule and record a dose from the Home Screen." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "查看今天的用药安排，并直接从主屏幕完成服用。"
+            "value" : "在主屏幕上查看今天的用药计划并记录一次剂量。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "查看今天的用藥安排，並直接從主畫面完成服用。"
+            "value" : "在主畫面上查看今天的用藥計劃並記錄一次劑量。"
           }
         }
       }

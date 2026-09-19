@@ -8,7 +8,6 @@ struct ToleranceRecoverySeries: Identifiable {
     let name: LocalizedStringResource
     let color: Color
     let points: [ToleranceChartPoint]
-    let recoveryPhrase: String
 }
 
 /// The always-on hero: every meaningfully-toleranced mechanism's recovery trajectory on one shared axis,
@@ -23,11 +22,11 @@ struct ToleranceCombinedRecoverySection: View {
     var body: some View {
         Section {
             VStack(alignment: .leading, spacing: Spacing.xl) {
-                Text("Recovery if you stop now")
+                Text("Modeled tolerance over time")
                     .cardTitle()
 
                 if series.isEmpty {
-                    Text("Everything's rested — nothing recovering right now.")
+                    Text("Nothing modeled.")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
                 } else {
@@ -56,10 +55,6 @@ struct ToleranceRecoveryLegend: View {
                     Text(item.name)
                         .font(.caption.weight(.medium))
                     Spacer(minLength: 8)
-                    // Already a resolved, localized phrase from `durationPhrase` — show verbatim so it
-                    // isn't re-looked-up as a catalog key.
-                    Text(verbatim: item.recoveryPhrase)
-                        .captionSecondary()
                 }
             }
         }
@@ -119,7 +114,7 @@ struct ToleranceCombinedRecoveryChart: View {
         .frame(height: 160)
         .chartSummaryAccessibility(
             label: Text("Recovery by mechanism"),
-            value: Text("\(series.count) mechanisms plotted, each fading from its current tolerance toward none."),
+            value: Text("\(series.count) mechanisms plotted from their modeled level now."),
         )
     }
 }

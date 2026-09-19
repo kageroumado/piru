@@ -1,11 +1,12 @@
 import SwiftUI
 
-/// The **Opioid Equivalence** converter. The oral MME factors the tolerance model
-/// already reads (`opioid_mme`) surfaced as a tool: a dose of one opioid expressed
-/// as another, routed through oral morphine equivalents, with the cross-tolerance
-/// warning that makes the number usable.
+/// The **Opioid MME** reference. The oral MME factors the tolerance model already
+/// reads (`opioid_mme`) surfaced as a tool: a recorded opioid dose expressed in
+/// oral morphine milligram equivalents, the unit CDC uses to compare opioid load.
 ///
-/// Pure full-agonist opioids convert linearly. Methadone, transdermal fentanyl,
+/// The readout stops at MME: one opioid and an amount, never a second opioid.
+///
+/// Pure full-agonist opioids scale linearly. Methadone, transdermal fentanyl,
 /// and buprenorphine are structurally un-convertible (see ``OpioidEquivalence``)
 /// and show an explanation instead of a number — a deliberate safety choice.
 struct OpioidEquivalenceToolView: View {
@@ -16,14 +17,10 @@ struct OpioidEquivalenceToolView: View {
     }
 
     @State private var fromName = "oxycodone"
-    @State private var toName = "morphine"
     @State private var doseText = ""
 
     private var from: OpioidEquivalence? {
         opioids.first { $0.name == fromName }
-    }
-    private var to: OpioidEquivalence? {
-        opioids.first { $0.name == toName }
     }
     private var dose: Double? {
         guard let d = Double(doseText), d > 0 else { return nil }
@@ -39,14 +36,13 @@ struct OpioidEquivalenceToolView: View {
                 if let reason = unconvertibleExplanation {
                     specialCard(reason)
                 }
-                crossToleranceCard
-                safetyCard
+                sourceCard
             }
             .padding()
         }
         .scrollDismissesKeyboard(.interactively)
         .skinBackdrop()
-        .appNavigationBar("Opioid Equivalence")
+        .appNavigationBar("Opioid MME")
     }
 
     // MARK: - Header
@@ -57,9 +53,9 @@ struct OpioidEquivalenceToolView: View {
                 .font(.piru(.largeTitle))
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
-            Text("Opioid Equivalence")
+            Text("Opioid MME")
                 .screenTitle()
-            Text("Convert a dose of one opioid to another through oral morphine milligram equivalents (MME), using the CDC 2022 conversion factors.")
+            Text("Express a recorded opioid dose in oral morphine milligram equivalents (MME), the unit CDC uses to compare opioid load, using the CDC 2022 factors.")
                 .captionSecondary()
                 .multilineTextAlignment(.center)
         }
@@ -73,11 +69,11 @@ struct OpioidEquivalenceToolView: View {
     private var inputCard: some View {
         VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: Spacing.xs) {
-                Text("From")
+                Text("Opioid and dose")
                     .captionSecondary()
                 HStack(spacing: Spacing.lg) {
                     opioidMenu(selection: $fromName)
-                        .accessibilityLabel(Text("Convert from"))
+                        .accessibilityLabel(Text("Opioid"))
                         .accessibilityValue(Text(from?.pickerLabel ?? String(localized: "Select")))
                     HStack(spacing: 0) {
                         TextField("0", text: $doseText)
@@ -93,14 +89,6 @@ struct OpioidEquivalenceToolView: View {
                     }
                     .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
                 }
-            }
-
-            VStack(alignment: .leading, spacing: Spacing.xs) {
-                Text("To")
-                    .captionSecondary()
-                opioidMenu(selection: $toName)
-                    .accessibilityLabel(Text("Convert to"))
-                    .accessibilityValue(Text(to?.pickerLabel ?? String(localized: "Select")))
             }
         }
         .padding()
@@ -142,22 +130,18 @@ struct OpioidEquivalenceToolView: View {
 
     private var resultCard: some View {
         VStack(spacing: Spacing.md) {
-            Text("Equivalent Dose")
+            Text("Oral morphine equivalent")
                 .captionSecondary()
 
-            if let from, let to, let dose,
-               let result = from.equivalentDose(forDoseMg: dose, in: to),
-               let mme = from.mme(forDoseMg: dose) {
-                Text("≈ \(EquivalenceFormat.mg(result)) mg")
+            if let from, let dose, let mme = from.mme(forDoseMg: dose) {
+                Text("≈ \(EquivalenceFormat.mg(mme)) MME")
                     .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
-                    .animation(.default, value: result)
-                Text("\(EquivalenceFormat.mg(dose)) mg \(from.displayName) ≈ \(EquivalenceFormat.mg(result)) mg \(to.displayName)")
+                    .animation(.default, value: mme)
+                Text("\(EquivalenceFormat.mg(dose)) mg \(from.displayName), by the CDC 2022 factor")
                     .captionSecondary()
                     .multilineTextAlignment(.center)
-
-                mmeBadge(mme)
             } else {
                 Text("--")
                     .font(.piru(.title, weight: .bold))
@@ -173,37 +157,25 @@ struct OpioidEquivalenceToolView: View {
         .themeCard()
     }
 
-    /// The oral-MME readout.
-    ///
-    /// No daily caution/high-risk band: CDC 2022 dropped its 90 MME/day threshold and
-    /// reframed 50 as a point to pause and reassess rather than a line, so grading one
-    /// converted dose against either would claim more than the source does. What the
-    /// reader needs about MME as a metric is in ``safetyCard``.
-    private func mmeBadge(_ mme: Double) -> some View {
-        Text("≈ \(EquivalenceFormat.mg(mme)) mg oral morphine equivalent")
-            .font(.caption.weight(.medium))
-            .foregroundStyle(.primary)
-            .padding(.top, Spacing.xs)
-    }
+    // No daily caution/high-risk band here: CDC 2022 dropped its 90 MME/day
+    // threshold and reframed 50 as a point to pause and reassess, so grading one
+    // dose against either would claim more than the source does.
 
     private var fallbackReason: LocalizedStringResource {
-        if from?.mmePerMg == nil { return "This opioid can't be linearly converted — see the note below." }
-        if to?.mmePerMg == nil { return "The target opioid can't be linearly converted — see the note below." }
-        if dose == nil { return "Enter a dose to convert." }
-        return "Pick two opioids and a dose."
+        if from?.mmePerMg == nil { return "This opioid has no linear MME factor — see the note below." }
+        return "Enter a dose."
     }
 
-    /// The explanation for a selected un-convertible opioid (methadone / fentanyl
-    /// / buprenorphine), preferring the "from" side.
+    /// The explanation for a selected opioid with no linear factor (methadone /
+    /// fentanyl / buprenorphine).
     private var unconvertibleExplanation: LocalizedStringResource? {
-        from?.unconvertibleReason ?? to?.unconvertibleReason
+        from?.unconvertibleReason
     }
 
     private func specialCard(_ reason: LocalizedStringResource) -> some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
-            Label("Not a simple conversion", systemImage: "exclamationmark.octagon")
+            Label("No figure", systemImage: "info.circle")
                 .sectionLabel()
-                .foregroundStyle(.cautionText)
                 .accessibilityAddTraits(.isHeader)
             Text(reason)
                 .captionSecondary()
@@ -213,53 +185,18 @@ struct OpioidEquivalenceToolView: View {
         .themeCard()
     }
 
-    // MARK: - Cross-tolerance
+    // MARK: - Source
 
-    private var crossToleranceCard: some View {
+    private var sourceCard: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
-            Label("Incomplete cross-tolerance", systemImage: "arrow.triangle.2.circlepath")
+            Label("Source", systemImage: "text.quote")
                 .sectionLabel()
-                .foregroundStyle(Theme.accent)
                 .accessibilityAddTraits(.isHeader)
-            Text("When switching opioids, the equianalgesic dose is an over-estimate: tolerance to one opioid doesn't fully transfer to another. Clinicians start the new opioid **25–50% lower** than the calculated dose (more for high doses or frail/elderly people) and re-titrate. Never take the full converted dose.")
+            Text("CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022, oral MME conversion factors. Shown as published; Piru makes no claim to their correctness.")
                 .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .themeCard()
     }
-
-    // MARK: - Safety
-
-    private var safetyCard: some View {
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            Label("Safety", systemImage: "exclamationmark.triangle")
-                .sectionLabel()
-                .foregroundStyle(.cautionText)
-                .accessibilityAddTraits(.isHeader)
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                safetyPoint("MME is a population risk metric. CDC states the calculated MME should not be used to determine the dose when switching opioids.")
-                safetyPoint("Individual variation is large — genetics (e.g. CYP2D6 for codeine, tramadol, oxycodone), liver and kidney function all shift real potency.")
-                safetyPoint("These oral factors don't cover every route or product. Transdermal, buccal, and IV forms differ.")
-                safetyPoint("Opioids plus benzodiazepines, alcohol, or other depressants sharply raise overdose risk. Tolerance also drops fast after a break — a dose you once handled can be fatal.")
-                safetyPoint("An opioid overdose is a sudden loss of consciousness with no warning — you can't give yourself naloxone. Don't use alone: someone with you needs naloxone and should call emergency services. Nodding off can also lead to choking on vomit or burns, so never use where you might pass out unattended.")
-            }
-        }
-        .padding()
-        .themeCard()
-    }
-
-    private func safetyPoint(_ text: LocalizedStringResource) -> some View {
-        HStack(alignment: .top, spacing: Spacing.md) {
-            Circle()
-                .fill(Theme.secondaryLabel)
-                .frame(width: 4, height: 4)
-                .padding(.top, Spacing.sm)
-                .accessibilityHidden(true)
-            Text(text)
-                .captionSecondary()
-        }
-    }
-
-    // MARK: - Formatting
 }

@@ -37,14 +37,4 @@ extension BenzoEquivalence {
         guard doseMg > 0, let ratio = diazepamPerMg else { return nil }
         return doseMg * ratio
     }
-
-    /// `doseMg` of this benzodiazepine expressed as an equivalent dose of
-    /// `target`, routed through diazepam as the common unit. `nil` if either
-    /// side's equivalence didn't parse. This is the cross-taper conversion
-    /// (A → diazepam → B).
-    func equivalentDose(forDoseMg doseMg: Double, in target: BenzoEquivalence) -> Double? {
-        guard let diazepam = diazepamEquivalent(forDoseMg: doseMg),
-              let targetRatio = target.diazepamPerMg, targetRatio > 0 else { return nil }
-        return diazepam / targetRatio
-    }
 }

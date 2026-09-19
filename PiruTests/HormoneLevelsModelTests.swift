@@ -80,9 +80,9 @@ struct HormoneLevelsModelTests {
     @Test
     func `Testosterone ships a reference region and a clinical goal; estradiol ships neither`() {
         #expect(Analyte.testosterone.referenceRegion == 300 ... 1000)
-        #expect(Analyte.testosterone.clinicalGoal == 400 ... 700)
+        #expect(Analyte.testosterone.labeledGoal == 400 ... 700)
         #expect(Analyte.estradiol.referenceRegion == nil)
-        #expect(Analyte.estradiol.clinicalGoal == nil)
+        #expect(Analyte.estradiol.labeledGoal == nil)
     }
 
     @Test

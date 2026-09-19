@@ -195,18 +195,6 @@ enum AuditSerializer {
             if !parts.isEmpty { m += "**Diazepam equivalent:** \(parts.joined(separator: " · "))\n\n" }
         }
 
-        // Clinical
-        if !s.indications.isEmpty {
-            m += "### Medical uses\n\n" + s.indications.map { "- \($0)" }.joined(separator: "\n") + "\n\n"
-        }
-        if !s.contraindications.isEmpty {
-            m += "### Contraindications & warnings\n\n"
-            for c in s.contraindications {
-                m += "- \(c.isBoxedWarning ? "**[BOXED]** " : "")\(c.text)\n"
-            }
-            m += "\n"
-        }
-
         // Overview prose
         if let o = s.overview, !o.text.isEmpty {
             m += "### Overview\(o.machineTranslated ? " _(machine-translated)_" : "")\n\n\(o.text)\n\n"

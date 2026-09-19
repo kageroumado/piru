@@ -41,7 +41,6 @@ private final class MedFormDraft {
     // Times & reminders
     var times: [MedReminderTime] = []
     var remind = true
-    var nextDoseReminder = false
 
     // Quiet tier — `userTouchedQuiet` keeps the supplement smart-default from
     // overriding an explicit choice when the substance changes afterwards.
@@ -120,7 +119,6 @@ struct MedFormView: View {
                         timesSection
                     }
                     quietSection
-                    nextDoseSection
                 }
                 .listRowBackground(CardBackground())
             }
@@ -200,7 +198,7 @@ struct MedFormView: View {
                     if let limit = draft.maxPerDay {
                         Text("Up to \(limit)× daily")
                     } else {
-                        Text("No daily limit")
+                        Text("No daily limit entered")
                     }
                 }
             }
@@ -288,15 +286,6 @@ struct MedFormView: View {
         }
     }
 
-    private var nextDoseSection: some View {
-        @Bindable var draft = draft
-        return Section {
-            Toggle("Next-dose window reminder", isOn: $draft.nextDoseReminder)
-        } footer: {
-            Text("Fires when the model's next dose window opens after a logged dose. Estimate only.")
-        }
-    }
-
     private var weekdayPicker: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Days")
@@ -350,7 +339,7 @@ struct MedFormView: View {
         )
     }
 
-    /// Stepper binding where 0 renders as "No daily limit" (`maxPerDay == nil`).
+    /// Stepper binding where 0 renders as "No daily limit entered" (`maxPerDay == nil`).
     private var dailyLimit: Binding<Int> {
         Binding(
             get: { draft.maxPerDay ?? 0 },
@@ -435,7 +424,6 @@ struct MedFormView: View {
             draft.maxPerDay = item.maxPerDay
             draft.times = item.reminderTimesMinutes.map { MedReminderTime(minutes: $0) }
             draft.remind = item.remind
-            draft.nextDoseReminder = item.nextDoseReminder
             draft.isQuiet = item.isQuiet
             draft.userTouchedQuiet = true
             draft.productName = item.productName
@@ -481,7 +469,6 @@ struct MedFormView: View {
         // Quiet meds are also background meds: they fold into an active
         // session rather than opening one (see SessionClustering).
         target.isBackgroundMed = draft.isQuiet
-        target.nextDoseReminder = draft.nextDoseReminder
         target.substanceUID = identity.uid
         target.isomer = identity.isomer
         target.releaseForm = identity.release

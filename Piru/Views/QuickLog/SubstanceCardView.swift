@@ -89,14 +89,13 @@ struct SubstanceCardView: View, Equatable {
                             remainingPercent: badge.remainingPercent,
                             lastDoseAmount: badge.lastDoseAmount,
                             unit: badge.lastDoseUnit,
-                            waitMinutes: badge.waitMinutes,
                             lastDoseTimestamp: badge.lastDoseTimestamp,
                         )
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("Active dose")
                     .accessibilityValue(badge.accessibilityValue)
-                    .accessibilityHint("Shows dosing advice")
+                    .accessibilityHint("Shows the model estimate for your last dose")
                 }
                 Spacer()
                 Button(action: onToggleFavorite) {
@@ -141,7 +140,7 @@ struct SubstanceCardView: View, Equatable {
                     )
                 }
                 .buttonStyle(.plain)
-                .accessibilityHint("Collapses the dosing advice")
+                .accessibilityHint("Collapses the model estimate")
             }
 
             inventoryHint

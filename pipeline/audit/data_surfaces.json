@@ -63,9 +63,7 @@
     "concentration_effects":     {"surface": "pharmacokinetics",     "note": "UNRENDERED — the plasma-concentration thresholds that would give the PK curve a labelled y-axis"},
     "tolerance":                 {"surface": "pharmacokinetics",     "note": "also Tools ▸ Tolerance"},
 
-    "indications":               {"surface": "medicalUses"},
-    "contraindications":         {"surface": "contraindications",    "note": "boxed warnings split to `boxedWarning`"},
-    "peptide_profiles":          {"surface": "medicalUses"},
+    "peptide_profiles":          {"surface": "doseDuration",         "note": "the peptide protocol / reconstitution section"},
 
     "drug_interactions_pk":      {"surface": "combinations",         "note": "measured pair PK; rendered on the substance page but never against what the user logged"},
     "interaction_rules":              {"surface": "combinations",    "note": "the class matrix InteractionChecker resolves every pairing through"},

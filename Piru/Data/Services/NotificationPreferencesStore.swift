@@ -14,8 +14,6 @@ import UserNotifications
 /// scheduler can fire must have a case here, and its schedule path must gate
 /// on ``NotificationPreferencesStore/allows(_:defaults:)``.
 nonisolated enum NotificationType: String, CaseIterable, Identifiable {
-    /// Comedown / wear-off alert, armed per dose from its ramp-down screen.
-    case comedown
     /// Timed hydration nudges during a session.
     case hydration
     /// Wind-down reminder after long stimulant/empathogen sessions.
@@ -29,10 +27,6 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     /// Snooze-style re-ask a little after a routine reminder that hasn't
     /// been logged yet ("still need to log?").
     case routineFollowUp
-    /// "Your next dose window is open" — fires after a logged dose of a med
-    /// the user opted in per-item (spec §E; maintenance nudge, never a
-    /// recreational redose prompt).
-    case nextDose
     /// Low-stock / out-of-stock alert for tracked inventory items.
     case inventory
     /// "How is it going?" — the opt-in per-session note prompts at T+30 m,
@@ -44,15 +38,14 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     }
 
     /// Whether the type is on for a user who has never touched the screen.
-    /// Mirrors shipped behavior: comedown, routine, and inventory fired with
-    /// no switch (so they default on); the session types were gated behind
+    /// Mirrors shipped behavior: routine and inventory fired with no switch
+    /// (so they default on); the session types were gated behind
     /// flags that defaulted off until onboarding enabled them.
     var defaultEnabled: Bool {
         switch self {
-        // Follow-ups and next-dose also default on: they fire only where the
-        // user explicitly configured them (a routine's cadence, a med's
-        // opt-in), so these toggles are kill switches, not opt-ins.
-        case .comedown, .routine, .routineFollowUp, .nextDose, .inventory, .checkIn: true
+        // Follow-ups also default on: they fire only where the user explicitly
+        // configured them (a routine's cadence), so the toggle is a kill switch.
+        case .routine, .routineFollowUp, .inventory, .checkIn: true
         case .hydration, .sleep, .phase, .cumulative: false
         }
     }
@@ -82,8 +75,8 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     /// Session nudges always deliver as ordinary notifications.
     var supportsTimeSensitive: Bool {
         switch self {
-        case .routine, .routineFollowUp, .nextDose, .cumulative: true
-        case .comedown, .hydration, .sleep, .phase, .inventory, .checkIn: false
+        case .routine, .routineFollowUp, .cumulative: true
+        case .hydration, .sleep, .phase, .inventory, .checkIn: false
         }
     }
 
@@ -96,7 +89,6 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     var identifierPrefixes: [String] {
         switch self {
         // No underscore on legacy hydration: covers `hydration_` and `hydration2_`.
-        case .comedown: [identifierPrefix, "\(RampDownScheduler.rampDownCategoryID)_"]
         case .hydration: [identifierPrefix, RampDownScheduler.hydrationCategoryID]
         case .sleep: [identifierPrefix, "\(RampDownScheduler.sleepCategoryID)_"]
         case .phase: [identifierPrefix, "\(RampDownScheduler.phaseCategoryID)_"]
@@ -104,7 +96,7 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
         case .routine: [identifierPrefix, DoseNotificationManager.legacyRoutineReminderPrefix]
         case .routineFollowUp: [identifierPrefix, DoseNotificationManager.legacyRoutineFollowUpPrefix]
         // Born under the current grammar — no legacy prefix to sweep.
-        case .nextDose, .checkIn: [identifierPrefix]
+        case .checkIn: [identifierPrefix]
         case .inventory: [identifierPrefix, DoseNotificationManager.legacyInventoryLowStockPrefix]
         }
     }
@@ -381,9 +373,6 @@ final class NotificationPreferencesStore {
             // materialized re-asks immediately, not on the next sync.
             if type == .routine { prefixes += NotificationType.routineFollowUp.identifierPrefixes }
             Self.removePending(withPrefixes: prefixes)
-            // Keep the per-entry "alert active" chips honest — their pending
-            // requests are gone.
-            if type == .comedown { RampDownScheduler.clearActiveEntries() }
         }
     }
 
@@ -433,14 +422,12 @@ final class NotificationPreferencesStore {
 private extension NotificationType {
     var recordKeyPath: ReferenceWritableKeyPath<NotificationPreferences, Bool> {
         switch self {
-        case .comedown: \.comedownEnabled
         case .hydration: \.hydrationEnabled
         case .sleep: \.sleepEnabled
         case .phase: \.phaseEnabled
         case .cumulative: \.cumulativeEnabled
         case .routine: \.routineEnabled
         case .routineFollowUp: \.routineFollowUpEnabled
-        case .nextDose: \.nextDoseEnabled
         case .inventory: \.inventoryEnabled
         case .checkIn: \.checkInEnabled
         }
@@ -452,9 +439,8 @@ private extension NotificationType {
         switch self {
         case .routine: \.routineTimeSensitive
         case .routineFollowUp: \.routineFollowUpTimeSensitive
-        case .nextDose: \.nextDoseTimeSensitive
         case .cumulative: \.cumulativeTimeSensitive
-        case .comedown, .hydration, .sleep, .phase, .inventory, .checkIn: nil
+        case .hydration, .sleep, .phase, .inventory, .checkIn: nil
         }
     }
 }

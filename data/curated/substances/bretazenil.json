@@ -23,7 +23,7 @@
   ],
   "halfLifeMinutes": 180,
   "mechanismOfAction": {
-    "summary": "Non-selective GABA-A BZD-site partial agonist (~35–58% intrinsic efficacy vs full agonist); wide therapeutic window with reduced tolerance/dependence potential compared to full agonists.",
+    "summary": "Non-selective GABA-A BZD-site partial agonist (~35–58% intrinsic activity vs full agonist), with reduced tolerance and dependence potential compared to full agonists.",
     "description": "Imidazo[1,2-a]-pyrrolo[2,3-d]-benzodiazepine; partial agonist at BZD binding site across α1–α6 subunit-containing GABA-A receptors (~35–58% maximal efficacy). Can precipitate withdrawal in BZD-tolerant users by occupying the site without full agonism. Never marketed. Potency: 0.5 mg ≈ 10 mg diazepam (psychomotor impairment studies). t½ ~2–4.5 h across multiple human PK studies.",
     "primaryTargets": [
       "GABA-A"

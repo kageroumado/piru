@@ -57,10 +57,10 @@ extension TimelineDayLayout {
         /// a population median, so the value reads "around 5:10 PM".
         var accessibilityLabel: LocalizedStringResource {
             switch kind {
-            case .comeup: "Kicks in"
-            case .peak: "Full effect"
-            case .offset: "Begins to wear off"
-            case .end: affectsSleep ? "Clear for sleep" : "Effects end"
+            case .comeup: "Estimated onset"
+            case .peak: "Estimated peak"
+            case .offset: "Estimated decline"
+            case .end: "Estimated end of effects"
             }
         }
     }

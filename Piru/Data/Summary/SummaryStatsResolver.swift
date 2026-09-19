@@ -1,18 +1,18 @@
 import SwiftUI
 
-/// Resolves the dose log into the Sendable snapshots ``ClinicalStats`` aggregates.
+/// Resolves the dose log into the Sendable snapshots ``SummaryStats`` aggregates.
 /// Every equivalence / ladder / duration lookup behind a dose is `@MainActor`, so
 /// they happen here, once; the aggregation that follows is pure and off-main-ready.
 ///
 /// One resolver, two consumers: the Insights patterns screen and the PDF clinician
 /// report both call ``resolve(entries:colorMap:start:end:)`` and hand the result to
-/// ``ClinicalStats/report(substances:doses:start:end:calendar:)``, so they can
+/// ``SummaryStats/report(substances:doses:start:end:calendar:)``, so they can
 /// never show different numbers.
-enum ClinicalStatsResolver {
+enum SummaryStatsResolver {
     @MainActor
     static func resolve(
         entries: [DoseEntry], hexMap: [String: String], start _: Date, end: Date,
-    ) -> (substances: [ClinicalSubstance], doses: [ClinicalDose]) {
+    ) -> (substances: [SummarySubstance], doses: [SummaryDose]) {
         let opioids = SubstanceStore.shared.opioidEquivalences()
         let benzos = SubstanceStore.shared.benzoEquivalences()
 
@@ -32,12 +32,12 @@ enum ClinicalStatsResolver {
             let currency: ExposureCurrency
         }
         var metaByName: [String: Meta] = [:]
-        var substances: [ClinicalSubstance] = []
-        var doses: [ClinicalDose] = []
+        var substances: [SummarySubstance] = []
+        var doses: [SummaryDose] = []
 
         // Overlap needs doses that landed before the window but are still active
         // inside it, so include everything up to `end`; per-window stats filter
-        // themselves in `ClinicalStats`.
+        // themselves in `SummaryStats`.
         for entry in entries where entry.timestamp <= end {
             let substance = lookup(entry.substance)
             let canonical = substance?.name ?? entry.substance
@@ -56,7 +56,7 @@ enum ClinicalStatsResolver {
                 let index = substances.count
                 meta = Meta(index: index, substance: substance, currency: currency)
                 metaByName[canonicalKey] = meta
-                substances.append(ClinicalSubstance(
+                substances.append(SummarySubstance(
                     name: canonical,
                     displayName: CustomSubstanceStore.shared.displayName(for: canonical, fallback: substance?.displayTitle),
                     colorHex: SubstancePalette.hex(for: canonical, hexMap: hexMap),
@@ -72,7 +72,7 @@ enum ClinicalStatsResolver {
                 doseMg: doseMg, opioids: opioids, benzos: benzos,
             )
             let (ke, ka) = rateConstants(substance: meta.substance, entry: entry)
-            doses.append(ClinicalDose(
+            doses.append(SummaryDose(
                 substanceIndex: meta.index, timestamp: entry.timestamp,
                 exposure: exposure, ke: ke, ka: ka,
             ))
@@ -82,9 +82,9 @@ enum ClinicalStatsResolver {
     }
 
     @MainActor
-    static func report(entries: [DoseEntry], hexMap: [String: String], start: Date, end: Date) -> ClinicalReport {
+    static func report(entries: [DoseEntry], hexMap: [String: String], start: Date, end: Date) -> JournalSummary {
         let (substances, doses) = resolve(entries: entries, hexMap: hexMap, start: start, end: end)
-        return ClinicalStats.report(substances: substances, doses: doses, start: start, end: end, calendar: .current)
+        return SummaryStats.report(substances: substances, doses: doses, start: start, end: end, calendar: .current)
     }
 
     // MARK: - Currency

@@ -33,8 +33,7 @@ struct NotificationPreferencesStoreTests {
         let store = NotificationPreferencesStore()
         try store.configure(container: makeContainer(), defaults: makeDefaults())
 
-        // The three types that fired with no switch default on.
-        #expect(store.isTypeEnabled(.comedown))
+        // The types that fired with no switch default on.
         #expect(store.isTypeEnabled(.routine))
         #expect(store.isTypeEnabled(.inventory))
         // The flag-gated session types default off (flags defaulted false).
@@ -130,14 +129,14 @@ struct NotificationPreferencesStoreTests {
         let store = NotificationPreferencesStore()
         try store.configure(container: makeContainer(), defaults: defaults)
 
-        #expect(NotificationPreferencesStore.allows(.comedown, defaults: defaults))
+        #expect(NotificationPreferencesStore.allows(.routine, defaults: defaults))
         #expect(!NotificationPreferencesStore.allows(.hydration, defaults: defaults))
 
         store.setEnabled(.hydration, true)
         #expect(NotificationPreferencesStore.allows(.hydration, defaults: defaults))
 
-        store.setEnabled(.comedown, false)
-        #expect(!NotificationPreferencesStore.allows(.comedown, defaults: defaults))
+        store.setEnabled(.routine, false)
+        #expect(!NotificationPreferencesStore.allows(.routine, defaults: defaults))
     }
 
     @Test
@@ -158,7 +157,6 @@ struct NotificationPreferencesStoreTests {
     @Test
     func `allows falls back to shipped defaults before configure ever ran`() {
         let defaults = makeDefaults()
-        #expect(NotificationPreferencesStore.allows(.comedown, defaults: defaults))
         #expect(NotificationPreferencesStore.allows(.routine, defaults: defaults))
         #expect(NotificationPreferencesStore.allows(.inventory, defaults: defaults))
         #expect(!NotificationPreferencesStore.allows(.hydration, defaults: defaults))
@@ -169,22 +167,20 @@ struct NotificationPreferencesStoreTests {
 
     @Test
     func `Raw values are stable wire format`() {
-        #expect(NotificationType.comedown.rawValue == "comedown")
         #expect(NotificationType.hydration.rawValue == "hydration")
         #expect(NotificationType.sleep.rawValue == "sleep")
         #expect(NotificationType.phase.rawValue == "phase")
         #expect(NotificationType.cumulative.rawValue == "cumulative")
         #expect(NotificationType.routine.rawValue == "routine")
         #expect(NotificationType.routineFollowUp.rawValue == "routineFollowUp")
-        #expect(NotificationType.nextDose.rawValue == "nextDose")
         #expect(NotificationType.inventory.rawValue == "inventory")
         #expect(NotificationType.checkIn.rawValue == "checkIn")
-        #expect(NotificationType.allCases.count == 10)
+        #expect(NotificationType.allCases.count == 8)
     }
 
     @Test
     func `Identifier grammar is piru-notif dot type dot anchor dot ordinal`() {
-        #expect(NotificationType.comedown.identifier(anchor: "ABC") == "piru.notif.comedown.ABC")
+        #expect(NotificationType.routine.identifier(anchor: "ABC") == "piru.notif.routine.ABC")
         #expect(NotificationType.hydration.identifier(anchor: "ABC", ordinal: "2") == "piru.notif.hydration.ABC.2")
         #expect(NotificationType.phase.identifier(anchor: "ABC", ordinal: "peak") == "piru.notif.phase.ABC.peak")
         #expect(
@@ -202,14 +198,12 @@ struct NotificationPreferencesStoreTests {
         // The exact strings the schedulers build identifiers from — if one of
         // these drifts, disabling a type stops cancelling its notifications.
         // Legacy entries are the transition sweep for pre-grammar pending.
-        #expect(NotificationType.comedown.identifierPrefixes == ["piru.notif.comedown.", "rampDown_"])
         #expect(NotificationType.hydration.identifierPrefixes == ["piru.notif.hydration.", "hydration"])
         #expect(NotificationType.sleep.identifierPrefixes == ["piru.notif.sleep.", "sleepReminder_"])
         #expect(NotificationType.phase.identifierPrefixes == ["piru.notif.phase.", "phaseAlert_"])
         #expect(NotificationType.cumulative.identifierPrefixes == ["piru.notif.cumulative.", "cumulativeDose_"])
         #expect(NotificationType.routine.identifierPrefixes == ["piru.notif.routine.", "routineReminder_"])
         #expect(NotificationType.routineFollowUp.identifierPrefixes == ["piru.notif.routineFollowUp.", "routineFollowUp_"])
-        #expect(NotificationType.nextDose.identifierPrefixes == ["piru.notif.nextDose."])
         #expect(NotificationType.inventory.identifierPrefixes == ["piru.notif.inventory.", "inventoryLowStock_"])
     }
 

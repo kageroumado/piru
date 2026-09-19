@@ -43,9 +43,6 @@ struct SubstanceDetailView: View {
 
     /// The plain-language help sheet shown from a card header's (i) button.
     @State private var glossaryTopic: PharmacologyGlossarySheet.Topic?
-    /// Contraindications & cautions disclosure, owned here so it survives while
-    /// ``SafetySection`` is re-created; the section reads it as a binding.
-    @State private var cautionsExpanded = false
     /// Drives the push to the grouped "All effects" screen from the Effects
     /// header's "Show All" (a header NavigationLink isn't reliably hittable).
     @State private var showAllEffects = false
@@ -164,7 +161,7 @@ struct SubstanceDetailView: View {
     }
 
     /// Resolve the full per-field record (mechanism, chemistry identifiers, molar
-    /// mass, indications/contraindications, protocol dosing, peptide profile) and
+    /// mass, protocol dosing, peptide profile) and
     /// swap it in. Runs off the push in a `.task`; the hot header/dose fields
     /// already render from the shell, and the full record carries the same name,
     /// routes, and category, so only the heavy sections pop in. No-op when the
@@ -203,7 +200,6 @@ struct SubstanceDetailView: View {
                 selectedSaltForm: selectedSaltForm,
                 personalNotes: personalOverride?.notes,
                 showAllEffects: $showAllEffects,
-                cautionsExpanded: $cautionsExpanded,
                 onGlossary: { glossaryTopic = $0 },
             )
             .listRowBackground(CardBackground())

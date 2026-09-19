@@ -648,7 +648,7 @@
   },
   {
     "name": "Clozapine",
-    "summary": "Multi-Receptor Antagonist (Atypical Antipsychotic with Unique Efficacy)",
+    "summary": "Multi-Receptor Antagonist (Atypical Antipsychotic)",
     "description": "Distinguished by high 5-HT2A affinity relative to D2, with uniquely rapid D2 dissociation ('fast-off' theory). Has significant affinity for D1, D3, D4, muscarinic M1/M4, histamine H1, and α1/α2-adrenergic receptors. This broad receptor profile underlies its efficacy in treatment-resistant schizophrenia. Risk of agranulocytosis necessitates blood monitoring.",
     "bindings": [
       {

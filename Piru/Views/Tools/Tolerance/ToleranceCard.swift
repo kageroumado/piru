@@ -1,9 +1,9 @@
 import Charts
 import SwiftUI
 
-/// One mechanism class's card: a family-color dot + tier-aware name + "Predicted" capsule, an optional
-/// contributor row, the segmented tolerance bar, an optional lede, the recovery chart, trimmed safety
-/// notes, and — at the Pharma Nerd tier — a confidence/shift footer. Density scales with `tier`.
+/// One mechanism class's card: a family-color dot + tier-aware name + "Modeled" capsule, an optional
+/// contributor row, the segmented tolerance bar, the recovery chart, and trimmed safety notes.
+/// Density scales with `tier`. The level has no word: the bar is the whole readout.
 struct ToleranceCard: View {
     let row: ToleranceRow
     let tier: UserProfile
@@ -24,26 +24,16 @@ struct ToleranceCard: View {
             if row.snapshot.effectShifts.isEmpty {
                 ToleranceBar(
                     bands: row.bands,
-                    word: ToleranceBucket(responseFraction: row.snapshot.responseFraction).word,
-                    color: row.familyColor,
+                    level: row.snapshot.severity,
                     showsLegend: tier != .casual,
                 )
             } else {
                 EffectLadderView(snapshot: row.snapshot)
             }
 
-            if let lede = row.lede {
-                Text(lede)
-                    .font(.subheadline)
-            }
-
             ToleranceRecoveryChart(row: row)
 
-            ToleranceSafetyNotesView(notes: row.safetyNotes(tier: tier))
-
-            if tier == .pharmaNerd {
-                ToleranceNerdFooter(confidenceAndShift: row.confidenceAndShift, engagedLayers: row.engagedLayers)
-            }
+            ToleranceSafetyNotesView(notes: row.safetyNotes())
         }
         .padding(.vertical, Spacing.sm)
     }
@@ -59,7 +49,7 @@ struct ToleranceCardHeader: View {
             Text(name)
                 .cardTitle()
             Spacer(minLength: 8)
-            Text("Predicted")
+            Text("Modeled")
                 .capsuleChip(text: Theme.secondaryLabel, fill: .secondary, size: .regular)
                 .textCase(.uppercase)
         }
@@ -85,8 +75,8 @@ struct ToleranceContributorChips: View {
 /// The segmented, part-to-whole tolerance bar: how toleranced you are, split by which recovery layer.
 struct ToleranceBar: View {
     let bands: [ToleranceBand]
-    let word: LocalizedStringResource
-    let color: Color
+    /// Overall fill, 0–1 — spoken to VoiceOver as a share of the bar.
+    let level: Double
     let showsLegend: Bool
 
     private var multiBand: Bool {
@@ -110,26 +100,23 @@ struct ToleranceBar: View {
             }
             .frame(height: 10)
 
-            if showsLegend {
+            if showsLegend, multiBand {
                 HStack(spacing: Spacing.lg) {
-                    if multiBand {
-                        ForEach(bands) { band in
-                            HStack(spacing: Spacing.xs) {
-                                LegendDot(color: band.color, size: .compact)
-                                Text(band.label)
-                            }
+                    ForEach(bands) { band in
+                        HStack(spacing: Spacing.xs) {
+                            LegendDot(color: band.color, size: .compact)
+                            Text(band.label)
                         }
                     }
                     Spacer(minLength: 0)
-                    Text(word)
-                        .foregroundStyle(color)
                 }
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(word))
+        .accessibilityLabel(Text("Modeled tolerance"))
+        .accessibilityValue(Text(min(1, max(0, level)), format: .percent.precision(.fractionLength(0))))
     }
 }
 
@@ -185,13 +172,9 @@ struct ToleranceRecoveryChart: View {
                 }
                 .frame(height: 92)
                 .chartSummaryAccessibility(
-                    label: Text("Tolerance recovery"),
-                    value: Text("Starts at \(String(localized: ToleranceBucket(responseFraction: row.snapshot.responseFraction).word)), fading toward none."),
+                    label: Text("Modeled tolerance over time"),
+                    value: Text("The modeled level from now, fading over the days shown."),
                 )
-
-                Text(row.chartCaption)
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
             }
         }
     }
@@ -216,20 +199,5 @@ struct ToleranceSafetyNotesView: View {
                 }
             }
         }
-    }
-}
-
-/// The Pharma Nerd footer: confidence + shift factor, and the engaged recovery layers.
-struct ToleranceNerdFooter: View {
-    let confidenceAndShift: LocalizedStringResource
-    let engagedLayers: LocalizedStringResource
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text(confidenceAndShift)
-            Text(engagedLayers)
-        }
-        .font(.caption2)
-        .foregroundStyle(Theme.secondaryLabel)
     }
 }

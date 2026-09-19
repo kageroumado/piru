@@ -190,12 +190,6 @@ final class SubstanceStore {
     /// `metabolite_active = 1`. The body-load readout qualifies "fully eliminated" when the
     /// parent cleared but a longer-lived active metabolite may persist. Not source-derived.
     @ObservationIgnored private var activeMetaboliteNamesCache: Set<String>?
-    /// The discontinuation screen's timing bands and acting-class floors — a dozen rows read once
-    /// and held. Source-derived (the floors carry a source), so invalidated with the converters.
-    @ObservationIgnored private var withdrawalReferenceCache: WithdrawalReference?
-    /// The taper-intervention ledger, read once and held. Not source-derived: the table has one row
-    /// per intervention regardless of source, so it is never invalidated.
-    @ObservationIgnored private var taperInterventionCache: [TaperIntervention]?
     /// `zero_order_kinetics` in full, keyed by canonical name: which substances clear at a fixed
     /// mass-per-time, and the parameters their dose-scaled curve is drawn from. A handful of rows the
     /// timeline consults for every logged dose, so it is read once and held. Source-derived (both the
@@ -329,23 +323,19 @@ final class SubstanceStore {
         return bundleURL
     }
 
-    /// Picks the SQLite file to open at launch. Prefers an opt-in updated
-    /// copy in `Documents/` (sha256-verified at install time by
-    /// ``SubstanceDBUpdater``) and falls back to the bundled resource the app
-    /// shipped with. The init recovers if the chosen file turns out to be
-    /// unopenable (see ``init(substancesDBURL:userPrefsDBURL:prewarmsAllCache:)``).
-    ///
-    /// The applied copy wins only while it is at least as new as the bundled one
-    /// (``SubstanceDBUpdater/appliedCopyIsStale()``). After an app upgrade it can be older, and
-    /// serving it would run this build's reader against data that predates it — every table added
-    /// since resolves empty and the features reading it turn themselves off with no error. The next
-    /// update check re-downloads and the applied copy takes over again.
+    /// The SQLite file to open at launch: the database bundled with the app.
     static func resolveSubstancesDBURL() -> URL {
-        let applied = SubstanceDBUpdater.appliedSQLiteURL
-        if FileManager.default.fileExists(atPath: applied.path), !SubstanceDBUpdater.appliedCopyIsStale() {
-            return applied
-        }
+        removeDownloadedDatabaseCopy()
         return bundledSubstancesDBURL()
+    }
+
+    /// Frees the ~19 MB database copy a TestFlight build may have downloaded into
+    /// `Documents/`, which is user-visible through file sharing.
+    private static func removeDownloadedDatabaseCopy() {
+        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        for name in ["piru-substances-updated.sqlite", "piru-substances-updated.manifest.json"] {
+            try? FileManager.default.removeItem(at: documents.appendingPathComponent(name))
+        }
     }
 
     /// Open the writable user-prefs DB, recovering from on-disk corruption. The
@@ -419,19 +409,14 @@ final class SubstanceStore {
 
     init(substancesDBURL: URL, userPrefsDBURL: URL, prewarmsAllCache: Bool = true) {
         self.prewarmsAllCache = prewarmsAllCache
-        // The substances DB is opened read-only and immutable — both the
-        // bundled copy (immutable resource bundle) and any opt-in update
-        // applied to Documents/ (never modified after its sha256-verified
-        // install). Immutable means lock-free: see `immutableSQLiteURI(for:)`.
+        // The substances DB is opened read-only and immutable, which makes it
+        // lock-free: see `immutableSQLiteURI(for:)`.
         var bundleConfig = Configuration()
         bundleConfig.readonly = true
         bundleConfig.label = "piru-substances"
-        // Launch recovery: if the opt-in updated copy in Documents/ is corrupt
-        // or half-applied (app killed mid-copy, truncated download past the
-        // install-time sha256 check, …) the open throws. Rather than crash on
-        // every launch — the dominant build-21/22 launch crash — quarantine the
-        // bad applied DB and fall back to the bundled resource. A bundled-DB
-        // failure stays fatal (see ``bundledSubstancesDBURL``).
+        // A database at any other URL (a test fixture) that fails to open falls
+        // back to the bundled resource. A bundled-DB failure stays fatal (see
+        // ``bundledSubstancesDBURL``).
         let openedSubstancesURL: URL
         do {
             self.substancesDB = try DatabaseQueue(path: Self.immutableSQLiteURI(for: substancesDBURL), configuration: bundleConfig)
@@ -442,10 +427,6 @@ final class SubstanceStore {
                 fatalError("Failed to open bundled substances DB at \(substancesDBURL.path): \(error)")
             }
             logger.error("Substances DB unopenable at \(substancesDBURL.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); falling back to bundled DB")
-            if substancesDBURL == SubstanceDBUpdater.appliedSQLiteURL {
-                logger.error("Quarantining the corrupt applied substance-DB update")
-                SubstanceDBUpdater.quarantineAppliedDB()
-            }
             do {
                 self.substancesDB = try DatabaseQueue(path: Self.immutableSQLiteURI(for: bundleURL), configuration: bundleConfig)
             } catch {
@@ -626,7 +607,6 @@ final class SubstanceStore {
         benzoEquivalenceCache = nil
         opioidEquivalenceCache = nil
         zeroOrderKineticsCache = nil
-        withdrawalReferenceCache = nil
     }
 
     /// Set the user's source priority order (highest priority first). Cleared
@@ -1437,99 +1417,6 @@ final class SubstanceStore {
             activeMetaboliteNamesCache = names
         }
         return activeMetaboliteNamesCache?.contains(canonicalName.lowercased()) == true
-    }
-
-    /// The benzodiazepine discontinuation screen's population tables: the timing bands and the
-    /// clinical acting-class floors. Read once and held.
-    ///
-    /// The bands are read without a source filter, unlike the converters: `withdrawal_timing_bands`
-    /// is keyed by band alone, so no second source can offer a competing window, and filtering would
-    /// only give a user who reordered their sources a screen with no bands on it at all. The floors
-    /// are keyed per source and resolve by priority like every other per-substance fact.
-    func withdrawalReference() -> WithdrawalReference {
-        if let cached = withdrawalReferenceCache { return cached }
-        let order = enabledSourceOrder
-        guard !order.isEmpty else { return .empty }
-        let priorityCaseSQL = SubstanceReadModel.priorityCaseSQL(order)
-        let enabledSourceListSQL = SubstanceReadModel.enabledSourceListSQL(order)
-        let result: WithdrawalReference = (try? substancesDB.read { db in
-            let bandRows = try Row.fetchAll(db, sql: """
-                SELECT band, min_half_life_minutes AS lo, max_half_life_minutes AS hi,
-                       peak_min_hours AS peak_lo, peak_max_hours AS peak_hi
-                  FROM withdrawal_timing_bands
-                 ORDER BY min_half_life_minutes DESC
-            """)
-            let bands = bandRows.compactMap { row -> TimingBand? in
-                guard let raw: String = row["band"],
-                      let actingClass = WithdrawalActingClass(rawValue: raw) else { return nil }
-                // A band with no measured window is still a band — it places a drug — so a
-                // missing peak drops the window, never the row.
-                let peakLo: Double? = row["peak_lo"], peakHi: Double? = row["peak_hi"]
-                var peak: ClosedRange<Double>?
-                if let peakLo, let peakHi, peakLo <= peakHi { peak = peakLo ... peakHi }
-                return TimingBand(
-                    actingClass: actingClass,
-                    minHalfLifeMinutes: row["lo"],
-                    maxHalfLifeMinutes: row["hi"],
-                    peakHours: peak,
-                )
-            }
-            let floorRows = try Row.fetchAll(db, sql: """
-                SELECT s.canonical_name AS name, w.band AS band
-                  FROM (
-                    SELECT wac.*, ROW_NUMBER() OVER (
-                        PARTITION BY wac.substance_id
-                        ORDER BY \(priorityCaseSQL) ASC) AS rn
-                      FROM withdrawal_acting_class wac
-                      JOIN sources src ON src.id = wac.source_id
-                     WHERE src.slug IN (\(enabledSourceListSQL))
-                  ) w
-                  JOIN substances s ON s.id = w.substance_id
-                 WHERE w.rn = 1
-            """)
-            var floors: [String: WithdrawalActingClass] = [:]
-            for row in floorRows {
-                guard let raw: String = row["band"],
-                      let actingClass = WithdrawalActingClass(rawValue: raw) else { continue }
-                let name: String = row["name"]
-                floors[name.lowercased()] = actingClass
-            }
-            return WithdrawalReference(bands: bands, floors: floors)
-        }) ?? .empty
-        withdrawalReferenceCache = result
-        return result
-    }
-
-    /// Every taper intervention the trial literature has a verdict on, in the ledger's order — the
-    /// two verdict sections read as one ranking, so a row that changes sides keeps its place. Read
-    /// once and held.
-    ///
-    /// A row whose `intervention` slug names no ``TaperIntervention/Kind`` is dropped rather than
-    /// rendered blank; `TaperInterventionTests` gates that the two sides stay in step.
-    func taperInterventions() -> [TaperIntervention] {
-        if let cached = taperInterventionCache { return cached }
-        let result: [TaperIntervention] = (try? substancesDB.read { db in
-            let rows = try Row.fetchAll(db, sql: """
-                SELECT intervention, verdict, sample_size, trial_count
-                  FROM taper_interventions
-                 ORDER BY rank ASC
-            """)
-            return rows.compactMap { row -> TaperIntervention? in
-                guard let slug: String = row["intervention"],
-                      let kind = TaperIntervention.Kind(rawValue: slug),
-                      let rawVerdict: String = row["verdict"],
-                      let verdict = TaperIntervention.Verdict(rawValue: rawVerdict)
-                else { return nil }
-                return TaperIntervention(
-                    kind: kind,
-                    verdict: verdict,
-                    sampleSize: row["sample_size"],
-                    trialCount: row["trial_count"],
-                )
-            }
-        }) ?? []
-        taperInterventionCache = result
-        return result
     }
 
     /// The substances whose clearing enzyme saturates across their dose range, keyed by lowercased

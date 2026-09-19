@@ -499,7 +499,7 @@ struct AdherenceDayDetailSheet: View {
                                 Text(
                                     itemAdherence.taken
                                         ? "Taken \(itemAdherence.item.substance)"
-                                        : "Missed \(String(localized: itemAdherence.item.route.localizedName).lowercased()) of \(itemAdherence.item.substance)",
+                                        : "Not logged: \(String(localized: itemAdherence.item.route.localizedName).lowercased()) \(itemAdherence.item.substance)",
                                 )
                                 .font(.body)
 

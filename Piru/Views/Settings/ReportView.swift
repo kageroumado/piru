@@ -83,11 +83,11 @@ struct ReportView: View {
     var body: some View {
         NavigationStack {
             List {
-                // Patient Name
+                // Name
                 Section {
                     TextField("Name (for the report header)", text: $patientName)
                 } header: {
-                    Text("Patient Name (Optional)")
+                    Text("Name (Optional)")
                 }
 
                 // Date Range
@@ -139,7 +139,7 @@ struct ReportView: View {
 
                 // Notes
                 Section {
-                    TextField("Add notes for your doctor...", text: $notes, axis: .vertical)
+                    TextField("Add a note...", text: $notes, axis: .vertical)
                         .lineLimit(3 ... 8)
                 } header: {
                     Text("Notes (Optional)")
@@ -170,7 +170,7 @@ struct ReportView: View {
                     }
                 #endif
             }
-            .navigationTitle("Medical Report")
+            .navigationTitle("Journal Summary")
             .inlineNavigationTitle()
             .task(id: filterToken) { recomputeFiltered() }
             .toolbar {

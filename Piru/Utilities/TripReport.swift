@@ -366,7 +366,7 @@ struct TripReport {
         if !grouped.isEmpty {
             out.append("## Descriptors by domain")
             out.append("")
-            out.append("First noted at the T+ shown. Vocabulary: SubFxOnEx (drug.community).")
+            out.append("First noted at the T+ shown. Vocabulary: SubFxOnEx.")
             out.append("")
             out.append("| Domain | Descriptor | First noted |")
             out.append("|---|---|---|")

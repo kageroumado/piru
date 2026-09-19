@@ -175,7 +175,7 @@ struct MedDetailView: View {
                     if let limit = item.maxPerDay {
                         Text("Up to \(limit)× daily")
                     } else {
-                        Text("No daily limit")
+                        Text("No daily limit entered")
                     }
                 }
             } else if item.frequency == .specificDays {
@@ -243,10 +243,6 @@ struct MedDetailView: View {
                 } label: {
                     Label("Ask Again", systemImage: "clock.arrow.circlepath")
                 }
-            }
-
-            Toggle(isOn: $item.nextDoseReminder) {
-                Label("Next-Dose Window", systemImage: "timer")
             }
         } header: {
             Text("Reminders")
@@ -346,7 +342,7 @@ struct MedDetailView: View {
         )
     }
 
-    /// Stepper binding where 0 renders as "No daily limit" (`maxPerDay == nil`).
+    /// Stepper binding where 0 renders as "No daily limit entered" (`maxPerDay == nil`).
     private var dailyLimit: Binding<Int> {
         Binding(
             get: { item.maxPerDay ?? 0 },

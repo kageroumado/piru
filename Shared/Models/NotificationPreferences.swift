@@ -12,7 +12,7 @@ import SwiftData
 /// lightweight migration.
 ///
 /// Defaults mirror today's shipped behavior: the three types that fire with no
-/// switch (comedown, routine, inventory) default on; the flag-gated session
+/// switch (routine, inventory) default on; the flag-gated session
 /// types default off until onboarding or the management screen enables them.
 @Model
 final class NotificationPreferences {
@@ -20,14 +20,12 @@ final class NotificationPreferences {
     /// touching the per-type choices.
     var masterEnabled: Bool = true
 
-    var comedownEnabled: Bool = true
     var hydrationEnabled: Bool = false
     var sleepEnabled: Bool = false
     var phaseEnabled: Bool = false
     var cumulativeEnabled: Bool = false
     var routineEnabled: Bool = true
     var routineFollowUpEnabled: Bool = true
-    var nextDoseEnabled: Bool = true
     var inventoryEnabled: Bool = true
     var checkInEnabled: Bool = true
 
@@ -44,7 +42,6 @@ final class NotificationPreferences {
     /// Defaults on, matching the behavior before the setting existed.
     var routineTimeSensitive: Bool = true
     var routineFollowUpTimeSensitive: Bool = true
-    var nextDoseTimeSensitive: Bool = true
     var cumulativeTimeSensitive: Bool = true
 
     /// JSON-encoded backing storage for ``askAgainDefaultMinutes``. Empty

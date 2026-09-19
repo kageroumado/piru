@@ -30,7 +30,7 @@ struct OnboardingHealthStep: View {
     var body: some View {
         OnboardingLayout(
             title: "Connect Apple Health",
-            subtitle: "Your body weight sizes every estimate to you — and your heart rate shows how your body actually answered each dose, right on the session timeline.",
+            subtitle: "Show your body weight and heart rate from Health alongside your journal entries, on the session timeline.",
         ) {
             OnboardingIconHero(symbol: "heart.text.square.fill")
         } mid: {
@@ -67,7 +67,7 @@ struct OnboardingHealthStep: View {
             } else if noReadNote {
                 Label("Couldn't read a weight from Health. Set it above instead.", systemImage: "exclamationmark.circle")
             } else {
-                Label("Health access is read-only. Turn it off anytime in Settings.", systemImage: "lock.shield")
+                Label("Change what Piru can see anytime in the Health app's settings.", systemImage: "heart.text.square")
             }
         }
         .font(.footnote)

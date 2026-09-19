@@ -111,21 +111,6 @@ struct EntryReadContent: View {
         EntryContextSection(entry: entry)
 
         EntryAboutSection(entry: entry, substance: substance)
-
-        // Comedown alert removed for App Store submission (individualized
-        // timing recommendation; Guideline 1.4.2). Wellness and phase
-        // notifications remain — they are descriptive, not prescriptive.
-    }
-
-    /// The envelope the ramp-down screen and its comedown alert run on — a
-    /// named ER product's own, the base route profile otherwise, and none for
-    /// a form the app declines to model. Same precedence as the timeline.
-    private var resolvedDuration: DurationProfile? {
-        ActiveSessionManager.resolveDuration(substance: substance, entry: entry)
-    }
-
-    private var hasActiveRampDown: Bool {
-        RampDownScheduler.isActive(for: RampDownScheduler.entryKey(for: entry))
     }
 
     /// The substance is alcohol. Matched on the entry's own name so the

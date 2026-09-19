@@ -19,7 +19,7 @@ nonisolated enum ExposureCurrency: String, Sendable, Codable {
 
 /// One substance in a clinical report: identity + the currency its doses are
 /// summed in.
-nonisolated struct ClinicalSubstance: Sendable {
+nonisolated struct SummarySubstance: Sendable {
     let name: String
     let displayName: String
     let colorHex: String
@@ -31,7 +31,7 @@ nonisolated struct ClinicalSubstance: Sendable {
 /// One dose reduced to the values the pure aggregation needs. Everything that
 /// requires a `SubstanceLibrary`/equivalence lookup is resolved on the main actor
 /// while building these; the aggregation itself is pure and off-main-ready.
-nonisolated struct ClinicalDose: Sendable {
+nonisolated struct SummaryDose: Sendable {
     /// Index into the report's `substances`.
     let substanceIndex: Int
     let timestamp: Date
@@ -123,10 +123,10 @@ nonisolated struct OverlapStat: Sendable, Identifiable {
 
 /// The whole clinical/patterns report for one window — the single value both the
 /// Insights UI and the PDF clinician report render from.
-nonisolated struct ClinicalReport: Sendable {
+nonisolated struct JournalSummary: Sendable {
     let start: Date
     let end: Date
-    let substances: [ClinicalSubstance]
+    let substances: [SummarySubstance]
     let holidays: HolidayStats
     let exposure: [ExposureStat]
     let escalation: [EscalationStat]
@@ -167,7 +167,7 @@ nonisolated struct ClinicalReport: Sendable {
 
 // MARK: - Pure computation
 
-nonisolated enum ClinicalStats {
+nonisolated enum SummaryStats {
     /// Doses whose PK curve exceeds this fraction of the dose count as "active"
     /// for the overlap pass — the same 3% floor the body-load readout uses.
     private static let activeFractionFloor = 0.03
@@ -181,13 +181,13 @@ nonisolated enum ClinicalStats {
     private static let overlapStepMinutes: Double = 60
 
     static func report(
-        substances: [ClinicalSubstance],
-        doses: [ClinicalDose],
+        substances: [SummarySubstance],
+        doses: [SummaryDose],
         start: Date,
         end: Date,
         calendar: Calendar,
-    ) -> ClinicalReport {
-        ClinicalReport(
+    ) -> JournalSummary {
+        JournalSummary(
             start: start, end: end, substances: substances,
             holidays: holidays(doses: doses, start: start, end: end, calendar: calendar),
             exposure: exposure(substances: substances, doses: doses, start: start, end: end, calendar: calendar),
@@ -198,7 +198,7 @@ nonisolated enum ClinicalStats {
 
     // MARK: Holidays
 
-    private static func holidays(doses: [ClinicalDose], start: Date, end: Date, calendar: Calendar) -> HolidayStats {
+    private static func holidays(doses: [SummaryDose], start: Date, end: Date, calendar: Calendar) -> HolidayStats {
         let startDay = calendar.startOfDay(for: start)
         let endDay = calendar.startOfDay(for: end)
         let totalDays = max(1, (calendar.dateComponents([.day], from: startDay, to: endDay).day ?? 0) + 1)
@@ -233,7 +233,7 @@ nonisolated enum ClinicalStats {
     // MARK: Exposure
 
     private static func exposure(
-        substances: [ClinicalSubstance], doses: [ClinicalDose],
+        substances: [SummarySubstance], doses: [SummaryDose],
         start: Date, end: Date, calendar: Calendar,
     ) -> [ExposureStat] {
         let windowDays = max(1.0, end.timeIntervalSince(start) / 86_400)
@@ -267,7 +267,7 @@ nonisolated enum ClinicalStats {
 
     // MARK: Escalation
 
-    private static func escalation(substances: [ClinicalSubstance], doses: [ClinicalDose], start: Date, end: Date) -> [EscalationStat] {
+    private static func escalation(substances: [SummarySubstance], doses: [SummaryDose], start: Date, end: Date) -> [EscalationStat] {
         var out: [EscalationStat] = []
         for index in substances.indices {
             let rows = doses
@@ -299,7 +299,7 @@ nonisolated enum ClinicalStats {
     // MARK: Overlap
 
     private static func overlaps(
-        substances: [ClinicalSubstance], doses: [ClinicalDose], start: Date, end: Date,
+        substances: [SummarySubstance], doses: [SummaryDose], start: Date, end: Date,
     ) -> [OverlapStat] {
         let modeled = doses.filter { $0.ke != nil && $0.ka != nil && $0.timestamp <= end }
         guard !modeled.isEmpty, end > start else { return [] }

@@ -109,7 +109,7 @@ struct IdentifyBoxView: View {
     }
 
     private var disclaimer: some View {
-        Text("What a box says is what is shown. Not medical advice.")
+        Text("Text detected from the label. Check the name, strength and formulation before saving — a scan can't verify what is inside the box. Not medical advice.")
             .captionSecondary()
             .frame(maxWidth: .infinity, alignment: .leading)
     }
