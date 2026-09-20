@@ -19,10 +19,7 @@ struct SkinsSheet: View {
         NavigationStack { SkinsView() }
             .presentationDetents([Self.panel, .large], selection: $detent)
             .presentationBackgroundInteraction(.enabled(upThrough: Self.panel))
-            // A skin that was only being looked at comes off when the sheet
-            // goes. On the sheet, not on the screen inside it: a skin change
-            // restyles the navigation bar, and a screen inside the stack can
-            // be told it disappeared while it is still in front.
+            // A skin that was only being looked at comes off when the sheet goes.
             .onDisappear { SkinStore.shared.tryOn(nil) }
     }
 }
@@ -51,25 +48,17 @@ struct SkinsView: View {
                     Text("Skins pay for Piru's development. The journal, the library, and every tool are free either way.")
                 }
 
-                if skins.current.decorations != nil {
-                    Section {
-                        Toggle(isOn: decorationsBinding) {
-                            Label("Decorations", systemImage: "sparkles")
-                        }
-                        .tint(Theme.accent)
-                    } footer: {
-                        Text("Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion.")
+                // Always in the list, switched off for a skin with nothing to
+                // decorate. Rows that come and go with the skin in front resize
+                // the list under the carousel while it is being swiped.
+                Section {
+                    Toggle(isOn: decorationsBinding) {
+                        Label("Decorations", systemImage: "sparkles")
                     }
-                }
-
-                if skins.current == .doseWiki {
-                    Section {
-                        Link(destination: URL(string: "https://dose.wiki")!) {
-                            Label("In partnership with dose.wiki ↗", systemImage: "hexagon")
-                                .font(.footnote)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                    }
+                    .tint(Theme.accent)
+                    .disabled(skins.current.decorations == nil)
+                } footer: {
+                    Text("Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion.")
                 }
 
                 Section {
@@ -83,6 +72,18 @@ struct SkinsView: View {
                     .pickerStyle(.menu)
                 } footer: {
                     Text("Every skin has a light and a dark side. Follow System switches with iOS.")
+                }
+
+                // Last, so that it arriving with the dose.wiki skin moves
+                // nothing above it.
+                if skins.current == .doseWiki {
+                    Section {
+                        Link(destination: URL(string: "https://dose.wiki")!) {
+                            Label("In partnership with dose.wiki ↗", systemImage: "hexagon")
+                                .font(.footnote)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
                 }
             }
             .listRowBackground(CardBackground())

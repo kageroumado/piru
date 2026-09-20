@@ -728,21 +728,28 @@ private struct TapTrail: ViewModifier {
     }
 
     #if canImport(UIKit)
-        @ViewBuilder
+        /// One shape whatever the skin: the observer and the overlay are
+        /// always attached, and a skin with no tap glyph simply reports to
+        /// nobody. This sits at the root, so an `if`/`else` around `content`
+        /// would swap the identity of the whole app when a try-on crossed from a
+        /// plain skin to a decorated one — which tears the app's tree down under
+        /// an open sheet, and the sheet loses its detent.
         private func trail(_ content: Content) -> some View {
-            if let glyph = skins.current.decorations?.tapGlyph, skins.decorationsEnabled, !reduceMotion {
-                content
-                    // Not a SwiftUI gesture: a `simultaneousGesture` tap on an
-                    // ancestor cancels `List` row selection, so NavigationLinks
-                    // in the Library stopped opening. A window-level recognizer
-                    // that only *observes* (and always fails) never competes.
-                    .background {
-                        TouchObserver { point in
-                            puffs.append(Puff(point: point))
-                            if puffs.count > 12 { puffs.removeFirst() }
-                        }
+            let glyph = reduceMotion || !skins.decorationsEnabled ? nil : skins.current.decorations?.tapGlyph
+            return content
+                // Not a SwiftUI gesture: a `simultaneousGesture` tap on an
+                // ancestor cancels `List` row selection, so NavigationLinks
+                // in the Library stopped opening. A window-level recognizer
+                // that only *observes* (and always fails) never competes.
+                .background {
+                    TouchObserver { point in
+                        guard glyph != nil else { return }
+                        puffs.append(Puff(point: point))
+                        if puffs.count > 12 { puffs.removeFirst() }
                     }
-                    .overlay {
+                }
+                .overlay {
+                    if let glyph {
                         ForEach(puffs) { puff in
                             TapPuff(glyph: glyph, at: puff.point) {
                                 puffs.removeAll { $0.id == puff.id }
@@ -752,9 +759,7 @@ private struct TapTrail: ViewModifier {
                         // Touch points come in window coordinates.
                         .ignoresSafeArea()
                     }
-            } else {
-                content
-            }
+                }
         }
     #endif
 }
