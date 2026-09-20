@@ -188,6 +188,20 @@ private struct LadderRow: View {
         return out
     }
 
+    private static let barHeight: CGFloat = 10
+
+    /// Tiers meet edge to edge, so only the ladder's two outer ends are rounded;
+    /// every joint between tiers is square.
+    private func segmentShape(at index: Int) -> UnevenRoundedRectangle {
+        let radius = Self.barHeight / 2
+        return UnevenRoundedRectangle(
+            topLeadingRadius: index == 0 ? radius : 0,
+            bottomLeadingRadius: index == 0 ? radius : 0,
+            bottomTrailingRadius: index == segments.count - 1 ? radius : 0,
+            topTrailingRadius: index == segments.count - 1 ? radius : 0,
+        )
+    }
+
     /// The source's human name, not its slug — the same resolution the
     /// attribution rows use, so "psychonautwiki" reads as "PsychonautWiki".
     private var displayName: String {
@@ -227,15 +241,16 @@ private struct LadderRow: View {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule().fill(Color.platformTertiarySystemFill)
-                    ForEach(Array(segments.enumerated()), id: \.offset) { _, segment in
-                        Capsule()
+                    ForEach(Array(segments.enumerated()), id: \.offset) { index, segment in
+                        segmentShape(at: index)
                             .fill(segment.color)
                             .frame(width: max(2, geo.size.width * (segment.end - segment.start)))
                             .offset(x: geo.size.width * segment.start)
                     }
                 }
+                .clipShape(Capsule())
             }
-            .frame(height: 10)
+            .frame(height: Self.barHeight)
 
             DoseTierColumns { tier in
                 Text(verbatim: DoseTierColumn.text(for: tier, in: ladder.doses) ?? "—")
