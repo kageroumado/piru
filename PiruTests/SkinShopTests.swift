@@ -105,6 +105,46 @@ struct SkinShopTests {
         #expect(skins.current == .tsuki)
     }
 
+    // MARK: - Try-on
+
+    @Test
+    func `Trying a skin on dresses the app and never reaches the app group`() {
+        let defaults = freshDefaults()
+        let (_, skins) = makeShop(defaults)
+        skins.tryOn(.jellyfish)
+        #expect(skins.current == .jellyfish)
+        #expect(skins.chosen == SkinDefaults.skinDefault)
+        #expect(defaults.string(forKey: SkinDefaults.skinKey) == nil)
+        #expect(SkinDefaults.storedSkin(in: defaults) == SkinDefaults.skinDefault)
+
+        skins.tryOn(nil)
+        #expect(skins.current == SkinDefaults.skinDefault)
+    }
+
+    @Test
+    func `Settling keeps a skin that can be worn and drops one that cannot`() throws {
+        let (shop, skins) = makeShop(freshDefaults())
+        skins.tryOn(.jellyfish)
+        skins.settleTryOn()
+        #expect(skins.current == SkinDefaults.skinDefault)
+
+        skins.tryOn(.linen)
+        skins.settleTryOn()
+        #expect(skins.chosen == .linen)
+
+        try shop.setOwned([#require(Skin.jellyfish.productID)])
+        skins.tryOn(.jellyfish)
+        skins.settleTryOn()
+        #expect(skins.chosen == .jellyfish)
+        #expect(skins.tryingOn == nil)
+    }
+
+    @Test
+    func `Onboarding offers skins last, just before it ends`() {
+        #expect(OnboardingStep.skins.next == .done)
+        #expect(OnboardingStep.progressSteps.last == .skins)
+    }
+
     // MARK: - The StoreKit test catalog
 
     private struct Catalog: Decodable {

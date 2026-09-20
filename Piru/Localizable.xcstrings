@@ -21408,6 +21408,22 @@
         }
       }
     },
+    "Every skin there is and every skin still to come." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现有的每一款皮肤，以及今后推出的每一款。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現有的每一款皮膚，以及今後推出的每一款。"
+          }
+        }
+      }
+    },
     "Every source recorded in the substance database that ships with Piru." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21516,6 +21532,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不屬於以上任何類別的物質。"
+          }
+        }
+      }
+    },
+    "Everything, Forever · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部皮肤，永久拥有 · %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部皮膚，永久擁有 · %@"
           }
         }
       }
@@ -22674,6 +22706,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "FRANK Drug Helpline"
+          }
+        }
+      }
+    },
+    "Free" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免费"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免費"
           }
         }
       }
@@ -29353,6 +29401,22 @@
         }
       }
     },
+    "Make it yours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让它成为你的样子"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "讓它成為你的樣子"
+          }
+        }
+      }
+    },
     "Manage Meds…" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34706,6 +34770,22 @@
         }
       }
     },
+    "Nothing to Restore" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有可恢复的购买"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有可恢復的購買"
+          }
+        }
+      }
+    },
     "Nothing to show yet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34734,6 +34814,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暫無可彙總內容"
+          }
+        }
+      }
+    },
+    "Nothing was charged. You can try again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有扣款。你可以再试一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有扣款。你可以再試一次。"
           }
         }
       }
@@ -36213,6 +36309,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "第 %lld 頁，共 %lld 頁"
+          }
+        }
+      }
+    },
+    "Paid" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "付费"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "付費"
           }
         }
       }
@@ -38814,6 +38926,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "將這一劑單獨歸入新記錄。"
+          }
+        }
+      }
+    },
+    "Purchase Not Completed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "购买未完成"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "購買未完成"
           }
         }
       }
@@ -41499,6 +41627,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還原最新的 iCloud 備份"
+          }
+        }
+      }
+    },
+    "Restore Purchases" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复购买"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復購買"
           }
         }
       }
@@ -44922,6 +45066,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "皮膚"
+          }
+        }
+      }
+    },
+    "Skins pay for Piru's development. The journal, the library, and every tool are free either way." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤的收入用于支持 Piru 的开发。无论买不买，日志、资料库和所有工具都是免费的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚的收入用於支持 Piru 的開發。無論買不買，日誌、資料庫和所有工具都是免費的。"
           }
         }
       }
@@ -49255,6 +49415,22 @@
         }
       }
     },
+    "The skin unlocks as soon as the purchase is approved." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "购买获批后，皮肤会立即解锁。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "購買獲批後，皮膚會立即解鎖。"
+          }
+        }
+      }
+    },
     "The SubFxOnEx effects vocabulary. Copyright © Di-lemma." : {
       "localizations" : {
         "zh-Hans" : {
@@ -49411,6 +49587,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一段時間內感覺「怪怪的」是常見的報告。"
+          }
+        }
+      }
+    },
+    "This Apple Account has no Piru purchases." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此 Apple 账户没有 Piru 的购买记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此 Apple 帳號沒有 Piru 的購買記錄。"
           }
         }
       }
@@ -51512,6 +51704,28 @@
         }
       }
     },
+    "Unlock %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock %1$@ · %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解锁 %@ · %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解鎖 %@ · %@"
+          }
+        }
+      }
+    },
     "Unlogs this dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52035,6 +52249,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "用這次體驗自己的時間"
+          }
+        }
+      }
+    },
+    "Use This Skin" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用此皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用此皮膚"
           }
         }
       }
@@ -52584,6 +52814,22 @@
         }
       }
     },
+    "Waiting for Approval" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等待批准"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等待批准"
+          }
+        }
+      }
+    },
     "Wakefulness — modafinil, armodafinil." : {
       "localizations" : {
         "zh-Hans" : {
@@ -52756,6 +53002,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "消退中"
+          }
+        }
+      }
+    },
+    "Wearing This Skin" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在使用此皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在使用此皮膚"
           }
         }
       }

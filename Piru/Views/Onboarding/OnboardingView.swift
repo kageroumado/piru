@@ -45,6 +45,7 @@ struct OnboardingView: View {
         case .health: OnboardingHealthStep()
         case .reminders: OnboardingRemindersStep()
         case .importData: OnboardingImportStep()
+        case .skins: OnboardingSkinsStep()
         case .done: OnboardingDoneStep()
         }
     }
@@ -61,6 +62,9 @@ struct OnboardingView: View {
     }
 
     private func finish() {
+        // Here rather than on the skins step: choosing a skin re-creates the
+        // app's root, which would restart this flow if it were still open.
+        SkinStore.shared.settleTryOn()
         hasCompletedOnboarding = true
         OnboardingTips.markOnboardingComplete()
         dismiss()
@@ -116,6 +120,7 @@ enum OnboardingStep: Int, CaseIterable {
     case health
     case reminders
     case importData
+    case skins
     case done
 
     var next: OnboardingStep? {
@@ -124,7 +129,7 @@ enum OnboardingStep: Int, CaseIterable {
 
     /// Steps that show the progress bar + back affordance. The bookend welcome/done screens are
     /// deliberately chromeless for a cleaner first and last impression.
-    static let progressSteps: [OnboardingStep] = [.privacy, .tour, .depth, .health, .reminders, .importData]
+    static let progressSteps: [OnboardingStep] = [.privacy, .tour, .depth, .health, .reminders, .importData, .skins]
 }
 
 // MARK: - Navigation environment

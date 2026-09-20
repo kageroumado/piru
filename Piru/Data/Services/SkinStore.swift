@@ -13,7 +13,19 @@ import WidgetKit
 final class SkinStore {
     static let shared = SkinStore(defaults: UserDefaults(suiteName: SkinDefaults.suite) ?? .standard)
 
-    private(set) var current: Skin
+    /// The skin this person picked, persisted.
+    private(set) var chosen: Skin
+    /// A skin being looked at in the picker. It dresses the whole app exactly
+    /// as a chosen one would, so a paid skin can be seen on the person's own
+    /// screens before it is bought; it is never persisted, so the extensions
+    /// and the next launch never see it.
+    private(set) var tryingOn: Skin?
+
+    /// The skin the app is wearing.
+    var current: Skin {
+        tryingOn ?? chosen
+    }
+
     private(set) var colorScheme: SkinColorScheme
     /// Whether a decorated skin draws its glyphs and blinkies. Ignored by
     /// skins without decorations.
@@ -33,7 +45,7 @@ final class SkinStore {
 
     init(defaults: UserDefaults) {
         self.defaults = defaults
-        current = SkinDefaults.storedSkin(in: defaults)
+        chosen = SkinDefaults.storedSkin(in: defaults)
         if let raw = defaults.string(forKey: SkinDefaults.colorSchemeKey),
            let scheme = SkinColorScheme(rawValue: raw) {
             colorScheme = scheme
@@ -59,11 +71,26 @@ final class SkinStore {
     func setSkin(_ skin: Skin) {
         guard SkinDefaults.usable(skin, in: defaults) else { return }
         defaults.set(skin.rawValue, forKey: SkinDefaults.skinKey)
-        if skin != current {
-            current = skin
+        if tryingOn != nil { tryingOn = nil }
+        if skin != chosen {
+            chosen = skin
             // Widgets read the persisted choice; they only re-render on reload.
             WidgetCenter.shared.reloadAllTimelines()
         }
+    }
+
+    /// Wears `skin` without choosing it. `nil`, or the chosen skin, ends the
+    /// try-on.
+    func tryOn(_ skin: Skin?) {
+        let next = skin == chosen ? nil : skin
+        if next != tryingOn { tryingOn = next }
+    }
+
+    /// Ends a try-on for good: a skin this person may wear becomes their choice,
+    /// and one they do not own comes off.
+    func settleTryOn() {
+        guard let skin = tryingOn else { return }
+        if SkinDefaults.usable(skin, in: defaults) { setSkin(skin) } else { tryingOn = nil }
     }
 
     /// Re-resolves `current` after `SkinShop` rewrites the owned set: a refunded
@@ -71,8 +98,8 @@ final class SkinStore {
     /// the stored choice outlives both.
     func ownershipChanged() {
         let resolved = SkinDefaults.storedSkin(in: defaults)
-        guard resolved != current else { return }
-        current = resolved
+        guard resolved != chosen else { return }
+        chosen = resolved
         WidgetCenter.shared.reloadAllTimelines()
     }
 

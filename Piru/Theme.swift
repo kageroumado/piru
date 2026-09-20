@@ -71,9 +71,11 @@ struct SkinnedRoot<Content: View>: View {
 
     var body: some View {
         content
-            // Re-created on a skin change, so UIKit bars pick up the new
-            // title face from the appearance proxy.
-            .id(skins.current)
+            // Re-created when a skin is chosen, so UIKit bars pick up the new
+            // title face from the appearance proxy. Keyed on `chosen`, not
+            // `current`: a try-on must not tear down the picker it happens in,
+            // nor the onboarding cover.
+            .id(skins.chosen)
             .tapTrail()
             .tint(Theme.accent)
             .fontDesign(skins.current.fontDesign)
@@ -97,31 +99,35 @@ struct ThemedBackground<S: Shape>: ViewModifier {
     /// Draw the skin's dashed inner border (``Skin/cardInsetDash``). On for
     /// cards, off for capsules — a dash inside a pill reads as a broken ring.
     var insetDash = false
+    /// The skin whose treatment to draw. `nil` follows the one the app is
+    /// wearing; a preview card names its own.
+    var skin: Skin?
 
     func body(content: Content) -> some View {
-        let skin = SkinStore.shared.current
+        let skin = skin ?? SkinStore.shared.current
+        let cardBackground = skin.cardBackground
         switch skin.surface {
         case .glass:
             if colorScheme == .dark {
-                content.background(Theme.cardBackground, in: shape)
+                content.background(cardBackground, in: shape)
             } else {
                 content.background(.ultraThinMaterial, in: shape)
             }
         case let .soft(stroke, glow, glowRadius):
             content.background {
-                shape.fill(Theme.cardBackground)
+                shape.fill(cardBackground)
                     .shadow(color: glow.opacity(colorScheme == .dark ? 0.28 : 0.35), radius: glowRadius, y: 4)
                 shape.stroke(stroke.opacity(0.35), lineWidth: 1)
             }
         case let .paper(stroke, grain):
             content.background {
-                shape.fill(Theme.cardBackground)
+                shape.fill(cardBackground)
                 shape.fill(SkinTextures.grain(grain, dark: colorScheme == .dark))
                 shape.stroke(stroke.opacity(0.18), lineWidth: 1)
             }
         case let .neon(stroke, glow):
             content.background {
-                shape.fill(Theme.cardBackground.opacity(colorScheme == .dark ? 0.85 : 1))
+                shape.fill(cardBackground.opacity(colorScheme == .dark ? 0.85 : 1))
                     .shadow(color: glow.opacity(colorScheme == .dark ? 0.55 : 0.25), radius: 8)
                 shape.stroke(stroke, lineWidth: 1.5)
                 shape.stroke(Color.white.opacity(0.18), lineWidth: 0.5).padding(2)
@@ -137,7 +143,7 @@ struct ThemedBackground<S: Shape>: ViewModifier {
         case let .edged(stroke, strokeWidth, shadow, shadowOffset):
             content.background {
                 shape.fill(shadow).offset(shadowOffset)
-                shape.fill(Theme.cardBackground)
+                shape.fill(cardBackground)
                 shape.stroke(stroke, lineWidth: strokeWidth)
                 if insetDash, let dash = skin.cardInsetDash {
                     // `ConcentricRectangle` is not insettable; a padded frame

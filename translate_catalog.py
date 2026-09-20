@@ -6068,6 +6068,71 @@ T = {
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，数周内就会产生依赖。迁延性戒断可持续数月——在医疗指导下逐步减量。",
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，數週內就會產生依賴。遷延性戒斷可持續數月——在醫療指導下逐步減量。",
     ),
+    # Skins store (SkinWardrobe, OnboardingSkinsStep).
+    "Make it yours": (
+        "让它成为你的样子",
+        "讓它成為你的樣子",
+    ),
+    "Skins pay for Piru's development. The journal, the library, and every tool are free either way.": (
+        "皮肤的收入用于支持 Piru 的开发。无论买不买，日志、资料库和所有工具都是免费的。",
+        "皮膚的收入用於支持 Piru 的開發。無論買不買，日誌、資料庫和所有工具都是免費的。",
+    ),
+    "Free": (
+        "免费",
+        "免費",
+    ),
+    "Paid": (
+        "付费",
+        "付費",
+    ),
+    "Wearing This Skin": (
+        "正在使用此皮肤",
+        "正在使用此皮膚",
+    ),
+    "Use This Skin": (
+        "使用此皮肤",
+        "使用此皮膚",
+    ),
+    "Unlock %@ · %@": (
+        "解锁 %@ · %@",
+        "解鎖 %@ · %@",
+    ),
+    "Everything, Forever · %@": (
+        "全部皮肤，永久拥有 · %@",
+        "全部皮膚，永久擁有 · %@",
+    ),
+    "Every skin there is and every skin still to come.": (
+        "现有的每一款皮肤，以及今后推出的每一款。",
+        "現有的每一款皮膚，以及今後推出的每一款。",
+    ),
+    "Restore Purchases": (
+        "恢复购买",
+        "恢復購買",
+    ),
+    "Waiting for Approval": (
+        "等待批准",
+        "等待批准",
+    ),
+    "Nothing to Restore": (
+        "没有可恢复的购买",
+        "沒有可恢復的購買",
+    ),
+    "Purchase Not Completed": (
+        "购买未完成",
+        "購買未完成",
+    ),
+    "The skin unlocks as soon as the purchase is approved.": (
+        "购买获批后，皮肤会立即解锁。",
+        "購買獲批後，皮膚會立即解鎖。",
+    ),
+    "This Apple Account has no Piru purchases.": (
+        "此 Apple 账户没有 Piru 的购买记录。",
+        "此 Apple 帳號沒有 Piru 的購買記錄。",
+    ),
+    "Nothing was charged. You can try again.": (
+        "没有扣款。你可以再试一次。",
+        "沒有扣款。你可以再試一次。",
+    ),
     # What CYP2D6 does to a substance (CYP2D6NoteSection).
     "Activated by CYP2D6": ("由 CYP2D6 活化", "由 CYP2D6 活化"),
     "Cleared by CYP2D6": ("由 CYP2D6 清除", "由 CYP2D6 清除"),
@@ -8394,6 +8459,23 @@ if __name__ == "__main__":
         "What this does not model",
         "The idea first, then every stage from your dose to the line on the chart.",
         "The calculation, step by step",
+        # Skins store (SkinWardrobe, OnboardingSkinsStep).
+        "Make it yours",
+        "Skins pay for Piru's development. The journal, the library, and every tool are free either way.",
+        "Free",
+        "Paid",
+        "Wearing This Skin",
+        "Use This Skin",
+        "Unlock %@ · %@",
+        "Everything, Forever · %@",
+        "Every skin there is and every skin still to come.",
+        "Restore Purchases",
+        "Waiting for Approval",
+        "Nothing to Restore",
+        "Purchase Not Completed",
+        "The skin unlocks as soon as the purchase is approved.",
+        "This Apple Account has no Piru purchases.",
+        "Nothing was charged. You can try again.",
         # What CYP2D6 does to a substance (CYP2D6NoteSection).
         "Activated by CYP2D6",
         "Cleared by CYP2D6",

@@ -25,10 +25,19 @@ extension View {
 /// reaches zero alpha at its own edge — and glows over dark water composite
 /// additively, or a colour only reads as paler, not as emitting.
 struct SkinBackdrop: View {
+    /// The skin to draw. `nil` follows the one the app is wearing; a preview
+    /// card names its own, and always shows that skin's decorations.
+    var skin: Skin?
+    /// `false` holds the scene on one still frame, for the preview cards that
+    /// are not the one in front.
+    var animates = true
+
     @State private var skins = SkinStore.shared
     /// The screen this backs is on screen. Every tab root and every pushed
     /// screen keeps its backdrop alive; only the visible one may tick.
     @State private var visible = false
+    /// This backdrop took a hold on ``SkinMotion`` and owes it a release.
+    @State private var holdsMotion = false
     @State private var power = SkinPower.shared
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorScheme) private var colorScheme
@@ -36,11 +45,12 @@ struct SkinBackdrop: View {
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
+        let skin = skin ?? skins.current
         ZStack {
-            Theme.background
-            if let decor = skins.current.decorations, skins.decorationsEnabled {
+            skin.background
+            if let decor = skin.decorations, self.skin != nil || skins.decorationsEnabled {
                 if case .stickers = decor.scene {
-                    stickerGlow
+                    stickerGlow(skin)
                 }
                 // Resolved outside the canvas: reads inside the renderer
                 // closure are not tracked by Observation.
@@ -51,9 +61,9 @@ struct SkinBackdrop: View {
                 // timeline notices. It does not catch a macOS scene that state
                 // restoration rebuilt without a window: that scene reports
                 // `.active` and its canvas ticks like a visible one.
-                let animate = !reduceMotion && visible && scenePhase != .background && !power.isThermallyConstrained
+                let animate = animates && !reduceMotion && visible && scenePhase != .background && !power.isThermallyConstrained
                 let interval = Self.frameInterval(stickers: decor.scene.isStickers, lowPower: power.isLowPower)
-                let atlas = GlyphAtlas.images(for: skins.current, decor: decor, dark: dark, scale: displayScale)
+                let atlas = GlyphAtlas.images(for: skin, decor: decor, dark: dark, scale: displayScale)
                 let textures = SkinTextures.tiles(for: decor.scene, dark: dark, scale: displayScale)
                 // Stays in the screen's own graph. Hosting the canvas in its
                 // own hosting controller was measured: the display link still
@@ -78,11 +88,17 @@ struct SkinBackdrop: View {
                 .accessibilityHidden(true)
                 .onAppear {
                     visible = true
-                    if !reduceMotion { SkinMotion.shared.retain() }
+                    if animates, !reduceMotion {
+                        SkinMotion.shared.retain()
+                        holdsMotion = true
+                    }
                 }
                 .onDisappear {
                     visible = false
-                    if !reduceMotion { SkinMotion.shared.release() }
+                    if holdsMotion {
+                        SkinMotion.shared.release()
+                        holdsMotion = false
+                    }
                 }
             }
         }
@@ -99,9 +115,9 @@ struct SkinBackdrop: View {
     }
 
     /// The site's `radial-gradient(115% 70% at 50% -6%, pink 0.12)`.
-    private var stickerGlow: some View {
+    private func stickerGlow(_ skin: Skin) -> some View {
         RadialGradient(
-            colors: [skins.current.accentMark.opacity(0.14), .clear],
+            colors: [skin.accentMark.opacity(0.14), .clear],
             center: UnitPoint(x: 0.5, y: -0.06),
             startRadius: 0,
             endRadius: 520,
