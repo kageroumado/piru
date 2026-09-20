@@ -102,7 +102,13 @@ struct EntryListView: View {
     /// searching the Library instead when a query finds no journal entries.
     var onSwitchToLibrary: (() -> Void)?
 
-    @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var grouping: JournalGrouping = .timeline
+    @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var chosenGrouping: JournalGrouping = .timeline
+
+    /// The grouping on screen. Search always lists entries by day: a search asks
+    /// when something was taken, and the answer is a row with a date on it.
+    private var grouping: JournalGrouping {
+        isSearchSurface ? .byDay : chosenGrouping
+    }
     @AppStorage("journalGroupKey", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var groupKey: JournalGroupKey = .substance
     @State private var showingCalendar = false
 
@@ -293,7 +299,7 @@ struct EntryListView: View {
                 }
                 ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
                 ToolbarItem(placement: .platformTopBarTrailing) {
-                    JournalOptionsButton(grouping: $grouping, groupKey: $groupKey) { showingCalendar = true }
+                    JournalOptionsButton(grouping: $chosenGrouping, groupKey: $groupKey) { showingCalendar = true }
                 }
             }
         }
@@ -543,7 +549,7 @@ struct EntryListView: View {
             return
         }
         if grouping != .byDay {
-            grouping = .byDay
+            chosenGrouping = .byDay
             regroup()
         }
         let target = Calendar.current.startOfDay(for: date)

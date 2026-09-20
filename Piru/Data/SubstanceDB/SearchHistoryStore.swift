@@ -13,7 +13,7 @@ final class SearchHistoryStore {
 
     private static let storageKey = "piru.searchHistory.v1"
     private static let appGroupID = "group.dev.yumeji.piru"
-    private static let limit = 10
+    private static let limit = 5
 
     /// Canonical substance names, most-recent first.
     private(set) var recent: [String] = []

@@ -47,13 +47,13 @@ struct SearchHistoryStoreTests {
     }
 
     @Test
-    func `Caps at ten, evicting the oldest`() {
+    func `Caps at five, evicting the oldest`() {
         let (store, _, _) = makeStore()
-        for i in 1 ... 11 {
+        for i in 1 ... 6 {
             store.record("Substance \(i)")
         }
-        #expect(store.recent.count == 10)
-        #expect(store.recent.first == "Substance 11")
+        #expect(store.recent.count == 5)
+        #expect(store.recent.first == "Substance 6")
         #expect(!store.recent.contains("Substance 1"))
     }
 
