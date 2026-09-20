@@ -14,6 +14,7 @@ struct TimelineDoseBubble: View {
     let pkMode: Bool
     let onTap: () -> Void
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.rendersTimelineFlat) private var rendersFlat
 
     static let cornerRadius: CGFloat = 14
 
@@ -64,7 +65,7 @@ struct TimelineDoseBubble: View {
             .padding(.horizontal, Spacing.lg)
             .frame(height: Self.height(for: style))
             .contentShape(.rect)
-            .glassEffect(.regular.tint(item.color.opacity(TimelineGlass.tintOpacity)), in: .rect(cornerRadius: Self.cornerRadius))
+            .modifier(BubbleSurface(tint: item.color, flat: rendersFlat))
             .overlay {
                 RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous)
                     .strokeBorder(TimelineGlass.edgeHighlight(colorScheme: colorScheme), lineWidth: 0.5)
@@ -135,6 +136,32 @@ struct TimelineDoseBubble: View {
 }
 
 /// The volumetric recipe every glass surface on the strip shares — a whisper
+/// The bubble's surface: Liquid Glass on screen, and a plain tinted card fill
+/// where glass cannot exist.
+private struct BubbleSurface: ViewModifier {
+    let tint: Color
+    let flat: Bool
+
+    func body(content: Content) -> some View {
+        let shape = RoundedRectangle(cornerRadius: TimelineDoseBubble.cornerRadius, style: .continuous)
+        if flat {
+            content.background {
+                shape.fill(Theme.cardBackground)
+                shape.fill(tint.opacity(TimelineGlass.tintOpacity))
+            }
+        } else {
+            content.glassEffect(.regular.tint(tint.opacity(TimelineGlass.tintOpacity)), in: .rect(cornerRadius: TimelineDoseBubble.cornerRadius))
+        }
+    }
+}
+
+extension EnvironmentValues {
+    /// Set by an offscreen render of the timeline. An `ImageRenderer` has no
+    /// backdrop to sample, so it draws Liquid Glass as an opaque smear of
+    /// whatever lies under it; the bubbles take a card fill there instead.
+    @Entry var rendersTimelineFlat = false
+}
+
 /// of the substance color in the glass, a top-edge highlight that says "lit
 /// from above", and a soft drop shadow that lifts the bubble off the lane.
 enum TimelineGlass {

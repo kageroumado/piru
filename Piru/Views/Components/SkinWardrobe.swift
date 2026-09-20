@@ -109,18 +109,34 @@ private struct SkinCaption: View {
     let price: String?
 
     var body: some View {
-        VStack(spacing: Spacing.xs) {
+        // Every line sits in a slot of its own fixed height. The app is wearing
+        // the skin in front, so these faces change as the carousel moves; with
+        // hugging heights the whole picker would shift under the finger.
+        VStack(spacing: 0) {
             Text(skin.displayName)
                 .font(.piru(.title3))
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+                .frame(height: Slots.name)
             Text(skin.tagline)
                 .captionSecondary()
                 .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .frame(height: Slots.tagline, alignment: .top)
             status
                 .font(.piruLabel(.footnote, weight: .semibold))
                 .foregroundStyle(Theme.accent)
+                .lineLimit(1)
+                .frame(height: Slots.status)
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, Spacing.lg)
+    }
+
+    private enum Slots {
+        static let name: CGFloat = 30
+        static let tagline: CGFloat = 36
+        static let status: CGFloat = 22
     }
 
     @ViewBuilder private var status: some View {
@@ -148,7 +164,10 @@ private struct SkinActions: View {
 
     var body: some View {
         VStack(spacing: Spacing.md) {
-            primary
+            // The slot keeps its height whether it holds a button, a label, or
+            // nothing, and whichever face the skin in front sets them in.
+            ZStack { primary }
+                .frame(height: Slots.button)
             if !shop.ownsEverything {
                 everything
             }
@@ -158,6 +177,7 @@ private struct SkinActions: View {
             .font(.footnote)
             .foregroundStyle(Theme.secondaryLabel)
             .disabled(shop.activity != .idle)
+            .frame(height: Slots.restore)
         }
         .padding(.horizontal, Spacing.lg)
     }
@@ -169,7 +189,7 @@ private struct SkinActions: View {
                     Label("Wearing This Skin", systemImage: "checkmark")
                         .font(.piru(.headline))
                         .foregroundStyle(Theme.secondaryLabel)
-                        .frame(minHeight: 44)
+                        .lineLimit(1)
                 } else {
                     GlassPillButton(title: "Use This Skin") { skins.setSkin(skin) }
                 }
@@ -189,11 +209,20 @@ private struct SkinActions: View {
                     buy(product)
                 }
                 .disabled(shop.activity != .idle)
+                .frame(height: Slots.button)
                 Text("Every skin there is and every skin still to come.")
                     .captionSecondary()
                     .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .frame(height: Slots.caption, alignment: .top)
             }
         }
+    }
+
+    private enum Slots {
+        static let button: CGFloat = 52
+        static let caption: CGFloat = 34
+        static let restore: CGFloat = 28
     }
 
     /// Buys, then wears the skin in front if the purchase made it wearable —

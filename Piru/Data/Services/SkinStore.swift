@@ -23,7 +23,22 @@ final class SkinStore {
 
     /// The skin the app is wearing.
     var current: Skin {
-        tryingOn ?? chosen
+        renderingAs ?? tryingOn ?? chosen
+    }
+
+    /// Set only for the length of one synchronous offscreen render — see
+    /// ``rendering(as:_:)``. Unobserved: nothing on screen may react to it.
+    @ObservationIgnored private var renderingAs: Skin?
+
+    /// Runs `render` with every `Theme` and `Font.piru` call site resolving to
+    /// `skin`, which is how a preview draws the app's real views in a skin the
+    /// app is not wearing. `render` must do all of its view evaluation before
+    /// it returns — an `ImageRenderer` does — because the ~1,000 call sites
+    /// read this store directly and cannot be scoped any other way.
+    func rendering<T>(as skin: Skin, _ render: () -> T) -> T {
+        renderingAs = skin
+        defer { renderingAs = nil }
+        return render()
     }
 
     private(set) var colorScheme: SkinColorScheme

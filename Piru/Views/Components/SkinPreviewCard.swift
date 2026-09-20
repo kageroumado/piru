@@ -1,13 +1,14 @@
 import SwiftUI
 
-/// A miniature of the app wearing `skin`: its ground, its real animated scene,
-/// its card treatment, its accent and its display face.
+/// A miniature of the Journal wearing `skin`, in two layers: the skin's live
+/// animated backdrop, and over it a picture of the real vertical timeline drawn
+/// in that skin (``SkinPreviewTimeline``).
 ///
-/// The screen is laid out at ``referenceSize`` and scaled down, rather than
-/// drawn small, so the scene keeps the density it has on a real screen and the
-/// cards keep their real proportions — a skin looks here the way it will look
-/// once worn. Everything resolves from `skin`, never from the skin the app is
-/// wearing, so a row of these shows every skin at once.
+/// Both layers are laid out at a phone's size and scaled down, rather than drawn
+/// small, so the scene keeps the density it has on a real screen and the
+/// timeline keeps its real proportions — a skin looks here the way it will look
+/// once worn. Nothing in it can be tapped: the timeline is a picture and the
+/// backdrop takes no touches.
 struct SkinPreviewCard: View {
     let skin: Skin
     /// Only the card in front should tick; the rest hold one still frame, so a
@@ -15,97 +16,48 @@ struct SkinPreviewCard: View {
     var animates = false
     var width: CGFloat = Metrics.defaultWidth
 
+    @State private var timeline = SkinPreviewTimeline.shared
+    @State private var skins = SkinStore.shared
+    @State private var picture: Image?
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.displayScale) private var displayScale
+
     private enum Metrics {
         static let defaultWidth: CGFloat = 176
-        static let referenceSize = CGSize(width: 330, height: 570)
         static let cornerRadius: CGFloat = 24
-        static let mockCardRadius: CGFloat = 22
-        static let titleSize: CGFloat = 32
     }
 
     var body: some View {
-        let scale = width / Metrics.referenceSize.width
+        let screen = SkinPreviewTimeline.screenSize
+        let scale = width / screen.width
         let shape = RoundedRectangle(cornerRadius: Metrics.cornerRadius, style: .continuous)
-        screen
-            .frame(width: Metrics.referenceSize.width, height: Metrics.referenceSize.height)
-            .scaleEffect(scale, anchor: .topLeading)
-            .frame(width: width, height: Metrics.referenceSize.height * scale, alignment: .topLeading)
-            .clipShape(shape)
-            .overlay { shape.strokeBorder(.separator, lineWidth: 1) }
-            .accessibilityElement()
-            .accessibilityLabel(Text(skin.displayName))
-    }
-
-    private var screen: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text(skin.displayName)
-                .font(titleFont)
-                .foregroundStyle(.primary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
-                .padding(.top, 36)
-            entryCard(dots: 3)
-            entryCard(dots: 2)
-            HStack(spacing: 10) {
-                chip(filled: true)
-                chip(filled: false)
-            }
-            Spacer(minLength: 0)
-        }
-        .padding(.horizontal, 20)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background { SkinBackdrop(skin: skin, animates: animates) }
-    }
-
-    /// A stand-in journal card: marks in the skin's accent, bars where the copy
-    /// would be. Shapes rather than words, so the miniature reads at any size
-    /// and in any language.
-    private func entryCard(dots: Int) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            ForEach(0 ..< dots, id: \.self) { index in
-                HStack(spacing: 12) {
-                    Circle().fill(skin.accentMark).frame(width: 14, height: 14)
-                    VStack(alignment: .leading, spacing: 6) {
-                        Capsule().fill(.primary).frame(width: index == 0 ? 150 : 118, height: 9)
-                        Capsule().fill(skin.secondaryLabel).frame(width: index == 1 ? 96 : 72, height: 7)
-                    }
-                }
+        ZStack {
+            SkinBackdrop(skin: skin, animates: animates)
+            // The card in front wears the skin the app is trying on, so there —
+            // and only there — the timeline can be the live views: real glass
+            // over the moving scene. Everywhere else it is the picture.
+            if animates, skin == skins.current, !timeline.days.isEmpty {
+                SkinPreviewScreen(days: timeline.days, skin: skin)
+                    .allowsHitTesting(false)
+            } else {
+                picture?.resizable()
             }
         }
-        .padding(18)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .modifier(ThemedBackground(
-            shape: RoundedRectangle(cornerRadius: Metrics.mockCardRadius, style: .continuous),
-            insetDash: true,
-            skin: skin,
-        ))
-    }
-
-    private func chip(filled: Bool) -> some View {
-        let shape = RoundedRectangle(cornerRadius: skin.chipCornerRadius ?? 17, style: .continuous)
-        return Capsule()
-            .fill(filled ? skin.onAccent : skin.accent)
-            .frame(width: 54, height: 8)
-            .padding(.horizontal, 18)
-            .frame(height: 34)
-            .background {
-                if filled {
-                    shape.fill(skin.accentMark)
-                } else {
-                    shape.strokeBorder(skin.accent, lineWidth: 1.5)
-                }
-            }
-    }
-
-    private var titleFont: Font {
-        let typeface = skin.typeface
-        guard let family = typeface.display else {
-            return .system(size: Metrics.titleSize, weight: .bold, design: skin.fontDesign ?? .default)
+        .frame(width: screen.width, height: screen.height)
+        .scaleEffect(scale, anchor: .topLeading)
+        // A fixed frame, whatever the skin: the carousel must not move as the
+        // faces and card styles inside it change.
+        .frame(width: width, height: screen.height * scale, alignment: .topLeading)
+        .clipShape(shape)
+        .overlay { shape.strokeBorder(.separator, lineWidth: 1) }
+        // Rendered from a task, never from `body`: a render evaluates a whole
+        // view tree of its own. Keyed on the scheme, which changes the picture.
+        .task(id: colorScheme) {
+            await timeline.prepare()
+            picture = timeline.snapshot(for: skin, dark: colorScheme == .dark, scale: displayScale)
         }
-        return SkinFace.font(
-            family: family, weight: .bold, size: Metrics.titleSize * typeface.displayScale,
-            relativeTo: .largeTitle, scaling: false,
-        )
+        .accessibilityElement()
+        .accessibilityLabel(Text(skin.displayName))
     }
 }
 
