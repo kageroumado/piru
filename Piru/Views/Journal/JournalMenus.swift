@@ -64,7 +64,7 @@ struct JournalOptionsButton: View {
 /// The options popover content, modeled on Mail's view-options menu: the
 /// grouping thumbnail picker across the top (three line-art phones with a radio
 /// each, plus the Grouped key as a segmented control beneath while Grouped is
-/// selected), then Jump to Date, then the app-level Skins/Settings/Help. Picking a
+/// selected), then Jump to Date, then Help, then the app-level Skins/Settings. Picking a
 /// grouping keeps the popover open (Mail's behavior — the list re-buckets
 /// behind it); the action rows dismiss.
 struct JournalOptionsMenu: View {
@@ -106,10 +106,13 @@ struct JournalOptionsMenu: View {
 
             Divider()
 
+            actionRow(.help, title: Text("Help"), systemImage: "lifepreserver")
+
+            Divider()
+
             VStack(spacing: 0) {
                 actionRow(.skins, title: Text("Skins"), systemImage: "paintbrush")
                 actionRow(.settings, title: Text("Settings"), systemImage: "gearshape")
-                actionRow(.help, title: Text("Help"), systemImage: "lifepreserver")
             }
             .padding(.bottom, Spacing.md)
         }
