@@ -152,6 +152,16 @@ final class SkinShop {
         }
     }
 
+    /// Buys from a button. `skin` is worn afterwards if the purchase made it
+    /// wearable and it is still the one being tried on — which covers its own
+    /// product and the everything unlock alike.
+    func buy(_ product: Product, thenWear skin: Skin?) {
+        Task(name: "Buy skin") {
+            await purchase(product)
+            if let skin, owns(skin), skins.tryingOn == skin { skins.setSkin(skin) }
+        }
+    }
+
     /// Restore Purchases. `AppStore.sync()` asks for the Apple Account password,
     /// so it runs only from the button and never at launch.
     func restore() async {

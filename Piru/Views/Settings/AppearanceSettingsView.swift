@@ -1,24 +1,27 @@
 import SwiftUI
 
-/// Skin picker and light/dark override.
+/// Skin picker and light/dark override, shown as a panel over the app (see
+/// ``SettingsSheet``): the picker fits the panel, and the rest scrolls under it.
 struct AppearanceSettingsView: View {
     @State private var skins = SkinStore.shared
+    @Environment(\.settingsPanel) private var panel
 
     var body: some View {
         List {
             Group {
                 Section {
-                    SkinWardrobe()
-                        .padding(.vertical, Spacing.xl)
+                    SkinWardrobe(cardWidth: Self.panelCardWidth)
+                        .padding(.bottom, Spacing.md)
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
-                } header: {
-                    Text("Skin")
                 } footer: {
-                    VStack(alignment: .leading, spacing: Spacing.md) {
-                        Text("A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.")
-                        Text("Skins pay for Piru's development. The journal, the library, and every tool are free either way.")
-                    }
+                    Text("A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.")
+                }
+
+                Section {
+                    SkinShopOffers()
+                } footer: {
+                    Text("Skins pay for Piru's development. The journal, the library, and every tool are free either way.")
                 }
 
                 if skins.current.decorations != nil {
@@ -60,9 +63,18 @@ struct AppearanceSettingsView: View {
         .scrollContentBackground(.hidden)
         .skinBackdrop()
         .navigationTitle("Appearance")
+        // A large title would cost the panel a fifth of its height.
+        .inlineNavigationTitle()
+        .onAppear { panel.setActive(true) }
         // A skin that was only being looked at comes off on the way out.
-        .onDisappear { skins.tryOn(nil) }
+        .onDisappear {
+            panel.setActive(false)
+            skins.tryOn(nil)
+        }
     }
+
+    /// Small enough that the carousel, its caption and its button fit the panel.
+    private static let panelCardWidth: CGFloat = 124
 
     private var decorationsBinding: Binding<Bool> {
         Binding(

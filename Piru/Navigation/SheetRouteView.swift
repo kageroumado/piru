@@ -23,7 +23,7 @@ struct SheetRouteView: View {
 
         case .settings:
             // SettingsView owns its own xmark toolbar item.
-            NavigationStack { SettingsView() }
+            SettingsSheet()
 
         case .help:
             HelpView()

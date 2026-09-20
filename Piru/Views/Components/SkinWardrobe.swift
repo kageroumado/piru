@@ -13,44 +13,23 @@ struct SkinWardrobe: View {
     /// Settings offers "Use This Skin". Onboarding leaves it out: Continue
     /// keeps whichever skin is showing.
     var offersUse = true
+    /// The miniatures' width. Settings shows the picker in a short panel over
+    /// the app itself, so its cards are small; onboarding has the whole screen.
+    var cardWidth: CGFloat = 176
 
-    @State private var skins = SkinStore.shared
     @State private var shop = SkinShop.shared
     /// Seeded from the skin being worn, so the carousel comes back to the same
     /// card when `SkinnedRoot` re-creates the tree after a skin is chosen.
     @State private var focused: Skin = SkinStore.shared.current
 
     var body: some View {
-        VStack(spacing: Spacing.xl) {
-            SkinCarousel(focused: $focused)
+        VStack(spacing: Spacing.lg) {
+            SkinCarousel(focused: $focused, cardWidth: cardWidth)
             SkinCaption(skin: focused, owned: shop.owns(focused), price: shop.product(for: focused)?.displayPrice)
-            SkinActions(skin: focused, offersUse: offersUse)
+            SkinPrimaryAction(skin: focused, offersUse: offersUse)
+                .padding(.horizontal, Spacing.xxxl)
         }
-        .alert(noticeTitle, isPresented: noticePresented) {
-            Button("OK") { shop.notice = nil }
-        } message: {
-            Text(noticeMessage)
-        }
-    }
-
-    private var noticePresented: Binding<Bool> {
-        Binding(get: { shop.notice != nil }, set: { if !$0 { shop.notice = nil } })
-    }
-
-    private var noticeTitle: LocalizedStringResource {
-        switch shop.notice {
-        case .pending: "Waiting for Approval"
-        case .nothingToRestore: "Nothing to Restore"
-        case .failed, nil: "Purchase Not Completed"
-        }
-    }
-
-    private var noticeMessage: LocalizedStringResource {
-        switch shop.notice {
-        case .pending: "The skin unlocks as soon as the purchase is approved."
-        case .nothingToRestore: "This Apple Account has no Piru purchases."
-        case .failed, nil: "Nothing was charged. You can try again."
-        }
+        .skinShopNotices()
     }
 }
 
@@ -59,11 +38,11 @@ struct SkinWardrobe: View {
 /// Live miniatures of every skin on offer, paged so one sits in front.
 private struct SkinCarousel: View {
     @Binding var focused: Skin
+    let cardWidth: CGFloat
     @State private var position: Skin?
     @State private var containerWidth: CGFloat = 0
 
     private enum Metrics {
-        static let cardWidth: CGFloat = 176
         static let spacing: CGFloat = 16
     }
 
@@ -74,7 +53,7 @@ private struct SkinCarousel: View {
                     Button {
                         withAnimation(.snappy) { position = skin }
                     } label: {
-                        SkinPreviewCard(skin: skin, animates: skin == focused, width: Metrics.cardWidth)
+                        SkinPreviewCard(skin: skin, animates: skin == focused, width: cardWidth)
                     }
                     .buttonStyle(.plain)
                     .accessibilityAddTraits(skin == focused ? .isSelected : [])
@@ -87,7 +66,7 @@ private struct SkinCarousel: View {
         .scrollPosition(id: $position, anchor: .center)
         .scrollIndicators(.hidden)
         .scrollClipDisabled()
-        .contentMargins(.horizontal, max(0, (containerWidth - Metrics.cardWidth) / 2), for: .scrollContent)
+        .contentMargins(.horizontal, max(0, (containerWidth - cardWidth) / 2), for: .scrollContent)
         .onGeometryChange(for: CGFloat.self, of: \.size.width) { containerWidth = $0 }
         .onAppear { position = focused }
         // The app re-skins once the scroll comes to rest, never while cards
@@ -102,41 +81,41 @@ private struct SkinCarousel: View {
 
 // MARK: - Caption
 
-/// Name, tagline, and what the skin costs or that it is already owned.
+/// Two lines: the name with what it costs beside it, and the tagline.
+///
+/// Each line sits in a slot of fixed height. The app is wearing the skin in
+/// front, so these faces change as the carousel moves; with hugging heights
+/// the whole picker would shift under the finger.
 private struct SkinCaption: View {
     let skin: Skin
     let owned: Bool
     let price: String?
 
-    var body: some View {
-        // Every line sits in a slot of its own fixed height. The app is wearing
-        // the skin in front, so these faces change as the carousel moves; with
-        // hugging heights the whole picker would shift under the finger.
-        VStack(spacing: 0) {
-            Text(skin.displayName)
-                .font(.piru(.title3))
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
-                .frame(height: Slots.name)
-            Text(skin.tagline)
-                .captionSecondary()
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .frame(height: Slots.tagline, alignment: .top)
-            status
-                .font(.piruLabel(.footnote, weight: .semibold))
-                .foregroundStyle(Theme.accent)
-                .lineLimit(1)
-                .frame(height: Slots.status)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, Spacing.lg)
+    private enum Slots {
+        static let name: CGFloat = 28
+        static let tagline: CGFloat = 18
     }
 
-    private enum Slots {
-        static let name: CGFloat = 30
-        static let tagline: CGFloat = 36
-        static let status: CGFloat = 22
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: Spacing.md) {
+                Text(skin.displayName)
+                    .font(.piru(.title3))
+                status
+                    .font(.piruLabel(.footnote, weight: .semibold))
+                    .foregroundStyle(Theme.accent)
+            }
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
+            .frame(height: Slots.name)
+            Text(skin.tagline)
+                .captionSecondary()
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+                .frame(height: Slots.tagline)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, Spacing.xxxl)
     }
 
     @ViewBuilder private var status: some View {
@@ -154,84 +133,116 @@ private struct SkinCaption: View {
 
 // MARK: - Actions
 
-/// What can be done with the skin in front, the everything unlock, and Restore.
-private struct SkinActions: View {
+/// The one thing to do with the skin in front. Always a button, in a slot of
+/// fixed height: the skin being worn gets a switched-off one rather than a gap.
+private struct SkinPrimaryAction: View {
     let skin: Skin
     let offersUse: Bool
 
     @State private var skins = SkinStore.shared
     @State private var shop = SkinShop.shared
 
+    private static let height: CGFloat = 52
+
     var body: some View {
-        VStack(spacing: Spacing.md) {
-            // The slot keeps its height whether it holds a button, a label, or
-            // nothing, and whichever face the skin in front sets them in.
-            ZStack { primary }
-                .frame(height: Slots.button)
-            if !shop.ownsEverything {
-                everything
-            }
-            Button("Restore Purchases") {
-                Task(name: "Restore skins") { await shop.restore() }
-            }
-            .font(.footnote)
-            .foregroundStyle(Theme.secondaryLabel)
-            .disabled(shop.activity != .idle)
-            .frame(height: Slots.restore)
-        }
-        .padding(.horizontal, Spacing.lg)
+        ZStack { button }
+            .frame(height: Self.height)
     }
 
-    @ViewBuilder private var primary: some View {
+    @ViewBuilder private var button: some View {
         if shop.owns(skin) {
-            if offersUse {
-                if skin == skins.chosen {
-                    Label("Wearing This Skin", systemImage: "checkmark")
-                        .font(.piru(.headline))
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .lineLimit(1)
-                } else {
-                    GlassPillButton(title: "Use This Skin") { skins.setSkin(skin) }
-                }
+            if !offersUse {
+                EmptyView()
+            } else if skin == skins.chosen {
+                GlassPillButton(title: "Wearing This Skin", prominence: .neutral) {}
+                    .disabled(true)
+            } else {
+                GlassPillButton(title: "Use This Skin") { skins.setSkin(skin) }
             }
         } else if let product = shop.product(for: skin) {
             GlassPillButton(title: "Unlock \(skin.displayName) · \(product.displayPrice)") {
-                buy(product)
+                shop.buy(product, thenWear: offersUse ? skin : nil)
+            }
+            .disabled(shop.activity != .idle)
+        } else {
+            GlassPillButton(title: "Paid", prominence: .neutral) {}
+                .disabled(true)
+        }
+    }
+}
+
+/// Every skin at once, and Restore Purchases: the two things that are about the
+/// shop rather than about the skin in front. Rows for a `List` in Settings,
+/// stacked under the picker in onboarding.
+struct SkinShopOffers: View {
+    @State private var shop = SkinShop.shared
+
+    var body: some View {
+        if !shop.ownsEverything, let product = shop.everythingProduct {
+            Button {
+                shop.buy(product, thenWear: nil)
+            } label: {
+                HStack(spacing: Spacing.xl) {
+                    CaptionedRowLabel(
+                        title: "Everything, Forever",
+                        systemImage: "sparkles",
+                        caption: Text("Every skin there is and every skin still to come."),
+                    )
+                    Spacer(minLength: 0)
+                    Text(product.displayPrice)
+                        .font(.piruLabel(.subheadline, weight: .semibold))
+                        .foregroundStyle(Theme.accent)
+                }
             }
             .disabled(shop.activity != .idle)
         }
+        Button {
+            Task(name: "Restore skins") { await shop.restore() }
+        } label: {
+            Label("Restore Purchases", systemImage: "arrow.clockwise")
+        }
+        .disabled(shop.activity != .idle)
     }
+}
 
-    @ViewBuilder private var everything: some View {
-        if let product = shop.everythingProduct {
-            VStack(spacing: Spacing.xs) {
-                GlassPillButton(title: "Everything, Forever · \(product.displayPrice)", prominence: .neutral) {
-                    buy(product)
-                }
-                .disabled(shop.activity != .idle)
-                .frame(height: Slots.button)
-                Text("Every skin there is and every skin still to come.")
-                    .captionSecondary()
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .frame(height: Slots.caption, alignment: .top)
-            }
+// MARK: - Notices
+
+extension View {
+    /// The alert for a purchase that is pending, failed, or found nothing to
+    /// restore. One per screen that can start a purchase.
+    func skinShopNotices() -> some View {
+        modifier(SkinShopNotices())
+    }
+}
+
+private struct SkinShopNotices: ViewModifier {
+    @State private var shop = SkinShop.shared
+
+    func body(content: Content) -> some View {
+        content.alert(title, isPresented: presented) {
+            Button("OK") { shop.notice = nil }
+        } message: {
+            Text(message)
         }
     }
 
-    private enum Slots {
-        static let button: CGFloat = 52
-        static let caption: CGFloat = 34
-        static let restore: CGFloat = 28
+    private var presented: Binding<Bool> {
+        Binding(get: { shop.notice != nil }, set: { if !$0 { shop.notice = nil } })
     }
 
-    /// Buys, then wears the skin in front if the purchase made it wearable —
-    /// which covers both its own product and the everything unlock.
-    private func buy(_ product: Product) {
-        let skin = skin
-        Task(name: "Buy skin") {
-            await shop.purchase(product)
-            if offersUse, shop.owns(skin), skins.tryingOn == skin { skins.setSkin(skin) }
+    private var title: LocalizedStringResource {
+        switch shop.notice {
+        case .pending: "Waiting for Approval"
+        case .nothingToRestore: "Nothing to Restore"
+        case .failed, nil: "Purchase Not Completed"
+        }
+    }
+
+    private var message: LocalizedStringResource {
+        switch shop.notice {
+        case .pending: "The skin unlocks as soon as the purchase is approved."
+        case .nothingToRestore: "This Apple Account has no Piru purchases."
+        case .failed, nil: "Nothing was charged. You can try again."
         }
     }
 }

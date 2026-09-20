@@ -21536,18 +21536,18 @@
         }
       }
     },
-    "Everything, Forever · %@" : {
+    "Everything, Forever" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "全部皮肤，永久拥有 · %@"
+            "value" : "全部皮肤，永久拥有"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "全部皮膚，永久擁有 · %@"
+            "value" : "全部皮膚，永久擁有"
           }
         }
       }
@@ -45050,22 +45050,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "坐下或躺下，讓摔倒無從發生。昏厥，或頭暈伴胸痛，應當立刻求助。"
-          }
-        }
-      }
-    },
-    "Skin" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "皮肤"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "皮膚"
           }
         }
       }

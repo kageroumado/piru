@@ -17,8 +17,16 @@ struct OnboardingSkinsStep: View {
         ) {
             EmptyView()
         } mid: {
-            SkinWardrobe(offersUse: false)
-                .padding(.top, 24)
+            VStack(spacing: Spacing.xxl) {
+                SkinWardrobe(offersUse: false)
+                VStack(alignment: .leading, spacing: 18) {
+                    SkinShopOffers()
+                }
+                .buttonStyle(.plain)
+                .onboardingGroupedCard()
+                .padding(.horizontal, Spacing.xxxl)
+            }
+            .padding(.top, 24)
         } footer: {
             GlassPillButton(title: "Continue", action: nav.advance)
         }

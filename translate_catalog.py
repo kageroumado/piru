@@ -403,7 +403,6 @@ T = {
     ),
     # Skins (Settings → Appearance)
     "Appearance": ("外观", "外觀"),
-    "Skin": ("皮肤", "皮膚"),
     "Piru": ("Piru", "Piru"),
     "Soft pink, hot pink, liquid glass": ("柔粉、亮粉、液态玻璃", "柔粉、亮粉、液態玻璃"),
     "ely.pink": ("ely.pink", "ely.pink"),
@@ -6097,9 +6096,9 @@ T = {
         "解锁 %@ · %@",
         "解鎖 %@ · %@",
     ),
-    "Everything, Forever · %@": (
-        "全部皮肤，永久拥有 · %@",
-        "全部皮膚，永久擁有 · %@",
+    "Everything, Forever": (
+        "全部皮肤，永久拥有",
+        "全部皮膚，永久擁有",
     ),
     "Every skin there is and every skin still to come.": (
         "现有的每一款皮肤，以及今后推出的每一款。",
@@ -8467,7 +8466,7 @@ if __name__ == "__main__":
         "Wearing This Skin",
         "Use This Skin",
         "Unlock %@ · %@",
-        "Everything, Forever · %@",
+        "Everything, Forever",
         "Every skin there is and every skin still to come.",
         "Restore Purchases",
         "Waiting for Approval",
