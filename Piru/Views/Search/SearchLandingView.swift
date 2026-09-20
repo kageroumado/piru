@@ -10,11 +10,16 @@ import SwiftUI
 /// at a flush 16pt gutter — so its cards line up with the Library cards rather
 /// than picking up an inset-grouped `List`'s extra section margins.
 struct SearchLandingView: View {
+    @State private var activity = SearchActivityModel()
+    @State private var history = SearchHistoryStore.shared
+    @Query(SearchActivityModel.recentDoses(limit: Self.doseLimit)) private var recentEntries: [DoseEntry]
+
+    private static let doseLimit = 3
+
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 18) {
-                RecentlySearchedGroup()
-                RecentDosesGroup(limit: 3)
+                RecentActivityGroups(activity: activity, history: history)
                 HelpCard()
                 ClassBrowseGroup()
             }
@@ -23,6 +28,8 @@ struct SearchLandingView: View {
             .padding(.bottom, 28)
         }
         .themedPage()
+        .task(id: history.recent) { await activity.loadSearched(history.recent) }
+        .task(id: DoseLogService.shared.revision) { await activity.loadTaken(from: recentEntries, limit: Self.doseLimit) }
     }
 }
 
@@ -30,106 +37,102 @@ struct SearchLandingView: View {
 /// the keyboard once the field has focus but nothing's typed yet — no browse
 /// cards (they'd read oddly under the keyboard).
 struct SearchActivityList: View {
+    @State private var activity = SearchActivityModel()
+    @State private var history = SearchHistoryStore.shared
+    @Query(SearchActivityModel.recentDoses(limit: Self.doseLimit)) private var recentEntries: [DoseEntry]
+
+    private static let doseLimit = 8
+
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 18) {
-                RecentlySearchedGroup()
-                RecentDosesGroup(limit: 8)
+                RecentActivityGroups(activity: activity, history: history)
             }
             .padding(.horizontal, Spacing.xxl)
             .padding(.top, Spacing.md)
             .padding(.bottom, 28)
         }
         .themedPage()
+        .task(id: history.recent) { await activity.loadSearched(history.recent) }
+        .task(id: DoseLogService.shared.revision) { await activity.loadTaken(from: recentEntries, limit: Self.doseLimit) }
     }
 }
 
-// MARK: - Recent groups
+// MARK: - Recent activity
 
-/// Substances the user has tapped from past searches, most-recent first, with a
-/// Clear button — the search-history counterpart to the dose-log "Recent". Stale
-/// names that no longer resolve are dropped.
-private struct RecentlySearchedGroup: View {
-    @State private var history = SearchHistoryStore.shared
+/// What the two recent groups show, resolved off the warm substance cache.
+///
+/// Loaded from a `.task` on the screen's `ScrollView`, never on the groups
+/// themselves: a group with nothing to show is an empty view, SwiftUI attaches
+/// no task to an empty view, and a task that is the only thing able to make the
+/// group non-empty then never runs — the screen stays blank forever.
+@Observable
+@MainActor
+final class SearchActivityModel {
+    /// Substances tapped from past searches, most recent first. Stale names
+    /// that no longer resolve are dropped.
+    private(set) var searched: [Substance] = []
+    /// The most recently taken substances from the dose log.
+    private(set) var taken: [Substance] = []
 
-    /// Resolved in the `.task`, not a computed property: a computed property
-    /// would run its lookups twice per pass (the emptiness guard and the
-    /// card), and on a cold cache `lookup` falls through to a synchronous
-    /// main-actor batch build — the task awaits the warm cache first.
-    @State private var substances: [Substance] = []
-
-    var body: some View {
-        Group {
-            if !substances.isEmpty {
-                VStack(alignment: .leading, spacing: Spacing.md) {
-                    HStack {
-                        SectionLabel("Recently Searched")
-                        Spacer()
-                        Button("Clear") { history.clear() }
-                            .sectionLabel()
-                    }
-                    .padding(.horizontal, Spacing.xs)
-                    SubstanceRowsCard(substances: substances)
-                }
-            }
-        }
-        .task(id: history.recent) {
-            guard !history.recent.isEmpty else {
-                substances = []
-                return
-            }
-            await SubstanceStore.shared.ensureAllLoaded()
-            // Warm batch cache, not the heavy ~21-query resolve — the row only
-            // renders name/category/subtitle/isStub, all on the projection.
-            substances = history.recent.compactMap { SubstanceLibrary.lookup($0) }
-        }
-    }
-}
-
-/// The most recently-taken substances from the dose log, capped to `limit`.
-private struct RecentDosesGroup: View {
-    let limit: Int
-
-    @Query private var recentEntries: [DoseEntry]
-
-    init(limit: Int) {
-        self.limit = limit
-        // Bound the fetch: enough rows to surface `limit` distinct substances
-        // even with repeats, without faulting the entire dose log — an
-        // unbounded query would fault every `DoseEntry.substance` relationship
-        // on the focus transition.
+    /// Bounded: enough rows to surface `limit` distinct substances even with
+    /// repeats, without faulting the entire dose log on the focus transition.
+    static func recentDoses(limit: Int) -> FetchDescriptor<DoseEntry> {
         var descriptor = FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp, order: .reverse)])
         descriptor.fetchLimit = max(limit * 15, 90)
         descriptor.propertiesToFetch = [\.substance]
-        _recentEntries = Query(descriptor)
+        return descriptor
     }
 
-    /// Resolved in the `.task` on the dose-log revision — see
-    /// ``RecentlySearchedGroup`` for why this isn't a computed property.
-    @State private var substances: [Substance] = []
+    func loadSearched(_ names: [String]) async {
+        guard !names.isEmpty else {
+            searched = []
+            return
+        }
+        await SubstanceStore.shared.ensureAllLoaded()
+        // Warm batch cache, not the heavy ~21-query resolve — the row only
+        // renders name/category/subtitle/isStub, all on the projection.
+        searched = names.compactMap { SubstanceLibrary.lookup($0) }
+    }
 
-    var body: some View {
-        Group {
-            if !substances.isEmpty {
-                VStack(alignment: .leading, spacing: Spacing.md) {
-                    SectionLabel("Recent").padding(.horizontal, Spacing.xs)
-                    SubstanceRowsCard(substances: substances)
-                }
+    func loadTaken(from entries: [DoseEntry], limit: Int) async {
+        await SubstanceStore.shared.ensureAllLoaded()
+        var seen = Set<String>()
+        var result: [Substance] = []
+        for entry in entries {
+            let key = entry.substance.lowercased()
+            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
+                result.append(substance)
+                if result.count >= limit { break }
             }
         }
-        .task(id: DoseLogService.shared.revision) {
-            await SubstanceStore.shared.ensureAllLoaded()
-            var seen = Set<String>()
-            var result: [Substance] = []
-            for entry in recentEntries {
-                let key = entry.substance.lowercased()
-                // Warm batch cache, not the heavy ~21-query resolve.
-                if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
-                    result.append(substance)
-                    if result.count >= limit { break }
+        taken = result
+    }
+}
+
+/// "Recently Searched" (with Clear) and "Recent", each only when it has rows.
+private struct RecentActivityGroups: View {
+    let activity: SearchActivityModel
+    let history: SearchHistoryStore
+
+    var body: some View {
+        if !activity.searched.isEmpty {
+            VStack(alignment: .leading, spacing: Spacing.md) {
+                HStack {
+                    SectionLabel("Recently Searched")
+                    Spacer()
+                    Button("Clear") { history.clear() }
+                        .sectionLabel()
                 }
+                .padding(.horizontal, Spacing.xs)
+                SubstanceRowsCard(substances: activity.searched)
             }
-            substances = result
+        }
+        if !activity.taken.isEmpty {
+            VStack(alignment: .leading, spacing: Spacing.md) {
+                SectionLabel("Recent").padding(.horizontal, Spacing.xs)
+                SubstanceRowsCard(substances: activity.taken)
+            }
         }
     }
 }
