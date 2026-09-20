@@ -696,10 +696,6 @@ T = {
     ),
     "Estimate only": ("仅为估算", "僅為估算"),
     "Faint": ("微弱", "微弱"),
-    "Faster CYP2D6 clearance — shorter duration.": (
-        "CYP2D6 清除更快，持续时间更短。",
-        "CYP2D6 清除更快，持續時間更短。",
-    ),
     "Favorites, colors, units, and the substances you added.": (
         "收藏、颜色、单位和你添加的物质。",
         "收藏、顏色、單位和你新增的物質。",
@@ -804,7 +800,6 @@ T = {
         "增強多巴胺和去甲腎上腺素訊號，從而提升動力、注意力和清醒度，心率和體溫也隨之升高。它們的差異主要在於方式：促進神經傳導物質釋放，或阻斷其再攝取。",
     ),
     "Range": ("范围", "範圍"),
-    "Rapid": ("快速", "快速"),
     "Read experience reports on FreeODWiki": (
         "在 FreeODWiki 阅读体验报告",
         "在 FreeODWiki 閱讀體驗報告",
@@ -836,7 +831,6 @@ T = {
         "滑动移动，捏合缩放，长按查看某一时刻。",
         "滑動移動，捏合縮放，長按查看某一時刻。",
     ),
-    "Slow": ("缓慢", "緩慢"),
     "Social": ("社交", "社交"),
     "Substance Info": ("物质信息", "物質資訊"),
     "Swipe up or down to change the dose": ("上下滑动调整剂量", "上下滑動調整劑量"),
@@ -6056,9 +6050,6 @@ T = {
     "Buspirone": ("丁螺环酮", "丁螺環酮"),
     "Propranolol": ("普萘洛尔", "普萘洛爾"),
     "doi:10.3390/ijms27031430": ("doi:10.3390/ijms27031430", "doi:10.3390/ijms27031430"),
-    # CYP2D6 metabolizer status (§F, 2026-08-06).
-    "CYP2D6 status": ("CYP2D6状态", "CYP2D6狀態"),
-    "Ultra-rapid metabolizer": ("超快代谢者", "超快代謝者"),
     # Gabapentinoid α2δ class (§K.6, 2026-08-06).
     "Gabapentinoids (α2δ)": ("加巴喷丁类 (α2δ)", "加巴噴丁類 (α2δ)"),
     "Gabapentinoids": ("加巴喷丁类", "加巴噴丁類"),
@@ -6077,23 +6068,16 @@ T = {
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，数周内就会产生依赖。迁延性戒断可持续数月——在医疗指导下逐步减量。",
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，數週內就會產生依賴。遷延性戒斷可持續數月——在醫療指導下逐步減量。",
     ),
-    # CYP2D6 pharmacogenomic notes (§F.2 wiring, 2026-08-06).
-    "CYP2D6: %@": ("CYP2D6：%@", "CYP2D6：%@"),
-    "Reduced conversion to active metabolite — you may get less effect from %@.": (
-        "活性代谢物转化减少——%@ 的效果可能较弱。",
-        "活性代謝物轉化減少——%@ 的效果可能較弱。",
+    # What CYP2D6 does to a substance (CYP2D6NoteSection).
+    "Activated by CYP2D6": ("由 CYP2D6 活化", "由 CYP2D6 活化"),
+    "Cleared by CYP2D6": ("由 CYP2D6 清除", "由 CYP2D6 清除"),
+    "CYP2D6 converts %@ into an active metabolite.": (
+        "CYP2D6 将 %@ 转化为一种活性代谢物。",
+        "CYP2D6 將 %@ 轉化為一種活性代謝物。",
     ),
-    "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression.": (
-        "活性代谢物转化加快——活性代谢物暴露量更高。对于可待因，因呼吸抑制风险，FDA 列为禁忌。",
-        "活性代謝物轉化加快——活性代謝物暴露量更高。對於可待因，因呼吸抑制風險，FDA 列為禁忌。",
-    ),
-    "Slower CYP2D6 clearance — %@ may last longer and accumulate at repeated doses.": (
-        "CYP2D6 清除较慢——%@ 的持续时间可能更长，多次给药时可能蓄积。",
-        "CYP2D6 清除較慢——%@ 的持續時間可能更長，多次給藥時可能蓄積。",
-    ),
-    "CYP2D6 is a major metabolic pathway for %@.": (
-        "CYP2D6 是 %@ 的主要代谢途径。",
-        "CYP2D6 是 %@ 的主要代謝途徑。",
+    "CYP2D6 is the main enzyme clearing %@ from the body.": (
+        "CYP2D6 是将 %@ 从体内清除的主要酶。",
+        "CYP2D6 是將 %@ 從體內清除的主要酶。",
     ),
     # b45 feedback — metabolizer variation chart (C1)
     "Fast metabolizer": ("快代谢型", "快代謝型"),
@@ -6208,10 +6192,6 @@ T = {
     "Shows the acetaldehyde build-up on alcohol entries — the flush is the ALDH2 variant that lets it accumulate.": (
         "在酒精记录上显示乙醛蓄积——脸红正是让乙醛累积的 ALDH2 变异。",
         "在酒精記錄上顯示乙醛蓄積——臉紅正是讓乙醛累積的 ALDH2 變異。",
-    ),
-    "Scales the modeled half-life of substances CYP2D6 clears — slow lasts longer, rapid shorter — and notes it on their pages; Unknown counts as typical.": (
-        "按此缩放由 CYP2D6 清除的物质的模型半衰期——慢代谢更久，快代谢更短——并在其页面注明；“未知”按典型处理。",
-        "依此縮放由 CYP2D6 清除的物質的模型半衰期——慢代謝更久，快代謝更短——並在其頁面註明；「未知」視為典型。",
     ),
     # Strings the catalog already carries, restored so the table and the
     # catalog hold the same set.
@@ -8414,15 +8394,11 @@ if __name__ == "__main__":
         "What this does not model",
         "The idea first, then every stage from your dose to the line on the chart.",
         "The calculation, step by step",
-        # CYP2D6 pharmacogenomic notes (§F.2, 2026-08-06).
-        "CYP2D6: %@",
-        "Reduced conversion to active metabolite — you may get less effect from %@.",
-        "Mildly reduced conversion to active metabolite — effect may be modestly lower.",
-        "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression.",
-        "Slower CYP2D6 clearance — %@ may last longer and accumulate at repeated doses.",
-        "Mildly slower CYP2D6 clearance — duration may be modestly longer.",
-        "Faster CYP2D6 clearance — shorter duration. Be aware of re-dose timing.",
-        "CYP2D6 is a major metabolic pathway for %@.",
+        # What CYP2D6 does to a substance (CYP2D6NoteSection).
+        "Activated by CYP2D6",
+        "Cleared by CYP2D6",
+        "CYP2D6 converts %@ into an active metabolite.",
+        "CYP2D6 is the main enzyme clearing %@ from the body.",
         # Isomer picker racemic-parent label (CLI-added).
         "Regular",
         "Racemic",
@@ -8591,7 +8567,6 @@ if __name__ == "__main__":
         "Using the average 60 kg. Set yours so estimates fit your body — the same dose hits harder the less you weigh.",
         "Adds a per-dose grapefruit toggle for substances whose breakdown grapefruit slows (CYP3A4), so the entry records it.",
         "Shows the acetaldehyde build-up on alcohol entries — the flush is the ALDH2 variant that lets it accumulate.",
-        "Scales the modeled half-life of substances CYP2D6 clears — slow lasts longer, rapid shorter — and notes it on their pages; Unknown counts as typical.",
     }
 
     print("--- Piru main app catalog ---")

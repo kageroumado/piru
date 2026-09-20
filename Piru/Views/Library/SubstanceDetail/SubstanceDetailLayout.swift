@@ -107,8 +107,7 @@ struct SubstanceDetailLayout: View {
         // Metabolites doing some of the work — on the main screen at every tier.
         AlsoActiveSection(substance: substance, model: model, onGlossary: onGlossary)
 
-        // CYP2D6 pharmacogenomic note — shown when the user has set their metabolizer
-        // status and this substance is a CYP2D6-major substrate. Self-hiding otherwise.
+        // What CYP2D6 does to this substance — present for a CYP2D6-major substrate.
         if let cyp2d6Info = model.cyp2d6Info {
             CYP2D6NoteSection(
                 substanceName: substance.displayTitle,

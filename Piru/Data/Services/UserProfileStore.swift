@@ -4,40 +4,13 @@ import Observation
 import os
 import SwiftData
 
-/// Self-reported CYP2D6 metabolizer phenotype. The four clinical categories from CPIC guidelines;
-/// `unknown` is the safe default (treated as extensive, the population majority).
-enum CYP2D6Status: String, CaseIterable, Codable {
-    case unknown
-    case slow
-    case rapid
-
-    var label: LocalizedStringResource {
-        switch self {
-        case .unknown: "Unknown"
-        case .slow: "Slow"
-        case .rapid: "Rapid"
-        }
-    }
-
-    /// Decodes the persisted wire value. Builds through v2.2-b47 stored the five CPIC phenotypes
-    /// (`poor`, `intermediate`, `extensive`, `ultraRapid`); keep folding them in, or a status set on
-    /// one of those builds silently resets to unknown on upgrade.
-    init(wire: String) {
-        switch wire {
-        case "slow", "poor", "intermediate": self = .slow
-        case "rapid", "ultraRapid": self = .rapid
-        default: self = .unknown
-        }
-    }
-}
-
 /// Single home for user *profile / physiology* state, persisted via SwiftData.
 ///
 /// Consolidates what used to be scattered: the disclosure tier lived in `SubstanceStore`'s GRDB prefs
 /// DB, and body weight briefly lived in `UserDefaults`. Both are user data, not substance data, so
 /// they belong in the same SwiftData store as doses/colors/favorites — one store, one backup and
 /// recovery path, typed fields, and lightweight migration for the coming phenotype/context flags
-/// (ALDH2, CYP2D6, smoking, grapefruit). SwiftData over GRDB here because this is durable, app-owned
+/// (ALDH2, smoking, grapefruit). SwiftData over GRDB here because this is durable, app-owned
 /// user data and the rest of that layer is already SwiftData; the genuinely extension-shared feature
 /// flags stay in the app-group `UserDefaults` where widgets can read them.
 ///
@@ -102,11 +75,6 @@ final class UserProfileStore {
     /// off by default; gates the acetaldehyde readout in the alcohol vertical (Stage 5 / Foundation B).
     private(set) var aldh2Deficient: Bool = false
 
-    /// Self-reported CYP2D6 metabolizer status. Affects PK for codeine, tramadol, MDMA, and others.
-    /// `unknown` is the default (treated as extensive — the population majority). Surfaces educational
-    /// notes on affected substances; a coarse PK multiplier is behind the Pharma Nerd tier.
-    private(set) var cyp2d6Status: CYP2D6Status = .unknown
-
     // MARK: - Configuration
 
     /// Bind to the app's shared container. Call once at launch, before any view reads profile state.
@@ -130,7 +98,6 @@ final class UserProfileStore {
             weightSource = .estimated
             grapefruitLoggingEnabled = false
             aldh2Deficient = false
-            cyp2d6Status = .unknown
             return
         }
         disclosureTier = UserProfile(rawValue: record.disclosureTierRaw) ?? .harmReduction
@@ -139,7 +106,6 @@ final class UserProfileStore {
             ?? (record.bodyWeightKg == nil ? .estimated : .manual)
         grapefruitLoggingEnabled = record.grapefruitLoggingEnabled
         aldh2Deficient = record.aldh2Deficient
-        cyp2d6Status = CYP2D6Status(wire: record.cyp2d6StatusRaw)
     }
 
     private static var defaultLegacyPrefsDBURL: URL {
@@ -174,14 +140,6 @@ final class UserProfileStore {
         guard value != aldh2Deficient else { return }
         aldh2Deficient = value
         ensureRecord().aldh2Deficient = value
-        save()
-    }
-
-    /// Persist the self-reported CYP2D6 metabolizer status.
-    func setCYP2D6Status(_ value: CYP2D6Status) {
-        guard value != cyp2d6Status else { return }
-        cyp2d6Status = value
-        ensureRecord().cyp2d6StatusRaw = value.rawValue
         save()
     }
 

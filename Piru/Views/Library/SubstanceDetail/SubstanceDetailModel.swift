@@ -324,17 +324,12 @@ final class SubstanceDetailModel {
 
 // MARK: - CYP2D6 substrate classification
 
-/// Whether a substance is primarily metabolized by CYP2D6, and whether that metabolism creates
-/// a qualitatively different drug (prodrug pattern) or just clears the parent. `nonisolated` (pure
-/// value logic over ``SubstanceStore/MetabolismHit``) so the off-main tolerance resolve can reuse it
-/// for the §F.3 CYP2D6 half-life multiplier.
+/// A substance whose primary (first-listed or sole) metabolic pathway is CYP2D6, and whether that
+/// metabolism creates a qualitatively different drug (prodrug pattern) or just clears the parent.
 nonisolated struct CYP2D6Info {
-    /// CYP2D6 is the primary (first-listed or sole) metabolic pathway.
-    let isMajorPathway: Bool
     /// The CYP2D6 step produces a divergent metabolite — the parent is a prodrug and the
-    /// metabolite is the active species (codeine→morphine, tramadol→M1). When true, a
-    /// poor-metabolizer note emphasizes reduced activation; when false, it emphasizes
-    /// slower clearance / longer duration.
+    /// metabolite is the active species (codeine→morphine, tramadol→M1). When true the note says
+    /// CYP2D6 activates the substance; when false, that it clears it.
     let hasProdrugPattern: Bool
 
     static func from(metabolismRows rows: [SubstanceStore.MetabolismHit]) -> CYP2D6Info? {
@@ -350,7 +345,7 @@ nonisolated struct CYP2D6Info {
                 && (row.metaboliteMechanismVsParent == .divergent
                     || (row.metabolitePotencyVsParentPct ?? 100) >= 500)
         }
-        return CYP2D6Info(isMajorPathway: true, hasProdrugPattern: hasProdrugPattern)
+        return CYP2D6Info(hasProdrugPattern: hasProdrugPattern)
     }
 
     /// CYP2D6 is a primary pathway when it appears at the leading position of the

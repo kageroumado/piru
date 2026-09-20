@@ -29,8 +29,8 @@ Checks:
     smoking/CYP1A2, ...) against that table on the substrate side, so a
     substance with no row shows no modulator card at all — silently, with no
     empty state anyone could notice.
-  - metabolizer status: a CYP2D6 substrate with no `pharmacogenetics` row, so
-    the poor/rapid readout codeine has cannot fire for it
+  - genetics coverage: a CYP2D6 substrate with no `pharmacogenetics` row, so
+    the Genetics section codeine has is empty for it
   - metabolite coverage: products of a DrugBank reaction FROM the substance
     that no `metabolism` row names (conjugates excluded — excretion products,
     not pharmacology)
@@ -81,7 +81,7 @@ NS = "{http://www.drugbank.ca}"
 UI_ENZYMES = {
     "CYP3A4": "grapefruit / ritonavir / carbamazepine modulators",
     "CYP1A2": "smoking modulator",
-    "CYP2D6": "metabolizer-status readout",
+    "CYP2D6": "CYP2D6 note + Genetics section",
     "CYP2C19": "modulator readout",
     "CYP2C9": "modulator readout",
     "CYP2B6": "modulator readout",
@@ -650,8 +650,9 @@ def main() -> int:
             metabolite_gaps.append((s, d, fresh))
 
         # ── Pharmacogenetics the enzyme data implies ──────────────────────
-        # CYP2D6 is the gene the app has a metabolizer readout for, so a 2D6
-        # substrate with no pharmacogenetics row is a missing toggle. Adjudicate
+        # CYP2D6 is the enzyme the detail page gives its own note, so a 2D6
+        # substrate with no pharmacogenetics row has a note and no study behind
+        # it. Adjudicate
         # under `metabolizer_coverage` where the substance is a 2D6 substrate only
         # in the in-vitro sense: many are, and for them the honest row is the one
         # naming the gene that does move the drug (nicotine's CYP2A6, simvastatin's
@@ -795,11 +796,11 @@ def main() -> int:
         "reader would see.\n"
     )
 
-    print(f"\n## Metabolizer-status gaps ({len(pgx_gaps)})\n")
+    print(f"\n## Genetics gaps ({len(pgx_gaps)})\n")
     print(
-        "A CYP2D6 substrate with no `pharmacogenetics` row: the poor/rapid "
-        "metabolizer readout has nothing to key on, though the enzyme that makes "
-        "it matter is the same one codeine's toggle uses.\n"
+        "A CYP2D6 substrate with no `pharmacogenetics` row: the Genetics section "
+        "has nothing to show, though the enzyme that makes it matter is the same "
+        "one behind codeine's rows.\n"
     )
     print("| Pop. | Substance | DrugBank id |")
     print("|---:|---|---|")

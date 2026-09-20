@@ -282,13 +282,10 @@ extension SubstanceStore {
         // One read of the whole `class_representatives` table per recompute, snapshotted here rather
         // than re-queried per substance: it is a handful of rows and every resolve consults it.
         let representatives = classRepresentativeClasses()
-        // The user's CYP2D6 metabolizer status (§F.3) — snapshotted on the main actor and passed into
-        // the detached resolve, where it scales a CYP2D6-major clearance substrate's half-life.
-        let cyp2d6Status = UserProfileStore.shared.cyp2d6Status
         return await Task.detached(priority: .utility) {
             Self.resolvePharmacologyParametersBatch(
                 names: names, ids: ids, referenceDoseIDs: referenceDoseIDs, order: order, db: db,
-                cyp2d6Status: cyp2d6Status, representatives: representatives,
+                representatives: representatives,
             )
         }.value
     }
@@ -298,7 +295,7 @@ extension SubstanceStore {
     /// params record with nil molar mass / no targets, which the engine treats as uncomputable.
     private nonisolated static func resolvePharmacologyParametersBatch(
         names: [String], ids: [String: Int64], referenceDoseIDs: [String: Int64],
-        order: [String], db queue: DatabaseQueue, cyp2d6Status: CYP2D6Status = .unknown,
+        order: [String], db queue: DatabaseQueue,
         representatives: [Int64: Set<ReceptorClasses.ReceptorClass>] = [:],
     ) -> [String: PharmacologyParameters] {
         var out: [String: PharmacologyParameters] = [:]
@@ -319,8 +316,6 @@ extension SubstanceStore {
                 subjectID: id, db: queue,
                 resolveReferenceID: { SubstanceReadModel.substanceID(forNameOrAlias: $0, db: queue) },
             )
-            // One metabolism read feeds both the active-metabolite tail (K.5) and the CYP2D6 half-life
-            // multiplier (F.3).
             let metabolismHits = id.map { SubstanceReadModel.metabolismRows(substanceID: $0, db: queue, order: order) } ?? []
             out[name] = assemblePharmacologyParameters(
                 molarMass: id.flatMap { SubstanceReadModel.molarMass(substanceID: $0, db: queue) },
@@ -334,7 +329,6 @@ extension SubstanceStore {
                 } ?? 1,
                 categoryClasses: categoryClasses,
                 metabolites: metaboliteContributors(from: metabolismHits),
-                cyp2d6HalfLifeMultiplier: cyp2d6HalfLifeMultiplier(status: cyp2d6Status, metabolismHits: metabolismHits),
                 suppressesSerotoninSynthesis: id.map {
                     SubstanceReadModel.hasFlag(
                         PharmacologyParameters.Flag.suppressesSerotoninSynthesis, substanceID: $0, db: queue,
@@ -473,7 +467,6 @@ extension SubstanceStore {
         referenceDoseMg: Double? = nil, intrinsicEfficacy: Double = 1,
         categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
         metabolites: [PharmacologyParameters.MetaboliteContributor] = [],
-        cyp2d6HalfLifeMultiplier: Double = 1,
         suppressesSerotoninSynthesis: Bool = false,
         diazepamPerMg: Double? = nil,
         opioidMMEPerMg: Double? = nil,
@@ -516,12 +509,7 @@ extension SubstanceStore {
                     ?? pk.first { $0.species == "human" && $0.halfLifeMin != nil }?.halfLifeMin
             )
             : nil
-        // §F.3: scale the elimination half-life by the user's CYP2D6 metabolizer-status factor for a
-        // CYP2D6-major *clearance* substrate (the caller passes `1` for everyone else). A poor
-        // metabolizer clears the drug more slowly → longer exposure → more modeled occupancy; this
-        // flows through the tolerance engine automatically. Applied only in the tolerance resolve, so
-        // the detail view keeps showing the population half-life (with the §F.2 CYP2D6 notes beside it).
-        let halfLife = (humanHalfLife ?? scaledPrimary?.halfLifeMin).map { $0 * cyp2d6HalfLifeMultiplier }
+        let halfLife = humanHalfLife ?? scaledPrimary?.halfLifeMin
 
         // Time-to-peak for a real absorption rate (§3): a measured human Tmax wins over an animal one
         // (same discipline as half-life); otherwise the coherent primary row's own Tmax, else the best-
@@ -608,31 +596,6 @@ extension SubstanceStore {
             opioidMMEPerMg: opioidMMEPerMg,
             representsClasses: representsClasses,
         )
-    }
-
-    /// Coarse CYP2D6 metabolizer-status multiplier on a **clearance** substrate's elimination
-    /// half-life (§F.3), flagged `.low` confidence. Slow metabolizers clear a CYP2D6-major drug more
-    /// slowly (longer exposure); rapid faster. The slow figure is the conservative low end of a wide
-    /// 1.5–3× literature range for CYP2D6-exclusive substrates. `1.0` (no change) unless a status
-    /// is set. Prodrug substrates (codeine, tramadol) are excluded here —
-    /// their exposure change is in the active metabolite's formation, not the parent's clearance.
-    nonisolated static func cyp2d6HalfLifeMultiplier(_ status: CYP2D6Status) -> Double {
-        switch status {
-        case .slow: 1.5
-        case .rapid: 0.65
-        case .unknown: 1
-        }
-    }
-
-    /// The half-life multiplier to actually apply for one substance: the §F.3 factor when the user has
-    /// a CYP2D6 status set **and** the substance is a CYP2D6-major clearance substrate (not a prodrug),
-    /// else `1`.
-    private nonisolated static func cyp2d6HalfLifeMultiplier(
-        status: CYP2D6Status, metabolismHits hits: [MetabolismHit],
-    ) -> Double {
-        guard status != .unknown, let info = CYP2D6Info.from(metabolismRows: hits),
-              info.isMajorPathway, !info.hasProdrugPattern else { return 1 }
-        return cyp2d6HalfLifeMultiplier(status)
     }
 
     /// Fraction-unbound (`fu`) from the best available `protein_binding_pct` across all PK rows for the

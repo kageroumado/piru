@@ -6737,6 +6737,22 @@
         }
       }
     },
+    "Activated by CYP2D6" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 CYP2D6 活化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 CYP2D6 活化"
+          }
+        }
+      }
+    },
     "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use." : {
       "localizations" : {
         "zh-Hans" : {
@@ -13524,6 +13540,22 @@
         }
       }
     },
+    "Cleared by CYP2D6" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 CYP2D6 清除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 CYP2D6 清除"
+          }
+        }
+      }
+    },
     "Clears between doses; each peaks around %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16037,50 +16069,34 @@
         }
       }
     },
-    "CYP2D6 is a major metabolic pathway for %@." : {
+    "CYP2D6 converts %@ into an active metabolite." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CYP2D6 是 %@ 的主要代谢途径。"
+            "value" : "CYP2D6 将 %@ 转化为一种活性代谢物。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CYP2D6 是 %@ 的主要代謝途徑。"
+            "value" : "CYP2D6 將 %@ 轉化為一種活性代謝物。"
           }
         }
       }
     },
-    "CYP2D6 status" : {
+    "CYP2D6 is the main enzyme clearing %@ from the body." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CYP2D6状态"
+            "value" : "CYP2D6 是将 %@ 从体内清除的主要酶。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CYP2D6狀態"
-          }
-        }
-      }
-    },
-    "CYP2D6: %@" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CYP2D6：%@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CYP2D6：%@"
+            "value" : "CYP2D6 是將 %@ 從體內清除的主要酶。"
           }
         }
       }
@@ -22046,38 +22062,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "快代謝型"
-          }
-        }
-      }
-    },
-    "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "活性代谢物转化加快——活性代谢物暴露量更高。对于可待因，因呼吸抑制风险，FDA 列为禁忌。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "活性代謝物轉化加快——活性代謝物暴露量更高。對於可待因，因呼吸抑制風險，FDA 列為禁忌。"
-          }
-        }
-      }
-    },
-    "Faster CYP2D6 clearance — shorter duration." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CYP2D6 清除更快，持续时间更短。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CYP2D6 清除更快，持續時間更短。"
           }
         }
       }
@@ -39213,22 +39197,6 @@
         }
       }
     },
-    "Rapid" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "快速"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "快速"
-          }
-        }
-      }
-    },
     "Rat" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40014,22 +39982,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "直腸給藥"
-          }
-        }
-      }
-    },
-    "Reduced conversion to active metabolite — you may get less effect from %@." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "活性代谢物转化减少——%@ 的效果可能较弱。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "活性代謝物轉化減少——%@ 的效果可能較弱。"
           }
         }
       }
@@ -42419,22 +42371,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已儲存的副本"
-          }
-        }
-      }
-    },
-    "Scales the modeled half-life of substances CYP2D6 clears — slow lasts longer, rapid shorter — and notes it on their pages; Unknown counts as typical." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按此缩放由 CYP2D6 清除的物质的模型半衰期——慢代谢更久，快代谢更短——并在其页面注明；“未知”按典型处理。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "依此縮放由 CYP2D6 清除的物質的模型半衰期——慢代謝更久，快代謝更短——並在其頁面註明；「未知」視為典型。"
           }
         }
       }
@@ -45231,22 +45167,6 @@
         }
       }
     },
-    "Slow" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "缓慢"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "緩慢"
-          }
-        }
-      }
-    },
     "Slow central nervous system activity, mostly through GABA. Their doses add up with each other in a way that is easy to underestimate." : {
       "localizations" : {
         "zh-Hans" : {
@@ -45291,22 +45211,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩釋植入劑"
-          }
-        }
-      }
-    },
-    "Slower CYP2D6 clearance — %@ may last longer and accumulate at repeated doses." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CYP2D6 清除较慢——%@ 的持续时间可能更长，多次给药时可能蓄积。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CYP2D6 清除較慢——%@ 的持續時間可能更長，多次給藥時可能蓄積。"
           }
         }
       }
@@ -51346,23 +51250,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "美國產品說明書資料庫。說明書文字由各製造商撰寫。"
-          }
-        }
-      }
-    },
-    "Ultra-rapid metabolizer" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "超快代谢者"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "超快代謝者"
           }
         }
       }

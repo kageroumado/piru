@@ -3,11 +3,9 @@ import SwiftUI
 /// **Genetics** — the genes whose variants change what this substance does, and
 /// what carrying one means.
 ///
-/// Sits beside ``CYP2D6NoteSection`` and does not repeat it: that note is about
-/// *the reader* (the metabolizer status they set in Settings, applied to this
-/// drug), while these rows are about *the drug* and carry the study behind each
-/// one. Merging them would trade a sourced fact for a personalized sentence, or
-/// print both halves as one paragraph.
+/// Sits beside ``CYP2D6NoteSection`` and does not repeat it: that note names the
+/// enzyme and what it does to the drug, while these rows name the gene variants
+/// and carry the study behind each one.
 struct PharmacogeneticsSection: View {
     let substance: Substance
     let model: SubstanceDetailModel

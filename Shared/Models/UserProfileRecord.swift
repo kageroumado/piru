@@ -37,23 +37,17 @@ final class UserProfileRecord {
     /// presentation preference.
     var aldh2Deficient: Bool = false
 
-    /// CYP2D6 metabolizer-status wire value (decoded by `CYP2D6Status.init(wire:)`). `"unknown"` is the
-    /// default and is treated as a typical metabolizer. Defaulted for lightweight migration.
-    var cyp2d6StatusRaw: String = "unknown"
-
     init(
         disclosureTierRaw: String = "harm-reduction",
         bodyWeightKg: Double? = nil,
         weightSourceRaw: String = "estimated",
         grapefruitLoggingEnabled: Bool = false,
         aldh2Deficient: Bool = false,
-        cyp2d6StatusRaw: String = "unknown",
     ) {
         self.disclosureTierRaw = disclosureTierRaw
         self.bodyWeightKg = bodyWeightKg
         self.weightSourceRaw = weightSourceRaw
         self.grapefruitLoggingEnabled = grapefruitLoggingEnabled
         self.aldh2Deficient = aldh2Deficient
-        self.cyp2d6StatusRaw = cyp2d6StatusRaw
     }
 }

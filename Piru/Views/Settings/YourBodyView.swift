@@ -23,7 +23,6 @@ struct YourBodyView: View {
                 Section {
                     GrapefruitRow(isOn: grapefruitBinding)
                     AlcoholFlushRow(isOn: aldh2Binding)
-                    CYP2D6Row(status: cyp2d6Binding)
                 } header: {
                     Text("Metabolism")
                 }
@@ -58,13 +57,6 @@ struct YourBodyView: View {
         Binding(
             get: { profileStore.aldh2Deficient },
             set: { profileStore.setALDH2Deficient($0) },
-        )
-    }
-
-    private var cyp2d6Binding: Binding<CYP2D6Status> {
-        Binding(
-            get: { profileStore.cyp2d6Status },
-            set: { profileStore.setCYP2D6Status($0) },
         )
     }
 }
@@ -157,28 +149,6 @@ private struct AlcoholFlushRow: View {
             )
         }
         .tint(Theme.accent)
-    }
-}
-
-private struct CYP2D6Row: View {
-    @Binding var status: CYP2D6Status
-
-    var body: some View {
-        HStack(spacing: Spacing.md) {
-            CaptionedRowLabel(
-                title: "CYP2D6 status",
-                systemImage: "person.badge.clock",
-                caption: Text("Scales the modeled half-life of substances CYP2D6 clears — slow lasts longer, rapid shorter — and notes it on their pages; Unknown counts as typical."),
-            )
-            Spacer(minLength: 0)
-            Picker("CYP2D6 status", selection: $status) {
-                ForEach(CYP2D6Status.allCases, id: \.self) { status in
-                    Text(status.label).tag(status)
-                }
-            }
-            .labelsHidden()
-            .fixedSize()
-        }
     }
 }
 

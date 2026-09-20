@@ -229,7 +229,7 @@ LLM-assisted research used to fill gaps external sources don't cover
   `metabolism` row names (the modulator catalog — grapefruit/CYP3A4,
   smoking/CYP1A2 — is joined against that table, so a missing row silently
   removes the card with no empty state to notice), a CYP2D6 substrate with no
-  `pharmacogenetics` row (no metabolizer readout), and metabolites named by a
+  `pharmacogenetics` row (an empty Genetics section), and metabolites named by a
   DrugBank reaction that no row carries.
 - **`halflife_from_primary.py`** — walks that work-list end to end. For every
   substance with no `half_lives` row whose DrugBank record cites a PubMed id, it
