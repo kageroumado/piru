@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-09-20.5 → `Piru/Data/piru-substances.sqlite` (17,948,672 bytes, sha256 `857799e975b824609442d35c3546b2eff15b2027c0d75ef8379acdb3c51775ce`)
+Built 2026-09-20.6 → `Piru/Data/piru-substances.sqlite` (17,948,672 bytes, sha256 `9c27c88613deb93e9c4d89a1838a5090d58c46d0b1905e7eba7a7f388a4a8827`)
 
 ## Row counts
 
@@ -13,7 +13,7 @@ Built 2026-09-20.5 → `Piru/Data/piru-substances.sqlite` (17,948,672 bytes, sha
 | citations | 2,461 |
 | categories | 1,559 |
 | tags | 7,049 |
-| dose_ranges | 2,768 |
+| dose_ranges | 2,779 |
 | durations | 10,542 |
 | half_lives | 716 |
 | mechanisms_summary | 1,211 |
@@ -98,12 +98,12 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | piru-curated | 220 | 444 | 648 | 2,264 |
 | peer-review-primary | 0 | 1,006 | 0 | 1,582 |
 | dosewiki | 293 | 12 | 0 | 0 |
-| drug.community | 844 | 0 | 0 | 124 |
-| psychonautwiki | 374 | 0 | 63 | 316 |
-| tripsit | 579 | 0 | 411 | 1,266 |
+| drug.community | 845 | 0 | 0 | 124 |
+| psychonautwiki | 377 | 0 | 63 | 316 |
+| tripsit | 582 | 0 | 411 | 1,266 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 103 | 0 | 167 | 426 |
-| erowid-tihkal | 35 | 0 | 48 | 121 |
+| erowid-tihkal | 36 | 0 | 48 | 121 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 94 | 338 |
@@ -112,4 +112,4 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
-| freeodwiki | 320 | 0 | 28 | 0 |
+| freeodwiki | 323 | 0 | 28 | 0 |

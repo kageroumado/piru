@@ -20507,7 +20507,7 @@
       "胞苷二磷酸胆碱"
     ],
     "category": "Supplement",
-    "display_class": "otc",
+    "display_class": "recreational",
     "tags": [
       "Kennedy-pathway-substrate",
       "OTC",
@@ -20525,8 +20525,10 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [],
-    "has_dose_data": false,
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 360.0,
@@ -20536,9 +20538,7 @@
       "https://en.wikipedia.org/wiki/Citicoline",
       "https://examine.com/supplements/cdp-choline/"
     ],
-    "data_gaps": [
-      "dose_ranges_by_route"
-    ]
+    "data_gaps": []
   },
   {
     "name": "CE-123",
@@ -52600,10 +52600,14 @@
       "habit-forming",
       "withdrawn"
     ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 900.0,
@@ -52613,7 +52617,6 @@
       "Pharmacokinetics of dextropropoxyphene and nordextropropoxyphene in young and elderly volunteers after single and multiple dextropropoxyphene dosage"
     ],
     "data_gaps": [
-      "dose_ranges_by_route",
       "duration_by_route",
       "mechanism_of_action"
     ]
@@ -57116,10 +57119,12 @@
     ],
     "default_route": "intravenous",
     "all_routes": [
-      "intravenous"
+      "intravenous",
+      "oral"
     ],
     "routes_with_dose": [
-      "intravenous"
+      "intravenous",
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,

@@ -239,16 +239,15 @@ filter (`:713-726`) so a substance still shows something.
 ### Where `dose-source-exceptions.json` is applied
 
 **Python build only.** Nothing in Swift reads it
-(`rg -n 'dose-source-exceptions|doseSourceException'` → 3 hits, all
-`pipeline/build/sqlite.py:155,7818,8325`).
+(`rg -n 'dose-source-exceptions|doseSourceException'` hits only
+`pipeline/build/sqlite.py`).
 
 It is a **pre-resolution filter**, not a resolution rule: the offending rows
 never enter `dose_ranges` / `durations`, so the ordinary `ORDER BY <case> LIMIT
-1` simply falls through to the next-priority source. 107 entries across six
-source slugs (erowid-pihkal 64, drug.community 11, erowid-tihkal 9,
-psychonautwiki 8, tripsit 8, freeodwiki 7). Three `@functools.cache`d maps read
-it — `_dose_skip_map` (8322), `_duration_drop_map` (8343), `_route_drop_map`
-(8356) — and `_exception_for` (8370) looks up by the source's own record name
+1` simply falls through to the next-priority source. Three maps read it —
+`_dose_skip_map` (entries with no `drop` tag), `_duration_drop_map` and
+`_route_drop_map` — and the build fails on an entry no ingested record reaches
+(`unmatched_dose_exceptions`). `_exception_for` looks up by the source's own record name
 *and* by the canonical name it resolved to, because PsychonautWiki files
 CDP-Choline as "Citicoline".
 
@@ -675,8 +674,8 @@ is visible only in a comment at `sqlite.py:119`.
 **6. `dose-source-exceptions.json` is a resolution override that resolution
 never sees.** Because it filters at ingest, the DB carries no record that a
 source *had* a ladder and it was refused. `provenance` / `sourcesProviding` in
-the app will report the next source as though it simply won. For 107 hand-argued
-exceptions with written reasons, none of that reasoning is reachable from the
+the app will report the next source as though it simply won. For every hand-argued
+exception with a written reason, none of that reasoning is reachable from the
 shipped artifact.
 
 **7. The adjudicator and the shipped resolution do not share a vocabulary.**

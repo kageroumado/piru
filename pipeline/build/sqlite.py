@@ -182,6 +182,28 @@ DRUG_COMMUNITY_EFFECTS = REPO / "data/sources/drug-community-effects.json"
 # correction override that lets the next-priority source backfill, instead of
 # duplicating fixed dose data in the curated layer.
 DOSE_SOURCE_EXCEPTIONS = REPO / "data/curated/dose-source-exceptions.json"
+
+
+class ExceptionMap(dict):
+    """One source's exceptions of one kind, remembering which names an ingest
+    actually looked up and found. ``Build.unmatched_dose_exceptions`` reads
+    ``matched`` to fail the build on an entry that no upstream record reaches."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.matched: set[str] = set()
+
+    def __getitem__(self, key):
+        value = super().__getitem__(key)
+        self.matched.add(key)
+        return value
+
+    def get(self, key, default=None):
+        if key in self:
+            return self[key]
+        return default
+
+
 # Adjudicated same-molecule pairs from pipeline/audit/structural_dupes.py — two rows
 # with one structure that no name-keyed merge could see. Only pairs a human verified
 # are listed; the detector deliberately does not merge, because a structural collision
@@ -1488,7 +1510,7 @@ CREATE TABLE dose_ranges (
     --
     -- It also drives a shipping rule: therapeutic ladders are not shown for
     -- prescription medications, because a dose range next to a user's logged dose
-    -- reads as medical advice. See `THERAPEUTIC_DOSE_POLICY` below.
+    -- reads as medical advice. See `suppress_therapeutic_doses`.
     dose_context  TEXT NOT NULL DEFAULT 'unknown'
                   CHECK (dose_context IN ('therapeutic','recreational','unknown')),
     citation_id   INTEGER REFERENCES citations(id),
@@ -8480,22 +8502,13 @@ class Build:
     @functools.cache
     def _dose_skip_map(source_slug: str) -> dict[str, set[str] | None]:
         """Load the per-substance dose-skip list for a source (see
-        ``dose-source-exceptions.json``). Returns {normalized name: set of
-        lowercased routes to skip, or None to skip every route}.
+        ``dose-source-exceptions.json``): the entries with no ``drop`` tag.
+        Returns {normalized name: set of lowercased routes to skip, or None to
+        skip every route}.
 
         Cached: `_ingest_substance_record` consults it once per record, and the
         file is a build-time constant."""
-        if not DOSE_SOURCE_EXCEPTIONS.exists():
-            return {}
-        entries = json.loads(DOSE_SOURCE_EXCEPTIONS.read_text()).get(source_slug) or []
-        out: dict[str, set[str] | None] = {}
-        for e in entries:
-            key = (e.get("name") or "").strip().lower()
-            if not key:
-                continue
-            routes = e.get("routes")
-            out[key] = {str(r).strip().lower() for r in routes} if routes else None
-        return out
+        return Build._exception_map(source_slug, None)
 
     @staticmethod
     @functools.cache
@@ -8542,12 +8555,14 @@ class Build:
         return False
 
     @staticmethod
-    def _exception_map(source_slug: str, kind: str) -> dict[str, set[str] | None]:
-        """Shared reader for the `drop`-tagged entries of one source."""
+    @functools.cache
+    def _exception_map(source_slug: str, kind: str | None) -> ExceptionMap:
+        """One source's entries whose ``drop`` tag is `kind` (None: untagged,
+        which drops the dose ladder)."""
         if not DOSE_SOURCE_EXCEPTIONS.exists():
-            return {}
+            return ExceptionMap()
         entries = json.loads(DOSE_SOURCE_EXCEPTIONS.read_text()).get(source_slug) or []
-        out: dict[str, set[str] | None] = {}
+        out = ExceptionMap()
         for e in entries:
             if e.get("drop") != kind:
                 continue
@@ -8557,6 +8572,28 @@ class Build:
             routes = e.get("routes")
             out[key] = {str(r).strip().lower() for r in routes} if routes else None
         return out
+
+    @staticmethod
+    def unmatched_dose_exceptions() -> list[str]:
+        """Entries of ``dose-source-exceptions.json`` no ingested record reached.
+
+        An exception that matches nothing does nothing, which looks exactly like
+        one that is working: the source renamed the substance, dropped the
+        route, or the entry was keyed on a name the ingest never sees.
+        """
+        if not DOSE_SOURCE_EXCEPTIONS.exists():
+            return []
+        unmatched = []
+        for slug, entries in json.loads(DOSE_SOURCE_EXCEPTIONS.read_text()).items():
+            if not isinstance(entries, list):
+                continue
+            for entry in entries:
+                key = (entry.get("name") or "").strip().lower()
+                if key not in Build._exception_map(slug, entry.get("drop")).matched:
+                    unmatched.append(
+                        f"{slug}: {entry.get('name')} ({entry.get('drop') or 'doses'})"
+                    )
+        return unmatched
 
     def ingest_drug_community(self, path: Path) -> None:
         if not path.exists():
@@ -14764,6 +14801,12 @@ def main() -> int:
             f"Identifier reconciliation (manual): inchikey={rec_m['inchikey']} "
             f"smiles={rec_m['smiles']} cas={rec_m['cas']} formula={rec_m['formula']}",
             file=sys.stderr,
+        )
+
+    if unmatched := Build.unmatched_dose_exceptions():
+        raise SystemExit(
+            "dose-source-exceptions.json names records no source carries — delete or re-key:\n  "
+            + "\n  ".join(unmatched)
         )
 
     corrected = build.apply_dosewiki_identity_corrections()

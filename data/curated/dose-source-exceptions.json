@@ -1,5 +1,5 @@
 {
-  "_note": "Substances/routes where a data source's DOSE ladder is skipped at ingest, so the next-priority source backfills. A declarative override (with a reason) instead of duplicating corrected dose data in the curated layer. Omit `routes` to skip that source's doses for the whole substance. Full candidate list from the dc/PW/TripSit audit: /tmp/piru-dose-audit/dc-dose-issues.csv — these should also be reported upstream for a real fix.",
+  "_note": "Substances/routes where a data source's DOSE ladder is skipped at ingest, so the next-priority source backfills. A declarative override (with a reason) instead of duplicating corrected dose data in the curated layer. Omit `routes` to skip that source's doses for the whole substance. An entry no ingested record reaches fails the build. Each should also be reported upstream for a real fix.",
   "drug.community": [
     {
       "name": "2C-E",
@@ -388,20 +388,12 @@
       "note": "common 10-15 mg on a fentanyl analog ~1/3 fentanyl's potency, whose active dose is therefore a few hundred MICROGRAMS. The shown common tier is 30-100x an active dose and far above documented fatal exposure — an mg/ug scale error upstream. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop."
     },
     {
-      "name": "CDP-Choline",
-      "routes": [
-        "oral"
-      ],
-      "drop": "durations",
-      "note": "total 58-74 h, offset 30-40 h, afterglow 40-60 h for a nootropic whose effects run hours. piru-curated (8-24 h) already outranks the total, but per-phase resolution meant the bad offset and afterglow still resolved from here — masking is not fixing."
-    },
-    {
       "name": "Citicoline",
       "routes": [
         "oral"
       ],
       "drop": "durations",
-      "note": "PsychonautWiki's own name for CDP-Choline. It ingests as its own row and is only merged into CDP-Choline afterwards, so at ingest time neither the record name nor the resolved canonical is \"CDP-Choline\" — the exception has to name it here. Same values as the CDP-Choline entry."
+      "note": "PsychonautWiki's name for CDP-Choline; it ingests under this name and is merged into CDP-Choline afterwards. total 58-74 h, offset 30-40 h, afterglow 40-60 h for a nootropic whose effects run hours. piru-curated (8-24 h) already outranks the total, but per-phase resolution meant the bad offset and afterglow still resolved from here — masking is not fixing."
     },
     {
       "name": "Midazolam",
