@@ -14,7 +14,7 @@ struct CheckInScheduleEditor: View {
     /// The draft hours/minutes in the add row.
     @State private var hours = 1
     @State private var minutes = 0
-    /// Times read off this session's own curve — the empty state's one tap.
+    /// Times suggested from the modeled phases of what this session logged.
     @State private var suggested: [Int] = []
 
     private var offsets: [Int] {
@@ -54,18 +54,6 @@ struct CheckInScheduleEditor: View {
             if offsets.isEmpty {
                 Text("No times yet. Add one below and the prompts start from your latest dose.")
                     .captionSecondary()
-                if !suggested.isEmpty {
-                    Button {
-                        apply(suggested)
-                    } label: {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Label("Use this session's own times", systemImage: "wand.and.sparkles")
-                            Text(verbatim: CheckInLadder.summary(suggested))
-                                .font(.caption.monospacedDigit())
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                    }
-                }
             } else {
                 ForEach(offsets, id: \.self) { offset in
                     HStack {
@@ -79,6 +67,22 @@ struct CheckInScheduleEditor: View {
                 }
                 .onDelete { indexSet in
                     remove(indexSet.map { offsets[$0] })
+                }
+            }
+            // A way back to the suggestion from any edited or emptied list.
+            if !suggested.isEmpty, offsets.sorted() != suggested.sorted() {
+                Button {
+                    apply(suggested)
+                } label: {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Label(
+                            offsets.isEmpty ? "Use the suggested times" : "Reset to the suggested times",
+                            systemImage: "wand.and.sparkles",
+                        )
+                        Text(verbatim: CheckInLadder.summary(suggested))
+                            .font(.caption.monospacedDigit())
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
                 }
             }
         } header: {

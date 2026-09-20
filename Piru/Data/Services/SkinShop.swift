@@ -152,13 +152,12 @@ final class SkinShop {
         }
     }
 
-    /// Buys from a button. `skin` is worn afterwards if the purchase made it
-    /// wearable and it is still the one being tried on — which covers its own
-    /// product and the everything unlock alike.
-    func buy(_ product: Product, thenWear skin: Skin?) {
+    /// Buys from a button, then runs `then` whatever the outcome; the caller
+    /// reads ``owns(_:)`` to see what the purchase changed.
+    func buy(_ product: Product, then: @escaping () -> Void = {}) {
         Task(name: "Buy skin") {
             await purchase(product)
-            if let skin, owns(skin), skins.tryingOn == skin { skins.setSkin(skin) }
+            then()
         }
     }
 

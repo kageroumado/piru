@@ -190,7 +190,20 @@
       }
     },
     "Black, paper and signal cyan, from the effects index" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑底、纸白与信号青，来自效应索引"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑底、紙白與訊號青，來自效應索引"
+          }
+        }
+      }
     },
     "Blood pressure" : {
       "localizations" : {
@@ -1348,7 +1361,20 @@
       }
     },
     "substance.wiki" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "substance.wiki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "substance.wiki"
+          }
+        }
+      }
     },
     "This curve reaches the heavy dose range" : {
       "localizations" : {

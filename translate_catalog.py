@@ -77,7 +77,6 @@ T = {
         "打開它與你其他日子的對照",
     ),
     "Use these times": ("就用这些时间", "就用這些時間"),
-    "Use this session's own times": ("用这次体验自己的时间", "用這次體驗自己的時間"),
     "Up to %lld prompts, from %lld minutes to 24 hours after the dose. The suggested times come from the modeled phases of what you logged. Each one opens a timestamped note; none of them is required.": (
         "最多 %lld 条提示，落在服用后 %lld 分钟到 24 小时之间。建议的时间来自你所记录物质的各阶段模型。每条都会打开一则带时间戳的笔记；没有一条是必须的。",
         "最多 %lld 條提示，落在服用後 %lld 分鐘到 24 小時之間。建議的時間來自你所記錄物質的各階段模型。每條都會打開一則帶時間戳的筆記；沒有一條是必須的。",
@@ -6068,6 +6067,10 @@ T = {
         "机制和药代动力学默认展开，耐受工具使用受体名称。",
         "機制和藥物動力學預設展開，耐受工具使用受體名稱。",
     ),
+    # Check-in times (CheckInOfferBanner, CheckInScheduleEditor).
+    "Use the suggested times": ("使用建议的时间", "使用建議的時間"),
+    "Reset to the suggested times": ("恢复为建议的时间", "恢復為建議的時間"),
+    "Adjust these times": ("调整这些时间", "調整這些時間"),
     # Skins store (SkinWardrobe, OnboardingSkinsStep).
     "Black, paper and signal cyan, from the effects index": (
         "黑底、纸白与信号青，来自效应索引",
@@ -8456,6 +8459,10 @@ if __name__ == "__main__":
         "How much pharmacology a substance page and the Tolerance tool open with.",
         "Plain names, pharmacology folded away until you open it.",
         "Mechanism and pharmacokinetics open on the page, receptor names in the Tolerance tool.",
+        # Check-in times (CheckInOfferBanner, CheckInScheduleEditor).
+        "Use the suggested times",
+        "Reset to the suggested times",
+        "Adjust these times",
         # Skins store (SkinWardrobe, OnboardingSkinsStep).
         "substance.wiki",
         "Black, paper and signal cyan, from the effects index",

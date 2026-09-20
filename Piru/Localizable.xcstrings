@@ -8092,6 +8092,22 @@
         }
       }
     },
+    "Adjust these times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整这些时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "調整這些時間"
+          }
+        }
+      }
+    },
     "Adjust Time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -41215,6 +41231,22 @@
         }
       }
     },
+    "Reset to the suggested times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复为建议的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復為建議的時間"
+          }
+        }
+      }
+    },
     "Respiratory" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52109,6 +52141,22 @@
         }
       }
     },
+    "Use the suggested times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用建议的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用建議的時間"
+          }
+        }
+      }
+    },
     "Use these times" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52121,22 +52169,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "就用這些時間"
-          }
-        }
-      }
-    },
-    "Use this session's own times" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用这次体验自己的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用這次體驗自己的時間"
           }
         }
       }

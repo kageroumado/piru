@@ -57,10 +57,9 @@ struct CheckInOfferBanner: View {
                     .skinButtonStyle(.prominent)
                     .tint(Theme.accent)
                     Button {
-                        session.checkInOffered = true
-                        navigator.present(.checkInSchedule(sessionID: session.id))
+                        adjust()
                     } label: {
-                        Text("Pick my own times")
+                        Text(suggested.isEmpty ? "Pick my own times" : "Adjust these times")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.bordered)
@@ -86,6 +85,18 @@ struct CheckInOfferBanner: View {
             session.checkInIntervalMinutes = CheckInScheduler.Cadence.custom.storedMinutes
         }
         schedule()
+    }
+
+    /// Opens the editor with the suggested times already in it, so adjusting
+    /// them is deleting one and adding another rather than typing out a list.
+    /// With nothing to suggest, the editor opens empty.
+    private func adjust() {
+        if suggested.isEmpty {
+            session.checkInOffered = true
+        } else {
+            useSuggested()
+        }
+        navigator.present(.checkInSchedule(sessionID: session.id))
     }
 
     private func enable(_ cadence: CheckInScheduler.Cadence) {

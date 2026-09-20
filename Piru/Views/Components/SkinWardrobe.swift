@@ -10,9 +10,10 @@ import SwiftUI
 /// is the host's business, because Settings drops it on the way out while
 /// onboarding carries it to the last step.
 struct SkinWardrobe: View {
-    /// Settings offers "Use This Skin". Onboarding leaves it out: Continue
-    /// keeps whichever skin is showing.
-    var offersUse = true
+    /// What "Use This Skin" does — the Skins sheet wears the skin and closes.
+    /// `nil` leaves the button out: onboarding's Continue keeps whichever skin
+    /// is showing.
+    var use: ((Skin) -> Void)?
     /// The miniatures' width. Settings shows the picker in a short panel over
     /// the app itself, so its cards are small; onboarding has the whole screen.
     var cardWidth: CGFloat = 176
@@ -26,7 +27,7 @@ struct SkinWardrobe: View {
         VStack(spacing: Spacing.lg) {
             SkinCarousel(focused: $focused, cardWidth: cardWidth)
             SkinCaption(skin: focused, owned: shop.owns(focused), price: shop.product(for: focused)?.displayPrice)
-            SkinPrimaryAction(skin: focused, offersUse: offersUse)
+            SkinPrimaryAction(skin: focused, use: use)
                 .padding(.horizontal, Spacing.xxxl)
         }
         .skinShopNotices()
@@ -137,7 +138,7 @@ private struct SkinCaption: View {
 /// fixed height: the skin being worn gets a switched-off one rather than a gap.
 private struct SkinPrimaryAction: View {
     let skin: Skin
-    let offersUse: Bool
+    let use: ((Skin) -> Void)?
 
     @State private var skins = SkinStore.shared
     @State private var shop = SkinShop.shared
@@ -151,17 +152,21 @@ private struct SkinPrimaryAction: View {
 
     @ViewBuilder private var button: some View {
         if shop.owns(skin) {
-            if !offersUse {
-                EmptyView()
-            } else if skin == skins.chosen {
-                GlassPillButton(title: "Wearing This Skin", prominence: .neutral) {}
-                    .disabled(true)
-            } else {
-                GlassPillButton(title: "Use This Skin") { skins.setSkin(skin) }
+            if let use {
+                if skin == skins.chosen {
+                    GlassPillButton(title: "Wearing This Skin", prominence: .neutral) {}
+                        .disabled(true)
+                } else {
+                    GlassPillButton(title: "Use This Skin") { use(skin) }
+                }
             }
         } else if let product = shop.product(for: skin) {
             GlassPillButton(title: "Unlock \(skin.displayName) · \(product.displayPrice)") {
-                shop.buy(product, thenWear: offersUse ? skin : nil)
+                let skin = skin
+                shop.buy(product) {
+                    // Wear what was just bought, if it is still the one in front.
+                    if shop.owns(skin), skins.tryingOn == skin { use?(skin) }
+                }
             }
             .disabled(shop.activity != .idle)
         } else {
@@ -180,7 +185,7 @@ struct SkinShopOffers: View {
     var body: some View {
         if !shop.ownsEverything, let product = shop.everythingProduct {
             Button {
-                shop.buy(product, thenWear: nil)
+                shop.buy(product)
             } label: {
                 HStack(spacing: Spacing.xl) {
                     CaptionedRowLabel(

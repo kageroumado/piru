@@ -34,7 +34,7 @@ struct SkinsView: View {
         List {
             Group {
                 Section {
-                    SkinWardrobe(cardWidth: Self.panelCardWidth)
+                    SkinWardrobe(use: wear, cardWidth: Self.panelCardWidth)
                         .padding(.bottom, Spacing.md)
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
@@ -107,6 +107,14 @@ struct SkinsView: View {
 
     /// Small enough that the carousel, its caption and its button fit the panel.
     private static let panelCardWidth: CGFloat = 124
+
+    /// Closes the sheet, then wears the skin. Choosing a skin re-creates the
+    /// app's root so navigation bars pick up the new title face, and a sheet
+    /// still open across that comes back at full height — so it goes first.
+    private func wear(_ skin: Skin) {
+        navigator.dismiss()
+        skins.setSkin(skin)
+    }
 
     /// The encyclopedia a partnership skin is drawn from, and where it lives.
     private var partner: (title: LocalizedStringResource, url: URL)? {

@@ -18,7 +18,7 @@ struct OnboardingSkinsStep: View {
             EmptyView()
         } mid: {
             VStack(spacing: Spacing.xxl) {
-                SkinWardrobe(offersUse: false)
+                SkinWardrobe()
                 VStack(alignment: .leading, spacing: 18) {
                     SkinShopOffers()
                 }
