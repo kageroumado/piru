@@ -551,8 +551,8 @@ private struct DataActionRow: View {
 
 // MARK: - Substance database
 
-/// The bundled substance data — source priority and opt-in updates — lives
-/// in `SubstanceDatabaseView`; this row keeps it one tap from the data tool.
+/// The bundled substance data lives in `SubstanceDatabaseView`; this row keeps
+/// it one tap from the data tool.
 private struct SubstanceDatabaseSection: View {
     var body: some View {
         Section {

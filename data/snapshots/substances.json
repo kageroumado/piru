@@ -12357,16 +12357,14 @@
       "research-chemical",
       "wooden-chest-syndrome-risk"
     ],
-    "default_route": "oral",
+    "default_route": "insufflation",
     "all_routes": [
       "insufflation",
       "oral",
       "sublingual"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -12387,6 +12385,7 @@
     ],
     "references": [],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "references"
     ]

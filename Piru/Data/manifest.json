@@ -1,6 +1,6 @@
 {
-  "content_version": "2026-09-20.3",
-  "generated_at": "2026-09-20T19:58:13.621600+00:00",
+  "content_version": "2026-09-20.5",
+  "generated_at": "2026-09-20T20:40:47.949177+00:00",
   "generator_version": "pipeline/build/sqlite.py",
   "schema_version": 6,
   "sources": {
@@ -22,7 +22,7 @@
     "dosewiki": {
       "bindings": 12,
       "categories": 0,
-      "dose_ranges": 296
+      "dose_ranges": 294
     },
     "drug.community": {
       "bindings": 0,
@@ -87,7 +87,7 @@
     "tripsit": {
       "bindings": 0,
       "categories": 411,
-      "dose_ranges": 582
+      "dose_ranges": 581
     },
     "wikidata": {
       "bindings": 0,
@@ -96,7 +96,7 @@
     }
   },
   "sqlite_path": "piru-substances.sqlite",
-  "sqlite_sha256": "9d4879258aac3e875c3b8f0bddda66f0dd98108bf89f90c11e62134f8b4c7513",
+  "sqlite_sha256": "857799e975b824609442d35c3546b2eff15b2027c0d75ef8379acdb3c51775ce",
   "sqlite_size_bytes": 17948672,
   "substance_count": 1689
 }

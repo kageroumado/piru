@@ -1,13 +1,11 @@
 import SwiftUI
 
-/// **Dose & duration sources** — every source's ladder for one route, on one scale.
+/// Every source's dose ladder for one route, on one scale.
 ///
 /// The dose card resolves a single ladder by source priority and shows one set of
-/// numbers. That is the right default and it hides a real disagreement:
-/// methamphetamine's oral "Common" is 15–30 mg to drug.community, 10–25 to
-/// PsychonautWiki, 10–30 to TripSit and 10–20 to freeodwiki. None of them is
-/// wrong — they measure different populations and intents — but a reader seeing
-/// one number has no way to know the spread exists.
+/// numbers, which hides how far the sources spread. Here each source gets a row:
+/// its tiers as a bar on a scale all the rows share, and the figures under a
+/// legend that names each tier's color.
 ///
 /// Reached by tapping the source line under the dose card. Read-only: changing
 /// which source wins is a global preference (Settings → Source Priority), and
@@ -21,8 +19,13 @@ struct DoseSourceComparisonView: View {
     @State private var ladders: [SubstanceStore.SourceDoseLadder] = []
     @Environment(\.appNavigator) private var navigator
 
-    /// The largest number any source names, so every bar shares one scale — the
-    /// whole point is that the bars are comparable.
+    /// Share of the bar kept past the largest figure, so the open-ended Heavy
+    /// tier that starts there still has a span to be drawn in.
+    private static let heavyHeadroom = 0.12
+
+    /// Where every bar ends: the largest number any source names, plus the Heavy
+    /// headroom. One scale for all rows — the whole point is that the bars are
+    /// comparable.
     private var scaleMax: Double {
         let values = ladders.flatMap { ladder -> [Double] in
             let d = ladder.doses
@@ -34,27 +37,43 @@ struct DoseSourceComparisonView: View {
                 d.heavy,
             ].compactMap(\.self)
         }
-        return max(values.max() ?? 1, 0.0001)
+        return max(values.max() ?? 1, 0.0001) / (1 - Self.heavyHeadroom)
+    }
+
+    /// The unit every ladder shares, or nil when the sources state different ones.
+    private var sharedUnit: String? {
+        let units = Set(ladders.map(\.unit))
+        return units.count == 1 ? units.first : nil
     }
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
+                    DoseTierLegend()
                     ForEach(ladders) { ladder in
-                        LadderRow(ladder: ladder, scaleMax: scaleMax, accent: accent)
+                        LadderRow(
+                            ladder: ladder,
+                            scaleMax: scaleMax,
+                            accent: accent,
+                            showsUnit: sharedUnit == nil,
+                        )
                     }
                 } header: {
-                    Text("\(route.localizedName) · \(ladders.count) sources")
+                    if let sharedUnit {
+                        Text("\(route.localizedName) · \(sharedUnit) · \(ladders.count) sources")
+                    } else {
+                        Text("\(route.localizedName) · \(ladders.count) sources")
+                    }
                 } footer: {
-                    // This footer names the control and nothing else. Do not add a
-                    // sentence explaining why the ladders differ — nothing in the
+                    // This footer says how to read the bars and nothing else. Do not add
+                    // a sentence explaining why the ladders differ — nothing in the
                     // data records who a source measured or what for, so any such
                     // reason is invented. "These sources disagree" is equally
                     // unsupported: for many substances the ladders above are
                     // identical. The reader can see the numbers.
                     Text(
-                        "Piru shows the source you rank highest — change that in Settings › Source Priority.",
+                        "Every bar is drawn on the same scale. Piru shows the source you rank highest.",
                         comment: "Dose source comparison footer",
                     )
                 }
@@ -83,17 +102,69 @@ struct DoseSourceComparisonView: View {
     }
 }
 
-/// One source: its name, its Common range as the headline number, and the five
-/// tiers drawn as a stacked bar on the shared scale.
+/// The five tiers a ladder names, in order, and how one ladder states each.
+private enum DoseTierColumn {
+    static let tiers: [DoseLevel] = [.threshold, .light, .common, .strong, .heavy]
+
+    /// A tier as the source gives it: a single figure for the open-ended ends, a
+    /// range for the three between, nil where the source says nothing.
+    static func text(for tier: DoseLevel, in doses: DoseRange) -> String? {
+        func range(_ r: ClosedRange<Double>?) -> String? {
+            r.map { "\($0.lowerBound.doseFormatted)–\($0.upperBound.doseFormatted)" }
+        }
+        return switch tier {
+        case .sub: nil
+        case .threshold: doses.threshold?.doseFormatted
+        case .light: range(doses.light)
+        case .common: range(doses.common)
+        case .strong: range(doses.strong)
+        case .heavy: doses.heavy.map { "\($0.doseFormatted)+" }
+        }
+    }
+}
+
+/// Five equal columns, one per tier. The legend and every source row lay their
+/// cells out through this, so a number always sits under its tier's name.
+private struct DoseTierColumns<Cell: View>: View {
+    @ViewBuilder let cell: (DoseLevel) -> Cell
+
+    var body: some View {
+        HStack(alignment: .top, spacing: Spacing.xs) {
+            ForEach(DoseTierColumn.tiers, id: \.self) { tier in
+                cell(tier).frame(maxWidth: .infinity)
+            }
+        }
+    }
+}
+
+/// Which color is which tier: a swatch over each tier's name, in ladder order.
+private struct DoseTierLegend: View {
+    var body: some View {
+        DoseTierColumns { tier in
+            VStack(spacing: Spacing.xs) {
+                Capsule()
+                    .fill(tier.swiftUIColor)
+                    .frame(height: 4)
+                Text(tier.displayName)
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+        }
+        .padding(.vertical, Spacing.xs)
+        .accessibilityHidden(true)
+    }
+}
+
+/// One source: its name, the five tiers drawn as a stacked bar on the shared
+/// scale, and each tier's figures under the legend's matching column.
 private struct LadderRow: View {
     let ladder: SubstanceStore.SourceDoseLadder
     let scaleMax: Double
     let accent: Color
-
-    private static let tierColors: [Color] = [
-        .Dose.Threshold.accent, .Dose.Light.accent, .Dose.Common.accent,
-        .Dose.Strong.accent, .Dose.Heavy.accent,
-    ]
+    /// Set when the sources state different units, so each row has to name its own.
+    let showsUnit: Bool
 
     /// Tier spans as `(startFraction, endFraction, color)` on the shared scale.
     /// A tier a source didn't supply simply contributes nothing, so a sparse
@@ -101,18 +172,18 @@ private struct LadderRow: View {
     private var segments: [(start: Double, end: Double, color: Color)] {
         let d = ladder.doses
         var out: [(Double, Double, Color)] = []
-        func add(_ lower: Double?, _ upper: Double?, _ index: Int) {
+        func add(_ lower: Double?, _ upper: Double?, _ tier: DoseLevel) {
             guard let lower, let upper, upper > lower else { return }
-            out.append((lower / scaleMax, upper / scaleMax, Self.tierColors[index]))
+            out.append((lower / scaleMax, upper / scaleMax, tier.swiftUIColor))
         }
         if let t = d.threshold, let lightLower = d.light?.lowerBound ?? d.common?.lowerBound {
-            add(t, max(lightLower, t), 0)
+            add(t, max(lightLower, t), .threshold)
         }
-        add(d.light?.lowerBound, d.light?.upperBound, 1)
-        add(d.common?.lowerBound, d.common?.upperBound, 2)
-        add(d.strong?.lowerBound, d.strong?.upperBound, 3)
+        add(d.light?.lowerBound, d.light?.upperBound, .light)
+        add(d.common?.lowerBound, d.common?.upperBound, .common)
+        add(d.strong?.lowerBound, d.strong?.upperBound, .strong)
         if let heavy = d.heavy {
-            add(heavy, scaleMax, 4)
+            add(heavy, scaleMax, .heavy)
         }
         return out
     }
@@ -124,9 +195,12 @@ private struct LadderRow: View {
             ?? SubstanceStore.shared.sourceDisplayName(forSlug: ladder.sourceSlug)
     }
 
-    private var commonText: String {
-        guard let common = ladder.doses.common else { return "—" }
-        return "\(common.lowerBound.doseFormatted)–\(common.upperBound.doseFormatted) \(ladder.unit)"
+    /// "Threshold 5, Light 5–15, …" — the row's figures, spoken with their tiers.
+    private var spokenLadder: String {
+        DoseTierColumn.tiers.compactMap { tier in
+            DoseTierColumn.text(for: tier, in: ladder.doses).map { "\(String(localized: tier.displayName)) \($0)" }
+        }
+        .joined(separator: ", ") + " \(ladder.unit)"
     }
 
     var body: some View {
@@ -143,9 +217,11 @@ private struct LadderRow: View {
                         .background(accent.opacity(Theme.Opacity.tint), in: skinChipShape())
                 }
                 Spacer(minLength: 8)
-                Text(commonText)
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(Theme.secondaryLabel)
+                if showsUnit {
+                    Text(verbatim: ladder.unit)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
             }
 
             GeometryReader { geo in
@@ -161,17 +237,16 @@ private struct LadderRow: View {
             }
             .frame(height: 10)
 
-            HStack {
-                Text("0")
-                Spacer()
-                Text("\(scaleMax.doseFormatted) \(ladder.unit)")
+            DoseTierColumns { tier in
+                Text(verbatim: DoseTierColumn.text(for: tier, in: ladder.doses) ?? "—")
+                    .font(.caption.monospacedDigit())
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
             }
-            .font(.system(size: 9).monospacedDigit())
-            .foregroundStyle(Theme.secondaryLabel)
         }
         .padding(.vertical, Spacing.xs)
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(displayName))
-        .accessibilityValue(Text(commonText))
+        .accessibilityValue(Text(spokenLadder))
     }
 }

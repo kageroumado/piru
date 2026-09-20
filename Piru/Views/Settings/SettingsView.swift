@@ -85,6 +85,11 @@ private struct ScreensSection: View {
             } label: {
                 Label("Your Body", systemImage: "figure.stand")
             }
+            NavigationLink {
+                SourcePriorityView()
+            } label: {
+                Label("Source Priority", systemImage: "list.number")
+            }
         }
     }
 }

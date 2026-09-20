@@ -464,6 +464,22 @@
         }
       }
     },
+    "%@ · %@ · %lld sources" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@ · %3$lld 个来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@ · %3$lld 個來源"
+          }
+        }
+      }
+    },
     "%@ · %lld days left" : {
       "localizations" : {
         "en" : {
@@ -21248,6 +21264,23 @@
         }
       }
     },
+    "Every bar is drawn on the same scale. Piru shows the source you rank highest." : {
+      "comment" : "Dose source comparison footer",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有条形按同一刻度绘制。Piru 显示你排序最高的来源。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有長條按同一刻度繪製。Piru 顯示你排序最高的來源。"
+          }
+        }
+      }
+    },
     "Every curve starts as a number you typed and ends as a line on a chart. These are the steps in between." : {
       "localizations" : {
         "zh-Hans" : {
@@ -37619,23 +37652,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 會顯示你已啟用的、擁有該數據的最高優先級來源——順序由你決定。"
-          }
-        }
-      }
-    },
-    "Piru shows the source you rank highest — change that in Settings › Source Priority." : {
-      "comment" : "Dose source comparison footer",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 显示你排序最高的来源——可在“设置 › 来源优先级”中更改。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 顯示你排序最高的來源——可在「設定 › 來源優先順序」中更改。"
           }
         }
       }

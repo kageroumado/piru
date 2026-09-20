@@ -6029,6 +6029,11 @@ _CANONICAL_MASS_UNIT = {
 }
 
 
+#: Dose units that name no quantity. A "unit" of alcohol is a standard drink,
+#: which is 8 g of ethanol in the UK, 10 g in Australia and 14 g in the US.
+UNQUANTIFIED_DOSE_UNITS = frozenset({"unit", "units"})
+
+
 def canonical_mass_unit(unit: str | None) -> str | None:
     """Fold a bare mass unit onto one spelling; anything else passes through."""
     if unit is None:
@@ -6689,6 +6694,14 @@ class Build:
             self.stats.setdefault("dropped_daily_unit", 0)
             self.stats["dropped_daily_unit"] += 1
             self.note_reject("dropped_daily_unit", unit, sid=sid, route=route, source=source_slug)
+            return
+
+        if unit and unit.strip().lower() in UNQUANTIFIED_DOSE_UNITS:
+            self.stats.setdefault("dropped_unquantified_unit", 0)
+            self.stats["dropped_unquantified_unit"] += 1
+            self.note_reject(
+                "dropped_unquantified_unit", unit, sid=sid, route=route, source=source_slug
+            )
             return
 
         unit = canonical_mass_unit(unit)

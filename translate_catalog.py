@@ -1787,10 +1787,11 @@ T = {
     "About metabolites": ("关于代谢物", "關於代謝物"),
     "Compare all %lld sources": ("对比全部 %lld 个来源", "對比全部 %lld 個來源"),
     "%@ · %lld sources": ("%1$@ · %2$lld 个来源", "%1$@ · %2$lld 個來源"),
-    "Piru shows the source you rank highest — change that in Settings › Source Priority.": (
-        "Piru 显示你排序最高的来源——可在“设置 › 来源优先级”中更改。",
-        "Piru 顯示你排序最高的來源——可在「設定 › 來源優先順序」中更改。",
+    "Every bar is drawn on the same scale. Piru shows the source you rank highest.": (
+        "所有条形按同一刻度绘制。Piru 显示你排序最高的来源。",
+        "所有長條按同一刻度繪製。Piru 顯示你排序最高的來源。",
     ),
+    "%@ · %@ · %lld sources": ("%1$@ · %2$@ · %3$lld 个来源", "%1$@ · %2$@ · %3$lld 個來源"),
     # TestFlight feedback round, build 33 (2026-07-27) — card overflow menu.
     "More actions": ("更多操作", "更多操作"),
     # Substance-detail redesign v2 (proto8/proto10) — header chips, dose card,
@@ -8275,7 +8276,8 @@ if __name__ == "__main__":
         "About metabolites",
         "Compare all %lld sources",
         "%@ · %lld sources",
-        "Piru shows the source you rank highest — change that in Settings › Source Priority.",
+        "Every bar is drawn on the same scale. Piru shows the source you rank highest.",
+        "%@ · %@ · %lld sources",
         "Buccal",
         "More actions",
         "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.",

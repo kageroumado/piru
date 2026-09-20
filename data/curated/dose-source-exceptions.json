@@ -569,6 +569,13 @@
   ],
   "dosewiki": [
     {
+      "name": "Acetylfentanyl",
+      "routes": [
+        "oral"
+      ],
+      "note": "common 3-5 µg — about a tenth of fentanyl's own common dose, for an analog roughly a third as potent. The digits are the 3-5 mg ladder the other sources carry with the unit swapped. No source gives a defensible ladder (see the psychonautwiki, freeodwiki and tripsit entries), so this one is dropped too."
+    },
+    {
       "name": "Furanylfentanyl",
       "routes": [
         "insufflation",
