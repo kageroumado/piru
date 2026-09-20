@@ -25,8 +25,8 @@ struct SkinShopTests {
     // MARK: - Tiers
 
     @Test
-    func `The plain skins and the two promo skins are free`() {
-        for skin in [Skin.piru, .graphite, .linen, .slate, .elyPink, .doseWiki] {
+    func `The plain skins and the partnership skins are free`() {
+        for skin in [Skin.piru, .graphite, .linen, .slate, .elyPink, .doseWiki, .substanceWiki] {
             #expect(skin.tier == .free)
             #expect(skin.productID == nil)
         }

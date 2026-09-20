@@ -189,6 +189,9 @@
         }
       }
     },
+    "Black, paper and signal cyan, from the effects index" : {
+
+    },
     "Blood pressure" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1343,6 +1346,9 @@
           }
         }
       }
+    },
+    "substance.wiki" : {
+
     },
     "This curve reaches the heavy dose range" : {
       "localizations" : {

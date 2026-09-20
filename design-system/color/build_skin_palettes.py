@@ -326,6 +326,33 @@ SKINS = {
         "jelly/cyan": ("#58e0f5", "#58e0f5"),
         "jelly/pink": ("#ff9bdd", "#ff9bdd"),
     },
+    "substancewiki": {
+        # substance.wiki's own tokens (their CSS: black ground, --dc-paper ink,
+        # --dc-cyan primary, --dc-signal lime, --dc-violet). The site is dark
+        # only; the light side turns it inside out — their paper as the ground,
+        # their black as the ink.
+        "surface/background": ("#ebe8df", "#000000"),
+        "surface/card": ("#f7f5ef", "#0d0e12"),
+        "surface/input": ("#e0dcd0", "#181b20"),
+        "stroke": ("#8a8678", "#393e46"),
+        "shadow": ("#8a8678", "#393e46"),
+        "eyebrow": ("#4d5f00", "#d7ff52"),
+        "text/secondary": ("#5b6068", "#969ca8"),
+        "accent/text": ("#0b6470", "#6ee7f2"),
+        "accent/mark": ("#1298a8", "#6ee7f2"),
+        "accent/on": ("#ffffff", "#0a0b0f"),
+        "semantic/success/text": ("#1f7a4d", "#7ad6a5"),
+        "semantic/success/accent": ("#2f9c68", "#7ad6a5"),
+        "semantic/caution/text": ("#5f6b00", "#d7ff52"),
+        "semantic/caution/accent": ("#8a9a10", "#d7ff52"),
+        "semantic/info/text": ("#4a3bb8", "#9f8cff"),
+        "semantic/info/accent": ("#6a5ae0", "#9f8cff"),
+        "semantic/danger/text": ("#b8341a", "#ff8566"),
+        "semantic/danger/accent": ("#e0553a", "#ff8566"),
+        "title/fill": ("#0a0b0f", "#ebe8df"),
+        "title/stroke": ("#0a0b0f", "#000000"),
+        "title/shadow": ("#8a8678", "#393e46"),
+    },
     "dosewiki": {
         # dose.wiki's own tokens (their CSS, brand hue 326, plum hue 318), oklch
         # converted with colorimetry.py. Dark is their default appearance.

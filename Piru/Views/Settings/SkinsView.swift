@@ -74,12 +74,12 @@ struct SkinsView: View {
                     Text("Every skin has a light and a dark side. Follow System switches with iOS.")
                 }
 
-                // Last, so that it arriving with the dose.wiki skin moves
-                // nothing above it.
-                if skins.current == .doseWiki {
+                // Last, so that it arriving with a partner's skin moves nothing
+                // above it.
+                if let partner {
                     Section {
-                        Link(destination: URL(string: "https://dose.wiki")!) {
-                            Label("In partnership with dose.wiki ↗", systemImage: "hexagon")
+                        Link(destination: partner.url) {
+                            Label { Text(partner.title) } icon: { Image(systemName: "hexagon") }
                                 .font(.footnote)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
@@ -107,6 +107,15 @@ struct SkinsView: View {
 
     /// Small enough that the carousel, its caption and its button fit the panel.
     private static let panelCardWidth: CGFloat = 124
+
+    /// The encyclopedia a partnership skin is drawn from, and where it lives.
+    private var partner: (title: LocalizedStringResource, url: URL)? {
+        switch skins.current {
+        case .doseWiki: ("In partnership with dose.wiki ↗", URL(string: "https://dose.wiki")!)
+        case .substanceWiki: ("In partnership with substance.wiki ↗", URL(string: "https://substance.wiki")!)
+        default: nil
+        }
+    }
 
     private var decorationsBinding: Binding<Bool> {
         Binding(

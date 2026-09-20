@@ -6069,6 +6069,14 @@ T = {
         "機制和藥物動力學預設展開，耐受工具使用受體名稱。",
     ),
     # Skins store (SkinWardrobe, OnboardingSkinsStep).
+    "Black, paper and signal cyan, from the effects index": (
+        "黑底、纸白与信号青，来自效应索引",
+        "黑底、紙白與訊號青，來自效應索引",
+    ),
+    "In partnership with substance.wiki ↗": (
+        "与 substance.wiki 合作 ↗",
+        "與 substance.wiki 合作 ↗",
+    ),
     "Skins": ("皮肤", "皮膚"),
     "Make it yours": (
         "让它成为你的样子",
@@ -8449,6 +8457,9 @@ if __name__ == "__main__":
         "Plain names, pharmacology folded away until you open it.",
         "Mechanism and pharmacokinetics open on the page, receptor names in the Tolerance tool.",
         # Skins store (SkinWardrobe, OnboardingSkinsStep).
+        "substance.wiki",
+        "Black, paper and signal cyan, from the effects index",
+        "In partnership with substance.wiki ↗",
         "Skins",
         "Make it yours",
         "Skins pay for Piru's development. The journal, the library, and every tool are free either way.",

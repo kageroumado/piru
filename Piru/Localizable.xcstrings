@@ -11185,6 +11185,22 @@
         }
       }
     },
+    "Black, paper and signal cyan, from the effects index" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑底、纸白与信号青，来自效应索引"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑底、紙白與訊號青，來自效應索引"
+          }
+        }
+      }
+    },
     "Bliss" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26114,6 +26130,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與 dose.wiki 合作 ↗"
+          }
+        }
+      }
+    },
+    "In partnership with substance.wiki ↗" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 substance.wiki 合作 ↗"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 substance.wiki 合作 ↗"
           }
         }
       }

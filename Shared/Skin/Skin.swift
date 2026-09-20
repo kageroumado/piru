@@ -67,6 +67,10 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// dose.wiki — the partner encyclopedia's plum and fuchsia, their dose-tier
     /// ramp as the semantic colours, their molecule ring behind everything.
     case doseWiki
+    /// substance.wiki — the effects encyclopedia Piru draws from, which lists
+    /// Piru in its sidebar. Their black ground, paper ink, cyan and signal
+    /// lime; square hairline panels, nothing moving.
+    case substanceWiki
 
     var id: String {
         rawValue
@@ -90,9 +94,10 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     nonisolated var tier: SkinTier {
         switch self {
         case .piru, .graphite, .linen, .slate: .free
-        // Promo skins: ely.pink is the author's homepage, dose.wiki the partner
-        // encyclopedia. They advertise someone else, so they are never sold.
-        case .elyPink, .doseWiki: .free
+        // Partnership skins: ely.pink is the author's homepage, dose.wiki and
+        // substance.wiki the partner encyclopedias. They advertise someone
+        // else, so they are never sold.
+        case .elyPink, .doseWiki, .substanceWiki: .free
         case .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo: .animated
         }
     }
@@ -119,6 +124,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .hebi: "Hebi Arcade (WIP)"
         case .kumo: "Kumo"
         case .doseWiki: "dose.wiki"
+        case .substanceWiki: "substance.wiki"
         }
     }
 
@@ -139,6 +145,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .hebi: "Neon City on a CRT"
         case .kumo: "A sky that follows the day"
         case .doseWiki: "Plum and fuchsia, from the open encyclopedia"
+        case .substanceWiki: "Black, paper and signal cyan, from the effects index"
         }
     }
 
@@ -177,6 +184,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .hebi: .hebi
         case .kumo: .kumo
         case .doseWiki: .doseWiki
+        case .substanceWiki: .substanceWiki
         }
     }
 
@@ -240,7 +248,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// draws them, so nothing here is content.
     var decorations: SkinDecorations? {
         switch self {
-        case .piru, .graphite, .linen, .slate:
+        case .piru, .graphite, .linen, .slate, .substanceWiki:
             nil
         case .elyPink:
             SkinDecorations(
@@ -411,7 +419,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var cardInsetDash: Color? {
         switch self {
         case .elyPink: accentMark
-        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .doseWiki: nil
+        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .doseWiki, .substanceWiki: nil
         }
     }
 
@@ -422,7 +430,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         switch self {
         case .elyPink, .astrelia: 3
         case .paperGarden: 2
-        case .hebi: 0
+        // substance.wiki sets `--radius: 0`.
+        case .hebi, .substanceWiki: 0
         case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki: nil
         }
     }
@@ -432,7 +441,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// `nil` leaves the system's plain title.
     var titleOutline: SkinTitleOutline? {
         switch self {
-        case .piru, .graphite, .linen, .slate: nil
+        case .piru, .graphite, .linen, .slate, .substanceWiki: nil
         // The site's `h1`: hot pink at night, near-black in pink mode, with a
         // hard drop (wine at night, hot pink in pink mode).
         case .elyPink: SkinTitleOutline(
@@ -491,6 +500,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         // Their panels: a translucent plum with a top-left radial highlight
         // under a fuchsia hairline; frosted is the nearest of the six.
         case .doseWiki: .frosted(stroke: palette.stroke, highlight: palette.shadow)
+        // Their panels: a flat fill inside a one-point hairline, no shadow at all.
+        case .substanceWiki: .edged(stroke: palette.stroke, strokeWidth: 1, shadow: .clear, shadowOffset: .zero)
         }
     }
 
@@ -507,7 +518,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// `SkinTypeTests` enforces the exclusion.
     var fontDesign: Font.Design? {
         switch self {
-        case .piru, .graphite, .linen, .slate, .elyPink, .astrelia, .paperGarden, .hotaru, .hebi, .kumo, .doseWiki: nil
+        case .piru, .graphite, .linen, .slate, .elyPink, .astrelia, .paperGarden, .hotaru, .hebi, .kumo, .doseWiki, .substanceWiki: nil
         // Tsuki is `.rounded` throughout; the jellyfish skin borrows it, and
         // Yuki's ultralight rounded timer is its whole identity.
         case .tsuki, .jellyfish, .yuki: .rounded
@@ -520,7 +531,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// are small and carry most of a skin's character.
     var typeface: SkinTypeface {
         switch self {
-        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .yuki, .hotaru, .kumo: SkinTypeface(display: nil, label: nil)
+        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .yuki, .hotaru, .kumo, .substanceWiki: SkinTypeface(display: nil, label: nil)
         // Fredoka (variable, 159 KB) for titles; DotGothic16 (2 MB, includes
         // kana + JIS kanji) for chips and badges. Both SIL OFL, in Piru/Fonts.
         case .elyPink: SkinTypeface(display: "Fredoka", label: "DotGothic16")
@@ -727,6 +738,18 @@ struct SkinPalette: Sendable {
         caution: (.Skin.Dosewiki.Semantic.Caution.text, .Skin.Dosewiki.Semantic.Caution.accent),
         success: (.Skin.Dosewiki.Semantic.Success.text, .Skin.Dosewiki.Semantic.Success.accent),
         info: (.Skin.Dosewiki.Semantic.Info.text, .Skin.Dosewiki.Semantic.Info.accent),
+    )
+
+    static let substanceWiki = SkinPalette(
+        accent: .Skin.Substancewiki.Accent.text, accentMark: .Skin.Substancewiki.Accent.mark, onAccent: .Skin.Substancewiki.Accent.on,
+        secondaryLabel: .Skin.Substancewiki.Text.secondary,
+        background: .Skin.Substancewiki.Surface.background, cardBackground: .Skin.Substancewiki.Surface.card, inputBackground: .Skin.Substancewiki.Surface.input,
+        eyebrow: .Skin.Substancewiki.eyebrow, stroke: .Skin.Substancewiki.stroke, shadow: .Skin.Substancewiki.shadow,
+        titleFill: .Skin.Substancewiki.Title.fill, titleStroke: .Skin.Substancewiki.Title.stroke, titleShadow: .Skin.Substancewiki.Title.shadow,
+        danger: (.Skin.Substancewiki.Semantic.Danger.text, .Skin.Substancewiki.Semantic.Danger.accent),
+        caution: (.Skin.Substancewiki.Semantic.Caution.text, .Skin.Substancewiki.Semantic.Caution.accent),
+        success: (.Skin.Substancewiki.Semantic.Success.text, .Skin.Substancewiki.Semantic.Success.accent),
+        info: (.Skin.Substancewiki.Semantic.Info.text, .Skin.Substancewiki.Semantic.Info.accent),
     )
 
     static let jellyfish = SkinPalette(

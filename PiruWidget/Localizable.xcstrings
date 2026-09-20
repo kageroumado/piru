@@ -303,6 +303,9 @@
         }
       }
     },
+    "Black, paper and signal cyan, from the effects index" : {
+
+    },
     "Blood pressure" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1777,6 +1780,9 @@
           }
         }
       }
+    },
+    "substance.wiki" : {
+
     },
     "Supplements" : {
       "localizations" : {
