@@ -471,8 +471,8 @@
         "slug": "1-4-butanediol"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -549,7 +549,7 @@
         "slug": "1-4-butanediol"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -1330,8 +1330,8 @@
         "slug": "1p-lsd"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -2582,8 +2582,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -6181,7 +6181,7 @@
         "slug": "25i-nboh"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -6641,8 +6641,8 @@
         "slug": "25i-nbome"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -7174,7 +7174,7 @@
         "slug": "25i-nbome"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -9318,8 +9318,8 @@
         "slug": "2c-b"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -9408,8 +9408,8 @@
         "slug": "2c-b"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -9831,7 +9831,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -9926,7 +9926,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -11046,7 +11046,7 @@
         "slug": "2c-b"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -11156,7 +11156,7 @@
         "slug": "2c-b"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -12770,7 +12770,7 @@
         "slug": "2c-i"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -14485,7 +14485,7 @@
         "slug": "2c-d"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -16242,7 +16242,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -16487,7 +16487,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -16677,7 +16677,7 @@
         "slug": "2c-e"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -16779,7 +16779,7 @@
         "slug": "2c-e"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -18159,8 +18159,8 @@
         "slug": "4-mec-4-methylethcathinone"
       },
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       }
     ],
@@ -18603,8 +18603,8 @@
         "slug": "2c-i"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -18705,8 +18705,8 @@
         "slug": "2c-i"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -19115,7 +19115,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -19222,7 +19222,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -20082,7 +20082,7 @@
         "slug": "2c-i"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -20196,7 +20196,7 @@
         "slug": "2c-i"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -20273,7 +20273,7 @@
         "slug": "2c-i"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -22316,7 +22316,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -23835,8 +23835,8 @@
         "slug": "2c-t-21"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -24731,7 +24731,7 @@
         "slug": "2c-t-7"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -24837,7 +24837,7 @@
         "slug": "2c-t-7"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -25489,7 +25489,7 @@
         "slug": "2ce"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -27449,7 +27449,7 @@
         "slug": "3-4-methylenedioxyamphetamine-mda"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -27555,7 +27555,7 @@
         "slug": "3-4-methylenedioxyamphetamine-mda"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -29858,7 +29858,7 @@
         "slug": "3-meo-pcp"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -30156,7 +30156,7 @@
         "slug": "3c-p-4-propoxy-3-5-dimethoxyamphetamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -32001,7 +32001,7 @@
         "slug": "al-lad"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -33220,7 +33220,7 @@
         "slug": "4-aco-dmt-o-acetylpsilocin"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -33322,7 +33322,7 @@
         "slug": "4-aco-dmt-o-acetylpsilocin"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -33399,7 +33399,7 @@
         "slug": "4-aco-dmt-o-acetylpsilocin"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -34784,7 +34784,7 @@
         "slug": "4-aco-mipt"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -35700,8 +35700,8 @@
         "slug": "4-ho-dipt"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -37182,7 +37182,7 @@
         "slug": "4-ho-met"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -37867,7 +37867,7 @@
         "slug": "diphenidine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -38044,7 +38044,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -39255,8 +39255,8 @@
         "slug": "4mmc-mephedrone"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -39445,8 +39445,8 @@
         "slug": "5-apb"
       },
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       }
     ],
@@ -39619,8 +39619,8 @@
         "slug": "5-apdi-5-iap-iap"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -39793,8 +39793,8 @@
         "slug": "5-htp"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -40859,7 +40859,7 @@
         "slug": "5-htp"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -42367,7 +42367,7 @@
         "slug": "5-mapb"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -43085,7 +43085,7 @@
         "slug": "5-meo-amt"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -43720,8 +43720,8 @@
         "slug": "5-meo-dalt"
       },
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       }
     ],
@@ -44666,7 +44666,7 @@
         "slug": "5-meo-dipt"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -44768,7 +44768,7 @@
         "slug": "5-meo-dipt"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -45827,8 +45827,8 @@
         "slug": "5-meo-dmt"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -47363,7 +47363,7 @@
         "slug": "5-meo-dmt"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -49184,7 +49184,7 @@
         "slug": "5fur144"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -50050,8 +50050,8 @@
         "slug": "6-apb"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -50475,7 +50475,7 @@
         "slug": "6-apb"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -50553,8 +50553,8 @@
         "slug": "6-apb"
       },
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       }
     ],
@@ -52984,8 +52984,8 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
-        "name": "xylazine",
+        "known": true,
+        "name": "Xylazine",
         "slug": "xylazine"
       }
     ],
@@ -54297,8 +54297,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -54415,8 +54415,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -54496,8 +54496,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -54607,8 +54607,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -54706,8 +54706,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -54789,8 +54789,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -54872,8 +54872,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -54961,8 +54961,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -55050,8 +55050,8 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -55963,7 +55963,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -56547,7 +56547,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -57829,7 +57829,7 @@
         "slug": "adderall-mixed-amphetamine-salts-mas"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -60460,8 +60460,8 @@
         "slug": "adrafinil"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -60769,8 +60769,8 @@
         "slug": "african-wild-dagga"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       }
     ],
@@ -60847,8 +60847,8 @@
         "slug": "air-duster"
       },
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -61295,7 +61295,7 @@
         "slug": "al-lad"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -61755,8 +61755,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -61839,8 +61839,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -61953,8 +61953,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62072,8 +62072,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62160,8 +62160,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62226,8 +62226,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62316,8 +62316,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62402,8 +62402,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62462,8 +62462,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62534,8 +62534,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62618,8 +62618,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62720,8 +62720,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62797,8 +62797,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62875,8 +62875,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -62951,8 +62951,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63058,8 +63058,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63160,8 +63160,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63232,8 +63232,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63350,8 +63350,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63432,8 +63432,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63550,8 +63550,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63637,8 +63637,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63726,8 +63726,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63815,8 +63815,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -63934,8 +63934,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64021,8 +64021,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64140,8 +64140,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64240,8 +64240,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64349,8 +64349,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64419,8 +64419,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64538,8 +64538,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64653,8 +64653,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64764,8 +64764,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64779,7 +64779,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -64870,8 +64870,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -64979,8 +64979,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65062,8 +65062,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65077,7 +65077,7 @@
         "slug": "kava-kava"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -65173,8 +65173,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65280,8 +65280,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65367,8 +65367,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65472,8 +65472,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65482,7 +65482,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -65557,8 +65557,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65680,8 +65680,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65757,8 +65757,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65840,8 +65840,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -65922,8 +65922,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66033,8 +66033,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66148,8 +66148,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66267,8 +66267,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66382,8 +66382,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66493,8 +66493,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66570,8 +66570,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66651,8 +66651,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66761,8 +66761,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66851,8 +66851,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -66947,8 +66947,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67065,8 +67065,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67147,8 +67147,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67224,8 +67224,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67334,8 +67334,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67428,8 +67428,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67530,8 +67530,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67613,8 +67613,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67727,8 +67727,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67811,8 +67811,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67889,8 +67889,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -67999,8 +67999,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68094,8 +68094,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68201,8 +68201,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68319,8 +68319,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68425,8 +68425,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68515,8 +68515,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68621,8 +68621,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68698,8 +68698,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68776,8 +68776,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68878,8 +68878,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -68980,8 +68980,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69058,8 +69058,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69160,8 +69160,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69214,8 +69214,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69297,8 +69297,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69391,8 +69391,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69485,8 +69485,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69587,8 +69587,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69659,8 +69659,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69761,8 +69761,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69839,8 +69839,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -69917,8 +69917,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70019,8 +70019,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70120,8 +70120,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70234,8 +70234,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70330,8 +70330,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70402,8 +70402,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70498,8 +70498,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70576,8 +70576,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70648,8 +70648,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70754,8 +70754,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70843,8 +70843,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -70945,8 +70945,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71055,8 +71055,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71132,12 +71132,12 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -71234,8 +71234,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71344,8 +71344,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71454,8 +71454,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71560,8 +71560,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71648,8 +71648,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71758,8 +71758,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71872,8 +71872,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -71982,8 +71982,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72084,8 +72084,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72162,8 +72162,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72264,8 +72264,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72366,8 +72366,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72449,8 +72449,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72550,8 +72550,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72656,8 +72656,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72758,8 +72758,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72841,8 +72841,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -72948,8 +72948,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73038,8 +73038,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73114,8 +73114,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73224,8 +73224,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73318,8 +73318,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73420,8 +73420,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73526,8 +73526,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73628,8 +73628,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73730,8 +73730,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73830,8 +73830,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -73920,8 +73920,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74030,8 +74030,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74132,8 +74132,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74239,8 +74239,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74341,8 +74341,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74447,8 +74447,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74553,8 +74553,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74655,8 +74655,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74757,8 +74757,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74829,8 +74829,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74907,8 +74907,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -74979,8 +74979,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75051,8 +75051,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75153,8 +75153,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75218,8 +75218,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75325,8 +75325,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75391,8 +75391,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75501,8 +75501,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75591,8 +75591,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75657,8 +75657,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75759,8 +75759,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75831,8 +75831,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -75933,8 +75933,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -76035,8 +76035,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -76113,8 +76113,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -76185,8 +76185,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -76263,8 +76263,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -76347,8 +76347,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -76413,8 +76413,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -76531,8 +76531,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "alcohol",
+        "known": true,
+        "name": "Alcohol",
         "slug": "alcohol"
       },
       {
@@ -77958,7 +77958,7 @@
         "slug": "alpha-methyltryptamine-amt"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -78060,8 +78060,8 @@
         "slug": "alpha-methyltryptamine-amt"
       },
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       }
     ],
@@ -81382,7 +81382,7 @@
         "slug": "alprazolam"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -83955,7 +83955,7 @@
         "slug": "amanita-muscaria"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -84061,7 +84061,7 @@
         "slug": "amanita-muscaria"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -87053,7 +87053,7 @@
         "slug": "amphetamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -90219,7 +90219,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -90690,7 +90690,7 @@
         "slug": "ayahuasca"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -91556,7 +91556,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -101667,7 +101667,7 @@
         "slug": "bzp-benzylpiperazine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -107693,7 +107693,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -108563,7 +108563,7 @@
         "slug": "canket-fxe-2-f-2-oxo-pce-2f-nendck"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -112389,7 +112389,7 @@
         "slug": "dextromethorphan-dxm"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -113944,7 +113944,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -115025,7 +115025,7 @@
         "slug": "dpt-n-n-dipropyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -117075,7 +117075,7 @@
         "slug": "hawaiian-baby-woodrose-seeds"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -118936,7 +118936,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -120328,7 +120328,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -120446,7 +120446,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -120557,7 +120557,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -120628,7 +120628,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -120743,7 +120743,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -120843,7 +120843,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -120950,7 +120950,7 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -121393,8 +121393,8 @@
         "slug": "cannabis-tetrahydrocannabinol-cannabidiol-thc-cbd"
       },
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       }
     ],
@@ -137443,7 +137443,7 @@
         "slug": "celexa"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -138106,7 +138106,7 @@
         "slug": "changa"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -138202,7 +138202,7 @@
         "slug": "charas"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -143455,7 +143455,7 @@
         "slug": "cocaine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -145488,8 +145488,8 @@
         "slug": "codeine"
       },
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       }
     ],
@@ -148722,7 +148722,7 @@
         "slug": "datura"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -151549,7 +151549,7 @@
         "slug": "dpt-n-n-dipropyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -152716,7 +152716,7 @@
         "slug": "dextromethorphan-dxm"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -155281,7 +155281,7 @@
         "slug": "diazepam-valium"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -158541,7 +158541,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -158643,7 +158643,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -158761,7 +158761,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -158872,7 +158872,7 @@
         "slug": "dmt-dimethyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -162640,7 +162640,7 @@
         "slug": "dom-2-5-dimethoxy-4-methylamphetamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -163126,7 +163126,7 @@
         "slug": "dpt-n-n-dipropyltryptamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -164364,7 +164364,7 @@
         "slug": "dream-herb"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -164871,7 +164871,7 @@
         "slug": "effexor"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -165525,9 +165525,9 @@
         "slug": "ephedrine"
       },
       {
-        "known": false,
-        "name": "ethanol",
-        "slug": "ethanol"
+        "known": true,
+        "name": "Alcohol",
+        "slug": "alcohol"
       },
       {
         "known": false,
@@ -165920,7 +165920,7 @@
         "slug": "escitalopram"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -166253,9 +166253,9 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "ethanol",
-        "slug": "ethanol"
+        "known": true,
+        "name": "Alcohol",
+        "slug": "alcohol"
       },
       {
         "known": true,
@@ -167513,7 +167513,7 @@
         "slug": "flunitrazepam-rohypnol"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -167603,7 +167603,7 @@
         "slug": "fluoxetine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -167855,7 +167855,7 @@
         "slug": "foxy"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -168363,7 +168363,7 @@
         "slug": "gabapentin"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -169465,7 +169465,7 @@
         "slug": "gbl-gamma-butyrolactone"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -169999,7 +169999,7 @@
         "slug": "ghb-gamma-hydroxybutyric-acid"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -170095,7 +170095,7 @@
         "slug": "ghb-gamma-hydroxybutyric-acid"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -172899,7 +172899,7 @@
         "slug": "hash-oil"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -173560,7 +173560,7 @@
         "slug": "hawaiian-baby-woodrose-seeds"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -175320,7 +175320,7 @@
         "slug": "heroin-diacetylmorphine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -179181,7 +179181,7 @@
         "slug": "ibogaine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -179354,7 +179354,7 @@
         "slug": "inhalant"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -180330,7 +180330,7 @@
         "slug": "kava"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -181764,7 +181764,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -181870,7 +181870,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -181985,7 +181985,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -182085,7 +182085,7 @@
         "slug": "ketamine"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -185181,7 +185181,7 @@
         "slug": "lithium"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -185717,7 +185717,7 @@
         "slug": "lexapro"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -186423,7 +186423,7 @@
         "slug": "lithium"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -186525,7 +186525,7 @@
         "slug": "lithium"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -187557,7 +187557,7 @@
         "slug": "lsa"
       },
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       }
@@ -188038,7 +188038,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188140,7 +188140,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188258,7 +188258,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188381,7 +188381,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188470,7 +188470,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188581,7 +188581,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188692,7 +188692,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188794,7 +188794,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188872,7 +188872,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -188978,7 +188978,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189050,7 +189050,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189156,7 +189156,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189232,7 +189232,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189338,7 +189338,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189440,7 +189440,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189550,7 +189550,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189656,7 +189656,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189762,7 +189762,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189869,7 +189869,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -189976,7 +189976,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190054,7 +190054,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190126,7 +190126,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190228,7 +190228,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190334,7 +190334,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190440,7 +190440,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190536,7 +190536,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190630,7 +190630,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190712,7 +190712,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190796,7 +190796,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190880,7 +190880,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -190982,7 +190982,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191088,7 +191088,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191166,7 +191166,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191268,7 +191268,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191374,7 +191374,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191480,7 +191480,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191586,7 +191586,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191676,7 +191676,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191778,7 +191778,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191884,7 +191884,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -191986,7 +191986,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -192092,7 +192092,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -192170,7 +192170,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -192272,7 +192272,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -192378,7 +192378,7 @@
   {
     "components": [
       {
-        "known": false,
+        "known": true,
         "name": "LSD",
         "slug": "lsd"
       },
@@ -193174,8 +193174,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       },
       {
@@ -193280,8 +193280,8 @@
   {
     "components": [
       {
-        "known": false,
-        "name": "mdai",
+        "known": true,
+        "name": "MDAI",
         "slug": "mdai"
       },
       {

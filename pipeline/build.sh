@@ -21,7 +21,8 @@ if [ "$MODE" = "full" ]; then
   # ── Upstream source passes (network; refresh committed inputs) ──
   step "1/8  Fetch PsychonautWiki  → data/sources/psychonautwiki.json"
   python3 pipeline/fetch/psychonautwiki.py
-  # drug.community is a manual snapshot → data/sources/drug-community.json (no script)
+  step "1a/8 Fetch substance.wiki release → data/sources/drug-community*.json"
+  python3 pipeline/fetch/brushers/fetch_drug_community.py
   step "1b/8 Fetch SubFxOnEx ontology → data/sources/subfxonex.json"
   python3 pipeline/fetch/subfxonex.py
   step "1c/8 Fetch dose.wiki published articles → data/sources/dosewiki.json"

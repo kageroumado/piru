@@ -214,7 +214,7 @@ _VOICE_REWRITES: list[tuple[re.Pattern[str], object]] = [
             r"|wikis?|summaries|write-?ups?|services|practices?|discussions?"
             r"|organi[sz]ations?|consensus|factsheets?|guides?|communities|literature"
             r"|tables?|estimates?|references?|projects?|material|advice|info(?:rmation)?"
-            r"|data|reporting|context|circles|groups?)\b",
+            r"|data|reporting|context|circles|groups?|ranges?)\b",
             re.I,
         ),
         r"community \1",

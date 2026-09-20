@@ -8519,6 +8519,338 @@
     }
   },
   {
+    "drug_class": "stimulant",
+    "drug_name": "3-methylmethcathinone",
+    "drug_slug": "3-mmc",
+    "spectrum_data": {
+      "configuration": {
+        "animateGradient": true,
+        "compactMode": true,
+        "expandable": false,
+        "maxEffectsShown": 3,
+        "showFrequencies": true,
+        "showPercentages": false,
+        "theme": "dark"
+      },
+      "id": "spectrum-3mmc-2025-09-03",
+      "levels": [
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "mild pleasant stimulation",
+              "percentage": 2.4,
+              "severity": "mild"
+            },
+            {
+              "frequency": 1,
+              "name": "lightness",
+              "percentage": 2.4,
+              "severity": "mild"
+            },
+            {
+              "frequency": 1,
+              "name": "calm and relaxed",
+              "percentage": 2.4,
+              "severity": "mild"
+            }
+          ],
+          "description": "Very subtle stimulation emerges. Users may notice a slight lift in mood and body lightness with minimal physical discomfort. Effects are easily ignored and normal functioning is maintained.",
+          "duration": {
+            "onset": "5-15 minutes",
+            "peak": "45-90 minutes",
+            "total": "2-4 hours"
+          },
+          "indicatorColor": {
+            "primary": "#00d4ff",
+            "secondary": "#a8f7ff"
+          },
+          "name": "Threshold",
+          "number": 1,
+          "physicalEffects": [
+            "bitter taste and burning sensation",
+            "lightness",
+            "minimal physical discomfort"
+          ],
+          "psychologicalEffects": [
+            "calm and relaxed",
+            "overall gentle and smooth experience"
+          ],
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "increased talkativeness",
+              "percentage": 2.4,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "increased sociability",
+              "percentage": 2.4,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "increased enjoyment",
+              "percentage": 2.4,
+              "severity": "moderate"
+            }
+          ],
+          "description": "Clear but manageable stimulation with sociability and task flow. Speech becomes easier and activities feel more enjoyable while control is retained.",
+          "duration": {
+            "onset": "5-15 minutes",
+            "peak": "45-90 minutes",
+            "total": "2-4 hours"
+          },
+          "indicatorColor": {
+            "primary": "#00ffe0",
+            "secondary": "#b8fff2"
+          },
+          "name": "Light",
+          "number": 2,
+          "physicalEffects": [
+            "tingling extremities"
+          ],
+          "psychologicalEffects": [
+            "enhanced functionality"
+          ],
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "euphoria",
+              "percentage": 2.4,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "stimulant properties",
+              "percentage": 2.4,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "moderate head buzz",
+              "percentage": 2.4,
+              "severity": "moderate"
+            }
+          ],
+          "description": "Distinct stimulant effects are present with noticeable mood lift and focus. Physical side-effects such as jaw tension or tremor may appear, and sleep can become difficult.",
+          "duration": {
+            "onset": "5-15 minutes",
+            "peak": "45-90 minutes",
+            "total": "2-4 hours"
+          },
+          "indicatorColor": {
+            "primary": "#30ff74",
+            "secondary": "#c8ffc8"
+          },
+          "name": "Moderate",
+          "number": 3,
+          "physicalEffects": [
+            "jaw clenching",
+            "tremor",
+            "headache",
+            "insomnia"
+          ],
+          "psychologicalEffects": [
+            "spaced out feeling"
+          ],
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "open-hearted love",
+              "percentage": 2.4,
+              "severity": "strong"
+            },
+            {
+              "frequency": 1,
+              "name": "enhanced relationship and sexual intimacy",
+              "percentage": 2.4,
+              "severity": "strong"
+            },
+            {
+              "frequency": 1,
+              "name": "enhanced sexual experience",
+              "percentage": 2.4,
+              "severity": "strong"
+            }
+          ],
+          "description": "Peak stimulant-empathogenic effects for many users, including emotional warmth and intimacy. Body temperature regulation may feel off and digestion may be sensitive; pacing, hydration, and cooling become important.",
+          "duration": {
+            "onset": "5-15 minutes",
+            "peak": "45-90 minutes",
+            "total": "2-4 hours"
+          },
+          "indicatorColor": {
+            "primary": "#a6ff3b",
+            "secondary": "#f0ffb8"
+          },
+          "name": "Strong",
+          "number": 4,
+          "physicalEffects": [
+            "temperature regulation issues",
+            "insensitivity to cold",
+            "digestive issues"
+          ],
+          "psychologicalEffects": [
+            "heart opening in relationships",
+            "potential as an aphrodisiac",
+            "enhanced emotional intelligence",
+            "healing of sexual shame"
+          ],
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "anxiety",
+              "percentage": 2.4,
+              "severity": "strong"
+            },
+            {
+              "frequency": 1,
+              "name": "jittery and unpleasant stimulation",
+              "percentage": 2.4,
+              "severity": "strong"
+            },
+            {
+              "frequency": 1,
+              "name": "overpowering urge to redose",
+              "percentage": 2.4,
+              "severity": "strong"
+            }
+          ],
+          "description": "Stimulation can become uncomfortable or overwhelming. Anxiety, strong redose urges, and a general toxic feeling may arise; careful dose spacing and calming environment are important for safety.",
+          "duration": {
+            "onset": "5-15 minutes",
+            "peak": "45-90 minutes",
+            "total": "2-4 hours"
+          },
+          "indicatorColor": {
+            "primary": "#ffe600",
+            "secondary": "#fff4a6"
+          },
+          "name": "Intense",
+          "number": 5,
+          "physicalEffects": [
+            "general toxic feeling",
+            "temperature regulation issues"
+          ],
+          "psychologicalEffects": [
+            "spaced out feeling"
+          ],
+          "warnings": [
+            "Risk of overwhelming experience",
+            "Potential for anxiety or confusion",
+            "Risk of psychological distress",
+            "Strong urge to redose can increase harm"
+          ]
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "delirious thoughts",
+              "percentage": 2.4,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 1,
+              "name": "visual hallucinations",
+              "percentage": 2.4,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 1,
+              "name": "difficulty breathing",
+              "percentage": 2.4,
+              "severity": "extreme"
+            }
+          ],
+          "description": "Complete immersion or destabilization with potential for psychotic-like effects. Visual disturbances, delirious thinking, and breathing difficulty are medical concerns; immediate support may be required.",
+          "duration": {
+            "onset": "5-15 minutes",
+            "peak": "45-90 minutes",
+            "total": "2-4 hours"
+          },
+          "indicatorColor": {
+            "primary": "#ffcc33",
+            "secondary": "#fff0b3"
+          },
+          "name": "Extreme",
+          "number": 6,
+          "physicalEffects": [
+            "difficulty breathing"
+          ],
+          "psychologicalEffects": [
+            "connection to the divine",
+            "profound insights",
+            "discovery and acceptance of self"
+          ],
+          "warnings": [
+            "Medical supervision recommended",
+            "Risk of psychological distress",
+            "Potential for anxiety or confusion",
+            "Seek emergency help if breathing problems occur"
+          ]
+        }
+      ],
+      "metadata": {
+        "category": "stimulant",
+        "dataSource": "Based on aggregated user reports • Numbers indicate report frequency",
+        "lastUpdated": "2025-09-03",
+        "substance": "3-methylmethcathinone",
+        "subtitle": "3-methylmethcathinone Effects Intensity Scale",
+        "title": "Stimulation Spectrum",
+        "version": "1.0"
+      },
+      "spectrum": {
+        "displayStyle": "gradient",
+        "gradientColors": [
+          {
+            "color": "#00cfff",
+            "position": 0
+          },
+          {
+            "color": "#00e6ff",
+            "position": 17
+          },
+          {
+            "color": "#00ffbf",
+            "position": 33
+          },
+          {
+            "color": "#3dff73",
+            "position": 50
+          },
+          {
+            "color": "#a6ff3b",
+            "position": 67
+          },
+          {
+            "color": "#ffe600",
+            "position": 83
+          },
+          {
+            "color": "#ffcc33",
+            "position": 100
+          }
+        ],
+        "levelCount": 6
+      }
+    }
+  },
+  {
     "drug_class": "psychedelic",
     "drug_name": "3c-p",
     "drug_slug": "3c-p-4-propoxy-3-5-dimethoxyamphetamine",
@@ -10302,6 +10634,418 @@
           },
           {
             "color": "#ffd200",
+            "position": 100
+          }
+        ],
+        "levelCount": 6
+      }
+    }
+  },
+  {
+    "drug_class": "stimulant",
+    "drug_name": "4-fluoromethamphetamine",
+    "drug_slug": "4-fma",
+    "merge_provenance": {
+      "canonical_slug": "4-fma",
+      "decisions": [
+        "Retained the newer generation's descriptions, colors, commonEffects frequencies, and percentages.",
+        "Filled missing duration fields from the older generation.",
+        "Unioned and case-insensitively deduplicated qualitative physical effects, psychological effects, and warnings, preserving newer values first.",
+        "Did not add or recompute commonEffects because the generations use incompatible report denominators."
+      ],
+      "merged_at": "2026-08-21",
+      "qualitative_contribution": {
+        "created_at": {
+          "$date": "2025-09-03T19:51:26.452Z"
+        },
+        "original_sha256": "3fb57f31a6b69b8300d85d2b2258ca60eb14eaefc98d3d16bf2f61184fa64329",
+        "source_id": "68b89c3ebb7f6aebb98a7a45",
+        "source_position": 55
+      },
+      "quantitative_base": {
+        "created_at": {
+          "$date": "2025-09-04T12:23:49.999Z"
+        },
+        "original_sha256": "b569e6aa7270fdac4f2552eb4238d2382fb9ddd5e19d4fe925a6449be900ae61",
+        "source_id": "68b984d6bb7f6aebb98a7a79",
+        "source_position": 105
+      }
+    },
+    "spectrum_data": {
+      "configuration": {
+        "animateGradient": true,
+        "compactMode": true,
+        "expandable": false,
+        "maxEffectsShown": 3,
+        "showFrequencies": true,
+        "showPercentages": false,
+        "theme": "dark"
+      },
+      "id": "4fma-stimulation-spectrum-001",
+      "levels": [
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "light tingling sensation",
+              "percentage": 4.5,
+              "severity": "mild"
+            },
+            {
+              "frequency": 1,
+              "name": "enhanced mood upon waking",
+              "percentage": 4.5,
+              "severity": "mild"
+            },
+            {
+              "frequency": 1,
+              "name": "reduced muscle pain",
+              "percentage": 4.5,
+              "severity": "mild"
+            }
+          ],
+          "description": "Subtle onset with slight alertness and sensory awareness. Users may notice a light tingling and a mild lift in outlook, with occasional minor relief of aches. Effects are easy to ignore and normal functioning is preserved.",
+          "duration": {
+            "onset": "15-45 minutes",
+            "peak": "2-4 hours",
+            "total": "6-10 hours"
+          },
+          "indicatorColor": {
+            "primary": "#00d4ff",
+            "secondary": "#00e8dc"
+          },
+          "name": "Threshold",
+          "number": 1,
+          "physicalEffects": [
+            "light tingling",
+            "minor analgesia",
+            "subtle body warmth",
+            "baseline coordination"
+          ],
+          "psychologicalEffects": [
+            "slight mood lift",
+            "subtle alertness",
+            "slight alertness",
+            "calm focus",
+            "neutral mood"
+          ],
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "increased sociability",
+              "percentage": 4.5,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "motivational high",
+              "percentage": 4.5,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "loss of appetite",
+              "percentage": 4.5,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "antidepressant effects",
+              "percentage": 4.5,
+              "severity": "mild"
+            }
+          ],
+          "description": "Clear but manageable stimulation emerges with increased talkativeness and motivation. Appetite often decreases and mood may feel brighter or more hopeful. Hydration begins to matter as arousal increases.",
+          "duration": {
+            "onset": "15-45 minutes",
+            "peak": "2-4 hours",
+            "total": "6-10 hours"
+          },
+          "indicatorColor": {
+            "primary": "#00e8dc",
+            "secondary": "#00ff7a"
+          },
+          "name": "Light",
+          "number": 2,
+          "physicalEffects": [
+            "mild energy increase",
+            "reduced appetite",
+            "slight dry mouth",
+            "light appetite suppression"
+          ],
+          "psychologicalEffects": [
+            "talkativeness",
+            "improved outlook",
+            "increased engagement",
+            "easier conversation",
+            "mild mood lift"
+          ],
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "restlessness in legs",
+              "percentage": 4.5,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "erectile dysfunction",
+              "percentage": 4.5,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "dehydration",
+              "percentage": 4.5,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "fatigue",
+              "percentage": 4.5,
+              "severity": "moderate"
+            }
+          ],
+          "description": "Definitive stimulant effects with sustained energy and focus. Body-load becomes noticeable with restlessness, dryness, and sexual side effects; a tired \"comedown\" may follow as effects taper. Taking breaks and sipping water can reduce strain.",
+          "duration": {
+            "onset": "15-45 minutes",
+            "peak": "2-4 hours",
+            "total": "6-10 hours"
+          },
+          "indicatorColor": {
+            "primary": "#00ff7a",
+            "secondary": "#7dff3a"
+          },
+          "name": "Moderate",
+          "number": 3,
+          "physicalEffects": [
+            "dry mouth/dehydration",
+            "restlessness",
+            "moderate stimulation",
+            "light jaw tension possible",
+            "mild pupil dilation"
+          ],
+          "psychologicalEffects": [
+            "focused but tense",
+            "post-stimulation fatigue",
+            "positive mood",
+            "task-oriented focus",
+            "increased motivation"
+          ],
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "urinary retention",
+              "percentage": 4.5,
+              "severity": "strong"
+            },
+            {
+              "frequency": 1,
+              "name": "intense burning sensation",
+              "percentage": 4.5,
+              "severity": "strong"
+            },
+            {
+              "frequency": 1,
+              "name": "pain in face and ear",
+              "percentage": 4.5,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 1,
+              "name": "dehydration",
+              "percentage": 4.5,
+              "severity": "strong"
+            }
+          ],
+          "description": "Intense stimulation with pronounced physical side effects. Nasal use may cause strong local irritation and facial or ear pain, and urinary retention can appear. Monitor temperature, slow or stop redosing, and prioritize cooling and fluids.",
+          "duration": {
+            "onset": "15-45 minutes",
+            "peak": "2-4 hours",
+            "total": "6-10 hours"
+          },
+          "indicatorColor": {
+            "primary": "#7dff3a",
+            "secondary": "#b8ff0a"
+          },
+          "name": "Strong",
+          "number": 4,
+          "physicalEffects": [
+            "palpitations possible",
+            "local nasal irritation (if insufflated)",
+            "elevated heart rate",
+            "sweating",
+            "restlessness"
+          ],
+          "psychologicalEffects": [
+            "high drive and focus",
+            "possible anxiety or edginess",
+            "heightened drive",
+            "confidence/risk-taking",
+            "strong stimulation"
+          ],
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "overstimulation",
+              "percentage": 4.5,
+              "severity": "strong"
+            },
+            {
+              "frequency": 1,
+              "name": "blurred distinction between dreams and reality",
+              "percentage": 4.5,
+              "severity": "strong"
+            },
+            {
+              "frequency": 1,
+              "name": "waves of euphoria",
+              "percentage": 4.5,
+              "severity": "strong"
+            }
+          ],
+          "description": "Overwhelming stimulation with difficulty relaxing or sleeping. Perception may feel distorted or dreamlike and overheating becomes a serious concern. Stop redosing, seek a calm environment, and use active cooling and hydration.",
+          "duration": {
+            "onset": "15-45 minutes",
+            "peak": "2-4 hours",
+            "total": "6-10 hours"
+          },
+          "indicatorColor": {
+            "primary": "#b8ff0a",
+            "secondary": "#ffe600"
+          },
+          "name": "Intense",
+          "number": 5,
+          "physicalEffects": [
+            "elevated body temperature risk",
+            "insomnia",
+            "jitters",
+            "difficulty sleeping",
+            "muscle tension"
+          ],
+          "psychologicalEffects": [
+            "racing thoughts",
+            "perceptual distortions",
+            "overstimulation",
+            "reduced patience"
+          ],
+          "warnings": [
+            "Risk of overwhelming experience",
+            "Potential for anxiety or confusion",
+            "Risk of overheating (hyperthermia)",
+            "Consider seeking medical help if temperature or heart rate remain high",
+            "Monitor heart rate and temperature",
+            "Avoid redosing; seek calm environment"
+          ]
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 1,
+              "name": "stimulant psychosis",
+              "percentage": 4.5,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 1,
+              "name": "hallucinations",
+              "percentage": 4.5,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 1,
+              "name": "hyperthermia",
+              "percentage": 4.5,
+              "severity": "extreme"
+            }
+          ],
+          "description": "Complete immersion in stimulant effects with potential loss of reality testing. Psychotic symptoms and hallucinations may occur alongside dangerous overheating and severe agitation. Immediate de-escalation and medical support may be necessary.",
+          "duration": {
+            "onset": "15-45 minutes",
+            "peak": "2-4 hours",
+            "total": "6-10 hours"
+          },
+          "indicatorColor": {
+            "primary": "#ffe600",
+            "secondary": "#fff36e"
+          },
+          "name": "Extreme",
+          "number": 6,
+          "physicalEffects": [
+            "severe hyperthermia risk",
+            "agitation",
+            "severe headache/pressure",
+            "exhaustion after peak",
+            "possible nasal irritation (if insufflated)"
+          ],
+          "psychologicalEffects": [
+            "paranoia/psychosis",
+            "confusion and disorientation",
+            "dysphoria",
+            "frustration/irritability",
+            "mental fatigue"
+          ],
+          "warnings": [
+            "Risk of psychological distress",
+            "Potential medical emergency (seek help)",
+            "Do not use alone; supervision recommended",
+            "Stop all redosing immediately",
+            "Potential for anxiety or confusion",
+            "Medical supervision recommended if severe symptoms occur",
+            "Consider stopping use, cooling down, and hydrating"
+          ]
+        }
+      ],
+      "metadata": {
+        "category": "stimulant",
+        "dataSource": "Based on aggregated user reports • Numbers indicate report frequency",
+        "lastUpdated": "2026-08-21",
+        "substance": "4-FMA",
+        "subtitle": "4-FMA Effects Intensity Scale",
+        "title": "Stimulation Spectrum",
+        "version": "1.1"
+      },
+      "spectrum": {
+        "displayStyle": "gradient",
+        "gradientColors": [
+          {
+            "color": "#00d4ff",
+            "position": 0
+          },
+          {
+            "color": "#00e8dc",
+            "position": 17
+          },
+          {
+            "color": "#00ff7a",
+            "position": 33
+          },
+          {
+            "color": "#7dff3a",
+            "position": 50
+          },
+          {
+            "color": "#b8ff0a",
+            "position": 67
+          },
+          {
+            "color": "#ffe600",
+            "position": 83
+          },
+          {
+            "color": "#fff36e",
             "position": 100
           }
         ],
@@ -37828,6 +38572,317 @@
           },
           {
             "color": "#d2d7dc",
+            "position": 100
+          }
+        ],
+        "levelCount": 6
+      }
+    }
+  },
+  {
+    "drug_class": "psychedelic",
+    "drug_name": "lsd",
+    "drug_slug": "lsd",
+    "spectrum_data": {
+      "configuration": {
+        "animateGradient": true,
+        "compactMode": true,
+        "expandable": false,
+        "maxEffectsShown": 3,
+        "showFrequencies": true,
+        "showPercentages": false,
+        "theme": "dark"
+      },
+      "id": "lsd-psychedelic-spectrum-v1",
+      "levels": [
+        {
+          "commonEffects": [
+            {
+              "frequency": 16,
+              "name": "mild visuals",
+              "percentage": 0.1,
+              "severity": "mild"
+            },
+            {
+              "frequency": 58,
+              "name": "anticipation",
+              "percentage": 0.3,
+              "severity": "mild"
+            },
+            {
+              "frequency": 9,
+              "name": "mild euphoria",
+              "percentage": 0,
+              "severity": "mild"
+            },
+            {
+              "frequency": 17,
+              "name": "heightened awareness",
+              "percentage": 0.1,
+              "severity": "mild"
+            }
+          ],
+          "description": "Subtle shifts begin to register, often as a gentle lift in mood and attention. Mild visuals or texture shimmering can occur alongside anticipation and heightened awareness. Most users remain fully grounded and functional.",
+          "duration": null,
+          "indicatorColor": {
+            "primary": "#6a0dad",
+            "secondary": null
+          },
+          "name": "Threshold",
+          "number": 1,
+          "physicalEffects": null,
+          "psychologicalEffects": null,
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 223,
+              "name": "enhanced sensory perception",
+              "percentage": 1.2,
+              "severity": "mild"
+            },
+            {
+              "frequency": 92,
+              "name": "enhanced color perception",
+              "percentage": 0.5,
+              "severity": "mild"
+            },
+            {
+              "frequency": 91,
+              "name": "enhanced music appreciation",
+              "percentage": 0.5,
+              "severity": "mild"
+            },
+            {
+              "frequency": 72,
+              "name": "tracers",
+              "percentage": 0.4,
+              "severity": "mild"
+            }
+          ],
+          "description": "Clear but manageable enhancement of the senses emerges. Colors become richer, music feels more engaging, and light tracers may appear without disrupting normal tasks. Anxiety is uncommon, though sensitivity to environment increases.",
+          "duration": null,
+          "indicatorColor": {
+            "primary": "#9b2fab",
+            "secondary": null
+          },
+          "name": "Light",
+          "number": 2,
+          "physicalEffects": null,
+          "psychologicalEffects": null,
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 914,
+              "name": "visual distortions",
+              "percentage": 4.9,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 475,
+              "name": "altered perception of time",
+              "percentage": 2.5,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 622,
+              "name": "euphoria",
+              "percentage": 3.3,
+              "severity": "moderate"
+            },
+            {
+              "frequency": 266,
+              "name": "synesthesia",
+              "percentage": 1.4,
+              "severity": "moderate"
+            }
+          ],
+          "description": "Definitive LSD effects take shape with noticeable visual distortions, altered time perception, and potential synesthesia. Euphoria is common and the experience is immersive yet typically manageable with intention and a calm setting.",
+          "duration": null,
+          "indicatorColor": {
+            "primary": "#d14c8f",
+            "secondary": null
+          },
+          "name": "Moderate",
+          "number": 3,
+          "physicalEffects": null,
+          "psychologicalEffects": null,
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 962,
+              "name": "visual hallucinations",
+              "percentage": 5.1,
+              "severity": "strong"
+            },
+            {
+              "frequency": 453,
+              "name": "altered perception of reality",
+              "percentage": 2.4,
+              "severity": "strong"
+            },
+            {
+              "frequency": 103,
+              "name": "intense visuals",
+              "percentage": 0.5,
+              "severity": "strong"
+            },
+            {
+              "frequency": 74,
+              "name": "unity and openness",
+              "percentage": 0.4,
+              "severity": "strong"
+            }
+          ],
+          "description": "Intense visuals and marked shifts in reality dominate, including vivid hallucinations and a strong sense that the world is transformed. Feelings of unity and openness can arise, but confusion or emotional swings may also surface. A supportive, low-stimulation environment helps reduce stress.",
+          "duration": null,
+          "indicatorColor": {
+            "primary": "#ff7a45",
+            "secondary": null
+          },
+          "name": "Strong",
+          "number": 4,
+          "physicalEffects": null,
+          "psychologicalEffects": null,
+          "warnings": null
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 209,
+              "name": "ego dissolution",
+              "percentage": 1.1,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 537,
+              "name": "paranoia",
+              "percentage": 2.9,
+              "severity": "strong"
+            },
+            {
+              "frequency": 115,
+              "name": "thought loops",
+              "percentage": 0.6,
+              "severity": "strong"
+            },
+            {
+              "frequency": 94,
+              "name": "out-of-body experience",
+              "percentage": 0.5,
+              "severity": "extreme"
+            }
+          ],
+          "description": "The experience can become overwhelming as ego boundaries thin, thought loops occur, and emotions shift rapidly. Paranoia or fear may appear and navigation of the experience may be difficult without preparation or support. Grounding strategies and a trusted sitter can be important at this stage.",
+          "duration": null,
+          "indicatorColor": {
+            "primary": "#ffba27",
+            "secondary": null
+          },
+          "name": "Intense",
+          "number": 5,
+          "physicalEffects": null,
+          "psychologicalEffects": null,
+          "warnings": [
+            "Risk of overwhelming experience",
+            "Potential for anxiety or confusion",
+            "Risk of psychological distress"
+          ]
+        },
+        {
+          "commonEffects": [
+            {
+              "frequency": 91,
+              "name": "ego death",
+              "percentage": 0.5,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 127,
+              "name": "perception of self as deity",
+              "percentage": 0.7,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 118,
+              "name": "delusions",
+              "percentage": 0.6,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 63,
+              "name": "transcendental state",
+              "percentage": 0.3,
+              "severity": "extreme"
+            },
+            {
+              "frequency": 36,
+              "name": "disconnection from reality",
+              "percentage": 0.2,
+              "severity": "extreme"
+            }
+          ],
+          "description": "Complete immersion and loss of ordinary selfhood can occur, including ego death and profound detachment from consensual reality. Experiences may feel transcendental or deeply disorienting, with limited capacity to respond to the environment. This level carries elevated psychological risk and may require assistance.",
+          "duration": null,
+          "indicatorColor": {
+            "primary": "#fff06a",
+            "secondary": null
+          },
+          "name": "Extreme",
+          "number": 6,
+          "physicalEffects": null,
+          "psychologicalEffects": null,
+          "warnings": [
+            "Risk of overwhelming experience",
+            "Potential for anxiety or confusion",
+            "Medical supervision recommended",
+            "Risk of psychological distress"
+          ]
+        }
+      ],
+      "metadata": {
+        "category": "psychedelic",
+        "dataSource": "Based on aggregated user reports • Numbers indicate report frequency",
+        "lastUpdated": "2025-09-04",
+        "substance": "LSD",
+        "subtitle": "LSD Effects Intensity Scale",
+        "title": "Psychedelic Intensity Spectrum",
+        "version": "1.0"
+      },
+      "spectrum": {
+        "displayStyle": "gradient",
+        "gradientColors": [
+          {
+            "color": "#5b2cff",
+            "position": 0
+          },
+          {
+            "color": "#7a30ff",
+            "position": 17
+          },
+          {
+            "color": "#c238ff",
+            "position": 33
+          },
+          {
+            "color": "#ff6b9d",
+            "position": 50
+          },
+          {
+            "color": "#ff914d",
+            "position": 67
+          },
+          {
+            "color": "#ffc447",
+            "position": 83
+          },
+          {
+            "color": "#fff799",
             "position": 100
           }
         ],

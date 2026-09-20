@@ -88,7 +88,7 @@ silently never rendered.
 
 ```
   PsychonautWiki API ─► fetch/psychonautwiki.py ─► data/sources/psychonautwiki.json ─┐
-  drug.community     ─► (manual snapshot)        ─► data/sources/drug-community.json  │
+  substance.wiki     ─► fetch_drug_community.py  ─► data/sources/drug-community.json  │
   TripSit/Wikidata/PubChem/Erowid/DEA ─► fetch/collector (Swift) ──────────►          │
                                           data/intermediate/sourced-substances.json   │
                                                                                       ▼
@@ -426,12 +426,15 @@ The rows today:
 | field | source | beneath | why |
 |---|---|---|---|
 | `descriptions` | dosewiki | piru-curated | a reviewed summary written for its article beats a copied wiki lead and machine-translated Chinese |
-| `durations` | drug.community | dosewiki (last) | its timelines are single boundaries, so every derived phase is a point (2,555 of 3,988 rows min == max); beneath every source that states an interval it fills the routes nobody else describes |
+| `durations` | drug.community | the last source in `SOURCES` | its timelines are single boundaries, so every derived phase is a point (2,555 of 3,988 rows min == max); beneath every source that states an interval it fills the routes nobody else describes |
 
-drug.community's dose ladders are real ranges and keep their overall rank.
-Whether they should is an open question: the adjudicated top-25 disagreements
-split evenly, and the adjudicator's outlier rates are biased against any source
-that is not a PsychonautWiki copy.
+drug.community's dose ladders are real ranges and keep their overall rank,
+directly beneath dose.wiki. dose.wiki leads the community sources: only its
+expert-reviewed articles contribute numbers, and a defect reported there is
+corrected upstream within days. The adjudicator's outlier rates are biased
+toward any source PsychonautWiki's copies agree with, so they rank sources only
+loosely — on contested dose cells dose.wiki is the odd one out in 10%,
+drug.community in 16%.
 
 The dose resolvers also order `dose_context = 'therapeutic'` rows after every
 recreational or unknown row in the same partition, whatever the source rank: a

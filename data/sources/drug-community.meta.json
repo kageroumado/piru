@@ -1,8 +1,12 @@
 {
-  "source": "drug.community",
-  "api": "https://drug.community/api/data/bootstrap",
-  "human_url_pattern": "https://drug.community/drug/{slug}",
-  "fetched_at": "2026-07-17T20:28:06+00:00",
-  "spa_asset": "/assets/index-RD9I29rC.js",
-  "substance_count": 419
+  "source": "substance.wiki",
+  "api": "https://substance.wiki/api/data/manifest",
+  "api_docs": "https://substance.wiki/api/docs",
+  "human_url_pattern": "https://substance.wiki/drug/{slug}",
+  "fetched_at": "2026-09-20T19:56:03+00:00",
+  "release_id": "57bf7149f9f2189036a467f31ea4d7550d3efb5f62346ccaf1fbc9634ab0300a",
+  "release_generated_at": "2026-08-30T09:02:09.419Z",
+  "schema_version": 2,
+  "pipeline_version": "catalog-v2-backfill/2",
+  "substance_count": 427
 }

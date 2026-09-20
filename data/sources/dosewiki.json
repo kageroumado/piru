@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-11T20:41:33+00:00",
+  "fetched_at": "2026-09-20T19:54:46+00:00",
   "license": "CC0 1.0. The interaction and reagent fields are excluded: they carry TripSit's and ProtestKit's terms, not dose.wiki's.",
   "license_url": "https://dose.wiki/docs/license",
   "records": [
@@ -130,7 +130,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "9d65d54864e7c2b445e634325fb534ee703c8ed5e3da3d6fc4e0a5a5b7ded0f7",
+      "publicRevision": "e26e35ef2c2dde1ece7610f096de79e10d57432a1e33650d67707636bbc483a3",
       "references": [
         {
           "access": "open",
@@ -517,7 +517,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "30019e26e8c73d1772acf47474d6795cf433fb60becad7fe478b7e40d800b257",
+      "publicRevision": "3098b8d5cfdb2cd0824eb4391e82b94f008d9bbd84ffab361b9938f8ae79c1ec",
       "references": [
         {
           "access": "unknown",
@@ -1624,7 +1624,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "974335c5b910c219d9f52b113ddf15ce643ba053068b2d6c02e6759e0adae298",
+      "publicRevision": "6b384129747ae5dd70bde2e1ef2fc0c8e045d4344435613391b0b143aedf82ec",
       "references": [
         {
           "access": "unknown",
@@ -4114,7 +4114,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "9cf14d5d0f2c6b86a947e3b92719fb6e5c728c65845f87b545eafd83aa9d7614",
+      "publicRevision": "f5d1625de62d9677b797bfe9ce22c95362db9790e2f39820850448217607485a",
       "references": [
         {
           "access": "unknown",
@@ -4768,7 +4768,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "930fc8409fc6c705745f0070a85d5d16c1045e53cadfb8f17e0f24b6a9cdecad",
+      "publicRevision": "5c0fa99e9ea59b5106fcff96ffc6aa18e15c880c9b728b4cf3db3b34addc8488",
       "slug": "2-aminoindane",
       "summary": "2-Aminoindane is a synthetic stimulant of the aminoindane class and a rigid structural analogue of amphetamine in which the propane chain is cyclized back onto the benzene ring. It first appeared on the research chemical market around 2003 and has been sold as a designer drug. Its effects have been compared to those of benzylpiperazine and methamphetamine, though very little is known about its recreational use profile.",
       "title": "2-Aminoindane",
@@ -5103,7 +5103,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "dded1609c80c064a959bdbcb224d2e7c8d999acb75833070caf715b772538935",
+      "publicRevision": "f7c655a5fa2396ab2f52ad409e21bea3655d286efcaa13f3e830a40e5f7914e3",
       "references": [
         {
           "access": "unknown",
@@ -5581,7 +5581,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "32d8c01c4722ffc35c36db976bf74583421222f81585183da6be4595fefcee0b",
+      "publicRevision": "355fefd3180634201b442c58286898d291104caef75f51bfe5e4aa7f073db828",
       "references": [
         {
           "access": "unknown",
@@ -5944,7 +5944,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "2d229261ecc246ef6f981cad87f46b49224c476e64f3b2c88bc027c1aab01591",
+      "publicRevision": "59b58a8a514f936c1ebfbc81140024e0e2697185a2c244d8fb7eb953881f9f84",
       "references": [
         {
           "access": "unknown",
@@ -6254,7 +6254,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "71f09e0503f474d4cf83a9eba5b0cf1ac99b4cb45f187bf70677b3139e571d6d",
+      "publicRevision": "014a00d67360d8a529b75b38f7cd4212f192ca296ddd4f4935901b8655092522",
       "references": [
         {
           "access": "unknown",
@@ -11040,7 +11040,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "cad7785c00b002f11460197bf47c1bfe02be0cdece1d279ede623a3f3056cc57",
+      "publicRevision": "dde2683a9e0bb98184776af7e7fd7da46eea84af1d5405f8549ddc061ea6946a",
       "references": [
         {
           "access": "abstract_only",
@@ -16888,7 +16888,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "57c1d195740ad523ef55a2ea755fdeb9146916a4427e9d78b5b85bc34623d5a8",
+      "publicRevision": "ee70efe988c342d4aa6f4f16d57c4d7820538f9536746a392e8df78261e9f71d",
       "references": [
         {
           "access": "unknown",
@@ -18741,7 +18741,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "f8728c2e030253b59a31e8b920a67a32ea106c2d97253b7216a22e49185b00d7",
+      "publicRevision": "26d6bbcaa5538c80a019c52e162c17d77071b6b46ebb951bcf1d75cf52595c68",
       "references": [
         {
           "access": "unknown",
@@ -19709,7 +19709,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "857c417f0767c953e758a24e8c708fc148cf53d85cf58138c1767858b9edb1b5",
+      "publicRevision": "eb3bd02682996b0474b5a6c175d9e25f204ed2b5331798828eb7ef5972a3ca3a",
       "references": [
         {
           "access": "unknown",
@@ -20790,7 +20790,7 @@
         }
       },
       "priority": "normal",
-      "publicRevision": "cf4b82506db8c9cc61acddffbac3e67678c31bf040da5bae3995fb9143c00487",
+      "publicRevision": "83fa7f2566aaabafae5d6f262a1ddb9bf871536f7f0abfc7fab5e86a8fe8d8c0",
       "references": [
         {
           "access": "abstract_only",
@@ -21701,7 +21701,7 @@
         ]
       },
       "priority": "normal",
-      "publicRevision": "88643d89aaa64a0fefb2c47032afb86e14a55c587a5665f0e23f4cb4a53203b6",
+      "publicRevision": "cb107862dea9f9e7791236c9ebd75401642b4ddb151ea69de0559eb6830884ad",
       "references": [
         {
           "access": "abstract_only",
@@ -22794,7 +22794,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "dc49b608c82635d79500754dfdf85ce294049696b1f761375db86bb768ef7f74",
+      "publicRevision": "6736ac88540534736430f9c4dfce5d7b6a75f179491f683934368c37dccbd08f",
       "references": [
         {
           "access": "unknown",
@@ -23269,7 +23269,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "c35c763d48ee3c37f294e60ab40df7f113fe0f490e98bf5a2ac382f2418a087b",
+      "publicRevision": "b37072c3bf67bfcba644d88dbf42c519799b86c9bed1da4295ecf86d013bf62b",
       "references": [
         {
           "access": "unknown",
@@ -24900,7 +24900,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "7aeabf5b298254189a4e4bcb92f7433dd77cac14499ed4fcff60a9d0481250b6",
+      "publicRevision": "06ff4c37e5e0e9b2afa64a243546e4e37a2d7200512eadc2087d36ba7e5386bd",
       "references": [
         {
           "access": "unknown",
@@ -25276,7 +25276,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "cd750b739e303d060ced61cb564818da0fec37e2ee84ed50a002d6da62d3057a",
+      "publicRevision": "f5770d6df66aac0f18381c15b7bc863b4f03b2bd4884257c96d1dc2e70677b12",
       "references": [
         {
           "access": "unknown",
@@ -26185,7 +26185,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "10a67f8d0842d36d1189e6292be79dd2b61057101f02604865b3d45255b01837",
+      "publicRevision": "29943d96c8837c91e880abf6cdb942964a45ee67078c15fd850b6a2619b2e094",
       "references": [
         {
           "access": "open",
@@ -27449,7 +27449,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "117207af0954f7c431e7d033b005be93f2ee797cfee6341cc0af3d97a50af108",
+      "publicRevision": "65ba1c3f600118ddf0a0bc4f80344dbe471228ae3a522b0d7c0ce61f8d69a97f",
       "references": [
         {
           "access": "open",
@@ -31527,7 +31527,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "895cfcfcc3d408d2f882e8055186701c3b83c2f4093c3d35ae60d59682372361",
+      "publicRevision": "75519933bd108036b88232963d935b7679f79ced0580ef7c5e0bfd709ae2f94d",
       "references": [
         {
           "access": "abstract_only",
@@ -32073,7 +32073,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "90caaf4a8f40a3cf15067ebbb7a3ee8e8ea198c39477125bde20d156d0b7052a",
+      "publicRevision": "b4fbf561abb0a370459f53b0c4f57e36bc2e1482acbf1576d97df641229d9d6f",
       "references": [
         {
           "access": "unknown",
@@ -32448,7 +32448,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "d2ada396fc1deb85277a8288faf4db9336bf4092d815f15e286aca7302c05d1d",
+      "publicRevision": "14c8e556cf3475ed1fac53f757eb88218ff2cbe81450b856dc816ece90511fc5",
       "references": [
         {
           "access": "open",
@@ -33173,7 +33173,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "d20aeb435b0d68d3ec087ff1b0d9b5ddb52ede0482d247a56d0bbc7d31f8c9ac",
+      "publicRevision": "1d5d5a60c858e3eb2c6929ebea0155580cc53c422330a2f4a1bdb96dedcc8ad8",
       "references": [
         {
           "access": "unknown",
@@ -34467,7 +34467,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "b92492f659051aae831da17054e30694b815d56fb433b190ca2d56d0f118f686",
+      "publicRevision": "f18b1023ef69f46a8f3c36107b8b4a0d187a5582643c1df5528e82bb92b4561b",
       "references": [
         {
           "access": "open",
@@ -35109,7 +35109,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "286ade7d680ab33163ad377226a32deae241483fa703a44e7f81d99a67c85c7d",
+      "publicRevision": "17e51ecf4338e220740b8730ca51714f3c991a5cf971bf15022b9b61ef2faa97",
       "references": [
         {
           "access": "unknown",
@@ -35381,7 +35381,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "a95316b0ebbdcb3c7c3779296b4217011d5054882b4be2a5f98be5b2b0b505fe",
+      "publicRevision": "460af6f996b2f9be44b1ddee944458cf95725eff03e22586de2d177a03c00289",
       "references": [
         {
           "access": "open",
@@ -36570,7 +36570,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "2eb3c2ad3a2387bb1dcff54b30aa5554c778afee428c062f55ee266ef0257f45",
+      "publicRevision": "4226b00ce1cbb6290e03805b94dd8773134174f2c9ec222d72c3b16bba9003f0",
       "references": [
         {
           "access": "abstract_only",
@@ -38958,7 +38958,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "affead7b88edd378648704ec3b6c2f70da68a7a5cb210477acab97cf15a2b76c",
+      "publicRevision": "2187e238f258769647702d1d45254d2fbe42187059e2992c4a628aaf1ac17d16",
       "references": [
         {
           "access": "unknown",
@@ -40913,7 +40913,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "4479829793a5b7e330d36c48892cfb9ef71ccb85a64d9142fb12326d5aa5a719",
+      "publicRevision": "e5d8dc99bfab4eece9c95bcc1b061e046c137267aa0a816b9895739a7a330904",
       "references": [
         {
           "access": "open",
@@ -42575,7 +42575,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "4c9ac413595cb5b9399b2c69739eb89e13a75170ec61cc2fdb145712654b93f0",
+      "publicRevision": "3c2a3bdb10117ffef7380edd671ce71bc80c35db6f4688049e5ade5d77aad08f",
       "references": [
         {
           "access": "unknown",
@@ -43609,7 +43609,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "a1fc5569f209d1faf7029c41b0ae31f1c36cdd9de29938731b0066b7f0dbfa40",
+      "publicRevision": "37970c9154487a484d2d52c504e3f95ebe07e74a691358c4316e6c2c53da37c3",
       "references": [
         {
           "access": "unknown",
@@ -44277,27 +44277,27 @@
               "heavy": {
                 "max": null,
                 "min": 7,
-                "unit": "mg"
+                "unit": "ug"
               },
               "light": {
                 "max": 3,
                 "min": 1,
-                "unit": "mg"
+                "unit": "ug"
               },
               "moderate": {
                 "max": 5,
                 "min": 3,
-                "unit": "mg"
+                "unit": "ug"
               },
               "strong": {
                 "max": 7,
                 "min": 5,
-                "unit": "mg"
+                "unit": "ug"
               },
               "threshold": {
                 "max": null,
                 "min": 1,
-                "unit": "mg"
+                "unit": "ug"
               }
             },
             "notes": "",
@@ -44520,7 +44520,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "210f7ad656e8c86262c4d68561b266fc8a5be462da500eb218e558c782a34cf1",
+      "publicRevision": "e677e64d5b1ff6eb52748ef52ba4d7a12359db53998db213ea2790db905f1751",
       "references": [
         {
           "access": "unknown",
@@ -45666,7 +45666,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "92ced854c94aec7ab1bbd4a3f6ae07748e766ab8feca8c7b0846fc513ea5af43",
+      "publicRevision": "b28928dd6ebb2ead3511e634a4b9a35963306da10156c9411c7dda4c6566bac6",
       "references": [
         {
           "access": "unknown",
@@ -46364,7 +46364,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "96c38129e4c3f22ff352f58db9bb3ce237e3e3f27fed3b7558d11ae1ce3788f3",
+      "publicRevision": "c1c25c287e29503f1713480f66df0d026809b860e3b42fc14b5a22120d9bed5d",
       "references": [
         {
           "access": "unknown",
@@ -47411,7 +47411,7 @@
         }
       },
       "priority": "normal",
-      "publicRevision": "59cd4cb74c121739a8a042bd11f9edb0cbe83c44b2074a1154c372d1b02a3c80",
+      "publicRevision": "abd64edcd3ef7d336578c1035f9edbca9d5117d39af8c17f7f5fff8d3b8d6566",
       "slug": "alcohol",
       "summary": "Alcohol (ethanol) is a central nervous system depressant and one of the most widely used psychoactive substances in human history, with evidence of consumption dating back thousands of years.[citation-needed][citation-needed][citation-needed] It acts primarily through GABAergic mechanisms to produce anxiolytic, euphoriant, and sedative effects.[citation-needed][citation-needed] At common doses, alcohol reduces inhibition and increases sociability, while higher doses can cause blackouts and potentially fatal respiratory depression.[citation-needed][citation-needed] Despite its legal status in most countries, alcohol carries significant addiction potential and causes serious physical and psychological harm with chronic heavy use.[citation-needed][citation-needed]",
       "title": "Alcohol",
@@ -49227,7 +49227,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "4f338befe3db1145f01e2b7cc08ddcc58eccf43ee51ab3192d271e8042adc292",
+      "publicRevision": "515645304976a3f3a07f48474183f2c9b23aa6b9572f2b1f88ecab8754bd59d0",
       "references": [
         {
           "access": "abstract_only",
@@ -51450,7 +51450,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "46ed80243e3d66b3f6a19ce8def9f1482417be0f3b1d2dade6528792431bb900",
+      "publicRevision": "5301d36520c1c3b8044ce39a94414f7e1d5a9ad113d908621b81b216f9b69791",
       "references": [
         {
           "access": "abstract_only",
@@ -51951,7 +51951,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "187d03606198df2a2a0ed369df6e42ea5adfa78211e6c9d928ed66610579f29e",
+      "publicRevision": "1d25d3568cc844e8d92c2746de24f20fdb257c35e4d0990fc317674151316139",
       "references": [
         {
           "access": "unknown",
@@ -54348,7 +54348,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "83c2e8a8656c7633f3fb2758ab537957a4de2ac392898f5c9478f91d113f2d72",
+      "publicRevision": "2a31106b12c5c6713d2f4030c212fb42af873cd8144a968bc4c340602e797155",
       "references": [
         {
           "access": "abstract_only",
@@ -56111,7 +56111,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "bb8e74780a144af3119bb8de4b3a9049b83c4396d58b6d8bb2dcfe7a18f2943e",
+      "publicRevision": "23dbd71f29199be880f351af71bf02b169445242b88a4d82ba16c735cf4fc881",
       "references": [
         {
           "access": "unknown",
@@ -59028,7 +59028,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "be1a89b1e48d15936de014c1559b8d8dcd39fa424b2e96b41479a2cf41975a26",
+      "publicRevision": "c3ac240b25057580c8d821dc9b9eff4bbb646638eb27b9faa1e967499e270623",
       "references": [
         {
           "access": "abstract_only",
@@ -60733,7 +60733,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "4d68c672a34af7b3bca6ede0e80e5a3af0f85efd1da14c6109aaf0e00d75f243",
+      "publicRevision": "8a224e11166717ad5e8b007ad4843cc8ec66d24afb2ef7a119e4522d349598ba",
       "references": [
         {
           "access": "abstract_only",
@@ -65725,7 +65725,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "160d09ad938566f3d3abe1067b72906c16615ee05cedb08ede31f2686cdb3a06",
+      "publicRevision": "142e6e6be7c0ca24f361c83566db4b678af74d9ff8fc579414985bc3af7e8e77",
       "references": [
         {
           "access": "open",
@@ -70432,7 +70432,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "6b91a5ef3c997fcd6adcc0f7b13c1f050f46f06536c8eb90049bd8e43d19d66d",
+      "publicRevision": "76da07a211c1553213f054439854b3f4f0e15e9ca03984d33bae0df195c3bcf3",
       "references": [
         {
           "access": "unknown",
@@ -71567,7 +71567,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "446a280c1287487eb0fe6ef3967b29af1ac5f932dfff8347ce0a02e940d05566",
+      "publicRevision": "df3b841d14576ff5451106fa1bc7420df7c1a1c2752c58f906cf2dee4ed11ffa",
       "references": [
         {
           "access": "unknown",
@@ -75571,7 +75571,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "ac689f5fc90cfc044886d0fd94b525a574f407167eb588d982a8805c9c525c1c",
+      "publicRevision": "879dc563296b0f945d8c8834ddac144681bb434cab51a8a8d3c06a74fb941d17",
       "references": [
         {
           "access": "unknown",
@@ -77025,7 +77025,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "8202c7951ea914d22dbc9fb28928e5ddcf8afcbf8b7bed56cc884e95e85f6c60",
+      "publicRevision": "38752bcaef10721758003ff00ea5ea15d1293eb391d4c556166fd3691f5f33c1",
       "references": [
         {
           "access": "abstract_only",
@@ -81160,7 +81160,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "de0ac9742d5895050c253776543f59a520bb03ac952b75f777263f0ae3b01cf5",
+      "publicRevision": "f763c8ca8a8af83fa0e9033b7f059943d4fe2587cc1fd008ac5ce67329e39766",
       "references": [
         {
           "access": "abstract_only",
@@ -84322,7 +84322,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "1b5efb2eac07227176276650f5aac621c31c1e97a72f293af590e63ed68378b8",
+      "publicRevision": "730365ed4f5961a4dbcf177f89f2fcb655918cee24946d74763f9c06dfd804a5",
       "references": [
         {
           "access": "abstract_only",
@@ -85273,7 +85273,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "38cc0f9a46569ee2fb9565c910ab0693dc267509161c9ddf0115f3d47df7526c",
+      "publicRevision": "e57df29dfb22792affc44a442c0bf6c2d09860f6d06978530869d72ebf42945b",
       "references": [
         {
           "access": "open",
@@ -85922,7 +85922,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "a6a487611d1c4536099f37dc5b485cd5c9af3aaaf0e192c824a942670f2f2d98",
+      "publicRevision": "a38e91f729ce7f9889371e92084688c9fcd31c478879ffa3cb04edc6de59f12c",
       "references": [
         {
           "access": "unknown",
@@ -90900,7 +90900,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "ee693a8a02b031a414249bc133aed8b0f3a4035087abdda013fcf27090242303",
+      "publicRevision": "4d7ea8586e8bc49127bc2ea9b00b8ac0b91f03335a60b4c1f6a3c2128afc80e3",
       "references": [
         {
           "access": "open",
@@ -91218,7 +91218,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "a699edf41ae940521d0cca7d8f2fd27b7f5d2e9b910c99994b68a8f89201f1fc",
+      "publicRevision": "0722a2497886461af02ba7801eda1c338934bd2e8f799a72f9ef5799258c91d9",
       "references": [
         {
           "access": "abstract_only",
@@ -91677,7 +91677,7 @@
         }
       ],
       "slug": "dob",
-      "summary": "DOB is a psychedelic amphetamine of the DOx family, first synthesized by Alexander Shulgin in 1967 and later documented in depth in his 1991 book PiHKAL. It was for many years considered the most potent known phenethylamine psychedelic.[citation-needed] DOB is characterized by its unusually long duration of action and notably slow onset, which can take up to three hours — a property that increases the risk of accidental redosing.",
+      "summary": "DOB is a psychedelic amphetamine of the DOx family, first synthesized by Alexander Shulgin in 1967 and later documented in depth in his 1991 book PiHKAL. It was for many years considered the most potent known phenethylamine psychedelic.[citation-needed] DOB is characterized by its unusually long duration of action and notably slow onset, which can take up to three hours — a property that increases the risk of accidental redosing. ",
       "title": "DOB",
       "tolerance": {
         "baseline_tolerance": "7-10 days",
@@ -91895,7 +91895,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "b9072c4effa9c643482559ede385543da230348e56063e8c19ee2c1a00820a9b",
+      "publicRevision": "6cb39e14603b8de57eb4baa0a7943d448927f2f60f2b4c69f98605122aa0602c",
       "references": [
         {
           "access": "paywalled",
@@ -93501,7 +93501,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "b3c8269d72ce02122fccd5d5669bcd486cb9e05b7fe24f4f20b6eced0241cceb",
+      "publicRevision": "420bdadfda6826434e219f705885236e48d10280aabad9382dcd440f71985104",
       "references": [
         {
           "access": "open",
@@ -94035,7 +94035,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "124093851d448aefcc3640e266de3ac097be1ca700c3681b4f6b9afac9d33b36",
+      "publicRevision": "2658b6137aa332b41d34e951eafdcd555c74aacd37498734a7c8350e28fd6d7f",
       "references": [
         {
           "access": "paywalled",
@@ -95570,7 +95570,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "91a73e8e71212d932fad9ee9f3a9855b5ca82885910704ba26d8a6f23c973c94",
+      "publicRevision": "29b8ebe69cea7fec564703223750ae63fb744cdf01ef79f387202084ed02bdde",
       "references": [
         {
           "access": "abstract_only",
@@ -97977,7 +97977,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "f00cb531a819b7e3d037c95b980b664f1de4a4970312f627dfb294768d07062b",
+      "publicRevision": "c6dd160fa965486e5cdebbfaeaede25411fbb14caa8df8c7750f98a6352c5cfc",
       "references": [
         {
           "access": "unknown",
@@ -99919,7 +99919,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "e4793ebf9404e01d4266a5203d86e4b42d6c92509954edc6ec9732ddb1a891a7",
+      "publicRevision": "de39f78f0f0e200dd382dc7914697fb10cd929ce940b049e0db619a624246505",
       "references": [
         {
           "access": "open",
@@ -101075,7 +101075,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "3668b9ca4c2b091b322519cad9f95dca027402fe2b651d1506282888d624af7a",
+      "publicRevision": "22a329eda00ced900d14fd833e8d33b5c85dbfbba5114af8c9de6cd19c6267aa",
       "slug": "ethylphenidate",
       "summary": "Ethylphenidate is a synthetic stimulant of the substituted phenidate class and a close structural analog of methylphenidate (Ritalin). It emerged on research chemical markets around 2010–2011, producing traditional stimulant effects with a profile often regarded as more recreational than its parent compound. At lower doses it enhances focus and productivity, while higher doses tend toward euphoria. Notably, ethylphenidate is caustic and can cause severe nasal damage if insufflated.",
       "title": "Ethylphenidate",
@@ -101226,7 +101226,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "e24ce35944c73f299d70f2a0fbf589d6c0a55648c29d91a20afc6b069d939be0",
+      "publicRevision": "0ab6446a2bea75602aa6e0d867058bd2bac8e8177a2af5e4889523d06729a40f",
       "references": [
         {
           "access": "unknown",
@@ -102608,7 +102608,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "89787e017404c6314137dc6d60d83f11557f803e35a770f76553a04f62e9b51d",
+      "publicRevision": "87bcac5a2e237b8d966a8eb2b2beb360591655256f80881fc8b924d44c53ea9a",
       "references": [
         {
           "access": "open",
@@ -102845,7 +102845,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "863568191eb9f349802ebbf7652742608dd2f05e2777dd9a9c0b4648348f8948",
+      "publicRevision": "fe7c754cf21376e0358e7a15f5b704e67bf1b9a127b22857d783515b41fbef4f",
       "references": [
         {
           "access": "unknown",
@@ -103196,7 +103196,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "ed5d6bba1793caf84fce2e0f507760b461e94d095164be00f5963283ea0320f1",
+      "publicRevision": "bb819492452e7a7a0934a055e92f38464945227581664a04abde5155a6593a5c",
       "references": [
         {
           "access": "abstract_only",
@@ -105314,7 +105314,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "0d70fe77c9c6a949f3ce3718d297eb45fb6a960749b3c3c5390a43415ca65353",
+      "publicRevision": "253da541940312c3ec4b1a3bfb2082daca5324e76aead1fdae02b7de78647610",
       "references": [
         {
           "access": "unknown",
@@ -106133,7 +106133,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "6044b4ea391db0e5972d89d3013db4ca437d3ee0ef8612ed712782480181084c",
+      "publicRevision": "f9fe31e11ca02c3cdc9ab844d163ad5cc3e2ec4ac1679588e155157a94caf29c",
       "slug": "fluclotizolam",
       "summary": "Fluclotizolam is a novel thienotriazolodiazepine research chemical structurally derived from etizolam.[citation-needed] It functions as a depressant and anxiolytic through GABAergic activity.[citation-needed][citation-needed] Reports suggest it is roughly three times more potent than etizolam with a comparatively shorter duration of action, though dosage information remains inconsistent and poorly established. As with other designer benzodiazepines, it carries significant risks of dependence, and its limited research history means its safety profile is not well characterized.[citation-needed][citation-needed][citation-needed]",
       "title": "Fluclotizolam",
@@ -106297,7 +106297,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "b4af98de2f1cf3e092ee8dc5d5032060190f84ed88d5af9dd4bf1bc75ebe4189",
+      "publicRevision": "84188e8aad32521a89d08ed5e3928026f24ed96ee38b9aac16ee7a6557a65ced",
       "references": [
         {
           "access": "abstract_only",
@@ -109090,7 +109090,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "e4277b4ff3b616e111b8271350768d6be1583d85ebc6245ed6c03f52a9b79a5e",
+      "publicRevision": "a4da93b9ba8cfae530cb8a68090df9a35dc639a142a8f74284992398a2498d55",
       "references": [
         {
           "access": "abstract_only",
@@ -117549,7 +117549,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "e2f1141607c9fd81b7366251662b160a7726d2c1cfad3c18d5c00cef4412afd2",
+      "publicRevision": "4090fa933016e99a80a92e02e23a6ab8b8c3b6ef7ca298cb5b638a5107bfd757",
       "references": [
         {
           "access": "abstract_only",
@@ -123954,7 +123954,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "8036a9c8a70d62cb34ed9242cbd0ec53ecd5be502a9203932848b42969b399af",
+      "publicRevision": "aecc4c5dbc48af7784f99a9e3c2cfa6bf52a04e15eb8a159e85b2767b7e0a547",
       "references": [
         {
           "access": "unknown",
@@ -126164,7 +126164,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "8d6ebec9fc873acf7d99e62b5ebef355cca1229335602e0aa16f3ade6cf290e9",
+      "publicRevision": "6545f238115314832079b1c59db0ab81275c45989dd8b5888e4ec2a7224f8ba2",
       "references": [
         {
           "access": "abstract_only",
@@ -129718,7 +129718,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "e4901be60b94d243c43335fb105afd8f5f586c2b5e925d4e348d36355c0c8b08",
+      "publicRevision": "5d36d75833fc907386aa8b2be702f1fb5674e2c9d8e799f49d4aaa10af42309c",
       "references": [
         {
           "access": "abstract_only",
@@ -130011,7 +130011,41 @@
             },
             "notes": "",
             "reference_ids": [],
-            "route": "oral"
+            "route": "Hawaiian Baby Woodrose (oral)"
+          },
+          {
+            "bioavailability": "",
+            "bioavailability_notes": "",
+            "dose_ranges": {
+              "heavy": {
+                "max": null,
+                "min": 300,
+                "unit": "seeds"
+              },
+              "light": {
+                "max": 75,
+                "min": 20,
+                "unit": "seeds"
+              },
+              "moderate": {
+                "max": 200,
+                "min": 75,
+                "unit": "seeds"
+              },
+              "strong": {
+                "max": 300,
+                "min": 200,
+                "unit": "seeds"
+              },
+              "threshold": {
+                "max": null,
+                "min": 20,
+                "unit": "seeds"
+              }
+            },
+            "notes": "",
+            "reference_ids": [],
+            "route": "Morning Glory (oral)"
           }
         ]
       },
@@ -130021,7 +130055,7 @@
             "half_life": "",
             "half_life_notes": "",
             "reference_ids": [],
-            "route": "oral",
+            "route": "Hawaiian Baby Woodrose (oral)",
             "stages": {
               "after_effects": {
                 "max": 24,
@@ -130032,6 +130066,44 @@
                 "max": null,
                 "min": null,
                 "unit": "minutes"
+              },
+              "offset": {
+                "max": 2,
+                "min": 1,
+                "unit": "hours"
+              },
+              "onset": {
+                "max": 180,
+                "min": 30,
+                "unit": "minutes"
+              },
+              "peak": {
+                "max": 7,
+                "min": 2,
+                "unit": "hours"
+              },
+              "total_duration": {
+                "max": 10,
+                "min": 4,
+                "unit": "hours"
+              }
+            }
+          },
+          {
+            "half_life": "",
+            "half_life_notes": "",
+            "reference_ids": [],
+            "route": "Morning Glory (oral)",
+            "stages": {
+              "after_effects": {
+                "max": 24,
+                "min": 2,
+                "unit": "hours"
+              },
+              "come_up": {
+                "max": null,
+                "min": null,
+                "unit": ""
               },
               "offset": {
                 "max": 2,
@@ -130091,7 +130163,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "08a90d919e3235b30740c3ece4c4d2722dd15d2e1acfdbb95cfbf58110795a5c",
+      "publicRevision": "2faa61791a958972f504d9a8bf149b483cb6cf493e703bda11ea984dd29b4a52",
       "references": [
         {
           "access": "open",
@@ -133769,7 +133841,7 @@
         ]
       },
       "priority": "normal",
-      "publicRevision": "4b64dd48054155c5dc9627124005d1c4688a25c9ddabe2ba8cee7eb13d15aff5",
+      "publicRevision": "69db27d0c647c86d548acbe1502536de5dba986427dbb961a1b1a4867cbd5266",
       "references": [
         {
           "access": "open",
@@ -137971,7 +138043,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "944addd6981e4f837f06ced34b0b5c410ea08e6e145139035a067d9a7b88e29b",
+      "publicRevision": "f4948c3a0218d243857644bb1c530d082c22439dd1a875ea8070fa40415fd939",
       "references": [
         {
           "access": "unknown",
@@ -139238,7 +139310,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "0db5609a71bd8f0ba1258df78acf5cea51aff40034fe43a70d9fcd3d0002c74b",
+      "publicRevision": "28cad8ae1b6f6e0a405aa6c8184ccf5d2c8ddf7654181423e01bc3f79d415f94",
       "references": [
         {
           "access": "open",
@@ -139462,7 +139534,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "a2ab9a4a97fdc750492cebd1744ac8556b5a2ac6cbf8308443febe03ead6b65c",
+      "publicRevision": "238c10f98a3498d8149ec508ab3e8d834460ff227b27705365888c5d785a1b0a",
       "references": [
         {
           "access": "open",
@@ -140614,7 +140686,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "2beb443c62c8b00d08bd924d883d5780e8f2a87357f661734b3516ab45369c34",
+      "publicRevision": "c803825614c646220cfc4797bdea5a8160f98c0d0754e8f23bf3dea9ecdcb9d1",
       "references": [
         {
           "access": "unknown",
@@ -145793,7 +145865,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "db4a48eecedf1059fca029892c5a79eb8196dbbaf7047b0c8dd541c3cd96dd59",
+      "publicRevision": "41cb39d63b418dbe01ca820421ea6b95dacfd601f1e9f3979292c252b386bfb1",
       "references": [
         {
           "access": "open",
@@ -147792,7 +147864,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "c9498b76f3948fc4f36505acff61070a9fbac28ef6da4324e2707d67d9c72b69",
+      "publicRevision": "0155d0753954df56f97ed89064db8cb94a21cd5124984d61a48a9a8c8091e5a8",
       "references": [
         {
           "access": "abstract_only",
@@ -149839,7 +149911,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "c786c6dc06680b2624c6c0aac6169f60cea4ead6f86ecd81a0a2aa320e06f811",
+      "publicRevision": "c9b570d282b480f225b22edb6dcfb5bdb7bb13c883e5483057cc6fc863fbc89b",
       "references": [
         {
           "access": "abstract_only",
@@ -156093,7 +156165,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "9d05e0f5fc5549798041a2b3f377cd43e0d94a09f961a08e8b3b7f5a3a017429",
+      "publicRevision": "71c9ec3fd94717b38fc4ed516be46e6b95790ca3d01f85bb316b59624e94fccb",
       "references": [
         {
           "access": "unknown",
@@ -162988,7 +163060,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "b6df7040d588c4f5f8b42f22365e9384bf697ad55853c750f46b88db4e6288a7",
+      "publicRevision": "8ecaef86ac4228af251e8b3555708ebbce015fe72c2063e9c6a6e0e6d21aa68c",
       "references": [
         {
           "access": "open",
@@ -171227,7 +171299,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "9c4459636c10bddcf7d225de8f9b79c2375b7ca8d4fcc81b0093ee50d722743f",
+      "publicRevision": "9a054769a63d5551a06847c4ac0c6273cc7cde59451c6e62bc7ddb932cdb3d75",
       "references": [
         {
           "access": "unknown",
@@ -172506,7 +172578,7 @@
         ]
       },
       "priority": "normal",
-      "publicRevision": "c7aa77967c37157c419469f1b83ad173f2ba429209c77d15dd855b3175f308f5",
+      "publicRevision": "019d70f6fd91c9d57d076d78f7abfab04b61080c051e2596c4b429e4b2670885",
       "references": [
         {
           "access": "abstract_only",
@@ -173225,7 +173297,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "049c5c1275d5781ce0928989026b4c41b78fa49c529424e3630bab373397dc47",
+      "publicRevision": "a478713996ae0e203c391f205e03ab7d5e7de335197f3eb05312fc57148329bc",
       "references": [
         {
           "access": "unknown",
@@ -181262,7 +181334,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "327f8292ccc7864cb3c8377c8df0cf6f9ec5d2e7ec432ac69b9af22827010b42",
+      "publicRevision": "3cfd03c39f9d507224706d8157a303347e1366d28f5bba142e4056d3fca5070d",
       "references": [
         {
           "access": "open",
@@ -182209,7 +182281,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "1c721db0c2aad2b48018ddc1fbf02a2a77f71b3e2de9b9126fe8913612696a4e",
+      "publicRevision": "c49ae286241b9be06b3cbd189793a925fae6a2159d9a226249d84dfb6d26860b",
       "references": [
         {
           "access": "unknown",
@@ -184240,7 +184312,7 @@
         }
       },
       "priority": "normal",
-      "publicRevision": "4d55aa28f9d1498ae58a1d7af9d9b182ab4128edf8703f45261cefda02e9eac1",
+      "publicRevision": "836f2b5b0b1c781fa693ba57f28fada209a5ff682fb494bfa330cc0ee000ca15",
       "references": [
         {
           "access": "open",
@@ -184945,7 +185017,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "f50380d4d98f20b7790909a8d0fe24dd60ff420cc1701da755e3f4332bf7102c",
+      "publicRevision": "28add5bf2bd5bfbf0f8783a54a5cd998f08bcf718c9f105a2b7359bf84f5b8b6",
       "references": [
         {
           "access": "unknown",
@@ -193010,7 +193082,7 @@
         ]
       },
       "priority": "high",
-      "publicRevision": "5581945ba86033a98164c6c9a680cd2c1986ed536516cbf7a25ecbf7544d38aa",
+      "publicRevision": "bba24e1d7caf4ff831262035102adf1a41543ae4f0ad6774afbe66a75eafdd49",
       "references": [
         {
           "access": "unknown",
@@ -193535,7 +193607,7 @@
         "metabolites": []
       },
       "priority": "high",
-      "publicRevision": "ef8b2a2a8451f09369c96dad3f9e29de4bcee8e0d3cbe093ec0cea1cabcaa247",
+      "publicRevision": "a34f610c619e6e430cb8f5b6d131f50a2836f408d3acf5f72fe64e2b06fa1962",
       "references": [
         {
           "access": "unknown",
@@ -194468,7 +194540,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "2041364c89ba92aa523f96f2fe8a67f75c9baa08ae0aa67f44287223330fbedc",
+      "publicRevision": "11c160a54cc175442caca0d0132d22e6e21b1f38cdeafe102903819a4286e5a4",
       "references": [
         {
           "access": "unknown",
@@ -198199,7 +198271,7 @@
         }
       },
       "priority": "normal",
-      "publicRevision": "297b497e73de7a08f6b920647f1f56cfa52f44d680c23c9322eb56d660bb98cc",
+      "publicRevision": "7cba6e46ba70e69291f9d707828765640a63c1be15aa8a80f6d51305626d9959",
       "references": [
         {
           "access": "open",
@@ -199152,7 +199224,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "9c1de665fcabf1c3769f646e00a5690a7123cf47c87de9186c9001d31d8d9e08",
+      "publicRevision": "c82520d40c9f8b48eda008b2dd82f2c2b0e968d7bb08f8ec2721bf3158588a67",
       "references": [
         {
           "access": "abstract_only",
@@ -204482,7 +204554,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "1227c6ae9e857a5d44b69551b713256c434052a97abfc2ddf697ede37e0b9dac",
+      "publicRevision": "91a1155fc08b76ca47916f029ee92399e8ec4a0e32a38a9b7e5f8e2b44837bfb",
       "references": [
         {
           "access": "open",
@@ -204980,7 +205052,7 @@
         }
       },
       "priority": "high",
-      "publicRevision": "6af893258baa0244348e9cb9023bb42ec2a1f1bff624292845e3b89786609ba8",
+      "publicRevision": "d4206c79d176aeb5004aa9b577df613fbbdf954008f50a7db5a39b9441c0ccdb",
       "references": [
         {
           "access": "unknown",
@@ -207034,7 +207106,7 @@
         "metabolites": []
       },
       "priority": "normal",
-      "publicRevision": "eee240f307197702865e91dedc46a35cd4ff91cf08179caa52f348a74b237028",
+      "publicRevision": "7df436cca1ba6ee96a56edbb6d919c9bc9fc54d05b7cac5b3988bd16dd60314d",
       "slug": "zaleplon",
       "summary": "",
       "title": "Zaleplon",

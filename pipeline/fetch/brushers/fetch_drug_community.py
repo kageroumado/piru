@@ -1,27 +1,33 @@
 #!/usr/bin/env python3
-"""Fetch the full drug.community dataset via its public API, storing the raw
-responses in-repo for versioned provenance.
+"""Fetch the substance.wiki dataset via its public API, storing the responses
+in-repo for versioned provenance.
 
-drug.community is a JSON-powered encyclopedia of psychoactive substances, and
-human-readable pages live at https://drug.community/drug/<slug>, where the slug
-is ``name.lower()`` with runs of non-alphanumeric characters collapsed to ``-``
+substance.wiki and drug.community are one catalog behind one read-only API,
+described at https://substance.wiki/api/docs (OpenAPI document at
+``/api/openapi.json``). Piru's source slug and snapshot file names say
+``drug.community``; the app shows the source as substance.wiki. Human-readable
+pages live at https://substance.wiki/drug/<slug>, where the slug is
+``name.lower()`` with runs of non-alphanumeric characters collapsed to ``-``
 (mirrored here by :func:`slugify`).
 
-As of the Sept-2025 redesign the whole substance roster ships in a single
-MongoDB-backed bootstrap payload rather than one API call per name:
+The API publishes each dataset as an immutable release:
 
-    GET https://drug.community/api/data/bootstrap  ->  { drugs: [...], ... }
+    GET /api/data/manifest
+        -> { release: { id, generatedAt, datasets: { <name>: { url, sha256, bytes } } } }
+    GET /api/data/releases/<release id>/<dataset>
 
-Each element of ``drugs`` is the same rich per-substance object the old
-``/api/info?name=<X>`` endpoint returned (drug_name, dosages, duration,
-duration_curves, subjective_effects, interactions, tolerance, half_life,
-citations, categories, …), so downstream consumers are unaffected — only the
-transport changed. We still record the content-hashed SPA asset from the
-homepage so the git history pins exactly which deploy each snapshot came from.
+Every dataset is fetched through its release URL and checked against the
+manifest's byte count and SHA-256, so a snapshot is one named release rather
+than whatever the live endpoints served at that minute, and a truncated or
+proxied response is refused instead of committed.
+
+``bootstrap`` carries the whole substance roster: ``{ drugs: [...] }``, each
+element the per-substance object ``/api/info?name=<X>`` returns (drug_name,
+dosages, duration_curves, subjective_effects, categories, …).
 
 Why store the responses in the repo: re-running this surfaces any upstream
 change as a reviewable git diff. That gives Piru a visible history of where its
-drug.community data came from and when — proof of best-effort sourcing, not an
+substance.wiki data came from and when — proof of best-effort sourcing, not an
 opaque one-off export.
 
 This is sanctioned first-party use of an API the site operator provided; the
@@ -32,11 +38,13 @@ Usage:
 
 Writes:
     data/sources/drug-community.json       — array of drug profiles, sorted by slug
-    data/sources/drug-community.meta.json   — fetch provenance (when / how / how many)
+    data/sources/drug-community.meta.json   — fetch provenance (release / when / how many)
+    data/sources/drug-community-{spectra,effects,combinations}.json — companion datasets
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -50,14 +58,13 @@ REPO = Path(__file__).resolve().parents[3]
 SOURCES = REPO / "data/sources"
 OUT = SOURCES / "drug-community.json"
 META = SOURCES / "drug-community.meta.json"
-# Companion datasets added in the Sept-2025 redesign (see fetch_extra_datasets).
+# Companion datasets (see fetch_extra_datasets).
 SPECTRA_OUT = SOURCES / "drug-community-spectra.json"
 EFFECTS_OUT = SOURCES / "drug-community-effects.json"
 COMBOS_OUT = SOURCES / "drug-community-combinations.json"
 
-BASE = "https://drug.community"
-API = BASE + "/api/data/bootstrap"
-DATA_API = BASE + "/api/data"
+BASE = "https://substance.wiki"
+MANIFEST = BASE + "/api/data/manifest"
 # Honest identification — this is not a browser and not an AI crawler; it is
 # Piru's first-party data fetcher pulling an API made available to the project.
 UA = "Piru-DataFetcher/1.0 (+https://github.com/kageroumado/piru; first-party API use; contact via repo)"
@@ -66,7 +73,6 @@ RETRIES = 2
 
 _NONALNUM = re.compile(r"[^a-z0-9]+")
 _TRIM = re.compile(r"(^-|-$)")
-_ASSET = re.compile(r'src="(/assets/[^"]+\.js)"')
 
 
 def slugify(name: str) -> str:
@@ -88,27 +94,42 @@ def _get(url: str, accept: str = "application/json, text/html") -> bytes:
     raise last  # type: ignore[misc]
 
 
-def current_asset() -> str | None:
-    """The content-hashed SPA bundle the homepage currently references.
+class Release:
+    """One immutable publication of the catalog, as the manifest describes it."""
 
-    Recorded purely as deploy provenance — it pins which build a snapshot was
-    taken against. Best-effort: returns None rather than failing the fetch.
-    """
-    try:
-        home = _get(BASE + "/", accept="text/html").decode("utf-8", "replace")
-    except Exception:  # noqa: BLE001 - provenance only
-        return None
-    match = _ASSET.search(home)
-    return match.group(1) if match else None
+    def __init__(self) -> None:
+        manifest = json.loads(_get(MANIFEST, accept="application/json"))
+        release = manifest.get("release") if isinstance(manifest, dict) else None
+        if not isinstance(release, dict) or not release.get("datasets"):
+            raise SystemExit("manifest carries no release — the API contract may have changed")
+        self.id: str = release["id"]
+        self.generated_at: str = release["generatedAt"]
+        self.schema_version = manifest.get("schemaVersion")
+        self.pipeline_version = manifest.get("pipelineVersion")
+        self._datasets: dict[str, dict] = release["datasets"]
+
+    def dataset(self, name: str):
+        """Fetch one dataset and refuse it unless it is the bytes the manifest names.
+
+        The data API only returns JSON when the request forbids text/html — a
+        browser-style Accept gets the SPA's index.html fallback instead.
+        """
+        entry = self._datasets.get(name)
+        if entry is None:
+            raise SystemExit(f"release {self.id[:12]} has no '{name}' dataset")
+        body = _get(BASE + entry["url"], accept="application/json")
+        digest = hashlib.sha256(body).hexdigest()
+        if len(body) != entry["bytes"] or digest != entry["sha256"]:
+            raise SystemExit(
+                f"'{name}' does not match the manifest: got {len(body)} bytes / {digest[:12]}, "
+                f"expected {entry['bytes']} / {entry['sha256'][:12]}"
+            )
+        return json.loads(body)
 
 
-def fetch_bootstrap() -> list[dict]:
-    """Fetch the full roster from the MongoDB-backed bootstrap payload.
-
-    The data API only returns JSON when the request forbids text/html — a
-    browser-style Accept gets the SPA's index.html fallback instead.
-    """
-    payload = json.loads(_get(API, accept="application/json"))
+def fetch_bootstrap(release: Release) -> list[dict]:
+    """The full roster from the release's bootstrap dataset."""
+    payload = release.dataset("bootstrap")
     drugs = payload.get("drugs") if isinstance(payload, dict) else None
     if not isinstance(drugs, list) or not drugs:
         raise SystemExit(
@@ -128,11 +149,28 @@ def _write_json(path: Path, obj) -> int:
     return len(text.encode("utf-8")) // 1024
 
 
-def fetch_extra_datasets() -> None:
-    """Snapshot the companion datasets the Sept-2025 redesign introduced.
+def _without_ontology_stamp(drug_effects: dict) -> dict:
+    """Drop the per-effect ``ontologyRelease`` block.
 
-    These live behind ``/api/data/<name>`` and are fetched once by the SPA then
-    indexed client-side. We keep card-relevant slices verbatim so any upstream
+    Every effect row repeats the release-wide ontology identity that
+    ``effectsMeta.ontologyRelease`` already states once — a seventh of the file.
+    """
+    return {
+        slug: {
+            **record,
+            "effects": [
+                {k: v for k, v in effect.items() if k != "ontologyRelease"}
+                for effect in record.get("effects") or []
+            ],
+        }
+        for slug, record in drug_effects.items()
+    }
+
+
+def fetch_extra_datasets(release: Release) -> None:
+    """Snapshot the release's companion datasets.
+
+    We keep card-relevant slices verbatim so any upstream
     change shows up as a reviewable git diff, mirroring the main roster snapshot.
     Volatile MongoDB bookkeeping (``_id``, ``cache_key``, timestamps) is stripped
     so it can't churn the diff, and aggregate reverse-indices the app rebuilds on
@@ -146,7 +184,7 @@ def fetch_extra_datasets() -> None:
     # Intensity spectra: a flat list of per-substance documents. Drop the Mongo
     # bookkeeping and sort by slug for a stable ordering.
     try:
-        spectra = json.loads(_get(DATA_API + "/intensity-spectra", accept="application/json"))
+        spectra = release.dataset("intensity-spectra")
         cleaned = [
             {k: v for k, v in doc.items() if k not in ("_id", "cache_key", "created_at")}
             for doc in spectra
@@ -162,10 +200,10 @@ def fetch_extra_datasets() -> None:
     # `drugEffects` (what a card would render) + the small `effectsMeta`
     # provenance block; drop the large effect→drugs reverse index the app derives.
     try:
-        effects = json.loads(_get(DATA_API + "/effects", accept="application/json"))
+        effects = release.dataset("effects")
         payload = {
             "effectsMeta": effects.get("effectsMeta"),
-            "drugEffects": effects.get("drugEffects") or {},
+            "drugEffects": _without_ontology_stamp(effects.get("drugEffects") or {}),
         }
         kb = _write_json(EFFECTS_OUT, payload)
         print(
@@ -176,7 +214,7 @@ def fetch_extra_datasets() -> None:
 
     # Combinations: a flat list keyed by combo slug; no Mongo bookkeeping.
     try:
-        combos = json.loads(_get(DATA_API + "/combinations", accept="application/json"))
+        combos = release.dataset("combinations")
         combos = [c for c in combos if isinstance(c, dict) and c.get("slug")]
         combos.sort(key=lambda c: c["slug"])
         kb = _write_json(COMBOS_OUT, combos)
@@ -187,9 +225,11 @@ def fetch_extra_datasets() -> None:
 
 def main() -> int:
     fetched_at = datetime.now(UTC).isoformat(timespec="seconds")
-    asset = current_asset()
-    drugs = fetch_bootstrap()
-    print(f"fetched {len(drugs)} substances from {API} (deploy asset {asset})")
+    release = Release()
+    drugs = fetch_bootstrap(release)
+    print(
+        f"fetched {len(drugs)} substances from release {release.id[:12]} ({release.generated_at})"
+    )
 
     # Canonicalize for a stable, reviewable diff: key by slug (so aliases that
     # resolve to the same entry can't double-list it) and sort by slug. Sort
@@ -207,11 +247,15 @@ def main() -> int:
     META.write_text(
         json.dumps(
             {
-                "source": "drug.community",
-                "api": API,
+                "source": "substance.wiki",
+                "api": MANIFEST,
+                "api_docs": BASE + "/api/docs",
                 "human_url_pattern": BASE + "/drug/{slug}",
                 "fetched_at": fetched_at,
-                "spa_asset": asset,
+                "release_id": release.id,
+                "release_generated_at": release.generated_at,
+                "schema_version": release.schema_version,
+                "pipeline_version": release.pipeline_version,
                 "substance_count": len(ordered),
             },
             indent=2,
@@ -227,7 +271,7 @@ def main() -> int:
     print(f"  removed ({len(removed)}): {removed}")
 
     print("\ncompanion datasets:")
-    fetch_extra_datasets()
+    fetch_extra_datasets(release)
     return 0
 
 

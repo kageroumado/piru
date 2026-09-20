@@ -36,16 +36,12 @@ jumps to step 3.
 | # | `build.sh` line | Entry point | Inputs | Outputs |
 |---|---|---|---|---|
 | 1/8 | `python3 pipeline/fetch/psychonautwiki.py` | `fetch/psychonautwiki.py` | `https://api.psychonautwiki.org/` GraphQL, list query then one detail query per name, 0.15 s apart | `data/sources/psychonautwiki.json` |
+| 1a/8 | `python3 pipeline/fetch/brushers/fetch_drug_community.py` | `fetch/brushers/fetch_drug_community.py` | `https://substance.wiki/api/data/manifest`, then each dataset through its immutable release URL, checked against the manifest's byte count and SHA-256 | `data/sources/drug-community.json`, `.meta.json`, `-spectra.json`, `-effects.json`, `-combinations.json` |
 | 1b/8 | `python3 pipeline/fetch/subfxonex.py` | `fetch/subfxonex.py` | one hash-pinned release URL on `raw.githubusercontent.com` (overridable as `argv[1]`) | `data/sources/subfxonex.json`, `.meta.json` |
 | 1c/8 | `python3 pipeline/fetch/dosewiki.py` | `fetch/dosewiki.py` | `https://dose.wiki/api/v1/substances?limit=100` then `/substances/{slug}`, 6 concurrent; reads the existing snapshot to skip unchanged `publicRevision` | `data/sources/dosewiki.json`, `.meta.json` |
 | 2/8 | `( cd pipeline/fetch/collector && swift run SubstanceCollector build )` | Swift SPM package | TripSit `drugs.json`, Wikidata SPARQL, PubChem PUG REST, Erowid PIHKAL 001–179 / TIHKAL 001–055, plus a hand-curated in-source DEA schedule table (no network) | `data/intermediate/sourced-substances.json` + `substances-bundled.json` — **see the defect below** |
 | 2b/8 | `python3 pipeline/fetch/product_codes.py` | `fetch/product_codes.py` | openFDA NDC bulk zip, ANSM BDPM `CIS_*.txt`, **and `data/snapshots/substances.json`** (the name allowlist) | `data/sources/product-codes-openfda.json` + `-bdpm.json` + two `.meta.json` |
 | 4/8 | — prints a note only | the enrichment swarm is manual | | `data/enrichment/raw/*.json` |
-
-Drug.community has no fetch step in `build.sh` at all — the comment says
-"drug.community is a manual snapshot → data/sources/drug-community.json (no
-script)", but `pipeline/fetch/brushers/fetch_drug_community.py` **is** that
-script. It is simply never invoked from here.
 
 **Defect — the collector writes to a directory that is not the repo's.**
 `SubstanceCollectorCLI.swift:27,30,36` still carries the defaults from when the
@@ -354,10 +350,11 @@ piru-curated" overstates what the number does.
 
 ## d. The drug.community path
 
-**Fetch** — `pipeline/fetch/brushers/fetch_drug_community.py`, never invoked by
-`build.sh` (its comment claims there is no script). One call to
-`https://drug.community/api/data/bootstrap` plus three companion datasets from
-`/api/data/{intensity-spectra,effects,combinations}`. Writes five files:
+**Fetch** — `pipeline/fetch/brushers/fetch_drug_community.py`, step 1a of
+`build.sh full`. It reads `https://substance.wiki/api/data/manifest` (the API is
+documented at `/api/docs`), then pulls `bootstrap`, `intensity-spectra`,
+`effects` and `combinations` through the manifest's immutable release URLs,
+refusing any body whose byte count or SHA-256 differs. Writes five files:
 
 | File | Read by |
 |---|---|
@@ -726,7 +723,6 @@ SubstanceCollector outputs that feed the SQLite build" — `snapshots.py` reads
 the built SQLite, which `pipeline/README.md:112` gets right.
 `data/snapshots/README.md`'s diagram names `data/curated/overlay.json`, which
 does not exist.
-`build.sh:32` claims drug.community has "no script".
 `build.sh`'s step denominators change from `/8` to `/10` halfway down.
 `pipeline/README.md` does not mention `pubmed_pubtypes.py`, `chem_ids.py`,
 `collision_registry.py`, `psid.py`, `product_codes.py`, `ci_local.py`,
