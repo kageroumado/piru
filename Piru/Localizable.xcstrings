@@ -24187,22 +24187,6 @@
         }
       }
     },
-    "Heart rate and blood pressure on each session's timeline, read from Health." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在每条记录的时间轴上显示从“健康”读取的心率和血压。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在每條記錄的時間軸上顯示從「健康」讀取的心率和血壓。"
-          }
-        }
-      }
-    },
     "Heavier doses" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29925,22 +29909,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中等可信度"
-          }
-        }
-      }
-    },
-    "Meds are in the Journal tab. Custom substances, colors, and units are under Yours in the Library tab. Data & Backup and the substance database are in the Tools tab." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "药物在“日志”标签页。自定义物质、颜色和单位在“资料库”标签页的“我的”下。数据与备份及物质数据库在“工具”标签页。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "藥物在「日誌」標籤頁。自訂物質、顏色和單位在「資料庫」標籤頁的「我的」下。資料與備份及物質資料庫在「工具」標籤頁。"
           }
         }
       }
@@ -38150,22 +38118,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按機制預測的耐受"
-          }
-        }
-      }
-    },
-    "Preferences" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偏好设置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偏好設定"
           }
         }
       }
@@ -48382,22 +48334,6 @@
         }
       }
     },
-    "Terms, sources and licenses, and where your data is kept." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "条款、来源与许可，以及你的数据存放在哪里。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "條款、來源與授權，以及你的資料存放在哪裡。"
-          }
-        }
-      }
-    },
     "Testosterone" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52313,38 +52249,6 @@
         }
       }
     },
-    "Using the average 60 kg. Apple Health has never been connected on this device — connect it, or set your weight, so estimates fit your body." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正使用平均值 60 kg。此设备从未连接过 Apple 健康——连接它或设置你的体重，让估算贴合你自己。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正使用平均值 60 kg。此裝置從未連接過 Apple 健康——連接它或設定你的體重，讓估算貼合你自己。"
-          }
-        }
-      }
-    },
-    "Using the average 60 kg. Health returned no weight — check Settings ▸ Privacy & Security ▸ Health ▸ Piru, or set yours by hand." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正使用平均值 60 kg。“健康”未返回体重——请检查“设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru”，或手动设置。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正使用平均值 60 kg。「健康」未回傳體重——請檢查「設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru」，或手動設定。"
-          }
-        }
-      }
-    },
     "Using the average 60 kg. Set yours above so estimates fit your body — the same dose hits harder the less you weigh." : {
       "localizations" : {
         "zh-Hans" : {
@@ -52357,22 +52261,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正使用平均值 60 kg。在上方設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。"
-          }
-        }
-      }
-    },
-    "Using the average 60 kg. Set yours so estimates fit your body — the same dose hits harder the less you weigh." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正使用平均值 60 kg。设置你的体重，让估算贴合你自己——越轻，同样的剂量作用越强。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正使用平均值 60 kg。設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。"
           }
         }
       }
@@ -53471,22 +53359,6 @@
         }
       }
     },
-    "Where a day begins and how the timeline stacks its curves." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一天从何时开始，以及时间轴如何叠放曲线。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一天從何時開始，以及時間軸如何疊放曲線。"
-          }
-        }
-      }
-    },
     "Where a regular dose settles, from your own cadence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -53563,22 +53435,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的日誌存放在哪裡"
-          }
-        }
-      }
-    },
-    "Which alerts Piru sends, when it asks again, and when it stays quiet." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 发送哪些提醒、何时再次询问、何时保持安静。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 發送哪些提醒、何時再次詢問、何時保持安靜。"
           }
         }
       }
@@ -54612,22 +54468,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的體重"
-          }
-        }
-      }
-    },
-    "Your weight and metabolism, and what each one changes in the estimates." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的体重与代谢，以及各自会改变估算的哪些部分。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的體重與代謝，以及各自會改變估算的哪些部分。"
           }
         }
       }

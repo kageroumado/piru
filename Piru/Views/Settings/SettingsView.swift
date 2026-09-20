@@ -6,15 +6,8 @@ struct SettingsView: View {
     var body: some View {
         List {
             Group {
-                PreferencesSection()
-                YourBodySection()
-
-                Section {
-                    EmptyView()
-                } footer: {
-                    Text("Meds are in the Journal tab. Custom substances, colors, and units are under Yours in the Library tab. Data & Backup and the substance database are in the Tools tab.")
-                }
-
+                DetailLevelSection()
+                ScreensSection()
                 AboutSection()
                 AppVersionFooter()
             }
@@ -36,69 +29,30 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - Preferences
+// MARK: - Detail level
 
-/// The pushed preference screens plus the disclosure tier, each row captioned
-/// with what it governs. The tier's caption is the live summary of the chosen
-/// tier, so the row states what the page currently opens with.
-private struct PreferencesSection: View {
+/// The one setting that lives on this page: a title and a picker, with what it
+/// governs in the footer.
+private struct DetailLevelSection: View {
     @State private var profileStore = UserProfileStore.shared
 
     var body: some View {
         Section {
-            NavigationLink {
-                NotificationSettingsView()
-            } label: {
-                CaptionedRowLabel(
-                    title: "Notifications",
-                    systemImage: "bell.badge",
-                    caption: Text("Which alerts Piru sends, when it asks again, and when it stays quiet."),
-                )
-            }
-
-            NavigationLink {
-                JournalSettingsView()
-            } label: {
-                CaptionedRowLabel(
-                    title: "Journal",
-                    systemImage: "book",
-                    caption: Text("Where a day begins and how the timeline stacks its curves."),
-                )
-            }
-
-            HStack(spacing: Spacing.md) {
-                CaptionedRowLabel(
-                    title: "Detail Level",
-                    systemImage: "slider.horizontal.3",
-                    caption: Text("How much pharmacology a substance page and the Tolerance tool open with."),
-                )
-                Spacer(minLength: 0)
-                Picker("Detail Level", selection: profileBinding) {
-                    ForEach(UserProfile.allCases) { profile in
-                        Label {
-                            Text(profile.displayName)
-                        } icon: {
-                            Image(systemName: profile.icon)
-                                .accessibilityHidden(true)
-                        }
-                        .tag(profile)
+            Picker(selection: profileBinding) {
+                ForEach(UserProfile.allCases) { profile in
+                    Label {
+                        Text(profile.displayName)
+                    } icon: {
+                        Image(systemName: profile.icon)
+                            .accessibilityHidden(true)
                     }
+                    .tag(profile)
                 }
-                .labelsHidden()
-                .fixedSize()
-            }
-
-            NavigationLink {
-                HealthSettingsView()
             } label: {
-                CaptionedRowLabel(
-                    title: "Apple Health",
-                    systemImage: "heart.text.square",
-                    caption: Text("Heart rate and blood pressure on each session's timeline, read from Health."),
-                )
+                Label("Detail Level", systemImage: "slider.horizontal.3")
             }
-        } header: {
-            Text("Preferences")
+        } footer: {
+            Text("How much pharmacology a substance page and the Tolerance tool open with.")
         }
     }
 
@@ -110,19 +64,26 @@ private struct PreferencesSection: View {
     }
 }
 
-// MARK: - Your Body
+// MARK: - Screens
 
-private struct YourBodySection: View {
+/// The pushed screens. Bare titles: each name says what is behind it.
+private struct ScreensSection: View {
     var body: some View {
         Section {
             NavigationLink {
+                NotificationSettingsView()
+            } label: {
+                Label("Notifications", systemImage: "bell.badge")
+            }
+            NavigationLink {
+                JournalSettingsView()
+            } label: {
+                Label("Journal", systemImage: "book")
+            }
+            NavigationLink {
                 YourBodyView()
             } label: {
-                CaptionedRowLabel(
-                    title: "Your Body",
-                    systemImage: "figure.stand",
-                    caption: Text("Your weight and metabolism, and what each one changes in the estimates."),
-                )
+                Label("Your Body", systemImage: "figure.stand")
             }
         }
     }
@@ -136,11 +97,7 @@ private struct AboutSection: View {
             NavigationLink {
                 AboutView()
             } label: {
-                CaptionedRowLabel(
-                    title: "About Piru",
-                    systemImage: "info.circle",
-                    caption: Text("Terms, sources and licenses, and where your data is kept."),
-                )
+                Label("About Piru", systemImage: "info.circle")
             }
         }
     }

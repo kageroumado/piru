@@ -65,31 +65,6 @@ final class HealthKitBodyMass {
         return result
     }
 
-    /// Whether the combined Health prompt has never been shown for body weight on
-    /// this device. iOS hides whether a read was *granted*, but it does say whether
-    /// the request was ever *made* — the one honest answer to "did I connect
-    /// Health?" for a user who believes they did. A raised exception (the
-    /// device-specific `NSException` HealthKit throws on validation) reads as
-    /// "already asked", so the row falls back to the neutral wording.
-    func accessWasNeverRequested() async -> Bool {
-        guard isAvailable else { return false }
-        let store = store
-        let logger = logger
-        let type = bodyMassType
-        return await withCheckedContinuation { (continuation: CheckedContinuation<Bool, Never>) in
-            var thrown: NSError?
-            let started = PiruCatchNSException({
-                store.getRequestStatusForAuthorization(toShare: [], read: [type]) { status, _ in
-                    continuation.resume(returning: status == .shouldRequest)
-                }
-            }, &thrown)
-            if !started {
-                logger.error("Body-mass status check raised an exception: \(thrown?.localizedDescription ?? "unknown", privacy: .public)")
-                continuation.resume(returning: false)
-            }
-        }
-    }
-
     /// Most-recent body-mass sample in kilograms, or nil if none is readable (no access, no data, or
     /// an error). A read with access denied returns an empty result, not an error — that's why nil
     /// means "no access OR no data" and is treated as a soft, recoverable state by the UI.

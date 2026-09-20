@@ -1,126 +1,186 @@
 import SwiftUI
 
-/// Settings ▸ Your Body: the facts about the user's body that Piru's estimates
-/// are sized to — weight and the metabolism flags. Every row says what the app
-/// does with the fact, and the weight row says where its number came from.
+/// Settings ▸ Your Body: what Piru knows about the person's body, and what it reads from Apple
+/// Health. Weight lives in a **single** editable row (nudge it inline, or pull it from Health);
+/// the metabolism flags say what each one changes; the Apple Health section owns the one combined
+/// connect action, and the heart-data toggle sits under it. Health hands Piru weight + HR + BP
+/// through a single system sheet, so there is exactly one authorization prompt here — never a
+/// separate weight-vs-vitals flow.
 struct YourBodyView: View {
-    @State private var profileStore = UserProfileStore.shared
-    /// Whether the Health prompt has never been shown for weight. Nil until the
-    /// async status check resolves, so the caption doesn't flicker between states.
-    @State private var healthNeverAsked: Bool?
+    @State private var profile = UserProfileStore.shared
+    @State private var bodyMass = HealthKitBodyMass.shared
+    @State private var vitals = HealthKitVitals.shared
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    private var showSessionVitals = false
+
+    @State private var weightKg: Double = UserProfileStore.shared.weightKg ?? UserProfileStore.defaultWeightKg
+    /// Suppresses the "user edited → save as manual" side effect when *we* set the
+    /// weight (a Health sync or a reset), so a pulled value keeps its provenance.
+    @State private var isProgrammaticWeightChange = false
+    @State private var isConnecting = false
+    /// Whether "Connect" would still surface a prompt. Once everything grantable is
+    /// answered, the row is hidden — tapping it would only flash an empty sheet.
+    /// Nil until the first async status check resolves, so the row doesn't flicker.
+    @State private var connectWouldPrompt: Bool?
 
     var body: some View {
-        List {
-            Group {
-                Section {
-                    BodyWeightRow(
-                        weightKg: profileStore.weightKg,
-                        source: profileStore.weightSource,
-                        healthAccess: healthAccess,
-                    )
-                }
-
-                Section {
-                    GrapefruitRow(isOn: grapefruitBinding)
-                    AlcoholFlushRow(isOn: aldh2Binding)
-                } header: {
-                    Text("Metabolism")
-                }
+        Form {
+            weightSection
+            metabolismSection
+            if vitals.isAvailable {
+                if connectWouldPrompt == true { connectSection }
+                overlaySection
+            } else {
+                unavailableSection
             }
-            .listRowBackground(CardBackground())
         }
         .themedPage()
         .navigationTitle("Your Body")
         .inlineNavigationTitle()
-        .task { healthNeverAsked = await HealthKitBodyMass.shared.accessWasNeverRequested() }
+        .task { connectWouldPrompt = await vitals.connectWouldPrompt() }
     }
 
-    private var healthAccess: BodyWeightRow.HealthAccess {
-        guard HealthKitBodyMass.shared.isAvailable else { return .unavailable }
-        switch healthNeverAsked {
-        case true: return .neverAsked
-        case false: return .asked
-        case nil: return .unresolved
-        }
-    }
+    // MARK: - Weight (one row: shows the value, edits it, no separate status/manual sections)
 
-    // MARK: - Bindings
-
-    private var grapefruitBinding: Binding<Bool> {
-        Binding(
-            get: { profileStore.grapefruitLoggingEnabled },
-            set: { profileStore.setGrapefruitLoggingEnabled($0) },
-        )
-    }
-
-    private var aldh2Binding: Binding<Bool> {
-        Binding(
-            get: { profileStore.aldh2Deficient },
-            set: { profileStore.setALDH2Deficient($0) },
-        )
-    }
-}
-
-// MARK: - Weight
-
-/// The weight every estimate is sized to, with its provenance, and a push to the
-/// Apple Health screen where it is edited and where Health access is granted.
-private struct BodyWeightRow: View {
-    /// What the app can honestly say about Health access for weight. iOS hides
-    /// whether a read was granted, but it does say whether it was ever asked.
-    enum HealthAccess {
-        case neverAsked
-        case asked
-        case unavailable
-        case unresolved
-    }
-
-    let weightKg: Double?
-    let source: UserProfileStore.WeightSource
-    let healthAccess: HealthAccess
-
-    var body: some View {
-        NavigationLink {
-            HealthSettingsView()
-        } label: {
-            HStack(spacing: Spacing.md) {
-                CaptionedRowLabel(title: "Your body weight", systemImage: "scalemass", caption: Text(caption))
-                Spacer(minLength: 0)
-                Text(verbatim: "\(effectiveWeightKg.doseFormatted) kg")
-                    .monospacedDigit()
-                    .foregroundStyle(Theme.secondaryLabel)
+    private var weightSection: some View {
+        Section {
+            InventoryStepperRow(value: $weightKg, unit: "kg", label: "Your body weight", stepBasis: 10)
+                .onChange(of: weightKg) { _, newValue in
+                    if isProgrammaticWeightChange {
+                        isProgrammaticWeightChange = false
+                        return
+                    }
+                    profile.setManualWeight(newValue)
+                }
+            if profile.weightKg != nil {
+                Button(action: useAverageWeight) {
+                    Text("Use the average (60 kg)")
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
             }
+        } header: {
+            Text("Your weight")
+        } footer: {
+            Text(weightFootnote)
         }
+        .listRowBackground(CardBackground())
     }
 
-    private var effectiveWeightKg: Double {
-        weightKg ?? UserProfileStore.defaultWeightKg
-    }
-
-    private var caption: LocalizedStringResource {
-        switch source {
+    /// Source + why, in one line, so weight needs no second "why we ask" section.
+    private var weightFootnote: LocalizedStringResource {
+        switch profile.weightSource {
         case .healthKit:
             "Synced from Apple Health. Your weight sizes every dose estimate — the same dose hits harder the less you weigh."
         case .manual:
             "Entered manually. Your weight sizes every dose estimate — the same dose hits harder the less you weigh."
         case .estimated:
-            estimatedCaption
+            "Using the average 60 kg. Set yours above so estimates fit your body — the same dose hits harder the less you weigh."
         }
     }
 
-    private var estimatedCaption: LocalizedStringResource {
-        switch healthAccess {
-        case .neverAsked:
-            "Using the average 60 kg. Apple Health has never been connected on this device — connect it, or set your weight, so estimates fit your body."
-        case .asked:
-            "Using the average 60 kg. Health returned no weight — check Settings ▸ Privacy & Security ▸ Health ▸ Piru, or set yours by hand."
-        case .unavailable, .unresolved:
-            "Using the average 60 kg. Set yours so estimates fit your body — the same dose hits harder the less you weigh."
+    // MARK: - Metabolism
+
+    private var metabolismSection: some View {
+        Section {
+            GrapefruitRow(isOn: Binding(
+                get: { profile.grapefruitLoggingEnabled },
+                set: { profile.setGrapefruitLoggingEnabled($0) },
+            ))
+            AlcoholFlushRow(isOn: Binding(
+                get: { profile.aldh2Deficient },
+                set: { profile.setALDH2Deficient($0) },
+            ))
+        } header: {
+            Text("Metabolism")
         }
+        .listRowBackground(CardBackground())
+    }
+
+    // MARK: - Apple Health (access) — only while there's still something to grant
+
+    private var connectSection: some View {
+        Section {
+            Button {
+                Task { await connect() }
+            } label: {
+                HStack {
+                    Label("Connect Apple Health", systemImage: "heart.text.square")
+                    Spacer()
+                    if isConnecting { ProgressView() }
+                }
+            }
+            .disabled(isConnecting)
+            .accessibilityValue(isConnecting ? Text("Connecting…") : Text(verbatim: ""))
+        } header: {
+            Text("Apple Health")
+        } footer: {
+            Text("Shows your body weight, heart rate, blood pressure and workouts from Health alongside your journal. Change what Piru can see in the Health app's settings.")
+        }
+        .listRowBackground(CardBackground())
+    }
+
+    // MARK: - Heart data (the session overlay)
+
+    private var overlaySection: some View {
+        Section {
+            Toggle(isOn: $showSessionVitals) {
+                Label("Show heart data on sessions", systemImage: "waveform.path.ecg")
+            }
+            .tint(Theme.accent)
+            .onChange(of: showSessionVitals) { _, isOn in
+                // Only prompt if there's actually something undetermined to grant;
+                // otherwise just flip the overlay on (no empty-sheet flash).
+                if isOn, !isConnecting, connectWouldPrompt == true { Task { await connect() } }
+            }
+        } header: {
+            Text("Heart data")
+        } footer: {
+            Text("Shows your heart rate and blood pressure on each session's timeline. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.")
+        }
+        .listRowBackground(CardBackground())
+    }
+
+    private var unavailableSection: some View {
+        Section {
+            Text("Apple Health isn't available on this device.")
+                .font(.footnote)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+        .listRowBackground(CardBackground())
+    }
+
+    // MARK: - Actions
+
+    /// The one combined flow: a single Health sheet covering weight + heart rate +
+    /// blood pressure, the overlay switched on, then a silent weight read.
+    private func connect() async {
+        guard !isConnecting else { return }
+        isConnecting = true
+        await HealthKitVitals.shared.requestFullAccess()
+        showSessionVitals = true
+        let result = await bodyMass.syncLatest()
+        connectWouldPrompt = await vitals.connectWouldPrompt()
+        isConnecting = false
+        if case let .updated(kg) = result { setWeightProgrammatically(kg) }
+    }
+
+    /// Revert to the population-average default (not a personal estimate — just the
+    /// fallback Piru uses when no weight is set).
+    private func useAverageWeight() {
+        profile.clearWeight()
+        setWeightProgrammatically(UserProfileStore.defaultWeightKg)
+    }
+
+    /// Set the stepper's value without it counting as a manual edit (so a Health
+    /// sync or reset doesn't flip the source to `.manual`).
+    private func setWeightProgrammatically(_ kg: Double) {
+        guard weightKg != kg else { return }
+        isProgrammaticWeightChange = true
+        weightKg = kg
     }
 }
 
-// MARK: - Metabolism
+// MARK: - Metabolism rows
 
 private struct GrapefruitRow: View {
     @Binding var isOn: Bool
