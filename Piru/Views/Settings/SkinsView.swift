@@ -19,6 +19,11 @@ struct SkinsSheet: View {
         NavigationStack { SkinsView() }
             .presentationDetents([Self.panel, .large], selection: $detent)
             .presentationBackgroundInteraction(.enabled(upThrough: Self.panel))
+            // A skin that was only being looked at comes off when the sheet
+            // goes. On the sheet, not on the screen inside it: a skin change
+            // restyles the navigation bar, and a screen inside the stack can
+            // be told it disappeared while it is still in front.
+            .onDisappear { SkinStore.shared.tryOn(nil) }
     }
 }
 
@@ -97,8 +102,6 @@ struct SkinsView: View {
                 .accessibilityLabel(Text("Close"))
             }
         }
-        // A skin that was only being looked at comes off on the way out.
-        .onDisappear { skins.tryOn(nil) }
     }
 
     /// Small enough that the carousel, its caption and its button fit the panel.
