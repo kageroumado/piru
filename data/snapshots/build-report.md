@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-09-19.3 → `Piru/Data/piru-substances.sqlite` (17,620,992 bytes, sha256 `790364b565fcd6753d505f7711f66514b808ddb272c270fb7195e9ee0ddd79ca`)
+Built 2026-09-20.0 → `Piru/Data/piru-substances.sqlite` (17,620,992 bytes, sha256 `ab417d56922e485597b991ba481673d60fe60c3f7ebe16504d16c789e2f545ef`)
 
 ## Row counts
 
@@ -60,7 +60,7 @@ Built 2026-09-19.3 → `Piru/Data/piru-substances.sqlite` (17,620,992 bytes, sha
 | saturable_kinetics | 6 |
 | bioavailability_by_dose | 10 |
 | attenuation_bands | 1 |
-| coded_products | 15,987 |
+| coded_products | 15,986 |
 | product_codes | 103,591 |
 
 ## Identifier corrections

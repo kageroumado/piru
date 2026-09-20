@@ -12716,7 +12716,8 @@ class Build:
                     sid,
                     psid.compose(uid) if uid else None,
                     row.get("brand"),
-                    row.get("strength"),
+                    # BDPM composition cells carry stray HTML ("<p>5,45 mg").
+                    re.sub(r"<[^>]+>", "", row.get("strength") or "").strip() or None,
                     row.get("form"),
                     row.get("route"),
                     country,
