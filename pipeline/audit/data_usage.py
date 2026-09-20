@@ -52,6 +52,13 @@ VIEW_MARKERS = ("/Views/", "/Components/")
 #: it separately or every attribution-only table reads as queried.
 ATTRIBUTION_FILE = "SubstanceStore+SourceContributions.swift"
 
+#: Columns whose Swift property is named for what the view says rather than for
+#: the column, so the camelCased column name finds nothing.
+PROPERTY_NAMES = {
+    ("off_targets", "clinical_consequence"): "labeledConsequence",
+    ("drug_interactions_pk", "clinical_effect"): "labeledEffect",
+}
+
 #: Columns that are plumbing, not content. They are always "used" in the sense
 #: that matters (joins, keys, dedup) and never rendered, so counting them as
 #: silent losses would bury the real ones.
@@ -179,7 +186,7 @@ def classify(
 ) -> str:
     if filled == 0:
         return "empty"
-    ident = camel(column)
+    ident = PROPERTY_NAMES.get((table, column)) or camel(column)
     sql_hit = word_in(column, near)
     strong = ident not in AMBIGUOUS and len(ident) >= 5
     view_hit = strong and word_in(ident, views)
