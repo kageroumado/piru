@@ -60,15 +60,8 @@ private struct SourceRow: View {
                 .font(.piru(.headline).monospacedDigit())
                 .foregroundStyle(Theme.accent)
                 .frame(width: 20, alignment: .center)
-            VStack(alignment: .leading, spacing: Spacing.xxs) {
-                Text(state.displayName)
-                    .font(.body)
-                if let description = state.description, !description.isEmpty {
-                    Text(description)
-                        .captionSecondary()
-                        .lineLimit(2)
-                }
-            }
+            Text(state.displayName)
+                .font(.body)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text("\(state.displayName), priority \(rank)"))

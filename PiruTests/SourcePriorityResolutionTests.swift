@@ -55,9 +55,9 @@ struct SourcePriorityResolutionTests {
 }
 
 /// `source_field_priority` — a source's rank for ONE field, where its material
-/// there is better than its overall position says. dose.wiki is last in the
-/// order and stays last for every number it carries; only its expert-reviewed
-/// summaries resolve above the wikis, and only for `descriptions`.
+/// there differs from what its overall position says. dose.wiki's reviewed
+/// summaries rise above the published literature for `descriptions`, and
+/// drug.community's point-estimate timelines sink to the end for `durations`.
 @Suite("Per-field source priority")
 struct SourceFieldPriorityTests {
     @Test
@@ -69,8 +69,7 @@ struct SourceFieldPriorityTests {
         store.languageOverride = .en
         // MDMA, Methamphetamine and Caffeine each carry an English overview from
         // PsychonautWiki (a wiki lead copied whole) and one from dose.wiki
-        // (written for its own article). On source priority alone PsychonautWiki
-        // would win every time — it ranks 4th and dose.wiki last.
+        // (written for its own article).
         for name in ["MDMA", "Methamphetamine", "Caffeine"] {
             let overview = try #require(store.lookup(name)?.overview, "\(name) has no overview")
             #expect(overview.sourceSlug == "dosewiki", "\(name) resolved \(overview.sourceSlug)")
@@ -80,20 +79,27 @@ struct SourceFieldPriorityTests {
 
     @Test
     @MainActor
-    func `The override moves the overview and nothing else`() throws {
+    func `dose.wiki never drives the category or the mechanism`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
-        // Every other field resolves on plain source priority, where dose.wiki is
-        // last — so it may only win one where no other source has a value.
-        // Durations are exempt: an override can rank a source beneath dose.wiki
-        // there, which is what `durations`/drug.community does.
+        // The build takes neither field from dose.wiki, whatever its rank: the
+        // category is what the interaction engine keys on.
         let prov = try #require(store.provenance(forSubstanceName: "MDMA"))
         #expect(prov.categorySource != "dosewiki")
         #expect(prov.mechanismSource != "dosewiki")
-        for (_, route) in prov.routesBySource {
-            #expect(route.doseSource != "dosewiki")
-        }
+    }
+
+    @Test
+    @MainActor
+    func `A reviewed dose.wiki ladder outranks the other community sources`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        // Intravenous heroin has a ladder from dose.wiki, drug.community and
+        // PsychonautWiki; dose.wiki leads the three.
+        let prov = try #require(store.provenance(forSubstanceName: "Heroin"))
+        #expect(prov.routesBySource[.intravenous]?.doseSource == "dosewiki")
     }
 
     @Test
@@ -130,10 +136,12 @@ struct SourceFieldPriorityTests {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
-        // drug.community's dose ladders keep its ordinary rank, which for
-        // intravenous heroin is above both wikis.
+        // drug.community's dose ladders keep its ordinary rank. Smoked heroin
+        // has no reviewed dose.wiki ladder, so drug.community's outranks
+        // PsychonautWiki's while its timeline still sits beneath it.
         let prov = try #require(store.provenance(forSubstanceName: "Heroin"))
-        #expect(prov.routesBySource[.intravenous]?.doseSource == "drug.community")
+        #expect(prov.routesBySource[.inhalation]?.doseSource == "drug.community")
+        #expect(prov.routesBySource[.inhalation]?.durationSource != "drug.community")
     }
 
     @Test
@@ -143,11 +151,11 @@ struct SourceFieldPriorityTests {
         defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         // Nicotine carries a curated NRT ladder (therapeutic, 8–16 mg oral) and
-        // PsychonautWiki's recreational one (3–5 mg). piru-curated leads the
+        // dose.wiki's recreational one (3–5 mg). piru-curated leads the
         // source order, so on rank alone the lozenge ladder would sit beside a
         // logged recreational dose and read as the dose to take.
         let prov = try #require(store.provenance(forSubstanceName: "Nicotine"))
-        #expect(prov.routesBySource[.oral]?.doseSource == "psychonautwiki")
+        #expect(prov.routesBySource[.oral]?.doseSource == "dosewiki")
     }
 
     @Test

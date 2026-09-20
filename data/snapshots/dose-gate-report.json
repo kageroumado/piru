@@ -10,13 +10,6 @@
     "rule": "class ceiling · fentanyl-anilidopiperidines ≤ 2 mg",
     "substance": "Acetylfentanyl",
     "source": "dosewiki",
-    "route": "oral",
-    "detail": "strong_upper 7 mg — 6 tier(s) above the ceiling; fentanyl is dosed in tens of micrograms and no anilidopiperidine in human use is more than ~100× weaker (PMID 40721041 ranks six analogs within a decade of fentanyl in vivo); a tier above 2 mg is a milligram written for a microgram"
-  },
-  {
-    "rule": "class ceiling · fentanyl-anilidopiperidines ≤ 2 mg",
-    "substance": "Acetylfentanyl",
-    "source": "dosewiki",
     "route": "sublingual",
     "detail": "strong_upper 20 mg — 6 tier(s) above the ceiling; fentanyl is dosed in tens of micrograms and no anilidopiperidine in human use is more than ~100× weaker (PMID 40721041 ranks six analogs within a decade of fentanyl in vivo); a tier above 2 mg is a milligram written for a microgram"
   },

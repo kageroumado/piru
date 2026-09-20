@@ -729,11 +729,11 @@ struct SubstanceReadModel {
 
     /// Substance overview prose (descriptions table), resolved locale-first.
     ///
-    /// The one field that consults `source_field_priority`. A dose.wiki summary
-    /// on an expert-reviewed article was written for that article, where
+    /// Consults `source_field_priority`. A dose.wiki summary on an
+    /// expert-reviewed article was written for that article, where
     /// PsychonautWiki's is a wiki lead copied whole and FreeOD's English is
     /// machine-translated — so the bundled DB ranks dose.wiki directly beneath
-    /// `piru-curated` here, while its doses and durations stay last.
+    /// `piru-curated` here, above the published literature.
     private func resolvedDescription(db: Database, substanceID: Int64) throws -> SubstanceOverview? {
         guard let row = try resolvedTextRow(
             db: db, from: "descriptions", selecting: "t.text",

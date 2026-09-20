@@ -6022,8 +6022,9 @@
     "display_name": "",
     "aliases": [
       "3-MEPH",
+      "3-MeMMC",
+      "3-Mephedrone",
       "3-Methylmethcathinone",
-      "3-mephedrone",
       "3M",
       "3methylmethcathinone",
       "3mmc",
@@ -7921,7 +7922,7 @@
     "aliases": [
       "4-Fluoromethamphetamine",
       "4-fluromethamphetamine",
-      "4fma",
+      "4FMA",
       "para-Fluoromethamphetamine"
     ],
     "category": "Empathogen",
@@ -12356,14 +12357,16 @@
       "research-chemical",
       "wooden-chest-syndrome-risk"
     ],
-    "default_route": "insufflation",
+    "default_route": "oral",
     "all_routes": [
       "insufflation",
       "oral",
       "sublingual"
     ],
-    "routes_with_dose": [],
-    "has_dose_data": false,
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -12384,7 +12387,6 @@
     ],
     "references": [],
     "data_gaps": [
-      "dose_ranges_by_route",
       "half_life_minutes",
       "references"
     ]
@@ -23215,42 +23217,6 @@
     ]
   },
   {
-    "name": "Cychlorphine",
-    "display_name": "",
-    "aliases": [
-      "Cyclorphine",
-      "piperidinyl-benzimidazolone (“orphine”) opioid"
-    ],
-    "category": "Opioid",
-    "display_class": "recreational",
-    "tags": [
-      "class:Piperidinyl-benzimidazolone derivative"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "intravenous",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "intravenous",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Cyclazodone",
     "display_name": "",
     "aliases": [
@@ -24148,7 +24114,9 @@
     "name": "Delorazepam",
     "display_name": "",
     "aliases": [
+      "Chlordemethyldiazepam",
       "Chlordesmethyldiazepam",
+      "Chlorodesmethyldiazepam",
       "Dadumir",
       "EN",
       "Nordiclazepam"
@@ -24900,14 +24868,22 @@
   {
     "name": "Dexmedetomidine",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "Dexdor",
+      "Igalmi",
+      "Precedex"
+    ],
     "category": "",
-    "display_class": "medical_rx",
+    "display_class": "recreational",
     "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
+    "default_route": "intravenous",
+    "all_routes": [
+      "intravenous"
+    ],
+    "routes_with_dose": [
+      "intravenous"
+    ],
+    "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
@@ -24918,7 +24894,6 @@
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=17478-055"
     ],
     "data_gaps": [
-      "dose_ranges_by_route",
       "duration_by_route"
     ]
   },
@@ -26213,6 +26188,36 @@
     ],
     "data_gaps": [
       "half_life_minutes"
+    ]
+  },
+  {
+    "name": "Dipyanone",
+    "display_name": "",
+    "aliases": [
+      "N-pyrrolidino methadone"
+    ],
+    "category": "",
+    "display_class": "recreational",
+    "tags": [],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -39216,13 +39221,17 @@
       "lysergamide",
       "natural-ergot-alkaloid"
     ],
-    "default_route": "oral",
+    "default_route": "hawaiian baby woodrose (oral)",
     "all_routes": [
+      "hawaiian baby woodrose (oral)",
+      "morning glory (oral)",
       "oral",
       "other",
       "sublingual"
     ],
     "routes_with_dose": [
+      "hawaiian baby woodrose (oral)",
+      "morning glory (oral)",
       "oral",
       "other",
       "sublingual"
@@ -39291,6 +39300,7 @@
       "LSD 25",
       "LSD-25",
       "Lucy",
+      "Lysergic acid diethylamide",
       "Lysergide",
       "N,N-diethyllysergamide",
       "Tabs",
@@ -39300,7 +39310,6 @@
       "hits",
       "lysergamide",
       "lysergic acid amide",
-      "lysergic acid diethylamide",
       "lysergic acid diethylamide-25",
       "mellow yellow",
       "microdot",
@@ -61889,6 +61898,35 @@
     ]
   },
   {
+    "name": "Xylazine",
+    "display_name": "",
+    "aliases": [
+      "AnaSed",
+      "Rompun",
+      "Sedazine"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "Yerba-mate",
     "display_name": "",
     "aliases": [],
@@ -62496,7 +62534,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 360.0,
+    "half_life_minutes": 300.0,
     "mechanism_summary": "Binds the benzodiazepine site of GABA-A receptors, enhancing GABA's inhibitory action on neurons.",
     "effects": [
       "Amnesia",

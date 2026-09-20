@@ -339,11 +339,18 @@ SOURCES = [
         "Published literature",
         "Cited journal articles.",
     ),
-    # drug.community is our preferred dose/duration source (curated by a former
-    # pharma-industry contributor, cross-checked in-app) — ranked above the
-    # volunteer wikis so it wins per-field where it has data; PsychonautWiki and
-    # TripSit backfill any gaps. Genuine dc dose bugs are corrected in the
-    # piru-curated layer (which outranks everything).
+    # dose.wiki leads the community sources. Only its expert-reviewed articles
+    # contribute doses, durations, half-lives and bindings, and a defect reported
+    # there is corrected upstream within days, so ranking it first means a fix
+    # lands for every reader instead of being papered over here.
+    #
+    # Any change to the order of this list needs `currentSourceOrderMigration`
+    # in SubstanceStore.swift bumped, or existing installs keep the old order.
+    ("dosewiki", "dose.wiki", "Community encyclopedia. CC0."),
+    # drug.community (shown as substance.wiki) ranks above the volunteer wikis
+    # so its dose ladders win where dose.wiki has no reviewed article;
+    # PsychonautWiki and TripSit backfill any gaps. Genuine dose bugs are
+    # corrected in the piru-curated layer (which outranks everything).
     ("drug.community", "substance.wiki", "Community database."),
     ("psychonautwiki", "PsychonautWiki", "Community wiki. CC BY-SA 4.0."),
     ("tripsit", "TripSit", "Community database."),
@@ -391,16 +398,6 @@ SOURCES = [
         "FreeOD Wiki",
         "Chinese-language community wiki. CC BY-SA 4.0.",
     ),
-    # Appended LAST, which is both the honest rank and the cheap one: a source
-    # that never wins a dose, duration, category or half-life against anything
-    # else cannot regress an existing install, so `currentSourceOrderMigration`
-    # in SubstanceStore.swift stays where it is. Moving it anywhere else means
-    # bumping that constant, or existing installs silently keep the old order.
-    (
-        "dosewiki",
-        "dose.wiki",
-        "Community encyclopedia. CC0.",
-    ),
 ]
 
 #: A source whose material for ONE field is better than its overall rank says.
@@ -424,13 +421,12 @@ SOURCE_FIELD_PRIORITY: tuple[tuple[str, str, str, str], ...] = (
         "A dose.wiki summary on an expert-reviewed article was written for that "
         "article. PsychonautWiki's is the lead paragraph of a wiki page copied "
         "whole, and FreeOD's English is machine-translated from Chinese — so for "
-        "this one field dose.wiki reads better than either, while its doses, "
-        "durations and bindings stay last.",
+        "this one field dose.wiki outranks the published literature as well.",
     ),
     (
         "durations",
         "drug.community",
-        "dosewiki",
+        SOURCES[-1][0],
         "drug.community records a timeline as single absolute boundaries "
         "(onset ends at 0.5 min, peak runs 30–60 min), so every phase length "
         "Piru derives from it is a point with no interval: 2,555 of its 3,988 "

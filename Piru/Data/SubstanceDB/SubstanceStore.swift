@@ -583,7 +583,7 @@ final class SubstanceStore {
     private static let sourceOrderMigrationKey = "piru.sourceOrderMigrationVersion"
     /// Bump this (and it re-applies bundled default source priority to every
     /// install on next launch) whenever the default `SOURCES` order changes.
-    private static let currentSourceOrderMigration = 1
+    private static let currentSourceOrderMigration = 2
 
     // MARK: - Source priority
 
@@ -635,7 +635,7 @@ final class SubstanceStore {
     /// their bundled priority but aren't user-reorderable: they rarely or never
     /// win a displayed field, so surfacing them only adds noise.
     nonisolated static let reorderableSourceSlugs: Set<String> = [
-        "piru-curated", "peer-review-primary", "drug.community",
+        "piru-curated", "peer-review-primary", "dosewiki", "drug.community",
         "psychonautwiki", "tripsit", "dailymed",
     ]
 

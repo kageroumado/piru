@@ -121,9 +121,9 @@ struct DoseTitleTests {
 
     @Test
     func `Dose level classifies against the isomer's ladder`() {
-        // 15 mg is "light" on the D ladder (TripSit: light 10–20, common 20–30)
-        // and "common" on racemic methylphenidate's (drug.community: common
-        // 10–30). The row read the racemic ladder while the staged editor and edit
+        // 15 mg is "light" on the D ladder (dose.wiki: light 10–20, common 20–30)
+        // and "common" on racemic methylphenidate's (dose.wiki: common
+        // 15–35). The row read the racemic ladder while the staged editor and edit
         // mode read the D one, so the same dose was labelled differently in three
         // places and visibly flipped on Edit/Cancel. Methylphenidate is schedule II,
         // so the only D ladder that ships is the recreational one — the curated
@@ -137,12 +137,11 @@ struct DoseTitleTests {
 
     @Test
     func `Dose level for the racemic dose is unchanged`() {
-        // 10 mg sits on the light/common boundary of racemic methylphenidate's
-        // preferred (drug.community) ladder — light 5–10, common 10–30 — and the
-        // classifier takes the higher band there, so it reads as common. The point
-        // of this test is that racemic reads its OWN ladder (not the D isomer's).
+        // 10 mg sits inside the light band of racemic methylphenidate's preferred
+        // (dose.wiki) ladder — light 5–15, common 15–35. The point of this test is
+        // that racemic reads its OWN ladder (not the D isomer's).
         let cores = DayEntryCore.make(from: [entry("Methylphenidate")])
-        #expect(cores.first?.doseLevel == .common, "10 mg is common on the racemic 10–30 ladder")
+        #expect(cores.first?.doseLevel == .light, "10 mg is light on the racemic 5–15 band")
     }
 
     // MARK: - The derive layer

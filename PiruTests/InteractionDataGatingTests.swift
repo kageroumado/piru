@@ -275,11 +275,11 @@ struct InteractionDataGatingTests {
 
     @Test
     func `A name the catalog does not carry still answers`() {
-        // Fourteen overrides name a substance the catalog has no row for. They are
+        // Some overrides name a substance the catalog has no row for. They are
         // live: a person can log a name the library does not have, and these are
-        // the ones a rule most needs to reach — xylazine is the "tranq" adulterant
+        // the ones a rule most needs to reach — medetomidine is an adulterant
         // whose alpha-2 sedation naloxone does not reverse.
-        for name in ["Xylazine", "Medetomidine", "Butalbital", "Timolol", "Reboxetine"] {
+        for name in ["Medetomidine", "Butalbital", "Timolol", "Reboxetine"] {
             #expect(SubstanceLibrary.lookup(name) == nil, "\(name) now has a catalog row; drop it from this list")
             #expect(!InteractionChecker.drugClasses(for: name).isEmpty, "\(name) lost its class")
         }

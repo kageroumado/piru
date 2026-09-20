@@ -273,11 +273,14 @@ class TestBuiltDatabase(unittest.TestCase):
         if hasattr(cls, "db"):
             cls.db.close()
 
-    def test_dosewiki_is_last_in_the_default_order(self):
-        last = self.db.execute(
-            "SELECT slug FROM sources ORDER BY default_priority DESC LIMIT 1"
-        ).fetchone()
-        self.assertEqual("dosewiki", last["slug"])
+    def test_dosewiki_leads_the_community_sources(self):
+        order = [
+            row["slug"]
+            for row in self.db.execute("SELECT slug FROM sources ORDER BY default_priority")
+        ]
+        self.assertEqual(
+            ["piru-curated", "peer-review-primary", "dosewiki", "drug.community"], order[:4]
+        )
 
     def test_it_never_drives_a_class_field(self):
         """Category and tags are what the interaction engine keys on, so

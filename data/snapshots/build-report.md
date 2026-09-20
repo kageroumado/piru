@@ -1,24 +1,24 @@
 # Piru SQLite build report
 
-Built 2026-09-20.0 → `Piru/Data/piru-substances.sqlite` (17,620,992 bytes, sha256 `ab417d56922e485597b991ba481673d60fe60c3f7ebe16504d16c789e2f545ef`)
+Built 2026-09-20.3 → `Piru/Data/piru-substances.sqlite` (17,948,672 bytes, sha256 `9d4879258aac3e875c3b8f0bddda66f0dd98108bf89f90c11e62134f8b4c7513`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,688 |
-| aliases | 5,719 |
+| substances | 1,689 |
+| aliases | 5,727 |
 | sources | 18 |
 | source_field_priority | 2 |
 | citations | 2,461 |
-| categories | 1,560 |
-| tags | 7,050 |
-| dose_ranges | 2,764 |
-| durations | 10,552 |
+| categories | 1,559 |
+| tags | 7,049 |
+| dose_ranges | 2,771 |
+| durations | 10,542 |
 | half_lives | 716 |
 | mechanisms_summary | 1,211 |
 | effects | 2,952 |
-| subjective_effects | 23,503 |
+| subjective_effects | 23,609 |
 | subjective_effect_concepts | 506 |
 | subjective_effect_concept_aliases | 1,178 |
 | tolerance | 322 |
@@ -37,7 +37,7 @@ Built 2026-09-20.0 → `Piru/Data/piru-substances.sqlite` (17,620,992 bytes, sha
 | off_targets | 209 |
 | class_contexts | 50 |
 | substance_classes | 680 |
-| molecule_shapes | 957 |
+| molecule_shapes | 958 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |
 | substance_flags | 13 |
@@ -89,15 +89,16 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Dose gates
 
-7 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+6 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
 
 ## Per-source coverage
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 220 | 444 | 649 | 2,264 |
+| piru-curated | 220 | 444 | 648 | 2,264 |
 | peer-review-primary | 0 | 1,006 | 0 | 1,582 |
-| drug.community | 839 | 0 | 0 | 125 |
+| dosewiki | 295 | 12 | 0 | 0 |
+| drug.community | 844 | 0 | 0 | 124 |
 | psychonautwiki | 374 | 0 | 63 | 316 |
 | tripsit | 580 | 0 | 411 | 1,266 |
 | dailymed | 0 | 0 | 0 | 0 |
@@ -112,4 +113,3 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
 | freeodwiki | 320 | 0 | 28 | 0 |
-| dosewiki | 293 | 12 | 0 | 0 |
