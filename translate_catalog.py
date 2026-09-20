@@ -6938,7 +6938,6 @@ T = {
     ),
     "Schedule %@ (controlled)": ("%@ 类管制药物", "%@ 類管制藥物"),
     "Search Substances": ("搜索物质", "搜尋物質"),
-    "Search scope": ("搜索范围", "搜尋範圍"),
     "See the model's estimate of what is still active": (
         "查看模型对仍在活跃的内容的估计",
         "檢視模型對仍在活躍的內容的估計",

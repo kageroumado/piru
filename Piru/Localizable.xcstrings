@@ -42777,23 +42777,6 @@
         }
       }
     },
-    "Search scope" : {
-      "comment" : "Accessibility label for the Library/Journal search scope picker",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜索范围"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜尋範圍"
-          }
-        }
-      }
-    },
     "Search substances" : {
       "localizations" : {
         "zh-Hans" : {

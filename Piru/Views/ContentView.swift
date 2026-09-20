@@ -457,6 +457,13 @@ private struct SearchView: View {
     var body: some View {
         SearchSurface(scope: $scope, searchText: $searchText)
             .searchable(text: $searchText, prompt: Text(scope.prompt))
+            // The system's scope bar, shown under the field once it is focused —
+            // the control Music uses for "Apple Music | Library".
+            .searchScopes($scope, activation: .onSearchPresentation) {
+                ForEach(SearchTabScope.allCases) { scope in
+                    Text(scope.title).tag(scope)
+                }
+            }
     }
 }
 
@@ -464,24 +471,17 @@ private struct SearchView: View {
 ///
 /// - **landing** (field not focused): a browse screen (`SearchLandingView`) with
 ///   the large "Search" title and *no* keyboard.
-/// - **focusedEmpty** (focused, nothing typed): the scope picker + recent
-///   activity (`SearchActivityList`) above the keyboard.
-/// - **typing**: the scope picker + results, switched between the catalog and the
-///   journal by a native segmented `Picker`.
+/// - **focusedEmpty** (focused, nothing typed): recent activity
+///   (`SearchActivityList`) above the keyboard.
+/// - **typing**: results from the catalog or the journal, by the search scope.
 ///
-/// The navbar and scope-picker *modifiers* stay permanently mounted — only their
-/// content/visibility varies per phase, so focus changes never flash chrome.
+/// The navbar *modifier* stays permanently mounted — only its visibility varies
+/// per phase, so focus changes never flash chrome.
 private struct SearchSurface: View {
     @Environment(\.appNavigator) private var navigator
     @Environment(\.isSearching) private var isSearching
     @Binding var scope: SearchTabScope
     @Binding var searchText: String
-
-    /// Forces the segmented `Picker` to rebuild after the global
-    /// `UISegmentedControl` title-font appearance changes (the proxy only affects
-    /// controls created *after* it's set). Bumped on focus, when the picker
-    /// appears — see ``applyScopePickerFont(_:)``.
-    @State private var pickerToken = 0
 
     /// Captures `isSearching` before a NavigationLink push resets it to `false`.
     /// The path-change `onChange` fires *after* the push, at which point
@@ -498,24 +498,10 @@ private struct SearchSurface: View {
     var body: some View {
         content
             .scrollEdgeEffectStyle(.soft, for: .top)
-            // Permanently mounted; the picker only appears once focused (an empty
-            // builder collapses to zero height without changing identity).
-            .safeAreaBar(edge: .top) {
-                if phase != .landing {
-                    // A separate `View` type, not a computed property, so its
-                    // segmented `Picker` only rebuilds when `scope`/`token`
-                    // change — not on every `searchText` keystroke (which re-runs
-                    // `SearchSurface.body` because it forwards the binding).
-                    ScopePickerBar(scope: $scope, token: pickerToken)
-                }
-            }
             // Large "Search" title at rest; suppressed once focused (the
             // `enabled: false` branch returns the view untouched).
             .appNavigationBar("Search", enabled: phase == .landing)
-            // Enlarge the segmented picker font while it's visible (focused),
-            // and restore it otherwise so sibling tabs' controls don't inherit it.
             .onChange(of: isSearching) { _, searching in
-                applyScopePickerFont(searching)
                 if searching {
                     wasSearching = true
                 } else {
@@ -553,47 +539,6 @@ private struct SearchSurface: View {
                 )
             }
         }
-    }
-
-    /// Enlarges the scope picker's title font while the picker is visible.
-    /// SwiftUI's segmented `Picker` ignores a `.font` on its labels, so the
-    /// global `UISegmentedControl` appearance proxy is the only lever; bumping
-    /// `pickerToken` re-creates the control so it adopts the new font.
-    private func applyScopePickerFont(_ active: Bool) {
-        #if canImport(UIKit)
-            let attributes: [NSAttributedString.Key: Any]? = active
-                ? [.font: UIFont.preferredFont(forTextStyle: .body)]
-                : nil
-            UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .normal)
-            UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
-            if active { pickerToken += 1 }
-        #endif
-    }
-}
-
-/// Full-width scope selector pinned above the results, matching the Music app's
-/// prominent top toggle. A native segmented Picker (not `.searchScopes`, whose
-/// bar can't be widened/enlarged and renders inconsistently with a tab-bar
-/// search field). Its own `View` type so the Picker only rebuilds when the
-/// scope or font token changes — not on every keystroke of the search field.
-private struct ScopePickerBar: View {
-    @Binding var scope: SearchTabScope
-    let token: Int
-
-    var body: some View {
-        Picker("Search scope", selection: $scope) {
-            ForEach(SearchTabScope.allCases) { scope in
-                Text(scope.title).tag(scope)
-            }
-        }
-        .pickerStyle(.segmented)
-        .controlSize(.large)
-        .labelsHidden()
-        .id(token)
-        .frame(height: 44)
-        .padding(.horizontal)
-        .padding(.top, Spacing.xs)
-        .padding(.bottom, Spacing.md)
     }
 }
 
