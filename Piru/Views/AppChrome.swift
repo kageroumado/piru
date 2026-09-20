@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Shared `•••` overflow toolbar menu: optional per-screen `menuExtras`
-/// followed by the always-present Settings/Help. Used as a trailing
+/// followed by the always-present Skins/Settings/Help. Used as a trailing
 /// `ToolbarItem` on every tab root.
 struct AppOverflowMenu<Extras: View>: View {
     @Environment(\.appNavigator) private var navigator
@@ -21,6 +21,9 @@ struct AppOverflowMenu<Extras: View>: View {
             // grouped and below any per-screen extras, with no dangling
             // divider when `menuExtras` is empty.
             Section {
+                Button { present(.skins) } label: {
+                    Label("Skins", systemImage: "paintbrush")
+                }
                 Button { present(.settings) } label: {
                     Label("Settings", systemImage: "gearshape")
                 }

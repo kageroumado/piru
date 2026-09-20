@@ -402,7 +402,6 @@ T = {
         "抑制過度的神經元放電，視藥物不同，透過阻斷鈉通道、增強 GABA 或結合 SV2A 實現。",
     ),
     # Skins (Settings → Appearance)
-    "Appearance": ("外观", "外觀"),
     "Piru": ("Piru", "Piru"),
     "Soft pink, hot pink, liquid glass": ("柔粉、亮粉、液态玻璃", "柔粉、亮粉、液態玻璃"),
     "ely.pink": ("ely.pink", "ely.pink"),
@@ -6070,6 +6069,7 @@ T = {
         "機制和藥物動力學預設展開，耐受工具使用受體名稱。",
     ),
     # Skins store (SkinWardrobe, OnboardingSkinsStep).
+    "Skins": ("皮肤", "皮膚"),
     "Make it yours": (
         "让它成为你的样子",
         "讓它成為你的樣子",
@@ -6218,10 +6218,6 @@ T = {
     "Where a day begins and how the timeline stacks its curves.": (
         "一天从何时开始，以及时间轴如何叠放曲线。",
         "一天從何時開始，以及時間軸如何疊放曲線。",
-    ),
-    "Skins, decorations, and light or dark.": (
-        "皮肤、装饰，以及浅色或深色。",
-        "皮膚、裝飾，以及淺色或深色。",
     ),
     "Heart rate and blood pressure on each session's timeline, read from Health.": (
         "在每条记录的时间轴上显示从“健康”读取的心率和血压。",
@@ -7853,7 +7849,6 @@ if __name__ == "__main__":
         "Short chains of amino acids acting at hormone or growth-factor receptors. Almost all are injected, and almost none have long-term human data.",
         "Damp excessive neuronal firing, by sodium-channel block, GABA enhancement or SV2A binding depending on the drug.",
         # Skins
-        "Appearance",
         "Skin",
         "Piru",
         "Soft pink, hot pink, liquid glass",
@@ -8454,6 +8449,7 @@ if __name__ == "__main__":
         "Plain names, pharmacology folded away until you open it.",
         "Mechanism and pharmacokinetics open on the page, receptor names in the Tolerance tool.",
         # Skins store (SkinWardrobe, OnboardingSkinsStep).
+        "Skins",
         "Make it yours",
         "Skins pay for Piru's development. The journal, the library, and every tool are free either way.",
         "Free",
@@ -8633,7 +8629,6 @@ if __name__ == "__main__":
         "Your Body",
         "Which alerts Piru sends, when it asks again, and when it stays quiet.",
         "Where a day begins and how the timeline stacks its curves.",
-        "Skins, decorations, and light or dark.",
         "Heart rate and blood pressure on each session's timeline, read from Health.",
         "Your weight and metabolism, and what each one changes in the estimates.",
         "Splits a busy session's overlapping curves into one lane per substance.",

@@ -651,6 +651,7 @@ struct EntryListView: View {
 enum JournalMenuAction {
     case jumpToDate
     case myMeds
+    case skins
     case settings
     case help
 }

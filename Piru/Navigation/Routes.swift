@@ -190,6 +190,7 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// empty editor — the box scanner's "Log This" hand-off.
     case quickLog(routine: String?, prefillSubstance: String? = nil, prefillDose: DosePrefill? = nil)
     case settings
+    case skins
     case help
     case onboarding
 

@@ -9616,22 +9616,6 @@
         }
       }
     },
-    "Appearance" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "外观"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "外觀"
-          }
-        }
-      }
-    },
     "Appetite and sleep were likely pushed aside for hours, and both come due now." : {
       "localizations" : {
         "zh-Hans" : {
@@ -44942,6 +44926,22 @@
         }
       }
     },
+    "Skins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚"
+          }
+        }
+      }
+    },
     "Skins pay for Piru's development. The journal, the library, and every tool are free either way." : {
       "localizations" : {
         "zh-Hans" : {
@@ -44954,22 +44954,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "皮膚的收入用於支持 Piru 的開發。無論買不買，日誌、資料庫和所有工具都是免費的。"
-          }
-        }
-      }
-    },
-    "Skins, decorations, and light or dark." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "皮肤、装饰，以及浅色或深色。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "皮膚、裝飾，以及淺色或深色。"
           }
         }
       }

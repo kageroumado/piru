@@ -1,10 +1,32 @@
 import SwiftUI
 
-/// Skin picker and light/dark override, shown as a panel over the app (see
-/// ``SettingsSheet``): the picker fits the panel, and the rest scrolls under it.
-struct AppearanceSettingsView: View {
+/// The Skins sheet: a short panel over the app, opened from the `•••` menu on
+/// every tab.
+///
+/// Trying a skin on re-dresses the whole app, so the best preview of a skin is
+/// the app itself: the panel leaves the screen behind it in view, undimmed and
+/// still scrollable, and the person watches their own journal change as the
+/// carousel moves. The detents are fixed and the sheet opens at the panel —
+/// nothing here resizes it, so nothing can knock it to full height.
+struct SkinsSheet: View {
+    @State private var detent: PresentationDetent = Self.panel
+
+    /// Tall enough for the carousel, its caption and its button; everything
+    /// under them scrolls, or the panel can be pulled up to full height.
+    private static let panel: PresentationDetent = .height(452)
+
+    var body: some View {
+        NavigationStack { SkinsView() }
+            .presentationDetents([Self.panel, .large], selection: $detent)
+            .presentationBackgroundInteraction(.enabled(upThrough: Self.panel))
+    }
+}
+
+/// Skin picker, decorations, and the light/dark override. The picker fits the
+/// panel; the rest scrolls under it.
+struct SkinsView: View {
     @State private var skins = SkinStore.shared
-    @Environment(\.settingsPanel) private var panel
+    @Environment(\.appNavigator) private var navigator
 
     var body: some View {
         List {
@@ -62,15 +84,21 @@ struct AppearanceSettingsView: View {
         }
         .scrollContentBackground(.hidden)
         .skinBackdrop()
-        .navigationTitle("Appearance")
+        .navigationTitle("Skins")
         // A large title would cost the panel a fifth of its height.
         .inlineNavigationTitle()
-        .onAppear { panel.setActive(true) }
-        // A skin that was only being looked at comes off on the way out.
-        .onDisappear {
-            panel.setActive(false)
-            skins.tryOn(nil)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                    navigator.dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                }
+                .accessibilityLabel(Text("Close"))
+            }
         }
+        // A skin that was only being looked at comes off on the way out.
+        .onDisappear { skins.tryOn(nil) }
     }
 
     /// Small enough that the carousel, its caption and its button fit the panel.

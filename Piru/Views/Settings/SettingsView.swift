@@ -66,16 +66,6 @@ private struct PreferencesSection: View {
                 )
             }
 
-            NavigationLink {
-                AppearanceSettingsView()
-            } label: {
-                CaptionedRowLabel(
-                    title: "Appearance",
-                    systemImage: "paintbrush",
-                    caption: Text("Skins, decorations, and light or dark."),
-                )
-            }
-
             HStack(spacing: Spacing.md) {
                 CaptionedRowLabel(
                     title: "Detail Level",

@@ -81,6 +81,13 @@ struct DeepLinkTests {
     }
 
     @Test
+    func `piru://skins opens the skins sheet`() {
+        let outcome = decode("piru://skins")
+        #expect(outcome?.tab == nil)
+        #expect(outcome?.sheet == .skins)
+    }
+
+    @Test
     func `piru://help preserves current tab`() {
         let outcome = decode("piru://help")
         #expect(outcome?.tab == nil)

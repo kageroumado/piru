@@ -19,6 +19,7 @@ import Foundation
 ///   notification taps) or one substance with its dose editor open (the "Log"
 ///   button on a substance's detail screen)
 /// - `piru://settings` → present `.settings`
+/// - `piru://skins` → present `.skins`
 /// - `piru://help` → present `.help`
 ///
 /// **Entry-flow sheets** (select journal, then present):
@@ -110,6 +111,9 @@ nonisolated enum DeepLink {
 
         case "settings":
             return DeepLinkOutcome(tab: overrideTab, sheet: .settings)
+
+        case "skins":
+            return DeepLinkOutcome(tab: overrideTab, sheet: .skins)
 
         case "help":
             return DeepLinkOutcome(tab: overrideTab, sheet: .help)
@@ -331,6 +335,9 @@ nonisolated enum DeepLink {
 
         case .settings:
             components.host = "settings"
+
+        case .skins:
+            components.host = "skins"
 
         case .help:
             components.host = "help"
