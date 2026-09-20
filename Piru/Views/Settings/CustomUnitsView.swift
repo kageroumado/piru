@@ -158,7 +158,7 @@ struct CustomUnitEditorView: View {
         .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Save", action: save).disabled(!canSave)
+                Button(role: .confirm, action: save).disabled(!canSave)
             }
         }
         .onAppear(perform: seed)

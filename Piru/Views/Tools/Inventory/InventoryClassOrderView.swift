@@ -63,7 +63,7 @@ struct InventoryClassOrderView: View {
                     }
                 #endif
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
+                    Button(role: .confirm) { dismiss() }
                         .fontWeight(.semibold)
                 }
             }

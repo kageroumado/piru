@@ -183,10 +183,10 @@ struct EntryDetailView: View {
     private var toolbarContent: some ToolbarContent {
         if isEditing {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") { isEditing = false }
+                Button(role: .cancel) { isEditing = false }
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("Done") { commitEdits() }
+                Button(role: .confirm) { commitEdits() }
                     .fontWeight(.semibold)
                     .disabled(!draft.canCommit)
             }

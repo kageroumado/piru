@@ -30959,7 +30959,7 @@
         }
       }
     },
-    "Modeled levels" : {
+    "Modeled Levels" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42611,6 +42611,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 類管制藥物"
+          }
+        }
+      }
+    },
+    "scheduled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已安排"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已排定"
           }
         }
       }

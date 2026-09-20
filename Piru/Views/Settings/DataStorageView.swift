@@ -793,7 +793,7 @@ private struct PassphraseSheet: View {
             .navigationTitle(mode == .create ? Text("Set a Passphrase") : Text("Enter Passphrase"))
             .inlineNavigationTitle()
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button(role: .cancel) { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(mode == .create ? "Encrypt" : "Restore") { onSubmit(passphrase) }
                         .disabled(!isValid)

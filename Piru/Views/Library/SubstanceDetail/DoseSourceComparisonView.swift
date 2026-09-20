@@ -71,10 +71,8 @@ struct DoseSourceComparisonView: View {
             .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button {
+                    Button(role: .confirm) {
                         navigator.dismiss()
-                    } label: {
-                        Text("Done")
                     }
                 }
             }

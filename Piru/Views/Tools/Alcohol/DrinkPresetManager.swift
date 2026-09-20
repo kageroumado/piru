@@ -243,7 +243,7 @@ struct DrinkPresetForm: View {
         .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Save", action: save)
+                Button(role: .confirm, action: save)
                     .disabled(!canSave)
             }
         }

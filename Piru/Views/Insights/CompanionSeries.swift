@@ -184,9 +184,9 @@ struct AddCompanionMeasurementSheet: View {
             .navigationTitle(Text(measurement.title))
             .inlineNavigationTitle()
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button(role: .cancel) { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { save() }.disabled((value ?? 0) <= 0)
+                    Button(role: .confirm) { save() }.disabled((value ?? 0) <= 0)
                 }
             }
         }

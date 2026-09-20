@@ -292,10 +292,10 @@ struct AddLabResultSheet: View {
             .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button(role: .cancel) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { save() }
+                    Button(role: .confirm) { save() }
                         .disabled((value ?? 0) <= 0)
                 }
             }

@@ -79,7 +79,7 @@ struct SubstanceFilterSheet: View {
                     }
                 #endif
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
+                    Button(role: .confirm) { dismiss() }
                 }
             }
         }

@@ -367,7 +367,7 @@ private struct UnmigratedRoutePlaceholder: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") { navigator.dismiss() }
+                    Button(role: .close) { navigator.dismiss() }
                 }
             }
         }

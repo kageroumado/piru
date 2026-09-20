@@ -6810,7 +6810,8 @@ T = {
         "模型估計效果結束於約 %@——晚於大多數人的就寢時間。",
     ),
     "Modeled level over time": ("模型估计水平随时间变化", "模型估計水平隨時間變化"),
-    "Modeled levels": ("模型估计水平", "模型估計水平"),
+    "Modeled Levels": ("模型估计水平", "模型估計水平"),
+    "scheduled": ("已安排", "已排定"),
     "Modeled levels over time": ("模型估计水平随时间变化", "模型估計水平隨時間變化"),
     "Molar mass": ("摩尔质量", "莫耳質量"),
     "More cannabis to soften the comedown moves the comedown later.": (
@@ -8463,6 +8464,9 @@ if __name__ == "__main__":
         "Use the suggested times",
         "Reset to the suggested times",
         "Adjust these times",
+        # Insights cards.
+        "Modeled Levels",
+        "scheduled",
         # Skins store (SkinWardrobe, OnboardingSkinsStep).
         "substance.wiki",
         "Black, paper and signal cyan, from the effects index",

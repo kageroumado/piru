@@ -283,7 +283,7 @@ struct InventoryListView: View {
         #if canImport(UIKit)
             if editMode == .active {
                 ToolbarItem(placement: .platformTopBarTrailing) {
-                    Button("Done") { editMode = .inactive }
+                    Button(role: .confirm) { editMode = .inactive }
                         .fontWeight(.semibold)
                 }
             } else {

@@ -40,7 +40,7 @@ struct CheckInScheduleEditor: View {
             .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { navigator.dismiss() }
+                    Button(role: .confirm) { navigator.dismiss() }
                 }
             }
         }

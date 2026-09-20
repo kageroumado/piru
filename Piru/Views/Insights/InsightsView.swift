@@ -275,7 +275,7 @@ struct InsightsView: View {
     // MARK: - In Your Body
 
     private var inYourBodyCard: some View {
-        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "Modeled levels", route: .insightGroup(.inYourBody)) {
+        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "Modeled Levels", route: .insightGroup(.inYourBody)) {
             if model.active.isEmpty {
                 emptyContent("Nothing active right now")
             } else {
@@ -299,7 +299,8 @@ struct InsightsView: View {
 
     // MARK: - Adherence
 
-    /// The month's shape first, its count second.
+    /// The count and the month on one line, the month's shape under it — the
+    /// layout every card on this tab uses: figures first, picture second.
     ///
     /// No streak counter here, and no flame: a streak a single missed day
     /// resets to zero is a scoreboard, and this card is read by people for whom
@@ -310,18 +311,23 @@ struct InsightsView: View {
             if dailyItems.isEmpty {
                 emptyContent("Add your meds to see adherence")
             } else {
-                VStack(alignment: .leading, spacing: 14) {
-                    miniCalendar
+                VStack(alignment: .leading, spacing: Spacing.xl) {
                     if let a = model.adherence, a.hasData {
                         HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
-                            Text("\(a.taken) of \(a.due) scheduled doses")
-                                .font(.piru(.body, design: .rounded, weight: .semibold))
+                            Text(verbatim: "\(a.taken)/\(a.due)")
+                                .font(.piru(.title2, design: .rounded, weight: .bold))
+                            Text("scheduled")
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.secondaryLabel)
                             Spacer()
                             Text(Date.now.formatted(.dateTime.month(.wide)))
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel(Text("\(a.taken) of \(a.due) scheduled doses"))
                     }
+                    miniCalendar
                 }
             }
         }
@@ -354,9 +360,14 @@ struct InsightsView: View {
     private func adherenceDotColor(_ day: DayAdherence) -> Color {
         if day.date > .now { return Color.platformTertiarySystemFill }
         switch day.status {
-        case .complete: return Color.successAccent.opacity(0.85)
-        case .partial: return .cautionAccent.opacity(0.85)
-        case .missed: return .dangerAccent.opacity(Theme.Opacity.strong)
+        // The dose scale's hues rather than the semantic green and red: a
+        // month of those reads as a report card, and these sit quietly beside
+        // the other cards while still running light → heavy.
+        // Missed days are held back further still: in a thin month they are
+        // most of the grid, and at full strength the card is a red wall.
+        case .complete: return .Dose.Light.accent
+        case .partial: return .Dose.Common.accent
+        case .missed: return .Dose.Heavy.accent.opacity(Theme.Opacity.strong)
         case .noData: return Color.platformSecondarySystemFill
         }
     }
