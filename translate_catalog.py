@@ -580,7 +580,6 @@ T = {
     "LogP": ("LogP", "LogP"),
     "SMILES": ("SMILES", "SMILES"),
     "TPSA": ("TPSA", "TPSA"),
-    "nAChR": ("nAChR", "nAChR"),
     "mL": ("mL", "mL"),
     "%@ + %@ active together ~%lldh (%@ + %@).": (
         "%@ 与 %@ 同时活跃约 %lld 小时（%@ + %@）。",
@@ -600,10 +599,8 @@ T = {
     "%lld%% load": ("负荷 %lld%%", "負荷 %lld%%"),
     "%lld%% remaining": ("剩余 %lld%%", "剩餘 %lld%%"),
     "≈ %@ %@ %@ at %@ kg": ("≈ %@ %@ %@（按 %@ kg）", "≈ %@ %@ %@（按 %@ kg）"),
-    "5-HT₂A receptor": ("5-HT₂A 受体", "5-HT₂A 受體"),
     "A picture of typical pharmacology.": ("典型药理的概览。", "典型藥理的概覽。"),
     "About monoamine profile": ("关于单胺特征", "關於單胺特徵"),
-    "Adenosine receptor": ("腺苷受体", "腺苷受體"),
     "Alcohol dehydrogenase saturates at about one drink, so clearance runs at a fixed rate and each extra drink stacks on the last. Chronic heavy drinking speeds clearance somewhat (CYP2E1 induction); the ALDH2 “flush” variant slows acetaldehyde clearance.": (
         "乙醇脱氢酶在约一杯酒时饱和，此后以固定速率清除，每多一杯都叠加在上一杯之上。长期大量饮酒会略微加快清除（CYP2E1 诱导）；ALDH2“脸红”变异会减慢乙醛清除。",
         "乙醇脫氫酶在約一杯酒時飽和，此後以固定速率清除，每多一杯都疊加在上一杯之上。長期大量飲酒會略微加快清除（CYP2E1 誘導）；ALDH2「臉紅」變異會減慢乙醛清除。",
@@ -634,7 +631,6 @@ T = {
         "按单次服用一种物质校准；每多一剂或一种物质，误差都会增大。",
         "按單次服用一種物質校準；每多一劑或一種物質，誤差都會增大。",
     ),
-    "CB1 receptor": ("CB1 受体", "CB1 受體"),
     "Checked off by a logged dose of the same substance and route.": (
         "记录同一物质、同一途径的剂量即可勾选。",
         "記錄同一物質、同一途徑的劑量即可勾選。",
@@ -665,10 +661,6 @@ T = {
     ),
     "Day": ("天", "天"),
     "Dissociatives": ("解离剂", "解離劑"),
-    "Dopamine/noradrenaline transporter (DAT/NET)": (
-        "多巴胺/去甲肾上腺素转运体（DAT/NET）",
-        "多巴胺/去甲腎上腺素轉運體（DAT/NET）",
-    ),
     "Dose intensity": ("剂量强度", "劑量強度"),
     "Dosed in low milligrams — use a milligram scale (0.001 g). Can't be measured by eye or kitchen scale.": (
         "剂量仅几毫克，请用毫克秤（0.001 g）。无法目测或用厨房秤称量。",
@@ -822,7 +814,6 @@ T = {
     ),
     "Sedatives": ("镇静剂", "鎮靜劑"),
     "Serotonin releasers": ("血清素释放剂", "血清素釋放劑"),
-    "Serotonin transporter (SERT)": ("血清素转运体（SERT）", "血清素轉運體（SERT）"),
     "Share Substance": ("分享物质", "分享物質"),
     "Share this session": ("分享本次记录", "分享本次記錄"),
     "Showing the first 60 days.": ("显示前 60 天。", "顯示前 60 天。"),
@@ -883,11 +874,8 @@ T = {
         "根據你的記錄節奏，每種規律服用的物質將穩定在何處",
     ),
     "Yesterday's %@ weren't logged": ("昨天的 %@ 未记录", "昨天的 %@ 未記錄"),
-    "α₂-adrenoceptor": ("α₂ 肾上腺素受体", "α₂ 腎上腺素受體"),
     "α₂-agonists": ("α₂ 激动剂", "α₂ 促效劑"),
     "α₂-agonists (clonidine)": ("α₂ 激动剂（可乐定）", "α₂ 促效劑（可樂定）"),
-    "β-adrenoceptor": ("β 肾上腺素受体", "β 腎上腺素受體"),
-    "μ-opioid receptor (MOR)": ("μ 阿片受体（MOR）", "μ 鴉片類受體（MOR）"),
     "Vial concentration": ("药瓶浓度", "藥瓶濃度"),
     "Manual schedule": ("手动方案", "手動方案"),
     "%lld injections from your log": ("来自你记录的 %lld 次注射", "來自你記錄的 %lld 次注射"),
@@ -4074,10 +4062,8 @@ T = {
     "Entries per day": ("每日条目", "每日條目"),
     # Profile & Disclosure Tier
     "Profile": ("个人资料", "個人資料"),
-    "Disclosure Tier": ("披露等级", "披露等級"),
     "Casual": ("休闲", "休閒"),
     "Curious": ("好奇", "好奇"),
-    "Pharma Nerd": ("药物极客", "藥物極客"),
     "Slide to move, pinch to zoom": ("滑动移动，捏合缩放", "滑動移動，捏合縮放"),
     # Mechanistic effect lenses + readouts (2026-07-08).
     "Feeling": ("感受", "感受"),
@@ -6052,7 +6038,6 @@ T = {
     # Gabapentinoid α2δ class (§K.6, 2026-08-06).
     "Gabapentinoids (α2δ)": ("加巴喷丁类 (α2δ)", "加巴噴丁類 (α2δ)"),
     "Gabapentinoids": ("加巴喷丁类", "加巴噴丁類"),
-    "α2δ subunit (VGCC)": ("α2δ亚基 (VGCC)", "α2δ亞基 (VGCC)"),
     "Sedative tolerance builds; dependence can develop within weeks of daily use. Phenibut withdrawal is among the most severe.": (
         "镇静耐受性会逐渐建立；每日使用数周即可产生依赖。苯乙胺丁酸的戒断反应属于最严重的类型之一。",
         "鎮靜耐受性會逐漸建立；每日使用數週即可產生依賴。苯乙胺丁酸的戒斷反應屬於最嚴重的類型之一。",
@@ -6066,6 +6051,23 @@ T = {
     "If you are using phenibut or F-phenibut daily, dependence develops within weeks. Protracted withdrawal can last months — taper gradually with medical guidance.": (
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，数周内就会产生依赖。迁延性戒断可持续数月——在医疗指导下逐步减量。",
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，數週內就會產生依賴。遷延性戒斷可持續數月——在醫療指導下逐步減量。",
+    ),
+    # Detail level (UserProfile).
+    "Detail Level": (
+        "详细程度",
+        "詳細程度",
+    ),
+    "How much pharmacology a substance page and the Tolerance tool open with.": (
+        "物质页面和耐受工具默认展开多少药理内容。",
+        "物質頁面和耐受工具預設展開多少藥理內容。",
+    ),
+    "Plain names, pharmacology folded away until you open it.": (
+        "使用通俗名称，药理内容默认折叠，需要时再展开。",
+        "使用通俗名稱，藥理內容預設折疊，需要時再展開。",
+    ),
+    "Mechanism and pharmacokinetics open on the page, receptor names in the Tolerance tool.": (
+        "机制和药代动力学默认展开，耐受工具使用受体名称。",
+        "機制和藥物動力學預設展開，耐受工具使用受體名稱。",
     ),
     # Skins store (SkinWardrobe, OnboardingSkinsStep).
     "Make it yours": (
@@ -6522,10 +6524,6 @@ T = {
     "Dose & duration": ("剂量与时长", "劑量與時長"),
     "Dose Ranges": ("剂量范围", "劑量範圍"),
     "Dose data": ("剂量数据", "劑量資料"),
-    "Dose ladders, durations, top-line warnings. Skip the deep pharmacology.": (
-        "剂量阶梯、持续时间与主要警告，略去深入的药理学内容。",
-        "劑量階梯、持續時間與主要警告，略去深入的藥理學內容。",
-    ),
     "Doses you log sync between your iPhone and a paired Apple Watch.": (
         "你记录的剂量会在 iPhone 和已配对的 Apple Watch 之间同步。",
         "你記錄的劑量會在 iPhone 和已配對的 Apple Watch 之間同步。",
@@ -6610,10 +6608,6 @@ T = {
     "Every source recorded in the substance database that ships with Piru.": (
         "Piru 随附的物质数据库中记录的每一个来源。",
         "Piru 隨附的物質資料庫中記錄的每一個來源。",
-    ),
-    "Everything — receptor binding tables, biased agonism, CYP metabolism, citations down to DOI.": (
-        "全部内容 — 受体结合表、偏向性激动、CYP 代谢，以及精确到 DOI 的文献引用。",
-        "全部內容 — 受體結合表、偏向性激動、CYP 代謝，以及精確到 DOI 的文獻引用。",
     ),
     "Export Failed": ("导出失败", "匯出失敗"),
     "Exports and backups": ("导出与备份", "匯出與備份"),
@@ -6718,10 +6712,6 @@ T = {
     ),
     "In your system": ("体内残留", "體內殘留"),
     "InChIKey": ("InChIKey", "InChIKey"),
-    "Interactions, mechanisms, subjective effects, and source citations.": (
-        "相互作用、作用机制、主观效果，以及来源引用。",
-        "交互作用、作用機制、主觀效果，以及來源引用。",
-    ),
     "It estimates a level. It never suggests a dose or a target. Your lab results fit the model to your measurements, which doesn't establish accuracy between them.": (
         "它估计一个水平，从不建议剂量或目标。你的化验结果让模型贴合你的测量值，但这并不能证明各次测量之间的准确性。",
         "它估計一個水平，從不建議劑量或目標。你的化驗結果讓模型貼合你的測量值，但這並不能證明各次測量之間的準確性。",
@@ -8458,6 +8448,11 @@ if __name__ == "__main__":
         "What this does not model",
         "The idea first, then every stage from your dose to the line on the chart.",
         "The calculation, step by step",
+        # Detail level (UserProfile).
+        "Detail Level",
+        "How much pharmacology a substance page and the Tolerance tool open with.",
+        "Plain names, pharmacology folded away until you open it.",
+        "Mechanism and pharmacokinetics open on the page, receptor names in the Tolerance tool.",
         # Skins store (SkinWardrobe, OnboardingSkinsStep).
         "Make it yours",
         "Skins pay for Piru's development. The journal, the library, and every tool are free either way.",

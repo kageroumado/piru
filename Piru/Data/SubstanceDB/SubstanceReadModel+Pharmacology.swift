@@ -76,8 +76,8 @@ nonisolated struct PharmaTableRow: Identifiable {
 }
 
 /// One per-route pharmacokinetic row joined to its source + citation.
-/// Surfaced in the detail view's Pharmacokinetics disclosure (pharma-nerd
-/// tier). Every numeric is from primary literature with explicit attribution;
+/// Surfaced in the detail view's Pharmacokinetics disclosure.
+/// Every numeric is from primary literature with explicit attribution;
 /// fields are optional because most rows populate only a subset.
 nonisolated struct PKRouteHit: Identifiable, Hashable {
     let id: Int64
@@ -177,7 +177,7 @@ extension SubstanceReadModel {
     }
 
     /// Returns every binding row matching the predicate, *across all sources*
-    /// (including disabled) so pharma-nerd users can see the literature even
+    /// (including disabled) so readers can see the literature even
     /// for sources they've deprioritised. UI labels which source supplied each
     /// row so users can apply their own trust filter.
     func bindings(

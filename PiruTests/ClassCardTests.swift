@@ -142,7 +142,7 @@ struct ClassCardTests {
         model.load(
             substanceName: diazepam.name,
             category: diazepam.category,
-            policy: DisclosurePolicy(profile: .pharmaNerd),
+            policy: DisclosurePolicy(profile: .curious),
         )
         let rungs = BenzoDurationLadder.rungs(
             for: diazepam,

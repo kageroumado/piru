@@ -13,7 +13,7 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 extension SubstanceStore {
     /// Every binding row associated with a specific substance, resolved by
     /// canonical name. Used by the detail view's "Receptor Literature"
-    /// disclosure (pharma-nerd tier) to show the full Ki/EC50 table with
+    /// disclosure to show the full Ki/EC50 table with
     /// per-row source attribution. Returns rows sorted by tightest Ki first.
     ///
     /// Resolves through ``ActiveIngredient`` first, so a preparation reads its

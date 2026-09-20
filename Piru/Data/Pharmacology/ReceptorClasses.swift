@@ -172,25 +172,6 @@ nonisolated enum ReceptorClasses {
             case .unknown: "Other"
             }
         }
-
-        /// Precise receptor/transporter name for the **Pharma Nerd** tier.
-        var scientificName: LocalizedStringResource {
-            switch self {
-            case .psychedelic5HT2A: "5-HT₂A receptor"
-            case .muOpioid: "μ-opioid receptor (MOR)"
-            case .catecholamineStimulant: "Dopamine/noradrenaline transporter (DAT/NET)"
-            case .serotonergicReleaser: "Serotonin transporter (SERT)"
-            case .gaba: "GABA-A receptor"
-            case .nmdaAntagonist: "NMDA receptor"
-            case .cannabinoidCB1: "CB1 receptor"
-            case .adenosine: "Adenosine receptor"
-            case .nicotinic: "nAChR"
-            case .alpha2Agonist: "α₂-adrenoceptor"
-            case .betaBlocker: "β-adrenoceptor"
-            case .alpha2Delta: "α2δ subunit (VGCC)"
-            case .unknown: "Other"
-            }
-        }
     }
 
     /// The harm-reduction axis a class hands tolerance off to (drives Stage-2/5 copy; not yet shown).

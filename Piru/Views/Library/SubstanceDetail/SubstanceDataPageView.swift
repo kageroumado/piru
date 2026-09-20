@@ -10,13 +10,13 @@ import SwiftUI
 /// independent of the user's disclosure tier — a deep link or a "Show all" tap
 /// is a request to see everything, and the page must stay valid if the tier
 /// changes while it's on the stack. So it loads its model at a fixed
-/// `pharmaNerd` policy.
+/// `curious` policy.
 struct SubstanceDataPageView: View {
     let name: String
     let section: DataSection
 
     /// The reference pages show full data regardless of the user's chosen tier.
-    private static let policy = DisclosurePolicy(profile: .pharmaNerd)
+    private static let policy = DisclosurePolicy(profile: .curious)
 
     @State private var model = SubstanceDetailModel()
     @State private var glossaryTopic: PharmacologyGlossarySheet.Topic?
@@ -70,12 +70,12 @@ struct SubstanceDataPageView: View {
             // Host the whole pharmacology cluster (mechanism · monoamine ·
             // receptor literature · PK · metabolism) at full tier so the deep
             // page reuses the canonical rendering — disclosures start expanded
-            // at pharmaNerd — rather than duplicating its gating.
+            // at Curious — rather than duplicating its gating.
             PharmacologySections(
                 substance: substance,
                 model: model,
                 policy: Self.policy,
-                profile: .pharmaNerd,
+                profile: .curious,
                 onGlossary: { glossaryTopic = $0 },
             )
         }

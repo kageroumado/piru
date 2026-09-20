@@ -78,12 +78,12 @@ private struct PreferencesSection: View {
 
             HStack(spacing: Spacing.md) {
                 CaptionedRowLabel(
-                    title: "Disclosure Tier",
+                    title: "Detail Level",
                     systemImage: "slider.horizontal.3",
-                    caption: Text(profileStore.disclosureTier.summary),
+                    caption: Text("How much pharmacology a substance page and the Tolerance tool open with."),
                 )
                 Spacer(minLength: 0)
-                Picker("Disclosure Tier", selection: profileBinding) {
+                Picker("Detail Level", selection: profileBinding) {
                     ForEach(UserProfile.allCases) { profile in
                         Label {
                             Text(profile.displayName)

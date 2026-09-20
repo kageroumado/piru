@@ -24,21 +24,8 @@ struct DisclosurePolicyTests {
     }
 
     @Test
-    func `Curious shows the same sections, still folded`() {
-        let p = DisclosurePolicy(profile: .harmReduction)
-        #expect(p.showsMechanism)
-        #expect(p.showsRichSubjective)
-        #expect(p.showsReceptorLiterature)
-        #expect(p.showsSources)
-        // Middle tier: sections visible but not default-expanded.
-        #expect(!p.mechanismDefaultExpanded)
-        #expect(!p.subjectiveDefaultExpanded)
-        #expect(!p.sourcesDefaultExpanded)
-    }
-
-    @Test
-    func `Pharma-nerd shows everything default-expanded`() {
-        let p = DisclosurePolicy(profile: .pharmaNerd)
+    func `Curious opens mechanism, effects and the receptor table`() {
+        let p = DisclosurePolicy(profile: .curious)
         #expect(p.showsMechanism)
         #expect(p.showsRichSubjective)
         #expect(p.showsReceptorLiterature)
@@ -71,7 +58,7 @@ struct DisclosurePolicyTests {
 
     @Test
     func `Spine is chosen by display class, mirroring the dose-ladder split`() {
-        let p = DisclosurePolicy(profile: .harmReduction)
+        let p = DisclosurePolicy(profile: .curious)
         for dc in [CompoundDisplayClass.recreational, .dualUse, .otc] {
             #expect(p.spine(for: dc) == .recreational)
         }
@@ -102,15 +89,6 @@ struct DisclosurePolicyTests {
     }
 
     @Test
-    func `Curious gets pharmacology on the page, folded`() {
-        let p = DisclosurePolicy(profile: .harmReduction)
-        #expect(p.placement(for: .mechanism, spine: .recreational) == .inlineCollapsed)
-        #expect(p.placement(for: .pharmacokinetics, spine: .recreational) == .inlineCollapsed)
-        #expect(p.placement(for: .chemistry, spine: .recreational) == .inlineCollapsed)
-        #expect(p.placement(for: .receptorLiterature, spine: .recreational) == .inlineCollapsed)
-    }
-
-    @Test
     func `The pharmacology ladder is never hidden at any tier`() {
         // The matrix half of the same invariant. Recreational/medical *spine*
         // exclusions are real (no dose ladder on a statin); tier exclusions are
@@ -135,7 +113,7 @@ struct DisclosurePolicyTests {
         // fold in a navigation push cost two taps and a screen transition to reach
         // a disclosure triangle — and split one substance's pharmacology across two
         // backgrounds. This test is what stops it coming back.
-        for profile in [UserProfile.casual, .harmReduction, .pharmaNerd] {
+        for profile in UserProfile.allCases {
             let p = DisclosurePolicy(profile: profile)
             for section in DetailSection.allCases {
                 for spine in [DetailSpine.recreational, .medical] {
@@ -149,8 +127,8 @@ struct DisclosurePolicyTests {
     }
 
     @Test
-    func `Pharma Nerd inlines depth but keeps dense tables as collapsed groups`() {
-        let p = DisclosurePolicy(profile: .pharmaNerd)
+    func `Curious inlines depth but keeps dense tables as collapsed groups`() {
+        let p = DisclosurePolicy(profile: .curious)
         #expect(p.placement(for: .mechanism, spine: .recreational) == .inline)
         #expect(p.placement(for: .pharmacokinetics, spine: .recreational) == .inline)
         // Dense reference data is inline-but-collapsed, never a flat wall.
@@ -174,7 +152,7 @@ struct DisclosurePolicyTests {
 
     @Test
     func `A pure Rx renders the medical spine with no dose or misconceptions`() {
-        let p = DisclosurePolicy(profile: .harmReduction)
+        let p = DisclosurePolicy(profile: .curious)
         let spine = p.spine(for: .medicalRx)
         #expect(spine == .medical)
         #expect(p.placement(for: .doseDuration, spine: spine) == .hidden)

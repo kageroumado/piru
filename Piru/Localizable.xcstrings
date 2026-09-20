@@ -5020,22 +5020,6 @@
         }
       }
     },
-    "5-HT₂A receptor" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "5-HT₂A 受体"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "5-HT₂A 受體"
-          }
-        }
-      }
-    },
     "6M" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8056,22 +8040,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "腺苷（咖啡因）"
-          }
-        }
-      }
-    },
-    "Adenosine receptor" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "腺苷受体"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "腺苷受體"
           }
         }
       }
@@ -12737,22 +12705,6 @@
         }
       }
     },
-    "CB1 receptor" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CB1 受体"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CB1 受體"
-          }
-        }
-      }
-    },
     "CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022, oral MME conversion factors. Shown as published; Piru makes no claim to their correctness." : {
       "localizations" : {
         "zh-Hans" : {
@@ -17064,6 +17016,22 @@
         }
       }
     },
+    "Detail Level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "详细程度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳細程度"
+          }
+        }
+      }
+    },
     "Details are in Settings under About Piru." : {
       "localizations" : {
         "zh-Hans" : {
@@ -17205,22 +17173,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "捨棄劑量"
-          }
-        }
-      }
-    },
-    "Disclosure Tier" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "披露等级"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "披露等級"
           }
         }
       }
@@ -17724,22 +17676,6 @@
         }
       }
     },
-    "Dopamine/noradrenaline transporter (DAT/NET)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "多巴胺/去甲肾上腺素转运体（DAT/NET）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "多巴胺/去甲腎上腺素轉運體（DAT/NET）"
-          }
-        }
-      }
-    },
     "Dosage" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17883,22 +17819,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量強度"
-          }
-        }
-      }
-    },
-    "Dose ladders, durations, top-line warnings. Skip the deep pharmacology." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "剂量阶梯、持续时间与主要警告，略去深入的药理学内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "劑量階梯、持續時間與主要警告，略去深入的藥理學內容。"
           }
         }
       }
@@ -21468,22 +21388,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日常物質，以大多數人熟知的名稱呈現。"
-          }
-        }
-      }
-    },
-    "Everything — receptor binding tables, biased agonism, CYP metabolism, citations down to DOI." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部内容 — 受体结合表、偏向性激动、CYP 代谢，以及精确到 DOI 的文献引用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部內容 — 受體結合表、偏向性激動、CYP 代謝，以及精確到 DOI 的文獻引用。"
           }
         }
       }
@@ -25201,6 +25105,22 @@
         }
       }
     },
+    "How much pharmacology a substance page and the Tolerance tool open with." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物质页面和耐受工具默认展开多少药理内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物質頁面和耐受工具預設展開多少藥理內容。"
+          }
+        }
+      }
+    },
     "How strong it is compared to %@ hasn't been established." : {
       "localizations" : {
         "zh-Hans" : {
@@ -26890,22 +26810,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "相互作用"
-          }
-        }
-      }
-    },
-    "Interactions, mechanisms, subjective effects, and source citations." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "相互作用、作用机制、主观效果，以及来源引用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "交互作用、作用機制、主觀效果，以及來源引用。"
           }
         }
       }
@@ -29865,6 +29769,22 @@
         }
       }
     },
+    "Mechanism and pharmacokinetics open on the page, receptor names in the Tolerance tool." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "机制和药代动力学默认展开，耐受工具使用受体名称。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "機制和藥物動力學預設展開，耐受工具使用受體名稱。"
+          }
+        }
+      }
+    },
     "mechanism of action" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32161,22 +32081,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "n = %lld"
-          }
-        }
-      }
-    },
-    "nAChR" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "nAChR"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "nAChR"
           }
         }
       }
@@ -36988,22 +36892,6 @@
         }
       }
     },
-    "Pharma Nerd" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "药物极客"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "藥物極客"
-          }
-        }
-      }
-    },
     "Pharma Search" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37812,6 +37700,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "藥代動力學列"
+          }
+        }
+      }
+    },
+    "Plain names, pharmacology folded away until you open it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用通俗名称，药理内容默认折叠，需要时再展开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用通俗名稱，藥理內容預設折疊，需要時再展開。"
           }
         }
       }
@@ -43658,22 +43562,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素轉運體"
-          }
-        }
-      }
-    },
-    "Serotonin transporter (SERT)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "血清素转运体（SERT）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "血清素轉運體（SERT）"
           }
         }
       }
@@ -54744,38 +54632,6 @@
         }
       }
     },
-    "α2δ subunit (VGCC)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "α2δ亚基 (VGCC)"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "α2δ亞基 (VGCC)"
-          }
-        }
-      }
-    },
-    "α₂-adrenoceptor" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "α₂ 肾上腺素受体"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "α₂ 腎上腺素受體"
-          }
-        }
-      }
-    },
     "α₂-agonists" : {
       "localizations" : {
         "zh-Hans" : {
@@ -54804,22 +54660,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "α₂ 促效劑（可樂定）"
-          }
-        }
-      }
-    },
-    "β-adrenoceptor" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "β 肾上腺素受体"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "β 腎上腺素受體"
           }
         }
       }
@@ -54916,22 +54756,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "µ-鴉片受體"
-          }
-        }
-      }
-    },
-    "μ-opioid receptor (MOR)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "μ 阿片受体（MOR）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "μ 鴉片類受體（MOR）"
           }
         }
       }

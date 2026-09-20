@@ -11,8 +11,8 @@ import SwiftUI
 // Deliberately **not** gated on ``DisclosurePolicy``. The library surface is,
 // because it lives among reference tables; this is not reference data. Someone
 // tracking an SSRI never opens the pharmacology tier and is exactly who needs
-// to hear that a metabolite outlives the dose — gating it to `.pharmaNerd`
-// showed it only to the readers who already knew.
+// to hear that a metabolite outlives the dose — a detail-level gate would show
+// it only to the readers who already know.
 
 /// Loads the metabolite rows for one dose off the render path.
 ///

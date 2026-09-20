@@ -15,8 +15,8 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// the bundled DB's own `.schema` output.
 ///
 /// **User `piru-user-prefs.sqlite`** — lives in `Documents/`, writable, survives
-/// bundled-DB updates. Holds the user's source-priority order, profile level
-/// (casual/harm-reduction/pharma-nerd), and any per-field overrides.
+/// bundled-DB updates. Holds the user's source-priority order and any per-field
+/// overrides.
 ///
 /// ## Source-priority resolution
 ///

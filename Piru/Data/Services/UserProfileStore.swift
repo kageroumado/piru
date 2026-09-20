@@ -60,7 +60,7 @@ final class UserProfileStore {
     // MARK: - Published state (the observed source of truth for views)
 
     /// The user's chosen disclosure tier (drives progressive-disclosure defaults in detail views).
-    private(set) var disclosureTier: UserProfile = .harmReduction
+    private(set) var disclosureTier: UserProfile = .curious
 
     /// The user's body weight in kg, or `nil` if never set (→ population default, estimated).
     private(set) var weightKg: Double?
@@ -93,14 +93,14 @@ final class UserProfileStore {
     /// Mirror the durable record into the published value properties that views observe.
     private func publishFromRecord() {
         guard let record else {
-            disclosureTier = .harmReduction
+            disclosureTier = .curious
             weightKg = nil
             weightSource = .estimated
             grapefruitLoggingEnabled = false
             aldh2Deficient = false
             return
         }
-        disclosureTier = UserProfile(rawValue: record.disclosureTierRaw) ?? .harmReduction
+        disclosureTier = UserProfile(wire: record.disclosureTierRaw) ?? .curious
         weightKg = record.bodyWeightKg
         weightSource = WeightSource(rawValue: record.weightSourceRaw)
             ?? (record.bodyWeightKg == nil ? .estimated : .manual)
@@ -247,7 +247,7 @@ final class UserProfileStore {
                     sql: "SELECT value FROM user_profile WHERE key = 'profile'",
                 )
             }
-            guard let raw, let tier = UserProfile(rawValue: raw) else { return }
+            guard let raw, let tier = UserProfile(wire: raw) else { return }
             let migrated = UserProfileRecord(disclosureTierRaw: tier.rawValue)
             ctx.insert(migrated)
             record = migrated

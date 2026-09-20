@@ -17,16 +17,18 @@ struct UserProfileTests {
     @Test
     func `Raw values are stable wire format`() {
         #expect(UserProfile.casual.rawValue == "casual")
-        #expect(UserProfile.harmReduction.rawValue == "harm-reduction")
-        #expect(UserProfile.pharmaNerd.rawValue == "pharma-nerd")
+        #expect(UserProfile.curious.rawValue == "harm-reduction")
+        // The retired third tier opens as Curious rather than resetting.
+        #expect(UserProfile(wire: "pharma-nerd") == .curious)
+        #expect(UserProfile(wire: "casual") == .casual)
+        #expect(UserProfile(wire: "nonsense") == nil)
     }
 
     @Test
     func `All cases enumerated`() {
-        #expect(UserProfile.allCases.count == 3)
+        #expect(UserProfile.allCases.count == 2)
         #expect(UserProfile.allCases.contains(.casual))
-        #expect(UserProfile.allCases.contains(.harmReduction))
-        #expect(UserProfile.allCases.contains(.pharmaNerd))
+        #expect(UserProfile.allCases.contains(.curious))
     }
 }
 
@@ -54,14 +56,14 @@ struct UserProfileStoreTests {
     @Test
     func `Defaults to harm-reduction when unset`() throws {
         let store = try makeStore()
-        #expect(store.disclosureTier == .harmReduction)
+        #expect(store.disclosureTier == .curious)
     }
 
     @Test
     func `Persists disclosure tier change`() throws {
         let store = try makeStore()
-        store.setDisclosureTier(.pharmaNerd)
-        #expect(store.disclosureTier == .pharmaNerd)
+        store.setDisclosureTier(.casual)
+        #expect(store.disclosureTier == .casual)
         store.setDisclosureTier(.casual)
         #expect(store.disclosureTier == .casual)
     }
@@ -79,11 +81,11 @@ struct UserProfileStoreTests {
         let container = try makeContainer()
         let first = UserProfileStore()
         first.configure(container: container, legacyPrefsDBURL: nil)
-        first.setDisclosureTier(.pharmaNerd)
+        first.setDisclosureTier(.casual)
 
         let second = UserProfileStore()
         second.configure(container: container, legacyPrefsDBURL: nil)
-        #expect(second.disclosureTier == .pharmaNerd)
+        #expect(second.disclosureTier == .casual)
     }
 
     // MARK: - Body weight
@@ -163,9 +165,9 @@ struct UserProfileStoreTests {
     @Test
     func `Tier and weight share one record`() throws {
         let store = try makeStore()
-        store.setDisclosureTier(.pharmaNerd)
+        store.setDisclosureTier(.casual)
         store.setManualWeight(75)
-        #expect(store.disclosureTier == .pharmaNerd)
+        #expect(store.disclosureTier == .casual)
         #expect(store.weightKg == 75)
     }
 

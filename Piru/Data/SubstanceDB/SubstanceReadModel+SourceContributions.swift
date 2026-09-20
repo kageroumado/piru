@@ -103,7 +103,7 @@ extension SubstanceReadModel {
     /// Which per-substance table proves which facet. Table names are compile-time
     /// constants interpolated into SQL — never user input.
     ///
-    /// Not exhaustive by design: the rare pharma-nerd tables (`biased_agonism`,
+    /// Not exhaustive by design: the rare deep-pharmacology tables (`biased_agonism`,
     /// `downstream_signalling`, `receptor_oligomers`, `neuroimaging`) would each
     /// add a UNION leg to say "pharmacology" that a `bindings` row has already
     /// said for the same source.

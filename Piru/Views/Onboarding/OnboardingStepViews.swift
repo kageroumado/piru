@@ -164,7 +164,7 @@ struct OnboardingPrivacyStep: View {
 
 struct OnboardingDepthStep: View {
     @Environment(\.onboardingNav) private var nav
-    @State private var selection: UserProfile = .harmReduction
+    @State private var selection: UserProfile = .curious
 
     var body: some View {
         OnboardingLayout(

@@ -1,29 +1,28 @@
 import Foundation
 import SwiftUI
 
-/// The user's chosen disclosure tier. Controls *default* expanded state for
-/// progressive-disclosure sections in views like ``SubstanceDetailView``; the
-/// user can always override a section manually. Persisted to the
-/// `user_profile` key-value table in the user-prefs SQLite DB.
+/// How much pharmacology the app opens with. Controls the *default* expanded
+/// state of the folding sections on a substance page and the wording of the
+/// Tolerance tool; every section is on the page at both levels, and the user
+/// can always open or close one by hand. Persisted on ``UserProfileRecord``.
 ///
-/// ## Tiers
-///
-/// - ``casual`` — basics only. Dose ladder, duration, top-line warnings. No
-///   mechanism detail, no receptor data, no advanced filters. Aimed at people
-///   tracking everyday medications.
-/// - ``harmReduction`` — adds interaction depth, summary mechanism, subjective
-///   effects, sources. The default. Matches the "TripSit + PsychonautWiki"
-///   surface most harm-reduction users expect.
-/// - ``pharmaNerd`` — everything: receptor binding tables with Ki/Kd/EC50,
-///   biased agonism, CYP metabolism, pharmacogenetics, off-targets, full
-///   per-source attribution. Aimed at researchers and people who, in the
-///   project goal's own words, "take tons of various chemicals and want to
-///   learn how different substances could interact with each other or
-///   influence tolerance, or the biased agonism".
+/// - ``casual`` — plain class names ("Sedatives"), pharmacology folded.
+/// - ``curious`` — the default. Mechanism and pharmacokinetics open on the
+///   page; receptor-level class names and contributor chips in the Tolerance tool.
 enum UserProfile: String, CaseIterable, Codable, Identifiable {
     case casual
-    case harmReduction = "harm-reduction"
-    case pharmaNerd = "pharma-nerd"
+    /// The default. Its raw value is the wire value of the tier it grew out of
+    /// and is what installed builds have stored — never rename it to match.
+    case curious = "harm-reduction"
+
+    /// Decodes a stored tier. `pharma-nerd` was a third, deeper tier whose only
+    /// differences folded into Curious; a store still holding it opens as Curious.
+    init?(wire: String) {
+        switch wire {
+        case "pharma-nerd": self = .curious
+        default: self.init(rawValue: wire)
+        }
+    }
 
     var id: String {
         rawValue
@@ -32,19 +31,14 @@ enum UserProfile: String, CaseIterable, Codable, Identifiable {
     var displayName: LocalizedStringResource {
         switch self {
         case .casual: "Casual"
-        case .harmReduction: "Curious"
-        case .pharmaNerd: "Pharma Nerd"
+        case .curious: "Curious"
         }
     }
 
     var summary: LocalizedStringResource {
         switch self {
-        case .casual:
-            "Dose ladders, durations, top-line warnings. Skip the deep pharmacology."
-        case .harmReduction:
-            "Interactions, mechanisms, subjective effects, and source citations."
-        case .pharmaNerd:
-            "Everything — receptor binding tables, biased agonism, CYP metabolism, citations down to DOI."
+        case .casual: "Plain names, pharmacology folded away until you open it."
+        case .curious: "Mechanism and pharmacokinetics open on the page, receptor names in the Tolerance tool."
         }
     }
 
@@ -52,8 +46,7 @@ enum UserProfile: String, CaseIterable, Codable, Identifiable {
     var icon: String {
         switch self {
         case .casual: "leaf"
-        case .harmReduction: "heart.text.square"
-        case .pharmaNerd: "atom"
+        case .curious: "atom"
         }
     }
 }
@@ -93,21 +86,21 @@ struct DisclosurePolicy: Hashable {
         true
     }
     /// The full receptor-binding literature table with Ki/EC50 and per-row
-    /// citations. Dense, so it starts folded below Pharma Nerd — but present.
+    /// citations. Dense, so it starts folded for Casual — but present.
     var showsReceptorLiterature: Bool {
         true
     }
     /// Per-route pharmacokinetics (bioavailability/tmax/half-life) + CYP
-    /// metabolism tables with per-row citations. Folded below Pharma Nerd.
+    /// metabolism tables with per-row citations. Folded for Casual.
     var showsPharmacokinetics: Bool {
         true
     }
 
     var mechanismDefaultExpanded: Bool {
-        profile == .pharmaNerd
+        profile == .curious
     }
     var subjectiveDefaultExpanded: Bool {
-        profile == .pharmaNerd
+        profile == .curious
     }
     /// Folded at every tier. Attribution is reference material you go looking
     /// for, not something to scroll past on the way out of the page — and the
@@ -117,9 +110,9 @@ struct DisclosurePolicy: Hashable {
         false
     }
     var receptorLitDefaultExpanded: Bool {
-        profile == .pharmaNerd
+        profile == .curious
     }
-    /// Pharmacokinetics starts collapsed even for pharma-nerds — it's dense
+    /// The per-route tables start collapsed even for Curious — they are dense
     /// reference data that would otherwise dominate the scroll.
     var pharmacokineticsDefaultExpanded: Bool {
         false
@@ -140,7 +133,7 @@ enum SectionPlacement: Hashable {
     /// sections into one "For the curious" launcher at the Casual tier).
     case showAll
     /// Render inline as a **collapsed** `DisclosureGroup` (dense reference data
-    /// that shouldn't dominate the scroll, but a Pharma Nerd wants on-page).
+    /// that shouldn't dominate the scroll, but belongs on the page).
     case inlineCollapsed
     /// Omit entirely at this tier.
     case hidden
@@ -206,18 +199,18 @@ extension DisclosurePolicy {
         // disclosure triangle, and it split one substance's pharmacology across
         // two backgrounds. Depth on this screen is a fold, not a destination.
         case .mechanism, .pharmacokinetics:
-            tiered(casual: .inlineCollapsed, curious: .inlineCollapsed, nerd: .inline)
+            tiered(casual: .inlineCollapsed, curious: .inline)
         // The full Kᵢ/EC₅₀ literature table: present everywhere, collapsed
         // everywhere — it is long, and nobody scrolls past it by accident, so
-        // even a Pharma Nerd gets it folded. This now agrees with
+        // even Curious gets it folded. This now agrees with
         // `showsReceptorLiterature`, which is a constant: the matrix and the
         // boolean must never disagree, because between them they are the only
         // documentation of what a tier means.
         case .receptorLiterature:
-            tiered(casual: .inlineCollapsed, curious: .inlineCollapsed, nerd: .inlineCollapsed)
+            tiered(casual: .inlineCollapsed, curious: .inlineCollapsed)
         // Chemistry / sources: collapsed on-page at every tier.
         case .chemistry, .sources:
-            tiered(casual: .inlineCollapsed, curious: .inlineCollapsed, nerd: .inlineCollapsed)
+            tiered(casual: .inlineCollapsed, curious: .inlineCollapsed)
         // The recreational body — shown on the recreational spine, never on the
         // medical one (no dose gauge / effects / water / misconceptions on a statin).
         case .doseDuration, .effects, .combinations, .water, .misconceptions:
@@ -237,12 +230,10 @@ extension DisclosurePolicy {
     private func tiered(
         casual: SectionPlacement,
         curious: SectionPlacement,
-        nerd: SectionPlacement,
     ) -> SectionPlacement {
         switch profile {
         case .casual: casual
-        case .harmReduction: curious
-        case .pharmaNerd: nerd
+        case .curious: curious
         }
     }
 }

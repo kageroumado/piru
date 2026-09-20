@@ -213,15 +213,14 @@ enum ToleranceBucket {
 
 // MARK: - Tier-aware wording / formatting
 
-/// The mechanism class's name at the given disclosure tier (casual → curious → Pharma Nerd).
+/// The mechanism class's name at the given detail level.
 func toleranceClassName(
     _ receptorClass: ReceptorClasses.ReceptorClass,
     tier: UserProfile,
 ) -> LocalizedStringResource {
     switch tier {
     case .casual: receptorClass.casualName
-    case .harmReduction: receptorClass.displayName
-    case .pharmaNerd: receptorClass.scientificName
+    case .curious: receptorClass.displayName
     }
 }
 
