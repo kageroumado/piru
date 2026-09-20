@@ -1,0 +1,147 @@
+{
+  "appPolicies": {
+    "eula": "",
+    "policies": [
+      {
+        "locale": "en_US",
+        "policyText": "",
+        "policyURL": ""
+      }
+    ]
+  },
+  "identifier": "5A1B3C7D",
+  "nonRenewingSubscriptions": [],
+  "products": [
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "092D1D0F",
+      "localizations": [
+        {
+          "description": "Deep purple night, a sleeping moon",
+          "displayName": "Tsuki",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.tsuki",
+      "referenceName": "Tsuki",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "25F5B8CF",
+      "localizations": [
+        {
+          "description": "Steel blue and gold under a thousand stars",
+          "displayName": "Starfield",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.astrelia",
+      "referenceName": "Starfield",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "A7310DD8",
+      "localizations": [
+        {
+          "description": "Deep water, bioluminescence, jellyfish",
+          "displayName": "Jellyfish",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.jellyfish",
+      "referenceName": "Jellyfish",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "32ADB223",
+      "localizations": [
+        {
+          "description": "Fireflies and an aurora",
+          "displayName": "Hotaru",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.hotaru",
+      "referenceName": "Hotaru",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "3B0EC37D",
+      "localizations": [
+        {
+          "description": "Periwinkle, snow and frost",
+          "displayName": "Yuki",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.yuki",
+      "referenceName": "Yuki",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "5ABFAA42",
+      "localizations": [
+        {
+          "description": "Neon City on a CRT",
+          "displayName": "Hebi Arcade",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.hebi",
+      "referenceName": "Hebi Arcade",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "7621B92D",
+      "localizations": [
+        {
+          "description": "A sky that follows the day",
+          "displayName": "Kumo",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.kumo",
+      "referenceName": "Kumo",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "59.99",
+      "familyShareable": true,
+      "internalID": "DF613823",
+      "localizations": [
+        {
+          "description": "Every skin there is and every skin still to come.",
+          "displayName": "Everything, forever",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.everything",
+      "referenceName": "Everything, forever",
+      "type": "NonConsumable"
+    }
+  ],
+  "settings": {
+    "_failTransactionsEnabled": false,
+    "_locale": "en_US",
+    "_storefront": "USA",
+    "_storeKitErrors": []
+  },
+  "subscriptionGroups": [],
+  "version": {
+    "major": 4,
+    "minor": 0
+  }
+}

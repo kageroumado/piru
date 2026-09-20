@@ -82,6 +82,26 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         allCases.filter { !shelved.contains($0) }
     }
 
+    // MARK: - Tier
+
+    /// What a skin costs. Set per case rather than derived from `decorations`:
+    /// the promo skins are animated and free, so a new skin has to be priced
+    /// by whoever adds it — the `switch` below will not compile until it is.
+    nonisolated var tier: SkinTier {
+        switch self {
+        case .piru, .graphite, .linen, .slate: .free
+        // Promo skins: ely.pink is the author's homepage, dose.wiki the partner
+        // encyclopedia. They advertise someone else, so they are never sold.
+        case .elyPink, .doseWiki: .free
+        case .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo: .animated
+        }
+    }
+
+    /// The non-consumable that unlocks this skin alone; `nil` when it is free.
+    nonisolated var productID: String? {
+        tier == .free ? nil : "\(SkinProducts.skinPrefix)\(rawValue)"
+    }
+
     /// Picker name. Localized like every user-facing string.
     var displayName: LocalizedStringResource {
         switch self {
@@ -967,6 +987,29 @@ enum SkinColorScheme: String, CaseIterable, Identifiable, Sendable {
     }
 }
 
+/// What a skin costs. Every feature of the app is free; a paid skin is how the
+/// project takes money, so the tiers are priced as support rather than as a
+/// trinket.
+nonisolated enum SkinTier: Sendable {
+    case free
+    case animated
+}
+
+/// The App Store product identifiers. In `Shared/` beside `Skin` because the
+/// extensions decide whether the stored skin is usable from the same IDs.
+nonisolated enum SkinProducts {
+    static let skinPrefix = "dev.yumeji.piru.skin."
+    /// Every current and future skin. One entitlement that every ownership
+    /// check consults, so a skin added later is covered with no store change.
+    static let everything = "dev.yumeji.piru.everything"
+
+    /// Every identifier the app sells, for the product request. A shelved skin
+    /// is not on sale.
+    static var all: [String] {
+        Skin.allCases.filter { !Skin.shelved.contains($0) }.compactMap(\.productID) + [everything]
+    }
+}
+
 /// UserDefaults keys for the skin preference. One source of truth so the app's
 /// `SkinStore` and the extensions read the same choice. Stored in the app group
 /// suite so the widget and Live Activity can honour it.
@@ -975,16 +1018,37 @@ nonisolated enum SkinDefaults {
     static let skinKey = "skin"
     static let colorSchemeKey = "skinColorScheme"
     static let decorationsKey = "skinDecorations"
+    /// The product IDs the App Store says this person owns, mirrored here by
+    /// `SkinShop` so targets without StoreKit can tell a usable skin.
+    static let ownedProductsKey = "skinOwnedProducts"
     static let skinDefault: Skin = .piru
     static let colorSchemeDefault: SkinColorScheme = .system
     static let decorationsDefault = true
 
     /// The persisted skin, for targets without a `SkinStore` (widgets). Falls
-    /// back to the default when the stored value names a skin this build lacks.
+    /// back to the default when the stored value names a skin this build lacks
+    /// or one this person does not own. The stored choice itself is left alone,
+    /// so a skin comes back the moment its purchase is restored.
     static func storedSkin(in defaults: UserDefaults? = UserDefaults(suiteName: suite)) -> Skin {
-        guard let raw = defaults?.string(forKey: skinKey), let skin = Skin(rawValue: raw), !Skin.shelved.contains(skin) else {
+        guard let raw = defaults?.string(forKey: skinKey), let skin = Skin(rawValue: raw),
+              !Skin.shelved.contains(skin), usable(skin, in: defaults) else {
             return skinDefault
         }
         return skin
+    }
+
+    static func ownedProducts(in defaults: UserDefaults? = UserDefaults(suiteName: suite)) -> Set<String> {
+        Set(defaults?.stringArray(forKey: ownedProductsKey) ?? [])
+    }
+
+    /// Whether this person may wear `skin`: it is free, or they own it, or they
+    /// own everything.
+    static func usable(_ skin: Skin, in defaults: UserDefaults? = UserDefaults(suiteName: suite)) -> Bool {
+        usable(skin, owned: ownedProducts(in: defaults))
+    }
+
+    static func usable(_ skin: Skin, owned: Set<String>) -> Bool {
+        guard let productID = skin.productID else { return true }
+        return owned.contains(productID) || owned.contains(SkinProducts.everything)
     }
 }

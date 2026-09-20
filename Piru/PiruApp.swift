@@ -80,6 +80,9 @@ struct PiruApp: App {
         // Point `Skin.current` at the observable store so the semantic-colour
         // shorthands in Shared/ follow a skin change, not a UserDefaults snapshot.
         SkinStore.activate()
+        // Reads what this person owns and starts listening for purchases that
+        // land outside a purchase call (Ask to Buy, refunds, another device).
+        SkinShop.shared.start()
 
         // Automatic lightweight migration fills the SAME UUID into every
         // pre-existing DoseEntry when it adds `id` (the default expression is

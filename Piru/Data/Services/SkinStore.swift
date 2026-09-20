@@ -55,13 +55,25 @@ final class SkinStore {
 
     /// Always writes, so the app-group key exists for the extensions even when
     /// the choice equals the default; only mutates `current` on a real change.
+    /// A skin this person does not own is refused.
     func setSkin(_ skin: Skin) {
+        guard SkinDefaults.usable(skin, in: defaults) else { return }
         defaults.set(skin.rawValue, forKey: SkinDefaults.skinKey)
         if skin != current {
             current = skin
             // Widgets read the persisted choice; they only re-render on reload.
             WidgetCenter.shared.reloadAllTimelines()
         }
+    }
+
+    /// Re-resolves `current` after `SkinShop` rewrites the owned set: a refunded
+    /// skin falls back to the default, and a restored one comes back, because
+    /// the stored choice outlives both.
+    func ownershipChanged() {
+        let resolved = SkinDefaults.storedSkin(in: defaults)
+        guard resolved != current else { return }
+        current = resolved
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func setColorScheme(_ scheme: SkinColorScheme) {
