@@ -147,7 +147,7 @@ struct QuickLogIdentityKeyTests {
     /// A fresh in-memory container on the current schema.
     private func makeContext() throws -> ModelContext {
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
         return ModelContext(container)

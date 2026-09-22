@@ -7,7 +7,7 @@ import Testing
 
 /// In-memory ModelContainer with the full Piru schema.
 ///
-/// Must use the *complete* `StoreRecovery.models` schema — the same one every
+/// Must use the *complete* `PiruSchema.models` schema — the same one every
 /// other SwiftData suite uses — not a hand-picked subset. The export/import code
 /// under test fetches `InventoryItem`, `Session`, and other entities; a subset
 /// schema omits them, so those fetches silently resolve against CoreData's
@@ -20,7 +20,7 @@ import Testing
 /// model and removes the contention entirely.
 private func makeTestContainer() throws -> ModelContainer {
     let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
-    return try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
+    return try ModelContainer(for: Schema(PiruSchema.models), configurations: config)
 }
 
 // MARK: - Filename tests

@@ -10,7 +10,10 @@ import SwiftData
 /// 1. The store is never created from this process — if the file doesn't
 ///    exist yet, the widget renders its empty state instead. This holds for
 ///    BOTH open modes below.
-/// 2. Timeline providers open read-only (`allowsSave: false`) with CloudKit
+/// 2. The store opens with the full shared ``PiruSchema/models`` — a subset
+///    would make SwiftData migrate the store: a read-only open fails (empty
+///    widget), a writable one drops every table the subset omits.
+/// 3. Timeline providers open read-only (`allowsSave: false`) with CloudKit
 ///    mirroring disabled, so a mere render can never mutate the canonical
 ///    file. Only the explicit user action of tapping a Take button (via
 ///    ``makeWritableContainer()``) is allowed to write, and it only ever
@@ -39,12 +42,6 @@ enum WidgetStoreAccess {
         let storeURL = groupURL.appendingPathComponent("default.store")
         guard FileManager.default.fileExists(atPath: storeURL.path) else { return nil }
         let config = ModelConfiguration(url: storeURL, allowsSave: allowsSave, cloudKitDatabase: .none)
-        return try? ModelContainer(
-            for: DoseEntry.self, SubstanceColor.self,
-            DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self, Session.self,
-            DoseRoutine.self, InventoryItem.self, UserProfileRecord.self, ToleranceState.self,
-            CustomSubstanceRecord.self, SessionNote.self,
-            configurations: config,
-        )
+        return try? ModelContainer(for: Schema(PiruSchema.models), configurations: config)
     }
 }

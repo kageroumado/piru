@@ -14,7 +14,7 @@ struct DoseLogBatchTests {
     /// An in-memory store with the full current schema.
     private func makeContext() throws -> ModelContext {
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
         return ModelContext(container)

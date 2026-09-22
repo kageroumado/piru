@@ -38,7 +38,7 @@ nonisolated enum StoreRecovery {
     //
     // The app opens the store with **automatic lightweight migration** and *no*
     // explicit `SchemaMigrationPlan`. SwiftData infers the migration from the
-    // on-disk shape to the current ``models``, which covers every shipped change
+    // on-disk shape to the current ``PiruSchema/models``, which covers every shipped change
     // so far — they were all additive (new entities, new optional/defaulted
     // properties). The one historically non-additive step (per-row `DoseEntry.id`)
     // is handled *after* open by ``backfillDuplicateEntryIDs(container:)``: a
@@ -57,29 +57,6 @@ nonisolated enum StoreRecovery {
     // shape), and **retire the stage** once no pre-change store can still exist in
     // the wild. Do not reconstruct a full V1→Vn ladder; the additive history needs
     // no plan.
-
-    /// The user-data models, in one place so counting and recovery agree.
-    nonisolated static var models: [any PersistentModel.Type] {
-        [
-            DoseEntry.self,
-            SubstanceColor.self,
-            DailyDoseItem.self,
-            FavoriteSubstance.self,
-            QuickLogDose.self,
-            Session.self,
-            DoseRoutine.self,
-            InventoryItem.self,
-            UserProfileRecord.self,
-            ToleranceState.self,
-            CustomSubstanceRecord.self,
-            CustomDrinkPreset.self,
-            CustomUnitPreset.self,
-            NotificationPreferences.self,
-            RoutineOccurrence.self,
-            SessionNote.self,
-            LabMeasurement.self,
-        ]
-    }
 
     // MARK: - Locations
 
@@ -312,7 +289,7 @@ nonisolated enum StoreRecovery {
             recoveryLogger.error("Store at \(url.lastPathComponent, privacy: .public) failed the integrity pre-check; treating as unreadable")
             return -1
         }
-        if let count = countUserRows(at: url, schema: Schema(models)) { return count }
+        if let count = countUserRows(at: url) { return count }
         if let count = countViaMigratingCopy(at: url) { return count }
         return -1
     }
@@ -333,18 +310,18 @@ nonisolated enum StoreRecovery {
             // No migration plan → SwiftData infers a lightweight migration from the
             // store's on-disk shape to the current models. Additive intermediate
             // schemas migrate cleanly; the count is then exact.
-            return countUserRows(at: dest, schema: Schema(models), allowsSave: true)
+            return countUserRows(at: dest, allowsSave: true)
         } catch {
             return nil
         }
     }
 
-    private static func countUserRows(at url: URL, schema: Schema, allowsSave: Bool = true) -> Int? {
+    private static func countUserRows(at url: URL, allowsSave: Bool = true) -> Int? {
         do {
             // .none — never let the iCloud entitlement pull this probe into CloudKit
             // setup (the schema is CloudKit-incompatible). See PiruApp.makeContainer.
             let config = ModelConfiguration(url: url, allowsSave: allowsSave, cloudKitDatabase: .none)
-            let container = try ModelContainer(for: schema, configurations: config)
+            let container = try ModelContainer(for: Schema(PiruSchema.models), configurations: config)
             let context = ModelContext(container)
             // DoseEntry is the journal — the data "No Entries" refers to — plus
             // the other user-authored models. Colors are cosmetic but counted too.

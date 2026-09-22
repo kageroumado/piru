@@ -16,7 +16,7 @@ struct CustomSubstanceMigrationTests {
 
     private func makeContainer() throws -> ModelContainer {
         try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
     }

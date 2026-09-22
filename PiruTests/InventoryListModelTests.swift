@@ -16,7 +16,7 @@ struct InventoryListModelTests {
     /// the returned context, and the context is what callers keep alive.
     private func makeContext() throws -> ModelContext {
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
         return ModelContext(container)

@@ -25,7 +25,7 @@ struct StoreHealthTests {
     private func seedStore(at url: URL, entries n: Int) throws {
         try autoreleasepool {
             let container = try ModelContainer(
-                for: Schema(StoreRecovery.models),
+                for: Schema(PiruSchema.models),
                 configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
             )
             let ctx = ModelContext(container)

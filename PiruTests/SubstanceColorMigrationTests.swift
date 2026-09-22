@@ -55,7 +55,7 @@ struct SubstanceColorMigrationTests {
 
     private func openCurrent(at url: URL) throws -> ModelContainer {
         try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
     }

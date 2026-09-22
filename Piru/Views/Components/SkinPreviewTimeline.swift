@@ -65,7 +65,7 @@ final class SkinPreviewTimeline {
     private func build() async {
         await SubstanceStore.shared.ensureAllLoaded()
         guard let container = try? ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         ) else { return }
         let context = ModelContext(container)

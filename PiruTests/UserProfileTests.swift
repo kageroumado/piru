@@ -39,7 +39,7 @@ struct UserProfileStoreTests {
     /// suites use). Single-entity in-memory containers proved flaky under the parallel runner.
     private func makeContainer() throws -> ModelContainer {
         try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
     }

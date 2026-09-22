@@ -82,6 +82,7 @@ final class DoseLogService {
         // follow-up re-asks for today are cancelled.
         DoseNotificationManager.syncMedReminders(in: context)
         changed()
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     /// Batch log: insert every dose, assign sessions, commit once, then run the shared post-commit

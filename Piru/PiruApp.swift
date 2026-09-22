@@ -342,7 +342,7 @@ struct PiruApp: App {
     ///
     /// 1. **Automatic lightweight migration** — open the bare current schema with
     ///    *no* explicit `SchemaMigrationPlan`. SwiftData infers the migration from
-    ///    whatever shape is on disk to ``StoreRecovery/models``. Every shipped
+    ///    whatever shape is on disk to ``PiruSchema/models``. Every shipped
     ///    change has been additive (new entities, new optional/defaulted
     ///    properties), and this absorbs them all — including the *intermediate*
     ///    dev/TestFlight shapes that previously threw `SwiftDataError 1`, got
@@ -380,7 +380,7 @@ struct PiruApp: App {
         //    DoseEntry.id the lightweight `id` migration filled in.
         if StoreHealth.isReadable(at: storeURL) {
             do {
-                return try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
+                return try ModelContainer(for: Schema(PiruSchema.models), configurations: config)
             } catch {
                 appLogger.fault("Store open failed under automatic lightweight migration: \(error.localizedDescription, privacy: .public). Preserving the store on disk and launching in-memory; data is not lost.")
                 StoreLaunchState.shared.failureDetail = error.localizedDescription
@@ -394,7 +394,7 @@ struct PiruApp: App {
         StoreLaunchState.shared.storeUnavailable = true
         do {
             return try ModelContainer(
-                for: Schema(StoreRecovery.models),
+                for: Schema(PiruSchema.models),
                 configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
             )
         } catch {

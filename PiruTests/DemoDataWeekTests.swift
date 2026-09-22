@@ -15,7 +15,7 @@ struct DemoDataWeekTests {
         // The container must outlive the context: `mainContext` does not
         // retain it, and inserting into an orphaned context traps.
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
         let context = container.mainContext

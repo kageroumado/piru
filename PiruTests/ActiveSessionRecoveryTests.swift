@@ -29,7 +29,7 @@ struct ActiveSessionRecoveryTests {
     /// container deallocating out from under it traps on the next insert.
     private func makeContainer() throws -> ModelContainer {
         let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
-        return try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
+        return try ModelContainer(for: Schema(PiruSchema.models), configurations: config)
     }
 
     private func insert(_ entries: [DoseEntry], into container: ModelContainer) throws {

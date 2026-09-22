@@ -25,7 +25,7 @@ struct StoreRecoveryTests {
     private func seedStore(at url: URL, entries n: Int) throws {
         try autoreleasepool {
             let container = try ModelContainer(
-                for: Schema(StoreRecovery.models),
+                for: Schema(PiruSchema.models),
                 configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
             )
             let ctx = ModelContext(container)
@@ -44,7 +44,7 @@ struct StoreRecoveryTests {
         // Reopen the bare current schema with no plan, exactly as the app's
         // makeContainer now does. A previously-stored file must open cleanly.
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
         let ctx = ModelContext(container)
@@ -119,7 +119,7 @@ struct StoreRecoveryTests {
         try seedIntermediateStore(at: url, entries: 5)
         // The makeContainer path: open the bare current schema with no plan.
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
         let ctx = ModelContext(container)
@@ -241,7 +241,7 @@ enum _LegacyDoseEntry {
 /// The store now opens via **automatic lightweight migration** with no explicit
 /// `SchemaMigrationPlan`. These tests seed an OLD-shape store via the test-local
 /// ``_LegacyDoseEntry`` (no `id`, no `saltForm`), reopen that SAME url with the
-/// current ``StoreRecovery/models`` schema, and assert the upgrade preserves
+/// current ``PiruSchema/models`` schema, and assert the upgrade preserves
 /// every row + field, the post-open backfill uniquifies the shared `id` a
 /// lightweight migration fills in, and `saltForm` lands `nil`.
 ///
@@ -305,7 +305,7 @@ struct LegacyStoreMigrationTests {
         // Reopen the SAME url under the current schema with no plan — automatic
         // lightweight migration adds `id` (one shared UUID) and `saltForm` (nil).
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
         let ctx = container.mainContext
@@ -332,7 +332,7 @@ struct LegacyStoreMigrationTests {
 
 /// De-risk the plan-less primary path: a store written under the **current**
 /// schema (including a logged `saltForm`) must reopen cleanly with a plain
-/// `Schema(StoreRecovery.models)` and no plan, with all rows + the salt intact.
+/// `Schema(PiruSchema.models)` and no plan, with all rows + the salt intact.
 @Suite("Current-store plan-less reopen")
 @MainActor
 struct CurrentStorePlanlessReopenTests {
@@ -350,7 +350,7 @@ struct CurrentStorePlanlessReopenTests {
 
         do {
             let container = try ModelContainer(
-                for: Schema(StoreRecovery.models),
+                for: Schema(PiruSchema.models),
                 configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
             )
             let ctx = ModelContext(container)
@@ -365,7 +365,7 @@ struct CurrentStorePlanlessReopenTests {
         // Reopen with a plain current schema, no plan — proves a plan-less open
         // of a previously-stored file works and preserves saltForm + ids.
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
         let ctx = ModelContext(container)
@@ -392,7 +392,7 @@ struct DoseEntryBackfillTests {
         // Simulate the automatic-lightweight outcome: every pre-existing row
         // carries the SAME UUID.
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
         let ctx = container.mainContext
@@ -429,7 +429,7 @@ struct DoseEntryBackfillTests {
     @Test
     func `Backfill is a no-op when ids are already unique`() throws {
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
         let ctx = container.mainContext

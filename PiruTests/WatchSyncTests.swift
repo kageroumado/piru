@@ -17,7 +17,7 @@ struct WatchSyncTests {
     /// shared store is only ever touched by one test at a time.
     static let container: ModelContainer = // swiftlint:disable:next force_try
         try! ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
 

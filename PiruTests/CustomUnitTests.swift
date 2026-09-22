@@ -8,7 +8,7 @@ import Testing
 struct CustomUnitTests {
     private func makeStore() throws -> (CustomUnitStore, ModelContainer) {
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
         return (CustomUnitStore.forTesting(context: container.mainContext), container)

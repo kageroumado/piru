@@ -13,7 +13,7 @@ import Testing
 struct NameResolutionTests {
     private func makeStore() throws -> (CustomSubstanceStore, ModelContainer) {
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
         return (CustomSubstanceStore.forTesting(context: container.mainContext), container)
