@@ -592,3 +592,259 @@ nonisolated struct SnakeGame {
         return (0, 0)
     }
 }
+
+nonisolated extension SceneRenderer {
+    // MARK: - Hanabi: the festival night
+
+    /// The game's menu behind its `FireworkScene`: a static star field, a
+    /// thin drift of sparks, and rockets that rise on a fading trail and
+    /// burst in the five card suits.
+    ///
+    /// Four rocket slots, each on its own period. Everything about one flight
+    /// — where it launches, which suit, which of the three burst shapes — is
+    /// drawn from an RNG seeded on `(slot, cycle)`, so a flight is a pure
+    /// function of the clock with no history kept between frames. The `.sks`
+    /// scene it comes from emits particles; this cannot, so the burst is the
+    /// closed form of one: radius grows as `sqrt`, gravity pulls the tail
+    /// down, alpha falls off a cube.
+    func drawFireworks(_ fw: SkinFireworks, in context: inout GraphicsContext) {
+        var rng = SeededRNG(seed: 0x8A0B)
+        let suits = fw.suits.isEmpty ? [fw.spark] : fw.suits
+        // The menu's 50 stars, white at 0.06–0.30. Night only.
+        if dark {
+            for _ in 0 ..< 50 {
+                let depth = rng.unit()
+                let shift = parallax(0.1 + depth * 0.3)
+                let x = rng.unit() * size.width + shift.width
+                let y = rng.unit() * size.height * 0.8 + shift.height
+                let r = 0.7 + depth * 1.1
+                let a = (0.06 + rng.unit() * 0.24) * (0.7 + 0.3 * sin(time * (0.5 + depth) + depth * 12))
+                context.fill(Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2)), with: .color(fw.star.opacity(a)))
+            }
+        }
+        // The menu's drifting sparks, thinned: the site runs 80, but they sit
+        // behind copy here. Suit-coloured rather than the menu's random hue —
+        // a skin never invents a colour that is not in its palette.
+        if dark { context.blendMode = .plusLighter }
+        for i in 0 ..< 26 {
+            let phase = rng.unit()
+            let depth = 0.3 + rng.unit() * 0.7
+            let speed = 14 + rng.unit() * 22
+            let x0 = rng.unit()
+            let colour = suits[i % suits.count]
+            let travel = (time * speed + phase * size.height).truncatingRemainder(dividingBy: size.height + 40)
+            let y = size.height + 20 - travel
+            let shift = parallax(depth * 0.6)
+            let x = x0 * size.width + sin(time * 0.3 + phase * 6.28) * 16 * depth + shift.width
+            let r = 0.9 + depth * 1.4
+            let a = (dark ? 0.5 : 0.35) * (1 - travel / (size.height + 40)) * (0.5 + 0.5 * sin(time * 2 + phase * 6.28))
+            if a < 0.02 { continue }
+            context.fill(Path(ellipseIn: CGRect(x: x - r, y: y + shift.height - r, width: r * 2, height: r * 2)), with: .color(colour.opacity(a)))
+        }
+        // Four flights, staggered so they rarely burst together.
+        for slot in 0 ..< 4 {
+            let period = 5.2 + Double(slot) * 1.7
+            let offset = Double(slot) * 2.3
+            let t = (time + offset) / period
+            let cycle = floor(t)
+            let p = t - cycle
+            var flight = SeededRNG(seed: 0x8A0B &+ UInt64(slot) &* 0x9E37 &+ UInt64(bitPattern: Int64(cycle)) &* 0x85EB)
+            let launchX = (0.12 + flight.unit() * 0.76) * size.width
+            let apexY = size.height * (0.12 + flight.unit() * 0.26)
+            let colour = suits[Int(flight.unit() * Double(suits.count)) % suits.count]
+            let kind = Int(flight.unit() * 3)
+            let count = 58
+            let riseEnd = 0.34
+            let shift = parallax(0.35 + flight.unit() * 0.3)
+            if p < riseEnd {
+                // The rocket and its eight-node fading trail.
+                let rise = p / riseEnd
+                let eased = 1 - pow(1 - rise, 1.7)
+                let y = size.height + 12 - (size.height + 12 - apexY) * eased
+                for node in 0 ..< 8 {
+                    let back = Double(node) * 0.055
+                    let nodeRise = max(0, rise - back)
+                    let ny = size.height + 12 - (size.height + 12 - apexY) * (1 - pow(1 - nodeRise, 1.7))
+                    let a = (1 - Double(node) / 8) * 0.5 * (dark ? 1 : 0.55)
+                    let r = 2.0 - Double(node) * 0.18
+                    context.fill(Path(ellipseIn: CGRect(x: launchX + shift.width - r, y: ny + shift.height - r, width: r * 2, height: r * 2)), with: .color(colour.opacity(a)))
+                }
+                context.fill(Path(ellipseIn: CGRect(x: launchX + shift.width - 2.4, y: y + shift.height - 2.4, width: 4.8, height: 4.8)), with: .color(fw.spark.opacity(dark ? 0.9 : 0.5)))
+            } else {
+                // The burst. Three shapes, the way `FireworkScene` picks them:
+                // a circle, a star on eight arms, and a double ring.
+                let b = (p - riseEnd) / (1 - riseEnd)
+                let fade = pow(1 - b, 3)
+                if fade > 0.02 {
+                    // Opens fast, then coasts: the shell's own easing.
+                    let spread = 150.0 * (1 - pow(1 - b, 2.2))
+                    let centre = CGPoint(x: launchX + shift.width, y: apexY + shift.height)
+                    // The white core, brightest at the moment it opens.
+                    if dark, b < 0.35 {
+                        bloom(fw.spark, at: centre, radius: 38 * (1 - b / 0.35), alpha: 0.55 * (1 - b / 0.35), in: &context)
+                    }
+                    let a = fade * (dark ? 0.7 : 0.4)
+                    if a >= 0.02 {
+                        // Each spark is a short radial streak, not a dot — a ring
+                        // of dots reads as a dotted circle, which is what this
+                        // was before the first look at it on a device.
+                        for n in 0 ..< count {
+                            let angle = Double(n) / Double(count) * 6.283185
+                            let reach: Double = switch kind {
+                            case 0: 0.78 + (Double((n * 7) % 5) / 5) * 0.22 // circle, a little ragged
+                            case 1: n % 7 == 0 ? 1.0 : 0.5 // star: long arms
+                            default: n % 2 == 0 ? 1.0 : 0.66 // double ring
+                            }
+                            let dist = spread * reach
+                            let gravity = 58 * b * b
+                            let tail = max(6.0, dist * 0.22) * (1 - b * 0.6)
+                            let inner = max(0, dist - tail)
+                            let dx = cos(angle), dy = sin(angle)
+                            var streak = Path()
+                            streak.move(to: CGPoint(x: centre.x + dx * inner, y: centre.y + dy * inner + gravity * 0.7))
+                            streak.addLine(to: CGPoint(x: centre.x + dx * dist, y: centre.y + dy * dist + gravity))
+                            context.stroke(
+                                streak,
+                                with: .color(colour.opacity(a)),
+                                style: StrokeStyle(lineWidth: (2.1 - b * 1.1) * (dark ? 1 : 0.85), lineCap: .round),
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        context.blendMode = .normal
+    }
+}
+
+nonisolated extension SceneRenderer {
+    // MARK: - Selenia: the engraved wheel
+
+    /// `ChartWheel.swift` as a backdrop: concentric rules, twelve sign sectors
+    /// with their ticks, the aspect chords across the middle, and the faint
+    /// dome `CelestialSphereView` turns. One revolution every twelve minutes —
+    /// slow enough that it reads as still, which is what an instrument should.
+    func drawEphemeris(_ e: SkinEphemeris, in context: inout GraphicsContext) {
+        var rng = SeededRNG(seed: 0x5E1E)
+        // The dome: a thin field of stars, no twinkle — engraved, not alive.
+        for _ in 0 ..< 70 {
+            let depth = rng.unit()
+            let shift = parallax(0.1 + depth * 0.25)
+            let x = rng.unit() * size.width + shift.width
+            let y = rng.unit() * size.height + shift.height
+            let r = 0.6 + depth * 0.9
+            context.fill(
+                Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2)),
+                with: .color(e.star.opacity((dark ? 0.30 : 0.22) * (0.4 + depth * 0.6))),
+            )
+        }
+        let centre = CGPoint(
+            x: size.width * 0.5 + parallax(0.3).width,
+            y: size.height * 0.44 + parallax(0.3).height,
+        )
+        let outer = min(size.width, size.height) * 0.74
+        let spin = time * (2 * .pi / 720)
+        let inkA = dark ? 0.28 : 0.32
+        let ringA = dark ? 0.22 : 0.28
+
+        // The plate is lit from its middle, so the wheel reads as an object
+        // rather than as lines lying on the background.
+        bloom(e.ring, at: centre, radius: outer * 0.95, alpha: dark ? 0.10 : 0.07, in: &context)
+
+        // Six concentric rules: the degree ring, the zodiac band, the house
+        // band, the aspect circle and the hub.
+        for (i, f) in [1.0, 0.93, 0.80, 0.66, 0.44, 0.13].enumerated() {
+            context.stroke(
+                Path(ellipseIn: CGRect(x: centre.x - outer * f, y: centre.y - outer * f, width: outer * f * 2, height: outer * f * 2)),
+                with: .color(e.ring.opacity(ringA * (i == 0 || i == 1 ? 1.25 : 0.75))),
+                lineWidth: i == 0 || i == 1 ? 1.3 : 0.9,
+            )
+        }
+
+        // A full 360° of degree marks, every one of them, in a single path:
+        // 360 subpaths cost one stroke call, and a wheel that stops short of
+        // the whole circle stops being an instrument.
+        var degrees = Path()
+        var fives = Path()
+        for d in 0 ..< 360 {
+            let a = spin + Double(d) * (.pi / 180)
+            let c = cos(a), sn = sin(a)
+            let long = d % 5 == 0
+            let inner = outer * (long ? 0.945 : 0.962)
+            let from = CGPoint(x: centre.x + c * inner, y: centre.y + sn * inner)
+            let to = CGPoint(x: centre.x + c * outer, y: centre.y + sn * outer)
+            if long {
+                fives.move(to: from)
+                fives.addLine(to: to)
+            } else {
+                degrees.move(to: from)
+                degrees.addLine(to: to)
+            }
+        }
+        context.stroke(degrees, with: .color(e.ring.opacity(ringA * 0.5)), lineWidth: 0.6)
+        context.stroke(fives, with: .color(e.ring.opacity(ringA * 0.95)), lineWidth: 0.9)
+
+        // Twelve sign sectors: a spoke across the bands, the sign's own glyph
+        // set on the zodiac band, and its element's tick beside it.
+        let signBand = outer * 0.865
+        for sign in 0 ..< 12 {
+            let angle = spin + Double(sign) * (.pi / 6)
+            let c = cos(angle), sn = sin(angle)
+            var spoke = Path()
+            spoke.move(to: CGPoint(x: centre.x + c * outer * 0.66, y: centre.y + sn * outer * 0.66))
+            spoke.addLine(to: CGPoint(x: centre.x + c * outer * 0.93, y: centre.y + sn * outer * 0.93))
+            context.stroke(spoke, with: .color(e.ring.opacity(ringA)), lineWidth: 0.9)
+
+            // The glyph sits at the middle of its sector, not on the spoke.
+            let mid = angle + .pi / 12
+            let at = CGPoint(x: centre.x + cos(mid) * signBand, y: centre.y + sin(mid) * signBand)
+            if wheel.indices.contains(sign) {
+                context.opacity = dark ? 0.55 : 0.5
+                context.draw(wheel[sign], at: at)
+                context.opacity = 1
+            }
+            // The element repeats fire, earth, air, water around the wheel.
+            let element = e.elements.isEmpty ? e.ink : e.elements[sign % e.elements.count]
+            var tick = Path()
+            let tc = cos(mid), ts = sin(mid)
+            tick.move(to: CGPoint(x: centre.x + tc * outer * 0.795, y: centre.y + ts * outer * 0.795))
+            tick.addLine(to: CGPoint(x: centre.x + tc * outer * 0.822, y: centre.y + ts * outer * 0.822))
+            context.stroke(tick, with: .color(element.opacity(dark ? 0.5 : 0.45)), style: StrokeStyle(lineWidth: 2.4, lineCap: .round))
+        }
+
+        // The seven classical planets, each at its own longitude, with the
+        // mark on the house band that a chart would draw to place it.
+        var placed = SeededRNG(seed: 0x5E1E_0B17)
+        for planet in 0 ..< 7 {
+            let longitude = placed.unit() * 2 * .pi
+            // Each drifts on its own period — the slowest barely at all.
+            let a = spin + longitude + time * (2 * .pi / (900 + Double(planet) * 420))
+            let c = cos(a), sn = sin(a)
+            let at = CGPoint(x: centre.x + c * outer * 0.565, y: centre.y + sn * outer * 0.565)
+            var stem = Path()
+            stem.move(to: CGPoint(x: centre.x + c * outer * 0.645, y: centre.y + sn * outer * 0.645))
+            stem.addLine(to: CGPoint(x: centre.x + c * outer * 0.665, y: centre.y + sn * outer * 0.665))
+            context.stroke(stem, with: .color(e.ink.opacity(inkA)), lineWidth: 1)
+            let index = WheelAtlasIndex.planets + planet
+            if wheel.indices.contains(index) {
+                context.opacity = dark ? 0.62 : 0.56
+                context.draw(wheel[index], at: at)
+                context.opacity = 1
+            }
+        }
+
+        // The aspect chords across the inner circle, breathing on long phases
+        // so the wheel is never quite static.
+        for (i, step) in [4, 3, 6].enumerated() {
+            let a = 0.5 + 0.5 * sin(time / (18 + Double(i) * 7) + Double(i) * 2)
+            var chord = Path()
+            for k in 0 ..< 12 where k % step == 0 {
+                let a1 = spin + Double(k) * (.pi / 6)
+                let a2 = spin + Double(k + step) * (.pi / 6)
+                chord.move(to: CGPoint(x: centre.x + cos(a1) * outer * 0.44, y: centre.y + sin(a1) * outer * 0.44))
+                chord.addLine(to: CGPoint(x: centre.x + cos(a2) * outer * 0.44, y: centre.y + sin(a2) * outer * 0.44))
+            }
+            context.stroke(chord, with: .color(e.ink.opacity(inkA * (0.35 + a * 0.55))), lineWidth: 0.9)
+        }
+    }
+}

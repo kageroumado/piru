@@ -5741,6 +5741,22 @@
         }
       }
     },
+    "A night sky, five suits, fireworks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜空、五种花色、烟花"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜空、五種花色、煙火"
+          }
+        }
+      }
+    },
     "A one-compartment model with population-average half-lives. Real overlap depends on your metabolism, dose, route, and tolerance." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10035,6 +10051,22 @@
         }
       }
     },
+    "Astrelia" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Astrelia"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Astrelia"
+          }
+        }
+      }
+    },
     "at common or above" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10129,6 +10161,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "聽覺"
+          }
+        }
+      }
+    },
+    "Aurora" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "极光"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "極光"
           }
         }
       }
@@ -20256,6 +20304,22 @@
         }
       }
     },
+    "Engraved gold, a plum night, a turning wheel" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镌刻的金色、梅紫夜空、缓缓旋转的星盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鐫刻的金色、梅紫夜空、緩緩旋轉的星盤"
+          }
+        }
+      }
+    },
     "Enhanced CNS depression — risk of respiratory depression and death." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22476,6 +22540,7 @@
       }
     },
     "Fireflies and an aurora" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22487,6 +22552,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "螢火蟲與極光"
+          }
+        }
+      }
+    },
+    "Fireflies over a dark meadow" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暗色草原上的萤火虫"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暗色草原上的螢火蟲"
           }
         }
       }
@@ -24119,6 +24200,22 @@
         }
       }
     },
+    "Hanabi" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hanabi"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hanabi"
+          }
+        }
+      }
+    },
     "Handling & storage" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24405,7 +24502,6 @@
       }
     },
     "Hebi Arcade" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24422,6 +24518,7 @@
       }
     },
     "Hebi Arcade (WIP)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24906,6 +25003,7 @@
       }
     },
     "Hotaru (WIP)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32427,6 +32525,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大自然、藝術或寧靜的音樂能溫柔地幫助您消化。"
+          }
+        }
+      }
+    },
+    "Near-black and periwinkle, a lensed sky" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近乎全黑与长春花蓝，被引力透镜弯折的星空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近乎全黑與長春花藍，被重力透鏡彎折的星空"
           }
         }
       }
@@ -43441,6 +43555,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇性血清素再攝取抑制劑 (SSRI)"
+          }
+        }
+      }
+    },
+    "Selenia" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selenia"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selenia"
           }
         }
       }

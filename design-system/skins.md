@@ -58,15 +58,64 @@ roles stay split: a colour that is a fine mark can still fail as small copy
 | Linen | — | paper | system | none — a muted skin |
 | Slate | — | soft (slate glow) | system | none — a muted skin |
 | Paper Garden (shelved, `Skin.shelved`) | `~/Developer/Origami` + `~/Developer/Kaze` | paper (grain, ink hairline, no shadow) | Fraunces | raked sand around stones, sakura, fireflies at night |
-| Hotaru (WIP) | `~/Developer/Hotaru` | soft (lime glow) | system | fireflies, fog, a tree line, an aurora |
+| Aurora | `~/Developer/Hotaru` | soft (lime glow) | system | fireflies, fog, a tree line, an aurora |
 | Yuki | `~/Developer/Yuki` | soft (periwinkle glow) | `.rounded` | snow, frost at the corners |
-| Hebi Arcade (WIP) | `~/Developer/Hebi` (Neon City) | neon (phosphor stroke + glow) | Press Start 2P (scaled .72) | a perspective grid, pixel stars, a real snake game replayed from a seed, scanlines |
+| Hebi Arcade | `~/Developer/Hebi` (Neon City) | neon (phosphor stroke + glow) | Press Start 2P (scaled .72) | a perspective grid, pixel stars, a real snake game replayed from a seed, scanlines |
 | Kumo | `~/Developer/Kumo` | frosted (translucent, hairline, highlight) | system | a sky by the real clock and season |
 | dose.wiki | https://dose.wiki (partner; their CSS tokens, hue 326/318) | frosted (fuchsia hairline + highlight) | Saira (scaled .94) | their page halos and molecule ring, one node pulse |
+| Selenia | `~/Developer/Ecliptica` (the folder keeps the pre-rename name) | frosted (gold hairline + glow) | system **serif** | an engraved chart wheel turning under a still dome |
+| Hanabi | `~/Developer/Hanabi` (the co-op card game) | soft (periwinkle glow) | `.rounded` | a festival night: a star field, rockets, bursts in the five suits |
+| substance.wiki | https://substance.wiki (partner; their black ground, paper ink, cyan and signal lime) | edged (1pt hairline, no shadow, `--radius: 0`) | system | none — nothing moving, by their design |
 
-Light modes for Tsuki, Starfield and Jellyfish are invented — a moonlit
-lavender day, a dawn sky, a shallow lagoon — since their sources are dark
-only; every one is gated by `ColorContrastTests` like the rest.
+Hanabi's five card suits **are** its semantic pairs — red → danger, yellow →
+caution, green → success, blue → info — the move dose.wiki makes with its
+dose-tier ramp, so a Piru warning reads in the family a player already knows.
+Its accent stays the game's own blue rather than the 花火 wordmark's gold: the
+gold measures 0.053 Oklab dE from the yellow suit, while the blue holds 0.131
+from the blue suit. Light mode gates the accent and the blue suit onto the same
+colour (0.03 dE) unless the suit is seeded a step deeper, which is why its
+`semantic/info` seeds differ by mode.
+
+**A second Astrelia was built and deleted (2026-09-22).** The iOS app has its
+own design language — near-black and periwinkle with 1px rings, against the
+site page's lit steel-blue and 2.5px sticker borders — so it looked like a
+distinct skin on paper. It was not: Starfield already holds the starry ground,
+and their accents measure only 0.093 apart. Palette alone does not make a
+second skin out of one product. Note for whenever a skin is dropped:
+`SkinProducts.all` filters the catalog, so removing one also means removing
+its product from `StoreKit/Skins.storekit` — `SkinShopTests` asserts the two
+agree and catches it immediately.
+
+**If you want a Metal shader in a scene, two things are already known.** A
+SwiftUI `colorEffect` can live *inside* the backdrop's existing
+`TimelineView`, which means no second clock and `SkinPower` still governs
+every frame — that part works, and it is the only way a shader belongs here.
+What sank the attempt was the noise domain: on a tall phone `aspect` is about
+0.46, so an `x` scaled by it spans under one unit, and any noise frequency in
+the single digits gives two or three cells across the width. The field goes
+effectively one-dimensional and paints parallel diagonal lines — it reads as
+scratched glass. The fix is frequency, not opacity.
+
+Hanabi's five card suits **are** its semantic pairs — red → danger, yellow →
+caution, green → success, blue → info — the move dose.wiki makes with its
+dose-tier ramp, so a Piru warning reads in the family a player already knows.
+Its accent stays the game's own blue rather than the 花火 wordmark's gold: the
+gold measures 0.053 Oklab dE from the yellow suit, while the blue holds 0.131
+from the blue suit. Light mode gates the accent and the blue suit onto the same
+colour (0.03 dE) unless the suit is seeded a step deeper, which is why its
+`semantic/info` seeds differ by mode.
+
+**Selenia's accent is not the colour its own `Theme` uses.** Selenia and the
+Astrelia app were both ported from Astrolabe and share periwinkle `#8FB8FF`,
+so a faithful seed would have landed on a colour two of the author's apps
+already wear. Selenia takes the icon's engraved gold `#E3C37C` instead — its
+own astrology tint, and 0.214 from that periwinkle. Its semantics are its four
+elements, with one substitution: air (`#F2D980`) sits 0.062 from the gold, so
+caution takes fire and danger takes the chart's hard-aspect red.
+
+Light modes for Tsuki, Starfield, Jellyfish, Hanabi and Selenia are invented —
+a moonlit lavender day, a dawn sky, a shallow lagoon, a daytime festival and
+the chart engraved on vellum — since their sources are dark only; every one is gated by `ColorContrastTests` like the rest.
 
 ## Surfaces are closed
 
@@ -195,7 +244,8 @@ composite `plusLighter` (additive) so a colour reads as emitting, not paler.
   rake bending around two stones with concentric rings, the stones with
   their gradient and moss, sakura petals on Kaze's fall, its fireflies (with
   their blink keyframes) after dark, its vignette floored at .5.
-- `.fireflies` (Hotaru): the shaders' ground, fog and tree line; 120
+- `.fireflies` (Aurora, from Hotaru — the case and raw value keep the app's
+  name, only the picker says Aurora): the shaders' ground, fog and tree line; 120
   fireflies with the shader's blink (`pulse²·flicker`), size and two-term
   glow, additive; three aurora ribbons on its wave cycling green → cyan →
   purple → pink. By day: pollen motes and morning mist.
@@ -220,8 +270,42 @@ composite `plusLighter` (additive) so a colour reads as emitting, not paler.
   speeds; snow in Dec–Feb and rain in Mar–Apr and Oct–Nov with its particle
   numbers; the night aurora band.
 
+- `.fireworks` (Hanabi): the game's menu — its static 50-star field (white
+  at 0.06–0.30) under a thinned drift of its rising sparks, then four rocket
+  slots. Each slot runs its own period; where a flight launches, which suit it
+  is and which of `FireworkScene`'s three shapes it takes (circle, star on long
+  arms, double ring) are drawn from an RNG seeded on `(slot, cycle)`, so a
+  flight is a pure function of the clock and nothing is kept between frames.
+  The rocket rises on an eight-node fading trail; the burst is the closed form
+  of a particle emitter — radius eases open, gravity pulls the tail down, alpha
+  falls off a cube, and a white core blooms for the first third.
+  **Sparks are drawn as short radial streaks, never as dots** — a ring of dots
+  reads as a dotted circle, which is exactly what the first device look showed.
+  The sparks the menu tints at a random hue are suit-coloured here instead: a
+  skin never invents a colour that is not in its palette.
+
+- `.ephemeris` (Selenia): `ChartWheel.swift` as a backdrop, drawn as a whole
+  plate — six concentric rules, **a full 360° of degree marks** with every
+  fifth one long, twelve sign sectors carrying their own zodiac glyph and an
+  element tick, the seven classical planets each at its own longitude on its
+  own period, and the aspect chords breathing on long phases, all over the
+  still dome `CelestialSphereView` turns and a bloom that lights the plate
+  from its middle. One revolution every twelve minutes: slow enough to read as
+  still, which is what an instrument should do.
+  - The 360 marks are **one `Path` with 360 subpaths**, so the whole ring is a
+    single stroke call. A wheel that stops short of the full circle stops
+    being an instrument, and drawing them one at a time would not be worth it.
+  - Type on the wheel comes from ``WheelAtlas``, the same trick ``GlyphAtlas``
+    uses: `Text` cannot cross into the nonisolated renderer, so the twelve
+    signs and seven planets are baked to images on the main actor once per
+    appearance and blitted. **Every symbol carries U+FE0E**, the text
+    presentation selector — without it the zodiac codepoints default to emoji
+    on iOS and the wheel comes back with twelve filled purple tiles on it.
+
 **Muted skins** (Graphite, Linen, Slate) have `decorations == nil`: palette,
-surface and type only, nothing moving, for people who want none of it. Two
+surface and type only, nothing moving, for people who want none of it.
+substance.wiki is `nil` for a different reason — their site has no motion, so
+a scene would be Piru's invention rather than theirs. Two
 night skies never share a star map: `SkinNightSky.seed` differs per skin.
 
 **Parallax.** `SkinMotion` low-pass filters the accelerometer into a gravity
@@ -295,6 +379,15 @@ section-level edge has no hook. They keep the solid card fill only.
 
 ## Screenshots without tapping
 
+**Set the skin with `-piruSkin <id>`, not the app-group plist.** DEBUG builds
+also take `-piruSkin hanabi` / `-piruScheme light|dark`, which wear a skin at
+launch with ownership ignored. Writing `group.dev.yumeji.piru.plist` from
+outside does **not** work on a booted simulator however carefully it is
+sequenced: `cfprefsd` serves its own cached copy and flushes it back over the
+edit, so the app still reads the old value — verified through an app restart, a
+`cfprefsd` kickstart and a full device reboot, all of which still came up
+`.piru`.
+
 DEBUG builds accept `-piruRoute <piru://url>` as a launch argument and land on
 that screen (after `SubstanceStore.ensureAllLoaded()`), because `simctl
 openurl` is stopped by the untappable "Open in Piru?" sheet. Combine with
@@ -311,3 +404,37 @@ key to screenshot any screen in any skin.
   on the title have no SwiftUI hook yet.
 - The next batch from the user's apps: Shrine, Mochi, Shizuka, Hoshi, Hanabi.
 - kagerou.glass, the other developer's site, as a skin.
+
+## A skin does not change the app icon
+
+Tried and parked (2026-09-22, `git stash` "skin-themed alternate app icons").
+The mechanism works and is cheap — but the *result* does not, so the bar for
+bringing it back is a design answer, not a build-setting one.
+
+What was verified, end to end: a per-skin Icon Composer bundle dropped in
+`Piru/AltIcons/<Name>.icon` is picked up by the synchronized group with no
+pbxproj file reference; `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` in the
+two app configs turns them into real `CFBundleAlternateIcons` entries; and
+`setAlternateIconName` then binds to them. Six skins were rendered this way.
+
+Why it was dropped: a skin's ground is dark and low-chroma on purpose, so
+swapping only the icon's background gradient gave four skins (Tsuki, ely.pink,
+Yuki, Kumo) that are the same dark square at Home Screen size. Only Jellyfish
+(teal) and Hebi (violet-black) read apart. Making the set work means re-tinting
+the pill, heart and face per skin — the mascot is the recognisable thing, and
+it stayed pink in all six. That is icon design, not a palette derivation, and
+`build_skin_palettes.py` cannot generate it.
+
+Two things worth keeping whoever picks this up:
+
+- **Preview icons with `actool`, not the simulator.** `xcrun actool <X>.icon
+  --compile <dir> --app-icon <X> --target-device iphone --platform
+  iphonesimulator …` emits a rendered `<X>60x60@2x.png` beside `Assets.car` —
+  Apple's real Liquid Glass render, in about a second, with no build. The
+  simulator is the wrong instrument here: `setAlternateIconName` returns
+  success and `alternateIconName` reads back correctly while SpringBoard keeps
+  drawing the old icon from its cache.
+- **The icon follows a deliberate choice, never the skin.** iOS shows its "You
+  have changed the icon" alert on every `setAlternateIconName`, so wiring the
+  icon to `SkinStore.setSkin` fires an alert on each try-on settle. If it comes
+  back, it is its own picker.

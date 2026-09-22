@@ -69,9 +69,23 @@ final class SkinStore {
         }
         decorationsEnabled = defaults.object(forKey: SkinDefaults.decorationsKey) as? Bool ?? SkinDefaults.decorationsDefault
         #if DEBUG
+            let args = ProcessInfo.processInfo.arguments
+            // `-piruSkin <id>` / `-piruScheme light|dark` wear a skin at launch,
+            // ownership ignored, so a screenshot can be taken of any skin. The
+            // app-group plist is not writable from outside a running simulator
+            // — cfprefsd serves its own cached copy and flushes it back over
+            // any external edit — so the launch argument is the only hook.
+            if let i = args.firstIndex(of: "-piruSkin"), args.indices.contains(i + 1),
+               let forced = Skin(rawValue: args[i + 1]) {
+                chosen = forced
+            }
+            if let i = args.firstIndex(of: "-piruScheme"), args.indices.contains(i + 1),
+               let forced = SkinColorScheme(rawValue: args[i + 1]) {
+                colorScheme = forced
+            }
             // `-piruNoDecor` launches with the decoration layer off, to tell a
             // backdrop problem from everything else on a device.
-            if ProcessInfo.processInfo.arguments.contains("-piruNoDecor") { decorationsEnabled = false }
+            if args.contains("-piruNoDecor") { decorationsEnabled = false }
         #endif
     }
 

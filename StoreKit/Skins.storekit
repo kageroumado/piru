@@ -63,13 +63,13 @@
       "internalID": "32ADB223",
       "localizations": [
         {
-          "description": "Fireflies and an aurora",
-          "displayName": "Hotaru",
+          "description": "Fireflies over a dark meadow",
+          "displayName": "Aurora",
           "locale": "en_US"
         }
       ],
       "productID": "dev.yumeji.piru.skin.hotaru",
-      "referenceName": "Hotaru",
+      "referenceName": "Aurora",
       "type": "NonConsumable"
     },
     {
@@ -115,6 +115,36 @@
       ],
       "productID": "dev.yumeji.piru.skin.kumo",
       "referenceName": "Kumo",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "4F2C81A7",
+      "localizations": [
+        {
+          "description": "A night sky, five suits, fireworks",
+          "displayName": "Hanabi",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.hanabi",
+      "referenceName": "Hanabi",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "14.99",
+      "familyShareable": false,
+      "internalID": "9C3E17B2",
+      "localizations": [
+        {
+          "description": "Engraved gold, a plum night, a turning wheel",
+          "displayName": "Selenia",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "dev.yumeji.piru.skin.selenia",
+      "referenceName": "Selenia",
       "type": "NonConsumable"
     },
     {

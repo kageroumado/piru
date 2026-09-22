@@ -53,8 +53,12 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// Paper garden — Origami's washi and Kaze's raked sand: matte paper,
     /// washi red, stones and moss, sakura petals.
     case paperGarden
-    /// Hotaru — the author's ambient-art app. Fireflies over a dark meadow,
-    /// an aurora at the top.
+    /// Aurora — from the author's ambient-art app Hotaru. Fireflies over a
+    /// dark meadow, an aurora at the top.
+    ///
+    /// The case, the raw value and the catalog namespace all stay `hotaru`:
+    /// the raw value is the persisted choice, so renaming it would drop this
+    /// skin for anyone already wearing it. Only the picker name is Aurora.
     case hotaru
     /// Yuki — the author's Pomodoro. Periwinkle, snow and frost, dual.
     case yuki
@@ -71,7 +75,14 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// Piru in its sidebar. Their black ground, paper ink, cyan and signal
     /// lime; square hairline panels, nothing moving.
     case substanceWiki
-
+    /// Hanabi (花火) — the co-op card game. Its night sky over a festival, and
+    /// its five card suits as the semantic pairs; fireworks climb and burst
+    /// behind everything.
+    case hanabi
+    /// Selenia — the natal-chart app (its folder is still the pre-rename
+    /// Ecliptica). Engraved gold on a plum night, its four elements as the
+    /// semantic pairs, and its chart wheel turning behind everything.
+    case selenia
     var id: String {
         rawValue
     }
@@ -98,7 +109,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         // substance.wiki the partner encyclopedias. They advertise someone
         // else, so they are never sold.
         case .elyPink, .doseWiki, .substanceWiki: .free
-        case .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo: .animated
+        case .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .hanabi, .selenia: .animated
         }
     }
 
@@ -119,12 +130,14 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .astrelia: "Starfield"
         case .jellyfish: "Jellyfish"
         case .paperGarden: "Paper Garden"
-        case .hotaru: "Hotaru (WIP)"
+        case .hotaru: "Aurora"
         case .yuki: "Yuki"
-        case .hebi: "Hebi Arcade (WIP)"
+        case .hebi: "Hebi Arcade"
         case .kumo: "Kumo"
         case .doseWiki: "dose.wiki"
         case .substanceWiki: "substance.wiki"
+        case .hanabi: "Hanabi"
+        case .selenia: "Selenia"
         }
     }
 
@@ -140,12 +153,14 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .astrelia: "Steel blue and gold under a thousand stars"
         case .jellyfish: "Deep water, bioluminescence, jellyfish"
         case .paperGarden: "Washi, raked sand, sakura"
-        case .hotaru: "Fireflies and an aurora"
+        case .hotaru: "Fireflies over a dark meadow"
         case .yuki: "Periwinkle, snow and frost"
         case .hebi: "Neon City on a CRT"
         case .kumo: "A sky that follows the day"
         case .doseWiki: "Plum and fuchsia, from the open encyclopedia"
         case .substanceWiki: "Black, paper and signal cyan, from the effects index"
+        case .hanabi: "A night sky, five suits, fireworks"
+        case .selenia: "Engraved gold, a plum night, a turning wheel"
         }
     }
 
@@ -185,6 +200,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .kumo: .kumo
         case .doseWiki: .doseWiki
         case .substanceWiki: .substanceWiki
+        case .hanabi: .hanabi
+        case .selenia: .selenia
         }
     }
 
@@ -392,6 +409,49 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 frameCorners: (SkinGlyph("☁", .Skin.Kumo.Sky.cloud), SkinGlyph("✦", semantic(.caution, .accent))),
                 tapGlyph: SkinGlyph("✦", semantic(.caution, .accent)),
             )
+        case .hanabi:
+            // The game's menu: a static star field under drifting sparkles,
+            // and its `FireworkScene` bursts in the five card suits.
+            SkinDecorations(
+                scene: .fireworks(SkinFireworks(
+                    suits: [
+                        .Skin.Hanabi.Burst.red, .Skin.Hanabi.Burst.yellow, .Skin.Hanabi.Burst.green,
+                        .Skin.Hanabi.Burst.blue, .Skin.Hanabi.Burst.white,
+                    ],
+                    spark: .Skin.Hanabi.Burst.spark,
+                    star: .Skin.Hanabi.Burst.star,
+                )),
+                // Four-point sparks only: ✳ / ✲ read as asterisks against copy,
+                // which is the same trap ely.pink's blinkies fell into.
+                glyphs: [
+                    SkinGlyph("✦", .Skin.Hanabi.Burst.spark), SkinGlyph("✧", accentMark),
+                    SkinGlyph("✦", semantic(.caution, .accent)), SkinGlyph("✧", semantic(.danger, .accent)),
+                    SkinGlyph("⋆", semantic(.success, .accent)),
+                ],
+                frameCorners: (SkinGlyph("✦", semantic(.caution, .accent)), SkinGlyph("✧", accentMark)),
+                tapGlyph: SkinGlyph("✦", semantic(.caution, .accent)),
+            )
+        case .selenia:
+            // The chart wheel from `ChartWheel.swift`, turning slowly under
+            // the dome `CelestialSphereView` draws.
+            SkinDecorations(
+                scene: .ephemeris(SkinEphemeris(
+                    ink: .Skin.Selenia.Wheel.ink,
+                    ring: .Skin.Selenia.Wheel.ring,
+                    air: .Skin.Selenia.Wheel.air,
+                    star: .Skin.Selenia.Wheel.star,
+                    elements: [
+                        semantic(.caution, .accent), semantic(.success, .accent),
+                        .Skin.Selenia.Wheel.air, semantic(.info, .accent),
+                    ],
+                )),
+                glyphs: [
+                    SkinGlyph("✦", accentMark), SkinGlyph("☾", .Skin.Selenia.Wheel.star),
+                    SkinGlyph("✧", eyebrow), SkinGlyph("⋆", accentMark),
+                ],
+                frameCorners: (SkinGlyph("✦", accentMark), SkinGlyph("☾", .Skin.Selenia.Wheel.star)),
+                tapGlyph: SkinGlyph("✦", accentMark),
+            )
         case .doseWiki:
             // The site is quiet: its page halos, its molecule ring, no sticker
             // field — only a hex node at a glance card's corner and on a tap.
@@ -419,7 +479,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var cardInsetDash: Color? {
         switch self {
         case .elyPink: accentMark
-        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .doseWiki, .substanceWiki: nil
+        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .doseWiki, .substanceWiki, .hanabi, .selenia: nil
         }
     }
 
@@ -432,7 +492,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .paperGarden: 2
         // substance.wiki sets `--radius: 0`.
         case .hebi, .substanceWiki: 0
-        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki: nil
+        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki, .hanabi, .selenia: nil
         }
     }
 
@@ -454,7 +514,14 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
             )
         // Soft skins: no outline, the label colour, a coloured glow beneath.
         // dose.wiki's glow is fuchsia, the halo their wordmark sits in.
-        case .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki: SkinTitleOutline(
+        // Selenia's plates are engraved: the title takes the gold itself, with
+        // the same glow beneath, so the serif reads as struck rather than set.
+        case .selenia: SkinTitleOutline(
+                fill: palette.titleFill, stroke: nil,
+                shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 16,
+            )
+        // Hanabi's glow is the menu wordmark's pulsing orange.
+        case .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki, .hanabi: SkinTitleOutline(
                 fill: nil, stroke: nil,
                 shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 14,
             )
@@ -491,6 +558,10 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 shadow: palette.shadow, shadowOffset: CGSize(width: 4, height: 5),
             )
         case .tsuki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 14)
+        case .hanabi: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 14)
+        // `luminousSurface()`: a material, a 1px tinted ring, a coloured glow.
+        // Frosted rather than soft so the wheel and the sky show through.
+        case .selenia: .frosted(stroke: palette.stroke, highlight: palette.shadow)
         case .jellyfish: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 18)
         case .hotaru: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 16)
         case .yuki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 12)
@@ -519,9 +590,13 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var fontDesign: Font.Design? {
         switch self {
         case .piru, .graphite, .linen, .slate, .elyPink, .astrelia, .paperGarden, .hotaru, .hebi, .kumo, .doseWiki, .substanceWiki: nil
+        // Selenia sets its plates in system serif — engraved, with Roman
+        // numerals on a plate.
+        case .selenia: .serif
         // Tsuki is `.rounded` throughout; the jellyfish skin borrows it, and
         // Yuki's ultralight rounded timer is its whole identity.
-        case .tsuki, .jellyfish, .yuki: .rounded
+        // Hanabi's body and numerals are rounded bold.
+        case .tsuki, .jellyfish, .yuki, .hanabi: .rounded
         }
     }
 
@@ -531,7 +606,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// are small and carry most of a skin's character.
     var typeface: SkinTypeface {
         switch self {
-        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .yuki, .hotaru, .kumo, .substanceWiki: SkinTypeface(display: nil, label: nil)
+        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .yuki, .hotaru, .kumo, .substanceWiki, .hanabi, .selenia: SkinTypeface(display: nil, label: nil)
         // Fredoka (variable, 159 KB) for titles; DotGothic16 (2 MB, includes
         // kana + JIS kanji) for chips and badges. Both SIL OFL, in Piru/Fonts.
         case .elyPink: SkinTypeface(display: "Fredoka", label: "DotGothic16")
@@ -716,6 +791,30 @@ struct SkinPalette: Sendable {
         info: (.Skin.Hebi.Semantic.Info.text, .Skin.Hebi.Semantic.Info.accent),
     )
 
+    static let selenia = SkinPalette(
+        accent: .Skin.Selenia.Accent.text, accentMark: .Skin.Selenia.Accent.mark, onAccent: .Skin.Selenia.Accent.on,
+        secondaryLabel: .Skin.Selenia.Text.secondary,
+        background: .Skin.Selenia.Surface.background, cardBackground: .Skin.Selenia.Surface.card, inputBackground: .Skin.Selenia.Surface.input,
+        eyebrow: .Skin.Selenia.eyebrow, stroke: .Skin.Selenia.stroke, shadow: .Skin.Selenia.shadow,
+        titleFill: .Skin.Selenia.Title.fill, titleStroke: .Skin.Selenia.Title.stroke, titleShadow: .Skin.Selenia.Title.shadow,
+        danger: (.Skin.Selenia.Semantic.Danger.text, .Skin.Selenia.Semantic.Danger.accent),
+        caution: (.Skin.Selenia.Semantic.Caution.text, .Skin.Selenia.Semantic.Caution.accent),
+        success: (.Skin.Selenia.Semantic.Success.text, .Skin.Selenia.Semantic.Success.accent),
+        info: (.Skin.Selenia.Semantic.Info.text, .Skin.Selenia.Semantic.Info.accent),
+    )
+
+    static let hanabi = SkinPalette(
+        accent: .Skin.Hanabi.Accent.text, accentMark: .Skin.Hanabi.Accent.mark, onAccent: .Skin.Hanabi.Accent.on,
+        secondaryLabel: .Skin.Hanabi.Text.secondary,
+        background: .Skin.Hanabi.Surface.background, cardBackground: .Skin.Hanabi.Surface.card, inputBackground: .Skin.Hanabi.Surface.input,
+        eyebrow: .Skin.Hanabi.eyebrow, stroke: .Skin.Hanabi.stroke, shadow: .Skin.Hanabi.shadow,
+        titleFill: .Skin.Hanabi.Title.fill, titleStroke: .Skin.Hanabi.Title.stroke, titleShadow: .Skin.Hanabi.Title.shadow,
+        danger: (.Skin.Hanabi.Semantic.Danger.text, .Skin.Hanabi.Semantic.Danger.accent),
+        caution: (.Skin.Hanabi.Semantic.Caution.text, .Skin.Hanabi.Semantic.Caution.accent),
+        success: (.Skin.Hanabi.Semantic.Success.text, .Skin.Hanabi.Semantic.Success.accent),
+        info: (.Skin.Hanabi.Semantic.Info.text, .Skin.Hanabi.Semantic.Info.accent),
+    )
+
     static let kumo = SkinPalette(
         accent: .Skin.Kumo.Accent.text, accentMark: .Skin.Kumo.Accent.mark, onAccent: .Skin.Kumo.Accent.on,
         secondaryLabel: .Skin.Kumo.Text.secondary,
@@ -831,6 +930,33 @@ enum SkinScene: Sendable {
     case sky(SkinSky)
     /// dose.wiki: their page halos and their molecule ring, faint and slow.
     case molecule(SkinMolecule)
+    /// Hanabi: a festival night — a static star field, then rockets that rise
+    /// on a fading trail and burst in the game's five suits.
+    case fireworks(SkinFireworks)
+    /// Selenia: an engraved chart wheel turning under a faint dome.
+    case ephemeris(SkinEphemeris)
+}
+
+/// Selenia's chart wheel: concentric rules, twelve sign sectors and the
+/// aspect chords across the middle. Its four elements are the semantic pairs,
+/// so only air — which is not one — needs its own token.
+struct SkinEphemeris: Sendable {
+    let ink: Color
+    let ring: Color
+    let air: Color
+    let star: Color
+    /// fire, earth, air, water, in that order, for the sector ticks.
+    let elements: [Color]
+}
+
+/// Hanabi's night. The five suits are the game's own `Theme.cardColor`
+/// values at full saturation — art, not UI roles, so they are never gated.
+struct SkinFireworks: Sendable {
+    let suits: [Color]
+    /// The white core every burst ends on, and the rocket's trail.
+    let spark: Color
+    /// The menu's static 50-star field behind everything.
+    let star: Color
 }
 
 struct SkinMolecule: Sendable {
