@@ -55,6 +55,23 @@ xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 18 Pro 
 
 ```
 
+## Screenshots
+
+`pipeline/screenshots.py` captures every screen worth showing — the vertical timeline, each tab, a quick log with the morning meds staged, stats, inventory, three substance pages, the interaction checker with a pair checked, the skins sheet — in English and Simplified Chinese, in the `piru` skin and then a subset in every other skin the picker offers. It runs unattended and prints each file as it lands.
+
+```bash
+pipeline/screenshots.py                          # build, then everything (~10 min)
+pipeline/screenshots.py --no-build --skins none  # the piru skin only, ~1 min per locale
+pipeline/screenshots.py --screens journal,quicklog --skins tsuki,yuki --locales en
+pipeline/screenshots.py --appearance both        # light and dark
+pipeline/screenshots.py --list                   # screen and skin names
+```
+
+- **Output is `Store/shots/` (gitignored):** `en/01-journal.png` for the piru skin, `en/skins/tsuki/01-journal-tsuki.png` per skin, `zh-Hans/…`, `en-dark/…`, plus `index.json`. Numbers are fixed by the catalog, so a re-run of one screen overwrites the same file.
+- **The app does the walking.** `ScreenshotTour` (`Piru/Utilities/ScreenshotTour.swift`, DEBUG) is enabled by `-piruScreenshots <dir>`, seeds the `week` persona, lands on each screen through `AppNavigator`, and asks the host for a capture through `<dir>/.tour/request.json`; the script answers with `simctl io screenshot` so the 9:41 status bar and real pixels are in the picture. **Add a screen by adding a `Screen` to `catalog`**; a new skin is in the pass the moment it is in `Skin.available`.
+- **It runs on its own simulator, "Piru Screenshots"** (an iPhone 18 Pro Max created on first use), so the persona reseed never wipes the journal on the simulator you develop on. `--udid booted` uses that one anyway.
+- **`--clock` (default 9:41) sets both the status bar and the vertical timeline's Now** — the strip reads `DebugClock.now`, pinned by `-piruNow`, and the `week` persona seeds against it. Other surfaces (the Active Now card, the accessory's "Next:" countdown, In Your Body) still read the wall clock.
+
 ## Lint & format — pinned tool versions
 
 CI runs `swiftformat --lint .`, `swiftlint lint --quiet`, `ruff format --check .`, and `ruff check .` and fails the PR on any violation. **Match these versions locally before pushing** — a different SwiftFormat release enables different default rules, so a tree that is clean on one version is red on another (0.62 made `wrapIfStatementBodies` a default rule and produced 1,300+ phantom violations until it was disabled).

@@ -72,6 +72,14 @@ struct InteractionCheckerView: View {
         .task(id: DoseLogService.shared.revision) {
             rebuildUsedCounts()
         }
+        #if DEBUG
+        // The screenshot tour's pair to check: the route carries no payload.
+        .task {
+            for name in ScreenshotTour.takeStagedInteraction() {
+                addSubstance(name)
+            }
+        }
+        #endif
     }
 
     // MARK: - Search

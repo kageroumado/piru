@@ -43,7 +43,9 @@ nonisolated enum TimelineStripCache {
             entryCount: entryCount,
             newestTimestamp: newestTimestamp,
             preferences: preferences,
-            day: Calendar.current.startOfDay(for: now),
+            // A pinned present keys by its exact time: a strip built for one
+            // stubbed "now" is wrong for any other.
+            day: DebugClock.override ?? Calendar.current.startOfDay(for: now),
             appBuild: Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "",
         )
     }

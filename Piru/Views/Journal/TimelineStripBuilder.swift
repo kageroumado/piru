@@ -72,7 +72,7 @@ struct TimelineStripBuilder {
     /// Per-day slices, newest first.
     private let slices: [Slice]
     private let map: TimelineTimeMap
-    private let now = Date.now
+    private let now = DebugClock.now
 
     /// Per-substance all-time peak (effect intensity or PK concentration,
     /// depending on mode) — the normalization scale that keeps a substance's
@@ -994,7 +994,7 @@ struct TimelineStripBuilder {
     private static func computeRemainingFractions(entries: [DoseEntry]) -> [PersistentIdentifier: Double] {
         var result: [PersistentIdentifier: Double] = [:]
         var substanceCache: [String: Substance?] = [:]
-        let now = Date.now
+        let now = DebugClock.now
 
         // An unknown dose has no amount to eliminate; its bubble shows no
         // remaining percentage.

@@ -192,7 +192,7 @@ final class UnifiedTimelineModel {
         let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
         let key = "\(revision)|\(preferences)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
-        let now = Date.now
+        let now = DebugClock.now
         let cacheKey = TimelineStripCache.key(
             storeGeneration: DoseLogService.storeGeneration,
             entryCount: entries.count,
@@ -267,7 +267,7 @@ final class UnifiedTimelineModel {
     ) async -> Bool {
         guard days.isEmpty else { return false }
         let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
-        let now = Date.now
+        let now = DebugClock.now
         let identity = await DoseLogIdentity.fetch(container: container)
         guard identity.entryCount > 0, !Task.isCancelled else { return false }
         let cacheKey = TimelineStripCache.key(
@@ -300,7 +300,7 @@ final class UnifiedTimelineModel {
     /// it: a plain query with no authorization prompt, empty when there is no
     /// access or nothing recorded.
     private static func recentHeartRate(entries: [DoseEntry]) async -> [HeartRateSample] {
-        let now = Date.now
+        let now = DebugClock.now
         guard let oldest = entries.map(\.timestamp).min() else { return [] }
         let start = max(oldest, Calendar.current.date(byAdding: .day, value: -heartRateLookbackDays, to: now) ?? now)
         guard start < now else { return [] }

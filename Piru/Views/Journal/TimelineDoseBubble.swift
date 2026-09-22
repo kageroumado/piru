@@ -120,12 +120,12 @@ struct TimelineDoseBubble: View {
                     .font(.caption.weight(.semibold).monospacedDigit())
                     .foregroundStyle(item.color)
             }
-        } else if let state = item.state, state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60) > .now {
+        } else if let state = item.state, state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60) > DebugClock.now {
             // Only a dose still inside its window gets the minute clock; every
             // historical bubble would otherwise schedule its own timer and a
             // subgraph that evaluates to nothing.
             TimelineView(.periodic(from: .now, by: 60)) { context in
-                let now = context.date
+                let now = DebugClock.override ?? context.date
                 let end = state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60)
                 if now >= state.doseTimestamp, now < end {
                     DosePhaseProgressBar(state: state, now: now, style: .compact)

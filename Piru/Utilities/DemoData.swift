@@ -112,7 +112,7 @@ import SwiftData
             wipeUserData(context: context)
 
             switch persona {
-            case .week: seedWeek(context: context)
+            case .week: seedWeek(context: context, now: DebugClock.now)
             case .dailyMeds: seedMedsPersona(context: context, sporadic: false)
             case .sporadicMeds: seedMedsPersona(context: context, sporadic: true)
             case .rareOpener: seedRareOpener(context: context)

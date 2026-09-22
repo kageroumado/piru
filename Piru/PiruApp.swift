@@ -259,6 +259,13 @@ struct PiruApp: App {
                                 AppNavigator.shared.push(.tool(.identify), in: .tools)
                             }
                         }
+                        // `-piruScreenshots <dir>` walks every screen for
+                        // pipeline/screenshots.py to capture (ScreenshotTour).
+                        if ScreenshotTour.isRequested {
+                            Task(name: "Screenshot tour") {
+                                await ScreenshotTour.run(container: container)
+                            }
+                        }
                     #endif
                 }
         }

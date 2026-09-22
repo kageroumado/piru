@@ -388,6 +388,9 @@ edit, so the app still reads the old value — verified through an app restart, 
 `cfprefsd` kickstart and a full device reboot, all of which still came up
 `.piru`.
 
+`pipeline/screenshots.py` shoots every screen in every skin the picker offers,
+per language, into `Store/shots/<locale>/skins/<skin>/` — one command, no
+tapping ("Screenshots" in the repo's CLAUDE.md). For a single ad-hoc screen,
 DEBUG builds accept `-piruRoute <piru://url>` as a launch argument and land on
 that screen (after `SubstanceStore.ensureAllLoaded()`), because `simctl
 openurl` is stopped by the untappable "Open in Piru?" sheet. Combine with

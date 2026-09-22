@@ -14,6 +14,9 @@ pipeline/
 ├── enrichment/   LLM-driven deep-pharma research workflow
 ├── build/        Produces the bundled SQLite + validates the curated layer
 └── audit/        After-the-fact inspection + comparison tools
+
+screenshots.py    Captures every app screen on the simulator, per language and
+                  skin, into Store/shots/ (see "Screenshots" in ../CLAUDE.md)
 ```
 
 `pipeline/build.sh` is the single answer to "how is the DB built?" — every step
