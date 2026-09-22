@@ -64,6 +64,7 @@ struct SkinBackdrop: View {
                 let animate = animates && !reduceMotion && visible && scenePhase != .background && !power.isThermallyConstrained
                 let interval = Self.frameInterval(stickers: decor.scene.isStickers, lowPower: power.isLowPower)
                 let atlas = GlyphAtlas.images(for: skin, decor: decor, dark: dark, scale: displayScale)
+                let wheel = WheelAtlas.images(for: decor.scene, dark: dark, scale: displayScale)
                 let textures = SkinTextures.tiles(for: decor.scene, dark: dark, scale: displayScale)
                 // Stays in the screen's own graph. Hosting the canvas in its
                 // own hosting controller was measured: the display link still
@@ -81,7 +82,7 @@ struct SkinBackdrop: View {
                     // asynchronous renderer calls it off the main thread on
                     // hardware. Everything it captures is a `Sendable` value.
                     Canvas(rendersAsynchronously: true) { @Sendable context, size in
-                        SceneRenderer(decor: decor, atlas: atlas, textures: textures, size: size, time: t, dark: dark, tilt: tilt, clock: clock).draw(in: &context)
+                        SceneRenderer(decor: decor, atlas: atlas, wheel: wheel, textures: textures, size: size, time: t, dark: dark, tilt: tilt, clock: clock).draw(in: &context)
                     }
                 }
                 .allowsHitTesting(false)
@@ -155,6 +156,10 @@ nonisolated struct SceneRenderer {
     let decor: SkinDecorations
     /// Every glyph at every size bucket, rendered once — see ``GlyphAtlas``.
     let atlas: [Image]
+    /// The twelve zodiac signs then the seven classical planets, rendered
+    /// once for the skins whose scene sets type on a wheel. Empty for the
+    /// rest — see ``WheelAtlas``.
+    var wheel: [Image] = []
     /// Grain and scanline tiles, rendered once — see ``SkinTextures``.
     let textures: SkinTextures.Tiles
     let size: CGSize
@@ -208,6 +213,16 @@ nonisolated struct SceneRenderer {
             drawGlyphs(in: &context, share: 0.3)
         case let .molecule(molecule):
             drawMolecule(molecule, in: &context)
+        case let .fireworks(fw):
+            drawFireworks(fw, in: &context)
+            // Thin: the bursts already carry the life in this scene.
+            drawGlyphs(in: &context, share: 0.16)
+        case let .ephemeris(e):
+            drawEphemeris(e, in: &context)
+            drawGlyphs(in: &context, share: 0.2)
+        case let .deepSky(sky):
+            drawDeepSky(sky, in: &context)
+            drawGlyphs(in: &context, share: 0.2)
         }
     }
 
@@ -640,6 +655,58 @@ private enum GlyphAtlas {
                 } else {
                     images.append(Image(systemName: "circle.fill"))
                 }
+            }
+        }
+        cache[key] = images
+        return images
+    }
+}
+
+/// Where each run starts in ``WheelAtlas``'s flat array. The renderer is
+/// nonisolated and cannot ask the atlas, so the layout is stated once here and
+/// read from both sides.
+nonisolated enum WheelAtlasIndex {
+    static let signs = 0
+    static let planets = 12
+}
+
+/// The twelve zodiac signs and the seven classical planets, rendered once per
+/// appearance the same way ``GlyphAtlas`` renders stickers: `Text` cannot cross
+/// into the nonisolated renderer, so the type is baked to images on the main
+/// actor first and blitted from there.
+private enum WheelAtlas {
+    /// Aries through Pisces, then Sun, Moon, Mercury, Venus, Mars, Jupiter,
+    /// Saturn — the seven a chart drawn before 1781 would carry.
+    ///
+    /// Every one carries U+FE0E, the **text** presentation selector. Without
+    /// it the zodiac codepoints default to emoji on iOS and render as filled
+    /// purple tiles: the wheel came back with twelve stickers on it instead of
+    /// twelve engraved signs.
+    private static let text = "\u{FE0E}"
+    static let signs = ["♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓"].map { $0 + text }
+    static let planets = ["☉", "☽", "☿", "♀", "♂", "♃", "♄"].map { $0 + text }
+
+    private static var cache: [String: [Image]] = [:]
+
+    @MainActor
+    static func images(for scene: SkinScene, dark: Bool, scale: CGFloat) -> [Image] {
+        guard case let .ephemeris(e) = scene else { return [] }
+        let key = "ephemeris|\(dark)|\(scale)"
+        if let cached = cache[key] { return cached }
+        var images: [Image] = []
+        for (symbol, size) in signs.map({ ($0, 15.0) }) + planets.map({ ($0, 17.0) }) {
+            let renderer = ImageRenderer(content:
+                Text(verbatim: symbol)
+                    .font(.system(size: size, design: .serif))
+                    .foregroundStyle(e.ink)
+                    .padding(3)
+                    .environment(\.colorScheme, dark ? .dark : .light))
+            renderer.scale = scale
+            renderer.isOpaque = false
+            if let cg = renderer.cgImage {
+                images.append(Image(decorative: cg, scale: scale))
+            } else {
+                images.append(Image(systemName: "circle"))
             }
         }
         cache[key] = images

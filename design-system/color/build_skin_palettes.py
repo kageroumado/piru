@@ -396,6 +396,137 @@ SKINS = {
         "halo/right": ("#7c3aed", "#584d8b"),  # page-halo-right oklch(46% .1 290)
         "halo/bottom": ("#7c3aed", "#d946ef"),  # home-glow-bottom
     },
+    # Hanabi (花火), the co-op card game. Its five card suits ARE the semantic
+    # pairs — the same move dose.wiki makes with its dose-tier ramp, so a Piru
+    # warning reads in the family a Hanabi player already knows. Dark is the
+    # game's own `Theme` (a night sky over a festival); light is invented, a
+    # daytime festival on paper, since the game ships dark-only.
+    # accent stays the game's own blue (0.4/0.6/1.0) rather than the 花火
+    # wordmark's gold: measured 0.131 Oklab dE from the blue suit, clear of the
+    # 0.10 floor, and both hold 3:1 on the card ungated. The wordmark's gold
+    # goes to `title/*`, which is what it is on the menu.
+    "hanabi": {
+        "surface/background": ("#EFEEF9", "#0F0F1F"),  # Theme.background 0.06/0.06/0.12
+        "surface/card": ("#FFFFFF", "#24243D"),  # Theme.cardBackground 0.14/0.14/0.24
+        "surface/input": ("#E6E5F3", "#1C1C33"),  # Theme.surface 0.11/0.11/0.20
+        "stroke": ("#C9C7E0", "#454569"),
+        "shadow": ("#6699FF", "#6699FF"),  # the soft surface's glow: Theme.accent
+        "eyebrow": ("#5B5E85", "#9AA6D9"),
+        "text/secondary": ("#6A6C8C", "#A8A8C4"),
+        "accent/text": ("#2E5FD9", "#8FB3FF"),
+        "accent/mark": ("#3D74E6", "#6699FF"),  # Theme.accent 0.4/0.6/1.0
+        "accent/on": ("#FFFFFF", "#0F0F1F"),
+        # The five suits, in Piru's semantic order.
+        "semantic/success/text": ("#1E8A3C", "#2EC752"),  # green 0.18/0.78/0.32
+        "semantic/success/accent": ("#2EA34A", "#2EC752"),
+        "semantic/caution/text": ("#8A6A0F", "#F2C72E"),  # yellow 0.95/0.78/0.18
+        "semantic/caution/accent": ("#D9A81E", "#F2C72E"),
+        # Light gates both the accent and the blue suit toward the same dark
+        # blue (measured 0.03 Oklab dE — one chip indistinguishable from the
+        # other), so the suit goes a step deeper here. Hue is untouched and the
+        # accent is exactly Theme.accent's light twin; the pair measures 0.135.
+        # The suit itself is too dark for copy on the night card; dark seeds the
+        # lightened twin directly (#5788FB, C .18) rather than letting the gate
+        # push it, which lands 2.5% outside P3 and gets clipped at the catalog.
+        "semantic/info/text": ("#17369E", "#5788FB"),  # blue 0.22/0.42/0.95
+        "semantic/info/accent": ("#1943C8", "#386BF2"),
+        "semantic/danger/text": ("#C42323", "#EB3838"),  # red 0.92/0.22/0.22
+        "semantic/danger/accent": ("#EB3838", "#EB3838"),
+        # The menu's 76pt 花火: an orange→yellow gradient with a pulsing orange
+        # glow over a red undershadow.
+        "title/fill": ("#E07A1E", "#FFD24D"),
+        "title/stroke": ("#1A1A2E", "#0F0F1F"),
+        "title/shadow": ("#FF9E3D", "#FF9E3D"),
+        # Scene only — the bursts are art, at the game's own full saturation,
+        # not UI roles, so they are never gated.
+        "burst/red": ("#EB3838", "#EB3838"),
+        "burst/yellow": ("#F2C72E", "#F2C72E"),
+        "burst/green": ("#2EC752", "#2EC752"),
+        "burst/blue": ("#386BF2", "#386BF2"),
+        "burst/white": ("#E0E0F0", "#E0E0F0"),
+        "burst/spark": ("#FFFFFF", "#FFFFFF"),  # the white core every burst ends on
+        "burst/star": ("#8C93C4", "#FFFFFF"),  # the menu's static 50-star field
+    },
+    # Selenia (the natal-chart app; its folder is still its pre-rename name,
+    # Ecliptica). Dark is its own Theme; light is invented — the chart as an
+    # engraving on vellum, since the app is `.preferredColorScheme(.dark)`.
+    #
+    # Its accent is the icon's engraved gold, NOT the periwinkle its Theme
+    # actually uses: Selenia and Astrelia were both ported from Astrolabe and
+    # share periwinkle #8FB8FF, so two skins off the same source would have
+    # been the same skin. Gold is Selenia's own astrology tint and measures
+    # 0.214 from Astrelia's periwinkle.
+    #
+    # Semantics come from its four elements, with one substitution: air
+    # (#F2D980) sits 0.062 from the gold accent, so caution takes fire and
+    # danger takes the chart's hard-aspect red. Tightest pair 0.126.
+    "selenia": {
+        "surface/background": ("#F2EBDC", "#1A1030"),  # vellum / plum night
+        "surface/card": ("#FFFBF2", "#241640"),
+        "surface/input": ("#EBE3D2", "#2E1B4E"),
+        "stroke": ("#C9B89A", "#8A7448"),  # a gold rule, not a grey hairline
+        "shadow": ("#C9A84E", "#E3C37C"),  # luminousSurface's gold glow
+        "eyebrow": ("#6B5B45", "#B9A7D9"),
+        "text/secondary": ("#6E6455", "#B5ACC9"),
+        "accent/text": ("#8A6A1E", "#E8CE92"),
+        "accent/mark": ("#A8822A", "#E3C37C"),  # the icon's engraved gold #E3C37C
+        "accent/on": ("#FFFBF2", "#1A1030"),
+        "semantic/success/text": ("#2E7A46", "#80D98C"),  # earth 0.5/0.85/0.55
+        "semantic/success/accent": ("#3E9457", "#80D98C"),
+        # Light gates the gold accent to a brown (#856618); fire has to run
+        # redder than the app's own orange to clear it (0.073 -> 0.132).
+        "semantic/caution/text": ("#BF3F1E", "#FF8066"),  # fire 1.0/0.5/0.4
+        "semantic/caution/accent": ("#D9552A", "#FF8066"),
+        "semantic/info/text": ("#2A5FA8", "#80BFFF"),  # water 0.5/0.75/1.0
+        "semantic/info/accent": ("#3D7AC4", "#80BFFF"),
+        "semantic/danger/text": ("#BE1A70", "#EE3D6E"),  # the hard-aspect red
+        "semantic/danger/accent": ("#EE3D6E", "#EE3D6E"),
+        "title/fill": ("#4A3A1E", "#E3C37C"),
+        "title/stroke": ("#4A3A1E", "#0D0A1A"),
+        "title/shadow": ("#C9A84E", "#E3C37C"),
+        # Scene only — the engraved wheel and its dome.
+        "wheel/ink": ("#8A6A1E", "#C9B27A"),  # the engraved rule
+        "wheel/ring": ("#C9B89A", "#8A7448"),  # the concentric rings
+        "wheel/air": ("#B08A20", "#F2D980"),  # air, which is not a semantic here
+        "wheel/star": ("#9A8C74", "#E8E4F5"),
+    },
+    # Astrelia, the iOS app — not the marketing page the Starfield skin came
+    # from. The page is lit steel-blue with 2.5px sticker borders and Fredoka;
+    # the app is near-black with 1px tinted rings, an outer glow and serif New
+    # York. Same product, opposite register, so both are worth wearing.
+    # Semantics are its per-screen tints; mint is pushed greener because the
+    # app's own `.mint` sits 0.086 from its `.cyan`.
+    "astreliaapp": {
+        "surface/background": ("#EDF1FA", "#080A1F"),  # dawn / LaunchBackground
+        "surface/card": ("#FFFFFF", "#101530"),  # nightInk, lifted
+        "surface/input": ("#E1E8F5", "#181E40"),
+        "stroke": ("#C3D0E8", "#3E4E7A"),
+        "shadow": ("#6E9BE0", "#8FB8FF"),  # the luminous ring's outer glow
+        "eyebrow": ("#4E5E80", "#9AA8CC"),
+        "text/secondary": ("#5E677E", "#A6AFC9"),
+        "accent/text": ("#2A5FB8", "#A8C8FF"),
+        "accent/mark": ("#3D74D9", "#8FB8FF"),  # Theme.accent 0.56/0.72/1.0
+        "accent/on": ("#FFFFFF", "#080A1F"),
+        # .mint runs 0.086 from .cyan at source and 0.098 once light gates
+        # both into teals, so light leans it green (0.125).
+        "semantic/success/text": ("#1E7A42", "#5FD98F"),  # .mint, pushed greener
+        "semantic/success/accent": ("#2E9E58", "#5FD98F"),
+        "semantic/caution/text": ("#8A6A14", "#F5D182"),  # the app's creamy gold
+        "semantic/caution/accent": ("#C49A2E", "#F5D182"),
+        "semantic/info/text": ("#0E7A94", "#5FE3F0"),  # .cyan, the catalog tint
+        "semantic/info/accent": ("#1A93AD", "#5FE3F0"),
+        "semantic/danger/text": ("#C43A3A", "#FF6B6B"),  # the hard-aspect red
+        "semantic/danger/accent": ("#E64D4D", "#FF6B6B"),
+        "title/fill": ("#14203A", "#FFFFFF"),
+        "title/stroke": ("#14203A", "#05071A"),
+        "title/shadow": ("#6E9BE0", "#8FB8FF"),
+        # Scene only — the nebulae and the lensed disc.
+        "sky/star": ("#8C9AB8", "#E8EEFF"),
+        "sky/nebula1": ("#C97A9E", "#B4487A"),  # the baked emission nebulae
+        "sky/nebula2": ("#5E9AC4", "#2E6E9E"),
+        "sky/disc": ("#C49A2E", "#F5D182"),  # the accretion disc, Doppler-lit
+        "sky/dust": ("#9AA4BC", "#404A6E"),  # the dusty Milky Way band
+    },
 }
 
 TEXT_ROLES = {

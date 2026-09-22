@@ -9815,6 +9815,1270 @@
      259.819
     ]
    }
+  },
+  "skin/hanabi/surface/background": {
+   "any": {
+    "oklch": [
+     0.95307,
+     0.01481,
+     290.07256
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.17771,
+     0.03271,
+     282.5495
+    ]
+   }
+  },
+  "skin/hanabi/surface/card": {
+   "any": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.27306,
+     0.04598,
+     282.91872
+    ]
+   }
+  },
+  "skin/hanabi/surface/input": {
+   "any": {
+    "oklch": [
+     0.92679,
+     0.01896,
+     289.14364
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.23884,
+     0.04367,
+     282.57786
+    ]
+   }
+  },
+  "skin/hanabi/stroke": {
+   "any": {
+    "oklch": [
+     0.83907,
+     0.03473,
+     289.22012
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.40649,
+     0.06005,
+     283.39198
+    ]
+   }
+  },
+  "skin/hanabi/shadow": {
+   "any": {
+    "oklch": [
+     0.69408,
+     0.16019,
+     262.86481
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.69408,
+     0.16019,
+     262.86481
+    ]
+   }
+  },
+  "skin/hanabi/eyebrow": {
+   "any": {
+    "oklch": [
+     0.49534,
+     0.06233,
+     280.44418
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.73416,
+     0.07537,
+     274.13147
+    ]
+   }
+  },
+  "skin/hanabi/text/secondary": {
+   "any": {
+    "oklch": [
+     0.53673,
+     0.04993,
+     281.7728
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.74083,
+     0.04018,
+     285.32645
+    ]
+   }
+  },
+  "skin/hanabi/accent/text": {
+   "any": {
+    "oklch": [
+     0.52638,
+     0.19493,
+     264.17804
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.77025,
+     0.11661,
+     264.42751
+    ]
+   }
+  },
+  "skin/hanabi/accent/mark": {
+   "any": {
+    "oklch": [
+     0.58389,
+     0.18297,
+     262.73185
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.69408,
+     0.16019,
+     262.86481
+    ]
+   }
+  },
+  "skin/hanabi/accent/on": {
+   "any": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.17771,
+     0.03271,
+     282.5495
+    ]
+   }
+  },
+  "skin/hanabi/semantic/success/text": {
+   "any": {
+    "oklch": [
+     0.517,
+     0.14884,
+     147.88722
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.72829,
+     0.20166,
+     146.73645
+    ]
+   }
+  },
+  "skin/hanabi/semantic/success/accent": {
+   "any": {
+    "oklch": [
+     0.63129,
+     0.16389,
+     147.49353
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.72829,
+     0.20166,
+     146.73645
+    ]
+   }
+  },
+  "skin/hanabi/semantic/caution/text": {
+   "any": {
+    "oklch": [
+     0.53167,
+     0.10611,
+     86.61674
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.84369,
+     0.16163,
+     91.72676
+    ]
+   }
+  },
+  "skin/hanabi/semantic/caution/accent": {
+   "any": {
+    "oklch": [
+     0.67132,
+     0.1482,
+     86.40072
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.84369,
+     0.16163,
+     91.72676
+    ]
+   }
+  },
+  "skin/hanabi/semantic/info/text": {
+   "any": {
+    "oklch": [
+     0.38689,
+     0.17212,
+     265.5323
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.64978,
+     0.17934,
+     264.57808
+    ]
+   }
+  },
+  "skin/hanabi/semantic/info/accent": {
+   "any": {
+    "oklch": [
+     0.45232,
+     0.2105,
+     264.87535
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.5731,
+     0.21052,
+     264.77773
+    ]
+   }
+  },
+  "skin/hanabi/semantic/danger/text": {
+   "any": {
+    "oklch": [
+     0.53094,
+     0.19563,
+     27.11637
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.66817,
+     0.21495,
+     26.1963
+    ]
+   }
+  },
+  "skin/hanabi/semantic/danger/accent": {
+   "any": {
+    "oklch": [
+     0.61817,
+     0.21495,
+     26.1963
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.61817,
+     0.21495,
+     26.1963
+    ]
+   }
+  },
+  "skin/hanabi/title/fill": {
+   "any": {
+    "oklch": [
+     0.68099,
+     0.15748,
+     55.64094
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.87989,
+     0.15344,
+     89.79374
+    ]
+   }
+  },
+  "skin/hanabi/title/stroke": {
+   "any": {
+    "oklch": [
+     0.22844,
+     0.03846,
+     282.91917
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.17771,
+     0.03271,
+     282.5495
+    ]
+   }
+  },
+  "skin/hanabi/title/shadow": {
+   "any": {
+    "oklch": [
+     0.78287,
+     0.157,
+     61.30961
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78287,
+     0.157,
+     61.30961
+    ]
+   }
+  },
+  "skin/hanabi/burst/red": {
+   "any": {
+    "oklch": [
+     0.61817,
+     0.21495,
+     26.1963
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.61817,
+     0.21495,
+     26.1963
+    ]
+   }
+  },
+  "skin/hanabi/burst/yellow": {
+   "any": {
+    "oklch": [
+     0.84369,
+     0.16163,
+     91.72676
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.84369,
+     0.16163,
+     91.72676
+    ]
+   }
+  },
+  "skin/hanabi/burst/green": {
+   "any": {
+    "oklch": [
+     0.72829,
+     0.20166,
+     146.73645
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.72829,
+     0.20166,
+     146.73645
+    ]
+   }
+  },
+  "skin/hanabi/burst/blue": {
+   "any": {
+    "oklch": [
+     0.5731,
+     0.21052,
+     264.77773
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.5731,
+     0.21052,
+     264.77773
+    ]
+   }
+  },
+  "skin/hanabi/burst/white": {
+   "any": {
+    "oklch": [
+     0.91145,
+     0.02175,
+     285.83363
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.91145,
+     0.02175,
+     285.83363
+    ]
+   }
+  },
+  "skin/hanabi/burst/spark": {
+   "any": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   },
+   "dark": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   }
+  },
+  "skin/hanabi/burst/star": {
+   "any": {
+    "oklch": [
+     0.67576,
+     0.07297,
+     277.93723
+    ]
+   },
+   "dark": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   }
+  },
+  "skin/selenia/surface/background": {
+   "any": {
+    "oklch": [
+     0.94149,
+     0.02119,
+     85.98452
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.20633,
+     0.06134,
+     294.85489
+    ]
+   }
+  },
+  "skin/selenia/surface/card": {
+   "any": {
+    "oklch": [
+     0.9887,
+     0.01248,
+     86.90241
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.24407,
+     0.07678,
+     295.51473
+    ]
+   }
+  },
+  "skin/selenia/surface/input": {
+   "any": {
+    "oklch": [
+     0.91756,
+     0.02418,
+     85.82443
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.27703,
+     0.09024,
+     297.32567
+    ]
+   }
+  },
+  "skin/selenia/stroke": {
+   "any": {
+    "oklch": [
+     0.78908,
+     0.0451,
+     81.83248
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.56931,
+     0.06689,
+     83.85855
+    ]
+   }
+  },
+  "skin/selenia/shadow": {
+   "any": {
+    "oklch": [
+     0.74342,
+     0.1153,
+     89.19557
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.8291,
+     0.09674,
+     86.1028
+    ]
+   }
+  },
+  "skin/selenia/eyebrow": {
+   "any": {
+    "oklch": [
+     0.48081,
+     0.03925,
+     75.42229
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.7608,
+     0.07314,
+     301.09685
+    ]
+   }
+  },
+  "skin/selenia/text/secondary": {
+   "any": {
+    "oklch": [
+     0.5082,
+     0.02615,
+     78.02663
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.76129,
+     0.04217,
+     299.48666
+    ]
+   }
+  },
+  "skin/selenia/accent/text": {
+   "any": {
+    "oklch": [
+     0.52753,
+     0.09886,
+     84.62205
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.85931,
+     0.08238,
+     87.17896
+    ]
+   }
+  },
+  "skin/selenia/accent/mark": {
+   "any": {
+    "oklch": [
+     0.62751,
+     0.11231,
+     84.36919
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.8291,
+     0.09674,
+     86.1028
+    ]
+   }
+  },
+  "skin/selenia/accent/on": {
+   "any": {
+    "oklch": [
+     0.9887,
+     0.01248,
+     86.90241
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.20633,
+     0.06134,
+     294.85489
+    ]
+   }
+  },
+  "skin/selenia/semantic/success/text": {
+   "any": {
+    "oklch": [
+     0.51338,
+     0.11078,
+     150.99834
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.80995,
+     0.13783,
+     147.34125
+    ]
+   }
+  },
+  "skin/selenia/semantic/success/accent": {
+   "any": {
+    "oklch": [
+     0.59802,
+     0.12429,
+     150.52371
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.80995,
+     0.13783,
+     147.34125
+    ]
+   }
+  },
+  "skin/selenia/semantic/caution/text": {
+   "any": {
+    "oklch": [
+     0.54204,
+     0.16991,
+     35.03904
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.73966,
+     0.16008,
+     32.91804
+    ]
+   }
+  },
+  "skin/selenia/semantic/caution/accent": {
+   "any": {
+    "oklch": [
+     0.61713,
+     0.17507,
+     37.70141
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.73966,
+     0.16008,
+     32.91804
+    ]
+   }
+  },
+  "skin/selenia/semantic/info/text": {
+   "any": {
+    "oklch": [
+     0.48867,
+     0.13007,
+     257.20768
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78696,
+     0.11254,
+     249.81268
+    ]
+   }
+  },
+  "skin/selenia/semantic/info/accent": {
+   "any": {
+    "oklch": [
+     0.57468,
+     0.13105,
+     254.67269
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78696,
+     0.11254,
+     249.81268
+    ]
+   }
+  },
+  "skin/selenia/semantic/danger/text": {
+   "any": {
+    "oklch": [
+     0.5317,
+     0.20386,
+     355.98307
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.64686,
+     0.21289,
+     9.68831
+    ]
+   }
+  },
+  "skin/selenia/semantic/danger/accent": {
+   "any": {
+    "oklch": [
+     0.63686,
+     0.21289,
+     9.68831
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.63686,
+     0.21289,
+     9.68831
+    ]
+   }
+  },
+  "skin/selenia/title/fill": {
+   "any": {
+    "oklch": [
+     0.3588,
+     0.0481,
+     80.27782
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.8291,
+     0.09674,
+     86.1028
+    ]
+   }
+  },
+  "skin/selenia/title/stroke": {
+   "any": {
+    "oklch": [
+     0.3588,
+     0.0481,
+     80.27782
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.15837,
+     0.03339,
+     290.67125
+    ]
+   }
+  },
+  "skin/selenia/title/shadow": {
+   "any": {
+    "oklch": [
+     0.74342,
+     0.1153,
+     89.19557
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.8291,
+     0.09674,
+     86.1028
+    ]
+   }
+  },
+  "skin/selenia/wheel/ink": {
+   "any": {
+    "oklch": [
+     0.54253,
+     0.09886,
+     84.62205
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.77027,
+     0.07809,
+     88.15481
+    ]
+   }
+  },
+  "skin/selenia/wheel/ring": {
+   "any": {
+    "oklch": [
+     0.78908,
+     0.0451,
+     81.83248
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.56931,
+     0.06689,
+     83.85855
+    ]
+   }
+  },
+  "skin/selenia/wheel/air": {
+   "any": {
+    "oklch": [
+     0.65209,
+     0.12369,
+     87.23506
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.88725,
+     0.11261,
+     94.18269
+    ]
+   }
+  },
+  "skin/selenia/wheel/star": {
+   "any": {
+    "oklch": [
+     0.64595,
+     0.03812,
+     81.15632
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.927,
+     0.0233,
+     296.5464
+    ]
+   }
+  },
+  "skin/astreliaapp/surface/background": {
+   "any": {
+    "oklch": [
+     0.95771,
+     0.01293,
+     266.6443
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.1571,
+     0.04406,
+     275.73864
+    ]
+   }
+  },
+  "skin/astreliaapp/surface/card": {
+   "any": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.20774,
+     0.05371,
+     272.98359
+    ]
+   }
+  },
+  "skin/astreliaapp/surface/input": {
+   "any": {
+    "oklch": [
+     0.92952,
+     0.01928,
+     262.99539
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.24973,
+     0.06451,
+     273.32362
+    ]
+   }
+  },
+  "skin/astreliaapp/stroke": {
+   "any": {
+    "oklch": [
+     0.85523,
+     0.03641,
+     262.80581
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.43102,
+     0.07606,
+     267.96301
+    ]
+   }
+  },
+  "skin/astreliaapp/shadow": {
+   "any": {
+    "oklch": [
+     0.68588,
+     0.11382,
+     258.70668
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78053,
+     0.11147,
+     261.06402
+    ]
+   }
+  },
+  "skin/astreliaapp/eyebrow": {
+   "any": {
+    "oklch": [
+     0.48274,
+     0.05863,
+     264.82455
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.73307,
+     0.05474,
+     268.35495
+    ]
+   }
+  },
+  "skin/astreliaapp/text/secondary": {
+   "any": {
+    "oklch": [
+     0.51477,
+     0.03823,
+     268.26536
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.75545,
+     0.03878,
+     270.31845
+    ]
+   }
+  },
+  "skin/astreliaapp/accent/text": {
+   "any": {
+    "oklch": [
+     0.49979,
+     0.15196,
+     260.17782
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.82888,
+     0.0853,
+     261.11634
+    ]
+   }
+  },
+  "skin/astreliaapp/accent/mark": {
+   "any": {
+    "oklch": [
+     0.5749,
+     0.16573,
+     261.34091
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78053,
+     0.11147,
+     261.06402
+    ]
+   }
+  },
+  "skin/astreliaapp/accent/on": {
+   "any": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.1571,
+     0.04406,
+     275.73864
+    ]
+   }
+  },
+  "skin/astreliaapp/semantic/success/text": {
+   "any": {
+    "oklch": [
+     0.51292,
+     0.12146,
+     151.93117
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.79698,
+     0.15278,
+     154.24478
+    ]
+   }
+  },
+  "skin/astreliaapp/semantic/success/accent": {
+   "any": {
+    "oklch": [
+     0.62008,
+     0.1443,
+     151.7378
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.79698,
+     0.15278,
+     154.24478
+    ]
+   }
+  },
+  "skin/astreliaapp/semantic/caution/text": {
+   "any": {
+    "oklch": [
+     0.5369,
+     0.1041,
+     86.09109
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.87446,
+     0.10582,
+     85.78949
+    ]
+   }
+  },
+  "skin/astreliaapp/semantic/caution/accent": {
+   "any": {
+    "oklch": [
+     0.667,
+     0.12935,
+     86.28977
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.87446,
+     0.10582,
+     85.78949
+    ]
+   }
+  },
+  "skin/astreliaapp/semantic/info/text": {
+   "any": {
+    "oklch": [
+     0.52715,
+     0.09502,
+     220.34706
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.84791,
+     0.11585,
+     204.27288
+    ]
+   }
+  },
+  "skin/astreliaapp/semantic/info/accent": {
+   "any": {
+    "oklch": [
+     0.61351,
+     0.10437,
+     217.17278
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.84791,
+     0.11585,
+     204.27288
+    ]
+   }
+  },
+  "skin/astreliaapp/semantic/danger/text": {
+   "any": {
+    "oklch": [
+     0.55317,
+     0.17496,
+     24.93278
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.71161,
+     0.18117,
+     22.82075
+    ]
+   }
+  },
+  "skin/astreliaapp/semantic/danger/accent": {
+   "any": {
+    "oklch": [
+     0.63248,
+     0.18948,
+     24.31712
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.71161,
+     0.18117,
+     22.82075
+    ]
+   }
+  },
+  "skin/astreliaapp/title/fill": {
+   "any": {
+    "oklch": [
+     0.24734,
+     0.05255,
+     264.20476
+    ]
+   },
+   "dark": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   }
+  },
+  "skin/astreliaapp/title/stroke": {
+   "any": {
+    "oklch": [
+     0.24734,
+     0.05255,
+     264.20476
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.13986,
+     0.0418,
+     273.72856
+    ]
+   }
+  },
+  "skin/astreliaapp/title/shadow": {
+   "any": {
+    "oklch": [
+     0.68588,
+     0.11382,
+     258.70668
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78053,
+     0.11147,
+     261.06402
+    ]
+   }
+  },
+  "skin/astreliaapp/sky/star": {
+   "any": {
+    "oklch": [
+     0.68555,
+     0.04725,
+     265.43353
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.94961,
+     0.02391,
+     270.29741
+    ]
+   }
+  },
+  "skin/astreliaapp/sky/nebula1": {
+   "any": {
+    "oklch": [
+     0.67439,
+     0.10764,
+     351.51157
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.55957,
+     0.14955,
+     354.15434
+    ]
+   }
+  },
+  "skin/astreliaapp/sky/nebula2": {
+   "any": {
+    "oklch": [
+     0.6621,
+     0.08868,
+     240.48578
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.51939,
+     0.10012,
+     244.27967
+    ]
+   }
+  },
+  "skin/astreliaapp/sky/disc": {
+   "any": {
+    "oklch": [
+     0.707,
+     0.12935,
+     86.28977
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.87446,
+     0.10582,
+     85.78949
+    ]
+   }
+  },
+  "skin/astreliaapp/sky/dust": {
+   "any": {
+    "oklch": [
+     0.71873,
+     0.03683,
+     267.50207
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.4165,
+     0.06179,
+     271.6352
+    ]
+   }
   }
  }
 }
