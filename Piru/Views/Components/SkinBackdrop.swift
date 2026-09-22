@@ -220,9 +220,6 @@ nonisolated struct SceneRenderer {
         case let .ephemeris(e):
             drawEphemeris(e, in: &context)
             drawGlyphs(in: &context, share: 0.2)
-        case let .deepSky(sky):
-            drawDeepSky(sky, in: &context)
-            drawGlyphs(in: &context, share: 0.2)
         }
     }
 

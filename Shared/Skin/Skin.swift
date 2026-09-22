@@ -83,22 +83,14 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// Ecliptica). Engraved gold on a plum night, its four elements as the
     /// semantic pairs, and its chart wheel turning behind everything.
     case selenia
-    /// Astrelia, the **iOS app** — not the marketing page ``astrelia``
-    /// (“Starfield”) came from. Near-black, periwinkle rings, and the deep
-    /// sky its Metal renderer draws: nebulae and a lensed disc.
-    case astreliaApp
-
     var id: String {
         rawValue
     }
 
     /// Skins kept in the code but out of the picker for now. Paper Garden is
     /// shelved (2026-09-09) until its paper surface and garden get a polish
-    /// pass; Astrelia is shelved (2026-09-22) because Starfield already holds
-    /// the starry ground and a second near-black sky from the same product did
-    /// not earn its place. Everything either needs stays in place, so
-    /// un-shelving is one line.
-    nonisolated static let shelved: Set<Skin> = [.paperGarden, .astreliaApp]
+    /// pass; everything it needs stays in place so un-shelving is one line.
+    nonisolated static let shelved: Set<Skin> = [.paperGarden]
 
     /// What the picker offers.
     static var available: [Skin] {
@@ -117,7 +109,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         // substance.wiki the partner encyclopedias. They advertise someone
         // else, so they are never sold.
         case .elyPink, .doseWiki, .substanceWiki: .free
-        case .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .hanabi, .selenia, .astreliaApp: .animated
+        case .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .hanabi, .selenia: .animated
         }
     }
 
@@ -146,8 +138,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .substanceWiki: "substance.wiki"
         case .hanabi: "Hanabi"
         case .selenia: "Selenia"
-        // The site page is "Starfield"; this is the app itself.
-        case .astreliaApp: "Astrelia"
         }
     }
 
@@ -171,7 +161,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .substanceWiki: "Black, paper and signal cyan, from the effects index"
         case .hanabi: "A night sky, five suits, fireworks"
         case .selenia: "Engraved gold, a plum night, a turning wheel"
-        case .astreliaApp: "Near-black and periwinkle, a lensed sky"
         }
     }
 
@@ -213,7 +202,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .substanceWiki: .substanceWiki
         case .hanabi: .hanabi
         case .selenia: .selenia
-        case .astreliaApp: .astreliaApp
         }
     }
 
@@ -464,22 +452,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 frameCorners: (SkinGlyph("✦", accentMark), SkinGlyph("☾", .Skin.Selenia.Wheel.star)),
                 tapGlyph: SkinGlyph("✦", accentMark),
             )
-        case .astreliaApp:
-            SkinDecorations(
-                scene: .deepSky(SkinDeepSky(
-                    star: .Skin.Astreliaapp.Sky.star,
-                    nebula1: .Skin.Astreliaapp.Sky.nebula1,
-                    nebula2: .Skin.Astreliaapp.Sky.nebula2,
-                    disc: .Skin.Astreliaapp.Sky.disc,
-                    dust: .Skin.Astreliaapp.Sky.dust,
-                )),
-                glyphs: [
-                    SkinGlyph("✦", .Skin.Astreliaapp.Sky.star), SkinGlyph("✧", accentMark),
-                    SkinGlyph("⋆", eyebrow),
-                ],
-                frameCorners: (SkinGlyph("✦", .Skin.Astreliaapp.Sky.star), SkinGlyph("✧", accentMark)),
-                tapGlyph: SkinGlyph("✦", accentMark),
-            )
         case .doseWiki:
             // The site is quiet: its page halos, its molecule ring, no sticker
             // field — only a hex node at a glance card's corner and on a tap.
@@ -507,7 +479,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var cardInsetDash: Color? {
         switch self {
         case .elyPink: accentMark
-        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .doseWiki, .substanceWiki, .hanabi, .selenia, .astreliaApp: nil
+        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .doseWiki, .substanceWiki, .hanabi, .selenia: nil
         }
     }
 
@@ -520,7 +492,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .paperGarden: 2
         // substance.wiki sets `--radius: 0`.
         case .hebi, .substanceWiki: 0
-        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki, .hanabi, .selenia, .astreliaApp: nil
+        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki, .hanabi, .selenia: nil
         }
     }
 
@@ -549,7 +521,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 16,
             )
         // Hanabi's glow is the menu wordmark's pulsing orange.
-        case .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki, .hanabi, .astreliaApp: SkinTitleOutline(
+        case .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki, .hanabi: SkinTitleOutline(
                 fill: nil, stroke: nil,
                 shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 14,
             )
@@ -590,7 +562,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         // `luminousSurface()`: a material, a 1px tinted ring, a coloured glow.
         // Frosted rather than soft so the wheel and the sky show through.
         case .selenia: .frosted(stroke: palette.stroke, highlight: palette.shadow)
-        case .astreliaApp: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 16)
         case .jellyfish: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 18)
         case .hotaru: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 16)
         case .yuki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 12)
@@ -618,10 +589,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// `SkinTypeTests` enforces the exclusion.
     var fontDesign: Font.Design? {
         switch self {
-        case .piru, .graphite, .linen, .slate, .elyPink, .astrelia, .paperGarden, .hotaru, .hebi, .kumo, .doseWiki, .substanceWiki, .astreliaApp: nil
+        case .piru, .graphite, .linen, .slate, .elyPink, .astrelia, .paperGarden, .hotaru, .hebi, .kumo, .doseWiki, .substanceWiki: nil
         // Selenia sets its plates in system serif — engraved, with Roman
-        // numerals. Astrelia stays on the system face: its own design note is
-        // that bare text reads as an instrument.
+        // numerals on a plate.
         case .selenia: .serif
         // Tsuki is `.rounded` throughout; the jellyfish skin borrows it, and
         // Yuki's ultralight rounded timer is its whole identity.
@@ -636,7 +606,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// are small and carry most of a skin's character.
     var typeface: SkinTypeface {
         switch self {
-        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .yuki, .hotaru, .kumo, .substanceWiki, .hanabi, .selenia, .astreliaApp: SkinTypeface(display: nil, label: nil)
+        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .yuki, .hotaru, .kumo, .substanceWiki, .hanabi, .selenia: SkinTypeface(display: nil, label: nil)
         // Fredoka (variable, 159 KB) for titles; DotGothic16 (2 MB, includes
         // kana + JIS kanji) for chips and badges. Both SIL OFL, in Piru/Fonts.
         case .elyPink: SkinTypeface(display: "Fredoka", label: "DotGothic16")
@@ -833,18 +803,6 @@ struct SkinPalette: Sendable {
         info: (.Skin.Selenia.Semantic.Info.text, .Skin.Selenia.Semantic.Info.accent),
     )
 
-    static let astreliaApp = SkinPalette(
-        accent: .Skin.Astreliaapp.Accent.text, accentMark: .Skin.Astreliaapp.Accent.mark, onAccent: .Skin.Astreliaapp.Accent.on,
-        secondaryLabel: .Skin.Astreliaapp.Text.secondary,
-        background: .Skin.Astreliaapp.Surface.background, cardBackground: .Skin.Astreliaapp.Surface.card, inputBackground: .Skin.Astreliaapp.Surface.input,
-        eyebrow: .Skin.Astreliaapp.eyebrow, stroke: .Skin.Astreliaapp.stroke, shadow: .Skin.Astreliaapp.shadow,
-        titleFill: .Skin.Astreliaapp.Title.fill, titleStroke: .Skin.Astreliaapp.Title.stroke, titleShadow: .Skin.Astreliaapp.Title.shadow,
-        danger: (.Skin.Astreliaapp.Semantic.Danger.text, .Skin.Astreliaapp.Semantic.Danger.accent),
-        caution: (.Skin.Astreliaapp.Semantic.Caution.text, .Skin.Astreliaapp.Semantic.Caution.accent),
-        success: (.Skin.Astreliaapp.Semantic.Success.text, .Skin.Astreliaapp.Semantic.Success.accent),
-        info: (.Skin.Astreliaapp.Semantic.Info.text, .Skin.Astreliaapp.Semantic.Info.accent),
-    )
-
     static let hanabi = SkinPalette(
         accent: .Skin.Hanabi.Accent.text, accentMark: .Skin.Hanabi.Accent.mark, onAccent: .Skin.Hanabi.Accent.on,
         secondaryLabel: .Skin.Hanabi.Text.secondary,
@@ -977,8 +935,6 @@ enum SkinScene: Sendable {
     case fireworks(SkinFireworks)
     /// Selenia: an engraved chart wheel turning under a faint dome.
     case ephemeris(SkinEphemeris)
-    /// Astrelia: deep space — nebulae, a dusty band, and a lensed disc.
-    case deepSky(SkinDeepSky)
 }
 
 /// Selenia's chart wheel: concentric rules, twelve sign sectors and the
@@ -991,17 +947,6 @@ struct SkinEphemeris: Sendable {
     let star: Color
     /// fire, earth, air, water, in that order, for the sector ticks.
     let elements: [Color]
-}
-
-/// Astrelia's sky: what the Metal renderer draws, in closed form — baked
-/// emission nebulae, the dusty band, and Sgr A*'s photon ring with its
-/// Doppler-brightened disc.
-struct SkinDeepSky: Sendable {
-    let star: Color
-    let nebula1: Color
-    let nebula2: Color
-    let disc: Color
-    let dust: Color
 }
 
 /// Hanabi's night. The five suits are the game's own `Theme.cardColor`

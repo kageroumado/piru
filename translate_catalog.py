@@ -461,9 +461,10 @@ T = {
     # Romanised Japanese app names stay as they are, like Tsuki / Yuki / Kumo.
     "Hanabi": ("Hanabi", "Hanabi"),
     "Selenia": ("Selenia", "Selenia"),
-    "Engraved gold, a plum night, a turning wheel": ("镌刻的金色、梅紫夜空、缓缓旋转的星盘", "鐫刻的金色、梅紫夜空、緩緩旋轉的星盤"),
-    "Astrelia": ("Astrelia", "Astrelia"),
-    "Near-black and periwinkle, a lensed sky": ("近乎全黑与长春花蓝，被引力透镜弯折的星空", "近乎全黑與長春花藍，被重力透鏡彎折的星空"),
+    "Engraved gold, a plum night, a turning wheel": (
+        "镌刻的金色、梅紫夜空、缓缓旋转的星盘",
+        "鐫刻的金色、梅紫夜空、緩緩旋轉的星盤",
+    ),
     "A night sky, five suits, fireworks": ("夜空、五种花色、烟花", "夜空、五種花色、煙火"),
     "Kumo": ("Kumo", "Kumo"),
     "A sky that follows the day": ("随一天变化的天空", "隨一天變化的天空"),
@@ -7889,8 +7890,6 @@ if __name__ == "__main__":
         "A night sky, five suits, fireworks",
         "Selenia",
         "Engraved gold, a plum night, a turning wheel",
-        "Astrelia",
-        "Near-black and periwinkle, a lensed sky",
         "Yuki",
         "Periwinkle, snow and frost",
         "Hebi Arcade",

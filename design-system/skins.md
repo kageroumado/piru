@@ -64,7 +64,6 @@ roles stay split: a colour that is a fine mark can still fail as small copy
 | Kumo | `~/Developer/Kumo` | frosted (translucent, hairline, highlight) | system | a sky by the real clock and season |
 | dose.wiki | https://dose.wiki (partner; their CSS tokens, hue 326/318) | frosted (fuchsia hairline + highlight) | Saira (scaled .94) | their page halos and molecule ring, one node pulse |
 | Selenia | `~/Developer/Ecliptica` (the folder keeps the pre-rename name) | frosted (gold hairline + glow) | system **serif** | an engraved chart wheel turning under a still dome |
-| Astrelia (shelved, `Skin.shelved`) | `~/Developer/Astrelia` — the **app**, not the site page Starfield came from | soft (periwinkle glow) | system | deep sky: nebulae, a dusty band, a lensed disc |
 | Hanabi | `~/Developer/Hanabi` (the co-op card game) | soft (periwinkle glow) | `.rounded` | a festival night: a star field, rockets, bursts in the five suits |
 | substance.wiki | https://substance.wiki (partner; their black ground, paper ink, cyan and signal lime) | edged (1pt hairline, no shadow, `--radius: 0`) | system | none — nothing moving, by their design |
 
@@ -77,45 +76,46 @@ from the blue suit. Light mode gates the accent and the blue suit onto the same
 colour (0.03 dE) unless the suit is seeded a step deeper, which is why its
 `semantic/info` seeds differ by mode.
 
-**Astrelia is shelved (2026-09-22).** It was built and looked at, and the
-verdict was that Starfield already holds the starry ground: a second
-near-black sky off the same product did not earn a place in the picker. The
-code stays, so un-shelving is one line. Note that `SkinProducts.all` filters
-shelved skins, so shelving one also means **removing its product from
-`StoreKit/Skins.storekit`** — `SkinShopTests` asserts the catalog and the app
-agree, and it catches this immediately.
+**A second Astrelia was built and deleted (2026-09-22).** The iOS app has its
+own design language — near-black and periwinkle with 1px rings, against the
+site page's lit steel-blue and 2.5px sticker borders — so it looked like a
+distinct skin on paper. It was not: Starfield already holds the starry ground,
+and their accents measure only 0.093 apart. Palette alone does not make a
+second skin out of one product. Note for whenever a skin is dropped:
+`SkinProducts.all` filters the catalog, so removing one also means removing
+its product from `StoreKit/Skins.storekit` — `SkinShopTests` asserts the two
+agree and catches it immediately.
 
-A galaxy shader was tried for it and backed out with it. Two things learned,
-for whoever wants a Metal shader in a skin later: a SwiftUI `colorEffect` can
-live **inside the backdrop's existing `TimelineView`**, so it needs no second
-clock and `SkinPower` still governs it — that part worked. What did not was
-the noise: on a tall phone `aspect` is about 0.46, so an `x` scaled by it
-spans under one unit, and any noise frequency in the single digits gives two
-or three cells across the width. The field is then effectively
-one-dimensional and paints parallel diagonal lines. It reads as scratched
-glass, and the fix is frequency, not opacity.
+**If you want a Metal shader in a scene, two things are already known.** A
+SwiftUI `colorEffect` can live *inside* the backdrop's existing
+`TimelineView`, which means no second clock and `SkinPower` still governs
+every frame — that part works, and it is the only way a shader belongs here.
+What sank the attempt was the noise domain: on a tall phone `aspect` is about
+0.46, so an `x` scaled by it spans under one unit, and any noise frequency in
+the single digits gives two or three cells across the width. The field goes
+effectively one-dimensional and paints parallel diagonal lines — it reads as
+scratched glass. The fix is frequency, not opacity.
 
-**Two skins from Astrelia, and why that is not a duplicate.** `astrelia`
-("Starfield") was seeded from `website main/astrelia`, the *marketing page*:
-lit steel-blue `#79a9c4`, 2.5px hard `#47598e` borders, Fredoka, a dense CSS
-twinkle field. `astreliaApp` ("Astrelia") is the iOS app: near-black `#080A1F`,
-periwinkle `#8FB8FF`, 1px rings with an outer glow, and a Metal sky. Same
-product, opposite register — instrument versus web-shrine. Their accents do
-measure only 0.093 apart, so the split is carried by surface, type and scene,
-not by hue; that is deliberate and should stay.
+Hanabi's five card suits **are** its semantic pairs — red → danger, yellow →
+caution, green → success, blue → info — the move dose.wiki makes with its
+dose-tier ramp, so a Piru warning reads in the family a player already knows.
+Its accent stays the game's own blue rather than the 花火 wordmark's gold: the
+gold measures 0.053 Oklab dE from the yellow suit, while the blue holds 0.131
+from the blue suit. Light mode gates the accent and the blue suit onto the same
+colour (0.03 dE) unless the suit is seeded a step deeper, which is why its
+`semantic/info` seeds differ by mode.
 
-**Selenia's accent is not the colour its Theme uses.** Selenia and Astrelia
-were both ported from Astrolabe and share periwinkle `#8FB8FF`, so seeding
-both faithfully would have produced one skin twice. Selenia takes the icon's
-engraved gold `#E3C37C` instead — its own astrology tint, 0.214 from
-Astrelia's periwinkle. Its semantics are its four elements, with one
-substitution: air (`#F2D980`) sits 0.062 from that gold, so caution takes fire
-and danger takes the chart's hard-aspect red.
+**Selenia's accent is not the colour its own `Theme` uses.** Selenia and the
+Astrelia app were both ported from Astrolabe and share periwinkle `#8FB8FF`,
+so a faithful seed would have landed on a colour two of the author's apps
+already wear. Selenia takes the icon's engraved gold `#E3C37C` instead — its
+own astrology tint, and 0.214 from that periwinkle. Its semantics are its four
+elements, with one substitution: air (`#F2D980`) sits 0.062 from the gold, so
+caution takes fire and danger takes the chart's hard-aspect red.
 
-Light modes for Tsuki, Starfield, Jellyfish, Hanabi, Selenia and Astrelia are
-invented — a moonlit lavender day, a dawn sky, a shallow lagoon, a daytime
-festival, the chart engraved on vellum, and a dawn sky again — since their
-sources are dark only; every one is gated by `ColorContrastTests` like the rest.
+Light modes for Tsuki, Starfield, Jellyfish, Hanabi and Selenia are invented —
+a moonlit lavender day, a dawn sky, a shallow lagoon, a daytime festival and
+the chart engraved on vellum — since their sources are dark only; every one is gated by `ColorContrastTests` like the rest.
 
 ## Surfaces are closed
 
@@ -301,13 +301,6 @@ composite `plusLighter` (additive) so a colour reads as emitting, not paler.
     appearance and blitted. **Every symbol carries U+FE0E**, the text
     presentation selector — without it the zodiac codepoints default to emoji
     on iOS and the wheel comes back with twelve filled purple tiles on it.
-- `.deepSky` (Astrelia): what `GalaxyShaders.metal` and `GalaxyLensing.metal`
-  draw, in closed form — two baked emission nebulae as breathing blooms, the
-  dusty band, a dense fine star field where magnitude sets the radius, and
-  Sgr A*: a photon ring whose disc brightens on the approaching side, around
-  the one place in any scene that takes light away. The band is filled with a
-  **gradient across its width, never a solid polygon** — a flat fill gives it
-  two straight edges, and dust has no edges.
 
 **Muted skins** (Graphite, Linen, Slate) have `decorations == nil`: palette,
 surface and type only, nothing moving, for people who want none of it.

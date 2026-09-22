@@ -490,43 +490,6 @@ SKINS = {
         "wheel/air": ("#B08A20", "#F2D980"),  # air, which is not a semantic here
         "wheel/star": ("#9A8C74", "#E8E4F5"),
     },
-    # Astrelia, the iOS app — not the marketing page the Starfield skin came
-    # from. The page is lit steel-blue with 2.5px sticker borders and Fredoka;
-    # the app is near-black with 1px tinted rings, an outer glow and serif New
-    # York. Same product, opposite register, so both are worth wearing.
-    # Semantics are its per-screen tints; mint is pushed greener because the
-    # app's own `.mint` sits 0.086 from its `.cyan`.
-    "astreliaapp": {
-        "surface/background": ("#EDF1FA", "#080A1F"),  # dawn / LaunchBackground
-        "surface/card": ("#FFFFFF", "#101530"),  # nightInk, lifted
-        "surface/input": ("#E1E8F5", "#181E40"),
-        "stroke": ("#C3D0E8", "#3E4E7A"),
-        "shadow": ("#6E9BE0", "#8FB8FF"),  # the luminous ring's outer glow
-        "eyebrow": ("#4E5E80", "#9AA8CC"),
-        "text/secondary": ("#5E677E", "#A6AFC9"),
-        "accent/text": ("#2A5FB8", "#A8C8FF"),
-        "accent/mark": ("#3D74D9", "#8FB8FF"),  # Theme.accent 0.56/0.72/1.0
-        "accent/on": ("#FFFFFF", "#080A1F"),
-        # .mint runs 0.086 from .cyan at source and 0.098 once light gates
-        # both into teals, so light leans it green (0.125).
-        "semantic/success/text": ("#1E7A42", "#5FD98F"),  # .mint, pushed greener
-        "semantic/success/accent": ("#2E9E58", "#5FD98F"),
-        "semantic/caution/text": ("#8A6A14", "#F5D182"),  # the app's creamy gold
-        "semantic/caution/accent": ("#C49A2E", "#F5D182"),
-        "semantic/info/text": ("#0E7A94", "#5FE3F0"),  # .cyan, the catalog tint
-        "semantic/info/accent": ("#1A93AD", "#5FE3F0"),
-        "semantic/danger/text": ("#C43A3A", "#FF6B6B"),  # the hard-aspect red
-        "semantic/danger/accent": ("#E64D4D", "#FF6B6B"),
-        "title/fill": ("#14203A", "#FFFFFF"),
-        "title/stroke": ("#14203A", "#05071A"),
-        "title/shadow": ("#6E9BE0", "#8FB8FF"),
-        # Scene only — the nebulae and the lensed disc.
-        "sky/star": ("#8C9AB8", "#E8EEFF"),
-        "sky/nebula1": ("#C97A9E", "#B4487A"),  # the baked emission nebulae
-        "sky/nebula2": ("#5E9AC4", "#2E6E9E"),
-        "sky/disc": ("#C49A2E", "#F5D182"),  # the accretion disc, Doppler-lit
-        "sky/dust": ("#9AA4BC", "#404A6E"),  # the dusty Milky Way band
-    },
 }
 
 TEXT_ROLES = {

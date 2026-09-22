@@ -691,9 +691,9 @@ nonisolated extension SceneRenderer {
                         for n in 0 ..< count {
                             let angle = Double(n) / Double(count) * 6.283185
                             let reach: Double = switch kind {
-                            case 0: 0.78 + (Double((n * 7) % 5) / 5) * 0.22       // circle, a little ragged
-                            case 1: n % 7 == 0 ? 1.0 : 0.5                        // star: long arms
-                            default: n % 2 == 0 ? 1.0 : 0.66                      // double ring
+                            case 0: 0.78 + (Double((n * 7) % 5) / 5) * 0.22 // circle, a little ragged
+                            case 1: n % 7 == 0 ? 1.0 : 0.5 // star: long arms
+                            default: n % 2 == 0 ? 1.0 : 0.66 // double ring
                             }
                             let dist = spread * reach
                             let gravity = 58 * b * b
@@ -846,95 +846,5 @@ nonisolated extension SceneRenderer {
             }
             context.stroke(chord, with: .color(e.ink.opacity(inkA * (0.35 + a * 0.55))), lineWidth: 0.9)
         }
-    }
-
-    // MARK: - Astrelia: the deep sky
-
-    /// What `GalaxyShaders.metal` and `GalaxyLensing.metal` draw, in closed
-    /// form: the baked emission nebulae as blooms, the dusty band across the
-    /// middle, a dense fine star field, and Sgr A* — a photon ring around a
-    /// dark shadow, its disc brighter on the approaching side.
-    func drawDeepSky(_ sky: SkinDeepSky, in context: inout GraphicsContext) {
-        var rng = SeededRNG(seed: 0xA57E)
-        if dark { context.blendMode = .plusLighter }
-        // Two nebulae, breathing on long phases.
-        for (i, colour) in [sky.nebula1, sky.nebula2].enumerated() {
-            let phase = time / (40 + Double(i) * 17) + Double(i) * 2.2
-            let at = CGPoint(
-                x: size.width * (i == 0 ? 0.24 : 0.78) + parallax(0.18).width,
-                y: size.height * (i == 0 ? 0.26 : 0.66) + parallax(0.18).height,
-            )
-            let alpha = (dark ? 0.26 : 0.16) * (0.72 + 0.28 * sin(phase))
-            bloom(colour, at: at, radius: min(size.width, size.height) * 0.62, alpha: alpha, in: &context)
-        }
-        context.blendMode = .normal
-        // The dusty band, across its width rather than as a flat wedge: a
-        // solid fill gives it two straight edges, and dust has no edges.
-        let bandY = size.height * 0.54 + parallax(0.12).height
-        var band = Path()
-        band.move(to: CGPoint(x: -40, y: bandY + 70))
-        band.addLine(to: CGPoint(x: size.width + 40, y: bandY - 110))
-        band.addLine(to: CGPoint(x: size.width + 40, y: bandY - 40))
-        band.addLine(to: CGPoint(x: -40, y: bandY + 140))
-        band.closeSubpath()
-        let dustA = dark ? 0.34 : 0.18
-        context.fill(
-            band,
-            with: .linearGradient(
-                Gradient(stops: [
-                    .init(color: sky.dust.opacity(0), location: 0),
-                    .init(color: sky.dust.opacity(dustA), location: 0.45),
-                    .init(color: sky.dust.opacity(dustA * 0.8), location: 0.6),
-                    .init(color: sky.dust.opacity(0), location: 1),
-                ]),
-                startPoint: CGPoint(x: size.width / 2, y: bandY - 40),
-                endPoint: CGPoint(x: size.width / 2, y: bandY + 80),
-            ),
-        )
-        if dark { context.blendMode = .plusLighter }
-        // The star field: dense and fine, the way an instrument plots it —
-        // magnitude sets the radius, and nothing twinkles hard.
-        for _ in 0 ..< 150 {
-            let depth = rng.unit()
-            let shift = parallax(0.08 + depth * 0.35)
-            let x = rng.unit() * size.width + shift.width
-            let y = rng.unit() * size.height + shift.height
-            let r = 0.45 + pow(depth, 2.4) * 1.5
-            let a = (0.22 + depth * 0.55) * (0.85 + 0.15 * sin(time * (0.4 + depth) + depth * 18))
-            context.fill(
-                Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2)),
-                with: .color(sky.star.opacity(dark ? a : a * 0.7)),
-            )
-        }
-        // Sgr A*: a photon ring seen near edge-on, turning once a minute.
-        let hole = CGPoint(x: size.width * 0.66 + parallax(0.45).width, y: size.height * 0.3 + parallax(0.45).height)
-        let rx = min(size.width, size.height) * 0.19
-        let ry = rx * 0.34
-        let turn = time * (2 * .pi / 60)
-        // Additive over the shader's sky, so the disc reads as emitting.
-        if dark { context.blendMode = .plusLighter }
-        // The disc, drawn as arcs whose alpha rises on the approaching side.
-        for seg in 0 ..< 48 {
-            let a0 = Double(seg) / 48 * 2 * .pi
-            let a1 = Double(seg + 1) / 48 * 2 * .pi
-            let doppler = 0.35 + 0.65 * (0.5 + 0.5 * cos(a0 - turn))
-            var arc = Path()
-            arc.move(to: CGPoint(x: hole.x + cos(a0) * rx, y: hole.y + sin(a0) * ry))
-            arc.addLine(to: CGPoint(x: hole.x + cos(a1) * rx, y: hole.y + sin(a1) * ry))
-            context.stroke(arc, with: .color(sky.disc.opacity((dark ? 0.5 : 0.3) * doppler)), lineWidth: 3.2)
-            var inner = Path()
-            inner.move(to: CGPoint(x: hole.x + cos(a0) * rx * 0.88, y: hole.y + sin(a0) * ry * 0.88))
-            inner.addLine(to: CGPoint(x: hole.x + cos(a1) * rx * 0.88, y: hole.y + sin(a1) * ry * 0.88))
-            context.stroke(inner, with: .color(sky.disc.opacity((dark ? 0.75 : 0.4) * doppler)), lineWidth: 1.2)
-        }
-        context.blendMode = .normal
-        // The shadow: the one place in any scene that takes light away.
-        context.fill(
-            Path(ellipseIn: CGRect(x: hole.x - rx * 0.42, y: hole.y - rx * 0.42, width: rx * 0.84, height: rx * 0.84)),
-            with: .radialGradient(
-                Gradient(colors: [.black.opacity(dark ? 0.92 : 0.5), .black.opacity(0)]),
-                center: hole, startRadius: 0, endRadius: rx * 0.46,
-            ),
-        )
     }
 }
