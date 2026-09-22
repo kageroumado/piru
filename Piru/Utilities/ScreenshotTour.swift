@@ -27,12 +27,19 @@
     /// - `-piruScreenshotSkins all|none|<skin,…>` — which skins beyond `piru`.
     /// - `-piruScreenshotSkinScreens all|<name,…>` — screens per skin.
     /// - `-piruScreenshotSettle <seconds>` — wait after navigating (default 1.2).
+    /// - `-piruWallpapers` — the root shows only the skin backdrop (no chrome,
+    ///   no status bar) and the tour captures one frame per skin, as
+    ///   `<skin>.png`, so each skin's scene can be used as a wallpaper.
     @MainActor
     enum ScreenshotTour {
         // MARK: - Launch arguments
 
         static var isRequested: Bool {
             argument(after: "-piruScreenshots") != nil
+        }
+
+        static var wantsWallpapers: Bool {
+            ProcessInfo.processInfo.arguments.contains("-piruWallpapers")
         }
 
         private static func argument(after flag: String) -> String? {
@@ -205,8 +212,10 @@
             let started = Date.now
             print("ScreenshotTour: now is \(DebugClock.now.formatted(date: .abbreviated, time: .shortened))\(DebugClock.override == nil ? " (wall clock)" : " (pinned)")")
             let settle = argument(after: "-piruScreenshotSettle").flatMap(Double.init) ?? 1.2
-            let mainScreens = select(list(after: "-piruScreenshotScreens"), from: catalog)
-            let skinScreens = select(list(after: "-piruScreenshotSkinScreens") ?? skinScreenNames, from: catalog)
+            // A wallpaper is the backdrop alone, so there is nothing to stage.
+            let wallpaper = Screen(name: "wallpaper", stage: { _ in })
+            let mainScreens = wantsWallpapers ? [wallpaper] : select(list(after: "-piruScreenshotScreens"), from: catalog)
+            let skinScreens = wantsWallpapers ? [wallpaper] : select(list(after: "-piruScreenshotSkinScreens") ?? skinScreenNames, from: catalog)
             let skins = selectSkins(list(after: "-piruScreenshotSkins"))
 
             let tourDirectory = URL(filePath: root).appending(path: ".tour")
@@ -230,7 +239,13 @@
                 index += 1
                 let number = catalog.firstIndex { $0.name == screen.name }.map { $0 + 1 } ?? 0
                 let stem = String(format: "%02d-%@", number, screen.name)
-                let file = skin == .piru ? "\(stem).png" : "skins/\(skin.rawValue)/\(stem)-\(skin.rawValue).png"
+                let file = if wantsWallpapers {
+                    "\(skin.rawValue).png"
+                } else if skin == .piru {
+                    "\(stem).png"
+                } else {
+                    "skins/\(skin.rawValue)/\(stem)-\(skin.rawValue).png"
+                }
                 await stage.reset()
                 await screen.stage(stage)
                 try? await Task.sleep(for: .seconds(settle))
@@ -299,6 +314,25 @@
             guard ProcessInfo.processInfo.arguments.contains("-piruOwnEverything") else { return }
             for _ in 0 ..< 100 where !SkinShop.shared.ownsEverything {
                 try? await Task.sleep(for: .milliseconds(100))
+            }
+        }
+
+        // MARK: - Wallpaper
+
+        /// The root under `-piruWallpapers`: the skin's backdrop and nothing
+        /// else. Decorations are forced on by naming the skin, and the home
+        /// indicator is hidden so the capture is the scene alone. The status
+        /// bar is hidden by the app root, outside the view `SkinnedRoot`
+        /// re-creates per skin: re-registering the preference on every skin
+        /// change left the simulator's Dynamic Island painted black in one
+        /// capture out of eight.
+        struct WallpaperCanvas: View {
+            @State private var skins = SkinStore.shared
+
+            var body: some View {
+                SkinBackdrop(skin: skins.current)
+                    .ignoresSafeArea()
+                    .persistentSystemOverlays(.hidden)
             }
         }
 

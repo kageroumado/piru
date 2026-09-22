@@ -29,6 +29,13 @@ Usage::
     pipeline/screenshots.py --screens journal,quicklog --skins tsuki,yuki
     pipeline/screenshots.py --locales en --appearance both
     pipeline/screenshots.py --list                   # the screen and skin names
+    pipeline/screenshots.py --wallpapers --appearance both
+                                                     # every skin's backdrop alone
+
+``--wallpapers`` shows the skin backdrop and nothing else (no chrome, no
+status bar) and captures one frame per skin, ``<skin>.png`` under
+``Store/wallpapers/`` — the scenes as phone wallpapers. Language is
+irrelevant there, so it runs one locale.
 """
 
 from __future__ import annotations
@@ -282,7 +289,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--list", action="store_true", help="print the screen and skin names and exit"
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--wallpapers",
+        action="store_true",
+        help="capture each skin's backdrop alone, as <skin>.png (default out: Store/wallpapers)",
+    )
+    args = parser.parse_args()
+    if args.wallpapers:
+        if args.out == str(REPO / "Store/shots"):
+            args.out = str(REPO / "Store/wallpapers")
+        if args.locales == "en,zh-Hans":
+            args.locales = "en"
+        # A capture taken too soon after the root is re-created for a skin
+        # change lands with the simulator's Dynamic Island painted black.
+        if args.settle == 1.2:
+            args.settle = 3.0
+    return args
 
 
 def main() -> None:
@@ -345,6 +367,8 @@ def main() -> None:
             ]  # fmt: skip
             if args.skin_screens:
                 launch_args += ["-piruScreenshotSkinScreens", args.skin_screens]
+            if args.wallpapers:
+                launch_args.append("-piruWallpapers")
             if not args.no_fake_vitals:
                 launch_args.append("-piruFakeVitals")
             result = capture_pass(udid, leaf, launch_args, args.timeout, label)

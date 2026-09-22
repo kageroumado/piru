@@ -123,151 +123,164 @@ struct PiruApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SkinnedRoot { ContentView() }
-                .task {
-                    WidgetCenter.shared.reloadAllTimelines()
-                    // Touch the store so its singleton init runs (opens the
-                    // SQLite, seeds preferences) before the first view query —
-                    // then await the batch prefill it kicked off. Everything
-                    // below (session backfill's per-dose duration resolve, the
-                    // PSID backfill, demo seeding) resolves substances; without
-                    // this await they raced the prewarm and, on a loss, built
-                    // the whole batch synchronously on the main actor.
-                    _ = SubstanceStore.shared.count
-                    await SubstanceStore.shared.ensureAllLoaded()
-                    // Publish every substance's class color, bring the stored
-                    // default rows in line with it, and mint rows for substances
-                    // logged where there was no catalog (watch, widget intent).
-                    SubstanceColorStore.installCatalogTints()
-                    SubstanceColorStore.refreshDefaults(in: container.mainContext)
-                    Task(name: "Mint substance color rows") {
-                        await LaunchPassGate.runAsync("substanceColorMint", container: container) {
-                            await SubstanceColorStore.mintMissingRows(
-                                container: container, defaults: SubstanceColorStore.backgroundDefaults,
-                            )
-                        }
+            SkinnedRoot {
+                #if DEBUG
+                    if ScreenshotTour.wantsWallpapers {
+                        ScreenshotTour.WallpaperCanvas()
+                    } else {
+                        ContentView()
                     }
-                    // Set up first-run contextual tips (gated on onboarding completion).
-                    OnboardingTips.configure()
-                    // First-run nudge sequencing: bump the launch counter and record whether a dose
-                    // has ever been logged, so the tips ladder (log a dose → where settings live) and
-                    // the Discord invite only surface once the user is genuinely engaged.
-                    let launches = UserDefaults.standard.integer(forKey: "appLaunchCount") + 1
-                    UserDefaults.standard.set(launches, forKey: "appLaunchCount")
-                    let hasDose = ((try? container.mainContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0) > 0
-                    OnboardingTips.updateEngagement(hasLoggedDose: hasDose)
-                    // Warm the search-history store (opens its App Group suite +
-                    // decodes the recent list) at launch so the first Search-tab
-                    // open doesn't pay the cold first-touch on its hot path.
-                    _ = SearchHistoryStore.shared.recent
-                    // Backfill sessions for any pre-session-model history. Idempotent
-                    // and failure-isolated (only sets the optional relationship).
-                    SessionService.ensureSessionsPopulated(in: container.mainContext)
-                    // One-time: break up multi-day sessions that the old flat-ceiling
-                    // heuristic chained together (nonstop redosing / long-acting tails).
-                    SessionService.resplitOverlongSessions(in: container.mainContext)
-                    // Give every pre-notes summary its place on the session
-                    // timeline (additive; idempotent). Gated: its walk over every
-                    // session with a summary only finds new work after a restore
-                    // or an import, both of which bump the store generation.
-                    LaunchPassGate.run("sessionNoteSummaries", container: container) {
-                        SessionNoteService.migrateLegacySummaries(in: container.mainContext)
+                #else
+                    ContentView()
+                #endif
+            }
+            #if DEBUG
+            .statusBarHidden(ScreenshotTour.wantsWallpapers)
+            #endif
+            .task {
+                WidgetCenter.shared.reloadAllTimelines()
+                // Touch the store so its singleton init runs (opens the
+                // SQLite, seeds preferences) before the first view query —
+                // then await the batch prefill it kicked off. Everything
+                // below (session backfill's per-dose duration resolve, the
+                // PSID backfill, demo seeding) resolves substances; without
+                // this await they raced the prewarm and, on a loss, built
+                // the whole batch synchronously on the main actor.
+                _ = SubstanceStore.shared.count
+                await SubstanceStore.shared.ensureAllLoaded()
+                // Publish every substance's class color, bring the stored
+                // default rows in line with it, and mint rows for substances
+                // logged where there was no catalog (watch, widget intent).
+                SubstanceColorStore.installCatalogTints()
+                SubstanceColorStore.refreshDefaults(in: container.mainContext)
+                Task(name: "Mint substance color rows") {
+                    await LaunchPassGate.runAsync("substanceColorMint", container: container) {
+                        await SubstanceColorStore.mintMissingRows(
+                            container: container, defaults: SubstanceColorStore.backgroundDefaults,
+                        )
                     }
-                    // One-time: remap every logged dose onto its stable PSID identity
-                    // (substanceUID + displayNameSnapshot). Backup-first, additive,
-                    // never-drop, guarded once — see PSIDBackfillMigration. Runs here
-                    // (post-launch, off the critical path) because nothing reads the
-                    // new fields yet; the batch cache was awaited warm above.
-                    PSIDBackfillMigration.runIfNeeded(container: container)
-                    // Same identity onto the curated rows (recents, favorites,
-                    // daily meds), so they key on substance identity instead of a
-                    // name — additive, never-drop, guarded once. See D.2.3.
-                    CuratedIdentityBackfillMigration.runIfNeeded(container: container)
-                    // One-time: re-pin the 15 families corrected on 2026-09-12 so a
-                    // dose stamped with the OLD family (which the name-gated backfills
-                    // never revisit) doesn't split from a freshly logged one — see
-                    // PSIDRepinMigration. Runs after the backfills so any row they
-                    // just stamped (already the corrected family from this build's DB)
-                    // is untouched and only legacy rows are rewritten.
-                    PSIDRepinMigration.runIfNeeded(container: container)
-                    // One-time: reclassify rows typed as an ester name ("Estradiol
-                    // Valerate") onto the base substance + ester facet, so they title,
-                    // feed the Injection Levels tool, and dedup like a picker-logged
-                    // ester. Snapshot-first for dose history — see EsterIdentityBackfillMigration.
-                    // Gated on the store token: its scan of every `saltForm == nil`
-                    // row only finds new work after a dose write or an app update.
-                    LaunchPassGate.run("esterIdentityBackfill", container: container) {
-                        EsterIdentityBackfillMigration.runIfNeeded(container: container)
-                    }
-                    ActiveSessionManager.shared.recoverSession(container: container)
-                    // One-time: fold inventory items that share a substance
-                    // identity (two scanned boxes, an alias and its canonical
-                    // name) into one, before the recompute below replays the
-                    // survivors. `create` enforces the identity at the write,
-                    // so this only finds work in a store older than that.
-                    LaunchPassGate.run("inventoryIdentityMerge", container: container) {
-                        for id in InventoryService.mergeDuplicateItems(in: container.mainContext) {
-                            DoseNotificationManager.cancelInventoryLowStock(itemID: id)
-                        }
-                    }
-                    // Warm the inventory caches so badges/widget read fresh
-                    // numbers on first paint. Stock edits recompute their own item
-                    // as they save, so only a dose-log change can leave a stale
-                    // quantity behind; the gate skips the replay otherwise.
-                    LaunchPassGate.run("inventoryRecompute", container: container) {
-                        InventoryService.recomputeAll(in: container.mainContext)
-                    }
-                    // Meds redesign cutover: fold the routine layer (time,
-                    // remind, follow-up cadence) into per-med fields once.
-                    // Runs before the reminder sync so folded state is what
-                    // gets scheduled. See Specs/meds-reminders-redesign.md.
-                    MedsMigrator.foldRoutinesIfNeeded(context: container.mainContext)
-                    // Roll the routine follow-up horizon forward (they're
-                    // materialized as one-shots over a few days) and drop
-                    // today's re-asks for routines already logged.
-                    await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
-                    // If the user connected Apple Health for body weight, silently refresh it
-                    // (no prompt). On a revoked/empty read we deliberately KEEP the last-known weight
-                    // rather than clear it — a slightly stale real weight beats reverting to the 60 kg
-                    // population default. The Body Weight screen surfaces the empty-read state so the
-                    // user can re-grant access or update it.
-                    if UserProfileStore.shared.weightSource == .healthKit {
-                        Task { await HealthKitBodyMass.shared.syncLatest() }
-                    }
-                    #if DEBUG
-                        // A `-piruImportFile <path>` launch wipes + imports an
-                        // exported JSON; a `-piruPersona <name>` launch wipes +
-                        // reseeds a user archetype for UI-state testing;
-                        // otherwise an empty store fills with the "week"
-                        // persona (`-piruNoDemoData` suppresses that).
-                        if !DemoData.insertImportFileData(container: container),
-                           !DemoData.insertPersonaData(container: container) {
-                            DemoData.insertDefaultData(container: container)
-                        }
-                        // `-piruScanFixture <name>` opens Tools ▸ Identify a Box
-                        // with a canned reading resolved (ScanFixtures).
-                        // Warm the batch cache first: the Tools tab's cards
-                        // resolve substances on render, and a cold cache
-                        // asserts in DEBUG.
-                        if ScanFixtures.isRequested {
-                            Task {
-                                // Source prefs load after launch and republish
-                                // the cache; wait them out, then warm it.
-                                try? await Task.sleep(for: .seconds(1))
-                                await SubstanceStore.shared.ensureAllLoaded()
-                                AppNavigator.shared.selectedTab = .tools
-                                AppNavigator.shared.push(.tool(.identify), in: .tools)
-                            }
-                        }
-                        // `-piruScreenshots <dir>` walks every screen for
-                        // pipeline/screenshots.py to capture (ScreenshotTour).
-                        if ScreenshotTour.isRequested {
-                            Task(name: "Screenshot tour") {
-                                await ScreenshotTour.run(container: container)
-                            }
-                        }
-                    #endif
                 }
+                // Set up first-run contextual tips (gated on onboarding completion).
+                OnboardingTips.configure()
+                // First-run nudge sequencing: bump the launch counter and record whether a dose
+                // has ever been logged, so the tips ladder (log a dose → where settings live) and
+                // the Discord invite only surface once the user is genuinely engaged.
+                let launches = UserDefaults.standard.integer(forKey: "appLaunchCount") + 1
+                UserDefaults.standard.set(launches, forKey: "appLaunchCount")
+                let hasDose = ((try? container.mainContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0) > 0
+                OnboardingTips.updateEngagement(hasLoggedDose: hasDose)
+                // Warm the search-history store (opens its App Group suite +
+                // decodes the recent list) at launch so the first Search-tab
+                // open doesn't pay the cold first-touch on its hot path.
+                _ = SearchHistoryStore.shared.recent
+                // Backfill sessions for any pre-session-model history. Idempotent
+                // and failure-isolated (only sets the optional relationship).
+                SessionService.ensureSessionsPopulated(in: container.mainContext)
+                // One-time: break up multi-day sessions that the old flat-ceiling
+                // heuristic chained together (nonstop redosing / long-acting tails).
+                SessionService.resplitOverlongSessions(in: container.mainContext)
+                // Give every pre-notes summary its place on the session
+                // timeline (additive; idempotent). Gated: its walk over every
+                // session with a summary only finds new work after a restore
+                // or an import, both of which bump the store generation.
+                LaunchPassGate.run("sessionNoteSummaries", container: container) {
+                    SessionNoteService.migrateLegacySummaries(in: container.mainContext)
+                }
+                // One-time: remap every logged dose onto its stable PSID identity
+                // (substanceUID + displayNameSnapshot). Backup-first, additive,
+                // never-drop, guarded once — see PSIDBackfillMigration. Runs here
+                // (post-launch, off the critical path) because nothing reads the
+                // new fields yet; the batch cache was awaited warm above.
+                PSIDBackfillMigration.runIfNeeded(container: container)
+                // Same identity onto the curated rows (recents, favorites,
+                // daily meds), so they key on substance identity instead of a
+                // name — additive, never-drop, guarded once. See D.2.3.
+                CuratedIdentityBackfillMigration.runIfNeeded(container: container)
+                // One-time: re-pin the 15 families corrected on 2026-09-12 so a
+                // dose stamped with the OLD family (which the name-gated backfills
+                // never revisit) doesn't split from a freshly logged one — see
+                // PSIDRepinMigration. Runs after the backfills so any row they
+                // just stamped (already the corrected family from this build's DB)
+                // is untouched and only legacy rows are rewritten.
+                PSIDRepinMigration.runIfNeeded(container: container)
+                // One-time: reclassify rows typed as an ester name ("Estradiol
+                // Valerate") onto the base substance + ester facet, so they title,
+                // feed the Injection Levels tool, and dedup like a picker-logged
+                // ester. Snapshot-first for dose history — see EsterIdentityBackfillMigration.
+                // Gated on the store token: its scan of every `saltForm == nil`
+                // row only finds new work after a dose write or an app update.
+                LaunchPassGate.run("esterIdentityBackfill", container: container) {
+                    EsterIdentityBackfillMigration.runIfNeeded(container: container)
+                }
+                ActiveSessionManager.shared.recoverSession(container: container)
+                // One-time: fold inventory items that share a substance
+                // identity (two scanned boxes, an alias and its canonical
+                // name) into one, before the recompute below replays the
+                // survivors. `create` enforces the identity at the write,
+                // so this only finds work in a store older than that.
+                LaunchPassGate.run("inventoryIdentityMerge", container: container) {
+                    for id in InventoryService.mergeDuplicateItems(in: container.mainContext) {
+                        DoseNotificationManager.cancelInventoryLowStock(itemID: id)
+                    }
+                }
+                // Warm the inventory caches so badges/widget read fresh
+                // numbers on first paint. Stock edits recompute their own item
+                // as they save, so only a dose-log change can leave a stale
+                // quantity behind; the gate skips the replay otherwise.
+                LaunchPassGate.run("inventoryRecompute", container: container) {
+                    InventoryService.recomputeAll(in: container.mainContext)
+                }
+                // Meds redesign cutover: fold the routine layer (time,
+                // remind, follow-up cadence) into per-med fields once.
+                // Runs before the reminder sync so folded state is what
+                // gets scheduled. See Specs/meds-reminders-redesign.md.
+                MedsMigrator.foldRoutinesIfNeeded(context: container.mainContext)
+                // Roll the routine follow-up horizon forward (they're
+                // materialized as one-shots over a few days) and drop
+                // today's re-asks for routines already logged.
+                await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
+                // If the user connected Apple Health for body weight, silently refresh it
+                // (no prompt). On a revoked/empty read we deliberately KEEP the last-known weight
+                // rather than clear it — a slightly stale real weight beats reverting to the 60 kg
+                // population default. The Body Weight screen surfaces the empty-read state so the
+                // user can re-grant access or update it.
+                if UserProfileStore.shared.weightSource == .healthKit {
+                    Task { await HealthKitBodyMass.shared.syncLatest() }
+                }
+                #if DEBUG
+                    // A `-piruImportFile <path>` launch wipes + imports an
+                    // exported JSON; a `-piruPersona <name>` launch wipes +
+                    // reseeds a user archetype for UI-state testing;
+                    // otherwise an empty store fills with the "week"
+                    // persona (`-piruNoDemoData` suppresses that).
+                    if !DemoData.insertImportFileData(container: container),
+                       !DemoData.insertPersonaData(container: container) {
+                        DemoData.insertDefaultData(container: container)
+                    }
+                    // `-piruScanFixture <name>` opens Tools ▸ Identify a Box
+                    // with a canned reading resolved (ScanFixtures).
+                    // Warm the batch cache first: the Tools tab's cards
+                    // resolve substances on render, and a cold cache
+                    // asserts in DEBUG.
+                    if ScanFixtures.isRequested {
+                        Task {
+                            // Source prefs load after launch and republish
+                            // the cache; wait them out, then warm it.
+                            try? await Task.sleep(for: .seconds(1))
+                            await SubstanceStore.shared.ensureAllLoaded()
+                            AppNavigator.shared.selectedTab = .tools
+                            AppNavigator.shared.push(.tool(.identify), in: .tools)
+                        }
+                    }
+                    // `-piruScreenshots <dir>` walks every screen for
+                    // pipeline/screenshots.py to capture (ScreenshotTour).
+                    if ScreenshotTour.isRequested {
+                        Task(name: "Screenshot tour") {
+                            await ScreenshotTour.run(container: container)
+                        }
+                    }
+                #endif
+            }
         }
         .modelContainer(container)
         .onChange(of: scenePhase) { _, phase in
