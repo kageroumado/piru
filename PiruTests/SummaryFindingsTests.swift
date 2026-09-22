@@ -16,7 +16,7 @@ struct SummaryFindingsTests {
     }
 
     private func substance(_ name: String, _ currency: ExposureCurrency) -> SummarySubstance {
-        SummarySubstance(name: name, displayName: name, colorHex: "#FF0000", unit: "mg", currency: currency)
+        SummarySubstance(name: name, displayName: name, tint: P3Color(red: 0.917, green: 0.200, blue: 0.139), unit: "mg", currency: currency)
     }
 
     private func report(

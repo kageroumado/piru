@@ -1,207 +1,325 @@
 import SwiftData
 import SwiftUI
 
+/// Picks a substance's color in Oklch, inside the Display P3 gamut: a
+/// lightness × chroma plane for the current hue, a hue rail, and the way back
+/// to the substance's class color.
+///
+/// The picker writes the result itself when the user confirms; the caller owns
+/// dismissal through `onDone`, so it composes with a local `.sheet` and with
+/// the navigator alike. Swiping the sheet away discards the edit.
 struct SubstanceColorPickerView: View {
     let substanceName: String
-    let takenColors: [String: String] // hex -> substance name
-    /// Invoked when the user confirms or skips. The caller owns dismissal —
-    /// either by toggling a local `@State` `isPresented` flag or by mutating
-    /// the navigator (e.g. presenting the next picker via `replacingTop`).
-    /// The picker itself does not call `dismiss()` so it can be composed with
-    /// the navigator's atomic sheet swapping without the system tearing the
-    /// stack down between picks.
-    var onPick: (String) -> Void
+    var onDone: () -> Void
 
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \UserColor.createdAt) private var userColors: [UserColor]
+    @Query private var substanceColors: [SubstanceColor]
+    @State private var model: OklchPickerModel?
+    @State private var siblings: [Oklch] = []
+    @State private var contentHeight: CGFloat = 560
+    @State private var safeAreaBottom: CGFloat = 34
 
-    @State private var selectedHex: String?
-    @State private var showCustomPicker = false
-    @State private var customColor: Color = .white
-    @State private var hexInput = ""
-    @State private var customName = ""
-    @State private var customError: String?
+    /// The sheet's inline navigation bar, which sits above the measured content.
+    private static let chromeAllowance: CGFloat = 64
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
-                    previewSection
-                    presetGrid
-                    userColorsSection
-                    customColorSection
+                if let model {
+                    VStack(spacing: Spacing.xxl) {
+                        PickerPreviewHeader(substanceName: substanceName, model: model)
+                        OklchPlaneView(model: model, siblings: siblings)
+                        OklchHueRail(model: model)
+                        OklchReadout(color: model.color)
+                        ClassColorButton(model: model)
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, Spacing.xl)
+                    .padding(.bottom, Spacing.xxl)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
                 }
-                .padding(.top, 20)
-                .padding(.bottom, 40)
             }
+            .scrollBounceBehavior(.basedOnSize)
             .skinBackdrop()
             .navigationTitle("Choose Color")
             .inlineNavigationTitle()
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Skip") {
-                        let fallback = firstAvailableHex ?? PresetColor.defaultHex
-                        onPick(fallback)
-                    }
-                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        onPick(selectedHex ?? PresetColor.defaultHex)
+                        if let model {
+                            SubstanceColorStore.apply(model.choice, to: substanceName, in: modelContext)
+                        }
+                        onDone()
                     } label: {
                         Image(systemName: "checkmark").fontWeight(.semibold)
                     }
-                    .disabled(selectedHex == nil)
                     .accessibilityLabel("Done")
                 }
             }
+            .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.bottom } action: { safeAreaBottom = max(0, $0) }
         }
+        .presentationDetents([.height(contentHeight + Self.chromeAllowance + safeAreaBottom)])
+        .task { load() }
     }
 
-    private var firstAvailableHex: String? {
-        PresetColor.all.first { !takenColors.keys.contains($0.hex) }?.hex
+    private func load() {
+        guard model == nil else { return }
+        let key = substanceName.lowercased()
+        let row = substanceColors.first { $0.substance.lowercased() == key }
+        let defaultTint = SubstanceColorStore.defaultTint(for: substanceName)
+        model = OklchPickerModel(
+            current: row?.tint ?? defaultTint,
+            usesDefault: row.map { $0.usesDefault && !$0.isLegacy } ?? true,
+            defaultTint: defaultTint,
+        )
+        guard let category = SubstanceLibrary.lookup(substanceName)?.category else { return }
+        siblings = substanceColors
+            .filter { $0.substance.lowercased() != key && SubstanceLibrary.lookup($0.substance)?.category == category }
+            .map { Oklch(displayP3: $0.tint) }
     }
+}
 
-    private var previewColor: Color {
-        if let hex = selectedHex {
-            return Color(hex: hex)
-        }
-        return Color.gray.opacity(0.3)
-    }
+// MARK: - Header
 
-    private var allTakenHexes: Set<String> {
-        Set(takenColors.keys)
-    }
+private struct PickerPreviewHeader: View {
+    let substanceName: String
+    let model: OklchPickerModel
 
-    // MARK: - Preview
-
-    private var previewSection: some View {
+    var body: some View {
         HStack(spacing: Spacing.xl) {
             RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
-                .fill(previewColor)
+                .fill(model.tint.color)
                 .frame(width: 5, height: 44)
                 .accessibilityHidden(true)
             VStack(alignment: .leading) {
                 Text(CustomSubstanceStore.shared.displayName(for: substanceName))
                     .screenTitle()
-                Text("Pick a color for this substance")
+                Text(model.usesDefault ? "Class color" : "Custom color")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
+            Circle()
+                .fill(model.tint.color)
+                .frame(width: 38, height: 38)
+                .accessibilityHidden(true)
         }
-        .padding(.horizontal)
+    }
+}
+
+// MARK: - Plane
+
+/// Lightness runs left to right, chroma bottom to top. The colored region is
+/// what Display P3 can show at this hue; the hollow dots are the other
+/// substances of the same class, so a distinct color is one you can see.
+private struct OklchPlaneView: View {
+    let model: OklchPickerModel
+    let siblings: [Oklch]
+
+    @State private var image: CGImage?
+    @State private var ceilings: [Double] = []
+
+    private enum Metrics {
+        static let aspectRatio = 4.0 / 3.0
+        static let outlineColumns = 96
+        static let thumb = 28.0
+        static let siblingDot = 10.0
+        /// Siblings further than this from the current hue sit on a different
+        /// plane and would mislead here.
+        static let siblingHueWindow = 30.0
     }
 
-    // MARK: - Preset Grid
-
-    @ViewBuilder
-    private var presetGrid: some View {
-        let columns = Array(repeating: GridItem(.flexible(), spacing: Spacing.md), count: 8)
-        LazyVGrid(columns: columns, spacing: Spacing.xxl) {
-            ForEach(PresetColor.all) { preset in
-                gridCircle(hex: preset.hex, name: preset.name)
-            }
-        }
-        .padding(.horizontal)
-    }
-
-    // MARK: - User Colors
-
-    private var userColorsSection: some View {
-        VStack(alignment: .leading, spacing: Spacing.lg) {
-            Divider()
-
-            Text("Your Colors")
-                .sectionLabel()
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.horizontal)
-
-            if userColors.isEmpty {
-                Text("Custom shades you create will appear here.")
-                    .captionSecondary()
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, Spacing.md)
-            } else {
-                let columns = Array(repeating: GridItem(.flexible(), spacing: Spacing.md), count: 8)
-                LazyVGrid(columns: columns, spacing: Spacing.xxl) {
-                    ForEach(userColors) { uc in
-                        gridCircle(hex: uc.hex, name: uc.name)
-                    }
+    var body: some View {
+        GeometryReader { proxy in
+            let size = proxy.size
+            ZStack(alignment: .topLeading) {
+                RoundedRectangle(cornerRadius: Theme.CornerRadius.medium)
+                    .fill(.quaternary)
+                if let image {
+                    Image(decorative: image, scale: 1)
+                        .resizable()
+                        .interpolation(.high)
+                        .clipShape(GamutShape(ceilings: ceilings))
+                        .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
                 }
-                .padding(.horizontal)
+                ForEach(Array(visibleSiblings.enumerated()), id: \.offset) { _, sibling in
+                    Circle()
+                        .strokeBorder(.white, lineWidth: 1.5)
+                        .shadow(radius: 1)
+                        .frame(width: Metrics.siblingDot, height: Metrics.siblingDot)
+                        .position(point(for: sibling, in: size))
+                }
+                PickerThumb(color: model.tint.color, diameter: Metrics.thumb)
+                    .position(point(for: model.color, in: size))
+            }
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0).onChanged { value in
+                    let plane = OklchPickerModel.Plane.self
+                    let x = min(max(value.location.x / size.width, 0), 1)
+                    let y = min(max(value.location.y / size.height, 0), 1)
+                    model.setPlane(
+                        lightness: plane.lightness.lowerBound + (plane.lightness.upperBound - plane.lightness.lowerBound) * x,
+                        chroma: plane.chroma.upperBound * (1 - y),
+                    )
+                },
+            )
+        }
+        .aspectRatio(Metrics.aspectRatio, contentMode: .fit)
+        .onChange(of: model.color.h, initial: true) {
+            image = OklchPickerRenderer.plane(hue: model.color.h)
+            ceilings = OklchPickerRenderer.gamutCeilings(hue: model.color.h, columns: Metrics.outlineColumns)
+        }
+        .accessibilityRepresentation {
+            VStack {
+                Slider(
+                    value: Binding(get: { model.color.l }, set: { model.setPlane(lightness: $0, chroma: model.color.c) }),
+                    in: OklchPickerModel.Plane.lightness,
+                ) { Text("Lightness") }
+                Slider(
+                    value: Binding(get: { model.color.c }, set: { model.setPlane(lightness: model.color.l, chroma: $0) }),
+                    in: OklchPickerModel.Plane.chroma,
+                ) { Text("Chroma") }
             }
         }
     }
 
-    // MARK: - Shared Circle
-
-    @ViewBuilder
-    private func gridCircle(hex: String, name: String) -> some View {
-        let isSelected = selectedHex == hex
-        let takenBy = takenColors[hex]
-        let isTaken = takenBy != nil
-
-        let circleButton = Button {
-            selectedHex = hex
-        } label: {
-            VStack(spacing: Spacing.xs) {
-                Circle()
-                    .fill(Color(hex: hex))
-                    .frame(width: 38, height: 38)
-                    .overlay {
-                        if isSelected {
-                            Image(systemName: "checkmark")
-                                .font(.caption.weight(.bold))
-                                .foregroundStyle(.white)
-                                .accessibilityHidden(true)
-                        }
-                    }
-                    .overlay {
-                        if isSelected {
-                            Circle().strokeBorder(.primary, lineWidth: 2)
-                        }
-                    }
-                Text(isTaken ? (takenBy ?? name) : name)
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
-                    .lineLimit(1)
-                    .frame(width: 44)
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
-
-        if let takenBy {
-            circleButton.accessibilityValue(Text("Used by \(takenBy)"))
-        } else {
-            circleButton
+    private var visibleSiblings: [Oklch] {
+        siblings.filter { sibling in
+            let delta = abs(sibling.h - model.color.h).truncatingRemainder(dividingBy: 360)
+            return min(delta, 360 - delta) <= Metrics.siblingHueWindow
+                && OklchPickerModel.Plane.lightness.contains(sibling.l)
         }
     }
 
-    // MARK: - Custom Color Creator
+    private func point(for color: Oklch, in size: CGSize) -> CGPoint {
+        let plane = OklchPickerModel.Plane.self
+        let x = (color.l - plane.lightness.lowerBound) / (plane.lightness.upperBound - plane.lightness.lowerBound)
+        let y = 1 - color.c / plane.chroma.upperBound
+        return CGPoint(x: min(max(x, 0), 1) * size.width, y: min(max(y, 0), 1) * size.height)
+    }
+}
 
-    private var customColorSection: some View {
-        VStack(spacing: Spacing.xl) {
-            Divider()
+/// The region of the plane Display P3 can show: under the chroma ceiling of
+/// each lightness column.
+private nonisolated struct GamutShape: Shape {
+    let ceilings: [Double]
 
-            if showCustomPicker {
-                customPickerExpanded
-            } else {
-                customPickerButton
+    func path(in rect: CGRect) -> Path {
+        guard ceilings.count > 1 else { return Path() }
+        let top = OklchPickerModel.Plane.chroma.upperBound
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        for (index, ceiling) in ceilings.enumerated() {
+            let x = rect.minX + rect.width * (Double(index) + 0.5) / Double(ceilings.count)
+            let y = rect.minY + rect.height * (1 - min(ceiling, top) / top)
+            if index == 0 { path.addLine(to: CGPoint(x: rect.minX, y: y)) }
+            path.addLine(to: CGPoint(x: x, y: y))
+            if index == ceilings.count - 1 { path.addLine(to: CGPoint(x: rect.maxX, y: y)) }
+        }
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.closeSubpath()
+        return path
+    }
+}
+
+// MARK: - Hue rail
+
+private struct OklchHueRail: View {
+    let model: OklchPickerModel
+
+    @State private var image: CGImage?
+
+    private enum Metrics {
+        static let height = 32.0
+        static let thumb = 28.0
+    }
+
+    var body: some View {
+        GeometryReader { proxy in
+            let width = proxy.size.width
+            ZStack(alignment: .leading) {
+                if let image {
+                    Image(decorative: image, scale: 1)
+                        .resizable()
+                        .interpolation(.high)
+                        .clipShape(Capsule())
+                }
+                PickerThumb(color: model.tint.color, diameter: Metrics.thumb)
+                    .position(x: model.color.h / 360 * width, y: Metrics.height / 2)
             }
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0).onChanged { value in
+                    // Stops a hair short of 360°, which normalizes to 0° and
+                    // would throw the thumb to the other end of the rail.
+                    model.setHue(min(max(value.location.x / width, 0), 0.9999) * 360)
+                },
+            )
+        }
+        .frame(height: Metrics.height)
+        .onChange(of: RailInputs(l: model.color.l, c: model.color.c), initial: true) {
+            image = OklchPickerRenderer.hueRail(lightness: model.color.l, chroma: model.color.c)
+        }
+        .accessibilityRepresentation {
+            Slider(value: Binding(get: { model.color.h }, set: { model.setHue($0) }), in: 0 ... 359) { Text("Hue") }
         }
     }
 
-    private var customPickerButton: some View {
+    private struct RailInputs: Equatable {
+        let l: Double
+        let c: Double
+    }
+}
+
+// MARK: - Pieces
+
+private struct PickerThumb: View {
+    let color: Color
+    let diameter: Double
+
+    var body: some View {
+        Circle()
+            .fill(color)
+            .overlay { Circle().strokeBorder(.white, lineWidth: 3) }
+            .shadow(color: .black.opacity(0.35), radius: 3, y: 1)
+            .frame(width: diameter, height: diameter)
+            .accessibilityHidden(true)
+    }
+}
+
+private struct OklchReadout: View {
+    let color: Oklch
+
+    var body: some View {
+        HStack(spacing: Spacing.xxl) {
+            value("L", color.l.formatted(.number.precision(.fractionLength(2))))
+            value("C", color.c.formatted(.number.precision(.fractionLength(3))))
+            value("H", "\(color.h.formatted(.number.precision(.fractionLength(0))))°")
+        }
+        .font(.system(.footnote, design: .monospaced))
+        .foregroundStyle(Theme.secondaryLabel)
+        .accessibilityHidden(true)
+    }
+
+    private func value(_ label: String, _ number: String) -> some View {
+        Text(verbatim: "\(label) \(number)")
+    }
+}
+
+private struct ClassColorButton: View {
+    let model: OklchPickerModel
+
+    var body: some View {
         Button {
-            withAnimation(.easeInOut(duration: 0.25)) {
-                showCustomPicker = true
-            }
+            withAnimation(.snappy(duration: 0.25)) { model.restoreDefault() }
         } label: {
             HStack(spacing: Spacing.md) {
-                Image(systemName: "paintpalette")
+                Circle()
+                    .fill(model.defaultColor.displayP3.color)
+                    .frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
                     .accessibilityHidden(true)
-                Text("Create Custom Shade")
+                Text("Use Class Color")
                     .fontWeight(.medium)
             }
             .frame(maxWidth: .infinity)
@@ -209,168 +327,6 @@ struct SubstanceColorPickerView: View {
             .background(.quaternary, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
         }
         .buttonStyle(.plain)
-        .padding(.horizontal)
-    }
-
-    private var customPickerExpanded: some View {
-        VStack(spacing: Spacing.xxl) {
-            // Color picker
-            ColorPicker("Pick a color", selection: $customColor, supportsOpacity: false)
-                .padding(.horizontal)
-                .onChange(of: customColor) {
-                    hexInput = customColor.toHex()
-                    customError = nil
-                }
-
-            // Hex text field
-            hexInputRow
-
-            // Name field
-            HStack {
-                TextField("Color name (optional)", text: $customName)
-                    .font(.subheadline)
-            }
-            .padding(.horizontal)
-
-            // Preview
-            customPreviewRow
-
-            if let error = customError {
-                Label(error, systemImage: "exclamationmark.triangle.fill")
-                    .font(.caption)
-                    .foregroundStyle(Color.Semantic.Danger.text)
-                    .padding(.horizontal)
-            }
-
-            // Add button
-            Button {
-                addCustomColor()
-            } label: {
-                Text("Add Color")
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .foregroundStyle(.white)
-                    .background(Color(hex: sanitizedHex), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
-            }
-            .buttonStyle(.plain)
-            .padding(.horizontal)
-            .disabled(!isHexValid)
-        }
-        .transition(.opacity.combined(with: .move(edge: .bottom)))
-    }
-
-    private var hexInputRow: some View {
-        HStack(spacing: Spacing.md) {
-            Text("#")
-                .font(.system(.body, design: .monospaced))
-                .foregroundStyle(Theme.secondaryLabel)
-            TextField("FFAACC", text: $hexInput)
-                .font(.system(.body, design: .monospaced))
-            #if canImport(UIKit)
-                .textInputAutocapitalization(.characters)
-            #endif
-                .autocorrectionDisabled()
-                .onChange(of: hexInput) {
-                    let cleaned = hexInput.filter(\.isHexDigit)
-                    if cleaned != hexInput {
-                        hexInput = String(cleaned.prefix(6))
-                    } else {
-                        hexInput = String(hexInput.prefix(6))
-                    }
-                    if hexInput.count == 6 {
-                        customColor = Color(hex: hexInput)
-                    }
-                    customError = nil
-                }
-            if isHexValid {
-                Circle()
-                    .fill(Color(hex: sanitizedHex))
-                    .frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
-                    .accessibilityHidden(true)
-            }
-        }
-        .padding(.horizontal)
-    }
-
-    @ViewBuilder
-    private var customPreviewRow: some View {
-        if isHexValid {
-            HStack(spacing: Spacing.xl) {
-                Circle()
-                    .fill(Color(hex: sanitizedHex))
-                    .frame(width: 32, height: 32)
-                    .accessibilityHidden(true)
-                Text("#\(sanitizedHex)")
-                    .font(.system(.body, design: .monospaced))
-                    .foregroundStyle(Theme.secondaryLabel)
-                Spacer()
-            }
-            .padding(.horizontal)
-        }
-    }
-
-    private var sanitizedHex: String {
-        hexInput.filter(\.isHexDigit).prefix(6).uppercased()
-    }
-
-    private var isHexValid: Bool {
-        sanitizedHex.count == 6
-    }
-
-    private func addCustomColor() {
-        let hex = sanitizedHex
-        guard hex.count == 6 else {
-            customError = String(localized: "Enter a valid 6-digit hex code")
-            return
-        }
-
-        // Check against existing preset colors
-        if PresetColor.all.contains(where: { $0.hex == hex }) {
-            customError = String(localized: "This shade already exists in the preset palette")
-            return
-        }
-
-        // Check against existing user colors
-        if userColors.contains(where: { $0.hex == hex }) {
-            customError = String(localized: "You've already created this shade")
-            return
-        }
-
-        // Save the user color
-        let name = customName.isEmpty ? "#\(hex)" : customName
-        let uc = UserColor(hex: hex, name: name)
-        modelContext.insert(uc)
-
-        // Select it
-        customError = nil
-        selectedHex = hex
-        customName = ""
-        hexInput = ""
-        withAnimation(.easeInOut(duration: 0.25)) {
-            showCustomPicker = false
-        }
-    }
-}
-
-// MARK: - Color to Hex
-
-extension Color {
-    func toHex() -> String {
-        let platformColor = PlatformColor(self)
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var a: CGFloat = 0
-        #if canImport(UIKit)
-            platformColor.getRed(&r, green: &g, blue: &b, alpha: &a)
-        #elseif canImport(AppKit)
-            let converted = platformColor.usingColorSpace(.sRGB) ?? platformColor
-            converted.getRed(&r, green: &g, blue: &b, alpha: &a)
-        #endif
-        let ri = Int(round(r * 255))
-        let gi = Int(round(g * 255))
-        let bi = Int(round(b * 255))
-        return String(format: "%02X%02X%02X", ri, gi, bi)
+        .disabled(model.usesDefault)
     }
 }

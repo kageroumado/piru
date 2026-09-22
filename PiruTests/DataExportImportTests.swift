@@ -162,8 +162,9 @@ struct DataExportImportRoundTripTests {
         let ts = Date(timeIntervalSince1970: 1_700_000_000)
         context.insert(DoseEntry(substance: "Ibuprofen", amount: 400, unit: "mg", route: .oral, timestamp: ts))
 
-        context.insert(SubstanceColor(substance: "Ibuprofen", hexColor: "007AFF"))
-        context.insert(SubstanceColor(substance: "Aspirin", hexColor: "FF3B30"))
+        let picked = P3Color(red: 0.2, green: 0.5, blue: 0.9)
+        context.insert(SubstanceColor(substance: "Ibuprofen", tint: picked, usesDefault: false))
+        context.insert(SubstanceColor(substance: "Aspirin", tint: .neutral, usesDefault: true))
 
         context.insert(DailyDoseItem(
             substance: "Vitamin D3",
@@ -188,9 +189,11 @@ struct DataExportImportRoundTripTests {
         try context.save()
 
         let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
-        let colorMap = Dictionary(colors.map { ($0.substance, $0.hexColor) }, uniquingKeysWith: { first, _ in first })
-        #expect(colorMap["Ibuprofen"] != nil)
-        #expect(colorMap["Aspirin"] != nil)
+        // A picked color travels, to four decimals; a class color is left for
+        // the importing device to generate.
+        #expect(colors.map(\.substance) == ["Ibuprofen"])
+        #expect(colors.first?.usesDefault == false)
+        #expect(colors.first?.tint == picked)
 
         let dailyItems = try context.fetch(FetchDescriptor<DailyDoseItem>(sortBy: [SortDescriptor(\.sortOrder)]))
         #expect(dailyItems.count == 2)
@@ -321,7 +324,7 @@ struct DataExportImportRoundTripTests {
 
         let json = try #require(try? JSONSerialization.jsonObject(with: data) as? [String: Any])
         // The default export is the Piru-native format.
-        #expect(json["piruExportVersion"] as? Int == 1)
+        #expect(json["piruExportVersion"] as? Int == DataExportImport.piruExportVersion)
 
         try DataExportImport.importJSON(data: data, context: context)
 
@@ -725,7 +728,7 @@ struct DataExportImportFormatTests {
         let data = try DataExportImport.exportJSON(format: .piru, context: context)
         // It's the native format (not PsyLog).
         let json = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
-        #expect(json["piruExportVersion"] as? Int == 1)
+        #expect(json["piruExportVersion"] as? Int == DataExportImport.piruExportVersion)
         #expect((json["appVersion"] as? String)?.hasPrefix("Piru ") == true)
 
         try DataExportImport.deleteAll(context: context)
@@ -1199,16 +1202,16 @@ struct DataExportImportFileErrorTests {
 
     @Test
     func `A newer export format is refused with its version and writer`() throws {
-        let text = #"{"piruExportVersion": 2, "appVersion": "Piru 9.0 (900)", "exportedAt": 0}"#
+        let text = #"{"piruExportVersion": 99, "appVersion": "Piru 9.0 (900)", "exportedAt": 0}"#
         let error = try #require(try importing(text))
         guard case let ImportFileError.newerFormat(version, appVersion) = error else {
             Issue.record("expected .newerFormat, got \(error)")
             return
         }
-        #expect(version == 2)
+        #expect(version == 99)
         #expect(appVersion == "Piru 9.0 (900)")
         let message = DataExportImport.importErrorMessage(for: error)
-        #expect(message.contains("format 2"))
+        #expect(message.contains("format 99"))
         #expect(message.contains("Piru 9.0 (900)"))
     }
 

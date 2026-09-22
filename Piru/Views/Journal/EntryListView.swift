@@ -197,7 +197,7 @@ struct EntryListView: View {
         var hasher = Hasher()
         for color in substanceColors {
             hasher.combine(color.substance)
-            hasher.combine(color.hexColor)
+            hasher.combine(color.tint)
         }
         return hasher.finalize()
     }

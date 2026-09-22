@@ -53,7 +53,7 @@ struct DoseLogBatchTests {
     }
 
     @Test
-    func `First-time substance gets exactly one deterministic color`() throws {
+    func `First-time substance gets exactly one class-color row`() throws {
         let context = try makeContext()
         let doses: [(entry: DoseEntry, substance: Substance?)] = [
             (entry(unknown), nil),
@@ -65,13 +65,14 @@ struct DoseLogBatchTests {
         let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
         #expect(colors.count == 1)
         #expect(colors.first?.substance == unknown)
-        #expect(colors.first?.hexColor == PresetColor.deterministic(for: unknown).hex)
+        #expect(colors.first?.usesDefault == true)
+        #expect(colors.first?.tint == SubstanceColorStore.defaultTint(for: unknown))
     }
 
     @Test
     func `An already-colored substance mints no duplicate`() throws {
         let context = try makeContext()
-        let existing = SubstanceColor(substance: unknown, hexColor: PresetColor.all[0].hex)
+        let existing = SubstanceColor(substance: unknown, tint: .neutral, usesDefault: false)
         context.insert(existing)
         try context.save()
 

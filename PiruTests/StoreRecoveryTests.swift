@@ -96,7 +96,7 @@ struct StoreRecoveryTests {
     /// match the full current schema. This is the shape a dev / pre-release build
     /// leaves on disk, and the one that triggered the quarantine.
     private var intermediateModels: [any PersistentModel.Type] {
-        [DoseEntry.self, SubstanceColor.self, UserColor.self, DailyDoseItem.self, FavoriteSubstance.self, Session.self]
+        [DoseEntry.self, SubstanceColor.self, DailyDoseItem.self, FavoriteSubstance.self, Session.self]
     }
 
     private func seedIntermediateStore(at url: URL, entries n: Int) throws {
@@ -277,7 +277,6 @@ struct LegacyStoreMigrationTests {
         let legacySchema = Schema([
             _LegacyDoseEntry.DoseEntry.self,
             SubstanceColor.self,
-            UserColor.self,
             DailyDoseItem.self,
             FavoriteSubstance.self,
             QuickLogDose.self,

@@ -125,6 +125,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				ByVolumeDosing.swift,
+				Formatting/P3Color.swift,
 				WatchSync/QuickLogManifest.swift,
 				WatchSync/WatchDosePayload.swift,
 			);

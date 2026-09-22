@@ -63,7 +63,6 @@ nonisolated enum StoreRecovery {
         [
             DoseEntry.self,
             SubstanceColor.self,
-            UserColor.self,
             DailyDoseItem.self,
             FavoriteSubstance.self,
             QuickLogDose.self,
@@ -354,7 +353,6 @@ nonisolated enum StoreRecovery {
                 (try? context.fetchCount(FetchDescriptor<DailyDoseItem>())) ?? 0,
                 (try? context.fetchCount(FetchDescriptor<FavoriteSubstance>())) ?? 0,
                 (try? context.fetchCount(FetchDescriptor<SubstanceColor>())) ?? 0,
-                (try? context.fetchCount(FetchDescriptor<UserColor>())) ?? 0,
             ]
             return counts.reduce(0, +)
         } catch {

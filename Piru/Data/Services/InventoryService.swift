@@ -611,17 +611,11 @@ enum InventoryService {
         return value
     }
 
-    /// Persist the substance's stable deterministic color if it has none yet, so
-    /// a first-time-tracked substance appears in the colors menu and is editable
-    /// right away — without waiting for its first logged dose. Mirrors the
-    /// `ensureColor` the logging paths run, and uses the same
-    /// `PresetColor.deterministic` that `SubstancePalette` falls back to, so the
-    /// persisted color matches what inventory already showed.
+    /// Gives the substance its class-color row if it has none yet, so a
+    /// first-time-tracked substance appears in the colors list and is editable
+    /// right away, without waiting for its first logged dose.
     private static func ensureColor(for substance: String, in ctx: ModelContext) {
-        let name = substance.trimmingCharacters(in: .whitespaces)
-        guard !name.isEmpty else { return }
         let existing = (try? ctx.fetch(FetchDescriptor<SubstanceColor>())) ?? []
-        guard !existing.hasColor(for: name) else { return }
-        ctx.insert(SubstanceColor(substance: name, hexColor: PresetColor.deterministic(for: name).hex))
+        SubstanceColorStore.ensureRow(for: substance, existing: existing, in: ctx)
     }
 }

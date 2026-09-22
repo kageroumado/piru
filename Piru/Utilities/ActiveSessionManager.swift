@@ -11,13 +11,13 @@ import SwiftData
 final class ActiveSessionManager {
     static let shared = ActiveSessionManager()
 
-    private(set) var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = [] {
+    private(set) var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, tint: P3Color)] = [] {
         didSet { statesMemo = nil }
     }
-    /// Substance → color hex, refreshed alongside `activeEntries`. `private(set)`
+    /// Substance → color, refreshed alongside `activeEntries`. `private(set)`
     /// like its siblings so an external write can't invalidate accessory
     /// consumers out from under the manager (all writers are internal).
-    private(set) var cachedColorMap: [String: String] = [:] {
+    private(set) var cachedColorMap: [String: P3Color] = [:] {
         didSet { statesMemo = nil }
     }
 
@@ -117,8 +117,8 @@ final class ActiveSessionManager {
             let snapshot = DoseSnapshot(entry: entry)
             let matchedSubstance = SubstanceLibrary.lookup(snapshot.substance)
             let duration = Self.resolveDuration(substance: matchedSubstance, entry: entry)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
-            return (snapshot: snapshot, duration: duration, colorHex: hex)
+            let tint = colorMap[snapshot.substance.lowercased()] ?? SubstancePalette.fallback(for: snapshot.substance)
+            return (snapshot: snapshot, duration: duration, tint: tint)
         }
 
         pruneCompleted()
@@ -133,12 +133,12 @@ final class ActiveSessionManager {
     func addDose(
         entry: DoseEntry,
         substance: Substance?,
-        colorHex: String,
+        tint: P3Color,
         allColors: [SubstanceColor],
     ) {
         let snapshot = DoseSnapshot(entry: entry)
         let duration = Self.resolveDuration(substance: substance, entry: entry)
-        activeEntries.append((snapshot: snapshot, duration: duration, colorHex: colorHex))
+        activeEntries.append((snapshot: snapshot, duration: duration, tint: tint))
 
         let colorMap = Self.buildColorMap(from: allColors)
         cachedColorMap = colorMap
@@ -159,9 +159,9 @@ final class ActiveSessionManager {
 
         for (entry, substance) in entries {
             let snapshot = DoseSnapshot(entry: entry)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
+            let tint = colorMap[snapshot.substance.lowercased()] ?? SubstancePalette.fallback(for: snapshot.substance)
             let duration = Self.resolveDuration(substance: substance, entry: entry)
-            activeEntries.append((snapshot: snapshot, duration: duration, colorHex: hex))
+            activeEntries.append((snapshot: snapshot, duration: duration, tint: tint))
         }
 
         pruneCompleted()
@@ -218,7 +218,7 @@ final class ActiveSessionManager {
         previousTimestamp: Date,
         entry: DoseEntry,
         substance: Substance?,
-        colorHex: String,
+        tint: P3Color,
         allColors: [SubstanceColor],
     ) {
         let colorMap = Self.buildColorMap(from: allColors)
@@ -226,8 +226,8 @@ final class ActiveSessionManager {
 
         let snapshot = DoseSnapshot(entry: entry)
         let duration = Self.resolveDuration(substance: substance, entry: entry)
-        let hex = colorMap[snapshot.substance.lowercased()] ?? colorHex
-        let updated = (snapshot: snapshot, duration: duration, colorHex: hex)
+        let tint = colorMap[snapshot.substance.lowercased()] ?? tint
+        let updated = (snapshot: snapshot, duration: duration, tint: tint)
 
         if let index = activeEntries.firstIndex(where: { item in
             if let snapshotID = item.snapshot.id {
@@ -254,22 +254,22 @@ final class ActiveSessionManager {
 
     /// Convenience for inline edits where only the entry's own fields change
     /// and the substance name is unchanged — e.g. the "Adjust Time" sheets.
-    /// Resolves the substance + color and forwards to ``updateDose(previousSubstanceName:previousTimestamp:entry:substance:colorHex:allColors:)``
+    /// Resolves the substance + color and forwards to ``updateDose(previousSubstanceName:previousTimestamp:entry:substance:tint:allColors:)``
     /// so the session accessory and Live Activity stay in sync with SwiftData.
     func refreshEditedEntry(
         previousTimestamp: Date,
         entry: DoseEntry,
         allColors: [SubstanceColor],
     ) {
-        let colorHex = allColors.first {
+        let tint = allColors.first {
             $0.substance.lowercased() == entry.substance.lowercased()
-        }?.hexColor ?? PresetColor.defaultHex
+        }?.tint ?? SubstancePalette.fallback(for: entry.substance)
         updateDose(
             previousSubstanceName: entry.substance,
             previousTimestamp: previousTimestamp,
             entry: entry,
             substance: SubstanceLibrary.lookup(entry.substance),
-            colorHex: colorHex,
+            tint: tint,
             allColors: allColors,
         )
     }
@@ -286,8 +286,8 @@ final class ActiveSessionManager {
             let snapshot = DoseSnapshot(entry: entry)
             let matchedSubstance = SubstanceLibrary.lookup(snapshot.substance)
             let duration = Self.resolveDuration(substance: matchedSubstance, entry: entry)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
-            return (snapshot: snapshot, duration: duration, colorHex: hex)
+            let tint = colorMap[snapshot.substance.lowercased()] ?? SubstancePalette.fallback(for: snapshot.substance)
+            return (snapshot: snapshot, duration: duration, tint: tint)
         }
 
         pruneCompleted()
@@ -299,16 +299,16 @@ final class ActiveSessionManager {
     }
 
     /// Re-read `SubstanceColor` records and patch every active entry's stored
-    /// `colorHex` (plus `cachedColorMap`) so newly-picked colors are reflected
+    /// `tint` (plus `cachedColorMap`) so newly-picked colors are reflected
     /// in the live activity and bottom session accessory without waiting for
-    /// the next `addDose` call. Used by `ColorPickerHost` after the user
-    /// selects a color for a substance that already has a tracked dose.
+    /// the next `addDose` call. Used by `SubstanceColorStore` after a color
+    /// changes for a substance that already has a tracked dose.
     func applyColorUpdates(allColors: [SubstanceColor]) {
         let colorMap = Self.buildColorMap(from: allColors)
         cachedColorMap = colorMap
         activeEntries = activeEntries.map { item in
-            let newHex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
-            return (snapshot: item.snapshot, duration: item.duration, colorHex: newHex)
+            let newTint = colorMap[item.snapshot.substance.lowercased()] ?? item.tint
+            return (snapshot: item.snapshot, duration: item.duration, tint: newTint)
         }
         if !activeEntries.isEmpty {
             LiveActivityManager.shared.sessionDidChange()
@@ -324,10 +324,10 @@ final class ActiveSessionManager {
 
     // MARK: - State Building
 
-    func buildSubstanceStates(colorMap: [String: String]) -> [ActiveSubstanceState] {
+    func buildSubstanceStates(colorMap: [String: P3Color]) -> [ActiveSubstanceState] {
         let weightKg = UserProfileStore.shared.effectiveWeightKg
         return activeEntries.compactMap { item in
-            let hex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
+            let tint = colorMap[item.snapshot.substance.lowercased()] ?? item.tint
             let substance = SubstanceLibrary.lookup(item.snapshot.substance)
             let doseRange = substance.flatMap {
                 ActiveSubstanceState.resolveDoseRange(substance: $0, route: item.snapshot.route)
@@ -341,7 +341,7 @@ final class ActiveSessionManager {
                 // this said "Methylphenidate" on the accessory and the Lock Screen
                 // for a dose the user logged as Concerta.
                 name: item.snapshot.title,
-                colorHex: hex,
+                tint: tint,
                 timestamp: item.snapshot.timestamp,
                 amount: item.snapshot.amount,
                 unit: item.snapshot.unit,
@@ -358,7 +358,7 @@ final class ActiveSessionManager {
     }
 
     #if os(iOS)
-        func buildContentState(colorMap: [String: String]) -> PiruActivityAttributes.ContentState {
+        func buildContentState(colorMap: [String: P3Color]) -> PiruActivityAttributes.ContentState {
             PiruActivityAttributes.ContentState(
                 activeSubstances: buildSubstanceStates(colorMap: colorMap),
                 lastUpdated: .now,
@@ -397,8 +397,8 @@ final class ActiveSessionManager {
         return substance?.timelineDuration(for: route)
     }
 
-    static func buildColorMap(from allColors: [SubstanceColor]) -> [String: String] {
-        allColors.hexColorMap
+    static func buildColorMap(from allColors: [SubstanceColor]) -> [String: P3Color] {
+        allColors.tintMap
     }
 
     /// Drop everything this manager can no longer speak for: doses that have run

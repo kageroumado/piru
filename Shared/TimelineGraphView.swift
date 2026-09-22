@@ -825,7 +825,7 @@ struct TimelineGraphView: View, Equatable {
                         VStack(spacing: 1) {
                             Image(systemName: milestone.symbol)
                                 .font(.system(size: 9, weight: .semibold))
-                                .foregroundStyle(Color(hex: dose.colorHex))
+                                .foregroundStyle(dose.tint.color)
                             Text(verbatim: "~\(renderer.scrubClockTime(atMinute: global))")
                                 .font(.system(size: 9, weight: .medium, design: .rounded).monospacedDigit())
                                 .foregroundStyle(.secondary)

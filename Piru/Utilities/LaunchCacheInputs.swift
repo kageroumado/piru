@@ -35,19 +35,22 @@ enum LaunchCacheInputs {
     /// agree regardless of row order.
     nonisolated static func colorSignature(_ pairs: [ColorPair]) -> Int {
         var hasher = StableHasher()
-        for pair in pairs.sorted(by: { ($0.substance, $0.hex) < ($1.substance, $1.hex) }) {
+        // `substance` is unique per row, so it alone fixes the order.
+        for pair in pairs.sorted(by: { $0.substance < $1.substance }) {
             hasher.combine(pair.substance)
-            hasher.combine(pair.hex)
+            hasher.combine(pair.tint.red)
+            hasher.combine(pair.tint.green)
+            hasher.combine(pair.tint.blue)
         }
         return hasher.finalize()
     }
 
     static func colorSignature(_ colors: [SubstanceColor]) -> Int {
-        colorSignature(colors.map { ColorPair(substance: $0.substance, hex: $0.hexColor) })
+        colorSignature(colors.map { ColorPair(substance: $0.substance, tint: $0.tint) })
     }
 
     nonisolated struct ColorPair: Sendable {
         let substance: String
-        let hex: String
+        let tint: P3Color
     }
 }

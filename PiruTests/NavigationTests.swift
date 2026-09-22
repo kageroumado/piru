@@ -118,9 +118,9 @@ struct AppNavigatorTests {
     func `present appends to the sheet stack`() {
         let nav = makeNavigator()
         nav.present(.quickLog(routine: nil))
-        nav.present(.colorPicker(substance: "MDMA"))
+        nav.present(.dailyDoseSettings)
         #expect(nav.sheetStack.count == 2)
-        #expect(nav.sheetStack.last == .colorPicker(substance: "MDMA", remaining: []))
+        #expect(nav.sheetStack.last == .dailyDoseSettings)
     }
 
     @Test
@@ -163,9 +163,9 @@ struct AppNavigatorTests {
     func `present with replacingTop swaps the top instead of nesting`() {
         let nav = makeNavigator()
         nav.present(.entryDetail(timestamp: Date(timeIntervalSince1970: 1), id: nil))
-        nav.present(.colorPicker(substance: "Caffeine"), replacingTop: true)
+        nav.present(.dailyDoseSettings, replacingTop: true)
         #expect(nav.sheetStack.count == 1)
-        #expect(nav.sheetStack.first == .colorPicker(substance: "Caffeine", remaining: []))
+        #expect(nav.sheetStack.first == .dailyDoseSettings)
     }
 
     @Test
@@ -387,29 +387,7 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack == [.sessionDetail])
     }
 
-    // MARK: - Color picker queue (the Phase 3 bug fix)
-
-    @Test
-    func `Color picker queue advances via replacingTop, then dismisses when empty`() throws {
-        let nav = makeNavigator()
-        // Form presents itself, then on Save replaces with the first picker.
-        nav.present(.entryDetail(timestamp: Date(timeIntervalSince1970: 1), id: nil))
-        nav.present(.colorPicker(substance: "A", remaining: ["B", "C"]), replacingTop: true)
-
-        // Simulate the picker advancing the queue.
-        guard case let .colorPicker(_, r1, _) = nav.sheetStack.last else {
-            Issue.record("Expected color picker on top")
-            return
-        }
-        try nav.present(.colorPicker(substance: #require(r1.first), remaining: Array(r1.dropFirst())), replacingTop: true)
-        nav.present(.colorPicker(substance: "C", remaining: []), replacingTop: true)
-
-        #expect(nav.sheetStack.count == 1)
-        #expect(nav.sheetStack.last == .colorPicker(substance: "C", remaining: []))
-
-        nav.dismiss()
-        #expect(nav.sheetStack.isEmpty)
-    }
+    // MARK: - Flow completion
 
     @Test
     func `dismissAll clears the whole chain (logging-flow completion)`() {
@@ -421,19 +399,6 @@ struct AppNavigatorTests {
         // The save handler for a new entry should land us back at root.
         nav.dismissAll()
         #expect(nav.sheetStack.isEmpty)
-    }
-
-    @Test
-    func `colorPicker route propagates dismissAllOnComplete through Codable`() throws {
-        let route = SheetRoute.colorPicker(substance: "A", remaining: ["B"], dismissAllOnComplete: true)
-        let data = try JSONEncoder().encode(route)
-        let decoded = try JSONDecoder().decode(SheetRoute.self, from: data)
-        #expect(decoded == route)
-        if case let .colorPicker(_, _, flag) = decoded {
-            #expect(flag == true)
-        } else {
-            Issue.record("Expected color picker case")
-        }
     }
 
     // MARK: - Snapshot
@@ -539,8 +504,6 @@ struct RoutesCodableTests {
         ),
         .dailyDoseLog(category: "Antidepressants"),
         .dailyDoseSettings,
-        .colorPicker(substance: "Caffeine", remaining: []),
-        .colorPicker(substance: "A", remaining: ["B", "C"]),
         .timeAdjust(entryTimestamp: Date(timeIntervalSince1970: 300)),
     ])
     func `Each SheetRoute case round-trips`(route: SheetRoute) throws {
@@ -566,7 +529,7 @@ struct RoutesCodableTests {
             ],
             sheetStack: [
                 .entryDetail(timestamp: Date(timeIntervalSince1970: 5), id: nil),
-                .colorPicker(substance: "MDMA", remaining: ["Caffeine"]),
+                .dailyDoseSettings,
             ],
         )
         let decoded = try JSONDecoder().decode(NavigatorSnapshot.self, from: JSONEncoder().encode(snap))

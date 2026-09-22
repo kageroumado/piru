@@ -36,7 +36,7 @@ import Foundation
 
 nonisolated struct ActiveSubstanceState: Codable, Hashable {
     let substanceName: String
-    let colorHex: String
+    let tint: P3Color
     let doseTimestamp: Date
     let amount: Double
     let unit: String
@@ -122,9 +122,9 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     let peakSpreadMinutes: Double?
     let offsetSpreadMinutes: Double?
 
-    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil, comeupSpreadMinutes: Double? = nil, peakSpreadMinutes: Double? = nil, offsetSpreadMinutes: Double? = nil) {
+    init(substanceName: String, tint: P3Color, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil, comeupSpreadMinutes: Double? = nil, peakSpreadMinutes: Double? = nil, offsetSpreadMinutes: Double? = nil) {
         self.substanceName = substanceName
-        self.colorHex = colorHex
+        self.tint = tint
         self.doseTimestamp = doseTimestamp
         self.amount = amount
         self.unit = unit
@@ -149,7 +149,7 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         substanceName = try c.decode(String.self, forKey: .substanceName)
-        colorHex = try c.decode(String.self, forKey: .colorHex)
+        tint = try c.decode(P3Color.self, forKey: .tint)
         doseTimestamp = try c.decode(Date.self, forKey: .doseTimestamp)
         amount = try c.decode(Double.self, forKey: .amount)
         unit = try c.decode(String.self, forKey: .unit)

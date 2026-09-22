@@ -909,7 +909,7 @@ enum InteractionChecker {
 
     /// Build the effect track for an already-logged entry (amount known).
     private static func track(for entry: DoseEntry) -> EffectTrack? {
-        guard let state = ActiveSubstanceState.from(entry: entry, colorHex: "") else { return nil }
+        guard let state = ActiveSubstanceState.from(entry: entry, tint: .neutral) else { return nil }
         return EffectTrack(state: state, start: entry.timestamp, amountKnown: true)
     }
 
@@ -919,7 +919,7 @@ enum InteractionChecker {
     private static func prospectiveTrack(for substanceName: String) -> EffectTrack? {
         guard let substance = SubstanceLibrary.lookup(substanceName) else { return nil }
         let entry = DoseEntry(substance: substanceName, amount: 1, route: substance.defaultRoute)
-        guard let state = ActiveSubstanceState.from(entry: entry, colorHex: "") else { return nil }
+        guard let state = ActiveSubstanceState.from(entry: entry, tint: .neutral) else { return nil }
         return EffectTrack(state: state, start: entry.timestamp, amountKnown: false)
     }
 

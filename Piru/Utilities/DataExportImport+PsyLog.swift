@@ -61,30 +61,24 @@ private enum PsyLogColorMap {
         "TOMATO": "FF6347",
     ]
 
-    private static let hexToName: [String: String] = Dictionary(nameToHex.map { ($0.value.uppercased(), $0.key) }, uniquingKeysWith: { first, _ in first })
-
-    static func hex(from name: String) -> String {
-        nameToHex[name.uppercased()] ?? PresetColor.defaultHex
-    }
-
-    static func name(from hex: String) -> String {
-        let hex = hex.uppercased()
-        if let exact = hexToName[hex] { return exact }
-        let t = rgb(hex)
+    /// The PsyLog color nearest `tint`, by Oklab distance. PsyLog stores a
+    /// name from its fixed palette, so any Piru color exports as the closest
+    /// one it has.
+    static func name(nearest tint: P3Color) -> String {
+        let target = oklab(Oklch(displayP3: tint))
         var closest = "BLUE"
-        var minDist = Double.greatestFiniteMagnitude
-        for (name, colorHex) in nameToHex {
-            let c = rgb(colorHex)
-            let d = pow(t.0 - c.0, 2) + pow(t.1 - c.1, 2) + pow(t.2 - c.2, 2)
-            if d < minDist { minDist = d; closest = name }
+        var minDistance = Double.greatestFiniteMagnitude
+        for (name, hex) in nameToHex {
+            let candidate = oklab(Oklch(displayP3: LegacyColorImport.p3(fromSRGBHex: hex)))
+            let distance = pow(target.l - candidate.l, 2) + pow(target.a - candidate.a, 2) + pow(target.b - candidate.b, 2)
+            if distance < minDistance { minDistance = distance; closest = name }
         }
         return closest
     }
 
-    private static func rgb(_ hex: String) -> (Double, Double, Double) {
-        var int: UInt64 = 0
-        Scanner(string: hex.trimmingCharacters(in: .alphanumerics.inverted)).scanHexInt64(&int)
-        return (Double((int >> 16) & 0xFF), Double((int >> 8) & 0xFF), Double(int & 0xFF))
+    private static func oklab(_ color: Oklch) -> (l: Double, a: Double, b: Double) {
+        let radians = color.h * .pi / 180
+        return (color.l, color.c * cos(radians), color.c * sin(radians))
     }
 }
 
@@ -507,7 +501,7 @@ extension DataExportImport {
         }
 
         let companions = colors.map {
-            PsyLogCompanion(color: PsyLogColorMap.name(from: $0.hexColor), substanceName: $0.substance)
+            PsyLogCompanion(color: PsyLogColorMap.name(nearest: $0.tint), substanceName: $0.substance)
         }
         return PsyLogFile(experiences: experiences, companions: companions)
     }
@@ -602,29 +596,14 @@ extension DataExportImport {
             SessionNoteService.ensureSummaryNote(for: session)
         }
 
-        // Track imported colors to avoid duplicates — seeded with existing
-        // colors so a merge doesn't insert a second row for a substance.
-        var importedColors = Set(((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).map { $0.substance.lowercased() })
-
-        for companion in file.substanceCompanions {
-            let key = companion.substanceName.lowercased()
-            guard !importedColors.contains(key) else { continue }
-            importedColors.insert(key)
-            context.insert(SubstanceColor(
-                substance: companion.substanceName,
-                hexColor: PsyLogColorMap.hex(from: companion.color),
-            ))
-        }
-
-        // Import colors from custom units that aren't already in companions
-        for cu in file.customUnits {
-            guard let colorName = cu.color,
-                  !importedColors.contains(cu.name.lowercased()) else { continue }
-            importedColors.insert(cu.name.lowercased())
-            context.insert(SubstanceColor(
-                substance: cu.name,
-                hexColor: PsyLogColorMap.hex(from: colorName),
-            ))
+        // PsyLog makes every substance carry one of its palette names; those
+        // are dropped in favor of Piru's class colors, so an import doesn't
+        // arrive as a list of "custom" colors the user never chose here.
+        var colorRows = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
+        for name in file.substanceCompanions.map(\.substanceName) {
+            if let row = SubstanceColorStore.ensureRow(for: name, existing: colorRows, in: context) {
+                colorRows.append(row)
+            }
         }
 
         // Import daily dose items, skip duplicates by substance name

@@ -21,7 +21,7 @@ enum SessionService {
     static func clusterDose(for entry: DoseEntry) -> SessionClustering.Dose {
         SessionClustering.Dose(
             timestamp: entry.timestamp,
-            effectDurationMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "")?.totalMinutes,
+            effectDurationMinutes: ActiveSubstanceState.from(entry: entry, tint: .neutral)?.totalMinutes,
             isBackgroundMed: entry.isBackgroundMed,
         )
     }

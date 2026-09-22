@@ -25,7 +25,7 @@ struct QuickLogStagePayload {
     let route: RouteOfAdministration
     let unit: String
     let amount: Double
-    let colorHex: String?
+    let tint: P3Color?
     let librarySubstance: Substance?
     /// The name the user actually named this dose by — the catalog alias their
     /// query matched ("Concerta", "Vyvanse"). `nil` when they searched the
@@ -104,7 +104,7 @@ struct QuickLogSearchResults: View {
                 result: result,
                 name: card.title ?? customSubstanceStore.displayName(for: card.substanceName),
                 source: String(localized: "Recent"),
-                tint: card.colorHex.map { Color(hex: $0) } ?? .gray,
+                tint: card.tint?.color ?? .gray,
                 detail: card.routes.first?.librarySubstance.flatMap { substanceDetail($0) }
                     ?? card.routes.first.map { String(localized: $0.route.localizedName) },
             )
@@ -235,7 +235,7 @@ struct QuickLogSearchResults: View {
                 route: group?.route ?? .oral,
                 unit: chip?.unit ?? "mg",
                 amount: chip?.amount ?? 0,
-                colorHex: card.colorHex,
+                tint: card.tint,
                 librarySubstance: group?.librarySubstance,
                 productName: group?.stageProductName,
                 volumeML: chip?.volumeML,
@@ -269,7 +269,7 @@ struct QuickLogSearchResults: View {
             route: route,
             unit: unit,
             amount: StagedDose.lookupReferenceDose(substance: substance, route: route, unit: unit, saltForm: saltForm) ?? 0,
-            colorHex: nil,
+            tint: nil,
             librarySubstance: substance,
             productName: productName,
             saltForm: saltForm,

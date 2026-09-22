@@ -83,7 +83,7 @@ struct EntrySessionSection: View {
     /// Whether any dose in the session is still inside its modeled effect window.
     static func isActive(_ session: Session) -> Bool {
         session.orderedDoses.contains { dose in
-            guard let state = ActiveSubstanceState.from(entry: dose, colorHex: "000000") else { return false }
+            guard let state = ActiveSubstanceState.from(entry: dose, tint: .neutral) else { return false }
             let end = state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60)
             return Date.now >= state.doseTimestamp && Date.now < end
         }
@@ -124,7 +124,7 @@ struct EntrySiblingRow: View {
         return HStack(spacing: Spacing.md) {
             Image(systemName: "circle.fill")
                 .font(.chartAnnotation)
-                .foregroundStyle(colorMap[dose.substance.lowercased()] ?? Color(hex: PresetColor.defaultHex))
+                .foregroundStyle(SubstancePalette.color(for: dose.substance, colorMap: colorMap))
                 .accessibilityHidden(true)
             Text("with \(detail)")
                 .font(.subheadline)

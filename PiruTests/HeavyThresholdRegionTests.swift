@@ -20,7 +20,7 @@ struct HeavyThresholdRegionTests {
     ) -> ActiveSubstanceState {
         ActiveSubstanceState(
             substanceName: name,
-            colorHex: "FF66AA",
+            tint: P3Color(red: 0.929, green: 0.439, blue: 0.660),
             doseTimestamp: timestamp ?? t0,
             amount: 20,
             unit: "mg",
@@ -154,7 +154,7 @@ struct HeavyThresholdRegionTests {
         // The field is append-only; an activity started by a build that predates
         // it must decode to "no region", not fail.
         let legacy = """
-        {"substanceName":"Testine","colorHex":"FF66AA","doseTimestamp":0,"amount":20,"unit":"mg",
+        {"substanceName":"Testine","tint":[1,0.4,0.67],"doseTimestamp":0,"amount":20,"unit":"mg",
          "route":"oral","onsetEndMinutes":30,"comeupEndMinutes":60,"peakEndMinutes":180,
          "offsetEndMinutes":360,"totalMinutes":360,"doseIntensity":0.7,"doseMagnitude":0.7}
         """

@@ -131,7 +131,7 @@ struct ParameterSection: View {
             }
         } header: {
             HStack(spacing: Spacing.sm) {
-                LegendDot(color: Color(hex: row.colorHex))
+                LegendDot(color: row.tint.color)
                 Text(verbatim: row.displayName)
                 Text(row.route.localizedName)
                     .foregroundStyle(Theme.secondaryLabel)

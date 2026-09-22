@@ -67,7 +67,7 @@ nonisolated struct PiruCustomSubstanceData: Codable {
 /// Piru's own export shape — a complete, lossless dump of the user's data,
 /// including the things the PsyLog/PW format can't represent: session titles &
 /// notes, per-dose location and background-med flag, real tag arrays,
-/// favorites, user colors, and daily-dose schedules. Detected on import by
+/// favorites, picked colors, and daily-dose schedules. Detected on import by
 /// the `piruExportVersion` key. Timestamps are epoch milliseconds, matching the
 /// PsyLog format's convention.
 nonisolated struct PiruFile: Codable {
@@ -79,8 +79,9 @@ nonisolated struct PiruFile: Codable {
     /// Doses not assigned to any session (defensive; normally empty).
     var orphanDoses: [PiruDoseData]
     var dailyDoseItems: [PiruDailyDoseData]
+    /// Colors the user picked. A substance on its class color is absent: the
+    /// importing device generates the same color for it.
     var substanceColors: [PiruColorData]
-    var userColors: [PiruUserColorData]
     var favorites: [PiruFavoriteData]
     var customSubstances: [PiruCustomSubstanceData]
     /// Optional for back-compat: files written before inventory tracking omit
@@ -103,7 +104,6 @@ extension PiruFile {
         orphanDoses = try c.decodeIfPresent([PiruDoseData].self, forKey: .orphanDoses) ?? []
         dailyDoseItems = try c.decodeIfPresent([PiruDailyDoseData].self, forKey: .dailyDoseItems) ?? []
         substanceColors = try c.decodeIfPresent([PiruColorData].self, forKey: .substanceColors) ?? []
-        userColors = try c.decodeIfPresent([PiruUserColorData].self, forKey: .userColors) ?? []
         favorites = try c.decodeIfPresent([PiruFavoriteData].self, forKey: .favorites) ?? []
         customSubstances = try c.decodeIfPresent([PiruCustomSubstanceData].self, forKey: .customSubstances) ?? []
         inventory = try c.decodeIfPresent([PiruInventoryData].self, forKey: .inventory)
@@ -206,15 +206,16 @@ nonisolated struct PiruDailyDoseData: Codable {
     var startDate: Int64
 }
 
+/// One picked color. Format 2 writes `p3`; format 1 files carry `hexColor`, an
+/// sRGB hex, for every substance the exporting device had met.
 nonisolated struct PiruColorData: Codable {
     var substance: String
-    var hexColor: String
-}
+    var p3: P3Color?
+    var hexColor: String?
 
-nonisolated struct PiruUserColorData: Codable {
-    var hex: String
-    var name: String
-    var createdAt: Int64
+    var tint: P3Color? {
+        p3 ?? hexColor.map(LegacyColorImport.p3(fromSRGBHex:))
+    }
 }
 
 nonisolated struct PiruFavoriteData: Codable {
@@ -264,7 +265,6 @@ extension DataExportImport {
         let allEntries = try context.fetch(FetchDescriptor<DoseEntry>())
         let dailyDoses = try context.fetch(FetchDescriptor<DailyDoseItem>())
         let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
-        let userColors = try context.fetch(FetchDescriptor<UserColor>())
         let favorites = try context.fetch(FetchDescriptor<FavoriteSubstance>())
         let inventoryItems = try context.fetch(FetchDescriptor<InventoryItem>())
 
@@ -312,8 +312,9 @@ extension DataExportImport {
             sessions: sessionData,
             orphanDoses: orphans,
             dailyDoseItems: daily,
-            substanceColors: colors.map { PiruColorData(substance: $0.substance, hexColor: $0.hexColor) },
-            userColors: userColors.map { PiruUserColorData(hex: $0.hex, name: $0.name, createdAt: $0.createdAt.msSince1970) },
+            substanceColors: colors
+                .filter { !$0.usesDefault || $0.isLegacy }
+                .map { PiruColorData(substance: $0.substance, p3: $0.tint) },
             favorites: favorites.map { PiruFavoriteData(substance: $0.substance, createdAt: $0.createdAt.msSince1970) },
             customSubstances: customStore.all.map(PiruCustomSubstanceData.init),
             inventory: inventoryItems.map { item in
@@ -443,16 +444,9 @@ extension DataExportImport {
 
         // Colors — skip substances that already have one.
         var importedColors = Set(((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).map { $0.substance.lowercased() })
-        for color in file.substanceColors where importedColors.insert(color.substance.lowercased()).inserted {
-            context.insert(SubstanceColor(substance: color.substance, hexColor: color.hexColor))
-        }
-
-        // User-defined palette colors — dedup by hex.
-        let existingUserHexes = Set(((try? context.fetch(FetchDescriptor<UserColor>())) ?? []).map { $0.hex.uppercased() })
-        for uc in file.userColors where !existingUserHexes.contains(uc.hex.uppercased()) {
-            let color = UserColor(hex: uc.hex, name: uc.name)
-            color.createdAt = Date(ms: uc.createdAt)
-            context.insert(color)
+        for color in file.substanceColors {
+            guard let tint = color.tint, importedColors.insert(color.substance.lowercased()).inserted else { continue }
+            context.insert(SubstanceColor(substance: color.substance, tint: tint, usesDefault: false))
         }
 
         // Favorites — dedup by substance.

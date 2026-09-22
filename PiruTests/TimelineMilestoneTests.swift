@@ -72,7 +72,7 @@ struct CurveMilestonePolicyTests {
     private func state(_ name: String) -> ActiveSubstanceState? {
         ActiveSubstanceState(
             name: name,
-            colorHex: "#FF0000",
+            tint: P3Color(red: 0.917, green: 0.200, blue: 0.139),
             timestamp: .now,
             amount: 10,
             unit: "mg",

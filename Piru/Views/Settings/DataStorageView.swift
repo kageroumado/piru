@@ -198,7 +198,6 @@ private struct LocalStorageSection: View {
     @Query private var dailyItems: [DailyDoseItem]
     @Query private var favorites: [FavoriteSubstance]
     @Query private var substanceColors: [SubstanceColor]
-    @Query private var userColors: [UserColor]
     @Query private var quickLogDoses: [QuickLogDose]
     @Query private var inventoryItems: [InventoryItem]
 
@@ -213,7 +212,7 @@ private struct LocalStorageSection: View {
             CountRow(
                 title: "Custom Colors",
                 systemImage: "paintpalette",
-                count: substanceColors.count + userColors.count,
+                count: substanceColors.count { !$0.usesDefault || $0.isLegacy },
             )
             LabeledContent {
                 Text(DataStorageFormat.byteString(StoreRecovery.canonicalStoreBytes()))

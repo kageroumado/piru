@@ -41,17 +41,6 @@ struct ColorHexExtendedTests {
         #expect(abs(b - 0.502) < 0.01)
     }
 
-    @Test
-    func `Parses preset color hex values correctly`() {
-        // Just verify that preset hex values produce non-black colors
-        for preset in PresetColor.all.prefix(5) {
-            let color = Color(hex: preset.hex)
-            let (r, g, b) = rgb(from: color)
-            let isNotBlack = r > 0.01 || g > 0.01 || b > 0.01
-            #expect(isNotBlack, "\(preset.name) (\(preset.hex)) should not be black")
-        }
-    }
-
     // MARK: - Invalid inputs
 
     @Test

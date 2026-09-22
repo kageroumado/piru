@@ -2,7 +2,7 @@ import Foundation
 
 /// A cheap content fingerprint of the substance-color assignments, for
 /// `task(id:)` tokens that must refresh on a recolor — color edits mutate
-/// `hexColor` in place, so a `.count` key misses them, and they don't funnel
+/// the row in place, so a `.count` key misses them, and they don't funnel
 /// through ``DoseLogService`` (which covers only the dose log itself).
 ///
 /// Dose-history refresh tokens use ``DoseLogService/revision`` instead:
@@ -13,7 +13,7 @@ enum ColorsFingerprint {
         var hasher = Hasher()
         for color in colors {
             hasher.combine(color.substance)
-            hasher.combine(color.hexColor)
+            hasher.combine(color.tint)
         }
         return hasher.finalize()
     }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// A one-time invite to the community Discord, shown once the user is engaged (see
-/// `DiscordInviteModifier`). Closing or joining both retire it — there's no repeat nag.
+/// `LaunchSheetModifier`). Closing or joining both retire it — there's no repeat nag.
 struct DiscordPromptView: View {
     @AppStorage("discordPromptDismissedForever") private var dismissedForever = false
     @Environment(\.dismiss) private var dismiss

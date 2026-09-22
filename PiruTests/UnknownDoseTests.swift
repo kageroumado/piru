@@ -18,11 +18,11 @@ struct UnknownDoseTests {
 
     @Test
     func `An unknown dose draws no effect curve`() {
-        let state = ActiveSubstanceState.from(entry: unknown("Caffeine"), colorHex: "#FF0000")
+        let state = ActiveSubstanceState.from(entry: unknown("Caffeine"), tint: P3Color(red: 0.917, green: 0.200, blue: 0.139))
         #expect(state == nil)
         // The control: the same dose with a number draws.
         let known = DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", route: .oral, timestamp: Self.now)
-        #expect(ActiveSubstanceState.from(entry: known, colorHex: "#FF0000") != nil)
+        #expect(ActiveSubstanceState.from(entry: known, tint: P3Color(red: 0.917, green: 0.200, blue: 0.139)) != nil)
     }
 
     @Test
@@ -79,7 +79,7 @@ struct UnknownDoseTests {
     @Test
     func `A staged dose declared unknown commits without an amount`() {
         let tray = DoseTrayModel()
-        tray.stageDraft(substance: "Cocaine", route: .insufflation, unit: "mg", colorHex: nil, librarySubstance: nil)
+        tray.stageDraft(substance: "Cocaine", route: .insufflation, unit: "mg", tint: nil, librarySubstance: nil)
         tray.staged[0].amount = 0
         #expect(!tray.isCommittable)
 

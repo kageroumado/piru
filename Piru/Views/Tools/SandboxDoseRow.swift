@@ -65,7 +65,7 @@ struct SandboxDoseRow: View {
         Button(action: onPickSubstance) {
             HStack(spacing: Spacing.md) {
                 Circle()
-                    .fill(Color(hex: row.colorHex))
+                    .fill(row.tint.color)
                     .frame(width: 10, height: 10)
                     .accessibilityHidden(true)
                 Text(row.substance == nil ? String(localized: "Choose substance") : row.displayName)
@@ -106,7 +106,7 @@ struct SandboxDoseRow: View {
             Slider(value: amountBinding, in: 0 ... scale.upperBound, step: scale.step) { editing in
                 onThumbHeldChange(editing)
             }
-            .tint(Color(hex: row.colorHex))
+            .tint(row.tint.color)
             .background(alignment: .leading) { tierTicks(scale) }
             // `minimumDistance: 0` fires on touch-down, before any movement — the
             // back-swipe has to be suspended *before* the pan is recognized, so

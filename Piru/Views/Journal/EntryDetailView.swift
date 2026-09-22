@@ -43,14 +43,14 @@ struct EntryDetailView: View {
 
     // MARK: - Derived
 
-    private var currentColorHex: String {
+    private var currentTint: P3Color {
         substanceColors.first {
             $0.substance.lowercased() == entry.substance.lowercased()
-        }?.hexColor ?? PresetColor.defaultHex
+        }?.tint ?? SubstancePalette.fallback(for: entry.substance)
     }
 
     private var substanceColor: Color {
-        Color(hex: currentColorHex)
+        currentTint.color
     }
 
     private var byVolumeCapability: ByVolumeDosing? {
@@ -60,7 +60,7 @@ struct EntryDetailView: View {
     /// Read-mode PK state driving the hero graph and live progress. Never reads
     /// the draft — edit mode's live preview is owned by ``EntryEditContent``.
     private var readState: ActiveSubstanceState? {
-        ActiveSubstanceState.from(entry: entry, colorHex: currentColorHex)
+        ActiveSubstanceState.from(entry: entry, tint: currentTint)
     }
 
     /// Whether the dose's effect window still includes the current moment — gates
@@ -81,7 +81,7 @@ struct EntryDetailView: View {
                         entry: entry,
                         substance: substanceInfo,
                         substanceColor: substanceColor,
-                        colorHex: currentColorHex,
+                        tint: currentTint,
                         showColorPicker: $showColorPicker,
                         showLocationPicker: $showLocationPicker,
                         showingDeleteConfirmation: $showingDeleteConfirmation,
@@ -133,18 +133,7 @@ struct EntryDetailView: View {
                 Text("\(entry.amountDisplay) \(entry.unit) \(DoseTitle.resolve(for: entry)) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
             }
             .sheet(isPresented: $showColorPicker) {
-                SubstanceColorPickerView(
-                    substanceName: entry.substance,
-                    takenColors: Array(substanceColors).takenColorMap,
-                ) { hex in
-                    if let existing = substanceColors.first(where: { $0.substance.lowercased() == entry.substance.lowercased() }) {
-                        existing.hexColor = hex
-                    } else {
-                        modelContext.insert(SubstanceColor(substance: entry.substance, hexColor: hex))
-                    }
-                    showColorPicker = false
-                }
-                .presentationDetents([.large])
+                SubstanceColorPickerView(substanceName: entry.substance) { showColorPicker = false }
             }
             .sheet(isPresented: $showLocationPicker) {
                 LocationPickerView { picked in draft.location = picked }
@@ -265,13 +254,13 @@ struct EntryDetailView: View {
 
         // The session accessory & Live Activity read ActiveSessionManager's
         // snapshot, not SwiftData — sync it so they reflect the edit immediately.
-        let colorHex = SubstancePalette.hex(for: entry.substance, hexMap: Array(substanceColors).hexColorMap)
+        let tint = SubstancePalette.tint(for: entry.substance, tintMap: Array(substanceColors).tintMap)
         ActiveSessionManager.shared.updateDose(
             previousSubstanceName: previousSubstanceName,
             previousTimestamp: previousTimestamp,
             entry: entry,
             substance: sub,
-            colorHex: colorHex,
+            tint: tint,
             allColors: Array(substanceColors),
         )
 

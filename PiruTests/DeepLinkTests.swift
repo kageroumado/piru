@@ -416,7 +416,7 @@ struct DeepLinkTests {
     func `Encoding an unrepresentable sheet returns nil`() {
         let snap = NavigatorSnapshot(
             selectedTab: .journal,
-            sheetStack: [.colorPicker(substance: "MDMA")],
+            sheetStack: [.timeAdjust(entryTimestamp: Date(timeIntervalSince1970: 300))],
         )
         #expect(DeepLink.encode(snap) == nil)
     }

@@ -26,7 +26,7 @@ struct ZeroOrderPKTests {
     private func alcohol(grams: Double, name: String = "Alcohol") -> ActiveSubstanceState {
         ActiveSubstanceState(
             substanceName: name,
-            colorHex: "FF66AA",
+            tint: P3Color(red: 0.929, green: 0.439, blue: 0.660),
             doseTimestamp: Date(timeIntervalSince1970: 0),
             amount: grams,
             unit: "g",

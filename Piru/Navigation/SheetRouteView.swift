@@ -56,13 +56,6 @@ struct SheetRouteView: View {
                 }
             }
 
-        case let .colorPicker(substance, remaining, dismissAllOnComplete):
-            ColorPickerHost(
-                substance: substance,
-                remaining: remaining,
-                dismissAllOnComplete: dismissAllOnComplete,
-            )
-
         case let .timeAdjust(timestamp):
             EntryLookupView(id: nil, timestamp: timestamp) { entry in
                 TimeAdjustHost(entry: entry)
@@ -160,64 +153,6 @@ private struct EntryLookupView<Content: View>: View {
 
     private func lookup() -> DoseEntry? {
         DoseEntry.resolveForRoute(id: id, near: timestamp, in: modelContext)
-    }
-}
-
-/// Color picker host that persists the chosen color and either advances the
-/// remaining queue (via `replacingTop`) or dismisses when done. Replaces the
-/// chained `onDismiss` color loop in `LogMedicationsView` and `QuickLogView`.
-///
-/// SubstanceColorPickerView does not call `dismiss()` internally — the host
-/// owns the transition, either via `replacingTop` (when the queue has more
-/// substances) or `navigator.dismiss()` (when empty). This avoids the
-/// `@Environment(\.dismiss)` → sheet-binding-nil → `truncateSheetStack` chain
-/// that would otherwise wipe the queue between picks.
-private struct ColorPickerHost: View {
-    let substance: String
-    let remaining: [String]
-    let dismissAllOnComplete: Bool
-
-    @Environment(\.appNavigator) private var navigator
-    @Environment(\.modelContext) private var modelContext
-    @Query private var substanceColors: [SubstanceColor]
-
-    var body: some View {
-        SubstanceColorPickerView(
-            substanceName: substance,
-            // `takenColorMap` uses `uniquingKeysWith:`: two substances may
-            // legitimately share a hex, and building this dictionary with
-            // `Dictionary(uniqueKeysWithValues:)` instead traps on any
-            // duplicate-hex assignment.
-            takenColors: Array(substanceColors).takenColorMap,
-        ) { hex in
-            let color = SubstanceColor(substance: substance, hexColor: hex)
-            modelContext.insert(color)
-            // Re-read all colors from the store and patch the active session
-            // so any in-flight doses for this substance pick up the new color.
-            // `refresh()` alone would only prune; we need a full color refresh.
-            let allColors = (try? modelContext.fetch(FetchDescriptor<SubstanceColor>())) ?? []
-            ActiveSessionManager.shared.applyColorUpdates(allColors: allColors)
-            advance()
-        }
-    }
-
-    private func advance() {
-        if let next = remaining.first {
-            // Carry the dismiss flag through the queue so the final pick
-            // honours the originating flow's request.
-            navigator.present(
-                .colorPicker(
-                    substance: next,
-                    remaining: Array(remaining.dropFirst()),
-                    dismissAllOnComplete: dismissAllOnComplete,
-                ),
-                replacingTop: true,
-            )
-        } else if dismissAllOnComplete {
-            navigator.dismissAll()
-        } else {
-            navigator.dismiss()
-        }
     }
 }
 

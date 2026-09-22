@@ -181,7 +181,7 @@ private struct JournalMock: View {
     private var states: [ActiveSubstanceState] {
         [
             ActiveSubstanceState(
-                substanceName: "Ibuprofen", colorHex: "4C8CF2",
+                substanceName: "Ibuprofen", tint: P3Color(red: 0.359, green: 0.543, blue: 0.921),
                 doseTimestamp: now.addingTimeInterval(-160 * 60),
                 amount: 400, unit: "mg", route: "oral",
                 onsetEndMinutes: 30, comeupEndMinutes: 75, peakEndMinutes: 120,
@@ -189,7 +189,7 @@ private struct JournalMock: View {
                 doseIntensity: 0.55,
             ),
             ActiveSubstanceState(
-                substanceName: "Caffeine", colorHex: "F0598C",
+                substanceName: "Caffeine", tint: P3Color(red: 0.873, green: 0.389, blue: 0.548),
                 doseTimestamp: now.addingTimeInterval(-80 * 60),
                 amount: 80, unit: "mg", route: "oral",
                 onsetEndMinutes: 15, comeupEndMinutes: 45, peakEndMinutes: 80,
@@ -197,7 +197,7 @@ private struct JournalMock: View {
                 doseIntensity: 0.8,
             ),
             ActiveSubstanceState(
-                substanceName: "Alcohol", colorHex: "F59E42",
+                substanceName: "Alcohol", tint: P3Color(red: 0.912, green: 0.635, blue: 0.332),
                 doseTimestamp: now.addingTimeInterval(-15 * 60),
                 amount: 2, unit: "drinks", route: "oral",
                 onsetEndMinutes: 10, comeupEndMinutes: 30, peakEndMinutes: 55,

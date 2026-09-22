@@ -14,7 +14,7 @@ struct ContentView: View {
     /// A thin root. `MainTabView` now owns its own search state (no bindings in),
     /// so it has zero stored inputs and SwiftUI skips re-evaluating it whenever
     /// this body re-runs (scene-phase change). The launch chrome — onboarding,
-    /// the Discord invite, the store-health alert + diagnostics — lives in
+    /// the launch sheets, the store-health alert + diagnostics — lives in
     /// self-owning `ViewModifier`s so their `@State` churn stays out of this body
     /// (and out of the tab tree). No more `.equatable()` band-aid: an input-free
     /// view is trivially comparable.
@@ -23,7 +23,7 @@ struct ContentView: View {
             .sheetStackPresenter(navigator)
             .dismissesKeyboardOnTap()
             .modifier(OnboardingGateModifier())
-            .modifier(DiscordInviteModifier())
+            .modifier(LaunchSheetModifier())
             .modifier(StoreDiagnosticsModifier())
             .onOpenURL { handleDeepLink($0) }
         #if DEBUG
@@ -95,42 +95,6 @@ private struct OnboardingGateModifier: ViewModifier {
                 OnboardingView()
             }
         #endif
-    }
-}
-
-/// Invites the user to the community Discord — but only once they're genuinely engaged: past the
-/// first couple of sessions (`appLaunchCount >= 3`) and having logged at least one dose. Shown a
-/// single time, never in the first session, and never stacked on the first-run tips (a logged dose
-/// means the "log a dose" tip has already retired). A brand-new user is never ambushed; someone who
-/// keeps coming back gets a genuine invitation.
-private struct DiscordInviteModifier: ViewModifier {
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    @AppStorage("discordPromptShown") private var discordShown = false
-    @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
-    @AppStorage("appLaunchCount") private var appLaunchCount = 0
-    @Environment(\.modelContext) private var modelContext
-    @State private var showDiscordPrompt = false
-
-    func body(content: Content) -> some View {
-        content
-            .sheet(isPresented: $showDiscordPrompt) {
-                DiscordPromptView()
-            }
-            .task {
-                #if DEBUG
-                    // Same opt-in as the tips: a reset simulator would otherwise re-invite on
-                    // every third launch.
-                    guard UserDefaults.standard.bool(forKey: "piruShowTips") else { return }
-                #endif
-                guard hasCompletedOnboarding, !discordShown, !discordDismissed, appLaunchCount >= 3
-                else { return }
-                let hasDose = ((try? modelContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0) > 0
-                guard hasDose else { return }
-                try? await Task.sleep(for: .seconds(1.0))
-                guard !discordShown, !discordDismissed else { return }
-                discordShown = true
-                showDiscordPrompt = true
-            }
     }
 }
 

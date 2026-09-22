@@ -33,7 +33,7 @@ struct DoseSummary: Identifiable {
     let substance: String
     let totalAmount: Double
     let unit: String
-    let colorHex: String
+    let tint: P3Color
     let lastTime: Date
 }
 
@@ -42,8 +42,8 @@ struct DoseSummary: Identifiable {
 struct TodaySummaryProvider: TimelineProvider {
     func placeholder(in _: Context) -> TodaySummaryEntry {
         TodaySummaryEntry(date: .now, doses: [
-            DoseSummary(substance: "Caffeine", totalAmount: 200, unit: "mg", colorHex: "F57878", lastTime: .now),
-            DoseSummary(substance: "Vyvanse", totalAmount: 40, unit: "mg", colorHex: "F57896", lastTime: .now),
+            DoseSummary(substance: "Caffeine", totalAmount: 200, unit: "mg", tint: P3Color(red: 0.898, green: 0.498, blue: 0.485), lastTime: .now),
+            DoseSummary(substance: "Vyvanse", totalAmount: 40, unit: "mg", tint: P3Color(red: 0.898, green: 0.498, blue: 0.590), lastTime: .now),
         ], totalCount: 3)
     }
 
@@ -74,10 +74,7 @@ struct TodaySummaryProvider: TimelineProvider {
         let colorDescriptor = FetchDescriptor<SubstanceColor>()
 
         let colors = (try? context.fetch(colorDescriptor)) ?? []
-        let colorMap = Dictionary(uniqueKeysWithValues: colors.compactMap { color -> (String, String)? in
-            let hex = color.hexColor; guard !hex.isEmpty else { return nil }
-            return (color.substance.lowercased(), hex)
-        })
+        let colorMap = colors.tintMap
 
         // Group by substance, tracking the distinct product names each group holds
         // (empty string = a dose logged with no product) so a single-brand group
@@ -116,7 +113,7 @@ struct TodaySummaryProvider: TimelineProvider {
                 substance: displayNames[name.lowercased()] ?? brand ?? name,
                 totalAmount: data.total,
                 unit: data.unit,
-                colorHex: colorMap[name.lowercased()] ?? "F56297",
+                tint: colorMap[name.lowercased()] ?? .neutral,
                 lastTime: data.lastTime,
             )
         }.sorted { $0.lastTime > $1.lastTime }
@@ -175,7 +172,7 @@ struct TodaySummaryView: View {
                 ForEach(entry.doses.prefix(3)) { dose in
                     HStack(spacing: 6) {
                         Circle()
-                            .fill(Color(hex: dose.colorHex))
+                            .fill(dose.tint.color)
                             .frame(width: 6, height: 6)
                         Text(dose.substance)
                             .font(.caption2.weight(.medium))
@@ -219,7 +216,7 @@ struct TodaySummaryView: View {
                 ForEach(entry.doses.prefix(6)) { dose in
                     HStack(spacing: 6) {
                         RoundedRectangle(cornerRadius: 2)
-                            .fill(Color(hex: dose.colorHex))
+                            .fill(dose.tint.color)
                             .frame(width: 3, height: 20)
                         VStack(alignment: .leading, spacing: 0) {
                             Text(dose.substance)

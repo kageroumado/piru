@@ -21,8 +21,8 @@ enum SessionTiming {
 
     /// Substance colors, falling back to the app's soft-pink accent when empty.
     static func colors(_ state: PiruActivityAttributes.ContentState) -> [Color] {
-        let colors = state.activeSubstances.map { Color(hex: $0.colorHex) }
-        return colors.isEmpty ? [Color(hex: "FFAACC")] : colors
+        let colors = state.activeSubstances.map(\.tint.color)
+        return colors.isEmpty ? [P3Color.neutral.color] : colors
     }
 
     /// The next phase boundary any active substance will cross, evaluated at
@@ -54,7 +54,7 @@ enum SessionTiming {
                 let date = sub.doseTimestamp.addingTimeInterval(minutes * 60)
                 guard date > now else { continue }
                 if next == nil || date < next!.date {
-                    next = PhaseTransition(phase: phase, date: date, color: Color(hex: sub.colorHex))
+                    next = PhaseTransition(phase: phase, date: date, color: sub.tint.color)
                 }
             }
         }
@@ -173,7 +173,7 @@ struct SessionRingsView: View {
             let subEnd = fraction(sub.doseTimestamp.addingTimeInterval(sub.totalMinutes * 60))
             let now = fraction(.now)
             let end = min(max(min(now, subEnd), start + Self.minimumSweep), 1)
-            return Ring(id: index, color: Color(hex: sub.colorHex), startFraction: start, endFraction: end)
+            return Ring(id: index, color: sub.tint.color, startFraction: start, endFraction: end)
         }
     }
 

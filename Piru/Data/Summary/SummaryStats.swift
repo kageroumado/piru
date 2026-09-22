@@ -22,7 +22,7 @@ nonisolated enum ExposureCurrency: String, Sendable, Codable {
 nonisolated struct SummarySubstance: Sendable {
     let name: String
     let displayName: String
-    let colorHex: String
+    let tint: P3Color
     /// The unit doses are shown in (the logged unit, or "MME"/"mg diazepam-eq").
     let unit: String
     let currency: ExposureCurrency

@@ -9,6 +9,34 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Substance color system (class colors, Oklch picker, update notice)
+    "Class color": ("类别颜色", "類別顏色"),
+    "Custom color": ("自定义颜色", "自訂顏色"),
+    "Use Class Color": ("使用类别颜色", "使用類別顏色"),
+    "Lightness": ("明度", "明度"),
+    "Chroma": ("彩度", "彩度"),
+    "Hue": ("色相", "色相"),
+    "Search Colors": ("搜索颜色", "搜尋顏色"),
+    "Reset All": ("全部重置", "全部重置"),
+    "Reset every substance to its class color?": (
+        "将所有物质重置为类别颜色？",
+        "將所有物質重置為類別顏色？",
+    ),
+    "Colors you picked yourself are replaced.": (
+        "你自己挑选的颜色将被替换。",
+        "你自己挑選的顏色將被取代。",
+    ),
+    "Colors now follow class": ("颜色现在跟随类别", "顏色現在跟隨類別"),
+    "Every substance now gets a color from its class — stimulants share one family, psychedelics another — so a timeline reads at a glance. You can still give any substance a color of your own.": (
+        "现在每种物质都会从所属类别获得颜色——兴奋剂属于一个色系，致幻剂属于另一个——时间线一眼就能看懂。你仍然可以为任何物质自选颜色。",
+        "現在每種物質都會從所屬類別獲得顏色——興奮劑屬於一個色系，致幻劑屬於另一個——時間軸一眼就能看懂。你仍然可以為任何物質自選顏色。",
+    ),
+    "You have %lld substances with colors from before. Move them to class colors, or keep them exactly as they are.": (
+        "你有 %lld 种物质沿用着之前的颜色。可以将它们改为类别颜色，也可以原样保留。",
+        "你有 %lld 種物質沿用著之前的顏色。可以將它們改為類別顏色，也可以原樣保留。",
+    ),
+    "Use Class Colors": ("使用类别颜色", "使用類別顏色"),
+    "Keep My Colors": ("保留我的颜色", "保留我的顏色"),
     # The check-in schedule section on the session screen, the sociability
     # scale, and the per-class reassurance added with the split lens sets.
     "Sociability": ("社交欲", "社交慾"),

@@ -243,34 +243,10 @@ struct InventoryListView: View {
         .listRowBackground(CardBackground())
     }
 
-    /// The whole header is the fold control — a small chevron alone would be a
-    /// poor target, and there's nothing else in a header to tap.
     private func sectionHeader(_ category: SubstanceCategory, count: Int) -> some View {
-        let expanded = model.isExpanded(category)
-        return Button {
-            withAnimation(.snappy(duration: 0.25)) { model.toggleCollapsed(category) }
-        } label: {
-            HStack(spacing: Spacing.sm) {
-                Image(systemName: category.icon)
-                    .font(.caption2)
-                    .accessibilityHidden(true)
-                Text(category.displayName)
-                Text(verbatim: "\(count)")
-                    .foregroundStyle(.tertiary)
-                Spacer(minLength: 8)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .rotationEffect(.degrees(expanded ? 0 : -90))
-                    .accessibilityHidden(true)
-            }
-            .contentShape(.rect)
+        CollapsibleCategoryHeader(category: category, count: count, isExpanded: model.isExpanded(category)) {
+            model.toggleCollapsed(category)
         }
-        .buttonStyle(.plain)
-        .accessibilityElement(children: .combine)
-        .accessibilityAddTraits(.isHeader)
-        .accessibilityValue(Text(expanded ? "Expanded" : "Collapsed"))
-        .accessibilityHint(Text(expanded ? "Double tap to collapse" : "Double tap to expand"))
     }
 
     // MARK: Toolbar

@@ -26,7 +26,7 @@ nonisolated enum MechanisticSessionModel {
     /// A dose event positioned on the chart's time axis.
     struct DoseMark: Hashable {
         let hours: Double
-        let colorHex: String
+        let tint: P3Color
     }
 
     /// Fixed hi/lo bounds for one axis over the whole session.

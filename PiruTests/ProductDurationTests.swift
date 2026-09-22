@@ -34,7 +34,7 @@ struct ProductDurationTests {
             releaseForm: "XR", productName: "Concerta",
         )
         #expect(!entry.drawsNoAcuteCurve, "a modeled product is not 'unmodeled'")
-        let state = ActiveSubstanceState.from(entry: entry, colorHex: "000000")
+        let state = ActiveSubstanceState.from(entry: entry, tint: .neutral)
         #expect(state != nil, "Concerta must draw a curve, not a bare marker")
         #expect((state?.totalMinutes ?? 0) >= 600, "the curve runs ~11–12 h, not Ritalin's ~4 h")
     }
@@ -48,7 +48,7 @@ struct ProductDurationTests {
             releaseForm: "XR",
         )
         #expect(entry.drawsNoAcuteCurve)
-        #expect(ActiveSubstanceState.from(entry: entry, colorHex: "000000") == nil)
+        #expect(ActiveSubstanceState.from(entry: entry, tint: .neutral) == nil)
     }
 
     @Test
@@ -57,7 +57,7 @@ struct ProductDurationTests {
             substance: "Amphetamine", amount: 20, unit: "mg", route: .oral,
             releaseForm: "XR", productName: "Adderall XR",
         )
-        let state = ActiveSubstanceState.from(entry: entry, colorHex: "000000")
+        let state = ActiveSubstanceState.from(entry: entry, tint: .neutral)
         #expect(state != nil)
         #expect((state?.totalMinutes ?? 0) >= 600)
     }

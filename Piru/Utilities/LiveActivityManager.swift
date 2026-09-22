@@ -137,7 +137,7 @@ struct DoseSnapshot {
         /// The one unmodeled form that does reach here is a named ER product with an
         /// authored `product_durations` envelope, which is modeled after all — and it
         /// recovers its own envelope, not the base ladder's.
-        func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)]? {
+        func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, tint: P3Color)]? {
             guard let existing = currentActivity,
                   existing.activityState == .active || existing.activityState == .stale,
                   !existing.content.state.activeSubstances.isEmpty
@@ -151,7 +151,7 @@ struct DoseSnapshot {
                     timestamp: state.doseTimestamp,
                 )
                 let duration = DurationProfile(fromState: state)
-                return (snapshot: snapshot, duration: duration, colorHex: state.colorHex)
+                return (snapshot: snapshot, duration: duration, tint: state.tint)
             }
         }
 
@@ -497,7 +497,7 @@ struct DoseSnapshot {
         func sessionCleared() {}
         func startLiveActivity() {}
         func hideLiveActivity() {}
-        func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)]? {
+        func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, tint: P3Color)]? {
             nil
         }
         func handleBackgroundRefresh(_: Any) {}

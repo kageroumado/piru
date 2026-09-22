@@ -225,7 +225,7 @@ struct TimelineGraphRenderer {
                 guard global >= gStart, global <= gEnd else { continue }
                 let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group) * yNorm))
                 guard v > 0.01 else { continue }
-                out.append(ScrubSample(id: gi, name: first.substanceName, color: Color(hex: first.colorHex), value: v, phase: scrubPhaseName(elapsed: global - gStart, for: first)))
+                out.append(ScrubSample(id: gi, name: first.substanceName, color: first.tint.color, value: v, phase: scrubPhaseName(elapsed: global - gStart, for: first)))
             }
         } else {
             for (i, s) in substances.enumerated() {
@@ -234,7 +234,7 @@ struct TimelineGraphRenderer {
                 guard local >= 0, local <= TimelineCurveModel.curveExtent(for: s) else { continue }
                 let v = min(1, max(0, TimelineCurveModel.intensity(at: local, for: s) * heightScale(for: s) * yNorm))
                 guard v > 0.01 else { continue }
-                out.append(ScrubSample(id: i, name: s.substanceName, color: Color(hex: s.colorHex), value: v, phase: scrubPhaseName(elapsed: local, for: s)))
+                out.append(ScrubSample(id: i, name: s.substanceName, color: s.tint.color, value: v, phase: scrubPhaseName(elapsed: local, for: s)))
             }
         }
         return out.sorted { $0.value > $1.value }
@@ -384,7 +384,7 @@ struct TimelineGraphRenderer {
         // chart's dose ticks so "when was it taken" reads at a glance even
         // when the substance draws no curve.
         for item in markerSlots {
-            let color = Color(hex: item.marker.colorHex)
+            let color = item.marker.tint.color
             var linePath = Path()
             linePath.move(to: CGPoint(x: item.x, y: item.cy))
             linePath.addLine(to: CGPoint(x: item.x, y: graphTop + graphHeight))
@@ -528,7 +528,7 @@ struct TimelineGraphRenderer {
         } else {
             let yNorm = yNormalization
             for substance in substances {
-                let color = Color(hex: substance.colorHex)
+                let color = substance.tint.color
                 let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
                 let scale = TimelineCurveModel.compressedAmplitude(heightScale(for: substance) * yNorm)
                 let elapsed = currentTime.timeIntervalSince(substance.doseTimestamp) / 60
@@ -596,7 +596,7 @@ struct TimelineGraphRenderer {
 
         // Pass 2: Marker heads (drawn on top of substance curves)
         for item in markerSlots {
-            let color = Color(hex: item.marker.colorHex)
+            let color = item.marker.tint.color
             let circle = Path(ellipseIn: CGRect(
                 x: item.x - diamondSize,
                 y: item.cy - diamondSize,
@@ -647,7 +647,7 @@ struct TimelineGraphRenderer {
                     width: r * 2,
                     height: r * 2,
                 ))
-                context.fill(dot, with: .color(Color(hex: marker.colorHex)))
+                context.fill(dot, with: .color(marker.tint.color))
                 context.stroke(dot, with: .color(.white.opacity(0.5)), lineWidth: 0.5)
             }
         }
@@ -748,7 +748,7 @@ struct TimelineGraphRenderer {
             let baseline = laneTop + curveLaneHeight - bottomGap
             let amplitude = max(curveLaneHeight - topHeadroom - bottomGap, 6)
             let laneGraphTop = baseline - amplitude
-            let color = Color(hex: lane.colorHex)
+            let color = lane.tint.color
 
             // Hairline separating this lane from the one above.
             if i > 0 {
@@ -863,7 +863,7 @@ struct TimelineGraphRenderer {
             let i = curveLanes.count + j
             let laneTop = graphTop + curveBlock + CGFloat(j) * markerLaneHeight
             let baseline = laneTop + markerLaneHeight - bottomGap
-            let color = Color(hex: lane.colorHex)
+            let color = lane.tint.color
 
             if i > 0 {
                 var sep = Path()
@@ -1193,7 +1193,7 @@ struct TimelineGraphRenderer {
         let nowGlobal = currentTime.timeIntervalSince(earliestDose) / 60
         for group in stackedGroups {
             guard let first = group.first else { continue }
-            let color = Color(hex: first.colorHex)
+            let color = first.tint.color
             let (gStart, gEnd) = stackedGroupRange(group)
             let gSpan = gEnd - gStart
             guard gSpan > 0 else { continue }

@@ -72,15 +72,15 @@ enum SandboxPlan: String, CaseIterable, Identifiable, Hashable {
         }
     }
 
-    var colorHex: String {
+    var tint: P3Color {
         switch self {
-        case .a: "ED5787"
-        case .b: "4C93E0"
+        case .a: P3Color(red: 0.862, green: 0.381, blue: 0.529)
+        case .b: P3Color(red: 0.368, green: 0.570, blue: 0.855)
         }
     }
 
     var color: Color {
-        Color(hex: colorHex)
+        tint.color
     }
 }
 
@@ -112,8 +112,8 @@ final class EffectSandboxModel {
 
         /// Color follows the *plan*, never the row. A per-row color would promise
         /// a per-row curve, and doses inside a plan are summed into one.
-        var colorHex: String {
-            plan.colorHex
+        var tint: P3Color {
+            plan.tint
         }
     }
 
@@ -209,7 +209,7 @@ final class EffectSandboxModel {
         let drawn = Set(planResults.map(\.plan))
         return rows.compactMap { row in
             guard row.substance != nil, row.amount > 0, drawn.contains(row.plan) else { return nil }
-            return MechanisticSessionModel.DoseMark(hours: row.hours, colorHex: row.colorHex)
+            return MechanisticSessionModel.DoseMark(hours: row.hours, tint: row.tint)
         }
     }
 

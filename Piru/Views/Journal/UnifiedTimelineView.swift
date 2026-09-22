@@ -529,7 +529,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             isUnknownDose = try c.decodeIfPresent(Bool.self, forKey: .isUnknownDose) ?? false
             route = try c.decode(RouteOfAdministration.self, forKey: .route)
             displayName = try c.decode(String.self, forKey: .displayName)
-            color = try Color(hex: c.decode(String.self, forKey: .color))
+            color = try c.decode(P3Color.self, forKey: .color).color
             remainingFraction = try c.decodeIfPresent(Double.self, forKey: .remainingFraction)
             state = try c.decodeIfPresent(ActiveSubstanceState.self, forKey: .state)
         }
@@ -543,7 +543,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             try c.encode(isUnknownDose, forKey: .isUnknownDose)
             try c.encode(route, forKey: .route)
             try c.encode(displayName, forKey: .displayName)
-            try c.encode(color.cacheHex(), forKey: .color)
+            try c.encode(color.cacheTint(), forKey: .color)
             try c.encodeIfPresent(remainingFraction, forKey: .remainingFraction)
             try c.encodeIfPresent(state, forKey: .state)
         }
@@ -580,7 +580,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
         /// launch cache, and the layout does not resolve finer than that.
         init(from decoder: Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            color = try Color(hex: c.decode(String.self, forKey: .color))
+            color = try c.decode(P3Color.self, forKey: .color).color
             let flat = try c.decode([Double].self, forKey: .points)
             var decoded: [CurvePoint] = []
             decoded.reserveCapacity(flat.count / 3)
@@ -596,7 +596,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
 
         func encode(to encoder: Encoder) throws {
             var c = encoder.container(keyedBy: CodingKeys.self)
-            try c.encode(color.cacheHex(), forKey: .color)
+            try c.encode(color.cacheTint(), forKey: .color)
             var flat: [Double] = []
             flat.reserveCapacity(points.count * 3)
             for point in points {
@@ -632,14 +632,14 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             id = try c.decode(UUID.self, forKey: .id)
             y = try c.decode(CGFloat.self, forKey: .y)
-            color = try Color(hex: c.decode(String.self, forKey: .color))
+            color = try c.decode(P3Color.self, forKey: .color).color
         }
 
         func encode(to encoder: Encoder) throws {
             var c = encoder.container(keyedBy: CodingKeys.self)
             try c.encode(id, forKey: .id)
             try c.encode(y, forKey: .y)
-            try c.encode(color.cacheHex(), forKey: .color)
+            try c.encode(color.cacheTint(), forKey: .color)
         }
     }
 
@@ -664,14 +664,14 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             fromY = try c.decode(CGFloat.self, forKey: .fromY)
             toY = try c.decode(CGFloat.self, forKey: .toY)
-            color = try Color(hex: c.decode(String.self, forKey: .color))
+            color = try c.decode(P3Color.self, forKey: .color).color
         }
 
         func encode(to encoder: Encoder) throws {
             var c = encoder.container(keyedBy: CodingKeys.self)
             try c.encode(fromY, forKey: .fromY)
             try c.encode(toY, forKey: .toY)
-            try c.encode(color.cacheHex(), forKey: .color)
+            try c.encode(color.cacheTint(), forKey: .color)
         }
     }
 

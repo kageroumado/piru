@@ -34,7 +34,7 @@ struct DemoDataWeekTests {
         #expect(doses.allSatisfy { $0.timestamp <= noon })
         for entry in doses where !entry.isBackgroundMed {
             #expect(SubstanceLibrary.lookup(entry.substance) != nil, "\(entry.substance) resolves")
-            #expect(ActiveSubstanceState.from(entry: entry, colorHex: "") != nil, "\(entry.substance) draws a curve")
+            #expect(ActiveSubstanceState.from(entry: entry, tint: .neutral) != nil, "\(entry.substance) draws a curve")
         }
         #expect(doses.allSatisfy { $0.session != nil })
 

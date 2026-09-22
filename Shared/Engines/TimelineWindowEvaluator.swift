@@ -40,7 +40,7 @@ nonisolated enum TimelineWindowEvaluator {
         let key: String
         /// Canonical substance display name (curve label).
         let name: String
-        let colorHex: String
+        let tint: P3Color
         /// Raw Hill-merged intensity at each of the window's `sampleCount`
         /// uniformly spaced instants, endpoints inclusive.
         let values: [Double]
@@ -136,7 +136,7 @@ nonisolated enum TimelineWindowEvaluator {
             series.append(Series(
                 key: "\(first.substanceName.lowercased())|\(first.route.lowercased())",
                 name: first.substanceName,
-                colorHex: first.colorHex,
+                tint: first.tint,
                 values: values,
                 doseTimes: doseTimes,
             ))

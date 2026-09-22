@@ -34,7 +34,7 @@ struct InventoryEntry: TimelineEntry {
         let name: String
         let quantity: Double
         let unit: String
-        let colorHex: String
+        let tint: P3Color
         let isOut: Bool
         let isLow: Bool
     }
@@ -45,8 +45,8 @@ struct InventoryEntry: TimelineEntry {
 struct InventoryProvider: TimelineProvider {
     func placeholder(in _: Context) -> InventoryEntry {
         InventoryEntry(date: .now, items: [
-            .init(id: UUID(), name: "Ketamine", quantity: 4.8, unit: "g", colorHex: "78A6F5", isOut: false, isLow: false),
-            .init(id: UUID(), name: "Magnesium", quantity: 6, unit: "caps", colorHex: "8CD98C", isOut: false, isLow: true),
+            .init(id: UUID(), name: "Ketamine", quantity: 4.8, unit: "g", tint: P3Color(red: 0.509, green: 0.646, blue: 0.937), isOut: false, isLow: false),
+            .init(id: UUID(), name: "Magnesium", quantity: 6, unit: "caps", tint: P3Color(red: 0.617, green: 0.843, blue: 0.578), isOut: false, isLow: true),
         ])
     }
 
@@ -67,7 +67,7 @@ struct InventoryProvider: TimelineProvider {
         }
         let context = ModelContext(container)
         let items = (try? context.fetch(FetchDescriptor<InventoryItem>())) ?? []
-        let hexMap = ((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).hexColorMap
+        let tintMap = ((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).tintMap
 
         func isOut(_ item: InventoryItem) -> Bool {
             item.currentQuantity <= 0
@@ -98,7 +98,7 @@ struct InventoryProvider: TimelineProvider {
                     name: item.substance,
                     quantity: item.currentQuantity,
                     unit: item.unit,
-                    colorHex: SubstancePalette.hex(for: item.substance, hexMap: hexMap),
+                    tint: SubstancePalette.tint(for: item.substance, tintMap: tintMap),
                     isOut: isOut(item),
                     isLow: isLow(item),
                 )
@@ -150,7 +150,7 @@ struct InventoryWidgetView: View {
     private func row(_ item: InventoryEntry.Item) -> some View {
         HStack(spacing: 6) {
             Circle()
-                .fill(Color(hex: item.colorHex))
+                .fill(item.tint.color)
                 .frame(width: 7, height: 7)
             Text(item.name)
                 .font(.caption)

@@ -106,7 +106,7 @@ struct DockSheetHost: View {
                 route: resolved.stagingRoute,
                 amount: resolved.stagingAmount,
                 unit: resolved.stagingUnit,
-                colorHex: content.cachedColorLookup[resolved.canonicalName.lowercased()],
+                tint: content.cachedColorLookup[resolved.canonicalName.lowercased()],
                 librarySubstance: resolved.substance,
                 productName: resolved.brandName,
             )
@@ -123,7 +123,7 @@ struct DockSheetHost: View {
                 substance: prefill.substance,
                 route: prefill.route,
                 unit: prefill.unit,
-                colorHex: content.cachedColorLookup[prefill.substance.lowercased()],
+                tint: content.cachedColorLookup[prefill.substance.lowercased()],
                 librarySubstance: SubstanceLibrary.lookup(prefill.substance.lowercased()),
             )
             searchActive = false
@@ -391,7 +391,7 @@ struct QuickLogCardList: View {
                 substance: substance.name,
                 route: substance.defaultRoute,
                 unit: substance.defaultUnit,
-                colorHex: content.cachedColorLookup[substance.name.lowercased()],
+                tint: content.cachedColorLookup[substance.name.lowercased()],
                 librarySubstance: substance,
             )
         }

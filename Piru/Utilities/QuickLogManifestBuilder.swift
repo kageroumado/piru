@@ -25,7 +25,7 @@ enum QuickLogManifestBuilder {
     /// application-context payload stays well under WatchConnectivity's limit.
     static let defaultItemLimit = 20
 
-    /// Fetch favorites + recents from the store and build the manifest. `colorHex`,
+    /// Fetch favorites + recents from the store and build the manifest. `tint`,
     /// `displayName`, and `favoriteDefault` are injected so this stays independent of the
     /// palette/library singletons (and unit-testable). `generatedAt` is passed in rather than
     /// read from the clock so callers control the latest-wins stamp.
@@ -33,7 +33,7 @@ enum QuickLogManifestBuilder {
         in context: ModelContext,
         generatedAt: Date,
         itemLimit: Int = defaultItemLimit,
-        colorHex: (String) -> String? = { _ in nil },
+        tint: (String) -> P3Color? = { _ in nil },
         displayName: (QuickLogDose) -> String? = { $0.substance },
         favoriteDefault: (FavoriteSubstance) -> FavoriteDefault? = { _ in nil },
         step: @MainActor (String, RouteOfAdministration, String, Double) -> Double = Self.fallbackStep,
@@ -47,7 +47,7 @@ enum QuickLogManifestBuilder {
             favorites: favorites,
             generatedAt: generatedAt,
             itemLimit: itemLimit,
-            colorHex: colorHex,
+            tint: tint,
             displayName: displayName,
             favoriteDefault: favoriteDefault,
             step: step,
@@ -66,7 +66,7 @@ enum QuickLogManifestBuilder {
         favorites: [FavoriteSubstance],
         generatedAt: Date,
         itemLimit: Int = defaultItemLimit,
-        colorHex: (String) -> String? = { _ in nil },
+        tint: (String) -> P3Color? = { _ in nil },
         displayName: (QuickLogDose) -> String? = { $0.substance },
         favoriteDefault: (FavoriteSubstance) -> FavoriteDefault? = { _ in nil },
         step: @MainActor (String, RouteOfAdministration, String, Double) -> Double = Self.fallbackStep,
@@ -78,7 +78,7 @@ enum QuickLogManifestBuilder {
             item(
                 from: recent,
                 isFavorite: favoriteIdentities.contains(recent.identityKey),
-                colorHex: colorHex,
+                tint: tint,
                 displayName: displayName,
                 step: step(recent.substance, recent.route, recent.unit, recent.amount),
             )
@@ -89,7 +89,7 @@ enum QuickLogManifestBuilder {
         for favorite in favorites where !recentIdentities.contains(favorite.identityKey) {
             guard let def = favoriteDefault(favorite) else { continue }
             let s = step(favorite.substance, def.route, def.unit, def.amount)
-            items.append(item(from: favorite, default: def, colorHex: colorHex, step: s))
+            items.append(item(from: favorite, default: def, tint: tint, step: s))
         }
 
         // Favorites first, otherwise preserve the recents order (stable).
@@ -111,7 +111,7 @@ enum QuickLogManifestBuilder {
     private static func item(
         from recent: QuickLogDose,
         isFavorite: Bool,
-        colorHex: (String) -> String?,
+        tint: (String) -> P3Color?,
         displayName: (QuickLogDose) -> String?,
         step: Double,
     ) -> QuickLogManifestItem {
@@ -123,7 +123,7 @@ enum QuickLogManifestBuilder {
             amount: recent.amount,
             unit: recent.unit,
             step: step,
-            colorHex: colorHex(recent.substance),
+            tint: tint(recent.substance),
             isFavorite: isFavorite,
             isByVolume: recent.hasDrinkDetail || isByVolume(recent.substance),
             volumeML: recent.volumeML,
@@ -141,7 +141,7 @@ enum QuickLogManifestBuilder {
     private static func item(
         from favorite: FavoriteSubstance,
         default def: FavoriteDefault,
-        colorHex: (String) -> String?,
+        tint: (String) -> P3Color?,
         step: Double,
     ) -> QuickLogManifestItem {
         let id = QuickLogDose.makeKey(
@@ -162,7 +162,7 @@ enum QuickLogManifestBuilder {
             amount: def.amount,
             unit: def.unit,
             step: step,
-            colorHex: colorHex(favorite.substance),
+            tint: tint(favorite.substance),
             isFavorite: true,
             isByVolume: isByVolume(favorite.substance),
             substanceUID: favorite.substanceUID,

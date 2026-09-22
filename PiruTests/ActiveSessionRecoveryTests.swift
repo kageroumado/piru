@@ -221,7 +221,7 @@ struct ActiveSessionRecoveryTests {
         ActiveSessionManager.shared.addDose(
             entry: entry,
             substance: SubstanceLibrary.resolveFull("Caffeine"),
-            colorHex: PresetColor.defaultHex,
+            tint: .neutral,
             allColors: [],
         )
         #expect(ActiveSessionManager.shared.activeEntries.count == 1)

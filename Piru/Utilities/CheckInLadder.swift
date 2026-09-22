@@ -100,7 +100,7 @@ enum CheckInLadder {
         for dose in session.orderedDoses {
             // The color is never read here; the state is wanted only for its
             // phase boundaries.
-            guard let state = ActiveSubstanceState.from(entry: dose, colorHex: "#888888") else { continue }
+            guard let state = ActiveSubstanceState.from(entry: dose, tint: .neutral) else { continue }
             let category = SubstanceLibrary.lookup(dose.substance)?.category ?? .other
             merged += offsets(for: state, depth: Depth(category: category), anchor: anchor)
         }

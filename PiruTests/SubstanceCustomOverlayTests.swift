@@ -209,7 +209,7 @@ struct SubstanceCustomOverlayTests {
         )
         let state = ActiveSubstanceState(
             name: entry.substance,
-            colorHex: "FFAACC",
+            tint: P3Color(red: 0.952, green: 0.681, blue: 0.795),
             timestamp: entry.timestamp,
             amount: entry.amount,
             unit: entry.unit,

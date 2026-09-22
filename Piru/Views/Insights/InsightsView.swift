@@ -58,7 +58,7 @@ final class InsightsModel {
         hasher.combine(DoseLogService.shared.revision)
         for color in substanceColors {
             hasher.combine(color.substance)
-            hasher.combine(color.hexColor)
+            hasher.combine(color.tint)
         }
         hasher.combine(dailyItemCount)
         return hasher.finalize()

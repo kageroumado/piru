@@ -104,7 +104,7 @@ struct TimelineStripBuilder {
 
         // One state per dose that resolves duration data — the curves' input
         // and, per entry, the bubble's phase progress.
-        let hexMap = colors.hexColorMap
+        let tintMap = colors.tintMap
         var states: [ActiveSubstanceState] = []
         var statesByEntry: [PersistentIdentifier: ActiveSubstanceState] = [:]
         // The doses whose spans may hold the axis open. A background med is
@@ -114,8 +114,8 @@ struct TimelineStripBuilder {
         for entry in entries {
             // Depot doses get no effect state (ActiveSubstanceState.from returns nil
             // for them centrally) — no acute curve or phase, just the dose bubble.
-            let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
-            guard let state = ActiveSubstanceState.from(entry: entry, colorHex: hex) else { continue }
+            let tint = SubstancePalette.tint(for: entry.substance, tintMap: tintMap)
+            guard let state = ActiveSubstanceState.from(entry: entry, tint: tint) else { continue }
             states.append(state)
             statesByEntry[entry.persistentModelID] = state
             if !entry.isBackgroundMed {

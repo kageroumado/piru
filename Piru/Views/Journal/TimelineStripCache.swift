@@ -106,15 +106,13 @@ nonisolated enum TimelineStripCache {
 }
 
 extension Color {
-    /// `#RRGGBB`, the form ``Color/init(hex:)`` reads back.
-    nonisolated func cacheHex() -> String {
-        let platformColor = PlatformColor(self)
-        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
-        #if canImport(UIKit)
-            platformColor.getRed(&r, green: &g, blue: &b, alpha: &a)
-        #elseif canImport(AppKit)
-            (platformColor.usingColorSpace(.sRGB) ?? platformColor).getRed(&r, green: &g, blue: &b, alpha: &a)
-        #endif
-        return String(format: "#%02X%02X%02X", Int(round(r * 255)), Int(round(g * 255)), Int(round(b * 255)))
+    /// The color as Display P3 components, the form a layout cache stores.
+    /// Resolved in a default environment: cached colors are substance tints
+    /// and shifts of them, which carry no appearance variants.
+    nonisolated func cacheTint() -> P3Color {
+        let resolved = resolve(in: EnvironmentValues())
+        return Oklch(
+            linearRed: Double(resolved.linearRed), green: Double(resolved.linearGreen), blue: Double(resolved.linearBlue),
+        ).displayP3
     }
 }

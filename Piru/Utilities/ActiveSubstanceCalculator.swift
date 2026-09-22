@@ -175,7 +175,7 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg, zeroOrderKinetics: PKModel.ZeroOrderKinetics? = nil) {
+    init?(name: String, tint: P3Color, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg, zeroOrderKinetics: PKModel.ZeroOrderKinetics? = nil) {
         guard let rawDuration = duration else { return nil }
         // Endpoint-only data (a `total` with no come-up/peak/offset) would
         // otherwise collapse the curve to the onset length; synthesize the
@@ -190,7 +190,7 @@ extension ActiveSubstanceState {
         let zeroOrder = TimelineCurveModel.zeroOrderBoundaries(zeroOrderKinetics, amount: amount, unit: unit)
         self.init(
             substanceName: name,
-            colorHex: colorHex,
+            tint: tint,
             doseTimestamp: timestamp,
             amount: amount,
             unit: unit,
@@ -243,7 +243,7 @@ extension ActiveSubstanceState {
     /// counterpart: ``DoseEntry/isBackgroundMed`` lets the user mute a dose that
     /// *does* have a curve (a daily-med amphetamine), filtered in
     /// ``TimelineWindowModel``.
-    static func from(entry: DoseEntry, colorHex: String) -> ActiveSubstanceState? {
+    static func from(entry: DoseEntry, tint: P3Color) -> ActiveSubstanceState? {
         // A dose of unknown amount has no intensity to draw; it lands as a
         // timestamp marker. This one guard is what keeps it out of Active Now,
         // the Live Activity, the timeline curves, and the session effect models.
@@ -284,7 +284,7 @@ extension ActiveSubstanceState {
                 // Canonical common name, so a dose logged under an alias (e.g. "Lysergic Acid
                 // Diethylamide") labels its curve "LSD" like the rest of the app.
                 name: substance.displayTitle,
-                colorHex: colorHex,
+                tint: tint,
                 timestamp: entry.timestamp,
                 amount: entry.amount,
                 unit: entry.unit,
@@ -317,12 +317,12 @@ extension ActiveSubstanceState {
         for entries: [DoseEntry],
         colors: [SubstanceColor],
     ) -> (states: [ActiveSubstanceState], markers: [DoseMarker]) {
-        let hexMap = colors.hexColorMap
+        let tintMap = colors.tintMap
         var states: [ActiveSubstanceState] = []
         var markers: [DoseMarker] = []
         for entry in entries {
-            let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
-            if let state = from(entry: entry, colorHex: hex) {
+            let tint = SubstancePalette.tint(for: entry.substance, tintMap: tintMap)
+            if let state = from(entry: entry, tint: tint) {
                 states.append(state)
                 continue
             }
@@ -337,7 +337,7 @@ extension ActiveSubstanceState {
                 // Canonical name so the marker's label and its lane matching agree with the curves.
                 substanceName: substance?.displayTitle ?? entry.substance,
                 timestamp: entry.timestamp,
-                colorHex: hex,
+                tint: tint,
                 amount: entry.amount,
                 unit: entry.unit,
             ))

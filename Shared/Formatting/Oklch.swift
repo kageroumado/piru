@@ -39,19 +39,28 @@ nonisolated struct Oklch: Hashable {
     /// can leave the gamut; clamping keeps its hue and drops what does not
     /// fit, which is invisible at the chroma levels UI colors use.
     var linearRGB: (red: Double, green: Double, blue: Double) {
+        let rgb = extendedLinearRGB
+        func clamp(_ v: Double) -> Double {
+            min(max(v, 0), 1)
+        }
+        return (red: clamp(rgb.red), green: clamp(rgb.green), blue: clamp(rgb.blue))
+    }
+
+    /// Linear-light sRGB components in extended range: a color outside the
+    /// sRGB gamut has components below 0 or above 1. The wide-gamut
+    /// conversions start here, since clamping first would discard exactly the
+    /// colors Display P3 adds.
+    var extendedLinearRGB: (red: Double, green: Double, blue: Double) {
         let radians = h * .pi / 180
         let labA = c * cos(radians)
         let labB = c * sin(radians)
         let long = pow(l + 0.3963377774 * labA + 0.2158037573 * labB, 3)
         let medium = pow(l - 0.1055613458 * labA - 0.0638541728 * labB, 3)
         let short = pow(l - 0.0894841775 * labA - 1.2914855480 * labB, 3)
-        func clamp(_ v: Double) -> Double {
-            min(max(v, 0), 1)
-        }
         return (
-            red: clamp(4.0767416621 * long - 3.3077115913 * medium + 0.2309699292 * short),
-            green: clamp(-1.2684380046 * long + 2.6097574011 * medium - 0.3413193965 * short),
-            blue: clamp(-0.0041960863 * long - 0.7034186147 * medium + 1.7076147010 * short),
+            red: 4.0767416621 * long - 3.3077115913 * medium + 0.2309699292 * short,
+            green: -1.2684380046 * long + 2.6097574011 * medium - 0.3413193965 * short,
+            blue: -0.0041960863 * long - 0.7034186147 * medium + 1.7076147010 * short,
         )
     }
 

@@ -124,7 +124,7 @@ final class JournalModel {
     /// resolves *one* entry, not the whole table. See ``rebuildDerived``.
     private var fingerprints: [PersistentIdentifier: Int] = [:]
     /// Signature of the color assignments the `derived` states were resolved
-    /// under. A recolor changes every entry's `colorHex`, so it forces a full
+    /// under. A recolor changes every entry's `tint`, so it forces a full
     /// re-resolve (rare — only when the user assigns a substance color).
     private var lastColorSignature: Int?
 
@@ -240,10 +240,10 @@ final class JournalModel {
 
     /// Resolve a single entry's category + timeline inputs (the expensive part:
     /// the `SubstanceLibrary` lookup and PK-state synthesis).
-    private func resolveEntry(_ entry: DoseEntry, hexMap: [String: String]) -> EntryDerived {
+    private func resolveEntry(_ entry: DoseEntry, tintMap: [String: P3Color]) -> EntryDerived {
         let category = SubstanceLibrary.lookup(entry.substance)?.category ?? .other
-        let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
-        let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
+        let tint = SubstancePalette.tint(for: entry.substance, tintMap: tintMap)
+        let state = ActiveSubstanceState.from(entry: entry, tint: tint)
         let title = DoseTitle.resolve(for: entry)
         let marker = state == nil
             ? DoseMarker(
@@ -252,7 +252,7 @@ final class JournalModel {
                 // substance differently from the curve beside it.
                 substanceName: title,
                 timestamp: entry.timestamp,
-                colorHex: hex,
+                tint: tint,
                 amount: entry.amount,
                 unit: entry.unit,
             )
@@ -268,7 +268,7 @@ final class JournalModel {
     /// drops the ones that disappeared, reusing the cached `EntryDerived` for the
     /// rest. So logging one dose into a five-year history does one expensive
     /// resolve, not thousands. A color change is the one fast-path exception:
-    /// it alters every state's `colorHex`, so it re-resolves the whole set (rare).
+    /// it alters every state's `tint`, so it re-resolves the whole set (rare).
     /// - Parameter onPrefixReady: Invoked once the newest-first prefix (the
     ///   visible Day window) has been resolved and published, so the caller can
     ///   regroup and paint the cards before the tail finishes. Not called when a
@@ -302,7 +302,7 @@ final class JournalModel {
         }
 
         let colorsChanged = colorSignature != lastColorSignature
-        let hexMap = Array(colors).hexColorMap
+        let tintMap = Array(colors).tintMap
 
         var newDerived: [PersistentIdentifier: EntryDerived] = colorsChanged ? [:] : derived
         newDerived.reserveCapacity(entries.count)
@@ -320,7 +320,7 @@ final class JournalModel {
                 if !colorsChanged, fingerprints[id] == fp, newDerived[id] != nil {
                     continue
                 }
-                newDerived[id] = resolveEntry(entry, hexMap: hexMap)
+                newDerived[id] = resolveEntry(entry, tintMap: tintMap)
                 resolvedCount += 1
             }
         }

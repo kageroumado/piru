@@ -8,7 +8,7 @@ struct EntryEditContent: View {
     let entry: DoseEntry
     let substance: Substance?
     let substanceColor: Color
-    let colorHex: String
+    let tint: P3Color
     @Binding var showColorPicker: Bool
     @Binding var showLocationPicker: Bool
     @Binding var showingDeleteConfirmation: Bool
@@ -265,6 +265,6 @@ struct EntryEditContent: View {
     /// edit is about to discard.
     private var previewState: ActiveSubstanceState? {
         guard !draft.isUnknownDose else { return nil }
-        return ActiveSubstanceState.from(entry: previewEntry ?? entry, colorHex: colorHex)
+        return ActiveSubstanceState.from(entry: previewEntry ?? entry, tint: tint)
     }
 }

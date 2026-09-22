@@ -57,7 +57,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
         private enum CodingKeys: String, CodingKey {
             case id
             case displayName
-            case colorHex
+            case tint
             case unit
             case peak
             case points
@@ -67,7 +67,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             id = try c.decode(Int.self, forKey: .id)
             displayName = try c.decode(String.self, forKey: .displayName)
-            color = try Color(hex: c.decode(String.self, forKey: .colorHex))
+            color = try c.decode(P3Color.self, forKey: .tint).color
             unit = try c.decode(String.self, forKey: .unit)
             peak = try c.decode(Double.self, forKey: .peak)
             points = try c.decode([Point].self, forKey: .points)
@@ -77,7 +77,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
             var c = encoder.container(keyedBy: CodingKeys.self)
             try c.encode(id, forKey: .id)
             try c.encode(displayName, forKey: .displayName)
-            try c.encode(color.cacheHex(), forKey: .colorHex)
+            try c.encode(color.cacheTint(), forKey: .tint)
             try c.encode(unit, forKey: .unit)
             try c.encode(peak, forKey: .peak)
             try c.encode(points, forKey: .points)

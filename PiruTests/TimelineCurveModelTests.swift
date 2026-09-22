@@ -28,7 +28,7 @@ struct TimelineCurveModelTests {
     ) -> ActiveSubstanceState {
         ActiveSubstanceState(
             substanceName: name,
-            colorHex: "FF66AA",
+            tint: P3Color(red: 0.929, green: 0.439, blue: 0.660),
             doseTimestamp: timestamp ?? t0,
             amount: amount,
             unit: "mg",
@@ -236,7 +236,7 @@ struct TimelineCurveModelTests {
     func `Phase-range spreads widen the curve without breaking its anchors`() {
         let tight = dose(onsetEnd: 40, comeupEnd: 75, peakEnd: 210, offsetEnd: 285)
         let spread = ActiveSubstanceState(
-            substanceName: "Testine", colorHex: "FF66AA", doseTimestamp: t0,
+            substanceName: "Testine", tint: P3Color(red: 0.929, green: 0.439, blue: 0.660), doseTimestamp: t0,
             amount: 20, unit: "mg", route: "oral",
             onsetEndMinutes: 40, comeupEndMinutes: 75, peakEndMinutes: 210,
             offsetEndMinutes: 285, afterglowEndMinutes: nil, totalMinutes: 400,
@@ -434,9 +434,9 @@ struct TimelineCurveModelTests {
     func `Marker-only substances get their own lanes excluding curve substances`() {
         let lanes = TimelineCurveModel.laneGroups(of: [dose(name: "Caffeine")])
         let markers = [
-            DoseMarker(substanceName: "Caffeine", timestamp: t0, colorHex: "FF66AA", amount: 80, unit: "mg"),
-            DoseMarker(substanceName: "Melatonin", timestamp: t0, colorHex: "66AAFF", amount: 0.3, unit: "mg"),
-            DoseMarker(substanceName: "melatonin", timestamp: t0.addingTimeInterval(600), colorHex: "66AAFF", amount: 0.3, unit: "mg"),
+            DoseMarker(substanceName: "Caffeine", timestamp: t0, tint: P3Color(red: 0.929, green: 0.439, blue: 0.660), amount: 80, unit: "mg"),
+            DoseMarker(substanceName: "Melatonin", timestamp: t0, tint: P3Color(red: 0.462, green: 0.660, blue: 0.974), amount: 0.3, unit: "mg"),
+            DoseMarker(substanceName: "melatonin", timestamp: t0.addingTimeInterval(600), tint: P3Color(red: 0.462, green: 0.660, blue: 0.974), amount: 0.3, unit: "mg"),
         ]
         let markerLanes = TimelineCurveModel.markerOnlyLanes(excluding: lanes, markers: markers)
         #expect(markerLanes.count == 1)

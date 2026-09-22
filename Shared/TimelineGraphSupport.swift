@@ -110,7 +110,7 @@ enum SessionGraphDefaults {
 nonisolated struct DoseMarker: Hashable, Codable, Sendable {
     let substanceName: String
     let timestamp: Date
-    let colorHex: String
+    let tint: P3Color
     let amount: Double
     let unit: String
 }

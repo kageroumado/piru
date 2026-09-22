@@ -74,6 +74,8 @@ final class DoseLogService {
     func log(_ entry: DoseEntry, in context: ModelContext, recentEntries: [DoseEntry] = []) {
         context.insert(entry)
         SessionService.assignSession(for: entry, in: context)
+        let colors = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
+        SubstanceColorStore.ensureRow(for: entry.substance, existing: colors, in: context)
         try? context.save()
         DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
         // A logged dose may satisfy a routine — reconcile so its remaining
@@ -102,16 +104,10 @@ final class DoseLogService {
         for (entry, _) in doses {
             context.insert(entry)
             SessionService.assignSession(for: entry, in: context)
-            // Auto-assign a stable palette color for a brand-new substance up
-            // front (deterministic hash, the same color the graph uses),
-            // tracking it in the local snapshot so the live session picks it up
-            // immediately without a store round-trip.
-            if !colors.hasColor(for: entry.substance) {
-                let newColor = SubstanceColor(
-                    substance: entry.substance,
-                    hexColor: PresetColor.deterministic(for: entry.substance).hex,
-                )
-                context.insert(newColor)
+            // A brand-new substance gets its class-color row up front, tracked
+            // in the local snapshot so the live session picks it up without a
+            // store round-trip.
+            if let newColor = SubstanceColorStore.ensureRow(for: entry.substance, existing: colors, in: context) {
                 colors.append(newColor)
             }
         }

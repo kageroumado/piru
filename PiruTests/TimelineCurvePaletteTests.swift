@@ -8,7 +8,7 @@ struct TimelineCurvePaletteTests {
     private func state(at start: Date) -> ActiveSubstanceState {
         ActiveSubstanceState(
             substanceName: "Testine",
-            colorHex: "8394ff",
+            tint: P3Color(red: 0.526, green: 0.578, blue: 0.971),
             doseTimestamp: start,
             amount: 100,
             unit: "mg",

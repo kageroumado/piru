@@ -34,7 +34,7 @@ nonisolated enum TimelineCurveModel {
     /// of that substance so redoses share a lane.
     struct LaneGroup {
         let name: String
-        let colorHex: String
+        let tint: P3Color
         let doses: [ActiveSubstanceState]
     }
 
@@ -42,7 +42,7 @@ nonisolated enum TimelineCurveModel {
     /// baseline row of dots, one per dose.
     struct MarkerLane {
         let name: String
-        let colorHex: String
+        let tint: P3Color
         let markers: [DoseMarker]
     }
 
@@ -694,17 +694,17 @@ nonisolated enum TimelineCurveModel {
     nonisolated static func laneGroups(of substances: [ActiveSubstanceState]) -> [LaneGroup] {
         var order: [String] = []
         var doses: [String: [ActiveSubstanceState]] = [:]
-        var colorOf: [String: String] = [:]
+        var colorOf: [String: P3Color] = [:]
         for s in substances {
             let key = s.substanceName.lowercased()
             if doses[key] == nil {
                 order.append(key)
-                colorOf[key] = s.colorHex
+                colorOf[key] = s.tint
             }
             doses[key, default: []].append(s)
         }
         return order.map { key in
-            LaneGroup(name: doses[key]!.first!.substanceName, colorHex: colorOf[key]!, doses: doses[key]!)
+            LaneGroup(name: doses[key]!.first!.substanceName, tint: colorOf[key]!, doses: doses[key]!)
         }
     }
 
@@ -714,16 +714,16 @@ nonisolated enum TimelineCurveModel {
         let curveNames = Set(curveLanes.map { $0.name.lowercased() })
         var order: [String] = []
         var byKey: [String: [DoseMarker]] = [:]
-        var meta: [String: (name: String, colorHex: String)] = [:]
+        var meta: [String: (name: String, tint: P3Color)] = [:]
         for marker in markers {
             let key = marker.substanceName.lowercased()
             guard !curveNames.contains(key) else { continue }
             if byKey[key] == nil {
                 order.append(key)
-                meta[key] = (marker.substanceName, marker.colorHex)
+                meta[key] = (marker.substanceName, marker.tint)
             }
             byKey[key, default: []].append(marker)
         }
-        return order.map { MarkerLane(name: meta[$0]!.name, colorHex: meta[$0]!.colorHex, markers: byKey[$0]!) }
+        return order.map { MarkerLane(name: meta[$0]!.name, tint: meta[$0]!.tint, markers: byKey[$0]!) }
     }
 }

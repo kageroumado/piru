@@ -28,4 +28,16 @@ enum LaunchPassGate {
         pass()
         defaults.set(token, forKey: key)
     }
+
+    /// ``run(_:container:defaults:pass:)`` for a pass that does its work on
+    /// another actor. The token is read before the pass and recorded after it.
+    static func runAsync(
+        _ name: String, container: ModelContainer, defaults: UserDefaults = .standard, pass: () async -> Void,
+    ) async {
+        let key = "launchPass.\(name).token"
+        let token = token(container: container)
+        guard defaults.string(forKey: key) != token else { return }
+        await pass()
+        defaults.set(token, forKey: key)
+    }
 }

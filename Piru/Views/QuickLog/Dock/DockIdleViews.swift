@@ -21,7 +21,7 @@ struct DockShortcutSlots: View {
                     shortcut: shortcut,
                     compact: compact,
                     controlSide: controlSide,
-                    colorHex: shortcut.favoriteSubstance.flatMap { colorHex(for: $0) },
+                    tint: shortcut.favoriteSubstance.flatMap { tint(for: $0) },
                     sessionActive: sessionActive,
                 )
             }
@@ -35,8 +35,8 @@ struct DockShortcutSlots: View {
         return ActiveSessionManager.shared.hasActiveSession
     }
 
-    private func colorHex(for substance: String) -> String? {
-        Array(substanceColors).hexColorMap[substance.lowercased()]
+    private func tint(for substance: String) -> P3Color? {
+        Array(substanceColors).tintMap[substance.lowercased()]
     }
 }
 
@@ -61,7 +61,7 @@ private struct DockShortcutButton: View {
     let shortcut: DockShortcut
     let compact: Bool
     let controlSide: CGFloat
-    let colorHex: String?
+    let tint: P3Color?
     let sessionActive: Bool
 
     @Environment(\.appNavigator) private var navigator
@@ -98,7 +98,7 @@ private struct DockShortcutButton: View {
                 .font((compact ? Font.caption2 : Font.caption).weight(.bold))
                 .foregroundStyle(.white)
                 .frame(width: compact ? 20 : 26, height: compact ? 20 : 26)
-                .background(colorHex.map { Color(hex: $0) } ?? .gray, in: Circle())
+                .background(tint?.color ?? .gray, in: Circle())
         } else {
             Image(systemName: shortcut.systemImage)
                 .font((compact ? Font.subheadline : Font.title3).weight(.medium))

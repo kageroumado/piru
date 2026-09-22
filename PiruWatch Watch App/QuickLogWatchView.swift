@@ -81,6 +81,6 @@ struct QuickLogTile: View {
     }
 
     private var tileColor: Color {
-        item.colorHex.flatMap(Color.init(hexString:)) ?? .accentColor
+        item.tint?.color ?? .accentColor
     }
 }

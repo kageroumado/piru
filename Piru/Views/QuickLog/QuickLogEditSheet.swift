@@ -197,8 +197,7 @@ struct QuickLogEditSheet: View {
     }
 
     private func color(for substance: String) -> Color {
-        Array(substanceColors).hexColorMap[substance.lowercased()]
-            .map { Color(hex: $0) } ?? .gray
+        SubstancePalette.color(for: substance, colorMap: Array(substanceColors).colorMap)
     }
 
     private func moveFavorites(from source: IndexSet, to destination: Int) {

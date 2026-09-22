@@ -81,7 +81,7 @@ nonisolated struct DoseLogIdentity: Sendable {
         newest.fetchLimit = 1
         let newestTimestamp = (try? context.fetch(newest))?.first?.timestamp
         let colors = ((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? [])
-            .map { LaunchCacheInputs.ColorPair(substance: $0.substance, hex: $0.hexColor) }
+            .map { LaunchCacheInputs.ColorPair(substance: $0.substance, tint: $0.tint) }
         return DoseLogIdentity(entryCount: count, newestTimestamp: newestTimestamp, colors: colors)
     }
 }

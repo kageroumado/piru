@@ -56,7 +56,7 @@ struct PiruLiveActivity: Widget {
         private static func caffeine(minutesAgo: Double) -> ActiveSubstanceState {
             ActiveSubstanceState(
                 substanceName: "Caffeine",
-                colorHex: "66CCFF",
+                tint: P3Color(red: 0.503, green: 0.791, blue: 0.981),
                 doseTimestamp: .now.addingTimeInterval(-minutesAgo * 60),
                 amount: 120,
                 unit: "mg",
@@ -75,7 +75,7 @@ struct PiruLiveActivity: Widget {
         private static func theanine(minutesAgo: Double) -> ActiveSubstanceState {
             ActiveSubstanceState(
                 substanceName: "L-Theanine",
-                colorHex: "AAFF99",
+                tint: P3Color(red: 0.741, green: 0.991, blue: 0.642),
                 doseTimestamp: .now.addingTimeInterval(-minutesAgo * 60),
                 amount: 200,
                 unit: "mg",
@@ -93,7 +93,7 @@ struct PiruLiveActivity: Widget {
         private static func ibuprofen(minutesAgo: Double) -> ActiveSubstanceState {
             ActiveSubstanceState(
                 substanceName: "Ibuprofen",
-                colorHex: "FFAACC",
+                tint: P3Color(red: 0.952, green: 0.681, blue: 0.795),
                 doseTimestamp: .now.addingTimeInterval(-minutesAgo * 60),
                 amount: 400,
                 unit: "mg",

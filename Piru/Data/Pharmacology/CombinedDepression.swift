@@ -339,7 +339,7 @@ nonisolated enum CombinedDepression {
             .lazy.compactMap({ DepressantMechanism.from(drugClass: $0) }).first
         else { return nil }
 
-        guard let state = ActiveSubstanceState.from(entry: entry, colorHex: "") else { return nil }
+        guard let state = ActiveSubstanceState.from(entry: entry, tint: .neutral) else { return nil }
         let amountKnown = doseMg != nil && entry.amount > 0
         let doseWeight = amountKnown ? presence(state.doseMagnitude) : 1
         let endMinutes = max(state.offsetEndMinutes, state.totalMinutes)

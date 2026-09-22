@@ -157,12 +157,12 @@ extension SessionStateExport {
         let isLive = mostRecentActive.map { now.timeIntervalSince($0) < liveWindowHours * 3_600 } ?? false
         let working = isLive ? active : allEntries
         guard !working.isEmpty else { return nil }
-        let hexMap = colors.hexColorMap
+        let tintMap = colors.tintMap
 
         // Per-dose subjective states.
         var states: [SubstanceState] = []
         for entry in working {
-            if let state = makeSubjectiveState(entry: entry, hexMap: hexMap, now: now) {
+            if let state = makeSubjectiveState(entry: entry, tintMap: tintMap, now: now) {
                 states.append(state)
             }
         }
@@ -234,9 +234,9 @@ extension SessionStateExport {
     // MARK: Subjective
 
     @MainActor
-    private static func makeSubjectiveState(entry: DoseEntry, hexMap: [String: String], now: Date) -> SubstanceState? {
-        let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
-        guard let curve = ActiveSubstanceState.from(entry: entry, colorHex: hex) else { return nil }
+    private static func makeSubjectiveState(entry: DoseEntry, tintMap: [String: P3Color], now: Date) -> SubstanceState? {
+        let tint = SubstancePalette.tint(for: entry.substance, tintMap: tintMap)
+        guard let curve = ActiveSubstanceState.from(entry: entry, tint: tint) else { return nil }
 
         let elapsed = max(0, now.timeIntervalSince(curve.doseTimestamp) / 60)
         let total = max(curve.totalMinutes, 1)

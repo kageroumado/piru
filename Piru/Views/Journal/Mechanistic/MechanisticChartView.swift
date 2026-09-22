@@ -424,7 +424,7 @@ struct MechanisticChartView: View {
         let a = geo.winStart, b = geo.winStart + geo.winW
         for mark in doseMarks where mark.hours >= a - 0.1 && mark.hours <= b + 0.1 {
             let x = geo.x(mark.hours)
-            let color = Color(hex: mark.colorHex)
+            let color = mark.tint.color
             // A faint full-height guide (so a dose lines up across the stacked
             // charts) with the marker dot sitting ON the neutral baseline — "a dose
             // happened at this time", not a value spiking to the top. On signed

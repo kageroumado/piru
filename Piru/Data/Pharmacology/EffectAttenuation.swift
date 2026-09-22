@@ -208,7 +208,7 @@ nonisolated enum EffectAttenuation {
     /// active-substance model), falling back to ~5 half-lives, then a 6 h default.
     @MainActor
     private static func releaserEffectEnd(for entry: DoseEntry) -> Date {
-        if let state = ActiveSubstanceState.from(entry: entry, colorHex: "") {
+        if let state = ActiveSubstanceState.from(entry: entry, tint: .neutral) {
             let endMinutes = max(state.offsetEndMinutes, state.totalMinutes)
             return entry.timestamp.addingTimeInterval(endMinutes * 60)
         }

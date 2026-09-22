@@ -72,7 +72,7 @@ enum DataExportImport {
     /// The Piru-native format this build writes and the newest it reads. An
     /// additive change (a new optional field) keeps the number; only a file an
     /// older build would misread bumps it.
-    nonisolated static let piruExportVersion = 1
+    nonisolated static let piruExportVersion = 2
 
     /// Which importer owns a file, decided from its top-level keys alone.
     nonisolated enum FileShape: Equatable {
@@ -255,7 +255,6 @@ enum DataExportImport {
         try context.delete(model: Session.self)
         try context.delete(model: DailyDoseItem.self)
         try context.delete(model: SubstanceColor.self)
-        try context.delete(model: UserColor.self)
         try context.delete(model: FavoriteSubstance.self)
         try context.delete(model: InventoryItem.self)
         // The curated quick-log list is derived from history — clearing the doses

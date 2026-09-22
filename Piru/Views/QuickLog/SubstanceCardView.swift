@@ -60,7 +60,7 @@ struct SubstanceCardView: View, Equatable {
     @State private var expandedGroups: Set<String> = []
 
     private var color: Color {
-        card.colorHex.map { Color(hex: $0) } ?? .gray
+        card.tint?.color ?? .gray
     }
 
     var body: some View {
@@ -212,7 +212,7 @@ struct SubstanceCardView: View, Equatable {
                         substance: group.substanceName,
                         route: group.route,
                         unit: group.doses.first?.unit ?? "mg",
-                        colorHex: group.colorHex,
+                        tint: group.tint,
                         librarySubstance: group.librarySubstance,
                         productName: group.stageProductName,
                         saltForm: group.saltForm,
@@ -246,7 +246,7 @@ struct SubstanceCardView: View, Equatable {
                     route: group.route,
                     amount: chip.amount,
                     unit: chip.unit,
-                    colorHex: group.colorHex,
+                    tint: group.tint,
                     librarySubstance: group.librarySubstance,
                     productName: group.stageProductName,
                     saltForm: chip.saltForm,

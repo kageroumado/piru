@@ -141,7 +141,7 @@ struct TripReport {
     /// session — the footer says so, once.
     @MainActor
     private static func phases(for entry: DoseEntry) -> [Phase] {
-        guard let state = ActiveSubstanceState.from(entry: entry, colorHex: "#888888") else { return [] }
+        guard let state = ActiveSubstanceState.from(entry: entry, tint: .neutral) else { return [] }
         func at(_ minutes: Double) -> Date { entry.timestamp.addingTimeInterval(minutes * 60) }
         var rows = [
             Phase(label: "kicks in", at: at(state.onsetEndMinutes)),

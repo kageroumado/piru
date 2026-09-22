@@ -189,7 +189,7 @@ struct ByVolumeDosingDBTests {
             total: DurationRange(min: 180, max: 270),
         )
         let alcohol = ActiveSubstanceState(
-            name: "Alcohol", colorHex: "FFFFFF", timestamp: .now, amount: 28, unit: "g",
+            name: "Alcohol", tint: P3Color(red: 1.000, green: 1.000, blue: 1.000), timestamp: .now, amount: 28, unit: "g",
             routeDisplayName: "Oral", duration: duration, category: .depressant,
             weightKg: 60,
             zeroOrderKinetics: SubstanceStore.shared.zeroOrderKinetics(forSubstanceName: "Alcohol", weightKg: 60),
@@ -198,7 +198,7 @@ struct ByVolumeDosingDBTests {
         #expect(try TimelineCurveModel.zeroOrderKinetics(for: #require(alcohol)) != nil)
 
         let caffeine = ActiveSubstanceState(
-            name: "Caffeine", colorHex: "FFFFFF", timestamp: .now, amount: 100, unit: "mg",
+            name: "Caffeine", tint: P3Color(red: 1.000, green: 1.000, blue: 1.000), timestamp: .now, amount: 100, unit: "mg",
             routeDisplayName: "Oral", duration: duration, category: .stimulant,
             zeroOrderKinetics: SubstanceStore.shared.zeroOrderKinetics(forSubstanceName: "Caffeine", weightKg: 60),
         )
@@ -211,7 +211,7 @@ struct ByVolumeDosingDBTests {
     @MainActor
     func `A state from an older build decodes as first-order`() throws {
         let json = """
-        {"substanceName":"Alcohol","colorHex":"FFFFFF","doseTimestamp":0,"amount":28,"unit":"g",
+        {"substanceName":"Alcohol","tint":[1,1,1],"doseTimestamp":0,"amount":28,"unit":"g",
          "route":"Oral","onsetEndMinutes":15,"comeupEndMinutes":45,"peakEndMinutes":105,
          "offsetEndMinutes":225,"totalMinutes":225}
         """

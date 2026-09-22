@@ -72,7 +72,7 @@ struct DayEntryCore: Equatable {
                 tags: entry.tags,
                 // Acute effect window (same source as the timeline curve), so the
                 // rail matches the graph — not the long elimination tail.
-                totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
+                totalMinutes: ActiveSubstanceState.from(entry: entry, tint: .neutral)?.totalMinutes,
                 substanceKey: entry.substance.lowercased(),
                 isApproximate: entry.isApproximate,
                 isUnknownDose: entry.isUnknownDose,

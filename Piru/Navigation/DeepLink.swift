@@ -237,7 +237,7 @@ nonisolated enum DeepLink {
     /// Encoding is *lossy* by design: only the top of the sheet stack and the
     /// selected tab are represented. If the stack is empty, the URL is just
     /// the tab selector. If the top sheet has no canonical URL form (e.g.
-    /// `.colorPicker`), encoding returns `nil`.
+    /// `.timeAdjust`), encoding returns `nil`.
     static func encode(_ snapshot: NavigatorSnapshot) -> URL? {
         if snapshot.sheetStack.isEmpty {
             // No modal: encode the top of the selected tab's push stack if it
@@ -376,7 +376,6 @@ nonisolated enum DeepLink {
         case .onboarding,
              .dailyDoseSettings,
              .personalizeSubstance,
-             .colorPicker,
              .timeAdjust,
              .sourcePriority,
              .doseSources,

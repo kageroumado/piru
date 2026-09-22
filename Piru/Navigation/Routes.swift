@@ -228,20 +228,6 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     case doseSources(substance: String, route: RouteOfAdministration)
     case advancedSearch
 
-    /// Pickers / mini-flows
-    /// Pick a color for `substance`. `remaining` carries any substances that
-    /// still need a color after this one — when the user picks (or skips),
-    /// the picker can re-present itself with `replacingTop: true` for the
-    /// next substance in the queue.
-    ///
-    /// `dismissAllOnComplete`: when `true`, finishing the queue calls
-    /// `navigator.dismissAll()` instead of `navigator.dismiss()`. Set this for
-    /// save handlers that are completing a multi-sheet logging flow (e.g.
-    /// QuickLog → ColorPicker) so the user lands back at root.
-    /// Leave `false` for edit-from-detail flows where the user expects to
-    /// return to the originating sheet.
-    case colorPicker(substance: String, remaining: [String] = [], dismissAllOnComplete: Bool = false)
-
     /// Inventory
     /// Add / restock sheet. `id == nil` is the generic add form (with a
     /// Substance picker); a non-nil id restocks that existing item (and the

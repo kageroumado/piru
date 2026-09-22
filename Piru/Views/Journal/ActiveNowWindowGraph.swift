@@ -53,7 +53,7 @@ struct ActiveNowWindowGraph: View {
         }
         for color in colors {
             hasher.combine(color.substance)
-            hasher.combine(color.hexColor)
+            hasher.combine(color.tint)
         }
         return hasher.finalize()
     }
@@ -220,7 +220,7 @@ struct ActiveNowWindowGraph: View {
         }
 
         for series in plot.series {
-            let color = Color(hex: series.colorHex)
+            let color = series.tint.color
 
             var points: [CGPoint] = []
             points.reserveCapacity(sampleCount)

@@ -55,7 +55,7 @@ struct UnmodeledReleaseFormTests {
         // of several formulations (Concerta 12 h, Ritalin LA 8 h…), so we draw
         // nothing rather than the IR curve. (A *named* Concerta draws — see
         // `ProductDurationTests`.)
-        let state = ActiveSubstanceState.from(entry: entry("Methylphenidate", releaseForm: "XR"), colorHex: "#FF0000")
+        let state = ActiveSubstanceState.from(entry: entry("Methylphenidate", releaseForm: "XR"), tint: P3Color(red: 0.917, green: 0.200, blue: 0.139))
         #expect(state == nil)
     }
 
@@ -63,7 +63,7 @@ struct UnmodeledReleaseFormTests {
     func `Bare methylphenidate still draws its curve`() {
         // The control. Suppression must be scoped to the form the dose named — a
         // dose that named no form is exactly what the base ladder models.
-        let state = ActiveSubstanceState.from(entry: entry("Methylphenidate"), colorHex: "#FF0000")
+        let state = ActiveSubstanceState.from(entry: entry("Methylphenidate"), tint: P3Color(red: 0.917, green: 0.200, blue: 0.139))
         #expect(state != nil)
         #expect((state?.totalMinutes ?? 0) > 0)
     }
@@ -75,7 +75,7 @@ struct UnmodeledReleaseFormTests {
         let staged = StagedDose(substanceName: "Methylphenidate", amount: 10, unit: "mg", route: .oral, productName: "Ritalin")
         let state = ActiveSubstanceState.from(
             entry: entry("Methylphenidate", releaseForm: staged.releaseForm, productName: "Ritalin"),
-            colorHex: "#FF0000",
+            tint: P3Color(red: 0.917, green: 0.200, blue: 0.139),
         )
         #expect(state != nil, "a bare brand is the standard form and keeps its curve")
     }
@@ -92,7 +92,7 @@ struct UnmodeledReleaseFormTests {
         // reasons: the unmodeled form, and the absence of any half-life fallback.
         let state = ActiveSubstanceState.from(
             entry: entry("Aripiprazole", releaseForm: "DEP", productName: "Abilify Maintena", amount: 400),
-            colorHex: "#FF0000",
+            tint: P3Color(red: 0.917, green: 0.200, blue: 0.139),
         )
         #expect(state == nil, "the alias half-life lookup must not resurrect a curve for an unmodeled form")
     }
@@ -107,7 +107,7 @@ struct UnmodeledReleaseFormTests {
         // release-form guard's genuine control is
         // `Bare methylphenidate still draws its curve` above — a substance that
         // actually has durations, which is what makes it a control.
-        let state = ActiveSubstanceState.from(entry: entry("Aripiprazole", amount: 10), colorHex: "#FF0000")
+        let state = ActiveSubstanceState.from(entry: entry("Aripiprazole", amount: 10), tint: P3Color(red: 0.917, green: 0.200, blue: 0.139))
         #expect(state == nil, "a half-life is not an effect profile")
     }
 
@@ -116,7 +116,7 @@ struct UnmodeledReleaseFormTests {
         // Venlafaxine: zero duration rows + a 300-min half-life ⇒ tier 2 today.
         let state = ActiveSubstanceState.from(
             entry: entry("Venlafaxine", releaseForm: "XR", productName: "Effexor XR", amount: 150),
-            colorHex: "#FF0000",
+            tint: P3Color(red: 0.917, green: 0.200, blue: 0.139),
         )
         #expect(state == nil)
     }

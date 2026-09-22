@@ -86,9 +86,6 @@ enum MedIntentLogger {
             FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= dayStart }),
         )) ?? []
 
-        let colors = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
-        var coloredNames = Set(colors.map { $0.substance.lowercased() })
-
         var loggedAny = false
         for item in items where !item.isAsNeeded && include(item) {
             guard MedSchedule.isDue(
@@ -120,16 +117,6 @@ enum MedIntentLogger {
             )
             context.insert(entry)
             loggedAny = true
-
-            // Deterministic color on first log, mirroring MyMedsCard — so the
-            // journal row doesn't render fallback pink until the next in-app log.
-            if !coloredNames.contains(item.substance.lowercased()) {
-                context.insert(SubstanceColor(
-                    substance: item.substance,
-                    hexColor: PresetColor.deterministic(for: item.substance).hex,
-                ))
-                coloredNames.insert(item.substance.lowercased())
-            }
         }
 
         guard loggedAny else { return }

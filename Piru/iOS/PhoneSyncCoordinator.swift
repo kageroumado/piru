@@ -61,15 +61,12 @@ final class PhoneSyncCoordinator: NSObject {
         guard session.activationState == .activated else { return }
 
         let colors = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
-        var hexMap: [String: String] = [:]
-        for color in colors {
-            hexMap[color.substance.lowercased()] = color.hexColor
-        }
+        let tintMap = colors.tintMap
 
         let manifest = QuickLogManifestBuilder.build(
             in: context,
             generatedAt: Date(),
-            colorHex: { SubstancePalette.hex(for: $0, hexMap: hexMap) },
+            tint: { SubstancePalette.tint(for: $0, tintMap: tintMap) },
             favoriteDefault: Self.favoriteDefault(for:),
             step: { substance, route, unit, amount in
                 // Same increment the quick-log dock uses: niceStep off the library

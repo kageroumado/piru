@@ -135,6 +135,18 @@ struct PiruApp: App {
                     // the whole batch synchronously on the main actor.
                     _ = SubstanceStore.shared.count
                     await SubstanceStore.shared.ensureAllLoaded()
+                    // Publish every substance's class color, bring the stored
+                    // default rows in line with it, and mint rows for substances
+                    // logged where there was no catalog (watch, widget intent).
+                    SubstanceColorStore.installCatalogTints()
+                    SubstanceColorStore.refreshDefaults(in: container.mainContext)
+                    Task(name: "Mint substance color rows") {
+                        await LaunchPassGate.runAsync("substanceColorMint", container: container) {
+                            await SubstanceColorStore.mintMissingRows(
+                                container: container, defaults: SubstanceColorStore.backgroundDefaults,
+                            )
+                        }
+                    }
                     // Set up first-run contextual tips (gated on onboarding completion).
                     OnboardingTips.configure()
                     // First-run nudge sequencing: bump the launch counter and record whether a dose

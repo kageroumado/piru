@@ -18,7 +18,7 @@ struct SubstanceCard: Identifiable, Equatable {
     /// The product/form title to show ("Concerta", "Methylphenidate XR"), or
     /// `nil` for a plain card — which titles from the regionalized display name.
     let title: String?
-    let colorHex: String?
+    let tint: P3Color?
     let routes: [SubstanceGroup]
     let latestTimestamp: Date
     /// Identity components, carried so favoriting this card pins the same form.
@@ -38,7 +38,7 @@ struct SubstanceGroup: Identifiable, Equatable {
     let cardKey: String
     let substanceName: String
     let route: RouteOfAdministration
-    let colorHex: String?
+    let tint: P3Color?
     let librarySubstance: Substance?
     var latestTimestamp: Date
     /// Identity + product carried so a re-staged chip logs the same form/product.
@@ -68,7 +68,7 @@ struct SubstanceGroup: Identifiable, Equatable {
     /// interchangeable (and the card's `.equatable()` can skip rebuilding them).
     static func == (lhs: SubstanceGroup, rhs: SubstanceGroup) -> Bool {
         lhs.id == rhs.id
-            && lhs.colorHex == rhs.colorHex
+            && lhs.tint == rhs.tint
             && lhs.latestTimestamp == rhs.latestTimestamp
             && lhs.librarySubstance?.id == rhs.librarySubstance?.id
             && lhs.doses == rhs.doses
@@ -89,7 +89,7 @@ struct SubstanceGroup: Identifiable, Equatable {
         cardKey: String,
         substanceName: String,
         route: RouteOfAdministration,
-        colorHex: String?,
+        tint: P3Color?,
         librarySubstance: Substance?,
         latestTimestamp: Date,
         substanceUID: String? = nil,
@@ -102,7 +102,7 @@ struct SubstanceGroup: Identifiable, Equatable {
         self.cardKey = cardKey
         self.substanceName = substanceName
         self.route = route
-        self.colorHex = colorHex
+        self.tint = tint
         self.librarySubstance = librarySubstance
         self.latestTimestamp = latestTimestamp
         self.substanceUID = substanceUID
@@ -375,7 +375,7 @@ final class QuickLogContentModel {
     private(set) var cachedFavoriteOrder: [String: Int] = [:]
     private(set) var cachedHistoryNames: Set<String> = []
     private(set) var cachedLibraryResults: [SubstanceMatch] = []
-    private(set) var cachedColorLookup: [String: String] = [:]
+    private(set) var cachedColorLookup: [String: P3Color] = [:]
 
     /// Today's logged doses — the "done today" and "due now" source for the
     /// daily groups. Kept as entries (not a pre-aggregated identity dict)
@@ -450,7 +450,7 @@ final class QuickLogContentModel {
     // MARK: Rebuilds
 
     func rebuildColorLookup(substanceColors: [SubstanceColor]) {
-        cachedColorLookup = Array(substanceColors).hexColorMap
+        cachedColorLookup = Array(substanceColors).tintMap
     }
 
     /// Recompute everything derived from `allEntries` in a single pass. Called
@@ -592,7 +592,7 @@ final class QuickLogContentModel {
                     route: dose.route,
                     // Color keys on the canonical name so every form of a substance
                     // shares its color — a Concerta chip takes Methylphenidate's.
-                    colorHex: colorLookup[dose.substance.lowercased()],
+                    tint: colorLookup[dose.substance.lowercased()],
                     // Batch-cache lookup (class/routes/doses/salts/durations) —
                     // all a card needs — instead of the heavy per-substance SQL
                     // resolve, which cold-stalled the first open. Same path the
@@ -631,7 +631,7 @@ final class QuickLogContentModel {
                 id: cardKey,
                 substanceName: first.substanceName,
                 title: Self.cardTitle(for: first),
-                colorHex: first.colorHex,
+                tint: first.tint,
                 routes: sorted,
                 latestTimestamp: first.latestTimestamp,
                 substanceUID: first.substanceUID,

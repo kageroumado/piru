@@ -43,7 +43,7 @@ nonisolated struct QuickLogManifestItem: Codable, Hashable, Sendable, Identifiab
     /// off-ladder values like 124.5). Always > 0.
     var step: Double
     /// Tile color as a hex string (the substance's palette color), or nil for default.
-    var colorHex: String?
+    var tint: P3Color?
     /// Whether the user has this substance favorited (vs. a plain recent).
     var isFavorite: Bool
     /// True when this item logs alcohol by volume — the watch shows the drink-preset
@@ -73,7 +73,7 @@ nonisolated struct QuickLogManifestItem: Codable, Hashable, Sendable, Identifiab
         amount: Double,
         unit: String,
         step: Double = 1,
-        colorHex: String? = nil,
+        tint: P3Color? = nil,
         isFavorite: Bool = false,
         isByVolume: Bool = false,
         volumeML: Double? = nil,
@@ -93,7 +93,7 @@ nonisolated struct QuickLogManifestItem: Codable, Hashable, Sendable, Identifiab
         self.amount = amount
         self.unit = unit
         self.step = step
-        self.colorHex = colorHex
+        self.tint = tint
         self.isFavorite = isFavorite
         self.isByVolume = isByVolume
         self.volumeML = volumeML

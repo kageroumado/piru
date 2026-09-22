@@ -37,18 +37,3 @@ struct LoggedOverlay: View {
         }
     }
 }
-
-extension Color {
-    /// Parse `#RRGGBB` (or bare `RRGGBB`) into a Color. Returns nil for anything else, so the
-    /// caller falls back to the accent color.
-    nonisolated init?(hexString: String) {
-        var hex = hexString.trimmingCharacters(in: .whitespaces)
-        if hex.hasPrefix("#") { hex.removeFirst() }
-        guard hex.count == 6, let value = UInt32(hex, radix: 16) else { return nil }
-        self.init(
-            red: Double((value >> 16) & 0xFF) / 255,
-            green: Double((value >> 8) & 0xFF) / 255,
-            blue: Double(value & 0xFF) / 255,
-        )
-    }
-}

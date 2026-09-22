@@ -6,7 +6,7 @@ import Testing
 @Suite("DoseTrayModel staging")
 struct DoseTrayModelTests {
     private func stage(_ tray: DoseTrayModel, _ name: String, amount: Double, route: RouteOfAdministration = .oral, unit: String = "mg") {
-        tray.stage(substance: name, route: route, amount: amount, unit: unit, colorHex: nil, librarySubstance: nil)
+        tray.stage(substance: name, route: route, amount: amount, unit: unit, tint: nil, librarySubstance: nil)
     }
 
     @Test
@@ -85,7 +85,7 @@ struct DoseTrayModelTests {
     func `stageDraft opens the draft for editing in one staging event`() {
         let tray = DoseTrayModel()
         let tickBefore = tray.stageTick
-        tray.stageDraft(substance: "Caffeine", route: .oral, unit: "mg", colorHex: nil, librarySubstance: nil)
+        tray.stageDraft(substance: "Caffeine", route: .oral, unit: "mg", tint: nil, librarySubstance: nil)
 
         #expect(tray.staged.count == 1)
         #expect(tray.stageTick == tickBefore + 1)
@@ -105,7 +105,7 @@ struct DoseTrayModelTests {
         tray.expandedItemIDs.removeAll()
         let tickBefore = tray.stageTick
 
-        tray.stageDraft(substance: "Caffeine", route: .oral, unit: "mg", colorHex: nil, librarySubstance: nil)
+        tray.stageDraft(substance: "Caffeine", route: .oral, unit: "mg", tint: nil, librarySubstance: nil)
 
         #expect(tray.staged.count == 1)
         #expect(tray.stageTick == tickBefore)
@@ -140,8 +140,8 @@ struct DoseTrayModelTests {
         let tray = DoseTrayModel()
         let mph = SubstanceLibrary.lookup("methylphenidate")
         #expect(mph != nil)
-        tray.stage(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", colorHex: nil, librarySubstance: mph)
-        tray.stage(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
+        tray.stage(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", tint: nil, librarySubstance: mph)
+        tray.stage(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", tint: nil, librarySubstance: mph, productName: "Concerta")
         #expect(tray.staged.count == 2, "IR-unspecified and XR are different forms — two rows")
         #expect(tray.staged.allSatisfy { $0.totalAmount == 10 }, "neither row is doubled")
     }
@@ -152,8 +152,8 @@ struct DoseTrayModelTests {
     func `Same product re-stages into one row`() {
         let tray = DoseTrayModel()
         let mph = SubstanceLibrary.lookup("methylphenidate")
-        tray.stage(substance: "Methylphenidate", route: .oral, amount: 18, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
-        tray.stage(substance: "Methylphenidate", route: .oral, amount: 18, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
+        tray.stage(substance: "Methylphenidate", route: .oral, amount: 18, unit: "mg", tint: nil, librarySubstance: mph, productName: "Concerta")
+        tray.stage(substance: "Methylphenidate", route: .oral, amount: 18, unit: "mg", tint: nil, librarySubstance: mph, productName: "Concerta")
         #expect(tray.staged.count == 1)
         #expect(tray.staged[0].components.first?.count == 2)
     }

@@ -377,7 +377,7 @@ struct QuickLogView: View {
                     route: route,
                     amount: prefillDose.amount,
                     unit: prefillDose.unit,
-                    colorHex: content.cachedColorLookup[substance.name.lowercased()],
+                    tint: content.cachedColorLookup[substance.name.lowercased()],
                     librarySubstance: substance,
                     productName: prefillDose.productName,
                 )
@@ -389,7 +389,7 @@ struct QuickLogView: View {
                 substance: substance.name,
                 route: route,
                 unit: substance.defaultUnit,
-                colorHex: content.cachedColorLookup[substance.name.lowercased()],
+                tint: content.cachedColorLookup[substance.name.lowercased()],
                 librarySubstance: substance,
             )
         }

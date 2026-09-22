@@ -40,7 +40,7 @@ enum WidgetStoreAccess {
         guard FileManager.default.fileExists(atPath: storeURL.path) else { return nil }
         let config = ModelConfiguration(url: storeURL, allowsSave: allowsSave, cloudKitDatabase: .none)
         return try? ModelContainer(
-            for: DoseEntry.self, SubstanceColor.self, UserColor.self,
+            for: DoseEntry.self, SubstanceColor.self,
             DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self, Session.self,
             DoseRoutine.self, InventoryItem.self, UserProfileRecord.self, ToleranceState.self,
             CustomSubstanceRecord.self, SessionNote.self,

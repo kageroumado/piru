@@ -58,7 +58,7 @@ struct SessionDetailView: View {
         var hasher = Hasher()
         for color in substanceColors {
             hasher.combine(color.substance)
-            hasher.combine(color.hexColor)
+            hasher.combine(color.tint)
         }
         return hasher.finalize()
     }
@@ -85,12 +85,12 @@ struct SessionDetailView: View {
     /// ones (one per dose) plus the duration-less markers. Built at the render site
     /// so a recolor updates the tick colors without invalidating the simulation cache.
     private func mechanisticDoseMarks(_ day: ResolvedDay) -> [MechanisticSessionModel.DoseMark] {
-        let curveDoses = day.states.map { (timestamp: $0.doseTimestamp, colorHex: $0.colorHex) }
-        let markerDoses = day.markers.map { (timestamp: $0.timestamp, colorHex: $0.colorHex) }
+        let curveDoses = day.states.map { (timestamp: $0.doseTimestamp, tint: $0.tint) }
+        let markerDoses = day.markers.map { (timestamp: $0.timestamp, tint: $0.tint) }
         return (curveDoses + markerDoses).map {
             MechanisticSessionModel.DoseMark(
                 hours: $0.timestamp.timeIntervalSince(session.startDate) / 3_600,
-                colorHex: $0.colorHex,
+                tint: $0.tint,
             )
         }
     }
@@ -360,18 +360,7 @@ struct SessionDetailView: View {
                 )
             }
             .sheet(item: $editing.recolorRequest) { request in
-                SubstanceColorPickerView(
-                    substanceName: request.substanceName,
-                    takenColors: Array(substanceColors).takenColorMap,
-                ) { hex in
-                    if let existing = substanceColors.first(where: { $0.substance.lowercased() == request.substanceName.lowercased() }) {
-                        existing.hexColor = hex
-                    } else {
-                        modelContext.insert(SubstanceColor(substance: request.substanceName, hexColor: hex))
-                    }
-                    editing.recolorRequest = nil
-                }
-                .presentationDetents([.large])
+                SubstanceColorPickerView(substanceName: request.substanceName) { editing.recolorRequest = nil }
             }
     }
 

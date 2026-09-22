@@ -206,6 +206,16 @@ extension View {
         #endif
     }
 
+    /// A search field that stays in view. The automatic placement hides it
+    /// until the list is pulled down, which reads as "there is no search here".
+    func alwaysVisibleSearch(text: Binding<String>, prompt: Text) -> some View {
+        #if os(iOS)
+            searchable(text: text, placement: .navigationBarDrawer(displayMode: .always), prompt: prompt)
+        #else
+            searchable(text: text, placement: .automatic, prompt: prompt)
+        #endif
+    }
+
     func insetGroupedListStyle() -> some View {
         #if os(iOS)
             self.listStyle(.insetGrouped)

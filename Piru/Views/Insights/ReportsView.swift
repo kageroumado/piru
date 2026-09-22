@@ -320,9 +320,9 @@ struct ReportsView: View {
                 )
             }
 
-            let hexMap = substanceColors.reduce(into: [String: String]()) { $0[$1.substance] = $1.hexColor }
+            let tintMap = Array(substanceColors).tintMap
             let journalSummary = SummaryStatsResolver.report(
-                entries: filteredEntries, hexMap: hexMap, start: range.start, end: range.end,
+                entries: filteredEntries, tintMap: tintMap, start: range.start, end: range.end,
             )
 
             let compressedRaw = interactionSnapshots.map {

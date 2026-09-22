@@ -11,7 +11,7 @@ import SwiftUI
 enum SummaryStatsResolver {
     @MainActor
     static func resolve(
-        entries: [DoseEntry], hexMap: [String: String], start _: Date, end: Date,
+        entries: [DoseEntry], tintMap: [String: P3Color], start _: Date, end: Date,
     ) -> (substances: [SummarySubstance], doses: [SummaryDose]) {
         let opioids = SubstanceStore.shared.opioidEquivalences()
         let benzos = SubstanceStore.shared.benzoEquivalences()
@@ -59,7 +59,7 @@ enum SummaryStatsResolver {
                 substances.append(SummarySubstance(
                     name: canonical,
                     displayName: CustomSubstanceStore.shared.displayName(for: canonical, fallback: substance?.displayTitle),
-                    colorHex: SubstancePalette.hex(for: canonical, hexMap: hexMap),
+                    tint: SubstancePalette.tint(for: canonical, tintMap: tintMap),
                     unit: unitLabel(currency: currency, loggedUnit: entry.unit),
                     currency: currency,
                 ))
@@ -82,8 +82,8 @@ enum SummaryStatsResolver {
     }
 
     @MainActor
-    static func report(entries: [DoseEntry], hexMap: [String: String], start: Date, end: Date) -> JournalSummary {
-        let (substances, doses) = resolve(entries: entries, hexMap: hexMap, start: start, end: end)
+    static func report(entries: [DoseEntry], tintMap: [String: P3Color], start: Date, end: Date) -> JournalSummary {
+        let (substances, doses) = resolve(entries: entries, tintMap: tintMap, start: start, end: end)
         return SummaryStats.report(substances: substances, doses: doses, start: start, end: end, calendar: .current)
     }
 

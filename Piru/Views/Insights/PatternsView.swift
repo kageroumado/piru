@@ -75,7 +75,7 @@ struct PatternsView: View {
         // Resolve on the main actor (equivalence / ladder lookups), then run the
         // aggregation — the overlap pass is a per-hour body-load sample — off main.
         let (substances, doses) = SummaryStatsResolver.resolve(
-            entries: allEntries, hexMap: substanceColors.hexColorMap, start: start, end: now,
+            entries: allEntries, tintMap: substanceColors.tintMap, start: start, end: now,
         )
         report = await Task.detached {
             SummaryStats.report(substances: substances, doses: doses, start: start, end: now, calendar: .current)
@@ -213,7 +213,7 @@ private struct ExposureRow: View {
 
     var body: some View {
         HStack(spacing: Spacing.lg) {
-            LegendDot(color: Color(hex: substance.colorHex), size: .large)
+            LegendDot(color: substance.tint.color, size: .large)
             VStack(alignment: .leading, spacing: 1) {
                 Text(substance.displayName)
                     .font(.subheadline.weight(.medium))
@@ -233,9 +233,9 @@ private struct ExposureRow: View {
     private var sparkline: some View {
         Chart(stat.cumulative) { point in
             AreaMark(x: .value("Date", point.date), y: .value("Total", point.total))
-                .foregroundStyle(Color(hex: substance.colorHex).opacity(Theme.Opacity.emphasis))
+                .foregroundStyle(substance.tint.color.opacity(Theme.Opacity.emphasis))
             LineMark(x: .value("Date", point.date), y: .value("Total", point.total))
-                .foregroundStyle(Color(hex: substance.colorHex))
+                .foregroundStyle(substance.tint.color)
                 .lineStyle(StrokeStyle(lineWidth: 1.5))
         }
         .chartXAxis(.hidden)
@@ -274,7 +274,7 @@ private struct EscalationRow: View {
 
     var body: some View {
         HStack(spacing: Spacing.lg) {
-            LegendDot(color: Color(hex: substance.colorHex), size: .large)
+            LegendDot(color: substance.tint.color, size: .large)
             Text(substance.displayName)
                 .font(.subheadline.weight(.medium))
                 .lineLimit(1)
@@ -322,8 +322,8 @@ private struct OverlapCard: View {
                     let a = report.substances[overlap.a]
                     let b = report.substances[overlap.b]
                     HStack(spacing: Spacing.md) {
-                        LegendDot(color: Color(hex: a.colorHex))
-                        LegendDot(color: Color(hex: b.colorHex))
+                        LegendDot(color: a.tint.color)
+                        LegendDot(color: b.tint.color)
                         Text("\(a.displayName) · \(b.displayName)")
                             .font(.subheadline)
                             .lineLimit(1)

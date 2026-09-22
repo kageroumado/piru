@@ -30,7 +30,7 @@ struct RecentDoseEntry: TimelineEntry {
     /// A dose logged with no amount — shown as `?`.
     var isUnknownDose = false
     let doseTime: Date?
-    let colorHex: String
+    let tint: P3Color
 
     var amountDisplay: String {
         isUnknownDose ? "?" : amount.doseFormatted
@@ -41,7 +41,7 @@ struct RecentDoseEntry: TimelineEntry {
 
 struct RecentDoseProvider: TimelineProvider {
     func placeholder(in _: Context) -> RecentDoseEntry {
-        RecentDoseEntry(date: .now, substance: "Caffeine", amount: 200, unit: "mg", doseTime: .now.addingTimeInterval(-3_600), colorHex: "F57878")
+        RecentDoseEntry(date: .now, substance: "Caffeine", amount: 200, unit: "mg", doseTime: .now.addingTimeInterval(-3_600), tint: P3Color(red: 0.898, green: 0.498, blue: 0.485))
     }
 
     func getSnapshot(in _: Context, completion: @escaping (RecentDoseEntry) -> Void) {
@@ -57,7 +57,7 @@ struct RecentDoseProvider: TimelineProvider {
 
     private func fetchEntry() -> RecentDoseEntry {
         guard let container = WidgetStoreAccess.makeContainer() else {
-            return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", doseTime: nil, colorHex: "F56297")
+            return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", doseTime: nil, tint: P3Color(red: 0.893, green: 0.421, blue: 0.589))
         }
         let context = ModelContext(container)
 
@@ -69,11 +69,11 @@ struct RecentDoseProvider: TimelineProvider {
         let colorDescriptor = FetchDescriptor<SubstanceColor>()
 
         guard let entries = try? context.fetch(descriptor), let entry = entries.first else {
-            return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", doseTime: nil, colorHex: "F56297")
+            return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", doseTime: nil, tint: P3Color(red: 0.893, green: 0.421, blue: 0.589))
         }
 
         let colors = (try? context.fetch(colorDescriptor)) ?? []
-        let hex = colors.first { $0.substance.lowercased() == entry.substance.lowercased() }?.hexColor ?? "F56297"
+        let tint = colors.first { $0.substance.lowercased() == entry.substance.lowercased() }?.tint ?? .neutral
 
         let displayNames = (
             UserDefaults(suiteName: WidgetStoreAccess.appGroupID)?
@@ -104,7 +104,7 @@ struct RecentDoseProvider: TimelineProvider {
             unit: entry.unit,
             isUnknownDose: entry.isUnknownDose,
             doseTime: entry.timestamp,
-            colorHex: hex,
+            tint: tint,
         )
     }
 }
@@ -135,7 +135,7 @@ struct RecentDoseView: View {
                     .foregroundStyle(.secondary)
                 Spacer()
                 Circle()
-                    .fill(Color(hex: entry.colorHex))
+                    .fill(entry.tint.color)
                     .frame(width: 8, height: 8)
             }
 

@@ -56,7 +56,7 @@ final class SessionDetailModel {
     /// A substance with no modeled duration (or a form we decline to model) carries nils
     /// and falls back to the default window.
     private static func hrWindow(for entry: DoseEntry) -> HRDoseWindow {
-        let state = ActiveSubstanceState.from(entry: entry, colorHex: "000000")
+        let state = ActiveSubstanceState.from(entry: entry, tint: .neutral)
         return HRDoseWindow(
             id: entry.id,
             at: entry.timestamp,

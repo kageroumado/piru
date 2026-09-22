@@ -137,13 +137,18 @@ import SwiftData
         /// inherit the previous store's state. (QuickLogDose is the recents
         /// store behind the Log sheet's "Your Substances"; leaving it made
         /// a meds-only persona offer the dev store's research chemicals.)
+        /// A seeded substance's color row, as logging it would have minted.
+        @MainActor
+        private static func insertClassColor(_ name: String, in context: ModelContext) {
+            context.insert(SubstanceColor(substance: name, tint: SubstanceColorStore.defaultTint(for: name), usesDefault: true))
+        }
+
         @MainActor
         static func wipeUserData(context: ModelContext) {
             try? context.delete(model: DoseEntry.self)
             try? context.delete(model: SessionNote.self)
             try? context.delete(model: Session.self)
             try? context.delete(model: SubstanceColor.self)
-            try? context.delete(model: UserColor.self)
             try? context.delete(model: FavoriteSubstance.self)
             try? context.delete(model: DailyDoseItem.self)
             try? context.delete(model: QuickLogDose.self)
@@ -196,7 +201,7 @@ import SwiftData
                 esterID: "estradiol_valerate",
             ))
 
-            context.insert(SubstanceColor(substance: "estradiol", hexColor: "f5a3c7"))
+            insertClassColor("estradiol", in: context)
             context.insert(QuickLogDose(substance: "Estradiol", route: .intramuscular, amount: 4, unit: "mg", sortOrder: 0))
         }
 
@@ -263,7 +268,7 @@ import SwiftData
                 excludedFromCalibration: true,
             ))
 
-            context.insert(SubstanceColor(substance: "testosterone", hexColor: "6c9bd1"))
+            insertClassColor("testosterone", in: context)
             context.insert(QuickLogDose(substance: "Testosterone", route: .subcutaneous, amount: 100, unit: "mg", sortOrder: 0))
         }
 
@@ -329,8 +334,8 @@ import SwiftData
                 substance: "Vitamin D", amount: 2_000, unit: "IU", sortOrder: 1,
                 isBackgroundMed: true, isQuiet: true,
             ))
-            context.insert(SubstanceColor(substance: "methylphenidate", hexColor: "2ca2f5"))
-            context.insert(SubstanceColor(substance: "vitamin d", hexColor: "F9E2AF"))
+            insertClassColor("methylphenidate", in: context)
+            insertClassColor("vitamin d", in: context)
             // Quick-log recents mirror what this user actually logs, so the
             // Log sheet's "Your Substances" shows their two meds — not the
             // empty state (chips are normally minted at log time; seeded
@@ -449,8 +454,8 @@ import SwiftData
                 }
             }
 
-            for (name, hex) in [("ibuprofen", "f17395"), ("melatonin", "8394ff"), ("alcohol", "CBA6F7")] {
-                context.insert(SubstanceColor(substance: name, hexColor: hex))
+            for name in ["ibuprofen", "melatonin", "alcohol"] {
+                insertClassColor(name, in: context)
             }
             context.insert(QuickLogDose(substance: "Ibuprofen", route: .oral, amount: 400, unit: "mg", sortOrder: 0))
             context.insert(QuickLogDose(substance: "Melatonin", route: .sublingual, amount: 0.5, unit: "mg", sortOrder: 1))
@@ -510,8 +515,8 @@ import SwiftData
             ))
             mushroomSession.refreshDoseBounds()
 
-            for (name, hex) in [("lsd", "8394ff"), ("psilocybin mushrooms", "f17395")] {
-                context.insert(SubstanceColor(substance: name, hexColor: hex))
+            for name in ["lsd", "psilocybin mushrooms"] {
+                insertClassColor(name, in: context)
             }
         }
 
@@ -779,13 +784,12 @@ import SwiftData
             for (order, name) in ["Psilocybin mushrooms", "LSD", "Caffeine", "Lorazepam"].enumerated() {
                 context.insert(FavoriteSubstance(substance: name, sortOrder: order, substanceUID: uid(name)))
             }
-            let colors: [(String, String)] = [
-                ("methylphenidate", "2ca2f5"), ("l-theanine", "00b3a2"), ("caffeine", "e08600"),
-                ("lorazepam", "8394ff"), ("psilocybin mushrooms", "f17395"), ("lsd", "b885ef"),
-                ("alcohol", "bb9900"), ("magnesium", "21b26a"),
+            let colored = [
+                "methylphenidate", "l-theanine", "caffeine", "lorazepam",
+                "psilocybin mushrooms", "lsd", "alcohol", "magnesium",
             ]
-            for (name, hex) in colors {
-                context.insert(SubstanceColor(substance: name, hexColor: hex))
+            for name in colored {
+                insertClassColor(name, in: context)
             }
             /// Chips are normally minted at log time; seeded entries bypass
             /// that path, so record the week's doses the way a log would.

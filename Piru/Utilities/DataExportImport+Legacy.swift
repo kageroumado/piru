@@ -7,7 +7,6 @@ private nonisolated struct LegacyPiruData: Decodable {
     var doseEntries: [LegacyDoseEntry]
     var dailyDoseItems: [LegacyDailyDoseItem]
     var substanceColors: [LegacySubstanceColor]
-    var userColors: [LegacyUserColor]
 }
 
 private nonisolated struct LegacyDoseEntry: Decodable {
@@ -34,12 +33,6 @@ private nonisolated struct LegacyDailyDoseItem: Decodable {
 private nonisolated struct LegacySubstanceColor: Decodable {
     var substance: String
     var hexColor: String
-}
-
-private nonisolated struct LegacyUserColor: Decodable {
-    var hex: String
-    var name: String
-    var createdAt: Date
 }
 
 // MARK: - Legacy Import
@@ -76,13 +69,8 @@ extension DataExportImport {
         }
 
         for color in imported.substanceColors {
-            context.insert(SubstanceColor(substance: color.substance, hexColor: color.hexColor))
-        }
-
-        for color in imported.userColors {
-            let uc = UserColor(hex: color.hex, name: color.name)
-            uc.createdAt = color.createdAt
-            context.insert(uc)
+            let tint = LegacyColorImport.p3(fromSRGBHex: color.hexColor)
+            context.insert(SubstanceColor(substance: color.substance, tint: tint, usesDefault: false))
         }
     }
 }

@@ -131,7 +131,7 @@ struct StagedDose: Identifiable, Equatable {
     /// distinction is gone for good.
     var productName: String?
     var note: String = ""
-    var colorHex: String?
+    var tint: P3Color?
     var librarySubstance: Substance?
     /// Staged from the Daily routine card. Daily items keep their own surface,
     /// so they don't mint quick-log chips on commit.
@@ -170,7 +170,7 @@ struct StagedDose: Identifiable, Equatable {
         saltForm: String? = nil,
         isomer: String? = nil,
         productName: String? = nil,
-        colorHex: String? = nil,
+        tint: P3Color? = nil,
         librarySubstance: Substance? = nil,
         isFromDailySet: Bool = false,
         isBackgroundMed: Bool = false,
@@ -187,7 +187,7 @@ struct StagedDose: Identifiable, Equatable {
         // canonicalized at staging, so it names no form and would always answer nil.
         self.releaseForm = SubstanceLibrary.releaseForm(for: productName ?? substanceName)
         self.productName = productName
-        self.colorHex = colorHex
+        self.tint = tint
         self.librarySubstance = librarySubstance
         self.isFromDailySet = isFromDailySet
         self.isBackgroundMed = isBackgroundMed
@@ -521,13 +521,13 @@ final class DoseTrayModel {
     /// Stage a daily-set med as a chip, carrying its product so a Concerta med
     /// logs as Concerta — the tray derives the release form/isomer from it,
     /// same as search.
-    func stage(dailyItem item: DailyDoseItem, colorLookup: [String: String]) {
+    func stage(dailyItem item: DailyDoseItem, colorLookup: [String: P3Color]) {
         stage(
             substance: item.substance,
             route: item.route,
             amount: item.amount,
             unit: item.unit,
-            colorHex: colorLookup[item.substance.lowercased()],
+            tint: colorLookup[item.substance.lowercased()],
             librarySubstance: SubstanceLibrary.lookup(item.substance.lowercased()),
             productName: item.productName,
             isFromDailySet: true,
@@ -544,7 +544,7 @@ final class DoseTrayModel {
         route: RouteOfAdministration,
         amount: Double,
         unit: String,
-        colorHex: String?,
+        tint: P3Color?,
         librarySubstance: Substance?,
         productName: String? = nil,
         saltForm: String? = nil,
@@ -572,7 +572,7 @@ final class DoseTrayModel {
                 saltForm: saltForm ?? librarySubstance?.saltForms(for: route).first,
                 isomer: Self.seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
                 productName: productName,
-                colorHex: colorHex,
+                tint: tint,
                 librarySubstance: librarySubstance,
                 isFromDailySet: isFromDailySet,
                 isBackgroundMed: isBackgroundMed,
@@ -646,7 +646,7 @@ final class DoseTrayModel {
         substance: String,
         route: RouteOfAdministration,
         unit: String,
-        colorHex: String?,
+        tint: P3Color?,
         librarySubstance: Substance?,
         productName: String? = nil,
         saltForm: String? = nil,
@@ -677,7 +677,7 @@ final class DoseTrayModel {
             saltForm: saltForm,
             isomer: Self.seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
             productName: productName,
-            colorHex: colorHex,
+            tint: tint,
             librarySubstance: librarySubstance,
         )
         draft.wantsAmountFocus = true

@@ -13,7 +13,7 @@ struct CheckInLadderTests {
     ) -> ActiveSubstanceState {
         ActiveSubstanceState(
             substanceName: "Test",
-            colorHex: "FF66AA",
+            tint: P3Color(red: 0.929, green: 0.439, blue: 0.660),
             doseTimestamp: timestamp,
             amount: 1,
             unit: "mg",
