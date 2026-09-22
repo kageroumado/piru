@@ -339,6 +339,20 @@ struct LockScreenView: View {
                 Spacer(minLength: 12)
                 if let transition = SessionTiming.nextTransition(state) {
                     NextPhaseView(transition: transition, style: .stacked)
+                } else {
+                    // Every curve has run out. The app ends the activity when it
+                    // next wakes; until then the card says so rather than
+                    // going silent on this side.
+                    HStack(spacing: 8) {
+                        Text("Session complete")
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(.secondary)
+                        Image(systemName: DosePhaseGlyph.ended)
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundStyle(SessionTiming.colors(state).first ?? .white)
+                            .frame(width: 26, height: 26)
+                            .accessibilityHidden(true)
+                    }
                 }
             }
         }

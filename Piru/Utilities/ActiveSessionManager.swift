@@ -416,14 +416,29 @@ final class ActiveSessionManager {
     /// "Long-acting" alone does **not** mean durationless: memantine's winning
     /// source resolves a real ~18 h profile, inside
     /// ``Substance/maxAcuteTimelineMinutes``, so it is a legitimate member.
+    ///
+    /// Expiry is the one way a dose leaves the session without a user action,
+    /// so this is also where the Live Activity learns the session shrank or
+    /// ended. Without that push the activity keeps the last state it was
+    /// given: a curve that has run its course stays on the Lock Screen, still
+    /// labeled with the phase it was in when the app was last awake, until the
+    /// user swipes it away or ActivityKit expires it hours later.
     private func pruneCompleted() {
         let now = Date.now
+        let countBefore = activeEntries.count
         activeEntries.removeAll { item in
             guard let duration = item.duration else { return true }
             let endTime = item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
             return now > endTime
         }
         scheduleNextPrune()
+
+        guard activeEntries.count < countBefore else { return }
+        if activeEntries.isEmpty {
+            LiveActivityManager.shared.sessionCleared()
+        } else {
+            LiveActivityManager.shared.sessionDidChange()
+        }
     }
 
     /// Sleep until the earliest entry expires, then prune and re-schedule.

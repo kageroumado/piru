@@ -308,9 +308,15 @@ struct DoseSnapshot {
             }
         }
 
+        /// Asks for the refresh at the next phase boundary any active substance
+        /// crosses (the session's end included), floored at two minutes. iOS
+        /// grants a suspended app only a handful of these a day, so each one is
+        /// aimed at the moment the display actually changes — and the one that
+        /// lands after the last dose runs out is what ends the activity while
+        /// the app is asleep.
         func scheduleBackgroundRefresh() {
             let request = BGAppRefreshTaskRequest(identifier: Self.backgroundTaskIdentifier)
-            request.earliestBeginDate = Date(timeIntervalSinceNow: 2 * 60)
+            request.earliestBeginDate = Date(timeIntervalSinceNow: max(2 * 60, nextChangeInterval()))
             do {
                 try BGTaskScheduler.shared.submit(request)
             } catch {
