@@ -1024,7 +1024,9 @@ nonisolated enum SkinProducts {
     static let skinPrefix = "dev.yumeji.piru.skin."
     /// Every current and future skin. One entitlement that every ownership
     /// check consults, so a skin added later is covered with no store change.
-    static let everything = "dev.yumeji.piru.everything"
+    /// Never `dev.yumeji.piru.everything`: that id was deleted from App Store
+    /// Connect, and a deleted product id can never be used again.
+    static let everything = "dev.yumeji.piru.everything.forever"
 
     /// Every identifier the app sells, for the product request. A shelved skin
     /// is not on sale.
