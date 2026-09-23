@@ -247,6 +247,8 @@ struct ParameterSection: View {
         case .ki: concLabel(kiNm: target.halfMaxNanomolar, ec50Nm: nil, ic50Nm: nil)
         case .ec50: concLabel(kiNm: nil, ec50Nm: target.halfMaxNanomolar, ic50Nm: nil)
         case .ic50: concLabel(kiNm: nil, ec50Nm: nil, ic50Nm: target.halfMaxNanomolar)
+        // The therapeutic floor standing in for a binding constant; TDM is the universal initialism.
+        case .therapeuticThreshold: concLabel(symbol: "TDM", nanomolar: target.halfMaxNanomolar)
         }
     }
 

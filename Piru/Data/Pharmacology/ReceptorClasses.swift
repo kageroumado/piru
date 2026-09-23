@@ -354,6 +354,15 @@ nonisolated enum ReceptorClasses {
         /// Which effect the **primary layer** represents for a ladder class (GABA → sedation, α2δ →
         /// sleep) — the ladder's top row, read from ``shiftFactor``. `nil` for non-ladder classes.
         var primaryEffectAxis: EffectAxis?
+        /// Drive occupancy from the substance's **therapeutic plasma threshold** (its
+        /// `concentration_effects` row of kind `therapeutic_range`) instead of its binding Kᵢ. Set
+        /// only where the Kᵢ is a false proxy for presence: gabapentinoids bind α2δ at tens of nM
+        /// while acting at µM plasma levels through slow α2δ trafficking, so a Kᵢ-driven occupancy
+        /// stays ≈1 for three days after a single pregabalin dose and a once-weekly dose accrues
+        /// "mild tolerance". With the threshold as half-max, occupancy follows plasma over the
+        /// ~8–12 h the effect actually lasts. A substance in a flagged class with no such row keeps
+        /// its Kᵢ.
+        var occupancyHalfMaxFromTherapeuticRange = false
     }
 
     /// The curated right-shift parameters for a class — the **Stage B** literature-anchored table
@@ -517,6 +526,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 0.5,
                 safetyEndpoint: nil,
+                occupancyHalfMaxFromTherapeuticRange: true,
             )
         case .nmdaAntagonist:
             // Ketamine / DXM / MXE: days-scale adaptive shift + a redose pool; cumulative toxicity.

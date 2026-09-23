@@ -363,7 +363,11 @@ feature absent from that object is zero). So calibration is:
 binding cells are keyed by — Piru carries 17 spellings of the mu-opioid receptor
 and 33 of GABA-A, and two values cannot be compared until they agree what they
 are about. Regenerate it with `--write-target-map` after new binding rows land;
-it is tracked so the rest of the pipeline can key off the same names.
+it is tracked so the rest of the pipeline can key off the same names. The
+normalizer itself lives in `pipeline/target_names.py`, shared with the build:
+`sqlite.py` writes each row's `base` to `bindings.target_base`, which is what
+the app's tolerance engine collapses a substance's rows on — one contributor
+per receptor per dose, however many assays measured it.
 
 ## dose.wiki
 

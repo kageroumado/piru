@@ -234,6 +234,7 @@ extension SubstanceStore {
             molarMass: molarMass(forSubstanceName: routed.name),
             pk: effectivePK,
             bindingHits: bindings(forSubstanceName: routed.name),
+            therapeuticRanges: pkID.map { SubstanceReadModel.therapeuticRangeRows(substanceID: $0, db: substancesDB) } ?? [],
             doseScale: routed.scale,
             doseScaleConfidence: routed.confidence,
             referenceDoseMg: referenceDoseMg,
@@ -321,6 +322,7 @@ extension SubstanceStore {
                 molarMass: id.flatMap { SubstanceReadModel.molarMass(substanceID: $0, db: queue) },
                 pk: effectivePK,
                 bindingHits: id.map { SubstanceReadModel.bindingRows(substanceID: $0, db: queue) } ?? [],
+                therapeuticRanges: id.map { SubstanceReadModel.therapeuticRangeRows(substanceID: $0, db: queue) } ?? [],
                 doseScale: routed.scale,
                 doseScaleConfidence: routed.confidence,
                 referenceDoseMg: referenceDoseMg,
@@ -463,6 +465,7 @@ extension SubstanceStore {
     /// cached instance path and the off-main batch path share identical resolution logic.
     private nonisolated static func assemblePharmacologyParameters(
         molarMass: Double?, pk: [PKRouteHit], bindingHits: [BindingHit],
+        therapeuticRanges: [TherapeuticRangeHit] = [],
         doseScale: Double = 1, doseScaleConfidence: ConfidenceTier = .high,
         referenceDoseMg: Double? = nil, intrinsicEfficacy: Double = 1,
         categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
@@ -524,6 +527,10 @@ extension SubstanceStore {
         let tmax = tmaxRow?.tmaxMin
         let tmaxConfidence: ConfidenceTier = tmax != nil ? (tmaxRow?.confidence ?? .unverified) : .unverified
 
+        // The therapeutic floor, when the substance has one: the half-max for every target whose
+        // class is flagged `occupancyHalfMaxFromTherapeuticRange` (see that doc for why a Kᵢ misleads
+        // there). Targets in other classes keep their binding constant.
+        let therapeuticFloor = Self.therapeuticHalfMax(ranges: therapeuticRanges, molarMass: molarMass)
         var seenTargets = Set<String>()
         let targets = bindingHits.compactMap { b -> PharmacologyParameters.TargetEngagement? in
             guard let action = BindingAction(rawValue: b.action) else { return nil }
@@ -535,11 +542,24 @@ extension SubstanceStore {
             let kind: PharmacologyParameters.HalfMaxKind
             if let ki = b.kiNm { halfMax = ki; kind = .ki } else if let ec = b.ec50Nm { halfMax = ec; kind = .ec50 } else if let ic = b.ic50Nm { halfMax = ic; kind = .ic50 } else { halfMax = nil; kind = .ki }
             guard let halfMax, halfMax > 0 else { return nil }
+            // A row that would have engaged on its constant engages on the therapeutic floor instead.
+            // Rows with no constant (a Kd-only assay) stay out: the floor stands in for a constant,
+            // it does not mint targets.
+            if let therapeuticFloor,
+               ReceptorClasses.parameters(forTarget: b.target, action: action).occupancyHalfMaxFromTherapeuticRange {
+                return .init(
+                    target: b.target, action: action, halfMaxNanomolar: therapeuticFloor.nanomolar,
+                    kind: .therapeuticThreshold, confidence: therapeuticFloor.confidence,
+                    sourceSlug: therapeuticFloor.sourceSlug, citationKey: therapeuticFloor.citationKey, species: "human",
+                    targetBase: b.targetBase,
+                )
+            }
             let citationKey = b.doi.map { "doi:\($0)" } ?? b.pmid.map { "pmid:\($0)" }
             return .init(
                 target: b.target, action: action, halfMaxNanomolar: halfMax,
                 kind: kind, confidence: b.confidence,
                 sourceSlug: b.sourceSlug, citationKey: citationKey, species: b.species,
+                targetBase: b.targetBase,
             )
         }
         // Tightest (most potent) first, then collapse duplicate target+action+kind rows (which a
@@ -596,6 +616,24 @@ extension SubstanceStore {
             opioidMMEPerMg: opioidMMEPerMg,
             representsClasses: representsClasses,
         )
+    }
+
+    /// The lowest therapeutic-range threshold in nanomolar, or `nil` when the substance has no
+    /// convertible row or no molar mass. A TDM reference range is a population consensus rather than a
+    /// measurement of this drug's own concentration–effect curve, so it carries `.medium`.
+    nonisolated static func therapeuticHalfMax(
+        ranges: [TherapeuticRangeHit], molarMass: Double?,
+    ) -> (nanomolar: Double, confidence: ConfidenceTier, sourceSlug: String, citationKey: String?)? {
+        guard let molarMass, molarMass > 0 else { return nil }
+        for range in ranges {
+            guard let mgPerL = DoseEquivalent.milligramsPerLitre(range.thresholdValue, unit: range.concentrationUnit),
+                  mgPerL > 0 else { continue }
+            // mg/L ÷ (g/mol) = mmol/L; ×1e6 → nmol/L.
+            let nanomolar = mgPerL / molarMass * 1e6
+            let citationKey = range.doi.map { "doi:\($0)" } ?? range.pmid.map { "pmid:\($0)" }
+            return (nanomolar, .medium, range.sourceSlug, citationKey)
+        }
+        return nil
     }
 
     /// Fraction-unbound (`fu`) from the best available `protein_binding_pct` across all PK rows for the

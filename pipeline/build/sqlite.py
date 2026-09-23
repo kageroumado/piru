@@ -69,6 +69,7 @@ from prose import (  # noqa: E402
     strip_curator_notes,
 )
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
+from target_names import normalize_target  # noqa: E402
 
 #: Where to write the rejected-input log, or empty to keep it off. Every strict
 #: parser refuses inputs; a bare count cannot tell a genuinely bad row from one
@@ -1752,6 +1753,12 @@ CREATE TABLE bindings (
     id                     INTEGER PRIMARY KEY,
     substance_id           INTEGER NOT NULL REFERENCES substances(id),
     target                 TEXT NOT NULL,
+    -- The receptor `target` names, with every spelling and assay qualifier
+    -- folded away (pipeline/target_names.py, normalize_target().base):
+    -- 'α2δ-1 (recombinant human)', 'α2δ-1' and 'alpha2delta-1 (CACNA2D1)' all
+    -- read 'alpha-2-delta-1'. Rows sharing it are measurements of one receptor;
+    -- the tolerance engine keeps one per dose.
+    target_base            TEXT NOT NULL,
     action                 TEXT NOT NULL,
     ki_nm                  REAL,
     ki_ci_lower_nm         REAL,
@@ -1898,6 +1905,12 @@ CREATE TABLE concentration_effects (
     substance_id        INTEGER NOT NULL REFERENCES substances(id),
     source_id           INTEGER NOT NULL REFERENCES sources(id),
     effect              TEXT NOT NULL,
+    -- Machine-readable role of the row, or NULL for a descriptive row. The only
+    -- value so far is 'therapeutic_range': the TDM reference range, whose lower
+    -- bound is the concentration at which the drug's effect is present. The
+    -- tolerance engine reads it as the occupancy half-max for classes whose
+    -- binding Ki sits far below the concentrations that act (gabapentinoids).
+    kind                TEXT,
     concentration_unit  TEXT NOT NULL,
     threshold           REAL,
     peak_effect         REAL,
@@ -7461,10 +7474,11 @@ class Build:
             notes = f"{notes} ({qualifier})" if notes else qualifier
         ki_ci = b.get("ki_ci_nm") or [None, None]
         self.cur.execute(
-            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, relative_tau, comparable_set, reference_agonist, species, tissue_or_cell, assay_system, radioligand, assay_notes, source_id, citation_id, is_review, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO bindings(substance_id, target, target_base, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, relative_tau, comparable_set, reference_agonist, species, tissue_or_cell, assay_system, radioligand, assay_notes, source_id, citation_id, is_review, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 b.get("target"),
+                normalize_target(b.get("target")).base,
                 action,
                 to_float(b.get("ki_nm")),
                 to_float(ki_ci[0]) if isinstance(ki_ci, list) and len(ki_ci) > 0 else None,
@@ -7625,19 +7639,27 @@ class Build:
         )
         self.stats["pk_routes"] += 1
 
+    #: Accepted values for ``concentration_effects.kind``. Anything else is stored
+    #: as NULL (a descriptive row), so a consumer can trust that a non-null kind
+    #: is one it knows how to interpret.
+    CONC_EFFECT_KINDS = {"therapeutic_range"}
+
     def add_conc_effect(self, sid: int, source_slug: str, c: dict) -> None:
         if not isinstance(c, dict) or not c.get("effect"):
             return
         src = self.source_ids[source_slug]
+        kind = c.get("kind")
+        kind = kind if kind in self.CONC_EFFECT_KINDS else None
         self.cur.execute(
             # U+00B5 MICRO SIGN and U+03BC GREEK SMALL LETTER MU are
             # indistinguishable on screen and sort apart everywhere else; the
             # research pass used both. SI says micro is U+00B5.
-            "INSERT INTO concentration_effects(substance_id, source_id, effect, concentration_unit, threshold, peak_effect, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO concentration_effects(substance_id, source_id, effect, kind, concentration_unit, threshold, peak_effect, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 src,
                 c.get("effect"),
+                kind,
                 # U+00B5 MICRO SIGN and U+03BC GREEK SMALL LETTER MU look
                 # identical and sort apart; the research pass used both.
                 # SI says micro is U+00B5.

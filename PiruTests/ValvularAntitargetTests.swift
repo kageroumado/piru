@@ -16,7 +16,7 @@ struct ValvularAntitargetTests {
         kiNm: Double? = nil, ec50Nm: Double? = nil, tier: Int? = nil,
     ) -> BindingHit {
         BindingHit(
-            id: 0, substanceName: "x", target: target, action: action,
+            id: 0, substanceName: "x", target: target, targetBase: nil, action: action,
             kiNm: kiNm, ec50Nm: ec50Nm, ic50Nm: nil, species: nil,
             sourceSlug: "peer-review-primary", doi: nil, pmid: nil, affinityTier: tier,
         )

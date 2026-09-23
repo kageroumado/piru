@@ -187,6 +187,12 @@ func concLabel(kiNm: Double?, ec50Nm: Double?, ic50Nm: Double?) -> String {
             ("", nil)
         }
     guard let value else { return "—" }
+    return concLabel(symbol: symbol, nanomolar: value)
+}
+
+/// `symbol` + the concentration in nM under 1000, else µM — the one formatter behind every
+/// concentration readout, so a therapeutic threshold ("TDM 12.6 µM") prints like a Kᵢ.
+func concLabel(symbol: String, nanomolar value: Double) -> String {
     if value < 1_000 { return "\(symbol) \(formatNm(value)) nM" }
     let micromolar = value / 1_000
     let umText = micromolar >= 100 ? String(format: "%.0f", micromolar)

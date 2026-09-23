@@ -848,6 +848,13 @@ final class ToleranceStore {
             // Most-potent *surviving* target per class (targets are tightest-first, so the first per
             // class wins) — drives any modulation edge's presence curve.
             var bestTargetByClass: [ReceptorClasses.ReceptorClass: PharmacologyParameters.TargetEngagement] = [:]
+            // One contributor per receptor per class: the bindings table holds a row per
+            // *measurement*, so a substance measured at one receptor by several assays (ketamine's
+            // seven NMDA rows, pregabalin's two α2δ-1 rows) arrives as several engagements sharing a
+            // `targetBase`. The Gaddum sum below is for several ligands competing at one site; the
+            // same ligand counted N times is N× its real drive. Tightest-first order makes the first
+            // engagement per base the one to keep.
+            var seenReceptors = Set<String>()
             for engagement in sourceParams.targets {
                 // Mechanism-direction gate: off-mechanism engagements (a 5-HT2A antagonist, an α7
                 // antagonist) classify to `.unknown` and are skipped — no card.
@@ -856,6 +863,7 @@ final class ToleranceStore {
                 // Fallback path: only build the representative's targets that fall in the one class
                 // being surrogate-modeled.
                 if let restrictToClass, cls != restrictToClass { continue }
+                guard seenReceptors.insert("\(cls)|\(engagement.targetBase)").inserted else { continue }
                 // Meaningfulness gate: skip engagements barely occupied at this dose (weak off-targets).
                 let peak = ToleranceStore.peakOccupancy(
                     prefactorNanomolar: prefactorNanomolar, ke: ke, ka: ka,

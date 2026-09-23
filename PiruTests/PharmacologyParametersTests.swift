@@ -31,6 +31,25 @@ struct PharmacologyParametersTests {
     }
 
     @Test
+    func `Gabapentinoids take their half-max from the therapeutic threshold, not the binding Kᵢ`() throws {
+        // Pregabalin binds α2δ at 32 nM but acts at 2–5 µg/mL; the AGNP TDM floor of 2 µg/mL is
+        // 12.56 µM at 159.23 g/mol. Gabapentin's floor is the same 2 µg/mL at 171.24 g/mol.
+        for (name, expected) in [("Pregabalin", 12_560.0), ("Gabapentin", 11_680.0)] {
+            let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name)
+            let primary = try #require(p.primaryTarget, "\(name) has no primary target")
+            #expect(primary.kind == .therapeuticThreshold, "\(name) primary kind is \(primary.kind)")
+            #expect(abs(primary.halfMaxNanomolar - expected) / expected < 0.03, "\(name) half-max \(primary.halfMaxNanomolar)")
+            #expect(primary.citationKey == "doi:10.1055/s-0043-116492")
+            #expect(p.targets.allSatisfy { $0.kind == .therapeuticThreshold })
+            #expect(p.targets.allSatisfy { $0.targetBase.hasPrefix("alpha-2-delta") }, "\(name) bases \(p.targets.map(\.targetBase))")
+        }
+        // Phenibut is in the same class but has no therapeutic-range row, so it keeps its Kᵢ.
+        let phenibut = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Phenibut")
+        let primary = try #require(phenibut.primaryTarget)
+        #expect(primary.kind == .ki)
+    }
+
+    @Test
     func `Methylphenidate resolves as a reuptake inhibitor, not a releaser`() throws {
         // The flagship finding: methylphenidate must NOT be lumped with amphetamine — it is a
         // blocker (transporter inhibition), a distinct mechanism. The half-max may resolve from a

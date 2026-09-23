@@ -3163,6 +3163,59 @@ class TestSignatureGates(unittest.TestCase):
         )
         self.assertEqual(uncited, [], f"class-level binding carries a citation_id: {uncited[:10]}")
 
+    def test_bindings_carry_a_folded_target_base(self):
+        # The engine collapses a substance's rows to one per receptor on this
+        # column, so every row has one and the spellings of one receptor agree.
+        missing = self.db.execute(
+            "SELECT COUNT(*) FROM bindings WHERE target_base IS NULL OR target_base = ''"
+        ).fetchone()[0]
+        self.assertEqual(missing, 0)
+        bases = {
+            r[0]
+            for r in self.db.execute(
+                "SELECT DISTINCT b.target_base FROM bindings b"
+                "  JOIN substances s ON s.id = b.substance_id"
+                " WHERE s.canonical_name = 'Pregabalin'"
+                "   AND COALESCE(b.ki_nm, b.ec50_nm, b.ic50_nm) IS NOT NULL"
+            ).fetchall()
+        }
+        self.assertEqual(bases, {"alpha-2-delta-1"})
+        spellings = self.db.execute(
+            "SELECT COUNT(DISTINCT b.target) FROM bindings b"
+            "  JOIN substances s ON s.id = b.substance_id"
+            " WHERE s.canonical_name = 'Pregabalin' AND b.target_base = 'alpha-2-delta-1'"
+        ).fetchone()[0]
+        self.assertGreater(
+            spellings, 1, "the test needs two spellings of one receptor to mean anything"
+        )
+
+    def test_therapeutic_range_rows_are_kinded_and_cited(self):
+        # The tolerance engine reads a `therapeutic_range` row as the occupancy
+        # half-max for the gabapentinoid class, so both members must carry one,
+        # in a mass/volume unit the app converts, with a citation. Any other kind
+        # value is dropped to NULL by the builder, never stored.
+        rows = self.db.execute(
+            "SELECT s.canonical_name, c.concentration_unit, c.threshold, c.peak_effect, c.citation_id"
+            "  FROM concentration_effects c JOIN substances s ON s.id = c.substance_id"
+            " WHERE c.kind = 'therapeutic_range'"
+            " ORDER BY s.canonical_name"
+        ).fetchall()
+        by_name = {r[0]: r for r in rows}
+        for name in ("Gabapentin", "Pregabalin"):
+            self.assertIn(name, by_name, f"{name} lacks a therapeutic_range row")
+            _, unit, threshold, peak, citation_id = by_name[name]
+            self.assertEqual(unit, "\u00b5g/mL")
+            self.assertEqual(threshold, 2.0)
+            self.assertIsNotNone(peak)
+            self.assertIsNotNone(citation_id, f"{name} therapeutic_range row is uncited")
+        kinds = {
+            r[0]
+            for r in self.db.execute(
+                "SELECT DISTINCT kind FROM concentration_effects WHERE kind IS NOT NULL"
+            ).fetchall()
+        }
+        self.assertTrue(kinds <= Builder.CONC_EFFECT_KINDS, f"unknown kinds stored: {kinds}")
+
     def test_no_uncited_numeric_values(self):
         # `benzos-cited` is a source-level-attributed curated dataset: each record
         # carries its own aggregate `sources` list, so provenance rides on the

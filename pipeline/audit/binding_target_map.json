@@ -241,27 +241,9 @@
       "dropped": [],
       "kept": []
     },
-    "AOC3": {
-      "base": "aoc3",
-      "cell": "aoc3",
-      "dropped": [],
-      "kept": []
-    },
     "ATM kinase": {
       "base": "atm-kinase",
       "cell": "atm-kinase",
-      "dropped": [],
-      "kept": []
-    },
-    "Acetylcholinesterase": {
-      "base": "acetylcholinesterase",
-      "cell": "acetylcholinesterase",
-      "dropped": [],
-      "kept": []
-    },
-    "Adenosine": {
-      "base": "adenosine",
-      "cell": "adenosine",
       "dropped": [],
       "kept": []
     },
@@ -448,12 +430,6 @@
     "CXCR4": {
       "base": "cxcr4",
       "cell": "cxcr4",
-      "dropped": [],
-      "kept": []
-    },
-    "CYP17A1": {
-      "base": "cyp17a1",
-      "cell": "cyp17a1",
       "dropped": [],
       "kept": []
     },
@@ -719,26 +695,12 @@
       "dropped": [],
       "kept": []
     },
-    "Dopamine reuptake inhibitor (moderate)": {
-      "base": "dopamine-reuptake-inhibitor",
-      "cell": "dopamine-reuptake-inhibitor [subtype:moderate]",
-      "dropped": [],
-      "kept": [
-        "subtype:moderate"
-      ]
-    },
     "Dopaminergic (indirect, downstream)": {
       "base": "dopaminergic",
       "cell": "dopaminergic",
       "dropped": [
         "indirect, downstream"
       ],
-      "kept": []
-    },
-    "Dopaminergic neurotransmission": {
-      "base": "dopaminergic-neurotransmission",
-      "cell": "dopaminergic-neurotransmission",
-      "dropped": [],
       "kept": []
     },
     "EAAT3 (SLC1A1)": {
@@ -796,12 +758,6 @@
     "Epinephrine transporter": {
       "base": "epinephrine-transporter",
       "cell": "epinephrine-transporter",
-      "dropped": [],
-      "kept": []
-    },
-    "Epithelial sodium channels": {
-      "base": "epithelial-sodium-channels",
-      "cell": "epithelial-sodium-channels",
       "dropped": [],
       "kept": []
     },
@@ -1228,12 +1184,6 @@
       "dropped": [],
       "kept": []
     },
-    "GABAergic neurotransmission": {
-      "base": "gabaergic-neurotransmission",
-      "cell": "gabaergic-neurotransmission",
-      "dropped": [],
-      "kept": []
-    },
     "GABAergic system": {
       "base": "gabaergic-system",
       "cell": "gabaergic-system",
@@ -1552,12 +1502,6 @@
       "dropped": [],
       "kept": []
     },
-    "I1": {
-      "base": "i1",
-      "cell": "i1",
-      "dropped": [],
-      "kept": []
-    },
     "I1 imidazoline (rostral ventrolateral medulla)": {
       "base": "i1-imidazoline",
       "cell": "i1-imidazoline [subtype:rostral-ventrolateral-medulla]",
@@ -1659,12 +1603,6 @@
     "L-type calcium channel α1C": {
       "base": "l-type-calcium-channel-alpha1c",
       "cell": "l-type-calcium-channel-alpha1c",
-      "dropped": [],
-      "kept": []
-    },
-    "Ligand-gated ion channels": {
-      "base": "ligand-gated-ion-channels",
-      "cell": "ligand-gated-ion-channels",
       "dropped": [],
       "kept": []
     },
@@ -2208,14 +2146,6 @@
       "dropped": [],
       "kept": []
     },
-    "Norepinephrine reuptake inhibitor (moderate)": {
-      "base": "norepinephrine-reuptake-inhibitor",
-      "cell": "norepinephrine-reuptake-inhibitor [subtype:moderate]",
-      "dropped": [],
-      "kept": [
-        "subtype:moderate"
-      ]
-    },
     "Norepinephrine transporter": {
       "base": "norepinephrine-transporter",
       "cell": "norepinephrine-transporter",
@@ -2278,12 +2208,6 @@
       "dropped": [],
       "kept": []
     },
-    "PDE4": {
-      "base": "pde4",
-      "cell": "pde4",
-      "dropped": [],
-      "kept": []
-    },
     "PDE5": {
       "base": "pde5",
       "cell": "pde5",
@@ -2327,12 +2251,6 @@
     "Phosphodiesterase": {
       "base": "phosphodiesterase",
       "cell": "phosphodiesterase",
-      "dropped": [],
-      "kept": []
-    },
-    "Potassium channels": {
-      "base": "potassium-channels",
-      "cell": "potassium-channels",
       "dropped": [],
       "kept": []
     },
@@ -2452,18 +2370,6 @@
         "subtype:uptake"
       ]
     },
-    "SERT/NET": {
-      "base": "sert-net",
-      "cell": "sert-net",
-      "dropped": [],
-      "kept": []
-    },
-    "SERT/NET/DAT": {
-      "base": "sert-net-dat",
-      "cell": "sert-net-dat",
-      "dropped": [],
-      "kept": []
-    },
     "SERT[cite:doi-10-1007-164-2018-124]": {
       "base": "sert-cite-doi-10-1007-164-2018-124",
       "cell": "sert-cite-doi-10-1007-164-2018-124",
@@ -2499,14 +2405,6 @@
       "cell": "serotonin",
       "dropped": [],
       "kept": []
-    },
-    "Serotonin reuptake inhibitor (moderate)": {
-      "base": "serotonin-reuptake-inhibitor",
-      "cell": "serotonin-reuptake-inhibitor [subtype:moderate]",
-      "dropped": [],
-      "kept": [
-        "subtype:moderate"
-      ]
     },
     "Sigma": {
       "base": "sigma",
@@ -2672,12 +2570,6 @@
       "dropped": [],
       "kept": []
     },
-    "VMAT-2": {
-      "base": "vmat-2",
-      "cell": "vmat-2",
-      "dropped": [],
-      "kept": []
-    },
     "VMAT2": {
       "base": "VMAT2",
       "cell": "VMAT2",
@@ -2800,12 +2692,6 @@
       "dropped": [],
       "kept": []
     },
-    "human 5-HT2A": {
-      "base": "human-5-ht2a",
-      "cell": "human-5-ht2a",
-      "dropped": [],
-      "kept": []
-    },
     "kappa-opioid": {
       "base": "KOR",
       "cell": "KOR",
@@ -2815,12 +2701,6 @@
     "mAChR": {
       "base": "machr",
       "cell": "machr",
-      "dropped": [],
-      "kept": []
-    },
-    "mGluR": {
-      "base": "mglur",
-      "cell": "mglur",
       "dropped": [],
       "kept": []
     },
@@ -3062,12 +2942,6 @@
       ],
       "kept": []
     },
-    "α2-adrenergic receptors": {
-      "base": "alpha-2",
-      "cell": "alpha-2",
-      "dropped": [],
-      "kept": []
-    },
     "α2-adrenoceptor": {
       "base": "alpha-2",
       "cell": "alpha-2",
@@ -3100,21 +2974,9 @@
       "dropped": [],
       "kept": []
     },
-    "α2B": {
-      "base": "alpha2b",
-      "cell": "alpha2b",
-      "dropped": [],
-      "kept": []
-    },
     "α2B-adrenergic": {
       "base": "alpha2b-adrenergic",
       "cell": "alpha2b-adrenergic",
-      "dropped": [],
-      "kept": []
-    },
-    "α2C": {
-      "base": "alpha2c",
-      "cell": "alpha2c",
       "dropped": [],
       "kept": []
     },

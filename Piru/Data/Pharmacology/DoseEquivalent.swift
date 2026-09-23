@@ -25,7 +25,7 @@ enum DoseEquivalent {
     /// `mM` is absent deliberately: converting a molar concentration needs the
     /// molar mass, and for lithium it needs to know whether the dose is quoted
     /// as the element or the carbonate. A wrong answer there is worse than none.
-    static func milligramsPerLitre(_ value: Double, unit: String) -> Double? {
+    nonisolated static func milligramsPerLitre(_ value: Double, unit: String) -> Double? {
         // The unit string carries a suffix on some rows ("ng/mL psilocin").
         let normalized = unit.lowercased()
             .replacingOccurrences(of: "\u{03bc}", with: "\u{00b5}")

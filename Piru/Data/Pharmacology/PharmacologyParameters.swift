@@ -31,11 +31,22 @@ nonisolated struct PharmacologyParameters {
         case ec50
         /// Uptake-inhibition potency (reuptake blocker — methylphenidate, cocaine).
         case ic50
+        /// The lower bound of the drug's therapeutic plasma range (a TDM reference range), standing
+        /// in for a binding constant. Used for classes whose ``ReceptorClasses/Parameters/occupancyHalfMaxFromTherapeuticRange``
+        /// is set: their Kᵢ sits orders of magnitude below the concentrations that act, so a Kᵢ-driven
+        /// occupancy reads as saturated for days after one dose. Gabapentinoids: pregabalin binds α2δ
+        /// at 32 nM, acts at 2–5 µg/mL (≈12–30 µM), and its effect follows plasma over ~8–12 h.
+        case therapeuticThreshold
     }
 
     /// One engaged receptor/transporter and the half-saturation constant that drives its occupancy.
     struct TargetEngagement: Identifiable, Hashable {
         let target: String
+        /// The receptor this row measures, with spelling and assay qualifiers folded away — the
+        /// pipeline's `bindings.target_base`, or ``ReceptorTargetKey/fold(_:)`` of `target` for an
+        /// engagement built without one. Two engagements of one substance sharing a base are two
+        /// assays of one receptor, and the tolerance engine keeps only the tightest.
+        let targetBase: String
         let action: BindingAction
         /// Half-saturation constant in **nanomolar** — Kᵢ, EC₅₀, or IC₅₀ per ``kind``. Compared
         /// against the free molar concentration (×1e9) in ``PKModel/occupancy(concentration:halfMax:hillCoefficient:)``.
@@ -59,8 +70,10 @@ nonisolated struct PharmacologyParameters {
         init(
             target: String, action: BindingAction, halfMaxNanomolar: Double, kind: HalfMaxKind,
             confidence: ConfidenceTier, sourceSlug: String = "", citationKey: String? = nil, species: String? = nil,
+            targetBase: String? = nil,
         ) {
             self.target = target
+            self.targetBase = targetBase ?? ReceptorTargetKey.fold(target)
             self.action = action
             self.halfMaxNanomolar = halfMaxNanomolar
             self.kind = kind

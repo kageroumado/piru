@@ -146,6 +146,7 @@ Return a JSON array. One object per compound. Use this schema:
     ],
     "concentration_effect": [
       {
+        "kind": "therapeutic_range | (omit for a descriptive row)",
         "effect": "subjective intensity 0-10 | systolic BP | HR | EEG alpha power | pupil diameter",
         "concentration_unit": "ng/mL | nM",
         "threshold": 50,

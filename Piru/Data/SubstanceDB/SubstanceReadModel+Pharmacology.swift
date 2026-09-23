@@ -105,12 +105,32 @@ nonisolated struct PKRouteHit: Identifiable, Hashable {
     var confidence: ConfidenceTier = .unverified
 }
 
+/// One `concentration_effects` row of kind `therapeutic_range`: the TDM reference range whose
+/// lower bound is the concentration at which the drug acts. The tolerance resolver reads it as the
+/// occupancy half-max for classes flagged
+/// ``ReceptorClasses/Parameters/occupancyHalfMaxFromTherapeuticRange``.
+nonisolated struct TherapeuticRangeHit: Hashable, Sendable {
+    let id: Int64
+    let effect: String
+    let concentrationUnit: String
+    let thresholdValue: Double
+    let peakValue: Double?
+    let sourceSlug: String
+    let doi: String?
+    let pmid: Int?
+}
+
 /// One row from the bindings table joined to its substance + source +
 /// citation. Used by advanced-search results.
 nonisolated struct BindingHit: Identifiable, Hashable {
     let id: Int64
     let substanceName: String
     let target: String
+    /// The receptor with every spelling and assay qualifier folded away (`bindings.target_base`,
+    /// written by the pipeline's `normalize_target`): `α2δ-1 (recombinant human)`, `α2δ-1` and
+    /// `alpha2delta-1 (CACNA2D1)` all read `alpha-2-delta-1`. What two rows must share to be
+    /// measurements of one receptor.
+    let targetBase: String?
     let action: String
     let kiNm: Double?
     let ec50Nm: Double?
@@ -140,7 +160,7 @@ extension SubstanceReadModel {
         do {
             return try queue.read { db in
                 let rows = try Row.fetchAll(db, sql: """
-                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
+                    SELECT b.id, b.target, b.target_base, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
                            b.affinity_tier,
                            s.canonical_name AS substance_name,
                            src.slug AS source_slug,
@@ -157,6 +177,7 @@ extension SubstanceReadModel {
                         id: row["id"],
                         substanceName: row["substance_name"],
                         target: row["target"],
+                        targetBase: row["target_base"],
                         action: row["action"],
                         kiNm: row["ki_nm"],
                         ec50Nm: row["ec50_nm"],
@@ -176,6 +197,39 @@ extension SubstanceReadModel {
         }
     }
 
+    /// The substance's therapeutic-range rows (`concentration_effects.kind = 'therapeutic_range'`),
+    /// lowest threshold first. `nonisolated static` for the same reason as ``bindingRows(substanceID:db:)``.
+    nonisolated static func therapeuticRangeRows(substanceID: Int64, db queue: DatabaseQueue) -> [TherapeuticRangeHit] {
+        do {
+            return try queue.read { db in
+                let rows = try Row.fetchAll(db, sql: """
+                    SELECT e.id, e.effect, e.concentration_unit, e.threshold, e.peak_effect,
+                           src.slug AS source_slug, c.doi, c.pmid
+                      FROM concentration_effects e
+                      JOIN sources src ON src.id = e.source_id
+                      LEFT JOIN citations c ON c.id = e.citation_id
+                     WHERE e.substance_id = ? AND e.kind = 'therapeutic_range' AND e.threshold > 0
+                     ORDER BY e.threshold ASC
+                """, arguments: [substanceID])
+                return rows.map { row in
+                    TherapeuticRangeHit(
+                        id: row["id"],
+                        effect: row["effect"],
+                        concentrationUnit: row["concentration_unit"],
+                        thresholdValue: row["threshold"],
+                        peakValue: row["peak_effect"],
+                        sourceSlug: row["source_slug"],
+                        doi: row["doi"],
+                        pmid: row["pmid"],
+                    )
+                }
+            }
+        } catch {
+            logger.error("therapeuticRangeRows failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
     /// Returns every binding row matching the predicate, *across all sources*
     /// (including disabled) so readers can see the literature even
     /// for sources they've deprioritised. UI labels which source supplied each
@@ -189,7 +243,7 @@ extension SubstanceReadModel {
         do {
             return try db.read { db in
                 var sql = """
-                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
+                    SELECT b.id, b.target, b.target_base, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
                            b.affinity_tier,
                            s.canonical_name AS substance_name,
                            src.slug AS source_slug,
@@ -222,6 +276,7 @@ extension SubstanceReadModel {
                         id: row["id"],
                         substanceName: row["substance_name"],
                         target: row["target"],
+                        targetBase: row["target_base"],
                         action: row["action"],
                         kiNm: row["ki_nm"],
                         ec50Nm: row["ec50_nm"],

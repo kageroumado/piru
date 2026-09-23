@@ -770,7 +770,16 @@
           "reference": "pmid:20818832"
         }
       ],
-      "concentration_effect": []
+      "concentration_effect": [
+        {
+          "kind": "therapeutic_range",
+          "effect": "therapeutic plasma concentration (AGNP TDM consensus reference range)",
+          "concentration_unit": "µg/mL",
+          "threshold": 2,
+          "peak_effect": 20,
+          "reference": "doi:10.1055/s-0043-116492"
+        }
+      ]
     },
     "metabolism": [
       {
@@ -924,7 +933,16 @@
           "reference": "pmid:20818832"
         }
       ],
-      "concentration_effect": []
+      "concentration_effect": [
+        {
+          "kind": "therapeutic_range",
+          "effect": "therapeutic plasma concentration (AGNP TDM consensus reference range)",
+          "concentration_unit": "µg/mL",
+          "threshold": 2,
+          "peak_effect": 5,
+          "reference": "doi:10.1055/s-0043-116492"
+        }
+      ]
     },
     "metabolism": [],
     "drug_interactions_pk": [

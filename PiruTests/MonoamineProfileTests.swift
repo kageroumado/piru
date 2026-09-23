@@ -14,6 +14,7 @@ struct MonoamineProfileTests {
             id: 0,
             substanceName: "x",
             target: target,
+            targetBase: nil,
             action: action,
             kiNm: nil,
             ec50Nm: ec50,
