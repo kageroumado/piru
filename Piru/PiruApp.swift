@@ -134,7 +134,7 @@ struct PiruApp: App {
                     ContentView()
                 #endif
             }
-            #if DEBUG
+            #if DEBUG && os(iOS)
             .statusBarHidden(ScreenshotTour.wantsWallpapers)
             #endif
             .task {
