@@ -173,24 +173,21 @@
         }
       }
     },
-    "Astrelia" : {
+    "Aurora" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Astrelia"
+            "value" : "极光"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Astrelia"
+            "value" : "極光"
           }
         }
       }
-    },
-    "Aurora" : {
-
     },
     "Beer" : {
       "localizations" : {
@@ -560,25 +557,21 @@
         }
       }
     },
-    "Fireflies and an aurora" : {
-      "extractionState" : "stale",
+    "Fireflies over a dark meadow" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "萤火虫与极光"
+            "value" : "暗色草原上的萤火虫"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "螢火蟲與極光"
+            "value" : "暗色草原上的螢火蟲"
           }
         }
       }
-    },
-    "Fireflies over a dark meadow" : {
-
     },
     "Follow System" : {
       "localizations" : {
@@ -676,23 +669,6 @@
         }
       }
     },
-    "Hebi Arcade (WIP)" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hebi Arcade (WIP)"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hebi Arcade (WIP)"
-          }
-        }
-      }
-    },
     "High confidence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -705,40 +681,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高可信度"
-          }
-        }
-      }
-    },
-    "Hotaru" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hotaru"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hotaru"
-          }
-        }
-      }
-    },
-    "Hotaru (WIP)" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hotaru (WIP)"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hotaru (WIP)"
           }
         }
       }
@@ -979,22 +921,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "比平時強"
-          }
-        }
-      }
-    },
-    "Near-black and periwinkle, a lensed sky" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "近乎全黑与长春花蓝，被引力透镜弯折的星空"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "近乎全黑與長春花藍，被重力透鏡彎折的星空"
           }
         }
       }
@@ -1315,23 +1241,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "烈酒"
-          }
-        }
-      }
-    },
-    "Skin" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "皮肤"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "皮膚"
           }
         }
       }

@@ -333,10 +333,8 @@ T = {
     # ADHD audience fit v2 — curve milestones, word-state glance, the late-dose
     # sleep clause, and the de-shamed adherence surfaces.
     "Kicks in": ("开始起效", "開始起效"),
-    "Full effect": ("完全起效", "完全起效"),
     "Begins to wear off": ("开始消退", "開始消退"),
     "Clear for sleep": ("不再影响睡眠", "不再影響睡眠"),
-    "Effects end": ("效果结束", "效果結束"),
     "around %@": ("约 %@", "約 %@"),
     "Coming up": ("上头中", "上頭中"),
     "Wearing off": ("消退中", "消退中"),
@@ -450,10 +448,6 @@ T = {
     # The skin's picker name is Aurora; the case and raw value stay `hotaru`.
     "Aurora": ("极光", "極光"),
     "Fireflies over a dark meadow": ("暗色草原上的萤火虫", "暗色草原上的螢火蟲"),
-    "Hotaru": ("Hotaru", "Hotaru"),
-    "Hotaru (WIP)": ("Hotaru (WIP)", "Hotaru (WIP)"),
-    "Hebi Arcade (WIP)": ("Hebi Arcade (WIP)", "Hebi Arcade (WIP)"),
-    "Fireflies and an aurora": ("萤火虫与极光", "螢火蟲與極光"),
     "Yuki": ("Yuki", "Yuki"),
     "Periwinkle, snow and frost": ("长春花蓝、雪与霜", "長春花藍、雪與霜"),
     "Hebi Arcade": ("Hebi 街机", "Hebi 街機"),
@@ -541,14 +535,6 @@ T = {
     "An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. The curve models that from your doses.": (
         "注射的酯从油性储库缓慢释放，分解为游离激素，再被清除。曲线据你的剂量模拟这一过程。",
         "注射的酯從油性儲庫緩慢釋放，分解為游離激素，再被清除。曲線據你的劑量模擬這一過程。",
-    ),
-    "It estimates a level. It never suggests a dose or a target. Lab results calibrate it to you.": (
-        "它只估算水平，不建议剂量或目标。化验结果可将其校准到你。",
-        "它只估算水平，不建議劑量或目標。化驗結果可將其校準到你。",
-    ),
-    "Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. One blood test sets the height. Two on different days set the shape too. Retest after any change in dose, ester, interval, or site.": (
-        "个体差异很大，未校准的曲线只是起点，不是读数。一次验血确定高度，不同日期的两次也确定形状。剂量、酯、间隔或注射部位改变后请复测。",
-        "個體差異很大，未校準的曲線只是起點，不是讀數。一次驗血確定高度，不同日期的兩次也確定形狀。劑量、酯、間隔或注射部位改變後請複測。",
     ),
     "No injectable ester data in this build.": (
         "此版本没有注射用酯数据。",
@@ -1200,7 +1186,6 @@ T = {
         "备份、导出与导入在「工具 › 数据与备份」；偏好设置在「设置」。",
         "備份、匯出與匯入在「工具 › 資料與備份」；偏好設定在「設定」。",
     ),
-    "That's everything today": ("今天的都完成了", "今天的都完成了"),
     "· %lld of %lld": ("· 已服 %1$lld / %2$lld", "· 已服 %1$lld / %2$lld"),
     "%lld of %lld logged today": ("今天已记录 %1$lld / %2$lld", "今天已記錄 %1$lld / %2$lld"),
     "Dose Times": ("用药时间", "用藥時間"),
@@ -1304,9 +1289,7 @@ T = {
     "No half-life data": ("无半衰期数据", "無半衰期數據"),
     # Contraindication flag labels — Piru's own wording for a normalized
     # label contraindication (see Piru/Domain/ContraindicationFlag.swift).
-    "With alcohol": ("与酒精同用", "與酒精同用"),
     "Urinary retention": ("尿潴留", "尿滯留"),
-    "Pregnancy": ("妊娠", "懷孕"),
     "Children": ("儿童", "兒童"),
     "Patterns": ("规律", "規律"),
     "Days used, exposure, dose trend, and overlap": (
@@ -1383,9 +1366,7 @@ T = {
         "模型估算，非實測。體內留存與體感並不總是一致。",
     ),
     "Nothing in your body at this time": ("此刻体内没有留存", "此刻體內沒有留存"),
-    "Tolerance & Receptors": ("耐受与受体", "耐受與受體"),
     "When and how much you log": ("你在何时、记录了多少", "你在何時、記錄了多少"),
-    "Predicted per-mechanism tolerance": ("按机制预测的耐受", "按機制預測的耐受"),
     "What's still active in your body right now": (
         "此刻体内仍在起作用的物质",
         "此刻體內仍在起作用的物質",
@@ -1435,7 +1416,6 @@ T = {
     "%@ now at %@": ("%@ 现为 %@", "%@ 現為 %@"),
     # ---- Steady State tool (Aug 2026) ----
     "Steady State": ("稳态", "穩態"),
-    "steady state": ("稳态", "穩態"),
     "Where a repeated dose settles, and when": (
         "重复用药最终稳定在何处，以及需要多久",
         "重複用藥最終穩定在何處，以及需要多久",
@@ -1468,11 +1448,9 @@ T = {
         "每天服用？看看會穩定在何處",
     ),
     # ---- Benzo effect ladder + occupancy / withdrawal (Aug 2026) ----
-    "not measured": ("未测量", "未測量"),
     "%lld days": ("%lld 天", "%lld 天"),
     "Muscle relaxation": ("肌肉松弛", "肌肉鬆弛"),
     "Coordination": ("协调", "協調"),
-    "Receptor load": ("受体负荷", "受體負荷"),
     "About %lld%% of your recent peak GABA-A load right now, summed across everything active.": (
         "当前 GABA-A 负荷约为近期峰值的 %lld%%，已合并计入所有仍在起效的物质。",
         "目前 GABA-A 負荷約為近期峰值的 %lld%%，已合併計入所有仍在起效的物質。",
@@ -1540,7 +1518,6 @@ T = {
     "approximately %@ %@": ("大约 %@ %@", "大約 %@ %@"),
     # ---- Label scanner (camera → QuickLog) ----
     "Regular": ("常规", "常規"),
-    "Racemic": ("外消旋", "外消旋"),
     # QuickLog "Form" pill accessibility label — the isomer × release form selector.
     "Formulation": ("剂型", "劑型"),
     # QuickLog brand picker — release group + niche-brand submenu.
@@ -1577,12 +1554,9 @@ T = {
         "从群体层面看停药会怎样——人们所说的“戒断”其实包含三种表现不同的情况，以及对于你记录过的这类药物，每种大约何时开始。这些时间来自研究人群，并非对你个人的预测。",
         "從群體層面看停藥會怎樣——人們所說的「戒斷」其實包含三種表現不同的情況，以及對於你記錄過的這類藥物，每種大約何時開始。這些時間來自研究人群，並非對你個人的預測。",
     ),
-    "1 day": ("1 天", "1 天"),
     "long-acting": ("长效", "長效"),
     "intermediate": ("中效", "中效"),
     "short-acting": ("短效", "短效"),
-    "Rebound": ("反跳", "反跳"),
-    "Withdrawal": ("戒断", "戒斷"),
     # ---------------------------------------------------------------
     # Live Activity timer labels — orphaned in PiruLiveActivityExtension's own
     # catalog, so they shipped English to zh users on the Lock Screen.
@@ -1639,7 +1613,6 @@ T = {
     "Dose levels over time": ("剂量档位随时间变化", "劑量檔位隨時間變化"),
     "Substance trends": ("物质趋势", "物質趨勢"),
     "Regularity": ("规律性", "規律性"),
-    "Routes": ("给药途径", "給藥途徑"),
     "Used together": ("同时使用", "同時使用"),
     "Very regular": ("非常规律", "非常規律"),
     "Somewhat regular": ("较为规律", "較為規律"),
@@ -1664,7 +1637,6 @@ T = {
     ),
     "Common doses": ("常规剂量", "常規劑量"),
     "Common doses per day": ("每天常规剂量数", "每天常規劑量數"),
-    "Common-dose units by weekday": ("按星期统计的常规剂量单位", "按星期統計的常規劑量單位"),
     "Common-dose units by weekday, most on %@": (
         "按星期统计的常规剂量单位，%@ 最多",
         "按星期統計的常規劑量單位，%@ 最多",
@@ -1819,7 +1791,6 @@ T = {
     # comparison sheet, the folded Prescribing card, and the Log CTA under the
     # dose card.
     "Log this": ("记录这次", "記錄這次"),
-    "Prescribing": ("处方信息", "處方資訊"),
     "Fewer": ("收起", "收起"),
     "Dose sources": ("剂量来源", "劑量來源"),
     "In use": ("使用中", "使用中"),
@@ -1910,8 +1881,6 @@ T = {
     "Standard": ("标准", "標準"),
     "Rich": ("详尽", "詳盡"),
     "EFFECT OVER TIME": ("效应时程", "效應時程"),
-    "Ramp": ("梯度", "梯度"),
-    "Columns": ("分栏", "分欄"),
     "Most common effects · by dose": ("最常见效应 · 按剂量", "最常見效應 · 按劑量"),
     "release": ("释放", "釋放"),
     "uptake": ("再摄取", "再攝取"),
@@ -1923,7 +1892,6 @@ T = {
         "静音全部通知，但保留你在下方的选择。",
         "靜音全部通知，但保留你在下方的選擇。",
     ),
-    "Supplies": ("库存", "庫存"),
     "Safety & Supplies": ("安全与库存", "安全與庫存"),
     "Session Alerts": ("使用期间提醒", "使用期間提醒"),
     "All on": ("全部开启", "全部開啟"),
@@ -2039,7 +2007,6 @@ T = {
         "看看不同劑量隨時間可能帶來的感受——比較兩種藥物、預覽疊加、或調整時間——無需記錄任何內容。這是一個草稿區，不會影響你的記錄。",
     ),
     "Add a dose": ("添加剂量", "新增劑量"),
-    "Add a calibrated substance": ("添加一种已校准的物质", "新增一種已校準的物質"),
     "Add a dose to model it": ("添加剂量以进行建模", "新增劑量以進行建模"),
     "Pick a substance and an amount to see how it may feel over time.": (
         "选择一种物质和剂量，即可查看它随时间可能带来的感受。",
@@ -2047,7 +2014,6 @@ T = {
     ),
     "Plan A": ("方案 A", "方案 A"),
     "Plan B": ("方案 B", "方案 B"),
-    "Move to": ("移动到", "移動到"),
     "Compare with another plan": ("与另一个方案比较", "與另一個方案比較"),
     "Calibrated": ("已校准", "已校準"),
     "Modeled alongside": ("可与其一同模拟", "可與其一同模擬"),
@@ -2207,9 +2173,7 @@ T = {
     "Reading these estimates": ("解读这些估算", "解讀這些估算"),
     "Choose substance": ("选择物质", "選擇物質"),
     "start": ("起始", "起始"),
-    "Later": ("延后", "延後"),
     "Pick a substance": ("选择物质", "選擇物質"),
-    "at start": ("在起始时", "在起始時"),
     # Pill picker — branded fixed-strength meds logged as tablets/capsules (2026-07-17).
     "extended-release": ("缓释", "緩釋"),
     "immediate-release": ("速释", "速釋"),
@@ -2308,8 +2272,6 @@ T = {
     # Session state export — PDF report + Markdown (2026-07-05).
     "Session Snapshot": ("本次记录快照", "本次記錄快照"),
     "Generated": ("生成时间", "產生時間"),
-    "Session started": ("记录开始于", "記錄開始於"),
-    "in progress": ("进行中", "進行中"),
     "Session started %@ · %@ in progress": (
         "记录开始于 %1$@ · %2$@ 进行中",
         "記錄開始於 %1$@ · %2$@ 進行中",
@@ -2322,7 +2284,6 @@ T = {
     "Intensity": ("强度", "強度"),
     "Next": ("下一阶段", "下一階段"),
     "baseline": ("基线", "基線"),
-    "in body": ("在体内", "在體內"),
     "gone": ("已消除", "已消除"),
     "left in body": ("体内剩余", "體內剩餘"),
     "50% eliminated": ("消除 50%", "消除 50%"),
@@ -2330,7 +2291,6 @@ T = {
     "Effectively clear": ("基本清除", "基本清除"),
     "Sober": ("清醒", "清醒"),
     "zero-order": ("零级动力学", "零級動力學"),
-    "PDF Report": ("PDF 报告", "PDF 報告"),
     # Opioid Equivalence + Pharma Table + Insights/Education (2026-07-04) — CLI-added, not yet extracted.
     "Loading pharmacology…": ("正在加载药理学数据…", "正在載入藥理學資料…"),
     "Targets": ("靶点", "靶點"),
@@ -2847,7 +2807,6 @@ T = {
     ),
     # SaturablePharmacology — gabapentinoid comparison + gabapentin/tramadol profiles
     # Pharmacology axis Stage 3b — Combined depression index (2026-06-21)
-    "Combined depression": ("综合抑制", "綜合抑制"),
     "Severe": ("严重", "嚴重"),
     "High": ("高", "高"),
     "Moderate": ("中等", "中等"),
@@ -2861,7 +2820,6 @@ T = {
     ),
     # Pharmacology axis Stage 3c — effect attenuation (2026-06-21)
     "serotonin transporter": ("血清素转运体", "血清素轉運體"),
-    "Reduced effect": ("效果减弱", "效果減弱"),
     # Pharmacology axis Stage 4a — cross-tolerance readout (2026-06-21)
     # Pharmacology axis Stage 4d — combination metabolite / cocaethylene (2026-06-22)
     "Combination Products": ("组合产物", "組合產物"),
@@ -2987,7 +2945,6 @@ T = {
     "Significant": ("影响明确", "影響明確"),
     "Limited": ("影响有限", "影響有限"),
     "Minor": ("影响轻微", "影響輕微"),
-    "Clinically significant": ("具有临床意义", "具有臨床意義"),
     "Real but bounded": ("确有影响但有限", "確有影響但有限"),
     # Benzodiazepine duration ladder. The caption's negation is deliberate: every
     # reader arrives believing half-life is how long the drug is felt.
@@ -3106,7 +3063,6 @@ T = {
     # Stage 4c — modulator catalog display names + notes
     "Grapefruit": ("西柚", "葡萄柚"),
     "Carbamazepine": ("卡马西平", "卡馬西平"),
-    "St John's Wort": ("圣约翰草", "聖約翰草"),
     "MDMA": ("MDMA", "MDMA"),
     # Antidepressant + empathogen reframed as myth-buster (blunting, not serotonin syndrome) (2026-06-21)
     # Serotonergic special cases — evidence-grounded rules (Foundation-C run, 2026-06-22)
@@ -3229,10 +3185,6 @@ T = {
         "安非他命對食慾的抑制，除非在藥效期間有食物可吃，否則根本不會形成耐受——這種耐受是一種工具性反應，不是受體數量問題（Carlton & Wolgin 1971）。這意味著對一種藥的某個效果可以有耐受，而對另一個效果的耐受可能從未開始。",
     ),
     "The learned part of tolerance": ("耐受中学习来的部分", "耐受中學習來的部分"),
-    "Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971.": (
-        "Siegel 1976；Siegel、Hinson、Krank 和 McCully 1982；Weise-Kelly 和 Siegel 2001；Carlton 和 Wolgin 1971。",
-        "Siegel 1976；Siegel、Hinson、Krank 和 McCully 1982；Weise-Kelly 和 Siegel 2001；Carlton 和 Wolgin 1971。",
-    ),
     "Model boundary": ("模型边界", "模型邊界"),
     "What this number does not include": ("这个数字没有包含的部分", "這個數字沒有包含的部分"),
     "Every layer above is pharmacodynamic — it is computed from your dose log and the clock. A large part of real tolerance is associative and context-specific: it attaches to the setting, the ritual and the cues around a dose, which is why tolerance measured in a familiar context can be substantially higher than tolerance in an unfamiliar one, and why the same cues without the dose can produce the opposite of the drug's effect. Piru cannot see any of that, because it does not record where you were or what you were doing. Treat the shift as a pharmacological estimate, not a total.": (
@@ -3272,9 +3224,7 @@ T = {
         "記幾次劑量，你的預測耐受就會出現在這裡。最近沒用過的都算沒耐受。",
     ),
     "Can't predict yet": ("还无法预测", "還無法預測"),
-    "high tolerance": ("耐受高", "耐受高"),
     "no tolerance": ("没耐受", "沒耐受"),
-    "No tolerance": ("没耐受", "沒耐受"),
     "Most of it fades in %@ if you stop now.": (
         "如果现在停用，大部分会在 %@ 内消退。",
         "如果現在停用，大部分會在 %@ 內消退。",
@@ -3304,7 +3254,6 @@ T = {
         "長期大量使用已經把你的基線壓低了；最深的那部分要幾個月才能恢復。",
     ),
     "acute": ("急性", "急性"),
-    "adaptive": ("适应性", "適應性"),
     "deep": ("深层", "深層"),
     "synthesis": ("合成", "合成"),
     "Tachyphylaxis": ("快速耐受", "快速耐受"),
@@ -3316,24 +3265,19 @@ T = {
     "%lldmo": ("%lld 个月", "%lld 個月"),
     "%lldwk": ("%lld 周", "%lld 週"),
     "%lldd": ("%lld 天", "%lld 天"),
-    "Cards": ("卡片", "卡片"),
     # Pharmacology axis Stage 0 — confidence tiers + body-weight UI (2026-06-21)
     "High confidence": ("高可信度", "高可信度"),
     "Medium confidence": ("中等可信度", "中等可信度"),
     "Low confidence": ("低可信度", "低可信度"),
     "Unverified": ("未核实", "未核實"),
-    "Body Weight": ("体重", "體重"),
     "Your weight": ("你的体重", "你的體重"),
     "Source": ("来源", "來源"),
     "Apple Health": ("Apple 健康", "Apple 健康"),
-    "Entered manually": ("手动输入", "手動輸入"),
     "Open Settings": ("打开设置", "打開設定"),
     "Apple Health isn't available on this device.": (
         "此设备不支持 Apple 健康。",
         "此裝置不支援 Apple 健康。",
     ),
-    "Estimated": ("估算", "估算"),
-    "Weight": ("体重", "體重"),
     "kg": ("kg", "kg"),
     # Bottom-accessory "Log a dose" CTA 2026-06
     "Log a dose": ("记录剂量", "記錄劑量"),
@@ -3499,7 +3443,6 @@ T = {
     "Log %@ of %@": ("记录 %2$@ %1$@", "記錄 %2$@ %1$@"),
     "Discard Doses": ("舍弃剂量", "捨棄劑量"),
     "Show %lld more doses": ("显示另外 %lld 个剂量", "顯示另外 %lld 個劑量"),
-    "Custom dose": ("自定剂量", "自訂劑量"),
     # Journal state card (2026-07-22 plan/state/log restructure)
     "Active Now": ("当前活跃", "目前活躍"),
     # My Meds row split + Active Now → session (2026-07-22)
@@ -3597,7 +3540,6 @@ T = {
     "Shows the remaining doses": ("显示其余剂量", "顯示其餘劑量"),
     # Quick-log v2 — morphing dock, Daily routine card
     "Add another…": ("再添加一个…", "再新增一個…"),
-    "Routine": ("日常", "日常"),
     "≈%@ %@ active · %@ ago · %@ left": (
         "体内约 %1$@ %2$@ · %3$@前 · 剩 %4$@",
         "體內約 %1$@ %2$@ · %3$@前 · 剩 %4$@",
@@ -3618,13 +3560,9 @@ T = {
     "Dose time: %@": ("剂量时间：%@", "劑量時間：%@"),
     "Recents": ("最近", "最近"),
     # Routines (multi-routine rework; Routine = 日常, established term)
-    "Unassigned": ("未分组", "未分組"),
     "Remind Me": ("提醒我", "提醒我"),
-    "Items": ("项目", "項目"),
-    "Edit Routine…": ("编辑日常…", "編輯日常…"),
     "Clear search": ("清除搜索", "清除搜尋"),
     "Common %@–%@ %@": ("常用 %1$@–%2$@ %3$@", "常用 %1$@–%2$@ %3$@"),
-    "Routines": ("日常", "日常"),
     # Settings restructure — progressive disclosure cleanup
     "Notifications": ("通知", "通知"),
     "Data": ("数据", "資料"),
@@ -3684,13 +3622,11 @@ T = {
     ),
     "Data & Backup": ("数据与备份", "資料與備份"),
     "iCloud Backup": ("iCloud 备份", "iCloud 備份"),
-    "Export": ("导出", "匯出"),
     "Encrypted Backup…": ("加密备份…", "加密備份…"),
     "Passphrase-protected — save or send it anywhere": (
         "由口令保护——可保存或发送到任何地方",
         "由通行密語保護——可儲存或傳送到任何地方",
     ),
-    "Import & Restore": ("导入与恢复", "匯入與還原"),
     "Import from a File…": ("从文件导入…", "從檔案匯入…"),
     "A Piru or PsychonautWiki JSON file": (
         "Piru 或 PsychonautWiki 的 JSON 文件",
@@ -3721,7 +3657,6 @@ T = {
         "文件在此处包含意外的值：%@。",
         "檔案在此處包含非預期的值：%@。",
     ),
-    "Report": ("报告", "報告"),
     "Delete Failed": ("删除失败", "刪除失敗"),
     # Data storage & recovery (DataStorageView, store-recovery + diagnostics UI)
     "%lld records": ("%lld 条记录", "%lld 筆記錄"),
@@ -3806,7 +3741,6 @@ T = {
         "本次记录中没有记录任何物质。",
         "本次記錄中沒有記錄任何物質。",
     ),
-    "Background medication": ("后台用药", "背景用藥"),
     "Current Session": ("本次记录", "本次記錄"),
     "See your current session's doses at a glance.": (
         "一目了然地查看本次记录的剂量。",
@@ -3926,13 +3860,10 @@ T = {
     "Settings": ("设置", "設定"),
     "Calculator": ("计算器", "計算器"),
     "Get Help": ("获取帮助", "獲取幫助"),
-    "Search Library": ("搜索物质库", "搜尋物質庫"),
     "Search entries...": ("搜索记录…", "搜尋記錄…"),
     "Search substances...": ("搜索物质…", "搜尋物質…"),
     # Quick-log native dock sheet (2026-07-07)
     "Cancel search": ("取消搜索", "取消搜尋"),
-    "Manage Routines": ("管理日常", "管理日常"),
-    "Routines & Prescriptions": ("日常与处方", "日常與處方"),
     "Edit Drinks…": ("编辑饮品…", "編輯飲品…"),
     "Drinks": ("饮品", "飲品"),
     "New Drink": ("新增饮品", "新增飲品"),
@@ -3984,14 +3915,11 @@ T = {
     "Live Activity": ("实时活动", "即時動態"),
     "Timeline": ("时间轴", "時間軸"),
     "Day Starts At": ("一天起始时间", "一天起始時間"),
-    "About": ("关于", "關於"),
     "Sources": ("数据来源", "資料來源"),
-    "Version": ("版本", "版本"),
     "Import Data": ("导入数据", "匯入資料"),
     "Delete Everything": ("删除所有数据", "刪除所有資料"),
     "Custom Substances": ("自定义物质", "自訂物質"),
     "Substance Colors": ("物质颜色", "物質顏色"),
-    "Phase Notifications": ("阶段通知", "階段通知"),
     "Stack Redoses": ("叠加重复剂量", "疊加重複劑量"),
     "Interaction Alerts": ("相互作用警报", "相互作用警示"),
     # Common labels
@@ -4009,7 +3937,6 @@ T = {
     "<1% elemental": ("<1% 元素含量", "<1% 元素含量"),
     "Default Route": ("默认途径", "預設途徑"),
     "Category": ("类别", "類別"),
-    "Categories": ("类别", "類別"),
     "All categories": ("全部类别", "全部類別"),
     "Frequency": ("频次", "頻次"),
     "Notes": ("备注", "備註"),
@@ -4029,7 +3956,6 @@ T = {
     "hours": ("小时", "小時"),
     "Days": ("天", "天"),
     "Mode": ("模式", "模式"),
-    "Section": ("分组", "分組"),
     "Active": ("活跃", "活躍"),
     "Recent": ("最近", "最近"),
     "Count": ("数量", "數量"),
@@ -4037,18 +3963,13 @@ T = {
     "All": ("全部", "全部"),
     "None": ("无", "無"),
     "Custom": ("自定义", "自訂"),
-    "Info": ("信息", "資訊"),
-    "Action": ("作用", "作用"),
-    "Target": ("作用位点", "作用位點"),
     "Classification": ("分类", "分類"),
     "Safety": ("安全性", "安全性"),
     "What is this?": ("这是什么？", "這是什麼？"),
     "From": ("从", "從"),
     "To": ("到", "到"),
-    "Avg": ("平均", "平均"),
     "min": ("最小", "最小"),
     "max": ("最大", "最大"),
-    "Baseline": ("基线", "基線"),
     # Onboarding
     "Welcome to Piru": ("欢迎使用 Piru", "歡迎使用 Piru"),
     "Get Started": ("开始使用", "開始使用"),
@@ -4071,10 +3992,6 @@ T = {
         "记录一些条目以查看使用统计。",
         "記錄一些條目以查看使用統計。",
     ),
-    "Custom shades you create will appear here.": (
-        "您创建的自定义色调会显示在这里。",
-        "您建立的自訂色調會顯示在這裡。",
-    ),
     # Quick Log
     "Quick Log": ("快捷记录", "快捷記錄"),
     "Log Anyway": ("仍要记录", "仍要記錄"),
@@ -4094,14 +4011,11 @@ T = {
     "Show all %lld entries": ("显示全部 %lld 条", "顯示全部 %lld 條"),
     "Entries per day": ("每日条目", "每日條目"),
     # Profile & Disclosure Tier
-    "Profile": ("个人资料", "個人資料"),
     "Casual": ("休闲", "休閒"),
     "Curious": ("好奇", "好奇"),
-    "Slide to move, pinch to zoom": ("滑动移动，捏合缩放", "滑動移動，捏合縮放"),
     # Mechanistic effect lenses + readouts (2026-07-08).
     "Feeling": ("感受", "感受"),
     "Energy": ("精力", "精力"),
-    "Urge": ("渴求", "渴求"),
     "Euphoric": ("欣快", "欣快"),
     "Good": ("良好", "良好"),
     "Level": ("平稳", "平穩"),
@@ -4111,7 +4025,6 @@ T = {
     "Sedated": ("镇静", "鎮靜"),
     "Craving": ("渴望", "渴望"),
     "Bliss": ("极乐", "極樂"),
-    "Present": ("有感", "有感"),
     "Low": ("低", "低"),
     "Expand Graph": ("展开图表", "展開圖表"),
     "Shrink Graph": ("收起图表", "收起圖表"),
@@ -4138,21 +4051,12 @@ T = {
         "关于此物质的可选备注，供您参考。",
         "關於此物質的可選備註，供您參考。",
     ),
-    "Color name (optional)": ("颜色名称（可选）", "顏色名稱（可選）"),
-    "Pick a color": ("选择颜色", "選擇顏色"),
-    "Pick a color for this substance": ("为此物质选择颜色", "為此物質選擇顏色"),
     "Choose Color": ("选择颜色", "選擇顏色"),
-    "Add Color": ("添加颜色", "新增顏色"),
     "Change Color": ("更改颜色", "變更顏色"),
-    "Create Custom Shade": ("创建自定义色调", "建立自訂色調"),
-    "Your Colors": ("您的颜色", "您的顏色"),
     "New Custom Substance": ("新建自定义物质", "新建自訂物質"),
     "Edit Substance": ("编辑物质", "編輯物質"),
     "Duplicate Name": ("名称重复", "名稱重複"),
     # Help / Alerts
-    "Import": ("导入", "匯入"),
-    "Ramp Down": ("缓和期", "緩和期"),
-    "Comedown alert": ("缓和期提醒", "緩和期提醒"),
     # Notification copy
     "Stay hydrated": ("保持水分", "保持水分"),
     "Hydration check": ("饮水检查", "飲水檢查"),
@@ -4508,7 +4412,6 @@ T = {
     "t½ %@": ("半衰期 %@", "半衰期 %@"),
     "%lld%% eliminated": ("%lld%% 已消除", "%lld%% 已消除"),
     # Volumetric dosing
-    "Volumetric Dosing": ("容积式给药", "容積式給藥"),
     "Extremely Potent Substance": ("极强效物质", "極強效物質"),
     "Active in micrograms — a thousandth of a milligram. Always measure volumetrically. You cannot dose this by eye.": (
         "微克量级即有效——一毫克的千分之一。必须容积法测量。无法靠目测给药。",
@@ -4615,9 +4518,7 @@ T = {
     "Dangerous": ("危险", "危險"),
     "Unsafe": ("不安全", "不安全"),
     "Caution": ("警告", "警告"),
-    "Pharmacological": ("药理学", "藥理學"),
     "TripSit": ("TripSit", "TripSit"),
-    "FDA": ("FDA", "FDA"),
     # Adherence status
     "All taken": ("全部已服用", "全部已服用"),
     "Partially taken": ("部分已服用", "部分已服用"),
@@ -4784,10 +4685,6 @@ T = {
     "Measured Interactions": (
         "实测相互作用",
         "實測交互作用",
-    ),
-    "Measured exposure": (
-        "实测暴露量",
-        "實測暴露量",
     ),
     "Kᵢ %@ µM": (
         "Kᵢ %@ µM",
@@ -5502,7 +5399,6 @@ T = {
         "效果消退时获得护理提醒 — 补水、休息和恢复提示。",
         "效果消退時獲得護理提醒 — 補水、休息和恢復提示。",
     ),
-    "In Your System": ("体内活跃", "體內活躍"),
     "Showing guidance for substances in your system. Tap above for the full guide.": (
         "正在显示您体内物质的指导。点击上方查看完整指南。",
         "正在顯示您體內物質的指導。點擊上方查看完整指南。",
@@ -5542,7 +5438,6 @@ T = {
     "Usage Entries": ("使用记录", "使用記錄"),
     "Most common: %@ %@": ("最常见:%@ %@", "最常見:%@ %@"),
     "Milestones": ("里程碑", "里程碑"),
-    "this month": ("本月", "本月"),
     # Frequency-related
     # Distance / time formatted
     "%@ in · %@ left": ("%@ 后 · 剩 %@", "%@ 後 · 剩 %@"),
@@ -5581,12 +5476,10 @@ T = {
     "·": ("·", "·"),
     "•": ("•", "•"),
     "–": ("–", "–"),
-    "×": ("×", "×"),
     "S": ("S", "S"),
     "#": ("#", "#"),
     "0": ("0", "0"),
     "--": ("--", "--"),
-    "FFAACC": ("FFAACC", "FFAACC"),
     # Misc UI labels not yet covered
     "Your History": ("您的历史", "您的歷史"),
     "%@ %@": ("%@ %@", "%@ %@"),
@@ -5616,8 +5509,6 @@ T = {
     "Recovery": ("恢复", "恢復"),
     "Solvent Needed": ("所需溶剂", "所需溶劑"),
     "Usage": ("使用", "使用"),
-    "Volumetric": ("容积", "容積"),
-    "Timing": ("时机", "時機"),
     "This calculator uses a one-compartment oral pharmacokinetic model with absorption and elimination phases. Absorption rates are estimated from known duration profiles (onset + comeup timing) when available, or use a default 4× elimination rate ratio. Population-average elimination half-lives are sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), and DrugBank. Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Multi-compartment distribution, protein binding, active metabolites, and enterohepatic recirculation are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional.": (
         "此计算器使用一房室口服药代动力学模型,包含吸收和消除两个阶段。如有已知的持续时间数据(起效 + 上升期),则吸收速率会由此估算;否则使用默认的 4× 消除速率比。群体平均消除半衰期来源于 FDA 批准的处方信息、已发表的药代动力学研究(PubMed)以及 DrugBank。部分研究化学品和新型物质的半衰期是根据结构类似的化合物估算的,可能不够可靠。\n\n实际药代动力学因个人代谢、遗传、肝肾功能、体成分、年龄、药物相互作用、耐受性和给药途径而显著不同。多房室分布、蛋白结合、活性代谢物和肠肝循环未被纳入考虑。多药联用可能不可预测地改变消除速率。\n\n这些数字是群体的近似平均值 — 不能替代临床监测或专业医疗建议。请始终咨询合格的医疗专业人员。",
         "此計算器使用一房室口服藥動學模型,包含吸收和消除兩個階段。如有已知的持續時間資料(起效 + 上升期),則吸收速率會由此估算;否則使用預設的 4× 消除速率比。族群平均消除半衰期來源於 FDA 批准的處方資訊、已發表的藥動學研究(PubMed)以及 DrugBank。部分研究化學品和新型物質的半衰期是根據結構類似的化合物估算的,可能不夠可靠。\n\n實際藥動學因個人代謝、遺傳、肝腎功能、體成分、年齡、藥物相互作用、耐受性和給藥途徑而顯著不同。多房室分布、蛋白質結合、活性代謝物和腸肝循環未被納入考慮。多藥聯用可能不可預測地改變消除速率。\n\n這些數字是族群的近似平均值 — 不能替代臨床監測或專業醫療建議。請始終諮詢合格的醫療專業人員。",
@@ -5683,7 +5574,6 @@ T = {
         "「%@」已不在資料庫中，可能已被重新命名或合併。",
     ),
     # 2026-06 review fixes — accessibility labels & chart descriptions
-    "Back": ("返回", "返回"),
     "Previous Month": ("上个月", "上個月"),
     "Next Month": ("下个月", "下個月"),
     "Select Month": ("选择月份", "選擇月份"),
@@ -5700,15 +5590,6 @@ T = {
         "%1$@ 後達到峰值，%3$@ %4$@ 中目前剩餘 %2$@",
     ),
     # 2026-06 review fixes — color picker validation errors
-    "Enter a valid 6-digit hex code": (
-        "请输入有效的 6 位十六进制颜色代码",
-        "請輸入有效的 6 位十六進位顏色代碼",
-    ),
-    "This shade already exists in the preset palette": (
-        "预设调色板中已有此颜色",
-        "預設調色盤中已有此顏色",
-    ),
-    "You've already created this shade": ("你已创建过此颜色", "你已建立過此顏色"),
     # 2026-06 — stacked-lane (small multiples) timeline preference
     "Stack Busy Sessions": ("拆分繁忙记录图表", "拆分繁忙記錄圖表"),
     "Stack From": ("拆分阈值", "拆分閾值"),
@@ -5864,8 +5745,6 @@ T = {
         "越高越有活力。驱动力升至基线之上，镇静则落于其下。",
         "越高越有活力。驅動力升至基線之上，鎮靜則落於其下。",
     ),
-    "Higher is more pull": ("越高渴求越强", "越高渴求越強"),
-    "Higher is more pleasure": ("越高愉悦越强", "越高愉悅越強"),
     "Higher is more pull. The rush and craving signal.": (
         "越高渴求越强。冲动与渴望信号。",
         "越高渴求越強。衝動與渴望信號。",
@@ -5948,7 +5827,6 @@ T = {
     "Med": ("用药", "用藥"),
     "Meds": ("用药", "用藥"),
     "%lld meds": ("%lld 项用药", "%lld 項用藥"),
-    "1 med": ("1 项用药", "1 項用藥"),
     "No Meds Yet": ("尚无用药", "尚無用藥"),
     "Add a Med": ("添加用药", "新增用藥"),
     "Add Your Meds": ("添加你的用药", "新增你的用藥"),
@@ -5969,7 +5847,6 @@ T = {
     "As needed": ("按需", "按需"),
     "as needed": ("按需", "按需"),
     "no schedule": ("无计划", "無計劃"),
-    "No daily limit": ("无每日上限", "無每日上限"),
     "up to %lld× daily": ("每日最多 %lld 次", "每日最多 %lld 次"),
     "Up to %lld× daily": ("每日最多 %lld 次", "每日最多 %lld 次"),
     "%lld× daily": ("每日 %lld 次", "每日 %lld 次"),
@@ -6048,8 +5925,6 @@ T = {
     # PK card: how many distinct studies stand behind one route (2026-07-25).
     "%lld studies": ("%lld 项研究", "%lld 項研究"),
     # Intervention ledger — GABA discontinuation evidence (§J, 2026-08-06).
-    "Meta-analysis": ("荟萃分析", "薈萃分析"),
-    "Gradual taper": ("逐步减量", "逐步減量"),
     "Imipramine": ("丙米嗪", "丙米嗪"),
     "%lld–%lld days": ("%lld–%lld 天", "%lld–%lld 天"),
     "%lld–%lld hours": ("%lld–%lld 小时", "%lld–%lld 小時"),
@@ -6058,7 +5933,6 @@ T = {
     "%lld trials": ("%lld项试验", "%lld項試驗"),
     "Pregabalin": ("普瑞巴林", "普瑞巴林"),
     "Valproate": ("丙戊酸盐", "丙戊酸鹽"),
-    "RCT": ("随机对照试验", "隨機對照試驗"),
     "Flumazenil": ("氟马西尼", "氟馬西尼"),
     "Melatonin": ("褪黑素", "褪黑素"),
     "Gabapentin": ("加巴喷丁", "加巴噴丁"),
@@ -6535,14 +6409,12 @@ T = {
         "不要开车。功能受损持续的时间比“嗨”的感觉更长。",
         "不要開車。功能受損持續的時間比「嗨」的感覺更長。",
     ),
-    "Dose & duration": ("剂量与时长", "劑量與時長"),
     "Dose Ranges": ("剂量范围", "劑量範圍"),
     "Dose data": ("剂量数据", "劑量資料"),
     "Doses you log sync between your iPhone and a paired Apple Watch.": (
         "你记录的剂量会在 iPhone 和已配对的 Apple Watch 之间同步。",
         "你記錄的劑量會在 iPhone 和已配對的 Apple Watch 之間同步。",
     ),
-    "Download": ("下载", "下載"),
     "Draw": ("抽取量", "抽取量"),
     "Drink water and eat something.": ("喝点水，吃点东西。", "喝點水，吃點東西。"),
     "Drink water or an electrolyte drink, in sips.": (
@@ -6876,14 +6748,12 @@ T = {
     "Oral capsule": ("口服胶囊", "口服膠囊"),
     "Oral morphine equivalent": ("口服吗啡当量", "口服嗎啡當量"),
     "Over-the-counter": ("非处方", "非處方"),
-    "Overlap": ("重叠", "重疊"),
     "Passphrase": ("口令", "通行碼"),
     "Passphrase backups": ("口令备份", "通行碼備份"),
     "Passphrases don't match yet.": ("两次输入的口令尚不一致。", "兩次輸入的通行碼尚不一致。"),
     "Passphrases match.": ("口令一致。", "通行碼一致。"),
     "Peptide — protocol reference": ("肽 — 方案参考", "胜肽 — 方案參考"),
     "Personalize": ("个性化", "個人化"),
-    "Pharma": ("药理", "藥理"),
     "Pharma Search": ("药理搜索", "藥理搜尋"),
     "Phenethylamines I Have Known and Loved — Shulgin & Shulgin (1991)": (
         "Phenethylamines I Have Known and Loved — Shulgin & Shulgin (1991)",
@@ -7212,7 +7082,6 @@ T = {
         "iCloud 雲碟無法使用。請確認你已登入 iCloud 並已開啟 iCloud 雲碟。",
     ),
     "just now": ("刚刚", "剛剛"),
-    "left": ("剩余", "剩餘"),
     "minutes": ("分钟", "分鐘"),
     "modeled in body": ("模型估计体内含量", "模型估計體內含量"),
     "open.fda.gov — National Drug Code directory": (
@@ -7863,7 +7732,6 @@ if __name__ == "__main__":
         "Short chains of amino acids acting at hormone or growth-factor receptors. Almost all are injected, and almost none have long-term human data.",
         "Damp excessive neuronal firing, by sodium-channel block, GABA enhancement or SV2A binding depending on the drug.",
         # Skins
-        "Skin",
         "Piru",
         "Soft pink, hot pink, liquid glass",
         "ely.pink",
@@ -7882,8 +7750,6 @@ if __name__ == "__main__":
         "Cool blue-gray, quiet",
         "Paper Garden",
         "Washi, raked sand, sakura",
-        "Hotaru",
-        "Fireflies and an aurora",
         "Aurora",
         "Fireflies over a dark meadow",
         "Hanabi",
@@ -7899,8 +7765,6 @@ if __name__ == "__main__":
         "dose.wiki",
         "Plum and fuchsia, from the open encyclopedia",
         "In partnership with dose.wiki ↗",
-        "Hotaru (WIP)",
-        "Hebi Arcade (WIP)",
         "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.",
         "Follow System",
         "Light Mode",
@@ -7944,8 +7808,6 @@ if __name__ == "__main__":
         "Starting level",
         "The level in your body today, if any. First dose today.",
         "An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. The curve models that from your doses.",
-        "It estimates a level. It never suggests a dose or a target. Lab results calibrate it to you.",
-        "Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. One blood test sets the height. Two on different days set the shape too. Retest after any change in dose, ester, interval, or site.",
         "No injectable ester data in this build.",
         "Lab calibration",
         "Add a blood test to fit the curve to you. The band narrows.",
@@ -8023,7 +7885,6 @@ if __name__ == "__main__":
         # b46 feedback batches
         "Backups, export & import are under Tools › Data & Backup; preferences are under Settings.",
         "That's everything today — %lld days and counting",
-        "That's everything today",
         "Scale by Dose Strength",
         "· %lld of %lld",
         "%lld of %lld logged today",
@@ -8125,7 +7986,6 @@ if __name__ == "__main__":
         "With a QT-prolonging drug",
         "With a live vaccine",
         "With a nitrate or a guanylate cyclase stimulator",
-        "With alcohol",
         "With an anticoagulant",
         "Existing respiratory depression",
         "During an acute asthma attack",
@@ -8146,7 +8006,6 @@ if __name__ == "__main__":
         "Porphyria",
         "Pheochromocytoma",
         "Untreated thyroid disease",
-        "Pregnancy",
         "Breastfeeding",
         "Children",
         "Eating disorder",
@@ -8208,10 +8067,8 @@ if __name__ == "__main__":
         "None of your logged substances in this range have a modeled elimination curve.",
         "A model estimate, not a measurement. What's in your body and what you feel don't always line up.",
         "Nothing in your body at this time",
-        "Tolerance & Receptors",
         "Your streak and this month's rate",
         "When and how much you log",
-        "Predicted per-mechanism tolerance",
         "How body-load has moved over time",
         "Receptor load over time",
         "Receptor Load",
@@ -8289,7 +8146,6 @@ if __name__ == "__main__":
         "Significant",
         "Limited",
         "Minor",
-        "Clinically significant",
         "Real but bounded",
         "Not clinically dominant",
         "How Long It Stays",
@@ -8312,7 +8168,6 @@ if __name__ == "__main__":
         "Blocks 5-HT₂A while weakly inhibiting serotonin reuptake. The receptor block dominates at low doses, which is why trazodone reached far more people as a sleep drug than as an antidepressant.",
         "Raises noradrenaline and serotonin release by blocking the α₂ autoreceptors that normally brake it, instead of blocking reuptake. The H₁ block alongside it is the sedation and the appetite.",
         "Log this",
-        "Prescribing",
         "Approved uses",
         "Boxed warning",
         "Fewer",
@@ -8390,7 +8245,6 @@ if __name__ == "__main__":
         "Pick a substance and an amount to see how it may feel over time.",
         "Plan A",
         "Plan B",
-        "Move to",
         "Compare with another plan",
         "Dose options",
         "Opens full size",
@@ -8504,7 +8358,6 @@ if __name__ == "__main__":
         "CYP2D6 is the main enzyme clearing %@ from the body.",
         # Isomer picker racemic-parent label (CLI-added).
         "Regular",
-        "Racemic",
         # QuickLog "Form" pill accessibility label (CLI-added).
         "Formulation",
         # QuickLog brand picker (CLI-added).
@@ -8525,7 +8378,6 @@ if __name__ == "__main__":
         "Common doses/day",
         "Common doses per day",
         "Which weekdays you log on most",
-        "Common-dose units by weekday",
         "Common-dose units by weekday, most on %@",
         "Which days and hours, by common-dose units",
         "%@ common-dose units",
@@ -8548,7 +8400,6 @@ if __name__ == "__main__":
         "strong evidence",
         "moderate evidence",
         "low evidence",
-        "not measured",
         "%lld%% left",
         "%lld percent left",
         "%lld days",
@@ -8560,7 +8411,6 @@ if __name__ == "__main__":
         "Fades slowly and partially, over months",
         "Develops; rate not quantified",
         "No tolerance detected",
-        "Receptor load",
         "About %lld%% of your recent peak GABA-A load right now, summed across everything active.",
         "Combined load across your active GABAergics, relative to your recent peak.",
         "Combined load across your active GABAergics, relative to your recent peak. Alcohol is included; it loads the receptor at a different site.",
@@ -8586,7 +8436,6 @@ if __name__ == "__main__":
         "Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and metabolites.",
         "Uses the same one-compartment oral model, assuming a regular schedule and linear kinetics. Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and active metabolites.",
         "Steady State",
-        "steady state",
         "Where a repeated dose settles, and when",
         "Where a med taken every day settles",
         "The Half-Life Calculator models one dose fading out. A dose repeated on a schedule instead lands on the tail of the last, and the level climbs until intake and clearance balance — steady state.",
