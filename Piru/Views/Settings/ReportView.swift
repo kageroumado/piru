@@ -15,6 +15,7 @@ struct ReportView: View {
     @State private var notes: String = ""
     @State private var isGenerating = false
     @State private var shareItem: PDFShareItem?
+    @State private var saveFailed = false
     /// Entries within the selected range + their interaction check, recomputed
     /// only when the range or the data changes — not in `body` on every
     /// keystroke of the name/notes fields.
@@ -187,6 +188,7 @@ struct ReportView: View {
             .sheet(item: $shareItem) { item in
                 ShareSheet(items: [item.url])
             }
+            .alert("Couldn't save the report", isPresented: $saveFailed) {}
         }
     }
 
@@ -263,13 +265,22 @@ struct ReportView: View {
                 // MainActor-bound lookup (drug classes) pre-resolved above, so
                 // both the PDF render and the file write run off the main actor —
                 // see the note on `PDFReportGenerator`.
-                await Task.detached {
+                let written = await Task.detached {
                     let pdfData = PDFReportGenerator.generate(from: data)
-                    try? pdfData.write(to: url)
+                    do {
+                        try pdfData.write(to: url)
+                        return true
+                    } catch {
+                        return false
+                    }
                 }.value
 
                 isGenerating = false
-                shareItem = PDFShareItem(url: url)
+                if written {
+                    shareItem = PDFShareItem(url: url)
+                } else {
+                    saveFailed = true
+                }
             }
         }
     #endif

@@ -18,6 +18,9 @@ struct HormoneLevelsView: View {
     @State private var model = HormoneLevelsModel()
     @State private var showingAddLab = false
     @State private var addingCompanion: CompanionMeasurement?
+    /// The analytes the user has logged an injectable ester for — the rows to show.
+    /// Nil until the first sync, so neither the empty card nor the picker flashes.
+    @State private var loggedAnalytes: [Analyte]?
 
     @AppStorage(InjectionLevelsModel.StorageKey.personalMultiplier) private var storedMultiplier = 1.0
     @AppStorage(InjectionLevelsModel.StorageKey.autoCalibrate) private var storedAutoCalibrate = true
@@ -28,9 +31,9 @@ struct HormoneLevelsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                if loggedAnalytes.isEmpty {
+                if loggedAnalytes?.isEmpty == true {
                     HormoneLevelsNoDataCard()
-                } else {
+                } else if let loggedAnalytes {
                     if loggedAnalytes.count > 1 {
                         Picker("Hormone", selection: $model.analyte) {
                             ForEach(loggedAnalytes) { a in Text(a.displayName).tag(a) }
@@ -82,7 +85,9 @@ struct HormoneLevelsView: View {
             model.personalMultiplier = storedMultiplier
             model.autoCalibrateFromLabs = storedAutoCalibrate
             model.fitRates = storedFitRates
-            if loggedAnalytes.count == 1, let only = loggedAnalytes.first { model.analyte = only }
+            let logged = computeLoggedAnalytes()
+            loggedAnalytes = logged
+            if logged.count == 1, let only = logged.first { model.analyte = only }
             syncAndRefresh()
         }
         .onChange(of: model.recomputeKey) { model.refresh() }
@@ -125,8 +130,7 @@ struct HormoneLevelsView: View {
 
     // MARK: - Sync
 
-    /// The analytes the user has logged an injectable ester for — the rows to show.
-    private var loggedAnalytes: [Analyte] {
+    private func computeLoggedAnalytes() -> [Analyte] {
         Analyte.allCases.filter { analyte in
             guard SubstanceStore.shared.analytesWithEsterData().contains(analyte.key) else { return false }
             let grouped = HormoneLevelsLog.grouped(
@@ -162,6 +166,7 @@ struct HormoneLevelsView: View {
     }
 
     private func syncAndRefresh() {
+        loggedAnalytes = computeLoggedAnalytes()
         let grouped = HormoneLevelsLog.grouped(
             from: doseEntries, analyte: model.analyte,
             volumeConcentrationMgPerML: concentration(for: model.analyte),

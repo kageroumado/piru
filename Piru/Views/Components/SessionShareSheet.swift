@@ -39,6 +39,7 @@ struct SessionShareSheet: View {
     @State private var tripReport: String?
     @State private var preparing = true
     @State private var justCopied: CopyTarget?
+    @State private var copiedResetTask: Task<Void, Never>?
     @State private var contentHeight: CGFloat = 420
     @State private var safeAreaBottom: CGFloat = 34
     /// A transparent view over the image thumbnail — the source of QuickLook's
@@ -286,9 +287,11 @@ struct SessionShareSheet: View {
 
     private func flashCopied(_ target: CopyTarget) {
         justCopied = target
-        Task {
+        copiedResetTask?.cancel()
+        copiedResetTask = Task(name: "Reset copied flash") {
             try? await Task.sleep(for: UITiming.copiedFlash)
-            if justCopied == target { justCopied = nil }
+            guard !Task.isCancelled else { return }
+            justCopied = nil
         }
     }
 

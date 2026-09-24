@@ -32,7 +32,7 @@ struct LogMedicationsView: View {
     }
 
     private var selectedCount: Int {
-        items.count(where: { toggleStates[$0.substance + String($0.sortOrder)] ?? true })
+        items.count(where: { toggleStates[itemKey(for: $0)] ?? true })
     }
 
     private var selectedSubstanceNames: [String] {
@@ -65,7 +65,7 @@ struct LogMedicationsView: View {
                         } label: {
                             HStack {
                                 Spacer()
-                                Label("Log \(selectedCount) Item\(selectedCount == 1 ? "" : "s")", systemImage: "checkmark.circle.fill")
+                                Label("Log ^[\(selectedCount) Item](inflect: true)", systemImage: "checkmark.circle.fill")
                                     .cardTitle()
                                 Spacer()
                             }
@@ -187,7 +187,7 @@ struct InteractionWarningSheet: View {
                             .buttonStyle(.plain)
                         }
                     } header: {
-                        Text("\(warnings.count) interaction\(warnings.count == 1 ? "" : "s") detected")
+                        Text("^[\(warnings.count) interaction](inflect: true) detected")
                     }
 
                     Section {

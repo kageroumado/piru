@@ -4514,7 +4514,10 @@ T = {
     "Interaction Warning": ("相互作用警告", "相互作用警告"),
     "1 Interaction Found": ("发现 1 个相互作用", "發現 1 個相互作用"),
     "%lld Interactions Found": ("发现 %lld 个相互作用", "發現 %lld 個相互作用"),
-    "%lld interaction%@ detected": ("检测到 %1$lld 个相互作用", "偵測到 %1$lld 個相互作用"),
+    "^[%lld interaction](inflect: true) detected": (
+        "检测到 %lld 个相互作用",
+        "偵測到 %lld 個相互作用",
+    ),
     "Choose at least 2 substances": ("请至少选择 2 种物质", "請至少選擇 2 種物質"),
     "A one-compartment model with population-average half-lives. Real overlap depends on your metabolism, dose, route, and tolerance.": (
         "单室模型，使用群体平均半衰期。实际重叠取决于你的代谢、剂量、途径和耐受性。",
@@ -5868,7 +5871,8 @@ T = {
     "%lld/%lld taken": ("%lld/%lld 已服用", "%lld/%lld 已服用"),
     # Day detail
     # Format strings
-    "Log %lld Item%@": ("记录 %1$lld 个项目", "記錄 %1$lld 個項目"),
+    "Log ^[%lld Item](inflect: true)": ("记录 %lld 个项目", "記錄 %lld 個項目"),
+    "Couldn't save the report": ("无法保存报告", "無法儲存報告"),
     "Log %@": ("记录 %@", "記錄 %@"),
     'Use "%@"': ('使用 "%@"', '使用 "%@"'),
     'A custom substance named "%@" already exists.': (
@@ -8220,6 +8224,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "^[%lld interaction](inflect: true) detected",
+        "Log ^[%lld Item](inflect: true)",
+        "Couldn't save the report",
         # SubstanceCategory.classSummary (extractor-invisible LocalizedStringResource)
         "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to.",
         "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anesthesia.",

@@ -239,7 +239,8 @@ private struct InjectionLevelsInputSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
-            if model.availableEsters.count > 0, SubstanceStore.shared.analytesWithEsterData().count > 1 {
+            let analytes = analytes
+            if model.availableEsters.count > 0, analytes.count > 1 {
                 Picker("Hormone", selection: $model.analyte) {
                     ForEach(analytes) { a in Text(a.displayName).tag(a) }
                 }
@@ -308,7 +309,8 @@ private struct InjectionLevelsInputSection: View {
     }
 
     private var analytes: [Analyte] {
-        Analyte.allCases.filter { SubstanceStore.shared.analytesWithEsterData().contains($0.key) }
+        let withEsterData = SubstanceStore.shared.analytesWithEsterData()
+        return Analyte.allCases.filter { withEsterData.contains($0.key) }
     }
 
     private func labeledField(_ label: String, value: Binding<Double?>, unit: String) -> some View {

@@ -6,6 +6,7 @@ struct HelpView: View {
     @Query private var recentEntries: [DoseEntry]
     @Environment(\.appNavigator) private var navigator
     @State private var copiedSummary = false
+    @State private var copiedResetTask: Task<Void, Never>?
     @State private var showShareSession = false
     @State private var activeSubstances: [ActiveSubstance] = []
     /// Resolved once per data change in `.task`, not on every `body` pass — the
@@ -622,8 +623,10 @@ struct HelpView: View {
             Button {
                 PlatformPasteboard.copy(generateSummaryText())
                 copiedSummary = true
-                Task {
+                copiedResetTask?.cancel()
+                copiedResetTask = Task(name: "Reset copied flash") {
                     try? await Task.sleep(for: UITiming.copiedFlash)
+                    guard !Task.isCancelled else { return }
                     copiedSummary = false
                 }
             } label: {
