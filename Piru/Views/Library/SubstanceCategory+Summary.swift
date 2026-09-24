@@ -18,11 +18,11 @@ extension SubstanceCategory {
         case .psychedelic:
             "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to."
         case .dissociative:
-            "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia."
+            "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anesthesia."
         case .dysdelic:
             "Act at the κ-opioid receptor rather than 5-HT2A, which is why the experience is nothing like a classical psychedelic — dysphoric, disorienting, and usually brief."
         case .deliriant:
-            "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognised as unreal — alongside amnesia and a narrow margin to toxicity."
+            "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognized as unreal — alongside amnesia and a narrow margin to toxicity."
         case .opioid:
             "Agonists at the µ-opioid receptor: analgesia, warmth and sedation, and depressed breathing by the same mechanism. Tolerance to the first outpaces tolerance to the last, which is what makes the margin narrow."
         case .benzodiazepine:

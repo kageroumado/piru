@@ -356,7 +356,7 @@ T = {
         "5-HT2A 受体的激动剂。这一个作用便重塑了知觉、思维和自我感；这一族按化学结构分为苯乙胺类、色胺类，以及 LSD 所属的麦角灵类。",
         "5-HT2A 受體的促效劑。這一個作用便重塑了知覺、思維和自我感；這一族按化學結構分為苯乙胺類、色胺類，以及 LSD 所屬的麥角靈類。",
     ),
-    "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia.": (
+    "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anesthesia.": (
         "阻断 NMDA 谷氨酸受体，使知觉与报告它的身体脱离。效应随剂量急剧变化，从镇痛直至麻醉。",
         "阻斷 NMDA 麩胺酸受體，使知覺與回報它的身體脫離。效應隨劑量急劇變化，從鎮痛直至麻醉。",
     ),
@@ -364,7 +364,7 @@ T = {
         "作用于 κ-阿片受体而非 5-HT2A，因此体验与经典迷幻剂截然不同——烦躁不安、方向迷失，且通常短暂。",
         "作用於 κ-鴉片受體而非 5-HT2A，因此體驗與經典迷幻劑截然不同——煩躁不安、方向迷失，且通常短暫。",
     ),
-    "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognised as unreal — alongside amnesia and a narrow margin to toxicity.": (
+    "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognized as unreal — alongside amnesia and a narrow margin to toxicity.": (
         "阻断毒蕈碱型乙酰胆碱受体。与迷幻剂不同，它们产生真正的幻觉——并不存在、且不被察觉为虚假的事物——并伴随健忘和狭窄的中毒安全边际。",
         "阻斷蕈毒鹼型乙醯膽鹼受體。與迷幻劑不同，它們產生真正的幻覺——並不存在、且不被察覺為虛假的事物——並伴隨健忘和狹窄的中毒安全邊際。",
     ),
@@ -8210,9 +8210,9 @@ if __name__ == "__main__":
     NEW_KEYS: set[str] = {
         # SubstanceCategory.classSummary (extractor-invisible LocalizedStringResource)
         "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to.",
-        "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia.",
+        "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anesthesia.",
         "Act at the κ-opioid receptor rather than 5-HT2A, which is why the experience is nothing like a classical psychedelic — dysphoric, disorienting, and usually brief.",
-        "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognised as unreal — alongside amnesia and a narrow margin to toxicity.",
+        "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognized as unreal — alongside amnesia and a narrow margin to toxicity.",
         "Agonists at the µ-opioid receptor: analgesia, warmth and sedation, and depressed breathing by the same mechanism. Tolerance to the first outpaces tolerance to the last, which is what makes the margin narrow.",
         "Positive allosteric modulators at GABA-A — they amplify the brain's own inhibitory signal rather than acting on their own. That ceiling is why they are relatively safe alone and dangerous with anything else that sedates.",
         "Bind the α2δ subunit of voltage-gated calcium channels, reducing excitatory transmitter release. Not GABAergic despite the name.",
