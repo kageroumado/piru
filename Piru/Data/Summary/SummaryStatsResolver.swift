@@ -5,7 +5,7 @@ import SwiftUI
 /// they happen here, once; the aggregation that follows is pure and off-main-ready.
 ///
 /// One resolver, two consumers: the Insights patterns screen and the PDF clinician
-/// report both call ``resolve(entries:colorMap:start:end:)`` and hand the result to
+/// report both call ``resolve(entries:tintMap:start:end:)`` and hand the result to
 /// ``SummaryStats/report(substances:doses:start:end:calendar:)``, so they can
 /// never show different numbers.
 enum SummaryStatsResolver {
@@ -60,7 +60,7 @@ enum SummaryStatsResolver {
                     name: canonical,
                     displayName: CustomSubstanceStore.shared.displayName(for: canonical, fallback: substance?.displayTitle),
                     tint: SubstancePalette.tint(for: canonical, tintMap: tintMap),
-                    unit: unitLabel(currency: currency, loggedUnit: entry.unit),
+                    unit: unitLabel(currency: currency),
                     currency: currency,
                 ))
             }
@@ -124,7 +124,7 @@ enum SummaryStatsResolver {
         }
     }
 
-    private static func unitLabel(currency: ExposureCurrency, loggedUnit _: String) -> String {
+    private static func unitLabel(currency: ExposureCurrency) -> String {
         switch currency {
         case .mme: String(localized: "MME")
         case .diazepam: String(localized: "mg diazepam-eq")
@@ -143,7 +143,7 @@ enum SummaryStatsResolver {
         let productDuration = entry.productDuration
         if productDuration == nil, entry.namesUnmodeledForm { return (nil, nil) }
         guard let params = PKResolver.params(
-            substance: substance, entryName: entry.substance,
+            substance: substance,
             duration: productDuration ?? substance?.resolveDuration(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer),
         ) else { return (nil, nil) }
         return (params.ke, params.ka)

@@ -32,13 +32,12 @@ enum HalfLifeCalculation {
         useCustom: Bool,
         customHours: Double?,
         substance: Substance?,
-        entryName: String,
     ) -> Double? {
         if useCustom {
             guard let hours = customHours, hours > 0 else { return nil }
             return hours * 60
         }
-        return PKResolver.halfLifeMinutes(substance: substance, entryName: entryName)
+        return PKResolver.halfLifeMinutes(substance: substance)
     }
 
     /// `(ke, ka)` fitted to the route's acute profile. `nil` when no positive
@@ -124,7 +123,6 @@ final class HalfLifeCalculatorModel {
             useCustom: useCustomHalfLife,
             customHours: customHalfLifeHours,
             substance: selectedSubstance,
-            entryName: substanceName,
         )
     }
 

@@ -45,4 +45,26 @@ struct FuzzySearchTests {
         let results = SubstanceLibrary.search("xyzzyplugh")
         #expect(results.isEmpty, "Completely unrelated query should match nothing")
     }
+
+    // MARK: - Deterministic tier order
+
+    @Test
+    func `Ranked search orders each tier by length then name`() {
+        let names = ["methylphenidate", "methadone", "meth", "methamphetamine", "dimethyltryptamine", "trimethoprim", "methylone"]
+        var nameIndex: [String: Int64] = [:]
+        var byID: [Int64: Substance] = [:]
+        for (offset, name) in names.enumerated() {
+            let id = Int64(offset)
+            nameIndex[name] = id
+            byID[id] = Substance(name: name, aliases: [], category: .stimulant, defaultRoute: .oral, routes: [], effects: [])
+        }
+        let ranked = SubstanceStore.rankedSearch(
+            "meth", nameIndex: nameIndex, aliasIndex: [:], aliasDisplayIndex: [:],
+            idToSubstance: byID, limit: 50,
+        ).map(\.substance.name)
+        #expect(ranked == [
+            "meth", "methadone", "methylone", "methamphetamine", "methylphenidate",
+            "trimethoprim", "dimethyltryptamine",
+        ])
+    }
 }

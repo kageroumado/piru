@@ -148,7 +148,17 @@ final class TimelineModelCache {
     private var waiters: [TimelineGraphView.DerivedKey: [CheckedContinuation<TimelineCurveModel.Derived, Never>]] = [:]
 
     func cached(_ key: TimelineGraphView.DerivedKey) -> TimelineCurveModel.Derived? {
-        store[key]
+        guard let hit = store[key] else { return nil }
+        touch(key)
+        return hit
+    }
+
+    /// Move a hit key to the most-recently-used end of `order`, so eviction
+    /// drops the least recently read model.
+    private func touch(_ key: TimelineGraphView.DerivedKey) {
+        guard order.last != key, let index = order.lastIndex(of: key) else { return }
+        order.remove(at: index)
+        order.append(key)
     }
 
     /// Claim `key` for computation. `false` when it's already cached or another
@@ -166,7 +176,10 @@ final class TimelineModelCache {
     /// ``insert(_:for:)`` lands, immediately on a cache hit, or `nil` when the
     /// key is neither cached nor in flight (the caller should claim + compute).
     func computed(_ key: TimelineGraphView.DerivedKey) async -> TimelineCurveModel.Derived? {
-        if let hit = store[key] { return hit }
+        if let hit = store[key] {
+            touch(key)
+            return hit
+        }
         guard inFlight.contains(key) else { return nil }
         return await withCheckedContinuation { continuation in
             waiters[key, default: []].append(continuation)
@@ -175,7 +188,7 @@ final class TimelineModelCache {
 
     func insert(_ value: TimelineCurveModel.Derived, for key: TimelineGraphView.DerivedKey) {
         inFlight.remove(key)
-        if store[key] == nil { order.append(key) }
+        if store[key] == nil { order.append(key) } else { touch(key) }
         store[key] = value
         while order.count > limit {
             let evicted = order.removeFirst()

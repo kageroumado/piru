@@ -29,7 +29,7 @@ enum PKResolver {
     /// Resolve the elimination half-life (minutes) from the substance's own record. `nil` when the
     /// database knows none — which is the honest answer for a compound nobody has measured, and is
     /// what every caller must keep handling.
-    static func halfLifeMinutes(substance: Substance?, entryName _: String) -> Double? {
+    static func halfLifeMinutes(substance: Substance?) -> Double? {
         guard let hl = substance?.halfLifeMinutes, hl > 0 else { return nil }
         return hl
     }
@@ -37,10 +37,10 @@ enum PKResolver {
     /// The half-life (minutes) for a *specific logged dose*, depot-aware: a depot
     /// administration reports its slow terminal half-life, not the parent molecule's
     /// fast elimination. Every body-load path that has the entry in hand should use
-    /// this rather than ``halfLifeMinutes(substance:entryName:)`` so a depot ester
+    /// this rather than ``halfLifeMinutes(substance:)`` so a depot ester
     /// isn't shown clearing in days. `nil` when no half-life can be resolved.
     static func halfLifeMinutes(for entry: DoseEntry, substance: Substance?) -> Double? {
-        depotHalfLifeMinutes(entry: entry) ?? halfLifeMinutes(substance: substance, entryName: entry.substance)
+        depotHalfLifeMinutes(entry: entry) ?? halfLifeMinutes(substance: substance)
     }
 
     // MARK: - Depot administrations
@@ -61,7 +61,7 @@ enum PKResolver {
     static func isDepot(entry: DoseEntry) -> Bool {
         if entry.releaseForm == "DEP" { return true }
         guard entry.route == .intramuscular || entry.route == .subcutaneous else { return false }
-        let uid = entry.substanceUID ?? SubstanceStore.shared.substanceUID(forNameOrAlias: entry.substance)
+        let uid = entry.substanceUID ?? SubstanceLibrary.substanceUID(for: entry.substance)
         return SubstanceStore.shared.isEster(entry.saltForm, forParentUID: uid)
     }
 
@@ -79,7 +79,7 @@ enum PKResolver {
     /// and resolves the parent substance, so a per-entry loop asks once.
     static func depotHalfLifeMinutes(entry: DoseEntry, isDepot: Bool) -> Double? {
         guard isDepot else { return nil }
-        if let uid = entry.substanceUID ?? SubstanceStore.shared.substanceUID(forNameOrAlias: entry.substance),
+        if let uid = entry.substanceUID ?? SubstanceLibrary.substanceUID(for: entry.substance),
            let label = entry.saltForm,
            let k1 = SubstanceStore.shared.esters(forParentUID: uid).first(where: { $0.label == label })?.parameters?.k1,
            k1 > 0 {
@@ -103,8 +103,8 @@ enum PKResolver {
     /// acute profile the caller already picks — a per-product envelope, a
     /// route/salt/isomer-specific profile, or `nil`. `nil` result when no
     /// half-life can be resolved.
-    static func params(substance: Substance?, entryName: String, duration: DurationProfile?) -> Params? {
-        guard let halfLife = halfLifeMinutes(substance: substance, entryName: entryName) else { return nil }
+    static func params(substance: Substance?, duration: DurationProfile?) -> Params? {
+        guard let halfLife = halfLifeMinutes(substance: substance) else { return nil }
         let (ke, ka) = rateConstants(halfLifeMinutes: halfLife, duration: duration)
         return Params(halfLifeMinutes: halfLife, ke: ke, ka: ka)
     }
@@ -112,7 +112,7 @@ enum PKResolver {
     /// Full resolution that also resolves the route's acute profile off the
     /// substance model (no product envelope) — the convenience the single-dose
     /// PK tools use.
-    static func params(substance: Substance?, entryName: String, route: RouteOfAdministration) -> Params? {
-        params(substance: substance, entryName: entryName, duration: substance?.resolveDuration(for: route))
+    static func params(substance: Substance?, route: RouteOfAdministration) -> Params? {
+        params(substance: substance, duration: substance?.resolveDuration(for: route))
     }
 }

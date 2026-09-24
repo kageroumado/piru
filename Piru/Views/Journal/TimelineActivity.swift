@@ -148,7 +148,7 @@ enum TimelineActivity {
                 substanceCache[key] = substance
             }
             if substance?.category == .supplement { continue }
-            guard let halfLife = PKResolver.halfLifeMinutes(substance: substance, entryName: entry.substance) else { continue }
+            guard let halfLife = PKResolver.halfLifeMinutes(substance: substance) else { continue }
             ends.append(entry.timestamp.addingTimeInterval(halfLife * 6 * 60))
         }
         return ends
@@ -156,10 +156,10 @@ enum TimelineActivity {
 
     /// PK mode: a substance's rate constants; `nil` for substances that draw
     /// no body-load curve (no half-life, supplements).
-    static func resolvePKConstants(key: String, name: String) -> PKConstants? {
+    static func resolvePKConstants(key: String, name _: String) -> PKConstants? {
         guard let substance = SubstanceLibrary.lookup(key),
               substance.category != .supplement,
-              let halfLife = PKResolver.halfLifeMinutes(substance: substance, entryName: name),
+              let halfLife = PKResolver.halfLifeMinutes(substance: substance),
               halfLife > 0 else { return nil }
         let (ke, ka) = PKResolver.rateConstants(
             halfLifeMinutes: halfLife,

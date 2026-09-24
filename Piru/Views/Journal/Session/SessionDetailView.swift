@@ -69,7 +69,9 @@ struct SessionDetailView: View {
             entries: entries,
             colors: Array(substanceColors),
             startDate: session.startDate,
-            signature: SessionResolveModel.timelineSignature(entries: entries, colorCount: substanceColors.count),
+            signature: SessionResolveModel.timelineSignature(
+                entries: entries, colorSignature: colorSignature, startDate: session.startDate,
+            ),
         )
     }
 

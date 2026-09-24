@@ -229,7 +229,7 @@ enum SteadyStateProjectionBuilder {
               let medianDose = median(group.amounts), medianDose > 0
         else { return nil }
 
-        guard let params = PKResolver.params(substance: substance, entryName: group.name, route: group.route),
+        guard let params = PKResolver.params(substance: substance, route: group.route),
               let result = SteadyStateModel.compute(
                   dose: medianDose, halfLifeMinutes: params.halfLifeMinutes,
                   intervalMinutes: medianInterval * 60, ke: params.ke, ka: params.ka,

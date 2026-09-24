@@ -682,14 +682,21 @@ enum InteractionChecker {
 
     // MARK: - Drug Class Mapping
 
-    /// Lazy cache mapping lowercased substance names (and aliases) to their
-    /// resolved drug classes. Filled on first lookup via ``SubstanceLibrary``.
-    /// Memoised drug-class lookups. `OSAllocatedUnfairLock` owns the dictionary,
+    /// Memoized drug-class lookups, keyed by the lowercased typed name. Filled on
+    /// first lookup via ``SubstanceLibrary``, which applies the user's relabels and
+    /// custom substances, so ``CustomSubstanceStore`` clears it on every reload
+    /// through ``invalidateClassCache()``. `OSAllocatedUnfairLock` owns the dictionary,
     /// so it can only be touched inside `withLock` — safe from the parallel
     /// contexts this `nonisolated` static is called from (notably Swift Testing's
     /// concurrent tasks, where an unsynchronized static `Dictionary` mutation
     /// crashes with a spurious "index out of range").
     private static let drugClassCache = OSAllocatedUnfairLock<[String: [DrugClass]]>(initialState: [:])
+
+    /// Drop every memoized class. Called whenever the custom-substance overlay
+    /// changes, since a relabel or custom entry can change what a name resolves to.
+    static func invalidateClassCache() {
+        drugClassCache.withLock { $0.removeAll() }
+    }
 
     /// Get drug classes for a substance name. Falls back to a `SubstanceLibrary`
     /// lookup (canonical name or alias) when no override names it; the result is

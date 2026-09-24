@@ -64,9 +64,10 @@ extension SubstanceStore {
         }.value
     }
 
-    /// Pure ranking over the index snapshots — runnable on any thread. Order is
-    /// identical to the original (exact → prefix → contains → fuzzy); only the
-    /// resolution changed from per-id SQL to a batch-cache dict hit.
+    /// Pure ranking over the index snapshots — runnable on any thread. Tiers run
+    /// exact → prefix → contains → fuzzy, and each tier is sorted by a total order
+    /// (shorter key first, then lexicographic) because the indexes are
+    /// dictionaries, whose iteration order changes from launch to launch.
     nonisolated static func rankedSearch(
         _ query: String,
         nameIndex: [String: Int64],
@@ -103,16 +104,23 @@ extension SubstanceStore {
         } else if let id = aliasIndex[q] {
             exactIDs.append(id); seen.insert(id); noteAlias(q, id)
         }
-        for (key, id) in nameIndex {
-            guard !seen.contains(id) else { continue }
-            if key.hasPrefix(q) { prefixIDs.append(id); seen.insert(id) } else if key.contains(q) { containsIDs.append(id); seen.insert(id) }
+        func byKey(_ lhs: (key: String, id: Int64), _ rhs: (key: String, id: Int64)) -> Bool {
+            (lhs.key.count, lhs.key) < (rhs.key.count, rhs.key)
         }
-        // Two passes over the alias index. The original single pass claimed each
-        // id on the *first* alias the dictionary happened to yield, which is why
-        // the shortest-wins rule needs every candidate collected before anything
-        // is claimed. Sorting the claims by the same (length, lexicographic) order
-        // also makes alias-prefix ranking deterministic, where it used to vary
-        // with dictionary layout.
+        var namePrefix: [(key: String, id: Int64)] = []
+        var nameContains: [(key: String, id: Int64)] = []
+        for (key, id) in nameIndex where !seen.contains(id) {
+            if key.hasPrefix(q) { namePrefix.append((key, id)) } else if key.contains(q) { nameContains.append((key, id)) }
+        }
+        for hit in namePrefix.sorted(by: byKey) where seen.insert(hit.id).inserted {
+            prefixIDs.append(hit.id)
+        }
+        for hit in nameContains.sorted(by: byKey) where seen.insert(hit.id).inserted {
+            containsIDs.append(hit.id)
+        }
+        // Collect every alias-prefix candidate first, then claim by (length,
+        // lexicographic), so both the ranking and the displayed alias are
+        // deterministic and the shortest alias wins.
         for (key, id) in aliasIndex where !seen.contains(id) && key.hasPrefix(q) {
             noteAlias(key, id)
         }
@@ -120,9 +128,10 @@ extension SubstanceStore {
             where !seen.contains(id) {
             prefixIDs.append(id); seen.insert(id)
         }
-        for (key, id) in aliasIndex {
-            guard !seen.contains(id) else { continue }
-            if key.contains(q) { containsIDs.append(id); seen.insert(id) }
+        let aliasContains = aliasIndex.filter { !seen.contains($0.value) && $0.key.contains(q) }
+            .map { (key: $0.key, id: $0.value) }
+        for hit in aliasContains.sorted(by: byKey) where seen.insert(hit.id).inserted {
+            containsIDs.append(hit.id)
         }
 
         var ranked: [Int64] = exactIDs + prefixIDs + containsIDs
@@ -147,16 +156,19 @@ extension SubstanceStore {
     private nonisolated static func fuzzyMatch(_ query: String, nameIndex: [String: Int64], excluding seen: Set<Int64>, limit: Int) -> [Int64] {
         let maxDist = max(1, Int(Double(query.count) * 0.3))
         let queryChars = Array(query)
-        var matches: [(Int64, Int)] = []
+        var matches: [(id: Int64, distance: Int, key: String)] = []
         for (key, id) in nameIndex where !seen.contains(id) {
             // Distance is at least the length difference — skip most of the
             // catalog without touching the DP table (or allocating for it).
             guard abs(key.count - queryChars.count) <= maxDist else { continue }
             if let d = levenshtein(queryChars, Array(key), cap: maxDist) {
-                matches.append((id, d))
+                matches.append((id, d, key))
             }
         }
-        return matches.sorted { $0.1 < $1.1 }.prefix(limit).map(\.0)
+        // Ties on distance break by (length, key) so the cut at `limit` is stable.
+        return matches
+            .sorted { ($0.distance, $0.key.count, $0.key) < ($1.distance, $1.key.count, $1.key) }
+            .prefix(limit).map(\.id)
     }
 
     /// Capped Levenshtein: `nil` as soon as every cell of a DP row exceeds

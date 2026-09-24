@@ -239,7 +239,7 @@ struct SessionBodyLoadModel {
         /// two reasons for being skipped are indistinguishable downstream.
         func hasHalfLife(_ name: String) -> Bool {
             guard let substance = SubstanceLibrary.lookup(name) else { return false }
-            return PKResolver.halfLifeMinutes(substance: substance, entryName: name) != nil
+            return PKResolver.halfLifeMinutes(substance: substance) != nil
         }
 
         var model = SessionBodyLoadModel()

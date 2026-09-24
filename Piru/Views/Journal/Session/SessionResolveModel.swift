@@ -136,19 +136,28 @@ enum SessionResolveModel {
         return result
     }
 
-    /// Content fingerprint of the day's doses + color count — the memo key, so
-    /// the resolve re-runs on an edit but not on every body re-evaluation.
-    static func timelineSignature(entries: [DoseEntry], colorCount: Int) -> Int {
+    /// Content fingerprint of every input the resolve reads — each dose's
+    /// identity, amount, unit and formulation, the session start, and the
+    /// substance colors — so it re-runs on an edit or a recolor but not on every
+    /// body re-evaluation.
+    static func timelineSignature(entries: [DoseEntry], colorSignature: Int, startDate: Date) -> Int {
         var hasher = Hasher()
         for entry in entries {
             hasher.combine(entry.persistentModelID)
             hasher.combine(entry.timestamp)
             hasher.combine(entry.amount)
+            hasher.combine(entry.unit)
             hasher.combine(entry.isUnknownDose)
             hasher.combine(entry.substance)
+            hasher.combine(entry.substanceUID)
             hasher.combine(entry.route)
+            hasher.combine(entry.saltForm)
+            hasher.combine(entry.isomer)
+            hasher.combine(entry.releaseForm)
+            hasher.combine(entry.productName)
         }
-        hasher.combine(colorCount)
+        hasher.combine(colorSignature)
+        hasher.combine(startDate)
         return hasher.finalize()
     }
 
@@ -165,8 +174,8 @@ enum SessionResolveModel {
     /// depot injection. `nil` when nothing here needs explaining. Runs only over
     /// the (rare, few) unmodeled doses, so it costs nothing on an ordinary session.
     static func unmodeledFormNote(entries: [DoseEntry]) -> UnmodeledFormNote.Content? {
-        // Only doses that truly draw nothing — a named ER product with an authored
-        // envelope (Concerta) now draws a real curve, so it isn't "unmodeled" here.
+        // Only doses that draw no curve; a named ER product with an authored
+        // envelope (Concerta) draws one.
         let unmodeled = entries.filter(\.drawsNoAcuteCurve)
         guard !unmodeled.isEmpty else { return nil }
         var seen = Set<String>()

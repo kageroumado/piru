@@ -41,7 +41,7 @@ private nonisolated func parseHex(_ string: String) -> (r: Double, g: Double, b:
 extension Color {
     nonisolated init(hex: String) {
         let c = parseHex(hex)
-        // Preserve prior behavior: ignore alpha channel for SwiftUI.Color.
+        // The alpha byte of an RRGGBBAA string is ignored; the color is always opaque.
         self.init(red: c.r, green: c.g, blue: c.b)
     }
 }

@@ -60,7 +60,7 @@ enum ActiveSubstanceCalculator {
             if let depot = PKResolver.depotHalfLifeMinutes(entry: entry, isDepot: isDepot) { return depot }
             let key = entry.substance.lowercased()
             if let cached = halfLifeCache[key] { return cached }
-            guard let hl = PKResolver.halfLifeMinutes(substance: substance, entryName: entry.substance) else { return nil }
+            guard let hl = PKResolver.halfLifeMinutes(substance: substance) else { return nil }
             halfLifeCache[key] = hl
             return hl
         }
@@ -307,8 +307,8 @@ extension ActiveSubstanceState {
     }
 
     /// Resolve a half-life (minutes) for a duration-less dose, through the shared ``PKResolver``.
-    static func resolveHalfLifeMinutes(substance: Substance, name: String) -> Double? {
-        PKResolver.halfLifeMinutes(substance: substance, entryName: name)
+    static func resolveHalfLifeMinutes(substance: Substance, name _: String) -> Double? {
+        PKResolver.halfLifeMinutes(substance: substance)
     }
 
     /// Convert dose entries into the two inputs ``TimelineGraphView`` consumes:

@@ -197,16 +197,24 @@ final class InventoryListModel {
 
     /// Memoized `substance → class` lookups, keyed by the lowercased canonical
     /// name. Resolving 81 items through ``SubstanceLibrary`` on every body pass
-    /// is the one genuinely expensive part of grouping, and the answer only
-    /// changes when the library does.
-    private var categoryCache: [String: SubstanceCategory] = [:]
+    /// is the one genuinely expensive part of grouping. Emptied whenever
+    /// ``CustomSubstanceStore/revision`` moves, since a custom edit can change a
+    /// class; a name that does not resolve is left unmemoized so a cold catalog
+    /// cannot pin it to `.other`.
+    @ObservationIgnored private var categoryCache: [String: SubstanceCategory] = [:]
+    @ObservationIgnored private var categoryCacheRevision = -1
 
     func category(for item: InventoryItem) -> SubstanceCategory {
+        let revision = CustomSubstanceStore.shared.revision
+        if revision != categoryCacheRevision {
+            categoryCache.removeAll()
+            categoryCacheRevision = revision
+        }
         let key = item.substance.lowercased()
         if let cached = categoryCache[key] { return cached }
         // Batch projection, not the heavy per-substance `lookup` — only the
         // category is read, and this runs per item on the sort/group path.
-        let resolved = SubstanceLibrary.lookup(item.substance)?.category ?? .other
+        guard let resolved = SubstanceLibrary.lookup(item.substance)?.category else { return .other }
         categoryCache[key] = resolved
         return resolved
     }

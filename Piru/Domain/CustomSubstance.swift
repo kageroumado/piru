@@ -243,6 +243,10 @@ final class CustomSubstanceStore {
 
     private(set) var all: [CustomSubstanceEntry] = []
 
+    /// Bumped on every ``reload()``. Caches of overlay-aware lookups compare it
+    /// to the value they were filled under and refill when it moves.
+    private(set) var revision = 0
+
     /// The SwiftData context. `nil` until ``configure(container:)`` (or
     /// ``forTesting(context:)``) binds it — reads return empty, writes no-op.
     private var context: ModelContext?
@@ -350,11 +354,9 @@ final class CustomSubstanceStore {
     /// The one key every name-based lookup in the app agrees on.
     ///
     /// Two surfaces can name the same substance differently — a dose logged as
-    /// "4-MMC", a library row canonically called "Mephedrone" — and a personal
-    /// relabel stored under one of those spellings used to be invisible to the
-    /// other. Folding both through the library's alias index first is what makes
-    /// the override reach every surface instead of the ones that happen to spell
-    /// it the way the user did.
+    /// "4-MMC", a library row canonically called "Mephedrone". Folding both
+    /// spellings through the library's alias index lets a personal relabel stored
+    /// under either one reach every surface.
     ///
     /// Falls back to the lowercased input when nothing in the library matches,
     /// which is the right answer for a custom-only substance: it *is* its own
@@ -376,12 +378,11 @@ final class CustomSubstanceStore {
 
     /// Canonical key → the entry overriding it.
     ///
-    /// Built on first use, not in ``reload()``. Resolving a canonical key reads
-    /// the substance library, and this store is constructed during app start-up
-    /// — doing it eagerly made `CustomSubstanceStore.init` depend on
-    /// `SubstanceStore` being ready, which crashed the test runner before it
-    /// finished bootstrapping. Cleared on reload, which is the only mutation
-    /// point, so it cannot drift from `all`.
+    /// Built lazily on first use, never in `init` or ``reload()``: resolving a
+    /// canonical key reads `SubstanceStore`, which is not ready while this store
+    /// is constructed at launch (and the test runner crashes bootstrapping if it
+    /// is forced). Cleared on reload, which is the only mutation point, so it
+    /// cannot drift from `all`.
     private var canonicalIndex: [String: CustomSubstanceEntry]?
 
     /// Lowercased stored name → entry. Every library lookup (each active dose,
@@ -511,6 +512,8 @@ final class CustomSubstanceStore {
             .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
         canonicalIndex = nil
         lowercasedNameIndex = nil
+        revision &+= 1
+        InteractionChecker.invalidateClassCache()
         writeMirror()
     }
 

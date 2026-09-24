@@ -189,7 +189,6 @@ final class SteadyStateInputs {
             useCustom: useCustomHalfLife,
             customHours: customHalfLifeHours,
             substance: selectedSubstance,
-            entryName: substanceName,
         )
     }
 }
