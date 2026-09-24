@@ -77,6 +77,7 @@ final class SessionEditingService {
             allColors: colors,
         )
         DoseLogService.shared.changed()
+        DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: [name], in: context)
     }
 
     /// Split the owning session so `entry` and every later dose become a new

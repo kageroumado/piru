@@ -25,6 +25,8 @@ struct UnifiedTimelineView: View {
     @Query private var substanceColors: [SubstanceColor]
     @State private var model = UnifiedTimelineModel()
     @State private var showingCalendar = false
+    /// Advanced by ``TimelineClockTick`` so the strip's "now" follows the clock.
+    @State private var clockTick = 0
     @GestureState private var pinchScale: CGFloat = 1
     @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var zoom = 1.0
     @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var compressGaps = true
@@ -82,12 +84,13 @@ struct UnifiedTimelineView: View {
                     .presentationDetents([.medium])
                     .presentationBackground(.regularMaterial)
             }
+            .timelineClockTick($clockTick)
             .task(id: rebuildKey) {
                 await model.rebuild(
                     entries: entries,
                     colors: substanceColors,
                     colorMap: substanceColors.colorMap,
-                    revision: DoseLogService.shared.revision,
+                    revision: rebuildKey.hashValue,
                     zoom: zoom,
                     compressGaps: compressGaps,
                     pkCurves: pkCurves,
@@ -100,7 +103,7 @@ struct UnifiedTimelineView: View {
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(clockTick)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers
@@ -229,7 +232,10 @@ final class UnifiedTimelineModel {
         // Progressive build: publish the most recent slices as soon as they
         // are ready (the visible top of the strip), then keep appending in
         // chunks, yielding between them so a multi-year log never blocks the
-        // UI.
+        // UI. On a rebuild, the previous strip's older days stay below the
+        // fresh ones until they are replaced, so the list never shrinks to
+        // the finished prefix and throws a scrolled-down reader back up.
+        let previous = days
         var built: [TimelineDayLayout] = []
         built.reserveCapacity(builder.sliceCount)
         for index in 0 ..< builder.sliceCount {
@@ -237,7 +243,8 @@ final class UnifiedTimelineModel {
             // Small chunks: each slice is a few ms of layout on the main actor,
             // and a 30-slice chunk between yields is a 250 ms stall at launch.
             if index == 9 || (index > 9 && (index - 9).isMultiple(of: 6)) {
-                days = built
+                let frontier = built[built.count - 1].date
+                days = built + previous.filter { $0.date < frontier }
                 await Task.yield()
                 guard !Task.isCancelled else { return }
             }
@@ -487,6 +494,8 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
         /// the entry was logged under, matching the session/journal rows, not the
         /// bare canonical substance.
         let displayName: String
+        /// The logged substance name — what Substance Info opens.
+        let substance: String
         let color: Color
         let remainingFraction: Double?
         /// The dose's acute-effect state while its effects are still running
@@ -502,6 +511,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             isUnknownDose = entry.isUnknownDose
             route = entry.route
             self.displayName = displayName
+            substance = entry.substance
             self.color = color
             self.remainingFraction = remainingFraction
             self.state = state
@@ -515,6 +525,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             case isUnknownDose
             case route
             case displayName
+            case substance
             case color
             case remainingFraction
             case state
@@ -529,6 +540,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             isUnknownDose = try c.decodeIfPresent(Bool.self, forKey: .isUnknownDose) ?? false
             route = try c.decode(RouteOfAdministration.self, forKey: .route)
             displayName = try c.decode(String.self, forKey: .displayName)
+            substance = try c.decode(String.self, forKey: .substance)
             color = try c.decode(P3Color.self, forKey: .color).color
             remainingFraction = try c.decodeIfPresent(Double.self, forKey: .remainingFraction)
             state = try c.decodeIfPresent(ActiveSubstanceState.self, forKey: .state)
@@ -543,6 +555,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             try c.encode(isUnknownDose, forKey: .isUnknownDose)
             try c.encode(route, forKey: .route)
             try c.encode(displayName, forKey: .displayName)
+            try c.encode(substance, forKey: .substance)
             try c.encode(color.cacheTint(), forKey: .color)
             try c.encodeIfPresent(remainingFraction, forKey: .remainingFraction)
             try c.encodeIfPresent(state, forKey: .state)
@@ -559,20 +572,24 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
     }
 
     /// One substance's effect curve as (y, 0…1) points, y ascending (newest
-    /// first), normalized to the substance's own all-time effect peak so day
-    /// slices join seamlessly. Each point carries the phase of the newest dose
+    /// first): the doses' strength on their substance's ladder in effect mode,
+    /// the substance's all-time peak concentration in body-load mode. Each point carries the phase of the newest dose
     /// covering it, which the stroke draws as a color shift along the line;
     /// body-load curves model no phases and carry `nil`.
     struct CurveSeries: Equatable, Codable {
         let color: Color
         let points: [CurvePoint]
+        /// The substance has no dose ladder, so the curve sits at a fixed
+        /// neutral height rather than a read strength, and strokes dotted.
+        let isUnscaled: Bool
 
-        init(color: Color, points: [CurvePoint]) {
+        init(color: Color, points: [CurvePoint], isUnscaled: Bool = false) {
             self.color = color
             self.points = points
+            self.isUnscaled = isUnscaled
         }
 
-        private enum CodingKeys: String, CodingKey { case color, points }
+        private enum CodingKeys: String, CodingKey { case color, points, isUnscaled }
 
         /// Points travel as one flat number array — `y` to a tenth of a point,
         /// `v` to four places, the phase as its case index (−1 for none) — a
@@ -592,6 +609,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
                 i += 3
             }
             points = decoded
+            isUnscaled = try c.decodeIfPresent(Bool.self, forKey: .isUnscaled) ?? false
         }
 
         func encode(to encoder: Encoder) throws {
@@ -605,6 +623,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
                 flat.append(Double(point.phase.flatMap { TimelineCurvePhase.allCases.firstIndex(of: $0) } ?? -1))
             }
             try c.encode(flat, forKey: .points)
+            if isUnscaled { try c.encode(true, forKey: .isUnscaled) }
         }
     }
 

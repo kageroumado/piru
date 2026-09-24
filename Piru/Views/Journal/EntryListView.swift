@@ -135,6 +135,8 @@ struct EntryListView: View {
     /// grouping is selected. Shares the zoom preference with the pushed
     /// timeline screen.
     @State private var timelineModel = UnifiedTimelineModel()
+    /// Advanced by ``TimelineClockTick`` so the strip's "now" follows the clock.
+    @State private var clockTick = 0
 
     /// The strip's display options plus the day cards' redose stacking, read
     /// live from the app-group defaults the rest of the app writes.
@@ -275,7 +277,8 @@ struct EntryListView: View {
             // narrowing (tags + categories + routes), the ellipsis for everything
             // view-related (grouping thumbnails, Jump to Date, Settings, Help).
             // The Timeline grouping adds a third, leading them: the strip's
-            // display options.
+            // display options, sharing the funnel's glass group because both
+            // shape what the strip shows.
             if !isSearchSurface {
                 if grouping == .timeline {
                     ToolbarItem(placement: .platformTopBarTrailing) {
@@ -287,7 +290,6 @@ struct EntryListView: View {
                             bubbleStyle: prefs.$bubbleStyle,
                         )
                     }
-                    ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
                 }
                 ToolbarItem(placement: .platformTopBarTrailing) {
                     JournalFilterMenu(
@@ -403,6 +405,7 @@ struct EntryListView: View {
                 cacheable: cacheable,
             )
         }
+        .timelineClockTick($clockTick)
         .onChange(of: colorSignature) {
             Task { await rebuildAll(animated: true) }
         }
@@ -513,7 +516,7 @@ struct EntryListView: View {
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(searchText)|\(model.filterSignature)"
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(searchText)|\(model.filterSignature)|\(clockTick)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous

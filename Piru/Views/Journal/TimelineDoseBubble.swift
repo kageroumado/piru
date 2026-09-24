@@ -12,6 +12,9 @@ struct TimelineDoseBubble: View {
     let style: TimelineBubbleStyle
     /// Body-load mode: the trailing readout is what remains in the body.
     let pkMode: Bool
+    /// Whether the bubble carries its long-press menu and swipe; `false` for
+    /// the menu's own preview of it.
+    var actionable = true
     let onTap: () -> Void
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.rendersTimelineFlat) private var rendersFlat
@@ -46,6 +49,20 @@ struct TimelineDoseBubble: View {
     }
 
     var body: some View {
+        if actionable {
+            bubble.timelineDoseActions(item, bubbleWidth: Self.width(for: style)) {
+                // The actionless bubble, flat: the preview renders outside the
+                // strip, with no backdrop for glass to sample.
+                TimelineDoseBubble(item: item, style: style, pkMode: pkMode, actionable: false) {}
+                    .frame(width: Self.width(for: style))
+                    .environment(\.rendersTimelineFlat, true)
+            }
+        } else {
+            bubble
+        }
+    }
+
+    private var bubble: some View {
         Button(action: onTap) {
             HStack(spacing: Spacing.md) {
                 switch style {
@@ -135,7 +152,6 @@ struct TimelineDoseBubble: View {
     }
 }
 
-/// The volumetric recipe every glass surface on the strip shares — a whisper
 /// The bubble's surface: Liquid Glass on screen, and a plain tinted card fill
 /// where glass cannot exist.
 private struct BubbleSurface: ViewModifier {
@@ -162,6 +178,7 @@ extension EnvironmentValues {
     @Entry var rendersTimelineFlat = false
 }
 
+/// The volumetric recipe every glass surface on the strip shares — a whisper
 /// of the substance color in the glass, a top-edge highlight that says "lit
 /// from above", and a soft drop shadow that lifts the bubble off the lane.
 enum TimelineGlass {

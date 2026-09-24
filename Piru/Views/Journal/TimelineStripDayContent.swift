@@ -214,8 +214,12 @@ struct TimelineStripDayContent: View {
     private static let gridlineInset: CGFloat = 12
     /// A curve's fill fades to nothing this far right of its peak.
     private static let fillFadeOverrun: CGFloat = 40
-    /// Stroke width of every curve.
+    /// Stroke width of a solid curve.
     private static let curveLineWidth: CGFloat = 1.5
+    /// A dotted curve (a substance with no dose ladder): round dots this
+    /// wide, centers this far apart along the line.
+    private static let dottedCurveDotSize: CGFloat = 2.2
+    private static let dottedCurveSpacing: CGFloat = 5
 
     private func drawStrip(in context: inout GraphicsContext, size: CGSize, bubbleLeft: CGFloat, columnX: CGFloat) {
         let mapHeight = day.mapHeight
@@ -243,10 +247,9 @@ struct TimelineStripDayContent: View {
         drawAxis(in: &context, size: size, axisX: axisX)
         drawHeartRate(in: &context, axisX: axisX, laneWidth: curveWidth)
 
-        // Per-substance curves — normalized to the substance's own
-        // all-time peak so widths mean the same thing on every day and a
-        // curve crosses day boundaries without a jump. The fill fades from
-        // the axis toward the peak so the lane stays airy under the bubbles.
+        // Per-substance curves, as wide as the dose is strong (see
+        // `TimelineStripBuilder.curveSeries`). The fill fades from the axis
+        // toward the peak so the lane stays airy under the bubbles.
         for series in day.series {
             guard series.points.count > 1 else { continue }
             let peakX = axisX + curveWidth * CGFloat(series.points.map(\.v).max() ?? 0)
@@ -383,16 +386,29 @@ struct TimelineStripDayContent: View {
         curveWidth: CGFloat,
     ) {
         let points = series.points.map { CGPoint(x: axisX + curveWidth * CGFloat($0.v), y: $0.y) }
-        let style = StrokeStyle(lineWidth: Self.curveLineWidth, lineCap: .round, lineJoin: .round)
         let segments = TimelineCurveSegment.segments(of: series.points.map(\.phase))
+        // Arc length walked so far, so a dotted curve's dots keep one even
+        // spacing across the phase segments instead of restarting at each.
+        var travelled: CGFloat = 0
 
         for (index, segment) in segments.enumerated() {
             guard segment.range.count > 1 else { continue }
             var path = Path()
             path.move(to: points[segment.range.lowerBound])
+            var length: CGFloat = 0
             for i in segment.range.dropFirst() {
                 path.addLine(to: points[i])
+                length += hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y)
             }
+            let style = series.isUnscaled
+                ? StrokeStyle(
+                    lineWidth: Self.dottedCurveDotSize,
+                    lineCap: .round,
+                    dash: [0, Self.dottedCurveSpacing],
+                    dashPhase: travelled,
+                )
+                : StrokeStyle(lineWidth: Self.curveLineWidth, lineCap: .round, lineJoin: .round)
+            travelled += length
 
             let color = palette.color(for: segment.phase).opacity(Self.curveStrokeOpacity)
             let next = segments.count > index + 1 ? segments[index + 1].phase : segment.phase

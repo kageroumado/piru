@@ -74,9 +74,9 @@ struct TimelineStripBuilder {
     private let map: TimelineTimeMap
     private let now = DebugClock.now
 
-    /// Per-substance all-time peak (effect intensity or PK concentration,
-    /// depending on mode) — the normalization scale that keeps a substance's
-    /// curve continuous across slice boundaries.
+    /// PK mode: per-substance all-time peak concentration — the
+    /// normalization scale that keeps a substance's curve continuous across
+    /// slice boundaries.
     private var peakCache: [String: Double] = [:]
     /// PK mode: per-substance resolved rate constants, cached across slices.
     private var pkConstantsCache: [String: TimelineActivity.PKConstants?] = [:]
@@ -692,9 +692,10 @@ struct TimelineStripBuilder {
     /// derived from the global map — the same phase-based curves the journal
     /// cards and session detail draw, so a dose's spine curve ends when its
     /// effects end, not when the last molecule clears (that's the %-badge's
-    /// and In Your System's job). Normalized to the substance's all-time
-    /// effect peak, so widths mean the same thing on every day and the curve
-    /// crosses slice boundaries without a jump.
+    /// and In Your System's job). The width is the dose's strength on its
+    /// substance's ladder — `amount / heavy`, so a heavy dose reaches the
+    /// lane's edge and a common one sits well inside it — which makes widths
+    /// comparable across substances and days alike.
     private mutating func curveSeries(slice: Slice, localY: (Date) -> CGFloat) -> [TimelineDayLayout.CurveSeries] {
         // Sample grid over the slice's time range, denser where the map is
         // stretched: walk global segments clipped to the slice.
@@ -737,7 +738,7 @@ struct TimelineStripBuilder {
 
     private mutating func effectSeries(slice: Slice, grid: [(t: Date, y: CGFloat)]) -> [TimelineDayLayout.CurveSeries] {
         var result: [TimelineDayLayout.CurveSeries] = []
-        for (key, states) in statesBySubstance {
+        for states in statesBySubstance.values {
             // Only states whose effect window overlaps this slice contribute.
             let relevant = states.filter { state in
                 let end = state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60)
@@ -757,14 +758,19 @@ struct TimelineStripBuilder {
                 sliceMax = max(sliceMax, v)
             }
 
-            let scale = globalEffectPeak(key: key, states: states)
-            guard scale > 0, sliceMax > scale * 0.02 else { continue }
+            // Never normalize to the substance's own largest dose: a lone dose
+            // would then fill the lane, and a label-dose paracetamol beside a
+            // stimulant would read as the strongest thing taken.
+            guard sliceMax > Self.minimumVisibleIntensity else { continue }
+            // With no ladder there is no strength to read, only the neutral
+            // `unknownIntensity`; the dotted stroke says so.
+            let isUnscaled = states.allSatisfy(\.doseIsUnscaled)
 
             let color = SubstancePalette.color(for: relevant[0].substanceName, colorMap: colorMap)
             let points = Self.trimmed(zip(grid, zip(values, phases)).map {
-                TimelineDayLayout.CurvePoint(y: $0.y, v: min($1.0 / scale, 1), phase: $1.1)
+                TimelineDayLayout.CurvePoint(y: $0.y, v: min($1.0, 1), phase: $1.1)
             })
-            result.append(TimelineDayLayout.CurveSeries(color: color, points: points))
+            result.append(TimelineDayLayout.CurveSeries(color: color, points: points, isUnscaled: isUnscaled))
         }
         return result
     }
@@ -870,21 +876,9 @@ struct TimelineStripBuilder {
         return total
     }
 
-    /// The substance's all-time stacked effect peak: its summed intensity
-    /// evaluated around each dose's own crest. Cached — this is the
-    /// normalization scale for every slice.
-    private mutating func globalEffectPeak(key: String, states: [ActiveSubstanceState]) -> Double {
-        if let cached = peakCache[key] { return cached }
-        var peak = 0.0
-        for state in states {
-            let crest = state.doseTimestamp.addingTimeInterval(
-                (state.comeupEndMinutes + state.peakEndMinutes) / 2 * 60,
-            )
-            peak = max(peak, Self.effectValue(at: crest, states: states))
-        }
-        peakCache[key] = peak
-        return peak
-    }
+    /// A slice skips a substance whose stacked intensity never rises above
+    /// this — the last sliver of a curve ending just past the slice's edge.
+    private static let minimumVisibleIntensity = 0.02
 
     // MARK: Static helpers
 

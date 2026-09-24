@@ -94,7 +94,7 @@ struct JournalOptionsMenu: View {
                 .padding(.bottom, 14)
             }
 
-            Divider()
+            sectionDivider
 
             VStack(spacing: 0) {
                 actionRow(.jumpToDate, title: Text("Jump to Date"), systemImage: "calendar")
@@ -104,11 +104,11 @@ struct JournalOptionsMenu: View {
                 actionRow(.myMeds, title: Text("My Meds"), systemImage: "pills")
             }
 
-            Divider()
+            sectionDivider
 
             actionRow(.help, title: Text("Help"), systemImage: "lifepreserver")
 
-            Divider()
+            sectionDivider
 
             VStack(spacing: 0) {
                 actionRow(.skins, title: Text("Skins"), systemImage: "paintbrush")
@@ -117,6 +117,13 @@ struct JournalOptionsMenu: View {
             .padding(.bottom, Spacing.md)
         }
         .frame(width: 320)
+    }
+
+    /// The rule between sections, held off the rows on both sides so each
+    /// section reads as its own group.
+    private var sectionDivider: some View {
+        Divider()
+            .padding(.vertical, Spacing.md)
     }
 
     private func groupingColumn(_ option: JournalGrouping) -> some View {

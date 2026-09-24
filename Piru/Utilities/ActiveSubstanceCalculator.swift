@@ -175,7 +175,7 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, tint: P3Color, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg, zeroOrderKinetics: PKModel.ZeroOrderKinetics? = nil) {
+    init?(name: String, tint: P3Color, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, doseIsUnscaled: Bool = false, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg, zeroOrderKinetics: PKModel.ZeroOrderKinetics? = nil) {
         guard let rawDuration = duration else { return nil }
         // Endpoint-only data (a `total` with no come-up/peak/offset) would
         // otherwise collapse the curve to the onset length; synthesize the
@@ -204,6 +204,7 @@ extension ActiveSubstanceState {
             doseIntensity: doseIntensity,
             doseMagnitude: doseMagnitude,
             heavyThresholdMagnitude: heavyThresholdMagnitude,
+            doseIsUnscaled: doseIsUnscaled,
             tachyphylaxis: tachyphylaxis,
             bodyWeightKg: weightKg,
             zeroOrder: zeroOrderKinetics,
@@ -294,6 +295,7 @@ extension ActiveSubstanceState {
                 doseIntensity: intensity,
                 doseMagnitude: magnitude,
                 heavyThresholdMagnitude: Self.heavyThresholdMagnitude(for: doseRange),
+                doseIsUnscaled: Self.heavyReference(for: doseRange) == nil,
                 tachyphylaxis: substance.category.acuteToleranceFactor,
                 weightKg: weightKg,
                 zeroOrderKinetics: SubstanceStore.shared.zeroOrderKinetics(

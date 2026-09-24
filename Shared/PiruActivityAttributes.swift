@@ -87,6 +87,13 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     /// than introducing it.
     let heavyThresholdMagnitude: Double?
 
+    /// `true` when the substance has no dose ladder to scale this dose
+    /// against, so ``doseIntensity`` is the neutral
+    /// `ActiveSubstanceCalculator.unknownIntensity` rather than a reading of
+    /// the amount. The timeline draws such a curve at that fixed height and
+    /// dotted, so it never reads as the substance's strongest dose.
+    let doseIsUnscaled: Bool
+
     /// Acute-tolerance (tachyphylaxis) strength, `0...1`, from the substance's
     /// category (`SubstanceCategory.acuteToleranceFactor`). Drives the timeline
     /// curve's descending-limb gate: stimulants/empathogens crash faster than
@@ -122,7 +129,7 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     let peakSpreadMinutes: Double?
     let offsetSpreadMinutes: Double?
 
-    init(substanceName: String, tint: P3Color, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil, comeupSpreadMinutes: Double? = nil, peakSpreadMinutes: Double? = nil, offsetSpreadMinutes: Double? = nil) {
+    init(substanceName: String, tint: P3Color, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, doseIsUnscaled: Bool = false, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil, comeupSpreadMinutes: Double? = nil, peakSpreadMinutes: Double? = nil, offsetSpreadMinutes: Double? = nil) {
         self.substanceName = substanceName
         self.tint = tint
         self.doseTimestamp = doseTimestamp
@@ -138,6 +145,7 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         self.doseIntensity = doseIntensity
         self.doseMagnitude = doseMagnitude ?? doseIntensity
         self.heavyThresholdMagnitude = heavyThresholdMagnitude
+        self.doseIsUnscaled = doseIsUnscaled
         self.tachyphylaxis = tachyphylaxis
         self.bodyWeightKg = bodyWeightKg
         self.zeroOrder = zeroOrder
@@ -165,6 +173,7 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         // Absent on an activity started by an older build: no marked region, which
         // is the same answer as a substance with no published heavy bound.
         heavyThresholdMagnitude = try c.decodeIfPresent(Double.self, forKey: .heavyThresholdMagnitude)
+        doseIsUnscaled = try c.decodeIfPresent(Bool.self, forKey: .doseIsUnscaled) ?? false
         tachyphylaxis = try c.decodeIfPresent(Double.self, forKey: .tachyphylaxis) ?? 0
         bodyWeightKg = try c.decodeIfPresent(Double.self, forKey: .bodyWeightKg) ?? PKModel.referenceBodyWeightKg
         // Absent on an activity started by an older build: the dose draws the fixed phase bell, which
