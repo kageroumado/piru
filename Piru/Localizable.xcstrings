@@ -3087,6 +3087,7 @@
       }
     },
     "%lld interaction%@ detected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4163,6 +4164,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 個分類"
+          }
+        }
+      }
+    },
+    "^[%lld interaction](inflect: true) detected" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检测到 %lld 个相互作用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偵測到 %lld 個相互作用"
           }
         }
       }
@@ -15167,6 +15184,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未能清楚辨識任何文字。"
+          }
+        }
+      }
+    },
+    "Couldn't save the report" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法保存报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法儲存報告"
           }
         }
       }
@@ -27958,6 +27991,7 @@
       }
     },
     "Log %lld Item%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -27975,6 +28009,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄 %1$lld 個項目"
+          }
+        }
+      }
+    },
+    "Log ^[%lld Item](inflect: true)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录 %lld 个项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄 %lld 個項目"
           }
         }
       }
@@ -53178,54 +53228,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-鴉片受體配體"
-          }
-        }
-      }
-    },
-    "^[%lld interaction](inflect: true) detected" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检测到 %lld 个相互作用"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偵測到 %lld 個相互作用"
-          }
-        }
-      }
-    },
-    "Log ^[%lld Item](inflect: true)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "记录 %lld 个项目"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "記錄 %lld 個項目"
-          }
-        }
-      }
-    },
-    "Couldn't save the report" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法保存报告"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法儲存報告"
           }
         }
       }
