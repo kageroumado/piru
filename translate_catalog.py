@@ -676,7 +676,7 @@ T = {
         "记录同一物质、同一途径的剂量即可勾选。",
         "記錄同一物質、同一途徑的劑量即可勾選。",
     ),
-    'Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated "18–25× sudden death" figure is not supported by the evidence — but the added cardiac and liver strain is real, )': (
+    'Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated "18–25× sudden death" figure is not supported by the evidence — but the added cardiac and liver strain is real.)': (
         "可卡乙烯对心脏和肝脏的负担超过单用可卡因，因此这一组合对身体负担更重。（广为流传的“猝死风险 18–25 倍”没有证据支持，但额外的心脏与肝脏负担是真实的。）",
         "古柯乙烯對心臟和肝臟的負擔超過單用古柯鹼，因此這一組合對身體負擔更重。（廣為流傳的「猝死風險 18–25 倍」沒有證據支持，但額外的心臟與肝臟負擔是真實的。）",
     ),
@@ -1247,9 +1247,9 @@ T = {
         "為你記錄的每種物質配一個顏色",
     ),
     "Export, import, and encrypted backups": ("导出、导入与加密备份", "匯出、匯入與加密備份"),
-    "Which source wins when they disagree, and opt-in updates to the bundled substance data.": (
-        "来源冲突时以哪个为准，以及内置物质数据的自选更新。",
-        "來源衝突時以哪個為準，以及內建物質資料的自選更新。",
+    "Which source wins when they disagree.": (
+        "来源冲突时以哪个为准。",
+        "來源衝突時以哪個為準。",
     ),
     "Tap a dot to name it": ("点一下圆点显示名称", "點一下圓點顯示名稱"),
     "Name on plot": ("在图上显示名称", "在圖上顯示名稱"),
@@ -6090,7 +6090,7 @@ T = {
     "Acetaldehyde (ALDH2)": ("乙醛（ALDH2）", "乙醛（ALDH2）"),
     "Elevated": ("偏高", "偏高"),
     "Very high": ("极高", "極高"),
-    "Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and oesophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.": (
+    "Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and esophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.": (
         "你的 ALDH2 变异清除乙醛——酒精的第一个毒性副产物——的速度很慢，因此它会堆积并滞留。这种堆积正是脸红、心跳加快和恶心的原因，而乙醛是一级致癌物（IARC）：对喝酒会脸红的人来说，每一杯都带来更高的长期咽喉与食道癌风险。少喝就意味着更少的乙醛——没有任何分量能像对别人那样被干净地清除掉。",
         "你的 ALDH2 變異清除乙醛——酒精的第一個毒性副產物——的速度很慢，因此它會堆積並滯留。這種堆積正是臉紅、心跳加快和噁心的原因，而乙醛是一級致癌物（IARC）：對喝酒會臉紅的人來說，每一杯都帶來更高的長期咽喉與食道癌風險。少喝就意味著更少的乙醛——沒有任何分量能像對別人那樣被乾淨地清除掉。",
     ),
@@ -8393,7 +8393,9 @@ if __name__ == "__main__":
         "A color for every substance you log",
         "^[%lld substances](inflect: true) with a color",
         "Export, import, and encrypted backups",
-        "Which source wins when they disagree, and opt-in updates to the bundled substance data.",
+        "Which source wins when they disagree.",
+        'Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated "18–25× sudden death" figure is not supported by the evidence — but the added cardiac and liver strain is real.)',
+        "Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and esophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.",
         "Tap a dot to name it",
         "Name on plot",
         "%@, this substance",

@@ -13446,7 +13446,7 @@
         }
       }
     },
-    "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real, )" : {
+    "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real.)" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -52001,18 +52001,18 @@
         }
       }
     },
-    "Which source wins when they disagree, and opt-in updates to the bundled substance data." : {
+    "Which source wins when they disagree." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "来源冲突时以哪个为准，以及内置物质数据的自选更新。"
+            "value" : "来源冲突时以哪个为准。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "來源衝突時以哪個為準，以及內建物質資料的自選更新。"
+            "value" : "來源衝突時以哪個為準。"
           }
         }
       }
@@ -52529,7 +52529,7 @@
         }
       }
     },
-    "Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and oesophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others." : {
+    "Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and esophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

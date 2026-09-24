@@ -4,7 +4,7 @@ import SwiftUI
 /// Foundation B). Shown **only** when the user has self-reported the ALDH2 "alcohol flush" variant *and*
 /// the entry is alcohol — gated by the caller. ALDH2 carriers clear acetaldehyde, the first and toxic
 /// by-product of ethanol, slowly, so it accumulates and lingers: the flush itself is the toxicity, and
-/// acetaldehyde is an IARC Group 1 carcinogen whose dose-dependent throat/oesophageal-cancer risk is
+/// acetaldehyde is an IARC Group 1 carcinogen whose dose-dependent throat/esophageal-cancer risk is
 /// markedly higher in flush-reactive drinkers. Honest and qualitative — a dose-scaled load band and the
 /// mechanism, never a fabricated µM number (house labeling rule).
 struct AcetaldehydeCard: View {
@@ -85,7 +85,7 @@ struct AcetaldehydeCard: View {
                         }
                     }
 
-                    Text("Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and oesophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.")
+                    Text("Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and esophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.")
                         .captionSecondary()
 
                     Text("Avoid mixing alcohol with metronidazole or certain other antibiotics — they block this same step and can make even a small drink severe.")

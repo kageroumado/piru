@@ -567,7 +567,7 @@ private struct SubstanceDatabaseSection: View {
             }
             .listRowBackground(CardBackground())
         } footer: {
-            Text("Which source wins when they disagree, and opt-in updates to the bundled substance data.")
+            Text("Which source wins when they disagree.")
         }
     }
 }
