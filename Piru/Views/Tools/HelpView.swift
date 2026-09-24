@@ -579,7 +579,7 @@ struct HelpView: View {
     }
 
     private var recentDosesSection: some View {
-        Section("Recent Doses (24h)") {
+        Section("Recent Entries (24h)") {
             ForEach(last24hEntries) { entry in
                 HStack(spacing: Spacing.xl) {
                     RoundedRectangle(cornerRadius: 2)

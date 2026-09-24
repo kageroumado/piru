@@ -103,7 +103,7 @@ struct InYourBodyView: View {
             ContentUnavailableView(
                 "No Logged Entries",
                 systemImage: "waveform.path.ecg",
-                description: Text("Log some doses to see what's been in your body over time."),
+                description: Text("Add entries to see modeled levels over time."),
             )
             .padding(.top, 40)
         } else if let trail = manager.trail, !trail.isEmpty {

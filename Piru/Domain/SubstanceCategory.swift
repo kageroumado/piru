@@ -170,7 +170,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     /// their indication rather than a side effect.
     ///
     /// **One declaration, read by both consumers** (`MedTimeConsequence` for the
-    /// sentence, `RampDownScheduler` for the reminder).
+    /// sentence, `SessionNotificationScheduler` for the reminder).
     static let wakePromoting: Set<SubstanceCategory> = [.stimulant, .empathogen, .eugeroic]
 
     // MARK: - Display Metadata

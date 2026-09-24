@@ -156,7 +156,7 @@ enum CheckInScheduler {
             anchor: anchor(for: session),
         )
         let center = UNUserNotificationCenter.current()
-        let thread = RampDownScheduler.sessionIdentifier(for: session.startDate)
+        let thread = SessionNotificationScheduler.sessionIdentifier(for: session.startDate)
         // A session that only carries medication is asked the medication
         // question, in the words its own control uses.
         let form = CheckInForm.build(for: session)

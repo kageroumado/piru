@@ -15,7 +15,7 @@ struct TodaySummaryWidget: Widget {
                 }
         }
         .configurationDisplayName("Current Session")
-        .description("See your current session's doses at a glance.")
+        .description("See the entries in your current session.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
@@ -205,7 +205,7 @@ struct TodaySummaryView: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
-                Text("\(entry.totalCount) dose\(entry.totalCount == 1 ? "" : "s")")
+                Text("^[\(entry.totalCount) entry](inflect: true)")
                     .font(.caption.weight(.medium))
                     .foregroundStyle(WidgetColors.accent)
             }

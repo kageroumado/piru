@@ -156,7 +156,7 @@ nonisolated enum MechanisticSessionModel {
         guard !agents.isEmpty else { return nil }
 
         let timeline = EffectEngine.simulate(EffectParams(), agents: agents, tMax: tMax)
-        let activeLenses = EffectLens.mechanisticLenses(for: timeline)
+        let activeLenses = EffectLens.mechanisticBase
 
         // Fixed session-wide ranges per mechanistic axis. The axis is anchored to
         // a **semi-absolute** reference (``EffectLens/referenceScale``) rather than

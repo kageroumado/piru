@@ -7,7 +7,7 @@ import UserNotifications
 ///
 /// Views report entry lifecycle events — logged, time edited, deleted — and
 /// the manager reconciles the pending-notification queue to match.
-/// `RampDownScheduler` keeps the PK timing math and message copy; nothing
+/// `SessionNotificationScheduler` keeps the PK timing math and message copy; nothing
 /// outside this type should pair a schedule call with its matching cancel by
 /// hand — a missed cancel is exactly how stale "Stay hydrated" reminders
 /// survived a backdate edit.
@@ -19,7 +19,7 @@ enum DoseNotificationManager {
     /// management screen's header and onboarding's reminders step — never
     /// lazily from a scheduling path.
     static func requestAuthorization() async -> Bool {
-        await RampDownScheduler.requestPermissionIfNeeded()
+        await SessionNotificationScheduler.requestPermissionIfNeeded()
     }
 
     /// Register every notification category once at launch.
@@ -64,10 +64,10 @@ enum DoseNotificationManager {
             identifier: CheckInScheduler.categoryID, actions: [addNote], intentIdentifiers: [], options: [],
         ))
         for identifier in [
-            RampDownScheduler.hydrationCategoryID,
-            RampDownScheduler.sleepCategoryID,
-            RampDownScheduler.cumulativeCategoryID,
-            RampDownScheduler.phaseCategoryID,
+            SessionNotificationScheduler.hydrationCategoryID,
+            SessionNotificationScheduler.sleepCategoryID,
+            SessionNotificationScheduler.cumulativeCategoryID,
+            SessionNotificationScheduler.phaseCategoryID,
         ] {
             categories.insert(UNNotificationCategory(
                 identifier: identifier, actions: [], intentIdentifiers: [], options: [],
@@ -97,7 +97,7 @@ enum DoseNotificationManager {
         // A dose of unknown amount adds nothing to a running total, and a total
         // it is part of is not one worth alerting on.
         guard !entry.isUnknownDose else { return }
-        let (total, totalUnit, shouldAlert) = RampDownScheduler.checkCumulativeDose(
+        let (total, totalUnit, shouldAlert) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: entry.substance,
             newAmount: entry.amount,
             unit: entry.unit,
@@ -106,7 +106,7 @@ enum DoseNotificationManager {
             existingEntries: recentEntries,
         )
         guard shouldAlert else { return }
-        RampDownScheduler.scheduleCumulativeDoseNotification(
+        SessionNotificationScheduler.scheduleCumulativeDoseNotification(
             entryID: entry.id,
             substanceName: entry.substance,
             totalAmount: total,
@@ -136,14 +136,14 @@ enum DoseNotificationManager {
         // ("Concerta"), so a notification never reverts to "Methylphenidate".
         let displayName = DoseTitle.resolve(for: entry)
 
-        RampDownScheduler.scheduleWellnessNotifications(
+        SessionNotificationScheduler.scheduleWellnessNotifications(
             entryID: entry.id,
             category: substance?.category,
             doseTime: entry.timestamp,
             duration: duration,
-            recentStimHours: RampDownScheduler.stimulantSessionHours(from: recentEntries),
+            recentStimHours: SessionNotificationScheduler.stimulantSessionHours(from: recentEntries),
         )
-        RampDownScheduler.schedulePhaseNotifications(
+        SessionNotificationScheduler.schedulePhaseNotifications(
             entryID: entry.id,
             substanceName: entry.substance,
             doseTime: entry.timestamp,
@@ -175,8 +175,8 @@ enum DoseNotificationManager {
     }
 
     private static func cancelDoseNotifications(entryID: UUID, timestamp: Date) {
-        RampDownScheduler.cancelWellnessNotifications(entryID: entryID, doseTimestamp: timestamp)
-        RampDownScheduler.cancelPhaseNotifications(entryID: entryID, doseTimestamp: timestamp)
+        SessionNotificationScheduler.cancelWellnessNotifications(entryID: entryID, doseTimestamp: timestamp)
+        SessionNotificationScheduler.cancelPhaseNotifications(entryID: entryID, doseTimestamp: timestamp)
     }
 
     private static func library(for entry: DoseEntry) -> Substance? {

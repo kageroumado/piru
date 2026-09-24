@@ -751,7 +751,7 @@ nonisolated enum PDFReportGenerator {
 
         drawTableHeaderRow(&cursor)
         var x = Layout.margin
-        for (i, h) in ["Substance", "Doses", "Avg Dose", "Route", "Period"].enumerated() {
+        for (i, h) in ["Substance", "Entries", "Avg Dose", "Route", "Period"].enumerated() {
             h.draw(at: CGPoint(x: x, y: cursor.y), withAttributes: headerAttr)
             x += colWidths[i]
         }

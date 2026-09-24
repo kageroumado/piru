@@ -57,7 +57,7 @@ struct SessionCardContextMenu: View {
         Button {
             actions.moveDoses(of: session)
         } label: {
-            Label("Move Doses…", systemImage: "arrow.right.arrow.left")
+            Label("Move Entries…", systemImage: "arrow.right.arrow.left")
         }
         Button {
             actions.shareTarget = session
@@ -169,11 +169,11 @@ private struct MoveDosesSheet: View {
                         .listRowBackground(CardBackground())
                     }
                 } footer: {
-                    Text("Pick a dose to move to another session.")
+                    Text("Pick an entry to move to another session.")
                 }
             }
             .themedPage()
-            .navigationTitle("Move Doses")
+            .navigationTitle("Move Entries")
             .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

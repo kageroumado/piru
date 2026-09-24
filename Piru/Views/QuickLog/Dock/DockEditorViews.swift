@@ -292,7 +292,7 @@ struct DockLabelForm: View {
 
     private var textSection: some View {
         Section {
-            TextField("Log a dose", text: $text)
+            TextField("Record an entry", text: $text)
                 .onChange(of: text) {
                     if text.count > DockLabel.maxTextLength {
                         text = String(text.prefix(DockLabel.maxTextLength))

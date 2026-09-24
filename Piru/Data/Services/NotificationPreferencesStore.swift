@@ -89,10 +89,10 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     var identifierPrefixes: [String] {
         switch self {
         // No underscore on legacy hydration: covers `hydration_` and `hydration2_`.
-        case .hydration: [identifierPrefix, RampDownScheduler.hydrationCategoryID]
-        case .sleep: [identifierPrefix, "\(RampDownScheduler.sleepCategoryID)_"]
-        case .phase: [identifierPrefix, "\(RampDownScheduler.phaseCategoryID)_"]
-        case .cumulative: [identifierPrefix, "\(RampDownScheduler.cumulativeCategoryID)_"]
+        case .hydration: [identifierPrefix, SessionNotificationScheduler.hydrationCategoryID]
+        case .sleep: [identifierPrefix, "\(SessionNotificationScheduler.sleepCategoryID)_"]
+        case .phase: [identifierPrefix, "\(SessionNotificationScheduler.phaseCategoryID)_"]
+        case .cumulative: [identifierPrefix, "\(SessionNotificationScheduler.cumulativeCategoryID)_"]
         case .routine: [identifierPrefix, DoseNotificationManager.legacyRoutineReminderPrefix]
         case .routineFollowUp: [identifierPrefix, DoseNotificationManager.legacyRoutineFollowUpPrefix]
         // Born under the current grammar — no legacy prefix to sweep.

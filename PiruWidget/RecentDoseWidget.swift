@@ -14,8 +14,8 @@ struct RecentDoseWidget: Widget {
                     WidgetBackground()
                 }
         }
-        .configurationDisplayName("Last Dose")
-        .description("See your most recent dose and how long ago it was.")
+        .configurationDisplayName("Last Entry")
+        .description("See your most recent entry and when it was recorded.")
         .supportedFamilies([.systemSmall, .accessoryCircular, .accessoryRectangular])
     }
 }
@@ -130,7 +130,7 @@ struct RecentDoseView: View {
     private var smallView: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text("Last Dose")
+                Text("Last Entry")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
@@ -160,7 +160,7 @@ struct RecentDoseView: View {
                     }
                 }
             } else {
-                Text("No doses yet")
+                Text("No entries yet")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -213,7 +213,7 @@ struct RecentDoseView: View {
                     .minimumScaleFactor(0.8)
                 }
             } else {
-                Text("No recent doses")
+                Text("No recent entries")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

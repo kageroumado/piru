@@ -15,7 +15,6 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case opioidEquivalence
     case toleranceInfo
     case inventory
-    case effectSandbox
     case steadyState
     case injectionLevels
     case drugClasses
@@ -40,7 +39,6 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .opioidEquivalence: "Opioid MME"
         case .toleranceInfo: "How Modeled Tolerance Works"
         case .inventory: "Inventory"
-        case .effectSandbox: "Effect Estimator"
         case .steadyState: "Steady State"
         case .injectionLevels: "Injection Levels"
         case .drugClasses: "Drug Classes"
@@ -57,11 +55,10 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .recovery: "Comedown and aftercare tips"
         case .pharma: "Browse pharmacokinetics for every substance"
         case .ceiling: "When dose and exposure aren't proportional"
-        case .benzoEquivalence: "A benzodiazepine amount in diazepam, per Ashton"
-        case .opioidEquivalence: "Express an opioid dose in morphine milligram equivalents"
+        case .benzoEquivalence: "Published benzodiazepine equivalence table"
+        case .opioidEquivalence: "Published oral MME reference factors"
         case .toleranceInfo: "Why effects fade and how receptors recover"
         case .inventory: "Track how much you have on hand"
-        case .effectSandbox: "Compare substances and preview how they may feel"
         case .steadyState: "Where a repeated dose settles, and when"
         case .injectionLevels: "Project hormone levels from injectable esters"
         case .drugClasses: "What the members of a family share"
@@ -81,7 +78,6 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .opioidEquivalence: "cross.case"
         case .toleranceInfo: "chart.line.downtrend.xyaxis"
         case .inventory: "shippingbox"
-        case .effectSandbox: "slider.horizontal.2.square"
         case .steadyState: "chart.line.flattrend.xyaxis"
         case .injectionLevels: "syringe"
         case .drugClasses: "square.stack.3d.up"
@@ -100,7 +96,7 @@ struct ToolsView: View {
     /// top-to-bottom). Education sub-tools, Inventory, My Meds, Interactions,
     /// and Data & Backup have their own full-width cards above the grid.
     private let compactTools: [Tool] = [
-        .identify, .effectSandbox,
+        .identify,
         .calculator, .steadyState,
         .injectionLevels, .volumetric,
         .pharma,

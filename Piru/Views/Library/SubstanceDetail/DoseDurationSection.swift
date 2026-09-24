@@ -92,7 +92,6 @@ struct DoseDurationSection: View {
     let provenance: SubstanceStore.SubstanceProvenance?
 
     /// The dialed dose, published up from the card so the Log button can name it.
-    @State private var loggableDose: String?
     /// The branded formulation whose duration envelope redraws the curve, or `nil`
     /// for the substance's own default curve. Card-local: it answers "how long does
     /// Concerta run?" in the moment and resets to the default next visit.
@@ -179,7 +178,6 @@ struct DoseDurationSection: View {
                         // Lets the card shape its curve the same way the journal does.
                         // Without it the two disagreed for ~a third of the library.
                         curveCategory: substance.category,
-                        selectedDoseText: $loggableDose,
                     )
                     sourceRows(for: route)
 
@@ -188,7 +186,7 @@ struct DoseDurationSection: View {
                     // on the screen is a card, and this was a pink bar sitting on
                     // the page between two of them. Inside, under the sources, it
                     // reads as "…and here is what you do with this".
-                    LogThisButton(substanceName: substance.name, doseText: loggableDose)
+                    RecordEntryButton(substanceName: substance.name)
                         .padding(.top, Spacing.xl)
                 }
                 .listRowSeparator(.hidden)
@@ -322,35 +320,19 @@ struct RouteChips: View {
     }
 }
 
-/// The screen's primary action, rendered as the last row of the dose card: open
-/// quick-log with this substance staged at the dose the reader is looking at.
-///
-/// It has moved twice. In the header it prompted an action before the screen had
-/// said anything worth acting on; as a free-floating bar under the card it broke
-/// the card rhythm and read as a page-level banner. It belongs to the dose card,
-/// because the dose card is what it acts on.
-private struct LogThisButton: View {
+/// Opens an entry form for the selected substance.
+private struct RecordEntryButton: View {
     let substanceName: String
-    /// The dialed tier's dose, when the substance has a ladder.
-    let doseText: String?
-
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
         Button {
             navigator.present(.quickLog(routine: nil, prefillSubstance: substanceName))
         } label: {
-            Group {
-                if let doseText {
-                    Text("Log \(doseText)", comment: "Primary action naming the dialed dose")
-                } else {
-                    Text("Log this", comment: "Primary action when the substance has no dose ladder")
-                }
-            }
-            // A primary action, not an eyebrow: the system face in every skin.
-            .font(.piru(.subheadline, weight: .semibold))
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 3)
+            Text("Record an entry")
+                .font(.piru(.subheadline, weight: .semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 3)
         }
         .skinButtonStyle(.prominent)
         .tint(Theme.accent)

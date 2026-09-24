@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Shared "how much of the last dose is still active" computation, used by the
-/// full `DoseSuggestionCard` and the compact `DosePKBadge`.
+/// full `EntryLevelEstimateCard` and the compact `DosePKBadge`.
 enum DosePK {
     static func status(substanceName: String, route: RouteOfAdministration, lastDoseTimestamp: Date) -> Double? {
         // Only half-life + duration are needed, both carried by the lightweight batch
@@ -56,7 +56,7 @@ enum DosePK {
 /// substance header — the estimated amount still in the body, in the dose's
 /// own unit, rather than a bare percentage. Hidden below the same 5% floor as
 /// the full card; tapping (handled by the parent) expands into
-/// `DoseSuggestionCard`.
+/// `EntryLevelEstimateCard`.
 struct DosePKBadge: View {
     let remainingPercent: Double
     let lastDoseAmount: Double
@@ -96,7 +96,7 @@ struct DosePKBadge: View {
     }
 }
 
-struct DoseSuggestionCard: View {
+struct EntryLevelEstimateCard: View {
     let substanceName: String
     let lastDoseAmount: Double
     let lastDoseTimestamp: Date

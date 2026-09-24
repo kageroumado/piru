@@ -101,7 +101,7 @@ struct MedDetailView: View {
                         dismiss()
                     }
                 } message: {
-                    Text("Reminders and adherence tracking stop. Doses you already logged stay in your journal.")
+                    Text("Reminders and adherence tracking stop. Existing entries stay in your journal.")
                 }
             }
             .listRowBackground(CardBackground())
@@ -156,7 +156,7 @@ struct MedDetailView: View {
         } header: {
             Text("Dosage")
         } footer: {
-            Text("Checked off by a logged dose of the same substance and route.")
+            Text("Checked off by an entry for the same substance and route.")
         }
         .listRowBackground(CardBackground())
     }

@@ -66,7 +66,7 @@ struct StagedDoseEditorHeader: View {
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Remove dose")
+            .accessibilityLabel("Remove entry")
         }
     }
 }
@@ -582,7 +582,7 @@ struct StagedDoseNotePill: View {
         .frame(maxWidth: 180, alignment: .leading)
         .accessibilityLabel("Note")
         .accessibilityValue(note.isEmpty ? Text("None") : Text(note))
-        .accessibilityHint("Adds a note to this dose")
+        .accessibilityHint("Adds a note to this entry")
     }
 }
 

@@ -70,7 +70,7 @@ struct SessionEntryListSection: View {
     /// straight into their card.
     private var footerText: String {
         let countText = entries.count == 1
-            ? String(localized: "1 dose")
+            ? String(localized: "1 entry")
             : String(localized: "\(entries.count) doses")
         let noteText = noteDisplays.isEmpty ? "" : " · " + (noteDisplays.count == 1
             ? String(localized: "1 note")

@@ -18,7 +18,7 @@ struct QuickLogWatchView: View {
         if let items = sync.manifest?.items, !items.isEmpty {
             List {
                 if sync.pendingCount > 0 {
-                    Label("^[\(sync.pendingCount) dose](inflect: true) syncing", systemImage: "arrow.triangle.2.circlepath")
+                    Label("^[\(sync.pendingCount) entry](inflect: true) syncing", systemImage: "arrow.triangle.2.circlepath")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
@@ -34,7 +34,7 @@ struct QuickLogWatchView: View {
             ContentUnavailableView(
                 "No Favorites Yet",
                 systemImage: "star",
-                description: Text("Favorite a substance or log a dose on your iPhone to reach it here."),
+                description: Text("Favorite a substance or record an entry on your iPhone to find it here."),
             )
         }
     }

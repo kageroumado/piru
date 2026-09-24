@@ -26,7 +26,7 @@ struct ReceptorLoadView: View {
                 if allEntries.isEmpty {
                     empty(
                         "No Logged Entries",
-                        "Log some doses to see how your receptors have been driven.",
+                        "Add entries to see modeled receptor load.",
                     )
                 } else if !loaded {
                     ProgressView().padding(.top, 60)

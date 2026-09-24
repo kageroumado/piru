@@ -88,7 +88,7 @@ struct MoveToSessionView: View {
                                 }
                                 .listRowBackground(CardBackground())
                             } footer: {
-                                Text("Pull this dose into its own session.")
+                                Text("Move this entry to a separate session.")
                             }
                         }
 
@@ -180,7 +180,7 @@ private struct SessionTargetRow: View {
     }
 
     private func countText(for doses: [DoseEntry]) -> String {
-        doses.count == 1 ? String(localized: "1 dose") : String(localized: "\(doses.count) doses")
+        doses.count == 1 ? String(localized: "1 entry") : String(localized: "\(doses.count) entries")
     }
 
     /// Up to three distinct substance colors, in first-seen order.

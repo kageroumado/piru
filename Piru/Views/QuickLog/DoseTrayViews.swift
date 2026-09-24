@@ -205,8 +205,8 @@ struct TrayCommitBar: View {
     /// committed blind.
     private var commitLabel: String {
         let base = model.staged.count == 1
-            ? String(localized: "Log Dose")
-            : String(localized: "Log \(model.staged.count) Doses")
+            ? String(localized: "Record an entry")
+            : String(localized: "Record \(model.staged.count) Entries")
         return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
     }
 }

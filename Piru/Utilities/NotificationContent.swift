@@ -2,7 +2,7 @@ import UserNotifications
 
 nonisolated extension UNMutableNotificationContent {
     /// The fields every Piru notification sets, built in one place so the
-    /// schedulers (`RampDownScheduler`, `DoseNotificationManager`) cannot
+    /// schedulers (`SessionNotificationScheduler`, `DoseNotificationManager`) cannot
     /// drift on the basics. Policy stays with the caller: quiet-hours gating,
     /// quiet-tier delivery, relevance, and `userInfo` are site-specific.
     convenience init(

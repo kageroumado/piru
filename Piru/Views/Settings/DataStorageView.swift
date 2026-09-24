@@ -203,7 +203,7 @@ private struct LocalStorageSection: View {
 
     var body: some View {
         Section {
-            CountRow(title: "Doses", systemImage: "pills", count: doses.count)
+            CountRow(title: "Entries", systemImage: "pills", count: doses.count)
             CountRow(title: "Sessions", systemImage: "calendar.day.timeline.left", count: sessions.count)
             CountRow(title: "Daily Medications", systemImage: "cross.case", count: dailyItems.count)
             CountRow(title: "Quick-Log Shortcuts", systemImage: "bolt", count: quickLogDoses.count)
@@ -695,7 +695,7 @@ private struct DeleteEverythingSection: View {
             }
             .listRowBackground(CardBackground())
         } footer: {
-            Text("Permanently deletes every dose, session, and setting in the app. Copies you exported, and device or iCloud backups, are not affected.")
+            Text("Permanently deletes every entry, session, and setting in the app. Copies you exported, and device or iCloud backups, are not affected.")
         }
     }
 }

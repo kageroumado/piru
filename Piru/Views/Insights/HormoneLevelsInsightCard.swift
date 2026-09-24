@@ -31,6 +31,7 @@ struct HormoneLevelsInsightCard: View {
             titleColor: Self.tint,
             title: Text("Hormone Levels"),
             route: .insight(.hormoneLevels),
+            isEstimation: true,
         ) {
             if let result = model.result {
                 VStack(alignment: .leading, spacing: Spacing.md) {

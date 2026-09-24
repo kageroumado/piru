@@ -71,7 +71,7 @@ struct SessionReportView: View {
                 .padding(.top, 16)
             }
 
-            sectionHeader(export.isLive ? "Right now — subjective state" : "Doses")
+            sectionHeader(export.isLive ? "Right now — subjective state" : "Entries")
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(Array(export.substances.enumerated()), id: \.element.id) { index, s in
                     subjectiveRow(s)
@@ -371,11 +371,11 @@ struct SessionReportView: View {
                 (String(localized: "90% eliminated"), clock(t90)),
                 (String(localized: "Model near zero"), clock(cleared)),
             ]
-        case let .zeroOrder(_, _, t50, t90, sober):
+        case let .zeroOrder(_, _, t50, t90, modelZero):
             return [
                 (String(localized: "50% eliminated"), clock(t50)),
                 (String(localized: "90% eliminated"), clock(t90)),
-                (String(localized: "Model reaches zero"), clock(sober)),
+                (String(localized: "Model reaches zero"), clock(modelZero)),
             ]
         case .unknown:
             return []

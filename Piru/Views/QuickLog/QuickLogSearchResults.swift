@@ -205,7 +205,7 @@ struct QuickLogSearchResults: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityHint("Adds this dose")
+        .accessibilityHint("Adds this entry")
     }
 
     /// A complete dose stages straight into the tray; one that still needs

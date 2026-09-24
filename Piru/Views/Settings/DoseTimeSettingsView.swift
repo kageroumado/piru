@@ -28,9 +28,9 @@ struct DoseTimeSettingsView: View {
                     }
                 }
             } header: {
-                Text("Dose Times")
+                Text("Entry Times")
             } footer: {
-                Text("These appear in the “When” menu when logging a dose, alongside Now and the full date picker. Swipe to remove, drag to reorder.")
+                Text("These appear in the “When” menu when recording an entry, alongside Now and the full date picker. Swipe to remove, drag to reorder.")
             }
             .listRowBackground(CardBackground())
 
@@ -43,7 +43,7 @@ struct DoseTimeSettingsView: View {
             .listRowBackground(CardBackground())
         }
         .themedPage()
-        .navigationTitle("Dose Times")
+        .navigationTitle("Entry Times")
         .inlineNavigationTitle()
         #if os(iOS)
             .toolbar { EditButton() }

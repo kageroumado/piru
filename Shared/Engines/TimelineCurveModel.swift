@@ -617,7 +617,7 @@ nonisolated enum TimelineCurveModel {
     /// Groups substance states by lowercased substance name, preserving original order.
     nonisolated static func stackedGroups(of substances: [ActiveSubstanceState]) -> [[ActiveSubstanceState]] {
         // Group by (substance, route) so that e.g. insufflated heroin and smoked
-        // heroin draw as separate curves even when "Stack Redoses" is on. Doses
+        // heroin draw as separate curves even when "Combine Repeated Entries" is on. Doses
         // of the same substance via the same route still stack into a combined
         // curve as before.
         var order: [String] = []

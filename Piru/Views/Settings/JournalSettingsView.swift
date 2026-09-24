@@ -17,7 +17,7 @@ struct JournalSettingsView: View {
                             CaptionedRowLabel(
                                 title: "Day Starts At",
                                 systemImage: "moon.stars",
-                                caption: Text("Doses before this hour count toward the previous day. Set to 12 AM for standard calendar days."),
+                                caption: Text("Entries before this hour count toward the previous day. Set to 12 AM for standard calendar days."),
                             )
                             Spacer()
                             Text(boundaryHourLabel)
@@ -29,9 +29,9 @@ struct JournalSettingsView: View {
                 Section {
                     Toggle(isOn: $stackRedoses) {
                         CaptionedRowLabel(
-                            title: "Stack Redoses",
+                            title: "Combine Repeated Entries",
                             systemImage: "chart.line.uptrend.xyaxis",
-                            caption: Text("Merge repeat doses into one curve. When off, each dose draws its own line."),
+                            caption: Text("Combine repeated entries for the same substance into one curve. When off, each entry has its own curve."),
                         )
                     }
                     .tint(Theme.accent)

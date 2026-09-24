@@ -131,7 +131,7 @@ struct SubstanceCardView: View, Equatable {
                 Button {
                     withAnimation(.snappy) { expandedPK = false }
                 } label: {
-                    DoseSuggestionCard(
+                    EntryLevelEstimateCard(
                         substanceName: card.substanceName,
                         lastDoseAmount: badge.lastDoseAmount,
                         lastDoseTimestamp: badge.lastDoseTimestamp,

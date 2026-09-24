@@ -179,7 +179,7 @@ struct MedFormView: View {
         } header: {
             Text("Dosage")
         } footer: {
-            Text("Checked off by a logged dose of the same substance and route.")
+            Text("Checked off by an entry for the same substance and route.")
         }
     }
 

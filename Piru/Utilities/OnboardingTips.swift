@@ -55,7 +55,7 @@ enum OnboardingTips {
     }
 }
 
-/// Points at the "Log a dose" accessory while the user is on the Journal root and hasn't logged
+/// Points at the "Record an entry" accessory while the user is on the Journal root and hasn't logged
 /// anything yet, and retires the moment they close it or tap the button.
 ///
 /// The Journal-root gating is *not* a rule: the tip is anchored to the tab bar's bottom accessory,
@@ -69,7 +69,7 @@ struct LogDoseTip: Tip {
     @Parameter static var hasLoggedFirstDose: Bool = false
 
     var title: Text {
-        Text("Log your first dose")
+        Text("Record your first entry")
     }
     var message: Text? {
         Text("Tap here any time to record what you've taken — it only takes a few seconds.")

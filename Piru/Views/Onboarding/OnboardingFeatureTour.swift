@@ -74,7 +74,7 @@ struct FeatureTourPage: Identifiable {
         FeatureTourPage(
             id: "journal",
             title: "Log it in seconds",
-            caption: "Each logged dose appears on the timeline, showing overlaps and when the model estimates the effects will fade.",
+            caption: "Each entry appears on the timeline, showing overlaps and when the model estimates the effects will fade.",
             mock: AnyView(JournalMock()),
         ),
         FeatureTourPage(

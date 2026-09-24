@@ -125,8 +125,8 @@ struct ToleranceSubstanceCard: View {
     private func collapsedLabel(total: Int, expanded: Bool) -> LocalizedStringResource {
         if expanded { return "Show less" }
         return total > Self.expandedDoseLimit
-            ? "Show \(Self.expandedDoseLimit) latest doses"
-            : "Show all \(total) doses"
+            ? "Show \(Self.expandedDoseLimit) latest entries"
+            : "Show all \(total) entries"
     }
 
     private func toggleExpanded(_ name: String) {

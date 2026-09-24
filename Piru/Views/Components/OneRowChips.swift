@@ -71,8 +71,8 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
                 }
                 .buttonStyle(.plain)
                 .fixedSize(horizontal: true, vertical: false)
-                .accessibilityLabel("Show \(items.count - visibleCount) more doses")
-                .accessibilityHint("Shows the remaining doses")
+                .accessibilityLabel("Show \(items.count - visibleCount) more entries")
+                .accessibilityHint("Shows the remaining entries")
             }
             trailing()
                 .fixedSize(horizontal: true, vertical: false)

@@ -155,7 +155,7 @@ struct InventoryItemDetailView: View {
         Section {
             let rows = historyRows
             if rows.isEmpty {
-                Text("No restocks or doses yet.")
+                Text("No restocks or entries yet.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .listRowBackground(CardBackground())

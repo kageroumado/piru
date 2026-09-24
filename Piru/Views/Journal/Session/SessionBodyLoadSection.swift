@@ -1,18 +1,12 @@
 import SwiftUI
 
-/// The status line under an "in your body" row: either a live elimination
-/// readout or a "fully eliminated" marker. `nil` (no status) renders a compact
-/// single-line row — used when nothing in the section is still circulating.
+/// Model-derived clearance status for a journal row.
 enum BodyLoadStatus {
-    /// Still circulating: "26% eliminated · clear ~5 AM" with a trailing "N mg left".
+    /// Still circulating: "26% eliminated in model · threshold ~5 AM" with a trailing "N mg left".
     case eliminating(percent: Int, clear: String, remaining: Double)
-    /// Fully cleared, shown for visual consistency when other rows are still active.
-    /// `hasActiveMetabolite` qualifies the text when a longer-lived metabolite may persist.
+    /// Below the model's display threshold; active metabolites may persist.
     case cleared(hasActiveMetabolite: Bool = false)
-    /// No half-life is known for this substance, so nothing about its clearance
-    /// can be stated. Distinct from ``cleared``: the calculator drops a dose for
-    /// two different reasons — worn off, and unmodelable — and calling the second
-    /// one "fully eliminated" told a tester their 20-minute-old dose was gone.
+    /// Insufficient half-life information to estimate clearance.
     case unmodeled
 }
 
@@ -106,7 +100,7 @@ struct BodyLoadRowLabel: View {
             // The still-circulating amount now leads the trailing readout
             // ("33 / 110 mg"), so this line carries only the eliminated share and
             // the clear-by projection.
-            Text("\(percent)% eliminated · clear ~\(clear)")
+            Text("\(percent)% eliminated in model · threshold ~\(clear)")
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -114,8 +108,8 @@ struct BodyLoadRowLabel: View {
                 .foregroundStyle(Theme.secondaryLabel)
         case let .cleared(hasActiveMetabolite):
             Text(hasActiveMetabolite
-                ? "Fully eliminated · active metabolite may persist"
-                : "Fully eliminated")
+                ? "Below model threshold · active metabolite may persist"
+                : "Below model threshold")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
         case .unmodeled:
@@ -248,10 +242,7 @@ struct SessionBodyLoadModel {
             let key = active.name.lowercased()
             covered.insert(key)
             let group = groups[key]
-            // Screen-only cap: a substance the calculator still tracks but that's
-            // ≥95% eliminated reads as "fully eliminated" here rather than
-            // "96% eliminated · clear ~soon". Purely a display choice — the shared
-            // ActiveSubstanceCalculator is untouched.
+            // Group values below the display threshold without asserting complete clearance.
             if active.eliminatedFraction >= clearedThreshold {
                 model.cleared.append(Cleared(
                     displayName: title(canonical: active.name, products: group?.products),

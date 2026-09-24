@@ -100,12 +100,14 @@ struct GlanceCard<Content: View>: View {
     var titleColor: Color = .primary
     let title: Text
     let route: PushRoute
+    var isEstimation = false
     @ViewBuilder var content: () -> Content
 
     var body: some View {
         NavigationLink(value: route) {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 GlanceCardHeader(icon: icon, iconTint: tint, title: title, titleColor: titleColor) {
+                    if isEstimation { EstimationTag() }
                     GlanceCardChevron()
                 }
 
@@ -118,5 +120,18 @@ struct GlanceCard<Content: View>: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+}
+
+/// Labels model-derived values at their entry point.
+struct EstimationTag: View {
+    var body: some View {
+        Text("Estimation")
+            .font(.caption2.weight(.semibold))
+            .foregroundStyle(Theme.secondaryLabel)
+            .padding(.horizontal, 7)
+            .padding(.vertical, Spacing.xxs)
+            .background(Color.platformSecondarySystemFill, in: skinChipShape())
+            .fixedSize()
     }
 }

@@ -70,8 +70,8 @@ struct EntrySessionSection: View {
     static func sessionSubtitle(_ session: Session) -> String {
         let doses = session.orderedDoses
         let countText = doses.count == 1
-            ? String(localized: "1 dose")
-            : String(localized: "\(doses.count) doses")
+            ? String(localized: "1 entry")
+            : String(localized: "\(doses.count) entries")
         if isActive(session) {
             return "\(countText) · \(EntryDoseFormat.relativeText(from: session.startDate, now: .now))"
         }

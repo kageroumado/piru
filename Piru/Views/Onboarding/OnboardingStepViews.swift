@@ -341,7 +341,7 @@ struct OnboardingDoneStep: View {
     var body: some View {
         OnboardingLayout(
             title: "You're all set",
-            subtitle: "Tap the + button any time to log your first dose. Tips will point out the rest as you go.",
+            subtitle: "Tap the + button to record your first entry. Tips explain the other features as you use them.",
         ) {
             OnboardingIconHero(symbol: "checkmark.seal.fill", size: 108)
         } mid: {

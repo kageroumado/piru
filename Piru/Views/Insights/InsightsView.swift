@@ -244,7 +244,7 @@ struct InsightsView: View {
                     usageChart
                 }
             } else {
-                emptyContent("No doses logged yet")
+                emptyContent("No entries recorded yet")
             }
         }
     }
@@ -253,7 +253,7 @@ struct InsightsView: View {
         Chart(model.dailyCounts) { item in
             BarMark(
                 x: .value("Day", item.date, unit: .day),
-                y: .value("Doses", item.count),
+                y: .value("Entries", item.count),
                 width: .fixed(7),
             )
             .foregroundStyle(Color.blue.gradient)
@@ -262,14 +262,14 @@ struct InsightsView: View {
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
         .frame(height: 76)
-        .accessibilityLabel(Text("Doses logged per day over the past two weeks"))
+        .accessibilityLabel(Text("Entries recorded per day over the past two weeks"))
         .accessibilityValue(Text("\(model.dailyCounts.reduce(0) { $0 + $1.count }) in the last 14 days"))
     }
 
     // MARK: - In Your Body
 
     private var inYourBodyCard: some View {
-        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "Modeled Levels", route: .insightGroup(.inYourBody)) {
+        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "Modeled Levels", route: .insightGroup(.inYourBody), isEstimation: true) {
             if model.active.isEmpty {
                 emptyContent("Nothing active right now")
             } else {
@@ -442,9 +442,10 @@ private func largeCard(
     tint: Color,
     title: LocalizedStringKey,
     route: PushRoute,
+    isEstimation: Bool = false,
     @ViewBuilder content: @escaping () -> some View,
 ) -> some View {
-    GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
+    GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, isEstimation: isEstimation, content: content)
 }
 
 /// Tolerance states worth surfacing on a glance card, worst first.
@@ -459,7 +460,7 @@ private var notableToleranceStates: [ClassTolerance] {
 private struct InsightsToleranceCard: View {
     var body: some View {
         let notable = notableToleranceStates
-        largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Modeled Tolerance", route: .insight(.tolerance)) {
+        largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Modeled Tolerance", route: .insight(.tolerance), isEstimation: true) {
             if notable.isEmpty {
                 HStack(alignment: .center, spacing: 14) {
                     Image(systemName: "chart.line.flattrend.xyaxis")
@@ -469,7 +470,7 @@ private struct InsightsToleranceCard: View {
                     VStack(alignment: .leading, spacing: Spacing.xxs) {
                         Text("Nothing notable in the model")
                             .sectionLabel()
-                        Text("Built from your log alone, so an unlogged dose is invisible to it.")
+                        Text("Based only on the entries in your journal.")
                             .captionSecondary()
                     }
                     Spacer()
@@ -514,7 +515,7 @@ private struct InsightsToleranceCard: View {
 private struct InsightsReceptorLoadCard: View {
     var body: some View {
         let notable = notableToleranceStates
-        largeCard(icon: "chart.xyaxis.line", tint: .pink, title: "Receptor Load", route: .insight(.receptorLoad)) {
+        largeCard(icon: "chart.xyaxis.line", tint: .pink, title: "Receptor Load", route: .insight(.receptorLoad), isEstimation: true) {
             if notable.isEmpty {
                 Text("How hard each mechanism has been driven over time")
                     .font(.subheadline)

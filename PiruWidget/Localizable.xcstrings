@@ -100,6 +100,7 @@
       }
     },
     "%lld dose%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -117,6 +118,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld 個劑量"
+          }
+        }
+      }
+    },
+    "%lld entries" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 条记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 筆記錄"
           }
         }
       }
@@ -171,6 +189,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 分鐘"
+          }
+        }
+      }
+    },
+    "^[%lld entry](inflect: true)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 条记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 筆記錄"
           }
         }
       }
@@ -411,6 +445,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按體積"
+          }
+        }
+      }
+    },
+    "Combine Repeated Entries" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合并重复记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合併重複記錄"
           }
         }
       }
@@ -683,6 +734,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鐫刻的金色、梅紫夜空、緩緩旋轉的星盤"
+          }
+        }
+      }
+    },
+    "Entries" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄"
           }
         }
       }
@@ -975,18 +1043,18 @@
         }
       }
     },
-    "Last Dose" : {
+    "Last Entry" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最近剂量"
+            "value" : "最近记录"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最近劑量"
+            "value" : "最近記錄"
           }
         }
       }
@@ -1263,18 +1331,18 @@
         }
       }
     },
-    "No active doses" : {
+    "No active entries" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无活性剂量"
+            "value" : "暂无活跃记录"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "無活性劑量"
+            "value" : "目前沒有活躍記錄"
           }
         }
       }
@@ -1295,18 +1363,18 @@
         }
       }
     },
-    "No doses yet" : {
+    "No entries yet" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "尚无剂量"
+            "value" : "暂无记录"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "尚無劑量"
+            "value" : "目前沒有記錄"
           }
         }
       }
@@ -1327,18 +1395,18 @@
         }
       }
     },
-    "No recent doses" : {
+    "No recent entries" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无最近剂量"
+            "value" : "暂无近期记录"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "無最近劑量"
+            "value" : "目前沒有近期記錄"
           }
         }
       }
@@ -1551,6 +1619,23 @@
         }
       }
     },
+    "Record %lld Entries" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加 %lld 条记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增 %lld 筆記錄"
+          }
+        }
+      }
+    },
     "Rectal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1583,6 +1668,22 @@
         }
       }
     },
+    "See the entries in your current session." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看当前场次的记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看目前場次的記錄。"
+          }
+        }
+      }
+    },
     "See today's med schedule and record a dose from the Home Screen." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1599,34 +1700,18 @@
         }
       }
     },
-    "See your current session's doses at a glance." : {
+    "See your most recent entry and when it was recorded." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一目了然地查看当前场次的剂量。"
+            "value" : "查看最近一条记录及其时间。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一目了然地查看目前場次的劑量。"
-          }
-        }
-      }
-    },
-    "See your most recent dose and how long ago it was." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "查看最近的剂量及多久前服用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "查看最近的劑量及多久前服用。"
+            "value" : "查看最近一筆記錄及其時間。"
           }
         }
       }

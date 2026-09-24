@@ -29,7 +29,7 @@ struct AboutPrivacySection: View {
             CaptionedRowLabel(
                 title: "Apple Watch",
                 systemImage: "applewatch",
-                caption: Text("Doses you log sync between your iPhone and a paired Apple Watch."),
+                caption: Text("Your entries sync between your iPhone and a paired Apple Watch."),
             )
             Label("No ads, no analytics, no trackers.", systemImage: "hand.raised")
 

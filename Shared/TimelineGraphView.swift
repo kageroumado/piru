@@ -483,7 +483,7 @@ struct TimelineGraphView: View, Equatable {
     private var accessibilitySummary: Text {
         let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
         let samples = renderer.scrubSamples(atMinute: nowMinutes)
-        guard !samples.isEmpty else { return Text("No active doses") }
+        guard !samples.isEmpty else { return Text("No active entries") }
         var parts: [String] = samples.prefix(4).map { sample in
             let percent = Int((sample.value * 100).rounded())
             if let phase = sample.phase {

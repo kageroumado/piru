@@ -2,13 +2,13 @@ import Foundation
 import Testing
 @testable import Piru
 
-@Suite("RampDownScheduler")
-struct RampDownSchedulerTests {
+@Suite("SessionNotificationScheduler")
+struct SessionNotificationSchedulerTests {
     // MARK: - Cumulative dose check
 
     @Test
     func `No entries returns total equal to new amount, no alert`() {
-        let (total, unit, shouldAlert) = RampDownScheduler.checkCumulativeDose(
+        let (total, unit, shouldAlert) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "zzzNotReal",
             newAmount: 50,
             unit: "mg",
@@ -28,7 +28,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-13 * 3_600), // 13 hours ago
         )
-        let (total, _, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, _, _) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "TestDrug",
             newAmount: 10,
             unit: "mg",
@@ -46,7 +46,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-3_600), // 1 hour ago
         )
-        let (total, _, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, _, _) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "TestDrug",
             newAmount: 20,
             unit: "mg",
@@ -64,7 +64,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-3_600),
         )
-        let (total, _, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, _, _) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "TestDrug",
             newAmount: 10,
             unit: "mg",
@@ -82,7 +82,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-1_800),
         )
-        let (total, _, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, _, _) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "caffeine",
             newAmount: 100,
             unit: "mg",
@@ -96,7 +96,7 @@ struct RampDownSchedulerTests {
     func `A dose backdated past the window never alerts`() {
         // 5 g of caffeine is far past any ladder's heavy threshold; the only
         // thing standing between it and an alert is the dose's own date.
-        let (current, _, alertsNow) = RampDownScheduler.checkCumulativeDose(
+        let (current, _, alertsNow) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "caffeine",
             newAmount: 5_000,
             unit: "mg",
@@ -106,7 +106,7 @@ struct RampDownSchedulerTests {
         #expect(current == 5_000)
         #expect(alertsNow)
 
-        let (_, _, alertsBackdated) = RampDownScheduler.checkCumulativeDose(
+        let (_, _, alertsBackdated) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "caffeine",
             newAmount: 5_000,
             unit: "mg",
@@ -116,7 +116,7 @@ struct RampDownSchedulerTests {
         )
         #expect(!alertsBackdated)
 
-        let (_, _, alertsFuture) = RampDownScheduler.checkCumulativeDose(
+        let (_, _, alertsFuture) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "caffeine",
             newAmount: 5_000,
             unit: "mg",
@@ -137,7 +137,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-1_800),
         )
-        let (total, unit, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, unit, _) = SessionNotificationScheduler.checkCumulativeDose(
             substanceName: "caffeine",
             newAmount: 100,
             unit: "mg",

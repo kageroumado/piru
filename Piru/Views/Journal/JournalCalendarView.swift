@@ -91,7 +91,7 @@ struct JournalCalendarView: View {
                             .frame(maxWidth: .infinity)
                         }
                         .accessibilityLabel(dayAccessibilityLabel(for: date))
-                        .accessibilityValue(count > 0 ? Text("^[\(count) dose](inflect: true)") : Text(verbatim: ""))
+                        .accessibilityValue(count > 0 ? Text("^[\(count) entry](inflect: true)") : Text(verbatim: ""))
                     }
                 }
             }

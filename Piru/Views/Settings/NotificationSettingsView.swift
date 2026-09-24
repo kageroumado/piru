@@ -402,9 +402,9 @@ extension NotificationCategory {
         case .reminders:
             "Quiet meds' reminders arrive silently — no buzz, no lock-screen wake. If you use iOS Scheduled Summary, they batch there."
         case .session:
-            "Comedown alerts are armed per dose in Ramp-Down."
+            "Session notifications use estimated timing from your entries."
         case .safety:
-            "Turning off the cumulative dose warning removes a safety net."
+            "Cumulative amount warnings use your logged entries and reference ranges. Coverage is incomplete."
         }
     }
 }

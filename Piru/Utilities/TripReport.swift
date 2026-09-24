@@ -293,7 +293,7 @@ struct TripReport {
         }
         var facts = [
             "Started \(time.string(from: sessionStart))",
-            doses.count == 1 ? "1 dose" : "\(doses.count) doses",
+            doses.count == 1 ? "1 entry" : "\(doses.count) entries",
             notes.count == 1 ? "1 note" : "\(notes.count) notes",
         ]
         if let last = notes.last { facts.append("last note at \(tPlus(last.timestamp))") }

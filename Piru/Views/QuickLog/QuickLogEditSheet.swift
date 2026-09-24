@@ -315,7 +315,7 @@ struct QuickLogEditSheet: View {
             }
             .tint(Theme.accent)
         } footer: {
-            Text("Keep doses in a fixed order. When off, logging a dose moves it to the front.")
+            Text("Keep substances in a fixed order. When off, recording an entry moves its substance to the front.")
         }
         .listRowBackground(CardBackground())
     }
@@ -340,10 +340,10 @@ struct QuickLogEditSheet: View {
                 }
             }
         } header: {
-            Text("Dose Times")
+            Text("Entry Times")
                 .textCase(nil)
         } footer: {
-            Text("The quick offsets in the “Now” menu when logging a dose.")
+            Text("The quick time options in the “Now” menu when recording an entry.")
         }
         .listRowBackground(CardBackground())
     }

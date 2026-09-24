@@ -220,7 +220,6 @@ struct SessionDetailView: View {
                             startDate: session.startDate,
                             nowHours: nowHours,
                             doseMarks: mechanisticDoseMarks(day),
-                            vitals: model.sessionVitals,
                             modeled: partition.modeled,
                             ignored: partition.ignored,
                         )
@@ -331,7 +330,7 @@ struct SessionDetailView: View {
                 }
             }
             .task { await OnboardingTips.retireDataTipAfterSessionMenuTip() }
-            // The primary "Log a dose" action lives in the tab bar's bottom accessory
+            // The primary "Record an entry" action lives in the tab bar's bottom accessory
             // (always on screen beneath this detail), so the day view no longer
             // floats its own add button.
             .alert("Rename Session", isPresented: $showRename) {

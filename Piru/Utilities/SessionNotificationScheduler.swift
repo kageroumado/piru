@@ -4,9 +4,9 @@ import UserNotifications
 
 // MARK: - Logger
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "RampDown")
+private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SessionNotifications")
 
-// MARK: - Ramp Down & Wellness Notification Scheduler
+// MARK: - Session Notification Scheduler
 
 /// Schedules local notifications around logged doses.
 ///
@@ -25,7 +25,7 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// permission is asked from the management screen or onboarding via
 /// `DoseNotificationManager.requestAuthorization()`.
 /// Requests added before the grant simply deliver once the user allows.
-enum RampDownScheduler {
+enum SessionNotificationScheduler {
     // MARK: - Timing Constants
 
     /// Time-interval constants used by the scheduler.

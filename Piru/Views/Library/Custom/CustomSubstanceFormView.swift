@@ -286,7 +286,7 @@ struct CustomSubstanceFormView: View {
                     rangeRow("Strong", min: $draft.doses.strongMin, max: $draft.doses.strongMax, suffix: "\(draft.unitLabel)")
                     singleRow("Heavy", value: $draft.doses.heavy, suffix: draft.unitLabel)
                 } header: {
-                    Text("Dose Ranges")
+                    Text("Reported Dose Ranges")
                 } footer: {
                     Text("Optional dose tiers, in your chosen unit. Leave blank to keep the library values.")
                 }

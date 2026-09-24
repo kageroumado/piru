@@ -22,7 +22,7 @@ struct PatternsView: View {
                     ContentUnavailableView(
                         "No Logged Entries",
                         systemImage: "list.clipboard",
-                        description: Text("Log some doses to see your patterns."),
+                        description: Text("Add entries to see your patterns."),
                     )
                     .padding(.top, 40)
                 } else if let report, !report.isEmpty {

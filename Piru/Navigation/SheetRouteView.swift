@@ -274,7 +274,7 @@ private struct CurrentSessionHost: View {
             ContentUnavailableView(
                 "No Sessions",
                 systemImage: "calendar.day.timeline.left",
-                description: Text("Log a dose to start your first session."),
+                description: Text("Record an entry to start your first session."),
             )
         }
     }

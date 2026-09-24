@@ -155,7 +155,7 @@ struct UnifiedTimelineView: View {
         ContentUnavailableView(
             "No Entries Yet",
             systemImage: "clock",
-            description: Text("Your dose timeline will appear here once you log something."),
+            description: Text("Your timeline will appear here after your first entry."),
         )
         .padding(.top, 60)
     }

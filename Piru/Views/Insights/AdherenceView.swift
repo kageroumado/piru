@@ -124,7 +124,7 @@ private struct AdherenceTodayCard: View {
                 }
                 if today.takenCount < today.totalCount {
                     Button(action: onLogDose) {
-                        Label("Log a Dose", systemImage: "plus")
+                        Label("Record an entry", systemImage: "plus")
                             .sectionLabel()
                             .frame(maxWidth: .infinity)
                     }

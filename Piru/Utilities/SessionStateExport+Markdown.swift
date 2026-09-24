@@ -109,7 +109,7 @@ extension SessionStateExport {
             out.append("")
         }
 
-        out.append("## " + (isLive ? "Current state (subjective)" : "Doses"))
+        out.append("## " + (isLive ? "Current state (subjective)" : "Entries"))
         out.append("")
         for s in substances {
             out.append("### \(s.name) — \(s.amount.doseFormatted) \(s.unit) \(s.route.lowercased())")
@@ -189,8 +189,8 @@ extension SessionStateExport {
         switch group.model {
         case let .firstOrder(hl, remaining, fraction, t50, t90, cleared):
             return row(halfLife: TimeInterval(hl * 60).durationHM, inBody: amount(remaining, group.unit), eliminated: "\(Int(((1 - fraction) * 100).rounded()))%", t50: clock(t50), t90: clock(t90), last: clock(cleared))
-        case let .zeroOrder(grams, fraction, t50, t90, sober):
-            return row(halfLife: "zero-order", inBody: amount(grams, "g"), eliminated: "\(Int(((1 - fraction) * 100).rounded()))%", t50: clock(t50), t90: clock(t90), last: clock(sober))
+        case let .zeroOrder(grams, fraction, t50, t90, modelZero):
+            return row(halfLife: "zero-order", inBody: amount(grams, "g"), eliminated: "\(Int(((1 - fraction) * 100).rounded()))%", t50: clock(t50), t90: clock(t90), last: clock(modelZero))
         case .unknown:
             return isLive ? "| \(name) | — | — | — | — | — | — |" : "| \(name) | — | — | — | — |"
         }

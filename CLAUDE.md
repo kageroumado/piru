@@ -144,7 +144,7 @@ Piru/
 │   ├── Pharmacology/    # the science: MechanismOfActionDatabase, receptor/metabolism/effect models
 │   ├── Tolerance/       # ToleranceStore, ToleranceModulation
 │   └── Services/        # Interactions, Benzo/OpioidEquivalence, InventoryService, UserProfile(+Store)
-├── Utilities/       # ActiveSubstanceCalculator, RampDownScheduler, LiveActivityManager, etc.
+├── Utilities/       # ActiveSubstanceCalculator, SessionNotificationScheduler, LiveActivityManager, etc.
 ├── Navigation/      # AppNavigator + route enums + deep link codec — single source of truth for tab/sheet/path state
 Shared/              # Code shared across all targets (widget + Live Activity):
 │   ├── Models/         # the 15 SwiftData @Model (DoseEntry, Session, DailyDoseItem, …)
@@ -178,9 +178,9 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 | `Data/Persistence/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
 | `Data/Services/Interactions.swift` | The interaction engine. Classes, rules and severities all resolve from the bundled DB (`interaction_rules`, `substance_interaction_classes`, `category_interaction_classes`); the localized sentence per class pair is `InteractionRuleCopy.swift` |
 | `Shared/Engines/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
-| `Utilities/RampDownScheduler.swift` | Harm-reduction notifications with session-based grouping |
+| `Utilities/SessionNotificationScheduler.swift` | Local session notifications with session-based grouping |
 | `Views/InteractionTimelineView.swift` | PK curve overlay with interaction danger window visualization |
-| `Views/DoseSuggestionCard.swift` | Smart dose suggestion card shown during quick-log |
+| `Views/QuickLog/EntryLevelEstimateCard.swift` | Model estimate for the latest recorded entry shown during quick-log |
 | `Views/ContentView.swift` | Main TabView (Journal, Library, Tools, Insights) |
 | `Views/QuickLogView.swift` | Modal for quick dose logging (plus per-type `QuickLog*.swift` files split out alongside it) |
 | `Navigation/AppNavigator.swift` | `@Observable @MainActor` singleton owning `selectedTab`, per-tab push paths, and the sheet stack |
@@ -223,7 +223,7 @@ struct DoseEntryTests {
 }
 ```
 
-**Coverage areas**: Models (Substance, DoseEntry, DoseRange, DurationProfile, RouteOfAdministration, etc.), Data (BundledDatabase, SourcePriorityResolution, SubstanceLibrary, SubstanceCustomOverlay, Interactions, AppSources, StoreRecovery, BackupCrypto/BackupManager), Utilities (AdherenceCalculator, DataExportImport, PKModel, RampDownScheduler, TagExtractor, ColorHex, SessionClustering, SessionService), Features (FuzzySearch, NotificationGrouping, Navigation/DeepLink).
+**Coverage areas**: Models (Substance, DoseEntry, DoseRange, DurationProfile, RouteOfAdministration, etc.), Data (BundledDatabase, SourcePriorityResolution, SubstanceLibrary, SubstanceCustomOverlay, Interactions, AppSources, StoreRecovery, BackupCrypto/BackupManager), Utilities (AdherenceCalculator, DataExportImport, PKModel, SessionNotificationScheduler, TagExtractor, ColorHex, SessionClustering, SessionService), Features (FuzzySearch, NotificationGrouping, Navigation/DeepLink).
 
 ## Conventions
 

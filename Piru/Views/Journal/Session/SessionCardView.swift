@@ -71,7 +71,7 @@ struct SessionCard: Identifiable, Equatable {
             substanceSummary = String(localized: "\(first) +\(display.count - 3) more")
         }
         doseCountText = entries.count == 1
-            ? String(localized: "1 dose")
+            ? String(localized: "1 entry")
             : String(localized: "\(entries.count) doses")
     }
 }

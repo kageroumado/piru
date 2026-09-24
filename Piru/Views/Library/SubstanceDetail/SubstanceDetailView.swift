@@ -299,7 +299,7 @@ struct SubstanceDetailView: View {
                 Button {
                     navigator.present(.quickLog(routine: nil, prefillSubstance: substance.name))
                 } label: {
-                    Label("Log a Dose", systemImage: "plus.circle")
+                    Label("Record an entry", systemImage: "plus.circle")
                 }
 
                 Button {

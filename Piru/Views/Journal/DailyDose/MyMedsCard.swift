@@ -557,7 +557,7 @@ private struct SlotRowView: View {
             .disabled(slotState == .skipped)
             .accessibilityLabel(title)
             .accessibilityValue(accessibilityStateValue)
-            .accessibilityHint(slotState == .skipped ? Text("Skipped for today") : taken ? Text("Unlogs this dose") : Text("Logs this dose"))
+            .accessibilityHint(slotState == .skipped ? Text("Skipped for today") : taken ? Text("Removes this entry") : Text("Records this entry"))
 
             Button(action: onOpen) {
                 HStack(spacing: Spacing.lg) {

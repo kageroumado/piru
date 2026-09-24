@@ -4,6 +4,11 @@ import Testing
 
 @Suite("DeepLink")
 struct DeepLinkTests {
+    @Test
+    func `retired estimator route is unavailable`() {
+        #expect(decode("piru://tool/effectSandbox") == nil)
+    }
+
     // MARK: - Helpers
 
     private func decode(_ string: String) -> DeepLinkOutcome? {

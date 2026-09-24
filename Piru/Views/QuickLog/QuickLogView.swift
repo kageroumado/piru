@@ -200,7 +200,7 @@ struct QuickLogView: View {
                                 Button(role: .destructive) {
                                     navigator.dismiss()
                                 } label: {
-                                    Label("Discard Doses", systemImage: "trash")
+                                    Label("Discard Entries", systemImage: "trash")
                                 }
                             } label: {
                                 Image(systemName: "xmark")

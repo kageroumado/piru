@@ -9,20 +9,6 @@ import SwiftUI
 /// Fills the height it's given so it lines up with the classic timeline graph
 /// (the host sizes both from ``GraphMetrics``). No card of its own — it sits in a
 /// grouped section like the timeline graph does.
-/// One named curve in a multi-plan comparison. Given these, a chart draws each
-/// as a plain colored line on a shared axis — no area fill and no crash recolor,
-/// because in a comparison the color has to mean *which plan*, not *how it's
-/// going*. Two red-tinted crashes would be indistinguishable.
-struct MechanisticComparisonSeries: Identifiable, Equatable {
-    let id: String
-    let timeline: EffectTimeline
-    let color: Color
-
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id && lhs.color == rhs.color && lhs.timeline.t.count == rhs.timeline.t.count
-    }
-}
-
 struct MechanisticChartView: View {
     let result: MechanisticSessionModel.Result
     let lens: EffectLens
@@ -32,7 +18,6 @@ struct MechanisticChartView: View {
     /// Dose tick positions + colors, supplied by the host (not baked into
     /// `result`) so a recolor updates the marks without re-simulating.
     let doseMarks: [MechanisticSessionModel.DoseMark]
-    let vitals: SessionVitals?
     /// When `false`, the chart frames the whole session (no pan window) and
     /// claims no drag/pinch gestures — so a scrolling stack of these charts (the
     /// Effect Estimates overview) scrolls freely instead of each card trapping
@@ -42,19 +27,6 @@ struct MechanisticChartView: View {
     /// sub-window. The overview stack frames each full session yet still allows
     /// pinch-zoom; session detail leaves this off (it opens zoomed around now).
     var startFramed: Bool = false
-    /// When non-empty, these curves are drawn instead of `result`'s own — a
-    /// comparison of several plans on one axis. `result` still supplies the time
-    /// extent and (unless overridden) the axis.
-    var comparison: [MechanisticComparisonSeries] = []
-    /// A shared axis spanning every compared plan. Without it each plan would be
-    /// drawn against its own `result`'s range and two different doses could look
-    /// identical — the exact comparison the chart is there to make.
-    var axisOverride: MechanisticSessionModel.AxisRange?
-    /// Wall-clock labels along the bottom axis. Meaningless for a hypothetical
-    /// whose start date is synthetic, so the estimator turns them off and keeps
-    /// only the elapsed-hours row.
-    var showsClockAxis: Bool = true
-
     /// Visible window width in hours (zoom). Seeded on appear.
     @State private var winW: Double = 5.5
     /// Left edge of the visible window in hours.
@@ -82,15 +54,13 @@ struct MechanisticChartView: View {
         static let minWindow: Double = 0.75
         /// The bpm mapped to the bottom / span of the chart band by the Safety
         /// lens's heart-rate trace (55–125 bpm covers rest → hard exertion).
-        static let hrFloorBPM: Double = 55
-        static let hrSpanBPM: Double = 70
         /// Points of breathing room before the first / after the last dose, kept
         /// constant on screen regardless of zoom (converted to hours per frame).
         static let endPad: CGFloat = 16
     }
 
     private var range: MechanisticSessionModel.AxisRange {
-        axisOverride ?? result.ranges[lens.rawValue] ?? .init(hi: 1, lo: 0)
+        result.ranges[lens.rawValue] ?? .init(hi: 1, lo: 0)
     }
 
     /// Scrollable extent — the real content span, not the padded simulation
@@ -193,7 +163,6 @@ struct MechanisticChartView: View {
             drawGrid(&context, geo)
             drawElapsedLabels(&context, geo)
             drawCurve(&context, geo)
-            if lens.pairsVitals { drawHeartRate(&context, geo) }
             drawDoseTicks(&context, geo)
             drawNow(&context, geo)
             drawPanIndicator(&context, size)
@@ -280,7 +249,7 @@ struct MechanisticChartView: View {
             context.stroke(line, with: .color(.primary.opacity(0.22)), style: StrokeStyle(lineWidth: 1, dash: [2, 4]))
             // Skip labels whose text would spill past the content margin into
             // the card's corner zone and get sliced. Grid line and ticks still draw.
-            if showsClockAxis, x >= geo.rect.minX + 8, x <= geo.rect.maxX - 8 {
+            if x >= geo.rect.minX + 8, x <= geo.rect.maxX - 8 {
                 var label = context.resolve(Text(clockShort(hour)).font(.system(size: 10)))
                 label.shading = .color(.secondary)
                 context.draw(label, at: CGPoint(x: x, y: geo.rect.maxY + 10))
@@ -333,12 +302,6 @@ struct MechanisticChartView: View {
 
     private func drawCurve(_ context: inout GraphicsContext, _ geo: Geometry) {
         guard let channel = lens.channel else { return }
-        guard comparison.isEmpty else {
-            for plan in comparison {
-                drawComparisonCurve(&context, geo, timeline: plan.timeline, channel: channel, color: plan.color)
-            }
-            return
-        }
         let series = result.timeline[keyPath: channel]
         let t = result.timeline.t
         let (i0, i1) = indexRange(geo)
@@ -376,48 +339,6 @@ struct MechanisticChartView: View {
             let crashing = geo.signed && (v0 < 0 || v1 < 0)
             context.stroke(seg, with: .color(crashing ? EffectLens.crash : lens.color), style: StrokeStyle(lineWidth: 2.6, lineJoin: .round))
         }
-    }
-
-    /// One plan's line: a plain stroke in the plan's color. No fill and no crash
-    /// red — overlapping translucent fills blend into a third color that reads as
-    /// a third plan, and a value-based recolor would break the color↔plan tie.
-    private func drawComparisonCurve(
-        _ context: inout GraphicsContext,
-        _ geo: Geometry,
-        timeline: EffectTimeline,
-        channel: KeyPath<EffectTimeline, [Double]>,
-        color: Color,
-    ) {
-        let series = timeline[keyPath: channel]
-        let t = timeline.t
-        guard series.count == t.count, t.count > 1 else { return }
-        let i0 = 0, i1 = t.count - 1
-
-        var path = Path()
-        for i in i0 ... i1 {
-            let point = CGPoint(x: geo.x(t[i]), y: geo.y(series[i]))
-            if i == i0 { path.move(to: point) } else { path.addLine(to: point) }
-        }
-        context.stroke(path, with: .color(color), style: StrokeStyle(lineWidth: 2.4, lineJoin: .round))
-    }
-
-    private func drawHeartRate(_ context: inout GraphicsContext, _ geo: Geometry) {
-        guard let samples = vitals?.heartRate, samples.count > 1 else { return }
-        let a = geo.winStart, b = geo.winStart + geo.winW
-        var path = Path()
-        var started = false
-        for sample in samples {
-            let hour = sample.date.timeIntervalSince(startDate) / 3_600
-            guard hour >= a - 0.5, hour <= b + 0.5 else { continue }
-            let norm = (Double(sample.bpm) - Metric.hrFloorBPM) / Metric.hrSpanBPM
-            let y = geo.rect.maxY - CGFloat(min(max(norm, 0), 1)) * geo.rect.height
-            let point = CGPoint(x: geo.x(hour), y: y)
-            if started { path.addLine(to: point) } else { path.move(to: point); started = true }
-        }
-        // The app-wide HR crimson (matches the row chips and the timeline cardio
-        // lane), dashed so it can't be read as part of the solid danger curve —
-        // the Safety lens color is a near-identical red.
-        context.stroke(path, with: .color(VitalsPalette.heart), style: StrokeStyle(lineWidth: 1.6, lineJoin: .round, dash: [4, 3]))
     }
 
     private func drawDoseTicks(_ context: inout GraphicsContext, _ geo: Geometry) {

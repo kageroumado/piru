@@ -78,7 +78,7 @@ struct SessionStateExport {
             fractionRemaining: Double,
             t50: Date,
             t90: Date,
-            sober: Date,
+            modelZero: Date,
         )
         /// No half-life data — elimination can't be modeled for this substance.
         case unknown
@@ -406,7 +406,7 @@ extension SessionStateExport {
                 fractionRemaining: totalGrams > 0 ? min(1, remaining / totalGrams) : 0,
                 t50: groupStart.addingTimeInterval(cross[0] * 60),
                 t90: groupStart.addingTimeInterval(cross[1] * 60),
-                sober: groupStart.addingTimeInterval(cross[2] * 60),
+                modelZero: groupStart.addingTimeInterval(cross[2] * 60),
             ),
             curve: sampleCurve(body: body, horizon: horizon),
             unit: "g",

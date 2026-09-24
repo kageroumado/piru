@@ -59,7 +59,7 @@ struct SessionMenu: View {
                     )
                 }
                 Toggle(isOn: $stackRedoses) {
-                    Label("Stack Redoses", systemImage: "chart.line.uptrend.xyaxis")
+                    Label("Combine Repeated Entries", systemImage: "chart.line.uptrend.xyaxis")
                 }
                 if isToday, hasOngoingDose {
                     let isRunning = LiveActivityManager.shared.isLiveActivityRunning

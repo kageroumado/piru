@@ -468,8 +468,8 @@ private struct SessionPickerSheet: View {
                             Spacer()
 
                             Text(summary.doseCount == 1
-                                ? String(localized: "1 dose")
-                                : String(localized: "\(summary.doseCount) doses"))
+                                ? String(localized: "1 entry")
+                                : String(localized: "\(summary.doseCount) entries"))
                                 .captionSecondary()
                                 .monospacedDigit()
                         }
