@@ -295,9 +295,9 @@ struct TimelineStripDayContent: View {
         // Only the strip's very top edge cuts curves mid-flight — fade
         // them into the background there. Day boundaries fade nothing;
         // the strip continues.
-        // Erased (destination-out), not painted: a skin's backdrop behind the
-        // strip is a gradient, so a band of the flat background colour showed
-        // as a darker strip across the top.
+        // Erased (destination-out), never painted: a skin's backdrop behind
+        // the strip is a gradient, so a band of the flat background color
+        // would read as a darker stripe across the top.
         if day.showsLiveEdge {
             let fadeHeight: CGFloat = 28
             context.blendMode = .destinationOut

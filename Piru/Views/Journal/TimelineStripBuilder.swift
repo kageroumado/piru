@@ -490,14 +490,20 @@ struct TimelineStripBuilder {
 
     /// One slice's heart-rate samples as lane points. Empty when too few
     /// samples fall in the slice to read as a trace.
+    ///
+    /// `samples` must be ascending by date, as the builder keeps them: the
+    /// slice's run is found by binary search, because a fortnight of wrist
+    /// readings scanned once per slice is quadratic in the log's length.
     static func heartRatePoints(
         samples: [HeartRateSample],
         from bottomTime: Date,
         to topTime: Date,
         localY: (Date) -> CGFloat,
     ) -> [TimelineDayLayout.CurvePoint] {
-        let inSlice = samples.filter { $0.date >= bottomTime && $0.date < topTime }
-        guard inSlice.count >= minimumHeartRateSamples else { return [] }
+        let lower = firstIndex(in: samples) { $0.date >= bottomTime }
+        let upper = firstIndex(in: samples) { $0.date >= topTime }
+        guard upper - lower >= minimumHeartRateSamples else { return [] }
+        let inSlice = samples[lower ..< upper]
         let low = heartRateRange.lowerBound
         let span = heartRateRange.upperBound - low
         return inSlice
@@ -508,6 +514,19 @@ struct TimelineStripBuilder {
                 )
             }
             .sorted { $0.y < $1.y }
+    }
+
+    /// The first index whose element satisfies `isAtOrPast`, or `endIndex`
+    /// when none does. `isAtOrPast` must be false for a prefix of `elements`
+    /// and true for the rest.
+    private static func firstIndex<T>(in elements: [T], where isAtOrPast: (T) -> Bool) -> Int {
+        var low = 0
+        var high = elements.count
+        while low < high {
+            let mid = (low + high) / 2
+            if isAtOrPast(elements[mid]) { high = mid } else { low = mid + 1 }
+        }
+        return low
     }
 
     /// How far into the lane the widest curve reaches at `y`, `0…1` — what a

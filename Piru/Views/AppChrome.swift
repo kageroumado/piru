@@ -12,9 +12,6 @@ struct AppOverflowMenu<Extras: View>: View {
     }
 
     var body: some View {
-        // The "your data lives here" tip used to anchor here on the Journal tab;
-        // it moved to the Journal's options button (`JournalOptionsButton`) when
-        // that screen consolidated its toolbar and stopped using this menu.
         Menu {
             menuExtras()
             // Trailing Sections keep the always-present app actions grouped

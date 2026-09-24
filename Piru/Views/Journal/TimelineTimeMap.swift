@@ -129,9 +129,9 @@ nonisolated struct TimelineTimeMap {
         // Slice floors: stretch the largest segment inside an undersized
         // slice so its cards fit without spilling into the next day.
         for slice in slices {
-            guard let lo = times.firstIndex(where: { $0 >= slice.bottomTime }),
-                  let hi = times.lastIndex(where: { $0 <= slice.topTime }),
-                  hi > lo else { continue }
+            let lo = Self.firstIndex(in: times) { $0 >= slice.bottomTime }
+            let hi = Self.firstIndex(in: times) { $0 > slice.topTime } - 1
+            guard lo < times.count, hi > lo else { continue }
             let sliceHeight = heights[lo ..< hi].reduce(0, +)
             if sliceHeight < slice.minimumHeight,
                let biggest = (lo ..< hi).max(by: { heights[$0] < heights[$1] }) {
@@ -173,6 +173,19 @@ nonisolated struct TimelineTimeMap {
     /// time → smaller y.
     func reversedY(_ t: Date) -> CGFloat {
         totalHeight - forwardY(t)
+    }
+
+    /// The first index of the ascending `times` at which `isAtOrPast` holds,
+    /// or `times.count` when it never does — the slice floors look up every
+    /// slice's span, so a linear scan per slice is quadratic in the log.
+    private static func firstIndex(in times: [Date], where isAtOrPast: (Date) -> Bool) -> Int {
+        var low = 0
+        var high = times.count
+        while low < high {
+            let mid = (low + high) / 2
+            if isAtOrPast(times[mid]) { high = mid } else { low = mid + 1 }
+        }
+        return low
     }
 
     /// Sorted, disjoint union of `intervals`.

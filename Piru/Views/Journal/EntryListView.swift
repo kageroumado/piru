@@ -190,11 +190,10 @@ struct EntryListView: View {
     @State private var derivedRevision: Int?
 
     /// Content fingerprint of the color assignments. Drives the recolor derive
-    /// on *edits*, not just adds/removes: recoloring an existing substance
-    /// mutates `hexColor` in place (`SettingsView` / `EntryDetailView` /
-    /// `SessionDetailView`), so the count is unchanged and a `count`-only watch
-    /// would leave the Day cards' baked-in tints stale. Hashing substance + hex
-    /// closes that gap (mirrors `SessionDetailView`).
+    /// on *edits*, not just adds and removes: recoloring an existing substance
+    /// mutates its `SubstanceColor` row in place, so the count is unchanged and
+    /// a count-only watch would leave the Day cards' baked-in tints stale.
+    /// Hashing substance + tint closes that gap.
     private var colorSignature: Int {
         var hasher = Hasher()
         for color in substanceColors {

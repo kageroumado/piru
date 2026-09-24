@@ -77,7 +77,7 @@ struct PiruApp: App {
         // legacy wellness/phase flags) and refresh the UserDefaults mirror the
         // schedulers gate on — before any dose can be logged this launch.
         NotificationPreferencesStore.shared.configure(container: container)
-        // Point `Skin.current` at the observable store so the semantic-colour
+        // Point `Skin.current` at the observable store so the semantic-color
         // shorthands in Shared/ follow a skin change, not a UserDefaults snapshot.
         SkinStore.activate()
         // Reads what this person owns and starts listening for purchases that
@@ -143,9 +143,9 @@ struct PiruApp: App {
                 // SQLite, seeds preferences) before the first view query —
                 // then await the batch prefill it kicked off. Everything
                 // below (session backfill's per-dose duration resolve, the
-                // PSID backfill, demo seeding) resolves substances; without
-                // this await they raced the prewarm and, on a loss, built
-                // the whole batch synchronously on the main actor.
+                // PSID backfill, demo seeding) resolves substances, and a
+                // resolve against a cold batch builds it synchronously on the
+                // main actor.
                 _ = SubstanceStore.shared.count
                 await SubstanceStore.shared.ensureAllLoaded()
                 // Publish every substance's class color, bring the stored
@@ -349,18 +349,17 @@ struct PiruApp: App {
     ///    mis-classified as corruption, and stranded data behind a fresh empty
     ///    store. The one non-additive step (per-row `DoseEntry.id`) is finished
     ///    *after* open by ``StoreRecovery/backfillDuplicateEntryIDs(container:)``,
-    ///    which uniquifies the shared UUID a lightweight migration fills in. The
-    ///    old `PiruMigrationPlan` + frozen `PiruSchemaV1…V5` are retired; see the
-    ///    schema-migration policy block in ``StoreRecovery``.
+    ///    which uniquifies the shared UUID a lightweight migration fills in. See
+    ///    the schema-migration policy block in ``StoreRecovery``.
     /// 2. **Preserve + in-memory** — if the store still won't open, it is NOT
     ///    replaced. The bytes stay on disk untouched (a future version can recover
     ///    them), ``StoreLaunchState`` is flagged so the UI shows a reassuring
     ///    "temporarily unavailable" alert, and the app launches on a transient
     ///    in-memory store rather than crashing or silently resetting.
     ///
-    /// The old behavior — quarantine-on-any-error then open a fresh empty store —
-    /// is gone: an empty store the user could write fresh data into is the
-    /// worst outcome, fragmenting data across two stores.
+    /// Never answer an open failure with a fresh empty persistent store: data
+    /// written into it fragments the journal across two stores, the worst
+    /// outcome this path can produce.
     private static func makeContainer() -> ModelContainer {
         let storeURL = StoreRecovery.canonicalStoreURL()
         // .none is critical: SwiftData would otherwise auto-enable CloudKit

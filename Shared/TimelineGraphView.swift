@@ -372,51 +372,6 @@ struct TimelineGraphView: View, Equatable {
         return min(max(maxEnd, 1), displayCapMinutes)
     }
 
-    /// Off-main prewarm: compute and cache the ``Derived`` geometry for a batch of
-    /// dose sets so the matching cards later render as *synchronous cache hits* —
-    /// `init` seeds `derivedBox` from the cache, so there's no `Color.clear`→graph
-    /// branch flip and no per-card `Task.detached` while scrolling. The journal
-    /// calls this right after it (re)builds its day groups; cards already in the
-    /// cache are skipped, so a re-scroll costs nothing.
-    @MainActor
-    static func prewarm(
-        _ inputs: [(substances: [ActiveSubstanceState], markers: [DoseMarker])],
-        stackRedoses: Bool,
-        dayBounded: Bool,
-    ) {
-        // Claim misses up front on the main actor (the cache is main-isolated) —
-        // a claim makes this batch the sole computer of each key, so a visible
-        // card whose own `loadModel` arrives meanwhile awaits the result instead
-        // of computing the same model in parallel — then do the expensive curve
-        // math off-main and insert the results back.
-        let pending: [(key: DerivedKey, substances: [ActiveSubstanceState], markers: [DoseMarker])] =
-            inputs.compactMap { input in
-                guard !input.substances.isEmpty || !input.markers.isEmpty else { return nil }
-                let key = DerivedKey(
-                    substances: input.substances, markers: input.markers,
-                    stackRedoses: stackRedoses, dayBounded: dayBounded,
-                )
-                guard TimelineModelCache.shared.claim(key) else { return nil }
-                return (key, input.substances, input.markers)
-            }
-        guard !pending.isEmpty else { return }
-        let now = Date.now
-        Task.detached(priority: .utility) {
-            // Insert per item, not batched at the end: `inputs` arrive in
-            // display order, so the visible cards' waiters resolve first,
-            // while later days are still computing.
-            for item in pending {
-                let model = TimelineCurveModel.computeDerived(
-                    substances: item.substances, markers: item.markers,
-                    stackRedoses: stackRedoses, dayBounded: dayBounded, currentTime: now,
-                )
-                await MainActor.run {
-                    TimelineModelCache.shared.insert(model, for: item.key)
-                }
-            }
-        }
-    }
-
     /// Effective ceiling for the axis window. A day-bounded host (journal card,
     /// day detail) clamps to 24h; everything else keeps the 48h default.
     private var displayCapMinutes: Double {

@@ -290,7 +290,7 @@ final class UnifiedTimelineModel {
     }
 
     /// Every `Session` in one fetch, keyed by identifier, for the builder's
-    /// session reads (see `TimelineStripBuilder.session(of:)`).
+    /// session reads (see `TimelineStripBuilder.session(of:in:)`).
     private static func sessionsByID(of entries: [DoseEntry]) -> [PersistentIdentifier: Session] {
         guard let context = entries.first?.modelContext,
               let sessions = try? context.fetch(FetchDescriptor<Session>()) else { return [:] }

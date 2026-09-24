@@ -11,13 +11,12 @@ struct ContentView: View {
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
 
-    /// A thin root. `MainTabView` now owns its own search state (no bindings in),
-    /// so it has zero stored inputs and SwiftUI skips re-evaluating it whenever
-    /// this body re-runs (scene-phase change). The launch chrome — onboarding,
-    /// the launch sheets, the store-health alert + diagnostics — lives in
-    /// self-owning `ViewModifier`s so their `@State` churn stays out of this body
-    /// (and out of the tab tree). No more `.equatable()` band-aid: an input-free
-    /// view is trivially comparable.
+    /// A thin root. `MainTabView` owns its own search state and takes no inputs,
+    /// so SwiftUI skips re-evaluating it whenever this body re-runs (a scene-phase
+    /// change, a sheet present or dismiss). The launch chrome — onboarding, the
+    /// launch sheets, the store-health alert and diagnostics — lives in
+    /// self-owning `ViewModifier`s so their `@State` stays out of this body and
+    /// out of the tab tree.
     var body: some View {
         MainTabView()
             .sheetStackPresenter(navigator)
@@ -29,15 +28,22 @@ struct ContentView: View {
         #if DEBUG
             // `-piruRoute <piru://url>` lands on a screen at launch, for
             // simulator screenshots: `simctl openurl` is blocked by the
-            // untappable "Open in Piru?" sheet.
+            // untappable "Open in Piru?" sheet. `-piruRouteTour` walks a list
+            // of them in one session, for profiling (see `RouteTour`).
             .task {
                 let args = ProcessInfo.processInfo.arguments
-                guard let i = args.firstIndex(of: "-piruRoute"), args.indices.contains(i + 1),
-                      let url = URL(string: args[i + 1]) else { return }
                 // A substance route resolves in the pushed view's body; a
                 // cold `SubstanceStore.all` asserts in DEBUG.
-                await SubstanceStore.shared.ensureAllLoaded()
-                handleDeepLink(url)
+                if let i = args.firstIndex(of: "-piruRoute"), args.indices.contains(i + 1),
+                   let url = URL(string: args[i + 1]) {
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    handleDeepLink(url)
+                } else if let tour = RouteTour(arguments: args) {
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    await tour.run(navigator: navigator) { url in
+                        handleDeepLink(url.resolvingLatestSession(in: modelContext))
+                    }
+                }
             }
         #endif
             .onChange(of: scenePhase) {
@@ -170,34 +176,19 @@ private struct StoreDiagnosticsModifier: ViewModifier {
 
 /// The tab bar, its five navigation stacks, and the session bottom accessory.
 ///
-/// Extracted from `ContentView` as a dedicated **`Equatable`** struct rather than
-/// a computed `some View` property. `ContentView.body` observes
-/// `navigator.sheetStack` (via `.sheetStackPresenter`, which must watch it to
-/// drive sheet presentation), so it re-runs on every sheet open *and* close. As
-/// a computed property the tab view was rebuilt on each of those re-runs —
-/// cascading a full journal re-render (the hero card plus every day card,
-/// twice) behind whatever sheet was presenting. As a separate `Equatable` view
-/// SwiftUI skips re-evaluating it when only `sheetStack` changed; the inputs
-/// that genuinely affect it (selected tab, nav paths, active-session state,
-/// search text) still update it through `@Observable` tracking or the leaf
-/// views' own bindings, independent of the `==` comparison.
+/// A separate view with no stored inputs, so the root's re-runs on every sheet
+/// present and dismiss (it observes `navigator.sheetStack` to drive them) skip
+/// it. Its body reads only the selected tab. Everything that follows the
+/// journal's path or the live session — the accessory's face, the first-run
+/// tip, the "viewing the active day" check — is read inside
+/// ``SessionAccessoryHost``, so a push, a pop or a session update re-renders
+/// the accessory and never the tab tree behind it.
 private struct MainTabView: View {
     @Environment(\.appNavigator) private var navigator
-    @Environment(\.modelContext) private var modelContext
 
-    /// Search state owned here (not threaded down as bindings from the root), so
-    /// this view has zero stored inputs and SwiftUI skips re-evaluating it when
-    /// the root body re-runs for unrelated chrome/scene churn. The old
-    /// `Equatable` + `== { true }` band-aid is gone — an input-free view is
-    /// trivially comparable.
     @State private var searchScope: SearchTabScope = .library
     @State private var searchText = ""
     @State private var librarySearchText = ""
-
-    /// Whether the journal stack's top screen is the active session's detail.
-    /// Computed off `body` (in `.task(id:)`) so the membership `fetch` it needs
-    /// never runs during a body pass.
-    @State private var viewingActiveSessionDay = false
 
     var body: some View {
         @Bindable var navigator = navigator
@@ -237,41 +228,14 @@ private struct MainTabView: View {
             }
         }
         // Apple-Music-style fold: scrolling down minimizes the tab bar and slides
-        // the session accessory into its inline placement (which
-        // `SessionAccessoryView` already adapts to).
+        // the session accessory into its inline placement, which
+        // `BottomAccessoryContent` adapts to.
         #if os(iOS)
             #if canImport(UIKit)
                 .tabBarMinimizeBehavior(.onScrollDown)
             #endif
         #endif
-            .withSessionAccessory(
-                showSessionPill: sessionAccessoryActive,
-                // The "log a dose" tip may only appear on the Journal root — the
-                // accessory it anchors to is otherwise on every tab and every pushed
-                // screen. Attaching the popover only here (rather than gating it with
-                // a TipKit rule) is what actually dismisses it on navigate-away:
-                // TipKit doesn't retract a shown popover when a rule flips false.
-                showLogTip: onJournalRoot,
-                // Plain actions, *not* sheetStack-reading bindings. The accessory only
-                // ever triggers a present (its sheet dismisses itself), so a binding's
-                // getter was dead weight — and reading `sheetStack` in that getter
-                // subscribed this whole view to it, re-rendering the entire journal
-                // behind every sheet present/dismiss. Closures read `sheetStack` only
-                // when tapped, so the body no longer depends on it.
-                onShowSessionDetail: {
-                    guard navigator.sheetStack.isEmpty else { return }
-                    navigator.revealOrPresentSessionDetail(
-                        currentSessionID: mostRecentSessionID(in: modelContext),
-                    )
-                },
-                onAdd: {
-                    // Tapping the CTA retires the "log a dose" tip whether or not the
-                    // log is completed — the point has been made.
-                    OnboardingTips.logDoseInvoked()
-                    guard navigator.sheetStack.isEmpty else { return }
-                    navigator.present(.quickLog(routine: nil))
-                },
-            )
+            .withSessionAccessory()
             .onChange(of: navigator.selectedTab) { oldValue, newValue in
                 if newValue == .search {
                     // Seed the scope from where the user came from; Library is the
@@ -280,13 +244,6 @@ private struct MainTabView: View {
                 }
                 searchText = ""
                 librarySearchText = ""
-            }
-            // Derive the "viewing the active session's day" flag reactively instead
-            // of fetching in `body`. The key changes when the journal's top route,
-            // the selected tab, or the active doses change — exactly when the answer
-            // can flip.
-            .task(id: activeSessionDayKey) {
-                viewingActiveSessionDay = computeViewingActiveSessionDay()
             }
     }
 
@@ -306,70 +263,6 @@ private struct MainTabView: View {
 
     private var insightsContent: some View {
         InsightsView()
-    }
-
-    // MARK: Session Accessory Visibility
-
-    /// Whether the bottom accessory shows the live-session pill (vs. the idle
-    /// "Log a dose" call-to-action). The accessory is *always* mounted now; this
-    /// only chooses its content. We fall back to the CTA — rather than the pill —
-    /// while the journal already surfaces the live session (its day-detail with
-    /// the curve / substances / timing on screen, or the journal root where the
-    /// hero card carries it), since the pill would only duplicate them.
-    private var sessionAccessoryActive: Bool {
-        ActiveSessionManager.shared.hasActiveSession
-            && !viewingActiveSessionDay
-            && !journalShowingActiveHero
-    }
-
-    /// The Journal tab's root screen — nothing pushed. Gates the "log a dose"
-    /// first-run tip, which points at the always-mounted bottom accessory and so
-    /// must be told when it's actually on the screen the tip is about.
-    private var onJournalRoot: Bool {
-        navigator.selectedTab == .journal && navigator.path(for: .journal).isEmpty
-    }
-
-    /// True when the journal is at its root with a live session — the new hero
-    /// card there already carries the session, so the floating accessory would
-    /// only echo it. (The journal root is never a search surface, so this lines
-    /// up exactly with `EntryListView`'s own hero-visibility condition.)
-    private var journalShowingActiveHero: Bool {
-        navigator.selectedTab == .journal
-            && navigator.path(for: .journal).isEmpty
-            && ActiveSessionManager.shared.hasActiveSession
-    }
-
-    /// Identity for the `viewingActiveSessionDay` task: changes exactly when the
-    /// answer could — the selected tab, the journal's top route, or the active
-    /// doses. Read here in `body` (these are already observed for the accessory),
-    /// so the membership `fetch` runs in the keyed task rather than per body pass.
-    private var activeSessionDayKey: String {
-        let top = navigator.path(for: .journal).last.map { "\($0)" } ?? "none"
-        let stamps = ActiveSessionManager.shared.activeSubstanceStates
-            .map { "\($0.doseTimestamp.timeIntervalSince1970)" }
-            .joined(separator: ",")
-        return "\(navigator.selectedTab)|\(top)|\(stamps)"
-    }
-
-    /// True when the journal stack's top screen is the detail for the session the
-    /// active doses belong to. The session accessory would only echo what that
-    /// screen already shows, so we hide it there. Matches by membership: the
-    /// viewed session contains the active session's earliest dose.
-    private func computeViewingActiveSessionDay() -> Bool {
-        guard navigator.selectedTab == .journal,
-              case let .session(id) = navigator.path(for: .journal).last
-        else { return false }
-        let activeStamps = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp)
-        guard !activeStamps.isEmpty else { return false }
-        var descriptor = FetchDescriptor<Session>(predicate: #Predicate { $0.id == id })
-        descriptor.fetchLimit = 1
-        guard let session = try? modelContext.fetch(descriptor).first else { return false }
-        // Suppress the accessory whenever the viewed session holds *any* active
-        // dose — covers the current cluster even if a separate, overlapping
-        // session also has a still-active long-acting dose.
-        return session.orderedDoses.contains { dose in
-            activeStamps.contains { abs($0.timeIntervalSince(dose.timestamp)) < 1 }
-        }
     }
 }
 
@@ -527,26 +420,113 @@ private extension View {
     /// control in the main view tree; the primary action lives here instead,
     /// which is the trade this accessory is making.
     @ViewBuilder
-    func withSessionAccessory(
-        showSessionPill: Bool,
-        showLogTip: Bool,
-        onShowSessionDetail: @escaping () -> Void,
-        onAdd: @escaping () -> Void,
-    ) -> some View {
+    func withSessionAccessory() -> some View {
         #if os(iOS)
             tabViewBottomAccessory {
-                BottomAccessoryContent(
-                    showSessionPill: showSessionPill,
-                    showLogTip: showLogTip,
-                    onShowSessionDetail: onShowSessionDetail,
-                    onAdd: onAdd,
-                )
+                SessionAccessoryHost()
             }
         #else
             self
         #endif
     }
 }
+
+// MARK: - Session Accessory Host
+
+#if os(iOS)
+    /// Decides the accessory's face and wires its two actions. Reading the
+    /// journal's path and the live session here, inside the accessory, is what
+    /// keeps a push, a pop or a session update from re-rendering the tab tree.
+    private struct SessionAccessoryHost: View {
+        @Environment(\.appNavigator) private var navigator
+        @Environment(\.modelContext) private var modelContext
+
+        /// Whether the journal stack's top screen is the active session's detail.
+        /// Computed in `.task(id:)` so the membership `fetch` it needs never runs
+        /// during a body pass.
+        @State private var viewingActiveSessionDay = false
+
+        var body: some View {
+            BottomAccessoryContent(
+                showSessionPill: sessionAccessoryActive,
+                // The "log a dose" tip may only appear on the Journal root — the
+                // accessory it anchors to is otherwise on every tab and every pushed
+                // screen. Attaching the popover only here (rather than gating it with
+                // a TipKit rule) is what dismisses it on navigate-away: TipKit
+                // doesn't retract a shown popover when a rule flips false.
+                showLogTip: onJournalRoot,
+                // Plain actions, never sheetStack-reading bindings: a getter that
+                // reads `sheetStack` subscribes this view to every sheet present and
+                // dismiss. Closures read it only when tapped.
+                onShowSessionDetail: {
+                    guard navigator.sheetStack.isEmpty else { return }
+                    navigator.revealOrPresentSessionDetail(
+                        currentSessionID: mostRecentSessionID(in: modelContext),
+                    )
+                },
+                onAdd: {
+                    // Tapping the CTA retires the "log a dose" tip whether or not the
+                    // log is completed — the point has been made.
+                    OnboardingTips.logDoseInvoked()
+                    guard navigator.sheetStack.isEmpty else { return }
+                    navigator.present(.quickLog(routine: nil))
+                },
+            )
+            // The key changes when the journal's top route, the selected tab, or
+            // the active doses change — exactly when the answer can flip.
+            .task(id: activeSessionDayKey) {
+                viewingActiveSessionDay = computeViewingActiveSessionDay()
+            }
+        }
+
+        /// Whether the accessory shows the live-session pill rather than the idle
+        /// "Log a dose" call-to-action. The accessory is always mounted; this only
+        /// chooses its content. It falls back to the CTA while the journal already
+        /// surfaces the live session — its day detail, or the journal root, where
+        /// the hero card carries it — since the pill would only duplicate them.
+        private var sessionAccessoryActive: Bool {
+            ActiveSessionManager.shared.hasActiveSession
+                && !viewingActiveSessionDay
+                && !onJournalRoot
+        }
+
+        /// The Journal tab's root screen — nothing pushed. Gates the first-run tip
+        /// and, with a live session, stands in for the hero card that already
+        /// carries it (the journal root is never a search surface, so this matches
+        /// `EntryListView`'s own hero condition).
+        private var onJournalRoot: Bool {
+            navigator.selectedTab == .journal && navigator.path(for: .journal).isEmpty
+        }
+
+        /// Identity for the `viewingActiveSessionDay` task: the selected tab, the
+        /// journal's top route and the active doses.
+        private var activeSessionDayKey: String {
+            let top = navigator.path(for: .journal).last.map { "\($0)" } ?? "none"
+            let stamps = ActiveSessionManager.shared.activeSubstanceStates
+                .map { "\($0.doseTimestamp.timeIntervalSince1970)" }
+                .joined(separator: ",")
+            return "\(navigator.selectedTab)|\(top)|\(stamps)"
+        }
+
+        /// True when the journal stack's top screen is the detail for the session
+        /// the active doses belong to. Matches by membership: the viewed session
+        /// holds any active dose — covering the current cluster even when a
+        /// separate, overlapping session also has a still-active long-acting dose.
+        private func computeViewingActiveSessionDay() -> Bool {
+            guard navigator.selectedTab == .journal,
+                  case let .session(id) = navigator.path(for: .journal).last
+            else { return false }
+            let activeStamps = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp)
+            guard !activeStamps.isEmpty else { return false }
+            var descriptor = FetchDescriptor<Session>(predicate: #Predicate { $0.id == id })
+            descriptor.fetchLimit = 1
+            guard let session = try? modelContext.fetch(descriptor).first else { return false }
+            return session.orderedDoses.contains { dose in
+                activeStamps.contains { abs($0.timeIntervalSince(dose.timestamp)) < 1 }
+            }
+        }
+    }
+#endif
 
 // MARK: - Bottom Accessory Content
 
@@ -614,9 +594,9 @@ private extension View {
                 .padding(.trailing, 11)
                 .animation(.snappy, value: showSessionPill)
             }
-            // Attached outside the periodic closure so the 60 s tick doesn't re-create
-            // the anchor (which used to resurrect a dismissed tip), and only while on
-            // the Journal root so leaving actually tears the popover down.
+            // Attached outside the periodic closure, because re-creating the anchor on
+            // the 60 s tick resurrects a dismissed tip; and only while on the Journal
+            // root, so leaving tears the popover down.
             .modifier(LogTipAnchor(active: showLogTip))
         }
 

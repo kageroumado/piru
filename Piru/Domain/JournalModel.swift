@@ -10,12 +10,9 @@ import SwiftUI
 /// The view passes in its `@Query` results and the grouping choice (a persisted
 /// preference, so it stays `@AppStorage` on the view); the model recomputes only
 /// when its signature actually changes and publishes ready-to-render values,
-/// which SwiftUI diffs as a single observable
-/// source of truth. This replaces the former shadow-`@State` model — six caches
-/// + two signature ints + `rebuild*` calls scattered across `.task`/`.onChange`
-/// — that `data.md` warns against ("don't cache derived collections in `@State`
-/// without owning invalidation"), and that forced multi-pass body re-evaluation
-/// (write-`@State` → body → write-`@State` → body) on every mutation.
+/// which SwiftUI diffs as a single observable source of truth. Keep derived
+/// collections here, never as `@State` caches on the view: a cache the view
+/// writes from `.task`/`.onChange` re-runs `body` once per write.
 @Observable
 @MainActor
 final class JournalModel {
@@ -247,9 +244,8 @@ final class JournalModel {
         let title = DoseTitle.resolve(for: entry)
         let marker = state == nil
             ? DoseMarker(
-                // The resolved title, matching the curves' lane labels — this
-                // rendered the raw logged string, so a marker could name the same
-                // substance differently from the curve beside it.
+                // The resolved title, matching the curves' lane labels, so a
+                // marker names a substance the way the curve beside it does.
                 substanceName: title,
                 timestamp: entry.timestamp,
                 tint: tint,
@@ -589,7 +585,7 @@ final class JournalModel {
             // Prewarm each session card's PK geometry off-main so the compact
             // graphs render as synchronous cache hits when scrolled into view —
             // no placeholder→graph flip, no per-card detached task.
-            TimelineGraphView.prewarm(
+            TimelineModelCache.shared.prewarm(
                 cards.map { (substances: $0.states, markers: $0.markers) },
                 stackRedoses: stackRedoses,
                 dayBounded: true,
