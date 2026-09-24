@@ -1,0 +1,24 @@
+{
+  "name": "Acetaminophen",
+  "aliases": [
+    "Paracetamol"
+  ],
+  "category": "Analgesic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "common": {
+          "lower": 650,
+          "upper": 1000
+        }
+      }
+    }
+  ],
+  "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01f41fae-4abb-4b96-ab09-a7d3dfc286cd",
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=015a6179-bacb-452d-b594-4de628ddc11d"
+  ]
+}

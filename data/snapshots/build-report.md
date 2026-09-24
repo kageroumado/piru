@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-09-23.1 → `Piru/Data/piru-substances.sqlite` (17,960,960 bytes, sha256 `602e58491c0c6dd57b175f751cfdfacb478b4690a1a5c04e9318226af006218a`)
+Built 2026-09-24.0 → `Piru/Data/piru-substances.sqlite` (17,960,960 bytes, sha256 `c84d84acd7f8daa1e86f52af198154346f6b4d083cbbf9aca14c6b9c024fdb03`)
 
 ## Row counts
 
@@ -10,7 +10,7 @@ Built 2026-09-23.1 → `Piru/Data/piru-substances.sqlite` (17,960,960 bytes, sha
 | aliases | 5,727 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,462 |
+| citations | 2,464 |
 | categories | 1,559 |
 | tags | 7,049 |
 | dose_ranges | 2,779 |
@@ -95,12 +95,12 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 220 | 444 | 648 | 2,264 |
+| piru-curated | 221 | 444 | 649 | 2,264 |
 | peer-review-primary | 0 | 1,006 | 0 | 1,582 |
 | dosewiki | 293 | 12 | 0 | 0 |
 | drug.community | 845 | 0 | 0 | 124 |
 | psychonautwiki | 377 | 0 | 63 | 316 |
-| tripsit | 582 | 0 | 411 | 1,266 |
+| tripsit | 581 | 0 | 411 | 1,266 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 103 | 0 | 167 | 426 |
 | erowid-tihkal | 36 | 0 | 48 | 121 |
@@ -108,7 +108,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 94 | 338 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
-| pyrls | 0 | 0 | 100 | 612 |
+| pyrls | 0 | 0 | 99 | 612 |
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |

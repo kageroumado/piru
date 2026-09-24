@@ -557,6 +557,13 @@
         "oral"
       ],
       "note": "light 200–400 / strong 800–1,600 µg insufflated and 300–1,600 µg oral on a compound with the highest MOR affinity of six fentanyl analogs, 3.8× fentanyl, mouse ED50 within ~1.3× of fentanyl (PMID 40721041); fatal femoral blood 0.41–2.47 ng/g (PMID 28096302). About 10× a lethal-range dose. TripSit's ladder verbatim."
+    },
+    {
+      "name": "Acetaminophen",
+      "routes": [
+        "oral"
+      ],
+      "note": "common 200-500 mg (\"Pain-relief 200-400mg | Fever 300-500mg\") against the adult OTC label dose of two 325 mg or two 500 mg tablets, 650-1000 mg (DailyMed Tylenol Regular and Extra Strength). A 1000 mg dose, the commonly sold one, read as heavy. The curated label ladder replaces it."
     }
   ],
   "dosewiki": [

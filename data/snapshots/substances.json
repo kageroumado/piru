@@ -12135,10 +12135,10 @@
     "name": "Acetaminophen",
     "display_name": "",
     "aliases": [
-      "Tylenol",
-      "paracetamol"
+      "Paracetamol",
+      "Tylenol"
     ],
-    "category": "Other",
+    "category": "Analgesic",
     "display_class": "otc",
     "tags": [
       "analgesic",
@@ -12158,6 +12158,8 @@
     "mechanism_summary": "Centrally-Acting Analgesic and Antipyretic",
     "effects": [],
     "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01f41fae-4abb-4b96-ab09-a7d3dfc286cd",
+      "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=015a6179-bacb-452d-b594-4de628ddc11d",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=53145-052"
     ],
     "data_gaps": []
