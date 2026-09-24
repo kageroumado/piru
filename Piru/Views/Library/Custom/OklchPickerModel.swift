@@ -36,11 +36,6 @@ final class OklchPickerModel {
         usesDefault ? .default : .custom(tint)
     }
 
-    /// The chroma ceiling at the current lightness and hue.
-    var chromaCeiling: Double {
-        Oklch.displayP3ChromaCeiling(l: color.l, h: color.h)
-    }
-
     func setPlane(lightness: Double, chroma: Double) {
         let l = min(max(lightness, Plane.lightness.lowerBound), Plane.lightness.upperBound)
         let ceiling = Oklch.displayP3ChromaCeiling(l: l, h: color.h)

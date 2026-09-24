@@ -71,7 +71,7 @@ struct HormoneLevelsView: View {
                     )
 
                     HormoneLevelsProvenanceCard(analyte: model.analyte, esters: model.perEster.map(\.ester))
-                    HormoneLevelsExplanationCard(analyte: model.analyte)
+                    HormoneLevelsExplanationCard()
                 }
             }
             .padding()
@@ -505,8 +505,6 @@ private struct HormoneLevelsProvenanceCard: View {
 // MARK: - Explanation / no-data
 
 private struct HormoneLevelsExplanationCard: View {
-    let analyte: Analyte
-
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             Text("An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. This curve sums your logged esters into an illustrative serum estimate. It is not a laboratory result.")

@@ -44,11 +44,11 @@ struct InjectionLevelsView: View {
                         )
                         InjectionLevelsMetricsCard(result: result, analyte: model.analyte)
                         LabCalibrationSection(
-                            model: model, labs: analyteLabs, ester: ester,
+                            model: model, labs: analyteLabs,
                             onAdd: { showingAddLab = true },
                             onToggleExclude: toggleExclude, onDelete: deleteLab,
                         )
-                        InjectionLevelsProvenanceCard(ester: ester, analyte: model.analyte)
+                        InjectionLevelsProvenanceCard(ester: ester)
                     }
                     InjectionLevelsExplanationCard()
                 }

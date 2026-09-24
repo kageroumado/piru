@@ -14,10 +14,6 @@ import SwiftUI
 /// behind a disclosure.
 struct SessionNoteEditor: View {
     let session: Session
-    /// The note to edit; nil composes a new one.
-    var note: SessionNote?
-    /// Kind for a new note (ignored when editing).
-    var kind: SessionNote.Kind = .observation
     /// Vitals the session screen already fetched, so the heart-rate snapshot
     /// needs no second HealthKit read. Nil when opened from elsewhere.
     var vitals: SessionVitals?
@@ -34,8 +30,6 @@ struct SessionNoteEditor: View {
 
     init(session: Session, note: SessionNote? = nil, kind: SessionNote.Kind = .observation, vitals: SessionVitals? = nil) {
         self.session = session
-        self.note = note
-        self.kind = kind
         self.vitals = vitals
         _draft = State(initialValue: SessionNoteDraft(session: session, existing: note, kind: kind))
     }

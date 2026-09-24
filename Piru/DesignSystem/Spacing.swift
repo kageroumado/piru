@@ -32,22 +32,12 @@ extension EdgeInsets {
     /// closer to its header than to the row below.
     ///
     /// Measured as one of the two most frequent explicit `listRowInsets`
-    /// argument sets in `Piru/Views` (2 sites, tied with ``rowCompact``).
+    /// argument sets in `Piru/Views`.
     static let rowStandard = EdgeInsets(
         top: Spacing.xs,
         leading: Spacing.xxl,
         bottom: Spacing.lg,
         trailing: Spacing.xxl,
-    )
-
-    /// The tighter row inset for dense lists — even 8 pt vertical, 12 pt sides.
-    ///
-    /// Measured at 2 sites in `Piru/Views`.
-    static let rowCompact = EdgeInsets(
-        top: Spacing.md,
-        leading: Spacing.xl,
-        bottom: Spacing.md,
-        trailing: Spacing.xl,
     )
 
     /// Zero inset — the row draws edge to edge and owns its own padding.

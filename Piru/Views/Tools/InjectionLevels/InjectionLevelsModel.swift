@@ -28,10 +28,6 @@ struct DepotCurveResult: Equatable, Sendable {
     /// Fraction of the last cycle spent between the user's reference lines, or `nil`
     /// when the user has not set both.
     let timeInRange: Double?
-
-    var maxBandHigh: Double {
-        points.map(\.bandHigh).max() ?? peakHigh
-    }
 }
 
 /// The Injection Levels tool's inputs and the curve projected from them

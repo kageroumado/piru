@@ -9,7 +9,6 @@ extension BodyLevelsManager {
     struct Plan {
         /// Per-series display metadata, parallel to the sampler's outer array.
         struct SeriesMeta {
-            let name: String
             let displayName: String
             let color: Color
             let unit: String
@@ -71,7 +70,6 @@ extension BodyLevelsManager {
                     index = meta.count
                     seriesIndex[key] = index
                     meta.append(SeriesMeta(
-                        name: name,
                         displayName: CustomSubstanceStore.shared.displayName(for: name, fallback: substance?.displayTitle),
                         color: SubstancePalette.color(for: name, colorMap: colorMap),
                         unit: entry.unit,

@@ -62,10 +62,6 @@
             let stage: @MainActor (Stage) async -> Void
         }
 
-        /// Substances whose detail screens are captured — three classes a
-        /// visitor recognizes: an empathogen, a dissociative, a prescription.
-        static let substances = ["MDMA", "Ketamine", "Methylphenidate"]
-
         /// Every screen, in capture order. Names are the file names.
         static let catalog: [Screen] = [
             Screen(name: "journal") { stage in
@@ -227,7 +223,7 @@
             await SubstanceStore.shared.ensureAllLoaded()
             await waitForOwnership()
 
-            let stage = Stage(context: container.mainContext, settle: settle)
+            let stage = Stage(context: container.mainContext)
             let skinStore = SkinStore.shared
             let originalSkin = skinStore.chosen
             var report = Report()
@@ -370,13 +366,11 @@
         @MainActor
         struct Stage {
             let context: ModelContext
-            let settle: Double
             private let navigator = AppNavigator.shared
             private let groupDefaults = UserDefaults(suiteName: "group.dev.yumeji.piru")
 
-            init(context: ModelContext, settle: Double) {
+            init(context: ModelContext) {
                 self.context = context
-                self.settle = settle
             }
 
             /// Every sheet down, every stack popped to root.

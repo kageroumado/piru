@@ -10221,6 +10221,7 @@
       }
     },
     "Backup Merged" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10237,6 +10238,7 @@
       }
     },
     "Backup Removed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29420,6 +29422,7 @@
       }
     },
     "Merge Failed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39560,6 +39563,7 @@
       }
     },
     "Removal Failed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47433,6 +47437,7 @@
       }
     },
     "The existing iCloud backup was removed." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47658,6 +47663,7 @@
       }
     },
     "The iCloud backup was merged with your data. Automatic backups are now on." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

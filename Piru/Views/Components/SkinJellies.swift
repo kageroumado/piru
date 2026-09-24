@@ -27,10 +27,6 @@ nonisolated struct JellyMotion {
     let rise: Double
     let phase: Double
 
-    var contraction: (Double) -> Double {
-        JellyKit.contraction
-    }
-
     /// Where the body is at `t`, relative to its lane.
     func offset(at t: TimeInterval) -> CGPoint {
         let c = JellyKit.contraction(((t / period + phase).truncatingRemainder(dividingBy: 1) + 1).truncatingRemainder(dividingBy: 1))

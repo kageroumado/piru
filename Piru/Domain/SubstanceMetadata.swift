@@ -181,12 +181,6 @@ struct MythCitation: Codable, Hashable {
     let role: Role
     /// Optional one-line gloss shown beside the chip ("null in abstinent users").
     let note: String?
-
-    init(citation: Citation, role: Role = .refutes, note: String? = nil) {
-        self.citation = citation
-        self.role = role
-        self.note = note
-    }
 }
 
 /// A short attributed quotation surfaced beneath a ``MythBust``. Rare —
@@ -213,13 +207,6 @@ struct MythBust: Codable, Hashable {
     let citations: [MythCitation]
     /// A rare flagship-only pull-quote; nil for the overwhelming majority.
     let pullQuote: PullQuote?
-
-    init(claim: String, correction: String, citations: [MythCitation], pullQuote: PullQuote? = nil) {
-        self.claim = claim
-        self.correction = correction
-        self.citations = citations
-        self.pullQuote = pullQuote
-    }
 }
 
 /// One hand-curated notable combination — a row in the detail page's

@@ -6,7 +6,6 @@ import SwiftUI
 struct LabCalibrationSection: View {
     @Bindable var model: InjectionLevelsModel
     let labs: [LabMeasurement]
-    let ester: EsterPKRecord
     let onAdd: () -> Void
     let onToggleExclude: (LabMeasurement) -> Void
     let onDelete: (LabMeasurement) -> Void
@@ -201,7 +200,6 @@ struct ReferenceLinesEditor<Model: DepotCalibrating>: View {
 
 struct InjectionLevelsProvenanceCard: View {
     let ester: EsterPKRecord
-    let analyte: Analyte
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {

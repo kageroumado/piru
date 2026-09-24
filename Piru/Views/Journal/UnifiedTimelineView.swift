@@ -34,7 +34,6 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var bubbleStyle = TimelineBubbleStyle.full
     @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsVitals = false
-    @Environment(\.appNavigator) private var navigator
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -468,9 +467,6 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             inSession ? nil : sessionID
         }
 
-        var centerY: CGFloat {
-            topY + height / 2
-        }
         var bottomY: CGFloat {
             topY + height
         }

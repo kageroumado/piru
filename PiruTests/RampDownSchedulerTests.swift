@@ -4,25 +4,6 @@ import Testing
 
 @Suite("RampDownScheduler")
 struct RampDownSchedulerTests {
-    // MARK: - Helpers
-
-    private func makeDuration(
-        onset: Double = 15,
-        comeup: Double = 30,
-        peak: Double = 120,
-        offset: Double = 60,
-        afterglow: Double? = nil,
-    ) -> DurationProfile {
-        DurationProfile(
-            onset: DurationRange(min: onset, max: onset),
-            comeup: DurationRange(min: comeup, max: comeup),
-            peak: DurationRange(min: peak, max: peak),
-            offset: DurationRange(min: offset, max: offset),
-            afterglow: afterglow.map { DurationRange(min: $0, max: $0) },
-            total: nil,
-        )
-    }
-
     // MARK: - Cumulative dose check
 
     @Test

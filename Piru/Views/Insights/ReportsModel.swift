@@ -60,7 +60,6 @@ final class ReportsModel {
         let title: String?
         let substanceSummary: String
         let doseCount: Int
-        let substances: [String]
     }
 
     // MARK: - Recompute
@@ -82,12 +81,9 @@ final class ReportsModel {
                 ? "\(start.formatted(clock)) – \(end.formatted(clock))"
                 : start.formatted(clock)
 
-            var seen = Set<String>()
-            var unique: [String] = []
             var displayNames: [String] = []
             var seenDisplay = Set<String>()
             for name in doses.map(\.substance) {
-                if seen.insert(name).inserted { unique.append(name) }
                 let shown = SubstanceLibrary.lookup(name)?.displayTitle ?? name
                 if seenDisplay.insert(shown.lowercased()).inserted { displayNames.append(shown) }
             }
@@ -107,7 +103,6 @@ final class ReportsModel {
                 title: session.title,
                 substanceSummary: summary,
                 doseCount: doses.count,
-                substances: unique,
             )
         }
     }
@@ -147,13 +142,6 @@ final class ReportsModel {
         switch mode {
         case .latest: !selectedSessions.isEmpty
         case .byDate: entryCountInScope > 0
-        }
-    }
-
-    var selectedSessionCount: Int {
-        switch mode {
-        case .latest: selectedSessions.count
-        case .byDate: 0
         }
     }
 

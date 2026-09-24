@@ -321,8 +321,6 @@ enum SaturablePharmacology {
     enum BioavailabilityBasis {
         /// A total daily dose, divided across the day as the label directs.
         static let perDay = "per_day"
-        /// One administration.
-        static let single = "single"
     }
 
     /// Everything about a ceiling profile that is *not* a measured quantity: the substance's localized

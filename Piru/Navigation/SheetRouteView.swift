@@ -178,7 +178,6 @@ private struct PersonalizeSubstanceHost: View {
 private struct TimeAdjustHost: View {
     @Bindable var entry: DoseEntry
     @Environment(\.appNavigator) private var navigator
-    @Environment(\.modelContext) private var modelContext
     @Query private var substanceColors: [SubstanceColor]
     @State private var originalTimestamp: Date?
 

@@ -184,17 +184,11 @@ private struct DataBackupToolCard: View {
 
 private struct MyMedsToolCard: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
-    @Query private var todayEntries: [DoseEntry]
     @Query private var recentOccurrences: [RoutineOccurrence]
 
     @State private var warmed = false
 
     init() {
-        let dayStart = Calendar.current.startOfDay(for: .now)
-        _todayEntries = Query(
-            filter: #Predicate<DoseEntry> { $0.timestamp >= dayStart },
-            sort: \DoseEntry.timestamp,
-        )
         let yesterdayStart = Self.yesterdayStart
         _recentOccurrences = Query(
             filter: #Predicate<RoutineOccurrence> { $0.dueDay >= yesterdayStart },

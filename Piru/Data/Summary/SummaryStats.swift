@@ -101,7 +101,6 @@ nonisolated struct EscalationStat: Sendable, Identifiable {
     /// Median dose in the first / last third of the window (same currency).
     let earlyMedian: Double
     let lateMedian: Double
-    let doseCount: Int
 
     var id: Int {
         substanceIndex
@@ -124,8 +123,6 @@ nonisolated struct OverlapStat: Sendable, Identifiable {
 /// The whole clinical/patterns report for one window — the single value both the
 /// Insights UI and the PDF clinician report render from.
 nonisolated struct JournalSummary: Sendable {
-    let start: Date
-    let end: Date
     let substances: [SummarySubstance]
     let holidays: HolidayStats
     let exposure: [ExposureStat]
@@ -188,7 +185,7 @@ nonisolated enum SummaryStats {
         calendar: Calendar,
     ) -> JournalSummary {
         JournalSummary(
-            start: start, end: end, substances: substances,
+            substances: substances,
             holidays: holidays(doses: doses, start: start, end: end, calendar: calendar),
             exposure: exposure(substances: substances, doses: doses, start: start, end: end, calendar: calendar),
             escalation: escalation(substances: substances, doses: doses, start: start, end: end),
@@ -289,7 +286,7 @@ nonisolated enum SummaryStats {
                 change > escalationThreshold ? .rising : (change < -escalationThreshold ? .falling : .steady)
             out.append(EscalationStat(
                 substanceIndex: index, direction: direction, change: change,
-                earlyMedian: early, lateMedian: late, doseCount: rows.count,
+                earlyMedian: early, lateMedian: late,
             ))
         }
         // Rising first, then by magnitude — escalation is the headline.

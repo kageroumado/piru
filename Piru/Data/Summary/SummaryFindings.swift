@@ -11,7 +11,6 @@ nonisolated struct CompressedInteraction: Sendable, Identifiable {
     let classB: String
     let substancesA: [String]
     let substancesB: [String]
-    let description: String
 }
 
 // MARK: - Clinical Finding
@@ -66,7 +65,6 @@ extension SummaryStats {
             var classB: String
             var substancesA: Set<String> = []
             var substancesB: Set<String> = []
-            var description: String
         }
 
         var byPair: [ClassPairKey: Accumulator] = [:]
@@ -80,7 +78,6 @@ extension SummaryStats {
                     if var existing = byPair[key] {
                         if row.severity > existing.severity {
                             existing.severity = row.severity
-                            existing.description = row.description
                         }
                         existing.substancesA.insert(row.substanceA)
                         existing.substancesB.insert(row.substanceB)
@@ -92,7 +89,6 @@ extension SummaryStats {
                             classB: sorted[1],
                             substancesA: [row.substanceA],
                             substancesB: [row.substanceB],
-                            description: row.description,
                         )
                     }
                 }
@@ -107,7 +103,6 @@ extension SummaryStats {
                 classB: acc.classB,
                 substancesA: acc.substancesA.sorted(),
                 substancesB: acc.substancesB.sorted(),
-                description: acc.description,
             )
         }
         .sorted { $0.severity > $1.severity }

@@ -663,7 +663,6 @@ private enum GlyphAtlas {
 /// nonisolated and cannot ask the atlas, so the layout is stated once here and
 /// read from both sides.
 nonisolated enum WheelAtlasIndex {
-    static let signs = 0
     static let planets = 12
 }
 

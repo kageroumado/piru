@@ -73,12 +73,6 @@ final class SubjectiveEffectOntology {
         return bySlug[slug]
     }
 
-    /// Concept ids for a list of slugs, in order, dropping any the loaded
-    /// vocabulary does not carry.
-    func ids(forSlugs slugs: [String]) -> [String] {
-        slugs.compactMap { concept(slug: $0)?.id }
-    }
-
     /// The rollup a concept belongs to (itself, for a rollup).
     func rollup(of concept: SubjectiveEffectConcept) -> SubjectiveEffectConcept? {
         guard let parentID = concept.parentID else { return concept.isRollup ? concept : nil }

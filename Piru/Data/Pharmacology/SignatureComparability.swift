@@ -313,10 +313,6 @@ nonisolated struct ComparableGroup: Identifiable, Hashable, Sendable {
             .first
     }
 
-    var year: Int? {
-        legs.compactMap(\.year).max()
-    }
-
     /// The group's citation deep link, preferring PMID over DOI. `nil` for a free-text or broken
     /// citation — the caption then renders as non-tappable text rather than a dead link.
     var citationURL: URL? {

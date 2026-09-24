@@ -100,7 +100,6 @@ enum MedTimeGroup: Int, CaseIterable, Identifiable {
 /// or the sheet's own bound stack when opened via `.dailyDoseSettings`); only
 /// the add/edit *task* is modal.
 struct MyMedsHubView: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
 

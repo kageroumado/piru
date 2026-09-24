@@ -56,9 +56,6 @@ final class HormoneLevelsModel: DepotCalibrating {
     private(set) var catalogMarkers: [(ester: EsterPKRecord, date: Date)] = []
     private(set) var calibration: DepotCalibration.Result?
 
-    /// Whether any modelable ester has a curve to draw.
-    var hasCurve: Bool { result != nil }
-
     // MARK: Recompute key
 
     struct RecomputeKey: Equatable {

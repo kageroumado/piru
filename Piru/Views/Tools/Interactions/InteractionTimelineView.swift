@@ -29,7 +29,6 @@ private struct CurvePoint {
 
 private struct OverlapPoint {
     let hours: Double
-    let minConcentration: Double
 }
 
 private struct ChartData {
@@ -210,9 +209,8 @@ private final class InteractionTimelineModel {
             pointsA.append(CurvePoint(hours: hours, concentration: concA))
             pointsB.append(CurvePoint(hours: hours, concentration: concB))
 
-            let minConc = min(concA, concB)
             if concA > 3, concB > 3 {
-                overlap.append(OverlapPoint(hours: hours, minConcentration: minConc))
+                overlap.append(OverlapPoint(hours: hours))
             }
         }
 

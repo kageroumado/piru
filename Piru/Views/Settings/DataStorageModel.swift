@@ -247,35 +247,4 @@ final class DataStorageModel {
         }
         Task { await BackupManager.shared.disableAndRemoveBackup() }
     }
-
-    // MARK: - iCloud conflict resolution
-
-    func checkICloudBackupExists() async -> Bool {
-        await Task.detached { BackupManager.iCloudBackupExists() }.value
-    }
-
-    func mergeICloudBackup(context: ModelContext) async {
-        do {
-            try await manager.restoreFromICloud(passphrase: nil, strategy: .merge, context: context)
-            manager.autoICloudEnabled = true
-            notice = Notice(
-                title: String(localized: "Backup Merged"),
-                message: String(localized: "The iCloud backup was merged with your data. Automatic backups are now on."),
-            )
-        } catch {
-            notice = Notice(title: String(localized: "Merge Failed"), message: error.localizedDescription)
-        }
-    }
-
-    func removeICloudBackupOnly() async {
-        do {
-            try await manager.removeICloudBackup()
-            notice = Notice(
-                title: String(localized: "Backup Removed"),
-                message: String(localized: "The existing iCloud backup was removed."),
-            )
-        } catch {
-            notice = Notice(title: String(localized: "Removal Failed"), message: error.localizedDescription)
-        }
-    }
 }

@@ -71,11 +71,4 @@ nonisolated enum BodyLevelsTrailCache {
             try? headerData.write(to: headerURL, options: .atomic)
         }
     }
-
-    /// Remove the cache, for a store restore or a wipe.
-    static func clear() {
-        guard let url, let headerURL else { return }
-        try? FileManager.default.removeItem(at: url)
-        try? FileManager.default.removeItem(at: headerURL)
-    }
 }

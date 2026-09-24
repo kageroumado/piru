@@ -170,7 +170,6 @@ nonisolated enum MetabolicModulation {
         let substrate: String
         let enzyme: Enzyme
         let direction: Direction
-        let confidence: ConfidenceTier
         let modulatorName: String
         let userNote: String
 
@@ -191,7 +190,6 @@ nonisolated enum MetabolicModulation {
             substrate: substrate,
             enzyme: m.enzyme,
             direction: m.direction,
-            confidence: m.confidence,
             modulatorName: m.displayName,
             userNote: m.userNote,
         )
@@ -326,7 +324,6 @@ nonisolated enum MetabolicModulation {
                     substrate: victimDisplay,
                     enzyme: enzyme,
                     direction: direction,
-                    confidence: .medium,
                     modulatorName: perpetratorDisplay,
                     userNote: note,
                 ))

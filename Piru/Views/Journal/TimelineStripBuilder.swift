@@ -27,10 +27,6 @@ struct TimelineStripBuilder {
     /// falls back to the relationship.
     private let sessionsByID: [PersistentIdentifier: Session]
 
-    private func session(of entry: DoseEntry) -> Session? {
-        Self.session(of: entry, in: sessionsByID)
-    }
-
     private static func session(of entry: DoseEntry, in sessions: [PersistentIdentifier: Session]) -> Session? {
         guard let session = entry.session else { return nil }
         return sessions[session.persistentModelID] ?? session

@@ -1,8 +1,5 @@
 import Foundation
 import GRDB
-import os
-
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
 /// The pharmacology / pharmacokinetics **derivation and assembly layer**: the
 /// cached name-keyed accessors, interspecies scaling, the reference-substance

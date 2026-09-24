@@ -288,7 +288,6 @@ nonisolated enum CombinedDepression {
     /// An entry resolved to its depressant mechanism plus a closure giving engagement `e` at minutes
     /// since its own dose — occupancy where the data allows, the effect-shape surrogate otherwise.
     private struct ResolvedContributor {
-        let substance: String
         let mechanism: DepressantMechanism
         let doseWeight: Double
         let confidence: ConfidenceTier
@@ -320,7 +319,7 @@ nonisolated enum CombinedDepression {
                 let halfMax = depressant.target.halfMaxNanomolar
                 let tail = PKModel.timeToFraction(0.03, ke: ke, ka: ka, maxMinutes: halfLife * 8)
                 return ResolvedContributor(
-                    substance: entry.substance, mechanism: depressant.mechanism, doseWeight: 1,
+                    mechanism: depressant.mechanism, doseWeight: 1,
                     confidence: Swift.min(params.vdConfidence, params.bioavailabilityConfidence, params.doseScaleConfidence, depressant.target.confidence),
                     isModeled: true,
                     start: entry.timestamp,
@@ -344,7 +343,7 @@ nonisolated enum CombinedDepression {
         let doseWeight = amountKnown ? presence(state.doseMagnitude) : 1
         let endMinutes = max(state.offsetEndMinutes, state.totalMinutes)
         return ResolvedContributor(
-            substance: entry.substance, mechanism: mechanism, doseWeight: doseWeight,
+            mechanism: mechanism, doseWeight: doseWeight,
             confidence: .low, isModeled: false,
             start: entry.timestamp,
             end: entry.timestamp.addingTimeInterval(endMinutes * 60),

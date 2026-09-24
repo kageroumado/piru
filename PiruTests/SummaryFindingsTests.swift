@@ -4,16 +4,7 @@ import Testing
 
 @Suite("SummaryFindings")
 struct SummaryFindingsTests {
-    private let cal: Calendar = {
-        var c = Calendar(identifier: .gregorian)
-        c.timeZone = TimeZone(identifier: "UTC")!
-        return c
-    }()
     private let base = Date(timeIntervalSince1970: 1_699_920_000) // 2023-11-14 00:00:00 UTC
-
-    private func day(_ n: Int) -> Date {
-        base.addingTimeInterval(Double(n) * 86_400)
-    }
 
     private func substance(_ name: String, _ currency: ExposureCurrency) -> SummarySubstance {
         SummarySubstance(name: name, displayName: name, tint: P3Color(red: 0.917, green: 0.200, blue: 0.139), unit: "mg", currency: currency)
@@ -30,8 +21,6 @@ struct SummaryFindingsTests {
         overlaps: [OverlapStat] = [],
     ) -> JournalSummary {
         JournalSummary(
-            start: base,
-            end: base.addingTimeInterval(Double(max(totalDays, 1)) * 86_400),
             substances: substances,
             holidays: HolidayStats(totalDays: totalDays, daysUsed: daysUsed, longestBreakDays: longestBreakDays, currentBreakDays: currentBreakDays),
             exposure: exposure,
@@ -59,7 +48,7 @@ struct SummaryFindingsTests {
             totalDays: 90,
             daysUsed: 45,
             escalation: [
-                EscalationStat(substanceIndex: 0, direction: .rising, change: 0.4, earlyMedian: 10, lateMedian: 14, doseCount: 12),
+                EscalationStat(substanceIndex: 0, direction: .rising, change: 0.4, earlyMedian: 10, lateMedian: 14),
             ],
         )
         let findings = SummaryStats.findings(report: r, interactions: [])
@@ -143,7 +132,6 @@ struct SummaryFindingsTests {
                 classB: "opioid",
                 substancesA: ["Alprazolam"],
                 substancesB: ["Oxycodone"],
-                description: "Combined respiratory depression",
             ),
         ]
         let findings = SummaryStats.findings(report: r, interactions: interactions)
@@ -195,7 +183,7 @@ struct SummaryFindingsTests {
                 ExposureStat(substanceIndex: 0, currency: .mme, total: 3_000, peakDay: 100, dailyMean: 100, cumulative: []),
             ],
             escalation: [
-                EscalationStat(substanceIndex: 0, direction: .rising, change: 0.5, earlyMedian: 10, lateMedian: 15, doseCount: 12),
+                EscalationStat(substanceIndex: 0, direction: .rising, change: 0.5, earlyMedian: 10, lateMedian: 15),
             ],
         )
         let findings = SummaryStats.findings(report: r, interactions: [])

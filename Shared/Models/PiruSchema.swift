@@ -11,8 +11,8 @@ import SwiftData
 /// missing tables from the canonical app-group store. `PiruSchemaTests`
 /// checks that this list names every `@Model` in the repo and that no
 /// target constructs a container from anything else.
-public enum PiruSchema {
-    public nonisolated static var models: [any PersistentModel.Type] {
+enum PiruSchema {
+    nonisolated static var models: [any PersistentModel.Type] {
         [
             DoseEntry.self,
             SubstanceColor.self,

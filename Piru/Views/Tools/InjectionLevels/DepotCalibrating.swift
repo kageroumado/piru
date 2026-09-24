@@ -7,7 +7,6 @@ import Observation
 /// user's reference lines serves both (Specs/injection-levels-v3.md §2).
 @MainActor
 protocol DepotCalibrating: AnyObject, Observable {
-    var analyte: Analyte { get }
     var hasLabs: Bool { get }
     var isLabDriven: Bool { get }
     var autoCalibrateFromLabs: Bool { get set }

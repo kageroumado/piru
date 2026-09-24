@@ -39,22 +39,6 @@ enum BindingAction: String, Codable {
         case .modulator: "Modulator"
         }
     }
-
-    /// A small glyph that visually splits the *kind* of action — releasers (efflux, the
-    /// MDMA/amphetamine mechanism) read differently at a glance from agonists (activate) and
-    /// blockers/antagonists (shut down). Distinct shapes, no color, so it stays calm.
-    var symbolName: String {
-        switch self {
-        case .agonist, .partialAgonist: "bolt.fill" // activates the target
-        case .inverseAgonist: "bolt.slash.fill"
-        case .releasingAgent: "arrow.up.forward.circle.fill" // pumps the neurotransmitter out
-        case .reuptakeInhibitor: "arrow.uturn.up.circle" // blocks the re-uptake pump
-        case .antagonist, .channelBlocker, .enzymeInhibitor: "hand.raised.fill" // blocks
-        case .positiveAllostericModulator: "plus.circle"
-        case .negativeAllostericModulator: "minus.circle"
-        case .modulator: "slider.horizontal.3"
-        }
-    }
 }
 
 enum BindingAffinity: Int, Codable, Comparable {

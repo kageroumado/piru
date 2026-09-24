@@ -235,7 +235,7 @@ struct Substance: Identifiable {
     /// (a user relabel or curated title), else the region-appropriate spelling
     /// for drugs with US/international name variants (Acetaminophen vs
     /// Paracetamol), else the canonical `name`. A leading pictograph is
-    /// stripped (see ``titlePictograph``).
+    /// stripped.
     ///
     /// `nonisolated` (pure — regional-name resolve + pictograph strip over the
     /// struct's own stored fields) so off-main callers can read it: the Library's
@@ -248,14 +248,6 @@ struct Substance: Identifiable {
         // above all) are exactly the ones someone relabels.
         let base = displayName ?? RegionalSubstanceName.resolve(canonicalName: name) ?? name
         return Substance.strippingLeadingPictograph(base).text
-    }
-
-    /// A leading pictograph in the curated display name — e.g. PsychonautWiki's
-    /// "🍰 Cake" April-Fools entry — telegraphs the in-joke wherever the title
-    /// shows (search, browse lists). It's stripped from ``displayTitle`` and
-    /// surfaced here so the *detail* screen can play along instead of spoiling it.
-    var titlePictograph: String? {
-        Substance.strippingLeadingPictograph(displayName ?? name).pictograph
     }
 
     /// Splits a leading emoji (a default-emoji-presentation scalar) off a title:

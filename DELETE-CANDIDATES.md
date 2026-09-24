@@ -100,3 +100,10 @@ and the rest duplicated values the DB already resolved.
 - **Not deleted because**: `add_dose` callers in tests may assert the interim value; needs a test run after removal.
 - **To confirm**: delete the call and the function, run `pipeline/build/tests/test_sqlite.py`.
 - **Found**: 2026-09-11 (pipeline map)
+
+## `Shared/Skin/Skin.swift` — `SkinEphemeris.air`, `SkinPaperGarden.grain`, `SkinArcade.grid`
+- **What**: three palette tokens, each with a matching asset color, that are assigned in the palette initializers and never read
+- **Looks dead because**: Periphery 3.8 reports them assign-only; no renderer in `Piru/Views/Components/Skin*.swift` reads them
+- **Not deleted because**: they are design tokens with paired assets, and the Ephemeris doc comment gives `air` its own token deliberately — the renderer may simply not have caught up with the design
+- **To confirm**: ask whether the Ephemeris sector ticks, Paper Garden grain and Arcade grid are meant to use them; if not, delete the three properties and their colorsets
+- **Found**: 2026-09-24

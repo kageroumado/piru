@@ -415,7 +415,6 @@ private struct NotificationPermissionSection: View {
     let status: UNAuthorizationStatus?
     let requestPermission: () async -> Void
 
-    @Environment(\.openURL) private var openURL
     @State private var requesting = false
 
     var body: some View {

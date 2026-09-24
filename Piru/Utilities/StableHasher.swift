@@ -14,10 +14,6 @@ nonisolated struct StableHasher {
         withUnsafeBytes(of: &v) { combine(bytes: $0) }
     }
 
-    mutating func combine(_ value: Int) {
-        combine(UInt64(bitPattern: Int64(value)))
-    }
-
     mutating func combine(_ value: Double) {
         combine(value.bitPattern)
     }

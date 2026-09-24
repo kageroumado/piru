@@ -63,10 +63,6 @@ nonisolated struct BoxIdentification: Hashable {
     let searchToken: String?
     /// GS1 country of the first barcode, for the registry link.
     let barcodeCountry: String?
-
-    var isResolved: Bool {
-        canonicalName != nil
-    }
 }
 
 /// Resolves a ``BoxReading`` locally: barcode registry first (exact), then the

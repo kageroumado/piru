@@ -17,9 +17,6 @@ enum HormoneLevelsLog {
         var catalogOnlyMarkers: [(ester: EsterPKRecord, date: Date)] = []
         /// Injections logged in mL that await a vial strength before they can join.
         var volumeLoggedCount = 0
-        /// The concentration the user most recently logged a volumetric dose at — the
-        /// best default for the mL-only doses.
-        var latestLoggedConcentration: Double?
 
         /// Whether any modelable ester has a dose to draw.
         var hasModelableInjections: Bool {
@@ -76,9 +73,6 @@ enum HormoneLevelsLog {
             guard entry.route == .intramuscular || entry.route == .subcutaneous else { continue }
             let uid = entry.substanceUID ?? store.substanceUID(forNameOrAlias: entry.substance)
             guard let uid, familyUIDs.contains(uid) else { continue }
-            if entry.volumeML != nil, let concentration = entry.abv, concentration > 0 {
-                result.latestLoggedConcentration = concentration
-            }
 
             // Resolve this dose's ester from its own `saltForm` (a legacy dose names it
             // in the substance string), falling back to the analyte default.

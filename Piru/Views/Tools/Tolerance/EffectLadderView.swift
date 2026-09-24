@@ -44,10 +44,6 @@ private struct EffectLadderRow: Identifiable {
     var id: ReceptorClasses.EffectAxis {
         axis
     }
-    /// Below 80% left counts as faded — the grouping threshold.
-    var faded: Bool {
-        responseFraction < 0.8
-    }
     /// The bar's fill: how much tolerance the effect has built, so an unchanged effect is an empty track.
     var toleranceFraction: Double {
         max(0, min(1, 1 - responseFraction))

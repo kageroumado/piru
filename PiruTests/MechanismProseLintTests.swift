@@ -2,8 +2,8 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Renders the Pharmacology card as plain text, the way the UI composes it, so prose can be
-/// audited against what the reader can already see beside it.
+/// The Pharmacology card's hand-written prose, audited against what the reader can already see
+/// beside it.
 ///
 /// The card is not one block of text: a summary and description sit above a receptor panel with
 /// per-target actions and concentrations, a downstream-signalling note, and a pharmacokinetics
@@ -13,48 +13,14 @@ import Testing
 /// every clause of which the card was already rendering as a chip, an axis, a row and a
 /// downstream line.
 struct MechanismCardText {
-    let name: String
-    let summary: String
     let description: String
-    /// "MOR · partialAgonist · Kᵢ 47.0 nM" per rendered receptor row.
-    let receptorRows: [String]
-    /// Concentrations and durations the card shows in its own fields — the values prose must not
-    /// restate. Kept as strings because that is how a reader meets them.
-    let shownValues: [String]
 
     @MainActor
     static func render(for substance: Substance) -> MechanismCardText? {
         guard let moa = MechanismOfActionDatabase.resolvedMechanism(
             dbMechanism: substance.mechanismOfAction, category: substance.category,
         ) else { return nil }
-        let store = SubstanceStore.shared
-        let hits = store.bindings(forSubstanceName: substance.name)
-
-        var rows: [String] = []
-        var values: [String] = []
-        for hit in hits {
-            var line = "\(hit.target) · \(hit.action)"
-            for (label, value) in [("Ki", hit.kiNm), ("EC50", hit.ec50Nm), ("IC50", hit.ic50Nm)] {
-                guard let value else { continue }
-                line += " · \(label) \(value) nM"
-                values.append("\(value)")
-            }
-            rows.append(line)
-        }
-        for route in store.pharmacokinetics(forSubstanceName: substance.name) {
-            for value in [route.halfLifeMin, route.tmaxMin, route.bioavailabilityPct] {
-                if let value { values.append("\(value)") }
-            }
-        }
-        return MechanismCardText(
-            name: substance.name, summary: moa.summary, description: moa.description,
-            receptorRows: rows, shownValues: values,
-        )
-    }
-
-    /// The whole card as one string — what a reader takes in.
-    var plainText: String {
-        ([summary, description] + receptorRows).filter { !$0.isEmpty }.joined(separator: "\n")
+        return MechanismCardText(description: moa.description)
     }
 }
 

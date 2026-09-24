@@ -4,15 +4,11 @@ import SwiftUI
     import UIKit
 
     typealias PlatformImage = UIImage
-    typealias PlatformColor = UIColor
-    typealias PlatformFont = UIFont
     typealias PlatformView = UIView
 #elseif canImport(AppKit)
     import AppKit
 
     typealias PlatformImage = NSImage
-    typealias PlatformColor = NSColor
-    typealias PlatformFont = NSFont
     typealias PlatformView = NSView
 
     extension NSImage {
@@ -86,19 +82,6 @@ enum PlatformHaptics {
     static func impact() {
         #if canImport(UIKit)
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        #endif
-    }
-}
-
-extension View {
-    func dismissKeyboard() {
-        #if canImport(UIKit)
-            UIApplication.shared.sendAction(
-                #selector(UIResponder.resignFirstResponder),
-                to: nil, from: nil, for: nil,
-            )
-        #elseif canImport(AppKit)
-            NSApp.keyWindow?.makeFirstResponder(nil)
         #endif
     }
 }

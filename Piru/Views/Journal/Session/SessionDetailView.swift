@@ -4,7 +4,6 @@ import SwiftUI
 import TipKit
 
 struct SessionDetailView: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.sessionEditingService) private var editing
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.appNavigator) private var navigator

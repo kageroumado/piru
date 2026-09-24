@@ -25,7 +25,6 @@ final class InsightsModel {
     struct UsageSummary {
         let total: Int
         let perDay: Double
-        let mostLogged: String?
         var hasData: Bool {
             total > 0
         }
@@ -138,15 +137,10 @@ final class InsightsModel {
         guard !entries.isEmpty,
               let newest = entries.first?.timestamp,
               let oldest = entries.last?.timestamp else {
-            return UsageSummary(total: 0, perDay: 0, mostLogged: nil)
+            return UsageSummary(total: 0, perDay: 0)
         }
         let days = max(1, newest.timeIntervalSince(oldest) / 86_400 + 1)
-        var counts: [String: Int] = [:]
-        for entry in entries {
-            counts[entry.substance, default: 0] += 1
-        }
-        let most = counts.max { $0.value < $1.value }?.key
-        return UsageSummary(total: entries.count, perDay: Double(entries.count) / days, mostLogged: most)
+        return UsageSummary(total: entries.count, perDay: Double(entries.count) / days)
     }
 }
 
