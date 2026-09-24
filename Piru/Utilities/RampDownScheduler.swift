@@ -105,6 +105,10 @@ enum RampDownScheduler {
     /// All reminders are deduplicated against the pending queue within a
     /// 90-minute window per prefix to avoid spamming during multi-dose
     /// sessions.
+    /// Wellness requests this process has scheduled, checked alongside the
+    /// pending queue so concurrent scheduling passes cannot both claim a slot.
+    @MainActor private static var scheduledWellness: [(prefix: String, fireDate: Date)] = []
+
     static func scheduleWellnessNotifications(
         entryID: UUID,
         category: SubstanceCategory?,
@@ -118,23 +122,34 @@ enum RampDownScheduler {
         let threadId = sessionIdentifier(for: doseTime)
         let anchor = entryID.uuidString
 
-        Task {
+        Task { @MainActor in
             // Deduplicate: skip if a wellness notification of the same type is
             // already pending within the dedup window.
             let pending = await UNUserNotificationCenter.current().pendingNotificationRequests()
             let now = Date.now
 
-            func hasPendingWithin(
+            /// Claims a wellness slot: false when a request of the same type is
+            /// already pending, or was scheduled by this process, within the
+            /// window. The in-process record covers back-to-back doses whose
+            /// passes all read the pending queue before any add lands.
+            @MainActor
+            func claimSlot(
                 window: TimeInterval = Timing.pendingDedupWindow,
                 of targetFireDate: Date,
                 prefix: String,
             ) -> Bool {
-                pending.contains { req in
+                scheduledWellness.removeAll { $0.fireDate < now }
+                let pendingHit = pending.contains { req in
                     guard req.identifier.hasPrefix(prefix),
-                          let trigger = req.trigger as? UNTimeIntervalNotificationTrigger else { return false }
-                    let fireDate = now.addingTimeInterval(trigger.timeInterval)
+                          let fireDate = (req.trigger as? UNTimeIntervalNotificationTrigger)?.nextTriggerDate() else { return false }
                     return abs(fireDate.timeIntervalSince(targetFireDate)) < window
                 }
+                let localHit = scheduledWellness.contains {
+                    $0.prefix == prefix && abs($0.fireDate.timeIntervalSince(targetFireDate)) < window
+                }
+                guard !pendingHit, !localHit else { return false }
+                scheduledWellness.append((prefix, targetFireDate))
+                return true
             }
 
             // Hydration reminder at ~1 hour or peak start, whichever is sooner
@@ -149,7 +164,7 @@ enum RampDownScheduler {
             let hydrationInterval = doseTime.addingTimeInterval(hydrationDelay).timeIntervalSince(.now)
             let hydrationFireDate = doseTime.addingTimeInterval(hydrationDelay)
             if hydrationAllowed, hydrationInterval > 10,
-               !hasPendingWithin(of: hydrationFireDate, prefix: NotificationType.hydration.identifierPrefix) {
+               claimSlot(of: hydrationFireDate, prefix: NotificationType.hydration.identifierPrefix) {
                 scheduleSimpleNotification(
                     id: NotificationType.hydration.identifier(anchor: anchor, ordinal: "1"),
                     title: String(localized: "Stay hydrated"),
@@ -167,7 +182,7 @@ enum RampDownScheduler {
                 let secondFireDate = doseTime.addingTimeInterval(offsetStart)
                 if hydrationAllowed,
                    secondInterval > hydrationInterval + Timing.hydrationReminderSpacing,
-                   !hasPendingWithin(of: secondFireDate, prefix: NotificationType.hydration.identifierPrefix) {
+                   claimSlot(of: secondFireDate, prefix: NotificationType.hydration.identifierPrefix) {
                     scheduleSimpleNotification(
                         id: NotificationType.hydration.identifier(anchor: anchor, ordinal: "2"),
                         title: String(localized: "Hydration check"),
@@ -179,12 +194,12 @@ enum RampDownScheduler {
                 }
             }
 
-            // Wind-down reminder for the wake-promoting categories — if the
-            // session has been going 12+ hours.
+            // Wind-down reminder for the wake-promoting categories, brought
+            // forward when the session has been going 10+ hours.
             if sleepAllowed, let category, SubstanceCategory.wakePromoting.contains(category) {
                 if let stimHours = recentStimHours, stimHours >= 10 {
                     let sleepFireDate = Date.now.addingTimeInterval(Timing.extendedStimSleepDelay)
-                    if !hasPendingWithin(of: sleepFireDate, prefix: NotificationType.sleep.identifierPrefix) {
+                    if claimSlot(of: sleepFireDate, prefix: NotificationType.sleep.identifierPrefix) {
                         scheduleSimpleNotification(
                             id: NotificationType.sleep.identifier(anchor: anchor),
                             title: String(localized: "Time to rest"),
@@ -198,7 +213,7 @@ enum RampDownScheduler {
                     let sleepInterval = doseTime.addingTimeInterval(Timing.stimulantSleepDelay).timeIntervalSince(.now)
                     let sleepFireDate = doseTime.addingTimeInterval(Timing.stimulantSleepDelay)
                     if sleepInterval > Timing.minSleepReminderLeadTime,
-                       !hasPendingWithin(of: sleepFireDate, prefix: NotificationType.sleep.identifierPrefix) {
+                       claimSlot(of: sleepFireDate, prefix: NotificationType.sleep.identifierPrefix) {
                         scheduleSimpleNotification(
                             id: NotificationType.sleep.identifier(anchor: anchor),
                             title: String(localized: "Time to rest"),

@@ -6,12 +6,9 @@ import SwiftData
 
 /// Single home for user *profile / physiology* state, persisted via SwiftData.
 ///
-/// Consolidates what used to be scattered: the disclosure tier lived in `SubstanceStore`'s GRDB prefs
-/// DB, and body weight briefly lived in `UserDefaults`. Both are user data, not substance data, so
-/// they belong in the same SwiftData store as doses/colors/favorites — one store, one backup and
-/// recovery path, typed fields, and lightweight migration for the coming phenotype/context flags
-/// (ALDH2, smoking, grapefruit). SwiftData over GRDB here because this is durable, app-owned
-/// user data and the rest of that layer is already SwiftData; the genuinely extension-shared feature
+/// The disclosure tier, body weight, and the phenotype/context flags are user data, so they live in
+/// one ``UserProfileRecord`` in the same SwiftData store as doses/colors/favorites: one store, one
+/// backup and recovery path, typed fields, and lightweight migration. The extension-shared feature
 /// flags stay in the app-group `UserDefaults` where widgets can read them.
 ///
 /// Wraps the app's shared `ModelContainer` (set once at launch via ``configure(container:)``) and a

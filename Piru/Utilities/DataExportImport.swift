@@ -110,6 +110,25 @@ enum DataExportImport {
         throw ImportFileError.unrecognized
     }
 
+    /// Classifies and fully decodes the file without touching any store, throwing
+    /// the same errors ``importJSON(data:context:customStore:)`` would. A
+    /// destructive restore runs this before wiping, so a file that cannot
+    /// import never empties the journal.
+    nonisolated static func validate(_ data: Data) throws {
+        switch try classify(data) {
+        case let .piruNative(appVersion):
+            do {
+                _ = try JSONDecoder().decode(PiruFile.self, from: data)
+            } catch let error as DecodingError {
+                throw ImportFileError.malformedNative(appVersion: appVersion, underlying: error)
+            }
+        case .psyLog:
+            _ = try JSONDecoder().decode(PsyLogFile.self, from: data)
+        case .legacy:
+            try validateLegacy(data: data)
+        }
+    }
+
     /// Routes the file to the importer ``classify(_:)`` names. A native file
     /// the decoder rejects surfaces as ``ImportFileError/malformedNative`` so
     /// the alert can say which app wrote it.

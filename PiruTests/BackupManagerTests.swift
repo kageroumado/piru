@@ -92,4 +92,32 @@ struct BackupManagerRoundTripTests {
         }
         #expect(try context.fetch(FetchDescriptor<DoseEntry>()).count == 1)
     }
+
+    @Test
+    func `A decryptable backup that cannot import never wipes data on replace`() async throws {
+        let container = try makeContainer()
+        let context = ModelContext(container)
+        context.insert(DoseEntry(
+            substance: "Caffeine",
+            amount: 100,
+            unit: "mg",
+            route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
+        try context.save()
+
+        // A native header the classifier accepts, with a body the decoder rejects.
+        let plaintext = Data(#"{"piruExportVersion": 1, "sessions": "not an array"}"#.utf8)
+        let envelope = try BackupCrypto.encryptWithPassphrase(plaintext, passphrase: "passphrase")
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("malformed-\(UUID().uuidString).piruenc")
+        try envelope.write(to: url)
+        defer { try? FileManager.default.removeItem(at: url) }
+
+        await #expect(throws: (any Error).self) {
+            try await BackupManager.shared.restore(
+                fromFileAt: url, passphrase: "passphrase", strategy: .replace, context: context,
+            )
+        }
+        #expect(try context.fetch(FetchDescriptor<DoseEntry>()).count == 1)
+    }
 }

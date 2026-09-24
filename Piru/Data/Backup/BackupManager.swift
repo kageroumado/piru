@@ -183,6 +183,9 @@ final class BackupManager {
         case .merge:
             try DataExportImport.importJSON(data: plaintext, context: context)
         case .replace:
+            // Decode the whole payload before the wipe: a file that cannot
+            // import must leave the journal as it was.
+            try DataExportImport.validate(plaintext)
             // Never wipe without a recoverable copy first.
             StoreRecovery.snapshotStore(reason: "prerestore")
             try DataExportImport.deleteAll(context: context)

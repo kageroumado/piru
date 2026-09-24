@@ -108,9 +108,15 @@ enum SubstanceColorStore {
         let context = ModelContext(container)
         let rows = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
         var known = Set(rows.map { $0.substance.lowercased() })
-        var names = ((try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []).map(\.substance)
-        names += ((try? context.fetch(FetchDescriptor<InventoryItem>())) ?? []).map(\.substance)
-        names += ((try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []).map(\.substance)
+        var doses = FetchDescriptor<DoseEntry>()
+        doses.propertiesToFetch = [\.substance]
+        var stock = FetchDescriptor<InventoryItem>()
+        stock.propertiesToFetch = [\.substance]
+        var scheduled = FetchDescriptor<DailyDoseItem>()
+        scheduled.propertiesToFetch = [\.substance]
+        var names = ((try? context.fetch(doses)) ?? []).map(\.substance)
+        names += ((try? context.fetch(stock)) ?? []).map(\.substance)
+        names += ((try? context.fetch(scheduled)) ?? []).map(\.substance)
         var changed = 0
         for name in names {
             let trimmed = name.trimmingCharacters(in: .whitespaces)

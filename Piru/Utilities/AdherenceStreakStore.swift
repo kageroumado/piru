@@ -5,10 +5,9 @@ import SwiftData
 ///
 /// The streak is a year-scale fetch plus a 366-day calendar walk on
 /// ``DatabaseActor``. Three surfaces show it (the My Meds card, the Insights
-/// overview, the Adherence screen) and every one of them used to run the whole
-/// thing on each appearance — a card recycled by a scrolling list re-fetched the
-/// year mid-scroll. This holds the result per (dose-log revision, med schedule)
-/// and shares one in-flight computation, so the year is walked once per change.
+/// overview, the Adherence screen). This holds the result per (dose-log
+/// revision, med schedule, calendar day) and shares one in-flight computation
+/// across them, so the year is walked once per change.
 @MainActor
 @Observable
 final class AdherenceStreakStore {
@@ -24,10 +23,12 @@ final class AdherenceStreakStore {
 
     /// What the streak depends on: every committed dose-log change bumps the
     /// revision; the schedule half covers a med being added, retired, or
-    /// rescheduled without a dose being logged.
+    /// rescheduled without a dose being logged; the day covers midnight, since
+    /// the walk is anchored to today.
     private struct Key: Equatable {
         let revision: Int
         let schedule: Int
+        let day: Date
     }
 
     /// The streak for the store as of now — a cache hit when neither the dose
@@ -38,7 +39,11 @@ final class AdherenceStreakStore {
             streak = 0
             return 0
         }
-        let key = Key(revision: DoseLogService.shared.revision, schedule: Self.scheduleSignature(items))
+        let key = Key(
+            revision: DoseLogService.shared.revision,
+            schedule: Self.scheduleSignature(items),
+            day: Calendar.current.startOfDay(for: .now),
+        )
         if let streak, computedKey == key { return streak }
         if let inFlight, inFlight.key == key { return await inFlight.task.value }
 

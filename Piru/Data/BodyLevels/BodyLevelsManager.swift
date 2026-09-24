@@ -122,6 +122,7 @@ final class BodyLevelsManager {
     /// The trail for the most recent view-driven ``refresh(entries:colors:range:now:)``.
     private(set) var trail: BodyLoadTrail?
 
+    /// The latest trail per range; a newer key for a range replaces the older one.
     @ObservationIgnored private var cache: [BodyLevelsTrailCache.Key: BodyLoadTrail] = [:]
     @ObservationIgnored private var container: ModelContainer?
     @ObservationIgnored private var context: ModelContext?
@@ -193,7 +194,7 @@ final class BodyLevelsManager {
         )
         guard cache[key] == nil else { return }
         if let cached = await BodyLevelsTrailCache.load(matching: key) {
-            cache[key] = cached
+            store(cached, for: key)
             return
         }
         let descriptor = FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp, order: .reverse)])
@@ -204,13 +205,18 @@ final class BodyLevelsManager {
 
     // MARK: Compute
 
+    private func store(_ trail: BodyLoadTrail, for key: BodyLevelsTrailCache.Key) {
+        cache = cache.filter { $0.key.range != key.range }
+        cache[key] = trail
+    }
+
     private func computeAndCache(
         entries: [DoseEntry], colors: [SubstanceColor],
         range: UsageTimeRange, key: BodyLevelsTrailCache.Key, now: Date,
     ) async -> BodyLoadTrail {
         guard let plan = Plan.build(entries: entries, colors: colors, range: range, now: now) else {
             let empty = BodyLoadTrail.empty
-            cache[key] = empty
+            store(empty, for: key)
             return empty
         }
         let doses = plan.doses
@@ -223,7 +229,7 @@ final class BodyLevelsManager {
             Self.sample(doses: doses, dates: dates, seriesCount: seriesCount)
         }.value
         let built = plan.assemble(values: values)
-        cache[key] = built
+        store(built, for: key)
         if range == Self.warmRange {
             BodyLevelsTrailCache.save(built, key: key)
         }

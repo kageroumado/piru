@@ -38,10 +38,19 @@ private nonisolated struct LegacySubstanceColor: Decodable {
 // MARK: - Legacy Import
 
 extension DataExportImport {
-    static func importLegacy(data: Data, context: ModelContext) throws {
+    /// Decodes a legacy file without touching any store; throws what ``importLegacy`` would.
+    nonisolated static func validateLegacy(data: Data) throws {
+        _ = try decodeLegacy(data)
+    }
+
+    private nonisolated static func decodeLegacy(_ data: Data) throws -> LegacyPiruData {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        let imported = try decoder.decode(LegacyPiruData.self, from: data)
+        return try decoder.decode(LegacyPiruData.self, from: data)
+    }
+
+    static func importLegacy(data: Data, context: ModelContext) throws {
+        let imported = try decodeLegacy(data)
 
         for entry in imported.doseEntries {
             context.insert(DoseEntry(

@@ -180,7 +180,7 @@ enum DoseNotificationManager {
     }
 
     private static func library(for entry: DoseEntry) -> Substance? {
-        SubstanceLibrary.resolveFull(entry.substance.lowercased())
+        SubstanceLibrary.lookup(entry.substance.lowercased())
     }
 
     // MARK: - Med reminders

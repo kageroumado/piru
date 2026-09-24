@@ -337,9 +337,8 @@ final class ActiveSessionManager {
                 doseRange: doseRange,
             )
             return ActiveSubstanceState(
-                // The snapshot's resolved title, not the raw canonical string —
-                // this said "Methylphenidate" on the accessory and the Lock Screen
-                // for a dose the user logged as Concerta.
+                // The snapshot's resolved title (the brand as logged), never the
+                // canonical substance name.
                 name: item.snapshot.title,
                 tint: tint,
                 timestamp: item.snapshot.timestamp,
