@@ -3,7 +3,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 /// One scrollable home for everything about the user's data: what's stored on
-/// this device, automatic iCloud backup, manual export/import, how the encryption
+/// this device, manual export/import, how the encryption
 /// works, and — at the bottom — recoverable copies and the destructive "delete
 /// everything" action.
 ///

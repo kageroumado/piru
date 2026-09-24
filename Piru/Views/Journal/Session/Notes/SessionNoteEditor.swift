@@ -399,7 +399,7 @@ private struct ShulginInfoView: View {
 private struct DescriptorToggleChips: View {
     let slugs: [String]
     @Bindable var draft: SessionNoteDraft
-    @State private var ontology = SubjectiveEffectOntology.shared
+    private var ontology: SubjectiveEffectOntology { .shared }
 
     private var resolved: [(slug: String, name: String)] {
         slugs.compactMap { slug in ontology.concept(slug: slug).map { (slug: slug, name: $0.name) } }
@@ -446,7 +446,7 @@ private struct DescriptorToggleChips: View {
 struct DescriptorChips: View {
     let ids: [String]
     var onRemove: ((String) -> Void)?
-    @State private var ontology = SubjectiveEffectOntology.shared
+    private var ontology: SubjectiveEffectOntology { .shared }
 
     private var resolved: [(id: String, name: String)] {
         ids.compactMap { id in ontology.name(for: id).map { (id: id, name: $0) } }

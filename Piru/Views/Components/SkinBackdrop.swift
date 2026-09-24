@@ -1,10 +1,10 @@
 import SwiftUI
 
 extension View {
-    /// The skin's ground behind a screen: the background colour, and — for a
+    /// The skin's ground behind a screen: the background color, and — for a
     /// decorated skin with decorations on — the scene over it. Replaces
     /// `.background(Theme.background)` at every screen root; graph code that
-    /// *fills* with `Theme.background` (dot rings, fades) keeps the plain colour.
+    /// *fills* with `Theme.background` (dot rings, fades) keeps the plain color.
     /// Screen roots only: a component that paints this multiplies the layer.
     func skinBackdrop() -> some View {
         background { SkinBackdrop().ignoresSafeArea() }
@@ -18,12 +18,12 @@ extension View {
 /// stars or jellyfish it holds. Everything is a pure function of `(size,
 /// time)` from a seeded RNG, so a screen looks the same every time it appears
 /// and nothing needs a history buffer. Motion stops under Reduce Motion, and
-/// the whole layer is a plain colour when the toggle is off.
+/// the whole layer is a plain color when the toggle is off.
 ///
 /// Drawing lessons carried over from rocuronium's jellyfish: no `.blur` or
 /// `.shadow` filters in the hot path — a glow is a radial gradient that
 /// reaches zero alpha at its own edge — and glows over dark water composite
-/// additively, or a colour only reads as paler, not as emitting.
+/// additively, or a color only reads as paler, not as emitting.
 struct SkinBackdrop: View {
     /// The skin to draw. `nil` follows the one the app is wearing; a preview
     /// card names its own, and always shows that skin's decorations.

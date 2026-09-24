@@ -24,11 +24,9 @@ struct DoseIntensityCard: View {
 
     /// Six bands over the shared `dose` scale.
     ///
-    /// **Every band has its own color, and Overdose must keep one.** It used to
-    /// reuse `heavy`, which made Heavy → Overdose the single pass on this dial
-    /// where the tint handed to `glassEffect` did not change — so the glass layer
-    /// was reused at the previous band's geometry and the pill sat still while
-    /// the finger moved on. Overdose is `oklch(0.55 0.21 22)`, heavy's family
+    /// **Never let Overdose share heavy's tint:** `glassEffect` reuses the layer
+    /// when the tint is unchanged, so the pill freezes between those bands.
+    /// Overdose is `oklch(0.55 0.21 22)`, heavy's family
     /// pulled deeper and toward pure red, ΔE ≈ 0.11 from heavy in Oklab (the
     /// distinct-UI-color floor is ~0.08–0.10).
     private static let bandColors: [Color] = [
@@ -242,7 +240,7 @@ struct IntensityGauge: View {
 
     @State private var isGrabbed = false
     @Environment(\.colorScheme) private var scheme
-    /// The parent card honors Reduce Motion; the dial used to spring regardless.
+    /// Honors Reduce Motion, like the parent card.
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Drops an animation when Reduce Motion is on, so the selector cuts to its

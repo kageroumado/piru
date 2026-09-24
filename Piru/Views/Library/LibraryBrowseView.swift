@@ -113,7 +113,7 @@ struct FamilyGradientCard<Hero: View, Content: View>: View {
         let skin = SkinStore.shared.current
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
         content()
-            // White text on a light gradient. The colours are deliberately vivid
+            // White text on a light gradient. The colors are deliberately vivid
             // and ungated (see `design-system/color/build_l2_scales.py`), so
             // legibility comes from lifting the text off the fill rather than
             // from darkening the fill — which for orange and green means brown.

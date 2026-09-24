@@ -228,10 +228,9 @@ private struct SubstanceSearchResultsList: View {
 /// The Search surface's empty-query content: up to 10 most recently logged
 /// substances, de-duplicated and resolved to their library entries.
 ///
-/// Owns the `DoseEntry` query so that *only this section* — which exists just
-/// while the search surface shows it — invalidates when doses change. Hosting
-/// the query on ``SubstanceLibraryView`` itself subscribed the entire Library
-/// tab to every dose mutation for the sake of these ten rows.
+/// Owns the `DoseEntry` query so dose changes invalidate only this section; keep
+/// it off ``SubstanceLibraryView`` so the whole tab does not re-render on every
+/// dose mutation.
 private struct RecentSubstancesSection: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
 
@@ -347,8 +346,10 @@ struct SubstanceCategoryListView: View {
             SubstanceLibrary.substances(in: category)
         } else {
             // Exact canonical lookup — alias fallback mis-resolves on polluted
-            // aliases (e.g. "magnesium" is also an alias of Salicylic acid).
-            favorites.compactMap { SubstanceLibrary.resolveFull($0.substance) }
+            // aliases (e.g. "magnesium" is also an alias of Salicylic acid). The
+            // rows show name and category, so the batch shell serves them; the
+            // full resolve covers custom-only favorites the batch cache lacks.
+            favorites.compactMap { SubstanceLibrary.shell($0.substance) ?? SubstanceLibrary.resolveFull($0.substance) }
         }
         let favNames = Set(favorites.map { $0.substance.lowercased() })
         let mode = sortMode

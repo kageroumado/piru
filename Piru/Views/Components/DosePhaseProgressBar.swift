@@ -29,7 +29,7 @@ struct DosePhaseProgressBar: View {
         case offset
         case after
 
-        /// Mark colour — the bar fill and the dot. Gated at the 3:1 non-text
+        /// Mark color — the bar fill and the dot. Gated at the 3:1 non-text
         /// floor. Text uses ``labelColor``.
         var color: Color {
             switch self {
@@ -42,7 +42,7 @@ struct DosePhaseProgressBar: View {
         }
 
         /// Legible text variant. The phase label sits on a capsule filled with
-        /// this phase's own colour at 18% — the self-tint pattern — where the
+        /// this phase's own color at 18% — the self-tint pattern — where the
         /// old hex ramp measured 1.73–2.71:1 in light mode. This clears AA
         /// against both that fill and the bare card.
         var labelColor: Color {

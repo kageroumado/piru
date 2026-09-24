@@ -1,7 +1,7 @@
 import SwiftUI
 
 // The form layer of the skin system: how buttons and chips are drawn under
-// each `SkinSurface`. Colour comes from `Theme` / `Skin`; this file
+// each `SkinSurface`. Color comes from `Theme` / `Skin`; this file
 // only decides shape, stroke and shadow. Graphs never come through here.
 
 /// Prominence of a standalone action.
@@ -93,7 +93,7 @@ struct NeonButtonStyle: ButtonStyle {
     }
 }
 
-/// A glowing button: solid fill, hairline, a coloured bloom beneath that
+/// A glowing button: solid fill, hairline, a colored bloom beneath that
 /// brightens on press — the way Tsuki signals selection.
 struct SoftButtonStyle: ButtonStyle {
     let prominence: SkinButtonProminence
@@ -150,11 +150,11 @@ struct EdgedButtonStyle: ButtonStyle {
 
 extension Text {
     /// The skin's chip: the badge grammar every categorical label shares
-    /// (route, strength, severity, tags). `text` is the gated label colour,
-    /// `fill` the mark colour. A glass skin tints a capsule from `fill` at
-    /// 0.10 — never higher, a colour on a tint of itself asymptotes around
+    /// (route, strength, severity, tags). `text` is the gated label color,
+    /// `fill` the mark color. A glass skin tints a capsule from `fill` at
+    /// 0.10 — never higher, a color on a tint of itself asymptotes around
     /// 4.5:1 in dark mode. An edged skin draws the site's blinky: a square
-    /// chip with a stroke in the mark colour on the input surface.
+    /// chip with a stroke in the mark color on the input surface.
     @ViewBuilder
     func skinChip(text: Color, fill: Color, style: Font.TextStyle, weight: Font.Weight, horizontal: CGFloat, vertical: CGFloat) -> some View {
         let base = self.font(.piruLabel(style, weight: weight))
@@ -190,7 +190,7 @@ extension Text {
     }
 
     /// The outline grammar — an **unfilled** chip whose stroke may carry an
-    /// identity colour (a per-substance colour is a non-text mark at the 3:1
+    /// identity color (a per-substance color is a non-text mark at the 3:1
     /// floor, never the label). Capsule under glass, square under an edge.
     @ViewBuilder
     func skinOutlineChip(stroke: Color, style: Font.TextStyle, weight: Font.Weight, horizontal: CGFloat, vertical: CGFloat) -> some View {

@@ -68,7 +68,7 @@ struct SheetRouteView: View {
             DoseSourceComparisonView(
                 substanceName: substance,
                 route: route,
-                accent: SubstanceLibrary.resolveFull(substance)?.category.color ?? Theme.accent,
+                accent: SubstanceLibrary.lookup(substance)?.category.color ?? Theme.accent,
             )
 
         case .sourcePriority:
@@ -87,10 +87,9 @@ struct SheetRouteView: View {
             PersonalizeSubstanceHost(name: name)
 
         case .dailyDoseSettings:
-            // The Meds redesign: this route now lands on the My Meds hub
-            // (route case name kept for Codable compatibility with persisted
-            // snapshots and deep links). Path-bound so the hub's med-detail
-            // pushes land on THIS stack when the hub is a sheet.
+            // Lands on the My Meds hub; the case name stays for decoding
+            // persisted snapshots and deep links. Path-bound so the hub's
+            // med-detail pushes land on this stack when the hub is a sheet.
             NavigationStack(path: navigator.sheetPathBinding(atDepth: depth)) {
                 MyMedsHubView()
                     .withCancellationCloseButton()

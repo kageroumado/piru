@@ -53,7 +53,7 @@ enum StockStatus: String, CaseIterable, Identifiable {
         }
     }
 
-    /// Supply-bar fill. Healthy stays neutral so colour is reserved for the
+    /// Supply-bar fill. Healthy stays neutral so color is reserved for the
     /// states that need attention.
     ///
     /// **This is the only tint the supply bar takes.** Never tint it with the
@@ -149,12 +149,12 @@ struct InventorySupplyBar: View {
     let tint: Color
     var thickness: CGFloat = 6
     /// The status the tint encodes, so the bar can carry that meaning without
-    /// colour when asked to. Optional because some callers only have a fraction.
+    /// color when asked to. Optional because some callers only have a fraction.
     var status: StockStatus?
 
-    /// Colour is the *only* thing distinguishing a healthy bar from a low or
+    /// Color is the *only* thing distinguishing a healthy bar from a low or
     /// empty one, which fails for anyone who cannot separate those hues. Apple's
-    /// guidance is to add a non-colour signal when colour carries meaning; this
+    /// guidance is to add a non-color signal when color carries meaning; this
     /// is that signal, gated on the setting so it costs nothing for everyone
     /// else.
     @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor

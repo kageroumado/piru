@@ -11,6 +11,9 @@ struct SubstanceColorsListView: View {
     @State private var searchText = ""
     @State private var collapsed: Set<SubstanceCategory> = []
     @State private var confirmingResetAll = false
+    /// Each row's class, resolved once per change to the set of names so a
+    /// body pass only filters and buckets.
+    @State private var categories: [String: SubstanceCategory] = [:]
 
     private struct EditingSubstance: Identifiable {
         let name: String
@@ -32,7 +35,7 @@ struct SubstanceColorsListView: View {
             let display = CustomSubstanceStore.shared.displayName(for: row.substance)
             guard query.isEmpty || row.substance.lowercased().contains(query) || display.lowercased().contains(query)
             else { continue }
-            buckets[SubstanceLibrary.lookup(row.substance)?.category ?? .other, default: []].append(row)
+            buckets[categories[row.substance] ?? .other, default: []].append(row)
         }
         return SubstanceCategory.allCases.compactMap { category in
             buckets[category].map { ClassSection(category: category, rows: $0) }
@@ -105,6 +108,13 @@ struct SubstanceColorsListView: View {
             Button("Reset All", role: .destructive) { SubstanceColorStore.resetAll(in: modelContext) }
         } message: {
             Text("Colors you picked yourself are replaced.")
+        }
+        .task(id: substanceColors.map(\.substance)) {
+            await SubstanceStore.shared.ensureAllLoaded()
+            categories = Dictionary(
+                substanceColors.map { ($0.substance, SubstanceLibrary.lookup($0.substance)?.category ?? .other) },
+                uniquingKeysWith: { first, _ in first },
+            )
         }
         .sheet(item: $editing) { target in
             SubstanceColorPickerView(substanceName: target.name) { editing = nil }

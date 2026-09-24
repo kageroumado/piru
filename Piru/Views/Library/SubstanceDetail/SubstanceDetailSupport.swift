@@ -184,9 +184,8 @@ struct SourceAttributionRow: View {
         }
         .buttonStyle(.plain)
         .padding(.top, Self.topGap)
-        // A no-op while every call site nests this inside a card, and kept as
-        // the backstop for the day one doesn't: as a peer row it used to grow a
-        // separator that no other card had.
+        // Hides the top separator when the row sits directly in a List rather
+        // than inside a card.
         .listRowSeparator(.hidden, edges: .top)
         .accessibilityHint(Text("Explains why this source was used and lets you reorder sources"))
         .sheet(isPresented: $showExplainer) {
@@ -241,7 +240,14 @@ struct SourceAttributionExplainer: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    private var descriptions: [String: String] {
+    /// Loaded once in `.task` so body reads stored values rather than
+    /// querying the store on every pass.
+    @State private var descriptions: [String: String] = [:]
+    /// Enabled sources that carry this field, winner first. Empty when the caller
+    /// gave no field context (generic explainer).
+    @State private var candidates: [String] = []
+
+    private func loadDescriptions() -> [String: String] {
         Dictionary(
             SubstanceStore.shared.sourceStates().compactMap { state in
                 state.description.map { (state.slug, $0) }
@@ -250,9 +256,7 @@ struct SourceAttributionExplainer: View {
         )
     }
 
-    /// Enabled sources that carry this field, winner first. Empty when the caller
-    /// gave no field context (generic explainer).
-    private var candidates: [String] {
+    private func loadCandidates() -> [String] {
         guard let field, let substanceName else { return [] }
         return SubstanceStore.shared.sourcesProviding(field, forSubstanceName: substanceName)
     }
@@ -334,6 +338,10 @@ struct SourceAttributionExplainer: View {
                     .accessibilityLabel(Text("Done"))
                 }
             }
+        }
+        .task {
+            descriptions = loadDescriptions()
+            candidates = loadCandidates()
         }
     }
 }

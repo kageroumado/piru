@@ -2,10 +2,8 @@ import SwiftUI
 
 /// **Also Active** — the metabolites doing some of the work.
 ///
-/// Lives on the main detail screen at every disclosure tier. It used to sit
-/// inside ``PharmacologySections``, which is hidden below the Pharma Nerd tier —
-/// so the reader least likely to already know that something *other than what
-/// they took* is producing the effect was the one who never saw it.
+/// Shown at every disclosure tier, because a reader below Pharma Nerd is the one
+/// least likely to know a metabolite is doing the work.
 ///
 /// Deliberately not collapsible: it's usually one card, and folding it re-buries
 /// the thing being surfaced.
