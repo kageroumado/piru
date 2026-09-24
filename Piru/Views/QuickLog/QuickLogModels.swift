@@ -533,31 +533,20 @@ final class QuickLogContentModel {
     /// a relabel, the product the user logged ("Concerta"), a composed form
     /// ("Methylphenidate XR"), or an injectable ester folded into the name
     /// ("Estradiol Enanthate") so no chip has to say it — or `nil` for a plain
-    /// card, which titles from the regionalized display name. Mirrors
-    /// ``DoseTitle``'s precedence — a relabel outranks the product, which
-    /// outranks the composed form title, and neither is ester-folded — so a
-    /// card and its doses' journal rows never disagree.
+    /// card, which titles from the regionalized display name. Resolves through
+    /// ``DoseTitle`` so a card and its doses' journal rows never disagree.
     private static func cardTitle(for group: SubstanceGroup) -> String? {
         let hasProduct = group.productName?.trimmingCharacters(in: .whitespaces).isEmpty == false
         let namesForm = (group.isomer?.isEmpty == false && group.isomer != "0")
             || (group.releaseForm?.isEmpty == false && group.releaseForm != "0")
-        let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: group.substanceName)
-        if hasProduct || namesForm {
-            if let relabel { return relabel }
-            if hasProduct { return group.productName }
-        } else if relabel != nil {
-            // The display name already is the relabel; nothing folds over it.
-            return nil
-        }
-        let composed = namesForm
-            ? SubstanceLibrary.formTitle(for: group.substanceName, isomer: group.isomer, release: group.releaseForm)
-            : nil
         let uid = group.substanceUID ?? group.librarySubstance?.substanceUID
-        guard let ester = group.saltForm, SubstanceStore.shared.isEster(ester, forParentUID: uid) else {
-            return composed
-        }
-        let base = composed ?? CustomSubstanceStore.shared.displayName(for: group.substanceName)
-        return base.localizedCaseInsensitiveContains(ester) ? base : "\(base) \(ester)"
+        let namesEster = SubstanceStore.shared.isEster(group.saltForm, forParentUID: uid)
+        guard hasProduct || namesForm || namesEster else { return nil }
+        return DoseTitle.resolve(
+            substance: group.substanceName, productName: group.productName,
+            namesForm: namesForm, isomer: group.isomer, releaseForm: group.releaseForm,
+            saltForm: group.saltForm, esterParentUID: uid,
+        )
     }
 
     func rebuildCards(quickLogDoses: [QuickLogDose], favorites: [FavoriteSubstance]) {

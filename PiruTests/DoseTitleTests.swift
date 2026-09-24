@@ -84,6 +84,25 @@ struct DoseTitleTests {
         #expect(DoseTitle.resolve(for: entry("Methylphenidate", productName: "   ")) == "Methylphenidate")
     }
 
+    @Test
+    func `The plain-fields resolver answers as the entry resolver does`() {
+        let cases: [DoseEntry] = [
+            entry("Methylphenidate"),
+            entry("Methylphenidate", releaseForm: "XR", productName: "Concerta"),
+            entry("Methylphenidate", isomer: "d"),
+            entry("Methylphenidate", releaseForm: "XR"),
+            entry("NotARealSubstance", snapshot: "Snapshot Name"),
+        ]
+        for dose in cases {
+            let plain = DoseTitle.resolve(
+                substance: dose.substance, productName: dose.productName,
+                namesForm: dose.namesAForm, isomer: dose.isomer, releaseForm: dose.releaseForm,
+                saltForm: dose.saltForm, snapshot: dose.displayNameSnapshot,
+            )
+            #expect(plain == DoseTitle.resolve(for: dose))
+        }
+    }
+
     // MARK: - The snapshot writers agree
 
     @Test

@@ -76,14 +76,17 @@ struct TodaySummaryProvider: TimelineProvider {
         let colors = (try? context.fetch(colorDescriptor)) ?? []
         let colorMap = colors.tintMap
 
-        // Group by substance, tracking the distinct product names each group holds
-        // (empty string = a dose logged with no product) so a single-brand group
-        // can title itself with the brand.
-        var grouped: [String: (total: Double, unit: String, count: Int, lastTime: Date)] = [:]
+        // Group by substance and unit, tracking the distinct product names each
+        // group holds (empty string = a dose logged with no product) so a
+        // single-brand group can title itself with the brand. The unit is part of
+        // the key so 100 mg and 0.2 g are never summed as raw numbers; a
+        // mixed-unit substance shows one row per unit.
+        var grouped: [String: (substance: String, total: Double, unit: String, count: Int, lastTime: Date)] = [:]
         var groupProducts: [String: Set<String>] = [:]
         for entry in entries {
-            let key = entry.substance
-            var existing = grouped[key] ?? (total: 0, unit: entry.unit, count: 0, lastTime: entry.timestamp)
+            let key = "\(entry.substance)|\(entry.unit)"
+            var existing = grouped[key]
+                ?? (substance: entry.substance, total: 0, unit: entry.unit, count: 0, lastTime: entry.timestamp)
             // An unknown dose counts as a dose taken but adds nothing to the total.
             if !entry.isUnknownDose { existing.total += entry.amount }
             existing.count += 1
@@ -106,8 +109,9 @@ struct TodaySummaryProvider: TimelineProvider {
         // total. But a group whose doses ALL share one brand IS that brand (the
         // common single-med case), so it titles with it — mirroring `DoseTitle`'s
         // relabel > product > canonical precedence as far as a catalog-less widget can.
-        let doses = grouped.map { name, data -> DoseSummary in
-            let products = groupProducts[name] ?? []
+        let doses = grouped.map { key, data -> DoseSummary in
+            let name = data.substance
+            let products = groupProducts[key] ?? []
             let brand = (products.count == 1 && !products.contains("")) ? products.first : nil
             return DoseSummary(
                 substance: displayNames[name.lowercased()] ?? brand ?? name,

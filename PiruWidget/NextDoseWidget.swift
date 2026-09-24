@@ -61,37 +61,63 @@ struct NextDoseProvider: TimelineProvider {
     }
 
     func getSnapshot(in _: Context, completion: @escaping (NextDoseEntry) -> Void) {
-        completion(makeEntry(at: .now))
+        let now = Date.now
+        completion(StoreSnapshot.load().map { $0.makeEntry(at: now) } ?? .empty(at: now))
     }
 
     func getTimeline(in _: Context, completion: @escaping (Timeline<NextDoseEntry>) -> Void) {
         let now = Date.now
         let calendar = Calendar.current
+        // One container and one item fetch per timeline; each entry only
+        // fetches its own day's doses.
+        guard let store = StoreSnapshot.load() else {
+            completion(Timeline(entries: [.empty(at: now)], policy: .atEnd))
+            return
+        }
 
-        var dates: [Date] = [now]
-        let entry = makeEntry(at: now)
-        if let dueDate = entry.nextSlot?.dueDate, dueDate > now {
-            dates.append(dueDate)
+        let first = store.makeEntry(at: now)
+        var entries = [first]
+        if let dueDate = first.nextSlot?.dueDate, dueDate > now {
+            entries.append(store.makeEntry(at: dueDate))
         }
         if let midnight = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: now)) {
-            dates.append(midnight)
+            entries.append(store.makeEntry(at: midnight))
         }
 
-        let entries = dates.sorted().map { makeEntry(at: $0) }
-        completion(Timeline(entries: entries, policy: .atEnd))
+        completion(Timeline(entries: entries.sorted { $0.date < $1.date }, policy: .atEnd))
     }
+}
 
-    private func makeEntry(at date: Date) -> NextDoseEntry {
-        let calendar = Calendar.current
-        guard let container = WidgetStoreAccess.makeContainer() else {
-            return NextDoseEntry(date: date, nextSlot: nil, totalCount: 0)
-        }
+private extension NextDoseEntry {
+    static func empty(at date: Date) -> NextDoseEntry {
+        NextDoseEntry(date: date, nextSlot: nil, totalCount: 0)
+    }
+}
+
+/// The store state a timeline reads, opened once: the scheduled items, the
+/// display-name overrides, and a context for each entry's day of doses. It
+/// holds the container because a context does not keep it alive.
+private struct StoreSnapshot {
+    let container: ModelContainer
+    let context: ModelContext
+    let items: [DailyDoseItem]
+    let displayNames: [String: String]
+
+    static func load() -> StoreSnapshot? {
+        guard let container = WidgetStoreAccess.makeContainer() else { return nil }
         let context = ModelContext(container)
-
         let items = (try? context.fetch(
             FetchDescriptor<DailyDoseItem>(sortBy: [SortDescriptor(\.sortOrder)]),
         )) ?? []
+        let displayNames = (
+            UserDefaults(suiteName: WidgetStoreAccess.appGroupID)?
+                .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],
+        ) ?? [:]
+        return StoreSnapshot(container: container, context: context, items: items, displayNames: displayNames)
+    }
 
+    func makeEntry(at date: Date) -> NextDoseEntry {
+        let calendar = Calendar.current
         let dayStart = calendar.startOfDay(for: date)
         let todayEntries = (try? context.fetch(
             FetchDescriptor<DoseEntry>(
@@ -99,11 +125,6 @@ struct NextDoseProvider: TimelineProvider {
                 sortBy: [SortDescriptor(\.timestamp)],
             ),
         )) ?? []
-
-        let displayNames = (
-            UserDefaults(suiteName: WidgetStoreAccess.appGroupID)?
-                .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],
-        ) ?? [:]
 
         var slots: [(name: String, doseText: String, timeMinutes: Int?, taken: Bool)] = []
         for item in items where !item.isAsNeeded {
