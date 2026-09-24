@@ -322,13 +322,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上头中"
+            "value" : "上升中"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上頭中"
+            "value" : "上升中"
           }
         }
       }
@@ -376,7 +376,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自定日期"
+            "value" : "自訂日期"
           }
         }
       }
@@ -1010,13 +1010,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下降期"
+            "value" : "消退期"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下降期"
+            "value" : "消退期"
           }
         }
       }
@@ -1090,13 +1090,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "巅峰"
+            "value" : "高峰期"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "巔峰"
+            "value" : "高峰期"
           }
         }
       }
@@ -1218,13 +1218,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录已结束"
+            "value" : "场次已结束"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄已結束"
+            "value" : "場次已結束"
           }
         }
       }

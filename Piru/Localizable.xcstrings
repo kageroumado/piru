@@ -230,13 +230,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在过程中的几个时点提示“现在感觉如何？”，并打开一条带时间戳的笔记。按次开启；默认关闭。"
+            "value" : "在场次中的几个时点提示“现在感觉如何？”，并打开一条带时间戳的笔记。按场次开启；默认关闭。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在過程中的幾個時點提示「現在感覺如何？」，並開啟一則帶時間戳的筆記。按次開啟；預設關閉。"
+            "value" : "在場次中的幾個時點提示「現在感覺如何？」，並開啟一則帶時間戳的筆記。按場次開啟；預設關閉。"
           }
         }
       }
@@ -596,7 +596,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@（穿皮貼片）"
+            "value" : "%@（經皮貼片）"
           }
         }
       }
@@ -1133,13 +1133,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 个常规剂量单位"
+            "value" : "%@ 个中等剂量单位"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 個常規劑量單位"
+            "value" : "%@ 個中等劑量單位"
           }
         }
       }
@@ -1155,13 +1155,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 个常规剂量单位，共 %lld 条目"
+            "value" : "%@ 个中等剂量单位，共 %lld 条目"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 個常規劑量單位，共 %lld 條目"
+            "value" : "%@ 個中等劑量單位，共 %lld 條目"
           }
         }
       }
@@ -1177,13 +1177,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ 个常规剂量单位，%2$@前后最密集"
+            "value" : "%1$@ 个中等剂量单位，%2$@前后最密集"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ 個常規劑量單位，%2$@前後最密集"
+            "value" : "%1$@ 個中等劑量單位，%2$@前後最密集"
           }
         }
       }
@@ -1480,13 +1480,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 记录于另一天。请在本次记录所在的当天选择一个时间，使其保持在同一天内。"
+            "value" : "%@ 记录于另一天。请在本场所在的当天选择一个时间，使其保持在同一天内。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 記錄於另一天。請在本次記錄所在的當天選擇一個時間，使其保持在同一天內。"
+            "value" : "%@ 記錄於另一天。請在本場所在的當天選擇一個時間，使其保持在同一天內。"
           }
         }
       }
@@ -2264,7 +2264,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@，優先級 %2$lld"
+            "value" : "%1$@，優先順序 %2$lld"
           }
         }
       }
@@ -2567,7 +2567,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已記錄 %lld 次 %@ 注射。不為其繪製血清曲線——沒有經過驗證的釋放數據。"
+            "value" : "已記錄 %lld 次 %@ 注射。不為其繪製血清曲線——沒有經過驗證的釋放資料。"
           }
         }
       }
@@ -3410,13 +3410,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld / %lld 条记录"
+            "value" : "%lld / %lld 个场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld / %lld 條記錄"
+            "value" : "%lld / %lld 個場次"
           }
         }
       }
@@ -3426,13 +3426,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld/%lld 种物质来自受体占据率，其余依据效应曲线估算 · %@。"
+            "value" : "%lld/%lld 种物质来自受体占有率，其余依据效应曲线估算 · %@。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld/%lld 種物質來自受體佔據率，其餘依據效應曲線估算 · %@。"
+            "value" : "%lld/%lld 種物質來自受體佔有率，其餘依據效應曲線估算 · %@。"
           }
         }
       }
@@ -3486,13 +3486,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在 %2$lld 次可定位的剂量中，百分之 %1$lld 达到常规或以上，其中 %3$lld 次为大剂量"
+            "value" : "在 %2$lld 次可定位的剂量中，百分之 %1$lld 达到中等或以上，其中 %3$lld 次为大剂量"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在 %2$lld 次可定位的劑量中，百分之 %1$lld 達到常規或以上，其中 %3$lld 次為大劑量"
+            "value" : "在 %2$lld 次可定位的劑量中，百分之 %1$lld 達到中等或以上，其中 %3$lld 次為大劑量"
           }
         }
       }
@@ -3599,13 +3599,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld 条记录导出为单独图片"
+            "value" : "%lld 个场次导出为单独图片"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld 條記錄匯出為單獨圖片"
+            "value" : "%lld 個場次匯出為單獨圖片"
           }
         }
       }
@@ -5375,13 +5375,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "复杂的记录"
+            "value" : "繁忙的场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "複雜的記錄"
+            "value" : "繁忙的場次"
           }
         }
       }
@@ -5583,13 +5583,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当某一物质 12 小时内的累计量达到其来源列出的重剂量区间时提醒你。"
+            "value" : "当某一物质 12 小时内的累计量达到其来源列出的大剂量区间时提醒你。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "當某一物質 12 小時內的累計量達到其來源列出的重劑量區間時提醒你。"
+            "value" : "當某一物質 12 小時內的累計量達到其來源列出的大劑量區間時提醒你。"
           }
         }
       }
@@ -5615,7 +5615,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在锂本身的5-羟色胺负荷之上再叠加一份很大的负荷。锂的说明书把曲马多和芬太尼列在这一组里；5-羟色胺综合征可在数小时内发作。"
+            "value" : "在锂本身的血清素负荷之上再叠加一份很大的负荷。锂的说明书把曲马多和芬太尼列在这一组里；血清素综合征可在数小时内发作。"
           }
         },
         "zh-Hant" : {
@@ -5749,7 +5749,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "由通行密語保護的 .piruenc 檔案"
+            "value" : "由通行碼保護的 .piruenc 檔案"
           }
         }
       }
@@ -5807,13 +5807,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在这次体验的几个时间点上安静地提示一下，每次都会打开一条带时间戳的笔记。默认关闭，时间由你来定。"
+            "value" : "在场次中的几个时间点上安静地提示一下，每次都会打开一条带时间戳的笔记。默认关闭，时间由你来定。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在這次體驗的幾個時間點上安靜地提示一下，每次都會打開一條帶時間戳的筆記。預設關閉，時間由你來定。"
+            "value" : "在場次中的幾個時間點上安靜地提示一下，每次都會打開一條帶時間戳的筆記。預設關閉，時間由你來定。"
           }
         }
       }
@@ -5887,13 +5887,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你为药物设定的每个时间提醒你。点按提醒会打开快速记录，并预先载入该时间的药物。"
+            "value" : "在你为药物设定的每个时间提醒你。点按提醒会打开快捷记录，并预先载入该时间的药物。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你為藥物設定的每個時間提醒你。點按提醒會開啟快速記錄，並預先載入該時間的藥物。"
+            "value" : "在你為藥物設定的每個時間提醒你。點按提醒會開啟快捷記錄，並預先載入該時間的藥物。"
           }
         }
       }
@@ -6079,13 +6079,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "概述药物如何影响大脑三种主要的信号化学物质——5-羟色胺、多巴胺和去甲肾上腺素——以及它是促进释放还是阻断再摄取。滑块显示它更偏向哪一种。"
+            "value" : "概述药物如何影响大脑三种主要的信号化学物质——血清素、多巴胺和去甲肾上腺素——以及它是促进释放还是阻断再摄取。滑块显示它更偏向哪一种。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "概述藥物如何影響大腦三種主要的訊號化學物質——5-羥色胺、多巴胺和去甲腎上腺素——以及它是促進釋放還是阻斷再攝取。滑桿顯示它更偏向哪一種。"
+            "value" : "概述藥物如何影響大腦三種主要的訊號化學物質——血清素、多巴胺和正腎上腺素——以及它是促進釋放還是阻斷再攝取。滑桿顯示它更偏向哪一種。"
           }
         }
       }
@@ -6095,13 +6095,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的身体用这次剂量和本次记录中的另一种物质生成的第三种化合物——单独任何一种都不会产生。"
+            "value" : "你的身体用这次剂量和本场中的另一种物质生成的第三种化合物——单独任何一种都不会产生。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的身體用這次劑量和本次記錄中的另一種物質生成的第三種化合物——單獨任何一種都不會產生。"
+            "value" : "你的身體用這次劑量和本場中的另一種物質生成的第三種化合物——單獨任何一種都不會產生。"
           }
         }
       }
@@ -6583,7 +6583,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "大量飲酒後服用對乙醯氨基酚（撲熱息痛）會加重肝臟負擔。"
+            "value" : "大量飲酒後服用乙醯胺酚（撲熱息痛）會加重肝臟負擔。"
           }
         }
       }
@@ -6648,7 +6648,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "作用於 CB1 受體。植物大麻素是有天然上限的部分激動劑；合成大麻素則是沒有上限的完全激動劑，風險的差異全在於此。"
+            "value" : "作用於 CB1 受體。植物大麻素是有天然上限的部分促效劑；合成大麻素則是沒有上限的完全促效劑，風險的差異全在於此。"
           }
         }
       }
@@ -6658,13 +6658,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "作用于 κ-阿片受体而非 5-HT2A，因此体验与经典致幻剂截然不同——烦躁不安、方向迷失，且通常短暂。"
+            "value" : "作用于 κ-阿片受体而非 5-HT2A，因此体验与经典迷幻剂截然不同——烦躁不安、方向迷失，且通常短暂。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "作用於 κ-類鴉片受體而非 5-HT2A，因此體驗與經典致幻劑截然不同——煩躁不安、方向迷失，且通常短暫。"
+            "value" : "作用於 κ-鴉片受體而非 5-HT2A，因此體驗與經典迷幻劑截然不同——煩躁不安、方向迷失，且通常短暫。"
           }
         }
       }
@@ -6857,7 +6857,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "作為中樞神經系統中大麻素 CB1 受體和免疫組織中 CB2 受體的激動劑。CB1 激活抑制腺苷酸環化酶,並透過 Gi/Go 蛋白調節離子通道,減少參與獎賞、記憶、協調和痛覺的腦區中的神經傳導物質釋放(尤其是 GABA 和麩胺酸)。"
+            "value" : "作為中樞神經系統中大麻素 CB1 受體和免疫組織中 CB2 受體的促效劑。CB1 活化抑制腺苷酸環化酶,並透過 Gi/Go 蛋白調節離子通道,減少參與獎賞、記憶、協調和痛覺的腦區中的神經傳導物質釋放(尤其是 GABA 和麩胺酸)。"
           }
         }
       }
@@ -7044,13 +7044,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "为这次记录添加一条笔记——此刻你注意到了什么。"
+            "value" : "为这场添加一条笔记——此刻你注意到了什么。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "為這次記錄新增一則筆記——此刻你注意到了什麼。"
+            "value" : "為這場新增一則筆記——此刻你注意到了什麼。"
           }
         }
       }
@@ -7627,13 +7627,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "中枢和呼吸抑制相加 — 抗组胺药增强阿片的镇静作用。"
+            "value" : "中枢和呼吸抑制相加 — 抗组胺药增强阿片类的镇静作用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "中樞和呼吸抑制相加 — 抗組胺藥增強阿片的鎮靜作用。"
+            "value" : "中樞和呼吸抑制相加 — 抗組織胺藥增強鴉片類的鎮靜作用。"
           }
         }
       }
@@ -8226,7 +8226,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "激動劑"
+            "value" : "促效劑"
           }
         }
       }
@@ -8242,7 +8242,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-HT2A 受體的激動劑。這一個作用便重塑了知覺、思維和自我感；這一族按化學結構分為苯乙胺類、色胺類，以及 LSD 所屬的麥角靈類。"
+            "value" : "5-HT2A 受體的促效劑。這一個作用便重塑了知覺、思維和自我感；這一族按化學結構分為苯乙胺類、色胺類，以及 LSD 所屬的麥角靈類。"
           }
         }
       }
@@ -8258,7 +8258,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "μ-類鴉片受體的激動劑：鎮痛、溫暖與鎮靜，以及由同一機制導致的呼吸抑制。對前者的耐受快於對後者的耐受，這正是安全邊際狹窄的原因。"
+            "value" : "μ-鴉片受體的促效劑：鎮痛、溫暖與鎮靜，以及由同一機制導致的呼吸抑制。對前者的耐受快於對後者的耐受，這正是安全邊際狹窄的原因。"
           }
         }
       }
@@ -8402,7 +8402,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在解離劑之上疊加酒精、苯二氮䓬類或阿片類，會提高呼吸停止的風險。"
+            "value" : "在解離劑之上疊加酒精、苯二氮平類或鴉片類，會提高呼吸停止的風險。"
           }
         }
       }
@@ -8412,13 +8412,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在阿片类之上叠加酒精、苯二氮䓬类或其他抑制剂，会提高呼吸停止的风险。"
+            "value" : "在阿片类之上叠加酒精、苯二氮䓬类或其他中枢抑制药，会提高呼吸停止的风险。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在阿片類之上疊加酒精、苯二氮䓬類或其他抑制劑，會提高呼吸停止的風險。"
+            "value" : "在鴉片類之上疊加酒精、苯二氮平類或其他中樞抑制藥，會提高呼吸停止的風險。"
           }
         }
       }
@@ -8653,13 +8653,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所有选中记录合成为一张长图"
+            "value" : "所有选中的场次合成为一张长图"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所有選中記錄合成為一張長圖"
+            "value" : "所有選取的場次合成為一張長圖"
           }
         }
       }
@@ -9205,7 +9205,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "注射的酯從油性儲庫中緩慢釋放，分解為遊離激素，然後被清除。這條曲線把你記錄的各種酯彙總為一個示意性的血清估計值。它不是化驗結果。"
+            "value" : "注射的酯從油性儲庫中緩慢釋放，分解為游離激素，然後被清除。這條曲線把你記錄的各種酯彙總為一個示意性的血清估計值。它不是化驗結果。"
           }
         }
       }
@@ -9333,7 +9333,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "抗驚厥藥"
+            "value" : "抗痙攣藥"
           }
         }
       }
@@ -9349,7 +9349,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "抗抑鬱藥"
+            "value" : "抗憂鬱藥"
           }
         }
       }
@@ -9365,7 +9365,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "抗抑鬱藥(單胺調節劑)"
+            "value" : "抗憂鬱藥(單胺調節劑)"
           }
         }
       }
@@ -9381,7 +9381,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "抗組胺藥"
+            "value" : "抗組織胺藥"
           }
         }
       }
@@ -9920,13 +9920,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "达到常规或以上"
+            "value" : "达到中等或以上"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "達到常規或以上"
+            "value" : "達到中等或以上"
           }
         }
       }
@@ -9936,13 +9936,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "达到常规或以上 · %lld 次大剂量"
+            "value" : "达到中等或以上 · %lld 次大剂量"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "達到常規或以上 · %lld 次大劑量"
+            "value" : "達到中等或以上 · %lld 次大劑量"
           }
         }
       }
@@ -10119,7 +10119,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "避免獨自泡熱水澡或衝熱水澡——你可能無法準確感知溫度。"
+            "value" : "避免獨自泡熱水澡或沖熱水澡——你可能無法準確感知溫度。"
           }
         }
       }
@@ -10322,13 +10322,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "较为均衡——类似促共情剂"
+            "value" : "较为均衡——类似共情剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "較為均衡——類似促共情劑"
+            "value" : "較為均衡——類似共情劑"
           }
         }
       }
@@ -10670,7 +10670,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "苯二氮䓬類"
+            "value" : "苯二氮平類"
           }
         }
       }
@@ -10686,7 +10686,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "苯二氮䓬效應動力學：Vinkers & Olivier 2012；Piot & Jovanovic 2026。"
+            "value" : "苯二氮平效應動力學：Vinkers & Olivier 2012；Piot & Jovanovic 2026。"
           }
         }
       }
@@ -10897,7 +10897,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所用結合數據"
+            "value" : "所用結合資料"
           }
         }
       }
@@ -10913,7 +10913,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結合於 GABA-A 受體上 α 和 γ 亞單位界面的苯二氮䓬位點,作為正向變構調節劑。透過增加氯離子通道開放頻率增強 GABA 的效應,導致神經元超極化和興奮性降低。產生抗焦慮、鎮靜、催眠、抗驚厥和肌肉鬆弛效應。"
+            "value" : "結合於 GABA-A 受體上 α 和 γ 亞單位界面的苯二氮平位點,作為正向變構調節劑。透過增加氯離子通道開放頻率增強 GABA 的效應,導致神經元超極化和興奮性降低。產生抗焦慮、鎮靜、催眠、抗驚厥和肌肉鬆弛效應。"
           }
         }
       }
@@ -10929,7 +10929,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結合於電壓門控鈣通道 (VGCC) 的 α2δ-1 亞單位,減少突觸前神經末梢的鈣內流。這減少興奮性神經傳導物質(包括麩胺酸、去甲腎上腺素、P 物質和降鈣素基因相關肽)的釋放。儘管名字如此,加巴噴丁類藥物並不與 GABA 受體或 GABA 代謝相互作用。"
+            "value" : "結合於電壓閘控鈣通道 (VGCC) 的 α2δ-1 亞單位,減少突觸前神經末梢的鈣內流。這減少興奮性神經傳導物質(包括麩胺酸、正腎上腺素、P 物質和降鈣素基因相關肽)的釋放。儘管名字如此,加巴噴丁類藥物並不與 GABA 受體或 GABA 代謝相互作用。"
           }
         }
       }
@@ -11099,13 +11099,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阻断毒蕈碱型乙酰胆碱受体。与致幻剂不同，它们产生真正的幻觉——并不存在、且不被察觉为虚假的事物——并伴随健忘和狭窄的中毒安全边际。"
+            "value" : "阻断毒蕈碱型乙酰胆碱受体。与迷幻剂不同，它们产生真正的幻觉——并不存在、且不被察觉为虚假的事物——并伴随健忘和狭窄的中毒安全边际。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阻斷蕈毒鹼型乙醯膽鹼受體。與致幻劑不同，它們產生真正的幻覺——並不存在、且不被察覺為虛假的事物——並伴隨健忘和狹窄的中毒安全邊際。"
+            "value" : "阻斷蕈毒鹼型乙醯膽鹼受體。與迷幻劑不同，它們產生真正的幻覺——並不存在、且不被察覺為虛假的事物——並伴隨健忘和狹窄的中毒安全邊際。"
           }
         }
       }
@@ -11147,13 +11147,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阻断5-HT₂A，同时弱抑制5-羟色胺再摄取。低剂量时受体阻断占主导，这就是曲唑酮作为助眠药的使用者远多于作为抗抑郁药的原因。"
+            "value" : "阻断5-HT₂A，同时弱抑制血清素再摄取。低剂量时受体阻断占主导，这就是曲唑酮作为助眠药的使用者远多于作为抗抑郁药的原因。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阻斷5-HT₂A，同時弱抑制血清素回收。低劑量時受體阻斷佔主導，這就是曲唑酮作為助眠藥的使用者遠多於作為抗憂鬱藥的原因。"
+            "value" : "阻斷5-HT₂A，同時弱抑制血清素再攝取。低劑量時受體阻斷佔主導，這就是曲唑酮作為助眠藥的使用者遠多於作為抗憂鬱藥的原因。"
           }
         }
       }
@@ -11211,13 +11211,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阻断去甲肾上腺素和多巴胺的再摄取，不动5-羟色胺——这一类里偏兴奋的一端。"
+            "value" : "阻断去甲肾上腺素和多巴胺的再摄取，不动血清素——这一类里偏兴奋的一端。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阻斷正腎上腺素和多巴胺的回收，不動血清素——這一類裡偏興奮的一端。"
+            "value" : "阻斷正腎上腺素和多巴胺的再攝取，不動血清素——這一類裡偏興奮的一端。"
           }
         }
       }
@@ -11227,13 +11227,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "像SNRI一样阻断5-羟色胺和去甲肾上腺素的再摄取，同时还结合组胺、毒蕈碱和α₁受体。多出来的这部分结合，就是镇静、口干，以及过量时安全范围狭窄的来源。"
+            "value" : "像SNRI一样阻断血清素和去甲肾上腺素的再摄取，同时还结合组胺、毒蕈碱和α₁受体。多出来的这部分结合，就是镇静、口干，以及过量时安全范围狭窄的来源。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "像SNRI一樣阻斷血清素和正腎上腺素的回收，同時還結合組織胺、蕈毒鹼和α₁受體。多出來的這部分結合，就是鎮靜、口乾，以及過量時安全範圍狹窄的來源。"
+            "value" : "像SNRI一樣阻斷血清素和正腎上腺素的再攝取，同時還結合組織胺、蕈毒鹼和α₁受體。多出來的這部分結合，就是鎮靜、口乾，以及過量時安全範圍狹窄的來源。"
           }
         }
       }
@@ -11243,13 +11243,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同时阻断5-羟色胺和去甲肾上腺素的再摄取。去甲肾上腺素那一份随剂量增大，因此低剂量时表现可以很像SSRI。"
+            "value" : "同时阻断血清素和去甲肾上腺素的再摄取。去甲肾上腺素那一份随剂量增大，因此低剂量时表现可以很像SSRI。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同時阻斷血清素和正腎上腺素的回收。正腎上腺素那一份隨劑量增大，因此低劑量時表現可以很像SSRI。"
+            "value" : "同時阻斷血清素和正腎上腺素的再攝取。正腎上腺素那一份隨劑量增大，因此低劑量時表現可以很像SSRI。"
           }
         }
       }
@@ -11259,13 +11259,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "既阻断5-羟色胺再摄取，又直接作用于多个5-羟色胺受体，对一些是激动，对另一些是拮抗。把它和SSRI区分开的是受体上的这部分作用，而不是两者共有的转运体阻断。"
+            "value" : "既阻断血清素再摄取，又直接作用于多个血清素受体，对一些是激动，对另一些是拮抗。把它和SSRI区分开的是受体上的这部分作用，而不是两者共有的转运体阻断。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "既阻斷血清素回收，又直接作用於多個血清素受體，對一些是激動，對另一些是拮抗。把它和SSRI區分開的是受體上的這部分作用，而不是兩者共有的轉運體阻斷。"
+            "value" : "既阻斷血清素再攝取，又直接作用於多個血清素受體，對一些是促效，對另一些是拮抗。把它和SSRI區分開的是受體上的這部分作用，而不是兩者共有的轉運體阻斷。"
           }
         }
       }
@@ -11307,7 +11307,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "几乎只阻断5-羟色胺转运体，因此它的作用与副作用大多都是5-羟色胺性的。"
+            "value" : "几乎只阻断血清素转运体，因此它的作用与副作用大多都是血清素能的。"
           }
         },
         "zh-Hant" : {
@@ -11404,13 +11404,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "体内残留（药代）"
+            "value" : "体内负荷（药代）"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "體內殘留（藥代）"
+            "value" : "體內負荷（藥動）"
           }
         }
       }
@@ -11490,7 +11490,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "两者都会升高5-羟色胺，因此可能出现5-羟色胺综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SNRI 不会升高锂的血药浓度。"
+            "value" : "两者都会升高血清素，因此可能出现血清素综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SNRI 不会升高锂的血药浓度。"
           }
         },
         "zh-Hant" : {
@@ -11506,7 +11506,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "两者都会升高5-羟色胺，因此可能出现5-羟色胺综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SSRI 不会升高锂的血药浓度。"
+            "value" : "两者都会升高血清素，因此可能出现血清素综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SSRI 不会升高锂的血药浓度。"
           }
         },
         "zh-Hant" : {
@@ -12269,7 +12269,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "大麻素 CB1/CB2 受體激動劑"
+            "value" : "大麻素 CB1/CB2 受體促效劑"
           }
         }
       }
@@ -13549,13 +13549,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "认知增强剂(益智剂)"
+            "value" : "认知增强剂(益智药)"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "認知增強劑(益智劑)"
+            "value" : "認知增強劑(益智藥)"
           }
         }
       }
@@ -13869,13 +13869,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "缓和期"
+            "value" : "下头"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "緩和期"
+            "value" : "下頭"
           }
         }
       }
@@ -13885,13 +13885,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "缓和期提醒在「渐减」中按剂量启用。"
+            "value" : "下头提醒在「渐减」中按剂量启用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "緩和期提醒在「漸減」中按劑量啟用。"
+            "value" : "下頭提醒在「漸減」中按劑量啟用。"
           }
         }
       }
@@ -13901,13 +13901,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "恢复期的护理建议"
+            "value" : "下头与事后照护建议"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "恢復期的護理建議"
+            "value" : "下頭與事後照護建議"
           }
         }
       }
@@ -13917,13 +13917,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上头中"
+            "value" : "上升中"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上頭中"
+            "value" : "上升中"
           }
         }
       }
@@ -13934,13 +13934,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "常规"
+            "value" : "中等"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "常規"
+            "value" : "中等"
           }
         }
       }
@@ -13982,13 +13982,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "常规剂量"
+            "value" : "中等剂量"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "常規劑量"
+            "value" : "中等劑量"
           }
         }
       }
@@ -13998,13 +13998,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每天常规剂量数"
+            "value" : "每天中等剂量数"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每天常規劑量數"
+            "value" : "每天中等劑量數"
           }
         }
       }
@@ -14014,13 +14014,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每周常规剂量数，4 周滚动平均"
+            "value" : "每周中等剂量数，4 周滚动平均"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每週常規劑量數，4 週滾動平均"
+            "value" : "每週中等劑量數，4 週滾動平均"
           }
         }
       }
@@ -14030,13 +14030,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每周常规剂量数，7 天滚动平均"
+            "value" : "每周中等剂量数，7 天滚动平均"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每週常規劑量數，7 天滾動平均"
+            "value" : "每週中等劑量數，7 天滾動平均"
           }
         }
       }
@@ -14062,13 +14062,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按星期统计的常规剂量单位，%@ 最多"
+            "value" : "按星期统计的中等剂量单位，%@ 最多"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按星期統計的常規劑量單位，%@ 最多"
+            "value" : "按星期統計的中等劑量單位，%@ 最多"
           }
         }
       }
@@ -14084,13 +14084,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "常规剂量单位将每次剂量按其常规剂量的倍数计。已定义：%lld / %lld 种物质。"
+            "value" : "中等剂量单位将每次剂量按其中等剂量的倍数计。已定义：%lld / %lld 种物质。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "常規劑量單位將每次劑量按其常規劑量的倍數計。已定義：%lld / %lld 種物質。"
+            "value" : "中等劑量單位將每次劑量按其中等劑量的倍數計。已定義：%lld / %lld 種物質。"
           }
         }
       }
@@ -14565,13 +14565,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "浓度会转换为多巴胺、去甲肾上腺素和血清素转运体的占据率。其中多巴胺转运体使用时间分辨的结合方程——分别设定结合与解离速率，而非瞬时平衡——因此解离缓慢的药物会在浓度开始下降后仍维持占据平台期。"
+            "value" : "浓度会转换为多巴胺、去甲肾上腺素和血清素转运体的占有率。其中多巴胺转运体使用时间分辨的结合方程——分别设定结合与解离速率，而非瞬时平衡——因此解离缓慢的药物会在浓度开始下降后仍维持占据平台期。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "濃度會轉換為多巴胺、正腎上腺素和血清素轉運體的佔據率。其中多巴胺轉運體使用時間解析的結合方程——分別設定結合與解離速率，而非瞬時平衡——因此解離緩慢的藥物會在濃度開始下降後仍維持佔據平台期。"
+            "value" : "濃度會轉換為多巴胺、正腎上腺素和血清素轉運體的佔有率。其中多巴胺轉運體使用時間解析的結合方程——分別設定結合與解離速率，而非瞬時平衡——因此解離緩慢的藥物會在濃度開始下降後仍維持佔據平台期。"
           }
         }
       }
@@ -14693,13 +14693,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "可信度因物质而异。安非他明、哌甲酯等经过充分研究的物质，其数据基础比新型化合物更为扎实。"
+            "value" : "可信度因物质而异。苯丙胺、哌甲酯等经过充分研究的物质，其数据基础比新型化合物更为扎实。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "可信度因物質而異。安非他命、哌甲酯等經過充分研究的物質，其數據基礎比新型化合物更為紮實。"
+            "value" : "可信度因物質而異。安非他命、哌甲酯等經過充分研究的物質，其資料基礎比新型化合物更為紮實。"
           }
         }
       }
@@ -15494,13 +15494,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次记录"
+            "value" : "当前场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次記錄"
+            "value" : "目前場次"
           }
         }
       }
@@ -15580,7 +15580,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自定日期"
+            "value" : "自訂日期"
           }
         }
       }
@@ -16617,13 +16617,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "耗竭，以及退药反应的来源"
+            "value" : "耗竭，以及药效下降期的来源"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "耗竭，以及退藥反應的來源"
+            "value" : "耗竭，以及藥效下降期的來源"
           }
         }
       }
@@ -16703,7 +16703,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "地昔帕明本身就是一種上市的抗憂鬱藥,比丙咪嗪更偏向去甲腎上腺素能——因此隨著它的生成,效應向更具激活性的方向轉移。"
+            "value" : "地昔帕明本身就是一種上市的抗憂鬱藥,比丙咪嗪更偏向正腎上腺素能——因此隨著它的生成,效應向更具活化性的方向轉移。"
           }
         }
       }
@@ -17121,7 +17121,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "不要開車。感覺沒那麼困，並不能證明記憶或協調性沒有受損。"
+            "value" : "不要開車。感覺沒那麼睏，並不能證明記憶或協調性沒有受損。"
           }
         }
       }
@@ -18420,13 +18420,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用期间"
+            "value" : "场次进行中"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用期間"
+            "value" : "場次進行中"
           }
         }
       }
@@ -18692,13 +18692,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "食用型起效也慢——通常要 30 分钟到 2 小时——而且持续得久得多，常常 6–10 小时。这种慢起效正是追加的陷阱：在第一剂还没上来之前再吃，叠起来的体验会比预想的强得多、久得多。"
+            "value" : "食用型起效也慢——通常要 30 分钟到 2 小时——而且持续得久得多，常常 6–10 小时。这种慢起效正是补服的陷阱：在第一剂还没上来之前再吃，叠起来的体验会比预想的强得多、久得多。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "食用型起效也慢——通常要 30 分鐘到 2 小時——而且持續得久得多，常常 6–10 小時。這種慢起效正是追加的陷阱：在第一劑還沒上來之前再吃，疊起來的體驗會比預想的強得多、久得多。"
+            "value" : "食用型起效也慢——通常要 30 分鐘到 2 小時——而且持續得久得多，常常 6–10 小時。這種慢起效正是補服的陷阱：在第一劑還沒上來之前再吃，疊起來的體驗會比預想的強得多、久得多。"
           }
         }
       }
@@ -18964,13 +18964,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "效果曲线"
+            "value" : "效应曲线"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "效果曲線"
+            "value" : "效應曲線"
           }
         }
       }
@@ -18996,13 +18996,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "效果估算器"
+            "value" : "效应估算器"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "效果估算器"
+            "value" : "效應估算器"
           }
         }
       }
@@ -19028,13 +19028,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "效果随时间变化：在上升期逐渐增强，在峰值期保持平稳，随后减弱。"
+            "value" : "效果随时间变化：在上升期逐渐增强，在高峰期保持平稳，随后减弱。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "效果隨時間變化：在上升期逐漸增強，在峰值期保持平穩，隨後減弱。"
+            "value" : "效果隨時間變化：在上升期逐漸增強，在高峰期保持平穩，隨後減弱。"
           }
         }
       }
@@ -19078,13 +19078,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "效果"
+            "value" : "效应"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "效果"
+            "value" : "效應"
           }
         }
       }
@@ -19678,7 +19678,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "加密匯出會用 600,000 輪 PBKDF2 把你的通行密語轉換成金鑰。Piru 不保存通行密語的副本，也無法找回。一般匯出不加密。"
+            "value" : "加密匯出會用 600,000 輪 PBKDF2 把你的通行碼轉換成金鑰。Piru 不保存通行碼的副本，也無法找回。一般匯出不加密。"
           }
         }
       }
@@ -19832,13 +19832,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "加重的呼吸抑制 — 加巴喷丁类增加阿片过量风险。"
+            "value" : "加重的呼吸抑制 — 加巴喷丁类增加阿片类过量风险。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "加重的呼吸抑制 — 加巴噴丁類增加阿片過量風險。"
+            "value" : "加重的呼吸抑制 — 加巴噴丁類增加鴉片類過量風險。"
           }
         }
       }
@@ -20496,7 +20496,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "基於藥動學建模的估算。"
+            "value" : "基於藥物動力學建模的估算。"
           }
         }
       }
@@ -20512,7 +20512,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "數據為原始文獻中的估計值。"
+            "value" : "資料為原始文獻中的估計值。"
           }
         }
       }
@@ -20930,7 +20930,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上面所有層級都是藥效動力學層面的——根據你的劑量記錄和時間來計算。真實耐受中有很大一部分是聯結性的、跟環境綁定的：它和用藥時的地點、儀式、周圍的線索綁在一起。這就是為什麼在熟悉環境下測到的耐受可以遠高於陌生環境，也是為什麼同樣的線索、沒有藥物時，身體可以產生藥效的反面。Piru 看不到這些，因為它不記錄你在哪裡、在做什麼。把這個數字當作藥理學估計來看，不是總量。"
+            "value" : "上面所有層級都是藥效學層面的——根據你的劑量記錄和時間來計算。真實耐受中有很大一部分是聯結性的、跟環境綁定的：它和用藥時的地點、儀式、周圍的線索綁在一起。這就是為什麼在熟悉環境下測到的耐受可以遠高於陌生環境，也是為什麼同樣的線索、沒有藥物時，身體可以產生藥效的反面。Piru 看不到這些，因為它不記錄你在哪裡、在做什麼。把這個數字當作藥理學估計來看，不是總量。"
           }
         }
       }
@@ -21004,13 +21004,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "现在每种物质都会从所属类别获得颜色——兴奋剂属于一个色系，致幻剂属于另一个——时间线一眼就能看懂。你仍然可以为任何物质自选颜色。"
+            "value" : "现在每种物质都会从所属类别获得颜色——兴奋剂属于一个色系，迷幻剂属于另一个——时间线一眼就能看懂。你仍然可以为任何物质自选颜色。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "現在每種物質都會從所屬類別獲得顏色——興奮劑屬於一個色系，致幻劑屬於另一個——時間軸一眼就能看懂。你仍然可以為任何物質自選顏色。"
+            "value" : "現在每種物質都會從所屬類別獲得顏色——興奮劑屬於一個色系，迷幻劑屬於另一個——時間軸一眼就能看懂。你仍然可以為任何物質自選顏色。"
           }
         }
       }
@@ -21020,13 +21020,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所有物质共用同一组神经常数。只有存量耗竭易感性是逐物质拟合的，其锚点是安非他命崩落与不产生崩落的卡西酮之间的实测反差。"
+            "value" : "所有物质共用同一组神经常数。只有存量耗竭易感性是逐物质拟合的，其锚点是苯丙胺崩溃与不产生崩溃的卡西酮之间的实测反差。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所有物質共用同一組神經常數。只有存量耗竭易感性是逐物質擬合的，其錨點是安非他命崩落與不產生崩落的卡西酮之間的實測反差。"
+            "value" : "所有物質共用同一組神經常數。只有存量耗竭易感性是逐物質擬合的，其錨點是安非他命崩潰與不產生崩潰的卡西酮之間的實測反差。"
           }
         }
       }
@@ -21228,13 +21228,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "展开记录图表"
+            "value" : "展开场次图表"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "展開記錄圖表"
+            "value" : "展開場次圖表"
           }
         }
       }
@@ -21420,13 +21420,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "导出场次和日志摘要"
+            "value" : "导出场次和日记摘要"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "匯出場次和日誌摘要"
+            "value" : "匯出場次和日記摘要"
           }
         }
       }
@@ -21490,7 +21490,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用 CDC 2022 換算係數，把一次已記錄的阿片類劑量表示為口服嗎啡毫克當量（MME）——CDC 用來比較阿片類負荷的單位。"
+            "value" : "用 CDC 2022 換算係數，把一次已記錄的鴉片類劑量表示為口服嗎啡毫克當量（MME）——CDC 用來比較鴉片類負荷的單位。"
           }
         }
       }
@@ -21506,7 +21506,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "把阿片類劑量表示為嗎啡毫克當量"
+            "value" : "把鴉片類劑量表示為嗎啡毫克當量"
           }
         }
       }
@@ -21795,7 +21795,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "感覺沒那麼困，並不能證明記憶或協調性沒有受損——對鎮靜的耐受比對功能受損的耐受形成得更快。"
+            "value" : "感覺沒那麼睏，並不能證明記憶或協調性沒有受損——對鎮靜的耐受比對功能受損的耐受形成得更快。"
           }
         }
       }
@@ -21805,13 +21805,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「感受」将奖赏、血清素与阿片带来的暖意以及喜爱相加，再减去退药反应。"
+            "value" : "「感受」将奖赏、血清素与阿片类带来的暖意以及喜爱相加，再减去药效下降期。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「感受」將獎賞、血清素與鴉片帶來的暖意以及喜愛相加，再減去退藥反應。"
+            "value" : "「感受」將獎賞、血清素與鴉片類帶來的暖意以及喜愛相加，再減去藥效下降期。"
           }
         }
       }
@@ -21891,7 +21891,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "篩選與列"
+            "value" : "篩選與欄位"
           }
         }
       }
@@ -22552,7 +22552,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "μ-阿片受體完全激動劑"
+            "value" : "μ-鴉片受體完全促效劑"
           }
         }
       }
@@ -22747,7 +22747,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GABA-A 正向變構調節劑(苯二氮䓬類)"
+            "value" : "GABA-A 正向變構調節劑(苯二氮平類)"
           }
         }
       }
@@ -23052,7 +23052,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "獲取幫助"
+            "value" : "取得協助"
           }
         }
       }
@@ -23683,7 +23683,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "心臟數據"
+            "value" : "心臟資料"
           }
         }
       }
@@ -24058,7 +24058,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "苯二氮䓬累積劑量較高會損害記憶和協調能力。留在安全的地方。"
+            "value" : "苯二氮平累積劑量較高會損害記憶和協調能力。留在安全的地方。"
           }
         }
       }
@@ -24100,13 +24100,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "越高愉悦越强。阿片温暖信号。"
+            "value" : "越高愉悦越强。阿片类的温暖信号。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "越高愉悅越強。阿片溫暖信號。"
+            "value" : "越高愉悅越強。鴉片類的溫暖訊號。"
           }
         }
       }
@@ -24154,7 +24154,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "優先級更高但未提供此項的來源會被跳過。"
+            "value" : "優先順序更高但未提供此項的來源會被跳過。"
           }
         }
       }
@@ -24484,13 +24484,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一条记录需要多少种物质才会拆分为泳道。"
+            "value" : "一个场次需要多少种物质才会拆分为泳道。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一條記錄需要多少種物質才會拆分為泳道。"
+            "value" : "一個場次需要多少種物質才會拆分為泳道。"
           }
         }
       }
@@ -24634,7 +24634,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "藥物在體內如何起作用——它作用於哪些受體和轉運體，以及在每個靶點上做什麼（激活、阻斷等）。圓點表示它在各靶點上的作用強度。"
+            "value" : "藥物在體內如何起作用——它作用於哪些受體和轉運體，以及在每個靶點上做什麼（活化、阻斷等）。圓點表示它在各靶點上的作用強度。"
           }
         }
       }
@@ -24676,13 +24676,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次记录随时间可能的感受"
+            "value" : "这场随时间可能的感受"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次記錄隨時間可能的感受"
+            "value" : "這場隨時間可能的感受"
           }
         }
       }
@@ -24842,7 +24842,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "人體與動物數據"
+            "value" : "人體與動物資料"
           }
         }
       }
@@ -24884,13 +24884,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在有物质起效期间，提供补水与放松提醒、药效消退警示，以及起效/巅峰时间提示。"
+            "value" : "在有物质起效期间，提供补水与放松提醒、药效消退警示，以及起效/高峰期时间提示。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在有物質起效期間，提供補水與放鬆提醒、藥效消退警示，以及起效/巔峰時間提示。"
+            "value" : "在有物質起效期間，提供補水與放鬆提醒、藥效消退警示，以及起效/高峰期時間提示。"
           }
         }
       }
@@ -25204,13 +25204,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "如果感觉飘忽,做接地练习:说出 5 件您能看见的、4 件能触摸的。"
+            "value" : "如果感觉飘忽,做稳定练习:说出 5 件您能看见的、4 件能触摸的。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "如果感覺飄忽,做接地練習:說出 5 件您能看見的、4 件能觸摸的。"
+            "value" : "如果感覺飄忽,做穩定練習:說出 5 件您能看見的、4 件能觸摸的。"
           }
         }
       }
@@ -25904,7 +25904,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過增強單胺神經傳導增加中樞神經系統活性,通常透過增加釋放或減少多巴胺和/或去甲腎上腺素的再攝取。具體機制因物質類別(釋放劑、再攝取抑制劑或受體激動劑)而異。效應包括警覺度、注意力和能量增加。"
+            "value" : "透過增強單胺神經傳導增加中樞神經系統活性,通常透過增加釋放或減少多巴胺和/或正腎上腺素的再攝取。具體機制因物質類別(釋放劑、再攝取抑制劑或受體促效劑)而異。效應包括警覺度、注意力和能量增加。"
           }
         }
       }
@@ -25914,13 +25914,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "增加突触血清素、多巴胺和去甲肾上腺素,以血清素能成分为主,这使共感剂与经典兴奋剂相区别。许多还刺激下丘脑释放催产素,助长亲社会效应、情感开放及共情和连结感。"
+            "value" : "增加突触血清素、多巴胺和去甲肾上腺素,以血清素能成分为主,这使共情剂与经典兴奋剂相区别。许多还刺激下丘脑释放催产素,助长亲社会效应、情感开放及共情和连结感。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "增加突觸血清素、多巴胺和去甲腎上腺素,以血清素能成分為主,這使共感劑與經典興奮劑相區別。許多還刺激下丘腦釋放催產素,助長親社會效應、情感開放及共情和連結感。"
+            "value" : "增加突觸血清素、多巴胺和正腎上腺素,以血清素能成分為主,這使共情劑與經典興奮劑相區別。許多還刺激下丘腦釋放催產素,助長親社會效應、情感開放及共情和連結感。"
           }
         }
       }
@@ -26322,7 +26322,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "反向激動劑"
+            "value" : "反向促效劑"
           }
         }
       }
@@ -26412,13 +26412,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已经持续了很长时间。您的身体和大脑需要睡眠来恢复。试着放松一下。"
+            "value" : "这一场已经持续了很长时间。您的身体和大脑需要睡眠来恢复。试着放松一下。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已經持續了很長時間。您的身體和大腦需要睡眠來恢復。試著放鬆一下。"
+            "value" : "這一場已經持續了很長時間。您的身體和大腦需要睡眠來恢復。試著放鬆一下。"
           }
         }
       }
@@ -26508,13 +26508,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "日志"
+            "value" : "日记"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "日誌"
+            "value" : "日記"
           }
         }
       }
@@ -26524,13 +26524,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "日志摘要"
+            "value" : "日记摘要"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "日誌摘要"
+            "value" : "日記摘要"
           }
         }
       }
@@ -27269,13 +27269,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "轻度"
+            "value" : "轻微"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "輕度"
+            "value" : "輕微"
           }
         }
       }
@@ -27467,7 +27467,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "人體數據有限"
+            "value" : "人體資料有限"
           }
         }
       }
@@ -27966,13 +27966,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录一次剂量以开始你的第一段记录。"
+            "value" : "记录一次剂量，开始你的第一个场次。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄一次劑量以開始你的第一段記錄。"
+            "value" : "記錄一次劑量，開始你的第一個場次。"
           }
         }
       }
@@ -28695,7 +28695,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理來源優先級"
+            "value" : "管理來源優先順序"
           }
         }
       }
@@ -28743,7 +28743,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "許多數值來自動物或體外（培養皿）實驗。人體數據最為可靠——來源標籤會標明屬於哪一種。"
+            "value" : "許多數值來自動物或體外（培養皿）實驗。人體資料最為可靠——來源標籤會標明屬於哪一種。"
           }
         }
       }
@@ -28753,7 +28753,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MAOI 阻断清除5-羟色胺的酶，因此负荷会不断累积而不是趋于平稳。风险是5-羟色胺综合征；MAOI 不会升高锂的血药浓度。"
+            "value" : "MAOI 阻断清除血清素的酶，因此负荷会不断累积而不是趋于平稳。风险是血清素综合征；MAOI 不会升高锂的血药浓度。"
           }
         },
         "zh-Hant" : {
@@ -28871,7 +28871,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "mCPP 以不同於曲唑酮的方式作用於血清素——它傾向於產生激活感或焦慮感,而非鎮靜,這是曲唑酮後半段感受可能與平靜的起效階段不同的部分原因。"
+            "value" : "mCPP 以不同於曲唑酮的方式作用於血清素——它傾向於產生亢奮感或焦慮感,而非鎮靜,這是曲唑酮後半段感受可能與平靜的起效階段不同的部分原因。"
           }
         }
       }
@@ -28881,13 +28881,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MDA 本身就是一种活性药物——比 MDMA 更像安非他明、致幻性更强，也更持久——因此后段时间的体验在性质上会与峰值不同。"
+            "value" : "MDA 本身就是一种活性药物——比 MDMA 更像苯丙胺、致幻性更强，也更持久——因此后段时间的体验在性质上会与高峰期不同。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MDA 本身就是一種活性藥物——比 MDMA 更像安非他命、致幻性更強，也更持久——因此後段時間的體驗在性質上會與峰值不同。"
+            "value" : "MDA 本身就是一種活性藥物——比 MDMA 更像安非他命、致幻性更強，也更持久——因此後段時間的體驗在性質上會與高峰期不同。"
           }
         }
       }
@@ -28914,13 +28914,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MDMA 会大量释放5-羟色胺，锂在此之上再加一份，因此主要风险是5-羟色胺综合征。锂与经典致幻剂合用有癫痫发作的报告；MDMA 没有被同样地研究过。"
+            "value" : "MDMA 会大量释放血清素，锂在此之上再加一份，因此主要风险是血清素综合征。锂与经典迷幻剂合用有癫痫发作的报告；MDMA 没有被同样地研究过。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MDMA 會大量釋放血清素，鋰在此之上再加一份，因此主要風險是血清素症候群。鋰與經典致幻劑合用有癲癇發作的報告；MDMA 沒有被同樣地研究過。"
+            "value" : "MDMA 會大量釋放血清素，鋰在此之上再加一份，因此主要風險是血清素症候群。鋰與經典迷幻劑合用有癲癇發作的報告；MDMA 沒有被同樣地研究過。"
           }
         }
       }
@@ -29061,7 +29061,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "衡量真正激活或阻斷靶點（而非僅僅附著其上）所需的劑量。其數值通常比結合親和力高約 10 倍，因此圓點採用相應的刻度（低於 1 µM 為強，高於 10 µM 為弱）。"
+            "value" : "衡量真正活化或阻斷靶點（而非僅僅附著其上）所需的劑量。其數值通常比結合親和力高約 10 倍，因此圓點採用相應的刻度（低於 1 µM 為強，高於 10 µM 為弱）。"
           }
         }
       }
@@ -30164,13 +30164,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "由受体占据率模型推算 · %@。"
+            "value" : "由受体占有率模型推算 · %@。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "由受體佔據率模型推算 · %@。"
+            "value" : "由受體佔有率模型推算 · %@。"
           }
         }
       }
@@ -30378,7 +30378,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過 β2-腎上腺素激動或抗膽鹼阻斷引起的支氣管擴張、皮質激素的抗炎效應、肥大細胞穩定或白三烯受體拮抗等機制調節氣道功能。"
+            "value" : "透過 β2-腎上腺素促效或抗膽鹼阻斷引起的支氣管擴張、皮質激素的抗炎效應、肥大細胞穩定或白三烯受體拮抗等機制調節氣道功能。"
           }
         }
       }
@@ -30426,7 +30426,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過受體激動或拮抗、影響激素合成或代謝的酶抑制,或直接激素替代來調節激素訊號。與下丘腦-腦垂體-內分泌軸相互作用。"
+            "value" : "透過受體促效或拮抗、影響激素合成或代謝的酶抑制,或直接激素替代來調節激素訊號。與下丘腦-腦垂體-內分泌軸相互作用。"
           }
         }
       }
@@ -30442,7 +30442,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過抑制發炎細胞因子產生、抑制 T 細胞或 B 細胞激活、補體系統調節或對特定免疫通路的靶向抑制等機制調節免疫系統功能。"
+            "value" : "透過抑制發炎細胞因子產生、抑制 T 細胞或 B 細胞活化、補體系統調節或對特定免疫通路的靶向抑制等機制調節免疫系統功能。"
           }
         }
       }
@@ -30458,7 +30458,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過再攝取抑制、酶抑制或受體調節等多種機制調節單胺神經傳導物質系統(血清素、去甲腎上腺素和/或多巴胺)。具體機制取決於藥物類別。治療效應通常在 2–6 週內顯現。"
+            "value" : "透過再攝取抑制、酶抑制或受體調節等多種機制調節單胺神經傳導物質系統(血清素、正腎上腺素和/或多巴胺)。具體機制取決於藥物類別。治療效應通常在 2–6 週內顯現。"
           }
         }
       }
@@ -30610,7 +30610,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用 T 期間與血球容積比一同監測。這是你實測數據點的繪圖。"
+            "value" : "用 T 期間與血球容積比一同監測。這是你實測資料點的繪圖。"
           }
         }
       }
@@ -30765,13 +30765,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用更多大麻来缓和消退，只会把消退往后推。"
+            "value" : "用更多大麻来缓和下头，只会把下头往后推。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用更多大麻來緩和消退，只會把消退往後推。"
+            "value" : "用更多大麻來緩和下頭，只會把下頭往後推。"
           }
         }
       }
@@ -30781,13 +30781,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "再用抑制剂来缓解早晨的不适，只会把这个早晨往后推。"
+            "value" : "再用中枢抑制药来缓解早晨的不适，只会把这个早晨往后推。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "再用抑制劑來緩解早晨的不適，只會把這個早晨往後推。"
+            "value" : "再用中樞抑制藥來緩解早晨的不適，只會把這個早晨往後推。"
           }
         }
       }
@@ -31207,13 +31207,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移至其他记录…"
+            "value" : "移至其他场次…"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移至其他記錄…"
+            "value" : "移至其他場次…"
           }
         }
       }
@@ -31288,13 +31288,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您熟悉的音乐是最强大的接地工具之一 — 尤其是在致幻体验期间。"
+            "value" : "您熟悉的音乐是最强大的稳定工具之一 — 尤其是在迷幻体验期间。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您熟悉的音樂是最強大的接地工具之一 — 尤其是在致幻體驗期間。"
+            "value" : "您熟悉的音樂是最強大的穩定工具之一 — 尤其是在迷幻體驗期間。"
           }
         }
       }
@@ -31675,13 +31675,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新建记录"
+            "value" : "新建场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新建記錄"
+            "value" : "新增場次"
           }
         }
       }
@@ -32058,13 +32058,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暂无进行中的记录"
+            "value" : "暂无进行中的场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暫無進行中的記錄"
+            "value" : "暫無進行中的場次"
           }
         }
       }
@@ -32170,13 +32170,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未定义常规剂量"
+            "value" : "未定义中等剂量"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未定義常規劑量"
+            "value" : "未定義中等劑量"
           }
         }
       }
@@ -32186,13 +32186,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这些物质未定义常规剂量"
+            "value" : "这些物质未定义中等剂量"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這些物質未定義常規劑量"
+            "value" : "這些物質未定義中等劑量"
           }
         }
       }
@@ -32448,7 +32448,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "無半衰期數據"
+            "value" : "無半衰期資料"
           }
         }
       }
@@ -32688,7 +32688,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未能解析該物質的藥理數據。"
+            "value" : "未能解析該物質的藥理資料。"
           }
         }
       }
@@ -32746,13 +32746,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暂无记录"
+            "value" : "暂无场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暫無記錄"
+            "value" : "暫無場次"
           }
         }
       }
@@ -32794,13 +32794,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无需注册，也没有任何接收你日志的 Piru 服务器。"
+            "value" : "无需注册，也没有任何接收你日记的 Piru 服务器。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "無需註冊，也沒有任何接收你日誌的 Piru 伺服器。"
+            "value" : "無需註冊，也沒有任何接收你日記的 Piru 伺服器。"
           }
         }
       }
@@ -32842,13 +32842,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次记录中没有记录任何物质。"
+            "value" : "本场没有记录任何物质。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次記錄中沒有記錄任何物質。"
+            "value" : "本場沒有記錄任何物質。"
           }
         }
       }
@@ -32955,13 +32955,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "不含跨次耐受。每次模拟都从未接触药物的基线开始；单次会话内的适应有被建模，但昨天的残留影响没有。"
+            "value" : "不含场次之间的耐受。每次模拟都从未接触药物的基线开始；场次内的适应有被建模，但昨天的残留影响没有。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "不含跨次耐受。每次模擬都從未接觸藥物的基線開始；單次會話內的適應有被建模，但昨天的殘留影響沒有。"
+            "value" : "不含場次之間的耐受。每次模擬都從未接觸藥物的基線開始；場次內的適應有被建模，但昨天的殘留影響沒有。"
           }
         }
       }
@@ -33009,7 +33009,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "非阿片類鎮痛 — NSAID、對乙醯氨基酚。"
+            "value" : "非鴉片類鎮痛 — NSAID、乙醯胺酚。"
           }
         }
       }
@@ -33084,13 +33084,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "益智剂"
+            "value" : "益智药"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "益智劑"
+            "value" : "益智藥"
           }
         }
       }
@@ -33100,13 +33100,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "益智剂通过多种机制增强认知功能,可能包括对乙酰胆碱、谷氨酸或单胺神经递质系统的调节;改善脑血流;通过抗氧化活性进行神经保护;或调节神经可塑性信号级联。机制差异很大,且具有物质特异性。"
+            "value" : "益智药通过多种机制增强认知功能,可能包括对乙酰胆碱、谷氨酸或单胺神经递质系统的调节;改善脑血流;通过抗氧化活性进行神经保护;或调节神经可塑性信号级联。机制差异很大,且具有物质特异性。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "益智劑透過多種機制增強認知功能,可能包括對乙醯膽鹼、麩胺酸或單胺神經傳導物質系統的調節;改善腦血流;透過抗氧化活性進行神經保護;或調節神經可塑性訊號級聯。機制差異很大,且具有物質特異性。"
+            "value" : "益智藥透過多種機制增強認知功能,可能包括對乙醯膽鹼、麩胺酸或單胺神經傳導物質系統的調節;改善腦血流;透過抗氧化活性進行神經保護;或調節神經可塑性訊號級聯。機制差異很大,且具有物質特異性。"
           }
         }
       }
@@ -33122,7 +33122,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "正腎上腺素回收抑制劑"
+            "value" : "正腎上腺素再攝取抑制劑"
           }
         }
       }
@@ -33138,7 +33138,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "正腎上腺素-多巴胺回收抑制劑"
+            "value" : "正腎上腺素-多巴胺再攝取抑制劑"
           }
         }
       }
@@ -33148,7 +33148,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "去甲肾上腺素能与特异性5-羟色胺能抗抑郁药"
+            "value" : "去甲肾上腺素能与特异性血清素能抗抑郁药"
           }
         },
         "zh-Hant" : {
@@ -33180,13 +33180,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "去甲麻黄碱(苯丙醇胺)是一种外周拟交感神经药——它升高血压和收缩血管的程度超过安非他明的中枢作用所能预测的。它增加了母体药物 CNS 特征所未提示的心血管负荷。"
+            "value" : "去甲麻黄碱(苯丙醇胺)是一种外周拟交感神经药——它升高血压和收缩血管的程度超过苯丙胺的中枢作用所能预测的。它增加了母体药物 CNS 特征所未提示的心血管负荷。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "去甲麻黃鹼(苯丙醇胺)是一種外周擬交感神經藥——它升高血壓和收縮血管的程度超過安非他命的中樞作用所能預測的。它增加了母體藥物 CNS 特徵所未提示的心血管負荷。"
+            "value" : "去甲麻黃鹼(苯丙醇胺)是一種周邊擬交感神經藥——它升高血壓和收縮血管的程度超過安非他命的中樞作用所能預測的。它增加了母體藥物 CNS 特徵所未提示的心血管負荷。"
           }
         }
       }
@@ -33202,7 +33202,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "去甲腎上腺素轉運體"
+            "value" : "正腎上腺素轉運體"
           }
         }
       }
@@ -33266,7 +33266,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "去甲喹硫平增加了喹硫平基本不具備的作用——去甲腎上腺素再攝取抑制和抗憂鬱樣活性——因此它貢獻的特徵不同於母體藥物的鎮靜作用。"
+            "value" : "去甲喹硫平增加了喹硫平基本不具備的作用——正腎上腺素再攝取抑制和抗憂鬱樣活性——因此它貢獻的特徵不同於母體藥物的鎮靜作用。"
           }
         }
       }
@@ -33282,7 +33282,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "去甲替林本身就是一種上市的抗憂鬱藥,比阿米替林更偏向去甲腎上腺素——因此代謝物的特徵比母體藥物更具激活性。"
+            "value" : "去甲替林本身就是一種上市的抗憂鬱藥,比阿米替林更偏向正腎上腺素——因此代謝物的特徵比母體藥物更具活化性。"
           }
         }
       }
@@ -33538,13 +33538,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——%lld 个时段有笔记"
+            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——%lld 个场次有笔记"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——%lld 個時段有筆記"
+            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——%lld 個場次有筆記"
           }
         }
       }
@@ -33554,13 +33554,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——1 个时段有笔记"
+            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——1 个场次有笔记"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——1 個時段有筆記"
+            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——1 個場次有筆記"
           }
         }
       }
@@ -33570,13 +33570,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——所选时段还没有笔记"
+            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——所选场次还没有笔记"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——所選時段還沒有筆記"
+            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——所選場次還沒有筆記"
           }
         }
       }
@@ -33715,7 +33715,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此处没有可锚定曲线的物质。请添加一种已校准的物质——安非他命、哌甲酯、4-甲基甲卡西酮、3-MMC 或 2-MMC。"
+            "value" : "此处没有可锚定曲线的物质。请添加一种已校准的物质——苯丙胺、哌甲酯、4-甲基甲卡西酮、3-MMC 或 2-MMC。"
           }
         },
         "zh-Hant" : {
@@ -34307,13 +34307,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下降期"
+            "value" : "消退期"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下降期"
+            "value" : "消退期"
           }
         }
       }
@@ -34436,13 +34436,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在下降过程中，预期再次滞后。多巴胺已回到基线，预期却仍居高不下，基线之下的这段落差便是退效期。"
+            "value" : "在下降过程中，预期再次滞后。多巴胺已回到基线，预期却仍居高不下，基线之下的这段落差便是药效下降期。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在下降過程中，預期再次滯後。多巴胺已回到基線，預期卻仍居高不下，基線之下的這段落差便是退效期。"
+            "value" : "在下降過程中，預期再次滯後。多巴胺已回到基線，預期卻仍居高不下，基線之下的這段落差便是藥效下降期。"
           }
         }
       }
@@ -34517,13 +34517,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每种效应一条曲线，由本次记录中所有物质和剂量合成。"
+            "value" : "每种效应一条曲线，由本场中所有物质和剂量合成。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每種效應一條曲線，由本次記錄中所有物質和劑量合成。"
+            "value" : "每種效應一條曲線，由本場中所有物質和劑量合成。"
           }
         }
       }
@@ -34823,13 +34823,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打开本次记录。"
+            "value" : "打开这个场次。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打開本次記錄。"
+            "value" : "開啟這個場次。"
           }
         }
       }
@@ -34893,7 +34893,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阿片類"
+            "value" : "鴉片類"
           }
         }
       }
@@ -34909,7 +34909,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阿片類藥物與劑量"
+            "value" : "鴉片類藥物與劑量"
           }
         }
       }
@@ -34925,7 +34925,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阿片類 MME"
+            "value" : "鴉片類 MME"
           }
         }
       }
@@ -34941,7 +34941,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阿片類"
+            "value" : "鴉片類"
           }
         }
       }
@@ -34973,7 +34973,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阿片類會釋放組胺，常有人感到瘙癢。Piru 無法把它與過敏區分開——口腔或喉嚨腫脹，或呼吸困難，屬於急症。"
+            "value" : "鴉片類會釋放組織胺，常有人感到瘙癢。Piru 無法把它與過敏區分開——口腔或喉嚨腫脹，或呼吸困難，屬於急症。"
           }
         }
       }
@@ -35326,7 +35326,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "血清素再攝取抑制重疊 — 血清素綜合徵的風險增加。"
+            "value" : "血清素再攝取抑制重疊 — 血清素症候群的風險增加。"
           }
         }
       }
@@ -35497,13 +35497,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所属记录"
+            "value" : "所属场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所屬記錄"
+            "value" : "所屬場次"
           }
         }
       }
@@ -35535,7 +35535,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "部分激動劑"
+            "value" : "部分促效劑"
           }
         }
       }
@@ -35551,7 +35551,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "μ-阿片受體部分激動劑"
+            "value" : "μ-鴉片受體部分促效劑"
           }
         }
       }
@@ -35631,7 +35631,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "由通行密語保護——可儲存或傳送到任何地方"
+            "value" : "由通行碼保護——可儲存或傳送到任何地方"
           }
         }
       }
@@ -35673,13 +35673,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "越过某一阈值后，这份亏空会启动退药项，随后在数小时内以逐渐加速的合成恢复。血清素活性会起到缓冲作用。这正是安非他命的崩落与卡西酮类平缓回落在这些曲线上分野如此鲜明的原因。"
+            "value" : "越过某一阈值后，这份亏空会启动药效下降项，随后在数小时内以逐渐加速的合成恢复。血清素活性会起到缓冲作用。这正是苯丙胺的崩溃与卡西酮类平缓回落在这些曲线上分野如此鲜明的原因。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "越過某一閾值後，這份虧空會啟動退藥項，隨後在數小時內以逐漸加速的合成恢復。血清素活性會起到緩衝作用。這正是安非他命的崩落與卡西酮類平緩回落在這些曲線上分野如此鮮明的原因。"
+            "value" : "越過某一閾值後，這份虧空會啟動藥效下降項，隨後在數小時內以逐漸加速的合成恢復。血清素活性會起到緩衝作用。這正是安非他命的崩潰與卡西酮類平緩回落在這些曲線上分野如此鮮明的原因。"
           }
         }
       }
@@ -35753,13 +35753,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "巅峰"
+            "value" : "高峰期"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "巔峰"
+            "value" : "高峰期"
           }
         }
       }
@@ -35769,13 +35769,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "巅峰 %@"
+            "value" : "高峰期 %@"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "巔峰 %@"
+            "value" : "高峰期 %@"
           }
         }
       }
@@ -36285,13 +36285,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择要移到其他时段的剂量。"
+            "value" : "选择要移到其他场次的剂量。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇要移到其他時段的劑量。"
+            "value" : "選擇要移到其他場次的劑量。"
           }
         }
       }
@@ -36445,13 +36445,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 和 PsychonautWiki 文件是纯 JSON。导入会添加到你的日志（重复项跳过）。加密备份可合并或替换。库存包含在 Piru 和加密备份中，但不含 PsychonautWiki 文件。"
+            "value" : "Piru 和 PsychonautWiki 文件是纯 JSON。导入会添加到你的日记（重复项跳过）。加密备份可合并或替换。库存包含在 Piru 和加密备份中，但不含 PsychonautWiki 文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 和 PsychonautWiki 檔案是純 JSON。匯入會新增到你的日誌（重複項略過）。加密備份可合併或取代。庫存包含在 Piru 和加密備份中，但不含 PsychonautWiki 檔案。"
+            "value" : "Piru 和 PsychonautWiki 檔案是純 JSON。匯入會新增到你的日記（重複項略過）。加密備份可合併或取代。庫存包含在 Piru 和加密備份中，但不含 PsychonautWiki 檔案。"
           }
         }
       }
@@ -36573,13 +36573,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 这次未能打开你的日志，目前正以临时存储运行。**没有任何数据被删除**——你的剂量和记录仍安全保存在这台设备上，未来的更新会自动恢复它们。\n\n发送日志能帮助我们更快推出修复。日志只描述存储问题本身——绝不包含你的剂量数据。"
+            "value" : "Piru 这次未能打开你的日记，目前正以临时存储运行。**没有任何数据被删除**——你的剂量和场次仍安全保存在这台设备上，未来的更新会自动恢复它们。\n\n发送日志能帮助我们更快推出修复。日志只描述存储问题本身——绝不包含你的剂量数据。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 這次未能開啟你的日誌，目前正以暫時儲存空間執行。**沒有任何資料被刪除**——你的劑量和記錄仍安全保存在這部裝置上，未來的更新會自動還原它們。\n\n傳送記錄檔能幫助我們更快推出修正。記錄檔只描述儲存問題本身——絕不包含你的劑量資料。"
+            "value" : "Piru 這次未能開啟你的日記，目前正以暫時儲存空間執行。**沒有任何資料被刪除**——你的劑量和場次仍安全保存在這部裝置上，未來的更新會自動還原它們。\n\n傳送記錄檔能幫助我們更快推出修正。記錄檔只描述儲存問題本身——絕不包含你的劑量資料。"
           }
         }
       }
@@ -36659,13 +36659,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 无法为 %2$@ 的 %1$@ 绘制时间线。本次记录只显示每次用药的时间，而非其持续时长。"
+            "value" : "Piru 无法为 %2$@ 的 %1$@ 绘制时间线。这个场次只显示每次用药的时间，而非其持续时长。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 無法為 %2$@ 的 %1$@ 繪製時間線。本次記錄只顯示每次用藥的時間，而非其持續時長。"
+            "value" : "Piru 無法為 %2$@ 的 %1$@ 繪製時間線。這個場次只顯示每次用藥的時間，而非其持續時長。"
           }
         }
       }
@@ -36675,13 +36675,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 无法为这些剂型绘制时间线——本次记录只显示每次用药的时间，而非其持续时长。"
+            "value" : "Piru 无法为这些剂型绘制时间线——这个场次只显示每次用药的时间，而非其持续时长。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 無法為這些劑型繪製時間線——本次記錄只顯示每次用藥的時間，而非其持續時長。"
+            "value" : "Piru 無法為這些劑型繪製時間線——這個場次只顯示每次用藥的時間，而非其持續時長。"
           }
         }
       }
@@ -36713,7 +36713,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru 會顯示你已啟用的、擁有該數據的最高優先級來源——順序由你決定。"
+            "value" : "Piru 會顯示你已啟用的、擁有該資料的最高優先順序來源——順序由你決定。"
           }
         }
       }
@@ -36777,7 +36777,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "藥代動力學列"
+            "value" : "藥物動力學欄"
           }
         }
       }
@@ -36803,13 +36803,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "纯文本记录数据——用于笔记、AI 或存档"
+            "value" : "纯文本场次数据——用于笔记、AI 或存档"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "純文字記錄資料——用於筆記、AI 或存檔"
+            "value" : "純文字場次資料——用於筆記、AI 或存檔"
           }
         }
       }
@@ -36899,13 +36899,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "愉悦和暖意升到线以上；退落期沉到线以下。"
+            "value" : "愉悦和暖意升到线以上；药效下降期沉到线以下。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "愉悅和暖意升到線以上；退落期沉到線以下。"
+            "value" : "愉悅和暖意升到線以上；藥效下降期沉到線以下。"
           }
         }
       }
@@ -36937,7 +36937,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "對準條碼或標籤，然後輕點高亮區域"
+            "value" : "對準條碼或標籤，然後輕點醒目提示的區域"
           }
         }
       }
@@ -37318,13 +37318,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "主要作为血清素 5-HT2A 受体的激动剂或部分激动剂,特别是在前额叶皮质 V 层锥体神经元上。5-HT2A 激活增加谷氨酸释放并增强皮质兴奋性,导致感知、认知和意识改变。大多数经典致幻剂也与 5-HT2C、5-HT1A 等血清素受体亚型相互作用。"
+            "value" : "主要作为血清素 5-HT2A 受体的激动剂或部分激动剂,特别是在前额叶皮质 V 层锥体神经元上。5-HT2A 激活增加谷氨酸释放并增强皮质兴奋性,导致感知、认知和意识改变。大多数经典迷幻剂也与 5-HT2C、5-HT1A 等血清素受体亚型相互作用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "主要作為血清素 5-HT2A 受體的激動劑或部分激動劑,特別是在前額葉皮質 V 層錐體神經元上。5-HT2A 激活增加麩胺酸釋放並增強皮質興奮性,導致感知、認知和意識改變。大多數經典致幻劑也與 5-HT2C、5-HT1A 等血清素受體亞型相互作用。"
+            "value" : "主要作為血清素 5-HT2A 受體的促效劑或部分促效劑,特別是在前額葉皮質 V 層錐體神經元上。5-HT2A 活化增加麩胺酸釋放並增強皮質興奮性,導致感知、認知和意識改變。大多數經典迷幻劑也與 5-HT2C、5-HT1A 等血清素受體亞型相互作用。"
           }
         }
       }
@@ -37608,13 +37608,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "致幻剂"
+            "value" : "迷幻剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "致幻劑"
+            "value" : "迷幻劑"
           }
         }
       }
@@ -37624,13 +37624,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "致幻剂"
+            "value" : "迷幻剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "致幻劑"
+            "value" : "迷幻劑"
           }
         }
       }
@@ -37800,13 +37800,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "将这一剂单独归入新记录。"
+            "value" : "将这一剂单独归入新场次。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "將這一劑單獨歸入新記錄。"
+            "value" : "將這一劑單獨歸入新場次。"
           }
         }
       }
@@ -37913,13 +37913,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "快速记录快捷项"
+            "value" : "快捷记录快捷项"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "快速記錄快捷項目"
+            "value" : "快捷記錄快捷項目"
           }
         }
       }
@@ -38047,7 +38047,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "增強多巴胺和去甲腎上腺素訊號，從而提升動力、注意力和清醒度，心率和體溫也隨之升高。它們的差異主要在於方式：促進神經傳導物質釋放，或阻斷其再攝取。"
+            "value" : "增強多巴胺和正腎上腺素訊號，從而提升動力、注意力和清醒度，心率和體溫也隨之升高。它們的差異主要在於方式：促進神經傳導物質釋放，或阻斷其再攝取。"
           }
         }
       }
@@ -38063,7 +38063,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在數週而非數小時內提升血清素、去甲腎上腺素或多巴胺訊號。這一類在此主要因其阻斷或疊加的對象而重要。"
+            "value" : "在數週而非數小時內提升血清素、正腎上腺素或多巴胺訊號。這一類在此主要因其阻斷或疊加的對象而重要。"
           }
         }
       }
@@ -38105,13 +38105,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "通过阻断本来起刹车作用的α₂自身受体来提高去甲肾上腺素和5-羟色胺的释放，而不是阻断再摄取。与之并行的H₁阻断，就是镇静和食欲的来源。"
+            "value" : "通过阻断本来起刹车作用的α₂自身受体来提高去甲肾上腺素和血清素的释放，而不是阻断再摄取。与之并行的H₁阻断，就是镇静和食欲的来源。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過阻斷本來起煞車作用的α₂自身受體來提高正腎上腺素和血清素的釋放，而不是阻斷回收。與之並行的H₁阻斷，就是鎮靜和食慾的來源。"
+            "value" : "透過阻斷本來起煞車作用的α₂自身受體來提高正腎上腺素和血清素的釋放，而不是阻斷再攝取。與之並行的H₁阻斷，就是鎮靜和食慾的來源。"
           }
         }
       }
@@ -38518,7 +38518,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "受體數據"
+            "value" : "受體資料"
           }
         }
       }
@@ -38935,7 +38935,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過抑制前列腺素合成、激活內源性阿片通路、調節下行性痛覺抑制環路或阻斷外周傷害感受器敏化等機制減少痛覺。具體機制取決於藥物類別。"
+            "value" : "透過抑制前列腺素合成、活化內源性鴉片通路、調節下行性痛覺抑制環路或阻斷周邊傷害感受器敏化等機制減少痛覺。具體機制取決於藥物類別。"
           }
         }
       }
@@ -39291,13 +39291,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "释放血清素，以及多巴胺和去甲肾上腺素——带来温暖、亲近和情感开放，而非致幻剂的知觉改变。多数是带有亚甲二氧基环的苯丙胺。"
+            "value" : "释放血清素，以及多巴胺和去甲肾上腺素——带来温暖、亲近和情感开放，而非迷幻剂的知觉改变。多数是带有亚甲二氧基环的苯丙胺。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "釋放血清素，以及多巴胺和去甲腎上腺素——帶來溫暖、親近和情感開放，而非致幻劑的知覺改變。多數是帶有亞甲二氧基環的安非他命。"
+            "value" : "釋放血清素，以及多巴胺和正腎上腺素——帶來溫暖、親近和情感開放，而非迷幻劑的知覺改變。多數是帶有亞甲二氧基環的安非他命。"
           }
         }
       }
@@ -39484,13 +39484,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "提醒和依从性追踪将停止。你已经记录的剂量仍保留在日志中。"
+            "value" : "提醒和依从性追踪将停止。你已经记录的剂量仍保留在日记中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "提醒和依從性追蹤將停止。你已經記錄的劑量仍保留在日誌中。"
+            "value" : "提醒和依從性追蹤將停止。你已經記錄的劑量仍保留在日記中。"
           }
         }
       }
@@ -39692,13 +39692,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "从快速记录中移除"
+            "value" : "从快捷记录中移除"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "從快速記錄中移除"
+            "value" : "從快捷記錄中移除"
           }
         }
       }
@@ -39804,13 +39804,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重命名记录"
+            "value" : "重命名场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重新命名記錄"
+            "value" : "重新命名場次"
           }
         }
       }
@@ -40316,13 +40316,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "恢复你从 Piru 导出的完整日志。"
+            "value" : "恢复你从 Piru 导出的完整日记。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "還原你從 Piru 匯出的完整日誌。"
+            "value" : "還原你從 Piru 匯出的完整日記。"
           }
         }
       }
@@ -40434,7 +40434,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "恢復購買"
+            "value" : "回復購買項目"
           }
         }
       }
@@ -40751,13 +40751,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有致命 5-HT 综合征的风险——MAOI 会阻断清除共情剂所释放 5-HT 的酶。"
+            "value" : "有致命的血清素综合征风险——MAOI 会阻断清除共情剂所释放血清素的酶。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有致命 5-HT 症候群的風險——MAOI 會阻斷清除共情劑所釋放 5-HT 的酵素。"
+            "value" : "有致命的血清素症候群風險——MAOI 會阻斷清除共情劑所釋放血清素的酵素。"
           }
         }
       }
@@ -40789,7 +40789,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有血清素綜合徵和高血壓危象的風險。"
+            "value" : "有血清素症候群和高血壓危象的風險。"
           }
         }
       }
@@ -40805,7 +40805,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有血清素綜合徵的風險,尤其是與哌替啶、曲馬多和他噴他多。"
+            "value" : "有血清素症候群的風險,尤其是與哌替啶、曲馬多和他噴他多。"
           }
         }
       }
@@ -41174,7 +41174,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "可飽和激活——效應觸及上限"
+            "value" : "可飽和活化——效應觸及上限"
           }
         }
       }
@@ -41446,7 +41446,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "搜尋苯二氮䓬"
+            "value" : "搜尋苯二氮平"
           }
         }
       }
@@ -41794,13 +41794,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一目了然地查看本次记录的剂量。"
+            "value" : "一目了然地查看当前场次的剂量。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一目了然地查看本次記錄的劑量。"
+            "value" : "一目了然地查看目前場次的劑量。"
           }
         }
       }
@@ -41928,7 +41928,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇苯二氮䓬"
+            "value" : "選擇苯二氮平"
           }
         }
       }
@@ -41954,13 +41954,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择记录"
+            "value" : "选择场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇記錄"
+            "value" : "選擇場次"
           }
         }
       }
@@ -41970,13 +41970,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择记录"
+            "value" : "选择场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇記錄"
+            "value" : "選擇場次"
           }
         }
       }
@@ -42002,13 +42002,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择性5-羟色胺再摄取抑制剂"
+            "value" : "选择性血清素再摄取抑制剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇性血清素回收抑制劑"
+            "value" : "選擇性血清素再攝取抑制劑"
           }
         }
       }
@@ -42100,7 +42100,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-羟色胺能 — LSD、裸盖菇素、麦司卡林。"
+            "value" : "血清素能 — LSD、裸盖菇素、麦司卡林。"
           }
         },
         "zh-Hant" : {
@@ -42116,13 +42116,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-羟色胺"
+            "value" : "血清素"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-羥色胺"
+            "value" : "血清素"
           }
         }
       }
@@ -42132,13 +42132,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "血清素 5-HT2A 受体激动剂(经典致幻剂)"
+            "value" : "血清素 5-HT2A 受体激动剂(经典迷幻剂)"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "血清素 5-HT2A 受體激動劑(經典致幻劑)"
+            "value" : "血清素 5-HT2A 受體促效劑(經典迷幻劑)"
           }
         }
       }
@@ -42164,13 +42164,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-羟色胺拮抗与再摄取抑制剂"
+            "value" : "血清素拮抗与再摄取抑制剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "血清素拮抗與回收抑制劑"
+            "value" : "血清素拮抗與再攝取抑制劑"
           }
         }
       }
@@ -42196,13 +42196,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-羟色胺调节剂与激动剂"
+            "value" : "血清素调节剂与激动剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "血清素調節劑與激動劑"
+            "value" : "血清素調節劑與促效劑"
           }
         }
       }
@@ -42244,13 +42244,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-HT 综合征——可能致命。MAOI 会阻断清除 5-HT 的酶。"
+            "value" : "血清素综合征——可能致命。MAOI 会阻断清除血清素的酶。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-HT 症候群——可能致命。MAOI 會阻斷清除 5-HT 的酵素。"
+            "value" : "血清素症候群——可能致命。MAOI 會阻斷清除血清素的酵素。"
           }
         }
       }
@@ -42260,13 +42260,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-HT 综合征——可能致命。说明书要求两者之间有数周的洗脱期。"
+            "value" : "血清素综合征——可能致命。说明书要求两者之间有数周的洗脱期。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-HT 症候群——可能致命。說明書要求兩者之間有數週的沖洗期。"
+            "value" : "血清素症候群——可能致命。說明書要求兩者之間有數週的沖洗期。"
           }
         }
       }
@@ -42330,7 +42330,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有血清素綜合徵的風險 — 尤其是與 DXM 等血清素能解離劑。"
+            "value" : "有血清素症候群的風險 — 尤其是與 DXM 等血清素能解離劑。"
           }
         }
       }
@@ -42388,13 +42388,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "偏向 5-羟色胺（致共情类）"
+            "value" : "偏向 血清素（共情剂类）"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "偏向 5-羥色胺（致共情類）"
+            "value" : "偏向 血清素（共情劑類）"
           }
         }
       }
@@ -42404,13 +42404,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5-羟色胺-去甲肾上腺素再摄取抑制剂"
+            "value" : "血清素-去甲肾上腺素再摄取抑制剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "血清素-正腎上腺素回收抑制劑"
+            "value" : "血清素-正腎上腺素再攝取抑制劑"
           }
         }
       }
@@ -42426,7 +42426,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "血清水平"
+            "value" : "血清濃度"
           }
         }
       }
@@ -42452,13 +42452,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次记录"
+            "value" : "场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次記錄"
+            "value" : "場次"
           }
         }
       }
@@ -42468,13 +42468,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用期间提醒"
+            "value" : "场次提醒"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用期間提醒"
+            "value" : "場次提醒"
           }
         }
       }
@@ -42484,13 +42484,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录数据"
+            "value" : "场次数据"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄資料"
+            "value" : "場次資料"
           }
         }
       }
@@ -42500,13 +42500,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录图片"
+            "value" : "场次图片"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄圖片"
+            "value" : "場次圖片"
           }
         }
       }
@@ -42516,13 +42516,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录图片"
+            "value" : "场次图片"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄圖片"
+            "value" : "場次圖片"
           }
         }
       }
@@ -42532,13 +42532,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "会话选项"
+            "value" : "场次选项"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "工作階段選項"
+            "value" : "場次選項"
           }
         }
       }
@@ -42548,13 +42548,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录报告"
+            "value" : "场次报告"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄報告"
+            "value" : "場次報告"
           }
         }
       }
@@ -42564,13 +42564,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次记录快照"
+            "value" : "场次快照"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次記錄快照"
+            "value" : "場次快照"
           }
         }
       }
@@ -42586,13 +42586,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录开始于 %1$@ · %2$@ 进行中"
+            "value" : "场次开始于 %1$@ · %2$@ 进行中"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄開始於 %1$@ · %2$@ 進行中"
+            "value" : "場次開始於 %1$@ · %2$@ 進行中"
           }
         }
       }
@@ -42602,13 +42602,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录标题"
+            "value" : "场次标题"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄標題"
+            "value" : "場次標題"
           }
         }
       }
@@ -42618,13 +42618,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记录"
+            "value" : "场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記錄"
+            "value" : "場次"
           }
         }
       }
@@ -42634,13 +42634,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此范围内的记录导出为单独图片"
+            "value" : "此范围内的场次导出为单独图片"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此範圍內的記錄匯出為單獨圖片"
+            "value" : "此範圍內的場次匯出為單獨圖片"
           }
         }
       }
@@ -42746,13 +42746,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "严重呼吸抑制 — 两者都是 GABA 能抑制剂。"
+            "value" : "严重呼吸抑制 — 两者都是 GABA 能中枢抑制药。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "嚴重呼吸抑制 — 兩者都是 GABA 能抑制劑。"
+            "value" : "嚴重呼吸抑制 — 兩者都是 GABA 能中樞抑制藥。"
           }
         }
       }
@@ -42923,13 +42923,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享本次记录"
+            "value" : "分享场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享本次記錄"
+            "value" : "分享場次"
           }
         }
       }
@@ -42939,13 +42939,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享本次记录"
+            "value" : "分享场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享本次記錄"
+            "value" : "分享場次"
           }
         }
       }
@@ -42971,13 +42971,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享本次记录"
+            "value" : "分享本场"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享本次記錄"
+            "value" : "分享本場"
           }
         }
       }
@@ -43041,7 +43041,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "作用於激素或生長因子受體的短鏈胺基酸。幾乎全為注射給藥，也幾乎都沒有長期人體數據。"
+            "value" : "作用於激素或生長因子受體的短鏈胺基酸。幾乎全為注射給藥，也幾乎都沒有長期人體資料。"
           }
         }
       }
@@ -43148,13 +43148,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "开始追踪时在锁定屏幕上显示实时活动。也可以从任何记录中启动。"
+            "value" : "开始追踪时在锁定屏幕上显示实时活动。也可以从任何场次中启动。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "開始追蹤時在鎖定畫面上顯示即時動態。也可以從任何記錄中啟動。"
+            "value" : "開始追蹤時在鎖定畫面上顯示即時動態。也可以從任何場次中啟動。"
           }
         }
       }
@@ -43244,13 +43244,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在记录中显示心脏数据"
+            "value" : "在场次中显示心脏数据"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在記錄中顯示心臟數據"
+            "value" : "在場次中顯示心臟資料"
           }
         }
       }
@@ -43292,13 +43292,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在场次时间线上，把“健康”中的体重和心率与你的日志条目并排显示。"
+            "value" : "在场次时间线上，把“健康”中的体重和心率与你的日记记录并排显示。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在場次時間軸上，把「健康」中的體重和心率與你的日誌項目並排顯示。"
+            "value" : "在場次時間軸上，把「健康」中的體重和心率與你的日記記錄並排顯示。"
           }
         }
       }
@@ -43500,13 +43500,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "把“健康”中的体重、心率、血压和锻炼与你的日志并排显示。可在“健康”App 的设置中更改 Piru 能看到的内容。"
+            "value" : "把“健康”中的体重、心率、血压和锻炼与你的日记并排显示。可在“健康”App 的设置中更改 Piru 能看到的内容。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "把「健康」中的體重、心率、血壓和體能訓練與你的日誌並排顯示。可在「健康」App 的設定中更改 Piru 能看到的內容。"
+            "value" : "把「健康」中的體重、心率、血壓和體能訓練與你的日記並排顯示。可在「健康」App 的設定中更改 Piru 能看到的內容。"
           }
         }
       }
@@ -43746,13 +43746,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "皮肤的收入用于支持 Piru 的开发。无论买不买，日志、资料库和所有工具都是免费的。"
+            "value" : "皮肤的收入用于支持 Piru 的开发。无论买不买，日记、物质库和所有工具都是免费的。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "皮膚的收入用於支持 Piru 的開發。無論買不買，日誌、資料庫和所有工具都是免費的。"
+            "value" : "皮膚的收入用於支持 Piru 的開發。無論買不買，日記、物質庫和所有工具都是免費的。"
           }
         }
       }
@@ -43928,7 +43928,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "今晚的睡眠質量可能不佳。"
+            "value" : "今晚的睡眠品質可能不佳。"
           }
         }
       }
@@ -44089,7 +44089,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SNRI 通常會削弱 MDMA——它可能感覺更弱，而有文獻記錄的危害是為了補償而多服（過熱、心臟負擔）。病例報告並未顯示僅這一組合就會引起血清素綜合徵；有文獻記錄的危險是 MAOI。"
+            "value" : "SNRI 通常會削弱 MDMA——它可能感覺更弱，而有文獻記錄的危害是為了補償而多服（過熱、心臟負擔）。病例報告並未顯示僅這一組合就會引起血清素症候群；有文獻記錄的危險是 MAOI。"
           }
         }
       }
@@ -44250,7 +44250,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "部分參考文字由 AI 輔助起草，並在釋出前經過審閱。AI 的輸出不被當作證據。定量的和與安全相關的說法都會對照已標明的來源進行核對，這些來源列在每個物質頁面上。"
+            "value" : "部分參考文字由 AI 輔助起草，並在發布前經過審閱。AI 的輸出不被當作證據。定量的和與安全相關的說法都會對照已標明的來源進行核對，這些來源列在每個物質頁面上。"
           }
         }
       }
@@ -44490,7 +44490,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "來源優先級"
+            "value" : "來源優先順序"
           }
         }
       }
@@ -44580,13 +44580,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在此拆分记录"
+            "value" : "在此拆分场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在此拆分記錄"
+            "value" : "在此拆分場次"
           }
         }
       }
@@ -44596,13 +44596,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "将繁忙记录中重叠的曲线按物质拆分为各自的泳道。"
+            "value" : "将繁忙场次中重叠的曲线按物质拆分为各自的泳道。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "將繁忙記錄中重疊的曲線按物質拆分為各自的泳道。"
+            "value" : "將繁忙場次中重疊的曲線按物質拆分為各自的泳道。"
           }
         }
       }
@@ -44634,7 +44634,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SSRI 抑制 TCA 代謝 — 有 TCA 中毒和血清素綜合徵的風險。"
+            "value" : "SSRI 抑制 TCA 代謝 — 有 TCA 中毒和血清素症候群的風險。"
           }
         }
       }
@@ -44644,13 +44644,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SSRI 通常会减弱致幻效应,但与某些化合物可能增加风险。"
+            "value" : "SSRI 通常会减弱迷幻效应,但与某些化合物可能增加风险。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SSRI 通常會減弱致幻效應,但與某些化合物可能增加風險。"
+            "value" : "SSRI 通常會減弱迷幻效應,但與某些化合物可能增加風險。"
           }
         }
       }
@@ -44666,7 +44666,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SSRI 通常會削弱 MDMA——它可能感覺弱得多，而有文獻記錄的危害是為了補償而多服（過熱、心臟負擔）。病例報告並未顯示僅這一組合就會引起血清素綜合徵；有文獻記錄的危險是 MAOI。"
+            "value" : "SSRI 通常會削弱 MDMA——它可能感覺弱得多，而有文獻記錄的危害是為了補償而多服（過熱、心臟負擔）。病例報告並未顯示僅這一組合就會引起血清素症候群；有文獻記錄的危險是 MAOI。"
           }
         }
       }
@@ -44708,13 +44708,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "拆分繁忙记录图表"
+            "value" : "拆分繁忙场次图表"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "拆分繁忙記錄圖表"
+            "value" : "拆分繁忙場次圖表"
           }
         }
       }
@@ -44740,13 +44740,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "叠加重复剂量"
+            "value" : "叠加补服"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "疊加重複劑量"
+            "value" : "疊加補服"
           }
         }
       }
@@ -44762,7 +44762,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "疊加苯二氮䓬類會顯著增加鎮靜和呼吸抑制的風險。"
+            "value" : "疊加苯二氮平類會顯著增加鎮靜和呼吸抑制的風險。"
           }
         }
       }
@@ -44788,13 +44788,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "叠加阿片不可预测 — 呼吸抑制风险叠加。"
+            "value" : "叠加阿片类不可预测 — 呼吸抑制风险叠加。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "疊加阿片不可預測 — 呼吸抑制風險疊加。"
+            "value" : "疊加鴉片類不可預測 — 呼吸抑制風險疊加。"
           }
         }
       }
@@ -44900,13 +44900,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "给物质加星，即可保留在快速记录的收藏中。"
+            "value" : "给物质加星，即可保留在快捷记录的收藏中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "為物質加星，即可保留在快速記錄的收藏中。"
+            "value" : "為物質加星，即可保留在快捷記錄的收藏中。"
           }
         }
       }
@@ -45029,13 +45029,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "从任何进行中的记录开启，即可在锁定屏幕上查看。"
+            "value" : "从任何进行中的场次开启，即可在锁定屏幕上查看。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "從任何進行中的記錄開啟，即可在鎖定畫面上查看。"
+            "value" : "從任何進行中的場次開啟，即可在鎖定畫面上查看。"
           }
         }
       }
@@ -45564,7 +45564,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "規律使用後突然停用 α₂ 致效劑，可能讓血壓反彈。"
+            "value" : "規律使用後突然停用 α₂ 促效劑，可能讓血壓反彈。"
           }
         }
       }
@@ -45580,7 +45580,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在使用 β 阻斷劑期間突然停用可樂定類藥物，可能讓血壓飆升到危險水平。"
+            "value" : "在使用 β 阻斷劑期間突然停用可樂定類藥物，可能讓血壓飆升到危險水準。"
           }
         }
       }
@@ -45703,13 +45703,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "强效"
+            "value" : "强烈"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "強效"
+            "value" : "強烈"
           }
         }
       }
@@ -46136,13 +46136,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你创建或个性化的物质会显示在这里。你也可以在快速记录搜索中创建它们。"
+            "value" : "你创建或个性化的物质会显示在这里。你也可以在快捷记录搜索中创建它们。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你建立或個人化的物質會顯示在這裡。你也可以在快速記錄搜尋中建立它們。"
+            "value" : "你建立或個人化的物質會顯示在這裡。你也可以在快捷記錄搜尋中建立它們。"
           }
         }
       }
@@ -46248,13 +46248,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "膳食补充"
+            "value" : "膳食补充剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "膳食補充"
+            "value" : "膳食補充劑"
           }
         }
       }
@@ -46264,13 +46264,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "膳食补充"
+            "value" : "膳食补充剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "膳食補充"
+            "value" : "膳食補充劑"
           }
         }
       }
@@ -46673,7 +46673,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "因為反跳就再服，會強化這個迴圈。"
+            "value" : "因為反跳就再服，會強化這個循環。"
           }
         }
       }
@@ -46715,13 +46715,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在同一次体验中再服，会叠加到仍在活跃的部分上。"
+            "value" : "在同一场次中再服，会叠加到仍在起效的部分上。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在同一次體驗中再服，會疊加到仍在活躍的部分上。"
+            "value" : "在同一場次中再服，會疊加到仍在起效的部分上。"
           }
         }
       }
@@ -47027,7 +47027,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "睾酮"
+            "value" : "睪固酮"
           }
         }
       }
@@ -47181,13 +47181,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这个总量已处于各来源所列的重度范围。过热、意识混乱或肌肉僵直需要紧急救助。"
+            "value" : "这个总量已处于各来源所列的大剂量范围。过热、意识混乱或肌肉僵直需要紧急救助。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這個總量已處於各來源所列的重度範圍。過熱、意識混亂或肌肉僵直需要緊急救助。"
+            "value" : "這個總量已處於各來源所列的大劑量範圍。過熱、意識混亂或肌肉僵直需要緊急救助。"
           }
         }
       }
@@ -47213,13 +47213,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这已经是一次体验能带的上限了。要再加一个，先移除一个。"
+            "value" : "这已经是一个场次能带的上限了。要再加一个，先移除一个。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這已經是一次體驗能帶的上限了。要再加一個，先移除一個。"
+            "value" : "這已經是一個場次能帶的上限了。要再加一個，先移除一個。"
           }
         }
       }
@@ -47277,13 +47277,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退效期"
+            "value" : "药效下降期"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退效期"
+            "value" : "藥效下降期"
           }
         }
       }
@@ -47293,13 +47293,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此处的退药反应是代偿过度加上耗竭亏空——并非多巴胺跌破基线。"
+            "value" : "此处的药效下降期是代偿过度加上耗竭亏空——并非多巴胺跌破基线。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此處的退藥反應是代償過度加上耗竭虧空——並非多巴胺跌破基線。"
+            "value" : "此處的藥效下降期是代償過度加上耗竭虧空——並非多巴胺跌破基線。"
           }
         }
       }
@@ -47363,7 +47363,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "去甲基代謝物將氯丙咪嗪強烈的血清素能作用向去甲腎上腺素方向轉移,因此兩者的作用並不完全相同——隨著代謝物蓄積,平衡發生變化。"
+            "value" : "去甲基代謝物將氯丙咪嗪強烈的血清素能作用向正腎上腺素方向轉移,因此兩者的作用並不完全相同——隨著代謝物蓄積,平衡發生變化。"
           }
         }
       }
@@ -47453,13 +47453,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "快速差距就是冲劲。由于快速信号在数分钟内即可追平，该差距实际上与多巴胺上升的速度成正比。缓慢差距在为正时即是高峰体验；一旦缓慢预期超过了正在下落的多巴胺，同一项便转为退药反应的一部分。"
+            "value" : "快速差距就是快感冲击。由于快速信号在数分钟内即可追平，该差距实际上与多巴胺上升的速度成正比。缓慢差距在为正时即是高峰体验；一旦缓慢预期超过了正在下落的多巴胺，同一项便转为药效下降期的一部分。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "快速差距就是衝勁。由於快速訊號在數分鐘內即可追平，該差距實際上與多巴胺上升的速度成正比。緩慢差距在為正時即是高峰體驗；一旦緩慢預期超過了正在下落的多巴胺，同一項便轉為退藥反應的一部分。"
+            "value" : "快速差距就是快感衝擊。由於快速訊號在數分鐘內即可追平，該差距實際上與多巴胺上升的速度成正比。緩慢差距在為正時即是高峰體驗；一旦緩慢預期超過了正在下落的多巴胺，同一項便轉為藥效下降期的一部分。"
           }
         }
       }
@@ -47758,7 +47758,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "该模型基于五种兴奋剂校准：安非他明、哌甲酯、4-甲基甲卡西酮、3-MMC 和 2-MMC。其他物质通过与它们的相互作用来影响曲线。阿片类物质则依据其多巴胺活性来解读，主要用于呈现这些相互作用。"
+            "value" : "该模型基于五种兴奋剂校准：苯丙胺、哌甲酯、4-甲基甲卡西酮、3-MMC 和 2-MMC。其他物质通过与它们的相互作用来影响曲线。阿片类物质则依据其多巴胺活性来解读，主要用于呈现这些相互作用。"
           }
         },
         "zh-Hant" : {
@@ -47866,7 +47866,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下方方案反映社群或試驗性用途，並非經過驗證的人體劑量或醫療建議。其中許多化合物被 WADA 禁用，且缺乏人體安全數據。"
+            "value" : "下方方案反映社群或試驗性用途，並非經過驗證的人體劑量或醫療建議。其中許多化合物被 WADA 禁用，且缺乏人體安全資料。"
           }
         }
       }
@@ -47909,13 +47909,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阴影区域即是你的感受。当多巴胺消退、预期滞留于其上时，这段落差便转为退效期。"
+            "value" : "阴影区域即是你的感受。当多巴胺消退、预期滞留于其上时，这段落差便转为药效下降期。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "陰影區域即是你的感受。當多巴胺消退、預期滯留於其上時，這段落差便轉為退效期。"
+            "value" : "陰影區域即是你的感受。當多巴胺消退、預期滯留於其上時，這段落差便轉為藥效下降期。"
           }
         }
       }
@@ -48235,7 +48235,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "該化合物沒有經過驗證的人體劑量數據。以下資訊僅供參考 — 原始文獻請參閱所連結的來源。請勿根據相關化合物推算劑量。"
+            "value" : "該化合物沒有經過驗證的人體劑量資料。以下資訊僅供參考 — 原始文獻請參閱所連結的來源。請勿根據相關化合物推算劑量。"
           }
         }
       }
@@ -48293,13 +48293,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此文件不是 Piru 导出文件，也不是 PsychonautWiki 日志。"
+            "value" : "此文件不是 Piru 导出文件，也不是 PsychonautWiki 日记。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此檔案不是 Piru 匯出檔案，也不是 PsychonautWiki 日誌。"
+            "value" : "此檔案不是 Piru 匯出檔案，也不是 PsychonautWiki 日記。"
           }
         }
       }
@@ -48357,13 +48357,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这是唯一的记录。"
+            "value" : "这是唯一的场次。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這是唯一的記錄。"
+            "value" : "這是唯一的場次。"
           }
         }
       }
@@ -48411,7 +48411,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這種阿片類沒有線性的 MME 係數——見下方說明。"
+            "value" : "這種鴉片類沒有線性的 MME 係數——見下方說明。"
           }
         }
       }
@@ -48469,13 +48469,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次记录包含 %@，它们不在模型范围内，因此这些曲线为空。"
+            "value" : "本场包含 %@，它们不在模型范围内，因此这些曲线为空。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次記錄包含 %@，它們不在模型範圍內，因此這些曲線為空。"
+            "value" : "本場包含 %@，它們不在模型範圍內，因此這些曲線為空。"
           }
         }
       }
@@ -48892,13 +48892,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在起效、上升期和巅峰时给出时间提示，让你把感受对应到时间线上。"
+            "value" : "在起效、上升期和高峰期时给出时间提示，让你把感受对应到时间线上。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在起效、上升期和巔峰時給出時間提示，讓你把感受對應到時間線上。"
+            "value" : "在起效、上升期和高峰期時給出時間提示，讓你把感受對應到時間線上。"
           }
         }
       }
@@ -49117,7 +49117,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "安非他命对食欲的抑制，除非在药效期间有食物可吃，否则根本不会形成耐受——这种耐受是一种工具性反应，不是受体数量问题（Carlton & Wolgin 1971）。这意味着对一种药的某个效果可以有耐受，而对另一个效果的耐受可能从未开始。"
+            "value" : "苯丙胺对食欲的抑制，除非在药效期间有食物可吃，否则根本不会形成耐受——这种耐受是一种工具性反应，不是受体数量问题（Carlton & Wolgin 1971）。这意味着对一种药的某个效果可以有耐受，而对另一个效果的耐受可能从未开始。"
           }
         },
         "zh-Hant" : {
@@ -49454,7 +49454,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "曲马多只有经 CYP2D6 转化为 O-DSMT 后才成为强效阿片，因此上限取决于基因：多数人会达到平台期，超快代谢者则不会。重复给药会提高曲马多自身的吸收（约 75% → 90–100%），而 CYP2D6 抑制剂（帕罗西汀、氟西汀、安非他酮）会减弱阿片效应，但母体的血清素能和癫痫风险不变。"
+            "value" : "曲马多只有经 CYP2D6 转化为 O-DSMT 后才成为强效阿片类药物，因此上限取决于基因：多数人会达到平台期，超快代谢者则不会。重复给药会提高曲马多自身的吸收（约 75% → 90–100%），而 CYP2D6 抑制剂（帕罗西汀、氟西汀、安非他酮）会减弱阿片类效应，但母体的血清素能和癫痫风险不变。"
           }
         },
         "zh-Hant" : {
@@ -49476,7 +49476,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "曲馬多本身是一種弱鴉片類藥物,同時也會升高血清素和去甲腎上腺素。大多數人感受到的鴉片效應來自這個代謝物——而生成量取決於 CYP2D6 基因,因此同樣的劑量對一些人來說是真正的鴉片效應,對另一些人則幾乎沒有。"
+            "value" : "曲馬多本身是一種弱鴉片類藥物,同時也會升高血清素和正腎上腺素。大多數人感受到的鴉片效應來自這個代謝物——而生成量取決於 CYP2D6 基因,因此同樣的劑量對一些人來說是真正的鴉片效應,對另一些人則幾乎沒有。"
           }
         }
       }
@@ -49508,7 +49508,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "穿皮吩坦尼按每小時微克計量，是速率而不是質量，因此在這張以 mg 為基準的表格中沒有數值。"
+            "value" : "經皮吩坦尼按每小時微克計量，是速率而不是質量，因此在這張以 mg 為基準的表格中沒有數值。"
           }
         }
       }
@@ -49632,13 +49632,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "旅程报告"
+            "value" : "体验报告"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "旅程報告"
+            "value" : "體驗報告"
           }
         }
       }
@@ -49825,13 +49825,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "两种不同的药只要作用在同一个受体上，就会共享耐受。最近用过 LSD 会让蘑菇的体验变弱，因为两者都作用在 5-HT2A 上；一种苯二氮䓬会带到另一种；一种阿片会带到下一种。所以这里的耐受是按受体来算的，也是为什么同一类里一种“新”药用起来还是可能很弱。"
+            "value" : "两种不同的药只要作用在同一个受体上，就会共享耐受。最近用过 LSD 会让蘑菇的体验变弱，因为两者都作用在 5-HT2A 上；一种苯二氮䓬会带到另一种；一种阿片类药物会带到下一种。所以这里的耐受是按受体来算的，也是为什么同一类里一种“新”药用起来还是可能很弱。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "兩種不同的藥只要作用在同一個受體上，就會共享耐受。最近用過 LSD 會讓蘑菇的體驗變弱，因為兩者都作用在 5-HT2A 上；一種苯二氮平會帶到另一種；一種鴉片會帶到下一種。所以這裡的耐受是按受體來算的，也是為什麼同一類裡一種「新」藥用起來還是可能很弱。"
+            "value" : "兩種不同的藥只要作用在同一個受體上，就會共享耐受。最近用過 LSD 會讓蘑菇的體驗變弱，因為兩者都作用在 5-HT2A 上；一種苯二氮平會帶到另一種；一種鴉片類藥物會帶到下一種。所以這裡的耐受是按受體來算的，也是為什麼同一類裡一種「新」藥用起來還是可能很弱。"
           }
         }
       }
@@ -50222,7 +50222,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "不可預測的強化 — 大麻可能引發焦慮或思維迴圈。"
+            "value" : "不可預測的強化 — 大麻可能引發焦慮或思緒反覆打轉。"
           }
         }
       }
@@ -50803,13 +50803,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "仅在你连接之后使用，用于在你的日志旁显示。"
+            "value" : "仅在你连接之后使用，用于在你的日记旁显示。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "僅在你連接之後使用，用於在你的日誌旁顯示。"
+            "value" : "僅在你連接之後使用，用於在你的日記旁顯示。"
           }
         }
       }
@@ -51044,13 +51044,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "查看记录图片"
+            "value" : "查看场次图片"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "查看記錄圖片"
+            "value" : "查看場次圖片"
           }
         }
       }
@@ -51131,7 +51131,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "電壓門控鈣通道 α2δ 亞單位配體"
+            "value" : "電壓閘控鈣通道 α2δ 亞單位配體"
           }
         }
       }
@@ -51845,13 +51845,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "开启后，每次你离开 App 时，Piru 都会加密你的日志并保存到你的私人 iCloud 云盘。密钥只存储在你的 iCloud 钥匙串中，因此是端到端加密——**Apple 和 Piru 都无法读取**——并且会在登录同一 Apple 账户的其他设备上自动恢复。"
+            "value" : "开启后，每次你离开 App 时，Piru 都会加密你的日记并保存到你的私人 iCloud 云盘。密钥只存储在你的 iCloud 钥匙串中，因此是端到端加密——**Apple 和 Piru 都无法读取**——并且会在登录同一 Apple 账户的其他设备上自动恢复。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "開啟後，每次你離開 App 時，Piru 都會加密你的日誌並儲存到你的私人 iCloud 雲碟。金鑰只儲存在你的 iCloud 鑰匙圈中，因此是端對端加密——**Apple 和 Piru 都無法讀取**——並且會在登入同一 Apple 帳號的其他裝置上自動還原。"
+            "value" : "開啟後，每次你離開 App 時，Piru 都會加密你的日記並儲存到你的私人 iCloud 雲碟。金鑰只儲存在你的 iCloud 鑰匙圈中，因此是端對端加密——**Apple 和 Piru 都無法讀取**——並且會在登入同一 Apple 帳號的其他裝置上自動還原。"
           }
         }
       }
@@ -51877,13 +51877,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你一停，这股反向的推力会有一阵子没了对手——所以戒断或者落差感往往像药效的镜像（兴奋剂之后的提不起劲、阿片之后的浑身酸痛）。"
+            "value" : "你一停，这股反向的推力会有一阵子没了对手——所以戒断或者下头往往像药效的镜像（兴奋剂之后的提不起劲、阿片之后的浑身酸痛）。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你一停，這股反向的推力會有一陣子沒了對手——所以戒斷或者落差感往往像藥效的鏡像（興奮劑之後的提不起勁、鴉片之後的渾身痠痛）。"
+            "value" : "你一停，這股反向的推力會有一陣子沒了對手——所以戒斷或者下頭往往像藥效的鏡像（興奮劑之後的提不起勁、鴉片之後的渾身痠痛）。"
           }
         }
       }
@@ -51941,13 +51941,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "数据来自哪里"
+            "value" : "这些来自哪里"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "數據來自哪裡"
+            "value" : "這些來自哪裡"
           }
         }
       }
@@ -51957,13 +51957,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的日志存放在哪里"
+            "value" : "你的日记存放在哪里"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的日誌存放在哪裡"
+            "value" : "你的日記存放在哪裡"
           }
         }
       }
@@ -52246,13 +52246,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同一次使用之内"
+            "value" : "同一场次之内"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同一次使用之內"
+            "value" : "同一場次之內"
           }
         }
       }
@@ -52796,13 +52796,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的日志"
+            "value" : "你的日记"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的日誌"
+            "value" : "你的日記"
           }
         }
       }
@@ -52812,13 +52812,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的日志存储在本设备的应用内。"
+            "value" : "你的日记存储在本设备的应用内。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的日誌儲存在本裝置的 App 內。"
+            "value" : "你的日記儲存在本裝置的 App 內。"
           }
         }
       }
@@ -52834,7 +52834,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你實測的睪固酮。用雌二醇期間 T 通常會下降；Piru 繪製你的數據點，而不是對抑制建模。"
+            "value" : "你實測的睪固酮。用雌二醇期間 T 通常會下降；Piru 繪製你的資料點，而不是對抑制建模。"
           }
         }
       }
@@ -53074,7 +53074,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "κ-鴉片受體激動劑 — 墨西哥鼠尾草、沙維諾林A。"
+            "value" : "κ-鴉片受體促效劑 — 墨西哥鼠尾草、沙維諾林A。"
           }
         }
       }
@@ -53106,7 +53106,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "μ-阿片受體拮抗劑"
+            "value" : "μ-鴉片受體拮抗劑"
           }
         }
       }
@@ -53155,7 +53155,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "μ-阿片受體 (MOR) 完全激動劑"
+            "value" : "μ-鴉片受體 (MOR) 完全促效劑"
           }
         }
       }

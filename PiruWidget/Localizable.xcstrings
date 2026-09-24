@@ -180,13 +180,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld 更多"
+            "value" : "还有 %lld 项"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld 更多"
+            "value" : "還有 %lld 項"
           }
         }
       }
@@ -260,13 +260,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已全部服用"
+            "value" : "全部已服用"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已全部服用"
+            "value" : "全部已服用"
           }
         }
       }
@@ -436,13 +436,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上头中"
+            "value" : "上升中"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上頭中"
+            "value" : "上升中"
           }
         }
       }
@@ -500,13 +500,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次记录"
+            "value" : "当前场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次記錄"
+            "value" : "目前場次"
           }
         }
       }
@@ -522,7 +522,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自定日期"
+            "value" : "自訂日期"
           }
         }
       }
@@ -1284,13 +1284,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暂无进行中的记录"
+            "value" : "暂无进行中的场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暫無進行中的記錄"
+            "value" : "暫無進行中的場次"
           }
         }
       }
@@ -1380,13 +1380,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下降期"
+            "value" : "消退期"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下降期"
+            "value" : "消退期"
           }
         }
       }
@@ -1476,13 +1476,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "巅峰"
+            "value" : "高峰期"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "巔峰"
+            "value" : "高峰期"
           }
         }
       }
@@ -1604,13 +1604,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一目了然地查看本次记录的剂量。"
+            "value" : "一目了然地查看当前场次的剂量。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一目了然地查看本次記錄的劑量。"
+            "value" : "一目了然地查看目前場次的劑量。"
           }
         }
       }
@@ -1652,13 +1652,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次记录"
+            "value" : "场次"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本次記錄"
+            "value" : "場次"
           }
         }
       }
@@ -1828,13 +1828,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "膳食补充"
+            "value" : "膳食补充剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "膳食補充"
+            "value" : "膳食補充劑"
           }
         }
       }
@@ -1957,13 +1957,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "今日"
+            "value" : "今天"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "今日"
+            "value" : "今天"
           }
         }
       }
