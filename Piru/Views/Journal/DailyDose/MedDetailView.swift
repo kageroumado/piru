@@ -247,7 +247,7 @@ struct MedDetailView: View {
         } header: {
             Text("Reminders")
         } footer: {
-            Text("Ask Again re-asks if a dose isn't logged — \u{201C}Default\u{201D} follows the cadence in Notification Settings. Never a scold, just a nudge.")
+            Text("Ask Again sends another reminder if a dose isn't logged — “Default” uses the intervals in Notification Settings.")
         }
         .listRowBackground(CardBackground())
     }

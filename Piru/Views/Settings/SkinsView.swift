@@ -45,7 +45,7 @@ struct SkinsView: View {
                 Section {
                     SkinShopOffers()
                 } footer: {
-                    Text("Skins pay for Piru's development. The journal, the library, and every tool are free either way.")
+                    Text("Skins pay for Piru's development. The journal, the library, and every tool are free.")
                 }
 
                 // Always in the list, switched off for a skin with nothing to

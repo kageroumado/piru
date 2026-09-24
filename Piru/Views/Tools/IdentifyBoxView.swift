@@ -129,7 +129,7 @@ private struct IdentifyChipsCard: View {
                 EmptyView()
             }
             if chips.isEmpty {
-                Text("Nothing legible was read.")
+                Text("Couldn't read any text clearly.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             } else {
@@ -304,8 +304,8 @@ private struct IdentifyExternalLinksCard: View {
             GlanceCardHeader(icon: "questionmark.circle", title: Text("Not in the library")) {
                 EmptyView()
             }
-            Text(result.searchToken.map { String(localized: "Nothing bundled matches this box. Look up “\($0)” elsewhere:") }
-                ?? String(localized: "Nothing bundled matches this box, and no name was legible enough to search."))
+            Text(result.searchToken.map { String(localized: "No match in Piru's database. Look up “\($0)” elsewhere:") }
+                ?? String(localized: "No match in Piru's database, and no medication name could be read clearly enough to search."))
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
             ForEach(links, id: \.url) { link in

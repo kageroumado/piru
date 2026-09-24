@@ -495,7 +495,7 @@ private struct HormoneLevelsProvenanceCard: View {
             }
             .tint(Theme.accent)
         case .testosterone:
-            Text("Testosterone ester curves are fit from label and primary-literature half-lives — there is no community PK simulator for them, so the band stays wide until your labs pin it.")
+            Text("Testosterone ester curves are fit from label and primary-literature half-lives — there is no community PK simulator for them, so the band stays wide until your lab results calibrate the model.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         }

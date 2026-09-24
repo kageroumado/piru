@@ -13,7 +13,7 @@ struct OnboardingSkinsStep: View {
     var body: some View {
         OnboardingLayout(
             title: "Make it yours",
-            subtitle: "Skins pay for Piru's development. The journal, the library, and every tool are free either way.",
+            subtitle: "Skins pay for Piru's development. The journal, the library, and every tool are free.",
         ) {
             EmptyView()
         } mid: {

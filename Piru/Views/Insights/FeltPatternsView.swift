@@ -49,9 +49,9 @@ struct FeltPatternsView: View {
         Section {
             HStack(alignment: .top, spacing: Spacing.md) {
                 VStack(alignment: .leading, spacing: Spacing.xs) {
-                    Text("Your days, side by side")
+                    Text("Compare your rated days")
                         .sectionLabel()
-                    Text("Each comparison cuts your rated days on one thing at a time and counts how often the dose read \"about right\" or more. These describe your entries; they don't show that a substance, dose, or timing caused a difference.")
+                    Text("Each comparison groups your rated days by one factor at a time and counts how often you rated the dose \"about right\" or more. These describe your entries; they don't show that a substance, dose, or timing caused a difference.")
                         .captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -67,7 +67,7 @@ struct FeltPatternsView: View {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 Text("Nothing rated yet")
                     .sectionLabel()
-                Text("A check-in asks whether a dose worked the way it usually does. Once a few days carry an answer, this screen shows what they line up with.")
+                Text("A check-in asks whether a dose worked the way it usually does. After rating a few days, you can compare your answers by dose, time of day, weekday, and prior caffeine use.")
                     .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -90,7 +90,7 @@ struct FeltPatternsView: View {
 
     private var notEnoughSection: some View {
         Section {
-            Text("Not enough yet. A comparison needs at least \(FeltPatternsModel.minimumPerSide) rated days on each side before it means anything — below that, one bad week writes the headline.")
+            Text("Not enough rated days yet. A comparison needs at least \(FeltPatternsModel.minimumPerSide) rated days in each group. With fewer days, one bad week can skew the results.")
                 .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.vertical, Spacing.xs)
@@ -99,7 +99,7 @@ struct FeltPatternsView: View {
 
     private var caveatSection: some View {
         Section {
-            Text("These are your own days next to each other — one person, no control group. A difference here is something to notice, not a reason.")
+            Text("These comparisons use only your own recorded days, with no control group. A difference does not establish a cause.")
                 .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.vertical, Spacing.xs)
@@ -128,7 +128,7 @@ private struct SplitSection: View {
             }
         } footer: {
             if !isNotable {
-                Text("Both sides read about the same.")
+                Text("Both groups have similar ratings.")
             }
         }
     }

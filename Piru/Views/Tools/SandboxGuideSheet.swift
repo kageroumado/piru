@@ -55,7 +55,7 @@ struct SandboxGuideSheet: View {
 
     private var readingSection: some View {
         Section {
-            Text("See how doses might feel over time — compare two meds, preview a stack, or change the timing — without logging anything. This is a scratch surface; nothing here touches your journal.")
+            Text("See how doses might feel over time — compare two meds, preview a combination, or change the timing — without logging anything. Nothing here is saved to your journal.")
             Text("The model's estimate of effect shape and direction, from typical pharmacology.")
             Text("Compare the shape of a curve more than its exact height.")
             Text("Individual response varies with tolerance, body chemistry, and the day.")
@@ -83,7 +83,7 @@ struct SandboxGuideSheet: View {
                 Label("The calculation, step by step", systemImage: "list.number")
             }
         } footer: {
-            Text("The idea first, then every stage from your dose to the line on the chart.")
+            Text("An overview of the model, followed by the detailed calculation.")
         }
         .listRowBackground(CardBackground())
     }

@@ -82,7 +82,7 @@ struct ComedownGuideView: View {
                     .sectionLabel()
                 Text("What sources report about the hours after each class wears off. It describes the class, never your condition.")
                     .captionSecondary()
-                Text("If someone is hard to wake, breathing slowly, overheating or having a seizure, this is the wrong page — call emergency services.")
+                Text("If someone is hard to wake, breathing slowly, overheating or having a seizure, call emergency services.")
                     .captionSecondary()
             }
             .padding(.vertical, Spacing.xs)
@@ -133,7 +133,7 @@ struct ComedownGuideView: View {
             CategoryGuide(
                 whatsHappening: [
                     "After a stimulant wears off, fatigue, irritability and low mood are commonly reported.",
-                    "Appetite and sleep were likely pushed aside for hours, and both come due now.",
+                    "You may need food and rest after several hours without them.",
                     "Piru doesn't measure any of this. It describes what sources report for the class.",
                 ],
                 rightNow: [
@@ -149,9 +149,9 @@ struct ComedownGuideView: View {
                     "Low mood after a stimulant is commonly reported. If it turns into thoughts of harming yourself, use the numbers in Get Help.",
                 ],
                 avoid: [
-                    "Taking more to put off the crash moves the crash later.",
+                    "Taking more to put off the crash delays it.",
                     "Caffeine adds to the load on the heart.",
-                    "Important decisions and emotionally charged messages read differently tomorrow.",
+                    "You may think differently about important decisions and emotionally charged messages tomorrow.",
                     "Alcohol disrupts the sleep you need.",
                 ],
             )
@@ -175,7 +175,7 @@ struct ComedownGuideView: View {
                     "Talk to someone you trust — connection helps more than isolation.",
                 ],
                 avoid: [
-                    "Taking more to put off the low moves the low later.",
+                    "Taking more to put off the low mood delays it.",
                     "Piru doesn't establish a safe interval for adding medicines or supplements. MAOIs are the documented danger with this class.",
                     "Skip intense social situations — you may feel emotionally raw.",
                     "Don't judge your baseline mood by how you feel right now.",
@@ -222,7 +222,7 @@ struct ComedownGuideView: View {
                 ],
                 nextHours: [
                     "Rest with someone nearby if you can.",
-                    "The fog is reported to clear over hours. If it doesn't, get it looked at.",
+                    "The fog is reported to clear over hours. If it doesn't, seek medical help.",
                     "Gentle sensory input (music, soft textures) can help you reconnect.",
                     "Things feeling 'weird' for a while is commonly reported.",
                 ],
@@ -305,7 +305,7 @@ struct ComedownGuideView: View {
                     "Fresh air and gentle movement when you're ready.",
                 ],
                 avoid: [
-                    "More of a depressant to ease the morning moves the morning later.",
+                    "Taking more of a depressant to ease the morning symptoms delays recovery.",
                     "If you have been drinking heavily and daily for weeks, stopping abruptly can be dangerous — seizures and delirium tremens peak 2–4 days after the last drink.",
                     "With daily phenibut or F-phenibut, dependence develops within weeks and withdrawal can be protracted.",
                     "Acetaminophen (paracetamol) after heavy alcohol use adds stress to the liver.",
@@ -334,7 +334,7 @@ struct ComedownGuideView: View {
                 ],
                 avoid: [
                     "Do not drive. Impairment outlasts the feeling of being high.",
-                    "More cannabis to soften the comedown moves the comedown later.",
+                    "Taking more cannabis to ease the comedown delays it.",
                     "Short-term memory gaps are commonly reported. Piru can't tell what caused one.",
                     "Skip intense social obligations if you're not feeling up to it.",
                 ],

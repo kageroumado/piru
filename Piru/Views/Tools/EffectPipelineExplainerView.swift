@@ -17,7 +17,7 @@ struct EffectPipelineExplainerView: View {
     var body: some View {
         List {
             Section {
-                Text("Every curve starts as a number you typed and ends as a line on a chart. These are the steps in between.")
+                Text("How the model calculates a curve from the dose you enter.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .listRowBackground(Color.clear)
@@ -50,7 +50,7 @@ struct EffectPipelineExplainerView: View {
                 title: "Releasers and reuptake blockers diverge",
                 symbol: "arrow.triangle.branch",
                 paragraphs: [
-                    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out. The two are handled by different code paths.",
+                    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out.",
                 ],
             )
 

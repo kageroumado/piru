@@ -62,9 +62,9 @@ T = {
         "这一类药在起效期间会阻止记忆形成，所以空白就是空白。你现在写下的就是记录。",
         "這一類藥在起效期間會阻止記憶形成，所以空白就是空白。你現在寫下的就是記錄。",
     ),
-    "Coordination goes before you notice it has. Stairs and the kitchen are where that lands.": (
-        "协调性会在你察觉之前先走。楼梯和厨房是最容易出事的地方。",
-        "協調性會在你察覺之前先走。樓梯和廚房是最容易出事的地方。",
+    "Coordination can be impaired before you notice it. This increases the risk of accidents on stairs and in the kitchen.": (
+        "协调性可能在你察觉之前就已受损。这会增加在楼梯上和厨房里发生意外的风险。",
+        "協調性可能在你察覺之前就已受損。這會增加在樓梯上和廚房裡發生意外的風險。",
     ),
     "Vision softening at this dose is usual, and it clears as the dose does.": (
         "这个剂量下视觉发虚很常见，会随着剂量一起消退。",
@@ -175,26 +175,32 @@ T = {
         "忽冷忽熱是其中的一部分。降降溫，穩著小口喝，別一次喝太多。",
     ),
     # The felt-patterns insight.
-    "Your days, side by side": ("你的日子，并排摆着", "你的日子，並排擺著"),
+    "Compare your rated days": (
+        "比较你评过分的日子",
+        "比較你評過分的日子",
+    ),
     'Each comparison cuts your rated days on one thing at a time and counts how often the dose read "about right" or better.': (
         "每一组对照每次只按一件事切分你打过分的日子，数一数其中有多少次读作“和平时差不多”或更好。",
         "每一組對照每次只按一件事切分你打過分的日子，數一數其中有多少次讀作「和平時差不多」或更好。",
     ),
     "Nothing rated yet": ("还没有打过分", "還沒有打過分"),
-    "A check-in asks whether a dose worked the way it usually does. Once a few days carry an answer, this screen shows what they line up with.": (
-        "状态确认会问这次剂量是不是像平时那样起效。等有几天带上了答案，这个页面就会显示它们和什么对得上。",
-        "狀態確認會問這次劑量是不是像平時那樣起效。等有幾天帶上了答案，這個頁面就會顯示它們和什麼對得上。",
+    "A check-in asks whether a dose worked the way it usually does. After rating a few days, you can compare your answers by dose, time of day, weekday, and prior caffeine use.": (
+        "状态确认会问这次剂量是不是像平时那样起效。评过几天的分后，你就可以按剂量、服用时段、星期几和之前是否摄入咖啡因来比较答案。",
+        "狀態確認會問這次劑量是不是像平時那樣起效。評過幾天的分後，你就可以按劑量、服用時段、星期幾和之前是否攝取咖啡因來比較答案。",
     ),
     "Days rated": ("已打分的天数", "已打分的天數"),
-    "Not enough yet. A comparison needs at least %lld rated days on each side before it means anything — below that, one bad week writes the headline.": (
-        "还不够。一组对照需要每边至少 %lld 个打过分的日子才有意义——不到这个数，一个糟糕的星期就会写成结论。",
-        "還不夠。一組對照需要每邊至少 %lld 個打過分的日子才有意義——不到這個數，一個糟糕的星期就會寫成結論。",
+    "Not enough rated days yet. A comparison needs at least %lld rated days in each group. With fewer days, one bad week can skew the results.": (
+        "评分天数还不够。一组对照需要每组至少 %lld 个评过分的日子。天数太少时，一个状态不佳的星期就可能影响结果。",
+        "評分天數還不夠。一組對照需要每組至少 %lld 個評過分的日子。天數太少時，一個狀態不佳的星期就可能影響結果。",
     ),
-    "These are your own days next to each other — one person, no control group. A difference here is something to notice, not a reason.": (
-        "这些只是你自己的日子摆在一起——一个人，没有对照组。这里的差异值得注意，但不是原因。",
-        "這些只是你自己的日子擺在一起——一個人，沒有對照組。這裡的差異值得注意，但不是原因。",
+    "These comparisons use only your own recorded days, with no control group. A difference does not establish a cause.": (
+        "这些对照只使用你自己记录的日子，没有对照组。有差异不代表存在因果关系。",
+        "這些對照只使用你自己記錄的日子，沒有對照組。有差異不代表存在因果關係。",
     ),
-    "Both sides read about the same.": ("两边读起来差不多。", "兩邊讀起來差不多。"),
+    "Both groups have similar ratings.": (
+        "两组评分相近。",
+        "兩組評分相近。",
+    ),
     "%lld of %lld days about right or better": (
         "%lld / %lld 天和平时差不多或更好",
         "%lld / %lld 天和平時差不多或更好",
@@ -209,11 +215,14 @@ T = {
     "Weekends": ("周末", "週末"),
     "No caffeine first": ("之前没有咖啡因", "之前沒有咖啡因"),
     "Caffeine within the hour": ("一小时内有咖啡因", "一小時內有咖啡因"),
-    'What your "did it work?" answers line up with': (
-        "你的“起效了吗？”答案和什么对得上",
-        "你的「起效了嗎？」答案和什麼對得上",
+    'Compare your "did it work?" answers': (
+        "比较你的“起效了吗？”答案",
+        "比較你的「起效了嗎？」答案",
     ),
-    "What your ratings line up with": ("你的评分和什么对得上", "你的評分和什麼對得上"),
+    "Compare your dose ratings": (
+        "比较你的剂量评分",
+        "比較你的劑量評分",
+    ),
     # Custom check-in schedule — the editor sheet, the offer banner, the menu.
     "Custom…": ("自定…", "自訂…"),
     "Pick my own times": ("自己挑选时间", "自己挑選時間"),
@@ -236,9 +245,9 @@ T = {
     ),
     "Add a time": ("添加一个时间", "新增一個時間"),
     "%@ is already on the list.": ("%@ 已经在列表里了。", "%@ 已經在列表裡了。"),
-    "That's the most one session can carry. Remove one to add another.": (
-        "这已经是一个场次能带的上限了。要再加一个，先移除一个。",
-        "這已經是一個場次能帶的上限了。要再加一個，先移除一個。",
+    "You've reached the limit for check-in times in this session. Remove one to add another.": (
+        "这个场次的状态确认时间已达上限。先移除一个，再添加另一个。",
+        "這個場次的狀態確認時間已達上限。先移除一個，再新增另一個。",
     ),
     "The first prompt arrives at least %lld minutes after the dose.": (
         "第一条提示至少落在服用后 %lld 分钟。",
@@ -313,9 +322,9 @@ T = {
         "睾酮会芳香化为雌二醇，所以用 T 期间 E2 常会上升。Piru 绘制你的实测点——这种转化因人而异，未被建模。",
         "睪固酮會芳香化為雌二醇，所以用 T 期間 E2 常會上升。Piru 繪製你的實測點——這種轉化因人而異，未被建模。",
     ),
-    "Testosterone ester curves are fit from label and primary-literature half-lives — there is no community PK simulator for them, so the band stays wide until your labs pin it.": (
-        "睾酮酯曲线由说明书和原始文献中的半衰期拟合而来——它们没有社区 PK 模拟器，所以在你的化验把它钉住之前，误差带会一直很宽。",
-        "睪固酮酯曲線由說明書和原始文獻中的半衰期擬合而來——它們沒有社群 PK 模擬器，所以在你的化驗把它釘住之前，誤差帶會一直很寬。",
+    "Testosterone ester curves are fit from label and primary-literature half-lives — there is no community PK simulator for them, so the band stays wide until your lab results calibrate the model.": (
+        "睾酮酯曲线根据说明书和原始文献中的半衰期拟合而成。由于没有适用的社区药代动力学模拟器，在用你的化验结果校准模型前，误差带会较宽。",
+        "睪固酮酯曲線根據說明書和原始文獻中的半衰期擬合而成。由於沒有適用的社群藥物動力學模擬器，在用你的檢驗結果校準模型前，誤差帶會較寬。",
     ),
     "Testosterone raises red-cell production, so hematocrit is monitored on T (largest rise in the first year). These are your measured points, plotted, not a prediction.": (
         "睾酮会提高红细胞生成，所以用 T 期间要监测血细胞比容（第一年升幅最大）。这些是你实测点的绘图，不是预测。",
@@ -1082,9 +1091,9 @@ T = {
         "效應和持續時間清晰無誤；可進行日常活動但不太想做。",
     ),
     "What do you notice?": ("你注意到了什么？", "你注意到了什麼？"),
-    "What you noticed, in a shared vocabulary — so a later you can search for the moment the geometry started.": (
-        "用共同词汇记下你注意到的——将来的你可以搜索几何图形出现的那一刻。",
-        "用共同詞彙記下你注意到的——將來的你可以搜尋幾何圖形出現的那一刻。",
+    "Use shared effect descriptors to record what you noticed and find it later.": (
+        "用统一的效应描述词记录你的感受，方便之后查找。",
+        "用統一的效應描述詞記錄你的感受，方便之後尋找。",
     ),
     "%@ due": ("%@ 待服", "%@ 待服"),
     "%@ is": ("%@ 是", "%@ 是"),
@@ -1099,17 +1108,17 @@ T = {
     "Kind": ("类型", "類型"),
     "Meds Due": ("待服药物", "待服藥物"),
     "Next: %@ in %@": ("下次：%@，%@ 后", "下次：%@，%@ 後"),
-    "Opens Log with that substance staged at its usual dose. Nothing is logged until you commit.": (
-        "打开记录页并预置该物质的常用剂量。确认前不会记录。",
-        "打開記錄頁並預置該物質的常用劑量。確認前不會記錄。",
+    "Opens Log with that substance and its usual dose filled in. Tap Log to record it.": (
+        "打开“记录”并填入该物质及其常用剂量。点按“记录”才会保存。",
+        "開啟「記錄」並填入該物質及其常用劑量。點按「記錄」才會儲存。",
     ),
     "Shown while the time is inside this range. A range ending before it starts wraps past midnight.": (
         "在此时间范围内显示；结束早于开始则跨越午夜。",
         "在此時間範圍內顯示；結束早於開始則跨越午夜。",
     ),
-    "Shows “2 due”, or the med’s name when exactly one is due. Falls through to the next label otherwise.": (
-        "显示“2 项待服”，仅一项时显示药名；否则回落到下一标签。",
-        "顯示「2 項待服」，僅一項時顯示藥名；否則回落到下一標籤。",
+    "Shows “2 due”, or the med’s name when exactly one is due. Otherwise, shows the next applicable label.": (
+        "显示“2 项到时间”，只有一种用药到时间时则显示药名。否则显示下一个适用的标签。",
+        "顯示「2 項到時間」，只有一種用藥到時間時則顯示藥名。否則顯示下一個適用的標籤。",
     ),
     "Since last dose": ("距上次剂量", "距上次劑量"),
     "Stage a Substance": ("预置物质", "預置物質"),
@@ -1190,15 +1199,18 @@ T = {
         "不在物质库中",
         "不在物質庫中",
     ),
-    "Nothing bundled matches this box, and no name was legible enough to search.": (
-        "内置数据中没有与此药盒匹配的项，也没有读到足以搜索的名称。",
-        "內建資料中沒有與此藥盒相符的項目，也沒有讀到足以搜尋的名稱。",
+    "No match in Piru's database, and no medication name could be read clearly enough to search.": (
+        "Piru 的数据库中没有匹配项，也未能清楚识别出可用于搜索的药品名称。",
+        "Piru 的資料庫中沒有符合項目，也未能清楚辨識出可用於搜尋的藥品名稱。",
     ),
-    "Nothing bundled matches this box. Look up “%@” elsewhere:": (
-        "内置数据中没有与此药盒匹配的项。到别处查找“%@”：",
-        "內建資料中沒有與此藥盒相符的項目。到別處查詢「%@」：",
+    "No match in Piru's database. Look up “%@” elsewhere:": (
+        "Piru 的数据库中没有匹配项。到其他来源查找“%@”：",
+        "Piru 的資料庫中沒有符合項目。到其他來源查找「%@」：",
     ),
-    "Nothing legible was read.": ("没有读到清晰的内容。", "沒有讀到清晰的內容。"),
+    "Couldn't read any text clearly.": (
+        "未能清楚识别任何文字。",
+        "未能清楚辨識任何文字。",
+    ),
     "Pack size": ("包装规格", "包裝規格"),
     "Pieces": ("件", "件"),
     "Point at any medication box to see what's inside it": (
@@ -2023,9 +2035,9 @@ T = {
         "按你记录的每一剂所属物质和给药途径，根据典型的起效时间和持续时间计时。这些是基于已发表数据的估算——Piru 并不检测你身上的任何东西。",
         "按你記錄的每一劑所屬物質和給藥途徑，根據典型的起效時間和持續時間計時。這些是基於已發表資料的估算——Piru 並不偵測你身上的任何東西。",
     ),
-    "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it.": (
-        "总量包括计划用药、按需用药和其他所有——安全网不在乎你为什么服用。",
-        "總量包括計畫用藥、按需用藥和其他所有——安全網不在乎你為什麼服用。",
+    "Totals include scheduled meds, as-needed doses, and everything else.": (
+        "总量包括定时用药、按需用药及其他所有剂量。",
+        "總量包括定時用藥、按需用藥及其他所有劑量。",
     ),
     "Comedown alerts are armed per dose in Ramp-Down.": (
         "下头提醒在“渐减”中按剂量启用。",
@@ -2035,9 +2047,9 @@ T = {
         "关闭累积剂量警告将移除一层安全保障。",
         "關閉累積劑量警告將移除一層安全保障。",
     ),
-    "If a dose isn't logged, ask again after these intervals. Applies to every med. A med can override or opt out in its own settings. Re-asks never scold — they just ask.": (
-        "如果剂量未记录，按这些间隔再次提醒。适用于所有药物。每种药物可单独覆盖或退出。再次提醒绝不训斥——只是问一声。",
-        "如果劑量未記錄，按這些間隔再次提醒。適用於所有藥物。每種藥物可單獨覆蓋或退出。再次提醒絕不訓斥——只是問一聲。",
+    "If a dose isn't logged, ask again after these intervals. Applies to every med. A med can override or opt out in its own settings.": (
+        "如果一剂还未记录，就按这些间隔再次提醒。适用于所有用药。每种用药都可以在自己的设置中更改或关闭。",
+        "如果一劑還未記錄，就按這些間隔再次提醒。適用於所有用藥。每種用藥都可以在自己的設定中更改或關閉。",
     ),
     "Notifications Enabled": ("通知已开启", "通知已開啟"),
     "Notifications Are Off": ("通知已关闭", "通知已關閉"),
@@ -2119,9 +2131,9 @@ T = {
         "比较不同物质，预览它们可能带来的感受",
         "比較不同物質，預覽它們可能帶來的感受",
     ),
-    "See how doses might feel over time — compare two meds, preview a stack, or change the timing — without logging anything. This is a scratch surface; nothing here touches your journal.": (
-        "看看不同剂量随时间可能带来的感受——比较两种药物、预览叠加、或调整时间——无需记录任何内容。这是一个草稿区，不会影响你的记录。",
-        "看看不同劑量隨時間可能帶來的感受——比較兩種藥物、預覽疊加、或調整時間——無需記錄任何內容。這是一個草稿區，不會影響你的記錄。",
+    "See how doses might feel over time — compare two meds, preview a combination, or change the timing — without logging anything. Nothing here is saved to your journal.": (
+        "看看不同剂量随时间可能带来的感受，可以比较两种药物、预览联用或调整时间，无需记录。这里的内容不会保存到日记。",
+        "看看不同劑量隨時間可能帶來的感受，可以比較兩種藥物、預覽併用或調整時間，無需記錄。這裡的內容不會儲存到日記。",
     ),
     "Add a dose": ("添加剂量", "新增劑量"),
     "Add a dose to model it": ("添加剂量以进行建模", "新增劑量以進行建模"),
@@ -2150,9 +2162,9 @@ T = {
     "%lld h %lld m later": ("%1$lld 小时 %2$lld 分后", "%1$lld 小時 %2$lld 分後"),
     "All four lenses": ("全部四个视角", "全部四個視角"),
     "Choose a different substance": ("选择其他物质", "選擇其他物質"),
-    "A second plan is drawn as its own curve, so you can hold two ideas side by side — two meds, or a split dose against a single one.": (
-        "第二个方案会绘制为独立曲线，让你并排比较两种设想——两种药物，或分次服用与一次服用。",
-        "第二個方案會繪製為獨立曲線，讓你並排比較兩種設想——兩種藥物，或分次服用與一次服用。",
+    "A second plan has its own curve, so you can compare two meds, or a split dose with a single one.": (
+        "第二个方案有独立曲线，可以比较两种药物，或比较分次服用与单次服用。",
+        "第二個方案有獨立曲線，可以比較兩種藥物，或比較分次服用與單次服用。",
     ),
     "Nothing here can anchor a curve. Add a calibrated substance — amphetamine, methylphenidate, mephedrone, 3-MMC, or 2-MMC.": (
         "此处没有可锚定曲线的物质。请添加一种已校准的物质——苯丙胺、哌甲酯、4-甲基甲卡西酮、3-MMC 或 2-MMC。",
@@ -2200,9 +2212,9 @@ T = {
         "未能解析该物质的药理数据。",
         "未能解析該物質的藥理資料。",
     ),
-    "Every curve starts as a number you typed and ends as a line on a chart. These are the steps in between.": (
-        "每条曲线都始于你输入的一个数字，终于图上的一条线。以下是中间的每一步。",
-        "每條曲線都始於你輸入的一個數字，終於圖上的一條線。以下是中間的每一步。",
+    "How the model calculates a curve from the dose you enter.": (
+        "模型如何根据你输入的剂量计算曲线。",
+        "模型如何根據你輸入的劑量計算曲線。",
     ),
     "From dose to concentration": ("从剂量到浓度", "從劑量到濃度"),
     "Your dose is first expressed as a multiple of that substance's reference dose — the amount the model was tuned around. It then moves through a three-stage absorption chain into a central compartment that clears by first-order elimination, using an absorption rate (ka) and an elimination rate (ke) derived from the measured half-life and time to peak.": (
@@ -2303,9 +2315,9 @@ T = {
         "迷幻劑、解離劑與大麻素類不在適用範圍內——藥物動力學並非其效應的主導因素。",
     ),
     "What this does not model": ("本模型不涵盖的内容", "本模型不涵蓋的內容"),
-    "The idea first, then every stage from your dose to the line on the chart.": (
-        "先讲思路，再逐一拆解从你的剂量到图上那条线的每个阶段。",
-        "先講思路，再逐一拆解從你的劑量到圖上那條線的每個階段。",
+    "An overview of the model, followed by the detailed calculation.": (
+        "先介绍模型，再说明详细计算过程。",
+        "先介紹模型，再說明詳細計算過程。",
     ),
     "The calculation, step by step": ("逐步拆解计算过程", "逐步拆解計算過程"),
     "Reading these estimates": ("解读这些估算", "解讀這些估算"),
@@ -2651,9 +2663,9 @@ T = {
     ),
     "Start Using Piru": ("开始使用 Piru", "開始使用 Piru"),
     "Log it in seconds": ("几秒即可记录", "幾秒即可記錄"),
-    "Every dose lands on a timeline so you can see what's active — and when it fades.": (
-        "每一笔剂量都会落在时间轴上，让你看清什么正在起效——以及何时消退。",
-        "每一筆劑量都會落在時間軸上，讓你看清什麼正在起效——以及何時消退。",
+    "Each dose appears on a timeline so you can see what's active — and when it fades.": (
+        "每一剂都会显示在时间轴上，让你看清哪些物质正在起效，以及何时消退。",
+        "每一劑都會顯示在時間軸上，讓你看清哪些物質正在起效，以及何時消退。",
     ),
     "1,500+ substances": ("1,500+ 种物质", "1,500+ 種物質"),
     "Browse by family — dosing, duration, effects, and interactions, sourced and cited.": (
@@ -3080,9 +3092,9 @@ T = {
     # its matching 而非／並非／不是 clause. Kept only where the negation is mandated
     # elsewhere — "not medical advice", "not clinical potency", and the
     # tolerance-by-receptor title, which name a belief the reader actively holds.
-    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out. The two are handled by different code paths.": (
-        "释放剂的输出受限于囊泡中剩余的多巴胺存量；若同时存在再摄取抑制剂，还会被进一步压制。抑制剂则不受存量限制——它通过减慢清除而非推出递质来提升多巴胺。两者由不同的代码路径处理。",
-        "釋放劑的輸出受限於囊泡中剩餘的多巴胺存量；若同時存在再攝取抑制劑，還會被進一步壓制。抑制劑則不受存量限制——它透過減慢清除而非推出遞質來提升多巴胺。兩者由不同的程式路徑處理。",
+    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out.": (
+        "释放剂的输出受限于囊泡中剩余的多巴胺存量；若同时存在再摄取抑制剂，还会被进一步压制。抑制剂则不受存量限制——它通过减慢清除而非推出递质来提升多巴胺。",
+        "釋放劑的輸出受限於囊泡中剩餘的多巴胺存量；若同時存在再攝取抑制劑，還會被進一步壓制。抑制劑則不受存量限制——它透過減慢清除而非推出遞質來提升多巴胺。",
     ),
     "Approximate — equivalence tables disagree. Treat this as a ballpark.": (
         "仅为近似——各等效换算表并不一致。请将其视为大致参考。",
@@ -4425,9 +4437,9 @@ T = {
         "喝点水。你的身体需要水分，尤其是现在。",
         "喝點水。你的身體需要水分，尤其是現在。",
     ),
-    "Have some water and a snack if you haven't recently. Your body will thank you.": (
-        "如果最近还没有，喝点水、吃点东西。你的身体会感谢你。",
-        "如果最近還沒有，喝點水、吃點東西。你的身體會感謝你。",
+    "Have some water and a snack if you haven't recently.": (
+        "如果最近还没喝水或吃东西，可以喝点水、吃点东西。",
+        "如果最近還沒喝水或吃東西，可以喝點水、吃點東西。",
     ),
     "You've been going for over %lld hours. Try to wind down — dim the lights, put the phone away, and let yourself sleep.": (
         "你已持续超过 %lld 小时。试着放松——调暗灯光、放下手机，让自己入睡。",
@@ -6300,17 +6312,17 @@ T = {
         "静默用药的提醒会无声送达——不震动，也不点亮锁定屏幕。如果你使用 iOS 的定时摘要，它们会汇总到那里。",
         "靜默用藥的提醒會無聲送達——不震動，也不亮起鎖定畫面。如果你使用 iOS 的定時摘要，它們會彙整到那裡。",
     ),
-    "Ask Again re-asks if a dose isn't logged — “Default” follows the cadence in Notification Settings. Never a scold, just a nudge.": (
-        "若某次用药未被记录，“再次提醒”会再问一次——“默认”遵循通知设置中的节奏。它从不是责备，只是轻轻提醒。",
-        "若某次用藥未被記錄，「再次提醒」會再問一次——「預設」遵循通知設定中的節奏。它從不是責備，只是輕輕提醒。",
+    "Ask Again sends another reminder if a dose isn't logged — “Default” uses the intervals in Notification Settings.": (
+        "如果一剂还未记录，“再次提醒”会再发一次提醒。“默认”使用通知设置中的间隔。",
+        "如果一劑還未記錄，「再次提醒」會再發一次提醒。「預設」使用通知設定中的間隔。",
     ),
     "Asks again a little later if a med still isn't logged — like snooze for an alarm. Adjustable per med.": (
         "如果某项用药仍未被记录，稍后会再问一次——就像闹钟的稍后提醒。可为每项用药单独调整。",
         "如果某項用藥仍未被記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可為每項用藥單獨調整。",
     ),
-    "A reminder at each time. If you don't log it, Piru asks again %@ later — never a scold, just a nudge.": (
-        "在每个时间提醒一次。如果你没有记录，Piru 会在 %@ 后再问一次——从不是责备，只是轻轻提醒。",
-        "在每個時間提醒一次。如果你沒有記錄，Piru 會在 %@ 後再問一次——從不是責備，只是輕輕提醒。",
+    "A reminder at each time. If you don't log it, Piru asks again %@ later.": (
+        "在每个设定时间提醒你。如果还未记录，Piru 会在 %@ 后再次提醒。",
+        "在每個設定時間提醒你。如果還未記錄，Piru 會在 %@ 後再次提醒。",
     ),
     "No set time — this med still counts toward adherence once per due day.": (
         "未设定时间——这项用药在每个应服日仍计入一次依从性。",
@@ -6399,9 +6411,9 @@ T = {
         "详细程度",
         "詳細程度",
     ),
-    "How much pharmacology a substance page and the Tolerance tool open with.": (
-        "物质页面和耐受工具默认展开多少药理内容。",
-        "物質頁面和耐受工具預設展開多少藥理內容。",
+    "How much pharmacology is shown by default on substance pages and in the Tolerance tool.": (
+        "物质页面和耐受工具默认显示多少药理学内容。",
+        "物質頁面和耐受工具預設顯示多少藥理學內容。",
     ),
     "Plain names, pharmacology folded away until you open it.": (
         "使用通俗名称，药理内容默认折叠，需要时再展开。",
@@ -6429,9 +6441,9 @@ T = {
         "让它成为你的样子",
         "讓它成為你的樣子",
     ),
-    "Skins pay for Piru's development. The journal, the library, and every tool are free either way.": (
-        "皮肤的收入用于支持 Piru 的开发。无论买不买，日记、物质库和所有工具都是免费的。",
-        "皮膚的收入用於支持 Piru 的開發。無論買不買，日記、物質庫和所有工具都是免費的。",
+    "Skins pay for Piru's development. The journal, the library, and every tool are free.": (
+        "皮肤的收入用于支持 Piru 的开发。日记、物质库和所有工具均免费。",
+        "皮膚的收入用於支持 Piru 的開發。日記、物質庫和所有工具均免費。",
     ),
     "Free": (
         "免费",
@@ -6578,9 +6590,9 @@ T = {
         "为西柚会减缓其分解（CYP3A4）的物质添加逐剂西柚开关，让记录保留这一信息。",
         "為葡萄柚會減緩其分解（CYP3A4）的物質加入逐劑葡萄柚開關，讓記錄保留這一資訊。",
     ),
-    "Shows the acetaldehyde build-up on alcohol entries — the flush is the ALDH2 variant that lets it accumulate.": (
-        "在酒精记录上显示乙醛蓄积——脸红正是让乙醛累积的 ALDH2 变异。",
-        "在酒精記錄上顯示乙醛蓄積——臉紅正是讓乙醛累積的 ALDH2 變異。",
+    "Shows acetaldehyde buildup on alcohol entries. The ALDH2 variant slows its clearance, causing flushing.": (
+        "在酒精记录上显示乙醛蓄积。ALDH2 变异会减慢乙醛清除，导致脸红。",
+        "在酒精記錄上顯示乙醛蓄積。ALDH2 變異會減慢乙醛清除，導致臉紅。",
     ),
     # Strings the catalog already carries, restored so the table and the
     # catalog hold the same set.
@@ -6703,9 +6715,9 @@ T = {
         "注射的酯從油性儲庫中緩慢釋放，分解為游離激素，然後被清除。這條曲線把你記錄的各種酯彙總為一個示意性的血清估計值。它不是化驗結果。",
     ),
     "Any": ("任意", "任意"),
-    "Appetite and sleep were likely pushed aside for hours, and both come due now.": (
-        "食欲和睡眠很可能被搁置了好几个小时，现在两者都要补上。",
-        "食慾和睡眠很可能被擱置了好幾個小時，現在兩者都要補上。",
+    "You may need food and rest after several hours without them.": (
+        "如果已经几个小时没吃东西或休息，你可能需要补充食物和休息。",
+        "如果已經幾個小時沒吃東西或休息，你可能需要補充食物和休息。",
     ),
     "Apple Watch": ("Apple Watch", "Apple Watch"),
     "As a benzodiazepine wears off, rebound anxiety and restlessness are commonly reported.": (
@@ -6869,9 +6881,9 @@ T = {
     ),
     "Duration data": ("持续时间数据", "持續時間資料"),
     "EC50 %@ nM": ("EC50 %@ nM", "EC50 %@ nM"),
-    'Each comparison cuts your rated days on one thing at a time and counts how often the dose read "about right" or more. These describe your entries; they don\'t show that a substance, dose, or timing caused a difference.': (
-        "每一组对照每次只按一件事切分你打过分的日子，数一数其中有多少次读作“和平时差不多”或更强。这些只是在描述你的记录；它们并不说明是某种物质、剂量或时间造成了差异。",
-        "每一組對照每次只按一件事切分你打過分的日子，數一數其中有多少次讀作「和平時差不多」或更強。這些只是在描述你的記錄；它們並不說明是某種物質、劑量或時間造成了差異。",
+    'Each comparison groups your rated days by one factor at a time and counts how often you rated the dose "about right" or more. These describe your entries; they don\'t show that a substance, dose, or timing caused a difference.': (
+        "每组对照只按一个因素划分你评过分的日子，统计其中有多少次剂量被评为“和平时差不多”或更强。这些只是在描述你的记录；它们并不说明是某种物质、剂量或时间造成了差异。",
+        "每組對照只按一個因素劃分你評過分的日子，統計其中有多少次劑量被評為「和平時差不多」或更強。這些只是在描述你的記錄；它們並不說明是某種物質、劑量或時間造成了差異。",
     ),
     "Each substance page lists which of these supplied each field.": (
         "每个物质页面都会列出各个字段由其中哪个来源提供。",
@@ -6928,9 +6940,9 @@ T = {
         "僅為估算。請對照你的產品，並向臨床醫師核實。",
     ),
     "European Union Drugs Agency": ("欧盟毒品管理局", "歐盟毒品管理局"),
-    "Every dose lands on a timeline — see how they overlap, and when the model has them fading.": (
-        "每一剂都会落在时间线上——看它们如何重叠，以及模型中它们何时消退。",
-        "每一劑都會落在時間線上——看它們如何重疊，以及模型中它們何時消退。",
+    "Each logged dose appears on the timeline, showing overlaps and when the model estimates the effects will fade.": (
+        "每一剂记录都会显示在时间轴上，呈现重叠时段及模型估计的药效消退时间。",
+        "每一劑記錄都會顯示在時間軸上，呈現重疊時段及模型估計的藥效消退時間。",
     ),
     "Every source recorded in the substance database that ships with Piru.": (
         "Piru 随附的物质数据库中记录的每一个来源。",
@@ -7016,9 +7028,9 @@ T = {
         "如果有人难以叫醒、呼吸缓慢，或在昏沉中呕吐，请让其侧卧并呼叫急救。",
         "如果有人難以叫醒、呼吸緩慢，或在昏沉中嘔吐，請讓其側臥並呼叫急救。",
     ),
-    "If someone is hard to wake, breathing slowly, overheating or having a seizure, this is the wrong page — call emergency services.": (
-        "如果有人难以叫醒、呼吸缓慢、体温过高或正在抽搐，这个页面帮不上忙——请呼叫急救。",
-        "如果有人難以叫醒、呼吸緩慢、體溫過高或正在抽搐，這個頁面幫不上忙——請呼叫急救。",
+    "If someone is hard to wake, breathing slowly, overheating or having a seizure, call emergency services.": (
+        "如果有人难以唤醒、呼吸缓慢、体温过高或癫痫发作，请呼叫急救。",
+        "如果有人難以喚醒、呼吸緩慢、體溫過高或癲癇發作，請呼叫急救。",
     ),
     "If the experience was intense: the acute effects of this class are time-limited, and company helps.": (
         "如果体验很强烈：这一类的急性效应是有时限的，有人陪伴会有帮助。",
@@ -7033,9 +7045,9 @@ T = {
         "如果你丢失此口令，备份将无法恢复。无法重置。",
         "如果你遺失此通行碼，備份將無法還原。無法重設。",
     ),
-    "Important decisions and emotionally charged messages read differently tomorrow.": (
-        "重要的决定和带情绪的消息，到明天读起来会不一样。",
-        "重要的決定和帶情緒的訊息，到明天讀起來會不一樣。",
+    "You may think differently about important decisions and emotionally charged messages tomorrow.": (
+        "到明天，你对重要决定和带有情绪的消息可能会有不同看法。",
+        "到明天，你對重要決定和帶有情緒的訊息可能會有不同看法。",
     ),
     "In your system": ("体内残留", "體內殘留"),
     "InChIKey": ("InChIKey", "InChIKey"),
@@ -7140,13 +7152,13 @@ T = {
     "scheduled": ("已安排", "已排定"),
     "Modeled levels over time": ("模型估计水平随时间变化", "模型估計水平隨時間變化"),
     "Molar mass": ("摩尔质量", "莫耳質量"),
-    "More cannabis to soften the comedown moves the comedown later.": (
-        "用更多大麻来缓和下头，只会把下头往后推。",
-        "用更多大麻來緩和下頭，只會把下頭往後推。",
+    "Taking more cannabis to ease the comedown delays it.": (
+        "为了缓解下头而补服大麻，会延后下头的时间。",
+        "為了緩解下頭而補服大麻，會延後下頭的時間。",
     ),
-    "More of a depressant to ease the morning moves the morning later.": (
-        "再用中枢抑制药来缓解早晨的不适，只会把这个早晨往后推。",
-        "再用中樞抑制藥來緩解早晨的不適，只會把這個早晨往後推。",
+    "Taking more of a depressant to ease the morning symptoms delays recovery.": (
+        "为了缓解早晨的不适而补服中枢抑制药，会延迟恢复。",
+        "為了緩解早晨的不適而補服中樞抑制藥，會延遲恢復。",
     ),
     "Most entries: %@": ("条目最多：%@", "條目最多：%@"),
     "Never": ("从不", "從不"),
@@ -7390,13 +7402,13 @@ T = {
         "因为反跳就再服，会强化这个循环。",
         "因為反跳就再服，會強化這個循環。",
     ),
-    "Taking more to put off the crash moves the crash later.": (
-        "为了推迟崩溃而多服，只会把崩溃往后推。",
-        "為了推遲崩潰而多服，只會把崩潰往後推。",
+    "Taking more to put off the crash delays it.": (
+        "为了推迟下头而补服，会延后下头的时间。",
+        "為了推遲下頭而補服，會延後下頭的時間。",
     ),
-    "Taking more to put off the low moves the low later.": (
-        "为了推迟低落而多服，只会把低落往后推。",
-        "為了推遲低落而多服，只會把低落往後推。",
+    "Taking more to put off the low mood delays it.": (
+        "为了推迟情绪低落而补服，会延后它出现的时间。",
+        "為了推遲情緒低落而補服，會延後它出現的時間。",
     ),
     "Taking more within the same session adds to what is still active.": (
         "在同一场次中再服，会叠加到仍在起效的部分上。",
@@ -7415,9 +7427,9 @@ T = {
         "内分泌学会 / WPATH SOC8 针对接受男性化睾酮治疗的成人的监测范围，绘制为参考线。以你的临床医生或化验报告给出的范围为准。",
         "內分泌學會 / WPATH SOC8 針對接受男性化睪固酮治療的成人的監測範圍，繪製為參考線。以你的臨床醫生或化驗報告給出的範圍為準。",
     ),
-    "The fog is reported to clear over hours. If it doesn't, get it looked at.": (
-        "据报告，昏沉感会在数小时内散去。如果没有，就去检查一下。",
-        "據報告，昏沉感會在數小時內散去。如果沒有，就去檢查一下。",
+    "The fog is reported to clear over hours. If it doesn't, seek medical help.": (
+        "有人报告这种迷糊感会在数小时内消退。如果没有消退，请就医。",
+        "有人報告這種迷糊感會在數小時內消退。如果沒有消退，請就醫。",
     ),
     "The groups within it": ("其中的分类", "其中的分類"),
     "The model puts ≈%@ %@ of your %@ %@ dose (%@) as still active — ~%lld%%": (
@@ -7614,9 +7626,9 @@ T = {
         "在你为药物设定的每个时间提醒你。点按提醒会打开快捷记录，并预先载入该时间的药物。",
         "在你為藥物設定的每個時間提醒你。點按提醒會開啟快捷記錄，並預先載入該時間的藥物。",
     ),
-    "A second dose soon after the first lands weaker — the fast-releasing pool runs thin (tachyphylaxis). It refills overnight, so it's separate from the slower tolerance below.": (
-        "第一剂之后很快再来一剂，效果会更弱——快速释放的储备变稀薄了（快速耐受）。它会在一夜之间补回，因此和下面那种更慢的耐受是两回事。",
-        "第一劑之後很快再來一劑，效果會更弱——快速釋放的儲備變稀薄了（快速耐受）。它會在一夜之間補回，因此和下面那種更慢的耐受是兩回事。",
+    "A second dose soon after the first has a weaker effect because the fast-releasing pool has been reduced (tachyphylaxis). It refills overnight, so this differs from the slower tolerance below.": (
+        "第一剂后不久补服，效果会更弱，因为快速释放的储备已减少（快速耐受）。这部分储备会在一夜间补充，因此与下方变化较慢的耐受不同。",
+        "第一劑後不久補服，效果會更弱，因為快速釋放的儲備已減少（快速耐受）。這部分儲備會在一夜間補充，因此與下方變化較慢的耐受不同。",
     ),
     "A wind-down reminder late into long stimulant sessions.": (
         "在长时间兴奋剂场次的后段提醒你收尾。",
@@ -7834,9 +7846,9 @@ T = {
         "永久删除应用中的每一条剂量、场次和设置。你已导出的副本，以及设备或 iCloud 备份，不受影响。",
         "永久刪除 App 中的每一筆劑量、場次和設定。你已匯出的副本，以及裝置或 iCloud 備份，不受影響。",
     ),
-    "Piru can't tell a passing muddle from a serious one. Confusion that deepens, or comes with a high temperature, is a reason to get help now.": (
-        "Piru 分不出一时的迷糊和严重的意识混乱。不断加重的意识混乱，或伴随高热时，应当立刻求助。",
-        "Piru 分不出一時的迷糊和嚴重的意識混亂。不斷加重的意識混亂，或伴隨高燒時，應當立刻求助。",
+    "Piru can't tell temporary confusion from a serious symptom. Confusion that deepens, or comes with a high temperature, is a reason to get help now.": (
+        "Piru 无法判断意识混乱是一时的不适还是严重症状。不断加重的意识混乱，或伴随高热时，应当立刻求助。",
+        "Piru 無法判斷意識混亂是一時的不適還是嚴重症狀。不斷加重的意識混亂，或伴隨高燒時，應當立刻求助。",
     ),
     "Piru is a personal record and a general reference, provided as is and without warranty of any kind. It is not medical advice and not a medical device, and it is not for diagnosis, treatment, dosing decisions or emergencies.": (
         "Piru 是一份个人记录和一份通用参考，按原样提供，不附带任何形式的保证。它不是医疗建议，也不是医疗器械，不用于诊断、治疗、剂量决策或紧急情况。",
@@ -8760,7 +8772,7 @@ if __name__ == "__main__":
         "%lld h %lld m later",
         "All four lenses",
         "Choose a different substance",
-        "A second plan is drawn as its own curve, so you can hold two ideas side by side — two meds, or a split dose against a single one.",
+        "A second plan has its own curve, so you can compare two meds, or a split dose with a single one.",
         "Nothing here can anchor a curve. Add a calibrated substance — amphetamine, methylphenidate, mephedrone, 3-MMC, or 2-MMC.",
         "How this is estimated",
         "Measured pharmacokinetics",
@@ -8782,7 +8794,7 @@ if __name__ == "__main__":
         "GABA-A drive",
         "No resolved pharmacology for this substance.",
         "What the simulation is actually computing, and why rate matters more than amount.",
-        "Every curve starts as a number you typed and ends as a line on a chart. These are the steps in between.",
+        "How the model calculates a curve from the dose you enter.",
         "From dose to concentration",
         "Your dose is first expressed as a multiple of that substance's reference dose — the amount the model was tuned around. It then moves through a three-stage absorption chain into a central compartment that clears by first-order elimination, using an absorption rate (ka) and an elimination rate (ke) derived from the measured half-life and time to peak.",
         "Route changes how steeply the curve rises, and whether the drug redistributes into a peripheral compartment — not how high it peaks. An insufflated and an oral dose of the same size reach the same peak here. What differs is the slope, and the later stages are sensitive to slope.",
@@ -8816,11 +8828,11 @@ if __name__ == "__main__":
         "No individual variability. The same inputs always give the same curve, and no confidence band is drawn around it.",
         "Psychedelics, dissociatives and cannabinoids are out of scope — pharmacokinetics is not what drives their effects.",
         "What this does not model",
-        "The idea first, then every stage from your dose to the line on the chart.",
+        "An overview of the model, followed by the detailed calculation.",
         "The calculation, step by step",
         # Detail level (UserProfile).
         "Detail Level",
-        "How much pharmacology a substance page and the Tolerance tool open with.",
+        "How much pharmacology is shown by default on substance pages and in the Tolerance tool.",
         "Plain names, pharmacology folded away until you open it.",
         "Mechanism and pharmacokinetics open on the page, receptor names in the Tolerance tool.",
         # Check-in times (CheckInOfferBanner, CheckInScheduleEditor).
@@ -8836,7 +8848,7 @@ if __name__ == "__main__":
         "In partnership with substance.wiki ↗",
         "Skins",
         "Make it yours",
-        "Skins pay for Piru's development. The journal, the library, and every tool are free either way.",
+        "Skins pay for Piru's development. The journal, the library, and every tool are free.",
         "Free",
         "Paid",
         "Wearing This Skin",
@@ -8932,13 +8944,11 @@ if __name__ == "__main__":
         "Prediction",
         "Prediction from a model",
         # Steady State tool (CLI-added; Xcode hasn't extracted them yet).
-        "On a fixed schedule, each dose lands on the tail of the last and the level climbs until intake and clearance balance — steady state.",
         "Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and metabolites.",
         "Uses the same one-compartment oral model, assuming a regular schedule and linear kinetics. Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and active metabolites.",
         "Steady State",
         "Where a repeated dose settles, and when",
         "Where a med taken every day settles",
-        "The Half-Life Calculator models one dose fading out. A dose repeated on a schedule instead lands on the tail of the last, and the level climbs until intake and clearance balance — steady state.",
         "Dose each time",
         "Taken every",
         "Every 4 hours",
@@ -9010,7 +9020,7 @@ if __name__ == "__main__":
         "Splits a busy session's overlapping curves into one lane per substance.",
         "How many substances a session needs before it splits into lanes.",
         "Adds a per-dose grapefruit toggle for substances whose breakdown grapefruit slows (CYP3A4), so the entry records it.",
-        "Shows the acetaldehyde build-up on alcohol entries — the flush is the ALDH2 variant that lets it accumulate.",
+        "Shows acetaldehyde buildup on alcohol entries. The ALDH2 variant slows its clearance, causing flushing.",
     }
 
     print("--- Piru main app catalog ---")

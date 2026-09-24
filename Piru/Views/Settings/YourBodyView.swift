@@ -205,7 +205,7 @@ private struct AlcoholFlushRow: View {
             CaptionedRowLabel(
                 title: "I get the alcohol flush",
                 systemImage: "wineglass",
-                caption: Text("Shows the acetaldehyde build-up on alcohol entries — the flush is the ALDH2 variant that lets it accumulate."),
+                caption: Text("Shows acetaldehyde buildup on alcohol entries. The ALDH2 variant slows its clearance, causing flushing."),
             )
         }
         .tint(Theme.accent)

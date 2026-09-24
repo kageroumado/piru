@@ -172,7 +172,7 @@ struct DockShortcutPicker: View {
                     Text("Stage a Substance")
                         .textCase(nil)
                 } footer: {
-                    Text("Opens Log with that substance staged at its usual dose. Nothing is logged until you commit.")
+                    Text("Opens Log with that substance and its usual dose filled in. Tap Log to record it.")
                 }
             }
         }
@@ -269,7 +269,7 @@ struct DockLabelForm: View {
                 }
             case .due:
                 Section {
-                    Text("Shows “2 due”, or the med’s name when exactly one is due. Falls through to the next label otherwise.")
+                    Text("Shows “2 due”, or the med’s name when exactly one is due. Otherwise, shows the next applicable label.")
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }

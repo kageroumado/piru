@@ -286,7 +286,7 @@ struct SessionNoteEditor: View {
                 }
             }
         } footer: {
-            Text("What you noticed, in a shared vocabulary — so a later you can search for the moment the geometry started.")
+            Text("Use shared effect descriptors to record what you noticed and find it later.")
         }
     }
 

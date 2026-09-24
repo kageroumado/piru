@@ -129,7 +129,7 @@ struct CheckInScheduleEditor: View {
         if offsets.contains(draftMinutes) {
             Text("\(CheckInOffsets.label(draftMinutes)) is already on the list.")
         } else if offsets.count >= CheckInOffsets.maximumCount {
-            Text("That's the most one session can carry. Remove one to add another.")
+            Text("You've reached the limit for check-in times in this session. Remove one to add another.")
         } else if draftMinutes < CheckInOffsets.minimumMinutes {
             Text("The first prompt arrives at least \(CheckInOffsets.minimumMinutes) minutes after the dose.")
         }

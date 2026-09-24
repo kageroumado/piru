@@ -52,7 +52,7 @@ private struct DetailLevelSection: View {
                 Label("Detail Level", systemImage: "slider.horizontal.3")
             }
         } footer: {
-            Text("How much pharmacology a substance page and the Tolerance tool open with.")
+            Text("How much pharmacology is shown by default on substance pages and in the Tolerance tool.")
         }
     }
 

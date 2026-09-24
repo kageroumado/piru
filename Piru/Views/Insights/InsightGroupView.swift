@@ -74,7 +74,7 @@ extension Insight {
         case .steadyStateProjection: "Where a regular dose settles, from your own cadence"
         case .hormoneLevels: "Estimated serum estradiol or testosterone from your logged esters"
         case .patterns: "Days used, exposure, dose trend, and overlap"
-        case .feltPatterns: "What your \"did it work?\" answers line up with"
+        case .feltPatterns: "Compare your \"did it work?\" answers"
         case .reports: "Export sessions and journal summaries"
         }
     }

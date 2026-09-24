@@ -171,7 +171,7 @@ enum RampDownScheduler {
                     scheduleSimpleNotification(
                         id: NotificationType.hydration.identifier(anchor: anchor, ordinal: "2"),
                         title: String(localized: "Hydration check"),
-                        body: String(localized: "Have some water and a snack if you haven't recently. Your body will thank you."),
+                        body: String(localized: "Have some water and a snack if you haven't recently."),
                         timeInterval: secondInterval,
                         category: hydrationCategoryID,
                         threadId: threadId,

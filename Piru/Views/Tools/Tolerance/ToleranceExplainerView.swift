@@ -55,7 +55,7 @@ struct ToleranceExplainerView: View {
                 icon: "clock.arrow.circlepath",
                 tint: .teal,
                 title: "Within a session",
-                body: "A second dose soon after the first lands weaker — the fast-releasing pool runs thin (tachyphylaxis). It refills overnight, so it's separate from the slower tolerance below.",
+                body: "A second dose soon after the first has a weaker effect because the fast-releasing pool has been reduced (tachyphylaxis). It refills overnight, so this differs from the slower tolerance below.",
             )
             concept(
                 icon: "chart.line.downtrend.xyaxis",

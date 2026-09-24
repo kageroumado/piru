@@ -336,7 +336,7 @@ struct NotificationTypeDetailSheet: View {
         } header: {
             Text("Ask Again")
         } footer: {
-            Text("If a dose isn't logged, ask again after these intervals. Applies to every med. A med can override or opt out in its own settings. Re-asks never scold — they just ask.")
+            Text("If a dose isn't logged, ask again after these intervals. Applies to every med. A med can override or opt out in its own settings.")
         }
     }
 
@@ -393,7 +393,7 @@ extension NotificationCategory {
         case .session:
             "Timed from the typical onset and duration of each dose you log, for its substance and route. These are estimates from published data — Piru doesn't sense anything."
         case .safety:
-            "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it."
+            "Totals include scheduled meds, as-needed doses, and everything else."
         }
     }
 

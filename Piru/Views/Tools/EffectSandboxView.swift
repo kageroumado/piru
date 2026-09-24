@@ -105,7 +105,7 @@ struct EffectSandboxView: View {
                     }
                     .listRowBackground(CardBackground())
                 } footer: {
-                    Text("A second plan is drawn as its own curve, so you can hold two ideas side by side — two meds, or a split dose against a single one.")
+                    Text("A second plan has its own curve, so you can compare two meds, or a split dose with a single one.")
                 }
             }
             Section {

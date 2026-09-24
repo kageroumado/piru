@@ -200,7 +200,7 @@ struct InsightsView: View {
                             icon: "checkmark.bubble",
                             tint: .teal,
                             title: "Did it work?",
-                            subtitle: "What your ratings line up with",
+                            subtitle: "Compare your dose ratings",
                             route: .insight(.feltPatterns),
                         )
                     }
