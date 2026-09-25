@@ -163,6 +163,13 @@
                 stage.tab(.journal)
                 stage.present(.settings)
             },
+            // New screens go last: a file's number is its place in this list,
+            // so an insertion renumbers every capture after it.
+            Screen(name: "quicklog-concerta") { stage in
+                Self.stagedDockSearch = "Concerta"
+                stage.tab(.journal)
+                stage.present(.quickLog(routine: nil))
+            },
         ]
 
         /// The screens captured again in every skin: the ones where a skin
@@ -181,6 +188,16 @@
         static func takeStagedInteraction() -> [String] {
             defer { stagedInteraction = [] }
             return stagedInteraction
+        }
+
+        /// A search the quick-log dock runs on its next appearance, staging the
+        /// recent it finds with the editor open; `.quickLog` carries no search
+        /// text. Read once by `takeStagedDockSearch()`.
+        private static var stagedDockSearch: String?
+
+        static func takeStagedDockSearch() -> String? {
+            defer { stagedDockSearch = nil }
+            return stagedDockSearch
         }
 
         // MARK: - Run

@@ -676,14 +676,27 @@ import SwiftData
             func uid(_ name: String) -> String? {
                 SubstanceLibrary.substanceUID(for: name)
             }
+            // The med the week is built around, identified the way the med form
+            // and the quick log identify a brand the user picked: the canonical
+            // substance, plus the product word and the release form and isomer
+            // that word names in the catalog.
+            let concerta = "Concerta"
+            let concertaSubstance = "Methylphenidate"
+            let concertaIsomer = SubstanceLibrary.isomer(for: concerta)
+            let concertaRelease = SubstanceLibrary.releaseForm(for: concerta)
             @discardableResult
             func dose(
                 _ name: String, _ amount: Double, _ unit: String, route: RouteOfAdministration = .oral,
                 at timestamp: Date, notes: String? = nil, tags: [String] = [], background: Bool = false,
-                volumeML: Double? = nil, abv: Double? = nil, drinkName: String? = nil,
+                volumeML: Double? = nil, abv: Double? = nil, drinkName: String? = nil, product: String? = nil,
             ) -> DoseEntry {
+                let isomer = product.flatMap(SubstanceLibrary.isomer(for:))
+                let release = product.flatMap(SubstanceLibrary.releaseForm(for:))
                 let entry = DoseEntry(
-                    substance: name, amount: amount, unit: unit, route: route, substanceUID: uid(name),
+                    substance: name, amount: amount, unit: unit, route: route,
+                    isomer: isomer, releaseForm: release, productName: product, substanceUID: uid(name),
+                    displayNameSnapshot: product == nil
+                        ? nil : DoseTitle.snapshot(canonicalName: name, isomer: isomer, releaseForm: release),
                     timestamp: timestamp, notes: notes, tags: tags, isBackgroundMed: background,
                     volumeML: volumeML, abv: abv, drinkName: drinkName,
                 )
@@ -725,9 +738,10 @@ import SwiftData
             }
 
             // ── My Meds ─────────────────────────────────────────
-            let methylphenidate = DailyDoseItem(
-                substance: "Methylphenidate", amount: 10, unit: "mg", sortOrder: 0,
-                substanceUID: uid("Methylphenidate"), reminderTimesMinutes: [8 * 60],
+            let concertaMed = DailyDoseItem(
+                substance: concertaSubstance, amount: 36, unit: "mg", sortOrder: 0,
+                substanceUID: uid(concertaSubstance), isomer: concertaIsomer, releaseForm: concertaRelease,
+                productName: concerta, reminderTimesMinutes: [8 * 60],
             )
             let theanine = DailyDoseItem(
                 substance: "L-Theanine", amount: 200, unit: "mg", sortOrder: 1,
@@ -737,7 +751,7 @@ import SwiftData
                 substance: "Magnesium", amount: 350, unit: "mg", sortOrder: 2,
                 isBackgroundMed: true, substanceUID: uid("Magnesium"), isQuiet: true, isAsNeeded: true,
             )
-            for item in [methylphenidate, theanine, magnesium] {
+            for item in [concertaMed, theanine, magnesium] {
                 context.insert(item)
             }
 
@@ -746,11 +760,11 @@ import SwiftData
             /// routine occurrence rows, satisfied by the dose that was logged,
             /// so adherence reads six of seven with today pending until 08:00.
             func morning(_ daysAgo: Int) {
-                let med = dose("Methylphenidate", 10, "mg", at: at(daysAgo, 8, 0), tags: ["meds"])
+                let med = dose(concertaSubstance, 36, "mg", at: at(daysAgo, 8, 0), tags: ["meds"], product: concerta)
                 let supplement = dose("L-Theanine", 200, "mg", at: at(daysAgo, 8, 5), tags: ["meds"])
                 dose("Caffeine", 90, "mg", at: at(daysAgo, 8, 5), notes: daysAgo == 0 ? "flat white" : nil, tags: ["coffee"])
                 guard daysAgo > 0 else { return }
-                for (item, entry) in [(methylphenidate, med), (theanine, supplement)] {
+                for (item, entry) in [(concertaMed, med), (theanine, supplement)] {
                     let occurrence = RoutineOccurrence(
                         substance: item.substance, substanceUID: item.substanceUID,
                         route: item.route, dueDay: day(daysAgo), slotMinutes: 8 * 60,
@@ -892,20 +906,23 @@ import SwiftData
             // ── Inventory ───────────────────────────────────────
             // Stock is a replay over doses newer than `trackingStart`, so the
             // fill sizes are chosen to land on round counts after the week's
-            // consumption: 14 tablets of methylphenidate, 60 theanine caps, 8
-            // lorazepam tablets, 40 caffeine tablets, 90 magnesium caps.
+            // consumption: 21 Concerta tablets left of a 28-tablet box, 60
+            // theanine caps, 8 lorazepam tablets, 40 caffeine tablets, 90
+            // magnesium caps. Concerta is counted in tablets at its 36 mg
+            // strength, the way a scanned box adds it.
             let fill = at(7, 9, 0)
-            let stock: [(name: String, doseSize: Double, initial: Double, threshold: Double, note: String)] = [
-                ("Methylphenidate", 10, 210, 50, "pharmacy refill"),
-                ("L-Theanine", 200, 67 * 200, 10 * 200, "new bottle"),
-                ("Lorazepam", 1, 9.5, 2, "pharmacy refill"),
-                ("Caffeine", 90, 47 * 90 + 60, 5 * 90, "new bottle"),
-                ("Magnesium", 350, 91 * 350, 10 * 350, "new bottle"),
+            let stock: [(name: String, unit: String, strength: Double?, doseSize: Double, initial: Double, threshold: Double, note: String)] = [
+                (concertaSubstance, "tabs", 36, 1, 28, 7, "\(concerta) · 28 tablets"),
+                ("L-Theanine", "mg", nil, 200, 67 * 200, 10 * 200, "new bottle"),
+                ("Lorazepam", "mg", nil, 1, 9.5, 2, "pharmacy refill"),
+                ("Caffeine", "mg", nil, 90, 47 * 90 + 60, 5 * 90, "new bottle"),
+                ("Magnesium", "mg", nil, 350, 91 * 350, 10 * 350, "new bottle"),
             ]
             for (order, item) in stock.enumerated() {
                 context.insert(InventoryItem(
-                    substance: item.name, unit: "mg", trackingStart: fill,
+                    substance: item.name, unit: item.unit, trackingStart: fill,
                     lowStockThreshold: item.threshold, baselineQuantity: item.initial, doseSize: item.doseSize,
+                    unitStrengthMG: item.strength,
                     manualEvents: [ManualEvent(kind: .initial, amount: item.initial, date: fill, note: item.note, setsBaseline: true)],
                     sortOrder: order,
                 ))
@@ -927,14 +944,17 @@ import SwiftData
             func recent(
                 _ name: String, _ amount: Double, _ unit: String, route: RouteOfAdministration = .oral,
                 volumeML: Double? = nil, abv: Double? = nil, drinkName: String? = nil, emoji: String? = nil,
+                product: String? = nil,
             ) -> QuickLogManager.LoggedDose {
                 QuickLogManager.LoggedDose(
                     substance: name, route: route, amount: amount, unit: unit,
                     volumeML: volumeML, abv: abv, drinkName: drinkName, emoji: emoji, substanceUID: uid(name),
+                    isomer: product.flatMap(SubstanceLibrary.isomer(for:)),
+                    releaseForm: product.flatMap(SubstanceLibrary.releaseForm(for:)), productName: product,
                 )
             }
             QuickLogManager.record([
-                recent("Methylphenidate", 10, "mg"),
+                recent(concertaSubstance, 36, "mg", product: concerta),
                 recent("L-Theanine", 200, "mg"),
                 recent("Caffeine", 90, "mg"),
                 recent("Lorazepam", 1, "mg"),

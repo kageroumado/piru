@@ -255,6 +255,11 @@ struct QuickLogView: View {
                     if let prefillSubstance {
                         stagePrefill(named: prefillSubstance)
                     }
+                    #if DEBUG
+                        if let query = ScreenshotTour.takeStagedDockSearch() {
+                            stageTopRecent(matching: query)
+                        }
+                    #endif
                 }
                 .task(id: quickLogDoses.count) {
                     try? await Task.sleep(for: .milliseconds(200))
@@ -394,6 +399,37 @@ struct QuickLogView: View {
             )
         }
     }
+
+    #if DEBUG
+        /// The screenshot tour's dock search: stages the recent card `query`
+        /// finds the way tapping its search row does (its newest chip, its
+        /// product), opens the row's editor as finishing a search does, and
+        /// leaves the query in the field.
+        private func stageTopRecent(matching query: String) {
+            let needle = query.lowercased()
+            guard let card = content.cachedCards.first(where: { card in
+                card.substanceName.lowercased().contains(needle)
+                    || card.title?.lowercased().contains(needle) == true
+                    || card.productName?.lowercased().contains(needle) == true
+            }), let group = card.routes.first, let chip = group.doses.first else {
+                print("ScreenshotTour: no recent card matches '\(query)'")
+                return
+            }
+            withAnimation(.snappy) {
+                tray.stage(
+                    substance: card.substanceName,
+                    route: group.route,
+                    amount: chip.amount,
+                    unit: chip.unit,
+                    tint: card.tint,
+                    librarySubstance: group.librarySubstance,
+                    productName: group.stageProductName,
+                )
+                tray.expandedItemIDs = Set(tray.staged.map(\.id))
+            }
+            searchText = query
+        }
+    #endif
 
     private func stageDailyItem(_ item: DailyDoseItem) {
         tray.stage(dailyItem: item, colorLookup: content.cachedColorLookup)
