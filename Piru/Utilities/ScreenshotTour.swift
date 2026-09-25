@@ -189,6 +189,11 @@
                 stage.tab(.tools)
                 stage.present(.inventoryItemEdit(id: item.id))
             },
+            // Empty under the default `week` persona; capture it with
+            // `pipeline/screenshots.py --persona transfemHRT` to see the curves.
+            Screen(name: "hormone-levels") { stage in
+                stage.push(.insight(.hormoneLevels), in: .insights)
+            },
         ]
 
         /// The screens captured again in every skin: the ones where a skin

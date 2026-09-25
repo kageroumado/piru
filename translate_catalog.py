@@ -1400,6 +1400,10 @@ T = {
     "common doses": ("常见剂量", "常見劑量"),
     "In your body over time": ("体内留存变化", "體內留存變化"),
     "Nothing to Model": ("暂无可建模数据", "暫無可建模資料"),
+    "None of the chosen substances have a modeled curve in this range": (
+        "所选物质在此范围内都没有可建模的曲线",
+        "所選物質在此範圍內都沒有可建模的曲線",
+    ),
     "None of your logged substances in this range have a modeled elimination curve.": (
         "此范围内记录的物质都没有可建模的消除曲线。",
         "此範圍內記錄的物質都沒有可建模的消除曲線。",
@@ -7919,6 +7923,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "None of the chosen substances have a modeled curve in this range",
         "^[%lld interaction](inflect: true) detected",
         "Log ^[%lld Item](inflect: true)",
         "Couldn't save the report",

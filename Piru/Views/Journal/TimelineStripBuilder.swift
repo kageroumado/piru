@@ -785,7 +785,10 @@ struct TimelineStripBuilder {
             let points = Self.trimmed(zip(grid, zip(values, phases)).map {
                 TimelineDayLayout.CurvePoint(y: $0.y, v: min($1.0, 1), phase: $1.1)
             })
-            result.append(TimelineDayLayout.CurveSeries(color: color, points: points, isUnscaled: isUnscaled))
+            result.append(TimelineDayLayout.CurveSeries(
+                color: color, points: points, isUnscaled: isUnscaled,
+                label: CustomSubstanceStore.shared.displayName(for: relevant[0].substanceName),
+            ))
         }
         return result
     }
@@ -827,7 +830,10 @@ struct TimelineStripBuilder {
             let points = Self.trimmed(zip(grid, values).map {
                 TimelineDayLayout.CurvePoint(y: $0.y, v: min($1 / scale, 1))
             })
-            result.append(TimelineDayLayout.CurveSeries(color: color, points: points))
+            result.append(TimelineDayLayout.CurveSeries(
+                color: color, points: points,
+                label: CustomSubstanceStore.shared.displayName(for: name),
+            ))
         }
         return result
     }

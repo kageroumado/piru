@@ -125,6 +125,11 @@ struct PiruApp: App {
         #endif
     }
 
+    #if DEBUG
+        private static let forcesDifferentiateWithoutColor =
+            ProcessInfo.processInfo.arguments.contains("-piruDifferentiateWithoutColor")
+    #endif
+
     var body: some Scene {
         WindowGroup {
             SkinnedRoot {
@@ -132,7 +137,13 @@ struct PiruApp: App {
                     if ScreenshotTour.wantsWallpapers {
                         ScreenshotTour.WallpaperCanvas()
                     } else {
+                        // `-piruDifferentiateWithoutColor` turns the setting on
+                        // for this launch: the simulator's Accessibility
+                        // preference can't be set from simctl.
                         ContentView()
+                            .transformEnvironment(\._accessibilityDifferentiateWithoutColor) { value in
+                                if Self.forcesDifferentiateWithoutColor { value = true }
+                            }
                     }
                 #else
                     ContentView()
