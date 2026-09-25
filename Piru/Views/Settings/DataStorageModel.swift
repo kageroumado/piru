@@ -255,7 +255,9 @@ final class DataStorageModel {
         }
         JournalResetGeneration.advance()
         DoseLogService.shared.changed()
-        PhoneSyncCoordinator.shared.journalWasDeleted()
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.journalWasDeleted()
+        #endif
         ActiveSessionManager.shared.clearSession()
         DayResolveCache.shared.clear()
         NotificationPreferencesStore.shared.resetAfterDeletion()

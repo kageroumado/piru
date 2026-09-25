@@ -33,16 +33,16 @@ struct UnknownDoseTests {
     }
 
     @Test
-    func `An unknown dose contributes no body load and does not suppress its neighbors`() {
+    func `An unknown dose contributes no body load and does not suppress its neighbors`() throws {
         let doses = [
             unknown("Caffeine", at: Date.now.addingTimeInterval(-600)),
             DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", route: .oral, timestamp: Date.now.addingTimeInterval(-900)),
         ]
         let active = ActiveSubstanceCalculator.compute(from: doses, colorMap: [:])
-        let caffeine = try? #require(active.first)
+        let caffeine = try #require(active.first)
         #expect(active.count == 1)
-        #expect(caffeine?.doses.count == 1)
-        #expect(caffeine?.totalDosed == 100)
+        #expect(caffeine.doses.count == 1)
+        #expect(caffeine.totalDosed == 100)
         #expect(ActiveSubstanceCalculator.compute(from: [doses[0]], colorMap: [:]).isEmpty)
     }
 
@@ -67,11 +67,11 @@ struct UnknownDoseTests {
     // MARK: - Row facts
 
     @Test
-    func `A journal row for an unknown dose carries the flag and no tier`() {
-        let core = try? #require(DayEntryCore.make(from: [unknown("Caffeine")]).first)
-        #expect(core?.isUnknownDose == true)
-        #expect(core?.doseLevel == nil)
-        #expect(core?.totalMinutes == nil)
+    func `A journal row for an unknown dose carries the flag and no tier`() throws {
+        let core = try #require(DayEntryCore.make(from: [unknown("Caffeine")]).first)
+        #expect(core.isUnknownDose == true)
+        #expect(core.doseLevel == nil)
+        #expect(core.totalMinutes == nil)
     }
 
     // MARK: - Staging

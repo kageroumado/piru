@@ -80,13 +80,12 @@ struct AppSourcesTests {
     }
 
     @Test
-    func `Every slug the DB attributes maps to a named source`() {
+    func `Every slug the DB attributes maps to a named source`() throws {
         // `license(forSlug:)` and the Sources list both go through this map, so
         // a bundled slug missing from it shows an unlicensed, unnamed row.
         for slug in ["dosewiki", "freeodwiki", "psychonautwiki", "tripsit"] {
-            let name = try? #require(AppSources.slugToName[slug])
-            #expect(name != nil, "\(slug) has no display name")
-            #expect(AppSources.info(for: name ?? "") != nil, "\(slug) names no source")
+            let name = try #require(AppSources.slugToName[slug], "\(slug) has no display name")
+            #expect(AppSources.info(for: name) != nil, "\(slug) names no source")
         }
     }
 

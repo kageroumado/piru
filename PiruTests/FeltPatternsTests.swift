@@ -42,16 +42,16 @@ struct FeltPatternsTests {
     }
 
     @Test
-    func `A split with enough on both sides reports the counts it saw`() {
+    func `A split with enough on both sides reports the counts it saw`() throws {
         var rows = (0 ..< 6).map { day($0, hour: 7, asExpected: true) }
         rows += (6 ..< 12).map { day($0, hour: 11, asExpected: false) }
         let splits = FeltPatternsModel.splits(from: rows, calendar: calendar)
-        let hour = try? #require(splits.first { $0.variable == .doseHour })
-        #expect(hour?.low.days == 6)
-        #expect(hour?.low.asExpected == 6)
-        #expect(hour?.high.days == 6)
-        #expect(hour?.high.asExpected == 0)
-        #expect(hour?.gap == 1)
+        let hour = try #require(splits.first { $0.variable == .doseHour })
+        #expect(hour.low.days == 6)
+        #expect(hour.low.asExpected == 6)
+        #expect(hour.high.days == 6)
+        #expect(hour.high.asExpected == 0)
+        #expect(hour.gap == 1)
     }
 
     @Test
@@ -80,12 +80,12 @@ struct FeltPatternsTests {
     }
 
     @Test
-    func `A caffeine split reads both sides when both are lived`() {
+    func `A caffeine split reads both sides when both are lived`() throws {
         var rows = (0 ..< 6).map { day($0, hour: 9, caffeine: true, asExpected: false) }
         rows += (6 ..< 12).map { day($0, hour: 9, caffeine: false, asExpected: true) }
         let splits = FeltPatternsModel.splits(from: rows, calendar: calendar)
-        let caffeine = try? #require(splits.first { $0.variable == .caffeine })
-        #expect(caffeine?.high.days == 6)
-        #expect(caffeine?.low.asExpected == 6)
+        let caffeine = try #require(splits.first { $0.variable == .caffeine })
+        #expect(caffeine.high.days == 6)
+        #expect(caffeine.low.asExpected == 6)
     }
 }

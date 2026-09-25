@@ -20,7 +20,7 @@ struct StableHasherTests {
         // against fingerprints computed by the next, so the function itself
         // is part of the cache format. FNV-1a 64: the offset basis, then one
         // byte folded in followed by the string separator.
-        var empty = StableHasher()
+        let empty = StableHasher()
         #expect(empty.finalize() == Int(Int64(bitPattern: 0xCBF2_9CE4_8422_2325)))
         var one = StableHasher()
         one.combine("a")
