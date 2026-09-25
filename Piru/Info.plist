@@ -17,21 +17,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Piru uses the camera to read a label or barcode you point it at, so its text can fill in a journal entry.</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Piru shows your body weight, heart rate, blood pressure and workouts from Health alongside your journal entries, for your personal records.</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Piru uses the Health data you allow alongside your journal entries, for your personal records.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Piru adds the place where you made an entry to your journal, for your personal records.</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>processing</string>
-	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fredoka-Variable.ttf</string>
@@ -39,6 +24,11 @@
 		<string>Fraunces-Variable.ttf</string>
 		<string>PressStart2P-Regular.ttf</string>
 		<string>Saira-Variable.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
