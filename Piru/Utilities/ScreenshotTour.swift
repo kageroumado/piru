@@ -170,6 +170,25 @@
                 stage.tab(.journal)
                 stage.present(.quickLog(routine: nil))
             },
+            // The sheet forms of My Meds, a med, and a stocked item: on iPad
+            // each is a portrait panel, where the pushed screens fill a
+            // landscape-wide canvas.
+            Screen(name: "my-meds-sheet") { stage in
+                stage.tab(.tools)
+                stage.present(.dailyDoseSettings)
+            },
+            Screen(name: "med-concerta") { stage in
+                guard let med = stage.med(product: "Concerta") else { return }
+                stage.tab(.tools)
+                stage.present(.dailyDoseSettings)
+                await stage.settleSheet()
+                stage.pushInSheet(.medDetail(identityKey: med.identityKey, sortOrder: med.sortOrder))
+            },
+            Screen(name: "inventory-concerta") { stage in
+                guard let item = stage.inventoryItem(of: "Methylphenidate") else { return }
+                stage.tab(.tools)
+                stage.present(.inventoryItemEdit(id: item.id))
+            },
         ]
 
         /// The screens captured again in every skin: the ones where a skin
@@ -411,6 +430,29 @@
 
             func present(_ sheet: SheetRoute) {
                 navigator.present(sheet)
+            }
+
+            /// Waits out a sheet's presentation, so a push onto its stack
+            /// lands on a settled sheet.
+            func settleSheet() async {
+                try? await Task.sleep(for: .seconds(0.8))
+            }
+
+            /// Pushes onto the top sheet's own stack.
+            func pushInSheet(_ route: PushRoute) {
+                navigator.push(route)
+            }
+
+            func med(product: String) -> DailyDoseItem? {
+                var descriptor = FetchDescriptor<DailyDoseItem>(predicate: #Predicate { $0.productName == product })
+                descriptor.fetchLimit = 1
+                return try? context.fetch(descriptor).first
+            }
+
+            func inventoryItem(of substance: String) -> InventoryItem? {
+                var descriptor = FetchDescriptor<InventoryItem>(predicate: #Predicate { $0.substance == substance })
+                descriptor.fetchLimit = 1
+                return try? context.fetch(descriptor).first
             }
 
             func grouping(_ grouping: JournalGrouping) {
