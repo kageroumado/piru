@@ -88,7 +88,7 @@
       "type": "NonConsumable"
     },
     {
-      "displayPrice": "14.99",
+      "displayPrice": "16.99",
       "familyShareable": false,
       "internalID": "5ABFAA42",
       "localizations": [
@@ -133,7 +133,7 @@
       "type": "NonConsumable"
     },
     {
-      "displayPrice": "14.99",
+      "displayPrice": "16.99",
       "familyShareable": false,
       "internalID": "9C3E17B2",
       "localizations": [
@@ -145,6 +145,36 @@
       ],
       "productID": "glass.kagerou.piru.skin.selenia",
       "referenceName": "Selenia",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "1.99",
+      "familyShareable": false,
+      "internalID": "6659091C",
+      "localizations": [
+        {
+          "description": "Warm paper and charcoal, quiet",
+          "displayName": "Linen",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "glass.kagerou.piru.skin.linen",
+      "referenceName": "Linen",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "1.99",
+      "familyShareable": false,
+      "internalID": "B67EDD46",
+      "localizations": [
+        {
+          "description": "Cool blue-gray, quiet",
+          "displayName": "Slate",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "glass.kagerou.piru.skin.slate",
+      "referenceName": "Slate",
       "type": "NonConsumable"
     },
     {

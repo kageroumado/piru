@@ -25,10 +25,18 @@ struct SkinShopTests {
     // MARK: - Tiers
 
     @Test
-    func `The plain skins and the partnership skins are free`() {
-        for skin in [Skin.piru, .graphite, .linen, .slate, .elyPink, .doseWiki, .substanceWiki] {
+    func `The house skins and the partnership skins are free`() {
+        for skin in [Skin.piru, .graphite, .elyPink, .doseWiki, .substanceWiki] {
             #expect(skin.tier == .free)
             #expect(skin.productID == nil)
+        }
+    }
+
+    @Test
+    func `The still palettes are sold`() {
+        for skin in [Skin.linen, .slate] {
+            #expect(skin.tier == .palette)
+            #expect(skin.productID == "\(AppIdentity.bundleID).skin.\(skin.rawValue)")
         }
     }
 
@@ -48,8 +56,8 @@ struct SkinShopTests {
         }
         skins.setSkin(.jellyfish)
         #expect(skins.current == SkinDefaults.skinDefault)
-        skins.setSkin(.linen)
-        #expect(skins.current == .linen)
+        skins.setSkin(.graphite)
+        #expect(skins.current == .graphite)
     }
 
     @Test
@@ -128,9 +136,9 @@ struct SkinShopTests {
         skins.settleTryOn()
         #expect(skins.current == SkinDefaults.skinDefault)
 
-        skins.tryOn(.linen)
+        skins.tryOn(.graphite)
         skins.settleTryOn()
-        #expect(skins.chosen == .linen)
+        #expect(skins.chosen == .graphite)
 
         try shop.setOwned([#require(Skin.jellyfish.productID)])
         skins.tryOn(.jellyfish)

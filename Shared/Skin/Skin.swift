@@ -104,7 +104,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// by whoever adds it — the `switch` below will not compile until it is.
     nonisolated var tier: SkinTier {
         switch self {
-        case .piru, .graphite, .linen, .slate: .free
+        case .piru, .graphite: .free
+        case .linen, .slate: .palette
         // Partnership skins: ely.pink is the author's homepage, dose.wiki and
         // substance.wiki the partner encyclopedias. They advertise someone
         // else, so they are never sold.
@@ -1141,6 +1142,9 @@ enum SkinColorScheme: String, CaseIterable, Identifiable, Sendable {
 /// trinket.
 nonisolated enum SkinTier: Sendable {
     case free
+    /// A still palette: color, type and texture, with no moving scene.
+    case palette
+    /// A palette with a moving scene behind it.
     case animated
 }
 
