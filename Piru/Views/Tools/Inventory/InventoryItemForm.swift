@@ -299,6 +299,7 @@ struct InventoryItemForm: View {
     private var noteSection: some View {
         Section {
             TextField("Add note…", text: $note, axis: .vertical)
+                .accessibilityLabel(Text("Note"))
                 .lineLimit(1 ... 4)
         } header: {
             Text("Note")

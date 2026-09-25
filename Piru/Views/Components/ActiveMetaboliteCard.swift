@@ -445,6 +445,7 @@ struct ActiveMetaboliteCard: View {
                     Image(systemName: "chevron.right")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(Theme.tertiaryLabel)
+                        .accessibilityHidden(true)
                 }
             }
             .buttonStyle(.plain)

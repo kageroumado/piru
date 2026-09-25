@@ -142,6 +142,8 @@ struct CalibrationControl<Model: DepotCalibrating>: View {
             } else {
                 Slider(value: $model.personalMultiplier, in: 0.3 ... 3.0, step: 0.05)
                     .tint(Theme.accent)
+                    .accessibilityLabel(Text("Personal calibration"))
+                    .accessibilityValue(Text(verbatim: multiplierText))
                 Text("Adjust if you run higher or lower than average. A blood test replaces this with a fit.")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)

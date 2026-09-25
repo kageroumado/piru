@@ -66,6 +66,7 @@ struct MissedYesterdayInfoLine: View {
             Button(action: onDismiss) {
                 Image(systemName: "xmark")
                     .infoLineTrailingSlot()
+                    .minimumHitTarget()
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text("Dismiss"))

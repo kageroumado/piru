@@ -74,6 +74,7 @@ private struct SteadyStateInputSection: View {
                         .captionSecondary()
                     HStack(spacing: 0) {
                         TextField("Amount", value: $inputs.doseAmount, format: .number)
+                            .accessibilityLabel(Text("Amount"))
                             .decimalKeyboard()
                             .padding(Spacing.md)
                         Divider().frame(height: 20)
@@ -95,6 +96,7 @@ private struct SteadyStateInputSection: View {
                         .captionSecondary()
                     HStack(spacing: 0) {
                         TextField("Hours", value: $inputs.intervalHours, format: .number)
+                            .accessibilityLabel(Text("Taken every"))
                             .decimalKeyboard()
                             .padding(Spacing.md)
                         Divider().frame(height: 20)
@@ -108,6 +110,7 @@ private struct SteadyStateInputSection: View {
                                 .foregroundStyle(.primary)
                                 .accessibilityHidden(true)
                         }
+                        .accessibilityLabel(Text("Interval presets"))
                     }
                     .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.input))
                 }
@@ -117,6 +120,7 @@ private struct SteadyStateInputSection: View {
             if inputs.useCustomHalfLife {
                 HStack {
                     TextField("Hours", value: $inputs.customHalfLifeHours, format: .number)
+                        .accessibilityLabel(Text("Custom half-life"))
                         .decimalKeyboard()
                         .textFieldStyle(.roundedBorder)
                     Text("hours")

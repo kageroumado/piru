@@ -23,6 +23,16 @@
         }
       }
     },
+    "%@ at %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ at %2$@"
+          }
+        }
+      }
+    },
     "%@ at %lld percent" : {
       "localizations" : {
         "en" : {
@@ -304,6 +314,9 @@
           }
         }
       }
+    },
+    "and %lld more" : {
+
     },
     "Anytime" : {
       "localizations" : {
@@ -705,6 +718,9 @@
           }
         }
       }
+    },
+    "effects end around %@" : {
+
     },
     "ely.pink" : {
       "localizations" : {
@@ -1332,6 +1348,7 @@
       }
     },
     "No active entries" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1426,6 +1443,9 @@
           }
         }
       }
+    },
+    "Nothing active now" : {
+
     },
     "Nothing tracked" : {
       "localizations" : {
@@ -1551,6 +1571,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高峰期"
+          }
+        }
+      }
+    },
+    "peak %@ to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "peak %1$@ to %2$@"
           }
         }
       }

@@ -110,6 +110,7 @@ struct CollapsibleSection<Content: View>: View {
                     }
                     .buttonStyle(.borderless)
                     .accessibilityLabel("What do these mean?")
+                    .accessibilityInputLabels([Text("What do these mean?"), Text("Info")])
                 }
             }
         }

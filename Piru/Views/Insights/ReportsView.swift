@@ -210,6 +210,7 @@ struct ReportsView: View {
                 HStack {
                     Image(systemName: "line.3.horizontal.decrease")
                         .foregroundStyle(Theme.accent)
+                        .accessibilityHidden(true)
                     Text("Substances")
                         .foregroundStyle(.primary)
                     Spacer()
@@ -218,11 +219,13 @@ struct ReportsView: View {
                     Image(systemName: model.substanceFilterExpanded ? "chevron.up" : "chevron.down")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
+                        .accessibilityHidden(true)
                 }
                 .font(.subheadline)
                 .padding(Spacing.xxl)
             }
             .buttonStyle(.plain)
+            .accessibilityValue(model.substanceFilterExpanded ? Text("Expanded") : Text("Collapsed"))
 
             if model.substanceFilterExpanded {
                 Divider().padding(.leading, Spacing.xxl)
@@ -250,6 +253,7 @@ struct ReportsView: View {
                             let included = model.isSubstanceIncluded(substance)
                             Image(systemName: included ? "checkmark.circle.fill" : "circle")
                                 .foregroundStyle(included ? Theme.accent : Theme.secondaryLabel)
+                                .accessibilityHidden(true)
                             Text(SubstanceLibrary.lookup(substance)?.displayTitle ?? substance)
                                 .foregroundStyle(.primary)
                                 .font(.subheadline)
@@ -259,6 +263,7 @@ struct ReportsView: View {
                         .padding(.vertical, Spacing.sm)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityAddTraits(model.isSubstanceIncluded(substance) ? .isSelected : [])
                 }
                 .padding(.bottom, Spacing.md)
             }
@@ -442,6 +447,7 @@ private struct SessionPickerSheet: View {
                                 .foregroundStyle(selected ? Theme.accent : Theme.secondaryLabel)
                                 .imageScale(.large)
                                 .animation(.default, value: selected)
+                                .accessibilityHidden(true)
 
                             VStack(alignment: .leading, spacing: 3) {
                                 HStack {
@@ -457,7 +463,7 @@ private struct SessionPickerSheet: View {
                                 HStack(spacing: Spacing.sm) {
                                     Text(summary.timeLabel)
                                         .captionSecondary()
-                                    Text("·")
+                                    Middot()
                                         .captionSecondary()
                                     Text(summary.substanceSummary)
                                         .captionSecondary()
@@ -533,6 +539,7 @@ private struct ExportCard: View {
                     .font(.piru(.title3))
                     .foregroundStyle(tint)
                     .frame(width: 28, alignment: .center)
+                    .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(title)
@@ -552,6 +559,7 @@ private struct ExportCard: View {
                     Image(systemName: "chevron.right")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
+                        .accessibilityHidden(true)
                 }
             }
             .padding(Spacing.xxl)

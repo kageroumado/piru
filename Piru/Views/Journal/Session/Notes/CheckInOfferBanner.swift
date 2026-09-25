@@ -35,7 +35,7 @@ struct CheckInOfferBanner: View {
                         Image(systemName: "xmark")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(Theme.secondaryLabel)
-                            .contentShape(.rect)
+                            .minimumHitTarget()
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(Text("Dismiss"))

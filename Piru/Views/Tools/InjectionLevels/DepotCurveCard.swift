@@ -116,6 +116,7 @@ struct DepotCurveChart: View {
             HStack(spacing: 2) {
                 Text(chartRange.label)
                 Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
+                    .accessibilityHidden(true)
             }
             .font(.caption.weight(.semibold))
             .foregroundStyle(Theme.accent)

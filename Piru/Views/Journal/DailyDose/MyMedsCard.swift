@@ -553,12 +553,15 @@ private struct SlotRowView: View {
         HStack(spacing: Spacing.lg) {
             Button(action: onToggle) {
                 CheckCircle(state: slotState, due: due)
-                    .contentShape(Circle())
+                    .minimumHitTarget()
             }
             .buttonStyle(.plain)
             .disabled(slotState == .skipped)
             .accessibilityLabel(title)
             .accessibilityValue(accessibilityStateValue)
+            // "Tap <name>" belongs to the row that opens the med, whose visible
+            // text is the name; the check gets its own spoken names.
+            .accessibilityInputLabels([Text("Check \(title)"), Text("Log \(title)")])
             .accessibilityHint(slotState == .skipped ? Text("Skipped for today") : taken ? Text("Removes this entry") : Text("Records this entry"))
 
             Button(action: onOpen) {
@@ -589,6 +592,7 @@ private struct SlotRowView: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text("\(title) details"))
+            .accessibilityInputLabels([Text(title), Text("\(title) details")])
             .accessibilityHint(Text("Opens this med"))
         }
         .padding(.vertical, Spacing.xs)

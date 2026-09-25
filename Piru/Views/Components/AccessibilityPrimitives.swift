@@ -19,4 +19,30 @@ extension View {
             .accessibilityLabel(label)
             .accessibilityValue(value)
     }
+
+    /// Grows a small control's touch target to at least `side` points square,
+    /// centered on what is drawn, without moving anything: the extra room is
+    /// padding that the same negative padding hands straight back to layout.
+    /// Apply it to the control's label, where the content shape belongs. A
+    /// `.plain`-styled button also reports the grown frame to assistive tech.
+    func minimumHitTarget(_ side: CGFloat = 44) -> some View {
+        modifier(MinimumHitTarget(side: side))
+    }
+}
+
+private struct MinimumHitTarget: ViewModifier {
+    let side: CGFloat
+    @State private var size: CGSize = .zero
+
+    func body(content: Content) -> some View {
+        let horizontal = max(0, (side - size.width) / 2)
+        let vertical = max(0, (side - size.height) / 2)
+        content
+            .onGeometryChange(for: CGSize.self) { $0.size } action: { size = $0 }
+            .padding(.horizontal, horizontal)
+            .padding(.vertical, vertical)
+            .contentShape([.interaction, .accessibility], .rect)
+            .padding(.horizontal, -horizontal)
+            .padding(.vertical, -vertical)
+    }
 }

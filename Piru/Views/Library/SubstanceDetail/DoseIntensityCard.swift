@@ -319,16 +319,18 @@ struct IntensityGauge: View {
             .onTapGesture { onSelect(band(for: $0, center: center)) }
         }
         .sensoryFeedback(.selection, trigger: selected)
-        .accessibilityElement()
-        .accessibilityLabel(Text("Dose intensity", comment: "Dial accessibility label"))
-        .accessibilityValue(Text(valueLabel))
-        .accessibilityHint(Text("Swipe up or down to change the dose", comment: "Dial accessibility hint"))
-        .accessibilityAdjustableAction { direction in
-            switch direction {
-            case .increment: onSelect(min(bandCount - 1, selected + 1))
-            case .decrement: onSelect(max(0, selected - 1))
-            default: break
+        // A real slider stands in for the arc, so assistive tech gets a numeric
+        // position to report alongside the spoken band, and swipes step one band.
+        .accessibilityRepresentation {
+            Slider(
+                value: Binding(get: { Double(selected) }, set: { onSelect(Int($0.rounded())) }),
+                in: 0 ... Double(max(bandCount - 1, 1)),
+                step: 1,
+            ) {
+                Text("Dose intensity", comment: "Dial accessibility label")
             }
+            .accessibilityValue(Text(valueLabel))
+            .accessibilityHint(Text("Swipe up or down to change the dose", comment: "Dial accessibility hint"))
         }
     }
 

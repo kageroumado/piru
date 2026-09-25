@@ -81,6 +81,7 @@ struct ByVolumeDoseInputView: View {
                 .foregroundStyle(Theme.secondaryLabel)
             Spacer()
             TextField("0", text: $volumeText)
+                .accessibilityLabel(Text("Volume"))
                 .decimalKeyboard()
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 90)
@@ -99,6 +100,7 @@ struct ByVolumeDoseInputView: View {
                 .foregroundStyle(Theme.secondaryLabel)
             Spacer()
             TextField("0", text: $abvText)
+                .accessibilityLabel(Text("Strength"))
                 .decimalKeyboard()
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 90)
@@ -113,6 +115,7 @@ struct ByVolumeDoseInputView: View {
                 .foregroundStyle(Theme.secondaryLabel)
             Spacer()
             TextField("Optional", text: name)
+                .accessibilityLabel(Text("Name"))
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 160)
         }

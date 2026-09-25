@@ -423,38 +423,47 @@ struct SessionBodyLoadSection: View {
         }
     }
 
-    /// A native `DisclosureGroup` — the same fold affordance the recovery guide
-    /// uses — so the curve reads as expandable, not as a navigation row. The
-    /// always-visible label is the shared ``BodyLoadRowLabel``; expanding it
-    /// reveals the substance's elimination curve.
+    /// A fold: the shared ``BodyLoadRowLabel`` with a rotating chevron, the
+    /// whole row one button, so the curve reads as expandable rather than as a
+    /// navigation row. A `DisclosureGroup` draws the same look but exposes its
+    /// chevron as a separate, unnamed 10 pt button that VoiceOver and Voice
+    /// Control cannot name, so it stays out of here.
+    @ViewBuilder
     private func activeRow(_ row: SessionBodyLoadModel.Active) -> some View {
-        DisclosureGroup(isExpanded: expansion(row.id)) {
+        let isOpen = expanded.contains(row.id)
+        Button {
+            withAnimation(.snappy) {
+                if isOpen { expanded.remove(row.id) } else { expanded.insert(row.id) }
+            }
+        } label: {
+            HStack(spacing: Spacing.md) {
+                BodyLoadRowLabel(
+                    dotColor: row.active.color,
+                    name: row.displayName,
+                    count: row.count,
+                    total: row.sessionTotal,
+                    unit: row.unit,
+                    status: .eliminating(
+                        percent: Int(row.active.eliminatedFraction * 100),
+                        clear: SessionBodyLoadModel.clearText(for: row.active),
+                        remaining: row.remaining,
+                    ),
+                )
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .rotationEffect(.degrees(isOpen ? 90 : 0))
+                    .accessibilityHidden(true)
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(isOpen ? Text("Expanded") : Text("Collapsed"))
+        .accessibilityHint(isOpen ? Text("Hides the elimination curve") : Text("Shows the elimination curve"))
+        if isOpen {
             SubstanceEliminationCurve(active: row.active, displayName: row.displayName)
                 .padding(.top, Spacing.xs)
-        } label: {
-            BodyLoadRowLabel(
-                dotColor: row.active.color,
-                name: row.displayName,
-                count: row.count,
-                total: row.sessionTotal,
-                unit: row.unit,
-                status: .eliminating(
-                    percent: Int(row.active.eliminatedFraction * 100),
-                    clear: SessionBodyLoadModel.clearText(for: row.active),
-                    remaining: row.remaining,
-                ),
-            )
         }
-        .tint(Theme.secondaryLabel)
-        .accessibilityHint(Text("Shows the elimination curve"))
-    }
-
-    private func expansion(_ id: String) -> Binding<Bool> {
-        Binding(
-            get: { expanded.contains(id) },
-            set: { isOpen in
-                if isOpen { expanded.insert(id) } else { expanded.remove(id) }
-            },
-        )
     }
 }

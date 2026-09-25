@@ -172,6 +172,7 @@ struct EffectEstimatesView: View {
                     HStack(spacing: Spacing.xs) {
                         Image(systemName: "function")
                             .imageScale(.small)
+                            .accessibilityHidden(true)
                         Text("How this works")
                             .font(.subheadline.weight(.medium))
                     }

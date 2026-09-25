@@ -9035,6 +9035,22 @@
         }
       }
     },
+    "and %lld more" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %lld 条"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %lld 筆"
+          }
+        }
+      }
+    },
     "Animal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12484,6 +12500,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "通道阻滯劑"
+          }
+        }
+      }
+    },
+    "Check %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "勾选 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "勾選 %@"
           }
         }
       }
@@ -17297,6 +17329,22 @@
         }
       }
     },
+    "Dose time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量時間"
+          }
+        }
+      }
+    },
     "Dose time: %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18697,6 +18745,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "效應可能超過上述時長：%2$@ 的標註時長結束時，%1$@ 仍在體內。"
+          }
+        }
+      }
+    },
+    "effects end around %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果约在 %@ 结束"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果約在 %@ 結束"
           }
         }
       }
@@ -22699,7 +22763,6 @@
       }
     },
     "Grapefruit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23428,6 +23491,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已隱藏"
+          }
+        }
+      }
+    },
+    "Hides the elimination curve" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起消除曲线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起消除曲線"
           }
         }
       }
@@ -25262,6 +25341,22 @@
         }
       }
     },
+    "Info" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "说明"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "說明"
+          }
+        }
+      }
+    },
     "Inhalation" : {
       "localizations" : {
         "zh-Hans" : {
@@ -25532,6 +25627,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中效"
+          }
+        }
+      }
+    },
+    "Interval presets" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常用间隔"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常用間隔"
           }
         }
       }
@@ -26029,6 +26140,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ki ≤ %lld nM"
+          }
+        }
+      }
+    },
+    "Ki ceiling" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki 上限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki 上限"
           }
         }
       }
@@ -30788,6 +30915,22 @@
         }
       }
     },
+    "New tag" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新標籤"
+          }
+        }
+      }
+    },
     "New time on %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -30816,6 +30959,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下一階段"
+          }
+        }
+      }
+    },
+    "Next dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一次"
           }
         }
       }
@@ -31139,6 +31298,7 @@
       }
     },
     "No active entries" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32651,6 +32811,22 @@
         }
       }
     },
+    "Nothing active now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前没有生效中的物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前沒有作用中的物質"
+          }
+        }
+      }
+    },
     "Nothing active right now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34016,6 +34192,22 @@
         }
       }
     },
+    "Options" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選項"
+          }
+        }
+      }
+    },
     "Oral" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34686,6 +34878,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高峰期 %@"
+          }
+        }
+      }
+    },
+    "peak %@ to %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高峰期 %1$@ 至 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高峰期 %1$@ 至 %2$@"
           }
         }
       }
@@ -37479,6 +37687,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "復溶計算器"
+          }
+        }
+      }
+    },
+    "Record" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄"
           }
         }
       }

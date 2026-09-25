@@ -38,11 +38,13 @@ struct EntryContextSection: View {
                         HStack(spacing: Spacing.md) {
                             Image(systemName: "mappin.circle.fill")
                                 .foregroundStyle(Theme.accent)
+                                .accessibilityHidden(true)
                             Text(locationName)
                                 .foregroundStyle(.primary)
                             Spacer()
                             Image(systemName: "arrow.up.forward.app")
                                 .captionSecondary()
+                                .accessibilityHidden(true)
                         }
                     }
                     .accessibilityHint(Text("Opens in Maps"))

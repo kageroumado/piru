@@ -80,12 +80,14 @@ private struct AdherenceRemindersLink: View {
             HStack(spacing: Spacing.xl) {
                 Image(systemName: "bell.badge")
                     .foregroundStyle(Theme.accent)
+                    .accessibilityHidden(true)
                 Text("Reminders")
                     .foregroundStyle(.primary)
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.tertiaryLabel)
+                    .accessibilityHidden(true)
             }
             .padding(14)
             .themeCard()

@@ -7709,6 +7709,21 @@ T = {
         "在 iPhone 上收藏物質或新增記錄，即可在這裡找到。",
     ),
     "^[%lld entry](inflect: true) syncing": ("正在同步 %lld 条记录", "正在同步 %lld 筆記錄"),
+    # Accessibility: timeline summary, fold state, Voice Control names
+    "Hides the elimination curve": ("收起消除曲线", "收起消除曲線"),
+    "Nothing active now": ("目前没有生效中的物质", "目前沒有作用中的物質"),
+    "peak %@ to %@": ("高峰期 %1$@ 至 %2$@", "高峰期 %1$@ 至 %2$@"),
+    "effects end around %@": ("效果约在 %@ 结束", "效果約在 %@ 結束"),
+    "and %lld more": ("另有 %lld 条", "另有 %lld 筆"),
+    "Next dose": ("下一次", "下一次"),
+    "Record": ("记录", "記錄"),
+    "Dose time": ("剂量时间", "劑量時間"),
+    "Options": ("选项", "選項"),
+    "Info": ("说明", "說明"),
+    "Check %@": ("勾选 %@", "勾選 %@"),
+    "Interval presets": ("常用间隔", "常用間隔"),
+    "Ki ceiling": ("Ki 上限", "Ki 上限"),
+    "New tag": ("新标签", "新標籤"),
 }
 
 # Widget translations
@@ -7959,6 +7974,20 @@ if __name__ == "__main__":
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
         "None of the chosen substances have a modeled curve in this range",
+        "Hides the elimination curve",
+        "Nothing active now",
+        "peak %@ to %@",
+        "effects end around %@",
+        "and %lld more",
+        "Next dose",
+        "Record",
+        "Dose time",
+        "Options",
+        "Info",
+        "Check %@",
+        "Interval presets",
+        "Ki ceiling",
+        "New tag",
         "^[%lld interaction](inflect: true) detected",
         "Log ^[%lld Item](inflect: true)",
         "Couldn't save the report",

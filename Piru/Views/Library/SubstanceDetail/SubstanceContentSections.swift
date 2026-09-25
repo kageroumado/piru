@@ -72,7 +72,6 @@ struct HistorySection: View {
 
     @State private var showEntries = false
     @State private var showAllHistory = false
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         let count = entries.count
@@ -82,7 +81,25 @@ struct HistorySection: View {
         let latest = entries.first?.timestamp
 
         Section("Your History") {
-            DisclosureGroup(isExpanded: $showEntries) {
+            // A fold rather than a `DisclosureGroup`: that draws its chevron as a
+            // separate, unnamed 10 pt button VoiceOver and Voice Control cannot name.
+            Button {
+                withAnimation(.snappy) { showEntries.toggle() }
+            } label: {
+                HStack(spacing: Spacing.md) {
+                    HistorySummaryLabel(count: count, earliest: earliest, latest: latest, stats: stats, unit: unit)
+                    Image(systemName: "chevron.right")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .rotationEffect(.degrees(showEntries ? 90 : 0))
+                        .accessibilityHidden(true)
+                }
+                .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .combine)
+            .accessibilityValue(showEntries ? Text("Expanded") : Text("Collapsed"))
+            if showEntries {
                 let displayEntries = showAllHistory ? entries : Array(entries.prefix(10))
                 ForEach(displayEntries) { entry in
                     HStack {
@@ -108,42 +125,56 @@ struct HistorySection: View {
                             .frame(maxWidth: .infinity)
                     }
                 }
-            } label: {
-                // Two columns at standard sizes; stacked at accessibility sizes,
-                // where side by side they broke "September" mid-word.
-                let isStacked = dynamicTypeSize.isAccessibilitySize
-                let layout = isStacked
-                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.md))
-                    : AnyLayout(HStackLayout())
-                layout {
-                    VStack(alignment: .leading, spacing: Spacing.xxs) {
-                        Text("^[\(count) entry](inflect: true)")
-                            .font(.subheadline.weight(.medium))
-                        if let earliest, let latest {
-                            if Calendar.current.isDate(earliest, equalTo: latest, toGranularity: .month) {
-                                Text(earliest.formatted(.dateTime.month(.wide).year()))
-                                    .captionSecondary()
-                            } else {
-                                Text("\(earliest.formatted(.dateTime.month(.abbreviated).year())) – \(latest.formatted(.dateTime.month(.abbreviated).year()))")
-                                    .captionSecondary()
-                            }
-                        }
-                    }
-                    if !isStacked {
-                        Spacer()
-                    }
-                    VStack(alignment: isStacked ? .leading : .trailing, spacing: Spacing.xxs) {
-                        if stats.minDose == stats.maxDose {
-                            Text("\(stats.minDose.doseFormatted) \(unit)")
-                                .font(.subheadline.weight(.medium))
-                        } else {
-                            Text("\(stats.minDose.doseFormatted) – \(stats.maxDose.doseFormatted) \(unit)")
-                                .font(.subheadline.weight(.medium))
-                        }
-                        Text("Most common: \(stats.mostCommon.doseFormatted) \(unit)")
+            }
+        }
+    }
+}
+
+/// The history fold's header: the entry count and span, then the dose range
+/// and the most common dose.
+private struct HistorySummaryLabel: View {
+    let count: Int
+    let earliest: Date?
+    let latest: Date?
+    let stats: SubstanceDetailModel.HistoryStats
+    let unit: String
+
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    var body: some View {
+        // Two columns at standard sizes; stacked at accessibility sizes,
+        // where side by side they broke "September" mid-word.
+        let isStacked = dynamicTypeSize.isAccessibilitySize
+        let layout = isStacked
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.md))
+            : AnyLayout(HStackLayout())
+        layout {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                Text("^[\(count) entry](inflect: true)")
+                    .font(.subheadline.weight(.medium))
+                if let earliest, let latest {
+                    if Calendar.current.isDate(earliest, equalTo: latest, toGranularity: .month) {
+                        Text(earliest.formatted(.dateTime.month(.wide).year()))
+                            .captionSecondary()
+                    } else {
+                        Text("\(earliest.formatted(.dateTime.month(.abbreviated).year())) – \(latest.formatted(.dateTime.month(.abbreviated).year()))")
                             .captionSecondary()
                     }
                 }
+            }
+            if !isStacked {
+                Spacer()
+            }
+            VStack(alignment: isStacked ? .leading : .trailing, spacing: Spacing.xxs) {
+                if stats.minDose == stats.maxDose {
+                    Text("\(stats.minDose.doseFormatted) \(unit)")
+                        .font(.subheadline.weight(.medium))
+                } else {
+                    Text("\(stats.minDose.doseFormatted) – \(stats.maxDose.doseFormatted) \(unit)")
+                        .font(.subheadline.weight(.medium))
+                }
+                Text("Most common: \(stats.mostCommon.doseFormatted) \(unit)")
+                    .captionSecondary()
             }
         }
     }
