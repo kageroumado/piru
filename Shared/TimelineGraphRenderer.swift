@@ -1490,8 +1490,8 @@ struct TimelineGraphRenderer {
             context.stroke(dot, with: .color(.white.opacity(0.85)), lineWidth: 1)
         }
         let labelFont = Font.system(size: 7, weight: .semibold, design: .rounded)
-        let top = Text(verbatim: "++++").font(labelFont).foregroundStyle(Color.accentColor.opacity(0.7))
-        let bottom = Text(verbatim: "±").font(labelFont).foregroundStyle(Color.accentColor.opacity(0.7))
+        let top = Text(verbatim: "++++").font(labelFont).foregroundStyle(Color.accentColor.legibleOpacity(0.7))
+        let bottom = Text(verbatim: "±").font(labelFont).foregroundStyle(Color.accentColor.legibleOpacity(0.7))
         context.draw(context.resolve(top), at: CGPoint(x: graphInset + 3, y: plotTop), anchor: .topLeading)
         context.draw(context.resolve(bottom), at: CGPoint(x: graphInset + 3, y: plotTop + plotHeight), anchor: .bottomLeading)
     }
@@ -1555,7 +1555,7 @@ struct TimelineGraphRenderer {
             line.move(to: CGPoint(x: graphInset, y: gy))
             line.addLine(to: CGPoint(x: graphInset + graphWidth, y: gy))
             context.stroke(line, with: .color(.secondary.opacity(0.18)), style: StrokeStyle(lineWidth: 0.5, dash: [1, 4]))
-            let tick = Text(verbatim: "\(Int(guideBpm))").font(guideFont).foregroundStyle(Self.hrColor.opacity(0.75))
+            let tick = Text(verbatim: "\(Int(guideBpm))").font(guideFont).foregroundStyle(Self.hrColor.legibleOpacity(0.75))
             context.draw(context.resolve(tick), at: CGPoint(x: graphInset + 2, y: gy - 4), anchor: .bottomLeading)
             guideBpm += 20
         }
@@ -1774,7 +1774,7 @@ struct TimelineGraphRenderer {
                     ? Self.timeHourFormatter.string(from: tickDate)
                     : Self.timeLabelFormatter.string(from: tickDate)
 
-                let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.6))
+                let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.legibleOpacity(0.6))
                 let resolved = context.resolve(text)
                 let labelWidth = resolved.measure(in: size).width
 
@@ -1839,7 +1839,7 @@ struct TimelineGraphRenderer {
 
                 let text = Text(label)
                     .font(.system(size: 10, weight: .medium, design: .rounded))
-                    .foregroundStyle(.primary.opacity(0.6))
+                    .foregroundStyle(.primary.legibleOpacity(0.6))
                 let resolved = context.resolve(text)
                 let labelWidth = resolved.measure(in: size).width
 

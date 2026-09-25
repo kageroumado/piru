@@ -39,6 +39,12 @@ CHROME: dict[str, dict[str, tuple[float, float, float]]] = {
         # The old dark override was *worse* than the system colour (7.79 vs
         # 9.97), so this adopts what iOS ships: systemGray at 60% over the card.
         "dark": (0.79764, 0.01126, 285.9),
+        # Increase Contrast: >= 7:1 on every light surface (7.26 on the grouped
+        # gray) and on every dark one (11.45 on the #1C1C1E sheet). Placeholder
+        # and tertiary text swap to this token under the setting too, so it is
+        # also what they read at.
+        "light_hc": (0.43, 0.008, 285.9),
+        "dark_hc": (0.87, 0.012, 285.9),
     },
     # Surfaces. These existed as `UIColor { traits }` closures, which branch on
     # userInterfaceStyle only and therefore cannot express high contrast at all.
@@ -75,6 +81,9 @@ def main() -> None:
             "any": {"oklch": list(modes["light"])},
             "dark": {"oklch": list(modes["dark"])},
         }
+        if "light_hc" in modes:
+            tokens[name]["any_hc"] = {"oklch": list(modes["light_hc"])}
+            tokens[name]["dark_hc"] = {"oklch": list(modes["dark_hc"])}
 
     # L2 encoding scales, built by build_l2_scales.py with the same gates as
     # L1. Every value is {"p3": [r, g, b]} components; they pass through as

@@ -329,6 +329,19 @@ Zero hits for `isDarkerSystemColorsEnabled` / `accessibilityContrast` /
 `isReduceTransparencyEnabled` across all four targets. Only the asset-catalog
 migration makes this expressible (Any / Dark / Any+HC / Dark+HC).
 
+The hand-owned `AccentColor` carries its HC slots in Oklch terms, converted to
+P3 components by `colorimetry.oklch_to_rgb`:
+
+| slot | Oklch | on light card / dark `#111` | white label on it |
+|---|---|---|---|
+| Any+HC | `0.53 0.185 6.3` | 5.36:1 | 5.84:1 |
+| Dark+HC | `0.675 0.225 9.9` | 5.75:1 | 3.28:1 |
+
+Dark cannot clear 4.5:1 both ways with one pink: text on `#111` needs luminance
+≥ 0.20 and a white label on it needs ≤ 0.18. Dark+HC favors the text, and its
+white labels (bold button titles) rely on the 3:1 large-text floor.
+`text/secondary` gets its HC slots in `build_generator_input.py`.
+
 ### OFF-5 · `Theme.secondaryLabel`, 566 sites
 **Corrected** — the original figures here were computed against pure
 white/black, the exact source-only mistake §2 warns about, committed inside this

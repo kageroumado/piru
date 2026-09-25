@@ -167,7 +167,7 @@ struct SessionNoteRow: View, Equatable {
                 if showRelativeTime {
                     Text(display.timestamp, format: .relative(presentation: .numeric, unitsStyle: .abbreviated))
                         .font(.caption2)
-                        .foregroundStyle(.tertiary)
+                        .foregroundStyle(Theme.tertiaryLabel)
                 }
             }
             .lineLimit(1)

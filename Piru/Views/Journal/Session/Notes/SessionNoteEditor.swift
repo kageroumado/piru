@@ -118,7 +118,7 @@ struct SessionNoteEditor: View {
                 .overlay(alignment: .topLeading) {
                     if draft.text.isEmpty {
                         Text(draft.kind == .summary ? "How was it, overall?" : "What do you notice?")
-                            .foregroundStyle(.tertiary)
+                            .foregroundStyle(Theme.tertiaryLabel)
                             .padding(.top, Spacing.md)
                             .padding(.leading, 5)
                             .allowsHitTesting(false)
@@ -339,7 +339,7 @@ private struct SevenStepRow: View {
                 } else {
                     Text("Not recorded")
                         .font(.caption)
-                        .foregroundStyle(.tertiary)
+                        .foregroundStyle(Theme.tertiaryLabel)
                 }
             }
             Slider(value: sliderValue, in: -3 ... 3, step: 1) {

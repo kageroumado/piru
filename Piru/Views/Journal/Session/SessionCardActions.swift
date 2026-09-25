@@ -160,7 +160,7 @@ private struct MoveDosesSheet: View {
                                     .foregroundStyle(Theme.secondaryLabel)
                                 Image(systemName: "chevron.right")
                                     .font(.caption.weight(.semibold))
-                                    .foregroundStyle(.tertiary)
+                                    .foregroundStyle(Theme.tertiaryLabel)
                                     .accessibilityHidden(true)
                             }
                             .contentShape(Rectangle())

@@ -319,7 +319,7 @@ private struct LibraryMock: View {
                     .foregroundStyle(.white)
                 Text(verbatim: family.samples)
                     .font(.system(size: 10))
-                    .foregroundStyle(.white.opacity(0.85))
+                    .foregroundStyle(.white.legibleOpacity(0.85))
                     .lineLimit(1)
             }
         }

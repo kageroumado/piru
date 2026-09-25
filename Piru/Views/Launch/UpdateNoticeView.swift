@@ -229,7 +229,7 @@ private struct ClassColorsSampleCard: View {
                     Circle().fill(sample.before).frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
                     Image(systemName: "arrow.right")
                         .font(.caption.weight(.semibold))
-                        .foregroundStyle(.tertiary)
+                        .foregroundStyle(Theme.tertiaryLabel)
                     Circle().fill(sample.after).frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
                 }
                 .accessibilityElement(children: .ignore)

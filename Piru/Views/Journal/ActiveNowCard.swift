@@ -77,7 +77,7 @@ struct ActiveNowCard: View {
     private var disclosureChevron: some View {
         Image(systemName: "chevron.right")
             .font(.caption.weight(.semibold))
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(Theme.tertiaryLabel)
             .accessibilityHidden(true)
     }
 

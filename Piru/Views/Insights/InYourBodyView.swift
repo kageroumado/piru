@@ -325,7 +325,7 @@ struct InYourBodyView: View {
                                 .foregroundStyle(Theme.secondaryLabel)
                             Text("\(d.remaining.doseFormatted) \(active.unit) left")
                                 .font(.caption2)
-                                .foregroundStyle(active.color.opacity(Theme.Opacity.strong))
+                                .foregroundStyle(active.color.legibleOpacity(Theme.Opacity.strong))
                         }
                         .accessibilityElement(children: .combine)
                     }

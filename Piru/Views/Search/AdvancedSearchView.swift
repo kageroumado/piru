@@ -159,7 +159,7 @@ private struct BindingHitRow: View {
                     Text("· DOI").font(.caption2)
                 }
             }
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(Theme.tertiaryLabel)
         }
         .accessibilityElement(children: .combine)
         .padding(.vertical, Spacing.xxs)

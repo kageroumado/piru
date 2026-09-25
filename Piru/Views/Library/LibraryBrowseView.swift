@@ -250,7 +250,7 @@ private struct LibraryFamilyCard: View {
                     .foregroundStyle(.white)
                 Text(family.blurb)
                     .font(.footnote)
-                    .foregroundStyle(.white.opacity(0.93))
+                    .foregroundStyle(.white.legibleOpacity(0.93))
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: 210, alignment: .leading)
             }
@@ -262,12 +262,12 @@ private struct LibraryFamilyCard: View {
                     Text("\(count)")
                         .sectionLabel()
                         .monospacedDigit()
-                        .foregroundStyle(.white.opacity(0.9))
+                        .foregroundStyle(.white.legibleOpacity(0.9))
                 }
                 if let chevron {
                     Image(systemName: chevron)
                         .font(.subheadline.weight(.bold))
-                        .foregroundStyle(.white.opacity(0.9))
+                        .foregroundStyle(.white.legibleOpacity(0.9))
                         .rotationEffect(.degrees(rotates && isExpanded ? 90 : 0))
                         .accessibilityHidden(true)
                 }
@@ -292,7 +292,7 @@ private struct LibraryFamilyCard: View {
     private var exemplarsLine: some View {
         Text(LibraryFamily.exemplars(for: family.source).joined(separator: " · "))
             .font(.caption.weight(.semibold))
-            .foregroundStyle(.white.opacity(0.92))
+            .foregroundStyle(.white.legibleOpacity(0.92))
             .lineLimit(1)
             .frame(maxWidth: 220, alignment: .leading)
     }
@@ -358,18 +358,18 @@ private struct LibrarySubclassRow: View {
                     .foregroundStyle(.white)
                 Text(sub.blurb)
                     .font(.caption2)
-                    .foregroundStyle(.white.opacity(0.85))
+                    .foregroundStyle(.white.legibleOpacity(0.85))
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 6)
             Text("\(count)")
                 .sectionLabel()
-                .foregroundStyle(.white.opacity(0.92))
+                .foregroundStyle(.white.legibleOpacity(0.92))
                 .monospacedDigit()
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.white.opacity(Theme.Opacity.strong))
+                .foregroundStyle(.white.legibleOpacity(Theme.Opacity.strong))
                 .accessibilityHidden(true)
         }
         .padding(.horizontal, 13)
@@ -495,14 +495,14 @@ private struct LibraryYoursCard: View {
                     .foregroundStyle(.white)
                 Text("Favorites, colors, units, and the substances you added.")
                     .font(.footnote)
-                    .foregroundStyle(.white.opacity(0.93))
+                    .foregroundStyle(.white.legibleOpacity(0.93))
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: 210, alignment: .leading)
             }
             Spacer(minLength: 8)
             Image(systemName: "chevron.right")
                 .font(.subheadline.weight(.bold))
-                .foregroundStyle(.white.opacity(0.9))
+                .foregroundStyle(.white.legibleOpacity(0.9))
                 .rotationEffect(.degrees(isExpanded ? 90 : 0))
                 .accessibilityHidden(true)
                 .padding(.top, Spacing.xs)
@@ -515,7 +515,7 @@ private struct LibraryYoursCard: View {
             Text(row.title)
             Text("\(row.count)")
                 .monospacedDigit()
-                .foregroundStyle(.white.opacity(0.75))
+                .foregroundStyle(.white.legibleOpacity(0.75))
         }
         .font(.caption.weight(.semibold))
         .foregroundStyle(.white)
@@ -553,18 +553,18 @@ private struct LibraryYoursSubRow: View {
                     .foregroundStyle(.white)
                 model.blurb
                     .font(.caption2)
-                    .foregroundStyle(.white.opacity(0.85))
+                    .foregroundStyle(.white.legibleOpacity(0.85))
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 6)
             Text("\(model.count)")
                 .sectionLabel()
-                .foregroundStyle(.white.opacity(0.92))
+                .foregroundStyle(.white.legibleOpacity(0.92))
                 .monospacedDigit()
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.white.opacity(Theme.Opacity.strong))
+                .foregroundStyle(.white.legibleOpacity(Theme.Opacity.strong))
                 .accessibilityHidden(true)
         }
         .padding(.horizontal, 13)

@@ -691,7 +691,7 @@ struct TimelineGraphView: View, Equatable {
                                 if let phase = sample.phase {
                                     Text(phase)
                                         .font(.system(size: 9).weight(.medium))
-                                        .foregroundStyle(.tertiary)
+                                        .foregroundStyle(LegibleTertiary(strong: .Text.secondary))
                                         .lineLimit(1)
                                 }
                             }

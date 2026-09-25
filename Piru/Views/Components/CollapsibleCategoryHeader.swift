@@ -19,7 +19,7 @@ struct CollapsibleCategoryHeader: View {
                     .accessibilityHidden(true)
                 Text(category.displayName)
                 Text(verbatim: "\(count)")
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Theme.tertiaryLabel)
                 Spacer(minLength: 8)
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.semibold))

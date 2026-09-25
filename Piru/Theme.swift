@@ -27,6 +27,13 @@ enum Theme {
         skin.secondaryLabel
     }
 
+    /// Third-level text: the system `.tertiary`, raised to ``secondaryLabel``
+    /// while Increase Contrast is on. For text a reader needs; a purely
+    /// decorative separator can stay on `.tertiary`.
+    static var tertiaryLabel: LegibleTertiary {
+        LegibleTertiary(strong: skin.secondaryLabel)
+    }
+
     // MARK: - Surfaces
 
     // Colorsets, never `UIColor { traits }` closures: a closure branches on

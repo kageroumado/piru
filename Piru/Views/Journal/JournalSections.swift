@@ -179,7 +179,7 @@ private struct SectionDisclosureChevron: View {
     var body: some View {
         Image(systemName: "chevron.right")
             .font(.caption2.weight(.semibold))
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(Theme.tertiaryLabel)
             .rotationEffect(.degrees(isCollapsed ? 0 : 90))
             .accessibilityHidden(true)
     }
@@ -235,7 +235,7 @@ private struct SubstanceEntryRow: View {
             .foregroundStyle(Theme.secondaryLabel)
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Theme.tertiaryLabel)
                 .accessibilityHidden(true)
         }
         .padding(14)

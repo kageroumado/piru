@@ -424,7 +424,7 @@ private struct PharmaDataCell: View {
         let isFaint = text == PharmaCellFormat.missingPlaceholder || text == PharmaCellFormat.resolvingPlaceholder
         Text(text)
             .font(column.isText ? .footnote : .footnote.monospacedDigit())
-            .foregroundStyle(isFaint ? AnyShapeStyle(Theme.secondaryLabel.opacity(0.6)) : AnyShapeStyle(.primary))
+            .foregroundStyle(isFaint ? AnyShapeStyle(Theme.secondaryLabel.legibleOpacity(0.6)) : AnyShapeStyle(.primary))
             .lineLimit(column.isText ? 2 : 1)
             .multilineTextAlignment(column.isText ? .leading : .trailing)
             .padding(column.isText ? .leading : .trailing, Spacing.xl)

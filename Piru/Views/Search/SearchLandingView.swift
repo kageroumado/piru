@@ -208,7 +208,7 @@ private struct HelpCard: View {
                         .foregroundStyle(.white)
                     Text("Crisis resources, safety basics, and what's active right now.")
                         .font(.footnote)
-                        .foregroundStyle(.white.opacity(0.93))
+                        .foregroundStyle(.white.legibleOpacity(0.93))
                         .fixedSize(horizontal: false, vertical: true)
                         .frame(maxWidth: 240, alignment: .leading)
                         .padding(.top, 5)

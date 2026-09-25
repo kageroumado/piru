@@ -269,7 +269,7 @@ private struct MyMedsToolCard: View {
         case .skipped:
             Image(systemName: "minus.circle")
                 .font(.system(size: 16))
-                .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
+                .foregroundStyle(Theme.secondaryLabel.legibleOpacity(Theme.Opacity.muted))
         case .pending:
             Image(systemName: "circle")
                 .font(.system(size: 16))
@@ -290,7 +290,7 @@ private struct MyMedsToolCard: View {
             Spacer(minLength: 4)
             Image(systemName: "chevron.right")
                 .font(.caption2.weight(.semibold))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Theme.tertiaryLabel)
         }
         .padding(.vertical, Spacing.sm)
     }

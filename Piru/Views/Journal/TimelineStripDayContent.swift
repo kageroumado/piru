@@ -579,7 +579,7 @@ struct SessionEnvelopeButton: View {
                             .foregroundStyle(Theme.secondaryLabel)
                         Image(systemName: "chevron.right")
                             .font(.caption2.weight(.semibold))
-                            .foregroundStyle(.tertiary)
+                            .foregroundStyle(Theme.tertiaryLabel)
                             .accessibilityHidden(true)
                     }
                     .padding(.horizontal, 16)

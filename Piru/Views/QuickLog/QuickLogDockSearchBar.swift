@@ -17,13 +17,15 @@ struct DockSearchBar: View {
     @FocusState.Binding var searchFocused: Bool
     let onCancel: () -> Void
 
+    @Environment(\.colorSchemeContrast) private var contrast
+
     var body: some View {
         HStack(spacing: Spacing.md) {
             HStack(spacing: Spacing.md) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
-                TextField("Search", text: $searchText)
+                TextField(text: $searchText, prompt: prompt) { Text("Search") }
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
                 #if canImport(UIKit)
@@ -67,5 +69,12 @@ struct DockSearchBar: View {
         }
         .animation(.snappy, value: searchActive)
         .animation(.snappy, value: searchText.isEmpty)
+    }
+
+    /// "Search" is the field's only visible label, and the system placeholder
+    /// gray is under 2:1 on this fill — so under Increase Contrast it takes the
+    /// secondary label color.
+    private var prompt: Text {
+        contrast == .increased ? Text("Search").foregroundStyle(Theme.secondaryLabel) : Text("Search")
     }
 }

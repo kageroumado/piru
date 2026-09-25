@@ -230,7 +230,7 @@ private struct HalfLifeDecayChart: View {
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
                     let label = if t == 0 { "0" } else if t < 60 { "\(Int(t))m" } else if t < 1_440 { "\(Int(t / 60))h" } else { "\(Int(t / 1_440))d" }
 
-                    let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.6))
+                    let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.legibleOpacity(0.6))
                     context.draw(context.resolve(text), at: CGPoint(x: x, y: labelY), anchor: .center)
                     t += interval
                 }

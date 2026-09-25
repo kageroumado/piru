@@ -529,7 +529,7 @@ struct HelpView: View {
 
                             Image(systemName: "arrow.up.right")
                                 .font(.caption.weight(.semibold))
-                                .foregroundStyle(.tertiary)
+                                .foregroundStyle(Theme.tertiaryLabel)
                                 .accessibilityHidden(true)
                         }
                     }
@@ -594,7 +594,7 @@ struct HelpView: View {
                         HStack(spacing: Spacing.xs) {
                             Text("\(entry.amountDisplay) \(entry.unit)")
                             Middot()
-                                .foregroundStyle(.tertiary)
+                                .foregroundStyle(Theme.tertiaryLabel)
                             Text(entry.route.localizedName)
                         }
                         .captionSecondary()
@@ -607,7 +607,7 @@ struct HelpView: View {
                             .font(.subheadline.weight(.medium))
                         Text(entry.timestamp, style: .relative)
                             .font(.caption)
-                            .foregroundStyle(.tertiary)
+                            .foregroundStyle(Theme.tertiaryLabel)
                     }
                 }
                 .padding(.vertical, Spacing.xxs)

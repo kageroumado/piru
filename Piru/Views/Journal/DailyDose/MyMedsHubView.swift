@@ -241,7 +241,7 @@ private struct MedRow: View {
                     .accessibilityLabel(item.remind && !item.reminderTimesMinutes.isEmpty ? "Reminders on" : "Reminders off")
                 Image(systemName: "chevron.right")
                     .font(.caption)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Theme.tertiaryLabel)
                     .accessibilityHidden(true)
             }
             .contentShape(Rectangle())

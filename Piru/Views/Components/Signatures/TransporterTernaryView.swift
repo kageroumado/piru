@@ -328,7 +328,7 @@ private struct TernaryPlot: View {
             .font(.system(size: 9.5, weight: point.isFocus ? .bold : .medium))
             // Context names sit a step back from the gated peers so the triangle
             // still reads focus → same-study peers → landmarks, not one flat list.
-            .foregroundStyle(point.isFocus ? accent : Theme.secondaryLabel.opacity(point.isGated ? 1 : 0.65))
+            .foregroundStyle(point.isFocus ? AnyShapeStyle(accent) : AnyShapeStyle(Theme.secondaryLabel.legibleOpacity(point.isGated ? 1 : 0.65)))
             .lineLimit(1)
             .minimumScaleFactor(0.7)
             .multilineTextAlignment(.center)

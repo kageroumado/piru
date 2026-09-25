@@ -85,7 +85,7 @@ private struct AdherenceRemindersLink: View {
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Theme.tertiaryLabel)
             }
             .padding(14)
             .themeCard()
@@ -627,7 +627,7 @@ private struct AdherenceMonthPicker: View {
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, Spacing.xl)
                                 .background(isSelected ? Theme.accent.opacity(Theme.Opacity.tint) : Color.clear, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
-                                .foregroundStyle(isFuture ? Theme.secondaryLabel.opacity(Theme.Opacity.muted) : isSelected ? Theme.accent : .primary)
+                                .foregroundStyle(isFuture ? AnyShapeStyle(Theme.secondaryLabel.legibleOpacity(Theme.Opacity.muted)) : AnyShapeStyle(isSelected ? Theme.accent : .primary))
                         }
                         .buttonStyle(.plain)
                         .disabled(isFuture)

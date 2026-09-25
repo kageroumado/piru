@@ -74,7 +74,7 @@ struct DescriptorPickerView: View {
                     }
                     Image(systemName: "chevron.right")
                         .font(.caption.weight(.semibold))
-                        .foregroundStyle(.tertiary)
+                        .foregroundStyle(Theme.tertiaryLabel)
                         .rotationEffect(.degrees(isOpen ? 90 : 0))
                 }
                 .contentShape(.rect)

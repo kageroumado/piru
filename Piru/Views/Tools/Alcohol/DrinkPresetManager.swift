@@ -118,7 +118,7 @@ struct DrinkPresetRow: View {
                 .foregroundStyle(Theme.secondaryLabel)
             Image(systemName: "chevron.right")
                 .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Theme.tertiaryLabel)
                 .accessibilityHidden(true)
         }
     }

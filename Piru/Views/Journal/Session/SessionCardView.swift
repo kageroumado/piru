@@ -157,7 +157,7 @@ struct SessionCardView: View, Equatable {
             Spacer(minLength: 8)
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Theme.tertiaryLabel)
                 .accessibilityHidden(true)
         }
         .padding(Spacing.xl)
@@ -192,7 +192,7 @@ struct SessionCardView: View, Equatable {
 
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Theme.tertiaryLabel)
                 .accessibilityHidden(true)
         }
         .padding(Spacing.xl)

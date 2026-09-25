@@ -14,7 +14,7 @@ struct TagChipsView: View {
             HStack(spacing: Spacing.sm) {
                 Image(systemName: "tag")
                     .font(compact ? .caption2 : .caption)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Theme.tertiaryLabel)
                 Text(tags.joined(separator: " · "))
                     .font(compact ? .caption2 : .caption)
                     .foregroundStyle(Theme.secondaryLabel)

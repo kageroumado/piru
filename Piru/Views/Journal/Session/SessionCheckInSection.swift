@@ -41,7 +41,7 @@ struct SessionCheckInSection: View {
             if passed.count > 1 {
                 Text("\(passed.count) earlier")
                     .font(.subheadline)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Theme.tertiaryLabel)
             } else {
                 ForEach(passed) { PlannedCheckInRow(planned: $0) }
             }
@@ -101,7 +101,7 @@ private struct PlannedCheckInRow: View {
             if let note = stateNote {
                 Text(note)
                     .font(.caption)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Theme.tertiaryLabel)
             }
         }
         .foregroundStyle(planned.state == .passed ? AnyShapeStyle(.tertiary) : AnyShapeStyle(.primary))

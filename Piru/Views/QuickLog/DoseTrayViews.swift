@@ -710,7 +710,7 @@ struct TrayRow: View {
             // rotation in place).
             Image(systemName: "chevron.right")
                 .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Theme.tertiaryLabel)
                 .frame(width: 16)
                 .trayMorph(id: "chevron-\(dose.id)", in: namespace)
         }

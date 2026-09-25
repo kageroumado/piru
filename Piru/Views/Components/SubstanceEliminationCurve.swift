@@ -74,7 +74,7 @@ struct SubstanceEliminationCurve: View {
 
                 let label = Text("\(Int(fraction * 100))%")
                     .font(.system(size: 8, weight: .medium, design: .rounded))
-                    .foregroundStyle(color.opacity(Theme.Opacity.muted))
+                    .foregroundStyle(color.legibleOpacity(Theme.Opacity.muted))
                 context.draw(context.resolve(label), at: CGPoint(x: inset + graphWidth - 2, y: y - 1), anchor: .bottomTrailing)
             }
 
@@ -145,7 +145,7 @@ struct SubstanceEliminationCurve: View {
                 let text = if t == 0 { "0" } else if interval < 60 { "\(Int(t.rounded()))m" } else if interval < 1_440 { "\(Int((t / 60).rounded()))h" } else { "\(Int((t / 1_440).rounded()))d" }
 
                 let resolved = context.resolve(
-                    Text(text).font(.system(size: 9, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(Theme.Opacity.dimmed)),
+                    Text(text).font(.system(size: 9, weight: .medium, design: .rounded)).foregroundStyle(.primary.legibleOpacity(Theme.Opacity.dimmed)),
                 )
                 context.draw(resolved, at: CGPoint(x: x, y: labelY), anchor: .center)
                 t += interval
@@ -168,7 +168,7 @@ struct SubstanceEliminationCurve: View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
             Text("Projected · \(Self.cadenceText(proj.intervalHours))")
                 .font(.caption2.weight(.medium))
-                .foregroundStyle(color.opacity(Theme.Opacity.strong))
+                .foregroundStyle(color.legibleOpacity(Theme.Opacity.strong))
 
             HStack(spacing: 0) {
                 stat("Plateau", "\(proj.result.averageAmount.doseFormatted) \(proj.unit)")

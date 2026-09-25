@@ -361,6 +361,40 @@ struct ColorContrastTests {
         )
     }
 
+    /// Increase Contrast is where the default accent meets the text gate: its
+    /// Any+HC and Dark+HC slots, not a retuned brand pink.
+    ///
+    /// Light clears 4.5:1 both as copy on the card and under a white label.
+    /// Dark cannot do both with one color (copy on `#111` needs luminance ≥ 0.20,
+    /// a white label on it ≤ 0.18), so it favors copy and holds the 3:1
+    /// large-text floor for the bold white button titles drawn on it.
+    @Test
+    func `Default accent under Increase Contrast clears the text gate`() {
+        let white = RGB(hex: "FFFFFF")
+        let light = RGB(Skin.piru.accent, style: .light, contrast: .high)
+        #expect(light.hex != RGB(Skin.piru.accent, style: .light).hex, "AccentColor has no Any+HC slot")
+        #expect(light.contrastRatio(against: Self.cardLight) >= Self.textGate, "HC accent \(light.hex) on the light card")
+        #expect(light.contrastRatio(against: white) >= Self.textGate, "white label on HC accent \(light.hex)")
+
+        let dark = RGB(Skin.piru.accent, style: .dark, contrast: .high)
+        #expect(dark.hex != RGB(Skin.piru.accent, style: .dark).hex, "AccentColor has no Dark+HC slot")
+        #expect(dark.contrastRatio(against: Self.cardDark) >= Self.textGate, "HC accent \(dark.hex) on the dark card")
+        #expect(dark.contrastRatio(against: white) >= 3.0, "white bold label on HC accent \(dark.hex)")
+    }
+
+    /// `text/secondary` under Increase Contrast reaches AAA on both cards. It is
+    /// also what placeholders and `Theme.tertiaryLabel` switch to under the
+    /// setting, so this is their floor too.
+    @Test
+    func `Secondary label under Increase Contrast reaches AAA`() {
+        for style in [UIUserInterfaceStyle.light, .dark] {
+            let surface = style == .light ? Self.cardLight : Self.cardDark
+            let boosted = RGB(Theme.secondaryLabel, style: style, contrast: .high)
+            #expect(boosted.hex != RGB(Theme.secondaryLabel, style: style).hex, "text/secondary has no HC slot")
+            #expect(boosted.contrastRatio(against: surface) >= 7.0, "HC secondary \(boosted.hex) is \(boosted.contrastRatio(against: surface).to2dp):1")
+        }
+    }
+
     /// `Theme.secondaryLabel` — graduated from known gap to real gate in
     /// migration phase 3.
     ///

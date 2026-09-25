@@ -76,7 +76,7 @@ struct TimelineDoseBubble: View {
 
                 Image(systemName: "chevron.right")
                     .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Theme.tertiaryLabel)
                     .accessibilityHidden(true)
             }
             .padding(.horizontal, Spacing.lg)

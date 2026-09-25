@@ -128,7 +128,7 @@ extension View {
     /// one column. Sized for a fingertip so the dismiss ✕ stays tappable.
     func infoLineTrailingSlot() -> some View {
         font(.caption.weight(.semibold))
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(Theme.tertiaryLabel)
             .frame(width: IconSize.iconCompact, height: IconSize.iconCompact, alignment: .trailing)
             .contentShape(Rectangle())
     }

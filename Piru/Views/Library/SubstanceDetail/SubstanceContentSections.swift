@@ -47,7 +47,7 @@ struct OverviewSection: View {
                     if overview.machineTranslated {
                         Label("Machine-translated from FreeOD Wiki", systemImage: "character.bubble")
                             .font(.caption2)
-                            .foregroundStyle(.tertiary)
+                            .foregroundStyle(Theme.tertiaryLabel)
                     }
                     // Card and footer share one row — see ``DoseDurationSection``
                     // for why a peer row grows a hairline at some card heights.

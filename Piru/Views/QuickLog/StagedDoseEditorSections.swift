@@ -44,7 +44,7 @@ struct StagedDoseEditorHeader: View {
                 // swap morphs it in place like a rotation.
                 Image(systemName: "chevron.right")
                     .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Theme.tertiaryLabel)
                     .rotationEffect(.degrees(90))
                     .frame(width: 16)
                     .trayMorph(id: "chevron-\(morphID)", in: namespace, isSource: false)
@@ -131,6 +131,7 @@ struct StagedDoseStepperBlock: View {
     var amountFocus: FocusState<Bool>.Binding
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.colorSchemeContrast) private var contrast
 
     /// Stepper increment anchored to the substance's reference dose when the
     /// library knows one (LSD → 10 µg, pregabalin → 25 mg), falling back to a
@@ -203,8 +204,12 @@ struct StagedDoseStepperBlock: View {
     /// The placeholder carries the state of an empty field: `0` while nothing has
     /// been typed yet, `Unknown` once a number has been cleared away — which is
     /// the gesture that declares the amount unknown.
+    ///
+    /// The system placeholder gray is under 2:1 on this fill, so under Increase
+    /// Contrast the prompt takes the secondary label color.
     private var prompt: Text {
-        item.isUnknownAmount ? Text("Unknown") : Text(verbatim: "0")
+        let text = item.isUnknownAmount ? Text("Unknown") : Text(verbatim: "0")
+        return contrast == .increased ? text.foregroundStyle(Theme.secondaryLabel) : text
     }
 }
 
@@ -460,7 +465,7 @@ struct StagedDoseStrengthChip: View {
                     .sectionLabel()
                 Text(verbatim: "mg")
                     .font(.caption2)
-                    .foregroundStyle(selected ? AnyShapeStyle(Theme.accent.opacity(0.85)) : AnyShapeStyle(Theme.secondaryLabel))
+                    .foregroundStyle(selected ? AnyShapeStyle(Theme.accent.legibleOpacity(0.85)) : AnyShapeStyle(Theme.secondaryLabel))
             }
             .padding(.horizontal, 13)
             .frame(height: pillHeight)

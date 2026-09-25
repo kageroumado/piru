@@ -231,7 +231,7 @@ struct EntryRowView: View {
     private var chevron: some View {
         Image(systemName: "chevron.forward")
             .font(.footnote.weight(.semibold))
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(Theme.tertiaryLabel)
             .accessibilityHidden(true)
     }
 
@@ -371,7 +371,7 @@ struct EntryRowView: View {
                 .foregroundStyle(.primary)
             Image(systemName: "arrow.right")
                 .font(.system(size: 7, weight: .semibold))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Theme.tertiaryLabel)
             Text(verbatim: "\(hr.extreme)")
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
