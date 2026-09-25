@@ -38,6 +38,24 @@ T = {
     ),
     "Use Class Colors": ("使用类别颜色", "使用類別顏色"),
     "Keep My Colors": ("保留我的颜色", "保留我的顏色"),
+    # The move to the new app identity: the legacy build's notice and the
+    # successor's confirmation (LegacyHandoff).
+    "Piru has moved": ("Piru 搬家了", "Piru 搬家了"),
+    "Piru now lives in a new app. Install it on this device and the first time you open it, your journal, meds and settings come across on their own. Nothing here is deleted.": (
+        "Piru 现在是一个新的 App。在这台设备上安装它，第一次打开时，你的日记、用药和设置会自动搬过去。这里的内容不会被删除。",
+        "Piru 現在是一個新的 App。在這台裝置上安裝它，第一次打開時，你的日記、用藥和設定會自動搬過去。這裡的內容不會被刪除。",
+    ),
+    "Your journal has moved": ("你的日记已经搬走了", "你的日記已經搬走了"),
+    "The new Piru app already has your journal. Doses you log here stay in this app and won't follow, so the new one is the place to log from now on.": (
+        "新的 Piru App 已经有你的日记了。在这里记录的剂量只会留在这个 App 里，不会同步过去，所以从现在起，新 App 才是记录的地方。",
+        "新的 Piru App 已經有你的日記了。在這裡記錄的劑量只會留在這個 App 裡，不會同步過去，所以從現在起，新 App 才是記錄的地方。",
+    ),
+    "Open in TestFlight": ("在 TestFlight 中打开", "在 TestFlight 中打開"),
+    "Your journal came with you": ("你的日记跟着你过来了", "你的日記跟著你過來了"),
+    "Everything from the old Piru app is here: your journal, meds and settings. Once you've looked it over, you can delete the old app.": (
+        "旧版 Piru App 里的一切都在这里：你的日记、用药和设置。确认无误后，就可以删除旧 App 了。",
+        "舊版 Piru App 裡的一切都在這裡：你的日記、用藥和設定。確認無誤後，就可以刪除舊 App 了。",
+    ),
     # The check-in schedule section on the session screen, the sociability
     # scale, and the per-class reassurance added with the split lens sets.
     "Sociability": ("社交欲", "社交慾"),
@@ -8639,6 +8657,14 @@ if __name__ == "__main__":
         "How many substances a session needs before it splits into lanes.",
         "Adds a per-dose grapefruit toggle for substances whose breakdown grapefruit slows (CYP3A4), so the entry records it.",
         "Shows acetaldehyde buildup on alcohol entries. The ALDH2 variant slows its clearance, causing flushing.",
+        # LegacyHandoff notices
+        "Piru has moved",
+        "Piru now lives in a new app. Install it on this device and the first time you open it, your journal, meds and settings come across on their own. Nothing here is deleted.",
+        "Your journal has moved",
+        "The new Piru app already has your journal. Doses you log here stay in this app and won't follow, so the new one is the place to log from now on.",
+        "Open in TestFlight",
+        "Your journal came with you",
+        "Everything from the old Piru app is here: your journal, meds and settings. Once you've looked it over, you can delete the old app.",
     }
 
     print("--- Piru main app catalog ---")

@@ -21,6 +21,8 @@
 	<string>$(PIRU_APP_GROUP)</string>
 	<key>PiruBundleID</key>
 	<string>$(PIRU_BUNDLE_ID)</string>
+	<key>PiruLegacyAppGroup</key>
+	<string>$(PIRU_LEGACY_APP_GROUP)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fredoka-Variable.ttf</string>

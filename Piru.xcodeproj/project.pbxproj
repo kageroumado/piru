@@ -757,6 +757,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PIRU_APP_GROUP = "group.$(PIRU_BUNDLE_ID)";
 				PIRU_BUNDLE_ID = dev.yumeji.piru;
+				PIRU_LEGACY_APP_GROUP = "group.$(PIRU_LEGACY_BUNDLE_ID)";
+				PIRU_LEGACY_BUNDLE_ID = dev.yumeji.piru;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -820,6 +822,8 @@
 				MTL_FAST_MATH = YES;
 				PIRU_APP_GROUP = "group.$(PIRU_BUNDLE_ID)";
 				PIRU_BUNDLE_ID = dev.yumeji.piru;
+				PIRU_LEGACY_APP_GROUP = "group.$(PIRU_LEGACY_BUNDLE_ID)";
+				PIRU_LEGACY_BUNDLE_ID = dev.yumeji.piru;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;

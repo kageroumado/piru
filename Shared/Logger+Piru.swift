@@ -18,6 +18,7 @@ nonisolated extension Logger {
         case esterIdentityBackfill = "EsterIdentityBackfill"
         case healthKitBodyMass = "HealthKitBodyMass"
         case healthKitVitals = "HealthKitVitals"
+        case legacyHandoff = "LegacyHandoff"
         case liveActivity = "LiveActivity"
         case medsMigrator = "MedsMigrator"
         case notificationPrefs = "NotificationPrefs"
@@ -52,6 +53,7 @@ nonisolated extension Logger {
     static let esterIdentityBackfill = Logger(.esterIdentityBackfill)
     static let healthKitBodyMass = Logger(.healthKitBodyMass)
     static let healthKitVitals = Logger(.healthKitVitals)
+    static let legacyHandoff = Logger(.legacyHandoff)
     static let liveActivity = Logger(.liveActivity)
     static let medsMigrator = Logger(.medsMigrator)
     static let notificationPrefs = Logger(.notificationPrefs)
