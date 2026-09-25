@@ -262,14 +262,7 @@ struct MyMedsCard: View {
 
         for slot in slots {
             let item = slot.item
-            let entry = DoseEntry(
-                substance: item.substance,
-                amount: item.amount,
-                unit: item.unit,
-                route: item.route,
-                timestamp: now,
-                isBackgroundMed: item.isBackgroundMed,
-            )
+            let entry = DoseEntry.medication(item, at: now)
             let matched = SubstanceLibrary.lookup(item.substance).flatMap {
                 $0.name.lowercased() == item.substance.lowercased() ? $0 : nil
             }

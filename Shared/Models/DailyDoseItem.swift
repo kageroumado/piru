@@ -221,6 +221,31 @@ final class DailyDoseItem {
     }
 }
 
+// MARK: - Logging a med
+
+extension DoseEntry {
+    /// A dose of `item` as the med is saved: its product word ("Concerta") and
+    /// every identity facet, so the dose is the product the med names rather
+    /// than the bare molecule. The one construction every med-logging path
+    /// uses: My Meds, Log Medications, and the Today's Meds widget.
+    convenience init(medication item: DailyDoseItem, timestamp: Date, displayNameSnapshot: String? = nil) {
+        self.init(
+            substance: item.substance,
+            amount: item.amount,
+            unit: item.unit,
+            route: item.route,
+            saltForm: item.saltForm,
+            isomer: item.isomer,
+            releaseForm: item.releaseForm,
+            productName: item.productName,
+            substanceUID: item.substanceUID,
+            displayNameSnapshot: displayNameSnapshot,
+            timestamp: timestamp,
+            isBackgroundMed: item.isBackgroundMed,
+        )
+    }
+}
+
 // MARK: - Routine
 
 /// A named set of daily-dose items — "Pre-workout", "Night" — staged together

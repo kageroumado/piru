@@ -137,14 +137,7 @@ struct LogMedicationsView: View {
             let isOn = toggleStates[itemKey(for: item)] ?? true
             guard isOn else { continue }
 
-            let entry = DoseEntry(
-                substance: item.substance,
-                amount: item.amount,
-                unit: item.unit,
-                route: item.route,
-                timestamp: now,
-                isBackgroundMed: item.isBackgroundMed,
-            )
+            let entry = DoseEntry.medication(item, at: now)
             let matchedSubstance = SubstanceLibrary.lookup(item.substance).flatMap {
                 $0.name.lowercased() == item.substance.lowercased() ? $0 : nil
             }

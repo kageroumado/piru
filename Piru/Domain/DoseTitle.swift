@@ -132,6 +132,17 @@ enum DoseTitle {
 }
 
 extension DoseEntry {
+    /// A dose of the med `item`, logged in the app: its full identity plus the
+    /// ``DoseTitle/snapshot(canonicalName:isomer:releaseForm:)`` every write site
+    /// records.
+    @MainActor
+    static func medication(_ item: DailyDoseItem, at timestamp: Date) -> DoseEntry {
+        DoseEntry(
+            medication: item, timestamp: timestamp,
+            displayNameSnapshot: DoseTitle.snapshot(canonicalName: item.substance, isomer: item.isomer, releaseForm: item.releaseForm),
+        )
+    }
+
     /// Whether this dose records a form distinct from the substance's default —
     /// a picked isomer or a named release form. Drives whether a title composes
     /// (``DoseTitle``) rather than reading the plain catalog title.

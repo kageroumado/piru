@@ -102,19 +102,7 @@ enum MedIntentLogger {
             }
             guard matched < expected else { continue }
 
-            let entry = DoseEntry(
-                substance: item.substance,
-                amount: item.amount,
-                unit: item.unit,
-                route: item.route,
-                saltForm: item.saltForm,
-                isomer: item.isomer,
-                releaseForm: item.releaseForm,
-                productName: item.productName,
-                substanceUID: item.substanceUID,
-                timestamp: now,
-                isBackgroundMed: item.isBackgroundMed,
-            )
+            let entry = DoseEntry(medication: item, timestamp: now)
             context.insert(entry)
             loggedAny = true
         }
