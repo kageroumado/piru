@@ -307,6 +307,12 @@ def parse_args() -> argparse.Namespace:
     return args
 
 
+def status_bar_time(clock: str) -> str:
+    """The status bar's 12-hour reading of `--clock`, so an evening clock reads 9:41, not 21:41."""
+    hour, minute = clock.split(":")
+    return f"{int(hour) % 12 or 12}:{minute}"
+
+
 def main() -> None:
     args = parse_args()
     screens, skins = catalog_screens(), catalog_skins()
@@ -335,7 +341,7 @@ def main() -> None:
     simctl("install", udid, str(app))
     simctl(
         "status_bar", udid, "override",
-        "--time", args.clock, "--batteryState", "charged", "--batteryLevel", "100",
+        "--time", status_bar_time(args.clock), "--batteryState", "charged", "--batteryLevel", "100",
         "--dataNetwork", "wifi", "--wifiBars", "3", "--cellularBars", "4", "--operatorName", "",
     )  # fmt: skip
 
