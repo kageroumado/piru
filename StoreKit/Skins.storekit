@@ -23,7 +23,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.tsuki",
+      "productID": "glass.kagerou.piru.skin.tsuki",
       "referenceName": "Tsuki",
       "type": "NonConsumable"
     },
@@ -38,7 +38,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.astrelia",
+      "productID": "glass.kagerou.piru.skin.astrelia",
       "referenceName": "Starfield",
       "type": "NonConsumable"
     },
@@ -53,7 +53,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.jellyfish",
+      "productID": "glass.kagerou.piru.skin.jellyfish",
       "referenceName": "Jellyfish",
       "type": "NonConsumable"
     },
@@ -68,7 +68,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.hotaru",
+      "productID": "glass.kagerou.piru.skin.hotaru",
       "referenceName": "Aurora",
       "type": "NonConsumable"
     },
@@ -83,7 +83,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.yuki",
+      "productID": "glass.kagerou.piru.skin.yuki",
       "referenceName": "Yuki",
       "type": "NonConsumable"
     },
@@ -98,7 +98,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.hebi",
+      "productID": "glass.kagerou.piru.skin.hebi",
       "referenceName": "Hebi Arcade",
       "type": "NonConsumable"
     },
@@ -113,7 +113,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.kumo",
+      "productID": "glass.kagerou.piru.skin.kumo",
       "referenceName": "Kumo",
       "type": "NonConsumable"
     },
@@ -128,7 +128,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.hanabi",
+      "productID": "glass.kagerou.piru.skin.hanabi",
       "referenceName": "Hanabi",
       "type": "NonConsumable"
     },
@@ -143,7 +143,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.skin.selenia",
+      "productID": "glass.kagerou.piru.skin.selenia",
       "referenceName": "Selenia",
       "type": "NonConsumable"
     },
@@ -158,7 +158,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "dev.yumeji.piru.everything.forever",
+      "productID": "glass.kagerou.piru.everything.forever",
       "referenceName": "Everything, forever",
       "type": "NonConsumable"
     }

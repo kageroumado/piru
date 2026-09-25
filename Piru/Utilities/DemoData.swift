@@ -27,7 +27,7 @@ import SwiftData
         /// User-archetype fixtures for UI-state testing, selected with the
         /// `-piruPersona <name>` launch argument:
         ///
-        ///     xcrun simctl launch booted dev.yumeji.piru -piruPersona dailyMeds
+        ///     xcrun simctl launch booted glass.kagerou.piru -piruPersona dailyMeds
         ///
         /// A persona **always wipes and reseeds**, so relaunching with a
         /// different name deterministically switches the whole UI state —
@@ -287,7 +287,7 @@ import SwiftData
         /// user's export can be installed on the simulator in one launch instead
         /// of clicking through Settings ▸ Import Data:
         ///
-        ///     xcrun simctl launch booted dev.yumeji.piru -piruImportFile /path/to/export.json
+        ///     xcrun simctl launch booted glass.kagerou.piru -piruImportFile /path/to/export.json
         ///
         /// Like personas, this always wipes first so relaunching is
         /// deterministic. Returns `true` when the argument was present (even on

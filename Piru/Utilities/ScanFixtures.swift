@@ -4,7 +4,7 @@
     /// Canned box readings for exercising the identify flow without a camera,
     /// selected with the `-piruScanFixture <name>` launch argument:
     ///
-    ///     xcrun simctl launch booted dev.yumeji.piru -piruScanFixture concerta
+    ///     xcrun simctl launch booted glass.kagerou.piru -piruScanFixture concerta
     ///
     /// On launch the app opens Tools ▸ Identify a Box with the fixture already
     /// resolved, so the result screen can be driven and screenshotted on a

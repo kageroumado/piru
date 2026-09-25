@@ -23,7 +23,7 @@ STARTUP_TIMEOUT="${STARTUP_TIMEOUT:-45}"  # seconds of silence before calling it
 TEST_TIMEOUT="${TEST_TIMEOUT:-60}"    # per-test allowance, seconds
 SIM_NAME="${SIM_NAME:-iPhone 18 Pro Max}"
 SIM_OS="${SIM_OS:-27.0}"              # the runtime Xcode ships; pinned so the run never picks a stale one
-APP_BUNDLE_ID="${APP_BUNDLE_ID:-dev.yumeji.piru}"
+APP_BUNDLE_ID="${APP_BUNDLE_ID:-glass.kagerou.piru}"
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 only_args=()

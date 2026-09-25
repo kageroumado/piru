@@ -381,7 +381,7 @@ section-level edge has no hook. They keep the solid card fill only.
 
 **Set the skin with `-piruSkin <id>`, not the app-group plist.** DEBUG builds
 also take `-piruSkin hanabi` / `-piruScheme light|dark`, which wear a skin at
-launch with ownership ignored. Writing `group.dev.yumeji.piru.plist` from
+launch with ownership ignored. Writing the app group's `.plist` from
 outside does **not** work on a booted simulator however carefully it is
 sequenced: `cfprefsd` serves its own cached copy and flushes it back over the
 edit, so the app still reads the old value — verified through an app restart, a

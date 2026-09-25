@@ -52,7 +52,7 @@ import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-BUNDLE_ID = "dev.yumeji.piru"
+BUNDLE_ID = "glass.kagerou.piru"
 SCHEME = "Piru"
 DEVICE_TYPE = "com.apple.CoreSimulator.SimDeviceType.iPhone-18-Pro-Max"
 DEVICE_NAME = "Piru Screenshots"
