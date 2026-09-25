@@ -371,6 +371,8 @@ private struct MyMedsHeader: View {
     let streak: Int?
     let onTap: () -> Void
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     private var isComplete: Bool {
         total > 0 && takenCount == total
     }
@@ -378,7 +380,12 @@ private struct MyMedsHeader: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: Spacing.lg) {
-                HStack(spacing: Spacing.md) {
+                // The chip drops under the title at accessibility sizes,
+                // where beside it both truncated.
+                let titleLayout = dynamicTypeSize.isAccessibilitySize
+                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.sm))
+                    : AnyLayout(HStackLayout(spacing: Spacing.md))
+                titleLayout {
                     Text("My Meds")
                         .cardTitle()
                     progressChip
@@ -536,6 +543,8 @@ private struct SlotRowView: View {
     let onToggle: () -> Void
     let onOpen: () -> Void
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     private var taken: Bool {
         slotState == .taken
     }
@@ -553,24 +562,30 @@ private struct SlotRowView: View {
             .accessibilityHint(slotState == .skipped ? Text("Skipped for today") : taken ? Text("Removes this entry") : Text("Records this entry"))
 
             Button(action: onOpen) {
-                HStack(spacing: Spacing.lg) {
-                    Text(title)
-                        .font(.subheadline.weight(dismissed ? .regular : .medium))
-                        .foregroundStyle(dismissed ? Theme.secondaryLabel : .primary)
-                        .strikethrough(taken, color: Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
-                        .lineLimit(1)
-                    Spacer(minLength: 4)
-                    if slotState == .skipped {
-                        Text("Skipped")
-                            .font(.caption2)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    } else if due, timeText != nil {
-                        Text("due")
-                            .capsuleChip(text: Theme.accent, fill: Theme.accent)
+                // At accessibility sizes the name takes its own lines and the
+                // amount and time wrap beneath it; on one line they truncated
+                // to "1… · 8:…".
+                if dynamicTypeSize.isAccessibilitySize {
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
+                        titleText
+                        HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
+                            stateChip
+                            trailingDetail
+                        }
                     }
-                    trailingDetail
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                } else {
+                    HStack(spacing: Spacing.lg) {
+                        titleText
+                            .lineLimit(1)
+                        Spacer(minLength: 4)
+                        stateChip
+                        trailingDetail
+                            .lineLimit(1)
+                    }
+                    .contentShape(Rectangle())
                 }
-                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text("\(title) details"))
@@ -585,6 +600,25 @@ private struct SlotRowView: View {
         taken || slotState == .skipped
     }
 
+    private var titleText: some View {
+        Text(title)
+            .font(.subheadline.weight(dismissed ? .regular : .medium))
+            .foregroundStyle(dismissed ? Theme.secondaryLabel : .primary)
+            .strikethrough(taken, color: Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
+    }
+
+    @ViewBuilder
+    private var stateChip: some View {
+        if slotState == .skipped {
+            Text("Skipped")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+        } else if due, timeText != nil {
+            Text("due")
+                .capsuleChip(text: Theme.accent, fill: Theme.accent)
+        }
+    }
+
     private var trailingDetail: some View {
         HStack(spacing: Spacing.xs) {
             Text(subtitle)
@@ -596,7 +630,6 @@ private struct SlotRowView: View {
             }
         }
         .foregroundStyle(Theme.secondaryLabel)
-        .lineLimit(1)
     }
 
     private var accessibilityStateValue: Text {

@@ -63,6 +63,8 @@ struct DosePKBadge: View {
     let unit: String
     let lastDoseTimestamp: Date
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     private var activeAmount: Double {
         lastDoseAmount * remainingPercent / 100
     }
@@ -76,9 +78,11 @@ struct DosePKBadge: View {
         // signals for "there is more behind this", borrowed rather than invented.
         HStack(spacing: 3) {
             Text(label)
-                .lineLimit(1)
+                // One line beside a card title; at accessibility sizes the
+                // badge has its own row and wraps.
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
             Image(systemName: "chevron.down")
-                .font(.system(size: 8, weight: .bold))
+                .scaledSystemFont(size: 8, weight: .bold, relativeTo: .caption2)
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
         }

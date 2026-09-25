@@ -77,6 +77,8 @@ enum JournalGroupingMigration {
 struct EntryListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
+    /// Bubble heights grow with the text size, so a change re-lays the strip.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Query(Self.entriesDescriptor, transaction: .init(animation: nil)) private var entries: [DoseEntry]
 
     /// Newest-first, **prefetching the `session` relationship**. Grouping and the
@@ -515,7 +517,7 @@ struct EntryListView: View {
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(searchText)|\(model.filterSignature)|\(clockTick)"
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(dynamicTypeSize)|\(searchText)|\(model.filterSignature)|\(clockTick)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous

@@ -206,15 +206,15 @@ struct TimelineMilestoneMark: View {
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: milestone.symbolName)
-                .font(.system(size: 10, weight: .semibold))
+                .scaledSystemFont(size: 10, weight: .semibold, relativeTo: .caption2, maximumSize: 13)
                 .foregroundStyle(color)
             Text(verbatim: "~\(milestone.time.formatted(date: .omitted, time: .shortened))")
-                .font(.system(size: 11, weight: .medium, design: .rounded).monospacedDigit())
+                .scaledSystemFont(size: 11, weight: .medium, design: .rounded, relativeTo: .caption2, maximumSize: 14, monospacedDigit: true)
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
         }
         .padding(.horizontal, 6)
-        .frame(height: TimelineMilestoneLane.markHeight)
+        .frame(minHeight: TimelineMilestoneLane.markHeight)
         .background {
             Capsule(style: .continuous)
                 .fill(Theme.background)
@@ -234,7 +234,7 @@ struct TimelineWordStateMark: View {
     var body: some View {
         TimelineGutterMark(lines: .one) {
             Text(state.word)
-                .font(TimelineGutterMarkMetrics.primaryFont)
+                .timelineGutterFont(.primary)
                 .foregroundStyle(state.band.labelColor)
         }
         .accessibilityElement(children: .combine)

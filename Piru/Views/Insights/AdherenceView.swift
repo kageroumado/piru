@@ -364,7 +364,21 @@ struct AdherenceCalendarCell: View {
     /// unlogged, so a glance at the month says which end of the day slips.
     var halves: DayAdherence.Halves?
 
+    /// Grows with the day number; the cell clamps its own text at
+    /// ``maximumTypeSize`` so seven of them still share a row.
+    @ScaledMetric(relativeTo: .caption2) private var cellHeight: CGFloat = 36
+    @ScaledMetric(relativeTo: .caption2) private var iconHeight: CGFloat = 10
+
+    /// The largest size a day number takes: past it "28" no longer fits a
+    /// seventh of the width. The day's detail sheet carries the full text.
+    private static let maximumTypeSize = DynamicTypeSize.accessibility1
+
     var body: some View {
+        cell
+            .dynamicTypeSize(...Self.maximumTypeSize)
+    }
+
+    private var cell: some View {
         ZStack {
             if let halves {
                 HalfDisc(side: .leading).fill(Self.fill(for: halves.morning))
@@ -381,10 +395,10 @@ struct AdherenceCalendarCell: View {
                 Text("\(day)")
                     .font(.caption2.weight(isToday ? .bold : .medium).monospacedDigit())
                 statusIcon
-                    .frame(height: 10)
+                    .frame(height: iconHeight)
             }
         }
-        .frame(height: 36)
+        .frame(height: cellHeight)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(verbatim: "\(day)"))
         .accessibilityValue(Text(statusDescription))
@@ -407,22 +421,22 @@ struct AdherenceCalendarCell: View {
         switch status {
         case .complete:
             Image(systemName: "checkmark")
-                .font(.system(size: 8, weight: .bold))
+                .scaledSystemFont(size: 8, weight: .bold, relativeTo: .caption2)
                 .foregroundStyle(Color.successText)
                 .accessibilityHidden(true)
         case .partial:
             Image(systemName: "circle.lefthalf.filled")
-                .font(.system(size: 8))
+                .scaledSystemFont(size: 8, relativeTo: .caption2)
                 .foregroundStyle(Color.Semantic.Caution.text)
                 .accessibilityHidden(true)
         case .missed:
             Image(systemName: "xmark")
-                .font(.system(size: 8, weight: .bold))
+                .scaledSystemFont(size: 8, weight: .bold, relativeTo: .caption2)
                 .foregroundStyle(Color.Semantic.Danger.text)
                 .accessibilityHidden(true)
         case .noData:
             Color.clear
-                .frame(height: 8)
+                .frame(height: iconHeight - 2)
         }
     }
 

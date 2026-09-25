@@ -29,16 +29,22 @@ extension Font {
         return font
     }
 
-    /// A fixed-size display title in the skin's display face — for the few
+    /// A hand-sized display title in the skin's display face — for the few
     /// hero titles that are sized by hand rather than by text style (Library
-    /// card titles, the substance hero). Scales with Dynamic Type relative to
-    /// `relativeTo`. Skins without a display face get the system font at that
-    /// size, weight and design, exactly as before.
-    static func piru(size: CGFloat, weight: Font.Weight = .regular, design: Font.Design? = nil, relativeTo style: Font.TextStyle = .title, scaling: Bool = true) -> Font {
-        guard let font = SkinFace.display(weight: weight, size: size, relativeTo: style, scaling: scaling) else {
-            return .system(size: size, weight: weight, design: design)
-        }
-        return font
+    /// card titles, the substance hero). `size` is the point size at the default
+    /// content size; it scales with Dynamic Type relative to `relativeTo`, up to
+    /// `maximumSize` when one is given. Skins without a display face get the
+    /// system font at that scaled size, weight and design.
+    static func piru(
+        size: CGFloat,
+        weight: Font.Weight = .regular,
+        design: Font.Design? = nil,
+        relativeTo style: Font.TextStyle = .title,
+        scaling: Bool = true,
+        maximumSize: CGFloat? = nil,
+    ) -> Font {
+        let face = SkinFace.display(weight: weight, size: size, relativeTo: style, scaling: scaling, maximumSize: maximumSize)
+        return face ?? SkinFace.system(size: size, weight: weight, design: design, relativeTo: style, scaling: scaling, maximumSize: maximumSize)
     }
 
     /// A semantic text style in the skin's label face — for chips, badges and
@@ -64,9 +70,22 @@ extension Font {
     /// Dynamic Type, never `Font.custom`.
     enum SkinFace {
         /// The skin's display family at `weight`, as a `Font`, or nil for system.
-        static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font? {
+        static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true, maximumSize: CGFloat? = nil) -> Font? {
             let typeface = SkinStore.shared.current.typeface
-            return typeface.display.map { font(family: $0, weight: weight, size: size * typeface.displayScale, relativeTo: style, scaling: scaling) }
+            return typeface.display.map {
+                font(family: $0, weight: weight, size: size * typeface.displayScale, relativeTo: style, scaling: scaling, maximumSize: maximumSize)
+            }
+        }
+
+        /// The system face at `size`, scaled for Dynamic Type relative to `style`.
+        /// A `.system(size:)` font keeps its point size at every content size, so
+        /// the size is scaled here, before the font is built. It stays a SwiftUI
+        /// system font rather than a wrapped `UIFont` so a skin's root
+        /// `.fontDesign` still reaches it when `design` is nil.
+        static func system(size: CGFloat, weight: Font.Weight, design: Font.Design?, relativeTo style: Font.TextStyle, scaling: Bool, maximumSize: CGFloat?) -> Font {
+            guard scaling else { return .system(size: size, weight: weight, design: design) }
+            let scaled = UIFontMetrics(forTextStyle: style.uiTextStyle).scaledValue(for: size)
+            return .system(size: min(scaled, maximumSize ?? scaled), weight: weight, design: design)
         }
 
         /// The skin's label family at `weight`, as a `Font`, or nil for system.
@@ -80,11 +99,13 @@ extension Font {
         /// returned nil for `Fredoka-Bold` on the first render of a launch while
         /// this returned the right face, which is why card titles were the system
         /// font under a Fredoka nav title. Scaled by `UIFontMetrics` for Dynamic Type.
-        static func font(family: String, weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font {
+        static func font(family: String, weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true, maximumSize: CGFloat? = nil) -> Font {
             let base = baseFont(family: family, weight: weight, size: size)
-            // `scaling: false` is for the fixed-size chart/stat roles in TextRoles,
-            // which are laid out against fixed-height cards and gutters.
-            return Font(scaling ? UIFontMetrics(forTextStyle: style.uiTextStyle).scaledFont(for: base) : base)
+            // `scaling: false` is for the fixed-size roles in TextRoles, which
+            // sit in toolbars that keep a fixed optical size.
+            guard scaling else { return Font(base) }
+            let metrics = UIFontMetrics(forTextStyle: style.uiTextStyle)
+            return Font(maximumSize.map { metrics.scaledFont(for: base, maximumPointSize: $0) } ?? metrics.scaledFont(for: base))
         }
 
         /// Descriptor matching is font *lookup* — a real cost, and this runs on
@@ -262,8 +283,12 @@ extension Font {
     /// through AppKit. `Font.custom` with the family name is enough there —
     /// the variable-font trap this file works around is a UIKit one.
     enum SkinFace {
-        static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font? {
+        static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true, maximumSize _: CGFloat? = nil) -> Font? {
             SkinStore.shared.current.typeface.display.map { font(family: $0, weight: weight, size: size, relativeTo: style, scaling: scaling) }
+        }
+
+        static func system(size: CGFloat, weight: Font.Weight, design: Font.Design?, relativeTo _: Font.TextStyle, scaling _: Bool, maximumSize _: CGFloat?) -> Font {
+            .system(size: size, weight: weight, design: design)
         }
 
         static func label(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle) -> Font? {

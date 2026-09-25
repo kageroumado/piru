@@ -35,9 +35,9 @@ struct TimelineTimeCapsule: View {
             let parts = TimelineGutter.timeParts(date)
             HStack(alignment: .firstTextBaseline, spacing: 0) {
                 Text(verbatim: parts.hour)
-                    .font(TimelineGutterMarkMetrics.primaryFont)
+                    .timelineGutterFont(.primary)
                 Text(verbatim: parts.rest)
-                    .font(TimelineGutterMarkMetrics.secondaryFont)
+                    .timelineGutterFont(.secondary)
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(.leading, hasDotSlot ? Self.dotSlotWidth : 0)

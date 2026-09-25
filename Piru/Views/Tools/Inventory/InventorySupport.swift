@@ -273,7 +273,7 @@ struct InventoryStepperRow: View {
             unitView
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 38)
+        .frame(minHeight: 38)
         .contentShape(Rectangle())
         .accessibilityAddTraits(.isButton)
         .onTapGesture { focused = true }

@@ -151,37 +151,29 @@ struct EntryReadHero: View {
     let state: ActiveSubstanceState?
     let substanceColor: Color
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 VStack(alignment: .leading, spacing: 3) {
-                    HStack(alignment: .top) {
-                        // The dose row's number treatment at hero scale — the tier
-                        // is carried by the strength chip, not by tinting the figure.
-                        MeasurementLabel(
-                            amount: entry.amount,
-                            unit: entry.unit,
-                            isApproximate: entry.isApproximate,
-                            isUnknown: entry.isUnknownDose,
-                            numberStyle: .largeTitle,
-                            numberWeight: .bold,
-                            unitStyle: .title3,
-                        )
-                        Spacer(minLength: 8)
-                        // Pulled 6pt past the text column so the capsules sit ~14pt
-                        // off the card's top/trailing edges — concentric with its
-                        // corner radius.
-                        HStack(spacing: Spacing.sm) {
-                            if let saltForm = entry.saltForm {
-                                // Chemical proper noun — not localized. Lowercased
-                                // like the route pill beside it: one badge grammar.
-                                Text(saltForm.lowercased())
-                                    .heroOutlineChip(stroke: substanceColor)
-                            }
-                            ROAPill(route: entry.route, size: .regular)
-                            EntryStrengthChip(level: committedDoseLevel)
+                    // At accessibility sizes the chips drop under the amount;
+                    // beside it they squeezed the number to "1…".
+                    if dynamicTypeSize.isAccessibilitySize {
+                        VStack(alignment: .leading, spacing: Spacing.sm) {
+                            amountLabel
+                            chips
                         }
-                        .padding(.trailing, -6)
+                    } else {
+                        HStack(alignment: .top) {
+                            amountLabel
+                            Spacer(minLength: 8)
+                            // Pulled 6pt past the text column so the capsules sit ~14pt
+                            // off the card's top/trailing edges — concentric with its
+                            // corner radius.
+                            chips
+                                .padding(.trailing, -6)
+                        }
                     }
                     Text(verbatim: "\(entry.timestamp.formatted(date: .abbreviated, time: .shortened)) · \(EntryDoseFormat.relativeText(from: entry.timestamp, now: context.date))")
                         .font(.subheadline)
@@ -204,6 +196,33 @@ struct EntryReadHero: View {
                     }
                 }
             }
+        }
+    }
+
+    /// The dose row's number treatment at hero scale — the tier is carried by
+    /// the strength chip, not by tinting the figure.
+    private var amountLabel: some View {
+        MeasurementLabel(
+            amount: entry.amount,
+            unit: entry.unit,
+            isApproximate: entry.isApproximate,
+            isUnknown: entry.isUnknownDose,
+            numberStyle: .largeTitle,
+            numberWeight: .bold,
+            unitStyle: .title3,
+        )
+    }
+
+    private var chips: some View {
+        HStack(spacing: Spacing.sm) {
+            if let saltForm = entry.saltForm {
+                // Chemical proper noun — not localized. Lowercased like the
+                // route pill beside it: one badge grammar.
+                Text(saltForm.lowercased())
+                    .heroOutlineChip(stroke: substanceColor)
+            }
+            ROAPill(route: entry.route, size: .regular)
+            EntryStrengthChip(level: committedDoseLevel)
         }
     }
 

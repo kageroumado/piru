@@ -73,53 +73,89 @@ struct DoseTierStrip: View {
         .Dose.Strong.accent, .Dose.Heavy.accent,
     ]
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
-        HStack(spacing: Spacing.sm) {
+        // Five columns hold a number and a word each only up to the largest
+        // standard size; at accessibility sizes the tiers stack as rows so
+        // neither truncates.
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: Spacing.sm))
+            : AnyLayout(HStackLayout(spacing: Spacing.sm))
+        layout {
             ForEach(tiers.tiers) { tier in
                 let isSelected = tier.id == (selectedID ?? tiers.selectedID)
-                VStack(spacing: Spacing.sm) {
-                    ZStack {
-                        Circle()
-                            .fill(Self.colors[tier.id])
-                            .frame(width: Self.diameters[tier.id], height: Self.diameters[tier.id])
+                cell(tier, isSelected: isSelected)
+                    .padding(.vertical, Spacing.lg)
+                    .padding(.horizontal, Spacing.xxs)
+                    .background(
+                        RoundedRectangle(cornerRadius: Theme.CornerRadius.inner)
+                            .fill(isSelected ? accent.opacity(0.12) : Color.platformTertiarySystemFill),
+                    )
+                    // The value + name Texts combine into "Threshold, 30" without a
+                    // custom label (which would mint a generic "%@, %@" catalog key);
+                    // the selected tier reads as selected via the trait.
+                    .accessibilityElement(children: .combine)
+                    .accessibilityAddTraits(isSelected ? .isSelected : [])
+                    .accessibilityAddTraits(tier.fullValue != nil ? .isButton : [])
+                    // `contentShape` so the whole column is the target, not just the
+                    // glyphs — and so the tap is consumed here rather than falling
+                    // through to the enclosing disclosure, which is what made tapping
+                    // a dose tier expand "All phases" instead.
+                    .contentShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
+                    .onTapGesture {
+                        guard tier.fullValue != nil else { return }
+                        onSelect?(tier.id)
                     }
-                    .frame(height: 18)
-                    Text(tier.shortValue ?? "—")
-                        .font(.footnote.weight(isSelected ? .bold : .semibold).monospacedDigit())
-                        .foregroundStyle(tier.shortValue == nil ? Theme.secondaryLabel : Color.primary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
-                    Text(tier.name)
-                        .font(.system(size: 8, weight: .bold))
-                        .textCase(.uppercase)
-                        .tracking(0.3)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, Spacing.lg)
-                .padding(.horizontal, Spacing.xxs)
-                .background(
-                    RoundedRectangle(cornerRadius: Theme.CornerRadius.inner)
-                        .fill(isSelected ? accent.opacity(0.12) : Color.platformTertiarySystemFill),
-                )
-                // The value + name Texts combine into "Threshold, 30" without a
-                // custom label (which would mint a generic "%@, %@" catalog key);
-                // the selected tier reads as selected via the trait.
-                .accessibilityElement(children: .combine)
-                .accessibilityAddTraits(isSelected ? .isSelected : [])
-                .accessibilityAddTraits(tier.fullValue != nil ? .isButton : [])
-                // `contentShape` so the whole column is the target, not just the
-                // glyphs — and so the tap is consumed here rather than falling
-                // through to the enclosing disclosure, which is what made tapping
-                // a dose tier expand "All phases" instead.
-                .contentShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
-                .onTapGesture {
-                    guard tier.fullValue != nil else { return }
-                    onSelect?(tier.id)
-                }
             }
         }
+    }
+
+    @ViewBuilder
+    private func cell(_ tier: DoseTierStripModel.Tier, isSelected: Bool) -> some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            HStack(spacing: Spacing.lg) {
+                disc(tier)
+                    .frame(width: 18)
+                tierName(tier)
+                Spacer(minLength: Spacing.md)
+                tierValue(tier, isSelected: isSelected)
+            }
+            .padding(.horizontal, Spacing.lg)
+        } else {
+            VStack(spacing: Spacing.sm) {
+                disc(tier)
+                tierValue(tier, isSelected: isSelected)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                tierName(tier)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+
+    private func disc(_ tier: DoseTierStripModel.Tier) -> some View {
+        ZStack {
+            Circle()
+                .fill(Self.colors[tier.id])
+                .frame(width: Self.diameters[tier.id], height: Self.diameters[tier.id])
+        }
+        .frame(height: 18)
+    }
+
+    private func tierValue(_ tier: DoseTierStripModel.Tier, isSelected: Bool) -> some View {
+        Text(tier.shortValue ?? "—")
+            .font(.footnote.weight(isSelected ? .bold : .semibold).monospacedDigit())
+            .foregroundStyle(tier.shortValue == nil ? Theme.secondaryLabel : Color.primary)
+    }
+
+    private func tierName(_ tier: DoseTierStripModel.Tier) -> some View {
+        Text(tier.name)
+            .scaledSystemFont(size: 8, weight: .bold, relativeTo: .caption2)
+            .textCase(.uppercase)
+            .tracking(0.3)
+            .foregroundStyle(Theme.secondaryLabel)
     }
 }

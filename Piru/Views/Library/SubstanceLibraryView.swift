@@ -511,6 +511,8 @@ struct SubstanceRowView: View {
         contextCategory == nil || substance.category != contextCategory
     }
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
         HStack(spacing: Spacing.xl) {
             // Category-color accent — ties each row to the family palette and
@@ -531,26 +533,38 @@ struct SubstanceRowView: View {
                         .captionSecondary()
                         .lineLimit(1)
                 }
+                // At accessibility sizes the badge sits under the name; beside
+                // it the two split "Keta- / mine" against "Diss…".
+                if dynamicTypeSize.isAccessibilitySize {
+                    badge
+                }
             }
             Spacer(minLength: 8)
-            // A thin entry gets a "Limited data" badge — but only where the phrase
-            // can be true of the molecule (`mayReportLimitedData`), which is the
-            // same precedence the detail banner applies. The unit used to sit here
-            // — useless in a browse list, so it's gone.
-            if substance.isStub, substance.displayClass.mayReportLimitedData {
-                Text("Limited data")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.horizontal, Spacing.md)
-                    .padding(.vertical, 3)
-                    .background(.fill.tertiary, in: skinChipShape())
-            } else if showsCategoryBadge {
-                Text(substance.category.displayName)
-                    .capsuleChip(text: substance.category.labelColor, fill: substance.category.color)
+            if !dynamicTypeSize.isAccessibilitySize {
+                badge
             }
         }
         .padding(.vertical, 3)
         .contentShape(Rectangle())
+    }
+
+    /// A thin entry gets a "Limited data" badge — but only where the phrase can
+    /// be true of the molecule (`mayReportLimitedData`), which is the same
+    /// precedence the detail banner applies. No unit here: it is useless in a
+    /// browse list.
+    @ViewBuilder
+    private var badge: some View {
+        if substance.isStub, substance.displayClass.mayReportLimitedData {
+            Text("Limited data")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.horizontal, Spacing.md)
+                .padding(.vertical, 3)
+                .background(.fill.tertiary, in: skinChipShape())
+        } else if showsCategoryBadge {
+            Text(substance.category.displayName)
+                .capsuleChip(text: substance.category.labelColor, fill: substance.category.color)
+        }
     }
 }
 

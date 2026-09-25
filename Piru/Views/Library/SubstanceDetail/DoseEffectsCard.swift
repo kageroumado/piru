@@ -225,7 +225,7 @@ struct DoseEffectsCard: View {
             Text(range.map { Self.compactDuration($0) } ?? "—")
                 .font(.system(.headline, design: .rounded).weight(.heavy).monospacedDigit())
             Text(name)
-                .font(.system(size: 9, weight: .bold))
+                .scaledSystemFont(size: 9, weight: .bold, relativeTo: .caption2)
                 .textCase(.uppercase).tracking(0.5)
                 .foregroundStyle(Theme.secondaryLabel)
         }

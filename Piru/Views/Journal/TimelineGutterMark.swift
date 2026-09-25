@@ -6,11 +6,13 @@ import SwiftUI
 /// gutter reads as one family of labels. Marks are opaque: each hangs across
 /// the axis from the strip's leading edge and covers the ruler behind it.
 ///
-/// Type ramp: primary 13 pt semibold, secondary 11 pt; the day tag alone
-/// steps up to 14/12 so the day word stays legible as the strip's landmark.
+/// Type ramp (``TimelineGutterFont``): primary 13 pt semibold, secondary
+/// 11 pt; the day tag alone steps up to 14/12 so the day word stays legible
+/// as the strip's landmark. All four scale with Dynamic Type to a cap.
 struct TimelineGutterMark<Content: View>: View {
-    /// A mark's line count decides its fixed height, so the gutter's
-    /// collision rules (``TimelineGutterLabels``) match what is drawn.
+    /// A mark's line count decides its height at the default text size, so
+    /// the gutter's collision rules (``TimelineGutterLabels``) match what is
+    /// drawn.
     enum Lines {
         case one
         case two
@@ -23,7 +25,7 @@ struct TimelineGutterMark<Content: View>: View {
         content()
             .lineLimit(1)
             .padding(.horizontal, TimelineGutterMarkMetrics.horizontalPadding)
-            .frame(height: lines == .one ? TimelineGutterMarkMetrics.singleLineHeight : TimelineGutterMarkMetrics.twoLineHeight)
+            .frame(minHeight: lines == .one ? TimelineGutterMarkMetrics.singleLineHeight : TimelineGutterMarkMetrics.twoLineHeight)
             .background {
                 RoundedRectangle(cornerRadius: TimelineGutterMarkMetrics.cornerRadius, style: .continuous)
                     .fill(Theme.background)
@@ -44,9 +46,9 @@ struct TimelineGutterMark<Content: View>: View {
 enum TimelineGutterMarkMetrics {
     static let cornerRadius: CGFloat = 8
     static let horizontalPadding: CGFloat = 5
-    /// Height of a one-line mark.
+    /// Height of a one-line mark at the default text size.
     static let singleLineHeight: CGFloat = 22
-    /// Height of a two-line mark (the day tag).
+    /// Height of a two-line mark (the day tag) at the default text size.
     static let twoLineHeight: CGFloat = 40
     /// Diameter of the dot a mark carries on the axis (Today, Now).
     static let dotSize: CGFloat = 6
@@ -56,11 +58,32 @@ enum TimelineGutterMarkMetrics {
     static let dotLeadingPadding: CGFloat = TimelineGutter.axisX - TimelineGutter.edgeInset - dotSize / 2 - horizontalPadding
     /// Gap between a mark's dot and its text.
     static let dotSpacing: CGFloat = 4
+}
 
-    static let primaryFont: Font = .system(size: 13, weight: .semibold, design: .rounded).monospacedDigit()
-    static let secondaryFont: Font = .system(size: 11, weight: .regular, design: .rounded).monospacedDigit()
-    static let dayPrimaryFont: Font = .system(size: 14, weight: .semibold, design: .rounded)
-    static let daySecondaryFont: Font = .system(size: 12, weight: .regular, design: .rounded).monospacedDigit()
+/// The gutter's type ramp. Each role scales with Dynamic Type up to a cap:
+/// the gutter is a fixed lane beside the curves, and past the cap a mark would
+/// run under the dose bubbles instead of getting more legible. Marks grow
+/// taller with their text, from ``TimelineGutterMarkMetrics/singleLineHeight``.
+enum TimelineGutterFont {
+    case primary
+    case secondary
+    case dayPrimary
+    case daySecondary
+}
+
+extension View {
+    func timelineGutterFont(_ role: TimelineGutterFont) -> some View {
+        switch role {
+        case .primary:
+            scaledSystemFont(size: 13, weight: .semibold, design: .rounded, relativeTo: .footnote, maximumSize: 17, monospacedDigit: true)
+        case .secondary:
+            scaledSystemFont(size: 11, design: .rounded, relativeTo: .caption2, maximumSize: 14, monospacedDigit: true)
+        case .dayPrimary:
+            scaledSystemFont(size: 14, weight: .semibold, design: .rounded, relativeTo: .footnote, maximumSize: 18)
+        case .daySecondary:
+            scaledSystemFont(size: 12, design: .rounded, relativeTo: .caption, maximumSize: 15, monospacedDigit: true)
+        }
+    }
 }
 
 // MARK: - Hour ruler
@@ -73,7 +96,7 @@ struct TimelineHourMark: View {
     var body: some View {
         TimelineGutterMark(lines: .one) {
             Text(verbatim: text)
-                .font(TimelineGutterMarkMetrics.primaryFont)
+                .timelineGutterFont(.primary)
                 .foregroundStyle(Theme.secondaryLabel)
         }
         .accessibilityHidden(true)
@@ -99,7 +122,7 @@ struct TimelineNowMark: View {
                     .frame(width: TimelineGutterMarkMetrics.dotSize, height: TimelineGutterMarkMetrics.dotSize)
                     .alignmentGuide(.firstTextBaseline) { d in d[VerticalAlignment.center] }
                 Text("Now")
-                    .font(TimelineGutterMarkMetrics.primaryFont)
+                    .timelineGutterFont(.primary)
                     .foregroundStyle(Theme.accent)
             }
             .padding(.leading, TimelineGutterMarkMetrics.dotLeadingPadding)
@@ -127,11 +150,11 @@ struct TimelineDayHeader: View {
                             .frame(width: TimelineGutterMarkMetrics.dotSize, height: TimelineGutterMarkMetrics.dotSize)
                     }
                     Text(primaryText)
-                        .font(TimelineGutterMarkMetrics.dayPrimaryFont)
+                        .timelineGutterFont(.dayPrimary)
                         .foregroundStyle(isToday ? .primary : Theme.secondaryLabel)
                 }
                 Text(date.formatted(.dateTime.month(.abbreviated).day()))
-                    .font(TimelineGutterMarkMetrics.daySecondaryFont)
+                    .timelineGutterFont(.daySecondary)
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(.leading, isToday ? TimelineGutterMarkMetrics.dotLeadingPadding : 0)

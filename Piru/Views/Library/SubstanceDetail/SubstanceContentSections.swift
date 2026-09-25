@@ -72,6 +72,7 @@ struct HistorySection: View {
 
     @State private var showEntries = false
     @State private var showAllHistory = false
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         let count = entries.count
@@ -108,7 +109,13 @@ struct HistorySection: View {
                     }
                 }
             } label: {
-                HStack {
+                // Two columns at standard sizes; stacked at accessibility sizes,
+                // where side by side they broke "September" mid-word.
+                let isStacked = dynamicTypeSize.isAccessibilitySize
+                let layout = isStacked
+                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.md))
+                    : AnyLayout(HStackLayout())
+                layout {
                     VStack(alignment: .leading, spacing: Spacing.xxs) {
                         Text("^[\(count) entry](inflect: true)")
                             .font(.subheadline.weight(.medium))
@@ -122,8 +129,10 @@ struct HistorySection: View {
                             }
                         }
                     }
-                    Spacer()
-                    VStack(alignment: .trailing, spacing: Spacing.xxs) {
+                    if !isStacked {
+                        Spacer()
+                    }
+                    VStack(alignment: isStacked ? .leading : .trailing, spacing: Spacing.xxs) {
                         if stats.minDose == stats.maxDose {
                             Text("\(stats.minDose.doseFormatted) \(unit)")
                                 .font(.subheadline.weight(.medium))
