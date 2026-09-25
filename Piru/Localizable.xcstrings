@@ -16281,6 +16281,22 @@
         }
       }
     },
+    "Deletes journal records, profile, schedules, inventory, custom presets and local recovery copies. Watch deletion takes effect when it reconnects." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除日志记录、个人资料、计划、库存、自定义预设和本地恢复副本。Watch 上的删除会在重新连接后生效。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除日誌記錄、個人資料、排程、庫存、自訂預設和本機復原副本。Watch 上的刪除會在重新連線後生效。"
+          }
+        }
+      }
+    },
     "Deliriant" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20585,6 +20601,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日常物質，以大多數人熟知的名稱呈現。"
+          }
+        }
+      }
+    },
+    "Everything from the old Piru app is here: your journal, meds and settings. Once you've looked it over, you can delete the old app." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旧版 Piru App 里的一切都在这里：你的日记、用药和设置。确认无误后，就可以删除旧 App 了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "舊版 Piru App 裡的一切都在這裡：你的日記、用藥和設定。確認無誤後，就可以刪除舊 App 了。"
           }
         }
       }
@@ -33520,6 +33552,22 @@
         }
       }
     },
+    "Open in TestFlight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 TestFlight 中打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 TestFlight 中打開"
+          }
+        }
+      }
+    },
     "Open Injection Levels" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35484,6 +35532,22 @@
         }
       }
     },
+    "Piru has moved" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 搬家了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 搬家了"
+          }
+        }
+      }
+    },
     "Piru is a personal record and a general reference, provided as is and without warranty of any kind. It is not medical advice and not a medical device, and it is not for diagnosis, treatment, dosing decisions or emergencies." : {
       "localizations" : {
         "zh-Hans" : {
@@ -35496,6 +35560,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 是一份個人紀錄和一份通用參考，按原樣提供，不附帶任何形式的保證。它不是醫療建議，也不是醫療器材，不用於診斷、治療、劑量決策或緊急情況。"
+          }
+        }
+      }
+    },
+    "Piru now lives in a new app. Install it on this device and the first time you open it, your journal, meds and settings come across on their own. Nothing here is deleted." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 现在是一个新的 App。在这台设备上安装它，第一次打开时，你的日记、用药和设置会自动搬过去。这里的内容不会被删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 現在是一個新的 App。在這台裝置上安裝它，第一次打開時，你的日記、用藥和設定會自動搬過去。這裡的內容不會被刪除。"
           }
         }
       }
@@ -46405,6 +46485,22 @@
         }
       }
     },
+    "The new Piru app already has your journal. Doses you log here stay in this app and won't follow, so the new one is the place to log from now on." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新的 Piru App 已经有你的日记了。在这里记录的剂量只会留在这个 App 里，不会同步过去，所以从现在起，新 App 才是记录的地方。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新的 Piru App 已經有你的日記了。在這裡記錄的劑量只會留在這個 App 裡，不會同步過去，所以從現在起，新 App 才是記錄的地方。"
+          }
+        }
+      }
+    },
     "The old “never mix” warning rests on little — large reviews did not find the harm it predicts. Both still strain the heart." : {
       "localizations" : {
         "zh-Hans" : {
@@ -46802,6 +46898,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此曲線達到大劑量區間"
+          }
+        }
+      }
+    },
+    "This deletes your journal, profile, schedules, inventory, custom presets and local recovery copies. Your Watch clears its copy when it reconnects. Exported files, Apple Health records and device backups are not affected." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这会删除日志、个人资料、计划、库存、自定义预设和本地恢复副本。Watch 会在重新连接后清除其副本。已导出的文件、Apple 健康记录和设备备份不受影响。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會刪除日誌、個人資料、排程、庫存、自訂預設和本機復原副本。Watch 會在重新連線後清除其副本。已匯出的檔案、Apple 健康記錄和裝置備份不受影響。"
           }
         }
       }
@@ -51143,6 +51255,38 @@
         }
       }
     },
+    "Your journal came with you" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的日记跟着你过来了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的日記跟著你過來了"
+          }
+        }
+      }
+    },
+    "Your journal has moved" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的日记已经搬走了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的日記已經搬走了"
+          }
+        }
+      }
+    },
     "Your journal is stored in the app on this device." : {
       "localizations" : {
         "zh-Hans" : {
@@ -51525,38 +51669,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-鴉片受體配體"
-          }
-        }
-      }
-    },
-    "This deletes your journal, profile, schedules, inventory, custom presets and local recovery copies. Your Watch clears its copy when it reconnects. Exported files, Apple Health records and device backups are not affected." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这会删除日志、个人资料、计划、库存、自定义预设和本地恢复副本。Watch 会在重新连接后清除其副本。已导出的文件、Apple 健康记录和设备备份不受影响。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這會刪除日誌、個人資料、排程、庫存、自訂預設和本機復原副本。Watch 會在重新連線後清除其副本。已匯出的檔案、Apple 健康記錄和裝置備份不受影響。"
-          }
-        }
-      }
-    },
-    "Deletes journal records, profile, schedules, inventory, custom presets and local recovery copies. Watch deletion takes effect when it reconnects." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除日志记录、个人资料、计划、库存、自定义预设和本地恢复副本。Watch 上的删除会在重新连接后生效。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪除日誌記錄、個人資料、排程、庫存、自訂預設和本機復原副本。Watch 上的刪除會在重新連線後生效。"
           }
         }
       }

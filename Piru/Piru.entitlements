@@ -9,6 +9,7 @@
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>$(PIRU_APP_GROUP)</string>
+		<string>$(PIRU_LEGACY_APP_GROUP)</string>
 	</array>
 </dict>
 </plist>

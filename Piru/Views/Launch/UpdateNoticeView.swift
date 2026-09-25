@@ -14,8 +14,104 @@ struct UpdateNoticeView: View {
     @ViewBuilder
     private var page: some View {
         switch notice {
+        case .appMoved: AppMovedNoticeView(successorHasImported: LegacyHandoff.successorImportedAt != nil)
+        case .journalArrived: JournalArrivedNoticeView()
         case .classColors: ClassColorsNoticeView()
         }
+    }
+}
+
+// MARK: - Handoff
+
+/// The legacy build's notice: Piru lives in a new app. Before the new app has
+/// run on this device it says the move is automatic; after, it says that what
+/// is logged here no longer follows.
+private struct AppMovedNoticeView: View {
+    let successorHasImported: Bool
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
+
+    var body: some View {
+        NoticePage(systemImage: "shippingbox.fill") {
+            if successorHasImported {
+                Text("Your journal has moved")
+            } else {
+                Text("Piru has moved")
+            }
+        } message: {
+            if successorHasImported {
+                Text("The new Piru app already has your journal. Doses you log here stay in this app and won't follow, so the new one is the place to log from now on.")
+            } else {
+                Text("Piru now lives in a new app. Install it on this device and the first time you open it, your journal, meds and settings come across on their own. Nothing here is deleted.")
+            }
+        } actions: {
+            if let url = AppIdentity.successorTestFlightURL {
+                GlassPillButton(title: "Open in TestFlight") {
+                    openURL(url)
+                    dismiss()
+                }
+            }
+            GlassPillButton(title: "Not Now", prominence: .neutral) { dismiss() }
+        }
+    }
+}
+
+/// The successor's one-time notice after it brought a journal across.
+private struct JournalArrivedNoticeView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NoticePage(systemImage: "checkmark.circle.fill") {
+            Text("Your journal came with you")
+        } message: {
+            Text("Everything from the old Piru app is here: your journal, meds and settings. Once you've looked it over, you can delete the old app.")
+        } actions: {
+            GlassPillButton(title: "Done") { dismiss() }
+        }
+    }
+}
+
+/// An icon, a title, a message and a stack of buttons, sized to its content.
+private struct NoticePage<Title: View, Message: View, Actions: View>: View {
+    let systemImage: String
+    @ViewBuilder let title: Title
+    @ViewBuilder let message: Message
+    @ViewBuilder let actions: Actions
+    @State private var contentHeight: CGFloat = 480
+    @State private var safeAreaBottom: CGFloat = 34
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: Spacing.xxl) {
+                Image(systemName: systemImage)
+                    .font(.system(size: 48))
+                    .foregroundStyle(.tint)
+                    .padding(.top, Spacing.xxxl)
+                    .accessibilityHidden(true)
+
+                title
+                    .font(.piru(.title2, weight: .bold))
+                    .multilineTextAlignment(.center)
+                    .accessibilityAddTraits(.isHeader)
+
+                message
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                VStack(spacing: Spacing.md) {
+                    actions
+                }
+            }
+            .padding(.horizontal, Spacing.xxxl)
+            .padding(.bottom, Spacing.xxl)
+            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.bottom } action: { safeAreaBottom = max(0, $0) }
+        .presentationDetents([.height(contentHeight + safeAreaBottom)])
+        .presentationDragIndicator(.visible)
     }
 }
 

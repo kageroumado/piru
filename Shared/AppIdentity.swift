@@ -15,6 +15,29 @@ nonisolated enum AppIdentity {
     /// The `os.Logger` subsystem for everything the app and its extensions log.
     static let subsystem = bundleID
 
+    /// The app group of the identity Piru shipped under before its current one. The main
+    /// app is entitled to it and carries an install across through it (`LegacyHandoff`).
+    /// Only the main app's Info.plist has the key: an extension reading this traps.
+    static let legacyAppGroup = infoString("PiruLegacyAppGroup")
+
+    /// Whether this build is the legacy identity itself — the app people are moving
+    /// away from, which publishes its sandbox-only state for its successor and tells
+    /// them where Piru went.
+    static var isLegacy: Bool {
+        appGroup == legacyAppGroup
+    }
+
+    /// The TestFlight invitation for the successor app, opened from the legacy build's
+    /// "Piru has moved" notice. Placeholder until the successor's public link exists:
+    /// replace `PLACEHOLDER` with the invitation code before shipping the legacy build.
+    static let successorTestFlightLink = "https://testflight.apple.com/join/PLACEHOLDER"
+
+    /// ``successorTestFlightLink`` as a URL, or `nil` while it is still the placeholder,
+    /// so the notice never offers a button that lands on a dead page.
+    static var successorTestFlightURL: URL? {
+        successorTestFlightLink.contains("PLACEHOLDER") ? nil : URL(string: successorTestFlightLink)
+    }
+
     private static func infoString(_ key: String) -> String {
         guard let value = Bundle.main.object(forInfoDictionaryKey: key) as? String, !value.isEmpty else {
             fatalError("\(key) is missing from \(Bundle.main.bundleURL.lastPathComponent)'s Info.plist")

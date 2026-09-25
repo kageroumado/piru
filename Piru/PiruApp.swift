@@ -43,6 +43,12 @@ struct PiruApp: App {
         // suspension is a 0xdead10cc kill. See DatabaseSuspension.
         DatabaseSuspension.install()
 
+        // A successor install's first launch brings the legacy app's journal and
+        // settings across before anything opens the store; the legacy build
+        // publishes what only its sandbox can see for that successor to read.
+        LegacyHandoff.importIfSuccessor()
+        Self.publishLegacyHandoff()
+
         // Recover the canonical store BEFORE opening it: if the App Group store
         // is empty/absent but a legacy or backed-up store holds the user's data,
         // restore it (backing up the empty store first; never deleting). This
@@ -316,6 +322,7 @@ struct PiruApp: App {
                         #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
                     )
                 #endif
+                Self.publishLegacyHandoff(backgrounding: true)
                 let context = container.mainContext
                 // Hold a background-execution assertion across the await so
                 // iOS can't suspend the process mid-write; ended on completion
@@ -333,6 +340,25 @@ struct PiruApp: App {
                 #endif
             }
         }
+    }
+
+    /// Publish the legacy build's handoff off the main thread. On backgrounding
+    /// it holds a background-execution assertion so the publish finishes before
+    /// the process is suspended; at launch, from `init`, there is no
+    /// `UIApplication` to ask yet. Returns at once in the successor.
+    private static func publishLegacyHandoff(backgrounding: Bool = false) {
+        guard AppIdentity.isLegacy else { return }
+        #if canImport(UIKit)
+            let assertion = backgrounding ? BackgroundTaskAssertion(name: "LegacyHandoff") : nil
+            Task.detached(name: "Publish legacy handoff", priority: .utility) {
+                LegacyHandoff.publishIfLegacy()
+                await assertion?.end()
+            }
+        #else
+            Task.detached(name: "Publish legacy handoff", priority: .utility) {
+                LegacyHandoff.publishIfLegacy()
+            }
+        #endif
     }
 
     /// Build the SwiftData `ModelContainer` on the canonical (already-recovered)
