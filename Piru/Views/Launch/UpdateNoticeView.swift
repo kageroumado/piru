@@ -45,11 +45,9 @@ private struct AppMovedNoticeView: View {
                 Text("Piru now lives in a new app. Install it on this device and the first time you open it, your journal, meds and settings come across on their own. Nothing here is deleted.")
             }
         } actions: {
-            if let url = AppIdentity.successorTestFlightURL {
-                GlassPillButton(title: "Open in TestFlight") {
-                    openURL(url)
-                    dismiss()
-                }
+            GlassPillButton(title: "Open in TestFlight") {
+                openURL(AppIdentity.successorTestFlightURL)
+                dismiss()
             }
             GlassPillButton(title: "Not Now", prominence: .neutral) { dismiss() }
         }

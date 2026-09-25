@@ -27,16 +27,9 @@ nonisolated enum AppIdentity {
         appGroup == legacyAppGroup
     }
 
-    /// The TestFlight invitation for the successor app, opened from the legacy build's
-    /// "Piru has moved" notice. Placeholder until the successor's public link exists:
-    /// replace `PLACEHOLDER` with the invitation code before shipping the legacy build.
-    static let successorTestFlightLink = "https://testflight.apple.com/join/PLACEHOLDER"
-
-    /// ``successorTestFlightLink`` as a URL, or `nil` while it is still the placeholder,
-    /// so the notice never offers a button that lands on a dead page.
-    static var successorTestFlightURL: URL? {
-        successorTestFlightLink.contains("PLACEHOLDER") ? nil : URL(string: successorTestFlightLink)
-    }
+    /// The successor app's public TestFlight invitation, opened from the legacy build's
+    /// "Piru has moved" notice.
+    static let successorTestFlightURL = URL(string: "https://testflight.apple.com/join/JVB4589D")!
 
     private static func infoString(_ key: String) -> String {
         guard let value = Bundle.main.object(forInfoDictionaryKey: key) as? String, !value.isEmpty else {
