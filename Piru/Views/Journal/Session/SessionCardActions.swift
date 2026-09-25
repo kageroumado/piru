@@ -79,7 +79,7 @@ private struct SessionCardActionsModifier: ViewModifier {
     @Bindable var model: SessionCardActionModel
     let colors: [SubstanceColor]
 
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var stackRedoses = true
 
     private var renameIsPresented: Binding<Bool> {
         Binding(

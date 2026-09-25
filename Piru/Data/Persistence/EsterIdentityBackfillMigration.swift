@@ -2,8 +2,6 @@ import Foundation
 import os
 import SwiftData
 
-private let logger = Logger(subsystem: "dev.yumeji.piru", category: "EsterIdentityBackfill")
-
 /// The once-only backfill that reclassifies rows logged under an **ester name**
 /// ("Estradiol Valerate", "Estradiol Enanthate", …) onto the base substance plus
 /// its ester facet — so "Estradiol Valerate" becomes *Estradiol* with
@@ -44,7 +42,7 @@ enum EsterIdentityBackfillMigration {
     /// ester-named rows finds nothing pending and returns after a few counts.
     static func runIfNeeded(container: ModelContainer, defaults: UserDefaults = .standard) {
         guard !defaults.bool(forKey: disabledKey) else {
-            logger.notice("Ester identity backfill skipped (kill-switch set); will re-evaluate next launch.")
+            Logger.esterIdentityBackfill.notice("Ester identity backfill skipped (kill-switch set); will re-evaluate next launch.")
             return
         }
         run(context: container.mainContext, defaults: defaults)
@@ -97,11 +95,11 @@ enum EsterIdentityBackfillMigration {
         do {
             try context.save()
             DoseLogService.shared.changed()
-            logger.notice("Ester identity backfill: reclassified \(resolved, privacy: .public) row(s).")
+            Logger.esterIdentityBackfill.notice("Ester identity backfill: reclassified \(resolved, privacy: .public) row(s).")
         } catch {
             // The snapshot already protects dose history; unsaved changes roll back
             // and the next launch retries (rows still saltForm == nil → still pending).
-            logger.error("Ester identity backfill: save failed (\(error.localizedDescription, privacy: .public)); will retry next launch.")
+            Logger.esterIdentityBackfill.error("Ester identity backfill: save failed (\(error.localizedDescription, privacy: .public)); will retry next launch.")
         }
     }
 

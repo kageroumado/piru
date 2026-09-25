@@ -127,7 +127,7 @@ struct SessionCardView: View, Equatable {
         lhs.card == rhs.card && lhs.inGroup == rhs.inGroup && lhs.colorMap == rhs.colorMap
     }
 
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var stackRedoses = true
 
     private var dotColors: [Color] {
         card.uniqueSubstances.prefix(4).map { SubstancePalette.color(for: $0, colorMap: colorMap) }

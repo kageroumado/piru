@@ -8,8 +8,6 @@ import SwiftData
 /// entries from Piru's own subsystem — enough to pinpoint a recovery failure
 /// without containing any dose data itself.
 nonisolated enum StoreDiagnostics {
-    static let subsystem = "dev.yumeji.piru"
-
     /// Assemble the full report. Runs the log fetch + read-only store probes off
     /// the main actor (both can block) and returns the text to share.
     static func reportText() async -> String {
@@ -79,7 +77,7 @@ nonisolated enum StoreDiagnostics {
             let since = store.position(date: stamp().addingTimeInterval(-1_800))
             let entries = try store.getEntries(
                 at: since,
-                matching: NSPredicate(format: "subsystem == %@", subsystem),
+                matching: NSPredicate(format: "subsystem == %@", AppIdentity.subsystem),
             )
             let fmt = DateFormatter()
             fmt.dateFormat = "HH:mm:ss.SSS"

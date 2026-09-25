@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubjectiveEffects")
-
 /// One SubFxOnEx concept — a rollup (a top-level group, one per domain) or an
 /// atomic effect under a rollup. Read from `subjective_effect_concepts`.
 nonisolated struct SubjectiveEffectConcept: Identifiable, Hashable, Sendable {
@@ -184,7 +182,7 @@ final class SubjectiveEffectOntology {
             atomicsByParent = Dictionary(grouping: concepts.filter { !$0.isRollup && $0.parentID != nil }, by: { $0.parentID! })
             aliasIndex = aliases.map { (normalized: $0.0, label: $0.1, effectID: $0.2) }
         } catch {
-            logger.error("Subjective-effect vocabulary unavailable: \(error.localizedDescription, privacy: .public)")
+            Logger.subjectiveEffects.error("Subjective-effect vocabulary unavailable: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

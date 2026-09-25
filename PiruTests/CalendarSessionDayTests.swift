@@ -17,7 +17,7 @@ struct CalendarSessionDayTests {
 
     /// Override the App Group UserDefaults key for the test, defer cleanup.
     private func withBoundaryHour(_ hour: Int, _ work: () -> Void) {
-        let suite = UserDefaults(suiteName: "group.dev.yumeji.piru")
+        let suite = UserDefaults(suiteName: AppIdentity.appGroup)
         let previous = suite?.object(forKey: Calendar.dayBoundaryHourKey)
         suite?.set(hour, forKey: Calendar.dayBoundaryHourKey)
         defer {

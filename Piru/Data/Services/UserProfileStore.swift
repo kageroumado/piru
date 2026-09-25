@@ -36,8 +36,6 @@ final class UserProfileStore {
         case estimated
     }
 
-    private let logger = Logger(subsystem: "dev.yumeji.piru", category: "UserProfileStore")
-
     // Persistence backing is deliberately `@ObservationIgnored`: a `ModelContext` / `@Model` stored as
     // an observation-tracked property of an `@Observable` type drags in SwiftData's SwiftUI observation
     // machinery, which traps (EXC_BREAKPOINT) when the graph is mutated outside a view update. View
@@ -133,7 +131,7 @@ final class UserProfileStore {
 
     // MARK: - Metabolic context flags (Stage 4c)
 
-    /// Persist whether the per-dose grapefruit toggle is shown in the dose logger.
+    /// Persist whether the per-dose grapefruit toggle is shown in the dose Logger.userProfileStore.
     func setGrapefruitLoggingEnabled(_ value: Bool) {
         guard value != grapefruitLoggingEnabled else { return }
         grapefruitLoggingEnabled = value
@@ -208,7 +206,7 @@ final class UserProfileStore {
             // A setter ran before configure(container:). The published value still updates so the UI
             // is correct this session, but nothing would persist — fail loudly in debug rather than
             // dropping the write silently. In production configure() runs at launch before any view.
-            logger.fault("UserProfileStore mutated before configure(container:); write will not persist")
+            Logger.userProfileStore.fault("UserProfileStore mutated before configure(container:); write will not persist")
             assertionFailure("UserProfileStore.configure(container:) must run before any mutation")
         }
         record = r
@@ -219,7 +217,7 @@ final class UserProfileStore {
         do {
             try context?.save()
         } catch {
-            logger.error("Failed to save user profile: \(error.localizedDescription, privacy: .public)")
+            Logger.userProfileStore.error("Failed to save user profile: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -258,9 +256,9 @@ final class UserProfileStore {
             ctx.insert(migrated)
             record = migrated
             try ctx.save()
-            logger.info("Migrated legacy disclosure tier '\(raw, privacy: .public)' into SwiftData")
+            Logger.userProfileStore.info("Migrated legacy disclosure tier '\(raw, privacy: .public)' into SwiftData")
         } catch {
-            logger.error("Legacy disclosure-tier migration failed: \(error.localizedDescription, privacy: .public)")
+            Logger.userProfileStore.error("Legacy disclosure-tier migration failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

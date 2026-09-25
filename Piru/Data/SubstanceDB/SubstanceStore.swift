@@ -3,8 +3,6 @@ import GRDB
 import Observation
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// The multi-source substance store. Replaces ``SubstanceLibrary``.
 ///
 /// ## Two databases
@@ -361,7 +359,7 @@ final class SubstanceStore {
         do {
             return try DatabaseQueue(path: url.path, configuration: configuration)
         } catch let error as DatabaseError where error.indicatesCorruption {
-            logger.error("user-prefs DB corrupt at \(url.path, privacy: .public) (\(error.description, privacy: .public)); recreating from bundled defaults")
+            Logger.substanceStore.error("user-prefs DB corrupt at \(url.path, privacy: .public) (\(error.description, privacy: .public)); recreating from bundled defaults")
             let fm = FileManager.default
             let siblings = [url, URL(fileURLWithPath: url.path + "-wal"), URL(fileURLWithPath: url.path + "-shm")]
             for sibling in siblings where fm.fileExists(atPath: sibling.path) {
@@ -370,11 +368,11 @@ final class SubstanceStore {
             do {
                 return try DatabaseQueue(path: url.path, configuration: configuration)
             } catch {
-                logger.error("user-prefs DB unrecreatable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); falling back to an in-memory prefs store")
+                Logger.substanceStore.error("user-prefs DB unrecreatable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); falling back to an in-memory prefs store")
                 return openInMemoryPrefs(configuration: memoryConfiguration, after: error)
             }
         } catch {
-            logger.error("user-prefs DB unopenable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); keeping the file and using an in-memory prefs store this session")
+            Logger.substanceStore.error("user-prefs DB unopenable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); keeping the file and using an in-memory prefs store this session")
             return openInMemoryPrefs(configuration: memoryConfiguration, after: error)
         }
     }
@@ -426,7 +424,7 @@ final class SubstanceStore {
             guard substancesDBURL != bundleURL else {
                 fatalError("Failed to open bundled substances DB at \(substancesDBURL.path): \(error)")
             }
-            logger.error("Substances DB unopenable at \(substancesDBURL.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); falling back to bundled DB")
+            Logger.substanceStore.error("Substances DB unopenable at \(substancesDBURL.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); falling back to bundled DB")
             do {
                 self.substancesDB = try DatabaseQueue(path: Self.immutableSQLiteURI(for: bundleURL), configuration: bundleConfig)
             } catch {
@@ -456,7 +454,7 @@ final class SubstanceStore {
         seedUserPrefsIfNeeded()
         reloadSourceOrder()
         buildIndexes()
-        logger.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources")
+        Logger.substanceStore.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources")
         // Eager-prefill the `all` cache *off the main thread*: a synchronous
         // resolve of all 1700+ substances on the main actor costs ~660 ms,
         // which the first Library-tab tap — and, more visibly, the first
@@ -533,7 +531,7 @@ final class SubstanceStore {
                         )
                     }
                 }
-                logger.info("Seeded source_preferences with \(defaults.count) defaults")
+                Logger.substanceStore.info("Seeded source_preferences with \(defaults.count) defaults")
             }
 
             // Reconcile: a bundled-DB upgrade can introduce new sources (e.g.
@@ -573,10 +571,10 @@ final class SubstanceStore {
                     }
                 }
                 UserDefaults.standard.set(Self.currentSourceOrderMigration, forKey: Self.sourceOrderMigrationKey)
-                logger.info("Applied source-order migration v\(Self.currentSourceOrderMigration)")
+                Logger.substanceStore.info("Applied source-order migration v\(Self.currentSourceOrderMigration)")
             }
         } catch {
-            logger.error("Failed to seed user prefs: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("Failed to seed user prefs: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -593,7 +591,7 @@ final class SubstanceStore {
                 try String.fetchAll(db, sql: "SELECT source_slug FROM source_preferences WHERE enabled = 1 ORDER BY priority ASC")
             }
         } catch {
-            logger.error("Failed to read source priority: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("Failed to read source priority: \(error.localizedDescription, privacy: .public)")
             enabledSourceOrder = []
         }
         resolvedCache.removeAll(keepingCapacity: true)
@@ -623,7 +621,7 @@ final class SubstanceStore {
             }
             reloadSourceOrder()
         } catch {
-            logger.error("Failed to update source priority: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("Failed to update source priority: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -672,7 +670,7 @@ final class SubstanceStore {
             }
             reloadSourceOrder()
         } catch {
-            logger.error("Failed to reset source priority: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("Failed to reset source priority: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -689,7 +687,7 @@ final class SubstanceStore {
             }
             reloadSourceOrder()
         } catch {
-            logger.error("Failed to toggle source enabled state: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("Failed to toggle source enabled state: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -722,7 +720,7 @@ final class SubstanceStore {
                 }.sorted { $0.priority < $1.priority }
             }
         } catch {
-            logger.error("Failed to read source states: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("Failed to read source states: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -798,7 +796,7 @@ final class SubstanceStore {
             // launch — a trap here is an uncatchable cold-start crash.
             self.nameIndex = Dictionary(names.map { ($0.2, $0.1) }, uniquingKeysWith: { first, _ in first })
             if self.nameIndex.count != names.count {
-                logger.warning("buildIndexes: collapsed \(names.count - self.nameIndex.count) duplicate lowercased canonical name(s) in nameIndex")
+                Logger.substanceStore.warning("buildIndexes: collapsed \(names.count - self.nameIndex.count) duplicate lowercased canonical name(s) in nameIndex")
             }
             var ax: [String: Int64] = [:]
             var owners: [String: [Int64]] = [:]
@@ -847,7 +845,7 @@ final class SubstanceStore {
             self.idToUIDIndex = idux
             self.sourceDisplayNames = Dictionary(displayNames, uniquingKeysWith: { first, _ in first })
         } catch {
-            logger.error("Failed to build indexes: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("Failed to build indexes: \(error.localizedDescription, privacy: .public)")
         }
 
         // Per-product tablet/capsule strengths (`product_strengths`), read
@@ -870,7 +868,7 @@ final class SubstanceStore {
             }
             self.productStrengthIndex = index
         } catch {
-            logger.warning("buildIndexes: product_strengths unavailable (\(error.localizedDescription, privacy: .public)) — pill chips disabled")
+            Logger.substanceStore.warning("buildIndexes: product_strengths unavailable (\(error.localizedDescription, privacy: .public)) — pill chips disabled")
         }
 
         // Per-product duration envelopes (`product_durations`), read separately for
@@ -901,7 +899,7 @@ final class SubstanceStore {
             }
             self.productDurationIndex = index
         } catch {
-            logger.warning("buildIndexes: product_durations unavailable (\(error.localizedDescription, privacy: .public)) — extended-release curves fall back")
+            Logger.substanceStore.warning("buildIndexes: product_durations unavailable (\(error.localizedDescription, privacy: .public)) — extended-release curves fall back")
         }
 
         // Depot PK parameters for injectable hormone esters (`ester_pk`), read
@@ -946,7 +944,7 @@ final class SubstanceStore {
             }
             self.esterPKIndex = index
         } catch {
-            logger.warning("buildIndexes: ester_pk unavailable (\(error.localizedDescription, privacy: .public)) — Injection Levels tool has no ester data")
+            Logger.substanceStore.warning("buildIndexes: ester_pk unavailable (\(error.localizedDescription, privacy: .public)) — Injection Levels tool has no ester data")
         }
 
         // Branded products (`aliases` kind='brand') grouped by FAMILY uid for the
@@ -987,7 +985,7 @@ final class SubstanceStore {
             }
             self.brandProductsByUID = index
         } catch {
-            logger.warning("buildIndexes: brand aliases unavailable (\(error.localizedDescription, privacy: .public)) — brand pill disabled")
+            Logger.substanceStore.warning("buildIndexes: brand aliases unavailable (\(error.localizedDescription, privacy: .public)) — brand pill disabled")
         }
     }
 

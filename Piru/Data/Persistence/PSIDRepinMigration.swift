@@ -2,8 +2,6 @@ import Foundation
 import os
 import SwiftData
 
-private let logger = Logger(subsystem: "dev.yumeji.piru", category: "PSIDRepin")
-
 /// The once-only correction that re-pins persisted PSID **families** whose
 /// `substances.substance_uid` was changed on 2026-09-12 — 15 substances whose
 /// family had been pinned to the wrong structure (see
@@ -81,12 +79,12 @@ enum PSIDRepinMigration {
         do {
             try context.save()
             DoseLogService.shared.changed()
-            logger.notice("PSID re-pin: rewrote \(rewritten, privacy: .public) substanceUID(s) onto corrected families.")
+            Logger.psidRepin.notice("PSID re-pin: rewrote \(rewritten, privacy: .public) substanceUID(s) onto corrected families.")
         } catch {
             // The flag is set, so this won't retry; the unsaved changes roll back.
             // Additive identity re-pin, so a failed save leaves the store on the
             // (stale-but-consistent) old families rather than a partial state.
-            logger.error("PSID re-pin: save failed (\(error.localizedDescription, privacy: .public)).")
+            Logger.psidRepin.error("PSID re-pin: save failed (\(error.localizedDescription, privacy: .public)).")
         }
     }
 

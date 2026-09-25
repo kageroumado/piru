@@ -122,8 +122,6 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
 final class NotificationPreferencesStore {
     static let shared = NotificationPreferencesStore()
 
-    private let logger = Logger(subsystem: "dev.yumeji.piru", category: "NotificationPrefs")
-
     // Persistence backing is `@ObservationIgnored` for the same reason as
     // UserProfileStore: observation-tracked SwiftData handles trap when the
     // graph mutates outside a view update. Views observe the published
@@ -266,7 +264,7 @@ final class NotificationPreferencesStore {
         seeded.phaseEnabled = phase
         ctx.insert(seeded)
         save()
-        logger.info("Seeded notification preferences (wellness=\(wellness), phase=\(phase))")
+        Logger.notificationPrefs.info("Seeded notification preferences (wellness=\(wellness), phase=\(phase))")
         return seeded
     }
 
@@ -413,7 +411,7 @@ final class NotificationPreferencesStore {
         if let context {
             context.insert(fresh)
         } else {
-            logger.fault("NotificationPreferencesStore mutated before configure(container:); write will not persist")
+            Logger.notificationPrefs.fault("NotificationPreferencesStore mutated before configure(container:); write will not persist")
             assertionFailure("NotificationPreferencesStore.configure(container:) must run before any mutation")
         }
         record = fresh
@@ -424,7 +422,7 @@ final class NotificationPreferencesStore {
         do {
             try context?.save()
         } catch {
-            logger.error("Failed to save notification preferences: \(error.localizedDescription, privacy: .public)")
+            Logger.notificationPrefs.error("Failed to save notification preferences: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

@@ -3,8 +3,6 @@ import CryptoKit
 import Foundation
 import os
 
-private nonisolated let cryptoLogger = Logger(subsystem: "dev.yumeji.piru", category: "BackupCrypto")
-
 /// The cryptographic core of Piru's encrypted backups.
 ///
 /// All backups are sealed with **AES-256-GCM** (authenticated encryption — any
@@ -58,7 +56,7 @@ nonisolated enum BackupCrypto {
     private static let keyByteCount = 32 // AES-256
     private static let saltByteCount = 16
 
-    private static let keychainService = "dev.yumeji.piru.backup"
+    private static let keychainService = "\(AppIdentity.bundleID).backup"
     private static let keychainAccount = "backupKey.v1"
 
     // MARK: - Errors
@@ -258,7 +256,7 @@ nonisolated enum BackupCrypto {
             return try loadDeviceKey()
         }
         guard status == errSecSuccess else {
-            cryptoLogger.error("Keychain add failed: \(status, privacy: .public)")
+            Logger.backupCrypto.error("Keychain add failed: \(status, privacy: .public)")
             throw BackupError.keychainFailure(status)
         }
         return key

@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// One gene whose variants change what a substance does to the person
 /// carrying them.
 ///
@@ -230,7 +228,7 @@ extension SubstanceReadModel {
                 return order.compactMap { byFinding[$0] }.sorted { $0.gene < $1.gene }
             }
         } catch {
-            logger.error("pharmacogenetics(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("pharmacogenetics(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -266,7 +264,7 @@ extension SubstanceReadModel {
                 )
             }
         } catch {
-            logger.error("signallingCascade(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("signallingCascade(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }
@@ -327,7 +325,7 @@ extension SubstanceReadModel {
                 return expanded.merging(explicit) { _, explicitClasses in explicitClasses }
             }
         } catch {
-            logger.error("substanceInteractionClasses() failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("substanceInteractionClasses() failed: \(error.localizedDescription, privacy: .public)")
             return [:]
         }
     }
@@ -348,7 +346,7 @@ extension SubstanceReadModel {
                     }
             }
         } catch {
-            logger.error("categoryInteractionClasses() failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("categoryInteractionClasses() failed: \(error.localizedDescription, privacy: .public)")
             return [:]
         }
     }
@@ -373,7 +371,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("classInteractionRules() failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("classInteractionRules() failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -407,7 +405,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("classContexts() failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("classContexts() failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -484,7 +482,7 @@ extension SubstanceReadModel {
                 )
             }
         } catch {
-            logger.error("loadClassContext failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("loadClassContext failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }
@@ -624,7 +622,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("concentrationThresholds(substanceID:weightKg:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("concentrationThresholds(substanceID:weightKg:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -682,7 +680,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("targetEvidence(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("targetEvidence(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }

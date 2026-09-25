@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// A group of effects sharing one PsychonautWiki category, for the
 /// "All effects" screen.
 nonisolated struct EffectGroup: Identifiable, Hashable {
@@ -159,7 +157,7 @@ extension SubstanceReadModel {
                 }
                 .map { EffectGroup(category: $0, effects: byCategory[$0] ?? []) }
         } catch {
-            logger.error("effectGroups(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("effectGroups(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }

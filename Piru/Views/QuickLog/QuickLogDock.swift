@@ -99,10 +99,8 @@ final class DockSheetGeometry {
         let bare = height < QuickLogDockMetrics.peekHeight + 40
         guard bare != isHeightBare else { return }
         isHeightBare = bare
-        Self.log.debug("isHeightBare=\(bare, privacy: .public) at height=\(height, privacy: .public)")
+        Logger.dockGeometry.debug("isHeightBare=\(bare, privacy: .public) at height=\(height, privacy: .public)")
     }
-
-    private static let log = Logger(subsystem: "dev.yumeji.piru", category: "dock-geometry")
 }
 
 // MARK: - Dock Sheet

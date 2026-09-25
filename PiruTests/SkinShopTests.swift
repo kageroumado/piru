@@ -34,7 +34,7 @@ struct SkinShopTests {
 
     @Test
     func `A paid skin's product is named after it`() {
-        #expect(Skin.jellyfish.productID == "dev.yumeji.piru.skin.jellyfish")
+        #expect(Skin.jellyfish.productID == "\(AppIdentity.bundleID).skin.jellyfish")
         #expect(!paidSkins.isEmpty)
     }
 

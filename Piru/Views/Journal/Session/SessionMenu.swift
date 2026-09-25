@@ -26,7 +26,7 @@ struct SessionMenu: View {
     @Environment(\.sessionEditingService) private var editing
     @AppStorage(SessionGraphDefaults.enlargedKey, store: UserDefaults(suiteName: SessionGraphDefaults.suite))
     private var timelineEnlarged = SessionGraphDefaults.enlargedDefault
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var stackRedoses = true
 
     var body: some View {
         Menu {

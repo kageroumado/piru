@@ -6,8 +6,6 @@ import Synchronization
     import UIKit
 #endif
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "DatabaseSuspension")
-
 /// Keeps GRDB connections from holding a file lock at the moment iOS suspends
 /// the process, which RunningBoard punishes with a `0xdead10cc` kill — the
 /// dominant crash signature across TestFlight builds 21 through 52.
@@ -56,7 +54,7 @@ nonisolated enum DatabaseSuspension {
         }
         guard changed else { return }
         NotificationCenter.default.post(name: Database.suspendNotification, object: nil)
-        logger.debug("Databases suspended")
+        Logger.databaseSuspension.debug("Databases suspended")
     }
 
     /// Allow database locks again.
@@ -68,7 +66,7 @@ nonisolated enum DatabaseSuspension {
         }
         guard changed else { return }
         NotificationCenter.default.post(name: Database.resumeNotification, object: nil)
-        logger.debug("Databases resumed")
+        Logger.databaseSuspension.debug("Databases resumed")
     }
 
     /// Run background work with the databases resumed, then restore the prior

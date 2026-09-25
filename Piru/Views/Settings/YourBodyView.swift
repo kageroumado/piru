@@ -10,7 +10,7 @@ struct YourBodyView: View {
     @State private var profile = UserProfileStore.shared
     @State private var bodyMass = HealthKitBodyMass.shared
     @State private var vitals = HealthKitVitals.shared
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
     private var showSessionVitals = false
 
     @State private var weightKg: Double = UserProfileStore.shared.weightKg ?? UserProfileStore.defaultWeightKg

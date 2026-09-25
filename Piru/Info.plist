@@ -10,13 +10,17 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>dev.yumeji.piru</string>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>piru</string>
 			</array>
 		</dict>
 	</array>
+	<key>PiruAppGroup</key>
+	<string>$(PIRU_APP_GROUP)</string>
+	<key>PiruBundleID</key>
+	<string>$(PIRU_BUNDLE_ID)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fredoka-Variable.ttf</string>

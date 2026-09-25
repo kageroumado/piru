@@ -28,7 +28,7 @@ struct SessionDetailView: View {
         session.startDate
     }
 
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var stackRedoses = true
 
     @State private var showRename = false
     @State private var titleDraft = ""
@@ -47,7 +47,7 @@ struct SessionDetailView: View {
     /// Opt-in: overlay Apple Health heart rate / blood pressure on the session.
     /// Stored in the app-group suite so it's consistent app-wide. Drives the vitals
     /// task and the discovery-banner gate.
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
     private var showSessionVitals = false
     /// One-time discovery: whether the vitals overlay has already been offered
     /// (turned on or dismissed). Gates the discovery banner.

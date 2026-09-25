@@ -8,8 +8,6 @@ import SwiftUI
 import UserNotifications
 import WidgetKit
 
-private let appLogger = Logger(subsystem: "dev.yumeji.piru", category: "App")
-
 // A UIKit background-execution assertion that ends itself exactly once —
 // explicitly via ``end()`` when the protected work finishes, or from the
 // system's expiration handler if time runs out first.
@@ -381,11 +379,11 @@ struct PiruApp: App {
             do {
                 return try ModelContainer(for: Schema(PiruSchema.models), configurations: config)
             } catch {
-                appLogger.fault("Store open failed under automatic lightweight migration: \(error.localizedDescription, privacy: .public). Preserving the store on disk and launching in-memory; data is not lost.")
+                Logger.app.fault("Store open failed under automatic lightweight migration: \(error.localizedDescription, privacy: .public). Preserving the store on disk and launching in-memory; data is not lost.")
                 StoreLaunchState.shared.failureDetail = error.localizedDescription
             }
         } else {
-            appLogger.fault("Store failed the integrity pre-check. Preserving the store on disk and launching in-memory; data is not lost.")
+            Logger.app.fault("Store failed the integrity pre-check. Preserving the store on disk and launching in-memory; data is not lost.")
             StoreLaunchState.shared.failureDetail = "Store failed the SQLite integrity pre-check (PRAGMA quick_check)."
         }
 

@@ -298,7 +298,7 @@ struct LockScreenView: View {
     /// Default must match the app (true). The Live Activity and the in-app graph
     /// share this key/store; a divergent default made the LA draw an un-stacked
     /// curve (single bell) while the app showed the stacked redose curve.
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup))
     private var stackRedoses = true
 
     private var state: PiruActivityAttributes.ContentState {
@@ -411,7 +411,7 @@ struct ExpandedTrailingView: View {
 struct ExpandedBottomView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup))
     private var stackRedoses = true
 
     var body: some View {

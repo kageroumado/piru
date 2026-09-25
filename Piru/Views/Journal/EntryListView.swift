@@ -102,14 +102,14 @@ struct EntryListView: View {
     /// searching the Library instead when a query finds no journal entries.
     var onSwitchToLibrary: (() -> Void)?
 
-    @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var chosenGrouping: JournalGrouping = .timeline
+    @AppStorage("journalGrouping", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var chosenGrouping: JournalGrouping = .timeline
 
     /// The grouping on screen. Search always lists entries by day: a search asks
     /// when something was taken, and the answer is a row with a date on it.
     private var grouping: JournalGrouping {
         isSearchSurface ? .byDay : chosenGrouping
     }
-    @AppStorage("journalGroupKey", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var groupKey: JournalGroupKey = .substance
+    @AppStorage("journalGroupKey", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var groupKey: JournalGroupKey = .substance
     @State private var showingCalendar = false
 
     /// Rename / Move Doses / Share targets set from a session card's context
@@ -119,7 +119,7 @@ struct EntryListView: View {
     /// Runs once per process, ahead of the first `@AppStorage` read above — a
     /// raw value the enum no longer has would otherwise silently read as Days.
     private static let persistedGroupingMigrated: Void = {
-        if let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru") {
+        if let defaults = UserDefaults(suiteName: AppIdentity.appGroup) {
             JournalGroupingMigration.migrate(in: defaults)
         }
     }()

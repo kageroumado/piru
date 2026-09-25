@@ -215,7 +215,7 @@ final class ReportsModel {
         sessions: [Session], colors: [SubstanceColor], scheme: ColorScheme,
     ) async -> [PlatformImage] {
         var images: [PlatformImage] = []
-        let stackRedoses = UserDefaults(suiteName: "group.dev.yumeji.piru")?.bool(forKey: "stackRedoses") ?? true
+        let stackRedoses = UserDefaults(suiteName: AppIdentity.appGroup)?.bool(forKey: "stackRedoses") ?? true
         for session in sessions {
             guard selectedSessions.contains(session.id) else { continue }
             let entries = (session.doses ?? []).sorted { $0.timestamp < $1.timestamp }

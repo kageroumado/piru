@@ -3,8 +3,6 @@ import Observation
 import OSLog
 import SwiftData
 
-private nonisolated let customSubstanceLogger = Logger(subsystem: "dev.yumeji.piru", category: "CustomSubstance")
-
 /// A user-defined substance, persisted as JSON in App Group UserDefaults.
 /// We intentionally avoid SwiftData here: custom substances were added to the
 /// schema after the initial app release, and SwiftData's auto-migration for
@@ -231,7 +229,7 @@ extension Substance {
 final class CustomSubstanceStore {
     static let shared = CustomSubstanceStore()
 
-    private static let appGroupID = "group.dev.yumeji.piru"
+    private static let appGroupID = AppIdentity.appGroup
     /// Legacy App-Group `UserDefaults` key for the pre-migration JSON blob. Read
     /// once by ``migrateFromDefaultsIfNeeded()`` and removed after the rows are
     /// verified in the store.
@@ -566,9 +564,9 @@ final class CustomSubstanceStore {
         let migrated = entries.allSatisfy { stored.contains($0.name.lowercased()) }
         if migrated {
             mirrorDefaults.removeObject(forKey: Self.legacyStorageKey)
-            customSubstanceLogger.notice("Migrated \(entries.count, privacy: .public) custom substances from UserDefaults into the store.")
+            Logger.customSubstance.notice("Migrated \(entries.count, privacy: .public) custom substances from UserDefaults into the store.")
         } else {
-            customSubstanceLogger.error("Custom-substance migration failed verification; keeping the UserDefaults blob to retry next launch.")
+            Logger.customSubstance.error("Custom-substance migration failed verification; keeping the UserDefaults blob to retry next launch.")
         }
     }
 }

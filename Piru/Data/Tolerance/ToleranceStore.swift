@@ -1197,7 +1197,7 @@ final class ToleranceStore {
     /// `Task.detached`, it isn't pulled back onto the caller's executor by `NonisolatedNonsendingByDefault`
     /// (SE-0461, enabled project-wide). Concurrent attribute so the `TaskGroup` fan-out actually parallelizes.
     private nonisolated static let replayExecutor = DispatchQueue(
-        label: "dev.yumeji.piru.tolerance-replay", qos: .utility, attributes: .concurrent,
+        label: "\(AppIdentity.bundleID).tolerance-replay", qos: .utility, attributes: .concurrent,
     )
 
     /// Occupancy below which a contributor is treated as fully decayed and dropped from the integration.

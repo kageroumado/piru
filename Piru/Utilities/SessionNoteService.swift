@@ -2,8 +2,6 @@ import Foundation
 import os
 import SwiftData
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SessionNotes")
-
 /// Mutations on a session's timestamped notes, and the bridge that keeps
 /// ``Session/note`` and the `.summary` ``SessionNote`` saying the same thing.
 ///
@@ -31,7 +29,7 @@ enum SessionNoteService {
         kind: SessionNote.Kind = .observation,
     ) -> SessionNote? {
         guard let context = session.modelContext else {
-            logger.error("Refusing to add a note to a session with no model context")
+            Logger.sessionNotes.error("Refusing to add a note to a session with no model context")
             return nil
         }
         // Built without its session: setting the relationship registers the
@@ -151,7 +149,7 @@ enum SessionNoteService {
         }
         if context.hasChanges {
             try? context.save()
-            logger.notice("Session note shim: \(created) summary notes ensured across \(sessions.count) sessions")
+            Logger.sessionNotes.notice("Session note shim: \(created) summary notes ensured across \(sessions.count) sessions")
         }
     }
 }

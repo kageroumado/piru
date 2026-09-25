@@ -70,7 +70,7 @@ final class DisplayLinkAnimator: NSObject {
 /// through its own full resize path.
 @MainActor
 final class MutableSheetDetent {
-    static let identifier = UISheetPresentationController.Detent.Identifier("dev.yumeji.piru.dock-ramp")
+    static let identifier = UISheetPresentationController.Detent.Identifier("\(AppIdentity.bundleID).dock-ramp")
 
     var height: CGFloat = 0
 

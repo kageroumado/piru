@@ -30,7 +30,6 @@ final class HealthKitBodyMass {
         case unavailable
     }
 
-    private let logger = Logger(subsystem: "dev.yumeji.piru", category: "HealthKitBodyMass")
     @ObservationIgnored private let store = HKHealthStore()
     private var bodyMassType: HKQuantityType {
         HKQuantityType(.bodyMass)
@@ -72,16 +71,15 @@ final class HealthKitBodyMass {
     /// means "no access OR no data" and is treated as a soft, recoverable state by the UI.
     private func latestBodyMassKg() async -> Double? {
         let type = bodyMassType
-        let logger = logger
         return await withCheckedContinuation { continuation in
             let sort = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
             // HealthKit runs this handler on its own serial queue, not the main actor — so it captures
-            // only the Sendable `logger` and `continuation`, never `self`, keeping it off the actor.
+            // only the Sendable `continuation`, never `self`, keeping it off the actor.
             let query = HKSampleQuery(
                 sampleType: type, predicate: nil, limit: 1, sortDescriptors: [sort],
             ) { _, samples, error in
                 if let error {
-                    logger.error("Body-mass query failed: \(error.localizedDescription, privacy: .public)")
+                    Logger.healthKitBodyMass.error("Body-mass query failed: \(error.localizedDescription, privacy: .public)")
                 }
                 let kg = (samples?.first as? HKQuantitySample)?
                     .quantity.doubleValue(for: .gramUnit(with: .kilo))

@@ -2,8 +2,6 @@ import Foundation
 import os
 import SwiftData
 
-private let logger = Logger(subsystem: "dev.yumeji.piru", category: "CuratedIdentityBackfill")
-
 /// The once-only backfill that gives the **curated** rows — quick-log chips,
 /// favorites, and daily-med items — the same PSID identity every logged
 /// ``DoseEntry`` already carries (``PSIDBackfillMigration``), so recents/
@@ -33,7 +31,7 @@ enum CuratedIdentityBackfillMigration {
     /// nothing pending and returns after three counts.
     static func runIfNeeded(container: ModelContainer, defaults: UserDefaults = .standard) {
         guard !defaults.bool(forKey: disabledKey) else {
-            logger.notice("Curated identity backfill skipped (kill-switch set); will re-evaluate next launch.")
+            Logger.curatedIdentityBackfill.notice("Curated identity backfill skipped (kill-switch set); will re-evaluate next launch.")
             return
         }
         run(context: container.mainContext)
@@ -46,11 +44,11 @@ enum CuratedIdentityBackfillMigration {
         guard resolved > 0 else { return }
         do {
             try context.save()
-            logger.notice("Curated identity backfill: resolved \(resolved, privacy: .public) row(s).")
+            Logger.curatedIdentityBackfill.notice("Curated identity backfill: resolved \(resolved, privacy: .public) row(s).")
         } catch {
             // Additive-only; the unsaved changes roll back and the next launch
             // retries (rows are still nil → still pending).
-            logger.error("Curated identity backfill: save failed (\(error.localizedDescription, privacy: .public)); will retry next launch.")
+            Logger.curatedIdentityBackfill.error("Curated identity backfill: save failed (\(error.localizedDescription, privacy: .public)); will retry next launch.")
         }
     }
 

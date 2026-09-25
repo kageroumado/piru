@@ -367,7 +367,7 @@
         struct Stage {
             let context: ModelContext
             private let navigator = AppNavigator.shared
-            private let groupDefaults = UserDefaults(suiteName: "group.dev.yumeji.piru")
+            private let groupDefaults = UserDefaults(suiteName: AppIdentity.appGroup)
 
             init(context: ModelContext) {
                 self.context = context

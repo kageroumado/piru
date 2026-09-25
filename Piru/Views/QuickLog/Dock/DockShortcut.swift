@@ -83,7 +83,7 @@ final class DockPreferences {
     /// Slots in the leading area; beyond this the label has no room left.
     static let maxShortcuts = 3
 
-    static let suiteName = "group.dev.yumeji.piru"
+    static let suiteName = AppIdentity.appGroup
     private static let shortcutsKey = "dockShortcuts"
     private static let labelsKey = "dockLabels"
 

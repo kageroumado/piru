@@ -2,8 +2,6 @@ import Foundation
 import OSLog
 import SwiftData
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceColorStore")
-
 /// What the color picker hands back.
 enum SubstanceColorChoice: Hashable {
     /// The generated color for the substance's class and identity.
@@ -129,9 +127,9 @@ enum SubstanceColorStore {
         guard changed > 0 else { return }
         do {
             try context.save()
-            logger.notice("Substance colors \(pass, privacy: .public): \(changed, privacy: .public) row(s).")
+            Logger.substanceColorStore.notice("Substance colors \(pass, privacy: .public): \(changed, privacy: .public) row(s).")
         } catch {
-            logger.error("Substance colors \(pass, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceColorStore.error("Substance colors \(pass, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 

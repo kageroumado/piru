@@ -4,8 +4,6 @@ import os
 import SwiftData
 import Synchronization
 
-private let backupLogger = Logger(subsystem: "dev.yumeji.piru", category: "BackupManager")
-
 /// Orchestrates Piru's two backup paths on top of ``BackupCrypto`` and the
 /// existing ``DataExportImport`` (PsyLog JSON) and ``StoreRecovery`` machinery:
 ///
@@ -61,7 +59,7 @@ final class BackupManager {
 
     private nonisolated static let writeEpoch = Mutex(0)
 
-    private let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru") ?? .standard
+    private let defaults = UserDefaults(suiteName: AppIdentity.appGroup) ?? .standard
     private static let autoEnabledKey = "backup.autoICloudEnabled"
     private static let lastDateKey = "backup.lastSuccessDate"
     private static let lastHashKey = "backup.lastPlaintextHash"
@@ -136,9 +134,9 @@ final class BackupManager {
             let now = Date()
             lastBackupDate = now
             status = .success(now)
-            backupLogger.notice("Automatic iCloud backup written (\(byteCount, privacy: .public) bytes).")
+            Logger.backupManager.notice("Automatic iCloud backup written (\(byteCount, privacy: .public) bytes).")
         } catch {
-            backupLogger.error("Automatic backup failed: \(error.localizedDescription, privacy: .public)")
+            Logger.backupManager.error("Automatic backup failed: \(error.localizedDescription, privacy: .public)")
             status = .failed(error.localizedDescription)
         }
     }
@@ -201,7 +199,7 @@ final class BackupManager {
         }
         try context.save()
         DoseLogService.shared.changed()
-        backupLogger.notice("Restore (\(String(describing: strategy), privacy: .public)) completed.")
+        Logger.backupManager.notice("Restore (\(String(describing: strategy), privacy: .public)) completed.")
     }
 
     // MARK: - iCloud backup management

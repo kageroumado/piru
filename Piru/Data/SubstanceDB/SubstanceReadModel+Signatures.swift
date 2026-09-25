@@ -1,8 +1,6 @@
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// Library-wide reads for the class signatures. A signature is a *comparison*, so unlike most
 /// pharmacology queries it cannot be scoped to one substance: the ladder, the arc and the
 /// triangle all need the peers that were measured beside it.
@@ -70,7 +68,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("signatureLegs failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("signatureLegs failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -116,7 +114,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("functionalAssayLegs failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("functionalAssayLegs failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }

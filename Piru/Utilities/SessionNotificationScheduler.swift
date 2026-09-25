@@ -4,8 +4,6 @@ import UserNotifications
 
 // MARK: - Logger
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SessionNotifications")
-
 // MARK: - Session Notification Scheduler
 
 /// Schedules local notifications around logged doses.
@@ -395,7 +393,7 @@ enum SessionNotificationScheduler {
         // cumulative safety warning opts out (spec §B — never silenced).
         if respectsQuietHours,
            NotificationPreferencesStore.isInQuietHours(Date.now.addingTimeInterval(timeInterval)) {
-            logger.debug("\(category) notification skipped — inside quiet hours")
+            Logger.sessionNotifications.debug("\(category) notification skipped — inside quiet hours")
             return
         }
         let content = UNMutableNotificationContent(
@@ -410,7 +408,7 @@ enum SessionNotificationScheduler {
         // got buzzed right away" bug. UNTimeIntervalNotificationTrigger also
         // requires a strictly-positive interval.
         guard timeInterval > 0 else {
-            logger.debug("\(category) notification skipped — fire time already past (\(Int(timeInterval))s)")
+            Logger.sessionNotifications.debug("\(category) notification skipped — fire time already past (\(Int(timeInterval))s)")
             return
         }
 
@@ -422,9 +420,9 @@ enum SessionNotificationScheduler {
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
             if let error {
-                logger.error("Failed to schedule \(category) notification: \(error.localizedDescription)")
+                Logger.sessionNotifications.error("Failed to schedule \(category) notification: \(error.localizedDescription)")
             } else {
-                logger.debug("\(category) notification scheduled in \(Int(timeInterval / 60)) min")
+                Logger.sessionNotifications.debug("\(category) notification scheduled in \(Int(timeInterval / 60)) min")
             }
         }
     }

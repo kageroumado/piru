@@ -8,7 +8,7 @@ import SwiftUI
 struct VitalsOfferBanner: View {
     /// Opt-in: overlay Apple Health heart rate / blood pressure on the session.
     /// Stored in the app-group suite so it's consistent app-wide.
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
     private var showSessionVitals = false
     /// One-time discovery flag: set once the user turns the overlay on OR dismisses
     /// the banner, after which it never reappears. Main-app UI state, so the default

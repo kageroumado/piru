@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// One thing a drug acts on that is **not** the reason anyone takes it —
 /// citalopram's hERG block, ketamine's bladder, zopiclone's metallic taste.
 ///
@@ -102,7 +100,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("offTargets(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("offTargets(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }

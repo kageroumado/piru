@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// Source attribution for the fields displayed in a substance detail
 /// view. Distinct from the substance-level `sources` list (which is just
 /// "every source that contributed anything") — this surfaces *which*
@@ -138,7 +136,7 @@ extension SubstanceReadModel {
                 )
             }
         } catch {
-            logger.error("provenance(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("provenance(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }
@@ -175,7 +173,7 @@ extension SubstanceReadModel {
                 """, arguments: StatementArguments([substanceID] + args))
             }
         } catch {
-            logger.error("sourcesProviding failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("sourcesProviding failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }

@@ -683,7 +683,7 @@ private struct LogTipAnchor: ViewModifier {
 /// timeline, the substance names, and elapsed/remaining times. Collapses to just
 /// the names when the tab bar minimizes (`.inline`).
 private struct SessionAccessoryInfo: View {
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var stackRedoses = true
 
     let states: [ActiveSubstanceState]
     let currentTime: Date

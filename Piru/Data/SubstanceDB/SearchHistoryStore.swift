@@ -12,7 +12,7 @@ final class SearchHistoryStore {
     static let shared = SearchHistoryStore()
 
     private static let storageKey = "piru.searchHistory.v1"
-    private static let appGroupID = "group.dev.yumeji.piru"
+    private static let appGroupID = AppIdentity.appGroup
     private static let limit = 5
 
     /// Canonical substance names, most-recent first.

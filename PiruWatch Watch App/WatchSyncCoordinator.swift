@@ -3,7 +3,7 @@ import Observation
 import os
 import WatchConnectivity
 
-private let watchLog = Logger(subsystem: "dev.yumeji.piru.watchkitapp", category: "WatchSync")
+private let watchLog = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Piru", category: "WatchSync")
 
 /// The watch half of the sync (`Specs/apple-watch-companion.md`). Reads the favorites/recents
 /// manifest the phone pushes (OS-persisted in `receivedApplicationContext`, so it survives the

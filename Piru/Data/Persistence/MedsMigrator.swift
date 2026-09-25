@@ -2,8 +2,6 @@ import Foundation
 import OSLog
 import SwiftData
 
-private let logger = Logger(subsystem: "dev.yumeji.piru", category: "MedsMigrator")
-
 /// One-time fold of the routine layer into per-med fields for the Meds
 /// redesign (Specs/meds-reminders-redesign.md): each item inherits its
 /// routine's reminder time and `remind` flag as `reminderTimesMinutes` /
@@ -60,7 +58,7 @@ enum MedsMigrator {
             try context.save()
             defaults.set(true, forKey: doneKey)
         } catch {
-            logger.error("Routine fold save failed, will retry next launch: \(error)")
+            Logger.medsMigrator.error("Routine fold save failed, will retry next launch: \(error)")
         }
     }
 

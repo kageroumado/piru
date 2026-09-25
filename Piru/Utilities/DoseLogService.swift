@@ -3,8 +3,6 @@ import os
 import SwiftData
 import WidgetKit
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "DoseLog")
-
 /// The single choke point for **mutating the dose log**, and the one place a "the dose log changed"
 /// signal is emitted. Derived caches (the tolerance engine) subscribe via ``changeStream()`` and refresh
 /// in the background, so no user-interactive path ever triggers a heavy recompute.
@@ -122,7 +120,7 @@ final class DoseLogService {
             // doesn't have. The inserts stay pending on the context, so the
             // next save — SwiftData's autosave or the next commit — retries
             // them; record it loudly instead of vanishing the evidence.
-            logger.fault("Batch dose commit save failed for \(doses.count) dose(s): \(error)")
+            Logger.doseLog.fault("Batch dose commit save failed for \(doses.count) dose(s): \(error)")
         }
         ActiveSessionManager.shared.addDoses(entries: doses, allColors: colors)
         changed()
@@ -140,7 +138,7 @@ final class DoseLogService {
     /// in the app-group defaults, so a cache written in one launch can be
     /// validated in the next (``revision`` restarts at 0 per process).
     nonisolated static var storeGeneration: Int {
-        UserDefaults(suiteName: "group.dev.yumeji.piru")?.integer(forKey: storeGenerationKey) ?? 0
+        UserDefaults(suiteName: AppIdentity.appGroup)?.integer(forKey: storeGenerationKey) ?? 0
     }
 
     private nonisolated static let storeGenerationKey = "doseLogStoreGeneration"
@@ -154,7 +152,7 @@ final class DoseLogService {
 
     func changed() {
         revision += 1
-        if let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru") {
+        if let defaults = UserDefaults(suiteName: AppIdentity.appGroup) {
             defaults.set(defaults.integer(forKey: Self.storeGenerationKey) + 1, forKey: Self.storeGenerationKey)
         }
         for continuation in changeContinuations.values {

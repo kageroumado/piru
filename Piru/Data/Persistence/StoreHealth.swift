@@ -18,8 +18,6 @@ import os
 /// (`StoreRecovery.userDataCount`) and the live container open
 /// (`PiruApp.makeContainer`) funnel through here.
 enum StoreHealth {
-    private nonisolated static let logger = Logger(subsystem: "dev.yumeji.piru", category: "StoreHealth")
-
     /// Whether the SQLite store at `url` is safe to hand to SwiftData.
     ///
     /// `false` only on *evidence of corruption*: the file is not a database, its
@@ -36,10 +34,10 @@ enum StoreHealth {
         case .healthy:
             return true
         case let .corrupt(detail):
-            logger.error("Store corrupt at \(url.path, privacy: .public): \(detail, privacy: .public)")
+            Logger.storeHealth.error("Store corrupt at \(url.path, privacy: .public): \(detail, privacy: .public)")
             return false
         case let .inconclusive(detail):
-            logger.error("Store integrity probe inconclusive at \(url.path, privacy: .public): \(detail, privacy: .public)")
+            Logger.storeHealth.error("Store integrity probe inconclusive at \(url.path, privacy: .public): \(detail, privacy: .public)")
             return true
         }
     }

@@ -28,12 +28,12 @@ struct UnifiedTimelineView: View {
     /// Advanced by ``TimelineClockTick`` so the strip's "now" follows the clock.
     @State private var clockTick = 0
     @GestureState private var pinchScale: CGFloat = 1
-    @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var zoom = 1.0
-    @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var compressGaps = true
-    @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var pkCurves = false
-    @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsAxis = true
-    @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var bubbleStyle = TimelineBubbleStyle.full
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsVitals = false
+    @AppStorage("timelineZoom", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var zoom = 1.0
+    @AppStorage("timelineCompression", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var compressGaps = true
+    @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var pkCurves = false
+    @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsAxis = true
+    @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var bubbleStyle = TimelineBubbleStyle.full
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsVitals = false
 
     var body: some View {
         ScrollViewReader { proxy in

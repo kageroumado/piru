@@ -19,7 +19,7 @@ import SwiftData
 ///    ``makeWritableContainer()``) is allowed to write, and it only ever
 ///    inserts rows — it never deletes or rewrites existing data.
 enum WidgetStoreAccess {
-    static let appGroupID = "group.dev.yumeji.piru"
+    static let appGroupID = AppIdentity.appGroup
 
     /// Opens the canonical store read-only, or returns `nil` when the app
     /// group is unavailable, the store file doesn't exist yet, or the open

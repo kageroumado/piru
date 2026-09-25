@@ -2,8 +2,6 @@ import Foundation
 import os
 import SwiftData
 
-private let logger = Logger(subsystem: "dev.yumeji.piru", category: "PSIDBackfill")
-
 /// The once-only backfill that remaps every logged ``DoseEntry`` onto its PSID
 /// identity — Stage 0.3 of `Specs/stereoisomer-and-release-form-axes.md`.
 ///
@@ -69,7 +67,7 @@ enum PSIDBackfillMigration {
     /// a fully-migrated store finds nothing pending and returns after one count.
     static func runIfNeeded(container: ModelContainer, defaults: UserDefaults = .standard) {
         guard !defaults.bool(forKey: disabledKey) else {
-            logger.notice("PSID backfill skipped (kill-switch set); will re-evaluate next launch.")
+            Logger.psidBackfill.notice("PSID backfill skipped (kill-switch set); will re-evaluate next launch.")
             return
         }
         run(context: container.mainContext, defaults: defaults)
@@ -88,7 +86,7 @@ enum PSIDBackfillMigration {
             pending = try context.fetch(FetchDescriptor<DoseEntry>(predicate: pendingPredicate))
         } catch {
             // Nothing was touched; the next launch retries.
-            logger.error("PSID backfill: fetch failed (\(error.localizedDescription, privacy: .public)); will retry next launch.")
+            Logger.psidBackfill.error("PSID backfill: fetch failed (\(error.localizedDescription, privacy: .public)); will retry next launch.")
             return
         }
 
@@ -130,11 +128,11 @@ enum PSIDBackfillMigration {
         do {
             try context.save()
             DoseLogService.shared.changed()
-            logger.notice("PSID backfill: resolved \(resolved, privacy: .public)/\(pending.count, privacy: .public) dose(s); \(pending.count - resolved, privacy: .public) kept name-only.")
+            Logger.psidBackfill.notice("PSID backfill: resolved \(resolved, privacy: .public)/\(pending.count, privacy: .public) dose(s); \(pending.count - resolved, privacy: .public) kept name-only.")
         } catch {
             // The snapshot already protects the data; the unsaved changes roll
             // back and the next launch retries (rows are still nil → still pending).
-            logger.error("PSID backfill: save failed (\(error.localizedDescription, privacy: .public)); will retry next launch.")
+            Logger.psidBackfill.error("PSID backfill: save failed (\(error.localizedDescription, privacy: .public)); will retry next launch.")
         }
     }
 }

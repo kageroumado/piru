@@ -2,8 +2,6 @@ import Foundation
 import os
 import UserNotifications
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "CheckIn")
-
 /// Opt-in per-session "How is it going?" prompts. Each fires a local
 /// notification whose tap (or its **Add Note** action) opens the note sheet on
 /// the session, pre-tagged `.checkIn`. Off unless the session asks
@@ -186,11 +184,11 @@ enum CheckInScheduler {
             )
             center.add(request) { error in
                 if let error {
-                    logger.error("Check-in schedule failed: \(error.localizedDescription, privacy: .public)")
+                    Logger.checkIn.error("Check-in schedule failed: \(error.localizedDescription, privacy: .public)")
                 }
             }
         }
-        logger.debug("Scheduled \(dates.count) check-ins for session \(session.id.uuidString, privacy: .public)")
+        Logger.checkIn.debug("Scheduled \(dates.count) check-ins for session \(session.id.uuidString, privacy: .public)")
     }
 
     static func cancel(sessionID: UUID) {
@@ -219,7 +217,7 @@ enum CheckInScheduler {
     private nonisolated static let declineKey = "checkInOfferDeclines"
 
     private nonisolated static var defaults: UserDefaults {
-        UserDefaults(suiteName: "group.dev.yumeji.piru") ?? .standard
+        UserDefaults(suiteName: AppIdentity.appGroup) ?? .standard
     }
 
     /// Record that the banner was dismissed rather than accepted.

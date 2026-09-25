@@ -11,32 +11,32 @@ import SwiftUI
 /// collapsing seven declarations on the view into one.
 struct TimelinePreferences: DynamicProperty {
     /// Points per hour multiplier for the vertical strip.
-    @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("timelineZoom", store: UserDefaults(suiteName: AppIdentity.appGroup))
     var zoom = 1.0
 
     /// Collapse the empty stretches between clusters.
-    @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("timelineCompression", store: UserDefaults(suiteName: AppIdentity.appGroup))
     var compressGaps = true
 
     /// Draw the modeled concentration curves behind the bubbles.
-    @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: AppIdentity.appGroup))
     var pkCurves = false
 
     /// Show the hour axis down the left edge.
-    @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: AppIdentity.appGroup))
     var showsAxis = true
 
     /// How much of a dose each bubble spells out.
-    @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: AppIdentity.appGroup))
     var bubbleStyle = TimelineBubbleStyle.full
 
     /// Overlay heart rate from HealthKit.
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
     var showsVitals = false
 
     /// The day cards' redose-stacking preference. Read here so the timeline
     /// prewarm computes geometry under the same key the cards look up.
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup))
     var stackRedoses = true
 
     /// The options the timeline layout is keyed on — folded into the rebuild

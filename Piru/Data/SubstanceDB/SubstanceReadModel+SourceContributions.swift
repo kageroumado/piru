@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// One kind of content a source can supply for a substance.
 ///
 /// Deliberately coarse. It labels a caption in a two-column list, not a
@@ -206,7 +204,7 @@ extension SubstanceReadModel {
                 )
             }
         } catch {
-            logger.error("sourceContributions(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("sourceContributions(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return .empty
         }
     }

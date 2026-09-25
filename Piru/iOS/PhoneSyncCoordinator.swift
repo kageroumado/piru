@@ -3,8 +3,6 @@ import os
 import SwiftData
 import WatchConnectivity
 
-private let watchLog = Logger(subsystem: "dev.yumeji.piru", category: "WatchSync")
-
 /// The phone half of the Apple Watch sync (`Specs/apple-watch-companion.md`). Owns the
 /// `WCSession` on the iPhone: it **pushes** the favorites/recents manifest to the watch via
 /// `updateApplicationContext` (latest-wins, survives the watch sleeping) and **receives**
@@ -96,9 +94,9 @@ final class PhoneSyncCoordinator: NSObject {
               let payload = manifest.applicationContext() else { return }
         do {
             try session.updateApplicationContext(payload)
-            watchLog.notice("pushManifest ok: items=\(manifest.items.count) paired=\(session.isPaired) installed=\(session.isWatchAppInstalled) reachable=\(session.isReachable)")
+            Logger.watchSync.notice("pushManifest ok: items=\(manifest.items.count) paired=\(session.isPaired) installed=\(session.isWatchAppInstalled) reachable=\(session.isReachable)")
         } catch {
-            watchLog.error("pushManifest FAILED: \(error.localizedDescription) items=\(manifest.items.count) paired=\(session.isPaired) installed=\(session.isWatchAppInstalled)")
+            Logger.watchSync.error("pushManifest FAILED: \(error.localizedDescription) items=\(manifest.items.count) paired=\(session.isPaired) installed=\(session.isWatchAppInstalled)")
         }
     }
 
@@ -118,7 +116,7 @@ final class PhoneSyncCoordinator: NSObject {
         guard let context = container?.mainContext else { return }
         let outcome = WatchDoseReceiver.ingest(payload, in: context, journalGeneration: JournalResetGeneration.current())
         // Count/outcome only — never the substance or amount (this is a device log).
-        watchLog.notice("received watch dose → \(String(describing: outcome), privacy: .public)")
+        Logger.watchSync.notice("received watch dose → \(String(describing: outcome), privacy: .public)")
         // The received dose is a new recent; the change signal from `DoseLogService.log`
         // already re-pushes the manifest via `changeObserver`.
     }

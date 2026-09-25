@@ -85,7 +85,7 @@ enum GraphMetrics {
 /// the graph card, and the graph's own gate all agree. Stored in the app group
 /// suite so the widget/Live Activity honor the same choice as the main app.
 enum LaneModeDefaults {
-    static let suite = "group.dev.yumeji.piru"
+    static let suite = AppIdentity.appGroup
     static let enabledKey = "stackedLanesEnabled"
     static let thresholdKey = "laneModeThreshold"
     static let enabledDefault = true
@@ -101,7 +101,7 @@ enum LaneModeDefaults {
 /// appears. Both the session toolbar toggle and the Journal settings toggle read
 /// and write this one key.
 enum SessionGraphDefaults {
-    static let suite = "group.dev.yumeji.piru"
+    static let suite = AppIdentity.appGroup
     static let enlargedKey = "sessionGraphEnlarged"
     static let enlargedDefault = false
 }

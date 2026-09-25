@@ -9,5 +9,9 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widgetkit-extension</string>
 	</dict>
+	<key>PiruAppGroup</key>
+	<string>$(PIRU_APP_GROUP)</string>
+	<key>PiruBundleID</key>
+	<string>$(PIRU_BUNDLE_ID)</string>
 </dict>
 </plist>

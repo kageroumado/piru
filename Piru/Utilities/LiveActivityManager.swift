@@ -6,8 +6,6 @@ import Foundation
 import os
 import SwiftData
 
-private let logger = Logger(subsystem: "dev.yumeji.piru", category: "LiveActivity")
-
 /// Lightweight value snapshot of a DoseEntry, decoupled from SwiftData.
 struct DoseSnapshot {
     /// The source entry's stable ``DoseEntry/id``, used by
@@ -329,7 +327,7 @@ struct DoseSnapshot {
             do {
                 try BGTaskScheduler.shared.submit(request)
             } catch {
-                logger.error("Failed to schedule background refresh: \(error.localizedDescription, privacy: .public)")
+                Logger.liveActivity.error("Failed to schedule background refresh: \(error.localizedDescription, privacy: .public)")
             }
         }
 
@@ -439,7 +437,7 @@ struct DoseSnapshot {
                 startUpdateTimer()
                 scheduleBackgroundRefresh()
             } catch {
-                logger.error("Failed to start Live Activity: \(error.localizedDescription, privacy: .public)")
+                Logger.liveActivity.error("Failed to start Live Activity: \(error.localizedDescription, privacy: .public)")
             }
         }
 

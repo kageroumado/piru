@@ -14,7 +14,6 @@ import os
 final class HealthKitVitals {
     static let shared = HealthKitVitals()
 
-    private let logger = Logger(subsystem: "dev.yumeji.piru", category: "HealthKitVitals")
     @ObservationIgnored private let store = HKHealthStore()
 
     private var heartRateType: HKQuantityType {
@@ -69,7 +68,6 @@ final class HealthKitVitals {
         guard isAvailable else { return }
         let read = readTypes.union([HKQuantityType(.bodyMass)])
         let store = store
-        let logger = logger
         // HealthKit validates the request *synchronously* and raises an ObjC
         // `NSException` (not a Swift error) when it's unhappy — a device-specific
         // failure mode a `try`/`catch` can't reach, so it would terminate the app
@@ -81,13 +79,13 @@ final class HealthKitVitals {
             let started = PiruCatchNSException({
                 store.requestAuthorization(toShare: [], read: read) { _, error in
                     if let error {
-                        logger.error("Combined authorization request failed: \(error.localizedDescription, privacy: .public)")
+                        Logger.healthKitVitals.error("Combined authorization request failed: \(error.localizedDescription, privacy: .public)")
                     }
                     continuation.resume()
                 }
             }, &thrown)
             if !started {
-                logger.error("HealthKit authorization raised an exception: \(thrown?.localizedDescription ?? "unknown", privacy: .public)")
+                Logger.healthKitVitals.error("HealthKit authorization raised an exception: \(thrown?.localizedDescription ?? "unknown", privacy: .public)")
                 continuation.resume()
             }
         }
@@ -109,7 +107,6 @@ final class HealthKitVitals {
     func connectWouldPrompt() async -> Bool {
         guard isAvailable else { return false }
         let store = store
-        let logger = logger
         let promptable: Set<HKObjectType> = [heartRateType, restingHeartRateType, workoutType, HKQuantityType(.bodyMass)]
         // Same synchronous-`NSException` hazard as `requestFullAccess()` — this is
         // what crashed on merely opening Settings ▸ Apple Health. Treat a raised
@@ -122,7 +119,7 @@ final class HealthKitVitals {
                 }
             }, &thrown)
             if !started {
-                logger.error("HealthKit status check raised an exception: \(thrown?.localizedDescription ?? "unknown", privacy: .public)")
+                Logger.healthKitVitals.error("HealthKit status check raised an exception: \(thrown?.localizedDescription ?? "unknown", privacy: .public)")
                 continuation.resume(returning: false)
             }
         }
@@ -159,12 +156,11 @@ final class HealthKitVitals {
 
     //
     // Each completion handler runs on HealthKit's own serial queue, not the main actor — so it
-    // captures only the Sendable `logger` + `continuation`, never `self`, and rebuilds any HKUnit /
+    // captures only the Sendable `continuation`, never `self`, and rebuilds any HKUnit /
     // HKQuantityType it needs inside the handler (those are not Sendable) rather than capturing them.
 
     private func heartRateSamples(from start: Date, to end: Date) async -> [HeartRateSample] {
         let type = heartRateType
-        let logger = logger
         return await withCheckedContinuation { continuation in
             let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
             let sort = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
@@ -173,7 +169,7 @@ final class HealthKitVitals {
                 limit: HKObjectQueryNoLimit, sortDescriptors: [sort],
             ) { _, samples, error in
                 if let error {
-                    logger.error("Heart-rate query failed: \(error.localizedDescription, privacy: .public)")
+                    Logger.healthKitVitals.error("Heart-rate query failed: \(error.localizedDescription, privacy: .public)")
                 }
                 let unit = HKUnit.count().unitDivided(by: .minute())
                 let out = (samples as? [HKQuantitySample])?.map {
@@ -187,14 +183,13 @@ final class HealthKitVitals {
 
     private func bloodPressureReadings(from start: Date, to end: Date) async -> [BloodPressureReading] {
         let type = bloodPressureType
-        let logger = logger
         return await withCheckedContinuation { continuation in
             let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
             let query = HKCorrelationQuery(
                 type: type, predicate: predicate, samplePredicates: nil,
             ) { _, correlations, error in
                 if let error {
-                    logger.error("Blood-pressure query failed: \(error.localizedDescription, privacy: .public)")
+                    Logger.healthKitVitals.error("Blood-pressure query failed: \(error.localizedDescription, privacy: .public)")
                 }
                 let systolicType = HKQuantityType(.bloodPressureSystolic)
                 let diastolicType = HKQuantityType(.bloodPressureDiastolic)
@@ -219,7 +214,6 @@ final class HealthKitVitals {
     /// option: a run that started before the session still covers the samples inside it.
     private func workoutIntervals(from start: Date, to end: Date) async -> [DateInterval] {
         let type = workoutType
-        let logger = logger
         return await withCheckedContinuation { continuation in
             let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
             let query = HKSampleQuery(
@@ -227,7 +221,7 @@ final class HealthKitVitals {
                 limit: HKObjectQueryNoLimit, sortDescriptors: nil,
             ) { _, samples, error in
                 if let error {
-                    logger.error("Workout query failed: \(error.localizedDescription, privacy: .public)")
+                    Logger.healthKitVitals.error("Workout query failed: \(error.localizedDescription, privacy: .public)")
                 }
                 let out = (samples ?? [])
                     .filter { $0.endDate > $0.startDate }
@@ -241,14 +235,13 @@ final class HealthKitVitals {
     /// Most-recent resting-heart-rate sample in bpm, or nil if none is readable.
     private func latestRestingHeartRate() async -> Double? {
         let type = restingHeartRateType
-        let logger = logger
         return await withCheckedContinuation { continuation in
             let sort = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
             let query = HKSampleQuery(
                 sampleType: type, predicate: nil, limit: 1, sortDescriptors: [sort],
             ) { _, samples, error in
                 if let error {
-                    logger.error("Resting-HR query failed: \(error.localizedDescription, privacy: .public)")
+                    Logger.healthKitVitals.error("Resting-HR query failed: \(error.localizedDescription, privacy: .public)")
                 }
                 let unit = HKUnit.count().unitDivided(by: .minute())
                 let bpm = (samples?.first as? HKQuantitySample)?.quantity.doubleValue(for: unit)

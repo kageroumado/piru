@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// One `drug_interactions_pk` row — a named counterpart, the enzyme mechanism,
 /// and the measured effect on exposure.
 ///
@@ -80,7 +78,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("pkInteractionRows(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("pkInteractionRows(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }

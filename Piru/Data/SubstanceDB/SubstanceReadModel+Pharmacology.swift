@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// One `zero_order_kinetics` row: the parameters that put a substance on the dose-scaled
 /// linear-decline curve instead of the fixed phase bell. Weight scaling happens at the point of use
 /// (``PKModel/zeroOrderKinetics(vmaxMgPerMin:referenceWeightKg:kaPerMin:bioavailability:weightKg:)``),
@@ -192,7 +190,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("bindingRows failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("bindingRows failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -225,7 +223,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("therapeuticRangeRows failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("therapeuticRangeRows failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -291,7 +289,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("bindings query failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("bindings query failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -353,7 +351,7 @@ extension SubstanceReadModel {
                 .sorted { SubstanceReadModel.routeRank(RouteOfAdministration.from(string: $0.route)) < SubstanceReadModel.routeRank(RouteOfAdministration.from(string: $1.route)) }
             }
         } catch {
-            logger.error("pharmacokineticsRows failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("pharmacokineticsRows failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -950,7 +948,7 @@ extension SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("metabolismRows failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("metabolismRows failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -991,7 +989,7 @@ extension SubstanceReadModel {
                 if !summary.isEmpty { labels[id] = summary }
             }
         } catch {
-            logger.error("mechanismLabelBySubstanceID failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("mechanismLabelBySubstanceID failed: \(error.localizedDescription, privacy: .public)")
         }
         return labels
     }
@@ -1033,7 +1031,7 @@ extension SubstanceReadModel {
                 pkByID[substanceID] = row
             }
         } catch {
-            logger.error("preferredPKRowBySubstanceID failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("preferredPKRowBySubstanceID failed: \(error.localizedDescription, privacy: .public)")
         }
         return pkByID
     }

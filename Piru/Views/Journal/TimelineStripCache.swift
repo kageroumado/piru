@@ -109,7 +109,7 @@ nonisolated enum TimelineStripCache {
                   let headerData = try? JSONEncoder().encode(Header(key: key, builtAt: now)) else { return }
             writeEpoch.withLock { current in
                 guard current == epoch,
-                      key.storeGeneration == UserDefaults(suiteName: "group.dev.yumeji.piru")?.integer(forKey: "doseLogStoreGeneration") else { return }
+                      key.storeGeneration == UserDefaults(suiteName: AppIdentity.appGroup)?.integer(forKey: "doseLogStoreGeneration") else { return }
                 try? data.write(to: url, options: .atomic)
                 try? headerData.write(to: headerURL, options: .atomic)
             }

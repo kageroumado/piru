@@ -16,8 +16,7 @@
         let dwell: Duration
         let loops: Int
 
-        private static let log = Logger(subsystem: "dev.yumeji.piru", category: "RouteTour")
-        private static let signposter = OSSignposter(subsystem: "dev.yumeji.piru", category: "RouteTour")
+        private static let signposter = OSSignposter(logger: .routeTour)
 
         init?(arguments: [String]) {
             guard let i = arguments.firstIndex(of: "-piruRouteTour"), arguments.indices.contains(i + 1) else { return nil }
@@ -44,15 +43,15 @@
                     }
                     try? await Task.sleep(for: .milliseconds(600))
                     let state = Self.signposter.beginInterval("step", "\(url.absoluteString, privacy: .public)")
-                    Self.log.notice("RouteTour start loop=\(loop) \(url.absoluteString, privacy: .public) t=\(Date.now.timeIntervalSince1970)")
+                    Logger.routeTour.notice("RouteTour start loop=\(loop) \(url.absoluteString, privacy: .public) t=\(Date.now.timeIntervalSince1970)")
                     open(url)
                     try? await Task.sleep(for: dwell)
                     Self.signposter.endInterval("step", state)
-                    Self.log.notice("RouteTour end loop=\(loop) \(url.absoluteString, privacy: .public) t=\(Date.now.timeIntervalSince1970)")
+                    Logger.routeTour.notice("RouteTour end loop=\(loop) \(url.absoluteString, privacy: .public) t=\(Date.now.timeIntervalSince1970)")
                 }
             }
             navigator.dismissAll()
-            Self.log.notice("RouteTour done t=\(Date.now.timeIntervalSince1970)")
+            Logger.routeTour.notice("RouteTour done t=\(Date.now.timeIntervalSince1970)")
         }
     }
 

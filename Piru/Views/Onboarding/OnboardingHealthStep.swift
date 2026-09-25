@@ -17,7 +17,7 @@ struct OnboardingHealthStep: View {
     /// Connecting Health here opts the user into the session heart-rate /
     /// blood-pressure overlay (they see it in the same sheet); still off-able in
     /// Settings. Stored in the app-group suite so the whole app agrees.
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
     private var showSessionVitals = false
 
     @State private var weightKg: Double = UserProfileStore.shared.weightKg ?? UserProfileStore.defaultWeightKg

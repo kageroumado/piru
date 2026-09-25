@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// The app's resolved content language for substance text. The requested side
 /// of locale resolution — stored rows may also be `und` (undetermined), which
 /// the resolver treats as an English-tier fallback. Carries the SQL fragments
@@ -394,7 +392,7 @@ struct SubstanceReadModel {
                 )
             }
         } catch {
-            logger.error("SubstanceReadModel.substance(\(id, privacy: .public)) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("SubstanceReadModel.substance(\(id, privacy: .public)) failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }
@@ -933,7 +931,7 @@ struct SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("referenceDoseMg failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("referenceDoseMg failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
         func reference(_ row: (route: String, isomer: String?, common: Double?, strong: Double?, heavy: Double?)) -> Double? {
@@ -1188,7 +1186,7 @@ struct SubstanceReadModel {
                 }
             }
         } catch {
-            logger.error("loadAllSubstancesBatch failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("loadAllSubstancesBatch failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }

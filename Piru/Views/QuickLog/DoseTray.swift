@@ -369,7 +369,7 @@ enum TrayTime: Equatable {
 /// back to the defaults for empty/garbled input, so a bad write can never leave
 /// the menu with no quick times.
 enum DoseTimeDefaults {
-    static let suite = "group.dev.yumeji.piru"
+    static let suite = AppIdentity.appGroup
     static let choicesKey = "doseTimeOffsetChoices"
 
     static let defaultChoices = [15, 30, 60, 120]

@@ -572,13 +572,13 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Piru uses the Health data you allow alongside your journal entries, for your personal records.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Piru adds the place where you made an entry to your journal, for your personal records.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.yumeji.piru;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(PIRU_BUNDLE_ID)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -610,13 +610,13 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Piru uses the Health data you allow alongside your journal entries, for your personal records.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Piru adds the place where you made an entry to your journal, for your personal records.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.yumeji.piru;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(PIRU_BUNDLE_ID)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -649,7 +649,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp.complications;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).watchkitapp.complications";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -681,7 +681,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp.complications;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).watchkitapp.complications";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -755,6 +755,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PIRU_APP_GROUP = "group.$(PIRU_BUNDLE_ID)";
+				PIRU_BUNDLE_ID = dev.yumeji.piru;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -816,6 +818,8 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PIRU_APP_GROUP = "group.$(PIRU_BUNDLE_ID)";
+				PIRU_BUNDLE_ID = dev.yumeji.piru;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -873,7 +877,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -939,7 +943,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -974,7 +978,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "dev.yumeji.piru.live-activity";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).live-activity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -1004,7 +1008,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "dev.yumeji.piru.live-activity";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).live-activity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -1025,7 +1029,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -1048,7 +1052,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -1080,7 +1084,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -1109,7 +1113,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

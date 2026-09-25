@@ -45,7 +45,6 @@ final class SkinShop {
     private let defaults: UserDefaults
     private let skins: SkinStore
     private var updates: Task<Void, Never>?
-    private static let log = Logger(subsystem: "dev.yumeji.piru", category: "SkinShop")
 
     init(defaults: UserDefaults, skins: SkinStore) {
         self.defaults = defaults
@@ -106,7 +105,7 @@ final class SkinShop {
             let loaded = try await Product.products(for: SkinProducts.all)
             products = Dictionary(uniqueKeysWithValues: loaded.map { ($0.id, $0) })
         } catch {
-            Self.log.error("Product request failed: \(error.localizedDescription, privacy: .public)")
+            Logger.skinShop.error("Product request failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -147,7 +146,7 @@ final class SkinShop {
                 break
             }
         } catch {
-            Self.log.error("Purchase failed: \(error.localizedDescription, privacy: .public)")
+            Logger.skinShop.error("Purchase failed: \(error.localizedDescription, privacy: .public)")
             notice = .failed
         }
     }
@@ -174,7 +173,7 @@ final class SkinShop {
         } catch {
             // Dismissing the sign-in sheet throws; that is a cancel, not a failure.
             if case StoreKitError.userCancelled = error { return }
-            Self.log.error("Restore failed: \(error.localizedDescription, privacy: .public)")
+            Logger.skinShop.error("Restore failed: \(error.localizedDescription, privacy: .public)")
             notice = .failed
         }
     }

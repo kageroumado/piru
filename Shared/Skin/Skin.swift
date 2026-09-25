@@ -1147,12 +1147,10 @@ nonisolated enum SkinTier: Sendable {
 /// The App Store product identifiers. In `Shared/` beside `Skin` because the
 /// extensions decide whether the stored skin is usable from the same IDs.
 nonisolated enum SkinProducts {
-    static let skinPrefix = "dev.yumeji.piru.skin."
+    static let skinPrefix = "\(AppIdentity.bundleID).skin."
     /// Every current and future skin. One entitlement that every ownership
     /// check consults, so a skin added later is covered with no store change.
-    /// Never `dev.yumeji.piru.everything`: that id was deleted from App Store
-    /// Connect, and a deleted product id can never be used again.
-    static let everything = "dev.yumeji.piru.everything.forever"
+    static let everything = "\(AppIdentity.bundleID).everything.forever"
 
     /// Every identifier the app sells, for the product request. A shelved skin
     /// is not on sale.
@@ -1165,7 +1163,7 @@ nonisolated enum SkinProducts {
 /// `SkinStore` and the extensions read the same choice. Stored in the app group
 /// suite so the widget and Live Activity can honour it.
 nonisolated enum SkinDefaults {
-    static let suite = "group.dev.yumeji.piru"
+    static let suite = AppIdentity.appGroup
     static let skinKey = "skin"
     static let colorSchemeKey = "skinColorScheme"
     static let decorationsKey = "skinDecorations"

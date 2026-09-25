@@ -88,7 +88,7 @@ final class MyMedsInfoModel {
     private(set) var restock: MyMedsInfoLine?
     private var dismissedDayKeys: Set<String> = []
 
-    private let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru")
+    private let defaults = UserDefaults(suiteName: AppIdentity.appGroup)
 
     /// The (dose-log revision, schedule) the projections were built from. The
     /// card's `.task(id:)` also fires on re-appearance with the id unchanged,

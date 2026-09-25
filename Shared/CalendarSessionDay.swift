@@ -23,7 +23,7 @@ nonisolated extension Calendar {
     /// Reads from the App Group suite so widgets see the same value the app
     /// is configured with.
     static var sessionDayBoundaryHour: Int {
-        let suite = UserDefaults(suiteName: "group.dev.yumeji.piru")
+        let suite = UserDefaults(suiteName: AppIdentity.appGroup)
         let stored = suite?.object(forKey: dayBoundaryHourKey) as? Int
         return stored.flatMap { (0 ... 12).contains($0) ? $0 : nil } ?? 4
     }

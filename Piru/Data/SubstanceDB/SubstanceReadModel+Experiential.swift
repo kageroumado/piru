@@ -2,8 +2,6 @@ import Foundation
 import GRDB
 import os
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
-
 /// drug.community experiential reads (the intensity spectrum and the reported
 /// effects) plus the offline-generated 2D molecular structure.
 extension SubstanceReadModel {
@@ -45,7 +43,7 @@ extension SubstanceReadModel {
                 )
             }
         } catch {
-            logger.error("spectrumBands(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("spectrumBands(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -91,7 +89,7 @@ extension SubstanceReadModel {
                 )
             }
         } catch {
-            logger.error("reportedEffects(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("reportedEffects(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -135,7 +133,7 @@ extension SubstanceReadModel {
                 bonds: rawBonds.map { MoleculeBond(a: $0.a, b: $0.b, order: $0.order) },
             )
         } catch {
-            logger.error("moleculeStructure(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            Logger.substanceStore.error("moleculeStructure(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }

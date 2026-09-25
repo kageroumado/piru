@@ -3,8 +3,6 @@ import Observation
 import os
 import SwiftData
 
-private nonisolated let recoveryLogger = Logger(subsystem: "dev.yumeji.piru", category: "StoreRecovery")
-
 /// Owns the on-disk SwiftData store: where it lives, recovering orphaned data
 /// into it, and backing it up before anything destructive.
 ///
@@ -18,7 +16,7 @@ private nonisolated let recoveryLogger = Logger(subsystem: "dev.yumeji.piru", ca
 ///
 /// Delete Everything removes recovery copies so they cannot restore erased records.
 nonisolated enum StoreRecovery {
-    static let appGroupID = "group.dev.yumeji.piru"
+    static let appGroupID = AppIdentity.appGroup
     static let storeName = "default.store"
     /// Sibling files a SwiftData/SQLite store is made of.
     static let storeSuffixes = ["", "-shm", "-wal"]
@@ -94,7 +92,7 @@ nonisolated enum StoreRecovery {
 
         // Empty / absent / unreadable: recover the richest *unintended* candidate.
         guard let (source, count) = richestRecoverableStore(excluding: canonical), count > 0 else {
-            recoveryLogger.info("No data-bearing store to recover; canonical stays as-is.")
+            Logger.storeRecovery.info("No data-bearing store to recover; canonical stays as-is.")
             return canonical
         }
         // Never overwrite: move the current (empty/unreadable) canonical aside first.
@@ -103,11 +101,11 @@ nonisolated enum StoreRecovery {
         }
         do {
             try copyStore(from: source, to: canonical)
-            recoveryLogger.notice(
+            Logger.storeRecovery.notice(
                 "Recovered \(count, privacy: .public) entries into the canonical store from \(source.lastPathComponent, privacy: .public)",
             )
         } catch {
-            recoveryLogger.error("Store recovery copy failed: \(error.localizedDescription, privacy: .public)")
+            Logger.storeRecovery.error("Store recovery copy failed: \(error.localizedDescription, privacy: .public)")
         }
         return canonical
     }
@@ -153,9 +151,9 @@ nonisolated enum StoreRecovery {
             }
             guard reassigned > 0 else { return }
             try context.save()
-            recoveryLogger.notice("Backfilled \(reassigned, privacy: .public) duplicate DoseEntry ids")
+            Logger.storeRecovery.notice("Backfilled \(reassigned, privacy: .public) duplicate DoseEntry ids")
         } catch {
-            recoveryLogger.error("DoseEntry id backfill failed: \(error.localizedDescription, privacy: .public)")
+            Logger.storeRecovery.error("DoseEntry id backfill failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -247,9 +245,9 @@ nonisolated enum StoreRecovery {
             let dst = dir.appendingPathComponent("\(base).\(reason)-\(stamp)\(suffix)")
             do {
                 try fm.moveItem(at: src, to: dst)
-                recoveryLogger.notice("Backed up store file → \(dst.lastPathComponent, privacy: .public)")
+                Logger.storeRecovery.notice("Backed up store file → \(dst.lastPathComponent, privacy: .public)")
             } catch {
-                recoveryLogger.error("Backup of \(src.lastPathComponent, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
+                Logger.storeRecovery.error("Backup of \(src.lastPathComponent, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
             }
         }
     }
@@ -270,10 +268,10 @@ nonisolated enum StoreRecovery {
             do {
                 try fm.copyItem(at: src, to: dst)
             } catch {
-                recoveryLogger.error("Snapshot of \(src.lastPathComponent, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
+                Logger.storeRecovery.error("Snapshot of \(src.lastPathComponent, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
             }
         }
-        recoveryLogger.notice("Snapshot taken before \(reason, privacy: .public)")
+        Logger.storeRecovery.notice("Snapshot taken before \(reason, privacy: .public)")
     }
 
     // MARK: - Helpers
@@ -299,7 +297,7 @@ nonisolated enum StoreRecovery {
         // resolves to "unreadable" (-1), which recovery already handles by
         // recovering from a data-bearing candidate instead.
         guard StoreHealth.isReadable(at: url) else {
-            recoveryLogger.error("Store at \(url.lastPathComponent, privacy: .public) failed the integrity pre-check; treating as unreadable")
+            Logger.storeRecovery.error("Store at \(url.lastPathComponent, privacy: .public) failed the integrity pre-check; treating as unreadable")
             return -1
         }
         if let count = countUserRows(at: url) { return count }
@@ -431,7 +429,7 @@ nonisolated enum StoreRecovery {
             backUpStore(at: canonical, reason: "before-manual-restore")
         }
         try copyStore(from: sidecar, to: canonical)
-        recoveryLogger.notice("Manually restored canonical store from \(sidecar.lastPathComponent, privacy: .public)")
+        Logger.storeRecovery.notice("Manually restored canonical store from \(sidecar.lastPathComponent, privacy: .public)")
     }
 
     /// Parse the trailing `-<unix-seconds>` timestamp from a sidecar filename.
