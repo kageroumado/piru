@@ -236,16 +236,11 @@ struct EntryReadHero: View {
     }
 
     /// Dose level of the committed entry, classified against the ladder the dose
-    /// was logged on — isomer included. Omitting the isomer here while the edit
-    /// path includes it made the two modes disagree about the same dose.
+    /// was logged on (salt, isomer, release form) by the same classifier the
+    /// edit mode reads, so the two modes agree about the same dose.
     private var committedDoseLevel: DoseLevel? {
-        guard !entry.isUnknownDose, let sub = substance, sub.displayClass.showsDoseLadder,
-              let range = sub.doseRange(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer) else { return nil }
-        let refUnit = sub.unit(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer)
-        let amount = entry.unit.caseInsensitiveCompare(refUnit) == .orderedSame
-            ? entry.amount
-            : (sub.convert(amount: entry.amount, from: entry.unit, toRoute: entry.route, saltForm: entry.saltForm) ?? entry.amount)
-        return range.level(for: amount)
+        guard let sub = substance, sub.displayClass.showsDoseLadder else { return nil }
+        return entry.doseLevel(on: sub)
     }
 
     /// When this dose dropped below ~3% remaining — the same threshold the

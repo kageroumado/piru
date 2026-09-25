@@ -102,6 +102,7 @@ enum DoseNotificationManager {
             newAmount: entry.amount,
             unit: entry.unit,
             route: entry.route,
+            releaseForm: entry.releaseForm,
             doseTime: entry.timestamp,
             existingEntries: recentEntries,
         )

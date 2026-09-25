@@ -216,19 +216,15 @@ struct StagedDose: Identifiable, Equatable {
     }
 
     /// Where the merged total lands on the substance's dose ladder — `nil`
-    /// when the library has no meaningful ladder for this route (an empty
-    /// `DoseRange` classifies everything as sub-threshold, so a substance with
-    /// no dose data must show no qualifier at all). Amounts in a different unit
-    /// are converted to the route's reference unit first.
+    /// when no ladder describes this dose: no dose data for the route, or a
+    /// release form the ladder wasn't written for (a Concerta tablet). See
+    /// ``Substance/tierLadder(for:saltForm:isomer:releaseForm:)``.
     var doseLevel: DoseLevel? {
-        guard !isUnknownAmount, let librarySubstance, librarySubstance.displayClass.showsDoseLadder,
-              let range = librarySubstance.doseRange(for: route, saltForm: saltForm, isomer: isomer),
-              range.hasAnyValue else { return nil }
-        let referenceUnit = librarySubstance.unit(for: route, saltForm: saltForm, isomer: isomer)
-        let normalized = unit.caseInsensitiveCompare(referenceUnit) == .orderedSame
-            ? totalAmount
-            : (librarySubstance.convert(amount: totalAmount, from: unit, toRoute: route, saltForm: saltForm) ?? totalAmount)
-        return range.level(for: normalized)
+        guard !isUnknownAmount, let librarySubstance, librarySubstance.displayClass.showsDoseLadder else { return nil }
+        return librarySubstance.doseLevel(
+            of: totalAmount, unit: unit,
+            route: route, saltForm: saltForm, isomer: isomer, releaseForm: releaseForm,
+        )
     }
 
     /// The library's reference dose for this item's route, in this item's

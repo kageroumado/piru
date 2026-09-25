@@ -473,11 +473,16 @@ enum SessionNotificationScheduler {
     /// backdated past it, or dated ahead of now — never alerts: the alert
     /// fires seconds after logging, and "a high cumulative dose today" is a
     /// false claim about a dose taken a year ago.
+    ///
+    /// The ladder describes base-form doses only (``BaseReleaseForm``): a new
+    /// dose in another release form (a Concerta tablet) never alerts, and
+    /// earlier doses in one stay out of the total.
     static func checkCumulativeDose(
         substanceName: String,
         newAmount: Double,
         unit: String,
         route: RouteOfAdministration,
+        releaseForm: String? = nil,
         doseTime: Date = .now,
         existingEntries: [DoseEntry],
     ) -> (total: Double, unit: String, shouldAlert: Bool) {
@@ -486,7 +491,7 @@ enum SessionNotificationScheduler {
         let newDoseIsCurrent = doseTime >= windowStart && doseTime <= now
         let recentSame = existingEntries.filter {
             $0.substance.lowercased() == substanceName.lowercased() &&
-                $0.timestamp >= windowStart
+                $0.timestamp >= windowStart && !$0.namesUnmodeledForm
         }
 
         // Batch-cache resolve — `doseRange` is carried by the lightweight timeline
@@ -505,7 +510,7 @@ enum SessionNotificationScheduler {
             sum + (substance.convert(amount: entry.amount, from: entry.unit, toRoute: route) ?? 0)
         }
         let total = priorTotal + (substance.convert(amount: newAmount, from: unit, toRoute: route) ?? newAmount)
-        guard newDoseIsCurrent else { return (total, routeUnit, false) }
+        guard newDoseIsCurrent, BaseReleaseForm.contains(releaseForm) else { return (total, routeUnit, false) }
 
         // Alert if cumulative is at or above the heavy threshold
         if let heavy = doseRange.heavy, total >= heavy {

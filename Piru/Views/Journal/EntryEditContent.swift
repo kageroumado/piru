@@ -170,7 +170,7 @@ struct EntryEditContent: View {
                     route: draft.route,
                     saltForm: draft.saltForm,
                     isomer: draft.isomer,
-                    currentDose: normalizedDraftAmount,
+                    currentDose: entry.namesUnmodeledForm ? nil : normalizedDraftAmount,
                 )
                 .padding(.vertical, Spacing.xs)
             }
@@ -206,10 +206,14 @@ struct EntryEditContent: View {
         return sub.convert(amount: parsed, from: draft.unit, toRoute: draft.route, saltForm: draft.saltForm) ?? parsed
     }
 
+    /// The draft's tier. The release form is the committed entry's: the edit
+    /// form doesn't change it.
     private var draftDoseLevel: DoseLevel? {
-        guard let normalizedDraftAmount,
-              let range = substance?.doseRange(for: draft.route, saltForm: draft.saltForm, isomer: draft.isomer) else { return nil }
-        return range.level(for: normalizedDraftAmount)
+        guard !draft.isUnknownDose, let amount = draft.parsedAmount, let substance else { return nil }
+        return substance.doseLevel(
+            of: amount, unit: draft.unit,
+            route: draft.route, saltForm: draft.saltForm, isomer: draft.isomer, releaseForm: entry.releaseForm,
+        )
     }
 
     /// Salt forms offered for the draft route — drives the edit-mode salt picker.

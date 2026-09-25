@@ -156,7 +156,7 @@ final class UsageAnalyticsModel {
 
             let ladderKey = LadderKey(
                 substance: key, route: entry.route,
-                saltForm: entry.saltForm, isomer: entry.isomer,
+                saltForm: entry.saltForm, isomer: entry.isomer, releaseForm: entry.releaseForm,
             )
             var ladder: Ladder?
             if let cached = ladders[ladderKey] {
@@ -183,12 +183,14 @@ final class UsageAnalyticsModel {
 
     /// Identity of one dose ladder: a substance's tiers for a route, narrowed to
     /// the logged salt/isomer (the salt overload matters — a magnesium glycinate
-    /// dose must not be read against the default form's numbers).
+    /// dose must not be read against the default form's numbers) and release
+    /// form (an extended-release product has no ladder).
     private struct LadderKey: Hashable {
         let substance: String
         let route: RouteOfAdministration
         let saltForm: String?
         let isomer: String?
+        let releaseForm: String?
     }
 
     /// A resolved dose ladder plus the unit its numbers are stated in.
@@ -198,8 +200,9 @@ final class UsageAnalyticsModel {
 
         init?(substance: Substance?, key: LadderKey) {
             guard let substance,
-                  let range = substance.doseRange(for: key.route, saltForm: key.saltForm, isomer: key.isomer),
-                  range.hasAnyValue else { return nil }
+                  let range = substance.tierLadder(
+                      for: key.route, saltForm: key.saltForm, isomer: key.isomer, releaseForm: key.releaseForm,
+                  ) else { return nil }
             self.range = range
             unit = substance.unit(for: key.route, saltForm: key.saltForm, isomer: key.isomer)
         }

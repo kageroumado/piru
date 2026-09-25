@@ -113,7 +113,9 @@ enum SummaryStatsResolver {
             guard let doseMg else { return nil }
             return benzos.first { $0.name.lowercased() == key }?.diazepamEquivalent(forDoseMg: doseMg)
         case .commonDose:
-            guard let substance else { return nil }
+            // A common dose is a point on the base-form ladder; an extended-release
+            // dose isn't a multiple of it (see `Substance.tierLadder`).
+            guard let substance, BaseReleaseForm.contains(entry.releaseForm) else { return nil }
             let route = entry.route
             let range = substance.doseRange(for: route) ?? substance.doseRange(for: substance.defaultRoute) ?? substance.routes.first?.doses
             guard let range else { return nil }

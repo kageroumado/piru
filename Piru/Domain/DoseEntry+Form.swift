@@ -31,17 +31,8 @@ extension DoseEntry {
     /// `nonisolated` so the off-main timeline derive can ask without hopping; it
     /// reads only the entry's own stored string.
     nonisolated var namesUnmodeledForm: Bool {
-        guard let releaseForm, !releaseForm.isEmpty else { return false }
-        return !Self.modeledReleaseForms.contains(releaseForm.uppercased())
+        !BaseReleaseForm.contains(releaseForm)
     }
-
-    /// Release forms whose kinetics the base duration ladder already describes.
-    ///
-    /// `0` is the PSID unspecified sentinel (compared literally rather than via
-    /// `PSID.unspecifiedFacet`, which is main-actor isolated). `IR` is immediate
-    /// release. Everything else — `XR`, `DEP`, and any future extended/delayed
-    /// system — stays unmodeled and renders as a timestamp marker.
-    nonisolated static let modeledReleaseForms: Set<String> = ["0", "IR"]
 
     /// The authored duration-of-effect envelope this dose draws when it names an
     /// extended-release *product* we model per-product ("Concerta" → ~12 h,

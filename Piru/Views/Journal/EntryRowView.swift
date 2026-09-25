@@ -52,15 +52,11 @@ struct DayEntryCore: Equatable {
             return resolved
         }
         return entries.map { entry in
-            // Classify against the ladder the dose was actually logged on. Omitting
-            // the facets read a 10 mg Dexmethylphenidate dose — "common" on the D
-            // ladder and shown as such in the staged editor — as "light" against
-            // racemic methylphenidate's, and disagreed with `EntryDetailView`'s
-            // edit mode, so tapping Edit visibly flipped the badge.
+            // Classify against the ladder the dose was actually logged on (salt,
+            // isomer, release form), through the classifier the entry detail and
+            // the staged editor read, so the row's badge matches theirs.
             let resolved = substance(entry.substance)
-            let doseLevel = entry.isUnknownDose ? nil : resolved?
-                .doseRange(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer)?
-                .level(for: entry.amount)
+            let doseLevel = resolved.flatMap { entry.doseLevel(on: $0) }
             return DayEntryCore(
                 entryID: entry.id,
                 timestamp: entry.timestamp,
