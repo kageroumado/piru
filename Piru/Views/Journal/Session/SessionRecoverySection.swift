@@ -20,6 +20,7 @@ struct SessionRecoverySection: View {
                     Image(systemName: "heart.text.clipboard")
                         .foregroundStyle(Theme.accent)
                         .frame(width: 24)
+                        .accessibilityHidden(true)
                     Text("All recovery tips")
                         .font(.body)
                         .foregroundStyle(Theme.accent)

@@ -96,6 +96,7 @@ struct SessionMenu: View {
             Image(systemName: "ellipsis")
         }
         .accessibilityLabel(Text("Session options"))
+        .accessibilityInputLabels([Text("Session options"), Text("Options"), Text("More")])
     }
 
     /// The dose immediately after the widest interior gap in `doses` (ascending

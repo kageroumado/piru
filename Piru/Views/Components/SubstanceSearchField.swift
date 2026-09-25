@@ -60,6 +60,7 @@ struct SubstanceSearchField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             TextField("Substance name", text: $text)
+                .accessibilityLabel(Text("Substance name"))
                 .autocorrectionDisabled()
                 .focused($isFocused)
                 .disabled(locked)

@@ -365,6 +365,7 @@ struct QuickLogCardList: View {
             HStack(spacing: Spacing.lg) {
                 Image(systemName: "pill")
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(substance.name)
                         .font(.body.weight(.medium))
@@ -375,6 +376,7 @@ struct QuickLogCardList: View {
                 Spacer()
                 Image(systemName: "chevron.right")
                     .captionSecondary()
+                    .accessibilityHidden(true)
             }
             .padding(14)
             .themeCard(cornerRadius: 20)

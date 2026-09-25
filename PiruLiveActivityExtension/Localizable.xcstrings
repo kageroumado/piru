@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ at %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ at %2$@"
+          }
+        }
+      }
+    },
     "%@ at %lld percent" : {
       "localizations" : {
         "en" : {
@@ -189,6 +199,9 @@
           }
         }
       }
+    },
+    "and %lld more" : {
+
     },
     "Aurora" : {
       "localizations" : {
@@ -494,6 +507,9 @@
           }
         }
       }
+    },
+    "effects end around %@" : {
+
     },
     "Elapsed" : {
       "localizations" : {
@@ -1025,6 +1041,7 @@
       }
     },
     "No active entries" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1055,6 +1072,9 @@
           }
         }
       }
+    },
+    "Nothing active now" : {
+
     },
     "Offset" : {
       "localizations" : {
@@ -1148,6 +1168,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高峰期"
+          }
+        }
+      }
+    },
+    "peak %@ to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "peak %1$@ to %2$@"
           }
         }
       }

@@ -478,13 +478,18 @@ struct TimelineGraphView: View, Equatable {
         max(0, totalSpan - visibleSpan)
     }
 
-    /// One-utterance VoiceOver summary of the graph at `currentTime`, built from
-    /// the same scrub sampling the callout uses so the two never disagree.
+    /// One-utterance VoiceOver summary of the graph: each drawn dose with its
+    /// modeled peak window and end, then what is active at `currentTime` — that
+    /// part built from the same scrub sampling the callout uses so the two never
+    /// disagree.
     private var accessibilitySummary: Text {
+        var parts = Self.doseDescriptions(substances)
         let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
         let samples = renderer.scrubSamples(atMinute: nowMinutes)
-        guard !samples.isEmpty else { return Text("No active entries") }
-        var parts: [String] = samples.prefix(4).map { sample in
+        if samples.isEmpty {
+            parts.append(String(localized: "Nothing active now"))
+        }
+        parts += samples.prefix(4).map { sample in
             let percent = Int((sample.value * 100).rounded())
             if let phase = sample.phase {
                 return String(localized: "\(sample.name) in \(String(localized: phase)) at \(percent) percent")
@@ -495,7 +500,35 @@ struct TimelineGraphView: View, Equatable {
         if renderer.heavyThresholdHeight != nil {
             parts.append(String(localized: "This curve reaches the heavy dose range"))
         }
-        return Text(verbatim: parts.joined(separator: ", "))
+        return Text(verbatim: parts.joined(separator: ". "))
+    }
+
+    /// The most doses the summary names one by one before counting the rest.
+    private static let spokenDoseLimit = 6
+
+    /// "Caffeine 100 mg at 8:05 AM, peak 8:50 AM to 10:30 AM, effects end
+    /// around 2:10 PM" for each dose, oldest first — the curve's shape in words.
+    private static func doseDescriptions(_ substances: [ActiveSubstanceState]) -> [String] {
+        let doses = substances.sorted { $0.doseTimestamp < $1.doseTimestamp }
+        var parts: [String] = doses.prefix(spokenDoseLimit).map { dose in
+            let time = { (minutes: Double) in
+                dose.doseTimestamp.addingTimeInterval(minutes * 60).formatted(date: .omitted, time: .shortened)
+            }
+            let taken = time(0)
+            let what = dose.amount > 0 ? "\(dose.substanceName) \(dose.amount.doseFormatted) \(dose.unit)" : dose.substanceName
+            var line = String(localized: "\(what) at \(taken)")
+            if dose.peakEndMinutes > dose.comeupEndMinutes {
+                line += ", " + String(localized: "peak \(time(dose.comeupEndMinutes)) to \(time(dose.peakEndMinutes))")
+            }
+            if dose.offsetEndMinutes > 0 {
+                line += ", " + String(localized: "effects end around \(time(dose.offsetEndMinutes))")
+            }
+            return line
+        }
+        if doses.count > spokenDoseLimit {
+            parts.append(String(localized: "and \(doses.count - spokenDoseLimit) more"))
+        }
+        return parts
     }
 
     var body: some View {

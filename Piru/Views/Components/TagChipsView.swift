@@ -68,6 +68,7 @@ struct TagEditorView: View {
 
             HStack {
                 TextField("Add tag...", text: $newTag)
+                    .accessibilityLabel(Text("New tag"))
                     .font(.subheadline)
                     .autocorrectionDisabled()
                     .neverAutocapitalize()

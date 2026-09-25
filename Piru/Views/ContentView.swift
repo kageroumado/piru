@@ -578,6 +578,9 @@ private extension View {
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
+                    // The visible text changes every minute ("Next: … in 12h 2m"),
+                    // so Voice Control gets names that hold still.
+                    .accessibilityInputLabels(showSessionPill ? [Text("Session")] : [Text("Next dose"), Text("Log")])
 
                     HStack(spacing: 0) {
                         // Shortcuts need the width the session curve takes, so
@@ -656,6 +659,7 @@ private extension View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text("Record an entry"))
+            .accessibilityInputLabels([Text("Record an entry"), Text("Record"), Text("Add")])
         }
     }
 #endif

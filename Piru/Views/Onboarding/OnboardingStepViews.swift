@@ -215,15 +215,17 @@ struct OnboardingDepthStep: View {
                 Image(systemName: "checkmark")
                     .font(.body.weight(.semibold))
                     .foregroundStyle(Theme.accent)
-                    .accessibilityHidden(true)
                     .opacity(isSelected ? 1 : 0)
-                    .accessibilityHidden(!isSelected)
+                    // The row's `.isSelected` trait says this; the glyph would
+                    // repeat it as "Selected".
+                    .accessibilityHidden(true)
             }
             .contentShape(.rect)
             .padding(.vertical, Spacing.sm)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+        .accessibilityInputLabels([Text(tier.displayName)])
         .listRowBackground(CardBackground())
     }
 }
@@ -329,6 +331,7 @@ struct OnboardingToggleRow: View {
                 }
             }
             .tint(Theme.accent)
+            .accessibilityInputLabels([Text(title)])
         }
     }
 }

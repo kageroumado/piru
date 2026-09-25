@@ -311,6 +311,7 @@ struct TrayMetaChips: View {
                 Color.clear.contentShape(Capsule())
             }
             .accessibilityLabel(Text("Dose time: \(model.time.chipLabel)"))
+            .accessibilityInputLabels([Text("Dose time"), Text("Time")])
         }
         .popover(isPresented: $showDatePopover, arrowEdge: .bottom) {
             DatePicker(
@@ -438,6 +439,7 @@ struct TrayMetaChips: View {
                 Color.clear.contentShape(Capsule())
             }
             .accessibilityLabel(model.location.map { Text("Location: \($0.name)") } ?? Text("Location"))
+            .accessibilityInputLabels([Text("Location")])
         }
     }
 

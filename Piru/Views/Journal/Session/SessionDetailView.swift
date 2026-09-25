@@ -308,6 +308,7 @@ struct SessionDetailView: View {
                             Image(systemName: "square.and.arrow.up")
                         }
                         .accessibilityLabel(Text("Share session"))
+                        .accessibilityInputLabels([Text("Share session"), Text("Share")])
                         .popoverTip(ShareSessionTip())
                     }
                 }

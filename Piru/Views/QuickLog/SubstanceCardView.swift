@@ -104,9 +104,10 @@ struct SubstanceCardView: View, Equatable {
                         .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
                         .contentTransition(.symbolEffect(.replace))
                         .padding(.horizontal, Spacing.xs)
-                        .contentShape(Rectangle())
+                        .minimumHitTarget()
                 }
                 .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
+                .accessibilityInputLabels([Text("Favorite")])
                 // The card's own menu. Removing a substance from the list used
                 // to mean long-pressing every chip it had — up to eight per
                 // route — because the only delete lived in the chip's context
@@ -122,9 +123,10 @@ struct SubstanceCardView: View, Equatable {
                         .font(.body)
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, Spacing.xs)
-                        .contentShape(Rectangle())
+                        .minimumHitTarget()
                 }
                 .accessibilityLabel("More actions")
+                .accessibilityInputLabels([Text("More actions"), Text("More")])
             }
 
             if showsBadge, expandedPK, let badge {
@@ -282,6 +284,8 @@ struct SubstanceCardView: View, Equatable {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(chipAccessibilityLabel(chip, group: group))
+        // What the chip shows ("20 mg", "IPA") is what a Voice Control user says.
+        .accessibilityInputLabels([chipAccessibilityLabel(chip, group: group), chipVisibleName(chip)])
         .accessibilityValue(stagedCount > 0 ? Text("\(stagedCount) staged") : Text(verbatim: ""))
         .accessibilityAddTraits(stagedCount > 0 ? [.isSelected] : [])
         .contextMenu {
@@ -332,6 +336,13 @@ struct SubstanceCardView: View, Equatable {
             return Text("Log \(name), \(chip.detailLine)")
         }
         return Text("Log \(chip.detailLine) of \(substance)")
+    }
+
+    private func chipVisibleName(_ chip: DoseChip) -> Text {
+        if chip.hasDrinkDetail, let name = chip.drinkName, !name.isEmpty {
+            return Text(verbatim: name)
+        }
+        return Text("\(chip.formattedAmount) \(chip.unit.unitDisplay(for: chip.amount))")
     }
 
     private func chipCountBadge(_ count: Int) -> some View {

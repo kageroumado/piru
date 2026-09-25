@@ -610,6 +610,7 @@ struct StagedDoseGrapefruitPill: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text("Had grapefruit with this dose"))
+        .accessibilityInputLabels([Text("Grapefruit"), Text("Had grapefruit with this dose")])
         .accessibilityAddTraits(isOn ? [.isSelected] : [])
     }
 }
@@ -694,6 +695,7 @@ struct StagedDoseNoteEditor: View {
     var body: some View {
         HStack(alignment: .top, spacing: Spacing.md) {
             TextField("Add note…", text: $note, axis: .vertical)
+                .accessibilityLabel(Text("Note"))
                 .font(.footnote.weight(.medium))
                 .lineLimit(1 ... 6)
                 .focused(focus)

@@ -246,17 +246,23 @@ struct InventoryStepperRow: View {
         .sensoryFeedback(.increase, trigger: stepTick)
         .padding(.vertical, Spacing.xs)
         .onAppear { if focusOnAppear { focused = true } }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(label))
-        .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(unit)"))
-        .accessibilityAdjustableAction { direction in
-            switch direction {
-            case .increment: bump(to: value + step)
-            case .decrement: bump(to: max(0, value - step))
-            @unknown default: break
+        // One slider for the whole row: swipes step by `step`, the spoken value
+        // is the amount with its unit, and assistive tech gets a numeric
+        // position. The range grows with the value, so it never caps the amount.
+        .accessibilityRepresentation {
+            Slider(
+                value: Binding(get: { value }, set: { bump(to: max(0, $0)) }),
+                in: 0 ... max(value + step * Self.accessibleStepsAhead, step),
+                step: step,
+            ) {
+                Text(label)
             }
+            .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(unit)"))
         }
     }
+
+    /// How far past the current amount the accessible slider's range reaches.
+    private static let accessibleStepsAhead = 100.0
 
     /// The number and its unit share a baseline so "50,000 mg" reads as one
     /// figure; the pair is centered between the step buttons. The whole field is

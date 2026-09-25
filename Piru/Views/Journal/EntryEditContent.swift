@@ -42,6 +42,7 @@ struct EntryEditContent: View {
             } else {
                 HStack {
                     TextField("Amount", text: $draft.amount)
+                        .accessibilityLabel(Text("Amount"))
                         .decimalKeyboard()
                         .focused($amountFocused)
                         .foregroundStyle(draftDoseLevel?.swiftUIColor ?? .primary)
@@ -178,6 +179,7 @@ struct EntryEditContent: View {
 
         Section("Notes") {
             TextField("Notes", text: $draft.notes, axis: .vertical)
+                .accessibilityLabel(Text("Notes"))
                 .lineLimit(3 ... 6)
         }
 

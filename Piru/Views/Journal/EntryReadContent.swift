@@ -306,16 +306,23 @@ struct EntryEndedReceipt: View {
 
     var body: some View {
         Label {
-            if let cleared, cleared > end {
-                Text("Effects ended ~\(SessionBodyLoadModel.milestoneText(end)) · cleared ~\(SessionBodyLoadModel.milestoneText(cleared))")
-            } else {
-                Text("Effects ended ~\(SessionBodyLoadModel.milestoneText(end))")
-            }
+            text
         } icon: {
             Image(systemName: DosePhaseGlyph.ended)
-                .accessibilityHidden(true)
         }
         .captionSecondary()
+        // The check glyph is decoration; a Label would otherwise speak it as
+        // "Selected" beside the sentence.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(text)
+    }
+
+    private var text: Text {
+        if let cleared, cleared > end {
+            Text("Effects ended ~\(SessionBodyLoadModel.milestoneText(end)) · cleared ~\(SessionBodyLoadModel.milestoneText(cleared))")
+        } else {
+            Text("Effects ended ~\(SessionBodyLoadModel.milestoneText(end))")
+        }
     }
 }
 

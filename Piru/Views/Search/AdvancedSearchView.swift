@@ -75,6 +75,7 @@ struct AdvancedSearchView: View {
             Toggle("Ki ≤ \(Int(kiCeilingNm)) nM", isOn: $kiCeilingEnabled)
             if kiCeilingEnabled {
                 Slider(value: $kiCeilingNm, in: kiSliderRange, step: 10)
+                    .accessibilityLabel(Text("Ki ceiling"))
                     .accessibilityValue(Text("\(Int(kiCeilingNm)) nM"))
             }
         } header: {

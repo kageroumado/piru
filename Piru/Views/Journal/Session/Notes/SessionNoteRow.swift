@@ -112,6 +112,7 @@ struct SessionNoteRow: View, Equatable {
                     .font(.caption.weight(.medium))
                 Image(systemName: "chevron.right")
                     .font(.system(size: 9, weight: .semibold))
+                    .accessibilityHidden(true)
             }
             .foregroundStyle(Theme.accent)
             .padding(.leading, IconSize.iconMini + Spacing.xl)
@@ -176,6 +177,7 @@ struct SessionNoteRow: View, Equatable {
         }
         .contentShape(.rect)
         .onTapGesture { navigator.present(.sessionNoteEditor(sessionID: sessionID, noteID: display.id)) }
+        .accessibilityElement(children: .combine)
         .accessibilityAddTraits(.isButton)
         .accessibilityHint(Text("Edits the note"))
     }

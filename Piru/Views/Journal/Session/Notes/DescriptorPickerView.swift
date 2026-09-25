@@ -76,6 +76,7 @@ struct DescriptorPickerView: View {
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.tertiary)
                         .rotationEffect(.degrees(isOpen ? 90 : 0))
+                        .accessibilityHidden(true)
                 }
                 .contentShape(.rect)
             }
@@ -141,6 +142,7 @@ struct DescriptorPickerView: View {
                 Spacer()
                 Image(systemName: isOn ? "checkmark.circle.fill" : "circle")
                     .foregroundStyle(isOn ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.tertiary))
+                    .accessibilityHidden(true)
             }
             .contentShape(.rect)
         }

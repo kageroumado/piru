@@ -160,6 +160,7 @@ struct MedFormView: View {
         return Section {
             HStack {
                 TextField("Amount", value: $draft.amount, format: .number)
+                    .accessibilityLabel(Text("Amount"))
                     .decimalKeyboard()
                 Picker("Unit", selection: $draft.unit) {
                     ForEach(currentUnits, id: \.self) { Text($0) }

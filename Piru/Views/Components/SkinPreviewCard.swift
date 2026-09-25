@@ -39,6 +39,9 @@ struct SkinPreviewCard: View {
             if animates, skin == skins.current, !timeline.days.isEmpty {
                 SkinPreviewScreen(days: timeline.days, skin: skin)
                     .allowsHitTesting(false)
+                    // Its rows are real journal buttons; in a picture of a
+                    // journal they would read as controls that do nothing.
+                    .accessibilityHidden(true)
             } else {
                 picture?.resizable()
             }

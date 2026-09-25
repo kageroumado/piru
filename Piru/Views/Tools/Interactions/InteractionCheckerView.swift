@@ -91,6 +91,7 @@ struct InteractionCheckerView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
                 TextField("Search substances...", text: $searchText)
+                    .accessibilityLabel(Text("Search substances"))
                     .autocorrectionDisabled()
                     .focused($isSearchFocused)
                     .onChange(of: searchText) {
