@@ -8,6 +8,18 @@
             "state" : "new",
             "value" : "%1$@ at %2$@"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 于 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 於 %2$@"
+          }
         }
       }
     },
@@ -201,7 +213,20 @@
       }
     },
     "and %lld more" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %lld 条"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %lld 筆"
+          }
+        }
+      }
     },
     "Aurora" : {
       "localizations" : {
@@ -509,7 +534,20 @@
       }
     },
     "effects end around %@" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果约在 %@ 结束"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果約在 %@ 結束"
+          }
+        }
+      }
     },
     "Elapsed" : {
       "localizations" : {
@@ -1074,7 +1112,20 @@
       }
     },
     "Nothing active now" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前没有生效中的物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前沒有作用中的物質"
+          }
+        }
+      }
     },
     "Offset" : {
       "localizations" : {
@@ -1178,6 +1229,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "peak %1$@ to %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高峰期 %1$@ 至 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高峰期 %1$@ 至 %2$@"
           }
         }
       }
