@@ -14,6 +14,7 @@ import Foundation
 nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
     /// Idempotency key — becomes the reconstructed `DoseEntry.id`. The phone skips a
     /// payload whose id already exists, so a re-delivered transfer never double-logs.
+    var journalGeneration: Int?
     var id: UUID
 
     /// Canonical substance name, as it will be logged.
@@ -73,7 +74,9 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
         saltForm: String? = nil,
         productName: String? = nil,
         displayName: String? = nil,
+        journalGeneration: Int? = nil,
     ) {
+        self.journalGeneration = journalGeneration
         self.id = id
         self.substance = substance
         self.amount = amount

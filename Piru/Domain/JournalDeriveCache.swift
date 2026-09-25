@@ -1,4 +1,5 @@
 import Foundation
+import Synchronization
 
 /// The Journal's launch cache for ``JournalModel/rebuildDerived``: every
 /// entry's resolved category, timeline state and marker, on disk, so a launch
@@ -53,6 +54,17 @@ nonisolated enum JournalDeriveCache {
         let builtAt: Date
     }
 
+    private static let writeEpoch = Mutex(0)
+
+    static func clear() throws {
+        try writeEpoch.withLock { epoch in
+            epoch += 1
+            for file in [url, headerURL].compactMap(\.self) where FileManager.default.fileExists(atPath: file.path) {
+                try FileManager.default.removeItem(at: file)
+            }
+        }
+    }
+
     private static var url: URL? {
         guard let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
         return base.appendingPathComponent("journal-derive.cache")
@@ -94,11 +106,16 @@ nonisolated enum JournalDeriveCache {
             keyed[id.uuidString] = row
         }
         let payload = Payload(key: key, builtAt: now, rows: keyed)
+        let epoch = writeEpoch.withLock { $0 }
         Task.detached(priority: .utility) {
             guard let data = try? JSONEncoder().encode(payload),
                   let headerData = try? JSONEncoder().encode(Header(key: key, builtAt: now)) else { return }
-            try? data.write(to: url, options: .atomic)
-            try? headerData.write(to: headerURL, options: .atomic)
+            writeEpoch.withLock { current in
+                guard current == epoch,
+                      key.storeGeneration == UserDefaults(suiteName: "group.dev.yumeji.piru")?.integer(forKey: "doseLogStoreGeneration") else { return }
+                try? data.write(to: url, options: .atomic)
+                try? headerData.write(to: headerURL, options: .atomic)
+            }
         }
     }
 }

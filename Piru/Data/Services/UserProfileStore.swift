@@ -81,10 +81,19 @@ final class UserProfileStore {
         let ctx = container.mainContext
         context = ctx
         record = (try? ctx.fetch(FetchDescriptor<UserProfileRecord>()))?.first
-        if record == nil {
+        if record == nil, JournalResetGeneration.current() == 0 {
             migrateLegacyTier(into: ctx, from: legacyPrefsDBURL)
         }
         publishFromRecord()
+    }
+
+    func resetAfterDeletion() throws {
+        record = nil
+        publishFromRecord()
+        for suffix in ["", "-wal", "-shm"] {
+            let url = URL(fileURLWithPath: Self.defaultLegacyPrefsDBURL.path + suffix)
+            if FileManager.default.fileExists(atPath: url.path) { try FileManager.default.removeItem(at: url) }
+        }
     }
 
     /// Mirror the durable record into the published value properties that views observe.

@@ -31,26 +31,50 @@ final class WatchSyncCoordinator: NSObject {
         session.delegate = self
         session.activate()
         loadManifest(from: session.receivedApplicationContext)
-        pendingCount = session.outstandingUserInfoTransfers.count
+        refreshPendingCount()
         watchLog.notice("activate: manifestItems=\(self.manifest?.items.count ?? -1) reachable=\(session.isReachable)")
     }
 
     /// Queue a watch-logged dose for guaranteed delivery to the phone.
-    func log(_ payload: WatchDosePayload) {
-        guard let userInfo = payload.userInfo() else { return }
+    func log(_ payload: WatchDosePayload) -> Bool {
+        guard let manifest,
+              JournalResetGeneration.accepts(payload, generation: manifest.journalGeneration ?? 0),
+              let userInfo = payload.userInfo() else { return false }
         WCSession.default.transferUserInfo(userInfo)
         pendingCount += 1
         lastLoggedAt = Date()
         // Count only — never the substance/amount (this is a device log).
         watchLog.notice("queued dose for phone; pending=\(self.pendingCount)")
+        return true
+    }
+
+    private func refreshPendingCount() {
+        let generation = JournalResetGeneration.current()
+        pendingCount = WCSession.default.outstandingUserInfoTransfers.filter {
+            guard let payload = WatchDosePayload(userInfo: $0.userInfo) else { return false }
+            return JournalResetGeneration.accepts(payload, generation: generation)
+        }.count
     }
 
     private func loadManifest(from context: [String: Any]) {
         guard let manifest = QuickLogManifest(applicationContext: context) else { return }
-        self.manifest = manifest
+        apply(manifest)
     }
 
     private func apply(_ manifest: QuickLogManifest) {
+        let generation = manifest.journalGeneration ?? 0
+        guard JournalResetGeneration.accepts(manifest, after: self.manifest, minimumGeneration: JournalResetGeneration.current()) else { return }
+        if generation > JournalResetGeneration.current() {
+            UserDefaults.standard.set(generation, forKey: JournalResetGeneration.key)
+            for transfer in WCSession.default.outstandingUserInfoTransfers {
+                if let payload = WatchDosePayload(userInfo: transfer.userInfo),
+                   !JournalResetGeneration.accepts(payload, generation: generation) {
+                    transfer.cancel()
+                }
+            }
+            pendingCount = 0
+            lastLoggedAt = nil
+        }
         watchLog.notice("didReceiveContext: items=\(manifest.items.count)")
         self.manifest = manifest
     }
@@ -78,6 +102,6 @@ extension WatchSyncCoordinator: WCSessionDelegate {
         didFinish _: WCSessionUserInfoTransfer,
         error _: Error?,
     ) {
-        Task { @MainActor in self.pendingCount = max(0, self.pendingCount - 1) }
+        Task { @MainActor in self.refreshPendingCount() }
     }
 }

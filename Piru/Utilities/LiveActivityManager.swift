@@ -242,6 +242,15 @@ struct DoseSnapshot {
             ActiveSessionManager.shared.clearSession()
         }
 
+        func deleteJournalActivities() async {
+            stopUpdateTimer()
+            BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
+            currentActivity = nil
+            for activity in Activity<PiruActivityAttributes>.activities {
+                await activity.end(nil, dismissalPolicy: .immediate)
+            }
+        }
+
         /// Hide the iOS Live Activity widget while keeping the underlying session
         /// (active substances) intact, so `startLiveActivity()` can re-show it.
         func hideLiveActivity() {
@@ -503,6 +512,7 @@ struct DoseSnapshot {
         func sessionCleared() {}
         func startLiveActivity() {}
         func hideLiveActivity() {}
+        func deleteJournalActivities() async {}
         func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, tint: P3Color)]? {
             nil
         }

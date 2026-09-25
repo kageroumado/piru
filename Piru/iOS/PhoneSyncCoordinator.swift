@@ -63,7 +63,7 @@ final class PhoneSyncCoordinator: NSObject {
         let colors = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
         let tintMap = colors.tintMap
 
-        let manifest = QuickLogManifestBuilder.build(
+        var manifest = QuickLogManifestBuilder.build(
             in: context,
             generatedAt: Date(),
             tint: { SubstancePalette.tint(for: $0, tintMap: tintMap) },
@@ -77,7 +77,23 @@ final class PhoneSyncCoordinator: NSObject {
                 return DoseStepping.step(referenceDose: reference, amount: amount)
             },
         )
-        guard let payload = manifest.applicationContext() else { return }
+        manifest.journalGeneration = JournalResetGeneration.current()
+        for index in manifest.items.indices {
+            manifest.items[index].journalGeneration = manifest.journalGeneration
+        }
+        send(manifest)
+    }
+
+    /// Publish an empty snapshot immediately; activation retries from the empty store if offline.
+    func journalWasDeleted() {
+        send(QuickLogManifest(generatedAt: Date(), items: [], journalGeneration: JournalResetGeneration.current()))
+    }
+
+    private func send(_ manifest: QuickLogManifest) {
+        guard WCSession.isSupported() else { return }
+        let session = WCSession.default
+        guard session.activationState == .activated,
+              let payload = manifest.applicationContext() else { return }
         do {
             try session.updateApplicationContext(payload)
             watchLog.notice("pushManifest ok: items=\(manifest.items.count) paired=\(session.isPaired) installed=\(session.isWatchAppInstalled) reachable=\(session.isReachable)")
@@ -100,7 +116,7 @@ final class PhoneSyncCoordinator: NSObject {
 
     private func receive(_ payload: WatchDosePayload) {
         guard let context = container?.mainContext else { return }
-        let outcome = WatchDoseReceiver.ingest(payload, in: context)
+        let outcome = WatchDoseReceiver.ingest(payload, in: context, journalGeneration: JournalResetGeneration.current())
         // Count/outcome only — never the substance or amount (this is a device log).
         watchLog.notice("received watch dose → \(String(describing: outcome), privacy: .public)")
         // The received dose is a new recent; the change signal from `DoseLogService.log`

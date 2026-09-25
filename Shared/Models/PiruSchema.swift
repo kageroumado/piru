@@ -33,4 +33,23 @@ enum PiruSchema {
             LabMeasurement.self,
         ]
     }
+
+    /// Remove every user-data entity in the schema and commit the deletion.
+    static func deleteAll(in context: ModelContext) throws {
+        do {
+            for model in models {
+                try deleteRows(of: model, in: context)
+            }
+            try context.save()
+        } catch {
+            context.rollback()
+            throw error
+        }
+    }
+
+    private static func deleteRows<M: PersistentModel>(of _: M.Type, in context: ModelContext) throws {
+        for row in try context.fetch(FetchDescriptor<M>()) {
+            context.delete(row)
+        }
+    }
 }

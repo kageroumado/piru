@@ -7450,9 +7450,9 @@ T = {
         "该类药物可能阻断通往膀胱的信号。完全排不出尿，应当立刻求助，而不是等时间线走完。",
         "該類藥物可能阻斷通往膀胱的訊號。完全排不出尿，應當立刻求助，而不是等時間軸走完。",
     ),
-    "This permanently deletes all your data in the app and cannot be undone. Copies you exported, and device or iCloud backups, are not affected.": (
-        "这会永久删除你在应用中的全部数据，且无法撤销。你已导出的副本，以及设备或 iCloud 备份，不受影响。",
-        "這會永久刪除你在 App 中的全部資料，且無法復原。你已匯出的副本，以及裝置或 iCloud 備份，不受影響。",
+    "This deletes your journal, profile, schedules, inventory, custom presets and local recovery copies. Your Watch clears its copy when it reconnects. Exported files, Apple Health records and device backups are not affected.": (
+        "这会删除日志、个人资料、计划、库存、自定义预设和本地恢复副本。Watch 会在重新连接后清除其副本。已导出的文件、Apple 健康记录和设备备份不受影响。",
+        "這會刪除日誌、個人資料、排程、庫存、自訂預設和本機復原副本。Watch 會在重新連線後清除其副本。已匯出的檔案、Apple 健康記錄和裝置備份不受影響。",
     ),
     "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous.": (
         "既有耐受，也有躯体依赖；长期大量规律使用后突然停用可能有危险。",
@@ -7613,9 +7613,9 @@ T = {
         "这些选项显示在添加记录时的“何时”菜单中，与“现在”和完整日期选择器并列。滑动移除，拖动排序。",
         "這些選項顯示在新增記錄時的「何時」選單中，與「現在」和完整日期選擇器並列。滑動移除，拖動排序。",
     ),
-    "Permanently deletes every entry, session, and setting in the app. Copies you exported, and device or iCloud backups, are not affected.": (
-        "永久删除 App 中的所有记录、场次和设置。已导出的副本及设备或 iCloud 备份不受影响。",
-        "永久刪除 App 中的所有記錄、場次和設定。已匯出的副本及裝置或 iCloud 備份不受影響。",
+    "Deletes journal records, profile, schedules, inventory, custom presets and local recovery copies. Watch deletion takes effect when it reconnects.": (
+        "删除日志记录、个人资料、计划、库存、自定义预设和本地恢复副本。Watch 上的删除会在重新连接后生效。",
+        "刪除日誌記錄、個人資料、排程、庫存、自訂預設和本機復原副本。Watch 上的刪除會在重新連線後生效。",
     ),
     "Estimation": ("估算", "估算"),
     "Published benzodiazepine equivalence table": (

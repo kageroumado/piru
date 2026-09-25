@@ -50,6 +50,46 @@ struct PiruSchemaTests {
     }
 
     @Test
+    func `deleting the journal empties every model and remains empty after reopening`() throws {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("journal-reset-\(UUID()).store")
+        try autoreleasepool {
+            let container = try ModelContainer(for: Schema(PiruSchema.models), configurations: ModelConfiguration(url: url, cloudKitDatabase: .none))
+            let context = container.mainContext
+            let session = Session(startDate: .now)
+            context.insert(session)
+            let entry = DoseEntry(substance: "Caffeine", amount: 100)
+            context.insert(entry)
+            entry.session = session
+            context.insert(SubstanceColor(substance: "Caffeine", tint: P3Color(red: 1, green: 0.2, blue: 0.4), usesDefault: false))
+            context.insert(DailyDoseItem(substance: "Caffeine", amount: 100))
+            context.insert(FavoriteSubstance(substance: "Caffeine"))
+            context.insert(QuickLogDose(substance: "Caffeine", route: .oral, amount: 100, unit: "mg", sortOrder: 0))
+            context.insert(DoseRoutine(name: "Morning"))
+            context.insert(InventoryItem(substance: "Caffeine"))
+            context.insert(UserProfileRecord())
+            context.insert(ToleranceState(target: "adenosine"))
+            context.insert(CustomSubstanceRecord(name: "Custom"))
+            context.insert(CustomDrinkPreset(name: "Custom drink", strengthABV: 5))
+            context.insert(CustomUnitPreset(substanceName: "Caffeine", label: "tablet", amountPerUnit: 100))
+            context.insert(NotificationPreferences())
+            context.insert(RoutineOccurrence(substance: "Caffeine", route: .oral, dueDay: .now))
+            context.insert(SessionNote(text: "Private note", session: session))
+            context.insert(LabMeasurement(value: 100, note: "Private result"))
+            try context.save()
+            for model in PiruSchema.models { #expect(try Self.count(model, in: context) > 0) }
+            try DataExportImport.deleteAll(context: context)
+            for model in PiruSchema.models { #expect(try Self.count(model, in: context) == 0) }
+            try DataExportImport.deleteAll(context: context)
+        }
+        let reopened = try ModelContainer(for: Schema(PiruSchema.models), configurations: ModelConfiguration(url: url, cloudKitDatabase: .none))
+        for model in PiruSchema.models { #expect(try Self.count(model, in: reopened.mainContext) == 0) }
+    }
+
+    private static func count<M: PersistentModel>(_: M.Type, in context: ModelContext) throws -> Int {
+        try context.fetchCount(FetchDescriptor<M>())
+    }
+
+    @Test
     func `every @Model class in the repo is in PiruSchema.models`() throws {
         let declared = try Set(Self.swiftSources(in: Self.shippingFolders).flatMap { file in
             // `@Model`, any further attributes, then the class keyword and name.

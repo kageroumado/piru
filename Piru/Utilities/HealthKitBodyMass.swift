@@ -54,8 +54,10 @@ final class HealthKitBodyMass {
             lastResult = .unavailable
             return .unavailable
         }
+        let generation = JournalResetGeneration.current()
         let result: SyncResult
         if let kg = await latestBodyMassKg() {
+            guard generation == JournalResetGeneration.current() else { return .noData }
             UserProfileStore.shared.setHealthKitWeight(kg)
             result = .updated(kg: kg)
         } else {

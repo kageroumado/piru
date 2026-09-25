@@ -506,6 +506,11 @@ final class CustomSubstanceStore {
 
     /// Refresh the in-memory `all` projection from the store and re-publish the
     /// widget display-name mirror. Called after every mutation.
+    func resetAfterDeletion() {
+        mirrorDefaults.removeObject(forKey: Self.legacyStorageKey)
+        reload()
+    }
+
     private func reload() {
         all = fetchRecords()
             .map(\.asEntry)

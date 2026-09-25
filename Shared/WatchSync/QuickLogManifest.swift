@@ -10,6 +10,8 @@ import Foundation
 /// (`QuickLogManifestBuilder`), consumed on the watch as plain data. No `@Model`
 /// reference, so it adds to the watch target without dragging SwiftData onto the wrist.
 nonisolated struct QuickLogManifest: Codable, Hashable, Sendable {
+    /// A reset invalidates every tile and queued entry from an earlier journal.
+    var journalGeneration: Int?
     /// Build time — the latest-wins discriminator when two contexts race.
     var generatedAt: Date
     /// Favorites first, then recents, deduped by identity — most-recent order.
@@ -18,7 +20,8 @@ nonisolated struct QuickLogManifest: Codable, Hashable, Sendable {
     /// drink with no pharmacology data. Empty when no alcohol favorite/recent exists.
     var drinkPresets: [ManifestDrinkPreset]
 
-    init(generatedAt: Date, items: [QuickLogManifestItem], drinkPresets: [ManifestDrinkPreset] = []) {
+    init(generatedAt: Date, items: [QuickLogManifestItem], drinkPresets: [ManifestDrinkPreset] = [], journalGeneration: Int? = nil) {
+        self.journalGeneration = journalGeneration
         self.generatedAt = generatedAt
         self.items = items
         self.drinkPresets = drinkPresets
@@ -28,6 +31,8 @@ nonisolated struct QuickLogManifest: Codable, Hashable, Sendable {
 /// One tile in the watch quick-log grid: a substance + route + a default measurement,
 /// carrying the identity and drink detail needed to log it exactly as the phone would.
 nonisolated struct QuickLogManifestItem: Codable, Hashable, Sendable, Identifiable {
+    /// The journal this tile belongs to, retained when a logging form is open.
+    var journalGeneration: Int?
     /// Stable wire identity — the `QuickLogDose.makeKey(...)` string, so favorites and
     /// recents dedupe on the same key the phone groups chips by.
     var id: String
@@ -159,6 +164,7 @@ nonisolated extension QuickLogManifestItem {
             saltForm: saltForm,
             productName: productName,
             displayName: displayName,
+            journalGeneration: journalGeneration,
         )
     }
 }
@@ -182,5 +188,35 @@ nonisolated extension QuickLogManifest {
               let decoded = try? JSONDecoder().decode(QuickLogManifest.self, from: data)
         else { return nil }
         self = decoded
+    }
+}
+
+/// Persistent deletion boundary shared by the phone and Watch wire format.
+nonisolated enum JournalResetGeneration {
+    static let key = "journalResetGeneration"
+    static let dateKey = "journalResetDate"
+
+    static func current(in defaults: UserDefaults = .standard) -> Int {
+        defaults.integer(forKey: key)
+    }
+
+    @discardableResult
+    static func advance(in defaults: UserDefaults = .standard, at date: Date = Date()) -> Int {
+        let next = current(in: defaults) + 1
+        defaults.set(next, forKey: key)
+        defaults.set(date, forKey: dateKey)
+        return next
+    }
+
+    static func accepts(_ payload: WatchDosePayload, generation: Int) -> Bool {
+        (payload.journalGeneration ?? 0) == generation
+    }
+
+    static func accepts(_ manifest: QuickLogManifest, after current: QuickLogManifest?, minimumGeneration: Int) -> Bool {
+        let incoming = manifest.journalGeneration ?? 0
+        guard incoming >= minimumGeneration else { return false }
+        guard let current else { return true }
+        let existing = current.journalGeneration ?? 0
+        return incoming > existing || (incoming == existing && manifest.generatedAt >= current.generatedAt)
     }
 }

@@ -550,11 +550,14 @@ enum InventoryService {
         }
 
         // Pure stock replay off the main actor.
+        let generation = JournalResetGeneration.current()
         let quantities = await Task.detached(priority: .utility) {
             snapshots.map {
                 InventoryMath.replayQuantity(unit: $0.unit, unitStrengthMG: $0.strength, events: $0.events, doses: $0.doses)
             }
         }.value
+
+        guard !Task.isCancelled, generation == JournalResetGeneration.current() else { return }
 
         // Apply the cache writes + low-stock evaluation back on the actor.
         for (item, quantity) in zip(affected, quantities) {

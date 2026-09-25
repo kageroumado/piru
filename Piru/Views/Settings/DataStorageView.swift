@@ -9,7 +9,7 @@ import UniformTypeIdentifiers
 ///
 /// Import/export lives here rather than a separate Backup screen, alongside
 /// local-storage transparency and on-device recovery for stores set aside
-/// automatically (an upgrade hiccup) or before a deliberate delete/restore.
+/// automatically (an upgrade hiccup) or before a restore.
 ///
 /// The screen itself owns nothing but presentation: every flow that can fail or
 /// take time lives in ``DataStorageModel``, and each section is its own view.
@@ -69,6 +69,7 @@ struct DataStorageView: View {
                 onSelect: { pendingRestore = $0 },
             )
             DeleteEverythingSection(onDelete: { showingDeleteConfirmation = true })
+                .disabled(model.isDeleting || model.isGenerating)
         }
         .themedPage()
         .navigationTitle("Data & Backup")
@@ -119,10 +120,10 @@ struct DataStorageView: View {
             Text(notice.message)
         }
         .alert("Delete Everything", isPresented: $showingDeleteConfirmation) {
-            Button("Delete", role: .destructive) { model.deleteAllData(context: modelContext) }
+            Button("Delete", role: .destructive) { Task { await model.deleteAllData(context: modelContext) } }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This permanently deletes all your data in the app and cannot be undone. Copies you exported, and device or iCloud backups, are not affected.")
+            Text("This deletes your journal, profile, schedules, inventory, custom presets and local recovery copies. Your Watch clears its copy when it reconnects. Exported files, Apple Health records and device backups are not affected.")
         }
         .alert("Restore This Copy?", isPresented: restoreConfirmBinding, presenting: pendingRestore) { store in
             Button("Restore", role: .destructive) { restore(store) }
@@ -695,7 +696,7 @@ private struct DeleteEverythingSection: View {
             }
             .listRowBackground(CardBackground())
         } footer: {
-            Text("Permanently deletes every entry, session, and setting in the app. Copies you exported, and device or iCloud backups, are not affected.")
+            Text("Deletes journal records, profile, schedules, inventory, custom presets and local recovery copies. Watch deletion takes effect when it reconnects.")
         }
     }
 }

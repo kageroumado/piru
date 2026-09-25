@@ -270,16 +270,7 @@ enum DataExportImport {
     }
 
     static func deleteAll(context: ModelContext) throws {
-        try context.delete(model: DoseEntry.self)
-        try context.delete(model: Session.self)
-        try context.delete(model: DailyDoseItem.self)
-        try context.delete(model: SubstanceColor.self)
-        try context.delete(model: FavoriteSubstance.self)
-        try context.delete(model: InventoryItem.self)
-        // The curated quick-log list is derived from history — clearing the doses
-        // without clearing it leaves ghost chips referencing substances that no
-        // longer exist. It re-seeds from history on the next quick-log open.
-        try context.delete(model: QuickLogDose.self)
+        try PiruSchema.deleteAll(in: context)
     }
 
     static var exportFilename: String {

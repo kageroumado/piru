@@ -122,10 +122,12 @@ enum SessionNotificationScheduler {
         let threadId = sessionIdentifier(for: doseTime)
         let anchor = entryID.uuidString
 
+        let generation = JournalResetGeneration.current()
         Task { @MainActor in
             // Deduplicate: skip if a wellness notification of the same type is
             // already pending within the dedup window.
             let pending = await UNUserNotificationCenter.current().pendingNotificationRequests()
+            guard JournalResetGeneration.current() == generation else { return }
             let now = Date.now
 
             /// Claims a wellness slot: false when a request of the same type is

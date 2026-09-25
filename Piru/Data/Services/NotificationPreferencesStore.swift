@@ -247,6 +247,14 @@ final class NotificationPreferencesStore {
         mirrorAll()
     }
 
+    func resetAfterDeletion() {
+        record = nil
+        defaults.removeObject(forKey: "wellnessNotificationsEnabled")
+        defaults.removeObject(forKey: "phaseNotificationsEnabled")
+        publishFromRecord()
+        mirrorAll()
+    }
+
     /// One-time adoption of the legacy flag shape into a fresh record.
     private func seedRecord(into ctx: ModelContext, from defaults: UserDefaults) -> NotificationPreferences {
         let seeded = NotificationPreferences()
@@ -266,6 +274,10 @@ final class NotificationPreferencesStore {
         guard let record else {
             masterEnabled = true
             typeEnabled = [:]
+            quietHoursEnabled = false
+            quietHoursStartMinutes = 23 * 60
+            quietHoursEndMinutes = 7 * 60
+            timeSensitiveEnabled = [:]
             return
         }
         masterEnabled = record.masterEnabled

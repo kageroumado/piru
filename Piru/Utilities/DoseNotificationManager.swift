@@ -519,6 +519,7 @@ enum DoseNotificationManager {
             followUps = Array(followUps.prefix(maxFollowUpRequests))
         }
 
+        let generation = JournalResetGeneration.current()
         let primariesToAdd = primaries
         let followUpsToAdd = followUps
         Task {
@@ -529,6 +530,7 @@ enum DoseNotificationManager {
                 + NotificationType.routineFollowUp.identifierPrefixes
                 + ["dailyDoseReminder"]
             let pending = await center.pendingNotificationRequests()
+            guard JournalResetGeneration.current() == generation else { return }
             let stale = pending.map(\.identifier).filter { id in
                 sweepPrefixes.contains { id.hasPrefix($0) }
             }
@@ -539,6 +541,7 @@ enum DoseNotificationManager {
             // the user allows notifications — the management screen's header
             // is the honest surface for that state.
             for primary in primariesToAdd {
+                guard JournalResetGeneration.current() == generation else { return }
                 let content = medReminderContent(
                     title: primary.title,
                     body: primary.body,
@@ -565,9 +568,14 @@ enum DoseNotificationManager {
                     content: content,
                     trigger: trigger,
                 ))
+                if JournalResetGeneration.current() != generation {
+                    center.removePendingNotificationRequests(withIdentifiers: [primary.identifier])
+                    return
+                }
             }
 
             for followUp in followUpsToAdd {
+                guard JournalResetGeneration.current() == generation else { return }
                 let interval = followUp.fireDate.timeIntervalSince(.now)
                 guard interval > 0 else { continue }
                 let content = medReminderContent(
@@ -586,6 +594,10 @@ enum DoseNotificationManager {
                     content: content,
                     trigger: trigger,
                 ))
+                if JournalResetGeneration.current() != generation {
+                    center.removePendingNotificationRequests(withIdentifiers: [followUp.identifier])
+                    return
+                }
             }
         }
     }

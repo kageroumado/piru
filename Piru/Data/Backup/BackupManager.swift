@@ -2,6 +2,7 @@ import CryptoKit
 import Foundation
 import os
 import SwiftData
+import Synchronization
 
 private let backupLogger = Logger(subsystem: "dev.yumeji.piru", category: "BackupManager")
 
@@ -57,6 +58,8 @@ final class BackupManager {
             }
         }
     }
+
+    private nonisolated static let writeEpoch = Mutex(0)
 
     private let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru") ?? .standard
     private static let autoEnabledKey = "backup.autoICloudEnabled"
@@ -119,11 +122,16 @@ final class BackupManager {
             }
             // Encrypt (PBKDF2-free here, but still keychain IO) and write off the
             // main actor so the UI never blocks on it.
+            let epoch = Self.writeEpoch.withLock { $0 }
             let byteCount = try await Task.detached {
                 let envelope = try BackupCrypto.encryptWithDeviceKey(plaintext)
-                try Self.writeICloud(envelope)
+                try Self.writeEpoch.withLock { current in
+                    guard current == epoch else { throw CancellationError() }
+                    try Self.writeICloud(envelope)
+                }
                 return envelope.count
             }.value
+            guard Self.writeEpoch.withLock({ $0 }) == epoch else { return }
             lastBackupHash = hash
             let now = Date()
             lastBackupDate = now
@@ -219,7 +227,12 @@ final class BackupManager {
         autoICloudEnabled = false
         lastBackupDate = nil
         lastBackupHash = nil
-        try? await Task.detached { try Self.deleteICloudFile() }.value
+        await Task.detached {
+            Self.writeEpoch.withLock { epoch in
+                epoch += 1
+                try? Self.deleteICloudFile()
+            }
+        }.value
     }
 
     // MARK: - iCloud file IO (off the main actor)

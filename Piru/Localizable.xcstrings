@@ -34835,22 +34835,6 @@
         }
       }
     },
-    "Permanently deletes every entry, session, and setting in the app. Copies you exported, and device or iCloud backups, are not affected." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永久删除 App 中的所有记录、场次和设置。已导出的副本及设备或 iCloud 备份不受影响。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永久刪除 App 中的所有記錄、場次和設定。已匯出的副本及裝置或 iCloud 備份不受影響。"
-          }
-        }
-      }
-    },
     "Personal calibration" : {
       "localizations" : {
         "zh-Hans" : {
@@ -46982,22 +46966,6 @@
         }
       }
     },
-    "This permanently deletes all your data in the app and cannot be undone. Copies you exported, and device or iCloud backups, are not affected." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这会永久删除你在应用中的全部数据，且无法撤销。你已导出的副本，以及设备或 iCloud 备份，不受影响。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這會永久刪除你在 App 中的全部資料，且無法復原。你已匯出的副本，以及裝置或 iCloud 備份，不受影響。"
-          }
-        }
-      }
-    },
     "This replaces your current data with the %@ in this copy. A snapshot of your current data is taken first, so it's reversible. Restart Piru afterwards to load it." : {
       "localizations" : {
         "zh-Hans" : {
@@ -51557,6 +51525,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-鴉片受體配體"
+          }
+        }
+      }
+    },
+    "This deletes your journal, profile, schedules, inventory, custom presets and local recovery copies. Your Watch clears its copy when it reconnects. Exported files, Apple Health records and device backups are not affected." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这会删除日志、个人资料、计划、库存、自定义预设和本地恢复副本。Watch 会在重新连接后清除其副本。已导出的文件、Apple 健康记录和设备备份不受影响。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會刪除日誌、個人資料、排程、庫存、自訂預設和本機復原副本。Watch 會在重新連線後清除其副本。已匯出的檔案、Apple 健康記錄和裝置備份不受影響。"
+          }
+        }
+      }
+    },
+    "Deletes journal records, profile, schedules, inventory, custom presets and local recovery copies. Watch deletion takes effect when it reconnects." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除日志记录、个人资料、计划、库存、自定义预设和本地恢复副本。Watch 上的删除会在重新连接后生效。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除日誌記錄、個人資料、排程、庫存、自訂預設和本機復原副本。Watch 上的刪除會在重新連線後生效。"
           }
         }
       }

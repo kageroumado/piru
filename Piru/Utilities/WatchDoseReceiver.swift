@@ -21,11 +21,13 @@ enum WatchDoseReceiver {
         case inserted(UUID)
         /// A payload with this id was already logged — skipped.
         case duplicate
+        case staleJournal
     }
 
     /// Log a watch payload once. Deduped on `payload.id`.
     @discardableResult
-    static func ingest(_ payload: WatchDosePayload, in context: ModelContext) -> Outcome {
+    static func ingest(_ payload: WatchDosePayload, in context: ModelContext, journalGeneration: Int = 0) -> Outcome {
+        guard JournalResetGeneration.accepts(payload, generation: journalGeneration) else { return .staleJournal }
         let id = payload.id
         var descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.id == id })
         descriptor.fetchLimit = 1

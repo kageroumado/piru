@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import Synchronization
 
 /// The strip's launch cache: the last fully built `[TimelineDayLayout]`, on
 /// disk, so a launch whose dose log has not changed since the previous run
@@ -58,6 +59,17 @@ nonisolated enum TimelineStripCache {
         let builtAt: Date
     }
 
+    private static let writeEpoch = Mutex(0)
+
+    static func clear() throws {
+        try writeEpoch.withLock { epoch in
+            epoch += 1
+            for file in [url, headerURL].compactMap(\.self) where FileManager.default.fileExists(atPath: file.path) {
+                try FileManager.default.removeItem(at: file)
+            }
+        }
+    }
+
     private static var url: URL? {
         guard let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
         return base.appendingPathComponent("timeline-strip.cache")
@@ -91,11 +103,16 @@ nonisolated enum TimelineStripCache {
     static func save(_ days: [TimelineDayLayout], key: Key, now: Date = .now) {
         guard let url, let headerURL, !days.isEmpty else { return }
         let payload = Payload(key: key, builtAt: now, days: days)
+        let epoch = writeEpoch.withLock { $0 }
         Task.detached(priority: .utility) {
             guard let data = try? JSONEncoder().encode(payload),
                   let headerData = try? JSONEncoder().encode(Header(key: key, builtAt: now)) else { return }
-            try? data.write(to: url, options: .atomic)
-            try? headerData.write(to: headerURL, options: .atomic)
+            writeEpoch.withLock { current in
+                guard current == epoch,
+                      key.storeGeneration == UserDefaults(suiteName: "group.dev.yumeji.piru")?.integer(forKey: "doseLogStoreGeneration") else { return }
+                try? data.write(to: url, options: .atomic)
+                try? headerData.write(to: headerURL, options: .atomic)
+            }
         }
     }
 }

@@ -13,6 +13,11 @@ final class DayResolveCache {
     private var signature: Int?
     private var value = ResolvedDay()
 
+    func clear() {
+        signature = nil
+        value = ResolvedDay()
+    }
+
     func resolve(signature: Int, _ compute: () -> ResolvedDay) -> ResolvedDay {
         if self.signature == signature { return value }
         let resolved = compute()

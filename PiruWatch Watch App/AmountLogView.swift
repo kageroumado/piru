@@ -71,7 +71,7 @@ struct AmountLogView: View {
 
     private func log() {
         let payload = item.makePayload(id: UUID(), amount: amount, timestamp: Date())
-        sync.log(payload)
+        guard sync.log(payload) else { dismiss(); return }
         WKInterfaceDevice.current().play(.success)
         confirming = true
     }

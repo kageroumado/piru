@@ -1,4 +1,5 @@
 import Foundation
+import Synchronization
 
 /// The body-load graph's launch cache: the warmed default-range
 /// ``BodyLoadTrail`` on disk, so the background warm after launch fills the
@@ -29,6 +30,17 @@ nonisolated enum BodyLevelsTrailCache {
     private nonisolated struct Payload: Codable {
         let key: Key
         let trail: BodyLoadTrail
+    }
+
+    private static let writeEpoch = Mutex(0)
+
+    static func clear() throws {
+        try writeEpoch.withLock { epoch in
+            epoch += 1
+            for file in [url, headerURL].compactMap(\.self) where FileManager.default.fileExists(atPath: file.path) {
+                try FileManager.default.removeItem(at: file)
+            }
+        }
     }
 
     private static var url: URL? {
@@ -64,11 +76,16 @@ nonisolated enum BodyLevelsTrailCache {
     static func save(_ trail: BodyLoadTrail, key: Key) {
         guard let url, let headerURL else { return }
         let payload = Payload(key: key, trail: trail)
+        let epoch = writeEpoch.withLock { $0 }
         Task.detached(priority: .utility) {
             guard let data = try? JSONEncoder().encode(payload),
                   let headerData = try? JSONEncoder().encode(key) else { return }
-            try? data.write(to: url, options: .atomic)
-            try? headerData.write(to: headerURL, options: .atomic)
+            writeEpoch.withLock { current in
+                guard current == epoch,
+                      key.storeGeneration == UserDefaults(suiteName: "group.dev.yumeji.piru")?.integer(forKey: "doseLogStoreGeneration") else { return }
+                try? data.write(to: url, options: .atomic)
+                try? headerData.write(to: headerURL, options: .atomic)
+            }
         }
     }
 }

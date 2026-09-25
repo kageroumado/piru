@@ -66,6 +66,47 @@ struct WatchSyncTests {
         )
     }
 
+    @Test
+    func `reset rejects delayed and legacy watch entries while accepting new entries`() throws {
+        let context = try freshContext()
+        var payload = massPayload()
+        #expect(WatchDoseReceiver.ingest(payload, in: context, journalGeneration: 1) == .staleJournal)
+        payload.journalGeneration = 1
+        #expect(WatchDoseReceiver.ingest(payload, in: context, journalGeneration: 1) == .inserted(payload.id))
+        try DataExportImport.deleteAll(context: context)
+        #expect(WatchDoseReceiver.ingest(payload, in: context, journalGeneration: 2) == .staleJournal)
+        #expect(try context.fetchCount(FetchDescriptor<DoseEntry>()) == 0)
+        #expect(try context.fetchCount(FetchDescriptor<QuickLogDose>()) == 0)
+        DoseLogService.shared.cancelPendingBookkeeping()
+    }
+
+    @Test
+    func `watch reset survives relaunch and rejects reordered manifests`() throws {
+        let name = "watch-reset-\(UUID())"
+        let defaults = try #require(UserDefaults(suiteName: name))
+        defer { defaults.removePersistentDomain(forName: name) }
+        #expect(JournalResetGeneration.advance(in: defaults) == 1)
+        #expect(try JournalResetGeneration.current(in: #require(UserDefaults(suiteName: name))) == 1)
+        let reset = QuickLogManifest(generatedAt: Date(timeIntervalSince1970: 100), items: [], drinkPresets: [], journalGeneration: 1)
+        let old = QuickLogManifest(generatedAt: Date(timeIntervalSince1970: 200), items: [], drinkPresets: [])
+        #expect(!JournalResetGeneration.accepts(old, after: reset, minimumGeneration: 1))
+        #expect(!JournalResetGeneration.accepts(old, after: nil, minimumGeneration: 1))
+        var earlier = reset
+        earlier.generatedAt = Date(timeIntervalSince1970: 50)
+        #expect(!JournalResetGeneration.accepts(earlier, after: reset, minimumGeneration: 1))
+        earlier.journalGeneration = 2
+        #expect(JournalResetGeneration.accepts(earlier, after: reset, minimumGeneration: 1))
+    }
+
+    @Test
+    func `watch tiles preserve their journal generation in outgoing entries`() {
+        var item = QuickLogManifestItem(id: "caffeine", substance: "Caffeine", route: "oral", amount: 100, unit: "mg")
+        item.journalGeneration = 3
+        let payload = item.makePayload(id: UUID(), amount: 100, timestamp: .now)
+        #expect(payload.journalGeneration == 3)
+        #expect(!JournalResetGeneration.accepts(payload, generation: 4))
+    }
+
     // MARK: - Wire round-trips
 
     @Test

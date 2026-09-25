@@ -16,10 +16,7 @@ private nonisolated let recoveryLogger = Logger(subsystem: "dev.yumeji.piru", ca
 /// decides by *whether the destination actually has data*, and recovers from
 /// any data-bearing legacy / backup / quarantined store it can find.
 ///
-/// Invariant: this code NEVER deletes a store. It copies (recovery) and moves
-/// aside to timestamped sidecars (backup). The only removals of user data in
-/// the app are the explicit Settings → "Delete All" action (which backs up
-/// first) and the DEBUG-only demo seeder.
+/// Delete Everything removes recovery copies so they cannot restore erased records.
 nonisolated enum StoreRecovery {
     static let appGroupID = "group.dev.yumeji.piru"
     static let storeName = "default.store"
@@ -201,7 +198,23 @@ nonisolated enum StoreRecovery {
                 out.append(dir.appendingPathComponent(name))
             }
         }
+        if !includeIntentional, let resetDate = UserDefaults.standard.object(forKey: JournalResetGeneration.dateKey) as? Date {
+            out = out.filter { url in
+                guard let values = try? url.resourceValues(forKeys: [.contentModificationDateKey]),
+                      let modified = values.contentModificationDate else { return false }
+                return modified > resetDate
+            }
+        }
         return out
+    }
+
+    static func deleteRecoveryCopies() throws {
+        for base in recoveryCandidates(excluding: canonicalStoreURL(), includeIntentional: true) {
+            for suffix in storeSuffixes {
+                let url = URL(fileURLWithPath: base.path + suffix)
+                if FileManager.default.fileExists(atPath: url.path) { try FileManager.default.removeItem(at: url) }
+            }
+        }
     }
 
     /// Extract the `<reason>` from a sidecar filename `default.store.<reason>-<ts>`

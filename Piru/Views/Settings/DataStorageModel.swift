@@ -1,5 +1,7 @@
 import SwiftData
 import SwiftUI
+import UserNotifications
+import WidgetKit
 
 /// Every piece of work behind **Data & Backup** that takes time or can fail:
 /// generating an export, validating a picked file, enumerating the recoverable
@@ -238,13 +240,54 @@ final class DataStorageModel {
 
     // MARK: - Delete
 
-    func deleteAllData(context: ModelContext) {
+    private(set) var isDeleting = false
+
+    func deleteAllData(context: ModelContext) async {
+        guard !isDeleting else { return }
+        isDeleting = true
+        defer { isDeleting = false }
+        DoseLogService.shared.cancelPendingBookkeeping()
         do {
             try DataExportImport.deleteAll(context: context)
         } catch {
             notice = Notice(title: String(localized: "Delete Failed"), message: error.localizedDescription)
             return
         }
-        Task { await BackupManager.shared.disableAndRemoveBackup() }
+        JournalResetGeneration.advance()
+        DoseLogService.shared.changed()
+        PhoneSyncCoordinator.shared.journalWasDeleted()
+        ActiveSessionManager.shared.clearSession()
+        DayResolveCache.shared.clear()
+        NotificationPreferencesStore.shared.resetAfterDeletion()
+        CustomSubstanceStore.shared.resetAfterDeletion()
+        CustomUnitStore.shared.configure(container: context.container)
+        SearchHistoryStore.shared.clear()
+        QuickLogManager.suppressedRecents = []
+        clearPending()
+        cleanupExportedFile()
+        exported = nil
+        plainExportDocument = nil
+        plainExportFilename = nil
+        recoverable = []
+        var cleanupErrors: [String] = []
+        for cleanup in [
+            { try UserProfileStore.shared.resetAfterDeletion() },
+            { try StoreRecovery.deleteRecoveryCopies() },
+            { try JournalDeriveCache.clear() },
+            { try TimelineStripCache.clear() },
+            { try BodyLevelsTrailCache.clear() },
+        ] {
+            do { try cleanup() } catch { cleanupErrors.append(error.localizedDescription) }
+        }
+        let notifications = UNUserNotificationCenter.current()
+        notifications.removeAllPendingNotificationRequests()
+        notifications.removeAllDeliveredNotifications()
+        await LiveActivityManager.shared.deleteJournalActivities()
+        await BackupManager.shared.disableAndRemoveBackup()
+        WidgetCenter.shared.reloadAllTimelines()
+        await loadRecoverable()
+        if !cleanupErrors.isEmpty {
+            notice = Notice(title: String(localized: "Delete Failed"), message: cleanupErrors.joined(separator: "\n"))
+        }
     }
 }

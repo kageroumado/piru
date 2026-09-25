@@ -145,6 +145,13 @@ final class DoseLogService {
 
     private nonisolated static let storeGenerationKey = "doseLogStoreGeneration"
 
+    func cancelPendingBookkeeping() {
+        deferralTask?.cancel()
+        deferralTask = nil
+        pendingSubstances = []
+        pendingBookkeeping = []
+    }
+
     func changed() {
         revision += 1
         if let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru") {
@@ -188,6 +195,7 @@ final class DoseLogService {
             self.pendingSubstances = []
             self.pendingBookkeeping = []
             await InventoryService.recompute(forSubstances: substances, replayingOffMainIn: context)
+            guard !Task.isCancelled else { return }
             for work in bookkeeping {
                 work()
             }

@@ -150,7 +150,7 @@ struct DrinkVolumeView: View {
             drinkName: preset.name,
             emoji: preset.emoji,
         )
-        sync.log(payload)
+        guard sync.log(payload) else { dismiss(); return }
         WKInterfaceDevice.current().play(.success)
         confirming = true
     }

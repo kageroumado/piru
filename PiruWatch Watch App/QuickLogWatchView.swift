@@ -11,6 +11,7 @@ struct QuickLogWatchView: View {
             content
                 .navigationTitle("Quick Log")
         }
+        .id(sync.manifest?.journalGeneration ?? 0)
     }
 
     @ViewBuilder
