@@ -11,6 +11,7 @@ struct TimelineStripDayContent: View {
     let onEntryTap: (TimelineDayLayout.CardItem) -> Void
     let onSessionTap: (UUID) -> Void
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     /// Horizontal inset of every bubble within its column, so a session
     /// envelope's edge stays visible around the bubbles it wraps.
@@ -284,6 +285,12 @@ struct TimelineStripDayContent: View {
             bubbleLeft: bubbleLeft, trailingEdge: size.width - TimelineGutter.edgeInset,
         )
         drawConnectors(in: &context, axisX: axisX, bubbleLeft: bubbleLeft)
+        if differentiateWithoutColor {
+            drawCurveLabels(
+                in: &context, axisX: axisX, curveWidth: curveWidth,
+                bubbleLeft: bubbleLeft, trailingEdge: size.width - TimelineGutter.edgeInset,
+            )
+        }
 
         if let y = day.nowY {
             var nowLine = Path()
@@ -347,6 +354,53 @@ struct TimelineStripDayContent: View {
                 Path(ellipseIn: CGRect(x: dotX - r, y: milestone.y - r, width: r * 2, height: r * 2)),
                 with: .color(color),
             )
+        }
+    }
+
+    /// Gap between a curve's peak and its name label.
+    private static let curveLabelGap: CGFloat = 4
+    private static let curveLabelPadding: CGFloat = 3
+
+    /// Each curve's substance name at its peak, on a background plate — the
+    /// Differentiate Without Color reading of a lane where overlapping curves
+    /// are otherwise told apart by hue alone. A label sits right of the peak,
+    /// running on past the bubbles' edge where no bubble stands at its height;
+    /// beside a bubble it slides left to end at the bubble's edge, over the
+    /// curve's own fill rather than into the hour gutter. It steps down past
+    /// any label already placed.
+    private func drawCurveLabels(
+        in context: inout GraphicsContext,
+        axisX: CGFloat,
+        curveWidth: CGFloat,
+        bubbleLeft: CGFloat,
+        trailingEdge: CGFloat,
+    ) {
+        var placed: [CGRect] = []
+        let plate = Color.platformSystemBackground.opacity(0.85)
+        for series in day.series where !series.label.isEmpty {
+            guard let peak = series.points.max(by: { $0.v < $1.v }) else { continue }
+            let text = context.resolve(
+                Text(verbatim: series.label)
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(Color.primary),
+            )
+            let size = text.measure(in: CGSize(width: max(0, bubbleLeft - axisX), height: .infinity))
+            let pad = Self.curveLabelPadding
+            let width = size.width + pad * 2
+            let height = size.height + pad * 2
+            let y = peak.y - height / 2
+            let besideBubble = day.cardGroups.contains { $0.topY < y + height && $0.bottomY > y }
+            let limit = besideBubble ? bubbleLeft - Self.curveLabelGap : trailingEdge
+            let rightX = axisX + curveWidth * CGFloat(peak.v) + Self.curveLabelGap
+            let x = max(axisX + Self.curveLabelGap, min(rightX, limit - width))
+            var rect = CGRect(x: x, y: y, width: width, height: height)
+            while let clash = placed.first(where: { $0.intersects(rect) }) {
+                rect.origin.y = clash.maxY + 1
+            }
+            placed.append(rect)
+            context.fill(Path(roundedRect: rect, cornerRadius: 4), with: .color(plate))
+            context.stroke(Path(roundedRect: rect, cornerRadius: 4), with: .color(series.color), lineWidth: 1)
+            context.draw(text, in: rect.insetBy(dx: pad, dy: pad))
         }
     }
 

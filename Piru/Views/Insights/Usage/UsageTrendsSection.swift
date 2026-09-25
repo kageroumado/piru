@@ -29,6 +29,15 @@ struct UsageTrendsSection: View {
         metric == .commonDoses ? trends.filter(\.hasCommonDoses) : trends
     }
 
+    /// Each line's dash and symbol by its rank among the eligible lines, so it
+    /// keeps them while others are hidden.
+    private var markers: [Int: ChartSeriesMarker] {
+        Dictionary(
+            metricTrends.enumerated().map { ($1.substanceIndex, ChartSeriesMarker(index: $0)) },
+            uniquingKeysWith: { first, _ in first },
+        )
+    }
+
     private var legendTrends: [UsageTrendSeries] {
         showsAll ? metricTrends : Array(metricTrends.prefix(UsageAnalytics.defaultTrendSubstances))
     }
@@ -57,13 +66,14 @@ struct UsageTrendsSection: View {
                     UsageTrendsChart(
                         series: visibleSeries,
                         style: style,
+                        markers: markers,
                         weekly: range.usesWeeklyBuckets,
                         metric: metric,
                         perWeek: range.trendPerWeek,
                         selectedDate: $selectedDate,
                     )
                     if let selectedDate {
-                        UsageTrendsReadout(series: visibleSeries, style: style, metric: metric, perWeek: range.trendPerWeek, date: selectedDate)
+                        UsageTrendsReadout(series: visibleSeries, style: style, markers: markers, metric: metric, perWeek: range.trendPerWeek, date: selectedDate)
                     }
                     legend
                 }
@@ -119,11 +129,15 @@ struct UsageTrendsSection: View {
             }
         } label: {
             HStack(spacing: Spacing.xs) {
-                LegendDot(color: style.color(item.substanceIndex))
-                    .opacity(isHidden ? 0.3 : 1)
+                ChartSeriesKey(
+                    color: style.color(item.substanceIndex),
+                    marker: markers[item.substanceIndex] ?? ChartSeriesMarker(index: 0),
+                )
+                .opacity(isHidden ? 0.3 : 1)
                 Text(name)
                     .font(.caption2)
                     .foregroundStyle(isHidden ? Theme.secondaryLabel : .primary)
+                    .strikethrough(isHidden)
             }
         }
         .buttonStyle(.plain)
@@ -139,14 +153,31 @@ struct UsageTrendsSection: View {
 private struct UsageTrendsChart: View {
     let series: [UsageTrendSeries]
     let style: UsageSubstanceStyle
+    let markers: [Int: ChartSeriesMarker]
     let weekly: Bool
     let metric: UsageRankMetric
     /// Whether values read as a per-week rate (else per-day buckets on 7D).
     let perWeek: Bool
     @Binding var selectedDate: Date?
 
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiate
+
     private func value(_ point: UsageTrendPoint) -> Double {
         metric == .commonDoses ? point.commonValue : point.value
+    }
+
+    private func marker(_ item: UsageTrendSeries) -> ChartSeriesMarker {
+        markers[item.substanceIndex] ?? ChartSeriesMarker(index: 0)
+    }
+
+    private func symbolPoints(_ item: UsageTrendSeries) -> [UsageTrendPoint] {
+        guard differentiate else { return [] }
+        let indices = ChartSeriesMarker.symbolIndices(
+            dates: item.points.map(\.date),
+            values: item.points.map(value),
+            window: min(usageChartWindowSeconds, span.length),
+        )
+        return indices.map { item.points[$0] }
     }
 
     /// The chart's full x-span in seconds, and the start of the most-recent
@@ -167,8 +198,14 @@ private struct UsageTrendsChart: View {
                         series: .value("Substance", item.substanceIndex),
                     )
                     .foregroundStyle(style.color(item.substanceIndex))
-                    .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round))
+                    .lineStyle(marker(item).stroke(lineWidth: 2, differentiate: differentiate))
                     .interpolationMethod(.catmullRom)
+                }
+                ForEach(symbolPoints(item)) { point in
+                    PointMark(x: .value("Date", point.date), y: .value("Per week", value(point)))
+                        .foregroundStyle(style.color(item.substanceIndex))
+                        .symbol(marker(item).chartSymbol)
+                        .symbolSize(40)
                 }
             }
             if let selectedDate {
@@ -236,6 +273,7 @@ private struct UsageTrendsChart: View {
 private struct UsageTrendsReadout: View {
     let series: [UsageTrendSeries]
     let style: UsageSubstanceStyle
+    let markers: [Int: ChartSeriesMarker]
     let metric: UsageRankMetric
     let perWeek: Bool
     let date: Date
@@ -253,9 +291,11 @@ private struct UsageTrendsReadout: View {
                 .font(.caption.weight(.semibold))
             ForEach(rows, id: \.index) { row in
                 HStack(spacing: 5) {
-                    Circle()
-                        .fill(style.color(row.index))
-                        .frame(width: 6, height: 6)
+                    ChartSeriesKey(
+                        color: style.color(row.index),
+                        marker: markers[row.index] ?? ChartSeriesMarker(index: 0),
+                        size: .compact,
+                    )
                     Text(style.name(row.index))
                         .font(.caption2)
                     Spacer(minLength: 8)

@@ -238,16 +238,37 @@ private struct AssumedDepotLevelsCard: View {
 
     static let palette: [Color] = [Theme.accent, .teal, .orange, .purple, .green]
 
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiate
+
     private struct EsterPoint: Identifiable {
         let id = UUID()
+        /// The ester's position in `perEster`, which picks its color and marker.
+        let index: Int
         let ester: String
         let date: Date
         let value: Double
     }
 
     private var flatPoints: [EsterPoint] {
-        perEster.flatMap { series in
-            series.points.map { EsterPoint(ester: series.ester.label, date: $0.date, value: $0.level) }
+        perEster.enumerated().flatMap { index, series in
+            series.points.map { EsterPoint(index: index, ester: series.ester.label, date: $0.date, value: $0.level) }
+        }
+    }
+
+    /// Under Differentiate Without Color, a few points per ester carrying its
+    /// symbol, at each ester's highest point in six slices of the chart's span.
+    private var symbolPoints: [EsterPoint] {
+        guard differentiate else { return [] }
+        let dates = perEster.flatMap { $0.points.map(\.date) }
+        guard let first = dates.min(), let last = dates.max(), last > first else { return [] }
+        return perEster.enumerated().flatMap { index, series in
+            ChartSeriesMarker.symbolIndices(
+                dates: series.points.map(\.date),
+                values: series.points.map(\.level),
+                window: last.timeIntervalSince(first),
+            ).map { i in
+                EsterPoint(index: index, ester: series.ester.label, date: series.points[i].date, value: series.points[i].level)
+            }
         }
     }
 
@@ -264,15 +285,25 @@ private struct AssumedDepotLevelsCard: View {
             Text("Assumed depot levels")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(Theme.secondaryLabel)
-            Chart(flatPoints) { point in
-                LineMark(
-                    x: .value("Date", point.date),
-                    y: .value("Level", point.value),
-                )
-                .foregroundStyle(by: .value("Ester", point.ester))
-                .interpolationMethod(.catmullRom)
+            Chart {
+                ForEach(flatPoints) { point in
+                    LineMark(
+                        x: .value("Date", point.date),
+                        y: .value("Level", point.value),
+                    )
+                    .foregroundStyle(by: .value("Ester", point.ester))
+                    .lineStyle(ChartSeriesMarker(index: point.index).stroke(lineWidth: 2, differentiate: differentiate))
+                    .interpolationMethod(.catmullRom)
+                }
+                ForEach(symbolPoints) { point in
+                    PointMark(x: .value("Date", point.date), y: .value("Level", point.value))
+                        .foregroundStyle(by: .value("Ester", point.ester))
+                        .symbol(ChartSeriesMarker(index: point.index).chartSymbol)
+                        .symbolSize(40)
+                }
             }
             .chartForegroundStyleScale(domain: domain, range: range)
+            .chartLegend(differentiate ? .hidden : .automatic)
             .frame(height: 150)
             .chartYAxisLabel(analyte.canonicalUnit)
             .chartXAxis {
@@ -280,6 +311,17 @@ private struct AssumedDepotLevelsCard: View {
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
                         .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                     AxisValueLabel(format: .dateTime.month(.abbreviated).day()).font(.caption2)
+                }
+            }
+            if differentiate {
+                FlowLayout(spacing: Spacing.md) {
+                    ForEach(Array(perEster.enumerated()), id: \.offset) { index, series in
+                        HStack(spacing: Spacing.xs) {
+                            ChartSeriesKey(color: range[index], marker: ChartSeriesMarker(index: index))
+                            Text(series.ester.label)
+                                .font(.caption2)
+                        }
+                    }
                 }
             }
             Text("Each ester's own release, before they sum to the serum estimate above.")

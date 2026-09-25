@@ -15,10 +15,10 @@ struct InYourBodyView: View {
 
     @State private var manager = BodyLevelsManager.shared
     @State private var range: UsageTimeRange = .thirtyDays
-    @State private var hidden: Set<Int> = []
-    @State private var selectedDate: Date?
-    @State private var selectedCategory: SubstanceCategory?
-    @State private var seriesCategories: [Int: SubstanceCategory] = [:]
+    /// The chart's substance/category/legend narrowing. Held for the session
+    /// only, like the Usage screen's substance filter it mirrors.
+    @State private var filter = ModeledLevelsFilter()
+    @State private var showingSubstanceSheet = false
 
     @State private var activeSubstances: [ActiveSubstance] = []
     @State private var projections: [SteadyStateProjection] = []
@@ -60,8 +60,14 @@ struct InYourBodyView: View {
         .skinBackdrop()
         .toolbar {
             if !allEntries.isEmpty {
-                ToolbarItem(placement: .platformTopBarTrailing) { rangeMenu }
+                ToolbarItem(placement: .platformTopBarTrailing) { filterMenu }
             }
+        }
+        .sheet(isPresented: $showingSubstanceSheet) {
+            SubstanceFilterSheet(
+                substances: filter.substanceRefs(manager.trail?.series ?? []),
+                selection: $filter.selectedSubstances,
+            )
         }
         .task(id: refreshToken) {
             await SubstanceStore.shared.ensureAllLoaded()
@@ -72,27 +78,25 @@ struct InYourBodyView: View {
             projections = allProjections
             substanceProjections = Dictionary(uniqueKeysWithValues: allProjections.map { ($0.id, $0) })
             if let trail = manager.trail {
-                seriesCategories = Dictionary(uniqueKeysWithValues: trail.series.map {
-                    ($0.id, SubstanceLibrary.lookup($0.displayName)?.category ?? .other)
-                })
+                filter.setCategories(Dictionary(
+                    trail.series.map { ($0.displayName, SubstanceLibrary.lookup($0.displayName)?.category ?? .other) },
+                    uniquingKeysWith: { first, _ in first },
+                ))
             }
         }
     }
 
     // MARK: - Toolbar
 
-    private var rangeMenu: some View {
-        Menu {
-            Picker("Time Range", selection: $range) {
-                ForEach(UsageTimeRange.allCases) { option in
-                    Text(option.displayName).tag(option)
-                }
-            }
-        } label: {
-            Text(range.displayName)
-                .sectionLabel()
-        }
-        .onChange(of: range) { selectedDate = nil }
+    /// The Usage screen's filter menu: time range, plus the substance sheet
+    /// once more than one substance is modeled.
+    private var filterMenu: some View {
+        InsightsFilterMenu(
+            range: $range,
+            selectedCount: filter.selectedSubstances.count,
+            offersSubstances: filter.substanceRefs(manager.trail?.series ?? []).count > 1,
+            showSubstances: { showingSubstanceSheet = true },
+        )
     }
 
     // MARK: - Chart
@@ -107,7 +111,7 @@ struct InYourBodyView: View {
             )
             .padding(.top, 40)
         } else if let trail = manager.trail, !trail.isEmpty {
-            chartCard(trail)
+            ModeledLevelsChartCard(trail: trail, range: range, filter: filter)
         } else if manager.trail != nil {
             ContentUnavailableView(
                 "Nothing to Model",
@@ -119,112 +123,6 @@ struct InYourBodyView: View {
             ProgressView()
                 .padding(.top, 60)
         }
-    }
-
-    private func chartCard(_ trail: BodyLoadTrail) -> some View {
-        UsageSectionCard(title: "Modeled levels over time", subtitle: "Each line as a share of its own peak") {
-            let filtered = filteredSeries(from: trail)
-            let visible = filtered.filter { !hidden.contains($0.id) }
-            let series = visible.isEmpty ? filtered : visible
-            BodyLoadChart(series: series, dates: trail.dates, selectedDate: $selectedDate)
-            if let selectedDate {
-                BodyLoadReadout(series: series, date: selectedDate)
-            }
-            if categories(for: trail).count > 1 {
-                categoryFilter(trail)
-            }
-            legend(trail)
-        }
-    }
-
-    // MARK: - Category filter
-
-    private func categories(for trail: BodyLoadTrail) -> [(category: SubstanceCategory, count: Int)] {
-        var counts: [SubstanceCategory: Int] = [:]
-        for item in trail.series {
-            counts[seriesCategories[item.id] ?? .other, default: 0] += 1
-        }
-        return counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
-    }
-
-    private func filteredSeries(from trail: BodyLoadTrail) -> [BodyLoadTrail.Series] {
-        guard let cat = selectedCategory else { return trail.series }
-        return trail.series.filter { (seriesCategories[$0.id] ?? .other) == cat }
-    }
-
-    private func categoryFilter(_ trail: BodyLoadTrail) -> some View {
-        FlowLayout(spacing: Spacing.sm) {
-            let cats = categories(for: trail)
-            Button {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    selectedCategory = nil
-                    hidden.removeAll()
-                }
-            } label: {
-                Text("All")
-                    .font(.caption2.weight(.medium))
-                    .padding(.horizontal, Spacing.lg)
-                    .padding(.vertical, 5)
-                    .background(selectedCategory == nil ? Theme.accent.opacity(0.15) : Color.platformTertiarySystemFill)
-                    .foregroundStyle(selectedCategory == nil ? Theme.accent : .primary)
-                    .clipShape(skinChipShape())
-            }
-            .buttonStyle(.plain)
-
-            ForEach(cats, id: \.category) { entry in
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        selectedCategory = selectedCategory == entry.category ? nil : entry.category
-                        hidden.removeAll()
-                    }
-                } label: {
-                    HStack(spacing: Spacing.xs) {
-                        LegendDot(color: entry.category.color, size: .compact)
-                        Text(entry.category.displayName)
-                            .font(.caption2.weight(.medium))
-                    }
-                    .padding(.horizontal, Spacing.lg)
-                    .padding(.vertical, 5)
-                    .background(selectedCategory == entry.category ? entry.category.color.opacity(0.15) : Color.platformTertiarySystemFill)
-                    .foregroundStyle(selectedCategory == entry.category ? entry.category.color : .primary)
-                    .clipShape(skinChipShape())
-                }
-                .buttonStyle(.plain)
-            }
-        }
-    }
-
-    // MARK: - Legend
-
-    private func legend(_ trail: BodyLoadTrail) -> some View {
-        let filtered = filteredSeries(from: trail)
-        return FlowLayout(spacing: Spacing.md) {
-            ForEach(filtered) { item in
-                legendChip(item)
-            }
-        }
-    }
-
-    private func legendChip(_ item: BodyLoadTrail.Series) -> some View {
-        let isHidden = hidden.contains(item.id)
-        return Button {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                if isHidden { hidden.remove(item.id) } else { hidden.insert(item.id) }
-            }
-        } label: {
-            HStack(spacing: Spacing.xs) {
-                LegendDot(color: item.color)
-                    .opacity(isHidden ? 0.3 : 1)
-                Text(item.displayName)
-                    .font(.caption2)
-                    .foregroundStyle(isHidden ? Theme.secondaryLabel : .primary)
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text(item.displayName))
-        .accessibilityValue(isHidden ? Text("Hidden") : Text("Shown"))
-        .accessibilityHint(Text("Toggles this substance's line"))
-        .accessibilityAddTraits(isHidden ? [] : [.isSelected])
     }
 
     // MARK: - Active substances

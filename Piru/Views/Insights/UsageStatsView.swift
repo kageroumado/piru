@@ -85,58 +85,18 @@ struct UsageStatsView: View {
 
     // MARK: - Toolbar filter
 
-    private var filterActive: Bool {
-        !selectedSubstances.isEmpty
-    }
-
     private var filterMenu: some View {
-        Menu {
-            Picker("Time Range", selection: $range) {
-                ForEach(UsageTimeRange.allCases) { option in
-                    Text(option.displayName).tag(option)
-                }
-            }
+        InsightsFilterMenu(
+            range: $range,
+            selectedCount: selectedSubstances.count,
+            offersSubstances: model.allSubstances.count > 1,
+            showSubstances: { showingSubstanceSheet = true },
+        ) {
             Picker("Measure", selection: $metric) {
                 Text("Common doses").tag(UsageRankMetric.commonDoses)
                 Text("Entries").tag(UsageRankMetric.entries)
             }
-            if model.allSubstances.count > 1 {
-                Button {
-                    showingSubstanceSheet = true
-                } label: {
-                    // No leading icon (the pickers above carry none) and a
-                    // trailing ellipsis — the HIG signal for a row that opens
-                    // further UI (here, the substance-filter sheet) before it
-                    // takes effect, rather than toggling a value inline.
-                    Text(verbatim: substancesMenuLabel + "\u{2026}")
-                }
-            }
-        } label: {
-            filterLabel
         }
-    }
-
-    /// The toolbar glyph. `line.3.horizontal.decrease` has no `.fill` variant and
-    /// a Menu button can't be tinted, so the active state is carried by a
-    /// selected-count badge beside the glyph rather than a color or fill swap.
-    @ViewBuilder
-    private var filterLabel: some View {
-        if filterActive {
-            HStack(spacing: Spacing.xs) {
-                Image(systemName: "line.3.horizontal.decrease")
-                Text(verbatim: "\(selectedSubstances.count)")
-            }
-            .accessibilityLabel(Text("Filter"))
-        } else {
-            Label("Filter", systemImage: "line.3.horizontal.decrease")
-        }
-    }
-
-    /// The substance-picker menu row: the count when a subset is active, else "all".
-    private var substancesMenuLabel: String {
-        filterActive
-            ? String(localized: "Substances (\(selectedSubstances.count))")
-            : String(localized: "All Substances")
     }
 
     private var emptyRange: some View {

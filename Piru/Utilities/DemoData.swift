@@ -67,6 +67,11 @@ import SwiftData
             /// the ester picker real IM doses to attribute and the Injection Levels
             /// tool a steady-state log-driven curve with lab calibration.
             case transfemHRT
+            /// Feminizing HRT across an ester switch: estradiol valerate 4 mg IM
+            /// every 5 days, then cypionate 5 mg IM weekly for the last six
+            /// weeks — the multi-ester fixture for Hormone Levels' per-ester
+            /// "Assumed depot levels" chart.
+            case transfemEsterSwitch
             /// Masculinizing HRT: testosterone cypionate 100 mg SC weekly for ~12
             /// weeks, plus two total-T draws (calibration), two aromatized-E2 points,
             /// and two rising hematocrit points — the transmasc fixture for the
@@ -126,6 +131,7 @@ import SwiftData
             case .medsLowStock: seedMedsPersona(context: context, sporadic: false, lowStock: true)
             case .psychonaut: seedPsychonaut(context: context)
             case .transfemHRT: seedTransfemHRT(context: context)
+            case .transfemEsterSwitch: seedTransfemEsterSwitch(context: context)
             case .transmascT: seedTransmascT(context: context)
             case .tripJournal: seedTripJournal(context: context, now: DebugClock.now)
             }
@@ -170,6 +176,29 @@ import SwiftData
         }
 
         // MARK: - Transfem HRT (injectable ester fixture)
+
+        /// Valerate every 5 days from 90 to 45 days ago, then cypionate weekly
+        /// to today, so the two esters' depots overlap across the switch.
+        @MainActor
+        private static func seedTransfemEsterSwitch(context: ModelContext) {
+            let today = Calendar.current.startOfDay(for: .now)
+            func dose(daysAgo: Int, amount: Double, ester: String) {
+                context.insert(DoseEntry(
+                    substance: "Estradiol",
+                    amount: amount, unit: "mg", route: .intramuscular,
+                    saltForm: ester,
+                    timestamp: today.addingTimeInterval(-Double(daysAgo) * 86_400 + 9 * 3_600),
+                    tags: ["hrt"],
+                ))
+            }
+            for daysAgo in stride(from: 90, through: 45, by: -5) {
+                dose(daysAgo: daysAgo, amount: 4, ester: "Valerate")
+            }
+            for daysAgo in stride(from: 42, through: 0, by: -7) {
+                dose(daysAgo: daysAgo, amount: 5, ester: "Cypionate")
+            }
+            insertClassColor("estradiol", in: context)
+        }
 
         /// Estradiol valerate 4 mg IM every 5 days for ~13 weeks (a steady
         /// monotherapy cadence), plus two blood draws that read a little apart so

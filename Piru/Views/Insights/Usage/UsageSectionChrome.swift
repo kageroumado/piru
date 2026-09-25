@@ -218,6 +218,7 @@ struct UsageCategoryFilterBar: View {
             withAnimation(.easeInOut(duration: 0.2)) { action() }
         } label: {
             HStack(spacing: Spacing.xs) {
+                DifferentiatedSelectionMark(isSelected: isSelected)
                 Circle()
                     .fill(color)
                     .frame(width: 6, height: 6)

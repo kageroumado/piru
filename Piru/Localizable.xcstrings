@@ -32085,6 +32085,22 @@
         }
       }
     },
+    "None of the chosen substances have a modeled curve in this range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所选物质在此范围内都没有可建模的曲线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所選物質在此範圍內都沒有可建模的曲線"
+          }
+        }
+      }
+    },
     "None of your logged substances in this range drive a modeled mechanism." : {
       "localizations" : {
         "zh-Hans" : {

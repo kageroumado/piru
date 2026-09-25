@@ -11,8 +11,32 @@ import SwiftUI
 
 struct BodyLoadChart: View {
     let series: [BodyLoadTrail.Series]
+    /// Each substance's dash and symbol, by display name; drawn only under
+    /// Differentiate Without Color.
+    let markers: [String: ChartSeriesMarker]
     let dates: [Date]
     @Binding var selectedDate: Date?
+
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiate
+
+    /// Below this share of its peak a line runs along the floor with every
+    /// other, so no symbol goes there.
+    private static let symbolFloor = 0.15
+
+    private func marker(_ item: BodyLoadTrail.Series) -> ChartSeriesMarker {
+        markers[item.displayName] ?? ChartSeriesMarker(index: 0)
+    }
+
+    private func symbolPoints(_ item: BodyLoadTrail.Series) -> [BodyLoadTrail.Point] {
+        guard differentiate else { return [] }
+        let indices = ChartSeriesMarker.symbolIndices(
+            dates: item.points.map(\.date),
+            values: item.points.map(\.fraction),
+            window: min(usageChartWindowSeconds, span.length),
+            floor: Self.symbolFloor,
+        )
+        return indices.map { item.points[$0] }
+    }
 
     private var span: (length: Double, windowStart: Date?) {
         guard let first = dates.first, let last = dates.last, last > first else { return (1, nil) }
@@ -29,8 +53,14 @@ struct BodyLoadChart: View {
                         series: .value("Substance", item.id),
                     )
                     .foregroundStyle(item.color)
-                    .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                    .lineStyle(marker(item).stroke(lineWidth: 2, differentiate: differentiate))
                     .interpolationMethod(.linear)
+                }
+                ForEach(symbolPoints(item)) { point in
+                    PointMark(x: .value("Date", point.date), y: .value("Body load", point.fraction))
+                        .foregroundStyle(item.color)
+                        .symbol(marker(item).chartSymbol)
+                        .symbolSize(40)
                 }
             }
             RuleMark(x: .value("Now", Date.now))
@@ -86,6 +116,7 @@ struct BodyLoadChart: View {
 /// lines drop.
 struct BodyLoadReadout: View {
     let series: [BodyLoadTrail.Series]
+    let markers: [String: ChartSeriesMarker]
     let date: Date
 
     var body: some View {
@@ -101,9 +132,11 @@ struct BodyLoadReadout: View {
                 .font(.caption.weight(.semibold))
             ForEach(rows, id: \.series.id) { row in
                 HStack(spacing: 5) {
-                    Circle()
-                        .fill(row.series.color)
-                        .frame(width: 6, height: 6)
+                    ChartSeriesKey(
+                        color: row.series.color,
+                        marker: markers[row.series.displayName] ?? ChartSeriesMarker(index: 0),
+                        size: .compact,
+                    )
                     Text(row.series.displayName)
                         .font(.caption2)
                     Spacer(minLength: 8)

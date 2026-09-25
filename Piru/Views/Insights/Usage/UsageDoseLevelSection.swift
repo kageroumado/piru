@@ -53,6 +53,9 @@ private struct UsageDoseLevelContent: View {
     @State private var selectedSubstance: Int?
     @State private var highlightedLevel: Int?
 
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiate
+    @Environment(\.colorScheme) private var colorScheme
+
     private struct Slice: Identifiable {
         let date: Date
         let levelIndex: Int
@@ -107,9 +110,12 @@ private struct UsageDoseLevelContent: View {
         Button {
             withAnimation(.easeInOut(duration: 0.2)) { action() }
         } label: {
-            Text(title)
-                .font(.caption2.weight(.medium))
-                .usageFilterPill(isSelected: isSelected, color: color)
+            HStack(spacing: Spacing.xs) {
+                DifferentiatedSelectionMark(isSelected: isSelected)
+                Text(title)
+                    .font(.caption2.weight(.medium))
+            }
+            .usageFilterPill(isSelected: isSelected, color: color)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
@@ -190,8 +196,15 @@ private struct UsageDoseLevelContent: View {
         UsageAxes.doseLevelOrder.map(levelName)
     }
 
-    private var styleRange: [Color] {
-        UsageAxes.doseLevelOrder.map { UsageAxes.doseLevel($0).swiftUIColor }
+    private var styleRange: [AnyShapeStyle] {
+        UsageAxes.doseLevelOrder.map(fill)
+    }
+
+    /// A level's band fill: its color, textured under Differentiate Without Color.
+    private func fill(_ level: Int) -> AnyShapeStyle {
+        let color = UsageAxes.doseLevel(level).swiftUIColor
+        guard differentiate else { return AnyShapeStyle(color) }
+        return DoseLevelTexture.style(level: level, color: color, colorScheme: colorScheme)
     }
 
     private var legend: some View {
@@ -206,8 +219,8 @@ private struct UsageDoseLevelContent: View {
                 } label: {
                     HStack(spacing: Spacing.xs) {
                         RoundedRectangle(cornerRadius: 2)
-                            .fill(doseLevel.swiftUIColor)
-                            .frame(width: 9, height: 9)
+                            .fill(fill(level))
+                            .frame(width: differentiate ? 13 : 9, height: differentiate ? 13 : 9)
                         Text(doseLevel.displayName)
                             .font(.caption2)
                         Text("\(count(of: level))")

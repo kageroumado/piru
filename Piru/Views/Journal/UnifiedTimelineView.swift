@@ -578,14 +578,18 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
         /// The substance has no dose ladder, so the curve sits at a fixed
         /// neutral height rather than a read strength, and strokes dotted.
         let isUnscaled: Bool
+        /// The substance's display name, written at the curve's peak under
+        /// Differentiate Without Color so the curve is named by more than its hue.
+        let label: String
 
-        init(color: Color, points: [CurvePoint], isUnscaled: Bool = false) {
+        init(color: Color, points: [CurvePoint], isUnscaled: Bool = false, label: String = "") {
             self.color = color
             self.points = points
             self.isUnscaled = isUnscaled
+            self.label = label
         }
 
-        private enum CodingKeys: String, CodingKey { case color, points, isUnscaled }
+        private enum CodingKeys: String, CodingKey { case color, points, isUnscaled, label }
 
         /// Points travel as one flat number array — `y` to a tenth of a point,
         /// `v` to four places, the phase as its case index (−1 for none) — a
@@ -606,6 +610,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             }
             points = decoded
             isUnscaled = try c.decodeIfPresent(Bool.self, forKey: .isUnscaled) ?? false
+            label = try c.decodeIfPresent(String.self, forKey: .label) ?? ""
         }
 
         func encode(to encoder: Encoder) throws {
@@ -620,6 +625,7 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             }
             try c.encode(flat, forKey: .points)
             if isUnscaled { try c.encode(true, forKey: .isUnscaled) }
+            if !label.isEmpty { try c.encode(label, forKey: .label) }
         }
     }
 
