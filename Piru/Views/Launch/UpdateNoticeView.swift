@@ -40,7 +40,7 @@ private struct AppMovedNoticeView: View {
             }
         } message: {
             if successorHasImported {
-                Text("The new Piru app already has your journal. Doses you log here stay in this app and won't follow, so the new one is the place to log from now on.")
+                Text("The new Piru app already has your journal. Entries you add here stay in this app and won't follow, so the new one is the place to log from now on.")
             } else {
                 Text("Piru now lives in a new app. Install it on this device and the first time you open it, your journal, meds and settings come across on their own. Nothing here is deleted.")
             }

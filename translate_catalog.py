@@ -46,9 +46,9 @@ T = {
         "Piru 現在是一個新的 App。在這台裝置上安裝它，第一次打開時，你的日記、用藥和設定會自動搬過去。這裡的內容不會被刪除。",
     ),
     "Your journal has moved": ("你的日记已经搬走了", "你的日記已經搬走了"),
-    "The new Piru app already has your journal. Doses you log here stay in this app and won't follow, so the new one is the place to log from now on.": (
-        "新的 Piru App 已经有你的日记了。在这里记录的剂量只会留在这个 App 里，不会同步过去，所以从现在起，新 App 才是记录的地方。",
-        "新的 Piru App 已經有你的日記了。在這裡記錄的劑量只會留在這個 App 裡，不會同步過去，所以從現在起，新 App 才是記錄的地方。",
+    "The new Piru app already has your journal. Entries you add here stay in this app and won't follow, so the new one is the place to log from now on.": (
+        "新的 Piru App 已经有你的日记了。在这里添加的记录只会留在这个 App 里，不会同步过去，所以从现在起，新 App 才是记录的地方。",
+        "新的 Piru App 已經有你的日記了。在這裡新增的紀錄只會留在這個 App 裡，不會同步過去，所以從現在起，新 App 才是記錄的地方。",
     ),
     "Open in TestFlight": ("在 TestFlight 中打开", "在 TestFlight 中打開"),
     "Your journal came with you": ("你的日记跟着你过来了", "你的日記跟著你過來了"),
@@ -8661,7 +8661,7 @@ if __name__ == "__main__":
         "Piru has moved",
         "Piru now lives in a new app. Install it on this device and the first time you open it, your journal, meds and settings come across on their own. Nothing here is deleted.",
         "Your journal has moved",
-        "The new Piru app already has your journal. Doses you log here stay in this app and won't follow, so the new one is the place to log from now on.",
+        "The new Piru app already has your journal. Entries you add here stay in this app and won't follow, so the new one is the place to log from now on.",
         "Open in TestFlight",
         "Your journal came with you",
         "Everything from the old Piru app is here: your journal, meds and settings. Once you've looked it over, you can delete the old app.",

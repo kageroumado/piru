@@ -46485,18 +46485,18 @@
         }
       }
     },
-    "The new Piru app already has your journal. Doses you log here stay in this app and won't follow, so the new one is the place to log from now on." : {
+    "The new Piru app already has your journal. Entries you add here stay in this app and won't follow, so the new one is the place to log from now on." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新的 Piru App 已经有你的日记了。在这里记录的剂量只会留在这个 App 里，不会同步过去，所以从现在起，新 App 才是记录的地方。"
+            "value" : "新的 Piru App 已经有你的日记了。在这里添加的记录只会留在这个 App 里，不会同步过去，所以从现在起，新 App 才是记录的地方。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新的 Piru App 已經有你的日記了。在這裡記錄的劑量只會留在這個 App 裡，不會同步過去，所以從現在起，新 App 才是記錄的地方。"
+            "value" : "新的 Piru App 已經有你的日記了。在這裡新增的紀錄只會留在這個 App 裡，不會同步過去，所以從現在起，新 App 才是記錄的地方。"
           }
         }
       }
