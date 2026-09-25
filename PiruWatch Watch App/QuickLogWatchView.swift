@@ -62,7 +62,7 @@ struct QuickLogTile: View {
             VStack(alignment: .leading, spacing: 1) {
                 Text(item.displayName ?? item.substance)
                     .font(.headline)
-                    .lineLimit(1)
+                    .lineLimit(2)
                 Text(subtitle)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
@@ -74,6 +74,22 @@ struct QuickLogTile: View {
                     .foregroundStyle(.yellow)
             }
         }
+        // One element: name, then amount and route, then Favorite — instead of
+        // three stops and an unlabeled star.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(item.displayName ?? item.substance)
+        .accessibilityValue(accessibilityValue)
+    }
+
+    private var accessibilityValue: String {
+        item.isFavorite ? "\(spokenSubtitle), \(String(localized: "Favorite"))" : spokenSubtitle
+    }
+
+    /// The subtitle with a comma for its middle dot, which VoiceOver would
+    /// otherwise read aloud.
+    private var spokenSubtitle: String {
+        if item.isByVolume { return String(localized: "Drink") }
+        return "\(WatchDoseFormat.amount(item.amount)) \(item.unit), \(WatchDoseFormat.route(item.route))"
     }
 
     private var subtitle: String {

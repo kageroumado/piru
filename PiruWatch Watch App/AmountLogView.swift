@@ -19,13 +19,28 @@ struct AmountLogView: View {
         VStack(spacing: 6) {
             Text(item.displayName ?? item.substance)
                 .font(.headline)
-                .lineLimit(1)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
 
             Text("\(WatchDoseFormat.amount(amount)) \(item.unit)")
-                .font(.system(size: 34, weight: .semibold, design: .rounded))
+                .font(.system(.largeTitle, design: .rounded, weight: .semibold))
                 .monospacedDigit()
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
                 .contentTransition(.numericText())
                 .animation(.snappy, value: amount)
+                // VoiceOver takes the Crown, so the amount steps by swipe as
+                // well, by the same increment the Crown uses.
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Amount")
+                .accessibilityValue("\(WatchDoseFormat.amount(amount)) \(item.unit)")
+                .accessibilityAdjustableAction { direction in
+                    switch direction {
+                    case .increment: step(by: 1)
+                    case .decrement: step(by: -1)
+                    @unknown default: break
+                    }
+                }
 
             Text(WatchDoseFormat.route(item.route))
                 .font(.caption2)
@@ -36,6 +51,8 @@ struct AmountLogView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
+            // 5.2:1 under the white label; the default gray fill is 3.95:1.
+            .tint(.logButton)
             .padding(.top, 4)
         }
         .focusable()
@@ -67,6 +84,13 @@ struct AmountLogView: View {
         }
         .navigationTitle("Amount")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    /// Moves the amount one Crown step and the Crown with it, so a later turn
+    /// continues from the new value.
+    private func step(by steps: Double) {
+        amount = max(0, amount + steps * item.step)
+        crown = amount
     }
 
     private func log() {

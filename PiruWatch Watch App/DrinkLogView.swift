@@ -62,12 +62,28 @@ struct DrinkVolumeView: View {
         VStack(spacing: 4) {
             Text("\(preset.emoji) \(preset.name)")
                 .font(.headline)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
 
             Text("\(WatchDoseFormat.amount(volumeML)) mL")
-                .font(.system(size: 30, weight: .semibold, design: .rounded))
+                .font(.system(.title, design: .rounded, weight: .semibold))
                 .monospacedDigit()
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
                 .contentTransition(.numericText())
                 .animation(.snappy, value: volumeML)
+                // VoiceOver takes the Crown, so the volume steps by swipe as
+                // well, by the same 10 mL the Crown uses.
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Volume")
+                .accessibilityValue("\(WatchDoseFormat.amount(volumeML)) mL")
+                .accessibilityAdjustableAction { direction in
+                    switch direction {
+                    case .increment: stepVolume(by: 1)
+                    case .decrement: stepVolume(by: -1)
+                    @unknown default: break
+                    }
+                }
 
             abvStepper
 
@@ -80,6 +96,8 @@ struct DrinkVolumeView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
+            // 5.2:1 under the white label; the default gray fill is 3.95:1.
+            .tint(.logButton)
             .padding(.top, 2)
         }
         .focusable()
@@ -124,10 +142,12 @@ struct DrinkVolumeView: View {
             // Tapping a stepper moves focus to it; hand focus back so the Crown keeps
             // driving the volume.
             Button { abv = max(0.5, abv - 0.5); volumeFocused = true } label: { Image(systemName: "minus") }
+                .accessibilityLabel("Decrease ABV")
             Text("\(WatchDoseFormat.amount(abv))% ABV")
                 .font(.caption)
                 .monospacedDigit()
             Button { abv = min(80, abv + 0.5); volumeFocused = true } label: { Image(systemName: "plus") }
+                .accessibilityLabel("Increase ABV")
         }
         .buttonStyle(.bordered)
         .controlSize(.mini)
@@ -138,6 +158,13 @@ struct DrinkVolumeView: View {
     }
     private var drinks: Double {
         ByVolumeDosing.standardDrinks(grams: grams)
+    }
+
+    /// Moves the volume one Crown step and the Crown with it, so a later turn
+    /// continues from the new value.
+    private func stepVolume(by steps: Double) {
+        volumeML = max(0, volumeML + steps * Self.volumeStepML)
+        volumeCrown = volumeML
     }
 
     private func log() {

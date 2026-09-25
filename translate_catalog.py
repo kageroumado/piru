@@ -7769,6 +7769,41 @@ WT = {
     "%lld": ("%lld", "%lld"),
 }
 
+# Watch app strings. The watch has its own catalog; shared words ("Log",
+# "Amount", "Favorite", …) are drawn from `T` so the two never disagree.
+WATCH_T = {
+    **{
+        key: T[key]
+        for key in (
+            "Amount",
+            "Volume",
+            "Log",
+            "Quick Log",
+            "Drink",
+            "Favorite",
+            "Favorite a substance or record an entry on your iPhone to find it here.",
+            "^[%lld entry](inflect: true) syncing",
+            # Drink presets and dosing labels from the shared ByVolumeDosing.
+            "Beer",
+            "Wine",
+            "Shot",
+            "Pint",
+            "By Mass",
+            "By Volume",
+            "Concentration",
+            "Strength",
+        )
+    },
+    "No Favorites Yet": ("还没有收藏", "還沒有收藏"),
+    "No Drink Presets": ("没有饮品预设", "沒有飲品預設"),
+    "Logged": ("已记录", "已記錄"),
+    "Syncing to iPhone": ("正在同步到 iPhone", "正在同步到 iPhone"),
+    "Decrease ABV": ("降低酒精度", "降低酒精度"),
+    "Increase ABV": ("提高酒精度", "提高酒精度"),
+    "%@%% ABV": ("%@%% 酒精度", "%@%% 酒精度"),
+    "≈ %@ g · ≈ %@ drinks": ("≈ %1$@ g · ≈ %2$@ 标准杯", "≈ %1$@ g · ≈ %2$@ 標準杯"),
+}
+
 
 def serialize_catalog(data: dict) -> str:
     """Serialize a String Catalog byte-for-byte the way Xcode does, so a no-op
@@ -8717,6 +8752,17 @@ if __name__ == "__main__":
     print(f"Missing: {len(missing)}")
     for m in missing:
         print(f"  - {m!r}")
+
+    print()
+    print("--- Watch catalog ---")
+    n, added, missing = apply_translations(
+        project_root / "PiruWatch Watch App/Localizable.xcstrings",
+        WATCH_T,
+        insert_keys=set(WATCH_T),
+    )
+    print(f"Translated: {n}  (inserted {len(added)} new key(s))")
+    for a in added:
+        print(f"  + {a!r}")
 
     # Hand all three catalogs back to Xcode so it re-collates every key into its
     # canonical order — this is what stops the IDE from churning the file on the
