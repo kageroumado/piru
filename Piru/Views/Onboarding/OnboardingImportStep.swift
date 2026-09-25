@@ -75,6 +75,7 @@ struct OnboardingImportStep: View {
                 do {
                     let data = try await Task.detached { try Data(contentsOf: url) }.value
                     try DataExportImport.importJSON(data: data, context: modelContext)
+                    DataExportImport.refreshLiveStores(container: modelContext.container)
                     error = nil
                     withAnimation(.smooth) { imported = true }
                 } catch {

@@ -113,6 +113,14 @@ final class DockPreferences {
         }
     }
 
+    /// Re-reads both lists from the suite after an import rewrote them.
+    func reloadFromDefaults() {
+        let storedShortcuts = Self.load([DockShortcut].self, key: Self.shortcutsKey, from: defaults) ?? DockShortcut.defaultShortcuts
+        if storedShortcuts != shortcuts { shortcuts = storedShortcuts }
+        let storedLabels = Self.load([DockLabel].self, key: Self.labelsKey, from: defaults) ?? DockLabel.defaultLabels
+        if storedLabels != labels { labels = storedLabels }
+    }
+
     /// Whether another slot can be added.
     var canAddShortcut: Bool {
         shortcuts.count < Self.maxShortcuts

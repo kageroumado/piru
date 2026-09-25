@@ -132,6 +132,16 @@ final class SkinStore {
         WidgetCenter.shared.reloadAllTimelines()
     }
 
+    /// Re-reads the skin, color scheme and decorations from the suite after an
+    /// import rewrote them.
+    func reloadFromDefaults() {
+        ownershipChanged()
+        let scheme = defaults.string(forKey: SkinDefaults.colorSchemeKey).flatMap(SkinColorScheme.init) ?? SkinDefaults.colorSchemeDefault
+        if scheme != colorScheme { colorScheme = scheme }
+        let decorations = defaults.object(forKey: SkinDefaults.decorationsKey) as? Bool ?? SkinDefaults.decorationsDefault
+        if decorations != decorationsEnabled { decorationsEnabled = decorations }
+    }
+
     func setColorScheme(_ scheme: SkinColorScheme) {
         defaults.set(scheme.rawValue, forKey: SkinDefaults.colorSchemeKey)
         if scheme != colorScheme { colorScheme = scheme }

@@ -56,12 +56,20 @@ final class SearchHistoryStore {
         persist()
     }
 
+    /// Re-reads the list from the suite after an import rewrote it.
+    func reloadFromDefaults() {
+        load()
+    }
+
     // MARK: - Persistence
 
     private func load() {
         guard let data = defaults.data(forKey: Self.storageKey),
               let decoded = try? JSONDecoder().decode([String].self, from: data)
-        else { return }
+        else {
+            recent = []
+            return
+        }
         recent = Array(decoded.prefix(Self.limit))
     }
 

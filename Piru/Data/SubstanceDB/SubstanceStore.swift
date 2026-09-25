@@ -674,6 +674,67 @@ final class SubstanceStore {
         }
     }
 
+    /// One row of the user's source-priority table.
+    nonisolated struct SourcePreference: Hashable, Sendable {
+        let slug: String
+        let priority: Int
+        let enabled: Bool
+    }
+
+    /// The user's source-priority table as stored, for a backup.
+    func sourcePreferences() -> [SourcePreference] {
+        do {
+            return try userPrefsDB.read { db in
+                try Row.fetchAll(db, sql: "SELECT source_slug, priority, enabled FROM source_preferences ORDER BY priority ASC")
+                    .map { SourcePreference(slug: $0["source_slug"], priority: $0["priority"], enabled: ($0["enabled"] as Int) == 1) }
+            }
+        } catch {
+            Logger.substanceStore.error("Failed to read source preferences: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
+    /// Whether every source still sits at its bundled default priority and
+    /// enabled state — the user has never reordered or toggled one.
+    func sourcePreferencesAreDefault() -> Bool {
+        do {
+            let defaults = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: "SELECT slug, default_priority, default_enabled FROM sources")
+            }
+            let current = Dictionary(sourcePreferences().map { ($0.slug, $0) }, uniquingKeysWith: { first, _ in first })
+            return defaults.allSatisfy { row in
+                guard let pref = current[row["slug"] as String] else { return true }
+                return pref.priority == row["default_priority"] as Int && pref.enabled == ((row["default_enabled"] as Int) == 1)
+            }
+        } catch {
+            Logger.substanceStore.error("Failed to compare source preferences: \(error.localizedDescription, privacy: .public)")
+            return false
+        }
+    }
+
+    /// Writes a backed-up source-priority table over this one. Slugs this
+    /// build's bundle does not know are skipped; sources the backup lacks
+    /// keep their current rank. A table that changes nothing leaves the
+    /// resolved caches warm.
+    func restoreSourcePreferences(_ preferences: [SourcePreference]) {
+        let current = Set(sourcePreferences())
+        let known = Set(current.map(\.slug))
+        guard preferences.contains(where: { known.contains($0.slug) && !current.contains($0) }) else { return }
+        do {
+            try userPrefsDB.write { db in
+                for pref in preferences {
+                    try db.execute(
+                        sql: "UPDATE source_preferences SET priority = ?, enabled = ? WHERE source_slug = ?",
+                        arguments: [pref.priority, pref.enabled ? 1 : 0, pref.slug],
+                    )
+                }
+            }
+            reloadSourceOrder()
+        } catch {
+            Logger.substanceStore.error("Failed to restore source preferences: \(error.localizedDescription, privacy: .public)")
+        }
+    }
+
     /// Enable or disable a specific source. Disabled sources never appear in
     /// resolved values; advanced search can still surface them with an
     /// `includeDisabled: true` flag.

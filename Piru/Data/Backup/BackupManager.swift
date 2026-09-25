@@ -195,7 +195,10 @@ final class BackupManager {
             // Never wipe without a recoverable copy first.
             StoreRecovery.snapshotStore(reason: "prerestore")
             try DataExportImport.deleteAll(context: context)
-            try DataExportImport.importJSON(data: plaintext, context: context)
+            // The custom-substance cache still lists the deleted rows until it
+            // reloads, and the importer skips any custom it already lists.
+            CustomSubstanceStore.shared.resetAfterDeletion()
+            try DataExportImport.importJSON(data: plaintext, context: context, mode: .replace)
         }
         try context.save()
         DoseLogService.shared.changed()

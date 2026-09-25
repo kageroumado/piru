@@ -88,6 +88,17 @@ nonisolated struct PiruFile: Codable {
     /// the key, which decodes to `nil` (treated as empty). Mirrors the
     /// `id`/`saltForm` optional-on-decode pattern the dose data uses.
     var inventory: [PiruInventoryData]?
+    /// Optional for the same back-compat reason: absent from older files,
+    /// which leaves the importing install's rows of that kind untouched.
+    var labMeasurements: [PiruLabMeasurementData]?
+    var customUnits: [PiruCustomUnitData]?
+    var drinkPresets: [PiruDrinkPresetData]?
+    var quickLogDoses: [PiruQuickLogDoseData]?
+    var routineOccurrences: [PiruRoutineOccurrenceData]?
+    var profile: PiruProfileData?
+    var notificationPreferences: PiruNotificationPreferencesData?
+    /// App preferences kept outside the store — see ``ExportedSettings``.
+    var settings: PiruSettingsData?
 }
 
 extension PiruFile {
@@ -107,6 +118,14 @@ extension PiruFile {
         favorites = try c.decodeIfPresent([PiruFavoriteData].self, forKey: .favorites) ?? []
         customSubstances = try c.decodeIfPresent([PiruCustomSubstanceData].self, forKey: .customSubstances) ?? []
         inventory = try c.decodeIfPresent([PiruInventoryData].self, forKey: .inventory)
+        labMeasurements = try c.decodeIfPresent([PiruLabMeasurementData].self, forKey: .labMeasurements)
+        customUnits = try c.decodeIfPresent([PiruCustomUnitData].self, forKey: .customUnits)
+        drinkPresets = try c.decodeIfPresent([PiruDrinkPresetData].self, forKey: .drinkPresets)
+        quickLogDoses = try c.decodeIfPresent([PiruQuickLogDoseData].self, forKey: .quickLogDoses)
+        routineOccurrences = try c.decodeIfPresent([PiruRoutineOccurrenceData].self, forKey: .routineOccurrences)
+        profile = try c.decodeIfPresent(PiruProfileData.self, forKey: .profile)
+        notificationPreferences = try c.decodeIfPresent(PiruNotificationPreferencesData.self, forKey: .notificationPreferences)
+        settings = try c.decodeIfPresent(PiruSettingsData.self, forKey: .settings)
     }
 }
 
@@ -122,6 +141,10 @@ nonisolated struct PiruSessionData: Codable {
     /// Check-in cadence (see ``Session/checkInIntervalMinutes``); optional for
     /// the same back-compat reason.
     var checkInIntervalMinutes: Double?
+    /// Custom check-in times (``Session/checkInOffsetMinutes``) and whether the
+    /// check-in offer was already shown; optional for the same reason.
+    var checkInOffsetMinutes: [Int]?
+    var checkInOffered: Bool?
 }
 
 /// Wire shape of one ``SessionNote``. `kind` is the raw `SessionNote.Kind`;
@@ -191,6 +214,12 @@ nonisolated struct PiruDoseData: Codable {
     /// written before either flag existed import with both `false`.
     var isApproximate: Bool?
     var isUnknownDose: Bool?
+    /// The grapefruit flag and a by-volume drink's detail. Optional on both
+    /// sides: omitted for an ordinary dose, absent from older files.
+    var hadGrapefruit: Bool?
+    var volumeML: Double?
+    var abv: Double?
+    var drinkName: String?
 }
 
 nonisolated struct PiruDailyDoseData: Codable {
@@ -204,6 +233,20 @@ nonisolated struct PiruDailyDoseData: Codable {
     var frequencyRaw: String
     var frequencyDays: [Int]
     var startDate: Int64
+    /// PSID identity and the reminder model. Optional on decode, so an older
+    /// file imports with the model's defaults.
+    var substanceUID: String?
+    var isomer: String?
+    var releaseForm: String?
+    var saltForm: String?
+    var productName: String?
+    var reminderTimesMinutes: [Int]?
+    var remind: Bool?
+    /// `nil` follows the global Ask Again default; `[]` opts out.
+    var askAgainOverrideMinutes: [Int]?
+    var isQuiet: Bool?
+    var isAsNeeded: Bool?
+    var maxPerDay: Int?
 }
 
 /// One picked color. Format 2 writes `p3`; format 1 files carry `hexColor`, an
@@ -221,6 +264,13 @@ nonisolated struct PiruColorData: Codable {
 nonisolated struct PiruFavoriteData: Codable {
     var substance: String
     var createdAt: Int64
+    /// Position and PSID identity; optional on decode for older files.
+    var sortOrder: Int?
+    var substanceUID: String?
+    var isomer: String?
+    var releaseForm: String?
+    var saltForm: String?
+    var productName: String?
 }
 
 /// Everything needed to reconstruct an inventory item's stock. `currentQuantity`
@@ -228,6 +278,10 @@ nonisolated struct PiruFavoriteData: Codable {
 /// and rebuilt by `recomputeAll` after import. `trackingStart` is preserved so
 /// the dose-consumption window matches the source device exactly.
 nonisolated struct PiruInventoryData: Codable {
+    /// Stable id and manual list position; optional on decode, so an older
+    /// file's item gets a fresh id at position 0.
+    var id: UUID?
+    var sortOrder: Int?
     var substance: String
     var saltForm: String?
     var unit: String
@@ -260,7 +314,11 @@ extension DataExportImport {
     }
 
     @MainActor
-    static func makePiruFile(context: ModelContext, customStore: CustomSubstanceStore) throws -> PiruFile {
+    static func makePiruFile(
+        context: ModelContext,
+        customStore: CustomSubstanceStore,
+        settings: SettingsScope,
+    ) throws -> PiruFile {
         let sessions = try context.fetch(FetchDescriptor<Session>(sortBy: [SortDescriptor(\.startDate)]))
         let allEntries = try context.fetch(FetchDescriptor<DoseEntry>())
         let dailyDoses = try context.fetch(FetchDescriptor<DailyDoseItem>())
@@ -279,6 +337,8 @@ extension DataExportImport {
                 isBackgroundMed: e.isBackgroundMed,
                 locationName: e.locationName, latitude: e.latitude, longitude: e.longitude,
                 isApproximate: e.isApproximate, isUnknownDose: e.isUnknownDose,
+                hadGrapefruit: e.hadGrapefruit,
+                volumeML: e.volumeML, abv: e.abv, drinkName: e.drinkName,
             )
         }
 
@@ -289,6 +349,8 @@ extension DataExportImport {
                 doses: session.orderedDoses.map(doseData),
                 notes: session.orderedNotes.map(PiruSessionNoteData.init),
                 checkInIntervalMinutes: session.checkInIntervalMinutes,
+                checkInOffsetMinutes: session.checkInOffsetMinutes,
+                checkInOffered: session.checkInOffered,
             )
         }
         let orphans = allEntries
@@ -302,8 +364,14 @@ extension DataExportImport {
                 sortOrder: item.sortOrder, category: item.category, isBackgroundMed: item.isBackgroundMed,
                 frequencyRaw: item.frequencyRaw, frequencyDays: item.frequencyDays,
                 startDate: item.startDate.msSince1970,
+                substanceUID: item.substanceUID, isomer: item.isomer, releaseForm: item.releaseForm,
+                saltForm: item.saltForm, productName: item.productName,
+                reminderTimesMinutes: item.reminderTimesMinutes, remind: item.remind,
+                askAgainOverrideMinutes: item.askAgainOverrideMinutes,
+                isQuiet: item.isQuiet, isAsNeeded: item.isAsNeeded, maxPerDay: item.maxPerDay,
             )
         }
+        let records = try makeNativeRecords(context: context)
 
         return PiruFile(
             piruExportVersion: DataExportImport.piruExportVersion,
@@ -315,10 +383,18 @@ extension DataExportImport {
             substanceColors: colors
                 .filter { !$0.usesDefault || $0.isLegacy }
                 .map { PiruColorData(substance: $0.substance, p3: $0.tint) },
-            favorites: favorites.map { PiruFavoriteData(substance: $0.substance, createdAt: $0.createdAt.msSince1970) },
+            favorites: favorites.map {
+                PiruFavoriteData(
+                    substance: $0.substance, createdAt: $0.createdAt.msSince1970, sortOrder: $0.sortOrder,
+                    substanceUID: $0.substanceUID, isomer: $0.isomer, releaseForm: $0.releaseForm,
+                    saltForm: $0.saltForm, productName: $0.productName,
+                )
+            },
             customSubstances: customStore.all.map(PiruCustomSubstanceData.init),
             inventory: inventoryItems.map { item in
                 PiruInventoryData(
+                    id: item.id,
+                    sortOrder: item.sortOrder,
                     substance: item.substance,
                     saltForm: item.saltForm,
                     unit: item.unit,
@@ -340,6 +416,14 @@ extension DataExportImport {
                     },
                 )
             },
+            labMeasurements: records.labMeasurements,
+            customUnits: records.customUnits,
+            drinkPresets: records.drinkPresets,
+            quickLogDoses: records.quickLogDoses,
+            routineOccurrences: records.routineOccurrences,
+            profile: records.profile,
+            notificationPreferences: records.notificationPreferences,
+            settings: exportSettings(from: settings),
         )
     }
 
@@ -365,8 +449,16 @@ extension DataExportImport {
         SessionNoteService.ensureSummaryNote(for: session)
     }
 
+    /// Restores every store section of a Piru-native file and returns its
+    /// settings section for the caller to apply once the store work is done.
+    /// Store rows always merge: a replace runs this against a store it has
+    /// just emptied, so the merge restores exactly.
     @MainActor
-    static func importPiruNative(data: Data, context: ModelContext, customStore: CustomSubstanceStore) throws {
+    static func importPiruNative(
+        data: Data,
+        context: ModelContext,
+        customStore: CustomSubstanceStore,
+    ) throws -> PiruSettingsData? {
         let file = try JSONDecoder().decode(PiruFile.self, from: data)
         importCustomSubstances(file.customSubstances, into: customStore)
 
@@ -395,7 +487,9 @@ extension DataExportImport {
                 substanceUID: d.substanceUID, displayNameSnapshot: d.displayNameSnapshot,
                 timestamp: timestamp, notes: d.notes, tags: d.tags, isBackgroundMed: d.isBackgroundMed,
                 locationName: d.locationName, latitude: d.latitude, longitude: d.longitude,
+                hadGrapefruit: d.hadGrapefruit,
                 isApproximate: d.isApproximate ?? false, isUnknownDose: d.isUnknownDose ?? false,
+                volumeML: d.volumeML, abv: d.abv, drinkName: d.drinkName,
             )
             if let id = d.id, seenIDs.insert(id).inserted {
                 entry.id = id
@@ -407,15 +501,18 @@ extension DataExportImport {
         }
 
         // Recreate sessions with their original id/title/note; reuse an existing
-        // session row if one already carries that id (merge-safe).
+        // session row if one already carries that id (merge-safe). On a reused
+        // row the file fills only what this install left empty, so an edit made
+        // here survives a merge.
         let existingSessions = (try? context.fetch(FetchDescriptor<Session>())) ?? []
         var sessionsByID = Dictionary(existingSessions.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         for sessionData in file.sessions {
             let doses = sessionData.doses.compactMap(makeDose)
-            guard !doses.isEmpty || sessionsByID[sessionData.id] == nil else { continue }
             let session: Session
             if let existing = sessionsByID[sessionData.id] {
                 session = existing
+                if session.title == nil { session.title = sessionData.title }
+                if session.note == nil { session.note = sessionData.note }
             } else {
                 session = Session(
                     id: sessionData.id,
@@ -434,6 +531,10 @@ extension DataExportImport {
             if session.checkInIntervalMinutes == nil {
                 session.checkInIntervalMinutes = sessionData.checkInIntervalMinutes
             }
+            if session.checkInOffsetMinutes.isEmpty, let offsets = sessionData.checkInOffsetMinutes, !offsets.isEmpty {
+                session.checkInOffsetMinutes = offsets
+            }
+            if sessionData.checkInOffered == true { session.checkInOffered = true }
         }
 
         // Session-less doses (defensive) are left unassigned; importJSON's
@@ -452,19 +553,31 @@ extension DataExportImport {
         // Favorites — dedup by substance.
         let existingFavs = Set(((try? context.fetch(FetchDescriptor<FavoriteSubstance>())) ?? []).map { $0.substance.lowercased() })
         for fav in file.favorites where !existingFavs.contains(fav.substance.lowercased()) {
-            context.insert(FavoriteSubstance(substance: fav.substance))
+            let favorite = FavoriteSubstance(
+                substance: fav.substance, sortOrder: fav.sortOrder ?? 0,
+                substanceUID: fav.substanceUID, isomer: fav.isomer, releaseForm: fav.releaseForm,
+                saltForm: fav.saltForm, productName: fav.productName,
+            )
+            favorite.createdAt = Date(ms: fav.createdAt)
+            context.insert(favorite)
         }
 
         // Daily-dose items — dedup by substance, restoring the full schedule.
         let existingDailyNames = Set(((try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []).map { $0.substance.lowercased() })
         for item in file.dailyDoseItems where !existingDailyNames.contains(item.substance.lowercased()) {
-            context.insert(DailyDoseItem(
+            let med = DailyDoseItem(
                 substance: item.substance, amount: item.amount, unit: item.unit, route: item.route,
                 sortOrder: item.sortOrder, category: item.category,
                 frequency: DoseFrequency(rawValue: item.frequencyRaw) ?? .daily,
                 frequencyDays: item.frequencyDays, startDate: Date(ms: item.startDate),
                 isBackgroundMed: item.isBackgroundMed,
-            ))
+                substanceUID: item.substanceUID, isomer: item.isomer, releaseForm: item.releaseForm,
+                saltForm: item.saltForm, productName: item.productName,
+                reminderTimesMinutes: item.reminderTimesMinutes ?? [], remind: item.remind ?? true,
+                isQuiet: item.isQuiet ?? false, isAsNeeded: item.isAsNeeded ?? false, maxPerDay: item.maxPerDay,
+            )
+            med.askAgainOverrideMinutes = item.askAgainOverrideMinutes
+            context.insert(med)
         }
 
         // Inventory — merge by substance identity + salt (the same key
@@ -477,6 +590,7 @@ extension DataExportImport {
         // silently, so a restore doesn't fire a low-stock alert per item.
         if let importedInventory = file.inventory, !importedInventory.isEmpty {
             var existingItems = (try? context.fetch(FetchDescriptor<InventoryItem>())) ?? []
+            var takenIDs = Set(existingItems.map(\.id))
             for inv in importedInventory {
                 let importedEvents = inv.manualEvents.map { event in
                     ManualEvent(
@@ -501,7 +615,10 @@ extension DataExportImport {
                     if item.doseSize == nil { item.doseSize = inv.doseSize }
                     if item.unitStrengthMG == nil, item.unit == inv.unit { item.unitStrengthMG = inv.unitStrengthMG }
                 } else {
+                    let id = inv.id.flatMap { takenIDs.contains($0) ? nil : $0 } ?? UUID()
+                    takenIDs.insert(id)
                     let item = InventoryItem(
+                        id: id,
                         substance: inv.substance,
                         saltForm: inv.saltForm,
                         unit: inv.unit,
@@ -512,6 +629,7 @@ extension DataExportImport {
                         unitStrengthMG: inv.unitStrengthMG,
                         manualEvents: importedEvents,
                         createdAt: Date(ms: inv.createdAt),
+                        sortOrder: inv.sortOrder ?? 0,
                     )
                     context.insert(item)
                     existingItems.append(item)
@@ -519,5 +637,8 @@ extension DataExportImport {
             }
         }
         InventoryService.recomputeAll(in: context, notify: false)
+
+        try importNativeRecords(file, context: context)
+        return file.settings
     }
 }
