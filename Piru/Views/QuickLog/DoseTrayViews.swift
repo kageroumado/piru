@@ -61,14 +61,15 @@ struct TrayStagedListCard: View {
 
 // MARK: - Commit Bar
 
-/// The tray's shared bottom bar — the When/Tags/Location chips and the Log
-/// button. Hosted in the dock's bottom `safeAreaBar`, so scroll content can
-/// pass beneath it with the soft edge effect.
+/// The tray's shared bottom bar — the warnings, the When/Tags/Location chips
+/// and the Log button. Hosted in the dock's bottom `safeAreaBar`, so scroll
+/// content can pass beneath it with the soft edge effect.
 ///
-/// At accessibility text sizes the chips leave the bar: stacked, the pinned
-/// bar alone outgrew the compact detent's cap and clipped the Log button —
-/// the flow's primary action. The dock renders ``TrayMetaChips`` inside the
-/// scroll content instead, and only the button stays pinned.
+/// At accessibility text sizes the warnings and the chips leave the bar: the
+/// pinned bar alone outgrew the compact detent and covered the staged doses,
+/// then clipped the Log button — the flow's primary action. The dock renders
+/// ``TrayWarningBanner`` and ``TrayMetaChips`` inside the scroll content
+/// instead, and only the button stays pinned.
 struct TrayCommitBar: View {
     @Bindable var model: DoseTrayModel
     /// Source of the chips' derived caches (tag suggestions, recent
@@ -80,6 +81,54 @@ struct TrayCommitBar: View {
     let onCommit: () -> Void
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    var body: some View {
+        VStack(spacing: 0) {
+            if !dynamicTypeSize.isAccessibilitySize {
+                TrayWarningBanner(model: model)
+                TrayMetaChips(model: model, content: content)
+                commitButton
+                    .padding(.top, 14)
+            } else {
+                commitButton
+            }
+        }
+    }
+
+    // MARK: Commit
+
+    private var commitButton: some View {
+        Button(action: onCommit) {
+            Text(commitLabel)
+                .cardTitle()
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: DoseTrayMetrics.controlHeight)
+                .background(Theme.accent, in: skinChipShape())
+        }
+        .buttonStyle(.plain)
+        .disabled(!model.isCommittable)
+        .opacity(model.isCommittable ? 1 : 0.5)
+    }
+
+    /// The CTA echoes a backdate ("Log 2 · 1h ago") so a stale time can't be
+    /// committed blind.
+    private var commitLabel: String {
+        let base = model.staged.count == 1
+            ? String(localized: "Record an entry")
+            : String(localized: "Record \(model.staged.count) Entries")
+        return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
+    }
+}
+
+// MARK: - Warnings
+
+/// Interactions and the late-dose sleep clause share one element: both are
+/// consequences of what the Log button is about to record, stated before it is
+/// pressed rather than discovered after.
+struct TrayWarningBanner: View {
+    let model: DoseTrayModel
 
     @State private var interactions: [InteractionResult] = []
     @State private var sleepWarnings: [SleepWarning] = []
@@ -96,56 +145,46 @@ struct TrayCommitBar: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            if !dynamicTypeSize.isAccessibilitySize {
-                warningBanner
-                TrayMetaChips(model: model, content: content)
-                commitButton
-                    .padding(.top, 14)
-            } else {
-                warningBanner
-                commitButton
+        banner
+            .onChange(of: model.staged.map(\.substanceName)) { _, names in
+                recheckInteractions(names)
+                recheckSleep()
             }
-        }
-        .onChange(of: model.staged.map(\.substanceName)) { _, names in
-            recheckInteractions(names)
-            recheckSleep()
-        }
-        .onChange(of: model.time) { _, _ in recheckSleep() }
-        .task {
-            recheckInteractions(model.staged.map(\.substanceName))
-            recheckSleep()
-        }
+            .onChange(of: model.time) { _, _ in recheckSleep() }
+            .task {
+                recheckInteractions(model.staged.map(\.substanceName))
+                recheckSleep()
+            }
     }
 
-    // MARK: Warnings
-
-    /// Interactions and the late-dose sleep clause share one element: both are
-    /// consequences of what the button is about to log, stated before it is
-    /// pressed rather than discovered after.
-    @ViewBuilder
-    private var warningBanner: some View {
+    /// The zero-height anchor keeps the view real while there is nothing to
+    /// say: `.task` on a view that renders nothing never runs, and the first
+    /// check would never fire.
+    private var banner: some View {
         let shown = interactions.admitted(.notable)
-        if !shown.isEmpty || !sleepWarnings.isEmpty {
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                ForEach(Array(shown.prefix(3).enumerated()), id: \.offset) { _, warning in
-                    warningRow(
-                        symbol: warning.severity == .dangerous
-                            ? warning.mechanism.filledIconName : warning.mechanism.iconName,
-                        color: warning.severity.labelColor,
-                    ) {
-                        Text(warning.leadClause)
+        return VStack(spacing: 0) {
+            Color.clear.frame(height: 0)
+            if !shown.isEmpty || !sleepWarnings.isEmpty {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    ForEach(Array(shown.prefix(3).enumerated()), id: \.offset) { _, warning in
+                        warningRow(
+                            symbol: warning.severity == .dangerous
+                                ? warning.mechanism.filledIconName : warning.mechanism.iconName,
+                            color: warning.severity.labelColor,
+                        ) {
+                            Text(warning.leadClause)
+                        }
+                    }
+                    ForEach(sleepWarnings.prefix(2)) { warning in
+                        warningRow(symbol: DosePhaseGlyph.sleep, color: Color.Semantic.Caution.text) {
+                            Text("\(warning.name) modeled active until ~\(Self.clock(warning.end))")
+                        }
                     }
                 }
-                ForEach(sleepWarnings.prefix(2)) { warning in
-                    warningRow(symbol: DosePhaseGlyph.sleep, color: Color.Semantic.Caution.text) {
-                        Text("\(warning.name) modeled active until ~\(Self.clock(warning.end))")
-                    }
-                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, Spacing.lg)
+                .transition(.opacity.combined(with: .move(edge: .top)))
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.bottom, Spacing.lg)
-            .transition(.opacity.combined(with: .move(edge: .top)))
         }
     }
 
@@ -183,31 +222,6 @@ struct TrayCommitBar: View {
             ) else { return nil }
             return SleepWarning(name: dose.productName ?? dose.substanceName, end: end)
         }
-    }
-
-    // MARK: Commit
-
-    private var commitButton: some View {
-        Button(action: onCommit) {
-            Text(commitLabel)
-                .cardTitle()
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: DoseTrayMetrics.controlHeight)
-                .background(Theme.accent, in: skinChipShape())
-        }
-        .buttonStyle(.plain)
-        .disabled(!model.isCommittable)
-        .opacity(model.isCommittable ? 1 : 0.5)
-    }
-
-    /// The CTA echoes a backdate ("Log 2 · 1h ago") so a stale time can't be
-    /// committed blind.
-    private var commitLabel: String {
-        let base = model.staged.count == 1
-            ? String(localized: "Record an entry")
-            : String(localized: "Record \(model.staged.count) Entries")
-        return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
     }
 }
 

@@ -24,6 +24,8 @@ struct UnifiedTimelineView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
     @State private var model = UnifiedTimelineModel()
+    /// Bubble heights grow with the text size, so a change re-lays the strip.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var showingCalendar = false
     /// Advanced by ``TimelineClockTick`` so the strip's "now" follows the clock.
     @State private var clockTick = 0
@@ -102,7 +104,7 @@ struct UnifiedTimelineView: View {
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(clockTick)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(dynamicTypeSize)|\(clockTick)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers
@@ -191,7 +193,7 @@ final class UnifiedTimelineModel {
         showsVitals: Bool,
         cacheable: Bool = true,
     ) async {
-        let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
+        let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(TimelineDoseBubble.heightScale)"
         let key = "\(revision)|\(preferences)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
         let now = DebugClock.now
@@ -272,7 +274,7 @@ final class UnifiedTimelineModel {
         showsVitals: Bool,
     ) async -> Bool {
         guard days.isEmpty else { return false }
-        let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
+        let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(TimelineDoseBubble.heightScale)"
         let now = DebugClock.now
         let identity = await DoseLogIdentity.fetch(container: container)
         guard identity.entryCount > 0, !Task.isCancelled else { return false }

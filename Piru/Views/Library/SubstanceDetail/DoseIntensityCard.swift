@@ -156,7 +156,7 @@ struct DoseIntensityCard: View {
         // reserve-the-space rule the band summary below follows.
         return VStack(spacing: Spacing.xxs) {
             Text(dose ?? current.localizedBandName)
-                .font(.system(size: 27, weight: .heavy, design: .rounded))
+                .scaledSystemFont(size: 27, weight: .heavy, design: .rounded, relativeTo: .title2, maximumSize: 40)
                 .foregroundStyle(current.isOverdose ? color(current.bandIndex) : .primary)
                 .contentTransition(reduceMotion ? .identity : .numericText())
             Text(current.localizedBandName)

@@ -68,11 +68,12 @@ struct DockMiddleContent: View {
                     // above it, so staging more is not a context switch.
                     TrayStagedListCard(model: tray, hiddenItemIDs: unrevealedItemIDs)
 
-                    // At accessibility sizes the When/Tags/Location chips live in
-                    // the scroll content: stacked, they made the pinned bar taller
-                    // than the compact detent's cap and clipped the Log button
-                    // (see ``TrayCommitBar``).
+                    // At accessibility sizes the warnings and the When/Tags/Location
+                    // chips live in the scroll content: in the pinned bar they
+                    // covered the staged doses and clipped the Log button (see
+                    // ``TrayCommitBar``).
                     if dynamicTypeSize.isAccessibilitySize {
+                        TrayWarningBanner(model: tray)
                         TrayMetaChips(model: tray, content: content)
                     }
                 }

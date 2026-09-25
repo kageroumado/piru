@@ -22,12 +22,23 @@ struct BodyLoadRowLabel: View {
     let unit: String
     let status: BodyLoadStatus?
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            HStack(alignment: .center, spacing: Spacing.md) {
+            // At accessibility sizes the readout drops under the name; beside
+            // it, the two truncated each other to "Methylpheni…" and "1…".
+            if dynamicTypeSize.isAccessibilitySize {
                 nameCluster
-                Spacer(minLength: 8)
                 trailingReadout
+            } else {
+                HStack(alignment: .center, spacing: Spacing.md) {
+                    nameCluster
+                        .lineLimit(1)
+                    Spacer(minLength: 8)
+                    trailingReadout
+                        .lineLimit(1)
+                }
             }
             statusLine
         }
@@ -44,7 +55,6 @@ struct BodyLoadRowLabel: View {
                 .accessibilityHidden(true)
             Text(name)
                 .font(.body.weight(.semibold))
-                .lineLimit(1)
             if count > 1 {
                 Text(verbatim: "\(count)×")
                     .monospacedDigit()
@@ -84,7 +94,6 @@ struct BodyLoadRowLabel: View {
             Text(unit)
                 .captionSecondary()
         }
-        .lineLimit(1)
         .monospacedDigit()
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text("\(remaining.doseFormatted) of \(total.doseFormatted) \(unit) remaining"))
@@ -101,7 +110,7 @@ struct BodyLoadRowLabel: View {
             // ("33 / 110 mg"), so this line carries only the eliminated share and
             // the clear-by projection.
             Text("\(percent)% eliminated in model · threshold ~\(clear)")
-                .lineLimit(1)
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
                 .minimumScaleFactor(0.8)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.subheadline)

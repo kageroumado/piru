@@ -135,6 +135,25 @@ struct FamilyGradientCard<Hero: View, Content: View>: View {
     }
 }
 
+extension View {
+    /// Holds a gradient card's blurb to `width` so it stays clear of the hero
+    /// graphic at the card's top-trailing corner. At accessibility sizes the
+    /// blurb takes the card's full width: held to the column it wrapped to a
+    /// word or two per line, and the hero is decoration it may run over.
+    func cardBlurbWidth(_ width: CGFloat) -> some View {
+        modifier(CardBlurbWidth(width: width))
+    }
+}
+
+private struct CardBlurbWidth: ViewModifier {
+    let width: CGFloat
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    func body(content: Content) -> some View {
+        content.frame(maxWidth: dynamicTypeSize.isAccessibilitySize ? nil : width, alignment: .leading)
+    }
+}
+
 /// The gradient card's edge, by skin: the soft tinted drop shadow the app
 /// shipped with, or the edged skin's stroke and hard offset shadow — the same
 /// treatment as every other card, so the gradient tiles stop reading as
@@ -252,7 +271,7 @@ private struct LibraryFamilyCard: View {
                     .font(.footnote)
                     .foregroundStyle(.white.opacity(0.93))
                     .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: 210, alignment: .leading)
+                    .cardBlurbWidth(210)
             }
             Spacer(minLength: 8)
             HStack(spacing: Spacing.sm) {
@@ -497,7 +516,7 @@ private struct LibraryYoursCard: View {
                     .font(.footnote)
                     .foregroundStyle(.white.opacity(0.93))
                     .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: 210, alignment: .leading)
+                    .cardBlurbWidth(210)
             }
             Spacer(minLength: 8)
             Image(systemName: "chevron.right")

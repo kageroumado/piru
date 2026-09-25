@@ -159,6 +159,7 @@ struct QuickLogDock: View {
     @State private var geometry = DockSheetGeometry()
 
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     // MARK: Compact-detent measurements
 
@@ -314,8 +315,10 @@ struct QuickLogDock: View {
                 .padding(.bottom, Spacing.xl)
             }
             // Maps behavior: dragging up inside the dock resizes it first;
-            // content scrolls only at the tallest detent.
-            .scrollDisabled(detent != .large)
+            // content scrolls only at the tallest detent. At accessibility
+            // sizes a staged card can outgrow the compact detent, so the
+            // content scrolls there too rather than sit under the commit bar.
+            .scrollDisabled(detent != .large && !dynamicTypeSize.isAccessibilitySize)
             .scrollDismissesKeyboard(.interactively)
             // The commit bar lives in the scroll's bottom safe-area bar with
             // the soft edge effect — content passes beneath it instead of
@@ -503,7 +506,10 @@ struct QuickLogDock: View {
         var raw = QuickLogDockMetrics.searchBlockHeight + contentPadding
         raw += stagedCard
         raw += bar
-        let cap: CGFloat = containerHeight > 0 ? containerHeight * 0.5 - 40 : 420
+        // At accessibility sizes the card and bar need most of the screen;
+        // held to half, the bar covered the card's own controls.
+        let share: CGFloat = dynamicTypeSize.isAccessibilitySize ? 0.85 : 0.5
+        let cap: CGFloat = containerHeight > 0 ? containerHeight * share - 40 : 420
         return min(raw, cap).rounded()
     }
 

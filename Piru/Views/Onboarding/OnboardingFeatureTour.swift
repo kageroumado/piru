@@ -8,6 +8,7 @@ import SwiftUI
 struct OnboardingFeatureTour: View {
     @Environment(\.onboardingNav) private var nav
     @State private var page = 0
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private let pages = FeatureTourPage.all
 
@@ -41,24 +42,47 @@ struct OnboardingFeatureTour: View {
         }
     }
 
+    @ViewBuilder
     private func tourPage(_ item: FeatureTourPage) -> some View {
-        VStack(spacing: 0) {
-            Spacer(minLength: 0)
-            PhoneMock { item.mock }
-            Spacer(minLength: 0)
-            VStack(spacing: Spacing.md) {
-                Text(item.title)
-                    .font(.piru(.title2, weight: .bold))
-                Text(item.caption)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
+        // At accessibility sizes the caption under the fixed-size mock can
+        // outgrow the page, so the page scrolls, caption first.
+        if dynamicTypeSize.isAccessibilitySize {
+            ScrollView {
+                VStack(spacing: Spacing.xl) {
+                    TourCaption(item: item)
+                    PhoneMock { item.mock }
+                }
+                .padding(.top, Spacing.xl)
             }
-            .padding(.horizontal, 32)
-            .padding(.bottom, Spacing.md)
-            .accessibilityElement(children: .combine)
+        } else {
+            VStack(spacing: 0) {
+                Spacer(minLength: 0)
+                PhoneMock { item.mock }
+                Spacer(minLength: 0)
+                TourCaption(item: item)
+            }
         }
+    }
+}
+
+/// A tour page's title and caption.
+private struct TourCaption: View {
+    let item: FeatureTourPage
+
+    var body: some View {
+        VStack(spacing: Spacing.md) {
+            Text(item.title)
+                .font(.piru(.title2, weight: .bold))
+                .multilineTextAlignment(.center)
+            Text(item.caption)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal, 32)
+        .padding(.bottom, Spacing.md)
+        .accessibilityElement(children: .combine)
     }
 }
 

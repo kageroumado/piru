@@ -185,7 +185,7 @@ struct StagedDoseStepperBlock: View {
             .onChange(of: model.amountText) {
                 model.commitAmountText(to: &item)
             }
-            .frame(height: 42)
+            .frame(minHeight: 42)
             .frame(maxWidth: .infinity)
             // Same fill as the −/+ buttons — one control system, one shade.
             .background(Color.platformSecondarySystemFill, in: skinChipShape())
@@ -360,7 +360,7 @@ struct StagedDoseByDrinkRow<Trailing: View>: View {
                     .focused(focus)
                     .multilineTextAlignment(.center)
                     .screenTitle()
-                    .frame(height: 42)
+                    .frame(minHeight: 42)
                     .frame(maxWidth: .infinity)
                     .background(Color.platformSecondarySystemFill, in: skinChipShape())
                     // Label before the overlay so it scopes to the field, not
@@ -516,7 +516,7 @@ struct StagedDosePillCountRow: View {
                 .accessibilityLabel("Fewer pills")
                 Text(quantityLabel)
                     .screenTitle()
-                    .frame(height: 42)
+                    .frame(minHeight: 42)
                     .frame(maxWidth: .infinity)
                     .background(Color.platformSecondarySystemFill, in: skinChipShape())
                     .accessibilityLabel("Quantity")

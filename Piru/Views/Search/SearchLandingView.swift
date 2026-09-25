@@ -210,7 +210,7 @@ private struct HelpCard: View {
                         .font(.footnote)
                         .foregroundStyle(.white.opacity(0.93))
                         .fixedSize(horizontal: false, vertical: true)
-                        .frame(maxWidth: 240, alignment: .leading)
+                        .cardBlurbWidth(240)
                         .padding(.top, 5)
                 }
             }
@@ -338,7 +338,7 @@ private struct ClassLabel: View {
                 .accessibilityHidden(true)
             Spacer(minLength: 14)
             Text(title)
-                .font(.system(size: 16, weight: .bold))
+                .scaledSystemFont(size: 16, weight: .bold, relativeTo: .callout)
                 .foregroundStyle(.white)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)

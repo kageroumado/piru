@@ -137,7 +137,7 @@ private struct MythCitationChip: View {
                 .strikethrough(citation.role == .retractedSource)
             if linked {
                 Image(systemName: "arrow.up.right")
-                    .font(.system(size: 8, weight: .semibold))
+                    .scaledSystemFont(size: 8, weight: .semibold, relativeTo: .caption2)
                     .accessibilityHidden(true)
             }
         }

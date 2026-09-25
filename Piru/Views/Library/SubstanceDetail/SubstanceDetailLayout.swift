@@ -221,6 +221,8 @@ struct SubstanceDetailLayout: View {
 private struct SubstanceDetailHeader: View {
     let substance: Substance
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     /// Popular aliases shown as chips before the overflow count.
     private var shownAliases: [String] {
         Array(substance.popularAliases.prefix(4))
@@ -249,7 +251,7 @@ private struct SubstanceDetailHeader: View {
         } header: {
             VStack(alignment: .leading, spacing: 5) {
                 Text(substance.displayTitle)
-                    .font(.piru(size: 40, weight: .heavy, design: .rounded, relativeTo: .largeTitle))
+                    .font(.piru(size: 40, weight: .heavy, design: .rounded, relativeTo: .largeTitle, maximumSize: 64))
                     .skinHeroTitle()
                     // `Color.primary`, not `.primary`: a section header carries a
                     // secondary style, and the hierarchical `.primary` resolves to
@@ -262,7 +264,12 @@ private struct SubstanceDetailHeader: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityAddTraits(.isHeader)
 
-                HStack(spacing: Spacing.md) {
+                // The formula drops under the chip at accessibility sizes,
+                // where the two cannot share a row.
+                let bylineLayout = dynamicTypeSize.isAccessibilitySize
+                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.sm))
+                    : AnyLayout(HStackLayout(spacing: Spacing.md))
+                bylineLayout {
                     CategoryChip(category: substance.category)
                     if let formula = substance.formula {
                         Text(formula)

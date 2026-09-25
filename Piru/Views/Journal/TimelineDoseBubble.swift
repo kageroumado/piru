@@ -18,6 +18,7 @@ struct TimelineDoseBubble: View {
     let onTap: () -> Void
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.rendersTimelineFlat) private var rendersFlat
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     static let cornerRadius: CGFloat = 14
 
@@ -29,12 +30,30 @@ struct TimelineDoseBubble: View {
         }
     }
 
+    /// The bubble's height on the strip, per style: its height at the default
+    /// text size, grown by ``heightScale``. The strip packs bubbles by this
+    /// height, so it is what keeps a larger name clear of the next bubble.
     static func height(for style: TimelineBubbleStyle) -> CGFloat {
-        switch style {
+        let base: CGFloat = switch style {
         case .full: 58
         case .compact: 40
         }
+        return (base * heightScale).rounded()
     }
+
+    /// How much the bubble's text has grown over the default content size,
+    /// capped: past the cap a bubble would outgrow the gaps between doses and
+    /// the strip would stop reading as a timeline. Text in a capped bubble
+    /// stays on one line and truncates.
+    static var heightScale: CGFloat {
+        #if canImport(UIKit)
+            min(UIFontMetrics(forTextStyle: .subheadline).scaledValue(for: 1), maximumHeightScale)
+        #else
+            1
+        #endif
+    }
+
+    private static let maximumHeightScale: CGFloat = 2
 
     private var isActive: Bool {
         (item.remainingFraction ?? 0) > 0.03
@@ -108,7 +127,11 @@ struct TimelineDoseBubble: View {
                     Text(verbatim: doseText)
                         .font(.footnote)
                         .foregroundStyle(Theme.secondaryLabel)
-                    ROAPill(route: item.route, size: .compact)
+                    // At accessibility sizes the route pill would squeeze the
+                    // dose to "90…"; the dose and the readout keep the row.
+                    if !dynamicTypeSize.isAccessibilitySize {
+                        ROAPill(route: item.route, size: .compact)
+                    }
                     Spacer(minLength: 4)
                     trailingReadout
                 }

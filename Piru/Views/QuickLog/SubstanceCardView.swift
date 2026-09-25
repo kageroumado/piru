@@ -59,8 +59,31 @@ struct SubstanceCardView: View, Equatable {
     /// single folded row.
     @State private var expandedGroups: Set<String> = []
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     private var color: Color {
         card.tint?.color ?? .gray
+    }
+
+    /// The PK status as a glanceable badge; tapping expands the full advice.
+    @ViewBuilder
+    private func collapsedBadge(showsBadge: Bool) -> some View {
+        if showsBadge, let badge, !expandedPK {
+            Button {
+                withAnimation(.snappy) { expandedPK = true }
+            } label: {
+                DosePKBadge(
+                    remainingPercent: badge.remainingPercent,
+                    lastDoseAmount: badge.lastDoseAmount,
+                    unit: badge.lastDoseUnit,
+                    lastDoseTimestamp: badge.lastDoseTimestamp,
+                )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Active dose")
+            .accessibilityValue(badge.accessibilityValue)
+            .accessibilityHint("Shows the model estimate for your last dose")
+        }
     }
 
     var body: some View {
@@ -81,21 +104,8 @@ struct SubstanceCardView: View, Equatable {
                 // tap to expand the full advice when it actually matters. The
                 // badge hides while the card is open so the same fact never
                 // shows twice; tapping the card collapses it back.
-                if showsBadge, let badge, !expandedPK {
-                    Button {
-                        withAnimation(.snappy) { expandedPK = true }
-                    } label: {
-                        DosePKBadge(
-                            remainingPercent: badge.remainingPercent,
-                            lastDoseAmount: badge.lastDoseAmount,
-                            unit: badge.lastDoseUnit,
-                            lastDoseTimestamp: badge.lastDoseTimestamp,
-                        )
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Active dose")
-                    .accessibilityValue(badge.accessibilityValue)
-                    .accessibilityHint("Shows the model estimate for your last dose")
+                if !dynamicTypeSize.isAccessibilitySize {
+                    collapsedBadge(showsBadge: showsBadge)
                 }
                 Spacer()
                 Button(action: onToggleFavorite) {
@@ -125,6 +135,12 @@ struct SubstanceCardView: View, Equatable {
                         .contentShape(Rectangle())
                 }
                 .accessibilityLabel("More actions")
+            }
+
+            // At accessibility sizes the badge takes its own row; beside the
+            // title it split the name into "Caf- / feine".
+            if dynamicTypeSize.isAccessibilitySize {
+                collapsedBadge(showsBadge: showsBadge)
             }
 
             if showsBadge, expandedPK, let badge {
