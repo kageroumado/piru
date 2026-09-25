@@ -73,6 +73,13 @@ import SwiftData
             /// Hormone Levels insight (serum-T curve + reference band + companion
             /// monitoring axes).
             case transmascT
+            /// A psychedelic journal with no meds: an LSD session three hours in
+            /// with MDMA added at the peak forty minutes ago, plus two past
+            /// sessions annotated end to end. The live session is placed from
+            /// `DebugClock.now`, so pin `-piruNow` near the wall clock: the tab
+            /// accessory reads the wall clock and hides a session that has not
+            /// started yet. The dose.wiki About page's screenshots come from this one.
+            case tripJournal
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -120,6 +127,7 @@ import SwiftData
             case .psychonaut: seedPsychonaut(context: context)
             case .transfemHRT: seedTransfemHRT(context: context)
             case .transmascT: seedTransmascT(context: context)
+            case .tripJournal: seedTripJournal(context: context, now: DebugClock.now)
             }
 
             // Inventory caches are a replay over doses, so they can only be
@@ -518,6 +526,129 @@ import SwiftData
             for name in ["lsd", "psilocybin mushrooms"] {
                 insertClassColor(name, in: context)
             }
+        }
+
+        // MARK: - Trip journal
+
+        private static func seedTripJournal(context: ModelContext, now: Date) {
+            let cal = Calendar.current
+            let today = cal.startOfDay(for: now)
+            func at(_ daysAgo: Int, _ hour: Int, _ minute: Int = 0) -> Date {
+                let day = cal.date(byAdding: .day, value: -daysAgo, to: today) ?? today
+                return cal.date(bySettingHour: hour, minute: minute, second: 0, of: day) ?? day
+            }
+            func uid(_ name: String) -> String? {
+                SubstanceLibrary.substanceUID(for: name)
+            }
+            func dose(
+                _ name: String, _ amount: Double, _ unit: String, route: RouteOfAdministration = .oral,
+                at timestamp: Date, in session: Session,
+            ) {
+                let entry = DoseEntry(
+                    substance: name, amount: amount, unit: unit, route: route, substanceUID: uid(name),
+                    timestamp: timestamp, tags: ["trip"],
+                )
+                entry.session = session
+                context.insert(entry)
+            }
+            func descriptor(_ name: String) -> String? {
+                let want = SubjectiveEffectOntology.normalize(name)
+                guard let hit = SubjectiveEffectOntology.shared.search(name, limit: 1).first,
+                      SubjectiveEffectOntology.normalize(hit.concept.name) == want
+                else {
+                    print("DemoData: no subjective-effect concept named '\(name)'")
+                    return nil
+                }
+                return hit.concept.id
+            }
+            func note(
+                _ session: Session, plus minutes: Double, _ text: String,
+                shulgin: Int, mood: Int, energy: Int, _ descriptors: [String], kind: SessionNote.Kind = .observation,
+            ) {
+                SessionNoteService.add(
+                    to: session, timestamp: session.startDate.addingTimeInterval(minutes * 60), text: text,
+                    shulgin: shulgin, mood: mood, energy: energy,
+                    descriptors: descriptors.compactMap(descriptor), kind: kind,
+                )
+            }
+            func session(_ title: String, start: Date) -> Session {
+                let session = Session(startDate: start, title: title)
+                session.checkInIntervalMinutes = CheckInScheduler.Cadence.everyHour.storedMinutes
+                session.checkInOffered = true
+                context.insert(session)
+                return session
+            }
+
+            // ── Tonight: LSD three hours ago, MDMA added near the peak ──
+            let tonight = session("Candyflip at home", start: now.addingTimeInterval(-181 * 60))
+            dose("LSD", 150, "µg", route: .sublingual, at: tonight.startDate, in: tonight)
+            dose("MDMA", 120, "mg", at: now.addingTimeInterval(-41 * 60), in: tonight)
+            note(
+                tonight, plus: 45, "tab down, playlist on. a little restless, colors a notch up.",
+                shulgin: 1, mood: 1, energy: 1, ["color saturation enhancement", "restlessness"],
+            )
+            note(
+                tonight, plus: 115, "walls breathing, the rug is doing patterns. laughing at nothing.",
+                shulgin: 3, mood: 2, energy: 1, ["drifting", "geometric imagery", "euphoria"], kind: .checkIn,
+            )
+            note(
+                tonight, plus: 170, "took the MDMA. very warm, want to talk to everyone.",
+                shulgin: 3, mood: 3, energy: 2, ["empathy, affection, and sociability enhancement", "euphoria"],
+            )
+            tonight.refreshDoseBounds()
+
+            // ── Lake evening (−5): psilocybin, notes end to end ──
+            let lake = session("Lake evening", start: at(5, 19, 30))
+            dose("Psilocybin mushrooms", 3.5, "g", at: lake.startDate, in: lake)
+            note(
+                lake, plus: 40, "warm stomach, yawning. music sounds wider.",
+                shulgin: 1, mood: 1, energy: 0, ["warmth", "body load"],
+            )
+            note(
+                lake, plus: 80, "patterns in the wood grain, everything a bit funny. lake is very still.",
+                shulgin: 2, mood: 2, energy: 0, ["geometric imagery", "euphoria"], kind: .checkIn,
+            )
+            note(
+                lake, plus: 150, "peak. the water is breathing and I lost twenty minutes just looking at it.",
+                shulgin: 3, mood: 2, energy: 1, ["geometric imagery", "euphoria", "time distortion"],
+            )
+            note(
+                lake, plus: 240, "sat by the water thinking about my grandmother. quiet, very clear.",
+                shulgin: 2, mood: 3, energy: -1, ["introspection enhancement"], kind: .checkIn,
+            )
+            note(
+                lake, plus: 330, "mostly back. tired in the good way. tea, then bed.",
+                shulgin: 1, mood: 1, energy: -1, ["fatigue"],
+            )
+            SessionNoteService.setSummary("gentle the whole way. same dose next time, earlier start.", for: lake)
+            lake.refreshDoseBounds()
+
+            // ── Forest walk (−11): LSD, three notes ──────────────
+            let forest = session("Forest walk", start: at(11, 13, 0))
+            dose("LSD", 120, "µg", route: .sublingual, at: forest.startDate, in: forest)
+            note(
+                forest, plus: 60, "walking now. trees doing the thing, moss looks like it's breathing.",
+                shulgin: 2, mood: 2, energy: 1, ["drifting", "euphoria"], kind: .checkIn,
+            )
+            note(
+                forest, plus: 180, "sat on a log for an hour. thinking about work in a way that felt kind for once.",
+                shulgin: 2, mood: 2, energy: -1, ["introspection enhancement", "time dilation"],
+            )
+            SessionNoteService.setSummary("long, clear, mostly kind. 120 µg is right for a walk.", for: forest)
+            forest.refreshDoseBounds()
+
+            for (order, name) in ["LSD", "MDMA", "Psilocybin mushrooms", "Ketamine"].enumerated() {
+                context.insert(FavoriteSubstance(substance: name, sortOrder: order, substanceUID: uid(name)))
+            }
+            for name in ["lsd", "mdma", "psilocybin mushrooms", "ketamine"] {
+                insertClassColor(name, in: context)
+            }
+            QuickLogManager.record([
+                .init(substance: "LSD", route: .sublingual, amount: 150, unit: "µg", substanceUID: uid("LSD")),
+                .init(substance: "MDMA", route: .oral, amount: 120, unit: "mg", substanceUID: uid("MDMA")),
+                .init(substance: "Psilocybin mushrooms", route: .oral, amount: 3.5, unit: "g", substanceUID: uid("Psilocybin mushrooms")),
+                .init(substance: "Ketamine", route: .insufflation, amount: 40, unit: "mg", substanceUID: uid("Ketamine")),
+            ], fixedOrder: true, context: context, save: false)
         }
 
         // MARK: - The week (default seed)
