@@ -37,9 +37,10 @@ enum DataExportImport {
         format: ExportFormat = .piru,
         context: ModelContext,
         customStore: CustomSubstanceStore = .shared,
+        settings: SettingsScope = .live,
     ) throws -> Data {
         switch format {
-        case .piru: try encodeJSON(makePiruFile(context: context, customStore: customStore))
+        case .piru: try encodeJSON(makePiruFile(context: context, customStore: customStore, settings: settings))
         case .psyLog: try encodeJSON(makePsyLogFile(context: context))
         }
     }
@@ -55,7 +56,7 @@ enum DataExportImport {
     ) async throws -> Data {
         switch format {
         case .piru:
-            let file = try makePiruFile(context: context, customStore: customStore)
+            let file = try makePiruFile(context: context, customStore: customStore, settings: .live)
             return try await Task.detached(priority: .userInitiated) { try encodeJSON(file) }.value
         case .psyLog:
             let file = try makePsyLogFile(context: context)
@@ -131,13 +132,21 @@ enum DataExportImport {
 
     /// Routes the file to the importer ``classify(_:)`` names. A native file
     /// the decoder rejects surfaces as ``ImportFileError/malformedNative`` so
-    /// the alert can say which app wrote it.
+    /// the alert can say which app wrote it. `mode` is `.replace` only when the
+    /// caller has just emptied the store for this import.
     @MainActor
-    static func importJSON(data: Data, context: ModelContext, customStore: CustomSubstanceStore = .shared) throws {
+    static func importJSON(
+        data: Data,
+        context: ModelContext,
+        customStore: CustomSubstanceStore = .shared,
+        mode: ImportMode = .merge,
+        settings: SettingsScope = .live,
+    ) throws {
+        var fileSettings: PiruSettingsData?
         switch try classify(data) {
         case let .piruNative(appVersion):
             do {
-                try importPiruNative(data: data, context: context, customStore: customStore)
+                fileSettings = try importPiruNative(data: data, context: context, customStore: customStore)
             } catch let error as DecodingError {
                 throw ImportFileError.malformedNative(appVersion: appVersion, underlying: error)
             }
@@ -158,8 +167,31 @@ enum DataExportImport {
         PSIDBackfillMigration.run(context: context)
         CuratedIdentityBackfillMigration.run(context: context)
 
+        // Last, because a changed source priority drops the substance catalog's
+        // resolved caches, which the backfills above read.
+        if let fileSettings {
+            applySettings(fileSettings, mode: mode, to: settings)
+        }
+
         // One debounced tick wakes the tolerance cache after a bulk import (the burst coalesces).
         DoseLogService.shared.changed()
+    }
+
+    /// Re-reads everything an import can change that a live singleton holds in
+    /// memory, so the running app shows the imported profile, notification
+    /// choices, units, skin, dock and search history without a relaunch, and
+    /// schedules the restored meds' reminders. Called by the import and
+    /// restore screens after a successful import.
+    @MainActor
+    static func refreshLiveStores(container: ModelContainer) {
+        UserProfileStore.shared.configure(container: container)
+        NotificationPreferencesStore.shared.configure(container: container)
+        CustomUnitStore.shared.configure(container: container)
+        SkinStore.shared.reloadFromDefaults()
+        DockPreferences.shared.reloadFromDefaults()
+        SearchHistoryStore.shared.reloadFromDefaults()
+        DoseNotificationManager.syncMedReminders(in: container.mainContext)
+        Task(name: "Rewarm substance catalog") { await SubstanceStore.shared.ensureAllLoaded() }
     }
 
     /// A user-facing message for an import failure: what the file is when no

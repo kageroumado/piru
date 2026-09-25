@@ -109,6 +109,7 @@ final class DataStorageModel {
             do {
                 let data = try await Task.detached { try Data(contentsOf: url) }.value
                 try DataExportImport.importJSON(data: data, context: context)
+                DataExportImport.refreshLiveStores(container: context.container)
                 notice = Notice(
                     title: String(localized: "Import Complete"),
                     message: String(localized: "Your data was imported."),
@@ -202,6 +203,7 @@ final class DataStorageModel {
             } else if let data {
                 try await manager.restore(data: data, passphrase: passphrase, strategy: strategy, context: context)
             }
+            DataExportImport.refreshLiveStores(container: context.container)
             notice = Notice(
                 title: String(localized: "Restore Complete"),
                 message: String(localized: "Your backup was restored."),
