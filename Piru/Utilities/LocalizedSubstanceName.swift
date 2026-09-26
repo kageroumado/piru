@@ -13,8 +13,8 @@ import os
 ///
 /// Display only, and switchable: a user who knows substances by their English
 /// names turns ``usesEnglishNames`` on and every title falls back to the
-/// canonical name. Search is unaffected either way — each localized name is
-/// also an alias.
+/// canonical name. Search is unaffected either way — ``SubstanceStore`` adds
+/// every row, in every language, to its search index.
 nonisolated enum LocalizedSubstanceName {
     /// `UserDefaults.standard` key for the "show English names" preference.
     static let englishNamesKey = "substanceNamesInEnglish"
@@ -28,16 +28,13 @@ nonisolated enum LocalizedSubstanceName {
     }
 
     /// The app's language as a `localized_names.lang` tag, or `nil` in English.
-    /// Computed once: iOS relaunches the app when its language changes.
-    static let appLanguage: String? = language(for: Bundle.main.preferredLocalizations.first ?? "en")
+    static var appLanguage: String? {
+        language(for: ContentLanguage.current)
+    }
 
-    /// Map a localization identifier to the tag the table is keyed by.
-    static func language(for localization: String) -> String? {
-        let id = localization.lowercased()
-        if id.hasPrefix("es") { return "es" }
-        guard id.hasPrefix("zh") else { return nil }
-        let traditional = ["hant", "tw", "hk", "mo"].contains { id.contains($0) }
-        return traditional ? "zh-Hant" : "zh-Hans"
+    /// The `localized_names.lang` tag for a content language; English has none.
+    static func language(for content: ContentLanguage) -> String? {
+        content == .en ? nil : content.rawValue
     }
 
     /// Whether the user asked for English substance names. Read per call

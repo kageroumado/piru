@@ -11,14 +11,23 @@ struct LocalizedSubstanceNameTests {
 
     @Test
     func `App localizations map to the table's language tags`() {
-        #expect(LocalizedSubstanceName.language(for: "es") == "es")
-        #expect(LocalizedSubstanceName.language(for: "es-419") == "es")
-        #expect(LocalizedSubstanceName.language(for: "zh-Hans") == "zh-Hans")
-        #expect(LocalizedSubstanceName.language(for: "zh-Hant") == "zh-Hant")
-        #expect(LocalizedSubstanceName.language(for: "zh-HK") == "zh-Hant")
-        #expect(LocalizedSubstanceName.language(for: "zh-TW") == "zh-Hant")
-        #expect(LocalizedSubstanceName.language(for: "en") == nil)
-        #expect(LocalizedSubstanceName.language(for: "Base") == nil)
+        func tag(_ localization: String) -> String? {
+            LocalizedSubstanceName.language(for: ContentLanguage(localization: localization))
+        }
+        #expect(tag("es") == "es")
+        #expect(tag("es-419") == "es")
+        #expect(tag("zh-Hans") == "zh-Hans")
+        #expect(tag("zh-Hant") == "zh-Hant")
+        #expect(tag("zh-HK") == "zh-Hant")
+        #expect(tag("zh-TW") == "zh-Hant")
+        #expect(tag("en") == nil)
+        #expect(tag("Base") == nil)
+    }
+
+    @Test
+    func `Spanish resolves substance text as English`() {
+        #expect(!ContentLanguage.es.isChinese)
+        #expect(ContentLanguage.es.clauses(column: "language") == ContentLanguage.en.clauses(column: "language"))
     }
 
     @Test
@@ -46,5 +55,16 @@ struct LocalizedSubstanceNameTests {
         #expect(LocalizedSubstanceName.appLanguage == nil)
         #expect(!LocalizedSubstanceName.isAvailable)
         #expect(LocalizedSubstanceName.resolve(canonicalName: "Ketamine") == nil)
+    }
+
+    @Test
+    func `Localized names are searchable in English but never listed as aliases`() async throws {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let hit = try #require(SubstanceLibrary.searchMatches("Ketamina", limit: 5).first)
+        #expect(hit.substance.name == "Ketamine")
+        #expect(hit.matchedAlias == "Ketamina")
+        let amitriptyline = try #require(SubstanceLibrary.lookup("Amitriptyline"))
+        #expect(!amitriptyline.aliases.contains("Amitriptilina"))
+        #expect(amitriptyline.displaySubtitle?.contains("Amitriptilina") != true)
     }
 }

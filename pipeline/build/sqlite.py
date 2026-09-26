@@ -2372,14 +2372,22 @@ CREATE TABLE regional_names (
 -- The name a native speaker expects as a substance's *title* in one app
 -- language (Ketamine → Ketamina / 氯胺酮 / 愷他命). Curated, one per language,
 -- and only where it differs from the canonical name — a research chemical or
--- code name (2C-B, MDMA) has no row and shows as-is. Display only: every name
--- here is also an alias, so search is the same in every language. The app
--- falls back to the canonical name when the user prefers English names.
+-- code name (2C-B, MDMA) has no row and shows as-is. The app folds every row
+-- into its search index whatever the app language, so search is the same in
+-- every language, and falls back to the canonical name when the user prefers
+-- English names.
+--
+-- Never copy these into `aliases`: the app lists aliases under the title in
+-- every language, so an English reader would see "Amitriptilina" beside
+-- Amitriptyline, and a late alias insert also skips the chemnoise purge.
 CREATE TABLE localized_names (
-    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    substance_id    INTEGER NOT NULL REFERENCES substances(id),
     -- App localization tag: 'es', 'zh-Hans', 'zh-Hant'.
-    lang         TEXT NOT NULL,
-    name         TEXT NOT NULL,
+    lang            TEXT NOT NULL,
+    name            TEXT NOT NULL,
+    -- normalise(name), the same key `aliases.alias_normalized` holds, so the
+    -- app's search index can take both tables without re-deriving it.
+    name_normalized TEXT NOT NULL,
     PRIMARY KEY (substance_id, lang)
 );
 
@@ -11743,11 +11751,13 @@ class Build:
     LOCALIZED_NAME_LANGS = ("es", "zh-Hans", "zh-Hant")
 
     def populate_localized_names(self) -> dict[str, int]:
-        """Fill `localized_names` from curated JSON, and make each name a
-        locale-tagged alias so search finds it whatever the app language.
+        """Fill `localized_names` from curated JSON.
 
         A substance carrying a curated `display_name` is skipped: that title
-        outranks a localized one in the app, so the row would never show."""
+        outranks a localized one in the app, so the row would never show. Two
+        entries resolving to one substance, or a name that is already another
+        substance's canonical name, stop the build — either would put two rows
+        with one title in the Library."""
         path = CURATED_DIR.parent / "localized-names.json"
         stats = {"inserted": 0, "unmatched": 0, "titled": 0}
         if not path.exists():
@@ -11758,12 +11768,18 @@ class Build:
             row[0]
             for row in self.cur.execute("SELECT id FROM substances WHERE display_name IS NOT NULL")
         }
+        claimed: dict[int, str] = {}
         for entry in payload.get("names", []):
             sid = index.get(normalise(entry["substance"]))
             if sid is None:
                 stats["unmatched"] += 1
                 print(f"  localized-names: no substance {entry['substance']!r}", file=sys.stderr)
                 continue
+            if sid in claimed:
+                raise SystemExit(
+                    f"localized-names: {entry['substance']!r} and {claimed[sid]!r} name the same substance"
+                )
+            claimed[sid] = entry["substance"]
             if sid in titled:
                 stats["titled"] += 1
                 continue
@@ -11771,14 +11787,16 @@ class Build:
                 name = entry.get(lang)
                 if not name:
                     continue
+                key = normalise(name)
+                owner = self.substance_ids.get(key)
+                if owner is not None and owner != sid:
+                    raise SystemExit(
+                        f"localized-names: {lang} {name!r} for {entry['substance']!r} "
+                        "is another substance's canonical name"
+                    )
                 self.cur.execute(
-                    "INSERT OR REPLACE INTO localized_names(substance_id, lang, name) VALUES (?, ?, ?)",
-                    (sid, lang, name),
-                )
-                self._add_alias(sid, name, None)
-                self.cur.execute(
-                    "UPDATE aliases SET locale=? WHERE substance_id=? AND alias_normalized=? AND locale IS NULL",
-                    (lang, sid, normalise(name)),
+                    "INSERT INTO localized_names(substance_id, lang, name, name_normalized) VALUES (?, ?, ?, ?)",
+                    (sid, lang, name, key),
                 )
                 stats["inserted"] += 1
         return stats

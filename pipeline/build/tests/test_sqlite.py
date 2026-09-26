@@ -1817,6 +1817,24 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             survivors.append(al)
         self.assertEqual(survivors, [], f"chemnoise aliases survived the purge: {survivors[:10]}")
 
+    def test_localized_names_are_unique_titles(self):
+        """A localized name is a title, so two substances sharing one in a
+        language are two indistinguishable Library rows — and one that equals
+        another substance's canonical name collides with that row too."""
+        shared = self.db.execute(
+            "select lang, name_normalized from localized_names "
+            "group by lang, name_normalized having count(*) > 1"
+        ).fetchall()
+        self.assertEqual([tuple(r) for r in shared], [], "substances sharing a localized name")
+        clashes = self.db.execute(
+            "select l.lang, l.name, s.canonical_name from localized_names l "
+            "join substances s on lower(s.canonical_name) = lower(l.name) "
+            "and s.id != l.substance_id"
+        ).fetchall()
+        self.assertEqual(
+            [tuple(r) for r in clashes], [], "localized names equal to another canonical"
+        )
+
     def test_every_shipped_smiles_parses(self):
         """A SMILES that RDKit cannot parse is not a weaker structure — it is no
         structure at all, and it fails silently everywhere: no molecule shape is

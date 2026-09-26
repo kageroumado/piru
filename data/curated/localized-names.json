@@ -1,5 +1,5 @@
 {
-  "_comment": "The title a native speaker expects for a substance in each app language — the Spanish DCI (Ketamina), the mainland generic (氯胺酮), Taiwan's name (愷他命). One name per language, curated for recognition: never a street name, never a brand. A language is present only where its name differs from the canonical one; research chemicals and code names (2C-B, MDMA, LSD) have no entry and show as-is everywhere. Taiwan names follow TFDA/controlled-drug-list usage, which often differs from the mainland beyond script (阿普唑他, 特拉瑪竇). Display only: pipeline/build/sqlite.py also makes each name a locale-tagged alias, so search is identical in every language, and the app shows the canonical name instead when the user turns on English substance names.",
+  "_comment": "The title a native speaker expects for a substance in each app language — the Spanish DCI (Ketamina), the mainland generic (氯胺酮), Taiwan's name (愷他命). One name per language, curated for recognition: never a street name, never a brand. A language is present only where its name differs from the canonical one; research chemicals and code names (2C-B, MDMA, LSD) have no entry and show as-is everywhere. Taiwan names follow TFDA/controlled-drug-list usage, which often differs from the mainland beyond script (阿普唑他, 特拉瑪竇). Display only: the app adds every name to its search index in every language, so search is identical everywhere, and the app shows the canonical name instead when the user turns on English substance names.",
   "names": [
     {
       "substance": "1,4-Butanediol",
@@ -3048,7 +3048,6 @@
     {
       "substance": "Theacrine",
       "es": "Teacrina",
-      "zh-Hans": "苦茶碱",
       "zh-Hant": "苦茶鹼"
     },
     {
@@ -3345,12 +3344,6 @@
       "zh-Hant": "占諾美林"
     },
     {
-      "substance": "Xeroquel",
-      "es": "Quetiapina",
-      "zh-Hans": "喹硫平",
-      "zh-Hant": "奎硫平"
-    },
-    {
       "substance": "Yerba-mate",
       "es": "Yerba mate",
       "zh-Hans": "马黛茶",
@@ -3425,26 +3418,9 @@
       "zh-Hant": "佐匹克隆"
     },
     {
-      "substance": "石山碱甲",
-      "es": "Huperzina A",
-      "zh-Hans": "石杉碱甲",
-      "zh-Hant": "石杉鹼甲"
-    },
-    {
       "substance": "羟吗啡酮腙",
       "es": "Oximorfazona",
       "zh-Hant": "羥嗎啡酮腙"
-    },
-    {
-      "substance": "苦茶碱",
-      "es": "Teacrina",
-      "zh-Hant": "苦茶鹼"
-    },
-    {
-      "substance": "麦斯卡林",
-      "es": "Mescalina",
-      "zh-Hans": "麦司卡林",
-      "zh-Hant": "麥司卡林"
     }
   ]
 }
