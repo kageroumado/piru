@@ -56,11 +56,14 @@ enum BenzoDurationLadder {
         lookup: (String) -> Substance?,
     ) -> [Rung] {
         guard let own = substance.halfLifeMinutes, own > 0 else { return [] }
+        // Keyed by lowercased canonical name, never by the shown title: a
+        // metabolite's library name is canonical while a reference's title may be
+        // localized (去甲西泮), and nordazepam must still collapse to one rung.
         var byName: [String: Rung] = [:]
         for name in references {
             guard let reference = lookup(name), let halfLife = reference.halfLifeMinutes, halfLife > 0
             else { continue }
-            byName[reference.displayTitle] = Rung(
+            byName[reference.name.lowercased()] = Rung(
                 name: reference.displayTitle,
                 halfLifeMinutes: halfLife,
                 role: .reference,
@@ -70,13 +73,16 @@ enum BenzoDurationLadder {
             guard let halfLife = metabolite.halfLifeMinutes, halfLife > own else { continue }
             // `displayName`, not `name`: the raw column holds "nordazepam
             // (N-desmethyldiazepam)", which reads as noise on a ladder of
-            // capitalized one-word compounds.
-            let name = metabolite.displayName
-            byName[name] = Rung(name: name, halfLifeMinutes: halfLife, role: .metabolite)
+            // capitalized one-word compounds. A metabolite in the library takes
+            // its title, so it reads in the same language as the other rungs.
+            let library = metabolite.substanceName.flatMap(lookup)
+            let name = library?.displayTitle ?? metabolite.displayName
+            let key = (library?.name ?? metabolite.displayName).lowercased()
+            byName[key] = Rung(name: name, halfLifeMinutes: halfLife, role: .metabolite)
         }
         // Last, so it wins any name collision: on alprazolam's own page the
         // alprazolam rung is marked rather than listed twice.
-        byName[substance.displayTitle] = Rung(
+        byName[substance.name.lowercased()] = Rung(
             name: substance.displayTitle,
             halfLifeMinutes: own,
             role: .subject,

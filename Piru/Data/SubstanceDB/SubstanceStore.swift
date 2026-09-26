@@ -805,8 +805,16 @@ final class SubstanceStore {
                         return (row["id"] as Int64, uid)
                     }
                     let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias, alias_normalized, isomer, release_form, salt_form FROM aliases")
+                    // Localized titles (Ketamina, 氯胺酮) are searchable in every app language, so
+                    // they join the search keys — after the aliases, so first-wins leaves every
+                    // existing alias with its owner. They are kept out of the `aliases` table,
+                    // which is what the header lists under the title. A DB built before
+                    // `localized_names` existed fails this query and adds nothing.
+                    let localizedRows = (try? Row.fetchAll(db, sql: "SELECT substance_id, name, name_normalized FROM localized_names")) ?? []
                     let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
+                        + localizedRows.map { ($0["name_normalized"] as String, $0["substance_id"] as Int64) }
                     let aliasDisplay = aliasRows.map { ($0["alias_normalized"] as String, $0["alias"] as String) }
+                        + localizedRows.map { ($0["name_normalized"] as String, $0["name"] as String) }
                     // Only the facet-bearing rows — the vast majority of aliases name
                     // the plain/unspecified form and would just bloat both indexes.
                     let aliasFacets = aliasRows.compactMap { row -> (String, String?, String?, String?)? in
@@ -835,6 +843,8 @@ final class SubstanceStore {
             // Which spelling to display per region. Installed here because `displayTitle` reads it from
             // `nonisolated` code with no store reference — see `RegionalSubstanceName`.
             RegionalSubstanceName.load(SubstanceReadModel.regionalNames(db: substancesDB))
+            // Each substance's name in the app language, for the same reason — see `LocalizedSubstanceName`.
+            LocalizedSubstanceName.load(SubstanceReadModel.localizedNames(db: substancesDB))
             // Which substances take a by-volume dose input. Installed here for the same reason:
             // `Substance.byVolumeDosing` is a computed property with no store reference.
             ByVolumeCatalog.load(SubstanceReadModel.byVolumeCapabilities(db: substancesDB))

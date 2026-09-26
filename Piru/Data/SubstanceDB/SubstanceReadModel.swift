@@ -6,13 +6,19 @@ import os
 /// of locale resolution — stored rows may also be `und` (undetermined), which
 /// the resolver treats as an English-tier fallback. Carries the SQL fragments
 /// for locale-first text resolution so every text table resolves the same way.
+///
+/// Spanish is a UI language whose substance *text* resolves as English — the
+/// bundled DB carries no Spanish prose — so only its substance titles differ
+/// (see ``LocalizedSubstanceName``). Every text resolver gates on
+/// ``isChinese``, never on `!= .en`.
 nonisolated enum ContentLanguage: String {
     case en
+    case es
     case zhHans = "zh-Hans"
     case zhHant = "zh-Hant"
 
     var isChinese: Bool {
-        self != .en
+        self == .zhHans || self == .zhHant
     }
 
     /// Derive from the app's preferred localization (follows a per-app language
@@ -20,14 +26,21 @@ nonisolated enum ContentLanguage: String {
     /// `preferredLocalizations` allocates on every call, this sat on the
     /// per-row render path, and iOS relaunches the app when its language
     /// changes, so the value cannot go stale.
-    static let current: ContentLanguage = {
-        let pref = (Bundle.main.preferredLocalizations.first ?? "en").lowercased()
-        guard pref.hasPrefix("zh") else { return .en }
-        if pref.contains("hant") || pref.contains("tw") || pref.contains("hk") || pref.contains("mo") {
-            return .zhHant
+    static let current = ContentLanguage(localization: Bundle.main.preferredLocalizations.first ?? "en")
+
+    /// Map a localization identifier ("es-419", "zh-HK", "Base") to a content
+    /// language; anything unrecognized is English.
+    init(localization: String) {
+        let id = localization.lowercased()
+        if id.hasPrefix("es") {
+            self = .es
+        } else if id.hasPrefix("zh") {
+            let traditional = ["hant", "tw", "hk", "mo"].contains { id.contains($0) }
+            self = traditional ? .zhHant : .zhHans
+        } else {
+            self = .en
         }
-        return .zhHans
-    }()
+    }
 
     /// Language-aware `WHERE`/`ORDER BY` fragments for a text table's `language`
     /// column. In Chinese, matching-language text floats above source priority

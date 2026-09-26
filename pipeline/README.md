@@ -65,6 +65,7 @@ fix, not noise to tolerate.
 | `class-representatives.json` | `class_representatives` | the per-class PK stand-in the tolerance fallback models a PK-less substance as |
 | `substance-flags.json` | `substance_flags` | booleans an engine reads and nothing renders |
 | `regional-names.json` | `regional_names` | which spelling of a name to display in which regions |
+| `localized-names.json` | `localized_names` | the title a substance takes in each app language (es, zh-Hans, zh-Hant); the app also searches by it |
 | `opioid-mme.json` | `opioid_mme` | oral morphine-milligram-equivalent factors, and which opioids must never be converted |
 | `interaction-rules.json` | `interaction_rules` | which class pairs interact and how badly; ingested ahead of TripSit's matrix so a curated verdict wins the pair |
 | `substance-interaction-classes.json` | `substance_interaction_classes` | the interaction class a name carries, overriding its category |

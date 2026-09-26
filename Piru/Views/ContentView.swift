@@ -10,6 +10,11 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
+    /// Substance titles resolve outside SwiftUI's dependency tracking (see
+    /// `LocalizedSubstanceName`), so flipping the preference rebuilds the tab
+    /// tree to redraw them. Navigation state lives in `AppNavigator` and the
+    /// sheet stack is presented above this view, so nothing the user was on is lost.
+    @AppStorage(LocalizedSubstanceName.englishNamesKey) private var englishSubstanceNames = false
 
     /// A thin root. `MainTabView` owns its own search state and takes no inputs,
     /// so SwiftUI skips re-evaluating it whenever this body re-runs (a scene-phase
@@ -19,6 +24,7 @@ struct ContentView: View {
     /// out of the tab tree.
     var body: some View {
         MainTabView()
+            .id(englishSubstanceNames)
             .sheetStackPresenter(navigator)
             .dismissesKeyboardOnTap()
             .modifier(OnboardingGateModifier())

@@ -232,21 +232,25 @@ struct Substance: Identifiable {
     }
 
     /// Title shown in lists and the detail header — the display-name override
-    /// (a user relabel or curated title), else the region-appropriate spelling
-    /// for drugs with US/international name variants (Acetaminophen vs
-    /// Paracetamol), else the canonical `name`. A leading pictograph is
-    /// stripped.
+    /// (a user relabel or curated title), else the name in the app language
+    /// (Ketamina, 氯胺酮) unless the user prefers English names, else the
+    /// region-appropriate spelling for drugs with US/international name variants
+    /// (Acetaminophen vs Paracetamol), else the canonical `name`. A leading
+    /// pictograph is stripped.
     ///
-    /// `nonisolated` (pure — regional-name resolve + pictograph strip over the
-    /// struct's own stored fields) so off-main callers can read it: the Library's
-    /// sort runs in a `Task.detached` where the project-default `MainActor`
+    /// `nonisolated` (pure — name resolves + pictograph strip over the struct's
+    /// own stored fields) so off-main callers can read it: the Library's sort
+    /// runs in a `Task.detached` where the project-default `MainActor`
     /// isolation would otherwise forbid the access (a Release-only warning).
     nonisolated var displayTitle: String {
-        // The user's own relabel outranks the region default: naming a med the
-        // way you say it is a stronger signal than the spelling your locale
-        // prefers, and the five substances carrying a regional row (paracetamol
-        // above all) are exactly the ones someone relabels.
-        let base = displayName ?? RegionalSubstanceName.resolve(canonicalName: name) ?? name
+        // The user's own relabel outranks both defaults: naming a med the way
+        // you say it is a stronger signal than the name your language or region
+        // prefers, and the substances carrying such rows (paracetamol above all)
+        // are exactly the ones someone relabels.
+        let base = displayName
+            ?? LocalizedSubstanceName.resolve(canonicalName: name)
+            ?? RegionalSubstanceName.resolve(canonicalName: name)
+            ?? name
         return Substance.strippingLeadingPictograph(base).text
     }
 
@@ -324,10 +328,12 @@ struct Substance: Identifiable {
         s.filter(\.isUppercase).count * 10 + (s.contains("-") ? 1 : 0)
     }
 
-    /// Secondary line for rows: the canonical (expanded) name when it differs
-    /// from the shown title, otherwise the cleaned aliases (up to 3).
+    /// Secondary line for rows: the canonical (expanded) name when a relabel,
+    /// curated title or language name replaces it, otherwise the cleaned
+    /// aliases (up to 3).
     var displaySubtitle: String? {
-        if displayName != nil, name != displayTitle { return name }
+        if displayName != nil || LocalizedSubstanceName.resolve(canonicalName: name) != nil,
+           name != displayTitle { return name }
         let cleaned = displayAliases
         guard !cleaned.isEmpty else { return nil }
         return cleaned.prefix(3).joined(separator: ", ")

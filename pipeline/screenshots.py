@@ -56,7 +56,7 @@ BUNDLE_ID = "glass.kagerou.piru"
 SCHEME = "Piru"
 DEVICE_TYPE = "com.apple.CoreSimulator.SimDeviceType.iPhone-18-Pro-Max"
 DEVICE_NAME = "Piru Screenshots"
-LOCALES = {"en": "en_US", "zh-Hans": "zh_CN", "zh-Hant": "zh_TW"}
+LOCALES = {"en": "en_US", "zh-Hans": "zh_CN", "zh-Hant": "zh_TW", "es": "es_ES"}
 TOUR_SOURCE = REPO / "Piru/Utilities/ScreenshotTour.swift"
 SKIN_SOURCE = REPO / "Shared/Skin/Skin.swift"
 
@@ -254,7 +254,7 @@ def parse_args() -> argparse.Namespace:
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument(
-        "--locales", default="en,zh-Hans", help="comma list of en, zh-Hans, zh-Hant"
+        "--locales", default="en,zh-Hans", help="comma list of en, zh-Hans, zh-Hant, es"
     )
     parser.add_argument("--appearance", choices=["light", "dark", "both"], default="light")
     parser.add_argument("--screens", default="all", help="comma list of screen names, or all")
