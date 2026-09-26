@@ -151,7 +151,7 @@ Curated files `sqlite.py` consults directly (path constants at lines 112–176 a
 `dosewiki-ids.json`, plus (via `CURATED_DIR.parent / …` inside the ingesters)
 `half-lives.json`, `opioid-mme.json`, `intrinsic-efficacy.json`,
 `by-volume-dosing.json`, `zero-order-kinetics.json`, `saturable-kinetics.json`,
-`bioavailability-by-dose.json`, `attenuation-bands.json`, `regional-names.json`,
+`bioavailability-by-dose.json`, `attenuation-bands.json`, `regional-names.json`, `localized-names.json`,
 `interaction-rules.json`, `substance-interaction-classes.json`,
 `category-interaction-classes.json`, `tolerance-modulation.json`,
 `substance-flags.json`, `enzyme-modulators.json`,

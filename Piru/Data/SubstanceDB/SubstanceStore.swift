@@ -835,6 +835,8 @@ final class SubstanceStore {
             // Which spelling to display per region. Installed here because `displayTitle` reads it from
             // `nonisolated` code with no store reference — see `RegionalSubstanceName`.
             RegionalSubstanceName.load(SubstanceReadModel.regionalNames(db: substancesDB))
+            // Each substance's name in the app language, for the same reason — see `LocalizedSubstanceName`.
+            LocalizedSubstanceName.load(SubstanceReadModel.localizedNames(db: substancesDB))
             // Which substances take a by-volume dose input. Installed here for the same reason:
             // `Substance.byVolumeDosing` is a computed property with no store reference.
             ByVolumeCatalog.load(SubstanceReadModel.byVolumeCapabilities(db: substancesDB))

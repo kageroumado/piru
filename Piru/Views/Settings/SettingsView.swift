@@ -7,6 +7,9 @@ struct SettingsView: View {
         List {
             Group {
                 DetailLevelSection()
+                if LocalizedSubstanceName.isAvailable {
+                    SubstanceNamesSection()
+                }
                 ScreensSection()
                 AboutSection()
                 AppVersionFooter()
@@ -61,6 +64,23 @@ private struct DetailLevelSection: View {
             get: { profileStore.disclosureTier },
             set: { profileStore.setDisclosureTier($0) },
         )
+    }
+}
+
+// MARK: - Substance names
+
+/// Shown only when the app runs in a language with localized substance names.
+private struct SubstanceNamesSection: View {
+    @AppStorage(LocalizedSubstanceName.englishNamesKey) private var englishNames = false
+
+    var body: some View {
+        Section {
+            Toggle(isOn: $englishNames) {
+                Label("English Substance Names", systemImage: "character.book.closed")
+            }
+        } footer: {
+            Text("Show substances by their English names instead of the names used in your language. Search finds both.")
+        }
     }
 }
 

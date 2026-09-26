@@ -2369,6 +2369,20 @@ CREATE TABLE regional_names (
     alternate_regions TEXT NOT NULL
 );
 
+-- The name a native speaker expects as a substance's *title* in one app
+-- language (Ketamine → Ketamina / 氯胺酮 / 愷他命). Curated, one per language,
+-- and only where it differs from the canonical name — a research chemical or
+-- code name (2C-B, MDMA) has no row and shows as-is. Display only: every name
+-- here is also an alias, so search is the same in every language. The app
+-- falls back to the canonical name when the user prefers English names.
+CREATE TABLE localized_names (
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    -- App localization tag: 'es', 'zh-Hans', 'zh-Hant'.
+    lang         TEXT NOT NULL,
+    name         TEXT NOT NULL,
+    PRIMARY KEY (substance_id, lang)
+);
+
 -- One curated rule: a perpetrator inhibits or induces one metabolic enzyme, at
 -- one qualitative magnitude. The substrate side is NOT stored — it is derived by
 -- joining `metabolism.enzyme`, so a single row reaches every substance that
@@ -11726,6 +11740,49 @@ class Build:
             stats["inserted"] += 1
         return stats
 
+    LOCALIZED_NAME_LANGS = ("es", "zh-Hans", "zh-Hant")
+
+    def populate_localized_names(self) -> dict[str, int]:
+        """Fill `localized_names` from curated JSON, and make each name a
+        locale-tagged alias so search finds it whatever the app language.
+
+        A substance carrying a curated `display_name` is skipped: that title
+        outranks a localized one in the app, so the row would never show."""
+        path = CURATED_DIR.parent / "localized-names.json"
+        stats = {"inserted": 0, "unmatched": 0, "titled": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        titled = {
+            row[0]
+            for row in self.cur.execute("SELECT id FROM substances WHERE display_name IS NOT NULL")
+        }
+        for entry in payload.get("names", []):
+            sid = index.get(normalise(entry["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                print(f"  localized-names: no substance {entry['substance']!r}", file=sys.stderr)
+                continue
+            if sid in titled:
+                stats["titled"] += 1
+                continue
+            for lang in self.LOCALIZED_NAME_LANGS:
+                name = entry.get(lang)
+                if not name:
+                    continue
+                self.cur.execute(
+                    "INSERT OR REPLACE INTO localized_names(substance_id, lang, name) VALUES (?, ?, ?)",
+                    (sid, lang, name),
+                )
+                self._add_alias(sid, name, None)
+                self.cur.execute(
+                    "UPDATE aliases SET locale=? WHERE substance_id=? AND alias_normalized=? AND locale IS NULL",
+                    (lang, sid, normalise(name)),
+                )
+                stats["inserted"] += 1
+        return stats
+
     def ingest_interaction_rules(self) -> dict[str, int]:
         """Fill `interaction_rules` from curated JSON.
 
@@ -15159,6 +15216,9 @@ def main() -> int:
     regional_names = build.populate_regional_names()
     print(f"Regional names: {regional_names}", file=sys.stderr)
 
+    localized_names = build.populate_localized_names()
+    print(f"Localized names: {localized_names}", file=sys.stderr)
+
     opioid_mme = build.ingest_opioid_mme()
     intrinsic_efficacy = build.ingest_intrinsic_efficacy()
     print(f"Opioid MME: {opioid_mme}", file=sys.stderr)
@@ -15434,6 +15494,7 @@ def main() -> int:
         "class_representatives",
         "substance_flags",
         "regional_names",
+        "localized_names",
         "opioid_mme",
         "interaction_rules",
         "substance_interaction_classes",

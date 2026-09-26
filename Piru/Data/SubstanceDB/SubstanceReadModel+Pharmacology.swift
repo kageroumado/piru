@@ -687,6 +687,27 @@ extension SubstanceReadModel {
         return out
     }
 
+    /// The whole `localized_names` table, keyed by lowercased canonical name then app language tag.
+    /// Read once at index build; see ``LocalizedSubstanceName``. A DB built before the table existed
+    /// fails the query and yields an empty map, so every title keeps its canonical name.
+    nonisolated static func localizedNames(db queue: DatabaseQueue) -> [String: [String: String]] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT s.canonical_name AS name, l.lang, l.name AS localized
+                  FROM localized_names l
+                  JOIN substances s ON s.id = l.substance_id
+            """)
+        }) ?? []
+        var out: [String: [String: String]] = [:]
+        for row in rows {
+            guard let name: String = row["name"],
+                  let lang: String = row["lang"],
+                  let localized: String = row["localized"] else { continue }
+            out[name.lowercased(), default: [:]][lang] = localized
+        }
+        return out
+    }
+
     /// The whole `by_volume_dosing` + `drink_presets` pair as capabilities keyed by lowercased
     /// canonical name **and** by every alias, so a substance logged as "Ethanol" finds the row
     /// written against "Alcohol". Read once at index build; see ``ByVolumeCatalog`` for why it is

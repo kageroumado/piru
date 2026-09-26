@@ -1,0 +1,3450 @@
+{
+  "_comment": "The title a native speaker expects for a substance in each app language — the Spanish DCI (Ketamina), the mainland generic (氯胺酮), Taiwan's name (愷他命). One name per language, curated for recognition: never a street name, never a brand. A language is present only where its name differs from the canonical one; research chemicals and code names (2C-B, MDMA, LSD) have no entry and show as-is everywhere. Taiwan names follow TFDA/controlled-drug-list usage, which often differs from the mainland beyond script (阿普唑他, 特拉瑪竇). Display only: pipeline/build/sqlite.py also makes each name a locale-tagged alias, so search is identical in every language, and the app shows the canonical name instead when the user turns on English substance names.",
+  "names": [
+    {
+      "substance": "1,4-Butanediol",
+      "es": "1,4-Butanodiol",
+      "zh-Hans": "1,4-丁二醇",
+      "zh-Hant": "1,4-丁二醇"
+    },
+    {
+      "substance": "2-Methyl-2-Butanol",
+      "es": "2-Metil-2-butanol",
+      "zh-Hans": "2-甲基-2-丁醇",
+      "zh-Hant": "2-甲基-2-丁醇"
+    },
+    {
+      "substance": "3,4-Methylenedioxyamphetamine",
+      "es": "3,4-Metilendioxianfetamina",
+      "zh-Hans": "3,4-亚甲二氧基苯丙胺",
+      "zh-Hant": "3,4-亞甲基雙氧安非他命"
+    },
+    {
+      "substance": "4-Methylaminorex",
+      "es": "4-Metilaminorex",
+      "zh-Hans": "4-甲基阿米雷司"
+    },
+    {
+      "substance": "5-Hydroxytryptophan",
+      "es": "5-Hidroxitriptófano",
+      "zh-Hans": "5-羟色氨酸",
+      "zh-Hant": "5-羥基色胺酸"
+    },
+    {
+      "substance": "6-Monoacetylmorphine",
+      "es": "6-Monoacetilmorfina",
+      "zh-Hans": "6-单乙酰吗啡",
+      "zh-Hant": "6-單乙醯嗎啡"
+    },
+    {
+      "substance": "7-Hydroxymitragynine",
+      "es": "7-Hidroximitraginina",
+      "zh-Hans": "7-羟基帽柱木碱",
+      "zh-Hant": "7-羥基帽柱木鹼"
+    },
+    {
+      "substance": "a-ET",
+      "es": "Etriptamina",
+      "zh-Hans": "α-乙基色胺",
+      "zh-Hant": "α-乙基色胺"
+    },
+    {
+      "substance": "Acamprosate",
+      "es": "Acamprosato",
+      "zh-Hans": "阿坎酸",
+      "zh-Hant": "阿坎酸"
+    },
+    {
+      "substance": "Aceburic acid",
+      "es": "Ácido acebúrico"
+    },
+    {
+      "substance": "Acetaminophen",
+      "es": "Paracetamol",
+      "zh-Hans": "对乙酰氨基酚",
+      "zh-Hant": "乙醯胺酚"
+    },
+    {
+      "substance": "Acetyl-L-Carnitine",
+      "es": "Acetil-L-carnitina",
+      "zh-Hans": "乙酰左卡尼汀",
+      "zh-Hant": "乙醯左旋肉鹼"
+    },
+    {
+      "substance": "Acetyldihydrocodeine",
+      "es": "Acetildihidrocodeína",
+      "zh-Hans": "乙酰二氢可待因",
+      "zh-Hant": "乙醯二氫可待因"
+    },
+    {
+      "substance": "Acetylfentanyl",
+      "es": "Acetilfentanilo",
+      "zh-Hans": "乙酰芬太尼",
+      "zh-Hant": "乙醯吩坦尼"
+    },
+    {
+      "substance": "Acrylfentanyl",
+      "es": "Acrilfentanilo",
+      "zh-Hans": "丙烯酰芬太尼",
+      "zh-Hant": "丙烯醯吩坦尼"
+    },
+    {
+      "substance": "Adinazolam",
+      "zh-Hans": "阿地唑仑",
+      "zh-Hant": "阿地唑侖"
+    },
+    {
+      "substance": "Adrafinil",
+      "es": "Adrafinilo",
+      "zh-Hans": "阿屈非尼",
+      "zh-Hant": "阿屈非尼"
+    },
+    {
+      "substance": "Afamelanotide",
+      "es": "Afamelanotida",
+      "zh-Hans": "阿法诺肽",
+      "zh-Hant": "阿法諾肽"
+    },
+    {
+      "substance": "Afloqualone",
+      "es": "Aflocualona",
+      "zh-Hans": "阿氟喹酮"
+    },
+    {
+      "substance": "Agmatine",
+      "es": "Agmatina",
+      "zh-Hans": "胍丁胺",
+      "zh-Hant": "胍丁胺"
+    },
+    {
+      "substance": "Agomelatine",
+      "es": "Agomelatina",
+      "zh-Hans": "阿戈美拉汀",
+      "zh-Hant": "阿戈美拉汀"
+    },
+    {
+      "substance": "Alcohol",
+      "zh-Hans": "酒精",
+      "zh-Hant": "酒精"
+    },
+    {
+      "substance": "Alfentanil",
+      "es": "Alfentanilo",
+      "zh-Hans": "阿芬太尼",
+      "zh-Hant": "阿吩坦尼"
+    },
+    {
+      "substance": "Allobarbital",
+      "es": "Alobarbital",
+      "zh-Hans": "阿洛巴比妥",
+      "zh-Hant": "阿洛巴比妥"
+    },
+    {
+      "substance": "Allopurinol",
+      "es": "Alopurinol",
+      "zh-Hans": "别嘌醇",
+      "zh-Hant": "別嘌呤醇"
+    },
+    {
+      "substance": "Almotriptan",
+      "es": "Almotriptán",
+      "zh-Hans": "阿莫曲坦",
+      "zh-Hant": "阿莫曲坦"
+    },
+    {
+      "substance": "Alogliptin",
+      "es": "Alogliptina",
+      "zh-Hans": "阿格列汀",
+      "zh-Hant": "阿格列汀"
+    },
+    {
+      "substance": "Alpha-GPC",
+      "zh-Hans": "甘磷酸胆碱",
+      "zh-Hant": "甘磷酸膽鹼"
+    },
+    {
+      "substance": "Alpha-Lipoic Acid",
+      "es": "Ácido alfa-lipoico",
+      "zh-Hans": "α-硫辛酸",
+      "zh-Hant": "α-硫辛酸"
+    },
+    {
+      "substance": "Alprazolam",
+      "zh-Hans": "阿普唑仑",
+      "zh-Hant": "阿普唑他"
+    },
+    {
+      "substance": "Amantadine",
+      "es": "Amantadina",
+      "zh-Hans": "金刚烷胺",
+      "zh-Hant": "金剛烷胺"
+    },
+    {
+      "substance": "Amfecloral",
+      "es": "Anfecloral"
+    },
+    {
+      "substance": "Amfepramone",
+      "es": "Anfepramona",
+      "zh-Hans": "安非拉酮",
+      "zh-Hant": "二乙胺苯丙酮"
+    },
+    {
+      "substance": "Amfonelic acid",
+      "es": "Ácido anfonélico"
+    },
+    {
+      "substance": "Amiloride",
+      "es": "Amilorida",
+      "zh-Hans": "阿米洛利",
+      "zh-Hant": "阿米洛利"
+    },
+    {
+      "substance": "Aminorex",
+      "zh-Hans": "阿米雷司",
+      "zh-Hant": "阿米雷司"
+    },
+    {
+      "substance": "Amisulpride",
+      "es": "Amisulprida",
+      "zh-Hans": "氨磺必利",
+      "zh-Hant": "氨磺必利"
+    },
+    {
+      "substance": "Amitriptyline",
+      "es": "Amitriptilina",
+      "zh-Hans": "阿米替林",
+      "zh-Hant": "阿米替林"
+    },
+    {
+      "substance": "Amlodipine",
+      "es": "Amlodipino",
+      "zh-Hans": "氨氯地平",
+      "zh-Hant": "氨氯地平"
+    },
+    {
+      "substance": "Amobarbital",
+      "zh-Hans": "异戊巴比妥",
+      "zh-Hant": "異戊巴比妥"
+    },
+    {
+      "substance": "Amoxapine",
+      "es": "Amoxapina",
+      "zh-Hans": "阿莫沙平",
+      "zh-Hant": "阿莫沙平"
+    },
+    {
+      "substance": "Amoxicillin",
+      "es": "Amoxicilina",
+      "zh-Hans": "阿莫西林",
+      "zh-Hant": "安莫西林"
+    },
+    {
+      "substance": "Amphetamine",
+      "es": "Anfetamina",
+      "zh-Hans": "苯丙胺",
+      "zh-Hant": "安非他命"
+    },
+    {
+      "substance": "Anastrozole",
+      "es": "Anastrozol",
+      "zh-Hans": "阿那曲唑",
+      "zh-Hant": "阿那曲唑"
+    },
+    {
+      "substance": "Aniracetam",
+      "zh-Hans": "茴拉西坦",
+      "zh-Hant": "茴拉西坦"
+    },
+    {
+      "substance": "Apomorphine",
+      "es": "Apomorfina",
+      "zh-Hans": "阿扑吗啡",
+      "zh-Hant": "阿撲嗎啡"
+    },
+    {
+      "substance": "Apraclonidine",
+      "es": "Apraclonidina"
+    },
+    {
+      "substance": "Arecoline",
+      "es": "Arecolina",
+      "zh-Hans": "槟榔碱",
+      "zh-Hant": "檳榔鹼"
+    },
+    {
+      "substance": "Aripiprazole",
+      "es": "Aripiprazol",
+      "zh-Hans": "阿立哌唑",
+      "zh-Hant": "阿立哌唑"
+    },
+    {
+      "substance": "Asenapine",
+      "es": "Asenapina",
+      "zh-Hans": "阿塞那平",
+      "zh-Hant": "阿塞那平"
+    },
+    {
+      "substance": "Ashwagandha",
+      "zh-Hans": "南非醉茄",
+      "zh-Hant": "南非醉茄"
+    },
+    {
+      "substance": "Asparaginase",
+      "es": "Asparaginasa",
+      "zh-Hans": "门冬酰胺酶",
+      "zh-Hant": "門冬醯胺酶"
+    },
+    {
+      "substance": "Aspirin",
+      "es": "Aspirina",
+      "zh-Hans": "阿司匹林",
+      "zh-Hant": "阿斯匹靈"
+    },
+    {
+      "substance": "Atenolol",
+      "zh-Hans": "阿替洛尔",
+      "zh-Hant": "阿替洛爾"
+    },
+    {
+      "substance": "Atomoxetine",
+      "es": "Atomoxetina",
+      "zh-Hans": "托莫西汀",
+      "zh-Hant": "托莫西汀"
+    },
+    {
+      "substance": "Atropine",
+      "es": "Atropina",
+      "zh-Hans": "阿托品",
+      "zh-Hant": "阿托品"
+    },
+    {
+      "substance": "Avanafil",
+      "zh-Hans": "阿伐那非",
+      "zh-Hant": "阿伐那非"
+    },
+    {
+      "substance": "Ayahuasca",
+      "zh-Hans": "死藤水",
+      "zh-Hant": "死藤水"
+    },
+    {
+      "substance": "Azelastine",
+      "es": "Azelastina",
+      "zh-Hans": "氮卓斯汀",
+      "zh-Hant": "氮卓斯汀"
+    },
+    {
+      "substance": "Azithromycin",
+      "es": "Azitromicina",
+      "zh-Hans": "阿奇霉素",
+      "zh-Hant": "阿奇黴素"
+    },
+    {
+      "substance": "Baclofen",
+      "es": "Baclofeno",
+      "zh-Hans": "巴氯芬",
+      "zh-Hant": "巴氯芬"
+    },
+    {
+      "substance": "Bacopa Monnieri",
+      "zh-Hans": "假马齿苋",
+      "zh-Hant": "假馬齒莧"
+    },
+    {
+      "substance": "Barbital",
+      "zh-Hans": "巴比妥",
+      "zh-Hant": "巴比妥"
+    },
+    {
+      "substance": "Belinostat",
+      "zh-Hans": "贝利司他",
+      "zh-Hant": "貝利司他"
+    },
+    {
+      "substance": "Benzonatate",
+      "es": "Benzonatato",
+      "zh-Hans": "苯佐那酯",
+      "zh-Hant": "苯佐那酯"
+    },
+    {
+      "substance": "Benzphetamine",
+      "es": "Benzfetamina",
+      "zh-Hans": "苄非他明",
+      "zh-Hant": "苄非他明"
+    },
+    {
+      "substance": "Benzydamine",
+      "es": "Bencidamina",
+      "zh-Hans": "苄达明",
+      "zh-Hant": "苄達明"
+    },
+    {
+      "substance": "Berberine",
+      "es": "Berberina",
+      "zh-Hans": "小檗碱",
+      "zh-Hant": "小檗鹼"
+    },
+    {
+      "substance": "Beta-Alanine",
+      "es": "Beta-alanina",
+      "zh-Hans": "β-丙氨酸",
+      "zh-Hant": "β-丙胺酸"
+    },
+    {
+      "substance": "Beta-meprodine",
+      "es": "Betameprodina"
+    },
+    {
+      "substance": "Betamethasone",
+      "es": "Betametasona",
+      "zh-Hans": "倍他米松",
+      "zh-Hant": "倍他米松"
+    },
+    {
+      "substance": "Betrixaban",
+      "zh-Hans": "贝曲沙班",
+      "zh-Hant": "貝曲沙班"
+    },
+    {
+      "substance": "Bexarotene",
+      "es": "Bexaroteno",
+      "zh-Hans": "贝沙罗汀",
+      "zh-Hant": "貝沙羅汀"
+    },
+    {
+      "substance": "Bezitramide",
+      "es": "Bezitramida",
+      "zh-Hans": "贝齐米特",
+      "zh-Hant": "貝齊米特"
+    },
+    {
+      "substance": "Bicalutamide",
+      "es": "Bicalutamida",
+      "zh-Hans": "比卡鲁胺",
+      "zh-Hant": "比卡魯胺"
+    },
+    {
+      "substance": "Bilastine",
+      "es": "Bilastina",
+      "zh-Hans": "比拉斯汀",
+      "zh-Hant": "比拉斯汀"
+    },
+    {
+      "substance": "Bisacodyl",
+      "es": "Bisacodilo",
+      "zh-Hans": "比沙可啶",
+      "zh-Hant": "比沙可啶"
+    },
+    {
+      "substance": "Bisoprolol",
+      "zh-Hans": "比索洛尔",
+      "zh-Hant": "比索洛爾"
+    },
+    {
+      "substance": "Bleomycin",
+      "es": "Bleomicina",
+      "zh-Hans": "博来霉素",
+      "zh-Hant": "博來黴素"
+    },
+    {
+      "substance": "Blue Lotus",
+      "es": "Loto azul",
+      "zh-Hans": "蓝莲花",
+      "zh-Hant": "藍蓮花"
+    },
+    {
+      "substance": "Brexanolone",
+      "es": "Brexanolona"
+    },
+    {
+      "substance": "Brexpiprazole",
+      "es": "Brexpiprazol",
+      "zh-Hans": "依匹哌唑",
+      "zh-Hant": "依匹哌唑"
+    },
+    {
+      "substance": "Brivaracetam",
+      "zh-Hans": "布瓦西坦",
+      "zh-Hant": "布瓦西坦"
+    },
+    {
+      "substance": "Bromantane",
+      "zh-Hans": "布罗曼坦",
+      "zh-Hant": "布羅曼坦"
+    },
+    {
+      "substance": "Bromazepam",
+      "zh-Hans": "溴西泮",
+      "zh-Hant": "溴西泮"
+    },
+    {
+      "substance": "Brompheniramine",
+      "es": "Bromfeniramina",
+      "zh-Hans": "溴苯那敏",
+      "zh-Hant": "溴苯那敏"
+    },
+    {
+      "substance": "Brotizolam",
+      "zh-Hans": "溴替唑仑",
+      "zh-Hant": "溴替唑侖"
+    },
+    {
+      "substance": "Bufotenin",
+      "es": "Bufotenina",
+      "zh-Hans": "蟾毒色胺",
+      "zh-Hant": "蟾毒色胺"
+    },
+    {
+      "substance": "Bumetanide",
+      "es": "Bumetanida",
+      "zh-Hans": "布美他尼",
+      "zh-Hant": "布美他尼"
+    },
+    {
+      "substance": "Buprenorphine",
+      "es": "Buprenorfina",
+      "zh-Hans": "丁丙诺啡",
+      "zh-Hant": "丁基原啡因"
+    },
+    {
+      "substance": "Bupropion",
+      "es": "Bupropión",
+      "zh-Hans": "安非他酮",
+      "zh-Hant": "安非他酮"
+    },
+    {
+      "substance": "Buspirone",
+      "es": "Buspirona",
+      "zh-Hans": "丁螺环酮",
+      "zh-Hant": "丁螺環酮"
+    },
+    {
+      "substance": "Busulfan",
+      "es": "Busulfano",
+      "zh-Hans": "白消安",
+      "zh-Hant": "白消安"
+    },
+    {
+      "substance": "Butorphanol",
+      "es": "Butorfanol",
+      "zh-Hans": "布托啡诺",
+      "zh-Hant": "布托啡諾"
+    },
+    {
+      "substance": "Butyrfentanyl",
+      "es": "Butirfentanilo",
+      "zh-Hans": "丁酰芬太尼"
+    },
+    {
+      "substance": "Caffeine",
+      "es": "Cafeína",
+      "zh-Hans": "咖啡因",
+      "zh-Hant": "咖啡因"
+    },
+    {
+      "substance": "Camazepam",
+      "zh-Hans": "卡马西泮",
+      "zh-Hant": "卡馬西泮"
+    },
+    {
+      "substance": "Cannabidiolic acid",
+      "es": "Ácido cannabidiólico",
+      "zh-Hans": "大麻二酚酸",
+      "zh-Hant": "大麻二酚酸"
+    },
+    {
+      "substance": "Cannabis",
+      "zh-Hans": "大麻",
+      "zh-Hant": "大麻"
+    },
+    {
+      "substance": "Carbamazepine",
+      "es": "Carbamazepina",
+      "zh-Hans": "卡马西平",
+      "zh-Hant": "卡馬西平"
+    },
+    {
+      "substance": "Carfentanil",
+      "es": "Carfentanilo",
+      "zh-Hans": "卡芬太尼",
+      "zh-Hant": "卡吩坦尼"
+    },
+    {
+      "substance": "Cariprazine",
+      "es": "Cariprazina",
+      "zh-Hans": "卡利拉嗪",
+      "zh-Hant": "卡利拉嗪"
+    },
+    {
+      "substance": "Carisoprodol",
+      "zh-Hans": "卡立普多",
+      "zh-Hant": "卡立普多"
+    },
+    {
+      "substance": "Carvedilol",
+      "zh-Hans": "卡维地洛",
+      "zh-Hant": "卡維地洛"
+    },
+    {
+      "substance": "Cathine",
+      "es": "Catina",
+      "zh-Hans": "去甲伪麻黄碱",
+      "zh-Hant": "去甲假麻黃鹼"
+    },
+    {
+      "substance": "Cathinone",
+      "es": "Catinona",
+      "zh-Hans": "卡西酮",
+      "zh-Hant": "卡西酮"
+    },
+    {
+      "substance": "CBC",
+      "zh-Hans": "大麻色烯",
+      "zh-Hant": "大麻色烯"
+    },
+    {
+      "substance": "CBD",
+      "zh-Hans": "大麻二酚",
+      "zh-Hant": "大麻二酚"
+    },
+    {
+      "substance": "CBDV",
+      "zh-Hans": "次大麻二酚",
+      "zh-Hant": "次大麻二酚"
+    },
+    {
+      "substance": "CBG",
+      "zh-Hans": "大麻萜酚",
+      "zh-Hant": "大麻萜酚"
+    },
+    {
+      "substance": "CBN",
+      "zh-Hans": "大麻酚",
+      "zh-Hant": "大麻酚"
+    },
+    {
+      "substance": "CDP-Choline",
+      "es": "Citicolina",
+      "zh-Hans": "胞磷胆碱",
+      "zh-Hant": "胞磷膽鹼"
+    },
+    {
+      "substance": "Cefadroxil",
+      "es": "Cefadroxilo",
+      "zh-Hans": "头孢羟氨苄",
+      "zh-Hant": "頭孢羥氨苄"
+    },
+    {
+      "substance": "Cefprozil",
+      "es": "Cefprozilo",
+      "zh-Hans": "头孢丙烯",
+      "zh-Hant": "頭孢丙烯"
+    },
+    {
+      "substance": "Cefuroxime",
+      "es": "Cefuroxima",
+      "zh-Hans": "头孢呋辛",
+      "zh-Hant": "頭孢呋辛"
+    },
+    {
+      "substance": "Celecoxib",
+      "zh-Hans": "塞来昔布",
+      "zh-Hant": "塞來昔布"
+    },
+    {
+      "substance": "Centrophenoxine",
+      "es": "Meclofenoxato",
+      "zh-Hans": "甲氯芬酯",
+      "zh-Hant": "甲氯芬酯"
+    },
+    {
+      "substance": "Cephalexin",
+      "es": "Cefalexina",
+      "zh-Hans": "头孢氨苄",
+      "zh-Hant": "頭孢氨苄"
+    },
+    {
+      "substance": "Cetirizine",
+      "es": "Cetirizina",
+      "zh-Hans": "西替利嗪",
+      "zh-Hant": "西替利嗪"
+    },
+    {
+      "substance": "Chloral Hydrate",
+      "es": "Hidrato de cloral",
+      "zh-Hans": "水合氯醛",
+      "zh-Hant": "水合氯醛"
+    },
+    {
+      "substance": "Chlordiazepoxide",
+      "es": "Clordiazepóxido",
+      "zh-Hans": "氯氮䓬",
+      "zh-Hant": "氯二氮平"
+    },
+    {
+      "substance": "Chloroprocaine",
+      "es": "Cloroprocaína",
+      "zh-Hans": "氯普鲁卡因",
+      "zh-Hant": "氯普魯卡因"
+    },
+    {
+      "substance": "Chlorothiazide",
+      "es": "Clorotiazida",
+      "zh-Hans": "氯噻嗪",
+      "zh-Hant": "氯噻嗪"
+    },
+    {
+      "substance": "Chlorpheniramine",
+      "es": "Clorfenamina",
+      "zh-Hans": "氯苯那敏",
+      "zh-Hant": "氯苯那敏"
+    },
+    {
+      "substance": "Chlorpromazine",
+      "es": "Clorpromazina",
+      "zh-Hans": "氯丙嗪",
+      "zh-Hant": "氯丙嗪"
+    },
+    {
+      "substance": "Choline bitartrate",
+      "es": "Bitartrato de colina",
+      "zh-Hans": "酒石酸氢胆碱",
+      "zh-Hant": "酒石酸氫膽鹼"
+    },
+    {
+      "substance": "Cidofovir",
+      "zh-Hans": "西多福韦",
+      "zh-Hant": "西多福韋"
+    },
+    {
+      "substance": "Cilastatin",
+      "es": "Cilastatina",
+      "zh-Hans": "西司他丁",
+      "zh-Hant": "西司他丁"
+    },
+    {
+      "substance": "Cimetidine",
+      "es": "Cimetidina",
+      "zh-Hans": "西咪替丁",
+      "zh-Hant": "西咪替丁"
+    },
+    {
+      "substance": "Ciprofloxacin",
+      "es": "Ciprofloxacino",
+      "zh-Hans": "环丙沙星",
+      "zh-Hant": "環丙沙星"
+    },
+    {
+      "substance": "Citalopram",
+      "zh-Hans": "西酞普兰",
+      "zh-Hant": "西酞普蘭"
+    },
+    {
+      "substance": "Clarithromycin",
+      "es": "Claritromicina",
+      "zh-Hans": "克拉霉素",
+      "zh-Hant": "克拉黴素"
+    },
+    {
+      "substance": "Clemastine",
+      "es": "Clemastina",
+      "zh-Hans": "氯马斯汀",
+      "zh-Hant": "氯馬斯汀"
+    },
+    {
+      "substance": "Clindamycin",
+      "es": "Clindamicina",
+      "zh-Hans": "克林霉素",
+      "zh-Hant": "克林黴素"
+    },
+    {
+      "substance": "Clobazam",
+      "zh-Hans": "氯巴占",
+      "zh-Hant": "氯巴占"
+    },
+    {
+      "substance": "Clobenzorex",
+      "zh-Hans": "氯苄雷司",
+      "zh-Hant": "氯苄雷司"
+    },
+    {
+      "substance": "Clomethiazole",
+      "es": "Clometiazol",
+      "zh-Hans": "氯美噻唑",
+      "zh-Hant": "氯美噻唑"
+    },
+    {
+      "substance": "Clomipramine",
+      "es": "Clomipramina",
+      "zh-Hans": "氯米帕明",
+      "zh-Hant": "氯米帕明"
+    },
+    {
+      "substance": "Clonazepam",
+      "zh-Hans": "氯硝西泮",
+      "zh-Hant": "可那氮平"
+    },
+    {
+      "substance": "Clonidine",
+      "es": "Clonidina",
+      "zh-Hans": "可乐定",
+      "zh-Hant": "可樂定"
+    },
+    {
+      "substance": "Clonitazene",
+      "es": "Clonitaceno",
+      "zh-Hans": "氯尼他秦",
+      "zh-Hant": "氯尼他秦"
+    },
+    {
+      "substance": "Clorazepate",
+      "es": "Clorazepato"
+    },
+    {
+      "substance": "Clotiazepam",
+      "zh-Hans": "氯噻西泮",
+      "zh-Hant": "氯噻西泮"
+    },
+    {
+      "substance": "Cloxazolam",
+      "zh-Hans": "氯噁唑仑",
+      "zh-Hant": "氯噁唑侖"
+    },
+    {
+      "substance": "Clozapine",
+      "es": "Clozapina",
+      "zh-Hans": "氯氮平",
+      "zh-Hant": "氯氮平"
+    },
+    {
+      "substance": "Cocaine",
+      "es": "Cocaína",
+      "zh-Hans": "可卡因",
+      "zh-Hant": "古柯鹼"
+    },
+    {
+      "substance": "Codeine",
+      "es": "Codeína",
+      "zh-Hans": "可待因",
+      "zh-Hant": "可待因"
+    },
+    {
+      "substance": "Coluracetam",
+      "zh-Hans": "考拉西坦",
+      "zh-Hant": "考拉西坦"
+    },
+    {
+      "substance": "CoQ10",
+      "es": "Coenzima Q10",
+      "zh-Hans": "辅酶Q10",
+      "zh-Hant": "輔酶Q10"
+    },
+    {
+      "substance": "Cordyceps",
+      "zh-Hans": "虫草",
+      "zh-Hant": "蟲草"
+    },
+    {
+      "substance": "Creatine Monohydrate",
+      "es": "Monohidrato de creatina",
+      "zh-Hans": "一水肌酸",
+      "zh-Hant": "一水肌酸"
+    },
+    {
+      "substance": "Cromolyn",
+      "es": "Cromoglicato sódico",
+      "zh-Hans": "色甘酸钠",
+      "zh-Hant": "色甘酸鈉"
+    },
+    {
+      "substance": "Curcumin",
+      "es": "Curcumina",
+      "zh-Hans": "姜黄素",
+      "zh-Hant": "薑黃素"
+    },
+    {
+      "substance": "Cyclizine",
+      "es": "Ciclizina",
+      "zh-Hans": "赛克力嗪",
+      "zh-Hant": "賽克力嗪"
+    },
+    {
+      "substance": "Cyclobenzaprine",
+      "es": "Ciclobenzaprina",
+      "zh-Hans": "环苯扎林",
+      "zh-Hant": "環苯扎林"
+    },
+    {
+      "substance": "Cyproheptadine",
+      "es": "Ciproheptadina",
+      "zh-Hans": "赛庚啶",
+      "zh-Hant": "賽庚啶"
+    },
+    {
+      "substance": "Cytisine",
+      "es": "Citisina",
+      "zh-Hans": "金雀花碱",
+      "zh-Hant": "金雀花鹼"
+    },
+    {
+      "substance": "Daridorexant",
+      "zh-Hans": "达利雷生",
+      "zh-Hant": "達利雷生"
+    },
+    {
+      "substance": "Darifenacin",
+      "es": "Darifenacina",
+      "zh-Hans": "达非那新",
+      "zh-Hant": "達非那新"
+    },
+    {
+      "substance": "Datura",
+      "zh-Hans": "曼陀罗",
+      "zh-Hant": "曼陀羅"
+    },
+    {
+      "substance": "Deferiprone",
+      "es": "Deferiprona",
+      "zh-Hans": "去铁酮",
+      "zh-Hant": "去鐵酮"
+    },
+    {
+      "substance": "Dermorphin",
+      "es": "Dermorfina",
+      "zh-Hans": "皮啡肽",
+      "zh-Hant": "皮啡肽"
+    },
+    {
+      "substance": "Desipramine",
+      "es": "Desipramina",
+      "zh-Hans": "地昔帕明",
+      "zh-Hant": "地昔帕明"
+    },
+    {
+      "substance": "Desirudin",
+      "es": "Desirudina"
+    },
+    {
+      "substance": "Desloratadine",
+      "es": "Desloratadina",
+      "zh-Hans": "地氯雷他定",
+      "zh-Hant": "地氯雷他定"
+    },
+    {
+      "substance": "Desogestrel",
+      "zh-Hans": "去氧孕烯",
+      "zh-Hant": "去氧孕烯"
+    },
+    {
+      "substance": "Desomorphine",
+      "es": "Desomorfina",
+      "zh-Hans": "地索吗啡",
+      "zh-Hant": "地索嗎啡"
+    },
+    {
+      "substance": "Desvenlafaxine",
+      "es": "Desvenlafaxina",
+      "zh-Hans": "去甲文拉法辛",
+      "zh-Hant": "去甲文拉法辛"
+    },
+    {
+      "substance": "Dexamethasone",
+      "es": "Dexametasona",
+      "zh-Hans": "地塞米松",
+      "zh-Hant": "地塞米松"
+    },
+    {
+      "substance": "Dexmedetomidine",
+      "es": "Dexmedetomidina",
+      "zh-Hans": "右美托咪定",
+      "zh-Hant": "右美托咪定"
+    },
+    {
+      "substance": "Dextromethorphan",
+      "es": "Dextrometorfano",
+      "zh-Hans": "右美沙芬",
+      "zh-Hant": "右美沙芬"
+    },
+    {
+      "substance": "Dextropropoxyphene",
+      "es": "Dextropropoxifeno",
+      "zh-Hans": "右丙氧芬",
+      "zh-Hant": "右丙氧芬"
+    },
+    {
+      "substance": "Diazepam",
+      "zh-Hans": "地西泮",
+      "zh-Hant": "二氮平"
+    },
+    {
+      "substance": "Diclofenac",
+      "es": "Diclofenaco",
+      "zh-Hans": "双氯芬酸",
+      "zh-Hant": "待克菲那"
+    },
+    {
+      "substance": "Dicloxacillin",
+      "es": "Dicloxacilina",
+      "zh-Hans": "双氯西林",
+      "zh-Hant": "雙氯西林"
+    },
+    {
+      "substance": "Dicyclomine",
+      "es": "Dicicloverina",
+      "zh-Hans": "双环维林",
+      "zh-Hant": "雙環維林"
+    },
+    {
+      "substance": "Dihydrocodeine",
+      "es": "Dihidrocodeína",
+      "zh-Hans": "双氢可待因",
+      "zh-Hant": "二氫可待因"
+    },
+    {
+      "substance": "Dihydroergotamine",
+      "es": "Dihidroergotamina",
+      "zh-Hans": "双氢麦角胺",
+      "zh-Hant": "二氫麥角胺"
+    },
+    {
+      "substance": "Diltiazem",
+      "zh-Hans": "地尔硫䓬",
+      "zh-Hant": "地爾硫卓"
+    },
+    {
+      "substance": "Dimenhydrinate",
+      "es": "Dimenhidrinato",
+      "zh-Hans": "茶苯海明",
+      "zh-Hant": "茶苯海明"
+    },
+    {
+      "substance": "Diphenhydramine",
+      "es": "Difenhidramina",
+      "zh-Hans": "苯海拉明",
+      "zh-Hant": "苯海拉明"
+    },
+    {
+      "substance": "Disulfiram",
+      "zh-Hans": "双硫仑",
+      "zh-Hant": "雙硫侖"
+    },
+    {
+      "substance": "Dizocilpine",
+      "es": "Dizocilpina"
+    },
+    {
+      "substance": "DL-Phenylalanine",
+      "es": "DL-fenilalanina",
+      "zh-Hans": "DL-苯丙氨酸",
+      "zh-Hant": "DL-苯丙胺酸"
+    },
+    {
+      "substance": "Doxazosin",
+      "es": "Doxazosina",
+      "zh-Hans": "多沙唑嗪",
+      "zh-Hant": "多沙唑嗪"
+    },
+    {
+      "substance": "Doxepin",
+      "es": "Doxepina",
+      "zh-Hans": "多塞平",
+      "zh-Hant": "多塞平"
+    },
+    {
+      "substance": "Doxycycline",
+      "es": "Doxiciclina",
+      "zh-Hans": "多西环素",
+      "zh-Hant": "去氧羥四環素"
+    },
+    {
+      "substance": "Doxylamine",
+      "es": "Doxilamina",
+      "zh-Hans": "多西拉敏",
+      "zh-Hant": "多西拉敏"
+    },
+    {
+      "substance": "Droperidol",
+      "zh-Hans": "氟哌利多",
+      "zh-Hant": "氟哌利多"
+    },
+    {
+      "substance": "Dulaglutide",
+      "es": "Dulaglutida",
+      "zh-Hans": "度拉糖肽",
+      "zh-Hant": "度拉糖肽"
+    },
+    {
+      "substance": "Duloxetine",
+      "es": "Duloxetina",
+      "zh-Hans": "度洛西汀",
+      "zh-Hant": "度洛西汀"
+    },
+    {
+      "substance": "Dutasteride",
+      "es": "Dutasterida",
+      "zh-Hans": "度他雄胺",
+      "zh-Hant": "度他雄胺"
+    },
+    {
+      "substance": "Edoxaban",
+      "es": "Edoxabán",
+      "zh-Hans": "艾多沙班",
+      "zh-Hant": "艾多沙班"
+    },
+    {
+      "substance": "Efavirenz",
+      "zh-Hans": "依非韦伦",
+      "zh-Hant": "依非韋倫"
+    },
+    {
+      "substance": "Eletriptan",
+      "es": "Eletriptán",
+      "zh-Hans": "依来曲普坦",
+      "zh-Hant": "依來曲普坦"
+    },
+    {
+      "substance": "Empagliflozin",
+      "es": "Empagliflozina",
+      "zh-Hans": "恩格列净",
+      "zh-Hant": "恩格列淨"
+    },
+    {
+      "substance": "Emylcamate",
+      "es": "Emilcamato"
+    },
+    {
+      "substance": "Enclomiphene",
+      "es": "Enclomifeno",
+      "zh-Hans": "恩氯米芬",
+      "zh-Hant": "恩氯米芬"
+    },
+    {
+      "substance": "Endomorphin-1",
+      "es": "Endomorfina-1",
+      "zh-Hans": "内吗啡肽-1",
+      "zh-Hant": "內嗎啡肽-1"
+    },
+    {
+      "substance": "Ephedrine",
+      "es": "Efedrina",
+      "zh-Hans": "麻黄碱",
+      "zh-Hant": "麻黃鹼"
+    },
+    {
+      "substance": "Epinephrine",
+      "es": "Epinefrina",
+      "zh-Hans": "肾上腺素",
+      "zh-Hant": "腎上腺素"
+    },
+    {
+      "substance": "Eplerenone",
+      "es": "Eplerenona",
+      "zh-Hans": "依普利酮",
+      "zh-Hant": "依普利酮"
+    },
+    {
+      "substance": "Eptifibatide",
+      "es": "Eptifibatida",
+      "zh-Hans": "依替巴肽",
+      "zh-Hant": "依替巴肽"
+    },
+    {
+      "substance": "Erythromycin",
+      "es": "Eritromicina",
+      "zh-Hans": "红霉素",
+      "zh-Hant": "紅黴素"
+    },
+    {
+      "substance": "Esomeprazole",
+      "es": "Esomeprazol",
+      "zh-Hans": "埃索美拉唑",
+      "zh-Hant": "埃索美拉唑"
+    },
+    {
+      "substance": "Estazolam",
+      "zh-Hans": "艾司唑仑",
+      "zh-Hant": "艾司唑侖"
+    },
+    {
+      "substance": "Estradiol",
+      "zh-Hans": "雌二醇",
+      "zh-Hant": "雌二醇"
+    },
+    {
+      "substance": "Ethotoin",
+      "es": "Etotoína",
+      "zh-Hans": "乙苯妥英",
+      "zh-Hant": "乙苯妥英"
+    },
+    {
+      "substance": "Ethylmorphine",
+      "es": "Etilmorfina",
+      "zh-Hans": "乙基吗啡",
+      "zh-Hant": "乙基嗎啡"
+    },
+    {
+      "substance": "Etizolam",
+      "zh-Hans": "依替唑仑",
+      "zh-Hant": "依替唑侖"
+    },
+    {
+      "substance": "Etomidate",
+      "es": "Etomidato",
+      "zh-Hans": "依托咪酯",
+      "zh-Hant": "依托咪酯"
+    },
+    {
+      "substance": "Etoposide",
+      "es": "Etopósido",
+      "zh-Hans": "依托泊苷",
+      "zh-Hant": "依托泊苷"
+    },
+    {
+      "substance": "Everolimus",
+      "zh-Hans": "依维莫司",
+      "zh-Hant": "依維莫司"
+    },
+    {
+      "substance": "Exenatide",
+      "es": "Exenatida",
+      "zh-Hans": "艾塞那肽",
+      "zh-Hant": "艾塞那肽"
+    },
+    {
+      "substance": "Ezetimibe",
+      "es": "Ezetimiba",
+      "zh-Hans": "依折麦布",
+      "zh-Hant": "依折麥布"
+    },
+    {
+      "substance": "Famciclovir",
+      "zh-Hans": "泛昔洛韦",
+      "zh-Hant": "泛昔洛韋"
+    },
+    {
+      "substance": "Famotidine",
+      "es": "Famotidina",
+      "zh-Hans": "法莫替丁",
+      "zh-Hant": "法莫替丁"
+    },
+    {
+      "substance": "Febuxostat",
+      "zh-Hans": "非布司他",
+      "zh-Hant": "非布司他"
+    },
+    {
+      "substance": "Felbamate",
+      "es": "Felbamato",
+      "zh-Hans": "非氨酯",
+      "zh-Hant": "非氨酯"
+    },
+    {
+      "substance": "Fenethylline",
+      "es": "Fenetilina",
+      "zh-Hans": "芬乙茶碱",
+      "zh-Hant": "芬乙茶鹼"
+    },
+    {
+      "substance": "Fenfluramine",
+      "es": "Fenfluramina",
+      "zh-Hans": "芬氟拉明",
+      "zh-Hant": "芬氟拉明"
+    },
+    {
+      "substance": "Fenoprofen",
+      "es": "Fenoprofeno",
+      "zh-Hans": "非诺洛芬",
+      "zh-Hant": "非諾洛芬"
+    },
+    {
+      "substance": "Fentanyl",
+      "es": "Fentanilo",
+      "zh-Hans": "芬太尼",
+      "zh-Hant": "吩坦尼"
+    },
+    {
+      "substance": "Fexofenadine",
+      "es": "Fexofenadina",
+      "zh-Hans": "非索非那定",
+      "zh-Hant": "非索非那定"
+    },
+    {
+      "substance": "Flibanserin",
+      "es": "Flibanserina",
+      "zh-Hans": "氟班色林",
+      "zh-Hant": "氟班色林"
+    },
+    {
+      "substance": "Fluconazole",
+      "es": "Fluconazol",
+      "zh-Hans": "氟康唑",
+      "zh-Hant": "氟康唑"
+    },
+    {
+      "substance": "Fludarabine",
+      "es": "Fludarabina",
+      "zh-Hans": "氟达拉滨",
+      "zh-Hant": "氟達拉濱"
+    },
+    {
+      "substance": "Flumazenil",
+      "zh-Hans": "氟马西尼",
+      "zh-Hant": "氟馬西尼"
+    },
+    {
+      "substance": "Flunisolide",
+      "es": "Flunisolida",
+      "zh-Hans": "氟尼缩松",
+      "zh-Hant": "氟尼縮松"
+    },
+    {
+      "substance": "Flunitrazepam",
+      "zh-Hans": "氟硝西泮",
+      "zh-Hant": "氟硝西泮"
+    },
+    {
+      "substance": "Fluocinolone",
+      "es": "Fluocinolona"
+    },
+    {
+      "substance": "Fluorouracil",
+      "es": "Fluorouracilo",
+      "zh-Hans": "氟尿嘧啶",
+      "zh-Hant": "氟尿嘧啶"
+    },
+    {
+      "substance": "Fluoxetine",
+      "es": "Fluoxetina",
+      "zh-Hans": "氟西汀",
+      "zh-Hant": "氟西汀"
+    },
+    {
+      "substance": "Fluphenazine",
+      "es": "Flufenazina",
+      "zh-Hans": "氟奋乃静",
+      "zh-Hant": "氟奮乃靜"
+    },
+    {
+      "substance": "Flurazepam",
+      "zh-Hans": "氟西泮",
+      "zh-Hant": "氟西泮"
+    },
+    {
+      "substance": "Fluvastatin",
+      "es": "Fluvastatina",
+      "zh-Hans": "氟伐他汀",
+      "zh-Hant": "氟伐他汀"
+    },
+    {
+      "substance": "Fluvoxamine",
+      "es": "Fluvoxamina",
+      "zh-Hans": "氟伏沙明",
+      "zh-Hant": "氟伏沙明"
+    },
+    {
+      "substance": "Folate",
+      "es": "Folato",
+      "zh-Hans": "叶酸",
+      "zh-Hant": "葉酸"
+    },
+    {
+      "substance": "Frovatriptan",
+      "es": "Frovatriptán",
+      "zh-Hans": "夫罗曲坦",
+      "zh-Hant": "夫羅曲坦"
+    },
+    {
+      "substance": "Furosemide",
+      "es": "Furosemida",
+      "zh-Hans": "呋塞米",
+      "zh-Hant": "呋塞米"
+    },
+    {
+      "substance": "GABA",
+      "zh-Hans": "γ-氨基丁酸",
+      "zh-Hant": "γ-胺基丁酸"
+    },
+    {
+      "substance": "Gabapentin",
+      "es": "Gabapentina",
+      "zh-Hans": "加巴喷丁",
+      "zh-Hant": "加巴噴丁"
+    },
+    {
+      "substance": "Gaboxadol",
+      "zh-Hans": "加波沙多",
+      "zh-Hant": "加波沙多"
+    },
+    {
+      "substance": "Galantamine",
+      "es": "Galantamina",
+      "zh-Hans": "加兰他敏",
+      "zh-Hant": "加蘭他敏"
+    },
+    {
+      "substance": "GBL",
+      "zh-Hans": "γ-丁内酯",
+      "zh-Hant": "γ-丁內酯"
+    },
+    {
+      "substance": "Gepirone",
+      "es": "Gepirona",
+      "zh-Hans": "吉哌隆",
+      "zh-Hant": "吉哌隆"
+    },
+    {
+      "substance": "Ginkgo Biloba",
+      "zh-Hans": "银杏",
+      "zh-Hant": "銀杏"
+    },
+    {
+      "substance": "Glaucine",
+      "es": "Glaucina",
+      "zh-Hans": "海罂粟碱",
+      "zh-Hant": "海罌粟鹼"
+    },
+    {
+      "substance": "Glutathione",
+      "es": "Glutatión",
+      "zh-Hans": "谷胱甘肽",
+      "zh-Hant": "穀胱甘肽"
+    },
+    {
+      "substance": "Glutethimide",
+      "es": "Glutetimida",
+      "zh-Hans": "格鲁米特",
+      "zh-Hant": "格魯米特"
+    },
+    {
+      "substance": "Glycine",
+      "es": "Glicina",
+      "zh-Hans": "甘氨酸",
+      "zh-Hant": "甘胺酸"
+    },
+    {
+      "substance": "Gonadorelin",
+      "es": "Gonadorelina",
+      "zh-Hans": "戈那瑞林",
+      "zh-Hant": "戈那瑞林"
+    },
+    {
+      "substance": "Griseofulvin",
+      "es": "Griseofulvina",
+      "zh-Hans": "灰黄霉素",
+      "zh-Hant": "灰黃黴素"
+    },
+    {
+      "substance": "Guaifenesin",
+      "es": "Guaifenesina",
+      "zh-Hans": "愈创甘油醚",
+      "zh-Hant": "愈創甘油醚"
+    },
+    {
+      "substance": "Guanfacine",
+      "es": "Guanfacina",
+      "zh-Hans": "胍法辛",
+      "zh-Hant": "胍法辛"
+    },
+    {
+      "substance": "Halazepam",
+      "zh-Hans": "哈拉西泮",
+      "zh-Hant": "哈拉西泮"
+    },
+    {
+      "substance": "Haloperidol",
+      "zh-Hans": "氟哌啶醇",
+      "zh-Hant": "氟哌啶醇"
+    },
+    {
+      "substance": "Harmaline",
+      "es": "Harmalina"
+    },
+    {
+      "substance": "Harmine",
+      "es": "Harmina"
+    },
+    {
+      "substance": "Heroin",
+      "es": "Heroína",
+      "zh-Hans": "海洛因",
+      "zh-Hant": "海洛因"
+    },
+    {
+      "substance": "Hexobarbital",
+      "zh-Hans": "海索比妥"
+    },
+    {
+      "substance": "Holy Basil",
+      "es": "Albahaca sagrada",
+      "zh-Hans": "圣罗勒",
+      "zh-Hant": "聖羅勒"
+    },
+    {
+      "substance": "Humanin",
+      "es": "Humanina"
+    },
+    {
+      "substance": "Huperzine A",
+      "es": "Huperzina A",
+      "zh-Hans": "石杉碱甲",
+      "zh-Hant": "石杉鹼甲"
+    },
+    {
+      "substance": "Hyaluronidase",
+      "es": "Hialuronidasa",
+      "zh-Hans": "透明质酸酶",
+      "zh-Hant": "玻尿酸酶"
+    },
+    {
+      "substance": "Hydrochlorothiazide",
+      "es": "Hidroclorotiazida",
+      "zh-Hans": "氢氯噻嗪",
+      "zh-Hant": "氫氯噻嗪"
+    },
+    {
+      "substance": "Hydrocodone",
+      "es": "Hidrocodona",
+      "zh-Hans": "氢可酮",
+      "zh-Hant": "二氫可待因酮"
+    },
+    {
+      "substance": "Hydrocortisone",
+      "es": "Hidrocortisona",
+      "zh-Hans": "氢化可的松",
+      "zh-Hant": "氫化可體松"
+    },
+    {
+      "substance": "Hydromorphone",
+      "es": "Hidromorfona",
+      "zh-Hans": "氢吗啡酮",
+      "zh-Hant": "二氫嗎啡酮"
+    },
+    {
+      "substance": "Hydroxyzine",
+      "es": "Hidroxizina",
+      "zh-Hans": "羟嗪",
+      "zh-Hant": "羥嗪"
+    },
+    {
+      "substance": "Ibogaine",
+      "es": "Ibogaína",
+      "zh-Hans": "伊博格碱",
+      "zh-Hant": "伊博格鹼"
+    },
+    {
+      "substance": "Ibotenic acid",
+      "es": "Ácido iboténico",
+      "zh-Hans": "鹅膏蕈氨酸",
+      "zh-Hant": "鵝膏蕈胺酸"
+    },
+    {
+      "substance": "Ibuprofen",
+      "es": "Ibuprofeno",
+      "zh-Hans": "布洛芬",
+      "zh-Hant": "布洛芬"
+    },
+    {
+      "substance": "Idarubicin",
+      "es": "Idarubicina",
+      "zh-Hans": "伊达比星",
+      "zh-Hant": "伊達比星"
+    },
+    {
+      "substance": "Idebenone",
+      "es": "Idebenona",
+      "zh-Hans": "艾地苯醌",
+      "zh-Hant": "艾地苯醌"
+    },
+    {
+      "substance": "Ifosfamide",
+      "es": "Ifosfamida",
+      "zh-Hans": "异环磷酰胺",
+      "zh-Hant": "異環磷醯胺"
+    },
+    {
+      "substance": "Iloperidone",
+      "es": "Iloperidona",
+      "zh-Hans": "伊潘立酮",
+      "zh-Hant": "伊潘立酮"
+    },
+    {
+      "substance": "Imipramine",
+      "es": "Imipramina",
+      "zh-Hans": "丙米嗪",
+      "zh-Hant": "丙米嗪"
+    },
+    {
+      "substance": "Indapamide",
+      "es": "Indapamida",
+      "zh-Hans": "吲达帕胺",
+      "zh-Hant": "吲達帕胺"
+    },
+    {
+      "substance": "Inositol",
+      "zh-Hans": "肌醇",
+      "zh-Hant": "肌醇"
+    },
+    {
+      "substance": "Insulin aspart",
+      "es": "Insulina asparta",
+      "zh-Hans": "门冬胰岛素",
+      "zh-Hant": "門冬胰島素"
+    },
+    {
+      "substance": "Insulin glulisine",
+      "es": "Insulina glulisina",
+      "zh-Hans": "赖谷胰岛素",
+      "zh-Hant": "賴谷胰島素"
+    },
+    {
+      "substance": "Iodine",
+      "es": "Yodo",
+      "zh-Hans": "碘",
+      "zh-Hant": "碘"
+    },
+    {
+      "substance": "Ipratropium",
+      "es": "Ipratropio",
+      "zh-Hans": "异丙托溴铵",
+      "zh-Hant": "異丙托溴銨"
+    },
+    {
+      "substance": "Irbesartan",
+      "es": "Irbesartán",
+      "zh-Hans": "厄贝沙坦",
+      "zh-Hant": "厄貝沙坦"
+    },
+    {
+      "substance": "Iron Bisglycinate",
+      "es": "Bisglicinato de hierro",
+      "zh-Hans": "甘氨酸亚铁",
+      "zh-Hant": "甘胺酸亞鐵"
+    },
+    {
+      "substance": "Isocarboxazid",
+      "es": "Isocarboxazida",
+      "zh-Hans": "异卡波肼",
+      "zh-Hant": "異卡波肼"
+    },
+    {
+      "substance": "Isomethadone",
+      "es": "Isometadona"
+    },
+    {
+      "substance": "Ivacaftor",
+      "zh-Hans": "依伐卡托",
+      "zh-Hant": "依伐卡托"
+    },
+    {
+      "substance": "Ivermectin",
+      "es": "Ivermectina",
+      "zh-Hans": "伊维菌素",
+      "zh-Hant": "伊維菌素"
+    },
+    {
+      "substance": "Kava",
+      "zh-Hans": "卡瓦",
+      "zh-Hant": "卡瓦"
+    },
+    {
+      "substance": "Ketamine",
+      "es": "Ketamina",
+      "zh-Hans": "氯胺酮",
+      "zh-Hant": "愷他命"
+    },
+    {
+      "substance": "Ketobemidone",
+      "es": "Cetobemidona",
+      "zh-Hans": "凯托米酮",
+      "zh-Hant": "凱托米酮"
+    },
+    {
+      "substance": "Ketotifen",
+      "es": "Ketotifeno",
+      "zh-Hans": "酮替芬",
+      "zh-Hant": "酮替芬"
+    },
+    {
+      "substance": "Khat",
+      "zh-Hans": "恰特草",
+      "zh-Hant": "恰特草"
+    },
+    {
+      "substance": "Kratom",
+      "zh-Hans": "卡痛叶",
+      "zh-Hant": "卡痛葉"
+    },
+    {
+      "substance": "L-Carnitine",
+      "es": "L-carnitina",
+      "zh-Hans": "左旋肉碱",
+      "zh-Hant": "左旋肉鹼"
+    },
+    {
+      "substance": "L-Theanine",
+      "es": "L-teanina",
+      "zh-Hans": "茶氨酸",
+      "zh-Hant": "茶胺酸"
+    },
+    {
+      "substance": "L-Tryptophan",
+      "es": "L-triptófano",
+      "zh-Hans": "色氨酸",
+      "zh-Hant": "色胺酸"
+    },
+    {
+      "substance": "L-Tyrosine",
+      "es": "L-tirosina",
+      "zh-Hans": "酪氨酸",
+      "zh-Hant": "酪胺酸"
+    },
+    {
+      "substance": "Labetalol",
+      "zh-Hans": "拉贝洛尔",
+      "zh-Hant": "拉貝洛爾"
+    },
+    {
+      "substance": "Lacosamide",
+      "es": "Lacosamida",
+      "zh-Hans": "拉考沙胺",
+      "zh-Hant": "拉考沙胺"
+    },
+    {
+      "substance": "Lamotrigine",
+      "es": "Lamotrigina",
+      "zh-Hans": "拉莫三嗪",
+      "zh-Hant": "拉莫三嗪"
+    },
+    {
+      "substance": "Lemborexant",
+      "zh-Hans": "莱博雷生",
+      "zh-Hant": "萊博雷生"
+    },
+    {
+      "substance": "Letrozole",
+      "es": "Letrozol",
+      "zh-Hans": "来曲唑",
+      "zh-Hant": "來曲唑"
+    },
+    {
+      "substance": "Leucovorin",
+      "es": "Ácido folínico",
+      "zh-Hans": "亚叶酸钙",
+      "zh-Hant": "亞葉酸鈣"
+    },
+    {
+      "substance": "Levalbuterol",
+      "es": "Levosalbutamol",
+      "zh-Hans": "左沙丁胺醇",
+      "zh-Hant": "左沙丁胺醇"
+    },
+    {
+      "substance": "Levetiracetam",
+      "zh-Hans": "左乙拉西坦",
+      "zh-Hant": "左乙拉西坦"
+    },
+    {
+      "substance": "Levocetirizine",
+      "es": "Levocetirizina",
+      "zh-Hans": "左西替利嗪",
+      "zh-Hant": "左西替利嗪"
+    },
+    {
+      "substance": "Levofloxacin",
+      "es": "Levofloxacino",
+      "zh-Hans": "左氧氟沙星",
+      "zh-Hant": "左氧氟沙星"
+    },
+    {
+      "substance": "Levomethorphan",
+      "es": "Levometorfano",
+      "zh-Hans": "左美沙芬",
+      "zh-Hant": "左美沙芬"
+    },
+    {
+      "substance": "Levothyroxine",
+      "es": "Levotiroxina",
+      "zh-Hans": "左甲状腺素",
+      "zh-Hant": "左旋甲狀腺素"
+    },
+    {
+      "substance": "Linagliptin",
+      "es": "Linagliptina",
+      "zh-Hans": "利格列汀",
+      "zh-Hant": "利格列汀"
+    },
+    {
+      "substance": "Lion's Mane",
+      "es": "Melena de león",
+      "zh-Hans": "猴头菇",
+      "zh-Hant": "猴頭菇"
+    },
+    {
+      "substance": "Liothyronine",
+      "es": "Liotironina",
+      "zh-Hans": "碘塞罗宁",
+      "zh-Hant": "碘塞羅寧"
+    },
+    {
+      "substance": "Liraglutide",
+      "es": "Liraglutida",
+      "zh-Hans": "利拉鲁肽",
+      "zh-Hant": "利拉魯肽"
+    },
+    {
+      "substance": "Lisdexamfetamine",
+      "es": "Lisdexanfetamina"
+    },
+    {
+      "substance": "Lithium",
+      "es": "Litio",
+      "zh-Hans": "锂",
+      "zh-Hant": "鋰"
+    },
+    {
+      "substance": "Lofentanil",
+      "es": "Lofentanilo",
+      "zh-Hans": "洛芬太尼"
+    },
+    {
+      "substance": "Lofexidine",
+      "es": "Lofexidina",
+      "zh-Hans": "洛非西定",
+      "zh-Hant": "洛非西定"
+    },
+    {
+      "substance": "Loperamide",
+      "es": "Loperamida",
+      "zh-Hans": "洛哌丁胺",
+      "zh-Hant": "洛哌丁胺"
+    },
+    {
+      "substance": "Loprazolam",
+      "zh-Hans": "氯普唑仑",
+      "zh-Hant": "氯普唑侖"
+    },
+    {
+      "substance": "Loratadine",
+      "es": "Loratadina",
+      "zh-Hans": "氯雷他定",
+      "zh-Hant": "氯雷他定"
+    },
+    {
+      "substance": "Lorazepam",
+      "zh-Hans": "劳拉西泮",
+      "zh-Hant": "勞拉西泮"
+    },
+    {
+      "substance": "Lormetazepam",
+      "zh-Hans": "氯甲西泮",
+      "zh-Hant": "氯甲西泮"
+    },
+    {
+      "substance": "Loxapine",
+      "es": "Loxapina",
+      "zh-Hans": "洛沙平",
+      "zh-Hant": "洛沙平"
+    },
+    {
+      "substance": "Lumefantrine",
+      "es": "Lumefantrina",
+      "zh-Hans": "本芴醇",
+      "zh-Hant": "本芴醇"
+    },
+    {
+      "substance": "Lurasidone",
+      "es": "Lurasidona",
+      "zh-Hans": "鲁拉西酮",
+      "zh-Hant": "魯拉西酮"
+    },
+    {
+      "substance": "Maca",
+      "zh-Hans": "玛卡",
+      "zh-Hant": "瑪卡"
+    },
+    {
+      "substance": "Magnesium",
+      "es": "Magnesio",
+      "zh-Hans": "镁",
+      "zh-Hant": "鎂"
+    },
+    {
+      "substance": "Maprotiline",
+      "es": "Maprotilina",
+      "zh-Hans": "马普替林",
+      "zh-Hant": "馬普替林"
+    },
+    {
+      "substance": "Mazindol",
+      "zh-Hans": "马吲哚",
+      "zh-Hant": "馬吲哚"
+    },
+    {
+      "substance": "Meclizine",
+      "es": "Meclozina",
+      "zh-Hans": "美克洛嗪",
+      "zh-Hant": "美克洛嗪"
+    },
+    {
+      "substance": "Medazepam",
+      "zh-Hans": "美达西泮",
+      "zh-Hant": "美達西泮"
+    },
+    {
+      "substance": "Melatonin",
+      "es": "Melatonina",
+      "zh-Hans": "褪黑素",
+      "zh-Hant": "褪黑激素"
+    },
+    {
+      "substance": "Meloxicam",
+      "zh-Hans": "美洛昔康",
+      "zh-Hant": "美洛昔康"
+    },
+    {
+      "substance": "Memantine",
+      "es": "Memantina",
+      "zh-Hans": "美金刚",
+      "zh-Hant": "美金剛"
+    },
+    {
+      "substance": "Mephedrone",
+      "es": "Mefedrona"
+    },
+    {
+      "substance": "Meprobamate",
+      "es": "Meprobamato",
+      "zh-Hans": "甲丙氨酯",
+      "zh-Hant": "甲丙氨酯"
+    },
+    {
+      "substance": "Mescaline",
+      "es": "Mescalina",
+      "zh-Hans": "麦司卡林",
+      "zh-Hant": "麥司卡林"
+    },
+    {
+      "substance": "Metaxalone",
+      "es": "Metaxalona",
+      "zh-Hans": "美他沙酮",
+      "zh-Hant": "美他沙酮"
+    },
+    {
+      "substance": "Metformin",
+      "es": "Metformina",
+      "zh-Hans": "二甲双胍",
+      "zh-Hant": "二甲雙胍"
+    },
+    {
+      "substance": "Methadone",
+      "es": "Metadona",
+      "zh-Hans": "美沙酮",
+      "zh-Hant": "美沙冬"
+    },
+    {
+      "substance": "Methamphetamine",
+      "es": "Metanfetamina",
+      "zh-Hans": "甲基苯丙胺",
+      "zh-Hant": "甲基安非他命"
+    },
+    {
+      "substance": "Methaqualone",
+      "es": "Metacualona",
+      "zh-Hans": "甲喹酮",
+      "zh-Hant": "甲喹酮"
+    },
+    {
+      "substance": "Methcathinone",
+      "es": "Metcatinona",
+      "zh-Hans": "甲卡西酮",
+      "zh-Hant": "甲基卡西酮"
+    },
+    {
+      "substance": "Methocarbamol",
+      "es": "Metocarbamol",
+      "zh-Hans": "美索巴莫",
+      "zh-Hant": "美索巴莫"
+    },
+    {
+      "substance": "Methyldopa",
+      "es": "Metildopa",
+      "zh-Hans": "甲基多巴",
+      "zh-Hant": "甲基多巴"
+    },
+    {
+      "substance": "Methylene blue",
+      "es": "Azul de metileno",
+      "zh-Hans": "亚甲蓝",
+      "zh-Hant": "亞甲藍"
+    },
+    {
+      "substance": "Methylphenidate",
+      "es": "Metilfenidato",
+      "zh-Hans": "哌甲酯",
+      "zh-Hant": "派醋甲酯"
+    },
+    {
+      "substance": "Methylprednisolone",
+      "es": "Metilprednisolona",
+      "zh-Hans": "甲泼尼龙",
+      "zh-Hant": "甲潑尼龍"
+    },
+    {
+      "substance": "Methyprylon",
+      "es": "Metiprilona",
+      "zh-Hans": "甲乙哌酮",
+      "zh-Hant": "甲乙哌酮"
+    },
+    {
+      "substance": "Metoclopramide",
+      "es": "Metoclopramida",
+      "zh-Hans": "甲氧氯普胺",
+      "zh-Hant": "甲氧氯普胺"
+    },
+    {
+      "substance": "Metolazone",
+      "es": "Metolazona",
+      "zh-Hans": "美托拉宗",
+      "zh-Hant": "美托拉宗"
+    },
+    {
+      "substance": "Metoprolol",
+      "zh-Hans": "美托洛尔",
+      "zh-Hant": "美托洛爾"
+    },
+    {
+      "substance": "Mexazolam",
+      "zh-Hans": "美沙唑仑",
+      "zh-Hant": "美沙唑侖"
+    },
+    {
+      "substance": "Miconazole",
+      "es": "Miconazol",
+      "zh-Hans": "咪康唑",
+      "zh-Hant": "咪康唑"
+    },
+    {
+      "substance": "Midazolam",
+      "zh-Hans": "咪达唑仑",
+      "zh-Hant": "咪達唑侖"
+    },
+    {
+      "substance": "Midodrine",
+      "es": "Midodrina",
+      "zh-Hans": "米多君",
+      "zh-Hant": "米多君"
+    },
+    {
+      "substance": "Miglitol",
+      "zh-Hans": "米格列醇",
+      "zh-Hant": "米格列醇"
+    },
+    {
+      "substance": "Miglustat",
+      "zh-Hans": "美格鲁特",
+      "zh-Hant": "美格魯特"
+    },
+    {
+      "substance": "Milnacipran",
+      "es": "Milnaciprán",
+      "zh-Hans": "米那普仑",
+      "zh-Hant": "米那普侖"
+    },
+    {
+      "substance": "Minoxidil",
+      "zh-Hans": "米诺地尔",
+      "zh-Hant": "米諾地爾"
+    },
+    {
+      "substance": "Mirabegron",
+      "es": "Mirabegrón",
+      "zh-Hans": "米拉贝隆",
+      "zh-Hant": "米拉貝隆"
+    },
+    {
+      "substance": "Mirogabalin",
+      "es": "Mirogabalina"
+    },
+    {
+      "substance": "Mirtazapine",
+      "es": "Mirtazapina",
+      "zh-Hans": "米氮平",
+      "zh-Hant": "米氮平"
+    },
+    {
+      "substance": "Mitotane",
+      "es": "Mitotano",
+      "zh-Hans": "米托坦",
+      "zh-Hant": "米托坦"
+    },
+    {
+      "substance": "Mitragynine",
+      "es": "Mitraginina",
+      "zh-Hans": "帽柱木碱",
+      "zh-Hant": "帽柱木鹼"
+    },
+    {
+      "substance": "Moclobemide",
+      "es": "Moclobemida",
+      "zh-Hans": "吗氯贝胺",
+      "zh-Hant": "嗎氯貝胺"
+    },
+    {
+      "substance": "Modafinil",
+      "zh-Hans": "莫达非尼",
+      "zh-Hant": "莫達非尼"
+    },
+    {
+      "substance": "Mometasone",
+      "es": "Mometasona",
+      "zh-Hans": "莫米松",
+      "zh-Hant": "莫米松"
+    },
+    {
+      "substance": "Monotropa uniflora",
+      "zh-Hans": "水晶兰",
+      "zh-Hant": "水晶蘭"
+    },
+    {
+      "substance": "Montelukast",
+      "zh-Hans": "孟鲁司特",
+      "zh-Hant": "孟魯司特"
+    },
+    {
+      "substance": "Morphine",
+      "es": "Morfina",
+      "zh-Hans": "吗啡",
+      "zh-Hant": "嗎啡"
+    },
+    {
+      "substance": "Mupirocin",
+      "es": "Mupirocina",
+      "zh-Hans": "莫匹罗星",
+      "zh-Hant": "莫匹羅星"
+    },
+    {
+      "substance": "Myristicin",
+      "es": "Miristicina",
+      "zh-Hans": "肉豆蔻醚",
+      "zh-Hant": "肉豆蔻醚"
+    },
+    {
+      "substance": "N-Acetylcysteine",
+      "es": "Acetilcisteína",
+      "zh-Hans": "乙酰半胱氨酸",
+      "zh-Hant": "乙醯半胱胺酸"
+    },
+    {
+      "substance": "N-nicotinoyl-γ-aminobutyric acid",
+      "zh-Hans": "匹卡米隆",
+      "zh-Hant": "匹卡米隆"
+    },
+    {
+      "substance": "Nabilone",
+      "es": "Nabilona",
+      "zh-Hans": "大麻隆",
+      "zh-Hant": "大麻隆"
+    },
+    {
+      "substance": "Nadolol",
+      "zh-Hans": "纳多洛尔",
+      "zh-Hant": "納多洛爾"
+    },
+    {
+      "substance": "Naloxone",
+      "es": "Naloxona",
+      "zh-Hans": "纳洛酮",
+      "zh-Hant": "納洛酮"
+    },
+    {
+      "substance": "Naltrexone",
+      "es": "Naltrexona",
+      "zh-Hans": "纳曲酮",
+      "zh-Hant": "納曲酮"
+    },
+    {
+      "substance": "Naproxen",
+      "es": "Naproxeno",
+      "zh-Hans": "萘普生",
+      "zh-Hant": "萘普生"
+    },
+    {
+      "substance": "Naratriptan",
+      "es": "Naratriptán",
+      "zh-Hans": "那拉曲坦",
+      "zh-Hant": "那拉曲坦"
+    },
+    {
+      "substance": "Nateglinide",
+      "es": "Nateglinida",
+      "zh-Hans": "那格列奈",
+      "zh-Hant": "那格列奈"
+    },
+    {
+      "substance": "Nefazodone",
+      "es": "Nefazodona",
+      "zh-Hans": "奈法唑酮",
+      "zh-Hant": "奈法唑酮"
+    },
+    {
+      "substance": "Nefiracetam",
+      "zh-Hans": "奈非西坦",
+      "zh-Hant": "奈非西坦"
+    },
+    {
+      "substance": "Nicomorphine",
+      "es": "Nicomorfina",
+      "zh-Hans": "尼可吗啡",
+      "zh-Hant": "尼可嗎啡"
+    },
+    {
+      "substance": "Nicotine",
+      "es": "Nicotina",
+      "zh-Hans": "尼古丁",
+      "zh-Hant": "尼古丁"
+    },
+    {
+      "substance": "Nifedipine",
+      "es": "Nifedipino",
+      "zh-Hans": "硝苯地平",
+      "zh-Hant": "硝苯地平"
+    },
+    {
+      "substance": "Nimetazepam",
+      "zh-Hans": "尼美西泮",
+      "zh-Hant": "硝甲西泮"
+    },
+    {
+      "substance": "Nitrazepam",
+      "zh-Hans": "硝西泮",
+      "zh-Hant": "硝西泮"
+    },
+    {
+      "substance": "Nitrofurantoin",
+      "es": "Nitrofurantoína",
+      "zh-Hans": "呋喃妥因",
+      "zh-Hant": "呋喃妥因"
+    },
+    {
+      "substance": "Nitroglycerin",
+      "es": "Nitroglicerina",
+      "zh-Hans": "硝酸甘油",
+      "zh-Hant": "硝化甘油"
+    },
+    {
+      "substance": "Nitrous",
+      "es": "Óxido nitroso",
+      "zh-Hans": "一氧化二氮",
+      "zh-Hant": "一氧化二氮"
+    },
+    {
+      "substance": "Nizatidine",
+      "es": "Nizatidina",
+      "zh-Hans": "尼扎替丁",
+      "zh-Hant": "尼扎替丁"
+    },
+    {
+      "substance": "Nordazepam",
+      "zh-Hans": "去甲西泮",
+      "zh-Hant": "去甲西泮"
+    },
+    {
+      "substance": "Norethisterone",
+      "es": "Noretisterona",
+      "zh-Hans": "炔诺酮",
+      "zh-Hant": "炔諾酮"
+    },
+    {
+      "substance": "Norketamine",
+      "es": "Norketamina",
+      "zh-Hans": "去甲氯胺酮",
+      "zh-Hant": "去甲基愷他命"
+    },
+    {
+      "substance": "Nortriptyline",
+      "es": "Nortriptilina",
+      "zh-Hans": "去甲替林",
+      "zh-Hant": "去甲替林"
+    },
+    {
+      "substance": "O-desmethyltramadol",
+      "es": "O-desmetiltramadol",
+      "zh-Hans": "O-去甲曲马多"
+    },
+    {
+      "substance": "Olanzapine",
+      "es": "Olanzapina",
+      "zh-Hans": "奥氮平",
+      "zh-Hant": "奧氮平"
+    },
+    {
+      "substance": "Olmesartan",
+      "es": "Olmesartán",
+      "zh-Hans": "奥美沙坦",
+      "zh-Hant": "奧美沙坦"
+    },
+    {
+      "substance": "Olopatadine",
+      "es": "Olopatadina",
+      "zh-Hans": "奥洛他定",
+      "zh-Hant": "奧洛他定"
+    },
+    {
+      "substance": "Omega-3 Fatty Acids",
+      "es": "Ácidos grasos omega-3",
+      "zh-Hans": "Omega-3脂肪酸",
+      "zh-Hant": "Omega-3脂肪酸"
+    },
+    {
+      "substance": "Ondansetron",
+      "es": "Ondansetrón",
+      "zh-Hans": "昂丹司琼",
+      "zh-Hant": "昂丹司瓊"
+    },
+    {
+      "substance": "Opium",
+      "es": "Opio",
+      "zh-Hans": "鸦片",
+      "zh-Hant": "鴉片"
+    },
+    {
+      "substance": "Orphenadrine",
+      "es": "Orfenadrina",
+      "zh-Hans": "奥芬那君",
+      "zh-Hant": "奧芬那君"
+    },
+    {
+      "substance": "Oxazepam",
+      "zh-Hans": "奥沙西泮",
+      "zh-Hant": "奧沙西泮"
+    },
+    {
+      "substance": "Oxazolam",
+      "zh-Hans": "奥沙唑仑",
+      "zh-Hant": "奧沙唑侖"
+    },
+    {
+      "substance": "Oxcarbazepine",
+      "es": "Oxcarbazepina",
+      "zh-Hans": "奥卡西平",
+      "zh-Hant": "奧卡西平"
+    },
+    {
+      "substance": "Oxiracetam",
+      "zh-Hans": "奥拉西坦",
+      "zh-Hant": "奧拉西坦"
+    },
+    {
+      "substance": "Oxycodone",
+      "es": "Oxicodona",
+      "zh-Hans": "羟考酮",
+      "zh-Hant": "羥二氫可待因酮"
+    },
+    {
+      "substance": "Oxymorphone",
+      "es": "Oximorfona",
+      "zh-Hans": "羟吗啡酮",
+      "zh-Hant": "羥二氫嗎啡酮"
+    },
+    {
+      "substance": "Oxytocin",
+      "es": "Oxitocina",
+      "zh-Hans": "缩宫素",
+      "zh-Hant": "催產素"
+    },
+    {
+      "substance": "Palfium",
+      "es": "Dextromoramida",
+      "zh-Hans": "右吗拉胺",
+      "zh-Hant": "右嗎拉胺"
+    },
+    {
+      "substance": "Paliperidone",
+      "es": "Paliperidona",
+      "zh-Hans": "帕利哌酮",
+      "zh-Hant": "帕利哌酮"
+    },
+    {
+      "substance": "Panax Ginseng",
+      "es": "Ginseng",
+      "zh-Hans": "人参",
+      "zh-Hant": "人參"
+    },
+    {
+      "substance": "Panitumumab",
+      "zh-Hans": "帕尼单抗",
+      "zh-Hant": "帕尼單抗"
+    },
+    {
+      "substance": "Pantoprazole",
+      "es": "Pantoprazol",
+      "zh-Hans": "泮托拉唑",
+      "zh-Hant": "泮托拉唑"
+    },
+    {
+      "substance": "Paricalcitol",
+      "zh-Hans": "帕立骨化醇",
+      "zh-Hant": "帕立骨化醇"
+    },
+    {
+      "substance": "Paroxetine",
+      "es": "Paroxetina",
+      "zh-Hans": "帕罗西汀",
+      "zh-Hant": "帕羅西汀"
+    },
+    {
+      "substance": "Pemoline",
+      "es": "Pemolina",
+      "zh-Hans": "匹莫林",
+      "zh-Hant": "匹莫林"
+    },
+    {
+      "substance": "Pentazocine",
+      "es": "Pentazocina",
+      "zh-Hans": "喷他佐辛",
+      "zh-Hant": "潘他唑新"
+    },
+    {
+      "substance": "Pentobarbital",
+      "zh-Hans": "戊巴比妥",
+      "zh-Hant": "戊巴比妥"
+    },
+    {
+      "substance": "Perampanel",
+      "zh-Hans": "吡仑帕奈",
+      "zh-Hant": "吡侖帕奈"
+    },
+    {
+      "substance": "Perphenazine",
+      "es": "Perfenazina",
+      "zh-Hans": "奋乃静",
+      "zh-Hant": "奮乃靜"
+    },
+    {
+      "substance": "Pethidine",
+      "es": "Petidina",
+      "zh-Hans": "哌替啶",
+      "zh-Hant": "配西汀"
+    },
+    {
+      "substance": "Peyote",
+      "zh-Hans": "乌羽玉",
+      "zh-Hant": "烏羽玉"
+    },
+    {
+      "substance": "Phenazepam",
+      "es": "Fenazepam",
+      "zh-Hans": "芬纳西泮",
+      "zh-Hant": "芬納西泮"
+    },
+    {
+      "substance": "Phendimetrazine",
+      "es": "Fendimetrazina",
+      "zh-Hans": "苯甲曲秦",
+      "zh-Hant": "苯甲曲秦"
+    },
+    {
+      "substance": "Phenelzine",
+      "es": "Fenelzina",
+      "zh-Hans": "苯乙肼",
+      "zh-Hant": "苯乙肼"
+    },
+    {
+      "substance": "Phenethylamine",
+      "es": "Feniletilamina",
+      "zh-Hans": "苯乙胺",
+      "zh-Hant": "苯乙胺"
+    },
+    {
+      "substance": "Phenibut",
+      "es": "Fenibut",
+      "zh-Hans": "菲尼布特",
+      "zh-Hant": "菲尼布特"
+    },
+    {
+      "substance": "Phenmetrazine",
+      "es": "Fenmetrazina",
+      "zh-Hans": "芬美曲秦",
+      "zh-Hant": "芬美曲秦"
+    },
+    {
+      "substance": "Phenobarbital",
+      "zh-Hans": "苯巴比妥",
+      "zh-Hant": "苯巴比妥"
+    },
+    {
+      "substance": "Phentermine",
+      "es": "Fentermina",
+      "zh-Hans": "芬特明",
+      "zh-Hant": "芬特明"
+    },
+    {
+      "substance": "Phentermine+Fenfluramine",
+      "es": "Fentermina + fenfluramina",
+      "zh-Hans": "芬特明+芬氟拉明",
+      "zh-Hant": "芬特明+芬氟拉明"
+    },
+    {
+      "substance": "Phentolamine",
+      "es": "Fentolamina",
+      "zh-Hans": "酚妥拉明",
+      "zh-Hant": "酚妥拉明"
+    },
+    {
+      "substance": "Phenylephrine",
+      "es": "Fenilefrina",
+      "zh-Hans": "去氧肾上腺素",
+      "zh-Hant": "苯腎上腺素"
+    },
+    {
+      "substance": "Phenylpiracetam",
+      "es": "Fenilpiracetam",
+      "zh-Hans": "苯基吡拉西坦",
+      "zh-Hant": "苯基吡拉西坦"
+    },
+    {
+      "substance": "Phenytoin",
+      "es": "Fenitoína",
+      "zh-Hans": "苯妥英",
+      "zh-Hant": "苯妥英"
+    },
+    {
+      "substance": "Phosphatidylserine",
+      "es": "Fosfatidilserina",
+      "zh-Hans": "磷脂酰丝氨酸",
+      "zh-Hant": "磷脂絲胺酸"
+    },
+    {
+      "substance": "Pimavanserin",
+      "es": "Pimavanserina",
+      "zh-Hans": "匹莫范色林",
+      "zh-Hant": "匹莫范色林"
+    },
+    {
+      "substance": "Pimozide",
+      "es": "Pimozida",
+      "zh-Hans": "匹莫齐特",
+      "zh-Hant": "匹莫齊特"
+    },
+    {
+      "substance": "Pinazepam",
+      "zh-Hans": "匹那西泮",
+      "zh-Hant": "匹那西泮"
+    },
+    {
+      "substance": "Pipradrol",
+      "zh-Hans": "哌苯甲醇",
+      "zh-Hant": "哌苯甲醇"
+    },
+    {
+      "substance": "Piracetam",
+      "zh-Hans": "吡拉西坦",
+      "zh-Hant": "吡拉西坦"
+    },
+    {
+      "substance": "Piroxicam",
+      "zh-Hans": "吡罗昔康",
+      "zh-Hant": "吡羅昔康"
+    },
+    {
+      "substance": "Placdyl",
+      "es": "Etclorvinol",
+      "zh-Hans": "乙氯维诺",
+      "zh-Hant": "乙氯維諾"
+    },
+    {
+      "substance": "Polygala tenuifolia",
+      "zh-Hans": "远志",
+      "zh-Hant": "遠志"
+    },
+    {
+      "substance": "PQQ",
+      "zh-Hans": "吡咯喹啉醌",
+      "zh-Hant": "吡咯喹啉醌"
+    },
+    {
+      "substance": "Pramipexole",
+      "es": "Pramipexol",
+      "zh-Hans": "普拉克索",
+      "zh-Hant": "普拉克索"
+    },
+    {
+      "substance": "Pramiracetam",
+      "zh-Hans": "普拉西坦",
+      "zh-Hant": "普拉西坦"
+    },
+    {
+      "substance": "Pravastatin",
+      "es": "Pravastatina",
+      "zh-Hans": "普伐他汀",
+      "zh-Hant": "普伐他汀"
+    },
+    {
+      "substance": "Prazepam",
+      "zh-Hans": "普拉西泮",
+      "zh-Hant": "普拉西泮"
+    },
+    {
+      "substance": "Prazosin",
+      "es": "Prazosina",
+      "zh-Hans": "哌唑嗪",
+      "zh-Hant": "哌唑嗪"
+    },
+    {
+      "substance": "Pregabalin",
+      "es": "Pregabalina",
+      "zh-Hans": "普瑞巴林",
+      "zh-Hant": "普瑞巴林"
+    },
+    {
+      "substance": "Primidone",
+      "es": "Primidona",
+      "zh-Hans": "扑米酮",
+      "zh-Hant": "撲米酮"
+    },
+    {
+      "substance": "Prochlorperazine",
+      "es": "Proclorperazina",
+      "zh-Hans": "丙氯拉嗪",
+      "zh-Hant": "丙氯拉嗪"
+    },
+    {
+      "substance": "Progesterone",
+      "es": "Progesterona",
+      "zh-Hans": "黄体酮",
+      "zh-Hant": "黃體素"
+    },
+    {
+      "substance": "Prolintane",
+      "es": "Prolintano",
+      "zh-Hans": "普罗林坦",
+      "zh-Hant": "普羅林坦"
+    },
+    {
+      "substance": "Promethazine",
+      "es": "Prometazina",
+      "zh-Hans": "异丙嗪",
+      "zh-Hant": "異丙嗪"
+    },
+    {
+      "substance": "Propofol",
+      "zh-Hans": "丙泊酚",
+      "zh-Hant": "異丙酚"
+    },
+    {
+      "substance": "Propoxyphene",
+      "es": "Propoxifeno",
+      "zh-Hans": "丙氧芬",
+      "zh-Hant": "丙氧芬"
+    },
+    {
+      "substance": "Propranolol",
+      "zh-Hans": "普萘洛尔",
+      "zh-Hant": "普萘洛爾"
+    },
+    {
+      "substance": "Propylhexedrine",
+      "es": "Propilhexedrina",
+      "zh-Hans": "丙己君",
+      "zh-Hant": "丙己君"
+    },
+    {
+      "substance": "Protriptyline",
+      "es": "Protriptilina",
+      "zh-Hans": "普罗替林",
+      "zh-Hant": "普羅替林"
+    },
+    {
+      "substance": "Pseudoephedrine",
+      "es": "Pseudoefedrina",
+      "zh-Hans": "伪麻黄碱",
+      "zh-Hant": "假麻黃鹼"
+    },
+    {
+      "substance": "Psilocin",
+      "es": "Psilocina",
+      "zh-Hans": "脱磷酸裸盖菇素",
+      "zh-Hant": "西洛新"
+    },
+    {
+      "substance": "Psilocybin",
+      "es": "Psilocibina",
+      "zh-Hans": "裸盖菇素",
+      "zh-Hant": "西洛西賓"
+    },
+    {
+      "substance": "Psilocybin mushrooms",
+      "es": "Hongos de psilocibina",
+      "zh-Hans": "裸盖菇",
+      "zh-Hant": "裸蓋菇"
+    },
+    {
+      "substance": "PT-141",
+      "es": "Bremelanotida"
+    },
+    {
+      "substance": "Pterostilbene",
+      "es": "Pterostilbeno",
+      "zh-Hans": "紫檀芪",
+      "zh-Hant": "紫檀芪"
+    },
+    {
+      "substance": "Pyrantel",
+      "es": "Pirantel",
+      "zh-Hans": "噻嘧啶",
+      "zh-Hant": "噻嘧啶"
+    },
+    {
+      "substance": "Pyrilamine",
+      "es": "Mepiramina",
+      "zh-Hans": "美吡拉敏",
+      "zh-Hant": "美吡拉敏"
+    },
+    {
+      "substance": "Pyritinol",
+      "es": "Piritinol",
+      "zh-Hans": "吡硫醇",
+      "zh-Hant": "吡硫醇"
+    },
+    {
+      "substance": "Pyrovalerone",
+      "es": "Pirovalerona",
+      "zh-Hans": "吡咯戊酮",
+      "zh-Hant": "吡咯戊酮"
+    },
+    {
+      "substance": "Quazepam",
+      "zh-Hans": "夸西泮",
+      "zh-Hant": "夸西泮"
+    },
+    {
+      "substance": "Quercetin",
+      "es": "Quercetina",
+      "zh-Hans": "槲皮素",
+      "zh-Hant": "槲皮素"
+    },
+    {
+      "substance": "Quetiapine",
+      "es": "Quetiapina",
+      "zh-Hans": "喹硫平",
+      "zh-Hant": "奎硫平"
+    },
+    {
+      "substance": "Quinidine",
+      "es": "Quinidina",
+      "zh-Hans": "奎尼丁",
+      "zh-Hant": "奎尼丁"
+    },
+    {
+      "substance": "Quinine",
+      "es": "Quinina",
+      "zh-Hans": "奎宁",
+      "zh-Hant": "奎寧"
+    },
+    {
+      "substance": "Ramelteon",
+      "zh-Hans": "雷美替胺",
+      "zh-Hant": "雷美替胺"
+    },
+    {
+      "substance": "Ranitidine",
+      "es": "Ranitidina",
+      "zh-Hans": "雷尼替丁",
+      "zh-Hant": "雷尼替丁"
+    },
+    {
+      "substance": "Rasburicase",
+      "es": "Rasburicasa",
+      "zh-Hans": "拉布立海",
+      "zh-Hant": "拉布立海"
+    },
+    {
+      "substance": "Reishi",
+      "zh-Hans": "灵芝",
+      "zh-Hant": "靈芝"
+    },
+    {
+      "substance": "Remifentanil",
+      "zh-Hans": "瑞芬太尼",
+      "zh-Hant": "瑞吩坦尼"
+    },
+    {
+      "substance": "Repaglinide",
+      "es": "Repaglinida",
+      "zh-Hans": "瑞格列奈",
+      "zh-Hant": "瑞格列奈"
+    },
+    {
+      "substance": "Resveratrol",
+      "zh-Hans": "白藜芦醇",
+      "zh-Hant": "白藜蘆醇"
+    },
+    {
+      "substance": "Retatrutide",
+      "es": "Retatrutida"
+    },
+    {
+      "substance": "Rhodiola Rosea",
+      "zh-Hans": "红景天",
+      "zh-Hant": "紅景天"
+    },
+    {
+      "substance": "Ribavirin",
+      "es": "Ribavirina",
+      "zh-Hans": "利巴韦林",
+      "zh-Hant": "雷巴威林"
+    },
+    {
+      "substance": "Rilmazafone",
+      "es": "Rilmazafona"
+    },
+    {
+      "substance": "Rimegepant",
+      "zh-Hans": "瑞美吉泮",
+      "zh-Hant": "瑞美吉泮"
+    },
+    {
+      "substance": "Risperidone",
+      "es": "Risperidona",
+      "zh-Hans": "利培酮",
+      "zh-Hant": "利培酮"
+    },
+    {
+      "substance": "Rizatriptan",
+      "es": "Rizatriptán",
+      "zh-Hans": "利扎曲普坦",
+      "zh-Hant": "利扎曲普坦"
+    },
+    {
+      "substance": "Rolicyclidine",
+      "es": "Roliciclidina",
+      "zh-Hans": "咯环利定",
+      "zh-Hant": "咯環利定"
+    },
+    {
+      "substance": "Ronlax",
+      "es": "Loflazepato de etilo"
+    },
+    {
+      "substance": "Ropinirole",
+      "es": "Ropinirol",
+      "zh-Hans": "罗匹尼罗",
+      "zh-Hant": "羅匹尼羅"
+    },
+    {
+      "substance": "Rosiglitazone",
+      "es": "Rosiglitazona",
+      "zh-Hans": "罗格列酮",
+      "zh-Hant": "羅格列酮"
+    },
+    {
+      "substance": "Rosuvastatin",
+      "es": "Rosuvastatina",
+      "zh-Hans": "瑞舒伐他汀",
+      "zh-Hant": "瑞舒伐他汀"
+    },
+    {
+      "substance": "Rupatadine",
+      "es": "Rupatadina",
+      "zh-Hans": "卢帕他定",
+      "zh-Hant": "盧帕他定"
+    },
+    {
+      "substance": "S4",
+      "es": "Andarina"
+    },
+    {
+      "substance": "Salbutamol",
+      "zh-Hans": "沙丁胺醇",
+      "zh-Hant": "沙丁胺醇"
+    },
+    {
+      "substance": "Salmeterol",
+      "zh-Hans": "沙美特罗",
+      "zh-Hant": "沙美特羅"
+    },
+    {
+      "substance": "Salvinorin A",
+      "es": "Salvinorina A"
+    },
+    {
+      "substance": "Salvinorin B",
+      "es": "Salvinorina B"
+    },
+    {
+      "substance": "SAM-e",
+      "es": "S-adenosilmetionina",
+      "zh-Hans": "S-腺苷甲硫氨酸",
+      "zh-Hant": "S-腺苷甲硫胺酸"
+    },
+    {
+      "substance": "Scopolamine",
+      "es": "Escopolamina",
+      "zh-Hans": "东莨菪碱",
+      "zh-Hant": "東莨菪鹼"
+    },
+    {
+      "substance": "Secobarbital",
+      "zh-Hans": "司可巴比妥",
+      "zh-Hant": "西可巴比妥"
+    },
+    {
+      "substance": "Selegiline",
+      "es": "Selegilina",
+      "zh-Hans": "司来吉兰",
+      "zh-Hant": "司來吉蘭"
+    },
+    {
+      "substance": "Selenium",
+      "es": "Selenio",
+      "zh-Hans": "硒",
+      "zh-Hant": "硒"
+    },
+    {
+      "substance": "Semaglutide",
+      "es": "Semaglutida",
+      "zh-Hans": "司美格鲁肽",
+      "zh-Hant": "司美格魯肽"
+    },
+    {
+      "substance": "Serdexmethylphenidate",
+      "es": "Serdexmetilfenidato"
+    },
+    {
+      "substance": "Sermorelin",
+      "es": "Sermorelina",
+      "zh-Hans": "舍莫瑞林",
+      "zh-Hant": "舍莫瑞林"
+    },
+    {
+      "substance": "Sertraline",
+      "es": "Sertralina",
+      "zh-Hans": "舍曲林",
+      "zh-Hant": "舍曲林"
+    },
+    {
+      "substance": "Sibutramine",
+      "es": "Sibutramina",
+      "zh-Hans": "西布曲明",
+      "zh-Hant": "西布曲明"
+    },
+    {
+      "substance": "Sildenafil",
+      "es": "Sildenafilo",
+      "zh-Hans": "西地那非",
+      "zh-Hant": "西地那非"
+    },
+    {
+      "substance": "Simvastatin",
+      "es": "Simvastatina",
+      "zh-Hans": "辛伐他汀",
+      "zh-Hant": "辛伐他汀"
+    },
+    {
+      "substance": "Sotalol",
+      "zh-Hans": "索他洛尔",
+      "zh-Hant": "索他洛爾"
+    },
+    {
+      "substance": "Sufentanil",
+      "es": "Sufentanilo",
+      "zh-Hans": "舒芬太尼",
+      "zh-Hant": "舒吩坦尼"
+    },
+    {
+      "substance": "Sugammadex",
+      "zh-Hans": "舒更葡糖",
+      "zh-Hant": "舒更葡糖"
+    },
+    {
+      "substance": "Sulbutiamine",
+      "es": "Sulbutiamina"
+    },
+    {
+      "substance": "Sulfasalazine",
+      "es": "Sulfasalazina",
+      "zh-Hans": "柳氮磺吡啶",
+      "zh-Hant": "柳氮磺吡啶"
+    },
+    {
+      "substance": "Sulforaphane",
+      "es": "Sulforafano",
+      "zh-Hans": "萝卜硫素",
+      "zh-Hant": "蘿蔔硫素"
+    },
+    {
+      "substance": "Sumatriptan",
+      "es": "Sumatriptán",
+      "zh-Hans": "舒马普坦",
+      "zh-Hant": "舒馬普坦"
+    },
+    {
+      "substance": "Suvorexant",
+      "zh-Hans": "苏沃雷生",
+      "zh-Hant": "蘇沃雷生"
+    },
+    {
+      "substance": "Tadalafil",
+      "es": "Tadalafilo",
+      "zh-Hans": "他达拉非",
+      "zh-Hant": "他達拉非"
+    },
+    {
+      "substance": "Tapentadol",
+      "zh-Hans": "他喷他多",
+      "zh-Hant": "他噴他多"
+    },
+    {
+      "substance": "Taurine",
+      "es": "Taurina",
+      "zh-Hans": "牛磺酸",
+      "zh-Hant": "牛磺酸"
+    },
+    {
+      "substance": "Temazepam",
+      "zh-Hans": "替马西泮",
+      "zh-Hant": "替馬西泮"
+    },
+    {
+      "substance": "Tenofovir",
+      "zh-Hans": "替诺福韦",
+      "zh-Hant": "替諾福韋"
+    },
+    {
+      "substance": "Terazosin",
+      "es": "Terazosina",
+      "zh-Hans": "特拉唑嗪",
+      "zh-Hant": "特拉唑嗪"
+    },
+    {
+      "substance": "Tesamorelin",
+      "es": "Tesamorelina"
+    },
+    {
+      "substance": "Tesofensine",
+      "es": "Tesofensina"
+    },
+    {
+      "substance": "Tetracycline",
+      "es": "Tetraciclina",
+      "zh-Hans": "四环素",
+      "zh-Hant": "四環黴素"
+    },
+    {
+      "substance": "Tetrahydroharmine",
+      "es": "Tetrahidroharmina"
+    },
+    {
+      "substance": "Tetrazepam",
+      "zh-Hans": "四氢西泮",
+      "zh-Hant": "四氫西泮"
+    },
+    {
+      "substance": "THC",
+      "zh-Hans": "四氢大麻酚",
+      "zh-Hant": "四氫大麻酚"
+    },
+    {
+      "substance": "Theacrine",
+      "es": "Teacrina",
+      "zh-Hans": "苦茶碱",
+      "zh-Hant": "苦茶鹼"
+    },
+    {
+      "substance": "Theobromine",
+      "es": "Teobromina",
+      "zh-Hans": "可可碱",
+      "zh-Hant": "可可鹼"
+    },
+    {
+      "substance": "Thiopental",
+      "es": "Tiopental",
+      "zh-Hans": "硫喷妥钠",
+      "zh-Hant": "硫噴妥鈉"
+    },
+    {
+      "substance": "Thioridazine",
+      "es": "Tioridazina",
+      "zh-Hans": "硫利达嗪",
+      "zh-Hant": "硫利達嗪"
+    },
+    {
+      "substance": "Thiotepa",
+      "es": "Tiotepa",
+      "zh-Hans": "塞替派",
+      "zh-Hant": "塞替派"
+    },
+    {
+      "substance": "Thiothixene",
+      "es": "Tiotixeno",
+      "zh-Hans": "替沃噻吨",
+      "zh-Hant": "替沃噻噸"
+    },
+    {
+      "substance": "Thymosin alpha-1",
+      "es": "Timosina alfa 1",
+      "zh-Hans": "胸腺法新"
+    },
+    {
+      "substance": "Tianeptine",
+      "es": "Tianeptina",
+      "zh-Hans": "噻奈普汀",
+      "zh-Hant": "噻奈普汀"
+    },
+    {
+      "substance": "Tiletamine",
+      "es": "Tiletamina",
+      "zh-Hans": "替来他明",
+      "zh-Hant": "替來他明"
+    },
+    {
+      "substance": "Tilidine",
+      "es": "Tilidina",
+      "zh-Hans": "替利定",
+      "zh-Hant": "替利定"
+    },
+    {
+      "substance": "Tirzepatide",
+      "es": "Tirzepatida",
+      "zh-Hans": "替尔泊肽",
+      "zh-Hant": "替爾泊肽"
+    },
+    {
+      "substance": "Tizanidine",
+      "es": "Tizanidina",
+      "zh-Hans": "替扎尼定",
+      "zh-Hant": "替扎尼定"
+    },
+    {
+      "substance": "Tobramycin",
+      "es": "Tobramicina",
+      "zh-Hans": "妥布霉素",
+      "zh-Hant": "妥布黴素"
+    },
+    {
+      "substance": "Tolcapone",
+      "es": "Tolcapona",
+      "zh-Hans": "托卡朋",
+      "zh-Hant": "托卡朋"
+    },
+    {
+      "substance": "Topiramate",
+      "es": "Topiramato",
+      "zh-Hans": "托吡酯",
+      "zh-Hant": "托吡酯"
+    },
+    {
+      "substance": "Topotecan",
+      "es": "Topotecán",
+      "zh-Hans": "拓扑替康",
+      "zh-Hant": "拓撲替康"
+    },
+    {
+      "substance": "Torsemide",
+      "es": "Torasemida",
+      "zh-Hans": "托拉塞米",
+      "zh-Hant": "托拉塞米"
+    },
+    {
+      "substance": "Tramadol",
+      "zh-Hans": "曲马多",
+      "zh-Hant": "特拉瑪竇"
+    },
+    {
+      "substance": "Tranylcypromine",
+      "es": "Tranilcipromina",
+      "zh-Hans": "反苯环丙胺",
+      "zh-Hant": "反苯環丙胺"
+    },
+    {
+      "substance": "Travoprost",
+      "zh-Hans": "曲伏前列素",
+      "zh-Hant": "曲伏前列素"
+    },
+    {
+      "substance": "Trazodone",
+      "es": "Trazodona",
+      "zh-Hans": "曲唑酮",
+      "zh-Hant": "曲唑酮"
+    },
+    {
+      "substance": "Tretinoin",
+      "es": "Tretinoína",
+      "zh-Hans": "维A酸",
+      "zh-Hant": "維A酸"
+    },
+    {
+      "substance": "Triazolam",
+      "zh-Hans": "三唑仑",
+      "zh-Hant": "三唑他"
+    },
+    {
+      "substance": "Trifluoperazine",
+      "es": "Trifluoperazina",
+      "zh-Hans": "三氟拉嗪",
+      "zh-Hant": "三氟拉嗪"
+    },
+    {
+      "substance": "Trihexyphenidyl",
+      "es": "Trihexifenidilo",
+      "zh-Hans": "苯海索",
+      "zh-Hant": "苯海索"
+    },
+    {
+      "substance": "Trimethobenzamide",
+      "es": "Trimetobenzamida",
+      "zh-Hans": "曲美苄胺",
+      "zh-Hant": "曲美苄胺"
+    },
+    {
+      "substance": "Trimipramine",
+      "es": "Trimipramina",
+      "zh-Hans": "曲米帕明",
+      "zh-Hant": "曲米帕明"
+    },
+    {
+      "substance": "Triprolidine",
+      "es": "Triprolidina",
+      "zh-Hans": "曲普利啶",
+      "zh-Hant": "曲普利啶"
+    },
+    {
+      "substance": "Triptorelin",
+      "es": "Triptorelina",
+      "zh-Hans": "曲普瑞林",
+      "zh-Hant": "曲普瑞林"
+    },
+    {
+      "substance": "Tropacocaine",
+      "es": "Tropacocaína"
+    },
+    {
+      "substance": "Ubrogepant",
+      "zh-Hans": "乌布吉泮",
+      "zh-Hant": "烏布吉泮"
+    },
+    {
+      "substance": "Umeclidinium",
+      "es": "Umeclidinio",
+      "zh-Hans": "乌美溴铵",
+      "zh-Hant": "烏美溴銨"
+    },
+    {
+      "substance": "Valproate",
+      "es": "Valproato",
+      "zh-Hans": "丙戊酸",
+      "zh-Hant": "丙戊酸"
+    },
+    {
+      "substance": "Valsartan",
+      "es": "Valsartán",
+      "zh-Hans": "缬沙坦",
+      "zh-Hant": "纈沙坦"
+    },
+    {
+      "substance": "Varenicline",
+      "es": "Vareniclina",
+      "zh-Hans": "伐尼克兰",
+      "zh-Hant": "伐尼克蘭"
+    },
+    {
+      "substance": "Venlafaxine",
+      "es": "Venlafaxina",
+      "zh-Hans": "文拉法辛",
+      "zh-Hant": "文拉法辛"
+    },
+    {
+      "substance": "Vilazodone",
+      "es": "Vilazodona",
+      "zh-Hans": "维拉唑酮",
+      "zh-Hant": "維拉唑酮"
+    },
+    {
+      "substance": "Viloxazine",
+      "es": "Viloxazina",
+      "zh-Hans": "维洛沙秦",
+      "zh-Hant": "維洛沙秦"
+    },
+    {
+      "substance": "Vinpocetine",
+      "es": "Vinpocetina",
+      "zh-Hans": "长春西汀",
+      "zh-Hant": "長春西汀"
+    },
+    {
+      "substance": "VIP",
+      "es": "Péptido intestinal vasoactivo",
+      "zh-Hans": "血管活性肠肽",
+      "zh-Hant": "血管活性腸肽"
+    },
+    {
+      "substance": "Vitamin A",
+      "es": "Vitamina A",
+      "zh-Hans": "维生素A",
+      "zh-Hant": "維生素A"
+    },
+    {
+      "substance": "Vitamin B1",
+      "es": "Vitamina B1",
+      "zh-Hans": "维生素B1",
+      "zh-Hant": "維生素B1"
+    },
+    {
+      "substance": "Vitamin B12",
+      "es": "Vitamina B12",
+      "zh-Hans": "维生素B12",
+      "zh-Hant": "維生素B12"
+    },
+    {
+      "substance": "Vitamin B3",
+      "es": "Vitamina B3",
+      "zh-Hans": "维生素B3",
+      "zh-Hant": "維生素B3"
+    },
+    {
+      "substance": "Vitamin B6",
+      "es": "Vitamina B6",
+      "zh-Hans": "维生素B6",
+      "zh-Hant": "維生素B6"
+    },
+    {
+      "substance": "Vitamin C",
+      "es": "Vitamina C",
+      "zh-Hans": "维生素C",
+      "zh-Hant": "維生素C"
+    },
+    {
+      "substance": "Vitamin D3",
+      "es": "Vitamina D3",
+      "zh-Hans": "维生素D3",
+      "zh-Hant": "維生素D3"
+    },
+    {
+      "substance": "Vitamin E",
+      "es": "Vitamina E",
+      "zh-Hans": "维生素E",
+      "zh-Hant": "維生素E"
+    },
+    {
+      "substance": "Vitamin K2",
+      "es": "Vitamina K2",
+      "zh-Hans": "维生素K2",
+      "zh-Hant": "維生素K2"
+    },
+    {
+      "substance": "Warfarin",
+      "es": "Warfarina",
+      "zh-Hans": "华法林",
+      "zh-Hant": "華法林"
+    },
+    {
+      "substance": "Xanomeline",
+      "es": "Xanomelina",
+      "zh-Hans": "占诺美林",
+      "zh-Hant": "占諾美林"
+    },
+    {
+      "substance": "Xeroquel",
+      "es": "Quetiapina",
+      "zh-Hans": "喹硫平",
+      "zh-Hant": "奎硫平"
+    },
+    {
+      "substance": "Yerba-mate",
+      "es": "Yerba mate",
+      "zh-Hans": "马黛茶",
+      "zh-Hant": "瑪黛茶"
+    },
+    {
+      "substance": "Yohimbine",
+      "es": "Yohimbina",
+      "zh-Hans": "育亨宾",
+      "zh-Hant": "育亨賓"
+    },
+    {
+      "substance": "Zafirlukast",
+      "zh-Hans": "扎鲁司特",
+      "zh-Hant": "扎魯司特"
+    },
+    {
+      "substance": "Zaleplon",
+      "es": "Zaleplón",
+      "zh-Hans": "扎来普隆",
+      "zh-Hant": "扎來普隆"
+    },
+    {
+      "substance": "Zanamivir",
+      "zh-Hans": "扎那米韦",
+      "zh-Hant": "扎那米韋"
+    },
+    {
+      "substance": "Zinc Picolinate",
+      "es": "Picolinato de zinc",
+      "zh-Hans": "吡啶甲酸锌",
+      "zh-Hant": "吡啶甲酸鋅"
+    },
+    {
+      "substance": "Ziprasidone",
+      "es": "Ziprasidona",
+      "zh-Hans": "齐拉西酮",
+      "zh-Hant": "齊拉西酮"
+    },
+    {
+      "substance": "Zolazepam",
+      "zh-Hans": "唑拉西泮",
+      "zh-Hant": "唑拉西泮"
+    },
+    {
+      "substance": "Zoledronic acid",
+      "es": "Ácido zoledrónico",
+      "zh-Hans": "唑来膦酸",
+      "zh-Hant": "唑來膦酸"
+    },
+    {
+      "substance": "Zolmitriptan",
+      "es": "Zolmitriptán",
+      "zh-Hans": "佐米曲普坦",
+      "zh-Hant": "佐米曲普坦"
+    },
+    {
+      "substance": "Zolpidem",
+      "zh-Hans": "唑吡坦",
+      "zh-Hant": "佐沛眠"
+    },
+    {
+      "substance": "Zonisamide",
+      "es": "Zonisamida",
+      "zh-Hans": "唑尼沙胺",
+      "zh-Hant": "唑尼沙胺"
+    },
+    {
+      "substance": "Zopiclone",
+      "es": "Zopiclona",
+      "zh-Hans": "佐匹克隆",
+      "zh-Hant": "佐匹克隆"
+    },
+    {
+      "substance": "石山碱甲",
+      "es": "Huperzina A",
+      "zh-Hans": "石杉碱甲",
+      "zh-Hant": "石杉鹼甲"
+    },
+    {
+      "substance": "羟吗啡酮腙",
+      "es": "Oximorfazona",
+      "zh-Hant": "羥嗎啡酮腙"
+    },
+    {
+      "substance": "苦茶碱",
+      "es": "Teacrina",
+      "zh-Hant": "苦茶鹼"
+    },
+    {
+      "substance": "麦斯卡林",
+      "es": "Mescalina",
+      "zh-Hans": "麦司卡林",
+      "zh-Hant": "麥司卡林"
+    }
+  ]
+}
