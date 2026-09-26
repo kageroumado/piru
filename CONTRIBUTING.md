@@ -122,7 +122,7 @@ sensitive app it's the review:
 - Sources cited for every pharmacology / dose / interaction change.
 - Data changed through the pipeline, not by hand-editing the `.sqlite`.
 - Tests added or updated for changed non-UI logic; the suite passes.
-- Every new user-facing string localized (EN + zh-Hans + zh-Hant).
+- Every new user-facing string localized (EN + zh-Hans + zh-Hant + es).
 - No new network calls, telemetry, or anything that moves journal data off the device (see [SECURITY.md](SECURITY.md)).
 - Verified on a real device or simulator for anything touching curves, interactions, or notifications.
 - `swiftformat --lint .` passes.

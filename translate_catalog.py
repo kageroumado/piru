@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Apply zh-Hans and zh-Hant translations to a Localizable.xcstrings catalog."""
+"""Apply zh-Hans, zh-Hant and es translations to a Localizable.xcstrings catalog.
+
+Chinese lives in `T` below (English -> (Simplified, Traditional)); Spanish lives in
+`localization/es_translations.py` (English -> Spanish) and is applied to every
+catalog key it covers by the same pass.
+"""
 
 import json
 import subprocess
@@ -10,6 +15,12 @@ from pathlib import Path
 # Translations: English -> (Simplified, Traditional)
 T = {
     "Limitations": ("局限性", "局限性"),
+    # Settings → substance names in the app language, or English
+    "English Substance Names": ("英文物质名称", "英文物質名稱"),
+    "Show substances by their English names instead of the names used in your language. Search finds both.": (
+        "以英文名称显示物质，而非你所用语言中的名称。两种名称都能搜索到。",
+        "以英文名稱顯示物質，而非你所用語言中的名稱。兩種名稱都能搜尋到。",
+    ),
     # Substance color system (class colors, Oklch picker, update notice)
     "Class color": ("类别颜色", "類別顏色"),
     "Custom color": ("自定义颜色", "自訂顏色"),
@@ -7845,8 +7856,15 @@ def serialize_catalog(data: dict) -> str:
     return text.replace('" : {}', '" : {\n\n    }')
 
 
-def apply_translations(catalog_path: Path, translations: dict, insert_keys: set | None = None):
-    """Fill zh-Hans/zh-Hant for every catalog key present in `translations`.
+def apply_translations(
+    catalog_path: Path,
+    translations: dict,
+    insert_keys: set | None = None,
+    extra_languages: dict[str, dict[str, str]] | None = None,
+):
+    """Fill zh-Hans/zh-Hant for every catalog key present in `translations`,
+    then every language in `extra_languages` ({"es": {English: Spanish}}) for
+    every catalog key that language covers.
 
     By default this only UPDATES keys Xcode has already extracted — never adds
     new ones — so a catalog stays scoped to the strings its target actually
@@ -7876,6 +7894,17 @@ def apply_translations(catalog_path: Path, translations: dict, insert_keys: set 
         locs["zh-Hant"] = {"stringUnit": {"state": "translated", "value": zh_hant}}
         translated_count += 1
 
+    # Languages authored as a flat English -> text dict. Update-only, like the
+    # Chinese pass: a key the catalog lacks is skipped unless it is in
+    # `insert_keys` (and then the Chinese loop above has already inserted it).
+    for lang, table in (extra_languages or {}).items():
+        for key, entry in strings.items():
+            value = table.get(key)
+            if value is None:
+                continue
+            locs = entry.setdefault("localizations", {})
+            locs[lang] = {"stringUnit": {"state": "translated", "value": value}}
+
     # English-only keys still lacking a translation in T (informational).
     missing = [
         key
@@ -7887,7 +7916,7 @@ def apply_translations(catalog_path: Path, translations: dict, insert_keys: set 
     return translated_count, added, missing
 
 
-CANONICAL_LANGUAGES = ("zh-Hans", "zh-Hant")
+CANONICAL_LANGUAGES = ("zh-Hans", "zh-Hant", "es")
 
 
 def canonicalize_catalogs(project_path: Path, languages=CANONICAL_LANGUAGES) -> bool:
@@ -7966,6 +7995,13 @@ try:
 except ImportError:
     pass
 
+try:
+    from es_translations import ES
+except ImportError:
+    ES: dict[str, str] = {}
+
+EXTRA_LANGUAGES = {"es": ES}
+
 if __name__ == "__main__":
     project_root = Path(__file__).resolve().parent
 
@@ -7973,6 +8009,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "English Substance Names",
+        "Show substances by their English names instead of the names used in your language. Search finds both.",
         "None of the chosen substances have a modeled curve in this range",
         "Hides the elimination curve",
         "Nothing active now",
@@ -8738,7 +8776,10 @@ if __name__ == "__main__":
 
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(
-        project_root / "Piru/Localizable.xcstrings", T, insert_keys=NEW_KEYS
+        project_root / "Piru/Localizable.xcstrings",
+        T,
+        insert_keys=NEW_KEYS,
+        extra_languages=EXTRA_LANGUAGES,
     )
     print(f"Translated: {n}  (inserted {len(added)} new key(s))")
     for a in added:
@@ -8755,7 +8796,10 @@ if __name__ == "__main__":
     WIDGET_NEW_KEYS: set[str] = set()
     widget_dict = {**T, **WT}
     n, added, missing = apply_translations(
-        project_root / "PiruWidget/Localizable.xcstrings", widget_dict, insert_keys=WIDGET_NEW_KEYS
+        project_root / "PiruWidget/Localizable.xcstrings",
+        widget_dict,
+        insert_keys=WIDGET_NEW_KEYS,
+        extra_languages=EXTRA_LANGUAGES,
     )
     print(f"Translated: {n}  (inserted {len(added)} new key(s))")
     for a in added:
@@ -8779,6 +8823,7 @@ if __name__ == "__main__":
         project_root / "PiruLiveActivityExtension/Localizable.xcstrings",
         {**T, **WT},
         insert_keys=ACTIVITY_NEW_KEYS,
+        extra_languages=EXTRA_LANGUAGES,
     )
     print(f"Translated: {n}  (inserted {len(added)} new key(s))")
     for a in added:
@@ -8793,6 +8838,7 @@ if __name__ == "__main__":
         project_root / "PiruWatch Watch App/Localizable.xcstrings",
         WATCH_T,
         insert_keys=set(WATCH_T),
+        extra_languages=EXTRA_LANGUAGES,
     )
     print(f"Translated: {n}  (inserted {len(added)} new key(s))")
     for a in added:
