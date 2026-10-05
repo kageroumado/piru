@@ -93,3 +93,6 @@ Store/
 # cells.jsonl alone is ~40 MB and is rewritten wholesale on every calibration
 # pass; the verdicts that come out of reading it belong in data/curated/.
 data/adjudication/
+
+# Portable core verification outputs
+android/PiruCore/.build/

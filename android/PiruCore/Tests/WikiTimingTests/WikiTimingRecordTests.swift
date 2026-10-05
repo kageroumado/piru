@@ -1,0 +1,1 @@
+../../../../PiruTests/WikiTimingRecordTests.swift

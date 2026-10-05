@@ -73,6 +73,7 @@ python3 pipeline/audit/signature_coverage.py --write
 
 step "9/10  Regression + invariant tests"
 python3 pipeline/build/tests/test_sqlite.py
+python3 pipeline/build/tests/test_drug_community_timelines.py
 python3 pipeline/build/tests/test_overlay_integrity.py
 python3 pipeline/build/tests/test_psid.py
 python3 pipeline/build/tests/test_product_codes.py

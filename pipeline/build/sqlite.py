@@ -38,6 +38,8 @@ from pathlib import Path
 # sqlite.py`, where the script dir is already on sys.path) and when the test
 # suite loads this file via importlib spec (where it is not).
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from drug_community_timelines import reference_timelines, snapshot_binding  # noqa: E402
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — shared modules
 
 import collision_registry  # noqa: E402
@@ -445,21 +447,6 @@ SOURCE_FIELD_PRIORITY: tuple[tuple[str, str, str, str], ...] = (
         "article. PsychonautWiki's is the lead paragraph of a wiki page copied "
         "whole, and FreeOD's English is machine-translated from Chinese — so for "
         "this one field dose.wiki outranks the published literature as well.",
-    ),
-    (
-        "durations",
-        "drug.community",
-        SOURCES[-1][0],
-        "drug.community records a timeline as single absolute boundaries "
-        "(onset ends at 0.5 min, peak runs 30–60 min), so every phase length "
-        "Piru derives from it is a point with no interval: 2,555 of its 3,988 "
-        "duration rows have min == max, against 1 of 1,637 for PsychonautWiki. "
-        "At its overall rank those points beat every wiki's interval — IV heroin "
-        "shipped a 29.5-minute come-up beside a PsychonautWiki row saying "
-        "seconds — and dose.wiki sided with PsychonautWiki in 489 of 537 such "
-        "contests. Its dose ladders are real ranges and keep their rank; only "
-        "the timeline drops to the very end, beneath every source that states "
-        "an interval, so it fills the routes nobody else describes.",
     ),
 )
 
@@ -1539,6 +1526,28 @@ CREATE TABLE durations (
     citation_id   INTEGER REFERENCES citations(id)
 );
 CREATE INDEX idx_durations_substance_route ON durations(substance_id, route);
+-- Source reference timelines are not sequential phase lengths. Retain them
+-- separately so the activity model cannot fill unknown onsets or turn neutral
+-- after-effects into afterglow. The key identifies a position in one snapshot;
+-- duplicate routes remain distinct, including after substance deduplication.
+CREATE TABLE drug_community_timelines (
+    record_key         TEXT PRIMARY KEY,
+    substance_id       INTEGER NOT NULL REFERENCES substances(id),
+    source_id          INTEGER NOT NULL REFERENCES sources(id),
+    source_name        TEXT NOT NULL,
+    route              TEXT,
+    kind               TEXT NOT NULL,
+    entry_index        INTEGER NOT NULL,
+    entry_json         TEXT NOT NULL,
+    duration_text_json TEXT NOT NULL,
+    citations_json     TEXT NOT NULL,
+    profile_sha256     TEXT NOT NULL,
+    snapshot_sha256    TEXT NOT NULL,
+    release_id         TEXT,
+    modeling_exclusion TEXT NOT NULL
+);
+CREATE INDEX idx_dc_timelines_substance ON drug_community_timelines(substance_id);
+
 -- One row per form a source states. An expression index, because a UNIQUE
 -- constraint over the nullable salt_form/isomer treats every NULL as distinct and
 -- so admits any number of rows for the base form.
@@ -3740,7 +3749,12 @@ def enforce_us_english(con) -> dict:
     }
     # The SubFxOnEx ontology ships verbatim (LGPL-2.1, and a note's descriptor
     # search matches the release's own normalized labels) — never rewrite it.
-    verbatim_tables = {"subjective_effect_concepts", "subjective_effect_concept_aliases"}
+    verbatim_tables = {
+        "subjective_effect_concepts",
+        "subjective_effect_concept_aliases",
+        # Hash-bound source quotations and field names must remain exact.
+        "drug_community_timelines",
+    }
     rewritten = 0
     for table in tables:
         if table in verbatim_tables:
@@ -3781,6 +3795,9 @@ def enforce_voice_rule(con) -> dict:
         for r in cur.execute(
             "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
         )
+        # Quoted evidence is not authored app prose. Rewriting this JSON
+        # changes its claims and breaks the snapshot binding.
+        if r[0] != "drug_community_timelines"
     ]
     rewritten = 0
     for table in tables:
@@ -8703,8 +8720,13 @@ class Build:
         if not path.exists():
             return
         data = json.loads(path.read_text())
+        snapshot_sha, release_id = snapshot_binding(path)
         slug = "drug.community"
         dose_skip = self._dose_skip_map(slug)
+        # A refreshed snapshot replaces this source's timelines, including
+        # withdrawals. Never leave old inferred phase lengths behind.
+        for table in ("drug_community_timelines", "durations"):
+            self.cur.execute(f"DELETE FROM {table} WHERE source_id=?", (self.source_ids[slug],))
         for s in sorted(
             data,
             key=lambda x: (
@@ -8776,91 +8798,33 @@ class Build:
                     heavy=heavy,
                     notes=r.get("notes"),
                 )
-            drop_durations = self._duration_drop_map(slug).get(name.strip().lower(), False)
-            for dc in s.get("duration_curves") or []:
-                curve = dc.get("duration_curve")
-                if not isinstance(curve, dict):
-                    continue
-                route = (dc.get("method") or "oral").lower()
-                route_key = normalise_route(route)
-                if (
+            duration_exceptions = self._exception_for(self._duration_drop_map(slug), name, sid)
+            for timeline in reference_timelines(s, snapshot_sha):
+                route_key = normalise_route(timeline["route"] or "")
+                source_exception = (
                     drop_routes is None
-                    or (drop_routes and route_key in drop_routes)
-                    or drop_durations is None
-                    or (drop_durations and route_key in drop_durations)
-                ):
-                    self.stats["duration_skipped"] += 1
-                    continue
-                # drug.community labels each curve with its own unit. Earlier
-                # versions assumed hours unconditionally, which inflated minute-
-                # denominated entries (e.g. 6-MAM IV 90 min → 5400 min = 90 h)
-                # by 60×. Always check the unit before converting.
-                unit = (curve.get("units") or "hours").lower()
-                if unit in ("h", "hour", "hours"):
-                    to_minutes = 60.0
-                elif unit in ("m", "min", "mins", "minute", "minutes"):
-                    to_minutes = 1.0
-                elif unit in ("s", "sec", "secs", "second", "seconds"):
-                    to_minutes = 1.0 / 60.0
-                elif unit in ("d", "day", "days"):
-                    to_minutes = 60.0 * 24.0
-                else:
-                    to_minutes = 60.0
-                # drug.community gives each phase as an ABSOLUTE [start, end]
-                # window measured from ingestion (onset/peak/offset/after_effects
-                # use start/end; only total_duration uses min/max). Piru's
-                # DurationProfile instead stores per-phase *durations* that it
-                # accumulates by midpoint to recover the curve boundaries. The
-                # come-up/peak/offset durations are recovered by differencing
-                # consecutive absolute ends. Onset is special: its window is the
-                # time-to-first-effects *range* (it mirrors the TripSit onset
-                # range these curves are sourced from — e.g. mephedrone oral
-                # 15–45 min), so it is emitted verbatim as min/max rather than
-                # collapsed to its end, which would report when the come-up
-                # completes as though effects only then began. `total` likewise
-                # keeps its real min/max.
-                onset_b = self._dc_phase_bounds(curve.get("onset"))
-                peak_b = self._dc_phase_bounds(curve.get("peak"))
-                offset_b = self._dc_phase_bounds(curve.get("offset"))
-                after_b = self._dc_phase_bounds(curve.get("after_effects"))
-
-                profile = {}
-                if onset_b:
-                    profile["onset"] = {
-                        "min": onset_b[0] * to_minutes,
-                        "max": onset_b[1] * to_minutes,
-                    }
-                if onset_b and peak_b:
-                    comeup = max(0.0, (peak_b[0] - onset_b[1]) * to_minutes)
-                    if comeup > 0:
-                        profile["comeup"] = {"min": comeup, "max": comeup}
-                if peak_b:
-                    peak_len = max(0.0, (peak_b[1] - peak_b[0]) * to_minutes)
-                    profile["peak"] = {"min": peak_len, "max": peak_len}
-                if peak_b and offset_b:
-                    # Normal case: offset spans from peak's end to offset's end,
-                    # reproducing the source's absolute boundary. For the ~5% of
-                    # malformed curves where the source gives offset the same or
-                    # an earlier window as peak (offset.end <= peak.end), fall
-                    # back to the offset window's own length so a comedown still
-                    # renders instead of collapsing to zero.
-                    offset_len = (offset_b[1] - peak_b[1]) * to_minutes
-                    if offset_len <= 0:
-                        offset_len = (offset_b[1] - offset_b[0]) * to_minutes
-                    if offset_len > 0:
-                        profile["offset"] = {"min": offset_len, "max": offset_len}
-                if offset_b and after_b:
-                    afterglow = max(0.0, (after_b[1] - offset_b[1]) * to_minutes)
-                    if afterglow > 0:
-                        profile["afterglow"] = {"min": afterglow, "max": afterglow}
-                td = curve.get("total_duration")
-                if isinstance(td, dict) and td.get("min") is not None and td.get("max") is not None:
-                    profile["total"] = {
-                        "min": float(td["min"]) * to_minutes,
-                        "max": float(td["max"]) * to_minutes,
-                    }
-                if profile:
-                    self.add_duration_profile(sid, slug, route, profile)
+                    or bool(drop_routes and route_key in drop_routes)
+                    or duration_exceptions is None
+                    or bool(duration_exceptions and route_key in duration_exceptions)
+                )
+                row = {
+                    **timeline,
+                    "substance_id": sid,
+                    "source_id": self.source_ids[slug],
+                    "release_id": release_id,
+                    "modeling_exclusion": "source_exception"
+                    if source_exception
+                    else "reference_only",
+                }
+                columns = ", ".join(row)
+                placeholders = ", ".join("?" for _ in row)
+                self.cur.execute(
+                    f"INSERT INTO drug_community_timelines ({columns}) VALUES ({placeholders})",
+                    tuple(row.values()),
+                )
+                self.stats["dc_reference_timelines"] += 1
+                self.stats["dc_source_exception_timelines"] += int(source_exception)
+                self.stats[f"dc_{timeline['kind']}"] += 1
             for se in s.get("subjective_effects") or []:
                 if isinstance(se, str):
                     self.add_subjective_effect(sid, slug, se)
@@ -15644,6 +15608,7 @@ def main() -> int:
         "tags",
         "dose_ranges",
         "durations",
+        "drug_community_timelines",
         "half_lives",
         "mechanisms_summary",
         "effects",

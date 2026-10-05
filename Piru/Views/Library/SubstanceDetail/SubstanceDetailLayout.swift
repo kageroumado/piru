@@ -64,6 +64,8 @@ struct SubstanceDetailLayout: View {
             )
         }
 
+        WikiTimingSection(records: model.wikiTimings)
+
         // 4. Effects — the dose dial and what's reported at each band. The dose
         //    card above carries the same five tiers as a *grid*: same scale,
         //    different instrument for a different question.

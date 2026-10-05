@@ -3,10 +3,18 @@
   "api": "https://substance.wiki/api/data/manifest",
   "api_docs": "https://substance.wiki/api/docs",
   "human_url_pattern": "https://substance.wiki/drug/{slug}",
-  "fetched_at": "2026-09-20T19:56:03+00:00",
-  "release_id": "57bf7149f9f2189036a467f31ea4d7550d3efb5f62346ccaf1fbc9634ab0300a",
-  "release_generated_at": "2026-08-30T09:02:09.419Z",
+  "fetched_at": "2026-10-05T15:34:39+00:00",
+  "release_id": "def03efdc502a146d7baef0816dad0f855b7403171fd1dc72cc60a2540c92e67",
+  "release_generated_at": "2026-10-05T13:51:15.886Z",
   "schema_version": 2,
   "pipeline_version": "catalog-v2-backfill/2",
-  "substance_count": 427
+  "substance_count": 427,
+  "snapshot_sha256": "73ca00adb7b3e618a9fce11e5ef725ddfecbf239de65580b7ad62c230cbfb576",
+  "verified_datasets": {
+    "bootstrap": {
+      "url": "/api/data/releases/def03efdc502a146d7baef0816dad0f855b7403171fd1dc72cc60a2540c92e67/bootstrap",
+      "sha256": "e00a4cef4f59a67105301cdf375c2c1354c418a9e3c2b3e2d2cd9e82cc5b896c",
+      "bytes": 3938173
+    }
+  }
 }

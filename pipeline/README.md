@@ -434,7 +434,29 @@ The rows today:
 | field | source | beneath | why |
 |---|---|---|---|
 | `descriptions` | dosewiki | piru-curated | a reviewed summary written for its article beats a copied wiki lead and machine-translated Chinese |
-| `durations` | drug.community | the last source in `SOURCES` | its timelines are single boundaries, so every derived phase is a point (2,555 of 3,988 rows min == max); beneath every source that states an interval it fills the routes nobody else describes |
+
+The substance.wiki duration importer retains every full or partial timing entry
+and every study timeline in `drug_community_timelines`. Each row preserves the
+original entry, source route/formulation, notes, citations, source profile digest,
+and position in a hash-bound snapshot. Duplicate routes stay distinct. The fetch
+metadata binds the local file digest to the verified immutable bootstrap release.
+
+These are reference timelines, displayed separately from `DurationProfile`:
+legacy start/end fields do not establish compatible clock origins, unknowns stay
+unknown, and neutral after-effects are not positive afterglow. No inferred phase
+lengths enter the session model. Study means, standard deviations and participant
+ranges retain their stated context; a maximum-response time is not a plateau.
+Source exceptions stay attached to reference rows. Whole-source refreshes remove
+withdrawn entries, and source-disabled readers return no reference rows.
+
+Run `python3 pipeline/build/tests/test_drug_community_timelines.py` for the real
+importer/SQLite/prose-pass regressions. `WikiTimingRecordTests` and
+`WikiTimingReadModelTests` belong to the native Piru test suite and are also
+exposed by the `WikiTimingTests` target in `android/PiruCore`. On Linux, testing
+that package can also build the separate smoke executable; a failure in its
+Foundation predicate macros is not a result for the timeline tests.
+A release still requires a complete database rebuild, the matching published DB
+and manifest, and native UI verification on the supported app platforms.
 
 drug.community's dose ladders are real ranges and keep their overall rank,
 directly beneath dose.wiki. dose.wiki leads the community sources: only its

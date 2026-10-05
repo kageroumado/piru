@@ -107,6 +107,7 @@ class Release:
         self.schema_version = manifest.get("schemaVersion")
         self.pipeline_version = manifest.get("pipelineVersion")
         self._datasets: dict[str, dict] = release["datasets"]
+        self.verified_datasets: dict[str, dict] = {}
 
     def dataset(self, name: str):
         """Fetch one dataset and refuse it unless it is the bytes the manifest names.
@@ -124,7 +125,9 @@ class Release:
                 f"'{name}' does not match the manifest: got {len(body)} bytes / {digest[:12]}, "
                 f"expected {entry['bytes']} / {entry['sha256'][:12]}"
             )
-        return json.loads(body)
+        payload = json.loads(body)
+        self.verified_datasets[name] = dict(entry)
+        return payload
 
 
 def fetch_bootstrap(release: Release) -> list[dict]:
@@ -236,7 +239,12 @@ def main() -> int:
     # object keys too (``sort_keys``) — the MongoDB-backed bootstrap emits each
     # document's fields in arbitrary order, so without this every re-fetch would
     # churn thousands of lines of pure key-reordering and bury real changes.
-    by_slug: dict[str, dict] = {slugify(obj["drug_name"]): obj for obj in drugs}
+    by_slug: dict[str, dict] = {}
+    for obj in drugs:
+        slug = slugify(obj["drug_name"])
+        if slug in by_slug:
+            raise SystemExit(f"duplicate substance slug in release: {slug}")
+        by_slug[slug] = obj
     ordered = [by_slug[k] for k in sorted(by_slug)]
 
     prev = json.loads(OUT.read_text()) if OUT.exists() else []
@@ -257,6 +265,8 @@ def main() -> int:
                 "schema_version": release.schema_version,
                 "pipeline_version": release.pipeline_version,
                 "substance_count": len(ordered),
+                "snapshot_sha256": hashlib.sha256(OUT.read_bytes()).hexdigest(),
+                "verified_datasets": release.verified_datasets,
             },
             indent=2,
             ensure_ascii=False,

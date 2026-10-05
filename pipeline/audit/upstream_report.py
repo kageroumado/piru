@@ -221,6 +221,7 @@ def dc_internal(records: list[dict]) -> dict[str, list[str]]:
     findings: dict[str, list[str]] = defaultdict(list)
     point_phase: Counter[str] = Counter()
     curves = 0
+    partial_curves = 0
     for rec in records:
         name = rec.get("drug_name") or "?"
         for route in (rec.get("dosages") or {}).get("routes_of_administration") or []:
@@ -247,6 +248,10 @@ def dc_internal(records: list[dict]) -> dict[str, list[str]]:
                 findings["empty_ladder"].append(f"| {name} | {route.get('route')} |")
         for entry in rec.get("duration_curves") or []:
             curve = entry.get("duration_curve")
+            if not isinstance(curve, dict):
+                curve = entry.get("partial_duration_curve")
+                if isinstance(curve, dict):
+                    partial_curves += 1
             if not isinstance(curve, dict):
                 continue
             curves += 1
@@ -292,6 +297,7 @@ def dc_internal(records: list[dict]) -> dict[str, list[str]]:
             if missing:
                 findings["missing_phase"].append(f"| {name} | {method} | {', '.join(missing)} |")
     findings["_curves"] = [str(curves)]
+    findings["_partial_curves"] = [str(partial_curves)]
     findings["_point_phase"] = [f"{k}: {v}" for k, v in point_phase.most_common()]
     return findings
 
@@ -504,20 +510,19 @@ def main(argv: list[str] | None = None) -> int:
     else:
         f = dc_internal(records)
         lines += [
-            "### Timelines are single boundaries, so every derived phase is a point",
+            "### Reference timelines and explicit unknowns",
             "",
-            f"Across {f['_curves'][0]} duration curves each phase is an absolute window with one `start` and one "
-            "`end`. Piru turns those into phase lengths (come-up = peak.start − onset.end, and so on), and "
-            "a length made from two single numbers is a single number: 2,555 of the 3,988 duration rows "
-            "Piru derives from drug.community have min == max, against 1 of 1,637 from PsychonautWiki. "
-            "Where a phase is genuinely uncertain (IV heroin peaks somewhere in 30–60 min after a come-up "
-            "of seconds to minutes), the schema cannot say so. The `iso_start`/`iso_end` arrays suggest "
-            "the format could carry two values per boundary; if it did, Piru would read them as a range.",
+            f"Inspected {f['_curves'][0]} legacy timing entries, including "
+            f"{f['_partial_curves'][0]} partial entries. Their start/end fields do not, by "
+            "themselves, establish a shared clock origin. Piru retains each original "
+            "entry in drug_community_timelines for reference display, with its units, "
+            "notes, provenance and unknown boundaries. It does not subtract endpoints "
+            "into phase lengths or interpret neutral after-effects as positive afterglow.",
             "",
         ]
         lines += section(
             "Windows that end before or with the previous phase",
-            "Read as absolute times from ingestion (the way IV heroin's curve reads: onset 0–0.5 min, peak 30–60, offset 120–240, after-effects 240–720), an offset that ends before the peak ends, or after-effects that end with the offset, is a contradiction — and these look like windows written as per-phase *lengths* instead. Piru reads every curve as absolute, so each of these phases collapses to zero and is dropped. Which semantic is intended, per curve or per dataset, is the question this list is asking.",
+            "Ordering review only: these fields may use different time origins or describe lengths. No common clock, contradiction, replacement value or dropped phase is inferred from this comparison.",
             "| substance | route | where |",
             f["window_order"],
         )
@@ -534,7 +539,10 @@ def main(argv: list[str] | None = None) -> int:
             f["window_inverted"],
         )
         lines += section(
-            "Curves missing a phase", "", "| substance | route | missing |", f["missing_phase"]
+            "Entries with incomplete phase bounds",
+            "Unknown boundaries remain unknown; partial entries are retained for reference.",
+            "| substance | route | missing |",
+            f["missing_phase"],
         )
         lines += section(
             "Dose ladders that go backwards", "", "| substance | route | where |", f["ladder"]

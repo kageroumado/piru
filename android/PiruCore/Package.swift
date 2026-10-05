@@ -44,6 +44,12 @@ let package = Package(
             ],
         ),
 
+        .testTarget(
+            name: "WikiTimingTests",
+            dependencies: ["Piru", .product(name: "GRDB", package: "GRDB.swift")],
+            swiftSettings: appSwiftSettings,
+        ),
+
         // The core reads its identity from Info.plist, as the app's bundle provides it. On macOS the
         // plist is linked into the binary; elsewhere it sits at the root of the directory holding it.
         .executableTarget(

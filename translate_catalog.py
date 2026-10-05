@@ -14,6 +14,44 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    "Bar: participant range; dot: mean.": (
+        "横条：参与者范围；圆点：均值。",
+        "橫條：參與者範圍；圓點：平均值。",
+    ),
+    # substance.wiki reference timings
+    "substance.wiki timelines": ("substance.wiki 时间线", "substance.wiki 時間軸"),
+    "Route unknown": ("给药途径未知", "給藥途徑未知"),
+    "Reference %lld": ("参考 %lld", "參考 %lld"),
+    "Read source context": ("阅读来源背景", "閱讀來源背景"),
+    "Partial timing data": ("部分时间数据", "部分時間資料"),
+    "Published timing illustration. Phase clock origins are unverified. Unknown timings are not estimated or used to predict your session.": (
+        "已发表的时间示意。各阶段的计时起点尚未核实。未知时间不会被估算，也不会用于预测你的体验。",
+        "已發表的時間示意。各階段的計時起點尚未核實。未知時間不會被估算，也不會用於預測你的體驗。",
+    ),
+    "After-effects": ("后续效应", "後續效應"),
+    "Reported total": ("报告的总时长", "報告的總時長"),
+    "Units unknown": ("单位未知", "單位未知"),
+    "Study timeline": ("研究时间线", "研究時間軸"),
+    "Study statistics describe this condition, not a prediction of your session. The maximum response is a time point, not a peak plateau.": (
+        "研究统计数据描述这一实验条件，不能预测你的体验。最大反应是一个时间点，而非峰值平台期。",
+        "研究統計資料描述這一實驗條件，不能預測你的體驗。最大反應是一個時間點，而非峰值平台期。",
+    ),
+    "Study dose (µg base)": ("研究剂量（µg，游离碱）", "研究劑量（µg，游離鹼）"),
+    "Participants: %lld": ("参与者：%lld", "參與者：%lld"),
+    "Clock origin": ("计时起点", "計時起點"),
+    "Response threshold (% of individual maximum)": (
+        "反应阈值（个人最大值的百分比）",
+        "反應閾值（個人最大值的百分比）",
+    ),
+    "Active duration: onset to offset": ("作用时长：起效至消退", "作用時長：起效至消退"),
+    "Study article": ("研究论文", "研究論文"),
+    "Study data table": ("研究数据表", "研究資料表"),
+    "Mean ± SD": ("均值 ± 标准差", "平均值 ± 標準差"),
+    "Participant range": ("参与者范围", "參與者範圍"),
+    "This source entry has a recorded timing or route concern.": (
+        "此来源条目存在已记录的时间或给药途径问题。",
+        "此來源條目存在已記錄的時間或給藥途徑問題。",
+    ),
     # Hebi Arcade: the cabinet you get by tapping the backdrop's ship
     "Score": ("得分", "得分"),
     "Best": ("最高分", "最高分"),
@@ -9019,6 +9057,33 @@ if __name__ == "__main__":
         "Everything from the old Piru app is here: your journal, meds and settings. Once you've looked it over, you can delete the old app.",
     }
 
+    NEW_KEYS.update(
+        {
+            "substance.wiki timelines",
+            "Study data table",
+            "Units unknown",
+            "Reported total",
+            "Route unknown",
+            "Participants: %lld",
+            "Clock origin",
+            "Study dose (µg base)",
+            "After-effects",
+            "Study timeline",
+            "Reference %lld",
+            "Response threshold (% of individual maximum)",
+            "This source entry has a recorded timing or route concern.",
+            "Participant range",
+            "Study statistics describe this condition, not a prediction of your session. The maximum response is a time point, not a peak plateau.",
+            "Published timing illustration. Phase clock origins are unverified. Unknown timings are not estimated or used to predict your session.",
+            "Study article",
+            "Read source context",
+            "Active duration: onset to offset",
+            "Mean ± SD",
+            "Partial timing data",
+        }
+    )
+
+    NEW_KEYS.add("Bar: participant range; dot: mean.")
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(
         project_root / "Piru/Localizable.xcstrings",

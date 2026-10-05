@@ -1,61 +1,63 @@
 [
   {
-    "addiction_potential": "Unknown. By analogy with BZP and other piperazines, physical dependence is unlikely; mild psychological habituation is possible with frequent use.",
+    "addiction_potential": "Not established by the inspected trimetazidine sources; the former BZP-based habituation prediction is withdrawn.",
     "alternative_names": [
       "2,3,4-TMBZP",
       "2,3,4-trimethoxybenzylpiperazine",
       "1-(2,3,4-TMB) piperazine",
       "1-(2,3,4-trimethoxybenzyl)-1,4-diazacyclohexane",
-      "2,3,4-trimethoxybenzyl-piperazine"
+      "2,3,4-trimethoxybenzyl-piperazine",
+      "Trimetazidine"
     ],
-    "categories": [
-      "research-chemical",
-      "stimulant",
-      "entactogen",
-      "psychedelic"
-    ],
-    "chemical_class": "Phenyl-/benzyl-piperazine derivative (trimethoxy-substituted)",
+    "categories": [],
+    "chemical_class": "Benzylpiperazine derivative; the named structure is trimetazidine.",
     "citations": [
       {
-        "name": "EUDA drug profile: BZP/piperazines (pharmacology, BP/HR effects, analysis, reagent behavior, immunoassay cross-reactivity)",
-        "reference": "https://www.euda.europa.eu/publications/drug-profiles/bzp_en"
+        "name": "PubChem CID 21109: trimetazidine structure and identifiers",
+        "reference": "https://pubchem.ncbi.nlm.nih.gov/compound/21109"
       },
       {
-        "name": "Council Decision on BZP (seizure risk noted; low potency vs d-amphetamine; inter-individual variability)",
-        "reference": "https://www.euda.europa.eu/drugs-library/council-decision-2008206jha-3-march-2008-defining-1-benzylpiperazine-bzp-new-psychoactive-substance-which-be-made-subject-control-measures-and-criminal-provisions_hr"
+        "name": "Blardi et al. (2002): original human trimetazidine and plasma-adenosine study; abstract inspected",
+        "reference": "https://doi.org/10.1006/phrs.2001.0905"
       },
       {
-        "name": "TripSit Drug Combination Chart (general harm-reduction on serotonergic/stimulant combinations)",
-        "reference": "https://wiki.tripsit.me/wiki/drug_combinations"
+        "name": "Original trimetazidine modified-release human pharmacokinetic study, PMID 22162540; abstract inspected",
+        "reference": "https://doi.org/10.1177/0091270011422813"
       },
       {
-        "name": "EUDA: mCPP Joint Report (negative serotonergic effects; duration/half-life range)",
-        "reference": "https://www.euda.europa.eu/system/files/publications/362/Final_Joint_Report_mCPP_285657.pdf"
+        "name": "European Medicines Agency: trimetazidine referral and restricted clinical use (2012)",
+        "reference": "https://www.ema.europa.eu/en/medicines/human/referrals/trimetazidine"
       },
       {
-        "name": "Drugs‑Forum study abstract: BZP pharmacokinetics in humans (t1/2 ≈ 5.5 h)",
-        "reference": "https://drugs-forum.com/studies/pharmacokinetics-of-party-pill-drug-n-benzylpiperazine-bzp-in-healthy-human-participants.4319/"
+        "name": "ANSM: TRIMETAZIDINE BIOGARAN 20 mg product information, updated 26 November 2024",
+        "reference": "https://base-donnees-publique.medicaments.gouv.fr/medicament/61020245/extrait"
       },
       {
-        "name": "EUDA Rapid Communication (piperazines found in tablets sold as MDMA; misrepresentation risk)",
-        "reference": "https://www.euda.europa.eu/system/files/publications/2473/TD0116348ENN.pdf_en"
+        "name": "Al-Kuraishy and Al-Gareeb (2017): human psychomotor study after five days; methodological and reporting limitations",
+        "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5468786/"
       },
       {
-        "name": "Erowid piperazines basics/MSDS excerpt (irritant properties; supports avoiding insufflation)",
-        "reference": "https://www.erowid.org/chemicals/piperazines/piperazines_info1.shtml"
+        "name": "Collationem, Reddit (2023): firsthand vigilance report; anecdotal, dose and route unspecified",
+        "reference": "https://www.reddit.com/r/NooTopics/comments/18gsmtn/comment/kdb25nd/"
+      },
+      {
+        "name": "Hip, Phoenix Rising (2019): firsthand headache report; anecdotal, sometimes combined with carnosine",
+        "reference": "https://forums.phoenixrising.me/threads/headache-treatment-trimetazidine-nicely-dissipates-my-3-day-headaches-within-12-hours.75953/"
+      },
+      {
+        "name": "bluesky1234l, Reddit (2025): firsthand muscle-symptom report; uncontrolled anecdote",
+        "reference": "https://www.reddit.com/r/cfs/comments/1pdy6s8/trimetazidine_helps_me/"
+      },
+      {
+        "name": "melihtas, Phoenix Rising (2014): firsthand report of no improvement after months; anecdotal",
+        "reference": "https://forums.phoenixrising.me/threads/rituximab-study-in-norway-an-application-to-the-research-council-of-norway.31258/page-5"
       }
     ],
     "dosages": {
       "routes_of_administration": [
         {
-          "dose_ranges": {
-            "common": "15–40 mg",
-            "heavy": ">70 mg",
-            "light": "5–15 mg",
-            "strong": "40–70 mg",
-            "threshold": "5 mg"
-          },
-          "notes": "All values are extrapolated from related benzyl/phenyl-piperazines (e.g., BZP, TFMPP, mCPP) and scattered user reports; potency of 2,3,4-trimethoxy substitution specifically is unknown. Start with an allergy test (0.5–1 mg) due to large inter-individual variability in piperazine metabolism (likely CYP2D6 involvement). Avoid redosing until effects have clearly ended.",
+          "dose_ranges": {},
+          "notes": "The former intensity ranges were extrapolated from other piperazines and are withdrawn. Trimetazidine prescribing regimens concern a specific medicine, formulation and clinical indication; they are not represented as recreational dose tiers.",
           "route": "oral",
           "units": "mg"
         }
@@ -63,181 +65,28 @@
     },
     "drug_name": "1-(2,3,4-Trimethoxybenzyl)piperazine",
     "duration": {
-      "after_effects": "2–6 h residual stimulation / insomnia possible",
-      "offset": "1–3 h",
-      "onset": "0:30–1:30 h",
-      "peak": "2–4 h",
-      "total_duration": "4–8 h"
+      "after_effects": "Psychoactive phase timing is not established by the inspected trimetazidine evidence.",
+      "offset": "Psychoactive phase timing is not established by the inspected trimetazidine evidence.",
+      "onset": "Psychoactive phase timing is not established by the inspected trimetazidine evidence.",
+      "peak": "Psychoactive phase timing is not established by the inspected trimetazidine evidence.",
+      "total_duration": "Psychoactive phase timing is not established by the inspected trimetazidine evidence."
     },
-    "duration_curves": [
-      {
-        "duration_curve": {
-          "after_effects": {
-            "end": 6,
-            "iso_end": [
-              "PT6H"
-            ],
-            "iso_start": [
-              "PT2H"
-            ],
-            "start": 2
-          },
-          "offset": {
-            "end": 3,
-            "iso_end": [
-              "PT3H"
-            ],
-            "iso_start": [
-              "PT1H"
-            ],
-            "start": 1
-          },
-          "onset": {
-            "end": 1.5,
-            "iso_end": [
-              "PT1H30M"
-            ],
-            "iso_start": [
-              "PT30M"
-            ],
-            "start": 0.5
-          },
-          "peak": {
-            "end": 4,
-            "iso_end": [
-              "PT4H"
-            ],
-            "iso_start": [
-              "PT2H"
-            ],
-            "start": 2
-          },
-          "reference": "Extrapolated from BZP/mCPP reports and general piperazine timelines; no primary data for this exact compound.",
-          "total_duration": {
-            "iso": [
-              "PT4H",
-              "PT8H"
-            ],
-            "max": 8,
-            "min": 4,
-            "note": "Likely influenced by CYP2D6 polymorphisms as with BZP/mCPP."
-          },
-          "units": "hours"
-        },
-        "method": "oral"
-      }
-    ],
-    "half_life": "Not measured for this isomer; by class analogy expect roughly 3–6 h (BZP ~5.5 h in humans; mCPP 2.6–6.1 h).",
+    "duration_curves": [],
+    "half_life": "Human pharmacokinetic studies exist for trimetazidine. Formulation and renal function affect exposure; no BZP or mCPP half-life is substituted here.",
     "interactions": {
-      "caution": [
-        "Other stimulants (amphetamine, methylphenidate, caffeine)",
-        "Alcohol (added cardio-strain / dehydration risk)"
-      ],
-      "dangerous": [
-        "MAOIs",
-        "MDMA / MDA (hyperthermia & serotonin syndrome risk)",
-        "Tramadol",
-        "Lithium"
-      ],
-      "unsafe": [
-        "SSRIs",
-        "SNRIs",
-        "DXM",
-        "Bupropion",
-        "Cocaine"
-      ]
+      "caution": [],
+      "dangerous": [],
+      "unsafe": []
     },
-    "notes": "Identity/analysis: Benzylpiperazines like BZP typically do not react with Marquis or Scott but give a positive with Nitroprusside; some cross-react with methamphetamine urine immunoassays. Without full lab analysis, misidentification is common, including sale as MDMA; use reputable drug checking where available. Pharmacology/extrapolation: BZP acts as a CNS stimulant roughly ~10% potency of d-amphetamine and mCPP shows serotonergic effects with 4–8 h duration; metabolism for BZP appears to involve CYP2D6/COMT with polymorphism-driven variability. Given this, expect wide person-to-person differences in both potency and duration with this trimethoxybenzyl analogue; begin with allergy testing and titrate conservatively. Cardiovascular risk: BZP in humans increases heart rate, blood pressure, and pupil size; similar effects should be assumed. Avoid if you have cardiovascular disease, uncontrolled hypertension, or are on QT-prolonging or pressor medications. Heat/overexertion: Stimulant/serotonergic actions raise hyperthermia risk, especially when combined with other stimulants/MDMA or in hot venues; take regular cooling breaks and sip isotonic fluids (avoid overhydration). Seizure risk: Clinical case series link BZP exposure with seizures; avoid combinations that lower seizure threshold (e.g., tramadol, bupropion) and avoid sleep deprivation. Serotonin toxicity: Combining with serotonergic agents (MAOIs, SSRIs/SNRIs, MDMA/MDA, DXM, tramadol, lithium) increases serotonin syndrome risk (agitation, clonus, hyperthermia, diaphoresis); do not mix and seek urgent care if symptoms appear. Redosing/spacing: Because piperazine kinetics vary (BZP t1/2 ~5–6 h; mCPP ~2.6–6.1 h), allow at least 24 hours before considering any redose and at least 1–2 weeks between sessions to limit tolerance and adverse effects. Route-of-use cautions: Avoid insufflation—piperazines are irritants and can damage mucosa; oral use is standard in reports. Post-use insomnia and anxiety are common; plan for sleep hygiene and a quiet environment. Drug testing: Immunoassay false-positives for methamphetamine are possible with some piperazines; request confirmatory GC/MS if relevant. Unknowns: No human pharmacokinetic or receptor-binding data exist for this exact trimethoxybenzyl isomer; long-term safety (including potential 5‑HT2B–related valvulopathy seen with some serotonergics) is unknown—avoid frequent or chronic use.",
-    "psychoactive_class": "Poorly-studied; presumed stimulant / entactogen with possible mild psychedelic activity (extrapolated from related benzyl/phenyl-piperazines)",
-    "search_url": "https://www.euda.europa.eu/publications/drug-profiles/bzp_en",
-    "subjective_effects": [
-      "euphoria",
-      "talkativeness",
-      "physical energy",
-      "sociability enhancement",
-      "music appreciation enhancement",
-      "enhanced colors",
-      "visual clarity",
-      "Dilated pupils",
-      "bruxism",
-      "jaw tension",
-      "loss of appetite",
-      "nausea",
-      "stomach discomfort",
-      "physical discomfort",
-      "Headache / migraine-like symptoms possible",
-      "Tachycardia & elevated blood pressure",
-      "anxiety",
-      "Photophobia / sensitivity to noise at higher doses",
-      "insomnia"
-    ],
+    "notes": "The exact named structure is trimetazidine, an antianginal medicine. The earlier recreational profile extrapolated from BZP and mCPP; those comparisons do not establish its doses, effects, tolerance or duration.\n\nHuman cognitive observations exist. Al-Kuraishy and Al-Gareeb (2017) reported improved psychomotor performance and vigilance after five days in a study of 234 healthy volunteers. Confidence is limited: blinding is not described, the reported analysis uses paired tests, and one P value of .086 is called significant despite a stated .05 threshold. The study does not measure acute onset, peak or offset.\n\nFirsthand reports are anecdotal. Reddit user Collationem described increased vigilance over weeks, without specifying dose, route, combinations or a single-dose timeline. Phoenix Rising user Hip reported headache relief but no benefit for their ME/CFS, with carnosine sometimes also used. Reddit user bluesky1234l reported relief of muscle symptoms. Phoenix Rising user melihtas reported no perceived improvement after months. These self-reported experiences concern different outcomes; product identity and causality are unverified, and they do not establish an intensity ladder or fixed phase timings.\n\nEMA restricts its use to add-on treatment of stable angina when first-line treatment is inadequate or not tolerated. Parkinson disease or related movement disorders and severe renal impairment are contraindications. The current French product information warns about movement disorders, serious skin reactions, dizziness and somnolence. It is not treatment for an acute angina attack. The label reports no identified drug interactions; this does not establish that every combination is safe. Prescribing regimens and plasma measurements are not recreational intensity bands or a psychoactive-effect timeline.",
+    "psychoactive_class": "Antianginal medicine; limited human research and anecdotal reports of cognitive effects.",
+    "search_url": "https://pubchem.ncbi.nlm.nih.gov/compound/21109",
+    "subjective_effects": [],
     "tolerance": {
-      "baselines": {
-        "baseline_tolerance": {
-          "confidence": 20,
-          "hours": 336
-        },
-        "full_tolerance": {
-          "confidence": 25,
-          "hours": 48
-        },
-        "half_tolerance": {
-          "confidence": 25,
-          "hours": 168
-        }
-      },
-      "cross_tolerances": [
-        {
-          "confidence": 35,
-          "ratio": 0.5,
-          "substance": "BZP"
-        },
-        {
-          "confidence": 25,
-          "ratio": 0.3,
-          "substance": "TFMPP/mCPP (phenylpiperazines)"
-        },
-        {
-          "confidence": 20,
-          "ratio": 0.2,
-          "substance": "Amphetamine-type stimulants"
-        }
-      ],
-      "data_quality": "anecdotal",
-      "model": {
-        "build_rate": 2,
-        "decay_rate": 1.5,
-        "half_life": 72,
-        "type": "exponential"
-      },
-      "notes": "Tolerance estimates are heuristic and extrapolated from stimulant/piperazine patterns; assume rapid build with short-term decay and allow 1–2 weeks between sessions.",
-      "timeline": [
-        {
-          "confidence": 40,
-          "hours": 0,
-          "tolerance_percentage": 0
-        },
-        {
-          "confidence": 30,
-          "hours": 24,
-          "tolerance_percentage": 40
-        },
-        {
-          "confidence": 25,
-          "hours": 72,
-          "tolerance_percentage": 60
-        },
-        {
-          "confidence": 20,
-          "hours": 168,
-          "tolerance_percentage": 20
-        },
-        {
-          "confidence": 15,
-          "hours": 336,
-          "tolerance_percentage": 0
-        }
-      ]
+      "cross_tolerances": [],
+      "data_quality": "unknown",
+      "notes": "The former numerical model and cross-tolerance ratios were analogue-based assumptions. No replacement tolerance model is established by the inspected trimetazidine evidence.",
+      "timeline": []
     }
   },
   {
@@ -11118,6 +10967,14 @@
       {
         "name": "ReagentTesting subreddit threads – expected 2C‑B reagent colours (Marquis yellow→green; Simon’s negative)",
         "reference": "https://www.reddit.com/r/ReagentTesting/comments/1es65s8"
+      },
+      {
+        "name": "Arikci et al. (2026): controlled oral 2C-B timing study, Table 1",
+        "reference": "https://www.nature.com/articles/s41386-026-02428-9"
+      },
+      {
+        "name": "Arikci et al. (2026): supplemental methods, study capsules and assessment schedule",
+        "reference": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41386-026-02428-9/MediaObjects/41386_2026_2428_MOESM1_ESM.pdf"
       }
     ],
     "dosages": {
@@ -11358,7 +11215,7 @@
         "Unknown ‘2C-B’ blotters (may be NBOMe/NBOH/DOx)"
       ]
     },
-    "notes": "Harm-reduction justifications and key points:\n- Steep dose–response: multiple harm-reduction services and Erowid emphasize that 1–2 mg can markedly change intensity; start low and titrate with an accurate 0.001 g scale or volumetric dosing to mitigate accidental overdosing.\n- Intranasal route is far more potent per mg, has rapid onset, and is notably painful; prefer tiny, well-measured amounts or a volumetric nasal spray; expect a shorter, sharper experience.\n- Typical oral active window is ~4–6 h with an additional 2–4 h of residual stimulation; plan set/setting, nutrition, and sleep accordingly.\n- Tablets/pills labeled as 2C-B vary widely and are sometimes confused with MDMA presses; Swiss drug checking shows many different 2C-B presses around ~13–16 mg and occasional mislabeling or admixture; always reagent-test and, where possible, use professional drug checking.\n- Reagent expectations for 2C‑B: Marquis usually yellow→green within ~10–60 s (may darken later), Mecke/Froehde yellowish; Simon’s negative. Read within the first minute and avoid expired reagents to reduce false interpretations.\n- Avoid MAOIs: historical guides and community data warn of significant potentiation and risk when MAOIs are combined with 2C‑x phenethylamines.\n- Combining with strong stimulants or high alcohol loads increases cardiovascular strain and disinhibition; several harm-reduction guides list tachycardia/hypertension among common physical effects of 2C‑x; avoid driving for the rest of the day.\n- MDMA+2C‑B (\"nexus flip\"): commonly reported but increases total serotonergic/stimulant load; if attempted, reduce each dose and stagger timing (e.g., 2C‑B after MDMA peak) to lower risk of overheating, anxiety, and confusion.\n- SSRIs/SNRIs frequently blunt 2C‑x psychedelic effects; cross-tolerance with other serotonergic psychedelics is expected for 1–2 weeks—plan adequate spacing.\n- Safer sniffing: if using intranasally, employ fine powder or isotonic solution, avoid caustic adulterants, and rinse with sterile saline after ~20–30 min to reduce mucosal injury.\n- Set/setting and anxiety: even at ‘party’ doses, acute panic can occur; have a trusted sober sitter and benzodiazepines reserved for emergencies only, at minimal doses due to respiratory/coordination risks.\n- Do not rely on blotters labeled 2C‑B: 2C‑B is typically sold as powder/capsules or pressed pills; blotters often indicate NBOMe/NBOH/DOx which have microgram potency and higher risk profiles.\n- Driving/next-day: performance impairment can persist beyond the subjective offset; harm-reduction leaflets advise waiting until the following day (≥24 h) before driving.\n- Hydration/temperature: mild stimulant properties and environment (e.g., clubs) can raise body temperature—sip water regularly, take cool-down breaks, and avoid overhydration.\n- Testing for identity vs. strength: reagent tests confirm likely class but not dose; only a lab or LC–MS quantitation can confirm mg content—assume variability and calibrate dose with your own product. ",
+    "notes": "Harm-reduction justifications and key points:\n- Steep dose–response: multiple harm-reduction services and Erowid emphasize that 1–2 mg can markedly change intensity; start low and titrate with an accurate 0.001 g scale or volumetric dosing to mitigate accidental overdosing.\n- Intranasal route is far more potent per mg, has rapid onset, and is notably painful; prefer tiny, well-measured amounts or a volumetric nasal spray; expect a shorter, sharper experience.\n- Typical oral active window is ~4–6 h with an additional 2–4 h of residual stimulation; plan set/setting, nutrition, and sleep accordingly.\n- Tablets/pills labeled as 2C-B vary widely and are sometimes confused with MDMA presses; Swiss drug checking shows many different 2C-B presses around ~13–16 mg and occasional mislabeling or admixture; always reagent-test and, where possible, use professional drug checking.\n- Reagent expectations for 2C‑B: Marquis usually yellow→green within ~10–60 s (may darken later), Mecke/Froehde yellowish; Simon’s negative. Read within the first minute and avoid expired reagents to reduce false interpretations.\n- Avoid MAOIs: historical guides and community data warn of significant potentiation and risk when MAOIs are combined with 2C‑x phenethylamines.\n- Combining with strong stimulants or high alcohol loads increases cardiovascular strain and disinhibition; several harm-reduction guides list tachycardia/hypertension among common physical effects of 2C‑x; avoid driving for the rest of the day.\n- MDMA+2C‑B (\"nexus flip\"): commonly reported but increases total serotonergic/stimulant load; if attempted, reduce each dose and stagger timing (e.g., 2C‑B after MDMA peak) to lower risk of overheating, anxiety, and confusion.\n- SSRIs/SNRIs frequently blunt 2C‑x psychedelic effects; cross-tolerance with other serotonergic psychedelics is expected for 1–2 weeks—plan adequate spacing.\n- Safer sniffing: if using intranasally, employ fine powder or isotonic solution, avoid caustic adulterants, and rinse with sterile saline after ~20–30 min to reduce mucosal injury.\n- Set/setting and anxiety: even at ‘party’ doses, acute panic can occur; have a trusted sober sitter and benzodiazepines reserved for emergencies only, at minimal doses due to respiratory/coordination risks.\n- Do not rely on blotters labeled 2C‑B: 2C‑B is typically sold as powder/capsules or pressed pills; blotters often indicate NBOMe/NBOH/DOx which have microgram potency and higher risk profiles.\n- Driving/next-day: performance impairment can persist beyond the subjective offset; harm-reduction leaflets advise waiting until the following day (≥24 h) before driving.\n- Hydration/temperature: mild stimulant properties and environment (e.g., clubs) can raise body temperature—sip water regularly, take cool-down breaks, and avoid overhydration.\n- Testing for identity vs. strength: reagent tests confirm likely class but not dose; only a lab or LC–MS quantitation can confirm mg content—assume variability and calibrate dose with your own product. \n- Oral timing study (Arikci et al., 2026): In 24 healthy adults, the nominal 30 mg condition used 2C-B hydrochloride capsules. Mean onset was 0.5 h after administration, maximum subjective effect at 2.3 h, and offset at 5.4 h. Mean onset-to-offset duration was 4.9 h; observed individual durations ranged from 1.2 to 8.0 h. These endpoints used a threshold on repeated ratings of any drug effect. The sample range is not a guaranteed duration, and the study does not establish this chart’s after-effects or positive-afterglow timing. These are study measurements, not dose advice or replacement curve boundaries.",
     "psychoactive_class": "Serotonergic psychedelic / entactogen (5-HT2A/2C partial agonist)",
     "search_url": "https://en.wikipedia.org/wiki/2C-B",
     "subjective_effects": [
@@ -13253,8 +13110,8 @@
         "reference": "https://isomerdesign.com/countyourculture/2010/09/28/the-halogenated-2cs/"
       },
       {
-        "name": "Erowid – PiHKAL Chemical Story index (lists #26 2C‑F)",
-        "reference": "https://erowid.org/library/books_online/pihkal/pihkal.shtml"
+        "name": "Shulgin and Shulgin, PiHKAL chapter 26: 2C-F; uncertain historical effects and unknown duration",
+        "reference": "https://www.erowid.org/library/books_online/pihkal/pihkal026.shtml"
       },
       {
         "name": "Review of PiHKAL (table shows 2C‑F with ~250 mg notation)",
@@ -13300,14 +13157,8 @@
     "dosages": {
       "routes_of_administration": [
         {
-          "dose_ranges": {
-            "common": "350–500",
-            "heavy": ">750",
-            "light": "250–350",
-            "strong": "500–750",
-            "threshold": "100–250"
-          },
-          "notes": "Dose information is derived primarily from Shulgin-era notes and sparse community reports; reliable human data are extremely limited. Reports indicate weak activity requiring multi‑hundred‑milligram amounts; start with an allergy/identity test of 1–5 mg, wait a full 3–4 h, and only proceed if verified by drug checking. Always use a 0.001 g (1 mg) scale or volumetric dosing. Identity confusion with potent look‑alikes (NBOMe/DOx) has occurred historically; treat any untested material as potentially potent. Evidence base: PiHKAL listings and community summaries; see citations.",
+          "dose_ranges": {},
+          "notes": "The former numerical intensity bands are withdrawn. PiHKAL chapter 26 reports uncertain historical effects and does not establish these intensity categories or a safe active dose. The former timed dose-escalation advice is withdrawn. Chemical identification does not establish a safe dose or a safe redosing interval.",
           "route": "oral",
           "units": "mg"
         }
@@ -13315,70 +13166,13 @@
     },
     "drug_name": "2C-F (2,5-dimethoxy-4-fluorophenethylamine)",
     "duration": {
-      "after_effects": "1–3 h",
-      "offset": "2–4 h",
-      "onset": "0.5–1.5 h",
-      "peak": "2–4 h",
-      "total_duration": "6–10 h"
+      "after_effects": "Unknown; the reviewed original source does not establish this interval",
+      "offset": "Unknown; the reviewed original source does not establish this interval",
+      "onset": "Unknown; the reviewed original source does not establish this interval",
+      "peak": "Unknown; the reviewed original source does not establish this interval",
+      "total_duration": "Unknown; the reviewed original source does not establish this interval"
     },
-    "duration_curves": [
-      {
-        "duration_curve": {
-          "after_effects": {
-            "end": 3,
-            "iso_end": [
-              "PT3H"
-            ],
-            "iso_start": [
-              "PT1H"
-            ],
-            "start": 1
-          },
-          "offset": {
-            "end": 4,
-            "iso_end": [
-              "PT4H"
-            ],
-            "iso_start": [
-              "PT2H"
-            ],
-            "start": 2
-          },
-          "onset": {
-            "end": 1.5,
-            "iso_end": [
-              "PT90M"
-            ],
-            "iso_start": [
-              "PT30M"
-            ],
-            "start": 0.5
-          },
-          "peak": {
-            "end": 4,
-            "iso_end": [
-              "PT4H"
-            ],
-            "iso_start": [
-              "PT2H"
-            ],
-            "start": 2
-          },
-          "reference": "Sparse anecdotal collations (PiHKAL context; community notes).",
-          "total_duration": {
-            "iso": [
-              "PT6H",
-              "PT10H"
-            ],
-            "max": 10,
-            "min": 6,
-            "note": "Very limited human timelines reported; allow extra time before redosing."
-          },
-          "units": "hours"
-        },
-        "method": "oral"
-      }
-    ],
+    "duration_curves": [],
     "half_life": "Unknown (no human pharmacokinetic studies)",
     "interactions": {
       "caution": [
@@ -13397,7 +13191,7 @@
         "SNRIs/SSRIs: may blunt or unpredictably alter effects; risk of serotonergic symptoms if other serotonergics are present."
       ]
     },
-    "notes": "Identity and potency uncertainty is the primary harm‑reduction issue: 2C‑F is rare and reported as barely active; in grey markets it may be mis‑sold as other 2C‑x or even NBOMe/DOx compounds that are active at milligram or microgram levels. Use reagent kits as a first pass and, where available, submit to a lab drug‑checking service; do not escalate doses until identity is confirmed. Large single doses (hundreds of milligrams) raise cardiovascular strain (tachycardia, blood pressure) typical of phenethylamines; avoid stimulants, overheated venues, and dehydration. Onset can be delayed and subtle; redosing too early is a common cause of accidental over‑intoxication—wait at least 3–4 hours before considering any increase. Avoid lithium entirely: combinations with serotonergic psychedelics have precipitated seizures and severe reactions. Avoid tramadol/bupropion and MAOIs due to seizure and serotonergic risks. Tolerance to serotonergic psychedelics develops rapidly and decays over ~1–2 weeks; stacking trips compresses sleep, raises anxiety, and blunts subsequent responses. Because clinical pharmacokinetics are unknown, those with cardiovascular disease, epilepsy, or significant psychiatric comorbidity should abstain; if someone becomes overheated or confused, prioritize cooling, hydration with electrolytes, a calm environment, and seek medical help for chest pain, severe agitation, or seizures.",
+    "notes": "PiHKAL chapter 26 describes slight, uncertain effects, possible closed-eye imagery and later lethargy. It explicitly leaves duration unknown. Its historical trial dose is an observation, not an established effective or safe dose; route is not explicit in the reviewed qualitative passage. The additional bounded forum search did not verify an independent firsthand account establishing intensity categories or acute phase timings. This is not proof that no other account exists.\n\nThe inherited numerical dose bands, duration curve and fixed dose-escalation interval are withdrawn. Chemical identification does not establish a safe dose or a safe redosing interval. Other retained effect labels, tolerance estimates and class-based interaction cautions are inherited claims, not observations validated for 2C-F by this review. The uncertain PiHKAL observations do not validate those broader claims.",
     "psychoactive_class": "Psychedelic hallucinogen",
     "search_url": "https://isomerdesign.com/countyourculture/2010/09/28/the-halogenated-2cs/",
     "subjective_effects": [
@@ -16738,7 +16532,7 @@
             ],
             "start": 3
           },
-          "reference": "Erowid 2C‑T‑7 Effects page duration tables.",
+          "reference": "Legacy summary originally attributed to Erowid's 2C-T-7 Effects table; the version used and provenance of several phase values are unverified.",
           "total_duration": {
             "iso": [
               "PT6H",
@@ -16746,7 +16540,7 @@
             ],
             "max": 12,
             "min": 6,
-            "note": "Some reports extend to 15 h."
+            "note": "Some reports extend to 15 h. Published summaries give differing ranges for overall duration and residual effects. The phase origins and residual interval in this legacy curve remain unverified."
           },
           "units": "hours"
         },
@@ -39948,6 +39742,10 @@
       {
         "name": "Erowid Crew blog – Ehrlich reagent detects indoles; limitations/adulteration examples",
         "reference": "https://www.erowid.org/columns/crew/2021/08/tryptamine-turns-purple-with-ehrlich-reagent/"
+      },
+      {
+        "name": "Reddit, Tried a 4pro vape. It worked. (March 2026): firsthand product report; identity explicitly uncertain",
+        "reference": "https://www.reddit.com/r/researchchemicals/comments/1s4t6wm/tried_a_4pro_vape_it_worked/"
       }
     ],
     "dosages": {
@@ -39994,7 +39792,7 @@
     "duration": {
       "after_effects": "1–3 h calm/fatigue",
       "offset": "2–4 h",
-      "onset": "<30 s vaped / 10–40 min oral / 5–15 min insufflated",
+      "onset": "Vaped: exact interval unresolved; available product anecdote has uncertain identity / 10–40 min oral / 5–15 min insufflated",
       "peak": "1–2 h",
       "total_duration": "4–7 h (route-dependent)"
     },
@@ -40112,7 +39910,8 @@
         "method": "insufflated"
       },
       {
-        "duration_curve": {
+        "method": "vaped",
+        "partial_duration_curve": {
           "after_effects": {
             "end": 1,
             "iso_end": [
@@ -40138,10 +39937,8 @@
             "iso_end": [
               "PT5M"
             ],
-            "iso_start": [
-              "PT1S"
-            ],
-            "start": 0.01
+            "iso_start": [],
+            "start": null
           },
           "peak": {
             "end": 0.75,
@@ -40153,7 +39950,7 @@
             ],
             "start": 0.25
           },
-          "reference": "Rapid pulmonary delivery; effects appear within seconds; duration often shorter with a more abrupt peak; decomposition likely.",
+          "reference": "Unverified legacy attribution: Rapid pulmonary delivery; effects appear within seconds; duration often shorter with a more abrupt peak; decomposition likely.",
           "total_duration": {
             "iso": [
               "PT2H30M",
@@ -40161,11 +39958,10 @@
             ],
             "max": 5,
             "min": 2.5,
-            "note": "Greater variability due to thermal degradation and inhalation technique."
+            "note": "The disputed onset boundaries are unknown and excluded from calculations. No replacement times have been established. Unverified timing illustration. Its previous onset values conflicted. A firsthand Reddit vaping account explicitly questions whether the product was 4-PrO-DMT and includes earlier cannabinoid use and repeat exposure. Its inhalation lengths are not measured onset times, and it cannot validate this substance-specific curve. Retained legacy note (not validated by this review): Greater variability due to thermal degradation and inhalation technique."
           },
           "units": "hours"
-        },
-        "method": "vaped"
+        }
       }
     ],
     "half_life": "Unknown in humans; psilocin t½ ≈ 2–3 h—expect similar once prodrug is hydrolyzed.",
@@ -46118,6 +45914,10 @@
       {
         "name": "Saferparty Zürich – 5‑MeO‑DMT sold as DMT (mislabeling risk; generalizable caution)",
         "reference": "https://www.saferparty.ch/warnungen/5-meo-dmt-verkauft-als-dmt-210423"
+      },
+      {
+        "name": "Bluelight, 5-MeO-DPT, post 14 (20 June 2018): original freebase vaporization account; onset timed after exhalation",
+        "reference": "https://www.bluelight.org/community/threads/the-small-handy-5-meo-dpt-thread.423895/#post-14357545"
       }
     ],
     "dosages": {
@@ -46152,7 +45952,7 @@
     "duration": {
       "after_effects": "1–3 hours residual stimulation / introspection",
       "offset": "~1–2 hours",
-      "onset": "Oral 12–60 minutes; Vaped 5–20 seconds",
+      "onset": "Oral 12–60 minutes; Vaped: one freebase account reports effects within 10 seconds of exhaling; a general interval is unresolved",
       "peak": "~0.5–2 hours",
       "total_duration": "2–4.5 hours oral; 0.5–2 hours vaped (anecdotal)"
     },
@@ -46214,7 +46014,8 @@
         "method": "oral"
       },
       {
-        "duration_curve": {
+        "method": "vaped",
+        "partial_duration_curve": {
           "after_effects": {
             "end": 2,
             "iso_end": [
@@ -46236,10 +46037,8 @@
             "start": 0.5
           },
           "onset": {
-            "end": 0.02,
-            "iso_end": [
-              "PT0H0M20S"
-            ],
+            "end": null,
+            "iso_end": [],
             "iso_start": [
               "PT0H0M5S"
             ],
@@ -46255,7 +46054,7 @@
             ],
             "start": 0.05
           },
-          "reference": "Community reports; analogized from 5‑MeO tryptamines with near‑instant onset (TripSit, Erowid).",
+          "reference": "Unverified legacy attribution: Community reports; analogized from 5‑MeO tryptamines with near‑instant onset (TripSit, Erowid).",
           "total_duration": {
             "iso": [
               "PT30M",
@@ -46263,11 +46062,10 @@
             ],
             "max": 2,
             "min": 0.5,
-            "note": "Shorter, sharper profile; high inter‑individual variability."
+            "note": "The disputed onset boundaries are unknown and excluded from calculations. No replacement times have been established. Unverified timing illustration. Its previous onset values conflicted. One original freebase-vaporization account reports effects within 10 seconds after exhalation; this is a single anecdote with unconfirmed sample identity, not a population range measured from the start of administration. Retained legacy note (not validated by this review): Shorter, sharper profile; high inter‑individual variability."
           },
           "units": "hours"
-        },
-        "method": "vaped"
+        }
       }
     ],
     "half_life": "Unknown in humans; likely short (few hours) based on return‑to‑baseline reports after single doses.",
@@ -50151,8 +49949,8 @@
         "reference": "https://pubchem.ncbi.nlm.nih.gov/compound/adbica"
       },
       {
-        "name": "Banister et al., ACS Chem Neurosci 2015 – High potency CB1/CB2 agonism across related SCRAs including ADBICA (reviewed on PubMed/ACS)",
-        "reference": "https://pubmed.ncbi.nlm.nih.gov/26291276/"
+        "name": "Banister et al. (2015): receptor pharmacology of ADBICA and related cannabinoids (DOI: 10.1021/acschemneuro.5b00112)",
+        "reference": "https://pubmed.ncbi.nlm.nih.gov/26134475/"
       },
       {
         "name": "Case report: seizures and SVT after confirmed SCRA (JWH‑018) ingestion",
@@ -50235,13 +50033,14 @@
     "duration": {
       "after_effects": "Residual lethargy & cognitive dulling 1 – 3 h",
       "offset": "Smoked: ~1 h | Oral: ~2 h",
-      "onset": "Smoked: 30 – 90 s | Oral: 30 – 60 min",
+      "onset": "Smoked: onset interval not established by the cited evidence | Oral: 30 – 60 min",
       "peak": "Smoked: 5 – 30 min | Oral: 1 – 3 h",
       "total_duration": "Smoked: 1 – 2 h | Oral: 3 – 6 h"
     },
     "duration_curves": [
       {
-        "duration_curve": {
+        "method": "smoked",
+        "partial_duration_curve": {
           "after_effects": {
             "end": 5,
             "iso_end": [
@@ -50263,14 +50062,10 @@
             "start": 1
           },
           "onset": {
-            "end": 1.5,
-            "iso_end": [
-              "PT90S"
-            ],
-            "iso_start": [
-              "PT30S"
-            ],
-            "start": 0.5
+            "end": null,
+            "iso_end": [],
+            "iso_start": [],
+            "start": null
           },
           "peak": {
             "end": 0.5,
@@ -50282,7 +50077,7 @@
             ],
             "start": 0.083
           },
-          "reference": "Community and harm‑reduction summaries for potent SCRAs with similar structures; Erowid ‘Spice’ overview.",
+          "reference": "Unverified legacy attribution: Community and harm‑reduction summaries for potent SCRAs with similar structures; Erowid ‘Spice’ overview.",
           "total_duration": {
             "iso": [
               "PT1H",
@@ -50290,11 +50085,10 @@
             ],
             "max": 2,
             "min": 1,
-            "note": "Highly dose‑dependent and variable by compound/batch."
+            "note": "The disputed onset boundaries are unknown and excluded from calculations. No replacement times have been established. Unverified timing illustration. The previously stored onset values conflicted, and the retained source refers to related cannabinoids rather than a timed human ADBICA smoking account. The corrected Banister citation concerns receptor pharmacology and does not validate this timeline. Retained legacy note (not validated by this review): Highly dose‑dependent and variable by compound/batch."
           },
           "units": "hours"
-        },
-        "method": "smoked"
+        }
       },
       {
         "duration_curve": {
@@ -51622,6 +51416,10 @@
       {
         "name": "PubMed: Outbreak of severe coagulopathy (brodifacoum) in SCRA users (Israel, 2023)",
         "reference": "https://pubmed.ncbi.nlm.nih.gov/37293741/"
+      },
+      {
+        "name": "Savchuk et al. (2017): APINAC (AKB-57) rat-metabolism study; no human smoked timing established",
+        "reference": "https://doi.org/10.1134/S1061934817110089"
       }
     ],
     "dosages": {
@@ -51656,13 +51454,14 @@
     "duration": {
       "after_effects": "Residual lethargy/anxiety up to 4–6 h; sleep disturbances up to 24 h",
       "offset": "30–90 min",
-      "onset": "Smoked 15–90 s; Oral 30–90 min",
+      "onset": "Smoked: interval not established for the intended identity; Oral 30–90 min",
       "peak": "Smoked 5–30 min; Oral 1–2 h",
       "total_duration": "Smoked/vaped ≈ 1–2 h (acute); Oral ≈ 3–6 h"
     },
     "duration_curves": [
       {
-        "duration_curve": {
+        "method": "smoked",
+        "partial_duration_curve": {
           "after_effects": {
             "end": 6,
             "iso_end": [
@@ -51684,14 +51483,10 @@
             "start": 0.5
           },
           "onset": {
-            "end": 1.5,
-            "iso_end": [
-              "PT90S"
-            ],
-            "iso_start": [
-              "PT15S"
-            ],
-            "start": 0.25
+            "end": null,
+            "iso_end": [],
+            "iso_start": [],
+            "start": null
           },
           "peak": {
             "end": 0.5,
@@ -51703,7 +51498,7 @@
             ],
             "start": 0.08
           },
-          "reference": "General SCRA duration from user reports and EUDA briefings; AKB‑57 identity unconfirmed. Drugs‑Forum AKB‑48/APINACA threads; EUDA synthetic cannabinoid profile.",
+          "reference": "Unverified legacy attribution: General SCRA duration from user reports and EUDA briefings; AKB‑57 identity unconfirmed. Drugs‑Forum AKB‑48/APINACA threads; EUDA synthetic cannabinoid profile.",
           "total_duration": {
             "iso": [
               "PT1H",
@@ -51711,11 +51506,10 @@
             ],
             "max": 2,
             "min": 1,
-            "note": "Wide variability depending on specific SCRA and dose."
+            "note": "The disputed onset boundaries are unknown and excluded from calculations. No replacement times have been established. Unverified timing illustration. Its previous onset values conflicted and the legacy reference relies on AKB-48 and class patterns. A primary APINAC paper uses the name AKB-57, but reports rat metabolism; neither that paper nor the retained AKB-48 attribution establishes this human smoking timeline. Retained legacy note (not validated by this review): Wide variability depending on specific SCRA and dose."
           },
           "units": "hours"
-        },
-        "method": "smoked"
+        }
       },
       {
         "duration_curve": {
@@ -55092,13 +54886,14 @@
     "duration": {
       "after_effects": "Residual lethargy/cognitive dulling 2–6 h (variable)",
       "offset": "30–60 min",
-      "onset": "Vaporized: 30 s – 2 min │ Oral: 30–90 min",
+      "onset": "Vaporized: rapid effects described in original anecdotes; an exact onset interval is unresolved │ Oral: 30–90 min",
       "peak": "Vaporized: 5–30 min │ Oral: 1–3 h",
       "total_duration": "Vaporized: 1–2 h │ Oral: 3–6 h"
     },
     "duration_curves": [
       {
-        "duration_curve": {
+        "method": "vaporized",
+        "partial_duration_curve": {
           "after_effects": {
             "end": 6,
             "iso_end": [
@@ -55120,14 +54915,10 @@
             "start": 1
           },
           "onset": {
-            "end": 0.03,
-            "iso_end": [
-              "PT1.8S"
-            ],
-            "iso_start": [
-              "PT0.6S"
-            ],
-            "start": 0.01
+            "end": null,
+            "iso_end": [],
+            "iso_start": [],
+            "start": null
           },
           "peak": {
             "end": 0.5,
@@ -55139,7 +54930,7 @@
             ],
             "start": 0.08
           },
-          "reference": "User reports and discussion threads indicate near‑instant onset, brief peak, and short total duration.",
+          "reference": "Unverified legacy attribution: User reports and discussion threads indicate near‑instant onset, brief peak, and short total duration.",
           "total_duration": {
             "iso": [
               "PT1H",
@@ -55147,11 +54938,10 @@
             ],
             "max": 2,
             "min": 1,
-            "note": "Short, intense; rapid onset and offset"
+            "note": "The disputed onset boundaries are unknown and excluded from calculations. No replacement times have been established. Unverified timing illustration. The previously stored onset values conflicted. Original forum accounts describe rapid effects, but use uncertain doses and do not confirm sample identity or establish either exact onset interval. Retained legacy note (not validated by this review): Short, intense; rapid onset and offset"
           },
           "units": "hours"
-        },
-        "method": "vaporized"
+        }
       },
       {
         "duration_curve": {
@@ -55699,6 +55489,10 @@
       {
         "name": "Bluelight – Synthetic cannabinoid discussion (user report of AM‑2233 ear/sinus pressure)",
         "reference": "https://www.bluelight.org/community/threads/mega-synthetic-cannabinoid-discussion-take-3.615340/post-11331407"
+      },
+      {
+        "name": "Drugs-Forum, Experiances with am2233, post 1 (13 November 2011): firsthand smoking account; identity and dose unverified",
+        "reference": "https://drugs-forum.com/threads/experiances-with-am2233-trip-report.171306/"
       }
     ],
     "dosages": {
@@ -55733,13 +55527,14 @@
     "duration": {
       "after_effects": "2 – 6 h residual lethargy/anxiety possible",
       "offset": "30 – 90 min",
-      "onset": "30 – 90 s (smoked) | 15 – 45 min (oral)",
+      "onset": "Smoked: rapid effects described in an original anecdote; an exact onset interval is unresolved | 15 – 45 min (oral)",
       "peak": "5 – 20 min (smoked) | 45 – 120 min (oral)",
       "total_duration": "1 – 3 h (smoked) | 3 – 6 h (oral)"
     },
     "duration_curves": [
       {
-        "duration_curve": {
+        "method": "smoked",
+        "partial_duration_curve": {
           "after_effects": {
             "end": 6,
             "iso_end": [
@@ -55761,14 +55556,10 @@
             "start": 0.5
           },
           "onset": {
-            "end": 1.5,
-            "iso_end": [
-              "PT90S"
-            ],
-            "iso_start": [
-              "PT30S"
-            ],
-            "start": 0.5
+            "end": null,
+            "iso_end": [],
+            "iso_start": [],
+            "start": null
           },
           "peak": {
             "end": 0.33,
@@ -55780,7 +55571,7 @@
             ],
             "start": 0.08
           },
-          "reference": "Community reports; triangulated from forum posts and SC class patterns.",
+          "reference": "Unverified legacy attribution: Community reports; triangulated from forum posts and SC class patterns.",
           "total_duration": {
             "iso": [
               "PT1H",
@@ -55788,11 +55579,10 @@
             ],
             "max": 3,
             "min": 1,
-            "note": "Anecdotal; potency and blends can extend duration unpredictably."
+            "note": "The disputed onset boundaries are unknown and excluded from calculations. No replacement times have been established. Unverified timing illustration. The previously stored onset values conflicted. An original smoking account describes immediate stimulation and later body effects, with uncertain dose, unconfirmed identity and substantial sleep loss. It does not establish either stored onset interval. Retained legacy note (not validated by this review): Anecdotal; potency and blends can extend duration unpredictably."
           },
           "units": "hours"
-        },
-        "method": "smoked"
+        }
       },
       {
         "duration_curve": {
@@ -59533,6 +59323,10 @@
       {
         "name": "Bluelight discussions (anticholinergic misuse risks: anecdotal)",
         "reference": "https://www.bluelight.org/community/threads/working-with-atropa-belladonna.701045/"
+      },
+      {
+        "name": "Alcon atropine sulfate ophthalmic solution 1%: prescribing information, sections 12.2 and 14 (ocular endpoints)",
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=c8093125-ed1a-4eb6-9c81-52c5c7376481&version=8"
       }
     ],
     "dosages": {
@@ -59579,8 +59373,8 @@
     "duration": {
       "after_effects": "Mydriasis, cycloplegia, photophobia, urinary retention, constipation and cognitive fog can persist 1 – 3 days; cycloplegia after high‑strength ophthalmic use can last 10–20 days.",
       "offset": "4 – 8 h (oral/IV central effects)",
-      "onset": "30 – 60 min (oral); 1–4 min (IV); 30–60 min (ophthalmic)",
-      "peak": "1 – 3 h (oral/ophthalmic)",
+      "onset": "30 – 60 min (oral); 1–4 min (IV); ophthalmic Alcon 1% solution: onset within minutes; the label gives no exact onset interval",
+      "peak": "1 – 3 h (oral); ophthalmic Alcon 1% solution: maximum pupil dilation about 30–40 min and maximum cycloplegia within 60–180 min after administration (label)",
       "total_duration": "6 – 12 h (central effects); residual autonomic effects up to 24–72 h"
     },
     "duration_curves": [
@@ -59697,7 +59491,8 @@
         "method": "IV"
       },
       {
-        "duration_curve": {
+        "method": "ophthalmic",
+        "partial_duration_curve": {
           "after_effects": {
             "end": 20,
             "iso_end": [
@@ -59719,14 +59514,10 @@
             "start": 1
           },
           "onset": {
-            "end": 1,
-            "iso_end": [
-              "PT1H"
-            ],
-            "iso_start": [
-              "PT30M"
-            ],
-            "start": 0.5
+            "end": null,
+            "iso_end": [],
+            "iso_start": [],
+            "start": null
           },
           "peak": {
             "end": 0.125,
@@ -59738,7 +59529,7 @@
             ],
             "start": 0.04
           },
-          "reference": "StatPearls table for cycloplegics; StatPearls Atropine adverse effects and cycloplegia duration",
+          "reference": "Unverified legacy attribution: StatPearls table for cycloplegics; StatPearls Atropine adverse effects and cycloplegia duration",
           "total_duration": {
             "iso": [
               "P1D",
@@ -59746,11 +59537,10 @@
             ],
             "max": 14,
             "min": 1,
-            "note": "Mydriasis 1–2+ days; cycloplegia 10–20 days after 1% ointment regimens in children."
+            "note": "The disputed onset boundaries are unknown and excluded from calculations. No replacement times have been established. Unverified timing illustration. Its previous onset values conflicted, and its ophthalmic endpoints and formulation are not consistently defined. The Alcon 1% solution label describes pupil dilation and cycloplegia separately; it does not establish the ointment timeline retained here. Retained legacy note (not validated by this review): Mydriasis 1–2+ days; cycloplegia 10–20 days after 1% ointment regimens in children."
           },
           "units": "days"
-        },
-        "method": "ophthalmic"
+        }
       }
     ],
     "half_life": "~2 – 4 h (adult plasma); ocular administration ~2.5 h plasma half‑life; geriatric half‑life may be prolonged (≈10 h).",
@@ -89472,6 +89262,10 @@
       {
         "name": "DrugWise: Harm reduction for drug users (clean equipment; don’t use alone; how to respond to OD)",
         "reference": "https://www.drugwise.org.uk/harm-reduction-for-drug-users/"
+      },
+      {
+        "name": "Kosel et al. (2008): IV heroin rush and later euphoria in maintenance patients",
+        "reference": "https://pubmed.ncbi.nlm.nih.gov/18207374/"
       }
     ],
     "dosages": {
@@ -89573,7 +89367,7 @@
             ],
             "max": 360,
             "min": 180,
-            "note": "Inclusive of active metabolites"
+            "note": "Inclusive of active metabolites. The meaning of this 30–60 minute peak window is unverified. A small study in heroin-maintenance patients assessed early rush separately from later euphoria; this drawing should not be used to calculate a precise time to the initial rush."
           },
           "units": "minutes"
         },
@@ -94900,6 +94694,16 @@
         "lineage_reviewed": true,
         "name": "PubChem Compound Summary for (+)-Lysergic acid diethylamide, CID 5761",
         "reference": "https://pubchem.ncbi.nlm.nih.gov/compound/5761"
+      },
+      {
+        "lineage": [
+          "Original publisher supplementary Table S3 inspected directly; cells D3, D5, D4 and D6 contain the admitted study timing statistics",
+          "Primary article methods and Table S3 footnote establish the modeled subjective endpoint, individual threshold and mean, standard deviation and participant-range meanings",
+          "Only the researchers’ original study results are used; no PsychonautWiki, dose.wiki or unknown-lineage claim is inherited"
+        ],
+        "lineage_reviewed": true,
+        "name": "Holze et al. (2021), original Supplementary Table S3: modeled LSD subjective timing, nominal 100 µg oral condition",
+        "reference": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41386-020-00883-6/MediaObjects/41386_2020_883_MOESM4_ESM.xlsx"
       }
     ],
     "dosages": {
@@ -94991,10 +94795,94 @@
     "drug_name": "LSD",
     "duration": {
       "after_effects": "Duration varies substantially by dose and person. Persistent perceptual symptoms are uncommon but clinically important; new or continuing visual disturbances warrant medical assessment.",
-      "onset": "Dose-dependent: in the controlled 25–200 µg study, modeled onset became earlier as dose increased.",
-      "peak": "About 2.5–2.8 hours after controlled oral 100–200 µg doses.",
-      "total_duration": "Average subjective-effect duration increased from about 6.7 hours at 25 µg to about 11 hours at 200 µg; a separate analysis reported 8.2 ± 2.1 hours at 100 µg and 11.6 ± 1.7 hours at 200 µg."
+      "offset": "For the same study condition, mean modeled offset was 8.9 ± 3.0 hours after administration, defined as declining to 10% of each participant’s maximum modeled response. This does not establish the end of all impairment or after-effects.",
+      "onset": "In the nominal 100 µg oral LSD-base condition of a controlled crossover study in 16 healthy adults, mean modeled onset was 0.6 ± 0.2 hours after administration. Onset was defined as reaching 10% of each participant’s maximum modeled rating of any drug effect; this is a study threshold, not a universal first-noticeable-effect time. The ± values here and below are standard deviations across participants.",
+      "peak": "In that study condition, the modeled maximum subjective response occurred at a mean of 2.6 ± 1.1 hours after administration. A time of maximum does not define a peak plateau.",
+      "total_duration": "In that study condition, mean active subjective-effect duration was 8.3 ± 2.9 hours, measured from modeled onset to offset. These study statistics are not guaranteed limits or a prediction for an individual; the study exposure is not a recommendation."
     },
+    "duration_studies": [
+      {
+        "activeDuration": {
+          "mean": 8.3,
+          "participantRange": {
+            "max": 18,
+            "min": 5
+          },
+          "quantity": "interval_between_modeled_onset_and_offset",
+          "sourceCell": "D6",
+          "standardDeviation": 2.9
+        },
+        "context": {
+          "clockOrigin": "administration",
+          "condition": "Placebo pretreatment; no active ketanserin in the admitted 100 µg LSD condition",
+          "endpoint": "PK-PD-model-predicted any-drug-effect visual analogue scale response",
+          "formulation": "LSD base oral solution",
+          "formulationAssay": {
+            "meanMicrogramsBase": 98.7,
+            "sampleCount": 9,
+            "sampleUnit": "formulation samples",
+            "standardDeviationMicrogramsBase": 1.6
+          },
+          "onsetOffsetThresholdFraction": 0.1,
+          "participantCount": 16,
+          "population": "Healthy adults, 8 women and 8 men, aged 25–52 years",
+          "route": "oral",
+          "studyDesign": "Randomized, double-blind, placebo-controlled crossover study",
+          "thresholdBasis": "individual_maximum_modeled_response"
+        },
+        "id": "lsd-oral-100ug-10.1038-s41386-020-00883-6",
+        "nominalStudyDoseMicrogramsBase": 100,
+        "points": [
+          {
+            "key": "onset",
+            "label": "Modeled onset",
+            "mean": 0.6,
+            "participantRange": {
+              "max": 0.9,
+              "min": 0.4
+            },
+            "quantity": "time_since_administration",
+            "sourceCell": "D3",
+            "standardDeviation": 0.2
+          },
+          {
+            "key": "maximum",
+            "label": "Time to maximum subjective response",
+            "mean": 2.6,
+            "participantRange": {
+              "max": 6.5,
+              "min": 1.3
+            },
+            "quantity": "time_since_administration",
+            "sourceCell": "D5",
+            "standardDeviation": 1.1
+          },
+          {
+            "key": "offset",
+            "label": "Modeled offset",
+            "mean": 8.9,
+            "participantRange": {
+              "max": 18,
+              "min": 5.8
+            },
+            "quantity": "time_since_administration",
+            "sourceCell": "D4",
+            "standardDeviation": 3
+          }
+        ],
+        "rangeMeaning": "reported_minimum_and_maximum_of_participant_modeled_estimates",
+        "schemaVersion": "drug-community-study-timeline/1",
+        "source": {
+          "articleSha256": "568ce4a00a20a144a40d814ac435ef0323b17507286a2126c9693c83a2df7b1c",
+          "articleUrl": "https://www.nature.com/articles/s41386-020-00883-6",
+          "doi": "10.1038/s41386-020-00883-6",
+          "locator": "Table S3: D2 condition; D3 onset; D5 time to maximum; D4 offset; D6 active duration; A9 model, threshold and statistics. Primary article pp. 538–540: methods, formulation assay and PK-PD results.",
+          "tableSha256": "e926bdbbc6becfe9f96cd8a2eb50e4a80237c747dfcb8728cc32bedeba526a35",
+          "tableUrl": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41386-020-00883-6/MediaObjects/41386_2020_883_MOESM4_ESM.xlsx"
+        },
+        "units": "hours"
+      }
+    ],
     "half_life": "Plasma elimination half-life was 2.6 hours (95% confidence interval 2.2–3.4 hours) in a controlled oral 100–200 µg pharmacokinetic analysis.",
     "interactions": {
       "caution": [
@@ -96778,6 +96666,10 @@
       {
         "name": "Bluelight early comparisons α‑PVP vs MDPV (vaping harms anecdote)",
         "reference": "https://www.bluelight.org/community/threads/some-early-a-pvp-alpha-pvp-vs-mdpv-comparisons.609259/"
+      },
+      {
+        "name": "Bluelight, Smoking MDPV, post 15 (15 July 2009): mixed-route firsthand account; prior nasal MDPV and bupropion",
+        "reference": "https://www.bluelight.org/community/threads/smoking-mdpv.438521/#post-7333833"
       }
     ],
     "dosages": {
@@ -96836,7 +96728,7 @@
     "duration": {
       "after_effects": "2–48 h of residual stimulation/anxiety/insomnia possible",
       "offset": "~0.5–2 h",
-      "onset": "Oral 15–30 min; Insufflated 5–20 min; Vaporized seconds; Rectal ~5–10 min (anecdotal)",
+      "onset": "Oral 15–30 min; Insufflated 5–20 min; Vaporized: rapid effects reported anecdotally, but an exact interval for an isolated vaporized dose is unresolved; Rectal ~5–10 min (anecdotal)",
       "peak": "~0.5–2 h",
       "total_duration": "Oral 2–7 h; Insufflated 2–3.5 h; route- and dose-dependent"
     },
@@ -96954,7 +96846,8 @@
         "method": "insufflated"
       },
       {
-        "duration_curve": {
+        "method": "vaporized",
+        "partial_duration_curve": {
           "after_effects": {
             "end": 48,
             "iso_end": [
@@ -96976,14 +96869,10 @@
             "start": 1
           },
           "onset": {
-            "end": 0.05,
-            "iso_end": [
-              "PT3S"
-            ],
-            "iso_start": [
-              "PT0.5S"
-            ],
-            "start": 0.008
+            "end": null,
+            "iso_end": [],
+            "iso_start": [],
+            "start": null
           },
           "peak": {
             "end": 0.5,
@@ -96995,7 +96884,7 @@
             ],
             "start": 0.1
           },
-          "reference": "Anecdotal synthesis from Erowid/Bluelight reports; no controlled data.",
+          "reference": "Unverified legacy attribution: Anecdotal synthesis from Erowid/Bluelight reports; no controlled data.",
           "total_duration": {
             "iso": [
               "PT1H",
@@ -97003,11 +96892,10 @@
             ],
             "max": 3,
             "min": 1,
-            "note": "Very rapid onset; binge risk high."
+            "note": "The disputed onset boundaries are unknown and excluded from calculations. No replacement times have been established. Unverified timing illustration. The previously stored onset values conflicted. The original Bluelight account reports onset after about one minute, but vaporization followed a nasal MDPV dose and bupropion use; it cannot establish an isolated vaporized-onset interval. Retained legacy note (not validated by this review): Very rapid onset; binge risk high."
           },
           "units": "hours"
-        },
-        "method": "vaporized"
+        }
       },
       {
         "duration_curve": {
@@ -99448,6 +99336,10 @@
       {
         "name": "TripSit: Combination chart announcement/reference",
         "reference": "https://updates.tripsit.me/tripsit-drug-combination-chart/"
+      },
+      {
+        "name": "Perez-Reyes et al. (1991): Clinical effects of methamphetamine vapor inhalation",
+        "reference": "https://pubmed.ncbi.nlm.nih.gov/1886456/"
       }
     ],
     "dosages": {
@@ -99673,7 +99565,7 @@
             ],
             "max": 4,
             "min": 1,
-            "note": "Multiple bowls extend time-awake even when main effects wane."
+            "note": "Multiple bowls extend time-awake even when main effects wane. The cited duration table gives onset and total duration, but not the peak, offset or tail shown here. In a small controlled inhalation study, subjective effects declined while blood concentrations remained elevated. These are different timing endpoints."
           },
           "units": "hours"
         },

@@ -152,7 +152,7 @@ extension SubstanceReadModel {
     /// from a `.task`, not from a view `body`.
     func sourceContributions(substanceID: Int64) -> SourceContributions {
         let enabledList = enabledSourceListSQL
-        let sourceLegs = Self.facetTables
+        let baseSourceLegs = Self.facetTables
             .map { "SELECT source_id AS sid, '\($0.facet.rawValue)' AS facet FROM \($0.table) WHERE substance_id = :id" }
             .joined(separator: " UNION ALL ")
         let citationLegs = Self.citationFacetTables
@@ -167,6 +167,10 @@ extension SubstanceReadModel {
         do {
             return try db.read { db in
                 var bySlug: [String: Set<SourceFacet>] = [:]
+                let referenceLeg = try db.tableExists("drug_community_timelines")
+                    ? " UNION ALL SELECT source_id AS sid, 'duration' AS facet FROM drug_community_timelines WHERE substance_id = :id"
+                    : ""
+                let sourceLegs = baseSourceLegs + referenceLeg
                 let sourceRows = try Row.fetchAll(db, sql: """
                     SELECT DISTINCT src.slug AS slug, u.facet AS facet
                       FROM (\(sourceLegs)) AS u

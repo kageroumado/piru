@@ -23,6 +23,28 @@ Not medical advice→No es consejo médico.
 """
 
 ES = {
+    "Bar: participant range; dot: mean.": "Barra: rango entre participantes; punto: media.",
+    "substance.wiki timelines": "Cronologías de substance.wiki",
+    "Route unknown": "Vía desconocida",
+    "Reference %lld": "Referencia %lld",
+    "Read source context": "Leer el contexto de la fuente",
+    "Partial timing data": "Datos temporales parciales",
+    "Published timing illustration. Phase clock origins are unverified. Unknown timings are not estimated or used to predict your session.": "Ilustración temporal publicada. No se han verificado los puntos de inicio del tiempo de cada fase. Los tiempos desconocidos no se estiman ni se usan para predecir tu sesión.",
+    "After-effects": "Efectos posteriores",
+    "Reported total": "Duración total indicada",
+    "Units unknown": "Unidades desconocidas",
+    "Study timeline": "Cronología del estudio",
+    "Study statistics describe this condition, not a prediction of your session. The maximum response is a time point, not a peak plateau.": "Las estadísticas describen esta condición del estudio, no predicen tu sesión. La respuesta máxima es un momento, no una meseta.",
+    "Study dose (µg base)": "Dosis del estudio (µg de base)",
+    "Participants: %lld": "Participantes: %lld",
+    "Clock origin": "Origen del tiempo",
+    "Response threshold (% of individual maximum)": "Umbral de respuesta (% del máximo individual)",
+    "Active duration: onset to offset": "Duración activa: del inicio al final",
+    "Study article": "Artículo del estudio",
+    "Study data table": "Tabla de datos del estudio",
+    "Mean ± SD": "Media ± DE",
+    "Participant range": "Rango entre participantes",
+    "This source entry has a recorded timing or route concern.": "Esta entrada tiene un problema de tiempo o vía documentado.",
     # Hebi Arcade
     "Score": "Puntos",
     "Best": "Récord",

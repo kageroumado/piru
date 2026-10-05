@@ -16,6 +16,8 @@ final class SubstanceDetailModel {
     /// mechanism, and per-route dose/duration). Fetched for every tier.
     var provenance: SubstanceStore.SubstanceProvenance?
 
+    var wikiTimings: [WikiTimingRecord] = []
+
     /// Measured receptor binding rows — feed both the pharma-nerd "Receptor
     /// Literature" list and the unified Pharmacology card's class hero.
     var literatureBindings: [BindingHit] = []
@@ -118,6 +120,7 @@ final class SubstanceDetailModel {
         // Always fetch provenance — per-field source attribution is shown to
         // every tier so users can see where each fact came from.
         provenance = store.provenance(forSubstanceName: substanceName)
+        wikiTimings = store.wikiTimings(forSubstanceName: substanceName)
 
         // The dial is the dose control, so its bands load for every tier that
         // sees a dose ladder — not just the ones that see the pharmacology.
