@@ -19,6 +19,9 @@ Piru/iOS/*
 # Android install has no predecessor. Android/Platform/Identity+Android.swift answers its reads.
 Piru/Data/Persistence/LegacyHandoff.swift
 
+# The screen that sends a pre-2026-09 install to its successor; only PiruApp.swift shows it.
+Piru/Views/Launch/AppMovedView.swift
+
 # The cross-platform adapter: its branches are UIKit or AppKit, and Android is neither.
 # Android/PlatformCompat+Android.swift is its Android branch.
 Piru/Utilities/PlatformCompat.swift

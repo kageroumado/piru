@@ -91,8 +91,10 @@ nonisolated struct GraphicsContext {
         static let hardLight = BlendMode(name: "hardLight")
         static let colorDodge = BlendMode(name: "colorDodge")
         static let colorBurn = BlendMode(name: "colorBurn")
+        static let color = BlendMode(name: "color")
         static let difference = BlendMode(name: "difference")
         static let destinationOut = BlendMode(name: "destinationOut")
+        static let destinationIn = BlendMode(name: "destinationIn")
         static let sourceAtop = BlendMode(name: "sourceAtop")
         static let destinationOver = BlendMode(name: "destinationOver")
     }

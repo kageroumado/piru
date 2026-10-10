@@ -31,6 +31,12 @@ env -u SKIP_BRIDGE xcrun swift build --triple arm64-apple-ios --sdk "$(xcrun --s
 if grep -q "because of missing inputs" "$PIRU_ANDROID/build/transpile.log"; then
     echo "transpile could not read its sources; see $PIRU_ANDROID/build/transpile.log"
     STATUS=1
+elif ! grep -q "/stage/Piru/destination/skipstone/Piru.skipcode.json: note:" "$PIRU_ANDROID/build/transpile.log"; then
+    # Kotlin left by an earlier run would pass the check below while the plugin never reached
+    # Piru, which happens when a dependency fails to compile first (a stale module left in .build
+    # can shadow an SDK module).
+    echo "transpile never reached Piru, so its Kotlin is stale; see $PIRU_ANDROID/build/transpile.log"
+    STATUS=1
 elif [[ -n $(find "$KOTLIN" -name '*.kt' -print -quit 2>/dev/null) ]]; then
     echo "transpiled $(find "$KOTLIN" -name '*.kt' | wc -l | tr -d ' ') Kotlin files"
     STATUS=0
