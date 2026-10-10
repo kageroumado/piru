@@ -372,7 +372,7 @@ private struct ExportImportSection: View {
 
             DataActionRow(
                 title: "Import…",
-                subtitle: "A Piru or PsychonautWiki file, or an encrypted backup",
+                subtitle: "A Piru, PsychonautWiki, or DrugsPRO file, or an encrypted backup",
                 systemImage: "square.and.arrow.down",
                 action: onImport,
             )

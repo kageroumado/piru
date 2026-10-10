@@ -1265,3 +1265,91 @@ struct DataExportImportFileErrorTests {
         #expect(json["piruExportVersion"] as? Int == DataExportImport.piruExportVersion)
     }
 }
+
+// MARK: - DrugsPRO
+
+@Suite("DataExportImport — DrugsPRO")
+@MainActor
+struct DataExportImportDrugsProTests {
+    /// One experience crossing midnight, shaped like a real DrugsPRO export: the
+    /// experience substances carry clock time and offset, the usage rows carry
+    /// route and unit, and the late doses' usage rows sit on the next day.
+    private static let file = """
+    {"v":1,"t":1791624478681,"n":{},"x":{},
+     "e":[
+      {"id":"pw-exp-1","date":"2025-12-25","title":"Kratom + Memantine + Kratom","description":"",
+       "substance":"Kratom + Memantine + Kratom","substances":[
+        {"name":"Kratom","roaIdx":0,"doseMult":3.6,"minutesAhead":0,"timeHHMM":"14:24","day2":false,"tag":"","goal":"","price":null},
+        {"name":"Memantine","roaIdx":0,"doseMult":25,"minutesAhead":61,"timeHHMM":"15:25","day2":false,"tag":"","goal":"","price":null},
+        {"name":"Kratom","roaIdx":0,"doseMult":2,"minutesAhead":719,"timeHHMM":"02:23","day2":false,"tag":"night","goal":"sleep","price":null}]},
+      {"id":"1","date":"2026-01-20","title":"Energy + drinks","description":"after work",
+       "substance":"Caffeine","substances":[
+        {"name":"Caffeine","roaName":"Oral","roaIdx":0,"doseMult":100,"minutesAhead":0,"timeHHMM":"19:32","day2":false,"tag":"","goal":"","price":4}]},
+      {"id":"pw-exp-2","date":"2026-02-04","title":"","description":"","substance":"Pregabalin","substances":[
+        {"name":"Pregabalin","roaIdx":0,"doseMult":300,"minutesAhead":541,"timeHHMM":"00:16","day2":false,"tag":"","goal":"","price":null}]}],
+     "u":[
+      {"dateISO":"2026-01-20","name":"Caffeine","classes":"","dose":"100 mg","roa":"Oral","cost":4,"id":"a"},
+      {"dateISO":"2025-12-25","name":"Kratom","classes":["Depressant"],"dose":"3.6 g","roa":"oral","cost":null,"id":"b"},
+      {"dateISO":"2025-12-25","name":"Memantine","classes":["Dissociative"],"dose":"25 mg","roa":"rectal","cost":null,"id":"c"},
+      {"dateISO":"2025-12-26","name":"Kratom","classes":["Depressant"],"dose":"2 g","roa":"sublingual","cost":null,"id":"d"},
+      {"dateISO":"2026-02-05","name":"Pregabalin","classes":["Depressant"],"dose":"300 mg","roa":"buccal","cost":null,"id":"e"}]}
+    """
+
+    private func components(_ date: Date) -> DateComponents {
+        Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+    }
+
+    @Test
+    func `DrugsPRO export is recognized`() throws {
+        let data = Data(Self.file.utf8)
+        #expect(try DataExportImport.classify(data) == .drugsPro)
+        try DataExportImport.validate(data)
+    }
+
+    @Test
+    func `doses take time from the experience and route and unit from the usage ledger`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        try DataExportImport.importJSON(data: Data(Self.file.utf8), context: context)
+
+        let doses = try context.fetch(FetchDescriptor<DoseEntry>()).sorted { $0.timestamp < $1.timestamp }
+        #expect(doses.count == 5)
+
+        let memantine = try #require(doses.first { $0.substance == "Memantine" })
+        #expect(memantine.route == .rectal)
+        #expect(memantine.unit == "mg")
+        #expect(components(memantine.timestamp) == DateComponents(year: 2025, month: 12, day: 25, hour: 15, minute: 25))
+
+        let late = try #require(doses.first { $0.substance == "Kratom" && $0.amount == 2 })
+        #expect(late.unit == "g")
+        #expect(late.route == .sublingual)
+        #expect(components(late.timestamp) == DateComponents(year: 2025, month: 12, day: 26, hour: 2, minute: 23))
+        #expect(late.tags == ["night"])
+        #expect(late.notes == "sleep")
+        #expect(late.session?.id == memantine.session?.id)
+
+        let sessions = try context.fetch(FetchDescriptor<Session>())
+        #expect(sessions.count == 3)
+        // The default title (the substance list) is dropped; a real one is kept.
+        #expect(memantine.session?.title == nil)
+        let caffeine = try #require(doses.first { $0.substance == "Caffeine" })
+        #expect(caffeine.session?.title == "Energy + drinks")
+        #expect(caffeine.session?.note == "after work")
+
+        // Its zero point is 15:15 on Feb 4, so the only dose left lands after midnight.
+        let pregabalin = try #require(doses.first { $0.substance == "Pregabalin" })
+        #expect(pregabalin.route == .buccal)
+        #expect(components(pregabalin.timestamp) == DateComponents(year: 2026, month: 2, day: 5, hour: 0, minute: 16))
+    }
+
+    @Test
+    func `re-importing a DrugsPRO export adds nothing`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let data = Data(Self.file.utf8)
+        try DataExportImport.importJSON(data: data, context: context)
+        try DataExportImport.importJSON(data: data, context: context)
+        #expect(try context.fetch(FetchDescriptor<DoseEntry>()).count == 5)
+        #expect(try context.fetch(FetchDescriptor<Session>()).count == 3)
+    }
+}

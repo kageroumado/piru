@@ -17,7 +17,7 @@ struct OnboardingImportStep: View {
     var body: some View {
         OnboardingLayout(
             title: "Bring your history",
-            subtitle: "Already keep a journal? Import a Piru backup, encrypted or not, or a PsyLog-format export — or start with a clean slate.",
+            subtitle: "Already keep a journal? Import a Piru backup, encrypted or not, or a PsyLog or DrugsPRO export — or start with a clean slate.",
         ) {
             OnboardingIconHero(symbol: "square.and.arrow.down")
         } mid: {

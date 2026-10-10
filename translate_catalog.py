@@ -6203,9 +6203,9 @@ T = {
         "這是加密的 Piru 備份。請在「工具 → 資料與備份」中匯入，屆時會要求輸入其密碼短語。",
     ),
     "Import…": ("导入…", "匯入…"),
-    "Already keep a journal? Import a Piru backup, encrypted or not, or a PsyLog-format export — or start with a clean slate.": (
-        "已经在记录了？导入 Piru 备份（加密或未加密均可）或 PsyLog 格式的导出文件——或者从头开始。",
-        "已經在記錄了？匯入 Piru 備份（加密或未加密皆可）或 PsyLog 格式的匯出檔案——或者從頭開始。",
+    "Already keep a journal? Import a Piru backup, encrypted or not, or a PsyLog or DrugsPRO export — or start with a clean slate.": (
+        "已经在记录了？导入 Piru 备份（加密或未加密均可）、PsyLog 或 DrugsPRO 的导出文件——或者从头开始。",
+        "已經在記錄了？匯入 Piru 備份（加密或未加密皆可）、PsyLog 或 DrugsPRO 的匯出檔案——或者從頭開始。",
     ),
     "This backup is encrypted. Enter the passphrase it was made with.": (
         "此备份已加密。请输入创建它时使用的密码短语。",
@@ -6239,9 +6239,9 @@ T = {
         "%lld 片 · 约剩 %lld 天",
         "%lld 錠 · 約剩 %lld 天",
     ),
-    "A Piru or PsychonautWiki file, or an encrypted backup": (
-        "Piru 或 PsychonautWiki 文件，或加密备份",
-        "Piru 或 PsychonautWiki 檔案，或加密備份",
+    "A Piru, PsychonautWiki, or DrugsPRO file, or an encrypted backup": (
+        "Piru、PsychonautWiki 或 DrugsPRO 文件，或加密备份",
+        "Piru、PsychonautWiki 或 DrugsPRO 檔案，或加密備份",
     ),
     "This file uses export format %lld, which this version of Piru can't read yet. Update Piru, then import it.": (
         "此文件使用导出格式 %lld，当前版本的 Piru 还无法读取。请更新 Piru 后再导入。",
@@ -8985,7 +8985,7 @@ if __name__ == "__main__":
         "This file isn't a Piru export or a PsychonautWiki journal.",
         "This is an encrypted Piru backup. Import it from Tools → Data & Backup, which asks for its passphrase.",
         "Import…",
-        "Already keep a journal? Import a Piru backup, encrypted or not, or a PsyLog-format export — or start with a clean slate.",
+        "Already keep a journal? Import a Piru backup, encrypted or not, or a PsyLog or DrugsPRO export — or start with a clean slate.",
         "This backup is encrypted. Enter the passphrase it was made with.",
         "Unlock",
         "Encrypted backup",
@@ -8994,7 +8994,7 @@ if __name__ == "__main__":
         "Add what you have on hand, or scan the box. Every dose you log comes off it, with days left and a heads-up before you run out.",
         "Dose logged · 1 tab taken off",
         "%lld tabs · about %lld days left",
-        "A Piru or PsychonautWiki file, or an encrypted backup",
+        "A Piru, PsychonautWiki, or DrugsPRO file, or an encrypted backup",
         "This file uses export format %lld, which this version of Piru can't read yet. Update Piru, then import it.",
         "%@ The file was written by %@.",
         # b53 feedback batches (2026-09-17)

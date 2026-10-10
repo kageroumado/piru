@@ -9725,6 +9725,7 @@
       }
     },
     "A Piru or PsychonautWiki file, or an encrypted backup" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -9777,6 +9778,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 或 PsychonautWiki 的 JSON 檔案"
+          }
+        }
+      }
+    },
+    "A Piru, PsychonautWiki, or DrugsPRO file, or an encrypted backup" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un archivo de Piru, PsychonautWiki o DrugsPRO, o una copia de seguridad cifrada"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un archivo de Piru, PsychonautWiki o DrugsPRO, o una copia de seguridad cifrada"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru、PsychonautWiki 或 DrugsPRO 文件，或加密备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru、PsychonautWiki 或 DrugsPRO 檔案，或加密備份"
           }
         }
       }
@@ -14906,7 +14935,36 @@
         }
       }
     },
+    "Already keep a journal? Import a Piru backup, encrypted or not, or a PsyLog or DrugsPRO export — or start with a clean slate." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Ya llevas un diario? Importa una copia de seguridad de Piru, cifrada o no, o una exportación de PsyLog o DrugsPRO — o empieza de cero."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Ya llevas un diario? Importa una copia de seguridad de Piru, cifrada o no, o una exportación de PsyLog o DrugsPRO — o empieza de cero."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已经在记录了？导入 Piru 备份（加密或未加密均可）、PsyLog 或 DrugsPRO 的导出文件——或者从头开始。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已經在記錄了？匯入 Piru 備份（加密或未加密皆可）、PsyLog 或 DrugsPRO 的匯出檔案——或者從頭開始。"
+          }
+        }
+      }
+    },
     "Already keep a journal? Import a Piru backup, encrypted or not, or a PsyLog-format export — or start with a clean slate." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -33852,6 +33910,7 @@
       }
     },
     "Enable Selected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -43055,6 +43114,7 @@
       }
     },
     "I'll Set This Later" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -57717,6 +57777,7 @@
       }
     },
     "Not Now" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -75246,6 +75307,34 @@
         }
       }
     },
+    "Shows morning and evening doses as two halves of each day. When off, a dose logged at any time counts toward the whole day." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra las dosis de la mañana y de la noche como dos mitades de cada día. Si está desactivado, una dosis registrada a cualquier hora cuenta para todo el día."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra las dosis de la mañana y de la noche como dos mitades de cada día. Si está desactivado, una dosis registrada a cualquier hora cuenta para todo el día."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把早间和晚间剂量显示为每天的两半。关闭后，当天任何时间记录的剂量都计入整天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把早間和晚間劑量顯示為每天的兩半。關閉後，當天任何時間記錄的劑量都計入整天。"
+          }
+        }
+      }
+    },
     "Shows the dose with a ~; the estimate still drives the curves." : {
       "localizations" : {
         "es" : {
@@ -77334,6 +77423,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在最長間隔處拆分（%@）"
+          }
+        }
+      }
+    },
+    "Split Days at Noon" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividir los días al mediodía"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividir los días al mediodía"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以中午划分每天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以中午劃分每天"
           }
         }
       }
@@ -92249,62 +92366,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-鴉片受體配體"
-          }
-        }
-      }
-    },
-    "Split Days at Noon" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以中午划分每天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以中午劃分每天"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dividir los días al mediodía"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dividir los días al mediodía"
-          }
-        }
-      }
-    },
-    "Shows morning and evening doses as two halves of each day. When off, a dose logged at any time counts toward the whole day." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把早间和晚间剂量显示为每天的两半。关闭后，当天任何时间记录的剂量都计入整天。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把早間和晚間劑量顯示為每天的兩半。關閉後，當天任何時間記錄的劑量都計入整天。"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Muestra las dosis de la mañana y de la noche como dos mitades de cada día. Si está desactivado, una dosis registrada a cualquier hora cuenta para todo el día."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Muestra las dosis de la mañana y de la noche como dos mitades de cada día. Si está desactivado, una dosis registrada a cualquier hora cuenta para todo el día."
           }
         }
       }
