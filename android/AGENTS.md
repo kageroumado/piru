@@ -4,6 +4,10 @@
 
 ## Gotchas
 
+- **A control `droid tree` lists twice is composed twice.** Two live copies bound to one
+  `@FocusState` take focus from each other every frame, and the screen recomposes without
+  pause. Count the copies before profiling a lag; vendor patch 0006 is why `.shadow` no longer
+  makes them.
 - **`package-apk.sh` does not restage.** A template, stand-in or `symbols.tsv` change needs
   `build-app.sh`, or at least `python3 android/tools/stage.py`.
 - **Upstream edits go through patches.** Edit the file in `Piru/` or `Shared/`, run

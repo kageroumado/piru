@@ -35,10 +35,10 @@ index 7243ba96..aa827c39 100644
  
      /// Stage a scanned label as a complete dose — the strength read off the box
 diff --git a/Piru/Views/QuickLog/QuickLogView.swift b/Piru/Views/QuickLog/QuickLogView.swift
-index 28948769..b03fd030 100644
+index 28948769..3343db58 100644
 --- a/Piru/Views/QuickLog/QuickLogView.swift
 +++ b/Piru/Views/QuickLog/QuickLogView.swift
-@@ -166,11 +166,43 @@ struct QuickLogView: View {
+@@ -166,11 +166,48 @@ struct QuickLogView: View {
              // Staging haptics live in a leaf, not this body: reading the tick
              // counters here would re-run the whole `QuickLogView.body` on
              // every stage/increment.
@@ -73,8 +73,13 @@ index 28948769..b03fd030 100644
 +                    .frame(height: androidDockHeight)
 +                    // The sheet the dock is on iOS: a floating rounded panel over the list,
 +                    // clear of the gesture bar.
-+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 32, style: .continuous))
-+                    .shadow(color: .black.opacity(0.14), radius: 16, y: 2)
++                    // The shadow is cast by the panel shape alone, so only that shape is redrawn
++                    // into it rather than the whole dock.
++                    .background {
++                        RoundedRectangle(cornerRadius: 32, style: .continuous)
++                            .fill(.regularMaterial)
++                            .shadow(color: .black.opacity(0.14), radius: 16, y: 2)
++                    }
 +                    .padding(.horizontal, 8)
 +                    .padding(.bottom, 12)
 +                }
@@ -82,7 +87,7 @@ index 28948769..b03fd030 100644
              #if canImport(UIKit)
                  .background(CoverAccessibilityUnmasker())
              #endif
-@@ -321,6 +353,7 @@ struct QuickLogView: View {
+@@ -321,6 +358,7 @@ struct QuickLogView: View {
          .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
              containerHeight = newValue
          }
@@ -90,7 +95,7 @@ index 28948769..b03fd030 100644
          .sheet(isPresented: $dockPresented) {
              DockSheetHost(
                  tray: tray,
-@@ -335,8 +368,19 @@ struct QuickLogView: View {
+@@ -335,8 +373,19 @@ struct QuickLogView: View {
                  onCommit: commitTray,
              )
          }

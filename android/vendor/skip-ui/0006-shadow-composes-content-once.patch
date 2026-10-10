@@ -1,0 +1,99 @@
+diff --git a/Sources/SkipUI/Skip/Shadowed.kt b/Sources/SkipUI/Skip/Shadowed.kt
+index d52cbbd..5170f16 100644
+--- a/Sources/SkipUI/Skip/Shadowed.kt
++++ b/Sources/SkipUI/Skip/Shadowed.kt
+@@ -2,60 +2,60 @@
+ // SPDX-License-Identifier: MPL-2.0
+ package skip.ui
+ 
+-import androidx.compose.foundation.layout.padding
++import android.os.Build
+ import androidx.compose.runtime.Composable
+-import androidx.compose.ui.Modifier
+-import androidx.compose.ui.draw.BlurredEdgeTreatment
+-import androidx.compose.ui.draw.blur
+ import androidx.compose.ui.draw.drawWithContent
+-import androidx.compose.ui.geometry.Rect
++import androidx.compose.ui.graphics.BlurEffect
+ import androidx.compose.ui.graphics.Color
+ import androidx.compose.ui.graphics.ColorFilter
+ import androidx.compose.ui.graphics.ColorMatrix
+-import androidx.compose.ui.graphics.Paint
+-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
++import androidx.compose.ui.graphics.TileMode
++import androidx.compose.ui.graphics.drawscope.translate
++import androidx.compose.ui.graphics.layer.drawLayer
++import androidx.compose.ui.graphics.rememberGraphicsLayer
+ import androidx.compose.ui.layout.Layout
+ import androidx.compose.ui.platform.LocalDensity
+-import androidx.compose.ui.unit.Constraints
+ import androidx.compose.ui.unit.Dp
++import androidx.compose.ui.unit.IntOffset
++import androidx.compose.ui.unit.IntSize
+ import kotlin.math.ceil
+ 
+ /// Compose the given content with a drop shadow on all non-transparent pixels.
++///
++/// The content is composed once and its drawing recorded into a layer; the shadow replays that
++/// recording through the shadow color and blur. Composing the content a second time for the shadow
++/// would give every control inside a live twin, with its own state and its own focus target.
+ @Composable fun Shadowed(context: ComposeContext, color: Color, offsetX: Dp, offsetY: Dp, blurRadius: Dp, content: @Composable (ComposeContext) -> Unit) {
+     val density = LocalDensity.current
+     val offsetXPx = with(density) { offsetX.toPx() }.toInt()
+     val offsetYPx = with(density) { offsetY.toPx() }.toInt()
+-    val blurRadiusPx = ceil(with(density) { blurRadius.toPx() }).toInt()
++    val blurRadiusPx = with(density) { blurRadius.toPx() }
++    val paddingPx = ceil(blurRadiusPx).toInt()
++    val contentLayer = rememberGraphicsLayer()
++    val shadowLayer = rememberGraphicsLayer()
+ 
+-    val contentContext = context.content()
+-    val shadowContext = context.content(modifier = Modifier
+-        .drawWithContent {
+-            val matrix = shadowColorMatrix(color)
+-            val filter = ColorFilter.colorMatrix(matrix)
+-            val paint = Paint().apply {
+-                colorFilter = filter
+-            }
+-            drawIntoCanvas { canvas ->
+-                // Paint content again with shadow color
+-                canvas.saveLayer(Rect(0f, 0f, size.width, size.height), paint)
+-                drawContent()
+-                canvas.restore()
++    val modifier = context.modifier.drawWithContent {
++        contentLayer.record { this@drawWithContent.drawContent() }
++        // Padded by the blur radius so the blur is not clipped at the content's edges.
++        shadowLayer.record(size = IntSize(size.width.toInt() + paddingPx * 2, size.height.toInt() + paddingPx * 2)) {
++            translate(left = paddingPx.toFloat(), top = paddingPx.toFloat()) {
++                drawLayer(contentLayer)
+             }
+         }
+-        .blur(radius = blurRadius, BlurredEdgeTreatment.Unbounded)
+-        .padding(all = blurRadius) // Pad to prevent clipping blur
+-    )
++        shadowLayer.colorFilter = ColorFilter.colorMatrix(shadowColorMatrix(color))
++        // RenderEffect blur needs API 31; below it the shadow is drawn sharp.
++        shadowLayer.renderEffect = if (blurRadiusPx > 0f && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) BlurEffect(blurRadiusPx, blurRadiusPx, TileMode.Decal) else null
++        shadowLayer.topLeft = IntOffset(offsetXPx - paddingPx, offsetYPx - paddingPx)
++        drawLayer(shadowLayer)
++        drawLayer(contentLayer)
++    }
+ 
+-    Layout(modifier = context.modifier, content = {
+-        content(contentContext) // Render normally
+-        content(shadowContext) // Render as shadow
++    Layout(modifier = modifier, content = {
++        content(context.content())
+     }) { measurables, constraints ->
+-        // Allow shadow to extend beyond bounds without affecting layout
+-        val contentPlaceable = measurables[0].measure(constraints)
+-        val shadowPlaceable = measurables[1].measure(Constraints(maxWidth = contentPlaceable.width + blurRadiusPx * 2, maxHeight = contentPlaceable.height + blurRadiusPx * 2))
+-        layout(width = contentPlaceable.width, height = contentPlaceable.height) {
+-            shadowPlaceable.placeRelative(x = offsetXPx - blurRadiusPx, y = offsetYPx - blurRadiusPx)
+-            contentPlaceable.placeRelative(x = 0, y = 0)
++        val contentPlaceable = measurables.firstOrNull()?.measure(constraints)
++        layout(width = contentPlaceable?.width ?: 0, height = contentPlaceable?.height ?: 0) {
++            contentPlaceable?.placeRelative(x = 0, y = 0)
+         }
+     }
+ }
