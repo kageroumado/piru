@@ -353,8 +353,7 @@ struct FolderBackupSection: View {
             Text(unlockFailure ?? String(localized: "This folder already holds a Piru backup. Enter its passphrase to merge it with your journal; later backups use the same passphrase."))
         }
         .alert("Backup", isPresented: noticeBinding) {
-            // No cancel role: SkipUI adds its own OK beside a lone cancel button.
-            Button("OK") {}
+            Button("OK", role: .cancel) {}
         } message: {
             Text(notice ?? "")
         }
