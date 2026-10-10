@@ -8,6 +8,10 @@
   `@FocusState` take focus from each other every frame, and the screen recomposes without
   pause. Count the copies before profiling a lag; vendor patch 0006 is why `.shadow` no longer
   makes them.
+- **Visited tabs stay composed** (vendor patch 0007): only the selected one is placed, and
+  `onAppear`, `onDisappear`, `.task`, focus, alerts and confirmation dialogs follow which tab is
+  shown. A `.sheet` in tab content still opens while its tab is hidden, so a sheet that can be
+  raised by something finishing in the background belongs on the root `AppNavigator` stack.
 - **`package-apk.sh` does not restage.** A template, stand-in or `symbols.tsv` change needs
   `build-app.sh`, or at least `python3 android/tools/stage.py`.
 - **Upstream edits go through patches.** Edit the file in `Piru/` or `Shared/`, run

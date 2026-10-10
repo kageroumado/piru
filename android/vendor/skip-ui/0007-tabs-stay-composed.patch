@@ -1,0 +1,323 @@
+diff --git a/Sources/SkipUI/Skip/TabContentActivity.kt b/Sources/SkipUI/Skip/TabContentActivity.kt
+new file mode 100644
+index 0000000..0573358
+--- /dev/null
++++ b/Sources/SkipUI/Skip/TabContentActivity.kt
+@@ -0,0 +1,58 @@
++// Copyright 2023–2026 Skip
++// SPDX-License-Identifier: MPL-2.0
++package skip.ui
++
++import androidx.compose.runtime.Composable
++import androidx.compose.runtime.DisposableEffect
++import androidx.compose.runtime.SideEffect
++import androidx.compose.runtime.compositionLocalOf
++import androidx.compose.runtime.mutableStateOf
++import androidx.compose.runtime.remember
++import androidx.compose.runtime.rememberUpdatedState
++
++/// Whether the tab holding this content is the one on screen. `TabView` keeps every visited tab
++/// composed and places only the selected one; the appearance modifiers and `task` read this so
++/// they follow what is visible, as SwiftUI's do.
++val LocalTabContentIsActive = compositionLocalOf { true }
++
++/// A disposable effect that runs only while its content's tab is on screen: `start` runs when the
++/// tab is shown and again whenever `key` changes while it is, and the function `start` returns runs
++/// when the tab is hidden, the key changes, or the content leaves the composition.
++@Composable
++fun ActiveEffect(key: Any?, start: () -> () -> Unit) {
++    val isActive = LocalTabContentIsActive.current
++    DisposableEffect(key, isActive) {
++        val stop = if (isActive) start() else null
++        onDispose { stop?.invoke() }
++    }
++}
++
++/// `onAppear`: `action` runs once per showing, and again when a hidden tab is shown. The tab's
++/// activity is read here, in this function's own scope, so a tab switch reruns this effect without
++/// re-rendering the content the modifier wraps.
++@Composable
++fun AppearEffect(action: (() -> Unit)?) {
++    val isActive = LocalTabContentIsActive.current
++    val hasAppeared = remember { mutableStateOf(false) }
++    if (isActive && !hasAppeared.value) {
++        hasAppeared.value = true
++        SideEffect { action?.invoke() }
++    } else if (!isActive && hasAppeared.value) {
++        hasAppeared.value = false
++    }
++}
++
++/// `onDisappear`: `action` runs when the content's tab is hidden or the content leaves, and not
++/// again when content already hidden with its tab leaves. Scoped like ``AppearEffect``.
++@Composable
++fun DisappearEffect(action: (() -> Unit)?) {
++    val isActive = LocalTabContentIsActive.current
++    val disposeAction = rememberUpdatedState(action)
++    DisposableEffect(isActive) {
++        onDispose {
++            if (isActive) {
++                disposeAction.value?.invoke()
++            }
++        }
++    }
++}
+diff --git a/Sources/SkipUI/SkipUI/Containers/TabView.swift b/Sources/SkipUI/SkipUI/Containers/TabView.swift
+index 7a2eec5..dc67d90 100644
+--- a/Sources/SkipUI/SkipUI/Containers/TabView.swift
++++ b/Sources/SkipUI/SkipUI/Containers/TabView.swift
+@@ -49,6 +49,8 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
+ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
+ import androidx.compose.material3.adaptive.navigationsuite.rememberNavigationSuiteScaffoldState
+ import androidx.compose.runtime.Composable
++import androidx.compose.ui.layout.Layout
++import androidx.compose.runtime.CompositionLocalProvider
+ import androidx.compose.runtime.MutableState
+ import androidx.compose.runtime.SideEffect
+ import androidx.compose.runtime.Stable
+@@ -81,6 +83,8 @@ import androidx.navigation3.runtime.rememberDecoratedNavEntries
+ import androidx.navigation3.runtime.rememberNavBackStack
+ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+ import androidx.navigation3.ui.NavDisplay
++import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
++import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
+ import androidx.navigation3.ui.defaultPopTransitionSpec
+ import androidx.navigation3.ui.defaultPredictivePopTransitionSpec
+ import androidx.navigation3.ui.defaultTransitionSpec
+@@ -255,8 +259,9 @@ public struct TabView : View, Renderable {
+         // Isolate access to current route within child Composable so route nav does not force us to recompose
+         navigateToCurrentRoute(tabBackStacks: tabBackStacks, selectedTabIndex: selectedTabIndex, tabRenderables: tabRenderables)
+ 
+-        let tabBarPreferences = rememberSaveable(stateSaver: context.stateSaver as! Saver<Preference<ToolbarBarPreferences>, Any>) { mutableStateOf(Preference<ToolbarBarPreferences>(key: TabBarPreferenceKey.self)) }
+-        let tabBarPreferencesCollector = PreferenceCollector<ToolbarBarPreferences>(key: TabBarPreferenceKey.self, state: tabBarPreferences)
++        // One preference state per tab: every visited tab stays composed, and only the selected
++        // tab's contributions may style the bar.
++        let tabBarPreferencesByTab = remember { (0..<100).map { _ in mutableStateOf(Preference<ToolbarBarPreferences>(key: TabBarPreferenceKey.self)) } }
+ 
+         let safeArea = EnvironmentValues.shared._safeArea
+         /// Latest TabView-scope safe area; use inside long-lived nav entry closures so inset updates (e.g. status bar hide) propagate without relying on lexical capture of `safeArea`.
+@@ -277,7 +282,7 @@ public struct TabView : View, Renderable {
+ 
+         // Reduce the tab bar preferences outside the bar composable. Otherwise the reduced value may change
+         // when the bottom bar recomposes
+-        let reducedTabBarPreferences = tabBarPreferences.value.reduced
++        let reducedTabBarPreferences = tabBarPreferencesByTab[selectedTabIndex.value].value.reduced
+ 
+         // When we layout, extend into the safe area if it is due to system bars, not into any app chrome. We extend
+         // into the top bar too so that tab content can also extend into the top area without getting cut off during
+@@ -485,7 +490,6 @@ public struct TabView : View, Renderable {
+                         primaryActionContent: {},
+                         content: {
+                             let entryContext = context.content()
+-                            let activeStack = tabBackStacks[selectedTabIndex.value]
+                             let tabEntryProvider: (NavKey) -> NavEntry<NavKey> = { key in
+                                 let tabKey = key as! SkipTabViewRouteKey
+                                 return NavEntry(tabKey, content: { key in
+@@ -513,7 +517,7 @@ public struct TabView : View, Renderable {
+                                         // This block is called multiple times on tab switch. Use stable arguments that will prevent our entry from
+                                         // recomposing when called with the same values
+                                         let arguments = TabEntryArguments(tabIndex: tabIndex, modifier: contentModifier, safeArea: contentSafeArea)
+-                                        PreferenceValues.shared.collectPreferences([tabBarPreferencesCollector]) {
++                                        PreferenceValues.shared.collectPreferences([PreferenceCollector<ToolbarBarPreferences>(key: TabBarPreferenceKey.self, state: tabBarPreferencesByTab[tabIndex])]) {
+                                             RenderEntry(with: arguments, context: entryContext)
+                                         }
+                                     }
+@@ -534,27 +538,50 @@ public struct TabView : View, Renderable {
+                                 }
+                                 tabIndex += 1
+                             }
+-                            let activeEntries = decoratedEntrySlots[selectedTabIndex.value]!
+-                            let defaults = NavDisplayTransitionOptions.tabViewDefaults
+-                            let transitions = EnvironmentValues.shared._tabViewTransitions?(defaults) ?? defaults
+-                            NavDisplay(
+-                                entries: activeEntries,
+-                                modifier: Modifier.fillMaxSize(),
+-                                onBack: {
+-                                    if activeStack.size > 1 {
+-                                        activeStack.removeLastOrNull()
++                            // Every visited tab stays composed, as SwiftUI keeps it, and only the selected one is
++                            // measured and placed, so returning to a tab shows it as it was rather than rebuilding it.
++                            // A hidden tab's back dispatcher is disabled, so a stack pushed there cannot take Back
++                            // from the tab on screen, and `LocalTabContentIsActive` lets the appearance modifiers
++                            // and tasks follow which tab is visible.
++                            // Visits are committed after composition, so an abandoned composition cannot leave a
++                            // tab composed that was never shown.
++                            let committedVisits = remember { mutableListOf<Int>() }
++                            let selectedIndex = selectedTabIndex.value
++                            let visitedTabs = committedVisits.toMutableList()
++                            if !visitedTabs.contains(selectedIndex) {
++                                visitedTabs.add(selectedIndex)
++                            }
++                            SideEffect {
++                                if !committedVisits.contains(selectedIndex) {
++                                    committedVisits.add(selectedIndex)
++                                }
++                            }
++                            // A TabView inside a hidden tab is hidden too, whichever of its own tabs is selected.
++                            let isTabViewActive = LocalTabContentIsActive.current
++                            Layout(modifier: Modifier.fillMaxSize(), content: {
++                                for ti in visitedTabs {
++                                    key(ti) {
++                                        let isActive = isTabViewActive && ti == selectedIndex
++                                        let dispatcherOwner = rememberNavigationEventDispatcherOwner(enabled: isActive)
++                                        // SKIP INSERT: val providedDispatcher = LocalNavigationEventDispatcherOwner provides dispatcherOwner
++                                        // SKIP INSERT: val providedActivity = LocalTabContentIsActive provides isActive
++                                        CompositionLocalProvider(providedDispatcher, providedActivity) {
++                                            Box(modifier: Modifier.fillMaxSize()) {
++                                                decoratedEntrySlots[ti]?.lastOrNull()?.Content()
++                                            }
++                                        }
+                                     }
+-                                },
+-                                transitionSpec: {
+-                                    transitions.transitionSpec ?? defaultTransitionSpec<NavKey>()()
+-                                },
+-                                popTransitionSpec: {
+-                                    transitions.popTransitionSpec ?? defaultPopTransitionSpec<NavKey>()()
+-                                },
+-                                predictivePopTransitionSpec: { edge in
+-                                    transitions.predictivePopTransitionSpec ?? defaultPredictivePopTransitionSpec<NavKey>()(edge)
+                                 }
+-                            )
++                            }) { measurables, constraints in
++                                let position = visitedTabs.indexOf(selectedIndex)
++                                guard position >= 0 && position < measurables.size else {
++                                    return layout(width: constraints.minWidth, height: constraints.minHeight) {}
++                                }
++                                let placeable = measurables[position].measure(constraints)
++                                return layout(width: placeable.width, height: placeable.height) {
++                                    placeable.placeRelative(0, 0)
++                                }
++                            }
+                         }
+                     )
+                 }
+diff --git a/Sources/SkipUI/SkipUI/Layout/Presentation.swift b/Sources/SkipUI/SkipUI/Layout/Presentation.swift
+index 1483e42..6a3ec72 100644
+--- a/Sources/SkipUI/SkipUI/Layout/Presentation.swift
++++ b/Sources/SkipUI/SkipUI/Layout/Presentation.swift
+@@ -271,7 +271,9 @@ final class DisableScrollToDismissConnection : NestedScrollConnection {
+ // SKIP INSERT: @OptIn(ExperimentalMaterial3Api::class)
+ @Composable func ConfirmationDialogPresentation(title: Text?, isPresented: Binding<Bool>, context: ComposeContext, actions: any View, message: (any View)? = nil) {
+     let sheetState = rememberModalBottomSheetState(skipPartiallyExpanded: true)
+-    if isPresented.get() || sheetState.isVisible {
++    // Presented from a hidden tab, it waits for the tab to be shown.
++    let isShowing = isPresented.get() && LocalTabContentIsActive.current
++    if isShowing || sheetState.isVisible {
+         // Collect buttons and message text
+         let actionRenderables = actions.Evaluate(context: context, options: 0)
+         let composableActions: kotlin.collections.List<Renderable> = actionRenderables.mapNotNull {
+@@ -305,7 +307,7 @@ final class DisableScrollToDismissConnection : NestedScrollConnection {
+             }
+         }
+     }
+-    if !isPresented.get() {
++    if !isShowing {
+         LaunchedEffect(true) {
+             if sheetState.targetValue != SheetValue.Hidden {
+                 sheetState.hide()
+@@ -472,7 +474,8 @@ final class DisableScrollToDismissConnection : NestedScrollConnection {
+ 
+ // SKIP INSERT: @OptIn(ExperimentalMaterial3Api::class)
+ @Composable func AlertPresentation(title: Text? = nil, titleResource: Int? = nil, isPresented: Binding<Bool>, context: ComposeContext, actions: any View, message: (any View)? = nil) {
+-    guard isPresented.get() else {
++    // Presented from a hidden tab, it waits for the tab to be shown.
++    guard isPresented.get() && LocalTabContentIsActive.current else {
+         return
+     }
+     // Collect buttons and message text
+diff --git a/Sources/SkipUI/SkipUI/System/Focus.swift b/Sources/SkipUI/SkipUI/System/Focus.swift
+index 295c030..4171a0b 100644
+--- a/Sources/SkipUI/SkipUI/System/Focus.swift
++++ b/Sources/SkipUI/SkipUI/System/Focus.swift
+@@ -31,7 +31,10 @@ extension View {
+                         }
+                     }
+                 }
+-            if value == binding.wrappedValue {
++            // A field in a hidden tab neither takes focus nor keeps it, as a field leaves the
++            // responder chain when its tab is switched away on iOS.
++            let isTabActive = LocalTabContentIsActive.current
++            if value == binding.wrappedValue && isTabActive {
+                 // A text field focused in its first frame has no text layout yet, and Compose
+                 // throws from requestFocus (offset out of bounds). The request repeats on every
+                 // recomposition, so the next one, after layout, lands it.
+@@ -40,7 +43,7 @@ extension View {
+             } else if hasFocus.value {
+                 SideEffect {
+                     // Recheck ownership after other focus effects have run.
+-                    if value != binding.wrappedValue && hasFocus.value {
++                    if (value != binding.wrappedValue || !isTabActive) && hasFocus.value {
+                         focusManager.clearFocus()
+                     }
+                 }
+diff --git a/Sources/SkipUI/SkipUI/View/AdditionalViewModifiers.swift b/Sources/SkipUI/SkipUI/View/AdditionalViewModifiers.swift
+index 8ce55d4..e9e9c30 100644
+--- a/Sources/SkipUI/SkipUI/View/AdditionalViewModifiers.swift
++++ b/Sources/SkipUI/SkipUI/View/AdditionalViewModifiers.swift
+@@ -868,11 +868,9 @@ extension View {
+         #if SKIP
+         // TODO: would it be better to use the (new) onFirstVisible and onVisibilityChanged APIs here?
+         return ModifiedContent(content: self, modifier: SideEffectModifier { _ in
+-            let hasAppeared = remember { mutableStateOf(false) }
+-            if !hasAppeared.value {
+-                hasAppeared.value = true
+-                SideEffect { action?() }
+-            }
++            // Once per showing: a tab kept composed while another is selected appears again
++            // when it is reselected, as SwiftUI's does.
++            AppearEffect(action)
+             return ComposeResult.ok
+         })
+         #else
+@@ -967,12 +965,8 @@ extension View {
+     public func onDisappear(perform action: (() -> Void)? = nil) -> any View {
+         #if SKIP
+         return ModifiedContent(content: self, modifier: SideEffectModifier { _ in
+-            let disposeAction = rememberUpdatedState(action)
+-            DisposableEffect(true) {
+-                onDispose {
+-                    disposeAction.value?()
+-                }
+-            }
++            // Fires when the content's tab is deselected as well as when the content leaves.
++            DisappearEffect(action)
+             return ComposeResult.ok
+         })
+         #else
+@@ -1482,13 +1476,11 @@ extension View {
+         #if SKIP
+         return ModifiedContent(content: self, modifier: SideEffectModifier { _ in
+             let handler = rememberUpdatedState(action)
+-            DisposableEffect(value) {
++            ActiveEffect(key: value) {
+                 let task = Task(priority: priority) {
+                     handler.value()
+                 }
+-                onDispose {
+-                    task.cancel()
+-                }
++                return { task.cancel() }
+             }
+             return ComposeResult.ok
+         })
+@@ -1502,7 +1494,7 @@ extension View {
+         #if SKIP
+         return ModifiedContent(content: self, modifier: SideEffectModifier { _ in
+             let actionState = rememberUpdatedState(bridgedAction)
+-            DisposableEffect(value) {
++            ActiveEffect(key: value) {
+                 let task = Task {
+                     kotlinx.coroutines.suspendCancellableCoroutine { continuation in
+                         let completionHandler = CompletionHandler({
+@@ -1514,9 +1506,7 @@ extension View {
+                         actionState.value(completionHandler)
+                     }
+                 }
+-                onDispose {
+-                    task.cancel()
+-                }
++                return { task.cancel() }
+             }
+             return ComposeResult.ok
+         })
