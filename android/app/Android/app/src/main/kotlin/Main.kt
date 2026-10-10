@@ -59,6 +59,7 @@ open class MainActivity: AppCompatActivity {
         logger.info("starting activity")
         UIApplication.launch(this)
         AndroidDocuments.register(this)
+        AndroidBackupFolder.register(this)
         enableEdgeToEdge()
 
         setContent {

@@ -159,7 +159,10 @@ two contexts.
   The build reads it at signing time, and a release build fails without it. Losing it strands
   every installed copy, so it is backed up.
 - **Backups and secrets.** No app data goes to Google's cloud backup, and key material never
-  leaves the device.
+  leaves the device. Automatic backup, iOS's iCloud backup on Android, writes a
+  passphrase-sealed `.piruenc` into a folder the user picks through the Storage Access
+  Framework (`app/Sources/Piru/Android/Backup/`). A cloud folder is uploaded by its
+  provider's app, so the manifest still drops the network permission.
 - **Migration.** Import accepts every format iOS does, including PsychonautWiki Journal's
   (PsyLog), through the Storage Access Framework.
 

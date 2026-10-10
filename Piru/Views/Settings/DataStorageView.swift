@@ -691,7 +691,7 @@ private enum DataStorageFormat {
 
 /// Sets the passphrase that seals a new encrypted backup: entered twice, with
 /// live length and match feedback, which an alert has no room for.
-private struct PassphraseSheet: View {
+struct PassphraseSheet: View {
     let onSubmit: (String) -> Void
 
     /// Minimum length for a *new* passphrase. A backup file is offline-attackable

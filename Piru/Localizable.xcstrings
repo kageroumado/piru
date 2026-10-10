@@ -17364,6 +17364,52 @@
         }
       }
     },
+    "Back Up Now" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hacer copia ahora"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即備份"
+          }
+        }
+      }
+    },
+    "Back Up to a Folder…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hacer copia en una carpeta…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份到文件夹…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份到資料夾…"
+          }
+        }
+      }
+    },
     "Backing up…" : {
       "localizations" : {
         "es" : {
@@ -17416,6 +17462,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "備份"
+          }
+        }
+      }
+    },
+    "Backup Found" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia encontrada"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找到备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找到備份"
           }
         }
       }
@@ -22391,6 +22460,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中文社群維基。"
+          }
+        }
+      }
+    },
+    "Choose Another Folder…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir otra carpeta…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择其他文件夹…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇其他資料夾…"
           }
         }
       }
@@ -38237,6 +38329,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "氟馬西尼"
+          }
+        }
+      }
+    },
+    "Folder" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carpeta"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料夾"
           }
         }
       }
@@ -62708,6 +62823,29 @@
         }
       }
     },
+    "Pick a folder, on this phone or in Google Drive, Dropbox or another cloud app, and Piru saves an encrypted copy of your journal there each time you leave the app. Only your passphrase opens it, and the cloud app does the uploading: Piru itself never goes online. To restore on a new phone, choose the same folder here." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige una carpeta, en este teléfono o en Google Drive, Dropbox u otra app en la nube, y Piru guardará allí una copia cifrada de tu diario cada vez que salgas de la app. Solo tu frase de contraseña la abre, y la app en la nube se encarga de subirla: Piru nunca se conecta a internet. Para restaurarla en un teléfono nuevo, elige aquí la misma carpeta."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择一个文件夹，可以在本机上，也可以在 Google 云端硬盘、Dropbox 或其他云应用中，每次你离开应用时，Piru 都会在那里保存一份加密的日记副本。只有你的密码短语能打开它，上传由云应用完成：Piru 本身从不联网。在新手机上恢复时，在这里选择同一个文件夹即可。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇一個資料夾，可以在本機上，也可以在 Google 雲端硬碟、Dropbox 或其他雲端應用程式中，每次你離開應用程式時，Piru 都會在那裡儲存一份加密的日記副本。只有你的密碼短語能打開它，上傳由雲端應用程式完成：Piru 本身從不連網。在新手機上還原時，在這裡選擇同一個資料夾即可。"
+          }
+        }
+      }
+    },
     "Pick a longer time range to see your history." : {
       "localizations" : {
         "es" : {
@@ -63096,6 +63234,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 可以保持簡潔，也可以深入藥理。隨時可在設定中更改。"
+          }
+        }
+      }
+    },
+    "Piru can no longer reach this folder. Choose it again to keep backing up." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru ya no puede acceder a esta carpeta. Vuelve a elegirla para seguir haciendo copias."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 已无法访问此文件夹。请重新选择它以继续备份。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 已無法存取此資料夾。請重新選擇它以繼續備份。"
           }
         }
       }
@@ -71455,6 +71616,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已儲存的副本"
+          }
+        }
+      }
+    },
+    "Saved each time you leave the app, encrypted with your passphrase. Turning this off leaves the last backup in the folder." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se guarda cada vez que sales de la app, cifrada con tu frase de contraseña. Al desactivarla, la última copia se queda en la carpeta."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次你离开应用时保存，并用你的密码短语加密。关闭后，最后一份备份会留在文件夹中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次你離開應用程式時儲存，並以你的密碼短語加密。關閉後，最後一份備份會留在資料夾中。"
           }
         }
       }
@@ -82044,6 +82228,29 @@
         }
       }
     },
+    "That passphrase didn't open the backup. Try again." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esa frase de contraseña no abrió la copia. Inténtalo de nuevo."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该密码短语无法打开此备份。请重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該密碼短語無法打開此備份。請再試一次。"
+          }
+        }
+      }
+    },
     "That preset already exists." : {
       "localizations" : {
         "es" : {
@@ -82180,6 +82387,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最接近此時間的 Apple 健康樣本。"
+          }
+        }
+      }
+    },
+    "The backup folder could not be reached." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo acceder a la carpeta de la copia de seguridad."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法访问备份文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法存取備份資料夾。"
+          }
+        }
+      }
+    },
+    "The backup was merged with your journal." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La copia se fusionó con tu diario."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份已与你的日记合并。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份已與你的日記合併。"
           }
         }
       }
@@ -82624,6 +82877,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有人報告這種迷糊感會在數小時內消退。如果沒有消退，請就醫。"
+          }
+        }
+      }
+    },
+    "The folder picker could not be opened." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo abrir el selector de carpetas."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法打开文件夹选择器。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法開啟資料夾選擇器。"
           }
         }
       }
@@ -84002,6 +84278,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此檔案使用匯出格式 %lld，目前版本的 Piru 還無法讀取。請更新 Piru 後再匯入。"
+          }
+        }
+      }
+    },
+    "This folder already holds a Piru backup. Enter its passphrase to merge it with your journal; later backups use the same passphrase." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta carpeta ya contiene una copia de seguridad de Piru. Escribe su frase de contraseña para fusionarla con tu diario; las copias siguientes usarán la misma frase."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件夹中已有一份 Piru 备份。输入它的密码短语即可将其与你的日记合并；之后的备份也会使用同一密码短语。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此資料夾中已有一份 Piru 備份。輸入它的密碼短語即可將其與你的日記合併；之後的備份也會使用同一密碼短語。"
           }
         }
       }
@@ -86367,6 +86666,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tsuki"
+          }
+        }
+      }
+    },
+    "Turn Off Folder Backup" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivar la copia en carpeta"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭文件夹备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉資料夾備份"
           }
         }
       }

@@ -7897,6 +7897,63 @@ T = {
         "commonmark-java。版权所有 © Robin Stocker。",
         "commonmark-java。版權所有 © Robin Stocker。",
     ),
+    # Android-only strings: folder backup (Android/Backup/FolderBackup+Android.swift).
+    "The folder picker could not be opened.": (
+        "无法打开文件夹选择器。",
+        "無法開啟資料夾選擇器。",
+    ),
+    "The backup folder could not be reached.": (
+        "无法访问备份文件夹。",
+        "無法存取備份資料夾。",
+    ),
+    "Folder": (
+        "文件夹",
+        "資料夾",
+    ),
+    "Back Up Now": (
+        "立即备份",
+        "立即備份",
+    ),
+    "Piru can no longer reach this folder. Choose it again to keep backing up.": (
+        "Piru 已无法访问此文件夹。请重新选择它以继续备份。",
+        "Piru 已無法存取此資料夾。請重新選擇它以繼續備份。",
+    ),
+    "Choose Another Folder…": (
+        "选择其他文件夹…",
+        "選擇其他資料夾…",
+    ),
+    "Turn Off Folder Backup": (
+        "关闭文件夹备份",
+        "關閉資料夾備份",
+    ),
+    "Back Up to a Folder…": (
+        "备份到文件夹…",
+        "備份到資料夾…",
+    ),
+    "Pick a folder, on this phone or in Google Drive, Dropbox or another cloud app, and Piru saves an encrypted copy of your journal there each time you leave the app. Only your passphrase opens it, and the cloud app does the uploading: Piru itself never goes online. To restore on a new phone, choose the same folder here.": (
+        "选择一个文件夹，可以在本机上，也可以在 Google 云端硬盘、Dropbox 或其他云应用中，每次你离开应用时，Piru 都会在那里保存一份加密的日记副本。只有你的密码短语能打开它，上传由云应用完成：Piru 本身从不联网。在新手机上恢复时，在这里选择同一个文件夹即可。",
+        "選擇一個資料夾，可以在本機上，也可以在 Google 雲端硬碟、Dropbox 或其他雲端應用程式中，每次你離開應用程式時，Piru 都會在那裡儲存一份加密的日記副本。只有你的密碼短語能打開它，上傳由雲端應用程式完成：Piru 本身從不連網。在新手機上還原時，在這裡選擇同一個資料夾即可。",
+    ),
+    "Saved each time you leave the app, encrypted with your passphrase. Turning this off leaves the last backup in the folder.": (
+        "每次你离开应用时保存，并用你的密码短语加密。关闭后，最后一份备份会留在文件夹中。",
+        "每次你離開應用程式時儲存，並以你的密碼短語加密。關閉後，最後一份備份會留在資料夾中。",
+    ),
+    "Backup Found": (
+        "找到备份",
+        "找到備份",
+    ),
+    "This folder already holds a Piru backup. Enter its passphrase to merge it with your journal; later backups use the same passphrase.": (
+        "此文件夹中已有一份 Piru 备份。输入它的密码短语即可将其与你的日记合并；之后的备份也会使用同一密码短语。",
+        "此資料夾中已有一份 Piru 備份。輸入它的密碼短語即可將其與你的日記合併；之後的備份也會使用同一密碼短語。",
+    ),
+    "The backup was merged with your journal.": (
+        "备份已与你的日记合并。",
+        "備份已與你的日記合併。",
+    ),
+    "That passphrase didn't open the backup. Try again.": (
+        "该密码短语无法打开此备份。请重试。",
+        "該密碼短語無法打開此備份。請再試一次。",
+    ),
 }
 
 # Widget translations
@@ -8187,6 +8244,20 @@ if __name__ == "__main__":
         "curl, part of Foundation's networking on Android.",
         "BoringSSL, part of Foundation's networking on Android.",
         "commonmark-java. Copyright © Robin Stocker.",
+        "The folder picker could not be opened.",
+        "The backup folder could not be reached.",
+        "Folder",
+        "Back Up Now",
+        "Piru can no longer reach this folder. Choose it again to keep backing up.",
+        "Choose Another Folder…",
+        "Turn Off Folder Backup",
+        "Back Up to a Folder…",
+        "Pick a folder, on this phone or in Google Drive, Dropbox or another cloud app, and Piru saves an encrypted copy of your journal there each time you leave the app. Only your passphrase opens it, and the cloud app does the uploading: Piru itself never goes online. To restore on a new phone, choose the same folder here.",
+        "Saved each time you leave the app, encrypted with your passphrase. Turning this off leaves the last backup in the folder.",
+        "Backup Found",
+        "This folder already holds a Piru backup. Enter its passphrase to merge it with your journal; later backups use the same passphrase.",
+        "The backup was merged with your journal.",
+        "That passphrase didn't open the backup. Try again.",
         "Curve Scale",
         "Dose Strength",
         "Largest Dose, 7 Days",
