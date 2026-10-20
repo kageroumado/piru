@@ -65,6 +65,11 @@ struct WikiDoseReferenceViewTests {
         func `reference absence and withdrawal render explicitly`(status: String) throws {
             var object = WikiDoseReferenceFixtures.model()
             object["status"] = status
+            if status == "unavailable" {
+                var groups = try #require(object["groups"] as? [[String: Any]])
+                groups[0]["bands"] = [[String: Any]]()
+                object["groups"] = groups
+            }
             let record = try WikiDoseReferenceFixtures.record(object)
             let renderer = ImageRenderer(content: WikiDoseReferenceContent(record: record).frame(width: 390))
             let image = try #require(renderer.uiImage)
