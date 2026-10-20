@@ -38,6 +38,7 @@ from pathlib import Path
 # sqlite.py`, where the script dir is already on sys.path) and when the test
 # suite loads this file via importlib spec (where it is not).
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from drug_community_dose_references import reference_row as dose_reference_row  # noqa: E402
 from drug_community_timelines import reference_timelines, snapshot_binding  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — shared modules
@@ -1605,6 +1606,20 @@ CREATE TABLE drug_community_timelines (
     modeling_exclusion TEXT NOT NULL
 );
 CREATE INDEX idx_dc_timelines_substance ON drug_community_timelines(substance_id);
+
+-- Published dose references retain original bands and evidence independently of
+-- the numeric dose_ranges ladders. No reference amount is a calculator input.
+CREATE TABLE drug_community_dose_references (
+    record_key      TEXT PRIMARY KEY,
+    substance_id    INTEGER NOT NULL REFERENCES substances(id),
+    source_id       INTEGER NOT NULL REFERENCES sources(id),
+    source_name     TEXT NOT NULL,
+    model_json      TEXT NOT NULL,
+    profile_sha256  TEXT NOT NULL,
+    snapshot_sha256 TEXT NOT NULL,
+    release_id      TEXT
+);
+CREATE INDEX idx_dc_dose_references_substance ON drug_community_dose_references(substance_id);
 
 -- One row per form a source states. An expression index, because a UNIQUE
 -- constraint over the nullable salt_form/isomer treats every NULL as distinct and
@@ -3821,6 +3836,7 @@ def enforce_us_english(con) -> dict:
         "subjective_effect_concept_aliases",
         # Hash-bound source quotations and field names must remain exact.
         "drug_community_timelines",
+        "drug_community_dose_references",
     }
     rewritten = 0
     for table in tables:
@@ -3864,7 +3880,7 @@ def enforce_voice_rule(con) -> dict:
         )
         # Quoted evidence is not authored app prose. Rewriting this JSON
         # changes its claims and breaks the snapshot binding.
-        if r[0] != "drug_community_timelines"
+        if r[0] not in {"drug_community_timelines", "drug_community_dose_references"}
     ]
     rewritten = 0
     for table in tables:
@@ -8816,9 +8832,9 @@ class Build:
         snapshot_sha, release_id = snapshot_binding(path)
         slug = "drug.community"
         dose_skip = self._dose_skip_map(slug)
-        # A refreshed snapshot replaces this source's timelines, including
-        # withdrawals. Never leave old inferred phase lengths behind.
-        for table in ("drug_community_timelines", "durations"):
+        # A refreshed snapshot replaces this source's references and timings,
+        # including withdrawals. Never leave old inferred phase lengths behind.
+        for table in ("drug_community_timelines", "drug_community_dose_references", "durations"):
             self.cur.execute(f"DELETE FROM {table} WHERE source_id=?", (self.source_ids[slug],))
         # Profiles whose legacy intensity spectrum the source itself excluded
         # (unreviewed lineage); read by ingest_drug_community_experiential.
@@ -8845,6 +8861,21 @@ class Build:
                 "UPDATE substances SET drug_community_slug=COALESCE(drug_community_slug, ?) WHERE id=?",
                 (dc_slugify(raw), sid),
             )
+            dose_reference = dose_reference_row(s, snapshot_sha)
+            if dose_reference is not None:
+                row = {
+                    **dose_reference,
+                    "substance_id": sid,
+                    "source_id": self.source_ids[slug],
+                    "release_id": release_id,
+                }
+                columns = ", ".join(row)
+                placeholders = ", ".join("?" for _ in row)
+                self.cur.execute(
+                    f"INSERT INTO drug_community_dose_references ({columns}) VALUES ({placeholders})",
+                    tuple(row.values()),
+                )
+                self.stats["dc_dose_references"] += 1
             spectrum_policy = s.get("legacy_intensity_spectrum_policy")
             if isinstance(spectrum_policy, dict) and spectrum_policy.get("status") == "excluded":
                 self.dc_spectrum_excluded.add(dc_slugify(raw))
@@ -15859,6 +15890,7 @@ def main() -> int:
         "dose_ranges",
         "durations",
         "drug_community_timelines",
+        "drug_community_dose_references",
         "half_lives",
         "mechanisms_summary",
         "effects",
