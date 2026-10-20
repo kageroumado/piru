@@ -497,6 +497,32 @@ Foundation predicate macros is not a result for the timeline tests.
 A release still requires a complete database rebuild, the matching published DB
 and manifest, and native UI verification on the supported app platforms.
 
+The same snapshot can carry `dosages.dose_bands` with schema
+`drug-community-dose-bands/1`. The importer retains the complete original model
+in `drug_community_dose_references`, one row per source profile, with its profile
+and snapshot digests and verified release ID. Older snapshots without this field
+create no reference row. A source refresh replaces all these rows, including
+withdrawals and removals; merged substance identities retain their separate
+source profiles. An unsupported schema, status, group or amount fails the build.
+
+These bands are published reference material, displayed independently of
+`DoseRange`. Exact amounts, intervals, open bounds and unparsed wording stay as
+published, together with route, formulation, material basis, population limits,
+sources, observations, reported distributions, uncertainty and nullable
+calculation eligibility. Provisional human bands and fatal bands must remain
+explicitly excluded from calculation. No reference band enters `dose_ranges`,
+duration or pharmacokinetic inputs, logger defaults, equivalence or activity
+models. The prose passes leave this hash-bound evidence unchanged.
+
+Run `python3 pipeline/build/tests/test_drug_community_dose_references.py` for
+the reference import, validation, refresh, deduplication and calculator-isolation
+regressions. Native `WikiDoseReference` tests cover the reader and detail card.
+An older bundled database without this table or reference rows keeps the card
+hidden. The implementation and fixture tests can be reviewed independently of
+a data release. To populate a shipped app, the data maintainer must refresh the
+source snapshot, rebuild the complete database with the external extracts, and
+publish its matching database and manifest through the release process above.
+
 drug.community's dose ladders are real ranges and keep their overall rank,
 directly beneath dose.wiki. dose.wiki leads the community sources: only its
 expert-reviewed articles contribute numbers, and a defect reported there is

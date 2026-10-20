@@ -16,6 +16,7 @@
     "molecule_shapes":           {"surface": "chemistry"},
 
     "dose_ranges":               {"surface": "doseDuration"},
+    "drug_community_dose_references": {"surface": "doseDuration", "note": "Published substance.wiki dose bands, context and evidence, independent of numeric dose ladders and calculators"},
     "durations":                 {"surface": "doseDuration"},
     "durations_of_action":       {"surface": "doseDuration"},
     "protocol_dosing":           {"surface": "doseDuration"},
@@ -86,6 +87,7 @@
   },
 
   "renders_as": {
+    "drug_community_dose_references.model_json": "WikiDoseReferenceRecord.model",
     "metabolism.conditional_combination_id": "MetabolismHit.conditionalCombinationID",
     "dose_ranges.threshold": "DoseRange.threshold",
     "dose_ranges.light_lower": "DoseRange.light",

@@ -67,6 +67,7 @@ struct SubstanceDetailLayout: View {
             )
         }
 
+        WikiDoseReferenceSection(records: model.wikiDoseReferences)
         WikiTimingSection(records: model.wikiTimings)
 
         // 4. Effects — the dose dial and what's reported at each band. The dose
