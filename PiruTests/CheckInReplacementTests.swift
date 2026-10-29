@@ -16,6 +16,9 @@ struct CheckInReplacementTests {
     @MainActor
     final class RecordingCenter: PendingNotificationCenter {
         var pending: [String: UNNotificationRequest] = [:]
+        /// When each pending request's add arrived, which its trigger's
+        /// interval counts from.
+        private var arrivals: [String: Date] = [:]
         var holdsAdds = false
         private var held: [CheckedContinuation<Void, Never>] = []
 
@@ -26,10 +29,12 @@ struct CheckInReplacementTests {
         }
 
         func add(_ request: UNNotificationRequest) async throws {
+            let arrival = Date.now
             if holdsAdds {
                 await withCheckedContinuation { held.append($0) }
             }
             pending[request.identifier] = request
+            arrivals[request.identifier] = arrival
         }
 
         /// Lets every held add finish, and stops holding new ones.
@@ -47,9 +52,14 @@ struct CheckInReplacementTests {
             Set(pending.keys.filter { $0.hasPrefix(NotificationType.checkIn.identifierPrefix + session.id.uuidString) })
         }
 
-        /// Seconds from now until `identifier` fires, as its trigger says.
-        func secondsUntil(_ identifier: String) -> TimeInterval? {
-            (pending[identifier]?.trigger as? UNTimeIntervalNotificationTrigger)?.timeInterval
+        /// When `identifier` fires: its add's arrival plus its trigger's
+        /// interval. An absolute date, so a test that reaches its assertion
+        /// late on a loaded main actor still compares like with like.
+        func fireDate(_ identifier: String) -> Date? {
+            guard let arrival = arrivals[identifier],
+                  let trigger = pending[identifier]?.trigger as? UNTimeIntervalNotificationTrigger
+            else { return nil }
+            return arrival.addingTimeInterval(trigger.timeInterval)
         }
     }
 
@@ -94,9 +104,9 @@ struct CheckInReplacementTests {
         Set(ordinals.map { CheckInScheduler.identifier(sessionID: session.id, ordinal: $0) })
     }
 
-    /// Seconds from now until `minutes` after the session's anchor.
-    private func secondsUntil(_ minutes: Int, after session: Session) -> TimeInterval {
-        CheckInScheduler.anchor(for: session).addingTimeInterval(Double(minutes) * 60).timeIntervalSinceNow
+    /// `minutes` after the session's anchor.
+    private func date(_ minutes: Int, after session: Session) -> Date {
+        CheckInScheduler.anchor(for: session).addingTimeInterval(Double(minutes) * 60)
     }
 
     private func sync(_ session: Session, _ center: RecordingCenter) -> Task<Void, Never> {
@@ -135,10 +145,10 @@ struct CheckInReplacementTests {
         #expect(center.identifiers(of: session) == identifiers(session, 0 ..< 2))
         // Ordinal 0 is the new +30 m prompt, not the hourly one the first
         // replacement was adding when it was overtaken.
-        let first0 = try #require(center.secondsUntil(CheckInScheduler.identifier(sessionID: session.id, ordinal: 0)))
-        #expect(abs(first0 - secondsUntil(30, after: session)) < 5)
-        let first1 = try #require(center.secondsUntil(CheckInScheduler.identifier(sessionID: session.id, ordinal: 1)))
-        #expect(abs(first1 - secondsUntil(90, after: session)) < 5)
+        let first0 = try #require(center.fireDate(CheckInScheduler.identifier(sessionID: session.id, ordinal: 0)))
+        #expect(abs(first0.timeIntervalSince(date(30, after: session))) < 5)
+        let first1 = try #require(center.fireDate(CheckInScheduler.identifier(sessionID: session.id, ordinal: 1)))
+        #expect(abs(first1.timeIntervalSince(date(90, after: session))) < 5)
     }
 
     @Test
@@ -255,8 +265,8 @@ struct CheckInReplacementTests {
         await sync(session, center).value
 
         #expect(center.identifiers(of: session) == identifiers(session, 0 ..< 1))
-        let only = try #require(center.secondsUntil(CheckInScheduler.identifier(sessionID: session.id, ordinal: 0)))
-        #expect(abs(only - secondsUntil(45, after: session)) < 5)
+        let only = try #require(center.fireDate(CheckInScheduler.identifier(sessionID: session.id, ordinal: 0)))
+        #expect(abs(only.timeIntervalSince(date(45, after: session))) < 5)
     }
 
     @Test
@@ -300,8 +310,8 @@ struct CheckInReplacementTests {
 
         #expect(center.identifiers(of: session) == identifiers(session, 0 ..< 3))
         for (ordinal, minutes) in [100, 200, 300].enumerated() {
-            let seconds = try #require(center.secondsUntil(CheckInScheduler.identifier(sessionID: session.id, ordinal: ordinal)))
-            #expect(abs(seconds - secondsUntil(minutes, after: session)) < 5)
+            let fires = try #require(center.fireDate(CheckInScheduler.identifier(sessionID: session.id, ordinal: ordinal)))
+            #expect(abs(fires.timeIntervalSince(date(minutes, after: session))) < 5)
         }
     }
 
