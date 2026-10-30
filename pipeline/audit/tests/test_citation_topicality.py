@@ -90,5 +90,64 @@ class TestBacklogLoader(unittest.TestCase):
         self.assertIsInstance(ct.load_backlog(), set)
 
 
+def _names(sid, canonical, *, classes=(), categories=(), families=()):
+    names = ct.SubstanceNames(substance_id=sid, canonical=canonical)
+    ct._add_name(names, canonical)
+    names.classes = set(classes)
+    names.categories = set(categories)
+    names.reference_families = set(families)
+    return names
+
+
+class TestMatcherHygiene(unittest.TestCase):
+    """G2: the index reads a name the way a paper writes it."""
+
+    def test_a_spaced_research_code_is_one_name(self):
+        self.assertIn("win35428", ct.build_index("Binding of [3H]WIN 35,428 to DAT").grams)
+
+    def test_a_mixed_case_abbreviation_counts_as_capitals(self):
+        index = ct.build_index("Effects of DiPT in rats")
+        self.assertIn("dipt", index.caps)
+        self.assertNotIn("effects", index.caps)
+
+
+class TestSeriesEvidence(unittest.TestCase):
+    """G1, G3, G4: when a paper that never names the substance is still about it."""
+
+    def setUp(self):
+        self.hordenine = _names(1, "Hordenine", classes={7})
+        self.amphetamine = _names(2, "Amphetamine", classes={7})
+        self.diazepam = _names(3, "Diazepam", categories={"benzodiazepine"})
+        self.morphine = _names(4, "Morphine", families={"muOpioid"})
+        self.subs = {n.substance_id: n for n in (self.hordenine, self.amphetamine)}
+        self.members = ct.class_members_of(self.subs)
+
+    def _why(self, names, text, target):
+        index = ct.build_index(text)
+        return ct._series_evidence(names, self.subs, self.members, index, target)
+
+    def test_a_class_sibling_with_the_target_is_a_series_source(self):
+        why = self._why(self.hordenine, "Amphetamine and TAAR1 activation", "TAAR1")
+        self.assertIn("Amphetamine", why)
+
+    def test_a_class_sibling_without_the_target_is_not(self):
+        self.assertIsNone(self._why(self.hordenine, "Amphetamine in rat plasma", None))
+
+    def test_a_collective_noun_with_the_target_is_a_series_source(self):
+        why = self._why(self.diazepam, "A series of benzodiazepines at GABA-A", "GABA-A")
+        self.assertIn("benzodiazepine", why)
+
+    def test_a_collective_noun_without_the_target_is_not(self):
+        self.assertIsNone(self._why(self.diazepam, "Benzodiazepines in older adults", None))
+
+    def test_a_reference_compound_in_a_paper_about_its_class(self):
+        why = self._why(self.morphine, "A standard assay for opiate narcotics", None)
+        self.assertIn("muOpioid", why)
+
+    def test_an_unrelated_paper_clears_nothing(self):
+        for names in (self.hordenine, self.diazepam, self.morphine):
+            self.assertIsNone(self._why(names, "Pathogenesis of Candida vulvovaginitis", "x"))
+
+
 if __name__ == "__main__":
     unittest.main()
