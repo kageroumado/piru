@@ -249,8 +249,7 @@ nonisolated extension ClassSignature {
             isDeclaredPanel: false,
             species: fallback.species,
             referenceAgonist: fallback.referenceAgonist,
-            citationURL: fallback.pmid.map { URL(string: "https://pubmed.ncbi.nlm.nih.gov/\($0)/") }
-                ?? fallback.doi.flatMap { $0.isEmpty ? nil : URL(string: "https://doi.org/\($0)") },
+            citationURL: RowCitation(doi: fallback.doi, pmid: fallback.pmid, url: fallback.url)?.link,
         )
     }
 }

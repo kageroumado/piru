@@ -105,29 +105,34 @@ extension SubstanceReadModel {
     /// `downstream_signalling`, `receptor_oligomers`, `neuroimaging`) would each
     /// add a UNION leg to say "pharmacology" that a `bindings` row has already
     /// said for the same source.
-    private static let facetTables: [(table: String, facet: SourceFacet)] = [
-        ("dose_ranges", .dose),
-        ("protocol_dosing", .dose),
-        ("durations", .duration),
-        ("durations_of_action", .duration),
-        ("effects", .effects),
-        ("reported_effects", .effects),
-        ("subjective_effects", .effects),
-        ("spectrum_levels", .effects),
-        ("descriptions", .overview),
-        ("mechanisms_summary", .pharmacology),
-        ("bindings", .pharmacology),
-        ("off_targets", .pharmacology),
-        ("functional_assays", .pharmacology),
-        ("half_lives", .pharmacokinetics),
-        ("pk_routes", .pharmacokinetics),
-        ("metabolism", .pharmacokinetics),
-        ("pharmacogenetics", .pharmacokinetics),
-        ("tolerance", .tolerance),
-        ("drug_interactions_pk", .interactions),
-        ("aliases", .identity),
-        ("tags", .identity),
-        ("categories", .identity),
+    ///
+    /// `hasCitation` marks a table with a `citation_id` column. A literature-layer
+    /// row (``AppSources/literatureSlug``) counts only when it carries a citation:
+    /// the ledger names that layer as a literature source, and an uncited row has
+    /// no literature behind it to credit.
+    private static let facetTables: [(table: String, facet: SourceFacet, hasCitation: Bool)] = [
+        ("dose_ranges", .dose, true),
+        ("protocol_dosing", .dose, true),
+        ("durations", .duration, true),
+        ("durations_of_action", .duration, true),
+        ("effects", .effects, true),
+        ("reported_effects", .effects, false),
+        ("subjective_effects", .effects, true),
+        ("spectrum_levels", .effects, false),
+        ("descriptions", .overview, true),
+        ("mechanisms_summary", .pharmacology, true),
+        ("bindings", .pharmacology, true),
+        ("off_targets", .pharmacology, true),
+        ("functional_assays", .pharmacology, true),
+        ("half_lives", .pharmacokinetics, true),
+        ("pk_routes", .pharmacokinetics, true),
+        ("metabolism", .pharmacokinetics, true),
+        ("pharmacogenetics", .pharmacokinetics, true),
+        ("tolerance", .tolerance, true),
+        ("drug_interactions_pk", .interactions, true),
+        ("aliases", .identity, false),
+        ("tags", .identity, false),
+        ("categories", .identity, false),
     ]
 
     /// The tables whose `citation_id` can reach ``Substance/references`` — the
@@ -141,6 +146,7 @@ extension SubstanceReadModel {
         ("durations", .duration),
         ("half_lives", .pharmacokinetics),
         ("mechanisms_summary", .pharmacology),
+        ("descriptions", .overview),
         // Added once these tables could carry a citation at all. They ship
         // 2,700 rows of label and guideline prose, and until the column existed
         // they were the only substantive claims in the app whose source a
@@ -152,8 +158,17 @@ extension SubstanceReadModel {
     /// from a `.task`, not from a view `body`.
     func sourceContributions(substanceID: Int64) -> SourceContributions {
         let enabledList = enabledSourceListSQL
+        let literature = "(SELECT id FROM sources WHERE slug = '\(AppSources.literatureSlug)')"
         let baseSourceLegs = Self.facetTables
-            .map { "SELECT source_id AS sid, '\($0.facet.rawValue)' AS facet FROM \($0.table) WHERE substance_id = :id" }
+            .map { leg in
+                let attributed = leg.hasCitation
+                    ? "(citation_id IS NOT NULL OR source_id IS NOT \(literature))"
+                    : "source_id IS NOT \(literature)"
+                return """
+                SELECT source_id AS sid, '\(leg.facet.rawValue)' AS facet FROM \(leg.table) \
+                WHERE substance_id = :id AND \(attributed)
+                """
+            }
             .joined(separator: " UNION ALL ")
         let citationLegs = Self.citationFacetTables
             .map {

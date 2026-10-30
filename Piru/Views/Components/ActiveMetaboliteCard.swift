@@ -48,7 +48,7 @@ struct ActiveMetaboliteCard: View {
             chips
             sourceLine(
                 slug: metabolite.sourceSlug, detail: nil,
-                doi: metabolite.doi, pmid: metabolite.pmid, accent: accent,
+                citation: metabolite.citation, accent: accent,
             )
         }
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -121,7 +121,7 @@ struct GroupedReceptorLiterature: View {
 
     @ViewBuilder
     private func linkCell(_ hit: BindingHit) -> some View {
-        if let url = citationURL(doi: hit.doi, pmid: hit.pmid) {
+        if let url = hit.citation?.link {
             CitationLink(url: url)
         } else {
             Color.clear.frame(width: 0, height: 0)
@@ -253,11 +253,15 @@ func pharmaSourceName(_ slug: String) -> String {
     AppSources.slugToName[slug] ?? SubstanceStore.shared.sourceDisplayName(forSlug: slug)
 }
 
-/// The deep link for a row's citation, preferring PMID over DOI.
-func citationURL(doi: String?, pmid: Int?) -> URL? {
-    if let pmid { return URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") }
-    if let doi, !doi.isEmpty { return URL(string: "https://doi.org/\(doi)") }
-    return nil
+/// The name a row's source line shows, or `nil` for none.
+///
+/// A literature row (`peer-review-primary`) is named for the citation it carries — "PubMed" only
+/// when the link opens PubMed — and an uncited one names nothing: its slug says the row was
+/// researched, not where, and naming a literature database there would attribute the row to a
+/// source it does not have. Every other slug is itself the attribution and keeps its name.
+func rowSourceName(slug: String, citation: RowCitation?) -> String? {
+    if slug == AppSources.literatureSlug { return citation?.linkName }
+    return pharmaSourceName(slug)
 }
 
 /// A citation `Link` rendered as a lone ↗ glyph — the receptor-literature rows and the species-cite
@@ -281,12 +285,11 @@ struct CitationLink: View {
     }
 }
 
-/// The source name rendered as its own citation link (name + trailing ↗) when a DOI/PMID exists, else
-/// plain text. Folds the old "PubMed … (spacer) … DOI↗" split into one tappable element so the name and
-/// its link stop sitting at opposite ends of the row.
+/// The source name rendered as its own citation link (name + trailing ↗) when the row's citation has
+/// a link, else plain text. One tappable element, so the name and its link sit together.
 @ViewBuilder
-func sourceNameLink(_ name: String, doi: String?, pmid: Int?, accent: Color) -> some View {
-    if let url = citationURL(doi: doi, pmid: pmid) {
+func sourceNameLink(_ name: String, citation: RowCitation?, accent: Color) -> some View {
+    if let url = citation?.link {
         Link(destination: url) {
             HStack(spacing: Spacing.xxs) {
                 Text(name).font(.caption2)
@@ -332,7 +335,7 @@ struct PKRouteRow: View {
                     }
                 }
             }
-            sourceLine(slug: hit.sourceSlug, detail: hit.demographics, doi: hit.doi, pmid: hit.pmid, accent: accent)
+            sourceLine(slug: hit.sourceSlug, detail: hit.demographics, citation: hit.citation, accent: accent)
         }
     }
 
@@ -462,7 +465,7 @@ struct MetabolismRow: View {
                         .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
                 }
             }
-            sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
+            sourceLine(slug: hit.sourceSlug, detail: nil, citation: hit.citation, accent: accent)
         }
     }
 
@@ -593,7 +596,7 @@ struct MetabolismRow: View {
                 .font(.caption2.weight(.semibold))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
-        } else if let url = citationURL(doi: hit.doi, pmid: hit.pmid) {
+        } else if let url = hit.citation?.link {
             CitationLink(url: url)
         }
     }
@@ -614,25 +617,33 @@ struct MetabolismRow: View {
                         .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
                 }
             }
-            sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
+            sourceLine(slug: hit.sourceSlug, detail: nil, citation: hit.citation, accent: accent)
         }
     }
 }
 
-/// Shared source/citation footer for the PK + metabolism rows — the friendly source name *is* the
+/// Shared source/citation footer for the pharmacology rows — the friendly source name *is* the
 /// citation link (name + ↗), followed by an optional italic detail (PK demographics). Left-aligned so
 /// the source and its link read as one element instead of sitting at opposite ends of the row.
-func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?, accent: Color) -> some View {
-    HStack(spacing: Spacing.sm) {
-        Image(systemName: "doc.text.magnifyingglass").font(.caption2).accessibilityHidden(true)
-        sourceNameLink(pharmaSourceName(slug), doi: doi, pmid: pmid, accent: accent)
-        if let detail, !detail.isEmpty {
-            Middot().font(.caption2)
-            Text(detail).font(.caption2).italic().lineLimit(1)
+/// Draws nothing when ``rowSourceName(slug:citation:)`` has no name and there is no detail.
+@ViewBuilder
+func sourceLine(slug: String, detail: String?, citation: RowCitation?, accent: Color) -> some View {
+    let name = rowSourceName(slug: slug, citation: citation)
+    let detail = detail.flatMap { $0.isEmpty ? nil : $0 }
+    if name != nil || detail != nil {
+        HStack(spacing: Spacing.sm) {
+            if let name {
+                Image(systemName: "doc.text.magnifyingglass").font(.caption2).accessibilityHidden(true)
+                sourceNameLink(name, citation: citation, accent: accent)
+            }
+            if let detail {
+                if name != nil { Middot().font(.caption2) }
+                Text(detail).font(.caption2).italic().lineLimit(1)
+            }
+            Spacer()
         }
-        Spacer()
+        .foregroundStyle(Theme.secondaryLabel)
     }
-    .foregroundStyle(Theme.secondaryLabel)
 }
 
 /// Compact minutes→human formatter for PK timings: sub-hour stays in minutes,

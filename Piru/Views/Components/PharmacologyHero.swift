@@ -52,7 +52,7 @@ struct PharmacologyHero {
                 effect: nil,
                 tier: ReceptorStrength.tier(kiNm: best.kiNm, ec50Nm: best.ec50Nm, ic50Nm: best.ic50Nm) ?? 1,
                 value: concText(best), species: best.species,
-                citation: citationURL(doi: best.doi, pmid: best.pmid),
+                citation: best.citation?.link,
             ))
         }
         guard let mu = rows.first(where: { $0.id == "mu" }) else { return nil }
@@ -85,7 +85,7 @@ struct PharmacologyHero {
                 id: s.token, label: s.label, action: nil, effect: s.effect,
                 tier: ReceptorStrength.tier(kiNm: best.kiNm, ec50Nm: best.ec50Nm, ic50Nm: best.ic50Nm) ?? 1,
                 value: concText(best), species: best.species,
-                citation: citationURL(doi: best.doi, pmid: best.pmid),
+                citation: best.citation?.link,
             ))
         }
         guard !rows.isEmpty else { return nil }
@@ -125,7 +125,7 @@ struct PharmacologyHero {
             return PotencyBar(
                 id: label, label: label, value: concText(hit), species: hit.species,
                 fraction: max(0.14, (conc(hit) ?? maxConc) / maxConc),
-                citation: citationURL(doi: hit.doi, pmid: hit.pmid),
+                citation: hit.citation?.link,
             )
         }
         // consume any other NMDA rows we didn't surface so they don't show up in the footnote

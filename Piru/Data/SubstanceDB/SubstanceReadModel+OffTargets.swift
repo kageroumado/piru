@@ -24,6 +24,8 @@ nonisolated struct OffTargetHit: Identifiable, Hashable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
 }
 
 /// How much the off-target action actually matters clinically. Authored per
@@ -69,7 +71,7 @@ extension SubstanceReadModel {
             return try db.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT o.id, o.target, o.ki_or_ic50_nm, o.concern_level, o.clinical_consequence,
-                           src.slug AS source_slug, c.doi, c.pmid
+                           src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM off_targets o
                       JOIN sources src ON src.id = o.source_id
                       LEFT JOIN citations c ON c.id = o.citation_id
@@ -96,6 +98,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
+                        url: row["url"],
                     )
                 }
             }

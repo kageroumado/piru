@@ -18,6 +18,8 @@ nonisolated struct PharmacogeneticHit: Identifiable, Hashable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
 }
 
 /// What happens after the receptor binds, as the chain it is.
@@ -32,6 +34,8 @@ nonisolated struct SignallingCascade: Hashable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
 }
 
 /// One `interaction_rules` row: a class pair, how bad, and why.
@@ -71,6 +75,8 @@ nonisolated struct ClassContext: Hashable {
         let title: String?
         let doi: String?
         let pmid: Int?
+        /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+        var url: String?
     }
 }
 
@@ -108,6 +114,8 @@ nonisolated struct ConcentrationThreshold: Identifiable, Hashable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
     /// The dose that reaches `threshold`, when the conversion applies.
     /// See ``DoseEquivalent`` for when it does not.
     let doseEquivalent: DoseAnchor?
@@ -159,6 +167,8 @@ nonisolated struct TargetEvidence: Identifiable, Hashable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
 }
 
 /// The deep-pharmacology read models and their queries: the genes that change
@@ -188,7 +198,7 @@ extension SubstanceReadModel {
             return try db.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT p.id, p.gene, p.phenotype_effects,
-                           src.slug AS source_slug, c.doi, c.pmid
+                           src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM pharmacogenetics p
                       JOIN sources src ON src.id = p.source_id
                       LEFT JOIN citations c ON c.id = p.citation_id
@@ -212,6 +222,7 @@ extension SubstanceReadModel {
                             sourceSlug: existing.sourceSlug,
                             doi: existing.doi,
                             pmid: existing.pmid,
+                            url: existing.url,
                         )
                         continue
                     }
@@ -223,6 +234,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
+                        url: row["url"],
                     )
                 }
                 return order.compactMap { byFinding[$0] }.sorted { $0.gene < $1.gene }
@@ -248,7 +260,7 @@ extension SubstanceReadModel {
         do {
             return try db.read { db in
                 guard let row = try Row.fetchOne(db, sql: """
-                    SELECT d.summary, src.slug AS source_slug, c.doi, c.pmid
+                    SELECT d.summary, src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM downstream_signalling d
                       JOIN sources src ON src.id = d.source_id
                       LEFT JOIN citations c ON c.id = d.citation_id
@@ -261,6 +273,7 @@ extension SubstanceReadModel {
                     sourceSlug: row["source_slug"],
                     doi: row["doi"],
                     pmid: (row["pmid"] as Int64?).map(Int.init),
+                    url: row["url"],
                 )
             }
         } catch {
@@ -453,7 +466,7 @@ extension SubstanceReadModel {
                 """, arguments: ["class": classID, "exclude": substanceID])
 
                 let references = try Row.fetchAll(db, sql: """
-                    SELECT ci.id, ci.title, ci.doi, ci.pmid
+                    SELECT ci.id, ci.title, ci.doi, ci.pmid, ci.url
                       FROM class_citations cc
                       JOIN citations ci ON ci.id = cc.citation_id
                      WHERE cc.class_context_id = ?
@@ -464,6 +477,7 @@ extension SubstanceReadModel {
                         title: $0["title"],
                         doi: $0["doi"],
                         pmid: ($0["pmid"] as Int64?).map(Int.init),
+                        url: $0["url"],
                     )
                 }
 
@@ -559,7 +573,7 @@ extension SubstanceReadModel {
 
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT e.id, e.effect, e.concentration_unit, e.threshold, e.peak_effect,
-                           src.slug AS source_slug, c.doi, c.pmid
+                           src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM concentration_effects e
                       JOIN sources src ON src.id = e.source_id
                       LEFT JOIN citations c ON c.id = e.citation_id
@@ -609,6 +623,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
+                        url: row["url"],
                         doseEquivalent: candidates[id].flatMap { mg in
                             route.map {
                                 .init(
@@ -640,7 +655,7 @@ extension SubstanceReadModel {
                 // and this query returned nothing at all until it was one.
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT 0 AS sort_rank, 'imaging' AS kind, n.id AS row_id, n.modality AS subject,
-                           n.finding AS finding, src.slug AS source_slug, c.doi, c.pmid
+                           n.finding AS finding, src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM neuroimaging n
                       JOIN sources src ON src.id = n.source_id
                       LEFT JOIN citations c ON c.id = n.citation_id
@@ -648,7 +663,7 @@ extension SubstanceReadModel {
                     UNION ALL
                     SELECT 1, 'bias', b.id, b.target,
                            COALESCE(b.interpretation, b.pathways_compared),
-                           src.slug, c.doi, c.pmid
+                           src.slug, c.doi, c.pmid, c.url
                       FROM biased_agonism b
                       JOIN sources src ON src.id = b.source_id
                       LEFT JOIN citations c ON c.id = b.citation_id
@@ -656,7 +671,7 @@ extension SubstanceReadModel {
                     UNION ALL
                     SELECT 2, 'complex', o.id, o.complex_description,
                            COALESCE(o.functional_consequence, o.evidence_type),
-                           src.slug, c.doi, c.pmid
+                           src.slug, c.doi, c.pmid, c.url
                       FROM receptor_oligomers o
                       JOIN sources src ON src.id = o.source_id
                       LEFT JOIN citations c ON c.id = o.citation_id
@@ -676,6 +691,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
+                        url: row["url"],
                     )
                 }
             }
