@@ -6085,6 +6085,12 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     "ibogaine": {"tabernanthe iboga", "t. iboga root bark"},
     # FreeOD's 2-MMSB article is titled 鼠尾草素乙, which is salvinorin B itself.
     "2-methoxymethyl-salvinorin b": {"鼠尾草素乙"},
+    # PiHKAL compounds with rows of their own, listed by other sources as names
+    # of a neighbor: MDPH is 3,4-methylenedioxyphentermine, Ψ-2C-T-4 the
+    # 2,6-dimethoxy isomer of 2C-T-4, and TMPEA (#168) the 2,4,5 isomer of
+    # mescaline.
+    "mdphp": {"mdph"},
+    "2c-t-4": {"psi-2c-t-4"},
     # Lean is promethazine-codeine syrup and has its own row, dosed in mL.
     "codeine": {"lean", "purple drank"},
     # Same tangle, methoxy edition: 2-MeO-ketamine is the ortho compound
@@ -6130,6 +6136,7 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     },
     # Plant / preparation aliased onto the active MOLECULE (each has its own entry).
     "mescaline": {
+        "tmpea",
         "peyote",
         "san pedro",
         "san-pedro",
