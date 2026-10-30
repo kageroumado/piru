@@ -122,6 +122,21 @@
   },
   {
    "table": "bindings",
+   "substance": "Ketamine",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "σ2 (racemate)",
+    "action": "modulator",
+    "species": "rat"
+   },
+   "ref": "doi:10.1371/journal.pone.0059334",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ketamine) and σ2 (racemate) in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
    "substance": "Mesyl Sal B",
    "source": "peer-review-primary",
    "match": {
@@ -618,6 +633,17 @@
   },
   {
    "table": "downstream_signalling",
+   "substance": "Bupropion",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:28220701",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (bupropion) and NET in title/abstract",
+   "claim_sha1": "413439692d9c"
+  },
+  {
+   "table": "downstream_signalling",
    "substance": "Butorphanol",
    "source": "peer-review-primary",
    "match": {},
@@ -772,6 +798,17 @@
   },
   {
    "table": "downstream_signalling",
+   "substance": "DIPT",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:27216487",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dipt) and 5-HT2A in title/abstract",
+   "claim_sha1": "0fee44d66538"
+  },
+  {
+   "table": "downstream_signalling",
    "substance": "DMT",
    "source": "peer-review-primary",
    "match": {},
@@ -904,6 +941,17 @@
   },
   {
    "table": "downstream_signalling",
+   "substance": "Hexedrone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/acschemneuro.2c00772",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (hexedrone) and DAT in title/abstract",
+   "claim_sha1": "2849d1f45845"
+  },
+  {
+   "table": "downstream_signalling",
    "substance": "Hordenine",
    "source": "peer-review-primary",
    "match": {},
@@ -959,6 +1007,17 @@
   },
   {
    "table": "downstream_signalling",
+   "substance": "Isopropylphenidate",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1089/cap.2013.0074",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (iph) and DAT in title/abstract",
+   "claim_sha1": "ada5320b60f7"
+  },
+  {
+   "table": "downstream_signalling",
    "substance": "Isotonitazene",
    "source": "peer-review-primary",
    "match": {},
@@ -967,6 +1026,17 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (isotonitazene) and MOR in title/abstract",
    "claim_sha1": "dd9eaedf0ba5"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "JHW-007",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:20855444",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (jhw007) and DAT in title/abstract",
+   "claim_sha1": "340896a7b479"
   },
   {
    "table": "downstream_signalling",
@@ -1033,6 +1103,17 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (lorazepam) and GABA-A (non-selective benzodiazepine site) in a full-text paragraph that also names the substance",
    "claim_sha1": "522b78268bf6"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "LR-1111",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8511716",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (lr1111) and DAT in title/abstract",
+   "claim_sha1": "5e05661513b2"
   },
   {
    "table": "downstream_signalling",
@@ -1539,6 +1620,17 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (viloxazine) and NET in title/abstract",
    "claim_sha1": "60c8ab22bb1f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "WIN-35428",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8878059",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (win35428) and DAT in title/abstract",
+   "claim_sha1": "43d31aaeb646"
   },
   {
    "table": "drug_interactions_pk",

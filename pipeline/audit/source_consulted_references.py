@@ -140,8 +140,11 @@ class Library:
             key = f"doi:{doi}" if doi else f"pmid:{pmid}"
             ident = doi or str(pmid)
             title = ((self.verify.get(key) or {}).get("title")) or ""
-            abstract = self.abstracts.get(str(pmid)) if pmid else ""
-            abstract = abstract or self.abstracts.get(f"doi:{doi}", "") if doi else abstract
+            abstract = ""
+            if pmid:
+                abstract = self.abstracts.get(f"pmid:{pmid}") or self.abstracts.get(str(pmid)) or ""
+            if doi and not abstract:
+                abstract = self.abstracts.get(f"doi:{doi}", "")
             meta = self.papers.meta(ident)
             title = title or ((meta or {}).get("title") or "")
             full = self.papers.text(ident)
@@ -311,7 +314,9 @@ def main() -> int:
         if target not in targets_by_sid[sid]:
             targets_by_sid[sid].append(target)
 
-    entries = [e for e in row_citations.load() if e.get("via") != VIA]
+    # Rows this pass cited before are cited in the DB now, so they are not
+    # proposed again; their entries are kept as they are.
+    entries = row_citations.load()
     proposed: list[dict] = []
     tally: dict[str, Counter] = defaultdict(Counter)
     today = date.today().isoformat()
