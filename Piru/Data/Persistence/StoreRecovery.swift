@@ -375,11 +375,29 @@ nonisolated enum StoreRecovery {
 
     // MARK: - Helpers
 
-    /// The user-authored models whose rows decide whether a store holds the
-    /// user's data. DoseEntry is the journal — the data "No Entries" refers to —
-    /// plus the other user-authored models. Colors are cosmetic but counted too.
+    /// The models whose rows decide whether a store holds the user's data:
+    /// every model in ``PiruSchema/models`` except ``derivedModels``. A store
+    /// with any one of these rows — a session, a stock item, a routine, a lab
+    /// value, a custom substance, a profile — is never moved aside for an older
+    /// store, and a model added to the schema counts until it is listed as derived.
     static var userDataModels: [any PersistentModel.Type] {
-        [DoseEntry.self, DailyDoseItem.self, FavoriteSubstance.self, SubstanceColor.self]
+        let derived = Set(derivedModels.map { ObjectIdentifier($0) })
+        return PiruSchema.models.filter { !derived.contains(ObjectIdentifier($0)) }
+    }
+
+    /// Models the app writes into a store with no user action, so a row of
+    /// them is no evidence the store holds the user's data. Counting one would
+    /// make a freshly created store look data-bearing and block recovery from
+    /// the store that really holds the journal.
+    ///
+    /// - ``ToleranceState``: a cache of the dose-log replay, rewritten on launch.
+    /// - ``NotificationPreferences``: seeded on every configure when the store
+    ///   has none.
+    ///
+    /// ``SubstanceColor`` counts: a row is minted only for a substance the user
+    /// logged, stocked, scheduled or imported, or picked a color for.
+    static var derivedModels: [any PersistentModel.Type] {
+        [ToleranceState.self, NotificationPreferences.self]
     }
 
     /// The SQLite tables behind ``userDataModels``. Core Data stores an entity
@@ -395,10 +413,10 @@ nonisolated enum StoreRecovery {
     /// Launch runs inside `App.init`, which a prewarmed or background launch
     /// can be suspended in at any moment, and the canonical store lives in the
     /// shared App Group container, where a SQLite lock held into suspension is
-    /// a `0xdead10cc` kill. ``userDataCount(at:)`` answers by opening a
-    /// throwaway `ModelContainer` read-write (so it can migrate) and releasing
-    /// it, which checkpoints the WAL into the store file: a write, in the one
-    /// stretch of the launch that the system may cut short. The plain-SQL count
+    /// a `0xdead10cc` kill. ``userDataCount(at:)`` answers by building a
+    /// throwaway `ModelContainer` — a full Core Data stack, and a scratch copy
+    /// of the store when it needs migrating — in the one stretch of the launch
+    /// that the system may cut short. The plain-SQL count
     /// on a read-only connection (``StoreHealth/rowCount(at:tables:)``) writes
     /// nothing and is exact whenever the file is a healthy Core Data store, so
     /// the SwiftData count runs only when it cannot answer.
@@ -413,7 +431,8 @@ nonisolated enum StoreRecovery {
     ///
     /// Two strategies, cheapest first:
     /// 1. Read-only open under the *current* schema (works once the store is at
-    ///    the latest version — the common, fast path).
+    ///    the latest version — the common, fast path). Read-only, so the probe
+    ///    takes no write lock and never checkpoints the WAL into `url`.
     /// 2. A migrating copy: clone the store to scratch and open it with automatic
     ///    lightweight migration (which a read-only probe cannot do), then count.
     ///    This absorbs *any* older or intermediate on-disk shape — the case that
@@ -458,11 +477,18 @@ nonisolated enum StoreRecovery {
         }
     }
 
-    private static func countUserRows(at url: URL, allowsSave: Bool = true) -> Int? {
+    /// The configuration a row-count probe opens `url` with: read-only unless
+    /// `allowsSave`, which only the scratch copy in
+    /// ``countViaMigratingCopy(at:)`` passes.
+    static func probeConfiguration(at url: URL, allowsSave: Bool = false) -> ModelConfiguration {
+        // .none — never let the iCloud entitlement pull this probe into CloudKit
+        // setup (the schema is CloudKit-incompatible). See openContainer(at:).
+        ModelConfiguration(url: url, allowsSave: allowsSave, cloudKitDatabase: .none)
+    }
+
+    private static func countUserRows(at url: URL, allowsSave: Bool = false) -> Int? {
         do {
-            // .none — never let the iCloud entitlement pull this probe into CloudKit
-            // setup (the schema is CloudKit-incompatible). See openContainer(at:).
-            let config = ModelConfiguration(url: url, allowsSave: allowsSave, cloudKitDatabase: .none)
+            let config = probeConfiguration(at: url, allowsSave: allowsSave)
             let container = try ModelContainer(for: Schema(PiruSchema.models), configurations: config)
             let context = ModelContext(container)
             return userDataModels.reduce(0) { $0 + rowCount(of: $1, in: context) }
