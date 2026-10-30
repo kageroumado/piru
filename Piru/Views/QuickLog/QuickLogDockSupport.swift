@@ -32,6 +32,9 @@ final class DockDetentBookkeeping {
     var generation = 0
     /// Work queued behind the sheet's next settle, across supersession.
     var pendingSettled = PendingSettleQueue()
+    /// Invalidates a pending fit check when a newer trigger re-arms it — see
+    /// `QuickLogDock.scheduleFitCheck()`.
+    var fitCheckGeneration = 0
     /// Logical height the in-flight ramp is heading to — marks "a ramp owns
     /// the sheet right now" and anchors chained retargets.
     var rampLogicalTarget: CGFloat?
