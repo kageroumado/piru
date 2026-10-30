@@ -65,6 +65,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from collections import defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -1174,6 +1175,20 @@ def save_abstracts(path: Path, abstracts: dict[str, str]) -> None:
     path.write_text(json.dumps(abstracts, indent=1, sort_keys=True) + "\n")
 
 
+def abstract_persister(
+    path: Path, abstracts: dict[str, str], *, enabled: bool
+) -> Callable[[], None]:
+    """A callable that writes `abstracts` to `path`, or does nothing when the
+    run must not touch the tracked cache. The fetch loops call it after every
+    batch, so it reads the dict as it is at call time."""
+
+    def persist() -> None:
+        if enabled:
+            save_abstracts(path, abstracts)
+
+    return persist
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db", type=Path, default=DEFAULT_DB, help="path to the built SQLite")
@@ -1260,11 +1275,11 @@ def main() -> int:
     meta = load_cache()  # data/sources/citation-verify-cache.json — read only
     abstracts = load_abstracts(args.abstract_cache)
 
-    def persist_abstracts() -> None:
-        # The gate passes --no-write-cache so a pre-push run never dirties the
-        # tracked cache; a plain (enriching) run persists as before.
-        if not args.no_write_cache:
-            persist_abstracts()
+    # The gate passes --no-write-cache so a pre-push run never dirties the
+    # tracked cache; a plain (enriching) run persists.
+    persist_abstracts = abstract_persister(
+        args.abstract_cache, abstracts, enabled=not args.no_write_cache
+    )
 
     wanted = sorted({cid for cid, _ in attachments})
     if args.limit:
