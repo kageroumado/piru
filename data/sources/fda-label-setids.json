@@ -18,9 +18,26 @@
   "application": "NDA021487",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Akatinol",
+   "Axura",
+   "D-145",
+   "DRG-0267",
+   "Ebixa",
+   "Memantina",
+   "Memantine",
+   "Memantinum",
+   "Memaxa",
+   "Namenda",
+   "Namenda XR",
+   "Namzaric",
+   "Namzaric (with donepezil",
+   "both extended-release)",
+   "美金刚"
+  ],
   "names": [
-   "memantine",
-   "namenda"
+   "Memantine",
+   "Namenda"
   ],
   "setid": "74ce605d-b493-4b95-9d59-9253f81f4e20",
   "title": "NAMENDA (MEMANTINE HYDROCHLORIDE) TABLET [REBEL DISTRIBUTORS CORP]",
@@ -50,9 +67,22 @@
   "application": "NDA019462",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "7 Select Acid Controller",
+   "Famotidine",
+   "Good Neighbor Pharmacy Acid Reducer",
+   "Good Sense Acid Reducer",
+   "Pepcid",
+   "Pepcid AC",
+   "Signature Care Acid Controller",
+   "Sunmark Dual Action Complete",
+   "Up And Up Famotidine",
+   "Zantac 360",
+   "famotidine/magnesium/calcium"
+  ],
   "names": [
-   "famotidine",
-   "pepcid"
+   "Famotidine",
+   "Pepcid"
   ],
   "setid": "a06502d9-7903-4f37-833e-e5763d502def",
   "title": "PEPCID (FAMOTIDINE) TABLET, FILM COATED [BAUSCH HEALTH US LLC]",
@@ -72,9 +102,18 @@
   "application": "NDA020859",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Andante",
+   "Sonata",
+   "Starnoc",
+   "Zaleplon",
+   "扎来普隆",
+   "扎来普隆（Zaleplon）"
+  ],
   "names": [
-   "sonata",
-   "zaleplon"
+   "扎来普隆（Zaleplon）",
+   "Zaleplon",
+   "Sonata"
   ],
   "setid": "43ac81cb-1e3f-4d44-86bd-13db2721d060",
   "title": "SONATA (ZALEPLON) CAPSULE [PHYSICIANS TOTAL CARE, INC.]",
@@ -112,9 +151,30 @@
   "application": "NDA019908",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Ambien",
+   "Ambien CR",
+   "Edluar",
+   "Hypnogen",
+   "Intermezzo",
+   "Ivedal",
+   "Nimadorm",
+   "Stilnoct",
+   "Stilnox",
+   "Stilnox CR",
+   "Zolpidem",
+   "Zolpidem Tartrate Sublingual",
+   "Zolpimist",
+   "Zolsana",
+   "Zoltis",
+   "唑吡坦",
+   "唑吡坦（Zolpidem）",
+   "思诺思（Stilnox，原研药商品名）"
+  ],
   "names": [
-   "ambien",
-   "zolpidem"
+   "唑吡坦（Zolpidem）",
+   "Zolpidem",
+   "Ambien"
   ],
   "setid": "747949c5-2c91-4909-8a07-71b6826f8e97",
   "title": "AMBIEN (ZOLPIDEM TARTRATE) TABLET, FILM COATED [COSETTE PHARMACEUTICALS, INC.]",
@@ -129,9 +189,16 @@
   "application": "NDA020272",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Risperdal",
+   "Risperdal Consta",
+   "Risperidone",
+   "利培酮",
+   "理思必妥"
+  ],
   "names": [
-   "risperdal",
-   "risperidone"
+   "Risperidone",
+   "Risperdal"
   ],
   "setid": "7e117c7e-02fc-4343-92a1-230061dfc5e0",
   "title": "RISPERDAL (RISPERIDONE) TABLET RISPERDAL M-TAB (RISPERIDONE) TABLET, ORALLY DISINTEGRATING RISPERDAL (RISPERIDONE) SOLUTION [JANSSEN PHARMACEUTICALS, INC.]",
@@ -141,10 +208,14 @@
   "application": "NDA020825",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Geodon",
+   "Ziprasidone",
+   "Ziprasidone mesylate"
+  ],
   "names": [
-   "geodon",
-   "ziprasidone",
-   "ziprasidonemesylate"
+   "Ziprasidone",
+   "Geodon"
   ],
   "setid": "a2b4cc65-6a6d-49c4-adfc-a4458562a167",
   "title": "GEODON (ZIPRASIDONE) CAPSULE GEODON (ZIPRASIDONE MESYLATE) INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION [VIATRIS SPECIALTY LLC]",
@@ -154,9 +225,19 @@
   "application": "NDA021035",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Elepsia",
+   "Keppra",
+   "Levetiracetam",
+   "Levetiracetam Extended-release",
+   "Roweepra",
+   "Spritam",
+   "UCB-LO59",
+   "etiracetam S-enantiomer"
+  ],
   "names": [
-   "keppra",
-   "levetiracetam"
+   "Levetiracetam",
+   "Keppra"
   ],
   "setid": "3ca9df05-a506-4ec8-a4fe-320f1219ab21",
   "title": "KEPPRA (LEVETIRACETAM) TABLET, FILM COATED KEPPRA (LEVETIRACETAM) SOLUTION [UCB, INC.]",
@@ -166,9 +247,15 @@
   "application": "NDA021928",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "CP-526555",
+   "Champix",
+   "Chantix",
+   "Varenicline"
+  ],
   "names": [
-   "chantix",
-   "varenicline"
+   "Varenicline",
+   "Chantix"
   ],
   "setid": "0fefd790-b526-4f2f-8c83-5f39f7306556",
   "title": "CHANTIX (VARENICLINE TARTRATE) KIT [PROFICIENT RX LP]",
@@ -178,9 +265,14 @@
   "application": "NDA022117",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Asenapine",
+   "Saphris",
+   "Secuado"
+  ],
   "names": [
-   "asenapine",
-   "saphris"
+   "Asenapine",
+   "Saphris"
   ],
   "setid": "03c696e9-0e6b-4e5c-be0a-41416f8019be",
   "title": "SAPHRIS (ASENAPINE MALEATE) TABLET [STAT RX USA LLC]",
@@ -190,9 +282,13 @@
   "application": "NDA022192",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Fanapt",
+   "Iloperidone"
+  ],
   "names": [
-   "fanapt",
-   "iloperidone"
+   "Iloperidone",
+   "Fanapt"
   ],
   "setid": "33f60b40-3fca-11de-8f56-0002a5d5c51b",
   "title": "FANAPT (ILOPERIDONE) TABLET FANAPT (ILOPERIDONE) KIT [VANDA PHARMACEUTICALS INC.]",
@@ -212,10 +308,28 @@
   "application": "NDA021875",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "2-(diphenylmethylsulfinyl)acetamide",
+   "Alertec",
+   "Armodafinil",
+   "Artvigil",
+   "Modafinil",
+   "Modalert",
+   "Modavigil",
+   "Modiodal",
+   "Modvigil",
+   "Neoresotyl",
+   "Nuvigil",
+   "Provigil",
+   "R-Modawake",
+   "Waklert",
+   "莫达非尼",
+   "莫达非尼（Modafinil）",
+   "阿莫达非尼"
+  ],
   "names": [
-   "armodafinil",
-   "modafinil",
-   "nuvigil"
+   "Armodafinil",
+   "Nuvigil"
   ],
   "setid": "10f918f7-4782-470e-a50e-35c7c66bfd79",
   "title": "NUVIGIL (ARMODAFINIL) TABLET [REBEL DISTRIBUTORS CORP]",
@@ -225,9 +339,15 @@
   "application": "NDA022036",
   "checked": "2026-10-30",
   "chosen_by": "brand label",
+  "citing": [
+   "Adapin",
+   "Doxepin",
+   "Silenor",
+   "Sinequan"
+  ],
   "names": [
-   "doxepin",
-   "silenor"
+   "Doxepin",
+   "Silenor"
   ],
   "setid": "1bec1223-5239-4eb6-a9e8-62444106d2c0",
   "title": "SILENOR (DOXEPIN HYDROCHLORIDE) TABLET [CURRAX PHARMACEUTICALS LLC]",
@@ -247,10 +367,39 @@
   "application": "NDA018276",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
-  "names": [
-   "alprazolam",
+  "citing": [
+   "Alprax",
+   "Alprazolam",
+   "Alprazolamum",
+   "Bars",
+   "Cassadan",
+   "Footballs",
+   "Handlebars",
+   "Kalma",
+   "Ksalol",
+   "Niravam",
+   "Tafil",
+   "Trankimazin",
+   "Xanax",
+   "Xanbars",
+   "Xannies",
+   "Xans",
+   "Z-bars",
+   "Zannies",
+   "Zopax",
    "prazolam",
-   "xanax"
+   "贊安諾",
+   "赞安诺",
+   "赞安诺（Xanax）",
+   "阿普唑仑",
+   "阿普唑仑（Alprazolam）",
+   "阿普唑侖"
+  ],
+  "names": [
+   "阿普唑仑（Alprazolam）",
+   "Alprazolam",
+   "Xanax",
+   "赞安诺（Xanax）"
   ],
   "setid": "388e249d-b9b6-44c3-9f8f-880eced0239f",
   "title": "XANAX (ALPRAZOLAM) TABLET [PHARMACIA & UPJOHN COMPANY LLC]",
@@ -260,10 +409,39 @@
   "application": "NDA018276",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
-  "names": [
-   "alprazolam",
+  "citing": [
+   "Alprax",
+   "Alprazolam",
+   "Alprazolamum",
+   "Bars",
+   "Cassadan",
+   "Footballs",
+   "Handlebars",
+   "Kalma",
+   "Ksalol",
+   "Niravam",
+   "Tafil",
+   "Trankimazin",
+   "Xanax",
+   "Xanbars",
+   "Xannies",
+   "Xans",
+   "Z-bars",
+   "Zannies",
+   "Zopax",
    "prazolam",
-   "xanax"
+   "贊安諾",
+   "赞安诺",
+   "赞安诺（Xanax）",
+   "阿普唑仑",
+   "阿普唑仑（Alprazolam）",
+   "阿普唑侖"
+  ],
+  "names": [
+   "阿普唑仑（Alprazolam）",
+   "Alprazolam",
+   "Xanax",
+   "赞安诺（Xanax）"
   ],
   "setid": "388e249d-b9b6-44c3-9f8f-880eced0239f",
   "title": "XANAX (ALPRAZOLAM) TABLET [PHARMACIA & UPJOHN COMPANY LLC]",
@@ -273,9 +451,18 @@
   "application": "NDA020872",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Allegra",
+   "Care One Aller Ease",
+   "Childrens Allegra Allergy",
+   "Fastofen",
+   "Fexofenadine",
+   "Leader Aller Ease",
+   "Telfast"
+  ],
   "names": [
-   "allegra",
-   "fexofenadine"
+   "Fexofenadine",
+   "Allegra"
   ],
   "setid": "490b4c5f-448b-4563-928b-837117b59b9f",
   "title": "ALLEGRA HIVES 24HR (FEXOFENADINE HYDROCHLORIDE) TABLET, FILM COATED [CHATTEM, INC.]",
@@ -284,21 +471,23 @@
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/017473s055lbl.pdf": {
   "application": "NDA017473",
   "checked": "2026-10-30",
-  "chosen_by": "brand label (repackaged copy)",
-  "names": [
-   "orap"
+  "citing": [
+   "Orap",
+   "Pimozide"
   ],
-  "setid": "1e379543-c4cf-4e72-953b-db15b7f0c2a1",
-  "title": "ORAPRED ODT (PREDNISOLONE SODIUM PHOSPHATE) TABLET, ORALLY DISINTEGRATING [ADVANZ PHARMA (US) CORP.]",
-  "verdict": "ok"
+  "verdict": "no DailyMed label for the application or its brand"
  },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/019906s022lbl.pdf": {
   "application": "NDA019906",
   "checked": "2026-10-30",
   "chosen_by": "brand label",
+  "citing": [
+   "Anafranil",
+   "Clomipramine"
+  ],
   "names": [
-   "anafranil",
-   "clomipramine"
+   "Clomipramine",
+   "Anafranil"
   ],
   "setid": "4074b555-7635-41a9-809d-fae3b3610059",
   "title": "ANAFRANIL (CLOMIPRAMINE HYDROCHLORIDE) CAPSULE [SPECGX LLC]",
@@ -308,9 +497,18 @@
   "application": "NDA020031",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Aropax",
+   "Brisdelle",
+   "Paroxetine",
+   "Paxil",
+   "Paxil CR",
+   "Pexeva",
+   "Seroxat"
+  ],
   "names": [
-   "paroxetine",
-   "paxil"
+   "Paroxetine",
+   "Paxil"
   ],
   "setid": "ef3b5cbe-f9e1-c1ac-79da-cfe14e3a7e7e",
   "title": "PAXIL (PAROXETINE HYDROCHLORIDE) TABLET, FILM COATED [APOTEX CORP]",
@@ -320,9 +518,20 @@
   "application": "NDA020822",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Celexa",
+   "Cipralex",
+   "Cipram",
+   "Cipramil",
+   "Citalopram",
+   "Escitalopram",
+   "Lexapro",
+   "Seroplex",
+   "Talohexal"
+  ],
   "names": [
-   "celexa",
-   "citalopram"
+   "Citalopram",
+   "Celexa"
   ],
   "setid": "4259d9b1-de34-43a4-85a8-41dd214e9177",
   "title": "CELEXA (CITALOPRAM) TABLET, FILM COATED [ALLERGAN, INC.]",
@@ -346,9 +555,14 @@
   "application": "NDA022549",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Adasuve",
+   "Loxapine",
+   "Loxitane"
+  ],
   "names": [
-   "adasuve",
-   "loxapine"
+   "Loxapine",
+   "Adasuve"
   ],
   "setid": "50e11732-7387-452d-b3e6-db3a431d5c4a",
   "title": "ADASUVE (LOXAPINE) AEROSOL, POWDER [ALEXZA PHARMACEUTICALS, INC.]",
@@ -373,9 +587,13 @@
   "application": "NDA020768",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Zolmitriptan",
+   "Zomig"
+  ],
   "names": [
-   "zolmitriptan",
-   "zomig"
+   "Zolmitriptan",
+   "Zomig"
   ],
   "setid": "56b3e77b-4e5f-4a3d-bad0-9e83033a5544",
   "title": "ZOMIG (ZOLMITRIPTAN) TABLET [DISPENSING SOLUTIONS, INC.]",
@@ -385,9 +603,18 @@
   "application": "NDA021169",
   "checked": "2026-10-30",
   "chosen_by": "brand label",
+  "citing": [
+   "Galamer",
+   "Galantamine",
+   "Galanthamine",
+   "Nivalin",
+   "Razadyne",
+   "Reminyl",
+   "加兰他敏"
+  ],
   "names": [
-   "galantamine",
-   "razadyne"
+   "Galantamine",
+   "Razadyne"
   ],
   "setid": "e62efb5a-d2cc-4e11-9e61-10e65ef3d897",
   "title": "RAZADYNE (GALANTAMINE HYDROBROMIDE) TABLET, FILM COATED [REBEL DISTRIBUTORS CORP]",
@@ -397,10 +624,22 @@
   "application": "NDA021876",
   "checked": "2026-10-30",
   "chosen_by": "brand label",
+  "citing": [
+   "Bonjesta",
+   "Diclegis",
+   "Doxyl",
+   "Doxylamine",
+   "NyQuil",
+   "Shoprite Sleep-aid",
+   "Unisom",
+   "Unisom SleepTabs",
+   "多拉西敏",
+   "多西拉敏",
+   "琥珀酸多西拉敏"
+  ],
   "names": [
-   "diclegis",
-   "doxyl",
-   "doxylamine"
+   "Doxylamine",
+   "Diclegis"
   ],
   "setid": "8bde08f6-e8bd-4e90-baa7-82e01876a86a",
   "title": "DICLEGIS (DOXYLAMINE SUCCINATE AND PYRIDOXINE HYDROCHLORIDE) TABLET, DELAYED RELEASE [DUCHESNAY USA, INC.]",
@@ -410,10 +649,21 @@
   "application": "NDA022047",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Derin",
+   "Ketilept",
+   "Ketipinor",
+   "Quetiapine",
+   "Seroquel",
+   "Seroquel XR",
+   "Xeroquel",
+   "喹硫平",
+   "思瑞康"
+  ],
   "names": [
-   "quetiapine",
-   "seroquel",
-   "seroquelxr"
+   "Quetiapine",
+   "Seroquel",
+   "Seroquel XR"
   ],
   "setid": "2a74e8a0-b2fd-4d7f-8bf8-72148b1d3ae7",
   "title": "SEROQUEL XR (QUETIAPINE FUMARATE) TABLET, EXTENDED RELEASE [PHYSICIANS TOTAL CARE, INC.]",
@@ -423,9 +673,17 @@
   "application": "NDA022256",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Fetzima",
+   "Ixel",
+   "Levomilnacipran",
+   "Milnacipran",
+   "Savella",
+   "Toledomin"
+  ],
   "names": [
-   "milnacipran",
-   "savella"
+   "Milnacipran",
+   "Savella"
   ],
   "setid": "08214b30-3dab-4621-a6c0-6bb68529dee3",
   "title": "SAVELLA (MILNACIPRAN HYDROCHLORIDE) TABLET, FILM COATED [REBEL DISTRIBUTORS CORP]",
@@ -435,9 +693,13 @@
   "application": "NDA200603",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Latuda",
+   "Lurasidone"
+  ],
   "names": [
-   "latuda",
-   "lurasidone"
+   "Lurasidone",
+   "Latuda"
   ],
   "setid": "afad3051-9df2-4c54-9684-e8262a133af8",
   "title": "LATUDA (LURASIDONE HYDROCHLORIDE) TABLET, FILM COATED [SUMITOMO PHARMA AMERICA, INC.]",
@@ -447,10 +709,17 @@
   "application": "NDA204168",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Fetzima",
+   "Ixel",
+   "Levomilnacipran",
+   "Milnacipran",
+   "Savella",
+   "Toledomin"
+  ],
   "names": [
-   "fetzima",
-   "levomilnacipran",
-   "milnacipran"
+   "Levomilnacipran",
+   "Fetzima"
   ],
   "setid": "f371258d-91b3-4b6a-ac99-434a1964c3af",
   "title": "FETZIMA (LEVOMILNACIPRAN HYDROCHLORIDE) CAPSULE, EXTENDED RELEASE FETZIMA (LEVOMILNACIPRAN HYDROCHLORIDE) KIT [ALLERGAN, INC.]",
@@ -498,11 +767,24 @@
   "application": "NDA020415",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "6-Azamianserin",
+   "Avanza",
+   "Axit",
+   "Mepirzapine",
+   "Mirtaz",
+   "Mirtazapine",
+   "Mirtazapinum",
+   "Mirtazon",
+   "Org 3770",
+   "Remeron",
+   "Remeron SolTab",
+   "Zispin",
+   "米氮平"
+  ],
   "names": [
-   "mirtaz",
-   "mirtazapine",
-   "remeron",
-   "remeronsoltab"
+   "Mirtazapine",
+   "Remeron"
   ],
   "setid": "98ad1917-a094-44f5-a28f-a64a8cfcd887",
   "title": "REMERON (MIRTAZAPINE) TABLET, FILM COATED REMERONSOLTAB (MIRTAZAPINE) TABLET, ORALLY DISINTEGRATING [ORGANON LLC]",
@@ -512,9 +794,21 @@
   "application": "NDA021336",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Eldepryl",
+   "Emsam",
+   "L-Deprenyl",
+   "Selegiline",
+   "Zelapar",
+   "司来吉兰+苯乙胺",
+   "司来吉兰（Selegiline）",
+   "咪多吡（Eldepryl）",
+   "金思平"
+  ],
   "names": [
-   "emsam",
-   "selegiline"
+   "司来吉兰（Selegiline）",
+   "Selegiline",
+   "Emsam"
   ],
   "setid": "b891bd9f-fdb8-4862-89c5-ecdd700398a3",
   "title": "EMSAM (SELEGILINE) PATCH [VIATRIS SPECIALTY LLC]",
@@ -524,9 +818,15 @@
   "application": "NDA021427",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Cymbalta",
+   "Drizalma",
+   "Duloxetine",
+   "Irenka"
+  ],
   "names": [
-   "cymbalta",
-   "duloxetine"
+   "Duloxetine",
+   "Cymbalta"
   ],
   "setid": "00acd9e9-b26a-4626-949e-112ecd2f27e6",
   "title": "CYMBALTA (DULOXETINE HYDROCHLORIDE) CAPSULE, DELAYED RELEASE [CARILION MATERIALS MANAGEMENT]",
@@ -536,9 +836,16 @@
   "application": "NDA021436",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Abilify",
+   "Abilify Maintena",
+   "Aripiprazole",
+   "Aristada",
+   "OPC-14597"
+  ],
   "names": [
-   "abilify",
-   "aripiprazole"
+   "Aripiprazole",
+   "Abilify"
   ],
   "setid": "c040bd1d-45b7-49f2-93ea-aed7220b30ac",
   "title": "ABILIFY (ARIPIPRAZOLE) TABLET [OTSUKA AMERICA PHARMACEUTICAL, INC.]",
@@ -548,11 +855,33 @@
   "application": "NDA021476",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Eszop",
+   "Eszopiclone",
+   "Imovane",
+   "Limovan",
+   "Lunesta",
+   "Nu-Zopiclone",
+   "Optidorm",
+   "Rhovane",
+   "Siaten",
+   "Somnosan",
+   "Ximovan",
+   "Zileze",
+   "Zimovane",
+   "Zopiclon AL",
+   "Zopiclon Stada",
+   "Zopiclon TAD",
+   "Zopiclon-neuraxpharm",
+   "Zopiclon-ratiopharm",
+   "Zopiclone",
+   "Zopitan",
+   "佐匹克隆（Zopiclone）",
+   "（右）佐匹克隆"
+  ],
   "names": [
-   "eszop",
-   "eszopiclone",
-   "lunesta",
-   "zopiclone"
+   "Eszopiclone",
+   "Lunesta"
   ],
   "setid": "3821f4b7-a3c8-4920-ba80-18aa96532c09",
   "title": "LUNESTA (ESZOPICLONE) TABLET, COATED [WAYLIS THERAPEUTICS LLC]",
@@ -562,9 +891,16 @@
   "application": "NDA021999",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "9-hydroxyrisperidone",
+   "Invega",
+   "Invega Sustenna",
+   "Invega Trinza",
+   "Paliperidone"
+  ],
   "names": [
-   "invega",
-   "paliperidone"
+   "Paliperidone",
+   "Invega"
   ],
   "setid": "7b8e5b26-b9e4-4704-921b-3c3c0d159916",
   "title": "INVEGA (PALIPERIDONE) TABLET, EXTENDED RELEASE [JANSSEN PHARMACEUTICALS, INC.]",
@@ -574,9 +910,18 @@
   "application": "NDA019758",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Clozapine",
+   "Clozaril",
+   "FazaClo",
+   "Versacloz",
+   "可致律",
+   "氯氮平",
+   "氯氮平口腔崩解片"
+  ],
   "names": [
-   "clozapine",
-   "clozaril"
+   "Clozapine",
+   "Clozaril"
   ],
   "setid": "0cf63b13-48b2-4b07-b241-617725b52f6b",
   "title": "CLOZARIL (CLOZAPINE) TABLET [TYA PHARMACEUTICALS]",
@@ -586,9 +931,29 @@
   "application": "NDA020717",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "2-(diphenylmethylsulfinyl)acetamide",
+   "Alertec",
+   "Armodafinil",
+   "Artvigil",
+   "Modafinil",
+   "Modalert",
+   "Modavigil",
+   "Modiodal",
+   "Modvigil",
+   "Neoresotyl",
+   "Nuvigil",
+   "Provigil",
+   "R-Modawake",
+   "Waklert",
+   "莫达非尼",
+   "莫达非尼（Modafinil）",
+   "阿莫达非尼"
+  ],
   "names": [
-   "modafinil",
-   "provigil"
+   "莫达非尼（Modafinil）",
+   "Modafinil",
+   "Provigil"
   ],
   "setid": "0391f182-1958-9fef-a944-53b229ce99e7",
   "title": "PROVIGIL (MODAFINIL) TABLET [APOTEX CORP]",
@@ -598,9 +963,15 @@
   "application": "NDA022567",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "EMD-68843",
+   "SB-659746A",
+   "Viibryd",
+   "Vilazodone"
+  ],
   "names": [
-   "viibryd",
-   "vilazodone"
+   "Vilazodone",
+   "Viibryd"
   ],
   "setid": "4c55ccfb-c4cf-11df-851a-0800200c9a66",
   "title": "VIIBRYD (VILAZODONE HYDROCHLORIDE) TABLET VIIBRYD (VILAZODONE HYDROCHLORIDE) KIT [ALLERGAN, INC.]",
@@ -610,9 +981,13 @@
   "application": "NDA204370",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Cariprazine",
+   "Vraylar"
+  ],
   "names": [
-   "cariprazine",
-   "vraylar"
+   "Cariprazine",
+   "Vraylar"
   ],
   "setid": "4b5f7c65-aa2d-452a-b3db-bc85c06ff12f",
   "title": "VRAYLAR (CARIPRAZINE) CAPSULE, GELATIN COATED VRAYLAR (CARIPRAZINE) KIT [ALLERGAN, INC.]",
@@ -622,9 +997,13 @@
   "application": "NDA205422",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Brexpiprazole",
+   "Rexulti"
+  ],
   "names": [
-   "brexpiprazole",
-   "rexulti"
+   "Brexpiprazole",
+   "Rexulti"
   ],
   "setid": "2d301358-6291-4ec1-bd87-37b4ad9bd850",
   "title": "REXULTI (BREXPIPRAZOLE) TABLET REXULTI (BREXPIPRAZOLE) KIT [OTSUKA AMERICA PHARMACEUTICAL, INC.]",
@@ -634,10 +1013,29 @@
   "application": "NDA018163",
   "checked": "2026-10-30",
   "chosen_by": "brand label",
+  "citing": [
+   "Apo-Temazepam",
+   "Eggs",
+   "Euhypnos",
+   "Green Eggs",
+   "Jellies",
+   "King Kong Pills",
+   "Mazzies",
+   "Methyloxazepam",
+   "Normison",
+   "Norries",
+   "Remestan",
+   "Restoril",
+   "Rugby Balls",
+   "Temaze",
+   "Temazepam",
+   "Tems",
+   "duck eggs",
+   "替马西泮"
+  ],
   "names": [
-   "restoril",
-   "temaze",
-   "temazepam"
+   "Temazepam",
+   "Restoril"
   ],
   "setid": "bc56f7fd-1aaf-48ff-8aa7-d467e59e1015",
   "title": "RESTORIL (TEMAZEPAM) CAPSULE [SPECGX LLC]",
@@ -647,9 +1045,16 @@
   "application": "NDA019839",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Lustral",
+   "Sertraline",
+   "Sertraline Hydrochloride Tablets",
+   "Zoloft",
+   "舍曲林"
+  ],
   "names": [
-   "sertraline",
-   "zoloft"
+   "Sertraline",
+   "Zoloft"
   ],
   "setid": "fda754f6-d0f3-4dce-a17a-927d64f912f7",
   "title": "ZOLOFT (SERTRALINE HYDROCHLORIDE) TABLET, FILM COATED ZOLOFT (SERTRALINE HYDROCHLORIDE) SOLUTION, CONCENTRATE [VIATRIS SPECIALTY LLC]",
@@ -659,8 +1064,26 @@
   "application": "NDA020648",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "AcuDial",
+   "Apaurin",
+   "Diastat",
+   "Diazemuls",
+   "Diazepam",
+   "Dzp",
+   "Libervant",
+   "Mother's Little Helper",
+   "NRL-1",
+   "Relanium",
+   "Valium",
+   "Valtoco",
+   "地西泮",
+   "地西泮（Diazepam）",
+   "安定"
+  ],
   "names": [
-   "diazepam"
+   "Diazepam",
+   "地西泮（Diazepam）"
   ],
   "setid": "b1b2848b-b265-4f6f-9141-bf106dec0726",
   "title": "DIAZEPAM GEL DIAZEPAM GEL [OCEANSIDE PHARMACEUTICALS]",
@@ -670,9 +1093,15 @@
   "application": "NDA205836",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Brivaracetam",
+   "Briviact",
+   "UCB-34714",
+   "ucb 34714"
+  ],
   "names": [
-   "brivaracetam",
-   "briviact"
+   "Brivaracetam",
+   "Briviact"
   ],
   "setid": "3cf2f439-0e97-443e-8e33-25ecef616f6c",
   "title": "BRIVIACT (BRIVARACETAM) TABLET, FILM COATED BRIVIACT (BRIVARACETAM) SOLUTION BRIVIACT (BRIVARACETAM) INJECTION, SUSPENSION [UCB, INC.]",
@@ -682,9 +1111,13 @@
   "application": "NDA207318",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Nuplazid",
+   "Pimavanserin"
+  ],
   "names": [
-   "nuplazid",
-   "pimavanserin"
+   "Pimavanserin",
+   "Nuplazid"
   ],
   "setid": "1e6bea44-57d6-4bac-9328-46e1ee59f83b",
   "title": "NUPLAZID (PIMAVANSERIN TARTRATE) CAPSULE NUPLAZID (PIMAVANSERIN TARTRATE) TABLET, COATED [ACADIA PHARMACEUTICALS INC.]",
@@ -694,9 +1127,27 @@
   "application": "NDA017533",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Clonapam",
+   "Clonazepam",
+   "Iktorivil",
+   "K",
+   "K-Pin",
+   "K-Pins",
+   "K-pins\"",
+   "Klonopin",
+   "Pin",
+   "RO 5-4023",
+   "Rivotril",
+   "kpin",
+   "氯硝安定",
+   "氯硝西泮",
+   "氯硝西泮（Clonazepam）"
+  ],
   "names": [
-   "clonazepam",
-   "klonopin"
+   "氯硝西泮（Clonazepam）",
+   "Clonazepam",
+   "Klonopin"
   ],
   "setid": "79a3305b-be80-416f-a346-5a907f7b669e",
   "title": "KLONOPIN (CLONAZEPAM) TABLET [STAT RX USA LLC]",
@@ -706,10 +1157,27 @@
   "application": "NDA018644",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Amfebutamone",
+   "Aplenzin",
+   "Bupropion",
+   "Forfivo",
+   "Forfivo XL",
+   "Wellbutrin",
+   "Wellbutrin SR",
+   "Wellbutrin XL",
+   "Zyban",
+   "威博隽（Wellbutrin）",
+   "安非他酮",
+   "安非他酮（Bupropion）",
+   "载班（Zyban）"
+  ],
   "names": [
-   "bupropion",
-   "wellbutrin",
-   "wellbutrinsr"
+   "安非他酮（Bupropion）",
+   "Bupropion",
+   "Wellbutrin",
+   "Wellbutrin SR",
+   "威博隽（Wellbutrin）"
   ],
   "setid": "cbc8c074-f080-4489-a5ae-207b5fadeba3",
   "title": "WELLBUTRIN SR (BUPROPION HYDROCHLORIDE) TABLET, FILM COATED [GLAXOSMITHKLINE LLC]",
@@ -719,9 +1187,26 @@
   "application": "NDA018651",
   "checked": "2026-10-30",
   "chosen_by": "brand label",
+  "citing": [
+   "Delta-9-THC",
+   "Delta-9-tetrahydrocannabinol",
+   "Dronabinol",
+   "Marinol",
+   "Syndros",
+   "Synthetic THC",
+   "THC",
+   "Tetrahydrocannabinol",
+   "cesamet",
+   "delta9-THC",
+   "delta9-tetrahydrocannabinol",
+   "Δ9-THC",
+   "δ9--tetrahydrocannabinol",
+   "四氢大麻酚",
+   "四氫大麻酚"
+  ],
   "names": [
-   "dronabinol",
-   "marinol"
+   "Dronabinol",
+   "Marinol"
   ],
   "setid": "d0efeeec-640d-43c3-8f0a-d31324a11c68",
   "title": "MARINOL (DRONABINOL) CAPSULE [THEPHARMANETWORK, LLC]",
@@ -731,9 +1216,14 @@
   "application": "NDA020151",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Effexor",
+   "Effexor XR",
+   "Venlafaxine"
+  ],
   "names": [
-   "effexor",
-   "venlafaxine"
+   "Venlafaxine",
+   "Effexor"
   ],
   "setid": "3423487c-80e3-6bff-e054-00144ff88e88",
   "title": "EFFEXOR (VENLAFAXINE) TABLET [DIRECT RX]",
@@ -743,10 +1233,20 @@
   "application": "NDA021323",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Celexa",
+   "Cipralex",
+   "Cipram",
+   "Cipramil",
+   "Citalopram",
+   "Escitalopram",
+   "Lexapro",
+   "Seroplex",
+   "Talohexal"
+  ],
   "names": [
-   "citalopram",
-   "escitalopram",
-   "lexapro"
+   "Escitalopram",
+   "Lexapro"
   ],
   "setid": "13bb8267-1cab-43e5-acae-55a4d957630a",
   "title": "LEXAPRO (ESCITALOPRAM) TABLET, FILM COATED LEXAPRO (ESCITALOPRAM) SOLUTION [ALLERGAN, INC.]",
@@ -756,10 +1256,28 @@
   "application": "NDA021875",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "2-(diphenylmethylsulfinyl)acetamide",
+   "Alertec",
+   "Armodafinil",
+   "Artvigil",
+   "Modafinil",
+   "Modalert",
+   "Modavigil",
+   "Modiodal",
+   "Modvigil",
+   "Neoresotyl",
+   "Nuvigil",
+   "Provigil",
+   "R-Modawake",
+   "Waklert",
+   "莫达非尼",
+   "莫达非尼（Modafinil）",
+   "阿莫达非尼"
+  ],
   "names": [
-   "armodafinil",
-   "modafinil",
-   "nuvigil"
+   "Armodafinil",
+   "Nuvigil"
   ],
   "setid": "10f918f7-4782-470e-a50e-35c7c66bfd79",
   "title": "NUVIGIL (ARMODAFINIL) TABLET [REBEL DISTRIBUTORS CORP]",
@@ -769,9 +1287,14 @@
   "application": "NDA021992",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Desvenlafaxine",
+   "Khedezla",
+   "Pristiq"
+  ],
   "names": [
-   "desvenlafaxine",
-   "pristiq"
+   "Desvenlafaxine",
+   "Pristiq"
   ],
   "setid": "0f43610c-f290-46ea-d186-4f998ed99fce",
   "title": "PRISTIQ EXTENDED-RELEASE (DESVENLAFAXINE SUCCINATE) TABLET, EXTENDED RELEASE [WYETH PHARMACEUTICALS LLC, A SUBSIDIARY OF PFIZER INC.]",
@@ -781,9 +1304,26 @@
   "application": "NDA021487",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Akatinol",
+   "Axura",
+   "D-145",
+   "DRG-0267",
+   "Ebixa",
+   "Memantina",
+   "Memantine",
+   "Memantinum",
+   "Memaxa",
+   "Namenda",
+   "Namenda XR",
+   "Namzaric",
+   "Namzaric (with donepezil",
+   "both extended-release)",
+   "美金刚"
+  ],
   "names": [
-   "memantine",
-   "namenda"
+   "Memantine",
+   "Namenda"
   ],
   "setid": "74ce605d-b493-4b95-9d59-9253f81f4e20",
   "title": "NAMENDA (MEMANTINE HYDROCHLORIDE) TABLET [REBEL DISTRIBUTORS CORP]",
@@ -793,9 +1333,19 @@
   "application": "NDA210365",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "CBD",
+   "Cannabidiol",
+   "Cannabidiol oral solution",
+   "Epidiolex",
+   "GWP42003-P",
+   "Plant-derived CBD",
+   "大麻二酚",
+   "艾匹迪莱克斯"
+  ],
   "names": [
-   "cannabidiol",
-   "epidiolex"
+   "Cannabidiol",
+   "Epidiolex"
   ],
   "setid": "8bf27097-4870-43fb-94f0-f3d0871d1eec",
   "title": "EPIDIOLEX (CANNABIDIOL) SOLUTION [JAZZ PHARMACEUTICALS, INC.]",
@@ -805,9 +1355,14 @@
   "application": "NDA210557",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Bremelanotide",
+   "PT-141",
+   "Vyleesi"
+  ],
   "names": [
-   "bremelanotide",
-   "vyleesi"
+   "Bremelanotide",
+   "Vyleesi"
   ],
   "setid": "f1d0c1b5-2f39-4bad-a6a4-0066e3ad5dcf",
   "title": "VYLEESI (BREMELANOTIDE) INJECTION [COSETTE PHARMACEUTICALS, INC.]",
@@ -817,11 +1372,48 @@
   "application": "NDA211243",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "2-CL-2'-oxo-PCM",
+   "2-CXM",
+   "Arketamine",
+   "Cat Tranquilizer",
+   "Cat Valium",
+   "Esketamine",
+   "JNJ-54135419",
+   "Jet",
+   "K",
+   "Ket",
+   "Ketalar",
+   "Ketamine",
+   "Ketanest",
+   "Ketanest S",
+   "Ketaset",
+   "Kit Kat",
+   "Kitty",
+   "K他命",
+   "K粉",
+   "PCN-101",
+   "Purple",
+   "S-(-)-ketamine",
+   "Special K",
+   "Spravato",
+   "Vitamin K",
+   "arketamine / R-ketamine",
+   "esketamine / S-ketamine",
+   "horse tranquilizer",
+   "kittens",
+   "racemic ketamine",
+   "wonk",
+   "克他命",
+   "喵喵",
+   "嗨药",
+   "氯胺酮",
+   "维生素K",
+   "茄"
+  ],
   "names": [
-   "esketamine",
-   "ketamine",
-   "sketamine",
-   "spravato"
+   "Esketamine",
+   "Spravato"
   ],
   "setid": "d81a6a79-a74a-44b7-822c-0dfa3036eaed",
   "title": "SPRAVATO (ESKETAMINE HYDROCHLORIDE) SOLUTION [JANSSEN PHARMACEUTICALS, INC.]",
@@ -836,9 +1428,14 @@
   "application": "NDA022341",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Liraglutide",
+   "Saxenda",
+   "Victoza"
+  ],
   "names": [
-   "liraglutide",
-   "victoza"
+   "Liraglutide",
+   "Victoza"
   ],
   "setid": "5a9ef4ea-c76a-4d34-a604-27c5b505f5a4",
   "title": "VICTOZA (LIRAGLUTIDE) INJECTION [NOVO NORDISK]",
@@ -848,9 +1445,13 @@
   "application": "BLA125469",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Dulaglutide",
+   "Trulicity"
+  ],
   "names": [
-   "dulaglutide",
-   "trulicity"
+   "Dulaglutide",
+   "Trulicity"
   ],
   "setid": "463050bd-2b1c-40f5-b3c3-0a04bb433309",
   "title": "TRULICITY (DULAGLUTIDE) INJECTION, SOLUTION [ELI LILLY AND COMPANY]",
@@ -860,9 +1461,14 @@
   "application": "NDA204447",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Brintellix",
+   "Trintellix",
+   "Vortioxetine"
+  ],
   "names": [
-   "trintellix",
-   "vortioxetine"
+   "Vortioxetine",
+   "Trintellix"
   ],
   "setid": "1a5b68e2-14d0-419d-9ec6-1ca97145e838",
   "title": "TRINTELLIX (VORTIOXETINE) TABLET, FILM COATED [TAKEDA PHARMACEUTICALS AMERICA, INC.]",
@@ -872,8 +1478,19 @@
   "application": "NDA210365",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "CBD",
+   "Cannabidiol",
+   "Cannabidiol oral solution",
+   "Epidiolex",
+   "GWP42003-P",
+   "Plant-derived CBD",
+   "大麻二酚",
+   "艾匹迪莱克斯"
+  ],
   "names": [
-   "epidiolex"
+   "Cannabidiol",
+   "Epidiolex"
   ],
   "setid": "8bf27097-4870-43fb-94f0-f3d0871d1eec",
   "title": "EPIDIOLEX (CANNABIDIOL) SOLUTION [JAZZ PHARMACEUTICALS, INC.]",
@@ -883,9 +1500,18 @@
   "application": "NDA020592",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "LY170053",
+   "Olanzapine",
+   "Zyprexa",
+   "Zyprexa Relprevv",
+   "Zyprexa Zydis",
+   "再普乐",
+   "奥氮平"
+  ],
   "names": [
-   "olanzapine",
-   "zyprexa"
+   "Olanzapine",
+   "Zyprexa"
   ],
   "setid": "0e986037-41c9-431e-b007-0e7764523fdd",
   "title": "ZYPREXA (OLANZAPINE) TABLET [H.J. HARKINS COMPANY, INC.]",
@@ -895,10 +1521,15 @@
   "application": "NDA213051",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Ozempic",
+   "Rybelsus",
+   "Semaglutide",
+   "Wegovy"
+  ],
   "names": [
-   "ozempic",
-   "rybelsus",
-   "semaglutide"
+   "Semaglutide",
+   "Ozempic"
   ],
   "setid": "27f15fac-7d98-4114-a2ec-92494a91da98",
   "title": "OZEMPIC (ORAL SEMAGLUTIDE) TABLET RYBELSUS (ORAL SEMAGLUTIDE) TABLET [NOVO NORDISK PHARMACEUTICAL INDUSTRIES, LP]",
@@ -908,9 +1539,14 @@
   "application": "NDA215866",
   "checked": "2026-10-30",
   "chosen_by": "sponsor's label",
+  "citing": [
+   "Mounjaro",
+   "Tirzepatide",
+   "Zepbound"
+  ],
   "names": [
-   "mounjaro",
-   "tirzepatide"
+   "Tirzepatide",
+   "Mounjaro"
   ],
   "setid": "d2d7da5d-ad07-4228-955f-cf7e355c8cc0",
   "title": "MOUNJARO (TIRZEPATIDE) INJECTION, SOLUTION MOUNJARO KWIKPEN (TIRZEPATIDE) INJECTION, SOLUTION [ELI LILLY AND COMPANY]",
@@ -920,9 +1556,17 @@
   "application": "NDA018936",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Fluoxetine",
+   "Fontex",
+   "Prozac",
+   "Sarafem",
+   "Selfemra",
+   "Symbyax"
+  ],
   "names": [
-   "fluoxetine",
-   "prozac"
+   "Fluoxetine",
+   "Prozac"
   ],
   "setid": "4b8fcce1-abfc-4631-9975-9d66e178dab6",
   "title": "PROZAC (FLUOXETINE HYDROCHLORIDE) CAPSULE [STAT RX USA]",
@@ -932,10 +1576,16 @@
   "application": "BLA022505",
   "checked": "2026-10-30",
   "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Egrifta",
+   "Egrifta SV",
+   "TH9507",
+   "Tesamorelin"
+  ],
   "names": [
-   "egrifta",
-   "egriftasv",
-   "tesamorelin"
+   "Tesamorelin",
+   "Egrifta",
+   "Egrifta SV"
   ],
   "setid": "3d783378-b02d-4f19-99dd-0fc91a042224",
   "title": "EGRIFTA SV (TESAMORELIN) KIT [THERATECHNOLOGIES INC.]",
@@ -945,9 +1595,18 @@
   "application": "NDA211964",
   "checked": "2026-10-30",
   "chosen_by": "only label",
+  "citing": [
+   "Catatrol",
+   "Emovit",
+   "Qelbree",
+   "Vicilan",
+   "Viloxazine",
+   "Vivalan",
+   "Vivarint"
+  ],
   "names": [
-   "qelbree",
-   "viloxazine"
+   "Viloxazine",
+   "Qelbree"
   ],
   "setid": "aedf408d-0f84-418d-9416-7c39ddb0d29a",
   "title": "QELBREE (VILOXAZINE HYDROCHLORIDE) CAPSULE, EXTENDED RELEASE [SUPERNUS PHARMACEUTICALS, INC]",

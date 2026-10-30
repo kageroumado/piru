@@ -11,9 +11,10 @@ For each line, deterministically:
 
   1. **NDC → setid** through DailyMed's own SPL service (`spls.json?ndc=`). An
      NDC that resolves to no label, or to several, stays uncited.
-  2. **The label is about this substance**: the SPL title names it, and the
-     DailyMed page itself names it in its body (`source_link_check.fetch` + `visible_text`, the same fetch
-     and body extraction the source-link gate uses).
+  2. **The label is about this substance**: the SPL title states it as whole
+     words (`resolve_fda_label_links.title_names`), and the DailyMed page
+     resolves (`source_link_check.fetch` + `visible_text`, the fetch and body
+     extraction the source-link gate uses).
   3. **The label states the line**: at least half of the line's content words
      appear, by stem, in the label's §12.1 Mechanism of Action — the section the
      line paraphrases.
@@ -43,10 +44,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "build"))
 
 import row_citations  # noqa: E402
+from audit.resolve_fda_label_links import title_names  # noqa: E402
 from audit.source_link_check import (  # noqa: E402
     HostThrottle,
     fetch,
-    normalize_for_match,
     visible_text,
 )
 from sqlite import clean_wiki_prose  # noqa: E402
@@ -122,8 +123,7 @@ def resolve(
         page = fetch(PAGE + setid, throttle)
         entry["page_status"] = page.status
         body = visible_text(page.text, body_only=True) if page.status == 200 else ""
-        normalized = normalize_for_match(body)
-        entry["page_names"] = sorted(k for k in name_keys(names) if k in normalized)
+        entry["page_status"] = page.status if body else None
     cache[ndc] = entry
     return entry
 
@@ -141,15 +141,12 @@ def mechanism_section(xml: str) -> str:
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", body)).strip()[:6_000]
 
 
-def name_keys(names: list[str]) -> set[str]:
-    return {key for key in map(normalize_for_match, names) if len(key) >= 4}
-
-
 def names_substance(entry: dict, names: list[str]) -> tuple[bool, bool]:
-    """(the label's title names it, the DailyMed page names it)."""
-    title = normalize_for_match(entry.get("title") or "")
-    in_label = any(key in title for key in name_keys(names))
-    return in_label, bool(entry.get("page_names"))
+    """(the label's title states it as whole words, the DailyMed page resolves).
+
+    Whole words because "Orap" is a prefix of "Orapred"; the title because a
+    label's page lists every drug it interacts with (`title_names`)."""
+    return bool(title_names(names, entry.get("title") or "")), entry.get("page_status") == 200
 
 
 def main() -> int:
@@ -215,7 +212,7 @@ def main() -> int:
             tally["label title does not name the substance"] += 1
             continue
         if not on_page:
-            tally["DailyMed page does not name the substance"] += 1
+            tally["DailyMed page does not resolve"] += 1
             continue
         line_stems = stems(line)
         label_stems = stems(entry.get("mechanism_of_action") or "")

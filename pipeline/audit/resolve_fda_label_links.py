@@ -12,10 +12,11 @@ Each is resolved deterministically:
      or, when the application lists no current label, by its Drugs@FDA brand name.
      Several labels (the brand plus authorized generics) resolve to the one titled
      with the brand, else the one the Drugs@FDA sponsor labels; otherwise none.
-  3. **Verified**: the SPL title or the DailyMed page body names a substance that
-     cites the old link — the same fetch and body extraction the source-link gate
-     uses (`source_link_check.fetch` + `visible_text`). A filename's number is not
-     always the application the PDF belonged to, so this check is load-bearing.
+  3. **Verified**: the SPL title states a substance that cites the old link, as
+     whole words — the parenthesized active ingredient, or the brand that opens
+     the title (`title_names`) — and the DailyMed page resolves
+     (`source_link_check.fetch`). A filename's number is not always the
+     application the PDF belonged to, so this check is load-bearing.
 
 Resolutions are cached in `data/sources/fda-label-setids.json` (committed).
 `--write` rewrites each resolved URL in `data/curated/` and
@@ -96,6 +97,50 @@ def citing_names(conn: sqlite3.Connection, url: str) -> list[str]:
     return names
 
 
+def tokens(text: str) -> tuple[str, ...]:
+    """Lowercase alphanumeric words. Names are compared as whole words, never
+    as substrings: "Orap" is a prefix of "Orapred", a different drug."""
+    return tuple(re.findall(r"[a-z0-9]+", (text or "").lower()))
+
+
+def _contains_run(haystack: tuple[str, ...], needle: tuple[str, ...]) -> bool:
+    width = len(needle)
+    return bool(width) and any(
+        haystack[i : i + width] == needle for i in range(len(haystack) - width + 1)
+    )
+
+
+def starts_with_name(title: str, name: str) -> bool:
+    """The title opens with `name` as whole words ("SEROQUEL XR (…" opens with
+    "Seroquel" and "Seroquel XR"; "ORAPRED ODT" does not open with "Orap")."""
+    needle = tokens(name)
+    return bool(needle) and tokens(title)[: len(needle)] == needle
+
+
+def title_names(names: list[str], title: str) -> list[str]:
+    """The citing names an SPL title states, as whole words, active ingredient
+    first.
+
+    An SPL title reads `BRAND (ACTIVE INGREDIENT) FORM [LABELER]`. A name counts
+    when it is the parenthesized ingredient's words, or opens the title (the
+    brand); a title with no parentheses is a generic one, matched anywhere
+    before the labeler. Never the labeler, never a fragment of a word."""
+    body = re.sub(r"\[[^\]]*\]\s*$", "", title or "")
+    ingredient = re.search(r"\(([^)]+)\)", body)
+    found: list[str] = []
+    for name in sorted(set(names), key=str.lower):
+        needle = tokens(name)
+        if len(needle) == 0 or len("".join(needle)) < 4:
+            continue
+        if ingredient and _contains_run(tokens(ingredient.group(1)), needle):
+            found.insert(0, name)
+        elif starts_with_name(body, name) or (
+            not ingredient and _contains_run(tokens(body), needle)
+        ):
+            found.append(name)
+    return found
+
+
 def labeler(title: str) -> str:
     """The bracketed labeler at the end of an SPL title, normalized."""
     match = re.search(r"\[([^\]]+)\]\s*$", title or "")
@@ -127,11 +172,7 @@ def choose(labels: list[dict], brands: set[str], sponsor: str) -> tuple[dict | N
     titled with the application's brand, else the one its sponsor labels."""
     if len(labels) == 1:
         return labels[0], "only label"
-    branded = [
-        lab
-        for lab in labels
-        if any(normalize_for_match(lab["title"]).startswith(b) for b in brands)
-    ]
+    branded = [lab for lab in labels if any(starts_with_name(lab["title"], b) for b in brands)]
     if len(branded) == 1:
         return branded[0], "brand label"
     pool = branded or labels
@@ -150,11 +191,11 @@ def choose(labels: list[dict], brands: set[str], sponsor: str) -> tuple[dict | N
 def resolve(url: str, names: list[str], throttle: HostThrottle) -> dict:
     number = _APPL.search(url).group(1).zfill(6)
     entry: dict = {"checked": date.today().isoformat()}
-    keys = {k for k in map(normalize_for_match, names) if len(k) >= 4}
+    entry["citing"] = sorted(set(names))
     application, record = application_record(number, throttle)
     entry["application"] = application
     brands = {
-        normalize_for_match(product.get("brand_name") or "")
+        product["brand_name"]
         for product in record.get("products") or []
         if product.get("brand_name")
     }
@@ -167,14 +208,14 @@ def resolve(url: str, names: list[str], throttle: HostThrottle) -> dict:
     if not labels:
         # The application lists no current label, but its brand may: a product
         # relabelled under a new application keeps its name.
-        for brand in sorted(b for b in brands if len(b) >= 4):
+        for brand in sorted(b for b in brands if len("".join(tokens(b))) >= 4):
             found = _json(
                 "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?drug_name="
                 + urllib.parse.quote(brand),
                 throttle,
                 "data",
             )
-            labels += [lab for lab in found if normalize_for_match(lab["title"]).startswith(brand)]
+            labels += [lab for lab in found if starts_with_name(lab["title"], brand)]
     if not labels:
         entry["verdict"] = "no DailyMed label for the application or its brand"
         return entry
@@ -185,14 +226,25 @@ def resolve(url: str, names: list[str], throttle: HostThrottle) -> dict:
         return entry
     entry["setid"] = label["setid"]
     entry["title"] = label["title"]
-    title_names = sorted(k for k in keys if k in normalize_for_match(label["title"]))
-    page = fetch(PAGE + label["setid"], throttle)
-    body = (
-        normalize_for_match(visible_text(page.text, body_only=True)) if page.status == 200 else ""
-    )
-    page_names = sorted(k for k in keys if k in body)
-    entry["names"] = title_names or page_names
-    entry["verdict"] = "ok" if entry["names"] else "label names no citing substance"
+    return verify(entry, names, throttle)
+
+
+def verify(entry: dict, names: list[str], throttle: HostThrottle | None) -> dict:
+    """Mark a chosen label `ok` when its title states a citing name (see
+    `title_names`) and, given a throttle, its DailyMed page resolves.
+
+    The page body is not evidence of identity: a label lists every drug it
+    interacts with, so a wrong label's page names the right substance too."""
+    entry["names"] = title_names(names, entry["title"])
+    if not entry["names"]:
+        entry["verdict"] = "label title names no citing substance"
+        return entry
+    if throttle is not None:
+        page = fetch(PAGE + entry["setid"], throttle)
+        if page.status != 200 or not visible_text(page.text, body_only=True):
+            entry["verdict"] = f"DailyMed page returned {page.status}"
+            return entry
+    entry["verdict"] = "ok"
     return entry
 
 

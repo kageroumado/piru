@@ -119,6 +119,8 @@ jobs:
         run: python3 pipeline/audit/citation_topicality.py --offline --gate --gate-absent --gate-zero-overlap --no-write-cache
       - name: Citation topicality tests (cache persistence, matcher gates)
         run: python3 pipeline/audit/tests/test_citation_topicality.py
+      - name: DailyMed label identity is matched as whole words
+        run: python3 pipeline/audit/tests/test_resolve_fda_label_links.py
       - name: Signature coverage (no regression)
         run: python3 pipeline/audit/signature_coverage.py --gate
       # verify_citations proves the identifier RESOLVES; citation_topicality

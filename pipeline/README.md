@@ -588,7 +588,7 @@ leaves an empty diff):
   the number (`citation_sourcing.py`).
 - **`audit/source_dailymed_mechanisms.py`** (`via: dailymed-ndc`). A MedTAP
   mechanism line cites the DailyMed label its record's NDC resolves to, when the
-  label's title and page name the substance and its §12.1 holds at least half of
+  label's title states the substance as whole words, its page resolves, and its §12.1 holds at least half of
   the line's content words. Responses are cached in
   `data/sources/dailymed-labels.json`.
 
