@@ -405,12 +405,12 @@ nonisolated enum StoreRecovery {
     /// can be suspended in at any moment, and the canonical store lives in the
     /// shared App Group container, where a SQLite lock held into suspension is
     /// a `0xdead10cc` kill. ``userDataCount(at:)`` answers by opening a
-    /// throwaway `ModelContainer` read-write (so it can migrate) and releasing
-    /// it, which checkpoints the WAL into the store file: a write, in the one
-    /// stretch of the launch that the system may cut short. The plain-SQL count
-    /// on a read-only connection (``StoreHealth/rowCount(at:tables:)``) writes
-    /// nothing and is exact whenever the file is a healthy Core Data store, so
-    /// the SwiftData count runs only when it cannot answer.
+    /// throwaway `ModelContainer`, read-only on the store, or read-write on a
+    /// scratch copy when it must migrate: a full Core Data stack, in the one
+    /// stretch of the launch that the system may cut short. The plain-SQL count on a read-only connection
+    /// (``StoreHealth/rowCount(at:tables:)``) writes nothing and is exact
+    /// whenever the file is a healthy Core Data store, so the SwiftData count
+    /// runs only when it cannot answer.
     static func launchUserDataCount(at url: URL) -> Int {
         guard anyFileExists(at: url) else { return 0 }
         return StoreHealth.rowCount(at: url, tables: userDataTables) ?? userDataCount(at: url)
@@ -440,7 +440,7 @@ nonisolated enum StoreRecovery {
             Logger.storeRecovery.error("Store at \(url.lastPathComponent, privacy: .public) failed the integrity pre-check; treating as unreadable")
             return -1
         }
-        if let count = countUserRows(at: url) { return count }
+        if let count = countUserRows(at: url, allowsSave: false) { return count }
         if let count = countViaMigratingCopy(at: url) { return count }
         return -1
     }
@@ -467,7 +467,7 @@ nonisolated enum StoreRecovery {
         }
     }
 
-    private static func countUserRows(at url: URL, allowsSave: Bool = true) -> Int? {
+    private static func countUserRows(at url: URL, allowsSave: Bool) -> Int? {
         do {
             // .none — never let the iCloud entitlement pull this probe into CloudKit
             // setup (the schema is CloudKit-incompatible). See openContainer(at:).
