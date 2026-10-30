@@ -1143,13 +1143,20 @@ def load_backlog(path: Path = BACKLOG) -> set[str]:
     The consequence is the ratchet: a citation added *tomorrow* with the same
     defect fails immediately, because it isn't in this file and nothing may be
     added to it.
+
+    The file is an object whose `entries` list holds the keys; its prose lives
+    in `_`-prefixed fields beside the list. A malformed file is an error, never
+    an empty backlog: an empty set silently turns the ratchet off.
     """
     if not path.exists():
         return set()
-    try:
-        return {k for k in json.loads(path.read_text()) if not k.startswith("_")}
-    except (ValueError, OSError):
-        return set()
+    data = json.loads(path.read_text())
+    entries = data.get("entries") if isinstance(data, dict) else None
+    if not isinstance(entries, list) or not all(
+        isinstance(e, str) and "|" in e and not e.startswith("_") for e in entries
+    ):
+        raise SystemExit(f"{path}: expected an object whose `entries` is a list of 'id|substance'")
+    return set(entries)
 
 
 def _citation_key(citation: dict) -> str | None:
@@ -1494,6 +1501,7 @@ def main() -> int:
         print(f"full result → {args.json}")
 
     if args.gate:
+        stale_backlog = False
         failures = [
             f
             for f in buckets.get("WRONG_SUBSTANCE", [])
@@ -1528,13 +1536,17 @@ def main() -> int:
                 print(
                     f"\ncitation-topicality: {len(outstanding)} known defect(s) still on the backlog."
                 )
+            # A fixed entry left in the file would let the same defect come back
+            # unflagged, so a stale entry fails the gate until it is deleted.
             if stale := backlog - {f"{f.identifier}|{f.substance}" for f in hard}:
                 print(
-                    f"citation-topicality: {len(stale)} backlog entries no longer flagged — "
-                    f"delete them from {BACKLOG.relative_to(REPO)}:",
+                    f"citation-topicality: FAILED — {len(stale)} backlog entries no longer "
+                    f"flagged; delete them from {BACKLOG.relative_to(REPO)}:",
+                    file=sys.stderr,
                 )
                 for key in sorted(stale)[:20]:
-                    print(f"  {key}")
+                    print(f"  {key}", file=sys.stderr)
+                stale_backlog = True
         if args.gate_zero_overlap:
             zero = [
                 f
@@ -1560,6 +1572,8 @@ def main() -> int:
                 f'"<identifier>|<substance>" to {ALLOWLIST.relative_to(REPO)}.',
                 file=sys.stderr,
             )
+            return 1
+        if stale_backlog:
             return 1
     return 0
 

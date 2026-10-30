@@ -66,5 +66,29 @@ class TestAbstractPersister(unittest.TestCase):
                 self.assertTrue(json.loads(cache.read_text()))
 
 
+class TestBacklogLoader(unittest.TestCase):
+    """The backlog is a ratchet only if its entries load. When every key carried
+    a `_` prefix the loader skipped them all and the gate ran on an empty set."""
+
+    def _load(self, payload) -> set[str]:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "backlog.json"
+            path.write_text(json.dumps(payload))
+            return ct.load_backlog(path)
+
+    def test_entries_load_and_prose_fields_do_not(self):
+        keys = self._load({"_comment": "x", "entries": ["pmid:1|Ketamine"]})
+        self.assertEqual(keys, {"pmid:1|Ketamine"})
+
+    def test_a_prefixed_or_flat_list_is_an_error_not_an_empty_backlog(self):
+        with self.assertRaises(SystemExit):
+            self._load(["_pmid:1|Ketamine"])
+        with self.assertRaises(SystemExit):
+            self._load({"entries": ["_pmid:1|Ketamine"]})
+
+    def test_the_committed_backlog_loads(self):
+        self.assertIsInstance(ct.load_backlog(), set)
+
+
 if __name__ == "__main__":
     unittest.main()
