@@ -1580,6 +1580,10 @@ T = {
         "已记录，但未填数值，因此不计入曲线、总量和耐受性。",
         "已記錄，但未填數值，因此不計入曲線、總量和耐受性。",
     ),
+    "Can't tell if this separator marks decimals or thousands. Please retype the amount.": (
+        "无法判断这个分隔符表示小数还是千位。请重新输入数量。",
+        "無法判斷這個分隔符號表示小數還是千位。請重新輸入數量。",
+    ),
     "Shows the dose with a ~; the estimate still drives the curves.": (
         "剂量会显示为 ~；这个估计值仍会用于绘制曲线。",
         "劑量會顯示為 ~；這個估計值仍會用於繪製曲線。",
@@ -8441,6 +8445,7 @@ if __name__ == "__main__":
         "unknown amount",
         "Logs the dose with no number; it stays out of curves, totals, and tolerance.",
         "Logged with no number, so it stays out of curves, totals, and tolerance.",
+        "Can't tell if this separator marks decimals or thousands. Please retype the amount.",
         # Label scanner strings (CLI-added; Xcode hasn't extracted them yet).
         "Scan a label",
         "Close scanner",

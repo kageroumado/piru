@@ -21708,6 +21708,34 @@
         }
       }
     },
+    "Can't tell if this separator marks decimals or thousands. Please retype the amount." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se sabe si este separador marca decimales o miles. Vuelve a escribir la cantidad."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se sabe si este separador marca decimales o miles. Vuelve a escribir la cantidad."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法判断这个分隔符表示小数还是千位。请重新输入数量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法判斷這個分隔符號表示小數還是千位。請重新輸入數量。"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "localizations" : {
         "es" : {

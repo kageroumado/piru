@@ -151,6 +151,12 @@ struct StagedDoseStepperBlock: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
+            } else if model.amountTextIsUnreadable {
+                Text("Can't tell if this separator marks decimals or thousands. Please retype the amount.")
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(Color.Semantic.Caution.text)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
             } else if item.breakdownLabel != nil || item.doseLevel != nil {
                 StagedDoseReadout(
                     breakdown: item.breakdownLabel.map { "= \($0) \(item.unit)" },
