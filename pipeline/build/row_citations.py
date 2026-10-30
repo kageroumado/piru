@@ -64,6 +64,9 @@ CLAIM_COLUMNS: dict[str, str] = {
 #: Which passes may write an entry. A new pass adds its name here, so an entry
 #: can always be traced to the code that proposed it.
 VIA = {"references_consulted", "dailymed-ndc", "haiku", "hand"}
+#: Passes that stamp the run date into `via`, so entries from two runs stay
+#: distinguishable: `audit/source_with_haiku.py` writes `haiku-assisted YYYY-MM-DD`.
+VIA_DATED = re.compile(r"^haiku-assisted \d{4}-\d{2}-\d{2}$")
 
 REQUIRED = ("table", "substance", "source", "ref", "accessed", "via", "evidence")
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -116,7 +119,7 @@ def problems(entry: dict, conn: sqlite3.Connection | None = None) -> list[str]:
     """Schema problems with one entry. With a connection, also checks that the
     table and the match columns exist."""
     out = [f"missing `{field}`" for field in REQUIRED if not entry.get(field)]
-    if entry.get("via") and entry["via"] not in VIA:
+    if entry.get("via") and entry["via"] not in VIA and not VIA_DATED.match(entry["via"]):
         out.append(f"unknown via {entry['via']!r} (allowed: {sorted(VIA)})")
     if entry.get("accessed") and not _DATE.match(str(entry["accessed"])):
         out.append(f"accessed {entry['accessed']!r} is not YYYY-MM-DD")

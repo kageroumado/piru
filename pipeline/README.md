@@ -592,6 +592,19 @@ leaves an empty diff):
   the line's content words. Responses are cached in
   `data/sources/dailymed-labels.json`.
 
+- **`audit/source_with_haiku.py`** (`via: haiku-assisted <date>`). Retrieval
+  is deterministic: the substance's Wikipedia article (via its InChIKey's
+  Wikidata sitelink, pinned to a revision), the DailyMed labels the DB already
+  cites for it, and up to three Europe PMC review abstracts for the row's key
+  term. Claude Haiku only picks a verbatim quote from those passages, or says
+  `not_found`. A quote lands only when it occurs in the passage, the document
+  is about the substance (InChIKey, title/redirect, whole-word label
+  ingredient, or the abstract naming it), the quote names the row's key term,
+  and, for a half-life, the quote holds the row's number. It also writes
+  `interaction-rules.json` rule `citation`s (with `citationEvidence`) and
+  curated `halfLifeSource`s (with `halfLifeEvidence`). Pages and answers are
+  cached outside the repo (`$PIRU_SOURCING_CACHE`), so a re-run is free.
+
 Any new pass adds its name to `row_citations.VIA`. After a pass writes, rebuild,
 then run `audit/verify_citations.py` (network) so the new identifiers enter the
 verify cache the offline gate reads.
