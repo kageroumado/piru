@@ -43,12 +43,23 @@ struct InteractionRelevanceGatingTests {
     // MARK: - Temporal gate (the headline false-red)
 
     @Test
-    func `Kratom in the morning goes silent against a benzo at night`() {
-        // Kratom's effect curve (~6 h) is long gone 12 h later; the prospective
-        // benzo starts now, so the two curves never co-occur.
+    func `Cannabis in the morning goes silent against kratom at night`() {
+        // Cannabis's effect curve is long gone 12 h later; the prospective
+        // kratom starts now, so the two curves never co-occur. A caution pair.
+        let active = [entry("Cannabis", amount: 20, hoursAgo: 12)]
+        let results = InteractionChecker.check("Kratom", against: active)
+        #expect(results.isEmpty, "A faded morning dose must not flag tonight's caution pair")
+    }
+
+    @Test
+    func `Kratom in the morning still warns against a benzo at night, demoted`() {
+        // The same faded curve, but opioid + benzodiazepine is dangerous: the
+        // gate ranks it down instead of hiding it.
         let active = [entry("Kratom", amount: 5, hoursAgo: 12)]
         let results = InteractionChecker.check("Alprazolam", against: active)
-        #expect(results.isEmpty, "A faded morning dose must not red-flag tonight's benzo")
+        let danger = results.first { $0.severity == .dangerous }
+        #expect(danger != nil, "A dangerous pair is never hidden on effect overlap")
+        #expect(danger?.isLowRelevance == true)
     }
 
     @Test
@@ -61,12 +72,23 @@ struct InteractionRelevanceGatingTests {
     // MARK: - Dose gate
 
     @Test
-    func `A clearly sub-threshold active dose is suppressed`() {
-        // 0.0001 mg alprazolam (heavy ≈ 2 mg) is pharmacologically nothing — the
-        // *interaction* is irrelevant even though both are present now.
-        let active = [entry("Alprazolam", amount: 0.0001, hoursAgo: 0)]
+    func `A clearly sub-threshold active dose of a caution pair is suppressed`() {
+        // A trace of cannabis is pharmacologically nothing — the *interaction*
+        // is irrelevant even though both are present now.
+        let active = [entry("Cannabis", amount: 0.0001, hoursAgo: 0)]
         let results = InteractionChecker.check("Kratom", against: active)
-        #expect(results.isEmpty, "A trivial dose must not drive an interaction warning")
+        #expect(results.isEmpty, "A trivial dose must not drive a caution warning")
+    }
+
+    @Test
+    func `A small dose never hides a dangerous pair`() {
+        // 0.1 mg alprazolam is at the 5 %-of-heavy floor, and opioid +
+        // benzodiazepine is dangerous at any dose.
+        for amount in [0.0001, 0.1] {
+            let active = [entry("Alprazolam", amount: amount, hoursAgo: 0)]
+            let results = InteractionChecker.check("Kratom", against: active)
+            #expect(results.contains { $0.severity == .dangerous }, "\(amount) mg alprazolam")
+        }
     }
 
     @Test
@@ -117,9 +139,9 @@ struct InteractionRelevanceGatingTests {
 
     @Test
     func `Explore surfaces a faded pair that warn mode would hide`() {
-        let active = [entry("Kratom", amount: 5, hoursAgo: 12)]
-        let warn = InteractionChecker.checkBatch(["Alprazolam"], against: active, policy: .warn)
-        let explore = InteractionChecker.checkBatch(["Alprazolam"], against: active, policy: .explore)
+        let active = [entry("Cannabis", amount: 20, hoursAgo: 12)]
+        let warn = InteractionChecker.checkBatch(["Kratom"], against: active, policy: .warn)
+        let explore = InteractionChecker.checkBatch(["Kratom"], against: active, policy: .explore)
         #expect(warn.isEmpty, "Warn mode hides the faded pair")
         #expect(!explore.isEmpty, "Explore mode surfaces every possible interaction")
     }
@@ -127,11 +149,12 @@ struct InteractionRelevanceGatingTests {
     @Test
     func `A dose logged in grams is weighed as grams, never as trivial milligrams`() {
         // Read as 0.02 mg on heroin's mg ladder, 0.02 g floors at the trivial
-        // magnitude and the opioid + benzo warning is suppressed.
+        // magnitude and the opioid + benzo warning is demoted.
         let grams = InteractionChecker.checkBatch(["Alprazolam"], against: [heroin(0.02, "g")], policy: .warn)
         let milligrams = InteractionChecker.checkBatch(["Alprazolam"], against: [heroin(20, "mg")], policy: .warn)
         #expect(grams.contains { $0.severity == .dangerous })
         #expect(grams.map(\.severity) == milligrams.map(\.severity))
+        #expect(grams.map(\.isLowRelevance) == milligrams.map(\.isLowRelevance))
     }
 
     private func heroin(_ amount: Double, _ unit: String) -> DoseEntry {

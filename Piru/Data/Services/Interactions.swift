@@ -344,11 +344,13 @@ extension [InteractionResult] {
 
 /// How aggressively the checker gates warnings, set per surface.
 enum InteractionPolicy {
-    /// Log-time warnings (dose entry, daily-dose batch). Hide a pair when good
-    /// data — real effect curves or dose amounts — shows it is confidently
-    /// irrelevant (a clearly sub-threshold dose, or two doses whose effect
-    /// curves never overlap). Everything uncertain is still shown, ranked by
-    /// relevance.
+    /// Log-time warnings (dose entry, daily-dose batch). Hide a `caution` pair
+    /// when good data — real effect curves or dose amounts — shows it is
+    /// confidently irrelevant (a clearly sub-threshold dose, or two doses whose
+    /// effect curves never overlap). An `unsafe` or `dangerous` pair is never
+    /// hidden on that evidence, only ranked and demoted by relevance: the
+    /// effect curve models what is felt, not what is still on board. Everything
+    /// uncertain is still shown, ranked by relevance.
     case warn
 
     /// The Tools ▸ Interactions explorer. Never hide a matched rule — surface
@@ -424,9 +426,10 @@ enum InteractionChecker {
     ///
     /// On the ``InteractionPolicy/warn`` surfaces this reads the same effect
     /// curves the timeline draws: a pair only warns where the two doses'
-    /// effects genuinely co-occur and both are at a meaningful dose. A pair the
-    /// data confidently shows to be irrelevant — non-concurrent, or with a
-    /// clearly sub-threshold participant — is dropped, not reddened. Hard
+    /// effects genuinely co-occur and both are at a meaningful dose. A `caution`
+    /// pair the data confidently shows to be irrelevant — non-concurrent, or
+    /// with a clearly sub-threshold participant — is dropped, not reddened; an
+    /// `unsafe` or `dangerous` one stays, demoted by its relevance. Hard
     /// pharmacological edges (MAOI, lithium, chronic serotonergics) bypass the
     /// effect-overlap gate; see ``InteractionRule/isPersistent``.
     ///
@@ -456,7 +459,7 @@ enum InteractionChecker {
             var doseFactor = 1.0
             if policy == .warn {
                 let gate = gatePair(prospective: prospective, active: track(for: entry), persistent: rule.isPersistent)
-                if gate.suppress { continue }
+                if gate.suppress, rule.severity == .caution { continue }
                 overlapFactor = gate.overlapFactor
                 doseFactor = gate.doseFactor
             }
