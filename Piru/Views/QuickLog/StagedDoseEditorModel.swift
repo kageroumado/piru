@@ -24,6 +24,11 @@ final class StagedDoseEditorModel {
     /// amount through display rounding.
     var suppressAmountSync = false
 
+    /// The field holds text that is not one number Piru can read without
+    /// guessing (``parsedAmount(_:locale:)``). The dose then carries no amount,
+    /// so it can't be logged, and the editor says why.
+    var amountTextIsUnreadable = false
+
     /// Bumped on each stepper tap — drives the value-change pulse + haptic.
     var stepTick = 0
 
@@ -100,6 +105,7 @@ final class StagedDoseEditorModel {
         stepTick += 1
         item.amount = value
         item.isUnknownAmount = false
+        amountTextIsUnreadable = false
         let newText = value > 0 ? value.doseFormatted : ""
         // Only arm the suppress flag when onChange will actually fire, otherwise
         // it would stay latched and swallow the next keystroke.
@@ -113,9 +119,8 @@ final class StagedDoseEditorModel {
     ///
     /// String binding (not `value:format:`) is deliberate — the staged amount must
     /// update per keystroke for the live dose-level / breakdown reclassification,
-    /// and the suppress flag relies on owning the text. Invariant dot-decimal
-    /// first (the field is populated from `doseFormatted`, which always emits
-    /// "."), then a locale-aware parse for locale keyboards.
+    /// and the suppress flag relies on owning the text. See
+    /// ``parsedAmount(_:locale:)`` for how separators are read.
     func commitAmountText(to item: inout StagedDose) {
         if suppressAmountSync {
             suppressAmountSync = false
@@ -126,14 +131,84 @@ final class StagedDoseEditorModel {
         // Typing a digit back takes the row out of that state.
         let trimmed = amountText.trimmingCharacters(in: .whitespaces)
         item.isUnknownAmount = trimmed.isEmpty
-        let parsed = Double(trimmed.replacingOccurrences(of: ",", with: "."))
-            ?? (try? Double(trimmed, format: .number))
-            ?? 0
-        item.amount = StagedDose.sanitizedAmount(parsed)
+        let parsed = trimmed.isEmpty ? nil : Self.parsedAmount(trimmed)
+        amountTextIsUnreadable = !trimmed.isEmpty && parsed == nil
+        item.amount = StagedDose.sanitizedAmount(parsed ?? 0)
+    }
+
+    /// The number typed or pasted into the amount field, or `nil` when it is
+    /// not one, or could be read two ways.
+    ///
+    /// Digits in any script read as their value, and "." and "," are both
+    /// separators, so "1,5" and "2.5" are decimals everywhere. A single
+    /// separator before exactly three digits is the ambiguous case: "1,000" is
+    /// a thousand in English and one in German. The locale settles it when the
+    /// mark is its decimal or its grouping separator, and it is refused
+    /// otherwise; so is a comma before four or more digits where the locale
+    /// groups with commas ("1,0000"). Refused is the safe answer: a separator
+    /// misread the other way records a dose a thousand times off.
+    /// `doseFormatted` never writes three decimals, so the field's own text
+    /// always reads back.
+    nonisolated static func parsedAmount(_ text: String, locale: Locale = .current) -> Double? {
+        let separators: Set<Character> = [".", ","]
+        let foreignMarks: [Character: Character] = ["\u{066B}": ".", "\u{066C}": ",", "\u{FF0E}": ".", "\u{FF0C}": ","]
+        var ascii = ""
+        for character in text {
+            if character.unicodeScalars.count == 1, character.unicodeScalars.first?.properties.numericType == .decimal,
+               let digit = character.wholeNumberValue {
+                ascii += String(digit)
+            } else if let mark = separators.contains(character) ? character : foreignMarks[character] {
+                ascii.append(mark)
+            } else {
+                return nil
+            }
+        }
+        let text = ascii
+        guard !text.isEmpty else { return nil }
+        let marks = text.filter { separators.contains($0) }
+        guard let last = marks.last else { return Double(text) }
+
+        var integer = text
+        var fraction = ""
+        let decimalMark: Character?
+        if marks.count == 1 {
+            let parts = text.split(separator: last, omittingEmptySubsequences: false)
+            let wholePart = parts[0], fractionPart = parts[1]
+            let wholeCouldGroup = (1 ... 3).contains(wholePart.count) && wholePart.first != "0"
+            if !wholeCouldGroup || fractionPart.count < 3 {
+                decimalMark = last
+            } else if fractionPart.count > 3 {
+                guard last == "." || locale.groupingSeparator != "," else { return nil }
+                decimalMark = last
+            } else if String(last) == locale.decimalSeparator {
+                decimalMark = last
+            } else if String(last) == locale.groupingSeparator {
+                decimalMark = nil
+            } else {
+                return nil
+            }
+        } else {
+            // Two kinds of mark: the last one is the decimal point and appears
+            // once ("1,000.5", "1.000,5"). One kind, repeated: grouping only.
+            decimalMark = Set(marks).count == 2 ? last : nil
+            if let decimalMark, marks.count(where: { $0 == decimalMark }) != 1 { return nil }
+        }
+        if let decimalMark, let index = text.lastIndex(of: decimalMark) {
+            integer = String(text[..<index])
+            fraction = String(text[text.index(after: index)...])
+        }
+        let groupMark = integer.first(where: { separators.contains($0) }) ?? " "
+        let groups = integer.split(separator: groupMark, omittingEmptySubsequences: false)
+        if groups.count > 1 {
+            guard (1 ... 3).contains(groups[0].count), groups.dropFirst().allSatisfy({ $0.count == 3 }) else { return nil }
+        }
+        let digits = groups.joined()
+        return Double((digits.isEmpty ? "0" : digits) + (fraction.isEmpty ? "" : "." + fraction))
     }
 
     /// Show `amount` in the field without letting the sync write it back.
     func showAmount(_ amount: Double) {
+        amountTextIsUnreadable = false
         suppressAmountSync = true
         amountText = amount > 0 ? amount.doseFormatted : ""
     }

@@ -1796,6 +1796,7 @@ ES = {
     "Log This": "Registrar esto",
     "Logged": "Registrado",
     "Logged with no number, so it stays out of curves, totals, and tolerance.": "Registrada sin cantidad, así que queda fuera de curvas, totales y tolerancia.",
+    "Can't tell if this separator marks decimals or thousands. Please retype the amount.": "No se sabe si este separador marca decimales o miles. Vuelve a escribir la cantidad.",
     "Logged, but the model has no data for these, so they are left out: %@.": "Registradas, pero el modelo no tiene datos de estas, así que quedan fuera: %@.",
     "LogP": "LogP",
     "Logs in this unit convert to the mass automatically.": "Los registros en esta unidad se convierten a masa automáticamente.",
