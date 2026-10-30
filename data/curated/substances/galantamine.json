@@ -34,6 +34,15 @@
     "Used to potentiate lucid dreaming"
   ],
   "halfLifeMinutes": 420,
+  "halfLifeSource": "DailyMed: RAZADYNE (galantamine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e62efb5a-d2cc-4e11-9e61-10e65ef3d897",
+  "halfLifeEvidence": {
+    "quote": "It has a terminal elimination half-life of about 7 hours",
+    "section": "Pharmacokinetics",
+    "identity": "active ingredient names 'Galantamine' as whole words",
+    "value": "7 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Galantamine",
     "Razadyne (galantamine hydrobromide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e62efb5a-d2cc-4e11-9e61-10e65ef3d897"

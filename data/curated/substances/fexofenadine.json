@@ -54,6 +54,15 @@
     "No anticholinergic effects"
   ],
   "halfLifeMinutes": 840,
+  "halfLifeSource": "Wikipedia: Fexofenadine, §Pharmacokinetics (revision 1377042469); https://en.wikipedia.org/w/index.php?title=Fexofenadine&oldid=1377042469#Pharmacokinetics",
+  "halfLifeEvidence": {
+    "quote": "with an elimination half-life of 14 hours",
+    "section": "Pharmacokinetics",
+    "identity": "article title 'Fexofenadine' is a name of the substance",
+    "value": "14 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "Allegra Hives 24Hr (fexofenadine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=490b4c5f-448b-4563-928b-837117b59b9f",
     "https://en.wikipedia.org/wiki/Fexofenadine",

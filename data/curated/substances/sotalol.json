@@ -54,6 +54,15 @@
     "Requires monitoring due to torsades de pointes risk"
   ],
   "halfLifeMinutes": 720,
+  "halfLifeSource": "Wikipedia: Sotalol (revision 1356962329); https://en.wikipedia.org/w/index.php?title=Sotalol&oldid=1356962329",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 12 hours",
+    "section": "Infobox",
+    "identity": "Wikidata sitelink of InChIKey ZBMZVLHSJCTVON-UHFFFAOYSA-N",
+    "value": "12 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Sotalol",
     "https://pubchem.ncbi.nlm.nih.gov/compound/5253"

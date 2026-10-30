@@ -52,6 +52,15 @@
     "Cholinergic — pair with choline"
   ],
   "halfLifeMinutes": 480,
+  "halfLifeSource": "Wikipedia: Oxiracetam, §Pharmacokinetics (revision 1368668595); https://en.wikipedia.org/w/index.php?title=Oxiracetam&oldid=1368668595#Pharmacokinetics",
+  "halfLifeEvidence": {
+    "quote": "The half-life of oxiracetam in healthy individuals is about 8 hours … Elimination half-life: 8 hours",
+    "section": "Pharmacokinetics",
+    "identity": "Wikidata sitelink of InChIKey IHLAQQPQKRMGSS-UHFFFAOYSA-N",
+    "value": "8 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Oxiracetam",
     "https://pubchem.ncbi.nlm.nih.gov/compound/4626"

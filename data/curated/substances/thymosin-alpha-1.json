@@ -25,6 +25,15 @@
     "increased Th1/IL-2/IFN"
   ],
   "halfLifeMinutes": 120,
+  "halfLifeSource": "pmid:11381492",
+  "halfLifeEvidence": {
+    "quote": "the serum half-life is approximately 2 hours",
+    "section": "Abstract",
+    "identity": "title/abstract names the substance ('thymosin alpha 1')",
+    "value": "2 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "mechanismOfAction": {
     "summary": "Thymic immunomodulatory peptide; promotes T-cell maturation and Th1 responses.",
     "description": "N-acetylated 28-aa thymic peptide that modulates T-cell maturation, increases Th1 cytokine output (IL-2, IFN), and enhances dendritic-cell and NK function.",

@@ -36,6 +36,15 @@
     "Discontinuation syndrome on abrupt stop"
   ],
   "halfLifeMinutes": 1500,
+  "halfLifeSource": "DailyMed: VIIBRYD (vilazodone) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4c55ccfb-c4cf-11df-851a-0800200c9a66",
+  "halfLifeEvidence": {
+    "quote": "Elimination of vilazodone is primarily by hepatic metabolism with a terminal half-life of approximately 25 hours.",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'Vilazodone' as whole words",
+    "value": "25 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "Viibryd (vilazodone hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4c55ccfb-c4cf-11df-851a-0800200c9a66",
     "https://en.wikipedia.org/wiki/Vilazodone",

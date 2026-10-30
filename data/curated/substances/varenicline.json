@@ -34,6 +34,15 @@
     "Neuropsychiatric warnings (depression, suicidality)"
   ],
   "halfLifeMinutes": 1440,
+  "halfLifeSource": "DailyMed: CHANTIX (varenicline) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0fefd790-b526-4f2f-8c83-5f39f7306556",
+  "halfLifeEvidence": {
+    "quote": "The elimination half-life of varenicline is approximately 24 hours.",
+    "section": "Label",
+    "identity": "active ingredient names 'Varenicline' as whole words",
+    "value": "24 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Varenicline",
     "Chantix (varenicline tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0fefd790-b526-4f2f-8c83-5f39f7306556"

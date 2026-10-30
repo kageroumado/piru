@@ -56,6 +56,15 @@
     "Headache and insomnia common"
   ],
   "halfLifeMinutes": 900,
+  "halfLifeSource": "DailyMed: Modafinil (modafinil) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=013450dd-cd42-46c7-98d6-9a2925761978",
+  "halfLifeEvidence": {
+    "quote": "The effective elimination half-life of modafinil after multiple doses is about 15 hours.",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'Modafinil' as whole words",
+    "value": "15 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "Provigil (modafinil) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0391f182-1958-9fef-a944-53b229ce99e7",
     "https://en.wikipedia.org/wiki/Modafinil",

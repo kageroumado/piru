@@ -57,6 +57,15 @@
     "Used for epilepsy, migraine prevention, binge eating, AUD off-label"
   ],
   "halfLifeMinutes": 1260,
+  "halfLifeSource": "Wikipedia: Topiramate, §Pharmacology (revision 1379340606); https://en.wikipedia.org/w/index.php?title=Topiramate&oldid=1379340606#Pharmacology",
+  "halfLifeEvidence": {
+    "quote": "It has a half-life of 21 hours … Elimination half-life: 21 hours",
+    "section": "Pharmacology",
+    "identity": "Wikidata sitelink of InChIKey KJADKKWYZYXHBB-XBWDGYHZSA-N",
+    "value": "21 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Topiramate",
     "https://pubchem.ncbi.nlm.nih.gov/compound/5284627"

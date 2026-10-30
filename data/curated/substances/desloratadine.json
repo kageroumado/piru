@@ -54,6 +54,15 @@
     "Minimal anticholinergic burden"
   ],
   "halfLifeMinutes": 1620,
+  "halfLifeSource": "Wikipedia: Desloratadine, §Pharmacokinetics (revision 1379998314); https://en.wikipedia.org/w/index.php?title=Desloratadine&oldid=1379998314#Pharmacokinetics",
+  "halfLifeEvidence": {
+    "quote": "eliminated via urine and feces with a half-life of 27 hours in normal metabolizers … Elimination half-life: 27 hours, 33.7 hours in elderly patients",
+    "section": "Pharmacokinetics",
+    "identity": "Wikidata sitelink of InChIKey JAUOIFJMECXRGI-UHFFFAOYSA-N",
+    "value": "27 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021117s025lbl.pdf",
     "https://en.wikipedia.org/wiki/Desloratadine",

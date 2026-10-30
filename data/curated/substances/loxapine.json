@@ -93,6 +93,15 @@
     "Metabolized to amoxapine (tricyclic antidepressant activity)"
   ],
   "halfLifeMinutes": 240,
+  "halfLifeSource": "Wikipedia: Loxapine (revision 1379513544); https://en.wikipedia.org/w/index.php?title=Loxapine&oldid=1379513544",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 4 hours (oral)",
+    "section": "Infobox",
+    "identity": "article title 'Loxapine' is a name of the substance",
+    "value": "4 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "Adasuve (loxapine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=50e11732-7387-452d-b3e6-db3a431d5c4a",
     "https://en.wikipedia.org/wiki/Loxapine",

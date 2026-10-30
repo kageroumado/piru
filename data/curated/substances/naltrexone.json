@@ -56,6 +56,15 @@
     "Monthly injectable form (Vivitrol) improves adherence"
   ],
   "halfLifeMinutes": 240,
+  "halfLifeSource": "Wikipedia: Naltrexone, §Elimination (revision 1382674764); https://en.wikipedia.org/w/index.php?title=Naltrexone&oldid=1382674764#Elimination",
+  "halfLifeEvidence": {
+    "quote": "The fast elimination half-lives of naltrexone and its metabolite 6β-naltrexol are about 4 hours and 13 hours, respectively.",
+    "section": "Elimination",
+    "identity": "Wikidata sitelink of InChIKey DQCKKXVULJGBQN-XFWGSAIBSA-N",
+    "value": "4 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Naltrexone",
     "https://pubchem.ncbi.nlm.nih.gov/compound/5360515"

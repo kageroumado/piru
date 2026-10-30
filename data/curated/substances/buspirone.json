@@ -54,6 +54,15 @@
     "Less sedation than benzodiazepines — does not impair driving or cognition"
   ],
   "halfLifeMinutes": 150,
+  "halfLifeSource": "Wikipedia: Buspirone (revision 1377204007); https://en.wikipedia.org/w/index.php?title=Buspirone&oldid=1377204007",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 2.5 hours",
+    "section": "Infobox",
+    "identity": "Wikidata sitelink of InChIKey QWCRAEMEVRGPNT-UHFFFAOYSA-N",
+    "value": "2.5 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Buspirone",
     "https://pubchem.ncbi.nlm.nih.gov/compound/2477"

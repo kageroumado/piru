@@ -67,6 +67,15 @@
     "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
   ],
   "halfLifeMinutes": 120,
+  "halfLifeSource": "Wikipedia: Ipamorelin (revision 1379748695); https://en.wikipedia.org/w/index.php?title=Ipamorelin&oldid=1379748695",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 2 hours",
+    "section": "Infobox",
+    "identity": "article title 'Ipamorelin' is a name of the substance",
+    "value": "2 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://pubmed.ncbi.nlm.nih.gov/9849822/",
     "https://en.wikipedia.org/wiki/Ipamorelin",

@@ -57,6 +57,15 @@
     "Anticholinergic effects: dry mouth, urinary retention, constipation"
   ],
   "halfLifeMinutes": 1800,
+  "halfLifeSource": "Wikipedia: Chlorpromazine (revision 1368875372); https://en.wikipedia.org/w/index.php?title=Chlorpromazine&oldid=1368875372",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 30 hours",
+    "section": "Infobox",
+    "identity": "Wikidata sitelink of InChIKey ZPEIMTDSQAKGNT-UHFFFAOYSA-N",
+    "value": "30 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/010138s030lbl.pdf",
     "https://en.wikipedia.org/wiki/Chlorpromazine",

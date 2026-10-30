@@ -94,6 +94,15 @@
     "Potent CYP3A4 substrate — dangerous interactions with macrolides, azoles, PIs"
   ],
   "halfLifeMinutes": 540,
+  "halfLifeSource": "Wikipedia: Dihydroergotamine (revision 1370481992); https://en.wikipedia.org/w/index.php?title=Dihydroergotamine&oldid=1370481992",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 9 hours",
+    "section": "Infobox",
+    "identity": "article title 'Dihydroergotamine' is a name of the substance",
+    "value": "9 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Dihydroergotamine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/175"

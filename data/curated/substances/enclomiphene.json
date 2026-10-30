@@ -29,6 +29,15 @@
     "theoretical VTE risk (ER-mediated coagulation)"
   ],
   "halfLifeMinutes": 600,
+  "halfLifeSource": "Wikipedia: Enclomifene (revision 1380492023); https://en.wikipedia.org/w/index.php?title=Enclomifene&oldid=1380492023",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 10 hours",
+    "section": "Infobox",
+    "identity": "article title 'Enclomifene' is a name of the substance",
+    "value": "10 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "mechanismOfAction": {
     "summary": "SERM; ER antagonist at hypothalamus/pituitary → disinhibition of LH/FSH secretion → increased endogenous testosterone.",
     "description": "Trans-isomer (E-isomer) of clomiphene; blocks estrogen receptor at hypothalamus and pituitary, removing negative feedback and raising endogenous LH/FSH/testosterone. Differs from cis-isomer (zuclomiphene) which is a weak ER agonist. CYP2D6 metabolism; Tmax ~2–3 h; t½ ~10 h.",

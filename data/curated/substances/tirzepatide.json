@@ -84,6 +84,15 @@
     "Hypoglycemia risk when combined with insulin or sulfonylureas"
   ],
   "halfLifeMinutes": 7200,
+  "halfLifeSource": "DailyMed: Mounjaro (tirzepatide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d2d7da5d-ad07-4228-955f-cf7e355c8cc0",
+  "halfLifeEvidence": {
+    "quote": "with an elimination half-life of approximately 5 days",
+    "section": "Label",
+    "identity": "active ingredient names 'Tirzepatide' as whole words",
+    "value": "5 days",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "Mounjaro (tirzepatide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d2d7da5d-ad07-4228-955f-cf7e355c8cc0",
     "https://en.wikipedia.org/wiki/Tirzepatide",

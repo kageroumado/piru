@@ -29,6 +29,15 @@
     "mood disturbance, libido impairment (estrogen crash)"
   ],
   "halfLifeMinutes": 2880,
+  "halfLifeSource": "Wikipedia: Letrozole (revision 1378181410); https://en.wikipedia.org/w/index.php?title=Letrozole&oldid=1378181410",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 2 days",
+    "section": "Infobox",
+    "identity": "Wikidata sitelink of InChIKey HPJKCIUCZWXJDR-UHFFFAOYSA-N",
+    "value": "2 days",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "mechanismOfAction": {
     "summary": "Nonsteroidal (type II/triazole) aromatase inhibitor; competitive and reversible CYP19 inhibitor.",
     "description": "Competitively and reversibly inhibits CYP19 (aromatase), reducing estradiol synthesis by 75–95% at 2.5 mg/day. No effect on adrenal steroidogenesis at therapeutic doses. Selectivity >10,000× for aromatase over other CYPs. FDA-approved for breast cancer. WADA S4.1 prohibited in sport. CYP3A4 and CYP2A6 metabolism.",

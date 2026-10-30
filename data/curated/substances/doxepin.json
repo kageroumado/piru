@@ -37,6 +37,15 @@
     "Also available as topical cream (Zonalon) for pruritus — systemic absorption possible"
   ],
   "halfLifeMinutes": 1020,
+  "halfLifeSource": "Wikipedia: Doxepin (revision 1382080953); https://en.wikipedia.org/w/index.php?title=Doxepin&oldid=1382080953",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: Doxepin: 8–24 hours (mean 17 hours)",
+    "section": "Infobox",
+    "identity": "article title 'Doxepin' is a name of the substance",
+    "value": "17 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "Silenor (doxepin hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1bec1223-5239-4eb6-a9e8-62444106d2c0",
     "https://en.wikipedia.org/wiki/Doxepin",

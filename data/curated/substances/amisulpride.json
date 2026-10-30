@@ -38,6 +38,15 @@
     "Renally cleared; minimal hepatic metabolism"
   ],
   "halfLifeMinutes": 720,
+  "halfLifeSource": "Wikipedia: Amisulpride, §Pharmacokinetics (revision 1366501553); https://en.wikipedia.org/w/index.php?title=Amisulpride&oldid=1366501553#Pharmacokinetics",
+  "halfLifeEvidence": {
+    "quote": "Its elimination half-life is 12 hours. … Elimination half-life: 12 hours",
+    "section": "Pharmacokinetics",
+    "identity": "Wikidata sitelink of InChIKey NTJOBXMMWNYJFB-UHFFFAOYSA-N",
+    "value": "12 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Amisulpride",
     "https://pubchem.ncbi.nlm.nih.gov/compound/2159"

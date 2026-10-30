@@ -53,6 +53,15 @@
     "Improved next-day driving performance vs lemborexant in studies"
   ],
   "halfLifeMinutes": 480,
+  "halfLifeSource": "Wikipedia: Daridorexant, §Elimination (revision 1368786208); https://en.wikipedia.org/w/index.php?title=Daridorexant&oldid=1368786208#Elimination",
+  "halfLifeEvidence": {
+    "quote": "The medication has an elimination half-life of about 8 hours … daridorexant has a relatively short elimination half-life of 8 hours",
+    "section": "Elimination",
+    "identity": "Wikidata sitelink of InChIKey NBGABHGMJVIVBW-QHCPKHFHSA-N",
+    "value": "8 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Daridorexant",
     "https://pubchem.ncbi.nlm.nih.gov/compound/145996610"

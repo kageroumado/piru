@@ -55,6 +55,15 @@
     "Transdermal patch (Secuado) approved for adults"
   ],
   "halfLifeMinutes": 1440,
+  "halfLifeSource": "DailyMed: SAPHRIS (asenapine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03c696e9-0e6b-4e5c-be0a-41416f8019be",
+  "halfLifeEvidence": {
+    "quote": "Following an initial more rapid distribution phase, the terminal half life of asenapine is approximately 24 hours. … Following an initial more rapid distribution phase, the mean terminal half-life is approximately 24 hrs.",
+    "section": "Label",
+    "identity": "active ingredient names 'Asenapine' as whole words",
+    "value": "24 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "Saphris (asenapine maleate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03c696e9-0e6b-4e5c-be0a-41416f8019be",
     "https://en.wikipedia.org/wiki/Asenapine",

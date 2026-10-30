@@ -52,6 +52,15 @@
     "Metabolites include delorazepam, lormetazepam, lorazepam"
   ],
   "halfLifeMinutes": 2520,
+  "halfLifeSource": "Wikipedia: Diclazepam, §Metabolism (revision 1375009734); https://en.wikipedia.org/w/index.php?title=Diclazepam&oldid=1375009734#Metabolism",
+  "halfLifeEvidence": {
+    "quote": "an approximate elimination half-life of 42 hours",
+    "section": "Metabolism",
+    "identity": "Wikidata sitelink of InChIKey VPAYQWRBBOGGPY-UHFFFAOYSA-N",
+    "value": "42 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Diclazepam"
   ],
