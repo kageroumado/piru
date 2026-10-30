@@ -14,9 +14,11 @@ enum CrisisKeywords {
     /// on whole-word boundaries so a substance name that merely *contains* a
     /// keyword as a substring (e.g. "armod" contains "od") doesn't trip the
     /// crisis panel. Multi-word keywords ("bad trip", "call 911") are matched
-    /// as phrases.
+    /// as phrases. A curly apostrophe, which iOS types by default, reads as
+    /// the straight one the keywords are written with.
     static func matches(_ query: String) -> Bool {
         let query = query.lowercased().trimmingCharacters(in: .whitespaces)
+            .replacingOccurrences(of: "\u{2019}", with: "'")
         guard !query.isEmpty else { return false }
         let words = Set(query.split(whereSeparator: { !$0.isLetter && !$0.isNumber }).map(String.init))
         return keywords.contains { keyword in
