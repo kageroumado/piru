@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha256 `d36ebfef14acd1e5efc50adcf76fb5edfbc45c0976dffdeb8f77ed1c920757bb`)
+Built 2026-10-30.5 → `Piru/Data/piru-substances.sqlite` (21,569,536 bytes, sha256 `63113a420fb90f5389a5e4906df7937523f6b25c36f0c5d9f17f675ef94490df`)
 
 ## Row counts
 
@@ -10,11 +10,11 @@ Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha
 | aliases | 6,016 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,483 |
+| citations | 2,479 |
 | categories | 1,577 |
 | tags | 7,054 |
-| dose_ranges | 2,801 |
-| durations | 10,718 |
+| dose_ranges | 2,789 |
+| durations | 10,719 |
 | drug_community_timelines | 755 |
 | half_lives | 716 |
 | mechanisms_summary | 1,232 |
@@ -96,7 +96,50 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Dose gates
 
-7 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+103 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+
+## Upstream values the build could not read
+
+552 dose or duration value(s) refused, or read only in part; each is listed in `data/snapshots/unparsed-upstream.json` for reporting upstream (`pipeline/audit/upstream_report.py`).
+
+| source | reason | values |
+|---|---|---|
+| dosewiki | dose_ranges_duplicate_dropped | 4 |
+| dosewiki | dropped_regressed_tiers | 1 |
+| dosewiki | dropped_unquantified_unit | 1 |
+| dosewiki | duration_afterglow_implausible | 5 |
+| dosewiki | duration_profile_contradictory | 2 |
+| dosewiki | stage_unit_unknown_or_half_open | 11 |
+| drug.community | degenerate_after_unreadable_tiers | 7 |
+| drug.community | dose_ranges_duplicate_dropped | 14 |
+| drug.community | dropped_ambiguous_unit | 3 |
+| drug.community | dropped_regressed_tiers | 3 |
+| drug.community | duration_afterglow_implausible | 3 |
+| drug.community | duration_profile_contradictory | 7 |
+| drug.community | extra_numbers_ignored | 14 |
+| drug.community | foreign_characters | 5 |
+| drug.community | no_activity_reported | 1 |
+| drug.community | range_in_single_value_tier | 390 |
+| drug.community | unparsed | 15 |
+| freeodwiki | dropped_inverted_tiers | 7 |
+| freeodwiki | dropped_regressed_tiers | 2 |
+| freeodwiki | duration_afterglow_implausible | 5 |
+| freeodwiki | duration_onset_impossible | 2 |
+| freeodwiki | duration_profile_contradictory | 9 |
+| piru-curated | dose_ranges_duplicate_dropped | 1 |
+| piru-curated | dropped_regressed_tiers | 1 |
+| psychonautwiki | dropped_inverted_tiers | 1 |
+| psychonautwiki | dropped_regressed_tiers | 2 |
+| psychonautwiki | duration_afterglow_implausible | 5 |
+| psychonautwiki | duration_onset_impossible | 1 |
+| psychonautwiki | duration_profile_contradictory | 6 |
+| tripsit | dose_ranges_duplicate_dropped | 9 |
+| tripsit | dropped_daily_unit | 1 |
+| tripsit | dropped_inverted_tiers | 5 |
+| tripsit | dropped_regressed_tiers | 4 |
+| tripsit | dropped_unquantified_unit | 1 |
+| tripsit | duration_afterglow_implausible | 3 |
+| tripsit | duration_onset_impossible | 1 |
 
 ## Per-source coverage
 
@@ -106,11 +149,11 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | peer-review-primary | 0 | 1,002 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 823 | 0 | 0 | 125 |
-| psychonautwiki | 377 | 0 | 63 | 316 |
-| tripsit | 573 | 0 | 410 | 1,265 |
+| psychonautwiki | 376 | 0 | 63 | 316 |
+| tripsit | 572 | 0 | 410 | 1,265 |
 | dailymed | 0 | 0 | 0 | 0 |
-| erowid-pihkal | 102 | 0 | 167 | 426 |
-| erowid-tihkal | 36 | 0 | 48 | 121 |
+| erowid-pihkal | 91 | 0 | 167 | 426 |
+| erowid-tihkal | 37 | 0 | 48 | 121 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 95 | 340 |
