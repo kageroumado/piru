@@ -114,7 +114,6 @@ digraph piru_pipeline {
     c_dbadj [label="drugbank-adjudications.json"];
 
     node [fillcolor="#ffecec", color="#cc0000", fontcolor="#990000"];
-    c_cfix  [label="citation-drops-2026-08-04.json\ncitation-fixes-2026-08-04.json\n…-likely.json  …-research.json"];
   }
 
   e_raw [label="data/enrichment/raw/*.json"];
@@ -319,6 +318,5 @@ digraph piru_pipeline {
   s_vcache -> g_tests;
 
   /* ================= EDGES: dead ================= */
-  c_cfix  -> d_acf [color="#cc0000"];
   d_acf   -> e_raw [color="#cc0000", style=dashed];
 }

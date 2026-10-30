@@ -58,7 +58,7 @@
   ],
   "halfLifeMinutes": 1800,
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf",
+    "Marinol (dronabinol) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d0efeeec-640d-43c3-8f0a-d31324a11c68",
     "https://en.wikipedia.org/wiki/Dronabinol",
     "https://pubchem.ncbi.nlm.nih.gov/compound/16078"
   ],

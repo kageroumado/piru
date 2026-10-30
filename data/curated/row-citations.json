@@ -1,0 +1,2719 @@
+{
+ "_comment": "Citations for rows whose own input names no source, each checked against the row by the pass named in `via` before it landed here. One entry names one row by table + canonical substance + source slug + `match` columns + `claim_sha1` (a hash of the row's prose, so a citation stops applying when the sentence it was checked against changes). Applied at build by pipeline/build/row_citations.py; pipeline/build/tests/test_row_citations.py fails on any entry that no longer names exactly one row. Never hand-edit an entry to make it match: re-run the pass, or re-check the source against the new row. Format and passes: pipeline/README.md, 'Row citations'.",
+ "entries": [
+  {
+   "table": "biased_agonism",
+   "substance": "JWH-018",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "CB1",
+    "pathways_compared": "Gαi,β-arrestin-2"
+   },
+   "ref": "doi:10.1021/acschemneuro.5b00107",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (jwh018) and CB1 in title/abstract",
+   "claim_sha1": "b27e75ca039a"
+  },
+  {
+   "table": "bindings",
+   "substance": "2-Fluorodeschloroketamine",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "NMDA (MK-801 site)",
+    "action": "channelBlocker",
+    "species": null
+   },
+   "ref": "pmid:34515415",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (2fdck) and NMDA (MK-801 site) in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "4,4-DMAR",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "VMAT2",
+    "action": "channelBlocker",
+    "species": "human"
+   },
+   "ref": "doi:10.1021/acschemneuro.8b00415",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (44dimethylaminorex) and VMAT2 in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "4-CEC",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "SERT (release)",
+    "action": "releasingAgent",
+    "species": "rat"
+   },
+   "ref": "doi:10.1002/hup.2621",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (4chloroethcathinone) and SERT (release) in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "4-CEC",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "DAT (uptake)",
+    "action": "reuptakeInhibitor",
+    "species": "rat"
+   },
+   "ref": "doi:10.1002/hup.2621",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (4chloroethcathinone) and DAT (uptake) in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "4-CEC",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "SERT (uptake)",
+    "action": "reuptakeInhibitor",
+    "species": "rat"
+   },
+   "ref": "doi:10.1002/hup.2621",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (4chloroethcathinone) and SERT (uptake) in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "Baclofen",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "GABA-B (recombinant hR1a/R2)",
+    "action": "agonist",
+    "species": "human"
+   },
+   "ref": "pmid:6323949",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (baclofen) and GABA-B (recombinant hR1a/R2) in title/abstract",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "Dasotraline",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "SERT",
+    "action": "reuptakeInhibitor",
+    "species": "human"
+   },
+   "ref": "pmid:25948101",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dasotraline) and SERT in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "Ketamine",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "σ2 (racemate)",
+    "action": "modulator",
+    "species": "rat"
+   },
+   "ref": "doi:10.1371/journal.pone.0059334",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ketamine) and σ2 (racemate) in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "Mesyl Sal B",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "KOR",
+    "action": "agonist",
+    "species": "human"
+   },
+   "ref": "doi:10.1124/jpet.114.216820",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (rb64) and KOR in title/abstract",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "Mesyl Sal B",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "MOR",
+    "action": "modulator",
+    "species": "human"
+   },
+   "ref": "doi:10.1124/jpet.114.216820",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (rb64) and MOR in title/abstract",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "Tiletamine",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "NMDA (MK-801 site)",
+    "action": "channelBlocker",
+    "species": null
+   },
+   "ref": "pmid:24020890",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (telazol) and NMDA (MK-801 site) in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "22-Thiocyanatosalvinorin A",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1124/jpet.114.216820",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (rb64) and KOR in title/abstract",
+   "claim_sha1": "0165eb7e7b49"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "25B-NBOMe",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1186/s13550-019-0527-4",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (25bnbome) and 5-HT2A in title/abstract",
+   "claim_sha1": "35d525ef110b"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "25I-NBOH",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/dta.2031",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (25inboh) and 5-HT2A in title/abstract",
+   "claim_sha1": "cac1619f6d2f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "25I-NBOMe",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/dta.2031",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (25i) and 5-HT2A in title/abstract",
+   "claim_sha1": "9b05d5dcfbcf"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "2C-D",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1007/s00213-013-3303-6",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (2cd) and 5-HT2A in title/abstract",
+   "claim_sha1": "e40fedd3e90f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "3-FPM",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.neuropharm.2017.10.006",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (3fluorophenmetrazine) and DAT in title/abstract",
+   "claim_sha1": "1d257a9f4829"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "3-HO-PCP",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/0014-2999(96)00382-2",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (3ohpcp) and NMDA (MK-801 site) in title/abstract",
+   "claim_sha1": "2c98a607c341"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "3-MeO-PCP",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1080/20961790.2021.1928821",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (3meopcp) and NMDA in title/abstract",
+   "claim_sha1": "492820fb0304"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "3-MMC",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/s41386-024-02042-7",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (3methylmethcathinone) and DAT in a full-text paragraph that also names the substance",
+   "claim_sha1": "dc4e8e10ee8b"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "4,4-DMAR",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1111/bcpt.12399",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (44dimethylaminorex) and DAT in a full-text paragraph that also names the substance",
+   "claim_sha1": "47708b7d7a5f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "4-CEC",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/hup.2621",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (4chloroethcathinone) and SERT in a full-text paragraph that also names the substance",
+   "claim_sha1": "fced4fb1ff90"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "4-CMC",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1007/s12640-020-00227-8",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (4chloromethcathinone) and SERT in a full-text paragraph that also names the substance",
+   "claim_sha1": "0ee1a1cc836a"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "4-MEC",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:25502630",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (4mec) and DAT in title/abstract",
+   "claim_sha1": "9372ef75c538"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "4F-MDMB-BINACA",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/acschemneuro.0c00644",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (4fmdmbbinaca) and CB1 in title/abstract",
+   "claim_sha1": "b89761331abb"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "5-MeO-DALT",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:26739781",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (5meodalt) and 5-HT2A in title/abstract",
+   "claim_sha1": "e581976cec48"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "5-MeO-DMT",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1111/jnc.15587",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (5meodmt) and 5-HT1A in title/abstract",
+   "claim_sha1": "0be8d75449e0"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "5-MeO-PYR-T",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/s41380-024-02506-8",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (5meopyrt) and 5-HT1A in a full-text paragraph that also names the substance",
+   "claim_sha1": "bd2a488a701a"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "5F-MDMB-PICA",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/s41386-021-01227-8",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (5fmdmbpica) and CB1 in title/abstract",
+   "claim_sha1": "d06465544255"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "5F-PB-22",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/acschemneuro.5b00107",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (5fpb22) and CB1 in title/abstract",
+   "claim_sha1": "710bb7f1a4b4"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "6-Monoacetylmorphine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:11448454",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (6mam) and MOR in title/abstract",
+   "claim_sha1": "80328ad8e75d"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "7-Hydroxymitragynine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/jacs.6b00360",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (7hydroxymitragynine) and MOR (near-full agonist) in title/abstract",
+   "claim_sha1": "6cf035e0d1b9"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "9-Me-BC",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:32285253",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (9mebc) and MAO-A (moderate) in title/abstract",
+   "claim_sha1": "fbb1d9c585bb"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Ab-chminaca",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:26105953",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (abchminaca) and CB1 in title/abstract",
+   "claim_sha1": "5c3548cf4aff"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "ADB-BUTINACA",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1007/s00204-025-04082-4",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (adbbutinaca) and CB1 in title/abstract",
+   "claim_sha1": "b34936180594"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "ADB-HEXINACA",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/dta.3657",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (adbhexinaca) and CB1 in title/abstract",
+   "claim_sha1": "40aabbec3c08"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "ADB-INACA",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:37903509",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (adbinaca) and CB1 in title/abstract",
+   "claim_sha1": "4359499c5613"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Adrafinil",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1080/08897077.2019.1700584",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (adrafinil) and DAT (via modafinil metabolite) in a full-text paragraph that also names the substance",
+   "claim_sha1": "fbff26603e62"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "AH-7921",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/prp2.511",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ah7921) and MOR in title/abstract",
+   "claim_sha1": "ed9e36ff61f9"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Alcohol",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:9311780",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (alcohol) and GABA-A (δ-subunit-containing extrasynaptic; α4/α6β3δ) in title/abstract",
+   "claim_sha1": "d8565be4969e"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Alfentanil",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (alfentanil) and MOR in title/abstract",
+   "claim_sha1": "e3670a671e08"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "alpha-PiHP",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.3389/fphar.2025.1728824",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (alphapyrrolidinoisohexanophenone) and DAT in a full-text paragraph that also names the substance",
+   "claim_sha1": "fa0569e2aa5f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Aminorex",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:12163129",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (aminorex) and SERT in title/abstract",
+   "claim_sha1": "2985874cffee"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Amphetamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:11071707",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (amphetamine) and DAT in a full-text paragraph that also names the substance",
+   "claim_sha1": "707f93c9510f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Apomorphine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8787038",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (apomorphine) and D2 in title/abstract",
+   "claim_sha1": "30ec4bd8f228"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Baclofen",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:6323949",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (baclofen) and GABA-B in title/abstract",
+   "claim_sha1": "82a590f0cb91"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Brephedrone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/hup.2621",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (brephedrone) and SERT in a full-text paragraph that also names the substance",
+   "claim_sha1": "d7c41def14e8"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Bromadol",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1007/s11419-018-0454-5",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (bdpc) and MOR (ultra-high potency) in title/abstract",
+   "claim_sha1": "dcb706de4797"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Bromazepam",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:14517708",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (bromazepam) and CYP3A4 in title/abstract",
+   "claim_sha1": "b93554596405"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Brorphine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.drugalcdep.2023.109939",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (brorphine) and MOR in title/abstract",
+   "claim_sha1": "cacbeb957880"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "BTCP",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:1681444",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (btcp) and DAT in title/abstract",
+   "claim_sha1": "f38d23c15a8d"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Buprenorphine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1523/jneurosci.3723-08.2009",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (buprenorphine) and MOR in title/abstract",
+   "claim_sha1": "ac6d10b99da2"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Bupropion",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:28220701",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (bupropion) and NET in title/abstract",
+   "claim_sha1": "413439692d9c"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Butorphanol",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/0024-3205(93)90152-s",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (butorphanol) and MOR (partial agonist / antagonist) in title/abstract",
+   "claim_sha1": "7449345a72c5"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Carfentanil",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1111/bph.16084",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (carfentanil) and MOR in title/abstract",
+   "claim_sha1": "24e834863905"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "CBC",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:25311884",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (cannabichromene) and CB2 in title/abstract",
+   "claim_sha1": "557ad9cd94b9"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "CBDV",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/cn5000524",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (cannabidivarin) and TRPV1 in title/abstract",
+   "claim_sha1": "43eabeb96139"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "CBN",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:25311884",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (cannabinol) and CB2 in title/abstract",
+   "claim_sha1": "4b6f0d83cdbe"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "CE-123",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/acsomega.3c09348",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ce123) and DAT in title/abstract",
+   "claim_sha1": "670b603a88ca"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Chlorpheniramine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:7714409",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (chlorpheniramine) and H1 in title/abstract",
+   "claim_sha1": "2a4db3f888a6"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Citalopram",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:15955412",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (citalopram) and SERT in title/abstract",
+   "claim_sha1": "e88bf0a59b42"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Clobromazolam",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1007/s11419-022-00616-y",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (clobromazolam) and GABA-A in title/abstract",
+   "claim_sha1": "0e6c481e02ae"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Cocaine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8245956",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (cocaine) and DAT in title/abstract",
+   "claim_sha1": "3e65b3dd10ca"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Codeine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/clpt.2011.287",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (codeine) and CYP2D6 in title/abstract",
+   "claim_sha1": "04a0b7ce16cb"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Dextromethorphan",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:2568580",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dextromethorphan) and NMDA in title/abstract",
+   "claim_sha1": "88b290e87320"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Dextropropoxyphene",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:10690289",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (propoxyphene) and MOR (weak) in title/abstract",
+   "claim_sha1": "d420c0bfb841"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Dihydrocodeine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:12420793",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dihydrocodeine) and MOR (parent has direct activity unlike codeine) in title/abstract",
+   "claim_sha1": "c3442258d6a3"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "DIPT",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:27216487",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dipt) and 5-HT2A in title/abstract",
+   "claim_sha1": "0fee44d66538"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "DMT",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:27216487",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dimethyltryptamine) and 5-HT2A in title/abstract",
+   "claim_sha1": "6450ca454b9f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "DOB",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:2233697",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dob) and 5-HT2A in title/abstract",
+   "claim_sha1": "4be17a14e332"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "DOC",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1007/s00213-013-3303-6",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (doc) and 5-HT2A in title/abstract",
+   "claim_sha1": "5688682c551c"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Ethketamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1007/s00213-019-05219-x",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ethylketamine) and NMDA in title/abstract",
+   "claim_sha1": "9055a470a5ec"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Etonitazene",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1124/jpet.123.002052",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (etonitazene) and MOR in title/abstract",
+   "claim_sha1": "3932bfd93ea0"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Eutylone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:33689284",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (eutylone) and SERT in title/abstract",
+   "claim_sha1": "f92687708d48"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Fenfluramine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:11104741",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (fenfluramine) and 5-HT2B (parent: low; metabolite: high) in title/abstract",
+   "claim_sha1": "8f20c48fb932"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Fentanyl",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/dta.2822",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (fentanyl) and MOR in title/abstract",
+   "claim_sha1": "009f694c3b40"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Flubromazolam",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/dta.2203",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (flubromazolam) and GABA-A (non-selective) in a full-text paragraph that also names the substance",
+   "claim_sha1": "ac90e022a3da"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Flunitazene",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1124/jpet.123.002052",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (flunitazene) and MOR in title/abstract",
+   "claim_sha1": "6080b45bbc63"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "GHB",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:15567424",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ghb) and GABA-B in title/abstract",
+   "claim_sha1": "e61d18ea1f24"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Herkinorin",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:17090705",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (herkinorin) and MOR in title/abstract",
+   "claim_sha1": "db82bb46401a"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Hexedrone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/acschemneuro.2c00772",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (hexedrone) and DAT in title/abstract",
+   "claim_sha1": "2849d1f45845"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Hordenine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1111/j.2042-7158.1989.tb06492.x",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dimethyltyramine) and MAO-B (substrate) in title/abstract",
+   "claim_sha1": "982caaf25920"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Hydrocodone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (hydrocodone) and MOR (mostly via hydromorphone metabolite in EMs; some direct activity) in title/abstract",
+   "claim_sha1": "3855fdab76f9"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Hydromorphone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (hydromorphone) and MOR in title/abstract",
+   "claim_sha1": "aeecffdbcfbd"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Hydroxynorketamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/nature17998",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (2r6rhnk) and NMDA (MK-801 site) in title/abstract",
+   "claim_sha1": "2340290b497b"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Ibogaine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:9138735",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ibogaine) and kappa-opioid in title/abstract",
+   "claim_sha1": "ce919739c969"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Isopropylphenidate",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1089/cap.2013.0074",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (iph) and DAT in title/abstract",
+   "claim_sha1": "ada5320b60f7"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Isotonitazene",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1124/jpet.123.002052",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (isotonitazene) and MOR in title/abstract",
+   "claim_sha1": "dd9eaedf0ba5"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "JHW-007",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:20855444",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (jhw007) and DAT in title/abstract",
+   "claim_sha1": "340896a7b479"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "JNJ-7925476",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:18499098",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (jnj7925476) and SERT in title/abstract",
+   "claim_sha1": "ae1662ea7275"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "JWH-018",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/acschemneuro.5b00107",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (jwh018) and CB1 in title/abstract",
+   "claim_sha1": "36dfcb56b9ed"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Ketamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1371/journal.pone.0059334",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ketamine) and NMDA in title/abstract",
+   "claim_sha1": "021a267ad03a"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Ketobemidone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8951931",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ketobemidone) and MOR (full agonist) in title/abstract",
+   "claim_sha1": "b51c3bc6d315"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Kratom",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:25995615",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (kratom) and CYP3A4 in a full-text paragraph that also names the substance",
+   "claim_sha1": "56163b926a98"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Lorazepam",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:15961980",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (lorazepam) and GABA-A (non-selective benzodiazepine site) in a full-text paragraph that also names the substance",
+   "claim_sha1": "522b78268bf6"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "LR-1111",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8511716",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (lr1111) and DAT in title/abstract",
+   "claim_sha1": "5e05661513b2"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "LSD",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1111/bcp.13918",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (lsd) and 5-HT2A in a full-text paragraph that also names the substance",
+   "claim_sha1": "d8546d062fdd"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "MDMA",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1046/j.1365-2125.2000.00121.x",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (34methylenedioxymethamphetamine) and CYP2D6 in title/abstract",
+   "claim_sha1": "3d5df884ac77"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "MDMB-4en-PINACA",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:33787091",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (mdmb4enpinaca) and CB1 in title/abstract",
+   "claim_sha1": "f010c8d44e7d"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "MDPV",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/acschemneuro.5b00006",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (mdpv) and DAT in title/abstract",
+   "claim_sha1": "ab3817606ddd"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Memantine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:11403963",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (memantine) and NMDA in title/abstract",
+   "claim_sha1": "82c6ae46ba47"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Mephedrone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:22897747",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (mephedrone) and TAAR1 (rat) in title/abstract",
+   "claim_sha1": "7fc9c75a1cfb"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Mesyl Sal B",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1124/jpet.114.216820",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (rb64) and KOR in title/abstract",
+   "claim_sha1": "2858a8dbc389"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Methadone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/s41380-023-02353-z",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methadone) and MOR in title/abstract",
+   "claim_sha1": "c6407a6f0fc7"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Methamphetamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:11071707",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methamphetamine) and DAT in a full-text paragraph that also names the substance",
+   "claim_sha1": "93bc1f6333bd"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Methoxetamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1371/journal.pone.0059334",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methoxetamine) and NMDA in title/abstract",
+   "claim_sha1": "c75de495c239"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Methylene blue",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/sj.bjp.0707430",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methylene blue) and MAO-A (potent reversible inhibitor) in title/abstract",
+   "claim_sha1": "00d6fb142d15"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Methylone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.3389/fphar.2023.1122861",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methylone) and DAT in a full-text paragraph that also names the substance",
+   "claim_sha1": "123496f6fa1c"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Methylphenidate",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8786705",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dlthreomethylphenidate) and DAT in title/abstract",
+   "claim_sha1": "0aaa122b5da4"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Metodesnitazene",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1124/jpet.123.002052",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (metodesnitazene) and MOR in title/abstract",
+   "claim_sha1": "28abe753786d"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Mexedrone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1002/dta.2053",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (mexedrone) and SERT in title/abstract",
+   "claim_sha1": "0a11e648868d"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Mitragynine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1021/jacs.6b00360",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (mitragynine) and MOR (partial) in title/abstract",
+   "claim_sha1": "91433a4d48f8"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Moclobemide",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.2165/00003088-199529050-00002",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (moclobemide) and MAO-A in title/abstract",
+   "claim_sha1": "e002b4863c1d"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Modafinil",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1001/jama.2009.351",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (modafinil) and DAT in title/abstract",
+   "claim_sha1": "272d5dbd5b68"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Morphine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (morphine) and μ-opioid receptor (MOR) in title/abstract",
+   "claim_sha1": "5c83ae824a2e"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "MPPP",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:25502630",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (4meppp) and DAT in title/abstract",
+   "claim_sha1": "2fbde096dcfe"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "N-Desethylprotonitazene",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.drugalcdep.2023.109939",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (nitazene) and MOR in title/abstract",
+   "claim_sha1": "2283c476e6b5"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Nitrous",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/nm0498-460",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (n2o) and NMDA in title/abstract",
+   "claim_sha1": "d259aabcf127"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Norketamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/s0014-2999(97)01116-3",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (norketamine) and NMDA in title/abstract",
+   "claim_sha1": "86f03c1e4762"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Olanzapine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8822531",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (olanzapine) and D2 in title/abstract",
+   "claim_sha1": "de44158cdbec"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Oxycodone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (oxycodone) and MOR in title/abstract",
+   "claim_sha1": "0449433cf7ad"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Oxymorphone",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (oxymorphone) and MOR in title/abstract",
+   "claim_sha1": "8dd450714ad6"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Paroxetine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:9400006",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (paroxetine) and SERT in title/abstract",
+   "claim_sha1": "5f6a73ccb5c1"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "PCP",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1371/journal.pone.0059334",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (pcp) and NMDA in title/abstract",
+   "claim_sha1": "020b27f0047e"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Pethidine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (meperidine) and MOR in title/abstract",
+   "claim_sha1": "e37c5133c904"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Phenethylamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:11459929",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (betaphenylethylamine) and TAAR1 in title/abstract",
+   "claim_sha1": "d5ccfd620d2d"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Promethazine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8946477",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (promethazine) and H1 in title/abstract",
+   "claim_sha1": "c1371591ecd2"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Protonitazene",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1124/jpet.123.002052",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (protonitazene) and MOR in title/abstract",
+   "claim_sha1": "bcc44598ebba"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Rimcazole",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:2873494",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (rimcazole) and sigma-1 in title/abstract",
+   "claim_sha1": "d3b5707288aa"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "RTI-113",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:9704880",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (rti113) and DAT in title/abstract",
+   "claim_sha1": "8d563e5d490c"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "RTI-55",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8245956",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (rti55) and DAT in title/abstract",
+   "claim_sha1": "54684d8f2b35"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Salvinorin A",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1073/pnas.182234399",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (salvia) and KOR in a full-text paragraph that also names the substance",
+   "claim_sha1": "a755f7217a57"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Scopolamine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:16175141",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (hyoscine) and M1 in title/abstract",
+   "claim_sha1": "f38daeb62f9d"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Sufentanil",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (sufentanil) and MOR in title/abstract",
+   "claim_sha1": "7ddd7a44a4f8"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Tapentadol",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:17656655",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (tapentadol) and MOR in title/abstract",
+   "claim_sha1": "2049f29d8bcb"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Tianeptine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1038/tp.2014.30",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (tianeptine) and μ-opioid receptor (MOR) in title/abstract",
+   "claim_sha1": "8f6f14c6efed"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "TMA-2",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.3389/fphar.2019.01423",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (245trimethoxyamphetamine) and 5-HT2A in title/abstract",
+   "claim_sha1": "0acf3c2d5c73"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Tramadol",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:28520365",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (conzip) and MOR (weak; potent via M1 metabolite) in title/abstract",
+   "claim_sha1": "e97000c961ad"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "U-47700",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1016/j.drugalcdep.2023.109939",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (u47700) and MOR in title/abstract",
+   "claim_sha1": "c70e27584bb1"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "U-51754",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:35142070",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (u51754) and MOR (weak) in title/abstract",
+   "claim_sha1": "6a333b05892f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Varenicline",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:17157884",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (varenicline) and α4β2 nAChR (partial agonist) in title/abstract",
+   "claim_sha1": "181b4d73dd66"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Viloxazine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "doi:10.1007/s40268-026-00543-y",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (viloxazine) and NET in title/abstract",
+   "claim_sha1": "60c8ab22bb1f"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "WIN-35428",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "pmid:8878059",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (win35428) and DAT in title/abstract",
+   "claim_sha1": "43d31aaeb646"
+  },
+  {
+   "table": "drug_interactions_pk",
+   "substance": "GHB",
+   "source": "peer-review-primary",
+   "match": {
+    "with_substance": "valproate",
+    "mechanism": "SSADH (succinic semialdehyde dehydrogenase) inhibition"
+   },
+   "ref": "pmid:15567424",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ghb) and valproate in a full-text paragraph that also names the substance",
+   "claim_sha1": "0652a3c4002b"
+  },
+  {
+   "table": "drug_interactions_pk",
+   "substance": "MDMA",
+   "source": "peer-review-primary",
+   "match": {
+    "with_substance": "ritonavir",
+    "mechanism": "CYP2D6 + CYP3A4 inhibition"
+   },
+   "ref": "doi:10.1016/s0006-2952(00)00284-7",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (ecstasy) and ritonavir in a full-text paragraph that also names the substance",
+   "claim_sha1": "547ed4a6986e"
+  },
+  {
+   "table": "drug_interactions_pk",
+   "substance": "MDMA",
+   "source": "peer-review-primary",
+   "match": {
+    "with_substance": "paroxetine",
+    "mechanism": "CYP2D6 inhibition (paroxetine inhibits, MDMA is a 2D6 substrate)"
+   },
+   "ref": "doi:10.3389/fgene.2012.00235",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (34methylenedioxymethamphetamine) and paroxetine in a full-text paragraph that also names the substance",
+   "claim_sha1": "0c27a290c940"
+  },
+  {
+   "table": "drug_interactions_pk",
+   "substance": "Methadone",
+   "source": "peer-review-primary",
+   "match": {
+    "with_substance": "rifampicin",
+    "mechanism": "CYP3A4/2B6 induction"
+   },
+   "ref": "doi:10.2165/00003088-200241140-00003",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methadone) and rifampicin in title/abstract",
+   "claim_sha1": "cb0c2219f245"
+  },
+  {
+   "table": "drug_interactions_pk",
+   "substance": "Oxycodone",
+   "source": "peer-review-primary",
+   "match": {
+    "with_substance": "paroxetine",
+    "mechanism": "CYP2D6 inhibition"
+   },
+   "ref": "doi:10.3390/pharmaceutics13091466",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (oxycodone) and paroxetine in a full-text paragraph that also names the substance",
+   "claim_sha1": "5895b41ad4b8"
+  },
+  {
+   "table": "functional_assays",
+   "substance": "Alcohol",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "GABA-A α1β2γ2 (synaptic)",
+    "readout": "GABA-induced Cl- current potentiation"
+   },
+   "ref": "pmid:9311780",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (alcohol) and GABA-A α1β2γ2 (synaptic) in title/abstract",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "functional_assays",
+   "substance": "Morphine",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "MOR",
+    "readout": "β-arrestin-2 recruitment"
+   },
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (morphine) and MOR in title/abstract",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Acalabrutinib",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "87c5eea280ca",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=dd4835ef-e1bc-4997-a399-1ffa2556fbfe",
+   "title": "Calquence (acalabrutinib) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0310-0512 → DailyMed setid dd4835ef-e1bc-4997-a399-1ffa2556fbfe; label names acalabrutinib; §12.1 holds 64% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Atomoxetine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "384898d4663b",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=309de576-c318-404a-bc15-660c2b1876fb",
+   "title": "Strattera (atomoxetine hydrochloride) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0002-3227 → DailyMed setid 309de576-c318-404a-bc15-660c2b1876fb; label names Atomoxetine; §12.1 holds 80% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Atropine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "5395414bde46",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=590a4e7b-565f-415f-a8e4-499a382c9a3b",
+   "title": "Atropine (atropine sulfate) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 13985-606 → DailyMed setid 590a4e7b-565f-415f-a8e4-499a382c9a3b; label names Atropine; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Bexarotene",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "d5f07001edcd",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2d1eb4bd-51f9-4c9b-9fb1-0be5e30a3dc5",
+   "title": "Bexarotene label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0378-6955 → DailyMed setid 2d1eb4bd-51f9-4c9b-9fb1-0be5e30a3dc5; label names Bexarotene; §12.1 holds 70% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Bivalirudin",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "2411b67a0bb5",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=19beb2ae-6064-3c24-fe50-0cee86896979",
+   "title": "Bivalirudin label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 55111-652 → DailyMed setid 19beb2ae-6064-3c24-fe50-0cee86896979; label names Bivalirudin; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Botulinum Toxin Type A",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "b3e1203f8694",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=71313a04-1349-4c26-b840-a39e4a3ddaed",
+   "title": "Dysport (botulinum toxin type a) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0299-5962 → DailyMed setid 71313a04-1349-4c26-b840-a39e4a3ddaed; label names Botulinum Toxin Type A; §12.1 holds 75% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Celecoxib",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "5a1d43fea15c",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a2d75d7d-a6d0-4489-85f7-a57c237ba5e2",
+   "title": "Celecoxib 400 Mg (celecoxib) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 69399-185 → DailyMed setid a2d75d7d-a6d0-4489-85f7-a57c237ba5e2; label names Celecoxib; §12.1 holds 78% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Clonidine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "c36386899f1c",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8c126bb8-732a-4949-8754-2f50b5543638",
+   "title": "Duraclon (clonidine hydrochloride) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 67457-218 → DailyMed setid 8c126bb8-732a-4949-8754-2f50b5543638; label names Clonidine; §12.1 holds 67% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Decitabine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "cb482bba3fff",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c155d6ba-9a16-406c-919e-65a149689ab9",
+   "title": "Decitabine label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 47335-361 → DailyMed setid c155d6ba-9a16-406c-919e-65a149689ab9; label names Decitabine; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Deferiprone",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "0dd71b967ad4",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=dc8cbc3d-026c-0db5-42e8-8e93d374dd23",
+   "title": "Ferriprox (deferiprone) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 52609-0006 → DailyMed setid dc8cbc3d-026c-0db5-42e8-8e93d374dd23; label names deferiprone; §12.1 holds 89% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Defibrotide Sodium",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "4f4f97c4551e",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2c3db989-d7ad-41ed-9ebf-698dcf6c24ec",
+   "title": "Defitelio (defibrotide sodium) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 68727-800 → DailyMed setid 2c3db989-d7ad-41ed-9ebf-698dcf6c24ec; label names defibrotide sodium; §12.1 holds 89% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Dexmedetomidine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "a1b5bc492427",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8fb7886c-7762-4b72-989b-0fe8e963b4b8",
+   "title": "Dexmedetomidine (dexmedetomidine hydrochloride) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 17478-055 → DailyMed setid 8fb7886c-7762-4b72-989b-0fe8e963b4b8; label names Dexmedetomidine; §12.1 holds 75% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Diclofenac",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "a16cd6825990",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9df87100-acf5-4b46-93b4-067b470136bd",
+   "title": "Diclofenac Sodium Delayed Release (diclofenac sodium) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 50090-0543 → DailyMed setid 9df87100-acf5-4b46-93b4-067b470136bd; label names diclofenac; §12.1 holds 86% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Eliglustat",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "7facba3963cc",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=819f828a-b888-4e46-83fc-94d774a28a83",
+   "title": "Cerdelga (eliglustat) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 58468-0220 → DailyMed setid 819f828a-b888-4e46-83fc-94d774a28a83; label names Eliglustat; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Estrogens, Conjugated",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "01d1bddbb224",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=258e1602-a3cf-4ccc-ca80-73dbbfb812ff",
+   "title": "Premarin (estrogens, conjugated) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0046-1100 → DailyMed setid 258e1602-a3cf-4ccc-ca80-73dbbfb812ff; label names estrogens, conjugated; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Everolimus",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "42982bfa35be",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e082a024-7850-400b-a5c2-2a140612562a",
+   "title": "Zortress (everolimus) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0078-0414 → DailyMed setid e082a024-7850-400b-a5c2-2a140612562a; label names Everolimus; §12.1 holds 88% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Galsulfase",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "764f44b04114",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=59341250-deac-ed71-3823-a4f5d64dbd77",
+   "title": "Naglazyme (galsulfase) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 68135-020 → DailyMed setid 59341250-deac-ed71-3823-a4f5d64dbd77; label names Galsulfase; §12.1 holds 89% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Granisetron",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "1876f170746d",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=dddc8714-383f-4bc5-a468-ae89dbc802b4",
+   "title": "Granisetron (granisetron hydrochloride) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 63323-317 → DailyMed setid dddc8714-383f-4bc5-a468-ae89dbc802b4; label names Granisetron; §12.1 holds 89% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Heparin",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "4fbca1aea2fd",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=92a6f533-1a3d-4734-b413-d245592454e3",
+   "title": "Heparin Sodium In Dextrose (heparin sodium and dextrose) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0264-9567 → DailyMed setid 92a6f533-1a3d-4734-b413-d245592454e3; label names heparin; §12.1 holds 75% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Hydromorphone",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "e483bd49545b",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4d33b072-0755-4b8c-9558-2551306756a3",
+   "title": "hydromorphone label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 17478-540 → DailyMed setid 4d33b072-0755-4b8c-9558-2551306756a3; label names hydromorphone; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Idarubicin",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "e8f6d1189ab8",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0a5a6d93-cc1e-4d7f-8da1-446c134503b3",
+   "title": "Idamycin Pfs (idarubicin hydrochloride) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0013-2576 → DailyMed setid 0a5a6d93-cc1e-4d7f-8da1-446c134503b3; label names Idarubicin; §12.1 holds 57% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Ifosfamide",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "a8051537b452",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b7241707-7538-4d1a-91e7-3a25a91e0b9a",
+   "title": "Ifex (ifosfamide) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0338-3991 → DailyMed setid b7241707-7538-4d1a-91e7-3a25a91e0b9a; label names ifosfamide; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Irinotecan",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "31fb5deb2099",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9c6aa884-750e-4b11-9955-bc7ab6e9c2ad",
+   "title": "Irinotecan label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0143-9583 → DailyMed setid 9c6aa884-750e-4b11-9955-bc7ab6e9c2ad; label names Irinotecan; §12.1 holds 90% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Ivacaftor",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "58a97dd3a338",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0ab0c9f8-3eee-4e0f-9f3f-c1e16aaffe25",
+   "title": "Kalydeco (ivacaftor) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 51167-200 → DailyMed setid 0ab0c9f8-3eee-4e0f-9f3f-c1e16aaffe25; label names Ivacaftor; §12.1 holds 86% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Lenalidomide",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "6a150357971c",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5fa97bf5-28a2-48f1-8955-f56012d296be",
+   "title": "Revlimid (lenalidomide) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 59572-402 → DailyMed setid 5fa97bf5-28a2-48f1-8955-f56012d296be; label names Lenalidomide; §12.1 holds 82% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Memantine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "53f806b0bedd",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a5dcc0e7-761f-4294-bb48-e5ee4a1e2f67",
+   "title": "Memantine label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0615-8100 → DailyMed setid a5dcc0e7-761f-4294-bb48-e5ee4a1e2f67; label names Memantine; §12.1 holds 83% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Mesalazine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "51f4e845cf57",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d5d05b1f-9f45-4f66-9f75-3c67934105de",
+   "title": "Apriso (mesalamine) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 54868-6150 → DailyMed setid d5d05b1f-9f45-4f66-9f75-3c67934105de; label names Mesalazine; §12.1 holds 89% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Methadone",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "c87be5da87cb",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=544483e6-6f9d-4371-9e93-313e54e0ea05",
+   "title": "Methadose Dispersible (methadone hydrochloride) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0406-0540 → DailyMed setid 544483e6-6f9d-4371-9e93-313e54e0ea05; label names Methadone; §12.1 holds 50% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Miglustat",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "219026dcc98c",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=76eb7ac8-e0ee-4409-a4e7-e326c6725836",
+   "title": "Miglustat label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 10148-201 → DailyMed setid 76eb7ac8-e0ee-4409-a4e7-e326c6725836; label names Miglustat; §12.1 holds 88% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Paricalcitol",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "0abfdad9ff2a",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4db985c4-3ba2-4967-898b-35af77f150de",
+   "title": "Paricalcitol label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0143-9596 → DailyMed setid 4db985c4-3ba2-4967-898b-35af77f150de; label names Paricalcitol; §12.1 holds 89% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Phentolamine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "65c9d60bec0f",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4025cf98-ea87-4531-b0fc-6283c84f63f3",
+   "title": "Oraverse (phentolamine mesylate) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0362-0101 → DailyMed setid 4025cf98-ea87-4531-b0fc-6283c84f63f3; label names Phentolamine; §12.1 holds 75% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Progesterone",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "649471063cd6",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2ba50fa9-b349-40cb-9a4b-1af8faa4ec09",
+   "title": "Endometrin (progesterone) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 55566-6500 → DailyMed setid 2ba50fa9-b349-40cb-9a4b-1af8faa4ec09; label names progesterone; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Quinidine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "97e8526173ad",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5023f053-fcc4-4c2c-aa59-9ec198ad185e",
+   "title": "Quinidine label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 53489-141 → DailyMed setid 5023f053-fcc4-4c2c-aa59-9ec198ad185e; label names Quinidine; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Rasburicase",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "3d3ff1f3e655",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0ae10bc4-6b65-402f-9db5-2d7753054922",
+   "title": "Elitek (rasburicase) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0024-5150 → DailyMed setid 0ae10bc4-6b65-402f-9db5-2d7753054922; label names Rasburicase; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "RK-0202",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "00de4b1886c7",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9d305722-e74f-4f48-8d2c-0daa99144749",
+   "title": "RK-0202 label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0574-0805 → DailyMed setid 9d305722-e74f-4f48-8d2c-0daa99144749; label names RK-0202; §12.1 holds 91% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Rotigotine",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "0c27512adb51",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=939e28c5-f3a9-42c0-9a2d-8d471d82a6e0",
+   "title": "Neupro (rotigotine) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 50474-801 → DailyMed setid 939e28c5-f3a9-42c0-9a2d-8d471d82a6e0; label names Rotigotine; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Sebelipase Alfa",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "9a3ce7943ada",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=83a77b9d-42f0-4645-8420-786285da7326",
+   "title": "Kanuma (sebelipase alfa) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 25682-007 → DailyMed setid 83a77b9d-42f0-4645-8420-786285da7326; label names sebelipase alfa; §12.1 holds 71% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Sugammadex",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "9e4517ac3c26",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5171d883-fe8f-482c-97ab-40b00975b64a",
+   "title": "Bridion (sugammadex) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0006-5423 → DailyMed setid 5171d883-fe8f-482c-97ab-40b00975b64a; label names Sugammadex; §12.1 holds 91% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Technetium Tc-99M Sestamibi",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "55af4f83247b",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=07c893fc-cfba-1d98-0232-6448463afb87",
+   "title": "technetium tc-99m sestamibi label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 45548-141 → DailyMed setid 07c893fc-cfba-1d98-0232-6448463afb87; label names technetium tc-99m sestamibi; §12.1 holds 88% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Tetrofosmin",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "648a11b801f0",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=98c85037-a907-4a3a-8864-c3a5298b4759",
+   "title": "Myoview (tetrofosmin) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 17156-026 → DailyMed setid 98c85037-a907-4a3a-8864-c3a5298b4759; label names tetrofosmin; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Tocilizumab",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "19f96d584297",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2e5365ff-cb2a-4b16-b2c7-e35c6bf2de13",
+   "title": "Actemra (tocilizumab) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 50242-135 → DailyMed setid 2e5365ff-cb2a-4b16-b2c7-e35c6bf2de13; label names Tocilizumab; §12.1 holds 100% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Trimethobenzamide",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "c69144e7805b",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=97191d37-7c2e-48c6-91bf-0631fd7b1dd8",
+   "title": "Tigan (trimethobenzamide hydrochloride) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 21695-853 → DailyMed setid 97191d37-7c2e-48c6-91bf-0631fd7b1dd8; label names Trimethobenzamide; §12.1 holds 80% of the line's content words"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Verteporfin",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "claim_sha1": "3fd1f67127ce",
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=952f4c80-50b1-4308-9ee6-311ffefb13df",
+   "title": "Visudyne (verteporfin for injection) label, §12.1 Mechanism of Action",
+   "accessed": "2026-10-30",
+   "via": "dailymed-ndc",
+   "evidence": "MedTAP NDC 0187-5600 → DailyMed setid 952f4c80-50b1-4308-9ee6-311ffefb13df; label names Verteporfin; §12.1 holds 73% of the line's content words"
+  },
+  {
+   "table": "metabolism",
+   "substance": "3-MMC",
+   "source": "peer-review-primary",
+   "match": {
+    "enzyme": "CYP2D6 (putative, N-demethylation)",
+    "metabolite_name": "desmethyl-3-MMC (nor-3-MMC)",
+    "route": null
+   },
+   "ref": "doi:10.3390/medicina60030466",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (3methylmethcathinone) and CYP2D6 (putative, N-demethylation) in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "metabolism",
+   "substance": "DMT",
+   "source": "peer-review-primary",
+   "match": {
+    "enzyme": "MAO-A",
+    "metabolite_name": "indole-3-acetic acid (IAA)",
+    "route": null
+   },
+   "ref": "doi:10.1038/s41398-023-02477-4",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dimethyltryptamine) and MAO-A in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "metabolism",
+   "substance": "MDPV",
+   "source": "peer-review-primary",
+   "match": {
+    "enzyme": "CYP2D6",
+    "metabolite_name": "3,4-dihydroxypyrovalerone",
+    "route": null
+   },
+   "ref": "pmid:27029951",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (34methylenedioxypyrovalerone) and CYP2D6 in a full-text paragraph that also names the substance",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "neuroimaging",
+   "substance": "25B-NBOMe",
+   "source": "peer-review-primary",
+   "match": {
+    "modality": "PET"
+   },
+   "ref": "doi:10.1186/s13550-019-0527-4",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (25bnbome) and PET in title/abstract",
+   "claim_sha1": "acb47dd765b8"
+  },
+  {
+   "table": "neuroimaging",
+   "substance": "Olanzapine",
+   "source": "peer-review-primary",
+   "match": {
+    "modality": "PET"
+   },
+   "ref": "doi:10.2165/00003088-199937030-00001",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (olanzapine) and PET in a full-text paragraph that also names the substance",
+   "claim_sha1": "025c85450d00"
+  },
+  {
+   "table": "off_targets",
+   "substance": "4,4-DMAR",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "VMAT2"
+   },
+   "ref": "doi:10.1021/acschemneuro.8b00415",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (44dimethylaminorex) and VMAT2 in a full-text paragraph that also names the substance",
+   "claim_sha1": "40ab0976d59f"
+  },
+  {
+   "table": "off_targets",
+   "substance": "Tramadol",
+   "source": "peer-review-primary",
+   "match": {
+    "target": "5-HT3"
+   },
+   "ref": "doi:10.2165/00003088-200443130-00004",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (tramadol) and 5-HT3 in a full-text paragraph that also names the substance",
+   "claim_sha1": "3b81d5e8161e"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "3-MMC",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6"
+   },
+   "ref": "doi:10.3390/medicina60030466",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (3methylmethcathinone) and CYP2D6 in a full-text paragraph that also names the substance",
+   "claim_sha1": "60d5cd5d6c90"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Codeine",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6"
+   },
+   "ref": "doi:10.1038/clpt.2011.287",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (codeine) and CYP2D6 in title/abstract",
+   "claim_sha1": "bb421d73bb15"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Codeine",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "OPRM1"
+   },
+   "ref": "doi:10.1038/clpt.2011.287",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (codeine) and OPRM1 in a full-text paragraph that also names the substance",
+   "claim_sha1": "bb421d73bb15"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "DMT",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6"
+   },
+   "ref": "doi:10.1007/s40262-024-01450-8",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dimethyltryptamine) and CYP2D6 in a full-text paragraph that also names the substance",
+   "claim_sha1": "239a3c26d027"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "DMT",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "MAO-A VNTR"
+   },
+   "ref": "doi:10.1007/s40262-024-01450-8",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (dimethyltryptamine) and MAO-A VNTR in a full-text paragraph that also names the substance",
+   "claim_sha1": "239a3c26d027"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Fentanyl",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP3A4"
+   },
+   "ref": "pmid:8886601",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (fentanyl) and CYP3A4 in title/abstract",
+   "claim_sha1": "3050d8799a16"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Fluoxetine",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2C9"
+   },
+   "ref": "doi:10.3390/pharmaceutics13020148",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (fluoxetine) and CYP2C9 in title/abstract",
+   "claim_sha1": "9a2ec22d8bc6"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Fluoxetine",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6"
+   },
+   "ref": "doi:10.3390/pharmaceutics13020148",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (fluoxetine) and CYP2D6 in title/abstract",
+   "claim_sha1": "9a2ec22d8bc6"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Lamotrigine",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "UGT1A4"
+   },
+   "ref": "doi:10.1111/bcp.12984",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (lamotrigine) and UGT1A4 in title/abstract",
+   "claim_sha1": "c8c496b0f78e"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "LSD",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "HTR2A (His452Tyr)"
+   },
+   "ref": "doi:10.7554/elife.35082",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (lsd) and HTR2A (His452Tyr) in a full-text paragraph that also names the substance",
+   "claim_sha1": "397003cdbd06"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Lys-MDA",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6"
+   },
+   "ref": "doi:10.1038/s41386-025-02248-3",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (lysinemda) and CYP2D6 in a full-text paragraph that also names the substance",
+   "claim_sha1": "56e463dc3e87"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Mdea",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6"
+   },
+   "ref": "doi:10.1016/s0006-2952(00)00284-7",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (mde) and CYP2D6 in title/abstract",
+   "claim_sha1": "dd813542cfcd"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "MDPV",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2C19"
+   },
+   "ref": "pmid:27029951",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (34methylenedioxypyrovalerone) and CYP2C19 in a full-text paragraph that also names the substance",
+   "claim_sha1": "36c0c8786a42"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "MDPV",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6"
+   },
+   "ref": "pmid:27029951",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (34methylenedioxypyrovalerone) and CYP2D6 in a full-text paragraph that also names the substance",
+   "claim_sha1": "36c0c8786a42"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Methadone",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "ABCB1"
+   },
+   "ref": "pmid:17329992",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methadone) and ABCB1 in a full-text paragraph that also names the substance",
+   "claim_sha1": "7434fa67a445"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Methadone",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2B6 (*6/*6, *18)"
+   },
+   "ref": "pmid:17329992",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methadone) and CYP2B6 (*6/*6, *18) in title/abstract",
+   "claim_sha1": "7434fa67a445"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Methadone",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2C19"
+   },
+   "ref": "pmid:17329992",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methadone) and CYP2C19 in a full-text paragraph that also names the substance",
+   "claim_sha1": "7434fa67a445"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Methadone",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP3A4/5"
+   },
+   "ref": "pmid:17329992",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (methadone) and CYP3A4/5 in a full-text paragraph that also names the substance",
+   "claim_sha1": "7434fa67a445"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Opium",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6 (codeine→morphine)"
+   },
+   "ref": "doi:10.1098/rsob.220355",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (opium) and CYP2D6 (codeine→morphine) in a full-text paragraph that also names the substance",
+   "claim_sha1": "8a9dff229f59"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Oxymorphone",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "OPRM1"
+   },
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (oxymorphone) and OPRM1 in a full-text paragraph that also names the substance",
+   "claim_sha1": "551853859166"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Pethidine",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "OPRM1"
+   },
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (meperidine) and OPRM1 in a full-text paragraph that also names the substance",
+   "claim_sha1": "306af8aacf51"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Sufentanil",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "OPRM1"
+   },
+   "ref": "doi:10.1016/j.yrtph.2010.12.007",
+   "accessed": "2026-10-30",
+   "via": "references_consulted",
+   "evidence": "consulted by the record; names the substance (sufentanil) and OPRM1 in a full-text paragraph that also names the substance",
+   "claim_sha1": "f305430b74da"
+  }
+ ]
+}

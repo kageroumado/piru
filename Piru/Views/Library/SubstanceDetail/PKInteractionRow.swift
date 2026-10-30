@@ -43,7 +43,7 @@ struct PKInteractionRow: View {
             // "AUC increased ~2.6×" is a number somebody measured; the row was
             // fetched with its DOI/PMID and printed without them, which reads as
             // the app's own claim.
-            sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
+            sourceLine(slug: hit.sourceSlug, detail: nil, citation: hit.citation, accent: accent)
                 .font(.caption2)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

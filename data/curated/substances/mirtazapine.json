@@ -39,7 +39,7 @@
   ],
   "halfLifeMinutes": 1500,
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/020415s028lbl.pdf",
+    "Remeron (mirtazapine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=98ad1917-a094-44f5-a28f-a64a8cfcd887",
     "https://en.wikipedia.org/wiki/Mirtazapine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/4205"
   ],

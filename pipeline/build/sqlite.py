@@ -46,6 +46,7 @@ import collision_registry  # noqa: E402
 import dose_gates  # noqa: E402
 import product_codes as product_code_keys  # noqa: E402
 import psid  # noqa: E402
+import row_citations  # noqa: E402
 from dedupe import dedupe_database  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     reported_effects as dc_reported_effects,
@@ -366,7 +367,7 @@ SOURCES = [
     (
         "peer-review-primary",
         "Published literature",
-        "Cited journal articles.",
+        "Research notes written from the literature. A row links its source when it cites one.",
     ),
     # dose.wiki leads the community sources. Only its expert-reviewed articles
     # contribute doses, durations, half-lives and bindings, and a defect reported
@@ -5521,6 +5522,24 @@ def is_identifier_citation(
     return bool(_IDENTIFIER_LABEL_RE.match(u))
 
 
+def first_citable_reference(refs: list | None) -> str | None:
+    """The first reference in a list that ``cite()`` would keep.
+
+    A curated record lists its references in the order they were collected, and
+    that order often opens with a PubChem CID — an identifier, which ``cite()``
+    drops. Taking ``references[0]`` then leaves the row uncited while a paper or
+    a Wikipedia article sits at index 1."""
+    for ref in refs or []:
+        if not isinstance(ref, str) or not ref.strip():
+            continue
+        doi, pmid, url, title = parse_reference(ref)
+        if (doi, pmid, url) != (None, None, None) and not is_identifier_citation(
+            doi, pmid, url, title
+        ):
+            return ref
+    return None
+
+
 def to_float(v) -> float | None:
     if v is None or v == "":
         return None
@@ -7155,11 +7174,7 @@ class Build:
         if not cache_path.exists():
             return 0
         cache = json.loads(cache_path.read_text())
-        dead = [
-            u
-            for u, e in cache.items()
-            if e.get("verdict") == "dead" and "accessdata.fda.gov" not in u
-        ]
+        dead = [u for u, e in cache.items() if e.get("verdict") == "dead"]
         if not dead:
             return 0
         # Fact tables that carry a nullable citation_id (everything except the
@@ -7623,18 +7638,20 @@ class Build:
     def add_tolerance(self, sid: int, source_slug: str, t: dict) -> None:
         if not t:
             return
+        half_life = to_float(t.get("halfLife") or t.get("half_life_days"))
+        full_reset = to_float(t.get("fullResetDays") or t.get("full_reset_days"))
+        build_rate = t.get("buildRate") or t.get("build_rate")
+        # The app reads a tolerance row only when all three numbers are present
+        # (`resolvedTolerance` in SubstanceReadModel.swift), so a notes-only row
+        # ships in the bundle and reaches no screen.
+        if half_life is None or full_reset is None or not build_rate:
+            self.stats["tolerance_unrenderable"] += 1
+            return
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
                 "INSERT INTO tolerance(substance_id, source_id, half_life_days, full_reset_days, build_rate, notes) VALUES (?, ?, ?, ?, ?, ?)",
-                (
-                    sid,
-                    src,
-                    to_float(t.get("halfLife") or t.get("half_life_days")),
-                    to_float(t.get("fullResetDays") or t.get("full_reset_days")),
-                    t.get("buildRate") or t.get("build_rate"),
-                    t.get("notes"),
-                ),
+                (sid, src, half_life, full_reset, build_rate, t.get("notes")),
             )
             self.stats["tolerance"] += 1
         except sqlite3.IntegrityError:
@@ -7751,7 +7768,9 @@ class Build:
         )
         self.stats["receptor_oligomers"] += 1
 
-    def add_downstream(self, sid: int, source_slug: str, summary: str) -> None:
+    def add_downstream(
+        self, sid: int, source_slug: str, summary: str, citation: str | None = None
+    ) -> None:
         if not summary:
             return
         # The enrichment passes that filled this table left notes to the curator
@@ -7768,8 +7787,8 @@ class Build:
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO downstream_signalling(substance_id, source_id, summary) VALUES (?, ?, ?)",
-                (sid, src, summary),
+                "INSERT INTO downstream_signalling(substance_id, source_id, summary, citation_id) VALUES (?, ?, ?, ?)",
+                (sid, src, summary, self.cite(citation)),
             )
             self.stats["downstream_signalling"] += 1
         except sqlite3.IntegrityError:
@@ -8210,7 +8229,7 @@ class Build:
                 slug,
                 moa.get("summary") or moa.get("description") or "",
                 description=moa.get("description"),
-                citation=(moa.get("references") or [None])[0],
+                citation=first_citable_reference(moa.get("references")),
             )
             for b in moa.get("bindings") or []:
                 if not isinstance(b, dict):
@@ -8338,7 +8357,7 @@ class Build:
                 "piru-curated",
                 rec.get("summary") or rec.get("description") or "",
                 description=rec.get("description"),
-                citation=refs[0] if refs else None,
+                citation=first_citable_reference(refs),
             )
             for b in rec.get("bindings") or []:
                 if isinstance(b, dict) and b.get("target"):
@@ -14843,7 +14862,12 @@ class Build:
             for o in pharm.get("receptor_oligomerisation") or []:
                 self.add_oligomer(sid, slug, o)
             if pharm.get("downstream_signalling"):
-                self.add_downstream(sid, slug, pharm["downstream_signalling"])
+                self.add_downstream(
+                    sid,
+                    slug,
+                    pharm["downstream_signalling"],
+                    citation=pharm.get("downstream_signalling_reference"),
+                )
             for n in pharm.get("neuroimaging") or []:
                 self.add_neuroimaging(sid, slug, n)
             human_pk = rec.get("human_pk") or {}
@@ -14878,29 +14902,10 @@ class Build:
                     pgx.get("phenotype_effects") or "",
                     citation=pgx.get("reference"),
                 )
-            tol = rec.get("tolerance_and_dependence")
-            if isinstance(tol, dict):
-                summary_parts = []
-                for k in ("receptor_downregulation_half_time", "withdrawal_syndrome"):
-                    v = tol.get(k)
-                    if v:
-                        summary_parts.append(f"{k}: {v}")
-                if summary_parts:
-                    src = self.source_ids[slug]
-                    try:
-                        self.cur.execute(
-                            "INSERT INTO tolerance(substance_id, source_id, build_rate, notes, citation_id) VALUES (?, ?, ?, ?, ?)",
-                            (
-                                sid,
-                                src,
-                                None,
-                                " | ".join(summary_parts),
-                                self.cite(tol.get("reference")),
-                            ),
-                        )
-                        self.stats["tolerance"] += 1
-                    except sqlite3.IntegrityError:
-                        pass
+            if isinstance(rec.get("tolerance_and_dependence"), dict):
+                # Prose only, and the tolerance table is read for its numbers;
+                # see add_tolerance.
+                self.stats["tolerance_unrenderable"] += 1
             cid_slug = rec.get("class_context_id")
             if cid_slug:
                 pending_class_links.append((sid, cid_slug))
@@ -15739,6 +15744,18 @@ def main() -> int:
     final_stubs = build.flag_dose_less_stubs()
     print(f"Final dose-less stub flag: {final_stubs}", file=sys.stderr)
 
+    # After every row exists and every merge has settled, so an entry names the
+    # row a reader will see. See pipeline/build/row_citations.py.
+    row_citation_counts, row_citation_failures = row_citations.apply(
+        build.cur.connection, row_citations.load(), build.cite
+    )
+    print(f"Row citations: {dict(row_citation_counts)}", file=sys.stderr)
+    for failure in row_citation_failures:
+        print(f"  WARNING: row citation not applied — {failure}", file=sys.stderr)
+    print(
+        f"Citation metadata (row citations): {build.backfill_citation_metadata()}", file=sys.stderr
+    )
+
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
     content_version = next_content_version(datetime.now(UTC).strftime("%Y-%m-%d"))
     sources_summary = {
@@ -15955,6 +15972,17 @@ def main() -> int:
         f"{len(gate_result.hits)} row(s) deleted by `pipeline/build/dose_gates.py`; "
         "the rows are in `data/snapshots/dose-gate-report.md`."
     )
+    lines.append("")
+    lines.append("## Row citations")
+    lines.append("")
+    lines.append(
+        f"{row_citation_counts.get('applied', 0)} row(s) cited from "
+        "`data/curated/row-citations.json`; "
+        f"{len(row_citation_failures)} entr{'y' if len(row_citation_failures) == 1 else 'ies'} "
+        "not applied."
+    )
+    for failure in row_citation_failures:
+        lines.append(f"- {failure}")
     lines.append("")
     lines.append("## Per-source coverage")
     lines.append("")

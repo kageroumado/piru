@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha256 `d36ebfef14acd1e5efc50adcf76fb5edfbc45c0976dffdeb8f77ed1c920757bb`)
+Built 2026-10-30.6 → `Piru/Data/piru-substances.sqlite` (21,520,384 bytes, sha256 `267e9136cada1dc8241f7d1a5134fe3f7c28c396e0dcac4b1f815443a4ccbdf7`)
 
 ## Row counts
 
@@ -10,7 +10,7 @@ Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha
 | aliases | 6,016 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,483 |
+| citations | 2,452 |
 | categories | 1,577 |
 | tags | 7,054 |
 | dose_ranges | 2,801 |
@@ -22,7 +22,7 @@ Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha
 | subjective_effects | 23,645 |
 | subjective_effect_concepts | 506 |
 | subjective_effect_concept_aliases | 1,178 |
-| tolerance | 321 |
+| tolerance | 0 |
 | diazepam_equivalents | 32 |
 | bindings | 1,458 |
 | functional_assays | 179 |
@@ -97,6 +97,10 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 ## Dose gates
 
 7 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+
+## Row citations
+
+223 row(s) cited from `data/curated/row-citations.json`; 0 entries not applied.
 
 ## Per-source coverage
 

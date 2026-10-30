@@ -120,6 +120,8 @@ nonisolated struct PKRouteHit: Identifiable, Hashable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
     let notes: String?
     /// Citation-verification grade for this route's values (`.unverified` when un-graded).
     var confidence: ConfidenceTier = .unverified
@@ -138,6 +140,8 @@ nonisolated struct TherapeuticRangeHit: Hashable, Sendable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
 }
 
 /// One row from the bindings table joined to its substance + source +
@@ -159,6 +163,8 @@ nonisolated struct BindingHit: Identifiable, Hashable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
     /// Citation-verification grade for this binding (`.unverified` when un-graded).
     var confidence: ConfidenceTier = .unverified
     /// The curated ordinal tier (1 weak … 3 primary) for a row that carries no
@@ -184,7 +190,7 @@ extension SubstanceReadModel {
                            b.affinity_tier,
                            s.canonical_name AS substance_name,
                            src.slug AS source_slug,
-                           c.doi, c.pmid
+                           c.doi, c.pmid, c.url
                       FROM bindings b
                       JOIN substances s ON s.id = b.substance_id
                       JOIN sources    src ON src.id = b.source_id
@@ -206,6 +212,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: row["pmid"],
+                        url: row["url"],
                         confidence: ConfidenceTier(grade: row["confidence"]),
                         affinityTier: row["affinity_tier"],
                     )
@@ -224,7 +231,7 @@ extension SubstanceReadModel {
             return try queue.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT e.id, e.effect, e.concentration_unit, e.threshold, e.peak_effect,
-                           src.slug AS source_slug, c.doi, c.pmid
+                           src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM concentration_effects e
                       JOIN sources src ON src.id = e.source_id
                       LEFT JOIN citations c ON c.id = e.citation_id
@@ -241,6 +248,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: row["pmid"],
+                        url: row["url"],
                     )
                 }
             }
@@ -267,7 +275,7 @@ extension SubstanceReadModel {
                            b.affinity_tier,
                            s.canonical_name AS substance_name,
                            src.slug AS source_slug,
-                           c.doi, c.pmid
+                           c.doi, c.pmid, c.url
                       FROM bindings b
                       JOIN substances s ON s.id = b.substance_id
                       JOIN sources    src ON src.id = b.source_id
@@ -305,6 +313,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: row["pmid"],
+                        url: row["url"],
                         confidence: ConfidenceTier(grade: row["confidence"]),
                         affinityTier: row["affinity_tier"],
                     )
@@ -342,7 +351,7 @@ extension SubstanceReadModel {
                     SELECT p.id, p.route, p.bioavailability_pct, p.cmax_ng_per_ml, p.tmax_min,
                            p.half_life_min, p.vd_l_per_kg, p.clearance_ml_per_min_per_kg,
                            p.protein_binding_pct, p.dose_in_study_mg, p.subject_n, p.demographics,
-                           p.species, p.notes, p.confidence, src.slug AS source_slug, c.doi, c.pmid
+                           p.species, p.notes, p.confidence, src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM pk_routes p
                       JOIN sources src ON src.id = p.source_id
                       LEFT JOIN citations c ON c.id = p.citation_id
@@ -366,6 +375,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
+                        url: row["url"],
                         notes: row["notes"],
                         confidence: ConfidenceTier(grade: row["confidence"]),
                     )
@@ -1027,7 +1037,7 @@ extension SubstanceReadModel {
                            m.metabolite_potency_basis, m.metabolite_potency_target,
                            m.metabolite_mechanism_vs_parent, m.metabolite_half_life_min,
                            m.formation_fraction_pct, m.route, m.conditional_combination_id,
-                           src.slug AS source_slug, c.doi, c.pmid,
+                           src.slug AS source_slug, c.doi, c.pmid, c.url,
                            -- The metabolite's OWN sourced half-life, when we carry it as a
                            -- substance. Linking beats copying (see the `metabolite_substance_id`
                            -- comment in the schema). Do not drop this in favour of the scalar
@@ -1082,6 +1092,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
+                        url: row["url"],
                     )
                 }
             }

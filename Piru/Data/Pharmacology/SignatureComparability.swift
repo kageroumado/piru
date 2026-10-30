@@ -100,6 +100,8 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
     let referenceAgonist: String?
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    let url: String?
     let year: Int?
     /// Wikipedia-pageview popularity [0,1] for the leg's substance. Purely a
     /// presentation signal: it decides which context points on a plot are worth
@@ -124,6 +126,7 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
         referenceAgonist: String? = nil,
         doi: String? = nil,
         pmid: Int? = nil,
+        url: String? = nil,
         year: Int? = nil,
         popularity: Double = 0,
     ) {
@@ -144,6 +147,7 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
         self.referenceAgonist = referenceAgonist
         self.doi = doi
         self.pmid = pmid
+        self.url = url
         self.year = year
         self.popularity = popularity
     }
@@ -313,14 +317,11 @@ nonisolated struct ComparableGroup: Identifiable, Hashable, Sendable {
             .first
     }
 
-    /// The group's citation deep link, preferring PMID over DOI. `nil` for a free-text or broken
-    /// citation — the caption then renders as non-tappable text rather than a dead link.
+    /// The group's citation deep link, from the first leg that has one (``RowCitation/link``).
+    /// `nil` for a free-text or broken citation — the caption then renders as non-tappable text
+    /// rather than a dead link.
     var citationURL: URL? {
-        for leg in legs {
-            if let pmid = leg.pmid { return URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") }
-            if let doi = leg.doi, !doi.isEmpty { return URL(string: "https://doi.org/\(doi)") }
-        }
-        return nil
+        legs.lazy.compactMap { RowCitation(doi: $0.doi, pmid: $0.pmid, url: $0.url)?.link }.first
     }
 }
 

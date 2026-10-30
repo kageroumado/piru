@@ -106,6 +106,9 @@ struct SubstanceOverview: Codable, Hashable {
     /// `psychonautwiki` for an authentic English lead, `freeodwiki` for native
     /// Chinese or a machine translation). Drives the attribution row + deep link.
     var sourceSlug: String = "freeodwiki"
+    /// The work the text is cited to, when its row carries one. The attribution
+    /// row links here ahead of the source's own page.
+    var citation: Citation?
 }
 
 struct MechanismOfAction: Codable {

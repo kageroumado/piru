@@ -54,7 +54,8 @@ struct OverviewSection: View {
                     SourceAttributionRow(
                         slug: overview.sourceSlug,
                         label: "Overview",
-                        deepLink: SubstanceSourceLinks.deepLink(overview.sourceSlug, substance: substance),
+                        deepLink: overview.citation?.resolvedURL
+                            ?? SubstanceSourceLinks.deepLink(overview.sourceSlug, substance: substance),
                     )
                 }
             }

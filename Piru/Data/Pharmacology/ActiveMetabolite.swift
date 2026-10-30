@@ -25,6 +25,8 @@ struct ActiveMetabolite: Identifiable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
     /// A recorded magnitude we are declining to print, because its basis was
     /// never recorded. The reader may have met that figure elsewhere and is owed
     /// the fact that it isn't established — which is different from a strength
@@ -88,6 +90,7 @@ struct ActiveMetabolite: Identifiable {
                 .unknown
             }
 
+        let cited = rows.first { $0.citation != nil }
         return ActiveMetabolite(
             name: name,
             substanceName: rows.compactMap(\.metaboliteSubstanceName).first,
@@ -100,8 +103,11 @@ struct ActiveMetabolite: Identifiable {
             // resolver reads `potencies.first` when nothing better applies.
             potencies: potencies.sorted { lhs, _ in lhs.basis == .clinical },
             sourceSlug: first.sourceSlug,
-            doi: rows.compactMap(\.doi).first,
-            pmid: rows.compactMap(\.pmid).first,
+            // One row's citation whole: a DOI from one row beside a PMID from another
+            // would name two papers as one.
+            doi: cited?.doi,
+            pmid: cited?.pmid,
+            url: cited?.url,
             hasSuppressedMagnitude: potencies.isEmpty && rows.contains {
                 ($0.metabolitePotencyVsParentPct ?? 0) > 0
             },

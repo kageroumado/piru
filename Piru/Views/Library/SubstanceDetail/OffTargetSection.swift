@@ -71,7 +71,7 @@ struct OffTargetRow: View {
                     .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
             }
-            sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
+            sourceLine(slug: hit.sourceSlug, detail: nil, citation: hit.citation, accent: accent)
         }
         .accessibilityElement(children: .combine)
     }

@@ -54,6 +54,8 @@ extension SubstanceStore {
         let sourceSlug: String
         let doi: String?
         let pmid: Int?
+        /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+        var url: String?
     }
 
     /// What a ``MetabolismHit/metabolitePotencyVsParentPct`` value actually

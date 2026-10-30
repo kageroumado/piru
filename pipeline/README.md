@@ -77,6 +77,7 @@ fix, not noise to tolerate.
 | `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
 | `class-mechanisms.json` | `mechanisms_summary`, `bindings` | the eight class-level receptor profiles that say something their own summary does not (a tricyclic's H1/M1/α1, a barbiturate's AMPA/kainate). Written only where the substance has no measured row for that target, uncited, marked `class-level generalisation` in `notes` — see the file's `_meta.rule` and the gate in `tests/test_sqlite.py` |
 | `mechanism-lines.json` | `mechanisms_summary` | one sentence, target + action, for each Pyrls medication no curated mechanism covers. Gated by `pipeline/audit/claim_language.py` (no treatment, efficacy, dosing, safety or second-person language) |
+| `row-citations.json` | `citation_id` on any per-row table | the citation for a row whose own input names none, checked against the row before it lands. See [Row citations](#row-citations) |
 
 Adding one is: a path read in the ingester, DDL in `SCHEMA_SQL`, a method on
 `Build`, a call + `print` in `main()`, the table in the build-report row-count
@@ -544,6 +545,56 @@ section B is every value the independent sources contradict (from the
 adjudicator, only where this source's value scores highest in the cell), section
 C is what Piru refuses and why. Run the adjudicator first; the report refuses a
 `cells.jsonl` older than the built DB.
+
+## Row citations
+
+A row carries its citation in `citation_id`, normally from the input that wrote
+it (an enrichment block's `reference`, a curated file's `halfLifeSource`). A row
+whose input names no source gets one through
+`data/curated/row-citations.json`: one entry per row, applied by
+`build/row_citations.py` after every other row is written, and reported in the
+build report's *Row citations* section.
+
+An entry names its row by identity, never by rowid:
+
+| field | what it holds |
+|---|---|
+| `table`, `substance`, `source` | the table, the canonical name after every merge, the row's source slug |
+| `match` | further columns of that table, compared with `IS` (so `null` matches `NULL`) |
+| `claim_sha1` | `row_citations.claim_sha1()` of the row's prose column (`CLAIM_COLUMNS`); required on those tables |
+| `ref` | `doi:…`, `pmid:…` or `https://…`, parsed by the build's own `parse_reference` |
+| `title`, `accessed`, `via`, `evidence` | label for a URL, date checked, the pass that proposed it, what it checked |
+
+The claim hash is what keeps a citation honest after an edit: when the row's
+sentence changes, the entry stops matching. `build/tests/test_row_citations.py`
+fails on any entry that matches no row, several rows, or a row citing something
+else, so a stale entry is re-checked rather than silently re-attached. The same
+test is the **uncited ratchet**: it counts uncited `piru-curated` and
+`peer-review-primary` rows per table against `build/tests/uncited-baseline.json`
+and fails when one rises. After a pass lowers a count, run it with
+`--write-baseline`.
+
+Passes that write entries (each re-runnable; a re-run that finds nothing new
+leaves an empty diff):
+
+- **`audit/source_consulted_references.py`** (`via: references_consulted`). An
+  enrichment record lists the papers it was written from in
+  `references_consulted`. A paper is attached to one of that record's uncited
+  rows only when its title or abstract names the substance by its own name (no
+  analog containment) **and** names the row's key term — the gene, enzyme,
+  target, co-drug or modality, or for a signalling paragraph a target the
+  paragraph names — in the abstract or in a full-text paragraph that also names
+  the substance. Rows carrying a number are skipped: their citation must contain
+  the number (`citation_sourcing.py`).
+- **`audit/source_dailymed_mechanisms.py`** (`via: dailymed-ndc`). A MedTAP
+  mechanism line cites the DailyMed label its record's NDC resolves to, when the
+  label's title states the substance as whole words, its page resolves, and its §12.1 holds at least half of
+  the line's content words. Responses are cached in
+  `data/sources/dailymed-labels.json`.
+
+Any new pass adds its name to `row_citations.VIA`. After a pass writes, rebuild,
+then run `audit/verify_citations.py` (network) so the new identifiers enter the
+verify cache the offline gate reads.
 
 ## Researching a claim
 

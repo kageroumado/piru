@@ -1,0 +1,657 @@
+{
+ "0002-3227": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action The precise mechanism by which STRATTERA produces its therapeutic effects in ADHD is unknown, but is thought to be related to selective inhibition of the pre-synaptic norepinephrine transporter, as determined in ex vivo uptake and neurotransmitter depletion studies.",
+  "ndc": "0002-3227",
+  "page_status": 200,
+  "setids": [
+   "309de576-c318-404a-bc15-660c2b1876fb"
+  ],
+  "title": "STRATTERA (ATOMOXETINE HYDROCHLORIDE) CAPSULE [ELI LILLY AND COMPANY]"
+ },
+ "0006-0351": {
+  "checked": "2026-10-30",
+  "ndc": "0006-0351",
+  "setids": []
+ },
+ "0006-5423": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action BRIDION is a modified gamma cyclodextrin. It forms a complex with the neuromuscular blocking agents rocuronium and vecuronium, and it reduces the amount of neuromuscular blocking agent available to bind to nicotinic cholinergic receptors in the neuromuscular junction. This results in the reversal of neuromuscular blockade induced by rocuronium and vecuronium.",
+  "ndc": "0006-5423",
+  "page_status": 200,
+  "setids": [
+   "5171d883-fe8f-482c-97ab-40b00975b64a"
+  ],
+  "title": "BRIDION (SUGAMMADEX) INJECTION, SOLUTION [MERCK SHARP & DOHME LLC]"
+ },
+ "0007-4205": {
+  "checked": "2026-10-30",
+  "ndc": "0007-4205",
+  "setids": []
+ },
+ "0007-4401": {
+  "checked": "2026-10-30",
+  "ndc": "0007-4401",
+  "setids": []
+ },
+ "0009-5012": {
+  "checked": "2026-10-30",
+  "ndc": "0009-5012",
+  "setids": []
+ },
+ "0013-2576": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Idarubicin hydrochloride has antimitotic and cytotoxic activity through forming complexes with the DNA, inhibiting nucleic acid synthesis, inhibiting topoisomerase II activity, and producing DNA-damaging free radicals.",
+  "ndc": "0013-2576",
+  "page_status": 200,
+  "setids": [
+   "0a5a6d93-cc1e-4d7f-8da1-446c134503b3"
+  ],
+  "title": "IDAMYCIN PFS (IDARUBICIN HYDROCHLORIDE) SOLUTION [PFIZER LABORATORIES DIV PFIZER INC]"
+ },
+ "0013-5301": {
+  "checked": "2026-10-30",
+  "ndc": "0013-5301",
+  "setids": []
+ },
+ "0015-3080": {
+  "checked": "2026-10-30",
+  "ndc": "0015-3080",
+  "setids": []
+ },
+ "0023-6111": {
+  "checked": "2026-10-30",
+  "ndc": "0023-6111",
+  "setids": []
+ },
+ "0024-5150": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action In humans, uric acid is the final step in the catabolic pathway of purines. Rasburicase catalyzes enzymatic oxidation of poorly soluble uric acid into an inactive and more soluble metabolite (allantoin).",
+  "ndc": "0024-5150",
+  "page_status": 200,
+  "setids": [
+   "0ae10bc4-6b65-402f-9db5-2d7753054922"
+  ],
+  "title": "ELITEK (RASBURICASE) KIT [SANOFI-AVENTIS U.S. LLC]"
+ },
+ "0046-1100": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Endogenous estrogens are largely responsible for the development and maintenance of the female reproductive system and secondary sexual characteristics. Although circulating estrogens exist in a dynamic equilibrium of metabolic interconversions, estradiol is the principal intracellular human estrogen and is substantially more potent than its metabolites, estrone and estriol, at the receptor level. The primary source of estrogen in normally cycling adult women is the ovarian follicle, which secretes 70 to 500 mcg of estradiol daily, depending on the phase of the menstrual cycle. After menopause, most endogenous estrogen is produced by conversion of androstenedione, secreted by the adrenal cortex, to estrone in the peripheral tissues. Thus, estrone and the sulfate-conjugated form, estrone sulfate, are the most abundant circulating estrogens in postmenopausal women. Estrogens act through binding to nuclear receptors in estrogen-responsive tissues. To date, two estrogen receptors have been identified. These vary in proportion from tissue to tissue. Circulating estrogens modulate the pituitary secretion of the gonadotropins, luteinizing hormone (LH) and FSH, through a negative feedback mechanism. Estrogens act to reduce the elevated levels of these gonadotropins seen in postmenopausal women.",
+  "ndc": "0046-1100",
+  "page_status": 200,
+  "setids": [
+   "258e1602-a3cf-4ccc-ca80-73dbbfb812ff"
+  ],
+  "title": "PREMARIN (ESTROGENS, CONJUGATED) TABLET, FILM COATED [WYETH PHARMACEUTICALS LLC, A SUBSIDIARY OF PFIZER INC.]"
+ },
+ "0054-0164": {
+  "checked": "2026-10-30",
+  "ndc": "0054-0164",
+  "setids": []
+ },
+ "0065-0260": {
+  "checked": "2026-10-30",
+  "ndc": "0065-0260",
+  "setids": []
+ },
+ "0067-4345": {
+  "checked": "2026-10-30",
+  "ndc": "0067-4345",
+  "setids": []
+ },
+ "0069-0169": {
+  "checked": "2026-10-30",
+  "ndc": "0069-0169",
+  "setids": []
+ },
+ "0078-0414": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Everolimus inhibits antigenic and interleukin (IL-2 and IL-15) stimulated activation and proliferation of T and B lymphocytes. In cells, everolimus binds to a cytoplasmic protein, the FK506 Binding Protein-12 (FKBP-12), to form an immunosuppressive complex (everolimus: FKBP-12) that binds to and inhibits the mammalian target of rapamycin (mTOR), a key regulatory kinase. In the presence of everolimus phosphorylation of p70 S6 ribosomal protein kinase (p70S6K), a substrate of mTOR, is inhibited. Consequently, phosphorylation of the ribosomal S6 protein and subsequent protein synthesis and cell proliferation are inhibited. The everolimus: FKBP-12 complex has no effect on calcineurin activity. In rats and nonhuman primate models, everolimus effectively reduces kidney allograft rejection resulting in prolonged graft survival.",
+  "ndc": "0078-0414",
+  "page_status": 200,
+  "setids": [
+   "e082a024-7850-400b-a5c2-2a140612562a"
+  ],
+  "title": "ZORTRESS (EVEROLIMUS) TABLET [NOVARTIS PHARMACEUTICALS CORPORATION]"
+ },
+ "0078-0435": {
+  "checked": "2026-10-30",
+  "ndc": "0078-0435",
+  "setids": []
+ },
+ "0085-1136": {
+  "checked": "2026-10-30",
+  "ndc": "0085-1136",
+  "setids": []
+ },
+ "0093-0026": {
+  "checked": "2026-10-30",
+  "ndc": "0093-0026",
+  "setids": []
+ },
+ "0093-0039": {
+  "checked": "2026-10-30",
+  "ndc": "0093-0039",
+  "setids": []
+ },
+ "0093-0041": {
+  "checked": "2026-10-30",
+  "ndc": "0093-0041",
+  "setids": []
+ },
+ "0093-2109": {
+  "checked": "2026-10-30",
+  "ndc": "0093-2109",
+  "setids": []
+ },
+ "0143-9583": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Irinotecan is a derivative of camptothecin. Camptothecins interact specifically with the enzyme topoisomerase I, which relieves torsional strain in DNA by inducing reversible single-strand breaks. Irinotecan and its active metabolite SN-38 bind to the topoisomerase I-DNA complex and prevent religation of these single-strand breaks. Current research suggests that the cytotoxicity of irinotecan is due to double-strand DNA damage produced during DNA synthesis when replication enzymes interact with the ternary complex formed by topoisomerase I, DNA, and either irinotecan or SN-38. Mammalian cells cannot efficiently repair these double-strand breaks.",
+  "ndc": "0143-9583",
+  "page_status": 200,
+  "setids": [
+   "9c6aa884-750e-4b11-9955-bc7ab6e9c2ad"
+  ],
+  "title": "IRINOTECAN HYDROCHLORIDE INJECTION [HIKMA PHARMACEUTICALS USA INC.]"
+ },
+ "0143-9596": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Preclinical and in vitro studies have demonstrated that paricalcitol's biological actions are mediated through binding of the vitamin D receptor (VDR), which results in the selective activation of vitamin D responsive pathways. Vitamin D and paricalcitol have been shown to reduce parathyroid hormone levels by inhibiting PTH synthesis and secretion.",
+  "ndc": "0143-9596",
+  "page_status": 200,
+  "setids": [
+   "4db985c4-3ba2-4967-898b-35af77f150de"
+  ],
+  "title": "PARICALCITOL INJECTION [WEST-WARD PHARMACEUTICALS CORP]"
+ },
+ "0173-0517": {
+  "checked": "2026-10-30",
+  "ndc": "0173-0517",
+  "setids": []
+ },
+ "0173-0556": {
+  "checked": "2026-10-30",
+  "ndc": "0173-0556",
+  "setids": []
+ },
+ "0187-0007": {
+  "checked": "2026-10-30",
+  "ndc": "0187-0007",
+  "setids": []
+ },
+ "0187-0011": {
+  "checked": "2026-10-30",
+  "ndc": "0187-0011",
+  "setids": []
+ },
+ "0187-5600": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action VISUDYNE (verteporfin for injection) therapy is a two-stage process requiring administration of both verteporfin for injection and nonthermal red light. Verteporfin is transported in the plasma primarily by lipoproteins. Once verteporfin is activated by light in the presence of oxygen, highly reactive, short-lived singlet oxygen and reactive oxygen radicals are generated. Light activation of verteporfin results in local damage to neovascular endothelium, resulting in vessel occlusion. Damaged endothelium is known to release procoagulant and vasoactive factors through the lipoxygenase (leukotriene) and cyclooxygenase (eicosanoids such as thromboxane) pathways, resulting in platelet aggregation, fibrin clot formation and vasoconstriction. Verteporfin appears to somewhat preferentially accumulate in neovasculature, including choroidal neovasculature. However, animal models indicate that the drug is also present in the retina. Therefore, there may be collateral damage to retinal structures following photoactivation including the retinal pigmented epithelium and outer nuclear layer of the retina. The temporary occlusion of the CNV following VISUDYNE therapy has been confirmed in humans by fluorescein angiography.",
+  "ndc": "0187-5600",
+  "page_status": 200,
+  "setids": [
+   "952f4c80-50b1-4308-9ee6-311ffefb13df"
+  ],
+  "title": "VISUDYNE (VERTEPORFIN FOR INJECTION) INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION [BAUSCH HEALTH US LLC]"
+ },
+ "0264-9567": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Heparin interacts with the naturally occurring plasma protein, Antithrombin III, to induce a conformational change, which markedly enhances the serine protease activity of Antithrombin III, thereby inhibiting the activated coagulation factors involved in the closing sequence, particularly Xa and IIa. Small amounts of heparin inhibit Factor Xa, and larger amounts inhibit thrombin (Factor IIa). Heparin also prevents the formation of a stable fibrin clot by inhibiting the activation of the fibrin stabilizing factor. Heparin does not have fibrinolytic activity; therefore, it will not lyse existing clots.",
+  "ndc": "0264-9567",
+  "page_status": 200,
+  "setids": [
+   "92a6f533-1a3d-4734-b413-d245592454e3"
+  ],
+  "title": "HEPARIN SODIUM IN DEXTROSE (HEPARIN SODIUM AND DEXTROSE) INJECTION [B. BRAUN MEDICAL INC.]"
+ },
+ "0299-5962": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action DYSPORT inhibits release of the neurotransmitter, acetylcholine, from peripheral cholinergic nerve endings. Toxin activity occurs in the following sequence: Toxin heavy chain mediated binding to specific surface receptors on nerve endings, internalization of the toxin by receptor mediated endocytosis, pH-induced translocation of the toxin light chain to the cell cytosol and cleavage of SNAP25 leading to intracellular blockage of neurotransmitter exocytosis into the neuromuscular junction. This accounts for the therapeutic utility of the toxin in diseases characterized by excessive efferent activity in motor nerves. Recovery of transmission occurs gradually as the neuromuscular junction recovers from SNAP25 cleavage and as new nerve endings are formed.",
+  "ndc": "0299-5962",
+  "page_status": 200,
+  "setids": [
+   "71313a04-1349-4c26-b840-a39e4a3ddaed"
+  ],
+  "title": "DYSPORT (BOTULINUM TOXIN TYPE A) INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION [GALDERMA LABORATORIES, L.P.]"
+ },
+ "0310-0512": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Acalabrutinib is a small-molecule inhibitor of BTK. Acalabrutinib and its active metabolite, ACP-5862, form a covalent bond with a cysteine residue in the BTK active site, leading to inhibition of BTK enzymatic activity. BTK is a signaling molecule of the B cell antigen receptor (BCR) and cytokine receptor pathways. In B cells, BTK signaling results in activation of pathways necessary for B-cell proliferation, trafficking, chemotaxis, and adhesion. In nonclinical studies, acalabrutinib inhibited BTK-mediated activation of downstream signaling proteins CD86 and CD69 and inhibited malignant B-cell proliferation and tumor growth in mouse xenograft models.",
+  "ndc": "0310-0512",
+  "page_status": 200,
+  "setids": [
+   "dd4835ef-e1bc-4997-a399-1ffa2556fbfe"
+  ],
+  "title": "CALQUENCE (ACALABRUTINIB) CAPSULE, GELATIN COATED [ASTRAZENECA PHARMACEUTICALS LP]"
+ },
+ "0310-0705": {
+  "checked": "2026-10-30",
+  "ndc": "0310-0705",
+  "setids": []
+ },
+ "0338-3991": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Ifosfamide is a prodrug that requires metabolic activation by hepatic cytochrome P450 isoenzymes to exert its cytotoxic activity. Activation occurs by hydroxylation at the ring carbon atom forming the unstable intermediate 4-hydroxyifosfamide and its ring-opened aldo tautomer, which decomposes to yield the cytotoxic and urotoxic compound acrolein and an alkylating isophosphoramide mustard. The exact mechanism of action of ifosfamide has not been determined, but its cytotoxic action is primarily through DNA crosslinks caused by alkylation by the isophosphoramide mustard at guanine N-7 positions. The formation of inter- and intra-strand cross-links in the DNA results in cell death.",
+  "ndc": "0338-3991",
+  "page_status": 200,
+  "setids": [
+   "b7241707-7538-4d1a-91e7-3a25a91e0b9a"
+  ],
+  "title": "IFEX (IFOSFAMIDE) INJECTION, POWDER, FOR SOLUTION [BAXTER HEALTHCARE CORPORATION]"
+ },
+ "0362-0101": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action The mechanism by which OraVerse accelerates reversal of soft-tissue anesthesia and the associated functional deficits is not fully understood. Phentolamine mesylate, the active ingredient in OraVerse, produces an alpha-adrenergic block of relatively short duration resulting in vasodilatation when applied to vascular smooth muscle. In an animal model, OraVerse increased local blood flow in submucosal tissue of the dog when given after an intraoral injection of lidocaine 2% with 1:100,000 epinephrine.",
+  "ndc": "0362-0101",
+  "page_status": 200,
+  "setids": [
+   "4025cf98-ea87-4531-b0fc-6283c84f63f3"
+  ],
+  "title": "ORAVERSE (PHENTOLAMINE MESYLATE) INJECTION, SOLUTION [SEPTODONT, INC.]"
+ },
+ "0378-0215": {
+  "checked": "2026-10-30",
+  "ndc": "0378-0215",
+  "setids": []
+ },
+ "0378-6955": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Bexarotene selectively binds and activates retinoid X receptor subtypes (RXRα, RXRβ, RXRγ). RXRs can form heterodimers with various receptor partners such as retinoic acid receptors (RARs), vitamin D receptor, thyroid receptor, and peroxisome proliferator activator receptors (PPARs). Once activated, these receptors function as transcription factors that regulate the expression of genes that control cellular differentiation and proliferation. Bexarotene inhibits the growth in vitro of some tumor cell lines of hematopoietic and squamous cell origin. It also induces tumor regression in vivo in some animal models. The exact mechanism of action of bexarotene in the treatment of cutaneous T-cell lymphoma (CTCL) is unknown.",
+  "ndc": "0378-6955",
+  "page_status": 200,
+  "setids": [
+   "2d1eb4bd-51f9-4c9b-9fb1-0be5e30a3dc5"
+  ],
+  "title": "BEXAROTENE CAPSULE, LIQUID FILLED [MYLAN PHARMACEUTICALS INC.]"
+ },
+ "0406-0540": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Methadone hydrochloride is a mu-agonist; a synthetic opioid with multiple actions qualitatively similar to those of morphine, the most prominent of which involves the central nervous system and organs composed of smooth muscle. The methadone withdrawal syndrome, although qualitatively similar to that of morphine, differs in that the onset is slower, the course is more prolonged, and the symptoms are less severe. Some data also indicate that methadone acts as an antagonist at the N-methyl-D-aspartate (NMDA) receptor. The contribution of NMDA receptor antagonism to methadone’s efficacy is unknown.",
+  "ndc": "0406-0540",
+  "page_status": 200,
+  "setids": [
+   "544483e6-6f9d-4371-9e93-313e54e0ea05"
+  ],
+  "title": "METHADOSE DISPERSIBLE (METHADONE HYDROCHLORIDE) TABLET METHADONE HYDROCHLORIDE TABLET [SPECGX LLC]"
+ },
+ "0409-3507": {
+  "checked": "2026-10-30",
+  "ndc": "0409-3507",
+  "setids": []
+ },
+ "0430-0170": {
+  "checked": "2026-10-30",
+  "ndc": "0430-0170",
+  "setids": []
+ },
+ "0517-0920": {
+  "checked": "2026-10-30",
+  "ndc": "0517-0920",
+  "setids": []
+ },
+ "0574-0805": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Acetylcysteine has been shown to reduce the extent of liver injury following acetaminophen overdose. Acetaminophen doses of 150 mg/kg or greater have been associated with hepatotoxicity. Acetylcysteine probably protects the liver by maintaining or restoring the glutathione levels, or by acting as an alternate substrate for conjugation with, and thus detoxification of, the reactive metabolite of acetaminophen.",
+  "ndc": "0574-0805",
+  "page_status": 200,
+  "setids": [
+   "9d305722-e74f-4f48-8d2c-0daa99144749"
+  ],
+  "title": "ACETYLCYSTEINE INJECTION [PADAGIS US LLC]"
+ },
+ "0615-8100": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Persistent activation of central nervous system N-methyl-D-aspartate (NMDA) receptors by the excitatory amino acid glutamate has been hypothesized to contribute to the symptomatology of Alzheimer’s disease. Memantine is postulated to exert its therapeutic effect through its action as a low to moderate affinity uncompetitive (open-channel) NMDA receptor antagonist which binds preferentially to the NMDA receptor-operated cation channels. There is no evidence that memantine prevents or slows neurodegeneration in patients with Alzheimer’s disease.",
+  "ndc": "0615-8100",
+  "page_status": 200,
+  "setids": [
+   "a5dcc0e7-761f-4294-bb48-e5ee4a1e2f67"
+  ],
+  "title": "MEMANTINE TABLET [NCS HEALTHCARE OF KY, LLC DBA VANGARD LABS]"
+ },
+ "10148-201": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Type 1 Gaucher disease is caused by a functional deficiency of glucocerebrosidase, the enzyme that mediates the degradation of the glycosphingolipid glucosylceramide. Miglustat functions as a competitive and reversible inhibitor of the enzyme glucosylceramide synthase, the initial enzyme in a series of reactions which results in the synthesis of most glycosphingolipids. Miglustat helps reduce the rate of glycosphingolipid biosynthesis so that the amount of glycosphingolipid substrate is reduced to a level which allows the residual activity of the deficient glucocerebrosidase enzyme to be more effective (substrate reduction therapy). In vitro and in vivo studies have shown that miglustat can reduce the synthesis of glucosylceramide-based glycosphingolipids.",
+  "ndc": "10148-201",
+  "page_status": 200,
+  "setids": [
+   "76eb7ac8-e0ee-4409-a4e7-e326c6725836"
+  ],
+  "title": "MIGLUSTAT CAPSULE [COTHERIX, INC.]"
+ },
+ "13985-606": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Atropine is a reversible antagonist of muscarine-like actions of acetyl-choline and is therefore classified as an antimuscarinic agent. Atropine is relatively selective for muscarinic receptors. Its potency at nicotinic receptors is much lower, and actions at non-muscarinic receptors are generally undetectable clinically. Atropine does not distinguish among the M1, M2, and M3 subgroups of muscarinic receptors. The pupillary constrictor muscle depends on muscarinic cholinoceptor activation. This activation is blocked by topical atropine resulting in unopposed sympathetic dilator activity and mydriasis. Atropine also weakens the contraction of the ciliary muscle, or cycloplegia. Cycloplegia results in loss of the ability to accommodate such that the eye cannot focus for near vision.",
+  "ndc": "13985-606",
+  "page_status": 200,
+  "setids": [
+   "590a4e7b-565f-415f-a8e4-499a382c9a3b"
+  ],
+  "title": "ATROPINE (ATROPINE SULFATE) SOLUTION/ DROPS [MWI]"
+ },
+ "17156-026": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Technetium (99mTc) tetrofosmin is a lipophilic, cationic complex which diffuses passively through the cell membrane and is locally retained actively due to the presence of intact mitochondria reflecting the presence of viable cells. After intravenous injection, it is distributed within the myocardium according to myocardial perfusion and viability.",
+  "ndc": "17156-026",
+  "page_status": 200,
+  "setids": [
+   "98c85037-a907-4a3a-8864-c3a5298b4759"
+  ],
+  "title": "MYOVIEW (TETROFOSMIN) INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION [MEDI-PHYSICS INC. DBA GE HEALTHCARE]"
+ },
+ "17478-055": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Dexmedetomidine hydrochloride injection is a relatively selective alpha 2 -adrenergic agonist with sedative properties. Alpha 2 selectivity is observed in animals following slow intravenous infusion of low and medium doses (10 to 300 mcg/kg). Both alpha 1 and alpha 2 activity is observed following slow intravenous infusion of high doses (≥ 1000 mcg/kg) or with rapid intravenous administration.",
+  "ndc": "17478-055",
+  "page_status": 200,
+  "setids": [
+   "8fb7886c-7762-4b72-989b-0fe8e963b4b8"
+  ],
+  "title": "DEXMEDETOMIDINE (DEXMEDETOMIDINE HYDROCHLORIDE) INJECTION, SOLUTION, CONCENTRATE [AKORN]"
+ },
+ "17478-540": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Hydromorphone is a full opioid agonist and is relatively selective for the mu-opioid receptor, although it can bind to other opioid receptors at higher doses. The principal therapeutic action of hydromorphone is analgesia. Like all full opioid agonists, there is no ceiling effect for analgesia with morphine. Clinically, dosage is titrated to provide adequate analgesia and may be limited by adverse reactions, including respiratory and CNS depression. The precise mechanism of the analgesic action is unknown. However, specific CNS opioid receptors for endogenous compounds with opioid-like activity have been identified throughout the brain and spinal cord and are thought to play a role in the analgesic effects of this drug.",
+  "ndc": "17478-540",
+  "page_status": 200,
+  "setids": [
+   "4d33b072-0755-4b8c-9558-2551306756a3"
+  ],
+  "title": "HYDROMORPHONE HYDROCHLORIDE INJECTION [AKORN]"
+ },
+ "17478-560": {
+  "checked": "2026-10-30",
+  "ndc": "17478-560",
+  "setids": []
+ },
+ "21695-853": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "Mechanism of Action The mechanism of action of Tigan ® as determined in animals is obscure, but may involve the chemoreceptor trigger zone (CTZ), an area in the medulla oblongata through which emetic impulses are conveyed to the vomiting center; direct impulses to the vomiting center apparently are not similarly inhibited. In dogs pretreated with trimethobenzamide HCl, the emetic response to apomorphine is inhibited, while little or no protection is afforded against emesis induced by intragastric copper sulfate.",
+  "ndc": "21695-853",
+  "page_status": 200,
+  "setids": [
+   "97191d37-7c2e-48c6-91bf-0631fd7b1dd8"
+  ],
+  "title": "TIGAN (TRIMETHOBENZAMIDE HYDROCHLORIDE) INJECTION [REBEL DISTRIBUTORS CORP]"
+ },
+ "24208-416": {
+  "checked": "2026-10-30",
+  "ndc": "24208-416",
+  "setids": []
+ },
+ "24338-850": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "",
+  "ndc": "24338-850",
+  "page_status": 200,
+  "setids": [
+   "d6394df5-f2c9-47eb-b57e-f3e9cfd94f84"
+  ],
+  "title": "ZENZEDI (DEXTROAMPHETAMINE SULFATE) TABLET [AZURITY PHARMACEUTICALS, INC.]"
+ },
+ "25682-007": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action LAL deficiency is an autosomal recessive lysosomal storage disorder characterized by a genetic defect resulting in a marked decrease or loss in activity of the lysosomal acid lipase (LAL) enzyme. The primary site of action of the LAL enzyme is the lysosome, where the enzyme normally causes the breakdown of lipid particles, including LDL-c and triglycerides. Deficient LAL enzyme activity results in progressive complications due to the lysosomal accumulation of cholesteryl esters and triglycerides in multiple organs, including the liver, spleen, intestine, and the walls of blood vessels. The resulting lipid accumulation in the liver may lead to increased liver fat content and progression of liver disease, including fibrosis and cirrhosis. Lipid accumulation in the intestinal wall leads to malabsorption and growth failure. In parallel, dyslipidemia due to impaired degradation of lysosomal lipid is common with elevated LDL-c and triglycerides and low HDL-cholesterol (HDL-c). Sebelipase alfa binds to cell surface receptors via glycans expressed on the protein and is subsequently internalized into lysosomes. Sebelipase alfa catalyzes the lysosomal hydrolysis of cholesteryl esters and triglycerides to free cholesterol, glycerol and free fatty acids.",
+  "ndc": "25682-007",
+  "page_status": 200,
+  "setids": [
+   "83a77b9d-42f0-4645-8420-786285da7326"
+  ],
+  "title": "KANUMA (SEBELIPASE ALFA) INJECTION, SOLUTION, CONCENTRATE [ALEXION PHARMACEUTICALS INC.]"
+ },
+ "44087-3388": {
+  "checked": "2026-10-30",
+  "ndc": "44087-3388",
+  "setids": []
+ },
+ "45548-141": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Technetium Tc 99m Sestamibi is a cationic Tc 99m complex which has been found to accumulate in viable myocardial tissue in a manner analogous to that of thallous chloride TI-201. Scintigraphic images obtained in humans after the intravenous administration of the drug have been comparable to those obtained with thallous chloride TI-201 in normal and abnormal myocardial tissue. Animal studies have shown that myocardial uptake is not blocked when the sodium pump mechanism is inhibited. Although studies of subcellular fractionation and electron micrographic analysis of heart cell aggregates suggest that Tc 99m Sestamibi cellular retention occurs specifically within the mitochondria as a result of electrostatic interactions, the clinical relevance of these findings has not been determined. The mechanism of Tc 99m Sestamibi localization in various types of breast tissue (e.g., benign, inflammatory, malignant, fibrous) has not been established.",
+  "ndc": "45548-141",
+  "page_status": 200,
+  "setids": [
+   "07c893fc-cfba-1d98-0232-6448463afb87"
+  ],
+  "title": "TECHNETIUM TC 99M SESTAMIBI INJECTION, POWDER, FOR SOLUTION [JUBILANT DRAXIMAGE (USA) INC.]"
+ },
+ "47335-361": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Decitabine is believed to exert its antineoplastic effects after phosphorylation and direct incorporation into DNA and inhibition of DNA methyltransferase, causing hypomethylation of DNA and cellular differentiation or apoptosis. Decitabine inhibits DNA methylation in vitro, which is achieved at concentrations that do not cause major suppression of DNA synthesis. Decitabine-induced hypomethylation in neoplastic cells may restore normal function to genes that are critical for the control of cellular differentiation and proliferation. In rapidly dividing cells, the cytotoxicity of decitabine may also be attributed to the formation of covalent adducts between DNA methyltransferase and decitabine incorporated into DNA. Non-proliferating cells are relatively insensitive to decitabine.",
+  "ndc": "47335-361",
+  "page_status": 200,
+  "setids": [
+   "c155d6ba-9a16-406c-919e-65a149689ab9"
+  ],
+  "title": "DECITABINE KIT [SUN PHARMACEUTICAL INDUSTRIES, INC.]"
+ },
+ "50090-0543": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "Mechanism of Action Diclofenac has analgesic, anti-inflammatory, and antipyretic properties. The mechanism of action of diclofenac, like that of other NSAIDs, is not completely understood but involves inhibition of cyclooxygenase (COX-1 and COX-2). Diclofenac is a potent inhibitor of prostaglandin synthesis in vitro. Diclofenac concentrations reached during therapy have produced in vivo effects. Prostaglandins sensitize afferent nerves and potentiate the action of bradykinin in inducing pain in animal models. Prostaglandins are mediators of inflammation. Because diclofenac is an inhibitor of prostaglandin synthesis, its mode of action may be due to a decrease of prostaglandins in peripheral tissues.",
+  "ndc": "50090-0543",
+  "page_status": 200,
+  "setids": [
+   "9df87100-acf5-4b46-93b4-067b470136bd"
+  ],
+  "title": "DICLOFENAC SODIUM DELAYED RELEASE (DICLOFENAC SODIUM) TABLET, DELAYED RELEASE [A-S MEDICATION SOLUTIONS]"
+ },
+ "50090-0754": {
+  "checked": "2026-10-30",
+  "ndc": "50090-0754",
+  "setids": []
+ },
+ "50242-135": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Tocilizumab binds to both soluble and membrane-bound IL-6 receptors (sIL-6R and mIL-6R), and has been shown to inhibit IL-6-mediated signaling through these receptors. IL-6 is a pleiotropic pro-inflammatory cytokine produced by a variety of cell types including T- and B-cells, lymphocytes, monocytes and fibroblasts. IL-6 has been shown to be involved in diverse physiological processes such as T-cell activation, induction of immunoglobulin secretion, initiation of hepatic acute phase protein synthesis, and stimulation of hematopoietic precursor cell proliferation and differentiation. IL-6 is also produced by synovial and endothelial cells leading to local production of IL-6 in joints affected by inflammatory processes such as rheumatoid arthritis.",
+  "ndc": "50242-135",
+  "page_status": 200,
+  "setids": [
+   "2e5365ff-cb2a-4b16-b2c7-e35c6bf2de13"
+  ],
+  "title": "ACTEMRA (TOCILIZUMAB) INJECTION, SOLUTION, CONCENTRATE ACTEMRA (TOCILIZUMAB) INJECTION, SOLUTION ACTEMRA ACTPEN (TOCILIZUMAB) INJECTION, SOLUTION [GENENTECH, INC.]"
+ },
+ "50458-194": {
+  "checked": "2026-10-30",
+  "ndc": "50458-194",
+  "setids": []
+ },
+ "50458-251": {
+  "checked": "2026-10-30",
+  "ndc": "50458-251",
+  "setids": []
+ },
+ "50474-801": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Rotigotine is a non-ergoline dopamine agonist. The precise mechanism of action of rotigotine as a treatment for Parkinson's disease is unknown, although it is thought to be related to its ability to stimulate dopamine receptors within the caudate-putamen in the brain. The precise mechanism of action of rotigotine as a treatment for Restless Legs Syndrome is unknown but is thought to be related to its ability to stimulate dopamine receptors.",
+  "ndc": "50474-801",
+  "page_status": 200,
+  "setids": [
+   "939e28c5-f3a9-42c0-9a2d-8d471d82a6e0"
+  ],
+  "title": "NEUPRO (ROTIGOTINE) PATCH, EXTENDED RELEASE NEUPRO (ROTIGOTINE) KIT [UCB, INC.]"
+ },
+ "50484-810": {
+  "checked": "2026-10-30",
+  "ndc": "50484-810",
+  "setids": []
+ },
+ "51167-200": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Ivacaftor is a potentiator of the CFTR protein. The CFTR protein is a chloride channel present at the surface of epithelial cells in multiple organs. Ivacaftor facilitates increased chloride transport by potentiating the channel open probability (or gating) of CFTR protein located at the cell surface. The overall level of ivacaftor-mediated CFTR chloride transport is dependent on the amount of CFTR protein at the cell surface and how responsive a particular mutant CFTR protein is to ivacaftor potentiation. CFTR Chloride Transport Assay in Fischer Rat Thyroid (FRT) cells expressing mutant CFTR The chloride transport response of mutant CFTR protein to ivacaftor was determined in Ussing chamber electrophysiology studies using a panel of FRT cell lines transfected with individual CFTR mutations. Ivacaftor increased chloride transport in FRT cells expressing CFTR mutations that result in CFTR protein being delivered to the cell surface. The in vitro CFTR chloride transport response threshold was designated as a net increase of at least 10% of normal over baseline because it is predictive or reasonably expected to predict clinical benefit. For individual mutations, the magnitude of the net change over baseline in CFTR-mediated chloride transport in vitro is not correlated with the magnitude of clinical response. A patient must have at least one CFTR mutation responsive to ivacaftor to be indicated. Note that splice site mutations cannot be studied in the FRT assay. Evidence of clinical efficacy exists for non-canonical splice mutations 2789+5G→A , 3272-26A→G , 3849+10kbC→T , 711+3A→G and E831X and these are listed in Table 3 below [see also Clinical Studies (14.4) ] . The G970R mutation causes a splicing defect resulting in little-to-no CFTR protein at the cell surface that can be potentiated by ivacaftor [see Clinical Studies (14.2) ] . Ivacaftor also increased chloride transport in cultured human bronchial epithelial (HBE) cells derived from CF patients who carried F508del on one CFTR allele and either G551D or R117H-5T on the second CFTR allele. Table 3 lists mutations that are responsive to ivacaftor based on 1) a positive clinical response and/or 2) in vitro data in FRT cells indicating that ivacaftor increases chloride transport to at least 10% over baseline (% of normal). Table 3: List of CFTR Gene Mutations that Produce CFTR Protein and are Responsive to KALYDECO 711+3A→G Clinical data exist for these mutations [see Clinical Studies (14) ] . F311del I148T R75Q S589N 2789+5G→A F311L I175V R117C S737F 3272-26A→G F508C I807M R117G S945L 3849+10kbC→T F508C;S1251N Complex/compound mutations where a single allele of the CFTR gene has multiple mutations; these exist independent of the presence of mutations on the other allele. I1027T R117H S977F A120T F1052V I1139V R117L S1159F A234D F1074L K1060T R117P S1159P A349V G178E L206W R170H S1251N A455E G178R L320V R347H S1255P A1067T G194R L967S R347L T338I D110E G314E L997F R352Q T1053I D110H G551D L1480P R553Q V232D D192G G551S M152V R668C V562I D579G G576A M952I R792G V754M D924N G970D M952T R933G V1293G D1152H G1069R P67L R1070Q W1282R D1270N G1244E Q237E R1070W Y1014C E56K G1249R Q237H R1162L Y1032C E193K G1349D Q359R R1283M E822K H939R Q1291R S549N E831X H1375P R74W S549R",
+  "ndc": "51167-200",
+  "page_status": 200,
+  "setids": [
+   "0ab0c9f8-3eee-4e0f-9f3f-c1e16aaffe25"
+  ],
+  "title": "KALYDECO (IVACAFTOR) TABLET, FILM COATED KALYDECO (IVACAFTOR) GRANULE [VERTEX PHARMACEUTICALS INCORPORATED]"
+ },
+ "51862-047": {
+  "checked": "2026-10-30",
+  "ndc": "51862-047",
+  "setids": []
+ },
+ "52609-0006": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Deferiprone is a chelating agent that binds with ferric ions (iron III) to form neutral 3:1 (deferiprone:iron) complexes that are stable over a wide range of pH values. Deferiprone has a lower binding affinity for other metals (e.g., copper, aluminum and zinc) than for iron.",
+  "ndc": "52609-0006",
+  "page_status": 200,
+  "setids": [
+   "dc8cbc3d-026c-0db5-42e8-8e93d374dd23"
+  ],
+  "title": "FERRIPROX (DEFERIPRONE) TABLET, FILM COATED [APOPHARMA USA, INC.]"
+ },
+ "53489-141": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "Mechanisms of action In patients with malaria, quinidine acts primarily as an intra-erythrocytic schizonticide, with little effect upon sporozites or upon pre-erythrocytic parasites. Quinidine is gametocidal to Plasmodium vivax and P. malariae , but not to P. falciparum. In cardiac muscle and in Purkinje fibers, quinidine depresses the rapid inward depolarizing sodium current, thereby slowing phase-0 depolarization and reducing the amplitude of the action potential without affecting the resting potential. In normal Purkinje fibers, it reduces the slope of phase-4 depolarization, shifting the threshold voltage upward toward zero. The result is slowed conduction and reduced automaticity in all parts of the heart, with increase of the effective refractory period relative to the duration of the action potential in the atria, ventricles, and Purkinje tissues. Quinidine also raises the fibrillation thresholds of the atria and ventricles, and it raises the ventricular de fibrillation threshold as well. Quinidine's actions fall into Class Ia in the Vaughn-Williams classification. By slowing conduction and prolonging the effective refractory period, quinidine can interrupt or prevent reentrant arrhythmias and arrhythmias due to increased automaticity, including atrial flutter, atrial fibrillation, and paroxysmal supraventricular tachycardia. In patients with sick sinus syndrome, quinidine can cause marked sinus node depression and bradycardia. In most patients, however, use of quinidine is associated with an increase in the sinus rate. Like other antiarrhythmic drugs with Class Ia activity, quinidine prolongs the QT interval in a dose-related fashion. This may lead to increased ventricular automaticity and polymorphic ventricular tachycardias, including torsades de pointes (see WARNINGS ). In addition, quinidine has anticholinergic activity, it has negative inotropic activity, and it acts peripherally as an α-adrenergic antagonist (that is, as a vasodilator).",
+  "ndc": "53489-141",
+  "page_status": 200,
+  "setids": [
+   "5023f053-fcc4-4c2c-aa59-9ec198ad185e"
+  ],
+  "title": "QUINIDINE GLUCONATE TABLET, EXTENDED RELEASE [SUN PHARMACEUTICAL INDUSTRIES, INC.]"
+ },
+ "54868-6150": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action The mechanism of action of mesalamine (5-ASA) is unknown, but appears to be local to the intestinal mucosa rather than systemic. Mucosal production of arachidonic acid metabolites, both through the cyclooxygenase pathways, i.e., prostanoids, and through the lipoxygenase pathways, i.e., leukotrienes and hydroxyeicosatetraenoic acids, is increased in patients with ulcerative colitis, and it is possible that 5-ASA diminishes inflammation by blocking production of arachidonic acid metabolites.",
+  "ndc": "54868-6150",
+  "page_status": 200,
+  "setids": [
+   "d5d05b1f-9f45-4f66-9f75-3c67934105de"
+  ],
+  "title": "APRISO (MESALAMINE) CAPSULE, EXTENDED RELEASE [PHYSICIANS TOTAL CARE, INC.]"
+ },
+ "55111-652": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Bivalirudin directly inhibits thrombin by specifically binding both to the catalytic site and to the anion-binding exosite of circulating and clot-bound thrombin. Thrombin is a serine proteinase that plays a central role in the thrombotic process, acting to cleave fibrinogen into fibrin monomers and to activate Factor XIII to Factor XIIIa, allowing fibrin to develop a covalently cross-linked framework which stabilizes the thrombus; thrombin also activates Factors V and VIII, promoting further thrombin generation, and activates platelets, stimulating aggregation and granule release. The binding of bivalirudin to thrombin is reversible as thrombin slowly cleaves the bivalirudin-Arg 3 -Pro 4 bond, resulting in recovery of thrombin active site functions. In in vitro studies, bivalirudin inhibited both soluble (free) and clot-bound thrombin, was not neutralized by products of the platelet release reaction, and prolonged the activated partial thromboplastin time (aPTT), thrombin time (TT), and prothrombin time (PT) of normal human plasma in a concentration-dependent manner. The clinical relevance of these findings is unknown.",
+  "ndc": "55111-652",
+  "page_status": 200,
+  "setids": [
+   "19beb2ae-6064-3c24-fe50-0cee86896979"
+  ],
+  "title": "BIVALIRUDIN INJECTION [DR. REDDY'S LABORATORIES LIMITED]"
+ },
+ "55513-750": {
+  "checked": "2026-10-30",
+  "ndc": "55513-750",
+  "setids": []
+ },
+ "55566-6500": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Progesterone is a naturally occurring steroid that is secreted by the ovary, placenta, and adrenal gland. In the presence of adequate estrogen, progesterone transforms a proliferative endometrium into a secretory endometrium. Progesterone is necessary to increase endometrial receptivity for implantation of an embryo. Once an embryo is implanted, progesterone acts to maintain a pregnancy.",
+  "ndc": "55566-6500",
+  "page_status": 200,
+  "setids": [
+   "2ba50fa9-b349-40cb-9a4b-1af8faa4ec09"
+  ],
+  "title": "ENDOMETRIN (PROGESTERONE) INSERT [FERRING PHARMACEUTICALS INC.]"
+ },
+ "55566-8505": {
+  "checked": "2026-10-30",
+  "ndc": "55566-8505",
+  "setids": []
+ },
+ "57664-190": {
+  "checked": "2026-10-30",
+  "ndc": "57664-190",
+  "setids": []
+ },
+ "57902-249": {
+  "checked": "2026-10-30",
+  "ndc": "57902-249",
+  "setids": []
+ },
+ "58468-0220": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Gaucher disease is caused by a deficiency of the lysosomal enzyme acid β-glucosidase. Acid β-glucosidase catalyzes the conversion of the sphingolipid glucocerebroside into glucose and ceramide. The enzymatic deficiency causes an accumulation of glucosylceramide (GL-1) primarily in the lysosomal compartment of macrophages, giving rise to foam cells or \"Gaucher cells.\" The clinical features of this lysosomal storage disorder (LSD) are reflective of the accumulation of Gaucher cells in the reticuloendothelial system (liver, spleen, bone marrow, and other organs). The accumulation of Gaucher cells in the liver, spleen, and bone marrow leads to organomegaly and skeletal disease. Presence of Gaucher cells in the bone marrow and spleen leads to clinically significant anemia and thrombocytopenia. CERDELGA is a specific inhibitor of glucosylceramide synthase (IC 50 =10 ng/mL) and acts as a substrate reduction therapy for GD1 by reducing the production of GL-1. By reducing GL-1 production, CERDELGA alleviates the accumulation of GL-1 in the target organs.",
+  "ndc": "58468-0220",
+  "page_status": 200,
+  "setids": [
+   "819f828a-b888-4e46-83fc-94d774a28a83"
+  ],
+  "title": "CERDELGA (ELIGLUSTAT) CAPSULE [GENZYME CORPORATION]"
+ },
+ "59572-402": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Lenalidomide is an analogue of thalidomide with immunomodulatory, antiangiogenic, and antineoplastic properties. Cellular activities of lenalidomide are mediated through its target cereblon, a component of a cullin ring E3 ubiquitin ligase enzyme complex. In vitro, in the presence of drug, substrate proteins (including Aiolos, Ikaros, and CK1α) are targeted for ubiquitination and subsequent degradation leading to direct cytotoxic and immunomodulatory effects. Lenalidomide inhibits proliferation and induces apoptosis of certain hematopoietic tumor cells including MM, mantle cell lymphoma, and del (5q) myelodysplastic syndromes, follicular lymphoma and marginal zone lymphoma in vitro . Lenalidomide causes a delay in tumor growth in some in vivo nonclinical hematopoietic tumor models including MM. Immunomodulatory properties of lenalidomide include increased number and activation of T cells and natural killer (NK) cells leading to direct and enhanced antibody-dependent cell-mediated cytotoxicity (ADCC) via increased secretion of interleukin-2 and interferon-gamma, increased numbers of NKT cells, and inhibition of pro-inflammatory cytokines (e.g., TNF-α and IL-6) by monocytes. In MM cells, the combination of lenalidomide and dexamethasone synergizes the inhibition of cell proliferation and the induction of apoptosis. The combination of lenalidomide and rituximab increases ADCC and direct tumor apoptosis in follicular lymphoma cells and increases ADCC in marginal zone lymphoma cells compared to rituximab alone in vitro .",
+  "ndc": "59572-402",
+  "page_status": 200,
+  "setids": [
+   "5fa97bf5-28a2-48f1-8955-f56012d296be"
+  ],
+  "title": "REVLIMID (LENALIDOMIDE) CAPSULE [CELGENE CORPORATION]"
+ },
+ "63323-317": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Granisetron is a selective 5-hydroxytryptamine 3 (5-HT 3 ) receptor antagonist with little or no affinity for other serotonin receptors, including 5-HT 1 ; 5-HT 1A ; 5-HT 1B/C ; 5-HT 2 ; for alpha 1 -, alpha 2 - or beta-adrenoreceptors; for dopamine-D 2 ; or for histamine-H 1 ; benzodiazepine; picrotoxin or opioid receptors. Serotonin receptors of the 5-HT 3 type are located peripherally on vagal nerve terminals and centrally in the chemoreceptor trigger zone of the area postrema. During chemotherapy-induced vomiting, mucosal enterochromaffin cells release serotonin, which stimulates 5-HT 3 receptors. This evokes vagal afferent discharge and may induce vomiting. Animal studies demonstrate that, in binding to 5-HT 3 receptors, granisetron blocks serotonin stimulation and subsequent vomiting after emetogenic stimuli such as cisplatin. In the ferret animal model, a single granisetron injection prevented vomiting due to high-dose cisplatin or arrested vomiting within 5 to 30 seconds. In most human studies, granisetron has had little effect on blood pressure, heart rate or ECG. No evidence of an effect on plasma prolactin or aldosterone concentrations has been found in other studies. Granisetron hydrochloride injection exhibited no effect on oro-cecal transit time in normal volunteers given a single intravenous infusion of 50 mcg/kg or 200 mcg/kg. Single and multiple oral doses slowed colonic transit in normal volunteers.",
+  "ndc": "63323-317",
+  "page_status": 200,
+  "setids": [
+   "dddc8714-383f-4bc5-a468-ae89dbc802b4"
+  ],
+  "title": "GRANISETRON (GRANISETRON HYDROCHLORIDE) INJECTION, SOLUTION [FRESENIUS KABI USA, LLC]"
+ },
+ "63402-911": {
+  "checked": "2026-10-30",
+  "ndc": "63402-911",
+  "setids": []
+ },
+ "65649-102": {
+  "checked": "2026-10-30",
+  "ndc": "65649-102",
+  "setids": []
+ },
+ "67457-198": {
+  "checked": "2026-10-30",
+  "ndc": "67457-198",
+  "setids": []
+ },
+ "67457-218": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "Mechanism of Action Epidurally administered clonidine produces dose-dependent analgesia not antagonized by opiate antagonists. The analgesia is limited to the body regions innervated by the spinal segments where analgesic concentrations of clonidine are present. Clonidine is thought to produce analgesia at presynaptic and postjunctional alpha-2-adrenoceptors in the spinal cord by preventing pain signal transmission to the brain.",
+  "ndc": "67457-218",
+  "page_status": 200,
+  "setids": [
+   "8c126bb8-732a-4949-8754-2f50b5543638"
+  ],
+  "title": "DURACLON (CLONIDINE HYDROCHLORIDE) INJECTION, SOLUTION [MYLAN INSTITUTIONAL LLC]"
+ },
+ "68135-020": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Mucopolysaccharide storage disorders are caused by the deficiency of specific lysosomal enzymes required for the catabolism of GAG. MPS VI is characterized by the absence or marked reduction in N-acetylgalactosamine 4-sulfatase. The sulfatase activity deficiency results in the accumulation of the GAG substrate, dermatan sulfate, throughout the body. This accumulation leads to widespread cellular, tissue, and organ dysfunction. NAGLAZYME is intended to provide an exogenous enzyme that will be taken up into lysosomes and increase the catabolism of GAG. Galsulfase uptake by cells into lysosomes is most likely mediated by the binding of mannose-6-phosphate-terminated oligosaccharide chains of galsulfase to specific mannose-6-phosphate receptors.",
+  "ndc": "68135-020",
+  "page_status": 200,
+  "setids": [
+   "59341250-deac-ed71-3823-a4f5d64dbd77"
+  ],
+  "title": "NAGLAZYME (GALSULFASE) SOLUTION [BIOMARIN PHARMACEUTICAL INC.]"
+ },
+ "68152-108": {
+  "checked": "2026-10-30",
+  "ndc": "68152-108",
+  "setids": []
+ },
+ "68727-800": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action The mechanism of action of defibrotide sodium has not been fully elucidated. In vitro , defibrotide sodium enhances the enzymatic activity of plasmin to hydrolyze fibrin clots. Studies evaluating the pharmacological effects of defibrotide sodium on endothelial cells (ECs) were conducted primarily in the human microvascular endothelial cell line. In vitro , defibrotide sodium increased tissue plasminogen activator (t-PA) and thrombomodulin expression, and decreased von Willebrand factor (vWF) and plasminogen activator inhibitor‑1 (PAI-1) expression, thereby reducing EC activation and increasing EC‑mediated fibrinolysis. Defibrotide sodium protected ECs from damage caused by chemotherapy, tumor necrosis factor-α (TNF-α), serum starvation, and perfusion.",
+  "ndc": "68727-800",
+  "page_status": 200,
+  "setids": [
+   "2c3db989-d7ad-41ed-9ebf-698dcf6c24ec"
+  ],
+  "title": "DEFITELIO (DEFIBROTIDE SODIUM) INJECTION, SOLUTION [JAZZ PHARMACEUTICALS, INC.]"
+ },
+ "69399-185": {
+  "checked": "2026-10-30",
+  "mechanism_of_action": "12.1 Mechanism of Action Celecoxib is a nonsteroidal anti-inflammatory drug that exhibits anti-inflammatory, analgesic, and antipyretic activities in animal models. The mechanism of action of celecoxib is believed to be due to inhibition of prostaglandin synthesis, primarily via inhibition of cyclooxygenase-2 (COX-2), and at therapeutic concentrations in humans, celecoxib does not inhibit the cyclooxygenase-1 (COX-1) isoenzyme. In animal colon tumor models, celecoxib reduced the incidence and multiplicity of tumors.",
+  "ndc": "69399-185",
+  "page_status": 200,
+  "setids": [
+   "a2d75d7d-a6d0-4489-85f7-a57c237ba5e2"
+  ],
+  "title": "CELECOXIB 400 MG (CELECOXIB) CAPSULE [SYDON LABS LLC]"
+ },
+ "69656-103": {
+  "checked": "2026-10-30",
+  "ndc": "69656-103",
+  "setids": []
+ }
+}

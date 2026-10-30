@@ -681,7 +681,7 @@ struct SubstanceReadModel {
 
     /// Distinct primary references for a compound: the substance-level curated
     /// `sources` plus the citations attached to its dose / duration / half-life /
-    /// mechanism / protocol facts. Binding citations are excluded — they have a
+    /// mechanism / protocol / overview facts. Binding citations are excluded — they have a
     /// dedicated Receptor Literature card and would swamp the list.
     private func resolvedReferences(db: Database, substanceID: Int64) throws -> [Citation] {
         let rows = try Row.fetchAll(db, sql: """
@@ -693,6 +693,7 @@ struct SubstanceReadModel {
                 UNION SELECT citation_id FROM half_lives         WHERE substance_id = :id
                 UNION SELECT citation_id FROM mechanisms_summary WHERE substance_id = :id
                 UNION SELECT citation_id FROM protocol_dosing    WHERE substance_id = :id
+                UNION SELECT citation_id FROM descriptions       WHERE substance_id = :id
              )
              ORDER BY c.title, c.url, c.doi
              LIMIT 60
@@ -811,15 +812,21 @@ struct SubstanceReadModel {
     /// `piru-curated` here, above the published literature.
     private func resolvedDescription(db: Database, substanceID: Int64) throws -> SubstanceOverview? {
         guard let row = try resolvedTextRow(
-            db: db, from: "descriptions", selecting: "t.text",
+            db: db, from: "descriptions", selecting: "t.text, t.citation_id",
             substanceID: substanceID, fieldPriority: "descriptions",
         ) else { return nil }
         let text: String = row["text"]
         guard !text.isEmpty else { return nil }
+        let citation = try (row["citation_id"] as Int64?).flatMap { id in
+            try Row.fetchOne(db, sql: "SELECT doi, pmid, url, title FROM citations WHERE id = ?", arguments: [id])
+        }.map { c in
+            Citation(doi: c["doi"], pmid: (c["pmid"] as Int64?).map(Int.init), url: c["url"], title: c["title"])
+        }
         return SubstanceOverview(
             text: text,
             machineTranslated: (row["machine_translated"] as Int64? ?? 0) != 0,
             sourceSlug: (row["source_slug"] as String?) ?? "freeodwiki",
+            citation: citation,
         )
     }
 
@@ -950,15 +957,18 @@ struct SubstanceReadModel {
 
     private func citedSources(db: Database, substanceID: Int64) throws -> [String] {
         // Source attribution shown to the user: the set of source display
-        // names that contributed any fact for this substance.
-        try String.fetchAll(db, sql: """
+        // names that contributed any fact for this substance. A literature-layer
+        // row counts only when it is cited (see `sourceContributions`).
+        let literature = "(SELECT id FROM sources WHERE slug = '\(AppSources.literatureSlug)')"
+        let cited = "(citation_id IS NOT NULL OR source_id IS NOT \(literature))"
+        return try String.fetchAll(db, sql: """
             SELECT DISTINCT src.slug FROM (
-                SELECT source_id FROM categories WHERE substance_id = ?
-                UNION SELECT source_id FROM dose_ranges WHERE substance_id = ?
-                UNION SELECT source_id FROM durations WHERE substance_id = ?
-                UNION SELECT source_id FROM half_lives WHERE substance_id = ?
-                UNION SELECT source_id FROM mechanisms_summary WHERE substance_id = ?
-                UNION SELECT source_id FROM bindings WHERE substance_id = ?
+                SELECT source_id FROM categories WHERE substance_id = ? AND source_id IS NOT \(literature)
+                UNION SELECT source_id FROM dose_ranges WHERE substance_id = ? AND \(cited)
+                UNION SELECT source_id FROM durations WHERE substance_id = ? AND \(cited)
+                UNION SELECT source_id FROM half_lives WHERE substance_id = ? AND \(cited)
+                UNION SELECT source_id FROM mechanisms_summary WHERE substance_id = ? AND \(cited)
+                UNION SELECT source_id FROM bindings WHERE substance_id = ? AND \(cited)
             ) AS uses
             JOIN sources src ON src.id = uses.source_id
             WHERE src.slug IN (\(enabledSourceListSQL))

@@ -47,7 +47,7 @@ struct PharmacogeneticRow: View {
                 .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
+            sourceLine(slug: hit.sourceSlug, detail: nil, citation: hit.citation, accent: accent)
         }
         .accessibilityElement(children: .combine)
     }
@@ -106,7 +106,7 @@ struct TargetEvidenceRow: View {
                 .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            sourceLine(slug: item.sourceSlug, detail: nil, doi: item.doi, pmid: item.pmid, accent: accent)
+            sourceLine(slug: item.sourceSlug, detail: nil, citation: item.citation, accent: accent)
         }
         .accessibilityElement(children: .combine)
     }
@@ -139,7 +139,7 @@ struct SignallingCascadeRow: View {
                 .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            sourceLine(slug: cascade.sourceSlug, detail: nil, doi: cascade.doi, pmid: cascade.pmid, accent: accent)
+            sourceLine(slug: cascade.sourceSlug, detail: nil, citation: cascade.citation, accent: accent)
         }
         .padding(.top, Spacing.md)
         .accessibilityElement(children: .combine)
@@ -178,7 +178,7 @@ struct ConcentrationThresholdRow: View {
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             }
-            sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
+            sourceLine(slug: hit.sourceSlug, detail: nil, citation: hit.citation, accent: accent)
                 .font(.caption2)
         }
         .accessibilityElement(children: .combine)

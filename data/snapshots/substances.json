@@ -12075,12 +12075,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Covalent inhibitor of Bruton's tyrosine kinase, blocking B-cell antigen receptor and cytokine receptor signaling.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Calquence (acalabrutinib) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -14898,7 +14899,6 @@
     "mechanism_summary": "Tricyclic Antidepressant (TCA)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012036s098lbl.pdf",
       "https://en.wikipedia.org/wiki/Amitriptyline",
       "https://www.ncbi.nlm.nih.gov/books/NBK537225/"
     ],
@@ -15713,7 +15713,7 @@
     "mechanism_summary": "Dopamine D2 Partial Agonist and Serotonin Modulator",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021436s038lbl.pdf",
+      "Abilify (aripiprazole) label",
       "https://en.wikipedia.org/wiki/Aripiprazole",
       "https://www.fda.gov/media/71096/download"
     ],
@@ -15784,7 +15784,7 @@
     "mechanism_summary": "Blocks dopamine D2 and serotonin 5-HT2A receptors, with additional activity at other dopamine, serotonin, histamine, and alpha-adrenergic receptors.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022117lbl.pdf",
+      "Saphris (asenapine maleate) label",
       "https://en.wikipedia.org/wiki/Asenapine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0052-0118"
     ],
@@ -15977,7 +15977,8 @@
     "effects": [],
     "references": [
       "Disposition and metabolic fate of atomoxetine hydrochloride: the role of CYP2D6 in human disposition and metabolism",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0002-3227"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0002-3227",
+      "Strattera (atomoxetine hydrochloride) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": []
   },
@@ -16044,10 +16045,11 @@
     "half_life_minutes": null,
     "mechanism_summary": "Reversible antagonist at muscarinic acetylcholine receptors, without distinguishing the M1, M2 and M3 subgroups.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Atropine (atropine sulfate) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -16306,7 +16308,6 @@
     "mechanism_summary": "Blocks histamine at peripheral H1 receptors, reducing nasal allergy symptoms.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/020975s013lbl.pdf",
       "https://en.wikipedia.org/wiki/Azelastine"
     ],
     "data_gaps": []
@@ -16559,10 +16560,10 @@
     "mechanism_summary": "Selective mitochondrial uncoupler; transports protons across the inner mitochondrial membrane without depolarizing the plasma membrane.",
     "effects": [],
     "references": [
+      "PMC7224297",
       "PMC7224297 (Nature Comms, mouse DIO reversal)",
       "PMC7338798 (BAM15 uncoupling, mouse)",
       "PMC10600450",
-      "PMC7224297",
       "PMC7338798"
     ],
     "data_gaps": [
@@ -17389,7 +17390,8 @@
     "effects": [],
     "references": [
       "FDA label for Targretin (bexarotene), Clinical Pharmacology/Pharmacokinetics: terminal t½ ≈ 7 hours",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-6955"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-6955",
+      "Bexarotene label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -17688,12 +17690,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Reversibly inhibits thrombin by binding both its catalytic site and its anion-binding exosite.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Bivalirudin label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -18077,12 +18080,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Cleaves SNAP25 inside peripheral cholinergic nerve endings, blocking acetylcholine release at the neuromuscular junction.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Dysport (botulinum toxin type a) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -18296,7 +18300,6 @@
     "effects": [],
     "references": [
       "FDA label for Zulresso (brexanolone) injection, NDA 211371, Section 12.3 Pharmacokinetics - Elimination",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211371s000lbl.pdf",
       "https://en.wikipedia.org/wiki/Brexanolone"
     ],
     "data_gaps": [
@@ -18334,7 +18337,7 @@
     "mechanism_summary": "Serotonin-Dopamine Activity Modulator (D2 Partial Agonist)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/205422orig1s000lbl.pdf",
+      "Rexulti (brexpiprazole) label",
       "https://en.wikipedia.org/wiki/Brexpiprazole"
     ],
     "data_gaps": [
@@ -18373,7 +18376,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/205836lbl.pdf",
+      "Briviact (brivaracetam) label",
       "https://en.wikipedia.org/wiki/Brivaracetam"
     ],
     "data_gaps": [
@@ -19153,7 +19156,7 @@
     "mechanism_summary": "Weak inhibitor of the neuronal reuptake of norepinephrine and dopamine.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018644s059lbl.pdf",
+      "Wellbutrin Sr (bupropion hydrochloride) label",
       "https://en.wikipedia.org/wiki/Bupropion",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0173-0556"
@@ -20050,7 +20053,7 @@
     "mechanism_summary": "D3-Preferring Dopamine Partial Agonist",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/204370orig1s000lbl.pdf",
+      "Vraylar (cariprazine) label",
       "https://en.wikipedia.org/wiki/Cariprazine"
     ],
     "data_gaps": [
@@ -20365,7 +20368,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Cannabidiol",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/210365lbl.pdf"
+      "Epidiolex (cannabidiol) label"
     ],
     "data_gaps": []
   },
@@ -20840,12 +20843,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Inhibits prostaglandin synthesis primarily through cyclooxygenase-2, sparing cyclooxygenase-1 at concentrations reached in humans.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Celecoxib 400 Mg (celecoxib) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -20995,7 +20999,6 @@
       "Dry mouth"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/20784slr013_zyrtec_lbl.pdf",
       "https://en.wikipedia.org/wiki/Cetirizine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=30142-211"
     ],
@@ -21315,7 +21318,6 @@
       "Sedation"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/012140s027lbl.pdf",
       "https://en.wikipedia.org/wiki/Chlorphenamine",
       "Clinical pharmacokinetics of chlorpheniramine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=49035-940"
@@ -21355,7 +21357,6 @@
     "mechanism_summary": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/010138s030lbl.pdf",
       "https://en.wikipedia.org/wiki/Chlorpromazine"
     ],
     "data_gaps": [
@@ -21567,7 +21568,6 @@
     "mechanism_summary": "Blocks histamine H2 receptors on stomach parietal cells, reducing acid secretion.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/017683s094lbl.pdf",
       "https://en.wikipedia.org/wiki/Cimetidine"
     ],
     "data_gaps": [
@@ -21702,9 +21702,9 @@
     "mechanism_summary": "Blocks the serotonin transporter, increasing serotonin levels in the synapse.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s044,021046s019lbl.pdf",
+      "Celexa (citalopram) label",
       "https://en.wikipedia.org/wiki/Citalopram",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021323s047lbl.pdf",
+      "Lexapro (escitalopram) label",
       "https://en.wikipedia.org/wiki/Escitalopram",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-3855"
@@ -22152,7 +22152,7 @@
     "mechanism_summary": "Tricyclic Antidepressant (TCA)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/019906s022lbl.pdf",
+      "Anafranil (clomipramine hydrochloride) label",
       "https://en.wikipedia.org/wiki/Clomipramine",
       "Clinical Pharmacokinetics of Clomipramine"
     ],
@@ -22323,7 +22323,8 @@
       "Dry mouth"
     ],
     "references": [
-      "https://www.ncbi.nlm.nih.gov/books/NBK459124/"
+      "https://www.ncbi.nlm.nih.gov/books/NBK459124/",
+      "Duraclon (clonidine hydrochloride) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": []
   },
@@ -22578,7 +22579,7 @@
     "mechanism_summary": "Multi-Receptor Antagonist (Atypical Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/019758s083lbl.pdf",
+      "Clozaril (clozapine) label",
       "https://en.wikipedia.org/wiki/Clozapine"
     ],
     "data_gaps": []
@@ -23574,7 +23575,6 @@
       "Sedation"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/009761s028lbl.pdf",
       "https://en.wikipedia.org/wiki/Cyproheptadine"
     ],
     "data_gaps": [
@@ -24118,12 +24118,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Incorporates into DNA after phosphorylation and inhibits DNA methyltransferase, causing DNA hypomethylation.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Decitabine label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -24146,7 +24147,8 @@
     "effects": [],
     "references": [
       "FDA label for Ferriprox (deferiprone), Clinical Pharmacology/Pharmacokinetics: t½ = 1.8 ± 0.3 h",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=52609-0006"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=52609-0006",
+      "Ferriprox (deferiprone) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -24198,12 +24200,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Enhances plasmin's hydrolysis of fibrin clots and raises endothelial t-PA and thrombomodulin expression.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Defitelio (defibrotide sodium) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -24537,7 +24540,6 @@
     "mechanism_summary": "Blocks the noradrenaline transporter, and to a lesser degree the serotonin transporter.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011835s065lbl.pdf",
       "https://en.wikipedia.org/wiki/Desipramine"
     ],
     "data_gaps": [
@@ -24600,7 +24602,6 @@
     "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (Second-Generation)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021117s025lbl.pdf",
       "https://en.wikipedia.org/wiki/Desloratadine"
     ],
     "data_gaps": [
@@ -24842,7 +24843,7 @@
     "mechanism_summary": "Serotonin-Norepinephrine Reuptake Inhibitor (SNRI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021992s030lbl.pdf",
+      "Pristiq Extended-Release (desvenlafaxine succinate) label",
       "https://en.wikipedia.org/wiki/Desvenlafaxine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021992s030lbl.pdf"
     ],
@@ -24987,7 +24988,8 @@
     "effects": [],
     "references": [
       "FDA label for Dexmedetomidine injection, Clinical Pharmacology 12.3: terminal t½ ≈ 2 hours",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=17478-055"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=17478-055",
+      "Dexmedetomidine (dexmedetomidine hydrochloride) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "duration_by_route"
@@ -25399,7 +25401,8 @@
     "mechanism_summary": "Inhibits cyclooxygenase-1 and cyclooxygenase-2, lowering prostaglandin synthesis in peripheral tissues.",
     "effects": [],
     "references": [
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=50090-0543"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=50090-0543",
+      "Diclofenac Sodium Delayed Release (diclofenac sodium) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -26104,7 +26107,6 @@
       "Visual haze"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/08495s041lbl.pdf",
       "https://en.wikipedia.org/wiki/Diphenhydramine",
       "Pharmacokinetics of diphenhydramine and a demethylated metabolite following intravenous and oral administration"
     ],
@@ -27471,7 +27473,7 @@
     "mechanism_summary": "Blocks alpha-1 adrenergic receptors, relaxing vascular and bladder-neck smooth muscle.",
     "effects": [],
     "references": [
-      "PMID 2884857"
+      "Pharmacokinetic overview of doxazosin."
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -27507,7 +27509,7 @@
     "mechanism_summary": "Blocks the serotonin and norepinephrine transporters, and blocks histamine H1, alpha-1 adrenergic, and muscarinic receptors.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/022036lbl.pdf",
+      "Silenor (doxepin hydrochloride) label",
       "https://en.wikipedia.org/wiki/Doxepin"
     ],
     "data_gaps": [
@@ -27594,7 +27596,7 @@
     "mechanism_summary": "Doxylamine acts primarily as an inverse agonist at H1 histamine receptors, an action responsible for its antihistaminic and sedative properties. To a lesser extent, doxylamine also acts as an antagonist at muscarinic acetylcholine receptors, an action that underlies its deliriant effects.\n\nDoxylamine is broken down in the liver by the cytochrome P450 enzymes CYP2D6, CYP1A2, and CYP2C9. Its primary metabolites are N-desmethyldoxylamine, N,N-didesmethyldoxylamine, and doxylamine N-oxide. Doxylamine reaches peak plasma concentration 1.5–2.5 hours after administration and has a half-life of 10–12 hours.\n\nAt sufficiently high doses, doxylamine may cause a false positive result on methadone screening tests.\n\nThe oral bioavailability of doxylamine is 24.7% and the intranasal bioavailability is 70.8%.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021876s004lbl.pdf",
+      "Diclegis (doxylamine succinate and pyridoxine hydrochloride) label",
       "https://en.wikipedia.org/wiki/Doxylamine",
       "The pharmacokinetics of doxylamine: use of automated gas chromatography with nitrogen-phosphorus detection",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=41190-441"
@@ -27839,7 +27841,7 @@
     "mechanism_summary": "Activates GLP-1 receptors, increasing glucose-dependent insulin secretion and slowing gastric emptying.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/125469s030lbl.pdf",
+      "Trulicity (dulaglutide) label",
       "https://en.wikipedia.org/wiki/Dulaglutide"
     ],
     "data_gaps": [
@@ -27874,7 +27876,7 @@
     "mechanism_summary": "Blocks the serotonin and norepinephrine transporters, increasing both neurotransmitters in the synapse.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021427s045lbl.pdf",
+      "Cymbalta (duloxetine hydrochloride) label",
       "https://en.wikipedia.org/wiki/Duloxetine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0615-7894"
     ],
@@ -28302,12 +28304,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Specific inhibitor of glucosylceramide synthase (IC50 = 10 ng/mL).",
     "effects": [],
-    "references": [],
+    "references": [
+      "Cerdelga (eliglustat) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -28824,7 +28827,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/210365s006lbl.pdf",
+      "Epidiolex (cannabidiol) label",
       "https://en.wikipedia.org/wiki/Epidiolex"
     ],
     "data_gaps": [
@@ -29290,12 +29293,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Estrogens bind nuclear estrogen receptors in estrogen-responsive tissues.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Premarin (estrogens, conjugated) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -30158,7 +30162,8 @@
     "effects": [],
     "references": [
       "FDA label for Afinitor (everolimus), Clinical Pharmacology/Pharmacokinetics: mean elimination half-life approximately 30 hours",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0078-0414"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0078-0414",
+      "Zortress (everolimus) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -30224,7 +30229,6 @@
     "mechanism_summary": "Activates GLP-1 receptors, increasing glucose-dependent insulin secretion and slowing gastric emptying.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf",
       "https://en.wikipedia.org/wiki/Exenatide",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0310-6530"
     ],
@@ -30419,7 +30423,7 @@
     "mechanism_summary": "Blocks histamine H2 receptors on stomach parietal cells, reducing acid secretion.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/019462s039lbl.pdf",
+      "Pepcid (famotidine) label",
       "https://en.wikipedia.org/wiki/Famotidine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=24385-255"
     ],
@@ -30786,7 +30790,7 @@
     "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (Second-Generation)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/020872s032lbl.pdf",
+      "Allegra Hives 24Hr (fexofenadine hydrochloride) label",
       "https://en.wikipedia.org/wiki/Fexofenadine"
     ],
     "data_gaps": []
@@ -31910,7 +31914,7 @@
     "mechanism_summary": "Selective Serotonin Reuptake Inhibitor (SSRI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/018936s114lbl.pdf",
+      "Prozac (fluoxetine hydrochloride) label",
       "https://en.wikipedia.org/wiki/Fluoxetine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/018936s064lbl.pdf"
     ],
@@ -31951,7 +31955,6 @@
     "mechanism_summary": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/016403s037lbl.pdf",
       "https://en.wikipedia.org/wiki/Fluphenazine"
     ],
     "data_gaps": [
@@ -32353,7 +32356,6 @@
     "mechanism_summary": "Selective Serotonin Reuptake Inhibitor (SSRI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019842s034lbl.pdf",
       "https://en.wikipedia.org/wiki/Fluvoxamine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0185-0017"
     ],
@@ -32948,7 +32950,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Galantamine",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021169s032lbl.pdf"
+      "Razadyne (galantamine hydrobromide) label"
     ],
     "data_gaps": []
   },
@@ -32998,12 +33000,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Recombinant N-acetylgalactosamine 4-sulfatase taken into lysosomes by mannose-6-phosphate receptors to catabolize dermatan sulfate.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Naglazyme (galsulfase) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -33811,12 +33814,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Selective 5-HT3 receptor antagonist with little affinity for other serotonin, adrenergic, dopamine or histamine receptors.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Granisetron (granisetron hydrochloride) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -34126,7 +34130,6 @@
     "mechanism_summary": "Blocks dopamine D2 receptors, with additional blockade of histamine H1 and alpha-1 adrenergic receptors.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/016462s036lbl.pdf",
       "https://en.wikipedia.org/wiki/Haloperidol"
     ],
     "data_gaps": []
@@ -34314,12 +34317,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Binds antithrombin III to enhance its serine protease activity, inactivating coagulation factors Xa and IIa.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Heparin Sodium In Dextrose (heparin sodium and dextrose) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -35302,7 +35306,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Hydrocortisone",
-      "PMID 2050835"
+      "Pharmacokinetics and oral bioavailability of hydrocortisone."
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -35359,10 +35363,10 @@
     "half_life_minutes": 138.0,
     "mechanism_summary": "Full opioid agonist relatively selective for the mu-opioid receptor.",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "references"
-    ]
+    "references": [
+      "hydromorphone label, §12.1 Mechanism of Action"
+    ],
+    "data_gaps": []
   },
   {
     "name": "Hydroxynorketamine",
@@ -35445,7 +35449,6 @@
     "mechanism_summary": "Blocks histamine H1 receptors, with weaker blockade of serotonin 5-HT2A receptors.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011459s060lbl.pdf",
       "https://en.wikipedia.org/wiki/Hydroxyzine",
       "The pharmacokinetics and antihistaminic of the H1 receptor antagonist hydroxyzine.",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0517-4201"
@@ -35629,7 +35632,8 @@
     "effects": [],
     "references": [
       "FDA label for Idamycin PFS (idarubicin hydrochloride), Clinical Pharmacology 12.3: mean terminal t½ 22 h",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0013-2576"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0013-2576",
+      "Idamycin Pfs (idarubicin hydrochloride) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -35760,7 +35764,8 @@
     "effects": [],
     "references": [
       "FDA label for ifosfamide injection (ifosfamide), Clinical Pharmacology/Pharmacokinetics: t½ ≈ 7 h at conventional doses",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0338-3991"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0338-3991",
+      "Ifex (ifosfamide) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -35885,7 +35890,7 @@
     "mechanism_summary": "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022192lbl.pdf",
+      "Fanapt (iloperidone) label",
       "https://en.wikipedia.org/wiki/Iloperidone"
     ],
     "data_gaps": [
@@ -35950,7 +35955,6 @@
     "mechanism_summary": "Tricyclic Antidepressant (TCA)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012449s069lbl.pdf",
       "https://en.wikipedia.org/wiki/Imipramine",
       "https://www.ncbi.nlm.nih.gov/books/NBK425164/"
     ],
@@ -36630,12 +36634,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Irinotecan and its metabolite SN-38 bind the topoisomerase I-DNA complex, blocking religation of single-strand breaks.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Irinotecan label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -36735,7 +36740,6 @@
     "mechanism_summary": "Irreversible Monoamine Oxidase Inhibitor (MAOI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/010632s041lbl.pdf",
       "https://en.wikipedia.org/wiki/Isocarboxazid"
     ],
     "data_gaps": [
@@ -37050,7 +37054,8 @@
     "mechanism_summary": "Potentiator of the CFTR chloride channel, raising its open probability at the epithelial cell surface.",
     "effects": [],
     "references": [
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=51167-200"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=51167-200",
+      "Kalydeco (ivacaftor) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -37577,7 +37582,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Arketamine",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211243lbl.pdf",
+      "Spravato (esketamine hydrochloride) label",
       "https://en.wikipedia.org/wiki/Esketamine",
       "Pharmacokinetics of ketamine and its major metabolites norketamine, hydroxynorketamine, and dehydronorketamine: a model-based analysis"
     ],
@@ -38247,12 +38252,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Binds cereblon in a cullin-RING E3 ubiquitin ligase complex, targeting Aiolos, Ikaros and CK1-alpha for degradation.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Revlimid (lenalidomide) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -38375,7 +38381,7 @@
     "mechanism_summary": "Binds the synaptic vesicle protein SV2A, modulating neurotransmitter release.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021035s078s080,021505s021s024lbl.pdf",
+      "Keppra (levetiracetam) label",
       "https://en.wikipedia.org/wiki/Levetiracetam",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=29033-042"
     ],
@@ -38415,7 +38421,6 @@
     "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (Second-Generation)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/021937s002lbl.pdf",
       "https://en.wikipedia.org/wiki/Levocetirizine"
     ],
     "data_gaps": []
@@ -38705,7 +38710,7 @@
     "mechanism_summary": "Activates GLP-1 receptors, increasing glucose-dependent insulin secretion and slowing gastric emptying.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/022341s031lbl.pdf",
+      "Victoza (liraglutide) label",
       "https://en.wikipedia.org/wiki/Liraglutide"
     ],
     "data_gaps": [
@@ -39096,7 +39101,6 @@
     "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (Second-Generation)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/19657s070lbl.pdf",
       "https://en.wikipedia.org/wiki/Loratadine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0904-6632"
     ],
@@ -39292,7 +39296,7 @@
     "mechanism_summary": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022549lbl.pdf",
+      "Adasuve (loxapine) label",
       "https://en.wikipedia.org/wiki/Loxapine"
     ],
     "data_gaps": [
@@ -39666,7 +39670,7 @@
     "mechanism_summary": "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/200603s009lbl.pdf",
+      "Latuda (lurasidone hydrochloride) label",
       "https://en.wikipedia.org/wiki/Lurasidone"
     ],
     "data_gaps": [
@@ -41116,7 +41120,6 @@
     "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/012771s027lbl.pdf",
       "https://en.wikipedia.org/wiki/Meclizine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=15579-826"
     ],
@@ -41530,9 +41533,10 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Memantine",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/021487s023s024lbl.pdf",
+      "Namenda (memantine hydrochloride) label",
       "Pharmacokinetic study of memantine in healthy and renally impaired subjects",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0615-8100"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0615-8100",
+      "Memantine label, §12.1 Mechanism of Action"
     ],
     "data_gaps": []
   },
@@ -41835,12 +41839,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Acts locally on intestinal mucosa, blocking production of cyclooxygenase and lipoxygenase arachidonic acid metabolites.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Apriso (mesalamine) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -42232,7 +42237,8 @@
     "effects": [],
     "references": [
       "Current Concepts in Methadone Metabolism and Transport",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0406-0540"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0406-0540",
+      "Methadose Dispersible (methadone hydrochloride) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": []
   },
@@ -44343,7 +44349,8 @@
     "effects": [],
     "references": [
       "FDA label for Yargesa (miglustat), Clinical Pharmacology/Pharmacokinetics: effective t½ ≈ 6–7 hours",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=10148-201"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=10148-201",
+      "Miglustat label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -44380,9 +44387,9 @@
       "Blood pressure elevation"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/204168s000lbl.pdf",
+      "Fetzima (levomilnacipran hydrochloride) label",
       "https://en.wikipedia.org/wiki/Levomilnacipran",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022256s009lbl.pdf",
+      "Savella (milnacipran hydrochloride) label",
       "https://en.wikipedia.org/wiki/Milnacipran"
     ],
     "data_gaps": [
@@ -44678,7 +44685,7 @@
     "mechanism_summary": "Noradrenergic and Specific Serotonergic Antidepressant (NaSSA)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/020415s028lbl.pdf",
+      "Remeron (mirtazapine) label",
       "https://en.wikipedia.org/wiki/Mirtazapine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020415s030lbl.pdf"
     ],
@@ -45120,9 +45127,9 @@
       "Wakefulness"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021875s029lbl.pdf",
+      "Nuvigil (armodafinil) label",
       "https://en.wikipedia.org/wiki/Armodafinil",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/020717s037s038lbl.pdf",
+      "Provigil (modafinil) label",
       "https://en.wikipedia.org/wiki/Modafinil",
       "Functional neuroanatomy of dopaminergic arousal systems: implications for the wake-promoting effect of psychostimulants, with particular reference to modafinil"
     ],
@@ -46279,7 +46286,6 @@
     "mechanism_summary": "Cannabinoid CB1/CB2 Receptor Agonist",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf",
       "https://en.wikipedia.org/wiki/Nabilone"
     ],
     "data_gaps": []
@@ -46796,7 +46802,6 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020152s018lbl.pdf",
       "https://en.wikipedia.org/wiki/Nefazodone",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-1024"
     ],
@@ -47933,7 +47938,6 @@
     "mechanism_summary": "Tricyclic Antidepressant (TCA)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012230s062lbl.pdf",
       "https://en.wikipedia.org/wiki/Nortriptyline"
     ],
     "data_gaps": [
@@ -48283,7 +48287,7 @@
     "mechanism_summary": "Blocks dopamine D2 and serotonin 5-HT2A receptors, with additional antagonism at other dopamine, serotonin, histamine, muscarinic, and alpha-1 adrenergic receptors.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/020592s074lbl.pdf",
+      "Zyprexa (olanzapine) label",
       "https://en.wikipedia.org/wiki/Olanzapine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0002-4112"
     ],
@@ -48376,7 +48380,6 @@
     "mechanism_summary": "Blocks histamine H1 receptors.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/021521s004lbl.pdf",
       "https://en.wikipedia.org/wiki/Olopatadine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0065-4273"
     ],
@@ -49126,7 +49129,7 @@
     "mechanism_summary": "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021999s026lbl.pdf",
+      "Invega (paliperidone) label",
       "https://en.wikipedia.org/wiki/Paliperidone",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=50458-560"
     ],
@@ -49440,7 +49443,8 @@
     "effects": [],
     "references": [
       "FDA label for Paricalcitol capsules, Clinical Pharmacology 12.3: t½ = 4–6 hours (healthy adults)",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0143-9596"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0143-9596",
+      "Paricalcitol label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -49483,7 +49487,7 @@
     "mechanism_summary": "Selective Serotonin Reuptake Inhibitor (SSRI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020031s071lbl.pdf",
+      "Paxil (paroxetine hydrochloride) label",
       "https://en.wikipedia.org/wiki/Paroxetine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=54766-201"
     ],
@@ -50051,7 +50055,6 @@
     "mechanism_summary": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012013s074lbl.pdf",
       "https://en.wikipedia.org/wiki/Perphenazine"
     ],
     "data_gaps": [
@@ -50410,7 +50413,6 @@
     "effects": [],
     "references": [
       "FDA label for Nardil (phenelzine sulfate), Clinical Pharmacology - Pharmacokinetics, Elimination",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/009768s055lbl.pdf",
       "https://en.wikipedia.org/wiki/Phenelzine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=40032-360"
     ],
@@ -50774,7 +50776,8 @@
     "mechanism_summary": "Produces a short-duration alpha-adrenergic block, relaxing vascular smooth muscle.",
     "effects": [],
     "references": [
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0362-0101"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0362-0101",
+      "Oraverse (phentolamine mesylate) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -51125,7 +51128,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/207318orig1s000lbl.pdf",
+      "Nuplazid (pimavanserin tartrate) label",
       "https://en.wikipedia.org/wiki/Pimavanserin"
     ],
     "data_gaps": [
@@ -51165,7 +51168,6 @@
     "mechanism_summary": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/017473s055lbl.pdf",
       "https://en.wikipedia.org/wiki/Pimozide"
     ],
     "data_gaps": [
@@ -52372,10 +52374,11 @@
     "half_life_minutes": null,
     "mechanism_summary": "Steroid that transforms a proliferative endometrium into a secretory endometrium in the presence of estrogen.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Endometrin (progesterone) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -52532,7 +52535,6 @@
     "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/007491s044lbl.pdf",
       "https://en.wikipedia.org/wiki/Promethazine",
       "Pharmacokinetics of promethazine hydrochloride after administration of rectal suppositories and oral syrup to healthy subjects"
     ],
@@ -53355,7 +53357,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/210557s000lbl.pdf",
+      "Vyleesi (bremelanotide) label",
       "https://en.wikipedia.org/wiki/Bremelanotide"
     ],
     "data_gaps": [
@@ -53487,7 +53489,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "PMID 9024887"
+      "The kinetic disposition of pyrantel citrate and pamoate and their efficacy against pyrantel-resistant Oesophagostomum dentatum in pigs."
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -53869,7 +53871,7 @@
       "Thought deceleration"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022047s019lbl.pdf",
+      "Seroquel Xr (quetiapine fumarate) label",
       "https://en.wikipedia.org/wiki/Quetiapine",
       "Steady-State Pharmacokinetic, Safety, and Tolerability Profiles of Quetiapine, Norquetiapine, and Other Quetiapine Metabolites in Pediatric and Adult Patients with Psychotic Disorders"
     ],
@@ -53923,7 +53925,8 @@
     "mechanism_summary": "Depresses the rapid inward sodium current in cardiac muscle and Purkinje fibers, slowing conduction and reducing automaticity.",
     "effects": [],
     "references": [
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=53489-141"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=53489-141",
+      "Quinidine label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -53983,10 +53986,10 @@
     "mechanism_summary": "Potent oral androgen receptor full agonist with tissue selectivity.",
     "effects": [],
     "references": [
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10054042/",
       "PMC10054042 (DILI)",
       "PMC8881971 (myocarditis)",
       "PMC9325264 (microdose PK)",
-      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10054042/",
       "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8881971/",
       "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9325264/"
     ],
@@ -54150,7 +54153,8 @@
     "effects": [],
     "references": [
       "FDA label for Elitek (rasburicase), Clinical Pharmacology/Pharmacokinetics: t½ ≈ 15.7-22.5 h",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0024-5150"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0024-5150",
+      "Elitek (rasburicase) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -54647,7 +54651,7 @@
     "mechanism_summary": "Blocks serotonin 5-HT2A and dopamine D2 receptors.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020272s056lbl.pdf",
+      "Risperdal (risperidone) label",
       "https://en.wikipedia.org/wiki/Risperidone",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/020272s042,020588s030,021444s016,021346s010lbl.pdf"
     ],
@@ -54735,12 +54739,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Acetylcysteine maintains or restores hepatic glutathione and acts as an alternate conjugation substrate for acetaminophen's reactive metabolite.",
     "effects": [],
-    "references": [],
+    "references": [
+      "RK-0202 label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -54924,12 +54929,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Non-ergoline dopamine agonist stimulating dopamine receptors within the caudate-putamen.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Neupro (rotigotine) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -55133,9 +55139,9 @@
     "mechanism_summary": "High-affinity androgen receptor full agonist (Ki ~1.7 nM); tissue-selective SARM.",
     "effects": [],
     "references": [
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12023825/",
       "PMC12023825 (human urine excretion study)",
-      "https://en.wikipedia.org/wiki/S-23_(drug)",
-      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12023825/"
+      "https://en.wikipedia.org/wiki/S-23_(drug)"
     ],
     "data_gaps": []
   },
@@ -55924,12 +55930,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Recombinant lysosomal acid lipase that breaks down lysosomal cholesteryl esters and triglycerides.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Kanuma (sebelipase alfa) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -56045,7 +56052,7 @@
     "mechanism_summary": "Selective MAO-B Inhibitor",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021336s010lbl.pdf",
+      "Emsam (selegiline) label",
       "https://en.wikipedia.org/wiki/Selegiline"
     ],
     "data_gaps": [
@@ -56159,7 +56166,7 @@
     "mechanism_summary": "Activates GLP-1 receptors, increasing glucose-dependent insulin secretion and slowing gastric emptying.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/213051s006lbl.pdf",
+      "Ozempic (oral semaglutide) label",
       "https://en.wikipedia.org/wiki/Semaglutide"
     ],
     "data_gaps": [
@@ -56422,7 +56429,7 @@
     "mechanism_summary": "Selective Serotonin Reuptake Inhibitor (SSRI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/019839s092lbl.pdf",
+      "Zoloft (sertraline hydrochloride) label",
       "https://en.wikipedia.org/wiki/Sertraline",
       "Clinical Pharmacokinetics of Sertraline"
     ],
@@ -57165,7 +57172,8 @@
     "effects": [],
     "references": [
       "FDA label for sugammadex sodium injection (sugammadex; Bridion generic), Clinical Pharmacology/Pharmacokinetics: t½ ≈ 2 hours",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0006-5423"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0006-5423",
+      "Bridion (sugammadex) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -57849,12 +57857,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Cationic technetium complex retained within myocardial mitochondria through electrostatic interactions.",
     "effects": [],
-    "references": [],
+    "references": [
+      "technetium tc-99m sestamibi label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -58021,7 +58030,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/022505s013lbl.pdf",
+      "Egrifta Sv (tesamorelin) label",
       "https://en.wikipedia.org/wiki/Tesamorelin"
     ],
     "data_gaps": [
@@ -58292,12 +58301,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Lipophilic cationic complex that diffuses through the cell membrane and is retained by intact mitochondria.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Myoview (tetrofosmin) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -58396,7 +58406,7 @@
       "Increased appetite"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf",
+      "Marinol (dronabinol) label",
       "https://en.wikipedia.org/wiki/Dronabinol",
       "Human cannabinoid pharmacokinetics",
       "https://en.wikipedia.org/wiki/Tetrahydrocannabinol"
@@ -59288,7 +59298,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2022/215866s000lbl.pdf",
+      "Mounjaro (tirzepatide) label",
       "https://en.wikipedia.org/wiki/Tirzepatide"
     ],
     "data_gaps": [
@@ -59647,12 +59657,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Binds soluble and membrane-bound IL-6 receptors, inhibiting IL-6-mediated signaling.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Actemra (tocilizumab) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -60025,7 +60036,6 @@
     "mechanism_summary": "Irreversible Monoamine Oxidase Inhibitor (MAOI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/010894s042lbl.pdf",
       "https://en.wikipedia.org/wiki/Tranylcypromine"
     ],
     "data_gaps": [
@@ -60103,7 +60113,6 @@
     "mechanism_summary": "Serotonin Antagonist and Reuptake Inhibitor (SARI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/018207s030lbl.pdf",
       "https://en.wikipedia.org/wiki/Trazodone",
       "https://www.accessdata.fda.gov/drugsatfda_docs/nda/2010/022411s000MedR.pdf"
     ],
@@ -60360,7 +60369,8 @@
     "effects": [],
     "references": [
       "FDA label for Trimethobenzamide Hydrochloride (trimethobenzamide hydrochloride), Clinical Pharmacology 12.3 Pharmacokinetics/Elimination - t½ = 7 to 9 h",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=21695-853"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=21695-853",
+      "Tigan (trimethobenzamide hydrochloride) label, §12.1 Mechanism of Action"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -61088,7 +61098,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Varenicline",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021928s011lbl.pdf"
+      "Chantix (varenicline tartrate) label"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -61121,7 +61131,7 @@
     "mechanism_summary": "Serotonin-Norepinephrine Reuptake Inhibitor (SNRI)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020151s068,020699s057lbl.pdf",
+      "Effexor (venlafaxine) label",
       "https://en.wikipedia.org/wiki/Venlafaxine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020151s059lbl.pdf"
     ],
@@ -61181,12 +61191,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "Light-activated porphyrin generating singlet oxygen and oxygen radicals that damage neovascular endothelium and occlude vessels.",
     "effects": [],
-    "references": [],
+    "references": [
+      "Visudyne (verteporfin for injection) label, §12.1 Mechanism of Action"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -61219,7 +61230,7 @@
     "mechanism_summary": "SSRI and 5-HT1A Partial Agonist",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/022567s012lbl.pdf",
+      "Viibryd (vilazodone hydrochloride) label",
       "https://en.wikipedia.org/wiki/Vilazodone"
     ],
     "data_gaps": [
@@ -61260,7 +61271,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/211964s013lbl.pdf"
+      "Qelbree (viloxazine hydrochloride) label"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -61810,7 +61821,7 @@
     "mechanism_summary": "Multimodal Serotonergic Antidepressant",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/204447s013lbl.pdf",
+      "Trintellix (vortioxetine) label",
       "https://en.wikipedia.org/wiki/Vortioxetine"
     ],
     "data_gaps": [
@@ -62333,7 +62344,7 @@
     "mechanism_summary": "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020825s032lbl.pdf",
+      "Geodon (ziprasidone) label",
       "https://en.wikipedia.org/wiki/Ziprasidone"
     ],
     "data_gaps": []
@@ -62430,7 +62441,7 @@
     "mechanism_summary": "Activates 5-HT1B, 5-HT1D, and 5-HT1F receptors, narrowing cranial blood vessels and reducing pain signaling.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020768s029lbl.pdf"
+      "Zomig (zolmitriptan) label"
     ],
     "data_gaps": [
       "dose_ranges_by_route",

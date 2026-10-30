@@ -196,11 +196,7 @@ def main() -> int:
     # --- Build gate: verify against the committed cache, no network. ---
     if args.gate:
         shipped = set(urls)
-        dead = sorted(
-            u
-            for u, e in cache.items()
-            if u in shipped and e.get("verdict") == "dead" and "accessdata.fda.gov" not in u
-        )
+        dead = sorted(u for u, e in cache.items() if u in shipped and e.get("verdict") == "dead")
         if dead:
             print(f"\nDEAD shipped citation link(s) ({len(dead)}):", file=sys.stderr)
             for u in dead:

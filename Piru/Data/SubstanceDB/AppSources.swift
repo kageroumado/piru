@@ -130,6 +130,12 @@ enum AppSources {
         all.first { $0.name == name }
     }
 
+    /// The slug of the research layer: rows written from the literature, which
+    /// carry their evidence only in `citation_id`. Its rows are attributed by
+    /// that citation, so an uncited one has no attribution to show (see
+    /// `rowSourceName(slug:citation:)`).
+    static let literatureSlug = "peer-review-primary"
+
     /// Maps the bundled DB's wire `slug` (e.g. "tripsit", "psychonautwiki") to
     /// the display-name keys used by ``all`` / ``substanceURL(for:substance:)``.
     /// Only sources with a usable per-substance page are listed; others have no
