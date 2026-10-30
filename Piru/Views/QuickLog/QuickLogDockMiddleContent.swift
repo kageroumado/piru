@@ -77,7 +77,7 @@ struct DockMiddleContent: View {
                     // covered the staged doses and clipped the Log button (see
                     // ``TrayCommitBar``).
                     if dynamicTypeSize.isAccessibilitySize {
-                        TrayWarningBanner(model: tray)
+                        TrayWarningBanner(model: tray, content: content)
                         TrayMetaChips(model: tray, content: content)
                     }
                 }

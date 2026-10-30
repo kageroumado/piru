@@ -5729,6 +5729,8 @@ T = {
     "%@ g/mol": ("%@ g/mol", "%@ g/mol"),
     "%@ left": ("还剩 %@", "還剩 %@"),
     "%@ modeled active until ~%@": ("%@ 模型估计活跃至约 %@", "%@ 模型估計活躍至約 %@"),
+    "with %@ %@ · %@ ago": ("与 %@ %@ 同用 · %@前", "與 %@ %@ 同用 · %@前"),
+    "with %@ · %@ ago": ("与 %@ 同用 · %@前", "與 %@ 同用 · %@前"),
     "%@ → %@": ("%@ → %@", "%@ → %@"),
     "%@, source: %@": ("%@，来源：%@", "%@，來源：%@"),
     "%@h": ("%@ 小时", "%@ 小時"),
@@ -8876,6 +8878,7 @@ if __name__ == "__main__":
 
     NEW_KEYS.add("^[%lld result](inflect: true)")
     NEW_KEYS.add("Bar: participant range; dot: mean.")
+    NEW_KEYS.update({"with %@ %@ · %@ ago", "with %@ · %@ ago"})
     NEW_KEYS.update(
         {
             "Log Dose",

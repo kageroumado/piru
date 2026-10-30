@@ -129,6 +129,17 @@ final class DockSheetGeometry {
         Logger.dockGeometry.debug("compactOverflows=\(overflows, privacy: .public)")
     }
 
+    /// Whether an open editor, with the commit bar's inset under it, is taller
+    /// than the region showing it at the current height. The content then
+    /// scrolls, so its last rows can be brought out from under the bar.
+    private(set) var contentOverflows = false
+
+    func setContentOverflows(_ overflows: Bool) {
+        guard contentOverflows != overflows else { return }
+        contentOverflows = overflows
+        Logger.dockGeometry.debug("contentOverflows=\(overflows, privacy: .public)")
+    }
+
     /// Bumped by the cards behind when the user starts scrolling them; the dock
     /// answers by folding to its summary (``QuickLogDock``).
     private(set) var minimizeRequests = 0
@@ -285,7 +296,10 @@ struct QuickLogDock: View {
             .onChange(of: tray.stageTick) { handleStaged() }
             // A draft staged for editing (search result, routine deep link)
             // needs the editor visible — compact can't show it.
-            .onChange(of: tray.expandedItemIDs) { handleExpandedItemsChanged() }
+            .onChange(of: tray.expandedItemIDs) {
+                handleExpandedItemsChanged()
+                scheduleFitCheck()
+            }
             .onChange(of: tray.isEmpty) { handleTrayEmptinessChanged() }
             .onChange(of: isBare) {
                 if isBare { awaitingBareCollapse = false }
@@ -294,6 +308,9 @@ struct QuickLogDock: View {
             // the commit bar (panels opening), and staging changes all funnel
             // into this one value.
             .onChange(of: compactHeightValue) { handleCompactHeightChanged() }
+            // The bar grows when warnings arrive, which can push an open
+            // editor's last rows under it.
+            .onChange(of: commitBarHeight) { scheduleFitCheck() }
             .onChange(of: geometry.minimizeRequests) { minimizeToSummary() }
             // Re-apply the detent set on return to the foreground.
             //
@@ -365,7 +382,20 @@ struct QuickLogDock: View {
             // content scrolls there too rather than sit under the commit bar.
             // A stack taller than the compact cap scrolls in place too, or its
             // last rows sit under the warnings until the dock is dragged full.
-            .scrollDisabled(detent != .large && !dynamicTypeSize.isAccessibilitySize && !geometry.compactOverflows)
+            // An open editor taller than its region scrolls too, wherever the
+            // dock rests, or its last rows sit under the bar out of reach.
+            .scrollDisabled(
+                detent != .large && !dynamicTypeSize.isAccessibilitySize
+                    && !geometry.compactOverflows && !geometry.contentOverflows,
+            )
+            // The commit bar's height is part of the content inset, so content
+            // that reaches under it counts as overflow. See ``scheduleFitCheck()``.
+            .onScrollGeometryChange(for: Bool.self) { scroll in
+                scroll.contentSize.height + scroll.contentInsets.top + scroll.contentInsets.bottom
+                    > scroll.containerSize.height + 1
+            } action: { _, overflows in
+                geometry.setContentOverflows(overflows && !tray.expandedItemIDs.isEmpty)
+            }
             .scrollDismissesKeyboard(.interactively)
             // The commit bar lives in the scroll's bottom safe-area bar with
             // the soft edge effect — content passes beneath it instead of
@@ -516,6 +546,26 @@ struct QuickLogDock: View {
         content.clearBrowseSelection()
         if tray.isEmpty { awaitingBareCollapse = true }
         withAnimation(.snappy) { settleDetent() }
+    }
+
+    /// Grow an open editor's dock from `.medium` to `.large` when the editor
+    /// and the commit bar don't both fit — the bar's warning lines arriving
+    /// after the row opened, say — so the editor never opens with its last rows
+    /// under the bar. Armed only by what the dock changes itself (a row
+    /// opening, the bar re-measuring), never by a drag, so pulling the dock
+    /// back down to `.medium` sticks; the content scrolls there instead.
+    /// Checked once the sheet has settled.
+    private func scheduleFitCheck() {
+        bookkeeping.fitCheckGeneration &+= 1
+        let generation = bookkeeping.fitCheckGeneration
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(600))
+            guard generation == bookkeeping.fitCheckGeneration,
+                  detent == .medium, !searchActive, !tray.expandedItemIDs.isEmpty,
+                  geometry.contentOverflows
+            else { return }
+            moveDetent(to: .large)
+        }
     }
 
     private func handleExpandedItemsChanged() {

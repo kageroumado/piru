@@ -375,6 +375,18 @@ final class QuickLogContentModel {
         cachedTodayEntries.filter { !$0.isDeleted }
     }
 
+    /// The last week of logged doses, newest first — what the tray's
+    /// interaction check reads (``TrayInteractionCheck``), so a backdated dose
+    /// can meet what was running then. Not observed: the banner reads it from
+    /// its recheck, and re-runs on ``recentEntriesGeneration``.
+    @ObservationIgnored private(set) var recentEntries: [DoseEntry] = []
+    /// Bumped on every ``recentEntries`` rebuild — the one observed value the
+    /// tray's banner keys its recheck on.
+    private(set) var recentEntriesGeneration = 0
+
+    /// How far back ``recentEntries`` reaches.
+    static let recentEntriesSpan: TimeInterval = 7 * 86_400
+
     /// Doses logged today that satisfy `item`, by the shared adherence matcher.
     func takenToday(_ item: DailyDoseItem) -> Int {
         liveTodayEntries.count { AdherenceCalculator.entryMatches(entry: $0, item: item) }
@@ -459,8 +471,11 @@ final class QuickLogContentModel {
         var locations: [PickedLocation] = []
         var tagCounts: [String: Int] = [:]
         var stillToday = true
+        var recent: [DoseEntry] = []
+        let recentCutoff = Date.now.addingTimeInterval(-Self.recentEntriesSpan)
 
         for entry in allEntries {
+            if entry.timestamp >= recentCutoff { recent.append(entry) }
             // Key on substance identity, not name, so a displayed card's badge and
             // a daily item's "done today" check match the same form — a Concerta
             // dose satisfies a Concerta card/item, not a plain Methylphenidate one.
@@ -510,6 +525,8 @@ final class QuickLogContentModel {
         }
 
         cachedTodayEntries = todayEntries
+        recentEntries = recent
+        recentEntriesGeneration += 1
         cachedMostRecent = badges
         cachedRecentLocations = locations
         cachedTagSuggestions = Array((used + extras).prefix(8))
