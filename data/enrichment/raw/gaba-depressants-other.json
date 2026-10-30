@@ -972,7 +972,7 @@
         "phenibut (partial)"
       ],
       "withdrawal_syndrome": "Onset 12-72 h. Anxiety, insomnia, autonomic activation, occasionally seizures and psychosis. More severe than gabapentin withdrawal due to higher α2δ affinity and shorter t1/2. Particularly difficult in patients with co-existing BZ/AUD dependence.",
-      "reference": "pmid:32102803"
+      "reference": null
     },
     "off_targets": [],
     "demographic_differences": {
@@ -992,8 +992,7 @@
     "data_gaps_remaining": [],
     "references_consulted": [
       "pmid:15801823",
-      "pmid:20136736",
-      "pmid:32102803"
+      "pmid:20136736"
     ]
   },
   {
