@@ -45,6 +45,8 @@ unit_to_mg_factor = _mod.unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
 is_dosage_form_tag = _mod.is_dosage_form_tag
 _REPO = Path(__file__).resolve().parents[3]
+#: Uncited numbers that shipped when their ratchet was introduced; may only shrink.
+UNCITED_NUMBERS_BASELINE = Path(__file__).resolve().parent / "uncited-numbers-baseline.json"
 
 
 def _load_curated(name: str) -> dict:
@@ -3340,6 +3342,50 @@ class TestSignatureGates(unittest.TestCase):
             "   AND o.ki_or_ic50_nm IS NOT NULL"
         ).fetchall()
         self.assertEqual(rows, [], f"uncited numeric rows: {[r[0] for r in rows]}")
+
+    def test_uncited_numbers_outside_the_check_above_only_shrink(self):
+        """Half-lives, protocol doses, durations of action and confidence-interval-
+        only Kᵢ rows carry numbers the check above never asked about. Hundreds ship
+        uncited, so they are ratcheted rather than refused: a row missing from
+        UNCITED_NUMBERS_BASELINE fails (no new uncited number), and so does a
+        baseline entry that no longer exists (the list shrinks as rows are sourced)."""
+        rows = {
+            r[0]
+            for r in self.db.execute(
+                "SELECT s.canonical_name || ' | half_lives | ' || so.slug"
+                "  FROM half_lives h JOIN substances s ON s.id = h.substance_id"
+                "  JOIN sources so ON so.id = h.source_id"
+                " WHERE h.citation_id IS NULL"
+                " UNION "
+                "SELECT s.canonical_name || ' | protocol_dosing | ' || so.slug || ' | ' || p.route"
+                "       || ' | ' || p.frequency"
+                "  FROM protocol_dosing p JOIN substances s ON s.id = p.substance_id"
+                "  JOIN sources so ON so.id = p.source_id"
+                " WHERE p.citation_id IS NULL AND COALESCE(p.low_amount, p.high_amount) IS NOT NULL"
+                " UNION "
+                "SELECT s.canonical_name || ' | durations_of_action | ' || so.slug || ' | ' || d.route"
+                "  FROM durations_of_action d JOIN substances s ON s.id = d.substance_id"
+                "  JOIN sources so ON so.id = d.source_id"
+                " WHERE d.citation_id IS NULL"
+                " UNION "
+                "SELECT s.canonical_name || ' | bindings (Ki CI only) | ' || b.target"
+                "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
+                " WHERE b.citation_id IS NULL"
+                "   AND COALESCE(b.ki_nm, b.kd_nm, b.ec50_nm, b.ic50_nm) IS NULL"
+                "   AND COALESCE(b.ki_ci_lower_nm, b.ki_ci_upper_nm) IS NOT NULL"
+            )
+        }
+        baseline = set(json.loads(UNCITED_NUMBERS_BASELINE.read_text()))
+        self.assertEqual(
+            sorted(rows - baseline),
+            [],
+            "new uncited numbers — cite them; never add them to the baseline",
+        )
+        self.assertEqual(
+            sorted(baseline - rows),
+            [],
+            f"sourced or gone — delete these lines from {UNCITED_NUMBERS_BASELINE.name}",
+        )
 
     def test_opioid_mme_convertibility_matches_the_factor(self):
         """A factor and a non-linear convertibility must never coexist.

@@ -246,8 +246,8 @@ It is a **pre-resolution filter**, not a resolution rule: the offending rows
 never enter `dose_ranges` / `durations`, so the ordinary `ORDER BY <case> LIMIT
 1` simply falls through to the next-priority source. Three maps read it —
 `_dose_skip_map` (entries with no `drop` tag), `_duration_drop_map` and
-`_route_drop_map` — and the build fails on an entry no ingested record reaches
-(`unmatched_dose_exceptions`). `_exception_for` looks up by the source's own record name
+`_route_drop_map` — and the build fails on an entry that suppresses nothing on a
+route it names (`unmatched_dose_exceptions`, fed by `ExceptionHit.covers`). `_exception_for` looks up by the source's own record name
 *and* by the canonical name it resolved to, because PsychonautWiki files
 CDP-Choline as "Citicoline".
 
