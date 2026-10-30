@@ -1,28 +1,28 @@
 # Piru SQLite build report
 
-Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha256 `d36ebfef14acd1e5efc50adcf76fb5edfbc45c0976dffdeb8f77ed1c920757bb`)
+Built 2026-10-30.13 → `Piru/Data/piru-substances.sqlite` (21,553,152 bytes, sha256 `014d32419670de1d866fcc1afc6c6d1ecd5b094ce3cfcd96f207b572bf3a6efa`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
 | substances | 1,674 |
-| aliases | 6,016 |
+| aliases | 6,005 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,483 |
+| citations | 2,473 |
 | categories | 1,577 |
-| tags | 7,054 |
-| dose_ranges | 2,801 |
-| durations | 10,718 |
+| tags | 7,059 |
+| dose_ranges | 2,804 |
+| durations | 10,735 |
 | drug_community_timelines | 755 |
-| half_lives | 716 |
-| mechanisms_summary | 1,232 |
+| half_lives | 711 |
+| mechanisms_summary | 1,230 |
 | effects | 2,952 |
-| subjective_effects | 23,645 |
+| subjective_effects | 23,653 |
 | subjective_effect_concepts | 506 |
 | subjective_effect_concept_aliases | 1,178 |
-| tolerance | 321 |
+| tolerance | 322 |
 | diazepam_equivalents | 32 |
 | bindings | 1,458 |
 | functional_assays | 179 |
@@ -30,20 +30,20 @@ Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha
 | receptor_oligomers | 8 |
 | downstream_signalling | 677 |
 | neuroimaging | 52 |
-| pk_routes | 435 |
+| pk_routes | 433 |
 | concentration_effects | 25 |
 | metabolism | 560 |
 | drug_interactions_pk | 205 |
 | pharmacogenetics | 305 |
 | off_targets | 209 |
 | class_contexts | 50 |
-| substance_classes | 679 |
-| molecule_shapes | 960 |
+| substance_classes | 680 |
+| molecule_shapes | 962 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |
 | substance_flags | 13 |
 | regional_names | 5 |
-| localized_names | 1,605 |
+| localized_names | 1,615 |
 | opioid_mme | 11 |
 | interaction_rules | 99 |
 | substance_interaction_classes | 213 |
@@ -63,8 +63,8 @@ Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha
 | saturable_kinetics | 6 |
 | bioavailability_by_dose | 10 |
 | attenuation_bands | 1 |
-| coded_products | 15,822 |
-| product_codes | 103,391 |
+| coded_products | 15,778 |
+| product_codes | 103,206 |
 
 ## Identifier corrections
 
@@ -89,6 +89,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | Nitemazepam | smiles | freebase_replaces_salt | `O=N(=O)c1ccc2N(C)C(=O)C(O)N=C(c3ccccc3)c2c1.[H+]` | `CN1C2=C(C=C(C=C2)[N+](=O)[O-])C(=NC(C1=O)O)C3=CC=CC=C3` |
 | Nitemazepam | inchikey | freebase_replaces_salt | `QRWVNMAJJIQCEG-UHFFFAOYSA-O` | `QRWVNMAJJIQCEG-UHFFFAOYSA-N` |
 | Nitemazepam | formula | freebase_replaces_salt | `` | `` |
+| Proscaline | inchikey | key_from_own_smiles | `HYWLMSUAZVDUFW-UHFFFAOYSA-O` | `HYWLMSUAZVDUFW-UHFFFAOYSA-N` |
 | Thiopropamine | smiles | freebase_replaces_salt | `[Cl-].CC(N)Cc1cccs1.[H+]` | `CC(CC1=CC=CS1)N` |
 | Thiopropamine | inchikey | freebase_replaces_salt | `MJRDCJBNRNAXIK-UHFFFAOYSA-N` | `NYVQQTOGYLBBDQ-UHFFFAOYSA-N` |
 | Thiopropamine | formula | freebase_replaces_salt | `` | `` |
@@ -102,15 +103,15 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 220 | 444 | 649 | 2,269 |
+| piru-curated | 220 | 444 | 650 | 2,269 |
 | peer-review-primary | 0 | 1,002 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
-| drug.community | 823 | 0 | 0 | 125 |
+| drug.community | 826 | 0 | 0 | 126 |
 | psychonautwiki | 377 | 0 | 63 | 316 |
-| tripsit | 573 | 0 | 410 | 1,265 |
+| tripsit | 573 | 0 | 410 | 1,267 |
 | dailymed | 0 | 0 | 0 | 0 |
-| erowid-pihkal | 102 | 0 | 167 | 426 |
-| erowid-tihkal | 36 | 0 | 48 | 121 |
+| erowid-pihkal | 103 | 0 | 168 | 430 |
+| erowid-tihkal | 35 | 0 | 47 | 119 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 95 | 340 |
@@ -119,4 +120,4 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
-| freeodwiki | 378 | 0 | 46 | 0 |
+| freeodwiki | 378 | 0 | 45 | 0 |
