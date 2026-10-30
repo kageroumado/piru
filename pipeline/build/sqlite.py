@@ -6224,7 +6224,6 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
 _CLASS_DOSE_CEILING_MG: dict[str, float] = {
     # Fentanyl-class opioids: every clinically-used route fits in <2 mg.
     "fentanyl-class-potency": 2.0,
-    "fentanyl-analog": 2.0,
     # Nitazenes flagged as extreme-potency (etonitazene & friends).
     # `extreme-potency` also covers designer-benzos (clonazolam etc.)
     # whose heavy doses are at most ~2 mg, so the same ceiling fits.
@@ -7449,21 +7448,10 @@ class Build:
     # left intact. See acute-vs-depot-duration.
     DURATION_SCRUB_NAMES = {
         "tranylcypromine",  # MAOI: 10–21 d is enzyme regeneration, not acute effect
-        "acamprosate",  # anti-craving, steady-state med
         "fluconazole",  # antifungal dosing interval
-        "phenytoin",  # anticonvulsant, chronic
-        "nadolol",  # beta-blocker, chronic
         "sibutramine",  # withdrawn appetite suppressant, chronic
         "arimistane",  # aromatase-inhibitor supplement
-        "5-amino-1mq",  # NNMT-inhibitor supplement
-        "magnesium glycinate",
-        "magnesium citrate",
-        "creatine",
         "creatine monohydrate",
-        "pqq",
-        "vitamin b6",
-        "panax ginseng",
-        "citicoline",
         "theobromine",  # mild, very-long; no meaningful acute curve
     }
 
@@ -7481,9 +7469,6 @@ class Build:
         ],
         "fentanyl": [
             ("transdermal", 2, 3, "days"),  # 72 h patch
-        ],
-        "liraglutide": [
-            ("subcutaneous", 1, 1, "days"),  # daily GLP-1 injection
         ],
     }
 
@@ -11424,32 +11409,6 @@ class Build:
             )
         return {"ranked_rows": ranked, "elemental_rows": with_elemental}
 
-    def audit_salt_supplement_durations(self) -> dict[str, int]:
-        """Remove the salt-tagged ACUTE duration rows on the Mg/Li supplement
-        parents.
-
-        Audit decision (WS-5 #5, maintainer-flagged): Magnesium (a mineral ion) and
-        Lithium (a serum-level-titrated maintenance drug) have no perceptible
-        acute onset/peak/offset curve — the salt-tagged durations folded in from
-        the curated variant files reflect serum Tmax, not a felt effect, and
-        drawing a PK timeline for them is the imperceptible-curve problem. Dropping
-        them makes those routes fall back to marker rendering. Dose ladders and the
-        salt picker are untouched (only `durations` rows go); long-acting depot
-        windows (durations_of_action) are unaffected. Runs after apply_salt_metadata."""
-        removed = 0
-        for parent_name in ("Magnesium", "Lithium"):
-            prow = self.cur.execute(
-                "SELECT id FROM substances WHERE canonical_name=?", (parent_name,)
-            ).fetchone()
-            if prow is None:
-                continue
-            cur = self.cur.execute(
-                "DELETE FROM durations WHERE substance_id=? AND salt_form IS NOT NULL",
-                (prow[0],),
-            )
-            removed += cur.rowcount
-        return {"removed_duration_rows": removed}
-
     # Families that stay in isomer-families.json (so members share one FAMILY and
     # the same-block-1 collision stays classified as `fold`) but are NOT collapsed
     # to a single substance row. Etiracetam/Levetiracetam: the racemate is
@@ -15357,12 +15316,6 @@ def main() -> int:
     # data-driven — not alphabetical — default salt.
     salt_meta = build.apply_salt_metadata()
     print(f"Salt metadata: {salt_meta}", file=sys.stderr)
-
-    # Audit decision (#5): drop the salt-tagged ACUTE durations on the Mg/Li
-    # supplement parents — minerals/maintenance ions have no perceptible acute
-    # curve, so those routes fall back to marker rendering. Dose ladders untouched.
-    dur_audit = build.audit_salt_supplement_durations()
-    print(f"Salt-supplement duration audit: {dur_audit}", file=sys.stderr)
 
     # Fold curated stereoisomer variants (Esketamine→Ketamine, Dexmethylphenidate→
     # Methylphenidate, Armodafinil→Modafinil, …) into their racemic parent, tagging

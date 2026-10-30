@@ -871,13 +871,9 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             "select canonical_name from substances "
             "where canonical_name = lower(canonical_name) "
             "and canonical_name glob '*[a-z]*' "  # only Latin names have case; CJK-named FreeOD entries can't be title-cased
-            "and canonical_name not glob '[0-9]*' "  # exempt numeric-prefixed names like "5-meo-dmt" (becomes 5-MEO-DMT)
         ).fetchall()
-        # Allow a tiny bleed; we mainly want to catch hundreds of un-cased names.
-        self.assertLess(
-            len(rows),
-            5,
-            f"too many lowercase substance names: {[r['canonical_name'] for r in rows]}",
+        self.assertEqual(
+            [r["canonical_name"] for r in rows], [], "lowercase substance names shipped"
         )
 
     def test_known_substance_categories(self):
@@ -2937,9 +2933,6 @@ class TestComparableSetIntegrity(unittest.TestCase):
             "  FROM bindings WHERE comparable_set IS NOT NULL AND species IS NOT NULL"
             " GROUP BY comparable_set HAVING COUNT(DISTINCT species) > 1"
         ).fetchall()
-        # The review meta-summary is the deliberate exception: it is explicitly
-        # labeled not-comparable precisely because it pools systems.
-        mixed = [row for row in mixed if "not-comparable" not in row[0]]
         self.assertEqual(mixed, [], f"comparable_set spans multiple species: {mixed}")
 
     def test_a_binding_only_panel_reports_no_efficacy(self):
