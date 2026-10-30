@@ -144,7 +144,6 @@ MECHANISM_LINES = REPO / "data/curated/mechanism-lines.json"
 MEDTAP_MECHANISM_DROPS = frozenset(
     {
         "Asenapine",
-        "Carbonic anhydrase 6",
         "D-glucose",
         "Felbamate",
         "Lumefantrine",
@@ -218,6 +217,10 @@ FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # is about, or an explicit null.
 DOSEWIKI = REPO / "data/sources/dosewiki.json"
 DOSEWIKI_IDS = REPO / "data/curated/dosewiki-ids.json"
+# Erowid's PiHKAL/TiHKAL chapter -> the Piru substance it describes. Shulgin's
+# short codes (M, T, DESOXY) are street names of other drugs, so a chapter is
+# filed only through this hand-reviewed map, never by its name.
+EROWID_IDS = REPO / "data/curated/erowid-ids.json"
 TRIPSIT = REPO / "data/sources/tripsit.json"
 #: Sources whose page URL is built from their own name for a substance, and the
 #: `substances` column that keeps that name. TripSit keys are its names lowercased.
@@ -1099,6 +1102,30 @@ def load_dosewiki_ids() -> dict[str, dict]:
         for slug, entry in json.loads(DOSEWIKI_IDS.read_text()).items()
         if not slug.startswith("_")
     }
+
+
+def load_erowid_ids() -> dict[str, dict]:
+    """The hand-reviewed Erowid chapter -> Piru substance join, keyed by the
+    chapter page's file stem (``pihkal096``)."""
+    if not EROWID_IDS.exists():
+        return {}
+    return {
+        key: entry
+        for key, entry in json.loads(EROWID_IDS.read_text()).items()
+        if not key.startswith("_")
+    }
+
+
+_EROWID_CHAPTER_RE = re.compile(r"/((?:pi|ti)hkal\d+)\.shtml", re.I)
+
+
+def erowid_chapter_key(sources: list | None) -> str | None:
+    """The chapter key (``pihkal096``) of an Erowid record, read from its URL."""
+    for src in sources or []:
+        m = _EROWID_CHAPTER_RE.search(src if isinstance(src, str) else "")
+        if m:
+            return m.group(1).lower()
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -3092,14 +3119,14 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     # free base — desalt the formula to match the structure (MW recomputed by
     # reconcile_formula_mass). PubChem CID 5284603.
     "Oxycodone": {"formula": "C18H21NO4"},
-    # NPS-DataHub handed us the hydrochloride formula (C11H16ClNO, MW 213.71)
-    # while the InChIKey/structure are the free base (2-(methylamino)-1-(2-methyl
-    # phenyl)propan-1-one, PubChem CID 56603536). The molar/EC50 occupancy math
-    # needs the free-base mass, so desalt the formula — reconcile_formula_mass then
-    # recomputes MW 213.71 → 177.24. Salt→freebase factor 0.829. MW pinned to the
-    # PubChem canonical 177.24 (CID not in the offline snapshots) so it matches its
-    # isomers mephedrone/3-MMC exactly rather than the atomic-table 177.25.
-    "2-MMC": {"formula": "C11H15NO", "molecular_weight": 177.24},
+    # Stored as the hydrochloride (XEHNLVMHWYPNEQ, CID 122764, C9H12ClN) while
+    # its merged-in 2-AI record carried the free base. The row is the molecule:
+    # 2,3-dihydro-1H-inden-2-amine, CID 76310, C9H11N.
+    "2-Aminoindane": {
+        "cid": 76310,
+        "inchikey": "LMHHFZAXSANGGM-UHFFFAOYSA-N",
+        "smiles": "NC1Cc2ccccc2C1",
+    },
     # --- Stage 0.0a: InChIKey collision cleanup (prerequisite to PSID minting).
     # Each pair below shared a full InChIKey because ONE row was overwritten with
     # the OTHER's structure. Correct keys/SMILES are re-derived from PubChem and
@@ -3974,6 +4001,47 @@ def assert_effects_are_readable_in_english(con) -> dict:
     return {"rows": total or 0, "bridged": bridged or 0}
 
 
+def isomer_label_tokens() -> dict[str, dict[str, str]]:
+    """Family parent (normalised) -> {name a single isomer goes by: that isomer}.
+
+    Read from ``data/curated/isomer-families.json``: each variant's own name,
+    display name, brands and synonyms. A product label that names one of these
+    describes the isomer, never the racemate."""
+    path = CURATED_DIR.parent / "isomer-families.json"
+    if not path.exists():
+        return {}
+    out: dict[str, dict[str, str]] = {}
+    for family in json.loads(path.read_text()).get("families", []):
+        tokens = out.setdefault(normalise(family["parent"]), {})
+        for variant in family.get("variants", []):
+            names = [variant.get("name"), variant.get("displayName")]
+            names += variant.get("brands") or []
+            names += variant.get("synonyms") or []
+            for name in names:
+                if name:
+                    tokens[normalise(name)] = variant["name"]
+    return out
+
+
+def medtap_isomer_label(entry: dict, tokens: dict[str, dict[str, str]] | None = None) -> str | None:
+    """The single isomer a MedTAP label is about when its substance is a racemic
+    family parent, else None.
+
+    MedTAP files a label under the molecule's base name, so Lunesta
+    (eszopiclone) arrives as Zopiclone and a dexmethylphenidate label as
+    Methylphenidate. The product name says which molecule the label measured:
+    it is matched word for word against the isomer's names."""
+    tokens = isomer_label_tokens() if tokens is None else tokens
+    family = tokens.get(normalise(entry.get("substance") or ""))
+    product = normalise(entry.get("brand") or "")
+    if not family or not product:
+        return None
+    for token, variant in family.items():
+        if re.search(rf"(?<![0-9a-z]){re.escape(token)}(?![0-9a-z])", product):
+            return variant
+    return None
+
+
 def ingest_medtap_pk(build, path: Path) -> dict:
     """The reviewed FDA-label PK sidecar into `half_lives` and `pk_routes`.
 
@@ -3990,7 +4058,13 @@ def ingest_medtap_pk(build, path: Path) -> dict:
     label describes unless it says otherwise.
     """
     if not path.exists():
-        return {"half_lives": 0, "pk_routes": 0, "unresolved": 0, "adjudicated_out": 0}
+        return {
+            "half_lives": 0,
+            "pk_routes": 0,
+            "unresolved": 0,
+            "adjudicated_out": 0,
+            "isomer_labels": [],
+        }
     payload = json.loads(path.read_text())
     # Substances adjudicated as having no honest single half-life — a prodrug
     # whose label reports its metabolites' decay, an ester depot, a botanical
@@ -4001,11 +4075,27 @@ def ingest_medtap_pk(build, path: Path) -> dict:
     unresolvable = {
         normalise(entry["substance"]) for entry in adjudications.get("half_life_unresolvable", [])
     }
-    written = {"half_lives": 0, "pk_routes": 0, "unresolved": 0, "adjudicated_out": 0}
+    written = {
+        "half_lives": 0,
+        "pk_routes": 0,
+        "unresolved": 0,
+        "adjudicated_out": 0,
+        "isomer_labels": [],
+    }
+    tokens = isomer_label_tokens()
     for entry in payload.get("entries") or []:
         sid = build.substance_ids.get(normalise(entry["substance"]))
         if sid is None:
             written["unresolved"] += 1
+            continue
+        # A label for one isomer (Lunesta, Zenzedi, escitalopram) measured that
+        # isomer, and the isomer is folded into this parent by now, so none of
+        # its numbers may land on the racemate's row: dropped and reported.
+        isomer = medtap_isomer_label(entry, tokens)
+        if isomer is not None:
+            written["isomer_labels"].append(
+                f"{entry['substance']} <- {entry.get('brand')} ({isomer})"
+            )
             continue
         # The label is the citation; its NDC is what identifies the product
         # whose label the number came from. The build's uncited-numeric gate
@@ -4448,6 +4538,29 @@ def normalise(s: str) -> str:
     )
     s = re.sub(r"\s+", " ", s)
     return s
+
+
+_CHARGE_STATE_NAME_RE = re.compile(r"(\(\d*[+\-−]\)|aminium)$", re.IGNORECASE)
+
+
+def is_charge_state_name(name: str) -> bool:
+    """A record named for one protonation state: "Serotonin(1+)",
+    "D-synephrine(1+)", "Phenylethanolaminium". ChEBI files these as species of
+    the neutral compound, which the catalog already carries; a dose is never
+    recorded against a charge state. Bare "-ium" stays: Lithium and Sodium are
+    real rows."""
+    return bool(_CHARGE_STATE_NAME_RE.search((name or "").strip()))
+
+
+def is_short_code(name: str) -> bool:
+    """A name of at most two letters/digits: "M", "T", "E", "AL", "IP", "Ma".
+
+    These are Shulgin's book codes and street slang, and each one names several
+    unrelated drugs at once ("M" is mescaline in PiHKAL and morphine on the
+    street; "T" is tryptamine in TiHKAL and methamphetamine on the street). They
+    stay as search aliases but never decide which substance a record belongs
+    to: alias matching across sources skips them."""
+    return len(re.sub(r"[^0-9a-z]", "", normalise(name))) <= 2
 
 
 # Stereo/IUPAC prefixes that mark a name as a chemistry-noise variant.
@@ -6067,7 +6180,17 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     # 3-FXE, which are the meta compound's names. Canket keeps 2-FXE, which is
     # correctly its own.
     "2-fluorodeschloroketamine": {"canket", "fluorexetamine"},
-    "canket": {"fluorexetamine", "fxe", "3-fxe", "3‑fxe"},
+    "canket": {"fluorexetamine", "fxe", "3-fxe"},
+    # The plant has its own row; the molecule keeps only its own names.
+    "ibogaine": {"tabernanthe iboga", "t. iboga root bark"},
+    # FreeOD's 2-MMSB article is titled 鼠尾草素乙, which is salvinorin B itself.
+    "2-methoxymethyl-salvinorin b": {"鼠尾草素乙"},
+    # Lean is promethazine-codeine syrup and has its own row, dosed in mL.
+    "codeine": {"lean", "purple drank"},
+    # Same tangle, methoxy edition: 2-MeO-ketamine is the ortho compound
+    # (CNC1(CCCCC1=O)c1ccccc1OC); MXM, methoxmetamine, is the meta one.
+    # drug.community's 2-MeO-ketamine page lists MXM among its names.
+    "2-meo-ketamine": {"mxm"},
     # GHB carries the names of its two PRODRUGS. They are separate substances in
     # this DB with their own ladders — and, critically, dosed in **millilitres**
     # where GHB is dosed in **grams**, so a reader who searched "GBL" and landed
@@ -6333,6 +6456,9 @@ class Build:
         #: write, for the build report — an overwrite that leaves no trace is
         #: indistinguishable from the corruption it replaced.
         self.corrections: list[dict] = []
+        #: Erowid records skipped because data/curated/erowid-ids.json names no
+        #: substance for their chapter: (source slug, record name, chapter key).
+        self.erowid_unmapped: list[tuple[str, str, str | None]] = []
         #: dose.wiki's chemistry per joined substance id, applied as corrections
         #: after the PubChem reconciliation passes.
         self.dosewiki_claims: dict[int, dict[str, str]] = {}
@@ -8150,9 +8276,12 @@ class Build:
         # files CDP-Choline under "Citicoline", drug.community files MXP as
         # "MXP (Methoxphenidine)" — and keying on the raw record alone means an
         # exception silently does nothing, which looks exactly like a fixed row.
-        skip_routes = self._exception_for(self._dose_skip_map(slug), name, sid)
-        drop_routes = self._exception_for(self._route_drop_map(slug), name, sid)
-        drop_durations = self._exception_for(self._duration_drop_map(slug), name, sid)
+        # An Erowid record is filed under its chapter's substance, and its book
+        # code (`_record_name`) is still the name its exceptions are keyed on.
+        record_name = s.get("_record_name") or name
+        skip_routes = self._exception_for(self._dose_skip_map(slug), record_name, sid)
+        drop_routes = self._exception_for(self._route_drop_map(slug), record_name, sid)
+        drop_durations = self._exception_for(self._duration_drop_map(slug), record_name, sid)
         for r in s.get("routes") or []:
             if not isinstance(r, dict):
                 continue
@@ -8620,6 +8749,10 @@ class Build:
                     continue
             if slug not in self.source_ids:
                 slug = "piru-curated"
+            if slug in ("erowid-pihkal", "erowid-tihkal"):
+                substance = self._resolve_erowid_chapter(substance, slug)
+                if substance is None:
+                    continue
             self._ingest_substance_record(
                 substance,
                 slug,
@@ -8627,6 +8760,42 @@ class Build:
                 pubchem_cid=to_int(rec.get("pubchemCID")),
                 cas=rec.get("cas"),
             )
+
+    @functools.cached_property
+    def _erowid_ids(self) -> dict[str, dict]:
+        return load_erowid_ids()
+
+    def _resolve_erowid_chapter(self, substance: dict, slug: str) -> dict | None:
+        """File an Erowid PiHKAL/TiHKAL record under the substance its chapter
+        describes, read from ``data/curated/erowid-ids.json``.
+
+        The record's own name is Shulgin's short code, and the codes are street
+        names of unrelated drugs: matched by name, mescaline's chapter (M) landed
+        on Morphine and tryptamine's (T) on Methamphetamine. A chapter the map
+        does not name is skipped and reported, never matched by name. The code
+        survives as an alias only when it is at least three characters, so ``M``
+        or ``IP`` never becomes a search name for the substance.
+
+        The entry's InChIKey checks the join (``test_erowid_chapters``) and is
+        not written to the row: the chapter's own record carries no structure,
+        and a key minted at ingest would change which rows structural dedup
+        folds together."""
+        key = erowid_chapter_key(substance.get("sources"))
+        entry = self._erowid_ids.get(key) if key else None
+        code = (substance.get("name") or "").strip()
+        if not entry or not entry.get("substance"):
+            self.erowid_unmapped.append((slug, code, key))
+            self.stats["erowid_unmapped"] = self.stats.get("erowid_unmapped", 0) + 1
+            return None
+        target = entry["substance"]
+        aliases = [a for a in substance.get("aliases") or [] if isinstance(a, str)]
+        if (
+            normalise(code) != normalise(target)
+            and len(re.sub(r"[^0-9a-z]", "", code.lower())) >= 3
+            and code not in aliases
+        ):
+            aliases.append(code)
+        return dict(substance, name=target, aliases=aliases, _record_name=code)
 
     def ingest_bundled_substances(self, path: Path) -> None:
         """Legacy ingester for the post-merge bundled JSON. Attributes
@@ -10122,13 +10291,16 @@ class Build:
     # Protein-target / non-drug junk rows in medtap (e.g. "Mu-type opioid
     # receptor", "5-hydroxytryptamine receptor 2A", "30S ribosomal protein S12",
     # "Sodium channel protein type 5 subunit alpha", "Penicillin-binding
-    # protein 2"). The keyword can sit anywhere in the name, not just the end,
-    # so match on word boundaries rather than endswith.
+    # protein 2", "Squalene monooxygenase" — terbinafine's label filed under its
+    # target). The keyword can sit anywhere in the name, not just the end, so
+    # match on word boundaries rather than endswith; an enzyme *drug* carries an
+    # INN (Asparaginase, Pancrelipase) and never a bare enzyme-class word.
     _MEDTAP_JUNK_RE = re.compile(
         r"\b(receptor|transporter|channel|subunit|ribosomal|topoisomerase|atpase|"
         r"binding protein|reductase|synthase|kinase|polymerase|integrase|protease|"
         r"transferase|methyltransferase|dehydrogenase|hydroxylase|carboxylase|"
-        r"transaminase|aminotransferase|lyase|ligase|isomerase)\b",
+        r"transaminase|aminotransferase|lyase|ligase|isomerase|"
+        r"monooxygenase|oxygenase|oxidase|anhydrase|lipase)\b",
         re.IGNORECASE,
     )
 
@@ -10240,10 +10412,12 @@ class Build:
         """name/alias → sid index over everything already in the DB. Canonical
         names win over aliases (seeded first, aliases folded in with setdefault).
         Used by the enrichment ingesters, which match existing substances by
-        name OR alias and never mint a new row."""
+        name OR alias and never mint a new row. Aliases that are short codes
+        (``is_short_code``) are left out: each names several drugs."""
         index: dict[str, int] = dict(self.substance_ids)
         for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
-            index.setdefault(row[1], row[0])
+            if not is_short_code(row[1]):
+                index.setdefault(row[1], row[0])
         return index
 
     @staticmethod
@@ -10339,6 +10513,22 @@ class Build:
         for rec in json.loads(path.read_text()):
             sid = self._resolve_by_name_alias(rec.get("name"), name_to_sid, rec.get("aliases"))
             if sid is None:
+                continue
+            # An alias match is not an identity. NPS DataHub's "4-MA" is
+            # 4-methylamphetamine, while Piru's 4-MA alias belongs to
+            # 4-methoxyamphetamine (PiHKAL #97): a record that reached its row
+            # through an alias and whose structure disagrees with the row's
+            # donates nothing. (A canonical-name match stays trusted: NPS keys
+            # are mostly salts, whose skeleton block differs from the base's.)
+            row_key = self.cur.execute(
+                "SELECT inchikey FROM substances WHERE id = ?", (sid,)
+            ).fetchone()[0]
+            rec_key = rec.get("x_inchikey") or ""
+            by_alias = normalise(rec.get("name") or "") not in self.substance_ids
+            if by_alias and row_key and rec_key and row_key[:14] != rec_key[:14]:
+                self.stats["nps_structure_mismatch"] = (
+                    self.stats.get("nps_structure_mismatch", 0) + 1
+                )
                 continue
             self.cur.execute(
                 "UPDATE substances SET inchikey = COALESCE(inchikey, ?), cas = COALESCE(cas, ?), "
@@ -13749,7 +13939,7 @@ class Build:
         # can't fuse distinct compounds into one mega-group.
         for anorm, owners in alias_owners.items():
             gen = canon_norm.get(anorm)  # substance whose canonical IS this name
-            if gen is None:
+            if gen is None or is_short_code(anorm):
                 continue
             others = owners - {gen}
             if not others or len(others) > 3:
@@ -15440,9 +15630,12 @@ def main() -> int:
         f"MedTAP label PK: {medtap_pk['half_lives']} half-lives, "
         f"{medtap_pk['pk_routes']} pk_routes "
         f"({medtap_pk['unresolved']} unresolved, "
-        f"{medtap_pk['adjudicated_out']} adjudicated out)",
+        f"{medtap_pk['adjudicated_out']} adjudicated out, "
+        f"{len(medtap_pk['isomer_labels'])} single-isomer labels dropped)",
         file=sys.stderr,
     )
+    for line in medtap_pk["isomer_labels"]:
+        print(f"  isomer label, not the racemate: {line}", file=sys.stderr)
 
     # Curated first: the UNIQUE class pair is what makes it win over TripSit.
     curated_rules = build.ingest_interaction_rules()
@@ -15930,6 +16123,16 @@ def main() -> int:
         n = db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
         lines.append(f"| {t} | {n:,} |")
     lines.append("")
+    if build.erowid_unmapped:
+        lines.append("## Unmapped Erowid chapters")
+        lines.append("")
+        lines.append(
+            "Skipped: `data/curated/erowid-ids.json` names no substance for these chapters."
+        )
+        lines.append("")
+        for slug, code, key in build.erowid_unmapped:
+            lines.append(f"- {slug} `{key}` ({code})")
+        lines.append("")
     if build.corrections:
         lines.append("## Identifier corrections")
         lines.append("")

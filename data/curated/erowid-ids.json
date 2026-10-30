@@ -1,0 +1,1355 @@
+{
+  "_comment": "Erowid's PiHKAL/TiHKAL chapter -> the Piru substance it describes. The book files each compound under Shulgin's short code (M, T, E, AL, DESOXY), and those codes collide with street names of unrelated drugs, so a chapter is never matched by its name: ingest_sourced_substances resolves every erowid-pihkal/erowid-tihkal record through this file and skips, with a report line, any chapter missing from it. Keyed by the chapter page's file stem (pihkal096.shtml -> pihkal096). `substance` is the canonical name the record is filed under; `inchikey` is the structure of the compound the chapter's own chemical name describes, null when the chapter's row carries none. A test checks that every erowid dose row and every chapter citation sits on the substance named here.",
+  "pihkal001": {
+    "code": "AEM",
+    "substance": "AEM",
+    "inchikey": "DCYONQVUAUEKAJ-UHFFFAOYSA-N"
+  },
+  "pihkal002": {
+    "code": "AL",
+    "chemicalName": "4-ALLYLOXY-3,5-DIMETHOXYPHENETHYLAMINE; 3,5-DIMETHOXY-4-ALLYLOXYPHENETHYLAMINE",
+    "substance": "Allylescaline",
+    "inchikey": "JNUAYHHGCXYBHX-UHFFFAOYSA-N"
+  },
+  "pihkal003": {
+    "code": "ALEPH",
+    "chemicalName": "DOT; PARA-DOT; 2,5-DIMETHOXY-4-METHYLTHIOAMPHETAMINE",
+    "substance": "ALEPH",
+    "inchikey": "COBYBOVXXDQRAU-UHFFFAOYSA-N"
+  },
+  "pihkal004": {
+    "code": "ALEPH-2",
+    "chemicalName": "2,5-DIMETHOXY-4-ETHYLTHIOAMPHETAMINE",
+    "substance": "ALEPH-2",
+    "inchikey": "MCYCODJKXUJSAT-UHFFFAOYSA-N"
+  },
+  "pihkal005": {
+    "code": "ALEPH-4",
+    "chemicalName": "2,5-DIMETHOXY-4-(i)-PROPYLTHIOAMPHETAMINE",
+    "substance": "ALEPH-4",
+    "inchikey": "BCWCXWKCQMBFBQ-UHFFFAOYSA-N"
+  },
+  "pihkal006": {
+    "code": "ALEPH-6",
+    "chemicalName": "2,5-DIMETHOXY-4-PHENYLTHIOAMPHETAMINE",
+    "substance": "ALEPH-6",
+    "inchikey": "CSOTVYXYZSJOFL-UHFFFAOYSA-N"
+  },
+  "pihkal007": {
+    "code": "ALEPH-7",
+    "chemicalName": "2,5-DIMETHOXY-4-(n)-PROPYLTHIOAMPHETAMINE",
+    "substance": "ALEPH-7",
+    "inchikey": "XHWDHFUBCVWXDZ-UHFFFAOYSA-N"
+  },
+  "pihkal008": {
+    "code": "ARIADNE",
+    "chemicalName": "4C-DOM; BL-3912; DIMOXAMINE; 1-(2,5-DIMETHOXY-4-METHYLPHENYL)-2-AMINOBUTANE;",
+    "substance": "Ariadne",
+    "inchikey": "MLYCFWZIAJAIGW-UHFFFAOYSA-N"
+  },
+  "pihkal009": {
+    "code": "ASB",
+    "chemicalName": "ASYMBESCALINE; 3,4-DIETHOXY-5-METHOXYPHENETHYLAMINE",
+    "substance": "ASB",
+    "inchikey": null
+  },
+  "pihkal010": {
+    "code": "B",
+    "chemicalName": "BUSCALINE; 4-(n)-BUTOXY-3,5-DIMETHOXYPHENETHYLAMINE",
+    "substance": "B",
+    "inchikey": null
+  },
+  "pihkal011": {
+    "code": "BEATRICE",
+    "chemicalName": "N-METHYL-DOM; 2,5-DIMETHOXY-4,N-DIMETHYLAMPHETAMINE",
+    "substance": "Beatrice",
+    "inchikey": "IWYGVDBZCSCJGT-UHFFFAOYSA-N"
+  },
+  "pihkal012": {
+    "code": "BIS-TOM",
+    "chemicalName": "4-METHYL-2,5-bis-(METHYLTHIO)AMPHETAMINE",
+    "substance": "BIS-TOM",
+    "inchikey": "XFCQINWERPNOHI-UHFFFAOYSA-N"
+  },
+  "pihkal013": {
+    "code": "BOB",
+    "chemicalName": "beta-METHOXY-2C-B; 4-BROMO-2,5-beta-TRIMETHOXYPHENETHYLAMINE",
+    "substance": "BOB",
+    "inchikey": "FYTLQNZPDWLGNU-UHFFFAOYSA-N"
+  },
+  "pihkal014": {
+    "code": "BOD",
+    "chemicalName": "beta-METHOXY-2C-D; 4-METHYL-2,5,beta-TRIMETHOXYPHENETHYLAMINE",
+    "substance": "BOD",
+    "inchikey": "VTEIFHQUZWABDE-UHFFFAOYSA-N"
+  },
+  "pihkal015": {
+    "code": "BOH",
+    "chemicalName": "beta-METHOXY-3,4-METHYLENEDIOXYPHENETHYLAMINE",
+    "substance": "BOH",
+    "inchikey": "KUTKTMOZFCYDLZ-UHFFFAOYSA-N"
+  },
+  "pihkal016": {
+    "code": "BOHD",
+    "chemicalName": "2,5-DIMETHOXY-beta-HYDROXY-4-METHYLPHENETHYLAMINE",
+    "substance": "BOHD",
+    "inchikey": "WCURBUJUIMRCCJ-UHFFFAOYSA-N"
+  },
+  "pihkal017": {
+    "code": "BOM",
+    "chemicalName": "beta-METHOXYMESCALINE; 3,4,5,beta-TETRAMETHOXYPHENETHYLAMINE",
+    "substance": "BOM",
+    "inchikey": null
+  },
+  "pihkal018": {
+    "code": "4-BR-3,5-DMA",
+    "chemicalName": "3,5-DIMETHOXY-4-BROMOAMPHETAMINE",
+    "substance": "4-BR-3,5-DMA",
+    "inchikey": "FAVLJTSHWBEOMA-UHFFFAOYSA-N"
+  },
+  "pihkal019": {
+    "code": "2-BR-4,5-MDA",
+    "chemicalName": "6-BR-MDA; 2-BROMO-4,5-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "2-BR-4,5-MDA",
+    "inchikey": "PHCFFGXVMHXBGD-UHFFFAOYSA-N"
+  },
+  "pihkal020": {
+    "code": "2C-B",
+    "chemicalName": "4-BROMO-2,5-DIMETHOXYPHENETHYLAMINE",
+    "substance": "2C-B",
+    "inchikey": "YMHOBZXQZVXHBM-UHFFFAOYSA-N"
+  },
+  "pihkal021": {
+    "code": "3C-BZ",
+    "chemicalName": "4-BENZYLOXY-3,5-DIMETHOXYAMPHETAMINE",
+    "substance": "3C-BZ",
+    "inchikey": "IQKPLBJGFPDASR-UHFFFAOYSA-N"
+  },
+  "pihkal022": {
+    "code": "2C-C",
+    "chemicalName": "2,5-DIMETHOXY-4-CHLOROPHENETHYLAMINE",
+    "substance": "2C-C",
+    "inchikey": "CGKQFIWIPSIVAS-UHFFFAOYSA-N"
+  },
+  "pihkal023": {
+    "code": "2C-D",
+    "chemicalName": "LE-25; 2,5-DIMETHOXY-4-METHYLPHENETHYLAMINE",
+    "substance": "2C-D",
+    "inchikey": "UNQQFDCVEMVQHM-UHFFFAOYSA-N"
+  },
+  "pihkal024": {
+    "code": "2C-E",
+    "chemicalName": "2,5-DIMETHOXY-4-ETHYLPHENETHYLAMINE",
+    "substance": "2C-E",
+    "inchikey": "VDRGNAMREYBIHA-UHFFFAOYSA-N"
+  },
+  "pihkal025": {
+    "code": "3C-E",
+    "chemicalName": "3,5-DIMETHOXY-4-ETHOXYAMPHETAMINE",
+    "substance": "3C-E",
+    "inchikey": "AHLXCGRWNKUNTQ-UHFFFAOYSA-N"
+  },
+  "pihkal026": {
+    "code": "2C-F",
+    "chemicalName": "2,5-DIMETHOXY-4-FLUOROPHENETHYLAMINE",
+    "substance": "2C-F",
+    "inchikey": "QAVFEDRVOUKIPM-UHFFFAOYSA-N"
+  },
+  "pihkal027": {
+    "code": "2C-G",
+    "chemicalName": "2,5-DIMETHOXY-3,4-DIMETHYLPHENETHYLAMINE",
+    "substance": "2C-G",
+    "inchikey": "NFOHGLKGLZIHJQ-UHFFFAOYSA-N"
+  },
+  "pihkal028": {
+    "code": "2C-G-3",
+    "chemicalName": "2,5-DIMETHOXY-3,4-(TRIMETHYLENE)PHENETHYLAMINE; 5-(2-AMINOETHYL)-4,7-DIMETHOXYINDANE",
+    "substance": "2C-G-3",
+    "inchikey": "DUYSKWSFDDDWQI-UHFFFAOYSA-N"
+  },
+  "pihkal029": {
+    "code": "2C-G-4",
+    "chemicalName": "2,5-DIMETHOXY-3,4-(TETRAMETHYLENE)PHENETHYLAMINE; 6-(2-AMINOETHYL)-5,8-DIMETHOXY-TETRALIN",
+    "substance": "2C-G-4",
+    "inchikey": null
+  },
+  "pihkal030": {
+    "code": "2C-G-5",
+    "chemicalName": "3,6-DIMETHOXY-4-(2-AMINOETHYL)BENZONORBORNANE",
+    "substance": "2C-G-5",
+    "inchikey": "ASPWVWSIJQTXDB-UHFFFAOYSA-N"
+  },
+  "pihkal031": {
+    "code": "2C-G-N",
+    "chemicalName": "1,4-DIMETHOXYNAPHTHYL-2-ETHYLAMINE",
+    "substance": "2C-G-N",
+    "inchikey": "VKWQEEWEGKDTDE-UHFFFAOYSA-N"
+  },
+  "pihkal032": {
+    "code": "2C-H",
+    "chemicalName": "2,5-DIMETHOXYPHENETHYLAMINE",
+    "substance": "2C-H",
+    "inchikey": "WNCUVUUEJZEATP-UHFFFAOYSA-N"
+  },
+  "pihkal033": {
+    "code": "2C-I",
+    "chemicalName": "2,5-DIMETHOXY-4-IODOPHENETHYLAMINE",
+    "substance": "2C-I",
+    "inchikey": "PQHQBRJAAZQXHL-UHFFFAOYSA-N"
+  },
+  "pihkal034": {
+    "code": "2C-N",
+    "chemicalName": "2,5-DIMETHOXY-4-NITROPHENETHYLAMINE",
+    "substance": "2C-N",
+    "inchikey": "ZMUSDZGRRJGRAO-UHFFFAOYSA-N"
+  },
+  "pihkal035": {
+    "code": "2C-O-4",
+    "chemicalName": "2,5-DIMETHOXY-4-(i)-PROPOXYPHENETHYLAMINE",
+    "substance": "2C-O-4",
+    "inchikey": "KAKXJLWAEMHHTL-UHFFFAOYSA-N"
+  },
+  "pihkal036": {
+    "code": "2C-P",
+    "chemicalName": "2,5-DIMETHOXY-4-(n)-PROPYLPHENETHYLAMINE",
+    "substance": "2C-P",
+    "inchikey": "PZJOKFZGPTVNBF-UHFFFAOYSA-N"
+  },
+  "pihkal037": {
+    "code": "CPM",
+    "chemicalName": "CYCLOPROPYLMESCALINE; 4-CYCLOPROPYLMETHOXY-3,5-DIMETHOXYPHENETHYLAMINE",
+    "substance": "Cyclopropylmescaline",
+    "inchikey": "LNTBHKZMYJTHTH-UHFFFAOYSA-N"
+  },
+  "pihkal038": {
+    "code": "2C-SE",
+    "chemicalName": "2,5-DIMETHOXY-4-METHYLSELENEOPHENETHYLAMINE",
+    "substance": "2C-SE",
+    "inchikey": "CXQUHXATPUFGMC-UHFFFAOYSA-N"
+  },
+  "pihkal039": {
+    "code": "2C-T",
+    "chemicalName": "2,5-DIMETHOXY-4-METHYLTHIOPHENETHYLAMINE",
+    "substance": "2C-T",
+    "inchikey": "UPZMYCMLLQTYEM-UHFFFAOYSA-N"
+  },
+  "pihkal040": {
+    "code": "2C-T-2",
+    "chemicalName": "2,5-DIMETHOXY-4-ETHYLTHIOPHENETHYLAMINE",
+    "substance": "2C-T-2",
+    "inchikey": "HCWQGDLBIKOJPM-UHFFFAOYSA-N"
+  },
+  "pihkal041": {
+    "code": "2C-T-4",
+    "chemicalName": "2,5-DIMETHOXY-4-(i)-PROPYLTHIOPHENETHYLAMINE",
+    "substance": "2C-T-4",
+    "inchikey": "HDYZSVKZKDPLDT-UHFFFAOYSA-N"
+  },
+  "pihkal042": {
+    "code": "psi-2C-T-4",
+    "chemicalName": "2,6-DIMETHOXY-4-(i)-PROPYLTHIOPHENETHYLAMINE",
+    "substance": "psi-2C-T-4",
+    "inchikey": "UMQKLDOKCOSGCS-UHFFFAOYSA-N",
+    "note": "2,6-dimethoxy-4-isopropylthiophenethylamine, the psi isomer of 2C-T-4 (2,5-dimethoxy)."
+  },
+  "pihkal043": {
+    "code": "2C-T-7",
+    "chemicalName": "2,5-DIMETHOXY-4-(n)-PROPYLTHIOPHENETHYLAMINE",
+    "substance": "2C-T-7",
+    "inchikey": "OLEVEPDJOFPJTF-UHFFFAOYSA-N"
+  },
+  "pihkal044": {
+    "code": "2C-T-8",
+    "chemicalName": "2,5-DIMETHOXY-4-CYCLOPROPYLMETHYLTHIOPHENETHYLAMINE",
+    "substance": "2C-T-8",
+    "inchikey": "AHMSSHCYIDBVQB-UHFFFAOYSA-N"
+  },
+  "pihkal045": {
+    "code": "2C-T-9",
+    "chemicalName": "2,5-DIMETHOXY-4-(t)-BUTYLTHIOPHENETHYLAMINE",
+    "substance": "2C-T-9",
+    "inchikey": "PSVDMTZXLJTPNX-UHFFFAOYSA-N"
+  },
+  "pihkal046": {
+    "code": "2C-T-13",
+    "chemicalName": "2,5-DIMETHOXY-4-(2-METHOXYETHYLTHIO)PHENETHYLAMINE",
+    "substance": "2C-T-13",
+    "inchikey": "PYJLRNOGMKMRTK-UHFFFAOYSA-N"
+  },
+  "pihkal047": {
+    "code": "2C-T-15",
+    "chemicalName": "SESQUI; 2,5-DIMETHOXY-4-CYCLOPROPYLTHIOPHENETHYLAMINE",
+    "substance": "2C-T-15",
+    "inchikey": "HHAPMOUVSYQKLK-UHFFFAOYSA-N"
+  },
+  "pihkal048": {
+    "code": "2C-T-17",
+    "chemicalName": "NIMITZ; 2,5-DIMETHOXY-4-(s)-BUTYLTHIOPHENETHYLAMINE",
+    "substance": "2C-T-17",
+    "inchikey": "KSZHVRPGICAZOA-UHFFFAOYSA-N"
+  },
+  "pihkal049": {
+    "code": "2C-T-21",
+    "chemicalName": "2,5-DIMETHOXY-4-(2-FLUOROETHYLTHIO)PHENETHYLAMINE",
+    "substance": "2C-T-21",
+    "inchikey": "ZBUUUKBTOCTOPW-UHFFFAOYSA-N"
+  },
+  "pihkal050": {
+    "code": "4-D",
+    "chemicalName": "3,5-DIMETHOXY-4-TRIDEUTEROMETHOXY-PHENETHYLAMINE",
+    "substance": "4-D",
+    "inchikey": "RHCSKNNOAZULRK-HPRDVNIFSA-N"
+  },
+  "pihkal051": {
+    "code": "beta-D",
+    "chemicalName": "3,4,5-TRIMETHOXY-beta,beta-DIDEUTEROPHENETHYLAMINE",
+    "substance": "beta-D",
+    "inchikey": "RHCSKNNOAZULRK-APZFVMQVSA-N"
+  },
+  "pihkal052": {
+    "code": "DESOXY",
+    "chemicalName": "3,5-DIMETHOXY-4-METHYLPHENETHYLAMINE",
+    "substance": "DESOXY",
+    "inchikey": "LLHRMWHYJGLIEV-UHFFFAOYSA-N",
+    "note": "4-desoxymescaline (3,5-dimethoxy-4-methylphenethylamine). Desoxypipradrol (2-DPMP) is sold as 'Desoxy', a different molecule."
+  },
+  "pihkal053": {
+    "code": "2,4-DMA",
+    "chemicalName": "2,4-DIMETHOXYAMPHETAMINE",
+    "substance": "2,4-DMA",
+    "inchikey": "DQWOZMUBHQPFFF-UHFFFAOYSA-N"
+  },
+  "pihkal054": {
+    "code": "2,5-DMA",
+    "chemicalName": "DMA; 2,5-DIMETHOXYAMPHETAMINE",
+    "substance": "2,5-DMA",
+    "inchikey": "LATVFYDIBMDBSY-UHFFFAOYSA-N"
+  },
+  "pihkal055": {
+    "code": "3,4-DMA",
+    "chemicalName": "3,4-DIMETHOXYAMPHETAMINE",
+    "substance": "3,4-DMA",
+    "inchikey": "KAZPHAGSWZTKDW-UHFFFAOYSA-N"
+  },
+  "pihkal056": {
+    "code": "DMCPA",
+    "chemicalName": "2-(2,5-DIMETHOXY-4-METHYLPHENYL)CYCLOPROPYLAMINE",
+    "substance": "DMCPA",
+    "inchikey": "HYVPPECPQRBJEQ-UHFFFAOYSA-N"
+  },
+  "pihkal057": {
+    "code": "DME",
+    "chemicalName": "3,4-DIMETHOXY-beta-HYDROXYPHENETHYLAMINE",
+    "substance": "DME",
+    "inchikey": "WIUFFBGZBFVVDL-UHFFFAOYSA-N"
+  },
+  "pihkal058": {
+    "code": "DMMDA",
+    "chemicalName": "2,5-DIMETHOXY-3,4-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "DMMDA",
+    "inchikey": "GRGRGLVMGTVCNZ-UHFFFAOYSA-N"
+  },
+  "pihkal059": {
+    "code": "DMMDA-2",
+    "chemicalName": "2,3-DIMETHOXY-4,5-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "DMMDA-2",
+    "inchikey": "UQXNREZPUUGSKM-UHFFFAOYSA-N"
+  },
+  "pihkal060": {
+    "code": "DMPEA",
+    "chemicalName": "3,4-DIMETHOXYPHENETHYLAMINE",
+    "substance": "DMPEA",
+    "inchikey": null
+  },
+  "pihkal061": {
+    "code": "DOAM",
+    "chemicalName": "2,5-DIMETHOXY-4-(n)-AMYLAMPHETAMINE",
+    "substance": "DOAM",
+    "inchikey": "VLJORLCVOAUUKM-UHFFFAOYSA-N"
+  },
+  "pihkal062": {
+    "code": "DOB",
+    "chemicalName": "2,5-DIMETHOXY-4-BROMOAMPHETAMINE",
+    "substance": "DOB",
+    "inchikey": "FXMWUTGUCAKGQL-UHFFFAOYSA-N"
+  },
+  "pihkal063": {
+    "code": "DOBU",
+    "chemicalName": "2,5-DIMETHOXY-4-(n)-BUTYLAMPHETAMINE",
+    "substance": "DOBU",
+    "inchikey": "NGVDYAULSQKEGW-UHFFFAOYSA-N"
+  },
+  "pihkal064": {
+    "code": "DOC",
+    "chemicalName": "2,5-DIMETHOXY-4-CHLOROAMPHETAMINE",
+    "substance": "DOC",
+    "inchikey": "ACRITBNCBMTINK-UHFFFAOYSA-N"
+  },
+  "pihkal065": {
+    "code": "DOEF",
+    "chemicalName": "2,5-DIMETHOXY-4-(2-FLUOROETHYL)-AMPHETAMINE",
+    "substance": "DOEF",
+    "inchikey": "QLENKWFQUHHBKZ-UHFFFAOYSA-N"
+  },
+  "pihkal066": {
+    "code": "DOET",
+    "chemicalName": "HECATE; 2,5-DIMETHOXY-4-ETHYLAMPHETAMINE",
+    "substance": "DOET",
+    "inchikey": "HXJKWPGVENNMCC-UHFFFAOYSA-N"
+  },
+  "pihkal067": {
+    "code": "DOI",
+    "chemicalName": "2,5-DIMETHOXY-4-IODOAMPHETAMINE",
+    "substance": "DOI",
+    "inchikey": "BGMZUEKZENQUJY-UHFFFAOYSA-N"
+  },
+  "pihkal068": {
+    "code": "DOM",
+    "chemicalName": "STP; 2,5-DIMETHOXY-4-METHYLAMPHETAMINE",
+    "substance": "DOM",
+    "inchikey": "NTJQREUGJKIARY-UHFFFAOYSA-N"
+  },
+  "pihkal069": {
+    "code": "psi-DOM",
+    "chemicalName": "Z-7; 2,6-DIMETHOXY-4-METHYLAMPHETAMINE",
+    "substance": "psi-DOM",
+    "inchikey": "CFFJUEYUTHKVMQ-UHFFFAOYSA-N"
+  },
+  "pihkal070": {
+    "code": "DON",
+    "chemicalName": "2,5-DIMETHOXY-4-NITROAMPHETAMINE",
+    "substance": "DON",
+    "inchikey": null
+  },
+  "pihkal071": {
+    "code": "DOPR",
+    "chemicalName": "2,5-DIMETHOXY-4-(n)-PROPYLAMPHETAMINE",
+    "substance": "DOPR",
+    "inchikey": "UEEAUFJYLUJWQJ-UHFFFAOYSA-N"
+  },
+  "pihkal072": {
+    "code": "E; ESCALINE",
+    "substance": "Escaline",
+    "inchikey": "RHOGRSKNWDNCDN-UHFFFAOYSA-N"
+  },
+  "pihkal073": {
+    "code": "EEE",
+    "chemicalName": "2,4,5-TRIETHOXYAMPHETAMINE",
+    "substance": "EEE",
+    "inchikey": null
+  },
+  "pihkal074": {
+    "code": "EEM",
+    "chemicalName": "2,4-DIETHOXY-5-METHOXYAMPHETAMINE",
+    "substance": "EEM",
+    "inchikey": null
+  },
+  "pihkal075": {
+    "code": "EME",
+    "chemicalName": "2,5-DIETHOXY-4-METHOXYAMPHETAMINE",
+    "substance": "EME",
+    "inchikey": null
+  },
+  "pihkal076": {
+    "code": "EMM",
+    "chemicalName": "4,5-DIMETHOXY-2-ETHOXYAMPHETAMINE",
+    "substance": "EMM",
+    "inchikey": "SKRNTJDDBVAEGB-UHFFFAOYSA-N"
+  },
+  "pihkal077": {
+    "code": "ETHYL-J",
+    "chemicalName": "2-ETHYLAMINO-1-(3,4-METHYLENEDIOXYPHENYL)BUTANE; N-ETHYL-1-(1,3-BENZODIOXOL-5-YL)-2-BUTANAMINE",
+    "substance": "ETHYL-J",
+    "inchikey": null
+  },
+  "pihkal078": {
+    "code": "ETHYL-K",
+    "chemicalName": "2-ETHYLAMINO-1-(3,4-METHYLENEDIOXYPHENYL)PENTANE; N-ETHYL-1-(1,3-BENZODIOXOL-5-YL)-2-PENTYLAMINE",
+    "substance": "ETHYL-K",
+    "inchikey": null
+  },
+  "pihkal079": {
+    "code": "F-2",
+    "chemicalName": "2-M; 6-(2-AMINOPROPYL)-5-METHOXY-2-METHYL-2,3-DIHYDROBENZOFURAN",
+    "substance": "F-2",
+    "inchikey": null
+  },
+  "pihkal080": {
+    "code": "F-22",
+    "chemicalName": "6-(2-AMINOPROPYL)-2,2-DIMETHYL-5-METHOXY-2,3-DIHYDROBENZOFURAN",
+    "substance": "F-22",
+    "inchikey": null
+  },
+  "pihkal081": {
+    "code": "FLEA",
+    "chemicalName": "N-HYDROXY-N-METHYL-3,4-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "FLEA",
+    "inchikey": "ORADFQZOLNHWRQ-UHFFFAOYSA-N"
+  },
+  "pihkal082": {
+    "code": "G-3",
+    "chemicalName": "2,5-DIMETHOXY-3,4-(TRIMETHYLENE)AMPHETAMINE; 5-(2-AMINOPROPYL)-4,7-DIMETHOXYINDANE",
+    "substance": "G-3",
+    "inchikey": "GLFZOKOHBIKEKN-UHFFFAOYSA-N"
+  },
+  "pihkal083": {
+    "code": "G-4",
+    "chemicalName": "2,5-DIMETHOXY-3,4-(TETRAMETHYLENE)AMPHETAMINE; 6-(2-AMINOPROPYL)-5,8-DIMETHOXYTETRALIN",
+    "substance": "G-4",
+    "inchikey": null
+  },
+  "pihkal084": {
+    "code": "G-5",
+    "chemicalName": "3,6-DIMETHOXY-4-(2-AMINOPROPYL)BENZONORBORNANE",
+    "substance": "G-5",
+    "inchikey": "MZFVFTFFHRCTIO-UHFFFAOYSA-N"
+  },
+  "pihkal085": {
+    "code": "GANESHA",
+    "chemicalName": "G; 2,5-DIMETHOXY-3,4-DIMETHYLAMPHETAMINE",
+    "substance": "Ganesha",
+    "inchikey": null
+  },
+  "pihkal086": {
+    "code": "G-N",
+    "chemicalName": "1,4-DIMETHOXYNAPHTHYL-2-ISOPROPYLAMINE",
+    "substance": "G-N",
+    "inchikey": null
+  },
+  "pihkal087": {
+    "code": "HOT-2",
+    "chemicalName": "2,5-DIMETHOXY-4-ETHYLTHIO-N-HYDROXYPHENETHYLAMINE",
+    "substance": "HOT-2",
+    "inchikey": "XGFJCRNRWOXGQM-UHFFFAOYSA-N"
+  },
+  "pihkal088": {
+    "code": "HOT-7",
+    "chemicalName": "2,5-DIMETHOXY-N-HYDROXY-4-(n)-PROPYLTHIOPHENETHYLAMINE",
+    "substance": "HOT-7",
+    "inchikey": "ASTNLROMDNGJLS-UHFFFAOYSA-N"
+  },
+  "pihkal089": {
+    "code": "HOT-17",
+    "chemicalName": "2,5-DIMETHOXY-4-(s)-BUTYLTHIO-N-HYDROXYPHENETHYLAMINE",
+    "substance": "HOT-17",
+    "inchikey": "BUKIXGXYEUJJHQ-UHFFFAOYSA-N"
+  },
+  "pihkal090": {
+    "code": "IDNNA",
+    "chemicalName": "2,5-DIMETHOXY-N,N-DIMETHYL-4-IODOAMPHETAMINE",
+    "substance": "IDNNA",
+    "inchikey": "XBCUSBRGRALQID-UHFFFAOYSA-N"
+  },
+  "pihkal091": {
+    "code": "IM",
+    "chemicalName": "ISOMESCALINE; 2,3,4-TRIMETHOXYPHENETHYLAMINE",
+    "substance": "IM",
+    "inchikey": null
+  },
+  "pihkal092": {
+    "code": "IP",
+    "chemicalName": "ISOPROSCALINE; 3,5-DIMETHOXY-4-(i)-PROPOXYPHENETHYLAMINE",
+    "substance": "Isoproscaline",
+    "inchikey": "UBNHYNYMUORHAM-UHFFFAOYSA-N"
+  },
+  "pihkal093": {
+    "code": "IRIS",
+    "chemicalName": "5-ETHOXY-2-METHOXY-4-METHYLAMPHETAMINE",
+    "substance": "IRIS",
+    "inchikey": null
+  },
+  "pihkal094": {
+    "code": "J",
+    "chemicalName": "BDB; 2-AMINO-1-(3,4-METHYLENEDIOXYPHENYL)BUTANE; 1-(1,3-BENZODIOXOL-5-YL)-2-BUTANAMINE",
+    "substance": "J",
+    "inchikey": null
+  },
+  "pihkal095": {
+    "code": "LOPHOPHINE",
+    "chemicalName": "3-METHOXY-4,5-METHYLENEDIOXYPHENETHYLAMINE",
+    "substance": "Lophophine",
+    "inchikey": "ORXQUAPZHKCCAX-UHFFFAOYSA-N"
+  },
+  "pihkal096": {
+    "code": "M",
+    "chemicalName": "MESCALINE; 3,4,5-TRIMETHOXYPHENETHYLAMINE",
+    "substance": "Mescaline",
+    "inchikey": "RHCSKNNOAZULRK-UHFFFAOYSA-N",
+    "note": "PiHKAL's code M is mescaline. Morphine also answers to the street name M, which is how this chapter's 200-400 mg ladder landed on Morphine."
+  },
+  "pihkal097": {
+    "code": "4-MA",
+    "chemicalName": "PMA; 4-METHOXYAMPHETAMINE",
+    "substance": "Para-Methoxyamphetamine",
+    "inchikey": "NEGYEDYHPHMHGK-UHFFFAOYSA-N"
+  },
+  "pihkal098": {
+    "code": "MADAM-6",
+    "chemicalName": "2,N-DIMETHYL-4,5-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "MADAM-6",
+    "inchikey": "CRQPDNIUPWXPNK-UHFFFAOYSA-N"
+  },
+  "pihkal099": {
+    "code": "MAL",
+    "chemicalName": "METHALLYLESCALINE; 3,5-DIMETHOXY-4-METHALLYLOXYPHENETHYLAMINE",
+    "substance": "Methallylescaline",
+    "inchikey": "FOXJFBFFGULACD-UHFFFAOYSA-N"
+  },
+  "pihkal100": {
+    "code": "MDA",
+    "chemicalName": "3,4-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "3,4-Methylenedioxyamphetamine",
+    "inchikey": "NGBBVGZWCFBOGO-UHFFFAOYSA-N"
+  },
+  "pihkal101": {
+    "code": "MDAL",
+    "chemicalName": "N-ALLYL-MDA; 3,4-METHYLENEDIOXY-N- ALLYLAMPHETAMINE",
+    "substance": "MDAL",
+    "inchikey": null
+  },
+  "pihkal102": {
+    "code": "MDBU",
+    "chemicalName": "N-BUTYL-MDA; 3,4-METHYLENEDIOXY-N-BUTYLAMPHETAMINE",
+    "substance": "MDBU",
+    "inchikey": null
+  },
+  "pihkal103": {
+    "code": "MDBZ",
+    "chemicalName": "N-BENZYL-MDA; 3,4-METHYLENEDIOXY-N-BENZYLAMPHETAMINE",
+    "substance": "MDBZ",
+    "inchikey": null
+  },
+  "pihkal104": {
+    "code": "MDCPM",
+    "chemicalName": "CYCLOPROPYLMETHYL-MDA; 3,4-METHYLENEDIOXY-N-CYCLOPROPYLMETHYLAMPHETAMINE",
+    "substance": "MDCPM",
+    "inchikey": null
+  },
+  "pihkal105": {
+    "code": "MDDM",
+    "chemicalName": "N,N-DIMETHYL-MDA; 3,4-METHYLENEDIOXY-N,N-DIMETHYLAMPHETAMINE",
+    "substance": "MDDM",
+    "inchikey": null
+  },
+  "pihkal106": {
+    "code": "MDE",
+    "chemicalName": "MDEA; EVE; N-ETHYL-MDA; 3,4-METHYLENEDIOXY-N-ETHYLAMPHETAMINE",
+    "substance": "Mdea",
+    "inchikey": "PVXVWWANJIWJOO-UHFFFAOYSA-N"
+  },
+  "pihkal107": {
+    "code": "MDHOET",
+    "chemicalName": "HYDROXYETHYL-MDA; 3,4-METHYLENEDIOXY-N-(2-HYDROXYETHYL)AMPHETAMINE",
+    "substance": "MDHOET",
+    "inchikey": "SCUUYKMQDUDNBP-UHFFFAOYSA-N"
+  },
+  "pihkal108": {
+    "code": "MDIP",
+    "chemicalName": "N-ISOPROPYL-MDA; (3,4-METHYLENEDIOXY-N-ISOPROPYLAMPHETAMINE)",
+    "substance": "MDIP",
+    "inchikey": null
+  },
+  "pihkal109": {
+    "code": "MDMA",
+    "chemicalName": "MDM; ADAM; ECSTASY; 3,4-METHYLENEDIOXY-N-METHYLAMPHETAMINE",
+    "substance": "MDMA",
+    "inchikey": "SHXWCVYOXRDMCX-UHFFFAOYSA-N"
+  },
+  "pihkal110": {
+    "code": "MDMC / EDMA [Note: MDMC is a Shulgin pet name, see commentary below.]",
+    "substance": "MDMC / EDMA [Note: MDMC is a Shulgin pet name, see commentary below.]",
+    "inchikey": null
+  },
+  "pihkal111": {
+    "code": "MDMEO",
+    "chemicalName": "N-METHOXY-MDA; 3,4-METHYLENEDIOXY-N-METHYOXYAMPHETAMINE",
+    "substance": "MDMEO",
+    "inchikey": null
+  },
+  "pihkal112": {
+    "code": "MDMEOET",
+    "chemicalName": "N-METHOXYETHYL-MDA; 3,4-METHYLENEDIOXY-N-(2-METHOXYETHYL)AMPHETAMINE",
+    "substance": "Mdmeoet",
+    "inchikey": null
+  },
+  "pihkal113": {
+    "code": "MDMP",
+    "chemicalName": "a,a,N-TRIMETHYL-3,4-METHYLENEDIOXY-PHENETHYLAMINE; METHYLENEDIOXYMEPHENTERMINE",
+    "substance": "MDMP",
+    "inchikey": null
+  },
+  "pihkal114": {
+    "code": "MDOH",
+    "chemicalName": "N-HYDROXY-MDA; 3,4-METHYLENEDIOXY-N-HYDROXYAMPHETAMINE",
+    "substance": "MDOH",
+    "inchikey": "FNDCTJYFKOQGTL-UHFFFAOYSA-N"
+  },
+  "pihkal115": {
+    "code": "MDPEA",
+    "chemicalName": "3,4-METHYLENEDIOXYPHENETHYLAMINE; HOMOPIPERONYLAMINE",
+    "substance": "MDPEA",
+    "inchikey": null
+  },
+  "pihkal116": {
+    "code": "MDPH",
+    "chemicalName": "a,a-DIMETHYL-3,4-METHYLENEDIOXY-PHENETHYLAMINE; 3,4-METHYLENEDIOXYPHENTERMINE",
+    "substance": "MDPH",
+    "inchikey": "OIZBHKBNZXRXSM-UHFFFAOYSA-N",
+    "note": "3,4-methylenedioxyphentermine, a phenethylamine. MDPHP is a pyrrolidinyl cathinone with a different structure and dose."
+  },
+  "pihkal117": {
+    "code": "MDPL",
+    "chemicalName": "N-PROPARGYL-MDA; N-PROPYNYL-MDA; 3,4-METHYLENEDIOXY-N-PROPARGYLAMPHETAMINE",
+    "substance": "MDPL",
+    "inchikey": null
+  },
+  "pihkal118": {
+    "code": "MDPR",
+    "chemicalName": "N-PROPYL-MDA; 3,4-METHYLENEDIOXY-N-PROPYLAMPHETAMINE",
+    "substance": "MDPR",
+    "inchikey": "LBXMQBTXOLBCCA-UHFFFAOYSA-N"
+  },
+  "pihkal119": {
+    "code": "ME",
+    "chemicalName": "METAESCALINE; 3,4-DIMETHOXY-5-ETHOXYPHENETHYLAMINE",
+    "substance": "ME",
+    "inchikey": null
+  },
+  "pihkal120": {
+    "code": "MEDA",
+    "chemicalName": "3-METHOXY-4,5-ETHYLENEDIOXYAMPHETAMINE",
+    "substance": "MEDA",
+    "inchikey": "HEYPARQBPGSFKW-UHFFFAOYSA-N"
+  },
+  "pihkal121": {
+    "code": "MEE",
+    "chemicalName": "4,5-DIETHOXY-2-METHOXYAMPHETAMINE",
+    "substance": "MEE",
+    "inchikey": null
+  },
+  "pihkal122": {
+    "code": "MEM",
+    "chemicalName": "2,5-DIMETHOXY-4-ETHOXYAMPHETAMINE",
+    "substance": "2,5-Dimethoxy-4-ethoxyamphetamine",
+    "inchikey": "ITZLAXJQDMGDEO-UHFFFAOYSA-N"
+  },
+  "pihkal123": {
+    "code": "MEPEA",
+    "chemicalName": "3-METHOXY-4-ETHOXYPHENETHYLAMINE",
+    "substance": "MEPEA",
+    "inchikey": null
+  },
+  "pihkal124": {
+    "code": "META-DOB",
+    "chemicalName": "5-BROMO-2,4-DIMETHOXYAMPHETAMINE",
+    "substance": "META-DOB",
+    "inchikey": "YFSLPSITQIUFQK-UHFFFAOYSA-N"
+  },
+  "pihkal125": {
+    "code": "META-DOT",
+    "chemicalName": "2,4-DIMETHOXY-5-METHYLTHIOAMPHETAMINE",
+    "substance": "META-DOT",
+    "inchikey": "BEMIKIUJWHLJTP-UHFFFAOYSA-N"
+  },
+  "pihkal126": {
+    "code": "METHYL-DMA",
+    "chemicalName": "DMMA; 2,5-DIMETHOXY-N-METHYLAMPHETAMINE",
+    "substance": "METHYL-DMA",
+    "inchikey": null
+  },
+  "pihkal127": {
+    "code": "METHYL-DOB",
+    "chemicalName": "4-BROMO-2,5-DIMETHOXY-N-METHYLAMPHETAMINE",
+    "substance": "METHYL-DOB",
+    "inchikey": null
+  },
+  "pihkal128": {
+    "code": "METHYL-J",
+    "chemicalName": "MBDB; EDEN; 2-METHYLAMINO-1-(3,4-METHYLENEDIOXYPHENYL)BUTANE; N-METHYL-1-(1,3-BENZODIOXOL-5-YL)-2-BUTANAMINE",
+    "substance": "MBDB",
+    "inchikey": "LFXXIXAVEJVYGY-UHFFFAOYSA-N"
+  },
+  "pihkal129": {
+    "code": "METHYL-K",
+    "chemicalName": "2-METHYLAMINO-1-(3,4-METHYLENEDIOXYPHENYL)PENTANE; N-METHYL-1-(1,3-BENZODIOXOL-5-YL)-2-PENTYLAMINE",
+    "substance": "METHYL-K",
+    "inchikey": null
+  },
+  "pihkal130": {
+    "code": "METHYL-MA",
+    "chemicalName": "PMMA; DOONE; 4-MMA; 4-METHOXY-N-METHYLAMPHETAMINE",
+    "substance": "METHYL-MA",
+    "inchikey": null
+  },
+  "pihkal131": {
+    "code": "METHYL-MMDA-2",
+    "chemicalName": "2-METHOXY-N-METHYL-4,5-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "METHYL-MMDA-2",
+    "inchikey": "GBUNHVOIGFKQDT-UHFFFAOYSA-N"
+  },
+  "pihkal132": {
+    "code": "MMDA",
+    "chemicalName": "3-METHOXY-4,5-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "MMDA",
+    "inchikey": "YQYUWUKDEVZFDB-UHFFFAOYSA-N"
+  },
+  "pihkal133": {
+    "code": "MMDA-2",
+    "chemicalName": "2-METHOXY-4,5-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "MMDA-2",
+    "inchikey": "GPVJAXJRAZVITB-UHFFFAOYSA-N"
+  },
+  "pihkal134": {
+    "code": "MMDA-3a",
+    "chemicalName": "2-METHOXY-3,4-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "MMDA-3a",
+    "inchikey": null
+  },
+  "pihkal135": {
+    "code": "MMDA-3b",
+    "chemicalName": "4-METHOXY-2,3-METHYLENEDIOXYAMPHETAMINE",
+    "substance": "MMDA-3b",
+    "inchikey": "CLRZDDLQTLKYFH-UHFFFAOYSA-N"
+  },
+  "pihkal136": {
+    "code": "MME",
+    "chemicalName": "2,4-DIMETHOXY-5-ETHOXYAMPHETAMINE",
+    "substance": "MME",
+    "inchikey": null
+  },
+  "pihkal137": {
+    "code": "MP",
+    "chemicalName": "METAPROSCALINE; 3,4-DIMETHOXY-5-(n)-PROPOXYPHENETHYLAMINE",
+    "substance": "MP",
+    "inchikey": null
+  },
+  "pihkal138": {
+    "code": "MPM",
+    "chemicalName": "2,5-DIMETHOXY-4-(n)-PROPOXYAMPHETAMINE",
+    "substance": "MPM",
+    "inchikey": null
+  },
+  "pihkal139": {
+    "code": "ORTHO-DOT",
+    "chemicalName": "4,5-DIMETHOXY-2-METHYLTHIOAMPHETAMINE",
+    "substance": "ORTHO-DOT",
+    "inchikey": "GQUWSNDODZTHKC-UHFFFAOYSA-N"
+  },
+  "pihkal140": {
+    "code": "P",
+    "chemicalName": "PROSCALINE; 3,5-DIMETHOXY-4-(n)-PROPOXYPHENETHYLAMINE",
+    "substance": "P",
+    "inchikey": null
+  },
+  "pihkal141": {
+    "code": "PE",
+    "chemicalName": "PHENESCALINE; 3,5-DIMETHOXY-4-PHENETHYLOXYPHENETHYLAMINE",
+    "substance": "PE",
+    "inchikey": null
+  },
+  "pihkal142": {
+    "code": "PEA",
+    "chemicalName": "PHENETHYLAMINE",
+    "substance": "Phenethylamine",
+    "inchikey": "BHHGXPLMPWCGHP-UHFFFAOYSA-N"
+  },
+  "pihkal143": {
+    "code": "PROPYNYL",
+    "chemicalName": "3,5-DIMETHOXY-4-(2-PROPYNYLOXY)PHENETHYLAMINE",
+    "substance": "Propynyl",
+    "inchikey": null
+  },
+  "pihkal144": {
+    "code": "SB",
+    "chemicalName": "SYMBESCALINE; 3,5-DIETHOXY-4-METHOXYPHENETHYLAMINE",
+    "substance": "SB",
+    "inchikey": null
+  },
+  "pihkal145": {
+    "code": "TA",
+    "chemicalName": "2,3,4,5-TETRAMETHOXYAMPHETAMINE",
+    "substance": "TA",
+    "inchikey": null
+  },
+  "pihkal146": {
+    "code": "3-TASB",
+    "chemicalName": "3-THIOASYMBESCALINE; 4-ETHOXY-3-ETHYLTHIO-5-METHOXYPHENETHYLAMINE",
+    "substance": "3-TASB",
+    "inchikey": "LIOWJFZFWZIZBL-UHFFFAOYSA-N"
+  },
+  "pihkal147": {
+    "code": "4-TASB",
+    "chemicalName": "4-THIOASYMBESCALINE; 3-ETHOXY-4-ETHYLTHIO-5-METHOXYPHENETHYLAMINE",
+    "substance": "4-TASB",
+    "inchikey": "IUZSEPUWBBUJME-UHFFFAOYSA-N"
+  },
+  "pihkal148": {
+    "code": "5-TASB",
+    "chemicalName": "5-THIOASYMBESCALINE; 3,4-DIETHOXY-5-METHYLTHIOPHENETHYLAMINE",
+    "substance": "5-TASB",
+    "inchikey": "WEGXTQPSIDDJRM-UHFFFAOYSA-N"
+  },
+  "pihkal149": {
+    "code": "TB",
+    "chemicalName": "4-THIOBUSCALINE; 3,5-DIMETHOXY-4-(n)-BUTYLTHIOPHENETHYLAMINE",
+    "substance": "TB",
+    "inchikey": null
+  },
+  "pihkal150": {
+    "code": "3-TE",
+    "chemicalName": "3-THIOESCALINE; 4-ETHOXY-5-METHOXY-3-METHYLTHIOPHENETHYLAMINE",
+    "substance": "3-TE",
+    "inchikey": null
+  },
+  "pihkal151": {
+    "code": "TE",
+    "chemicalName": "4-TE; 4-THIOESCALINE; 3,5-DIMETHOXY-4-ETHYLTHIOPHENETHYLAMINE",
+    "substance": "TE",
+    "inchikey": null
+  },
+  "pihkal152": {
+    "code": "2-TIM",
+    "chemicalName": "2-THIOISOMESCALINE; 3,4-DIMETHOXY-2-METHYLTHIOPHENETHYLAMINE",
+    "substance": "2-TIM",
+    "inchikey": null
+  },
+  "pihkal153": {
+    "code": "3-TIM",
+    "chemicalName": "3-THIOMESCALINE; 2,4-DIMETHOXY-3-METHYLTHIOPHENETHYLAMINE",
+    "substance": "3-TIM",
+    "inchikey": null
+  },
+  "pihkal154": {
+    "code": "4-TIM",
+    "chemicalName": "4-THIOISOMESCALINE; 2,3-DIMETHOXY-4-METHYLTHIOPHENETHYLAMINE",
+    "substance": "4-TIM",
+    "inchikey": null
+  },
+  "pihkal155": {
+    "code": "3-TM",
+    "chemicalName": "3-THIOMESCALINE; 3,4-DIMETHOXY-5-METHYLTHIOPHENETHYLAMINE",
+    "substance": "3-TM",
+    "inchikey": null
+  },
+  "pihkal156": {
+    "code": "TM",
+    "chemicalName": "4-TM; 4-THIOMESCALINE; 3,5-DIMETHOXY-4-METHYLTHIOPHENETHYLAMINE",
+    "substance": "TM",
+    "inchikey": null
+  },
+  "pihkal157": {
+    "code": "TMA",
+    "chemicalName": "3,4,5-TRIMETHOXYAMPHETAMINE",
+    "substance": "TMA",
+    "inchikey": "WGTASENVNYJZBK-UHFFFAOYSA-N"
+  },
+  "pihkal158": {
+    "code": "TMA-2",
+    "chemicalName": "2,4,5-TRIMETHOXYAMPHETAMINE",
+    "substance": "TMA-2",
+    "inchikey": "TVSIMAWGATVNGK-UHFFFAOYSA-N"
+  },
+  "pihkal159": {
+    "code": "TMA-3",
+    "chemicalName": "2,3,4-TRIMETHOXYAMPHETAMINE",
+    "substance": "TMA-3",
+    "inchikey": null
+  },
+  "pihkal160": {
+    "code": "TMA-4",
+    "chemicalName": "2,3,5-TRIMETHOXYAMPHETAMINE",
+    "substance": "TMA-4",
+    "inchikey": null
+  },
+  "pihkal161": {
+    "code": "TMA-5",
+    "chemicalName": "2,3,6-TRIMETHOXYAMPHETAMINE",
+    "substance": "TMA-5",
+    "inchikey": null
+  },
+  "pihkal162": {
+    "code": "TMA-6",
+    "chemicalName": "2,4,6-TRIMETHOXYAMPHETAMINE",
+    "substance": "TMA-6",
+    "inchikey": "DDGNOUVDFKXADP-UHFFFAOYSA-N"
+  },
+  "pihkal163": {
+    "code": "3-TME",
+    "chemicalName": "3-THIOMETAESCALINE; 4,5-DIMETHOXY-3-ETHYLTHIOPHENETHYLAMINE",
+    "substance": "3-TME",
+    "inchikey": null
+  },
+  "pihkal164": {
+    "code": "4-TME",
+    "chemicalName": "4-THIOMETAESCALINE; 3-ETHOXY-5-METHOXY-4-METHYLTHIOPHENETHYLAMINE",
+    "substance": "4-TME",
+    "inchikey": null
+  },
+  "pihkal165": {
+    "code": "5-TME",
+    "chemicalName": "5-THIOMETAESCALINE; 3-ETHOXY-4-METHOXY-5-METHYLTHIOPHENETHYLAMINE",
+    "substance": "5-TME",
+    "inchikey": null
+  },
+  "pihkal166": {
+    "code": "2T-MMDA-3a",
+    "chemicalName": "3,4-METHYLENEDIOXY-2-METHYLTHIOAMPHETAMINE",
+    "substance": "2T-MMDA-3a",
+    "inchikey": "NMNCXGKWTVPITN-UHFFFAOYSA-N"
+  },
+  "pihkal167": {
+    "code": "4T-MMDA-2",
+    "chemicalName": "6-(2-AMINOPROPYL)-5-METHOXY-1,3-BENZOXATHIOL; 2-METHOXY-4,5-METHYLENETHIOOXYAMPHETAMINE",
+    "substance": "4T-MMDA-2",
+    "inchikey": "NCUQXFZYILOELC-UHFFFAOYSA-N"
+  },
+  "pihkal168": {
+    "code": "TMPEA",
+    "chemicalName": "2,4,5-TRIMETHOXYPHENETHYLAMINE",
+    "substance": "TMPEA",
+    "inchikey": "GKATTZLSNLYADI-UHFFFAOYSA-N",
+    "note": "2,4,5-trimethoxyphenethylamine. Mescaline is the 3,4,5 isomer and has its own chapter (#96 M)."
+  },
+  "pihkal169": {
+    "code": "2-TOET",
+    "chemicalName": "4-ETHYL-5-METHOXY-2-METHYLTHIOAMPHETAMINE",
+    "substance": "2-TOET",
+    "inchikey": "TZIBUOSWJBKVTA-UHFFFAOYSA-N"
+  },
+  "pihkal170": {
+    "code": "5-TOET",
+    "chemicalName": "4-ETHYL-2-METHOXY-5-METHYLTHIOAMPHETAMINE",
+    "substance": "5-TOET",
+    "inchikey": "CBSUPAQTEZIWSK-UHFFFAOYSA-N"
+  },
+  "pihkal171": {
+    "code": "2-TOM",
+    "chemicalName": "5-METHOXY-4-METHYL-2-METHYLTHIOAMPHETAMINE",
+    "substance": "2-TOM",
+    "inchikey": "CROYZNIEESCKGY-UHFFFAOYSA-N"
+  },
+  "pihkal172": {
+    "code": "5-TOM",
+    "chemicalName": "2-METHOXY-4-METHYL-5-METHYLTHIOAMPHETAMINE",
+    "substance": "5-TOM",
+    "inchikey": "DPPFTYBYPWHNRM-UHFFFAOYSA-N"
+  },
+  "pihkal173": {
+    "code": "TOMSO",
+    "chemicalName": "2-METHOXY-4-METHYL-5-METHYLSULFINYLAMPHETAMINE",
+    "substance": "TOMSO",
+    "inchikey": "LMQLBXOYCGXTOM-UHFFFAOYSA-N"
+  },
+  "pihkal174": {
+    "code": "TP",
+    "chemicalName": "THIOPROSCALINE; 3,5-DIMETHOXY-4-(n)-PROPYLTHIOPHENETHYLAMINE",
+    "substance": "TP",
+    "inchikey": null
+  },
+  "pihkal175": {
+    "code": "TRIS",
+    "chemicalName": "TRESCALINE; TRISESCALINE; 3,4,5-TRIETHOXYPHENETHYLAMINE",
+    "substance": "TRIS",
+    "inchikey": null
+  },
+  "pihkal176": {
+    "code": "3-TSB",
+    "chemicalName": "3-THIOSYMBESCALINE; 3-ETHOXY-5-ETHYLTHIO-4-METHOXYPHENETHYLAMINE",
+    "substance": "3-TSB",
+    "inchikey": "BTJFGKUKBHSKHI-UHFFFAOYSA-N"
+  },
+  "pihkal177": {
+    "code": "4-TSB",
+    "chemicalName": "4-THIOSYMBESCALINE; 3,5-DIETHOXY-4-METHYLTHIOPHENETHYLAMINE",
+    "substance": "4-TSB",
+    "inchikey": null
+  },
+  "pihkal178": {
+    "code": "3-T-TRIS",
+    "chemicalName": "3-THIOTRESCALINE; 3-THIOTRISESCALINE; 3,4-DIETHOXY-5-ETHYLTHIOPHENETHYLAMINE",
+    "substance": "3-T-TRIS",
+    "inchikey": "JSWFZFXPKROBKR-UHFFFAOYSA-N"
+  },
+  "pihkal179": {
+    "code": "4-T-TRIS",
+    "chemicalName": "4-THIOTRESCALINE; 4-THIOTRISESCALINE; 3,5-DIETHOXY-4-ETHYLTHIOPHENETHYLAMINE",
+    "substance": "4-T-TRIS",
+    "inchikey": "VFCYKJRATPCSED-UHFFFAOYSA-N"
+  },
+  "tihkal01": {
+    "code": "AL-LAD",
+    "substance": "AL-LAD",
+    "inchikey": "JCQLEPDZFXGHHQ-OXQOHEQNSA-N"
+  },
+  "tihkal02": {
+    "code": "DBT",
+    "substance": "DBT",
+    "inchikey": null
+  },
+  "tihkal03": {
+    "code": "DET",
+    "substance": "DET",
+    "inchikey": "LSSUMOWDTKZHHT-UHFFFAOYSA-N"
+  },
+  "tihkal04": {
+    "code": "DIPT",
+    "substance": "DIPT",
+    "inchikey": "ZRVAAGAZUWXRIP-UHFFFAOYSA-N"
+  },
+  "tihkal05": {
+    "code": "a,O-DMS",
+    "substance": "a,O-DMS",
+    "inchikey": null
+  },
+  "tihkal06": {
+    "code": "DMT",
+    "substance": "DMT",
+    "inchikey": "DMULVCHRPCFFGV-UHFFFAOYSA-N"
+  },
+  "tihkal07": {
+    "code": "2,a-DMT",
+    "substance": "2,a-DMT",
+    "inchikey": null
+  },
+  "tihkal08": {
+    "code": "a,N-DMT",
+    "substance": "a,N-DMT",
+    "inchikey": null
+  },
+  "tihkal09": {
+    "code": "DPT",
+    "substance": "DPT",
+    "inchikey": "BOOQTIHIKDDPRW-UHFFFAOYSA-N"
+  },
+  "tihkal10": {
+    "code": "EIPT",
+    "substance": "EIPT",
+    "inchikey": null
+  },
+  "tihkal11": {
+    "code": "a-ET",
+    "substance": "a-ET",
+    "inchikey": null
+  },
+  "tihkal12": {
+    "code": "ETH-LAD",
+    "substance": "ETH-LAD",
+    "inchikey": "MYNOUXJLOHVSMQ-DNVCBOLYSA-N"
+  },
+  "tihkal13": {
+    "code": "HARMALINE",
+    "substance": "Harmaline",
+    "inchikey": "RERZNCLIYCABFS-UHFFFAOYSA-N"
+  },
+  "tihkal14": {
+    "code": "HARMINE",
+    "substance": "Harmine",
+    "inchikey": "BXNJHAXVSOCGBA-UHFFFAOYSA-N"
+  },
+  "tihkal15": {
+    "code": "4-HO-DBT",
+    "substance": "4-HO-DBT",
+    "inchikey": "BDOJPNJIBDXWQQ-UHFFFAOYSA-N"
+  },
+  "tihkal16": {
+    "code": "4-HO-DET",
+    "substance": "4-HO-DET",
+    "inchikey": "OHHYMKDBKJPILO-UHFFFAOYSA-N"
+  },
+  "tihkal17": {
+    "code": "4-HO-DIPT",
+    "substance": "4-HO-DiPT",
+    "inchikey": "KBRYKXCBGISXQV-UHFFFAOYSA-N"
+  },
+  "tihkal18": {
+    "code": "4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER",
+    "substance": "Psilocin",
+    "inchikey": "SPCIYGNTAMCTRO-UHFFFAOYSA-N"
+  },
+  "tihkal19": {
+    "code": "5-HO-DMT",
+    "substance": "Bufotenin",
+    "inchikey": "VTTONGPRPXSUTJ-UHFFFAOYSA-N"
+  },
+  "tihkal20": {
+    "code": "4-HO-DPT",
+    "substance": "4-HO-DPT",
+    "inchikey": "MZLRMPTVOVJXLW-UHFFFAOYSA-N"
+  },
+  "tihkal21": {
+    "code": "4-HO-MET",
+    "substance": "4-HO-MET",
+    "inchikey": "ORWQBKPSGDRPPA-UHFFFAOYSA-N"
+  },
+  "tihkal22": {
+    "code": "4-HO-MIPT",
+    "substance": "4-HO-MiPT",
+    "inchikey": "RXKGHZCQFXXWFQ-UHFFFAOYSA-N"
+  },
+  "tihkal23": {
+    "code": "4-HO-MPT",
+    "substance": "4-HO-MPT",
+    "inchikey": "XFQDDPQGBLSNCN-UHFFFAOYSA-N"
+  },
+  "tihkal24": {
+    "code": "4-HO-PYR-T",
+    "substance": "4-HO-PYR-T",
+    "inchikey": "XASLPZWIPBCAPF-UHFFFAOYSA-N"
+  },
+  "tihkal25": {
+    "code": "IBOGAINE",
+    "substance": "Ibogaine",
+    "inchikey": "HSIBGVUMFOSJPD-CFDPKNGZSA-N"
+  },
+  "tihkal26": {
+    "code": "LSD-25",
+    "substance": "LSD",
+    "inchikey": "VAYOSLLFUXYJDT-RDTXWAMCSA-N"
+  },
+  "tihkal27": {
+    "code": "MBT",
+    "substance": "MBT",
+    "inchikey": null
+  },
+  "tihkal28": {
+    "code": "4,5-MDO-DIPT",
+    "substance": "4,5-MDO-DiPT",
+    "inchikey": "PTYYWSKZYOSFEK-UHFFFAOYSA-N"
+  },
+  "tihkal29": {
+    "code": "5,6-MDO-DIPT",
+    "substance": "5,6-MDO-DIPT",
+    "inchikey": null
+  },
+  "tihkal30": {
+    "code": "4,5-MDO-DMT",
+    "substance": "4,5-MDO-DMT",
+    "inchikey": null
+  },
+  "tihkal31": {
+    "code": "5,6-MDO-DMT",
+    "substance": "5,6-MDO-DMT",
+    "inchikey": "QHEIGHVZMWJQHB-UHFFFAOYSA-N"
+  },
+  "tihkal32": {
+    "code": "5,6-MDO-MIPT",
+    "substance": "5,6-MDO-MiPT",
+    "inchikey": "OZKGXOZBACDFIQ-UHFFFAOYSA-N"
+  },
+  "tihkal33": {
+    "code": "2-ME-DET",
+    "substance": "2-ME-DET",
+    "inchikey": "VVUATPWGKMGHGM-UHFFFAOYSA-N"
+  },
+  "tihkal34": {
+    "code": "2-ME-DMT",
+    "substance": "2-ME-DMT",
+    "inchikey": null
+  },
+  "tihkal35": {
+    "code": "MELATONIN",
+    "substance": "Melatonin",
+    "inchikey": "DRLFMBDRBRZALE-UHFFFAOYSA-N"
+  },
+  "tihkal36": {
+    "code": "5-MEO-DET",
+    "substance": "5-MeO-DET",
+    "inchikey": "KGDVJQQWCDDEPP-UHFFFAOYSA-N"
+  },
+  "tihkal37": {
+    "code": "5-MEO-DIPT",
+    "substance": "5-MeO-DiPT",
+    "inchikey": "DNBPMBJFRRVTSJ-UHFFFAOYSA-N"
+  },
+  "tihkal38": {
+    "code": "5-MEO-DMT",
+    "substance": "5-MeO-DMT",
+    "inchikey": "ZSTKHSQDNIGFLM-UHFFFAOYSA-N"
+  },
+  "tihkal39": {
+    "code": "4-MEO-MIPT",
+    "substance": "4-MeO-MiPT",
+    "inchikey": "BJIWLHLNPTWSGD-UHFFFAOYSA-N"
+  },
+  "tihkal40": {
+    "code": "5-MEO-MIPT",
+    "substance": "5-MeO-MiPT",
+    "inchikey": "HEDOODBJFVUQMS-UHFFFAOYSA-N"
+  },
+  "tihkal41": {
+    "code": "5,6-MEO-MIPT",
+    "substance": "5,6-MeO-MiPT",
+    "inchikey": "XXWWFLAMFUOAQG-UHFFFAOYSA-N"
+  },
+  "tihkal42": {
+    "code": "5-MEO-NMT",
+    "substance": "5-MeO-NMT",
+    "inchikey": "NFDDCRIHMZGWBP-UHFFFAOYSA-N"
+  },
+  "tihkal43": {
+    "code": "5-MEO-PYR-T",
+    "substance": "5-MeO-PYR-T",
+    "inchikey": "KAASYKNZNPWPQG-UHFFFAOYSA-N"
+  },
+  "tihkal44": {
+    "code": "6-MEO-THH",
+    "substance": "6-MeO-THH",
+    "inchikey": null
+  },
+  "tihkal45": {
+    "code": "5-MEO-TMT",
+    "substance": "5-MeO-TMT",
+    "inchikey": null
+  },
+  "tihkal46": {
+    "code": "5-MES-DMT",
+    "substance": "5-MES-DMT",
+    "inchikey": "YOGJZQGRTVMCPY-UHFFFAOYSA-N"
+  },
+  "tihkal47": {
+    "code": "MIPT",
+    "substance": "MIPT",
+    "inchikey": "KTQJVAJLJZIKKD-UHFFFAOYSA-N"
+  },
+  "tihkal48": {
+    "code": "a-MT",
+    "substance": "AMT",
+    "inchikey": "QSQQQURBVYWZKJ-UHFFFAOYSA-N"
+  },
+  "tihkal49": {
+    "code": "NET",
+    "substance": "NET",
+    "inchikey": null
+  },
+  "tihkal50": {
+    "code": "NMT",
+    "substance": "NMT",
+    "inchikey": null
+  },
+  "tihkal51": {
+    "code": "PRO-LAD",
+    "substance": "PRO-LAD",
+    "inchikey": "HZKYLVLOBYNKKM-OXQOHEQNSA-N"
+  },
+  "tihkal52": {
+    "code": "PYR-T",
+    "substance": "PYR-T",
+    "inchikey": null
+  },
+  "tihkal53": {
+    "code": "T",
+    "substance": "Tryptamine",
+    "inchikey": "APJYDQYYACXCRM-UHFFFAOYSA-N",
+    "note": "TiHKAL's code T is tryptamine itself. Methamphetamine also answers to the street name T, which is how this chapter's IV ladder landed on Methamphetamine."
+  },
+  "tihkal54": {
+    "code": "TETRAHYDROHARMINE",
+    "substance": "Tetrahydroharmine",
+    "inchikey": "ZXLDQJLIBNPEFJ-UHFFFAOYSA-N"
+  },
+  "tihkal55": {
+    "code": "a,N,O-TMS",
+    "substance": "a,N,O-TMS",
+    "inchikey": null
+  }
+}
