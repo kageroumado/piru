@@ -2453,7 +2453,7 @@
    "accessed": "2026-10-30",
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (codeine) and CYP2D6 in title/abstract",
-   "claim_sha1": "bb421d73bb15"
+   "claim_sha1": "2dd90ef6af9a"
   },
   {
    "table": "pharmacogenetics",
@@ -2466,7 +2466,7 @@
    "accessed": "2026-10-30",
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (codeine) and OPRM1 in a full-text paragraph that also names the substance",
-   "claim_sha1": "bb421d73bb15"
+   "claim_sha1": "2dd90ef6af9a"
   },
   {
    "table": "pharmacogenetics",
@@ -2714,6 +2714,32 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (sufentanil) and OPRM1 in a full-text paragraph that also names the substance",
    "claim_sha1": "f305430b74da"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Lean",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "CYP2D6"
+   },
+   "ref": "doi:10.1038/clpt.2011.287",
+   "accessed": "2026-10-30",
+   "via": "manual",
+   "evidence": "the row states that codeine pharmacogenetics apply to Lean (codeine/promethazine); CPIC's codeine guideline is that pharmacogenetics",
+   "claim_sha1": "bb421d73bb15"
+  },
+  {
+   "table": "pharmacogenetics",
+   "substance": "Lean",
+   "source": "peer-review-primary",
+   "match": {
+    "gene": "OPRM1"
+   },
+   "ref": "doi:10.1038/clpt.2011.287",
+   "accessed": "2026-10-30",
+   "via": "manual",
+   "evidence": "the row states that codeine pharmacogenetics apply to Lean (codeine/promethazine); CPIC's codeine guideline is that pharmacogenetics",
+   "claim_sha1": "bb421d73bb15"
   }
  ]
 }
