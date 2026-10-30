@@ -62,12 +62,12 @@ final class StagedDoseEditorModel {
     // MARK: - Derived values
 
     var enteredVolumeML: Double? {
-        guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v.isFinite, v > 0 else { return nil }
+        guard let v = DecimalInput.parse(volumeText), v.isFinite, v > 0 else { return nil }
         return Measurement(value: v, unit: volumeUnit).converted(to: .milliliters).value
     }
 
     var enteredABV: Double? {
-        guard let a = Double(abvText.replacingOccurrences(of: ",", with: ".")), a.isFinite, a > 0 else { return nil }
+        guard let a = DecimalInput.parse(abvText), a.isFinite, a > 0 else { return nil }
         return a
     }
 
@@ -113,9 +113,9 @@ final class StagedDoseEditorModel {
     ///
     /// String binding (not `value:format:`) is deliberate — the staged amount must
     /// update per keystroke for the live dose-level / breakdown reclassification,
-    /// and the suppress flag relies on owning the text. Invariant dot-decimal
-    /// first (the field is populated from `doseFormatted`, which always emits
-    /// "."), then a locale-aware parse for locale keyboards.
+    /// and the suppress flag relies on owning the text. The field is populated
+    /// from `doseFormatted` (a dot and at most two fraction digits, which
+    /// ``DecimalInput`` reads as a decimal in every locale).
     func commitAmountText(to item: inout StagedDose) {
         if suppressAmountSync {
             suppressAmountSync = false
@@ -126,10 +126,7 @@ final class StagedDoseEditorModel {
         // Typing a digit back takes the row out of that state.
         let trimmed = amountText.trimmingCharacters(in: .whitespaces)
         item.isUnknownAmount = trimmed.isEmpty
-        let parsed = Double(trimmed.replacingOccurrences(of: ",", with: "."))
-            ?? (try? Double(trimmed, format: .number))
-            ?? 0
-        item.amount = StagedDose.sanitizedAmount(parsed)
+        item.amount = StagedDose.sanitizedAmount(DecimalInput.parse(trimmed) ?? 0)
     }
 
     /// Show `amount` in the field without letting the sync write it back.
@@ -143,7 +140,7 @@ final class StagedDoseEditorModel {
     /// Bump the strength field by `delta`, reformatted. Alcohol %ABV clamps to
     /// 0–95; a mg/mL concentration has no upper bound.
     func adjustStrength(_ delta: Double, capability: ByVolumeDosing) {
-        let current = Double(abvText.replacingOccurrences(of: ",", with: ".")) ?? 0
+        let current = DecimalInput.parse(abvText) ?? 0
         let raw = max(0, ((current + delta) * 10).rounded() / 10)
         let next = capability.isMassPerVolume ? raw : min(95, raw)
         abvText = next > 0 ? ByVolumeDefaults.format(next) : ""
@@ -152,7 +149,7 @@ final class StagedDoseEditorModel {
 
     /// Bump the volume field by one `volumeStep` in the displayed unit, clamped ≥ 0.
     func adjustVolume(_ steps: Double, capability: ByVolumeDosing?) {
-        let current = Double(volumeText.replacingOccurrences(of: ",", with: ".")) ?? 0
+        let current = DecimalInput.parse(volumeText) ?? 0
         let next = max(0, current + steps * volumeStep(capability: capability))
         volumeText = next > 0 ? ByVolumeDefaults.format(next) : ""
         stepTick += 1
@@ -161,7 +158,7 @@ final class StagedDoseEditorModel {
     /// Re-render the volume field after the displayed unit changes.
     func convertVolumeText(from old: UnitVolume, to new: UnitVolume) {
         ByVolumeDefaults.preferredVolumeUnit = new
-        guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
+        guard let v = DecimalInput.parse(volumeText), v > 0 else { return }
         volumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
     }
 

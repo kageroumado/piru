@@ -235,9 +235,7 @@ final class StagedProductVolumeModel {
     /// The typed volume in mL, `nil` until the text is a positive number.
     var enteredML: Double? {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
-        guard let value = Double(trimmed.replacingOccurrences(of: ",", with: "."))
-            ?? (try? Double(trimmed, format: .number)),
-            value.isFinite, value > 0
+        guard let value = DecimalInput.parse(trimmed), value > 0
         else { return nil }
         return value
     }
