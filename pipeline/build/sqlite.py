@@ -364,12 +364,12 @@ SOURCES = [
     (
         "piru-curated",
         "Piru editors",
-        "Maintained by Piru's editors.",
+        "Written by Piru's editors in the app's open-source repository. GPL-3.0.",
     ),
     (
         "peer-review-primary",
         "Published literature",
-        "Cited journal articles.",
+        "Values read from journal articles; each row links the paper it came from.",
     ),
     # dose.wiki leads the community sources. Only its expert-reviewed articles
     # contribute doses, durations, half-lives and bindings, and a defect reported
@@ -378,25 +378,44 @@ SOURCES = [
     #
     # Any change to the order of this list needs `currentSourceOrderMigration`
     # in SubstanceStore.swift bumped, or existing installs keep the old order.
-    ("dosewiki", "dose.wiki", "Community encyclopedia. CC0."),
+    ("dosewiki", "dose.wiki", "Community encyclopedia at dose.wiki. CC0 1.0."),
     # drug.community (shown as substance.wiki) ranks above the volunteer wikis
     # so its dose ladders win where dose.wiki has no reviewed article;
     # PsychonautWiki and TripSit backfill any gaps. Genuine dose bugs are
     # corrected in the piru-curated layer (which outranks everything).
     ("drug.community", "substance.wiki", "Community database."),
-    ("psychonautwiki", "PsychonautWiki", "Community wiki. CC BY-SA 4.0."),
-    ("tripsit", "TripSit", "Community database."),
-    ("dailymed", "DailyMed", "U.S. product labels."),
+    ("psychonautwiki", "PsychonautWiki", "Community wiki at psychonautwiki.org. CC BY-SA 4.0."),
+    ("tripsit", "TripSit", "TripSit's drug database at tripsit.me. Free for non-commercial use."),
+    (
+        "dailymed",
+        "DailyMed",
+        "U.S. product labels from DailyMed, the National Library of Medicine's label database.",
+    ),
     (
         "erowid-pihkal",
         "PiHKAL (Erowid)",
-        "Reference text by Alexander and Ann Shulgin.",
+        "Alexander and Ann Shulgin's PiHKAL (1991), Book II as published by Erowid. "
+        "Non-commercial reproduction.",
     ),
-    ("erowid-tihkal", "TiHKAL (Erowid)", "Reference text by Alexander and Ann Shulgin."),
-    ("pdsp", "PDSP Ki database", "Receptor affinity database."),
-    ("pubchem", "PubChem", "Open chemistry database."),
-    ("wikidata", "Wikidata", "Open knowledge base. CC0."),
-    ("dea-orange-book", "DEA Orange Book", "U.S. controlled-substance schedules."),
+    (
+        "erowid-tihkal",
+        "TiHKAL (Erowid)",
+        "Alexander and Ann Shulgin's TiHKAL (1997), Book II as published by Erowid. "
+        "Non-commercial reproduction.",
+    ),
+    (
+        "pdsp",
+        "PDSP Ki database",
+        "Receptor affinity measurements from the NIMH Psychoactive Drug Screening Program.",
+    ),
+    ("pubchem", "PubChem", "The National Library of Medicine's open chemistry database."),
+    ("wikidata", "Wikidata", "Open knowledge base at wikidata.org. CC0 1.0."),
+    (
+        "dea-orange-book",
+        "DEA Orange Book",
+        "U.S. Drug Enforcement Administration controlled-substance schedules. "
+        "U.S. government work, public domain.",
+    ),
     # Appended at lowest priority so they only FILL GAPS (existing recreational
     # sources win on conflict). pyrls/medtap supply regulatory status,
     # indications, contraindications, and per-compound mechanism for the
@@ -410,17 +429,18 @@ SOURCES = [
     (
         "medtap",
         "MedTAP",
-        "U.S. product labels.",
+        "U.S. FDA structured product labels, as compiled by MedTAP.",
     ),
     (
         "benzos-cited",
         "Benzodiazepine equivalence table",
-        "Community table.",
+        "A benzodiazepine table in TripSit's format. A diazepam equivalence is cited "
+        "only where it agrees with the Ashton Manual.",
     ),
     (
         "nps-datahub",
         "NPS Data Hub",
-        "Chemistry catalogue.",
+        "Forensic chemistry catalog at nps-datahub.com, used for identifiers only.",
     ),
     # Lowest priority: a Chinese-language source whose text only WINS when the
     # app runs in Chinese (the resolver floats matching-language text above
@@ -428,7 +448,7 @@ SOURCES = [
     (
         "freeodwiki",
         "FreeOD Wiki",
-        "Chinese-language community wiki. CC BY-SA 4.0.",
+        "Chinese-language community wiki at freeodwiki.org. CC BY-SA 4.0.",
     ),
 ]
 
@@ -629,18 +649,31 @@ FREEOD_NAME_OVERRIDE = {
     "死藤": "Banisteriopsis Caapi",
     "秘鲁火炬仙人掌": "Peruvian Torch",
     "乌羽玉": "Lophophora Williamsii",
-    "二氟莫达菲尼": "Flmodafinil",
-    "氯苄雷司": "Clobenzorex",
     "水虉草": "Phalaris",
     "亚硝酸酯": "Poppers",
     # Chinese-titled pages whose English/street name mined to a junk fragment
     # (a single letter or a number split out of a systematic name), which then
-    # became a bogus canonical and, for Heroin, a duplicate substance.
-    "海洛因": "Heroin",
-    "替扎尼定": "Tizanidine",
+    # became a bogus canonical.
     "甲基己胺": "DMAA",
     "艾斯卡林": "Escaline",
     "可可": "Cocoa",
+    # FreeOD-only pages with no Latin name among their own names. Each English
+    # name is the one the page itself gives: its IUPAC name (oxymorphazone,
+    # 6-hydrazono-17-methyl-4,5-epoxymorphinan-3,14-diol), the binomial its
+    # text states (Lophophora fricii, Amanita mappa = A. citrina, Anadenanthera
+    # peregrina = yopo), or its stated composition (dextromethorphan 10-15 mg +
+    # guaifenesin 100 mg).
+    "羟吗啡酮腙": "Oxymorphazone",
+    "复方甘草片": "Compound Licorice Tablets",
+    "愈美片": "Dextromethorphan-Guaifenesin",
+    "橙黄鹅膏": "Amanita Citrina",
+    "翠冠玉": "Lophophora Diffusa",
+    "银冠玉": "Lophophora Fricii",
+    "鹅花树": "Tabernanthe Iboga",
+    "大果柯拉豆": "Yopo",
+    # Titled 鼠尾草素乙 (salvinorin B), but the article and its IUPAC name are
+    # salvinorin B methoxymethyl ether (2-MMSB).
+    "鼠尾草素乙": "2-Methoxymethyl-salvinorin B",
 }
 
 # FreeOD index/category/genus pages that aren't individual substances — skipped
