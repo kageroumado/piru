@@ -1750,10 +1750,11 @@
     "name" : "2,4-DMA",
     "routes" : [
       {
+        "dosageText" : "greater than 60 mg.",
         "doses" : {
           "common" : {
-            "lower" : 45,
-            "upper" : 75
+            "lower" : 60,
+            "upper" : 60
           }
         },
         "route" : "oral",
@@ -1988,6 +1989,7 @@
     "name" : "2,5-DMA",
     "routes" : [
       {
+        "dosageText" : "80 - 160 mg.",
         "doses" : {
           "common" : {
             "lower" : 80,
@@ -2029,6 +2031,7 @@
     "name" : "2,a-DMT",
     "routes" : [
       {
+        "dosageText" : "300 - 500 mgs",
         "doses" : {
           "common" : {
             "lower" : 300,
@@ -2365,10 +2368,11 @@
     "name" : "2-BR-4,5-MDA",
     "routes" : [
       {
+        "dosageText" : "350 mg.",
         "doses" : {
           "common" : {
-            "lower" : 262.5,
-            "upper" : 437.5
+            "lower" : 350,
+            "upper" : 350
           }
         },
         "route" : "oral",
@@ -3028,6 +3032,7 @@
     "name" : "2-ME-DET",
     "routes" : [
       {
+        "dosageText" : "80 - 120 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 80,
@@ -3070,6 +3075,7 @@
     "name" : "2-ME-DMT",
     "routes" : [
       {
+        "dosageText" : "50 - 100 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 50,
@@ -3814,10 +3820,11 @@
     "name" : "2-TIM",
     "routes" : [
       {
+        "dosageText" : "greater than 240 mg.",
         "doses" : {
           "common" : {
-            "lower" : 180,
-            "upper" : 300
+            "lower" : 240,
+            "upper" : 240
           }
         },
         "route" : "oral",
@@ -3849,10 +3856,11 @@
     "name" : "2-TOET",
     "routes" : [
       {
+        "dosageText" : "greater than 65 mg.",
         "doses" : {
           "common" : {
-            "lower" : 48.75,
-            "upper" : 81.25
+            "lower" : 65,
+            "upper" : 65
           }
         },
         "route" : "oral",
@@ -3884,6 +3892,7 @@
     "name" : "2-TOM",
     "routes" : [
       {
+        "dosageText" : "60 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -5124,6 +5133,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "12 - 24 mg.",
         "doses" : {
           "common" : {
             "lower" : 12,
@@ -5385,6 +5395,7 @@
     "name" : "2C-C",
     "routes" : [
       {
+        "dosageText" : "20 - 40 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -5465,6 +5476,7 @@
     "name" : "2C-D",
     "routes" : [
       {
+        "dosageText" : "20 - 60 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -5586,6 +5598,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "10 - 25 mg.",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -5635,10 +5648,11 @@
     "name" : "2C-F",
     "routes" : [
       {
+        "dosageText" : "greater than 250 mg.",
         "doses" : {
           "common" : {
-            "lower" : 187.5,
-            "upper" : 312.5
+            "lower" : 250,
+            "upper" : 250
           }
         },
         "route" : "oral",
@@ -5679,6 +5693,7 @@
     "name" : "2C-G",
     "routes" : [
       {
+        "dosageText" : "20 - 35 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -5729,6 +5744,7 @@
     "name" : "2C-G-3",
     "routes" : [
       {
+        "dosageText" : "16 - 25 mg.",
         "doses" : {
           "common" : {
             "lower" : 16,
@@ -5808,6 +5824,7 @@
     "name" : "2C-G-5",
     "routes" : [
       {
+        "dosageText" : "10 - 16 mg.",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -5857,6 +5874,7 @@
     "name" : "2C-G-N",
     "routes" : [
       {
+        "dosageText" : "20 - 40 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -5998,6 +6016,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "14 - 22 mg.",
         "doses" : {
           "common" : {
             "lower" : 14,
@@ -6101,6 +6120,7 @@
     "name" : "2C-N",
     "routes" : [
       {
+        "dosageText" : "100 - 150 mg.",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -6150,10 +6170,11 @@
     "name" : "2C-O-4",
     "routes" : [
       {
+        "dosageText" : "greater than 60 mg.",
         "doses" : {
           "common" : {
-            "lower" : 45,
-            "upper" : 75
+            "lower" : 60,
+            "upper" : 60
           }
         },
         "route" : "oral",
@@ -6270,6 +6291,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "6 - 10 mg.",
         "doses" : {
           "common" : {
             "lower" : 6,
@@ -6318,10 +6340,11 @@
     "name" : "2C-SE",
     "routes" : [
       {
+        "dosageText" : "perhaps 100 mg.",
         "doses" : {
           "common" : {
-            "lower" : 75,
-            "upper" : 125
+            "lower" : 100,
+            "upper" : 100
           }
         },
         "duration" : {
@@ -6368,6 +6391,7 @@
     "name" : "2C-T",
     "routes" : [
       {
+        "dosageText" : "60 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -6417,6 +6441,7 @@
     "name" : "2C-T-13",
     "routes" : [
       {
+        "dosageText" : "25 - 40 mg.",
         "doses" : {
           "common" : {
             "lower" : 25,
@@ -6463,10 +6488,11 @@
     "name" : "2C-T-15",
     "routes" : [
       {
+        "dosageText" : "greater than 30 mg.",
         "doses" : {
           "common" : {
-            "lower" : 22.5,
-            "upper" : 37.5
+            "lower" : 30,
+            "upper" : 30
           }
         },
         "route" : "oral",
@@ -6504,6 +6530,7 @@
     "name" : "2C-T-17",
     "routes" : [
       {
+        "dosageText" : "60 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -6595,6 +6622,7 @@
     "name" : "2C-T-2",
     "routes" : [
       {
+        "dosageText" : "12 - 25 mg.",
         "doses" : {
           "common" : {
             "lower" : 12,
@@ -6644,6 +6672,7 @@
     "name" : "2C-T-21",
     "routes" : [
       {
+        "dosageText" : "8 - 12 mg.",
         "doses" : {
           "common" : {
             "lower" : 8,
@@ -6695,6 +6724,7 @@
     "name" : "2C-T-4",
     "routes" : [
       {
+        "dosageText" : "8 - 20 mg.",
         "doses" : {
           "common" : {
             "lower" : 8,
@@ -6792,6 +6822,7 @@
     "name" : "2C-T-7",
     "routes" : [
       {
+        "dosageText" : "10 - 30 mg.",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -6839,6 +6870,7 @@
     "name" : "2C-T-8",
     "routes" : [
       {
+        "dosageText" : "30 - 50 mg.",
         "doses" : {
           "common" : {
             "lower" : 30,
@@ -6885,6 +6917,7 @@
     "name" : "2C-T-9",
     "routes" : [
       {
+        "dosageText" : "60 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -6930,10 +6963,11 @@
     "name" : "2T-MMDA-3a",
     "routes" : [
       {
+        "dosageText" : "greater than 12 mg.",
         "doses" : {
           "common" : {
-            "lower" : 9,
-            "upper" : 15
+            "lower" : 12,
+            "upper" : 12
           }
         },
         "route" : "oral",
@@ -8787,10 +8821,11 @@
     "name" : "3-T-TRIS",
     "routes" : [
       {
+        "dosageText" : "greater than 160 mg.",
         "doses" : {
           "common" : {
-            "lower" : 120,
-            "upper" : 200
+            "lower" : 160,
+            "upper" : 160
           }
         },
         "route" : "oral",
@@ -8824,10 +8859,11 @@
     "name" : "3-TASB",
     "routes" : [
       {
+        "dosageText" : "about 160 mg.",
         "doses" : {
           "common" : {
-            "lower" : 120,
-            "upper" : 200
+            "lower" : 160,
+            "upper" : 160
           }
         },
         "duration" : {
@@ -8864,6 +8900,7 @@
     "name" : "3-TE",
     "routes" : [
       {
+        "dosageText" : "60 - 80 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -8904,10 +8941,11 @@
     "name" : "3-TIM",
     "routes" : [
       {
+        "dosageText" : "greater than 240 mg.",
         "doses" : {
           "common" : {
-            "lower" : 180,
-            "upper" : 300
+            "lower" : 240,
+            "upper" : 240
           }
         },
         "route" : "oral",
@@ -8941,6 +8979,7 @@
     "name" : "3-TM",
     "routes" : [
       {
+        "dosageText" : "60 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -8981,6 +9020,7 @@
     "name" : "3-TME",
     "routes" : [
       {
+        "dosageText" : "60 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -9020,10 +9060,11 @@
     "name" : "3-TSB",
     "routes" : [
       {
+        "dosageText" : "greater than 200 mg.",
         "doses" : {
           "common" : {
-            "lower" : 150,
-            "upper" : 250
+            "lower" : 200,
+            "upper" : 200
           }
         },
         "route" : "oral",
@@ -9058,6 +9099,7 @@
     "name" : "3C-BZ",
     "routes" : [
       {
+        "dosageText" : "25 - 200 mg.",
         "doses" : {
           "common" : {
             "lower" : 25,
@@ -9102,6 +9144,7 @@
     "name" : "3C-E",
     "routes" : [
       {
+        "dosageText" : "30 - 60 mg.",
         "doses" : {
           "common" : {
             "lower" : 30,
@@ -9366,10 +9409,11 @@
     "name" : "4,5-MDO-DIPT",
     "routes" : [
       {
+        "dosageText" : "> 25 mgs",
         "doses" : {
           "common" : {
-            "lower" : 18.75,
-            "upper" : 31.25
+            "lower" : 25,
+            "upper" : 25
           }
         },
         "route" : "oral",
@@ -10008,6 +10052,7 @@
     "name" : "4-BR-3,5-DMA",
     "routes" : [
       {
+        "dosageText" : "4 - 10 mg.",
         "doses" : {
           "common" : {
             "lower" : 4,
@@ -10329,6 +10374,7 @@
     "name" : "4-D",
     "routes" : [
       {
+        "dosageText" : "200 - 400 mg (as the sulfate salt); 178 - 356 mg (as the hydrochloride salt).",
         "doses" : {
           "common" : {
             "lower" : 200,
@@ -11011,10 +11057,11 @@
     "name" : "4-HO-DBT",
     "routes" : [
       {
+        "dosageText" : ">20 mg, orally",
         "doses" : {
           "common" : {
-            "lower" : 15,
-            "upper" : 25
+            "lower" : 20,
+            "upper" : 20
           }
         },
         "route" : "oral",
@@ -11044,6 +11091,7 @@
     "name" : "4-HO-DET",
     "routes" : [
       {
+        "dosageText" : "10 - 25 mg, orally (as the indolol, the acetate or the phosphate)",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -11084,6 +11132,7 @@
     "name" : "4-HO-DIPT",
     "routes" : [
       {
+        "dosageText" : "15 - 20 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 15,
@@ -11124,6 +11173,7 @@
     "name" : "4-HO-DMT \/ 4-HO-DMT PHOSPHATE ESTER",
     "routes" : [
       {
+        "dosageText" : "10 - 20 mg, orally (as the indolol, the acetate or the phosphate)",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -11369,6 +11419,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "10 - 20 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -11456,6 +11507,7 @@
     "name" : "4-HO-MIPT",
     "routes" : [
       {
+        "dosageText" : "12 - 25 mg, orally (as the indolol or the acetate)",
         "doses" : {
           "common" : {
             "lower" : 12,
@@ -11680,10 +11732,11 @@
     "name" : "4-HO-PYR-T",
     "routes" : [
       {
+        "dosageText" : ">20 mg",
         "doses" : {
           "common" : {
-            "lower" : 15,
-            "upper" : 25
+            "lower" : 20,
+            "upper" : 20
           }
         },
         "route" : "oral",
@@ -11896,6 +11949,7 @@
     "name" : "4-MA",
     "routes" : [
       {
+        "dosageText" : "50 - 80 mg.",
         "doses" : {
           "common" : {
             "lower" : 50,
@@ -12051,6 +12105,7 @@
     "name" : "4-MEO-MIPT",
     "routes" : [
       {
+        "dosageText" : "20 - 30 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -12524,10 +12579,11 @@
     "name" : "4-T-TRIS",
     "routes" : [
       {
+        "dosageText" : "greater than 200 mg.",
         "doses" : {
           "common" : {
-            "lower" : 150,
-            "upper" : 250
+            "lower" : 200,
+            "upper" : 200
           }
         },
         "route" : "oral",
@@ -12561,6 +12617,7 @@
     "name" : "4-TASB",
     "routes" : [
       {
+        "dosageText" : "60 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -12655,10 +12712,11 @@
     "name" : "4-TIM",
     "routes" : [
       {
+        "dosageText" : "greater than 160 mg.",
         "doses" : {
           "common" : {
-            "lower" : 120,
-            "upper" : 200
+            "lower" : 160,
+            "upper" : 160
           }
         },
         "route" : "oral",
@@ -12689,6 +12747,7 @@
     "name" : "4-TME",
     "routes" : [
       {
+        "dosageText" : "60 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -12726,10 +12785,11 @@
     "name" : "4-TSB",
     "routes" : [
       {
+        "dosageText" : "greater than 240 mg.",
         "doses" : {
           "common" : {
-            "lower" : 180,
-            "upper" : 300
+            "lower" : 240,
+            "upper" : 240
           }
         },
         "route" : "oral",
@@ -13033,10 +13093,11 @@
     "name" : "4T-MMDA-2",
     "routes" : [
       {
+        "dosageText" : "greater than 25 mg.",
         "doses" : {
           "common" : {
-            "lower" : 18.75,
-            "upper" : 31.25
+            "lower" : 25,
+            "upper" : 25
           }
         },
         "route" : "oral",
@@ -13197,10 +13258,11 @@
     "name" : "5,6-MDO-DMT",
     "routes" : [
       {
+        "dosageText" : "Greater than 5 mg",
         "doses" : {
           "common" : {
-            "lower" : 3.75,
-            "upper" : 6.25
+            "lower" : 5,
+            "upper" : 5
           }
         },
         "route" : "oral",
@@ -13229,10 +13291,11 @@
     "name" : "5,6-MDO-MIPT",
     "routes" : [
       {
+        "dosageText" : "> 50 mg, orally",
         "doses" : {
           "common" : {
-            "lower" : 37.5,
-            "upper" : 62.5
+            "lower" : 50,
+            "upper" : 50
           }
         },
         "route" : "oral",
@@ -13260,10 +13323,11 @@
     "name" : "5,6-MEO-MIPT",
     "routes" : [
       {
+        "dosageText" : "> 75 mg, orally",
         "doses" : {
           "common" : {
-            "lower" : 56.25,
-            "upper" : 93.75
+            "lower" : 75,
+            "upper" : 75
           }
         },
         "route" : "oral",
@@ -14299,6 +14363,7 @@
     "name" : "5-HO-DMT",
     "routes" : [
       {
+        "dosageText" : "8 - 16 mg, intravenously",
         "doses" : {
           "common" : {
             "lower" : 8,
@@ -14907,6 +14972,7 @@
     "name" : "5-MEO-DET",
     "routes" : [
       {
+        "dosageText" : "1 - 3 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 1,
@@ -15014,6 +15080,7 @@
     "name" : "5-MeO-DiPT",
     "routes" : [
       {
+        "dosageText" : "6 - 12 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 6,
@@ -15104,6 +15171,7 @@
     "name" : "5-MEO-DMT",
     "routes" : [
       {
+        "dosageText" : "6 - 20 mg, smoked",
         "doses" : {
           "common" : {
             "lower" : 6,
@@ -15135,6 +15203,17 @@
           }
         },
         "route" : "insufflation",
+        "unit" : "mg"
+      },
+      {
+        "dosageText" : "2 - 3 mg, i.v.",
+        "doses" : {
+          "common" : {
+            "lower" : 2,
+            "upper" : 3
+          }
+        },
+        "route" : "intravenous",
         "unit" : "mg"
       }
     ],
@@ -15467,6 +15546,18 @@
     "name" : "5-MeO-MiPT",
     "routes" : [
       {
+        "dosageText" : "12 - 20 mg, smoked",
+        "doses" : {
+          "common" : {
+            "lower" : 12,
+            "upper" : 20
+          }
+        },
+        "route" : "inhalation",
+        "unit" : "mg"
+      },
+      {
+        "dosageText" : "4 - 6 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 4,
@@ -15477,39 +15568,6 @@
           "total" : {
             "max" : 360,
             "min" : 240
-          }
-        },
-        "route" : "inhalation",
-        "unit" : "mg"
-      },
-      {
-        "doses" : {
-          "common" : {
-            "lower" : 4,
-            "upper" : 8
-          },
-          "light" : {
-            "lower" : 1,
-            "upper" : 3
-          },
-          "strong" : {
-            "lower" : 8,
-            "upper" : 12
-          },
-          "threshold" : 0.5
-        },
-        "duration" : {
-          "afterglow" : {
-            "max" : 600,
-            "min" : 120
-          },
-          "onset" : {
-            "max" : 30,
-            "min" : 30
-          },
-          "total" : {
-            "max" : 420,
-            "min" : 180
           }
         },
         "route" : "oral",
@@ -15665,6 +15723,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "0.5 - 2 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 0.5,
@@ -15699,6 +15758,7 @@
     "name" : "5-MEO-TMT",
     "routes" : [
       {
+        "dosageText" : "75 - 150 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 75,
@@ -15736,6 +15796,7 @@
     "name" : "5-MES-DMT",
     "routes" : [
       {
+        "dosageText" : "15 - 30 mg",
         "doses" : {
           "common" : {
             "lower" : 15,
@@ -16142,10 +16203,11 @@
     "name" : "5-TASB",
     "routes" : [
       {
+        "dosageText" : "about 160 mg.",
         "doses" : {
           "common" : {
-            "lower" : 120,
-            "upper" : 200
+            "lower" : 160,
+            "upper" : 160
           }
         },
         "duration" : {
@@ -16230,10 +16292,11 @@
     "name" : "5-TME",
     "routes" : [
       {
+        "dosageText" : "greater than 200 mg.",
         "doses" : {
           "common" : {
-            "lower" : 150,
-            "upper" : 250
+            "lower" : 200,
+            "upper" : 200
           }
         },
         "route" : "oral",
@@ -16262,6 +16325,7 @@
     "name" : "5-TOET",
     "routes" : [
       {
+        "dosageText" : "12 - 25 mg.",
         "doses" : {
           "common" : {
             "lower" : 12,
@@ -16303,6 +16367,7 @@
     "name" : "5-TOM",
     "routes" : [
       {
+        "dosageText" : "30 - 50 mg.",
         "doses" : {
           "common" : {
             "lower" : 30,
@@ -17420,6 +17485,7 @@
     "name" : "a,N,O-TMS",
     "routes" : [
       {
+        "dosageText" : "10 - 20 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -17457,6 +17523,7 @@
     "name" : "a,N-DMT",
     "routes" : [
       {
+        "dosageText" : "50 - 100 mg",
         "doses" : {
           "common" : {
             "lower" : 50,
@@ -17495,6 +17562,7 @@
     "name" : "a,O-DMS",
     "routes" : [
       {
+        "dosageText" : "2.5 - 4.5 mg",
         "doses" : {
           "common" : {
             "lower" : 2.5,
@@ -17559,6 +17627,7 @@
     "name" : "a-ET",
     "routes" : [
       {
+        "dosageText" : "100 - 150 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -17614,6 +17683,7 @@
     "name" : "a-MT",
     "routes" : [
       {
+        "dosageText" : "15 - 30 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 15,
@@ -18822,10 +18892,11 @@
     "name" : "AEM",
     "routes" : [
       {
+        "dosageText" : "greater than 220 mg.",
         "doses" : {
           "common" : {
-            "lower" : 165,
-            "upper" : 275
+            "lower" : 220,
+            "upper" : 220
           }
         },
         "route" : "oral",
@@ -19139,6 +19210,7 @@
     "name" : "AL",
     "routes" : [
       {
+        "dosageText" : "20 - 35 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -19227,6 +19299,7 @@
     "name" : "AL-LAD",
     "routes" : [
       {
+        "dosageText" : "80 - 160 micrograms",
         "doses" : {
           "common" : {
             "lower" : 80,
@@ -19413,6 +19486,7 @@
     "name" : "ALEPH",
     "routes" : [
       {
+        "dosageText" : "5 - 10 mg.",
         "doses" : {
           "common" : {
             "lower" : 5,
@@ -19463,6 +19537,7 @@
     "name" : "ALEPH-2",
     "routes" : [
       {
+        "dosageText" : "4 - 8 mg",
         "doses" : {
           "common" : {
             "lower" : 4,
@@ -19509,6 +19584,7 @@
     "name" : "ALEPH-4",
     "routes" : [
       {
+        "dosageText" : "7 - 12 mg.",
         "doses" : {
           "common" : {
             "lower" : 7,
@@ -19552,10 +19628,11 @@
     "name" : "ALEPH-6",
     "routes" : [
       {
+        "dosageText" : "greater than 40 mg.",
         "doses" : {
           "common" : {
-            "lower" : 30,
-            "upper" : 50
+            "lower" : 40,
+            "upper" : 40
           }
         },
         "route" : "oral",
@@ -19590,6 +19667,7 @@
     "name" : "ALEPH-7",
     "routes" : [
       {
+        "dosageText" : "4 - 7 mg.",
         "doses" : {
           "common" : {
             "lower" : 4,
@@ -21384,6 +21462,7 @@
     "name" : "ASB",
     "routes" : [
       {
+        "dosageText" : "200 - 280 mg.",
         "doses" : {
           "common" : {
             "lower" : 200,
@@ -21994,10 +22073,11 @@
     "name" : "B",
     "routes" : [
       {
+        "dosageText" : "greater than 150 mg.",
         "doses" : {
           "common" : {
-            "lower" : 112.5,
-            "upper" : 187.5
+            "lower" : 150,
+            "upper" : 150
           }
         },
         "route" : "oral",
@@ -22244,10 +22324,11 @@
     "name" : "BEATRICE",
     "routes" : [
       {
+        "dosageText" : "above 30 mg.",
         "doses" : {
           "common" : {
-            "lower" : 22.5,
-            "upper" : 37.5
+            "lower" : 30,
+            "upper" : 30
           }
         },
         "duration" : {
@@ -22732,6 +22813,7 @@
     "name" : "beta-D",
     "routes" : [
       {
+        "dosageText" : "200 - 400 mg (as the sulfate salt); 178 - 356 mg (as the hydrochloride salt).",
         "doses" : {
           "common" : {
             "lower" : 200,
@@ -22955,10 +23037,11 @@
     "name" : "BIS-TOM",
     "routes" : [
       {
+        "dosageText" : "greater than 160 mg.",
         "doses" : {
           "common" : {
-            "lower" : 120,
-            "upper" : 200
+            "lower" : 160,
+            "upper" : 160
           }
         },
         "route" : "oral",
@@ -23341,6 +23424,7 @@
     "name" : "BOB",
     "routes" : [
       {
+        "dosageText" : "10 - 20 mg.",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -23412,6 +23496,7 @@
     "name" : "BOD",
     "routes" : [
       {
+        "dosageText" : "15 - 25 mg.",
         "doses" : {
           "common" : {
             "lower" : 15,
@@ -23461,6 +23546,7 @@
     "name" : "BOH",
     "routes" : [
       {
+        "dosageText" : "80 - 120 mg.",
         "doses" : {
           "common" : {
             "lower" : 80,
@@ -23507,10 +23593,11 @@
     "name" : "BOHD",
     "routes" : [
       {
+        "dosageText" : "greater than 50 mg.",
         "doses" : {
           "common" : {
-            "lower" : 37.5,
-            "upper" : 62.5
+            "lower" : 50,
+            "upper" : 50
           }
         },
         "route" : "oral",
@@ -23542,10 +23629,11 @@
     "name" : "BOM",
     "routes" : [
       {
+        "dosageText" : "greater than 200 mg.",
         "doses" : {
           "common" : {
-            "lower" : 150,
-            "upper" : 250
+            "lower" : 200,
+            "upper" : 200
           }
         },
         "route" : "oral",
@@ -25192,6 +25280,7 @@
       "大麻",
       "大麻草"
     ],
+    "defaultRoute" : "inhalation",
     "effects" : [
       "Euphoria and relaxation",
       "Altered perception of time and space",
@@ -28144,6 +28233,7 @@
       "古柯鹼",
       "可卡因"
     ],
+    "defaultRoute" : "insufflation",
     "effects" : [
       "Abnormal heartbeat",
       "Anxiety",
@@ -28620,6 +28710,7 @@
     "name" : "CPM",
     "routes" : [
       {
+        "dosageText" : "60 - 80 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -30996,6 +31087,7 @@
     "name" : "DESOXY",
     "routes" : [
       {
+        "dosageText" : "40 - 120 mg.",
         "doses" : {
           "common" : {
             "lower" : 40,
@@ -31136,6 +31228,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "50-100 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 50,
@@ -32652,6 +32745,7 @@
     "name" : "DIPT",
     "routes" : [
       {
+        "dosageText" : "25 - 100 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 25,
@@ -33272,6 +33366,7 @@
     "name" : "DMCPA",
     "routes" : [
       {
+        "dosageText" : "15 - 20 mg.",
         "doses" : {
           "common" : {
             "lower" : 15,
@@ -33318,10 +33413,11 @@
     "name" : "DME",
     "routes" : [
       {
+        "dosageText" : "greater than 115 mg.",
         "doses" : {
           "common" : {
-            "lower" : 86.25,
-            "upper" : 143.75
+            "lower" : 115,
+            "upper" : 115
           }
         },
         "route" : "oral",
@@ -33355,6 +33451,7 @@
     "name" : "DMMDA",
     "routes" : [
       {
+        "dosageText" : "30 - 75 mg.",
         "doses" : {
           "common" : {
             "lower" : 30,
@@ -33402,10 +33499,11 @@
     "name" : "DMMDA-2",
     "routes" : [
       {
+        "dosageText" : "about 50 mg.",
         "doses" : {
           "common" : {
-            "lower" : 37.5,
-            "upper" : 62.5
+            "lower" : 50,
+            "upper" : 50
           }
         },
         "route" : "oral",
@@ -33517,10 +33615,11 @@
     "name" : "DMPEA",
     "routes" : [
       {
+        "dosageText" : "greater than 1000 mg.",
         "doses" : {
           "common" : {
-            "lower" : 750,
-            "upper" : 1250
+            "lower" : 1000,
+            "upper" : 1000
           }
         },
         "route" : "oral",
@@ -33561,6 +33660,7 @@
       "N-(2-(1H-Indol-3-yl)ethyl)-N,N-dimethylamine (ACD\/Name 4.0)",
       "二甲基色胺"
     ],
+    "defaultRoute" : "inhalation",
     "effects" : [
       "(with 150 mg, orally) \"No observable psychic or vegetative effects.\"",
       "8B Geometry - Exposure to inner mechanics of consciousness",
@@ -33683,10 +33783,11 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : ">350 mg (orally)",
         "doses" : {
           "common" : {
-            "lower" : 262.5,
-            "upper" : 437.5
+            "lower" : 350,
+            "upper" : 350
           }
         },
         "duration" : {
@@ -33792,10 +33893,11 @@
     "name" : "DOAM",
     "routes" : [
       {
+        "dosageText" : "greater than 10 mg.",
         "doses" : {
           "common" : {
-            "lower" : 7.5,
-            "upper" : 12.5
+            "lower" : 10,
+            "upper" : 10
           }
         },
         "route" : "oral",
@@ -33824,6 +33926,7 @@
     "name" : "DOB",
     "routes" : [
       {
+        "dosageText" : "1.0 - 3.0 mg.",
         "doses" : {
           "common" : {
             "lower" : 1,
@@ -33892,6 +33995,7 @@
     "name" : "DOC",
     "routes" : [
       {
+        "dosageText" : "1.5 - 3.0 mg.",
         "doses" : {
           "common" : {
             "lower" : 1.5,
@@ -33934,6 +34038,7 @@
     "name" : "DOEF",
     "routes" : [
       {
+        "dosageText" : "2 - 3.5 mg.",
         "doses" : {
           "common" : {
             "lower" : 2,
@@ -33972,6 +34077,7 @@
     "name" : "DOET",
     "routes" : [
       {
+        "dosageText" : "2 - 6 mg.",
         "doses" : {
           "common" : {
             "lower" : 2,
@@ -34013,6 +34119,7 @@
     "name" : "DOI",
     "routes" : [
       {
+        "dosageText" : "1.5 - 3.0 mg.",
         "doses" : {
           "common" : {
             "lower" : 1.5,
@@ -34111,6 +34218,7 @@
     "name" : "DOM",
     "routes" : [
       {
+        "dosageText" : "3 - 10 mg.",
         "doses" : {
           "common" : {
             "lower" : 3,
@@ -34155,6 +34263,7 @@
     "name" : "DON",
     "routes" : [
       {
+        "dosageText" : "3.0 - 4.5 mg.",
         "doses" : {
           "common" : {
             "lower" : 3,
@@ -34290,6 +34399,7 @@
     "name" : "DOPR",
     "routes" : [
       {
+        "dosageText" : "2.5 - 5.0 mg.",
         "doses" : {
           "common" : {
             "lower" : 2.5,
@@ -34549,6 +34659,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "100 - 250 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -35091,6 +35202,7 @@
     "name" : "E; ESCALINE",
     "routes" : [
       {
+        "dosageText" : "40 - 60 mg.",
         "doses" : {
           "common" : {
             "lower" : 40,
@@ -35260,6 +35372,7 @@
     "name" : "EIPT",
     "routes" : [
       {
+        "dosageText" : "24 - 40 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 24,
@@ -35446,10 +35559,11 @@
     "name" : "EMM",
     "routes" : [
       {
+        "dosageText" : "greater than 50 mg.",
         "doses" : {
           "common" : {
-            "lower" : 37.5,
-            "upper" : 62.5
+            "lower" : 50,
+            "upper" : 50
           }
         },
         "route" : "oral",
@@ -36456,6 +36570,7 @@
     "name" : "ETH-LAD",
     "routes" : [
       {
+        "dosageText" : "40 to 150 micrograms, orally",
         "doses" : {
           "common" : {
             "lower" : 40,
@@ -36587,10 +36702,11 @@
     "name" : "ETHYL-J",
     "routes" : [
       {
+        "dosageText" : "greater than 90 mg.",
         "doses" : {
           "common" : {
-            "lower" : 67.5,
-            "upper" : 112.5
+            "lower" : 90,
+            "upper" : 90
           }
         },
         "route" : "oral",
@@ -37444,10 +37560,11 @@
     "name" : "F-2",
     "routes" : [
       {
+        "dosageText" : "greater than 15 mg.",
         "doses" : {
           "common" : {
-            "lower" : 11.25,
-            "upper" : 18.75
+            "lower" : 15,
+            "upper" : 15
           }
         },
         "route" : "oral",
@@ -37475,10 +37592,11 @@
     "name" : "F-22",
     "routes" : [
       {
+        "dosageText" : "greater than 15 mg.",
         "doses" : {
           "common" : {
-            "lower" : 11.25,
-            "upper" : 18.75
+            "lower" : 15,
+            "upper" : 15
           }
         },
         "route" : "oral",
@@ -37956,6 +38074,7 @@
     "name" : "FLEA",
     "routes" : [
       {
+        "dosageText" : "100 - 160 mg.",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -39447,6 +39566,7 @@
     "name" : "G-3",
     "routes" : [
       {
+        "dosageText" : "12 - 18 mg.",
         "doses" : {
           "common" : {
             "lower" : 12,
@@ -39517,6 +39637,7 @@
     "name" : "G-5",
     "routes" : [
       {
+        "dosageText" : "14 - 20 mg.",
         "doses" : {
           "common" : {
             "lower" : 14,
@@ -39836,6 +39957,7 @@
     "name" : "GANESHA",
     "routes" : [
       {
+        "dosageText" : "20 - 32 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -41484,6 +41606,7 @@
     "name" : "HARMALINE",
     "routes" : [
       {
+        "dosageText" : "150 - 300 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 150,
@@ -41521,10 +41644,11 @@
     "name" : "HARMINE",
     "routes" : [
       {
+        "dosageText" : "> 300 mg",
         "doses" : {
           "common" : {
-            "lower" : 225,
-            "upper" : 375
+            "lower" : 300,
+            "upper" : 300
           }
         },
         "route" : "oral",
@@ -42512,6 +42636,7 @@
     "name" : "HOT-17",
     "routes" : [
       {
+        "dosageText" : "70 - 120 mg.",
         "doses" : {
           "common" : {
             "lower" : 70,
@@ -42550,6 +42675,7 @@
     "name" : "HOT-2",
     "routes" : [
       {
+        "dosageText" : "10 - 18 mg.",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -42591,6 +42717,7 @@
     "name" : "HOT-7",
     "routes" : [
       {
+        "dosageText" : "15 - 25 mg.",
         "doses" : {
           "common" : {
             "lower" : 15,
@@ -43435,10 +43562,11 @@
     "name" : "IDNNA",
     "routes" : [
       {
+        "dosageText" : "greater than 2.6 mg.",
         "doses" : {
           "common" : {
-            "lower" : 1.9500000000000002,
-            "upper" : 3.25
+            "lower" : 2.6,
+            "upper" : 2.6
           }
         },
         "route" : "oral",
@@ -43743,10 +43871,11 @@
     "name" : "IM",
     "routes" : [
       {
+        "dosageText" : "greater than 400 mg.",
         "doses" : {
           "common" : {
-            "lower" : 300,
-            "upper" : 500
+            "lower" : 400,
+            "upper" : 400
           }
         },
         "route" : "oral",
@@ -44232,6 +44361,7 @@
     "name" : "IP",
     "routes" : [
       {
+        "dosageText" : "40 - 80 mg.",
         "doses" : {
           "common" : {
             "lower" : 40,
@@ -44412,10 +44542,11 @@
     "name" : "IRIS",
     "routes" : [
       {
+        "dosageText" : "greater than 9 mg.",
         "doses" : {
           "common" : {
-            "lower" : 6.75,
-            "upper" : 11.25
+            "lower" : 9,
+            "upper" : 9
           }
         },
         "route" : "oral",
@@ -44956,6 +45087,7 @@
     "name" : "J",
     "routes" : [
       {
+        "dosageText" : "150 - 230 mg.",
         "doses" : {
           "common" : {
             "lower" : 150,
@@ -47413,10 +47545,11 @@
     "name" : "LOPHOPHINE",
     "routes" : [
       {
+        "dosageText" : "greater than 200 mg.",
         "doses" : {
           "common" : {
-            "lower" : 150,
-            "upper" : 250
+            "lower" : 200,
+            "upper" : 200
           }
         },
         "route" : "oral",
@@ -48354,6 +48487,7 @@
     "name" : "M",
     "routes" : [
       {
+        "dosageText" : "200-400 mg (as the sulfate salt), 178-356 mg (as the hydrochloride salt)  [Erowid Note: The original text read \"178-256\" but this was an error. The error was found by Bo and verified with Shulgin. See the Erowid Mescaline Dosage page for a more complete discussion of the forms of mescaline] .",
         "doses" : {
           "common" : {
             "lower" : 200,
@@ -48517,10 +48651,11 @@
     "name" : "MADAM-6",
     "routes" : [
       {
+        "dosageText" : "greater than 280 mg.",
         "doses" : {
           "common" : {
-            "lower" : 210,
-            "upper" : 350
+            "lower" : 280,
+            "upper" : 280
           }
         },
         "route" : "oral",
@@ -48793,6 +48928,7 @@
     "name" : "MAL",
     "routes" : [
       {
+        "dosageText" : "40 - 65 mg.",
         "doses" : {
           "common" : {
             "lower" : 40,
@@ -49033,6 +49169,7 @@
     "name" : "MBT",
     "routes" : [
       {
+        "dosageText" : "250 - 400 mg",
         "doses" : {
           "common" : {
             "lower" : 250,
@@ -49162,6 +49299,7 @@
     "name" : "MDA",
     "routes" : [
       {
+        "dosageText" : "80 - 160 mg.",
         "doses" : {
           "common" : {
             "lower" : 80,
@@ -49258,10 +49396,11 @@
     "name" : "MDAL",
     "routes" : [
       {
+        "dosageText" : "greater than 180 mg.",
         "doses" : {
           "common" : {
-            "lower" : 135,
-            "upper" : 225
+            "lower" : 180,
+            "upper" : 180
           }
         },
         "route" : "oral",
@@ -49290,10 +49429,11 @@
     "name" : "MDBU",
     "routes" : [
       {
+        "dosageText" : "greater than 40 mg.",
         "doses" : {
           "common" : {
-            "lower" : 30,
-            "upper" : 50
+            "lower" : 40,
+            "upper" : 40
           }
         },
         "route" : "oral",
@@ -49321,10 +49461,11 @@
     "name" : "MDBZ",
     "routes" : [
       {
+        "dosageText" : "greater than 150 mg.",
         "doses" : {
           "common" : {
-            "lower" : 112.5,
-            "upper" : 187.5
+            "lower" : 150,
+            "upper" : 150
           }
         },
         "route" : "oral",
@@ -49352,10 +49493,11 @@
     "name" : "MDCPM",
     "routes" : [
       {
+        "dosageText" : "greater than 10 mg.",
         "doses" : {
           "common" : {
-            "lower" : 7.5,
-            "upper" : 12.5
+            "lower" : 10,
+            "upper" : 10
           }
         },
         "route" : "oral",
@@ -49383,10 +49525,11 @@
     "name" : "MDDM",
     "routes" : [
       {
+        "dosageText" : "greater than 150 mg.",
         "doses" : {
           "common" : {
-            "lower" : 112.5,
-            "upper" : 187.5
+            "lower" : 150,
+            "upper" : 150
           }
         },
         "route" : "oral",
@@ -49414,6 +49557,7 @@
     "name" : "MDE",
     "routes" : [
       {
+        "dosageText" : "100 - 200 mg.",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -49504,10 +49648,11 @@
     "name" : "MDHOET",
     "routes" : [
       {
+        "dosageText" : "greater than 50 mg.",
         "doses" : {
           "common" : {
-            "lower" : 37.5,
-            "upper" : 62.5
+            "lower" : 50,
+            "upper" : 50
           }
         },
         "route" : "oral",
@@ -49535,10 +49680,11 @@
     "name" : "MDIP",
     "routes" : [
       {
+        "dosageText" : "greater than 250 mg.",
         "doses" : {
           "common" : {
-            "lower" : 187.5,
-            "upper" : 312.5
+            "lower" : 250,
+            "upper" : 250
           }
         },
         "route" : "oral",
@@ -49629,6 +49775,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "80 - 150 mg.",
         "doses" : {
           "common" : {
             "lower" : 80,
@@ -49736,10 +49883,11 @@
     "name" : "MDMC \/ EDMA [Note: MDMC is a Shulgin pet name, see commentary below.]",
     "routes" : [
       {
+        "dosageText" : "200 or more mg.",
         "doses" : {
           "common" : {
-            "lower" : 150,
-            "upper" : 250
+            "lower" : 200,
+            "upper" : 200
           }
         },
         "duration" : {
@@ -49773,10 +49921,11 @@
     "name" : "MDMEO",
     "routes" : [
       {
+        "dosageText" : "greater than 180 mgs.",
         "doses" : {
           "common" : {
-            "lower" : 135,
-            "upper" : 225
+            "lower" : 180,
+            "upper" : 180
           }
         },
         "route" : "oral",
@@ -49804,10 +49953,11 @@
     "name" : "MDMEOET",
     "routes" : [
       {
+        "dosageText" : "greater than 180 mg.",
         "doses" : {
           "common" : {
-            "lower" : 135,
-            "upper" : 225
+            "lower" : 180,
+            "upper" : 180
           }
         },
         "route" : "oral",
@@ -49835,10 +49985,11 @@
     "name" : "MDMP",
     "routes" : [
       {
+        "dosageText" : "above 110 mg.",
         "doses" : {
           "common" : {
-            "lower" : 82.5,
-            "upper" : 137.5
+            "lower" : 110,
+            "upper" : 110
           }
         },
         "duration" : {
@@ -49873,6 +50024,7 @@
     "name" : "MDOH",
     "routes" : [
       {
+        "dosageText" : "100 - 160 mg.",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -49987,10 +50139,11 @@
     "name" : "MDPEA",
     "routes" : [
       {
+        "dosageText" : "greater than 300 mg.",
         "doses" : {
           "common" : {
-            "lower" : 225,
-            "upper" : 375
+            "lower" : 300,
+            "upper" : 300
           }
         },
         "route" : "oral",
@@ -50042,6 +50195,7 @@
     "name" : "MDPH",
     "routes" : [
       {
+        "dosageText" : "160 - 240 mg.",
         "doses" : {
           "common" : {
             "lower" : 160,
@@ -50130,10 +50284,11 @@
     "name" : "MDPL",
     "routes" : [
       {
+        "dosageText" : "greater than 150 mg.",
         "doses" : {
           "common" : {
-            "lower" : 112.5,
-            "upper" : 187.5
+            "lower" : 150,
+            "upper" : 150
           }
         },
         "route" : "oral",
@@ -50185,10 +50340,11 @@
     "name" : "MDPR",
     "routes" : [
       {
+        "dosageText" : "greater than 200 mg.",
         "doses" : {
           "common" : {
-            "lower" : 150,
-            "upper" : 250
+            "lower" : 200,
+            "upper" : 200
           }
         },
         "route" : "oral",
@@ -50313,6 +50469,7 @@
     "name" : "ME",
     "routes" : [
       {
+        "dosageText" : "200 - 350 mg.",
         "doses" : {
           "common" : {
             "lower" : 200,
@@ -50541,10 +50698,11 @@
     "name" : "MEDA",
     "routes" : [
       {
+        "dosageText" : "greater than 200 mg.",
         "doses" : {
           "common" : {
-            "lower" : 150,
-            "upper" : 250
+            "lower" : 200,
+            "upper" : 200
           }
         },
         "route" : "oral",
@@ -50633,10 +50791,11 @@
     "name" : "MEE",
     "routes" : [
       {
+        "dosageText" : "greater than 4.6 mg.",
         "doses" : {
           "common" : {
-            "lower" : 3.4499999999999997,
-            "upper" : 5.75
+            "lower" : 4.6,
+            "upper" : 4.6
           }
         },
         "route" : "oral",
@@ -50775,6 +50934,7 @@
     "name" : "Melatonin",
     "routes" : [
       {
+        "dosageText" : "1 - 10 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 1,
@@ -50814,6 +50974,7 @@
     "name" : "MEM",
     "routes" : [
       {
+        "dosageText" : "20 - 50 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -50947,10 +51108,11 @@
     "name" : "MEPEA",
     "routes" : [
       {
+        "dosageText" : "300 mg or greater.",
         "doses" : {
           "common" : {
-            "lower" : 225,
-            "upper" : 375
+            "lower" : 300,
+            "upper" : 300
           }
         },
         "route" : "oral",
@@ -51339,10 +51501,11 @@
     "name" : "Mescaline",
     "routes" : [
       {
+        "dosageText" : "greater than 300 mg.",
         "doses" : {
           "common" : {
-            "lower" : 225,
-            "upper" : 375
+            "lower" : 300,
+            "upper" : 300
           }
         },
         "route" : "oral",
@@ -51445,6 +51608,7 @@
     "name" : "META-DOB",
     "routes" : [
       {
+        "dosageText" : "50 - 100 mg.",
         "doses" : {
           "common" : {
             "lower" : 50,
@@ -51484,10 +51648,11 @@
     "name" : "META-DOT",
     "routes" : [
       {
+        "dosageText" : "greater than 35 mg.",
         "doses" : {
           "common" : {
-            "lower" : 26.25,
-            "upper" : 43.75
+            "lower" : 35,
+            "upper" : 35
           }
         },
         "route" : "oral",
@@ -52573,10 +52738,11 @@
     "name" : "METHYL-DMA",
     "routes" : [
       {
+        "dosageText" : "above 250 mg.",
         "doses" : {
           "common" : {
-            "lower" : 187.5,
-            "upper" : 312.5
+            "lower" : 250,
+            "upper" : 250
           }
         },
         "route" : "oral",
@@ -52604,10 +52770,11 @@
     "name" : "METHYL-DOB",
     "routes" : [
       {
+        "dosageText" : "greater than 8 mg.",
         "doses" : {
           "common" : {
-            "lower" : 6,
-            "upper" : 10
+            "lower" : 8,
+            "upper" : 8
           }
         },
         "route" : "oral",
@@ -52639,6 +52806,7 @@
     "name" : "METHYL-J",
     "routes" : [
       {
+        "dosageText" : "180 - 210 mg.",
         "doses" : {
           "common" : {
             "lower" : 180,
@@ -52680,10 +52848,11 @@
     "name" : "METHYL-K",
     "routes" : [
       {
+        "dosageText" : "greater than 100 mg.",
         "doses" : {
           "common" : {
-            "lower" : 75,
-            "upper" : 125
+            "lower" : 100,
+            "upper" : 100
           }
         },
         "route" : "oral",
@@ -52711,10 +52880,11 @@
     "name" : "METHYL-MA",
     "routes" : [
       {
+        "dosageText" : "greater than 100 mg.",
         "doses" : {
           "common" : {
-            "lower" : 75,
-            "upper" : 125
+            "lower" : 100,
+            "upper" : 100
           }
         },
         "route" : "oral",
@@ -52744,10 +52914,11 @@
     "name" : "METHYL-MMDA-2",
     "routes" : [
       {
+        "dosageText" : "greater than 70 mg.",
         "doses" : {
           "common" : {
-            "lower" : 52.5,
-            "upper" : 87.5
+            "lower" : 70,
+            "upper" : 70
           }
         },
         "route" : "oral",
@@ -54246,6 +54417,7 @@
         "unit" : "mg"
       },
       {
+        "dosageText" : "10 - 25 mg, orally",
         "doses" : {
           "common" : {
             "lower" : 10,
@@ -54601,6 +54773,7 @@
     "name" : "MMDA",
     "routes" : [
       {
+        "dosageText" : "100 - 250 mg.",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -54640,6 +54813,7 @@
     "name" : "MMDA-2",
     "routes" : [
       {
+        "dosageText" : "25 - 50 mg.",
         "doses" : {
           "common" : {
             "lower" : 25,
@@ -54687,6 +54861,7 @@
     "name" : "MMDA-3a",
     "routes" : [
       {
+        "dosageText" : "20 - 80 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -54731,10 +54906,11 @@
     "name" : "MMDA-3b",
     "routes" : [
       {
+        "dosageText" : "greater than 80 mg.",
         "doses" : {
           "common" : {
-            "lower" : 60,
-            "upper" : 100
+            "lower" : 80,
+            "upper" : 80
           }
         },
         "route" : "oral",
@@ -54766,10 +54942,11 @@
     "name" : "MME",
     "routes" : [
       {
+        "dosageText" : "40 mg and above.",
         "doses" : {
           "common" : {
-            "lower" : 30,
-            "upper" : 50
+            "lower" : 40,
+            "upper" : 40
           }
         },
         "duration" : {
@@ -55075,10 +55252,11 @@
     "name" : "MP",
     "routes" : [
       {
+        "dosageText" : "greater than 240 mg.",
         "doses" : {
           "common" : {
-            "lower" : 180,
-            "upper" : 300
+            "lower" : 240,
+            "upper" : 240
           }
         },
         "route" : "oral",
@@ -55176,10 +55354,11 @@
     "name" : "MPM",
     "routes" : [
       {
+        "dosageText" : "30 mg or more.",
         "doses" : {
           "common" : {
-            "lower" : 22.5,
-            "upper" : 37.5
+            "lower" : 30,
+            "upper" : 30
           }
         },
         "route" : "oral",
@@ -59561,10 +59740,11 @@
     "name" : "ORTHO-DOT",
     "routes" : [
       {
+        "dosageText" : "greater than 25 mg.",
         "doses" : {
           "common" : {
-            "lower" : 18.75,
-            "upper" : 31.25
+            "lower" : 25,
+            "upper" : 25
           }
         },
         "route" : "oral",
@@ -60126,6 +60306,7 @@
     "name" : "P",
     "routes" : [
       {
+        "dosageText" : "30 - 60 mg.",
         "doses" : {
           "common" : {
             "lower" : 30,
@@ -61005,10 +61186,11 @@
     "name" : "PE",
     "routes" : [
       {
+        "dosageText" : "greater than 150 mg.",
         "doses" : {
           "common" : {
-            "lower" : 112.5,
-            "upper" : 187.5
+            "lower" : 150,
+            "upper" : 150
           }
         },
         "route" : "oral",
@@ -61108,10 +61290,11 @@
     "name" : "PEA",
     "routes" : [
       {
+        "dosageText" : "greater than 1600 mg.",
         "doses" : {
           "common" : {
-            "lower" : 1200,
-            "upper" : 2000
+            "lower" : 1600,
+            "upper" : 1600
           }
         },
         "route" : "oral",
@@ -62769,6 +62952,7 @@
   {
     "aliases" : [
       "N-Nicotinoyl-GABA",
+      "N-nicotinoyl-γ-aminobutyric acid",
       "Pikamilon",
       "Pycamilon"
     ],
@@ -63794,6 +63978,7 @@
     "name" : "PRO-LAD",
     "routes" : [
       {
+        "dosageText" : "100 - 200 micrograms, orally",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -64412,10 +64597,11 @@
     "name" : "PROPYNYL",
     "routes" : [
       {
+        "dosageText" : "80 mg or more.",
         "doses" : {
           "common" : {
-            "lower" : 60,
-            "upper" : 100
+            "lower" : 80,
+            "upper" : 80
           }
         },
         "duration" : {
@@ -64594,10 +64780,11 @@
     "name" : "psi-2C-T-4",
     "routes" : [
       {
+        "dosageText" : "above 12 mg.",
         "doses" : {
           "common" : {
-            "lower" : 9,
-            "upper" : 15
+            "lower" : 12,
+            "upper" : 12
           }
         },
         "route" : "oral",
@@ -64633,6 +64820,7 @@
     "name" : "psi-DOM",
     "routes" : [
       {
+        "dosageText" : "15 - 25 mg.",
         "doses" : {
           "common" : {
             "lower" : 15,
@@ -67702,10 +67890,11 @@
     "name" : "SB",
     "routes" : [
       {
+        "dosageText" : "above 240 mg.",
         "doses" : {
           "common" : {
-            "lower" : 180,
-            "upper" : 300
+            "lower" : 240,
+            "upper" : 240
           }
         },
         "route" : "oral",
@@ -69322,10 +69511,11 @@
     "name" : "T",
     "routes" : [
       {
+        "dosageText" : "250 mg, intravenously",
         "doses" : {
           "common" : {
-            "lower" : 187.5,
-            "upper" : 312.5
+            "lower" : 250,
+            "upper" : 250
           }
         },
         "route" : "intravenous",
@@ -69375,10 +69565,11 @@
     "name" : "TA",
     "routes" : [
       {
+        "dosageText" : "probably above 50 mg.",
         "doses" : {
           "common" : {
-            "lower" : 37.5,
-            "upper" : 62.5
+            "lower" : 50,
+            "upper" : 50
           }
         },
         "route" : "oral",
@@ -69563,6 +69754,7 @@
     "name" : "TB",
     "routes" : [
       {
+        "dosageText" : "60 - 120 mg.",
         "doses" : {
           "common" : {
             "lower" : 60,
@@ -69676,6 +69868,7 @@
     "name" : "TE",
     "routes" : [
       {
+        "dosageText" : "20 - 30 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -69970,10 +70163,11 @@
     "name" : "TETRAHYDROHARMINE",
     "routes" : [
       {
+        "dosageText" : "300 mg, orally",
         "doses" : {
           "common" : {
-            "lower" : 225,
-            "upper" : 375
+            "lower" : 300,
+            "upper" : 300
           }
         },
         "route" : "oral",
@@ -71281,6 +71475,7 @@
     "name" : "TM",
     "routes" : [
       {
+        "dosageText" : "20 - 40 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -71318,6 +71513,7 @@
     "name" : "TMA",
     "routes" : [
       {
+        "dosageText" : "100 - 250 mg.",
         "doses" : {
           "common" : {
             "lower" : 100,
@@ -71356,6 +71552,7 @@
     "name" : "TMA-2",
     "routes" : [
       {
+        "dosageText" : "20 - 40 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -71398,10 +71595,11 @@
     "name" : "TMA-3",
     "routes" : [
       {
+        "dosageText" : "greater than 100 mg.",
         "doses" : {
           "common" : {
-            "lower" : 75,
-            "upper" : 125
+            "lower" : 100,
+            "upper" : 100
           }
         },
         "route" : "oral",
@@ -71438,10 +71636,11 @@
     "name" : "TMA-4",
     "routes" : [
       {
+        "dosageText" : "greater than 80 mg.",
         "doses" : {
           "common" : {
-            "lower" : 60,
-            "upper" : 100
+            "lower" : 80,
+            "upper" : 80
           }
         },
         "duration" : {
@@ -71482,10 +71681,11 @@
     "name" : "TMA-5",
     "routes" : [
       {
+        "dosageText" : "30 mg or more.",
         "doses" : {
           "common" : {
-            "lower" : 22.5,
-            "upper" : 37.5
+            "lower" : 30,
+            "upper" : 30
           }
         },
         "duration" : {
@@ -71520,6 +71720,7 @@
     "name" : "TMA-6",
     "routes" : [
       {
+        "dosageText" : "25 - 50 mg.",
         "doses" : {
           "common" : {
             "lower" : 25,
@@ -71639,10 +71840,11 @@
     "name" : "TOMSO",
     "routes" : [
       {
+        "dosageText" : "greater than 150 mg (alone) or 100 - 150 mg (with alcohol).",
         "doses" : {
           "common" : {
-            "lower" : 112.5,
-            "upper" : 187.5
+            "lower" : 150,
+            "upper" : 150
           }
         },
         "duration" : {
@@ -71774,6 +71976,7 @@
     "name" : "TP",
     "routes" : [
       {
+        "dosageText" : "20 - 25 mg.",
         "doses" : {
           "common" : {
             "lower" : 20,
@@ -72344,10 +72547,11 @@
     "name" : "TRIS",
     "routes" : [
       {
+        "dosageText" : "greater than 240 mg.",
         "doses" : {
           "common" : {
-            "lower" : 180,
-            "upper" : 300
+            "lower" : 240,
+            "upper" : 240
           }
         },
         "route" : "oral",

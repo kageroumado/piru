@@ -89,12 +89,21 @@ struct ErowidSource {
 
         var routes: [JSONRoute] = []
         if let d = dosageText {
-            let (dose, route, unit) = parseDosage(d)
+            // One route per clause that names its own route: "4 - 6 mg, orally;
+            // 12 - 20 mg, smoked" is two doses on two routes, and reading the line
+            // as one filed the oral figure under inhalation. The DURATION line
+            // describes the first clause.
             let duration = durationText.flatMap { parseDuration($0) }
-            if !dose.isEmpty || duration != nil {
-                routes.append(JSONRoute(
-                    route: route, unit: unit, doses: dose, duration: duration,
-                ))
+            for (index, clause) in dosageClauses(d).enumerated() {
+                let (dose, route, unit) = parseDosage(clause.text)
+                guard !routes.contains(where: { $0.route == route }) else { continue }
+                let clauseDuration = index == 0 ? duration : nil
+                if !dose.isEmpty || clauseDuration != nil {
+                    routes.append(JSONRoute(
+                        route: route, unit: unit, doses: dose, duration: clauseDuration,
+                        dosageText: clause.text,
+                    ))
+                }
             }
         }
 
@@ -245,27 +254,46 @@ struct ErowidSource {
         return text
     }
 
+    /// The DOSAGE line split into clauses. A `;` starts a new clause only when
+    /// the clause names a route of its own; otherwise it qualifies the one
+    /// before ("200 - 400 mg (as the sulfate salt); 178 - 356 mg (as the
+    /// hydrochloride)" is one oral dose in two salts) and the line stays whole.
+    private func dosageClauses(_ text: String) -> [(text: String, route: String?)] {
+        let parts = text.split(separator: ";").map { $0.trimmingCharacters(in: .whitespaces) }
+        let routed = parts.map { (text: $0, route: Self.routeWord(in: $0)) }
+        guard parts.count > 1, routed.dropFirst().allSatisfy({ $0.route != nil }) else {
+            return [(text: text, route: Self.routeWord(in: text))]
+        }
+        return routed
+    }
+
+    /// The route a clause names, or nil when it names none.
+    private static func routeWord(in text: String) -> String? {
+        let lower = " " + text.lowercased() + " "
+        if lower.contains("smoked") || lower.contains("smoking") || lower.contains("inhalation") { return "inhalation" }
+        if lower.contains("intravenous") || lower.contains(" iv ") || lower.contains("i.v.") { return "intravenous" }
+        if lower.contains("intramuscular") || lower.contains(" im ") || lower.contains("i.m.") { return "intramuscular" }
+        if lower.contains("sublingual") { return "sublingual" }
+        if lower.contains("insufflated") || lower.contains("intranasal") { return "insufflation" }
+        if lower.contains("orally") || lower.contains("oral") { return "oral" }
+        return nil
+    }
+
     /// Parse text like "20 - 40 mg" or "8 mg, orally" or "150 mg" into a
     /// `JSONDoseRange`. Returns (dose, route, unit). Default route is oral
     /// since Shulgin almost always specifies it explicitly only when not.
+    ///
+    /// A single figure is stored as itself (common lower = upper). The book
+    /// gives one number; a band around it would be a range nobody measured.
+    /// A no-activity bound ("greater than 60 mg") still parses here, and the
+    /// raw clause travels in `dosageText` so the SQLite build can refuse it.
     private func parseDosage(_ text: String) -> (JSONDoseRange, String, String) {
-        var route = "oral"
-        let lower = text.lowercased()
-        if lower.contains("smoked") || lower.contains("inhalation") { route = "inhalation" } else if lower.contains("intravenous") || lower.contains("iv ") { route = "intravenous" } else if lower.contains("intramuscular") || lower.contains("im ") { route = "intramuscular" } else if lower.contains("sublingual") { route = "sublingual" } else if lower.contains("insufflated") || lower.contains("intranasal") { route = "insufflation" }
-
+        let route = Self.routeWord(in: text) ?? "oral"
         var dose = JSONDoseRange()
         var unit = "mg"
         if let parsed = DoseParser.parse(text) {
             unit = parsed.unit
-            if let hi = parsed.max {
-                dose.common = JSONRange(parsed.min, hi)
-            } else {
-                // Single value → treat as common midpoint with ±25% spread so
-                // the iOS UI shows a usable level indicator.
-                let lo = parsed.min * 0.75
-                let high = parsed.min * 1.25
-                dose.common = JSONRange(lo, high)
-            }
+            dose.common = JSONRange(parsed.min, parsed.max ?? parsed.min)
         }
         return (dose, route, unit)
     }
