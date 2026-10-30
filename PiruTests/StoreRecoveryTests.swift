@@ -59,6 +59,96 @@ struct StoreRecoveryTests {
         #expect(StoreRecovery.userDataCount(at: url) == 4)
     }
 
+    /// Seeds a store holding only `rows` (no dose entries) and lets go of it.
+    private func seedStore(at url: URL, rows: @escaping (ModelContext) -> Void) throws {
+        try autoreleasepool {
+            let container = try ModelContainer(
+                for: Schema(PiruSchema.models),
+                configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            rows(ctx)
+            try ctx.save()
+        }
+    }
+
+    @Test
+    func `A store holding only a session counts as data-bearing`() throws {
+        let url = tmpStoreURL()
+        try seedStore(at: url) { $0.insert(Session(startDate: .now)) }
+        #expect(StoreRecovery.userDataCount(at: url) == 1)
+        #expect(StoreRecovery.launchUserDataCount(at: url) == 1)
+    }
+
+    @Test
+    func `A store holding only inventory, a custom substance and a lab value counts every row`() throws {
+        let url = tmpStoreURL()
+        try seedStore(at: url) { ctx in
+            ctx.insert(InventoryItem(substance: "Caffeine", baselineQuantity: 20))
+            ctx.insert(CustomSubstanceRecord(name: "Homebrew"))
+            ctx.insert(LabMeasurement())
+        }
+        #expect(StoreRecovery.userDataCount(at: url) == 3)
+        #expect(StoreRecovery.launchUserDataCount(at: url) == 3)
+    }
+
+    @Test
+    func `Rows the app writes on its own leave a store empty`() throws {
+        let url = tmpStoreURL()
+        try seedStore(at: url) { ctx in
+            ctx.insert(NotificationPreferences())
+            ctx.insert(ToleranceState(target: "gaba-a"))
+        }
+        #expect(StoreRecovery.userDataCount(at: url) == 0)
+        #expect(StoreRecovery.launchUserDataCount(at: url) == 0)
+    }
+
+    @Test
+    func `Every schema model counts except the derived ones`() {
+        let counted = Set(StoreRecovery.userDataModels.map { String(describing: $0) })
+        let derived = Set(StoreRecovery.derivedModels.map { String(describing: $0) })
+        let schema = Set(PiruSchema.models.map { String(describing: $0) })
+        #expect(counted.union(derived) == schema)
+        #expect(counted.isDisjoint(with: derived))
+        #expect(derived == ["ToleranceState", "NotificationPreferences"])
+    }
+
+    @Test
+    func `The row-count probe opens the store read-only`() {
+        let url = tmpStoreURL()
+        #expect(StoreRecovery.probeConfiguration(at: url).allowsSave == false)
+    }
+
+    @Test
+    func `Counting a store with an uncheckpointed WAL writes nothing to it`() throws {
+        // Copy a store while its container still holds it open, so the copy
+        // carries WAL frames a read-write open would checkpoint on close.
+        let source = tmpStoreURL()
+        let url = tmpStoreURL()
+        try autoreleasepool {
+            let container = try ModelContainer(
+                for: Schema(PiruSchema.models),
+                configurations: ModelConfiguration(url: source, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            for i in 0 ..< 3 {
+                ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+            }
+            try ctx.save()
+            try FileManager.default.copyItem(at: source, to: url)
+            try FileManager.default.copyItem(atPath: source.path + "-wal", toPath: url.path + "-wal")
+        }
+        let footprint = { () -> [String] in
+            [url.path, url.path + "-wal"].map { path in
+                let attributes = (try? FileManager.default.attributesOfItem(atPath: path)) ?? [:]
+                return "\(attributes[.size] ?? 0)|\(attributes[.modificationDate] ?? "missing")"
+            }
+        }
+        let before = footprint()
+        #expect(StoreRecovery.userDataCount(at: url) == 3)
+        #expect(footprint() == before)
+    }
+
     @Test
     func `copyStore restores data into an empty location, source intact`() throws {
         let source = tmpStoreURL()

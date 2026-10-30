@@ -167,13 +167,13 @@ struct DrinkPresetForm: View {
     /// Concentration/ABV cap: a percent tops out at 95; a mass concentration
     /// (mg/mL) has no meaningful upper bound to clamp here.
     private var enteredStrength: Double? {
-        guard let value = Double(strengthText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return nil }
+        guard let value = DecimalInput.parse(strengthText), value > 0 else { return nil }
         if !isMassPerVolume, value > 95 { return nil }
         return value
     }
 
     private var enteredVolumeML: Double? {
-        guard let value = Double(volumeText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return nil }
+        guard let value = DecimalInput.parse(volumeText), value > 0 else { return nil }
         return Measurement(value: value, unit: volumeUnit).converted(to: .milliliters).value
     }
 
@@ -250,7 +250,7 @@ struct DrinkPresetForm: View {
         .onAppear(perform: seed)
         .onChange(of: volumeUnit) { old, new in
             ByVolumeDefaults.preferredVolumeUnit = new
-            guard let value = Double(volumeText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return }
+            guard let value = DecimalInput.parse(volumeText), value > 0 else { return }
             volumeText = ByVolumeDefaults.format(Measurement(value: value, unit: old).converted(to: new).value)
         }
     }

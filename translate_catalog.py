@@ -384,6 +384,16 @@ T = {
     "Which days you took your meds": ("哪些天服了药", "哪些天服了藥"),
     "Morning dose not logged": ("早间剂量未记录", "早間劑量未記錄"),
     "Evening dose not logged": ("晚间剂量未记录", "晚間劑量未記錄"),
+    "Morning partly logged, evening not logged": (
+        "早间部分已记录，晚间未记录",
+        "早間部分已記錄，晚間未記錄",
+    ),
+    "Morning not logged, evening partly logged": (
+        "早间未记录，晚间部分已记录",
+        "早間未記錄，晚間部分已記錄",
+    ),
+    "Taken at %@": ("于 %@ 服用", "於 %@ 服用"),
+    "Taken at": ("服用时间", "服用時間"),
     # SubstanceCategory.classSummary — category descriptions shown atop each
     # browse list; LocalizedStringResource literals the extractor misses, inserted
     # via NEW_KEYS and persistent because they carry a translation.
@@ -7947,6 +7957,10 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Morning partly logged, evening not logged",
+        "Morning not logged, evening partly logged",
+        "Taken at %@",
+        "Taken at",
         "Split Days at Noon",
         "Shows morning and evening doses as two halves of each day. When off, a dose logged at any time counts toward the whole day.",
         "Nothing to Share",
