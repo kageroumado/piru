@@ -214,6 +214,8 @@ ES = {
     "%@ mL · %@%%": "%@ mL · %@%%",
     "%@ MME per mg": "%@ MME por mg",
     "%@ modeled active until ~%@": "%@ activa según el modelo hasta ~%@",
+    "with %@ %@ · %@ ago": "con %@ %@ · hace %@",
+    "with %@ · %@ ago": "con %@ · hace %@",
     "%@ now at %@": "%@ ahora en %@",
     "%@ now at %@ %@": "%@ ahora en %@ %@",
     "%@ of %@ %@ remaining": "Quedan %@ de %@ %@",

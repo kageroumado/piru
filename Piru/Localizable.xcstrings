@@ -96612,6 +96612,62 @@
         }
       }
     },
+    "with %@ · %@ ago" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "con %@ · hace %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "con %@ · hace %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 %@ 同用 · %@前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 %@ 同用 · %@前"
+          }
+        }
+      }
+    },
+    "with %@ %@ · %@ ago" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "con %@ %@ · hace %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "con %@ %@ · hace %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 %@ %@ 同用 · %@前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 %@ %@ 同用 · %@前"
+          }
+        }
+      }
+    },
     "With daily phenibut or F-phenibut, dependence develops within weeks and withdrawal can be protracted." : {
       "localizations" : {
         "es" : {
