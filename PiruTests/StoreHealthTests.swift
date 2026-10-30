@@ -157,7 +157,8 @@ struct StoreHealthTests {
         config.busyMode = .timeout(2)
         let queue = try DatabaseQueue(path: url.path, configuration: config)
         let tables = StoreRecovery.userDataTables
-        #expect(tables == ["ZDOSEENTRY", "ZDAILYDOSEITEM", "ZFAVORITESUBSTANCE", "ZSUBSTANCECOLOR"])
+        let schema = Set(PiruSchema.models.map { "Z" + String(describing: $0).uppercased() })
+        #expect(Set(tables) == schema.subtracting(["ZTOLERANCESTATE", "ZNOTIFICATIONPREFERENCES"]))
         let missing = try queue.read { db in try tables.filter { try !db.tableExists($0) } }
         #expect(missing.isEmpty)
         try queue.close()

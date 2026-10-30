@@ -195,7 +195,7 @@ struct HelpView: View {
 
     // MARK: - Emergency Services
 
-    private struct EmergencyService: Identifiable {
+    struct EmergencyService: Identifiable {
         let id = UUID()
         let title: LocalizedStringResource
         let detail: String
@@ -213,7 +213,7 @@ struct HelpView: View {
     }
 
     // swiftlint:disable:next function_body_length
-    private var services: [EmergencyService] {
+    static func services(for regionCode: String) -> [EmergencyService] {
         switch regionCode {
         // Americas
 
@@ -338,7 +338,7 @@ struct HelpView: View {
         case "NL":
             [
                 .init(title: "Alarmnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "113 Zelfmoordpreventie", detail: "0900 0113", systemImage: "phone.fill", url: "tel:09000113", tint: .infoAccent),
+                .init(title: "113 Zelfmoordpreventie", detail: "0800 0113", systemImage: "phone.fill", url: "tel:08000113", tint: .infoAccent),
             ]
         case "BE":
             [
@@ -508,7 +508,7 @@ struct HelpView: View {
 
     private var emergencySection: some View {
         Section {
-            ForEach(services) { service in
+            ForEach(Self.services(for: regionCode)) { service in
                 if let destination = URL(string: service.url) {
                     Link(destination: destination) {
                         HStack {

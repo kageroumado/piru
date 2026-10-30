@@ -436,6 +436,27 @@ struct AdherenceCalculatorTests {
     }
 
     @Test
+    func `A morning dose logged after noon fills the morning, not just the day`() {
+        let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 20 * 60])
+        let late = makeEntry(substance: "Testine", timestamp: today.addingTimeInterval(13 * 3_600))
+        let evening = makeEntry(substance: "Testine", timestamp: today.addingTimeInterval(20 * 3_600))
+        let day = AdherenceCalculator.adherence(for: today, entries: [late, evening], dailyItems: [item])
+        #expect(day.status == .complete)
+        #expect(day.halves?.morning == .complete)
+        #expect(day.halves?.evening == .complete)
+    }
+
+    @Test
+    func `A morning med taken late is not shown as a missed morning`() {
+        let morningMed = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60])
+        let eveningMed = makeItem(substance: "Otherine", reminderTimesMinutes: [21 * 60])
+        let late = makeEntry(substance: "Testine", timestamp: today.addingTimeInterval(14 * 3_600))
+        let day = AdherenceCalculator.adherence(for: today, entries: [late], dailyItems: [morningMed, eveningMed])
+        #expect(day.halves?.morning == .complete)
+        #expect(day.halves?.evening == .missed)
+    }
+
+    @Test
     func `A routine living in one half of the day gets no split`() {
         let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 10 * 60])
         let day = AdherenceCalculator.adherence(for: today, entries: [], dailyItems: [item])

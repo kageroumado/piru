@@ -52,6 +52,23 @@ struct StoreRecoveryTests {
     }
 
     @Test
+    func `A store holding only sessions and presets is not empty`() throws {
+        let url = tmpStoreURL()
+        try autoreleasepool {
+            let container = try ModelContainer(
+                for: Schema(PiruSchema.models),
+                configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            ctx.insert(Session(startDate: .now, note: "synthetic"))
+            ctx.insert(CustomDrinkPreset(name: "Test", strengthABV: 5))
+            try ctx.save()
+        }
+        #expect(StoreRecovery.userDataCount(at: url) == 2)
+        #expect(StoreRecovery.launchUserDataCount(at: url) == 2)
+    }
+
+    @Test
     func `userDataCount reflects rows; 0 for an absent store`() throws {
         let url = tmpStoreURL()
         #expect(StoreRecovery.userDataCount(at: url) == 0) // nothing there yet
@@ -220,6 +237,40 @@ struct StoreRecoveryTests {
         try context.save()
         #expect(try context.fetchCount(FetchDescriptor<DoseEntry>()) == 1)
         #expect(try Data(contentsOf: url) == garbage)
+    }
+
+    @Test
+    func `userDataCount never writes the store it counts`() throws {
+        // Copy a live store's files while its writer is open, so the copy's
+        // -wal holds frames no close has checkpointed. A read-write probe
+        // checkpoints them into the store file when it lets go.
+        let url = tmpStoreURL()
+        let source = url.deletingLastPathComponent().appendingPathComponent("source.store")
+        try autoreleasepool {
+            let container = try ModelContainer(
+                for: Schema(PiruSchema.models),
+                configurations: ModelConfiguration(url: source, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            for i in 0 ..< 3 {
+                ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+            }
+            try ctx.save()
+            try FileManager.default.copyItem(at: source, to: url)
+            try FileManager.default.copyItem(atPath: source.path + "-wal", toPath: url.path + "-wal")
+        }
+        let footprint = { () -> [String] in
+            [url.path, url.path + "-wal"].map { path in
+                let attributes = (try? FileManager.default.attributesOfItem(atPath: path)) ?? [:]
+                return "\(attributes[.size] ?? 0)|\(attributes[.modificationDate] ?? "missing")"
+            }
+        }
+        let before = footprint()
+        // The pool lets the probe's container close, and checkpoint if it
+        // could, before the footprint is read again.
+        let count = autoreleasepool { StoreRecovery.userDataCount(at: url) }
+        #expect(count == 3)
+        #expect(footprint() == before)
     }
 }
 

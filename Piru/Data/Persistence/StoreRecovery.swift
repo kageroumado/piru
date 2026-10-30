@@ -376,10 +376,19 @@ nonisolated enum StoreRecovery {
     // MARK: - Helpers
 
     /// The user-authored models whose rows decide whether a store holds the
-    /// user's data. DoseEntry is the journal — the data "No Entries" refers to —
-    /// plus the other user-authored models. Colors are cosmetic but counted too.
+    /// user's data: every model in ``PiruSchema/models`` except the two the
+    /// app writes on its own, the tolerance snapshot replayed from the dose log
+    /// and the notification preferences row seeded on first launch. A store with
+    /// only sessions, routines, inventory or custom substances is not empty,
+    /// and must never be set aside for an older copy. Colors are cosmetic but
+    /// counted too.
     static var userDataModels: [any PersistentModel.Type] {
-        [DoseEntry.self, DailyDoseItem.self, FavoriteSubstance.self, SubstanceColor.self]
+        [
+            DoseEntry.self, DailyDoseItem.self, FavoriteSubstance.self, SubstanceColor.self,
+            QuickLogDose.self, Session.self, SessionNote.self, DoseRoutine.self, RoutineOccurrence.self,
+            InventoryItem.self, UserProfileRecord.self, CustomSubstanceRecord.self,
+            CustomDrinkPreset.self, CustomUnitPreset.self, LabMeasurement.self,
+        ]
     }
 
     /// The SQLite tables behind ``userDataModels``. Core Data stores an entity
@@ -396,12 +405,12 @@ nonisolated enum StoreRecovery {
     /// can be suspended in at any moment, and the canonical store lives in the
     /// shared App Group container, where a SQLite lock held into suspension is
     /// a `0xdead10cc` kill. ``userDataCount(at:)`` answers by opening a
-    /// throwaway `ModelContainer` read-write (so it can migrate) and releasing
-    /// it, which checkpoints the WAL into the store file: a write, in the one
-    /// stretch of the launch that the system may cut short. The plain-SQL count
-    /// on a read-only connection (``StoreHealth/rowCount(at:tables:)``) writes
-    /// nothing and is exact whenever the file is a healthy Core Data store, so
-    /// the SwiftData count runs only when it cannot answer.
+    /// throwaway `ModelContainer`, read-only on the store, or read-write on a
+    /// scratch copy when it must migrate: a full Core Data stack, in the one
+    /// stretch of the launch that the system may cut short. The plain-SQL count on a read-only connection
+    /// (``StoreHealth/rowCount(at:tables:)``) writes nothing and is exact
+    /// whenever the file is a healthy Core Data store, so the SwiftData count
+    /// runs only when it cannot answer.
     static func launchUserDataCount(at url: URL) -> Int {
         guard anyFileExists(at: url) else { return 0 }
         return StoreHealth.rowCount(at: url, tables: userDataTables) ?? userDataCount(at: url)
@@ -431,7 +440,7 @@ nonisolated enum StoreRecovery {
             Logger.storeRecovery.error("Store at \(url.lastPathComponent, privacy: .public) failed the integrity pre-check; treating as unreadable")
             return -1
         }
-        if let count = countUserRows(at: url) { return count }
+        if let count = countUserRows(at: url, allowsSave: false) { return count }
         if let count = countViaMigratingCopy(at: url) { return count }
         return -1
     }
@@ -458,7 +467,7 @@ nonisolated enum StoreRecovery {
         }
     }
 
-    private static func countUserRows(at url: URL, allowsSave: Bool = true) -> Int? {
+    private static func countUserRows(at url: URL, allowsSave: Bool) -> Int? {
         do {
             // .none — never let the iCloud entitlement pull this probe into CloudKit
             // setup (the schema is CloudKit-incompatible). See openContainer(at:).

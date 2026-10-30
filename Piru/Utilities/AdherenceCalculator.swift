@@ -153,10 +153,18 @@ enum AdherenceCalculator {
             let eveningSlots = times.count - morningSlots
             let itemDoses = dayEntries.filter { entryMatches(entry: $0, item: item, products: products) }
             let morningHits = itemDoses.count { minutesOfDay($0.timestamp, calendar: calendar) < noonMinutes }
+            let morning = min(morningHits, morningSlots)
+            let evening = min(itemDoses.count - morningHits, eveningSlots)
+            // A dose logged across noon from its slot still fills it: a morning
+            // dose logged at 1 pm is late, not missed. Each half takes its own
+            // doses first, then the item's spare ones, morning before evening,
+            // so the halves never disagree with the day's own count.
+            let spare = itemDoses.count - morning - evening
+            let lateMorning = min(spare, morningSlots - morning)
             morningTotal += morningSlots
             eveningTotal += eveningSlots
-            morningTaken += min(morningHits, morningSlots)
-            eveningTaken += min(itemDoses.count - morningHits, eveningSlots)
+            morningTaken += morning + lateMorning
+            eveningTaken += evening + min(spare - lateMorning, eveningSlots - evening)
         }
 
         let status: AdherenceStatus = if matched == expected {
