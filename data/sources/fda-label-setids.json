@@ -1,0 +1,956 @@
+{
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/08495s041lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/19657s070lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/20784slr013_zyrtec_lbl.pdf": {
+  "application": "NDA020784",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf": {
+  "application": "NDA021487",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "memantine",
+   "namenda"
+  ],
+  "setid": "74ce605d-b493-4b95-9d59-9253f81f4e20",
+  "title": "NAMENDA (MEMANTINE HYDROCHLORIDE) TABLET [REBEL DISTRIBUTORS CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/007491s044lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/009761s028lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/012140s027lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/017683s094lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/019462s039lbl.pdf": {
+  "application": "NDA019462",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "famotidine",
+   "pepcid"
+  ],
+  "setid": "a06502d9-7903-4f37-833e-e5763d502def",
+  "title": "PEPCID (FAMOTIDINE) TABLET, FILM COATED [BAUSCH HEALTH US LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/021521s004lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf": {
+  "application": "NDA018677",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf": {
+  "application": "NDA020859",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "sonata",
+   "zaleplon"
+  ],
+  "setid": "43ac81cb-1e3f-4d44-86bd-13db2721d060",
+  "title": "SONATA (ZALEPLON) CAPSULE [PHYSICIANS TOTAL CARE, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/021937s002lbl.pdf": {
+  "application": "NDA021937",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [],
+  "setid": "076da359-b3d0-44f7-8c0e-662f5b7a8668",
+  "title": "ATRIPLA (EFAVIRENZ, EMTRICITABINE, AND TENOFOVIR DISOPROXIL FUMARATE) TABLET, FILM COATED [DOH CENTRAL PHARMACY]",
+  "verdict": "label names no citing substance"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/010632s041lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/016462s036lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019842s034lbl.pdf": {
+  "application": "NDA019842",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [],
+  "setid": "164689bf-cae3-4498-b076-d688ed24b507",
+  "title": "MOTRIN IB (IBUPROFEN) TABLET, FILM COATED [SELECT CORPORATION]",
+  "verdict": "label names no citing substance"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf": {
+  "application": "NDA019908",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "ambien",
+   "zolpidem"
+  ],
+  "setid": "747949c5-2c91-4909-8a07-71b6826f8e97",
+  "title": "AMBIEN (ZOLPIDEM TARTRATE) TABLET, FILM COATED [COSETTE PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/020975s013lbl.pdf": {
+  "application": "NDA020975",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020272s056lbl.pdf": {
+  "application": "NDA020272",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "risperdal",
+   "risperidone"
+  ],
+  "setid": "7e117c7e-02fc-4343-92a1-230061dfc5e0",
+  "title": "RISPERDAL (RISPERIDONE) TABLET RISPERDAL M-TAB (RISPERIDONE) TABLET, ORALLY DISINTEGRATING RISPERDAL (RISPERIDONE) SOLUTION [JANSSEN PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020825s032lbl.pdf": {
+  "application": "NDA020825",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "geodon",
+   "ziprasidone",
+   "ziprasidonemesylate"
+  ],
+  "setid": "a2b4cc65-6a6d-49c4-adfc-a4458562a167",
+  "title": "GEODON (ZIPRASIDONE) CAPSULE GEODON (ZIPRASIDONE MESYLATE) INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION [VIATRIS SPECIALTY LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021035s078s080,021505s021s024lbl.pdf": {
+  "application": "NDA021035",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "keppra",
+   "levetiracetam"
+  ],
+  "setid": "3ca9df05-a506-4ec8-a4fe-320f1219ab21",
+  "title": "KEPPRA (LEVETIRACETAM) TABLET, FILM COATED KEPPRA (LEVETIRACETAM) SOLUTION [UCB, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021928s011lbl.pdf": {
+  "application": "NDA021928",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "chantix",
+   "varenicline"
+  ],
+  "setid": "0fefd790-b526-4f2f-8c83-5f39f7306556",
+  "title": "CHANTIX (VARENICLINE TARTRATE) KIT [PROFICIENT RX LP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022117lbl.pdf": {
+  "application": "NDA022117",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "asenapine",
+   "saphris"
+  ],
+  "setid": "03c696e9-0e6b-4e5c-be0a-41416f8019be",
+  "title": "SAPHRIS (ASENAPINE MALEATE) TABLET [STAT RX USA LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022192lbl.pdf": {
+  "application": "NDA022192",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "fanapt",
+   "iloperidone"
+  ],
+  "setid": "33f60b40-3fca-11de-8f56-0002a5d5c51b",
+  "title": "FANAPT (ILOPERIDONE) TABLET FANAPT (ILOPERIDONE) KIT [VANDA PHARMACEUTICALS INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/010138s030lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/018207s030lbl.pdf": {
+  "application": "NDA018207",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf": {
+  "application": "NDA021875",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "armodafinil",
+   "modafinil",
+   "nuvigil"
+  ],
+  "setid": "10f918f7-4782-470e-a50e-35c7c66bfd79",
+  "title": "NUVIGIL (ARMODAFINIL) TABLET [REBEL DISTRIBUTORS CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/022036lbl.pdf": {
+  "application": "NDA022036",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label",
+  "names": [
+   "doxepin",
+   "silenor"
+  ],
+  "setid": "1bec1223-5239-4eb6-a9e8-62444106d2c0",
+  "title": "SILENOR (DOXEPIN HYDROCHLORIDE) TABLET [CURRAX PHARMACEUTICALS LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012013s074lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012230s062lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf": {
+  "application": "NDA018276",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "alprazolam",
+   "prazolam",
+   "xanax"
+  ],
+  "setid": "388e249d-b9b6-44c3-9f8f-880eced0239f",
+  "title": "XANAX (ALPRAZOLAM) TABLET [PHARMACIA & UPJOHN COMPANY LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf)": {
+  "application": "NDA018276",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "alprazolam",
+   "prazolam",
+   "xanax"
+  ],
+  "setid": "388e249d-b9b6-44c3-9f8f-880eced0239f",
+  "title": "XANAX (ALPRAZOLAM) TABLET [PHARMACIA & UPJOHN COMPANY LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/020872s032lbl.pdf": {
+  "application": "NDA020872",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "allegra",
+   "fexofenadine"
+  ],
+  "setid": "490b4c5f-448b-4563-928b-837117b59b9f",
+  "title": "ALLEGRA HIVES 24HR (FEXOFENADINE HYDROCHLORIDE) TABLET, FILM COATED [CHATTEM, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/017473s055lbl.pdf": {
+  "application": "NDA017473",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "orap"
+  ],
+  "setid": "1e379543-c4cf-4e72-953b-db15b7f0c2a1",
+  "title": "ORAPRED ODT (PREDNISOLONE SODIUM PHOSPHATE) TABLET, ORALLY DISINTEGRATING [ADVANZ PHARMA (US) CORP.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/019906s022lbl.pdf": {
+  "application": "NDA019906",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label",
+  "names": [
+   "anafranil",
+   "clomipramine"
+  ],
+  "setid": "4074b555-7635-41a9-809d-fae3b3610059",
+  "title": "ANAFRANIL (CLOMIPRAMINE HYDROCHLORIDE) CAPSULE [SPECGX LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020031s071lbl.pdf": {
+  "application": "NDA020031",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "paroxetine",
+   "paxil"
+  ],
+  "setid": "ef3b5cbe-f9e1-c1ac-79da-cfe14e3a7e7e",
+  "title": "PAXIL (PAROXETINE HYDROCHLORIDE) TABLET, FILM COATED [APOTEX CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s044,021046s019lbl.pdf": {
+  "application": "NDA020822",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "celexa",
+   "citalopram"
+  ],
+  "setid": "4259d9b1-de34-43a4-85a8-41dd214e9177",
+  "title": "CELEXA (CITALOPRAM) TABLET, FILM COATED [ALLERGAN, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021117s025lbl.pdf": {
+  "application": "NDA021117",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [],
+  "setid": "c4c65e48-85f8-4dcf-6281-06e40959cc79",
+  "title": "CALCIUM CHLORIDE INJECTION, SOLUTION [HOSPIRA, INC.]",
+  "verdict": "label names no citing substance"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf": {
+  "application": "NDA022200",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022549lbl.pdf": {
+  "application": "NDA022549",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "adasuve",
+   "loxapine"
+  ],
+  "setid": "50e11732-7387-452d-b3e6-db3a431d5c4a",
+  "title": "ADASUVE (LOXAPINE) AEROSOL, POWDER [ALEXZA PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/010894s042lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/012771s027lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020152s018lbl.pdf": {
+  "application": "NDA020152",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020768s029lbl.pdf": {
+  "application": "NDA020768",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "zolmitriptan",
+   "zomig"
+  ],
+  "setid": "56b3e77b-4e5f-4a3d-bad0-9e83033a5544",
+  "title": "ZOMIG (ZOLMITRIPTAN) TABLET [DISPENSING SOLUTIONS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021169s032lbl.pdf": {
+  "application": "NDA021169",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label",
+  "names": [
+   "galantamine",
+   "razadyne"
+  ],
+  "setid": "e62efb5a-d2cc-4e11-9e61-10e65ef3d897",
+  "title": "RAZADYNE (GALANTAMINE HYDROBROMIDE) TABLET, FILM COATED [REBEL DISTRIBUTORS CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021876s004lbl.pdf": {
+  "application": "NDA021876",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label",
+  "names": [
+   "diclegis",
+   "doxyl",
+   "doxylamine"
+  ],
+  "setid": "8bde08f6-e8bd-4e90-baa7-82e01876a86a",
+  "title": "DICLEGIS (DOXYLAMINE SUCCINATE AND PYRIDOXINE HYDROCHLORIDE) TABLET, DELAYED RELEASE [DUCHESNAY USA, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022047s019lbl.pdf": {
+  "application": "NDA022047",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "quetiapine",
+   "seroquel",
+   "seroquelxr"
+  ],
+  "setid": "2a74e8a0-b2fd-4d7f-8bf8-72148b1d3ae7",
+  "title": "SEROQUEL XR (QUETIAPINE FUMARATE) TABLET, EXTENDED RELEASE [PHYSICIANS TOTAL CARE, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022256s009lbl.pdf": {
+  "application": "NDA022256",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "milnacipran",
+   "savella"
+  ],
+  "setid": "08214b30-3dab-4621-a6c0-6bb68529dee3",
+  "title": "SAVELLA (MILNACIPRAN HYDROCHLORIDE) TABLET, FILM COATED [REBEL DISTRIBUTORS CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/200603s009lbl.pdf": {
+  "application": "NDA200603",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "latuda",
+   "lurasidone"
+  ],
+  "setid": "afad3051-9df2-4c54-9684-e8262a133af8",
+  "title": "LATUDA (LURASIDONE HYDROCHLORIDE) TABLET, FILM COATED [SUMITOMO PHARMA AMERICA, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/204168s000lbl.pdf": {
+  "application": "NDA204168",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "fetzima",
+   "levomilnacipran",
+   "milnacipran"
+  ],
+  "setid": "f371258d-91b3-4b6a-ac99-434a1964c3af",
+  "title": "FETZIMA (LEVOMILNACIPRAN HYDROCHLORIDE) CAPSULE, EXTENDED RELEASE FETZIMA (LEVOMILNACIPRAN HYDROCHLORIDE) KIT [ALLERGAN, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/009768s055lbl.pdf": {
+  "application": "NDA009768",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [],
+  "setid": "34496b43-05a2-45fb-a769-52b12e099341",
+  "title": "PLAQUENIL (HYDROXYCHLOROQUINE SULFATE) TABLET [ADVANZ PHARMA (US) CORP.]",
+  "verdict": "label names no citing substance"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011459s060lbl.pdf": {
+  "application": "NDA011459",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011835s065lbl.pdf": {
+  "application": "NDA011835",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012036s098lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012449s069lbl.pdf": {
+  "application": null,
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/016403s037lbl.pdf": {
+  "application": "NDA016403",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [],
+  "setid": "02ff6501-cccc-4f7d-9988-856d4e169b0e",
+  "title": "HYPAQUE SODIUM (DIATRIZOATE SODIUM) INJECTION, SOLUTION [AMERSHAM HEALTH INC.]",
+  "verdict": "label names no citing substance"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/020415s028lbl.pdf": {
+  "application": "NDA020415",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "mirtaz",
+   "mirtazapine",
+   "remeron",
+   "remeronsoltab"
+  ],
+  "setid": "98ad1917-a094-44f5-a28f-a64a8cfcd887",
+  "title": "REMERON (MIRTAZAPINE) TABLET, FILM COATED REMERONSOLTAB (MIRTAZAPINE) TABLET, ORALLY DISINTEGRATING [ORGANON LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021336s010lbl.pdf": {
+  "application": "NDA021336",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "emsam",
+   "selegiline"
+  ],
+  "setid": "b891bd9f-fdb8-4862-89c5-ecdd700398a3",
+  "title": "EMSAM (SELEGILINE) PATCH [VIATRIS SPECIALTY LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021427s045lbl.pdf": {
+  "application": "NDA021427",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "cymbalta",
+   "duloxetine"
+  ],
+  "setid": "00acd9e9-b26a-4626-949e-112ecd2f27e6",
+  "title": "CYMBALTA (DULOXETINE HYDROCHLORIDE) CAPSULE, DELAYED RELEASE [CARILION MATERIALS MANAGEMENT]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021436s038lbl.pdf": {
+  "application": "NDA021436",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "abilify",
+   "aripiprazole"
+  ],
+  "setid": "c040bd1d-45b7-49f2-93ea-aed7220b30ac",
+  "title": "ABILIFY (ARIPIPRAZOLE) TABLET [OTSUKA AMERICA PHARMACEUTICAL, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf": {
+  "application": "NDA021476",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "eszop",
+   "eszopiclone",
+   "lunesta",
+   "zopiclone"
+  ],
+  "setid": "3821f4b7-a3c8-4920-ba80-18aa96532c09",
+  "title": "LUNESTA (ESZOPICLONE) TABLET, COATED [WAYLIS THERAPEUTICS LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021999s026lbl.pdf": {
+  "application": "NDA021999",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "invega",
+   "paliperidone"
+  ],
+  "setid": "7b8e5b26-b9e4-4704-921b-3c3c0d159916",
+  "title": "INVEGA (PALIPERIDONE) TABLET, EXTENDED RELEASE [JANSSEN PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/019758s083lbl.pdf": {
+  "application": "NDA019758",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "clozapine",
+   "clozaril"
+  ],
+  "setid": "0cf63b13-48b2-4b07-b241-617725b52f6b",
+  "title": "CLOZARIL (CLOZAPINE) TABLET [TYA PHARMACEUTICALS]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/020717s037s038lbl.pdf": {
+  "application": "NDA020717",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "modafinil",
+   "provigil"
+  ],
+  "setid": "0391f182-1958-9fef-a944-53b229ce99e7",
+  "title": "PROVIGIL (MODAFINIL) TABLET [APOTEX CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/022567s012lbl.pdf": {
+  "application": "NDA022567",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "viibryd",
+   "vilazodone"
+  ],
+  "setid": "4c55ccfb-c4cf-11df-851a-0800200c9a66",
+  "title": "VIIBRYD (VILAZODONE HYDROCHLORIDE) TABLET VIIBRYD (VILAZODONE HYDROCHLORIDE) KIT [ALLERGAN, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/204370orig1s000lbl.pdf": {
+  "application": "NDA204370",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "cariprazine",
+   "vraylar"
+  ],
+  "setid": "4b5f7c65-aa2d-452a-b3db-bc85c06ff12f",
+  "title": "VRAYLAR (CARIPRAZINE) CAPSULE, GELATIN COATED VRAYLAR (CARIPRAZINE) KIT [ALLERGAN, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/205422orig1s000lbl.pdf": {
+  "application": "NDA205422",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "brexpiprazole",
+   "rexulti"
+  ],
+  "setid": "2d301358-6291-4ec1-bd87-37b4ad9bd850",
+  "title": "REXULTI (BREXPIPRAZOLE) TABLET REXULTI (BREXPIPRAZOLE) KIT [OTSUKA AMERICA PHARMACEUTICAL, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf": {
+  "application": "NDA018163",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label",
+  "names": [
+   "restoril",
+   "temaze",
+   "temazepam"
+  ],
+  "setid": "bc56f7fd-1aaf-48ff-8aa7-d467e59e1015",
+  "title": "RESTORIL (TEMAZEPAM) CAPSULE [SPECGX LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/019839s092lbl.pdf": {
+  "application": "NDA019839",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "sertraline",
+   "zoloft"
+  ],
+  "setid": "fda754f6-d0f3-4dce-a17a-927d64f912f7",
+  "title": "ZOLOFT (SERTRALINE HYDROCHLORIDE) TABLET, FILM COATED ZOLOFT (SERTRALINE HYDROCHLORIDE) SOLUTION, CONCENTRATE [VIATRIS SPECIALTY LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020648s019lbl.pdf": {
+  "application": "NDA020648",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "diazepam"
+  ],
+  "setid": "b1b2848b-b265-4f6f-9141-bf106dec0726",
+  "title": "DIAZEPAM GEL DIAZEPAM GEL [OCEANSIDE PHARMACEUTICALS]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/205836lbl.pdf": {
+  "application": "NDA205836",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "brivaracetam",
+   "briviact"
+  ],
+  "setid": "3cf2f439-0e97-443e-8e33-25ecef616f6c",
+  "title": "BRIVIACT (BRIVARACETAM) TABLET, FILM COATED BRIVIACT (BRIVARACETAM) SOLUTION BRIVIACT (BRIVARACETAM) INJECTION, SUSPENSION [UCB, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/207318orig1s000lbl.pdf": {
+  "application": "NDA207318",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "nuplazid",
+   "pimavanserin"
+  ],
+  "setid": "1e6bea44-57d6-4bac-9328-46e1ee59f83b",
+  "title": "NUPLAZID (PIMAVANSERIN TARTRATE) CAPSULE NUPLAZID (PIMAVANSERIN TARTRATE) TABLET, COATED [ACADIA PHARMACEUTICALS INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf": {
+  "application": "NDA017533",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "clonazepam",
+   "klonopin"
+  ],
+  "setid": "79a3305b-be80-416f-a346-5a907f7b669e",
+  "title": "KLONOPIN (CLONAZEPAM) TABLET [STAT RX USA LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018644s059lbl.pdf": {
+  "application": "NDA018644",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "bupropion",
+   "wellbutrin",
+   "wellbutrinsr"
+  ],
+  "setid": "cbc8c074-f080-4489-a5ae-207b5fadeba3",
+  "title": "WELLBUTRIN SR (BUPROPION HYDROCHLORIDE) TABLET, FILM COATED [GLAXOSMITHKLINE LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf": {
+  "application": "NDA018651",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label",
+  "names": [
+   "dronabinol",
+   "marinol"
+  ],
+  "setid": "d0efeeec-640d-43c3-8f0a-d31324a11c68",
+  "title": "MARINOL (DRONABINOL) CAPSULE [THEPHARMANETWORK, LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020151s068,020699s057lbl.pdf": {
+  "application": "NDA020151",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "effexor",
+   "venlafaxine"
+  ],
+  "setid": "3423487c-80e3-6bff-e054-00144ff88e88",
+  "title": "EFFEXOR (VENLAFAXINE) TABLET [DIRECT RX]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021323s047lbl.pdf": {
+  "application": "NDA021323",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "citalopram",
+   "escitalopram",
+   "lexapro"
+  ],
+  "setid": "13bb8267-1cab-43e5-acae-55a4d957630a",
+  "title": "LEXAPRO (ESCITALOPRAM) TABLET, FILM COATED LEXAPRO (ESCITALOPRAM) SOLUTION [ALLERGAN, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021875s029lbl.pdf": {
+  "application": "NDA021875",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "armodafinil",
+   "modafinil",
+   "nuvigil"
+  ],
+  "setid": "10f918f7-4782-470e-a50e-35c7c66bfd79",
+  "title": "NUVIGIL (ARMODAFINIL) TABLET [REBEL DISTRIBUTORS CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021992s030lbl.pdf": {
+  "application": "NDA021992",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "desvenlafaxine",
+   "pristiq"
+  ],
+  "setid": "0f43610c-f290-46ea-d186-4f998ed99fce",
+  "title": "PRISTIQ EXTENDED-RELEASE (DESVENLAFAXINE SUCCINATE) TABLET, EXTENDED RELEASE [WYETH PHARMACEUTICALS LLC, A SUBSIDIARY OF PFIZER INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/021487s023s024lbl.pdf": {
+  "application": "NDA021487",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "memantine",
+   "namenda"
+  ],
+  "setid": "74ce605d-b493-4b95-9d59-9253f81f4e20",
+  "title": "NAMENDA (MEMANTINE HYDROCHLORIDE) TABLET [REBEL DISTRIBUTORS CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/210365lbl.pdf": {
+  "application": "NDA210365",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "cannabidiol",
+   "epidiolex"
+  ],
+  "setid": "8bf27097-4870-43fb-94f0-f3d0871d1eec",
+  "title": "EPIDIOLEX (CANNABIDIOL) SOLUTION [JAZZ PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/210557s000lbl.pdf": {
+  "application": "NDA210557",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "bremelanotide",
+   "vyleesi"
+  ],
+  "setid": "f1d0c1b5-2f39-4bad-a6a4-0066e3ad5dcf",
+  "title": "VYLEESI (BREMELANOTIDE) INJECTION [COSETTE PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211243lbl.pdf": {
+  "application": "NDA211243",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "esketamine",
+   "ketamine",
+   "sketamine",
+   "spravato"
+  ],
+  "setid": "d81a6a79-a74a-44b7-822c-0dfa3036eaed",
+  "title": "SPRAVATO (ESKETAMINE HYDROCHLORIDE) SOLUTION [JANSSEN PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211371s000lbl.pdf": {
+  "application": "NDA211371",
+  "checked": "2026-10-30",
+  "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/022341s031lbl.pdf": {
+  "application": "NDA022341",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "liraglutide",
+   "victoza"
+  ],
+  "setid": "5a9ef4ea-c76a-4d34-a604-27c5b505f5a4",
+  "title": "VICTOZA (LIRAGLUTIDE) INJECTION [NOVO NORDISK]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/125469s030lbl.pdf": {
+  "application": "BLA125469",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "dulaglutide",
+   "trulicity"
+  ],
+  "setid": "463050bd-2b1c-40f5-b3c3-0a04bb433309",
+  "title": "TRULICITY (DULAGLUTIDE) INJECTION, SOLUTION [ELI LILLY AND COMPANY]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/204447s013lbl.pdf": {
+  "application": "NDA204447",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "trintellix",
+   "vortioxetine"
+  ],
+  "setid": "1a5b68e2-14d0-419d-9ec6-1ca97145e838",
+  "title": "TRINTELLIX (VORTIOXETINE) TABLET, FILM COATED [TAKEDA PHARMACEUTICALS AMERICA, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/210365s006lbl.pdf": {
+  "application": "NDA210365",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "epidiolex"
+  ],
+  "setid": "8bf27097-4870-43fb-94f0-f3d0871d1eec",
+  "title": "EPIDIOLEX (CANNABIDIOL) SOLUTION [JAZZ PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/020592s074lbl.pdf": {
+  "application": "NDA020592",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "olanzapine",
+   "zyprexa"
+  ],
+  "setid": "0e986037-41c9-431e-b007-0e7764523fdd",
+  "title": "ZYPREXA (OLANZAPINE) TABLET [H.J. HARKINS COMPANY, INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/213051s006lbl.pdf": {
+  "application": "NDA213051",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "ozempic",
+   "rybelsus",
+   "semaglutide"
+  ],
+  "setid": "27f15fac-7d98-4114-a2ec-92494a91da98",
+  "title": "OZEMPIC (ORAL SEMAGLUTIDE) TABLET RYBELSUS (ORAL SEMAGLUTIDE) TABLET [NOVO NORDISK PHARMACEUTICAL INDUSTRIES, LP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2022/215866s000lbl.pdf": {
+  "application": "NDA215866",
+  "checked": "2026-10-30",
+  "chosen_by": "sponsor's label",
+  "names": [
+   "mounjaro",
+   "tirzepatide"
+  ],
+  "setid": "d2d7da5d-ad07-4228-955f-cf7e355c8cc0",
+  "title": "MOUNJARO (TIRZEPATIDE) INJECTION, SOLUTION MOUNJARO KWIKPEN (TIRZEPATIDE) INJECTION, SOLUTION [ELI LILLY AND COMPANY]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/018936s114lbl.pdf": {
+  "application": "NDA018936",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "fluoxetine",
+   "prozac"
+  ],
+  "setid": "4b8fcce1-abfc-4631-9975-9d66e178dab6",
+  "title": "PROZAC (FLUOXETINE HYDROCHLORIDE) CAPSULE [STAT RX USA]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/022505s013lbl.pdf": {
+  "application": "BLA022505",
+  "checked": "2026-10-30",
+  "chosen_by": "brand label (repackaged copy)",
+  "names": [
+   "egrifta",
+   "egriftasv",
+   "tesamorelin"
+  ],
+  "setid": "3d783378-b02d-4f19-99dd-0fc91a042224",
+  "title": "EGRIFTA SV (TESAMORELIN) KIT [THERATECHNOLOGIES INC.]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/211964s013lbl.pdf": {
+  "application": "NDA211964",
+  "checked": "2026-10-30",
+  "chosen_by": "only label",
+  "names": [
+   "qelbree",
+   "viloxazine"
+  ],
+  "setid": "aedf408d-0f84-418d-9416-7c39ddb0d29a",
+  "title": "QELBREE (VILOXAZINE HYDROCHLORIDE) CAPSULE, EXTENDED RELEASE [SUPERNUS PHARMACEUTICALS, INC]",
+  "verdict": "ok"
+ }
+}
