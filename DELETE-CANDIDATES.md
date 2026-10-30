@@ -61,12 +61,12 @@ Two kinds of entry, both ending in a deletion:
 534 keys were estimates for compounds with no published human pharmacokinetics,
 and the rest duplicated values the DB already resolved.
 
-## `pipeline/audit/apply_citation_fixes.py` + `data/curated/citation-{drops,fixes,fixes-likely,fixes-research}-2026-08-04.json`
+## `pipeline/audit/apply_citation_fixes.py`
 
-- **What**: the script applies adjudicated citation replace/drop decisions to `data/enrichment/raw/*.json` and `data/curated/`; the four JSON files are its inputs.
-- **Looks dead because**: zero references to the script or to any of the four files outside themselves. They are the residue of one completed citation-repair pass (2026-08-04).
-- **Not deleted because**: the pass is unfinished. On 2026-10-18 only 45 of the 150 recorded decisions were present in the data (replacement identifier in, old one out), so the inputs are the only record of the other 105.
-- **To confirm**: apply or reject the 105 outstanding decisions, then delete all five together.
+- **What**: applies an adjudicated batch of citation replace/drop/unsource decisions to `data/enrichment/raw/*.json` and `data/curated/`.
+- **Looks dead because**: nothing calls it and it has no input files. Every 2026-08-04 batch it was written for is applied (`--dry-run` changed 0 records for each), so those inputs were deleted.
+- **Not deleted because**: it is the only writer that edits a wrong `reference` in place with a byte-preserving serializer; a new citation that fails a gate may need it. Sourcing a row that has no citation goes through `data/curated/row-citations.json` instead.
+- **To confirm**: decide whether the next wrong-reference batch goes through this script or the row-citations sidecar.
 - **Found**: 2026-09-11 (pipeline map)
 
 ## `Shared/Skin/Skin.swift` — `SkinEphemeris.air`, `SkinPaperGarden.grain`, `SkinArcade.grid`
