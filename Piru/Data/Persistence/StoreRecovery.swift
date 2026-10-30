@@ -376,10 +376,19 @@ nonisolated enum StoreRecovery {
     // MARK: - Helpers
 
     /// The user-authored models whose rows decide whether a store holds the
-    /// user's data. DoseEntry is the journal — the data "No Entries" refers to —
-    /// plus the other user-authored models. Colors are cosmetic but counted too.
+    /// user's data: every model in ``PiruSchema/models`` except the two the
+    /// app writes on its own, the tolerance snapshot replayed from the dose log
+    /// and the notification preferences row seeded on first launch. A store with
+    /// only sessions, routines, inventory or custom substances is not empty,
+    /// and must never be set aside for an older copy. Colors are cosmetic but
+    /// counted too.
     static var userDataModels: [any PersistentModel.Type] {
-        [DoseEntry.self, DailyDoseItem.self, FavoriteSubstance.self, SubstanceColor.self]
+        [
+            DoseEntry.self, DailyDoseItem.self, FavoriteSubstance.self, SubstanceColor.self,
+            QuickLogDose.self, Session.self, SessionNote.self, DoseRoutine.self, RoutineOccurrence.self,
+            InventoryItem.self, UserProfileRecord.self, CustomSubstanceRecord.self,
+            CustomDrinkPreset.self, CustomUnitPreset.self, LabMeasurement.self,
+        ]
     }
 
     /// The SQLite tables behind ``userDataModels``. Core Data stores an entity

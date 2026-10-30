@@ -52,6 +52,23 @@ struct StoreRecoveryTests {
     }
 
     @Test
+    func `A store holding only sessions and presets is not empty`() throws {
+        let url = tmpStoreURL()
+        try autoreleasepool {
+            let container = try ModelContainer(
+                for: Schema(PiruSchema.models),
+                configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            ctx.insert(Session(startDate: .now, note: "synthetic"))
+            ctx.insert(CustomDrinkPreset(name: "Test", strengthABV: 5))
+            try ctx.save()
+        }
+        #expect(StoreRecovery.userDataCount(at: url) == 2)
+        #expect(StoreRecovery.launchUserDataCount(at: url) == 2)
+    }
+
+    @Test
     func `userDataCount reflects rows; 0 for an absent store`() throws {
         let url = tmpStoreURL()
         #expect(StoreRecovery.userDataCount(at: url) == 0) // nothing there yet
