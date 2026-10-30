@@ -57,6 +57,11 @@ jobs:
         run: python3 pipeline/build/tests/test_identifier_integrity.py
       - name: Curated overlay integrity (dead files, cross-category clones, InChIKey dups)
         run: python3 pipeline/build/tests/test_overlay_integrity.py
+      # Shulgin's book codes are street names of other drugs (M, T, DESOXY), and
+      # a racemate's label is not its isomer's. Matched by name, mescaline's
+      # PiHKAL ladder shipped on Morphine and Lunesta's half-life on Zopiclone.
+      - name: Identity (Erowid chapters, short codes, isomer labels, salts, script, sources)
+        run: python3 pipeline/build/tests/test_identity.py
       # Two rows with one structure. Every merge pass in the builder keys on
       # text, so a duplicate whose names don't overlap and whose identifiers
       # don't line up survives all of them — which is how a Schedule I cathinone

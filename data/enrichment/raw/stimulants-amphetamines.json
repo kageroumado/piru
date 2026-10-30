@@ -3777,32 +3777,6 @@
     "references_consulted": []
   },
   {
-    "name": "DESOXY",
-    "aliases_added": [
-      "desoxypipradrol",
-      "2-DPMP"
-    ],
-    "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {
-      "primary_targets": [
-        "DAT",
-        "NET"
-      ],
-      "binding": [],
-      "functional": [],
-      "downstream_signalling": "Note: DESOXY in PIHKAL is actually 4-methyl-2,5-dimethoxyamphetamine (DESOXY-DOM); separate from desoxypipradrol. As PIHKAL DESOXY (Shulgin entry #61): structural analogue lacking the 5-methoxy of DOM. Limited published pharmacology."
-    },
-    "human_pk": {
-      "routes": []
-    },
-    "metabolism": [],
-    "confidence": "low",
-    "data_gaps_remaining": [
-      "Identity ambiguous in source; no published EC50"
-    ],
-    "references_consulted": []
-  },
-  {
     "name": "2-methylamphetamine",
     "aliases_added": [
       "2-MA",

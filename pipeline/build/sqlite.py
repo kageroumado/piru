@@ -145,7 +145,6 @@ MECHANISM_LINES = REPO / "data/curated/mechanism-lines.json"
 MEDTAP_MECHANISM_DROPS = frozenset(
     {
         "Asenapine",
-        "Carbonic anhydrase 6",
         "D-glucose",
         "Felbamate",
         "Lumefantrine",
@@ -219,6 +218,10 @@ FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # is about, or an explicit null.
 DOSEWIKI = REPO / "data/sources/dosewiki.json"
 DOSEWIKI_IDS = REPO / "data/curated/dosewiki-ids.json"
+# Erowid's PiHKAL/TiHKAL chapter -> the Piru substance it describes. Shulgin's
+# short codes (M, T, DESOXY) are street names of other drugs, so a chapter is
+# filed only through this hand-reviewed map, never by its name.
+EROWID_IDS = REPO / "data/curated/erowid-ids.json"
 TRIPSIT = REPO / "data/sources/tripsit.json"
 #: Sources whose page URL is built from their own name for a substance, and the
 #: `substances` column that keeps that name. TripSit keys are its names lowercased.
@@ -362,7 +365,7 @@ SOURCES = [
     (
         "piru-curated",
         "Piru editors",
-        "Maintained by Piru's editors.",
+        "Written by Piru's editors in the app's open-source repository. GPL-3.0.",
     ),
     (
         "peer-review-primary",
@@ -376,25 +379,44 @@ SOURCES = [
     #
     # Any change to the order of this list needs `currentSourceOrderMigration`
     # in SubstanceStore.swift bumped, or existing installs keep the old order.
-    ("dosewiki", "dose.wiki", "Community encyclopedia. CC0."),
+    ("dosewiki", "dose.wiki", "Community encyclopedia at dose.wiki. CC0 1.0."),
     # drug.community (shown as substance.wiki) ranks above the volunteer wikis
     # so its dose ladders win where dose.wiki has no reviewed article;
     # PsychonautWiki and TripSit backfill any gaps. Genuine dose bugs are
     # corrected in the piru-curated layer (which outranks everything).
     ("drug.community", "substance.wiki", "Community database."),
-    ("psychonautwiki", "PsychonautWiki", "Community wiki. CC BY-SA 4.0."),
-    ("tripsit", "TripSit", "Community database."),
-    ("dailymed", "DailyMed", "U.S. product labels."),
+    ("psychonautwiki", "PsychonautWiki", "Community wiki at psychonautwiki.org. CC BY-SA 4.0."),
+    ("tripsit", "TripSit", "TripSit's drug database at tripsit.me. Free for non-commercial use."),
+    (
+        "dailymed",
+        "DailyMed",
+        "U.S. product labels from DailyMed, the National Library of Medicine's label database.",
+    ),
     (
         "erowid-pihkal",
         "PiHKAL (Erowid)",
-        "Reference text by Alexander and Ann Shulgin.",
+        "Alexander and Ann Shulgin's PiHKAL (1991), Book II as published by Erowid. "
+        "Non-commercial reproduction.",
     ),
-    ("erowid-tihkal", "TiHKAL (Erowid)", "Reference text by Alexander and Ann Shulgin."),
-    ("pdsp", "PDSP Ki database", "Receptor affinity database."),
-    ("pubchem", "PubChem", "Open chemistry database."),
-    ("wikidata", "Wikidata", "Open knowledge base. CC0."),
-    ("dea-orange-book", "DEA Orange Book", "U.S. controlled-substance schedules."),
+    (
+        "erowid-tihkal",
+        "TiHKAL (Erowid)",
+        "Alexander and Ann Shulgin's TiHKAL (1997), Book II as published by Erowid. "
+        "Non-commercial reproduction.",
+    ),
+    (
+        "pdsp",
+        "PDSP Ki database",
+        "Receptor affinity measurements from the NIMH Psychoactive Drug Screening Program.",
+    ),
+    ("pubchem", "PubChem", "The National Library of Medicine's open chemistry database."),
+    ("wikidata", "Wikidata", "Open knowledge base at wikidata.org. CC0 1.0."),
+    (
+        "dea-orange-book",
+        "DEA Orange Book",
+        "U.S. Drug Enforcement Administration controlled-substance schedules. "
+        "U.S. government work, public domain.",
+    ),
     # Appended at lowest priority so they only FILL GAPS (existing recreational
     # sources win on conflict). pyrls/medtap supply regulatory status,
     # indications, contraindications, and per-compound mechanism for the
@@ -408,17 +430,18 @@ SOURCES = [
     (
         "medtap",
         "MedTAP",
-        "U.S. product labels.",
+        "U.S. FDA structured product labels, as compiled by MedTAP.",
     ),
     (
         "benzos-cited",
         "Benzodiazepine equivalence table",
-        "Community table.",
+        "A benzodiazepine table in TripSit's format. A diazepam equivalence is cited "
+        "only where it agrees with the Ashton Manual.",
     ),
     (
         "nps-datahub",
         "NPS Data Hub",
-        "Chemistry catalogue.",
+        "Forensic chemistry catalog at nps-datahub.com, used for identifiers only.",
     ),
     # Lowest priority: a Chinese-language source whose text only WINS when the
     # app runs in Chinese (the resolver floats matching-language text above
@@ -426,7 +449,7 @@ SOURCES = [
     (
         "freeodwiki",
         "FreeOD Wiki",
-        "Chinese-language community wiki. CC BY-SA 4.0.",
+        "Chinese-language community wiki at freeodwiki.org. CC BY-SA 4.0.",
     ),
 ]
 
@@ -528,13 +551,11 @@ FREEOD_EFFECT_EXCLUSIONS: dict[str, dict[str, str]] = {
 # one). Uncertain botanicals/RCs are intentionally omitted — they stay as
 # genuine FreeOD-only entries under their Chinese title.
 FREEOD_NAME_OVERRIDE = {
-    "1,4-丁二醇": "1,4-Butanediol",
     # The page URL is 多拉西敏; its article is about 多西拉敏, doxylamine.
     "多拉西敏": "Doxylamine",
-    # Neither page lists a name Piru already carries, so without these they
-    # would each mint a substance titled in Chinese.
+    # The page lists no name Piru already carries, so without this it would
+    # mint a substance titled in Chinese.
     "二氟莫达非尼": "Flmodafinil",
-    "阿莫达非尼": "Armodafinil",
     # The α-PHP page also lists the short name "alpha-PHP", which an earlier
     # source carries as its own row until the InChIKey merge folds it in.
     "α-PHP": "alpha-Pyrrolidinohexiophenone",
@@ -550,73 +571,26 @@ FREEOD_NAME_OVERRIDE = {
     # and 3,4,5-trimethoxyphenethylamine.
     "环唑酮": "Cyclazodone",
     "麦斯卡林": "Mescaline",
-    "麻黄碱": "Ephedrine",
-    "伪麻黄碱": "Pseudoephedrine",
-    "尼古丁": "Nicotine",
-    "美沙酮": "Methadone",
-    "芬太尼": "Fentanyl",
-    "舒芬太尼": "Sufentanil",
     "乙酰芬太尼": "Acetylfentanyl",
-    "曲马多": "Tramadol",
-    "哌替啶": "Pethidine",
-    "氢吗啡酮": "Hydromorphone",
-    "羟考酮": "Oxycodone",
-    "右美沙芬": "DXM",
-    "右丙氧芬": "Dextropropoxyphene",
     "二氢可待因": "Dihydrocodeine",
-    "二氢去氧吗啡": "Desomorphine",
-    "替利定": "Tilidine",
-    "洛哌丁胺": "Loperamide",
-    "吡拉西坦": "Piracetam",
-    "普拉西坦": "Pramiracetam",
-    "普罗林坦": "Prolintane",
     "肌酸": "Creatine",
-    "茶氨酸": "Theanine",
-    "酪氨酸": "Tyrosine",
-    "育亨宾": "Yohimbine",
-    "胍丁胺": "Agmatine",
     "胞磷胆碱": "Citicoline",
-    "酒石酸氢胆碱": "Choline Bitartrate",
     "颠茄": "Belladonna",
     "曼陀罗属": "Datura",
     "毒蝇伞": "Amanita Muscaria",
     "豹斑鹅膏": "Amanita Pantherina",
-    "肉豆蔻醚": "Myristicin",
-    "异丙嗪": "Promethazine",
-    "羟嗪": "Hydroxyzine",
-    "茶苯海明": "Dimenhydrinate",
-    "苯海索": "Trihexyphenidyl",
-    "氟哌啶醇": "Haloperidol",
-    "氯氮平": "Clozapine",
-    "奥氮平": "Olanzapine",
-    "氟马西尼": "Flumazenil",
-    "氯氮䓬": "Chlordiazepoxide",
-    "溴西泮": "Bromazepam",
     "吡溴唑仑": "Pyrazolam",
     "氟溴西泮": "Flubromazepam",
     "氟阿普唑仑": "Flualprazolam",
     "氟氯替唑仑": "Fluclotizolam",
-    "芬纳西泮": "Phenazepam",
     "去氯依替唑仑": "Deschloroetizolam",
-    "甲丙氨酯": "Meprobamate",
-    "戊巴比妥": "Pentobarbital",
-    "司可巴比妥": "Secobarbital",
-    "金刚烷胺": "Amantadine",
-    "加兰他敏": "Galantamine",
-    "加波沙多": "Gaboxadol",
-    "苄达明": "Benzydamine",
-    "卡瓦": "Kava",
     "环己丙甲胺": "Propylhexedrine",
     "侧柏酮": "Thujone",
-    "依非韦仑": "Efavirenz",
-    "鹅膏蕈氨酸": "Ibotenic Acid",
-    "蓝莲花": "Blue Lotus",
     "夏威夷小木玫瑰": "Hawaiian Baby Woodrose",
     "墨西哥鼠尾草": "Salvia Divinorum",
     "骆驼蓬": "Syrian Rue",
     "细花含羞草": "Mimosa Hostilis",
     "绿九节": "Psychotria Viridis",
-    "古巴裸盖菇": "Psilocybe Cubensis",
     "墨西哥裸盖菇": "Psilocybe Mexicana",
     "蓝柄裸盖菇": "Psilocybe Cyanescens",
     "普罗斯卡林": "Proscaline",
@@ -627,18 +601,31 @@ FREEOD_NAME_OVERRIDE = {
     "死藤": "Banisteriopsis Caapi",
     "秘鲁火炬仙人掌": "Peruvian Torch",
     "乌羽玉": "Lophophora Williamsii",
-    "二氟莫达菲尼": "Flmodafinil",
-    "氯苄雷司": "Clobenzorex",
     "水虉草": "Phalaris",
     "亚硝酸酯": "Poppers",
     # Chinese-titled pages whose English/street name mined to a junk fragment
     # (a single letter or a number split out of a systematic name), which then
-    # became a bogus canonical and, for Heroin, a duplicate substance.
-    "海洛因": "Heroin",
-    "替扎尼定": "Tizanidine",
+    # became a bogus canonical.
     "甲基己胺": "DMAA",
     "艾斯卡林": "Escaline",
     "可可": "Cocoa",
+    # FreeOD-only pages with no Latin name among their own names. Each English
+    # name is the one the page itself gives: its IUPAC name (oxymorphazone,
+    # 6-hydrazono-17-methyl-4,5-epoxymorphinan-3,14-diol), the binomial its
+    # text states (Lophophora fricii, Amanita mappa = A. citrina, Anadenanthera
+    # peregrina = yopo), or its stated composition (dextromethorphan 10-15 mg +
+    # guaifenesin 100 mg).
+    "羟吗啡酮腙": "Oxymorphazone",
+    "复方甘草片": "Compound Licorice Tablets",
+    "愈美片": "Dextromethorphan-Guaifenesin",
+    "橙黄鹅膏": "Amanita Citrina",
+    "翠冠玉": "Lophophora Diffusa",
+    "银冠玉": "Lophophora Fricii",
+    "鹅花树": "Tabernanthe Iboga",
+    "大果柯拉豆": "Yopo",
+    # Titled 鼠尾草素乙 (salvinorin B), but the article and its IUPAC name are
+    # salvinorin B methoxymethyl ether (2-MMSB).
+    "鼠尾草素乙": "2-Methoxymethyl-salvinorin B",
 }
 
 # FreeOD index/category/genus pages that aren't individual substances — skipped
@@ -649,6 +636,22 @@ FREEOD_SKIP_PAGES = {
     "裸盖菇属",  # Psilocybe — genus index
     "精神活性相思树属植物",  # Psychoactive Acacia spp — category page
 }
+
+
+_LATIN_RE = re.compile(r"[A-Za-z]")
+
+
+def localized_zh_titles() -> dict[str, str]:
+    """zh-Hans/zh-Hant title -> canonical name, from data/curated/localized-names.json."""
+    path = CURATED_DIR.parent / "localized-names.json"
+    if not path.exists():
+        return {}
+    out: dict[str, str] = {}
+    for entry in json.loads(path.read_text()).get("names", []):
+        for lang in ("zh-Hans", "zh-Hant"):
+            if entry.get(lang):
+                out.setdefault(entry[lang], entry["substance"])
+    return out
 
 
 def _freeod_canonical_name(title: str, names: list[str]) -> str | None:
@@ -1100,6 +1103,30 @@ def load_dosewiki_ids() -> dict[str, dict]:
         for slug, entry in json.loads(DOSEWIKI_IDS.read_text()).items()
         if not slug.startswith("_")
     }
+
+
+def load_erowid_ids() -> dict[str, dict]:
+    """The hand-reviewed Erowid chapter -> Piru substance join, keyed by the
+    chapter page's file stem (``pihkal096``)."""
+    if not EROWID_IDS.exists():
+        return {}
+    return {
+        key: entry
+        for key, entry in json.loads(EROWID_IDS.read_text()).items()
+        if not key.startswith("_")
+    }
+
+
+_EROWID_CHAPTER_RE = re.compile(r"/((?:pi|ti)hkal\d+)\.shtml", re.I)
+
+
+def erowid_chapter_key(sources: list | None) -> str | None:
+    """The chapter key (``pihkal096``) of an Erowid record, read from its URL."""
+    for src in sources or []:
+        m = _EROWID_CHAPTER_RE.search(src if isinstance(src, str) else "")
+        if m:
+            return m.group(1).lower()
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -3069,16 +3096,11 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     "Ephenidine": {"cid": 110821},
     "Methoxphenidine": {"cid": 67833251},
     "Dermorphin": {"cid": 5485199},
-    "GHK": {"cid": 73587},
-    "Argireline": {"cid": 71587772},
     "SS-31": {"cid": 11764719},  # elamipretide
     "AOD-9604": {"cid": 71300630},
     "VIP": {"cid": None},  # no PubChem match for the peptide — drop the wrong CID
-    # Wrong InChIKey (CID was correct — the stored key belonged to another molecule,
-    # e.g. MDA carried amphetamine's key):
-    "MDA": {"inchikey": "NGBBVGZWCFBOGO-UHFFFAOYSA-N"},
+    # Wrong InChIKey (CID was correct — the stored key belonged to another molecule):
     "Tropacocaine": {"inchikey": "XQJMXPAEFMWDOZ-UHFFFAOYSA-N"},
-    "25CN-NBOH": {"inchikey": "VWEDZTZAXHMZIL-UHFFFAOYSA-N"},
     # (−)-cocaine, the natural product and the medication (PubChem CID 446220):
     # the (1R,2R,3S,5S) enantiomer. The row was previously flattened because
     # dedup keys on the first-14 skeleton and no other ZPUCINDJVBIVPJ tropane
@@ -3093,14 +3115,14 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     # free base — desalt the formula to match the structure (MW recomputed by
     # reconcile_formula_mass). PubChem CID 5284603.
     "Oxycodone": {"formula": "C18H21NO4"},
-    # NPS-DataHub handed us the hydrochloride formula (C11H16ClNO, MW 213.71)
-    # while the InChIKey/structure are the free base (2-(methylamino)-1-(2-methyl
-    # phenyl)propan-1-one, PubChem CID 56603536). The molar/EC50 occupancy math
-    # needs the free-base mass, so desalt the formula — reconcile_formula_mass then
-    # recomputes MW 213.71 → 177.24. Salt→freebase factor 0.829. MW pinned to the
-    # PubChem canonical 177.24 (CID not in the offline snapshots) so it matches its
-    # isomers mephedrone/3-MMC exactly rather than the atomic-table 177.25.
-    "2-MMC": {"formula": "C11H15NO", "molecular_weight": 177.24},
+    # Stored as the hydrochloride (XEHNLVMHWYPNEQ, CID 122764, C9H12ClN) while
+    # its merged-in 2-AI record carried the free base. The row is the molecule:
+    # 2,3-dihydro-1H-inden-2-amine, CID 76310, C9H11N.
+    "2-Aminoindane": {
+        "cid": 76310,
+        "inchikey": "LMHHFZAXSANGGM-UHFFFAOYSA-N",
+        "smiles": "NC1Cc2ccccc2C1",
+    },
     # --- Stage 0.0a: InChIKey collision cleanup (prerequisite to PSID minting).
     # Each pair below shared a full InChIKey because ONE row was overwritten with
     # the OTHER's structure. Correct keys/SMILES are re-derived from PubChem and
@@ -3164,7 +3186,7 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     # old skeleton-only check couldn't see. Corrected to PubChem's name-verified
     # structure (obabel(smiles) == inchikey confirmed). For most the stored key was
     # already right and only the SMILES was wrong; Indatraline and RTI-113 had the
-    # key wrong too. Notably R/S-MDMA had their SMILES SWAPPED.
+    # key wrong too.
     "Dasotraline": {
         "inchikey": "SRPXSILJHWNFMK-MEDUHNTESA-N",
         "smiles": "C1C[C@H](C2=CC=CC=C2[C@@H]1C3=CC(=C(C=C3)Cl)Cl)N",
@@ -3180,14 +3202,6 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     "Phenylephrine": {
         "inchikey": "SONNWYBIRXJNDC-VIFPVBQESA-N",
         "smiles": "CNC[C@@H](C1=CC(=CC=C1)O)O",
-    },
-    "R-(-)-MDMA": {
-        "inchikey": "SHXWCVYOXRDMCX-MRVPVSSYSA-N",
-        "smiles": "C[C@H](CC1=CC2=C(C=C1)OCO2)NC",
-    },
-    "S-(+)-MDMA": {
-        "inchikey": "SHXWCVYOXRDMCX-QMMMGPOBSA-N",
-        "smiles": "C[C@@H](CC1=CC2=C(C=C1)OCO2)NC",
     },
     "RTI-113": {
         "inchikey": "AAEKULYONKUBOZ-NBYUQASBSA-N",
@@ -3975,6 +3989,47 @@ def assert_effects_are_readable_in_english(con) -> dict:
     return {"rows": total or 0, "bridged": bridged or 0}
 
 
+def isomer_label_tokens() -> dict[str, dict[str, str]]:
+    """Family parent (normalised) -> {name a single isomer goes by: that isomer}.
+
+    Read from ``data/curated/isomer-families.json``: each variant's own name,
+    display name, brands and synonyms. A product label that names one of these
+    describes the isomer, never the racemate."""
+    path = CURATED_DIR.parent / "isomer-families.json"
+    if not path.exists():
+        return {}
+    out: dict[str, dict[str, str]] = {}
+    for family in json.loads(path.read_text()).get("families", []):
+        tokens = out.setdefault(normalise(family["parent"]), {})
+        for variant in family.get("variants", []):
+            names = [variant.get("name"), variant.get("displayName")]
+            names += variant.get("brands") or []
+            names += variant.get("synonyms") or []
+            for name in names:
+                if name:
+                    tokens[normalise(name)] = variant["name"]
+    return out
+
+
+def medtap_isomer_label(entry: dict, tokens: dict[str, dict[str, str]] | None = None) -> str | None:
+    """The single isomer a MedTAP label is about when its substance is a racemic
+    family parent, else None.
+
+    MedTAP files a label under the molecule's base name, so Lunesta
+    (eszopiclone) arrives as Zopiclone and a dexmethylphenidate label as
+    Methylphenidate. The product name says which molecule the label measured:
+    it is matched word for word against the isomer's names."""
+    tokens = isomer_label_tokens() if tokens is None else tokens
+    family = tokens.get(normalise(entry.get("substance") or ""))
+    product = normalise(entry.get("brand") or "")
+    if not family or not product:
+        return None
+    for token, variant in family.items():
+        if re.search(rf"(?<![0-9a-z]){re.escape(token)}(?![0-9a-z])", product):
+            return variant
+    return None
+
+
 def ingest_medtap_pk(build, path: Path) -> dict:
     """The reviewed FDA-label PK sidecar into `half_lives` and `pk_routes`.
 
@@ -3991,7 +4046,13 @@ def ingest_medtap_pk(build, path: Path) -> dict:
     label describes unless it says otherwise.
     """
     if not path.exists():
-        return {"half_lives": 0, "pk_routes": 0, "unresolved": 0, "adjudicated_out": 0}
+        return {
+            "half_lives": 0,
+            "pk_routes": 0,
+            "unresolved": 0,
+            "adjudicated_out": 0,
+            "isomer_labels": [],
+        }
     payload = json.loads(path.read_text())
     # Substances adjudicated as having no honest single half-life — a prodrug
     # whose label reports its metabolites' decay, an ester depot, a botanical
@@ -4002,11 +4063,27 @@ def ingest_medtap_pk(build, path: Path) -> dict:
     unresolvable = {
         normalise(entry["substance"]) for entry in adjudications.get("half_life_unresolvable", [])
     }
-    written = {"half_lives": 0, "pk_routes": 0, "unresolved": 0, "adjudicated_out": 0}
+    written = {
+        "half_lives": 0,
+        "pk_routes": 0,
+        "unresolved": 0,
+        "adjudicated_out": 0,
+        "isomer_labels": [],
+    }
+    tokens = isomer_label_tokens()
     for entry in payload.get("entries") or []:
         sid = build.substance_ids.get(normalise(entry["substance"]))
         if sid is None:
             written["unresolved"] += 1
+            continue
+        # A label for one isomer (Lunesta, Zenzedi, escitalopram) measured that
+        # isomer, and the isomer is folded into this parent by now, so none of
+        # its numbers may land on the racemate's row: dropped and reported.
+        isomer = medtap_isomer_label(entry, tokens)
+        if isomer is not None:
+            written["isomer_labels"].append(
+                f"{entry['substance']} <- {entry.get('brand')} ({isomer})"
+            )
             continue
         # The label is the citation; its NDC is what identifies the product
         # whose label the number came from. The build's uncited-numeric gate
@@ -4451,6 +4528,29 @@ def normalise(s: str) -> str:
     return s
 
 
+_CHARGE_STATE_NAME_RE = re.compile(r"(\(\d*[+\-−]\)|aminium)$", re.IGNORECASE)
+
+
+def is_charge_state_name(name: str) -> bool:
+    """A record named for one protonation state: "Serotonin(1+)",
+    "D-synephrine(1+)", "Phenylethanolaminium". ChEBI files these as species of
+    the neutral compound, which the catalog already carries; a dose is never
+    recorded against a charge state. Bare "-ium" stays: Lithium and Sodium are
+    real rows."""
+    return bool(_CHARGE_STATE_NAME_RE.search((name or "").strip()))
+
+
+def is_short_code(name: str) -> bool:
+    """A name of at most two letters/digits: "M", "T", "E", "AL", "IP", "Ma".
+
+    These are Shulgin's book codes and street slang, and each one names several
+    unrelated drugs at once ("M" is mescaline in PiHKAL and morphine on the
+    street; "T" is tryptamine in TiHKAL and methamphetamine on the street). They
+    stay as search aliases but never decide which substance a record belongs
+    to: alias matching across sources skips them."""
+    return len(re.sub(r"[^0-9a-z]", "", normalise(name))) <= 2
+
+
 # Stereo/IUPAC prefixes that mark a name as a chemistry-noise variant.
 # e.g. "(+/-)-noradrenaline", "(R)-N-trans-feruloyloctopamine",
 # "(E,E)-bastadin 19", "(2E)-3-(...)", "(2R)-1-(3-chlorophenyl)-...",
@@ -4763,30 +4863,7 @@ ANTIBIOTIC_TAGS = {"antibiotic", "antiviral", "antifungal", "antiparasitic", "an
 # OTC compounds whose dose is on the package — dose may be shown even without a
 # recreational signal (the developer's explicit exception to dose-suppression).
 OTC_ALLOWLIST = {
-    "melatonin",
-    "caffeine",
-    "ibuprofen",
-    "acetaminophen",
-    "paracetamol",
-    "aspirin",
-    "naproxen",
-    "diphenhydramine",
-    "doxylamine",
-    "loratadine",
-    "cetirizine",
-    "famotidine",
-    "loperamide",
-    "dextromethorphan",
-    "pseudoephedrine",
-    "phenylephrine",
     "guaifenesin",
-    "nicotine",
-    "dimenhydrinate",
-    "meclizine",
-    "ranitidine",
-    "omeprazole",
-    "bismuth subsalicylate",
-    "simethicone",
 }
 
 # OTC medicines with **no** recreational use that harm-reduction wikis still list
@@ -4799,7 +4876,6 @@ OTC_ALLOWLIST = {
 # pseudoephedrine), which keep their recreational signal.
 NON_RECREATIONAL_OTC = {
     "acetaminophen",
-    "paracetamol",
     "ibuprofen",
     "aspirin",
     "naproxen",
@@ -5735,12 +5811,6 @@ _NAME_REMAP: dict[str, str] = {
     "cannabidiol": "CBD",
     "cannabichromene": "CBC",
     "cannabigerol": "CBG",
-    # Adderall is a brand of mixed amphetamine salts — PsychonautWiki treats it
-    # as an Amphetamine alias. Merge so it isn't a parallel standalone entry.
-    "adderall": "Amphetamine",
-    "adderall ir": "Amphetamine",
-    "adderall xr": "Amphetamine",
-    "mydayis": "Amphetamine",
     # Wikidata's (±)-ephedrine, filed under a systematic name. Named at ingest
     # because structural dedup keeps the richer row's name, which was this one.
     "2-(methylamine)-1-phenyl-1-propanol": "Ephedrine",
@@ -5748,15 +5818,12 @@ _NAME_REMAP: dict[str, str] = {
     # the structural auto-dedup can't catch them. (The InChIKey connectivity
     # match handles all structurally-confirmed duplicates automatically.)
     "vyvanse": "Lisdexamfetamine",
-    "elvanse": "Lisdexamfetamine",
     # Demerol is a BRAND, and it was sitting in the catalog as a canonical name —
     # carrying pethidine's own InChIKey (XADCESSVHJOZHK) and CID 4058, with
     # Morpheridine filed separately as though they were peers. Canonicalise to the
     # INN; Demerol survives as an alias. Same defect class as the PMA duplication.
     "demerol": "Pethidine",
-    "meperidine": "Pethidine",
     "focalin": "Dexmethylphenidate",
-    "focalin xr": "Dexmethylphenidate",
     # Wikidata long-form / synonym variants that never matched the enriched
     # canonical (different or absent InChIKey) and would otherwise be dropped as
     # content-less stubs — fold them so their name survives as a search alias.
@@ -5765,11 +5832,9 @@ _NAME_REMAP: dict[str, str] = {
     # alias. Remap at ingest so the common name is the canonical and the systematic
     # name folds to an alias — nobody calls it "Lysergic Acid Diethylamide".
     "lysergic acid diethylamide": "LSD",
-    "d-lysergic acid diethylamide": "LSD",
     "dimethyltryptamine": "DMT",  # DMT = N,N-dimethyltryptamine
     "dimethyltryptamine fumarate": "DMT",  # DMT fumarate salt
     "dimethyltryptamine hydrochloride": "DMT",  # DMT HCl salt
-    "bufotenine": "Bufotenin",  # alternate spelling of 5-HO-DMT
     "indopan": "AMT",  # Indopan = brand name for α-methyltryptamine
     "5-bromodimethyltryptamine": "5-Bromo-DMT",  # same InChIKey ATEYZYQLBQUZJE
     "4-hydroxy-n,n diethyltryptamine": "4-HO-DET",  # same InChIKey OHHYMKDBKJPILO
@@ -5820,14 +5885,6 @@ def remapped_record(name: str) -> bool:
 # (loser canonical, winner canonical, fold loser's aliases?). Verified synonyms
 # only — never enantiomers or merely-related drugs.
 _FORCE_MERGE: list[tuple[str, str, bool]] = [
-    # "MEM" (PiHKAL #90) IS 2,5-dimethoxy-4-ethoxyamphetamine — the survivor
-    # already displays as MEM and carries the alias. The erowid-pihkal and
-    # tripsit records are named just "MEM", so they minted a bare stub (no
-    # InChIKey → invisible to structural dedup) holding the PiHKAL/TripSit
-    # dose ladders while the identified row held the durations. Surfaced by
-    # audit/compare_to_drugbank.py when the stub name-matched methylergometrine
-    # (which also answers to "MEM").
-    ("MEM", "2,5-Dimethoxy-4-ethoxyamphetamine", True),
     # "PMA" and "Para-Methoxyamphetamine" are one molecule under two names, and
     # BOTH displayed as "PMA" — two different dose ladders under one shown name.
     # The short-name row is a bare stub (no InChIKey, no formula, no CID), which
@@ -5856,21 +5913,6 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     ("Methylphenidate-transdermal", "Methylphenidate", True),
     # Same-InChIKey real duplicates dedup missed (not alias-linked).
     ("S-Ketamine", "Esketamine", True),  # esketamine IS the S-enantiomer (YQEZLKZALYSWHR)
-    ("Ethylcathinone", "N-Ethylcathinone", True),  # ethcathinone (QTFKIBOSWFGCSL); NEC is curated
-    # Psilocybin's mg dose ladder lives in a mislabelled same-InChIKey sibling.
-    # Fold the DATA but NOT the name — "4-HO-DMT" is psilocin, a different drug.
-    ("4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER", "Psilocybin", False),
-    # 2-FDCK doubled: the short-name stub carries a WRONG InChIKey
-    # (PHFAGYYTDLITTB) so structural dedup never matched the full-name record
-    # (BAHANNQVCQDQQT, the correct key). Fold the stub into the correctly-keyed
-    # canonical; display stays "2-FDCK" via its display_name.
-    ("2-FDCK", "2-Fluorodeschloroketamine", True),
-    # "MAL" is the Erowid PIHKAL Part 2 shorthand for Methallylescaline. The
-    # PIHKAL record is a structure-less stub (no InChIKey/SMILES), so the
-    # alias-linked union-find (Methallylescaline already lists "mal") never had
-    # the structural proof mergeable() requires. Fold the stub's PIHKAL dose/
-    # duration into the full-data record; "MAL" survives as an alias.
-    ("MAL", "Methallylescaline", True),
     # Same-InChIKey connectivity-block duplicates that dedup left split because
     # BOTH rows carry their own dose/duration (the auto-merge gate only folds a
     # data-poor stub, never two data-rich rows). All verified same molecule.
@@ -5939,10 +5981,7 @@ _DO_NOT_MERGE: set[frozenset[str]] = {
 # that smart_title_case can't fix (all-caps like "MELATONIN", or mixed-case
 # chemistry conventions like AcO / NBOMe). Keyed on normalise(name).
 _CANONICAL_CASE: dict[str, str] = {
-    "melatonin": "Melatonin",  # was all-caps MELATONIN
     "lsa": "LSA",  # was Lsa
-    "4-aco-dmt": "4-AcO-DMT",  # acetoxy = AcO
-    "25i-nbome": "25I-NBOMe",  # NBOMe convention
     # 2C = phenethylamine class, uppercase C (the fused "2c" segment carries a
     # digit so chem_caps skips it; bare 2C-B/2C-I arrive cased from source).
     "bk-2c-b": "bk-2C-B",
@@ -5961,11 +6000,8 @@ _CANONICAL_CASE: dict[str, str] = {
     "mpa": "MPA",
     "pce": "PCE",
     "aet": "AET",
-    "ept": "EPT",
     "lsz": "LSZ",
     "pma": "PMA",
-    "pmma": "PMMA",
-    "apap": "APAP",
     "mcpp": "mCPP",  # meta-chlorophenylpiperazine — lowercase locant m
     "pipt": "PiPT",  # propyl-isopropyltryptamine — camel morpheme
 }
@@ -5993,27 +6029,6 @@ _TAG_BLOCKLIST: dict[str, set[str]] = {
     # among the best-studied supplements). Category pinned to Supplement via
     # curated; strip the rec/quality tags so it doesn't read as a psychedelic.
     "melatonin": {"no-human-data", "TIHKAL"},
-    # Pure dopaminergic/noradrenergic stimulants wrongly carrying an empathogen
-    # tag (no meaningful serotonin release). Category is pinned via curated; this
-    # strips the residual cosmetic tag so the detail card doesn't call them
-    # empathogens. (See findings A/B — empathogen requires 5-HT release.)
-    "mdpv": {"empathogen", "entactogen"},
-    "2-fea": {"empathogen", "entactogen"},
-    "a-pihp": {"empathogen", "entactogen"},
-    "alpha-pihp": {"empathogen", "entactogen"},
-    "md-pihp": {"empathogen", "entactogen"},
-    "2-me-pihp": {"empathogen", "entactogen"},
-    "3f-pihp": {"empathogen", "entactogen"},
-    "flephedrone": {"empathogen", "entactogen"},
-    "methcathinone": {"empathogen", "entactogen"},
-    "n-ethylpentedrone": {"empathogen", "entactogen"},
-    "mexedrone": {"empathogen", "entactogen"},
-    "3-chloromethcathinone": {"empathogen", "entactogen"},
-    "3-fea": {"empathogen", "entactogen"},
-    "3-fma": {"empathogen", "entactogen"},
-    "4-fluoropentedrone": {"empathogen", "entactogen"},
-    "4-mpd": {"empathogen", "entactogen"},
-    "3-fluoromethcathinone": {"empathogen", "entactogen"},
 }
 
 # Final removal blocklist: rows that are NOT consumable substances and should
@@ -6022,20 +6037,18 @@ _TAG_BLOCKLIST: dict[str, set[str]] = {
 # non-drug entries (enzymes, lab reagents, hoaxes) that slipped through from
 # any source. Verified non-substances only.
 _REMOVE_NAMES: set[str] = {
-    normalise("DNA (cytosine-5)-methyltransferase 1"),
     normalise("Tetrakis(2-Methoxyisobutylisocyanide)Copper(I) Tetrafluoroborate"),
-    normalise("Jenkem"),  # urban-legend hoax, no active pharmacology
     # Periodic-table / biomolecule entries that aren't consumable substances —
     # this is a substance tracker, not a chemistry catalogue. (Calcium / Iodine /
     # Lithium / Potassium / Sodium stay: they're real supplements / medications.)
     normalise("DNA"),
     normalise("Silver"),
     normalise("Hydrogen"),
-    # Redundant protonated-cation duplicate of Oxedrine (synephrine).
-    normalise("D-synephrine(1+)"),
     # Pharmacologically inactive modafinil metabolites — not consumable/loggable
-    # substances (no wake-promoting activity, no human dosing). The curated stub
-    # files were removed alongside these entries.
+    # substances (no wake-promoting activity, no human dosing). PROVIGIL label
+    # (DailyMed set id 0391f182-1958-9fef-a944-53b229ce99e7) §12.1: the two
+    # metabolites "do not appear to contribute to the CNS-activating
+    # properties of modafinil"; §12.3: inactive in preclinical models.
     normalise("Modafinil acid"),
     normalise("Modafinil sulfone"),
 }
@@ -6086,7 +6099,23 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     # 3-FXE, which are the meta compound's names. Canket keeps 2-FXE, which is
     # correctly its own.
     "2-fluorodeschloroketamine": {"canket", "fluorexetamine"},
-    "canket": {"fluorexetamine", "fxe", "3-fxe", "3‑fxe"},
+    "canket": {"fluorexetamine", "fxe", "3-fxe"},
+    # The plant has its own row; the molecule keeps only its own names.
+    "ibogaine": {"tabernanthe iboga", "t. iboga root bark"},
+    # FreeOD's 2-MMSB article is titled 鼠尾草素乙, which is salvinorin B itself.
+    "2-methoxymethyl-salvinorin b": {"鼠尾草素乙"},
+    # PiHKAL compounds with rows of their own, listed by other sources as names
+    # of a neighbor: MDPH is 3,4-methylenedioxyphentermine, Ψ-2C-T-4 the
+    # 2,6-dimethoxy isomer of 2C-T-4, and TMPEA (#168) the 2,4,5 isomer of
+    # mescaline.
+    "mdphp": {"mdph"},
+    "2c-t-4": {"psi-2c-t-4"},
+    # Lean is promethazine-codeine syrup and has its own row, dosed in mL.
+    "codeine": {"lean", "purple drank"},
+    # Same tangle, methoxy edition: 2-MeO-ketamine is the ortho compound
+    # (CNC1(CCCCC1=O)c1ccccc1OC); MXM, methoxmetamine, is the meta one.
+    # drug.community's 2-MeO-ketamine page lists MXM among its names.
+    "2-meo-ketamine": {"mxm"},
     # GHB carries the names of its two PRODRUGS. They are separate substances in
     # this DB with their own ladders — and, critically, dosed in **millilitres**
     # where GHB is dosed in **grams**, so a reader who searched "GBL" and landed
@@ -6108,48 +6137,25 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
         "γ-羟基丁酸内酯",
         "4-羟基丁酸内酯",
         "氧杂环戊烷-2-酮",
-        "4-内酯",  # scrape fragment, not a name of anything
     },
     "cannabis": {
-        # Δ⁹-THC and synonyms — distinct molecule, has its own entry
+        # Δ⁹-THC and CBD: distinct molecules with entries of their own
         "thc",
         "delta-9-thc",
         "delta-9 thc",
-        "delta 9 thc",
-        "delta‑9 thc",
-        "delta-9-tetrahydrocannabinol",
-        "tetrahydrocannabinol",
         "δ9-thc",
-        "δ9‑thc",
-        "δ⁹-thc",
         "dronabinol",
-        "dronabinol (natural)",
-        "marinol",
-        "syndros",
-        # CBD and synonyms — distinct molecule, has its own entry
         "cbd",
         "cannabidiol",
-        "(-)-cannabidiol",
         "epidiolex",
-        "epidiolex (purified cbd)",
-        # Other cannabinoids — each has its own entry
-        "cbg",
-        "cannabigerol",
-        "cbn",
-        "cannabinol",
-        "cbc",
-        "cannabichromene",
-        "cbdv",
-        "cannabidivarin",
         # Mixtures and prepared products — not synonyms for raw cannabis
         "nabiximols",
-        "nabiximols (sativex)",
-        "sativex",
         "thc+cbd",
         "tetrahydrocannabinol+cannabidiol",
     },
     # Plant / preparation aliased onto the active MOLECULE (each has its own entry).
     "mescaline": {
+        "tmpea",
         "peyote",
         "san pedro",
         "san-pedro",
@@ -6157,7 +6163,6 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
         "peyote alkaloid",
         "san pedro/trichocereus cactus alkaloid",
     },
-    "mushrooms": {"psilocybin", "psilocin"},
     "caffeine": {"coffee"},
     # Distinct compounds wrongly cross-aliased (dangerous in a HR tracker).
     # "ma" = methamphetamine abbrev. "tenamfetamine" is the INN of **MDA**, not
@@ -6165,9 +6170,9 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     # it is already correctly attached to the MDA record; here it pointed one
     # methyl group away.
     "mdma": {"ma", "tenamfetamine"},
-    "methylone": {"molly", "bath salt", "bath salts"},  # Molly = MDMA slang
+    "methylone": {"molly", "bath salt"},  # Molly = MDMA slang
     "5-htp": {"l-tryptophan", "tryptophan"},  # distinct precursor
-    "melatonin": {"5-mt", "5-methoxytryptamine", "ramelteon"},
+    "melatonin": {"5-mt"},
     "diphenhydramine": {"dimenhydrinate", "fexofenadine", "meclizine"},
     "4-ho-met": {"ethocin"},  # ethocin = 4-HO-DET
     "dextromethorphan": {"duract"},  # bromfenac (an NSAID)
@@ -6352,6 +6357,9 @@ class Build:
         #: write, for the build report — an overwrite that leaves no trace is
         #: indistinguishable from the corruption it replaced.
         self.corrections: list[dict] = []
+        #: Erowid records skipped because data/curated/erowid-ids.json names no
+        #: substance for their chapter: (source slug, record name, chapter key).
+        self.erowid_unmapped: list[tuple[str, str, str | None]] = []
         #: dose.wiki's chemistry per joined substance id, applied as corrections
         #: after the PubChem reconciliation passes.
         self.dosewiki_claims: dict[int, dict[str, str]] = {}
@@ -6511,7 +6519,7 @@ class Build:
         name = name.translate(_GREEK_CAPS_TO_LATIN)
         # Single choke-point for blocking IUPAC chemistry noise from any
         # ingester (wikidata SPARQL, drug.community, enrichment).
-        if is_chemistry_noise(name):
+        if is_chemistry_noise(name) or is_charge_state_name(name):
             return None
         # Never let a non-Latin (Chinese) IUPAC name land — PubChem supplies the
         # English systematic name (see apply_pubchem_computed).
@@ -8169,9 +8177,12 @@ class Build:
         # files CDP-Choline under "Citicoline", drug.community files MXP as
         # "MXP (Methoxphenidine)" — and keying on the raw record alone means an
         # exception silently does nothing, which looks exactly like a fixed row.
-        skip_routes = self._exception_for(self._dose_skip_map(slug), name, sid)
-        drop_routes = self._exception_for(self._route_drop_map(slug), name, sid)
-        drop_durations = self._exception_for(self._duration_drop_map(slug), name, sid)
+        # An Erowid record is filed under its chapter's substance, and its book
+        # code (`_record_name`) is still the name its exceptions are keyed on.
+        record_name = s.get("_record_name") or name
+        skip_routes = self._exception_for(self._dose_skip_map(slug), record_name, sid)
+        drop_routes = self._exception_for(self._route_drop_map(slug), record_name, sid)
+        drop_durations = self._exception_for(self._duration_drop_map(slug), record_name, sid)
         for r in s.get("routes") or []:
             if not isinstance(r, dict):
                 continue
@@ -8639,6 +8650,10 @@ class Build:
                     continue
             if slug not in self.source_ids:
                 slug = "piru-curated"
+            if slug in ("erowid-pihkal", "erowid-tihkal"):
+                substance = self._resolve_erowid_chapter(substance, slug)
+                if substance is None:
+                    continue
             self._ingest_substance_record(
                 substance,
                 slug,
@@ -8646,6 +8661,42 @@ class Build:
                 pubchem_cid=to_int(rec.get("pubchemCID")),
                 cas=rec.get("cas"),
             )
+
+    @functools.cached_property
+    def _erowid_ids(self) -> dict[str, dict]:
+        return load_erowid_ids()
+
+    def _resolve_erowid_chapter(self, substance: dict, slug: str) -> dict | None:
+        """File an Erowid PiHKAL/TiHKAL record under the substance its chapter
+        describes, read from ``data/curated/erowid-ids.json``.
+
+        The record's own name is Shulgin's short code, and the codes are street
+        names of unrelated drugs: matched by name, mescaline's chapter (M) landed
+        on Morphine and tryptamine's (T) on Methamphetamine. A chapter the map
+        does not name is skipped and reported, never matched by name. The code
+        survives as an alias only when it is at least three characters, so ``M``
+        or ``IP`` never becomes a search name for the substance.
+
+        The entry's InChIKey checks the join (``test_erowid_chapters``) and is
+        not written to the row: the chapter's own record carries no structure,
+        and a key minted at ingest would change which rows structural dedup
+        folds together."""
+        key = erowid_chapter_key(substance.get("sources"))
+        entry = self._erowid_ids.get(key) if key else None
+        code = (substance.get("name") or "").strip()
+        if not entry or not entry.get("substance"):
+            self.erowid_unmapped.append((slug, code, key))
+            self.stats["erowid_unmapped"] = self.stats.get("erowid_unmapped", 0) + 1
+            return None
+        target = entry["substance"]
+        aliases = [a for a in substance.get("aliases") or [] if isinstance(a, str)]
+        if (
+            normalise(code) != normalise(target)
+            and len(re.sub(r"[^0-9a-z]", "", code.lower())) >= 3
+            and code not in aliases
+        ):
+            aliases.append(code)
+        return dict(substance, name=target, aliases=aliases, _record_name=code)
 
     def ingest_bundled_substances(self, path: Path) -> None:
         """Legacy ingester for the post-merge bundled JSON. Attributes
@@ -9511,6 +9562,7 @@ class Build:
                             return name
             return None
 
+        zh_titles = localized_zh_titles()
         for rec in sorted(data, key=lambda r: r.get("page_slug") or ""):
             title = (rec.get("title") or "").strip()
             if title in FREEOD_SKIP_PAGES:
@@ -9523,6 +9575,10 @@ class Build:
             # A curated zh→English override (for fully-Chinese pages) leads the
             # candidate list so it both matches and supplies an English name.
             override = FREEOD_NAME_OVERRIDE.get(title)
+            # A Chinese-only title that data/curated/localized-names.json already
+            # names as some substance's zh title is that substance.
+            if override is None and not _LATIN_RE.search(title):
+                override = zh_titles.get(title)
             latin_cands = (
                 ([override] if override else [])
                 + [canonical]
@@ -10141,13 +10197,16 @@ class Build:
     # Protein-target / non-drug junk rows in medtap (e.g. "Mu-type opioid
     # receptor", "5-hydroxytryptamine receptor 2A", "30S ribosomal protein S12",
     # "Sodium channel protein type 5 subunit alpha", "Penicillin-binding
-    # protein 2"). The keyword can sit anywhere in the name, not just the end,
-    # so match on word boundaries rather than endswith.
+    # protein 2", "Squalene monooxygenase" — terbinafine's label filed under its
+    # target). The keyword can sit anywhere in the name, not just the end, so
+    # match on word boundaries rather than endswith; an enzyme *drug* carries an
+    # INN (Asparaginase, Pancrelipase) and never a bare enzyme-class word.
     _MEDTAP_JUNK_RE = re.compile(
         r"\b(receptor|transporter|channel|subunit|ribosomal|topoisomerase|atpase|"
         r"binding protein|reductase|synthase|kinase|polymerase|integrase|protease|"
         r"transferase|methyltransferase|dehydrogenase|hydroxylase|carboxylase|"
-        r"transaminase|aminotransferase|lyase|ligase|isomerase)\b",
+        r"transaminase|aminotransferase|lyase|ligase|isomerase|"
+        r"monooxygenase|oxygenase|oxidase|anhydrase|lipase)\b",
         re.IGNORECASE,
     )
 
@@ -10195,20 +10254,10 @@ class Build:
     # converter offers no false-precision conversion — rather than the TripSit point.
     # Faithful-over-comprehensive (RC-expansion B4, 2026-06-23).
     _BENZO_EQUIV_NONE = {
-        "clonazolam",
-        "flualprazolam",
         "flubromazolam",
-        "bromazolam",
         "diclazepam",
         "flubromazepam",
-        "deschloroetizolam",
-        "metizolam",
-        "flunitrazolam",
-        "norflurazepam",
         "pyrazolam",
-        "adinazolam",
-        "nifoxipam",
-        "meclonazepam",
     }
     _BENZO_EQUIV_NONE_TEXT = (
         "No validated diazepam-equivalence. Designer benzodiazepine — absent from the Ashton "
@@ -10259,10 +10308,12 @@ class Build:
         """name/alias → sid index over everything already in the DB. Canonical
         names win over aliases (seeded first, aliases folded in with setdefault).
         Used by the enrichment ingesters, which match existing substances by
-        name OR alias and never mint a new row."""
+        name OR alias and never mint a new row. Aliases that are short codes
+        (``is_short_code``) are left out: each names several drugs."""
         index: dict[str, int] = dict(self.substance_ids)
         for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
-            index.setdefault(row[1], row[0])
+            if not is_short_code(row[1]):
+                index.setdefault(row[1], row[0])
         return index
 
     @staticmethod
@@ -10358,6 +10409,22 @@ class Build:
         for rec in json.loads(path.read_text()):
             sid = self._resolve_by_name_alias(rec.get("name"), name_to_sid, rec.get("aliases"))
             if sid is None:
+                continue
+            # An alias match is not an identity. NPS DataHub's "4-MA" is
+            # 4-methylamphetamine, while Piru's 4-MA alias belongs to
+            # 4-methoxyamphetamine (PiHKAL #97): a record that reached its row
+            # through an alias and whose structure disagrees with the row's
+            # donates nothing. (A canonical-name match stays trusted: NPS keys
+            # are mostly salts, whose skeleton block differs from the base's.)
+            row_key = self.cur.execute(
+                "SELECT inchikey FROM substances WHERE id = ?", (sid,)
+            ).fetchone()[0]
+            rec_key = rec.get("x_inchikey") or ""
+            by_alias = normalise(rec.get("name") or "") not in self.substance_ids
+            if by_alias and row_key and rec_key and row_key[:14] != rec_key[:14]:
+                self.stats["nps_structure_mismatch"] = (
+                    self.stats.get("nps_structure_mismatch", 0) + 1
+                )
                 continue
             self.cur.execute(
                 "UPDATE substances SET inchikey = COALESCE(inchikey, ?), cas = COALESCE(cas, ?), "
@@ -11532,7 +11599,6 @@ class Build:
     _BRAND_FAMILY_BLOCKLIST = frozenset(
         {
             "Ritalin",
-            "Riphenidate",
         }
     )
 
@@ -13768,7 +13834,7 @@ class Build:
         # can't fuse distinct compounds into one mega-group.
         for anorm, owners in alias_owners.items():
             gen = canon_norm.get(anorm)  # substance whose canonical IS this name
-            if gen is None:
+            if gen is None or is_short_code(anorm):
                 continue
             others = owners - {gen}
             if not others or len(others) > 3:
@@ -14107,8 +14173,6 @@ class Build:
     # curated file should be fixed in the file, not here. Adds a piru-curated
     # category row (priority 1) so it wins resolution and drives display_class.
     _CATEGORY_OVERRIDES: dict[str, str] = {
-        "S-(+)-MDMA": "Empathogen",
-        "R-(-)-MDMA": "Empathogen",
         "Lys-MDA": "Empathogen",
         "Endomorphin-1": "Peptide",
         # --- Opioid ---
@@ -14121,7 +14185,6 @@ class Build:
         "Bezitramide": "Opioid",
         "Butorphanol": "Opioid",
         "Carfentanil": "Opioid",
-        "Cychlorphine": "Opioid",
         "Lofentanil": "Opioid",
         "MGM-15": "Opioid",
         "Mitragynine": "Opioid",
@@ -14141,11 +14204,9 @@ class Build:
         "3-CAF": "Stimulant",
         "3-CEC": "Stimulant",
         "3-Chlorophenmetrazine": "Stimulant",
-        "3-Fluoroethamphetamine": "Stimulant",
         "3-Methyl-4-fluoro-A-pyrrolidinovalerophenone": "Stimulant",
         "3-Methylaminorex": "Stimulant",
         "4'-Fluoro-4-methylaminorex": "Stimulant",
-        "4,4'-Dimethylaminorex": "Stimulant",
         "4-Bromoamphetamine": "Stimulant",
         "4-CEC": "Stimulant",
         "4-CL-PPP": "Stimulant",
@@ -14213,7 +14274,6 @@ class Build:
         "Cloxazolam": "Benzodiazepine",
         "Flubrotizolam": "Benzodiazepine",
         "Fluetizolam": "Benzodiazepine",
-        "Gidazepam": "Benzodiazepine",
         "Ketazolam": "Benzodiazepine",
         "Loprazolam": "Benzodiazepine",
         "Metaclazepam": "Benzodiazepine",
@@ -15445,9 +15505,12 @@ def main() -> int:
         f"MedTAP label PK: {medtap_pk['half_lives']} half-lives, "
         f"{medtap_pk['pk_routes']} pk_routes "
         f"({medtap_pk['unresolved']} unresolved, "
-        f"{medtap_pk['adjudicated_out']} adjudicated out)",
+        f"{medtap_pk['adjudicated_out']} adjudicated out, "
+        f"{len(medtap_pk['isomer_labels'])} single-isomer labels dropped)",
         file=sys.stderr,
     )
+    for line in medtap_pk["isomer_labels"]:
+        print(f"  isomer label, not the racemate: {line}", file=sys.stderr)
 
     # Curated first: the UNIQUE class pair is what makes it win over TripSit.
     curated_rules = build.ingest_interaction_rules()
@@ -15947,6 +16010,16 @@ def main() -> int:
         n = db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
         lines.append(f"| {t} | {n:,} |")
     lines.append("")
+    if build.erowid_unmapped:
+        lines.append("## Unmapped Erowid chapters")
+        lines.append("")
+        lines.append(
+            "Skipped: `data/curated/erowid-ids.json` names no substance for these chapters."
+        )
+        lines.append("")
+        for slug, code, key in build.erowid_unmapped:
+            lines.append(f"- {slug} `{key}` ({code})")
+        lines.append("")
     if build.corrections:
         lines.append("## Identifier corrections")
         lines.append("")
