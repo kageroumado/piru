@@ -160,6 +160,12 @@ jobs:
         run: python3 pipeline/build/tests/test_psid.py
       - name: dose.wiki snapshot, join and ingest gates
         run: python3 pipeline/build/tests/test_dosewiki.py
+      # A citation in data/curated/row-citations.json was checked against one
+      # row's sentence; an entry that names no row, several, or a reworded one
+      # is stale. The same test holds the uncited count per table to a committed
+      # baseline that may only go down.
+      - name: Row citations still name their rows; uncited rows only go down
+        run: python3 pipeline/build/tests/test_row_citations.py
 
   swift-lint:
     name: Swift (format + lint)

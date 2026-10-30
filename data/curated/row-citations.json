@@ -1,0 +1,4 @@
+{
+ "_comment": "Citations for rows whose own input names no source, each checked against the row by the pass named in `via` before it landed here. One entry names one row by table + canonical substance + source slug + `match` columns + `claim_sha1` (a hash of the row's prose, so a citation stops applying when the sentence it was checked against changes). Applied at build by pipeline/build/row_citations.py; pipeline/build/tests/test_row_citations.py fails on any entry that no longer names exactly one row. Never hand-edit an entry to make it match: re-run the pass, or re-check the source against the new row. Format and passes: pipeline/README.md, 'Row citations'.",
+ "entries": []
+}
