@@ -33,10 +33,6 @@
     "inchikey": "UBZPNQRBUOBBLN-PWRODBHTSA-N",
     "smiles": "COC(=O)[C@@H]([C@H]1CCCCN1C(=O)OC[N+]2=CC=CC(=C2)C(=O)N[C@@H](CO)C(=O)[O-])C3=CC=CC=C3"
   },
-  "3-FEA": {
-    "inchikey": "CKPWHLGHHXSVJI-UHFFFAOYSA-N",
-    "smiles": "CCNC(C)CC1=CC(=CC=C1)F"
-  },
   "MXiPr": {
     "inchikey": "FTQIVDGNGXPEKP-UHFFFAOYSA-N",
     "smiles": "CC(C)NC1(CCCCC1=O)C2=CC(=CC=C2)OC"
@@ -96,10 +92,6 @@
     "smiles": "C1[C@@H]2CNC[C@H]1C3=CC4=NC=CN=C4C=C23",
     "formula": "C13H13N3"
   },
-  "Proscaline": {
-    "inchikey": "HYWLMSUAZVDUFW-UHFFFAOYSA-N",
-    "formula": "C13H21NO3"
-  },
   "Seletracetam": {
     "formula": "C10H14F2N2O2"
   },
@@ -115,9 +107,6 @@
   },
   "4-Chloromethamphetamine": {
     "formula": "C10H14ClN"
-  },
-  "Dichloropane": {
-    "formula": "C15H17Cl2NO2"
   },
   "MMB-2201": {
     "formula": "C20H27FN2O3"
@@ -140,10 +129,6 @@
     "inchikey": "CLXPYTBRAZHUFD-UHFFFAOYSA-N",
     "smiles": "CC1C(OCCN1)C2=CC=C(C=C2)F",
     "formula": "C11H14FNO"
-  },
-  "25B-NBOMe": {
-    "inchikey": "SUXGNJVVBGJEFB-UHFFFAOYSA-N",
-    "smiles": "COC1=CC=CC=C1CNCCC2=CC(=C(C=C2OC)Br)OC"
   },
   "2C-B-FLY": {
     "inchikey": "YZDFADGMVOSVIX-UHFFFAOYSA-N",
