@@ -1,0 +1,22 @@
+[
+ "LADDER | ALD-52 | oral: threshold # > light_lower #",
+ "LADDER | HXE | insufflation: light is #-#",
+ "ROUTE | 3-HO-PCE | insufflation needs #x the oral dose (common tier)",
+ "ROUTE | 3-MeO-PCP | inhalation needs #x the rectal dose (common tier)",
+ "ROUTE | 4'-Fluoro-4-methylaminorex | insufflation needs #x the oral dose (common tier)",
+ "ROUTE | 4-HO-MET | inhalation needs #x the insufflation dose (common tier)",
+ "ROUTE | Ab-chminaca | inhalation needs #x the oral dose (common tier)",
+ "ROUTE | Ab-fubinaca | inhalation needs #x the oral dose (common tier)",
+ "ROUTE | Buprenorphine | sublingual needs #x the oral dose (common tier)",
+ "ROUTE | Caffeine | inhalation needs #x the insufflation dose (common tier)",
+ "ROUTE | DET | inhalation needs #x the insufflation dose (common tier)",
+ "ROUTE | Estradiol | intramuscular needs #x the oral dose (common tier)",
+ "ROUTE | Heroin | insufflation needs #x the oral dose (common tier)",
+ "ROUTE | Spirochlorphine | intravenous needs #x the insufflation dose (common tier)",
+ "ROUTE | \u03b1-Pyrrolidinopropiophenone | intravenous needs #x the inhalation dose (common tier)",
+ "SOURCE | Diphenhydramine | oral: piru-curated is #x the consensus of # sources (common tier)",
+ "SOURCE | Doxylamine | oral: piru-curated is #x the consensus of # sources (common tier)",
+ "SOURCE | MDPHP | oral: erowid-pihkal is #x the consensus of # sources (common tier)",
+ "SOURCE | Met | oral: tripsit is #x the consensus of # sources (common tier)",
+ "SOURCE | Methcathinone | oral: drug.community is #x the consensus of # sources (common tier)"
+]

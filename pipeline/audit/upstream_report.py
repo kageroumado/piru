@@ -14,7 +14,8 @@ to ship and why, and the questions only the source can answer.
 Reads: the source snapshot in `data/sources/`, `data/adjudication/cells.jsonl`
 (run `pipeline/audit/adjudicate.py` first — the report refuses to run on a
 stale or missing one older than the built DB), `data/curated/dose-source-
-exceptions.json`, and `data/snapshots/dose-gate-report.json`. Writes to
+exceptions.json`, `data/snapshots/dose-gate-report.json` and
+`data/snapshots/unparsed-upstream.json`. Writes to
 `Specs/evidence/upstream-reports/<source>-<date>.md` unless `--out` says
 otherwise. Offline and deterministic.
 """
@@ -34,6 +35,7 @@ CELLS = REPO / "data/adjudication/cells.jsonl"
 DB = REPO / "Piru/Data/piru-substances.sqlite"
 EXCEPTIONS = REPO / "data/curated/dose-source-exceptions.json"
 GATE_JSON = REPO / "data/snapshots/dose-gate-report.json"
+UNREAD_JSON = REPO / "data/snapshots/unparsed-upstream.json"
 OUT_DIR = REPO / "Specs/evidence/upstream-reports"
 
 SOURCES = {
@@ -390,6 +392,18 @@ def blocked_rows(slug: str) -> list[str]:
     return rows
 
 
+def unread_rows(slug: str) -> list[str]:
+    """Values of this source the build refused or read only in part."""
+    if not UNREAD_JSON.exists():
+        return []
+    return [
+        f"| {d['substance'] or '—'} | {d['route'] or '—'} | {d['field']} | "
+        f"`{str(d['raw']).replace('|', '/')[:160]}` | {d['reason']} |"
+        for d in json.loads(UNREAD_JSON.read_text())
+        if d["source"] == slug
+    ]
+
+
 # ------------------------------------------------------------------------ main
 
 
@@ -587,6 +601,21 @@ def main(argv: list[str] | None = None) -> int:
             + blocked
             + [""]
         )
+    else:
+        lines += ["None.", ""]
+    unread = unread_rows(args.source)
+    lines += ["## D. Values Piru could not read", ""]
+    if unread:
+        lines += [
+            "Each value was refused, or read only in part: `unparsed` and `foreign_characters` "
+            "mean nothing was kept; `range_in_single_value_tier` and `extra_numbers_ignored` "
+            "mean the first figure was kept and the rest dropped.",
+            "",
+            "| substance | route | field | value | why |",
+            "|---|---|---|---|---|",
+            *unread,
+            "",
+        ]
     else:
         lines += ["None.", ""]
     OUT = args.out or (OUT_DIR / f"{args.source}-{today}.md")

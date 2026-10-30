@@ -229,18 +229,18 @@ struct HelpView: View {
             [
                 .init(title: "Emergency Services", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .dangerAccent),
                 .init(title: "Suicide Crisis Helpline", detail: "988", systemImage: "phone.fill", url: "tel:988", tint: .infoAccent),
-                .init(title: "Poison Centre", detail: "1-844-767-8187", systemImage: "phone.fill", url: "tel:18447678187", tint: .cautionAccent),
-                .init(title: "Crisis Text Line", detail: "Text HOME to 686868", systemImage: "message.fill", url: "sms:686868&body=HOME", tint: Color.successAccent),
+                .init(title: "Poison Centre", detail: "1-844-764-7669", systemImage: "phone.fill", url: "tel:18447647669", tint: .cautionAccent),
+                .init(title: "Kids Help Phone", detail: "Text CONNECT to 686868", systemImage: "message.fill", url: "sms:686868&body=CONNECT", tint: Color.successAccent),
             ]
         case "CO":
             [
-                .init(title: "Linea de Emergencias", detail: "123", systemImage: "phone.fill", url: "tel:123", tint: .dangerAccent),
-                .init(title: "Linea de Crisis", detail: "106", systemImage: "phone.fill", url: "tel:106", tint: .infoAccent),
+                .init(title: "Línea de Emergencias", detail: "123", systemImage: "phone.fill", url: "tel:123", tint: .dangerAccent),
+                .init(title: "Línea de Salud Mental", detail: "106", systemImage: "phone.fill", url: "tel:106", tint: .infoAccent),
             ]
         case "MX":
             [
                 .init(title: "Servicios de Emergencia", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .dangerAccent),
-                .init(title: "Linea de la Vida", detail: "800-911-2000", systemImage: "phone.fill", url: "tel:8009112000", tint: .infoAccent),
+                .init(title: "Línea de la Vida", detail: "800-911-2000", systemImage: "phone.fill", url: "tel:8009112000", tint: .infoAccent),
             ]
         case "BR":
             [
@@ -249,8 +249,8 @@ struct HelpView: View {
             ]
         case "AR":
             [
-                .init(title: "Emergencias", detail: "107", systemImage: "phone.fill", url: "tel:107", tint: .dangerAccent),
-                .init(title: "Centro de Asistencia al Suicida", detail: "135", systemImage: "phone.fill", url: "tel:135", tint: .infoAccent),
+                .init(title: "Emergencias", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .dangerAccent),
+                .init(title: "Línea de Salud Mental", detail: "0800-999-0091", systemImage: "phone.fill", url: "tel:08009990091", tint: .infoAccent),
             ]
         case "CL":
             [
@@ -260,7 +260,7 @@ struct HelpView: View {
         case "PE":
             [
                 .init(title: "SAMU", detail: "106", systemImage: "phone.fill", url: "tel:106", tint: .dangerAccent),
-                .init(title: "Linea 113 Salud", detail: "113", systemImage: "phone.fill", url: "tel:113", tint: .infoAccent),
+                .init(title: "Línea 113 Salud", detail: "113", systemImage: "phone.fill", url: "tel:113", tint: .infoAccent),
             ]
         case "EC":
             [
@@ -268,12 +268,12 @@ struct HelpView: View {
             ]
         case "VE":
             [
-                .init(title: "Emergencias", detail: "171", systemImage: "phone.fill", url: "tel:171", tint: .dangerAccent),
+                .init(title: "Emergencias", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .dangerAccent),
             ]
         case "UY":
             [
                 .init(title: "Emergencias", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .dangerAccent),
-                .init(title: "Linea de Prevencion del Suicidio", detail: "0800 8483", systemImage: "phone.fill", url: "tel:08008483", tint: .infoAccent),
+                .init(title: "Línea Vida", detail: "0800 0767", systemImage: "phone.fill", url: "tel:08000767", tint: .infoAccent),
             ]
         case "CR":
             [
@@ -294,40 +294,45 @@ struct HelpView: View {
             [
                 .init(title: "Emergency Services", detail: "112 / 999", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
                 .init(title: "Samaritans", detail: "116 123", systemImage: "phone.fill", url: "tel:116123", tint: .infoAccent),
-                .init(title: "Pieta House", detail: "1800 247 247", systemImage: "phone.fill", url: "tel:1800247247", tint: .purple),
+                .init(title: "Pieta", detail: "1800 247 247", systemImage: "phone.fill", url: "tel:1800247247", tint: .purple),
             ]
         case "DE":
             [
                 .init(title: "Notruf", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
                 .init(title: "Telefonseelsorge", detail: "0800 111 0 111", systemImage: "phone.fill", url: "tel:08001110111", tint: .infoAccent),
-                .init(title: "Giftnotruf", detail: "030 19240", systemImage: "phone.fill", url: "tel:03019240", tint: .cautionAccent),
+                .init(title: "Giftnotruf Berlin", detail: "030 19240", systemImage: "phone.fill", url: "tel:03019240", tint: .cautionAccent),
             ]
         case "AT":
             [
                 .init(title: "Notruf", detail: "144", systemImage: "phone.fill", url: "tel:144", tint: .dangerAccent),
                 .init(title: "Telefonseelsorge", detail: "142", systemImage: "phone.fill", url: "tel:142", tint: .infoAccent),
+                .init(title: "Vergiftungsinformationszentrale", detail: "01 406 43 43", systemImage: "phone.fill", url: "tel:014064343", tint: .cautionAccent),
             ]
         case "CH":
             [
-                .init(title: "Sanitatsnotruf", detail: "144", systemImage: "phone.fill", url: "tel:144", tint: .dangerAccent),
+                .init(title: "Sanitätsnotruf", detail: "144", systemImage: "phone.fill", url: "tel:144", tint: .dangerAccent),
                 .init(title: "Die Dargebotene Hand", detail: "143", systemImage: "phone.fill", url: "tel:143", tint: .infoAccent),
                 .init(title: "Tox Info Suisse", detail: "145", systemImage: "phone.fill", url: "tel:145", tint: .cautionAccent),
             ]
         case "FR":
             [
                 .init(title: "SAMU", detail: "15", systemImage: "phone.fill", url: "tel:15", tint: .dangerAccent),
-                .init(title: "SOS Amitie", detail: "09 72 39 40 50", systemImage: "phone.fill", url: "tel:0972394050", tint: .infoAccent),
-                .init(title: "Centre Antipoison", detail: "01 40 05 48 48", systemImage: "phone.fill", url: "tel:0140054848", tint: .cautionAccent),
+                .init(title: "Prévention du suicide", detail: "3114", systemImage: "phone.fill", url: "tel:3114", tint: .infoAccent),
+                .init(title: "SOS Amitié", detail: "09 72 39 40 50", systemImage: "phone.fill", url: "tel:0972394050", tint: .purple),
+                .init(title: "Centre Antipoison de Paris", detail: "01 40 05 48 48", systemImage: "phone.fill", url: "tel:0140054848", tint: .cautionAccent),
             ]
         case "ES":
             [
                 .init(title: "Emergencias", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "Telefono de la Esperanza", detail: "717 003 717", systemImage: "phone.fill", url: "tel:717003717", tint: .infoAccent),
+                .init(title: "Línea 024", detail: "024", systemImage: "phone.fill", url: "tel:024", tint: .infoAccent),
+                .init(title: "Teléfono de la Esperanza", detail: "717 003 717", systemImage: "phone.fill", url: "tel:717003717", tint: .purple),
+                .init(title: "Información Toxicológica", detail: "91 562 04 20", systemImage: "phone.fill", url: "tel:915620420", tint: .cautionAccent),
             ]
         case "PT":
             [
-                .init(title: "Emergencias", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
+                .init(title: "Emergências", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
                 .init(title: "SOS Voz Amiga", detail: "213 544 545", systemImage: "phone.fill", url: "tel:213544545", tint: .infoAccent),
+                .init(title: "Centro de Informação Antivenenos", detail: "800 250 250", systemImage: "phone.fill", url: "tel:800250250", tint: .cautionAccent),
             ]
         case "IT":
             [
@@ -338,33 +343,38 @@ struct HelpView: View {
         case "NL":
             [
                 .init(title: "Alarmnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "113 Zelfmoordpreventie", detail: "0900 0113", systemImage: "phone.fill", url: "tel:09000113", tint: .infoAccent),
+                .init(title: "113 Zelfmoordpreventie", detail: "113 / 0800-0113", systemImage: "phone.fill", url: "tel:113", tint: .infoAccent),
             ]
         case "BE":
             [
                 .init(title: "Urgences", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
+                .init(title: "Zelfmoordlijn 1813", detail: "1813", systemImage: "phone.fill", url: "tel:1813", tint: .infoAccent),
+                .init(title: "Centre de Prévention du Suicide", detail: "0800 32 123", systemImage: "phone.fill", url: "tel:080032123", tint: .purple),
                 .init(title: "Centre Antipoisons", detail: "070 245 245", systemImage: "phone.fill", url: "tel:070245245", tint: .cautionAccent),
             ]
         case "SE":
             [
-                .init(title: "Nodnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "Mind Sjalvmordslinjen", detail: "90101", systemImage: "phone.fill", url: "tel:90101", tint: .infoAccent),
+                .init(title: "Nödnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
+                .init(title: "Mind Självmordslinjen", detail: "90101", systemImage: "phone.fill", url: "tel:90101", tint: .infoAccent),
+                .init(title: "Giftinformationscentralen", detail: "010-456 67 00", systemImage: "phone.fill", url: "tel:0104566700", tint: .cautionAccent),
             ]
         case "NO":
             [
-                .init(title: "Nodnummer", detail: "113", systemImage: "phone.fill", url: "tel:113", tint: .dangerAccent),
+                .init(title: "Medisinsk nødnummer", detail: "113", systemImage: "phone.fill", url: "tel:113", tint: .dangerAccent),
                 .init(title: "Mental Helse", detail: "116 123", systemImage: "phone.fill", url: "tel:116123", tint: .infoAccent),
                 .init(title: "Giftinformasjonen", detail: "22 59 13 00", systemImage: "phone.fill", url: "tel:22591300", tint: .cautionAccent),
             ]
         case "DK":
             [
-                .init(title: "Nodnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
+                .init(title: "Nødnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
                 .init(title: "Livslinien", detail: "70 201 201", systemImage: "phone.fill", url: "tel:70201201", tint: .infoAccent),
+                .init(title: "Giftlinjen", detail: "82 12 12 12", systemImage: "phone.fill", url: "tel:82121212", tint: .cautionAccent),
             ]
         case "FI":
             [
-                .init(title: "Hatanumero", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "Kriisipuhelin", detail: "09 2525 0111", systemImage: "phone.fill", url: "tel:0925250111", tint: .infoAccent),
+                .init(title: "Hätänumero", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
+                .init(title: "MIELI Kriisipuhelin", detail: "09 2525 0111", systemImage: "phone.fill", url: "tel:0925250111", tint: .infoAccent),
+                .init(title: "Myrkytystietokeskus", detail: "0800 147 111", systemImage: "phone.fill", url: "tel:0800147111", tint: .cautionAccent),
             ]
         case "PL":
             [
@@ -373,13 +383,15 @@ struct HelpView: View {
             ]
         case "CZ":
             [
-                .init(title: "Tisnovka", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "Linka bezpeci", detail: "116 111", systemImage: "phone.fill", url: "tel:116111", tint: .infoAccent),
+                .init(title: "Tísňová linka", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
+                .init(title: "Linka první psychické pomoci", detail: "116 123", systemImage: "phone.fill", url: "tel:116123", tint: .infoAccent),
+                .init(title: "Toxikologické informační středisko", detail: "224 91 92 93", systemImage: "phone.fill", url: "tel:224919293", tint: .cautionAccent),
             ]
         case "GR":
             [
                 .init(title: "EKAB", detail: "166", systemImage: "phone.fill", url: "tel:166", tint: .dangerAccent),
                 .init(title: "Klimaka Crisis Line", detail: "1018", systemImage: "phone.fill", url: "tel:1018", tint: .infoAccent),
+                .init(title: "Κέντρο Δηλητηριάσεων", detail: "210 77 93 777", systemImage: "phone.fill", url: "tel:2107793777", tint: .cautionAccent),
             ]
         case "RO", "HU", "HR", "BG", "SK", "SI", "LT", "LV", "EE", "CY", "LU", "MT":
             [
@@ -395,33 +407,37 @@ struct HelpView: View {
         case "NZ":
             [
                 .init(title: "Emergency Services", detail: "111", systemImage: "phone.fill", url: "tel:111", tint: .dangerAccent),
-                .init(title: "Lifeline", detail: "0800 543 354", systemImage: "phone.fill", url: "tel:0800543354", tint: .infoAccent),
+                .init(title: "1737 Need to Talk?", detail: "1737", systemImage: "phone.fill", url: "tel:1737", tint: .infoAccent),
+                .init(title: "Lifeline", detail: "0800 543 354", systemImage: "phone.fill", url: "tel:0800543354", tint: .purple),
                 .init(title: "Poisons Centre", detail: "0800 764 766", systemImage: "phone.fill", url: "tel:0800764766", tint: .cautionAccent),
             ]
         case "JP":
             [
                 .init(title: "Emergency (Ambulance)", detail: "119", systemImage: "phone.fill", url: "tel:119", tint: .dangerAccent),
                 .init(title: "Yorisoi Hotline", detail: "0120-279-338", systemImage: "phone.fill", url: "tel:0120279338", tint: .infoAccent),
+                .init(title: "Poison Control", detail: "072-727-2499", systemImage: "phone.fill", url: "tel:0727272499", tint: .cautionAccent),
             ]
         case "KR":
             [
                 .init(title: "Emergency (Ambulance)", detail: "119", systemImage: "phone.fill", url: "tel:119", tint: .dangerAccent),
-                .init(title: "Suicide Prevention Hotline", detail: "1393", systemImage: "phone.fill", url: "tel:1393", tint: .infoAccent),
+                .init(title: "Suicide Prevention Hotline", detail: "109", systemImage: "phone.fill", url: "tel:109", tint: .infoAccent),
             ]
         case "CN":
             [
                 .init(title: "Emergency (Ambulance)", detail: "120", systemImage: "phone.fill", url: "tel:120", tint: .dangerAccent),
-                .init(title: "Crisis Hotline", detail: "010-8295-1332", systemImage: "phone.fill", url: "tel:01082951332", tint: .infoAccent),
+                .init(title: "Crisis Hotline", detail: "12356", systemImage: "phone.fill", url: "tel:12356", tint: .infoAccent),
             ]
         case "IN":
             [
                 .init(title: "Emergency Services", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "Vandrevala Foundation", detail: "9999 666 555", systemImage: "phone.fill", url: "tel:9999666555", tint: .infoAccent),
+                .init(title: "Tele-MANAS", detail: "14416", systemImage: "phone.fill", url: "tel:14416", tint: .infoAccent),
+                .init(title: "Vandrevala Foundation", detail: "9999 666 555", systemImage: "phone.fill", url: "tel:9999666555", tint: .purple),
+                .init(title: "Poison Control", detail: "1800-116-117", systemImage: "phone.fill", url: "tel:1800116117", tint: .cautionAccent),
             ]
         case "PH":
             [
                 .init(title: "Emergency Services", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .dangerAccent),
-                .init(title: "Crisis Line", detail: "0917-899-8727", systemImage: "phone.fill", url: "tel:09178998727", tint: .infoAccent),
+                .init(title: "NCMH Crisis Hotline", detail: "0917-899-8727", systemImage: "phone.fill", url: "tel:09178998727", tint: .infoAccent),
             ]
         case "SG":
             [
@@ -431,16 +447,17 @@ struct HelpView: View {
         case "MY":
             [
                 .init(title: "Emergency Services", detail: "999", systemImage: "phone.fill", url: "tel:999", tint: .dangerAccent),
-                .init(title: "Befrienders", detail: "03-7956 8145", systemImage: "phone.fill", url: "tel:0379568145", tint: .infoAccent),
+                .init(title: "Befrienders", detail: "03-7627 2929", systemImage: "phone.fill", url: "tel:0376272929", tint: .infoAccent),
             ]
         case "TH":
             [
                 .init(title: "Emergency (Ambulance)", detail: "1669", systemImage: "phone.fill", url: "tel:1669", tint: .dangerAccent),
-                .init(title: "Samaritans of Thailand", detail: "02-713-6793", systemImage: "phone.fill", url: "tel:027136793", tint: .infoAccent),
+                .init(title: "Mental Health Hotline", detail: "1323", systemImage: "phone.fill", url: "tel:1323", tint: .infoAccent),
+                .init(title: "Samaritans of Thailand", detail: "02-113-6789", systemImage: "phone.fill", url: "tel:021136789", tint: .purple),
             ]
         case "ID":
             [
-                .init(title: "Emergency (Ambulance)", detail: "118", systemImage: "phone.fill", url: "tel:118", tint: .dangerAccent),
+                .init(title: "Emergency (Ambulance)", detail: "119", systemImage: "phone.fill", url: "tel:119", tint: .dangerAccent),
             ]
         case "TW":
             [
@@ -450,7 +467,7 @@ struct HelpView: View {
         case "HK":
             [
                 .init(title: "Emergency Services", detail: "999", systemImage: "phone.fill", url: "tel:999", tint: .dangerAccent),
-                .init(title: "Samaritans", detail: "2389 2222", systemImage: "phone.fill", url: "tel:23892222", tint: .infoAccent),
+                .init(title: "Samaritan Befrienders Hong Kong", detail: "2389 2222", systemImage: "phone.fill", url: "tel:23892222", tint: .infoAccent),
             ]
         // Middle East & Africa
         case "IL":
@@ -460,8 +477,8 @@ struct HelpView: View {
             ]
         case "TR":
             [
-                .init(title: "Acil Yardim", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "Intihar Onleme Hatti", detail: "182", systemImage: "phone.fill", url: "tel:182", tint: .infoAccent),
+                .init(title: "Acil Yardım", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
+                .init(title: "Ulusal Zehir Danışma Merkezi", detail: "114", systemImage: "phone.fill", url: "tel:114", tint: .cautionAccent),
             ]
         case "AE":
             [
@@ -475,6 +492,7 @@ struct HelpView: View {
             [
                 .init(title: "Emergency (Ambulance)", detail: "10177", systemImage: "phone.fill", url: "tel:10177", tint: .dangerAccent),
                 .init(title: "SADAG Crisis Line", detail: "0800 567 567", systemImage: "phone.fill", url: "tel:0800567567", tint: .infoAccent),
+                .init(title: "Poisons Information", detail: "0861 555 777", systemImage: "phone.fill", url: "tel:0861555777", tint: .cautionAccent),
             ]
         case "KE":
             [
@@ -492,12 +510,11 @@ struct HelpView: View {
         case "RU":
             [
                 .init(title: "Emergency Services", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .dangerAccent),
-                .init(title: "Psychological Help", detail: "8-800-2000-122", systemImage: "phone.fill", url: "tel:88002000122", tint: .infoAccent),
+                .init(title: "Psychological Help", detail: "+7 495 989-50-50", systemImage: "phone.fill", url: "tel:+74959895050", tint: .infoAccent),
             ]
         case "UA":
             [
                 .init(title: "Emergency (Ambulance)", detail: "103", systemImage: "phone.fill", url: "tel:103", tint: .dangerAccent),
-                .init(title: "Lifeline Ukraine", detail: "7333", systemImage: "phone.fill", url: "tel:7333", tint: .infoAccent),
             ]
         default:
             [

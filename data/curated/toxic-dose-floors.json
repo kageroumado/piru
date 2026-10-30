@@ -1,0 +1,21 @@
+{
+  "_comment": "Human doses at which fatal or severe toxicity is documented, one per substance and route, each from a primary or regulatory source quoted in `quote`. pipeline/build/dose_gates.py deletes any uncited dose ladder whose threshold, light, common or strong tier reaches the floor: that ladder presents a toxic amount as an ordinary dose. The heavy tier is exempt, being the tier that says \"dangerous\". Every deletion is listed in data/snapshots/dose-gate-report.md. A floor without a citation fails pipeline/build/tests/test_dose_gates.py; never add one from memory or from another dose ladder.",
+  "floors": [
+    {
+      "substance": "Para-Methoxyamphetamine",
+      "route": "oral",
+      "floor_mg": 60,
+      "kind": "severe",
+      "citation": "EMCDDA, Report on the risk assessment of PMMA in the framework of the joint action on new synthetic drugs, Risk Assessments series No. 5 (2003), ISBN 92-9168-137-7",
+      "quote": "A 50 mg PMA tablet induces a 'high' by increasing the pulse rate and blood pressure (BP) and by giving the user a feeling of well-being. Doses as low as 60 mg can cause significant increases in BP, body temperature and pulse. Larger doses can cause irregular heartbeats, heart attacks, breathing difficulty, kidney failure, convulsions, coma and death."
+    },
+    {
+      "substance": "Atropine",
+      "route": "oral",
+      "floor_mg": 15,
+      "kind": "severe",
+      "citation": "pmid:26543025",
+      "quote": "approximately 50 mL. Unintentionally, this was equivalent to a very large (15 mg) dose of atropine and she presented in an acute anticholinergic syndrome (confused, tachycardic and hypertensive) … She received supportive management in our intensive treatment unit including mechanical ventilation."
+    }
+  ]
+}

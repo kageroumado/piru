@@ -200,10 +200,12 @@ LLM-assisted research used to fill gaps external sources don't cover
   every web/enrichment/external source, resolves per-field priority, writes
   `Piru/Data/piru-substances.sqlite` + `manifest.json` +
   `data/snapshots/build-report.md`.
-- **`dose_gates.py`** — deletes dose and duration rows that fail a rule about
-  themselves after every source has ingested: a tier above the ceiling of a
-  microgram-dosed class (`data/curated/dose-class-gates.json`), a phase under a
-  minute on a route that has to absorb. Every deletion is written to
+- **`dose_gates.py`** — deletes dose and duration rows that fail a rule after
+  every source has ingested: a tier above the ceiling of a microgram-dosed class
+  (`data/curated/dose-class-gates.json`), a tier reaching a cited toxic dose
+  (`data/curated/toxic-dose-floors.json`), a phase under a minute on a route
+  that has to absorb, a ladder ten times from three other sources, and any
+  shipped text cell carrying a foreign script. Every deletion is written to
   `data/snapshots/dose-gate-report.md` (+ `.json`). See
   [Gates and corrections](#gates-and-corrections).
 - **`snapshots.py`** — GitHub-friendly mirror at `data/snapshots/`, generated
@@ -515,8 +517,8 @@ therapeutic ladder beside a logged recreational dose reads as medical advice.
 The source order decides which claim shows when sources disagree. Two more
 mechanisms decide what a claim may say at all, and both leave a record.
 
-**Dose gates** (`build/dose_gates.py`, run after every source has ingested and
-before dedup). A row is judged on its own terms and deleted when it fails:
+**Dose gates** (`build/dose_gates.py`, run after every source has ingested).
+A row is deleted when it fails:
 
 - a **class ceiling** from `data/curated/dose-class-gates.json` — for a class
   context whose members are dosed in micrograms (fentanyls, nitazenes), any
@@ -524,12 +526,29 @@ before dedup). A row is judged on its own terms and deleted when it fails:
   carries a citation or comes from an exempt source;
 - the **absorption floor** — a phase under one minute on a route that has to
   absorb through a membrane (oral, sublingual, buccal, rectal, transdermal,
-  insufflation) is a units error whatever the source.
+  insufflation) is a units error whatever the source;
+- a **toxic floor** from `data/curated/toxic-dose-floors.json` — an uncited
+  threshold, light, common or strong tier at or above a cited human dose with
+  fatal or severe toxicity. Every floor quotes its source; never add one from
+  memory or from another ladder;
+- the **cross-source outlier** rule — an uncited row whose common midpoint is
+  ≥ 10× (or ≤ 0.1×) the median of at least three other sources for the same
+  substance, route, dosing context and isomer;
+- the **foreign-script** rule — a shipped text cell holding letters of a script
+  no source writes in ("10ጰ min") is dropped, never repaired.
+
+Two ingest refusals join the same report: a PIHKAL/TIHKAL DOSAGE clause that is a
+no-activity bound ("greater than 60 mg", `dose_gates.shulgin_dosage_verdict`;
+the collector carries the clause as `dosageText`), and the tag ceilings of
+`_CLASS_DOSE_CEILING_MG`. Upstream values the build could not read, or read only
+in part, are listed in `data/snapshots/unparsed-upstream.json` and counted in the
+build report.
 
 Every deletion goes to `data/snapshots/dose-gate-report.md` with the rule and
 the values, and the same rows as JSON beside it. Per-row exceptions with their
 evidence stay in `data/curated/dose-source-exceptions.json`; the gate is for the
-class of error, the exception for the row the literature settles.
+class of error, the exception for the row the literature settles. An exception
+that suppresses nothing fails the build.
 
 **Identity corrections.** `apply_identifier_reconciliation` applies the PubChem
 snapshot and the hand-verified `identifier-corrections-manual.json`; then

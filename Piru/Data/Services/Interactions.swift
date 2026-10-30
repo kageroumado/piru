@@ -199,6 +199,11 @@ struct InteractionResult: Equatable {
     /// sub-threshold one). `1` when the amounts are unknown.
     let doseFactor: Double
 
+    /// The logged dose `substanceB` stands for when this pair was found
+    /// against an active ``DoseEntry``. `nil` for a pair of names — two doses
+    /// checked together, an enzyme finding, the explorer's picker.
+    let counterpart: InteractionCounterpart?
+
     init(
         severity: InteractionSeverity,
         substanceA: String,
@@ -207,6 +212,7 @@ struct InteractionResult: Equatable {
         ruleKey: String = "",
         overlapFactor: Double = 1,
         doseFactor: Double = 1,
+        counterpart: InteractionCounterpart? = nil,
     ) {
         self.severity = severity
         self.substanceA = substanceA
@@ -215,6 +221,7 @@ struct InteractionResult: Equatable {
         self.ruleKey = ruleKey
         self.overlapFactor = overlapFactor
         self.doseFactor = doseFactor
+        self.counterpart = counterpart
     }
 
     /// Relevance-weighted score used to order warnings and, on warn surfaces,
@@ -294,6 +301,39 @@ struct InteractionResult: Equatable {
         case .caution: .background
         }
         return isLowRelevance ? base.demoted : base
+    }
+}
+
+/// The already-logged dose one side of an interaction was found against, in
+/// the terms the journal shows it — so a surface that cannot show the journal
+/// (the quick-log tray) can still say which dose it means.
+struct InteractionCounterpart: Equatable {
+    let entryID: UUID
+    /// The dose's title as its journal row reads (``DoseTitle``).
+    let title: String
+    let amount: Double
+    let unit: String
+    let isUnknownAmount: Bool
+    let timestamp: Date
+
+    init(entryID: UUID, title: String, amount: Double, unit: String, isUnknownAmount: Bool, timestamp: Date) {
+        self.entryID = entryID
+        self.title = title
+        self.amount = amount
+        self.unit = unit
+        self.isUnknownAmount = isUnknownAmount
+        self.timestamp = timestamp
+    }
+
+    init(_ entry: DoseEntry) {
+        self.init(
+            entryID: entry.id,
+            title: DoseTitle.resolve(for: entry),
+            amount: entry.amount,
+            unit: entry.unit,
+            isUnknownAmount: entry.isUnknownDose,
+            timestamp: entry.timestamp,
+        )
     }
 }
 
@@ -432,10 +472,14 @@ enum InteractionChecker {
     ///
     /// On ``InteractionPolicy/explore`` nothing is hidden — every matched rule
     /// is returned, ranked by relevance.
+    ///
+    /// `time` is when the prospective dose is taken: a dose filed in the past
+    /// is gated against the curves that were running then.
     static func check(
         _ substanceName: String,
         against activeEntries: [DoseEntry],
         policy: InteractionPolicy = .warn,
+        at time: Date = .now,
     ) -> [InteractionResult] {
         let newClasses = drugClasses(for: substanceName)
         guard !newClasses.isEmpty else { return [] }
@@ -444,7 +488,7 @@ enum InteractionChecker {
         // temporal gating on warn surfaces; nil when the substance has no curve
         // data, in which case the temporal gate degrades to "unknown" and the
         // pair is shown.
-        let prospective = policy == .warn ? prospectiveTrack(for: substanceName) : nil
+        let prospective = policy == .warn ? prospectiveTrack(for: substanceName, at: time) : nil
 
         var byPair: [String: InteractionResult] = [:]
         for entry in activeEntries {
@@ -469,6 +513,7 @@ enum InteractionChecker {
                 ruleKey: rule.key,
                 overlapFactor: overlapFactor,
                 doseFactor: doseFactor,
+                counterpart: InteractionCounterpart(entry),
             )
             merge(result, into: &byPair)
         }
@@ -506,13 +551,14 @@ enum InteractionChecker {
         _ substances: [String],
         against activeEntries: [DoseEntry],
         policy: InteractionPolicy = .warn,
+        at time: Date = .now,
     ) -> [InteractionResult] {
         var byPair: [String: InteractionResult] = [:]
 
-        // Each substance (logged "now") against the already-active entries.
+        // Each substance (logged at `time`) against the already-active entries.
         if !activeEntries.isEmpty {
             for substance in substances {
-                for result in check(substance, against: activeEntries, policy: policy) {
+                for result in check(substance, against: activeEntries, policy: policy, at: time) {
                     merge(result, into: &byPair)
                 }
             }
@@ -889,37 +935,39 @@ enum InteractionChecker {
     }
 
     /// Build the effect track for a prospective dose from its name alone — it
-    /// starts "now" on its default route, and its amount is treated as unknown
-    /// (only the *shape* of the curve, which is dose-independent, is used).
-    private static func prospectiveTrack(for substanceName: String) -> EffectTrack? {
+    /// starts at `time` on its default route, and its amount is treated as
+    /// unknown (only the *shape* of the curve, which is dose-independent, is used).
+    private static func prospectiveTrack(for substanceName: String, at time: Date) -> EffectTrack? {
         guard let substance = SubstanceLibrary.lookup(substanceName) else { return nil }
-        let entry = DoseEntry(substance: substanceName, amount: 1, route: substance.defaultRoute)
+        let entry = DoseEntry(substance: substanceName, amount: 1, route: substance.defaultRoute, timestamp: time)
         guard let state = ActiveSubstanceState.from(entry: entry, tint: .neutral) else { return nil }
         return EffectTrack(state: state, start: entry.timestamp, amountKnown: false)
     }
 
     // MARK: - Active Entry Detection
 
-    /// Filter entries to those still pharmacologically active
-    static func activeEntries(from entries: [DoseEntry]) -> [DoseEntry] {
-        let now = Date.now
-        return entries.filter { entry in
+    /// Filter entries to those still pharmacologically active at `time` —
+    /// now, or the moment a backdated dose is being filed at. An entry logged
+    /// after `time` passes too: its effects run alongside the backdated dose's,
+    /// and the effect-overlap gate decides whether that matters.
+    static func activeEntries(from entries: [DoseEntry], at time: Date = .now) -> [DoseEntry] {
+        entries.filter { entry in
             // The batch projection carries the durations and half-life this
             // filter reads — several callers pass the whole dose log, so the
             // full `resolveFull` here would be ~21 SQL per uncached substance.
             guard let substance = SubstanceLibrary.lookup(entry.substance) else {
                 // Unknown substance — assume active for 24h as safety fallback
-                return entry.timestamp.addingTimeInterval(86_400) > now
+                return entry.timestamp.addingTimeInterval(86_400) > time
             }
             if let duration = substance.duration(for: entry.route) {
-                return entry.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60) > now
+                return entry.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60) > time
             }
             if let halfLife = substance.halfLifeMinutes {
                 // 5 half-lives ≈ 97% eliminated
-                return entry.timestamp.addingTimeInterval(halfLife * 5 * 60) > now
+                return entry.timestamp.addingTimeInterval(halfLife * 5 * 60) > time
             }
             // No duration or half-life data — assume active for 24h
-            return entry.timestamp.addingTimeInterval(86_400) > now
+            return entry.timestamp.addingTimeInterval(86_400) > time
         }
     }
 }

@@ -9265,6 +9265,34 @@
         }
       }
     },
+    "1737 Need to Talk?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1737 Need to Talk?"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1737 Need to Talk?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1737 Need to Talk?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1737 Need to Talk?"
+          }
+        }
+      }
+    },
     "A binding-affinity measurement, not clinical potency." : {
       "localizations" : {
         "es" : {
@@ -11400,6 +11428,7 @@
       }
     },
     "Acil Yardim" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -11423,6 +11452,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Acil Yardim"
+          }
+        }
+      }
+    },
+    "Acil Yardım" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acil Yardım"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acil Yardım"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acil Yardım"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acil Yardım"
           }
         }
       }
@@ -22382,6 +22439,7 @@
       }
     },
     "Centre Antipoison" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -22405,6 +22463,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Centre Antipoison"
+          }
+        }
+      }
+    },
+    "Centre Antipoison de Paris" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre Antipoison de Paris"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre Antipoison de Paris"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre Antipoison de Paris"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre Antipoison de Paris"
           }
         }
       }
@@ -22433,6 +22519,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Centre Antipoisons"
+          }
+        }
+      }
+    },
+    "Centre de Prévention du Suicide" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre de Prévention du Suicide"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre de Prévention du Suicide"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre de Prévention du Suicide"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre de Prévention du Suicide"
           }
         }
       }
@@ -22466,6 +22580,7 @@
       }
     },
     "Centro de Asistencia al Suicida" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -22489,6 +22604,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Centro de Asistencia al Suicida"
+          }
+        }
+      }
+    },
+    "Centro de Informação Antivenenos" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centro de Informação Antivenenos"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centro de Informação Antivenenos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centro de Informação Antivenenos"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centro de Informação Antivenenos"
           }
         }
       }
@@ -27553,6 +27696,7 @@
       }
     },
     "Crisis Line" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -35345,6 +35489,34 @@
         }
       }
     },
+    "Emergências" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emergências"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emergências"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emergências"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emergências"
+          }
+        }
+      }
+    },
     "Emergencias (ECU 911)" : {
       "localizations" : {
         "es" : {
@@ -42102,7 +42274,64 @@
         }
       }
     },
+    "Giftinformationscentralen" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftinformationscentralen"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftinformationscentralen"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftinformationscentralen"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftinformationscentralen"
+          }
+        }
+      }
+    },
+    "Giftlinjen" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftlinjen"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftlinjen"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftlinjen"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftlinjen"
+          }
+        }
+      }
+    },
     "Giftnotruf" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -42126,6 +42355,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Giftnotruf"
+          }
+        }
+      }
+    },
+    "Giftnotruf Berlin" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftnotruf Berlin"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftnotruf Berlin"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftnotruf Berlin"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giftnotruf Berlin"
           }
         }
       }
@@ -42915,6 +43172,7 @@
       }
     },
     "Hatanumero" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -42938,6 +43196,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hatanumero"
+          }
+        }
+      }
+    },
+    "Hätänumero" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hätänumero"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hätänumero"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hätänumero"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hätänumero"
           }
         }
       }
@@ -47051,6 +47337,34 @@
         }
       }
     },
+    "Información Toxicológica" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información Toxicológica"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información Toxicológica"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información Toxicológica"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información Toxicológica"
+          }
+        }
+      }
+    },
     "Inhalation" : {
       "localizations" : {
         "es" : {
@@ -47643,6 +47957,7 @@
       }
     },
     "Intihar Onleme Hatti" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -48659,6 +48974,34 @@
         }
       }
     },
+    "Kids Help Phone" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kids Help Phone"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kids Help Phone"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kids Help Phone"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kids Help Phone"
+          }
+        }
+      }
+    },
     "Kind" : {
       "localizations" : {
         "es" : {
@@ -48745,6 +49088,7 @@
       }
     },
     "Kriisipuhelin" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50006,6 +50350,7 @@
       }
     },
     "Lifeline Ukraine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50454,7 +50799,36 @@
         }
       }
     },
+    "Línea 024" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea 024"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea 024"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea 024"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea 024"
+          }
+        }
+      }
+    },
     "Linea 113 Salud" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50482,7 +50856,36 @@
         }
       }
     },
+    "Línea 113 Salud" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea 113 Salud"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea 113 Salud"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea 113 Salud"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea 113 Salud"
+          }
+        }
+      }
+    },
     "Linea de Crisis" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50511,6 +50914,7 @@
       }
     },
     "Linea de Emergencias" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50534,11 +50938,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Linea de Emergencias"
+          }
+        }
+      }
+    },
+    "Línea de Emergencias" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de Emergencias"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de Emergencias"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de Emergencias"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de Emergencias"
           }
         }
       }
     },
     "Linea de la Vida" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50566,7 +50999,36 @@
         }
       }
     },
+    "Línea de la Vida" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de la Vida"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de la Vida"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de la Vida"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de la Vida"
+          }
+        }
+      }
+    },
     "Linea de Prevencion del Suicidio" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50590,6 +51052,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Linea de Prevencion del Suicidio"
+          }
+        }
+      }
+    },
+    "Línea de Salud Mental" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de Salud Mental"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de Salud Mental"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de Salud Mental"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de Salud Mental"
+          }
+        }
+      }
+    },
+    "Línea Vida" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea Vida"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea Vida"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea Vida"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea Vida"
           }
         }
       }
@@ -50651,6 +51169,7 @@
       }
     },
     "Linka bezpeci" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50674,6 +51193,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Linka bezpeci"
+          }
+        }
+      }
+    },
+    "Linka první psychické pomoci" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linka první psychické pomoci"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linka první psychické pomoci"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linka první psychické pomoci"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linka první psychické pomoci"
           }
         }
       }
@@ -53421,6 +53968,34 @@
         }
       }
     },
+    "Medisinsk nødnummer" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medisinsk nødnummer"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medisinsk nødnummer"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medisinsk nødnummer"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medisinsk nødnummer"
+          }
+        }
+      }
+    },
     "Medium" : {
       "localizations" : {
         "es" : {
@@ -53670,6 +54245,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鎮靜感消退後，記憶和協調性仍可能受損。"
+          }
+        }
+      }
+    },
+    "Mental Health Hotline" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de salud mental"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea de salud mental"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心理健康热线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心理健康熱線"
           }
         }
       }
@@ -54069,6 +54672,34 @@
         }
       }
     },
+    "MIELI Kriisipuhelin" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MIELI Kriisipuhelin"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MIELI Kriisipuhelin"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MIELI Kriisipuhelin"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MIELI Kriisipuhelin"
+          }
+        }
+      }
+    },
     "Mild" : {
       "localizations" : {
         "es" : {
@@ -54182,6 +54813,7 @@
       }
     },
     "Mind Sjalvmordslinjen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -54205,6 +54837,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mind Sjalvmordslinjen"
+          }
+        }
+      }
+    },
+    "Mind Självmordslinjen" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mind Självmordslinjen"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mind Självmordslinjen"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mind Självmordslinjen"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mind Självmordslinjen"
           }
         }
       }
@@ -56395,6 +57055,62 @@
         }
       }
     },
+    "Morning not logged, evening partly logged" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mañana sin registrar, noche registrada en parte"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mañana sin registrar, noche registrada en parte"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早间未记录，晚间部分已记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早間未記錄，晚間部分已記錄"
+          }
+        }
+      }
+    },
+    "Morning partly logged, evening not logged" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mañana registrada en parte, noche sin registrar"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mañana registrada en parte, noche sin registrar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早间部分已记录，晚间未记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早間部分已記錄，晚間未記錄"
+          }
+        }
+      }
+    },
     "Morphine" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -57132,6 +57848,34 @@
         }
       }
     },
+    "Myrkytystietokeskus" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Myrkytystietokeskus"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Myrkytystietokeskus"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Myrkytystietokeskus"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Myrkytystietokeskus"
+          }
+        }
+      }
+    },
     "Myth: %@" : {
       "localizations" : {
         "es" : {
@@ -57439,6 +58183,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大自然、藝術或寧靜的音樂能溫柔地幫助你消化。"
+          }
+        }
+      }
+    },
+    "NCMH Crisis Hotline" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NCMH Crisis Hotline"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NCMH Crisis Hotline"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NCMH Crisis Hotline"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NCMH Crisis Hotline"
           }
         }
       }
@@ -60065,6 +60837,7 @@
       }
     },
     "Nodnummer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -60088,6 +60861,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nodnummer"
+          }
+        }
+      }
+    },
+    "Nödnummer" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nödnummer"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nödnummer"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nödnummer"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nödnummer"
+          }
+        }
+      }
+    },
+    "Nødnummer" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nødnummer"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nødnummer"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nødnummer"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nødnummer"
           }
         }
       }
@@ -66588,7 +67417,36 @@
         }
       }
     },
+    "Pieta" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pieta"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pieta"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pieta"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pieta"
+          }
+        }
+      }
+    },
     "Pieta House" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -68362,6 +69220,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "處方"
+          }
+        }
+      }
+    },
+    "Prévention du suicide" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévention du suicide"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévention du suicide"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévention du suicide"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévention du suicide"
           }
         }
       }
@@ -75649,6 +76535,34 @@
         }
       }
     },
+    "Samaritan Befrienders Hong Kong" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Samaritan Befrienders Hong Kong"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Samaritan Befrienders Hong Kong"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Samaritan Befrienders Hong Kong"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Samaritan Befrienders Hong Kong"
+          }
+        }
+      }
+    },
     "Samaritans" : {
       "localizations" : {
         "es" : {
@@ -75846,6 +76760,7 @@
       }
     },
     "Sanitatsnotruf" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -75869,6 +76784,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sanitatsnotruf"
+          }
+        }
+      }
+    },
+    "Sanitätsnotruf" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sanitätsnotruf"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sanitätsnotruf"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sanitätsnotruf"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sanitätsnotruf"
           }
         }
       }
@@ -82058,6 +83001,7 @@
       }
     },
     "SOS Amitie" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -82081,6 +83025,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SOS Amitie"
+          }
+        }
+      }
+    },
+    "SOS Amitié" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SOS Amitié"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SOS Amitié"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SOS Amitié"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SOS Amitié"
           }
         }
       }
@@ -86321,6 +87293,62 @@
         }
       }
     },
+    "Taken at" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hora de la toma"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hora de la toma"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用時間"
+          }
+        }
+      }
+    },
+    "Taken at %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomada a las %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomada a las %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "于 %@ 服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "於 %@ 服用"
+          }
+        }
+      }
+    },
     "Taken every" : {
       "localizations" : {
         "es" : {
@@ -86883,6 +87911,34 @@
         }
       }
     },
+    "Tele-MANAS" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tele-MANAS"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tele-MANAS"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tele-MANAS"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tele-MANAS"
+          }
+        }
+      }
+    },
     "Telefon Zaufania" : {
       "localizations" : {
         "es" : {
@@ -86940,6 +87996,7 @@
       }
     },
     "Telefono de la Esperanza" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -86963,6 +88020,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Telefono de la Esperanza"
+          }
+        }
+      }
+    },
+    "Teléfono de la Esperanza" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teléfono de la Esperanza"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teléfono de la Esperanza"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teléfono de la Esperanza"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teléfono de la Esperanza"
           }
         }
       }
@@ -90660,7 +91745,36 @@
         }
       }
     },
+    "Tísňová linka" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tísňová linka"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tísňová linka"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tísňová linka"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tísňová linka"
+          }
+        }
+      }
+    },
     "Tisnovka" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -91301,6 +92415,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tox Info Suisse"
+          }
+        }
+      }
+    },
+    "Toxikologické informační středisko" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toxikologické informační středisko"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toxikologické informační středisko"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toxikologické informační středisko"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toxikologické informační středisko"
           }
         }
       }
@@ -92456,6 +93598,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "美國產品說明書資料庫。說明書文字由各製造商撰寫。"
+          }
+        }
+      }
+    },
+    "Ulusal Zehir Danışma Merkezi" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulusal Zehir Danışma Merkezi"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulusal Zehir Danışma Merkezi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulusal Zehir Danışma Merkezi"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulusal Zehir Danışma Merkezi"
           }
         }
       }
@@ -94333,6 +95503,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vd"
+          }
+        }
+      }
+    },
+    "Vergiftungsinformationszentrale" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergiftungsinformationszentrale"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergiftungsinformationszentrale"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergiftungsinformationszentrale"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergiftungsinformationszentrale"
           }
         }
       }
@@ -96612,6 +97810,62 @@
         }
       }
     },
+    "with %@ · %@ ago" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "con %@ · hace %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "con %@ · hace %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 %@ 同用 · %@前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 %@ 同用 · %@前"
+          }
+        }
+      }
+    },
+    "with %@ %@ · %@ ago" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "con %@ %@ · hace %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "con %@ %@ · hace %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 %@ %@ 同用 · %@前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 %@ %@ 同用 · %@前"
+          }
+        }
+      }
+    },
     "With daily phenibut or F-phenibut, dependence develops within weeks and withdrawal can be protracted." : {
       "localizations" : {
         "es" : {
@@ -98130,6 +99384,34 @@
         }
       }
     },
+    "Zelfmoordlijn 1813" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zelfmoordlijn 1813"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zelfmoordlijn 1813"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zelfmoordlijn 1813"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zelfmoordlijn 1813"
+          }
+        }
+      }
+    },
     "zero-order" : {
       "localizations" : {
         "es" : {
@@ -98322,6 +99604,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "κ-鴉片受體"
+          }
+        }
+      }
+    },
+    "Κέντρο Δηλητηριάσεων" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Κέντρο Δηλητηριάσεων"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Κέντρο Δηλητηριάσεων"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Κέντρο Δηλητηριάσεων"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Κέντρο Δηλητηριάσεων"
           }
         }
       }

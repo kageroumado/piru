@@ -98,9 +98,15 @@ ROUTE_ALIASES: dict[str, str] = {
 }
 
 #: Confirmed exceptions to the ordering above, keyed by
-#: (lowercased substance name, faster route, slower route). Everything here has
-#: been checked by a human against the literature — do not add a guess.
-ROUTE_EXCEPTIONS: dict[tuple[str, str, str], str] = {}
+#: (lowercased substance name, faster route, slower route), each mapped to
+#: (reason, citation). The citation is a PMID, DOI or label set id that shows
+#: the route really needs more drug; `--gate` fails on an entry without one.
+ROUTE_EXCEPTIONS: dict[tuple[str, str, str], tuple[str, str]] = {}
+
+#: The HIGH findings already present when the CI gate was introduced. `--gate`
+#: fails only on a finding missing from it, so the list can shrink and never
+#: grow; `--write-baseline` rewrites it after a fix.
+BASELINE = REPO / "data/snapshots/dose-sanity-baseline.json"
 
 #: Unit → (dimension, multiplier to the dimension's base). Deliberately exact:
 #: a qualified unit ("mg THC", "mg (salt)", "mg (with MAOI)") measures a
@@ -211,6 +217,13 @@ class Finding:
     #: Set when the DB already argues with itself about the offending row —
     #: other sources for the same route give a materially different number.
     outlier: str | None = None
+
+    @property
+    def key(self) -> str:
+        """The finding's identity across builds: check, substance and headline
+        with every number blanked, so a ratio moving from 3.0x to 3.1x is still
+        the same finding."""
+        return f"{self.check} | {self.substance} | {re.sub(r'[0-9]+(?:\.[0-9]+)?', '#', self.headline)}"
 
     def as_dict(self) -> dict:
         return {
@@ -693,7 +706,7 @@ def print_report(findings: list[Finding], checks: list[str], limit: int, skipped
         print(
             "\nA ROUTE finding that is real pharmacology, not bad data? Add it to "
             "ROUTE_EXCEPTIONS in this script:\n"
-            '    ("substance name", "faster route", "slower route"): "why, in one line",'
+            '    ("substance name", "faster route", "slower route"): ("why, in one line", "pmid:…"),'
         )
 
 
@@ -721,10 +734,23 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=15, help="findings printed per check")
     parser.add_argument("--json", type=Path, help="write every finding here")
     parser.add_argument(
-        "--gate", action="store_true", help="exit 1 when a finding at --gate-severity or worse"
+        "--gate",
+        action="store_true",
+        help="exit 1 on a finding at --gate-severity or worse that the baseline does not list",
     )
     parser.add_argument("--gate-severity", choices=SEVERITIES, default="HIGH")
+    parser.add_argument("--baseline", type=Path, default=BASELINE)
+    parser.add_argument(
+        "--write-baseline",
+        action="store_true",
+        help="record today's findings at --gate-severity or worse as the baseline",
+    )
     args = parser.parse_args()
+
+    uncited = [key for key, (_, citation) in ROUTE_EXCEPTIONS.items() if not citation.strip()]
+    if uncited:
+        print(f"dose-sanity: ROUTE_EXCEPTIONS without a citation: {uncited}", file=sys.stderr)
+        return 1
 
     if not args.db.exists():
         print(f"dose-sanity: no database at {args.db}", file=sys.stderr)
@@ -756,13 +782,24 @@ def main() -> int:
         args.json.write_text(json.dumps(payload, indent=1) + "\n")
         print(f"\nfull result → {args.json}")
 
+    ceiling = SEVERITIES.index(args.gate_severity)
+    serious = [f for f in findings if SEVERITIES.index(f.severity) <= ceiling]
+    if args.write_baseline:
+        args.baseline.write_text(json.dumps(sorted({f.key for f in serious}), indent=1) + "\n")
+        print(f"\nbaseline: {len({f.key for f in serious})} finding(s) → {args.baseline}")
     if args.gate:
-        ceiling = SEVERITIES.index(args.gate_severity)
-        failures = [f for f in findings if SEVERITIES.index(f.severity) <= ceiling]
+        known = set(json.loads(args.baseline.read_text())) if args.baseline.exists() else set()
+        failures = [f for f in serious if f.key not in known]
+        fixed = sorted(known - {f.key for f in serious})
+        if fixed:
+            print(
+                f"\ndose-sanity: {len(fixed)} baseline finding(s) no longer fire — shrink the "
+                "baseline with --write-baseline:\n  " + "\n  ".join(fixed)
+            )
         if failures:
             print(
-                f"\ndose-sanity: FAILED — {len(failures)} finding(s) at "
-                f"{args.gate_severity} or worse",
+                f"\ndose-sanity: FAILED — {len(failures)} new finding(s) at "
+                f"{args.gate_severity} or worse:\n  " + "\n  ".join(f.key for f in failures),
                 file=sys.stderr,
             )
             return 1

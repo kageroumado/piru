@@ -41,6 +41,20 @@ struct DayAdherence: Identifiable {
             Self.status(taken: eveningTaken, total: eveningTotal)
         }
 
+        /// What a day reads as when its halves differ — which end of the day
+        /// went unlogged, and whether the other end was logged in part — or
+        /// `nil` when both halves stand the same, and the day's own status
+        /// says it.
+        var mismatchDescription: LocalizedStringResource? {
+            switch (morning, evening) {
+            case (.complete, .partial), (.complete, .missed): "Evening dose not logged"
+            case (.partial, .complete), (.missed, .complete): "Morning dose not logged"
+            case (.partial, .missed): "Morning partly logged, evening not logged"
+            case (.missed, .partial): "Morning not logged, evening partly logged"
+            default: nil
+            }
+        }
+
         private static func status(taken: Int, total: Int) -> AdherenceStatus {
             if total == 0 { return .noData }
             if taken >= total { return .complete }
@@ -188,6 +202,16 @@ enum AdherenceCalculator {
     /// Noon, as minutes from midnight — the seam the day's halves are cut at.
     /// A local clock hour, not a claim about anyone's morning.
     static let noonMinutes = 12 * 60
+
+    /// The moment a reminder slot (minutes from midnight) falls on `day`'s
+    /// wall clock — what a dose logged "at its slot time" is stamped with, so
+    /// a morning dose recorded in the afternoon still lands in the morning
+    /// half. Set by wall-clock hour rather than added as seconds from
+    /// midnight, which is an hour off on a daylight-saving day.
+    static func slotDate(minutes: Int, on day: Date, calendar: Calendar = .current) -> Date {
+        calendar.date(bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: day)
+            ?? calendar.startOfDay(for: day).addingTimeInterval(TimeInterval(minutes * 60))
+    }
 
     private static func minutesOfDay(_ date: Date, calendar: Calendar) -> Int {
         calendar.component(.hour, from: date) * 60 + calendar.component(.minute, from: date)

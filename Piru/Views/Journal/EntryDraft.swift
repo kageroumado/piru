@@ -40,23 +40,20 @@ final class EntryDraft {
     var volumeUnit: UnitVolume = ByVolumeDefaults.preferredVolumeUnit
 
     /// The draft amount keeps a String binding (not `value:format:`) so the
-    /// dose-level tint and badge update per keystroke. Invariant dot-decimal
-    /// first (`begin(from:)` populates the field with dot-decimal text), then a
-    /// locale-aware parse for locale keyboards.
+    /// dose-level tint and badge update per keystroke. `begin(from:)` seeds the
+    /// field with ``DecimalInput/editingText(_:locale:)`` so it reads back exactly.
     var parsedAmount: Double? {
-        let parsed = Double(amount.replacingOccurrences(of: ",", with: "."))
-            ?? (try? Double(amount, format: .number))
-        guard let value = parsed, value > 0 else { return nil }
+        guard let value = DecimalInput.parse(amount), value > 0 else { return nil }
         return value
     }
 
     var enteredVolumeML: Double? {
-        guard let value = Double(volumeText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return nil }
+        guard let value = DecimalInput.parse(volumeText), value > 0 else { return nil }
         return Measurement(value: value, unit: volumeUnit).converted(to: .milliliters).value
     }
 
     var enteredABV: Double? {
-        guard let value = Double(abvText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return nil }
+        guard let value = DecimalInput.parse(abvText), value > 0 else { return nil }
         return value
     }
 
@@ -84,9 +81,7 @@ final class EntryDraft {
 
     /// Seed the drafts from a committed entry when entering edit mode.
     func begin(from entry: DoseEntry, hasByVolumeCapability: Bool) {
-        amount = entry.amount == entry.amount.rounded()
-            ? String(Int(entry.amount))
-            : String(entry.amount)
+        amount = DecimalInput.editingText(entry.amount)
         unit = entry.unit
         route = entry.route
         saltForm = entry.saltForm

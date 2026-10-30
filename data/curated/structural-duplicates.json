@@ -1,5 +1,5 @@
 {
-  "_comment": "Adjudicated same-molecule pairs found by pipeline/audit/structural_dupes.py — two rows sharing the full InChIKey of their largest SMILES fragment, which folds a salt onto its freebase while keeping stereochemistry so enantiomers never collapse. The detector REPORTS; only pairs recorded here are merged, because a structural collision is ambiguous: it means either a genuine duplicate or a wrong SMILES, and those have opposite fixes. That is not hypothetical: an auto-merging first version would have folded Mephenmetrazine into 4-Methylphenmetrazine, which collide only because one of the two structures is wrong — see notMerged, where that pair is still unresolved. Auto-merge destroys a real compound to 'fix' a typo, and cannot tell the two cases apart. `keep` is the survivor (the row carrying more data or the more standard forensic name); `merge` folds into it, contributing its aliases and identifiers. Applied by SQLiteBuilder.apply_structural_duplicate_merges(), which re-verifies the shared key at build time and refuses to merge a pair that no longer collides.",
+  "_comment": "Adjudicated same-molecule pairs found by pipeline/audit/structural_dupes.py — two rows sharing the full InChIKey of their largest SMILES fragment, which folds a salt onto its freebase while keeping stereochemistry so enantiomers never collapse. The detector REPORTS; only pairs recorded here are merged, because a structural collision is ambiguous: it means either a genuine duplicate or a wrong SMILES, and those have opposite fixes. Auto-merge destroys a real compound to 'fix' a typo, and cannot tell the two cases apart. `keep` is the survivor (the row carrying more data or the more standard forensic name); `merge` folds into it, contributing its aliases and identifiers. Applied by SQLiteBuilder.apply_structural_duplicate_merges(), which re-verifies the shared key at build time and refuses to merge a pair that no longer collides.",
   "duplicates": [
     {
       "keep": "Dextropropoxyphene",
@@ -118,14 +118,6 @@
       ],
       "key": "QHMBSVQNZZTUGM-UHFFFAOYSA-N",
       "why": "NOT a duplicate — Nabiximols (Sativex) is a botanical extract standardised to roughly 1:1 THC:CBD, so it has no single structure. Its row stores CBD's SMILES, which is why it collides. A combination product should carry no SMILES at all; left in place pending the combination-product modelling decision."
-    },
-    {
-      "names": [
-        "Mephenmetrazine",
-        "4-Methylphenmetrazine"
-      ],
-      "key": "NWNCIXFIIDVRKE-UHFFFAOYSA-N",
-      "why": "UNRESOLVED — do not merge, and do not 'correct' either structure without real evidence. Our Mephenmetrazine row stores 4-methylphenmetrazine's structure (para-methylphenyl, NH) and carries no InChIKey. A PubChem name lookup for 'mephenmetrazine' returns CID 30487 = (2S,3S)-3,4-dimethyl-2-phenylmorpholine, but that CID is PHENDIMETRAZINE, which the catalog already holds as its own marketed anorectic — so PubChem is resolving the name through a loose synonym index rather than confirming a distinct compound. Writing that structure in was tried and immediately produced a Mephenmetrazine/Phendimetrazine block-1 collision, which the PSID guard failed the build on. Needs a primary source for what 'mephenmetrazine' denotes before either row is touched."
     }
   ]
 }

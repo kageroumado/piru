@@ -193,7 +193,7 @@ struct MyMedsCard: View {
                     warnings: model.interactionWarnings,
                     onProceed: {
                         showInteractionSheet = false
-                        log(slots: model.pendingSlots)
+                        log(slots: model.pendingSlots, at: model.pendingTimestamp)
                     },
                     onCancel: {
                         showInteractionSheet = false
@@ -227,6 +227,7 @@ struct MyMedsCard: View {
             slotState: slot.state,
             due: slot.isDueNow,
             indented: indented,
+            onLogAtSlotTime: logAtSlotTime(slot),
             onToggle: {
                 if slot.taken {
                     unlog(slot)
@@ -251,9 +252,17 @@ struct MyMedsCard: View {
 
     // MARK: Logging
 
-    private func attemptLog(slots: [MedSlot]) {
-        if model.mayLog(slots: slots, against: recentEntries) {
-            log(slots: slots)
+    /// Logging a due slot at its own reminder time today, or `nil` for a slot
+    /// with no time or one not yet due.
+    private func logAtSlotTime(_ slot: MedSlot) -> (() -> Void)? {
+        guard slot.isDueNow, let minutes = slot.time else { return nil }
+        return { attemptLog(slots: [slot], at: AdherenceCalculator.slotDate(minutes: minutes, on: .now)) }
+    }
+
+    /// Log `slots` at `timestamp`, or now when it is `nil`.
+    private func attemptLog(slots: [MedSlot], at timestamp: Date? = nil) {
+        if model.mayLog(slots: slots, at: timestamp, against: recentEntries) {
+            log(slots: slots, at: timestamp)
         } else {
             showInteractionSheet = true
         }
@@ -262,9 +271,9 @@ struct MyMedsCard: View {
     /// Build the tapped slot(s)' entries and exact-name library matches; the
     /// shared batch pipeline owns the rest (sessions, colors, Live Activity,
     /// commit, deferred bookkeeping).
-    private func log(slots: [MedSlot]) {
+    private func log(slots: [MedSlot], at timestamp: Date? = nil) {
         guard !slots.isEmpty else { return }
-        let now = Date.now
+        let now = timestamp ?? .now
         var batch: [(entry: DoseEntry, substance: Substance?)] = []
 
         for slot in slots {
@@ -556,6 +565,9 @@ private struct SlotRowView: View {
     let slotState: MyMedsCard.SlotState
     let due: Bool
     let indented: Bool
+    /// Logs the slot at its own reminder time: offered once that time has
+    /// passed, for a dose taken on time and checked off later.
+    let onLogAtSlotTime: (() -> Void)?
     let onToggle: () -> Void
     let onOpen: () -> Void
 
@@ -573,6 +585,11 @@ private struct SlotRowView: View {
             }
             .buttonStyle(.plain)
             .disabled(slotState == .skipped)
+            .contextMenu {
+                if let onLogAtSlotTime, let timeText {
+                    Button("Taken at \(timeText)", systemImage: "clock.arrow.circlepath", action: onLogAtSlotTime)
+                }
+            }
             .accessibilityLabel(title)
             .accessibilityValue(accessibilityStateValue)
             // "Tap <name>" belongs to the row that opens the med, whose visible

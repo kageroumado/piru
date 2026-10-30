@@ -1020,8 +1020,6 @@
       "2-diphenylmethylpiperidine",
       "2-二苯甲基哌啶",
       "2dpmp",
-      "4-desoxymescaline",
-      "DESOXY",
       "Desoxypipradol",
       "Desoxypipradrol",
       "Ivory Wave",
@@ -1033,11 +1031,8 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "PIHKAL",
       "class:substituted piperidines",
       "habit-forming",
-      "no-human-data",
-      "phenethylamine",
       "research-chemical",
       "tentative"
     ],
@@ -1056,10 +1051,10 @@
     "half_life_minutes": 1080.0,
     "mechanism_summary": "2-DPMP主要作为一种去甲肾上腺素-多巴胺再摄取抑制剂 (NDRI) 发挥作用，但作为一种兴奋剂，它的效力异常高，持续时间极长，剂量反应也不可预测。这些风险可能归因于它异常高的亲脂性和长消除半衰期，这也增加了滥用时引发兴奋剂精神病状态的相对风险，而且在人类中已经证实它的阈值低得惊人。",
     "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal052.shtml"
-    ],
-    "data_gaps": []
+    "references": [],
+    "data_gaps": [
+      "references"
+    ]
   },
   {
     "name": "2-FEA",
@@ -1469,6 +1464,46 @@
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes"
+    ]
+  },
+  {
+    "name": "2-MeO-Ketamine",
+    "display_name": "",
+    "aliases": [
+      "2-MeO-K",
+      "Methoxyketamine",
+      "O-methoxyketamine"
+    ],
+    "category": "Dissociative",
+    "display_class": "recreational",
+    "tags": [
+      "NMDA-antagonist",
+      "arylcyclohexylamine",
+      "habit-forming",
+      "research-chemical"
+    ],
+    "default_route": "insufflation",
+    "all_routes": [
+      "insufflation",
+      "intramuscular",
+      "oral"
+    ],
+    "routes_with_dose": [
+      "insufflation",
+      "intramuscular",
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -4221,7 +4256,6 @@
       "2CT4",
       "2c-t4",
       "2ct-4",
-      "PSI-2C-T-4",
       "T-4"
     ],
     "category": "Psychedelic",
@@ -4250,8 +4284,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal041.shtml",
-      "https://erowid.org/library/books_online/pihkal/pihkal042.shtml"
+      "https://erowid.org/library/books_online/pihkal/pihkal041.shtml"
     ],
     "data_gaps": [
       "half_life_minutes",
@@ -5231,7 +5264,7 @@
     "mechanism_summary": "虽然目前对 3-FA 的正式研究程度还不如传统的苯丙胺类药物那么深，但我们有理由推测，就像其他在类似位置有取代基的取代苯丙胺类物质（4-FA 是个显著的例外）一样，它很可能主要作为多巴胺和去甲肾上腺素的释放剂起作用，并且对血清素也有适度的选择性。这意味着它可以有效地增加大脑中去甲肾上腺素和多巴胺神经递质的水平，原理是它会结合并部分阻断那些通常负责从突触间隙清除和再摄取这些分子的转运蛋白，让它们无法被回收利用。这样一来，多巴胺和去甲肾上腺素就会在大脑中积累到超过人体内源性水平的程度，这在人类身上已知会产生刺激、提升动力和欣快的效果呢。",
     "effects": [],
     "references": [
-      "The pharmacokinetics of 3-fluoroamphetamine following delivery using clinically relevant routes of administration."
+      "The pharmacokinetics of 3-fluoroamphetamine following delivery using clinically relevant routes of administration"
     ],
     "data_gaps": []
   },
@@ -8775,7 +8808,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "A fatality involving U4Euh, a cyclic derivative of phenylpropanolamine."
+      "A fatality involving U4Euh, a cyclic derivative of phenylpropanolamine"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -10543,11 +10576,13 @@
     "all_routes": [
       "inhalation",
       "insufflation",
+      "intravenous",
       "sublingual"
     ],
     "routes_with_dose": [
       "inhalation",
       "insufflation",
+      "intravenous",
       "sublingual"
     ],
     "has_dose_data": true,
@@ -12873,14 +12908,10 @@
       "no-human-data",
       "phenethylamine"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -12890,6 +12921,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal001.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -14399,6 +14431,33 @@
     ]
   },
   {
+    "name": "Amanita Citrina",
+    "display_name": "",
+    "aliases": [
+      "橙黄鹅膏"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "Amanita Muscaria",
     "display_name": "",
     "aliases": [
@@ -15212,8 +15271,7 @@
       "Wakefulness"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021303s026lbl.pdf",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=24338-850"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021303s026lbl.pdf"
     ],
     "data_gaps": []
   },
@@ -15295,45 +15353,6 @@
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route"
-    ]
-  },
-  {
-    "name": "Angel's Trumpets",
-    "display_name": "",
-    "aliases": [
-      "Devil's Apple",
-      "Devil's Weed",
-      "Moonflower",
-      "Stinkweed",
-      "Thorn Apple",
-      "刺苹果",
-      "天使的号角",
-      "曼陀罗",
-      "月光花",
-      "臭草",
-      "魔鬼的苹果",
-      "魔鬼草"
-    ],
-    "category": "Deliriant",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
@@ -19962,33 +19981,6 @@
     ]
   },
   {
-    "name": "Carbonic anhydrase 6",
-    "display_name": "",
-    "aliases": [
-      "mafenide"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Carfentanil",
     "display_name": "",
     "aliases": [
@@ -21706,8 +21698,7 @@
       "https://en.wikipedia.org/wiki/Citalopram",
       "Lexapro (escitalopram) label",
       "https://en.wikipedia.org/wiki/Escitalopram",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-3855"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf"
     ],
     "data_gaps": [
       "duration_by_route"
@@ -22716,22 +22707,9 @@
     "name": "Codeine",
     "display_name": "",
     "aliases": [
-      "3-Methylmorphine",
-      "Act",
-      "Barre",
-      "Dirty Sprite",
-      "Drank",
-      "Lean",
-      "Promethazine+Codeine",
-      "Purp",
-      "Purple Drank",
-      "Purple Stuff",
-      "Sizzurp",
+      "3-methylmorphine",
       "Syrup",
-      "Texas Tea",
       "methylmorphine",
-      "pint",
-      "wock",
       "可待因"
     ],
     "category": "Opioid",
@@ -22739,14 +22717,12 @@
     "tags": [
       "CYP2D6-prodrug",
       "MOR-via-metabolite",
-      "QT-risk",
       "analgesic",
       "class:substituted morphinans",
       "common",
       "habit-forming",
       "opioid",
-      "pharmacogenetic-critical",
-      "polypharmacy"
+      "pharmacogenetic-critical"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -23010,6 +22986,33 @@
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
+      "references"
+    ]
+  },
+  {
+    "name": "Compound Licorice Tablets",
+    "display_name": "",
+    "aliases": [
+      "复方甘草片"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
       "references"
     ]
   },
@@ -23979,6 +23982,7 @@
     "name": "Datura",
     "display_name": "",
     "aliases": [
+      "Angel's Trumpets",
       "Datura stramonium",
       "Devil's Apple",
       "Devil's Trumpet",
@@ -23996,10 +24000,15 @@
       "刺苹果",
       "地狱铃",
       "天使喇叭",
+      "天使的号角",
+      "曼陀罗",
       "曼陀罗属",
       "曼陀罗草",
+      "月光花",
       "月花",
+      "臭草",
       "魔鬼喇叭",
+      "魔鬼的苹果",
       "魔鬼草"
     ],
     "category": "Deliriant",
@@ -24819,6 +24828,40 @@
     ]
   },
   {
+    "name": "DESOXY",
+    "display_name": "",
+    "aliases": [
+      "4-desoxymescaline"
+    ],
+    "category": "Psychedelic",
+    "display_class": "recreational",
+    "tags": [
+      "PIHKAL",
+      "no-human-data",
+      "phenethylamine"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal052.shtml"
+    ],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
+  },
+  {
     "name": "Desvenlafaxine",
     "display_name": "",
     "aliases": [
@@ -25138,6 +25181,33 @@
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=36800-494"
     ],
     "data_gaps": []
+  },
+  {
+    "name": "Dextromethorphan-Guaifenesin",
+    "display_name": "",
+    "aliases": [
+      "愈美片"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
   },
   {
     "name": "Dextropropoxyphene",
@@ -32287,7 +32357,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Pharmacokinetics of flutoprazepam, a novel benzodiazepine drug, in normal subjects."
+      "Pharmacokinetics of flutoprazepam, a novel benzodiazepine drug, in normal subjects"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -33260,7 +33330,7 @@
     "mechanism_summary": "GHB Receptor and GABA-B Receptor Agonist",
     "effects": [],
     "references": [
-      "Pharmacokinetics and excretion of gamma-hydroxybutyrate (GHB) in healthy subjects."
+      "Pharmacokinetics and excretion of gamma-hydroxybutyrate (GHB) in healthy subjects"
     ],
     "data_gaps": []
   },
@@ -35494,8 +35564,6 @@
       "Iboga TA (total alkaloid) extract",
       "Ibogamine-class indole alkaloid",
       "NIH 10567",
-      "T. iboga root bark",
-      "Tabernanthe iboga",
       "伊博格碱"
     ],
     "category": "Psychedelic",
@@ -38200,6 +38268,50 @@
     ]
   },
   {
+    "name": "Lean",
+    "display_name": "",
+    "aliases": [
+      "Act",
+      "Barre",
+      "Dirty Sprite",
+      "Drank",
+      "Promethazine+Codeine",
+      "Purp",
+      "Purple Drank",
+      "Purple Stuff",
+      "Sizzurp",
+      "Syrup",
+      "Texas Tea",
+      "pint",
+      "wock"
+    ],
+    "category": "Opioid",
+    "display_class": "recreational",
+    "tags": [
+      "QT-risk",
+      "polypharmacy"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "Lemborexant",
     "display_name": "",
     "aliases": [
@@ -38654,34 +38766,6 @@
     ]
   },
   {
-    "name": "Lipoprotein lipase",
-    "display_name": "",
-    "aliases": [
-      "Ez Char",
-      "activated charcoal"
-    ],
-    "category": "",
-    "display_class": "otc",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Liraglutide",
     "display_name": "",
     "aliases": [
@@ -38997,6 +39081,62 @@
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
+    ]
+  },
+  {
+    "name": "Lophophora Diffusa",
+    "display_name": "",
+    "aliases": [
+      "假乌羽玉",
+      "翠冠玉"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
+    "name": "Lophophora Fricii",
+    "display_name": "",
+    "aliases": [
+      "假佩奥特",
+      "银冠玉"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -40788,13 +40928,43 @@
     ]
   },
   {
+    "name": "MDPH",
+    "display_name": "",
+    "aliases": [],
+    "category": "Psychedelic",
+    "display_class": "recreational",
+    "tags": [
+      "PIHKAL",
+      "phenethylamine"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal116.shtml"
+    ],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
+  },
+  {
     "name": "MDPHP",
     "display_name": "",
     "aliases": [
       "3'",
       "3,4-MDPHP",
       "MD-PHP",
-      "MDPH",
       "methylenedioxypyrolidinohexiophenone",
       "monkey dust",
       "monkey-dust",
@@ -40804,9 +40974,7 @@
     "display_class": "recreational",
     "tags": [
       "NDRI",
-      "PIHKAL",
       "habit-forming",
-      "phenethylamine",
       "pyrovalerone-cathinone",
       "research-chemical",
       "stimulant-not-entactogen",
@@ -40829,11 +40997,10 @@
     "half_life_minutes": null,
     "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal116.shtml"
-    ],
+    "references": [],
     "data_gaps": [
-      "half_life_minutes"
+      "half_life_minutes",
+      "references"
     ]
   },
   {
@@ -41590,14 +41757,10 @@
       "PIHKAL",
       "phenethylamine"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -41607,6 +41770,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal123.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -41858,7 +42022,6 @@
       "3,4,5-三甲氧基苯乙胺",
       "Buttons",
       "Cactus",
-      "TMPEA",
       "mesc",
       "三甲氧苯乙胺",
       "仙人掌毒碱",
@@ -41936,7 +42099,7 @@
       "Wakefulness"
     ],
     "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal168.shtml"
+      "https://erowid.org/library/books_online/pihkal/pihkal096.shtml"
     ],
     "data_gaps": []
   },
@@ -42431,7 +42594,6 @@
       "NE-selective",
       "TAAR1",
       "TAAR1-agonist",
-      "TIHKAL",
       "class:amphetamine",
       "class:substituted amphetamines",
       "common",
@@ -42441,7 +42603,6 @@
       "peripheral-sympathomimetic",
       "phenethylamine",
       "stimulant",
-      "tryptamine",
       "σ1-agonist"
     ],
     "default_route": "inhalation",
@@ -42497,7 +42658,6 @@
       "Wakefulness"
     ],
     "references": [
-      "https://erowid.org/library/books_online/tihkal/tihkal53.shtml",
       "Urinary pharmacokinetics of methamphetamine and its metabolite, amphetamine following controlled oral administration to humans"
     ],
     "data_gaps": []
@@ -42930,16 +43090,12 @@
     "name": "Methoxmetamine",
     "display_name": "",
     "aliases": [
-      "2-MeO-K",
-      "2-MeO-Ketamine",
       "3-MeO-2'-oxo-PCM",
       "3-MeO-2-oxo-PCM",
       "E-MXE",
       "MMXE",
       "MXM",
-      "Methoxyketamine",
       "Methoxymetamine",
-      "O-methoxyketamine",
       "e-Methoxetamine"
     ],
     "category": "Dissociative",
@@ -43723,8 +43879,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Dexmethylphenidate",
-      "Pharmacokinetics of methylphenidate in hyperkinetic children.",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=68084-933"
+      "Pharmacokinetics of methylphenidate in hyperkinetic children."
     ],
     "data_gaps": []
   },
@@ -44999,10 +45154,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -45012,6 +45165,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal136.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -45366,15 +45520,13 @@
     "tags": [
       "MOR-full-agonist",
       "OPRM1-sensitive",
-      "PIHKAL",
       "UGT2B7-substrate",
       "active-glucuronide-M6G",
       "analgesic",
       "class:substituted morphinans",
       "common",
       "habit-forming",
-      "opioid",
-      "phenethylamine"
+      "opioid"
     ],
     "default_route": "intramuscular",
     "all_routes": [
@@ -45409,7 +45561,6 @@
       "Sedation"
     ],
     "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal096.shtml",
       "Morphine and metabolite behavior after different routes of morphine administration: Demonstration of the importance of the active metabolite morphine-6-glucuronide",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=57664-190"
     ],
@@ -45491,14 +45642,10 @@
       "PIHKAL",
       "phenethylamine"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -45508,6 +45655,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal138.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -48930,6 +49078,36 @@
     ]
   },
   {
+    "name": "Oxymorphazone",
+    "display_name": "",
+    "aliases": [
+      "吗啡喃-6-酮",
+      "羟吗啡腙",
+      "羟吗啡酮腙"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "羟吗啡酮腙是一种长效、不可逆的μ-阿片受体（MOR）激动剂。这是因为阿片类药物在结构上会模拟体内内源性内啡肽。内啡肽负责产生镇痛（减轻疼痛）、引起困倦，以及带来愉悦感。它们可能会在疼痛、剧烈运动、性高潮或兴奋状态下释放。这种对天然内啡肽的模拟，会带来该药物的躯体欣快感、镇痛以及焦虑抑制效应。\n\n这些效应似乎都来源于阿片类药物对内源性内啡肽的模拟。内啡肽负责镇痛（减轻疼痛）、引起困倦，以及带来愉悦感。它们可能会在疼痛、剧烈运动、性高潮或兴奋状态下释放。对天然内啡肽的这种模拟，最终产生了该药物的各种效应。\n\n据估计，羟吗啡酮腙的效力约为羟吗啡酮的50%-100%。尽管羟吗啡酮腙本身具有活性，但研究表明，它异常漫长的作用时长和不可逆结合，可能是由于其迅速降解为氧吗啡腙。氧吗啡腙的效力约高出20-40倍，并会与MOR形成共价键，因此清除时间极长。\n\n由于其强结合亲和力和长效特征，羟吗啡酮腙的耐受会建立得非常快，而且哪怕只给药一次，也几乎必然会形成躯体依赖。",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "references"
+    ]
+  },
+  {
     "name": "Oxymorphone",
     "display_name": "",
     "aliases": [
@@ -49300,10 +49478,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -49313,6 +49489,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal097.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -52757,10 +52934,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -52770,6 +52945,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal143.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -52916,6 +53092,40 @@
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=53240-220"
     ],
     "data_gaps": []
+  },
+  {
+    "name": "PSI-2C-T-4",
+    "display_name": "",
+    "aliases": [],
+    "category": "Psychedelic",
+    "display_class": "recreational",
+    "tags": [
+      "2C-x",
+      "5-HT2A-agonist",
+      "PIHKAL",
+      "phenethylamine"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal042.shtml"
+    ],
+    "data_gaps": [
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
   },
   {
     "name": "psi-DOM",
@@ -56924,35 +57134,6 @@
     ]
   },
   {
-    "name": "Squalene monooxygenase",
-    "display_name": "",
-    "aliases": [
-      "Cvs Pharmacy",
-      "Preferred Plus",
-      "terbinafine"
-    ],
-    "category": "",
-    "display_class": "otc",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": 2160.0,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=61715-158"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "SR-14968",
     "display_name": "",
     "aliases": [
@@ -57526,14 +57707,10 @@
       "PIHKAL",
       "phenethylamine"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -57543,9 +57720,38 @@
       "https://erowid.org/library/books_online/pihkal/pihkal145.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
+    ]
+  },
+  {
+    "name": "Tabernanthe Iboga",
+    "display_name": "",
+    "aliases": [
+      "伊博加",
+      "鹅花树"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -59532,10 +59738,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -59545,6 +59749,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal161.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -59585,6 +59790,35 @@
     ],
     "data_gaps": [
       "half_life_minutes"
+    ]
+  },
+  {
+    "name": "TMPEA",
+    "display_name": "",
+    "aliases": [],
+    "category": "Psychedelic",
+    "display_class": "recreational",
+    "tags": [
+      "PIHKAL",
+      "phenethylamine"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal168.shtml"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action"
     ]
   },
   {
@@ -59790,10 +60024,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -59803,6 +60035,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal173.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -62086,7 +62319,11 @@
     "display_name": "",
     "aliases": [
       "Anadenanthera peregrina snuff",
-      "anadenanthera"
+      "anadenanthera",
+      "大果柯拉豆",
+      "科奥巴",
+      "约波",
+      "霍波"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -62622,10 +62859,10 @@
       "Sedation",
       "Thought deceleration"
     ],
-    "references": [
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=21695-225"
-    ],
-    "data_gaps": []
+    "references": [],
+    "data_gaps": [
+      "references"
+    ]
   },
   {
     "name": "α-PCYP",
@@ -62750,246 +62987,7 @@
     ]
   },
   {
-    "name": "复方甘草片",
-    "display_name": "",
-    "aliases": [],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "大果柯拉豆",
-    "display_name": "",
-    "aliases": [
-      "科奥巴",
-      "约波",
-      "霍波"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "愈美片",
-    "display_name": "",
-    "aliases": [],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "橙黄鹅膏",
-    "display_name": "",
-    "aliases": [],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "羟吗啡酮腙",
-    "display_name": "",
-    "aliases": [
-      "吗啡喃-6-酮",
-      "羟吗啡腙"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "羟吗啡酮腙是一种长效、不可逆的μ-阿片受体（MOR）激动剂。这是因为阿片类药物在结构上会模拟体内内源性内啡肽。内啡肽负责产生镇痛（减轻疼痛）、引起困倦，以及带来愉悦感。它们可能会在疼痛、剧烈运动、性高潮或兴奋状态下释放。这种对天然内啡肽的模拟，会带来该药物的躯体欣快感、镇痛以及焦虑抑制效应。\n\n这些效应似乎都来源于阿片类药物对内源性内啡肽的模拟。内啡肽负责镇痛（减轻疼痛）、引起困倦，以及带来愉悦感。它们可能会在疼痛、剧烈运动、性高潮或兴奋状态下释放。对天然内啡肽的这种模拟，最终产生了该药物的各种效应。\n\n据估计，羟吗啡酮腙的效力约为羟吗啡酮的50%-100%。尽管羟吗啡酮腙本身具有活性，但研究表明，它异常漫长的作用时长和不可逆结合，可能是由于其迅速降解为氧吗啡腙。氧吗啡腙的效力约高出20-40倍，并会与MOR形成共价键，因此清除时间极长。\n\n由于其强结合亲和力和长效特征，羟吗啡酮腙的耐受会建立得非常快，而且哪怕只给药一次，也几乎必然会形成躯体依赖。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "翠冠玉",
-    "display_name": "",
-    "aliases": [
-      "假乌羽玉"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "苏摩",
-    "display_name": "",
-    "aliases": [],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "银冠玉",
-    "display_name": "",
-    "aliases": [
-      "假佩奥特"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "鹅花树",
-    "display_name": "",
-    "aliases": [
-      "伊博加"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "鼠尾草素乙",
     "display_name": "",
     "aliases": [],
     "category": "",

@@ -95,7 +95,12 @@ struct DockSheetHost: View {
         // its compact detent above medium, and past that threshold the sheet
         // turns modal, dimming and locking the cards the user is tapping.
         .presentationBackgroundInteraction(.enabled)
-        .presentationContentInteraction(geometry.compactOverflows ? .scrolls : .resizes)
+        // A swipe inside content that overflows scrolls it; the grabber,
+        // search bar and chips still resize. At `.large` the sheet scrolls
+        // its content either way.
+        .presentationContentInteraction(
+            geometry.compactOverflows || (geometry.contentOverflows && detent == .medium) ? .scrolls : .resizes,
+        )
         .presentationBackground { Color.clear }
         .interactiveDismissDisabled()
     }
