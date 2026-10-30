@@ -106,6 +106,8 @@ def next_content_version(today: str, previous: str | None = None) -> str:
 
 
 OUT_REPORT = REPO / "data/snapshots/build-report.md"
+#: Every upstream dose/duration value the build refused or read only in part.
+UPSTREAM_DROPS = REPO / "data/snapshots/unparsed-upstream.json"
 PAPERS_INDEX = Path.home() / "Developer/papers/index.json"
 
 # Committed PSID FAMILY registry (derive-once, pin-forever). Maps canonical_name
@@ -185,26 +187,49 @@ DRUG_COMMUNITY_EFFECTS = REPO / "data/sources/drug-community-effects.json"
 # correction override that lets the next-priority source backfill, instead of
 # duplicating fixed dose data in the curated layer.
 DOSE_SOURCE_EXCEPTIONS = REPO / "data/curated/dose-source-exceptions.json"
+#: PIHKAL and TIHKAL, whose routes carry the book's DOSAGE clause as `dosageText`.
+SHULGIN_BOOK_SLUGS = frozenset({"erowid-pihkal", "erowid-tihkal"})
 
 
 class ExceptionMap(dict):
-    """One source's exceptions of one kind, remembering which names an ingest
-    actually looked up and found. ``Build.unmatched_dose_exceptions`` reads
-    ``matched`` to fail the build on an entry that no upstream record reaches."""
+    """One source's exceptions of one kind: {name: route set, or None for every
+    route}. Looking a name up returns an `ExceptionHit`, which records in
+    ``used`` the (name, route) pairs it actually suppressed something on.
+    ``Build.unmatched_dose_exceptions`` reads ``used`` to fail the build on an
+    entry that suppresses nothing — a name being looked up proves only that the
+    record exists, not that the defect the entry names is still there."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.matched: set[str] = set()
-
-    def __getitem__(self, key):
-        value = super().__getitem__(key)
-        self.matched.add(key)
-        return value
+        self.used: set[tuple[str, str]] = set()
 
     def get(self, key, default=None):
         if key in self:
-            return self[key]
+            return ExceptionHit(self, key, self[key])
         return default
+
+
+class ExceptionHit:
+    """One exception entry, found for a record. A plain class rather than a
+    dataclass: the tests load this file through `importlib` without registering
+    it in `sys.modules`, where `dataclass` cannot resolve string annotations."""
+
+    __slots__ = ("mapping", "key", "routes")
+
+    def __init__(self, mapping: ExceptionMap, key: str, routes: set[str] | None):
+        self.mapping, self.key, self.routes = mapping, key, routes
+
+    def applies(self, route: str) -> bool:
+        return self.routes is None or normalise_route(route or "") in self.routes
+
+    def covers(self, route: str, *, effective: bool = True) -> bool:
+        """Whether the entry suppresses `route`. `effective` says whether the
+        source had anything there to suppress; only then does it count as use."""
+        if not self.applies(route):
+            return False
+        if effective:
+            self.mapping.used.add((self.key, normalise_route(route or "")))
+        return True
 
 
 # Adjudicated same-molecule pairs from pipeline/audit/structural_dupes.py — two rows
@@ -6223,7 +6248,6 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
 _CLASS_DOSE_CEILING_MG: dict[str, float] = {
     # Fentanyl-class opioids: every clinically-used route fits in <2 mg.
     "fentanyl-class-potency": 2.0,
-    "fentanyl-analog": 2.0,
     # Nitazenes flagged as extreme-potency (etonitazene & friends).
     # `extreme-potency` also covers designer-benzos (clonazolam etc.)
     # whose heavy doses are at most ~2 mg, so the same ceiling fits.
@@ -6363,6 +6387,33 @@ class Build:
         #: dose.wiki's chemistry per joined substance id, applied as corrections
         #: after the PubChem reconciliation passes.
         self.dosewiki_claims: dict[int, dict[str, str]] = {}
+        #: Rows an ingester refused on the grounds a dose gate would use (a
+        #: Shulgin no-activity bound, a tag ceiling); they join the gate report.
+        self.ingest_gate_hits: list[dose_gates.GateHit] = []
+        #: Upstream dose and duration values the build could not read, or read
+        #: only part of, written to UPSTREAM_DROPS for reporting upstream.
+        self.upstream_drops: list[dict] = []
+
+    def note_upstream_drop(
+        self, source: str, sid: int | None, route: str, field: str, raw, reason: str
+    ) -> None:
+        """Record one upstream value the build refused or truncated."""
+        name = None
+        if sid is not None:
+            row = self.cur.execute(
+                "SELECT canonical_name FROM substances WHERE id = ?", (sid,)
+            ).fetchone()
+            name = row[0] if row else None
+        self.upstream_drops.append(
+            {
+                "source": source,
+                "substance": name,
+                "route": normalise_route(route or "") or route,
+                "field": field,
+                "raw": raw if isinstance(raw, str) else json.dumps(raw, ensure_ascii=False),
+                "reason": reason,
+            }
+        )
 
     # ---- seeds ----
 
@@ -6909,6 +6960,23 @@ class Build:
             self.stats["dropped_empty_dose"] = self.stats.get("dropped_empty_dose", 0) + 1
             self.note_reject("dropped_empty_dose", unit, sid=sid, route=route, source=source_slug)
             return
+        raw_ladder = {
+            "unit": unit,
+            **{
+                tier: value
+                for tier, value in (
+                    ("threshold", threshold),
+                    ("light", light),
+                    ("common", common),
+                    ("strong", strong),
+                    ("heavy", heavy),
+                )
+                if value is not None
+            },
+        }
+
+        def refused(reason: str) -> None:
+            self.note_upstream_drop(source_slug, sid, route, "ladder", raw_ladder, reason)
 
         # Reject ambiguous unit strings. Sources occasionally store dose-row
         # units as "mg (weighed) or µg (weighed)" or "mg (or mcg)" — the
@@ -6922,6 +6990,7 @@ class Build:
             self.note_reject(
                 "dropped_ambiguous_unit", unit, sid=sid, route=route, source=source_slug
             )
+            refused("dropped_ambiguous_unit")
             return
 
         # Drop per-day dose totals on non-patch routes. A per-dose logger cannot
@@ -6931,6 +7000,7 @@ class Build:
             self.stats.setdefault("dropped_daily_unit", 0)
             self.stats["dropped_daily_unit"] += 1
             self.note_reject("dropped_daily_unit", unit, sid=sid, route=route, source=source_slug)
+            refused("dropped_daily_unit")
             return
 
         if unit and unit.strip().lower() in UNQUANTIFIED_DOSE_UNITS:
@@ -6939,6 +7009,7 @@ class Build:
             self.note_reject(
                 "dropped_unquantified_unit", unit, sid=sid, route=route, source=source_slug
             )
+            refused("dropped_unquantified_unit")
             return
 
         unit = canonical_mass_unit(unit)
@@ -6973,6 +7044,7 @@ class Build:
                 if prev > nxt * 10:
                     self.stats.setdefault("dropped_inverted_tiers", 0)
                     self.stats["dropped_inverted_tiers"] += 1
+                    refused("dropped_inverted_tiers")
                     return
 
         # Monotonicity sanity check #2: tier-upper regression. Each tier's
@@ -6990,6 +7062,7 @@ class Build:
                 if prev > nxt:
                     self.stats.setdefault("dropped_regressed_tiers", 0)
                     self.stats["dropped_regressed_tiers"] += 1
+                    refused("dropped_regressed_tiers")
                     return
 
         # Class-keyed dose-magnitude sanity check. Each tag the substance
@@ -7011,6 +7084,22 @@ class Build:
                     if v * factor > ceiling_mg:
                         self.stats.setdefault("dropped_class_dose_ceiling", 0)
                         self.stats["dropped_class_dose_ceiling"] += 1
+                        tag = min(
+                            (t for t in tags if t in _CLASS_DOSE_CEILING_MG),
+                            key=lambda t: (_CLASS_DOSE_CEILING_MG[t], t),
+                        )
+                        name = self.cur.execute(
+                            "SELECT canonical_name FROM substances WHERE id = ?", (sid,)
+                        ).fetchone()
+                        self.ingest_gate_hits.append(
+                            dose_gates.GateHit(
+                                rule=f"tag ceiling (ingest) · {tag} ≤ {ceiling_mg:g} mg",
+                                substance=name[0] if name else str(sid),
+                                source=source_slug,
+                                route=route,
+                                detail=f"{max(tiers_flat):g} {unit} — {raw_ladder}",
+                            )
+                        )
                         return
 
         try:
@@ -7039,6 +7128,7 @@ class Build:
             self.stats["dose_ranges_duplicate_dropped"] = (
                 self.stats.get("dose_ranges_duplicate_dropped", 0) + 1
             )
+            refused("dose_ranges_duplicate_dropped")
 
     def add_peptide_profile(self, sid: int, source_slug: str, profile: dict) -> None:
         """Insert the 1:1 peptide/biologic reference row. No-op if every field
@@ -7293,6 +7383,9 @@ class Build:
         drop_all, drop_afterglow, drop_onset = self._duration_profile_faults(profile, route)
         if drop_all:
             self.stats["duration_profile_contradictory"] += 1
+            self.note_upstream_drop(
+                source_slug, sid, route, "timeline", profile, "duration_profile_contradictory"
+            )
             return
         for phase in ("onset", "comeup", "peak", "offset", "afterglow", "total"):
             p = profile.get(phase)
@@ -7300,13 +7393,20 @@ class Build:
                 continue
             if phase == "afterglow" and drop_afterglow:
                 self.stats["duration_afterglow_implausible"] += 1
+                self.note_upstream_drop(
+                    source_slug, sid, route, phase, p, "duration_afterglow_implausible"
+                )
                 continue
             if phase == "onset" and drop_onset:
                 self.stats["duration_onset_impossible"] += 1
+                self.note_upstream_drop(
+                    source_slug, sid, route, phase, p, "duration_onset_impossible"
+                )
                 continue
             mn = to_float(p.get("min"))
             mx = to_float(p.get("max"))
             if mn is None or mx is None:
+                self.note_upstream_drop(source_slug, sid, route, phase, p, "phase_missing_a_bound")
                 continue
             try:
                 self.cur.execute(
@@ -7371,21 +7471,10 @@ class Build:
     # left intact. See acute-vs-depot-duration.
     DURATION_SCRUB_NAMES = {
         "tranylcypromine",  # MAOI: 10–21 d is enzyme regeneration, not acute effect
-        "acamprosate",  # anti-craving, steady-state med
         "fluconazole",  # antifungal dosing interval
-        "phenytoin",  # anticonvulsant, chronic
-        "nadolol",  # beta-blocker, chronic
         "sibutramine",  # withdrawn appetite suppressant, chronic
         "arimistane",  # aromatase-inhibitor supplement
-        "5-amino-1mq",  # NNMT-inhibitor supplement
-        "magnesium glycinate",
-        "magnesium citrate",
-        "creatine",
         "creatine monohydrate",
-        "pqq",
-        "vitamin b6",
-        "panax ginseng",
-        "citicoline",
         "theobromine",  # mild, very-long; no meaningful acute curve
     }
 
@@ -7403,9 +7492,6 @@ class Build:
         ],
         "fentanyl": [
             ("transdermal", 2, 3, "days"),  # 72 h patch
-        ],
-        "liraglutide": [
-            ("subcutaneous", 1, 1, "days"),  # daily GLP-1 injection
         ],
     }
 
@@ -8189,12 +8275,16 @@ class Build:
             route_key = normalise_route(r.get("route") or "")
             # `"drop": "route"` — the route is not offered at all, so nothing
             # from it is ingested (ladder, timeline or protocol).
-            if drop_routes is None or (drop_routes and route_key in drop_routes):
+            if drop_routes and drop_routes.covers(
+                route_key, effective=bool(r.get("doses") or r.get("duration"))
+            ):
                 self.stats["route_dropped"] += 1
                 continue
             doses = r.get("doses") or {}
             route_ref = r.get("source")  # optional per-route citation (dose + duration)
-            if doses and (skip_routes is None or (skip_routes and route_key in skip_routes)):
+            if doses and slug in SHULGIN_BOOK_SLUGS:
+                doses = self._shulgin_dosage_gate(sid, slug, route_key, r, doses)
+            if doses and skip_routes and skip_routes.covers(route_key):
                 self.stats["dose_skipped"] += 1
                 doses = {}  # drop the ladder, keep whatever duration rides with it
             # An empty `doses` block is fine here — `add_dose` drops a row with
@@ -8213,7 +8303,7 @@ class Build:
                 citation=route_ref,
             )
             if r.get("duration"):
-                if drop_durations is None or (drop_durations and route_key in drop_durations):
+                if drop_durations and drop_durations.covers(route_key):
                     self.stats["duration_skipped"] += 1
                 else:
                     self.add_duration_profile(
@@ -8791,6 +8881,28 @@ class Build:
                 continue
             self._ingest_substance_record(substance, "psychonautwiki")
 
+    def _shulgin_dosage_gate(self, sid: int, slug: str, route: str, r: dict, doses: dict) -> dict:
+        """The ladder a PIHKAL/TIHKAL route may ship, judged on the book's own
+        DOSAGE clause (`dosageText`). A no-activity bound or "unknown" ships
+        nothing and is reported: "greater than 60 mg" is the amount that did
+        nothing, and the collector's parser reads its 60 like any other figure."""
+        text = r.get("dosageText")
+        if dose_gates.shulgin_dosage_verdict(text) != "bound":
+            return doses
+        self.stats["shulgin_no_activity_bound"] += 1
+        name = self.cur.execute("SELECT canonical_name FROM substances WHERE id = ?", (sid,))
+        row = name.fetchone()
+        self.ingest_gate_hits.append(
+            dose_gates.GateHit(
+                rule="Shulgin no-activity bound · the DOSAGE line is not a dose",
+                substance=row[0] if row else str(sid),
+                source=slug,
+                route=route,
+                detail=f"DOSAGE: “{text}”",
+            )
+        )
+        return {}
+
     @staticmethod
     @functools.cache
     def _dose_skip_map(source_slug: str) -> dict[str, set[str] | None]:
@@ -8832,19 +8944,18 @@ class Build:
         return Build._exception_map(source_slug, "route")
 
     def _exception_for(
-        self, mapping: dict[str, set[str] | None], record_name: str, sid: int
-    ) -> set[str] | None | bool:
+        self, mapping: ExceptionMap, record_name: str, sid: int
+    ) -> ExceptionHit | bool:
         """Look an exception up by the source's own name for a substance, then by
-        the canonical name it actually resolved to. Returns the route set, None
-        for "every route", or False for no exception."""
+        the canonical name it actually resolved to. False for no exception."""
         key = (record_name or "").strip().lower()
         if key in mapping:
-            return mapping[key]
+            return mapping.get(key)
         row = self.cur.execute(
             "SELECT canonical_name FROM substances WHERE id=?", (sid,)
         ).fetchone()
         if row and (canon := row[0].strip().lower()) in mapping:
-            return mapping[canon]
+            return mapping.get(canon)
         return False
 
     @staticmethod
@@ -8863,7 +8974,7 @@ class Build:
             if not key:
                 continue
             routes = e.get("routes")
-            out[key] = {str(r).strip().lower() for r in routes} if routes else None
+            out[key] = {normalise_route(str(r)) for r in routes} if routes else None
         return out
 
     @staticmethod
@@ -8882,9 +8993,17 @@ class Build:
                 continue
             for entry in entries:
                 key = (entry.get("name") or "").strip().lower()
-                if key not in Build._exception_map(slug, entry.get("drop")).matched:
+                used = {
+                    route
+                    for name, route in Build._exception_map(slug, entry.get("drop")).used
+                    if name == key
+                }
+                routes = {normalise_route(str(r)) for r in entry.get("routes") or []}
+                idle = sorted(routes - used) if routes else ([] if used else ["every route"])
+                if idle:
                     unmatched.append(
-                        f"{slug}: {entry.get('name')} ({entry.get('drop') or 'doses'})"
+                        f"{slug}: {entry.get('name')} ({entry.get('drop') or 'doses'}; "
+                        f"suppresses nothing on {', '.join(idle)})"
                     )
         return unmatched
 
@@ -8947,23 +9066,35 @@ class Build:
                 # canonical route the same way add_dose does, so the exception
                 # list can be written in canonical terms (intravenous, …).
                 route_key = normalise_route(r.get("route") or "")
+                dr = r.get("dose_ranges") or {}
                 # Correction override: drop dc's dose ladder for excepted
                 # substances/routes so the next-priority source backfills.
-                if (
-                    skip_routes is None
-                    or (skip_routes and route_key in skip_routes)
-                    or drop_routes is None
-                    or (drop_routes and route_key in drop_routes)
+                has_numbers = any(re.search(r"\d", str(v)) for v in dr.values() if v)
+                if any(
+                    [
+                        bool(skip_routes) and skip_routes.covers(route_key, effective=has_numbers),
+                        bool(drop_routes) and drop_routes.covers(route_key, effective=has_numbers),
+                    ]
                 ):
                     self.stats["dc_dose_skipped"] += 1
                     continue
-                dr = r.get("dose_ranges") or {}
                 row_unit = r.get("units") or "mg"
-                threshold = self._parse_dc_scalar(dr.get("threshold"), row_unit)
-                light = self._parse_dc_range(dr.get("light"), row_unit)
-                common = self._parse_dc_range(dr.get("common"), row_unit)
-                strong = self._parse_dc_range(dr.get("strong"), row_unit)
-                heavy = self._parse_dc_scalar(dr.get("heavy"), row_unit)
+                route_raw = r.get("route", "")
+                tiers = {
+                    tier: self._read_dc_tier(sid, route_raw, tier, dr.get(tier), row_unit)
+                    for tier in ("threshold", "light", "common", "strong", "heavy")
+                }
+                threshold, light, common, strong, heavy = tiers.values()
+                # A ladder left with only its ends because the middle could not
+                # be read is not what the source said: it would class every
+                # logged dose against a threshold and a heavy mark alone.
+                if light is common is strong is None and any(
+                    re.search(r"\d", str(dr.get(t) or "")) for t in ("light", "common", "strong")
+                ):
+                    self.note_upstream_drop(
+                        slug, sid, route_raw, "ladder", dr, "degenerate_after_unreadable_tiers"
+                    )
+                    continue
                 self.add_dose(
                     sid,
                     slug,
@@ -8979,11 +9110,8 @@ class Build:
             duration_exceptions = self._exception_for(self._duration_drop_map(slug), name, sid)
             for timeline in reference_timelines(s, snapshot_sha):
                 route_key = normalise_route(timeline["route"] or "")
-                source_exception = (
-                    drop_routes is None
-                    or bool(drop_routes and route_key in drop_routes)
-                    or duration_exceptions is None
-                    or bool(duration_exceptions and route_key in duration_exceptions)
+                source_exception = bool(drop_routes and drop_routes.applies(route_key)) or bool(
+                    duration_exceptions and duration_exceptions.applies(route_key)
                 )
                 row = {
                     **timeline,
@@ -9014,20 +9142,23 @@ class Build:
                     continue
                 route = (dc.get("method") or "oral").lower()
                 route_key = normalise_route(route)
-                if (
-                    drop_routes is None
-                    or (drop_routes and route_key in drop_routes)
-                    or duration_exceptions is None
-                    or (duration_exceptions and route_key in duration_exceptions)
+                profile = self._dc_duration_profile(curve)
+                if any(
+                    [
+                        bool(drop_routes)
+                        and drop_routes.covers(route_key, effective=bool(profile)),
+                        bool(duration_exceptions)
+                        and duration_exceptions.covers(route_key, effective=bool(profile)),
+                    ]
                 ):
                     self.stats["duration_skipped"] += 1
                     continue
-                profile = self._dc_duration_profile(curve)
                 if profile:
                     self.add_duration_profile(sid, slug, route, profile)
                     self.stats["dc_durations_derived"] += 1
                 else:
                     self.stats["duration_skipped"] += 1
+                    self.note_upstream_drop(slug, sid, route, "timeline", curve, "curve_unreadable")
             for se in s.get("subjective_effects") or []:
                 if isinstance(se, str):
                     self.add_subjective_effect(sid, slug, se)
@@ -9261,6 +9392,67 @@ class Build:
         if f_in is None or f_row is None or f_row == 0:
             return 1.0
         return f_in / f_row
+
+    #: A tier holding one figure and nothing else: "1 mg", "~5 µg". Text after
+    #: the unit (a percent, "/kg/day", "or 180") means the figure is not a dose
+    #: in the row's unit, so it is not read as one.
+    _DC_LONE_VALUE_RE = re.compile(
+        r"^\s*~?\s*(\d+(?:\.\d+)?)\s*(?:g|mg|µg|ug|mcg|ng|ml)?\.?\s*$", re.IGNORECASE
+    )
+    _DC_NUMBER_RE = re.compile(r"\d+(?:\.\d+)?")
+    _DC_PARENTHETICAL_RE = re.compile(r"\([^)]*\)")
+    #: A tier that reports the absence of an effect. "No activity observed up
+    #: to 220 mg" carries a number, and reading it as a threshold turns the
+    #: amount that did nothing into the amount where effects begin.
+    _DC_NOT_A_DOSE_RE = re.compile(
+        r"\bno (?:activity|effects?)\b|\bsub[-‑ ]?threshold\b|\bnot established\b",
+        re.IGNORECASE,
+    )
+
+    def _read_dc_tier(self, sid: int, route: str, tier: str, raw, row_unit: str):
+        """One drug.community tier string, read the way its tier is stored, with
+        anything the read could not use written to the upstream-drop report.
+
+        A range tier given one figure ("1 mg") is stored as that figure on both
+        ends: the source said one number, and dropping it left ladders of a
+        threshold and a heavy mark alone. A string with letters from another
+        script is refused whole — "15ፀ mg" was some range, never 15."""
+        if raw is None or not str(raw).strip():
+            return None
+        text = str(raw)
+        if not re.search(r"\d", text):
+            return None  # "—", "N/A": nothing stated
+        slug = "drug.community"
+        if dose_gates.foreign_characters(text, name_column=False, foreign_row=False):
+            self.note_upstream_drop(slug, sid, route, tier, text, "foreign_characters")
+            return None
+        if self._DC_NOT_A_DOSE_RE.search(text):
+            self.note_upstream_drop(slug, sid, route, tier, text, "no_activity_reported")
+            return None
+        cleaned = self._dc_clean(text)
+        outside = self._DC_PARENTHETICAL_RE.sub(" ", cleaned)
+        numbers = self._DC_NUMBER_RE.findall(outside)
+        if tier in ("threshold", "heavy"):
+            value = self._parse_dc_scalar(text, row_unit)
+            if value is not None and len(numbers) > 1:
+                reason = (
+                    "range_in_single_value_tier"
+                    if self._parse_dc_range(text, row_unit)
+                    else "extra_numbers_ignored"
+                )
+                self.note_upstream_drop(slug, sid, route, tier, text, reason)
+            return value
+        span = self._parse_dc_range(text, row_unit)
+        if span is not None:
+            if len(numbers) > 2:
+                self.note_upstream_drop(slug, sid, route, tier, text, "extra_numbers_ignored")
+            return span
+        lone = self._DC_LONE_VALUE_RE.match(outside)
+        if lone:
+            value = float(lone.group(1)) * self._dc_unit_factor(cleaned, row_unit)
+            return {"lower": value, "upper": value}
+        self.note_upstream_drop(slug, sid, route, tier, text, "unparsed")
+        return None
 
     @classmethod
     def _parse_dc_scalar(cls, s: str | None, row_unit: str = "mg") -> float | None:
@@ -9633,11 +9825,13 @@ class Build:
             drop_routes = self._route_drop_map(slug).get(ex_key, False)
             drop_durations = self._duration_drop_map(slug).get(ex_key, False)
 
-            def excepted(mapping: set[str] | None | bool, route: str) -> bool:
-                return mapping is None or bool(mapping and normalise_route(route) in mapping)
+            def excepted(mapping: ExceptionHit | bool, route: str, effective: bool = True) -> bool:
+                return bool(mapping) and mapping.covers(route, effective=effective)
 
             for route, d in (rec.get("doses") or {}).items():
-                if excepted(drop_routes, route) or excepted(skip_routes, route):
+                tiers = ("threshold", "light", "common", "strong", "heavy")
+                full = any((d or {}).get(t) is not None for t in tiers)
+                if any([excepted(drop_routes, route, full), excepted(skip_routes, route, full)]):
                     self.stats["dose_skipped"] += 1
                     continue
                 unit = d.get("unit") or "mg"
@@ -9653,7 +9847,8 @@ class Build:
                     heavy=d.get("heavy"),
                 )
             for route, phases in (rec.get("durations") or {}).items():
-                if excepted(drop_routes, route) or excepted(drop_durations, route):
+                full = bool(phases)
+                if any([excepted(drop_routes, route, full), excepted(drop_durations, route, full)]):
                     self.stats["duration_skipped"] += 1
                     continue
                 if phases:
@@ -10007,12 +10202,16 @@ class Build:
         drop_routes = self._route_drop_map(slug).get(exception_key, False)
         drop_durations = self._duration_drop_map(slug).get(exception_key, False)
 
-        def excepted(mapping: set[str] | None | bool, route: str) -> bool:
-            return mapping is None or bool(mapping and normalise_route(route) in mapping)
+        def excepted(mapping: ExceptionHit | bool, route: str, effective: bool = True) -> bool:
+            return bool(mapping) and mapping.covers(route, effective=effective)
 
         for entry in (rec.get("dosage") or {}).get("routes") or []:
             route = entry.get("route") or ""
-            if excepted(drop_routes, route) or excepted(skip_doses, route):
+            full = any(
+                isinstance(b, dict) and (b.get("min") is not None or b.get("max") is not None)
+                for b in (entry.get("dose_ranges") or {}).values()
+            )
+            if any([excepted(drop_routes, route, full), excepted(skip_doses, route, full)]):
                 self.stats["dose_skipped"] += 1
                 continue
             bands = entry.get("dose_ranges") or {}
@@ -10065,10 +10264,22 @@ class Build:
 
         for entry in (rec.get("duration") or {}).get("routes") or []:
             route = entry.get("route") or ""
-            if excepted(drop_routes, route) or excepted(drop_durations, route):
+            full = bool(dosewiki_duration_profile(entry.get("stages")))
+            if any([excepted(drop_routes, route, full), excepted(drop_durations, route, full)]):
                 self.stats["duration_skipped"] += 1
                 continue
             profile = dosewiki_duration_profile(entry.get("stages"))
+            for raw_phase, value in (entry.get("stages") or {}).items():
+                phase = DOSEWIKI_STAGES.get(raw_phase)
+                if (
+                    phase
+                    and phase not in profile
+                    and isinstance(value, dict)
+                    and any(value.get(k) is not None for k in ("min", "max"))
+                ):
+                    self.note_upstream_drop(
+                        slug, sid, route, phase, value, "stage_unit_unknown_or_half_open"
+                    )
             if profile:
                 before = self.stats["durations"]
                 self.add_duration_profile(sid, slug, route, profile)
@@ -11283,32 +11494,6 @@ class Build:
                 f"no curated rank/elemental — add them to _SALT_METADATA: {uncovered}"
             )
         return {"ranked_rows": ranked, "elemental_rows": with_elemental}
-
-    def audit_salt_supplement_durations(self) -> dict[str, int]:
-        """Remove the salt-tagged ACUTE duration rows on the Mg/Li supplement
-        parents.
-
-        Audit decision (WS-5 #5, maintainer-flagged): Magnesium (a mineral ion) and
-        Lithium (a serum-level-titrated maintenance drug) have no perceptible
-        acute onset/peak/offset curve — the salt-tagged durations folded in from
-        the curated variant files reflect serum Tmax, not a felt effect, and
-        drawing a PK timeline for them is the imperceptible-curve problem. Dropping
-        them makes those routes fall back to marker rendering. Dose ladders and the
-        salt picker are untouched (only `durations` rows go); long-acting depot
-        windows (durations_of_action) are unaffected. Runs after apply_salt_metadata."""
-        removed = 0
-        for parent_name in ("Magnesium", "Lithium"):
-            prow = self.cur.execute(
-                "SELECT id FROM substances WHERE canonical_name=?", (parent_name,)
-            ).fetchone()
-            if prow is None:
-                continue
-            cur = self.cur.execute(
-                "DELETE FROM durations WHERE substance_id=? AND salt_form IS NOT NULL",
-                (prow[0],),
-            )
-            removed += cur.rowcount
-        return {"removed_duration_rows": removed}
 
     # Families that stay in isomer-families.json (so members share one FAMILY and
     # the same-block-1 collision stays classified as `fold`) but are NOT collapsed
@@ -15089,16 +15274,10 @@ def main() -> int:
     # and delete what fails, so a claim no other source contests cannot ship on
     # the strength of being uncontested. Before dedup, so the survivors are
     # what merges.
+    # The report is written at the end of the build, once the later gates
+    # (cross-source outliers, foreign scripts) have added theirs.
     gate_result = dose_gates.run(build.cur)
-    dose_gates.write_report(gate_result)
-    print(
-        f"Dose gates: {len(gate_result.hits)} row(s) deleted → {dose_gates.REPORT_PATH.name}",
-        file=sys.stderr,
-    )
-    for hit in gate_result.hits:
-        print(
-            f"  GATED {hit.substance} / {hit.source} / {hit.route}: {hit.detail}", file=sys.stderr
-        )
+    print(f"Dose gates: {len(gate_result.hits)} row(s) deleted", file=sys.stderr)
 
     # Curated MOA prose + bindings (relocated from the iOS Swift file). Runs
     # AFTER every substance exists so names resolve regardless of origin.
@@ -15202,12 +15381,6 @@ def main() -> int:
     # data-driven — not alphabetical — default salt.
     salt_meta = build.apply_salt_metadata()
     print(f"Salt metadata: {salt_meta}", file=sys.stderr)
-
-    # Audit decision (#5): drop the salt-tagged ACUTE durations on the Mg/Li
-    # supplement parents — minerals/maintenance ions have no perceptible acute
-    # curve, so those routes fall back to marker rendering. Dose ladders untouched.
-    dur_audit = build.audit_salt_supplement_durations()
-    print(f"Salt-supplement duration audit: {dur_audit}", file=sys.stderr)
 
     # Fold curated stereoisomer variants (Esketamine→Ketamine, Dexmethylphenidate→
     # Methylphenidate, Armodafinil→Modafinil, …) into their racemic parent, tagging
@@ -15629,6 +15802,12 @@ def main() -> int:
     therapeutic_suppressed = build.suppress_therapeutic_doses()
     print(f"Therapeutic-dose suppression: {therapeutic_suppressed}", file=sys.stderr)
 
+    # Now that every ladder has its regime and every substance its final name:
+    # toxic floors, and the cross-source comparison (an uncited ladder 10× from
+    # three other sources is a unit or identity slip).
+    late = dose_gates.run_late(build.cur, gate_result)
+    print(f"Toxic-floor and cross-source gates: {late} row(s) deleted", file=sys.stderr)
+
     # Re-flag dose-less stubs: the strip above just removed the last dose/duration
     # from the plain medical_rx rows, so `is_stub` must be recomputed to stay
     # consistent (it was baked before classify/strip).
@@ -15896,6 +16075,38 @@ def main() -> int:
     )
     db.commit()
 
+    # Last write to the content: a cell carrying characters from a script no
+    # source text uses goes, whichever pass put it there.
+    scripts = dose_gates.apply_script_gate(db.cursor(), gate_result)
+    print(f"Foreign-script gate: {scripts} cell(s) dropped", file=sys.stderr)
+    db.commit()
+    # Refusals made at ingest join the gate report, so every row the build
+    # declined to ship is listed in one place.
+    gate_result.hits[:0] = build.ingest_gate_hits
+    dose_gates.write_report(gate_result)
+    for hit in gate_result.hits:
+        print(
+            f"  GATED {hit.substance} / {hit.source} / {hit.route}: {hit.detail}", file=sys.stderr
+        )
+    UPSTREAM_DROPS.write_text(
+        json.dumps(
+            sorted(
+                build.upstream_drops,
+                key=lambda d: (
+                    d["source"],
+                    d["substance"] or "",
+                    d["route"] or "",
+                    d["field"],
+                    d["raw"],
+                    d["reason"],
+                ),
+            ),
+            indent=1,
+            ensure_ascii=False,
+        )
+        + "\n"
+    )
+
     # Build-only scaffolding, dropped before the file is sealed: indication
     # text is evidence for `assign_dose_contexts`, never something the app shows.
     db.execute("DROP TABLE IF EXISTS indications")
@@ -16057,6 +16268,22 @@ def main() -> int:
     for failure in row_citation_failures:
         lines.append(f"- {failure}")
     lines.append("")
+    lines.append("## Upstream values the build could not read")
+    lines.append("")
+    lines.append(
+        f"{len(build.upstream_drops)} dose or duration value(s) refused, or read only in part; "
+        f"each is listed in `data/snapshots/{UPSTREAM_DROPS.name}` for reporting upstream "
+        "(`pipeline/audit/upstream_report.py`)."
+    )
+    lines.append("")
+    if build.upstream_drops:
+        lines.append("| source | reason | values |")
+        lines.append("|---|---|---|")
+        for (src_slug, reason), n in sorted(
+            Counter((d["source"], d["reason"]) for d in build.upstream_drops).items()
+        ):
+            lines.append(f"| {src_slug} | {reason} | {n:,} |")
+        lines.append("")
     lines.append("## Per-source coverage")
     lines.append("")
     lines.append("| Source | Dose ranges | Bindings | Categories | Tags |")

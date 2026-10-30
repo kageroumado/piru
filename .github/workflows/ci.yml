@@ -175,6 +175,16 @@ jobs:
       # baseline that may only go down.
       - name: Row citations still name their rows; uncited rows only go down
         run: python3 pipeline/build/tests/test_row_citations.py
+      # Toxic floors, cross-source outliers, foreign scripts, Shulgin's no-activity
+      # bounds and the upstream values the build could not read.
+      - name: Dose gates and the upstream-drop report
+        run: python3 pipeline/build/tests/test_dose_gates.py
+      # A route that should need less drug asking for more (insufflated 3x oral),
+      # or one source far from the rest. Ratcheted: the HIGH findings present when
+      # the gate went in are in data/snapshots/dose-sanity-baseline.json, and only
+      # a new one fails.
+      - name: Dose numbers agree across routes and sources (no new HIGH finding)
+        run: python3 pipeline/audit/dose_sanity.py --gate
 
   swift-lint:
     name: Swift (format + lint)

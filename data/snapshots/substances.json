@@ -10576,11 +10576,13 @@
     "all_routes": [
       "inhalation",
       "insufflation",
+      "intravenous",
       "sublingual"
     ],
     "routes_with_dose": [
       "inhalation",
       "insufflation",
+      "intravenous",
       "sublingual"
     ],
     "has_dose_data": true,
@@ -12906,14 +12908,10 @@
       "no-human-data",
       "phenethylamine"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -12923,6 +12921,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal001.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -41758,14 +41757,10 @@
       "PIHKAL",
       "phenethylamine"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -41775,6 +41770,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal123.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -45158,10 +45154,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -45171,6 +45165,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal136.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -45647,14 +45642,10 @@
       "PIHKAL",
       "phenethylamine"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -45664,6 +45655,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal138.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -49486,10 +49478,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -49499,6 +49489,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal097.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -52943,10 +52934,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -52956,6 +52945,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal143.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -57717,14 +57707,10 @@
       "PIHKAL",
       "phenethylamine"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -57734,6 +57720,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal145.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -59751,10 +59738,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -59764,6 +59749,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal161.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -60038,10 +60024,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
@@ -60051,6 +60035,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal173.shtml"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]

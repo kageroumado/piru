@@ -3,5 +3,7 @@
  "_series: the paper names the series, not each member",
  "pmid:1685125|MDAI",
  "_full-text-only: the compound is in a table or the body, and the abstract this check reads names it nowhere. Confirmed by reading the open-access full text, or by ChEMBL having extracted the row's exact value from this document.",
- "doi:10.1016/j.bmc.2010.12.024|Tranylcypromine"
+ "doi:10.1016/j.bmc.2010.12.024|Tranylcypromine",
+ "_unrelated-alias: the checker matched an alias in the paper, not the row's claim; adjudicated by the dose-gates pass 2026-10-30",
+ "doi:10.1016/s0006-2952(96)00767-8|Alcohol"
 ]
