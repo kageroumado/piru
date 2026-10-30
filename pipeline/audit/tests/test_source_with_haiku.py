@@ -22,8 +22,8 @@ from audit.source_with_haiku import (  # noqa: E402
     Text,
     compact,
     make_term,
+    number_in,
     quote_in,
-    time_quantities,
     verify,
 )
 
@@ -126,17 +126,16 @@ class TestNumberGate(unittest.TestCase):
             self.check("Its elimination half-life is 4 hours in adults", 216), "rejected"
         )
 
-    def test_the_low_end_of_a_range_is_written_and_counts(self) -> None:
-        self.assertEqual(
-            self.check("Elimination half-life: 20–33 hours in healthy adults", 1200), "accepted"
-        )
-        self.assertEqual(
-            self.check("Elimination half-life: 20–33 hours in healthy adults", 1590), "rejected"
-        )
+    def test_a_value_inside_a_stated_range_counts_and_says_so(self) -> None:
+        text = "Elimination half-life: 20–33 hours in healthy adults"
+        self.assertEqual(self.check(text, 1200), "accepted")  # the low end
+        self.assertEqual(self.check(text, 1590), "accepted")  # 26.5 h, inside
+        self.assertEqual(self.check(text, 2100), "rejected")  # 35 h, outside
+        self.assertEqual(number_in(1590, text), "within range 20–33 hours")
 
-    def test_range_extraction(self) -> None:
-        values = sorted(q.value for q in time_quantities("half-life of 2 to 4 h"))
-        self.assertEqual(values, [120.0, 240.0])
+    def test_ranges_in_words(self) -> None:
+        self.assertEqual(number_in(180, "half-life of 2 to 4 h"), "within range 2 to 4 h")
+        self.assertIsNone(number_in(300, "half-life of 2 to 4 h"))
 
 
 class TestClassGate(unittest.TestCase):

@@ -39,8 +39,12 @@ of them stays uncited.**
      co-drug or modality; for a prose row, at least half of the targets and
      pathways its claim names; for a class-pair rule, both classes (the page's
      own subject counts for its class).
-  4. *Number*: a numeric row (curated half-lives) has its number, within the
-     precision it is stated to, in the quote (`citation_sourcing.value_matches`).
+  4. *Number*: a numeric row (curated half-lives) has its number in the quote,
+     to within 1% after unit conversion, or the quote states a range the number
+     lies inside, which the evidence records as "within range X–Y".
+
+A pharmacogenetics row whose phenotype text names another gene and not its own
+is a data defect: it is listed in the report and never sourced.
 
 Accepted rows land where each table's citation lives: `row-citations.json`
 (mechanisms, signalling, pgx, metabolism, off-targets, DDI, bindings,
@@ -51,9 +55,11 @@ the report: they may be wrong claims.
 
 Fetched pages and model answers are cached under ``$PIRU_SOURCING_CACHE``
 (default ``/Volumes/Ugreen/Scratch/piru-sourcing``), so a re-run pays for nothing
-it has answered. Model calls go through the Message Batches API; ``--sync`` calls
-the Messages API directly. The key comes from ``ANTHROPIC_API_KEY`` (and
-``ANTHROPIC_WORKSPACE_ID`` when the key is not scoped to one workspace).
+it has answered. The model runs as headless Claude Code (`claude -p`, the
+`claude-cli` backend), four processes at a time, with every tool and MCP server
+off; spend is the sum of each call's `total_cost_usd`, and the pass stops
+calling at $25. An answer that is empty or not JSON is retried once, then
+recorded as `none`.
 
     python3 pipeline/audit/source_with_haiku.py --targets a,b,c,d --dry-run
     python3 pipeline/audit/source_with_haiku.py --targets a,b,c,d --write
@@ -70,6 +76,7 @@ import os
 import random
 import re
 import sqlite3
+import subprocess
 import sys
 import threading
 import time
@@ -88,7 +95,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "build"))
 
 import row_citations  # noqa: E402
-from audit.citation_sourcing import Quantity, extract_quantities, value_matches  # noqa: E402
+from audit.citation_sourcing import extract_quantities  # noqa: E402
 from audit.citation_topicality import (  # noqa: E402
     ENZYME_PREFIXES,
     TARGET_SYNONYMS,
@@ -118,10 +125,10 @@ DAILYMED_NDC = REPO / "data/sources/dailymed-labels.json"
 CACHE = Path(os.environ.get("PIRU_SOURCING_CACHE", "/Volumes/Ugreen/Scratch/piru-sourcing"))
 
 MODEL = "claude-haiku-5-5"
-#: $/MTok for prompts under 100k tokens. The Batches API bills half of this.
-PRICE_IN, PRICE_OUT = 0.10, 0.50
 SPEND_CAP = 25.0
 TODAY = date.today().isoformat()
+#: Stamped on every entry this run writes; `--via-date` pins it when a run's
+#: answers were gathered on an earlier day than the write.
 VIA = f"haiku-assisted {TODAY}"
 UA = "Piru-Sourcing/1.0 (+https://github.com/kageroumado/piru; citation sourcing for a public drug reference)"
 #: Seconds between requests to one host. Wikipedia asks for at most a few per second.
@@ -200,6 +207,13 @@ class Http:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps({"url": url, "body": body}))
         return body
+
+    def fetched_on(self, url: str) -> str:
+        """The day this URL's cached copy was fetched: the citation's access date."""
+        path = self._path(url)
+        if not path.exists():
+            return TODAY
+        return date.fromtimestamp(path.stat().st_mtime).isoformat()
 
     def json(self, url: str, accept: str | None = None) -> object | None:
         body = self.get(url, accept)
@@ -467,6 +481,7 @@ class Doc:
     multi_ingredient: bool = False
     passages: list[Passage] = field(default_factory=list)
     anchors: dict[str, str] = field(default_factory=dict)  # section → anchor
+    accessed: str = ""  # the day the document was fetched
 
 
 SKIP_SECTIONS = {
@@ -684,7 +699,10 @@ class Wikipedia:
                 "SELECT id, inchikey FROM substances WHERE inchikey IS NOT NULL AND inchikey != ''"
             ).fetchall()
         )
-        wanted = sorted({keys[s] for s in sids if s in keys})
+        # Every key in the database, in fixed batches, rather than this run's
+        # rows: the queries (and so the cached answers) then do not depend on
+        # which rows are still uncited, and a re-run sees the same articles.
+        wanted = sorted(set(keys.values()))
         by_key: dict[str, set[str]] = defaultdict(set)
         for start in range(0, len(wanted), 150):
             values = " ".join(f'"{k}"' for k in wanted[start : start + 150])
@@ -747,9 +765,8 @@ class Wikipedia:
         with self.lock:
             if title in self.docs:
                 return self.docs[title]
-        data = self.http.json(
-            wp_url(action="parse", page=title, prop="text|revid|displaytitle", redirects="1")
-        )
+        url = wp_url(action="parse", page=title, prop="text|revid|displaytitle", redirects="1")
+        data = self.http.json(url)
         parsed = (data or {}).get("parse")
         doc = None
         if parsed and parsed.get("revid"):
@@ -766,6 +783,7 @@ class Wikipedia:
                 ref=permalink,
                 title=f"Wikipedia: {final} (revision {revid})",
                 subject_classes=classes,
+                accessed=self.http.fetched_on(url),
             )
             article_passages(doc, parsed.get("text") or "")
         with self.lock:
@@ -854,10 +872,11 @@ class DailyMed:
     def __init__(self, http: Http, conn: sqlite3.Connection) -> None:
         self.http = http
         self.conn = conn
-        self.labels: dict[str, tuple[str, list[str], list[tuple[str, str]]] | None] = {}
+        self.labels: dict[str, tuple | None] = {}
 
-    def label(self, setid: str) -> tuple[str, list[str], list[tuple[str, str]]] | None:
-        """(SPL title, active ingredient and moiety names, [(section, text)])."""
+    def label(self, setid: str) -> tuple | None:
+        """(SPL title, active ingredient and moiety names, [(section, text)],
+        product name)."""
         if setid in self.labels:
             return self.labels[setid]
         body = self.http.get(SPL.format(setid=setid))
@@ -887,7 +906,8 @@ class DailyMed:
                     text = _text(section.find(f"{HL7}text"))
                     if text:
                         sections.append((heading or "Label", text))
-                result = (title, ingredients, sections)
+                product = _text(root.find(f".//{HL7}manufacturedProduct/{HL7}name"))
+                result = (title, ingredients, sections, product)
         self.labels[setid] = result
         return result
 
@@ -895,7 +915,7 @@ class DailyMed:
         label = self.label(setid)
         if label is None:
             return None
-        title, ingredients, sections = label
+        title, ingredients, sections, product = label
         moieties = {tokens(i) for i in ingredients}
         named = sorted(
             n
@@ -913,9 +933,12 @@ class DailyMed:
             label=f"FDA label (DailyMed) '{title[:120]}'",
             identity=f"active ingredient names '{named[0]}' as whole words",
             ref=DAILYMED_PAGE + setid,
-            title=f"DailyMed: {title[:160]}" if title else None,
+            # SPL titles open with "These highlights do not include…", so the
+            # citation names the product and its active ingredients instead.
+            title=f"DailyMed: {product or title[:80]} ({', '.join(ingredients).lower()}) label",
             subject_classes=classes,
             multi_ingredient=len(_collapse_bases(bases)) > 1,
+            accessed=self.http.fetched_on(SPL.format(setid=setid)),
         )
         for heading, text in sections:
             for piece in chunk(text):
@@ -950,12 +973,10 @@ EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?"
 
 def epmc_reviews(http: Http, names: SubstanceNames, name: str, term: str) -> list[Doc]:
     query = f'(TITLE_ABS:"{name}") AND (TITLE_ABS:"{term}") AND PUB_TYPE:"review"'
-    data = http.json(
-        EPMC
-        + urllib.parse.urlencode(
-            {"query": query, "format": "json", "pageSize": 3, "resultType": "core"}
-        )
+    url = EPMC + urllib.parse.urlencode(
+        {"query": query, "format": "json", "pageSize": 3, "resultType": "core"}
     )
+    data = http.json(url)
     out: list[Doc] = []
     for row in ((data or {}).get("resultList") or {}).get("result") or []:
         pmid, doi = row.get("pmid"), row.get("doi")
@@ -974,6 +995,7 @@ def epmc_reviews(http: Http, names: SubstanceNames, name: str, term: str) -> lis
             identity=f"title/abstract names the substance ('{how}')",
             ref=f"pmid:{pmid}" if pmid else f"doi:{doi}",
             title=None,
+            accessed=http.fetched_on(url),
         )
         for piece in chunk(abstract):
             doc.passages.append(Passage(doc, "Abstract", piece))
@@ -1016,6 +1038,8 @@ class Claim:
     origin: str = ""  # what the claim is, for the report
     #: zh-Hans/zh-Hant copies of a class paragraph that inherit this row's citation.
     copies: list[dict] = field(default_factory=list)
+    #: Why the row itself is inconsistent, so no source can be checked against it.
+    defect: str = ""
 
     @property
     def cid(self) -> str:
@@ -1136,6 +1160,11 @@ def collect_c(conn, lexicon, names) -> list[Claim]:
             lambda r: r["target"],
         ),
     }
+    pgx_genes = {
+        gene: make_term(gene)
+        for (gene,) in conn.execute("SELECT DISTINCT gene FROM pharmacogenetics")
+        if gene and make_term(gene)
+    }
     for table, (claim_of, key_of) in specs.items():
         extra = "AND src.slug = 'peer-review-primary'" if table == "bindings" else ""
         for row in uncited(conn, table, extra):
@@ -1151,10 +1180,29 @@ def collect_c(conn, lexicon, names) -> list[Claim]:
                 entry=entry_for(row, table),
                 origin=table,
             )
+            if table == "pharmacogenetics":
+                claim.defect = gene_mismatch(row, term, pgx_genes)
             out.append(claim)
     for row in uncited(conn, "downstream_signalling"):
         out.append(prose_claim(row, "downstream_signalling", row["summary"], "", lexicon, names))
     return out
+
+
+def gene_mismatch(row, own: Term | None, genes: dict[str, Term]) -> str:
+    """A pharmacogenetics row whose phenotype text names another gene and not
+    its own (1,4-Butanediol's ADH1B row describes ALDH2*2). Its text belongs to
+    a different row; a source for the text would be cited against the wrong gene."""
+    text = Text.of(row["phenotype_effects"] or "")
+    if own is None or own.named_in(text):
+        return ""
+    others = sorted(
+        g
+        for g, t in genes.items()
+        if g != row["gene"] and not _overlap(t.keys, own.keys) and t.named_in(text)
+    )
+    if not others:
+        return ""
+    return f"gene {row['gene']} row, but its phenotype text names {', '.join(others)}"
 
 
 def action_words(action: str | None) -> str:
@@ -1492,15 +1540,34 @@ _RANGE = re.compile(
 )
 
 
-def time_quantities(text: str) -> list[Quantity]:
-    """Every duration in `text`, the low end of a range included: "20–33 hours"
-    states 20 hours as written, with the unit the range shares."""
-    found = [q for q in extract_quantities(text) if q.unit_class == "time"]
+def time_ranges(text: str) -> list[tuple[float, float, str]]:
+    """Every duration range in `text` ("20–33 hours", "2 to 4 h") as
+    (low, high) in minutes, with the text that stated it."""
+    found = []
     for match in _RANGE.finditer(text):
-        for q in extract_quantities(f"{match.group('low')} {match.group('unit')}"):
-            if q.unit_class == "time":
-                found.append(Quantity(q.value, q.unit_class, f"{match.group(0)} (low end)"))
+        low = extract_quantities(f"{match.group('low')} {match.group('unit')}")
+        high = extract_quantities(f"{match.group('high')} {match.group('unit')}")
+        if low and high and low[0].unit_class == high[0].unit_class == "time":
+            found.append((low[0].value, high[0].value, match.group(0)))
     return found
+
+
+def number_in(minutes: float, text: str) -> str | None:
+    """How `text` states a half-life of `minutes`, or None.
+
+    The value itself, to within 1% (the rounding a unit conversion leaves:
+    100 min is 1.67 h): "3.6 hours" is 216 minutes and "4 hours" is not.
+    (`value_matches` derives its tolerance from the row's digits, and a row in
+    minutes like 300 has one significant figure, so it would let "4 h" stand
+    for 5 h.) Or a range the value lies inside, recorded as "within range X–Y"
+    so a reader sees that the source gives a range."""
+    for quantity in extract_quantities(text):
+        if quantity.unit_class == "time" and abs(quantity.value - minutes) <= 0.01 * minutes:
+            return quantity.raw
+    for low, high, raw in time_ranges(text):
+        if low * 0.995 <= minutes <= high * 1.005 and low < high:
+            return f"within range {raw}"
+    return None
 
 
 def content_words(text: str) -> set[str]:
@@ -1531,12 +1598,11 @@ def select_passages(claim: Claim) -> list[Passage]:
                 hits = sum(1 for t in claim.terms if t.named_in(index))
                 if hits == 0:
                     continue
-                if claim.number_minutes is not None:
-                    found = value_matches(
-                        claim.number_minutes, "time", time_quantities(passage.text)
-                    )
-                    if found is None:
-                        continue
+                if (
+                    claim.number_minutes is not None
+                    and number_in(claim.number_minutes, passage.text) is None
+                ):
+                    continue
                 score = 10.0 * hits
             score += len(words & content_words(passage.text)) * 0.5
             scored.append((score, order, passage))
@@ -1617,120 +1683,95 @@ def build_prompt(claim: Claim, passages: list[Passage]) -> str:
     return "\n".join(lines)
 
 
-def request_params(prompt: str) -> dict:
-    return {
-        "model": MODEL,
-        "max_tokens": 1500,
-        "thinking": {"type": "disabled"},
-        "output_config": {"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
-        "system": SYSTEM,
-        "messages": [{"role": "user", "content": prompt}],
-    }
-
-
 def prompt_key(prompt: str) -> str:
     return hashlib.sha1(f"{MODEL}\n{SYSTEM}\n{prompt}".encode()).hexdigest()
 
 
+#: Headless Claude Code with no tools: no built-in tool, no MCP server, no
+#: session written to disk. The model can read the prompt and answer; it can
+#: fetch, run and edit nothing.
+CLI = [
+    "claude", "-p", "--model", MODEL, "--output-format", "json", "--tools", "",
+    "--strict-mcp-config", "--no-session-persistence", "--system-prompt", SYSTEM,
+    "--json-schema", json.dumps(SCHEMA),
+]  # fmt: skip
+WORKERS = 4
+NO_ANSWER = {"verdict": "none", "quotes": [], "reason": "no parseable answer after one retry"}
+
+
 class Judge:
-    """Model answers, cached by prompt hash; one file per answer."""
+    """Model answers through headless Claude Code, cached by prompt hash, one
+    file per answer. Spend is the sum of each call's `total_cost_usd`."""
 
     def __init__(self, root: Path) -> None:
         self.root = root / "haiku"
         self.root.mkdir(parents=True, exist_ok=True)
-        self.state_path = root / "batches.json"
+        # An empty directory, so the session picks up no project CLAUDE.md.
+        self.cwd = root / "cli-cwd"
+        self.cwd.mkdir(parents=True, exist_ok=True)
+        self.lock = threading.Lock()
+        self._spend: float | None = None
 
     def cached(self, key: str) -> dict | None:
         path = self.root / f"{key}.json"
         return json.loads(path.read_text()) if path.exists() else None
 
-    def store(self, key: str, message_json: dict, usage: dict, batch: bool) -> None:
-        (self.root / f"{key}.json").write_text(
-            json.dumps({"answer": message_json, "usage": usage, "batch": batch})
-        )
-
     def spend(self) -> float:
-        total = 0.0
-        for path in self.root.glob("*.json"):
-            data = json.loads(path.read_text())
-            usage = data.get("usage") or {}
-            cost = (
-                usage.get("input_tokens", 0) * PRICE_IN + usage.get("output_tokens", 0) * PRICE_OUT
-            ) / 1e6
-            total += cost * (0.5 if data.get("batch") else 1.0)
-        return total
+        with self.lock:
+            if self._spend is None:
+                self._spend = sum(
+                    float(json.loads(p.read_text()).get("cost") or 0)
+                    for p in self.root.glob("*.json")
+                )
+            return self._spend
 
-    def client(self):
-        import anthropic
+    def _store(self, key: str, answer: dict, cost: float) -> None:
+        (self.root / f"{key}.json").write_text(json.dumps({"answer": answer, "cost": cost}))
+        with self.lock:
+            self._spend = (self._spend or 0.0) + cost
 
-        headers = {}
-        if os.environ.get("ANTHROPIC_WORKSPACE_ID"):
-            headers["anthropic-workspace-id"] = os.environ["ANTHROPIC_WORKSPACE_ID"]
-        return anthropic.Anthropic(default_headers=headers or None)
-
-    @staticmethod
-    def _parse(message) -> tuple[dict | None, dict]:
-        usage = {
-            "input_tokens": message.usage.input_tokens,
-            "output_tokens": message.usage.output_tokens,
-        }
-        if message.stop_reason in ("refusal", "max_tokens"):
-            return {"verdict": "error", "quotes": [], "reason": message.stop_reason}, usage
-        text = next((b.text for b in message.content if b.type == "text"), "")
+    def _call(self, prompt: str) -> tuple[dict | None, float]:
         try:
-            return json.loads(text), usage
+            done = subprocess.run(
+                CLI, input=prompt, capture_output=True, text=True, timeout=300, cwd=self.cwd
+            )
+        except subprocess.TimeoutExpired:
+            return None, 0.0
+        try:
+            payload = json.loads(done.stdout)
         except ValueError:
-            return {"verdict": "error", "quotes": [], "reason": "unparseable"}, usage
+            return None, 0.0
+        cost = float(payload.get("total_cost_usd") or 0)
+        answer = payload.get("structured_output")
+        if not isinstance(answer, dict):
+            try:
+                answer = json.loads(payload.get("result") or "")
+            except ValueError:
+                answer = None
+        if payload.get("is_error") or not isinstance(answer, dict) or "verdict" not in answer:
+            return None, cost
+        return answer, cost
 
-    def run_sync(self, prompts: dict[str, str]) -> None:
-        client = self.client()
+    def run(self, prompts: dict[str, str]) -> None:
+        total = len(prompts)
+        done = [0]
 
-        def one(item):
+        def one(item: tuple[str, str]) -> None:
             key, prompt = item
             if self.spend() > SPEND_CAP:
                 return
-            message = client.messages.create(**request_params(prompt))
-            answer, usage = self._parse(message)
-            self.store(key, answer, usage, batch=False)
+            answer, cost = self._call(prompt)
+            if answer is None:
+                answer, retry_cost = self._call(prompt)
+                cost += retry_cost
+            self._store(key, answer or NO_ANSWER, cost)
+            with self.lock:
+                done[0] += 1
+                if done[0] % 50 == 0 or done[0] == total:
+                    print(f"  {done[0]}/{total} answered; spend ${self._spend:.2f}", flush=True)
 
-        with ThreadPoolExecutor(max_workers=6) as pool:
-            list(pool.map(one, prompts.items()))
-
-    def run_batch(self, prompts: dict[str, str], poll: float = 30.0) -> None:
-        client = self.client()
-        state = json.loads(self.state_path.read_text()) if self.state_path.exists() else {}
-        in_flight = {k for batch in state.values() if not batch.get("done") for k in batch["keys"]}
-        todo = {k: p for k, p in prompts.items() if k not in in_flight}
-        keys = sorted(todo)
-        for start in range(0, len(keys), 5000):
-            part = keys[start : start + 5000]
-            batch = client.messages.batches.create(
-                requests=[{"custom_id": k, "params": request_params(todo[k])} for k in part]
-            )
-            state[batch.id] = {"keys": part, "done": False}
-            self.state_path.write_text(json.dumps(state, indent=1))
-            print(f"  submitted batch {batch.id} ({len(part)} requests)", flush=True)
-        while True:
-            open_ids = [b for b, v in state.items() if not v.get("done")]
-            if not open_ids:
-                break
-            for batch_id in open_ids:
-                batch = client.messages.batches.retrieve(batch_id)
-                if batch.processing_status != "ended":
-                    counts = batch.request_counts
-                    print(
-                        f"  {batch_id}: {counts.processing} processing, {counts.succeeded} done",
-                        flush=True,
-                    )
-                    continue
-                for result in client.messages.batches.results(batch_id):
-                    if result.result.type == "succeeded":
-                        answer, usage = self._parse(result.result.message)
-                        self.store(result.custom_id, answer, usage, batch=True)
-                state[batch_id]["done"] = True
-                self.state_path.write_text(json.dumps(state, indent=1))
-            if any(not v.get("done") for v in state.values()):
-                time.sleep(poll)
+        with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+            list(pool.map(one, sorted(prompts.items())))
 
 
 # ------------------------------------------------------------------ the gates
@@ -1749,8 +1790,10 @@ class Outcome:
 
 def verify(claim: Claim, passages: list[Passage], answer: dict) -> Outcome:
     verdict = answer.get("verdict")
-    if verdict in ("not_found", "contradicted", "partial", "error"):
+    if verdict in ("not_found", "contradicted", "partial"):
         return Outcome(claim, verdict, haiku_reason=answer.get("reason", ""))
+    if verdict not in ("supported",):
+        return Outcome(claim, "error", "no answer", haiku_reason=answer.get("reason", ""))
     quotes = answer.get("quotes") or []
     if verdict != "supported" or not quotes:
         return Outcome(claim, "rejected", "gate 1 (quote): supported with no quote")
@@ -1799,11 +1842,12 @@ def verify(claim: Claim, passages: list[Passage], answer: dict) -> Outcome:
                 f"gate 3 (key term): quote names {len(hits)} of the {claim.need} needed",
             )
     if claim.number_minutes is not None:
-        quantities = [q for _, quote in checked for q in time_quantities(quote)]
-        found = value_matches(claim.number_minutes, "time", quantities)
+        found = None
+        for _, quote in checked:
+            found = found or number_in(claim.number_minutes, quote)
         if found is None:
             return Outcome(claim, "rejected", "gate 4 (number): quote lacks the row's value")
-        return Outcome(claim, "accepted", doc=doc, quotes=checked, number=found.raw)
+        return Outcome(claim, "accepted", doc=doc, quotes=checked, number=found)
     return Outcome(claim, "accepted", doc=doc, quotes=checked)
 
 
@@ -1846,6 +1890,12 @@ def evidence(outcome: Outcome) -> str:
     return f"{quotes} ({section}; {outcome.doc.identity}; {terms}{value})"
 
 
+#: Rows whose accepted source `citation_topicality.py --gate` refuses, so they
+#: are never written: DOEF's article title spells "(2-fluoroethyl)amphetamine",
+#: which the topicality matcher reads as 2-FEA.
+TOPICALITY_DROPPED = {("downstream_signalling", "DOEF")}
+
+
 def write_sidecar(outcomes: list[Outcome], conn: sqlite3.Connection) -> int:
     entries = row_citations.load()
     have = {row_citations.entry_key(e) for e in entries}
@@ -1857,12 +1907,14 @@ def write_sidecar(outcomes: list[Outcome], conn: sqlite3.Connection) -> int:
             entry = dict(base)
             if row_citations.entry_key(entry) in have:
                 continue
+            if (entry["table"], entry["substance"]) in TOPICALITY_DROPPED:
+                continue
             if len(row_citations.find_rows(conn, entry)) != 1:
                 continue
             entry.update(
                 {
                     "ref": ref,
-                    "accessed": TODAY,
+                    "accessed": outcome.doc.accessed or TODAY,
                     "via": VIA,
                     "evidence": evidence(outcome)
                     if base is claim.entry
@@ -1901,7 +1953,7 @@ def write_rules(outcomes: list[Outcome]) -> int:
                         "quote": " … ".join(q for _, q in outcome.quotes),
                         "section": outcome.quotes[0][0].section,
                         "identity": outcome.doc.identity,
-                        "accessed": TODAY,
+                        "accessed": outcome.doc.accessed or TODAY,
                         "via": VIA,
                     }
             rule = new
@@ -1932,7 +1984,7 @@ def write_half_lives(outcomes: list[Outcome]) -> int:
             "section": outcome.quotes[0][0].section,
             "identity": outcome.doc.identity,
             "value": outcome.number,
-            "accessed": TODAY,
+            "accessed": outcome.doc.accessed or TODAY,
             "via": VIA,
         }
         block = json.dumps(evidence_obj, indent=len(indent) or 2, ensure_ascii=False)
@@ -1956,13 +2008,13 @@ def write_report(outcomes: list[Outcome], spend: float, unmapped: list[str], pat
     lines = [
         f"# Haiku-assisted sourcing pass — {TODAY}",
         "",
-        f"Model `{MODEL}`. Total model spend: **${spend:.2f}** (computed from token usage, "
-        "batch rate where batched).",
+        f"Model `{MODEL}`. Total model spend: **${spend:.2f}** (the sum of each headless Claude Code "
+        "call's `total_cost_usd`).",
         "",
         "## Outcomes per target",
         "",
-        "| target | rows | accepted | rejected by a gate | partial | not_found | contradicted | no candidate passage | no source document | error |",
-        "|---|---|---|---|---|---|---|---|---|---|",
+        "| target | rows | accepted | rejected by a gate | partial | not_found | contradicted | no candidate passage | no source document | data defect | no answer |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     by_target: dict[str, Counter] = defaultdict(Counter)
     for o in outcomes:
@@ -1972,7 +2024,7 @@ def write_report(outcomes: list[Outcome], spend: float, unmapped: list[str], pat
         lines.append(
             f"| ({target}) {TARGET_NAMES[target]} | {sum(c.values())} | {c['accepted']} | "
             f"{c['rejected']} | {c['partial']} | {c['not_found']} | {c['contradicted']} | "
-            f"{c['no_candidate']} | {c['no_source']} | {c['error']} |"
+            f"{c['no_candidate']} | {c['no_source']} | {c['defect']} | {c['error']} |"
         )
     lines += ["", "## Rejections by gate", "", "| target | reason | rows |", "|---|---|---|"]
     reasons = Counter((o.claim.target, o.reason) for o in outcomes if o.status == "rejected")
@@ -2009,6 +2061,16 @@ def write_report(outcomes: list[Outcome], spend: float, unmapped: list[str], pat
                 f"- ({o.claim.target}) `{o.claim.table}` **{o.claim.substance}**: "
                 f"{' '.join(o.claim.text.split())[:300]} — _{o.haiku_reason}_"
             )
+    defects = [o for o in outcomes if o.status == "defect"]
+    lines += [
+        "",
+        f"## Likely data defects, not sourced: pgx rows whose text names another gene and not their own ({len(defects)})",
+        "",
+    ]
+    for o in defects:
+        lines.append(
+            f"- `{o.claim.table}` **{o.claim.substance}**: {o.reason}. Text: {o.claim.text}"
+        )
     if unmapped:
         lines += ["", f"## Half-life rows with no curated input found ({len(unmapped)})", ""]
         lines += [f"- {u}" for u in unmapped]
@@ -2019,18 +2081,26 @@ def write_report(outcomes: list[Outcome], spend: float, unmapped: list[str], pat
 
 
 def main() -> int:
-    global _STATIC_CONN
+    global _STATIC_CONN, VIA
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--targets", default="a,b,c,d")
     parser.add_argument("--db", type=Path, default=DB)
     parser.add_argument("--dry-run", action="store_true", help="retrieve and select, no model")
-    parser.add_argument("--sync", action="store_true", help="Messages API instead of Batches")
     parser.add_argument("--write", action="store_true", help="write accepted citations")
+    parser.add_argument(
+        "--backend",
+        choices=["claude-cli"],
+        default="claude-cli",
+        help="how the model is called: headless Claude Code (`claude -p`), tools off",
+    )
     parser.add_argument("--limit", type=int, default=0, help="first N claims per target")
+    parser.add_argument("--via-date", default=TODAY, help="date stamped into `via`")
+    parser.add_argument("--max-calls", type=int, default=0, help="answer at most N new prompts")
     parser.add_argument("--no-epmc", action="store_true")
     parser.add_argument("--offline", action="store_true", help="cache only, no network")
     parser.add_argument("--report", type=Path, default=CACHE / "REPORT.md")
     args = parser.parse_args()
+    VIA = f"haiku-assisted {args.via_date}"
 
     # Read-only and shared by the fetch threads; `all_names` serializes its queries.
     conn = sqlite3.connect(f"file:{args.db}?mode=ro", uri=True, check_same_thread=False)
@@ -2058,7 +2128,7 @@ def main() -> int:
     judge = Judge(CACHE)
     prepared: list[tuple[Claim, list[Passage], str | None]] = []
     for claim in claims:
-        passages = select_passages(claim)
+        passages = [] if claim.defect else select_passages(claim)
         prompt = build_prompt(claim, passages) if passages else None
         prepared.append((claim, passages, prompt))
     prompts = {prompt_key(p): p for _, _, p in prepared if p}
@@ -2069,18 +2139,20 @@ def main() -> int:
         f"tokens); spend so far ${judge.spend():.2f}",
         flush=True,
     )
+    if args.max_calls:
+        missing = dict(sorted(missing.items())[: args.max_calls])
     if missing and not args.dry_run:
         if judge.spend() > SPEND_CAP:
             print("spend cap reached; not calling the model", file=sys.stderr)
-        elif args.sync:
-            judge.run_sync(missing)
         else:
-            judge.run_batch(missing)
+            judge.run(missing)
 
     outcomes: list[Outcome] = []
     for claim, passages, prompt in prepared:
         if prompt is None:
-            if not claim.docs:
+            if claim.defect:
+                outcomes.append(Outcome(claim, "defect", claim.defect))
+            elif not claim.docs:
                 outcomes.append(Outcome(claim, "no_source", "no fetchable candidate document"))
             else:
                 outcomes.append(Outcome(claim, "no_candidate", "no passage names a key term"))

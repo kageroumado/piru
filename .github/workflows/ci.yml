@@ -126,6 +126,11 @@ jobs:
         run: python3 pipeline/audit/tests/test_citation_topicality.py
       - name: DailyMed label identity is matched as whole words
         run: python3 pipeline/audit/tests/test_resolve_fda_label_links.py
+      # The Haiku sourcing pass is trustworthy only through its gates: a quote
+      # verbatim in its passage, the row's key term in the quote, the row's
+      # number (or a range holding it). Pinned without network, model or DB.
+      - name: Haiku-assisted sourcing gates
+        run: python3 pipeline/audit/tests/test_source_with_haiku.py
       - name: Signature coverage (no regression)
         run: python3 pipeline/audit/signature_coverage.py --gate
       # verify_citations proves the identifier RESOLVES; citation_topicality
