@@ -1709,8 +1709,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2C19",
-        "CYP3A4"
+        "CYP2C19"
       ],
       "phenotype_effects": "CYP2C19 PMs accumulate nordazepam more.",
       "reference": null
@@ -2485,8 +2484,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2C19",
-        "CYP3A4"
+        "CYP2C19"
       ],
       "phenotype_effects": "Inherited via nordazepam: CYP2C19 PMs accumulate more.",
       "reference": null

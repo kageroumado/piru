@@ -299,7 +299,6 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP2D6",
-        "CYP3A4/5",
         "HTR2A (His452Tyr)"
       ],
       "phenotype_effects": "HTR2A His452Tyr variant (allele freq ~9%) blunts subjective and arrestin-driven responses to 5-HT2A agonists. CYP2D6 PM status would extend half-life modestly given small CYP2D6 contribution.",
@@ -684,7 +683,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Deacetylated to LSD in plasma; equivalent in-vivo behavioural pharmacology",
+      "downstream_signalling": "A readily converted prodrug of LSD at about 90 to 100% of LSD's potency, with very similar onset, duration and subjective effects.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -2182,7 +2181,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "More potent than psilocin in vitro but does not produce HTR in mice: Glatfelter 2022/2025 demonstrate poor BBB penetration due to secondary amine + 4-OH log-D",
+      "downstream_signalling": "More potent than psilocin in vitro, yet it fails to produce the head-twitch response in animals despite crossing the blood–brain barrier there with psilocin-like metabolic stability.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -2887,8 +2886,7 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "MAO-A VNTR",
-        "CYP2D6",
-        "HTR2A"
+        "CYP2D6"
       ],
       "phenotype_effects": "MAOA-uVNTR high-activity allele speeds DMT clearance; CYP2D6 PM modest impact (minor pathway)",
       "reference": null
@@ -4099,7 +4097,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "5-HT2A agonism + SERT inhibition → in-vivo DA/5-HT/glutamate efflux in rat NAc/PFC. Pronounced 5-HT release may contribute to entactogenic-tinged effects",
+      "downstream_signalling": "5-HT2A agonism plus serotonin reuptake inhibition, with reuptake potency reported from comparable to its 5-HT2A agonism down to very low. It shows no monoamine-releasing activity and does not significantly affect dopamine or norepinephrine reuptake.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -6585,8 +6583,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP1A2",
-        "MAO-A"
+        "CYP1A2"
       ],
       "phenotype_effects": "CYP1A2 PM: higher parent, lower active metabolite",
       "reference": null

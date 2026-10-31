@@ -1,6 +1,6 @@
 {
-  "content_version": "2026-10-31.1",
-  "generated_at": "2026-10-31T00:51:57.196030+00:00",
+  "content_version": "2026-10-31.7",
+  "generated_at": "2026-10-31T19:22:31.435270+00:00",
   "generator_version": "pipeline/build/sqlite.py",
   "schema_version": 6,
   "sources": {
@@ -60,12 +60,12 @@
       "dose_ranges": 0
     },
     "peer-review-primary": {
-      "bindings": 1014,
+      "bindings": 1011,
       "categories": 0,
       "dose_ranges": 0
     },
     "piru-curated": {
-      "bindings": 456,
+      "bindings": 458,
       "categories": 650,
       "dose_ranges": 220
     },
@@ -96,7 +96,7 @@
     }
   },
   "sqlite_path": "piru-substances.sqlite",
-  "sqlite_sha256": "2dc79cf44cdce755b3689551d19e4d798f45a447a4641e1a46caee25a51b7fc3",
-  "sqlite_size_bytes": 21577728,
+  "sqlite_sha256": "a679995ecf9ca82c5062017e34cae3cbee7ab3023bd45722868a62aa17d6bf24",
+  "sqlite_size_bytes": 21581824,
   "substance_count": 1674
 }

@@ -55,6 +55,16 @@
     "Orthostatic hypotension, particularly in elderly"
   ],
   "halfLifeMinutes": 360,
+  "halfLifeSource": "DailyMed: SEROQUEL (quetiapine fumarate) immediate-release label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8ae62aaf-f8c5-417f-baac-0098369ca322",
+  "halfLifeEvidence": {
+    "quote": "Elimination of quetiapine is mainly via hepatic metabolism with a mean terminal half-life of about 6 hours within the proposed clinical dose range.",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'quetiapine' as whole words",
+    "value": "6 hours",
+    "note": "The extended-release (SEROQUEL XR) label states approximately 7 hours; the immediate-release figure is the one this row carries.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "Seroquel Xr (quetiapine fumarate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2a74e8a0-b2fd-4d7f-8bf8-72148b1d3ae7",
     "https://en.wikipedia.org/wiki/Quetiapine",

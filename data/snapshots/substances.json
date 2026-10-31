@@ -2233,7 +2233,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Full 5-HT2A Receptor Agonist (High Potency)",
+    "mechanism_summary": "5-HT2A Receptor Agonist (High Potency)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -2285,10 +2285,11 @@
       "Vasoconstriction",
       "Wakefulness"
     ],
-    "references": [],
+    "references": [
+      "10.1155/2014/734749"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -13680,14 +13681,15 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Selectively blocks alpha-1A adrenergic receptors in the prostate, relaxing smooth muscle around the bladder neck.",
+    "mechanism_summary": "Blocks post-synaptic alpha-1 adrenergic receptors in the prostate and bladder neck, relaxing smooth muscle.",
     "effects": [],
-    "references": [],
+    "references": [
+      "DailyMed: UROXATRAL (alfuzosin hydrochloride) label"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -14963,10 +14965,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1440.0,
+    "half_life_minutes": 1260.0,
     "mechanism_summary": "Tricyclic Antidepressant (TCA)",
     "effects": [],
     "references": [
+      "Wikipedia: Amitriptyline (revision 1380905598)",
       "https://en.wikipedia.org/wiki/Amitriptyline",
       "https://www.ncbi.nlm.nih.gov/books/NBK537225/"
     ],
@@ -34294,10 +34297,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1260.0,
-    "mechanism_summary": "Blocks dopamine D2 receptors, with additional blockade of histamine H1 and alpha-1 adrenergic receptors.",
+    "mechanism_summary": "Blocks central dopamine D2 receptors, and alpha-1 adrenergic receptors with lower affinity.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Haloperidol"
+      "https://en.wikipedia.org/wiki/Haloperidol",
+      "DailyMed: HALOPERIDOL DECANOATE label"
     ],
     "data_gaps": []
   },
@@ -42935,10 +42939,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
+    "mechanism_summary": "Norepinephrine–Dopamine Releasing Agent (Substituted Cathinone)",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Methcathinone"
+      "https://en.wikipedia.org/wiki/Methcathinone",
+      "10.1016/j.ejphar.2012.11.008"
     ],
     "data_gaps": [
       "half_life_minutes"
@@ -46793,10 +46798,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
+    "mechanism_summary": "Serotonin–Norepinephrine–Dopamine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Naphyrone"
+      "https://en.wikipedia.org/wiki/Naphyrone",
+      "10.1016/j.ejphar.2012.12.006"
     ],
     "data_gaps": [
       "half_life_minutes"
@@ -53734,11 +53740,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": true,
-    "half_life_minutes": 120.0,
+    "half_life_minutes": 162.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Vyleesi (bremelanotide) label",
+      "DailyMed: VYLEESI (bremelanotide) label",
       "https://en.wikipedia.org/wiki/Bremelanotide"
     ],
     "data_gaps": [
@@ -54252,6 +54258,7 @@
       "Thought deceleration"
     ],
     "references": [
+      "DailyMed: SEROQUEL (quetiapine fumarate) immediate-release label",
       "Seroquel Xr (quetiapine fumarate) label",
       "https://en.wikipedia.org/wiki/Quetiapine",
       "Steady-State Pharmacokinetic, Safety, and Tolerability Profiles of Quetiapine, Norquetiapine, and Other Quetiapine Metabolites in Pediatric and Adult Patients with Psychotic Disorders"
@@ -55894,10 +55901,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 60.0,
+    "half_life_minutes": 50.0,
     "mechanism_summary": "Selective κ-Opioid Receptor Agonist (Salvinorin A)",
     "effects": [],
     "references": [
+      "Pharmacokinetics and Pharmacodynamics of Salvinorin A and <i>Salvia divinorum</i>: Clinical and Forensic Aspects",
       "https://en.wikipedia.org/wiki/Salvinorin_A"
     ],
     "data_gaps": []
@@ -61960,7 +61968,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 60.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -61968,6 +61976,7 @@
       "https://en.wikipedia.org/wiki/Niacin"
     ],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -62265,11 +62274,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 4320.0,
+    "half_life_minutes": 3960.0,
     "mechanism_summary": "Multimodal Serotonergic Antidepressant",
     "effects": [],
     "references": [
-      "Trintellix (vortioxetine) label",
+      "DailyMed: TRINTELLIX (vortioxetine) label",
       "https://en.wikipedia.org/wiki/Vortioxetine"
     ],
     "data_gaps": [
@@ -63066,7 +63075,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
-    "mechanism_summary": "GABA-A Receptor Agonist (α1-Selective)",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Cyclopyrrolone)",
     "effects": [
       "Amnesia",
       "Anxiety suppression",
@@ -63079,10 +63088,10 @@
       "Sedation",
       "Thought deceleration"
     ],
-    "references": [],
-    "data_gaps": [
-      "references"
-    ]
+    "references": [
+      "Wikipedia: Zopiclone (revision 1380835395)"
+    ],
+    "data_gaps": []
   },
   {
     "name": "α-PCYP",

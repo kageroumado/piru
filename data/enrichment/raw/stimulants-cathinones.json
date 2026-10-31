@@ -481,7 +481,6 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP2D6",
-        "CYP1A2",
         "CYP2C19"
       ],
       "phenotype_effects": "CYP2D6/CYP2C19 PMs likely show prolonged exposure; redundant metabolic pathways reduce magnitude of pharmacogenetic impact compared to mephedrone",

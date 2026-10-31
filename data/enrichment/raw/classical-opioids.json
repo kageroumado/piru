@@ -412,8 +412,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "OPRM1",
-        "ABCB1"
+        "OPRM1"
       ],
       "phenotype_effects": "Same OPRM1 sensitivity as morphine; CES1 polymorphism could in principle alter hydrolysis but is not clinically established.",
       "reference": null
@@ -855,11 +854,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2B6 (*6/*6, *18)",
-        "CYP3A4/5",
-        "CYP2C19",
-        "OPRM1",
-        "ABCB1"
+        "CYP2B6 (*6/*6, *18)"
       ],
       "phenotype_effects": "CYP2B6 *6/*6 (slow metabolisers) have ~50% higher S-methadone plasma concentrations → 4.5× increased TdP risk (Eap 2007). CPIC 2024 recommends genotype-informed dosing.",
       "reference": null
@@ -1312,8 +1307,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "OPRM1",
-        "UGT2B7"
+        "OPRM1"
       ],
       "phenotype_effects": "Bypasses CYP2D6 phenoconversion when administered directly; OPRM1 sensitivity applies as for any MOR agonist.",
       "reference": null
@@ -2720,9 +2714,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP3A4",
-        "CYP2B6",
-        "OPRM1"
+        "CYP2B6"
       ],
       "phenotype_effects": "CYP2B6 slow metabolisers accumulate parent, less normeperidine, fewer seizures.",
       "reference": null
@@ -3836,15 +3828,6 @@
           "tissue_or_cell": "recombinant",
           "radioligand_or_probe": "[3H]8-OH-DPAT",
           "reference": "pmid:8787038"
-        },
-        {
-          "target": "MOR",
-          "ki_nm": null,
-          "action": "agonist",
-          "species": null,
-          "tissue_or_cell": null,
-          "radioligand_or_probe": null,
-          "reference": null
         }
       ],
       "functional": [],

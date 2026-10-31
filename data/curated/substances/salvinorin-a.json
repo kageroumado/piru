@@ -91,7 +91,17 @@
     "Frequently dysphoric or terrifying",
     "Rapid tolerance development with repeated use"
   ],
-  "halfLifeMinutes": 60,
+  "halfLifeMinutes": 50,
+  "halfLifeSource": "doi:10.3390/ph14020116",
+  "halfLifeEvidence": {
+    "quote": "After inhalation of 1 mg of vaporised salvinorin A by healthy volunteers, the drug was rapidly eliminated, with a t 1/2 varying from 49–50 min",
+    "section": "Pharmacokinetics — Elimination",
+    "identity": "review titled 'Pharmacokinetics and Pharmacodynamics of Salvinorin A and Salvia divinorum'",
+    "value": "49-50 min (human, inhaled)",
+    "note": "Nonhuman-primate figures in the same review run 37.9-80.0 min; the 8 min figure is brain clearance in baboon, not plasma elimination.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Salvinorin_A",
     "https://pubchem.ncbi.nlm.nih.gov/compound/128563",

@@ -18,12 +18,12 @@
   },
   {
     "name": "25C-NBOMe",
-    "summary": "Full 5-HT2A Receptor Agonist (High Potency)",
-    "description": "An N-benzylmethoxy (NBOMe) phenethylamine that acts as a full agonist at 5-HT2A receptors with very high potency. As with other NBOMe compounds, full agonism contributes to a steep dose-response curve and greater toxicity risk than classical psychedelics. Active at microgram doses.",
+    "summary": "5-HT2A Receptor Agonist (High Potency)",
+    "description": "An N-benzylmethoxy (NBOMe) phenethylamine reported as a partial agonist at 5-HT2A receptors, with very high potency: it is active at microgram doses. Overdose risk is high, and acute toxicity and fatalities are reported.",
     "bindings": [
       {
         "target": "5-HT2A",
-        "action": "agonist",
+        "action": "partialAgonist",
         "affinity_tier": 3
       }
     ]
@@ -1207,6 +1207,23 @@
     ]
   },
   {
+    "name": "Methcathinone",
+    "summary": "Norepinephrine–Dopamine Releasing Agent (Substituted Cathinone)",
+    "description": "A β-keto amphetamine that enters norepinephrine and dopamine nerve terminals through their transporters and reverses them, releasing both catecholamines with equal potency (EC50 20 nM at each). Release at the serotonin transporter takes four orders of magnitude more drug, so the effect is a catecholamine-dominant stimulant rather than an entactogen.",
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
     "name": "Methylphenidate",
     "summary": "Dopamine-Norepinephrine Reuptake Inhibitor",
     "description": "Blocks the dopamine transporter (DAT) and norepinephrine transporter (NET), increasing synaptic dopamine and norepinephrine. Unlike amphetamines, it is a pure reuptake inhibitor: it does not reverse transporter function or release stored monoamines. Preferentially raises catecholamines in the prefrontal cortex and striatum, enhancing attention, working memory, and executive function.",
@@ -1406,6 +1423,12 @@
         "affinity_tier": 2
       }
     ]
+  },
+  {
+    "name": "Naphyrone",
+    "summary": "Serotonin–Norepinephrine–Dopamine Reuptake Inhibitor (Pyrovalerone Cathinone)",
+    "description": "A pyrrolidine cathinone derived from pyrovalerone that blocks all three monoamine transporters: a triple reuptake inhibitor, with high affinity at the serotonin transporter as well as the norepinephrine and dopamine transporters. The serotonergic component separates it from the dopamine-norepinephrine-selective pyrovalerone cathinones such as α-PVP and MDPV.",
+    "bindings": []
   },
   {
     "name": "Nicotine",
@@ -1876,5 +1899,11 @@
         "affinity_tier": 3
       }
     ]
+  },
+  {
+    "name": "Zopiclone",
+    "summary": "GABA-A Positive Allosteric Modulator (Cyclopyrrolone)",
+    "description": "A cyclopyrrolone that binds the benzodiazepine site of the GABA-A receptor as a full agonist at that site, potentiating GABA-mediated inhibition. Its binding is unselective across receptors containing the α1, α2, α3 and α5 subunits, so the pharmacology resembles a benzodiazepine's rather than the α1-preferring profile of zolpidem. The active metabolite desmethylzopiclone is a partial agonist with predominantly anxiolytic properties.",
+    "bindings": []
   }
 ]

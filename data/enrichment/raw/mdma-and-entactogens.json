@@ -2388,7 +2388,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Conformationally constrained aminoindane similar to MDAI. SERT-selective releaser. Lower in-vivo serotonergic neurotoxicity than MDMA in animals.",
+      "downstream_signalling": "Conformationally constrained aminoindane similar to MDAI. Serotonin–norepinephrine–dopamine releasing agent. Lower in-vivo serotonergic neurotoxicity than MDMA in animals.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -3148,7 +3148,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "PIHKAL positional isomer. No direct pharmacology data.",
+      "downstream_signalling": "PIHKAL positional isomer. An efficacious serotonin releasing agent with little effect on dopamine, like MMDA.",
       "neuroimaging": []
     },
     "human_pk": {
