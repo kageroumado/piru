@@ -1,0 +1,43 @@
+{
+  "dose-source-exceptions": [
+    "drug.community | Amobarbital | doses",
+    "drug.community | Bromoketamine | doses",
+    "drug.community | Mitragynine | doses",
+    "tripsit | Allobarbital | doses"
+  ],
+  "substance-flags": [
+    "2-MMC | model-calibrated"
+  ],
+  "removed-substances": [
+    "2,3-Methylenedioxyamphetamine | catalog_noise",
+    "2,3-Methylenedioxymethamphetamine | catalog_noise",
+    "2-Chlorodeschloroketamine | duplicate",
+    "ABT-418 | catalog_noise",
+    "B-lymphocyte antigen CD20 | not_a_substance",
+    "CX-1942 | catalog_noise",
+    "CX-546 | catalog_noise",
+    "CX-717 | catalog_noise",
+    "Desglymidodrine | no_relevant_activity",
+    "ETHYL-K | not_a_substance",
+    "Etryptamine | duplicate",
+    "Imuracetam | catalog_noise",
+    "Indanorex | catalog_noise",
+    "LR-5182 | catalog_noise",
+    "LY-503430 | catalog_noise",
+    "Medifoxamine | catalog_noise",
+    "Nebracetam | catalog_noise",
+    "Nitazene | not_a_substance",
+    "Norepinephrine | not_a_substance",
+    "Normetanephrine | not_a_substance",
+    "Oxidopamine | not_a_substance",
+    "P21 | no_content",
+    "PEPA | catalog_noise",
+    "Pridefine | catalog_noise",
+    "RTI-133 | catalog_noise",
+    "Rolziracetam | catalog_noise",
+    "Serotonin | not_a_substance",
+    "Tropoxane | catalog_noise"
+  ],
+  "duration-scrub": [],
+  "duration-to-doa": []
+}

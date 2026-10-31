@@ -634,6 +634,12 @@
   "title": "Chronic administration of the antidepressant phenelzine and its N-acetyl analogue: effects on GABAergic function",
   "year": "1994"
  },
+ "doi:10.1007/bf00171060": {
+  "journal": "Naunyn-Schmiedeberg's archives of pharmacology",
+  "subjects": [],
+  "title": "Translocation of dopamine and binding of WIN 35,428 measured under identical conditions in cells expressing the cloned human dopamine transporter",
+  "year": "1996"
+ },
  "doi:10.1007/bf00280074": {
   "journal": "European Journal of Clinical Pharmacology",
   "subjects": [],
@@ -1217,6 +1223,12 @@
   "title": "Prozac (fluoxetine, lilly 110140), the first selective serotonin uptake inhibitor and an antidepressant drug: Twenty years since its first publication",
   "year": 1995
  },
+ "doi:10.1016/0024-3205(96)00052-5": {
+  "journal": "Life sciences",
+  "subjects": [],
+  "title": "Affinities of methylphenidate derivatives for dopamine, norepinephrine and serotonin transporters",
+  "year": "1996"
+ },
  "doi:10.1016/0028-3908(75)90099-4": {
   "journal": "Neuropharmacology",
   "subjects": [],
@@ -1241,6 +1253,12 @@
   "title": "Nootropic drugs and brain cholinergic mechanisms",
   "year": "1989"
  },
+ "doi:10.1016/0278-5846(95)00232-4": {
+  "journal": "Progress in neuro-psychopharmacology & biological psychiatry",
+  "subjects": [],
+  "title": "Dopamine agonists used in the treatment of Parkinson's disease and their selectivity for the D1, D2, and D3 dopamine receptors in human striatum",
+  "year": "1995"
+ },
  "doi:10.1016/0304-3940(83)90113-1": {
   "journal": "",
   "subjects": [],
@@ -1248,11 +1266,23 @@
   "year": ""
  },
  "doi:10.1016/0304-3940(95)11343-7": null,
+ "doi:10.1016/0304-3959(96)03123-5": {
+  "journal": "Pain",
+  "subjects": [],
+  "title": "The opioid ketobemidone has a NMDA blocking effect",
+  "year": "1996"
+ },
  "doi:10.1016/0306-3623(95)02014-4": {
   "journal": "General pharmacology",
   "subjects": [],
   "title": "The use of caffeine as a metabolic probe for human drug metabolizing enzymes",
   "year": "1996"
+ },
+ "doi:10.1016/0893-133x(94)00129-n": {
+  "journal": "",
+  "subjects": [],
+  "title": "",
+  "year": ""
  },
  "doi:10.1016/0920-1211(95)00051-8": {
   "journal": "Epilepsy Research",
@@ -1571,6 +1601,12 @@
   "title": "Comparative neuropharmacology of structurally distinct non-fentanyl opioids that are appearing on recreational drug markets worldwide",
   "year": 2023
  },
+ "doi:10.1016/j.drugpo.2017.07.010": {
+  "journal": "The International journal on drug policy",
+  "subjects": [],
+  "title": "Hair testing to assess both known and unknown use of drugs amongst ecstasy users in the electronic dance music scene",
+  "year": "2017"
+ },
  "doi:10.1016/j.ebiom.2017.05.009": {
   "journal": "EBioMedicine",
   "subjects": [],
@@ -1636,6 +1672,18 @@
   "subjects": [],
   "title": "The noble gas argon modifies extracellular signal-regulated kinase 1/2 signaling in neurons and glial cells",
   "year": 2012
+ },
+ "doi:10.1016/j.ejphar.2012.11.008": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Pharmacological examination of trifluoromethyl ring-substituted methcathinone analogs",
+  "year": "2013"
+ },
+ "doi:10.1016/j.ejphar.2012.12.006": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Neurochemical profiles of some novel psychoactive substances",
+  "year": "2013"
  },
  "doi:10.1016/j.ejphar.2014.01.064": {
   "journal": "European journal of pharmacology",
@@ -1972,6 +2020,12 @@
   "year": "2020"
  },
  "doi:10.1016/j.neuropharm.2020.108125": null,
+ "doi:10.1016/j.neuropharm.2023.109827": {
+  "journal": "Neuropharmacology",
+  "subjects": [],
+  "title": "Structure-activity relationships for locomotor stimulant effects and monoamine transporter interactions of substituted amphetamines and cathinones",
+  "year": "2024"
+ },
  "doi:10.1016/j.neuropharm.2024.110115": {
   "journal": "Neuropharmacology",
   "subjects": [],
@@ -2117,6 +2171,12 @@
   "title": "mu Opioid receptor-mediated G-protein activation by heroin metabolites: evidence for greater efficacy of 6-monoacetylmorphine compared with morphine",
   "year": "2001"
  },
+ "doi:10.1016/s0006-2952(96)00767-8": {
+  "journal": "Biochemical pharmacology",
+  "subjects": [],
+  "title": "Inhibition of aldehyde dehydrogenase by disulfiram and its metabolite methyl diethylthiocarbamoyl-sulfoxide",
+  "year": "1997"
+ },
  "doi:10.1016/s0006-3223(02)01692-1": null,
  "doi:10.1016/s0006-3223(99)00298-2": null,
  "doi:10.1016/s0006-8993(96)01414-x": {
@@ -2136,6 +2196,12 @@
   "subjects": [],
   "title": "Norpropoxyphene-induced cardiotoxicity is associated with changes in ion-selectivity and gating of HERG currents",
   "year": "1999"
+ },
+ "doi:10.1016/s0009-9236(96)90179-4": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "A kinetic and dynamic study of oral alprazolam with and without erythromycin in humans: in vivo evidence for the involvement of CYP3A4 in alprazolam metabolism",
+  "year": "1996"
  },
  "doi:10.1016/s0010-7824(80)80018-7": {
   "journal": "Contraception",
@@ -2187,6 +2253,12 @@
   "title": "The effects of lithium ion and other agents on the activity of myo-inositol-1-phosphatase from bovine brain",
   "year": "1980"
  },
+ "doi:10.1016/s0022-3565(24)37161-7": {
+  "journal": "The Journal of pharmacology and experimental therapeutics",
+  "subjects": [],
+  "title": "Neurotransmitter receptor and transporter binding profile of antidepressants and their metabolites",
+  "year": "1997"
+ },
  "doi:10.1016/s0022-3565(25)09518-7": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
@@ -2229,6 +2301,12 @@
   "title": "Antagonist binding properties of five cloned muscarinic receptors expressed in CHO-K1 cells",
   "year": "1989"
  },
+ "doi:10.1016/s0026-895x(25)13682-1": {
+  "journal": "Molecular pharmacology",
+  "subjects": [],
+  "title": "Cloning of cDNA sequences encoding human alpha 2 and alpha 3 gamma-aminobutyric acidA receptor subunits and characterization of the benzodiazepine pharmacology of recombinant alpha 1-, alpha 2-, alpha 3-, and alpha 5-containing human gamma-aminobutyric acidA receptors",
+  "year": "1993"
+ },
  "doi:10.1016/s0026-895x(25)14963-8": {
   "journal": "Molecular pharmacology",
   "subjects": [],
@@ -2259,6 +2337,12 @@
   "subjects": [],
   "title": "Ethylphenidate formation in human subjects after the administration of a single dose of methylphenidate and ethanol",
   "year": "2000"
+ },
+ "doi:10.1016/s0090-9556(25)07486-0": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Metabolism of fentanyl, a synthetic opioid analgesic, by human liver microsomes. Role of CYP3A4",
+  "year": "1996"
  },
  "doi:10.1016/s0091-3057(96)00565-5": {
   "journal": "Pharmacology, biochemistry, and behavior",
@@ -2344,6 +2428,12 @@
   "subjects": [],
   "title": "Atomoxetine increases extracellular levels of norepinephrine and dopamine in prefrontal cortex of rat: a potential mechanism for efficacy in attention deficit/hyperactivity disorder",
   "year": "2002"
+ },
+ "doi:10.1016/s0893-133x(96)00218-7": {
+  "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
+  "subjects": [],
+  "title": "A PET study of 5-HT2 and D2 dopamine receptor occupancy induced by olanzapine in healthy subjects",
+  "year": "1997"
  },
  "doi:10.1016/s0893-133x(97)00166-8": {
   "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
@@ -2610,6 +2700,12 @@
   "title": "Synthetic and Receptor Signaling Explorations of the Mitragyna Alkaloids: Mitragynine as an Atypical Molecular Framework for Opioid Receptor Modulators.",
   "year": 2016
  },
+ "doi:10.1021/jm00002a020": {
+  "journal": "Journal of medicinal chemistry",
+  "subjects": [],
+  "title": "Cocaine and 3 beta-(4'-substituted phenyl)tropane-2 beta-carboxylic acid ester and amide analogues. New high-affinity and selective compounds for the dopamine transporter",
+  "year": "1995"
+ },
  "doi:10.1021/jm00069a008": {
   "journal": "Journal of medicinal chemistry",
   "subjects": [],
@@ -2835,6 +2931,12 @@
   "subjects": [],
   "title": "Abuse-related effects of dual dopamine/serotonin releasers with varying potency to release norepinephrine in male rats and rhesus monkeys.",
   "year": 2014
+ },
+ "doi:10.1038/25367": {
+  "journal": "Nature",
+  "subjects": [],
+  "title": "Moderate loss of function of cyclic-AMP-modulated KCNQ2/KCNQ3 K+ channels causes epilepsy",
+  "year": "1998"
  },
  "doi:10.1038/386499a0": {
   "journal": "Nature",
@@ -3859,11 +3961,23 @@
   "title": "Monoamine Oxidase-A Occupancy by Moclobemide and Phenelzine: Implications for the Development of Monoamine Oxidase Inhibitors",
   "year": "2015"
  },
+ "doi:10.1093/jat/19.6.459": {
+  "journal": "Journal of analytical toxicology",
+  "subjects": [],
+  "title": "Pharmacokinetics and pharmacodynamics of cocaine",
+  "year": "1995"
+ },
  "doi:10.1093/jat/20.6.369": {
   "journal": "Journal of Analytical Toxicology",
   "subjects": [],
   "title": "Human Pharmacokinetics of Intravenous, Sublingual, and Buccal Buprenorphine",
   "year": 1996
+ },
+ "doi:10.1093/jat/21.6.465": {
+  "journal": "Journal of analytical toxicology",
+  "subjects": [],
+  "title": "Cocaine disposition in saliva following intravenous, intranasal, and smoked administration",
+  "year": "1997"
  },
  "doi:10.1093/jat/28.8.625": {
   "journal": "Journal of analytical toxicology",
@@ -3883,6 +3997,12 @@
   "subjects": [],
   "title": "Time- and Site-Dependent Postmortem Redistribution of Antidepressants and Neuroleptics in Blood and Alternative Matrices",
   "year": 2020
+ },
+ "doi:10.1093/jat/bkaa113": {
+  "journal": "Journal of analytical toxicology",
+  "subjects": [],
+  "title": "Eutylone Intoxications-An Emerging Synthetic Stimulant in Forensic Investigations",
+  "year": "2021"
  },
  "doi:10.1093/jat/bkaa121": {
   "journal": "Journal of Analytical Toxicology",
@@ -3961,6 +4081,12 @@
   "subjects": [],
   "title": "Multielemental Analysis of Tobacco Plant and Tobacco Products by TXRF",
   "year": 2018
+ },
+ "doi:10.1093/jat/bky025": {
+  "journal": "Journal of analytical toxicology",
+  "subjects": [],
+  "title": "N-Ethyl Pentylone (Ephylone) Intoxications: Quantitative Confirmation and Metabolite Identification in Authentic Human Biological Specimens",
+  "year": "2018"
  },
  "doi:10.1093/jat/bky072": {
   "journal": "Journal of Analytical Toxicology",
@@ -4651,6 +4777,12 @@
   "title": "Gamma-aminobutyric acidA receptor alpha 5-subunit creates novel type II benzodiazepine receptor pharmacology",
   "year": "1990"
  },
+ "doi:10.1111/j.1471-4159.1993.tb07435.x": {
+  "journal": "Journal of neurochemistry",
+  "subjects": [],
+  "title": "[125I]RTI-55 binding to cocaine-sensitive dopaminergic and serotonergic uptake sites in the human brain",
+  "year": "1993"
+ },
  "doi:10.1111/j.1471-4159.2006.03658.x": {
   "journal": "Journal of neurochemistry",
   "subjects": [],
@@ -5311,6 +5443,12 @@
   "title": "Multimodal Randomized Functional MR Imaging of the Effects of Methylene Blue in the Human Brain",
   "year": "2016"
  },
+ "doi:10.1155/2014/734749": {
+  "journal": "BioMed Research International",
+  "subjects": [],
+  "title": "25C-NBOMe: Preliminary Data on Pharmacology, Psychoactive Effects, and Toxicity of a New Potent and Dangerous Hallucinogenic Drug",
+  "year": 2014
+ },
  "doi:10.1155/2019/4981420": {
   "journal": "Journal of Toxicology",
   "subjects": [],
@@ -5445,6 +5583,12 @@
   "year": "2010"
  },
  "doi:10.1177/0091270014547019": null,
+ "doi:10.1177/0269881104047281": {
+  "journal": "Journal of psychopharmacology (Oxford, England)",
+  "subjects": [],
+  "title": "Reinforcing, subject-rated, performance and physiological effects of methylphenidate and d-amphetamine in stimulant abusing humans",
+  "year": "2004"
+ },
  "doi:10.1177/0269881106065907": {
   "journal": "Journal of Psychopharmacology",
   "subjects": [],
@@ -5736,6 +5880,12 @@
   "subjects": [],
   "title": "A fatality involving U4Euh, a cyclic derivative of phenylpropanolamine",
   "year": "1988"
+ },
+ "doi:10.1523/jneurosci.17-15-05760.1997": {
+  "journal": "The Journal of neuroscience : the official journal of the Society for Neuroscience",
+  "subjects": [],
+  "title": "A novel allosteric potentiator of AMPA receptors: 4--2-(phenylsulfonylamino)ethylthio--2,6-difluoro-phenoxyaceta mide",
+  "year": "1997"
  },
  "doi:10.1523/jneurosci.2488-10.2010": {
   "journal": "The Journal of neuroscience : the official journal of the Society for Neuroscience",
@@ -6913,6 +7063,12 @@
   "title": "Molecular genetic basis and prevalence of glycogen storage disease type IIIA in the Faroe Islands.",
   "year": "2001"
  },
+ "pmid:11381492": {
+  "journal": "American journal of health-system pharmacy : AJHP : official journal of the American Society of Health-System Pharmacists",
+  "subjects": [],
+  "title": "Thymosin alpha-1.",
+  "year": "2001"
+ },
  "pmid:11403963": {
   "journal": "Neuroscience letters",
   "subjects": [],
@@ -7713,6 +7869,12 @@
   "title": "Urinary pharmacokinetics of methamphetamine and its metabolite, amphetamine following controlled oral administration to humans.",
   "year": "2004"
  },
+ "pmid:15582920": {
+  "journal": "Journal of psychopharmacology (Oxford, England)",
+  "subjects": [],
+  "title": "Reinforcing, subject-rated, performance and physiological effects of methylphenidate and d-amphetamine in stimulant abusing humans.",
+  "year": "2004"
+ },
  "pmid:1559217": {
   "journal": "Cancer research",
   "subjects": [],
@@ -7766,6 +7928,12 @@
   "subjects": [],
   "title": "Electrophysiological substrates of impulsiveness: potential effects on aggressive behavior.",
   "year": "2005"
+ },
+ "pmid:15707268": {
+  "journal": "Biomeditsinskaia khimiia",
+  "subjects": [],
+  "title": "[Allosteric modulators of AMPA type glutamate receptors a novel gubclass of physiologically active substances].",
+  "year": "2004"
  },
  "pmid:15711597": {
   "journal": "British journal of pharmacology",
@@ -8717,6 +8885,12 @@
   "title": "Glucuronidation of psilocin and 4-hydroxyindole by the human UDP-glucuronosyltransferases.",
   "year": "2010"
  },
+ "pmid:20030633": {
+  "journal": "Basic & clinical pharmacology & toxicology",
+  "subjects": [],
+  "title": "Mode of action considerations in the quantitative assessment of tumour responses in the liver.",
+  "year": "2010"
+ },
  "pmid:20036301": {
   "journal": "Food and chemical toxicology : an international journal published for the British Industrial Biological Research Association",
   "subjects": [],
@@ -9215,10 +9389,22 @@
   "title": "MDMA, methamphetamine, and CYP2D6 pharmacogenetics: what is clinically relevant?",
   "year": "2012"
  },
+ "pmid:23178523": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Pharmacological examination of trifluoromethyl ring-substituted methcathinone analogs.",
+  "year": "2013"
+ },
  "pmid:23211394": {
   "journal": "Drug and alcohol dependence",
   "subjects": [],
   "title": "Role of phenmetrazine as an active metabolite of phendimetrazine: evidence from studies of drug discrimination and pharmacokinetics in rhesus monkeys.",
+  "year": "2013"
+ },
+ "pmid:23261499": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Neurochemical profiles of some novel psychoactive substances.",
   "year": "2013"
  },
  "pmid:23297232": {
@@ -9321,6 +9507,12 @@
   "journal": "Journal of ethnopharmacology",
   "subjects": [],
   "title": "Argyreia nervosa (Burm. f.): receptor profiling of lysergic acid amide and other potential psychedelic LSD-like compounds by computational and binding assay approaches.",
+  "year": "2013"
+ },
+ "pmid:23668404": {
+  "journal": "Profiles of drug substances, excipients, and related methodology",
+  "subjects": [],
+  "title": "Carvedilol.",
   "year": "2013"
  },
  "pmid:23804523": {
@@ -9556,6 +9748,12 @@
   "subjects": [],
   "title": "The effect of UGT2B7*2 polymorphism on the pharmacokinetics of OROS® hydromorphone in Taiwanese subjects.",
   "year": "2014"
+ },
+ "pmid:2476831": {
+  "journal": "Pharmacology, biochemistry, and behavior",
+  "subjects": [],
+  "title": "Neurotoxic effects of the alpha-ethyl homologue of MDMA following subacute administration.",
+  "year": "1989"
  },
  "pmid:24796848": {
   "journal": "Experimental and clinical psychopharmacology",
@@ -10325,6 +10523,12 @@
   "title": "Antidepressant indatraline induces autophagy and inhibits restenosis via suppression of mTOR/S6 kinase signaling pathway.",
   "year": "2016"
  },
+ "pmid:27722855": {
+  "journal": "Clinical pharmacokinetics",
+  "subjects": [],
+  "title": "Pharmacokinetics and Pharmacodynamics of Lurasidone Hydrochloride, a Second-Generation Antipsychotic: A Systematic Review of the Published Literature.",
+  "year": "2017"
+ },
  "pmid:27736030": {
   "journal": "Drug testing and analysis",
   "subjects": [],
@@ -10377,6 +10581,12 @@
   "journal": "Cell",
   "subjects": [],
   "title": "Crystal Structure of an LSD-Bound Human Serotonin Receptor.",
+  "year": "2017"
+ },
+ "pmid:28134225": {
+  "journal": "Polski merkuriusz lekarski : organ Polskiego Towarzystwa Lekarskiego",
+  "subjects": [],
+  "title": "[New bronchodilation treatment options for patients with COPD].",
   "year": "2017"
  },
  "pmid:28138268": {
@@ -10559,11 +10769,29 @@
   "title": "Evidence that the potential antipsychotic agent rimcazole (BW 234U) is a specific, competitive antagonist of sigma sites in brain.",
   "year": "1986"
  },
+ "pmid:28774327": {
+  "journal": "Critical care (London, England)",
+  "subjects": [],
+  "title": "Could remifentanil reduce duration of mechanical ventilation in comparison with other opioids for mechanically ventilated patients? A systematic review and meta-analysis.",
+  "year": "2017"
+ },
+ "pmid:28810159": {
+  "journal": "The International journal on drug policy",
+  "subjects": [],
+  "title": "Hair testing to assess both known and unknown use of drugs amongst ecstasy users in the electronic dance music scene.",
+  "year": "2017"
+ },
  "pmid:28828691": {
   "journal": "The AAPS journal",
   "subjects": [],
   "title": "Pharmacokinetics of Mephedrone and Its Metabolites in Human by LC-MS/MS.",
   "year": "2017"
+ },
+ "pmid:2883012": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "A comparison of the neurotoxic potential of methylenedioxyamphetamine (MDA) and its N-methylated and N-ethylated derivatives.",
+  "year": "1987"
  },
  "pmid:2884340": {
   "journal": "Japanese journal of pharmacology",
@@ -10600,6 +10828,12 @@
   "subjects": [],
   "title": "Consensus Guidelines for Therapeutic Drug Monitoring in Neuropsychopharmacology: Update 2017.",
   "year": "2018"
+ },
+ "pmid:2891359": {
+  "journal": "Biochemical pharmacology",
+  "subjects": [],
+  "title": "Depression of rat brain tryptophan hydroxylase activity following the acute administration of methylenedioxymethamphetamine.",
+  "year": "1987"
  },
  "pmid:28972983": {
   "journal": "PLoS medicine",
@@ -10720,6 +10954,12 @@
   "subjects": [],
   "title": "Single-dose kinetics of deuterium-labelled cannabinol in man after intravenous administration and smoking.",
   "year": "1987"
+ },
+ "pmid:29618077": {
+  "journal": "Journal of analytical toxicology",
+  "subjects": [],
+  "title": "N-Ethyl Pentylone (Ephylone) Intoxications: Quantitative Confirmation and Metabolite Identification in Authentic Human Biological Specimens.",
+  "year": "2018"
  },
  "pmid:29633178": {
   "journal": "Handbook of experimental pharmacology",
@@ -11009,6 +11249,12 @@
   "title": "Human biodistribution and radiation dosimetry of the 5-HT(2A) receptor agonist Cimbi-36 labeled with carbon-11 in two positions.",
   "year": "2019"
  },
+ "pmid:31368872": {
+  "journal": "Current drug targets",
+  "subjects": [],
+  "title": "Potential Role of Endonuclease Inhibition and Other Targets in the Treatment of Influenza.",
+  "year": "2020"
+ },
  "pmid:31429622": {
   "journal": "Journal of psychopharmacology (Oxford, England)",
   "subjects": [],
@@ -11225,6 +11471,12 @@
   "title": "Extracorporeal shock-wave lithotripsy: prevalence of renal stones 3-21 months after treatment.",
   "year": "1988"
  },
+ "pmid:32666842": {
+  "journal": "Expert opinion on drug safety",
+  "subjects": [],
+  "title": "Cilastatin as a protective agent against drug-induced nephrotoxicity: a literature review.",
+  "year": "2020"
+ },
  "pmid:3271648": {
   "journal": "Drug metabolism and drug interactions",
   "subjects": [],
@@ -11307,6 +11559,12 @@
   "journal": "Journal of pharmaceutical and biomedical analysis",
   "subjects": [],
   "title": "Development and validation of GC-MS method for determination of methcathinone and its main metabolite in mice plasma and brain tissue after SPE: Pharmacokinetic and distribution study.",
+  "year": "2021"
+ },
+ "pmid:33325503": {
+  "journal": "Journal of analytical toxicology",
+  "subjects": [],
+  "title": "Eutylone Intoxications-An Emerging Synthetic Stimulant in Forensic Investigations.",
   "year": "2021"
  },
  "pmid:33379373": {
@@ -11440,6 +11698,12 @@
   "subjects": [],
   "title": "Structural basis of ketamine action on human NMDA receptors.",
   "year": "2021"
+ },
+ "pmid:34324284": {
+  "journal": "",
+  "subjects": [],
+  "title": "Ubrogepant.",
+  "year": "2012"
  },
  "pmid:34348413": {
   "journal": "Pharmacopsychiatry",
@@ -11891,6 +12155,12 @@
   "title": "The Kappa Opioid Receptor Agonist 16-Bromo Salvinorin A Has Anti-Cocaine Effects without Significant Effects on Locomotion, Food Reward, Learning and Memory, or Anxiety and Depressive-like Behaviors.",
   "year": "2023"
  },
+ "pmid:37468498": {
+  "journal": "Nature communications",
+  "subjects": [],
+  "title": "A preclinical secondary pharmacology resource illuminates target-adverse drug reaction associations of marketed drugs.",
+  "year": "2023"
+ },
  "pmid:3747266": {
   "journal": "Japanese journal of pharmacology",
   "subjects": [],
@@ -12077,6 +12347,12 @@
   "title": "In vitro and in vivo metabolism of psilocybin's active metabolite psilocin.",
   "year": "2024"
  },
+ "pmid:38811168": {
+  "journal": "Molecular pharmacology",
+  "subjects": [],
+  "title": "Interaction of the Melatonin/Ca(2+)-CaM Complex with Calmodulin Kinase II: Physiological Importance.",
+  "year": "2024"
+ },
  "pmid:38844801": {
   "journal": "Biomolecules & therapeutics",
   "subjects": [],
@@ -12167,6 +12443,18 @@
   "title": "Safety and cognitive pharmacodynamics following dose escalations with 3-methylmethcathinone (3-MMC): a first in human, designer drug study.",
   "year": "2025"
  },
+ "pmid:39724554": {
+  "journal": "Cardiology in review",
+  "subjects": [],
+  "title": "The First Triple Agonist for Antiobesity: Retatrutide.",
+  "year": "2026"
+ },
+ "pmid:39754778": {
+  "journal": "Current topics in medicinal chemistry",
+  "subjects": [],
+  "title": "Updates on Intrinsic Medicinal Chemistry of 1,4-dihydropyridines, Perspectives on Synthesis and Pharmacokinetics of Novel 1,4-dihydropyrimidines as Calcium Channel Blockers: Clinical Pharmacology.",
+  "year": "2025"
+ },
  "pmid:39812743": {
   "journal": "Clinical pharmacokinetics",
   "subjects": [],
@@ -12232,6 +12520,12 @@
   "subjects": [],
   "title": "Acute Pharmacological Effects of Two Synthetic Cathinones in Humans: An Observational Study of N-Ethylhexedrone and N-Ethyl-nor-pentedrone.",
   "year": "2025"
+ },
+ "pmid:40460226": {
+  "journal": "",
+  "subjects": [],
+  "title": "Theanine.",
+  "year": "2006"
  },
  "pmid:40543327": {
   "journal": "Drug metabolism and disposition: the biological fate of chemicals",
@@ -12411,6 +12705,24 @@
   "journal": "International journal of pharmaceutics: X",
   "subjects": [],
   "title": "Applicability of methylliberine as a salivary marker under postprandial conditions.",
+  "year": "2026"
+ },
+ "pmid:42670207": {
+  "journal": "Brain and behavior",
+  "subjects": [],
+  "title": "Therapeutic Potential of Oxiracetam in Neurocognitive Disorders: A Narrative Review.",
+  "year": "2026"
+ },
+ "pmid:42720725": {
+  "journal": "Advances in therapy",
+  "subjects": [],
+  "title": "Brixadi for Stimulant Use Disorder: Evolving Pharmacologic Considerations and Clinical Implications.",
+  "year": "2026"
+ },
+ "pmid:42859811": {
+  "journal": "Journal of inflammation research",
+  "subjects": [],
+  "title": "The Use of Montelukast in Pediatric Asthma and Anti-Inflammatory Effects - Easy Choice or a Balancing Act?",
   "year": "2026"
  },
  "pmid:455892": {
@@ -13001,6 +13313,12 @@
   "title": "Enantioselective pharmacokinetics of dl-threo-methylphenidate in humans.",
   "year": "1993"
  },
+ "pmid:8496700": {
+  "journal": "Journal of natural products",
+  "subjects": [],
+  "title": "The role of receptor binding in drug discovery.",
+  "year": "1993"
+ },
  "pmid:8498879": {
   "journal": "Archives of general psychiatry",
   "subjects": [],
@@ -13582,257 +13900,5 @@
   "subjects": [],
   "title": "Male monozygotic twins discordant for periventricular nodular heterotopia and epilepsy.",
   "year": "1999"
- },
- "doi:10.1007/bf00171060": {
-  "journal": "Naunyn-Schmiedeberg's archives of pharmacology",
-  "subjects": [],
-  "title": "Translocation of dopamine and binding of WIN 35,428 measured under identical conditions in cells expressing the cloned human dopamine transporter",
-  "year": "1996"
- },
- "doi:10.1016/0024-3205(96)00052-5": {
-  "journal": "Life sciences",
-  "subjects": [],
-  "title": "Affinities of methylphenidate derivatives for dopamine, norepinephrine and serotonin transporters",
-  "year": "1996"
- },
- "doi:10.1016/0278-5846(95)00232-4": {
-  "journal": "Progress in neuro-psychopharmacology & biological psychiatry",
-  "subjects": [],
-  "title": "Dopamine agonists used in the treatment of Parkinson's disease and their selectivity for the D1, D2, and D3 dopamine receptors in human striatum",
-  "year": "1995"
- },
- "doi:10.1016/0304-3959(96)03123-5": {
-  "journal": "Pain",
-  "subjects": [],
-  "title": "The opioid ketobemidone has a NMDA blocking effect",
-  "year": "1996"
- },
- "doi:10.1016/0893-133x(94)00129-n": {
-  "journal": "",
-  "subjects": [],
-  "title": "",
-  "year": ""
- },
- "doi:10.1016/s0006-2952(96)00767-8": {
-  "journal": "Biochemical pharmacology",
-  "subjects": [],
-  "title": "Inhibition of aldehyde dehydrogenase by disulfiram and its metabolite methyl diethylthiocarbamoyl-sulfoxide",
-  "year": "1997"
- },
- "doi:10.1016/s0009-9236(96)90179-4": {
-  "journal": "Clinical pharmacology and therapeutics",
-  "subjects": [],
-  "title": "A kinetic and dynamic study of oral alprazolam with and without erythromycin in humans: in vivo evidence for the involvement of CYP3A4 in alprazolam metabolism",
-  "year": "1996"
- },
- "doi:10.1016/s0022-3565(24)37161-7": {
-  "journal": "The Journal of pharmacology and experimental therapeutics",
-  "subjects": [],
-  "title": "Neurotransmitter receptor and transporter binding profile of antidepressants and their metabolites",
-  "year": "1997"
- },
- "doi:10.1016/s0026-895x(25)13682-1": {
-  "journal": "Molecular pharmacology",
-  "subjects": [],
-  "title": "Cloning of cDNA sequences encoding human alpha 2 and alpha 3 gamma-aminobutyric acidA receptor subunits and characterization of the benzodiazepine pharmacology of recombinant alpha 1-, alpha 2-, alpha 3-, and alpha 5-containing human gamma-aminobutyric acidA receptors",
-  "year": "1993"
- },
- "doi:10.1016/s0090-9556(25)07486-0": {
-  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
-  "subjects": [],
-  "title": "Metabolism of fentanyl, a synthetic opioid analgesic, by human liver microsomes. Role of CYP3A4",
-  "year": "1996"
- },
- "doi:10.1016/s0893-133x(96)00218-7": {
-  "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
-  "subjects": [],
-  "title": "A PET study of 5-HT2 and D2 dopamine receptor occupancy induced by olanzapine in healthy subjects",
-  "year": "1997"
- },
- "doi:10.1038/25367": {
-  "journal": "Nature",
-  "subjects": [],
-  "title": "Moderate loss of function of cyclic-AMP-modulated KCNQ2/KCNQ3 K+ channels causes epilepsy",
-  "year": "1998"
- },
- "doi:10.1093/jat/19.6.459": {
-  "journal": "Journal of analytical toxicology",
-  "subjects": [],
-  "title": "Pharmacokinetics and pharmacodynamics of cocaine",
-  "year": "1995"
- },
- "doi:10.1093/jat/21.6.465": {
-  "journal": "Journal of analytical toxicology",
-  "subjects": [],
-  "title": "Cocaine disposition in saliva following intravenous, intranasal, and smoked administration",
-  "year": "1997"
- },
- "doi:10.1111/j.1471-4159.1993.tb07435.x": {
-  "journal": "Journal of neurochemistry",
-  "subjects": [],
-  "title": "[125I]RTI-55 binding to cocaine-sensitive dopaminergic and serotonergic uptake sites in the human brain",
-  "year": "1993"
- },
- "doi:10.1523/jneurosci.17-15-05760.1997": {
-  "journal": "The Journal of neuroscience : the official journal of the Society for Neuroscience",
-  "subjects": [],
-  "title": "A novel allosteric potentiator of AMPA receptors: 4--2-(phenylsulfonylamino)ethylthio--2,6-difluoro-phenoxyaceta mide",
-  "year": "1997"
- },
- "pmid:31368872": {
-  "journal": "Current drug targets",
-  "subjects": [],
-  "title": "Potential Role of Endonuclease Inhibition and Other Targets in the Treatment of Influenza.",
-  "year": "2020"
- },
- "pmid:20030633": {
-  "journal": "Basic & clinical pharmacology & toxicology",
-  "subjects": [],
-  "title": "Mode of action considerations in the quantitative assessment of tumour responses in the liver.",
-  "year": "2010"
- },
- "pmid:28774327": {
-  "journal": "Critical care (London, England)",
-  "subjects": [],
-  "title": "Could remifentanil reduce duration of mechanical ventilation in comparison with other opioids for mechanically ventilated patients? A systematic review and meta-analysis.",
-  "year": "2017"
- },
- "pmid:42859811": {
-  "journal": "Journal of inflammation research",
-  "subjects": [],
-  "title": "The Use of Montelukast in Pediatric Asthma and Anti-Inflammatory Effects - Easy Choice or a Balancing Act?",
-  "year": "2026"
- },
- "pmid:32666842": {
-  "journal": "Expert opinion on drug safety",
-  "subjects": [],
-  "title": "Cilastatin as a protective agent against drug-induced nephrotoxicity: a literature review.",
-  "year": "2020"
- },
- "pmid:40460226": {
-  "journal": "",
-  "subjects": [],
-  "title": "Theanine.",
-  "year": "2006"
- },
- "pmid:11381492": {
-  "journal": "American journal of health-system pharmacy : AJHP : official journal of the American Society of Health-System Pharmacists",
-  "subjects": [],
-  "title": "Thymosin alpha-1.",
-  "year": "2001"
- },
- "pmid:39724554": {
-  "journal": "Cardiology in review",
-  "subjects": [],
-  "title": "The First Triple Agonist for Antiobesity: Retatrutide.",
-  "year": "2026"
- },
- "pmid:28134225": {
-  "journal": "Polski merkuriusz lekarski : organ Polskiego Towarzystwa Lekarskiego",
-  "subjects": [],
-  "title": "[New bronchodilation treatment options for patients with COPD].",
-  "year": "2017"
- },
- "pmid:38811168": {
-  "journal": "Molecular pharmacology",
-  "subjects": [],
-  "title": "Interaction of the Melatonin/Ca(2+)-CaM Complex with Calmodulin Kinase II: Physiological Importance.",
-  "year": "2024"
- },
- "pmid:27722855": {
-  "journal": "Clinical pharmacokinetics",
-  "subjects": [],
-  "title": "Pharmacokinetics and Pharmacodynamics of Lurasidone Hydrochloride, a Second-Generation Antipsychotic: A Systematic Review of the Published Literature.",
-  "year": "2017"
- },
- "pmid:15707268": {
-  "journal": "Biomeditsinskaia khimiia",
-  "subjects": [],
-  "title": "[Allosteric modulators of AMPA type glutamate receptors a novel gubclass of physiologically active substances].",
-  "year": "2004"
- },
- "pmid:39754778": {
-  "journal": "Current topics in medicinal chemistry",
-  "subjects": [],
-  "title": "Updates on Intrinsic Medicinal Chemistry of 1,4-dihydropyridines, Perspectives on Synthesis and Pharmacokinetics of Novel 1,4-dihydropyrimidines as Calcium Channel Blockers: Clinical Pharmacology.",
-  "year": "2025"
- },
- "pmid:42720725": {
-  "journal": "Advances in therapy",
-  "subjects": [],
-  "title": "Brixadi for Stimulant Use Disorder: Evolving Pharmacologic Considerations and Clinical Implications.",
-  "year": "2026"
- },
- "pmid:42670207": {
-  "journal": "Brain and behavior",
-  "subjects": [],
-  "title": "Therapeutic Potential of Oxiracetam in Neurocognitive Disorders: A Narrative Review.",
-  "year": "2026"
- },
- "pmid:34324284": {
-  "journal": "",
-  "subjects": [],
-  "title": "Ubrogepant.",
-  "year": "2012"
- },
- "pmid:23668404": {
-  "journal": "Profiles of drug substances, excipients, and related methodology",
-  "subjects": [],
-  "title": "Carvedilol.",
-  "year": "2013"
- },
- "doi:10.1016/j.ejphar.2012.11.008": {
-  "journal": "European journal of pharmacology",
-  "subjects": [],
-  "title": "Pharmacological examination of trifluoromethyl ring-substituted methcathinone analogs",
-  "year": "2013"
- },
- "doi:10.1016/j.ejphar.2012.12.006": {
-  "journal": "European journal of pharmacology",
-  "subjects": [],
-  "title": "Neurochemical profiles of some novel psychoactive substances",
-  "year": "2013"
- },
- "doi:10.1016/j.neuropharm.2023.109827": {
-  "journal": "Neuropharmacology",
-  "subjects": [],
-  "title": "Structure-activity relationships for locomotor stimulant effects and monoamine transporter interactions of substituted amphetamines and cathinones",
-  "year": "2024"
- },
- "doi:10.1021/jm00002a020": {
-  "journal": "Journal of medicinal chemistry",
-  "subjects": [],
-  "title": "Cocaine and 3 beta-(4'-substituted phenyl)tropane-2 beta-carboxylic acid ester and amide analogues. New high-affinity and selective compounds for the dopamine transporter",
-  "year": "1995"
- },
- "doi:10.1155/2014/734749": {
-  "journal": "BioMed Research International",
-  "subjects": [],
-  "title": "25C-NBOMe: Preliminary Data on Pharmacology, Psychoactive Effects, and Toxicity of a New Potent and Dangerous Hallucinogenic Drug",
-  "year": 2014
- },
- "pmid:23178523": {
-  "journal": "European journal of pharmacology",
-  "subjects": [],
-  "title": "Pharmacological examination of trifluoromethyl ring-substituted methcathinone analogs.",
-  "year": "2013"
- },
- "pmid:23261499": {
-  "journal": "European journal of pharmacology",
-  "subjects": [],
-  "title": "Neurochemical profiles of some novel psychoactive substances.",
-  "year": "2013"
- },
- "pmid:37468498": {
-  "journal": "Nature communications",
-  "subjects": [],
-  "title": "A preclinical secondary pharmacology resource illuminates target-adverse drug reaction associations of marketed drugs.",
-  "year": "2023"
- },
- "pmid:8496700": {
-  "journal": "Journal of natural products",
-  "subjects": [],
-  "title": "The role of receptor binding in drug discovery.",
-  "year": "1993"
  }
 }

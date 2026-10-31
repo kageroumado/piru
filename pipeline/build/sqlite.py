@@ -7483,29 +7483,96 @@ class Build:
     # excludes genuinely-long *acute* trips (the DOx family, long-acting benzos,
     # ibogaine, bromo-dragonfly, 2-DPMP / desoxypipradrol), which are correct and
     # left intact. See acute-vs-depot-duration.
+    #
+    # name → (why there is no acute curve, the source for it). An empty citation
+    # is a judgment the literature cannot settle, and the ratchet in
+    # pipeline/build/tests/test_exception_sourcing.py holds those to a
+    # shrink-only list.
     DURATION_SCRUB_NAMES = {
-        "tranylcypromine",  # MAOI: 10–21 d is enzyme regeneration, not acute effect
-        "fluconazole",  # antifungal dosing interval
-        "sibutramine",  # withdrawn appetite suppressant, chronic
-        "arimistane",  # aromatase-inhibitor supplement
-        "creatine monohydrate",
-        "theobromine",  # mild, very-long; no meaningful acute curve
+        "tranylcypromine": (
+            "The upstream multi-day figure is recovery of irreversibly inhibited MAO, not "
+            "an effect curve: inhibition persists up to 10 days after the last dose and a "
+            "week must elapse before another MAOI.",
+            "DailyMed Tranylcypromine tablets, set_id 3c14a558-2df4-4d93-97dd-640dec6ee785, §5.9",
+        ),
+        "fluconazole": (
+            "A once-daily antifungal with a ~30 h terminal half-life: the upstream curve is "
+            "the dosing interval.",
+            "DailyMed Fluconazole tablets, set_id 01df20c4-7b94-044e-e063-6394a90a406a, "
+            "§Clinical Pharmacology",
+        ),
+        "sibutramine": (
+            "A withdrawn appetite suppressant taken once daily for months — the SCOUT trial "
+            "dosed it for five years — so there is no per-dose curve to draw.",
+            "pmid:20860415",
+        ),
+        "arimistane": (
+            "No human pharmacodynamic data exists: the only human study is a metabolite-"
+            "detection run in three volunteers that found no relevant effect on the steroid "
+            "profile, and every other indexed paper is anti-doping analytics.",
+            "pmid:31295379",
+        ),
+        "creatine monohydrate": (
+            "The effect follows saturation of the muscle creatine pool over days and washes "
+            "out over weeks — total muscle creatine rose ~20% over 6 days of loading and had "
+            "returned to baseline 30 days after stopping — not a per-dose curve.",
+            "pmid:8828669",
+        ),
+        "theobromine": (
+            "Acute effects at dietary doses are weak and peak at 2-3 h against a 7 h "
+            "half-life, so the multi-day upstream curve is a miscode; what it would replace "
+            "is not a measured timeline either.",
+            "pmid:3756065",
+        ),
     }
 
     # Real depot / long-acting release windows that arrived miscoded as acute
     # `durations`. Move them to `durations_of_action` (the card's "Release window"
     # row) and drop the bogus acute rows for that route only. Keyed by
-    # canonical_name lowercased → [(route, min, max, unit)].
+    # canonical_name lowercased → [(route, min, max, unit, citation)]; the window
+    # is the labeled dosing interval, and the citation is the label that sets it.
     DURATION_TO_DOA = {
         "estradiol": [
-            ("intramuscular", 7, 28, "days"),  # depot ester injection
-            ("transdermal", 1, 3, "days"),  # patch
+            (
+                "intramuscular",
+                7,
+                28,
+                "days",
+                "DailyMed Estradiol Valerate Injection, "
+                "set_id 2984bce2-89bf-4768-a1ca-ccf03b1197be, §Dosage and Administration; "
+                "DailyMed Depo-Estradiol, set_id 9a4229fd-fecd-4ac1-9c4f-6d442533457f",
+            ),
+            (
+                "transdermal",
+                3,
+                7,
+                "days",
+                "DailyMed Vivelle-Dot, set_id 5ccb77f9-d47b-4381-ad5c-5b92524e1c4a, §2.5 "
+                "(replace twice weekly); DailyMed Climara, "
+                "set_id 1e9702c4-f2d7-4ea8-b6e8-7dca31671864, §2.5 (7-day dosing interval)",
+            ),
         ],
         "buprenorphine": [
-            ("transdermal", 3, 7, "days"),  # patch
+            (
+                "transdermal",
+                3,
+                7,
+                "days",
+                "DailyMed Butrans, set_id 794aa355-66de-41b8-aedf-f2c40f6bc664, §2.1 "
+                "(worn for 7 days); Transtec 35 µg/h SmPC §4.2 (replaced after 96 hours at "
+                "the latest)",
+            ),
         ],
         "fentanyl": [
-            ("transdermal", 2, 3, "days"),  # 72 h patch
+            (
+                "transdermal",
+                2,
+                3,
+                "days",
+                "DailyMed Fentanyl transdermal system, "
+                "set_id 242759ef-cb6d-4e3e-9f8d-5e31efa1f289, §2.4 (72-hour interval, 48 "
+                "hours where pain control needs it)",
+            ),
         ],
     }
 
@@ -7535,7 +7602,7 @@ class Build:
             sid = name_to_id.get(name)
             if sid is None:
                 continue
-            for route, mn, mx, unit in entries:
+            for route, mn, mx, unit, citation in entries:
                 r = normalise_route(route)
                 deleted = cur.execute(
                     "DELETE FROM durations WHERE substance_id = ? AND route = ?",
@@ -7543,7 +7610,11 @@ class Build:
                 ).rowcount
                 stats["scrub_rows"] += max(deleted, 0)
                 self.add_duration_of_action(
-                    sid, "piru-curated", r, {"min": mn, "max": mx, "unit": unit}
+                    sid,
+                    "piru-curated",
+                    r,
+                    {"min": mn, "max": mx, "unit": unit},
+                    citation=citation,
                 )
                 stats["migrated_doa"] += 1
         return stats
@@ -12625,9 +12696,16 @@ class Build:
         return stats
 
     def ingest_substance_flags(self) -> dict[str, int]:
-        """Fill `substance_flags` from curated JSON. Resolved by name OR alias."""
+        """Fill `substance_flags` from curated JSON. Resolved by name OR alias.
+
+        Each flag carries its own evidence for the substance it is on: a
+        ``citation`` that lands in ``substance_flags.citation_id``, or a
+        ``reason_only`` sentence for the rows where no substance-specific source
+        exists. ``uncited`` counts the second kind, which the ratchet in
+        ``pipeline/build/tests/test_exception_sourcing.py`` holds to a
+        shrink-only list."""
         path = CURATED_DIR.parent / "substance-flags.json"
-        stats = {"inserted": 0, "unmatched": 0}
+        stats = {"inserted": 0, "unmatched": 0, "uncited": 0}
         if not path.exists():
             return stats
         payload = json.loads(path.read_text())
@@ -12638,11 +12716,25 @@ class Build:
             if sid is None:
                 stats["unmatched"] += 1
                 continue
-            for flag in flags:
+            for flag, evidence in flags.items():
+                citation = evidence.get("citation")
+                # A row may rest on more than one paper. The column takes the
+                # first; the curated file keeps the whole list, which is what
+                # the sourcing test reads.
+                if isinstance(citation, list):
+                    citation = citation[0] if citation else None
+                if not citation:
+                    stats["uncited"] += 1
                 self.cur.execute(
-                    "INSERT OR REPLACE INTO substance_flags(substance_id, flag, source_id)"
-                    " VALUES (?, ?, ?)",
-                    (sid, flag, source_id),
+                    "INSERT OR REPLACE INTO substance_flags"
+                    "(substance_id, flag, source_id, citation_id, notes) VALUES (?, ?, ?, ?, ?)",
+                    (
+                        sid,
+                        flag,
+                        source_id,
+                        self.cite(citation),
+                        evidence.get("note") or evidence.get("reason_only"),
+                    ),
                 )
                 stats["inserted"] += 1
         return stats

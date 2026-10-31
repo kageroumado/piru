@@ -1,17 +1,26 @@
 {
-  "_comment": "Class ceilings the build enforces over dose_ranges (pipeline/build/dose_gates.py). For a class whose members are dosed in micrograms, a ladder tier above `max_tier_mg` is a unit slip or a copied error rather than a dose, and the row is deleted unless it carries a citation or comes from an exempt source. Every deletion is listed in data/snapshots/dose-gate-report.md. Keyed by class_contexts.slug.",
+  "_comment": "Class ceilings the build enforces over dose_ranges (pipeline/build/dose_gates.py). For a class whose members are dosed in micrograms, a ladder tier above `max_tier_mg` is a unit slip or a copied error rather than a dose, and the row is deleted unless it carries a citation or comes from an exempt source. `exempt_substances` names the members the class premise does not hold for, each with its own citation — a ceiling is a statement about a class, so a member that is genuinely dosed in milligrams is an exemption, never a reason to raise the ceiling for everyone. Every deletion is listed in data/snapshots/dose-gate-report.md. Keyed by class_contexts.slug.",
   "gates": [
     {
       "class_context": "fentanyl-anilidopiperidines",
       "max_tier_mg": 2.0,
       "exempt_sources": ["piru-curated"],
+      "citation": "pmid:40721041",
       "reason": "fentanyl is dosed in tens of micrograms and no anilidopiperidine in human use is more than ~100× weaker (PMID 40721041 ranks six analogs within a decade of fentanyl in vivo); a tier above 2 mg is a milligram written for a microgram"
     },
     {
       "class_context": "benzimidazole-nitazenes",
       "max_tier_mg": 2.0,
       "exempt_sources": ["piru-curated"],
-      "reason": "etonitazene is ~1,000× morphine and the weakest nitazenes in circulation are still morphine-range per milligram (EMCDDA nitazene risk assessments), so a tier above 2 mg is not a dose"
+      "citation": "doi:10.2810/107576",
+      "reason": "the nitro-/alkoxy-substituted nitazenes in circulation are orders of magnitude above morphine per milligram — etonitazene ~1,000× and metonitazene ~100× morphine in the original potency series, isotonitazene ~500× (EMCDDA risk assessment report on isotonitazene, doi:10.2810/107576, Table 3) — so for them a tier above 2 mg is not a dose",
+      "exempt_substances": [
+        {
+          "substance": "Clonitazene",
+          "citation": "doi:10.2810/107576",
+          "reason": "clonitazene is the member the class premise does not hold for: it was given to humans by mouth in tens of milligrams. The same EMCDDA report records single oral doses of 100 mg as \"about one-third to one-fifth as potent as morphine sulfate (20 and 30 mg) and roughly equivalent to codeine\", and a 35-day pain-treatment trial using repeated 50 mg oral doses, against a relative oral potency of 5 in mice. A milligram-scale oral ladder for it is therefore in range, not a unit slip"
+        }
+      ]
     }
   ]
 }
