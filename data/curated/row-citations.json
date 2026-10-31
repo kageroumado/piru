@@ -838,7 +838,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=AM-1248&oldid=1380941839",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"AM-1248 is a drug that acts as a moderately potent agonist for both the cannabinoid receptors CB1 and CB2\" (Lead; Wikidata sitelink of InChIKey JRECAXBHMULNJQ-UHFFFAOYSA-N; key terms: CB2)",
+   "evidence": "\"AM-1248 is a drug that acts as a moderately potent agonist for both the cannabinoid receptors CB1 and CB2\" (Lead; Wikidata sitelink of InChIKey JRECAXBHMULNJQ-UHFFFAOYSA-N; key terms: CB1)",
    "title": "Wikipedia: AM-1248 (revision 1380941839)"
   },
   {
@@ -1783,7 +1783,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=N-Methylphenethylamine&oldid=1376980538#Pharmacology",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"NMPEA is a pressor, with 1/350 x the potency of epinephrine.\" … \"both compounds are preferentially metabolized by MAO-B.\" … \"NMPEA is a substrate for both MAO-A (KM = 58.8 μM) and MAO-B (KM = 4.13 μM) from rat brain mitochondria.\" (Pharmacology; Wikidata sitelink of InChIKey SASNBVQSOZSTPD-UHFFFAOYSA-N; key terms: epinephrine, MAO-B)",
+   "evidence": "\"NMPEA is a pressor, with 1/350 x the potency of epinephrine.\" … \"both compounds are preferentially metabolized by MAO-B.\" … \"NMPEA is a substrate for both MAO-A (KM = 58.8 μM) and MAO-B (KM = 4.13 μM) from rat brain mitochondria.\" (Pharmacology; Wikidata sitelink of InChIKey SASNBVQSOZSTPD-UHFFFAOYSA-N; key terms: epinephrine, MAO-A)",
    "title": "Wikipedia: N-Methylphenethylamine, §Pharmacology (revision 1376980538)"
   },
   {
@@ -1952,7 +1952,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Psilocybin&oldid=1382747664#Metabolism",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Psilocybin undergoes dephosphorylation into psilocin via the acidic environment of the stomach or the actions of alkaline phosphatase (ALP) and non-specific esterases in tissues and fluids.\" … \"Psilocybin is a serotonergic psychedelic that acts as a prodrug of psilocin, the active form of the drug.\" … \"is a naturally occurring tryptamine alkaloid\" (Metabolism; Wikidata sitelink of InChIKey QVDSEJDULKLHCG-UHFFFAOYSA-N; key terms: Alkaline phosphatase)",
+   "evidence": "\"Psilocybin undergoes dephosphorylation into psilocin via the acidic environment of the stomach or the actions of alkaline phosphatase (ALP) and non-specific esterases in tissues and fluids.\" … \"Psilocybin is a serotonergic psychedelic that acts as a prodrug of psilocin, the active form of the drug.\" … \"is a naturally occurring tryptamine alkaloid\" (Metabolism; Wikidata sitelink of InChIKey QVDSEJDULKLHCG-UHFFFAOYSA-N; key terms: alkaline phosphatase)",
    "title": "Wikipedia: Psilocybin, §Metabolism (revision 1382747664)"
   },
   {
@@ -2041,7 +2041,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Tetrahydrocannabinol&oldid=1377727370",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"THC acts as a partial agonist at CB1 and CB2 cannabinoid receptors.\" … \"The actions of Δ9-THC result from its partial agonist activity at the cannabinoid receptor CB1\" (Lead; Wikidata sitelink of InChIKey CYQFCXCEBYINGO-IAGOWNOFSA-N; key terms: cb1)",
+   "evidence": "\"THC acts as a partial agonist at CB1 and CB2 cannabinoid receptors.\" … \"The actions of Δ9-THC result from its partial agonist activity at the cannabinoid receptor CB1\" (Lead; Wikidata sitelink of InChIKey CYQFCXCEBYINGO-IAGOWNOFSA-N; key terms: CB1)",
    "title": "Wikipedia: Tetrahydrocannabinol (revision 1377727370)"
   },
   {
@@ -2177,7 +2177,7 @@
    "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=56b3e77b-4e5f-4a3d-bad0-9e83033a5544",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"agonist effects at the 5-HT 1B/1D receptors on intracranial blood vessels\" … \"result in cranial vessel constriction and inhibition of pro-inflammatory neuropeptide release\" … \"Because the 5HT 1B/1D potency of the metabolite is 2 to 6 times that of the parent\" (Mechanism of Action:; active ingredient names 'Zolmitriptan' as whole words; key terms: 5-HT1B)",
+   "evidence": "\"agonist effects at the 5-HT 1B/1D receptors on intracranial blood vessels\" … \"result in cranial vessel constriction and inhibition of pro-inflammatory neuropeptide release\" … \"Because the 5HT 1B/1D potency of the metabolite is 2 to 6 times that of the parent\" (Mechanism of Action:; active ingredient names 'Zolmitriptan' as whole words; key terms: 5-ht1b)",
    "title": "DailyMed: ZOMIG (zolmitriptan) label"
   },
   {
@@ -2574,7 +2574,7 @@
    "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03c696e9-0e6b-4e5c-be0a-41416f8019be",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"serotonin 5-HT 1A , 5-HT 1B , 5-HT 2A , 5-HT 2B , 5-HT 2C , 5-HT 5 , 5-HT 6, and 5-HT 7 receptors\" … \"dopamine D 2 , D 3 , D 4 , and D 1 receptors\" … \"In in vitro assays asenapine acts as an antagonist at these receptors.\" (12.2 Pharmacodynamics; active ingredient names 'Asenapine' as whole words; key terms: D2 receptor, serotonin)",
+   "evidence": "\"Asenapine exhibits high affinity for serotonin 5-HT 1A , 5-HT 1B , 5-HT 2A , 5-HT 2B , 5-HT 2C , 5-HT 5 , 5-HT 6, and 5-HT 7 receptors\" … \"dopamine D 2 , D 3 , D 4 , and D 1 receptors (Ki values of 1.3, 0.42, 1.1, and 1.4 nM), α 1 and α 2 -adrenergic receptors\" … \"In in vitro assays asenapine acts as an antagonist at these receptors.\" (12.2 Pharmacodynamics; active ingredient names 'Asenapine' as whole words; key terms: D2 receptor, adrenergic, serotonin)",
    "title": "DailyMed: SAPHRIS (asenapine) label"
   },
   {
@@ -3102,7 +3102,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Cimetidine&oldid=1371790419#Histamine_H2_receptor_antagonism",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"The mechanism of action of cimetidine as an antacid is as a histamine H2 receptor antagonist.\" … \"Cimetidine, sold under the brand name Tagamet among others, is a histamine H2 receptor antagonist that inhibits stomach acid production.\" (Histamine H2 receptor antagonism; article title 'Cimetidine' is a name of the substance; key terms: histamine, H2)",
+   "evidence": "\"The mechanism of action of cimetidine as an antacid is as a histamine H2 receptor antagonist.\" … \"Cimetidine, sold under the brand name Tagamet among others, is a histamine H2 receptor antagonist that inhibits stomach acid production.\" (Histamine H2 receptor antagonism; article title 'Cimetidine' is a name of the substance; key terms: Histamine, H2)",
    "title": "Wikipedia: Cimetidine, §Histamine H2 receptor antagonism (revision 1371790419)"
   },
   {
@@ -3452,7 +3452,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Diphenhydramine&oldid=1378217308#Pharmacodynamics",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"acts primarily as an inverse agonist of the histamine H1 receptor\" … \"Diphenhydramine is a potent antimuscarinic (a competitive antagonist of muscarinic acetylcholine receptors)\" (Pharmacodynamics; Wikidata sitelink of InChIKey ZZVUWRFHKOJYTH-UHFFFAOYSA-N; key terms: α4β2 / α7 nAChR, Muscarinic, histamine)",
+   "evidence": "\"acts primarily as an inverse agonist of the histamine H1 receptor\" … \"Diphenhydramine is a potent antimuscarinic (a competitive antagonist of muscarinic acetylcholine receptors)\" (Pharmacodynamics; Wikidata sitelink of InChIKey ZZVUWRFHKOJYTH-UHFFFAOYSA-N; key terms: α4β2 / α7 nAChR, Muscarinic, Histamine)",
    "title": "Wikipedia: Diphenhydramine, §Pharmacodynamics (revision 1378217308)"
   },
   {
@@ -3494,7 +3494,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Doxepin&oldid=1382080953#Pharmacodynamics",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Doxepin acts as a Serotonin–norepinephrine reuptake inhibitor, (SNRI)\" … \"It is specifically an antagonist of the histamine H1 and H2 receptors, the serotonin 5-HT2A and 5-HT2C receptors, the α1-adrenergic receptor, and the muscarinic acetylcholine receptors (M1–M5).\" (Pharmacodynamics; article title 'Doxepin' is a name of the substance; key terms: α1-adrenergic receptor, norepinephrine, Muscarinic, serotonin, histamine)",
+   "evidence": "\"Doxepin acts as a Serotonin–norepinephrine reuptake inhibitor, (SNRI)\" … \"It is specifically an antagonist of the histamine H1 and H2 receptors, the serotonin 5-HT2A and 5-HT2C receptors, the α1-adrenergic receptor, and the muscarinic acetylcholine receptors (M1–M5).\" (Pharmacodynamics; article title 'Doxepin' is a name of the substance; key terms: α1-adrenergic receptor, norepinephrine, Muscarinic, Histamine, serotonin)",
    "title": "Wikipedia: Doxepin, §Pharmacodynamics (revision 1382080953)"
   },
   {
@@ -3662,7 +3662,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Famotidine&oldid=1360627089#Mechanism_of_action",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Famotidine, an H2 antagonist, blocks the action of histamine on the parietal cells, ultimately reducing acid secretion into the stomach.\" (Mechanism of action; article title 'Famotidine' is a name of the substance; key terms: histamine, H2)",
+   "evidence": "\"Famotidine, an H2 antagonist, blocks the action of histamine on the parietal cells, ultimately reducing acid secretion into the stomach.\" (Mechanism of action; article title 'Famotidine' is a name of the substance; key terms: Histamine, H2)",
    "title": "Wikipedia: Famotidine, §Mechanism of action (revision 1360627089)"
   },
   {
@@ -4023,7 +4023,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Hydroxyzine&oldid=1379310850#Pharmacodynamics",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Hydroxyzine's predominant mechanism of action is as a potent and selective histamine H1 receptor inverse agonist.\" … \"hydroxyzine has also been shown to act more weakly as an antagonist of the serotonin 5-HT2A receptor\" (Pharmacodynamics; Wikidata sitelink of InChIKey ZQDWXGKKHFNSQK-UHFFFAOYSA-N; key terms: serotonin, histamine)",
+   "evidence": "\"Hydroxyzine's predominant mechanism of action is as a potent and selective histamine H1 receptor inverse agonist.\" … \"hydroxyzine has also been shown to act more weakly as an antagonist of the serotonin 5-HT2A receptor\" (Pharmacodynamics; Wikidata sitelink of InChIKey ZQDWXGKKHFNSQK-UHFFFAOYSA-N; key terms: Histamine, serotonin)",
    "title": "Wikipedia: Hydroxyzine, §Pharmacodynamics (revision 1379310850)"
   },
   {
@@ -4372,7 +4372,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Levetiracetam&oldid=1378189184#Mechanism_of_action",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"the drug binds to SV2A, a synaptic vesicle glycoprotein, and inhibits presynaptic calcium channels, reducing neurotransmitter release and acting as a neuromodulator.\" … \"It acts as a synaptic vesicle glycoprotein 2A (SV2A) ligand.\" (Mechanism of action; Wikidata sitelink of InChIKey HPHUVLMMVZITSG-LURJTMIESA-N; key terms: sv2a)",
+   "evidence": "\"the drug binds to SV2A, a synaptic vesicle glycoprotein, and inhibits presynaptic calcium channels, reducing neurotransmitter release and acting as a neuromodulator.\" … \"It acts as a synaptic vesicle glycoprotein 2A (SV2A) ligand.\" (Mechanism of action; Wikidata sitelink of InChIKey HPHUVLMMVZITSG-LURJTMIESA-N; key terms: SV2A)",
    "title": "Wikipedia: Levetiracetam, §Mechanism of action (revision 1378189184)"
   },
   {
@@ -4833,7 +4833,7 @@
    "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0e986037-41c9-431e-b007-0e7764523fdd",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Olanzapine binds with high affinity to the following receptors: serotonin 5HT 2A/2C , 5HT 6 (K i =4, 11, and 5 nM, respectively), dopamine D 1-4 (K i =11-31 nM), histamine H 1 (K i =7 nM), and adrenergic α 1 receptors (K i =19 nM).\" … \"Olanzapine is an antagonist with moderate affinity binding for serotonin 5HT 3 (K i =57 nM) and muscarinic M 1-5 (K i =73, 96, 132, 32, and 48 nM, respectively).\" (12.2 Pharmacodynamics; active ingredient names 'Olanzapine' as whole words; key terms: α1-adrenergic receptor, D2 receptor, Muscarinic, serotonin, histamine)",
+   "evidence": "\"Olanzapine binds with high affinity to the following receptors: serotonin 5HT 2A/2C , 5HT 6 (K i =4, 11, and 5 nM, respectively), dopamine D 1-4 (K i =11-31 nM), histamine H 1 (K i =7 nM), and adrenergic α 1 receptors (K i =19 nM).\" … \"Olanzapine is an antagonist with moderate affinity binding for serotonin 5HT 3 (K i =57 nM) and muscarinic M 1-5 (K i =73, 96, 132, 32, and 48 nM, respectively).\" (12.2 Pharmacodynamics; active ingredient names 'Olanzapine' as whole words; key terms: α1-adrenergic receptor, D2 receptor, Muscarinic, Histamine, serotonin)",
    "title": "DailyMed: Zyprexa (olanzapine) label"
   },
   {
@@ -4861,7 +4861,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Olopatadine&oldid=1348787908#Pharmacodynamics",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Olopatadine acts as a selective antagonist of the histamine H1 receptor\" (Pharmacodynamics; article title 'Olopatadine' is a name of the substance; key terms: histamine)",
+   "evidence": "\"Olopatadine acts as a selective antagonist of the histamine H1 receptor\" (Pharmacodynamics; article title 'Olopatadine' is a name of the substance; key terms: Histamine)",
    "title": "Wikipedia: Olopatadine, §Pharmacodynamics (revision 1348787908)"
   },
   {
@@ -4931,7 +4931,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Orphenadrine&oldid=1363068383#Pharmacology",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"H1 receptor antagonist (antihistamine) NMDA receptor antagonist (Ki value of 6.0 ± 0.7 μM, one hundred times less potent than phencyclidine, which binds with a Ki of 59 nM)\" … \"Nonselective mACh receptor antagonist (anticholinergic, 58% as potent as atropine)\" (Pharmacology; article title 'Orphenadrine' is a name of the substance; key terms: NMDA receptor, histamine)",
+   "evidence": "\"H1 receptor antagonist (antihistamine) NMDA receptor antagonist (Ki value of 6.0 ± 0.7 μM, one hundred times less potent than phencyclidine, which binds with a Ki of 59 nM)\" … \"Nonselective mACh receptor antagonist (anticholinergic, 58% as potent as atropine)\" (Pharmacology; article title 'Orphenadrine' is a name of the substance; key terms: NMDA receptor, Histamine)",
    "title": "Wikipedia: Orphenadrine, §Pharmacology (revision 1363068383)"
   },
   {
@@ -5224,7 +5224,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Pioglitazone&oldid=1365691930#Mechanism_of_action",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Pioglitazone selectively stimulates the nuclear receptor peroxisome proliferator-activated receptor gamma (PPAR-γ)\" … \"As a result, pioglitazone reduces insulin resistance in the liver and peripheral tissues\" (Mechanism of action; article title 'Pioglitazone' is a name of the substance; key terms: PPAR-gamma, insulin, PPAR)",
+   "evidence": "\"Pioglitazone selectively stimulates the nuclear receptor peroxisome proliferator-activated receptor gamma (PPAR-γ)\" … \"pioglitazone reduces insulin resistance in the liver and peripheral tissues\" (Mechanism of action; article title 'Pioglitazone' is a name of the substance; key terms: PPARγ, insulin, PPAR)",
    "title": "Wikipedia: Pioglitazone, §Mechanism of action (revision 1365691930)"
   },
   {
@@ -5490,7 +5490,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Ramelteon&oldid=1362641733",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"is a selective agonist of the melatonin MT1 and MT2 receptors\" … \"Ramelteon demonstrates full agonist activity in vitro in cells expressing human MT1 or MT2 receptors\" (Lead; Wikidata sitelink of InChIKey YLXDSYKOBKBWJQ-LBPRGKRZSA-N; key terms: melatonin, mt1, mt2)",
+   "evidence": "\"is a selective agonist of the melatonin MT1 and MT2 receptors\" … \"Ramelteon demonstrates full agonist activity in vitro in cells expressing human MT1 or MT2 receptors\" (Lead; Wikidata sitelink of InChIKey YLXDSYKOBKBWJQ-LBPRGKRZSA-N; key terms: melatonin, MT1, MT2)",
    "title": "Wikipedia: Ramelteon (revision 1362641733)"
   },
   {
@@ -5504,7 +5504,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Ranitidine&oldid=1375228960#Mechanism_of_action",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Ranitidine is a competitive, reversible inhibitor of the action of histamine at the histamine H2 receptors found in gastric parietal cells.\" … \"This results in decreased gastric acid secretion and gastric volume, and reduced hydrogen ion concentration.\" (Mechanism of action; article title 'Ranitidine' is a name of the substance; key terms: histamine, H2)",
+   "evidence": "\"Ranitidine is a competitive, reversible inhibitor of the action of histamine at the histamine H2 receptors found in gastric parietal cells.\" … \"This results in decreased gastric acid secretion and gastric volume, and reduced hydrogen ion concentration.\" (Mechanism of action; article title 'Ranitidine' is a name of the substance; key terms: Histamine, H2)",
    "title": "Wikipedia: Ranitidine, §Mechanism of action (revision 1375228960)"
   },
   {
@@ -5601,7 +5601,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Rizatriptan&oldid=1356473769#Mechanism_of_action",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"Rizatriptan acts as an agonist at serotonin 5-HT1B and 5-HT1D receptors.\" … \"Like the other triptans sumatriptan and zolmitriptan, rizatriptan induces vasoconstriction—possibly by inhibiting the release of calcitonin gene-related peptide from sensory neurons in the trigeminal nerve.\" (Mechanism of action; Wikidata sitelink of InChIKey ULFRLSNUDGIQQP-UHFFFAOYSA-N; key terms: serotonin, 5-HT1B)",
+   "evidence": "\"Rizatriptan acts as an agonist at serotonin 5-HT1B and 5-HT1D receptors.\" … \"Like the other triptans sumatriptan and zolmitriptan, rizatriptan induces vasoconstriction—possibly by inhibiting the release of calcitonin gene-related peptide from sensory neurons in the trigeminal nerve.\" (Mechanism of action; Wikidata sitelink of InChIKey ULFRLSNUDGIQQP-UHFFFAOYSA-N; key terms: serotonin, 5-ht1b)",
    "title": "Wikipedia: Rizatriptan, §Mechanism of action (revision 1356473769)"
   },
   {
@@ -5615,7 +5615,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Rizatriptan&oldid=1356473769#Mechanism_of_action",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "zh-Hans copy of the class paragraph whose English row was checked: \"Rizatriptan acts as an agonist at serotonin 5-HT1B and 5-HT1D receptors.\" … \"Like the other triptans sumatriptan and zolmitriptan, rizatriptan induces vasoconstriction—possibly by inhibiting the release of calcitonin gene-related peptide from sensory neurons in the trigeminal nerve.\" (Mechanism of action; Wikidata sitelink of InChIKey ULFRLSNUDGIQQP-UHFFFAOYSA-N; key terms: serotonin, 5-HT1B)",
+   "evidence": "zh-Hans copy of the class paragraph whose English row was checked: \"Rizatriptan acts as an agonist at serotonin 5-HT1B and 5-HT1D receptors.\" … \"Like the other triptans sumatriptan and zolmitriptan, rizatriptan induces vasoconstriction—possibly by inhibiting the release of calcitonin gene-related peptide from sensory neurons in the trigeminal nerve.\" (Mechanism of action; Wikidata sitelink of InChIKey ULFRLSNUDGIQQP-UHFFFAOYSA-N; key terms: serotonin, 5-ht1b)",
    "title": "Wikipedia: Rizatriptan, §Mechanism of action (revision 1356473769)"
   },
   {
@@ -5629,7 +5629,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Rizatriptan&oldid=1356473769#Mechanism_of_action",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "zh-Hant copy of the class paragraph whose English row was checked: \"Rizatriptan acts as an agonist at serotonin 5-HT1B and 5-HT1D receptors.\" … \"Like the other triptans sumatriptan and zolmitriptan, rizatriptan induces vasoconstriction—possibly by inhibiting the release of calcitonin gene-related peptide from sensory neurons in the trigeminal nerve.\" (Mechanism of action; Wikidata sitelink of InChIKey ULFRLSNUDGIQQP-UHFFFAOYSA-N; key terms: serotonin, 5-HT1B)",
+   "evidence": "zh-Hant copy of the class paragraph whose English row was checked: \"Rizatriptan acts as an agonist at serotonin 5-HT1B and 5-HT1D receptors.\" … \"Like the other triptans sumatriptan and zolmitriptan, rizatriptan induces vasoconstriction—possibly by inhibiting the release of calcitonin gene-related peptide from sensory neurons in the trigeminal nerve.\" (Mechanism of action; Wikidata sitelink of InChIKey ULFRLSNUDGIQQP-UHFFFAOYSA-N; key terms: serotonin, 5-ht1b)",
    "title": "Wikipedia: Rizatriptan, §Mechanism of action (revision 1356473769)"
   },
   {
@@ -5671,7 +5671,7 @@
    "ref": "https://en.wikipedia.org/w/index.php?title=Rosiglitazone&oldid=1354915995",
    "accessed": "2026-10-30",
    "via": "haiku-assisted 2026-10-30",
-   "evidence": "\"It works as an insulin sensitizer, by binding to the PPAR in fat cells and making the cells more responsive to insulin.\" … \"Thiazolidinediones bind to PPARγ.\" … \"PPARs are transcription factors that reside in the nucleus and become activated by ligands such as thiazolidinediones.\" (Lead; article title 'Rosiglitazone' is a name of the substance; key terms: PPAR-gamma, insulin, PPAR)",
+   "evidence": "\"It works as an insulin sensitizer, by binding to the PPAR in fat cells and making the cells more responsive to insulin.\" … \"Rosiglitazone is a selective ligand of PPARγ and has no PPARα-binding action.\" (Lead; article title 'Rosiglitazone' is a name of the substance; key terms: PPARγ, insulin, PPAR)",
    "title": "Wikipedia: Rosiglitazone (revision 1354915995)"
   },
   {
