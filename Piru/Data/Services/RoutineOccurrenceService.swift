@@ -8,7 +8,10 @@ import SwiftData
 /// One occurrence per (med × time slot × day): a med with 8:00 and 13:00
 /// reminder times has two rows per due day, a med with no set times has one
 /// "anytime" row (`slotMinutes == nil`). As-needed meds carry no expectation
-/// and get no occurrences.
+/// and get no occurrences. A day is a journal day (Settings ▸ Journal ▸ Day
+/// Starts At), keyed by ``Foundation/Calendar/journalDay(for:boundaryHour:)``,
+/// and a dose belongs to the journal day it fell in on the clock of the zone it
+/// was logged in.
 ///
 /// Rather than an incremental state machine hand-updated on every log, edit,
 /// and delete — exactly where dose-scan inference failed silently —
@@ -25,7 +28,7 @@ enum RoutineOccurrenceService {
     /// when the plan has something to write: an unchanged day leaves the
     /// context untouched, so no `@Query` re-evaluates for nothing.
     static func reconcile(in context: ModelContext, now: Date = .now) {
-        let today = Calendar.current.startOfDay(for: now)
+        let today = Calendar.current.journalDay(for: now)
         let plan = plan(from: context, today: today, products: CustomSubstanceStore.shared.productMeds)
         guard !plan.isEmpty else { return }
         apply(plan, in: context, today: today)
@@ -38,7 +41,7 @@ enum RoutineOccurrenceService {
     @DatabaseActor
     static func needsReconcile(container: ModelContainer, now: Date = .now) -> Bool {
         let context = ModelContext(container)
-        let today = Calendar.current.startOfDay(for: now)
+        let today = Calendar.current.journalDay(for: now)
         return !plan(from: context, today: today, products: MedSchedule.productMeds()).isEmpty
     }
 
@@ -72,6 +75,10 @@ enum RoutineOccurrenceService {
         let timestamp: Date
         /// ``DoseEntry/combinationName``: the product this dose was one component of.
         var combinationName: String?
+        /// ``DoseEntry/timeZoneIdentifier``: the zone the dose was logged in.
+        var timeZoneIdentifier: String?
+        /// ``DoseEntry/medSlotMinutes``: the slot the dose was checked off for.
+        var medSlotMinutes: Int?
     }
 
     /// What one reconcile has to write. Empty on an unchanged day.
@@ -119,15 +126,20 @@ enum RoutineOccurrenceService {
                 slotMinutes: $0.slotMinutes, state: $0.state, satisfyingEntryID: $0.satisfyingEntryID,
             )
         }
-        // The fallback keeps the upper bound past `now` rather than silently
-        // narrowing the window to [today, now) if the calendar math ever fails.
-        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? today.addingTimeInterval(86_400)
-        let entryPredicate = #Predicate<DoseEntry> { $0.timestamp >= today && $0.timestamp < dayEnd }
+        // A window wide enough for a dose logged in any zone, narrowed to the
+        // doses whose own journal day is today.
+        let calendar = Calendar.current
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let window = calendar.doseFetchWindow(forJournalDay: today, boundaryHour: boundaryHour)
+        let windowStart = window.start, windowEnd = window.end
+        let entryPredicate = #Predicate<DoseEntry> { $0.timestamp >= windowStart && $0.timestamp < windowEnd }
         let entries = ((try? context.fetch(FetchDescriptor(predicate: entryPredicate))) ?? [])
+            .filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == today }
             .map {
                 EntrySnapshot(
                     id: $0.id, substance: $0.substance, substanceUID: $0.substanceUID, route: $0.route,
                     timestamp: $0.timestamp, combinationName: $0.combinationName,
+                    timeZoneIdentifier: $0.timeZoneIdentifier, medSlotMinutes: $0.medSlotMinutes,
                 )
             }
 
@@ -139,16 +151,21 @@ enum RoutineOccurrenceService {
 
     /// The pure reconcile: which occurrences to create, drop, expire, and
     /// which match outcomes changed. The §D matching rules run as a batch
-    /// over today's entries in timestamp order: identity (uid-first, else
-    /// name) + route, one claim per entry, nearest slot time on a tie.
-    /// Unclaimed occurrences revert to `pending`, which is the whole
-    /// delete/edit reconciliation.
+    /// over today's entries: identity (uid-first, else name) + route, one
+    /// claim per entry. A dose checked off for a slot
+    /// (``DoseEntry/medSlotMinutes``) claims that slot first, so an 8:00 dose
+    /// recorded at 15:00 ticks 8:00 and leaves 20:00 open; every other dose
+    /// then takes the nearest open slot, in timestamp order, measured on the
+    /// journal-day clock it was logged by. Unclaimed occurrences revert to
+    /// `pending`, which is the whole delete/edit reconciliation.
     nonisolated static func plan(
         dueItems: [ItemSnapshot],
         occurrences: [OccurrenceSnapshot],
         expired: [PersistentIdentifier],
         entries: [EntrySnapshot],
         products: [String: MedSchedule.ProductMed] = [:],
+        calendar: Calendar = .current,
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
     ) -> Plan {
         var plan = Plan()
         plan.expire = expired
@@ -189,11 +206,32 @@ enum RoutineOccurrenceService {
 
         var claimed = Set<Int>()
         var assignment: [Int: UUID] = [:]
-        for entry in entries.sorted(by: { $0.timestamp < $1.timestamp }) {
-            let entryMinutes = minutesOfDay(entry.timestamp)
+        func open(_ index: Int, for entry: EntrySnapshot) -> Bool {
+            live[index].state != .skipped && !claimed.contains(index)
+                && matches(entry: entry, occurrence: live[index], products: products)
+        }
+        let byTime = entries.sorted { $0.timestamp < $1.timestamp }
+        var unplaced: [EntrySnapshot] = []
+        for entry in byTime {
+            guard let slot = entry.medSlotMinutes,
+                  let named = live.indices.first(where: { live[$0].slotMinutes == slot && open($0, for: entry) })
+            else {
+                unplaced.append(entry)
+                continue
+            }
+            claimed.insert(named)
+            assignment[named] = entry.id
+        }
+        for entry in unplaced {
+            let entryMinutes = calendar.journalMinutes(
+                for: entry.timestamp, loggedIn: entry.timeZoneIdentifier, boundaryHour: boundaryHour,
+            )
             let best = live.indices
-                .filter { live[$0].state != .skipped && !claimed.contains($0) && matches(entry: entry, occurrence: live[$0], products: products) }
-                .min { distance(entryMinutes, toSlotAt: live[$0].slotMinutes) < distance(entryMinutes, toSlotAt: live[$1].slotMinutes) }
+                .filter { open($0, for: entry) }
+                .min {
+                    distance(entryMinutes, toSlotAt: live[$0].slotMinutes, boundaryHour: boundaryHour)
+                        < distance(entryMinutes, toSlotAt: live[$1].slotMinutes, boundaryHour: boundaryHour)
+                }
             guard let best else { continue }
             claimed.insert(best)
             assignment[best] = entry.id
@@ -276,13 +314,27 @@ enum RoutineOccurrenceService {
         )
     }
 
-    /// Today's slot keys that need no more re-asks: `logged` or `skipped`.
-    /// Assumes ``reconcile(in:)`` ran this pass.
+    /// The slot keys whose reminder today needs no more re-asks: `logged` or
+    /// `skipped`. Assumes ``reconcile(in:)`` ran this pass.
+    ///
+    /// Reminders fire on the wall clock, so "today's" 8:00 re-ask is the one
+    /// at 8:00 on today's calendar date. Between midnight and the Day Starts
+    /// At hour that firing belongs to the next journal day, not the current
+    /// one, so the current day's ticked 8:00 must not silence it: only slots
+    /// whose calendar-today firing falls in the current journal day count.
     static func satisfiedSlotKeys(in context: ModelContext, now: Date = .now) -> Set<String> {
-        let today = Calendar.current.startOfDay(for: now)
+        let calendar = Calendar.current
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        let calendarToday = calendar.startOfDay(for: now)
         return Set(
             todaysOccurrences(today, in: context)
                 .filter { $0.state == .logged || $0.state == .skipped }
+                .filter { occurrence in
+                    guard let minutes = occurrence.slotMinutes else { return true }
+                    let firing = AdherenceCalculator.slotDate(minutes: minutes, on: calendarToday, calendar: calendar, boundaryHour: 0)
+                    return calendar.journalDay(for: firing, boundaryHour: boundaryHour) == today
+                }
                 .map(slotKey(for:)),
         )
     }
@@ -292,7 +344,7 @@ enum RoutineOccurrenceService {
     /// later reconciles). The caller resyncs reminders so the remaining
     /// follow-ups cancel.
     static func skipToday(slotKeys: Set<String>, in context: ModelContext, now: Date = .now) {
-        let today = Calendar.current.startOfDay(for: now)
+        let today = Calendar.current.journalDay(for: now)
         for occurrence in todaysOccurrences(today, in: context)
             where occurrence.state == .pending && slotKeys.contains(slotKey(for: occurrence)) {
             occurrence.state = .skipped
@@ -333,15 +385,11 @@ enum RoutineOccurrenceService {
             )
     }
 
-    private nonisolated static func minutesOfDay(_ date: Date) -> Int {
-        let parts = Calendar.current.dateComponents([.hour, .minute], from: date)
-        return (parts.hour ?? 0) * 60 + (parts.minute ?? 0)
-    }
-
-    /// An anytime slot sorts after any timed slot.
-    private nonisolated static func distance(_ minutes: Int, toSlotAt slotMinutes: Int?) -> Int {
+    /// How far a dose (on the journal-day scale) is from a slot. An anytime
+    /// slot sorts after any timed slot.
+    private nonisolated static func distance(_ minutes: Int, toSlotAt slotMinutes: Int?, boundaryHour: Int) -> Int {
         guard let slotMinutes else { return .max }
-        return abs(minutes - slotMinutes)
+        return abs(minutes - Calendar.journalMinutes(ofSlot: slotMinutes, boundaryHour: boundaryHour))
     }
 
     private static func todaysOccurrences(_ today: Date, in context: ModelContext) -> [RoutineOccurrence] {

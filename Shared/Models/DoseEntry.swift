@@ -116,6 +116,26 @@ final class DoseEntry {
     var displayNameSnapshot: String?
     /// When the dose was taken.
     var timestamp: Date
+
+    /// The time zone the dose was logged in (`"Europe/Paris"`), so its day and
+    /// its morning-or-evening are read on the clock it was taken by: a dose at
+    /// 08:00 in Paris stays a morning dose on that Paris day when the journal
+    /// is opened in Tokyo, where the same instant is 15:00. Written by the
+    /// initializer at log time; `nil` for a dose whose zone is unknown (one
+    /// logged before the field existed, or imported from a file that does not
+    /// carry it), which every reader takes as the current zone. Additive and
+    /// optional, so the field-add is a lightweight migration.
+    var timeZoneIdentifier: String?
+
+    /// The med reminder slot this dose was checked off for, as minutes from
+    /// midnight (`480` = the 8:00 slot), when the user ticked a specific slot.
+    /// The My Meds checklist gives this dose to that slot before it matches
+    /// anything else by time, so an 8:00 dose recorded "just now" at 15:00
+    /// ticks 8:00 rather than the nearer 20:00. `nil` for every dose logged any
+    /// other way, which the checklist matches to the nearest slot. Additive and
+    /// optional, so the field-add is a lightweight migration.
+    var medSlotMinutes: Int?
+
     /// Optional free-form note attached to the dose.
     var notes: String?
     /// CSV-encoded backing storage for ``tags``. Prefer reading/writing ``tags``.
@@ -265,6 +285,8 @@ final class DoseEntry {
         substanceUID: String? = nil,
         displayNameSnapshot: String? = nil,
         timestamp: Date = .now,
+        timeZoneIdentifier: String? = TimeZone.current.identifier,
+        medSlotMinutes: Int? = nil,
         notes: String? = nil,
         tags: [String] = [],
         isBackgroundMed: Bool = false,
@@ -292,6 +314,8 @@ final class DoseEntry {
         self.substanceUID = substanceUID
         self.displayNameSnapshot = displayNameSnapshot
         self.timestamp = timestamp
+        self.timeZoneIdentifier = timeZoneIdentifier
+        self.medSlotMinutes = medSlotMinutes
         self.notes = notes
         self.tagsRaw = tags.isEmpty ? nil : tags.joined(separator: ",")
         self.isBackgroundMed = isBackgroundMed
@@ -307,5 +331,22 @@ final class DoseEntry {
         self.drinkName = drinkName
         self.combinationName = combinationName
         self.injectionSiteRaw = injectionSite?.rawValue
+    }
+}
+
+// MARK: - The dose's own clock
+
+nonisolated extension DoseEntry {
+    /// The journal day this dose belongs to, read on the clock of the zone it
+    /// was logged in and keyed like every other journal day in `calendar`
+    /// (see ``Foundation/Calendar/journalDay(for:loggedIn:boundaryHour:)``).
+    func journalDay(in calendar: Calendar = .current, boundaryHour: Int = Calendar.sessionDayBoundaryHour) -> Date {
+        calendar.journalDay(for: timestamp, loggedIn: timeZoneIdentifier, boundaryHour: boundaryHour)
+    }
+
+    /// How far into its journal day this dose fell on the clock it was logged
+    /// by, in minutes (see ``Foundation/Calendar/journalMinutes(for:loggedIn:boundaryHour:)``).
+    func journalMinutes(in calendar: Calendar = .current, boundaryHour: Int = Calendar.sessionDayBoundaryHour) -> Int {
+        calendar.journalMinutes(for: timestamp, loggedIn: timeZoneIdentifier, boundaryHour: boundaryHour)
     }
 }

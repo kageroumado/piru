@@ -394,6 +394,7 @@ T = {
     ),
     "Taken at %@": ("于 %@ 服用", "於 %@ 服用"),
     "Taken at": ("服用时间", "服用時間"),
+    "When did you take %@?": ("你什么时候服用了 %@？", "你什麼時候服用了 %@？"),
     # SubstanceCategory.classSummary — category descriptions shown atop each
     # browse list; LocalizedStringResource literals the extractor misses, inserted
     # via NEW_KEYS and persistent because they carry a translation.
@@ -7975,6 +7976,7 @@ if __name__ == "__main__":
         "Morning not logged, evening partly logged",
         "Taken at %@",
         "Taken at",
+        "When did you take %@?",
         "Split Days at Noon",
         "Shows morning and evening doses as two halves of each day. When off, a dose logged at any time counts toward the whole day.",
         "Nothing to Share",

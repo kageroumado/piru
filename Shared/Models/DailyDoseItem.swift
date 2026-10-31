@@ -275,7 +275,9 @@ extension DoseEntry {
     /// every identity facet, so the dose is the product the med names rather
     /// than the bare molecule. The one construction every med-logging path
     /// uses: My Meds, Log Medications, and the Today's Meds widget.
-    convenience init(medication item: DailyDoseItem, timestamp: Date, displayNameSnapshot: String? = nil) {
+    /// `slotMinutes` is the reminder slot the dose was checked off for
+    /// (``DoseEntry/medSlotMinutes``).
+    convenience init(medication item: DailyDoseItem, timestamp: Date, slotMinutes: Int? = nil, displayNameSnapshot: String? = nil) {
         self.init(
             substance: item.substance,
             amount: item.amount,
@@ -288,6 +290,7 @@ extension DoseEntry {
             substanceUID: item.substanceUID,
             displayNameSnapshot: displayNameSnapshot,
             timestamp: timestamp,
+            medSlotMinutes: slotMinutes,
             isBackgroundMed: item.isBackgroundMed,
         )
     }

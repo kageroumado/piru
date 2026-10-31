@@ -566,6 +566,7 @@ extension DataExportImport {
                     unit: ingestion.units,
                     route: route,
                     timestamp: timestamp,
+                    timeZoneIdentifier: nil,
                     notes: ingestion.notes.isEmpty ? nil : ingestion.notes,
                     tags: extractedTags,
                     locationName: location?.name,

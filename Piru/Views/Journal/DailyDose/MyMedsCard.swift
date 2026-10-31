@@ -12,8 +12,9 @@ struct MyMedsCard: View {
     @Environment(\.appNavigator) private var navigator
 
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
-    /// The last 48 hours of doses: what the interaction check reads, and the
-    /// pool today's undo picks from.
+    /// The last 72 hours of doses: what the interaction check reads, and the
+    /// pool today's undo picks from — wide enough to hold the whole journal
+    /// day, Day Starts At included, of a dose logged in any zone.
     @Query private var recentEntries: [DoseEntry]
     /// The Journal already holds the color query; one subscription serves both.
     let substanceColors: [SubstanceColor]
@@ -35,7 +36,7 @@ struct MyMedsCard: View {
     init(substanceColors: [SubstanceColor]) {
         self.substanceColors = substanceColors
         let yesterdayStart = Self.yesterdayStart
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
+        let cutoff = Date.now.addingTimeInterval(-72 * 3_600)
         _recentEntries = Query(
             filter: #Predicate<DoseEntry> { $0.timestamp >= cutoff },
             sort: \DoseEntry.timestamp,
@@ -45,26 +46,34 @@ struct MyMedsCard: View {
         )
     }
 
+    /// "Today" is the journal day (Settings ▸ Journal ▸ Day Starts At): with a
+    /// 4 AM start, the checklist at 01:00 is still the evening before's.
+    private static var today: Date {
+        Calendar.current.journalDay(for: .now)
+    }
+
+    /// Today's doses, each placed by the clock of the zone it was logged in.
     private var todayEntries: [DoseEntry] {
-        let dayStart = Calendar.current.startOfDay(for: .now)
-        return recentEntries.filter { $0.timestamp >= dayStart }
+        let calendar = Calendar.current
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let today = calendar.journalDay(for: .now, boundaryHour: boundaryHour)
+        return recentEntries.filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == today }
     }
 
     private static var yesterdayStart: Date {
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
         return calendar.date(byAdding: .day, value: -1, to: today) ?? today
     }
 
     private var todayOccurrences: [RoutineOccurrence] {
-        let today = Calendar.current.startOfDay(for: .now)
+        let today = Self.today
         return recentOccurrences.filter { $0.dueDay >= today }
     }
 
     /// Yesterday's slots that ended the day unlogged (`missed` is written by
     /// `RoutineOccurrenceService.reconcile`, never inferred here).
     private var yesterdayMissed: [RoutineOccurrence] {
-        let today = Calendar.current.startOfDay(for: .now)
+        let today = Self.today
         return recentOccurrences.filter { $0.dueDay < today && $0.state == .missed }
     }
 
@@ -91,6 +100,13 @@ struct MyMedsCard: View {
         let time: Int?
         let index: Int
         let state: SlotState
+        /// The `DoseEntry.id` that ticked this slot, when it is taken — the
+        /// dose an untick removes.
+        var satisfyingEntryID: UUID?
+
+        /// How long after its time a slot stays plainly due. Past this, a tap
+        /// asks whether the dose was taken at the slot's time or just now.
+        static let lateAfterMinutes = 60
 
         var taken: Bool {
             state == .taken
@@ -101,14 +117,32 @@ struct MyMedsCard: View {
         }
 
         var isDueNow: Bool {
-            guard state == .pending else { return false }
-            guard let time else { return true }
-            return time <= Self.nowMinutes
+            isDue(at: Self.nowMinutes)
         }
 
+        /// Pending, and more than ``lateAfterMinutes`` past its time.
+        var isLate: Bool {
+            isLate(at: Self.nowMinutes)
+        }
+
+        /// ``isDueNow`` at `nowMinutes` on the journal-day clock.
+        func isDue(at nowMinutes: Int, boundaryHour: Int = Calendar.sessionDayBoundaryHour) -> Bool {
+            guard state == .pending else { return false }
+            guard let time else { return true }
+            return Calendar.journalMinutes(ofSlot: time, boundaryHour: boundaryHour) <= nowMinutes
+        }
+
+        /// ``isLate`` at `nowMinutes` on the journal-day clock. An anytime
+        /// slot is never late.
+        func isLate(at nowMinutes: Int, boundaryHour: Int = Calendar.sessionDayBoundaryHour) -> Bool {
+            guard state == .pending, let time else { return false }
+            return Calendar.journalMinutes(ofSlot: time, boundaryHour: boundaryHour) + Self.lateAfterMinutes < nowMinutes
+        }
+
+        /// Now, on the journal-day clock (minutes from the midnight that opens
+        /// today's journal day; past 1440 after midnight).
         static var nowMinutes: Int {
-            let comps = Calendar.current.dateComponents([.hour, .minute], from: .now)
-            return (comps.hour ?? 0) * 60 + (comps.minute ?? 0)
+            Calendar.current.journalMinutes(for: .now, loggedIn: nil)
         }
     }
 
@@ -226,6 +260,7 @@ struct MyMedsCard: View {
             timeText: slot.time.map(Self.timeText),
             slotState: slot.state,
             due: slot.isDueNow,
+            asksWhenTaken: slot.isLate,
             indented: indented,
             onLogAtSlotTime: logAtSlotTime(slot),
             onToggle: {
@@ -256,7 +291,7 @@ struct MyMedsCard: View {
     /// with no time or one not yet due.
     private func logAtSlotTime(_ slot: MedSlot) -> (() -> Void)? {
         guard slot.isDueNow, let minutes = slot.time else { return nil }
-        return { attemptLog(slots: [slot], at: AdherenceCalculator.slotDate(minutes: minutes, on: .now)) }
+        return { attemptLog(slots: [slot], at: AdherenceCalculator.slotDate(minutes: minutes, on: Self.today)) }
     }
 
     /// Log `slots` at `timestamp`, or now when it is `nil`.
@@ -278,7 +313,9 @@ struct MyMedsCard: View {
 
         for slot in slots {
             guard let item = liveItem(for: slot) else { continue }
-            let entry = DoseEntry.medication(item, at: now)
+            // The slot rides on the dose, so the checklist ticks this slot
+            // whenever it was taken (`DoseEntry.medSlotMinutes`).
+            let entry = DoseEntry.medication(item, at: now, slotMinutes: slot.time)
             let matched = SubstanceLibrary.lookup(item.substance).flatMap {
                 $0.name.lowercased() == item.substance.lowercased() ? $0 : nil
             }
@@ -295,15 +332,16 @@ struct MyMedsCard: View {
         model.clearPending()
     }
 
-    /// Undo a logged dose: delete today's most-recent entry matching this
-    /// slot's med and drop it from the live session. The check-circle toggles,
-    /// so an accidental tap-to-log is reversed by tapping the circle again —
-    /// the whole-row log with no undo was the reported surprise.
+    /// Undo a logged dose: delete the dose that ticked this slot (else
+    /// today's most-recent one matching its med) and drop it from the live
+    /// session. The check-circle toggles, so an accidental tap-to-log is
+    /// reversed by tapping the circle again — the whole-row log with no undo
+    /// was the reported surprise.
     private func unlog(_ slot: MedSlot) {
-        guard let item = liveItem(for: slot),
-              let entry = todayEntries
-              .filter({ AdherenceCalculator.entryMatches(entry: $0, item: item) })
-              .max(by: { $0.timestamp < $1.timestamp })
+        guard let item = liveItem(for: slot) else { return }
+        let matching = todayEntries.filter { AdherenceCalculator.entryMatches(entry: $0, item: item) }
+        guard let entry = matching.first(where: { $0.id == slot.satisfyingEntryID })
+            ?? matching.max(by: { $0.timestamp < $1.timestamp })
         else { return }
 
         let id = entry.id
@@ -342,8 +380,13 @@ struct MyMedsCard: View {
 
     /// The two-at-most facts under the rows, chosen by ``MyMedsInfo/select``.
     private func infoLines(slots: [MedSlot]) -> [MyMedsInfoLine] {
+        // On the journal-day clock, like `MedSlot.nowMinutes`.
         let summaries = slots.map { slot in
-            MyMedsInfo.SlotSummary(name: slot.med.displayName, minutes: slot.time, pending: slot.state == .pending)
+            MyMedsInfo.SlotSummary(
+                name: slot.med.displayName,
+                minutes: slot.time.map { Calendar.journalMinutes(ofSlot: $0) },
+                pending: slot.state == .pending,
+            )
         }
         let missed = yesterdayMissed.map { occurrence in
             let item = items.first { $0.substance.lowercased() == occurrence.substance.lowercased() }
@@ -372,7 +415,7 @@ struct MyMedsCard: View {
                 navigator.present(.inventoryItemForm(id: itemID))
             }
         case let .nextDue(name, minutes):
-            NextDueInfoLine(name: name, timeText: Self.timeText(minutes)) {
+            NextDueInfoLine(name: name, timeText: Self.timeText(minutes % 1_440)) {
                 navigator.push(.myMeds)
             }
         case let .missedYesterday(notice):
@@ -564,6 +607,10 @@ private struct SlotRowView: View {
     let timeText: String?
     let slotState: MyMedsCard.SlotState
     let due: Bool
+    /// Whether a tap on the check asks when the dose was taken — the slot's
+    /// time or just now — instead of logging straight away: a slot well past
+    /// its time (``MyMedsCard/MedSlot/isLate``).
+    let asksWhenTaken: Bool
     let indented: Bool
     /// Logs the slot at its own reminder time: offered once that time has
     /// passed, for a dose taken on time and checked off later.
@@ -572,6 +619,7 @@ private struct SlotRowView: View {
     let onOpen: () -> Void
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @State private var askingWhen = false
 
     private var taken: Bool {
         slotState == .taken
@@ -579,7 +627,13 @@ private struct SlotRowView: View {
 
     var body: some View {
         HStack(spacing: Spacing.lg) {
-            Button(action: onToggle) {
+            Button {
+                if asksWhenTaken, onLogAtSlotTime != nil {
+                    askingWhen = true
+                } else {
+                    onToggle()
+                }
+            } label: {
                 CheckCircle(state: slotState, due: due)
                     .minimumHitTarget()
             }
@@ -589,6 +643,14 @@ private struct SlotRowView: View {
                 if let onLogAtSlotTime, let timeText {
                     Button("Taken at \(timeText)", systemImage: "clock.arrow.circlepath", action: onLogAtSlotTime)
                 }
+            }
+            // Either answer ticks this slot: the dose carries the slot it was
+            // checked off for, whatever time it is stamped with.
+            .confirmationDialog(Text("When did you take \(title)?"), isPresented: $askingWhen, titleVisibility: .visible) {
+                if let onLogAtSlotTime, let timeText {
+                    Button("Taken at \(timeText)", action: onLogAtSlotTime)
+                }
+                Button("Just now", action: onToggle)
             }
             .accessibilityLabel(title)
             .accessibilityValue(accessibilityStateValue)

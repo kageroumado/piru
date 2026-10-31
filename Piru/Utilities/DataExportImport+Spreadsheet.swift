@@ -34,6 +34,7 @@ extension DataExportImport {
                 unit: draft.unit,
                 route: draft.route,
                 timestamp: draft.timestamp,
+                timeZoneIdentifier: nil,
                 notes: draft.notes,
                 tags: draft.tags,
                 locationName: draft.locationName,

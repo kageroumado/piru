@@ -34,7 +34,9 @@ enum AdherenceStreakFetcher {
     ) -> Int {
         let context = ModelContext(container)
 
-        let cutoff = Calendar.current.date(byAdding: .day, value: -(spanningDays + 1), to: end) ?? .distantPast
+        // One day more than the span, so the oldest day's doses logged in a
+        // zone east of this one are still in the fetch.
+        let cutoff = Calendar.current.date(byAdding: .day, value: -(spanningDays + 2), to: end) ?? .distantPast
         // Whole rows, deliberately: `propertiesToFetch` leaves every object a
         // partial fault that fires on the first access of any property, which
         // cost one fault per dose (3,569 in a launch trace) — more than the
@@ -50,6 +52,7 @@ enum AdherenceStreakFetcher {
             AdherenceCalculator.EntrySnapshot(
                 substance: $0.substance, identityKey: $0.identityKey,
                 route: $0.route, timestamp: $0.timestamp, combinationName: $0.combinationName,
+                timeZoneIdentifier: $0.timeZoneIdentifier,
             )
         }
         let products = MedSchedule.productMeds()

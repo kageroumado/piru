@@ -64,7 +64,7 @@ struct TodayMedSlot: Identifiable {
     func isDueNow(at date: Date) -> Bool {
         guard !taken else { return false }
         guard let timeMinutes else { return true }
-        return timeMinutes <= TodayMedsEntry.minutesOfDay(date)
+        return Calendar.journalMinutes(ofSlot: timeMinutes) <= TodayMedsEntry.minutesOfDay(date)
     }
 }
 
@@ -73,9 +73,10 @@ struct TodayMedsEntry: TimelineEntry {
     let slots: [TodayMedSlot]
     let relevance: TimelineEntryRelevance?
 
+    /// `date` on the journal-day clock (Day Starts At), the scale slot times
+    /// are compared on: past 1440 after midnight.
     static func minutesOfDay(_ date: Date) -> Int {
-        let comps = Calendar.current.dateComponents([.hour, .minute], from: date)
-        return (comps.hour ?? 0) * 60 + (comps.minute ?? 0)
+        Calendar.current.journalMinutes(for: date, loggedIn: nil)
     }
 
     // Derived, shared by every family view.
@@ -101,7 +102,10 @@ struct TodayMedsEntry: TimelineEntry {
     /// The first untaken slot with a time still ahead of this entry's date.
     var nextUpcoming: TodayMedSlot? {
         let now = Self.minutesOfDay(date)
-        return slots.first { !$0.taken && $0.timeMinutes != nil && $0.timeMinutes! > now }
+        return slots.first { slot in
+            guard !slot.taken, let minutes = slot.timeMinutes else { return false }
+            return Calendar.journalMinutes(ofSlot: minutes) > now
+        }
     }
 
     /// The first untaken slot, due-now ones first — what the accessories lead with.
@@ -139,8 +143,8 @@ struct TodayMedsProvider: TimelineProvider {
 
     func getTimeline(in _: Context, completion: @escaping (Timeline<TodayMedsEntry>) -> Void) {
         // Entries at now + each remaining slot time (so "due"/"next" states
-        // roll over on time) + next midnight (so tomorrow starts with a fresh,
-        // unchecked list). Taken states only change through logging, and every
+        // roll over on time) + the next journal day's start (so tomorrow
+        // starts with a fresh, unchecked list at the Day Starts At hour). Taken states only change through logging, and every
         // log path — in-app or the widget's own intents — reloads timelines.
         completion(Timeline(entries: fetchEntries(), policy: .atEnd))
     }
@@ -157,13 +161,16 @@ struct TodayMedsProvider: TimelineProvider {
             FetchDescriptor<DailyDoseItem>(sortBy: [SortDescriptor(\.sortOrder)]),
         )) ?? []
 
-        let dayStart = calendar.startOfDay(for: now)
-        let todayEntries = (try? context.fetch(
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        let window = calendar.doseFetchWindow(forJournalDay: today, boundaryHour: boundaryHour)
+        let windowStart = window.start, windowEnd = window.end
+        let todayEntries = ((try? context.fetch(
             FetchDescriptor<DoseEntry>(
-                predicate: #Predicate { $0.timestamp >= dayStart },
+                predicate: #Predicate { $0.timestamp >= windowStart && $0.timestamp < windowEnd },
                 sortBy: [SortDescriptor(\.timestamp)],
             ),
-        )) ?? []
+        )) ?? []).filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == today }
 
         // The personal display-name override the app mirrors into the app group
         // (same source TodaySummaryWidget reads).
@@ -174,16 +181,12 @@ struct TodayMedsProvider: TimelineProvider {
 
         var dates: [Date] = [now]
         for slot in slots(on: now, items: items, entries: todayEntries, displayNames: displayNames) {
-            guard let minutes = slot.timeMinutes,
-                  let slotDate = calendar.date(
-                      bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: now,
-                  ),
-                  slotDate > now else { continue }
+            guard let minutes = slot.timeMinutes else { continue }
+            let slotDate = calendar.date(ofSlot: minutes, inJournalDay: today, boundaryHour: boundaryHour)
+            guard slotDate > now else { continue }
             dates.append(slotDate)
         }
-        if let midnight = calendar.date(byAdding: .day, value: 1, to: dayStart) {
-            dates.append(midnight)
-        }
+        dates.append(calendar.journalDayStart(of: calendar.journalDay(after: today), boundaryHour: boundaryHour))
 
         return dates.sorted().map { date in
             let slots = slots(on: date, items: items, entries: todayEntries, displayNames: displayNames)
@@ -197,9 +200,9 @@ struct TodayMedsProvider: TimelineProvider {
         }
     }
 
-    /// Mirrors `MyMedsCard.allSlots` for an arbitrary day: due, non-PRN meds
-    /// expanded into per-reminder-time slots, with the day's matched doses
-    /// absorbed by the earliest slots first.
+    /// Mirrors `MyMedsCard.allSlots` for the journal day `date` falls in: due,
+    /// non-PRN meds expanded into per-reminder-time slots, with the day's
+    /// matched doses absorbed by the earliest slots first.
     private func slots(
         on date: Date,
         items: [DailyDoseItem],
@@ -207,19 +210,21 @@ struct TodayMedsProvider: TimelineProvider {
         displayNames: [String: String],
     ) -> [TodayMedSlot] {
         let calendar = Calendar.current
-        let dayStart = calendar.startOfDay(for: date)
-        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
-        let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let day = calendar.journalDay(for: date, boundaryHour: boundaryHour)
+        let dayEntries = entries.filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == day }
 
         var slots: [(slot: TodayMedSlot, order: Int)] = []
         let products = MedSchedule.productMeds()
         for item in items where !item.isAsNeeded {
             guard MedSchedule.isDue(
                 startDate: item.startDate, frequency: item.frequency,
-                frequencyDays: item.frequencyDays, intervalDays: item.frequencyIntervalDays, on: date,
+                frequencyDays: item.frequencyDays, intervalDays: item.frequencyIntervalDays, on: day,
             ) else { continue }
 
-            let times = item.reminderTimesMinutes.sorted()
+            let times = item.reminderTimesMinutes.sorted {
+                Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour) < Calendar.journalMinutes(ofSlot: $1, boundaryHour: boundaryHour)
+            }
             let expected = max(1, times.count)
             let matched = dayEntries.count { entry in
                 MedSchedule.matches(
@@ -246,8 +251,11 @@ struct TodayMedsProvider: TimelineProvider {
                 ))
             }
         }
+        func journal(_ slot: TodayMedSlot) -> Int {
+            slot.timeMinutes.map { Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour) } ?? .max
+        }
         return slots
-            .sorted { ($0.slot.timeMinutes ?? .max, $0.order) < ($1.slot.timeMinutes ?? .max, $1.order) }
+            .sorted { (journal($0.slot), $0.order) < (journal($1.slot), $1.order) }
             .map(\.slot)
     }
 }

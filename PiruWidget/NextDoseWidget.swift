@@ -80,9 +80,9 @@ struct NextDoseProvider: TimelineProvider {
         if let dueDate = first.nextSlot?.dueDate, dueDate > now {
             entries.append(store.makeEntry(at: dueDate))
         }
-        if let midnight = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: now)) {
-            entries.append(store.makeEntry(at: midnight))
-        }
+        // The next journal day's start, when tomorrow's list begins.
+        let today = calendar.journalDay(for: now)
+        entries.append(store.makeEntry(at: calendar.journalDayStart(of: calendar.journalDay(after: today))))
 
         completion(Timeline(entries: entries.sorted { $0.date < $1.date }, policy: .atEnd))
     }
@@ -116,25 +116,33 @@ private struct StoreSnapshot {
         return StoreSnapshot(container: container, context: context, items: items, displayNames: displayNames)
     }
 
+    /// The entry for the journal day `date` falls in, its doses each placed
+    /// by the clock of the zone they were logged in.
     func makeEntry(at date: Date) -> NextDoseEntry {
         let calendar = Calendar.current
-        let dayStart = calendar.startOfDay(for: date)
-        let todayEntries = (try? context.fetch(
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let day = calendar.journalDay(for: date, boundaryHour: boundaryHour)
+        let window = calendar.doseFetchWindow(forJournalDay: day, boundaryHour: boundaryHour)
+        let windowStart = window.start, windowEnd = window.end
+        let todayEntries = ((try? context.fetch(
             FetchDescriptor<DoseEntry>(
-                predicate: #Predicate { $0.timestamp >= dayStart },
+                predicate: #Predicate { $0.timestamp >= windowStart && $0.timestamp < windowEnd },
                 sortBy: [SortDescriptor(\.timestamp)],
             ),
-        )) ?? []
+        )) ?? []).filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == day }
+        func journal(_ minutes: Int) -> Int {
+            Calendar.journalMinutes(ofSlot: minutes, boundaryHour: boundaryHour)
+        }
 
         var slots: [(name: String, doseText: String, timeMinutes: Int?, taken: Bool)] = []
         let products = MedSchedule.productMeds()
         for item in items where !item.isAsNeeded {
             guard MedSchedule.isDue(
                 startDate: item.startDate, frequency: item.frequency,
-                frequencyDays: item.frequencyDays, intervalDays: item.frequencyIntervalDays, on: date,
+                frequencyDays: item.frequencyDays, intervalDays: item.frequencyIntervalDays, on: day,
             ) else { continue }
 
-            let times = item.reminderTimesMinutes.sorted()
+            let times = item.reminderTimesMinutes.sorted { journal($0) < journal($1) }
             let expected = max(1, times.count)
             let matched = todayEntries.count { entry in
                 MedSchedule.matches(
@@ -160,21 +168,17 @@ private struct StoreSnapshot {
 
         let nextUntaken = slots
             .filter { !$0.taken && $0.timeMinutes != nil }
-            .sorted { ($0.timeMinutes ?? 0) < ($1.timeMinutes ?? 0) }
-            .first { ($0.timeMinutes ?? 0) >= nowMinutes }
+            .sorted { journal($0.timeMinutes ?? 0) < journal($1.timeMinutes ?? 0) }
+            .first { journal($0.timeMinutes ?? 0) >= nowMinutes }
             ?? slots.first { !$0.taken && $0.timeMinutes != nil }
 
         let snapshot: NextSlotSnapshot? = nextUntaken.flatMap { slot in
-            guard let minutes = slot.timeMinutes,
-                  let dueDate = calendar.date(
-                      bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: date,
-                  )
-            else { return nil }
+            guard let minutes = slot.timeMinutes else { return nil }
             return NextSlotSnapshot(
                 name: slot.name,
                 doseText: slot.doseText,
-                dueDate: dueDate,
-                isDueNow: minutes <= nowMinutes,
+                dueDate: calendar.date(ofSlot: minutes, inJournalDay: day, boundaryHour: boundaryHour),
+                isDueNow: journal(minutes) <= nowMinutes,
             )
         }
 

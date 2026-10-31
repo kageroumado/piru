@@ -281,15 +281,25 @@ struct DueNowSlot: Identifiable {
     /// the accessory and My Meds never disagree about what counts as taken: a
     /// dose's PSID can resolve differently than its schedule item, so a
     /// strict identity-only match would miss it. `todayEntries` is today's doses.
-    static func derive(items: [DailyDoseItem], todayEntries: [DoseEntry], now: Date = .now) -> [DueNowSlot] {
+    ///
+    /// Today is the journal day, and times are read on its clock
+    /// (``Foundation/Calendar/journalMinutes(for:loggedIn:boundaryHour:)``).
+    static func derive(
+        items: [DailyDoseItem], todayEntries: [DoseEntry], now: Date = .now,
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+    ) -> [DueNowSlot] {
         guard !items.isEmpty else { return [] }
         let calendar = Calendar.current
-        let nowMinutes = calendar.component(.hour, from: now) * 60 + calendar.component(.minute, from: now)
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        let nowMinutes = calendar.journalMinutes(for: now, loggedIn: nil, boundaryHour: boundaryHour)
 
         var slots: [DueNowSlot] = []
-        for item in items where !item.isAsNeeded && AdherenceCalculator.isDue(item, on: now) {
+        for item in items where !item.isAsNeeded && AdherenceCalculator.isDue(item, on: today) {
             let taken = todayEntries.count { AdherenceCalculator.entryMatches(entry: $0, item: item) }
-            let times = item.reminderTimesMinutes.sorted()
+            let times = item.reminderTimesMinutes.sorted {
+                Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour)
+                    < Calendar.journalMinutes(ofSlot: $1, boundaryHour: boundaryHour)
+            }
             if times.isEmpty {
                 guard taken == 0 else { continue }
                 slots.append(DueNowSlot(id: "\(item.identityKey)|any", item: DailyMedSnapshot(item), slotMinutes: nil))
@@ -298,12 +308,13 @@ struct DueNowSlot: Identifiable {
             // The earliest uncovered slot, and only if its window has opened.
             guard taken < times.count else { continue }
             let slot = times[taken]
-            guard slot <= nowMinutes + dueSoonLeadMinutes else { continue }
+            guard Calendar.journalMinutes(ofSlot: slot, boundaryHour: boundaryHour) <= nowMinutes + dueSoonLeadMinutes else { continue }
             slots.append(DueNowSlot(id: "\(item.identityKey)|\(slot)", item: DailyMedSnapshot(item), slotMinutes: slot))
         }
-        return slots.sorted {
-            ($0.slotMinutes ?? .max, $0.item.sortOrder) < ($1.slotMinutes ?? .max, $1.item.sortOrder)
+        func order(_ slot: DueNowSlot) -> Int {
+            slot.slotMinutes.map { Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour) } ?? .max
         }
+        return slots.sorted { (order($0), $0.item.sortOrder) < (order($1), $1.item.sortOrder) }
     }
 }
 
@@ -473,6 +484,14 @@ final class QuickLogContentModel {
         var stillToday = true
         var recent: [DoseEntry] = []
         let recentCutoff = Date.now.addingTimeInterval(-Self.recentEntriesSpan)
+        // Today is the journal day, and a dose is today's when its own journal
+        // day is, on the clock of the zone it was logged in. Every such dose
+        // lies inside the day's fetch window, so the newest-first walk stops
+        // once it passes the window's start.
+        let calendar = Calendar.current
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let today = calendar.journalDay(for: .now, boundaryHour: boundaryHour)
+        let todayWindowStart = calendar.doseFetchWindow(forJournalDay: today, boundaryHour: boundaryHour).start
 
         for entry in allEntries {
             if entry.timestamp >= recentCutoff { recent.append(entry) }
@@ -481,8 +500,10 @@ final class QuickLogContentModel {
             // dose satisfies a Concerta card/item, not a plain Methylphenidate one.
             let identity = entry.identityKey
             if displayed.contains(identity), mostRecentEntry[identity] == nil { mostRecentEntry[identity] = entry }
-            if stillToday, Calendar.current.isDateInToday(entry.timestamp) {
-                todayEntries.append(entry)
+            if stillToday, entry.timestamp >= todayWindowStart {
+                if entry.journalDay(in: calendar, boundaryHour: boundaryHour) == today {
+                    todayEntries.append(entry)
+                }
             } else {
                 stillToday = false
             }

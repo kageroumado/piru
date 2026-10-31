@@ -81,20 +81,28 @@ enum MedIntentLogger {
             FetchDescriptor<DailyDoseItem>(sortBy: [SortDescriptor(\.sortOrder)]),
         )) ?? []
 
-        let dayStart = Calendar.current.startOfDay(for: now)
-        let todayEntries = (try? context.fetch(
-            FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= dayStart }),
-        )) ?? []
+        // Today is the journal day, each dose placed by the clock of the zone
+        // it was logged in — the same day My Meds checks off.
+        let calendar = Calendar.current
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        let windowStart = calendar.doseFetchWindow(forJournalDay: today, boundaryHour: boundaryHour).start
+        let todayEntries = ((try? context.fetch(
+            FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= windowStart }),
+        )) ?? []).filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == today }
 
         let products = MedSchedule.productMeds()
         var loggedAny = false
         for item in items where !item.isAsNeeded && include(item) {
             guard MedSchedule.isDue(
                 startDate: item.startDate, frequency: item.frequency,
-                frequencyDays: item.frequencyDays, intervalDays: item.frequencyIntervalDays, on: now,
+                frequencyDays: item.frequencyDays, intervalDays: item.frequencyIntervalDays, on: today,
             ) else { continue }
 
-            let expected = max(1, item.reminderTimesMinutes.count)
+            let times = item.reminderTimesMinutes.sorted {
+                Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour) < Calendar.journalMinutes(ofSlot: $1, boundaryHour: boundaryHour)
+            }
+            let expected = max(1, times.count)
             let matched = todayEntries.count { entry in
                 MedSchedule.matches(
                     entryKey: entry.identityKey, entryName: entry.substance, entryCombination: entry.combinationName,
@@ -104,7 +112,10 @@ enum MedIntentLogger {
             }
             guard matched < expected else { continue }
 
-            let entry = DoseEntry(medication: item, timestamp: now)
+            // The dose ticks the earliest open slot, the one the widget shows
+            // it ticking, rather than whichever slot is nearest now.
+            let slot = times.indices.contains(matched) ? times[matched] : nil
+            let entry = DoseEntry(medication: item, timestamp: now, slotMinutes: slot)
             context.insert(entry)
             loggedAny = true
         }

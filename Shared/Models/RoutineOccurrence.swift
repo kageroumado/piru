@@ -29,7 +29,8 @@ final class RoutineOccurrence {
     /// references the type's own nested enum traps SwiftData's schema
     /// generation at runtime.
     var routeRaw: String = "oral"
-    /// `startOfDay` of the due date.
+    /// The journal day it is due on, as the start of the calendar date that
+    /// day is named after (`Calendar.journalDay`).
     var dueDay: Date = Date.distantPast
     /// Backing storage for ``state``.
     var stateRaw: String = "pending"

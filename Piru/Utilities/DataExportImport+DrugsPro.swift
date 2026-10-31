@@ -178,6 +178,7 @@ extension DataExportImport {
                     unit: unit,
                     route: route,
                     timestamp: timestamp,
+                    timeZoneIdentifier: nil,
                     notes: goal.isEmpty ? nil : goal,
                     tags: tag.isEmpty ? [] : [tag],
                 )

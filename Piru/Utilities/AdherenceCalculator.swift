@@ -123,19 +123,24 @@ enum AdherenceCalculator {
         )
     }
 
+    /// One journal day's adherence. `date` names the day (any instant on its
+    /// calendar date; pass ``Foundation/Calendar/journalDay(for:boundaryHour:)``
+    /// of an instant to ask about the day that instant falls in), and a dose
+    /// counts toward it when its own journal day, read on the clock of the zone
+    /// it was logged in, is that day.
     static func adherence(
         for date: Date,
         entries: [DoseEntry],
         dailyItems: [DailyDoseItem],
+        calendar: Calendar = .current,
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
     ) -> DayAdherence {
-        let calendar = Calendar.current
-        let dayStart = calendar.startOfDay(for: date)
-        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
-        let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
+        let day = calendar.startOfDay(for: date)
+        let dayEntries = entries.filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == day }
 
         // Filter to only items due on this date. As-needed (PRN) meds carry
         // no expectation and are never counted (or marked missed).
-        let dueItems = dailyItems.filter { !$0.isAsNeeded && isDue($0, on: date) }
+        let dueItems = dailyItems.filter { !$0.isAsNeeded && isDue($0, on: day) }
 
         guard !dueItems.isEmpty else {
             return DayAdherence(date: date, status: .noData, takenCount: 0, totalCount: 0, items: [])
@@ -161,12 +166,18 @@ enum AdherenceCalculator {
             matched += itemTaken
             expected += itemExpected
 
+            // Both sides are read on the journal-day scale, so with a 4 AM
+            // start a 01:00 dose or slot is the end of the evening, and each
+            // dose by the clock of the zone it was logged in. A dose counts by
+            // when it was taken even when it was checked off for a slot
+            // (``DoseEntry/medSlotMinutes``): an 8:00 dose taken at 15:00 is
+            // not an on-time morning dose.
             let times = item.reminderTimesMinutes
             guard !times.isEmpty else { splittable = false; continue }
-            let morningSlots = times.count { $0 < noonMinutes }
+            let morningSlots = times.count { Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour) < noonMinutes }
             let eveningSlots = times.count - morningSlots
             let itemDoses = dayEntries.filter { entryMatches(entry: $0, item: item, products: products) }
-            let morningHits = itemDoses.count { minutesOfDay($0.timestamp, calendar: calendar) < noonMinutes }
+            let morningHits = itemDoses.count { $0.journalMinutes(in: calendar, boundaryHour: boundaryHour) < noonMinutes }
             morningTotal += morningSlots
             eveningTotal += eveningSlots
             morningTaken += min(morningHits, morningSlots)
@@ -199,34 +210,38 @@ enum AdherenceCalculator {
     /// logged at any hour counts toward it, which suits logging after the fact.
     static let splitsDayKey = "adherenceSplitsDay"
 
-    /// Noon, as minutes from midnight — the seam the day's halves are cut at.
-    /// A local clock hour, not a claim about anyone's morning.
+    /// Noon of the journal day, as minutes from the midnight that opens it —
+    /// the seam the day's halves are cut at. A local clock hour, not a claim
+    /// about anyone's morning.
     static let noonMinutes = 12 * 60
 
-    /// The moment a reminder slot (minutes from midnight) falls on `day`'s
-    /// wall clock — what a dose logged "at its slot time" is stamped with, so
-    /// a morning dose recorded in the afternoon still lands in the morning
-    /// half. Set by wall-clock hour rather than added as seconds from
-    /// midnight, which is an hour off on a daylight-saving day.
-    static func slotDate(minutes: Int, on day: Date, calendar: Calendar = .current) -> Date {
-        calendar.date(bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: day)
-            ?? calendar.startOfDay(for: day).addingTimeInterval(TimeInterval(minutes * 60))
-    }
-
-    private static func minutesOfDay(_ date: Date, calendar: Calendar) -> Int {
-        calendar.component(.hour, from: date) * 60 + calendar.component(.minute, from: date)
+    /// The moment a reminder slot (minutes from midnight) falls at in the
+    /// journal day named `day` — what a dose logged "at its slot time" is
+    /// stamped with, so a morning dose recorded in the afternoon still lands in
+    /// the morning half. Set by wall-clock hour rather than added as seconds
+    /// from midnight, which is an hour off on a daylight-saving day.
+    static func slotDate(
+        minutes: Int, on day: Date, calendar: Calendar = .current,
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+    ) -> Date {
+        calendar.date(ofSlot: minutes, inJournalDay: day, boundaryHour: boundaryHour)
     }
 
     static func currentStreak(adherenceData: [DayAdherence]) -> Int {
         streak(fromDays: adherenceData.map { (date: $0.date, status: $0.status) })
     }
 
-    /// The streak walk over `(date, status)` pairs — the part of the adherence
-    /// computation `currentStreak(adherenceData:)` actually reads. Factored out
-    /// (and `nonisolated`) so the off-main year scan shares the exact same logic.
-    nonisolated static func streak(fromDays days: [(date: Date, status: AdherenceStatus)]) -> Int {
+    /// The streak walk over `(date, status)` pairs keyed by journal day — the
+    /// part of the adherence computation `currentStreak(adherenceData:)`
+    /// actually reads. Factored out (and `nonisolated`) so the off-main year
+    /// scan shares the exact same logic.
+    nonisolated static func streak(
+        fromDays days: [(date: Date, status: AdherenceStatus)],
+        now: Date = .now,
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+    ) -> Int {
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
 
         // Filter to only days that had items due (skip .noData days)
         let actionable = days
@@ -282,6 +297,8 @@ enum AdherenceCalculator {
         let timestamp: Date
         /// ``DoseEntry/combinationName``: the product this dose was one component of.
         var combinationName: String?
+        /// ``DoseEntry/timeZoneIdentifier``: the zone the dose was logged in.
+        var timeZoneIdentifier: String?
     }
 
     /// Sendable snapshot of a daily item's scheduling/matching fields.
@@ -305,12 +322,16 @@ enum AdherenceCalculator {
     /// Per-day adherence **status** over Sendable snapshots — all the streak
     /// needs. Mirrors ``adherence(for:entries:dailyItems:)``'s status derivation
     /// without materializing the non-`Sendable` `DayAdherence`/`ItemAdherence`.
-    nonisolated static func dayStatus(for date: Date, entries: [EntrySnapshot], items: [DailyItemSnapshot]) -> AdherenceStatus {
+    nonisolated static func dayStatus(
+        for date: Date, entries: [EntrySnapshot], items: [DailyItemSnapshot],
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+    ) -> AdherenceStatus {
         let calendar = Calendar.current
-        let dayStart = calendar.startOfDay(for: date)
-        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
-        let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
-        return dayStatus(for: date, dayEntries: dayEntries, items: items)
+        let day = calendar.startOfDay(for: date)
+        let dayEntries = entries.filter {
+            calendar.journalDay(for: $0.timestamp, loggedIn: $0.timeZoneIdentifier, boundaryHour: boundaryHour) == day
+        }
+        return dayStatus(for: day, dayEntries: dayEntries, items: items)
     }
 
     /// ``dayStatus(for:entries:items:)`` over entries already narrowed to the
@@ -360,18 +381,20 @@ enum AdherenceCalculator {
         endingAt now: Date,
         entries: [EntrySnapshot],
         items: [DailyItemSnapshot],
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
     ) -> Int {
         let calendar = Calendar.current
-        guard let start = calendar.date(byAdding: .day, value: -dayCount, to: now) else { return 0 }
-        let entriesByDay = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.timestamp) }
-        var days: [(date: Date, status: AdherenceStatus)] = []
-        var day = start
-        while day <= now {
-            let dayEntries = entriesByDay[calendar.startOfDay(for: day)] ?? []
-            days.append((date: day, status: dayStatus(for: day, dayEntries: dayEntries, items: items)))
-            guard let next = calendar.date(byAdding: .day, value: 1, to: day) else { break }
-            day = next
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        guard let start = calendar.date(byAdding: .day, value: -dayCount, to: today) else { return 0 }
+        let entriesByDay = Dictionary(grouping: entries) {
+            calendar.journalDay(for: $0.timestamp, loggedIn: $0.timeZoneIdentifier, boundaryHour: boundaryHour)
         }
-        return streak(fromDays: days)
+        var days: [(date: Date, status: AdherenceStatus)] = []
+        var day = calendar.startOfDay(for: start)
+        while day <= today {
+            days.append((date: day, status: dayStatus(for: day, dayEntries: entriesByDay[day] ?? [], items: items)))
+            day = calendar.journalDay(after: day)
+        }
+        return streak(fromDays: days, now: now, boundaryHour: boundaryHour)
     }
 }

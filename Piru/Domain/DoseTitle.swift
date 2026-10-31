@@ -134,11 +134,11 @@ enum DoseTitle {
 extension DoseEntry {
     /// A dose of the med `item`, logged in the app: its full identity plus the
     /// ``DoseTitle/snapshot(canonicalName:isomer:releaseForm:)`` every write site
-    /// records.
+    /// records. `slotMinutes` is the reminder slot it was checked off for.
     @MainActor
-    static func medication(_ item: DailyDoseItem, at timestamp: Date) -> DoseEntry {
+    static func medication(_ item: DailyDoseItem, at timestamp: Date, slotMinutes: Int? = nil) -> DoseEntry {
         DoseEntry(
-            medication: item, timestamp: timestamp,
+            medication: item, timestamp: timestamp, slotMinutes: slotMinutes,
             displayNameSnapshot: DoseTitle.snapshot(canonicalName: item.substance, isomer: item.isomer, releaseForm: item.releaseForm),
         )
     }

@@ -97167,6 +97167,34 @@
         }
       }
     },
+    "When did you take %@?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cuándo tomaste %@?"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cuándo tomaste %@?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你什么时候服用了 %@？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你什麼時候服用了 %@？"
+          }
+        }
+      }
+    },
     "When dose and effect aren't proportional" : {
       "localizations" : {
         "es" : {

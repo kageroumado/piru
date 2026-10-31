@@ -212,6 +212,13 @@ nonisolated struct PiruDoseData: Codable {
     var productName: String?
     var displayNameSnapshot: String?
     var timestamp: Int64
+    /// ``DoseEntry/timeZoneIdentifier``: the zone the dose was logged in.
+    /// Optional on both sides: omitted when unknown, absent from older files,
+    /// which import with no zone and read on the current one.
+    var timeZone: String?
+    /// ``DoseEntry/medSlotMinutes``: the med reminder slot the dose was
+    /// checked off for. Omitted for every other dose and absent from older files.
+    var medSlotMinutes: Int?
     var notes: String?
     var tags: [String]
     var isBackgroundMed: Bool
@@ -359,7 +366,8 @@ extension DataExportImport {
                 saltForm: e.saltForm,
                 substanceUID: e.substanceUID, isomer: e.isomer, releaseForm: e.releaseForm,
                 productName: e.productName, displayNameSnapshot: e.displayNameSnapshot,
-                timestamp: e.timestamp.msSince1970, notes: e.notes, tags: e.tags,
+                timestamp: e.timestamp.msSince1970, timeZone: e.timeZoneIdentifier, medSlotMinutes: e.medSlotMinutes,
+                notes: e.notes, tags: e.tags,
                 isBackgroundMed: e.isBackgroundMed,
                 locationName: e.locationName, latitude: e.latitude, longitude: e.longitude,
                 isApproximate: e.isApproximate, isUnknownDose: e.isUnknownDose,
@@ -514,7 +522,7 @@ extension DataExportImport {
                 saltForm: d.saltForm,
                 isomer: d.isomer, releaseForm: d.releaseForm, productName: d.productName,
                 substanceUID: d.substanceUID, displayNameSnapshot: d.displayNameSnapshot,
-                timestamp: timestamp, notes: d.notes, tags: d.tags, isBackgroundMed: d.isBackgroundMed,
+                timestamp: timestamp, timeZoneIdentifier: d.timeZone, medSlotMinutes: d.medSlotMinutes, notes: d.notes, tags: d.tags, isBackgroundMed: d.isBackgroundMed,
                 locationName: d.locationName, latitude: d.latitude, longitude: d.longitude,
                 hadGrapefruit: d.hadGrapefruit,
                 meal: d.meal.flatMap(MealState.init(rawValue:)),
