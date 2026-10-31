@@ -1346,8 +1346,8 @@
           "ki_nm": 23,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "tissue_or_cell": "rat striatal membranes",
-          "radioligand_or_probe": "[3H]WIN-35,428 (self)",
+          "tissue_or_cell": "rat striatum",
+          "radioligand_or_probe": "[3H]DA uptake",
           "reference": "pmid:7830281"
         },
         {
@@ -1355,17 +1355,17 @@
           "ki_nm": 100.6,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "tissue_or_cell": "rat brain",
-          "radioligand_or_probe": "[3H]paroxetine",
+          "tissue_or_cell": "rat midbrain",
+          "radioligand_or_probe": "[3H]5-HT uptake",
           "reference": "pmid:7830281"
         },
         {
           "target": "NET",
-          "ki_nm": 38,
+          "ki_nm": 38.6,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "tissue_or_cell": "rat cortical membranes",
-          "radioligand_or_probe": "[3H]nisoxetine",
+          "tissue_or_cell": "rat frontal cortex",
+          "radioligand_or_probe": "[3H]NE uptake",
           "reference": "pmid:7830281"
         }
       ],
