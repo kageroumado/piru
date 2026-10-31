@@ -8,30 +8,7 @@
   ],
   "category": "Anticonvulsant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 240
-        },
-        "peak": {
-          "min": 180,
-          "max": 480
-        },
-        "offset": {
-          "min": 480,
-          "max": 960
-        },
-        "total": {
-          "min": 720,
-          "max": 1440
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Sodium channel blocker — reduces neuronal firing",
     "Mood stabilizer, anticonvulsant, trigeminal neuralgia",

@@ -7,30 +7,7 @@
   ],
   "category": "Antihistamine",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 30,
-          "max": 60
-        },
-        "peak": {
-          "min": 60,
-          "max": 120
-        },
-        "offset": {
-          "min": 240,
-          "max": 360
-        },
-        "total": {
-          "min": 300,
-          "max": 480
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Sedation",
     "Allergic rhinitis relief",

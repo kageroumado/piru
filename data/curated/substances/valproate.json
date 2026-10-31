@@ -10,30 +10,7 @@
   ],
   "category": "Anticonvulsant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 240
-        },
-        "peak": {
-          "min": 240,
-          "max": 480
-        },
-        "offset": {
-          "min": 480,
-          "max": 1440
-        },
-        "total": {
-          "min": 720,
-          "max": 1440
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Enhances GABA activity; blocks sodium and calcium channels",
     "Mood stabilization, anticonvulsant, migraine prophylaxis",
