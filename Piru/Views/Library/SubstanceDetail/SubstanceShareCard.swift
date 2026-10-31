@@ -338,7 +338,7 @@ struct SubstanceShareCard: View {
                 .font(.system(size: 11))
                 .accessibilityHidden(true)
                 .foregroundStyle(.white.opacity(0.75))
-            Text(range.map { Self.compactDuration($0) } ?? "—")
+            Text(range?.compactString ?? "—")
                 .font(.system(size: 15, weight: .heavy, design: .rounded).monospacedDigit())
             Text(name)
                 .font(.system(size: 9, weight: .bold))
@@ -457,28 +457,12 @@ struct SubstanceShareCard: View {
                 .font(.system(size: 8, weight: .bold))
                 .textCase(.uppercase).tracking(0.3)
                 .foregroundStyle(.white.opacity(0.6))
-            Text(range.map { Self.compactDuration($0) } ?? "—")
+            Text(range?.compactString ?? "—")
                 .font(.system(size: 10, weight: .bold, design: .rounded).monospacedDigit())
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, Spacing.sm)
         .background(.white.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: 9))
-    }
-
-    /// Compact duration like "~30–45m", "~1.5–2.5h", or a mixed "~90m–2.5h" —
-    /// the unit is written once when both bounds share it.
-    private static func compactDuration(_ range: DurationRange) -> String {
-        func part(_ minutes: Double) -> (value: String, unit: String) {
-            if minutes >= 120 {
-                let h = (minutes / 60 * 2).rounded() / 2
-                return (h == h.rounded() ? "\(Int(h))" : String(format: "%.1f", h), "h")
-            }
-            return ("\(Int(minutes.rounded()))", "m")
-        }
-        let lo = part(range.min), hi = part(range.max)
-        if lo.value == hi.value, lo.unit == hi.unit { return "~\(lo.value)\(lo.unit)" }
-        if lo.unit == hi.unit { return "~\(lo.value)–\(hi.value)\(lo.unit)" }
-        return "~\(lo.value)\(lo.unit)–\(hi.value)\(hi.unit)"
     }
 
     // MARK: pharmacology (Rich)

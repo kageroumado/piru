@@ -74,4 +74,42 @@ struct TimeRangeTests {
         let range = DurationRange(min: 15.5, max: 45.5)
         #expect(range.displayString == "~16 – 46 minutes")
     }
+
+    // MARK: - Single figures
+
+    @Test
+    func `A single figure is a point and reads as approximate`() {
+        let range = DurationRange(min: 29.5, max: 29.5)
+        #expect(range.isPoint)
+        #expect(range.displayString == "≈30 minutes")
+        #expect(range.compactString == "≈30m")
+    }
+
+    @Test
+    func `A long single figure reads in hours`() {
+        let range = DurationRange(min: 195, max: 195)
+        #expect(range.displayString == "≈3.5 hours")
+        #expect(range.compactString == "≈3.5h")
+    }
+
+    @Test
+    func `A narrow range that rounds to one figure keeps the range mark`() {
+        let range = DurationRange(min: 29.6, max: 30.2)
+        #expect(!range.isPoint)
+        #expect(range.displayString == "~30 minutes")
+        #expect(range.compactString == "~30m")
+    }
+
+    // MARK: - Compact string
+
+    @Test
+    func `Compact range in minutes`() {
+        #expect(DurationRange(min: 30, max: 45).compactString == "~30–45m")
+    }
+
+    @Test
+    func `Compact range straddling two hours renders both bounds in hours`() {
+        #expect(DurationRange(min: 60, max: 240).compactString == "~1–4h")
+        #expect(DurationRange(min: 90, max: 150).compactString == "~1.5–2.5h")
+    }
 }

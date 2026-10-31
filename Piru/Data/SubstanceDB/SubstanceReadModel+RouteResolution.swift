@@ -194,11 +194,15 @@ extension SubstanceReadModel {
     /// Windowed per-(substance, route, salt, phase) duration resolution shared
     /// by ``resolveRoutes`` and the detail path's auxiliary route fill, so the
     /// phase-merge logic lives in exactly one place.
+    ///
+    /// Each phase prefers ranges: the first enabled source in priority order that
+    /// states an interval wins, and a single figure wins only when no source has
+    /// one (it then renders as approximate, see ``DurationRange/isPoint``).
     nonisolated static func resolveDurations(
         db: Database, idListSQL: String, order: [String],
     ) throws -> [RouteSaltKey: DurationProfile] {
         let enabledSourceListSQL = enabledSourceListSQL(order)
-        let rank = fieldRankSQL(field: "durations", alias: "du", order: order)
+        let rank = durationRankSQL(alias: "du", order: order)
         var phasesByKey: [RouteSaltKey: [String: DurationRange]] = [:]
         for row in try Row.fetchAll(db, sql: """
             SELECT substance_id, route, salt_form, isomer, phase, min_minutes, max_minutes
@@ -232,5 +236,12 @@ extension SubstanceReadModel {
             )
         }
         return durationByKey
+    }
+
+    /// The one ranking every `durations` reader uses — the resolver, the
+    /// per-route source badge and the "where this comes from" list — so the
+    /// source attributed to a phase is the one whose value is shown.
+    nonisolated static func durationRankSQL(alias: String, order: [String]) -> FieldRankSQL {
+        fieldRankSQL(field: "durations", alias: alias, order: order, rangesFirst: true)
     }
 }

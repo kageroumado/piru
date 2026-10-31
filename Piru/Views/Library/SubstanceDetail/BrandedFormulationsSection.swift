@@ -16,12 +16,12 @@ struct BrandedDurationOption: Identifiable {
 
     /// The envelope's total-duration figure ("~11h"), the formulation's headline.
     var totalText: String? {
-        duration.total.map { DoseEffectsCard.compactDuration($0) }
+        duration.total?.compactString
     }
 
     /// The onset figure ("~1h"), shown as the envelope's lead-in.
     var onsetText: String? {
-        duration.onset.map { DoseEffectsCard.compactDuration($0) }
+        duration.onset?.compactString
     }
 }
 

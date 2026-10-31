@@ -8257,6 +8257,62 @@
         }
       }
     },
+    "≈%@ hours" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈%@ horas"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈%@ horas"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈%@ 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈%@ 小時"
+          }
+        }
+      }
+    },
+    "≈%lld minutes" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈%lld minutos"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈%lld minutos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈%lld 分钟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈%lld 分鐘"
+          }
+        }
+      }
+    },
     "0" : {
       "localizations" : {
         "es" : {
@@ -72852,6 +72908,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "該途徑的參考起效時間：%lld-%lld 分鐘。"
+          }
+        }
+      }
+    },
+    "Reference onset for this route: about %lld minutes." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por esta vía suele hacer efecto en unos %lld minutos."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por esta vía suele hacer efecto en unos %lld minutos."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该途径的参考起效时间：约 %lld 分钟。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該途徑的參考起效時間：約 %lld 分鐘。"
           }
         }
       }

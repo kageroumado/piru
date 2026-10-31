@@ -50,6 +50,12 @@ nonisolated enum AttributableField: Hashable {
         if case .dose = self { return true }
         return false
     }
+
+    /// `durations` ranks a stated interval ahead of a single figure.
+    fileprivate var ranksRangesFirst: Bool {
+        if case .duration = self { return true }
+        return false
+    }
 }
 
 /// Per-field source attribution — which source actually won each displayed
@@ -115,7 +121,7 @@ extension SubstanceReadModel {
                 )
                 let durationSlugs = try winningSlugByRawRoute(
                     "durations",
-                    Self.fieldRankSQL(field: "durations", alias: "t", order: self.order),
+                    Self.durationRankSQL(alias: "t", order: self.order),
                 )
 
                 let routes = try resolvedRoutes(db: db, substanceID: substanceID).map(\.route)
@@ -151,6 +157,7 @@ extension SubstanceReadModel {
         let rank = Self.fieldRankSQL(
             field: priorityField, alias: "t", order: order,
             doseContextLast: field.ranksTherapeuticLast,
+            rangesFirst: field.ranksRangesFirst,
         )
         // One row per source, ranked by its best row — a source that carries both
         // a therapeutic and a recreational ladder is listed where the ladder that

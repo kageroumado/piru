@@ -323,6 +323,9 @@ enum SessionNotificationScheduler {
         func body(for phase: Phase) -> String {
             switch phase {
             case .onset:
+                if let onset = duration.onset, onset.isPoint {
+                    return String(localized: "Reference onset for this route: about \(Int(onset.min.rounded())) minutes.")
+                }
                 if let onset = duration.onset {
                     return String(localized: "Reference onset for this route: \(Int(onset.min))-\(Int(onset.max)) minutes.")
                 }

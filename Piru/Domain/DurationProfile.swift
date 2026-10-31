@@ -8,7 +8,21 @@ struct DurationRange: Codable, Hashable {
         (min + max) / 2
     }
 
+    /// A single figure with no stated interval. Its source gave one number
+    /// (substance.wiki's curve-derived phases are all like this), so every
+    /// surface prints it as approximate — "≈30 minutes" — never as a measured
+    /// "29.5". It is still a real duration: the effect curve draws from it.
+    var isPoint: Bool {
+        max <= min
+    }
+
     var displayString: String {
+        if isPoint {
+            if min >= 120 {
+                return String(localized: "≈\(Self.fmtHours(Self.roundHours(min / 60))) hours")
+            }
+            return String(localized: "≈\(Int(min.rounded())) minutes")
+        }
         if max >= 120 {
             let minH = Self.roundHours(min / 60)
             let maxH = Self.roundHours(max / 60)
@@ -23,6 +37,22 @@ struct DurationRange: Codable, Hashable {
             return String(localized: "~\(minR) minutes")
         }
         return String(localized: "~\(minR) – \(maxR) minutes")
+    }
+
+    /// The compact form for tight cells: "~30–45m", "~1.5–2.5h", "≈30m" for a
+    /// point. One unit for the whole range: a range that reaches into hours
+    /// renders both bounds in hours, so a straddling total reads "~1–4h" rather
+    /// than a mixed "~60m–4h".
+    var compactString: String {
+        let usesHours = max >= 120
+        func part(_ minutes: Double) -> String {
+            guard usesHours else { return "\(Int(minutes.rounded()))" }
+            return Self.fmtHours(Self.roundHours(minutes / 60))
+        }
+        let unit = usesHours ? "h" : "m"
+        if isPoint { return "≈\(part(min))\(unit)" }
+        let lo = part(min), hi = part(max)
+        return lo == hi ? "~\(lo)\(unit)" : "~\(lo)–\(hi)\(unit)"
     }
 
     /// Rounds hours to the nearest 0.5
