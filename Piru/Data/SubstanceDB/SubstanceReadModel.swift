@@ -208,17 +208,28 @@ struct SubstanceReadModel {
     /// that much, and it is the recreational ladder their number means anything
     /// against.
     ///
+    /// `rangesFirst` sorts a `durations` row that states an interval
+    /// (`max_minutes > min_minutes`) ahead of every single-figure one before rank
+    /// is consulted, so a phase takes the first *range* in priority order and
+    /// falls back to the first point only when no enabled source gives a range.
+    /// substance.wiki derives its phases from curve boundaries, so each is a lone
+    /// figure ("29.5 min") that reads as a measurement it is not.
+    ///
     /// `field` and `alias` are fixed internal literals (no injection surface).
     nonisolated static func fieldRankSQL(
         field: String?,
         alias: String,
         order: [String],
         doseContextLast: Bool = false,
+        rangesFirst: Bool = false,
     ) -> FieldRankSQL {
         let priorityCase = priorityCaseSQL(order)
         var terms: [String] = []
         if doseContextLast {
             terms.append("(\(alias).dose_context = 'therapeutic')")
+        }
+        if rangesFirst {
+            terms.append("(\(alias).max_minutes <= \(alias).min_minutes)")
         }
         guard let field else {
             terms.append(priorityCase)

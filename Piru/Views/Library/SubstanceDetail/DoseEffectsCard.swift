@@ -222,7 +222,7 @@ struct DoseEffectsCard: View {
 
     private func trioCell(_ name: LocalizedStringKey, _ range: DurationRange?) -> some View {
         VStack(spacing: 3) {
-            Text(range.map { Self.compactDuration($0) } ?? "—")
+            Text(range?.compactString ?? "—")
                 .font(.system(.headline, design: .rounded).weight(.heavy).monospacedDigit())
             Text(name)
                 .scaledSystemFont(size: 9, weight: .bold, relativeTo: .caption2)
@@ -232,22 +232,6 @@ struct DoseEffectsCard: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, Spacing.xl)
         .accessibilityElement(children: .combine)
-    }
-
-    /// Compact duration like "~30–45m", "~1.5–2.5h", or "~1–4h". One unit for the
-    /// whole range: a range that reaches into hours renders both bounds in hours,
-    /// so a straddling total reads "~1–4h" rather than a mixed "~60m–4h".
-    static func compactDuration(_ range: DurationRange) -> String {
-        if range.max >= 120 {
-            func hours(_ minutes: Double) -> String {
-                let h = (minutes / 60 * 2).rounded() / 2
-                return h == h.rounded() ? "\(Int(h))" : String(format: "%.1f", h)
-            }
-            let lo = hours(range.min), hi = hours(range.max)
-            return lo == hi ? "~\(lo)h" : "~\(lo)–\(hi)h"
-        }
-        let lo = Int(range.min.rounded()), hi = Int(range.max.rounded())
-        return lo == hi ? "~\(lo)m" : "~\(lo)–\(hi)m"
     }
 
     // MARK: - Release window (extended-release)
