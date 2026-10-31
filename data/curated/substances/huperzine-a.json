@@ -5,28 +5,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "µg",
-      "doses": {
-        "threshold": 50,
-        "light": {
-          "lower": 100,
-          "upper": 200
-        },
-        "common": {
-          "lower": 200,
-          "upper": 400
-        },
-        "strong": {
-          "lower": 400,
-          "upper": 600
-        },
-        "heavy": 800
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reversible AChE inhibitor from Huperzia serrata",
     "NMDA antagonist activity at higher doses",

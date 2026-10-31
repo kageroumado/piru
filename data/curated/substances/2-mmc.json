@@ -25,6 +25,7 @@
         },
         "heavy": 250
       },
+      "doseReason": "Dutch market tablets were sold at 220–250 mg (https://drugsforum.nl/threads/vraag-over-nieuwe-batch-2mmc.78665/); community ladders predate the 2-MMC market. Pending a sourced dose.wiki update.",
       "duration": {
         "onset": {
           "min": 5,
@@ -63,24 +64,7 @@
         },
         "heavy": 350
       },
-      "duration": {
-        "onset": {
-          "min": 20,
-          "max": 45
-        },
-        "peak": {
-          "min": 60,
-          "max": 180
-        },
-        "offset": {
-          "min": 90,
-          "max": 180
-        },
-        "total": {
-          "min": 180,
-          "max": 360
-        }
-      }
+      "doseReason": "Dutch market tablets were sold at 220–250 mg (https://drugsforum.nl/threads/vraag-over-nieuwe-batch-2mmc.78665/); community ladders predate the 2-MMC market. Pending a sourced dose.wiki update."
     }
   ],
   "effects": [

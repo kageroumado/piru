@@ -8438,6 +8438,9 @@ class Build:
                 continue
             doses = r.get("doses") or {}
             route_ref = r.get("source")  # optional per-route citation (dose + duration)
+            # A curated route may cite its ladder and its timeline separately.
+            dose_ref = r.get("doseSource") or route_ref
+            duration_ref = r.get("durationSource") or route_ref
             if doses and slug in SHULGIN_BOOK_SLUGS:
                 doses = self._shulgin_dosage_gate(sid, slug, route_key, r, doses)
             if doses and skip_routes and skip_routes.covers(route_key):
@@ -8456,14 +8459,14 @@ class Build:
                 strong=doses.get("strong"),
                 heavy=doses.get("heavy"),
                 notes=r.get("notes"),
-                citation=route_ref,
+                citation=dose_ref,
             )
             if r.get("duration"):
                 if drop_durations and drop_durations.covers(route_key):
                     self.stats["duration_skipped"] += 1
                 else:
                     self.add_duration_profile(
-                        sid, slug, r.get("route", ""), r["duration"], citation=route_ref
+                        sid, slug, r.get("route", ""), r["duration"], citation=duration_ref
                     )
             if r.get("durationOfAction"):
                 self.add_duration_of_action(
@@ -11315,6 +11318,25 @@ class Build:
         ],
     }
 
+    # The salt that a family's unlabeled source records describe, with the
+    # citation that says so. normalise() folds a stripped-suffix variant
+    # ("Tianeptine sulfate" → "tianeptine") into the same row as every source's
+    # bare-name record, so tagging that row with the variant's label would file the
+    # sources' ladders and timelines under the wrong salt. Rows from any source
+    # other than piru-curated on that row get this label instead. A curated file
+    # named for the bare substance must therefore carry no doses or durations of
+    # its own: they would land on the variant's label.
+    #
+    # Tianeptine: the community ladders (TripSit 12.5 mg, PsychonautWiki/dose.wiki
+    # 12–35 mg) are built on the 12.5 mg Stablon tablet, which is tianeptine
+    # sodium.
+    _SALT_FAMILY_UNLABELED_FORM: dict[str, tuple[str, str]] = {
+        "Tianeptine": (
+            "Sodium",
+            "https://base-donnees-publique.medicaments.gouv.fr/medicament/65411280/extrait",
+        ),
+    }
+
     # Per-salt curated metadata, keyed by (parent canonical, salt label). Salt
     # and mineral are DECOUPLED — a salt form is any counter-ion (sodium,
     # sulfate, hydrobromide, HCl, fumarate …), and only some happen to be mineral
@@ -11598,6 +11620,15 @@ class Build:
                         (parent_name, parent_id),
                     )
                     tag_salt(parent_id, label)
+                    unlabeled = self._SALT_FAMILY_UNLABELED_FORM.get(parent_name)
+                    if unlabeled:
+                        bare = canonical_salt_form(unlabeled[0])
+                        for table in salt_tables:
+                            self.cur.execute(
+                                f"UPDATE OR IGNORE {table} SET salt_form=? "
+                                f"WHERE substance_id=? AND source_id != ?",
+                                (bare, parent_id, self.source_ids["piru-curated"]),
+                            )
                     self.salt_alias_protect.add(normalise(vname))
                     self._add_alias(parent_id, vname, "piru-curated")
             else:

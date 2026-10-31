@@ -7,28 +7,7 @@
   ],
   "category": "Supplement",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 50,
-        "light": {
-          "lower": 100,
-          "upper": 200
-        },
-        "common": {
-          "lower": 200,
-          "upper": 400
-        },
-        "strong": {
-          "lower": 400,
-          "upper": 800
-        },
-        "heavy": 800
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Promotes alpha wave brain activity — relaxed alertness without sedation",
     "Synergistic with caffeine — attenuates jitteriness, improves focus",

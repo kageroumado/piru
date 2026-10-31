@@ -22,7 +22,8 @@
           "upper": 150
         },
         "heavy": 200
-      }
+      },
+      "doseReason": "No source publishes a sulfate-salt ladder: the community ladders are the sodium salt's (Stablon 12.5 mg), and a 2023 review (PMC10596629) reports only an unverified 25 mg/day belief. Kept on Kiri's call pending a sulfate dose source."
     }
   ],
   "effects": [

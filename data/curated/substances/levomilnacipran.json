@@ -5,28 +5,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 20,
-        "light": {
-          "lower": 20,
-          "upper": 40
-        },
-        "common": {
-          "lower": 40,
-          "upper": 80
-        },
-        "strong": {
-          "lower": 80,
-          "upper": 120
-        },
-        "heavy": 120
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Active enantiomer of milnacipran — reduces depressive symptoms",
     "Pronounced noradrenergic effect (NE > 5-HT at therapeutic doses)",

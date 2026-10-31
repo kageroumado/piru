@@ -114,7 +114,7 @@ Rows and cells the build refused: a class or tag ceiling, a cited toxic floor (`
 | substance | source | route | detail |
 |---|---|---|---|
 | Cannabis | tripsit | inhalation | common 20–60 mg vs a median of 3 mg across 4 other sources (13.3×; context recreational) |
-| Psilocybin mushrooms | psychonautwiki | oral | common 10–25 mg vs a median of 1875 mg across 4 other sources (0.00933×; context recreational) |
+| Psilocybin mushrooms | psychonautwiki | oral | common 10–25 mg vs a median of 2000 mg across 3 other sources (0.00875×; context recreational) |
 
 ## foreign script · characters no source text uses
 

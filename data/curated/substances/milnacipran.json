@@ -7,28 +7,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 12.5,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 100,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 200
-        },
-        "heavy": 200
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Approved in US for fibromyalgia management (not marketed as antidepressant in US)",
     "Higher NE:5-HT ratio than venlafaxine/duloxetine",

@@ -10,22 +10,6 @@
     {
       "route": "oral",
       "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 25
-        },
-        "common": {
-          "lower": 25,
-          "upper": 100
-        },
-        "strong": {
-          "lower": 100,
-          "upper": 200
-        },
-        "heavy": 250
-      },
       "duration": {
         "onset": {
           "min": 30,
@@ -48,22 +32,6 @@
     {
       "route": "inhaled",
       "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 5,
-          "upper": 5
-        },
-        "common": {
-          "lower": 5,
-          "upper": 10
-        },
-        "strong": {
-          "lower": 10,
-          "upper": 10
-        },
-        "heavy": 10
-      },
       "duration": {
         "onset": {
           "min": 2,

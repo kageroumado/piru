@@ -7,46 +7,7 @@
   ],
   "category": "Dissociative",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 14,
-        "light": {
-          "lower": 28,
-          "upper": 42
-        },
-        "common": {
-          "lower": 56,
-          "upper": 84
-        },
-        "strong": {
-          "lower": 84,
-          "upper": 112
-        },
-        "heavy": 140
-      },
-      "duration": {
-        "onset": {
-          "min": 5,
-          "max": 15
-        },
-        "peak": {
-          "min": 30,
-          "max": 60
-        },
-        "offset": {
-          "min": 60,
-          "max": 90
-        },
-        "total": {
-          "min": 90,
-          "max": 180
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "FDA-approved nasal spray for treatment-resistant depression (Spravato)",
     "Roughly twice the NMDA potency of racemic ketamine",

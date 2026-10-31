@@ -7,46 +7,7 @@
   ],
   "category": "Antihistamine",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 10
-        },
-        "common": {
-          "lower": 20,
-          "upper": 20
-        },
-        "strong": {
-          "lower": 20,
-          "upper": 40
-        },
-        "heavy": 40
-      },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 120
-        },
-        "peak": {
-          "min": 120,
-          "max": 240
-        },
-        "offset": {
-          "min": 480,
-          "max": 840
-        },
-        "total": {
-          "min": 1440,
-          "max": 1440
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces allergic rhinitis and urticaria",
     "Non-sedating — does not cross BBB significantly",

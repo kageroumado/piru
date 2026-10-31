@@ -7,30 +7,7 @@
   ],
   "category": "Stimulant",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 5,
-          "max": 15
-        },
-        "peak": {
-          "min": 30,
-          "max": 120
-        },
-        "offset": {
-          "min": 30,
-          "max": 120
-        },
-        "total": {
-          "min": 120,
-          "max": 240
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Methamphetamine-like cathinone",
     "Russian preparations linked to manganese-induced parkinsonism (when reduced with permanganate)",

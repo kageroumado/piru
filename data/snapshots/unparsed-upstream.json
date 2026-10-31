@@ -4072,22 +4072,6 @@
   "reason": "duration_onset_impossible"
  },
  {
-  "source": "piru-curated",
-  "substance": "Cariprazine",
-  "route": "oral",
-  "field": "ladder",
-  "raw": "{\"unit\": \"mg\", \"threshold\": 0.5, \"light\": {\"lower\": 1.5, \"upper\": 3}, \"common\": {\"lower\": 3, \"upper\": 6}, \"strong\": {\"lower\": 6, \"upper\": 9}, \"heavy\": 6}",
-  "reason": "dropped_regressed_tiers"
- },
- {
-  "source": "piru-curated",
-  "substance": "Tianeptine sulfate",
-  "route": "oral",
-  "field": "ladder",
-  "raw": "{\"unit\": \"mg\", \"threshold\": 6, \"light\": {\"lower\": 12, \"upper\": 25}, \"common\": {\"lower\": 25, \"upper\": 50}, \"strong\": {\"lower\": 50, \"upper\": 75}, \"heavy\": 100}",
-  "reason": "dose_ranges_duplicate_dropped"
- },
- {
   "source": "psychonautwiki",
   "substance": "25C-NBOH",
   "route": "sublingual",

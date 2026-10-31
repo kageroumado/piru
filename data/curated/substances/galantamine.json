@@ -6,28 +6,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 2,
-        "light": {
-          "lower": 4,
-          "upper": 8
-        },
-        "common": {
-          "lower": 8,
-          "upper": 16
-        },
-        "strong": {
-          "lower": 16,
-          "upper": 24
-        },
-        "heavy": 32
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "AChE inhibitor + nicotinic PAM",
     "FDA-approved for mild-to-moderate Alzheimer's",

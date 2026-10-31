@@ -8,28 +8,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 20
-        },
-        "common": {
-          "lower": 20,
-          "upper": 50
-        },
-        "strong": {
-          "lower": 50,
-          "upper": 60
-        },
-        "heavy": 60
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive, anxious, and OCD symptoms over 2–6 weeks",
     "Most anticholinergic SSRI — dry mouth, constipation, blurred vision, urinary retention",

@@ -5,28 +5,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 25
-        },
-        "common": {
-          "lower": 25,
-          "upper": 50
-        },
-        "strong": {
-          "lower": 50,
-          "upper": 100
-        },
-        "heavy": 150
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Beta-carboline alkaloid",
     "Mild MAOI-A activity",

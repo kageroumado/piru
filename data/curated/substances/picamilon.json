@@ -8,28 +8,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 50,
-        "light": {
-          "lower": 100,
-          "upper": 200
-        },
-        "common": {
-          "lower": 200,
-          "upper": 300
-        },
-        "strong": {
-          "lower": 300,
-          "upper": 400
-        },
-        "heavy": 500
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "GABA-niacin conjugate — crosses BBB and hydrolyses to GABA + niacin",
     "Cerebral vasodilation",

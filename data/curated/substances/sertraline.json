@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 12.5,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 50,
-          "upper": 150
-        },
-        "strong": {
-          "lower": 150,
-          "upper": 200
-        },
-        "heavy": 200
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive and anxious symptoms over 2–6 weeks",
     "Initial nausea and GI upset (often resolves after 1–2 weeks)",

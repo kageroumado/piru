@@ -9,44 +9,8 @@
   "defaultRoute": "oral",
   "routes": [
     {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 2,
-        "light": {
-          "lower": 2,
-          "upper": 5
-        },
-        "common": {
-          "lower": 10,
-          "upper": 15
-        },
-        "strong": {
-          "lower": 15,
-          "upper": 25
-        },
-        "heavy": 30
-      }
-    },
-    {
       "route": "intramuscular",
       "unit": "mg",
-      "doses": {
-        "threshold": 300,
-        "light": {
-          "lower": 300,
-          "upper": 300
-        },
-        "common": {
-          "lower": 300,
-          "upper": 400
-        },
-        "strong": {
-          "lower": 400,
-          "upper": 400
-        },
-        "heavy": 400
-      },
       "durationOfAction": {
         "min": 120,
         "max": 180,

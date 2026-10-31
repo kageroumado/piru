@@ -270,6 +270,24 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
             err.append(f"{tag}: halfLifeMinutes {e['halfLifeMinutes']} is outside its own range")
         if not e.get("halfLifeSource"):
             err.append(f"{tag}: a halfLifeMinutes range needs halfLifeSource")
+    # Per-route provenance for a curated ladder or timeline: a citation that
+    # states the number, or one line saying why it overrides the sources.
+    for r in e.get("routes") or []:
+        rtag = f"{tag} route {r.get('route')!r}"
+        for block, cite, why in (
+            ("doses", "doseSource", "doseReason"),
+            ("duration", "durationSource", "durationReason"),
+        ):
+            for field in (cite, why):
+                if field not in r:
+                    continue
+                v = r[field]
+                if not (isinstance(v, str) and v.strip()):
+                    err.append(f"{rtag}: {field} must be a non-empty string")
+                elif "\n" in v:
+                    err.append(f"{rtag}: {field} must be one line")
+                elif not r.get(block):
+                    err.append(f"{rtag}: {field} has no `{block}` block to explain")
     moa = e.get("mechanismOfAction")
     if moa is not None:
         for b in moa.get("bindings", []) or []:
@@ -344,7 +362,10 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
         e.get("sources")
         or (moa or {}).get("references")
         or any(
-            r.get("source") or (r.get("protocolDosing") or {}).get("source")
+            r.get("source")
+            or r.get("doseSource")
+            or r.get("durationSource")
+            or (r.get("protocolDosing") or {}).get("source")
             for r in (e.get("routes") or [])
         )
         or e.get("halfLifeSource")

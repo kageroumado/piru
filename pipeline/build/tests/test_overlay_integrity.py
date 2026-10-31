@@ -56,20 +56,16 @@ _KNOWN_UNRESOLVED: set[str] = set()  # cleanup deleted the last one (plus-cpca.j
 # — they need a human to supply real per-compound numbers. Shrink as fixed.
 _KNOWN_CROSS_CATEGORY_DOSE = {
     frozenset({"CBN-O", "Delta-8-THC", "HHC", "Zinc Picolinate"}),
-    frozenset({"Labetalol", "Magnesium Glycinate", "Phosphatidylserine", "Sabroxy"}),
-    frozenset({"Asenapine", "Dronabinol", "Epidiolex"}),
-    frozenset({"Carbamazepine", "Cimetidine"}),
-    frozenset({"Diphenhydramine", "Hydroxyzine"}),
-    frozenset({"Ketotifen", "Nabilone"}),
-    # Lemborexant and Vornorexant genuinely share a label ladder (2.5 reduced / 5 standard /
-    # 10 max); Selegiline is the suspected clone here.
-    frozenset({"Lemborexant", "Selegiline", "Vornorexant"}),
-    frozenset({"Metoprolol", "Topiramate"}),
+    frozenset({"Magnesium Glycinate", "Phosphatidylserine", "Sabroxy"}),
 }
 _KNOWN_CROSS_CATEGORY_DURATION = {
     frozenset({"Alpha-Lipoic Acid", "Guaifenesin", "Sumatriptan"}),
     frozenset({"Gepirone", "Thiothixene"}),
     frozenset({"Methocarbamol", "Vitamin C"}),
+    # The sole-source peak/offset left once every phase a source covers was
+    # dropped; identical in both files, so a suspected template. Both are on the
+    # needs-sourcing baseline (curated-override-baseline.json).
+    frozenset({"N-Acetylcysteine", "Prochlorperazine"}),
 }
 # Exact-InChIKey collisions across distinct rows: merge failures / corruption.
 # Emptied by Stage 0.0a — every cluster that used to appear here is now resolved:

@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 18.75,
-        "light": {
-          "lower": 37.5,
-          "upper": 75
-        },
-        "common": {
-          "lower": 75,
-          "upper": 225
-        },
-        "strong": {
-          "lower": 225,
-          "upper": 300
-        },
-        "heavy": 375
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive, anxious, and neuropathic symptoms over 2–6 weeks",
     "NE reuptake inhibition becomes meaningful at ≥150 mg/day",

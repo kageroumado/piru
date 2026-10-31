@@ -7,28 +7,7 @@
   ],
   "category": "Anticonvulsant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 100,
-        "light": {
-          "lower": 100,
-          "upper": 200
-        },
-        "common": {
-          "lower": 200,
-          "upper": 300
-        },
-        "strong": {
-          "lower": 300,
-          "upper": 400
-        },
-        "heavy": 400
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Sodium channel blocker — classic anticonvulsant",
     "Sedation, ataxia, nystagmus at therapeutic levels",

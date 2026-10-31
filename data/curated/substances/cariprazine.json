@@ -5,28 +5,7 @@
   ],
   "category": "Antipsychotic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 0.5,
-        "light": {
-          "lower": 1.5,
-          "upper": 3
-        },
-        "common": {
-          "lower": 3,
-          "upper": 6
-        },
-        "strong": {
-          "lower": 6,
-          "upper": 9
-        },
-        "heavy": 6
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "High D3 > D2 partial agonism — unique pro-cognitive and anti-negative symptom profile",
     "Active metabolite DCAR has half-life of 2–3 weeks — dose changes take weeks to stabilize",

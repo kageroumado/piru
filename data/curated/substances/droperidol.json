@@ -9,22 +9,6 @@
     {
       "route": "intravenous",
       "unit": "mg",
-      "doses": {
-        "threshold": 0.5,
-        "light": {
-          "lower": 0.625,
-          "upper": 1.25
-        },
-        "common": {
-          "lower": 1.25,
-          "upper": 2.5
-        },
-        "strong": {
-          "lower": 2.5,
-          "upper": 5
-        },
-        "heavy": 10
-      },
       "duration": {
         "onset": {
           "min": 3,

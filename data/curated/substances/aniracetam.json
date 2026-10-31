@@ -9,46 +9,7 @@
  ],
  "category": "AMPAkine",
  "defaultRoute": "oral",
- "routes": [
-  {
-   "route": "oral",
-   "unit": "mg",
-   "doses": {
-    "threshold": 200,
-    "light": {
-     "lower": 400,
-     "upper": 750
-    },
-    "common": {
-     "lower": 750,
-     "upper": 1500
-    },
-    "strong": {
-     "lower": 1500,
-     "upper": 3000
-    },
-    "heavy": 4500
-   },
-   "duration": {
-    "onset": {
-     "min": 15,
-     "max": 45
-    },
-    "peak": {
-     "min": 60,
-     "max": 180
-    },
-    "offset": {
-     "min": 60,
-     "max": 180
-    },
-    "total": {
-     "min": 180,
-     "max": 360
-    }
-   }
-  }
- ],
+ "routes": [],
  "effects": [
   "AMPA receptor positive allosteric modulator",
   "Anxiolytic and pro-cognitive effects reported",

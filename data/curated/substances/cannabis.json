@@ -32,7 +32,8 @@
         },
         "heavy": 10
       },
-      "notes": "Doses are mg of Δ9-THC, not flower weight. Flower needed ≈ desired THC ÷ strain %THC; smoking loses ~50–80% to combustion, so real flower amounts run higher."
+      "notes": "Doses are mg of Δ9-THC, not flower weight. Flower needed ≈ desired THC ÷ strain %THC; smoking loses ~50–80% to combustion, so real flower amounts run higher.",
+      "doseReason": "Ladder is mg of Δ9-THC; the upstream ladders carry the same numbers as bare mg, which reads as flower weight."
     },
     {
       "route": "oral",
@@ -53,7 +54,8 @@
         },
         "heavy": 25
       },
-      "notes": "Doses are mg of Δ9-THC (edibles/oils). Oral THC has low, variable bioavailability and converts to stronger 11-OH-THC; wait ≥2 h before any redose."
+      "notes": "Doses are mg of Δ9-THC (edibles/oils). Oral THC has low, variable bioavailability and converts to stronger 11-OH-THC; wait ≥2 h before any redose.",
+      "doseReason": "Ladder is mg of Δ9-THC; the upstream ladders carry the same numbers as bare mg, which reads as flower weight."
     }
   ],
   "combinations": [

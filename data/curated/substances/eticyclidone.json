@@ -7,28 +7,7 @@
   ],
   "category": "Dissociative",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 20
-        },
-        "common": {
-          "lower": 20,
-          "upper": 30
-        },
-        "strong": {
-          "lower": 30,
-          "upper": 50
-        },
-        "heavy": 70
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "More potent than ketamine — start low",
     "Stimulating dissociative",

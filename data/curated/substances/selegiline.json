@@ -8,48 +8,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "transdermal",
-  "routes": [
-    {
-      "route": "transdermal",
-      "unit": "mg/24h",
-      "doses": {
-        "threshold": 6,
-        "light": {
-          "lower": 6,
-          "upper": 6
-        },
-        "common": {
-          "lower": 6,
-          "upper": 9
-        },
-        "strong": {
-          "lower": 9,
-          "upper": 12
-        },
-        "heavy": 12
-      }
-    },
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 2.5,
-        "light": {
-          "lower": 5,
-          "upper": 5
-        },
-        "common": {
-          "lower": 5,
-          "upper": 10
-        },
-        "strong": {
-          "lower": 10,
-          "upper": 10
-        },
-        "heavy": 10
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Selective MAO-B inhibitor at low oral doses (≤10 mg/day) — approved for Parkinson's; also acts as dopamine enhancer via amphetamine metabolites",
     "Transdermal patch (Emsam) approved for MDD — higher doses lose MAO-B selectivity, inhibit MAO-A",

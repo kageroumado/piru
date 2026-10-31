@@ -5,28 +5,7 @@
   ],
   "category": "Cardiovascular",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 20,
-        "light": {
-          "lower": 40,
-          "upper": 80
-        },
-        "common": {
-          "lower": 80,
-          "upper": 160
-        },
-        "strong": {
-          "lower": 160,
-          "upper": 240
-        },
-        "heavy": 320
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Non-selective beta-blocker with very long duration",
     "Slows heart rate and lowers blood pressure",

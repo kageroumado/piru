@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 2.5,
-        "light": {
-          "lower": 5,
-          "upper": 10
-        },
-        "common": {
-          "lower": 10,
-          "upper": 20
-        },
-        "strong": {
-          "lower": 20,
-          "upper": 20
-        },
-        "heavy": 20
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive symptoms and may improve cognitive function",
     "Multimodal: SERT inhibitor + 5-HT1A agonist + 5-HT1B partial agonist + 5-HT3/5-HT7 antagonist",

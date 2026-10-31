@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 20,
-        "light": {
-          "lower": 30,
-          "upper": 60
-        },
-        "common": {
-          "lower": 60,
-          "upper": 90
-        },
-        "strong": {
-          "lower": 90,
-          "upper": 120
-        },
-        "heavy": 120
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive, anxious, and neuropathic/musculoskeletal pain symptoms",
     "Approved for fibromyalgia, diabetic peripheral neuropathy, chronic musculoskeletal pain",

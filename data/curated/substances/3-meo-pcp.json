@@ -5,66 +5,7 @@
   ],
   "category": "Dissociative",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 2,
-        "light": {
-          "lower": 3,
-          "upper": 7
-        },
-        "common": {
-          "lower": 7,
-          "upper": 15
-        },
-        "strong": {
-          "lower": 15,
-          "upper": 25
-        },
-        "heavy": 30
-      },
-      "duration": {
-        "onset": {
-          "min": 20,
-          "max": 60
-        },
-        "peak": {
-          "min": 90,
-          "max": 180
-        },
-        "offset": {
-          "min": 180,
-          "max": 360
-        },
-        "total": {
-          "min": 240,
-          "max": 480
-        }
-      }
-    },
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 1,
-        "light": {
-          "lower": 2,
-          "upper": 5
-        },
-        "common": {
-          "lower": 5,
-          "upper": 10
-        },
-        "strong": {
-          "lower": 10,
-          "upper": 20
-        },
-        "heavy": 25
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Unique psychosis/agitation risk compared to ketamine-class",
     "Long duration — high redose-overdose risk",

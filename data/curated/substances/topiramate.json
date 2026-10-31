@@ -8,46 +8,7 @@
   ],
   "category": "Anticonvulsant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 12.5,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 50,
-          "upper": 100
-        },
-        "strong": {
-          "lower": 100,
-          "upper": 200
-        },
-        "heavy": 400
-      },
-      "duration": {
-        "onset": {
-          "min": 120,
-          "max": 360
-        },
-        "peak": {
-          "min": 120,
-          "max": 240
-        },
-        "offset": {
-          "min": 720,
-          "max": 1440
-        },
-        "total": {
-          "min": 1440,
-          "max": 1440
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Blocks sodium channels, enhances GABA, inhibits carbonic anhydrase, antagonizes AMPA/kainate",
     "Cognitive blunting — called 'Dopamax' colloquially for word-finding difficulty",

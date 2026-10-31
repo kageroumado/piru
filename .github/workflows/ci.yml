@@ -190,6 +190,10 @@ jobs:
       # belongs to another gene. Ratcheted at zero.
       - name: Pharmacogenetics rows are filed under the gene their sentence names
         run: python3 pipeline/build/tests/test_pgx_genes.py
+      # A curated ladder or timeline outranks every source, so it must cite or
+      # explain its numbers; the unexplained baseline may only go down.
+      - name: Curated dose and duration overrides cite or explain their numbers
+        run: python3 pipeline/build/tests/test_curated_override_provenance.py
       # Toxic floors, cross-source outliers, foreign scripts, Shulgin's no-activity
       # bounds and the upstream values the build could not read.
       - name: Dose gates and the upstream-drop report

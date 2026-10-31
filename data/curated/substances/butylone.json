@@ -26,26 +26,6 @@
         },
         "heavy": 250
       }
-    },
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 50,
-        "light": {
-          "lower": 75,
-          "upper": 150
-        },
-        "common": {
-          "lower": 150,
-          "upper": 250
-        },
-        "strong": {
-          "lower": 250,
-          "upper": 350
-        },
-        "heavy": 400
-      }
     }
   ],
   "effects": [
