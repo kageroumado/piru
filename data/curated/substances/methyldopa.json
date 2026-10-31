@@ -54,6 +54,15 @@
     "Positive Coombs test — hemolytic anemia risk with long-term use"
   ],
   "halfLifeMinutes": 105,
+  "halfLifeSource": "Wikipedia: Methyldopa, §Pharmacokinetics (revision 1360767011); https://en.wikipedia.org/w/index.php?title=Methyldopa&oldid=1360767011#Pharmacokinetics",
+  "halfLifeEvidence": {
+    "quote": "The half-life of methyldopa is 105 minutes.",
+    "section": "Pharmacokinetics",
+    "identity": "Wikidata sitelink of InChIKey CJCSPKMFHVPWAR-JTQLQIEISA-N",
+    "value": "105 minutes",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Methyldopa",
     "https://pubchem.ncbi.nlm.nih.gov/compound/38853"

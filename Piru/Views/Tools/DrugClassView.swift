@@ -169,10 +169,9 @@ struct DrugClassDetailView: View {
             Section {
                 ForEach(refs) { ref in
                     sourceLine(
-                        slug: "peer-review-primary",
+                        slug: AppSources.literatureSlug,
                         detail: ref.title,
-                        doi: ref.doi,
-                        pmid: ref.pmid,
+                        citation: ref.citation,
                         accent: accent,
                     )
                     .font(.caption)

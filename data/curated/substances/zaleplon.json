@@ -53,6 +53,15 @@
     "US Schedule IV; abuse potential lower than benzodiazepines"
   ],
   "halfLifeMinutes": 60,
+  "halfLifeSource": "DailyMed: Sonata (zaleplon) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43ac81cb-1e3f-4d44-86bd-13db2721d060",
+  "halfLifeEvidence": {
+    "quote": "a terminal-phase elimination half-life (t 1/2 ) of approximately 1 hour",
+    "section": "CLINICAL PHARMACOLOGY",
+    "identity": "active ingredient names 'Zaleplon' as whole words",
+    "value": "1 hour",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Zaleplon",
     "https://pubchem.ncbi.nlm.nih.gov/compound/5719"

@@ -125,7 +125,7 @@ struct TrayCommitBar: View {
     var body: some View {
         VStack(spacing: 0) {
             if !dynamicTypeSize.isAccessibilitySize {
-                TrayWarningBanner(model: model)
+                TrayWarningBanner(model: model, content: content)
                 TrayMetaChips(model: model, content: content)
                 commitButton
                     .padding(.top, 14)
@@ -168,6 +168,9 @@ struct TrayCommitBar: View {
 /// stated before it is pressed rather than discovered after.
 struct TrayWarningBanner: View {
     let model: DoseTrayModel
+    /// Holds the recent dose log the interaction check reads, so a staged dose
+    /// is checked against what is already in the body.
+    let content: QuickLogContentModel
 
     @State private var interactions: [InteractionResult] = []
     @State private var sleepWarnings: [SleepWarning] = []
@@ -185,13 +188,17 @@ struct TrayWarningBanner: View {
 
     var body: some View {
         banner
-            .onChange(of: model.staged.map(\.substanceName)) { _, names in
-                recheckInteractions(names)
+            .onChange(of: model.staged.map(\.substanceName)) {
+                recheckInteractions()
                 recheckSleep()
             }
-            .onChange(of: model.time) { _, _ in recheckSleep() }
+            .onChange(of: model.time) {
+                recheckInteractions()
+                recheckSleep()
+            }
+            .onChange(of: content.recentEntriesGeneration) { recheckInteractions() }
             .task {
-                recheckInteractions(model.staged.map(\.substanceName))
+                recheckInteractions()
                 recheckSleep()
             }
     }
@@ -200,7 +207,7 @@ struct TrayWarningBanner: View {
     /// say: `.task` on a view that renders nothing never runs, and the first
     /// check would never fire.
     private var banner: some View {
-        let shown = interactions.admitted(.notable)
+        let shown = interactions
         let mealLines = TrayMealConsequence.lines(staged: model.staged, meal: model.meal)
         return VStack(spacing: 0) {
             Color.clear.frame(height: 0)
@@ -211,6 +218,7 @@ struct TrayWarningBanner: View {
                             symbol: warning.severity == .dangerous
                                 ? warning.mechanism.filledIconName : warning.mechanism.iconName,
                             color: warning.severity.labelColor,
+                            detail: warning.counterpart?.trayLine,
                         ) {
                             Text(warning.leadClause)
                         }
@@ -234,15 +242,30 @@ struct TrayWarningBanner: View {
         }
     }
 
-    private func warningRow(symbol: String, color: Color, @ViewBuilder text: () -> Text) -> some View {
+    /// `detail` is a second, quieter line under the warning — the logged dose
+    /// an interaction is with, which the tray has no other way to show.
+    private func warningRow(
+        symbol: String,
+        color: Color,
+        detail: String? = nil,
+        @ViewBuilder text: () -> Text,
+    ) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
             Image(systemName: symbol)
                 .foregroundStyle(color)
                 .font(.caption)
                 .accessibilityHidden(true)
-            text()
-                .font(.caption.weight(.medium))
-                .foregroundStyle(color)
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                text()
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(color)
+                if let detail {
+                    Text(verbatim: detail)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+            .accessibilityElement(children: .combine)
         }
     }
 
@@ -250,9 +273,15 @@ struct TrayWarningBanner: View {
         date.formatted(date: .omitted, time: .shortened)
     }
 
-    private func recheckInteractions(_ names: [String]) {
-        guard names.count >= 2 else { interactions = []; return }
-        interactions = InteractionChecker.checkBatch(names, against: [], policy: .warn)
+    /// Staged doses against each other and against what is already in the
+    /// body at the When chip's time. Recomputed on staging, on the chip, and on
+    /// a change to the dose log.
+    private func recheckInteractions() {
+        interactions = TrayInteractionCheck.warnings(
+            staged: model.staged.map(\.substanceName),
+            history: content.recentEntries,
+            at: model.time.resolved,
+        )
     }
 
     /// The staged doses whose effects the model runs into the night. Recomputed

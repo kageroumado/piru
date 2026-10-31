@@ -436,6 +436,110 @@ struct AdherenceCalculatorTests {
     }
 
     @Test
+    func `A morning dose checked off in the afternoon at its slot time stays in the morning`() {
+        let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 20 * 60])
+        // Taken at 8:00, ticked at 15:00 through "Taken at 8:00".
+        let morningDose = makeEntry(
+            substance: "Testine", timestamp: AdherenceCalculator.slotDate(minutes: 8 * 60, on: today),
+        )
+        let eveningDose = makeEntry(
+            substance: "Testine", timestamp: AdherenceCalculator.slotDate(minutes: 20 * 60, on: today),
+        )
+        let day = AdherenceCalculator.adherence(for: today, entries: [morningDose, eveningDose], dailyItems: [item])
+        #expect(day.halves?.morning == .complete)
+        #expect(day.halves?.evening == .complete)
+        #expect(day.halves?.mismatchDescription == nil)
+    }
+
+    @Test
+    func `A morning dose stamped when it was ticked off in the afternoon reads as late`() {
+        // By design: the half follows the dose's time, so a dose recorded at
+        // 15:00 is an afternoon dose. "Taken at <slot time>" is the way to
+        // record one taken on time.
+        let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 20 * 60])
+        let late = makeEntry(substance: "Testine", timestamp: AdherenceCalculator.slotDate(minutes: 15 * 60, on: today))
+        let day = AdherenceCalculator.adherence(for: today, entries: [late], dailyItems: [item])
+        #expect(day.halves?.morning == .missed)
+        #expect(day.halves?.evening == .complete)
+    }
+
+    @Test
+    func `A noon slot belongs to the evening half, and so does a dose at noon`() {
+        let morning = makeItem(substance: "Morningine", reminderTimesMinutes: [8 * 60])
+        let noon = makeItem(substance: "Noonine", reminderTimesMinutes: [12 * 60])
+        let entries = [
+            makeEntry(substance: "Morningine", timestamp: AdherenceCalculator.slotDate(minutes: 8 * 60, on: today)),
+            makeEntry(substance: "Noonine", timestamp: AdherenceCalculator.slotDate(minutes: 12 * 60, on: today)),
+        ]
+        let day = AdherenceCalculator.adherence(for: today, entries: entries, dailyItems: [morning, noon])
+        #expect(day.halves == DayAdherence.Halves(morningTaken: 1, morningTotal: 1, eveningTaken: 1, eveningTotal: 1))
+    }
+
+    @Test
+    func `A dose backdated past midnight belongs to the day it was taken`() {
+        let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 20 * 60])
+        let lastNight = makeEntry(
+            substance: "Testine", timestamp: AdherenceCalculator.slotDate(minutes: 20 * 60, on: dayOffset(-1)),
+        )
+        let yesterday = AdherenceCalculator.adherence(for: dayOffset(-1), entries: [lastNight], dailyItems: [item])
+        let todayResult = AdherenceCalculator.adherence(for: today, entries: [lastNight], dailyItems: [item])
+        #expect(yesterday.halves?.evening == .complete)
+        #expect(todayResult.takenCount == 0)
+    }
+
+    @Test(arguments: [
+        ("2026-03-08", "America/New_York"), // spring forward: the day is 23 hours
+        ("2026-11-01", "America/New_York"), // fall back: the day is 25 hours
+        ("2026-03-29", "Europe/Madrid"),
+        ("2026-06-15", "Asia/Shanghai"),
+    ])
+    func `slotDate keeps the wall-clock time on daylight-saving days`(day: String, zone: String) throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = try #require(TimeZone(identifier: zone))
+        let parts = day.split(separator: "-").compactMap { Int($0) }
+        let date = try #require(calendar.date(from: DateComponents(year: parts[0], month: parts[1], day: parts[2], hour: 15)))
+        for minutes in [7 * 60 + 30, 11 * 60 + 59, 12 * 60, 20 * 60] {
+            let slot = AdherenceCalculator.slotDate(minutes: minutes, on: date, calendar: calendar)
+            let fields = calendar.dateComponents([.day, .hour, .minute], from: slot)
+            #expect(fields.day == parts[2])
+            #expect(fields.hour == minutes / 60)
+            #expect(fields.minute == minutes % 60)
+        }
+    }
+
+    @Test(arguments: [
+        (AdherenceStatus.complete, AdherenceStatus.missed, "Evening dose not logged"),
+        (.complete, .partial, "Evening dose not logged"),
+        (.missed, .complete, "Morning dose not logged"),
+        (.partial, .complete, "Morning dose not logged"),
+        (.partial, .missed, "Morning partly logged, evening not logged"),
+        (.missed, .partial, "Morning not logged, evening partly logged"),
+    ])
+    func `A split day says which half went unlogged`(morning: AdherenceStatus, evening: AdherenceStatus, expected: String) {
+        let halves = Self.halves(morning: morning, evening: evening)
+        #expect(halves.mismatchDescription?.key == expected)
+    }
+
+    @Test(arguments: [AdherenceStatus.complete, .partial, .missed])
+    func `Matching halves leave the day's own status to speak`(status: AdherenceStatus) {
+        #expect(Self.halves(morning: status, evening: status).mismatchDescription == nil)
+    }
+
+    /// Halves of two slots each, standing at `morning` and `evening`.
+    private static func halves(morning: AdherenceStatus, evening: AdherenceStatus) -> DayAdherence.Halves {
+        func taken(_ status: AdherenceStatus) -> Int {
+            switch status {
+            case .complete: 2
+            case .partial: 1
+            case .missed, .noData: 0
+            }
+        }
+        return DayAdherence.Halves(
+            morningTaken: taken(morning), morningTotal: 2, eveningTaken: taken(evening), eveningTotal: 2,
+        )
+    }
+
+    @Test
     func `A routine living in one half of the day gets no split`() {
         let item = makeItem(substance: "Testine", reminderTimesMinutes: [8 * 60, 10 * 60])
         let day = AdherenceCalculator.adherence(for: today, entries: [], dailyItems: [item])

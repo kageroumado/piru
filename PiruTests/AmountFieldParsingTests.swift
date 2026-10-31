@@ -14,55 +14,55 @@ struct AmountFieldParsingTests {
 
     @Test
     func `A thousands separator is a thousand where the locale groups with a comma`() {
-        #expect(StagedDoseEditorModel.parsedAmount("1,000", locale: english) == 1_000)
-        #expect(StagedDoseEditorModel.parsedAmount("12,500", locale: english) == 12_500)
-        #expect(StagedDoseEditorModel.parsedAmount("1,000,000", locale: english) == 1_000_000)
-        #expect(StagedDoseEditorModel.parsedAmount("1,000.5", locale: english) == 1_000.5)
+        #expect(DecimalInput.parse("1,000", locale: english) == 1_000)
+        #expect(DecimalInput.parse("12,500", locale: english) == 12_500)
+        #expect(DecimalInput.parse("1,000,000", locale: english) == 1_000_000)
+        #expect(DecimalInput.parse("1,000.5", locale: english) == 1_000.5)
     }
 
     @Test
     func `A decimal comma still reads as a decimal`() {
-        #expect(StagedDoseEditorModel.parsedAmount("1,5", locale: german) == 1.5)
-        #expect(StagedDoseEditorModel.parsedAmount("0,125", locale: german) == 0.125)
-        #expect(StagedDoseEditorModel.parsedAmount("1.000,5", locale: german) == 1_000.5)
-        #expect(StagedDoseEditorModel.parsedAmount("1,5", locale: english) == 1.5)
+        #expect(DecimalInput.parse("1,5", locale: german) == 1.5)
+        #expect(DecimalInput.parse("0,125", locale: german) == 0.125)
+        #expect(DecimalInput.parse("1.000,5", locale: german) == 1_000.5)
+        #expect(DecimalInput.parse("1,5", locale: english) == 1.5)
     }
 
     @Test
     func `The locale settles a lone separator before three digits`() {
-        #expect(StagedDoseEditorModel.parsedAmount("1,000", locale: german) == 1)
-        #expect(StagedDoseEditorModel.parsedAmount("1,125", locale: german) == 1.125)
-        #expect(StagedDoseEditorModel.parsedAmount("1.000", locale: german) == 1_000)
-        #expect(StagedDoseEditorModel.parsedAmount("1.000", locale: english) == 1)
+        #expect(DecimalInput.parse("1,000", locale: german) == 1)
+        #expect(DecimalInput.parse("1,125", locale: german) == 1.125)
+        #expect(DecimalInput.parse("1.000", locale: german) == 1_000)
+        #expect(DecimalInput.parse("1.000", locale: english) == 1)
     }
 
     @Test
     func `The field's own formatted text always reads back`() {
-        #expect(StagedDoseEditorModel.parsedAmount("2.5", locale: german) == 2.5)
-        #expect(StagedDoseEditorModel.parsedAmount("0.125", locale: german) == 0.125)
-        #expect(StagedDoseEditorModel.parsedAmount("1.125", locale: english) == 1.125)
-        #expect(StagedDoseEditorModel.parsedAmount("250", locale: german) == 250)
+        #expect(DecimalInput.parse("2.5", locale: german) == 2.5)
+        #expect(DecimalInput.parse("0.125", locale: german) == 0.125)
+        #expect(DecimalInput.parse("1.125", locale: english) == 1.125)
+        #expect(DecimalInput.parse("250", locale: german) == 250)
     }
 
     @Test
     func `A separator the locale cannot settle is refused, not guessed`() {
         // French groups with a space and Swiss German with an apostrophe, so
         // neither says what "1.000" or "1,000" means.
-        #expect(StagedDoseEditorModel.parsedAmount("1.000", locale: french) == nil)
-        #expect(StagedDoseEditorModel.parsedAmount("1,000", locale: swiss) == nil)
-        #expect(StagedDoseEditorModel.parsedAmount("1,0000", locale: english) == nil)
-        #expect(StagedDoseEditorModel.parsedAmount("1,00,000", locale: english) == nil)
-        #expect(StagedDoseEditorModel.parsedAmount("1.5.5", locale: english) == nil)
-        #expect(StagedDoseEditorModel.parsedAmount("10 mg", locale: english) == nil)
+        #expect(DecimalInput.parse("1.000", locale: french) == nil)
+        #expect(DecimalInput.parse("1,000", locale: swiss) == nil)
+        #expect(DecimalInput.parse("1,0000", locale: english) == nil)
+        #expect(DecimalInput.parse("1,00,000", locale: english) == nil)
+        #expect(DecimalInput.parse("1.5.5", locale: english) == nil)
+        #expect(DecimalInput.parse("10 mg", locale: english) == nil)
     }
 
     @Test
     func `Digits in another script read the same way, and nothing else slips through`() {
-        #expect(StagedDoseEditorModel.parsedAmount("\u{0661}\u{066B}\u{0665}", locale: english) == 1.5)
-        #expect(StagedDoseEditorModel.parsedAmount("\u{FF11},\u{FF10}\u{FF10}\u{FF10}", locale: english) == 1_000)
-        #expect(StagedDoseEditorModel.parsedAmount("1\u{00A0}000", locale: english) == nil)
-        #expect(StagedDoseEditorModel.parsedAmount("1\u{00BD}", locale: english) == nil)
-        #expect(StagedDoseEditorModel.parsedAmount("1\u{00B2}", locale: english) == nil)
+        #expect(DecimalInput.parse("\u{0661}\u{066B}\u{0665}", locale: english) == 1.5)
+        #expect(DecimalInput.parse("\u{FF11},\u{FF10}\u{FF10}\u{FF10}", locale: english) == 1_000)
+        #expect(DecimalInput.parse("1\u{00A0}000", locale: english) == nil)
+        #expect(DecimalInput.parse("1\u{00BD}", locale: english) == nil)
+        #expect(DecimalInput.parse("1\u{00B2}", locale: english) == nil)
     }
 
     @Test

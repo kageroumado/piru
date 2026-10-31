@@ -56,6 +56,15 @@
     "No proven cardiovascular benefit in EXSCEL trial (non-inferior, not superior)"
   ],
   "halfLifeMinutes": 144,
+  "halfLifeSource": "Wikipedia: Exenatide (revision 1332060752); https://en.wikipedia.org/w/index.php?title=Exenatide&oldid=1332060752",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 2.4 h",
+    "section": "Infobox",
+    "identity": "Wikidata sitelink of InChIKey HTQBXNHDCUEHJF-XWLPCZSASA-N",
+    "value": "2.4 h",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf",
     "https://en.wikipedia.org/wiki/Exenatide",

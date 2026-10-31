@@ -41,8 +41,17 @@
     "Risk of serotonin syndrome with other serotonergic agents"
   ],
   "halfLifeMinutes": 1260,
+  "halfLifeSource": "DailyMed: PAXIL (paroxetine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ef3b5cbe-f9e1-c1ac-79da-cfe14e3a7e7e",
+  "halfLifeEvidence": {
+    "quote": "The mean elimination half-life is approximately 21 hours",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'Paroxetine' as whole words",
+    "value": "21 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020031s071lbl.pdf",
+    "Paxil (paroxetine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ef3b5cbe-f9e1-c1ac-79da-cfe14e3a7e7e",
     "https://en.wikipedia.org/wiki/Paroxetine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/43815"
   ],

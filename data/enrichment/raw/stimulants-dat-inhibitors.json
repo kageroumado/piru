@@ -390,7 +390,7 @@
         "ethylphenidate"
       ],
       "withdrawal_syndrome": "Mild dysphoria, fatigue, sleep rebound on discontinuation; no severe physical withdrawal",
-      "reference": "pmid:11129748"
+      "reference": null
     },
     "off_targets": [
       {
@@ -417,7 +417,6 @@
     "references_consulted": [
       "pmid:8786705",
       "doi:10.1176/ajp.155.10.1325",
-      "pmid:11129748",
       "pmid:15082749",
       "doi:10.1038/srep07111"
     ]
@@ -1074,7 +1073,7 @@
           "half_life_min": 900,
           "protein_binding_pct": 60,
           "dose_in_study_mg": 150,
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf"
+          "reference": "Nuvigil (armodafinil) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=10f918f7-4782-470e-a50e-35c7c66bfd79"
         }
       ]
     },
@@ -1084,14 +1083,14 @@
         "fraction_of_clearance_pct": 50,
         "metabolite_name": "modafinil sulfone",
         "metabolite_active": false,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf"
+        "reference": "Nuvigil (armodafinil) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=10f918f7-4782-470e-a50e-35c7c66bfd79"
       },
       {
         "enzyme": "Amidase (acid formation)",
         "fraction_of_clearance_pct": 40,
         "metabolite_name": "modafinilic acid",
         "metabolite_active": false,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf"
+        "reference": "Nuvigil (armodafinil) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=10f918f7-4782-470e-a50e-35c7c66bfd79"
       }
     ],
     "drug_interactions_pk": [
@@ -1099,13 +1098,13 @@
         "with": "ethinyl estradiol",
         "mechanism": "CYP3A4 induction",
         "clinical_effect": "Reduced contraceptive efficacy: modafinil 400 mg/day decreases EE AUC by ~18%",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf"
+        "reference": "Nuvigil (armodafinil) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=10f918f7-4782-470e-a50e-35c7c66bfd79"
       },
       {
         "with": "(S)-warfarin",
         "mechanism": "CYP2C19 inhibition (weak)",
         "clinical_effect": "Minor increase in S-warfarin exposure",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf"
+        "reference": "Nuvigil (armodafinil) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=10f918f7-4782-470e-a50e-35c7c66bfd79"
       }
     ],
     "tags_to_add": [
@@ -2436,7 +2435,7 @@
           "half_life_min": 420,
           "protein_binding_pct": 76,
           "dose_in_study_mg": 400,
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/211964s013lbl.pdf"
+          "reference": "Qelbree (viloxazine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aedf408d-0f84-418d-9416-7c39ddb0d29a"
         }
       ]
     },
@@ -2461,7 +2460,7 @@
         "with": "caffeine, theophylline (CYP1A2 substrates)",
         "mechanism": "CYP1A2 strong inhibition",
         "clinical_effect": "Doubled caffeine exposure",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/211964s013lbl.pdf"
+        "reference": "Qelbree (viloxazine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aedf408d-0f84-418d-9416-7c39ddb0d29a"
       }
     ],
     "pharmacogenetics": {

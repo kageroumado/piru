@@ -67,7 +67,7 @@ digraph piru_pipeline_overview {
 
   subgraph cluster_dead {
     label="Dead — zero references (DELETE-CANDIDATES.md)"; style=dashed; color="#c03030"; fontcolor="#c03030";
-    dead [label="apply_citation_fixes.py + 4 citation-*-2026-08-04 inputs\n(pass unfinished: 105 of 150 decisions not applied)", shape=box, color="#c03030", fontcolor="#c03030", fillcolor="#fff0f0"];
+    dead [label="apply_citation_fixes.py\n(no inputs: every batch applied)", shape=box, color="#c03030", fontcolor="#c03030", fillcolor="#fff0f0"];
   }
 
   legend [shape=note, fillcolor="#fafafa", label="Legend\nbox = file/data · ellipse = script\nblue = build path · yellow = hand-authored\ngreen = shipped · gray = run by hand · red = dead"];

@@ -246,8 +246,8 @@ It is a **pre-resolution filter**, not a resolution rule: the offending rows
 never enter `dose_ranges` / `durations`, so the ordinary `ORDER BY <case> LIMIT
 1` simply falls through to the next-priority source. Three maps read it —
 `_dose_skip_map` (entries with no `drop` tag), `_duration_drop_map` and
-`_route_drop_map` — and the build fails on an entry no ingested record reaches
-(`unmatched_dose_exceptions`). `_exception_for` looks up by the source's own record name
+`_route_drop_map` — and the build fails on an entry that suppresses nothing on a
+route it names (`unmatched_dose_exceptions`, fed by `ExceptionHit.covers`). `_exception_for` looks up by the source's own record name
 *and* by the canonical name it resolved to, because PsychonautWiki files
 CDP-Choline as "Citicoline".
 
@@ -518,7 +518,7 @@ excluded.
 
 | Path | What it does | Evidence | Safe to delete? |
 |---|---|---|---|
-| `pipeline/audit/apply_citation_fixes.py` (290 lines) | Applies adjudicated citation repairs (replace/drop) to `data/enrichment/raw/*.json` and `data/curated/`, with a byte-preserving serializer. | `rg -n --hidden 'apply_citation_fixes.py' . --glob '!pipeline/audit/apply_citation_fixes.py'` → **zero hits**. | Scope unclear. It is the only writer path for citation repairs, and its four input files are also dead (below) — the whole citation-fix workflow is a completed one-off. Candidate for `DELETE-CANDIDATES.md`, not for deletion. |
+| `pipeline/audit/apply_citation_fixes.py` (290 lines) | Applies adjudicated citation repairs (replace/drop) to `data/enrichment/raw/*.json` and `data/curated/`, with a byte-preserving serializer. | `rg -n --hidden 'apply_citation_fixes.py' . --glob '!pipeline/audit/apply_citation_fixes.py'` → **zero hits**. | Scope unclear. It is the only writer path for citation repairs, and it has no input files: every batch it was written for is applied. Listed in `DELETE-CANDIDATES.md`. |
 
 ### f.2 Manual-but-load-bearing — the script is never invoked, its output *is* on the build path
 
@@ -577,23 +577,14 @@ offline).
 
 | File | Status |
 |---|---|
-| `data/curated/citation-drops-2026-08-04.json` | **zero readers.** `rg -n --fixed-strings 'citation-drops-2026-08-04.json' --glob '!data/**' .` → no output. |
-| `data/curated/citation-fixes-2026-08-04.json` | zero readers, same command shape |
-| `data/curated/citation-fixes-2026-08-04-likely.json` | zero readers |
-| `data/curated/citation-fixes-2026-08-04-research.json` | zero readers |
 | `data/sources/product-codes-openfda.meta.json`, `product-codes-bdpm.meta.json` | zero readers; provenance sidecars by design (the other `.meta.json` files are the same, each referenced only by its own writer) |
 | `data/enrichment/merged.json`, `class-context.json`, `coverage.csv` | zero readers. `.gitignore:75-79` says so outright: "pure derivatives of `data/enrichment/raw/*.json` … **not consumed by any downstream pipeline step**". The build reads `data/enrichment/raw/*.json` directly (`main()`'s `ENRICHMENT_DIR.glob`). |
-
-The four `citation-*-2026-08-04*.json` files are exactly the inputs
-`apply_citation_fixes.py` takes — an orphan script and its four orphan inputs,
-the residue of one completed citation-repair pass. That is a coherent five-file
-deletion, or a coherent five-file `DELETE-CANDIDATES.md` entry.
 
 ### f.6 Counts by class
 
 | Class | Count |
 |---|---|
-| Whole orphan scripts (zero references) | 1 (`apply_citation_fixes.py`, its pass unfinished) |
+| Whole orphan scripts (zero references) | 1 (`apply_citation_fixes.py`, no inputs) |
 | Dead data files (zero readers) | 4 citation-fix inputs (+3 `.meta.json` sidecars by design) |
 | Manual-but-load-bearing fetchers | 13 |
 | Manual audit tools (docs-only references) | 14 |

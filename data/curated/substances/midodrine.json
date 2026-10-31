@@ -13,6 +13,15 @@
   "defaultRoute": "oral",
   "routes": [],
   "halfLifeMinutes": 25,
+  "halfLifeSource": "DailyMed: MIDODRINE HYDROCHLORIDE (midodrine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03b54024-2a26-4abe-bd8b-b66bb6781fa7",
+  "halfLifeEvidence": {
+    "quote": "decline with a half-life of approximately 25 minutes",
+    "section": "CLINICAL PHARMACOLOGY",
+    "identity": "active ingredient names 'Midodrine' as whole words",
+    "value": "25 minutes",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "effects": [
     "Prodrug — the drug that acts is desglymidodrine, formed by deglycination in many tissues",
     "Raises standing blood pressure by constricting arterioles and veins; no direct cardiac effect",

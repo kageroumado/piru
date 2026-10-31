@@ -49,6 +49,15 @@
     "Half-life ~106 h — extreme accumulation potential"
   ],
   "halfLifeMinutes": 6360,
+  "halfLifeSource": "Wikipedia: Flubromazepam (revision 1370249362); https://en.wikipedia.org/w/index.php?title=Flubromazepam&oldid=1370249362",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 106 hours",
+    "section": "Infobox",
+    "identity": "Wikidata sitelink of InChIKey ZRKDDZBVSZLOFS-UHFFFAOYSA-N",
+    "value": "106 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Flubromazepam"
   ],

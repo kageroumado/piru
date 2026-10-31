@@ -97,7 +97,7 @@ struct CustomUnitEditorView: View {
     }
 
     private var parsedAmount: Double? {
-        guard let value = Double(amountText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return nil }
+        guard let value = DecimalInput.parse(amountText), value > 0 else { return nil }
         return value
     }
 

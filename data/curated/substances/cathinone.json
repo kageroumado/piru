@@ -14,6 +14,15 @@
   "defaultRoute": "oral",
   "routes": [],
   "halfLifeMinutes": 90,
+  "halfLifeSource": "Wikipedia: Cathinone, §Pharmacokinetics (revision 1379709801); https://en.wikipedia.org/w/index.php?title=Cathinone&oldid=1379709801#Pharmacokinetics",
+  "halfLifeEvidence": {
+    "quote": "The elimination half-life of cathinone is 1.5 ± 0.8 hours.",
+    "section": "Pharmacokinetics",
+    "identity": "article title 'Cathinone' is a name of the substance",
+    "value": "1.5 ± 0.8 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "effects": [
     "The parent compound of the whole cathinone class — amphetamine with a ketone at the β-position",
     "Natural khat (Catha edulis) alkaloid; the leaf's fresh-cut potency is cathinone decaying to cathine",

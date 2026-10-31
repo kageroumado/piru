@@ -112,7 +112,7 @@ struct EntryDetailView: View {
             .onChange(of: draft.byVolumeMode) { if draft.byVolumeMode { draft.syncByVolumeAmount(capability: byVolumeCapability) } }
             .onChange(of: draft.volumeUnit) { old, new in
                 ByVolumeDefaults.preferredVolumeUnit = new
-                guard let value = Double(draft.volumeText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return }
+                guard let value = DecimalInput.parse(draft.volumeText), value > 0 else { return }
                 draft.volumeText = ByVolumeDefaults.format(Measurement(value: value, unit: old).converted(to: new).value)
             }
             .navigationTitle(DoseTitle.resolve(for: entry))

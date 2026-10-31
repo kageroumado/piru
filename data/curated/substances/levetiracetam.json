@@ -53,8 +53,17 @@
     "Renal clearance — dose-adjust in renal impairment"
   ],
   "halfLifeMinutes": 420,
+  "halfLifeSource": "DailyMed: Keppra (levetiracetam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3ca9df05-a506-4ec8-a4fe-320f1219ab21",
+  "halfLifeEvidence": {
+    "quote": "Levetiracetam plasma half-life in adults is 7 ± 1 hour and is unaffected by either dose or repeated administration.",
+    "section": "Label",
+    "identity": "active ingredient names 'Levetiracetam' as whole words",
+    "value": "7 ± 1 hour",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021035s078s080,021505s021s024lbl.pdf",
+    "Keppra (levetiracetam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3ca9df05-a506-4ec8-a4fe-320f1219ab21",
     "https://en.wikipedia.org/wiki/Levetiracetam"
   ],
   "tags": [

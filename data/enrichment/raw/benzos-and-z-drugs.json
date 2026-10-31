@@ -76,7 +76,7 @@
           "dose_in_study_mg": 1,
           "subject_n": null,
           "subject_demographics": "Healthy adults (Xanax FDA label / Greenblatt reviews)",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf"
+          "reference": "Xanax (alprazolam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=388e249d-b9b6-44c3-9f8f-880eced0239f"
         }
       ],
       "concentration_effect": []
@@ -105,7 +105,7 @@
         "mechanism": "CYP3A4 inhibition",
         "ki_um": null,
         "clinical_effect": "AUC ~3.98-fold increase, t1/2 prolonged from 12 h to 21 h",
-        "reference": "Xanax FDA label (https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf)"
+        "reference": "Xanax FDA label (https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=388e249d-b9b6-44c3-9f8f-880eced0239f)"
       },
       {
         "with": "carbamazepine",
@@ -162,7 +162,7 @@
     "references_consulted": [
       "pmid:8646822",
       "pmc:PMC2408964",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf"
+      "Xanax (alprazolam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=388e249d-b9b6-44c3-9f8f-880eced0239f"
     ]
   },
   {
@@ -282,7 +282,7 @@
           "dose_in_study_mg": 15,
           "subject_n": null,
           "subject_demographics": "Diastat rectal gel labeling",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020648s019lbl.pdf"
+          "reference": "Product label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b1b2848b-b265-4f6f-9141-bf106dec0726"
         }
       ],
       "concentration_effect": []
@@ -451,7 +451,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": "Healthy adults: Ambien FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf"
+          "reference": "Ambien (zolpidem tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=747949c5-2c91-4909-8a07-71b6826f8e97"
         }
       ],
       "concentration_effect": []
@@ -463,7 +463,7 @@
         "metabolite_name": "M-I to M-IV (oxidative metabolites)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf",
+        "reference": "Ambien (zolpidem tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=747949c5-2c91-4909-8a07-71b6826f8e97",
         "metabolite_potency_target": "GABA-A"
       },
       {
@@ -472,7 +472,7 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf"
+        "reference": "Ambien (zolpidem tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=747949c5-2c91-4909-8a07-71b6826f8e97"
       },
       {
         "enzyme": "CYP2D6",
@@ -480,7 +480,7 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf"
+        "reference": "Ambien (zolpidem tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=747949c5-2c91-4909-8a07-71b6826f8e97"
       }
     ],
     "drug_interactions_pk": [
@@ -536,7 +536,7 @@
     "references_consulted": [
       "doi:10.1021/jm800889m",
       "doi:10.1038/srep28674",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf"
+      "Ambien (zolpidem tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=747949c5-2c91-4909-8a07-71b6826f8e97"
     ]
   },
   {
@@ -650,7 +650,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "Healthy adults: Lunesta FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf"
+          "reference": "Lunesta (eszopiclone) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3821f4b7-a3c8-4920-ba80-18aa96532c09"
         }
       ],
       "concentration_effect": []
@@ -662,7 +662,7 @@
         "metabolite_name": "(S)-N-desmethylzopiclone",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf"
+        "reference": "Lunesta (eszopiclone) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3821f4b7-a3c8-4920-ba80-18aa96532c09"
       },
       {
         "enzyme": "CYP2E1",
@@ -670,7 +670,7 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf"
+        "reference": "Lunesta (eszopiclone) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3821f4b7-a3c8-4920-ba80-18aa96532c09"
       }
     ],
     "drug_interactions_pk": [
@@ -723,7 +723,7 @@
     "data_gaps_remaining": [],
     "references_consulted": [
       "doi:10.1021/jm800889m",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf"
+      "Lunesta (eszopiclone) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3821f4b7-a3c8-4920-ba80-18aa96532c09"
     ]
   },
   {
@@ -1058,7 +1058,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "Healthy adults: Klonopin FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf"
+          "reference": "Klonopin (clonazepam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=79a3305b-be80-416f-a346-5a907f7b669e"
         }
       ],
       "concentration_effect": []
@@ -1112,7 +1112,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "references_consulted": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf"
+      "Klonopin (clonazepam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=79a3305b-be80-416f-a346-5a907f7b669e"
     ]
   },
   {
@@ -1508,7 +1508,7 @@
           "dose_in_study_mg": 30,
           "subject_n": null,
           "subject_demographics": "Restoril FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf"
+          "reference": "Restoril (temazepam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=bc56f7fd-1aaf-48ff-8aa7-d467e59e1015"
         }
       ],
       "concentration_effect": []
@@ -1560,7 +1560,7 @@
       "Subunit-specific Ki not separately characterized; assumed non-selective like other 1,4-benzos"
     ],
     "references_consulted": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf"
+      "Restoril (temazepam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=bc56f7fd-1aaf-48ff-8aa7-d467e59e1015"
     ]
   },
   {
@@ -2141,7 +2141,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": "Sonata FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf"
+          "reference": "Sonata (zaleplon) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43ac81cb-1e3f-4d44-86bd-13db2721d060"
         }
       ],
       "concentration_effect": []
@@ -2188,7 +2188,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "references_consulted": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf"
+      "Sonata (zaleplon) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43ac81cb-1e3f-4d44-86bd-13db2721d060"
     ]
   },
   {

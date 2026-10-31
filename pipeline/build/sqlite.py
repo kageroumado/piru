@@ -46,6 +46,7 @@ import collision_registry  # noqa: E402
 import dose_gates  # noqa: E402
 import product_codes as product_code_keys  # noqa: E402
 import psid  # noqa: E402
+import row_citations  # noqa: E402
 from dedupe import dedupe_database  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     reported_effects as dc_reported_effects,
@@ -105,6 +106,8 @@ def next_content_version(today: str, previous: str | None = None) -> str:
 
 
 OUT_REPORT = REPO / "data/snapshots/build-report.md"
+#: Every upstream dose/duration value the build refused or read only in part.
+UPSTREAM_DROPS = REPO / "data/snapshots/unparsed-upstream.json"
 PAPERS_INDEX = Path.home() / "Developer/papers/index.json"
 
 # Committed PSID FAMILY registry (derive-once, pin-forever). Maps canonical_name
@@ -144,7 +147,6 @@ MECHANISM_LINES = REPO / "data/curated/mechanism-lines.json"
 MEDTAP_MECHANISM_DROPS = frozenset(
     {
         "Asenapine",
-        "Carbonic anhydrase 6",
         "D-glucose",
         "Felbamate",
         "Lumefantrine",
@@ -185,26 +187,49 @@ DRUG_COMMUNITY_EFFECTS = REPO / "data/sources/drug-community-effects.json"
 # correction override that lets the next-priority source backfill, instead of
 # duplicating fixed dose data in the curated layer.
 DOSE_SOURCE_EXCEPTIONS = REPO / "data/curated/dose-source-exceptions.json"
+#: PIHKAL and TIHKAL, whose routes carry the book's DOSAGE clause as `dosageText`.
+SHULGIN_BOOK_SLUGS = frozenset({"erowid-pihkal", "erowid-tihkal"})
 
 
 class ExceptionMap(dict):
-    """One source's exceptions of one kind, remembering which names an ingest
-    actually looked up and found. ``Build.unmatched_dose_exceptions`` reads
-    ``matched`` to fail the build on an entry that no upstream record reaches."""
+    """One source's exceptions of one kind: {name: route set, or None for every
+    route}. Looking a name up returns an `ExceptionHit`, which records in
+    ``used`` the (name, route) pairs it actually suppressed something on.
+    ``Build.unmatched_dose_exceptions`` reads ``used`` to fail the build on an
+    entry that suppresses nothing — a name being looked up proves only that the
+    record exists, not that the defect the entry names is still there."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.matched: set[str] = set()
-
-    def __getitem__(self, key):
-        value = super().__getitem__(key)
-        self.matched.add(key)
-        return value
+        self.used: set[tuple[str, str]] = set()
 
     def get(self, key, default=None):
         if key in self:
-            return self[key]
+            return ExceptionHit(self, key, self[key])
         return default
+
+
+class ExceptionHit:
+    """One exception entry, found for a record. A plain class rather than a
+    dataclass: the tests load this file through `importlib` without registering
+    it in `sys.modules`, where `dataclass` cannot resolve string annotations."""
+
+    __slots__ = ("mapping", "key", "routes")
+
+    def __init__(self, mapping: ExceptionMap, key: str, routes: set[str] | None):
+        self.mapping, self.key, self.routes = mapping, key, routes
+
+    def applies(self, route: str) -> bool:
+        return self.routes is None or normalise_route(route or "") in self.routes
+
+    def covers(self, route: str, *, effective: bool = True) -> bool:
+        """Whether the entry suppresses `route`. `effective` says whether the
+        source had anything there to suppress; only then does it count as use."""
+        if not self.applies(route):
+            return False
+        if effective:
+            self.mapping.used.add((self.key, normalise_route(route or "")))
+        return True
 
 
 # Adjudicated same-molecule pairs from pipeline/audit/structural_dupes.py — two rows
@@ -218,6 +243,10 @@ FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # is about, or an explicit null.
 DOSEWIKI = REPO / "data/sources/dosewiki.json"
 DOSEWIKI_IDS = REPO / "data/curated/dosewiki-ids.json"
+# Erowid's PiHKAL/TiHKAL chapter -> the Piru substance it describes. Shulgin's
+# short codes (M, T, DESOXY) are street names of other drugs, so a chapter is
+# filed only through this hand-reviewed map, never by its name.
+EROWID_IDS = REPO / "data/curated/erowid-ids.json"
 TRIPSIT = REPO / "data/sources/tripsit.json"
 #: Sources whose page URL is built from their own name for a substance, and the
 #: `substances` column that keeps that name. TripSit keys are its names lowercased.
@@ -361,12 +390,12 @@ SOURCES = [
     (
         "piru-curated",
         "Piru editors",
-        "Maintained by Piru's editors.",
+        "Written by Piru's editors in the app's open-source repository. GPL-3.0.",
     ),
     (
         "peer-review-primary",
         "Published literature",
-        "Cited journal articles.",
+        "Research notes written from the literature. A row links its source when it cites one.",
     ),
     # dose.wiki leads the community sources. Only its expert-reviewed articles
     # contribute doses, durations, half-lives and bindings, and a defect reported
@@ -375,25 +404,44 @@ SOURCES = [
     #
     # Any change to the order of this list needs `currentSourceOrderMigration`
     # in SubstanceStore.swift bumped, or existing installs keep the old order.
-    ("dosewiki", "dose.wiki", "Community encyclopedia. CC0."),
+    ("dosewiki", "dose.wiki", "Community encyclopedia at dose.wiki. CC0 1.0."),
     # drug.community (shown as substance.wiki) ranks above the volunteer wikis
     # so its dose ladders win where dose.wiki has no reviewed article;
     # PsychonautWiki and TripSit backfill any gaps. Genuine dose bugs are
     # corrected in the piru-curated layer (which outranks everything).
     ("drug.community", "substance.wiki", "Community database."),
-    ("psychonautwiki", "PsychonautWiki", "Community wiki. CC BY-SA 4.0."),
-    ("tripsit", "TripSit", "Community database."),
-    ("dailymed", "DailyMed", "U.S. product labels."),
+    ("psychonautwiki", "PsychonautWiki", "Community wiki at psychonautwiki.org. CC BY-SA 4.0."),
+    ("tripsit", "TripSit", "TripSit's drug database at tripsit.me. Free for non-commercial use."),
+    (
+        "dailymed",
+        "DailyMed",
+        "U.S. product labels from DailyMed, the National Library of Medicine's label database.",
+    ),
     (
         "erowid-pihkal",
         "PiHKAL (Erowid)",
-        "Reference text by Alexander and Ann Shulgin.",
+        "Alexander and Ann Shulgin's PiHKAL (1991), Book II as published by Erowid. "
+        "Non-commercial reproduction.",
     ),
-    ("erowid-tihkal", "TiHKAL (Erowid)", "Reference text by Alexander and Ann Shulgin."),
-    ("pdsp", "PDSP Ki database", "Receptor affinity database."),
-    ("pubchem", "PubChem", "Open chemistry database."),
-    ("wikidata", "Wikidata", "Open knowledge base. CC0."),
-    ("dea-orange-book", "DEA Orange Book", "U.S. controlled-substance schedules."),
+    (
+        "erowid-tihkal",
+        "TiHKAL (Erowid)",
+        "Alexander and Ann Shulgin's TiHKAL (1997), Book II as published by Erowid. "
+        "Non-commercial reproduction.",
+    ),
+    (
+        "pdsp",
+        "PDSP Ki database",
+        "Receptor affinity measurements from the NIMH Psychoactive Drug Screening Program.",
+    ),
+    ("pubchem", "PubChem", "The National Library of Medicine's open chemistry database."),
+    ("wikidata", "Wikidata", "Open knowledge base at wikidata.org. CC0 1.0."),
+    (
+        "dea-orange-book",
+        "DEA Orange Book",
+        "U.S. Drug Enforcement Administration controlled-substance schedules. "
+        "U.S. government work, public domain.",
+    ),
     # Appended at lowest priority so they only FILL GAPS (existing recreational
     # sources win on conflict). pyrls/medtap supply regulatory status,
     # indications, contraindications, and per-compound mechanism for the
@@ -407,17 +455,18 @@ SOURCES = [
     (
         "medtap",
         "MedTAP",
-        "U.S. product labels.",
+        "U.S. FDA structured product labels, as compiled by MedTAP.",
     ),
     (
         "benzos-cited",
         "Benzodiazepine equivalence table",
-        "Community table.",
+        "A benzodiazepine table in TripSit's format. A diazepam equivalence is cited "
+        "only where it agrees with the Ashton Manual.",
     ),
     (
         "nps-datahub",
         "NPS Data Hub",
-        "Chemistry catalogue.",
+        "Forensic chemistry catalog at nps-datahub.com, used for identifiers only.",
     ),
     # Lowest priority: a Chinese-language source whose text only WINS when the
     # app runs in Chinese (the resolver floats matching-language text above
@@ -425,7 +474,7 @@ SOURCES = [
     (
         "freeodwiki",
         "FreeOD Wiki",
-        "Chinese-language community wiki. CC BY-SA 4.0.",
+        "Chinese-language community wiki at freeodwiki.org. CC BY-SA 4.0.",
     ),
 ]
 
@@ -527,13 +576,11 @@ FREEOD_EFFECT_EXCLUSIONS: dict[str, dict[str, str]] = {
 # one). Uncertain botanicals/RCs are intentionally omitted — they stay as
 # genuine FreeOD-only entries under their Chinese title.
 FREEOD_NAME_OVERRIDE = {
-    "1,4-丁二醇": "1,4-Butanediol",
     # The page URL is 多拉西敏; its article is about 多西拉敏, doxylamine.
     "多拉西敏": "Doxylamine",
-    # Neither page lists a name Piru already carries, so without these they
-    # would each mint a substance titled in Chinese.
+    # The page lists no name Piru already carries, so without this it would
+    # mint a substance titled in Chinese.
     "二氟莫达非尼": "Flmodafinil",
-    "阿莫达非尼": "Armodafinil",
     # The α-PHP page also lists the short name "alpha-PHP", which an earlier
     # source carries as its own row until the InChIKey merge folds it in.
     "α-PHP": "alpha-Pyrrolidinohexiophenone",
@@ -549,73 +596,26 @@ FREEOD_NAME_OVERRIDE = {
     # and 3,4,5-trimethoxyphenethylamine.
     "环唑酮": "Cyclazodone",
     "麦斯卡林": "Mescaline",
-    "麻黄碱": "Ephedrine",
-    "伪麻黄碱": "Pseudoephedrine",
-    "尼古丁": "Nicotine",
-    "美沙酮": "Methadone",
-    "芬太尼": "Fentanyl",
-    "舒芬太尼": "Sufentanil",
     "乙酰芬太尼": "Acetylfentanyl",
-    "曲马多": "Tramadol",
-    "哌替啶": "Pethidine",
-    "氢吗啡酮": "Hydromorphone",
-    "羟考酮": "Oxycodone",
-    "右美沙芬": "DXM",
-    "右丙氧芬": "Dextropropoxyphene",
     "二氢可待因": "Dihydrocodeine",
-    "二氢去氧吗啡": "Desomorphine",
-    "替利定": "Tilidine",
-    "洛哌丁胺": "Loperamide",
-    "吡拉西坦": "Piracetam",
-    "普拉西坦": "Pramiracetam",
-    "普罗林坦": "Prolintane",
     "肌酸": "Creatine",
-    "茶氨酸": "Theanine",
-    "酪氨酸": "Tyrosine",
-    "育亨宾": "Yohimbine",
-    "胍丁胺": "Agmatine",
     "胞磷胆碱": "Citicoline",
-    "酒石酸氢胆碱": "Choline Bitartrate",
     "颠茄": "Belladonna",
     "曼陀罗属": "Datura",
     "毒蝇伞": "Amanita Muscaria",
     "豹斑鹅膏": "Amanita Pantherina",
-    "肉豆蔻醚": "Myristicin",
-    "异丙嗪": "Promethazine",
-    "羟嗪": "Hydroxyzine",
-    "茶苯海明": "Dimenhydrinate",
-    "苯海索": "Trihexyphenidyl",
-    "氟哌啶醇": "Haloperidol",
-    "氯氮平": "Clozapine",
-    "奥氮平": "Olanzapine",
-    "氟马西尼": "Flumazenil",
-    "氯氮䓬": "Chlordiazepoxide",
-    "溴西泮": "Bromazepam",
     "吡溴唑仑": "Pyrazolam",
     "氟溴西泮": "Flubromazepam",
     "氟阿普唑仑": "Flualprazolam",
     "氟氯替唑仑": "Fluclotizolam",
-    "芬纳西泮": "Phenazepam",
     "去氯依替唑仑": "Deschloroetizolam",
-    "甲丙氨酯": "Meprobamate",
-    "戊巴比妥": "Pentobarbital",
-    "司可巴比妥": "Secobarbital",
-    "金刚烷胺": "Amantadine",
-    "加兰他敏": "Galantamine",
-    "加波沙多": "Gaboxadol",
-    "苄达明": "Benzydamine",
-    "卡瓦": "Kava",
     "环己丙甲胺": "Propylhexedrine",
     "侧柏酮": "Thujone",
-    "依非韦仑": "Efavirenz",
-    "鹅膏蕈氨酸": "Ibotenic Acid",
-    "蓝莲花": "Blue Lotus",
     "夏威夷小木玫瑰": "Hawaiian Baby Woodrose",
     "墨西哥鼠尾草": "Salvia Divinorum",
     "骆驼蓬": "Syrian Rue",
     "细花含羞草": "Mimosa Hostilis",
     "绿九节": "Psychotria Viridis",
-    "古巴裸盖菇": "Psilocybe Cubensis",
     "墨西哥裸盖菇": "Psilocybe Mexicana",
     "蓝柄裸盖菇": "Psilocybe Cyanescens",
     "普罗斯卡林": "Proscaline",
@@ -626,18 +626,31 @@ FREEOD_NAME_OVERRIDE = {
     "死藤": "Banisteriopsis Caapi",
     "秘鲁火炬仙人掌": "Peruvian Torch",
     "乌羽玉": "Lophophora Williamsii",
-    "二氟莫达菲尼": "Flmodafinil",
-    "氯苄雷司": "Clobenzorex",
     "水虉草": "Phalaris",
     "亚硝酸酯": "Poppers",
     # Chinese-titled pages whose English/street name mined to a junk fragment
     # (a single letter or a number split out of a systematic name), which then
-    # became a bogus canonical and, for Heroin, a duplicate substance.
-    "海洛因": "Heroin",
-    "替扎尼定": "Tizanidine",
+    # became a bogus canonical.
     "甲基己胺": "DMAA",
     "艾斯卡林": "Escaline",
     "可可": "Cocoa",
+    # FreeOD-only pages with no Latin name among their own names. Each English
+    # name is the one the page itself gives: its IUPAC name (oxymorphazone,
+    # 6-hydrazono-17-methyl-4,5-epoxymorphinan-3,14-diol), the binomial its
+    # text states (Lophophora fricii, Amanita mappa = A. citrina, Anadenanthera
+    # peregrina = yopo), or its stated composition (dextromethorphan 10-15 mg +
+    # guaifenesin 100 mg).
+    "羟吗啡酮腙": "Oxymorphazone",
+    "复方甘草片": "Compound Licorice Tablets",
+    "愈美片": "Dextromethorphan-Guaifenesin",
+    "橙黄鹅膏": "Amanita Citrina",
+    "翠冠玉": "Lophophora Diffusa",
+    "银冠玉": "Lophophora Fricii",
+    "鹅花树": "Tabernanthe Iboga",
+    "大果柯拉豆": "Yopo",
+    # Titled 鼠尾草素乙 (salvinorin B), but the article and its IUPAC name are
+    # salvinorin B methoxymethyl ether (2-MMSB).
+    "鼠尾草素乙": "2-Methoxymethyl-salvinorin B",
 }
 
 # FreeOD index/category/genus pages that aren't individual substances — skipped
@@ -648,6 +661,22 @@ FREEOD_SKIP_PAGES = {
     "裸盖菇属",  # Psilocybe — genus index
     "精神活性相思树属植物",  # Psychoactive Acacia spp — category page
 }
+
+
+_LATIN_RE = re.compile(r"[A-Za-z]")
+
+
+def localized_zh_titles() -> dict[str, str]:
+    """zh-Hans/zh-Hant title -> canonical name, from data/curated/localized-names.json."""
+    path = CURATED_DIR.parent / "localized-names.json"
+    if not path.exists():
+        return {}
+    out: dict[str, str] = {}
+    for entry in json.loads(path.read_text()).get("names", []):
+        for lang in ("zh-Hans", "zh-Hant"):
+            if entry.get(lang):
+                out.setdefault(entry[lang], entry["substance"])
+    return out
 
 
 def _freeod_canonical_name(title: str, names: list[str]) -> str | None:
@@ -1099,6 +1128,30 @@ def load_dosewiki_ids() -> dict[str, dict]:
         for slug, entry in json.loads(DOSEWIKI_IDS.read_text()).items()
         if not slug.startswith("_")
     }
+
+
+def load_erowid_ids() -> dict[str, dict]:
+    """The hand-reviewed Erowid chapter -> Piru substance join, keyed by the
+    chapter page's file stem (``pihkal096``)."""
+    if not EROWID_IDS.exists():
+        return {}
+    return {
+        key: entry
+        for key, entry in json.loads(EROWID_IDS.read_text()).items()
+        if not key.startswith("_")
+    }
+
+
+_EROWID_CHAPTER_RE = re.compile(r"/((?:pi|ti)hkal\d+)\.shtml", re.I)
+
+
+def erowid_chapter_key(sources: list | None) -> str | None:
+    """The chapter key (``pihkal096``) of an Erowid record, read from its URL."""
+    for src in sources or []:
+        m = _EROWID_CHAPTER_RE.search(src if isinstance(src, str) else "")
+        if m:
+            return m.group(1).lower()
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -3068,16 +3121,11 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     "Ephenidine": {"cid": 110821},
     "Methoxphenidine": {"cid": 67833251},
     "Dermorphin": {"cid": 5485199},
-    "GHK": {"cid": 73587},
-    "Argireline": {"cid": 71587772},
     "SS-31": {"cid": 11764719},  # elamipretide
     "AOD-9604": {"cid": 71300630},
     "VIP": {"cid": None},  # no PubChem match for the peptide — drop the wrong CID
-    # Wrong InChIKey (CID was correct — the stored key belonged to another molecule,
-    # e.g. MDA carried amphetamine's key):
-    "MDA": {"inchikey": "NGBBVGZWCFBOGO-UHFFFAOYSA-N"},
+    # Wrong InChIKey (CID was correct — the stored key belonged to another molecule):
     "Tropacocaine": {"inchikey": "XQJMXPAEFMWDOZ-UHFFFAOYSA-N"},
-    "25CN-NBOH": {"inchikey": "VWEDZTZAXHMZIL-UHFFFAOYSA-N"},
     # (−)-cocaine, the natural product and the medication (PubChem CID 446220):
     # the (1R,2R,3S,5S) enantiomer. The row was previously flattened because
     # dedup keys on the first-14 skeleton and no other ZPUCINDJVBIVPJ tropane
@@ -3092,14 +3140,14 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     # free base — desalt the formula to match the structure (MW recomputed by
     # reconcile_formula_mass). PubChem CID 5284603.
     "Oxycodone": {"formula": "C18H21NO4"},
-    # NPS-DataHub handed us the hydrochloride formula (C11H16ClNO, MW 213.71)
-    # while the InChIKey/structure are the free base (2-(methylamino)-1-(2-methyl
-    # phenyl)propan-1-one, PubChem CID 56603536). The molar/EC50 occupancy math
-    # needs the free-base mass, so desalt the formula — reconcile_formula_mass then
-    # recomputes MW 213.71 → 177.24. Salt→freebase factor 0.829. MW pinned to the
-    # PubChem canonical 177.24 (CID not in the offline snapshots) so it matches its
-    # isomers mephedrone/3-MMC exactly rather than the atomic-table 177.25.
-    "2-MMC": {"formula": "C11H15NO", "molecular_weight": 177.24},
+    # Stored as the hydrochloride (XEHNLVMHWYPNEQ, CID 122764, C9H12ClN) while
+    # its merged-in 2-AI record carried the free base. The row is the molecule:
+    # 2,3-dihydro-1H-inden-2-amine, CID 76310, C9H11N.
+    "2-Aminoindane": {
+        "cid": 76310,
+        "inchikey": "LMHHFZAXSANGGM-UHFFFAOYSA-N",
+        "smiles": "NC1Cc2ccccc2C1",
+    },
     # --- Stage 0.0a: InChIKey collision cleanup (prerequisite to PSID minting).
     # Each pair below shared a full InChIKey because ONE row was overwritten with
     # the OTHER's structure. Correct keys/SMILES are re-derived from PubChem and
@@ -3163,7 +3211,7 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     # old skeleton-only check couldn't see. Corrected to PubChem's name-verified
     # structure (obabel(smiles) == inchikey confirmed). For most the stored key was
     # already right and only the SMILES was wrong; Indatraline and RTI-113 had the
-    # key wrong too. Notably R/S-MDMA had their SMILES SWAPPED.
+    # key wrong too.
     "Dasotraline": {
         "inchikey": "SRPXSILJHWNFMK-MEDUHNTESA-N",
         "smiles": "C1C[C@H](C2=CC=CC=C2[C@@H]1C3=CC(=C(C=C3)Cl)Cl)N",
@@ -3179,14 +3227,6 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     "Phenylephrine": {
         "inchikey": "SONNWYBIRXJNDC-VIFPVBQESA-N",
         "smiles": "CNC[C@@H](C1=CC(=CC=C1)O)O",
-    },
-    "R-(-)-MDMA": {
-        "inchikey": "SHXWCVYOXRDMCX-MRVPVSSYSA-N",
-        "smiles": "C[C@H](CC1=CC2=C(C=C1)OCO2)NC",
-    },
-    "S-(+)-MDMA": {
-        "inchikey": "SHXWCVYOXRDMCX-QMMMGPOBSA-N",
-        "smiles": "C[C@@H](CC1=CC2=C(C=C1)OCO2)NC",
     },
     "RTI-113": {
         "inchikey": "AAEKULYONKUBOZ-NBYUQASBSA-N",
@@ -3974,6 +4014,47 @@ def assert_effects_are_readable_in_english(con) -> dict:
     return {"rows": total or 0, "bridged": bridged or 0}
 
 
+def isomer_label_tokens() -> dict[str, dict[str, str]]:
+    """Family parent (normalised) -> {name a single isomer goes by: that isomer}.
+
+    Read from ``data/curated/isomer-families.json``: each variant's own name,
+    display name, brands and synonyms. A product label that names one of these
+    describes the isomer, never the racemate."""
+    path = CURATED_DIR.parent / "isomer-families.json"
+    if not path.exists():
+        return {}
+    out: dict[str, dict[str, str]] = {}
+    for family in json.loads(path.read_text()).get("families", []):
+        tokens = out.setdefault(normalise(family["parent"]), {})
+        for variant in family.get("variants", []):
+            names = [variant.get("name"), variant.get("displayName")]
+            names += variant.get("brands") or []
+            names += variant.get("synonyms") or []
+            for name in names:
+                if name:
+                    tokens[normalise(name)] = variant["name"]
+    return out
+
+
+def medtap_isomer_label(entry: dict, tokens: dict[str, dict[str, str]] | None = None) -> str | None:
+    """The single isomer a MedTAP label is about when its substance is a racemic
+    family parent, else None.
+
+    MedTAP files a label under the molecule's base name, so Lunesta
+    (eszopiclone) arrives as Zopiclone and a dexmethylphenidate label as
+    Methylphenidate. The product name says which molecule the label measured:
+    it is matched word for word against the isomer's names."""
+    tokens = isomer_label_tokens() if tokens is None else tokens
+    family = tokens.get(normalise(entry.get("substance") or ""))
+    product = normalise(entry.get("brand") or "")
+    if not family or not product:
+        return None
+    for token, variant in family.items():
+        if re.search(rf"(?<![0-9a-z]){re.escape(token)}(?![0-9a-z])", product):
+            return variant
+    return None
+
+
 def ingest_medtap_pk(build, path: Path) -> dict:
     """The reviewed FDA-label PK sidecar into `half_lives` and `pk_routes`.
 
@@ -3990,7 +4071,13 @@ def ingest_medtap_pk(build, path: Path) -> dict:
     label describes unless it says otherwise.
     """
     if not path.exists():
-        return {"half_lives": 0, "pk_routes": 0, "unresolved": 0, "adjudicated_out": 0}
+        return {
+            "half_lives": 0,
+            "pk_routes": 0,
+            "unresolved": 0,
+            "adjudicated_out": 0,
+            "isomer_labels": [],
+        }
     payload = json.loads(path.read_text())
     # Substances adjudicated as having no honest single half-life — a prodrug
     # whose label reports its metabolites' decay, an ester depot, a botanical
@@ -4001,11 +4088,27 @@ def ingest_medtap_pk(build, path: Path) -> dict:
     unresolvable = {
         normalise(entry["substance"]) for entry in adjudications.get("half_life_unresolvable", [])
     }
-    written = {"half_lives": 0, "pk_routes": 0, "unresolved": 0, "adjudicated_out": 0}
+    written = {
+        "half_lives": 0,
+        "pk_routes": 0,
+        "unresolved": 0,
+        "adjudicated_out": 0,
+        "isomer_labels": [],
+    }
+    tokens = isomer_label_tokens()
     for entry in payload.get("entries") or []:
         sid = build.substance_ids.get(normalise(entry["substance"]))
         if sid is None:
             written["unresolved"] += 1
+            continue
+        # A label for one isomer (Lunesta, Zenzedi, escitalopram) measured that
+        # isomer, and the isomer is folded into this parent by now, so none of
+        # its numbers may land on the racemate's row: dropped and reported.
+        isomer = medtap_isomer_label(entry, tokens)
+        if isomer is not None:
+            written["isomer_labels"].append(
+                f"{entry['substance']} <- {entry.get('brand')} ({isomer})"
+            )
             continue
         # The label is the citation; its NDC is what identifies the product
         # whose label the number came from. The build's uncited-numeric gate
@@ -4450,6 +4553,29 @@ def normalise(s: str) -> str:
     return s
 
 
+_CHARGE_STATE_NAME_RE = re.compile(r"(\(\d*[+\-−]\)|aminium)$", re.IGNORECASE)
+
+
+def is_charge_state_name(name: str) -> bool:
+    """A record named for one protonation state: "Serotonin(1+)",
+    "D-synephrine(1+)", "Phenylethanolaminium". ChEBI files these as species of
+    the neutral compound, which the catalog already carries; a dose is never
+    recorded against a charge state. Bare "-ium" stays: Lithium and Sodium are
+    real rows."""
+    return bool(_CHARGE_STATE_NAME_RE.search((name or "").strip()))
+
+
+def is_short_code(name: str) -> bool:
+    """A name of at most two letters/digits: "M", "T", "E", "AL", "IP", "Ma".
+
+    These are Shulgin's book codes and street slang, and each one names several
+    unrelated drugs at once ("M" is mescaline in PiHKAL and morphine on the
+    street; "T" is tryptamine in TiHKAL and methamphetamine on the street). They
+    stay as search aliases but never decide which substance a record belongs
+    to: alias matching across sources skips them."""
+    return len(re.sub(r"[^0-9a-z]", "", normalise(name))) <= 2
+
+
 # Stereo/IUPAC prefixes that mark a name as a chemistry-noise variant.
 # e.g. "(+/-)-noradrenaline", "(R)-N-trans-feruloyloctopamine",
 # "(E,E)-bastadin 19", "(2E)-3-(...)", "(2R)-1-(3-chlorophenyl)-...",
@@ -4762,30 +4888,7 @@ ANTIBIOTIC_TAGS = {"antibiotic", "antiviral", "antifungal", "antiparasitic", "an
 # OTC compounds whose dose is on the package — dose may be shown even without a
 # recreational signal (the developer's explicit exception to dose-suppression).
 OTC_ALLOWLIST = {
-    "melatonin",
-    "caffeine",
-    "ibuprofen",
-    "acetaminophen",
-    "paracetamol",
-    "aspirin",
-    "naproxen",
-    "diphenhydramine",
-    "doxylamine",
-    "loratadine",
-    "cetirizine",
-    "famotidine",
-    "loperamide",
-    "dextromethorphan",
-    "pseudoephedrine",
-    "phenylephrine",
     "guaifenesin",
-    "nicotine",
-    "dimenhydrinate",
-    "meclizine",
-    "ranitidine",
-    "omeprazole",
-    "bismuth subsalicylate",
-    "simethicone",
 }
 
 # OTC medicines with **no** recreational use that harm-reduction wikis still list
@@ -4798,7 +4901,6 @@ OTC_ALLOWLIST = {
 # pseudoephedrine), which keep their recreational signal.
 NON_RECREATIONAL_OTC = {
     "acetaminophen",
-    "paracetamol",
     "ibuprofen",
     "aspirin",
     "naproxen",
@@ -5521,6 +5623,24 @@ def is_identifier_citation(
     return bool(_IDENTIFIER_LABEL_RE.match(u))
 
 
+def first_citable_reference(refs: list | None) -> str | None:
+    """The first reference in a list that ``cite()`` would keep.
+
+    A curated record lists its references in the order they were collected, and
+    that order often opens with a PubChem CID — an identifier, which ``cite()``
+    drops. Taking ``references[0]`` then leaves the row uncited while a paper or
+    a Wikipedia article sits at index 1."""
+    for ref in refs or []:
+        if not isinstance(ref, str) or not ref.strip():
+            continue
+        doi, pmid, url, title = parse_reference(ref)
+        if (doi, pmid, url) != (None, None, None) and not is_identifier_citation(
+            doi, pmid, url, title
+        ):
+            return ref
+    return None
+
+
 def to_float(v) -> float | None:
     if v is None or v == "":
         return None
@@ -5716,12 +5836,6 @@ _NAME_REMAP: dict[str, str] = {
     "cannabidiol": "CBD",
     "cannabichromene": "CBC",
     "cannabigerol": "CBG",
-    # Adderall is a brand of mixed amphetamine salts — PsychonautWiki treats it
-    # as an Amphetamine alias. Merge so it isn't a parallel standalone entry.
-    "adderall": "Amphetamine",
-    "adderall ir": "Amphetamine",
-    "adderall xr": "Amphetamine",
-    "mydayis": "Amphetamine",
     # Wikidata's (±)-ephedrine, filed under a systematic name. Named at ingest
     # because structural dedup keeps the richer row's name, which was this one.
     "2-(methylamine)-1-phenyl-1-propanol": "Ephedrine",
@@ -5729,15 +5843,12 @@ _NAME_REMAP: dict[str, str] = {
     # the structural auto-dedup can't catch them. (The InChIKey connectivity
     # match handles all structurally-confirmed duplicates automatically.)
     "vyvanse": "Lisdexamfetamine",
-    "elvanse": "Lisdexamfetamine",
     # Demerol is a BRAND, and it was sitting in the catalog as a canonical name —
     # carrying pethidine's own InChIKey (XADCESSVHJOZHK) and CID 4058, with
     # Morpheridine filed separately as though they were peers. Canonicalise to the
     # INN; Demerol survives as an alias. Same defect class as the PMA duplication.
     "demerol": "Pethidine",
-    "meperidine": "Pethidine",
     "focalin": "Dexmethylphenidate",
-    "focalin xr": "Dexmethylphenidate",
     # Wikidata long-form / synonym variants that never matched the enriched
     # canonical (different or absent InChIKey) and would otherwise be dropped as
     # content-less stubs — fold them so their name survives as a search alias.
@@ -5746,11 +5857,9 @@ _NAME_REMAP: dict[str, str] = {
     # alias. Remap at ingest so the common name is the canonical and the systematic
     # name folds to an alias — nobody calls it "Lysergic Acid Diethylamide".
     "lysergic acid diethylamide": "LSD",
-    "d-lysergic acid diethylamide": "LSD",
     "dimethyltryptamine": "DMT",  # DMT = N,N-dimethyltryptamine
     "dimethyltryptamine fumarate": "DMT",  # DMT fumarate salt
     "dimethyltryptamine hydrochloride": "DMT",  # DMT HCl salt
-    "bufotenine": "Bufotenin",  # alternate spelling of 5-HO-DMT
     "indopan": "AMT",  # Indopan = brand name for α-methyltryptamine
     "5-bromodimethyltryptamine": "5-Bromo-DMT",  # same InChIKey ATEYZYQLBQUZJE
     "4-hydroxy-n,n diethyltryptamine": "4-HO-DET",  # same InChIKey OHHYMKDBKJPILO
@@ -5801,14 +5910,6 @@ def remapped_record(name: str) -> bool:
 # (loser canonical, winner canonical, fold loser's aliases?). Verified synonyms
 # only — never enantiomers or merely-related drugs.
 _FORCE_MERGE: list[tuple[str, str, bool]] = [
-    # "MEM" (PiHKAL #90) IS 2,5-dimethoxy-4-ethoxyamphetamine — the survivor
-    # already displays as MEM and carries the alias. The erowid-pihkal and
-    # tripsit records are named just "MEM", so they minted a bare stub (no
-    # InChIKey → invisible to structural dedup) holding the PiHKAL/TripSit
-    # dose ladders while the identified row held the durations. Surfaced by
-    # audit/compare_to_drugbank.py when the stub name-matched methylergometrine
-    # (which also answers to "MEM").
-    ("MEM", "2,5-Dimethoxy-4-ethoxyamphetamine", True),
     # "PMA" and "Para-Methoxyamphetamine" are one molecule under two names, and
     # BOTH displayed as "PMA" — two different dose ladders under one shown name.
     # The short-name row is a bare stub (no InChIKey, no formula, no CID), which
@@ -5837,21 +5938,6 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     ("Methylphenidate-transdermal", "Methylphenidate", True),
     # Same-InChIKey real duplicates dedup missed (not alias-linked).
     ("S-Ketamine", "Esketamine", True),  # esketamine IS the S-enantiomer (YQEZLKZALYSWHR)
-    ("Ethylcathinone", "N-Ethylcathinone", True),  # ethcathinone (QTFKIBOSWFGCSL); NEC is curated
-    # Psilocybin's mg dose ladder lives in a mislabelled same-InChIKey sibling.
-    # Fold the DATA but NOT the name — "4-HO-DMT" is psilocin, a different drug.
-    ("4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER", "Psilocybin", False),
-    # 2-FDCK doubled: the short-name stub carries a WRONG InChIKey
-    # (PHFAGYYTDLITTB) so structural dedup never matched the full-name record
-    # (BAHANNQVCQDQQT, the correct key). Fold the stub into the correctly-keyed
-    # canonical; display stays "2-FDCK" via its display_name.
-    ("2-FDCK", "2-Fluorodeschloroketamine", True),
-    # "MAL" is the Erowid PIHKAL Part 2 shorthand for Methallylescaline. The
-    # PIHKAL record is a structure-less stub (no InChIKey/SMILES), so the
-    # alias-linked union-find (Methallylescaline already lists "mal") never had
-    # the structural proof mergeable() requires. Fold the stub's PIHKAL dose/
-    # duration into the full-data record; "MAL" survives as an alias.
-    ("MAL", "Methallylescaline", True),
     # Same-InChIKey connectivity-block duplicates that dedup left split because
     # BOTH rows carry their own dose/duration (the auto-merge gate only folds a
     # data-poor stub, never two data-rich rows). All verified same molecule.
@@ -5920,10 +6006,7 @@ _DO_NOT_MERGE: set[frozenset[str]] = {
 # that smart_title_case can't fix (all-caps like "MELATONIN", or mixed-case
 # chemistry conventions like AcO / NBOMe). Keyed on normalise(name).
 _CANONICAL_CASE: dict[str, str] = {
-    "melatonin": "Melatonin",  # was all-caps MELATONIN
     "lsa": "LSA",  # was Lsa
-    "4-aco-dmt": "4-AcO-DMT",  # acetoxy = AcO
-    "25i-nbome": "25I-NBOMe",  # NBOMe convention
     # 2C = phenethylamine class, uppercase C (the fused "2c" segment carries a
     # digit so chem_caps skips it; bare 2C-B/2C-I arrive cased from source).
     "bk-2c-b": "bk-2C-B",
@@ -5942,11 +6025,8 @@ _CANONICAL_CASE: dict[str, str] = {
     "mpa": "MPA",
     "pce": "PCE",
     "aet": "AET",
-    "ept": "EPT",
     "lsz": "LSZ",
     "pma": "PMA",
-    "pmma": "PMMA",
-    "apap": "APAP",
     "mcpp": "mCPP",  # meta-chlorophenylpiperazine — lowercase locant m
     "pipt": "PiPT",  # propyl-isopropyltryptamine — camel morpheme
 }
@@ -5974,27 +6054,6 @@ _TAG_BLOCKLIST: dict[str, set[str]] = {
     # among the best-studied supplements). Category pinned to Supplement via
     # curated; strip the rec/quality tags so it doesn't read as a psychedelic.
     "melatonin": {"no-human-data", "TIHKAL"},
-    # Pure dopaminergic/noradrenergic stimulants wrongly carrying an empathogen
-    # tag (no meaningful serotonin release). Category is pinned via curated; this
-    # strips the residual cosmetic tag so the detail card doesn't call them
-    # empathogens. (See findings A/B — empathogen requires 5-HT release.)
-    "mdpv": {"empathogen", "entactogen"},
-    "2-fea": {"empathogen", "entactogen"},
-    "a-pihp": {"empathogen", "entactogen"},
-    "alpha-pihp": {"empathogen", "entactogen"},
-    "md-pihp": {"empathogen", "entactogen"},
-    "2-me-pihp": {"empathogen", "entactogen"},
-    "3f-pihp": {"empathogen", "entactogen"},
-    "flephedrone": {"empathogen", "entactogen"},
-    "methcathinone": {"empathogen", "entactogen"},
-    "n-ethylpentedrone": {"empathogen", "entactogen"},
-    "mexedrone": {"empathogen", "entactogen"},
-    "3-chloromethcathinone": {"empathogen", "entactogen"},
-    "3-fea": {"empathogen", "entactogen"},
-    "3-fma": {"empathogen", "entactogen"},
-    "4-fluoropentedrone": {"empathogen", "entactogen"},
-    "4-mpd": {"empathogen", "entactogen"},
-    "3-fluoromethcathinone": {"empathogen", "entactogen"},
 }
 
 # Final removal blocklist: rows that are NOT consumable substances and should
@@ -6003,20 +6062,18 @@ _TAG_BLOCKLIST: dict[str, set[str]] = {
 # non-drug entries (enzymes, lab reagents, hoaxes) that slipped through from
 # any source. Verified non-substances only.
 _REMOVE_NAMES: set[str] = {
-    normalise("DNA (cytosine-5)-methyltransferase 1"),
     normalise("Tetrakis(2-Methoxyisobutylisocyanide)Copper(I) Tetrafluoroborate"),
-    normalise("Jenkem"),  # urban-legend hoax, no active pharmacology
     # Periodic-table / biomolecule entries that aren't consumable substances —
     # this is a substance tracker, not a chemistry catalogue. (Calcium / Iodine /
     # Lithium / Potassium / Sodium stay: they're real supplements / medications.)
     normalise("DNA"),
     normalise("Silver"),
     normalise("Hydrogen"),
-    # Redundant protonated-cation duplicate of Oxedrine (synephrine).
-    normalise("D-synephrine(1+)"),
     # Pharmacologically inactive modafinil metabolites — not consumable/loggable
-    # substances (no wake-promoting activity, no human dosing). The curated stub
-    # files were removed alongside these entries.
+    # substances (no wake-promoting activity, no human dosing). PROVIGIL label
+    # (DailyMed set id 0391f182-1958-9fef-a944-53b229ce99e7) §12.1: the two
+    # metabolites "do not appear to contribute to the CNS-activating
+    # properties of modafinil"; §12.3: inactive in preclinical models.
     normalise("Modafinil acid"),
     normalise("Modafinil sulfone"),
 }
@@ -6067,7 +6124,23 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     # 3-FXE, which are the meta compound's names. Canket keeps 2-FXE, which is
     # correctly its own.
     "2-fluorodeschloroketamine": {"canket", "fluorexetamine"},
-    "canket": {"fluorexetamine", "fxe", "3-fxe", "3‑fxe"},
+    "canket": {"fluorexetamine", "fxe", "3-fxe"},
+    # The plant has its own row; the molecule keeps only its own names.
+    "ibogaine": {"tabernanthe iboga", "t. iboga root bark"},
+    # FreeOD's 2-MMSB article is titled 鼠尾草素乙, which is salvinorin B itself.
+    "2-methoxymethyl-salvinorin b": {"鼠尾草素乙"},
+    # PiHKAL compounds with rows of their own, listed by other sources as names
+    # of a neighbor: MDPH is 3,4-methylenedioxyphentermine, Ψ-2C-T-4 the
+    # 2,6-dimethoxy isomer of 2C-T-4, and TMPEA (#168) the 2,4,5 isomer of
+    # mescaline.
+    "mdphp": {"mdph"},
+    "2c-t-4": {"psi-2c-t-4"},
+    # Lean is promethazine-codeine syrup and has its own row, dosed in mL.
+    "codeine": {"lean", "purple drank"},
+    # Same tangle, methoxy edition: 2-MeO-ketamine is the ortho compound
+    # (CNC1(CCCCC1=O)c1ccccc1OC); MXM, methoxmetamine, is the meta one.
+    # drug.community's 2-MeO-ketamine page lists MXM among its names.
+    "2-meo-ketamine": {"mxm"},
     # GHB carries the names of its two PRODRUGS. They are separate substances in
     # this DB with their own ladders — and, critically, dosed in **millilitres**
     # where GHB is dosed in **grams**, so a reader who searched "GBL" and landed
@@ -6089,48 +6162,25 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
         "γ-羟基丁酸内酯",
         "4-羟基丁酸内酯",
         "氧杂环戊烷-2-酮",
-        "4-内酯",  # scrape fragment, not a name of anything
     },
     "cannabis": {
-        # Δ⁹-THC and synonyms — distinct molecule, has its own entry
+        # Δ⁹-THC and CBD: distinct molecules with entries of their own
         "thc",
         "delta-9-thc",
         "delta-9 thc",
-        "delta 9 thc",
-        "delta‑9 thc",
-        "delta-9-tetrahydrocannabinol",
-        "tetrahydrocannabinol",
         "δ9-thc",
-        "δ9‑thc",
-        "δ⁹-thc",
         "dronabinol",
-        "dronabinol (natural)",
-        "marinol",
-        "syndros",
-        # CBD and synonyms — distinct molecule, has its own entry
         "cbd",
         "cannabidiol",
-        "(-)-cannabidiol",
         "epidiolex",
-        "epidiolex (purified cbd)",
-        # Other cannabinoids — each has its own entry
-        "cbg",
-        "cannabigerol",
-        "cbn",
-        "cannabinol",
-        "cbc",
-        "cannabichromene",
-        "cbdv",
-        "cannabidivarin",
         # Mixtures and prepared products — not synonyms for raw cannabis
         "nabiximols",
-        "nabiximols (sativex)",
-        "sativex",
         "thc+cbd",
         "tetrahydrocannabinol+cannabidiol",
     },
     # Plant / preparation aliased onto the active MOLECULE (each has its own entry).
     "mescaline": {
+        "tmpea",
         "peyote",
         "san pedro",
         "san-pedro",
@@ -6138,7 +6188,6 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
         "peyote alkaloid",
         "san pedro/trichocereus cactus alkaloid",
     },
-    "mushrooms": {"psilocybin", "psilocin"},
     "caffeine": {"coffee"},
     # Distinct compounds wrongly cross-aliased (dangerous in a HR tracker).
     # "ma" = methamphetamine abbrev. "tenamfetamine" is the INN of **MDA**, not
@@ -6146,9 +6195,9 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     # it is already correctly attached to the MDA record; here it pointed one
     # methyl group away.
     "mdma": {"ma", "tenamfetamine"},
-    "methylone": {"molly", "bath salt", "bath salts"},  # Molly = MDMA slang
+    "methylone": {"molly", "bath salt"},  # Molly = MDMA slang
     "5-htp": {"l-tryptophan", "tryptophan"},  # distinct precursor
-    "melatonin": {"5-mt", "5-methoxytryptamine", "ramelteon"},
+    "melatonin": {"5-mt"},
     "diphenhydramine": {"dimenhydrinate", "fexofenadine", "meclizine"},
     "4-ho-met": {"ethocin"},  # ethocin = 4-HO-DET
     "dextromethorphan": {"duract"},  # bromfenac (an NSAID)
@@ -6199,7 +6248,6 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
 _CLASS_DOSE_CEILING_MG: dict[str, float] = {
     # Fentanyl-class opioids: every clinically-used route fits in <2 mg.
     "fentanyl-class-potency": 2.0,
-    "fentanyl-analog": 2.0,
     # Nitazenes flagged as extreme-potency (etonitazene & friends).
     # `extreme-potency` also covers designer-benzos (clonazolam etc.)
     # whose heavy doses are at most ~2 mg, so the same ceiling fits.
@@ -6333,9 +6381,39 @@ class Build:
         #: write, for the build report — an overwrite that leaves no trace is
         #: indistinguishable from the corruption it replaced.
         self.corrections: list[dict] = []
+        #: Erowid records skipped because data/curated/erowid-ids.json names no
+        #: substance for their chapter: (source slug, record name, chapter key).
+        self.erowid_unmapped: list[tuple[str, str, str | None]] = []
         #: dose.wiki's chemistry per joined substance id, applied as corrections
         #: after the PubChem reconciliation passes.
         self.dosewiki_claims: dict[int, dict[str, str]] = {}
+        #: Rows an ingester refused on the grounds a dose gate would use (a
+        #: Shulgin no-activity bound, a tag ceiling); they join the gate report.
+        self.ingest_gate_hits: list[dose_gates.GateHit] = []
+        #: Upstream dose and duration values the build could not read, or read
+        #: only part of, written to UPSTREAM_DROPS for reporting upstream.
+        self.upstream_drops: list[dict] = []
+
+    def note_upstream_drop(
+        self, source: str, sid: int | None, route: str, field: str, raw, reason: str
+    ) -> None:
+        """Record one upstream value the build refused or truncated."""
+        name = None
+        if sid is not None:
+            row = self.cur.execute(
+                "SELECT canonical_name FROM substances WHERE id = ?", (sid,)
+            ).fetchone()
+            name = row[0] if row else None
+        self.upstream_drops.append(
+            {
+                "source": source,
+                "substance": name,
+                "route": normalise_route(route or "") or route,
+                "field": field,
+                "raw": raw if isinstance(raw, str) else json.dumps(raw, ensure_ascii=False),
+                "reason": reason,
+            }
+        )
 
     # ---- seeds ----
 
@@ -6492,7 +6570,7 @@ class Build:
         name = name.translate(_GREEK_CAPS_TO_LATIN)
         # Single choke-point for blocking IUPAC chemistry noise from any
         # ingester (wikidata SPARQL, drug.community, enrichment).
-        if is_chemistry_noise(name):
+        if is_chemistry_noise(name) or is_charge_state_name(name):
             return None
         # Never let a non-Latin (Chinese) IUPAC name land — PubChem supplies the
         # English systematic name (see apply_pubchem_computed).
@@ -6882,6 +6960,23 @@ class Build:
             self.stats["dropped_empty_dose"] = self.stats.get("dropped_empty_dose", 0) + 1
             self.note_reject("dropped_empty_dose", unit, sid=sid, route=route, source=source_slug)
             return
+        raw_ladder = {
+            "unit": unit,
+            **{
+                tier: value
+                for tier, value in (
+                    ("threshold", threshold),
+                    ("light", light),
+                    ("common", common),
+                    ("strong", strong),
+                    ("heavy", heavy),
+                )
+                if value is not None
+            },
+        }
+
+        def refused(reason: str) -> None:
+            self.note_upstream_drop(source_slug, sid, route, "ladder", raw_ladder, reason)
 
         # Reject ambiguous unit strings. Sources occasionally store dose-row
         # units as "mg (weighed) or µg (weighed)" or "mg (or mcg)" — the
@@ -6895,6 +6990,7 @@ class Build:
             self.note_reject(
                 "dropped_ambiguous_unit", unit, sid=sid, route=route, source=source_slug
             )
+            refused("dropped_ambiguous_unit")
             return
 
         # Drop per-day dose totals on non-patch routes. A per-dose logger cannot
@@ -6904,6 +7000,7 @@ class Build:
             self.stats.setdefault("dropped_daily_unit", 0)
             self.stats["dropped_daily_unit"] += 1
             self.note_reject("dropped_daily_unit", unit, sid=sid, route=route, source=source_slug)
+            refused("dropped_daily_unit")
             return
 
         if unit and unit.strip().lower() in UNQUANTIFIED_DOSE_UNITS:
@@ -6912,6 +7009,7 @@ class Build:
             self.note_reject(
                 "dropped_unquantified_unit", unit, sid=sid, route=route, source=source_slug
             )
+            refused("dropped_unquantified_unit")
             return
 
         unit = canonical_mass_unit(unit)
@@ -6946,6 +7044,7 @@ class Build:
                 if prev > nxt * 10:
                     self.stats.setdefault("dropped_inverted_tiers", 0)
                     self.stats["dropped_inverted_tiers"] += 1
+                    refused("dropped_inverted_tiers")
                     return
 
         # Monotonicity sanity check #2: tier-upper regression. Each tier's
@@ -6963,6 +7062,7 @@ class Build:
                 if prev > nxt:
                     self.stats.setdefault("dropped_regressed_tiers", 0)
                     self.stats["dropped_regressed_tiers"] += 1
+                    refused("dropped_regressed_tiers")
                     return
 
         # Class-keyed dose-magnitude sanity check. Each tag the substance
@@ -6984,6 +7084,22 @@ class Build:
                     if v * factor > ceiling_mg:
                         self.stats.setdefault("dropped_class_dose_ceiling", 0)
                         self.stats["dropped_class_dose_ceiling"] += 1
+                        tag = min(
+                            (t for t in tags if t in _CLASS_DOSE_CEILING_MG),
+                            key=lambda t: (_CLASS_DOSE_CEILING_MG[t], t),
+                        )
+                        name = self.cur.execute(
+                            "SELECT canonical_name FROM substances WHERE id = ?", (sid,)
+                        ).fetchone()
+                        self.ingest_gate_hits.append(
+                            dose_gates.GateHit(
+                                rule=f"tag ceiling (ingest) · {tag} ≤ {ceiling_mg:g} mg",
+                                substance=name[0] if name else str(sid),
+                                source=source_slug,
+                                route=route,
+                                detail=f"{max(tiers_flat):g} {unit} — {raw_ladder}",
+                            )
+                        )
                         return
 
         try:
@@ -7012,6 +7128,7 @@ class Build:
             self.stats["dose_ranges_duplicate_dropped"] = (
                 self.stats.get("dose_ranges_duplicate_dropped", 0) + 1
             )
+            refused("dose_ranges_duplicate_dropped")
 
     def add_peptide_profile(self, sid: int, source_slug: str, profile: dict) -> None:
         """Insert the 1:1 peptide/biologic reference row. No-op if every field
@@ -7155,11 +7272,7 @@ class Build:
         if not cache_path.exists():
             return 0
         cache = json.loads(cache_path.read_text())
-        dead = [
-            u
-            for u, e in cache.items()
-            if e.get("verdict") == "dead" and "accessdata.fda.gov" not in u
-        ]
+        dead = [u for u, e in cache.items() if e.get("verdict") == "dead"]
         if not dead:
             return 0
         # Fact tables that carry a nullable citation_id (everything except the
@@ -7270,6 +7383,9 @@ class Build:
         drop_all, drop_afterglow, drop_onset = self._duration_profile_faults(profile, route)
         if drop_all:
             self.stats["duration_profile_contradictory"] += 1
+            self.note_upstream_drop(
+                source_slug, sid, route, "timeline", profile, "duration_profile_contradictory"
+            )
             return
         for phase in ("onset", "comeup", "peak", "offset", "afterglow", "total"):
             p = profile.get(phase)
@@ -7277,13 +7393,20 @@ class Build:
                 continue
             if phase == "afterglow" and drop_afterglow:
                 self.stats["duration_afterglow_implausible"] += 1
+                self.note_upstream_drop(
+                    source_slug, sid, route, phase, p, "duration_afterglow_implausible"
+                )
                 continue
             if phase == "onset" and drop_onset:
                 self.stats["duration_onset_impossible"] += 1
+                self.note_upstream_drop(
+                    source_slug, sid, route, phase, p, "duration_onset_impossible"
+                )
                 continue
             mn = to_float(p.get("min"))
             mx = to_float(p.get("max"))
             if mn is None or mx is None:
+                self.note_upstream_drop(source_slug, sid, route, phase, p, "phase_missing_a_bound")
                 continue
             try:
                 self.cur.execute(
@@ -7348,21 +7471,10 @@ class Build:
     # left intact. See acute-vs-depot-duration.
     DURATION_SCRUB_NAMES = {
         "tranylcypromine",  # MAOI: 10–21 d is enzyme regeneration, not acute effect
-        "acamprosate",  # anti-craving, steady-state med
         "fluconazole",  # antifungal dosing interval
-        "phenytoin",  # anticonvulsant, chronic
-        "nadolol",  # beta-blocker, chronic
         "sibutramine",  # withdrawn appetite suppressant, chronic
         "arimistane",  # aromatase-inhibitor supplement
-        "5-amino-1mq",  # NNMT-inhibitor supplement
-        "magnesium glycinate",
-        "magnesium citrate",
-        "creatine",
         "creatine monohydrate",
-        "pqq",
-        "vitamin b6",
-        "panax ginseng",
-        "citicoline",
         "theobromine",  # mild, very-long; no meaningful acute curve
     }
 
@@ -7380,9 +7492,6 @@ class Build:
         ],
         "fentanyl": [
             ("transdermal", 2, 3, "days"),  # 72 h patch
-        ],
-        "liraglutide": [
-            ("subcutaneous", 1, 1, "days"),  # daily GLP-1 injection
         ],
     }
 
@@ -7623,18 +7732,20 @@ class Build:
     def add_tolerance(self, sid: int, source_slug: str, t: dict) -> None:
         if not t:
             return
+        half_life = to_float(t.get("halfLife") or t.get("half_life_days"))
+        full_reset = to_float(t.get("fullResetDays") or t.get("full_reset_days"))
+        build_rate = t.get("buildRate") or t.get("build_rate")
+        # The app reads a tolerance row only when all three numbers are present
+        # (`resolvedTolerance` in SubstanceReadModel.swift), so a notes-only row
+        # ships in the bundle and reaches no screen.
+        if half_life is None or full_reset is None or not build_rate:
+            self.stats["tolerance_unrenderable"] += 1
+            return
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
                 "INSERT INTO tolerance(substance_id, source_id, half_life_days, full_reset_days, build_rate, notes) VALUES (?, ?, ?, ?, ?, ?)",
-                (
-                    sid,
-                    src,
-                    to_float(t.get("halfLife") or t.get("half_life_days")),
-                    to_float(t.get("fullResetDays") or t.get("full_reset_days")),
-                    t.get("buildRate") or t.get("build_rate"),
-                    t.get("notes"),
-                ),
+                (sid, src, half_life, full_reset, build_rate, t.get("notes")),
             )
             self.stats["tolerance"] += 1
         except sqlite3.IntegrityError:
@@ -7751,7 +7862,9 @@ class Build:
         )
         self.stats["receptor_oligomers"] += 1
 
-    def add_downstream(self, sid: int, source_slug: str, summary: str) -> None:
+    def add_downstream(
+        self, sid: int, source_slug: str, summary: str, citation: str | None = None
+    ) -> None:
         if not summary:
             return
         # The enrichment passes that filled this table left notes to the curator
@@ -7768,8 +7881,8 @@ class Build:
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO downstream_signalling(substance_id, source_id, summary) VALUES (?, ?, ?)",
-                (sid, src, summary),
+                "INSERT INTO downstream_signalling(substance_id, source_id, summary, citation_id) VALUES (?, ?, ?, ?)",
+                (sid, src, summary, self.cite(citation)),
             )
             self.stats["downstream_signalling"] += 1
         except sqlite3.IntegrityError:
@@ -8150,21 +8263,28 @@ class Build:
         # files CDP-Choline under "Citicoline", drug.community files MXP as
         # "MXP (Methoxphenidine)" — and keying on the raw record alone means an
         # exception silently does nothing, which looks exactly like a fixed row.
-        skip_routes = self._exception_for(self._dose_skip_map(slug), name, sid)
-        drop_routes = self._exception_for(self._route_drop_map(slug), name, sid)
-        drop_durations = self._exception_for(self._duration_drop_map(slug), name, sid)
+        # An Erowid record is filed under its chapter's substance, and its book
+        # code (`_record_name`) is still the name its exceptions are keyed on.
+        record_name = s.get("_record_name") or name
+        skip_routes = self._exception_for(self._dose_skip_map(slug), record_name, sid)
+        drop_routes = self._exception_for(self._route_drop_map(slug), record_name, sid)
+        drop_durations = self._exception_for(self._duration_drop_map(slug), record_name, sid)
         for r in s.get("routes") or []:
             if not isinstance(r, dict):
                 continue
             route_key = normalise_route(r.get("route") or "")
             # `"drop": "route"` — the route is not offered at all, so nothing
             # from it is ingested (ladder, timeline or protocol).
-            if drop_routes is None or (drop_routes and route_key in drop_routes):
+            if drop_routes and drop_routes.covers(
+                route_key, effective=bool(r.get("doses") or r.get("duration"))
+            ):
                 self.stats["route_dropped"] += 1
                 continue
             doses = r.get("doses") or {}
             route_ref = r.get("source")  # optional per-route citation (dose + duration)
-            if doses and (skip_routes is None or (skip_routes and route_key in skip_routes)):
+            if doses and slug in SHULGIN_BOOK_SLUGS:
+                doses = self._shulgin_dosage_gate(sid, slug, route_key, r, doses)
+            if doses and skip_routes and skip_routes.covers(route_key):
                 self.stats["dose_skipped"] += 1
                 doses = {}  # drop the ladder, keep whatever duration rides with it
             # An empty `doses` block is fine here — `add_dose` drops a row with
@@ -8183,7 +8303,7 @@ class Build:
                 citation=route_ref,
             )
             if r.get("duration"):
-                if drop_durations is None or (drop_durations and route_key in drop_durations):
+                if drop_durations and drop_durations.covers(route_key):
                     self.stats["duration_skipped"] += 1
                 else:
                     self.add_duration_profile(
@@ -8210,7 +8330,7 @@ class Build:
                 slug,
                 moa.get("summary") or moa.get("description") or "",
                 description=moa.get("description"),
-                citation=(moa.get("references") or [None])[0],
+                citation=first_citable_reference(moa.get("references")),
             )
             for b in moa.get("bindings") or []:
                 if not isinstance(b, dict):
@@ -8338,7 +8458,7 @@ class Build:
                 "piru-curated",
                 rec.get("summary") or rec.get("description") or "",
                 description=rec.get("description"),
-                citation=refs[0] if refs else None,
+                citation=first_citable_reference(refs),
             )
             for b in rec.get("bindings") or []:
                 if isinstance(b, dict) and b.get("target"):
@@ -8620,6 +8740,10 @@ class Build:
                     continue
             if slug not in self.source_ids:
                 slug = "piru-curated"
+            if slug in ("erowid-pihkal", "erowid-tihkal"):
+                substance = self._resolve_erowid_chapter(substance, slug)
+                if substance is None:
+                    continue
             self._ingest_substance_record(
                 substance,
                 slug,
@@ -8627,6 +8751,42 @@ class Build:
                 pubchem_cid=to_int(rec.get("pubchemCID")),
                 cas=rec.get("cas"),
             )
+
+    @functools.cached_property
+    def _erowid_ids(self) -> dict[str, dict]:
+        return load_erowid_ids()
+
+    def _resolve_erowid_chapter(self, substance: dict, slug: str) -> dict | None:
+        """File an Erowid PiHKAL/TiHKAL record under the substance its chapter
+        describes, read from ``data/curated/erowid-ids.json``.
+
+        The record's own name is Shulgin's short code, and the codes are street
+        names of unrelated drugs: matched by name, mescaline's chapter (M) landed
+        on Morphine and tryptamine's (T) on Methamphetamine. A chapter the map
+        does not name is skipped and reported, never matched by name. The code
+        survives as an alias only when it is at least three characters, so ``M``
+        or ``IP`` never becomes a search name for the substance.
+
+        The entry's InChIKey checks the join (``test_erowid_chapters``) and is
+        not written to the row: the chapter's own record carries no structure,
+        and a key minted at ingest would change which rows structural dedup
+        folds together."""
+        key = erowid_chapter_key(substance.get("sources"))
+        entry = self._erowid_ids.get(key) if key else None
+        code = (substance.get("name") or "").strip()
+        if not entry or not entry.get("substance"):
+            self.erowid_unmapped.append((slug, code, key))
+            self.stats["erowid_unmapped"] = self.stats.get("erowid_unmapped", 0) + 1
+            return None
+        target = entry["substance"]
+        aliases = [a for a in substance.get("aliases") or [] if isinstance(a, str)]
+        if (
+            normalise(code) != normalise(target)
+            and len(re.sub(r"[^0-9a-z]", "", code.lower())) >= 3
+            and code not in aliases
+        ):
+            aliases.append(code)
+        return dict(substance, name=target, aliases=aliases, _record_name=code)
 
     def ingest_bundled_substances(self, path: Path) -> None:
         """Legacy ingester for the post-merge bundled JSON. Attributes
@@ -8721,6 +8881,28 @@ class Build:
                 continue
             self._ingest_substance_record(substance, "psychonautwiki")
 
+    def _shulgin_dosage_gate(self, sid: int, slug: str, route: str, r: dict, doses: dict) -> dict:
+        """The ladder a PIHKAL/TIHKAL route may ship, judged on the book's own
+        DOSAGE clause (`dosageText`). A no-activity bound or "unknown" ships
+        nothing and is reported: "greater than 60 mg" is the amount that did
+        nothing, and the collector's parser reads its 60 like any other figure."""
+        text = r.get("dosageText")
+        if dose_gates.shulgin_dosage_verdict(text) != "bound":
+            return doses
+        self.stats["shulgin_no_activity_bound"] += 1
+        name = self.cur.execute("SELECT canonical_name FROM substances WHERE id = ?", (sid,))
+        row = name.fetchone()
+        self.ingest_gate_hits.append(
+            dose_gates.GateHit(
+                rule="Shulgin no-activity bound · the DOSAGE line is not a dose",
+                substance=row[0] if row else str(sid),
+                source=slug,
+                route=route,
+                detail=f"DOSAGE: “{text}”",
+            )
+        )
+        return {}
+
     @staticmethod
     @functools.cache
     def _dose_skip_map(source_slug: str) -> dict[str, set[str] | None]:
@@ -8762,19 +8944,18 @@ class Build:
         return Build._exception_map(source_slug, "route")
 
     def _exception_for(
-        self, mapping: dict[str, set[str] | None], record_name: str, sid: int
-    ) -> set[str] | None | bool:
+        self, mapping: ExceptionMap, record_name: str, sid: int
+    ) -> ExceptionHit | bool:
         """Look an exception up by the source's own name for a substance, then by
-        the canonical name it actually resolved to. Returns the route set, None
-        for "every route", or False for no exception."""
+        the canonical name it actually resolved to. False for no exception."""
         key = (record_name or "").strip().lower()
         if key in mapping:
-            return mapping[key]
+            return mapping.get(key)
         row = self.cur.execute(
             "SELECT canonical_name FROM substances WHERE id=?", (sid,)
         ).fetchone()
         if row and (canon := row[0].strip().lower()) in mapping:
-            return mapping[canon]
+            return mapping.get(canon)
         return False
 
     @staticmethod
@@ -8793,7 +8974,7 @@ class Build:
             if not key:
                 continue
             routes = e.get("routes")
-            out[key] = {str(r).strip().lower() for r in routes} if routes else None
+            out[key] = {normalise_route(str(r)) for r in routes} if routes else None
         return out
 
     @staticmethod
@@ -8812,9 +8993,17 @@ class Build:
                 continue
             for entry in entries:
                 key = (entry.get("name") or "").strip().lower()
-                if key not in Build._exception_map(slug, entry.get("drop")).matched:
+                used = {
+                    route
+                    for name, route in Build._exception_map(slug, entry.get("drop")).used
+                    if name == key
+                }
+                routes = {normalise_route(str(r)) for r in entry.get("routes") or []}
+                idle = sorted(routes - used) if routes else ([] if used else ["every route"])
+                if idle:
                     unmatched.append(
-                        f"{slug}: {entry.get('name')} ({entry.get('drop') or 'doses'})"
+                        f"{slug}: {entry.get('name')} ({entry.get('drop') or 'doses'}; "
+                        f"suppresses nothing on {', '.join(idle)})"
                     )
         return unmatched
 
@@ -8877,23 +9066,35 @@ class Build:
                 # canonical route the same way add_dose does, so the exception
                 # list can be written in canonical terms (intravenous, …).
                 route_key = normalise_route(r.get("route") or "")
+                dr = r.get("dose_ranges") or {}
                 # Correction override: drop dc's dose ladder for excepted
                 # substances/routes so the next-priority source backfills.
-                if (
-                    skip_routes is None
-                    or (skip_routes and route_key in skip_routes)
-                    or drop_routes is None
-                    or (drop_routes and route_key in drop_routes)
+                has_numbers = any(re.search(r"\d", str(v)) for v in dr.values() if v)
+                if any(
+                    [
+                        bool(skip_routes) and skip_routes.covers(route_key, effective=has_numbers),
+                        bool(drop_routes) and drop_routes.covers(route_key, effective=has_numbers),
+                    ]
                 ):
                     self.stats["dc_dose_skipped"] += 1
                     continue
-                dr = r.get("dose_ranges") or {}
                 row_unit = r.get("units") or "mg"
-                threshold = self._parse_dc_scalar(dr.get("threshold"), row_unit)
-                light = self._parse_dc_range(dr.get("light"), row_unit)
-                common = self._parse_dc_range(dr.get("common"), row_unit)
-                strong = self._parse_dc_range(dr.get("strong"), row_unit)
-                heavy = self._parse_dc_scalar(dr.get("heavy"), row_unit)
+                route_raw = r.get("route", "")
+                tiers = {
+                    tier: self._read_dc_tier(sid, route_raw, tier, dr.get(tier), row_unit)
+                    for tier in ("threshold", "light", "common", "strong", "heavy")
+                }
+                threshold, light, common, strong, heavy = tiers.values()
+                # A ladder left with only its ends because the middle could not
+                # be read is not what the source said: it would class every
+                # logged dose against a threshold and a heavy mark alone.
+                if light is common is strong is None and any(
+                    re.search(r"\d", str(dr.get(t) or "")) for t in ("light", "common", "strong")
+                ):
+                    self.note_upstream_drop(
+                        slug, sid, route_raw, "ladder", dr, "degenerate_after_unreadable_tiers"
+                    )
+                    continue
                 self.add_dose(
                     sid,
                     slug,
@@ -8909,11 +9110,8 @@ class Build:
             duration_exceptions = self._exception_for(self._duration_drop_map(slug), name, sid)
             for timeline in reference_timelines(s, snapshot_sha):
                 route_key = normalise_route(timeline["route"] or "")
-                source_exception = (
-                    drop_routes is None
-                    or bool(drop_routes and route_key in drop_routes)
-                    or duration_exceptions is None
-                    or bool(duration_exceptions and route_key in duration_exceptions)
+                source_exception = bool(drop_routes and drop_routes.applies(route_key)) or bool(
+                    duration_exceptions and duration_exceptions.applies(route_key)
                 )
                 row = {
                     **timeline,
@@ -8944,20 +9142,23 @@ class Build:
                     continue
                 route = (dc.get("method") or "oral").lower()
                 route_key = normalise_route(route)
-                if (
-                    drop_routes is None
-                    or (drop_routes and route_key in drop_routes)
-                    or duration_exceptions is None
-                    or (duration_exceptions and route_key in duration_exceptions)
+                profile = self._dc_duration_profile(curve)
+                if any(
+                    [
+                        bool(drop_routes)
+                        and drop_routes.covers(route_key, effective=bool(profile)),
+                        bool(duration_exceptions)
+                        and duration_exceptions.covers(route_key, effective=bool(profile)),
+                    ]
                 ):
                     self.stats["duration_skipped"] += 1
                     continue
-                profile = self._dc_duration_profile(curve)
                 if profile:
                     self.add_duration_profile(sid, slug, route, profile)
                     self.stats["dc_durations_derived"] += 1
                 else:
                     self.stats["duration_skipped"] += 1
+                    self.note_upstream_drop(slug, sid, route, "timeline", curve, "curve_unreadable")
             for se in s.get("subjective_effects") or []:
                 if isinstance(se, str):
                     self.add_subjective_effect(sid, slug, se)
@@ -9191,6 +9392,67 @@ class Build:
         if f_in is None or f_row is None or f_row == 0:
             return 1.0
         return f_in / f_row
+
+    #: A tier holding one figure and nothing else: "1 mg", "~5 µg". Text after
+    #: the unit (a percent, "/kg/day", "or 180") means the figure is not a dose
+    #: in the row's unit, so it is not read as one.
+    _DC_LONE_VALUE_RE = re.compile(
+        r"^\s*~?\s*(\d+(?:\.\d+)?)\s*(?:g|mg|µg|ug|mcg|ng|ml)?\.?\s*$", re.IGNORECASE
+    )
+    _DC_NUMBER_RE = re.compile(r"\d+(?:\.\d+)?")
+    _DC_PARENTHETICAL_RE = re.compile(r"\([^)]*\)")
+    #: A tier that reports the absence of an effect. "No activity observed up
+    #: to 220 mg" carries a number, and reading it as a threshold turns the
+    #: amount that did nothing into the amount where effects begin.
+    _DC_NOT_A_DOSE_RE = re.compile(
+        r"\bno (?:activity|effects?)\b|\bsub[-‑ ]?threshold\b|\bnot established\b",
+        re.IGNORECASE,
+    )
+
+    def _read_dc_tier(self, sid: int, route: str, tier: str, raw, row_unit: str):
+        """One drug.community tier string, read the way its tier is stored, with
+        anything the read could not use written to the upstream-drop report.
+
+        A range tier given one figure ("1 mg") is stored as that figure on both
+        ends: the source said one number, and dropping it left ladders of a
+        threshold and a heavy mark alone. A string with letters from another
+        script is refused whole — "15ፀ mg" was some range, never 15."""
+        if raw is None or not str(raw).strip():
+            return None
+        text = str(raw)
+        if not re.search(r"\d", text):
+            return None  # "—", "N/A": nothing stated
+        slug = "drug.community"
+        if dose_gates.foreign_characters(text, name_column=False, foreign_row=False):
+            self.note_upstream_drop(slug, sid, route, tier, text, "foreign_characters")
+            return None
+        if self._DC_NOT_A_DOSE_RE.search(text):
+            self.note_upstream_drop(slug, sid, route, tier, text, "no_activity_reported")
+            return None
+        cleaned = self._dc_clean(text)
+        outside = self._DC_PARENTHETICAL_RE.sub(" ", cleaned)
+        numbers = self._DC_NUMBER_RE.findall(outside)
+        if tier in ("threshold", "heavy"):
+            value = self._parse_dc_scalar(text, row_unit)
+            if value is not None and len(numbers) > 1:
+                reason = (
+                    "range_in_single_value_tier"
+                    if self._parse_dc_range(text, row_unit)
+                    else "extra_numbers_ignored"
+                )
+                self.note_upstream_drop(slug, sid, route, tier, text, reason)
+            return value
+        span = self._parse_dc_range(text, row_unit)
+        if span is not None:
+            if len(numbers) > 2:
+                self.note_upstream_drop(slug, sid, route, tier, text, "extra_numbers_ignored")
+            return span
+        lone = self._DC_LONE_VALUE_RE.match(outside)
+        if lone:
+            value = float(lone.group(1)) * self._dc_unit_factor(cleaned, row_unit)
+            return {"lower": value, "upper": value}
+        self.note_upstream_drop(slug, sid, route, tier, text, "unparsed")
+        return None
 
     @classmethod
     def _parse_dc_scalar(cls, s: str | None, row_unit: str = "mg") -> float | None:
@@ -9492,6 +9754,7 @@ class Build:
                             return name
             return None
 
+        zh_titles = localized_zh_titles()
         for rec in sorted(data, key=lambda r: r.get("page_slug") or ""):
             title = (rec.get("title") or "").strip()
             if title in FREEOD_SKIP_PAGES:
@@ -9504,6 +9767,10 @@ class Build:
             # A curated zh→English override (for fully-Chinese pages) leads the
             # candidate list so it both matches and supplies an English name.
             override = FREEOD_NAME_OVERRIDE.get(title)
+            # A Chinese-only title that data/curated/localized-names.json already
+            # names as some substance's zh title is that substance.
+            if override is None and not _LATIN_RE.search(title):
+                override = zh_titles.get(title)
             latin_cands = (
                 ([override] if override else [])
                 + [canonical]
@@ -9558,11 +9825,13 @@ class Build:
             drop_routes = self._route_drop_map(slug).get(ex_key, False)
             drop_durations = self._duration_drop_map(slug).get(ex_key, False)
 
-            def excepted(mapping: set[str] | None | bool, route: str) -> bool:
-                return mapping is None or bool(mapping and normalise_route(route) in mapping)
+            def excepted(mapping: ExceptionHit | bool, route: str, effective: bool = True) -> bool:
+                return bool(mapping) and mapping.covers(route, effective=effective)
 
             for route, d in (rec.get("doses") or {}).items():
-                if excepted(drop_routes, route) or excepted(skip_routes, route):
+                tiers = ("threshold", "light", "common", "strong", "heavy")
+                full = any((d or {}).get(t) is not None for t in tiers)
+                if any([excepted(drop_routes, route, full), excepted(skip_routes, route, full)]):
                     self.stats["dose_skipped"] += 1
                     continue
                 unit = d.get("unit") or "mg"
@@ -9578,7 +9847,8 @@ class Build:
                     heavy=d.get("heavy"),
                 )
             for route, phases in (rec.get("durations") or {}).items():
-                if excepted(drop_routes, route) or excepted(drop_durations, route):
+                full = bool(phases)
+                if any([excepted(drop_routes, route, full), excepted(drop_durations, route, full)]):
                     self.stats["duration_skipped"] += 1
                     continue
                 if phases:
@@ -9932,12 +10202,16 @@ class Build:
         drop_routes = self._route_drop_map(slug).get(exception_key, False)
         drop_durations = self._duration_drop_map(slug).get(exception_key, False)
 
-        def excepted(mapping: set[str] | None | bool, route: str) -> bool:
-            return mapping is None or bool(mapping and normalise_route(route) in mapping)
+        def excepted(mapping: ExceptionHit | bool, route: str, effective: bool = True) -> bool:
+            return bool(mapping) and mapping.covers(route, effective=effective)
 
         for entry in (rec.get("dosage") or {}).get("routes") or []:
             route = entry.get("route") or ""
-            if excepted(drop_routes, route) or excepted(skip_doses, route):
+            full = any(
+                isinstance(b, dict) and (b.get("min") is not None or b.get("max") is not None)
+                for b in (entry.get("dose_ranges") or {}).values()
+            )
+            if any([excepted(drop_routes, route, full), excepted(skip_doses, route, full)]):
                 self.stats["dose_skipped"] += 1
                 continue
             bands = entry.get("dose_ranges") or {}
@@ -9990,10 +10264,22 @@ class Build:
 
         for entry in (rec.get("duration") or {}).get("routes") or []:
             route = entry.get("route") or ""
-            if excepted(drop_routes, route) or excepted(drop_durations, route):
+            full = bool(dosewiki_duration_profile(entry.get("stages")))
+            if any([excepted(drop_routes, route, full), excepted(drop_durations, route, full)]):
                 self.stats["duration_skipped"] += 1
                 continue
             profile = dosewiki_duration_profile(entry.get("stages"))
+            for raw_phase, value in (entry.get("stages") or {}).items():
+                phase = DOSEWIKI_STAGES.get(raw_phase)
+                if (
+                    phase
+                    and phase not in profile
+                    and isinstance(value, dict)
+                    and any(value.get(k) is not None for k in ("min", "max"))
+                ):
+                    self.note_upstream_drop(
+                        slug, sid, route, phase, value, "stage_unit_unknown_or_half_open"
+                    )
             if profile:
                 before = self.stats["durations"]
                 self.add_duration_profile(sid, slug, route, profile)
@@ -10122,13 +10408,16 @@ class Build:
     # Protein-target / non-drug junk rows in medtap (e.g. "Mu-type opioid
     # receptor", "5-hydroxytryptamine receptor 2A", "30S ribosomal protein S12",
     # "Sodium channel protein type 5 subunit alpha", "Penicillin-binding
-    # protein 2"). The keyword can sit anywhere in the name, not just the end,
-    # so match on word boundaries rather than endswith.
+    # protein 2", "Squalene monooxygenase" — terbinafine's label filed under its
+    # target). The keyword can sit anywhere in the name, not just the end, so
+    # match on word boundaries rather than endswith; an enzyme *drug* carries an
+    # INN (Asparaginase, Pancrelipase) and never a bare enzyme-class word.
     _MEDTAP_JUNK_RE = re.compile(
         r"\b(receptor|transporter|channel|subunit|ribosomal|topoisomerase|atpase|"
         r"binding protein|reductase|synthase|kinase|polymerase|integrase|protease|"
         r"transferase|methyltransferase|dehydrogenase|hydroxylase|carboxylase|"
-        r"transaminase|aminotransferase|lyase|ligase|isomerase)\b",
+        r"transaminase|aminotransferase|lyase|ligase|isomerase|"
+        r"monooxygenase|oxygenase|oxidase|anhydrase|lipase)\b",
         re.IGNORECASE,
     )
 
@@ -10176,20 +10465,10 @@ class Build:
     # converter offers no false-precision conversion — rather than the TripSit point.
     # Faithful-over-comprehensive (RC-expansion B4, 2026-06-23).
     _BENZO_EQUIV_NONE = {
-        "clonazolam",
-        "flualprazolam",
         "flubromazolam",
-        "bromazolam",
         "diclazepam",
         "flubromazepam",
-        "deschloroetizolam",
-        "metizolam",
-        "flunitrazolam",
-        "norflurazepam",
         "pyrazolam",
-        "adinazolam",
-        "nifoxipam",
-        "meclonazepam",
     }
     _BENZO_EQUIV_NONE_TEXT = (
         "No validated diazepam-equivalence. Designer benzodiazepine — absent from the Ashton "
@@ -10240,10 +10519,12 @@ class Build:
         """name/alias → sid index over everything already in the DB. Canonical
         names win over aliases (seeded first, aliases folded in with setdefault).
         Used by the enrichment ingesters, which match existing substances by
-        name OR alias and never mint a new row."""
+        name OR alias and never mint a new row. Aliases that are short codes
+        (``is_short_code``) are left out: each names several drugs."""
         index: dict[str, int] = dict(self.substance_ids)
         for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
-            index.setdefault(row[1], row[0])
+            if not is_short_code(row[1]):
+                index.setdefault(row[1], row[0])
         return index
 
     @staticmethod
@@ -10339,6 +10620,22 @@ class Build:
         for rec in json.loads(path.read_text()):
             sid = self._resolve_by_name_alias(rec.get("name"), name_to_sid, rec.get("aliases"))
             if sid is None:
+                continue
+            # An alias match is not an identity. NPS DataHub's "4-MA" is
+            # 4-methylamphetamine, while Piru's 4-MA alias belongs to
+            # 4-methoxyamphetamine (PiHKAL #97): a record that reached its row
+            # through an alias and whose structure disagrees with the row's
+            # donates nothing. (A canonical-name match stays trusted: NPS keys
+            # are mostly salts, whose skeleton block differs from the base's.)
+            row_key = self.cur.execute(
+                "SELECT inchikey FROM substances WHERE id = ?", (sid,)
+            ).fetchone()[0]
+            rec_key = rec.get("x_inchikey") or ""
+            by_alias = normalise(rec.get("name") or "") not in self.substance_ids
+            if by_alias and row_key and rec_key and row_key[:14] != rec_key[:14]:
+                self.stats["nps_structure_mismatch"] = (
+                    self.stats.get("nps_structure_mismatch", 0) + 1
+                )
                 continue
             self.cur.execute(
                 "UPDATE substances SET inchikey = COALESCE(inchikey, ?), cas = COALESCE(cas, ?), "
@@ -11198,32 +11495,6 @@ class Build:
             )
         return {"ranked_rows": ranked, "elemental_rows": with_elemental}
 
-    def audit_salt_supplement_durations(self) -> dict[str, int]:
-        """Remove the salt-tagged ACUTE duration rows on the Mg/Li supplement
-        parents.
-
-        Audit decision (WS-5 #5, maintainer-flagged): Magnesium (a mineral ion) and
-        Lithium (a serum-level-titrated maintenance drug) have no perceptible
-        acute onset/peak/offset curve — the salt-tagged durations folded in from
-        the curated variant files reflect serum Tmax, not a felt effect, and
-        drawing a PK timeline for them is the imperceptible-curve problem. Dropping
-        them makes those routes fall back to marker rendering. Dose ladders and the
-        salt picker are untouched (only `durations` rows go); long-acting depot
-        windows (durations_of_action) are unaffected. Runs after apply_salt_metadata."""
-        removed = 0
-        for parent_name in ("Magnesium", "Lithium"):
-            prow = self.cur.execute(
-                "SELECT id FROM substances WHERE canonical_name=?", (parent_name,)
-            ).fetchone()
-            if prow is None:
-                continue
-            cur = self.cur.execute(
-                "DELETE FROM durations WHERE substance_id=? AND salt_form IS NOT NULL",
-                (prow[0],),
-            )
-            removed += cur.rowcount
-        return {"removed_duration_rows": removed}
-
     # Families that stay in isomer-families.json (so members share one FAMILY and
     # the same-block-1 collision stays classified as `fold`) but are NOT collapsed
     # to a single substance row. Etiracetam/Levetiracetam: the racemate is
@@ -11513,7 +11784,6 @@ class Build:
     _BRAND_FAMILY_BLOCKLIST = frozenset(
         {
             "Ritalin",
-            "Riphenidate",
         }
     )
 
@@ -13749,7 +14019,7 @@ class Build:
         # can't fuse distinct compounds into one mega-group.
         for anorm, owners in alias_owners.items():
             gen = canon_norm.get(anorm)  # substance whose canonical IS this name
-            if gen is None:
+            if gen is None or is_short_code(anorm):
                 continue
             others = owners - {gen}
             if not others or len(others) > 3:
@@ -14088,8 +14358,6 @@ class Build:
     # curated file should be fixed in the file, not here. Adds a piru-curated
     # category row (priority 1) so it wins resolution and drives display_class.
     _CATEGORY_OVERRIDES: dict[str, str] = {
-        "S-(+)-MDMA": "Empathogen",
-        "R-(-)-MDMA": "Empathogen",
         "Lys-MDA": "Empathogen",
         "Endomorphin-1": "Peptide",
         # --- Opioid ---
@@ -14102,7 +14370,6 @@ class Build:
         "Bezitramide": "Opioid",
         "Butorphanol": "Opioid",
         "Carfentanil": "Opioid",
-        "Cychlorphine": "Opioid",
         "Lofentanil": "Opioid",
         "MGM-15": "Opioid",
         "Mitragynine": "Opioid",
@@ -14122,11 +14389,9 @@ class Build:
         "3-CAF": "Stimulant",
         "3-CEC": "Stimulant",
         "3-Chlorophenmetrazine": "Stimulant",
-        "3-Fluoroethamphetamine": "Stimulant",
         "3-Methyl-4-fluoro-A-pyrrolidinovalerophenone": "Stimulant",
         "3-Methylaminorex": "Stimulant",
         "4'-Fluoro-4-methylaminorex": "Stimulant",
-        "4,4'-Dimethylaminorex": "Stimulant",
         "4-Bromoamphetamine": "Stimulant",
         "4-CEC": "Stimulant",
         "4-CL-PPP": "Stimulant",
@@ -14194,7 +14459,6 @@ class Build:
         "Cloxazolam": "Benzodiazepine",
         "Flubrotizolam": "Benzodiazepine",
         "Fluetizolam": "Benzodiazepine",
-        "Gidazepam": "Benzodiazepine",
         "Ketazolam": "Benzodiazepine",
         "Loprazolam": "Benzodiazepine",
         "Metaclazepam": "Benzodiazepine",
@@ -14843,7 +15107,12 @@ class Build:
             for o in pharm.get("receptor_oligomerisation") or []:
                 self.add_oligomer(sid, slug, o)
             if pharm.get("downstream_signalling"):
-                self.add_downstream(sid, slug, pharm["downstream_signalling"])
+                self.add_downstream(
+                    sid,
+                    slug,
+                    pharm["downstream_signalling"],
+                    citation=pharm.get("downstream_signalling_reference"),
+                )
             for n in pharm.get("neuroimaging") or []:
                 self.add_neuroimaging(sid, slug, n)
             human_pk = rec.get("human_pk") or {}
@@ -14878,29 +15147,10 @@ class Build:
                     pgx.get("phenotype_effects") or "",
                     citation=pgx.get("reference"),
                 )
-            tol = rec.get("tolerance_and_dependence")
-            if isinstance(tol, dict):
-                summary_parts = []
-                for k in ("receptor_downregulation_half_time", "withdrawal_syndrome"):
-                    v = tol.get(k)
-                    if v:
-                        summary_parts.append(f"{k}: {v}")
-                if summary_parts:
-                    src = self.source_ids[slug]
-                    try:
-                        self.cur.execute(
-                            "INSERT INTO tolerance(substance_id, source_id, build_rate, notes, citation_id) VALUES (?, ?, ?, ?, ?)",
-                            (
-                                sid,
-                                src,
-                                None,
-                                " | ".join(summary_parts),
-                                self.cite(tol.get("reference")),
-                            ),
-                        )
-                        self.stats["tolerance"] += 1
-                    except sqlite3.IntegrityError:
-                        pass
+            if isinstance(rec.get("tolerance_and_dependence"), dict):
+                # Prose only, and the tolerance table is read for its numbers;
+                # see add_tolerance.
+                self.stats["tolerance_unrenderable"] += 1
             cid_slug = rec.get("class_context_id")
             if cid_slug:
                 pending_class_links.append((sid, cid_slug))
@@ -15024,16 +15274,10 @@ def main() -> int:
     # and delete what fails, so a claim no other source contests cannot ship on
     # the strength of being uncontested. Before dedup, so the survivors are
     # what merges.
+    # The report is written at the end of the build, once the later gates
+    # (cross-source outliers, foreign scripts) have added theirs.
     gate_result = dose_gates.run(build.cur)
-    dose_gates.write_report(gate_result)
-    print(
-        f"Dose gates: {len(gate_result.hits)} row(s) deleted → {dose_gates.REPORT_PATH.name}",
-        file=sys.stderr,
-    )
-    for hit in gate_result.hits:
-        print(
-            f"  GATED {hit.substance} / {hit.source} / {hit.route}: {hit.detail}", file=sys.stderr
-        )
+    print(f"Dose gates: {len(gate_result.hits)} row(s) deleted", file=sys.stderr)
 
     # Curated MOA prose + bindings (relocated from the iOS Swift file). Runs
     # AFTER every substance exists so names resolve regardless of origin.
@@ -15137,12 +15381,6 @@ def main() -> int:
     # data-driven — not alphabetical — default salt.
     salt_meta = build.apply_salt_metadata()
     print(f"Salt metadata: {salt_meta}", file=sys.stderr)
-
-    # Audit decision (#5): drop the salt-tagged ACUTE durations on the Mg/Li
-    # supplement parents — minerals/maintenance ions have no perceptible acute
-    # curve, so those routes fall back to marker rendering. Dose ladders untouched.
-    dur_audit = build.audit_salt_supplement_durations()
-    print(f"Salt-supplement duration audit: {dur_audit}", file=sys.stderr)
 
     # Fold curated stereoisomer variants (Esketamine→Ketamine, Dexmethylphenidate→
     # Methylphenidate, Armodafinil→Modafinil, …) into their racemic parent, tagging
@@ -15440,9 +15678,12 @@ def main() -> int:
         f"MedTAP label PK: {medtap_pk['half_lives']} half-lives, "
         f"{medtap_pk['pk_routes']} pk_routes "
         f"({medtap_pk['unresolved']} unresolved, "
-        f"{medtap_pk['adjudicated_out']} adjudicated out)",
+        f"{medtap_pk['adjudicated_out']} adjudicated out, "
+        f"{len(medtap_pk['isomer_labels'])} single-isomer labels dropped)",
         file=sys.stderr,
     )
+    for line in medtap_pk["isomer_labels"]:
+        print(f"  isomer label, not the racemate: {line}", file=sys.stderr)
 
     # Curated first: the UNIQUE class pair is what makes it win over TripSit.
     curated_rules = build.ingest_interaction_rules()
@@ -15560,6 +15801,12 @@ def main() -> int:
     # Dual-use compounds keep their recreational ladder. Must follow classify.
     therapeutic_suppressed = build.suppress_therapeutic_doses()
     print(f"Therapeutic-dose suppression: {therapeutic_suppressed}", file=sys.stderr)
+
+    # Now that every ladder has its regime and every substance its final name:
+    # toxic floors, and the cross-source comparison (an uncited ladder 10× from
+    # three other sources is a unit or identity slip).
+    late = dose_gates.run_late(build.cur, gate_result)
+    print(f"Toxic-floor and cross-source gates: {late} row(s) deleted", file=sys.stderr)
 
     # Re-flag dose-less stubs: the strip above just removed the last dose/duration
     # from the plain medical_rx rows, so `is_stub` must be recomputed to stay
@@ -15739,6 +15986,18 @@ def main() -> int:
     final_stubs = build.flag_dose_less_stubs()
     print(f"Final dose-less stub flag: {final_stubs}", file=sys.stderr)
 
+    # After every row exists and every merge has settled, so an entry names the
+    # row a reader will see. See pipeline/build/row_citations.py.
+    row_citation_counts, row_citation_failures = row_citations.apply(
+        build.cur.connection, row_citations.load(), build.cite
+    )
+    print(f"Row citations: {dict(row_citation_counts)}", file=sys.stderr)
+    for failure in row_citation_failures:
+        print(f"  WARNING: row citation not applied — {failure}", file=sys.stderr)
+    print(
+        f"Citation metadata (row citations): {build.backfill_citation_metadata()}", file=sys.stderr
+    )
+
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
     content_version = next_content_version(datetime.now(UTC).strftime("%Y-%m-%d"))
     sources_summary = {
@@ -15815,6 +16074,38 @@ def main() -> int:
         file=sys.stderr,
     )
     db.commit()
+
+    # Last write to the content: a cell carrying characters from a script no
+    # source text uses goes, whichever pass put it there.
+    scripts = dose_gates.apply_script_gate(db.cursor(), gate_result)
+    print(f"Foreign-script gate: {scripts} cell(s) dropped", file=sys.stderr)
+    db.commit()
+    # Refusals made at ingest join the gate report, so every row the build
+    # declined to ship is listed in one place.
+    gate_result.hits[:0] = build.ingest_gate_hits
+    dose_gates.write_report(gate_result)
+    for hit in gate_result.hits:
+        print(
+            f"  GATED {hit.substance} / {hit.source} / {hit.route}: {hit.detail}", file=sys.stderr
+        )
+    UPSTREAM_DROPS.write_text(
+        json.dumps(
+            sorted(
+                build.upstream_drops,
+                key=lambda d: (
+                    d["source"],
+                    d["substance"] or "",
+                    d["route"] or "",
+                    d["field"],
+                    d["raw"],
+                    d["reason"],
+                ),
+            ),
+            indent=1,
+            ensure_ascii=False,
+        )
+        + "\n"
+    )
 
     # Build-only scaffolding, dropped before the file is sealed: indication
     # text is evidence for `assign_dose_contexts`, never something the app shows.
@@ -15930,6 +16221,16 @@ def main() -> int:
         n = db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
         lines.append(f"| {t} | {n:,} |")
     lines.append("")
+    if build.erowid_unmapped:
+        lines.append("## Unmapped Erowid chapters")
+        lines.append("")
+        lines.append(
+            "Skipped: `data/curated/erowid-ids.json` names no substance for these chapters."
+        )
+        lines.append("")
+        for slug, code, key in build.erowid_unmapped:
+            lines.append(f"- {slug} `{key}` ({code})")
+        lines.append("")
     if build.corrections:
         lines.append("## Identifier corrections")
         lines.append("")
@@ -15956,6 +16257,33 @@ def main() -> int:
         "the rows are in `data/snapshots/dose-gate-report.md`."
     )
     lines.append("")
+    lines.append("## Row citations")
+    lines.append("")
+    lines.append(
+        f"{row_citation_counts.get('applied', 0)} row(s) cited from "
+        "`data/curated/row-citations.json`; "
+        f"{len(row_citation_failures)} entr{'y' if len(row_citation_failures) == 1 else 'ies'} "
+        "not applied."
+    )
+    for failure in row_citation_failures:
+        lines.append(f"- {failure}")
+    lines.append("")
+    lines.append("## Upstream values the build could not read")
+    lines.append("")
+    lines.append(
+        f"{len(build.upstream_drops)} dose or duration value(s) refused, or read only in part; "
+        f"each is listed in `data/snapshots/{UPSTREAM_DROPS.name}` for reporting upstream "
+        "(`pipeline/audit/upstream_report.py`)."
+    )
+    lines.append("")
+    if build.upstream_drops:
+        lines.append("| source | reason | values |")
+        lines.append("|---|---|---|")
+        for (src_slug, reason), n in sorted(
+            Counter((d["source"], d["reason"]) for d in build.upstream_drops).items()
+        ):
+            lines.append(f"| {src_slug} | {reason} | {n:,} |")
+        lines.append("")
     lines.append("## Per-source coverage")
     lines.append("")
     lines.append("| Source | Dose ranges | Bindings | Categories | Tags |")

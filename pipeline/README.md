@@ -77,6 +77,7 @@ fix, not noise to tolerate.
 | `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
 | `class-mechanisms.json` | `mechanisms_summary`, `bindings` | the eight class-level receptor profiles that say something their own summary does not (a tricyclic's H1/M1/α1, a barbiturate's AMPA/kainate). Written only where the substance has no measured row for that target, uncited, marked `class-level generalisation` in `notes` — see the file's `_meta.rule` and the gate in `tests/test_sqlite.py` |
 | `mechanism-lines.json` | `mechanisms_summary` | one sentence, target + action, for each Pyrls medication no curated mechanism covers. Gated by `pipeline/audit/claim_language.py` (no treatment, efficacy, dosing, safety or second-person language) |
+| `row-citations.json` | `citation_id` on any per-row table | the citation for a row whose own input names none, checked against the row before it lands. See [Row citations](#row-citations) |
 
 Adding one is: a path read in the ingester, DDL in `SCHEMA_SQL`, a method on
 `Build`, a call + `print` in `main()`, the table in the build-report row-count
@@ -199,10 +200,12 @@ LLM-assisted research used to fill gaps external sources don't cover
   every web/enrichment/external source, resolves per-field priority, writes
   `Piru/Data/piru-substances.sqlite` + `manifest.json` +
   `data/snapshots/build-report.md`.
-- **`dose_gates.py`** — deletes dose and duration rows that fail a rule about
-  themselves after every source has ingested: a tier above the ceiling of a
-  microgram-dosed class (`data/curated/dose-class-gates.json`), a phase under a
-  minute on a route that has to absorb. Every deletion is written to
+- **`dose_gates.py`** — deletes dose and duration rows that fail a rule after
+  every source has ingested: a tier above the ceiling of a microgram-dosed class
+  (`data/curated/dose-class-gates.json`), a tier reaching a cited toxic dose
+  (`data/curated/toxic-dose-floors.json`), a phase under a minute on a route
+  that has to absorb, a ladder ten times from three other sources, and any
+  shipped text cell carrying a foreign script. Every deletion is written to
   `data/snapshots/dose-gate-report.md` (+ `.json`). See
   [Gates and corrections](#gates-and-corrections).
 - **`snapshots.py`** — GitHub-friendly mirror at `data/snapshots/`, generated
@@ -514,8 +517,8 @@ therapeutic ladder beside a logged recreational dose reads as medical advice.
 The source order decides which claim shows when sources disagree. Two more
 mechanisms decide what a claim may say at all, and both leave a record.
 
-**Dose gates** (`build/dose_gates.py`, run after every source has ingested and
-before dedup). A row is judged on its own terms and deleted when it fails:
+**Dose gates** (`build/dose_gates.py`, run after every source has ingested).
+A row is deleted when it fails:
 
 - a **class ceiling** from `data/curated/dose-class-gates.json` — for a class
   context whose members are dosed in micrograms (fentanyls, nitazenes), any
@@ -523,12 +526,29 @@ before dedup). A row is judged on its own terms and deleted when it fails:
   carries a citation or comes from an exempt source;
 - the **absorption floor** — a phase under one minute on a route that has to
   absorb through a membrane (oral, sublingual, buccal, rectal, transdermal,
-  insufflation) is a units error whatever the source.
+  insufflation) is a units error whatever the source;
+- a **toxic floor** from `data/curated/toxic-dose-floors.json` — an uncited
+  threshold, light, common or strong tier at or above a cited human dose with
+  fatal or severe toxicity. Every floor quotes its source; never add one from
+  memory or from another ladder;
+- the **cross-source outlier** rule — an uncited row whose common midpoint is
+  ≥ 10× (or ≤ 0.1×) the median of at least three other sources for the same
+  substance, route, dosing context and isomer;
+- the **foreign-script** rule — a shipped text cell holding letters of a script
+  no source writes in ("10ጰ min") is dropped, never repaired.
+
+Two ingest refusals join the same report: a PIHKAL/TIHKAL DOSAGE clause that is a
+no-activity bound ("greater than 60 mg", `dose_gates.shulgin_dosage_verdict`;
+the collector carries the clause as `dosageText`), and the tag ceilings of
+`_CLASS_DOSE_CEILING_MG`. Upstream values the build could not read, or read only
+in part, are listed in `data/snapshots/unparsed-upstream.json` and counted in the
+build report.
 
 Every deletion goes to `data/snapshots/dose-gate-report.md` with the rule and
 the values, and the same rows as JSON beside it. Per-row exceptions with their
 evidence stay in `data/curated/dose-source-exceptions.json`; the gate is for the
-class of error, the exception for the row the literature settles.
+class of error, the exception for the row the literature settles. An exception
+that suppresses nothing fails the build.
 
 **Identity corrections.** `apply_identifier_reconciliation` applies the PubChem
 snapshot and the hand-verified `identifier-corrections-manual.json`; then
@@ -544,6 +564,69 @@ section B is every value the independent sources contradict (from the
 adjudicator, only where this source's value scores highest in the cell), section
 C is what Piru refuses and why. Run the adjudicator first; the report refuses a
 `cells.jsonl` older than the built DB.
+
+## Row citations
+
+A row carries its citation in `citation_id`, normally from the input that wrote
+it (an enrichment block's `reference`, a curated file's `halfLifeSource`). A row
+whose input names no source gets one through
+`data/curated/row-citations.json`: one entry per row, applied by
+`build/row_citations.py` after every other row is written, and reported in the
+build report's *Row citations* section.
+
+An entry names its row by identity, never by rowid:
+
+| field | what it holds |
+|---|---|
+| `table`, `substance`, `source` | the table, the canonical name after every merge, the row's source slug |
+| `match` | further columns of that table, compared with `IS` (so `null` matches `NULL`) |
+| `claim_sha1` | `row_citations.claim_sha1()` of the row's prose column (`CLAIM_COLUMNS`); required on those tables |
+| `ref` | `doi:…`, `pmid:…` or `https://…`, parsed by the build's own `parse_reference` |
+| `title`, `accessed`, `via`, `evidence` | label for a URL, date checked, the pass that proposed it, what it checked |
+
+The claim hash is what keeps a citation honest after an edit: when the row's
+sentence changes, the entry stops matching. `build/tests/test_row_citations.py`
+fails on any entry that matches no row, several rows, or a row citing something
+else, so a stale entry is re-checked rather than silently re-attached. The same
+test is the **uncited ratchet**: it counts uncited `piru-curated` and
+`peer-review-primary` rows per table against `build/tests/uncited-baseline.json`
+and fails when one rises. After a pass lowers a count, run it with
+`--write-baseline`.
+
+Passes that write entries (each re-runnable; a re-run that finds nothing new
+leaves an empty diff):
+
+- **`audit/source_consulted_references.py`** (`via: references_consulted`). An
+  enrichment record lists the papers it was written from in
+  `references_consulted`. A paper is attached to one of that record's uncited
+  rows only when its title or abstract names the substance by its own name (no
+  analog containment) **and** names the row's key term — the gene, enzyme,
+  target, co-drug or modality, or for a signalling paragraph a target the
+  paragraph names — in the abstract or in a full-text paragraph that also names
+  the substance. Rows carrying a number are skipped: their citation must contain
+  the number (`citation_sourcing.py`).
+- **`audit/source_dailymed_mechanisms.py`** (`via: dailymed-ndc`). A MedTAP
+  mechanism line cites the DailyMed label its record's NDC resolves to, when the
+  label's title states the substance as whole words, its page resolves, and its §12.1 holds at least half of
+  the line's content words. Responses are cached in
+  `data/sources/dailymed-labels.json`.
+
+- **`audit/source_with_haiku.py`** (`via: haiku-assisted <date>`). Retrieval
+  is deterministic: the substance's Wikipedia article (via its InChIKey's
+  Wikidata sitelink, pinned to a revision), the DailyMed labels the DB already
+  cites for it, and up to three Europe PMC review abstracts for the row's key
+  term. Claude Haiku only picks a verbatim quote from those passages, or says
+  `not_found`. A quote lands only when it occurs in the passage, the document
+  is about the substance (InChIKey, title/redirect, whole-word label
+  ingredient, or the abstract naming it), the quote names the row's key term,
+  and, for a half-life, the quote holds the row's number. It also writes
+  `interaction-rules.json` rule `citation`s (with `citationEvidence`) and
+  curated `halfLifeSource`s (with `halfLifeEvidence`). Pages and answers are
+  cached outside the repo (`$PIRU_SOURCING_CACHE`), so a re-run is free.
+
+Any new pass adds its name to `row_citations.VIA`. After a pass writes, rebuild,
+then run `audit/verify_citations.py` (network) so the new identifiers enter the
+verify cache the offline gate reads.
 
 ## Researching a claim
 

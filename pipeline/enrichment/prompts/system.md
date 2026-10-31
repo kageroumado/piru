@@ -117,6 +117,7 @@ Return a JSON array. One object per compound. Use this schema:
       }
     ],
     "downstream_signalling": "free text — describe the cascade that's actually known for this compound in humans/human cells, not the class default",
+    "downstream_signalling_reference": "doi:... — the paper the cascade is written from",
     "neuroimaging": [
       {
         "modality": "fMRI BOLD | EEG | MEG | PET | SPECT",

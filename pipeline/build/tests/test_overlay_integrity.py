@@ -60,7 +60,6 @@ _KNOWN_CROSS_CATEGORY_DOSE = {
     frozenset({"Asenapine", "Dronabinol", "Epidiolex"}),
     frozenset({"Carbamazepine", "Cimetidine"}),
     frozenset({"Diphenhydramine", "Hydroxyzine"}),
-    frozenset({"Epitalon", "THCP"}),
     frozenset({"Ketotifen", "Nabilone"}),
     # Lemborexant and Vornorexant genuinely share a label ladder (2.5 reduced / 5 standard /
     # 10 max); Selegiline is the suspected clone here.
@@ -159,6 +158,11 @@ class OverlayIntegrity(unittest.TestCase):
             "new cross-category dose clone blocks (copy-paste templates):\n  "
             + "\n  ".join(sorted(", ".join(sorted(s)) for s in new)),
         )
+        self.assertEqual(
+            _KNOWN_CROSS_CATEGORY_DOSE - found,
+            set(),
+            "fixed — delete from _KNOWN_CROSS_CATEGORY_DOSE",
+        )
 
     def test_no_cross_category_duration_clones(self):
         found = self._cross_category("dur")
@@ -168,6 +172,11 @@ class OverlayIntegrity(unittest.TestCase):
             set(),
             "new cross-category duration clone blocks:\n  "
             + "\n  ".join(sorted(", ".join(sorted(s)) for s in new)),
+        )
+        self.assertEqual(
+            _KNOWN_CROSS_CATEGORY_DURATION - found,
+            set(),
+            "fixed — delete from _KNOWN_CROSS_CATEGORY_DURATION",
         )
 
     # --- 4. no exact-InChIKey duplicate substance rows ---

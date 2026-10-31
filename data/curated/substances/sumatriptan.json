@@ -94,6 +94,15 @@
     "Serotonin syndrome risk when combined with serotonergic agents"
   ],
   "halfLifeMinutes": 150,
+  "halfLifeSource": "Wikipedia: Sumatriptan, §Overdose (revision 1368799875); https://en.wikipedia.org/w/index.php?title=Sumatriptan&oldid=1368799875#Overdose",
+  "halfLifeEvidence": {
+    "quote": "The elimination half-life of sumatriptan in humans is 2.5 hours.",
+    "section": "Overdose",
+    "identity": "Wikidata sitelink of InChIKey KQKPFRSPSRPDEB-UHFFFAOYSA-N",
+    "value": "2.5 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Sumatriptan",
     "https://pubchem.ncbi.nlm.nih.gov/compound/5358"

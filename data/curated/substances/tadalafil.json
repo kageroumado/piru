@@ -35,6 +35,15 @@
     }
   ],
   "halfLifeMinutes": 1050,
+  "halfLifeSource": "DailyMed: tadalafil (tadalafil) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00cbc656-768d-4995-bb6d-a0d4b32a248c",
+  "halfLifeEvidence": {
+    "quote": "the mean terminal half-life is 17.5 hours in healthy subjects",
+    "section": "Label",
+    "identity": "active ingredient names 'Tadalafil' as whole words",
+    "value": "17.5 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/021368s20s21lbl.pdf",
     "https://doi.org/10.1111/j.1365-2125.2005.02553.x",

@@ -57,6 +57,11 @@ jobs:
         run: python3 pipeline/build/tests/test_identifier_integrity.py
       - name: Curated overlay integrity (dead files, cross-category clones, InChIKey dups)
         run: python3 pipeline/build/tests/test_overlay_integrity.py
+      # Shulgin's book codes are street names of other drugs (M, T, DESOXY), and
+      # a racemate's label is not its isomer's. Matched by name, mescaline's
+      # PiHKAL ladder shipped on Morphine and Lunesta's half-life on Zopiclone.
+      - name: Identity (Erowid chapters, short codes, isomer labels, salts, script, sources)
+        run: python3 pipeline/build/tests/test_identity.py
       # Two rows with one structure. Every merge pass in the builder keys on
       # text, so a duplicate whose names don't overlap and whose identifiers
       # don't line up survives all of them — which is how a Schedule I cathinone
@@ -117,6 +122,15 @@ jobs:
       # to it. That is what makes this a ratchet rather than a rubber stamp.
       - name: No citations attached to the wrong substance
         run: python3 pipeline/audit/citation_topicality.py --offline --gate --gate-absent --gate-zero-overlap --no-write-cache
+      - name: Citation topicality tests (cache persistence, matcher gates)
+        run: python3 pipeline/audit/tests/test_citation_topicality.py
+      - name: DailyMed label identity is matched as whole words
+        run: python3 pipeline/audit/tests/test_resolve_fda_label_links.py
+      # The Haiku sourcing pass is trustworthy only through its gates: a quote
+      # verbatim in its passage, the row's key term in the quote, the row's
+      # number (or a range holding it). Pinned without network, model or DB.
+      - name: Haiku-assisted sourcing gates
+        run: python3 pipeline/audit/tests/test_source_with_haiku.py
       - name: Signature coverage (no regression)
         run: python3 pipeline/audit/signature_coverage.py --gate
       # verify_citations proves the identifier RESOLVES; citation_topicality
@@ -160,6 +174,22 @@ jobs:
         run: python3 pipeline/build/tests/test_psid.py
       - name: dose.wiki snapshot, join and ingest gates
         run: python3 pipeline/build/tests/test_dosewiki.py
+      # A citation in data/curated/row-citations.json was checked against one
+      # row's sentence; an entry that names no row, several, or a reworded one
+      # is stale. The same test holds the uncited count per table to a committed
+      # baseline that may only go down.
+      - name: Row citations still name their rows; uncited rows only go down
+        run: python3 pipeline/build/tests/test_row_citations.py
+      # Toxic floors, cross-source outliers, foreign scripts, Shulgin's no-activity
+      # bounds and the upstream values the build could not read.
+      - name: Dose gates and the upstream-drop report
+        run: python3 pipeline/build/tests/test_dose_gates.py
+      # A route that should need less drug asking for more (insufflated 3x oral),
+      # or one source far from the rest. Ratcheted: the HIGH findings present when
+      # the gate went in are in data/snapshots/dose-sanity-baseline.json, and only
+      # a new one fails.
+      - name: Dose numbers agree across routes and sources (no new HIGH finding)
+        run: python3 pipeline/audit/dose_sanity.py --gate
 
   swift-lint:
     name: Swift (format + lint)

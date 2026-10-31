@@ -37,8 +37,17 @@
     "Risk of serotonin syndrome with other serotonergic agents"
   ],
   "halfLifeMinutes": 300,
+  "halfLifeSource": "DailyMed: Effexor XR (venlafaxine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c848a5d8-ba94-4c84-80e3-0bf35fb8e32e",
+  "halfLifeEvidence": {
+    "quote": "The apparent elimination half-life is 5 ± 2 hours for venlafaxine",
+    "section": "Elimination",
+    "identity": "active ingredient names 'Venlafaxine' as whole words",
+    "value": "5 ± 2 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020151s068,020699s057lbl.pdf",
+    "Effexor (venlafaxine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3423487c-80e3-6bff-e054-00144ff88e88",
     "https://en.wikipedia.org/wiki/Venlafaxine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/39​44"
   ],

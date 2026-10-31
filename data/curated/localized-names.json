@@ -8,6 +8,10 @@
       "zh-Hant": "1,4-丁二醇"
     },
     {
+      "substance": "2-Methoxymethyl-salvinorin B",
+      "zh-Hans": "鼠尾草素乙甲氧甲基醚"
+    },
+    {
       "substance": "2-Methyl-2-Butanol",
       "es": "2-Metil-2-butanol",
       "zh-Hans": "2-甲基-2-丁醇",
@@ -172,6 +176,10 @@
       "substance": "Alprazolam",
       "zh-Hans": "阿普唑仑",
       "zh-Hant": "阿普唑他"
+    },
+    {
+      "substance": "Amanita Citrina",
+      "zh-Hans": "橙黄鹅膏"
     },
     {
       "substance": "Amantadine",
@@ -835,6 +843,10 @@
       "zh-Hant": "考拉西坦"
     },
     {
+      "substance": "Compound Licorice Tablets",
+      "zh-Hans": "复方甘草片"
+    },
+    {
       "substance": "CoQ10",
       "es": "Coenzima Q10",
       "zh-Hans": "辅酶Q10",
@@ -965,6 +977,10 @@
       "es": "Dextrometorfano",
       "zh-Hans": "右美沙芬",
       "zh-Hant": "右美沙芬"
+    },
+    {
+      "substance": "Dextromethorphan-Guaifenesin",
+      "zh-Hans": "愈美片"
     },
     {
       "substance": "Dextropropoxyphene",
@@ -1820,6 +1836,14 @@
       "zh-Hant": "洛哌丁胺"
     },
     {
+      "substance": "Lophophora Diffusa",
+      "zh-Hans": "翠冠玉"
+    },
+    {
+      "substance": "Lophophora Fricii",
+      "zh-Hans": "银冠玉"
+    },
+    {
       "substance": "Loprazolam",
       "zh-Hans": "氯普唑仑",
       "zh-Hant": "氯普唑侖"
@@ -2136,11 +2160,6 @@
       "zh-Hant": "乙醯半胱胺酸"
     },
     {
-      "substance": "Picamilon",
-      "zh-Hans": "匹卡米隆",
-      "zh-Hant": "匹卡米隆"
-    },
-    {
       "substance": "Nabilone",
       "es": "Nabilona",
       "zh-Hans": "大麻隆",
@@ -2342,6 +2361,12 @@
       "zh-Hant": "羥二氫可待因酮"
     },
     {
+      "substance": "Oxymorphazone",
+      "es": "Oximorfazona",
+      "zh-Hans": "羟吗啡酮腙",
+      "zh-Hant": "羥嗎啡酮腙"
+    },
+    {
       "substance": "Oxymorphone",
       "es": "Oximorfona",
       "zh-Hans": "羟吗啡酮",
@@ -2514,6 +2539,11 @@
       "es": "Fosfatidilserina",
       "zh-Hans": "磷脂酰丝氨酸",
       "zh-Hant": "磷脂絲胺酸"
+    },
+    {
+      "substance": "Picamilon",
+      "zh-Hans": "匹卡米隆",
+      "zh-Hant": "匹卡米隆"
     },
     {
       "substance": "Pimavanserin",
@@ -2864,7 +2894,8 @@
     },
     {
       "substance": "Salvinorin B",
-      "es": "Salvinorina B"
+      "es": "Salvinorina B",
+      "zh-Hans": "鼠尾草素乙"
     },
     {
       "substance": "SAM-e",
@@ -2977,6 +3008,10 @@
       "substance": "Suvorexant",
       "zh-Hans": "苏沃雷生",
       "zh-Hant": "蘇沃雷生"
+    },
+    {
+      "substance": "Tabernanthe Iboga",
+      "zh-Hans": "鹅花树"
     },
     {
       "substance": "Tadalafil",
@@ -3355,6 +3390,10 @@
       "zh-Hant": "育亨賓"
     },
     {
+      "substance": "Yopo",
+      "zh-Hans": "大果柯拉豆"
+    },
+    {
       "substance": "Zafirlukast",
       "zh-Hans": "扎鲁司特",
       "zh-Hant": "扎魯司特"
@@ -3415,11 +3454,6 @@
       "es": "Zopiclona",
       "zh-Hans": "佐匹克隆",
       "zh-Hant": "佐匹克隆"
-    },
-    {
-      "substance": "羟吗啡酮腙",
-      "es": "Oximorfazona",
-      "zh-Hant": "羥嗎啡酮腙"
     }
   ]
 }

@@ -38,6 +38,15 @@
     "Mild at low doses — most noticeable effect is caffeine stack"
   ],
   "halfLifeMinutes": 60,
+  "halfLifeSource": "pmid:40460226",
+  "halfLifeEvidence": {
+    "quote": "Since the half-life of theanine is about 1 hour, it should be mostly eliminated from the milk in 3 to 5 hours.",
+    "section": "Abstract",
+    "identity": "title/abstract names the substance ('ltheanine')",
+    "value": "1 hour",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://pubchem.ncbi.nlm.nih.gov/compound/439533",
     "https://en.wikipedia.org/wiki/Theanine",

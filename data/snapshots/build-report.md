@@ -1,28 +1,28 @@
 # Piru SQLite build report
 
-Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha256 `d36ebfef14acd1e5efc50adcf76fb5edfbc45c0976dffdeb8f77ed1c920757bb`)
+Built 2026-10-31.0 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `f45256759a5c107e88a4a27c05d6f816f983fc22f1cfc33ee1a17edb488cec10`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
 | substances | 1,674 |
-| aliases | 6,016 |
+| aliases | 6,005 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,483 |
+| citations | 2,706 |
 | categories | 1,577 |
-| tags | 7,054 |
-| dose_ranges | 2,801 |
-| durations | 10,718 |
+| tags | 7,059 |
+| dose_ranges | 2,794 |
+| durations | 10,736 |
 | drug_community_timelines | 755 |
-| half_lives | 716 |
-| mechanisms_summary | 1,232 |
+| half_lives | 711 |
+| mechanisms_summary | 1,230 |
 | effects | 2,952 |
-| subjective_effects | 23,645 |
+| subjective_effects | 23,653 |
 | subjective_effect_concepts | 506 |
 | subjective_effect_concept_aliases | 1,178 |
-| tolerance | 321 |
+| tolerance | 0 |
 | diazepam_equivalents | 32 |
 | bindings | 1,458 |
 | functional_assays | 179 |
@@ -30,20 +30,20 @@ Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha
 | receptor_oligomers | 8 |
 | downstream_signalling | 677 |
 | neuroimaging | 52 |
-| pk_routes | 435 |
+| pk_routes | 433 |
 | concentration_effects | 25 |
 | metabolism | 560 |
 | drug_interactions_pk | 205 |
 | pharmacogenetics | 305 |
 | off_targets | 209 |
 | class_contexts | 50 |
-| substance_classes | 679 |
-| molecule_shapes | 960 |
+| substance_classes | 680 |
+| molecule_shapes | 962 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |
 | substance_flags | 13 |
 | regional_names | 5 |
-| localized_names | 1,605 |
+| localized_names | 1,615 |
 | opioid_mme | 11 |
 | interaction_rules | 99 |
 | substance_interaction_classes | 213 |
@@ -63,8 +63,8 @@ Built 2026-10-23.0 → `Piru/Data/piru-substances.sqlite` (21,561,344 bytes, sha
 | saturable_kinetics | 6 |
 | bioavailability_by_dose | 10 |
 | attenuation_bands | 1 |
-| coded_products | 15,822 |
-| product_codes | 103,391 |
+| coded_products | 15,778 |
+| product_codes | 103,206 |
 
 ## Identifier corrections
 
@@ -89,6 +89,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | Nitemazepam | smiles | freebase_replaces_salt | `O=N(=O)c1ccc2N(C)C(=O)C(O)N=C(c3ccccc3)c2c1.[H+]` | `CN1C2=C(C=C(C=C2)[N+](=O)[O-])C(=NC(C1=O)O)C3=CC=CC=C3` |
 | Nitemazepam | inchikey | freebase_replaces_salt | `QRWVNMAJJIQCEG-UHFFFAOYSA-O` | `QRWVNMAJJIQCEG-UHFFFAOYSA-N` |
 | Nitemazepam | formula | freebase_replaces_salt | `` | `` |
+| Proscaline | inchikey | key_from_own_smiles | `HYWLMSUAZVDUFW-UHFFFAOYSA-O` | `HYWLMSUAZVDUFW-UHFFFAOYSA-N` |
 | Thiopropamine | smiles | freebase_replaces_salt | `[Cl-].CC(N)Cc1cccs1.[H+]` | `CC(CC1=CC=CS1)N` |
 | Thiopropamine | inchikey | freebase_replaces_salt | `MJRDCJBNRNAXIK-UHFFFAOYSA-N` | `NYVQQTOGYLBBDQ-UHFFFAOYSA-N` |
 | Thiopropamine | formula | freebase_replaces_salt | `` | `` |
@@ -96,21 +97,68 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Dose gates
 
-7 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+100 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+
+## Row citations
+
+523 row(s) cited from `data/curated/row-citations.json`; 0 entries not applied.
+
+## Upstream values the build could not read
+
+548 dose or duration value(s) refused, or read only in part; each is listed in `data/snapshots/unparsed-upstream.json` for reporting upstream (`pipeline/audit/upstream_report.py`).
+
+| source | reason | values |
+|---|---|---|
+| dosewiki | dose_ranges_duplicate_dropped | 4 |
+| dosewiki | dropped_regressed_tiers | 1 |
+| dosewiki | dropped_unquantified_unit | 1 |
+| dosewiki | duration_afterglow_implausible | 5 |
+| dosewiki | duration_profile_contradictory | 2 |
+| dosewiki | stage_unit_unknown_or_half_open | 11 |
+| drug.community | degenerate_after_unreadable_tiers | 7 |
+| drug.community | dose_ranges_duplicate_dropped | 12 |
+| drug.community | dropped_ambiguous_unit | 3 |
+| drug.community | dropped_regressed_tiers | 3 |
+| drug.community | duration_afterglow_implausible | 3 |
+| drug.community | duration_profile_contradictory | 7 |
+| drug.community | extra_numbers_ignored | 14 |
+| drug.community | foreign_characters | 5 |
+| drug.community | no_activity_reported | 1 |
+| drug.community | range_in_single_value_tier | 390 |
+| drug.community | unparsed | 15 |
+| freeodwiki | dropped_inverted_tiers | 7 |
+| freeodwiki | dropped_regressed_tiers | 2 |
+| freeodwiki | duration_afterglow_implausible | 5 |
+| freeodwiki | duration_onset_impossible | 2 |
+| freeodwiki | duration_profile_contradictory | 9 |
+| piru-curated | dose_ranges_duplicate_dropped | 1 |
+| piru-curated | dropped_regressed_tiers | 1 |
+| psychonautwiki | dropped_inverted_tiers | 1 |
+| psychonautwiki | dropped_regressed_tiers | 2 |
+| psychonautwiki | duration_afterglow_implausible | 5 |
+| psychonautwiki | duration_onset_impossible | 1 |
+| psychonautwiki | duration_profile_contradictory | 6 |
+| tripsit | dose_ranges_duplicate_dropped | 7 |
+| tripsit | dropped_daily_unit | 1 |
+| tripsit | dropped_inverted_tiers | 5 |
+| tripsit | dropped_regressed_tiers | 4 |
+| tripsit | dropped_unquantified_unit | 1 |
+| tripsit | duration_afterglow_implausible | 3 |
+| tripsit | duration_onset_impossible | 1 |
 
 ## Per-source coverage
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 220 | 444 | 649 | 2,269 |
+| piru-curated | 220 | 444 | 650 | 2,269 |
 | peer-review-primary | 0 | 1,002 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
-| drug.community | 823 | 0 | 0 | 125 |
-| psychonautwiki | 377 | 0 | 63 | 316 |
-| tripsit | 573 | 0 | 410 | 1,265 |
+| drug.community | 826 | 0 | 0 | 126 |
+| psychonautwiki | 376 | 0 | 63 | 316 |
+| tripsit | 572 | 0 | 410 | 1,267 |
 | dailymed | 0 | 0 | 0 | 0 |
-| erowid-pihkal | 102 | 0 | 167 | 426 |
-| erowid-tihkal | 36 | 0 | 48 | 121 |
+| erowid-pihkal | 93 | 0 | 168 | 430 |
+| erowid-tihkal | 37 | 0 | 47 | 119 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 95 | 340 |
@@ -119,4 +167,4 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
-| freeodwiki | 378 | 0 | 46 | 0 |
+| freeodwiki | 378 | 0 | 45 | 0 |

@@ -38,7 +38,7 @@
   ],
   "halfLifeMinutes": 1800,
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021323s047lbl.pdf",
+    "Lexapro (escitalopram) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=13bb8267-1cab-43e5-acae-55a4d957630a",
     "https://en.wikipedia.org/wiki/Escitalopram",
     "https://pubchem.ncbi.nlm.nih.gov/compound/146570"
   ],

@@ -408,8 +408,8 @@ struct AdherenceCalendarCell: View {
     }
 
     private var statusDescription: LocalizedStringResource {
-        if let halves, halves.morning != halves.evening {
-            return halves.morning == .complete ? "Evening dose not logged" : "Morning dose not logged"
+        if let description = halves?.mismatchDescription {
+            return description
         }
         switch status {
         case .complete: return "All taken"

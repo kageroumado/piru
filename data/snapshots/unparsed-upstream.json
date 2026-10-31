@@ -1,0 +1,4386 @@
+[
+ {
+  "source": "dosewiki",
+  "substance": "25C-NBOH",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 4320.0, \"max\": 8640.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "25I-NBOH",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 4320.0, \"max\": 17280.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "25I-NBOMe",
+  "route": "insufflation",
+  "field": "afterglow",
+  "raw": "{\"min\": 1440.0, \"max\": 10080.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "25I-NBOMe",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 1440.0, \"max\": 10080.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "4-AcO-DET",
+  "route": "inhalation",
+  "field": "peak",
+  "raw": "{\"max\": null, \"min\": 10, \"unit\": \"minutes\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "4-AcO-DET",
+  "route": "inhalation",
+  "field": "total",
+  "raw": "{\"max\": 1, \"min\": null, \"unit\": \"hours\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "4-AcO-MiPT",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 2.0, \"upper\": 5.0}, \"common\": {\"lower\": 5.0, \"upper\": 10.0}, \"strong\": {\"lower\": 10.0, \"upper\": 15.0}}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "4-MeO-PCP",
+  "route": "insufflation",
+  "field": "afterglow",
+  "raw": "{\"max\": null, \"min\": 6, \"unit\": \"hours\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "4-MeO-PCP",
+  "route": "insufflation",
+  "field": "offset",
+  "raw": "{\"max\": null, \"min\": 6, \"unit\": \"hours\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "5-MAPB",
+  "route": "insufflation",
+  "field": "afterglow",
+  "raw": "{\"max\": null, \"min\": 12, \"unit\": \"hours\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "5-MeO-DMT",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 2.0, \"light\": {\"lower\": 2.0, \"upper\": 5.0}, \"common\": {\"lower\": 5.0, \"upper\": 10.0}, \"strong\": {\"lower\": 10.0, \"upper\": 15.0}, \"heavy\": 15.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "5-MeO-DMT",
+  "route": "inhalation",
+  "field": "onset",
+  "raw": "{\"max\": 1, \"min\": null, \"unit\": \"minutes\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "5-MeO-MiPT",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 5.0, \"light\": {\"lower\": 5.0, \"upper\": 10.0}, \"common\": {\"lower\": 10.0, \"upper\": 15.0}, \"strong\": {\"lower\": 15.0, \"upper\": 20.0}, \"heavy\": 20.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "Alcohol",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"units\", \"threshold\": 1.0, \"light\": {\"lower\": 1.0, \"upper\": 2.0}, \"common\": {\"lower\": 2.0, \"upper\": 4.0}, \"strong\": {\"lower\": 5.0, \"upper\": 6.0}, \"heavy\": 6.0}",
+  "reason": "dropped_unquantified_unit"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "Codeine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"afterglow\": {\"min\": 60.0, \"max\": 720.0}, \"comeup\": {\"min\": 60.0, \"max\": 120.0}, \"offset\": {\"min\": 120.0, \"max\": 240.0}, \"onset\": {\"min\": 30.0, \"max\": 45.0}, \"peak\": {\"min\": 180.0, \"max\": 300.0}, \"total\": {\"min\": 180.0, \"max\": 360.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "DIPT",
+  "route": "inhalation",
+  "field": "timeline",
+  "raw": "{\"afterglow\": {\"min\": 120.0, \"max\": 240.0}, \"onset\": {\"min\": 5.0, \"max\": 15.0}, \"peak\": {\"min\": 60.0, \"max\": 120.0}, \"total\": {\"min\": 15.0, \"max\": 60.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "DPT",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 10.0, \"light\": {\"lower\": 10.0, \"upper\": 20.0}, \"common\": {\"lower\": 20.0, \"upper\": 50.0}, \"strong\": {\"lower\": 50.0, \"upper\": 100.0}, \"heavy\": 100.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "Diazepam",
+  "route": "oral",
+  "field": "afterglow",
+  "raw": "{\"min\": 60.0, \"max\": 7200.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "Flubromazepam",
+  "route": "oral",
+  "field": "afterglow",
+  "raw": "{\"max\": null, \"min\": 36, \"unit\": \"hours\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "Heroin",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 2.0, \"light\": {\"lower\": 2.0, \"upper\": 15.0}, \"common\": {\"lower\": 15.0, \"upper\": 25.0}, \"strong\": {\"lower\": 25.0, \"upper\": 50.0}, \"heavy\": 30.0}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "Khat",
+  "route": "oral",
+  "field": "onset",
+  "raw": "{\"max\": null, \"min\": 15, \"unit\": \"minutes\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "Methiopropamine",
+  "route": "inhalation",
+  "field": "onset",
+  "raw": "{\"max\": 5, \"min\": null, \"unit\": \"minutes\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "N-Ethylpentedrone",
+  "route": "inhalation",
+  "field": "onset",
+  "raw": "{\"max\": 5, \"min\": null, \"unit\": \"minutes\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "dosewiki",
+  "substance": "Zopiclone",
+  "route": "oral",
+  "field": "onset",
+  "raw": "{\"max\": null, \"min\": 15, \"unit\": \"minutes\"}",
+  "reason": "stage_unit_unknown_or_half_open"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1,4-BDO",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.5–0.7 mL",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1B-LSD",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15-25 ug",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1B-LSD",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "15-25 ug",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1Cp-LSD",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5-10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1Cp-LSD",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "200-300+",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1Cp-LSD",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10-20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1Cp-LSD",
+  "route": "sublingual",
+  "field": "heavy",
+  "raw": "200-300+",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1Cp-LSD",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "10-20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1P-LSD",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1P-LSD",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "15–25 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "1cP-MiPLA",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "40–60 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Bromo-4,5-MDMA",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Bromo-4,5-MDMA",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-FMA",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "70–70.6 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-FMA",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–13.7 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Fluoroamphetamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Fluoroamphetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-MAPB",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-MAPB",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-MeO-Ketamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "15–25",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-MeO-Ketamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–30",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Methylamphetamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5 – 10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Methylamphetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5 – 10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Methylamphetamine",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "5 – 10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Methylethcathinone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Methylethcathinone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–40 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Methylethcathinone",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "15–30 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-Methylethcathinone",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "15–30 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-TFMXP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-TFMXP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2-TFMXP",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "4–8 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25C-NB3OMe",
+  "route": "buccal",
+  "field": "threshold",
+  "raw": "200–400",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25C-NB3OMe",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "100–300",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25C-NB3OMe",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1–2",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25CN-NBOH",
+  "route": "buccal",
+  "field": "threshold",
+  "raw": "50 – 100 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25CN-NBOH",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "20 – 50 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25CN-NBOH",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "50 – 100 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBF",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "1 – 2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBMD",
+  "route": "buccal",
+  "field": "threshold",
+  "raw": "300 – 600 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBMD",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "150 – 300 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBMD",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "300 – 600 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBOH",
+  "route": "buccal",
+  "field": "threshold",
+  "raw": "50 – 100 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBOH",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "150 – 300 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBOH",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "50 – 100 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBOMe",
+  "route": "buccal",
+  "field": "heavy",
+  "raw": ">900–1000 µg (strongly discouraged)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBOMe",
+  "route": "buccal",
+  "field": "threshold",
+  "raw": "100–200 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBOMe",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "50–100 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBOMe",
+  "route": "sublingual",
+  "field": "heavy",
+  "raw": ">900–1000 µg (strongly discouraged)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25I-NBOMe",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "100–200 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25Ip-NBOMe",
+  "route": "buccal",
+  "field": "threshold",
+  "raw": "150–250 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25Ip-NBOMe",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "75–150 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25Ip-NBOMe",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "500–700 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25T-2-NBOMe",
+  "route": "buccal",
+  "field": "heavy",
+  "raw": "1 000–1 500 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25T-2-NBOMe",
+  "route": "insufflation",
+  "field": "heavy",
+  "raw": "600–800 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25T-2-NBOMe",
+  "route": "sublingual",
+  "field": "heavy",
+  "raw": "1 000–1 500 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25T-NBOMe",
+  "route": "buccal",
+  "field": "threshold",
+  "raw": "250–400",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25T-NBOMe",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "100–200",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "25T-NBOMe",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "200–300",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-B",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-B",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-B",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-B-FLY",
+  "route": "insufflation",
+  "field": "heavy",
+  "raw": "15–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-B-FLY",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-B-FLY-NBOMe",
+  "route": "buccal",
+  "field": "threshold",
+  "raw": "100–200",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-B-FLY-NBOMe",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "100–200",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-B-FLY-NBOMe",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "75–150",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-C",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-D",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-D",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-E",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-EF",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–4 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-G",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-I",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1-2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-I",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2-4 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-IP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2–4 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-IP",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "35–50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-IP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "4–8 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-N",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "30–50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-P-NBOMe",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "20–40 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-P-NBOMe",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "25–50 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-P-NBOMe",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "50–100 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-2",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2–3",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-2",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–8",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-2",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "5–8",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-7",
+  "route": "insufflation",
+  "field": "heavy",
+  "raw": "20–25 mg+",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-7",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-7",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "40–60 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-7",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-7",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "4–6 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-7-NBOMe",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "25–50 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "2C-T-7-NBOMe",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "50–100 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3,3-Diphenylcyclobutanamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg (extrapolative)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3,4-Methylenedioxy-phencyclidine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3,4-Methylenedioxy-phencyclidine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3,4-Methylenedioxyphenmetrazine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3,4-Methylenedioxyphenmetrazine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "25–50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3,4-Trimethylenepentedrone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3,4-Trimethylenepentedrone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–15",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3,4-Trimethylenepentedrone",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "7–12",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-CEC",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-CEC",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Chloromethcathinone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Chloromethcathinone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-EtO-PCP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–30",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-F-PCP",
+  "route": "intramuscular",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-F-PCP",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "8–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Fluoromethcathinone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Fluoromethcathinone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Fluoromethcathinone",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-HO-PCE",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-HO-PCP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2 mg (tentative)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-HO-PCP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1–2 mg (tentative)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Me-PCPy",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "7-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCE",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1-2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCE",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2-3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCMO",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "30-50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCMO",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "30-60 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCP",
+  "route": "insufflation",
+  "field": "heavy",
+  "raw": "12–15+ mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCP",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "15–18+ mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1.5–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCPR",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1-2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-MeO-PCPR",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1-3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Methylaminorex",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "1-2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Quinuclidinyl benzilate",
+  "route": "intramuscular",
+  "field": "afterglow",
+  "raw": "{\"min\": 5760.0, \"max\": 5760.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Quinuclidinyl benzilate",
+  "route": "intramuscular",
+  "field": "threshold",
+  "raw": "1–5.3 µg/kg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Quinuclidinyl benzilate",
+  "route": "oral",
+  "field": "heavy",
+  "raw": ">1.5–2 mg (very high risk; prolonged incapacitation)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Quinuclidinyl benzilate",
+  "route": "oral",
+  "field": "strong",
+  "raw": "≥1 mg (high risk)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3-Quinuclidinyl benzilate",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "~0.2–0.5 mg (very approximate; anecdotal)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3C-E",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–8",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3C-E",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3F-PiHP",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "3F-PiHP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4'-Chlorodiazepam",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.25 – 0.5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4'-Fluoro-4-methylaminorex",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10-20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4,4'-Dimethylaminorex",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "≤1–2 mg (anecdotal)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4,4'-Dimethylaminorex",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "~1–3 mg (anecdotal)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-AcO-DET",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2-4 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-AcO-DMT",
+  "route": "insufflation",
+  "field": "heavy",
+  "raw": "35-45+ mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-AcO-DMT",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2.5-5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-AcO-DMT",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "40-50+ mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-AcO-DMT",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2.5-5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-CMC",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5-15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-CMC",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10-20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Chlorobuphedrone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Chlorobuphedrone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-EMC",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-EMC",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-EMC",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–40",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-EMC",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "15–30",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-FMA",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "153–191 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-FMA",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "80–80 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-FPP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-FPP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluoro-Α-pyrrolidinopropiophenone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluoro-Α-pyrrolidinopropiophenone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluoroamphetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluoroethamphetamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluoroethamphetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluoropentedrone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluoropentedrone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluoropentedrone",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "8–15",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluorophenibut",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "25–50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluorophenibut",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "25–50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Fluorophenylpiperazine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–15",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-HO-MET",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2–7 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-HO-MET",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-HO-MiPT",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "30–35.8 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-HO-MiPT",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "8.14–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-MBC",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10 – 20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-MBC",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "30 – 60 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-MPD",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "2–5",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-MPD",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-MPD",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-Me-NEB",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–40 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4-PrO-MET",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4Cl-iBF",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–20 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4Cl-iBF",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "5–10 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4Cl-iBF",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "15–30 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4F-MDMB-BINACA",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg (weighed) or µg (weighed)\", \"threshold\": 0.1, \"light\": {\"lower\": 0.1, \"upper\": 0.3}, \"common\": {\"lower\": 0.3, \"upper\": 0.8}, \"strong\": {\"lower\": 0.8, \"upper\": 1.5}, \"heavy\": 1.5}",
+  "reason": "dropped_ambiguous_unit"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4F-MPH",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4F-MPH",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "4′-Chloro-4-methylaminorex",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–40 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-APB",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-APB",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–30 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-Dbfpv",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "~1–2 mg (test)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-Dbfpv",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-EAPB",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-EAPB",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–35 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MAPB",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "7-15",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MAPB",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10-20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MAPB",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "15-20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-AMT",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "6–8+",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-AMT",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.5–1",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DALT",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DALT",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DALT",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "30–40 mg+",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DALT",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "6–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DIBF",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DIBF",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DMT",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DMT",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DPT",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "0.5–1 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-DPT",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "3–4 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-MiPT",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "5-MeO-MiPT",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "6-APB",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–15",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "6-APB",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–30",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "6-APB",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "20–30",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "7-Hydroxymitragynine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.5–1",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "7-Hydroxymitragynine",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "0.3–0.8",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "ADB-PINACA isomer 2",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 0.4, \"light\": {\"lower\": 0.4, \"upper\": 0.8}, \"common\": {\"lower\": 0.8, \"upper\": 1.6}, \"strong\": {\"lower\": 1.6, \"upper\": 2.5}, \"heavy\": 2.5}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "AEM",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "No activity observed up to 220 mg (sub‑threshold testing only)",
+  "reason": "no_activity_reported"
+ },
+ {
+  "source": "drug.community",
+  "substance": "AKB-57",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg (pure powder on inert herb or vaporised in e‑liquid)\", \"threshold\": 0.5, \"light\": {\"lower\": 0.5, \"upper\": 1.5}, \"common\": {\"lower\": 1.5, \"upper\": 3.0}, \"strong\": {\"lower\": 3.0, \"upper\": 5.0}, \"heavy\": 5.0}",
+  "reason": "dropped_ambiguous_unit"
+ },
+ {
+  "source": "drug.community",
+  "substance": "AL-LAD",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "300–350+ µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "AL-LAD",
+  "route": "sublingual",
+  "field": "heavy",
+  "raw": "300–350+ µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "ALEPH",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "AM-2201",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 200.0, \"light\": {\"lower\": 250.0, \"upper\": 500.0}, \"common\": {\"lower\": 500.0, \"upper\": 1000.0}, \"strong\": {\"lower\": 1000.0, \"upper\": 2000.0}, \"heavy\": 2000.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "AMT",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2-5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "AMT",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "60-80+ mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "AMT",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5-15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Adderall",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2.5–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Alcohol",
+  "route": "oral",
+  "field": "common",
+  "raw": "14 g pure ethanol equals one U.S. standard drink (0.6 U.S. fl oz ethanol); measurement reference only, not a safe or recommended dose",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Alcohol",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"common\": \"14 g pure ethanol equals one U.S. standard drink (0.6 U.S. fl oz ethanol); measurement reference only, not a safe or recommended dose\"}",
+  "reason": "degenerate_after_unreadable_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Alfentanil",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "2-4 µg/kg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Aminorex",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1-3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Aminorex",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2-5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Apomorphine",
+  "route": "subcutaneous",
+  "field": "threshold",
+  "raw": "~1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Arecoline",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "0.5–1",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Arecoline",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–3",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Arecoline",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "1–2",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ariadne",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg (PiHKAL-era very mild alerts reported near 20 mg)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Arimistane",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "5-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Armodafinil",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "25–50",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Atropine",
+  "route": "other",
+  "field": "light",
+  "raw": "0.01%",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Atropine",
+  "route": "other",
+  "field": "threshold",
+  "raw": "0.005–0.01% (low-dose myopia control research)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Avizafone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Avizafone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Bezitramide",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.25–0.5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Brephedrone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–30",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Bromoketamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "20–40",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Butylone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Caffeine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10-20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Canket",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–8 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Canket",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Cathinone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Cocaine",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "5-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Cocaine",
+  "route": "inhalation",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 0.0, \"max\": 0.5}, \"comeup\": {\"min\": 0.5, \"max\": 0.5}, \"peak\": {\"min\": 4.0, \"max\": 4.0}, \"offset\": {\"min\": 15.0, \"max\": 15.0}, \"afterglow\": {\"min\": 100.0, \"max\": 100.0}, \"total\": {\"min\": 5.0, \"max\": 15.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Cocaine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Cocaine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10-20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Crack",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Cyclazodone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Cyproheptadine",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "24–32 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Cyproheptadine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–4 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DMT",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DMT",
+  "route": "oral",
+  "field": "common",
+  "raw": "50–75 mg DMT + 75–100 mg harmalas",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DMT",
+  "route": "oral",
+  "field": "light",
+  "raw": "30–50 mg DMT + 50–75 mg harmalas",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DMT",
+  "route": "oral",
+  "field": "strong",
+  "raw": "100+ mg DMT + 100–150 mg harmalas",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DMT",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–30 mg DMT + 30–50 mg harmalas",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DOC",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.1–0.5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DOET",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DOM",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.5-1mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "DPT",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dehydroxyfluorafinil",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Delorazepam",
+  "route": "oral",
+  "field": "common",
+  "raw": "Anxiety: 0.5–1 mg per dose 2–3 times daily in general practice, or 1–2 mg per dose 2–3 times daily in neuropsychiatry; insomnia: 0.5, 1, or 2 mg once before bedtime",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Delorazepam",
+  "route": "oral",
+  "field": "common",
+  "raw": "Anxiety: 13–26 drops 2–3 times daily in general practice, or 26–52 drops 2–3 times daily in neuropsychiatry; insomnia: 13, 26, or 52 drops once before bedtime",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Delorazepam",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "1.15–3.03 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Delorazepam",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"drops\", \"common\": {\"lower\": 13.0, \"upper\": 26.0}}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Delorazepam",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg delorazepam per administration\", \"threshold\": 0.154, \"light\": {\"lower\": 0.243, \"upper\": 0.385}, \"common\": {\"lower\": 0.385, \"upper\": 1.0}, \"strong\": {\"lower\": 1.0, \"upper\": 1.15}, \"heavy\": 1.15}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Delorazepam",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.154–0.243 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Deoxymethoxetamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Deoxymethoxetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "30–50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dexmedetomidine",
+  "route": "buccal",
+  "field": "common",
+  "raw": "120 or 180 mcg (severity-based initial dose)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dexmedetomidine",
+  "route": "buccal",
+  "field": "ladder",
+  "raw": "{\"common\": \"120 or 180 mcg (severity-based initial dose)\"}",
+  "reason": "degenerate_after_unreadable_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dexmedetomidine",
+  "route": "sublingual",
+  "field": "common",
+  "raw": "120 or 180 mcg (severity-based initial dose)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dexmedetomidine",
+  "route": "sublingual",
+  "field": "ladder",
+  "raw": "{\"common\": \"120 or 180 mcg (severity-based initial dose)\"}",
+  "reason": "degenerate_after_unreadable_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dextromethorphan",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 30.0, \"light\": {\"lower\": 30.0, \"upper\": 100.0}, \"common\": {\"lower\": 100.0, \"upper\": 200.0}, \"strong\": {\"lower\": 200.0, \"upper\": 400.0}, \"heavy\": 400.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dextromethorphan",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 30.0, \"light\": {\"lower\": 60.0, \"upper\": 150.0}, \"common\": {\"lower\": 150.0, \"upper\": 300.0}, \"strong\": {\"lower\": 300.0, \"upper\": 600.0}, \"heavy\": 600.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dextromethorphan",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg/kg\", \"threshold\": 0.3, \"light\": {\"lower\": 1.5, \"upper\": 2.5}, \"common\": {\"lower\": 2.5, \"upper\": 7.5}, \"strong\": {\"lower\": 7.5, \"upper\": 15.0}, \"heavy\": 15.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dextromethorphan",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "~0.3-0.7 mg/kg (test dose when CYP2D6 status or interactions unknown)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dextromethorphan",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "~30-60 mg poli",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diazepam",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "1-2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diazepam",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "25-30+ mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diazepam",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2-2.5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dimethylpentylone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3-5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dimethylpentylone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dipentylone",
+  "route": "insufflation",
+  "field": "common",
+  "raw": "8ጥ mg",
+  "reason": "foreign_characters"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dipentylone",
+  "route": "insufflation",
+  "field": "strong",
+  "raw": "25ፐ mg",
+  "reason": "foreign_characters"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dipentylone",
+  "route": "oral",
+  "field": "common",
+  "raw": "15ፀ mg",
+  "reason": "foreign_characters"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dipentylone",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"common\": \"15ፀ mg\", \"heavy\": \"80 mg+\", \"light\": \"5ጕ mg\", \"strong\": \"40ᎀ mg\", \"threshold\": \"5 mg\"}",
+  "reason": "degenerate_after_unreadable_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dipentylone",
+  "route": "oral",
+  "field": "light",
+  "raw": "5ጕ mg",
+  "reason": "foreign_characters"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dipentylone",
+  "route": "oral",
+  "field": "strong",
+  "raw": "40ᎀ mg",
+  "reason": "foreign_characters"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diphenhydramine",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "508–573 mg (P75–P85)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diphenhydramine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "200–250 mg (P2.5–P10)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diphenidine",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diphenidine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diphenidine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–30 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diphenidine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 15.0, \"max\": 30.0}, \"comeup\": {\"min\": 30.0, \"max\": 30.0}, \"peak\": {\"min\": 120.0, \"max\": 120.0}, \"offset\": {\"min\": 180.0, \"max\": 180.0}, \"afterglow\": {\"min\": 1080.0, \"max\": 1080.0}, \"total\": {\"min\": 120.0, \"max\": 300.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diphenidine",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "10–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Diphenidine",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Dipyanone",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "80–120 mg or more (anecdotal; high-risk and tolerance-dependent)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "EDMC",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "EDMC",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "20–40 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ephedrine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5-10 mg (anecdotal)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ephedrine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ephenidine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ephenidine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Etoxadrol",
+  "route": "intravenous",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 0.1, \"max\": 1.0}, \"peak\": {\"min\": 10.0, \"max\": 10.0}, \"offset\": {\"min\": 50.0, \"max\": 50.0}, \"afterglow\": {\"min\": 1380.0, \"max\": 1380.0}, \"total\": {\"min\": 14.0, \"max\": 53.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Eutylone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Eutylone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10-20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Fenfluramine",
+  "route": "oral",
+  "field": "common",
+  "raw": "0.35 mg/kg/day (divided BID) if NOT on stiripentol; max 26 mg/day",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Fenfluramine",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"common\": \"0.35 mg/kg/day (divided BID) if NOT on stiripentol; max 26 mg/day\", \"heavy\": \"Not recommended; higher exposures and historical anorectic dosing are linked to valvular heart disease and PAH\", \"light\": \"0.2 mg/kg/day (divided BID)\", \"strong\": \"0.2 mg/kg/day (divided BID) if WITH stiripentol + clobazam; max 17 mg/day\", \"threshold\": \"0.1 mg/kg/day (often divided twice daily) – typical starting dose\"}",
+  "reason": "degenerate_after_unreadable_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Fenfluramine",
+  "route": "oral",
+  "field": "light",
+  "raw": "0.2 mg/kg/day (divided BID)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Fenfluramine",
+  "route": "oral",
+  "field": "strong",
+  "raw": "0.2 mg/kg/day (divided BID) if WITH stiripentol + clobazam; max 17 mg/day",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Flmodafinil",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Flmodafinil",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Flmodafinil",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "10–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Flmodafinil",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "10–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Flunitrazepam",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "≥ 3–4 mg (markedly increases amnesia/respiratory risk; avoid).",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Flunitrazolam",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg (or mcg)\", \"threshold\": 0.05, \"light\": {\"lower\": 0.05, \"upper\": 0.125}, \"common\": {\"lower\": 0.125, \"upper\": 0.25}, \"strong\": {\"lower\": 0.25, \"upper\": 0.5}, \"heavy\": 0.5}",
+  "reason": "dropped_ambiguous_unit"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Fluorexetamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–8 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Fluorexetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Flutoprazepam",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 30.0, \"max\": 60.0}, \"peak\": {\"min\": 120.0, \"max\": 120.0}, \"offset\": {\"min\": 5580.0, \"max\": 5580.0}, \"total\": {\"min\": 3600.0, \"max\": 5400.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Fosazepam",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–5 mg (very tentative)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "GHB",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mL GBL (purity/concentration-specific)\", \"threshold\": 0.5, \"light\": {\"lower\": 0.5, \"upper\": 1.0}, \"common\": {\"lower\": 1.0, \"upper\": 1.5}}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "GHB",
+  "route": "oral",
+  "field": "strong",
+  "raw": "≥1.5 ml (unknown strength)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Heroin",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "1-2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Hydroxetamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Hydroxetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ibogaine",
+  "route": "oral",
+  "field": "afterglow",
+  "raw": "{\"min\": 8640.0, \"max\": 8640.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ibogaine",
+  "route": "oral",
+  "field": "common",
+  "raw": "200–800 mg or ~3–10 mg/kg (visionary for some)",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ibogaine",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "≥1200 mg or ≥15 mg/kg (typical of ‘flood’ range begins 15–25 mg/kg)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ibogaine",
+  "route": "oral",
+  "field": "light",
+  "raw": "50–200 mg or ~0.5–3 mg/kg (often alerting/stimulating)",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ibogaine",
+  "route": "oral",
+  "field": "strong",
+  "raw": "800–1200 mg or ~10–15 mg/kg (intense oneirogenic)",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ibogaine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "~25–50 mg or ~0.3–0.5 mg/kg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Isophenidine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "40-60 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Isotonitazene",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "20–40 ug",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "JWH-018",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 0.2, \"light\": {\"lower\": 0.2, \"upper\": 0.8}, \"common\": {\"lower\": 0.8, \"upper\": 2.5}, \"strong\": {\"lower\": 2.5, \"upper\": 4.0}, \"heavy\": 4.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ketamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ketamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "40–50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Ketamine",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "40–50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Lamotrigine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "12.5–25 mg (perceptible to some; not a clinical target)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Lean",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mL (½–1 teaspoon)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Levomethorphan",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 1.0, \"light\": {\"lower\": 2.0, \"upper\": 5.0}, \"common\": {\"lower\": 5.0, \"upper\": 10.0}, \"strong\": {\"lower\": 10.0, \"upper\": 15.0}, \"heavy\": 10.0}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Levomethorphan",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1-2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Lisdexamfetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Lorazepam",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "4 - 7.5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MD-PHP",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "2–5",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MD-PHP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MDPV",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MDPV",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–6 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MDPV",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "1–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MXP",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "150–200 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MXPCP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "10–15",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MXPCP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "MXPCP",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "10–20",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Mefloquine",
+  "route": "oral",
+  "field": "common",
+  "raw": "250 mg weekly (prophylaxis)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Mefloquine",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"common\": \"250 mg weekly (prophylaxis)\", \"heavy\": \"N/A\", \"light\": \"N/A\", \"strong\": \"N/A\", \"threshold\": \"N/A\"}",
+  "reason": "degenerate_after_unreadable_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Mephedrone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Mephedrone",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Mephedrone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Mephedrone",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methadone",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methadone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methcathinone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methcathinone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5-10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methiodone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methiodone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methiodone",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "3–8 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methoxetamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methoxetamine",
+  "route": "intramuscular",
+  "field": "threshold",
+  "raw": "3–8 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methoxetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "8–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methoxetamine",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methoxmetamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methoxmetamine",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methylenedioxypyrovalerone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methylenedioxypyrovalerone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2–6 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methylenedioxypyrovalerone",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "1–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methylone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "20–40 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methylone",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 60.0, \"light\": {\"lower\": 100.0, \"upper\": 150.0}, \"common\": {\"lower\": 100.0, \"upper\": 250.0}, \"strong\": {\"lower\": 160.0, \"upper\": 270.0}, \"heavy\": 250.0}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Methylone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "60–120 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Mirogabalin",
+  "route": "oral",
+  "field": "heavy",
+  "raw": ">40-50 mg/day (not recommended; escalates sedation/impairment risk)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Mirtazapine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "7.5–15 mg (sedative/off‑label insomnia)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Myristicin",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "~1–3 g nutmeg (unknown for pure myristicin)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "N-Desethylprotonitazene",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2.5–5 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "N-Desethylprotonitazene",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10–20 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "N-Ethylpentedrone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "~5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "NM-2-AI",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–20 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "inhalation",
+  "field": "heavy",
+  "raw": "2–4 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "inhalation",
+  "field": "heavy",
+  "raw": "~2–4 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg (absorbed)\", \"threshold\": 0.2, \"light\": {\"lower\": 0.3, \"upper\": 0.8}, \"common\": {\"lower\": 0.6, \"upper\": 1.5}, \"strong\": {\"lower\": 1.0, \"upper\": 2.0}, \"heavy\": 2.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "0.2–0.3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "~0.2–0.3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "inhalation",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 0.1, \"max\": 1.0}, \"comeup\": {\"min\": 4.0, \"max\": 4.0}, \"peak\": {\"min\": 5.0, \"max\": 5.0}, \"offset\": {\"min\": 50.0, \"max\": 50.0}, \"afterglow\": {\"min\": 120.0, \"max\": 120.0}, \"total\": {\"min\": 10.0, \"max\": 30.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "insufflation",
+  "field": "heavy",
+  "raw": "3–8 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "insufflation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg (absorbed)\", \"threshold\": 0.2, \"light\": {\"lower\": 0.3, \"upper\": 1.0}, \"common\": {\"lower\": 0.8, \"upper\": 2.0}, \"strong\": {\"lower\": 1.5, \"upper\": 4.0}, \"heavy\": 3.0}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "0.2–0.3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Nicotine",
+  "route": "transdermal",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 60.0, \"max\": 180.0}, \"peak\": {\"min\": 1260.0, \"max\": 1260.0}, \"offset\": {\"min\": 300.0, \"max\": 300.0}, \"afterglow\": {\"min\": 360.0, \"max\": 360.0}, \"total\": {\"min\": 960.0, \"max\": 1440.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Noopept",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Noopept",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "2–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "O-PCPr",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "O-PCPr",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "O-pce",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "2–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Olanzapine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1-2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "PCP",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "PCP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "PCP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1–3 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "PRE-084",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "PRE-084",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "1–2",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "PRE-084",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "1–2",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phenazolam",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "0.05–0.10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phendimetrazine",
+  "route": "oral",
+  "field": "common",
+  "raw": "35-70 mg/day divided (IR) or 105 mg once daily (ER)",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phenelzine",
+  "route": "oral",
+  "field": "light",
+  "raw": "15 mg/day",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phenelzine",
+  "route": "oral",
+  "field": "strong",
+  "raw": "90 mg/day (maximum recommended)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phenethylamine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "10-50 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phentermine+Fenfluramine",
+  "route": "oral",
+  "field": "common",
+  "raw": "15–30 / 30–60 mg",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phentermine+Fenfluramine",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "45 mg+ / 80 mg+ (not recommended)",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phentermine+Fenfluramine",
+  "route": "oral",
+  "field": "light",
+  "raw": "5–15 / 10–30 mg",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phentermine+Fenfluramine",
+  "route": "oral",
+  "field": "strong",
+  "raw": "30–45 / 60–80 mg",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phentermine+Fenfluramine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5/10 mg",
+  "reason": "extra_numbers_ignored"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phenylephrine",
+  "route": "insufflation",
+  "field": "heavy",
+  "raw": "Prolonged daily use >3–5 days (avoid; rebound risk)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phenylephrine",
+  "route": "insufflation",
+  "field": "strong",
+  "raw": "1% (short‑term use only)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Phenylephrine",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "25–40 mcg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Prolintane",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Prolintane",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Prolintane",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Propylhexedrine",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "250–250 mg (P75–P85)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Propylhexedrine",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "125–125 mg (P2.5–P10)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Pyrovalerone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Pyrovalerone",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "0.5–1 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Pyrovalerone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Pyrovalerone",
+  "route": "rectal",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Remifentanil",
+  "route": "intravenous",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg/kg/min\", \"threshold\": 0.02, \"light\": {\"lower\": 0.05, \"upper\": 0.1}, \"common\": {\"lower\": 0.1, \"upper\": 0.2}, \"strong\": {\"lower\": 0.2, \"upper\": 0.3}, \"heavy\": 0.3}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Remifentanil",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "0.02–0.05 µg/kg/min",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Remifentanil",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "5–10 µg (slow IV push)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "S-Ketamine",
+  "route": "insufflation",
+  "field": "strong",
+  "raw": "≥84 mg (above label not recommended)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "S-Ketamine",
+  "route": "intramuscular",
+  "field": "heavy",
+  "raw": ">0.75–1 mg/kg (anesthetic-range effects possible)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "S-Ketamine",
+  "route": "intravenous",
+  "field": "heavy",
+  "raw": ">0.8–1 mg/kg (anesthetic-range effects possible)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "SR-14968",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "15–25 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "SR-14968",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "SR-17018",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "5–15 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "SR-17018",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "5–10 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Salvinorin A",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "200–300 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Salvinorin A",
+  "route": "sublingual",
+  "field": "threshold",
+  "raw": "100–250 µg (pure in solution, reported)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Serdexmethylphenidate",
+  "route": "oral",
+  "field": "common",
+  "raw": "One capsule once daily: 26.1/5.2 mg to 52.3/10.4 mg (SDX/d-MPH HCl)",
+  "reason": "unparsed"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Serdexmethylphenidate",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"common\": \"One capsule once daily: 26.1/5.2 mg to 52.3/10.4 mg (SDX/d-MPH HCl)\", \"heavy\": \"Not established\", \"light\": \"Not established\", \"strong\": \"Not established\", \"threshold\": \"Not established for SDX alone\"}",
+  "reason": "degenerate_after_unreadable_tiers"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Spirochlorphine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "50–100 µg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "TMA-2",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "7–12 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Tapentadol",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 50.0, \"light\": {\"lower\": 50.0, \"upper\": 100.0}, \"common\": {\"lower\": 100.0, \"upper\": 200.0}, \"strong\": {\"lower\": 200.0, \"upper\": 250.0}, \"heavy\": 250.0}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Thiopental",
+  "route": "intravenous",
+  "field": "threshold",
+  "raw": "~1–2 mg/kg (sedation)",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Tilmetamine",
+  "route": "insufflation",
+  "field": "afterglow",
+  "raw": "{\"min\": 19440.0, \"max\": 19440.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Tilmetamine",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Tranylcypromine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 60.0, \"max\": 180.0}, \"peak\": {\"min\": 0.0, \"max\": 0.0}, \"offset\": {\"min\": 30240.0, \"max\": 30240.0}, \"total\": {\"min\": 14400.0, \"max\": 30240.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "drug.community",
+  "substance": "Trazodone",
+  "route": "oral",
+  "field": "heavy",
+  "raw": "300-600 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "alpha-PiHP",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "1-2mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "alpha-PiHP",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "1-3mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "alpha-PiHP",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "3-5mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "alpha-Pyrrolidinohexiophenone",
+  "route": "inhalation",
+  "field": "threshold",
+  "raw": "1–2 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "alpha-Pyrrolidinohexiophenone",
+  "route": "insufflation",
+  "field": "threshold",
+  "raw": "0.5–1 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
+  "substance": "alpha-Pyrrolidinohexiophenone",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "3–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25B-NBOMe",
+  "route": "insufflation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 25.0, \"light\": {\"lower\": 50.0, \"upper\": 200.0}, \"common\": {\"lower\": 200.0, \"upper\": 350.0}, \"strong\": {\"lower\": 350.0, \"upper\": 500.0}, \"heavy\": 25.0}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25B-NBOMe",
+  "route": "sublingual",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 50.0, \"light\": {\"lower\": 100.0, \"upper\": 300.0}, \"common\": {\"lower\": 300.0, \"upper\": 500.0}, \"strong\": {\"lower\": 500.0, \"upper\": 700.0}, \"heavy\": 25.0}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25C-NBOH",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 4320.0, \"max\": 8640.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25C-NBOH",
+  "route": "sublingual",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 100.0, \"light\": {\"lower\": 250.0, \"upper\": 500.0}, \"common\": {\"lower\": 500.0, \"upper\": 750.0}, \"strong\": {\"lower\": 750.0, \"upper\": 1000.0}, \"heavy\": 25.0}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25C-NBOMe",
+  "route": "sublingual",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 50.0, \"light\": {\"lower\": 100.0, \"upper\": 300.0}, \"common\": {\"lower\": 300.0, \"upper\": 700.0}, \"strong\": {\"lower\": 700.0, \"upper\": 1000.0}, \"heavy\": 25.0}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25I-NBOH",
+  "route": "oral",
+  "field": "afterglow",
+  "raw": "{\"min\": 4320.0, \"max\": 17280.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25I-NBOH",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 50.0, \"light\": {\"lower\": 200.0, \"upper\": 500.0}, \"common\": {\"lower\": 500.0, \"upper\": 900.0}, \"strong\": {\"lower\": 900.0, \"upper\": 1400.0}, \"heavy\": 25.0}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25I-NBOMe",
+  "route": "insufflation",
+  "field": "afterglow",
+  "raw": "{\"min\": 1440.0, \"max\": 10080.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "25I-NBOMe",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 4320.0, \"max\": 8640.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "3-Me-PCP",
+  "route": "insufflation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 5.0, \"light\": {\"lower\": 5.0, \"upper\": 10.0}, \"common\": {\"lower\": 10.0, \"upper\": 20.0}, \"strong\": {\"lower\": 20.0, \"upper\": 25.0}, \"heavy\": 15.0}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "5F-PB-22",
+  "route": "inhalation",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 90.0, \"max\": 90.0}, \"onset\": {\"min\": 0.16666666666666666, \"max\": 0.16666666666666666}, \"peak\": {\"min\": 30.0, \"max\": 30.0}, \"offset\": {\"min\": 60.0, \"max\": 60.0}, \"afterglow\": {\"min\": 15.0, \"max\": 15.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Caffeine",
+  "route": "insufflation",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 60.0, \"max\": 150.0}, \"onset\": {\"min\": 0.5, \"max\": 2.0}, \"comeup\": {\"min\": 0.5, \"max\": 2.0}, \"peak\": {\"min\": 30.0, \"max\": 60.0}, \"offset\": {\"min\": 360.0, \"max\": 600.0}, \"afterglow\": {\"min\": 360.0, \"max\": 1440.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Caffeine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 120.0, \"max\": 300.0}, \"onset\": {\"min\": 5.0, \"max\": 10.0}, \"comeup\": {\"min\": 10.0, \"max\": 60.0}, \"peak\": {\"min\": 60.0, \"max\": 120.0}, \"offset\": {\"min\": 360.0, \"max\": 600.0}, \"afterglow\": {\"min\": 120.0, \"max\": 240.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Codeine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 180.0, \"max\": 360.0}, \"onset\": {\"min\": 30.0, \"max\": 45.0}, \"comeup\": {\"min\": 60.0, \"max\": 120.0}, \"peak\": {\"min\": 180.0, \"max\": 300.0}, \"offset\": {\"min\": 120.0, \"max\": 240.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "DMT",
+  "route": "oral",
+  "field": "onset",
+  "raw": "{\"min\": 0.03333333333333333, \"max\": 0.16666666666666666}",
+  "reason": "duration_onset_impossible"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Dizocilpine",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 200.0, \"light\": {\"lower\": 200.0, \"upper\": 300.0}, \"common\": {\"lower\": 300.0, \"upper\": 700.0}, \"strong\": {\"lower\": 700.0, \"upper\": 1500.0}, \"heavy\": 1.5}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Gaboxadol",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 2.0, \"max\": 5.0}, \"onset\": {\"min\": 15.0, \"max\": 60.0}, \"peak\": {\"min\": 60.0, \"max\": 120.0}, \"offset\": {\"min\": 1.0, \"max\": 3.0}, \"afterglow\": {\"min\": 60.0, \"max\": 180.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Kratom",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 120.0, \"max\": 240.0}, \"onset\": {\"min\": 20.0, \"max\": 40.0}, \"peak\": {\"min\": 60.0, \"max\": 120.0}, \"offset\": {\"min\": 180.0, \"max\": 360.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Librium",
+  "route": "oral",
+  "field": "afterglow",
+  "raw": "{\"min\": 9000.0, \"max\": 18000.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Olanzapine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 360.0, \"max\": 480.0}, \"onset\": {\"min\": 40.0, \"max\": 60.0}, \"peak\": {\"min\": 90.0, \"max\": 360.0}, \"offset\": {\"min\": 480.0, \"max\": 720.0}, \"afterglow\": {\"min\": 1200.0, \"max\": 1440.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Oxycodone",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 1.0, \"light\": {\"lower\": 1.5, \"upper\": 8.0}, \"common\": {\"lower\": 8.0, \"upper\": 20.0}, \"strong\": {\"lower\": 20.0, \"upper\": 35.0}, \"heavy\": 30.0}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Phenobarbital",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 240.0, \"max\": 360.0}, \"onset\": {\"min\": 15.0, \"max\": 60.0}, \"comeup\": {\"min\": 60.0, \"max\": 120.0}, \"peak\": {\"min\": 240.0, \"max\": 360.0}, \"offset\": {\"min\": 720.0, \"max\": 1440.0}, \"afterglow\": {\"min\": 60.0, \"max\": 2880.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Tizanidine",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 25.0, \"light\": {\"lower\": 2.0, \"upper\": 3.0}, \"common\": {\"lower\": 4.0, \"upper\": 5.0}, \"strong\": {\"lower\": 6.0, \"upper\": 8.0}, \"heavy\": 8.0}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Zopiclone",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 210.0, \"max\": 540.0}, \"onset\": {\"min\": 10.0, \"max\": 30.0}, \"comeup\": {\"min\": 90.0, \"max\": 120.0}, \"peak\": {\"min\": 180.0, \"max\": 240.0}, \"offset\": {\"min\": 300.0, \"max\": 300.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "alpha-PiHP",
+  "route": "oral",
+  "field": "onset",
+  "raw": "{\"min\": 1.0, \"max\": 1.0}",
+  "reason": "duration_onset_impossible"
+ },
+ {
+  "source": "piru-curated",
+  "substance": "Cariprazine",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 0.5, \"light\": {\"lower\": 1.5, \"upper\": 3}, \"common\": {\"lower\": 3, \"upper\": 6}, \"strong\": {\"lower\": 6, \"upper\": 9}, \"heavy\": 6}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "piru-curated",
+  "substance": "Tianeptine sulfate",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 6, \"light\": {\"lower\": 12, \"upper\": 25}, \"common\": {\"lower\": 25, \"upper\": 50}, \"strong\": {\"lower\": 50, \"upper\": 75}, \"heavy\": 100}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "25C-NBOH",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 4320.0, \"max\": 8640.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "25E-NBOH",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 7200.0, \"max\": 14400.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "25I-NBOH",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 4320.0, \"max\": 17280.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "25I-NBOMe",
+  "route": "insufflation",
+  "field": "afterglow",
+  "raw": "{\"min\": 1440.0, \"max\": 10080.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "25I-NBOMe",
+  "route": "sublingual",
+  "field": "afterglow",
+  "raw": "{\"min\": 4320.0, \"max\": 8640.0}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Blue Lotus",
+  "route": "oral",
+  "field": "onset",
+  "raw": "{\"min\": 0.16666666666666666, \"max\": 1.0}",
+  "reason": "duration_onset_impossible"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Caffeine",
+  "route": "insufflation",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 0.5, \"max\": 2.0}, \"comeup\": {\"min\": 0.5, \"max\": 2.0}, \"peak\": {\"min\": 30.0, \"max\": 60.0}, \"offset\": {\"min\": 360.0, \"max\": 600.0}, \"total\": {\"min\": 60.0, \"max\": 150.0}, \"afterglow\": {\"min\": 360.0, \"max\": 1440.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Caffeine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 5.0, \"max\": 10.0}, \"comeup\": {\"min\": 10.0, \"max\": 60.0}, \"peak\": {\"min\": 60.0, \"max\": 120.0}, \"offset\": {\"min\": 360.0, \"max\": 600.0}, \"total\": {\"min\": 120.0, \"max\": 300.0}, \"afterglow\": {\"min\": 120.0, \"max\": 240.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Codeine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 30.0, \"max\": 45.0}, \"comeup\": {\"min\": 60.0, \"max\": 120.0}, \"peak\": {\"min\": 180.0, \"max\": 300.0}, \"offset\": {\"min\": 120.0, \"max\": 240.0}, \"total\": {\"min\": 180.0, \"max\": 360.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Gaboxadol",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 15.0, \"max\": 60.0}, \"peak\": {\"min\": 60.0, \"max\": 120.0}, \"offset\": {\"min\": 1.0, \"max\": 3.0}, \"total\": {\"min\": 2.0, \"max\": 5.0}, \"afterglow\": {\"min\": 60.0, \"max\": 180.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Kratom",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 20.0, \"max\": 40.0}, \"peak\": {\"min\": 60.0, \"max\": 120.0}, \"offset\": {\"min\": 180.0, \"max\": 360.0}, \"total\": {\"min\": 120.0, \"max\": 240.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Meclofenoxate",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 50.0, \"upper\": 200.0}, \"common\": {\"lower\": 400.0, \"upper\": 800.0}, \"strong\": {\"lower\": 800.0, \"upper\": 1000.0}, \"heavy\": 600.0}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Oxycodone",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 1.0, \"light\": {\"lower\": 1.5, \"upper\": 8.0}, \"common\": {\"lower\": 8.0, \"upper\": 20.0}, \"strong\": {\"lower\": 20.0, \"upper\": 35.0}, \"heavy\": 30.0}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Phenobarbital",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"onset\": {\"min\": 15.0, \"max\": 60.0}, \"comeup\": {\"min\": 60.0, \"max\": 120.0}, \"peak\": {\"min\": 240.0, \"max\": 360.0}, \"offset\": {\"min\": 720.0, \"max\": 1440.0}, \"total\": {\"min\": 240.0, \"max\": 360.0}, \"afterglow\": {\"min\": 60.0, \"max\": 2880.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "psychonautwiki",
+  "substance": "Tizanidine",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"μg\", \"threshold\": 25.0, \"light\": {\"lower\": 2.0, \"upper\": 3.0}, \"common\": {\"lower\": 4.0, \"upper\": 5.0}, \"strong\": {\"lower\": 6.0, \"upper\": 8.0}, \"heavy\": 8.0}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "25G-NBOMe",
+  "route": "sublingual",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 500, \"light\": {\"lower\": 1000, \"upper\": 1500}, \"common\": {\"lower\": 1500, \"upper\": 2000}, \"heavy\": 2000}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "tripsit",
+  "substance": "25N-NBOMe",
+  "route": "sublingual",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"light\": {\"lower\": 100, \"upper\": 300}, \"common\": {\"lower\": 300, \"upper\": 800}, \"strong\": {\"lower\": 800, \"upper\": 1300}}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "tripsit",
+  "substance": "2C-E",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 5, \"upper\": 10}, \"common\": {\"lower\": 10, \"upper\": 15}, \"strong\": {\"lower\": 15, \"upper\": 30}, \"heavy\": 25}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "4-HO-MPMI",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 500, \"light\": {\"lower\": 750, \"upper\": 750}, \"common\": {\"lower\": 1, \"upper\": 2}}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Alcohol",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"units\", \"light\": {\"lower\": 1, \"upper\": 2}, \"common\": {\"lower\": 2, \"upper\": 4}, \"heavy\": 5}",
+  "reason": "dropped_unquantified_unit"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Aspirin",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"threshold\": 50, \"light\": {\"lower\": 75, \"upper\": 75}, \"common\": {\"lower\": 325, \"upper\": 325}, \"heavy\": 1.6}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Bupropion",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg/day\", \"light\": {\"lower\": 150, \"upper\": 150}, \"common\": {\"lower\": 150, \"upper\": 300}, \"strong\": {\"lower\": 300, \"upper\": 450}, \"heavy\": 450}",
+  "reason": "dropped_daily_unit"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Butyrfentanyl",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 400, \"upper\": 800}, \"common\": {\"lower\": 800, \"upper\": 1500}, \"strong\": {\"lower\": 1.5, \"upper\": 3}}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Cloniprazepam",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 1, \"upper\": 5}, \"common\": {\"lower\": 1, \"upper\": 2}, \"strong\": {\"lower\": 2, \"upper\": 4}}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "DOI",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 500, \"light\": {\"lower\": 750, \"upper\": 750}, \"common\": {\"lower\": 1, \"upper\": 1}, \"heavy\": 3}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Diazepam",
+  "route": "oral",
+  "field": "afterglow",
+  "raw": "{\"max\": 7200, \"min\": 60}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Doip",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"µg\", \"threshold\": 800, \"light\": {\"lower\": 800, \"upper\": 1500}, \"common\": {\"lower\": 1.5, \"upper\": 3}, \"heavy\": 3}",
+  "reason": "dropped_inverted_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Hexobarbital",
+  "route": "oral",
+  "field": "onset",
+  "raw": "{\"max\": 2, \"min\": 1}",
+  "reason": "duration_onset_impossible"
+ },
+ {
+  "source": "tripsit",
+  "substance": "LSA",
+  "route": "other",
+  "field": "ladder",
+  "raw": "{\"unit\": \"seeds\", \"light\": {\"lower\": 50, \"upper\": 100}, \"common\": {\"lower\": 100, \"upper\": 250}, \"strong\": {\"lower\": 250, \"upper\": 400}, \"heavy\": 400}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Medazepam",
+  "route": "oral",
+  "field": "afterglow",
+  "raw": "{\"max\": 10320, \"min\": 60}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Methamphetamine",
+  "route": "inhalation",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 5, \"upper\": 10}, \"common\": {\"lower\": 10, \"upper\": 20}, \"strong\": {\"lower\": 30, \"upper\": 60}, \"heavy\": 50}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Nordazepam",
+  "route": "oral",
+  "field": "afterglow",
+  "raw": "{\"max\": 7200, \"min\": 60}",
+  "reason": "duration_afterglow_implausible"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Peyote",
+  "route": "other",
+  "field": "ladder",
+  "raw": "{\"unit\": \"g\", \"light\": {\"lower\": 50, \"upper\": 100}, \"common\": {\"lower\": 100, \"upper\": 150}, \"heavy\": 200}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Propylhexedrine",
+  "route": "other",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 10, \"upper\": 20}, \"common\": {\"lower\": 20, \"upper\": 50}, \"heavy\": 50}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Propylhexedrine",
+  "route": "other",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 20, \"upper\": 60}, \"common\": {\"lower\": 60, \"upper\": 125}, \"strong\": {\"lower\": 125, \"upper\": 250}, \"heavy\": 250}",
+  "reason": "dose_ranges_duplicate_dropped"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Rilmazafone",
+  "route": "oral",
+  "field": "ladder",
+  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 1, \"upper\": 5}, \"common\": {\"lower\": 1, \"upper\": 2}, \"strong\": {\"lower\": 2, \"upper\": 4}}",
+  "reason": "dropped_regressed_tiers"
+ },
+ {
+  "source": "tripsit",
+  "substance": "Truffles",
+  "route": "other",
+  "field": "ladder",
+  "raw": "{\"unit\": \"g\", \"light\": {\"lower\": 5, \"upper\": 5}, \"common\": {\"lower\": 10, \"upper\": 10}, \"heavy\": 15}",
+  "reason": "dose_ranges_duplicate_dropped"
+ }
+]

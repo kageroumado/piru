@@ -15,6 +15,8 @@ struct LogMedicationsView: View {
     @State private var toggleStates: [String: Bool] = [:]
     @State private var interactionWarnings: [InteractionResult] = []
     @State private var showInteractionSheet = false
+    /// When the doses were taken, once the user sets it; `nil` logs them now.
+    @State private var takenAt: Date?
 
     init(category: String) {
         self.category = category
@@ -57,6 +59,14 @@ struct LogMedicationsView: View {
                         }
                     } header: {
                         Text("Toggle off any you don't want to log today")
+                    }
+
+                    Section {
+                        DatePicker(
+                            "Taken at",
+                            selection: Binding(get: { takenAt ?? .now }, set: { takenAt = $0 }),
+                            in: ...Date.now,
+                        )
                     }
 
                     Section {
@@ -130,7 +140,7 @@ struct LogMedicationsView: View {
     }
 
     private func logSelected() {
-        let now = Date.now
+        let now = takenAt ?? .now
         var batch: [(entry: DoseEntry, substance: Substance?)] = []
 
         for item in items {

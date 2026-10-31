@@ -54,6 +54,15 @@
     "No anticholinergic effects"
   ],
   "halfLifeMinutes": 870,
+  "halfLifeSource": "Wikipedia: Bilastine, §Distribution (revision 1309927359); https://en.wikipedia.org/w/index.php?title=Bilastine&oldid=1309927359#Distribution",
+  "halfLifeEvidence": {
+    "quote": "has an elimination half-life of 14.5 h … Elimination half-life: 14.5 hours",
+    "section": "Distribution",
+    "identity": "article title 'Bilastine' is a name of the substance",
+    "value": "14.5 h",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://www.ema.europa.eu/en/documents/product-information/bilaxten-epar-product-information_en.pdf",
     "https://en.wikipedia.org/wiki/Bilastine",

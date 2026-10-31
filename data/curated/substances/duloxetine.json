@@ -38,8 +38,17 @@
     "Risk of serotonin syndrome with other serotonergic agents"
   ],
   "halfLifeMinutes": 720,
+  "halfLifeSource": "DailyMed: Cymbalta (duloxetine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00acd9e9-b26a-4626-949e-112ecd2f27e6",
+  "halfLifeEvidence": {
+    "quote": "Duloxetine has an elimination half-life of about 12 hours (range 8 to 17 hours)",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'Duloxetine' as whole words",
+    "value": "12 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021427s045lbl.pdf",
+    "Cymbalta (duloxetine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00acd9e9-b26a-4626-949e-112ecd2f27e6",
     "https://en.wikipedia.org/wiki/Duloxetine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/60835"
   ],

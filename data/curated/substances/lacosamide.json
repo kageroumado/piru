@@ -53,6 +53,15 @@
     "Well-tolerated cognitively compared to older anticonvulsants"
   ],
   "halfLifeMinutes": 780,
+  "halfLifeSource": "Wikipedia: Lacosamide (revision 1370264923); https://en.wikipedia.org/w/index.php?title=Lacosamide&oldid=1370264923",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 13 hours",
+    "section": "Infobox",
+    "identity": "article title 'Lacosamide' is a name of the substance",
+    "value": "13 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Lacosamide",
     "https://pubchem.ncbi.nlm.nih.gov/compound/219078"

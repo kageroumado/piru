@@ -25,7 +25,7 @@ final class StagedDoseEditorModel {
     var suppressAmountSync = false
 
     /// The field holds text that is not one number Piru can read without
-    /// guessing (``parsedAmount(_:locale:)``). The dose then carries no amount,
+    /// guessing (``DecimalInput/parse(_:locale:)``). The dose then carries no amount,
     /// so it can't be logged, and the editor says why.
     var amountTextIsUnreadable = false
 
@@ -67,12 +67,12 @@ final class StagedDoseEditorModel {
     // MARK: - Derived values
 
     var enteredVolumeML: Double? {
-        guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v.isFinite, v > 0 else { return nil }
+        guard let v = DecimalInput.parse(volumeText), v.isFinite, v > 0 else { return nil }
         return Measurement(value: v, unit: volumeUnit).converted(to: .milliliters).value
     }
 
     var enteredABV: Double? {
-        guard let a = Double(abvText.replacingOccurrences(of: ",", with: ".")), a.isFinite, a > 0 else { return nil }
+        guard let a = DecimalInput.parse(abvText), a.isFinite, a > 0 else { return nil }
         return a
     }
 
@@ -119,8 +119,10 @@ final class StagedDoseEditorModel {
     ///
     /// String binding (not `value:format:`) is deliberate — the staged amount must
     /// update per keystroke for the live dose-level / breakdown reclassification,
-    /// and the suppress flag relies on owning the text. See
-    /// ``parsedAmount(_:locale:)`` for how separators are read.
+    /// and the suppress flag relies on owning the text. ``DecimalInput`` reads
+    /// the separators; the field is populated from `doseFormatted` (a dot and
+    /// at most two fraction digits), which it reads as a decimal in every
+    /// locale.
     func commitAmountText(to item: inout StagedDose) {
         if suppressAmountSync {
             suppressAmountSync = false
@@ -131,79 +133,9 @@ final class StagedDoseEditorModel {
         // Typing a digit back takes the row out of that state.
         let trimmed = amountText.trimmingCharacters(in: .whitespaces)
         item.isUnknownAmount = trimmed.isEmpty
-        let parsed = trimmed.isEmpty ? nil : Self.parsedAmount(trimmed)
+        let parsed = trimmed.isEmpty ? nil : DecimalInput.parse(trimmed)
         amountTextIsUnreadable = !trimmed.isEmpty && parsed == nil
         item.amount = StagedDose.sanitizedAmount(parsed ?? 0)
-    }
-
-    /// The number typed or pasted into the amount field, or `nil` when it is
-    /// not one, or could be read two ways.
-    ///
-    /// Digits in any script read as their value, and "." and "," are both
-    /// separators, so "1,5" and "2.5" are decimals everywhere. A single
-    /// separator before exactly three digits is the ambiguous case: "1,000" is
-    /// a thousand in English and one in German. The locale settles it when the
-    /// mark is its decimal or its grouping separator, and it is refused
-    /// otherwise; so is a comma before four or more digits where the locale
-    /// groups with commas ("1,0000"). Refused is the safe answer: a separator
-    /// misread the other way records a dose a thousand times off.
-    /// `doseFormatted` never writes three decimals, so the field's own text
-    /// always reads back.
-    nonisolated static func parsedAmount(_ text: String, locale: Locale = .current) -> Double? {
-        let separators: Set<Character> = [".", ","]
-        let foreignMarks: [Character: Character] = ["\u{066B}": ".", "\u{066C}": ",", "\u{FF0E}": ".", "\u{FF0C}": ","]
-        var ascii = ""
-        for character in text {
-            if character.unicodeScalars.count == 1, character.unicodeScalars.first?.properties.numericType == .decimal,
-               let digit = character.wholeNumberValue {
-                ascii += String(digit)
-            } else if let mark = separators.contains(character) ? character : foreignMarks[character] {
-                ascii.append(mark)
-            } else {
-                return nil
-            }
-        }
-        let text = ascii
-        guard !text.isEmpty else { return nil }
-        let marks = text.filter { separators.contains($0) }
-        guard let last = marks.last else { return Double(text) }
-
-        var integer = text
-        var fraction = ""
-        let decimalMark: Character?
-        if marks.count == 1 {
-            let parts = text.split(separator: last, omittingEmptySubsequences: false)
-            let wholePart = parts[0], fractionPart = parts[1]
-            let wholeCouldGroup = (1 ... 3).contains(wholePart.count) && wholePart.first != "0"
-            if !wholeCouldGroup || fractionPart.count < 3 {
-                decimalMark = last
-            } else if fractionPart.count > 3 {
-                guard last == "." || locale.groupingSeparator != "," else { return nil }
-                decimalMark = last
-            } else if String(last) == locale.decimalSeparator {
-                decimalMark = last
-            } else if String(last) == locale.groupingSeparator {
-                decimalMark = nil
-            } else {
-                return nil
-            }
-        } else {
-            // Two kinds of mark: the last one is the decimal point and appears
-            // once ("1,000.5", "1.000,5"). One kind, repeated: grouping only.
-            decimalMark = Set(marks).count == 2 ? last : nil
-            if let decimalMark, marks.count(where: { $0 == decimalMark }) != 1 { return nil }
-        }
-        if let decimalMark, let index = text.lastIndex(of: decimalMark) {
-            integer = String(text[..<index])
-            fraction = String(text[text.index(after: index)...])
-        }
-        let groupMark = integer.first(where: { separators.contains($0) }) ?? " "
-        let groups = integer.split(separator: groupMark, omittingEmptySubsequences: false)
-        if groups.count > 1 {
-            guard (1 ... 3).contains(groups[0].count), groups.dropFirst().allSatisfy({ $0.count == 3 }) else { return nil }
-        }
-        let digits = groups.joined()
-        return Double((digits.isEmpty ? "0" : digits) + (fraction.isEmpty ? "" : "." + fraction))
     }
 
     /// Show `amount` in the field without letting the sync write it back.
@@ -218,7 +150,7 @@ final class StagedDoseEditorModel {
     /// Bump the strength field by `delta`, reformatted. Alcohol %ABV clamps to
     /// 0–95; a mg/mL concentration has no upper bound.
     func adjustStrength(_ delta: Double, capability: ByVolumeDosing) {
-        let current = Double(abvText.replacingOccurrences(of: ",", with: ".")) ?? 0
+        let current = DecimalInput.parse(abvText) ?? 0
         let raw = max(0, ((current + delta) * 10).rounded() / 10)
         let next = capability.isMassPerVolume ? raw : min(95, raw)
         abvText = next > 0 ? ByVolumeDefaults.format(next) : ""
@@ -227,7 +159,7 @@ final class StagedDoseEditorModel {
 
     /// Bump the volume field by one `volumeStep` in the displayed unit, clamped ≥ 0.
     func adjustVolume(_ steps: Double, capability: ByVolumeDosing?) {
-        let current = Double(volumeText.replacingOccurrences(of: ",", with: ".")) ?? 0
+        let current = DecimalInput.parse(volumeText) ?? 0
         let next = max(0, current + steps * volumeStep(capability: capability))
         volumeText = next > 0 ? ByVolumeDefaults.format(next) : ""
         stepTick += 1
@@ -236,7 +168,7 @@ final class StagedDoseEditorModel {
     /// Re-render the volume field after the displayed unit changes.
     func convertVolumeText(from old: UnitVolume, to new: UnitVolume) {
         ByVolumeDefaults.preferredVolumeUnit = new
-        guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
+        guard let v = DecimalInput.parse(volumeText), v > 0 else { return }
         volumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
     }
 

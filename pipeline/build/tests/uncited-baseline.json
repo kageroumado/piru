@@ -1,0 +1,30 @@
+{
+ "_comment": "Uncited rows per table and source for the two sources whose rows are attributed to nobody outside Piru (piru-curated, peer-review-primary). pipeline/build/tests/test_row_citations.py fails when a count rises above this. Lower it with that script's --write-baseline after a count falls; never raise it.",
+ "counts": {
+  "biased_agonism · peer-review-primary": 1,
+  "bindings · peer-review-primary": 50,
+  "bindings · piru-curated": 444,
+  "combination_metabolites · piru-curated": 2,
+  "descriptions · piru-curated": 2,
+  "dose_ranges · piru-curated": 220,
+  "downstream_signalling · peer-review-primary": 522,
+  "drug_interactions_pk · peer-review-primary": 66,
+  "durations · piru-curated": 819,
+  "durations_of_action · piru-curated": 21,
+  "effects · piru-curated": 31,
+  "functional_assays · peer-review-primary": 20,
+  "half_lives · piru-curated": 200,
+  "interaction_rules · piru-curated": 69,
+  "mechanisms_summary · piru-curated": 517,
+  "metabolism · peer-review-primary": 97,
+  "neuroimaging · peer-review-primary": 7,
+  "off_targets · peer-review-primary": 74,
+  "pharmacogenetics · peer-review-primary": 113,
+  "pk_routes · peer-review-primary": 40,
+  "protocol_dosing · piru-curated": 52,
+  "subjective_effects · piru-curated": 27,
+  "substance_flags · piru-curated": 13,
+  "withdrawal_acting_class · piru-curated": 1,
+  "withdrawal_timing_bands · piru-curated": 1
+ }
+}

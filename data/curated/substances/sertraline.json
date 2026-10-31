@@ -37,8 +37,17 @@
     "Risk of serotonin syndrome in combination with other serotonergic agents"
   ],
   "halfLifeMinutes": 1560,
+  "halfLifeSource": "Wikipedia: Sertraline, §Elimination (revision 1381582674); https://en.wikipedia.org/w/index.php?title=Sertraline&oldid=1381582674#Elimination",
+  "halfLifeEvidence": {
+    "quote": "The elimination half-life of sertraline is on average 26 hours",
+    "section": "Elimination",
+    "identity": "Wikidata sitelink of InChIKey VGKDLMBJGBXTGI-SJCJKPOMSA-N",
+    "value": "26 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/019839s092lbl.pdf",
+    "Zoloft (sertraline hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fda754f6-d0f3-4dce-a17a-927d64f912f7",
     "https://en.wikipedia.org/wiki/Sertraline",
     "https://pubchem.ncbi.nlm.nih.gov/compound/68617"
   ],

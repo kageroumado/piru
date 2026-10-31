@@ -54,6 +54,15 @@
     "Rebound hypertension with abrupt discontinuation"
   ],
   "halfLifeMinutes": 1020,
+  "halfLifeSource": "Wikipedia: Guanfacine, §Pharmacokinetics (revision 1378676773); https://en.wikipedia.org/w/index.php?title=Guanfacine&oldid=1378676773#Pharmacokinetics",
+  "halfLifeEvidence": {
+    "quote": "Its elimination half-life is 17 hours with the major elimination route being renal.",
+    "section": "Pharmacokinetics",
+    "identity": "Wikidata sitelink of InChIKey INJOMKTZOLKMBF-UHFFFAOYSA-N",
+    "value": "17 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Guanfacine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/3519"

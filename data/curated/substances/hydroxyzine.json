@@ -92,6 +92,15 @@
     "No respiratory depression at therapeutic doses"
   ],
   "halfLifeMinutes": 1200,
+  "halfLifeSource": "Wikipedia: Hydroxyzine, §Pharmacokinetics (revision 1379310850); https://en.wikipedia.org/w/index.php?title=Hydroxyzine&oldid=1379310850#Pharmacokinetics",
+  "halfLifeEvidence": {
+    "quote": "its elimination half-life is around 20.0 hours in adults (mean age 29.3 years)",
+    "section": "Pharmacokinetics",
+    "identity": "Wikidata sitelink of InChIKey ZQDWXGKKHFNSQK-UHFFFAOYSA-N",
+    "value": "20.0 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011459s060lbl.pdf",
     "https://en.wikipedia.org/wiki/Hydroxyzine",

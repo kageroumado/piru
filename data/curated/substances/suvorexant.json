@@ -54,6 +54,15 @@
     "May temporarily suppress REM without rebound"
   ],
   "halfLifeMinutes": 720,
+  "halfLifeSource": "Wikipedia: Suvorexant (revision 1368799943); https://en.wikipedia.org/w/index.php?title=Suvorexant&oldid=1368799943",
+  "halfLifeEvidence": {
+    "quote": "The medication has an intermediate elimination half-life of 12 hours … The elimination half-life of suvorexant at a dose of 40 mg is 12.2 hours",
+    "section": "Lead",
+    "identity": "Wikidata sitelink of InChIKey JYTNQNCOQXFQPK-MRXNPFEDSA-N",
+    "value": "12 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Suvorexant",
     "https://pubchem.ncbi.nlm.nih.gov/compound/24965990"

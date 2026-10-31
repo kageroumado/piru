@@ -27,6 +27,8 @@ nonisolated struct PKInteractionHit: Identifiable, Hashable {
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
+    /// A citation that is a page rather than a paper: an encyclopedia article, a label.
+    var url: String?
 
     /// ``withSubstance`` split into its individual names.
     ///
@@ -56,7 +58,7 @@ extension SubstanceReadModel {
             return try queue.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT d.id, d.with_substance, d.mechanism, d.ki_um, d.clinical_effect,
-                           src.slug AS source_slug, c.doi, c.pmid
+                           src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM drug_interactions_pk d
                       JOIN sources src ON src.id = d.source_id
                       LEFT JOIN citations c ON c.id = d.citation_id
@@ -74,6 +76,7 @@ extension SubstanceReadModel {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
+                        url: row["url"],
                     )
                 }
             }

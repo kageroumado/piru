@@ -52,8 +52,17 @@
     "Less behavioural irritability than levetiracetam"
   ],
   "halfLifeMinutes": 540,
+  "halfLifeSource": "DailyMed: Briviact (brivaracetam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3cf2f439-0e97-443e-8e33-25ecef616f6c",
+  "halfLifeEvidence": {
+    "quote": "The terminal plasma half-life (t 1/2 ) is approximately 9 hours.",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'Brivaracetam' as whole words",
+    "value": "9 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/205836lbl.pdf",
+    "Briviact (brivaracetam) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3cf2f439-0e97-443e-8e33-25ecef616f6c",
     "https://en.wikipedia.org/wiki/Brivaracetam"
   ],
   "tags": [

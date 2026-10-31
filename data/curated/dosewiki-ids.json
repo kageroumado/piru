@@ -1579,9 +1579,9 @@
     "note": "draft; dose.wiki gives no structure or CAS, so the join could not be checked"
   },
   "lean": {
-    "name": "Codeine",
-    "substance_uid": "OROGSEYTTFOCAN",
-    "note": "Preparation (codeine + promethazine syrup). Neither side carries a structure; Piru has no Lean row but holds Lean/Purple Drank/sizzurp as aliases of Codeine (id 218). Baseline matched Dextromethorphan, which is wrong."
+    "name": "Lean",
+    "substance_uid": "6CVJFIHKAKDGPU",
+    "note": "Preparation (codeine + promethazine syrup), filed on Piru's Lean row beside drug.community's mL ladder. Never on Codeine: a syrup's volume ladder and prose describe the mixture, not the molecule. Neither side carries a structure."
   },
   "librium": {
     "substance_uid": null,

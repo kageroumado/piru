@@ -534,7 +534,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": "Healthy adults, FDA NDA 21-487",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
+          "reference": "Namenda (memantine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=74ce605d-b493-4b95-9d59-9253f81f4e20"
         }
       ],
       "concentration_effect": []
@@ -546,7 +546,7 @@
         "metabolite_name": "memantine N-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
+        "reference": "Namenda (memantine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=74ce605d-b493-4b95-9d59-9253f81f4e20"
       },
       {
         "enzyme": "renal (active tubular secretion)",
@@ -565,14 +565,14 @@
         "mechanism": "Urinary pH ↑ → ↑ tubular reabsorption of protonated memantine",
         "ki_um": null,
         "clinical_effect": "Up to 9-fold increase in memantine plasma concentrations",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
+        "reference": "Namenda (memantine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=74ce605d-b493-4b95-9d59-9253f81f4e20"
       },
       {
         "with": "amantadine",
         "mechanism": "Pharmacodynamic: additive NMDA channel block + OCT2 competition",
         "ki_um": null,
         "clinical_effect": "Increased risk of CNS toxicity; combination not recommended.",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
+        "reference": "Namenda (memantine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=74ce605d-b493-4b95-9d59-9253f81f4e20"
       }
     ],
     "pharmacogenetics": {
@@ -630,7 +630,7 @@
       "pmid:20720132",
       "pmid:22863669",
       "pmid:18987635",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
+      "Namenda (memantine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=74ce605d-b493-4b95-9d59-9253f81f4e20"
     ]
   },
   {

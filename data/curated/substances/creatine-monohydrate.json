@@ -38,6 +38,15 @@
     "Creatinine elevation on labs — not indicative of kidney damage in healthy individuals"
   ],
   "halfLifeMinutes": 180,
+  "halfLifeSource": "Wikipedia: Creatine (revision 1382626796); https://en.wikipedia.org/w/index.php?title=Creatine&oldid=1382626796",
+  "halfLifeEvidence": {
+    "quote": "Biological half-life: 3 hours",
+    "section": "Infobox",
+    "identity": "article title 'Creatine' is a name of the substance",
+    "value": "3 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://pubchem.ncbi.nlm.nih.gov/compound/586",
     "https://en.wikipedia.org/wiki/Creatine",

@@ -54,8 +54,17 @@
     "Minimal QTc prolongation; minimal sedation"
   ],
   "halfLifeMinutes": 1080,
+  "halfLifeSource": "pmid:27722855",
+  "halfLifeEvidence": {
+    "quote": "a mean elimination half-life of 18 h",
+    "section": "Abstract",
+    "identity": "title/abstract names the substance ('lurasidone')",
+    "value": "18 h",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/200603s009lbl.pdf",
+    "Latuda (lurasidone hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=afad3051-9df2-4c54-9684-e8262a133af8",
     "https://en.wikipedia.org/wiki/Lurasidone",
     "https://pubchem.ncbi.nlm.nih.gov/compound/213046"
   ],

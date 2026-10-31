@@ -48,7 +48,7 @@ The collector regenerates these files. Make corrections in [`curated/substances/
 
 ### `enrichment/` — LLM-assisted research
 
-Agent-generated research carries the `peer-review-primary` provenance slug and covers receptor affinities, metabolic pathways, literature citations, and class summaries.
+Agent-generated research carries the `peer-review-primary` provenance slug and covers receptor affinities, metabolic pathways, literature citations, and class summaries. The slug says how a row was written, not where its evidence is: a row is sourced only by its own `citation_id`. A row whose record named no paper ships uncited and the app attributes it to nothing; a citation found for it later is attached through [`curated/row-citations.json`](curated/row-citations.json) (see `pipeline/README.md`, "Row citations").
 
 ```
 enrichment/

@@ -34,7 +34,7 @@ extension SubstanceReadModel {
                            CASE WHEN r.substance_id IS NOT NULL
                                 THEN 100.0 - COALESCE(r.rank, 0) * 0.1
                                 ELSE s.popularity END AS popularity,
-                           c.doi, c.pmid, c.year
+                           c.doi, c.pmid, c.url, c.year
                       FROM bindings b
                       JOIN substances s ON s.id = b.substance_id
                       LEFT JOIN citations c ON c.id = b.citation_id
@@ -63,6 +63,7 @@ extension SubstanceReadModel {
                         referenceAgonist: row["reference_agonist"],
                         doi: row["doi"],
                         pmid: row["pmid"],
+                        url: row["url"],
                         year: row["year"],
                         popularity: row["popularity"] ?? 0,
                     )
@@ -84,7 +85,7 @@ extension SubstanceReadModel {
                            CASE WHEN r.substance_id IS NOT NULL
                                 THEN 100.0 - COALESCE(r.rank, 0) * 0.1
                                 ELSE s.popularity END AS popularity,
-                           c.doi, c.pmid, c.year
+                           c.doi, c.pmid, c.url, c.year
                       FROM functional_assays f
                       JOIN substances s ON s.id = f.substance_id
                       LEFT JOIN citations c ON c.id = f.citation_id
@@ -109,6 +110,7 @@ extension SubstanceReadModel {
                         referenceAgonist: row["reference_agonist"],
                         doi: row["doi"],
                         pmid: row["pmid"],
+                        url: row["url"],
                         year: row["year"],
                         popularity: row["popularity"] ?? 0,
                     )

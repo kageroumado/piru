@@ -65,6 +65,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from collections import defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -495,6 +496,17 @@ def build_index(text: str | None) -> TextIndex:
         letters = re.sub(r"[^A-Za-z]", "", token)
         if letters and letters.isupper():
             index.caps.add(re.sub(r"[^a-z0-9]+", "", token.lower()))
+        # Mixed-case abbreviations ("DiPT", "MiPT") are written as names, not
+        # words: two capitals in a short part is as deliberate as all caps.
+        for part in re.split(r"[^A-Za-z0-9]+", token):
+            if len(part) <= 6 and sum(ch.isupper() for ch in part) >= 2:
+                index.caps.add(part.lower())
+
+    # A research code split by a space or a digit-group comma ("WIN 35,428",
+    # "JWH 018") is one name. The space join above never makes it, so a code
+    # gets its own gram: 2–5 letters followed by a digit run.
+    for letters, digits in re.findall(r"\b([A-Za-z]{2,5}) +(\d[\d,]*\d|\d)\b", text):
+        index.grams.add(normalise(letters) + digits.replace(",", ""))
     return index
 
 
@@ -515,6 +527,12 @@ class SubstanceNames:
     categories: set[str] = field(default_factory=set)
     classes: set[int] = field(default_factory=set)
     skeleton: str | None = None
+    #: Keys that come only from `kind='street'` aliases ("Roche", "Molly").
+    #: Street slang is never written in a paper about the drug, so these keys
+    #: credit nothing and accuse nobody.
+    street_only: set[str] = field(default_factory=set)
+    #: `class_reference_compounds` families this substance anchors (`muOpioid`).
+    reference_families: set[str] = field(default_factory=set)
 
 
 def load_substances(conn: sqlite3.Connection) -> dict[int, SubstanceNames]:
@@ -536,9 +554,13 @@ def load_substances(conn: sqlite3.Connection) -> dict[int, SubstanceNames]:
                 _add_name(names, raw)
         out[sid] = names
 
-    for sid, alias in conn.execute("SELECT substance_id, alias FROM aliases"):
+    canonical_keys = {strict_key(n.canonical) for n in out.values()}
+    for sid, alias, kind in conn.execute("SELECT substance_id, alias, kind FROM aliases"):
         if sid in out:
             _add_name(out[sid], alias)
+            key = strict_key(alias)
+            if kind == "street" and key not in canonical_keys:
+                out[sid].street_only.add(key)
 
     for sid, category in conn.execute("SELECT substance_id, category FROM categories"):
         if sid in out and category:
@@ -549,6 +571,16 @@ def load_substances(conn: sqlite3.Connection) -> dict[int, SubstanceNames]:
     ):
         if sid in out:
             out[sid].classes.add(class_id)
+
+    has_references = conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'class_reference_compounds'"
+    ).fetchone()
+    if has_references:
+        for family, sid in conn.execute(
+            "SELECT family, substance_id FROM class_reference_compounds"
+        ):
+            if sid in out:
+                out[sid].reference_families.add(family)
     return out
 
 
@@ -939,6 +971,92 @@ class Finding:
         )
 
 
+#: The collective nouns an abstract uses for a series it tested, by the citing
+#: substance's category: "a series of benzodiazepines", "twenty-five
+#: psychedelic drugs". Plural and adjective forms count (see `_names_term`).
+CATEGORY_TERMS: dict[str, tuple[str, ...]] = {
+    "psychedelic": ("psychedelic", "hallucinogen"),
+    "opioid": ("opioid", "opiate"),
+    "benzodiazepine": ("benzodiazepine",),
+    "stimulant": ("stimulant", "psychostimulant"),
+    "cannabinoid": ("cannabinoid", "cannabimimetic"),
+    "dissociative": ("dissociative", "arylcyclohexylamine"),
+    "empathogen": ("entactogen", "empathogen"),
+    "antidepressant": ("antidepressant",),
+}
+
+#: What a paper calls the class a `class_reference_compounds` family anchors.
+#: A reference compound is the comparator a methods or panel paper runs beside
+#: whatever it tests, so a paper naming the class is about it even when the
+#: compound itself is only in a table.
+REFERENCE_TERMS: dict[str, tuple[str, ...]] = {
+    "muOpioid": ("opioid", "opiate", "narcotic"),
+    "benzodiazepine": ("benzodiazepine",),
+    "cannabinoid1": ("cannabinoid",),
+    "nmda": ("nmda",),
+    "transporters": ("transporter", "uptake"),
+    "serotonin": ("serotonin", "5ht2a", "psychedelic", "hallucinogen"),
+}
+
+
+def _names_term(terms: tuple[str, ...], index: TextIndex) -> str | None:
+    tokens = set(index.tokens)
+    for term in terms:
+        if {term, f"{term}s", f"{term}ic", f"{term}ics"} & tokens or term in index.grams:
+            return term
+    return None
+
+
+def _names_exactly(names: SubstanceNames, index: TextIndex) -> bool:
+    """The paper names the substance at accusation strength: a DB name, no
+    containment or locant stripping, short keys only in capitals. The generous
+    `_matches_citing` cannot be used to name a *sibling*: through an IUPAC alias
+    it finds "Phenazepam" inside "benzodiazepine"."""
+    return any(k in index.grams and (len(k) >= 5 or k in index.caps) for k in names.literal)
+
+
+def _series_evidence(
+    names: SubstanceNames,
+    substances: dict[int, SubstanceNames],
+    class_members: dict[int, set[int]],
+    index: TextIndex,
+    target_named: str | None,
+) -> str | None:
+    """Why a paper that never names the substance is still a source about it,
+    or None. Three shapes, each the reading a reviewer gives these papers:
+
+    - it names the row's target **and** a member of the substance's class
+      (a TAAR1 paper about amphetamine cited for hordenine);
+    - it names the row's target **and** the series by its collective noun
+      ("a series of benzodiazepines … GABA-A");
+    - the substance is a class reference compound and the paper names its
+      class (an opiate-assay methods paper cited for morphine).
+    """
+    if target_named:
+        for class_id in sorted(names.classes):
+            for sid in sorted(class_members.get(class_id, set()) - {names.substance_id}):
+                if sid in substances and _names_exactly(substances[sid], index):
+                    return (
+                        f"names class sibling {substances[sid].canonical} and the row's "
+                        f"target, so it reads as a series source"
+                    )
+        for category in sorted(names.categories):
+            if term := _names_term(CATEGORY_TERMS.get(category, ()), index):
+                return f"names the series ('{term}') and the row's target"
+    for family in sorted(names.reference_families):
+        if term := _names_term(REFERENCE_TERMS.get(family, ()), index):
+            return f"a {family} reference compound in a paper about the class ('{term}')"
+    return None
+
+
+def class_members_of(substances: dict[int, SubstanceNames]) -> dict[int, set[int]]:
+    members: dict[int, set[int]] = defaultdict(set)
+    for sid, names in substances.items():
+        for class_id in names.classes:
+            members[class_id].add(sid)
+    return members
+
+
 def evaluate(
     attachment: Attachment,
     citation: dict,
@@ -949,6 +1067,7 @@ def evaluate(
     fanout: int,
     siblings_mentioned: bool,
     accusable: dict[str, set[int]],
+    class_members: dict[int, set[int]] | None = None,
 ) -> Finding | None:
     identifier = (
         f"doi:{citation['doi']}"
@@ -1035,12 +1154,18 @@ def evaluate(
     # it fired on, four were correct citations and four were not — Bupropion's
     # transporter Kᵢ values cite a paper about *serotonin-transporter knockout
     # mice*, which names the target perfectly and contains no bupropion at all.
-    # At that precision the signal is worth ranking by and not worth clearing on,
-    # so it stays a reason a reviewer reads, and the allowlist stays the only way
-    # out of the gate.
+    # At that precision the target alone is worth ranking by and not worth
+    # clearing on. Paired with evidence that the paper tested a series the
+    # substance belongs to, it is: see `_series_evidence`.
     target_named = _target_named(attachment.subjects, index)
     if target_named:
         reasons.append(f"but the paper DOES name the row's target ({target_named})")
+
+    if verdict in ("WRONG_SUBSTANCE", "ABSENT"):
+        series = _series_evidence(names, substances, class_members or {}, index, target_named)
+        if series:
+            verdict = "ANALOG_SUBSTANCE"
+            reasons.append(series)
 
     return Finding(
         citation_id=attachment.citation_id,
@@ -1142,13 +1267,20 @@ def load_backlog(path: Path = BACKLOG) -> set[str]:
     The consequence is the ratchet: a citation added *tomorrow* with the same
     defect fails immediately, because it isn't in this file and nothing may be
     added to it.
+
+    The file is an object whose `entries` list holds the keys; its prose lives
+    in `_`-prefixed fields beside the list. A malformed file is an error, never
+    an empty backlog: an empty set silently turns the ratchet off.
     """
     if not path.exists():
         return set()
-    try:
-        return {k for k in json.loads(path.read_text()) if not k.startswith("_")}
-    except (ValueError, OSError):
-        return set()
+    data = json.loads(path.read_text())
+    entries = data.get("entries") if isinstance(data, dict) else None
+    if not isinstance(entries, list) or not all(
+        isinstance(e, str) and "|" in e and not e.startswith("_") for e in entries
+    ):
+        raise SystemExit(f"{path}: expected an object whose `entries` is a list of 'id|substance'")
+    return set(entries)
 
 
 def _citation_key(citation: dict) -> str | None:
@@ -1172,6 +1304,20 @@ def load_abstracts(path: Path) -> dict[str, str]:
 def save_abstracts(path: Path, abstracts: dict[str, str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(abstracts, indent=1, sort_keys=True) + "\n")
+
+
+def abstract_persister(
+    path: Path, abstracts: dict[str, str], *, enabled: bool
+) -> Callable[[], None]:
+    """A callable that writes `abstracts` to `path`, or does nothing when the
+    run must not touch the tracked cache. The fetch loops call it after every
+    batch, so it reads the dict as it is at call time."""
+
+    def persist() -> None:
+        if enabled:
+            save_abstracts(path, abstracts)
+
+    return persist
 
 
 def main() -> int:
@@ -1260,11 +1406,11 @@ def main() -> int:
     meta = load_cache()  # data/sources/citation-verify-cache.json — read only
     abstracts = load_abstracts(args.abstract_cache)
 
-    def persist_abstracts() -> None:
-        # The gate passes --no-write-cache so a pre-push run never dirties the
-        # tracked cache; a plain (enriching) run persists as before.
-        if not args.no_write_cache:
-            persist_abstracts()
+    # The gate passes --no-write-cache so a pre-push run never dirties the
+    # tracked cache; a plain (enriching) run persists.
+    persist_abstracts = abstract_persister(
+        args.abstract_cache, abstracts, enabled=not args.no_write_cache
+    )
 
     wanted = sorted({cid for cid, _ in attachments})
     if args.limit:
@@ -1372,7 +1518,7 @@ def main() -> int:
     accusable: dict[str, set[int]] = defaultdict(set)
     for sid, names in substances.items():
         for key in names.strict:
-            if len(key) >= 3 and key not in AMBIGUOUS_NAMES:
+            if len(key) >= 3 and key not in AMBIGUOUS_NAMES and key not in names.street_only:
                 accusable[key].add(sid)
     # A name shared by many substances is a family label ("amphetamines"), not an
     # identification, and it points nowhere useful.
@@ -1404,8 +1550,9 @@ def main() -> int:
             if key:
                 unchecked.append(f"[{cid}] {key}")
             continue
-        journal = (record or {}).get("journal") or ""
-        indexes[cid] = (build_index(f"{title}. {journal}. {abstract}"), bool(abstract), title)
+        # Title and abstract only: a journal name ("Drug and Alcohol
+        # Dependence") says where a paper ran, not what it is about.
+        indexes[cid] = (build_index(f"{title}. {abstract}"), bool(abstract), title)
 
     # Which citations already name at least one of their citing substances? Used
     # to soften the finding for the *other* substances hanging off the same paper.
@@ -1415,6 +1562,7 @@ def main() -> int:
         if entry and sid in substances and _matches_citing(substances[sid], entry[0]):
             mentioned_by[cid].add(sid)
 
+    members = class_members_of(substances)
     allow = load_allowlist()
     off_domain = domain_findings(attachments, citations, substances, allow)
     findings: list[Finding] = []
@@ -1434,6 +1582,7 @@ def main() -> int:
             fanout[cid],
             siblings_mentioned=bool(mentioned_by[cid] - {sid}),
             accusable=accusable,
+            class_members=members,
         )
         if finding:
             findings.append(finding)
@@ -1479,6 +1628,7 @@ def main() -> int:
         print(f"full result → {args.json}")
 
     if args.gate:
+        stale_backlog = False
         failures = [
             f
             for f in buckets.get("WRONG_SUBSTANCE", [])
@@ -1513,13 +1663,17 @@ def main() -> int:
                 print(
                     f"\ncitation-topicality: {len(outstanding)} known defect(s) still on the backlog."
                 )
+            # A fixed entry left in the file would let the same defect come back
+            # unflagged, so a stale entry fails the gate until it is deleted.
             if stale := backlog - {f"{f.identifier}|{f.substance}" for f in hard}:
                 print(
-                    f"citation-topicality: {len(stale)} backlog entries no longer flagged — "
-                    f"delete them from {BACKLOG.relative_to(REPO)}:",
+                    f"citation-topicality: FAILED — {len(stale)} backlog entries no longer "
+                    f"flagged; delete them from {BACKLOG.relative_to(REPO)}:",
+                    file=sys.stderr,
                 )
                 for key in sorted(stale)[:20]:
-                    print(f"  {key}")
+                    print(f"  {key}", file=sys.stderr)
+                stale_backlog = True
         if args.gate_zero_overlap:
             zero = [
                 f
@@ -1545,6 +1699,8 @@ def main() -> int:
                 f'"<identifier>|<substance>" to {ALLOWLIST.relative_to(REPO)}.',
                 file=sys.stderr,
             )
+            return 1
+        if stale_backlog:
             return 1
     return 0
 

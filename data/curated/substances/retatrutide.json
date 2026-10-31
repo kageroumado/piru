@@ -57,6 +57,15 @@
     "Currently in Phase 3 trials (TRIUMPH program); not available outside trials"
   ],
   "halfLifeMinutes": 8640,
+  "halfLifeSource": "pmid:39724554",
+  "halfLifeEvidence": {
+    "quote": "its mean half-life of approximately 6 days supported a once-weekly dosing",
+    "section": "Abstract",
+    "identity": "title/abstract names the substance ('retatrutide')",
+    "value": "6 days",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://www.nejm.org/doi/10.1056/NEJMoa2301972",
     "https://en.wikipedia.org/wiki/Retatrutide",

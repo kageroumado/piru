@@ -3,81 +3,11 @@
   "distinct": [
     {
       "members": [
-        "Methylone",
-        "Cyclobenzaprine"
-      ],
-      "note": "unrelated drugs; one row carried a wrong shared connectivity block"
-    },
-    {
-      "members": [
-        "CBC",
-        "CBG"
-      ],
-      "note": "distinct cannabinoids sharing a block"
-    },
-    {
-      "members": [
-        "3-MMC",
-        "Myristicin"
-      ],
-      "note": "unrelated"
-    },
-    {
-      "members": [
-        "Tilidine",
-        "Methylphenidate"
-      ],
-      "note": "unrelated; corrupt shared block"
-    },
-    {
-      "members": [
-        "Tilidine",
-        "Dexmethylphenidate"
-      ],
-      "note": "unrelated; corrupt shared block"
-    },
-    {
-      "members": [
-        "Picamilon",
-        "Selegiline"
-      ],
-      "note": "unrelated"
-    },
-    {
-      "members": [
-        "CBDV",
-        "THCV"
-      ],
-      "note": "distinct cannabinoids"
-    },
-    {
-      "members": [
-        "4-Chloroamphetamine",
-        "Fenfluramine"
-      ],
-      "note": "unrelated"
-    },
-    {
-      "members": [
         "Mescaline",
         "4-D",
         "beta-D"
       ],
       "note": "4-D and beta-D are deuterated mescaline isotopologues (4-trideuteromescaline, beta,beta-dideuteromescaline) — distinct molecules sharing mescaline's skeleton, not a fold. Their names are garbled/truncated (separate cleanup); kept distinct so they never fold their dose data into achiral mescaline"
-    },
-    {
-      "members": [
-        "LY-404187",
-        "LY-451646"
-      ],
-      "note": "two AMPAkine research dev-codes sharing a skeleton (one flat, one resolved); enantiomer-vs-regioisomer relationship unconfirmed, so distinct by default (never auto-fold an unconfirmed pair) — see isomer-families.json excluded list"
-    },
-    {
-      "members": [
-        "Cannabis",
-        "THC"
-      ],
-      "note": "plant vs single molecule; Cannabis's structure is nulled in 0.0a so the plant no longer carries THC's key"
     },
     {
       "members": [
@@ -92,27 +22,6 @@
         "Pseudoephedrine"
       ],
       "note": "diastereomers; both rows had lost their stereo (identical flat key). Corrected to distinct stereo keys in 0.0a. Default disposition is distinct (see spec open question 3); revisit if a diastereomer fold is ever wanted"
-    },
-    {
-      "members": [
-        "4F-PHP",
-        "alpha-Pyrrolidinohexiophenone"
-      ],
-      "note": "4F-PHP had a-PHP's (fluorine-less) structure; corrected in 0.0a to the 4-fluoro key BCJXLSGKMNRRKO"
-    },
-    {
-      "members": [
-        "Butonitazene",
-        "Metodesnitazene"
-      ],
-      "note": "distinct nitazene opioids; Butonitazene had metodesnitazene's methoxy/desnitro structure; corrected in 0.0a to the butoxy-nitro key UZZPOLCDCVWLAZ"
-    },
-    {
-      "members": [
-        "4-HO-DiPT",
-        "4-HO-MPT"
-      ],
-      "note": "distinct tryptamines; 4-HO-DiPT carried 4-HO-MPT's structure/CID; corrected in 0.0a to the diisopropyl key KBRYKXCBGISXQV"
     }
   ],
   "merge": [
@@ -173,9 +82,9 @@
       "note": "Same thing; Mushrooms carried aliases 'shrooms', 'magic mushrooms'"
     },
     {
-      "members": ["MD-PHP", "MDPH", "MDPHP"],
+      "members": ["MD-PHP", "MDPHP"],
       "into": "MDPHP",
-      "note": "Same compound (3,4-methylenedioxy-α-pyrrolidinohexanophenone / monkey dust); MDPHP has the InChIKey"
+      "note": "Same compound (3,4-methylenedioxy-α-pyrrolidinohexanophenone / monkey dust); MDPHP has the InChIKey. PiHKAL's MDPH (#116) is 3,4-methylenedioxyphentermine, a different molecule: never a member here."
     },
     {
       "members": ["Dronabinol", "THC"],
@@ -199,11 +108,6 @@
       "note": "alias-as-substance duplicate"
     },
     {
-      "members": ["3-Methylmorphine", "Codeine"],
-      "into": "Codeine",
-      "note": "3-methylmorphine is codeine's IUPAC name"
-    },
-    {
       "members": ["4F-EPH", "4-Fluoroethylphenidate"],
       "into": "4-Fluoroethylphenidate",
       "note": "alias-as-substance duplicate"
@@ -224,19 +128,9 @@
       "note": "alias-as-substance duplicate"
     },
     {
-      "members": ["AL", "Allylescaline"],
-      "into": "Allylescaline",
-      "note": "alias-as-substance duplicate"
-    },
-    {
       "members": ["Amfonelicacid", "Amfonelic acid"],
       "into": "Amfonelic acid",
       "note": "missing space in name"
-    },
-    {
-      "members": ["CPM", "Cyclopropylmescaline"],
-      "into": "Cyclopropylmescaline",
-      "note": "alias-as-substance duplicate"
     },
     {
       "members": ["ETH-CAT", "Ethylcathinone"],
@@ -252,21 +146,6 @@
       "members": ["Huperzine-a", "Huperzine A"],
       "into": "Huperzine A",
       "note": "hyphen vs space variant"
-    },
-    {
-      "members": ["Lean", "Codeine"],
-      "into": "Codeine",
-      "note": "slang name for codeine syrup"
-    },
-    {
-      "members": ["M", "Morphine"],
-      "into": "Morphine",
-      "note": "single-letter alias as substance"
-    },
-    {
-      "members": ["METHYL-J", "MBDB"],
-      "into": "MBDB",
-      "note": "alias-as-substance duplicate"
     },
     {
       "members": ["MPA", "Methiopropamine"],
@@ -294,29 +173,9 @@
       "note": "alias-as-substance duplicate"
     },
     {
-      "members": ["PSI-2C-T-4", "2C-T-4"],
-      "into": "2C-T-4",
-      "note": "alias-as-substance duplicate"
-    },
-    {
-      "members": ["T", "Methamphetamine"],
-      "into": "Methamphetamine",
-      "note": "single-letter slang alias"
-    },
-    {
-      "members": ["TMPEA", "Mescaline"],
-      "into": "Mescaline",
-      "note": "3,4,5-trimethoxyphenethylamine is mescaline's IUPAC name"
-    },
-    {
       "members": ["a-MT", "AMT"],
       "into": "AMT",
       "note": "alias-as-substance duplicate"
-    },
-    {
-      "members": ["ISF 2522", "Oxiracetam"],
-      "into": "Oxiracetam",
-      "note": "ISF 2522 is an oxiracetam development code"
     },
     {
       "members": ["3-Hydroxyphenazepam", "3-OH-Phenazepam"],
@@ -364,24 +223,14 @@
       "note": "abbreviation"
     },
     {
-      "members": ["DESOXY", "2-DPMP"],
-      "into": "2-DPMP",
-      "note": "desoxypipradrol = 2-diphenylmethylpiperidine"
-    },
-    {
       "members": ["Dehydroxyfluorafinil", "N-Methylbisfluoromodafinil"],
       "into": "N-Methylbisfluoromodafinil",
       "note": "alternative name for the same eugeroic"
     },
     {
-      "members": ["4-MA", "Para-Methoxyamphetamine"],
-      "into": "Para-Methoxyamphetamine",
-      "note": "4-MA as used in drug communities refers to PMA"
-    },
-    {
-      "members": ["2-MeO-Ketamine", "Methoxyketamine", "Methoxmetamine"],
-      "into": "Methoxmetamine",
-      "note": "2-methoxy-ketamine / methoxyketamine / methoxmetamine (MXM) are the same dissociative"
+      "members": ["Methoxyketamine", "2-MeO-Ketamine"],
+      "into": "2-MeO-Ketamine",
+      "note": "Methoxyketamine is 2-MeO-ketamine, the ortho isomer (CNC1(CCCCC1=O)c1ccccc1OC). Methoxmetamine (MXM) is the meta isomer, a different compound: never a member here."
     }
   ]
 }

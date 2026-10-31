@@ -36,8 +36,17 @@
     "Discontinuation syndrome on abrupt stop"
   ],
   "halfLifeMinutes": 660,
+  "halfLifeSource": "Wikipedia: Desvenlafaxine (revision 1382302513); https://en.wikipedia.org/w/index.php?title=Desvenlafaxine&oldid=1382302513",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 11 hours",
+    "section": "Infobox",
+    "identity": "Wikidata sitelink of InChIKey KYYIDSXMWOZKMP-UHFFFAOYSA-N",
+    "value": "11 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021992s030lbl.pdf",
+    "Pristiq Extended-Release (desvenlafaxine succinate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0f43610c-f290-46ea-d186-4f998ed99fce",
     "https://en.wikipedia.org/wiki/Desvenlafaxine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/3415532"
   ],

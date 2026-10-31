@@ -24,7 +24,15 @@
       "classA": "opioid",
       "classB": "alcohol",
       "severity": "dangerous",
-      "note": "Respiratory depression and CNS shutdown. A potentially fatal combination."
+      "note": "Respiratory depression and CNS shutdown. A potentially fatal combination.",
+      "citation": "Wikipedia: Opioid, §With other depressant drugs (revision 1376500140); https://en.wikipedia.org/w/index.php?title=Opioid&oldid=1376500140#With_other_depressant_drugs",
+      "citationEvidence": {
+        "quote": "The concurrent use of opioids with other depressant drugs such as benzodiazepines or ethanol increases the rates of adverse events and overdose. … the combination of an opioid and another depressant may precipitate respiratory depression often leading to death.",
+        "section": "With other depressant drugs",
+        "identity": "class article 'Opioid' for opioid",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "maoi",
@@ -54,13 +62,29 @@
       "classA": "maoi",
       "classB": "stimulant",
       "severity": "dangerous",
-      "note": "Hypertensive crisis. A potentially fatal spike in blood pressure."
+      "note": "Hypertensive crisis. A potentially fatal spike in blood pressure.",
+      "citation": "DailyMed: Adderall XR (amphetamine, dextroamphetamine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aff45863-ffe1-4d4f-8acf-c7081512a6c0",
+      "citationEvidence": {
+        "quote": "Concomitant use of MAOIs and CNS stimulants can cause hypertensive crisis. Potential outcomes include death, stroke, myocardial infarction, aortic dissection … taking monoamine oxidase inhibitors (MAOIs), or within 14 days of stopping MAOIs (including MAOIs such as linezolid or intravenous methylene blue), because of an increased risk of hypertensive crisis",
+        "section": "7.1 Clinically Important Interactions with Amphetamines",
+        "identity": "active ingredient names 'Amphetamine' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "maoi",
       "classB": "opioid",
       "severity": "dangerous",
-      "note": "Risk of serotonin syndrome, especially with meperidine/pethidine, tramadol, and tapentadol."
+      "note": "Risk of serotonin syndrome, especially with meperidine/pethidine, tramadol, and tapentadol.",
+      "citation": "Wikipedia: Monoamine oxidase inhibitor, §Mechanism based interactions (revision 1371725034); https://en.wikipedia.org/w/index.php?title=Monoamine_oxidase_inhibitor&oldid=1371725034#Mechanism_based_interactions",
+      "citationEvidence": {
+        "quote": "The main risk is serotonin toxicity, a dose-related condition that can include tremor, hyperreflexia, clonus, agitation, autonomic instability, and, in severe cases, life-threatening toxicity. … Examples generally avoided for this reason include SSRIs, SNRIs, clomipramine, imipramine, chlorpheniramine, brompheniramine, MDMA, meperidine, tramadol, methadone, tapentadol, dextromethorphan, dextropropoxyphene, pentazocine, and levorphanol.",
+        "section": "Mechanism based interactions",
+        "identity": "class article 'Monoamine oxidase inhibitor' for maoi",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "lithium",
@@ -201,19 +225,43 @@
       "classA": "serotonergic",
       "classB": "ssri",
       "severity": "unsafe",
-      "note": "Serotonin syndrome risk. A serotonin-raising drug stacked with an SSRI."
+      "note": "Serotonin syndrome risk. A serotonin-raising drug stacked with an SSRI.",
+      "citation": "Wikipedia: Selective serotonin reuptake inhibitor, §Serotonin syndrome (revision 1381909312); https://en.wikipedia.org/w/index.php?title=Selective_serotonin_reuptake_inhibitor&oldid=1381909312#Serotonin_syndrome",
+      "citationEvidence": {
+        "quote": "Serotonin syndrome is typically caused by the use of two or more serotonergic drugs, including SSRIs. … Serotonin syndrome is a condition that can range from mild (most common) to deadly.",
+        "section": "Serotonin syndrome",
+        "identity": "class article 'Selective serotonin reuptake inhibitor' for ssri",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "serotonergic",
       "classB": "snri",
       "severity": "unsafe",
-      "note": "Serotonin syndrome risk. A serotonin-raising drug stacked with an SNRI."
+      "note": "Serotonin syndrome risk. A serotonin-raising drug stacked with an SNRI.",
+      "citation": "DailyMed: Effexor XR (venlafaxine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c848a5d8-ba94-4c84-80e3-0bf35fb8e32e",
+      "citationEvidence": {
+        "quote": "The risk is increased with concomitant use of other serotonergic drugs … Concomitant use of Effexor XR with other serotonergic drugs (including other SNRIs, SSRIs … increases the risk of serotonin syndrome",
+        "section": "5.2 Serotonin Syndrome",
+        "identity": "active ingredient names 'Venlafaxine' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "serotonergic",
       "classB": "tca",
       "severity": "unsafe",
-      "note": "Serotonin syndrome risk. A serotonin-raising drug stacked with a tricyclic antidepressant."
+      "note": "Serotonin syndrome risk. A serotonin-raising drug stacked with a tricyclic antidepressant.",
+      "citation": "DailyMed: ANAFRANIL (clomipramine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4074b555-7635-41a9-809d-fae3b3610059",
+      "citationEvidence": {
+        "quote": "patients should be made aware of a potential increased risk for serotonin syndrome, particularly during treatment initiation and dose increases. … particularly with concomitant use of other serotonergic drugs (including triptans, tricyclic antidepressants, fentanyl",
+        "section": "Label",
+        "identity": "active ingredient names 'Clomipramine' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "serotonergic",
@@ -251,13 +299,29 @@
       "classA": "alpha2Agonist",
       "classB": "tca",
       "severity": "caution",
-      "note": "Tricyclics can cancel out clonidine-type blood-pressure lowering, so blood pressure may rise. That is a medical issue more than an overdose risk."
+      "note": "Tricyclics can cancel out clonidine-type blood-pressure lowering, so blood pressure may rise. That is a medical issue more than an overdose risk.",
+      "citation": "DailyMed: Duraclon (clonidine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8c126bb8-732a-4949-8754-2f50b5543638",
+      "citationEvidence": {
+        "quote": "Tricyclic anti-depressants may antagonize the hypotensive effects of clonidine.",
+        "section": "Drug Interactions",
+        "identity": "active ingredient names 'Clonidine' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "betaBlocker",
       "classB": "alpha2Agonist",
       "severity": "unsafe",
-      "note": "Stopping the clonidine-type drug suddenly while on a beta-blocker can spike blood pressure to dangerous levels."
+      "note": "Stopping the clonidine-type drug suddenly while on a beta-blocker can spike blood pressure to dangerous levels.",
+      "citation": "DailyMed: Duraclon (clonidine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8c126bb8-732a-4949-8754-2f50b5543638",
+      "citationEvidence": {
+        "quote": "accompanied or followed by a rapid rise in blood pressure … The likelihood of such reactions appears to be greater after administration of higher doses or with concomitant beta-blocker treatment. … Rare instances of hypertensive encephalopathy, cerebrovascular accidents and death have been reported after abrupt clonidine withdrawal.",
+        "section": "Withdrawal",
+        "identity": "active ingredient names 'Clonidine' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "betaBlocker",
@@ -288,7 +352,15 @@
       "classA": "orexinAntagonist",
       "classB": "benzodiazepine",
       "severity": "caution",
-      "note": "Stacking two sleep-promoting drugs adds next-day sedation, fall risk and impaired coordination. The labels warn about combining with other CNS depressants."
+      "note": "Stacking two sleep-promoting drugs adds next-day sedation, fall risk and impaired coordination. The labels warn about combining with other CNS depressants.",
+      "citation": "DailyMed: BELSOMRA (suvorexant) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e5b72731-1acb-45b7-9c13-290ad12d3951",
+      "citationEvidence": {
+        "quote": "Co-administration with other CNS depressants (e.g., benzodiazepines, opioids, tricyclic antidepressants, alcohol) increases the risk of CNS depression. … Dosage adjustments of BELSOMRA and of concomitant CNS depressants may be necessary when administered together because of potentially additive effects.",
+        "section": "5.1 CNS Depressant Effects and Daytime Impairment",
+        "identity": "active ingredient names 'Suvorexant' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "orexinAntagonist",
@@ -405,7 +477,15 @@
       "classA": "barbiturate",
       "classB": "cannabinoid",
       "severity": "caution",
-      "note": "Additive sedation, dizziness, and slowed reaction time."
+      "note": "Additive sedation, dizziness, and slowed reaction time.",
+      "citation": "DailyMed: MARINOL (dronabinol) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d0efeeec-640d-43c3-8f0a-d31324a11c68",
+      "citationEvidence": {
+        "quote": "Alert patients to the potential for additive central nervous system depression if MARINOL is used concomitantly with alcohol or other CNS depressants such as benzodiazepines and barbiturates. … Concomitant use of other drugs that cause dizziness, confusion, sedation, or somnolence such as CNS depressants may increase this effect (e.g., barbiturates, benzodiazepines,",
+        "section": "17 PATIENT COUNSELING INFORMATION",
+        "identity": "active ingredient names 'Dronabinol' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "barbiturate",
@@ -465,7 +545,15 @@
       "classA": "alcohol",
       "classB": "antipsychotic",
       "severity": "caution",
-      "note": "Additive CNS depression. More sedation and impairment."
+      "note": "Additive CNS depression. More sedation and impairment.",
+      "citation": "DailyMed: SEROQUEL XR (quetiapine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2a74e8a0-b2fd-4d7f-8bf8-72148b1d3ae7",
+      "citationEvidence": {
+        "quote": "Quetiapine potentiated the cognitive and motor effects of alcohol in a clinical trial in subjects with selected psychotic disorders, and alcoholic beverages should be limited while taking quetiapine. … caution should be used when it is taken in combination with other centrally acting drugs",
+        "section": "7 DRUG INTERACTIONS",
+        "identity": "active ingredient names 'Quetiapine' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "gabapentinoid",
@@ -527,7 +615,15 @@
       "classA": "cannabinoid",
       "classB": "benzodiazepine",
       "severity": "caution",
-      "note": "Additive sedation. Drowsiness and impaired coordination may increase."
+      "note": "Additive sedation. Drowsiness and impaired coordination may increase.",
+      "citation": "DailyMed: MARINOL (dronabinol) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d0efeeec-640d-43c3-8f0a-d31324a11c68",
+      "citationEvidence": {
+        "quote": "Alert patients to the potential for additive central nervous system depression if MARINOL is used concomitantly with alcohol or other CNS depressants such as benzodiazepines and barbiturates. … MARINOL can cause and may impair the mental and/or physical abilities required for the performance of hazardous tasks such as driving a motor vehicle or operating machinery. … Concomitant use of other drugs that cause dizziness, confusion, sedation, or somnolence such as CNS depressants may increase this effect (e.g., barbiturates, benzodiazepines, ethanol",
+        "section": "17 PATIENT COUNSELING INFORMATION",
+        "identity": "active ingredient names 'Dronabinol' as whole words",
+        "accessed": "2026-10-30",
+        "via": "haiku-assisted 2026-10-30"
+      }
     },
     {
       "classA": "cannabinoid",

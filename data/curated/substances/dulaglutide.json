@@ -75,8 +75,17 @@
     "Auto-injector pen — no reconstitution required"
   ],
   "halfLifeMinutes": 7200,
+  "halfLifeSource": "DailyMed: Trulicity (dulaglutide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=463050bd-2b1c-40f5-b3c3-0a04bb433309",
+  "halfLifeEvidence": {
+    "quote": "The elimination half-life of dulaglutide was approximately 5 days.",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'Dulaglutide' as whole words",
+    "value": "5 days",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/125469s030lbl.pdf",
+    "Trulicity (dulaglutide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=463050bd-2b1c-40f5-b3c3-0a04bb433309",
     "https://en.wikipedia.org/wiki/Dulaglutide",
     "https://pubchem.ncbi.nlm.nih.gov/compound/90487791"
   ],

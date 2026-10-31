@@ -392,7 +392,7 @@ extension SubstanceStore {
             clearanceMlPerMinPerKg: row.clearanceMlPerMinPerKg.map { $0 * clearanceScale },
             proteinBindingPct: row.proteinBindingPct, doseInStudyMg: row.doseInStudyMg,
             subjectN: row.subjectN, demographics: row.demographics, species: row.species,
-            sourceSlug: row.sourceSlug, doi: row.doi, pmid: row.pmid, notes: row.notes,
+            sourceSlug: row.sourceSlug, doi: row.doi, pmid: row.pmid, url: row.url, notes: row.notes,
             confidence: Swift.min(row.confidence, .low),
         )
     }
@@ -405,7 +405,7 @@ extension SubstanceStore {
             vdLPerKg: row.vdLPerKg, clearanceMlPerMinPerKg: row.clearanceMlPerMinPerKg,
             proteinBindingPct: row.proteinBindingPct, doseInStudyMg: row.doseInStudyMg,
             subjectN: row.subjectN, demographics: row.demographics, species: row.species,
-            sourceSlug: row.sourceSlug, doi: row.doi, pmid: row.pmid, notes: row.notes,
+            sourceSlug: row.sourceSlug, doi: row.doi, pmid: row.pmid, url: row.url, notes: row.notes,
             confidence: Swift.min(row.confidence, ceiling),
         )
     }
@@ -459,7 +459,7 @@ extension SubstanceStore {
             subjectN: subjectPrimary.subjectN, demographics: subjectPrimary.demographics,
             // A borrowed Vd carries the surrogate's species flag so scaledToHuman floors it correctly.
             species: takeVd ? referencePrimary.species : subjectPrimary.species,
-            sourceSlug: subjectPrimary.sourceSlug, doi: subjectPrimary.doi, pmid: subjectPrimary.pmid,
+            sourceSlug: subjectPrimary.sourceSlug, doi: subjectPrimary.doi, pmid: subjectPrimary.pmid, url: subjectPrimary.url,
             notes: subjectPrimary.notes, confidence: Swift.min(subjectPrimary.confidence, ceiling),
         )
         return ownRows.map { $0.id == subjectPrimary.id ? merged : $0 }

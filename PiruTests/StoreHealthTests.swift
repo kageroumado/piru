@@ -159,6 +159,9 @@ struct StoreHealthTests {
         let tables = StoreRecovery.userDataTables
         let schema = Set(PiruSchema.models.map { "Z" + String(describing: $0).uppercased() })
         #expect(Set(tables) == schema.subtracting(["ZTOLERANCESTATE", "ZNOTIFICATIONPREFERENCES"]))
+        #expect(tables.count == PiruSchema.models.count - StoreRecovery.derivedModels.count)
+        #expect(tables.contains("ZDOSEENTRY") && tables.contains("ZSESSION") && tables.contains("ZINVENTORYITEM"))
+        #expect(!tables.contains("ZTOLERANCESTATE") && !tables.contains("ZNOTIFICATIONPREFERENCES"))
         let missing = try queue.read { db in try tables.filter { try !db.tableExists($0) } }
         #expect(missing.isEmpty)
         try queue.close()

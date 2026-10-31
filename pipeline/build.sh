@@ -102,10 +102,12 @@ step "9/10  Regression + invariant tests"
 python3 pipeline/build/tests/test_sqlite.py
 python3 pipeline/build/tests/test_drug_community_timelines.py
 python3 pipeline/build/tests/test_overlay_integrity.py
+python3 pipeline/build/tests/test_identity.py
 python3 pipeline/build/tests/test_psid.py
 python3 pipeline/build/tests/test_product_codes.py
 python3 pipeline/fetch/brushers/test_freeodwiki_extract.py
 python3 pipeline/build/tests/test_dosewiki.py
+python3 pipeline/build/tests/test_dose_gates.py
 python3 pipeline/build/tests/test_drugbank_adjudications.py
 python3 pipeline/audit/tests/test_claim_language.py
 

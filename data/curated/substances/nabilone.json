@@ -55,6 +55,15 @@
     "Maximum dose: 6 mg/day in divided doses"
   ],
   "halfLifeMinutes": 120,
+  "halfLifeSource": "Wikipedia: Nabilone (revision 1368778690); https://en.wikipedia.org/w/index.php?title=Nabilone&oldid=1368778690",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life: 2 hours, with metabolites around 35 hours",
+    "section": "Infobox",
+    "identity": "article title 'Nabilone' is a name of the substance",
+    "value": "2 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf",
     "https://en.wikipedia.org/wiki/Nabilone",

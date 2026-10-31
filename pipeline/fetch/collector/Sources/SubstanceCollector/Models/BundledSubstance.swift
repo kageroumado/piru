@@ -78,6 +78,10 @@ struct JSONRoute: Codable, Hashable {
     let duration: JSONDurationProfile?
     /// Clinical-protocol dosing (peptides/Rx); mirrors `SubstanceRoute.protocolDosing`.
     var protocolDosing: JSONProtocolDosing?
+    /// The source sentence `doses` was parsed from, verbatim (Erowid's DOSAGE
+    /// clause). `pipeline/build/sqlite.py` re-reads it: a no-activity bound
+    /// ("greater than 60 mg") parses as a number but is not a dose.
+    var dosageText: String?
 }
 
 struct JSONStorageRequirement: Codable, Hashable {

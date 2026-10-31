@@ -36,6 +36,196 @@
     "status": 200,
     "checked": "2026-06-16"
   },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00acd9e9-b26a-4626-949e-112ecd2f27e6": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00cbc656-768d-4995-bb6d-a0d4b32a248c": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=013450dd-cd42-46c7-98d6-9a2925761978": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=018cf3ca-bee9-23a6-e063-6394a90ad905": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03b54024-2a26-4abe-bd8b-b66bb6781fa7": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03c696e9-0e6b-4e5c-be0a-41416f8019be": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=06883ac0-4b2a-4f26-89bf-512d37b9ba7f": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=083a3282-254f-4042-b0eb-70f76a279f10": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0cabe053-3b7e-4dcb-8441-ef7821bb6f68": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0cbce382-9c88-4f58-ae0f-532a841e8f95": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0e986037-41c9-431e-b007-0e7764523fdd": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0fefd790-b526-4f2f-8c83-5f39f7306556": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1225fd45-9b56-1671-ee77-cd0c9f2174a5": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=27f15fac-7d98-4114-a2ec-92494a91da98": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2a74e8a0-b2fd-4d7f-8bf8-72148b1d3ae7": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2d934da3-bd77-4470-e063-6294a90a64f5": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3819daf3-e935-2c53-c527-e1d57922f394": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3ca9df05-a506-4ec8-a4fe-320f1219ab21": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3cf2f439-0e97-443e-8e33-25ecef616f6c": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4074b555-7635-41a9-809d-fae3b3610059": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43ac81cb-1e3f-4d44-86bd-13db2721d060": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=463050bd-2b1c-40f5-b3c3-0a04bb433309": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4c55ccfb-c4cf-11df-851a-0800200c9a66": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=56b3e77b-4e5f-4a3d-bad0-9e83033a5544": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5a9ef4ea-c76a-4d34-a604-27c5b505f5a4": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=60185c88-ecfd-46f9-adb9-b97c6b00a553": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7e117c7e-02fc-4343-92a1-230061dfc5e0": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8b8ad213-1dc8-454e-a524-075685c0e1a8": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8c126bb8-732a-4949-8754-2f50b5543638": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a2b4cc65-6a6d-49c4-adfc-a4458562a167": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aff45863-ffe1-4d4f-8acf-c7081512a6c0": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c848a5d8-ba94-4c84-80e3-0bf35fb8e32e": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cbc8c074-f080-4489-a5ae-207b5fadeba3": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d0efeeec-640d-43c3-8f0a-d31324a11c68": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d2d7da5d-ad07-4228-955f-cf7e355c8cc0": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e5b72731-1acb-45b7-9c13-290ad12d3951": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e62efb5a-d2cc-4e11-9e61-10e65ef3d897": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ef3b5cbe-f9e1-c1ac-79da-cfe14e3a7e7e": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
   "https://doi.org/10.1002/dta.70042": {
     "verdict": "ok",
     "status": 200,
@@ -69,6 +259,1191 @@
     "verdict": "ok",
     "status": 200,
     "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/w/index.php?title=%CE%93-Hydroxybutyric_acid&oldid=1379959021#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=%CE%948-Tetrahydrocannabinol&oldid=1380981225#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=25N-NBOMe&oldid=1379462980#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=25T-NBOMe&oldid=1373134525#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=4-HO-DET&oldid=1379729601#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=4T-MMDA-2&oldid=1375968979": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=5-MeO-AMT&oldid=1379863041#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=5-MeO-DiPT&oldid=1377441530#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=AL-LAD&oldid=1381825369#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=AM-1248&oldid=1380941839": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=AM-2233&oldid=1332656721": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Aclidinium_bromide&oldid=1335584668#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Agmatine&oldid=1344857130#Metabolic_pathways": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Allopurinol&oldid=1356288153#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Alprazolam&oldid=1369242307#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Amcinonide&oldid=1346125143#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Amiloride&oldid=1379457593": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Amiodarone&oldid=1379758127#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Amisulpride&oldid=1366501553#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Amlodipine&oldid=1368611723#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Apixaban&oldid=1379847083#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Arformoterol&oldid=1329467856": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Asparaginase&oldid=1357048838#As_a_drug": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Aspirin&oldid=1380653302#Prostaglandins_and_thromboxanes": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Atenolol&oldid=1378364744#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Avanafil&oldid=1368873147#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Beclometasone&oldid=1375181255#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Benzonatate&oldid=1380580183#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Betrixaban&oldid=1329244165": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Bilastine&oldid=1309927359#Distribution": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Bisoprolol&oldid=1356470142#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Brexpiprazole&oldid=1380298524#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Bromo-DragonFLY&oldid=1375973009": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Budesonide&oldid=1356473070#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Bufotenin&oldid=1379985308#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Buspirone&oldid=1377204007": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Caffeine&oldid=1382679658#Receptor_and_ion_channel_targets": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Canagliflozin&oldid=1369651076#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Carbamazepine&oldid=1369634918#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Carbidopa%2Flevodopa&oldid=1377345473": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Cathinone&oldid=1379709801#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Cefalexin&oldid=1377081404#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Chlordiazepoxide&oldid=1379525406#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Chlorpromazine&oldid=1368875372": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Chlorpromazine&oldid=1368875372#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Chlortalidone&oldid=1378999562#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Cimetidine&oldid=1371790419#Histamine_H2_receptor_antagonism": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ciprofloxacin&oldid=1358476040#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Clindamycin&oldid=1366744202#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Clomifene&oldid=1368196377#Selective_estrogen_receptor_modulator_activity": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Clonazepam&oldid=1380444250#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Clopidogrel&oldid=1356288019": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Colchicine&oldid=1379197082#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Creatine&oldid=1382626796": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Cyclobenzaprine&oldid=1379407826": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Cyclobenzaprine&oldid=1379407826#Interactions": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=DMCPA&oldid=1377942532": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Dabigatran&oldid=1355427429": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Dantrolene&oldid=1378190044": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Dapagliflozin&oldid=1374813929": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Daridorexant&oldid=1368786208#Elimination": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Desipramine&oldid=1328703992": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Desloratadine&oldid=1379998314#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Desvenlafaxine&oldid=1382302513": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Dexamethasone&oldid=1379161163#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Dextromethorphan&oldid=1382174170#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Diazepam&oldid=1381944570#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Diclazepam&oldid=1375009734#Metabolism": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Digoxin&oldid=1371893917#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Dihydroergotamine&oldid=1370481992": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Diltiazem&oldid=1374684908#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Dimethyltryptamine&oldid=1381894857#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Diphenhydramine&oldid=1378217308#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Docusate&oldid=1371489260#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Doxepin&oldid=1382080953": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Doxepin&oldid=1382080953#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Doxycycline&oldid=1377571488#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Duloxetine&oldid=1371441880#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Dutasteride&oldid=1375820985#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Edoxaban&oldid=1337833755#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Empagliflozin&oldid=1381132277#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Enclomifene&oldid=1380492023": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Escaline&oldid=1381573172#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Etizolam&oldid=1366957926#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Exenatide&oldid=1332060752": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ezetimibe&oldid=1363003390#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Famotidine&oldid=1360627089#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Febuxostat&oldid=1360922496": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Fentanyl&oldid=1382430678": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Fexofenadine&oldid=1377042469#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Finasteride&oldid=1381976409#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Flubromazepam&oldid=1370249362": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Fluconazole&oldid=1380903075#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Fluetizolam&oldid=1362834891": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Flunisolide&oldid=1338068789": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Fluticasone_furoate&oldid=1373932504#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Fluticasone_propionate&oldid=1347806436#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Fluvastatin&oldid=1338742489#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Fremanezumab&oldid=1352612063#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Furosemide&oldid=1379941477#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=GABA&oldid=1377083018#Metabolism": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Gabapentin&oldid=1381498096": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Galcanezumab&oldid=1339949496#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Glibenclamide&oldid=1338578844#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Glipizide&oldid=1356288077#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Growth_hormone&oldid=1379489143#Function": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Guanfacine&oldid=1378676773#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Hydrochlorothiazide&oldid=1378872135": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Hydrocodone&oldid=1373295515#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Hydroxyzine&oldid=1379310850#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Hydroxyzine&oldid=1379310850#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ibuprofen&oldid=1380458618#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Indometacin&oldid=1373734407#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Insulin_lispro&oldid=1379823732": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ipamorelin&oldid=1379748695": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ipratropium_bromide&oldid=1378370065#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Irbesartan&oldid=1365409692#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Isoproscaline&oldid=1381572208": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ketorolac&oldid=1381084852#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Labetalol&oldid=1364189106#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Lacosamide&oldid=1370264923": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Lacosamide&oldid=1370264923#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Lamotrigine&oldid=1382708646": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Lamotrigine&oldid=1382708646#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Letrozole&oldid=1378181410": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Levetiracetam&oldid=1378189184#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Levofloxacin&oldid=1361375143#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Levonorgestrel&oldid=1352426285": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Levosalbutamol&oldid=1328964207#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Lisdexamfetamine&oldid=1380881027#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Lixisenatide&oldid=1371844252#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Lophophine&oldid=1381573298": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Loratadine&oldid=1356896189": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Losartan&oldid=1361505549#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Loxapine&oldid=1379513544": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=MMDA_%28drug%29&oldid=1360180510#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Mebroqualone&oldid=1329516091": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Melatonin&oldid=1382519527#Metabolism": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Methallylescaline&oldid=1381572302": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Methallylescaline&oldid=1381572302#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Methyl-MMDA-2&oldid=1341023737#Use_and_effects": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Methyldopa&oldid=1360767011#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Methylphenidate&oldid=1381866534#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Methylprednisolone&oldid=1379160316#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Metolazone&oldid=1375530392#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Metronidazole&oldid=1381535860#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Milnacipran&oldid=1379835558#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Minocycline&oldid=1363129899#Antibiotic_activity": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Mirabegron&oldid=1370301484": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Moclobemide&oldid=1379474616": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Monoamine_oxidase_inhibitor&oldid=1371725034#Mechanism_based_interactions": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=N-Desalkylflurazepam&oldid=1381667214": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=N-Ethylpentylone&oldid=1341022092#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=N-Methylphenethylamine&oldid=1376980538#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Nabilone&oldid=1368778690": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Nadolol&oldid=1336070626": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Naloxone&oldid=1380300371#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Naltrexone&oldid=1382674764#Elimination": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Nateglinide&oldid=1380329377#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Nitemazepam&oldid=1341978809": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Olanzapine&oldid=1380176204": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Olodaterol&oldid=1330257445#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Olopatadine&oldid=1348787908#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Omeprazole&oldid=1362259565#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ondansetron&oldid=1378896685#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Opioid&oldid=1376500140#With_other_depressant_drugs": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Orphenadrine&oldid=1363068383#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ortho-DOT&oldid=1340339959": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Oseltamivir&oldid=1368822991#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Oxiracetam&oldid=1368668595#Pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Oxymetazoline&oldid=1354965009#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=PRO-LAD&oldid=1368192670#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Pentazocine&oldid=1362511808": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Phenazopyridine&oldid=1364984081#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Phencyclidine&oldid=1374989220#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Phenelzine&oldid=1369799230#Interactions": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Phenelzine&oldid=1369799230#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Phenibut&oldid=1382378963#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Phentermine&oldid=1382262177": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Phenylephrine&oldid=1380107325#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Phenytoin&oldid=1371791164#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Pioglitazone&oldid=1365691930#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Pitavastatin&oldid=1334235016": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Prasugrel&oldid=1358311753#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Pravastatin&oldid=1369273013#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Prazosin&oldid=1380968436": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Prednisolone&oldid=1379160979#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Propranolol&oldid=1382647166#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Pseudoephedrine&oldid=1378286228": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Pseudoephedrine&oldid=1378286228#Metabolism": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Psilocin&oldid=1379715414": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Psilocybin&oldid=1382747664#Metabolism": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Psilocybin&oldid=1382747664#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Quetiapine&oldid=1380891147#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ramelteon&oldid=1362641733": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ranitidine&oldid=1375228960#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Repaglinide&oldid=1379956534#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Rimegepant&oldid=1370065404": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Rivaroxaban&oldid=1356485488": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Rizatriptan&oldid=1356473769#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Ropinirole&oldid=1374715842": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Rosiglitazone&oldid=1354915995": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Salmeterol&oldid=1380703776#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Saxagliptin&oldid=1329368130#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Selective_serotonin_reuptake_inhibitor&oldid=1381909312#Serotonin_syndrome": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Selegiline&oldid=1381352134#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Sertraline&oldid=1381582674#Elimination": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Sertraline&oldid=1381582674#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Sildenafil&oldid=1382351405#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Silodosin&oldid=1370555904#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Sitagliptin&oldid=1371791385#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Sotalol&oldid=1356962329": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Sumatriptan&oldid=1368799875#Overdose": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Suvorexant&oldid=1368799943": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tamsulosin&oldid=1382271678#Mechanism": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tapentadol&oldid=1378730489#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Terazosin&oldid=1377720145#Side_effects_and_mechanisms": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tetrahydrocannabinol&oldid=1377727370": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tianeptine&oldid=1367854425": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tiotixene&oldid=1338566826#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tiotropium_bromide&oldid=1356471621#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tizanidine&oldid=1379587595#Elimination": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tolbutamide&oldid=1330113537": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Topiramate&oldid=1379340606#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Topotecan&oldid=1359306552#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tramadol&oldid=1381269081#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Tranylcypromine&oldid=1374868074#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Trazodone&oldid=1377081496": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Trazodone&oldid=1377081496#Cytochrome_P450_inhibitors_and_inducers": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Trazodone&oldid=1377081496#Metabolism": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Triamterene&oldid=1352633925#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Triazolam&oldid=1380042999#Pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Urofollitropin&oldid=1349073598": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Venlafaxine&oldid=1371433947#Pharmacodynamics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Zaleplon&oldid=1347114340#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Zanamivir&oldid=1363171383#Mechanism_of_action": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
+  },
+  "https://en.wikipedia.org/w/index.php?title=Zolazepam&oldid=1371845518": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-30"
   },
   "https://en.wikipedia.org/wiki/1BP-LSD": {
     "verdict": "ok",

@@ -26,23 +26,10 @@
         },
         "heavy": 3.0
       },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 240
-        },
-        "peak": {
-          "min": 480,
-          "max": 720
-        },
-        "offset": {
-          "min": 720,
-          "max": 1440
-        },
-        "total": {
-          "min": 1380,
-          "max": 1500
-        }
+      "durationOfAction": {
+        "min": 1,
+        "max": 1,
+        "unit": "days"
       }
     },
     {
@@ -88,8 +75,17 @@
     "Approved for children ≥12 years (Saxenda — obesity)"
   ],
   "halfLifeMinutes": 780,
+  "halfLifeSource": "DailyMed: Victoza (liraglutide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5a9ef4ea-c76a-4d34-a604-27c5b505f5a4",
+  "halfLifeEvidence": {
+    "quote": "with an elimination half-life of approximately 13 hours",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'Liraglutide' as whole words",
+    "value": "13 hours",
+    "accessed": "2026-10-30",
+    "via": "haiku-assisted 2026-10-30"
+  },
   "sources": [
-    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/022341s031lbl.pdf",
+    "Victoza (liraglutide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5a9ef4ea-c76a-4d34-a604-27c5b505f5a4",
     "https://en.wikipedia.org/wiki/Liraglutide",
     "https://pubchem.ncbi.nlm.nih.gov/compound/44147092"
   ],
