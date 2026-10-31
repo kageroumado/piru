@@ -14,10 +14,10 @@ index 6e7bb649..a2aabdb2 100644
                      // swiftlint:disable:next redundant_discardable_let
                      let _ = assert(
 diff --git a/Piru/Views/QuickLog/QuickLogSupport.swift b/Piru/Views/QuickLog/QuickLogSupport.swift
-index 8e4c46bf..feab6d95 100644
+index 04eff986..1c3d0519 100644
 --- a/Piru/Views/QuickLog/QuickLogSupport.swift
 +++ b/Piru/Views/QuickLog/QuickLogSupport.swift
-@@ -97,6 +97,8 @@ struct DockSheetHost: View {
+@@ -90,6 +90,8 @@ struct DockSheetHost: View {
          // Routine…) present here, stacked on the dock — the dock occupies
          // the cover's only presentation slot, so they can't present there.
          .hostsNestedNavigatorSheets(navigator)
@@ -26,8 +26,8 @@ index 8e4c46bf..feab6d95 100644
          .presentationDetents(detents, selection: $detent)
          // At every height, never `upThrough: .medium`: a tall staged stack sets
          // its compact detent above medium, and past that threshold the sheet
-@@ -105,6 +107,7 @@ struct DockSheetHost: View {
-         .presentationContentInteraction(geometry.compactOverflows ? .scrolls : .resizes)
+@@ -103,6 +105,7 @@ struct DockSheetHost: View {
+         )
          .presentationBackground { Color.clear }
          .interactiveDismissDisabled()
 +        #endif
@@ -35,7 +35,7 @@ index 8e4c46bf..feab6d95 100644
  
      /// Stage a scanned label as a complete dose — the strength read off the box
 diff --git a/Piru/Views/QuickLog/QuickLogView.swift b/Piru/Views/QuickLog/QuickLogView.swift
-index cddd526a..1b6d3883 100644
+index 0891a67b..abf62256 100644
 --- a/Piru/Views/QuickLog/QuickLogView.swift
 +++ b/Piru/Views/QuickLog/QuickLogView.swift
 @@ -302,11 +302,48 @@ struct QuickLogView: View {

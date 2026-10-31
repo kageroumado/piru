@@ -323,6 +323,14 @@ enum ListFormatter {
     }
 }
 
+extension DatePicker where Label == Text {
+    /// A date up to a bound (`in: ...Date.now`), which SkipFuseUI marks unavailable: the closed
+    /// range from the distant past, the same set of pickable dates.
+    init(_ titleKey: LocalizedStringKey, selection: Binding<Date>, in range: PartialRangeThrough<Date>) {
+        self.init(titleKey, selection: selection, in: Date.distantPast ... range.upperBound)
+    }
+}
+
 extension Shape {
     /// A concrete-Color overload, so `strokeBorder(color.opacity(x))` has one reading.
     func strokeBorder(_ color: Color, lineWidth: CGFloat = 1, antialiased _: Bool = true) -> some View {
