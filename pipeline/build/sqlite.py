@@ -8282,6 +8282,9 @@ class Build:
                 continue
             doses = r.get("doses") or {}
             route_ref = r.get("source")  # optional per-route citation (dose + duration)
+            # A curated route may cite its ladder and its timeline separately.
+            dose_ref = r.get("doseSource") or route_ref
+            duration_ref = r.get("durationSource") or route_ref
             if doses and slug in SHULGIN_BOOK_SLUGS:
                 doses = self._shulgin_dosage_gate(sid, slug, route_key, r, doses)
             if doses and skip_routes and skip_routes.covers(route_key):
@@ -8300,14 +8303,14 @@ class Build:
                 strong=doses.get("strong"),
                 heavy=doses.get("heavy"),
                 notes=r.get("notes"),
-                citation=route_ref,
+                citation=dose_ref,
             )
             if r.get("duration"):
                 if drop_durations and drop_durations.covers(route_key):
                     self.stats["duration_skipped"] += 1
                 else:
                     self.add_duration_profile(
-                        sid, slug, r.get("route", ""), r["duration"], citation=route_ref
+                        sid, slug, r.get("route", ""), r["duration"], citation=duration_ref
                     )
             if r.get("durationOfAction"):
                 self.add_duration_of_action(

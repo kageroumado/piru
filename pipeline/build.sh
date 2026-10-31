@@ -108,6 +108,7 @@ python3 pipeline/build/tests/test_product_codes.py
 python3 pipeline/fetch/brushers/test_freeodwiki_extract.py
 python3 pipeline/build/tests/test_dosewiki.py
 python3 pipeline/build/tests/test_dose_gates.py
+python3 pipeline/build/tests/test_curated_override_provenance.py
 python3 pipeline/build/tests/test_drugbank_adjudications.py
 python3 pipeline/audit/tests/test_claim_language.py
 

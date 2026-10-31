@@ -12,22 +12,6 @@
     {
       "route": "insufflation",
       "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 45
-        },
-        "common": {
-          "lower": 45,
-          "upper": 100
-        },
-        "strong": {
-          "lower": 100,
-          "upper": 175
-        },
-        "heavy": 175
-      },
       "duration": {
         "onset": {
           "min": 5,
@@ -40,10 +24,6 @@
         "offset": {
           "min": 45,
           "max": 90
-        },
-        "total": {
-          "min": 120,
-          "max": 240
         }
       }
     }

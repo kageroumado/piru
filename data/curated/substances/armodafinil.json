@@ -28,10 +28,6 @@
         "heavy": 250
       },
       "duration": {
-        "onset": {
-          "min": 30,
-          "max": 120
-        },
         "peak": {
           "min": 120,
           "max": 360
@@ -39,10 +35,6 @@
         "offset": {
           "min": 360,
           "max": 600
-        },
-        "total": {
-          "min": 720,
-          "max": 960
         }
       }
     }

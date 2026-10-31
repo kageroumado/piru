@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-10-31.1 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `2dc79cf44cdce755b3689551d19e4d798f45a447a4641e1a46caee25a51b7fc3`)
+Built 2026-10-31.4 → `Piru/Data/piru-substances.sqlite` (21,573,632 bytes, sha256 `eba6944e1d768f9b5dc21ad34cf8d23471a765ca3aa2483bbbc56197bf89a160`)
 
 ## Row counts
 
@@ -10,11 +10,11 @@ Built 2026-10-31.1 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha
 | aliases | 6,005 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,706 |
+| citations | 2,705 |
 | categories | 1,577 |
 | tags | 7,059 |
-| dose_ranges | 2,794 |
-| durations | 10,736 |
+| dose_ranges | 2,757 |
+| durations | 10,646 |
 | drug_community_timelines | 755 |
 | half_lives | 711 |
 | mechanisms_summary | 1,230 |
@@ -150,7 +150,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 220 | 444 | 650 | 2,269 |
+| piru-curated | 183 | 444 | 650 | 2,269 |
 | peer-review-primary | 0 | 1,002 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 826 | 0 | 0 | 126 |

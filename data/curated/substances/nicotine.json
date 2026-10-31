@@ -48,7 +48,9 @@
           "min": 40,
           "max": 70
         }
-      }
+      },
+      "doseReason": "Ladder is the labeled nicotine content of a pouch, which is the number a user logs.",
+      "durationReason": "Pinned whole so the phase merge cannot splice pouch timing with another source's oral-route phases."
     },
     {
       "route": "oral",
@@ -91,7 +93,9 @@
           "min": 60,
           "max": 150
         }
-      }
+      },
+      "doseReason": "Swallowed-pouch ladder, set above the buccal one because first-pass metabolism removes most of a swallowed dose.",
+      "durationReason": "Upstream oral profiles run 5–7 h, far past nicotine's ~2.5 h elimination half-life; this is the swallowed-pouch curve."
     }
   ]
 }

@@ -275,6 +275,22 @@
         },
         "protocolDosing": {
           "$ref": "#/$defs/protocolDosing"
+        },
+        "doseSource": {
+          "type": "string",
+          "description": "Citation for this route's `doses` ladder specifically — a DOI, PMID, or URL that states the numbers. The substance-level `sources` array does NOT cite them."
+        },
+        "doseReason": {
+          "type": "string",
+          "description": "One line saying why this curated ladder overrides the source ladders for the route (it outranks every source). A ladder within ±25% of a source's common tier has neither field: it is deleted and the source ladder ships."
+        },
+        "durationSource": {
+          "type": "string",
+          "description": "Citation for this route's `duration` phases specifically — a DOI, PMID, or URL that states the timings."
+        },
+        "durationReason": {
+          "type": "string",
+          "description": "One line saying why these curated phases override the source timings for the route. A phase within ±25% of a source's phase is deleted instead."
         }
       }
     },

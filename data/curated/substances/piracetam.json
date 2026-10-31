@@ -11,27 +11,7 @@
     {
       "route": "oral",
       "unit": "mg",
-      "doses": {
-        "threshold": 800,
-        "light": {
-          "lower": 1200,
-          "upper": 1600
-        },
-        "common": {
-          "lower": 1600,
-          "upper": 4800
-        },
-        "strong": {
-          "lower": 4800,
-          "upper": 7200
-        },
-        "heavy": 9600
-      },
       "duration": {
-        "onset": {
-          "min": 30,
-          "max": 90
-        },
         "peak": {
           "min": 60,
           "max": 180
@@ -39,10 +19,6 @@
         "offset": {
           "min": 120,
           "max": 240
-        },
-        "total": {
-          "min": 240,
-          "max": 480
         }
       }
     }

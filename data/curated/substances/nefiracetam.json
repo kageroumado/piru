@@ -27,10 +27,6 @@
         "heavy": 1200
       },
       "duration": {
-        "onset": {
-          "min": 30,
-          "max": 60
-        },
         "peak": {
           "min": 60,
           "max": 240
