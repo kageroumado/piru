@@ -243,6 +243,7 @@ FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # is about, or an explicit null.
 DOSEWIKI = REPO / "data/sources/dosewiki.json"
 DOSEWIKI_IDS = REPO / "data/curated/dosewiki-ids.json"
+DOSEWIKI_REFERENCE_CORRECTIONS = REPO / "data/curated/dosewiki-reference-corrections.json"
 # Erowid's PiHKAL/TiHKAL chapter -> the Piru substance it describes. Shulgin's
 # short codes (M, T, DESOXY) are street names of other drugs, so a chapter is
 # filed only through this hand-reviewed map, never by its name.
@@ -1127,6 +1128,21 @@ def load_dosewiki_ids() -> dict[str, dict]:
         slug: entry
         for slug, entry in json.loads(DOSEWIKI_IDS.read_text()).items()
         if not slug.startswith("_")
+    }
+
+
+@functools.cache
+def load_dosewiki_reference_corrections(
+    path: Path = DOSEWIKI_REFERENCE_CORRECTIONS,
+) -> dict[str, dict]:
+    """dose.wiki reference id -> the `doi`/`pmid` that replace the entry's own,
+    for entries whose identifier names a different paper from their title."""
+    if not path.exists():
+        return {}
+    return {
+        ref_id: {key: entry[key] for key in ("doi", "pmid") if entry.get(key)}
+        for ref_id, entry in json.loads(path.read_text()).items()
+        if not ref_id.startswith("_")
     }
 
 
@@ -10287,7 +10303,12 @@ class Build:
 
         self._dosewiki_half_lives(sid, slug, rec)
 
-        references = {ref["id"]: ref for ref in rec.get("references") or [] if ref.get("id")}
+        corrections = load_dosewiki_reference_corrections()
+        references = {
+            ref["id"]: {**ref, **corrections.get(ref["id"], {})}
+            for ref in rec.get("references") or []
+            if ref.get("id")
+        }
         for row in (rec.get("pharmacology") or {}).get("binding_sites") or []:
             target = dosewiki_clean(row.get("target"))
             affinity = dosewiki_affinity(row.get("affinity"))

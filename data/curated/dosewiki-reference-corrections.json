@@ -1,0 +1,8 @@
+{
+ "_comment": "dose.wiki reference-list entries whose identifier names a different paper from the one the entry describes. Keyed by the reference's `id` in data/sources/dosewiki.json; the value replaces its `doi`/`pmid`. Every entry needs `evidence`: the entry's own title or URL that identifies the paper, and where the corrected identifier was checked. Read by sqlite.load_dosewiki_reference_corrections. Each is also an upstream defect for dose.wiki.",
+ "ephenidine-nmda-pmc5084681": {
+  "doi": "10.1016/j.neuropharm.2016.08.004",
+  "pmid": 27520396,
+  "evidence": "Entry title 'Ephenidine: A new psychoactive agent with ketamine-like NMDA receptor antagonist properties' and URL PMC5084681 both name Kang et al. 2017 (PMC5084681 = PMID 27520396 = doi:10.1016/j.neuropharm.2016.08.004, NCBI ID converter); the entry's doi 10.1016/j.neuropharm.2016.06.017 resolves to a Rac1 fear-extinction paper. Kang 2017 states ephenidine 'Ki value of 66.4 ± 3.7 nM', the binding row's value. Checked 2026-10-31."
+ }
+}
