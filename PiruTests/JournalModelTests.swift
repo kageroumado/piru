@@ -88,4 +88,37 @@ struct JournalModelTests {
             "cards must carry graph data once the derive resolves, even though the filter signature is unchanged",
         )
     }
+
+    /// kageroumado/piru#23: with the day starting at 4 AM, a session begun at
+    /// 02:30 goes under the evening before, and an hour of 0 keeps calendar days.
+    @Test
+    func `Day sections follow the Day Starts At hour`() throws {
+        let context = try makeContext()
+        let calendar = Calendar.current
+        let evening = try #require(calendar.date(from: DateComponents(year: 2_026, month: 3, day: 10, hour: 22)))
+        let small = try #require(calendar.date(from: DateComponents(year: 2_026, month: 3, day: 11, hour: 2, minute: 30)))
+        // No session assignment: each dose is its own card, starting at its own time.
+        for timestamp in [evening, small] {
+            context.insert(DoseEntry(substance: substanceName, amount: 100, timestamp: timestamp))
+        }
+        try context.save()
+        let entries = try context.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp, order: .reverse)]))
+
+        let model = JournalModel()
+        model.refreshColorMap([])
+        let regroup = { (hour: Int) in
+            model.rebuildGroups(
+                entries: entries, grouping: .byDay, searchText: "",
+                filterTags: [], filterCategories: [], filterRoutes: [],
+                stackRedoses: true, revision: 0, dayBoundaryHour: hour,
+            )
+        }
+
+        regroup(4)
+        #expect(model.sessionDays.map(\.date) == [calendar.startOfDay(for: evening)])
+        #expect(model.sessionDays.first?.sessions.count == 2)
+
+        regroup(0)
+        #expect(model.sessionDays.map(\.date) == [calendar.startOfDay(for: small), calendar.startOfDay(for: evening)])
+    }
 }

@@ -8,9 +8,9 @@ struct JournalCalendarView: View {
 
     @State private var selectedMonth: Date = .now
 
-    /// Per-day entry counts keyed by day start, bucketed once per change to
-    /// `entries` so each of the ~31 day cells does an O(1) lookup instead of
-    /// scanning every entry.
+    /// Per-day entry counts keyed by journal day (`Calendar.journalDay`),
+    /// bucketed once per change to `entries` so each of the ~31 day cells does
+    /// an O(1) lookup instead of scanning every entry.
     @State private var dayCounts: [Date: Int] = [:]
 
     private var calendar: Calendar {
@@ -18,8 +18,9 @@ struct JournalCalendarView: View {
     }
 
     private func rebuildDayCounts() {
+        let boundaryHour = Calendar.sessionDayBoundaryHour
         dayCounts = entries.reduce(into: [:]) { counts, entry in
-            counts[calendar.startOfDay(for: entry.timestamp), default: 0] += 1
+            counts[calendar.journalDay(for: entry.timestamp, boundaryHour: boundaryHour), default: 0] += 1
         }
     }
 

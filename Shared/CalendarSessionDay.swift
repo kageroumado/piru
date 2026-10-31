@@ -1,15 +1,21 @@
 import Foundation
 
-/// Returns the start of the user's "session day" for a given date.
+/// The user's journal day: the unit every surface that groups logged doses by
+/// day reads (Journal sections, the vertical timeline, the calendar's counts,
+/// Insights and reports).
 ///
-/// Unlike `Calendar.startOfDay(for:)` (which always returns midnight), this
-/// rolls late-night doses into the previous day's session so a journal entry
-/// at 02:00 on Tuesday belongs to the session that started Monday afternoon.
+/// A journal day runs from the Day Starts At hour on one calendar date to that
+/// hour on the next, and is named after the date it starts on: with a 4 AM
+/// start, a dose at 02:00 on Tuesday belongs to Monday. An hour of 0 is the
+/// plain calendar day. Default is 4 AM.
 ///
-/// The cutoff hour is stored in the shared App Group UserDefaults under
+/// The hour is stored in the shared App Group UserDefaults under
 /// `dayBoundaryHour` so the main app, widgets, and Live Activity all agree
-/// on where the day breaks. A value of 0 reproduces the classic midnight
-/// behavior. Default is 4 AM.
+/// on where the day breaks.
+///
+/// Boundaries are wall-clock times found by calendar arithmetic, never
+/// midnight plus a fixed number of seconds: on a DST date 04:00 is 3 or 5
+/// hours after midnight, and the day is 23 or 25 hours long.
 ///
 /// `nonisolated`: pure date math over thread-safe `UserDefaults` reads, so it
 /// stays callable off the main actor under the app target's default MainActor
@@ -19,7 +25,7 @@ nonisolated extension Calendar {
     /// UserDefaults key used to persist the day-boundary hour across launches.
     static let dayBoundaryHourKey = "dayBoundaryHour"
 
-    /// Hour (0-23) at which one session day ends and the next begins.
+    /// Hour (0-12) at which one journal day ends and the next begins.
     /// Reads from the App Group suite so widgets see the same value the app
     /// is configured with.
     static var sessionDayBoundaryHour: Int {
@@ -28,20 +34,48 @@ nonisolated extension Calendar {
         return stored.flatMap { (0 ... 12).contains($0) ? $0 : nil } ?? 4
     }
 
-    /// Start of the session day containing `date`. If `date.hour` is before
-    /// the configured boundary hour, returns the boundary hour on the previous
-    /// calendar day; otherwise returns the boundary hour on the same day.
-    func sessionDayStart(for date: Date) -> Date {
-        let cutoff = Self.sessionDayBoundaryHour
-        let hour = component(.hour, from: date)
+    /// The journal day containing `date`, as the start of the calendar date it
+    /// is named after. These keys equal `startOfDay(for:)` of that date, so a
+    /// calendar cell or a picked date finds its journal day directly.
+    func journalDay(for date: Date, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Date {
         let midnight = startOfDay(for: date)
-        let cutoffToday = midnight.addingTimeInterval(TimeInterval(cutoff) * 3_600)
-        return hour < cutoff ? cutoffToday.addingTimeInterval(-86_400) : cutoffToday
+        guard boundaryHour > 0, date < journalDayStart(of: midnight, boundaryHour: boundaryHour) else { return midnight }
+        return startOfDay(for: self.date(byAdding: .day, value: -1, to: midnight) ?? midnight.addingTimeInterval(-86_400))
     }
 
-    /// End of the session day containing `date` (start of the next session day).
-    func sessionDayEnd(for date: Date) -> Date {
-        sessionDayStart(for: date).addingTimeInterval(86_400)
+    /// The journal day after `day`, as the start of its calendar date.
+    func journalDay(after day: Date) -> Date {
+        let midnight = startOfDay(for: day)
+        return startOfDay(for: date(byAdding: .day, value: 1, to: midnight) ?? midnight.addingTimeInterval(86_400))
+    }
+
+    /// The instant the journal day named `day` begins: the boundary hour on
+    /// that calendar date, or the next existing time when DST skips it.
+    func journalDayStart(of day: Date, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Date {
+        let midnight = startOfDay(for: day)
+        guard boundaryHour > 0 else { return midnight }
+        return date(bySettingHour: boundaryHour, minute: 0, second: 0, of: midnight)
+            ?? midnight.addingTimeInterval(TimeInterval(boundaryHour) * 3_600)
+    }
+
+    /// Whether the journal day named `day` is the one `now` falls in.
+    func isJournalDayToday(_ day: Date, now: Date = .now, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Bool {
+        startOfDay(for: day) == journalDay(for: now, boundaryHour: boundaryHour)
+    }
+
+    /// Whether the journal day named `day` is the one before `now`'s.
+    func isJournalDayYesterday(_ day: Date, now: Date = .now, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Bool {
+        journalDay(after: day) == journalDay(for: now, boundaryHour: boundaryHour)
+    }
+
+    /// The instant the journal day containing `date` begins.
+    func sessionDayStart(for date: Date, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Date {
+        journalDayStart(of: journalDay(for: date, boundaryHour: boundaryHour), boundaryHour: boundaryHour)
+    }
+
+    /// The instant the journal day containing `date` ends: the next one's start.
+    func sessionDayEnd(for date: Date, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Date {
+        journalDayStart(of: journalDay(after: journalDay(for: date, boundaryHour: boundaryHour)), boundaryHour: boundaryHour)
     }
 
     /// `shortWeekdaySymbols` rotated to start at `firstWeekday`.

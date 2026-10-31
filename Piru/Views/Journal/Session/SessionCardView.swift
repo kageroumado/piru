@@ -90,10 +90,11 @@ struct SessionDay: Identifiable, Equatable {
     init(date: Date, sessions: [SessionCard]) {
         self.date = date
         self.sessions = sessions
+        // `date` names a journal day, so Today is the journal day now falls in.
         let cal = Calendar.current
-        if cal.isDateInToday(date) {
+        if cal.isJournalDayToday(date) {
             dateTitle = String(localized: "Today")
-        } else if cal.isDateInYesterday(date) {
+        } else if cal.isJournalDayYesterday(date) {
             dateTitle = String(localized: "Yesterday")
         } else {
             // The current year is implicit — only show it for other years.

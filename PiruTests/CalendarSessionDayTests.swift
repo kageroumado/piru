@@ -84,6 +84,97 @@ struct CalendarSessionDayTests {
         }
     }
 
+    // MARK: Journal day (kageroumado/piru#23)
+
+    private func calendar(_ zone: String) -> Calendar {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: zone)!
+        return cal
+    }
+
+    private func at(_ cal: Calendar, _ year: Int, _ month: Int, _ day: Int, _ hour: Int, _ minute: Int = 0) -> Date {
+        cal.date(from: DateComponents(year: year, month: month, day: day, hour: hour, minute: minute))!
+    }
+
+    private func midnight(_ cal: Calendar, _ year: Int, _ month: Int, _ day: Int) -> Date {
+        cal.date(from: DateComponents(year: year, month: month, day: day))!
+    }
+
+    @Test
+    func `03:59 belongs to the previous journal day with a 4 AM start`() {
+        let cal = calendar("Europe/Paris")
+        let late = at(cal, 2_026, 10, 30, 3, 59)
+        #expect(cal.journalDay(for: late, boundaryHour: 4) == midnight(cal, 2_026, 10, 29))
+        #expect(cal.sessionDayStart(for: late, boundaryHour: 4) == at(cal, 2_026, 10, 29, 4))
+        #expect(cal.sessionDayEnd(for: late, boundaryHour: 4) == at(cal, 2_026, 10, 30, 4))
+    }
+
+    @Test
+    func `04:00 starts the new journal day`() {
+        let cal = calendar("Europe/Paris")
+        let four = at(cal, 2_026, 10, 30, 4)
+        #expect(cal.journalDay(for: four, boundaryHour: 4) == midnight(cal, 2_026, 10, 30))
+        #expect(cal.sessionDayStart(for: four, boundaryHour: 4) == four)
+    }
+
+    /// Hour 0 is the calendar day: every hour of a date keys to its own midnight.
+    @Test(arguments: [0, 1, 3, 4, 12, 23])
+    func `A midnight day start is the calendar day`(hour: Int) {
+        let cal = calendar("America/New_York")
+        let date = at(cal, 2_026, 6, 10, hour, 30)
+        #expect(cal.journalDay(for: date, boundaryHour: 0) == cal.startOfDay(for: date))
+        #expect(cal.sessionDayStart(for: date, boundaryHour: 0) == cal.startOfDay(for: date))
+    }
+
+    /// US spring-forward, 2026-03-08: 02:00 does not exist, so the day is 23 hours.
+    /// The 4 AM boundary is still 04:00 on the wall clock, three hours after midnight.
+    @Test
+    func `The spring-forward journal day is 23 hours and starts at 04:00 local`() {
+        let cal = calendar("America/New_York")
+        let start = cal.journalDayStart(of: midnight(cal, 2_026, 3, 8), boundaryHour: 4)
+        #expect(cal.component(.hour, from: start) == 4)
+        #expect(start.timeIntervalSince(midnight(cal, 2_026, 3, 8)) == 3 * 3_600)
+        #expect(cal.journalDay(for: at(cal, 2_026, 3, 8, 3, 30), boundaryHour: 4) == midnight(cal, 2_026, 3, 7))
+        #expect(cal.journalDay(for: at(cal, 2_026, 3, 8, 4), boundaryHour: 4) == midnight(cal, 2_026, 3, 8))
+        let noon = at(cal, 2_026, 3, 7, 12)
+        #expect(cal.sessionDayEnd(for: noon, boundaryHour: 4).timeIntervalSince(cal.sessionDayStart(for: noon, boundaryHour: 4)) == 23 * 3_600)
+    }
+
+    /// A boundary hour DST skips moves to the next time that exists.
+    @Test
+    func `A skipped boundary hour starts the day at the next existing time`() {
+        let cal = calendar("America/New_York")
+        let start = cal.journalDayStart(of: midnight(cal, 2_026, 3, 8), boundaryHour: 2)
+        #expect(start == at(cal, 2_026, 3, 8, 3))
+        #expect(cal.journalDay(for: at(cal, 2_026, 3, 8, 1, 59), boundaryHour: 2) == midnight(cal, 2_026, 3, 7))
+        #expect(cal.journalDay(for: start, boundaryHour: 2) == midnight(cal, 2_026, 3, 8))
+    }
+
+    /// US fall-back, 2026-11-01: 01:00–02:00 happens twice, so the day is 25 hours,
+    /// and both 01:30s are still before 04:00.
+    @Test
+    func `The fall-back journal day is 25 hours and both 01:30s stay on the day before`() {
+        let cal = calendar("America/New_York")
+        let firstOneThirty = at(cal, 2_026, 11, 1, 1, 30)
+        let secondOneThirty = firstOneThirty.addingTimeInterval(3_600)
+        #expect(cal.component(.hour, from: secondOneThirty) == 1)
+        #expect(cal.journalDay(for: firstOneThirty, boundaryHour: 4) == midnight(cal, 2_026, 10, 31))
+        #expect(cal.journalDay(for: secondOneThirty, boundaryHour: 4) == midnight(cal, 2_026, 10, 31))
+        let noon = at(cal, 2_026, 10, 31, 12)
+        #expect(cal.sessionDayEnd(for: noon, boundaryHour: 4).timeIntervalSince(cal.sessionDayStart(for: noon, boundaryHour: 4)) == 25 * 3_600)
+        #expect(cal.sessionDayEnd(for: noon, boundaryHour: 4) == at(cal, 2_026, 11, 1, 4))
+    }
+
+    @Test
+    func `Today and Yesterday name journal days`() {
+        let cal = calendar("Asia/Shanghai")
+        let twoAM = at(cal, 2_026, 10, 31, 2)
+        #expect(cal.isJournalDayToday(midnight(cal, 2_026, 10, 30), now: twoAM, boundaryHour: 4))
+        #expect(!cal.isJournalDayToday(midnight(cal, 2_026, 10, 31), now: twoAM, boundaryHour: 4))
+        #expect(cal.isJournalDayYesterday(midnight(cal, 2_026, 10, 29), now: twoAM, boundaryHour: 4))
+        #expect(cal.isJournalDayToday(midnight(cal, 2_026, 10, 31), now: twoAM, boundaryHour: 0))
+    }
+
     /// A Sunday-first calendar is the identity case — this is why the header bug
     /// never showed up in the US.
     @Test

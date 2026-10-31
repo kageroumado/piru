@@ -453,6 +453,7 @@ final class JournalModel {
         searchText: String,
         stackRedoses: Bool,
         revision: Int,
+        dayBoundaryHour: Int,
     ) {
         rebuildGroups(
             entries: entries,
@@ -464,6 +465,7 @@ final class JournalModel {
             filterRoutes: filterRoutes,
             stackRedoses: stackRedoses,
             revision: revision,
+            dayBoundaryHour: dayBoundaryHour,
         )
     }
 
@@ -480,9 +482,12 @@ final class JournalModel {
         filterRoutes: Set<RouteOfAdministration>,
         stackRedoses: Bool,
         revision: Int,
+        dayBoundaryHour: Int = Calendar.sessionDayBoundaryHour,
     ) {
         var sigHasher = Hasher()
         sigHasher.combine(grouping)
+        // The Day Starts At hour moves entries between day headers.
+        sigHasher.combine(dayBoundaryHour)
         sigHasher.combine(groupKey)
         sigHasher.combine(searchText)
         sigHasher.combine(filterTags)
@@ -567,18 +572,10 @@ final class JournalModel {
                 cards.append(SessionCard(session: bucket.session, entries: sessionEntries, states: states, markers: markers))
             }
 
-            // Calendar-display bucketing — deliberately plain `startOfDay`, not
-            // `calendar.sessionDayStart`. The day header names a calendar date
-            // and the cards under it show raw timestamps, so the two must agree:
-            // a fresh 2 AM session under the previous day's header would
-            // contradict its own times. Late-night doses still roll into the
-            // prior evening's card the natural way — gap-based session
-            // clustering keeps them in the session that started that evening.
-            // Session-day bucketing that honors the user's day-cutoff hour
-            // (`sessionDayStart`) lives where days are *counted*, not displayed:
-            // DataExportImport, PDFReportGenerator, ActiveSessionManager, and
-            // the Insights stats.
-            let byDay = Dictionary(grouping: cards) { calendar.startOfDay(for: $0.startDate) }
+            // Each session goes under its start's journal day, so with a 4 AM
+            // day start a session begun at 02:00 sits under the evening before,
+            // as Settings ▸ Journal ▸ Day Starts At promises.
+            let byDay = Dictionary(grouping: cards) { calendar.journalDay(for: $0.startDate, boundaryHour: dayBoundaryHour) }
             sessionDays = byDay.sorted { $0.key > $1.key }.map { day, dayCards in
                 SessionDay(date: day, sessions: dayCards.sorted { $0.startDate > $1.startDate })
             }

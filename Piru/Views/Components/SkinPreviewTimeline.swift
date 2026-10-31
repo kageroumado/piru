@@ -70,7 +70,9 @@ final class SkinPreviewTimeline {
         ) else { return }
         let context = ModelContext(container)
         let calendar = Calendar.current
-        let yesterday = calendar.startOfDay(for: .now).addingTimeInterval(-86400)
+        // The journal day before the current one, which is still running at 02:00.
+        let today = calendar.journalDay(for: .now)
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today) ?? today.addingTimeInterval(-86_400)
         let entries = Self.doses.compactMap { dose -> DoseEntry? in
             guard let timestamp = calendar.date(bySettingHour: dose.hour, minute: dose.minute, second: 0, of: yesterday) else { return nil }
             let entry = DoseEntry(substance: dose.substance, amount: dose.amount, timestamp: timestamp)

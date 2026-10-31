@@ -183,11 +183,12 @@ nonisolated enum SummaryStats {
         start: Date,
         end: Date,
         calendar: Calendar,
+        dayBoundaryHour: Int = Calendar.sessionDayBoundaryHour,
     ) -> JournalSummary {
         JournalSummary(
             substances: substances,
-            holidays: holidays(doses: doses, start: start, end: end, calendar: calendar),
-            exposure: exposure(substances: substances, doses: doses, start: start, end: end, calendar: calendar),
+            holidays: holidays(doses: doses, start: start, end: end, calendar: calendar, boundaryHour: dayBoundaryHour),
+            exposure: exposure(substances: substances, doses: doses, start: start, end: end, calendar: calendar, boundaryHour: dayBoundaryHour),
             escalation: escalation(substances: substances, doses: doses, start: start, end: end),
             overlaps: overlaps(substances: substances, doses: doses, start: start, end: end),
         )
@@ -195,14 +196,15 @@ nonisolated enum SummaryStats {
 
     // MARK: Holidays
 
-    private static func holidays(doses: [SummaryDose], start: Date, end: Date, calendar: Calendar) -> HolidayStats {
-        let startDay = calendar.startOfDay(for: start)
-        let endDay = calendar.startOfDay(for: end)
+    /// Days are journal days (`Calendar.journalDay`).
+    private static func holidays(doses: [SummaryDose], start: Date, end: Date, calendar: Calendar, boundaryHour: Int) -> HolidayStats {
+        let startDay = calendar.journalDay(for: start, boundaryHour: boundaryHour)
+        let endDay = calendar.journalDay(for: end, boundaryHour: boundaryHour)
         let totalDays = max(1, (calendar.dateComponents([.day], from: startDay, to: endDay).day ?? 0) + 1)
 
         var used = Set<Date>()
         for dose in doses where dose.timestamp >= start && dose.timestamp <= end {
-            used.insert(calendar.startOfDay(for: dose.timestamp))
+            used.insert(calendar.journalDay(for: dose.timestamp, boundaryHour: boundaryHour))
         }
 
         var longestBreak = 0
@@ -231,7 +233,7 @@ nonisolated enum SummaryStats {
 
     private static func exposure(
         substances: [SummarySubstance], doses: [SummaryDose],
-        start: Date, end: Date, calendar: Calendar,
+        start: Date, end: Date, calendar: Calendar, boundaryHour: Int,
     ) -> [ExposureStat] {
         let windowDays = max(1.0, end.timeIntervalSince(start) / 86_400)
         var out: [ExposureStat] = []
@@ -248,7 +250,7 @@ nonisolated enum SummaryStats {
                 let value = dose.exposure ?? 0
                 runningTotal += value
                 cumulative.append(ExposureStat.Point(id: i, date: dose.timestamp, total: runningTotal))
-                perDay[calendar.startOfDay(for: dose.timestamp), default: 0] += value
+                perDay[calendar.journalDay(for: dose.timestamp, boundaryHour: boundaryHour), default: 0] += value
             }
             out.append(ExposureStat(
                 substanceIndex: index,

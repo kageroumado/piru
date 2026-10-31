@@ -45,8 +45,9 @@ nonisolated enum TimelineStripCache {
             newestTimestamp: newestTimestamp,
             preferences: preferences,
             // A pinned present keys by its exact time: a strip built for one
-            // stubbed "now" is wrong for any other.
-            day: DebugClock.override ?? Calendar.current.startOfDay(for: now),
+            // stubbed "now" is wrong for any other. The journal day's start
+            // instant also changes with the Day Starts At hour.
+            day: DebugClock.override ?? Calendar.current.sessionDayStart(for: now),
             appBuild: Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "",
         )
     }
