@@ -1,0 +1,120 @@
+{
+  "_meta": {
+    "what": "Safety warnings a pharmacological class declares for its members (class_contexts slugs). Built into `class_warnings`, `class_warning_citations` and `class_warning_exclusions`.",
+    "why": "A substance's own binding rows decide most binding-derived warnings, but the long tail of a class has no rows of its own: 37 of 54 phenethylamine psychedelics and 13 of 14 lysergamides carry no 5-HT2B measurement. A class that the literature shows engages the mechanism declares the warning here, and every member shows it.",
+    "declared": "One entry per (class, kind). `basis` is the evidence in a sentence, for a curator; the app renders its own localized copy. `citations` are the primary sources for the class claim, at least one. `exclude` names a member that does not inherit the warning, with the reason, so a misfiled member or a subfamily the evidence does not cover stays out without leaving the class.",
+    "not_declared": "Classes whose `shared_safety` names the mechanism but which do not declare the warning, each with the reason. The pipeline test requires every class whose shared_safety names 5-HT2B to appear in one of the two lists, so a new class write-up that raises the concern gets a decision rather than silence.",
+    "kinds": {
+      "valvulopathy-5ht2b": "Agonism at the 5-HT2B receptor, the mechanism of drug-induced valvular heart disease. The established human association is with chronic or frequent exposure: fenfluramine, the ergot-derived dopamine agonists pergolide and cabergoline, and heavy MDMA use."
+    }
+  },
+  "declared": [
+    {
+      "class": "methylenedioxy-entactogens",
+      "kind": "valvulopathy-5ht2b",
+      "basis": "MDMA and its active metabolite MDA bind and activate the human 5-HT2B receptor and drive fenfluramine-like mitogenic responses in human valvular interstitial cells (Setola 2003); a later functional assay saw no 5-HT2B activation by MDMA itself but confirmed it for MDA (Rickli 2015, Br J Pharmacol). An echocardiographic case-control study found valvular regurgitation in 8 of 29 MDMA users and none of 29 matched controls (Droogmans 2007).",
+      "citations": [
+        "doi:10.1124/mol.63.6.1223 Setola 2003, Mol Pharmacol",
+        "doi:10.1111/bph.13128 Rickli 2015, Br J Pharmacol",
+        "doi:10.1016/j.amjcard.2007.06.045 Droogmans 2007, Am J Cardiol"
+      ],
+      "exclude": [
+        {
+          "substance": "Myristicin",
+          "reason": "An allylbenzene from nutmeg with no amine, filed with the class as a structural precursor. The cited 5-HT2B evidence is for MDMA and MDA, and no 5-HT2B data exist for myristicin."
+        }
+      ]
+    },
+    {
+      "class": "benzofuran-entactogens",
+      "kind": "valvulopathy-5ht2b",
+      "basis": "Most of the benzofurans tested (5-APB, 5-APDB, 6-APB, 6-APDB, 4-APB, 7-APB, 5-EAPB, 5-MAPDB) were partial agonists at the human 5-HT2B receptor, which the authors name as the heart-valve fibrosis risk; the N-dealkylated metabolites 5-APB and 5-APDB are more potent than their parents (Rickli 2015). The mechanism is the one that made fenfluramine and the ergot drugs valvulopathic (Rothman 2000).",
+      "citations": [
+        "doi:10.1111/bph.13128 Rickli 2015, Br J Pharmacol",
+        "doi:10.1161/01.cir.102.23.2836 Rothman 2000, Circulation"
+      ],
+      "exclude": [
+        {
+          "substance": "Dimemebfe",
+          "reason": "A benzofuran analogue of 5-MeO-DMT rather than an aminopropylbenzofuran. The cited functional data cover the APB/APDB series only."
+        }
+      ]
+    },
+    {
+      "class": "serotonergic-phenethylamine-psychedelics",
+      "kind": "valvulopathy-5ht2b",
+      "basis": "Every 2C drug and NBOMe derivative tested activated the human 5-HT2B receptor at EC50 below 1 µM, except 2C-H, mescaline and mescaline-NBOMe, and the authors flag cardiac toxicity with chronic use (Rickli 2015). The mechanism is the fenfluramine one (Rothman 2000).",
+      "citations": [
+        "doi:10.1016/j.neuropharm.2015.08.034 Rickli 2015, Neuropharmacology",
+        "doi:10.1161/01.cir.102.23.2836 Rothman 2000, Circulation"
+      ],
+      "exclude": [
+        {
+          "substance": "Escaline",
+          "reason": "A mescaline analogue. Mescaline is the exception in the cited assay (5-HT2B EC50 above 1 µM), and escaline's own 5-HT2B row sits below the moderate band."
+        },
+        {
+          "substance": "Methallylescaline",
+          "reason": "A mescaline analogue. Mescaline is the exception in the cited assay (5-HT2B EC50 above 1 µM), and its own 5-HT2B row sits below the moderate band."
+        },
+        {
+          "substance": "Proscaline",
+          "reason": "A mescaline analogue. Mescaline is the exception in the cited assay (5-HT2B EC50 above 1 µM); no proscaline data exist."
+        },
+        {
+          "substance": "Isoproscaline",
+          "reason": "A mescaline analogue. Mescaline is the exception in the cited assay (5-HT2B EC50 above 1 µM); no isoproscaline data exist."
+        },
+        {
+          "substance": "Lophophine",
+          "reason": "A mescaline-type 3,4,5-substituted phenethylamine. Mescaline is the exception in the cited assay (5-HT2B EC50 above 1 µM); no lophophine data exist."
+        },
+        {
+          "substance": "Endomorphin-1",
+          "reason": "An endogenous µ-opioid peptide, filed in this class by a data error. It has no 5-HT2B activity."
+        }
+      ]
+    },
+    {
+      "class": "ergolines-lysergamides",
+      "kind": "valvulopathy-5ht2b",
+      "basis": "LSD is a partial agonist at the 5-HT2B receptor (Tagen 2023). The ergolines are the class with the strongest human evidence: ergotamine and methysergide's metabolite methylergonovine are 5-HT2B agonists (Rothman 2000), and the ergot-derived dopamine agonists pergolide and cabergoline raised the rate of cardiac-valve regurgitation in a population cohort (Schade 2007).",
+      "citations": [
+        "doi:10.1177/02698811231190865 Tagen 2023, J Psychopharmacol",
+        "doi:10.1161/01.cir.102.23.2836 Rothman 2000, Circulation",
+        "doi:10.1056/nejmoa062222 Schade 2007, N Engl J Med"
+      ]
+    },
+    {
+      "class": "4-substituted-tryptamines-psilocin-family",
+      "kind": "valvulopathy-5ht2b",
+      "basis": "Psilocin binds the 5-HT2B receptor with potency equal to or greater than at 5-HT2A and is a partial agonist there; a review of LSD, psilocybin, mescaline, DMT and MDMA judges valvular heart disease a potential risk of chronic microdosing, with no animal or clinical study designed to measure it (Tagen 2023). 4-OH-DiPT activates 5-HT2B below 1 µM (Rickli 2016).",
+      "citations": [
+        "doi:10.1177/02698811231190865 Tagen 2023, J Psychopharmacol",
+        "doi:10.1016/j.euroneuro.2016.05.001 Rickli 2016, Eur Neuropsychopharmacol"
+      ]
+    }
+  ],
+  "not_declared": [
+    {
+      "class": "amphetamine-monoamine-releasers",
+      "kind": "valvulopathy-5ht2b",
+      "reason": "The class is heterogeneous at 5-HT2B. Phentermine has no 5-HT2B activity and caused no valvulopathy, while fenfluramine's metabolite norfenfluramine is the archetypal agonist (Rothman 2000). The risk is carried substance by substance, by each member's own binding rows."
+    },
+    {
+      "class": "phenylmorpholine-releasers",
+      "kind": "valvulopathy-5ht2b",
+      "reason": "The write-up raises the concern for MDMA-like analogues such as 4-MPM only. No 5-HT2B functional data exist for phenmetrazine or its analogues."
+    },
+    {
+      "class": "aminoindane-entactogens",
+      "kind": "valvulopathy-5ht2b",
+      "reason": "The write-up says agonism is 'likely retained by class', which is an inference. No published functional 5-HT2B data exist for 5-IAI, 5-APDI or NM-2-AI; MEAI showed only weak-to-moderate binding (Shimshoni 2018)."
+    },
+    {
+      "class": "alpha-alkyl-tryptamines",
+      "kind": "valvulopathy-5ht2b",
+      "reason": "The write-up draws the analogy to fenfluramine and MDMA, but no 5-HT2B functional data exist for αMT or αET."
+    }
+  ]
+}

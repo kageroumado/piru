@@ -242,13 +242,8 @@ struct PharmacologyCard: View {
 
     @ViewBuilder
     private func flags(_ profile: MonoamineProfile) -> some View {
-        if profile.engages5HT2B {
-            flag(
-                icon: "heart.text.square",
-                tint: .cautionText,
-                text: "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use.",
-            )
-        }
+        // No 5-HT2B flag here: that is the page-level ``ValvularWarning``, which
+        // has to show on substances this card is never built for.
         if profile.misSoldAsMDMA {
             flag(
                 icon: "exclamationmark.triangle.fill",

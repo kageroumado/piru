@@ -2541,10 +2541,24 @@ T = {
     # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
     "Renal excretion": ("经肾排泄", "經腎排泄"),
     "Biliary excretion": ("经胆汁排泄", "經膽汁排泄"),
-    # 5-HT2B valvulopathy flag — plain, drug-relevant copy (dropped fenfluramine / "mechanistic flag").
-    "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use.": (
-        "激活 5-HT2B；长期或大量使用与心脏瓣膜损害（瓣膜病变）相关。",
-        "活化 5-HT2B；長期或大量使用與心臟瓣膜損害（瓣膜病變）相關。",
+    # The substance page's 5-HT2B heart-valve warning (ValvularWarningBanner). The class
+    # sentence's argument is the class's English display name.
+    "Heart-valve risk with repeated use": ("反复使用的心脏瓣膜风险", "反覆使用的心臟瓣膜風險"),
+    "Activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).": (
+        "激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。",
+        "活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。",
+    ),
+    "Its active metabolite %@ activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).": (
+        "其活性代谢物 %@ 会激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。",
+        "其活性代謝物 %@ 會活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。",
+    ),
+    "%@ as a class activate the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).": (
+        "%@ 这一类药物会激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。",
+        "%@ 這一類藥物會活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。",
+    ),
+    "The documented cases come from chronic or frequent use: fenfluramine, the ergot drugs pergolide and cabergoline, and heavy MDMA use.": (
+        "已记录的病例都来自长期或频繁使用：芬氟拉明、麦角类药物培高利特和卡麦角林，以及大量使用 MDMA。",
+        "已記錄的病例都來自長期或頻繁使用：芬氟拉明、麥角類藥物培高利特和卡麥角林，以及大量使用 MDMA。",
     ),
     # Pharmacology card harmony pass — round 3 (2026-06-28): receptor strength help-sheet copy now
     # spells out the measurement-aware bands.
@@ -8893,6 +8907,15 @@ if __name__ == "__main__":
         }
     )
 
+    NEW_KEYS.update(
+        {
+            "Heart-valve risk with repeated use",
+            "Its active metabolite %@ activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).",
+            "Activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).",
+            "%@ as a class activate the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).",
+            "The documented cases come from chronic or frequent use: fenfluramine, the ergot drugs pergolide and cabergoline, and heavy MDMA use.",
+        }
+    )
     NEW_KEYS.add("^[%lld result](inflect: true)")
     NEW_KEYS.add("Bar: participant range; dot: mean.")
     NEW_KEYS.update({"h", "modeled at %@"})

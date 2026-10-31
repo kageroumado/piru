@@ -139,6 +139,7 @@ struct SubstanceDetailLayout: View {
             substance: substance,
             policy: policy,
             accent: substance.category.color,
+            valvularWarning: model.valvularWarning,
         )
 
         // Peptide protocol/reconstitution (self-hides for non-peptides).

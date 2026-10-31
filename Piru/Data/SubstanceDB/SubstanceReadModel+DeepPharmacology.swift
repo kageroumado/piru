@@ -80,6 +80,27 @@ nonisolated struct ClassContext: Hashable {
     }
 }
 
+/// A safety warning the substance's class declares for its members — one
+/// `class_warnings` row that reaches this substance, with the work it rests on.
+///
+/// Reaches the members with no rows of their own: most of a class has never
+/// been assayed, and a warning read from bindings alone never shows on them.
+nonisolated struct ClassWarning: Hashable {
+    /// The closed vocabulary the pipeline writes (`valvulopathy-5ht2b`).
+    let kind: String
+    let classSlug: String
+    /// The class's display name, as data: "Phenethylamine psychedelics".
+    let classTitle: String
+    let references: [ClassContext.Reference]
+}
+
+/// An active metabolite we carry as a substance, with its own binding rows —
+/// what lets a parent inherit a receptor-derived warning its own rows miss.
+nonisolated struct MetaboliteBindings: Hashable {
+    let name: String
+    let bindings: [BindingHit]
+}
+
 nonisolated struct ClassContextSummary: Identifiable, Hashable {
     var id: String {
         slug
@@ -436,6 +457,82 @@ extension SubstanceReadModel {
         )
     }
 
+    /// The warnings every class the substance belongs to declares, minus the ones
+    /// whose declaration excludes it by name (a misfiled member, or a subfamily
+    /// the cited evidence leaves out).
+    func classWarnings(substanceID: Int64) -> [ClassWarning] {
+        do {
+            return try db.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT w.id, w.kind, c.slug, c.display_name
+                      FROM class_warnings w
+                      JOIN substance_classes sc ON sc.class_context_id = w.class_context_id
+                      JOIN class_contexts c ON c.id = w.class_context_id
+                     WHERE sc.substance_id = :substance
+                       AND NOT EXISTS (
+                           SELECT 1 FROM class_warning_exclusions x
+                            WHERE x.class_warning_id = w.id AND x.substance_id = :substance)
+                     ORDER BY c.display_name, w.kind
+                """, arguments: ["substance": substanceID]).map { row in
+                    let warningID: Int64 = row["id"]
+                    let references = try Row.fetchAll(db, sql: """
+                        SELECT ci.id, ci.title, ci.doi, ci.pmid, ci.url
+                          FROM class_warning_citations wc
+                          JOIN citations ci ON ci.id = wc.citation_id
+                         WHERE wc.class_warning_id = ?
+                         ORDER BY ci.year DESC NULLS LAST, ci.id
+                    """, arguments: [warningID]).map {
+                        ClassContext.Reference(
+                            id: $0["id"],
+                            title: $0["title"],
+                            doi: $0["doi"],
+                            pmid: ($0["pmid"] as Int64?).map(Int.init),
+                            url: $0["url"],
+                        )
+                    }
+                    return ClassWarning(
+                        kind: row["kind"],
+                        classSlug: row["slug"],
+                        classTitle: row["display_name"],
+                        references: references,
+                    )
+                }
+            }
+        } catch {
+            Logger.substanceStore.error("classWarnings(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
+    /// The active metabolites the substance is recorded to form that we carry as
+    /// substances (`metabolism.metabolite_substance_id`), each with its own binding
+    /// rows: fenfluramine → norfenfluramine, MDMA → MDA. One entry per metabolite,
+    /// in name order.
+    func activeMetaboliteBindings(substanceID: Int64) -> [MetaboliteBindings] {
+        do {
+            let metabolites = try db.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT DISTINCT m.metabolite_substance_id AS id, s.canonical_name
+                      FROM metabolism m
+                      JOIN substances s ON s.id = m.metabolite_substance_id
+                     WHERE m.substance_id = ?
+                       AND m.metabolite_active = 1
+                       AND m.metabolite_substance_id != m.substance_id
+                     ORDER BY s.canonical_name
+                """, arguments: [substanceID]).map { (id: $0["id"] as Int64, name: $0["canonical_name"] as String) }
+            }
+            return metabolites.map {
+                MetaboliteBindings(
+                    name: $0.name,
+                    bindings: SubstanceReadModel.bindingRows(substanceID: $0.id, db: db),
+                )
+            }
+        } catch {
+            Logger.substanceStore.error("activeMetaboliteBindings failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
     private func loadClassContext(
         matching predicate: String,
         argument: DatabaseValueConvertible,
@@ -744,6 +841,16 @@ extension SubstanceStore {
     func classContext(forSubstanceName name: String) -> ClassContext? {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
         return reader.classContext(substanceID: substanceID)
+    }
+
+    func classWarnings(forSubstanceName name: String) -> [ClassWarning] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.classWarnings(substanceID: substanceID)
+    }
+
+    func activeMetaboliteBindings(forSubstanceName name: String) -> [MetaboliteBindings] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.activeMetaboliteBindings(substanceID: substanceID)
     }
 
     func concentrationThresholds(forSubstanceName name: String) -> [ConcentrationThreshold] {

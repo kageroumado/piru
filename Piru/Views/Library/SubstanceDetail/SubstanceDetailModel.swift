@@ -90,6 +90,10 @@ final class SubstanceDetailModel {
     /// DA↔5-HT character / releaser-blocker card, derived from the bindings.
     var monoamineProfile: MonoamineProfile?
 
+    /// The heart-valve warning — the substance's own 5-HT2B bindings or its
+    /// class's declaration. Loaded at every tier, like a boxed warning.
+    var valvularWarning: ValvularWarning?
+
     /// The class signature for the Pharmacology card — the gated comparison that says where this
     /// compound sits among the ones it is actually comparable to (efficacy axis / 5-HT balance /
     /// transporter ternary), or the stated absence when nothing passed the gate. `nil` for classes
@@ -147,6 +151,7 @@ final class SubstanceDetailModel {
         contraceptionCaution = MetabolicModulation.contraceptiveEfficacyCaution(
             forSubstance: substanceName, in: store.enzymeModulators(),
         )
+        valvularWarning = SubstanceLibrary.valvularWarning(for: substanceName)
 
         // Binding rows feed two surfaces: the pharma-nerd "Receptor Literature"
         // list AND the broader "Monoamine Profile" card. The card loads for the

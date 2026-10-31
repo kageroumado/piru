@@ -42,7 +42,6 @@ struct MonoamineProfileTests {
         // Mid spectrum, not at an extreme.
         let pos = try #require(p.leanPosition)
         #expect(pos > 0.25 && pos < 0.6)
-        #expect(!p.engages5HT2B)
         #expect(!p.misSoldAsMDMA)
     }
 
@@ -62,7 +61,7 @@ struct MonoamineProfileTests {
     }
 
     @Test
-    func `a serotonin-leaning benzofuran with a 5-HT2B agonist row sits left and flags valvulopathy`() throws {
+    func `a serotonin-leaning benzofuran with a 5-HT2B agonist row sits left`() throws {
         let rows = [
             bind("DAT", "releasingAgent", ec50: 31),
             bind("NET", "releasingAgent", ec50: 21),
@@ -73,7 +72,7 @@ struct MonoamineProfileTests {
         // DAT:SERT = 19/31 ≈ 0.61 < 0.8 → serotonin-leaning, left of center.
         let pos = try #require(p.leanPosition)
         #expect(pos < 0.25)
-        #expect(p.engages5HT2B)
+        #expect(ValvularWarning.engagesAntitarget(rows))
     }
 
     /// The flag only fires for a **blocker**: the warning is about the mismatch between what the pill is

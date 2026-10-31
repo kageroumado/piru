@@ -1791,6 +1791,35 @@
         }
       }
     },
+    "%@ as a class activate the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy)." : {
+      "comment" : "The argument is a drug class's English name, plural (Phenethylamine psychedelics).",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, como clase, activan el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía)."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, como clase, activan el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía)."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 这一类药物会激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 這一類藥物會活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。"
+          }
+        }
+      }
+    },
     "%@ at %@" : {
       "comment" : "Efficacy axis accessibility value for the focused substance",
       "localizations" : {
@@ -11714,6 +11743,7 @@
       }
     },
     "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -11737,6 +11767,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "活化 5-HT2B；長期或大量使用與心臟瓣膜損害（瓣膜病變）相關。"
+          }
+        }
+      }
+    },
+    "Activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activa el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía)."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activa el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía)."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。"
           }
         }
       }
@@ -43636,6 +43694,34 @@
         }
       }
     },
+    "Heart-valve risk with repeated use" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesgo para las válvulas cardíacas con el uso repetido"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesgo para las válvulas cardíacas con el uso repetido"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反复使用的心脏瓣膜风险"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反覆使用的心臟瓣膜風險"
+          }
+        }
+      }
+    },
     "heavy" : {
       "localizations" : {
         "es" : {
@@ -48490,6 +48576,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這一場已經持續了很長時間。你的身體和大腦需要睡眠來恢復。試著放鬆一下。"
+          }
+        }
+      }
+    },
+    "Its active metabolite %@ activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy)." : {
+      "comment" : "The argument is the metabolite's English name (Norfenfluramine).",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su metabolito activo, %@, activa el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía)."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su metabolito activo, %@, activa el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía)."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其活性代谢物 %@ 会激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其活性代謝物 %@ 會活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。"
           }
         }
       }
@@ -88839,6 +88954,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "去甲基代謝物將氯丙咪嗪強烈的血清素能作用向正腎上腺素方向轉移，因此兩者的作用並不完全相同。隨著代謝物蓄積，平衡發生變化。"
+          }
+        }
+      }
+    },
+    "The documented cases come from chronic or frequent use: fenfluramine, the ergot drugs pergolide and cabergoline, and heavy MDMA use." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los casos documentados provienen del uso crónico o frecuente: la fenfluramina, los ergóticos pergolida y cabergolina, y el consumo intenso de MDMA."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los casos documentados provienen del uso crónico o frecuente: la fenfluramina, los ergóticos pergolida y cabergolina, y el consumo intenso de MDMA."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已记录的病例都来自长期或频繁使用：芬氟拉明、麦角类药物培高利特和卡麦角林，以及大量使用 MDMA。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已記錄的病例都來自長期或頻繁使用：芬氟拉明、麥角類藥物培高利特和卡麥角林，以及大量使用 MDMA。"
           }
         }
       }

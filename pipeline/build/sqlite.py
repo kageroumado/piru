@@ -2240,6 +2240,39 @@ CREATE TABLE class_citations (
     PRIMARY KEY (class_context_id, citation_id)
 );
 
+-- A safety warning a class declares for every member, from
+-- data/curated/class-warnings.json. It reaches the substances with no rows of
+-- their own: 37 of 54 phenethylamine psychedelics carry no 5-HT2B measurement,
+-- so a warning derived from bindings alone never shows on them.
+--
+-- `kind` is a closed vocabulary the app switches on ('valvulopathy-5ht2b').
+-- `basis` is the evidence in English, for a curator; the app renders its own
+-- localized sentence. Every row carries at least one citation.
+CREATE TABLE class_warnings (
+    id               INTEGER PRIMARY KEY,
+    class_context_id INTEGER NOT NULL REFERENCES class_contexts(id),
+    kind             TEXT NOT NULL,
+    basis            TEXT NOT NULL,
+    source_id        INTEGER REFERENCES sources(id),
+    UNIQUE (class_context_id, kind)
+);
+
+CREATE TABLE class_warning_citations (
+    class_warning_id INTEGER NOT NULL REFERENCES class_warnings(id),
+    citation_id      INTEGER NOT NULL REFERENCES citations(id),
+    PRIMARY KEY (class_warning_id, citation_id)
+);
+
+-- Members a declared warning does not reach: a misfiled member, or a subfamily
+-- the cited evidence leaves out (mescaline is the exception among the
+-- phenethylamines, so the scalines do not inherit the 5-HT2B warning).
+CREATE TABLE class_warning_exclusions (
+    class_warning_id INTEGER NOT NULL REFERENCES class_warnings(id),
+    substance_id     INTEGER NOT NULL REFERENCES substances(id),
+    reason           TEXT NOT NULL,
+    PRIMARY KEY (class_warning_id, substance_id)
+);
+
 -- Class-pair interaction rules: which two DrugClass values interact and how
 -- badly. Two layers land here, curated FIRST so it wins the UNIQUE pair —
 -- data/curated/interaction-rules.json carries adjudications that deliberately
@@ -12760,6 +12793,69 @@ class Build:
                 stats["inserted"] += 1
         return stats
 
+    def ingest_class_warnings(self) -> dict[str, int]:
+        """Fill `class_warnings` and its citation / exclusion tables from
+        data/curated/class-warnings.json.
+
+        Runs after class memberships are pruned and substance ids are final, so an
+        exclusion resolves against the membership that ships. A declaration naming
+        a class the build does not carry, or one without a citation, stops the
+        build: a warning that silently fails to land is the defect this table
+        exists to close. An exclusion naming a substance that is no longer a
+        member is counted as stale; the pipeline test fails on it.
+        """
+        path = CURATED_DIR.parent / "class-warnings.json"
+        stats = {"warnings": 0, "citations": 0, "exclusions": 0, "stale_exclusions": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids["piru-curated"]
+        for entry in payload.get("declared", []):
+            slug, kind = entry["class"], entry["kind"]
+            row = self.cur.execute(
+                "SELECT id FROM class_contexts WHERE slug = ?", (slug,)
+            ).fetchone()
+            if row is None:
+                raise SystemExit(f"class-warnings.json: no class context '{slug}'")
+            citations = [
+                cid for cid in (self.cite(ref) for ref in entry.get("citations") or []) if cid
+            ]
+            if not citations:
+                raise SystemExit(
+                    f"class-warnings.json: '{slug}' / {kind} has no resolvable citation"
+                )
+            self.cur.execute(
+                "INSERT INTO class_warnings(class_context_id, kind, basis, source_id) VALUES (?, ?, ?, ?)",
+                (row[0], kind, entry["basis"], source_id),
+            )
+            warning_id = self.cur.lastrowid
+            stats["warnings"] += 1
+            for cid in dict.fromkeys(citations):
+                self.cur.execute(
+                    "INSERT INTO class_warning_citations(class_warning_id, citation_id) VALUES (?, ?)",
+                    (warning_id, cid),
+                )
+                stats["citations"] += 1
+            for excluded in entry.get("exclude") or []:
+                sid = index.get(normalise(excluded["substance"]))
+                member = (
+                    sid is not None
+                    and self.cur.execute(
+                        "SELECT 1 FROM substance_classes WHERE substance_id = ? AND class_context_id = ?",
+                        (sid, row[0]),
+                    ).fetchone()
+                )
+                if not member:
+                    stats["stale_exclusions"] += 1
+                    continue
+                self.cur.execute(
+                    "INSERT INTO class_warning_exclusions(class_warning_id, substance_id, reason) VALUES (?, ?, ?)",
+                    (warning_id, sid, excluded["reason"]),
+                )
+                stats["exclusions"] += 1
+        return stats
+
     def ingest_enzyme_modulators(self) -> dict[str, int]:
         """Fill `enzyme_modulators` + its matcher rows from curated JSON.
 
@@ -14486,6 +14582,7 @@ class Build:
             "tags",
             "substance_citations",
             "substance_classes",
+            "class_warning_exclusions",
         }
         all_tnames = [
             r[0]
@@ -16047,6 +16144,9 @@ def main() -> int:
     substance_flags = build.ingest_substance_flags()
     print(f"Substance flags: {substance_flags}", file=sys.stderr)
 
+    class_warnings = build.ingest_class_warnings()
+    print(f"Class warnings: {class_warnings}", file=sys.stderr)
+
     regional_names = build.populate_regional_names()
     print(f"Regional names: {regional_names}", file=sys.stderr)
 
@@ -16371,6 +16471,8 @@ def main() -> int:
         "off_targets",
         "class_contexts",
         "substance_classes",
+        "class_warnings",
+        "class_warning_exclusions",
         "molecule_shapes",
         "class_reference_compounds",
         "class_representatives",

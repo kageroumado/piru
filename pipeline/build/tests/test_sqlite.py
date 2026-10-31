@@ -4465,8 +4465,120 @@ class TestSignatureGates(unittest.TestCase):
         )
 
 
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
+class TestClassWarnings(unittest.TestCase):
+    """`class_warnings` against `data/curated/class-warnings.json` and the class
+    write-ups. The 5-HT2B warning used to live on the monoamine card only, so 17
+    of the 22 substances whose bindings engage the receptor never showed it; the
+    class declaration is what reaches the members with no rows of their own."""
+
+    KIND = "valvulopathy-5ht2b"
+
+    @classmethod
+    def setUpClass(cls):
+        p = _REPO / "Piru/Data/piru-substances.sqlite"
+        if not p.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(p)
+        cls.curated = _load_curated("class-warnings")
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.close()
+
+    def _decided(self) -> set[str]:
+        lists = self.curated.get("declared", []) + self.curated.get("not_declared", [])
+        return {e["class"] for e in lists if e["kind"] == self.KIND}
+
+    def test_every_class_whose_safety_names_5ht2b_has_a_decision(self):
+        """A class write-up that raises the valve concern either declares the
+        warning or says why not — never silence."""
+        naming = {
+            slug
+            for (slug, safety) in self.db.execute(
+                "SELECT slug, shared_safety FROM class_contexts WHERE shared_safety IS NOT NULL"
+            )
+            if re.search(r"5-?HT\(?2B", safety, re.IGNORECASE)
+        }
+        self.assertTrue(naming, "no class write-up names 5-HT2B; the check is reading nothing")
+        undecided = sorted(naming - self._decided())
+        self.assertEqual(
+            undecided, [], f"declare or list under not_declared in class-warnings.json: {undecided}"
+        )
+
+    def test_every_declaration_landed_with_a_citation(self):
+        declared = {e["class"] for e in self.curated["declared"] if e["kind"] == self.KIND}
+        rows = dict(
+            self.db.execute(
+                "SELECT cc.slug, (SELECT COUNT(*) FROM class_warning_citations c"
+                "                  WHERE c.class_warning_id = w.id)"
+                "  FROM class_warnings w JOIN class_contexts cc ON cc.id = w.class_context_id"
+                " WHERE w.kind = ?",
+                (self.KIND,),
+            ).fetchall()
+        )
+        self.assertEqual(set(rows), declared)
+        uncited = sorted(slug for slug, n in rows.items() if n == 0)
+        self.assertEqual(uncited, [], f"class warnings without a citation: {uncited}")
+
+    def test_not_declared_classes_carry_no_warning_and_give_a_reason(self):
+        for entry in self.curated["not_declared"]:
+            self.assertTrue(entry.get("reason", "").strip(), f"{entry['class']} gives no reason")
+            row = self.db.execute(
+                "SELECT 1 FROM class_warnings w JOIN class_contexts cc ON cc.id = w.class_context_id"
+                " WHERE cc.slug = ? AND w.kind = ?",
+                (entry["class"], entry["kind"]),
+            ).fetchone()
+            self.assertIsNone(
+                row, f"{entry['class']} is listed as not declared but carries the warning"
+            )
+
+    def test_every_curated_exclusion_resolves_to_a_member(self):
+        """An exclusion naming a substance that left the class is stale: the
+        build counts it and skips it, and this keeps the file from rotting."""
+        expected = sum(len(e.get("exclude") or []) for e in self.curated["declared"])
+        landed = self.db.execute("SELECT COUNT(*) FROM class_warning_exclusions").fetchone()[0]
+        self.assertEqual(
+            landed, expected, "a class-warnings.json exclusion is not a member any more"
+        )
+        for excluded in self.curated["declared"]:
+            for item in excluded.get("exclude") or []:
+                self.assertTrue(
+                    item.get("reason", "").strip(), f"{item['substance']} gives no reason"
+                )
+
+    def test_kinds_are_a_closed_vocabulary(self):
+        known = set(self.curated["_meta"]["kinds"])
+        kinds = {k for (k,) in self.db.execute("SELECT DISTINCT kind FROM class_warnings")}
+        self.assertLessEqual(kinds, known)
+
+    def test_the_lysergamides_and_phenethylamines_reach_their_unmeasured_members(self):
+        """The audit's examples: LSD-family and NBOMe/DOx members with no 5-HT2B
+        row of their own now carry the warning through their class."""
+        rows = {
+            name
+            for (name,) in self.db.execute(
+                "SELECT s.canonical_name FROM class_warnings w"
+                "  JOIN substance_classes sc ON sc.class_context_id = w.class_context_id"
+                "  JOIN substances s ON s.id = sc.substance_id"
+                " WHERE w.kind = ? AND NOT EXISTS ("
+                "   SELECT 1 FROM class_warning_exclusions x"
+                "    WHERE x.class_warning_id = w.id AND x.substance_id = s.id)",
+                (self.KIND,),
+            )
+        }
+        for name in (
+            "1P-LSD",
+            "ALD-52",
+            "25B-NBOH",
+            "25G-NBOMe",
+            "2C-D",
+            "4-AcO-DMT",
+            "MDMA",
+            "5-MAPB",
+        ):
+            self.assertIn(name, rows)
+        for name in ("Escaline", "Endomorphin-1", "Myristicin", "Amphetamine", "Phentermine"):
+            self.assertNotIn(name, rows)
 
 
 class TestNextContentVersion(unittest.TestCase):
@@ -4483,3 +4595,7 @@ class TestNextContentVersion(unittest.TestCase):
 
     def test_garbled_suffix_restarts(self):
         self.assertEqual(_mod.next_content_version("2026-09-01", "2026-09-01.x"), "2026-09-01.0")
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

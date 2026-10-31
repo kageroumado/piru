@@ -48071,6 +48071,39 @@
     ]
   },
   {
+    "name": "Norfenfluramine",
+    "display_name": "",
+    "aliases": [
+      "Desethylfenfluramine",
+      "dl-Norfenfluramine"
+    ],
+    "category": "Empathogen",
+    "display_class": "recreational",
+    "tags": [
+      "amphetamine",
+      "metabolite",
+      "no-human-data"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "Evidence for possible involvement of 5-HT(2B) receptors in the cardiac valvulopathy associated with fenfluramine and other serotonergic medications"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
+  },
+  {
     "name": "Norflurazepam",
     "display_name": "",
     "aliases": [
