@@ -618,6 +618,11 @@
     "status": 200,
     "checked": "2026-10-31"
   },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9822ca3f-aee2-46e5-8a96-495400e65d10": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-31"
+  },
   "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=98ad1917-a094-44f5-a28f-a64a8cfcd887": {
     "verdict": "ok",
     "status": 200,
@@ -704,6 +709,11 @@
     "checked": "2026-10-31"
   },
   "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b891bd9f-fdb8-4862-89c5-ecdd700398a3": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-31"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b8e48063-0b40-ee43-85c1-4ef2de80c404": {
     "verdict": "ok",
     "status": 200,
     "checked": "2026-10-31"
@@ -2414,17 +2424,17 @@
     "status": 403,
     "checked": "2026-10-31"
   },
-  "https://doi.org/10.1002/1873-3468.12649": {
-    "verdict": "unknown",
-    "status": 403,
-    "checked": "2026-10-31"
-  },
   "https://doi.org/10.1002/ana.410130213": {
     "verdict": "unknown",
     "status": 403,
     "checked": "2026-10-31"
   },
   "https://doi.org/10.1002/ana.410180107": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-10-31"
+  },
+  "https://doi.org/10.1002/bdd.336": {
     "verdict": "unknown",
     "status": 403,
     "checked": "2026-10-31"
@@ -2540,9 +2550,10 @@
     "checked": "2026-10-31"
   },
   "https://doi.org/10.1002/dta.1707": {
-    "verdict": "unknown",
-    "status": 403,
-    "checked": "2026-10-31"
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-31",
+    "final_url": "https://analyticalsciencejournals.onlinelibrary.wiley.com/doi/10.1002/dta.1707"
   },
   "https://doi.org/10.1002/dta.1881": {
     "verdict": "unknown",
@@ -5332,12 +5343,6 @@
     "status": 403,
     "checked": "2026-10-31"
   },
-  "https://doi.org/10.1093/ajcn/78.6.1225": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31",
-    "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0002916522034621"
-  },
   "https://doi.org/10.1093/ajhp/57.16.1499": {
     "verdict": "unknown",
     "status": 403,
@@ -5485,12 +5490,6 @@
     "status": 200,
     "checked": "2026-10-31",
     "final_url": "https://journals.lww.com/anesthesiology/abstract/10.1097/00000542-199006000-00007~a-comparison-of-washed-red-blood-cells-versus-packed-red?redirectionsource=fulltextview"
-  },
-  "https://doi.org/10.1097/00000542-199310000-00003": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31",
-    "final_url": "https://www.ovid.com/jnls/anesthesiology/abstract/10.1097/00000542-199310000-00003~asa-award?redirectionsource=fulltextview"
   },
   "https://doi.org/10.1097/00000542-200304000-00033": {
     "verdict": "ok",
@@ -6652,12 +6651,6 @@
     "checked": "2026-10-31",
     "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S1347436715307497"
   },
-  "https://doi.org/10.2147/ccid.s50046": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31",
-    "final_url": "https://www.dovepress.com/fibroblasts-and-myofibroblasts-in-wound-healing-peer-reviewed-fulltext-article-CCID"
-  },
   "https://doi.org/10.2147/cpaa.s119676": {
     "verdict": "ok",
     "status": 200,
@@ -6789,18 +6782,6 @@
     "status": 200,
     "checked": "2026-10-31",
     "final_url": "https://link.springer.com/article/10.2165/00003088-199529050-00002?error=cookies_not_supported&code=6b11849b-4e68-43e8-9044-57b6c7da0f59"
-  },
-  "https://doi.org/10.2165/00003088-199630050-00001": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31",
-    "final_url": "https://link.springer.com/article/10.2165/00003088-199630050-00001?error=cookies_not_supported&code=cf83333f-0f56-452a-80e2-bb323918eefd"
-  },
-  "https://doi.org/10.2165/00003088-199936050-00003": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31",
-    "final_url": "https://link.springer.com/article/10.2165/00003088-199936050-00003?error=cookies_not_supported&code=fd1042b3-a6bc-4c0b-99de-384f75d59da4"
   },
   "https://doi.org/10.2165/00003088-199937030-00001": {
     "verdict": "ok",
@@ -12066,8 +12047,8 @@
     "checked": "2026-10-31"
   },
   "https://ods.od.nih.gov/factsheets/VitaminE-HealthProfessional/": {
-    "verdict": "unknown",
-    "status": 403,
+    "verdict": "ok",
+    "status": 200,
     "checked": "2026-10-31"
   },
   "https://ods.od.nih.gov/factsheets/VitaminK-HealthProfessional/": {
@@ -12116,11 +12097,6 @@
     "checked": "2026-10-31"
   },
   "https://pubmed.ncbi.nlm.nih.gov/10376760/": {
-    "verdict": "ok",
-    "status": 203,
-    "checked": "2026-10-31"
-  },
-  "https://pubmed.ncbi.nlm.nih.gov/10384858/": {
     "verdict": "ok",
     "status": 203,
     "checked": "2026-10-31"
@@ -12530,6 +12506,11 @@
     "status": 200,
     "checked": "2026-10-31"
   },
+  "https://pubmed.ncbi.nlm.nih.gov/12516077/": {
+    "verdict": "ok",
+    "status": 203,
+    "checked": "2026-10-31"
+  },
   "https://pubmed.ncbi.nlm.nih.gov/12520625/": {
     "verdict": "ok",
     "status": 200,
@@ -12676,11 +12657,6 @@
     "checked": "2026-10-31"
   },
   "https://pubmed.ncbi.nlm.nih.gov/14654093/": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31"
-  },
-  "https://pubmed.ncbi.nlm.nih.gov/14668287/": {
     "verdict": "ok",
     "status": 200,
     "checked": "2026-10-31"
@@ -13056,6 +13032,11 @@
     "checked": "2026-10-31"
   },
   "https://pubmed.ncbi.nlm.nih.gov/1685125/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-10-31"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/1685361/": {
     "verdict": "ok",
     "status": 200,
     "checked": "2026-10-31"
@@ -14220,11 +14201,6 @@
     "status": 200,
     "checked": "2026-10-31"
   },
-  "https://pubmed.ncbi.nlm.nih.gov/25395868/": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31"
-  },
   "https://pubmed.ncbi.nlm.nih.gov/25407951/": {
     "verdict": "ok",
     "status": 200,
@@ -14736,11 +14712,6 @@
     "checked": "2026-10-31"
   },
   "https://pubmed.ncbi.nlm.nih.gov/28378533/": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31"
-  },
-  "https://pubmed.ncbi.nlm.nih.gov/28391595/": {
     "verdict": "ok",
     "status": 200,
     "checked": "2026-10-31"
@@ -16370,6 +16341,11 @@
     "status": 200,
     "checked": "2026-10-31"
   },
+  "https://pubmed.ncbi.nlm.nih.gov/6145073/": {
+    "verdict": "ok",
+    "status": 203,
+    "checked": "2026-10-31"
+  },
   "https://pubmed.ncbi.nlm.nih.gov/6148044/": {
     "verdict": "ok",
     "status": 200,
@@ -16640,11 +16616,6 @@
     "status": 200,
     "checked": "2026-10-31"
   },
-  "https://pubmed.ncbi.nlm.nih.gov/8214742/": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31"
-  },
   "https://pubmed.ncbi.nlm.nih.gov/8245956/": {
     "verdict": "ok",
     "status": 200,
@@ -16761,11 +16732,6 @@
     "checked": "2026-10-31"
   },
   "https://pubmed.ncbi.nlm.nih.gov/8712396/": {
-    "verdict": "ok",
-    "status": 200,
-    "checked": "2026-10-31"
-  },
-  "https://pubmed.ncbi.nlm.nih.gov/8743333/": {
     "verdict": "ok",
     "status": 200,
     "checked": "2026-10-31"

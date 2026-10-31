@@ -382,13 +382,13 @@
         "enzyme": "alcohol dehydrogenase (hepatic)",
         "metabolite_name": "cetirizine",
         "metabolite_active": true,
-        "metabolite_half_life_min": 474,
+        "metabolite_half_life_min": null,
         "metabolite_half_life_range_min": null,
-        "formation_fraction_pct": 45,
+        "formation_fraction_pct": null,
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
-        "reference": "pmid:10384858",
+        "reference": "pmid:1685361",
         "metabolite_mechanism_vs_parent": "divergent",
         "mechanism_note": "Cetirizine is a peripherally restricted, minimally sedating H1 antagonist with limited CNS penetration, giving it an antihistamine-only clinical profile distinct from hydroxyzine's sedative/anxiolytic action despite sharing the H1 receptor target."
       }

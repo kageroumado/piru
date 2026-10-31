@@ -89,6 +89,69 @@ class TestBacklogLoader(unittest.TestCase):
     def test_the_committed_backlog_loads(self):
         self.assertIsInstance(ct.load_backlog(), set)
 
+    def test_the_committed_no_subject_backlog_loads(self):
+        self.assertIsInstance(ct.load_backlog(ct.NO_SUBJECT_BACKLOG), set)
+
+
+class TestAbstractCacheHoldsNoPapers(unittest.TestCase):
+    """The committed abstract cache is public. It may hold a title and an
+    abstract, never a paper: full text is read from the local papers cache at
+    run time and kept in memory."""
+
+    def test_every_committed_entry_is_an_abstract(self):
+        cache = json.loads(ct.ABSTRACT_CACHE.read_text())
+        offenders = sorted(key for key, text in cache.items() if ct.is_full_text(text))
+        self.assertEqual(offenders, [], "full text in the committed abstract cache")
+
+    def test_full_text_is_never_written(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "abstracts.json"
+            ct.save_abstracts(
+                path,
+                {
+                    "pmid:1": "An abstract.",
+                    "pmid:2": "x" * (ct.ABSTRACT_MAX_CHARS + 1),
+                    "pmid:3": "# Title\n\nIntroduction",
+                    "pmid:4": {"full_text": "a field, not a string"},
+                },
+            )
+            self.assertEqual(json.loads(path.read_text()), {"pmid:1": "An abstract."})
+
+
+class TestNoSubject(unittest.TestCase):
+    """A per-compound number citing a paper that names no drug at all fails
+    --gate-no-subject whether or not the paper has an abstract."""
+
+    def _finding(self, **overrides):
+        fields = {
+            "citation_id": 1,
+            "identifier": "doi:10.1097/00000542-199310000-00003",
+            "substance": "Ketamine",
+            "verdict": "ABSENT",
+            "score": 0.5,
+            "title": "ASA Award",
+            "reasons": [],
+            "other": None,
+            "tables": ["pk_routes"],
+            "has_abstract": False,
+            "numeric": True,
+            "target_named": None,
+            "names_nothing": True,
+        }
+        return ct.Finding(**(fields | overrides))
+
+    def test_an_award_notice_cited_for_a_number_is_no_subject(self):
+        self.assertTrue(self._finding().is_no_subject)
+
+    def test_naming_the_target_clears_it(self):
+        self.assertFalse(self._finding(target_named="NMDA").is_no_subject)
+
+    def test_naming_another_compound_is_a_different_finding(self):
+        self.assertFalse(self._finding(names_nothing=False).is_no_subject)
+
+    def test_prose_is_not_held_to_it(self):
+        self.assertFalse(self._finding(numeric=False).is_no_subject)
+
 
 def _names(sid, canonical, *, classes=(), categories=(), families=()):
     names = ct.SubstanceNames(substance_id=sid, canonical=canonical)

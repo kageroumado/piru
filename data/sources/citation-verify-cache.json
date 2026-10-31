@@ -67,6 +67,12 @@
   "title": "A high-pressure polymorph of phosphorus oxonitride with the coesite structure",
   "year": "2015"
  },
+ "doi:10.1002/bdd.336": {
+  "journal": "Biopharmaceutics & drug disposition",
+  "subjects": [],
+  "title": "Plasma concentration profiles of ketamine and norketamine after administration of various ketamine preparations to healthy Japanese volunteers",
+  "year": "2003"
+ },
  "doi:10.1002/bms.1200140904": {
   "journal": "Biomedical & environmental mass spectrometry",
   "subjects": [],
@@ -7353,6 +7359,12 @@
   "title": "Biosynthesis of the lipophilic side chain in the cyclic hexadepsipeptide antibiotic IC101.",
   "year": "2002"
  },
+ "pmid:12516077": {
+  "journal": "Biopharmaceutics & drug disposition",
+  "subjects": [],
+  "title": "Plasma concentration profiles of ketamine and norketamine after administration of various ketamine preparations to healthy Japanese volunteers.",
+  "year": "2003"
+ },
  "pmid:12520625": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
@@ -8180,6 +8192,12 @@
   "journal": "European journal of pharmacology",
   "subjects": [],
   "title": "[3H]monoamine releasing and uptake inhibition properties of 3,4-methylenedioxymethamphetamine and p-chloroamphetamine analogues.",
+  "year": "1991"
+ },
+ "pmid:1685361": {
+  "journal": "Clinical pharmacokinetics",
+  "subjects": [],
+  "title": "Pharmacokinetic optimisation of histamine H1-receptor antagonist therapy.",
   "year": "1991"
  },
  "pmid:1687574": {
@@ -12759,6 +12777,12 @@
   "journal": "The Journal of allergy and clinical immunology",
   "subjects": [],
   "title": "The pharmacokinetics and antihistaminic of the H1 receptor antagonist hydroxyzine.",
+  "year": "1984"
+ },
+ "pmid:6145073": {
+  "journal": "Life sciences",
+  "subjects": [],
+  "title": "Hypnotic action of benzodiazepines: a possible mechanism.",
   "year": "1984"
  },
  "pmid:6148044": {

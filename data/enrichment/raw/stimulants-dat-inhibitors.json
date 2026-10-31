@@ -379,8 +379,8 @@
       "relevant_genes": [
         "CES1"
       ],
-      "phenotype_effects": "CES1 G143E (rs71647871) carriers have 2-7x higher MPH AUC; CES1 SNPs explain ~15-30% of interindividual PK variation.",
-      "reference": "pmid:28391595"
+      "phenotype_effects": "CES1 G143E (rs71647871) carriers showed a 149% higher methylphenidate AUC than non-carriers in a single-dose study (n = 44), and heterozygous responders needed lower doses (0.41 vs 0.57 mg/kg/day).",
+      "reference": "doi:10.1097/fpc.0000000000000376"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Limited downregulation at therapeutic doses; recreational IV dosing produces cocaine-like tolerance over weeks",

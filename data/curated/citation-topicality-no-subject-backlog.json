@@ -1,0 +1,28 @@
+{
+ "_comment": "Citations --gate-no-subject flagged when it was introduced (2026-10-31): a per-compound number cites a paper whose title and abstract name no substance and not the row's target. Not yet adjudicated. Each entry is either re-sourced or dropped (then deleted here), or, where the paper does state the claim, moved to citation-topicality-allowlist.json with its reason. Keys are '<identifier>|<canonical name>'.",
+ "_rule": "DO NOT ADD TO THIS FILE. The gate fails on a stale entry, so it only shrinks.",
+ "entries": [
+  "doi:10.1002/dta.1881|Methoxetamine",
+  "doi:10.1002/dta.2273|U-49900",
+  "doi:10.1007/s11419-014-0250-9|MDPV",
+  "doi:10.1016/j.bcp.2018.10.025|25B-NBOH",
+  "doi:10.1016/j.bcp.2018.10.025|25D-NBOMe",
+  "doi:10.1016/j.bcp.2018.10.025|25E-NBOMe",
+  "doi:10.1016/j.bcp.2018.10.025|25H-NBOMe",
+  "doi:10.1016/j.bcp.2018.10.025|25I-NBF",
+  "doi:10.1016/j.bcp.2018.10.025|25I-NBOH",
+  "doi:10.1016/j.bcp.2018.10.025|25I-NBOMe",
+  "doi:10.1016/j.bcp.2018.10.025|25N-NBOMe",
+  "doi:10.1016/j.bcp.2018.10.025|2C-P-NBOMe",
+  "doi:10.1016/j.cardiores.2006.07.001|Levetiracetam",
+  "doi:10.1038/clpt.1992.123|Medazepam",
+  "doi:10.1093/bja/87.1.27|Levomethorphan",
+  "doi:10.1093/bja/aei062|Fentanyl",
+  "doi:10.1093/jat/bkaa121|Mephedrone",
+  "doi:10.1097/00000542-200304000-00033|Nitrous",
+  "doi:10.1097/00003072-199509000-00022|Dihydrocodeine",
+  "doi:10.1097/00008571-199402000-00005|Midazolam",
+  "pmid:13577255|Bufotenin",
+  "pmid:7956028|Alcohol"
+ ]
+}
