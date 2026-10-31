@@ -1,6 +1,6 @@
 {
-  "content_version": "2026-10-31.3",
-  "generated_at": "2026-10-31T20:04:32.659361+00:00",
+  "content_version": "2026-10-31.4",
+  "generated_at": "2026-10-31T21:11:08.883917+00:00",
   "generator_version": "pipeline/build/sqlite.py",
   "schema_version": 6,
   "sources": {
@@ -60,13 +60,13 @@
       "dose_ranges": 0
     },
     "peer-review-primary": {
-      "bindings": 1014,
+      "bindings": 1015,
       "categories": 0,
       "dose_ranges": 0
     },
     "piru-curated": {
       "bindings": 456,
-      "categories": 650,
+      "categories": 651,
       "dose_ranges": 220
     },
     "psychonautwiki": {
@@ -96,7 +96,7 @@
     }
   },
   "sqlite_path": "piru-substances.sqlite",
-  "sqlite_sha256": "469299ac06530625485950073ab047b028bf8c3525af1f814043507c252a3421",
-  "sqlite_size_bytes": 21602304,
-  "substance_count": 1674
+  "sqlite_sha256": "9ca410f34bc9bc8e3d043abd41ceec177a758f3450748c39ce1172df0b087fa4",
+  "sqlite_size_bytes": 21606400,
+  "substance_count": 1675
 }

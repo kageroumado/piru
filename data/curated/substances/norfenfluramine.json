@@ -1,0 +1,30 @@
+{
+  "name": "Norfenfluramine",
+  "aliases": [
+    "Desethylfenfluramine",
+    "(±)-Norfenfluramine",
+    "dl-Norfenfluramine"
+  ],
+  "category": "Empathogen",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Active N-de-ethylated metabolite of fenfluramine",
+    "5-HT2B receptor agonist, the mechanism of fenfluramine's valvular heart disease"
+  ],
+  "tags": [
+    "amphetamine",
+    "metabolite",
+    "no-human-data"
+  ],
+  "cas": "1886-26-6",
+  "inchikey": "MLBHFBKZUPLWBD-UHFFFAOYSA-N",
+  "smiles": "CC(CC1=CC(=CC=C1)C(F)(F)F)N",
+  "pubchemCID": 15897,
+  "formula": "C10H12F3N",
+  "molarMass": 203.2,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/15897",
+    "https://doi.org/10.1161/01.cir.102.23.2836"
+  ]
+}

@@ -1118,17 +1118,33 @@
     ]
   },
   {
+    "name": "Norfenfluramine",
+    "bindings": [
+      {
+        "target": "5-HT2B",
+        "action": "agonist",
+        "ki_nm": 52.1,
+        "species": "human",
+        "tissue_or_cell": "cloned human 5-HT2B receptor",
+        "confidence": "HIGH",
+        "reference": "10.1161/01.cir.102.23.2836",
+        "notes": "(±)-norfenfluramine Ki 52.1 ± 12.3 nM at human 5-HT2B (Rothman 2000, Table 1); (+)- 11.2 ± 4.3 nM, (−)- 47.8 ± 18.0 nM. Both enantiomers activate the receptor (Table 2: (+) Kact 18.4 nM, Vmax 73%; (−) Kact 357 nM, Vmax 71%); the racemate's functional potency was not determined. (±)-fenfluramine itself binds at 4,134 ± 675 nM."
+      }
+    ]
+  },
+  {
     "name": "Temazepam",
     "bindings": [
       {
         "target": "GABA-A benzodiazepine site",
         "action": "positiveAllostericModulator",
-        "ki_nm": 44.0,
-        "species": "rat",
-        "radioligand": "NCATS SPD Gabra1 binding",
-        "confidence": "LOW",
-        "reference": "10.1038/s41467-023-40064-9",
-        "notes": "AC50 = 44 nM at rat Gabra1 (Secondary Pharmacology Database, PMID 37468498). Classic tabulations put temazepam ~16–26 nM; modern screen reads weaker. Temazepam = 3-hydroxydiazepam."
+        "ic50_nm": 50.0,
+        "species": "mouse",
+        "tissue_or_cell": "mouse brain homogenate",
+        "radioligand": "[3H]flunitrazepam",
+        "confidence": "MEDIUM",
+        "reference": "10.1016/0091-3057(83)90279-4",
+        "notes": "IC50 50 ± 7 nM against [3H]flunitrazepam in mouse brain, beside diazepam 17 ± 2 nM in the same assay (Müller & Stillbauer 1983, Table 1). Temazepam = 3-hydroxydiazepam."
       }
     ]
   },
