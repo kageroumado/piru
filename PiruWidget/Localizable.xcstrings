@@ -103,6 +103,12 @@
         }
       }
     },
+    "%@ days" : {
+      "comment" : "A duration in days"
+    },
+    "%@ h" : {
+      "comment" : "A duration in hours"
+    },
     "%@ in %@ at %lld percent" : {
       "localizations" : {
         "en" : {
@@ -136,6 +142,9 @@
           }
         }
       }
+    },
+    "%@ min" : {
+      "comment" : "A duration in minutes"
     },
     "%lld" : {
       "localizations" : {

@@ -2316,6 +2316,7 @@ T = {
     "volume of distribution": ("分布容积", "分佈容積"),
     "clearance": ("清除率", "清除率"),
     "%@ h": ("%@ 小时", "%@ 小時"),
+    "%@ min": ("%@ 分钟", "%@ 分鐘"),
     "Why effects fade and how receptors recover": (
         "为何效果减弱以及受体如何恢复",
         "為何效果減弱以及受體如何恢復",
@@ -8919,6 +8920,7 @@ if __name__ == "__main__":
     NEW_KEYS.add("^[%lld result](inflect: true)")
     NEW_KEYS.add("Bar: participant range; dot: mean.")
     NEW_KEYS.update({"h", "modeled at %@"})
+    NEW_KEYS.update({"%@ min"})
     NEW_KEYS.update({"with %@ %@ · %@ ago", "with %@ · %@ ago"})
     NEW_KEYS.update(
         {

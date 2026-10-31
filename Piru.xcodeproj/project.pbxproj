@@ -187,8 +187,8 @@
 		0B793F332F55449100FB3EE1 /* Shared */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				0BFA00CE00000000000000E1 /* Exceptions for "Shared" folder in "PiruWatch Watch App" target */,
 				0BFA00CE00000000000000E2 /* Exceptions for "Shared" folder in "PiruTests" target */,
+				0BFA00CE00000000000000E1 /* Exceptions for "Shared" folder in "PiruWatch Watch App" target */,
 			);
 			path = Shared;
 			sourceTree = "<group>";

@@ -869,8 +869,10 @@ extension Substance: Codable {
         try c.encodeIfPresent(toleranceInfo, forKey: .toleranceInfo)
         try c.encodeIfPresent(halfLifeMinutes, forKey: .halfLifeMinutes)
         if let halfLifeRangeMinutes {
-            try c.encode([halfLifeRangeMinutes.lowerBound, halfLifeRangeMinutes.upperBound],
-                         forKey: .halfLifeRangeMinutes)
+            try c.encode(
+                [halfLifeRangeMinutes.lowerBound, halfLifeRangeMinutes.upperBound],
+                forKey: .halfLifeRangeMinutes,
+            )
         }
         if !sources.isEmpty {
             try c.encode(sources, forKey: .sources)

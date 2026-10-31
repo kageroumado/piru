@@ -73,19 +73,25 @@ nonisolated struct HalfLife: Hashable, Codable, Sendable {
     var displayText: String {
         guard let rangeMinutes else { return Self.scalarText(minutes) }
         let unit = Self.unit(for: rangeMinutes.lowerBound)
-        return "\(Self.number(rangeMinutes.lowerBound, in: unit))–"
-            + "\(Self.number(rangeMinutes.upperBound, in: unit)) \(unit.suffix)"
+        let low = Self.number(rangeMinutes.lowerBound, in: unit)
+        let high = Self.number(rangeMinutes.upperBound, in: unit)
+        return unit.label("\(low)–\(high)")
     }
 
     /// The unit a half-life of this size reads best in.
     nonisolated enum Unit: Sendable {
-        case minutes, hours, days
+        case minutes
+        case hours
+        case days
 
-        var suffix: String {
+        /// A number (or range of numbers) with this unit after it. The key carries the number
+        /// so the unit is translated as a duration: a bare "min" key is the catalog's
+        /// "minimum" (the custom-substance range field), and reads 最小 in Chinese.
+        func label(_ number: String) -> String {
             switch self {
-            case .minutes: String(localized: "min", comment: "Minutes, abbreviated, after a number")
-            case .hours: String(localized: "h", comment: "Hours, abbreviated, after a number")
-            case .days: String(localized: "days", comment: "Days, after a number")
+            case .minutes: String(localized: "\(number) min", comment: "A duration in minutes")
+            case .hours: String(localized: "\(number) h", comment: "A duration in hours")
+            case .days: String(localized: "\(number) days", comment: "A duration in days")
             }
         }
     }
@@ -111,6 +117,6 @@ nonisolated struct HalfLife: Hashable, Codable, Sendable {
     /// One half-life as text, in the unit it reads best in: `"14 h"`, `"45 min"`, `"3.1 days"`.
     static func scalarText(_ minutes: Double) -> String {
         let unit = unit(for: minutes)
-        return "\(number(minutes, in: unit)) \(unit.suffix)"
+        return unit.label(number(minutes, in: unit))
     }
 }

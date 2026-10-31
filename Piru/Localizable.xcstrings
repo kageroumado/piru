@@ -2098,6 +2098,7 @@
       }
     },
     "%@ days" : {
+      "comment" : "A duration in days",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2402,6 +2403,7 @@
       }
     },
     "%@ h" : {
+      "comment" : "A duration in hours",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2776,6 +2778,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ mg %@ ≈ %@ mg %@"
+          }
+        }
+      }
+    },
+    "%@ min" : {
+      "comment" : "A duration in minutes",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ min"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ min"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 分钟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 分鐘"
           }
         }
       }
@@ -29667,6 +29698,7 @@
       }
     },
     "days" : {
+      "comment" : "Days, after a number",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -43009,6 +43041,36 @@
         }
       }
     },
+    "h" : {
+      "comment" : "Hours, abbreviated, after a number",
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "h"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "h"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小時"
+          }
+        }
+      }
+    },
     "H-bond acceptors" : {
       "localizations" : {
         "es" : {
@@ -55016,6 +55078,7 @@
       }
     },
     "min" : {
+      "comment" : "Minutes, abbreviated, after a number",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -55855,6 +55918,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模型估計仍在起效"
+          }
+        }
+      }
+    },
+    "modeled at %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "modelado con %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "modelado con %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按 %@ 建模"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按 %@ 建模"
           }
         }
       }
@@ -100117,62 +100208,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-鴉片受體配體"
-          }
-        }
-      }
-    },
-    "h" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "小时"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "小時"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "h"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "h"
-          }
-        }
-      }
-    },
-    "modeled at %@" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按 %@ 建模"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按 %@ 建模"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "modelado con %@"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "modelado con %@"
           }
         }
       }

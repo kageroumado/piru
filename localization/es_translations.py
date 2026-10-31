@@ -198,6 +198,7 @@ ES = {
     "%@ falling to %@ per week": "%@ bajando a %@ a la semana",
     "%@ g/mol": "%@ g/mol",
     "%@ h": "%@ h",
+    "%@ min": "%@ min",
     "%@ in %@ at %lld percent": "%@ en %@ al %lld por ciento",
     "%@ in · %@ left": "Van %@ · quedan %@",
     "%@ is": "%@ es",
