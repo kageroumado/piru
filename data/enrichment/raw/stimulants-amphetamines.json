@@ -129,8 +129,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "FMO3"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 poor metabolisers show modestly reduced 4-hydroxylation but main clearance is renal: clinical impact is small. CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) prolong amphetamine effects.",
       "reference": "pmid:28910145"

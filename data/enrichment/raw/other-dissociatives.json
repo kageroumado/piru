@@ -159,9 +159,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "CYP3A4",
-        "CYP3A5"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 PMs (~7% of Caucasians, ~1% Asians): 5-fold higher DXM Cmax, t1/2 ~24 h vs ~3 h in EMs, DXO concentrations only 3% of EM values. UMs (CYP2D6 gene duplication) experience minimal subjective dissociation. PMs are at high risk of dose-dependent dissociation and serotonin syndrome at recreational doses; UMs at risk of opioid-like sedation from rapid DXO formation in rare cases.",
       "reference": "doi:10.1002/psp4.12776"
@@ -1601,9 +1599,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "MTHFR (C677T)",
-        "MTR",
-        "TCN2"
+        "MTHFR (C677T)"
       ],
       "phenotype_effects": "MTHFR C677T TT homozygotes have lower baseline methionine synthase activity and are at elevated risk of N2O-induced neurotoxicity. Hyperhomocysteinaemia-associated genetic variants compound the risk.",
       "reference": "pmid:36499072"
@@ -1870,9 +1866,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "ABCB1",
-        "OATP1B1"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 PMs have markedly higher and longer-lasting ibogaine exposure → higher cardiotoxicity risk. UMs have rapid clearance → less effect at standard doses but rapid noribogaine accumulation. PM genotype is essentially a contraindication for full-dose ibogaine without dose adjustment.",
       "reference": "pmid:25651476"

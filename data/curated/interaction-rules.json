@@ -18,7 +18,15 @@
       "classA": "opioid",
       "classB": "ghb",
       "severity": "dangerous",
-      "note": "Severe respiratory depression. Both substances suppress breathing."
+      "note": "Severe respiratory depression. Both substances suppress breathing.",
+      "citation": "DailyMed: XYREM (sodium oxybate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=926eb076-a4a8-45e4-91ef-411f0aa4f3ca",
+      "citationEvidence": {
+        "quote": "The concurrent use of Xyrem with other CNS depressants, including but not limited to opioid analgesics, benzodiazepines, sedating antidepressants or antipsychotics, sedating anti-epileptic drugs, general anesthetics, muscle relaxants, and/or illicit CNS depressants, may increase the risk of respiratory depression, hypotension, profound sedation, syncope, and death.",
+        "section": "5 Warnings and Precautions",
+        "identity": "the label's active ingredient is sodium oxybate, the sodium salt of GHB; the quote names opioid analgesics",
+        "accessed": "2026-10-31",
+        "via": "hand"
+      }
     },
     {
       "classA": "opioid",
@@ -152,6 +160,15 @@
       "classB": "empathogen",
       "severity": "caution",
       "note": "SSRIs usually blunt MDMA. It may feel much weaker, and the documented harm is taking more to compensate (overheating, heart strain). Case reports don't show serotonin syndrome from this pair alone; MAOIs are the documented danger.",
+      "citation": "doi:10.1371/journal.pone.0036476",
+      "citationEvidence": {
+        "quote": "In humans, duloxetine inhibited the effects of MDMA including elevations in circulating NE, increases in blood pressure and heart rate, and the subjective drug effects.",
+        "section": "Abstract",
+        "identity": "randomized placebo-controlled study of a serotonin reuptake inhibitor given with MDMA",
+        "accessed": "2026-10-31",
+        "via": "hand",
+        "evidence": "Hysek 2012 is the blunting half of the note, replicating Liechti 2000 (pmid:10731626, cited for the same claim in mdma.json). The MAOI danger is the maoi + empathogen rule's own citation; a general list naming MDMA among serotonergic drugs is not a case of this pair alone."
+      },
       "why": "Antidepressant SERT blockers + empathogen: a myth-buster, not a danger. These compete for SERT and *blunt* the empathogen (it may feel much weaker or not work) — on their own they do not cause serotonin syndrome; the real lethal serotonergic edge is the MAOI rules above. Kept visible (and bypassing the relevance gate via `persistentClasses`) so people aren't blindsided when their dose does nothing, but colored `.caution`, not danger."
     },
     {
@@ -275,6 +292,15 @@
       "classB": "opioid",
       "severity": "dangerous",
       "note": "Heavy sedation with a dangerously slow heart rate and breathing. Naloxone reverses the opioid but NOT the alpha-2 part. Give rescue breaths and call for help even after naloxone.",
+      "citation": "NIDA: Xylazine research topic; https://nida.nih.gov/research-topics/xylazine",
+      "citationEvidence": {
+        "quote": "Opioid overdose reversal medications such as naloxone and nalmefene do not reverse xylazine's effects. … Xylazine can slow breathing, heart rate, and blood pressure to dangerously low levels. … Xylazine is a central nervous system depressant.",
+        "section": "Xylazine",
+        "identity": "NIDA page about xylazine, an alpha-2 agonist found in the illicit opioid supply",
+        "accessed": "2026-10-31",
+        "via": "hand",
+        "evidence": "Both halves of the note: naloxone not reversing the alpha-2 component, and the slow breathing and heart rate. The clonidine-and-naloxone case reports a reader may meet elsewhere do not establish reversal."
+      },
       "why": "=== ALPHA-2 AGONISTS & BETA-BLOCKERS === Grounded in the Foundation-C alpha-2/beta-blocker evidence run (2026-06-22). Key corrections: the alpha-2 + opioid danger is the xylazine/\"tranq\" reality (naloxone won't reverse the alpha-2 part); the genuine \"unopposed alpha\" is alpha-2 *withdrawal* while beta-blocked, NOT routine beta-blocker + stimulant (that contraindication is contested dogma → caution, not danger)."
     },
     {
@@ -287,7 +313,16 @@
       "classA": "alpha2Agonist",
       "classB": "benzodiazepine",
       "severity": "caution",
-      "note": "Compounded sedation and low blood pressure. Stronger drowsiness and dizziness."
+      "note": "Compounded sedation and low blood pressure. Stronger drowsiness and dizziness.",
+      "citation": "DailyMed: CATAPRES (clonidine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=39e1d35e-533c-4647-8649-8168a6e92dfa",
+      "citationEvidence": {
+        "quote": "Clonidine may potentiate the CNS-depressive effects of alcohol, barbiturates or other sedating drugs. … Since patients may experience a possible sedative effect, dizziness, or accommodation disorder with use of clonidine",
+        "section": "Drug Interactions; Precautions",
+        "identity": "active ingredient names 'clonidine' as whole words, an alpha2Agonist",
+        "accessed": "2026-10-31",
+        "via": "hand",
+        "evidence": "The label states the potentiation of other sedating drugs and clonidine's own sedation and dizziness. The blood-pressure half of the note is the alpha-2 agonist's own hypotensive effect, which the same label carries; the label asserts additive hypotension only for neuroleptics."
+      }
     },
     {
       "classA": "alpha2Agonist",
@@ -390,7 +425,15 @@
       "classA": "opioid",
       "classB": "antipsychotic",
       "severity": "unsafe",
-      "note": "Additive CNS and respiratory depression."
+      "note": "Additive CNS and respiratory depression.",
+      "citation": "DailyMed: OXYCONTIN (oxycodone hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=bfdfe235-d717-4855-a3c8-a13d26dadede",
+      "citationEvidence": {
+        "quote": "Due to additive pharmacologic effect, the concomitant use of benzodiazepines or other CNS depressants, including alcohol, can increase the risk of hypotension, respiratory depression, profound sedation, coma, and death. … Examples: Benzodiazepines and other sedatives/hypnotics, anxiolytics, tranquilizers, muscle relaxants, general anesthetics, antipsychotics, gabapentinoids (gabapentin or pregabalin), other opioids, alcohol.",
+        "section": "7 Drug Interactions, Table 4",
+        "identity": "active ingredient names 'oxycodone' as whole words, an opioid; the quote names antipsychotics",
+        "accessed": "2026-10-31",
+        "via": "hand"
+      }
     },
     {
       "classA": "lithium",
@@ -435,7 +478,16 @@
       "classA": "barbiturate",
       "classB": "ghb",
       "severity": "dangerous",
-      "note": "Severe respiratory depression. Two direct-acting depressants with no shared ceiling."
+      "note": "Severe respiratory depression. Two direct-acting depressants with no shared ceiling.",
+      "citation": "DailyMed: XYREM (sodium oxybate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=926eb076-a4a8-45e4-91ef-411f0aa4f3ca",
+      "citationEvidence": {
+        "quote": "Xyrem is contraindicated for use in combination with alcohol or sedative hypnotics. … The concurrent use of Xyrem with other CNS depressants … may increase the risk of respiratory depression, hypotension, profound sedation, syncope, and death.",
+        "section": "4 Contraindications; 5 Warnings and Precautions",
+        "identity": "the label's active ingredient is sodium oxybate, the sodium salt of GHB; barbiturates are the sedative hypnotics the contraindication names as a class",
+        "accessed": "2026-10-31",
+        "via": "hand",
+        "evidence": "The label names the class, not the word 'barbiturate'. The 'no shared ceiling' clause is this database's own framing and the label does not state it."
+      }
     },
     {
       "classA": "barbiturate",

@@ -180,6 +180,11 @@ jobs:
       # baseline that may only go down.
       - name: Row citations still name their rows; uncited rows only go down
         run: python3 pipeline/build/tests/test_row_citations.py
+      # A pharmacogenetics record writes one row per gene, all carrying its one
+      # sentence, so a gene the sentence never mentions gets a row whose finding
+      # belongs to another gene. Ratcheted at zero.
+      - name: Pharmacogenetics rows are filed under the gene their sentence names
+        run: python3 pipeline/build/tests/test_pgx_genes.py
       # Toxic floors, cross-source outliers, foreign scripts, Shulgin's no-activity
       # bounds and the upstream values the build could not read.
       - name: Dose gates and the upstream-drop report

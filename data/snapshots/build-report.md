@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-10-31.1 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `2dc79cf44cdce755b3689551d19e4d798f45a447a4641e1a46caee25a51b7fc3`)
+Built 2026-10-31.9 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `912d00d0d91a5679bb4f3d0100086f415e013c92ee0fb4b39f65a72288f69262`)
 
 ## Row counts
 
@@ -10,21 +10,21 @@ Built 2026-10-31.1 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha
 | aliases | 6,005 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,706 |
+| citations | 2,739 |
 | categories | 1,577 |
 | tags | 7,059 |
 | dose_ranges | 2,794 |
 | durations | 10,736 |
 | drug_community_timelines | 755 |
-| half_lives | 711 |
-| mechanisms_summary | 1,230 |
+| half_lives | 709 |
+| mechanisms_summary | 1,228 |
 | effects | 2,952 |
 | subjective_effects | 23,653 |
 | subjective_effect_concepts | 506 |
 | subjective_effect_concept_aliases | 1,178 |
 | tolerance | 0 |
 | diazepam_equivalents | 32 |
-| bindings | 1,458 |
+| bindings | 1,457 |
 | functional_assays | 179 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
@@ -34,7 +34,7 @@ Built 2026-10-31.1 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha
 | concentration_effects | 25 |
 | metabolism | 560 |
 | drug_interactions_pk | 205 |
-| pharmacogenetics | 305 |
+| pharmacogenetics | 249 |
 | off_targets | 209 |
 | class_contexts | 50 |
 | substance_classes | 680 |
@@ -101,7 +101,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Row citations
 
-523 row(s) cited from `data/curated/row-citations.json`; 0 entries not applied.
+534 row(s) cited from `data/curated/row-citations.json`; 0 entries not applied.
 
 ## Upstream values the build could not read
 
@@ -150,8 +150,8 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 220 | 444 | 650 | 2,269 |
-| peer-review-primary | 0 | 1,002 | 0 | 1,580 |
+| piru-curated | 220 | 446 | 650 | 2,269 |
+| peer-review-primary | 0 | 999 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 826 | 0 | 0 | 126 |
 | psychonautwiki | 376 | 0 | 63 | 316 |

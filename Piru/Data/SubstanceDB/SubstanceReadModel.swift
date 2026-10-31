@@ -403,7 +403,7 @@ struct SubstanceReadModel {
                 var routes = try resolvedRoutes(db: db, substanceID: id)
                 let effects = try resolvedEffects(db: db, substanceID: id)
                 let subjectiveEffects = try resolvedSubjectiveEffects(db: db, substanceID: id)
-                let halfLifeMinutes = try resolvedHalfLife(db: db, substanceID: id)
+                let halfLife = try resolvedHalfLife(db: db, substanceID: id)
                 let mechanism = try resolvedMechanism(db: db, substanceID: id)
                 let overview = try resolvedDescription(db: db, substanceID: id)
                 let sources = try citedSources(db: db, substanceID: id)
@@ -426,7 +426,8 @@ struct SubstanceReadModel {
                     effects: effects,
                     subjectiveEffects: subjectiveEffects,
                     toleranceInfo: toleranceInfo,
-                    halfLifeMinutes: halfLifeMinutes,
+                    halfLifeMinutes: halfLife?.representative,
+                    halfLifeRangeMinutes: halfLife?.rangeMinutes,
                     sources: sources,
                     mechanismOfAction: mechanism,
                     tags: tags,
@@ -745,9 +746,10 @@ struct SubstanceReadModel {
         return profile.hasAnyValue ? profile : nil
     }
 
-    private func resolvedHalfLife(db: Database, substanceID: Int64) throws -> Double? {
-        try Double.fetchOne(db, sql: """
-            SELECT h.half_life_minutes
+    /// The priority-resolved half-life, with the range its source states when it states one.
+    private func resolvedHalfLife(db: Database, substanceID: Int64) throws -> HalfLife? {
+        let row = try Row.fetchOne(db, sql: """
+            SELECT h.half_life_minutes, h.half_life_min_minutes, h.half_life_max_minutes
               FROM half_lives h
               JOIN sources src ON src.id = h.source_id
              WHERE h.substance_id = ?
@@ -755,6 +757,12 @@ struct SubstanceReadModel {
              ORDER BY \(priorityCaseSQL) ASC
              LIMIT 1
         """, arguments: [substanceID])
+        guard let row else { return nil }
+        return HalfLife(
+            minutes: row["half_life_minutes"],
+            lower: row["half_life_min_minutes"],
+            upper: row["half_life_max_minutes"],
+        )
     }
 
     /// One locale-resolved prose row from a text table that
@@ -1239,10 +1247,12 @@ struct SubstanceReadModel {
                 let routesByID = try Self.resolveRoutes(db: db, substanceIDs: Set(ids), order: order)
 
                 // Half-life — priority-resolved.
-                var halfLifeByID: [Int64: Double] = [:]
+                var halfLifeByID: [Int64: HalfLife] = [:]
                 for row in try Row.fetchAll(db, sql: """
-                    SELECT substance_id, half_life_minutes FROM (
+                    SELECT substance_id, half_life_minutes,
+                           half_life_min_minutes, half_life_max_minutes FROM (
                         SELECT h.substance_id, h.half_life_minutes,
+                               h.half_life_min_minutes, h.half_life_max_minutes,
                                ROW_NUMBER() OVER (PARTITION BY h.substance_id
                                                   ORDER BY \(priorityCaseSQL) ASC) AS rn
                           FROM half_lives h
@@ -1250,7 +1260,11 @@ struct SubstanceReadModel {
                          WHERE src.slug IN (\(enabledSourceListSQL))
                     ) WHERE rn = 1
                 """) {
-                    halfLifeByID[row["substance_id"]] = row["half_life_minutes"]
+                    halfLifeByID[row["substance_id"]] = HalfLife(
+                        minutes: row["half_life_minutes"],
+                        lower: row["half_life_min_minutes"],
+                        upper: row["half_life_max_minutes"],
+                    )
                 }
 
                 // Effects — union, localized via the controlled vocabulary so a
@@ -1312,7 +1326,8 @@ struct SubstanceReadModel {
                         effects: effectsByID[sid] ?? [],
                         subjectiveEffects: [],
                         toleranceInfo: nil,
-                        halfLifeMinutes: halfLifeByID[sid],
+                        halfLifeMinutes: halfLifeByID[sid]?.representative,
+                        halfLifeRangeMinutes: halfLifeByID[sid]?.rangeMinutes,
                         sources: sourcesByID[sid] ?? [],
                         mechanismOfAction: nil,
                         tags: tags,

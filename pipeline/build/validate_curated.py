@@ -256,6 +256,20 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
         isinstance(e["halfLifeSource"], str) and e["halfLifeSource"].strip()
     ):
         err.append(f"{tag}: halfLifeSource must be a non-empty reference string")
+    # A half-life range is both ends or neither, ordered, and cited — the point of storing
+    # the range is that it is what a source says, so an uncited one is just a wider guess.
+    lo, hi = e.get("halfLifeMinutesMin"), e.get("halfLifeMinutesMax")
+    if (lo is None) != (hi is None):
+        err.append(f"{tag}: halfLifeMinutesMin and halfLifeMinutesMax go together")
+    elif lo is not None:
+        if not (isinstance(lo, int | float) and isinstance(hi, int | float)):
+            err.append(f"{tag}: halfLifeMinutesMin/Max must be numbers")
+        elif not 0 < lo < hi:
+            err.append(f"{tag}: halfLifeMinutesMin must be above 0 and below the max")
+        elif e.get("halfLifeMinutes") is not None and not lo <= e["halfLifeMinutes"] <= hi:
+            err.append(f"{tag}: halfLifeMinutes {e['halfLifeMinutes']} is outside its own range")
+        if not e.get("halfLifeSource"):
+            err.append(f"{tag}: a halfLifeMinutes range needs halfLifeSource")
     moa = e.get("mechanismOfAction")
     if moa is not None:
         for b in moa.get("bindings", []) or []:

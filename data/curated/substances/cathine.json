@@ -11,7 +11,17 @@
   "category": "Stimulant",
   "defaultRoute": "oral",
   "routes": [],
-  "halfLifeMinutes": 312,
+  "halfLifeMinutesMin": 108,
+  "halfLifeMinutesMax": 516,
+  "halfLifeSource": "Wikipedia: Cathine (revision 1347094282); https://en.wikipedia.org/w/index.php?title=Cathine&oldid=1347094282",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 1.8–8.6 hours",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "1.8-8.6 hours",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "effects": [
     "The second khat alkaloid — cathinone decays to cathine as the leaf dries, which is why khat is chewed fresh",
     "Roughly an order of magnitude weaker than cathinone; mostly noradrenergic",

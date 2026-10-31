@@ -311,6 +311,36 @@
   },
   {
    "table": "bindings",
+   "substance": "Methcathinone",
+   "source": "piru-curated",
+   "match": {
+    "target": "DAT",
+    "action": "releasingAgent",
+    "species": null
+   },
+   "ref": "doi:10.1016/j.ejphar.2012.11.008",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "Cozzi 2013: \"methcathinone was the most potent releaser at the rNET and rDAT, with an EC50 for [3H]MPP+ release of 20 nM at both transporters\".",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
+   "substance": "Methcathinone",
+   "source": "piru-curated",
+   "match": {
+    "target": "NET",
+    "action": "releasingAgent",
+    "species": null
+   },
+   "ref": "doi:10.1016/j.ejphar.2012.11.008",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "Cozzi 2013: \"methcathinone was the most potent releaser at the rNET and rDAT, with an EC50 for [3H]MPP+ release of 20 nM at both transporters\".",
+   "claim_sha1": "da39a3ee5e6b"
+  },
+  {
+   "table": "bindings",
    "substance": "MMDA",
    "source": "peer-review-primary",
    "match": {
@@ -644,6 +674,18 @@
   },
   {
    "table": "downstream_signalling",
+   "substance": "5-IAI",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "https://en.wikipedia.org/w/index.php?title=5-IAI&oldid=1368070151",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "Infobox drug class: \"Serotonin–norepinephrine–dopamine releasing agent; Entactogen\".",
+   "claim_sha1": "bdbcc20eec6c",
+   "title": "Wikipedia: 5-IAI (revision 1368070151)"
+  },
+  {
+   "table": "downstream_signalling",
    "substance": "5-MeO-DALT",
    "source": "peer-review-primary",
    "match": {},
@@ -652,6 +694,18 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (5meodalt) and 5-HT2A in title/abstract",
    "claim_sha1": "e581976cec48"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "5-MeO-DiPT",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "https://en.wikipedia.org/w/index.php?title=5-MeO-DiPT&oldid=1377441530",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "\"5-MeO-DiPT is a serotonin reuptake inhibitor with potency ranging from similar to its serotonin 5-HT2A receptor agonism to very low in different studies.\" and \"it does not significantly affect dopamine or norepinephrine reuptake and shows no activity as a monoamine releasing agent\".",
+   "claim_sha1": "0c840843c662",
+   "title": "Wikipedia: 5-MeO-DiPT (revision 1377441530)"
   },
   {
    "table": "downstream_signalling",
@@ -809,6 +863,18 @@
   },
   {
    "table": "downstream_signalling",
+   "substance": "ALD-52",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "https://en.wikipedia.org/w/index.php?title=ALD-52&oldid=1380934153",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "\"The drug acts as a readily converted prodrug of LSD and hence has very similar properties to those of LSD, including in terms of onset, duration, and subjective psychedelic effects.\" and \"The drug has about 90 to 100% of the potency of LSD.\"",
+   "claim_sha1": "f79b0a705662",
+   "title": "Wikipedia: ALD-52 (revision 1380934153)"
+  },
+  {
+   "table": "downstream_signalling",
    "substance": "Alfentanil",
    "source": "peer-review-primary",
    "match": {},
@@ -817,6 +883,18 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (alfentanil) and MOR in title/abstract",
    "claim_sha1": "e3670a671e08"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Allobarbital",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "https://en.wikipedia.org/w/index.php?title=Allobarbital&oldid=1380037049",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "\"Allobarbital ... is a barbiturate derivative invented in 1912 by Ernst Preiswerk and Ernst Grether working for CIBA.\"",
+   "claim_sha1": "b6f95a600b33",
+   "title": "Wikipedia: Allobarbital (revision 1380037049)"
   },
   {
    "table": "downstream_signalling",
@@ -1097,6 +1175,18 @@
   },
   {
    "table": "downstream_signalling",
+   "substance": "Cytisine",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "https://en.wikipedia.org/w/index.php?title=Cytisine&oldid=1378692391",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "\"A 2013 meta-analysis of eight studies demonstrated that cytisine has similar effectiveness to varenicline but with substantially lower side effects.\"",
+   "claim_sha1": "0c1d622cf0e0",
+   "title": "Wikipedia: Cytisine (revision 1378692391)"
+  },
+  {
+   "table": "downstream_signalling",
    "substance": "Dextromethorphan",
    "source": "peer-review-primary",
    "match": {},
@@ -1184,6 +1274,18 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (dob) and 5-HT2A in title/abstract",
    "claim_sha1": "4be17a14e332"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "DOBU",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "https://en.wikipedia.org/w/index.php?title=DOBU&oldid=1381411389",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "Pharmacodynamics: \"DOBU has even higher affinity for the serotonin 5-HT2A receptor\" than the shorter 4-alkyl homologues DOM, DOET and DOPR.",
+   "claim_sha1": "76ec7ed84346",
+   "title": "Wikipedia: DOBU (revision 1381411389)"
   },
   {
    "table": "downstream_signalling",
@@ -1721,6 +1823,18 @@
   },
   {
    "table": "downstream_signalling",
+   "substance": "MMDA-3b",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "https://en.wikipedia.org/w/index.php?title=MMDA-3b&oldid=1380971900",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "\"MMDA-3b has been found to act as an efficacious serotonin releasing agent with little effect on dopamine similarly to MMDA.\"",
+   "claim_sha1": "17b8bdde3438",
+   "title": "Wikipedia: MMDA-3b (revision 1380971900)"
+  },
+  {
+   "table": "downstream_signalling",
    "substance": "Moclobemide",
    "source": "peer-review-primary",
    "match": {},
@@ -1831,6 +1945,18 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (norketamine) and NMDA in title/abstract",
    "claim_sha1": "86f03c1e4762"
+  },
+  {
+   "table": "downstream_signalling",
+   "substance": "Norpsilocin",
+   "source": "peer-review-primary",
+   "match": {},
+   "ref": "https://en.wikipedia.org/w/index.php?title=Norpsilocin&oldid=1370204329",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "\"it has been found to cross the blood–brain barrier in animals and to have good metabolic stability similarly to psilocin\" and \"norpsilocin failed to induce the head-twitch response ... in animals\".",
+   "claim_sha1": "c613cc053015",
+   "title": "Wikipedia: Norpsilocin (revision 1370204329)"
   },
   {
    "table": "downstream_signalling",
@@ -2370,6 +2496,19 @@
   },
   {
    "table": "mechanisms_summary",
+   "substance": "25C-NBOMe",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "ref": "doi:10.1155/2014/734749",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "Review of 25C-NBOMe: \"It is a partial agonist of 5-HT2A receptors.\" and \"25C-NBOMe presents high risk of overdoses; acute toxicity and fatalities have been reported.\"",
+   "claim_sha1": "e73ac334866a"
+  },
+  {
+   "table": "mechanisms_summary",
    "substance": "Acalabrutinib",
    "source": "piru-curated",
    "match": {
@@ -2409,6 +2548,20 @@
    "via": "haiku-assisted 2026-10-30",
    "evidence": "\"It is known to act as a potent full agonist of the serotonin 5-HT2A receptor.\" … \"is a psychedelic drug of the lysergamide family\" … \"is known to act as an agonist of the serotonin 5-HT2A receptor similarly to LSD\" (Pharmacodynamics; Wikidata sitelink of InChIKey JCQLEPDZFXGHHQ-OXQOHEQNSA-N; key terms: serotonin)",
    "title": "Wikipedia: AL-LAD, §Pharmacodynamics (revision 1381825369)"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Alfuzosin",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9fc7f119-f36b-44cf-945d-940160f3afe3",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "§12.1: \"Alfuzosin is a selective antagonist of post-synaptic alpha 1-adrenoreceptors, which are located in the prostate, bladder base, bladder neck, prostatic capsule, and prostatic urethra.\" The label claims no alpha-1A subtype selectivity.",
+   "claim_sha1": "2225ff20ab62",
+   "title": "DailyMed: UROXATRAL (alfuzosin hydrochloride) label"
   },
   {
    "table": "mechanisms_summary",
@@ -3958,6 +4111,20 @@
   },
   {
    "table": "mechanisms_summary",
+   "substance": "Haloperidol",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "ref": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=068fc913-779d-44c6-9585-3aa80e751bee",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "§12: \"its efficacy could be mediated through its activity as an antagonist at central dopamine type 2 receptors\" and \"Haloperidol also binds to alpha-1 adrenergic receptors, but with lower affinity, and displays minimal binding to muscarinic cholinergic and histaminergic (H1) receptors.\"",
+   "claim_sha1": "416125c4fd46",
+   "title": "DailyMed: HALOPERIDOL DECANOATE label"
+  },
+  {
+   "table": "mechanisms_summary",
    "substance": "Heparin",
    "source": "piru-curated",
    "match": {
@@ -4531,6 +4698,19 @@
   },
   {
    "table": "mechanisms_summary",
+   "substance": "Methcathinone",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "ref": "doi:10.1016/j.ejphar.2012.11.008",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "Cozzi 2013: \"methcathinone was the most potent releaser at the rNET and rDAT, with an EC50 for [3H]MPP+ release of 20 nM at both transporters\"; Table 1 gives its SERT release EC50 as 471 µM.",
+   "claim_sha1": "d40e6721f290"
+  },
+  {
+   "table": "mechanisms_summary",
    "substance": "Methylphenidate",
    "source": "piru-curated",
    "match": {
@@ -4751,6 +4931,19 @@
    "via": "haiku-assisted 2026-10-30",
    "evidence": "\"acts as a non-selective and competitive opioid receptor antagonist\" … \"Naloxone has low systemic bioavailability when taken by mouth due to hepatic first-pass metabolism\" … \"necessitating repeat dosing if opioid receptors must be stopped from triggering for an extended period\" (Pharmacodynamics; Wikidata sitelink of InChIKey UZHSEJADLWPNLE-GRGSLBFTSA-N; key terms: μ-opioid receptor)",
    "title": "Wikipedia: Naloxone, §Pharmacodynamics (revision 1380300371)"
+  },
+  {
+   "table": "mechanisms_summary",
+   "substance": "Naphyrone",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "ref": "doi:10.1016/j.ejphar.2012.12.006",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "Iversen 2013: \"Notably high affinities (<100 nM) were found for ... naphyrone and 1-naphyrone at SERT, and naphyrone at NET\" — a triple reuptake inhibitor, not a DAT/NET-selective one.",
+   "claim_sha1": "e87745dadef2"
   },
   {
    "table": "mechanisms_summary",
@@ -6346,6 +6539,20 @@
    "title": "DailyMed: Ambien CR (zolpidem) label"
   },
   {
+   "table": "mechanisms_summary",
+   "substance": "Zopiclone",
+   "source": "piru-curated",
+   "match": {
+    "language": "en"
+   },
+   "ref": "https://en.wikipedia.org/w/index.php?title=Zopiclone&oldid=1380835395",
+   "accessed": "2026-10-31",
+   "via": "hand",
+   "evidence": "\"it is regarded as being unselective in its binding to GABAA receptors containing α1, α2, α3, and α5 subunits\" and \"Desmethylzopiclone has been found to have partial agonist properties, unlike the parent drug zopiclone, which is a full agonist.\"",
+   "claim_sha1": "51ce13dae5f0",
+   "title": "Wikipedia: Zopiclone (revision 1380835395)"
+  },
+  {
    "table": "metabolism",
    "substance": "3-MMC",
    "source": "peer-review-primary",
@@ -6654,19 +6861,6 @@
   },
   {
    "table": "pharmacogenetics",
-   "substance": "Codeine",
-   "source": "peer-review-primary",
-   "match": {
-    "gene": "OPRM1"
-   },
-   "ref": "doi:10.1038/clpt.2011.287",
-   "accessed": "2026-10-30",
-   "via": "references_consulted",
-   "evidence": "consulted by the record; names the substance (codeine) and OPRM1 in a full-text paragraph that also names the substance",
-   "claim_sha1": "2dd90ef6af9a"
-  },
-  {
-   "table": "pharmacogenetics",
    "substance": "DMT",
    "source": "peer-review-primary",
    "match": {
@@ -6703,19 +6897,6 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (fentanyl) and CYP3A4 in title/abstract",
    "claim_sha1": "3050d8799a16"
-  },
-  {
-   "table": "pharmacogenetics",
-   "substance": "Fluoxetine",
-   "source": "peer-review-primary",
-   "match": {
-    "gene": "CYP2C9"
-   },
-   "ref": "doi:10.3390/pharmaceutics13020148",
-   "accessed": "2026-10-30",
-   "via": "references_consulted",
-   "evidence": "consulted by the record; names the substance (fluoxetine) and CYP2C9 in title/abstract",
-   "claim_sha1": "9a2ec22d8bc6"
   },
   {
    "table": "pharmacogenetics",
@@ -6839,51 +7020,12 @@
    "substance": "Methadone",
    "source": "peer-review-primary",
    "match": {
-    "gene": "ABCB1"
-   },
-   "ref": "pmid:17329992",
-   "accessed": "2026-10-30",
-   "via": "references_consulted",
-   "evidence": "consulted by the record; names the substance (methadone) and ABCB1 in a full-text paragraph that also names the substance",
-   "claim_sha1": "7434fa67a445"
-  },
-  {
-   "table": "pharmacogenetics",
-   "substance": "Methadone",
-   "source": "peer-review-primary",
-   "match": {
     "gene": "CYP2B6 (*6/*6, *18)"
    },
    "ref": "pmid:17329992",
    "accessed": "2026-10-30",
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (methadone) and CYP2B6 (*6/*6, *18) in title/abstract",
-   "claim_sha1": "7434fa67a445"
-  },
-  {
-   "table": "pharmacogenetics",
-   "substance": "Methadone",
-   "source": "peer-review-primary",
-   "match": {
-    "gene": "CYP2C19"
-   },
-   "ref": "pmid:17329992",
-   "accessed": "2026-10-30",
-   "via": "references_consulted",
-   "evidence": "consulted by the record; names the substance (methadone) and CYP2C19 in a full-text paragraph that also names the substance",
-   "claim_sha1": "7434fa67a445"
-  },
-  {
-   "table": "pharmacogenetics",
-   "substance": "Methadone",
-   "source": "peer-review-primary",
-   "match": {
-    "gene": "CYP3A4/5"
-   },
-   "ref": "pmid:17329992",
-   "accessed": "2026-10-30",
-   "via": "references_consulted",
-   "evidence": "consulted by the record; names the substance (methadone) and CYP3A4/5 in a full-text paragraph that also names the substance",
    "claim_sha1": "7434fa67a445"
   },
   {
@@ -6911,19 +7053,6 @@
    "via": "references_consulted",
    "evidence": "consulted by the record; names the substance (oxymorphone) and OPRM1 in a full-text paragraph that also names the substance",
    "claim_sha1": "551853859166"
-  },
-  {
-   "table": "pharmacogenetics",
-   "substance": "Pethidine",
-   "source": "peer-review-primary",
-   "match": {
-    "gene": "OPRM1"
-   },
-   "ref": "doi:10.1016/j.yrtph.2010.12.007",
-   "accessed": "2026-10-30",
-   "via": "references_consulted",
-   "evidence": "consulted by the record; names the substance (meperidine) and OPRM1 in a full-text paragraph that also names the substance",
-   "claim_sha1": "306af8aacf51"
   },
   {
    "table": "pharmacogenetics",

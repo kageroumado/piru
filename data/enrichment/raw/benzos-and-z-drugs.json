@@ -334,8 +334,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2C19",
-        "CYP3A4"
+        "CYP2C19"
       ],
       "phenotype_effects": "CYP2C19 PMs show ~2–4× higher diazepam AUC and prolonged t1/2 due to reduced N-demethylation. Substantial inter-individual variability in nordazepam accumulation.",
       "reference": "doi:10.2165/00003088-197803010-00005"
@@ -502,8 +501,7 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
-        "CYP3A5",
-        "CYP2D6"
+        "CYP3A5"
       ],
       "phenotype_effects": "Minor effect; CYP3A4/5 polymorphism alters CL but redundant pathways limit clinical impact.",
       "reference": "Ambien FDA label"
@@ -831,8 +829,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "UGT2B15",
-        "UGT2B7"
+        "UGT2B15"
       ],
       "phenotype_effects": "UGT2B15*2/*2 homozygotes have 40–50% lower CL of lorazepam. No effect of CYP polymorphisms because lorazepam bypasses oxidative metabolism.",
       "reference": "pmid:15961980"
@@ -1082,7 +1079,6 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP3A4",
         "NAT2"
       ],
       "phenotype_effects": "NAT2 slow acetylators show altered metabolite profile but minor clinical impact.",
@@ -1204,7 +1200,6 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP3A4",
         "CYP3A5"
       ],
       "phenotype_effects": "CYP3A5 expressers clear ~25% faster.",
@@ -1308,8 +1303,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2C19",
-        "CYP3A4"
+        "CYP2C19"
       ],
       "phenotype_effects": "CYP2C19 PMs may show higher parent exposure / lower desmethyl formation.",
       "reference": "pmid:12640218"
@@ -1709,8 +1703,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2C19",
-        "CYP3A4"
+        "CYP2C19"
       ],
       "phenotype_effects": "CYP2C19 PMs accumulate nordazepam more.",
       "reference": null
@@ -2485,8 +2478,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2C19",
-        "CYP3A4"
+        "CYP2C19"
       ],
       "phenotype_effects": "Inherited via nordazepam: CYP2C19 PMs accumulate more.",
       "reference": null

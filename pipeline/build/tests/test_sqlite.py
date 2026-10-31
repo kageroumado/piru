@@ -3336,6 +3336,54 @@ class TestSignatureGates(unittest.TestCase):
         ).fetchall()
         self.assertEqual(rows, [], f"uncited numeric rows: {[r[0] for r in rows]}")
 
+    def test_half_life_ranges_are_well_formed_and_cited(self):
+        """A stated half-life range is both ends, in order, around the one number the
+        engines run on — and cited, because the whole point of keeping the range is that
+        it is what a source says."""
+        broken = self.db.execute(
+            "SELECT s.canonical_name, h.half_life_minutes,"
+            "       h.half_life_min_minutes, h.half_life_max_minutes"
+            "  FROM half_lives h JOIN substances s ON s.id = h.substance_id"
+            " WHERE (h.half_life_min_minutes IS NULL) != (h.half_life_max_minutes IS NULL)"
+            "    OR (h.half_life_min_minutes IS NOT NULL"
+            "        AND (h.half_life_min_minutes <= 0"
+            "             OR h.half_life_min_minutes >= h.half_life_max_minutes"
+            "             OR h.half_life_minutes < h.half_life_min_minutes"
+            "             OR h.half_life_minutes > h.half_life_max_minutes))"
+        ).fetchall()
+        self.assertEqual(broken, [], f"malformed half-life range: {broken}")
+
+        uncited = self.db.execute(
+            "SELECT s.canonical_name FROM half_lives h"
+            "  JOIN substances s ON s.id = h.substance_id"
+            " WHERE h.half_life_min_minutes IS NOT NULL AND h.citation_id IS NULL"
+        ).fetchall()
+        self.assertEqual(uncited, [], f"uncited half-life range: {[r[0] for r in uncited]}")
+
+    def test_a_range_only_half_life_carries_its_geometric_mean(self):
+        """A source that states only a range leaves the single column to the build, which
+        derives sqrt(min*max) — the same number Swift's `HalfLife.representative` uses, so
+        the column and the app can never disagree. A source that also states a mean keeps
+        it, which is why this only checks that the value sits inside the range."""
+        import math
+
+        rows = self.db.execute(
+            "SELECT s.canonical_name, h.half_life_minutes,"
+            "       h.half_life_min_minutes, h.half_life_max_minutes"
+            "  FROM half_lives h JOIN substances s ON s.id = h.substance_id"
+            " WHERE h.half_life_min_minutes IS NOT NULL"
+        ).fetchall()
+        self.assertTrue(rows, "no half-life ranges in the database")
+        for name, point, lo, hi in rows:
+            with self.subTest(name):
+                self.assertTrue(lo <= point <= hi)
+        derived = [
+            name
+            for name, point, lo, hi in rows
+            if math.isclose(point, math.sqrt(lo * hi), rel_tol=1e-6)
+        ]
+        self.assertTrue(derived, "no range had its point value derived by the build")
+
     def test_uncited_numbers_outside_the_check_above_only_shrink(self):
         """Half-lives, protocol doses, durations of action and confidence-interval-
         only Kᵢ rows carry numbers the check above never asked about. Hundreds ship

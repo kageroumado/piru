@@ -2233,7 +2233,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Full 5-HT2A Receptor Agonist (High Potency)",
+    "mechanism_summary": "5-HT2A Receptor Agonist (High Potency)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -2285,10 +2285,11 @@
       "Vasoconstriction",
       "Wakefulness"
     ],
-    "references": [],
+    "references": [
+      "25C-NBOMe: Preliminary Data on Pharmacology, Psychoactive Effects, and Toxicity of a New Potent and Dangerous Hallucinogenic Drug"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -13680,14 +13681,15 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Selectively blocks alpha-1A adrenergic receptors in the prostate, relaxing smooth muscle around the bladder neck.",
+    "mechanism_summary": "Blocks post-synaptic alpha-1 adrenergic receptors in the prostate and bladder neck, relaxing smooth muscle.",
     "effects": [],
-    "references": [],
+    "references": [
+      "DailyMed: UROXATRAL (alfuzosin hydrochloride) label"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -14963,10 +14965,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1440.0,
+    "half_life_minutes": 1260.0,
     "mechanism_summary": "Tricyclic Antidepressant (TCA)",
     "effects": [],
     "references": [
+      "Wikipedia: Amitriptyline (revision 1380905598)",
       "https://en.wikipedia.org/wiki/Amitriptyline",
       "https://www.ncbi.nlm.nih.gov/books/NBK537225/"
     ],
@@ -18494,7 +18497,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 720.0,
+    "half_life_minutes": 672.6,
     "mechanism_summary": "布罗曼坦在兴奋剂中是非典型的，因为它除了抑制多巴胺再摄取外，还抑制血清素再摄取。它还会增加去甲肾上腺素的水平，但其作用方式尚不清楚。 布罗曼坦的抗焦虑特性归因于其增强 GABA 能介导的作用。\n\n与典型的兴奋剂如苯丙胺不同，布罗曼坦的作用主要通过上调酪氨酸羟化酶和芳香族 L-氨基酸脱羧酶（L-DOPA 脱羧酶）来实现。 啮齿动物研究表明，在服用布罗曼坦后，这些酶增加了 2-2.5 倍，它们的上调导致多巴胺、血清素和肾上腺素水平的下游增加。\n\n虽然在临床剂量下不相关，但已发现布罗曼坦在动物体内极高剂量下会产生抗胆碱能作用，包括抗毒蕈碱和抗烟碱作用。",
     "effects": [
       "Analysis enhancement",
@@ -18513,6 +18516,7 @@
       "Wakefulness"
     ],
     "references": [
+      "Wikipedia: Bromantane (revision 1382690507)",
       "https://en.wikipedia.org/wiki/Bromantane"
     ],
     "data_gaps": []
@@ -19969,10 +19973,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 750.0,
+    "half_life_minutes": 1175.7550765359256,
     "mechanism_summary": "Voltage-Gated Sodium Channel Blocker",
     "effects": [],
     "references": [
+      "Wikipedia: Carbamazepine (revision 1369634918)",
       "https://en.wikipedia.org/wiki/Carbamazepine",
       "Wikipedia: Carbamazepine, §Mechanism of action (revision 1369634918)"
     ],
@@ -20221,10 +20226,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 312.0,
+    "half_life_minutes": 236.067786874872,
     "mechanism_summary": "Weak substrate-type releasing agent, NET > DAT. The reduced, β-hydroxy relative of cathinone.",
     "effects": [],
     "references": [
+      "Wikipedia: Cathine (revision 1347094282)",
       "Pharmacokinetics of cathinone, cathine and norephedrine after the chewing of khat leaves",
       "https://en.wikipedia.org/wiki/Cathine"
     ],
@@ -21019,12 +21025,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 480.0,
+    "half_life_minutes": 498.0,
     "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (Second-Generation)",
     "effects": [
       "Dry mouth"
     ],
     "references": [
+      "Wikipedia: Cetirizine (revision 1377390353)",
       "https://en.wikipedia.org/wiki/Cetirizine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=30142-211"
     ],
@@ -22611,10 +22618,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 720.0,
+    "half_life_minutes": 852.0,
     "mechanism_summary": "Multi-Receptor Antagonist (Atypical Antipsychotic)",
     "effects": [],
     "references": [
+      "Wikipedia: Clozapine (revision 1380640192)",
       "Clozaril (clozapine) label",
       "https://en.wikipedia.org/wiki/Clozapine"
     ],
@@ -28966,7 +28974,7 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1800.0,
+    "half_life_minutes": 3506.79340708859,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -30565,10 +30573,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 165.0,
+    "half_life_minutes": 177.48239349298848,
     "mechanism_summary": "Blocks histamine H2 receptors on stomach parietal cells, reducing acid secretion.",
     "effects": [],
     "references": [
+      "Wikipedia: Famotidine (revision 1360627089)",
       "Pepcid (famotidine) label",
       "https://en.wikipedia.org/wiki/Famotidine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=24385-255",
@@ -34293,11 +34302,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1260.0,
-    "mechanism_summary": "Blocks dopamine D2 receptors, with additional blockade of histamine H1 and alpha-1 adrenergic receptors.",
+    "half_life_minutes": 1365.576801208925,
+    "mechanism_summary": "Blocks central dopamine D2 receptors, and alpha-1 adrenergic receptors with lower affinity.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Haloperidol"
+      "Wikipedia: Haloperidol (revision 1368777994)",
+      "https://en.wikipedia.org/wiki/Haloperidol",
+      "DailyMed: HALOPERIDOL DECANOATE label"
     ],
     "data_gaps": []
   },
@@ -36056,10 +36067,11 @@
     "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1260.0,
+    "half_life_minutes": 1462.326912834473,
     "mechanism_summary": "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
     "effects": [],
     "references": [
+      "Wikipedia: Iloperidone (revision 1324495639)",
       "Fanapt (iloperidone) label",
       "https://en.wikipedia.org/wiki/Iloperidone"
     ],
@@ -36626,7 +36638,7 @@
     "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 11520.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -36635,6 +36647,7 @@
     ],
     "data_gaps": [
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -42935,10 +42948,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
+    "mechanism_summary": "Norepinephrine–Dopamine Releasing Agent (Substituted Cathinone)",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Methcathinone"
+      "https://en.wikipedia.org/wiki/Methcathinone",
+      "Pharmacological examination of trifluoromethyl ring-substituted methcathinone analogs"
     ],
     "data_gaps": [
       "half_life_minutes"
@@ -45096,7 +45110,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1440.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -45104,6 +45118,7 @@
       "https://en.wikipedia.org/wiki/Ibutamoren"
     ],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -46793,10 +46808,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
+    "mechanism_summary": "Serotonin–Norepinephrine–Dopamine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Naphyrone"
+      "https://en.wikipedia.org/wiki/Naphyrone",
+      "Neurochemical profiles of some novel psychoactive substances"
     ],
     "data_gaps": [
       "half_life_minutes"
@@ -48097,10 +48113,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 4500.0,
+    "half_life_minutes": 5037.856687123999,
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "Wikipedia: N-Desalkylflurazepam (revision 1381667214)",
       "https://en.wikipedia.org/wiki/Norflurazepam"
     ],
     "data_gaps": [
@@ -48225,10 +48242,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 2160.0,
+    "half_life_minutes": 1800.0,
     "mechanism_summary": "Tricyclic Antidepressant (TCA)",
     "effects": [],
     "references": [
+      "Wikipedia: Nortriptyline (revision 1373955529)",
       "https://en.wikipedia.org/wiki/Nortriptyline"
     ],
     "data_gaps": [
@@ -50878,7 +50896,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 330.0,
+    "half_life_minutes": 318.0,
     "mechanism_summary": "GABA-B Receptor Agonist and α2δ Calcium Channel Ligand",
     "effects": [
       "Amnesia",
@@ -50907,6 +50925,7 @@
       "Thought deceleration"
     ],
     "references": [
+      "Wikipedia: Phenibut (revision 1382378963)",
       "https://en.wikipedia.org/wiki/Phenibut",
       "Wikipedia: Phenibut, §Pharmacodynamics (revision 1382378963)"
     ],
@@ -53734,11 +53753,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": true,
-    "half_life_minutes": 120.0,
+    "half_life_minutes": 162.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Vyleesi (bremelanotide) label",
+      "DailyMed: VYLEESI (bremelanotide) label",
       "https://en.wikipedia.org/wiki/Bremelanotide"
     ],
     "data_gaps": [
@@ -54252,6 +54271,7 @@
       "Thought deceleration"
     ],
     "references": [
+      "DailyMed: SEROQUEL (quetiapine fumarate) immediate-release label",
       "Seroquel Xr (quetiapine fumarate) label",
       "https://en.wikipedia.org/wiki/Quetiapine",
       "Steady-State Pharmacokinetic, Safety, and Tolerability Profiles of Quetiapine, Norquetiapine, and Other Quetiapine Metabolites in Pediatric and Adult Patients with Psychotic Disorders"
@@ -55894,10 +55914,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 60.0,
+    "half_life_minutes": 50.0,
     "mechanism_summary": "Selective κ-Opioid Receptor Agonist (Salvinorin A)",
     "effects": [],
     "references": [
+      "Pharmacokinetics and Pharmacodynamics of Salvinorin A and <i>Salvia divinorum</i>: Clinical and Forensic Aspects",
       "https://en.wikipedia.org/wiki/Salvinorin_A"
     ],
     "data_gaps": []
@@ -56441,10 +56462,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 120.0,
+    "half_life_minutes": 122.96340919151518,
     "mechanism_summary": "Selective MAO-B Inhibitor",
     "effects": [],
     "references": [
+      "Wikipedia: Selegiline (revision 1381352134)",
       "Emsam (selegiline) label",
       "https://en.wikipedia.org/wiki/Selegiline",
       "Wikipedia: Selegiline, §Pharmacodynamics (revision 1381352134)"
@@ -60550,10 +60572,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 420.0,
+    "half_life_minutes": 464.75800154489,
     "mechanism_summary": "Serotonin Antagonist and Reuptake Inhibitor (SARI)",
     "effects": [],
     "references": [
+      "Wikipedia: Trazodone (revision 1377081496)",
       "https://en.wikipedia.org/wiki/Trazodone",
       "https://www.accessdata.fda.gov/drugsatfda_docs/nda/2010/022411s000MedR.pdf"
     ],
@@ -61443,10 +61466,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 900.0,
+    "half_life_minutes": 720.0,
     "mechanism_summary": "Multimodal Anticonvulsant and Mood Stabilizer",
     "effects": [],
     "references": [
+      "Wikipedia: Valproate (revision 1381593312)",
       "https://en.wikipedia.org/wiki/Valproate"
     ],
     "data_gaps": [
@@ -61960,10 +61984,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 60.0,
+    "half_life_minutes": 30.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "Wikipedia: Nicotinic acid (revision 1380073623)",
       "https://ods.od.nih.gov/factsheets/Niacin-HealthProfessional/",
       "https://en.wikipedia.org/wiki/Niacin"
     ],
@@ -62265,11 +62290,11 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 4320.0,
+    "half_life_minutes": 3960.0,
     "mechanism_summary": "Multimodal Serotonergic Antidepressant",
     "effects": [],
     "references": [
-      "Trintellix (vortioxetine) label",
+      "DailyMed: TRINTELLIX (vortioxetine) label",
       "https://en.wikipedia.org/wiki/Vortioxetine"
     ],
     "data_gaps": [
@@ -62796,10 +62821,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 390.0,
+    "half_life_minutes": 501.9960159204453,
     "mechanism_summary": "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
     "effects": [],
     "references": [
+      "Wikipedia: Ziprasidone (revision 1368778199)",
       "Geodon (ziprasidone) label",
       "https://en.wikipedia.org/wiki/Ziprasidone"
     ],
@@ -63066,7 +63092,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
-    "mechanism_summary": "GABA-A Receptor Agonist (α1-Selective)",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Cyclopyrrolone)",
     "effects": [
       "Amnesia",
       "Anxiety suppression",
@@ -63079,10 +63105,10 @@
       "Sedation",
       "Thought deceleration"
     ],
-    "references": [],
-    "data_gaps": [
-      "references"
-    ]
+    "references": [
+      "Wikipedia: Zopiclone (revision 1380835395)"
+    ],
+    "data_gaps": []
   },
   {
     "name": "α-PCYP",

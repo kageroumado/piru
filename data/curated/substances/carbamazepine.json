@@ -56,7 +56,18 @@
     "Rare but life-threatening Stevens-Johnson syndrome (especially HLA-B*1502 carriers)",
     "Aplastic anemia and agranulocytosis risk — blood monitoring required"
   ],
-  "halfLifeMinutes": 750,
+  "halfLifeMinutesMin": 960,
+  "halfLifeMinutesMax": 1440,
+  "halfLifeSource": "Wikipedia: Carbamazepine (revision 1369634918); https://en.wikipedia.org/w/index.php?title=Carbamazepine&oldid=1369634918",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 36 hours (single dose), 16–24 hours (repeated dosing)",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "16-24 hours (repeated dosing)",
+    "note": "The 36-hour figure is a single dose; anyone taking carbamazepine is on repeated dosing, which is the range stored.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Carbamazepine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/2554"

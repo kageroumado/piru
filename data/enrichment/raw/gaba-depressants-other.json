@@ -186,7 +186,6 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "ADH1B",
-        "ADH1C",
         "ALDH2",
         "CYP2E1"
       ],
@@ -586,7 +585,6 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "ADH1B",
         "ALDH2"
       ],
       "phenotype_effects": "ALDH2*2 variant would cause aldehyde intermediate accumulation; potentially severe flush-like reaction.",
@@ -1028,27 +1026,12 @@
           "tissue_or_cell": "rat brain membranes",
           "radioligand_or_probe": "[3H]gabapentin",
           "reference": "pmid:26234470"
-        },
-        {
-          "target": "GABA-B (rat brain)",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": "baclofen",
-          "action": "partialAgonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain / GIRK assay",
-          "radioligand_or_probe": null,
-          "reference": null
         }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Dual mechanism: GABA-B partial agonism (anxiolysis, sedation, prolactin/GH release) + α2δ-1 binding (anti-nociceptive, sleep). The combination produces a phenibut phenotype distinct from either pure GABA-B agonist (baclofen) or pure α2δ ligand (gabapentin). Severe withdrawal is attributed to GABA-B receptor downregulation analogous to GHB.",
+      "downstream_signalling": "Dual mechanism: GABA-B full agonism (anxiolysis, sedation, prolactin/GH release) + α2δ-1 binding (anti-nociceptive, sleep). The combination produces a phenibut phenotype distinct from either pure GABA-B agonist (baclofen) or pure α2δ ligand (gabapentin). Severe withdrawal is attributed to GABA-B receptor downregulation analogous to GHB.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -1581,8 +1564,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2C9",
-        "CYP2C19"
+        "CYP2C9"
       ],
       "phenotype_effects": "CYP2C9 poor metabolisers (~5% Caucasians) have reduced clearance: risk of accumulation.",
       "reference": null
@@ -2092,7 +2074,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Intermediate-acting barbiturate (1922). Mechanism by class.",
+      "downstream_signalling": "A barbiturate invented in 1912 by Ernst Preiswerk and Ernst Grether at CIBA. Mechanism by class.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -2348,8 +2330,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2B6",
-        "UGT1A9"
+        "CYP2B6"
       ],
       "phenotype_effects": "CYP2B6*6 reduces propofol metabolism modestly; not routinely actioned.",
       "reference": null

@@ -2514,7 +2514,6 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
-        "CYP3A5",
         "OPRM1",
         "ABCB1"
       ],
@@ -2811,7 +2810,6 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP3A4",
         "OPRM1"
       ],
       "phenotype_effects": "OPRM1 A118G affects analgesic response.",
@@ -2915,7 +2913,6 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP3A4",
         "CYP3A5"
       ],
       "phenotype_effects": "CYP3A5*3/*3 (non-expressors) may have slightly reduced clearance.",

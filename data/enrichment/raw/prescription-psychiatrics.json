@@ -143,8 +143,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2C19",
-        "CYP2D6"
+        "CYP2C19"
       ],
       "phenotype_effects": "CYP2C19 PMs show 2-3× citalopram AUC and elevated QTc; CPIC recommends max 20 mg/day for PMs. UMs may have subtherapeutic exposure. 5-HTTLPR S-allele homozygotes show worse response.",
       "reference": "doi:10.1002/cpt.147"
@@ -577,8 +576,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "CYP2C9"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 PMs: fluoxetine AUC ↑, norfluoxetine AUC ↓. Because norfluoxetine has comparable SERT potency to parent and longer t1/2, total active drug exposure is similar across phenotypes: fluoxetine is unusually robust to CYP2D6 polymorphism.",
       "reference": null
@@ -1687,8 +1685,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP1A2",
-        "UGT1A4"
+        "CYP1A2"
       ],
       "phenotype_effects": "An added effect of the CYP1A2*1F (rs762551) allele on systemic olanzapine exposure could not be verified; CYP1A1/CYP1A2 rs2472297 and AHR rs4410790 track CYP1A2-mediated metabolism but are of minor quantitative importance for systemic exposure.",
       "reference": "pmid:23492908"
@@ -2352,8 +2349,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "GADL1",
-        "GSK3B"
+        "GADL1"
       ],
       "phenotype_effects": "Intronic GADL1 variants (rs17026688/rs17026651) were strongly associated with lithium response in Han Chinese bipolar I patients (Chen 2014, NEJM).",
       "reference": "pmid:24369049"

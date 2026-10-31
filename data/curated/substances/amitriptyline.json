@@ -38,7 +38,16 @@
     "Cardiotoxic in overdose — narrow therapeutic index (avoid in patients with cardiac disease)",
     "Serious potential lethality in overdose (seized in toxicology as high-risk TCA)"
   ],
-  "halfLifeMinutes": 1440,
+  "halfLifeMinutes": 1260,
+  "halfLifeSource": "Wikipedia: Amitriptyline (revision 1380905598); https://en.wikipedia.org/w/index.php?title=Amitriptyline&oldid=1380905598",
+  "halfLifeEvidence": {
+    "quote": "Amitriptyline has an elimination half life of 21 hours",
+    "section": "Pharmacokinetics",
+    "identity": "article title is the substance's own name",
+    "value": "21 hours",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012036s098lbl.pdf",
     "https://en.wikipedia.org/wiki/Amitriptyline",

@@ -1035,7 +1035,6 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP1A2",
         "CYP2C9"
       ],
       "phenotype_effects": "Limited data; expected slower clearance in CYP2C9 PMs.",

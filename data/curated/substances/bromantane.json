@@ -52,7 +52,16 @@
     "WADA-banned in competitive sport",
     "Increases dopamine and serotonin synthesis"
   ],
-  "halfLifeMinutes": 720,
+  "halfLifeMinutes": 672.6,
+  "halfLifeSource": "Wikipedia: Bromantane (revision 1382690507); https://en.wikipedia.org/w/index.php?title=Bromantane&oldid=1382690507",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 11.21 hours (in humans)",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "11.21 hours",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Bromantane",
     "https://pubchem.ncbi.nlm.nih.gov/compound/55967"

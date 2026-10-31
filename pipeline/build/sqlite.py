@@ -25,6 +25,7 @@ from __future__ import annotations
 import functools
 import hashlib
 import json
+import math
 import os
 import re
 import sqlite3
@@ -1693,10 +1694,23 @@ CREATE UNIQUE INDEX uq_durations_of_action_form ON durations_of_action(substance
 CREATE TABLE half_lives (
     substance_id      INTEGER NOT NULL REFERENCES substances(id),
     source_id         INTEGER NOT NULL REFERENCES sources(id),
+    -- The one number every engine runs on. When the source states a range it is
+    -- the geometric mean of that range (see `half_life_min_minutes`), so a
+    -- reader that knows nothing of ranges still gets the right magnitude.
     half_life_minutes REAL NOT NULL,
+    -- The range the source states, when it states one rather than a point
+    -- value: "4 to 26 hours" is stored as its own two ends and shown that way.
+    -- A point value leaves both NULL. Picking a single number out of a range
+    -- was how half-lives like clozapine's came to claim a precision no source
+    -- has; `half_life_minutes` carries sqrt(min*max) instead, which is the
+    -- midpoint on the log scale elimination actually runs on.
+    half_life_min_minutes REAL,
+    half_life_max_minutes REAL,
     notes             TEXT,
     citation_id       INTEGER REFERENCES citations(id),
-    PRIMARY KEY (substance_id, source_id)
+    PRIMARY KEY (substance_id, source_id),
+    CHECK ((half_life_min_minutes IS NULL) = (half_life_max_minutes IS NULL)),
+    CHECK (half_life_min_minutes IS NULL OR half_life_min_minutes < half_life_max_minutes)
 );
 
 -- Text-bearing tables carry a BCP-47 `language` tag ('en' | 'zh-Hans' |
@@ -7538,19 +7552,41 @@ class Build:
         self,
         sid: int,
         source_slug: str,
-        minutes: float,
+        minutes: float | None,
         citation: str | None = None,
         notes: str | None = None,
+        minutes_min: float | None = None,
+        minutes_max: float | None = None,
     ) -> None:
+        """One substance's elimination half-life from one source.
+
+        A source that states a range passes `minutes_min`/`minutes_max` and may leave
+        `minutes` out: the single number is then the range's geometric mean, which is what
+        the engines run on and what an older reader of this column sees.
+        """
+        if minutes_min is not None and minutes_max is not None:
+            if minutes_min >= minutes_max:
+                self.stats["half_life_range_rejected"] += 1
+                return
+            if minutes is None:
+                minutes = math.sqrt(minutes_min * minutes_max)
+        elif minutes_min is not None or minutes_max is not None:
+            # Half a range is not a range.
+            self.stats["half_life_range_rejected"] += 1
+            minutes_min = minutes_max = None
         if minutes is None:
             return
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO half_lives(substance_id, source_id, half_life_minutes, notes, citation_id) VALUES (?, ?, ?, ?, ?)",
-                (sid, src, minutes, notes, self.cite(citation)),
+                "INSERT INTO half_lives(substance_id, source_id, half_life_minutes, "
+                "half_life_min_minutes, half_life_max_minutes, notes, citation_id) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (sid, src, minutes, minutes_min, minutes_max, notes, self.cite(citation)),
             )
             self.stats["half_lives"] += 1
+            if minutes_min is not None:
+                self.stats["half_life_ranges"] += 1
         except sqlite3.IntegrityError:
             pass
 
@@ -8319,9 +8355,19 @@ class Build:
                 )
         if s.get("peptideProfile"):
             self.add_peptide_profile(sid, slug, s["peptideProfile"])
-        if s.get("halfLifeMinutes") is not None:
+        # A curated half-life is either a point value or the range its source states; the
+        # range carries the point value with it, as sqrt(min*max), so every reader of
+        # `half_life_minutes` keeps working.
+        lo, hi = s.get("halfLifeMinutesMin"), s.get("halfLifeMinutesMax")
+        if s.get("halfLifeMinutes") is not None or (lo is not None and hi is not None):
+            point = s.get("halfLifeMinutes")
             self.add_half_life(
-                sid, slug, float(s["halfLifeMinutes"]), citation=s.get("halfLifeSource")
+                sid,
+                slug,
+                float(point) if point is not None else None,
+                citation=s.get("halfLifeSource"),
+                minutes_min=float(lo) if lo is not None else None,
+                minutes_max=float(hi) if hi is not None else None,
             )
         if s.get("mechanismOfAction"):
             moa = s["mechanismOfAction"]

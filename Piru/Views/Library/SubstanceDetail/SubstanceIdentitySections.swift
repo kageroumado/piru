@@ -71,6 +71,11 @@ struct InfoDisclosureSection: View {
         if substance.displayClass.showsDoseLadder, let dz = substance.diazepamEquivalent, let text = dz.displayText {
             cells.append(("Diazepam equivalent", text))
         }
+        // The source's own figure, which for most substances is a range rather than a point
+        // value — see `HalfLife.displayText`. The attribution row above says where it is from.
+        if let halfLife = substance.halfLife {
+            cells.append(("Half-life", halfLife.displayText))
+        }
         return cells
     }
 

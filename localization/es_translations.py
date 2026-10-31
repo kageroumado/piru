@@ -1554,6 +1554,8 @@ ES = {
     "Had grapefruit with this dose": "Tomé toronja (pomelo) con esta dosis",
     "half-life": "vida media",
     "Half-life": "Vida media",
+    "h": "h",
+    "modeled at %@": "modelado con %@",
     "Half-Life": "Vida media",
     "Half-Life Calculator": "Calculadora de vida media",
     "Half-life data not available for %@.": "No hay datos de vida media para %@.",

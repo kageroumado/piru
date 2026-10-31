@@ -53,7 +53,17 @@
     "Minimal metabolic effects vs olanzapine/quetiapine",
     "Long titration schedule limits use in acute settings"
   ],
-  "halfLifeMinutes": 1260,
+  "halfLifeMinutesMin": 1080,
+  "halfLifeMinutesMax": 1980,
+  "halfLifeSource": "Wikipedia: Iloperidone (revision 1324495639); https://en.wikipedia.org/w/index.php?title=Iloperidone&oldid=1324495639",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 18–33 hours",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "18-33 hours",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "Fanapt (iloperidone) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=33f60b40-3fca-11de-8f56-0002a5d5c51b",
     "https://en.wikipedia.org/wiki/Iloperidone",

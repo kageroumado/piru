@@ -13780,5 +13780,59 @@
   "subjects": [],
   "title": "Carvedilol.",
   "year": "2013"
+ },
+ "doi:10.1016/j.ejphar.2012.11.008": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Pharmacological examination of trifluoromethyl ring-substituted methcathinone analogs",
+  "year": "2013"
+ },
+ "doi:10.1016/j.ejphar.2012.12.006": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Neurochemical profiles of some novel psychoactive substances",
+  "year": "2013"
+ },
+ "doi:10.1016/j.neuropharm.2023.109827": {
+  "journal": "Neuropharmacology",
+  "subjects": [],
+  "title": "Structure-activity relationships for locomotor stimulant effects and monoamine transporter interactions of substituted amphetamines and cathinones",
+  "year": "2024"
+ },
+ "doi:10.1021/jm00002a020": {
+  "journal": "Journal of medicinal chemistry",
+  "subjects": [],
+  "title": "Cocaine and 3 beta-(4'-substituted phenyl)tropane-2 beta-carboxylic acid ester and amide analogues. New high-affinity and selective compounds for the dopamine transporter",
+  "year": "1995"
+ },
+ "doi:10.1155/2014/734749": {
+  "journal": "BioMed Research International",
+  "subjects": [],
+  "title": "25C-NBOMe: Preliminary Data on Pharmacology, Psychoactive Effects, and Toxicity of a New Potent and Dangerous Hallucinogenic Drug",
+  "year": 2014
+ },
+ "pmid:23178523": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Pharmacological examination of trifluoromethyl ring-substituted methcathinone analogs.",
+  "year": "2013"
+ },
+ "pmid:23261499": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Neurochemical profiles of some novel psychoactive substances.",
+  "year": "2013"
+ },
+ "pmid:37468498": {
+  "journal": "Nature communications",
+  "subjects": [],
+  "title": "A preclinical secondary pharmacology resource illuminates target-adverse drug reaction associations of marketed drugs.",
+  "year": "2023"
+ },
+ "pmid:8496700": {
+  "journal": "Journal of natural products",
+  "subjects": [],
+  "title": "The role of receptor binding in drug discovery.",
+  "year": "1993"
  }
 }

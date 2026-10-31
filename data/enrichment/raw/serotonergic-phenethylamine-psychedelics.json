@@ -707,8 +707,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "CYP3A4"
+        "CYP2D6"
       ],
       "phenotype_effects": "PMs at CYP2D6 expected to have higher exposure",
       "reference": "doi:10.1002/dta.2044"
@@ -3750,7 +3749,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "DOx class; bulkier 4-alkyl typically reduces 5-HT2A affinity beyond propyl.",
+      "downstream_signalling": "DOx class; the 4-butyl group gives DOBU even higher serotonin 5-HT2A receptor affinity than the shorter homologues DOM, DOET and DOPR.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -5330,7 +5329,7 @@
         "CYP2D6",
         "CYP3A4"
       ],
-      "phenotype_effects": "PMs and CYP3A4-inhibited patients have higher exposure",
+      "phenotype_effects": "CYP2D6 PMs and CYP3A4-inhibited patients have higher exposure",
       "reference": null
     },
     "tolerance_and_dependence": null,
@@ -5372,24 +5371,7 @@
         "5-HT1A",
         "SERT"
       ],
-      "binding": [
-        {
-          "target": "VMAT2",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "enzymeInhibitor",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": null,
-          "reference": null,
-          "emax_pct": null
-        }
-      ],
+      "binding": [],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],

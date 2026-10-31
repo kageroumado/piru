@@ -326,7 +326,6 @@
         "md-php",
         "mdphp",
         "mdpv",
-        "naphyrone",
         "pyrovalerone",
         "α-php",
         "α-pvp"
@@ -362,7 +361,6 @@
         "ethylone",
         "eutylone",
         "mephedrone",
-        "methcathinone",
         "methylone",
         "mexedrone",
         "n-ethylpentylone"
@@ -1020,8 +1018,7 @@
       "substances": [
         "eszopiclone",
         "zaleplon",
-        "zolpidem",
-        "zopiclone"
+        "zolpidem"
       ],
       "prose": {
         "en": {

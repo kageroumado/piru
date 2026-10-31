@@ -36,7 +36,19 @@
     "Anticholinergic effects, orthostatic hypotension, QTc prolongation",
     "Cardiotoxic in overdose"
   ],
-  "halfLifeMinutes": 2160,
+  "halfLifeMinutes": 1800,
+  "halfLifeMinutesMin": 1080,
+  "halfLifeMinutesMax": 2640,
+  "halfLifeSource": "Wikipedia: Nortriptyline (revision 1373955529); https://en.wikipedia.org/w/index.php?title=Nortriptyline&oldid=1373955529",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 18–44 hours (mean 30 hours)",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "18-44 hours, mean 30 hours",
+    "note": "The source states the mean as well as the range.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012230s062lbl.pdf",
     "https://en.wikipedia.org/wiki/Nortriptyline",

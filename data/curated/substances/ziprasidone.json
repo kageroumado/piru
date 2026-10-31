@@ -91,7 +91,18 @@
     "Low EPS risk",
     "Hyperprolactinemia less pronounced than risperidone"
   ],
-  "halfLifeMinutes": 390,
+  "halfLifeMinutesMin": 420,
+  "halfLifeMinutesMax": 600,
+  "halfLifeSource": "Wikipedia: Ziprasidone (revision 1368778199); https://en.wikipedia.org/w/index.php?title=Ziprasidone&oldid=1368778199",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 7–10 hours",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "7-10 hours",
+    "note": "The stored value was 6.5 hours, below the whole of the stated range.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "Geodon (ziprasidone) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a2b4cc65-6a6d-49c4-adfc-a4458562a167",
     "https://en.wikipedia.org/wiki/Ziprasidone",

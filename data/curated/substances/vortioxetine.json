@@ -36,7 +36,16 @@
     "Reduced sexual dysfunction compared to SSRIs",
     "Discontinuation syndrome on abrupt stop"
   ],
-  "halfLifeMinutes": 4320,
+  "halfLifeMinutes": 3960,
+  "halfLifeSource": "DailyMed: TRINTELLIX (vortioxetine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1a5b68e2-14d0-419d-9ec6-1ca97145e838",
+  "halfLifeEvidence": {
+    "quote": "The mean terminal half-life is approximately 66 hours, and steady-state plasma concentrations are typically achieved within two weeks of dosing.",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient names 'vortioxetine' as whole words",
+    "value": "66 hours",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "Trintellix (vortioxetine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1a5b68e2-14d0-419d-9ec6-1ca97145e838",
     "https://en.wikipedia.org/wiki/Vortioxetine",

@@ -66,7 +66,16 @@
     "Contraindicated with high cardiovascular disease risk; avoid with antihypertensives on same day",
     "Grey-market versions often Melanotan II mislabeled — dose verification critical"
   ],
-  "halfLifeMinutes": 120,
+  "halfLifeMinutes": 162,
+  "halfLifeSource": "DailyMed: VYLEESI (bremelanotide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f1d0c1b5-2f39-4bad-a6a4-0066e3ad5dcf",
+  "halfLifeEvidence": {
+    "quote": "Following a single subcutaneous administration of VYLEESI, mean terminal half-life of bremelanotide is approximately 2.7 hours (range: 1.9– 4.0 hours)",
+    "section": "12.3 Pharmacokinetics",
+    "identity": "active ingredient of the label is bremelanotide, of which PT-141 is the development code",
+    "value": "2.7 hours",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "Vyleesi (bremelanotide) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f1d0c1b5-2f39-4bad-a6a4-0066e3ad5dcf",
     "https://en.wikipedia.org/wiki/Bremelanotide",

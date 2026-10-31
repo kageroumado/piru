@@ -92,7 +92,17 @@
     "No anticholinergic burden",
     "Does not inhibit CYP450 enzymes (unlike cimetidine)"
   ],
-  "halfLifeMinutes": 165,
+  "halfLifeMinutesMin": 150,
+  "halfLifeMinutesMax": 210,
+  "halfLifeSource": "Wikipedia: Famotidine (revision 1360627089); https://en.wikipedia.org/w/index.php?title=Famotidine&oldid=1360627089",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 2.5–3.5 hours",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "2.5-3.5 hours",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "Pepcid (famotidine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a06502d9-7903-4f37-833e-e5763d502def",
     "https://en.wikipedia.org/wiki/Famotidine",
