@@ -435,7 +435,7 @@
   },
   {
     "rule": "Shulgin no-activity bound · the DOSAGE line is not a dose",
-    "substance": "PEA",
+    "substance": "Phenethylamine",
     "source": "erowid-pihkal",
     "route": "oral",
     "detail": "DOSAGE: “greater than 1600 mg.”"
@@ -663,27 +663,6 @@
     "source": "psychonautwiki",
     "route": "oral",
     "detail": "common 10–25 mg vs a median of 1875 mg across 4 other sources (0.00933×; context recreational)"
-  },
-  {
-    "rule": "cross-source outlier · common ≥ 10× from the other sources",
-    "substance": "2-DPMP",
-    "source": "erowid-pihkal",
-    "route": "oral",
-    "detail": "common 40–120 mg vs a median of 4 mg across 5 other sources (20×; context recreational)"
-  },
-  {
-    "rule": "cross-source outlier · common ≥ 10× from the other sources",
-    "substance": "Morphine",
-    "source": "erowid-pihkal",
-    "route": "oral",
-    "detail": "common 200–400 mg vs a median of 17.5 mg across 4 other sources (17.1×; context recreational)"
-  },
-  {
-    "rule": "cross-source outlier · common ≥ 10× from the other sources",
-    "substance": "Methamphetamine",
-    "source": "erowid-tihkal",
-    "route": "intravenous",
-    "detail": "common 250–250 mg vs a median of 20 mg across 5 other sources (12.5×; context recreational)"
   },
   {
     "rule": "foreign script · characters no source text uses",

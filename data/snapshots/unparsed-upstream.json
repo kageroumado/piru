@@ -1961,6 +1961,14 @@
  },
  {
   "source": "drug.community",
+  "substance": "Adderall",
+  "route": "oral",
+  "field": "threshold",
+  "raw": "2.5–5 mg",
+  "reason": "range_in_single_value_tier"
+ },
+ {
+  "source": "drug.community",
   "substance": "Alcohol",
   "route": "oral",
   "field": "common",
@@ -1997,30 +2005,6 @@
   "route": "oral",
   "field": "threshold",
   "raw": "2-5 mg",
-  "reason": "range_in_single_value_tier"
- },
- {
-  "source": "drug.community",
-  "substance": "Amphetamine",
-  "route": "insufflation",
-  "field": "ladder",
-  "raw": "{\"unit\": \"mg\", \"threshold\": 2.0, \"light\": {\"lower\": 5.0, \"upper\": 5.0}, \"common\": {\"lower\": 5.0, \"upper\": 15.0}, \"strong\": {\"lower\": 15.0, \"upper\": 30.0}, \"heavy\": 30.0}",
-  "reason": "dose_ranges_duplicate_dropped"
- },
- {
-  "source": "drug.community",
-  "substance": "Amphetamine",
-  "route": "oral",
-  "field": "ladder",
-  "raw": "{\"unit\": \"mg\", \"threshold\": 2.5, \"light\": {\"lower\": 5.0, \"upper\": 10.0}, \"common\": {\"lower\": 10.0, \"upper\": 30.0}, \"strong\": {\"lower\": 30.0, \"upper\": 60.0}, \"heavy\": 60.0}",
-  "reason": "dose_ranges_duplicate_dropped"
- },
- {
-  "source": "drug.community",
-  "substance": "Amphetamine",
-  "route": "oral",
-  "field": "threshold",
-  "raw": "2.5–5 mg",
   "reason": "range_in_single_value_tier"
  },
  {
@@ -3969,14 +3953,6 @@
  },
  {
   "source": "freeodwiki",
-  "substance": "3-Methylmorphine",
-  "route": "oral",
-  "field": "timeline",
-  "raw": "{\"total\": {\"min\": 180.0, \"max\": 360.0}, \"onset\": {\"min\": 30.0, \"max\": 45.0}, \"comeup\": {\"min\": 60.0, \"max\": 120.0}, \"peak\": {\"min\": 180.0, \"max\": 300.0}, \"offset\": {\"min\": 120.0, \"max\": 240.0}}",
-  "reason": "duration_profile_contradictory"
- },
- {
-  "source": "freeodwiki",
   "substance": "5F-PB-22",
   "route": "inhalation",
   "field": "timeline",
@@ -3997,6 +3973,14 @@
   "route": "oral",
   "field": "timeline",
   "raw": "{\"total\": {\"min\": 120.0, \"max\": 300.0}, \"onset\": {\"min\": 5.0, \"max\": 10.0}, \"comeup\": {\"min\": 10.0, \"max\": 60.0}, \"peak\": {\"min\": 60.0, \"max\": 120.0}, \"offset\": {\"min\": 360.0, \"max\": 600.0}, \"afterglow\": {\"min\": 120.0, \"max\": 240.0}}",
+  "reason": "duration_profile_contradictory"
+ },
+ {
+  "source": "freeodwiki",
+  "substance": "Codeine",
+  "route": "oral",
+  "field": "timeline",
+  "raw": "{\"total\": {\"min\": 180.0, \"max\": 360.0}, \"onset\": {\"min\": 30.0, \"max\": 45.0}, \"comeup\": {\"min\": 60.0, \"max\": 120.0}, \"peak\": {\"min\": 180.0, \"max\": 300.0}, \"offset\": {\"min\": 120.0, \"max\": 240.0}}",
   "reason": "duration_profile_contradictory"
  },
  {
@@ -4262,22 +4246,6 @@
   "field": "ladder",
   "raw": "{\"unit\": \"units\", \"light\": {\"lower\": 1, \"upper\": 2}, \"common\": {\"lower\": 2, \"upper\": 4}, \"heavy\": 5}",
   "reason": "dropped_unquantified_unit"
- },
- {
-  "source": "tripsit",
-  "substance": "Amphetamine",
-  "route": "insufflation",
-  "field": "ladder",
-  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 5, \"upper\": 10}, \"common\": {\"lower\": 10, \"upper\": 30}, \"strong\": {\"lower\": 30, \"upper\": 50}, \"heavy\": 50}",
-  "reason": "dose_ranges_duplicate_dropped"
- },
- {
-  "source": "tripsit",
-  "substance": "Amphetamine",
-  "route": "oral",
-  "field": "ladder",
-  "raw": "{\"unit\": \"mg\", \"light\": {\"lower\": 5, \"upper\": 15}, \"common\": {\"lower\": 15, \"upper\": 40}, \"strong\": {\"lower\": 40, \"upper\": 75}, \"heavy\": 75}",
-  "reason": "dose_ranges_duplicate_dropped"
  },
  {
   "source": "tripsit",

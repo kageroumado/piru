@@ -2,7 +2,7 @@
 
 Rows and cells the build refused: a class or tag ceiling, a cited toxic floor (`data/curated/toxic-dose-floors.json`), a phase too short for its route, a Shulgin no-activity bound, a ladder ten times from every other source, or characters from a script no source text uses. Each is a value to report upstream; each rule is in `pipeline/build/dose_gates.py`.
 
-103 row(s) deleted.
+100 row(s) deleted.
 
 ## Shulgin no-activity bound · the DOSAGE line is not a dose
 
@@ -78,8 +78,8 @@ Rows and cells the build refused: a class or tag ceiling, a cited toxic floor (`
 | Mdmeoet | erowid-pihkal | oral | DOSAGE: “greater than 180 mg.” |
 | ORTHO-DOT | erowid-pihkal | oral | DOSAGE: “greater than 25 mg.” |
 | PE | erowid-pihkal | oral | DOSAGE: “greater than 150 mg.” |
-| PEA | erowid-pihkal | oral | DOSAGE: “greater than 1600 mg.” |
 | PSI-2C-T-4 | erowid-pihkal | oral | DOSAGE: “above 12 mg.” |
+| Phenethylamine | erowid-pihkal | oral | DOSAGE: “greater than 1600 mg.” |
 | Propynyl | erowid-pihkal | oral | DOSAGE: “80 mg or more.” |
 | SB | erowid-pihkal | oral | DOSAGE: “above 240 mg.” |
 | TA | erowid-pihkal | oral | DOSAGE: “probably above 50 mg.” |
@@ -119,10 +119,7 @@ Rows and cells the build refused: a class or tag ceiling, a cited toxic floor (`
 
 | substance | source | route | detail |
 |---|---|---|---|
-| 2-DPMP | erowid-pihkal | oral | common 40–120 mg vs a median of 4 mg across 5 other sources (20×; context recreational) |
 | Cannabis | tripsit | inhalation | common 20–60 mg vs a median of 3 mg across 4 other sources (13.3×; context recreational) |
-| Methamphetamine | erowid-tihkal | intravenous | common 250–250 mg vs a median of 20 mg across 5 other sources (12.5×; context recreational) |
-| Morphine | erowid-pihkal | oral | common 200–400 mg vs a median of 17.5 mg across 4 other sources (17.1×; context recreational) |
 | Psilocybin mushrooms | psychonautwiki | oral | common 10–25 mg vs a median of 1875 mg across 4 other sources (0.00933×; context recreational) |
 
 ## foreign script · characters no source text uses

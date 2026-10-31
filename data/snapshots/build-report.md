@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-10-30.9 → `Piru/Data/piru-substances.sqlite` (21,512,192 bytes, sha256 `e0524efe1862fa1ae92fd441164e6c7d68523afd34a04ec9eda4bc364a93b691`)
+Built 2026-10-31.0 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `f45256759a5c107e88a4a27c05d6f816f983fc22f1cfc33ee1a17edb488cec10`)
 
 ## Row counts
 
@@ -10,11 +10,11 @@ Built 2026-10-30.9 → `Piru/Data/piru-substances.sqlite` (21,512,192 bytes, sha
 | aliases | 6,005 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,446 |
+| citations | 2,706 |
 | categories | 1,577 |
 | tags | 7,059 |
-| dose_ranges | 2,804 |
-| durations | 10,735 |
+| dose_ranges | 2,794 |
+| durations | 10,736 |
 | drug_community_timelines | 755 |
 | half_lives | 711 |
 | mechanisms_summary | 1,230 |
@@ -97,13 +97,54 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Dose gates
 
-7 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+100 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
 
 ## Row citations
 
-221 row(s) cited from `data/curated/row-citations.json`; 2 entries not applied.
-- pharmacogenetics · Lean · {'gene': 'CYP2D6'}: unknown via 'manual' (allowed: ['dailymed-ndc', 'haiku', 'hand', 'references_consulted'])
-- pharmacogenetics · Lean · {'gene': 'OPRM1'}: unknown via 'manual' (allowed: ['dailymed-ndc', 'haiku', 'hand', 'references_consulted'])
+523 row(s) cited from `data/curated/row-citations.json`; 0 entries not applied.
+
+## Upstream values the build could not read
+
+548 dose or duration value(s) refused, or read only in part; each is listed in `data/snapshots/unparsed-upstream.json` for reporting upstream (`pipeline/audit/upstream_report.py`).
+
+| source | reason | values |
+|---|---|---|
+| dosewiki | dose_ranges_duplicate_dropped | 4 |
+| dosewiki | dropped_regressed_tiers | 1 |
+| dosewiki | dropped_unquantified_unit | 1 |
+| dosewiki | duration_afterglow_implausible | 5 |
+| dosewiki | duration_profile_contradictory | 2 |
+| dosewiki | stage_unit_unknown_or_half_open | 11 |
+| drug.community | degenerate_after_unreadable_tiers | 7 |
+| drug.community | dose_ranges_duplicate_dropped | 12 |
+| drug.community | dropped_ambiguous_unit | 3 |
+| drug.community | dropped_regressed_tiers | 3 |
+| drug.community | duration_afterglow_implausible | 3 |
+| drug.community | duration_profile_contradictory | 7 |
+| drug.community | extra_numbers_ignored | 14 |
+| drug.community | foreign_characters | 5 |
+| drug.community | no_activity_reported | 1 |
+| drug.community | range_in_single_value_tier | 390 |
+| drug.community | unparsed | 15 |
+| freeodwiki | dropped_inverted_tiers | 7 |
+| freeodwiki | dropped_regressed_tiers | 2 |
+| freeodwiki | duration_afterglow_implausible | 5 |
+| freeodwiki | duration_onset_impossible | 2 |
+| freeodwiki | duration_profile_contradictory | 9 |
+| piru-curated | dose_ranges_duplicate_dropped | 1 |
+| piru-curated | dropped_regressed_tiers | 1 |
+| psychonautwiki | dropped_inverted_tiers | 1 |
+| psychonautwiki | dropped_regressed_tiers | 2 |
+| psychonautwiki | duration_afterglow_implausible | 5 |
+| psychonautwiki | duration_onset_impossible | 1 |
+| psychonautwiki | duration_profile_contradictory | 6 |
+| tripsit | dose_ranges_duplicate_dropped | 7 |
+| tripsit | dropped_daily_unit | 1 |
+| tripsit | dropped_inverted_tiers | 5 |
+| tripsit | dropped_regressed_tiers | 4 |
+| tripsit | dropped_unquantified_unit | 1 |
+| tripsit | duration_afterglow_implausible | 3 |
+| tripsit | duration_onset_impossible | 1 |
 
 ## Per-source coverage
 
@@ -113,11 +154,11 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | peer-review-primary | 0 | 1,002 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 826 | 0 | 0 | 126 |
-| psychonautwiki | 377 | 0 | 63 | 316 |
-| tripsit | 573 | 0 | 410 | 1,267 |
+| psychonautwiki | 376 | 0 | 63 | 316 |
+| tripsit | 572 | 0 | 410 | 1,267 |
 | dailymed | 0 | 0 | 0 | 0 |
-| erowid-pihkal | 103 | 0 | 168 | 430 |
-| erowid-tihkal | 35 | 0 | 47 | 119 |
+| erowid-pihkal | 93 | 0 | 168 | 430 |
+| erowid-tihkal | 37 | 0 | 47 | 119 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 95 | 340 |
