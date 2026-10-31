@@ -1753,20 +1753,17 @@
   {
     "name": "Methamphetamine",
     "parent_half_life_min": 606.0,
-    "parent_half_life_reference": "pmid:15570192",
-    "parent_half_life_notes": "Oral controlled-dose study; plasma half-life is often cited as ~10-12h, but this reference reports urinary terminal elimination half-life of methamphetamine (23.6 ± 6.6 h) which is longer than plasma t1/2 due to ongoing renal reabsorption/excretion kinetics. Range here reflects commonly cited plasma t1/2 (6.4-15 h) from DEA/forensic toxicology fact sheets, not directly re-derived from the cited paper.",
+    "parent_half_life_reference": "pmid:1362938",
+    "parent_half_life_notes": "Plasma elimination half-life after oral S-(+)-methamphetamine-d3: \"The average elimination half-life was 10.1 hr (range of 6.4-15.1 hr)\" (Cook et al. 1992). The urinary terminal half-life is longer, 23.6 ± 6.6 h (pmid:15570192), and is a different quantity.",
     "metabolism": [
       {
         "enzyme": "CYP2D6",
         "metabolite_name": "amphetamine",
         "metabolite_active": true,
-        "metabolite_half_life_min": 600,
-        "metabolite_half_life_range_min": [
-          540,
-          840
-        ],
+        "metabolite_half_life_min": null,
+        "metabolite_half_life_range_min": null,
         "formation_fraction_pct": null,
-        "metabolite_tmax_min": 720,
+        "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": null,
         "reference": "pmid:15570192",

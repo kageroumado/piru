@@ -1043,12 +1043,11 @@ extension SubstanceReadModel {
                            -- comment in the schema). Do not drop this in favour of the scalar
                            -- `metabolite_half_life_min` beside it: that column holds whatever a
                            -- single paper reported, on whatever basis it used, and is not
-                           -- comparable with the parent's own half-life. Methamphetamine →
-                           -- amphetamine stores 1242 min there, which the row's own note
-                           -- identifies as a *urinary* elimination half-life; set against
-                           -- methamphetamine's *plasma* 606 min it reads as a 2× difference
-                           -- where there is none — both are ~10 h plasma. Same mixed-basis trap
-                           -- the ternary's gate exists to catch, in a different table.
+                           -- comparable with the parent's own half-life: a *urinary* terminal
+                           -- half-life (methamphetamine's is ~24 h) set against a *plasma* one
+                           -- (~10 h) reads as a 2× difference where there is none. Same
+                           -- mixed-basis trap the ternary's gate exists to catch, in a different
+                           -- table.
                            -- The inner `src` alias deliberately shadows the outer one so the
                            -- shared source-priority CASE applies to the metabolite's own rows.
                            (SELECT h.half_life_minutes
