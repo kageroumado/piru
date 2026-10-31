@@ -1,4 +1,34 @@
 {
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf": {
+  "application": "NDA020358",
+  "checked": "2026-10-31",
+  "chosen_by": "only label",
+  "citing": [
+   "Amfebutamone",
+   "Aplenzin",
+   "Bupropion",
+   "Forfivo",
+   "Forfivo XL",
+   "Wellbutrin",
+   "Wellbutrin SR",
+   "Wellbutrin XL",
+   "Zyban",
+   "威博隽（Wellbutrin）",
+   "安非他酮",
+   "安非他酮（Bupropion）",
+   "载班（Zyban）"
+  ],
+  "names": [
+   "安非他酮（Bupropion）",
+   "Bupropion",
+   "Wellbutrin",
+   "Wellbutrin SR",
+   "威博隽（Wellbutrin）"
+  ],
+  "setid": "cbc8c074-f080-4489-a5ae-207b5fadeba3",
+  "title": "WELLBUTRIN SR (BUPROPION HYDROCHLORIDE) TABLET, FILM COATED [GLAXOSMITHKLINE LLC]",
+  "verdict": "ok"
+ },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/08495s041lbl.pdf": {
   "application": null,
   "checked": "2026-10-30",
@@ -13,6 +43,26 @@
   "application": "NDA020784",
   "checked": "2026-10-30",
   "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/018936s064lbl.pdf": {
+  "application": "NDA018936",
+  "checked": "2026-10-31",
+  "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Fluoxetine",
+   "Fontex",
+   "Prozac",
+   "Sarafem",
+   "Selfemra",
+   "Symbyax"
+  ],
+  "names": [
+   "Fluoxetine",
+   "Prozac"
+  ],
+  "setid": "4b8fcce1-abfc-4631-9975-9d66e178dab6",
+  "title": "PROZAC (FLUOXETINE HYDROCHLORIDE) CAPSULE [STAT RX USA]",
+  "verdict": "ok"
  },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf": {
   "application": "NDA021487",
@@ -92,6 +142,25 @@
   "application": null,
   "checked": "2026-10-30",
   "verdict": "no DailyMed label for the application or its brand"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/020272s042,020588s030,021444s016,021346s010lbl.pdf": {
+  "application": "NDA020272",
+  "checked": "2026-10-31",
+  "chosen_by": "sponsor's label",
+  "citing": [
+   "Risperdal",
+   "Risperdal Consta",
+   "Risperidone",
+   "利培酮",
+   "理思必妥"
+  ],
+  "names": [
+   "Risperidone",
+   "Risperdal"
+  ],
+  "setid": "7e117c7e-02fc-4343-92a1-230061dfc5e0",
+  "title": "RISPERDAL (RISPERIDONE) TABLET RISPERDAL M-TAB (RISPERIDONE) TABLET, ORALLY DISINTEGRATING RISPERDAL (RISPERIDONE) SOLUTION [JANSSEN PHARMACEUTICALS, INC.]",
+  "verdict": "ok"
  },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf": {
   "application": "NDA018677",
@@ -468,6 +537,24 @@
   "title": "ALLEGRA HIVES 24HR (FEXOFENADINE HYDROCHLORIDE) TABLET, FILM COATED [CHATTEM, INC.]",
   "verdict": "ok"
  },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/021368s20s21lbl.pdf": {
+  "application": "NDA021368",
+  "checked": "2026-10-31",
+  "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Adcirca",
+   "Alyq",
+   "Cialis",
+   "Tadalafil"
+  ],
+  "names": [
+   "Tadalafil",
+   "Cialis"
+  ],
+  "setid": "0e747223-2740-4e45-9bef-ae5f7798064a",
+  "title": "CIALIS (TADALAFIL) TABLET, FILM COATED [PHYSICIANS TOTAL CARE, INC.]",
+  "verdict": "ok"
+ },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/017473s055lbl.pdf": {
   "application": "NDA017473",
   "checked": "2026-10-30",
@@ -514,6 +601,46 @@
   "title": "PAXIL (PAROXETINE HYDROCHLORIDE) TABLET, FILM COATED [APOTEX CORP]",
   "verdict": "ok"
  },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020151s059lbl.pdf": {
+  "application": "NDA020151",
+  "checked": "2026-10-31",
+  "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Effexor",
+   "Effexor XR",
+   "Venlafaxine"
+  ],
+  "names": [
+   "Venlafaxine",
+   "Effexor"
+  ],
+  "setid": "3423487c-80e3-6bff-e054-00144ff88e88",
+  "title": "EFFEXOR (VENLAFAXINE) TABLET [DIRECT RX]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf": {
+  "application": "NDA020822",
+  "checked": "2026-10-31",
+  "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Celexa",
+   "Cipralex",
+   "Cipram",
+   "Cipramil",
+   "Citalopram",
+   "Escitalopram",
+   "Lexapro",
+   "Seroplex",
+   "Talohexal"
+  ],
+  "names": [
+   "Citalopram",
+   "Celexa"
+  ],
+  "setid": "4259d9b1-de34-43a4-85a8-41dd214e9177",
+  "title": "CELEXA (CITALOPRAM) TABLET, FILM COATED [ALLERGAN, INC.]",
+  "verdict": "ok"
+ },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s044,021046s019lbl.pdf": {
   "application": "NDA020822",
   "checked": "2026-10-30",
@@ -545,6 +672,23 @@
   "setid": "c4c65e48-85f8-4dcf-6281-06e40959cc79",
   "title": "CALCIUM CHLORIDE INJECTION, SOLUTION [HOSPIRA, INC.]",
   "verdict": "label names no citing substance"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021992s030lbl.pdf": {
+  "application": "NDA021992",
+  "checked": "2026-10-31",
+  "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Desvenlafaxine",
+   "Khedezla",
+   "Pristiq"
+  ],
+  "names": [
+   "Desvenlafaxine",
+   "Pristiq"
+  ],
+  "setid": "0f43610c-f290-46ea-d186-4f998ed99fce",
+  "title": "PRISTIQ EXTENDED-RELEASE (DESVENLAFAXINE SUCCINATE) TABLET, EXTENDED RELEASE [WYETH PHARMACEUTICALS LLC, A SUBSIDIARY OF PFIZER INC.]",
+  "verdict": "ok"
  },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf": {
   "application": "NDA022200",
@@ -618,6 +762,100 @@
   ],
   "setid": "e62efb5a-d2cc-4e11-9e61-10e65ef3d897",
   "title": "RAZADYNE (GALANTAMINE HYDROBROMIDE) TABLET, FILM COATED [REBEL DISTRIBUTORS CORP]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021303s026lbl.pdf": {
+  "application": "NDA021303",
+  "checked": "2026-10-31",
+  "chosen_by": "sponsor's label",
+  "citing": [
+   "(AlphaS)-alpha-methylbenzeneethanamine",
+   "Adderall",
+   "Adderall IR",
+   "Adderall XR",
+   "Addys",
+   "Adzenys ER",
+   "Adzenys XR-ODT",
+   "Amphetamine",
+   "Amphetamine（安非他命）",
+   "Attentin",
+   "Bennies",
+   "Benzedrine",
+   "DL-amphetamine",
+   "Dex",
+   "Dex/Levo-amphetamine",
+   "Dexamfetamine",
+   "Dexedrine",
+   "Dexedrine Spansule",
+   "Dexies",
+   "Dextroamphetamine",
+   "Dextroamphetamine-Amphetamine",
+   "Dextrostat",
+   "Dyanavel XR",
+   "Evekeo",
+   "Evekeo ODT",
+   "MAS",
+   "MAS-IR",
+   "MAS-XR",
+   "Mixed Amphetamine Salts",
+   "Mydayis",
+   "Pep",
+   "ProCentra",
+   "S-(+)-amphetamine",
+   "Speed",
+   "Xelstrym",
+   "Zenzedi",
+   "adderal",
+   "aderal",
+   "aderall",
+   "alpha-Methylbenzeneethaneamine",
+   "alpha-methylphenethylamine",
+   "alpha-methylphenylethylamine",
+   "amfetamine",
+   "amfetaminum",
+   "amph",
+   "amphetamin",
+   "amphetamines",
+   "base",
+   "beta-Aminopropylbenzene",
+   "beta-Phenylisopropylamine",
+   "beta-phenylisopropylamin",
+   "black beauties",
+   "d-amph",
+   "desoxynorephedrine",
+   "dextroamphetamine/amphetamine",
+   "dextroamphetamine/dextroamphetamine/amphetamine/amphetamine",
+   "goey",
+   "hearts",
+   "louee",
+   "mixed amphetamine salts; MAS",
+   "pep pills",
+   "pepp",
+   "racemic amphetamine",
+   "uppers",
+   "whiz",
+   "whizz",
+   "α-methylbenzeneethaneamine",
+   "α-methylphenethylamine",
+   "α-甲基苯乙胺",
+   "β-aminopropylbenzene",
+   "β-phenylisopropylamine",
+   "安非他命",
+   "安非他明",
+   "苯丙胺",
+   "苯丙胺（Amphetamine）",
+   "苯基乙丙胺"
+  ],
+  "names": [
+   "苯丙胺（Amphetamine）",
+   "Dextroamphetamine",
+   "Amphetamine（安非他命）",
+   "Amphetamine",
+   "Adderall",
+   "Adderall XR"
+  ],
+  "setid": "aff45863-ffe1-4d4f-8acf-c7081512a6c0",
+  "title": "ADDERALL XR (DEXTROAMPHETAMINE SULFATE, DEXTROAMPHETAMINE SACCHARATE, AMPHETAMINE SULFATE AND AMPHETAMINE ASPARTATE) CAPSULE, EXTENDED RELEASE [TAKEDA PHARMACEUTICALS AMERICA, INC.]",
   "verdict": "ok"
  },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021876s004lbl.pdf": {
@@ -1058,6 +1296,33 @@
   ],
   "setid": "fda754f6-d0f3-4dce-a17a-927d64f912f7",
   "title": "ZOLOFT (SERTRALINE HYDROCHLORIDE) TABLET, FILM COATED ZOLOFT (SERTRALINE HYDROCHLORIDE) SOLUTION, CONCENTRATE [VIATRIS SPECIALTY LLC]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020415s030lbl.pdf": {
+  "application": "NDA020415",
+  "checked": "2026-10-31",
+  "chosen_by": "sponsor's label",
+  "citing": [
+   "6-Azamianserin",
+   "Avanza",
+   "Axit",
+   "Mepirzapine",
+   "Mirtaz",
+   "Mirtazapine",
+   "Mirtazapinum",
+   "Mirtazon",
+   "Org 3770",
+   "Remeron",
+   "Remeron SolTab",
+   "Zispin",
+   "米氮平"
+  ],
+  "names": [
+   "Mirtazapine",
+   "Remeron"
+  ],
+  "setid": "98ad1917-a094-44f5-a28f-a64a8cfcd887",
+  "title": "REMERON (MIRTAZAPINE) TABLET, FILM COATED REMERONSOLTAB (MIRTAZAPINE) TABLET, ORALLY DISINTEGRATING [ORGANON LLC]",
   "verdict": "ok"
  },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020648s019lbl.pdf": {
@@ -1570,6 +1835,29 @@
   ],
   "setid": "4b8fcce1-abfc-4631-9975-9d66e178dab6",
   "title": "PROZAC (FLUOXETINE HYDROCHLORIDE) CAPSULE [STAT RX USA]",
+  "verdict": "ok"
+ },
+ "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/021323s055,021365s039lbl.pdf": {
+  "application": "NDA021323",
+  "checked": "2026-10-31",
+  "chosen_by": "brand label (repackaged copy)",
+  "citing": [
+   "Celexa",
+   "Cipralex",
+   "Cipram",
+   "Cipramil",
+   "Citalopram",
+   "Escitalopram",
+   "Lexapro",
+   "Seroplex",
+   "Talohexal"
+  ],
+  "names": [
+   "Escitalopram",
+   "Lexapro"
+  ],
+  "setid": "13bb8267-1cab-43e5-acae-55a4d957630a",
+  "title": "LEXAPRO (ESCITALOPRAM) TABLET, FILM COATED LEXAPRO (ESCITALOPRAM) SOLUTION [ALLERGAN, INC.]",
   "verdict": "ok"
  },
  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/022505s013lbl.pdf": {
