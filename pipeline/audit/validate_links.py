@@ -82,9 +82,13 @@ def _open(url: str, method: str) -> tuple[int | None, str | None, str | None]:
 
 
 def check_url(url: str) -> dict:
-    """HEAD first (cheap); fall back to GET when a server rejects HEAD."""
+    """HEAD first (cheap); fall back to GET when a server rejects HEAD.
+
+    A HEAD 404/410 is confirmed with GET before it counts as dead: some servers
+    (thieme-connect, behind every `10.1055/…` DOI) answer HEAD with 404 for a
+    page GET serves with 200."""
     status, final, error = _open(url, "HEAD")
-    if error is not None or (status is not None and status in (403, 405, 501)):
+    if error is not None or (status is not None and status in (403, 404, 405, 410, 501)):
         status, final, error = _open(url, "GET")
     return {
         "status": status,
