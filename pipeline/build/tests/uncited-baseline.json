@@ -10,7 +10,7 @@
   "downstream_signalling · peer-review-primary": 514,
   "drug_interactions_pk · peer-review-primary": 66,
   "durations · piru-curated": 552,
-  "durations_of_action · piru-curated": 21,
+  "durations_of_action · piru-curated": 17,
   "effects · piru-curated": 31,
   "functional_assays · peer-review-primary": 20,
   "half_lives · piru-curated": 176,
@@ -23,7 +23,7 @@
   "pk_routes · peer-review-primary": 40,
   "protocol_dosing · piru-curated": 52,
   "subjective_effects · piru-curated": 27,
-  "substance_flags · piru-curated": 13,
+  "substance_flags · piru-curated": 1,
   "withdrawal_acting_class · piru-curated": 1,
   "withdrawal_timing_bands · piru-curated": 1
  }

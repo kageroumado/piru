@@ -1,22 +1,22 @@
 # Piru SQLite build report
 
-Built 2026-10-31.9 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `912d00d0d91a5679bb4f3d0100086f415e013c92ee0fb4b39f65a72288f69262`)
+Built 2026-10-31.10 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `a43b3cc665a53ccc603b19d40bee0ecdb048945fa5e02b35da4c73388ad4e087`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,674 |
-| aliases | 6,005 |
+| substances | 1,675 |
+| aliases | 6,003 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,739 |
-| categories | 1,577 |
-| tags | 7,059 |
-| dose_ranges | 2,794 |
-| durations | 10,736 |
+| citations | 2,741 |
+| categories | 1,578 |
+| tags | 7,062 |
+| dose_ranges | 2,729 |
+| durations | 10,475 |
 | drug_community_timelines | 755 |
-| half_lives | 709 |
+| half_lives | 707 |
 | mechanisms_summary | 1,228 |
 | effects | 2,952 |
 | subjective_effects | 23,653 |
@@ -24,24 +24,26 @@ Built 2026-10-31.9 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha
 | subjective_effect_concept_aliases | 1,178 |
 | tolerance | 0 |
 | diazepam_equivalents | 32 |
-| bindings | 1,457 |
-| functional_assays | 179 |
+| bindings | 1,458 |
+| functional_assays | 178 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
 | downstream_signalling | 677 |
 | neuroimaging | 52 |
-| pk_routes | 433 |
+| pk_routes | 432 |
 | concentration_effects | 25 |
 | metabolism | 560 |
 | drug_interactions_pk | 205 |
-| pharmacogenetics | 249 |
+| pharmacogenetics | 246 |
 | off_targets | 209 |
 | class_contexts | 50 |
 | substance_classes | 680 |
-| molecule_shapes | 962 |
+| class_warnings | 5 |
+| class_warning_exclusions | 8 |
+| molecule_shapes | 963 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |
-| substance_flags | 13 |
+| substance_flags | 11 |
 | regional_names | 5 |
 | localized_names | 1,615 |
 | opioid_mme | 11 |
@@ -97,7 +99,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Dose gates
 
-100 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+99 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
 
 ## Row citations
 
@@ -105,7 +107,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Upstream values the build could not read
 
-548 dose or duration value(s) refused, or read only in part; each is listed in `data/snapshots/unparsed-upstream.json` for reporting upstream (`pipeline/audit/upstream_report.py`).
+546 dose or duration value(s) refused, or read only in part; each is listed in `data/snapshots/unparsed-upstream.json` for reporting upstream (`pipeline/audit/upstream_report.py`).
 
 | source | reason | values |
 |---|---|---|
@@ -131,8 +133,6 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | freeodwiki | duration_afterglow_implausible | 5 |
 | freeodwiki | duration_onset_impossible | 2 |
 | freeodwiki | duration_profile_contradictory | 9 |
-| piru-curated | dose_ranges_duplicate_dropped | 1 |
-| piru-curated | dropped_regressed_tiers | 1 |
 | psychonautwiki | dropped_inverted_tiers | 1 |
 | psychonautwiki | dropped_regressed_tiers | 2 |
 | psychonautwiki | duration_afterglow_implausible | 5 |
@@ -150,12 +150,12 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 220 | 446 | 650 | 2,269 |
-| peer-review-primary | 0 | 999 | 0 | 1,580 |
+| piru-curated | 154 | 446 | 651 | 2,272 |
+| peer-review-primary | 0 | 1,000 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 826 | 0 | 0 | 126 |
 | psychonautwiki | 376 | 0 | 63 | 316 |
-| tripsit | 572 | 0 | 410 | 1,267 |
+| tripsit | 573 | 0 | 410 | 1,267 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 93 | 0 | 168 | 430 |
 | erowid-tihkal | 37 | 0 | 47 | 119 |
