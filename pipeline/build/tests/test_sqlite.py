@@ -1614,14 +1614,17 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             ("Armodafinil", "Modafinil", "R"),
             ("Dexmethylphenidate", "Methylphenidate", "D"),
         ]:
-            r = self.db.execute(
+            rows = self.db.execute(
                 "SELECT s.canonical_name, a.isomer FROM aliases a "
-                "JOIN substances s ON s.id=a.substance_id WHERE lower(a.alias)=lower(?)",
+                "JOIN substances s ON s.id=a.substance_id WHERE lower(a.alias)=lower(?) "
+                "ORDER BY a.rowid",
                 (alias,),
-            ).fetchone()
-            self.assertIsNotNone(r, f"{alias} alias missing")
-            self.assertEqual(r["canonical_name"], parent, f"{alias} resolves to wrong parent")
-            self.assertEqual(r["isomer"], code, f"{alias} missing isomer facet {code}")
+            ).fetchall()
+            self.assertTrue(rows, f"{alias} alias missing")
+            self.assertEqual(
+                [r["canonical_name"] for r in rows], [parent], f"{alias} resolves elsewhere too"
+            )
+            self.assertEqual(rows[0]["isomer"], code, f"{alias} missing isomer facet {code}")
 
     def test_release_brand_aliases_carry_facet(self):
         """Stage B's name→form resolver: a release-form brand is annotated with its
@@ -1639,14 +1642,17 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             ("Invega Sustenna", "Paliperidone", "DEP"),
             ("Invega", "Paliperidone", "XR"),  # oral ER, NOT the depot sibling
         ]:
-            r = self.db.execute(
+            rows = self.db.execute(
                 "SELECT s.canonical_name, a.release_form FROM aliases a "
-                "JOIN substances s ON s.id=a.substance_id WHERE lower(a.alias)=lower(?)",
+                "JOIN substances s ON s.id=a.substance_id WHERE lower(a.alias)=lower(?) "
+                "ORDER BY a.rowid",
                 (alias,),
-            ).fetchone()
-            self.assertIsNotNone(r, f"{alias} alias missing")
-            self.assertEqual(r["canonical_name"], parent, f"{alias} resolves to wrong parent")
-            self.assertEqual(r["release_form"], code, f"{alias} missing release facet {code}")
+            ).fetchall()
+            self.assertTrue(rows, f"{alias} alias missing")
+            self.assertEqual(
+                [r["canonical_name"] for r in rows], [parent], f"{alias} resolves elsewhere too"
+            )
+            self.assertEqual(rows[0]["release_form"], code, f"{alias} missing release facet {code}")
 
     def test_release_facet_not_claimed_for_non_release_forms(self):
         """The negative half — asserting a form the name never claimed is the way

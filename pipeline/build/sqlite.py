@@ -13356,6 +13356,29 @@ class Build:
                 file=sys.stderr,
             )
 
+        # A curated brand names one parent, so the same name as an alias of any
+        # other substance is a second answer to "what is Adderall XR?" — the
+        # Pyrls stub Dextroamphetamine-Amphetamine carried Adderall and Adderall
+        # XR beside Amphetamine's own. Only the parent keeps it. A brand two
+        # curated entries give different parents is left alone.
+        parents_of: dict[str, set[str]] = defaultdict(set)
+        for parent, name in form_brands:
+            parents_of[normalise(name)].add(parent)
+        for parent, name, _rank in flagship_brands:
+            parents_of[normalise(name)].add(parent)
+        stray_brand_aliases = 0
+        for key, parents in parents_of.items():
+            if len(parents) != 1:
+                continue
+            (parent,) = parents
+            stray_brand_aliases += self.cur.execute(
+                "DELETE FROM aliases WHERE alias_normalized=? AND substance_id IN "
+                "(SELECT id FROM substances WHERE canonical_name != ?) "
+                "AND EXISTS (SELECT 1 FROM aliases p JOIN substances s ON s.id=p.substance_id "
+                "WHERE p.alias_normalized=? AND s.canonical_name=?)",
+                (key, parent, key, parent),
+            ).rowcount
+
         # Coverage gate: a curated tokenless brand that matches no alias of its
         # stated parent is drift (renamed/purged alias, or a typo) — the override
         # would silently never fire. Report rather than fail: the catalog legitimately
@@ -13382,6 +13405,7 @@ class Build:
             "release_brands_unmatched": len(missing),
             "brand_kind_aliases": brand,
             "brand_kind_unmatched": len(brand_missing),
+            "stray_brand_aliases_removed": stray_brand_aliases,
         }
 
     def build_product_strengths(self) -> dict[str, int]:

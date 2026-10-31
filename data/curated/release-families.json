@@ -47,6 +47,7 @@
     { "parent": "Methylphenidate", "brand": "Biphentin", "release": "XR", "note": "40/60 IR/ER multi-layer beads, Canada. Tokenless — needs this entry." },
     { "parent": "Methylphenidate", "brand": "Foquest", "release": "XR", "note": "20/80 IR/ER ascending, ~16 h, Canada. Tokenless — needs this entry." },
     { "parent": "Amphetamine", "brand": "Dexedrine Spansule", "release": "XR", "note": "SR bead capsule. 'Spansule' not in token list." },
+    { "parent": "Amphetamine", "brand": "Adderall XR", "release": "XR", "note": "Token 'XR' auto-tags; the entry names Amphetamine its only parent, so the Pyrls stub Dextroamphetamine-Amphetamine does not carry it too." },
     { "parent": "Clonidine", "brand": "Kapvay", "release": "XR" },
     { "parent": "Guanfacine", "brand": "Intuniv", "release": "XR" },
     { "parent": "Amphetamine", "brand": "Mydayis", "release": "XR", "note": "Triple-bead ER." },
