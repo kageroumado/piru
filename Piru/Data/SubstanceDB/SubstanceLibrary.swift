@@ -233,6 +233,16 @@ enum SubstanceLibrary {
         SubstanceStore.shared.hasActiveMetabolite(canonicalName)
     }
 
+    /// The heart-valve warning for a substance: its own 5-HT2B bindings, or a
+    /// declaration by its class. `nil` when neither holds. See ``ValvularWarning``.
+    static func valvularWarning(for nameOrAlias: String) -> ValvularWarning? {
+        let store = SubstanceStore.shared
+        return ValvularWarning.resolve(
+            bindings: store.bindings(forSubstanceName: nameOrAlias),
+            classWarnings: store.classWarnings(forSubstanceName: nameOrAlias),
+        )
+    }
+
     static func search(_ query: String, limit: Int = 50) -> [Substance] {
         overlaySearch(SubstanceStore.shared.searchMatches(query, limit: limit), query: query).map(\.substance)
     }
