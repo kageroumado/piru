@@ -373,7 +373,9 @@ class Lexicon:
             raw.update(row[0] for row in conn.execute(sql) if row[0])
         raw.update(TARGET_SYNONYMS)
         self.terms: dict[str, Term] = {}
-        for item in raw:
+        # Sorted: a set iterates in hash order, which changes per process, and the
+        # first spelling seen labels a term family in prompts and evidence.
+        for item in sorted(raw):
             label = re.sub(r"\([^)]*\)", " ", item).strip(" ,;/")
             if not label or len(label.split()) > 4:
                 continue
@@ -397,7 +399,7 @@ class Lexicon:
             if not t.keys <= exclude
         ]
         families: list[tuple[str, set[str]]] = []
-        for term in sorted(hits, key=lambda t: -len(compact(t.label))):
+        for term in sorted(hits, key=lambda t: (-len(compact(t.label)), t.label)):
             joined = [f for f in families if _overlap(f[1], term.keys)]
             if not joined:
                 families.append((term.label, set(term.keys)))
