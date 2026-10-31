@@ -55,6 +55,16 @@ xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 18 Pro 
 
 ```
 
+**Every archive passes `pipeline/check-weak-imports.py` before it ships.** A symbol the SDK declares `@backDeployed(before: <the SDK's own OS version>)` is weak-imported and called on any OS reporting that version, and early betas of it report the version without exporting the symbol: the call jumps to address 0. The script reads each binary's SDK from LC_BUILD_VERSION, indexes that SDK's `.swiftinterface` files, and fails on a weak import of a back-deployed declaration; `@available(<SDK version>)` symbols print as warnings.
+
+```bash
+pipeline/check-weak-imports.py /path/to/Piru.xcarchive          # or a .app; exit 1 on a hazard
+pipeline/check-weak-imports.py --list Piru.app                  # every weak import, demangled
+```
+
+- **`Date <=` / `>=` resolve to `Shared/DateComparison.swift`**, which shadows Foundation's back-deployed operators in every target that compiles it. Keep it in each new target that compares dates (the watch app takes it through its `Shared` membership exceptions).
+- A new hazard the interfaces miss goes in the script's `DENYLIST` (mangled substring → reason).
+
 ## Screenshots
 
 `pipeline/screenshots.py` captures every screen worth showing — the vertical timeline, each tab, a quick log with the morning meds staged, stats, inventory, three substance pages, the interaction checker with a pair checked, the skins sheet — in English and Simplified Chinese, in the `piru` skin and then a subset in every other skin the picker offers. It runs unattended and prints each file as it lands.

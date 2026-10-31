@@ -125,12 +125,20 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				ByVolumeDosing.swift,
+				DateComparison.swift,
 				Formatting/P3Color.swift,
 				"Formatting/P3Color+SwiftUI.swift",
 				WatchSync/QuickLogManifest.swift,
 				WatchSync/WatchDosePayload.swift,
 			);
 			target = 0B3399083025398800182A68 /* PiruWatch Watch App */;
+		};
+		0BFA00CE00000000000000E2 /* Exceptions for "Shared" folder in "PiruTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DateComparison.swift,
+			);
+			target = 0B793F282F55448700FB3EE1 /* PiruTests */;
 		};
 		8B60329FAFD54E779AA40D87 /* Exceptions for "PiruWidget" folder in "PiruWidget" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -180,6 +188,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				0BFA00CE00000000000000E1 /* Exceptions for "Shared" folder in "PiruWatch Watch App" target */,
+				0BFA00CE00000000000000E2 /* Exceptions for "Shared" folder in "PiruTests" target */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
