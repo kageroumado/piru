@@ -172,10 +172,12 @@ struct TimelineDayHeader: View {
         return date.formatted(style)
     }
 
+    /// Relative to the current journal day, so at 02:00 under a 4 AM day start
+    /// the slice still running reads "Today".
     private var primaryText: String {
         let calendar = Calendar.current
-        if calendar.isDateInToday(date) { return String(localized: "Today") }
-        if calendar.isDateInYesterday(date) { return String(localized: "Yesterday") }
+        if isToday { return String(localized: "Today") }
+        if calendar.isJournalDayYesterday(date) { return String(localized: "Yesterday") }
         return date.formatted(.dateTime.weekday(.abbreviated))
     }
 }

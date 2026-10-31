@@ -194,12 +194,16 @@ struct TimelineStripBuilder {
             }
             .sorted { $0.timestamp < $1.timestamp }
 
+        // Slices are journal days (`Calendar.journalDay`): keyed by the date a
+        // day is named after, spanning from its Day Starts At hour to the next.
         let calendar = Calendar.current
-        let byDay = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.timestamp) }
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let byDay = Dictionary(grouping: entries) { calendar.journalDay(for: $0.timestamp, boundaryHour: boundaryHour) }
         // Today always gets a slice, dosed or not: the live edge lies in it,
         // and a slice tagged with the last dosed day would otherwise run past
-        // midnight and call this morning "Yesterday".
-        let today = calendar.startOfDay(for: now)
+        // the day's start and call this morning "Yesterday".
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        let dayStart = { (day: Date) in calendar.journalDayStart(of: day, boundaryHour: boundaryHour) }
         let dayDates = Set(byDay.keys).union([today]).sorted(by: >)
         guard let oldestDay = byDay.keys.min() else { return nil }
 
@@ -227,32 +231,32 @@ struct TimelineStripBuilder {
                 : TimelineActivity.activeSpans(states: protectingStates),
         )
         let activeByDay: [Date: Date] = Dictionary(
-            activeIntervals.map { (calendar.startOfDay(for: $0.start), $0.end) },
+            activeIntervals.map { (calendar.journalDay(for: $0.start, boundaryHour: boundaryHour), $0.end) },
             uniquingKeysWith: { Swift.max($0, $1) },
         )
 
         // Slices, newest first. A slice runs from its day's start up to the
         // next newer dosed day's start; when whole days lie between the two
         // and compression is on, the slice instead ends where its day's
-        // activity ends (midnight at the earliest) and the skipped days
+        // activity ends (its day's end at the earliest) and the skipped days
         // become a break. The newest slice runs to the strip's live edge.
         var sliceInfos: [Slice] = []
         let cardHeight = TimelineDoseBubble.height(for: style.bubbleStyle)
         var activeUntil = Date.distantPast
         for day in dayDates.reversed() {
             activeUntil = max(activeUntil, activeByDay[day] ?? .distantPast)
-            let nextDay = calendar.date(byAdding: .day, value: 1, to: day)!
+            let nextDay = calendar.journalDay(after: day)
             let newerDay = dayDates.last(where: { $0 > day })
-            var topTime = newerDay ?? globalEnd
+            var topTime = newerDay.map(dayStart) ?? globalEnd
             var breakAbove = false
             if compressGaps, let newerDay, newerDay > nextDay {
-                let activityEnd = max(nextDay, activeUntil.addingTimeInterval(Self.futureMarginSeconds))
-                if activityEnd < newerDay {
+                let activityEnd = max(dayStart(nextDay), activeUntil.addingTimeInterval(Self.futureMarginSeconds))
+                if activityEnd < dayStart(newerDay) {
                     topTime = activityEnd
                     breakAbove = true
                 }
             }
-            let bottomTime = day == oldestDay ? globalStart : day
+            let bottomTime = day == oldestDay ? globalStart : dayStart(day)
             let groups = Self.makeGroups(
                 dayEntries: byDay[day] ?? [],
                 colorMap: colorMap,
@@ -264,7 +268,7 @@ struct TimelineStripBuilder {
             )
             sliceInfos.append(Slice(
                 date: day,
-                isToday: calendar.isDateInToday(day),
+                isToday: day == today,
                 topTime: topTime,
                 bottomTime: bottomTime,
                 groups: groups,

@@ -112,6 +112,12 @@ struct EntryListView: View {
         isSearchSurface ? .byDay : chosenGrouping
     }
     @AppStorage("journalGroupKey", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var groupKey: JournalGroupKey = .substance
+
+    /// Settings ▸ Journal's Day Starts At hour (`Calendar.journalDay`). Observed
+    /// on the view itself, never through `TimelinePreferences`: on Android a
+    /// wrapper nested in a DynamicProperty is read but not observed, so a change
+    /// made in Settings would not re-group the Journal until relaunch.
+    @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: AppIdentity.appGroup)) private var dayBoundaryHour = 4
     @State private var showingCalendar = false
 
     /// Rename / Move Doses / Share targets set from a session card's context
@@ -249,6 +255,7 @@ struct EntryListView: View {
             searchText: searchText,
             stackRedoses: prefs.stackRedoses,
             revision: DoseLogService.shared.revision,
+            dayBoundaryHour: dayBoundaryHour,
         )
     }
 
@@ -365,6 +372,7 @@ struct EntryListView: View {
         .onChange(of: grouping) { resetWindowAndRegroup() }
         .onChange(of: groupKey) { resetWindowAndRegroup() }
         .onChange(of: model.filterSignature) { resetWindowAndRegroup() }
+        .onChange(of: dayBoundaryHour) { regroup() }
         // The Timeline grouping's layouts. Waits a beat so the filter/search
         // regroup above lands first — the timeline renders `model.filtered`
         // whenever a filter or search is active, the raw log otherwise.
@@ -520,7 +528,7 @@ struct EntryListView: View {
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(dynamicTypeSize)|\(searchText)|\(model.filterSignature)|\(clockTick)"
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(dayBoundaryHour)|\(dynamicTypeSize)|\(searchText)|\(model.filterSignature)|\(clockTick)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous

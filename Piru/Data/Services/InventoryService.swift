@@ -214,7 +214,8 @@ enum InventoryMath {
         let calendar = Calendar.current
         guard let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) else { return nil }
         let recent = doses(for: item, in: ctx).filter { $0.timestamp >= weekAgo && $0.timestamp <= now }
-        let daysWithADose = Set(recent.map { calendar.startOfDay(for: $0.timestamp) }).count
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let daysWithADose = Set(recent.map { calendar.journalDay(for: $0.timestamp, boundaryHour: boundaryHour) }).count
         guard daysWithADose >= 5 else { return nil }
         let consumed = recent.reduce(0.0) { sum, dose in
             sum + (convert(dose.amount, from: dose.unit, to: item.unit, unitStrengthMG: item.unitStrengthMG) ?? 0)

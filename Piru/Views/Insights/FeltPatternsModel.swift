@@ -110,7 +110,8 @@ final class FeltPatternsModel {
             .map(\.timestamp)
             .sorted()
 
-        // key: day + substance → the ratings and the anchoring dose
+        // key: journal day + substance → the ratings and the anchoring dose
+        let boundaryHour = Calendar.sessionDayBoundaryHour
         var buckets: [String: (day: Date, dose: DoseEntry, ratings: [Int])] = [:]
         for session in sessions {
             let doses = session.orderedDoses
@@ -119,7 +120,7 @@ final class FeltPatternsModel {
                 guard let rating = note.worked else { continue }
                 guard let dose = doses.last(where: { $0.timestamp <= note.timestamp }) else { continue }
                 guard let substance = SubstanceLibrary.lookup(dose.substance)?.name else { continue }
-                let day = calendar.startOfDay(for: dose.timestamp)
+                let day = calendar.journalDay(for: dose.timestamp, boundaryHour: boundaryHour)
                 let key = "\(day.timeIntervalSince1970)|\(substance.lowercased())"
                 if var bucket = buckets[key] {
                     bucket.ratings.append(rating)
