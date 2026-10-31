@@ -247,6 +247,25 @@ class TestParsers(unittest.TestCase):
             build.dosewiki_row_reference({"affinity": "Ki 4 nM[cite:missing]"}, references)
         )
 
+    def test_every_reference_correction_replaces_an_identifier_the_snapshot_carries(self):
+        corrections = build.load_dosewiki_reference_corrections()
+        if not corrections or not build.DOSEWIKI.exists():
+            self.skipTest("no corrections or no dose.wiki snapshot")
+        snapshot = {
+            ref["id"]: ref
+            for record in json.loads(build.DOSEWIKI.read_text()).get("records") or []
+            for ref in record.get("references") or []
+            if ref.get("id")
+        }
+        for ref_id, fix in corrections.items():
+            with self.subTest(ref_id):
+                self.assertIn(ref_id, snapshot, "the correction names no dose.wiki reference")
+                original = snapshot[ref_id]
+                self.assertTrue(
+                    any(str(original.get(k) or "") != str(v) for k, v in fix.items()),
+                    "dose.wiki now carries the corrected identifier; delete the entry",
+                )
+
     def test_a_cas_number_passes_its_own_check_digit(self):
         self.assertTrue(build.cas_check_digit_holds("50-78-2"))  # aspirin
         self.assertTrue(build.cas_check_digit_holds("42542-10-9"))  # MDMA

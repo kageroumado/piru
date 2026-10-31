@@ -1384,8 +1384,8 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 28.3,
           "species": "rat",
-          "cell_system": "rat whole brain synaptosomes",
-          "reference": "pmid:1495370"
+          "cell_system": "rat forebrain (minus caudate) synaptosomes",
+          "reference": "doi:10.1016/j.neuropharm.2023.109827"
         }
       ],
       "downstream_signalling": "Massive 5-HT release → MAO-A inhibition (IC50 1.9–4 µM) → serotonin syndrome → selective serotonergic axonal degeneration via cytosolic 5-HT auto-oxidation. Mechanism of long-term neurotoxicity still debated (toxic metabolite vs ROS)."

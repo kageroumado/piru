@@ -184,13 +184,9 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": [
-        "OPRM1 (A118G / rs1799971)",
-        "UGT2B7",
-        "COMT"
-      ],
-      "phenotype_effects": "OPRM1 118G carriers show ~2x lower brain MOR binding potential, need ~30% more morphine for the same analgesia, but are paradoxically protected against morphine-induced respiratory depression (OR 5.6 for AA vs G-carriers). UGT2B7*2 alters M6G/M3G ratio. COMT Val158Met affects pain processing and morphine requirement.",
-      "reference": "pmid:25395868"
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Receptor internalisation by morphine is paradoxically weaker than DAMGO; tolerance is driven more by signalling adaptation than receptor loss. Functional desensitisation occurs over days.",
@@ -2331,7 +2327,7 @@
       },
       {
         "enzyme": "CYP2C9/2C19",
-        "fraction_of_clearance_pct": 15,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "hydroxytapentadol",
         "metabolite_active": false,
         "reference": "pmid:37631302"
@@ -2560,17 +2556,16 @@
           "route": "intranasal",
           "bioavailability_pct": 65,
           "tmax_min": 60,
-          "half_life_min": 270,
+          "half_life_min": 282,
           "protein_binding_pct": 80,
-          "reference": "doi:10.2165/00003088-199630050-00001"
+          "reference": "Butorphanol Tartrate Nasal Spray (butorphanol tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b8e48063-0b40-ee43-85c1-4ef2de80c404"
         },
         {
           "route": "intravenous",
           "bioavailability_pct": 100,
-          "half_life_min": 270,
-          "vd_l_per_kg": 7.5,
-          "clearance_ml_per_min_per_kg": 36,
-          "reference": "doi:10.2165/00003088-199630050-00001"
+          "half_life_min": 274,
+          "protein_binding_pct": 80,
+          "reference": "Butorphanol Tartrate Injection (butorphanol tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9822ca3f-aee2-46e5-8a96-495400e65d10"
         }
       ],
       "concentration_effect": []
@@ -2581,7 +2576,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "hydroxybutorphanol",
         "metabolite_active": false,
-        "reference": "doi:10.2165/00003088-199630050-00001"
+        "reference": "Butorphanol Tartrate Injection (butorphanol tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9822ca3f-aee2-46e5-8a96-495400e65d10"
       }
     ],
     "drug_interactions_pk": [],
@@ -2626,7 +2621,7 @@
     "data_gaps_remaining": [],
     "references_consulted": [
       "doi:10.1016/0024-3205(93)90152-S",
-      "doi:10.2165/00003088-199630050-00001"
+      "Butorphanol Tartrate Nasal Spray (butorphanol tartrate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b8e48063-0b40-ee43-85c1-4ef2de80c404"
     ]
   },
   {

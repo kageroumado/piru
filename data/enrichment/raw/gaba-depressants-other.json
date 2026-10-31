@@ -902,18 +902,7 @@
           "reference": "pmid:15801823"
         }
       ],
-      "functional": [
-        {
-          "target": "Cav2.x presynaptic Ca2+ / glutamate release",
-          "readout": "K+-evoked glutamate / substance P release",
-          "ec50_nm": null,
-          "emax_pct": null,
-          "reference_agonist": null,
-          "species": "rat",
-          "cell_system": "spinal cord slices, DRG",
-          "reference": "pmid:14668287"
-        }
-      ],
+      "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "Same mechanism as gabapentin (Cav α2δ binding → reduced trafficking → reduced presynaptic Ca2+ entry → reduced glutamate/NA/Sub-P release at hyperexcitable terminals). Pregabalin's ~6x higher α2δ-1 affinity translates to lower mg doses and a more rapid onset of clinical effect than gabapentin.",

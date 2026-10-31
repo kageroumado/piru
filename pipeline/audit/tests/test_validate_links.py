@@ -65,5 +65,34 @@ class TestNeedsRecheck(unittest.TestCase):
         self.assertTrue(needs_recheck({"verdict": "ok", "checked": "nonsense"}, self.TODAY, 30))
 
 
+class TestCheckUrl(unittest.TestCase):
+    def _check(self, head: int, get: int) -> dict:
+        calls = []
+
+        def fake_open(url, method):
+            calls.append(method)
+            return (head if method == "HEAD" else get), url, None
+
+        original = _mod._open
+        _mod._open = fake_open
+        try:
+            result = _mod.check_url("https://doi.org/10.1055/x")
+        finally:
+            _mod._open = original
+        result["calls"] = calls
+        return result
+
+    def test_a_head_404_that_get_serves_is_ok(self):
+        result = self._check(404, 200)
+        self.assertEqual(result["verdict"], "ok")
+        self.assertEqual(result["calls"], ["HEAD", "GET"])
+
+    def test_a_404_on_both_methods_is_dead(self):
+        self.assertEqual(self._check(404, 404)["verdict"], "dead")
+
+    def test_a_head_200_needs_no_get(self):
+        self.assertEqual(self._check(200, 500)["calls"], ["HEAD"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

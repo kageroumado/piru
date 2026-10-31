@@ -93,6 +93,8 @@ ABSTRACT_CACHE = REPO / "data/sources/citation-abstract-cache.json"
 ALLOWLIST = REPO / "data/curated/citation-topicality-allowlist.json"
 #: Known-real defects awaiting re-sourcing. See `load_backlog`.
 BACKLOG = REPO / "data/curated/citation-topicality-backlog.json"
+#: The --gate-no-subject ratchet: findings that predate that gate. See `load_backlog`.
+NO_SUBJECT_BACKLOG = REPO / "data/curated/citation-topicality-no-subject-backlog.json"
 USER_AGENT = "piru-citation-topicality/1.0 (https://github.com/kageroumado/piru)"
 
 #: Extends `verify_citations.SYNONYMS` with the expansions this check needs:
@@ -928,6 +930,27 @@ class Finding:
     #: receptor that never names the drug is the shape a substance-name check
     #: cannot judge on its own.
     target_named: str | None = None
+    #: Neither title nor abstract names any substance at all, rival included.
+    names_nothing: bool = False
+
+    @property
+    def is_no_subject(self) -> bool:
+        """The paper is not about any drug, let alone this row's claim.
+
+        A per-compound number cites a paper whose title (and abstract, when
+        there is one) names no substance and not the row's target: an award
+        citation, a "Cover Picture", a corrigendum, a pharmacokinetics
+        size-standard essay. Unlike `is_zero_overlap` it does not need an
+        abstract, because these papers seldom have one; the generic-title
+        false positive it would otherwise catch (a series paper whose title
+        names the class) is cleared by `_series_evidence` before this runs.
+        """
+        return (
+            self.verdict == "ABSENT"
+            and self.numeric
+            and self.names_nothing
+            and self.target_named is None
+        )
 
     @property
     def is_hard_absence(self) -> bool:
@@ -1085,6 +1108,7 @@ def evaluate(
         "substance name absent from "
         + ("title and abstract" if has_abstract else "title (no abstract available)")
     ]
+    names_nothing = False
     others = _others_in(index, accusable, {attachment.substance_id}, names.strict)
     # Endogenous ligands prove the paper is pharmacological but never carry an
     # accusation; separate them before picking the dominant compound.
@@ -1119,6 +1143,7 @@ def evaluate(
         reasons.append("only endogenous ligands named — paper may be mechanistic background")
     else:
         score = 0.40
+        names_nothing = True
         reasons.append("no substance recognized in the paper at all")
 
     numeric = attachment.tables & NUMERIC_TABLES
@@ -1180,6 +1205,7 @@ def evaluate(
         has_abstract=has_abstract,
         numeric=bool(numeric),
         target_named=target_named,
+        names_nothing=names_nothing,
     )
 
 
@@ -1301,9 +1327,29 @@ def load_abstracts(path: Path) -> dict[str, str]:
     return {}
 
 
+#: Longer than any abstract the cache holds (the longest is ~4,300 characters)
+#: and far shorter than a paper. Anything past it is full text, which is never
+#: written: see the papers-cache comment in `main`.
+ABSTRACT_MAX_CHARS = 6000
+#: The papers cache renders a paper as Markdown — headings, pipe tables, bold
+#: figure captions. No abstract source (PubMed, Crossref, Europe PMC) does, so
+#: this shape marks a page of the paper even when it is short.
+_PAPER_MARKDOWN = re.compile(r"(^|\n)#{1,6} |\|---|\*\*[A-Z]")
+
+
+def is_full_text(text: object) -> bool:
+    """Whether a cached value is (part of) a paper rather than its abstract."""
+    return (
+        not isinstance(text, str)
+        or len(text) > ABSTRACT_MAX_CHARS
+        or bool(_PAPER_MARKDOWN.search(text))
+    )
+
+
 def save_abstracts(path: Path, abstracts: dict[str, str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(abstracts, indent=1, sort_keys=True) + "\n")
+    kept = {key: text for key, text in abstracts.items() if not is_full_text(text)}
+    path.write_text(json.dumps(kept, indent=1, sort_keys=True) + "\n")
 
 
 def abstract_persister(
@@ -1369,6 +1415,14 @@ def main() -> int:
         "citations every other check here is structurally blind to.",
     )
     parser.add_argument(
+        "--gate-no-subject",
+        action="store_true",
+        help="also fail when a per-compound number cites a paper whose title (and "
+        "abstract, if any) names no substance and not the row's target: an award "
+        "notice, a cover picture, a corrigendum. Needs no abstract, and ratchets "
+        "against its own backlog.",
+    )
+    parser.add_argument(
         "--gate-absent-threshold",
         type=float,
         default=0.60,
@@ -1417,12 +1471,17 @@ def main() -> int:
         wanted = wanted[: args.limit]
         attachments = {k: v for k, v in attachments.items() if k[0] in set(wanted)}
 
-    # ── papers cache: fill abstracts + metadata from local full-text ──────
+    # ── papers cache: full text + metadata, held in memory only ──────────
+    # The full text of a paper is read from the local papers cache on every run
+    # and never written to the abstract cache: this repo is public, and a paper
+    # licensed for reading is not licensed for redistribution. CI has no papers
+    # cache, so it scores on the committed abstracts alone; a finding only full
+    # text clears is allowlisted with its reason.
     from audit.papers import papers_cache  # noqa: E402
 
+    fulltext: dict[str, str] = {}
     pc = papers_cache()
     if pc.available:
-        filled = 0
         for cid in wanted:
             citation = citations.get(cid)
             if not citation:
@@ -1431,12 +1490,11 @@ def main() -> int:
             if not ident:
                 continue
             key = _citation_key(citation)
-            if not key or abstracts.get(key, "").strip():
+            if not key:
                 continue
             paper_text = pc.text(ident)
             if paper_text:
-                abstracts[key] = paper_text
-                filled += 1
+                fulltext[key] = paper_text
                 continue
             pm = pc.meta(ident)
             if pm and pm.get("title"):
@@ -1449,9 +1507,8 @@ def main() -> int:
                         "year": pm["year"],
                     },
                 )
-        if filled:
-            print(f"Filled {filled} abstract(s) from the papers cache", file=sys.stderr)
-            persist_abstracts()
+        if fulltext:
+            print(f"Read {len(fulltext)} full text(s) from the papers cache", file=sys.stderr)
 
     if not args.offline:
         want_pmids = [
@@ -1545,7 +1602,7 @@ def main() -> int:
         # The DB's own `citations.title` is the fallback when the paper was never
         # resolved — better than skipping the row entirely.
         title = (record or {}).get("title") or citation.get("title") or ""
-        abstract = abstracts.get(key or "", "")
+        abstract = fulltext.get(key or "") or abstracts.get(key or "", "")
         if not title and not abstract:
             if key:
                 unchecked.append(f"[{cid}] {key}")
@@ -1669,6 +1726,37 @@ def main() -> int:
                 print(
                     f"citation-topicality: FAILED — {len(stale)} backlog entries no longer "
                     f"flagged; delete them from {BACKLOG.relative_to(REPO)}:",
+                    file=sys.stderr,
+                )
+                for key in sorted(stale)[:20]:
+                    print(f"  {key}", file=sys.stderr)
+                stale_backlog = True
+        if args.gate_no_subject:
+            no_subject_backlog = load_backlog(NO_SUBJECT_BACKLOG)
+            flagged = {
+                f"{f.identifier}|{f.substance}"
+                for f in buckets.get("ABSENT", [])
+                if f.is_no_subject
+            }
+            seen = {id(f) for f in failures}
+            failures += [
+                f
+                for f in buckets.get("ABSENT", [])
+                if f.is_no_subject
+                and id(f) not in seen
+                and f"{f.identifier}|{f.substance}" not in allow
+                and f"{f.identifier}|{f.substance}" not in no_subject_backlog
+            ]
+            if owed := flagged & no_subject_backlog:
+                print(
+                    f"\ncitation-topicality: {len(owed)} no-subject citation(s) still on "
+                    f"the backlog."
+                )
+            if stale := no_subject_backlog - flagged:
+                print(
+                    f"citation-topicality: FAILED — {len(stale)} no-subject backlog entries "
+                    f"no longer flagged; delete them from "
+                    f"{NO_SUBJECT_BACKLOG.relative_to(REPO)}:",
                     file=sys.stderr,
                 )
                 for key in sorted(stale)[:20]:

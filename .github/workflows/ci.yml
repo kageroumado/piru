@@ -120,8 +120,13 @@ jobs:
       # sit in citation-topicality-backlog.json — a SEPARATE file from the
       # allowlist because they mean opposite things, and nothing may be added
       # to it. That is what makes this a ratchet rather than a rubber stamp.
+      #
+      # --gate-no-subject fails a per-compound number whose paper names no
+      # substance and not the row's target, abstract or not: "ASA Award" as
+      # ketamine's oral PK, "Cover Picture" as a binding source. Its own
+      # backlog, citation-topicality-no-subject-backlog.json, only shrinks.
       - name: No citations attached to the wrong substance
-        run: python3 pipeline/audit/citation_topicality.py --offline --gate --gate-absent --gate-zero-overlap --no-write-cache
+        run: python3 pipeline/audit/citation_topicality.py --offline --gate --gate-absent --gate-zero-overlap --gate-no-subject --no-write-cache
       - name: Citation topicality tests (cache persistence, matcher gates)
         run: python3 pipeline/audit/tests/test_citation_topicality.py
       - name: DailyMed label identity is matched as whole words

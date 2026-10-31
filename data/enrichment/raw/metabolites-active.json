@@ -382,13 +382,13 @@
         "enzyme": "alcohol dehydrogenase (hepatic)",
         "metabolite_name": "cetirizine",
         "metabolite_active": true,
-        "metabolite_half_life_min": 474,
+        "metabolite_half_life_min": null,
         "metabolite_half_life_range_min": null,
-        "formation_fraction_pct": 45,
+        "formation_fraction_pct": null,
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
-        "reference": "pmid:10384858",
+        "reference": "pmid:1685361",
         "metabolite_mechanism_vs_parent": "divergent",
         "mechanism_note": "Cetirizine is a peripherally restricted, minimally sedating H1 antagonist with limited CNS penetration, giving it an antihistamine-only clinical profile distinct from hydroxyzine's sedative/anxiolytic action despite sharing the H1 receptor target."
       }
@@ -1316,7 +1316,7 @@
   {
     "name": "Fluoxetine",
     "parent_half_life_min": 2880.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/018936s064lbl.pdf",
+    "parent_half_life_reference": "Prozac (fluoxetine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4b8fcce1-abfc-4631-9975-9d66e178dab6",
     "parent_half_life_notes": "1-3 days (1440-4320 min) after acute/single dosing; 4-6 days (5760-8640 min) after chronic dosing. The prolongation with chronic use is because fluoxetine partially inhibits its own CYP2D6-mediated clearance.",
     "metabolism": [
       {
@@ -1332,7 +1332,7 @@
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "in_vitro",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/018936s064lbl.pdf",
+        "reference": "Prozac (fluoxetine hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4b8fcce1-abfc-4631-9975-9d66e178dab6",
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "SERT"
       }
@@ -1371,20 +1371,20 @@
   {
     "name": "Citalopram",
     "parent_half_life_min": 2100.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf",
+    "parent_half_life_reference": "Celexa (citalopram) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4259d9b1-de34-43a4-85a8-41dd214e9177",
     "parent_half_life_notes": "~35 hours (FDA label); accumulation at steady state ~2.5x single-dose plasma levels.",
     "metabolism": [
       {
         "enzyme": "CYP2C19/CYP3A4",
         "metabolite_name": "desmethylcitalopram (N-desmethylcitalopram)",
         "metabolite_active": true,
-        "metabolite_half_life_min": 3540,
+        "metabolite_half_life_min": null,
         "metabolite_half_life_range_min": null,
         "formation_fraction_pct": null,
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf",
+        "reference": "Celexa (citalopram) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4259d9b1-de34-43a4-85a8-41dd214e9177",
         "metabolite_mechanism_vs_parent": "scaled"
       },
       {
@@ -1405,7 +1405,7 @@
   {
     "name": "Citalopram",
     "parent_half_life_min": 1800.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/021323s055,021365s039lbl.pdf",
+    "parent_half_life_reference": "Lexapro (escitalopram) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=13bb8267-1cab-43e5-acae-55a4d957630a",
     "parent_half_life_notes": "~27-32 hours (mean ~30h); increased ~50% in elderly subjects per FDA label.",
     "metabolism": [
       {
@@ -1418,7 +1418,7 @@
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "clinical",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/021323s055,021365s039lbl.pdf",
+        "reference": "Lexapro (escitalopram) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=13bb8267-1cab-43e5-acae-55a4d957630a",
         "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
@@ -1426,7 +1426,7 @@
   {
     "name": "Venlafaxine",
     "parent_half_life_min": 300.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020151s059lbl.pdf",
+    "parent_half_life_reference": "Effexor (venlafaxine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3423487c-80e3-6bff-e054-00144ff88e88",
     "parent_half_life_notes": "~5 hours for immediate-release. Extended-release (XR) shows an apparently longer ~11-15h figure, but this reflects slower/sustained absorption (flip-flop kinetics), not a change in true elimination half-life.",
     "metabolism": [
       {
@@ -1436,13 +1436,13 @@
         "metabolite_half_life_min": 660,
         "metabolite_half_life_range_min": [
           540,
-          840
+          780
         ],
         "formation_fraction_pct": null,
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "in_vitro",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020151s059lbl.pdf",
+        "reference": "Effexor (venlafaxine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3423487c-80e3-6bff-e054-00144ff88e88",
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "SERT"
       }
@@ -1457,15 +1457,13 @@
   },
   {
     "name": "Desvenlafaxine",
-    "parent_half_life_min": 660.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021992s030lbl.pdf",
-    "parent_half_life_notes": "~11 hours. Desvenlafaxine is itself the major active metabolite of venlafaxine, marketed independently (Pristiq). It is metabolized mainly by UGT-mediated conjugation (not CYP2D6-dependent, unlike venlafaxine), plus a minor CYP3A4 oxidative (N-demethylation) pathway accounting for <5% of the dose (forming N,O-didesmethylvenlafaxine). No clinically active downstream metabolite of desvenlafaxine itself has been established in the literature reviewed, so none is listed below."
+    "parent_half_life_notes": "Desvenlafaxine is itself the major active metabolite of venlafaxine, marketed independently (Pristiq). It is metabolized mainly by UGT-mediated conjugation (not CYP2D6-dependent, unlike venlafaxine), plus a minor CYP3A4 oxidative (N-demethylation) pathway accounting for <5% of the dose (forming N,O-didesmethylvenlafaxine). No clinically active downstream metabolite of desvenlafaxine itself has been established in the literature reviewed, so none is listed below."
   },
   {
     "name": "Trazodone",
     "parent_half_life_min": 420.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/nda/2010/022411s000MedR.pdf",
-    "parent_half_life_notes": "~7 hours; biphasic elimination reported (initial phase 3-6h, terminal phase 5-9h) in the FDA medical review.",
+    "parent_half_life_reference": "pmid:8372048",
+    "parent_half_life_notes": "Oral trazodone at steady state in psychiatric patients: \"t 1/2 = 7.0 +/- 1.2\" h (Nilsen et al. 1993), matching the 7.3 +/- 0.8 h terminal half-life the same group measured after a single 100 mg dose in healthy subjects.",
     "metabolism": [
       {
         "enzyme": "CYP3A4",
@@ -1489,7 +1487,7 @@
   {
     "name": "Mirtazapine",
     "parent_half_life_min": 1800.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020415s030lbl.pdf",
+    "parent_half_life_reference": "Remeron (mirtazapine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=98ad1917-a094-44f5-a28f-a64a8cfcd887",
     "parent_half_life_notes": "~20-40 hours (mean ~30h). Marketed as a racemate; the R(-)-enantiomer has the longer plasma half-life of the two.",
     "metabolism": [
       {
@@ -1502,7 +1500,7 @@
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020415s030lbl.pdf",
+        "reference": "Remeron (mirtazapine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=98ad1917-a094-44f5-a28f-a64a8cfcd887",
         "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
@@ -1510,7 +1508,7 @@
   {
     "name": "Bupropion",
     "parent_half_life_min": 1260.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
+    "parent_half_life_reference": "Wellbutrin Sr (bupropion hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cbc8c074-f080-4489-a5ae-207b5fadeba3",
     "parent_half_life_notes": "Mean ~21 hours (range widely cited as ~8-24h depending on formulation).",
     "metabolism": [
       {
@@ -1526,7 +1524,7 @@
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": 50,
         "metabolite_potency_basis": "in_vitro",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
+        "reference": "Wellbutrin Sr (bupropion hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cbc8c074-f080-4489-a5ae-207b5fadeba3",
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "NET"
       },
@@ -1543,7 +1541,7 @@
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": 20,
         "metabolite_potency_basis": "in_vitro",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
+        "reference": "Wellbutrin Sr (bupropion hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cbc8c074-f080-4489-a5ae-207b5fadeba3",
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "NET"
       },
@@ -1560,7 +1558,7 @@
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": 20,
         "metabolite_potency_basis": "in_vitro",
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
+        "reference": "Wellbutrin Sr (bupropion hydrochloride) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cbc8c074-f080-4489-a5ae-207b5fadeba3",
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "NET"
       }
@@ -1595,7 +1593,7 @@
   {
     "name": "Risperidone",
     "parent_half_life_min": 180.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/020272s042,020588s030,021444s016,021346s010lbl.pdf",
+    "parent_half_life_reference": "Risperdal (risperidone) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7e117c7e-02fc-4343-92a1-230061dfc5e0",
     "parent_half_life_notes": "Risperidone's OWN elimination half-life is ~3 hours in CYP2D6 extensive metabolizers, but up to ~20 hours in poor metabolizers (who convert little parent drug to its metabolite). The commonly quoted '~20-24 hour half-life' for risperidone found in many lay/clinical summaries is actually the combined ACTIVE-MOIETY (risperidone + 9-hydroxyrisperidone) washout — the FDA label explicitly separates the two, and this is one of the cases flagged as a frequent parent/metabolite conflation.",
     "metabolism": [
       {
@@ -1755,20 +1753,17 @@
   {
     "name": "Methamphetamine",
     "parent_half_life_min": 606.0,
-    "parent_half_life_reference": "pmid:15570192",
-    "parent_half_life_notes": "Oral controlled-dose study; plasma half-life is often cited as ~10-12h, but this reference reports urinary terminal elimination half-life of methamphetamine (23.6 ± 6.6 h) which is longer than plasma t1/2 due to ongoing renal reabsorption/excretion kinetics. Range here reflects commonly cited plasma t1/2 (6.4-15 h) from DEA/forensic toxicology fact sheets, not directly re-derived from the cited paper.",
+    "parent_half_life_reference": "pmid:1362938",
+    "parent_half_life_notes": "Plasma elimination half-life after oral S-(+)-methamphetamine-d3: \"The average elimination half-life was 10.1 hr (range of 6.4-15.1 hr)\" (Cook et al. 1992). The urinary terminal half-life is longer, 23.6 ± 6.6 h (pmid:15570192), and is a different quantity.",
     "metabolism": [
       {
         "enzyme": "CYP2D6",
         "metabolite_name": "amphetamine",
         "metabolite_active": true,
-        "metabolite_half_life_min": 600,
-        "metabolite_half_life_range_min": [
-          540,
-          840
-        ],
+        "metabolite_half_life_min": null,
+        "metabolite_half_life_range_min": null,
         "formation_fraction_pct": null,
-        "metabolite_tmax_min": 720,
+        "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": null,
         "reference": "pmid:15570192",
@@ -1779,7 +1774,7 @@
   {
     "name": "Amphetamine",
     "parent_half_life_min": 600.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021303s026lbl.pdf",
+    "parent_half_life_reference": "Adderall Xr (dextroamphetamine sulfate, dextroamphetamine saccharate, amphetamine sulfate and amphetamine aspartate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aff45863-ffe1-4d4f-8acf-c7081512a6c0",
     "parent_half_life_notes": "FDA Adderall XR label: mean d-amphetamine elimination half-life is 10 h in adults, 11 h in adolescents (13-17y), 9 h in children (6-12y); pH-dependent renal excretion (shorter in acidic urine). l-amphetamine is cleared more slowly (11-14 h) but is less pharmacologically relevant to the stimulant/euphoric profile than d-amphetamine.",
     "metabolism": [
       {

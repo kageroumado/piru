@@ -186,9 +186,7 @@
           "route": "oral",
           "bioavailability_pct": 20,
           "tmax_min": 30,
-          "half_life_min": 180,
-          "protein_binding_pct": 47,
-          "reference": "doi:10.1097/00000542-199310000-00003"
+          "reference": "doi:10.1002/bdd.336"
         },
         {
           "route": "sublingual",
@@ -708,14 +706,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "half_life_min": 350,
-          "reference": "doi:10.1097/00000542-199310000-00003"
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [

@@ -15284,7 +15284,7 @@
       "Wakefulness"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021303s026lbl.pdf"
+      "Adderall Xr (dextroamphetamine sulfate, dextroamphetamine saccharate, amphetamine sulfate and amphetamine aspartate) label"
     ],
     "data_gaps": []
   },
@@ -19207,7 +19207,6 @@
     "references": [
       "Wellbutrin Sr (bupropion hydrochloride) label",
       "https://en.wikipedia.org/wiki/Bupropion",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0173-0556"
     ],
     "data_gaps": []
@@ -19342,11 +19341,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 270.0,
+    "half_life_minutes": 282.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "A Size Standard for Pharmacokinetics"
+      "Butorphanol Tartrate Nasal Spray (butorphanol tartrate) label"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -21745,8 +21744,7 @@
       "Celexa (citalopram) label",
       "https://en.wikipedia.org/wiki/Citalopram",
       "Lexapro (escitalopram) label",
-      "https://en.wikipedia.org/wiki/Escitalopram",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf"
+      "https://en.wikipedia.org/wiki/Escitalopram"
     ],
     "data_gaps": [
       "duration_by_route"
@@ -24951,8 +24949,7 @@
     "references": [
       "Wikipedia: Desvenlafaxine (revision 1382302513)",
       "Pristiq Extended-Release (desvenlafaxine succinate) label",
-      "https://en.wikipedia.org/wiki/Desvenlafaxine",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021992s030lbl.pdf"
+      "https://en.wikipedia.org/wiki/Desvenlafaxine"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -25107,8 +25104,6 @@
     "name": "Dextroamphetamine-Amphetamine",
     "display_name": "",
     "aliases": [
-      "Adderall",
-      "Adderall XR",
       "Mydayis"
     ],
     "category": "Stimulant",
@@ -28097,7 +28092,6 @@
       "DXM Poli",
       "DXM extended-release",
       "DXM polistirex ER",
-      "Delsym",
       "Dextromethorphan polistirex"
     ],
     "category": "Dissociative",
@@ -32081,8 +32075,7 @@
     "effects": [],
     "references": [
       "Prozac (fluoxetine hydrochloride) label",
-      "https://en.wikipedia.org/wiki/Fluoxetine",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/018936s064lbl.pdf"
+      "https://en.wikipedia.org/wiki/Fluoxetine"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -34034,8 +34027,7 @@
     "display_name": "",
     "aliases": [
       "Humibid",
-      "Mucinex",
-      "Robitussin"
+      "Mucinex"
     ],
     "category": "Other",
     "display_class": "otc",
@@ -42797,7 +42789,7 @@
       "Wakefulness"
     ],
     "references": [
-      "Urinary pharmacokinetics of methamphetamine and its metabolite, amphetamine following controlled oral administration to humans"
+      "Pharmacokinetics of oral methamphetamine and effects of repeated daily dosing in humans"
     ],
     "data_gaps": []
   },
@@ -44989,8 +44981,7 @@
     "effects": [],
     "references": [
       "Remeron (mirtazapine) label",
-      "https://en.wikipedia.org/wiki/Mirtazapine",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020415s030lbl.pdf"
+      "https://en.wikipedia.org/wiki/Mirtazapine"
     ],
     "data_gaps": []
   },
@@ -48173,16 +48164,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 350.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Norketamine",
-      "ASA Award"
+      "https://en.wikipedia.org/wiki/Norketamine"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -55060,8 +55051,7 @@
     "effects": [],
     "references": [
       "Risperdal (risperidone) label",
-      "https://en.wikipedia.org/wiki/Risperidone",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/020272s042,020588s030,021444s016,021346s010lbl.pdf"
+      "https://en.wikipedia.org/wiki/Risperidone"
     ],
     "data_gaps": []
   },
@@ -57998,7 +57988,7 @@
     "effects": [],
     "references": [
       "DailyMed: tadalafil (tadalafil) label",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/021368s20s21lbl.pdf",
+      "Cialis (tadalafil) label",
       "Tadalafil pharmacokinetics in healthy subjects",
       "https://en.wikipedia.org/wiki/Tadalafil"
     ],
@@ -60579,7 +60569,7 @@
     "references": [
       "Wikipedia: Trazodone (revision 1377081496)",
       "https://en.wikipedia.org/wiki/Trazodone",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/nda/2010/022411s000MedR.pdf"
+      "Pharmacokinetics of trazodone during multiple dosing to psychiatric patients."
     ],
     "data_gaps": []
   },
@@ -61605,7 +61595,6 @@
       "DailyMed: Effexor XR (venlafaxine) label",
       "Effexor (venlafaxine) label",
       "https://en.wikipedia.org/wiki/Venlafaxine",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020151s059lbl.pdf",
       "Wikipedia: Venlafaxine, §Pharmacodynamics (revision 1371433947)"
     ],
     "data_gaps": [
