@@ -28,6 +28,10 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
     var route: String
     /// When the dose was taken (defaults to send time on the watch).
     var timestamp: Date
+    /// The watch's time zone when the dose was logged, which becomes
+    /// ``DoseEntry/timeZoneIdentifier``. Absent from a payload sent by an older
+    /// watch build, where the phone records its own zone.
+    var timeZoneIdentifier: String?
     /// The user's own note, if any — never the by-volume breadcrumb (that is carried
     /// as first-class fields below, matching the phone quick-log commit).
     var notes: String?
@@ -63,6 +67,7 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
         unit: String,
         route: String,
         timestamp: Date,
+        timeZoneIdentifier: String? = TimeZone.current.identifier,
         notes: String? = nil,
         volumeML: Double? = nil,
         abv: Double? = nil,
@@ -83,6 +88,7 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
         self.unit = unit
         self.route = route
         self.timestamp = timestamp
+        self.timeZoneIdentifier = timeZoneIdentifier
         self.notes = notes
         self.volumeML = volumeML
         self.abv = abv

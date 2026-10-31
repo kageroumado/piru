@@ -78,6 +78,75 @@ nonisolated extension Calendar {
         journalDayStart(of: journalDay(after: journalDay(for: date, boundaryHour: boundaryHour)), boundaryHour: boundaryHour)
     }
 
+    // MARK: A dose's own clock
+
+    /// This calendar in the time zone a dose was logged in: `self` with that
+    /// zone, or `self` unchanged when `identifier` is `nil`, unknown, or
+    /// already this calendar's zone.
+    func loggedIn(_ identifier: String?) -> Calendar {
+        guard let identifier, identifier != timeZone.identifier,
+              let zone = TimeZone(identifier: identifier) else { return self }
+        var calendar = self
+        calendar.timeZone = zone
+        return calendar
+    }
+
+    /// The journal day `date` belongs to on the clock of the zone it was logged
+    /// in, keyed like every other journal day in this calendar: the start of
+    /// the calendar date it is named after. A dose logged at 23:00 in Paris
+    /// stays on that Paris evening's day when the journal is read in Tokyo,
+    /// where the same instant is 07:00 the next morning. `nil` reads it on this
+    /// calendar's own clock, which is plain ``journalDay(for:boundaryHour:)``.
+    func journalDay(for date: Date, loggedIn identifier: String?, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Date {
+        let zoned = loggedIn(identifier)
+        guard zoned.timeZone != timeZone else { return journalDay(for: date, boundaryHour: boundaryHour) }
+        let parts = zoned.dateComponents([.year, .month, .day], from: zoned.journalDay(for: date, boundaryHour: boundaryHour))
+        return self.date(from: parts).map(startOfDay(for:)) ?? journalDay(for: date, boundaryHour: boundaryHour)
+    }
+
+    /// How far into its journal day `date` falls on the clock of the zone it
+    /// was logged in, as minutes from the midnight that opens the day's
+    /// calendar date: `0 ..< 1440` on that date, and `1440` on for the hours
+    /// after midnight that still belong to it (with a 4 AM start, 01:30 is
+    /// 1530). Slot times and the adherence noon split are read on this scale,
+    /// so a dose at 01:30 is the end of the evening before rather than the
+    /// small hours of a morning.
+    func journalMinutes(for date: Date, loggedIn identifier: String?, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Int {
+        let zoned = loggedIn(identifier)
+        let parts = zoned.dateComponents([.hour, .minute], from: date)
+        let minutes = (parts.hour ?? 0) * 60 + (parts.minute ?? 0)
+        let afterMidnight = zoned.startOfDay(for: date) != zoned.journalDay(for: date, boundaryHour: boundaryHour)
+        return afterMidnight ? minutes + 1_440 : minutes
+    }
+
+    /// A reminder slot (minutes from midnight) on the
+    /// ``journalMinutes(for:loggedIn:boundaryHour:)`` scale: a slot before the
+    /// boundary hour comes after midnight, at the end of its journal day.
+    static func journalMinutes(ofSlot minutes: Int, boundaryHour: Int = sessionDayBoundaryHour) -> Int {
+        minutes < boundaryHour * 60 ? minutes + 1_440 : minutes
+    }
+
+    /// The instant a reminder slot (minutes from midnight) falls at within the
+    /// journal day named `day`: that wall-clock time on the day's date, or on
+    /// the next date for a slot before the boundary hour.
+    func date(ofSlot minutes: Int, inJournalDay day: Date, boundaryHour: Int = Self.sessionDayBoundaryHour) -> Date {
+        let afterMidnight = Self.journalMinutes(ofSlot: minutes, boundaryHour: boundaryHour) >= 1_440
+        let base = afterMidnight ? journalDay(after: day) : startOfDay(for: day)
+        return date(bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: base)
+            ?? base.addingTimeInterval(TimeInterval(minutes * 60))
+    }
+
+    /// An interval of instants wide enough to hold every dose of the journal
+    /// day named `day` whatever zone each was logged in: the day's own span
+    /// widened by 26 hours each way, the distance from UTC−12 to UTC+14.
+    /// Fetch with it, then keep the doses whose own journal day is `day`.
+    func doseFetchWindow(forJournalDay day: Date, boundaryHour: Int = Self.sessionDayBoundaryHour) -> (start: Date, end: Date) {
+        let slack: TimeInterval = 26 * 3_600
+        let start = journalDayStart(of: day, boundaryHour: boundaryHour)
+        let end = journalDayStart(of: journalDay(after: day), boundaryHour: boundaryHour)
+        return (start.addingTimeInterval(-slack), end.addingTimeInterval(slack))
+    }
+
     /// `shortWeekdaySymbols` rotated to start at `firstWeekday`.
     ///
     /// Foundation's `shortWeekdaySymbols` is **always** Sunday-first — index 0 is

@@ -65,6 +65,7 @@ enum WatchDoseReceiver {
             substanceUID: payload.substanceUID,
             displayNameSnapshot: payload.displayName,
             timestamp: payload.timestamp,
+            timeZoneIdentifier: payload.timeZoneIdentifier ?? TimeZone.current.identifier,
             notes: payload.notes,
             volumeML: payload.volumeML,
             abv: payload.abv,

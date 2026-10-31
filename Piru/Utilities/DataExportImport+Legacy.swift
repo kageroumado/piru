@@ -59,6 +59,7 @@ extension DataExportImport {
                 unit: entry.unit,
                 route: entry.route,
                 timestamp: entry.timestamp,
+                timeZoneIdentifier: nil,
                 notes: entry.notes,
                 tags: entry.tags ?? [],
                 locationName: entry.locationName,
