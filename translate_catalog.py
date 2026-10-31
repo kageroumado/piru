@@ -3828,6 +3828,8 @@ T = {
     "~%@ – %@ hours": ("约 %1$@ – %2$@ 小时", "約 %1$@ – %2$@ 小時"),
     "~%lld minutes": ("约 %lld 分钟", "約 %lld 分鐘"),
     "~%lld – %lld minutes": ("约 %1$lld – %2$lld 分钟", "約 %1$lld – %2$lld 分鐘"),
+    "%@ – %@ hours": ("%1$@ – %2$@ 小时", "%1$@ – %2$@ 小時"),
+    "%lld – %lld minutes": ("%1$lld – %2$lld 分钟", "%1$lld – %2$lld 分鐘"),
     "≈%@ hours": ("≈%@ 小时", "≈%@ 小時"),
     "≈%lld minutes": ("≈%lld 分钟", "≈%lld 分鐘"),
     "Reference onset for this route: about %lld minutes.": (
@@ -9087,6 +9089,8 @@ if __name__ == "__main__":
     # A single-figure phase duration reads as approximate (2026-10-31).
     NEW_KEYS.update(
         {
+            "%@ – %@ hours",
+            "%lld – %lld minutes",
             "≈%@ hours",
             "≈%lld minutes",
             "Reference onset for this route: about %lld minutes.",

@@ -3372,6 +3372,8 @@ ES = {
     "~%lld months": "~%lld meses",
     "~%lld weeks": "~%lld semanas",
     "~%lld – %lld minutes": "~%lld – %lld minutos",
+    "%@ – %@ hours": "%@ – %@ horas",
+    "%lld – %lld minutes": "%lld – %lld minutos",
     "≈%@ hours": "≈%@ horas",
     "≈%lld minutes": "≈%lld minutos",
     "µ-opioid drive": "impulso µ-opioide",

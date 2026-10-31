@@ -14,12 +14,12 @@ struct BrandedDurationOption: Identifiable {
         name
     }
 
-    /// The envelope's total-duration figure ("~11h"), the formulation's headline.
+    /// The envelope's total-duration figure ("11–12h"), the formulation's headline.
     var totalText: String? {
         duration.total?.compactString
     }
 
-    /// The onset figure ("~1h"), shown as the envelope's lead-in.
+    /// The onset figure ("30–60m"), shown as the envelope's lead-in.
     var onsetText: String? {
         duration.onset?.compactString
     }
@@ -67,7 +67,7 @@ struct BrandedFormulationsSection: View {
         }
     }
 
-    /// "~1h → ~11h" (onset → total), or whichever bound the envelope carries.
+    /// "30–60m → 11–12h" (onset → total), or whichever bound the envelope carries.
     private func envelopeText(_ option: BrandedDurationOption) -> String? {
         switch (option.onsetText, option.totalText) {
         case let (onset?, total?): "\(onset) → \(total)"

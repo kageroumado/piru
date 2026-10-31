@@ -16,33 +16,31 @@ struct DurationRange: Codable, Hashable {
         max <= min
     }
 
+    /// "30 – 60 minutes", "2 – 6 hours"; one figure — a point, or a range too
+    /// narrow to survive rounding — reads "≈30 minutes". The "≈" mark means
+    /// exactly that: a single, approximate figure. A range needs no mark; its
+    /// two bounds already say it varies.
     var displayString: String {
-        if isPoint {
-            if min >= 120 {
-                return String(localized: "≈\(Self.fmtHours(Self.roundHours(min / 60))) hours")
-            }
-            return String(localized: "≈\(Int(min.rounded())) minutes")
-        }
         if max >= 120 {
             let minH = Self.roundHours(min / 60)
             let maxH = Self.roundHours(max / 60)
-            if minH == maxH {
-                return String(localized: "~\(Self.fmtHours(minH)) hours")
+            if isPoint || minH == maxH {
+                return String(localized: "≈\(Self.fmtHours(maxH)) hours")
             }
-            return String(localized: "~\(Self.fmtHours(minH)) – \(Self.fmtHours(maxH)) hours")
+            return String(localized: "\(Self.fmtHours(minH)) – \(Self.fmtHours(maxH)) hours")
         }
         let minR = Int(min.rounded())
         let maxR = Int(max.rounded())
-        if minR == maxR {
-            return String(localized: "~\(minR) minutes")
+        if isPoint || minR == maxR {
+            return String(localized: "≈\(maxR) minutes")
         }
-        return String(localized: "~\(minR) – \(maxR) minutes")
+        return String(localized: "\(minR) – \(maxR) minutes")
     }
 
-    /// The compact form for tight cells: "~30–45m", "~1.5–2.5h", "≈30m" for a
-    /// point. One unit for the whole range: a range that reaches into hours
-    /// renders both bounds in hours, so a straddling total reads "~1–4h" rather
-    /// than a mixed "~60m–4h".
+    /// The compact form for tight cells: "30–45m", "1.5–2.5h", "≈30m" for a
+    /// single figure. One unit for the whole range: a range that reaches into
+    /// hours renders both bounds in hours, so a straddling total reads "1–4h"
+    /// rather than a mixed "60m–4h".
     var compactString: String {
         let usesHours = max >= 120
         func part(_ minutes: Double) -> String {
@@ -50,9 +48,8 @@ struct DurationRange: Codable, Hashable {
             return Self.fmtHours(Self.roundHours(minutes / 60))
         }
         let unit = usesHours ? "h" : "m"
-        if isPoint { return "≈\(part(min))\(unit)" }
         let lo = part(min), hi = part(max)
-        return lo == hi ? "~\(lo)\(unit)" : "~\(lo)–\(hi)\(unit)"
+        return isPoint || lo == hi ? "≈\(hi)\(unit)" : "\(lo)–\(hi)\(unit)"
     }
 
     /// Rounds hours to the nearest 0.5

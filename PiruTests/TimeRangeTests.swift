@@ -32,13 +32,13 @@ struct TimeRangeTests {
     @Test
     func `Display string in minutes when max < 120`() {
         let range = DurationRange(min: 15, max: 45)
-        #expect(range.displayString == "~15 – 45 minutes")
+        #expect(range.displayString == "15 – 45 minutes")
     }
 
     @Test
     func `Display string in minutes at boundary (max = 119)`() {
         let range = DurationRange(min: 60, max: 119)
-        #expect(range.displayString == "~60 – 119 minutes")
+        #expect(range.displayString == "60 – 119 minutes")
     }
 
     // MARK: - Display string (hours)
@@ -46,19 +46,19 @@ struct TimeRangeTests {
     @Test
     func `Display string in hours when max >= 120`() {
         let range = DurationRange(min: 120, max: 360)
-        #expect(range.displayString == "~2 – 6 hours")
+        #expect(range.displayString == "2 – 6 hours")
     }
 
     @Test
     func `Display string in hours at boundary (max = 120)`() {
         let range = DurationRange(min: 60, max: 120)
-        #expect(range.displayString == "~1 – 2 hours")
+        #expect(range.displayString == "1 – 2 hours")
     }
 
     @Test
     func `Display string in hours with decimals`() {
         let range = DurationRange(min: 90, max: 210)
-        #expect(range.displayString == "~1.5 – 3.5 hours")
+        #expect(range.displayString == "1.5 – 3.5 hours")
     }
 
     // MARK: - Formatting
@@ -66,13 +66,13 @@ struct TimeRangeTests {
     @Test
     func `Whole numbers formatted without decimal`() {
         let range = DurationRange(min: 30, max: 60)
-        #expect(range.displayString == "~30 – 60 minutes")
+        #expect(range.displayString == "30 – 60 minutes")
     }
 
     @Test
     func `Decimal numbers rounded to whole minutes`() {
         let range = DurationRange(min: 15.5, max: 45.5)
-        #expect(range.displayString == "~16 – 46 minutes")
+        #expect(range.displayString == "16 – 46 minutes")
     }
 
     // MARK: - Single figures
@@ -93,23 +93,23 @@ struct TimeRangeTests {
     }
 
     @Test
-    func `A narrow range that rounds to one figure keeps the range mark`() {
+    func `A narrow range that rounds to one figure reads as approximate`() {
         let range = DurationRange(min: 29.6, max: 30.2)
         #expect(!range.isPoint)
-        #expect(range.displayString == "~30 minutes")
-        #expect(range.compactString == "~30m")
+        #expect(range.displayString == "≈30 minutes")
+        #expect(range.compactString == "≈30m")
     }
 
     // MARK: - Compact string
 
     @Test
     func `Compact range in minutes`() {
-        #expect(DurationRange(min: 30, max: 45).compactString == "~30–45m")
+        #expect(DurationRange(min: 30, max: 45).compactString == "30–45m")
     }
 
     @Test
     func `Compact range straddling two hours renders both bounds in hours`() {
-        #expect(DurationRange(min: 60, max: 240).compactString == "~1–4h")
-        #expect(DurationRange(min: 90, max: 150).compactString == "~1.5–2.5h")
+        #expect(DurationRange(min: 60, max: 240).compactString == "1–4h")
+        #expect(DurationRange(min: 90, max: 150).compactString == "1.5–2.5h")
     }
 }
