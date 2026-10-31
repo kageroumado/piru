@@ -94,6 +94,13 @@ nonisolated struct ClassWarning: Hashable {
     let references: [ClassContext.Reference]
 }
 
+/// An active metabolite we carry as a substance, with its own binding rows —
+/// what lets a parent inherit a receptor-derived warning its own rows miss.
+nonisolated struct MetaboliteBindings: Hashable {
+    let name: String
+    let bindings: [BindingHit]
+}
+
 nonisolated struct ClassContextSummary: Identifiable, Hashable {
     var id: String {
         slug
@@ -497,6 +504,35 @@ extension SubstanceReadModel {
         }
     }
 
+    /// The active metabolites the substance is recorded to form that we carry as
+    /// substances (`metabolism.metabolite_substance_id`), each with its own binding
+    /// rows: fenfluramine → norfenfluramine, MDMA → MDA. One entry per metabolite,
+    /// in name order.
+    func activeMetaboliteBindings(substanceID: Int64) -> [MetaboliteBindings] {
+        do {
+            let metabolites = try db.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT DISTINCT m.metabolite_substance_id AS id, s.canonical_name
+                      FROM metabolism m
+                      JOIN substances s ON s.id = m.metabolite_substance_id
+                     WHERE m.substance_id = ?
+                       AND m.metabolite_active = 1
+                       AND m.metabolite_substance_id != m.substance_id
+                     ORDER BY s.canonical_name
+                """, arguments: [substanceID]).map { (id: $0["id"] as Int64, name: $0["canonical_name"] as String) }
+            }
+            return metabolites.map {
+                MetaboliteBindings(
+                    name: $0.name,
+                    bindings: SubstanceReadModel.bindingRows(substanceID: $0.id, db: db),
+                )
+            }
+        } catch {
+            Logger.substanceStore.error("activeMetaboliteBindings failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
     private func loadClassContext(
         matching predicate: String,
         argument: DatabaseValueConvertible,
@@ -810,6 +846,11 @@ extension SubstanceStore {
     func classWarnings(forSubstanceName name: String) -> [ClassWarning] {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
         return reader.classWarnings(substanceID: substanceID)
+    }
+
+    func activeMetaboliteBindings(forSubstanceName name: String) -> [MetaboliteBindings] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.activeMetaboliteBindings(substanceID: substanceID)
     }
 
     func concentrationThresholds(forSubstanceName name: String) -> [ConcentrationThreshold] {

@@ -529,6 +529,7 @@ ES = {
     "Activated by CYP2D6": "Activado por CYP2D6",
     "Heart-valve risk with repeated use": "Riesgo para las válvulas cardíacas con el uso repetido",
     "Activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).": "Activa el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía).",
+    "Its active metabolite %@ activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).": "Su metabolito activo, %@, activa el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía).",
     "%@ as a class activate the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).": "%@, como clase, activan el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía).",
     "The documented cases come from chronic or frequent use: fenfluramine, the ergot drugs pergolide and cabergoline, and heavy MDMA use.": "Los casos documentados provienen del uso crónico o frecuente: la fenfluramina, los ergóticos pergolida y cabergolina, y el consumo intenso de MDMA.",
     "active": "activo",

@@ -2547,6 +2547,10 @@ T = {
         "激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。",
         "活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。",
     ),
+    "Its active metabolite %@ activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).": (
+        "其活性代谢物 %@ 会激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。",
+        "其活性代謝物 %@ 會活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。",
+    ),
     "%@ as a class activate the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).": (
         "%@ 这一类药物会激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。",
         "%@ 這一類藥物會活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。",
@@ -8894,6 +8898,7 @@ if __name__ == "__main__":
     NEW_KEYS.update(
         {
             "Heart-valve risk with repeated use",
+            "Its active metabolite %@ activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).",
             "Activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).",
             "%@ as a class activate the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).",
             "The documented cases come from chronic or frequent use: fenfluramine, the ergot drugs pergolide and cabergoline, and heavy MDMA use.",

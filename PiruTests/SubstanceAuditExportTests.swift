@@ -320,7 +320,13 @@ enum AuditSerializer {
         }
         if let pos = p.leanPosition { m += "- **Spectrum marker (0 = serotonin … 1 = dopamine):** \(String(format: "%.2f", pos))\n" }
         if let warning = SubstanceLibrary.valvularWarning(for: name) {
-            let basis = warning.engagedByBindings ? "own 5-HT2B bindings" : "class \(warning.declaringClass?.classSlug ?? "?")"
+            let basis = if warning.engagedByBindings {
+                "own 5-HT2B bindings"
+            } else if let metabolite = warning.engagingMetabolite {
+                "active metabolite \(metabolite)"
+            } else {
+                "class \(warning.declaringClass?.classSlug ?? "?")"
+            }
             m += "- **Heart-valve warning:** YES (\(basis))\n"
         }
         if p.misSoldAsMDMA { m += "- **Mis-sold-as-MDMA flag:** YES\n" }

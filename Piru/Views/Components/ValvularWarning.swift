@@ -3,26 +3,36 @@ import Foundation
 /// The heart-valve warning: the substance, or the class it belongs to, activates
 /// the 5-HT2B receptor, the mechanism of drug-induced valvular heart disease.
 ///
-/// Two independent bases, either sufficient. The substance's own binding rows
-/// decide it when they engage the receptor (``engagesAntitarget(_:)``); a class
-/// declaration reaches the members that were never assayed, which is most of
-/// every class that carries the risk. Shown on the substance page at every
-/// detail level, whether or not the substance has transporter data.
+/// Three independent bases, any one sufficient. The substance's own binding
+/// rows decide it when they engage the receptor (``engagesAntitarget(_:)``). An
+/// active metabolite's rows decide it for a parent that is weak itself:
+/// fenfluramine binds 5-HT2B at ~4 µM, and norfenfluramine, which it is cleared
+/// to, is the agonist that damaged valves. A class declaration reaches the
+/// members that were never assayed, which is most of every class that carries
+/// the risk. Shown on the substance page at every detail level, whether or not
+/// the substance has transporter data.
 struct ValvularWarning: Hashable {
     /// The `class_warnings.kind` this warning reads.
     static let kind = "valvulopathy-5ht2b"
 
     /// The substance's own binding rows engage 5-HT2B.
     let engagedByBindings: Bool
+    /// The first active metabolite (by name) whose own rows engage 5-HT2B.
+    let engagingMetabolite: String?
     /// The class declaration that reaches this substance, when one does.
     let declaringClass: ClassWarning?
 
     /// `nil` unless at least one basis holds.
-    static func resolve(bindings: [BindingHit], classWarnings: [ClassWarning]) -> ValvularWarning? {
+    static func resolve(
+        bindings: [BindingHit],
+        metabolites: [MetaboliteBindings] = [],
+        classWarnings: [ClassWarning],
+    ) -> ValvularWarning? {
         let engaged = engagesAntitarget(bindings)
+        let metabolite = metabolites.first { engagesAntitarget($0.bindings) }?.name
         let declaring = classWarnings.first { $0.kind == kind }
-        guard engaged || declaring != nil else { return nil }
-        return ValvularWarning(engagedByBindings: engaged, declaringClass: declaring)
+        guard engaged || metabolite != nil || declaring != nil else { return nil }
+        return ValvularWarning(engagedByBindings: engaged, engagingMetabolite: metabolite, declaringClass: declaring)
     }
 
     /// Whether the bindings engage 5-HT2B strongly enough for the warning.

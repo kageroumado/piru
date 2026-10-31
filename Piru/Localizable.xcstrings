@@ -48464,6 +48464,35 @@
         }
       }
     },
+    "Its active metabolite %@ activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy)." : {
+      "comment" : "The argument is the metabolite's English name (Norfenfluramine).",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su metabolito activo, %@, activa el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía)."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su metabolito activo, %@, activa el receptor 5-HT2B, el mecanismo del daño en las válvulas cardíacas causado por fármacos (valvulopatía)."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其活性代谢物 %@ 会激活 5-HT2B 受体，这是药物引起心脏瓣膜损害（瓣膜病变）的机制。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其活性代謝物 %@ 會活化 5-HT2B 受體，這是藥物引起心臟瓣膜損害（瓣膜病變）的機制。"
+          }
+        }
+      }
+    },
     "IUPAC name" : {
       "localizations" : {
         "es" : {

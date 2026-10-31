@@ -84,6 +84,39 @@ struct ValvularAntitargetTests {
     }
 
     @Test
+    func `An engaging metabolite raises it and a non-engaging one does not`() {
+        let engaging = MetaboliteBindings(name: "M", bindings: [hit("5-HT2B", "agonist", kiNm: 52)])
+        let weak = MetaboliteBindings(name: "W", bindings: [hit("5-HT2B", "agonist", kiNm: 4_134)])
+        #expect(ValvularWarning.resolve(bindings: [], metabolites: [weak, engaging], classWarnings: [])?
+            .engagingMetabolite == "M")
+        #expect(ValvularWarning.resolve(bindings: [], metabolites: [weak], classWarnings: []) == nil)
+    }
+
+    @Test
+    func `Fenfluramine shows it through norfenfluramine`() async throws {
+        // Fenfluramine binds 5-HT2B at 4,134 nM itself; norfenfluramine, the
+        // metabolite it is cleared to, at 52.1 nM (Rothman 2000).
+        await SubstanceStore.shared.ensureAllLoaded()
+        #expect(!ValvularWarning.engagesAntitarget(SubstanceStore.shared.bindings(forSubstanceName: "Fenfluramine")))
+        let warning = try #require(SubstanceLibrary.valvularWarning(for: "Fenfluramine"))
+        #expect(!warning.engagedByBindings)
+        #expect(warning.engagingMetabolite == "Norfenfluramine")
+        #expect(SubstanceLibrary.valvularWarning(for: "Norfenfluramine")?.engagedByBindings == true)
+    }
+
+    @Test
+    func `A parent whose active metabolites do not engage 5-HT2B shows nothing`() async {
+        // Ketamine → norketamine is a carried, active metabolite with no 5-HT2B
+        // agonism; tramadol → O-DSMT likewise.
+        await SubstanceStore.shared.ensureAllLoaded()
+        for parent in ["Ketamine", "Tramadol"] {
+            let metabolites = SubstanceStore.shared.activeMetaboliteBindings(forSubstanceName: parent)
+            #expect(!metabolites.isEmpty, "\(parent) should carry a linked active metabolite")
+            #expect(SubstanceLibrary.valvularWarning(for: parent) == nil, "\(parent) should carry no warning")
+        }
+    }
+
+    @Test
     func `Every member of a declaring class shows the warning`() async throws {
         await SubstanceStore.shared.ensureAllLoaded()
         let (members, excluded) = try declaredMembership()

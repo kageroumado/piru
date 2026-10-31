@@ -41,9 +41,16 @@ struct ValvularWarningBanner: View {
         }
     }
 
-    /// The substance's own bindings make the stronger claim, so they speak
-    /// whenever they engage; the class speaks for the members never assayed.
+    /// The substance's own bindings make the strongest claim, so they speak
+    /// whenever they engage; then a measured metabolite; the class speaks last,
+    /// for the members never assayed.
     private var mechanismSentence: LocalizedStringResource {
+        if !warning.engagedByBindings, let metabolite = warning.engagingMetabolite {
+            return LocalizedStringResource(
+                "Its active metabolite \(metabolite) activates the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).",
+                comment: "The argument is the metabolite's English name (Norfenfluramine).",
+            )
+        }
         if !warning.engagedByBindings, let declaration = warning.declaringClass {
             return LocalizedStringResource(
                 "\(declaration.classTitle) as a class activate the 5-HT2B receptor, the mechanism behind drug-induced heart-valve damage (valvulopathy).",
