@@ -19337,11 +19337,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 270.0,
+    "half_life_minutes": 282.0,
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "A Size Standard for Pharmacokinetics"
+      "Butorphanol Tartrate Nasal Spray (butorphanol tartrate) label"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -25095,8 +25095,6 @@
     "name": "Dextroamphetamine-Amphetamine",
     "display_name": "",
     "aliases": [
-      "Adderall",
-      "Adderall XR",
       "Mydayis"
     ],
     "category": "Stimulant",
@@ -28085,7 +28083,6 @@
       "DXM Poli",
       "DXM extended-release",
       "DXM polistirex ER",
-      "Delsym",
       "Dextromethorphan polistirex"
     ],
     "category": "Dissociative",
@@ -34020,8 +34017,7 @@
     "display_name": "",
     "aliases": [
       "Humibid",
-      "Mucinex",
-      "Robitussin"
+      "Mucinex"
     ],
     "category": "Other",
     "display_class": "otc",
@@ -48150,16 +48146,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 350.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Norketamine",
-      "ASA Award"
+      "https://en.wikipedia.org/wiki/Norketamine"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },

@@ -1,22 +1,22 @@
 # Piru SQLite build report
 
-Built 2026-10-31.5 → `Piru/Data/piru-substances.sqlite` (21,573,632 bytes, sha256 `4844fbf1bf9e2f1b1ce907ae2fdb7f0df8b004b93dbf6dc5c19f3e9f4a2e80af`)
+Built 2026-10-31.9 → `Piru/Data/piru-substances.sqlite` (21,569,536 bytes, sha256 `5ccfee1c085980367b4d7d585858905eb0a400d15e8ae66b782a0cca144c635e`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
 | substances | 1,674 |
-| aliases | 6,005 |
+| aliases | 6,001 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,695 |
+| citations | 2,693 |
 | categories | 1,577 |
 | tags | 7,059 |
 | dose_ranges | 2,794 |
 | durations | 10,736 |
 | drug_community_timelines | 755 |
-| half_lives | 710 |
+| half_lives | 709 |
 | mechanisms_summary | 1,230 |
 | effects | 2,952 |
 | subjective_effects | 23,653 |
@@ -25,16 +25,16 @@ Built 2026-10-31.5 → `Piru/Data/piru-substances.sqlite` (21,573,632 bytes, sha
 | tolerance | 0 |
 | diazepam_equivalents | 32 |
 | bindings | 1,458 |
-| functional_assays | 179 |
+| functional_assays | 178 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
 | downstream_signalling | 677 |
 | neuroimaging | 52 |
-| pk_routes | 433 |
+| pk_routes | 432 |
 | concentration_effects | 25 |
 | metabolism | 560 |
 | drug_interactions_pk | 205 |
-| pharmacogenetics | 305 |
+| pharmacogenetics | 302 |
 | off_targets | 209 |
 | class_contexts | 50 |
 | substance_classes | 680 |
