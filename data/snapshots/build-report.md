@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-10-31.4 → `Piru/Data/piru-substances.sqlite` (21,573,632 bytes, sha256 `eba6944e1d768f9b5dc21ad34cf8d23471a765ca3aa2483bbbc56197bf89a160`)
+Built 2026-10-31.9 → `Piru/Data/piru-substances.sqlite` (21,557,248 bytes, sha256 `7c10491ea80902d92accc0c77622efe88a97ee24a3566d85850b5eb7035e73ac`)
 
 ## Row counts
 
@@ -13,8 +13,8 @@ Built 2026-10-31.4 → `Piru/Data/piru-substances.sqlite` (21,573,632 bytes, sha
 | citations | 2,705 |
 | categories | 1,577 |
 | tags | 7,059 |
-| dose_ranges | 2,757 |
-| durations | 10,646 |
+| dose_ranges | 2,728 |
+| durations | 10,469 |
 | drug_community_timelines | 755 |
 | half_lives | 711 |
 | mechanisms_summary | 1,230 |
@@ -105,7 +105,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Upstream values the build could not read
 
-548 dose or duration value(s) refused, or read only in part; each is listed in `data/snapshots/unparsed-upstream.json` for reporting upstream (`pipeline/audit/upstream_report.py`).
+546 dose or duration value(s) refused, or read only in part; each is listed in `data/snapshots/unparsed-upstream.json` for reporting upstream (`pipeline/audit/upstream_report.py`).
 
 | source | reason | values |
 |---|---|---|
@@ -131,8 +131,6 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | freeodwiki | duration_afterglow_implausible | 5 |
 | freeodwiki | duration_onset_impossible | 2 |
 | freeodwiki | duration_profile_contradictory | 9 |
-| piru-curated | dose_ranges_duplicate_dropped | 1 |
-| piru-curated | dropped_regressed_tiers | 1 |
 | psychonautwiki | dropped_inverted_tiers | 1 |
 | psychonautwiki | dropped_regressed_tiers | 2 |
 | psychonautwiki | duration_afterglow_implausible | 5 |
@@ -150,7 +148,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 183 | 444 | 650 | 2,269 |
+| piru-curated | 154 | 444 | 650 | 2,269 |
 | peer-review-primary | 0 | 1,002 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 826 | 0 | 0 | 126 |

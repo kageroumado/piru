@@ -8,36 +8,6 @@
   "defaultRoute": "oral",
   "routes": [
     {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 2,
-        "light": {
-          "lower": 5,
-          "upper": 10
-        },
-        "common": {
-          "lower": 10,
-          "upper": 30
-        },
-        "strong": {
-          "lower": 30,
-          "upper": 60
-        },
-        "heavy": 60
-      },
-      "duration": {
-        "peak": {
-          "min": 90,
-          "max": 180
-        },
-        "offset": {
-          "min": 180,
-          "max": 360
-        }
-      }
-    },
-    {
       "route": "inhalation",
       "unit": "mg",
       "doses": {
@@ -55,20 +25,6 @@
           "upper": 30
         },
         "heavy": 30
-      },
-      "duration": {
-        "peak": {
-          "min": 15,
-          "max": 45
-        },
-        "offset": {
-          "min": 60,
-          "max": 120
-        },
-        "total": {
-          "min": 90,
-          "max": 180
-        }
       }
     }
   ],

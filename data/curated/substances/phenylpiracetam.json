@@ -7,26 +7,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "peak": {
-          "min": 120,
-          "max": 240
-        },
-        "offset": {
-          "min": 180,
-          "max": 300
-        },
-        "total": {
-          "min": 300,
-          "max": 600
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Stimulating racetam — phenyl analog of piracetam",
     "Tolerance to stimulation builds within days",

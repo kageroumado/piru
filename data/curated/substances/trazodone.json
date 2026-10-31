@@ -7,42 +7,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 25,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 150,
-          "upper": 400
-        },
-        "strong": {
-          "lower": 400,
-          "upper": 500
-        },
-        "heavy": 600
-      },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 120
-        },
-        "peak": {
-          "min": 60,
-          "max": 120
-        },
-        "offset": {
-          "min": 360,
-          "max": 720
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive symptoms; widely used at low doses (25–100 mg) as a non-habit-forming hypnotic",
     "SARI: inhibits SERT + potently antagonizes 5-HT2A — antidepressant without full agonism risk",

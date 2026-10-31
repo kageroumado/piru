@@ -5,28 +5,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 10,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 75,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 225
-        },
-        "heavy": 250
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Gold standard for OCD pharmacotherapy — most serotonergic TCA",
     "Also reduces depressive symptoms",

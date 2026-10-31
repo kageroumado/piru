@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 3.75,
-        "light": {
-          "lower": 7.5,
-          "upper": 15
-        },
-        "common": {
-          "lower": 15,
-          "upper": 30
-        },
-        "strong": {
-          "lower": 30,
-          "upper": 45
-        },
-        "heavy": 45
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive and anxious symptoms via alpha-2 antagonism and 5-HT2A/5-HT3 blockade",
     "Paradox: MORE sedating at lower doses (15 mg) due to dominant H1 antihistamine effect; higher doses (30–45 mg) are activating due to noradrenergic increase",

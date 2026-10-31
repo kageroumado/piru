@@ -25,7 +25,8 @@
           "upper": 2000
         },
         "heavy": 2500
-      }
+      },
+      "doseReason": "No other source has a ladder in a mass unit (TripSit's is \"1–6 x\"); clinical use is 800 mg/day (Stoica 1991, PMID 1820099), a daily total, not this per-dose ladder."
     }
   ],
   "effects": [

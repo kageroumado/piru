@@ -8,28 +8,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 20
-        },
-        "common": {
-          "lower": 20,
-          "upper": 60
-        },
-        "strong": {
-          "lower": 60,
-          "upper": 80
-        },
-        "heavy": 80
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive and anxious symptoms over 2–6 weeks",
     "Activating/energizing — may cause insomnia and agitation early in treatment",

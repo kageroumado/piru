@@ -10,28 +10,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 37.5,
-        "light": {
-          "lower": 75,
-          "upper": 150
-        },
-        "common": {
-          "lower": 150,
-          "upper": 300
-        },
-        "strong": {
-          "lower": 300,
-          "upper": 400
-        },
-        "heavy": 450
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive symptoms; used for smoking cessation (Zyban) and seasonal affective disorder",
     "Activating — improves energy and motivation; may worsen anxiety",

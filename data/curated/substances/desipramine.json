@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 10,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 100,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 250
-        },
-        "heavy": 300
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Active metabolite of imipramine — primarily noradrenergic reuptake inhibition",
     "Least sedating TCA (minimal H1 and muscarinic activity)",

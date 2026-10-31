@@ -6,56 +6,7 @@
   ],
   "category": "Dysdelic",
   "defaultRoute": "inhalation",
-  "routes": [
-    {
-      "route": "inhalation",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 0.5,
-          "max": 1
-        },
-        "offset": {
-          "min": 5,
-          "max": 15
-        },
-        "total": {
-          "min": 15,
-          "max": 30
-        }
-      }
-    },
-    {
-      "route": "sublingual",
-      "unit": "mg",
-      "doses": {
-        "threshold": 0.5,
-        "light": {
-          "lower": 1,
-          "upper": 3
-        },
-        "common": {
-          "lower": 3,
-          "upper": 6
-        },
-        "strong": {
-          "lower": 6,
-          "upper": 12
-        },
-        "heavy": 15
-      },
-      "duration": {
-        "peak": {
-          "min": 30,
-          "max": 60
-        },
-        "offset": {
-          "min": 30,
-          "max": 60
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Most potent natural psychoactive known",
     "Extreme ego dissolution and perceptual distortion",

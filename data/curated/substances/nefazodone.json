@@ -5,28 +5,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 50,
-        "light": {
-          "lower": 100,
-          "upper": 200
-        },
-        "common": {
-          "lower": 300,
-          "upper": 500
-        },
-        "strong": {
-          "lower": 500,
-          "upper": 550
-        },
-        "heavy": 600
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "SARI mechanism similar to trazodone — 5-HT2A antagonism + SERT inhibition",
     "Brand name Serzone withdrawn due to hepatotoxicity; generic available",

@@ -5,28 +5,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 7.5,
-        "light": {
-          "lower": 15,
-          "upper": 30
-        },
-        "common": {
-          "lower": 45,
-          "upper": 60
-        },
-        "strong": {
-          "lower": 60,
-          "upper": 75
-        },
-        "heavy": 90
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Irreversible non-selective MAO-A/B inhibitor — effective for atypical depression, social anxiety, PTSD",
     "Tyramine dietary restriction MANDATORY — hypertensive crisis risk (can be fatal)",

@@ -5,28 +5,7 @@
   ],
   "category": "Anticonvulsant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 25,
-        "light": {
-          "lower": 100,
-          "upper": 200
-        },
-        "common": {
-          "lower": 200,
-          "upper": 300
-        },
-        "strong": {
-          "lower": 300,
-          "upper": 400
-        },
-        "heavy": 600
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Blocks sodium and T-type calcium channels; carbonic anhydrase inhibitor",
     "Anticonvulsant; used off-label for weight loss, binge eating, migraine",

@@ -7,28 +7,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 3,
-        "light": {
-          "lower": 3,
-          "upper": 10
-        },
-        "common": {
-          "lower": 75,
-          "upper": 150
-        },
-        "strong": {
-          "lower": 150,
-          "upper": 200
-        },
-        "heavy": 300
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive and anxious symptoms; at 3–6 mg/day used specifically for insomnia (Silenor)",
     "Strongest H1 antagonist among TCAs — profound sedation",

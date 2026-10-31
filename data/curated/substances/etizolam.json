@@ -7,22 +7,7 @@
   ],
   "category": "Benzodiazepine",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 15,
-          "max": 60
-        },
-        "peak": {
-          "min": 60,
-          "max": 180
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Thienodiazepine — bioisostere of benzodiazepines",
     "Approved in Japan, Italy, India for anxiety/sleep",

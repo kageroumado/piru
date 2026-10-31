@@ -11,19 +11,12 @@
       "route": "oral",
       "unit": "mg",
       "duration": {
-        "onset": {
-          "min": 30,
-          "max": 60
-        },
-        "peak": {
-          "min": 120,
-          "max": 360
-        },
         "offset": {
           "min": 360,
           "max": 720
         }
-      }
+      },
+      "durationReason": "The only source offset is substance.wiki's single 68 h point, which carries the curve past 24 h, where none is drawn."
     }
   ],
   "effects": [

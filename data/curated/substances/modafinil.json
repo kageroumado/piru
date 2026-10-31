@@ -8,34 +8,7 @@
   ],
   "category": "Eugeroic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 50,
-        "light": {
-          "lower": 100,
-          "upper": 150
-        },
-        "common": {
-          "lower": 150,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 400
-        },
-        "heavy": 400
-      },
-      "duration": {
-        "onset": {
-          "min": 30,
-          "max": 90
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Wakefulness promotion",
     "Improved focus and motivation",

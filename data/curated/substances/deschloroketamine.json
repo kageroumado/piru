@@ -8,32 +8,7 @@
   ],
   "category": "Dissociative",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "duration": {
-        "peak": {
-          "min": 60,
-          "max": 120
-        }
-      }
-    },
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 20,
-          "max": 45
-        },
-        "offset": {
-          "min": 90,
-          "max": 180
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Ketamine analog lacking the 2-chloro substituent",
     "Longer duration than ketamine, slower onset",

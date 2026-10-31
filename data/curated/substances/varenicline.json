@@ -6,28 +6,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 0.25,
-        "light": {
-          "lower": 0.5,
-          "upper": 1
-        },
-        "common": {
-          "lower": 1,
-          "upper": 2
-        },
-        "strong": {
-          "lower": 2,
-          "upper": 3
-        },
-        "heavy": 4
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "α4β2 partial nicotinic agonist + α7 full agonist",
     "FDA-approved smoking cessation",

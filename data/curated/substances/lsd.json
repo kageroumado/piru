@@ -14,18 +14,7 @@
   "cas": "50-37-3",
   "inchikey": "VAYOSLLFUXYJDT-RDTXWAMCSA-N",
   "pubchemCID": 5761,
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "µg",
-      "duration": {
-        "onset": {
-          "min": 15,
-          "max": 30
-        }
-      }
-    }
-  ],
+  "routes": [],
   "sources": [
     "https://psychonautwiki.org/wiki/LSD"
   ],

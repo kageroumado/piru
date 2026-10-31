@@ -6,28 +6,7 @@
   ],
   "category": "Other",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 125,
-        "light": {
-          "lower": 125,
-          "upper": 250
-        },
-        "common": {
-          "lower": 250,
-          "upper": 500
-        },
-        "strong": {
-          "lower": 500,
-          "upper": 500
-        },
-        "heavy": 500
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Aldehyde dehydrogenase inhibitor — causes acetaldehyde accumulation when alcohol is consumed",
     "Disulfiram-ethanol reaction: flushing, nausea, vomiting, hypotension, tachycardia — can be severe",

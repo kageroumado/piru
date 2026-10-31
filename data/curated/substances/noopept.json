@@ -6,42 +6,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 20
-        },
-        "common": {
-          "lower": 20,
-          "upper": 30
-        },
-        "strong": {
-          "lower": 30,
-          "upper": 40
-        },
-        "heavy": 50
-      },
-      "duration": {
-        "onset": {
-          "min": 15,
-          "max": 30
-        },
-        "peak": {
-          "min": 30,
-          "max": 60
-        },
-        "offset": {
-          "min": 60,
-          "max": 180
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Glutamate modulator and NGF/BDNF expression enhancer",
     "Reported subtle cognitive enhancement",

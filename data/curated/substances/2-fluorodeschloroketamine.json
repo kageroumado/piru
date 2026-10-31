@@ -8,26 +8,7 @@
   ],
   "category": "Dissociative",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 5,
-          "max": 15
-        },
-        "peak": {
-          "min": 45,
-          "max": 90
-        },
-        "offset": {
-          "min": 45,
-          "max": 90
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Fluorine analog of DCK — slightly less potent than ketamine",
     "Confirmed fatalities in EU NPS market — extreme caution",

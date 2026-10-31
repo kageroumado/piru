@@ -7,22 +7,7 @@
   ],
   "category": "Cannabinoid",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "peak": {
-          "min": 90,
-          "max": 180
-        },
-        "offset": {
-          "min": 180,
-          "max": 300
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Non-intoxicating — does not produce euphoria",
     "Anti-inflammatory",

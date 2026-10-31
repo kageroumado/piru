@@ -7,28 +7,7 @@
   ],
   "category": "Supplement",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "g",
-      "doses": {
-        "threshold": 1,
-        "light": {
-          "lower": 2,
-          "upper": 3
-        },
-        "common": {
-          "lower": 3,
-          "upper": 5
-        },
-        "strong": {
-          "lower": 5,
-          "upper": 10
-        },
-        "heavy": 20
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Phosphocreatine replenishment — ATP regeneration during high-intensity effort",
     "One of the most studied and effective sports supplements",

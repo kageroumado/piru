@@ -5,26 +5,7 @@
   ],
   "category": "Dissociative",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 20,
-          "max": 60
-        },
-        "peak": {
-          "min": 90,
-          "max": 180
-        },
-        "offset": {
-          "min": 180,
-          "max": 360
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Unique psychosis/agitation risk compared to ketamine-class",
     "Long duration — high redose-overdose risk",

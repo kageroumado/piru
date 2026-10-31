@@ -11,22 +11,6 @@
     {
       "route": "subcutaneous",
       "unit": "mg",
-      "doses": {
-        "threshold": 0.125,
-        "light": {
-          "lower": 0.25,
-          "upper": 0.5
-        },
-        "common": {
-          "lower": 0.5,
-          "upper": 1.0
-        },
-        "strong": {
-          "lower": 1.0,
-          "upper": 2.0
-        },
-        "heavy": 2.4
-      },
       "durationOfAction": {
         "min": 7,
         "max": 10,
@@ -36,22 +20,6 @@
     {
       "route": "oral",
       "unit": "mg",
-      "doses": {
-        "threshold": 3,
-        "light": {
-          "lower": 3,
-          "upper": 7
-        },
-        "common": {
-          "lower": 7,
-          "upper": 14
-        },
-        "strong": {
-          "lower": 14,
-          "upper": 25
-        },
-        "heavy": 25
-      },
       "durationOfAction": {
         "min": 7,
         "max": 10,

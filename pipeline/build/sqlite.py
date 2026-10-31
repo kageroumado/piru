@@ -11147,6 +11147,25 @@ class Build:
         ],
     }
 
+    # The salt that a family's unlabeled source records describe, with the
+    # citation that says so. normalise() folds a stripped-suffix variant
+    # ("Tianeptine sulfate" → "tianeptine") into the same row as every source's
+    # bare-name record, so tagging that row with the variant's label would file the
+    # sources' ladders and timelines under the wrong salt. Rows from any source
+    # other than piru-curated on that row get this label instead. A curated file
+    # named for the bare substance must therefore carry no doses or durations of
+    # its own: they would land on the variant's label.
+    #
+    # Tianeptine: the community ladders (TripSit 12.5 mg, PsychonautWiki/dose.wiki
+    # 12–35 mg) are built on the 12.5 mg Stablon tablet, which is tianeptine
+    # sodium.
+    _SALT_FAMILY_UNLABELED_FORM: dict[str, tuple[str, str]] = {
+        "Tianeptine": (
+            "Sodium",
+            "https://base-donnees-publique.medicaments.gouv.fr/medicament/65411280/extrait",
+        ),
+    }
+
     # Per-salt curated metadata, keyed by (parent canonical, salt label). Salt
     # and mineral are DECOUPLED — a salt form is any counter-ion (sodium,
     # sulfate, hydrobromide, HCl, fumarate …), and only some happen to be mineral
@@ -11430,6 +11449,15 @@ class Build:
                         (parent_name, parent_id),
                     )
                     tag_salt(parent_id, label)
+                    unlabeled = self._SALT_FAMILY_UNLABELED_FORM.get(parent_name)
+                    if unlabeled:
+                        bare = canonical_salt_form(unlabeled[0])
+                        for table in salt_tables:
+                            self.cur.execute(
+                                f"UPDATE OR IGNORE {table} SET salt_form=? "
+                                f"WHERE substance_id=? AND source_id != ?",
+                                (bare, parent_id, self.source_ids["piru-curated"]),
+                            )
                     self.salt_alias_protect.add(normalise(vname))
                     self._add_alias(parent_id, vname, "piru-curated")
             else:

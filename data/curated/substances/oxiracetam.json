@@ -6,22 +6,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "peak": {
-          "min": 60,
-          "max": 240
-        },
-        "offset": {
-          "min": 120,
-          "max": 240
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Mildly stimulating racetam",
     "Cognitive enhancement studied in dementia",

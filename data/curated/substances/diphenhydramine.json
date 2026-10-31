@@ -28,20 +28,6 @@
           "upper": 300
         },
         "heavy": 300
-      },
-      "duration": {
-        "onset": {
-          "min": 15,
-          "max": 60
-        },
-        "peak": {
-          "min": 60,
-          "max": 180
-        },
-        "offset": {
-          "min": 240,
-          "max": 480
-        }
       }
     },
     {

@@ -3,26 +3,7 @@
   "aliases": [],
   "category": "Benzodiazepine",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 180
-        },
-        "peak": {
-          "min": 180,
-          "max": 480
-        },
-        "offset": {
-          "min": 720,
-          "max": 1440
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Long-duration; serial-dosing risk leading to multi-day blackouts and dependence.",
     "Very slow onset — high serial-dosing risk",

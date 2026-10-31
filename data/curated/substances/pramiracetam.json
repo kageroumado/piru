@@ -12,10 +12,6 @@
       "route": "oral",
       "unit": "mg",
       "duration": {
-        "onset": {
-          "min": 30,
-          "max": 60
-        },
         "peak": {
           "min": 120,
           "max": 300
@@ -23,10 +19,6 @@
         "offset": {
           "min": 180,
           "max": 300
-        },
-        "total": {
-          "min": 300,
-          "max": 600
         }
       }
     }

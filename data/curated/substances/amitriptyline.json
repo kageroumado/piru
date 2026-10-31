@@ -7,28 +7,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 10,
-        "light": {
-          "lower": 10,
-          "upper": 25
-        },
-        "common": {
-          "lower": 50,
-          "upper": 150
-        },
-        "strong": {
-          "lower": 150,
-          "upper": 200
-        },
-        "heavy": 300
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive symptoms and used off-label for neuropathic pain, migraine prophylaxis, insomnia",
     "Strong anticholinergic effects: dry mouth, constipation, urinary retention, blurred vision, cognitive impairment",

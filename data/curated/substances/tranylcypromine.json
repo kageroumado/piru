@@ -5,28 +5,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 20
-        },
-        "common": {
-          "lower": 30,
-          "upper": 60
-        },
-        "strong": {
-          "lower": 60,
-          "upper": 60
-        },
-        "heavy": 60
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Irreversible non-selective MAO-A/B inhibitor — reduces treatment-resistant depression and atypical depression",
     "Tyramine dietary restriction MANDATORY — aged cheeses, cured meats, fermented foods, tap beer, certain wines: hypertensive crisis risk (can be fatal)",

@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 2.5,
-        "light": {
-          "lower": 5,
-          "upper": 10
-        },
-        "common": {
-          "lower": 10,
-          "upper": 20
-        },
-        "strong": {
-          "lower": 20,
-          "upper": 30
-        },
-        "heavy": 40
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces depressive and anxious symptoms over 2–6 weeks",
     "Generally well tolerated — one of the cleanest SSRI profiles",

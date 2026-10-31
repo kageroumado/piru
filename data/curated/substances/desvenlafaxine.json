@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 25,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 50,
-          "upper": 50
-        },
-        "strong": {
-          "lower": 50,
-          "upper": 100
-        },
-        "heavy": 400
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Active metabolite of venlafaxine — reduces depressive symptoms",
     "Minimal CYP enzyme inhibition (cleaner DDI profile than venlafaxine)",

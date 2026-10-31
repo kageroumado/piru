@@ -6,56 +6,7 @@
   ],
   "category": "Dissociative",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "duration": {
-        "peak": {
-          "min": 90,
-          "max": 180
-        },
-        "offset": {
-          "min": 90,
-          "max": 180
-        }
-      }
-    },
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 10,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 50,
-          "upper": 100
-        },
-        "strong": {
-          "lower": 100,
-          "upper": 150
-        },
-        "heavy": 200
-      },
-      "duration": {
-        "onset": {
-          "min": 30,
-          "max": 90
-        },
-        "peak": {
-          "min": 120,
-          "max": 240
-        },
-        "offset": {
-          "min": 120,
-          "max": 240
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Long-acting designer dissociative",
     "Cerebellar toxicity reported with chronic use",

@@ -12,22 +12,6 @@
     {
       "route": "oral",
       "unit": "mg",
-      "doses": {
-        "threshold": 0.5,
-        "light": {
-          "lower": 0.5,
-          "upper": 1
-        },
-        "common": {
-          "lower": 1,
-          "upper": 2
-        },
-        "strong": {
-          "lower": 2,
-          "upper": 4
-        },
-        "heavy": 4
-      },
       "duration": {
         "onset": {
           "min": 60,
@@ -50,22 +34,6 @@
     {
       "route": "ophthalmic",
       "unit": "drops",
-      "doses": {
-        "threshold": 1,
-        "light": {
-          "lower": 1,
-          "upper": 1
-        },
-        "common": {
-          "lower": 1,
-          "upper": 2
-        },
-        "strong": {
-          "lower": 2,
-          "upper": 2
-        },
-        "heavy": 2
-      },
       "duration": {
         "onset": {
           "min": 3,

@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 10,
-        "light": {
-          "lower": 10,
-          "upper": 25
-        },
-        "common": {
-          "lower": 50,
-          "upper": 100
-        },
-        "strong": {
-          "lower": 100,
-          "upper": 125
-        },
-        "heavy": 150
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Active metabolite of amitriptyline — reduces depressive symptoms",
     "Better tolerated than amitriptyline (less sedating, less anticholinergic)",

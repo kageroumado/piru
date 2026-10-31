@@ -9,22 +9,6 @@
     {
       "route": "subcutaneous",
       "unit": "mg",
-      "doses": {
-        "threshold": 0.75,
-        "light": {
-          "lower": 0.75,
-          "upper": 1.5
-        },
-        "common": {
-          "lower": 1.5,
-          "upper": 3.0
-        },
-        "strong": {
-          "lower": 3.0,
-          "upper": 4.5
-        },
-        "heavy": 4.5
-      },
       "durationOfAction": {
         "min": 7,
         "max": 10,

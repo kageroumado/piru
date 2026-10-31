@@ -5,28 +5,7 @@
   ],
   "category": "Dissociative",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 3,
-        "light": {
-          "lower": 5,
-          "upper": 10
-        },
-        "common": {
-          "lower": 10,
-          "upper": 25
-        },
-        "strong": {
-          "lower": 25,
-          "upper": 40
-        },
-        "heavy": 50
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Methoxy-PCE — longer than MXE, similar profile to 3-MeO-PCP but weaker",
     "Psychosis risk reported with heavy/chronic use",

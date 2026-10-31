@@ -7,22 +7,7 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "peak": {
-          "min": 60,
-          "max": 180
-        },
-        "offset": {
-          "min": 120,
-          "max": 240
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Subtle cognitive enhancement",
     "Cholinergic dependence — pair with choline source to avoid headache",

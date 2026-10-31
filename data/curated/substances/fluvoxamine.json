@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 25,
-        "light": {
-          "lower": 50,
-          "upper": 100
-        },
-        "common": {
-          "lower": 100,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 250
-        },
-        "heavy": 300
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Reduces OCD and depressive symptoms over 2–6 weeks",
     "Significant CYP1A2 and CYP3A4 inhibitor — broad drug interaction profile (affects clozapine, theophylline, caffeine, warfarin levels)",

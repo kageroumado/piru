@@ -6,28 +6,7 @@
   ],
   "category": "Antidepressant",
   "defaultRoute": "intravenous",
-  "routes": [
-    {
-      "route": "intravenous",
-      "unit": "mcg/kg/h",
-      "doses": {
-        "threshold": 30,
-        "light": {
-          "lower": 30,
-          "upper": 60
-        },
-        "common": {
-          "lower": 60,
-          "upper": 90
-        },
-        "strong": {
-          "lower": 90,
-          "upper": 90
-        },
-        "heavy": 90
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "FDA-approved specifically for postpartum depression (PPD) — rapid onset within days",
     "Positive allosteric modulator of GABA-A receptors (neurosteroid — synthetic allopregnanolone)",

@@ -8,46 +8,7 @@
   ],
   "category": "Stimulant",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 7,
-          "upper": 15
-        },
-        "common": {
-          "lower": 15,
-          "upper": 25
-        },
-        "strong": {
-          "lower": 25,
-          "upper": 40
-        },
-        "heavy": 50
-      },
-      "duration": {
-        "onset": {
-          "min": 5,
-          "max": 15
-        },
-        "peak": {
-          "min": 60,
-          "max": 180
-        },
-        "offset": {
-          "min": 120,
-          "max": 240
-        },
-        "total": {
-          "min": 180,
-          "max": 420
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Extremely strong DAT/NET inhibitor — compulsive redose risk",
     "Severe agitation, psychosis, hyperthermia at heavy doses",

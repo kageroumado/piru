@@ -7,34 +7,7 @@
   ],
   "category": "Stimulant",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 2.5,
-        "light": {
-          "lower": 2.5,
-          "upper": 5
-        },
-        "common": {
-          "lower": 5,
-          "upper": 10
-        },
-        "strong": {
-          "lower": 10,
-          "upper": 20
-        },
-        "heavy": 40
-      },
-      "duration": {
-        "offset": {
-          "min": 180,
-          "max": 300
-        }
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Pure d-enantiomer of methylphenidate — twice the potency per mg",
     "Dopamine and norepinephrine reuptake inhibitor",

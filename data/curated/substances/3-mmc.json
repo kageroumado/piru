@@ -25,29 +25,8 @@
           "upper": 200
         },
         "heavy": 250
-      }
-    },
-    {
-      "route": "oral",
-      "unit": "mg",
-      "duration": {
-        "onset": {
-          "min": 20,
-          "max": 45
-        },
-        "peak": {
-          "min": 60,
-          "max": 180
-        },
-        "offset": {
-          "min": 90,
-          "max": 180
-        },
-        "total": {
-          "min": 180,
-          "max": 360
-        }
-      }
+      },
+      "doseReason": "The community insufflation ladders understate the doses taken, as for 2-MMC (Dutch tablets sold at 220–250 mg); no published 3-MMC source yet. Pending a sourced dose.wiki update."
     }
   ],
   "effects": [
