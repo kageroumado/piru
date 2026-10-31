@@ -54,7 +54,19 @@
     "Dry mouth",
     "Urticaria and itch relief"
   ],
-  "halfLifeMinutes": 480,
+  "halfLifeMinutes": 498,
+  "halfLifeMinutesMin": 390,
+  "halfLifeMinutesMax": 600,
+  "halfLifeSource": "Wikipedia: Cetirizine (revision 1377390353); https://en.wikipedia.org/w/index.php?title=Cetirizine&oldid=1377390353",
+  "halfLifeEvidence": {
+    "quote": "the elimination half-life of cetirizine ranges from 6.5 to 10 hours in healthy adults, with a mean across studies of approximately 8.3 hours",
+    "section": "Pharmacokinetics",
+    "identity": "the source is about this substance",
+    "value": "6.5-10 hours, mean 8.3 hours",
+    "note": "The source states the mean as well as the range, so the mean is the number the engines run on.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/20784slr013_zyrtec_lbl.pdf",
     "https://en.wikipedia.org/wiki/Cetirizine",

@@ -58,7 +58,17 @@
     "Hepatotoxicity and pancreatitis risk",
     "Narrow therapeutic index — blood level monitoring required"
   ],
-  "halfLifeMinutes": 900,
+  "halfLifeMinutesMin": 540,
+  "halfLifeMinutesMax": 960,
+  "halfLifeSource": "Wikipedia: Valproate (revision 1381593312); https://en.wikipedia.org/w/index.php?title=Valproate&oldid=1381593312",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 9–16 hours",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "9-16 hours",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Valproate",
     "https://pubchem.ncbi.nlm.nih.gov/compound/3121"

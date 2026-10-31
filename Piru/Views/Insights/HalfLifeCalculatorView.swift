@@ -115,6 +115,23 @@ private struct HalfLifeInputSection: View {
                 }
             }
 
+            // What the source says, which is usually a range. The curve below it is drawn
+            // from one number — `HalfLife.representative` — and saying both keeps the curve
+            // from reading as a measurement.
+            if !model.useCustomHalfLife, let halfLife = model.selectedSubstance?.halfLife {
+                HStack {
+                    Text("Half-life")
+                        .captionSecondary()
+                    Spacer()
+                    Text(halfLife.displayText)
+                        .monospacedDigit()
+                    if halfLife.isRange {
+                        Text("modeled at \(HalfLife.scalarText(halfLife.representative))")
+                            .captionSecondary()
+                    }
+                }
+            }
+
             Toggle("Custom half-life", isOn: $model.useCustomHalfLife)
             if model.useCustomHalfLife {
                 HStack {

@@ -56,7 +56,19 @@
     "Reduces suicidality in schizophrenia — FDA-approved for this indication",
     "Multiple serious interactions; mandatory dispensing through REMS program"
   ],
-  "halfLifeMinutes": 720,
+  "halfLifeMinutes": 852,
+  "halfLifeMinutesMin": 240,
+  "halfLifeMinutesMax": 1560,
+  "halfLifeSource": "Wikipedia: Clozapine (revision 1380640192); https://en.wikipedia.org/w/index.php?title=Clozapine&oldid=1380640192",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 4–26 hours (mean value 14.2 hours in steady state conditions)",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "4-26 hours, mean 14.2 hours at steady state",
+    "note": "The source states the steady-state mean as well as the range.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "Clozaril (clozapine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0cf63b13-48b2-4b07-b241-617725b52f6b",
     "https://en.wikipedia.org/wiki/Clozapine",

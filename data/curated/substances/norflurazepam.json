@@ -32,7 +32,18 @@
     "Active metabolite of flurazepam now sold standalone",
     "Half-life 47-100 h — accumulates with daily dosing"
   ],
-  "halfLifeMinutes": 4500,
+  "halfLifeMinutesMin": 2820,
+  "halfLifeMinutesMax": 9000,
+  "halfLifeSource": "Wikipedia: N-Desalkylflurazepam (revision 1381667214); https://en.wikipedia.org/w/index.php?title=N-Desalkylflurazepam&oldid=1381667214",
+  "halfLifeEvidence": {
+    "quote": "an elimination half-life of 47–150 hours",
+    "section": "Pharmacokinetics",
+    "identity": "the source is about this substance",
+    "value": "47-150 hours",
+    "note": "Norflurazepam and N-desalkylflurazepam are the same compound.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Norflurazepam"
   ],

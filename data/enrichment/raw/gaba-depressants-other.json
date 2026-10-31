@@ -186,7 +186,6 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "ADH1B",
-        "ADH1C",
         "ALDH2",
         "CYP2E1"
       ],

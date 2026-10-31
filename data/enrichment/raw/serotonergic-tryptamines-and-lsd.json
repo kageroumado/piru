@@ -1985,8 +1985,7 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "UGT1A10",
-        "CYP2D6",
-        "HTR2A"
+        "CYP2D6"
       ],
       "phenotype_effects": "Recombinant CYP2D6 metabolized nearly all psilocin in vitro (CYP3A4 ~40%), but CYP2D6 genotype did not influence psilocin plasma concentrations in the study population; UGT1A10 did not extensively metabolize psilocin in vitro despite in vivo glucuronidation.",
       "reference": "pmid:38741590"
@@ -3763,8 +3762,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "MAO-A VNTR"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 PM: less bufotenin formed; may experience purer 5-HT1A-driven effects. UM: more bufotenin → stronger 5-HT2A effects.",
       "reference": "pmid:20942780"

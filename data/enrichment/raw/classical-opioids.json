@@ -310,7 +310,6 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "OPRM1",
         "ABCB1 (P-gp)"
       ],
       "phenotype_effects": "P-gp ablation in mice doubles brain accumulation of 6-MAM and morphine.",
@@ -662,9 +661,7 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4/5",
-        "CYP2C8",
-        "OPRM1",
-        "UGT2B7"
+        "OPRM1"
       ],
       "phenotype_effects": "CYP3A4 polymorphisms and inducers/inhibitors meaningfully alter buprenorphine and norbuprenorphine AUC. OPRM1 118G carriers may need higher maintenance doses.",
       "reference": "doi:10.1124/dmd.105.003681"
@@ -1011,8 +1008,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "OPRM1"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 UM (≥3 functional copies, ~1-2% Caucasian, 30% Ethiopian): risk of fatal morphine intoxication from standard doses; multiple infant deaths reported in breastfeeding UM mothers and post-tonsillectomy children → FDA contraindicated codeine <12 yo (2017). CYP2D6 PM (~5-10% Caucasian): no analgesia. CPIC strongly recommends genotype-guided dosing or alternative.",
       "reference": "doi:10.1038/clpt.2011.287"
@@ -1173,8 +1169,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "OPRM1"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 PMs: poor analgesia (low M1). UMs: respiratory depression from low doses, multiple paediatric deaths; FDA contraindicates tramadol in children <12 y. CPIC 2021 guideline.",
       "reference": "doi:10.1002/cpt.2149"
@@ -1468,8 +1463,7 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP2D6",
-        "CYP3A4/5",
-        "OPRM1"
+        "CYP3A4/5"
       ],
       "phenotype_effects": "CYP2D6 status modulates oxymorphone formation but oxycodone's parent activity means PM/UM effect is smaller than for codeine/tramadol. CYP3A inhibition is the bigger clinical lever.",
       "reference": "doi:10.3390/pharmaceutics13091466"
@@ -1548,8 +1542,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "UGT2B7 (*2)",
-        "OPRM1"
+        "UGT2B7 (*2)"
       ],
       "phenotype_effects": "UGT2B7*2 (-840G>A) modestly alters PK in some Asian populations.",
       "reference": "pmid:24706503"
@@ -1671,8 +1664,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "OPRM1"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 PMs have reduced analgesia; UMs may have exaggerated effects but less dramatic than codeine because parent has intrinsic activity.",
       "reference": "pmid:7693389"
@@ -1942,7 +1934,6 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4/5",
-        "CYP2D6",
         "OPRM1"
       ],
       "phenotype_effects": "CYP3A inhibition reduces 7-OH-MG formation and may reduce kratom's opioid effects; OPRM1 sensitivity applies to the MOR component.",
@@ -2356,8 +2347,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "UGT2B7",
-        "OPRM1"
+        "UGT2B7"
       ],
       "phenotype_effects": "Unlike tramadol/codeine, tapentadol does NOT depend on CYP2D6 bioactivation: no PM/UM dichotomy. UGT2B7 polymorphisms produce modest exposure differences.",
       "reference": "pmid:27580162"
@@ -2847,8 +2837,7 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "OPRM1"
+        "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 polymorphism alters dihydromorphine exposure but parent compound contributes meaningfully to analgesia.",
       "reference": "pmid:7586928"
@@ -3296,10 +3285,8 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP3A4",
         "CYP2C19",
-        "CYP2B6",
-        "OPRM1"
+        "CYP2B6"
       ],
       "phenotype_effects": "CYP2C19/2B6 polymorphisms alter nortilidine exposure.",
       "reference": "pmid:18516595"

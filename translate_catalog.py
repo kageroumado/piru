@@ -6094,6 +6094,8 @@ T = {
     "Group by": ("分组方式", "分組方式"),
     "Half-Life Calculator": ("半衰期计算器", "半衰期計算器"),
     "Half-life": ("半衰期", "半衰期"),
+    "h": ("小时", "小時"),
+    "modeled at %@": ("按 %@ 建模", "按 %@ 建模"),
     "Handling & storage": ("处理与储存", "處理與儲存"),
     "Have feedback, questions, or want to discuss the app? Join our Discord.": (
         "有反馈、疑问，或想讨论这款应用？加入我们的 Discord。",
@@ -8883,6 +8885,7 @@ if __name__ == "__main__":
 
     NEW_KEYS.add("^[%lld result](inflect: true)")
     NEW_KEYS.add("Bar: participant range; dot: mean.")
+    NEW_KEYS.update({"h", "modeled at %@"})
     NEW_KEYS.update({"with %@ %@ · %@ ago", "with %@ · %@ ago"})
     NEW_KEYS.update(
         {

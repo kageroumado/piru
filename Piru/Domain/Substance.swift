@@ -47,7 +47,13 @@ struct Substance: Identifiable {
     let effects: [String]
     let subjectiveEffects: [SubjectiveEffect]
     let toleranceInfo: ToleranceInfo?
+    /// The number the engines run on — see ``HalfLife/representative``. When the source
+    /// states a range this is that range's geometric mean, so every existing reader of this
+    /// property keeps getting one usable number.
     let halfLifeMinutes: Double?
+    /// The range the source states, when it states one rather than a point value. Surfaces
+    /// show the range; nothing computes from it except through ``halfLife``.
+    let halfLifeRangeMinutes: ClosedRange<Double>?
     let sources: [String]
     let mechanismOfAction: MechanismOfAction?
     /// Display-policy classification governing dose/duration/browse visibility.
@@ -172,6 +178,7 @@ struct Substance: Identifiable {
         subjectiveEffects: [SubjectiveEffect] = [],
         toleranceInfo: ToleranceInfo? = nil,
         halfLifeMinutes: Double? = nil,
+        halfLifeRangeMinutes: ClosedRange<Double>? = nil,
         sources: [String] = [],
         mechanismOfAction: MechanismOfAction? = nil,
         tags: [String] = [],
@@ -216,6 +223,7 @@ struct Substance: Identifiable {
         self.subjectiveEffects = subjectiveEffects
         self.toleranceInfo = toleranceInfo
         self.halfLifeMinutes = halfLifeMinutes
+        self.halfLifeRangeMinutes = halfLifeRangeMinutes
         self.sources = sources
         self.mechanismOfAction = mechanismOfAction
         self.tags = tags
@@ -390,6 +398,18 @@ struct Substance: Identifiable {
         let query = inchikey ?? name
         guard let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) else { return nil }
         return URL(string: "https://pubchem.ncbi.nlm.nih.gov/#query=\(encoded)")
+    }
+
+    /// The elimination half-life as its source states it — a range when the source gives one.
+    /// Display it through ``HalfLife/displayText`` and compute from
+    /// ``HalfLife/representative``; `halfLifeMinutes` is the same number, kept for the many
+    /// engines that only ever wanted one.
+    var halfLife: HalfLife? {
+        HalfLife(
+            minutes: halfLifeMinutes,
+            lower: halfLifeRangeMinutes?.lowerBound,
+            upper: halfLifeRangeMinutes?.upperBound,
+        )
     }
 
     /// True when no route on this substance has any usable dose data. Used by
@@ -753,6 +773,7 @@ extension Substance: Codable {
         case subjectiveEffects
         case toleranceInfo
         case halfLifeMinutes
+        case halfLifeRangeMinutes
         case sources
         case mechanismOfAction
         case tags
@@ -793,6 +814,12 @@ extension Substance: Codable {
         subjectiveEffects = try c.decodeIfPresent([SubjectiveEffect].self, forKey: .subjectiveEffects) ?? []
         toleranceInfo = try c.decodeIfPresent(ToleranceInfo.self, forKey: .toleranceInfo)
         halfLifeMinutes = try c.decodeIfPresent(Double.self, forKey: .halfLifeMinutes)
+        if let bounds = try c.decodeIfPresent([Double].self, forKey: .halfLifeRangeMinutes),
+           bounds.count == 2, bounds[0] < bounds[1] {
+            halfLifeRangeMinutes = bounds[0] ... bounds[1]
+        } else {
+            halfLifeRangeMinutes = nil
+        }
         sources = try c.decodeIfPresent([String].self, forKey: .sources) ?? []
         mechanismOfAction = try c.decodeIfPresent(MechanismOfAction.self, forKey: .mechanismOfAction)
         tags = try c.decodeIfPresent([String].self, forKey: .tags) ?? []
@@ -841,6 +868,10 @@ extension Substance: Codable {
         }
         try c.encodeIfPresent(toleranceInfo, forKey: .toleranceInfo)
         try c.encodeIfPresent(halfLifeMinutes, forKey: .halfLifeMinutes)
+        if let halfLifeRangeMinutes {
+            try c.encode([halfLifeRangeMinutes.lowerBound, halfLifeRangeMinutes.upperBound],
+                         forKey: .halfLifeRangeMinutes)
+        }
         if !sources.isEmpty {
             try c.encode(sources, forKey: .sources)
         }

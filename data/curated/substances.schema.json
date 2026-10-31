@@ -77,6 +77,14 @@
       "type": "number",
       "description": "Elimination half-life in MINUTES (12 h = 720). Curated, so it outranks every scraped source."
     },
+    "halfLifeMinutesMin": {
+      "type": "number",
+      "description": "Low end of the elimination half-life range the source states, in MINUTES. Set it with `halfLifeMinutesMax` when the source gives a range rather than a point value (\"4 to 26 hours\"); the build then derives `half_life_minutes` as the range's geometric mean, so `halfLifeMinutes` can be left out. Never narrow a stated range to one number."
+    },
+    "halfLifeMinutesMax": {
+      "type": "number",
+      "description": "High end of the stated elimination half-life range, in MINUTES. Required with `halfLifeMinutesMin`, and strictly greater than it."
+    },
     "halfLifeSource": {
       "type": "string",
       "description": "Citation for halfLifeMinutes specifically — a DOI, PMID, or URL. The `sources` array is substance-level provenance and does NOT cite this number."

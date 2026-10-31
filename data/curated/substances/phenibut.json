@@ -54,7 +54,16 @@
     "Anxiolytic, pro-social, mild euphoria",
     "Tolerance builds rapidly — limit to 1-2x per week maximum"
   ],
-  "halfLifeMinutes": 330,
+  "halfLifeMinutes": 318,
+  "halfLifeSource": "Wikipedia: Phenibut (revision 1382378963); https://en.wikipedia.org/w/index.php?title=Phenibut&oldid=1382378963",
+  "halfLifeEvidence": {
+    "quote": "the elimination half-life was approximately 5.3 hours",
+    "section": "Pharmacokinetics",
+    "identity": "the source is about this substance",
+    "value": "5.3 hours (250 mg)",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://en.wikipedia.org/wiki/Phenibut",
     "https://psychonautwiki.org/wiki/Phenibut"

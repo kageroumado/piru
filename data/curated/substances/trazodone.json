@@ -56,7 +56,17 @@
     "Minimal anticholinergic and sexual dysfunction effects",
     "Risk of serotonin syndrome at high doses or in combination"
   ],
-  "halfLifeMinutes": 420,
+  "halfLifeMinutesMin": 240,
+  "halfLifeMinutesMax": 900,
+  "halfLifeSource": "Wikipedia: Trazodone (revision 1377081496); https://en.wikipedia.org/w/index.php?title=Trazodone&oldid=1377081496",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life • Trazodone ( IR ): 4–15 hours",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "4-15 hours (immediate release)",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/018207s030lbl.pdf",
     "https://en.wikipedia.org/wiki/Trazodone",

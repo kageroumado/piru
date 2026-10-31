@@ -93,7 +93,18 @@
     "QTc prolongation risk",
     "Hyperprolactinemia"
   ],
-  "halfLifeMinutes": 1260,
+  "halfLifeMinutesMin": 840,
+  "halfLifeMinutesMax": 2220,
+  "halfLifeSource": "Wikipedia: Haloperidol (revision 1368777994); https://en.wikipedia.org/w/index.php?title=Haloperidol&oldid=1368777994",
+  "halfLifeEvidence": {
+    "quote": "Elimination half-life 14–26 hours (IV), 20.7 hours (IM), 14–37 hours (oral)",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "14-37 hours (oral)",
+    "note": "The oral range, which is the route this entry's dosing covers.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/016462s036lbl.pdf",
     "https://en.wikipedia.org/wiki/Haloperidol",

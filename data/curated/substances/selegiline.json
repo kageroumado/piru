@@ -58,7 +58,18 @@
     "Insomnia, application site reactions (patch), orthostatic hypotension",
     "Requires washout before switching to serotonergic drugs"
   ],
-  "halfLifeMinutes": 120,
+  "halfLifeMinutesMin": 72,
+  "halfLifeMinutesMax": 210,
+  "halfLifeSource": "Wikipedia: Selegiline (revision 1381352134); https://en.wikipedia.org/w/index.php?title=Selegiline&oldid=1381352134",
+  "halfLifeEvidence": {
+    "quote": "Oral: • S (single): 1.2–3.5 h",
+    "section": "Infobox",
+    "identity": "the source is about this substance",
+    "value": "1.2-3.5 hours (oral, single dose)",
+    "note": "Selegiline's half-life is route- and dose-dependent; this is the oral single-dose range, matching this entry's oral dosing.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "Emsam (selegiline) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b891bd9f-fdb8-4862-89c5-ecdd700398a3",
     "https://en.wikipedia.org/wiki/Selegiline",

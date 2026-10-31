@@ -1,6 +1,6 @@
 {
-  "content_version": "2026-10-31.7",
-  "generated_at": "2026-10-31T19:22:31.435270+00:00",
+  "content_version": "2026-10-31.9",
+  "generated_at": "2026-10-31T20:28:50.913239+00:00",
   "generator_version": "pipeline/build/sqlite.py",
   "schema_version": 6,
   "sources": {
@@ -96,7 +96,7 @@
     }
   },
   "sqlite_path": "piru-substances.sqlite",
-  "sqlite_sha256": "a679995ecf9ca82c5062017e34cae3cbee7ab3023bd45722868a62aa17d6bf24",
-  "sqlite_size_bytes": 21581824,
+  "sqlite_sha256": "912d00d0d91a5679bb4f3d0100086f415e013c92ee0fb4b39f65a72288f69262",
+  "sqlite_size_bytes": 21577728,
   "substance_count": 1674
 }

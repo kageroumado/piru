@@ -1,0 +1,4 @@
+{
+ "_comment": "Pharmacogenetics rows whose sentence is about another gene, as `<substance> | <gene>`. pipeline/build/tests/test_pgx_genes.py fails on any row not listed here, and on any listed row that is no longer misfiled. Shorten it with that script's --write-baseline after rows are fixed; never lengthen it.",
+ "rows": []
+}

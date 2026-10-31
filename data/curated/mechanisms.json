@@ -1209,7 +1209,7 @@
   {
     "name": "Methcathinone",
     "summary": "Norepinephrine–Dopamine Releasing Agent (Substituted Cathinone)",
-    "description": "A β-keto amphetamine that enters norepinephrine and dopamine nerve terminals through their transporters and reverses them, releasing both catecholamines with equal potency (EC50 20 nM at each). Release at the serotonin transporter takes four orders of magnitude more drug, so the effect is a catecholamine-dominant stimulant rather than an entactogen.",
+    "description": "A β-keto amphetamine that enters norepinephrine and dopamine nerve terminals through their transporters and reverses them, releasing both catecholamines with equal potency. Release at the serotonin transporter takes four orders of magnitude more drug, so the effect is a catecholamine-dominant stimulant rather than an entactogen.",
     "bindings": [
       {
         "target": "NET",

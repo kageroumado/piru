@@ -707,8 +707,7 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
-        "CYP2D6",
-        "CYP3A4"
+        "CYP2D6"
       ],
       "phenotype_effects": "PMs at CYP2D6 expected to have higher exposure",
       "reference": "doi:10.1002/dta.2044"

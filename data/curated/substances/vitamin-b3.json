@@ -60,6 +60,18 @@
     "NMN and NR: more direct NAD+ precursors under active longevity research — evidence still emerging",
     "HDL-raising effect at pharmacological doses (1-3g/day)"
   ],
+  "halfLifeMinutesMin": 20,
+  "halfLifeMinutesMax": 45,
+  "halfLifeSource": "Wikipedia: Nicotinic acid (revision 1380073623); https://en.wikipedia.org/w/index.php?title=Nicotinic_acid&oldid=1380073623",
+  "halfLifeEvidence": {
+    "quote": "The plasma elimination half-life of nicotinic acid ranges from 20 to 45 minutes.",
+    "section": "Pharmacokinetics",
+    "identity": "the source is about this substance",
+    "value": "20-45 minutes",
+    "note": "Nicotinic acid specifically; this entry also covers niacinamide, NR and NMN, whose kinetics differ.",
+    "accessed": "2026-10-31",
+    "via": "hand"
+  },
   "sources": [
     "https://ods.od.nih.gov/factsheets/Niacin-HealthProfessional/",
     "https://pubchem.ncbi.nlm.nih.gov/compound/938",

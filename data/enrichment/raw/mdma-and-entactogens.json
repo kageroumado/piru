@@ -260,7 +260,6 @@
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP2D6",
-        "CYP2B6",
         "COMT",
         "5-HTTLPR"
       ],
