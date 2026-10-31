@@ -1,5 +1,5 @@
 {
-  "_comment": "Adjudicated removals — compounds that are not physiologically active substances anyone doses, and rows that carry no pharmacology at all (a detail screen whose only content is a banner saying there is no content). Applied by SQLiteBuilder.drop_removed_substances(), which deliberately OUTRANKS the curated layer: a curated file is usually what kept an empty row alive, so removing a name here means deleting its data/curated/substances/*.json too (the build warns if one is left behind). Matching is on canonical_name only, never aliases — junk rows routinely share an alias with a legitimate one. Verdicts: not_a_substance (reagent, diagnostic analyte, cosmetic-cream ingredient, chemical-class name, protonated-cation record, vendor SKU), no_relevant_activity (real molecule, no activity a dose tracker can model), no_content (real compound, zero pharmacology in the catalog), catalog_noise (paper/patent/trial-only, never in human circulation), duplicate (supersededBy names the survivor). contentRowsAtRemoval records how many fact rows the entry held when it was cut, so a reviewer can see nothing substantial was thrown away. Each entry carries its own evidence; nothing here was removed on a hunch.",
+  "_comment": "Adjudicated removals — compounds that are not physiologically active substances anyone doses, and rows that carry no pharmacology at all (a detail screen whose only content is a banner saying there is no content). Applied by SQLiteBuilder.drop_removed_substances(), which deliberately OUTRANKS the curated layer: a curated file is usually what kept an empty row alive, so removing a name here means deleting its data/curated/substances/*.json too (the build warns if one is left behind). Matching is on canonical_name only, never aliases — junk rows routinely share an alias with a legitimate one. Verdicts: not_a_substance (reagent, diagnostic analyte, cosmetic-cream ingredient, chemical-class name, protonated-cation record, vendor SKU), no_relevant_activity (real molecule, no activity a dose tracker can model), no_content (real compound, zero pharmacology in the catalog), catalog_noise (paper/patent/trial-only, never in human circulation), duplicate (supersededBy names the survivor). contentRowsAtRemoval records how many fact rows the entry held when it was cut, so a reviewer can see nothing substantial was thrown away. Each entry carries its own evidence; nothing here was removed on a hunch. A verdict that rests on a pharmacology or market claim also carries a `citation` (PMID, DOI, PubChem CID, CAS, patent or label set id) for that claim; the entries whose evidence is self-contained — the row's own emptiness, a PIHKAL commentary line, a vendor-code synonym list — are a shrink-only list in pipeline/build/tests/reason-only-baseline.json.",
   "removed": [
     {
       "name": "2,3-Methylenedioxyamphetamine",
@@ -82,16 +82,18 @@
     {
       "name": "5-MeO-NET",
       "verdict": "catalog_noise",
-      "reason": "No TripSit, PsychonautWiki 404, no vendor, no EWS notification. Receptor literature only. [scrape-bias]",
+      "reason": "No TripSit, PsychonautWiki 404, no vendor, no EWS notification. The whole literature is one 1994 SAR table of 5-HT2 binding affinities (pmid:8027974); ChEMBL carries its five activity rows from that single paper and marks it not a dosed ingredient. No human administration is recorded anywhere. [scrape-bias]",
       "evidence": "Provenance: wikidata. Evidence of human use: none.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:8027974"
     },
     {
       "name": "5-Methoxytryptamine",
       "verdict": "not_a_substance",
-      "reason": "Endogenous tryptamine, self-tagged endogenous + no-human-data. A historical radioprotectant candidate, not a dosed compound.",
+      "reason": "Endogenous tryptamine, self-tagged endogenous + no-human-data: it is the deacetylation product of melatonin in pineal gland and retina (pmid:21358968), not a dosed compound.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:21358968"
     },
     {
       "name": "ABT-126",
@@ -110,9 +112,10 @@
     {
       "name": "Adenosine",
       "verdict": "not_a_substance",
-      "reason": "Endogenous nucleoside given as a rapid IV push for SVT. A hospital procedure, not a dose someone records.",
+      "reason": "Endogenous nucleoside whose only prescription use is a clinician-pushed rapid IV bolus for PSVT — the label says \"For rapid bolus intravenous use only\". A hospital procedure, not a dose someone records; every other adenosine label in openFDA is a topical cosmetic.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "DailyMed Adenosine Injection, USP, set_id 1809fc7e-f5d8-18d8-e063-6394a90a7713, §Dosage and Administration"
     },
     {
       "name": "Butylcathinone",
@@ -145,9 +148,10 @@
     {
       "name": "CX-614",
       "verdict": "catalog_noise",
-      "reason": "Lab reagent only, 0 NCTs. Wikipedia likewise makes no market claim.",
+      "reason": "Lab reagent only: all 42 indexed papers are slice, culture or recombinant-receptor pharmacology at micromolar concentrations (pmid:10999951), and ClinicalTrials.gov returns 0 trials. Wikipedia likewise makes no market claim.",
       "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
-      "contentRowsAtRemoval": 2
+      "contentRowsAtRemoval": 2,
+      "citation": "pmid:10999951"
     },
     {
       "name": "CX-691",
@@ -166,16 +170,18 @@
     {
       "name": "Dehydronorketamine",
       "verdict": "no_relevant_activity",
-      "reason": "Terminal ketamine metabolite. The DB's own tag for it is 'inactive-at-NMDA'; only a residual alpha7-nAChR NAM action remains, and there is no dose, duration or route.",
+      "reason": "Terminal ketamine metabolite, inactive at NMDA: its Kᵢ there is ~39 µM against an α7-nicotinic IC50 of 55 nM — three orders apart — so only a residual α7 negative-allosteric action remains (pmid:23183107), and there is no dose, duration or route.",
       "evidence": "Distinct from Norketamine and Hydroxynorketamine, both of which are NMDA-active and kept",
-      "contentRowsAtRemoval": 2
+      "contentRowsAtRemoval": 2,
+      "citation": "pmid:23183107"
     },
     {
       "name": "Deoxyepinephrine",
       "verdict": "not_a_substance",
-      "reason": "Epinine / N-methyldopamine. Pharmacologically active and infused in 1990s heart-failure studies, but never marketed as itself — only as the prodrug ibopamine.",
+      "reason": "Epinine / N-methyldopamine. Pharmacologically active and infused in 1990s heart-failure studies — at rates chosen to mimic plasma levels after an oral dose of the prodrug ibopamine (pmid:1376782) — but never marketed as itself: openFDA holds no label for it or for ibopamine, and the trials registry no trial.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:1376782"
     },
     {
       "name": "Desglymidodrine",
@@ -194,9 +200,10 @@
     {
       "name": "Dopamine",
       "verdict": "not_a_substance",
-      "reason": "Endogenous catecholamine. Same shape as norepinephrine: an IV pressor titrated by a clinician, not a logged dose.",
+      "reason": "Endogenous catecholamine. Same shape as norepinephrine: an infusion titrated in µg/kg/min by a clinician in intensive care, with no fixed dose to log.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "DailyMed Dopamine Hydrochloride Injection, set_id 0e499952-46c7-4172-8c70-186312e240a3, §2.1-2.2"
     },
     {
       "name": "EEE",
@@ -334,25 +341,28 @@
     },
     {
       "name": "N-desmethyl zolmitriptan",
-      "verdict": "no_relevant_activity",
-      "reason": "Zolmitriptan metabolite, never a dosed product. The dosed drug, Zolmitriptan, is already in the catalog.",
-      "evidence": "Zero fact rows; the DB tag 'zolmitriptan-active-metabolite' describes activity, not administration",
+      "verdict": "not_a_substance",
+      "reason": "A metabolite, never administered as a product — the dosed drug, Zolmitriptan, is already in the catalog and this is formed from it in the body. It is removed for that reason and not for inactivity: the label calls it active and 2 to 6 times the parent's 5-HT1B/1D potency, so it may carry a substantial part of the parent's effect.",
+      "evidence": "Zero fact rows; the DB tag 'zolmitriptan-active-metabolite' describes activity, not administration. The label (§12.3) names it an active metabolite, which is why the verdict is 'never a dosed product' rather than 'no relevant activity'.",
       "supersededBy": "Zolmitriptan",
-      "contentRowsAtRemoval": 1
+      "contentRowsAtRemoval": 1,
+      "citation": "DailyMed Zolmitriptan tablets, set_id 0b37962f-253b-4dc9-9ed2-ff44d2370e51, §12.3"
     },
     {
       "name": "N-methyltryptamine",
       "verdict": "not_a_substance",
-      "reason": "Endogenous tryptamine, self-tagged endogenous + no-human-data. Orally inactive without an MAOI.",
+      "reason": "Endogenous tryptamine, self-tagged endogenous + no-human-data: in mammals it is the intermediate INMT makes on the way from tryptamine to DMT (pmid:36609666). No human administration of NMT itself is recorded, and no source states its own oral activity either way.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:36609666"
     },
     {
       "name": "N-methyltyramine",
       "verdict": "not_a_substance",
-      "reason": "Same: a protoalkaloid constituent of supplements, not a dosed substance in its own right.",
+      "reason": "A trace co-constituent of bitter orange rather than a dosed substance: p-synephrine accounts for over 80% of the biogenic amine content of those materials and the minor alkaloids sit near the limit of quantitation (pmid:17373438). The FDA lists it on its Dietary Supplement Ingredient Advisory List (pmid:32497396), which is a warning about an ingredient, not a dose.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:17373438"
     },
     {
       "name": "Nebracetam",
@@ -392,9 +402,10 @@
     {
       "name": "Octopamine",
       "verdict": "not_a_substance",
-      "reason": "Endogenous trace amine; appears in bitter-orange supplements as a constituent, but nobody doses octopamine itself and the catalog has no ladder for it.",
+      "reason": "Endogenous trace amine; appears in bitter-orange supplements as a trace constituent near the limit of quantitation (pmid:17373438) and on the FDA's Dietary Supplement Ingredient Advisory List (pmid:32497396), but nobody doses octopamine itself and the catalog has no ladder for it.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:17373438"
     },
     {
       "name": "Org 26576",
@@ -405,10 +416,11 @@
     },
     {
       "name": "Oxedrine",
-      "verdict": "not_a_substance",
-      "reason": "Synephrine. Present in bitter-orange products as a constituent; zero dose and duration rows here.",
-      "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "verdict": "no_content",
+      "reason": "Synephrine, removed on scope and not on pharmacology: the row carried no dose, duration or other fact. It is NOT inactive and it is NOT undosed — human trials give 10-53 mg/day orally for up to 12 weeks (pmid:22991491) with a measured blood-pressure effect over prolonged use (pmid:36235672). A bitter-orange / p-synephrine entry with real ladders would belong in the catalog; this empty duplicate-shaped row did not.",
+      "evidence": "Zero dose and zero duration rows at removal. Human dosing exists in the literature (pmid:22991491), so the removal rests on the row's emptiness alone.",
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:22991491"
     },
     {
       "name": "Oxidopamine",
@@ -532,16 +544,18 @@
     {
       "name": "Tryptamine",
       "verdict": "not_a_substance",
-      "reason": "Endogenous trace amine, orally inactive (destroyed by MAO). The parent of a class, not a member of it.",
+      "reason": "Endogenous trace amine, primarily metabolized by oxidative deamination by MAO with \"an extremely rapid turnover and half-life\" (pmid:6131482); the only human administration on record is an intravenous infusion study (pmid:4922520). The parent of a class, not a member of it.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:6131482"
     },
     {
       "name": "Tyramine",
       "verdict": "not_a_substance",
-      "reason": "Dietary/endogenous trace amine. Matters as the MAOI cheese-reaction agent — an interaction, which the interaction engine models by food, not by logging a tyramine dose.",
+      "reason": "Dietary/endogenous trace amine. Matters as the MAOI cheese-reaction agent — 6 mg in food may produce a mild hypertensive crisis and 10-25 mg severe headaches (pmid:3525654) — an interaction, which the interaction engine models by food, not by logging a tyramine dose. The only oral products naming it are homeopathic dilutions with no stated amine content.",
       "evidence": "Endogenous compound with zero dose and zero duration rows in the catalog: there is no dose, no route, and no event to record. Piru is a dose log, not a neurochemistry reference.",
-      "contentRowsAtRemoval": 0
+      "contentRowsAtRemoval": 0,
+      "citation": "pmid:3525654"
     },
     {
       "name": "Zoptarelin Doxorubicin",

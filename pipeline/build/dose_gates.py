@@ -13,7 +13,10 @@ The rules:
 * **Class ceilings** (``data/curated/dose-class-gates.json``) — for a class
   context whose members are dosed in micrograms, any ladder tier above a stated
   mass is not a dose but a unit slip or a copied error, and it goes unless the
-  row carries a citation or comes from an exempt source.
+  row carries a citation or comes from an exempt source. A member the premise
+  does not hold for is named in that gate's ``exempt_substances`` with its own
+  source: clonitazene is a circulating nitazene, but the one humans were given
+  by mouth in tens of milligrams, so the ≤2 mg ceiling must not judge it.
 * **Absorption floors** — a phase of under one minute on a route that has to
   absorb through a membrane (oral, sublingual, rectal, transdermal, buccal,
   insufflation) is a units error, whatever the source. Inhaled and injected
@@ -156,6 +159,12 @@ def apply_class_ceilings(cur: sqlite3.Cursor, gates: list[dict], result: GateRes
     for gate in gates:
         ceiling = float(gate["max_tier_mg"])
         exempt = tuple(gate.get("exempt_sources") or ())
+        # A ceiling states that a whole class is dosed below it. Where that is
+        # true of the class but not of one member, the member is exempted with
+        # its own citation rather than the ceiling being raised for everyone.
+        exempt_names = {
+            str(e["substance"]).strip().lower() for e in gate.get("exempt_substances") or []
+        }
         rows = cur.execute(
             f"""
             SELECT d.id, su.canonical_name, src.slug, d.route, d.unit, d.citation_id,
@@ -172,6 +181,8 @@ def apply_class_ceilings(cur: sqlite3.Cursor, gates: list[dict], result: GateRes
         for row in rows:
             row_id, name, slug, route, unit, citation_id, *tiers = row
             if slug in exempt or citation_id is not None:
+                continue
+            if (name or "").strip().lower() in exempt_names:
                 continue
             factor = mg_factor(unit)
             if factor is None:

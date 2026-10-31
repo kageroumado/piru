@@ -2,7 +2,7 @@
 
 Rows and cells the build refused: a class or tag ceiling, a cited toxic floor (`data/curated/toxic-dose-floors.json`), a phase too short for its route, a Shulgin no-activity bound, a ladder ten times from every other source, or characters from a script no source text uses. Each is a value to report upstream; each rule is in `pipeline/build/dose_gates.py`.
 
-100 row(s) deleted.
+99 row(s) deleted.
 
 ## Shulgin no-activity bound · the DOSAGE line is not a dose
 
@@ -95,12 +95,6 @@ Rows and cells the build refused: a class or tag ceiling, a cited toxic floor (`
 | substance | source | route | detail |
 |---|---|---|---|
 | Alprazolam | freeodwiki | insufflation | onset 0.0833333–0.166667 min |
-
-## class ceiling · benzimidazole-nitazenes ≤ 2 mg
-
-| substance | source | route | detail |
-|---|---|---|---|
-| Clonitazene | tripsit | oral | strong_upper 15 mg — 6 tier(s) above the ceiling; etonitazene is ~1,000× morphine and the weakest nitazenes in circulation are still morphine-range per milligram (EMCDDA nitazene risk assessments), so a tier above 2 mg is not a dose |
 
 ## class ceiling · fentanyl-anilidopiperidines ≤ 2 mg
 

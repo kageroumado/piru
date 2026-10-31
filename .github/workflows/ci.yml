@@ -184,6 +184,12 @@ jobs:
       # bounds and the upstream values the build could not read.
       - name: Dose gates and the upstream-drop report
         run: python3 pipeline/build/tests/test_dose_gates.py
+      # Every hand-written override — dose exceptions, class ceilings and their
+      # per-substance exemptions, engine flags, the removal list and the two
+      # duration constants — carries a citation, or an explicit reason and a line
+      # in a shrink-only baseline. A new uncited one fails here.
+      - name: Hand-written exceptions are cited (reason-only list only shrinks)
+        run: python3 pipeline/build/tests/test_exception_sourcing.py
       # A route that should need less drug asking for more (insufflated 3x oral),
       # or one source far from the rest. Ratcheted: the HIGH findings present when
       # the gate went in are in data/snapshots/dose-sanity-baseline.json, and only

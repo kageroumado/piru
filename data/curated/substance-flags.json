@@ -1,49 +1,75 @@
 {
-  "_comment": "Boolean pharmacological facts read by an engine, never rendered as a UI chip (that is what `tags` is for). Keys are substances.canonical_name; each entry lists the flags that substance carries.",
+  "_comment": "Boolean pharmacological facts read by an engine, never rendered as a UI chip (that is what `tags` is for). Keys are substances.canonical_name; each entry maps a flag to the evidence for it on THAT substance — a `citation` (PMID, DOI or label set id, written to substance_flags.citation_id) or, where no substance-specific source exists, a `reason_only` sentence. The reason_only rows are a shrink-only list in pipeline/build/tests/reason-only-baseline.json, so a flag can never be added on a hunch.",
   "_flags": {
-    "suppresses-serotonin-synthesis": "Metabolites suppress tryptophan hydroxylase, so the SERT class's slow synthesis pool recovers on a weeks-scale clock instead of the days-scale reset of the synthesis-sparing releasers (Specs/tolerance-faithful-model-improvements.md §3.4). Methylenedioxy entactogens only — the cathinone releasers (mephedrone and relatives) spare synthesis and must NOT carry this flag.",
+    "suppresses-serotonin-synthesis": "Tryptophan hydroxylase is inactivated for weeks after exposure, so the SERT class's slow synthesis pool recovers on a weeks-scale clock instead of the days-scale reset of the synthesis-sparing releasers. The mechanism is reversible oxidation of a sulfhydryl site on the enzyme (pmid:2714371), not a metabolite: the effect needs the whole animal and does not require N-demethylation (pmid:2891359). Methylenedioxy entactogens only, and only those with their own evidence — MDEA was tested head-to-head and did not lower TPH in most regions (pmid:2883012), so it must NOT carry this flag, and neither must the cathinone releasers (mephedrone and relatives), which spare synthesis.",
     "missold-as-mdma": "Frequently pressed and sold as MDMA or \"molly\" while being a pharmacologically DAT-dominant reuptake blocker: longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose. A market fact about what the pill contains, so it is carried per substance rather than inferred from the binding profile — the profile is what makes the substitution dangerous, not what identifies it.",
-    "model-calibrated": "The effect model was actually calibrated against human data for this substance, so a session containing it may surface Effect Estimates. Every other modelable substance (methamphetamine, cocaine, kratom, MDMA, …) is still read as an interacting agent that shapes the aggregate curves — the flag gates whether a substance can ANCHOR a simulation on its own, not whether the engine can simulate it. A substance earns this only when human dose-response data anchored its parameters; the cathinones rest on a human 3-MMC study."
+    "model-calibrated": "The effect model was calibrated against human data for this substance, so a session containing it may surface Effect Estimates. Every other modelable substance (methamphetamine, cocaine, kratom, MDMA, …) is still read as an interacting agent that shapes the aggregate curves — the flag gates whether a substance can ANCHOR a simulation on its own, not whether the engine can simulate it. The citation is the human study its parameters were fitted to; the one exception is 2-MMC, whose curve is a deliberate held-out prediction from the 3-MMC anchor and carries a reason instead."
   },
   "substances": {
-    "Amphetamine": [
-      "model-calibrated"
-    ],
-    "Methylphenidate": [
-      "model-calibrated"
-    ],
-    "2-MMC": [
-      "model-calibrated"
-    ],
-    "3-MMC": [
-      "model-calibrated"
-    ],
-    "Mephedrone": [
-      "model-calibrated"
-    ],
-    "MDMA": [
-      "suppresses-serotonin-synthesis"
-    ],
-    "MDA": [
-      "suppresses-serotonin-synthesis"
-    ],
-    "MDEA": [
-      "suppresses-serotonin-synthesis"
-    ],
-    "MBDB": [
-      "suppresses-serotonin-synthesis"
-    ],
-    "MDOH": [
-      "suppresses-serotonin-synthesis"
-    ],
-    "Eutylone": [
-      "missold-as-mdma"
-    ],
-    "N-Ethylpentylone": [
-      "missold-as-mdma"
-    ],
-    "Pentylone": [
-      "missold-as-mdma"
-    ]
+    "Amphetamine": {
+      "model-calibrated": {
+        "citation": "pmid:15582920",
+        "note": "Stoops 2004 gave d-amphetamine at three ascending oral doses against placebo in 10 subjects, which is the dose-response ladder the VAS anchors are fitted to."
+      }
+    },
+    "Methylphenidate": {
+      "model-calibrated": {
+        "citation": "pmid:15582920",
+        "note": "The same crossover study ran methylphenidate arms at three ascending oral doses, so both stimulants' ladders come from one within-subject comparison."
+      }
+    },
+    "2-MMC": {
+      "model-calibrated": {
+        "reason_only": "No human administration study of the ortho isomer exists, and borrowing 3-MMC's or 4-MMC's figures is explicitly refused in the calibration notes. Its curve is a held-out prediction from the 3-MMC anchor plus its own in-vitro transporter potencies — the test of whether the model is mechanistic rather than fitted."
+      }
+    },
+    "3-MMC": {
+      "model-calibrated": {
+        "citation": "pmid:39719487",
+        "note": "The first-in-human study: three escalating oral doses in 14 subjects, with dose-dependent vital signs and subjective high. This is the anchor the whole cathinone branch rests on."
+      }
+    },
+    "Mephedrone": {
+      "model-calibrated": {
+        "citation": "pmid:27206266",
+        "note": "Papaseit 2016 is a placebo-controlled single-dose administration in 12 volunteers — one active dose, so it anchors the reference dose and time course rather than a full ladder."
+      }
+    },
+    "MDMA": {
+      "suppresses-serotonin-synthesis": {
+        "citation": ["pmid:2891359", "pmid:2568404"],
+        "note": "Schmidt 1987 found a rapid, persistent, dose-dependent fall in cortical tryptophan hydroxylase activity; Stone 1989 found the enzyme could no longer be reactivated beyond 3 days, which is the weeks-scale clock this flag models."
+      }
+    },
+    "MDA": {
+      "suppresses-serotonin-synthesis": {
+        "citation": "pmid:2883012",
+        "note": "Two weeks after dosing, regional brain tryptophan hydroxylase activity was still selectively and dramatically decreased."
+      }
+    },
+    "MBDB": {
+      "suppresses-serotonin-synthesis": {
+        "citation": "pmid:2476831",
+        "note": "Measured at the markers rather than at the enzyme: a behaviorally equipotent dose lowered 5-HT, 5-HIAA and paroxetine binding sites. No study has measured MBDB against tryptophan hydroxylase itself, so this row rests on the downstream deficit."
+      }
+    },
+    "Eutylone": {
+      "missold-as-mdma": {
+        "citation": "pmid:33325503",
+        "note": "The forensic case series says plainly that eutylone may be present in cases of suspected Ecstasy, \"Molly\" or MDMA use."
+      }
+    },
+    "N-Ethylpentylone": {
+      "missold-as-mdma": {
+        "citation": "pmid:29618077",
+        "note": "Every positive case of N-ethylpentylone use in the series correlated with user-reported ingestion of \"Molly\"."
+      }
+    },
+    "Pentylone": {
+      "missold-as-mdma": {
+        "citation": "pmid:28810159",
+        "note": "The thinnest of the three: hair testing of self-reported ecstasy users found synthetic cathinones in 27.8% of them, pentylone among the named compounds, and in blood casework it shows up alongside N-ethylpentylone rather than on its own."
+      }
+    }
   }
 }

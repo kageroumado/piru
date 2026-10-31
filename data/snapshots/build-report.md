@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-10-31.1 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `2dc79cf44cdce755b3689551d19e4d798f45a447a4641e1a46caee25a51b7fc3`)
+Built 2026-10-31.6 → `Piru/Data/piru-substances.sqlite` (21,585,920 bytes, sha256 `f5cd13ff2fa13115c88616638ad9a921fc08e29a2d04b76e09082fcd4ab93e78`)
 
 ## Row counts
 
@@ -10,11 +10,11 @@ Built 2026-10-31.1 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha
 | aliases | 6,005 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,706 |
+| citations | 2,716 |
 | categories | 1,577 |
 | tags | 7,059 |
-| dose_ranges | 2,794 |
-| durations | 10,736 |
+| dose_ranges | 2,795 |
+| durations | 10,742 |
 | drug_community_timelines | 755 |
 | half_lives | 711 |
 | mechanisms_summary | 1,230 |
@@ -41,7 +41,7 @@ Built 2026-10-31.1 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha
 | molecule_shapes | 962 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |
-| substance_flags | 13 |
+| substance_flags | 11 |
 | regional_names | 5 |
 | localized_names | 1,615 |
 | opioid_mme | 11 |
@@ -97,7 +97,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 ## Dose gates
 
-100 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
+99 row(s) deleted by `pipeline/build/dose_gates.py`; the rows are in `data/snapshots/dose-gate-report.md`.
 
 ## Row citations
 
@@ -155,7 +155,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 826 | 0 | 0 | 126 |
 | psychonautwiki | 376 | 0 | 63 | 316 |
-| tripsit | 572 | 0 | 410 | 1,267 |
+| tripsit | 573 | 0 | 410 | 1,267 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 93 | 0 | 168 | 430 |
 | erowid-tihkal | 37 | 0 | 47 | 119 |

@@ -1,33 +1,52 @@
 {
-  "_note": "Substances/routes where a data source's DOSE ladder is skipped at ingest, so the next-priority source backfills. A declarative override (with a reason) instead of duplicating corrected dose data in the curated layer. Omit `routes` to skip that source's doses for the whole substance. An entry that suppresses nothing on a route it names fails the build. PIHKAL/TIHKAL no-activity bounds need no entry: the build reads the book's DOSAGE clause and refuses them (pipeline/build/dose_gates.py). Each should also be reported upstream for a real fix.",
+  "_note": "Substances/routes where a data source's DOSE ladder is skipped at ingest, so the next-priority source backfills. A declarative override (with a reason) instead of duplicating corrected dose data in the curated layer. Omit `routes` to skip that source's doses for the whole substance. An entry that suppresses nothing on a route it names fails the build. Every entry carries either a `citation` - a PMID, DOI, ISBN or label set_id for the fact its `note` rests on - or a `reason_only` sentence saying why no source can be cited, and the reason_only entries are a shrink-only list in pipeline/build/tests/reason-only-baseline.json. PIHKAL/TIHKAL no-activity bounds need no entry: the build reads the book's DOSAGE clause and refuses them (pipeline/build/dose_gates.py). Each should also be reported upstream for a real fix.",
   "drug.community": [
     {
       "name": "Amobarbital",
       "routes": [
         "intravenous"
       ],
-      "note": "dc IV common > oral — implausible for a barbiturate."
+      "note": "dc IV common > oral. For a barbiturate that inverts the route: an intravenous dose reaches the circulation whole, so it cannot need more drug than the same source's own oral ladder.",
+      "reason_only": "No label or clinical source for parenteral amobarbital is indexed (openFDA, DailyMed and Drugs@FDA all return nothing; PubMed has only the intracarotid Wada test, a different indication). The defect is internal to the source."
     },
     {
       "name": "Atropine",
       "routes": [
         "oral"
       ],
-      "note": "common 2-5 / strong 6-10 mg. Anticholinergic therapeutic dosing tops out ~2 mg and 6-10 mg is potentially lethal (LDLo ~1-4 mg/kg). Only source for the oral route; the IV antidote ladder is correct and stays."
+      "note": "common 2-5 / strong 6-10 mg. The labeled adult systemic dose is 0.5-1 mg with a 3 mg maximum total, so this ladder's common tier starts above a full labeled dose, and a documented 15 mg oral exposure produced an acute anticholinergic syndrome needing mechanical ventilation. Only source for the oral route; the IV antidote ladder is correct and stays.",
+      "citation": [
+        "DailyMed Atropine Sulfate Injection (Fresenius Kabi, NDA209260), set_id 310c8a74-ea24-4357-8099-81e394b1634e, §2.2",
+        "pmid:26543025"
+      ]
     },
     {
       "name": "Bromoketamine",
       "routes": [
         "intramuscular"
       ],
-      "note": "threshold 0.3 / common 0.7-1 mg against this same source's own insufflation ladder of 90-160 mg — a 100x internal contradiction, almost certainly mg/kg recorded as absolute mg. The substance is tagged no-human-data."
+      "note": "threshold 0.3 / common 0.7-1 mg against this same source's own insufflation ladder of 90-160 mg — a 100x internal contradiction, almost certainly mg/kg recorded as absolute mg. The substance is tagged no-human-data.",
+      "reason_only": "Nothing external to cite: the contradiction is inside the source's own rows, and no study of this compound in humans exists to put a number against them."
     },
     {
       "name": "Cocaine",
       "routes": [
         "intravenous"
       ],
-      "note": "dc IV ~6x too high — copies the insufflation ladder; IV should be lower."
+      "citation": [
+        "pmid:2565204",
+        "pmid:23144826",
+        "pmid:30811963"
+      ],
+      "note": "dc's IV ladder is its own insufflation ladder verbatim, which inverts the route: intranasal cocaine is about 80% bioavailable (Jeffcoat 1989, pmid:2565204), so an intravenous dose cannot need as much drug — and shipping it also puts IV above this source's smoked ladder. The size of the error is smaller than it looks: human laboratory studies give 20 mg as a fixed IV dose (pmid:23144826) and 0.23-0.46 mg/kg per injection (pmid:30811963), so the wiki ladder that backfills here (common 5-10 mg) sits BELOW the supervised range while dc's sits above it. No source gives a defensible IV ladder, so the bad shape is dropped and no number is invented in its place; the understatement that remains is recorded here rather than silently fixed."
+    },
+    {
+      "name": "Mitragynine",
+      "routes": [
+        "oral"
+      ],
+      "note": "A kratom-LEAF ladder on the pure alkaloid: the row is in grams and its own unit string says \"g (leaf powder)\", while its note gives the leaf's alkaloid content as 12-21 mg/g — so the numbers describe plant material roughly a thousandfold weaker than the compound the row is filed under. Piru's own mitragynine ladder is in mg and the leaf ladders live on the Kratom row. Not yet reported upstream.",
+      "reason_only": "Nothing external to cite: the row identifies itself as leaf material in its own unit string and note, so the mismatch with the compound it is filed under needs no outside source."
     },
     {
       "name": "MXP",
@@ -35,33 +54,21 @@
         "intravenous"
       ],
       "drop": "route",
-      "note": "drug.community files this as \"MXP (Methoxphenidine)\", so the exception keys on the split short name. MXP is documented oral and insufflated only — not formulated or characterized for injection. The routes the literature describes are oral, sublingual and intranasal (Jurásek 2022, pmid:35216198). Offering an IV ladder is an invitation, not a reference."
-    },
-    {
-      "name": "Mitragynine",
-      "routes": [
-        "oral"
-      ],
-      "note": "A kratom-LEAF ladder on the pure alkaloid: the row is in grams and its own unit string says \"g (leaf powder)\", while its note gives the leaf's alkaloid content as 12-21 mg/g — so the numbers describe plant material roughly a thousandfold weaker than the compound the row is filed under. Piru's own mitragynine ladder is in mg and the leaf ladders live on the Kratom row. Not yet reported upstream."
+      "note": "drug.community files this as \"MXP (Methoxphenidine)\", so the exception keys on the split short name. MXP is documented oral and insufflated only — not formulated or characterized for injection. The routes the literature describes are oral, sublingual and intranasal (Jurásek 2022, pmid:35216198). Offering an IV ladder is an invitation, not a reference.",
+      "citation": "pmid:35216198"
     },
     {
       "name": "Para-Methoxyamphetamine",
       "routes": [
         "oral"
       ],
-      "note": "PMA under its full name. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop."
-    },
-    {
-      "name": "PCP",
-      "routes": [
-        "oral"
-      ],
-      "drop": "durations",
-      "note": "total 4-8 h is the insufflated/smoked profile; oral PCP runs 6-24 h. Under-stating it is a re-dose risk on a drug with a long, unpleasant tail."
+      "note": "PMA under its full name. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop.",
+      "citation": "EMCDDA, Report on the risk assessment of PMMA in the framework of the joint action on new synthetic drugs, Risk Assessments No. 5 (2003), ISBN 92-9168-137-7"
     },
     {
       "name": "Quetiapine",
-      "note": "dc common ~2.5–5x above the FDA-labeled range for this antipsychotic."
+      "citation": "DailyMed SEROQUEL, set_id 0584dda8-bc3c-48fe-1a90-79608f78e8a0, §2.2",
+      "note": "dc's ladder is the antipsychotic's THERAPEUTIC regime, not a ladder: its tiers reproduce the labeled recommended ranges (150-750 mg/day for schizophrenia, 400-800 mg/day for bipolar mania). The claim is not that the figures are too high — they are the label's own — but that a prescription antipsychotic's treatment dose must not ship as a dose ladder; the sedative-dose ladder the other four sources carry is what ships. If assign_dose_contexts ever tags this row therapeutic, strip_medical_rx_doses owns it and this entry goes."
     }
   ],
   "psychonautwiki": [
@@ -71,7 +78,11 @@
         "oral"
       ],
       "drop": "durations",
-      "note": "PsychonautWiki's name for CDP-Choline; it ingests under this name and is merged into CDP-Choline afterwards. total 58-74 h, offset 30-40 h, afterglow 40-60 h for a nootropic whose effects run hours. piru-curated (8-24 h) already outranks the total, but per-phase resolution meant the bad offset and afterglow still resolved from here — masking is not fixing."
+      "note": "PsychonautWiki's name for CDP-Choline; it ingests under this name and is merged into CDP-Choline afterwards. total 58-74 h, offset 30-40 h, afterglow 40-60 h against a measured human exposure of hours: plasma choline stays significantly elevated for 5, 8 and 10 h after 500, 2000 and 4000 mg oral doses (Wurtman 2000, pmid:10974208), and plasma levels peak at 1 h (pmid:26366063). piru-curated (8-24 h) already outranks the total, but per-phase resolution meant the bad offset and afterglow still resolved from here — masking is not fixing.",
+      "citation": [
+        "pmid:10974208",
+        "pmid:26366063"
+      ]
     },
     {
       "name": "Midazolam",
@@ -79,7 +90,8 @@
         "intravenous"
       ],
       "drop": "durations",
-      "note": "peak 1-4 h on the drug chosen for procedural sedation precisely because it peaks in minutes (t1/2 1.5-2.5 h). drug.community's 15 min backfills. Intranasal and IV midazolam sedation in 12 volunteers set in within 5–10 and 3–4 min and lasted about 40 and 35 min (Gudmundsdottir 2001, pmid:11802661)."
+      "note": "peak 1-4 h on the drug chosen for procedural sedation precisely because it peaks in minutes (t1/2 1.5-2.5 h). drug.community's 15 min backfills. Intranasal and IV midazolam sedation in 12 volunteers set in within 5–10 and 3–4 min and lasted about 40 and 35 min (Gudmundsdottir 2001, pmid:11802661).",
+      "citation": "pmid:11802661"
     },
     {
       "name": "Naloxone",
@@ -87,7 +99,11 @@
         "oral"
       ],
       "drop": "route",
-      "note": "Oral bioavailability ~2%; naloxone is IN Suboxone precisely because it is systemically inactive by mouth. A 5-15 min onset and 1-2 h total for oral dosing is pharmacokinetically impossible, and offering the route at all implies an opioid reversal that will not happen."
+      "note": "Oral bioavailability is under 2% and the label states that oral naloxone has no pharmacologic activity at a dose that antagonises pentazocine when given parenterally; naloxone is in Suboxone precisely because it is systemically inactive by mouth. A 5-15 min onset and 1-2 h total for oral dosing is pharmacokinetically impossible, and offering the route at all implies an opioid reversal that will not happen.",
+      "citation": [
+        "pmid:26109423",
+        "DailyMed Pentazocine and Naloxone Tablets, set_id a28450a0-ac93-4235-b9a6-58cdf24773cb, §Clinical Pharmacology"
+      ]
     },
     {
       "name": "Nifoxipam",
@@ -95,21 +111,24 @@
         "oral"
       ],
       "drop": "durations",
-      "note": "total 10-75 h; the 75 h upper is implausible even for a nitro-benzodiazepine. TripSit's 10-18 h backfills."
+      "note": "total 10-75 h. No measured human half-life or duration for nifoxipam exists: the 15 indexed papers are analytical-method, metabolite-identification and poison-centre work, and the only duration figures in the literature come from internet trip reports (pmid:31971477). A 75 h upper bound rests on nothing, so it is not shipped. TripSit's 10-18 h backfills.",
+      "citation": "pmid:31971477"
     },
     {
       "name": "PMA",
       "routes": [
         "oral"
       ],
-      "note": "threshold 10 / light 20-40 / common 40-60 mg and NO strong or heavy tier, which reads as \"nothing above this is defined\" rather than \"above this kills\". PMA/PMMA blood levels >0.5 mg/L are toxic-to-lethal against a fatal median of 1.92 mg/L. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop."
+      "note": "threshold 10 / light 20-40 / common 40-60 mg and NO strong or heavy tier, which reads as \"nothing above this is defined\" rather than \"above this kills\". PMA/PMMA blood levels >0.5 mg/L are toxic-to-lethal against a fatal median of 1.92 mg/L. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop.",
+      "citation": "EMCDDA, Report on the risk assessment of PMMA in the framework of the joint action on new synthetic drugs, Risk Assessments No. 5 (2003), ISBN 92-9168-137-7"
     },
     {
       "name": "PMMA",
       "routes": [
         "oral"
       ],
-      "note": "a single 100-120 mg \"common\" tier already inside the reported lethal range; recreational and lethal exposure overlap with no separable window. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop."
+      "note": "a single 100-120 mg \"common\" tier already inside the reported lethal range; recreational and lethal exposure overlap with no separable window. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop.",
+      "citation": "EMCDDA, Report on the risk assessment of PMMA in the framework of the joint action on new synthetic drugs, Risk Assessments No. 5 (2003), ISBN 92-9168-137-7"
     }
   ],
   "freeodwiki": [
@@ -119,7 +138,11 @@
         "oral"
       ],
       "drop": "durations",
-      "note": "Mirrors the psychonautwiki row."
+      "note": "Mirrors the psychonautwiki row.",
+      "citation": [
+        "pmid:10974208",
+        "pmid:26366063"
+      ]
     },
     {
       "name": "Naloxone",
@@ -127,7 +150,10 @@
         "oral"
       ],
       "drop": "route",
-      "note": "See the psychonautwiki entry — oral naloxone is ~2% bioavailable and systemically inactive."
+      "note": "See the psychonautwiki entry — oral naloxone is ~2% bioavailable and systemically inactive.",
+      "citation": [
+        "pmid:26109423"
+      ]
     },
     {
       "name": "Nifoxipam",
@@ -135,21 +161,24 @@
         "oral"
       ],
       "drop": "durations",
-      "note": "Mirrors the psychonautwiki row."
+      "note": "Mirrors the psychonautwiki row.",
+      "citation": "pmid:31971477"
     },
     {
       "name": "Para-Methoxyamphetamine",
       "routes": [
         "oral"
       ],
-      "note": "PMA under its full name. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop."
+      "note": "PMA under its full name. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop.",
+      "citation": "EMCDDA, Report on the risk assessment of PMMA in the framework of the joint action on new synthetic drugs, Risk Assessments No. 5 (2003), ISBN 92-9168-137-7"
     },
     {
       "name": "PMMA",
       "routes": [
         "oral"
       ],
-      "note": "Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop."
+      "note": "Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop.",
+      "citation": "EMCDDA, Report on the risk assessment of PMMA in the framework of the joint action on new synthetic drugs, Risk Assessments No. 5 (2003), ISBN 92-9168-137-7"
     },
     {
       "name": "Cannabis",
@@ -157,7 +186,8 @@
         "oral"
       ],
       "drop": "durations",
-      "note": "FreeOD's oral-cannabis durations (onset 0.1–10, peak 15–45 min) are byte-identical to psychonautwiki's inhalation profile. A 0.1-min oral onset is impossible for cannabis; the data is mislabeled inhalation. Dose ladder (0.4–10 mg THC) is plausible for edibles and kept. Oral THC's psychotropic effects \"set in with a delay of 30-90 minutes, reach their maximum after 2-3 hours\" (Grotenhermen 2003, pmid:12648025)."
+      "note": "FreeOD's oral-cannabis durations (onset 0.1–10, peak 15–45 min) are byte-identical to psychonautwiki's inhalation profile. A 0.1-min oral onset is impossible for cannabis; the data is mislabeled inhalation. Dose ladder (0.4–10 mg THC) is plausible for edibles and kept. Oral THC's psychotropic effects \"set in with a delay of 30-90 minutes, reach their maximum after 2-3 hours\" (Grotenhermen 2003, pmid:12648025).",
+      "citation": "pmid:12648025"
     }
   ],
   "tripsit": [
@@ -166,14 +196,16 @@
       "routes": [
         "oral"
       ],
-      "note": "common 60-120 mg. Glanville 2015 (Hum Psychopharmacol) records unwanted effects from 5 mg against desired effects at 10-200 mg — the ranges fully overlap — and 4,4-DMAR is linked to 31 European deaths in nine months. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop."
+      "note": "common 60-120 mg. Glanville 2015 (Hum Psychopharmacol, pmid:25784180) records unwanted effects from 5 mg against desired effects at 10-200 mg — the ranges fully overlap — and 4,4-DMAR is linked to 31 European deaths in nine months. Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop.",
+      "citation": "pmid:25784180"
     },
     {
       "name": "Allobarbital",
       "routes": [
         "oral"
       ],
-      "note": "light 500-1000 / common 1000-1500 / strong 1500-2000 mg for an intermediate-acting barbiturate whose hypnotic dose was ~100-200 mg (Cibalgin tablets carried 40-60 mg). The whole ladder sits in the lethal zone and TripSit is the only source, so it goes rather than being re-numbered."
+      "note": "light 500-1000 / common 1000-1500 / strong 1500-2000 mg for an intermediate-acting barbiturate. TripSit is the only source and no citable dose exists for the compound, so the ladder goes rather than being re-numbered.",
+      "reason_only": "No hypnotic dose and no per-tablet content for any allobarbital product is citable: openFDA has no label, and PubMed's 52 records use it as an HPLC internal standard, a mutagenicity test article and a rodent anticonvulsant. TripSit is the only source, its ladder runs in grams for an intermediate-acting barbiturate, and a replacement number would have to be invented, so the ladder is not shipped and none is written in its place."
     },
     {
       "name": "Changa",
@@ -181,7 +213,8 @@
         "oral"
       ],
       "drop": "route",
-      "note": "Changa is a DMT-infused smoking blend; an oral route is a categorical error. Its ladder (5-50 mg) and timeline (onset 0-2 min, total 6-12 min) are the SMOKED values mis-assigned. Oral DMT without an MAOI does nothing at all."
+      "note": "Changa is a DMT-infused smoking blend; an oral route is a categorical error. Its ladder (5-50 mg) and timeline (onset 0-2 min, total 6-12 min) are the SMOKED values mis-assigned. DMT \"is nearly inactive orally\" without an MAOI because of rapid first-pass metabolism (Egger 2024, pmid:39254764).",
+      "citation": "pmid:39254764"
     },
     {
       "name": "Midazolam",
@@ -189,7 +222,8 @@
         "insufflation"
       ],
       "drop": "durations",
-      "note": "total 4-8 h is a long-acting benzo's profile; midazolam's t1/2 is 1.5-2.5 h and it is chosen clinically FOR its ultra-short action. Intranasal midazolam's sedation set in within 5–10 min and lasted about 40 min (Gudmundsdottir 2001, pmid:11802661)."
+      "note": "total 4-8 h is a long-acting benzo's profile; midazolam's t1/2 is 1.5-2.5 h and it is chosen clinically FOR its ultra-short action. Intranasal midazolam's sedation set in within 5–10 min and lasted about 40 min (Gudmundsdottir 2001, pmid:11802661).",
+      "citation": "pmid:11802661"
     },
     {
       "name": "Propoxyphene",
@@ -197,7 +231,11 @@
         "oral"
       ],
       "drop": "durations",
-      "note": "total 1-3 h against t1/2 6-12 h (norpropoxyphene ~30-36 h) — about a quarter of the true duration, on a drug withdrawn for cardiotoxicity."
+      "note": "total 1-3 h against a measured single-dose half-life of 8-24 h for propoxyphene and 18-29 h for norpropoxyphene (Gram 1979, pmid:487695), both longer again on repeated dosing (3.3 to 11.8 h and 6.1 to 39.2 h, Inturrisi 1982, pmid:7056023) — a small fraction of the true duration, on a drug withdrawn for cardiotoxicity.",
+      "citation": [
+        "pmid:487695",
+        "pmid:7056023"
+      ]
     },
     {
       "name": "Sufentanil",
@@ -205,14 +243,16 @@
         "oral"
       ],
       "drop": "durations",
-      "note": "total 5-10 min is the IV profile inherited verbatim. Oral BA ~12%, absorbed over 30-90 min. A user reading \"10 minutes\" on an ultra-potent opioid could fatally re-dose."
+      "note": "total 5-10 min is the IV profile inherited verbatim. Swallowed sufentanil is 9% bioavailable and peaks much later than an injection: the half-time from Cmax is 2.5 h sublingually against 0.1 h intravenously (Willsie 2015, pmid:25544247). A user reading \"10 minutes\" on an ultra-potent opioid could fatally re-dose.",
+      "citation": "pmid:25544247"
     },
     {
       "name": "Triazolam",
       "routes": [
         "oral"
       ],
-      "note": "strong ceiling 1.5 mg is 3x the FDA-labeled MAXIMUM of 0.5 mg/day (Halcion label 2.1). freeodwiki's 0.5-0.75 backfills and sits at the label ceiling."
+      "note": "strong ceiling 1.5 mg is 3x the labeled MAXIMUM of 0.5 mg once daily (the recommended dose is 0.25 mg at bedtime). freeodwiki's 0.5-0.75 backfills and sits at the label ceiling.",
+      "citation": "DailyMed Triazolam (NDA017892, Mylan), set_id 5add318e-11b9-42f8-b052-0d8cebb32fcf, §2.1"
     },
     {
       "name": "Furanylfentanyl",
@@ -220,14 +260,19 @@
         "insufflation",
         "oral"
       ],
-      "note": "light 200–400 / strong 800–1,600 µg insufflated and 300–1,600 µg oral on a compound with the highest MOR affinity of six fentanyl analogs, 3.8× fentanyl, mouse ED50 within ~1.3× of fentanyl (PMID 40721041); fatal femoral blood 0.41–2.47 ng/g (PMID 28096302). About 10× a lethal-range dose. TripSit's ladder verbatim."
+      "note": "light 200–400 / strong 800–1,600 µg insufflated and 300–1,600 µg oral on a compound with the highest MOR affinity of six fentanyl analogs, 3.8× fentanyl, mouse ED50 within ~1.3× of fentanyl (PMID 40721041); fatal femoral blood 0.41–2.47 ng/g (PMID 28096302). About 10× a lethal-range dose. TripSit's ladder verbatim.",
+      "citation": [
+        "pmid:40721041",
+        "pmid:28096302"
+      ]
     },
     {
       "name": "Acetaminophen",
       "routes": [
         "oral"
       ],
-      "note": "common 200-500 mg (\"Pain-relief 200-400mg | Fever 300-500mg\") against the adult OTC label dose of two 325 mg or two 500 mg tablets, 650-1000 mg (DailyMed Tylenol Regular and Extra Strength). A 1000 mg dose, the commonly sold one, read as heavy. The curated label ladder replaces it."
+      "note": "common 200-500 mg (\"Pain-relief 200-400mg | Fever 300-500mg\") against the adult OTC label dose of two 325 mg or two 500 mg tablets, 650-1000 mg (DailyMed Tylenol Regular and Extra Strength). A 1000 mg dose, the commonly sold one, read as heavy. The curated label ladder replaces it.",
+      "citation": "DailyMed Tylenol Regular Strength and Extra Strength, §Directions"
     }
   ],
   "dosewiki": [
@@ -236,7 +281,8 @@
       "routes": [
         "oral"
       ],
-      "note": "common 3-5 µg — about a tenth of fentanyl's own common dose, for an analog roughly a third as potent. The digits are the 3-5 mg ladder the other sources carry with the unit swapped. No source gives a defensible ladder (see the psychonautwiki, freeodwiki and tripsit entries), so this one is dropped too."
+      "note": "common 3-5 µg — about a tenth of fentanyl's own common dose, for an analog that sits within a decade of fentanyl in vivo rather than hundreds of times below it (pmid:40721041). The digits are the 3-5 mg ladder the other sources carry with the unit swapped. No source gives a defensible ladder (see the psychonautwiki, freeodwiki and tripsit entries), so this one is dropped too.",
+      "citation": "pmid:40721041"
     },
     {
       "name": "Furanylfentanyl",
@@ -244,7 +290,11 @@
         "insufflation",
         "oral"
       ],
-      "note": "Same ladder as the TripSit entry, on an expert-reviewed article; reported to dose.wiki 2026-09-11."
+      "note": "Same ladder as the TripSit entry (highest MOR affinity of six fentanyl analogs and a mouse ED50 within ~1.3x of fentanyl, pmid:40721041; fatal femoral blood 0.41-2.47 ng/g, pmid:28096302), on an expert-reviewed article; reported to dose.wiki 2026-09-11.",
+      "citation": [
+        "pmid:40721041",
+        "pmid:28096302"
+      ]
     },
     {
       "name": "5-MeO-DMT",
@@ -252,7 +302,11 @@
         "oral"
       ],
       "drop": "route",
-      "note": "dose.wiki's only oral entry: a 5–10 mg ladder with a 1–5 min onset and a 15–45 HOUR total. Oral 5-MeO-DMT is inactive without an MAOI, an oral onset of minutes is physically impossible, and no other source offers the route — so the whole route is dropped rather than shipping an implausible curve. Reported to dose.wiki 2026-09-12."
+      "note": "dose.wiki's only oral entry: a 5-10 mg ladder with a 1-5 min onset and a 15-45 HOUR total. No orally absorbed drug acts within 1-5 min, and the total is an order of magnitude past any reported 5-MeO-DMT experience. The route is not claimed to be inactive — oral activity is reported, but only from 17 self-experiments (Ott 2001, pmid:11824699), against MAO-A inactivation as the compound's main clearance route (pmid:20942780) — so the whole route is dropped for want of a source that could carry a curve, not because the route does nothing. Reported to dose.wiki 2026-09-12.",
+      "citation": [
+        "pmid:11824699",
+        "pmid:20942780"
+      ]
     }
   ]
 }

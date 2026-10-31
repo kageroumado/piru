@@ -523,7 +523,12 @@ A row is deleted when it fails:
 - a **class ceiling** from `data/curated/dose-class-gates.json` — for a class
   context whose members are dosed in micrograms (fentanyls, nitazenes), any
   tier above the stated mass is a unit slip or a copied error, unless the row
-  carries a citation or comes from an exempt source;
+  carries a citation or comes from an exempt source. The ceiling itself is
+  cited, and a member the class premise does not hold for is named in
+  `exempt_substances` with its own source rather than the ceiling being raised:
+  clonitazene is the case that forced it — it is the one circulating nitazene
+  given to humans by mouth in tens of milligrams, so a milligram-scale ladder
+  for it is in range;
 - the **absorption floor** — a phase under one minute on a route that has to
   absorb through a membrane (oral, sublingual, buccal, rectal, transdermal,
   insufflation) is a units error whatever the source;
@@ -549,6 +554,20 @@ the values, and the same rows as JSON beside it. Per-row exceptions with their
 evidence stay in `data/curated/dose-source-exceptions.json`; the gate is for the
 class of error, the exception for the row the literature settles. An exception
 that suppresses nothing fails the build.
+
+**Every override says what it rests on.** A suppressed ladder is invisible once
+applied — it looks exactly like a ladder that was never scraped — so each entry
+in `dose-source-exceptions.json`, `dose-class-gates.json`,
+`substance-flags.json`, `removed-substances.json` and the two duration constants
+in `build/sqlite.py` carries either a `citation` (PMID, DOI, ISBN, label set id,
+PubChem CID, CAS, trial id or a PIHKAL/TIHKAL entry) for the fact its prose
+asserts, or an explicit `reason_only` sentence saying why no source can settle
+it. `build/tests/test_exception_sourcing.py` enforces that, and holds the
+reason-only entries to the shrink-only list in
+`build/tests/reason-only-baseline.json`: a new uncited override fails, and so
+does a baseline line that has since been sourced or deleted. An override that
+cannot be justified is deleted, which is a data change with a diff — never
+weakened into passing.
 
 **Identity corrections.** `apply_identifier_reconciliation` applies the PubChem
 snapshot and the hand-verified `identifier-corrections-manual.json`; then
