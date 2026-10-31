@@ -2959,6 +2959,7 @@ ES = {
     "Taken %@": "Tomada %@",
     "Taken at %@": "Tomada a las %@",
     "Taken at": "Hora de la toma",
+    "When did you take %@?": "¿Cuándo tomaste %@?",
     "Taken every": "Se toma cada",
     "Taking more cannabis to ease the comedown delays it.": "Tomar más cannabis para aliviar la bajada la retrasa.",
     "Taking more in reaction to the rebound reinforces the cycle.": "Tomar más como reacción al rebote refuerza el ciclo.",

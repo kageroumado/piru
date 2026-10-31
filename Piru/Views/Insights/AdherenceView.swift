@@ -313,12 +313,16 @@ private struct AdherenceCalendarGrid: View {
     @AppStorage(AdherenceCalculator.splitsDayKey) private var splitsDay = true
 
     var body: some View {
+        // Cells are journal days: with a 4 AM start, at 01:00 today's date is
+        // still ahead and yesterday's is the one being logged.
+        let today = calendar.journalDay(for: .now)
         LazyVGrid(columns: columns, spacing: Spacing.xs) {
             ForEach(Array(daysInMonth().enumerated()), id: \.offset) { _, date in
                 if let date {
-                    let adherence = monthAdherenceByDay[calendar.startOfDay(for: date)]
-                    let isToday = calendar.isDateInToday(date)
-                    let isFuture = date > .now
+                    let dayStart = calendar.startOfDay(for: date)
+                    let adherence = monthAdherenceByDay[dayStart]
+                    let isToday = dayStart == today
+                    let isFuture = dayStart > today
 
                     Button {
                         if !isFuture, let adherence, adherence.status != .noData {

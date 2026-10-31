@@ -19,16 +19,21 @@ final class MyMedsModel {
     /// The time `pendingSlots` log at once cleared; `nil` logs them now.
     private(set) var pendingTimestamp: Date?
 
-    /// Today's checkable dose slots: every due, non-PRN med × one of its reminder
-    /// times (or a single "anytime" slot), carrying the state its occurrence row
-    /// records. Earliest slots first.
-    static func slots(items: [DailyDoseItem], occurrences: [RoutineOccurrence]) -> [MyMedsCard.MedSlot] {
+    /// Today's checkable dose slots: every med due this journal day, non-PRN,
+    /// × one of its reminder times (or a single "anytime" slot), carrying the
+    /// state its occurrence row records. Earliest slots first, on the
+    /// journal-day clock (a 02:00 slot comes after 22:00 with a 4 AM start).
+    static func slots(
+        items: [DailyDoseItem], occurrences: [RoutineOccurrence],
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour, now: Date = .now,
+    ) -> [MyMedsCard.MedSlot] {
         var slots: [MyMedsCard.MedSlot] = []
         let occurrencesByKey = Dictionary(
             occurrences.map { (RoutineOccurrenceService.slotKey(for: $0), $0) },
             uniquingKeysWith: { _, last in last },
         )
-        for item in items where !item.isAsNeeded && AdherenceCalculator.isDue(item, on: .now) {
+        let today = Calendar.current.journalDay(for: now, boundaryHour: boundaryHour)
+        for item in items where !item.isAsNeeded && AdherenceCalculator.isDue(item, on: today) {
             let times = item.reminderTimesMinutes.sorted()
             let expected = max(1, times.count)
             for index in 0 ..< expected {
@@ -50,10 +55,14 @@ final class MyMedsModel {
                     time: slotMinutes,
                     index: index,
                     state: state,
+                    satisfyingEntryID: occurrencesByKey[key]?.satisfyingEntryID,
                 ))
             }
         }
-        return slots.sorted { ($0.time ?? .max) < ($1.time ?? .max) }
+        func order(_ slot: MyMedsCard.MedSlot) -> Int {
+            slot.time.map { Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour) } ?? .max
+        }
+        return slots.sorted { order($0) < order($1) }
     }
 
     /// The past-year streak, from the shared ``AdherenceStreakStore`` — a cache

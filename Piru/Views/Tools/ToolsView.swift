@@ -198,12 +198,13 @@ private struct MyMedsToolCard: View {
 
     private static var yesterdayStart: Date {
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
+        let today = calendar.journalDay(for: .now)
         return calendar.date(byAdding: .day, value: -1, to: today) ?? today
     }
 
+    /// The journal day's occurrences, the same day the My Meds card shows.
     private var todayOccurrences: [RoutineOccurrence] {
-        let today = Calendar.current.startOfDay(for: .now)
+        let today = Calendar.current.journalDay(for: .now)
         return recentOccurrences.filter { $0.dueDay >= today }
     }
 
@@ -260,7 +261,7 @@ private struct MyMedsToolCard: View {
     /// `nil` when only as-needed meds are set up.
     private func nextScheduledDose() -> String? {
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
+        let today = calendar.journalDay(for: .now)
         let scheduled = items.filter { !$0.isAsNeeded }
         guard !scheduled.isEmpty else { return nil }
         for offset in 1 ... DoseFrequency.intervalRange.upperBound {

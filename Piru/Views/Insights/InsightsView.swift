@@ -80,9 +80,11 @@ final class InsightsModel {
         }
         await SubstanceStore.shared.ensureAllLoaded()
         let cal = calendar
+        // Journal days, each dose on the clock of the zone it was logged in.
+        let boundaryHour = Calendar.sessionDayBoundaryHour
         var entriesByDay: [Date: [DoseEntry]] = [:]
         for entry in entries {
-            entriesByDay[cal.startOfDay(for: entry.timestamp), default: []].append(entry)
+            entriesByDay[entry.journalDay(in: cal, boundaryHour: boundaryHour), default: []].append(entry)
         }
 
         let cells = computeMonthCells(cal: cal, entriesByDay: entriesByDay, dailyItems: dailyItems)
@@ -96,7 +98,7 @@ final class InsightsModel {
     }
 
     private func computeDailyCounts(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> [DailyCount] {
-        let today = cal.startOfDay(for: .now)
+        let today = cal.journalDay(for: .now)
         return (0 ..< 14).reversed().compactMap { offset in
             guard let day = cal.date(byAdding: .day, value: -offset, to: today) else { return nil }
             return DailyCount(date: day, count: entriesByDay[day]?.count ?? 0)
@@ -114,7 +116,7 @@ final class InsightsModel {
         for dayOffset in range {
             guard let date = cal.date(byAdding: .day, value: dayOffset - 1, to: start) else { continue }
             let dayStart = cal.startOfDay(for: date)
-            cells.append(AdherenceCalculator.adherence(for: date, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems))
+            cells.append(AdherenceCalculator.adherence(for: dayStart, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems))
         }
         return cells
     }
@@ -126,7 +128,8 @@ final class InsightsModel {
         guard !month.isEmpty else {
             return AdherenceSummary(taken: 0, due: 0, hasData: false)
         }
-        let actionable = month.filter { $0.status != .noData && $0.date <= .now }
+        let today = Calendar.current.journalDay(for: .now)
+        let actionable = month.filter { $0.status != .noData && $0.date <= today }
         let due = actionable.reduce(0) { $0 + $1.totalCount }
         let taken = actionable.reduce(0) { $0 + $1.takenCount }
 

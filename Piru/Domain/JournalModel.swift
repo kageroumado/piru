@@ -574,8 +574,12 @@ final class JournalModel {
 
             // Each session goes under its start's journal day, so with a 4 AM
             // day start a session begun at 02:00 sits under the evening before,
-            // as Settings ▸ Journal ▸ Day Starts At promises.
-            let byDay = Dictionary(grouping: cards) { calendar.journalDay(for: $0.startDate, boundaryHour: dayBoundaryHour) }
+            // as Settings ▸ Journal ▸ Day Starts At promises. The start is read
+            // on the clock of the zone its first dose was logged in, so a
+            // Paris evening stays that evening when the journal is opened in Tokyo.
+            let byDay = Dictionary(grouping: cards) {
+                calendar.journalDay(for: $0.startDate, loggedIn: $0.entries.first?.timeZoneIdentifier, boundaryHour: dayBoundaryHour)
+            }
             sessionDays = byDay.sorted { $0.key > $1.key }.map { day, dayCards in
                 SessionDay(date: day, sessions: dayCards.sorted { $0.startDate > $1.startDate })
             }

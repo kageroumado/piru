@@ -210,10 +210,14 @@ extension DockLabelContext {
         let scheduled = items.filter { !$0.isAsNeeded }
         guard !scheduled.isEmpty else { return context }
 
+        // Today's journal day, each dose placed by the clock it was logged by.
         let calendar = Calendar.current
-        let dayStart = calendar.startOfDay(for: now)
-        let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= dayStart })
-        let todays = (try? modelContext.fetch(descriptor)) ?? []
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        let windowStart = calendar.doseFetchWindow(forJournalDay: today, boundaryHour: boundaryHour).start
+        let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= windowStart })
+        let todays = ((try? modelContext.fetch(descriptor)) ?? [])
+            .filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == today }
 
         context.dueMedNames = DueNowSlot.derive(items: items, todayEntries: todays, now: now)
             .map(\.item.displayName)
@@ -231,35 +235,38 @@ extension DockLabelContext {
         )
     }
 
-    /// The earliest untaken timed slot still ahead today; failing that, the
-    /// earliest slot of any med due tomorrow.
+    /// The earliest untaken timed slot still ahead this journal day; failing
+    /// that, the earliest slot of any med due the next one. Times are on the
+    /// journal-day clock, so with a 4 AM start a 02:00 slot is tonight's last.
     private static func nextMed(items: [DailyDoseItem], todayEntries: [DoseEntry], now: Date, calendar: Calendar) -> DockMedRef? {
-        let nowMinutes = calendar.component(.hour, from: now) * 60 + calendar.component(.minute, from: now)
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let todayKey = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        let nowMinutes = calendar.journalMinutes(for: now, loggedIn: nil, boundaryHour: boundaryHour)
+        func journal(_ minutes: Int) -> Int {
+            Calendar.journalMinutes(ofSlot: minutes, boundaryHour: boundaryHour)
+        }
         var today: [(item: DailyDoseItem, minutes: Int)] = []
-        for item in items where AdherenceCalculator.isDue(item, on: now) {
+        for item in items where AdherenceCalculator.isDue(item, on: todayKey) {
             let taken = todayEntries.count { AdherenceCalculator.entryMatches(entry: $0, item: item) }
-            let times = item.reminderTimesMinutes.sorted()
+            let times = item.reminderTimesMinutes.sorted { journal($0) < journal($1) }
             guard taken < times.count else { continue }
-            if let slot = times[taken...].first(where: { $0 > nowMinutes }) {
+            if let slot = times[taken...].first(where: { journal($0) > nowMinutes }) {
                 today.append((item, slot))
             }
         }
-        if let soonest = today.min(by: { $0.minutes < $1.minutes }),
-           let at = date(minutes: soonest.minutes, of: now, calendar: calendar) {
+        if let soonest = today.min(by: { journal($0.minutes) < journal($1.minutes) }) {
+            let at = calendar.date(ofSlot: soonest.minutes, inJournalDay: todayKey, boundaryHour: boundaryHour)
             return DockMedRef(name: displayName(for: soonest.item), at: at)
         }
 
-        guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: now) else { return nil }
+        let tomorrow = calendar.journalDay(after: todayKey)
         let first = items
             .filter { AdherenceCalculator.isDue($0, on: tomorrow) }
-            .compactMap { item in item.reminderTimesMinutes.min().map { (item: item, minutes: $0) } }
-            .min { $0.minutes < $1.minutes }
-        guard let first, let at = date(minutes: first.minutes, of: tomorrow, calendar: calendar) else { return nil }
+            .compactMap { item in item.reminderTimesMinutes.min(by: { journal($0) < journal($1) }).map { (item: item, minutes: $0) } }
+            .min { journal($0.minutes) < journal($1.minutes) }
+        guard let first else { return nil }
+        let at = calendar.date(ofSlot: first.minutes, inJournalDay: tomorrow, boundaryHour: boundaryHour)
         return DockMedRef(name: displayName(for: first.item), at: at)
-    }
-
-    private static func date(minutes: Int, of day: Date, calendar: Calendar) -> Date? {
-        calendar.date(bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: day)
     }
 
     private static func displayName(for item: DailyDoseItem) -> String {

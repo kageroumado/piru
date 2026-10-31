@@ -42,7 +42,7 @@ final class AdherenceStreakStore {
         let key = Key(
             revision: DoseLogService.shared.revision,
             schedule: Self.scheduleSignature(items),
-            day: Calendar.current.startOfDay(for: .now),
+            day: Calendar.current.journalDay(for: .now),
         )
         if let streak, computedKey == key { return streak }
         if let inFlight, inFlight.key == key { return await inFlight.task.value }
