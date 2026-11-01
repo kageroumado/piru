@@ -573,7 +573,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Piru;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				DEVELOPMENT_TEAM = 52K336H235;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -590,10 +590,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -615,7 +611,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Piru;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				DEVELOPMENT_TEAM = 52K336H235;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -632,10 +628,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -656,7 +648,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				DEVELOPMENT_TEAM = 52K336H235;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PiruComplication/Info.plist;
@@ -669,10 +661,6 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).watchkitapp.complications";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -692,7 +680,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				DEVELOPMENT_TEAM = 52K336H235;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PiruComplication/Info.plist;
@@ -705,10 +693,6 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).watchkitapp.complications";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -869,7 +853,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = "Piru/Piru-iOS.entitlements";
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = "Piru/Piru-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -911,10 +895,6 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -941,7 +921,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = "Piru/Piru-iOS.entitlements";
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = "Piru/Piru-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -983,10 +963,6 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1010,7 +986,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PiruLiveActivityExtension/PiruLiveActivityExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PiruLiveActivityExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PiruLiveActivityExtension;
@@ -1022,10 +998,6 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).live-activity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1044,7 +1016,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PiruLiveActivityExtension/PiruLiveActivityExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PiruLiveActivityExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PiruLiveActivityExtension;
@@ -1056,10 +1028,6 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).live-activity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1077,14 +1045,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1104,14 +1068,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1132,7 +1092,7 @@
 				ASSTCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PiruWidget/PiruWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PiruWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PiruWidget;
@@ -1144,10 +1104,6 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1165,7 +1121,7 @@
 				ASSTCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PiruWidget/PiruWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 75;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PiruWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PiruWidget;
@@ -1177,10 +1133,6 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.7;
-				"MARKETING_VERSION[sdk=iphoneos*]" = 1.0;
-				"MARKETING_VERSION[sdk=iphonesimulator*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchos*]" = 1.0;
-				"MARKETING_VERSION[sdk=watchsimulator*]" = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PIRU_BUNDLE_ID).widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
