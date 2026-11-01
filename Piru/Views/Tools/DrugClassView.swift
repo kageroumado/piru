@@ -20,7 +20,7 @@ struct DrugClassGroupView: View {
             // reason for the screen — below the fold.
             Section {
                 ForEach(classes) { item in
-                    NavigationLink(value: PushRoute.drugClass(slug: item.slug)) {
+                    RouteLink(PushRoute.drugClass(slug: item.slug), disclosure: true) {
                         ClassRow(item: item, accent: category.color)
                     }
                 }
@@ -152,7 +152,7 @@ struct DrugClassDetailView: View {
         if !names.isEmpty {
             Section {
                 ForEach(names, id: \.self) { name in
-                    NavigationLink(value: PushRoute.substance(name: name)) {
+                    RouteLink(PushRoute.substance(name: name), disclosure: true) {
                         Text(verbatim: name)
                     }
                 }
@@ -198,7 +198,7 @@ struct DrugClassListView: View {
             ForEach(groups, id: \.category) { group in
                 Section {
                     ForEach(group.classes) { item in
-                        NavigationLink(value: PushRoute.drugClass(slug: item.slug)) {
+                        RouteLink(PushRoute.drugClass(slug: item.slug), disclosure: true) {
                             ClassRow(item: item, accent: group.category.color)
                         }
                     }

@@ -230,13 +230,12 @@ private struct MainTabView: View {
         return TabView(selection: $navigator.selectedTab) {
             ForEach(layout.tabs) { tab in
                 Tab(value: tab) {
-                    NavigationStack(path: navigator.pathBinding(for: tab)) {
+                    SplitNavigationView(tab: tab) {
                         TabRootView(
                             tab: tab,
                             searchText: $searchText,
                             librarySearchText: $librarySearchText,
                         )
-                        .withAppDestinations()
                     }
                 } label: {
                     Label {
@@ -248,12 +247,11 @@ private struct MainTabView: View {
             }
             if layout.showsSearch {
                 Tab(value: TabID.search, role: .search) {
-                    NavigationStack(path: navigator.pathBinding(for: .search)) {
+                    SplitNavigationView(tab: .search) {
                         SearchView(
                             scope: $searchScope,
                             searchText: $searchText,
                         )
-                        .withAppDestinations()
                     }
                 } label: {
                     Label {

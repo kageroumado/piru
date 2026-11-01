@@ -7,6 +7,7 @@ import SwiftUI
 /// a `Section`; its rows are the sessions that started that day, newest first.
 struct JournalDaySections: View {
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
 
     let days: [SessionDay]
     let colorMap: [String: Color]
@@ -57,7 +58,7 @@ struct JournalDaySections: View {
     private func row(_ card: SessionCard) -> some View {
         Button {
             if let session = card.session {
-                navigator.push(.session(id: session.id))
+                navigator.openRecord(.session(id: session.id), besideList: opensRecordsBesideList)
             }
         } label: {
             SessionCardView(card: card, colorMap: colorMap, inGroup: true)
@@ -191,13 +192,14 @@ private struct SectionDisclosureChevron: View {
 /// Shared by the substance- and category-keyed Grouped lists.
 private struct JournalEntryRow: View {
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
 
     let entry: DoseEntry
     let colorMap: [String: Color]
 
     var body: some View {
         Button {
-            navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
+            navigator.openRecord(.entry(timestamp: entry.timestamp, id: entry.id), besideList: opensRecordsBesideList)
         } label: {
             SubstanceEntryRow(entry: entry, colorMap: colorMap)
         }

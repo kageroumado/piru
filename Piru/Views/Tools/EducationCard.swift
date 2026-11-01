@@ -48,7 +48,7 @@ struct EducationCard: View {
             if isExpanded {
                 VStack(spacing: Spacing.md) {
                     ForEach(items) { item in
-                        NavigationLink(value: PushRoute.tool(item.tool)) {
+                        RouteLink(PushRoute.tool(item.tool)) {
                             EducationRow(tool: item.tool)
                         }
                         .buttonStyle(.plain)

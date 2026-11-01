@@ -10,6 +10,7 @@ import SwiftUI
 struct MyMedsCard: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
 
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
     /// The last 72 hours of doses: what the interaction check reads, and the
@@ -244,7 +245,7 @@ struct MyMedsCard: View {
             takenCount: slots.count(where: \.taken),
             total: slots.count,
             streak: model.streak,
-            onTap: { navigator.push(.myMeds) },
+            onTap: { navigator.openRecord(.myMeds, besideList: opensRecordsBesideList) },
         )
     }
 
@@ -271,7 +272,7 @@ struct MyMedsCard: View {
                 }
             },
             onOpen: {
-                navigator.push(.medDetail(identityKey: slot.med.identityKey, sortOrder: slot.med.sortOrder))
+                navigator.openRecord(.medDetail(identityKey: slot.med.identityKey, sortOrder: slot.med.sortOrder), besideList: opensRecordsBesideList)
             },
         )
     }
@@ -416,12 +417,12 @@ struct MyMedsCard: View {
             }
         case let .nextDue(name, minutes):
             NextDueInfoLine(name: name, timeText: Self.timeText(minutes % 1_440)) {
-                navigator.push(.myMeds)
+                navigator.openRecord(.myMeds, besideList: opensRecordsBesideList)
             }
         case let .missedYesterday(notice):
             MissedYesterdayInfoLine(
                 notice: notice,
-                onTap: { navigator.push(.myMeds) },
+                onTap: { navigator.openRecord(.myMeds, besideList: opensRecordsBesideList) },
                 onDismiss: { withAnimation(.snappy) { info.dismiss(notice.dayKey) } },
             )
         }

@@ -14,6 +14,7 @@ struct TimelineDoseBubble: View {
     /// Body-load mode: the trailing readout is what remains in the body.
     let pkMode: Bool
     let onTap: () -> Void
+    @Environment(\.selectedRecord) private var selectedRecord
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.rendersTimelineFlat) private var rendersFlat
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -65,6 +66,11 @@ struct TimelineDoseBubble: View {
         "\(item.isUnknownDose ? "?" : item.amount.doseFormatted) \(item.unit)"
     }
 
+    private var isSelected: Bool {
+        if case let .entry(_, id) = selectedRecord { return id == item.id }
+        return false
+    }
+
     var body: some View {
         Menu {
             TimelineDoseMenu(item: item)
@@ -73,6 +79,14 @@ struct TimelineDoseBubble: View {
         } primaryAction: {
             onTap()
         }
+        .overlay {
+            if isSelected {
+                RoundedRectangle(cornerRadius: Self.cornerRadius)
+                    .strokeBorder(Theme.accent, lineWidth: 2)
+                    .allowsHitTesting(false)
+            }
+        }
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
         .menuStyle(.button)
         .buttonStyle(.plain)
         .timelineDoseSwipe(item, bubbleWidth: Self.width(for: style))

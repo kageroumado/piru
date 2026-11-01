@@ -13,7 +13,7 @@ struct SessionRecoverySection: View {
             ForEach(categories, id: \.self) { category in
                 ComedownCategoryDisclosure(category: category)
             }
-            NavigationLink(value: PushRoute.comedownGuide) {
+            RouteLink(PushRoute.comedownGuide) {
                 // Matches the category rows above: a 24pt leading icon column and
                 // the same body font, tinted to read as the "see everything" link.
                 HStack(spacing: Spacing.lg) {

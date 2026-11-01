@@ -95,7 +95,7 @@ private struct SubstanceSearchResultsList: View {
                 Section(String(inflecting: "^[\(searchResults.count) result](inflect: true)")) {
                     ForEach(searchResults) { match in
                         let substance = match.substance
-                        NavigationLink(value: PushRoute.substance(name: substance.name, brand: match.matchedBrand)) {
+                        RouteLink(PushRoute.substance(name: substance.name, brand: match.matchedBrand), disclosure: true) {
                             SubstanceRowView(
                                 substance: substance,
                                 matchedAlias: match.matchedAlias,
@@ -291,7 +291,7 @@ private struct RecentSubstancesSection: View {
         } else {
             Section("Recent") {
                 ForEach(recentSubstances) { substance in
-                    NavigationLink(value: PushRoute.substance(name: substance.name)) {
+                    RouteLink(PushRoute.substance(name: substance.name), disclosure: true) {
                         SubstanceRowView(substance: substance, isPersonalized: CustomSubstanceStore.shared.isPersonalized(substance.name))
                     }
                     .listRowBackground(CardBackground())
@@ -312,6 +312,7 @@ struct SubstanceCategoryListView: View {
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
 
     enum SortMode: String, CaseIterable { case popularity, name }
     @State private var sortMode: SortMode = .popularity
@@ -429,7 +430,7 @@ struct SubstanceCategoryListView: View {
                             // at the row's trailing edge, so the card ended up
                             // with two arrows pointing at one destination.
                             Button {
-                                navigator.push(classLink.route)
+                                navigator.openRecord(classLink.route, besideList: opensRecordsBesideList)
                             } label: {
                                 HStack(spacing: Spacing.xs) {
                                     // The label says what is behind the tap and
@@ -453,7 +454,7 @@ struct SubstanceCategoryListView: View {
             }
 
             ForEach(sortedSubstances) { substance in
-                NavigationLink(value: PushRoute.substance(name: substance.name)) {
+                RouteLink(PushRoute.substance(name: substance.name), disclosure: true) {
                     // Pass the list's category so a mixed compound from another
                     // family (e.g. a balanced stimulant in Empathogens) shows a
                     // disambiguating class chip; pure members stay chip-free.

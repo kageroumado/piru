@@ -68,7 +68,7 @@ struct InventoryItemDetailView: View {
     @ViewBuilder private var substanceInfoSection: some View {
         if let info = SubstanceLibrary.lookup(item.substance) {
             Section {
-                NavigationLink(value: PushRoute.substance(name: info.name)) {
+                RouteLink(PushRoute.substance(name: info.name)) {
                     Label("Substance Info", systemImage: "info.circle")
                 }
             }
@@ -174,7 +174,7 @@ struct InventoryItemDetailView: View {
     private func rowView(_ row: HistoryRow) -> some View {
         switch row {
         case let .dose(dose):
-            NavigationLink(value: PushRoute.entry(timestamp: dose.timestamp, id: dose.id)) {
+            RouteLink(PushRoute.entry(timestamp: dose.timestamp, id: dose.id)) {
                 HistoryRowLabel(
                     glyph: "pills",
                     tint: Theme.secondaryLabel,

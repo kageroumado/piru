@@ -224,7 +224,7 @@ private struct IdentifySubstanceCard: View {
 
     var body: some View {
         if let substance = SubstanceLibrary.lookup(canonicalName) {
-            NavigationLink(value: PushRoute.substance(name: substance.name)) {
+            RouteLink(PushRoute.substance(name: substance.name)) {
                 VStack(alignment: .leading, spacing: Spacing.xl) {
                     GlanceCardHeader(icon: "books.vertical", title: Text(brand.map { String(localized: "\($0) is") } ?? String(localized: "In the library"))) {
                         GlanceCardChevron()

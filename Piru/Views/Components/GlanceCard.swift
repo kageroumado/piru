@@ -104,7 +104,7 @@ struct GlanceCard<Content: View>: View {
     @ViewBuilder var content: () -> Content
 
     var body: some View {
-        NavigationLink(value: route) {
+        RouteLink(route) {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 GlanceCardHeader(icon: icon, iconTint: tint, title: title, titleColor: titleColor) {
                     if isEstimation { EstimationTag() }

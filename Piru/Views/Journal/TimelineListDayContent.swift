@@ -11,6 +11,7 @@ struct TimelineListDayContent: View {
     let onEntryTap: (TimelineDayLayout.CardItem) -> Void
     let onSessionTap: (UUID) -> Void
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.selectedRecord) private var selectedRecord
 
     /// Consecutive groups sharing an envelope, or one group standing alone.
     private struct Run: Identifiable {
@@ -60,7 +61,7 @@ struct TimelineListDayContent: View {
                                 .padding(TimelineDayLayout.envelopePad)
                                 .padding(.bottom, TimelineDayLayout.envelopeFooterHeight)
                                 .background {
-                                    SessionEnvelopeButton { onSessionTap(sessionID) }
+                                    SessionEnvelopeButton(isSelected: selectedRecord == .session(id: sessionID)) { onSessionTap(sessionID) }
                                 }
                         } else {
                             groupRows(run.groups, notes: notes)

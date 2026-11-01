@@ -43,7 +43,7 @@ struct EntrySessionSection: View {
         if sessionInNavigationPath(session) {
             label
         } else {
-            NavigationLink(value: PushRoute.session(id: session.id)) {
+            RouteLink(PushRoute.session(id: session.id)) {
                 label
             }
         }

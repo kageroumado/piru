@@ -199,7 +199,7 @@ private struct LibraryFamilyCard: View {
         if family.isUmbrella {
             umbrella
         } else if let source = family.source {
-            NavigationLink(value: source.route) {
+            RouteLink(source.route) {
                 surface {
                     VStack(alignment: .leading, spacing: Spacing.xs) {
                         header(chevron: "chevron.right", count: groupCount)
@@ -228,7 +228,7 @@ private struct LibraryFamilyCard: View {
                 if isExpanded {
                     VStack(spacing: Spacing.md) {
                         ForEach(family.subclasses) { sub in
-                            NavigationLink(value: sub.route) {
+                            RouteLink(sub.route) {
                                 LibrarySubclassRow(sub: sub)
                             }
                             .buttonStyle(.plain)
@@ -482,7 +482,7 @@ private struct LibraryYoursCard: View {
                 if isExpanded {
                     VStack(spacing: Spacing.md) {
                         ForEach(rows) { row in
-                            NavigationLink(value: row.route) {
+                            RouteLink(row.route) {
                                 LibraryYoursSubRow(model: row)
                             }
                             .buttonStyle(.plain)

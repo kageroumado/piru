@@ -39,7 +39,7 @@ struct EntryAboutSection: View {
                         // dose's ROA), so the header names the route.
                         Text("About \(CustomSubstanceStore.shared.displayName(for: entry.substance)) (\(entry.route.localizedName))")
                         Spacer()
-                        NavigationLink(value: PushRoute.substance(name: info.name)) {
+                        RouteLink(PushRoute.substance(name: info.name)) {
                             Text("Show All")
                         }
                     }
@@ -48,7 +48,7 @@ struct EntryAboutSection: View {
                 // No dose/duration data for this route — keep the substance page
                 // reachable through the familiar plain link.
                 Section {
-                    NavigationLink(value: PushRoute.substance(name: info.name)) {
+                    RouteLink(PushRoute.substance(name: info.name)) {
                         Label("Substance Info", systemImage: "info.circle")
                     }
                 }

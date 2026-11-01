@@ -307,7 +307,7 @@ struct InYourBodyView: View {
     }
 
     private func relatedCard(icon: String, title: LocalizedStringKey, subtitle: LocalizedStringKey, route: PushRoute) -> some View {
-        NavigationLink(value: route) {
+        RouteLink(route) {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Image(systemName: icon)
                     .font(.piru(.title3))

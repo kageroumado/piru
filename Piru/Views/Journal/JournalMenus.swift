@@ -9,6 +9,7 @@ import TipKit
 /// custom thumbnail views — same pattern as the Tolerance screen's options menu.
 struct JournalOptionsButton: View {
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
     @Binding var grouping: JournalGrouping
     @Binding var groupKey: JournalGroupKey
     let onJumpToDate: () -> Void
@@ -46,7 +47,7 @@ struct JournalOptionsButton: View {
                 try? await Task.sleep(for: UITiming.presentationTeardown)
                 switch action {
                 case .jumpToDate: onJumpToDate()
-                case .myMeds: navigator.push(.myMeds)
+                case .myMeds: navigator.openRecord(.myMeds, besideList: opensRecordsBesideList)
                 case .skins: present(.skins)
                 case .settings: present(.settings)
                 case .help: present(.help)

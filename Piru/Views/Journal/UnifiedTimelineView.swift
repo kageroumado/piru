@@ -345,6 +345,7 @@ final class UnifiedTimelineModel {
 struct TimelineDayContent: View, Equatable {
     let day: TimelineDayLayout
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
 
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.day == rhs.day
@@ -352,10 +353,10 @@ struct TimelineDayContent: View, Equatable {
 
     var body: some View {
         let onEntryTap: (TimelineDayLayout.CardItem) -> Void = { item in
-            navigator.push(.entry(timestamp: item.timestamp, id: item.id))
+            navigator.openRecord(.entry(timestamp: item.timestamp, id: item.id), besideList: opensRecordsBesideList)
         }
         let onSessionTap: (UUID) -> Void = { sessionID in
-            navigator.push(.session(id: sessionID))
+            navigator.openRecord(.session(id: sessionID), besideList: opensRecordsBesideList)
         }
         if day.style.showsAxis {
             TimelineStripDayContent(day: day, onEntryTap: onEntryTap, onSessionTap: onSessionTap)

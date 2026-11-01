@@ -11,6 +11,7 @@ struct TimelineStripDayContent: View {
     let onEntryTap: (TimelineDayLayout.CardItem) -> Void
     let onSessionTap: (UUID) -> Void
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.selectedRecord) private var selectedRecord
     @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     /// Horizontal inset of every bubble within its column, so a session
@@ -151,7 +152,7 @@ struct TimelineStripDayContent: View {
     private func bubbleColumn(width: CGFloat) -> some View {
         ZStack(alignment: .topLeading) {
             ForEach(day.envelopes) { envelope in
-                SessionEnvelopeButton(hiddenDoseCount: envelope.hiddenDoseCount) { onSessionTap(envelope.id) }
+                SessionEnvelopeButton(hiddenDoseCount: envelope.hiddenDoseCount, isSelected: selectedRecord == .session(id: envelope.id)) { onSessionTap(envelope.id) }
                     .frame(width: width, height: envelope.yEnd - envelope.yStart)
                     .offset(y: envelope.yStart)
             }
@@ -596,6 +597,7 @@ struct TimelineStripDayContent: View {
 /// stacked on glass smears.
 struct SessionEnvelopeButton: View {
     var hiddenDoseCount = 0
+    var isSelected = false
     let onTap: () -> Void
     @Environment(\.colorScheme) private var colorScheme
 
@@ -636,6 +638,13 @@ struct SessionEnvelopeButton: View {
     var body: some View {
         Button(action: onTap) {
             envelopeSurface
+                .overlay {
+                    if isSelected {
+                        RoundedRectangle(cornerRadius: Self.cornerRadius)
+                            .strokeBorder(Theme.accent, lineWidth: 2)
+                    }
+                }
+                .accessibilityAddTraits(isSelected ? .isSelected : [])
                 .overlay(alignment: .bottom) {
                     // Chevron styled and inset identically to the bubbles'
                     // (bubble inset 6 + bubble padding 10), so the two columns

@@ -272,9 +272,13 @@ struct SessionDetailView: View {
         .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 0, for: .scrollContent)
-        .contentMargins(.horizontal, Spacing.xxl, for: .scrollContent)
         #if canImport(UIKit)
+            // Section margins, not horizontal content margins: on a List those
+            // replace the safe area, so cards slide under iPhone Duo's vertical bar.
+            .listSectionMargins(.horizontal, Spacing.xxl)
             .listSectionSpacing(Spacing.xxl)
+        #else
+            .contentMargins(.horizontal, Spacing.xxl, for: .scrollContent)
         #endif
             .skinBackdrop()
             .readableWidth()

@@ -143,7 +143,7 @@ private struct ToolCompactCard: View {
     let tool: Tool
 
     var body: some View {
-        NavigationLink(value: PushRoute.tool(tool)) {
+        RouteLink(PushRoute.tool(tool)) {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Image(systemName: tool.icon)
                     .font(.piru(.title3))

@@ -149,7 +149,7 @@ private struct SubstanceRowsCard: View {
                 if index > 0 {
                     Divider().padding(.leading, Spacing.xxl)
                 }
-                NavigationLink(value: PushRoute.substance(name: substance.name)) {
+                RouteLink(PushRoute.substance(name: substance.name)) {
                     HStack(spacing: Spacing.md) {
                         SubstanceRowView(substance: substance, isPersonalized: CustomSubstanceStore.shared.isPersonalized(substance.name))
                         Image(systemName: "chevron.right")
@@ -227,6 +227,7 @@ private struct HelpCard: View {
 /// Library tab's expand-in-place umbrellas, but in a grid.
 private struct ClassBrowseGroup: View {
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
     @State private var expandedID: String?
     @State private var families: [LibraryFamily] = []
 
@@ -250,7 +251,7 @@ private struct ClassBrowseGroup: View {
                         }
                         ForEach(family.subclasses) { sub in
                             ClassMiniCard(color: sub.category.color) {
-                                navigator.push(.libraryCategory(sub.category))
+                                navigator.openRecord(.libraryCategory(sub.category), besideList: opensRecordsBesideList)
                             } content: {
                                 ClassLabel(icon: sub.category.icon, title: sub.title)
                             }
@@ -278,7 +279,7 @@ private struct ClassBrowseGroup: View {
         if family.isUmbrella {
             withAnimation(.snappy(duration: 0.28)) { expandedID = family.id }
         } else if let route = family.source?.route {
-            navigator.push(route)
+            navigator.openRecord(route, besideList: opensRecordsBesideList)
         }
     }
 

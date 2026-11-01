@@ -13,7 +13,7 @@ struct ClassContextSection: View {
     var body: some View {
         if let context = model.classContext, context.hasBody {
             Section {
-                NavigationLink(value: PushRoute.drugClass(slug: context.slug)) {
+                RouteLink(PushRoute.drugClass(slug: context.slug)) {
                     VStack(alignment: .leading, spacing: Spacing.xxs) {
                         // `verbatim`: the class name is data, read from the
                         // research write-up, not a catalog key.

@@ -411,7 +411,7 @@ private struct InsightCompactCard: View {
     let route: PushRoute
 
     var body: some View {
-        NavigationLink(value: route) {
+        RouteLink(route) {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Image(systemName: icon)
                     .font(.piru(.title3))

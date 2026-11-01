@@ -11,18 +11,19 @@ struct TimelineDoseMenu: View {
     let item: TimelineDayLayout.CardItem
 
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
     @Environment(\.modelContext) private var modelContext
     @Environment(\.sessionEditingService) private var editing
 
     var body: some View {
         Button {
             editing.pendingEditEntryID = item.id
-            navigator.push(.entry(timestamp: item.timestamp, id: item.id))
+            navigator.openRecord(.entry(timestamp: item.timestamp, id: item.id), besideList: opensRecordsBesideList)
         } label: {
             Label("Edit", systemImage: "pencil")
         }
         Button {
-            navigator.push(.substance(name: item.substance))
+            navigator.openRecord(.substance(name: item.substance), besideList: opensRecordsBesideList)
         } label: {
             Label("Substance Info", systemImage: "info.circle")
         }

@@ -77,6 +77,7 @@ enum JournalGroupingMigration {
 struct EntryListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
     /// Bubble heights grow with the text size, so a change re-lays the strip.
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Query(Self.entriesDescriptor, transaction: .init(animation: nil)) private var entries: [DoseEntry]
@@ -472,7 +473,7 @@ struct EntryListView: View {
                 colors: substanceColors,
                 colorMap: model.colorMap,
                 onTap: {
-                    navigator.push(.timeline)
+                    navigator.openRecord(.timeline, besideList: opensRecordsBesideList)
                 },
             )
             .listRowInsets(.rowStandard)
