@@ -1,6 +1,10 @@
 import Foundation
 import SwiftData
 import Testing
+
+/// Noon today: inside the current journal day for any Day Starts At hour before noon, so the
+/// suite never depends on the hour CI happens to run at.
+private let suiteNow = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: .now)!
 @testable import Piru
 
 /// The occurrence test matrix, re-keyed by the Meds redesign
@@ -48,7 +52,7 @@ struct RoutineOccurrenceTests {
         _ substance: String,
         route: RouteOfAdministration = .oral,
         uid: String? = nil,
-        at timestamp: Date = .now,
+        at timestamp: Date = suiteNow,
         in context: ModelContext,
     ) -> DoseEntry {
         let entry = DoseEntry(substance: substance, amount: 10, unit: "mg", route: route, substanceUID: uid, timestamp: timestamp)
@@ -76,15 +80,15 @@ struct RoutineOccurrenceTests {
         addItem("Methylphenidate", times: [8 * 60, 13 * 60], in: context)
         // Weekly item off its cycle day — no occurrence today.
         let weekly = addItem("B12", frequency: .weekly, in: context)
-        weekly.startDate = try #require(Calendar.current.date(byAdding: .day, value: -3, to: .now))
+        weekly.startDate = try #require(Calendar.current.date(byAdding: .day, value: -3, to: suiteNow))
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         let first = try occurrences(in: context)
         #expect(first.count == 2)
         #expect(Set(first.map(\.slotMinutes)) == [8 * 60, 13 * 60])
         #expect(first.allSatisfy { $0.state == .pending })
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(try occurrences(in: context).count == 2)
     }
 
@@ -93,7 +97,7 @@ struct RoutineOccurrenceTests {
         let container = try makeContainer()
         let context = container.mainContext
         addItem("Vitamin D3", times: [], in: context)
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         let all = try occurrences(in: context)
         #expect(all.count == 1)
         #expect(all.first?.slotMinutes == nil)
@@ -104,7 +108,7 @@ struct RoutineOccurrenceTests {
         let container = try makeContainer()
         let context = container.mainContext
         addItem("Ibuprofen", times: [], isAsNeeded: true, in: context)
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(try occurrences(in: context).isEmpty)
     }
 
@@ -117,7 +121,7 @@ struct RoutineOccurrenceTests {
         addItem("Vitamin D3", in: context)
         let entry = addEntry("vitamin d3", in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         let occurrence = try #require(try occurrences(in: context).first)
         #expect(occurrence.state == .logged)
         #expect(occurrence.satisfyingEntryID == entry.id)
@@ -132,7 +136,7 @@ struct RoutineOccurrenceTests {
         // doesn't break the match).
         addEntry("Methylphenidate XR", uid: "psid:mph", in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(try occurrences(in: context).first?.state == .logged)
     }
 
@@ -147,7 +151,7 @@ struct RoutineOccurrenceTests {
         addItem("Methylphenidate", uid: "psid:41276", in: context)
         let entry = addEntry("Methylphenidate", uid: "psid:4158", in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         let occurrence = try #require(try occurrences(in: context).first)
         #expect(occurrence.state == .logged)
         #expect(occurrence.satisfyingEntryID == entry.id)
@@ -163,7 +167,7 @@ struct RoutineOccurrenceTests {
         addItem("Melatonin", route: .oral, in: context)
         addEntry("Melatonin", route: .sublingual, in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(try occurrences(in: context).first?.state == .pending)
     }
 
@@ -174,18 +178,18 @@ struct RoutineOccurrenceTests {
         let calendar = Calendar.current
         addItem("Methylphenidate", times: [8 * 60, 22 * 60], in: context)
 
-        let morning = try #require(calendar.date(bySettingHour: 8, minute: 10, second: 0, of: .now))
+        let morning = try #require(calendar.date(bySettingHour: 8, minute: 10, second: 0, of: suiteNow))
         addEntry("Methylphenidate", at: morning, in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         var all = try occurrences(in: context)
         #expect(all.count == 2)
         #expect(all.first { $0.slotMinutes == 8 * 60 }?.state == .logged)
         #expect(all.first { $0.slotMinutes == 22 * 60 }?.state == .pending)
 
-        let night = try #require(calendar.date(bySettingHour: 21, minute: 45, second: 0, of: .now))
+        let night = try #require(calendar.date(bySettingHour: 21, minute: 45, second: 0, of: suiteNow))
         addEntry("Methylphenidate", at: night, in: context)
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         all = try occurrences(in: context)
         #expect(all.allSatisfy { $0.state == .logged })
     }
@@ -197,7 +201,7 @@ struct RoutineOccurrenceTests {
         addItem("Vitamin D3", in: context)
         addEntry("Caffeine", in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(try occurrences(in: context).first?.state == .pending)
     }
 
@@ -210,11 +214,11 @@ struct RoutineOccurrenceTests {
         addItem("Vitamin D3", in: context)
         let entry = addEntry("Vitamin D3", in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(try occurrences(in: context).first?.state == .logged)
 
         context.delete(entry)
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         let occurrence = try #require(try occurrences(in: context).first)
         #expect(occurrence.state == .pending)
         #expect(occurrence.satisfyingEntryID == nil)
@@ -226,11 +230,11 @@ struct RoutineOccurrenceTests {
         let context = container.mainContext
         let item = addItem("Methylphenidate", times: [8 * 60, 13 * 60], in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(try occurrences(in: context).count == 2)
 
         item.reminderTimesMinutes = [8 * 60]
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         let all = try occurrences(in: context)
         #expect(all.count == 1)
         #expect(all.first?.slotMinutes == 8 * 60)
@@ -242,13 +246,13 @@ struct RoutineOccurrenceTests {
         let context = container.mainContext
         let item = addItem("Vitamin D3", in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
-        RoutineOccurrenceService.skipToday(slotKeys: [key(item, slot: 9 * 60)], in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
+        RoutineOccurrenceService.skipToday(slotKeys: [key(item, slot: 9 * 60)], in: context, now: suiteNow)
         #expect(try occurrences(in: context).first?.state == .skipped)
 
         // Neither a plain reconcile nor a matching dose reclaims it.
         addEntry("Vitamin D3", in: context)
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(try occurrences(in: context).first?.state == .skipped)
     }
 
@@ -258,14 +262,14 @@ struct RoutineOccurrenceTests {
     func `Yesterday's pending expires to missed; history states survive`() throws {
         let container = try makeContainer()
         let context = container.mainContext
-        let yesterday = try #require(Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: .now)))
+        let yesterday = try #require(Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: suiteNow)))
         let stale = RoutineOccurrence(substance: "Vitamin D3", route: .oral, dueDay: yesterday, slotMinutes: 9 * 60)
         let done = RoutineOccurrence(substance: "Magnesium", route: .oral, dueDay: yesterday, slotMinutes: 9 * 60)
         done.state = .logged
         context.insert(stale)
         context.insert(done)
 
-        RoutineOccurrenceService.reconcile(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
         #expect(stale.state == .missed)
         #expect(done.state == .logged)
     }
@@ -280,13 +284,13 @@ struct RoutineOccurrenceTests {
         let mag = addItem("Magnesium", times: [21 * 60], in: context)
         addEntry("Vitamin D3", in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
-        var satisfied = RoutineOccurrenceService.satisfiedSlotKeys(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
+        var satisfied = RoutineOccurrenceService.satisfiedSlotKeys(in: context, now: suiteNow)
         #expect(satisfied.contains(key(d3, slot: 9 * 60)))
         #expect(!satisfied.contains(key(mag, slot: 21 * 60)))
 
-        RoutineOccurrenceService.skipToday(slotKeys: [key(mag, slot: 21 * 60)], in: context)
-        satisfied = RoutineOccurrenceService.satisfiedSlotKeys(in: context)
+        RoutineOccurrenceService.skipToday(slotKeys: [key(mag, slot: 21 * 60)], in: context, now: suiteNow)
+        satisfied = RoutineOccurrenceService.satisfiedSlotKeys(in: context, now: suiteNow)
         #expect(satisfied.contains(key(mag, slot: 21 * 60)))
     }
 
@@ -296,11 +300,11 @@ struct RoutineOccurrenceTests {
         let context = container.mainContext
         let calendar = Calendar.current
         let item = addItem("Methylphenidate", times: [8 * 60, 13 * 60], in: context)
-        let morning = try #require(calendar.date(bySettingHour: 8, minute: 5, second: 0, of: .now))
+        let morning = try #require(calendar.date(bySettingHour: 8, minute: 5, second: 0, of: suiteNow))
         addEntry("Methylphenidate", at: morning, in: context)
 
-        RoutineOccurrenceService.reconcile(in: context)
-        let satisfied = RoutineOccurrenceService.satisfiedSlotKeys(in: context)
+        RoutineOccurrenceService.reconcile(in: context, now: suiteNow)
+        let satisfied = RoutineOccurrenceService.satisfiedSlotKeys(in: context, now: suiteNow)
         #expect(satisfied.contains(key(item, slot: 8 * 60)))
         #expect(!satisfied.contains(key(item, slot: 13 * 60)))
     }

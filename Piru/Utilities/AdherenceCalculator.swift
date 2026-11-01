@@ -227,8 +227,8 @@ enum AdherenceCalculator {
         calendar.date(ofSlot: minutes, inJournalDay: day, boundaryHour: boundaryHour)
     }
 
-    static func currentStreak(adherenceData: [DayAdherence]) -> Int {
-        streak(fromDays: adherenceData.map { (date: $0.date, status: $0.status) })
+    static func currentStreak(adherenceData: [DayAdherence], now: Date = .now) -> Int {
+        streak(fromDays: adherenceData.map { (date: $0.date, status: $0.status) }, now: now)
     }
 
     /// The streak walk over `(date, status)` pairs keyed by journal day — the

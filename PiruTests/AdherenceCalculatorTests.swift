@@ -1,5 +1,9 @@
 import Foundation
 import Testing
+
+/// Noon today: inside the current journal day for any Day Starts At hour before noon, so the
+/// suite never depends on the hour CI happens to run at.
+private let suiteNow = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: .now)!
 @testable import Piru
 
 @Suite("AdherenceCalculator")
@@ -10,7 +14,7 @@ struct AdherenceCalculatorTests {
         substance: String,
         route: RouteOfAdministration = .oral,
         substanceUID: String? = nil,
-        timestamp: Date = .now,
+        timestamp: Date = suiteNow,
     ) -> DoseEntry {
         DoseEntry(substance: substance, amount: 10, route: route, substanceUID: substanceUID, timestamp: timestamp)
     }
@@ -38,7 +42,7 @@ struct AdherenceCalculatorTests {
     }
 
     private var today: Date {
-        calendar.startOfDay(for: .now)
+        calendar.startOfDay(for: suiteNow)
     }
 
     private func dayOffset(_ days: Int) -> Date {
@@ -351,7 +355,7 @@ struct AdherenceCalculatorTests {
 
     @Test
     func `No data returns zero streak`() {
-        #expect(AdherenceCalculator.currentStreak(adherenceData: []) == 0)
+        #expect(AdherenceCalculator.currentStreak(adherenceData: [], now: suiteNow) == 0)
     }
 
     @Test
@@ -361,7 +365,7 @@ struct AdherenceCalculatorTests {
             DayAdherence(date: dayOffset(-2), status: .complete, takenCount: 2, totalCount: 2, items: []),
             DayAdherence(date: dayOffset(-3), status: .complete, takenCount: 2, totalCount: 2, items: []),
         ]
-        #expect(AdherenceCalculator.currentStreak(adherenceData: data) == 3)
+        #expect(AdherenceCalculator.currentStreak(adherenceData: data, now: suiteNow) == 3)
     }
 
     @Test
@@ -370,7 +374,7 @@ struct AdherenceCalculatorTests {
             DayAdherence(date: dayOffset(-1), status: .partial, takenCount: 1, totalCount: 2, items: []),
             DayAdherence(date: dayOffset(-2), status: .complete, takenCount: 2, totalCount: 2, items: []),
         ]
-        #expect(AdherenceCalculator.currentStreak(adherenceData: data) == 2)
+        #expect(AdherenceCalculator.currentStreak(adherenceData: data, now: suiteNow) == 2)
     }
 
     @Test
@@ -379,7 +383,7 @@ struct AdherenceCalculatorTests {
             DayAdherence(date: dayOffset(-1), status: .missed, takenCount: 0, totalCount: 2, items: []),
             DayAdherence(date: dayOffset(-2), status: .complete, takenCount: 2, totalCount: 2, items: []),
         ]
-        #expect(AdherenceCalculator.currentStreak(adherenceData: data) == 0)
+        #expect(AdherenceCalculator.currentStreak(adherenceData: data, now: suiteNow) == 0)
     }
 
     @Test
@@ -394,7 +398,7 @@ struct AdherenceCalculatorTests {
             DayAdherence(date: dayOffset(-2), status: .noData, takenCount: 0, totalCount: 0, items: []),
             DayAdherence(date: dayOffset(-1), status: .noData, takenCount: 0, totalCount: 0, items: []),
         ]
-        #expect(AdherenceCalculator.currentStreak(adherenceData: data) == 1)
+        #expect(AdherenceCalculator.currentStreak(adherenceData: data, now: suiteNow) == 1)
     }
 
     @Test
@@ -403,7 +407,7 @@ struct AdherenceCalculatorTests {
             DayAdherence(date: today, status: .complete, takenCount: 2, totalCount: 2, items: []),
             DayAdherence(date: dayOffset(-1), status: .complete, takenCount: 2, totalCount: 2, items: []),
         ]
-        #expect(AdherenceCalculator.currentStreak(adherenceData: data) == 2)
+        #expect(AdherenceCalculator.currentStreak(adherenceData: data, now: suiteNow) == 2)
     }
 
     @Test
@@ -412,7 +416,7 @@ struct AdherenceCalculatorTests {
             DayAdherence(date: today, status: .missed, takenCount: 0, totalCount: 2, items: []),
             DayAdherence(date: dayOffset(-1), status: .complete, takenCount: 2, totalCount: 2, items: []),
         ]
-        #expect(AdherenceCalculator.currentStreak(adherenceData: data) == 1)
+        #expect(AdherenceCalculator.currentStreak(adherenceData: data, now: suiteNow) == 1)
     }
 
     // MARK: - Half-lit days
