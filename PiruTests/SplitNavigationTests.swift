@@ -35,6 +35,13 @@ struct SplitPaneGeometryTests {
     }
 
     @Test
+    func `a wide portrait screen shows both`() {
+        let panes = SplitPaneGeometry(size: CGSize(width: 1032, height: 1376), hasSelection: true)
+        #expect(panes.showsBoth)
+        #expect(panes.listWidth == SplitPaneGeometry.minimumPaneWidth)
+    }
+
+    @Test
     func `larger text gets one readable pane`() {
         let panes = SplitPaneGeometry(size: CGSize(width: 951, height: 635), hasSelection: true, minimumPaneWidth: 500)
         #expect(!panes.showsBoth)

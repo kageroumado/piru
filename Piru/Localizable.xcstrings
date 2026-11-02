@@ -23825,6 +23825,34 @@
         }
       }
     },
+    "Choose something from the list to see it here." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige algo de la lista para verlo aquí."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige algo de la lista para verlo aquí."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从列表中选择一项，在这里查看。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從列表中選擇一項，在這裡查看。"
+          }
+        }
+      }
+    },
     "Choose Substance" : {
       "localizations" : {
         "es" : {
@@ -24385,6 +24413,9 @@
           }
         }
       }
+    },
+    "Close record" : {
+
     },
     "Close scanner" : {
       "localizations" : {
@@ -62736,6 +62767,34 @@
         }
       }
     },
+    "Nothing Open" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada abierto"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada abierto"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未打开内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未開啟內容"
+          }
+        }
+      }
+    },
     "Nothing rated yet" : {
       "localizations" : {
         "es" : {
@@ -80760,6 +80819,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "常有人出現短期記憶斷片。Piru 無法判斷它的原因。"
+          }
+        }
+      }
+    },
+    "Shortcuts" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快捷操作"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速操作"
           }
         }
       }

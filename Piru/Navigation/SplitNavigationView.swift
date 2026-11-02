@@ -1,36 +1,29 @@
 import SwiftUI
 
-/// A tab's navigation. On a device with a hinge, an opened record sits beside the
-/// list it came from; everywhere else this is the tab's plain stack.
+/// A tab's navigation. Where there is room for it (regular width, a device with a
+/// hinge, the Mac) an opened record sits beside the list it came from; on a
+/// compact iPhone this is the tab's plain stack.
 struct SplitNavigationView<Root: View>: View {
     @Environment(\.appNavigator) private var navigator
     let tab: TabID
-    let root: Root
-    @State private var hasHinge = false
-
-    init(tab: TabID, @ViewBuilder root: () -> Root) {
-        self.tab = tab
-        self.root = root()
-    }
+    @ViewBuilder let root: Root
+    #if os(iOS)
+        @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+        @State private var hasHinge = false
+    #endif
 
     var body: some View {
         #if os(iOS)
-            if #available(iOS 27.1, *) {
-                Group {
-                    if hasHinge {
-                        AdaptiveSplitNavigation(tab: tab, root: root)
-                    } else {
-                        stack
-                    }
+            Group {
+                if hasHinge || horizontalSizeClass == .regular {
+                    AdaptiveSplitNavigation(tab: tab, root: root)
+                } else {
+                    stack
                 }
-                .onHingeChange { _, context in
-                    hasHinge = context.hinge != nil
-                }
-            } else {
-                stack
             }
+            .modifier(HingeReader(hasHinge: $hasHinge))
         #else
-            stack
+            AdaptiveSplitNavigation(tab: tab, root: root)
         #endif
     }
 
@@ -41,6 +34,23 @@ struct SplitNavigationView<Root: View>: View {
         }
     }
 }
+
+#if os(iOS)
+    /// Whether the device has a hinge, which can unfold a closed (compact) screen into a wide one.
+    private struct HingeReader: ViewModifier {
+        @Binding var hasHinge: Bool
+
+        func body(content: Content) -> some View {
+            if #available(iOS 27.1, *) {
+                content.onHingeChange { _, context in
+                    hasHinge = context.hinge != nil
+                }
+            } else {
+                content
+            }
+        }
+    }
+#endif
 
 extension EnvironmentValues {
     /// True in the list column of a split tab, where opening a record shows it beside the list.
@@ -148,8 +158,8 @@ extension AppNavigator {
     }
 }
 
-/// Flat, the list is a sidebar at its minimum width and the record takes the rest;
-/// folded, the fold is the boundary. Widths are content minima.
+/// Wide enough, the list is a sidebar at its minimum width and the record takes the
+/// rest; folded, the fold is the boundary. Widths are content minima.
 nonisolated struct SplitPaneGeometry: Equatable {
     static let minimumPaneWidth: CGFloat = 360
     static let minimumSplitWidth: CGFloat = 840
@@ -162,64 +172,66 @@ nonisolated struct SplitPaneGeometry: Equatable {
         let gap = division?.width ?? 1
         let trailing = size.width - boundary - gap
         showsBoth = hasSelection && size.width >= Self.minimumSplitWidth
-            && size.width > size.height
             && boundary >= minimumPaneWidth && trailing >= minimumPaneWidth
         listWidth = showsBoth ? boundary : size.width
     }
 }
 
-#if os(iOS)
-    /// The geometry the pane split depends on, so layout passes that change nothing else skip the body.
-    private nonisolated struct SplitPaneSpace: Equatable {
-        var size: CGSize = .zero
-        var canFold = false
-        var fold: CGRect?
+/// The geometry the pane split depends on, so layout passes that change nothing else skip the body.
+private nonisolated struct SplitPaneSpace: Equatable {
+    var size: CGSize = .zero
+    var fold: CGRect?
+}
+
+private struct AdaptiveSplitNavigation<Root: View>: View {
+    @Environment(\.appNavigator) private var navigator
+    let tab: TabID
+    let root: Root
+    /// Which pane a single-pane width shows; `nil` until the person browses or opens something.
+    @State private var readingList: Bool?
+    @State private var columns: NavigationSplitViewVisibility = .all
+    @State private var space = SplitPaneSpace()
+    @ScaledMetric(relativeTo: .body) private var minimumPaneWidth = SplitPaneGeometry.minimumPaneWidth
+
+    private var split: SplitPath {
+        SplitPath(navigator.path(for: tab))
     }
 
-    @available(iOS 27.1, *)
-    private struct AdaptiveSplitNavigation<Root: View>: View {
-        @Environment(\.appNavigator) private var navigator
-        let tab: TabID
-        let root: Root
-        /// Which pane a single-pane width shows; `nil` until the person browses or opens something.
-        @State private var readingList: Bool?
-        @State private var columns: NavigationSplitViewVisibility = .all
-        @State private var space = SplitPaneSpace()
-        @ScaledMetric(relativeTo: .body) private var minimumPaneWidth = SplitPaneGeometry.minimumPaneWidth
-
-        private var split: SplitPath {
-            SplitPath(navigator.path(for: tab))
-        }
-
-        var body: some View {
-            let split = split
+    var body: some View {
+        let split = split
+        #if os(iOS)
             let geometry = SplitPaneGeometry(
                 size: space.size,
-                hasSelection: split.record != nil && space.canFold,
+                hasSelection: split.record != nil,
                 division: space.fold,
                 minimumPaneWidth: minimumPaneWidth,
             )
+            let showsBoth = geometry.showsBoth
             let listWidth = max(geometry.listWidth, minimumPaneWidth)
+            let width = (min: minimumPaneWidth, ideal: listWidth, max: listWidth)
+        #else
+            // A Mac window always shows both columns; the list is a resizable sidebar,
+            // and selecting something else replaces the record, as in Mail or Notes.
+            let showsBoth = false
+            let width = (min: 340.0, ideal: minimumPaneWidth, max: 480.0)
+        #endif
 
-            NavigationSplitView(columnVisibility: $columns, preferredCompactColumn: Binding(
-                get: { (readingList ?? (split.record == nil)) ? .sidebar : .detail },
-                set: { readingList = $0 == .sidebar },
-            )) {
-                list(split)
-                    .navigationSplitViewColumnWidth(min: minimumPaneWidth, ideal: listWidth, max: listWidth)
-            } detail: {
-                detail(split, showsBoth: geometry.showsBoth)
-            }
-            .navigationSplitViewStyle(.balanced)
-            .environment(\.horizontalSizeClass, geometry.showsBoth ? .regular : .compact)
+        NavigationSplitView(columnVisibility: $columns, preferredCompactColumn: Binding(
+            get: { (readingList ?? (split.record == nil)) ? .sidebar : .detail },
+            set: { readingList = $0 == .sidebar },
+        )) {
+            list(split)
+                .navigationSplitViewColumnWidth(min: width.min, ideal: width.ideal, max: width.max)
+        } detail: {
+            detail(split, showsBoth: showsBoth)
+        }
+        .navigationSplitViewStyle(.balanced)
+        #if os(iOS)
+            .environment(\.horizontalSizeClass, showsBoth ? .regular : .compact)
             .onGeometryChange(for: SplitPaneSpace.self) { proxy in
-                let divisions = proxy.reservedRegions(kind: .division, options: .includeInactive)
-                return SplitPaneSpace(
-                    size: proxy.size,
-                    canFold: !divisions.isEmpty,
-                    fold: divisions.first { $0.isActive && $0.frame.height > $0.frame.width }?.frame,
-                )
+                SplitPaneSpace(size: proxy.size, fold: Self.fold(in: proxy))
             } action: { space = $0 }
+        #endif
             .onChange(of: split) { old, new in
                 if new.record == nil {
                     readingList = true
@@ -228,50 +240,62 @@ nonisolated struct SplitPaneGeometry: Equatable {
                     readingList = new.detail == old.detail
                 }
             }
-        }
+    }
 
-        private func list(_ split: SplitPath) -> some View {
-            NavigationStack(path: Binding(
-                get: { split.list },
-                set: { navigator.setPath(self.split.listChanged(to: $0), in: tab) },
-            )) {
-                root
-                    .withAppDestinations()
-            }
-            .environment(\.opensRecordsBesideList, true)
-            .environment(\.selectedRecord, split.record)
-            .onScrollPhaseChange { _, phase in
-                if phase == .interacting || phase == .animating { readingList = true }
-            }
+    #if os(iOS)
+        /// The active vertical fold of a partly open device, which the list boundary follows.
+        private nonisolated static func fold(in proxy: GeometryProxy) -> CGRect? {
+            guard #available(iOS 27.1, *) else { return nil }
+            return proxy.reservedRegions(kind: .division)
+                .first { $0.isActive && $0.frame.height > $0.frame.width }?.frame
         }
+    #endif
 
-        private func detail(_ split: SplitPath, showsBoth: Bool) -> some View {
-            NavigationStack(path: Binding(
-                get: { Array(split.detail.dropFirst()) },
-                set: { navigator.setPath(self.split.detailChanged(to: $0), in: tab) },
-            )) {
-                Group {
-                    if let record = split.record {
-                        PushRouteView(route: record)
-                            .id(record)
-                    }
-                }
+    private func list(_ split: SplitPath) -> some View {
+        NavigationStack(path: Binding(
+            get: { split.list },
+            set: { navigator.setPath(self.split.listChanged(to: $0), in: tab) },
+        )) {
+            root
                 .withAppDestinations()
-                .toolbar {
-                    // One pane already has Back to the list; Close is for the record beside it.
-                    if showsBoth {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button("Close record", systemImage: "xmark") {
-                                navigator.setPath(self.split.list, in: tab)
-                            }
+        }
+        .environment(\.opensRecordsBesideList, true)
+        .environment(\.selectedRecord, split.record)
+        .onScrollPhaseChange { _, phase in
+            if phase == .interacting || phase == .animating { readingList = true }
+        }
+    }
+
+    private func detail(_ split: SplitPath, showsBoth: Bool) -> some View {
+        NavigationStack(path: Binding(
+            get: { Array(split.detail.dropFirst()) },
+            set: { navigator.setPath(self.split.detailChanged(to: $0), in: tab) },
+        )) {
+            Group {
+                if let record = split.record {
+                    PushRouteView(route: record)
+                        .id(record)
+                } else {
+                    #if os(macOS)
+                        ContentUnavailableView("Nothing Open", systemImage: "sidebar.left", description: Text("Choose something from the list to see it here."))
+                    #endif
+                }
+            }
+            .withAppDestinations()
+            .toolbar {
+                // One pane already has Back to the list; Close is for the record beside it.
+                if showsBoth {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close record", systemImage: "xmark") {
+                            navigator.setPath(self.split.list, in: tab)
                         }
                     }
                 }
             }
-            .simultaneousGesture(TapGesture().onEnded { readingList = false })
-            .onScrollPhaseChange { _, phase in
-                if phase == .interacting || phase == .animating { readingList = false }
-            }
+        }
+        .simultaneousGesture(TapGesture().onEnded { readingList = false })
+        .onScrollPhaseChange { _, phase in
+            if phase == .interacting || phase == .animating { readingList = false }
         }
     }
-#endif
+}

@@ -7727,6 +7727,13 @@ T = {
         "Piru、PsychonautWiki、电子表格或加密备份",
         "Piru、PsychonautWiki、試算表或加密備份",
     ),
+    # Mac window toolbar and the empty detail column of a split tab
+    "Shortcuts": ("快捷操作", "快速操作"),
+    "Nothing Open": ("未打开内容", "未開啟內容"),
+    "Choose something from the list to see it here.": (
+        "从列表中选择一项，在这里查看。",
+        "從列表中選擇一項，在這裡查看。",
+    ),
 }
 
 # Widget translations
@@ -8880,6 +8887,9 @@ if __name__ == "__main__":
         "Check for Updates",
         "Once a day, Piru asks GitHub for the newest release. Nothing about you or your journal is sent.",
         "Matches “%@”",
+        "Shortcuts",
+        "Nothing Open",
+        "Choose something from the list to see it here.",
     }
 
     NEW_KEYS.update(

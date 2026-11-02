@@ -3579,6 +3579,9 @@ ES = {
     "Spreadsheet (CSV)": "Hoja de cálculo (CSV)",
     "One row per dose, for Excel, Numbers or Google Sheets. Imports back into Piru": "Una fila por dosis, para Excel, Numbers o Google Sheets. Se puede volver a importar en Piru",
     "Piru, PsychonautWiki, a spreadsheet, or an encrypted backup": "Piru, PsychonautWiki, una hoja de cálculo o una copia cifrada",
+    "Shortcuts": "Atajos",
+    "Nothing Open": "Nada abierto",
+    "Choose something from the list to see it here.": "Elige algo de la lista para verlo aquí.",
 }
 
 # Spain only: the few strings Spain must see differently — today the iOS Settings

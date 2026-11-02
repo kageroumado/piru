@@ -62,15 +62,10 @@ struct ContentView: View {
             }
     }
 
-    /// The tab bar on iOS; on macOS the same tabs as a sidebar, with the
-    /// accessory's actions listed under them (``MacSidebarView``).
-    @ViewBuilder
+    /// The tab bar: floating at the top on iPad, at the bottom on iPhone, in the
+    /// window toolbar's center on macOS.
     private var rootNavigation: some View {
-        #if os(macOS)
-            MacSidebarView()
-        #else
-            MainTabView()
-        #endif
+        MainTabView()
     }
 
     // MARK: - Deep Linking
@@ -271,6 +266,10 @@ private struct MainTabView: View {
             #endif
         #endif
             .withSessionAccessory()
+        #if os(macOS)
+            .tabViewStyle(.tabBarOnly)
+            .macWindowActions()
+        #endif
             .onChange(of: navigator.selectedTab) { oldValue, newValue in
                 if newValue == .search {
                     // Seed the scope from where the user came from; Library is the
