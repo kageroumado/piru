@@ -41,6 +41,15 @@ Output goes to ``Store/shots-macos/``::
 
     pipeline/screenshots.py --platform macos --skins none --locales en
 
+``--device-type`` creates the pass's simulator from another device type, and
+``--pose`` / ``--orientation`` set it up first through Device Hub (Xcode 27.1+,
+driven with ``rocuronium``): ``--pose closed|partially-open|open`` folds an iPhone
+Duo and captures the display that pose lights, ``--orientation portrait|landscape``
+turns the device for the pass and back afterwards::
+
+    pipeline/screenshots.py --device "Piru Duo" --device-type iPhone-Duo --pose open
+    pipeline/screenshots.py --device "Piru iPad" --device-type iPad-Pro-13-inch-M5-12GB --orientation landscape
+
 ``--wallpapers`` shows the skin backdrop and nothing else (no chrome, no
 status bar) and captures one frame per skin, ``<skin>.png`` under
 ``Store/wallpapers/`` — the scenes as phone wallpapers. Language is
@@ -55,6 +64,7 @@ import os
 import plistlib
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import threading
@@ -66,7 +76,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 BUNDLE_ID = "glass.kagerou.piru"
 SCHEME = "Piru"
-DEVICE_TYPE = "com.apple.CoreSimulator.SimDeviceType.iPhone-18-Pro-Max"
+DEVICE_TYPE = "iPhone-18-Pro-Max"
 DEVICE_NAME = "Piru Screenshots"
 LOCALES = {"en": "en_US", "zh-Hans": "zh_CN", "zh-Hant": "zh_TW", "es": "es_ES"}
 TOUR_SOURCE = REPO / "Piru/Utilities/ScreenshotTour.swift"
@@ -74,6 +84,14 @@ TOUR_SOURCE = REPO / "Piru/Utilities/ScreenshotTour.swift"
 # holds source only, so it goes on the build SSD when that is mounted.
 MAC_DERIVED_DATA = Path("/Volumes/Ugreen/Build/piru-mac")
 MAC_WINDOW = "1280x820"
+# Device Hub's button for each `--pose`, and the display that pose lights:
+# `primary` is an iPhone Duo's outer screen, `primary-1` its inner one.
+POSES = {
+    "closed": ("Closed", "primary"),
+    "partially-open": ("Partially Open", "primary-1"),
+    "open": ("Open", "primary-1"),
+}
+
 SKIN_SOURCE = REPO / "Shared/Skin/Skin.swift"
 
 
@@ -127,7 +145,7 @@ def newest_ios_runtime() -> str:
     return max(ios, key=lambda r: [int(n) for n in r["version"].split(".")])["identifier"]
 
 
-def resolve_device(udid: str | None, name: str) -> str:
+def resolve_device(udid: str | None, name: str, device_type: str) -> str:
     """The UDID to run on, booted. Creates the dedicated device on first use."""
     if udid == "booted":
         booted = booted_devices()
@@ -136,20 +154,98 @@ def resolve_device(udid: str | None, name: str) -> str:
         preferred = [d for d in booted if "18 Pro Max" in d["name"]]
         return (preferred or booted)[0]["udid"]
     if udid:
+        matches = [d for d in all_devices() if d["udid"] == udid]
+        if not matches:
+            sys.exit(f"✗ no simulator {udid}")
+        device, name = matches[0], matches[0]["name"]
+        if device["state"] != "Booted":
+            print(f"▸ booting “{name}”")
+            simctl("boot", udid)
+            simctl("bootstatus", udid, "-b")
         return udid
     matches = [d for d in all_devices() if d["name"] == name]
     if matches:
         device = matches[0]
         udid = device["udid"]
     else:
-        print(f"▸ creating simulator “{name}” (iPhone 18 Pro Max)")
-        udid = simctl("create", name, DEVICE_TYPE, newest_ios_runtime()).strip()
+        print(f"▸ creating simulator “{name}” ({device_type})")
+        type_id = f"com.apple.CoreSimulator.SimDeviceType.{device_type}"
+        udid = simctl("create", name, type_id, newest_ios_runtime()).strip()
         device = {"state": "Shutdown"}
     if device["state"] != "Booted":
         print(f"▸ booting “{name}”")
         simctl("boot", udid)
         simctl("bootstatus", udid, "-b")
     return udid
+
+
+def device_name(udid: str) -> str:
+    return next(d["name"] for d in all_devices() if d["udid"] == udid)
+
+
+def device_hub_press(udid: str, button: str) -> None:
+    """Press one of Device Hub's device controls (a pose, a rotation) for `udid`:
+    simctl has no verb for either. Device Hub shows one device at a time, so its
+    row in the sidebar is selected first — unless it is already showing, when the
+    name also heads the detail pane and a label click would be ambiguous."""
+    developer = Path(run("xcode-select", "-p").strip())
+    hub = developer.parent / "Applications/DeviceHub.app"
+    pids = run("pgrep", "-x", "DeviceHub", check=False).split()
+    if not pids:
+        run("open", "-g", str(hub))
+        for _ in range(40):
+            time.sleep(0.25)
+            if pids := run("pgrep", "-x", "DeviceHub", check=False).split():
+                break
+        else:
+            sys.exit("✗ Device Hub did not start")
+        time.sleep(2)
+    pid, name = pids[0], device_name(udid)
+    # The compact device window has no device list; return to the full one.
+    compact = run(
+        "rocuronium", "find", "--pid", pid, "--label", "Show in Device Hub", "--exact",
+        "--role", "button", "--json", check=False,
+    )  # fmt: skip
+    if compact.strip() and json.loads(compact).get("matches"):
+        run("rocuronium", "click", "--pid", pid, "--label", "Show in Device Hub", "--exact")
+        time.sleep(1.5)
+    if not run("rocuronium", "windows", "--pid", pid).lstrip().startswith(f"'{name} –"):
+        run("rocuronium", "click", "--pid", pid, "--label", name, "--exact", "--role", "statictext")
+    # Not checked: the device animates after the press, so rocuronium can read
+    # "nothing moved" and add a posted click of its own. Callers verify the result.
+    run(
+        "rocuronium",
+        "click",
+        "--pid",
+        pid,
+        "--label",
+        button,
+        "--exact",
+        "--role",
+        "button",
+        check=False,
+    )
+    time.sleep(3)
+
+
+def screen_orientation(udid: str, display: str | None) -> str:
+    """The orientation the display is showing, read off a probe capture's shape."""
+    probe = Path(f"/tmp/piru-orientation-{uuid.uuid4().hex}.png")
+    display_flag = [f"--display={display}"] if display else []
+    simctl("io", udid, "screenshot", *display_flag, str(probe))
+    width, height = struct.unpack(">II", probe.read_bytes()[16:24])
+    probe.unlink()
+    return "landscape" if width > height else "portrait"
+
+
+def turn_to(udid: str, display: str | None, orientation: str) -> None:
+    """Rotate until the display shows `orientation`. One press can turn the
+    device a quarter turn or, with rocuronium's fallback click, a half turn."""
+    for _ in range(6):
+        if screen_orientation(udid, display) == orientation:
+            return
+        device_hub_press(udid, "Rotate Left")
+    sys.exit(f"✗ could not turn the device to {orientation}")
 
 
 def quiet_keyboard(udid: str) -> None:
@@ -230,7 +326,9 @@ def process_alive(pid: int) -> bool:
     return True
 
 
-def capture_pass(udid: str, leaf: Path, launch_args: list[str], timeout: float, label: str) -> dict:
+def capture_pass(
+    udid: str, leaf: Path, launch_args: list[str], timeout: float, label: str, display: str | None
+) -> dict:
     """One launch: answer every request until done.json lands."""
     tour = leaf / ".tour"
     clear_tour(tour)
@@ -252,7 +350,8 @@ def capture_pass(udid: str, leaf: Path, launch_args: list[str], timeout: float, 
                 continue
             target = capture_target(leaf, request["file"])
             target.parent.mkdir(parents=True, exist_ok=True)
-            simctl("io", udid, "screenshot", str(target))
+            display_flag = [f"--display={display}"] if display else []
+            simctl("io", udid, "screenshot", *display_flag, str(target))
             ack.touch()
             print(f"  [{request['index']:>3}/{request['total']}] {label}/{request['file']}")
             files.append({**request, "path": str(target.relative_to(leaf.resolve().parent))})
@@ -396,6 +495,20 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--udid", default=None, help="an existing simulator's UDID, or booted")
     parser.add_argument(
+        "--device-type",
+        default=DEVICE_TYPE,
+        help="device type for a newly created --device, e.g. iPhone-Duo (see simctl list devicetypes)",
+    )
+    parser.add_argument(
+        "--pose", choices=list(POSES), default=None, help="fold an iPhone Duo first, via Device Hub"
+    )
+    parser.add_argument(
+        "--orientation",
+        choices=["portrait", "landscape"],
+        default=None,
+        help="turn the device for the pass, via Device Hub, and back afterwards",
+    )
+    parser.add_argument(
         "--app", default=None, help="Piru.app to install (default: this checkout's Debug build)"
     )
     parser.add_argument("--no-build", action="store_true", help="install the existing Debug build")
@@ -460,15 +573,21 @@ def main() -> None:
 
     started = time.monotonic()
     macos = args.platform == "macos"
-    udid = ""
+    udid, display, original_orientation = "", None, ""
     if macos:
         if not args.no_build and not args.app:
             build_mac_app()
         app = Path(args.app) if args.app else find_mac_app()
         print(f"▸ running {app}")
     else:
-        udid = resolve_device(args.udid, args.device)
+        udid = resolve_device(args.udid, args.device, args.device_type)
         quiet_keyboard(udid)
+        display = POSES[args.pose][1] if args.pose else None
+        if args.pose:
+            device_hub_press(udid, POSES[args.pose][0])
+        original_orientation = screen_orientation(udid, display)
+        if args.orientation:
+            turn_to(udid, display, args.orientation)
         if not args.no_build and not args.app:
             build_app(udid)
         app = Path(args.app) if args.app else find_app()
@@ -518,7 +637,7 @@ def main() -> None:
                 launch_args += ["-AppleInterfaceStyle", "Dark" if appearance == "dark" else "Light"]
                 result = capture_pass_macos(app, leaf, launch_args, args.timeout, label)
             else:
-                result = capture_pass(udid, leaf, launch_args, args.timeout, label)
+                result = capture_pass(udid, leaf, launch_args, args.timeout, label, display)
             for entry in result["files"]:
                 index.append({"locale": locale, "appearance": appearance, **entry})
             failed += [f"{label}/{file}" for file in result["report"]["failed"]]
@@ -526,6 +645,8 @@ def main() -> None:
 
     if args.udid and not macos:
         simctl("status_bar", udid, "clear")
+    if args.orientation and not macos:
+        turn_to(udid, display, original_orientation)
     (out / "index.json").write_text(json.dumps(index, indent=2, sort_keys=True) + "\n")
     elapsed = time.monotonic() - started
     print(f"\n{len(index)} screenshots in {out} ({elapsed / 60:.1f} min)")
