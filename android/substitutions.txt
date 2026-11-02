@@ -50,6 +50,7 @@
 # (An untyped Bool entry gets its type first, since the expansion names it.)
 ^([ \t]*)@Entry var (\w+) = (true|false)$	\1@Entry var \2: Bool = \3
 ^([ \t]*)@Entry var (\w+): ([^=\n]+?) = (.+)$	\1var \2: \3 {\n\1    get { self[__Key_\2.self] }\n\1    set { self[__Key_\2.self] = newValue }\n\1}\n\n\1nonisolated struct __Key_\2: EnvironmentKey {\n\1    static var defaultValue: \3 { MainActor.assumeIsolated { \4 } }\n\1}
+^([ \t]*)@Entry var (\w+): ([^=\n]+\?)$	\1var \2: \3 {\n\1    get { self[__Key_\2.self] }\n\1    set { self[__Key_\2.self] = newValue }\n\1}\n\n\1nonisolated struct __Key_\2: EnvironmentKey {\n\1    static var defaultValue: \3 { nil }\n\1}
 \bNSPredicate\(format:	OSLogPredicate(format:
 
 # Xcode previews have no Android build (and Skip does not parse the macro). Every upstream

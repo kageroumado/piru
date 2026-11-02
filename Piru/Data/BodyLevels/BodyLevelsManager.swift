@@ -259,6 +259,8 @@ final class BodyLevelsManager {
         entries: [BodyLoadEntry], colorMap: [String: Color],
         range: UsageTimeRange, key: BodyLevelsTrailCache.Key, now: Date,
     ) async -> BodyLoadTrail {
+        // The plan resolves substances on the main actor; a cold store traps there.
+        await SubstanceStore.shared.ensureAllLoaded()
         guard let plan = Plan.build(entries: entries, colorMap: colorMap, range: range, now: now) else {
             let empty = BodyLoadTrail.empty
             store(empty, for: key)

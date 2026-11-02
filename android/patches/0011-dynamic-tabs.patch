@@ -1,10 +1,10 @@
 SkipFuseUI's TabContentBuilder composes neither ForEach nor a bare if: choose the user's tab bar by count
 
 diff --git a/Piru/Views/ContentView.swift b/Piru/Views/ContentView.swift
-index 0580db10..89daad2d 100644
+index fec3638c..69f0de1d 100644
 --- a/Piru/Views/ContentView.swift
 +++ b/Piru/Views/ContentView.swift
-@@ -200,6 +200,9 @@ private struct MainTabView: View {
+@@ -223,6 +223,9 @@ private struct MainTabView: View {
          @Bindable var navigator = navigator
          let layout = TabLayoutStore.shared.layout
          return TabView(selection: $navigator.selectedTab) {
@@ -13,8 +13,8 @@ index 0580db10..89daad2d 100644
 +            #else
              ForEach(layout.tabs) { tab in
                  Tab(value: tab) {
-                     NavigationStack(path: navigator.pathBinding(for: tab)) {
-@@ -235,6 +238,7 @@ private struct MainTabView: View {
+                     SplitNavigationView(tab: tab) {
+@@ -256,6 +259,7 @@ private struct MainTabView: View {
                      }
                  }
              }
@@ -22,7 +22,7 @@ index 0580db10..89daad2d 100644
          }
          // Apple-Music-style fold: scrolling down minimizes the tab bar and slides
          // the session accessory into its inline placement, which
-@@ -259,6 +263,47 @@ private struct MainTabView: View {
+@@ -284,6 +288,45 @@ private struct MainTabView: View {
                  navigator.reconcile(visible: visible)
              }
      }
@@ -49,13 +49,11 @@ index 0580db10..89daad2d 100644
 +        @TabContentBuilder<TabID>
 +        private func androidTab(_ tab: TabID) -> some TabContent<TabID> {
 +            Tab(value: tab) {
-+                NavigationStack(path: navigator.pathBinding(for: tab)) {
++                SplitNavigationView(tab: tab) {
 +                    if tab == .search {
 +                        SearchView(scope: $searchScope, searchText: $searchText)
-+                            .withAppDestinations()
 +                    } else {
 +                        TabRootView(tab: tab, searchText: $searchText, librarySearchText: $librarySearchText)
-+                            .withAppDestinations()
 +                    }
 +                }
 +            } label: {
