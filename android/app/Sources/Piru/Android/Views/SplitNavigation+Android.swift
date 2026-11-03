@@ -28,10 +28,31 @@ struct AndroidSplitNavigation<Root: View>: View {
     }
 
     private func panes(_ split: SplitPath) -> some View {
+        columns(split)
+            .confirmationDialog(
+                "Discard your changes?",
+                isPresented: Binding(
+                    get: { navigator.pendingRecordChange?.tab == tab },
+                    set: { if !$0 { navigator.resolvePendingRecordChange(discard: false) } },
+                ),
+                titleVisibility: .visible,
+            ) {
+                Button("Discard Changes", role: .destructive) {
+                    navigator.resolvePendingRecordChange(discard: true)
+                }
+                Button("Keep Editing", role: .cancel) {
+                    navigator.resolvePendingRecordChange(discard: false)
+                }
+            } message: {
+                Text("The entry you are editing has changes that are not saved.")
+            }
+    }
+
+    private func columns(_ split: SplitPath) -> some View {
         HStack(spacing: 0) {
             NavigationStack(path: Binding(
                 get: { split.list },
-                set: { navigator.setPath(self.split.listChanged(to: $0), in: tab) },
+                set: { navigator.setList($0, in: tab) },
             )) {
                 root
                     .withAppDestinations()
@@ -52,7 +73,7 @@ struct AndroidSplitNavigation<Root: View>: View {
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Close record", systemImage: "xmark") {
-                                    navigator.setPath(self.split.list, in: tab)
+                                    navigator.closeRecord(in: tab)
                                 }
                             }
                         }

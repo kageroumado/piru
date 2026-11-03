@@ -1,15 +1,18 @@
 SkipFuseUI has no NavigationSplitView: lay the list and the record side by side in a regular-width window (Android/Views/SplitNavigation+Android.swift)
 
 diff --git a/Piru/Navigation/SplitNavigationView.swift b/Piru/Navigation/SplitNavigationView.swift
-index 3e796f41..2e120835 100644
+index 4102f38a..939dee76 100644
 --- a/Piru/Navigation/SplitNavigationView.swift
 +++ b/Piru/Navigation/SplitNavigationView.swift
-@@ -25,7 +25,7 @@ struct SplitNavigationView<Root: View>: View {
-         #elseif os(macOS)
+@@ -13,10 +13,7 @@ struct SplitNavigationView<Root: View>: View {
+         #if os(iOS) || os(macOS)
              AdaptiveSplitNavigation(tab: tab, root: root)
          #else
--            stack
+-            NavigationStack(path: navigator.pathBinding(for: tab)) {
+-                root
+-                    .withAppDestinations()
+-            }
 +            AndroidSplitNavigation(tab: tab, root: root)
          #endif
      }
- 
+ }

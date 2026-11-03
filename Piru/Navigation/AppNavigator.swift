@@ -28,6 +28,17 @@ final class AppNavigator {
 
     private(set) var paths: [TabID: [PushRoute]]
 
+    /// How many times each tab has reopened the record already beside its list. The
+    /// path does not change then, so a split tab watches this to show the record again.
+    private(set) var recordReopenings: [TabID: Int] = [:]
+
+    /// Records with an edit in progress, by the tab they were opened in. Opening
+    /// another record in that tab, or closing it, would throw the edit away.
+    private(set) var recordsBeingEdited: [UUID: TabID] = [:]
+
+    /// A change to a tab's open record waiting for the person to discard an edit.
+    private(set) var pendingRecordChange: PendingRecordChange?
+
     /// Modal stack — top of the stack is what's currently presented. Multiple
     /// entries mean nested modals (e.g. form → color picker), though SwiftUI
     /// only gracefully renders ~3 deep on iOS 26.
@@ -142,6 +153,79 @@ final class AppNavigator {
         guard var stack = paths[target], !stack.isEmpty else { return }
         stack.removeLast()
         paths[target] = stack
+    }
+
+    /// Opens a route from a tab's root list: beside the list in a split tab, pushed otherwise.
+    /// When the record beside the list is being edited, it waits for ``resolvePendingRecordChange(discard:)``.
+    func openRecord(_ route: PushRoute, besideList: Bool) {
+        guard besideList else { return push(route) }
+        guard !isEditingRecord(in: selectedTab) else {
+            pendingRecordChange = PendingRecordChange(tab: selectedTab, opening: route)
+            return
+        }
+        apply(PendingRecordChange(tab: selectedTab, opening: route))
+    }
+
+    /// Sets the levels of a split tab's list column. A record pushed there (a link the
+    /// collapsed split hosts outside the list's environment) opens beside the list.
+    func setList(_ newList: [PushRoute], in tab: TabID) {
+        let split = SplitPath(path(for: tab))
+        if let opened = newList.first(where: \.opensBesideList), opened == split.record {
+            recordReopenings[tab, default: 0] += 1
+        }
+        setPath(split.listChanged(to: newList), in: tab)
+    }
+
+    /// Closes the record beside a tab's list, waiting the same way while it is being edited.
+    func closeRecord(in tab: TabID) {
+        let change = PendingRecordChange(tab: tab, opening: nil)
+        guard !isEditingRecord(in: tab) else {
+            pendingRecordChange = change
+            return
+        }
+        apply(change)
+    }
+
+    /// Discards the waiting change's edit and makes the change, or keeps editing.
+    func resolvePendingRecordChange(discard: Bool) {
+        guard let change = pendingRecordChange else { return }
+        pendingRecordChange = nil
+        guard discard else { return }
+        recordsBeingEdited = recordsBeingEdited.filter { $0.value != change.tab }
+        apply(change)
+    }
+
+    /// Marks a record as being edited in the selected tab, or no longer.
+    func setEditing(_ editing: Bool, record id: UUID) {
+        if editing {
+            recordsBeingEdited[id] = selectedTab
+        } else {
+            recordsBeingEdited[id] = nil
+        }
+    }
+
+    /// Takes the routes `matching` out of the selected tab's path, for a record that
+    /// was just deleted: a nested one pops, a record beside the list closes. Returns
+    /// whether any were there; a record shown in a sheet is the sheet's to dismiss.
+    @discardableResult
+    func removeDeletedRecord(matching: (PushRoute) -> Bool) -> Bool {
+        guard sheetStack.isEmpty else { return false }
+        let stack = path(for: selectedTab)
+        guard let first = stack.firstIndex(where: matching) else { return false }
+        setPath(Array(stack[..<first]), in: selectedTab)
+        return true
+    }
+
+    /// Whether the record open beside a tab's list has an edit in progress.
+    func isEditingRecord(in tab: TabID) -> Bool {
+        recordsBeingEdited.values.contains(tab)
+    }
+
+    private func apply(_ change: PendingRecordChange) {
+        let split = SplitPath(path(for: change.tab))
+        guard let route = change.opening else { return setPath(split.list, in: change.tab) }
+        if split.record == route { recordReopenings[change.tab, default: 0] += 1 }
+        setPath(split.opening(route), in: change.tab)
     }
 
     func popToRoot(in tab: TabID? = nil) {
@@ -356,4 +440,10 @@ private extension Array where Element: Equatable {
 
 extension EnvironmentValues {
     @Entry var appNavigator: AppNavigator = .shared
+}
+
+/// A change to the record open beside a tab's list: another record, or none.
+struct PendingRecordChange: Equatable {
+    let tab: TabID
+    let opening: PushRoute?
 }

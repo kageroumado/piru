@@ -19,6 +19,7 @@ struct MedDetailView: View {
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
 
     @State private var showingDeleteConfirmation = false
     @State private var showingProductEditor = false
@@ -104,8 +105,13 @@ struct MedDetailView: View {
                     titleVisibility: .visible,
                 ) {
                     Button("Delete Med", role: .destructive) {
+                        let identityKey = item.identityKey, sortOrder = item.sortOrder
                         modelContext.delete(item)
-                        dismiss()
+                        // Beside a list, `dismiss()` cannot reach the open record: take its route out instead.
+                        let removed = navigator.removeDeletedRecord {
+                            $0 == .medDetail(identityKey: identityKey, sortOrder: sortOrder)
+                        }
+                        if !removed { dismiss() }
                     }
                 } message: {
                     Text("Reminders and adherence tracking stop. Existing entries stay in your journal.")

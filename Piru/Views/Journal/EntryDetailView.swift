@@ -16,6 +16,7 @@ import SwiftUI
 struct EntryDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
     @Environment(\.sessionEditingService) private var editing
     @Query private var substanceColors: [SubstanceColor]
 
@@ -120,6 +121,10 @@ struct EntryDetailView: View {
             .navigationBarTitleDisplayMode(.large)
         #endif
             .animation(.snappy(duration: 0.28), value: isEditing)
+            // Opening another record beside the list would drop the draft; the
+            // navigator asks first while this is set.
+            .onChange(of: isEditing) { _, editing in navigator.setEditing(editing, record: entry.id) }
+            .onDisappear { navigator.setEditing(false, record: entry.id) }
             .toolbar { toolbarContent }
             // Editing owns the leading slot: its Cancel (an X) is the way out, so a
             // pushed screen's Back beside it would be a second, unsaved exit.
@@ -323,7 +328,11 @@ struct EntryDetailView: View {
         DoseLogService.shared.changed()
         // Scoped inventory recompute + widget reload deferred past the dismissal.
         DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: [name], in: modelContext)
-        dismiss()
+        // Beside a list, `dismiss()` cannot reach the open record: take its route out instead.
+        let removed = navigator.removeDeletedRecord {
+            if case let .entry(_, routeID) = $0 { routeID == id } else { false }
+        }
+        if !removed { dismiss() }
     }
 }
 

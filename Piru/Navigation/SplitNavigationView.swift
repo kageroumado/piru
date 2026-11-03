@@ -1,58 +1,25 @@
 import SwiftUI
 
-/// A tab's navigation. Where there is room for it (regular width, a device with a
-/// hinge, the Mac) an opened record sits beside the list it came from; on a
-/// compact iPhone, and on a platform with no split view, this is the tab's plain stack.
+/// A tab's navigation: an opened record sits beside the list it came from when the
+/// window has room for both, and the split collapses to one stack when it does not.
+/// One container at every width, so resizing never rebuilds the screens inside it.
+/// On a platform with no split view this is the tab's plain stack.
 struct SplitNavigationView<Root: View>: View {
     @Environment(\.appNavigator) private var navigator
     let tab: TabID
     @ViewBuilder let root: Root
-    #if os(iOS)
-        @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-        @State private var hasHinge = false
-    #endif
 
     var body: some View {
-        #if os(iOS)
-            Group {
-                if hasHinge || horizontalSizeClass == .regular {
-                    AdaptiveSplitNavigation(tab: tab, root: root)
-                } else {
-                    stack
-                }
-            }
-            .modifier(HingeReader(hasHinge: $hasHinge))
-        #elseif os(macOS)
+        #if os(iOS) || os(macOS)
             AdaptiveSplitNavigation(tab: tab, root: root)
         #else
-            stack
+            NavigationStack(path: navigator.pathBinding(for: tab)) {
+                root
+                    .withAppDestinations()
+            }
         #endif
     }
-
-    private var stack: some View {
-        NavigationStack(path: navigator.pathBinding(for: tab)) {
-            root
-                .withAppDestinations()
-        }
-    }
 }
-
-#if os(iOS)
-    /// Whether the device has a hinge, which can unfold a closed (compact) screen into a wide one.
-    private struct HingeReader: ViewModifier {
-        @Binding var hasHinge: Bool
-
-        func body(content: Content) -> some View {
-            if #available(iOS 27.1, *) {
-                content.onHingeChange { _, context in
-                    hasHinge = context.hinge != nil
-                }
-            } else {
-                content
-            }
-        }
-    }
-#endif
 
 extension EnvironmentValues {
     /// True in the list column of a split tab, where opening a record shows it beside the list.
@@ -152,14 +119,6 @@ struct RouteLink<Label: View>: View {
     }
 }
 
-extension AppNavigator {
-    /// Opens a route from a tab's root list: beside the list in a split tab, pushed otherwise.
-    func openRecord(_ route: PushRoute, besideList: Bool) {
-        guard besideList else { return push(route) }
-        setPath(SplitPath(path(for: selectedTab)).opening(route), in: selectedTab)
-    }
-}
-
 /// Wide enough, the list is a sidebar at its minimum width and the record takes the
 /// rest; folded, the fold is the boundary. Widths are content minima.
 nonisolated struct SplitPaneGeometry: Equatable {
@@ -184,6 +143,15 @@ nonisolated struct SplitPaneGeometry: Equatable {
     private nonisolated struct SplitPaneSpace: Equatable {
         var size: CGSize = .zero
         var fold: CGRect?
+
+        #if os(iOS)
+            /// The active vertical fold of a partly open device, which the list boundary follows.
+            static func fold(in proxy: GeometryProxy) -> CGRect? {
+                guard #available(iOS 27.1, *) else { return nil }
+                return proxy.reservedRegions(kind: .division)
+                    .first { $0.isActive && $0.frame.height > $0.frame.width }?.frame
+            }
+        #endif
     }
 
     private struct AdaptiveSplitNavigation<Root: View>: View {
@@ -210,12 +178,16 @@ nonisolated struct SplitPaneGeometry: Equatable {
                     minimumPaneWidth: minimumPaneWidth,
                 )
                 let showsBoth = geometry.showsBoth
+                let marksSelection = showsBoth
+                let collapsed = !showsBoth
                 let listWidth = max(geometry.listWidth, minimumPaneWidth)
                 let width = (min: minimumPaneWidth, ideal: listWidth, max: listWidth)
             #else
                 // A Mac window always shows both columns; the list is a resizable sidebar,
                 // and selecting something else replaces the record, as in Mail or Notes.
                 let showsBoth = false
+                let marksSelection = true
+                let collapsed = false
                 let width = (min: 340.0, ideal: minimumPaneWidth, max: 480.0)
             #endif
 
@@ -223,7 +195,7 @@ nonisolated struct SplitPaneGeometry: Equatable {
                 get: { (readingList ?? (split.record == nil)) ? .sidebar : .detail },
                 set: { readingList = $0 == .sidebar },
             )) {
-                list(split)
+                list(split, marksSelection: marksSelection)
                     .navigationSplitViewColumnWidth(min: width.min, ideal: width.ideal, max: width.max)
             } detail: {
                 detail(split, showsBoth: showsBoth)
@@ -232,9 +204,34 @@ nonisolated struct SplitPaneGeometry: Equatable {
             #if os(iOS)
                 .environment(\.horizontalSizeClass, showsBoth ? .regular : .compact)
                 .onGeometryChange(for: SplitPaneSpace.self) { proxy in
-                    SplitPaneSpace(size: proxy.size, fold: Self.fold(in: proxy))
+                    SplitPaneSpace(size: proxy.size, fold: SplitPaneSpace.fold(in: proxy))
                 } action: { space = $0 }
             #endif
+                .onChange(of: navigator.recordReopenings[tab]) {
+                    guard collapsed else { return readingList = false }
+                    // A collapsed split shows its detail only when the record changes, so
+                    // the record already open is taken out for a moment and put back.
+                    let path = navigator.path(for: tab)
+                    navigator.setPath(SplitPath(path).list, in: tab)
+                    Task { navigator.setPath(path, in: tab) }
+                }
+                .confirmationDialog(
+                    "Discard your changes?",
+                    isPresented: Binding(
+                        get: { navigator.pendingRecordChange?.tab == tab },
+                        set: { if !$0 { navigator.resolvePendingRecordChange(discard: false) } },
+                    ),
+                    titleVisibility: .visible,
+                ) {
+                    Button("Discard Changes", role: .destructive) {
+                        navigator.resolvePendingRecordChange(discard: true)
+                    }
+                    Button("Keep Editing", role: .cancel) {
+                        navigator.resolvePendingRecordChange(discard: false)
+                    }
+                } message: {
+                    Text("The entry you are editing has changes that are not saved.")
+                }
                 .onChange(of: split) { old, new in
                     if new.record == nil {
                         readingList = true
@@ -245,25 +242,17 @@ nonisolated struct SplitPaneGeometry: Equatable {
                 }
         }
 
-        #if os(iOS)
-            /// The active vertical fold of a partly open device, which the list boundary follows.
-            private nonisolated static func fold(in proxy: GeometryProxy) -> CGRect? {
-                guard #available(iOS 27.1, *) else { return nil }
-                return proxy.reservedRegions(kind: .division)
-                    .first { $0.isActive && $0.frame.height > $0.frame.width }?.frame
-            }
-        #endif
-
-        private func list(_ split: SplitPath) -> some View {
+        private func list(_ split: SplitPath, marksSelection: Bool) -> some View {
             NavigationStack(path: Binding(
                 get: { split.list },
-                set: { navigator.setPath(self.split.listChanged(to: $0), in: tab) },
+                set: { navigator.setList($0, in: tab) },
             )) {
                 root
                     .withAppDestinations()
             }
             .environment(\.opensRecordsBesideList, true)
-            .environment(\.selectedRecord, split.record)
+            // Marked only beside the record: alone on screen, the list shows no selection.
+            .environment(\.selectedRecord, marksSelection ? split.record : nil)
             .onScrollPhaseChange { _, phase in
                 if phase == .interacting || phase == .animating { readingList = true }
             }
@@ -286,11 +275,12 @@ nonisolated struct SplitPaneGeometry: Equatable {
                 }
                 .withAppDestinations()
                 .toolbar {
-                    // One pane already has Back to the list; Close is for the record beside it.
-                    if showsBoth {
+                    // One pane already has Back to the list; Close is for the record beside it. While
+                    // it is being edited, the editor's Cancel is the way out.
+                    if showsBoth, !navigator.isEditingRecord(in: tab) {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Close record", systemImage: "xmark") {
-                                navigator.setPath(self.split.list, in: tab)
+                                navigator.closeRecord(in: tab)
                             }
                         }
                     }

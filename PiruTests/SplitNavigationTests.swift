@@ -100,3 +100,111 @@ struct SplitPathTests {
         #expect(SplitPath([category, mdma, data]).detailChanged(to: []) == [category, mdma])
     }
 }
+
+@MainActor
+@Suite("Opening records beside the list")
+struct OpenRecordTests {
+    private let mdma = PushRoute.substance(name: "MDMA")
+    private let caffeine = PushRoute.substance(name: "Caffeine")
+    private let entryID = UUID()
+
+    private func navigator(_ path: [PushRoute] = []) -> AppNavigator {
+        AppNavigator(
+            selectedTab: .library,
+            paths: [.library: path],
+            storage: makeIsolatedDefaults(),
+            layout: TabLayoutStore(defaults: makeIsolatedDefaults()),
+        )
+    }
+
+    @Test
+    func `opening the selected record again still shows it`() {
+        let nav = navigator([mdma])
+        nav.openRecord(mdma, besideList: true)
+        #expect(nav.path(for: .library) == [mdma])
+        #expect(nav.recordReopenings[.library] == 1)
+        nav.openRecord(caffeine, besideList: true)
+        #expect(nav.recordReopenings[.library] == 1)
+    }
+
+    @Test
+    func `a record pushed in the list column opens beside it`() {
+        let category = PushRoute.libraryCategory(.stimulant)
+        let nav = navigator([category, mdma])
+        nav.setList([category, mdma], in: .library)
+        #expect(nav.path(for: .library) == [category, mdma])
+        #expect(nav.recordReopenings[.library] == 1)
+        nav.setList([category, caffeine], in: .library)
+        #expect(nav.path(for: .library) == [category, caffeine])
+        #expect(nav.recordReopenings[.library] == 1)
+    }
+
+    @Test
+    func `a record being edited waits before another opens`() {
+        let nav = navigator([mdma])
+        nav.setEditing(true, record: entryID)
+        nav.openRecord(caffeine, besideList: true)
+        #expect(nav.path(for: .library) == [mdma])
+        #expect(nav.pendingRecordChange == PendingRecordChange(tab: .library, opening: caffeine))
+
+        nav.resolvePendingRecordChange(discard: false)
+        #expect(nav.path(for: .library) == [mdma])
+        #expect(nav.pendingRecordChange == nil)
+    }
+
+    @Test
+    func `discarding the edit opens the waiting record`() {
+        let nav = navigator([mdma])
+        nav.setEditing(true, record: entryID)
+        nav.openRecord(caffeine, besideList: true)
+        nav.resolvePendingRecordChange(discard: true)
+        #expect(nav.path(for: .library) == [caffeine])
+        #expect(nav.recordsBeingEdited.isEmpty)
+    }
+
+    @Test
+    func `closing a record being edited waits too`() {
+        let nav = navigator([mdma])
+        nav.setEditing(true, record: entryID)
+        nav.closeRecord(in: .library)
+        #expect(nav.path(for: .library) == [mdma])
+        nav.resolvePendingRecordChange(discard: true)
+        #expect(nav.path(for: .library) == [])
+    }
+
+    @Test
+    func `an edit in another tab does not hold this one`() {
+        let nav = navigator([mdma])
+        nav.selectedTab = .journal
+        nav.setEditing(true, record: entryID)
+        nav.selectedTab = .library
+        nav.openRecord(caffeine, besideList: true)
+        #expect(nav.path(for: .library) == [caffeine])
+    }
+
+    @Test
+    func `a deleted record closes, or pops when nested`() {
+        let session = PushRoute.session(id: UUID())
+        let entry = PushRoute.entry(timestamp: .now, id: entryID)
+        let nav = navigator([entry])
+        #expect(nav.removeDeletedRecord { $0 == entry })
+        #expect(nav.path(for: .library) == [])
+
+        let nested = navigator([session, entry])
+        #expect(nested.removeDeletedRecord { $0 == entry })
+        #expect(nested.path(for: .library) == [session])
+    }
+
+    @Test
+    func `a deleted record shown in a sheet is left to the sheet`() {
+        let entry = PushRoute.entry(timestamp: .now, id: entryID)
+        let nav = navigator([entry])
+        nav.present(.settings)
+        #expect(!nav.removeDeletedRecord { $0 == entry })
+        #expect(nav.path(for: .library) == [entry])
+    }
+}
+
+private func makeIsolatedDefaults() -> UserDefaults {
+    UserDefaults(suiteName: "SplitNavigationTests.\(UUID().uuidString)")!
+}

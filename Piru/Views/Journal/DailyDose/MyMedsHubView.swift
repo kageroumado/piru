@@ -101,6 +101,7 @@ enum MedTimeGroup: Int, CaseIterable, Identifiable {
 /// the add/edit *task* is modal.
 struct MyMedsHubView: View {
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
 
     @State private var showingAddMed = false
@@ -123,7 +124,10 @@ struct MyMedsHubView: View {
                     Section {
                         ForEach(members) { item in
                             MedRow(item: item, group: group) {
-                                navigator.push(.medDetail(identityKey: item.identityKey, sortOrder: item.sortOrder))
+                                navigator.openRecord(
+                                    .medDetail(identityKey: item.identityKey, sortOrder: item.sortOrder),
+                                    besideList: opensRecordsBesideList,
+                                )
                             }
                         }
                     } header: {

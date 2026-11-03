@@ -410,7 +410,9 @@ private struct SearchSurface: View {
                 }
             }
             .onChange(of: navigator.path(for: .search)) { _, newPath in
-                guard wasSearching, case let .substance(name, _) = newPath.last else { return }
+                // `isSearching` too: beside the results, picking a second one keeps the
+                // field focused, so no focus change re-arms `wasSearching`.
+                guard isSearching || wasSearching, case let .substance(name, _) = newPath.last else { return }
                 SearchHistoryStore.shared.record(name)
                 wasSearching = false
             }
