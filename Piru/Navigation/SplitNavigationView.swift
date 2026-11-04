@@ -286,7 +286,8 @@ nonisolated struct SplitPaneGeometry: Equatable {
                     }
                 }
             }
-            .simultaneousGesture(TapGesture().onEnded { readingList = false })
+            // Scrolling marks the record as the pane in use. Never a tap gesture here:
+            // above a List it swallows row selection, so every row link in a record is dead.
             .onScrollPhaseChange { _, phase in
                 if phase == .interacting || phase == .animating { readingList = false }
             }

@@ -600,13 +600,22 @@ nonisolated enum TimelineCurveModel {
         let peer = max(peerMagnitude, magnitude)
         guard magnitude > 0, peer > 0, threshold > 0 else { return full }
 
-        let params = EffectCurveParams(for: s)
         // The shape value at which this dose stops registering against `peer`.
-        let cutoff = threshold * peer / magnitude
-        // Already below the bar at its own crest: it never reads as anything, so
-        // let its own peak bound it rather than an invisible tail.
-        guard cutoff < 1 else { return min(max(params.mu, 1), full) }
-        let t = params.mu + params.sigmaDown * pow(-2 * log(cutoff), 1 / params.exponentDown)
+        return fallMinutes(for: s, toFraction: threshold * peer / magnitude)
+    }
+
+    /// Minutes after the dose at which the falling limb drops to `fraction` of
+    /// its own crest, never past ``curveExtent``. A `fraction` of 1 or more
+    /// returns the crest instant: the dose never rises above it. Zero-order
+    /// substances (alcohol) return ``curveExtent``. Closed form, like
+    /// ``visibleExtent(for:peerMagnitude:threshold:)``, which it backs.
+    nonisolated static func fallMinutes(for s: ActiveSubstanceState, toFraction fraction: Double) -> Double {
+        let full = curveExtent(for: s)
+        if zeroOrderKinetics(for: s) != nil { return full }
+        guard fraction > 0 else { return full }
+        let params = EffectCurveParams(for: s)
+        guard fraction < 1 else { return min(max(params.mu, 1), full) }
+        let t = params.mu + params.sigmaDown * pow(-2 * log(fraction), 1 / params.exponentDown)
         return min(max(t, 1), full)
     }
 

@@ -77,14 +77,17 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
         let unit: String
         /// Peak in-body amount over the window, in `unit`.
         let peak: Double
+        /// Doses logged inside the window.
+        let doseCount: Int
         let points: [Point]
 
-        init(id: Int, displayName: String, color: Color, unit: String, peak: Double, points: [Point]) {
+        init(id: Int, displayName: String, color: Color, unit: String, peak: Double, doseCount: Int, points: [Point]) {
             self.id = id
             self.displayName = displayName
             self.color = color
             self.unit = unit
             self.peak = peak
+            self.doseCount = doseCount
             self.points = points
         }
 
@@ -94,6 +97,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
             case tint
             case unit
             case peak
+            case doseCount
             case points
         }
 
@@ -104,6 +108,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
             color = try c.decode(P3Color.self, forKey: .tint).color
             unit = try c.decode(String.self, forKey: .unit)
             peak = try c.decode(Double.self, forKey: .peak)
+            doseCount = try c.decode(Int.self, forKey: .doseCount)
             points = try c.decode([Point].self, forKey: .points)
         }
 
@@ -114,13 +119,14 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
             try c.encode(color.cacheTint(), forKey: .tint)
             try c.encode(unit, forKey: .unit)
             try c.encode(peak, forKey: .peak)
+            try c.encode(doseCount, forKey: .doseCount)
             try c.encode(points, forKey: .points)
         }
     }
 
     /// Sample grid, oldest → newest.
     let dates: [Date]
-    /// Series ordered by peak body-load, largest first.
+    /// Series ordered by doses logged in the window, most first, then by peak.
     let series: [Series]
 
     var isEmpty: Bool {

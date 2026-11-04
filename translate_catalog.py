@@ -14,6 +14,22 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    "The %lld you logged most are drawn. Tap a name to add or remove its line.": (
+        "已绘制你记录最多的 %lld 种。点按名称可添加或移除其曲线。",
+        "已繪製你記錄最多的 %lld 種。點按名稱可加入或移除其曲線。",
+    ),
+    "How pleasant it is likely to feel. Below the baseline is a comedown.": (
+        "大概会有多舒服。低于基线即为下头。",
+        "大概會有多舒服。低於基線即為下頭。",
+    ),
+    "How activated or sedated. Below the baseline is sedation.": (
+        "有多兴奋或多镇静。低于基线即为镇静。",
+        "有多興奮或多鎮靜。低於基線即為鎮靜。",
+    ),
+    "Above the baseline reads as pleasant, below it as a comedown. An opioid adds warmth of its own but does not cancel a stimulant's comedown.": (
+        "高于基线表示舒服，低于基线表示下头。阿片类会带来它自己的暖意，但不会抵消兴奋剂的下头。",
+        "高於基線表示舒服，低於基線表示下頭。鴉片類會帶來它自己的暖意，但不會抵消興奮劑的下頭。",
+    ),
     "Bar: participant range; dot: mean.": (
         "横条：参与者范围；圆点：均值。",
         "橫條：參與者範圍；圓點：平均值。",
@@ -7996,6 +8012,10 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "The %lld you logged most are drawn. Tap a name to add or remove its line.",
+        "How pleasant it is likely to feel. Below the baseline is a comedown.",
+        "How activated or sedated. Below the baseline is sedation.",
+        "Above the baseline reads as pleasant, below it as a comedown. An opioid adds warmth of its own but does not cancel a stimulant's comedown.",
         "Morning partly logged, evening not logged",
         "Morning not logged, evening partly logged",
         "Taken at %@",

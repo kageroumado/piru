@@ -10,7 +10,7 @@ import Testing
 @Suite("ModeledLevelsFilter")
 struct ModeledLevelsFilterTests {
     private func series(_ id: Int, _ name: String) -> BodyLoadTrail.Series {
-        BodyLoadTrail.Series(id: id, displayName: name, color: .red, unit: "mg", peak: 1, points: [])
+        BodyLoadTrail.Series(id: id, displayName: name, color: .red, unit: "mg", peak: 1, doseCount: 1, points: [])
     }
 
     private var trail: [BodyLoadTrail.Series] {
@@ -62,19 +62,19 @@ struct ModeledLevelsFilterTests {
     func `Picking the selected chip again clears it and shows every line`() {
         let filter = filter()
         filter.selectCategory(.stimulant)
-        filter.toggleHidden("Caffeine")
+        filter.toggleHidden("Caffeine", in: trail)
         filter.selectCategory(.stimulant)
         #expect(filter.selectedCategory == nil)
-        #expect(filter.hidden.isEmpty)
+        #expect(filter.toggled.isEmpty)
     }
 
     @Test
     func `Hidden lines leave the chart but stay in the legend`() {
         let filter = filter()
-        filter.toggleHidden("LSD")
+        filter.toggleHidden("LSD", in: trail)
         #expect(!names(filter.chartSeries(trail)).contains("LSD"))
         #expect(names(filter.legendSeries(trail)).contains("LSD"))
-        filter.toggleHidden("LSD")
+        filter.toggleHidden("LSD", in: trail)
         #expect(names(filter.chartSeries(trail)).contains("LSD"))
     }
 
@@ -82,8 +82,41 @@ struct ModeledLevelsFilterTests {
     func `Hiding every line falls back to showing them all`() {
         let filter = filter()
         filter.selectedSubstances = ["LSD"]
-        filter.toggleHidden("LSD")
+        filter.toggleHidden("LSD", in: trail)
         #expect(names(filter.chartSeries(trail)) == ["LSD"])
+    }
+
+    private var longTrail: [BodyLoadTrail.Series] {
+        (0 ..< 9).map { series($0, "S\($0)") }
+    }
+
+    @Test
+    func `A long trail draws its first six lines and lists the rest hidden`() {
+        let filter = ModeledLevelsFilter()
+        #expect(names(filter.chartSeries(longTrail)) == ["S0", "S1", "S2", "S3", "S4", "S5"])
+        #expect(filter.legendNames(longTrail).count == 9)
+        #expect(filter.hiddenNames(longTrail) == ["S6", "S7", "S8"])
+        #expect(filter.defaultLeavesLinesOut(longTrail))
+        #expect(!filter.defaultLeavesLinesOut(trail))
+    }
+
+    @Test
+    func `Tapping a default-hidden name draws it, and a drawn one hides`() {
+        let filter = ModeledLevelsFilter()
+        filter.toggleHidden("S7", in: longTrail)
+        #expect(names(filter.chartSeries(longTrail)).contains("S7"))
+        filter.toggleHidden("S0", in: longTrail)
+        #expect(!names(filter.chartSeries(longTrail)).contains("S0"))
+        filter.toggleHidden("S7", in: longTrail)
+        #expect(!names(filter.chartSeries(longTrail)).contains("S7"))
+    }
+
+    @Test
+    func `Substances picked in the toolbar are all drawn`() {
+        let filter = ModeledLevelsFilter()
+        filter.selectedSubstances = Set(longTrail.map(\.displayName))
+        #expect(filter.chartSeries(longTrail).count == 9)
+        #expect(!filter.defaultLeavesLinesOut(longTrail))
     }
 
     @Test
@@ -117,7 +150,7 @@ struct ModeledLevelsFilterTests {
         let filter = filter()
         let before = filter.markers(trail)
         filter.selectedSubstances = ["Lorazepam"]
-        filter.toggleHidden("Caffeine")
+        filter.toggleHidden("Caffeine", in: trail)
         #expect(filter.markers(trail) == before)
         #expect(Set(before.values).count == trail.count)
         #expect(before["Caffeine"] == ChartSeriesMarker(index: 0))

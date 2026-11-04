@@ -11435,6 +11435,34 @@
         }
       }
     },
+    "Above the baseline reads as pleasant, below it as a comedown. An opioid adds warmth of its own but does not cancel a stimulant's comedown." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por encima de la línea base se lee como agradable; por debajo, como un bajón. Un opioide aporta su propia calidez, pero no anula el bajón de un estimulante."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por encima de la línea base se lee como agradable; por debajo, como un bajón. Un opioide aporta su propia calidez, pero no anula el bajón de un estimulante."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高于基线表示舒服，低于基线表示下头。阿片类会带来它自己的暖意，但不会抵消兴奋剂的下头。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高於基線表示舒服，低於基線表示下頭。鴉片類會帶來它自己的暖意，但不會抵消興奮劑的下頭。"
+          }
+        }
+      }
+    },
     "Accumulation" : {
       "localizations" : {
         "es" : {
@@ -31047,6 +31075,9 @@
         }
       }
     },
+    "Discard Changes" : {
+
+    },
     "Discard Entries" : {
       "localizations" : {
         "es" : {
@@ -31074,6 +31105,9 @@
           }
         }
       }
+    },
+    "Discard your changes?" : {
+
     },
     "Disconnective" : {
       "extractionState" : "stale",
@@ -44684,6 +44718,34 @@
         }
       }
     },
+    "How activated or sedated. Below the baseline is sedation." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo activado o sedado. Por debajo de la línea base es sedación."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo activado o sedado. Por debajo de la línea base es sedación."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有多兴奋或多镇静。低于基线即为镇静。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有多興奮或多鎮靜。低於基線即為鎮靜。"
+          }
+        }
+      }
+    },
     "How body-load has moved over time" : {
       "localizations" : {
         "es" : {
@@ -45128,6 +45190,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "物質頁面和耐受工具預設顯示多少藥理學內容。"
+          }
+        }
+      }
+    },
+    "How pleasant it is likely to feel. Below the baseline is a comedown." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo agradable que probablemente se sienta. Por debajo de la línea base es un bajón."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo agradable que probablemente se sienta. Por debajo de la línea base es un bajón."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大概会有多舒服。低于基线即为下头。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大概會有多舒服。低於基線即為下頭。"
           }
         }
       }
@@ -48981,6 +49071,9 @@
           }
         }
       }
+    },
+    "Keep Editing" : {
+
     },
     "Keep My Colors" : {
       "localizations" : {
@@ -88938,6 +89031,34 @@
         }
       }
     },
+    "The %lld you logged most are drawn. Tap a name to add or remove its line." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se dibujan las %lld que más registraste. Toca un nombre para añadir o quitar su línea."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se dibujan las %lld que más registraste. Toca un nombre para añadir o quitar su línea."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已绘制你记录最多的 %lld 种。点按名称可添加或移除其曲线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已繪製你記錄最多的 %lld 種。點按名稱可加入或移除其曲線。"
+          }
+        }
+      }
+    },
     "The amount that counts as a full supply for the bar. Set to 0 to hide the bar." : {
       "localizations" : {
         "es" : {
@@ -89191,6 +89312,9 @@
           }
         }
       }
+    },
+    "The entry you are editing has changes that are not saved." : {
+
     },
     "The exact amount you have now. Changing it is logged as a correction." : {
       "localizations" : {

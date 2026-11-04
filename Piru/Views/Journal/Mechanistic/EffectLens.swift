@@ -25,6 +25,16 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         }
     }
 
+    /// What the lens's vertical axis means, under its chart title. `nil` for
+    /// ``timeline``, whose curves are the familiar duration bells.
+    var caption: LocalizedStringKey? {
+        switch self {
+        case .timeline: nil
+        case .feeling: "How pleasant it is likely to feel. Below the baseline is a comedown."
+        case .energy: "How activated or sedated. Below the baseline is sedation."
+        }
+    }
+
     var symbol: String {
         switch self {
         case .timeline: "chart.xyaxis.line"

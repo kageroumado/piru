@@ -29,7 +29,16 @@ struct ModeledLevelsChartCard: View {
             if categories.count > 1 {
                 ModeledLevelsCategoryChips(categories: categories, filter: filter)
             }
-            ModeledLevelsLegend(series: filter.legendSeries(trail.series), markers: markers, filter: filter)
+            ModeledLevelsLegend(
+                trail: trail.series,
+                hidden: filter.hiddenNames(trail.series),
+                markers: markers,
+                filter: filter,
+            )
+            if filter.defaultLeavesLinesOut(trail.series) {
+                Text("The \(ModeledLevelsFilter.defaultLineCount) you logged most are drawn. Tap a name to add or remove its line.")
+                    .captionSecondary()
+            }
         }
         .onChange(of: range) { selectedDate = nil }
         .onChange(of: filter.selectedSubstances) { filter.reconcile(with: trail.series) }
@@ -88,7 +97,8 @@ private struct ModeledLevelsCategoryChips: View {
 // MARK: - Legend
 
 private struct ModeledLevelsLegend: View {
-    let series: [BodyLoadTrail.Series]
+    let trail: [BodyLoadTrail.Series]
+    let hidden: Set<String>
     let markers: [String: ChartSeriesMarker]
     let filter: ModeledLevelsFilter
 
@@ -104,15 +114,15 @@ private struct ModeledLevelsLegend: View {
     /// one marker and one hide toggle.
     private var uniqueNames: [(name: String, color: Color)] {
         var seen: Set<String> = []
-        return series.compactMap { item in
+        return filter.legendSeries(trail).compactMap { item in
             seen.insert(item.displayName).inserted ? (item.displayName, item.color) : nil
         }
     }
 
     private func chip(name: String, color: Color) -> some View {
-        let isHidden = filter.hidden.contains(name)
+        let isHidden = hidden.contains(name)
         return Button {
-            withAnimation(.easeInOut(duration: 0.2)) { filter.toggleHidden(name) }
+            withAnimation(.easeInOut(duration: 0.2)) { filter.toggleHidden(name, in: trail) }
         } label: {
             HStack(spacing: Spacing.xs) {
                 ChartSeriesKey(color: color, marker: markers[name] ?? ChartSeriesMarker(index: 0))

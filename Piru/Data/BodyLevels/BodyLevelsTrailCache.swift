@@ -15,7 +15,7 @@ nonisolated enum BodyLevelsTrailCache {
     nonisolated struct Key: Codable, Hashable, Sendable {
         /// Bumped when the encoded trail changes shape, so a file from an
         /// older build misses instead of half-decoding.
-        var format = 1
+        var format = 2
         let range: String
         let storeGeneration: Int
         let entryCount: Int

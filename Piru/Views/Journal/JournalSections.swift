@@ -5,10 +5,14 @@ import SwiftUI
 
 /// Sessions grouped under day headers — the Journal's primary view. Each day is
 /// a `Section`; its rows are the sessions that started that day, newest first.
+///
+/// The `ForEach` row closures in this file are `@Sendable`, which makes them
+/// nonisolated. During an animated insert or removal, SwiftUI's async renderer
+/// builds the rows a lazy stack newly places on its display-link thread (under
+/// its graph lock, with main waiting), and a main-actor closure traps there on
+/// Swift 6's runtime isolation check. Each closure only builds a `nonisolated`
+/// struct; its `body` is main-actor and still runs on main.
 struct JournalDaySections: View {
-    @Environment(\.appNavigator) private var navigator
-    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
-
     let days: [SessionDay]
     let colorMap: [String: Color]
     /// The live session's card, dropped from the log — the Active Now card above
@@ -30,32 +34,54 @@ struct JournalDaySections: View {
     }
 
     var body: some View {
-        ForEach(visibleDays, id: \.day.id) { day, cards in
-            Section {
-                // The day's sessions share one rounded container, separated by
-                // inset hairlines — the day reads as a single unit rather than
-                // a stack of floating cards. Each row is still its own plain
-                // Button (programmatic push, no system disclosure chevron over
-                // the graph), so taps stay per-session.
-                VStack(spacing: 0) {
-                    ForEach(cards.enumerated(), id: \.element.id) { index, card in
-                        row(card)
-                        if index < cards.count - 1 {
-                            Divider()
-                                .padding(.horizontal, 14)
-                        }
-                    }
-                }
-                .themeCard()
-                // Scroll anchor for the calendar's "Jump to Date".
-                .id(day.id)
-            } header: {
-                JournalDayHeader(title: day.dateTitle, weekday: day.weekday)
-            }
+        let colorMap = colorMap
+        let actions = actions
+        ForEach(visibleDays, id: \.day.id) { @Sendable day, cards in
+            JournalDaySection(day: day, cards: cards, colorMap: colorMap, actions: actions)
         }
     }
+}
 
-    private func row(_ card: SessionCard) -> some View {
+private nonisolated struct JournalDaySection: View {
+    let day: SessionDay
+    let cards: [SessionCard]
+    let colorMap: [String: Color]
+    let actions: SessionCardActionModel
+
+    @MainActor var body: some View {
+        Section {
+            // The day's sessions share one rounded container, separated by
+            // inset hairlines — the day reads as a single unit rather than
+            // a stack of floating cards. Each row is still its own plain
+            // Button (programmatic push, no system disclosure chevron over
+            // the graph), so taps stay per-session.
+            VStack(spacing: 0) {
+                ForEach(cards.enumerated(), id: \.element.id) { index, card in
+                    JournalSessionRow(card: card, colorMap: colorMap, actions: actions)
+                    if index < cards.count - 1 {
+                        Divider()
+                            .padding(.horizontal, 14)
+                    }
+                }
+            }
+            .themeCard()
+            // Scroll anchor for the calendar's "Jump to Date".
+            .id(day.id)
+        } header: {
+            JournalDayHeader(title: day.dateTitle, weekday: day.weekday)
+        }
+    }
+}
+
+private struct JournalSessionRow: View {
+    @Environment(\.appNavigator) private var navigator
+    @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
+
+    let card: SessionCard
+    let colorMap: [String: Color]
+    let actions: SessionCardActionModel
+
+    var body: some View {
         Button {
             if let session = card.session {
                 navigator.openRecord(.session(id: session.id), besideList: opensRecordsBesideList)
@@ -109,30 +135,38 @@ struct JournalSubstanceSections: View {
     let model: JournalModel
 
     var body: some View {
-        ForEach(model.substanceGroups, id: \.name) { group in
-            let isCollapsed = model.collapsedSubstances.contains(group.name)
-            Section {
-                if !isCollapsed {
-                    ForEach(group.entries) { entry in
-                        JournalEntryRow(entry: entry, colorMap: model.colorMap)
-                    }
+        let model = model
+        ForEach(model.substanceGroups, id: \.name) { @Sendable group in
+            JournalSubstanceSection(name: group.name, entries: group.entries, model: model)
+        }
+    }
+}
+
+private nonisolated struct JournalSubstanceSection: View {
+    let name: String
+    let entries: [DoseEntry]
+    let model: JournalModel
+
+    @MainActor var body: some View {
+        let isCollapsed = model.collapsedSubstances.contains(name)
+        let colorMap = model.colorMap
+        Section {
+            if !isCollapsed {
+                ForEach(entries) { @Sendable entry in
+                    JournalEntryRow(entry: entry, colorMap: colorMap)
                 }
-            } header: {
-                Button {
-                    withAnimation(.snappy) { model.toggleCollapsed(substance: group.name) }
-                } label: {
-                    HStack(spacing: Spacing.md) {
-                        SubstanceGroupHeader(
-                            name: group.name,
-                            count: group.entries.count,
-                            colorMap: model.colorMap,
-                        )
-                        Spacer()
-                        SectionDisclosureChevron(isCollapsed: isCollapsed)
-                    }
-                }
-                .accessibilityValue(isCollapsed ? Text("Collapsed") : Text("Expanded"))
             }
+        } header: {
+            Button {
+                withAnimation(.snappy) { model.toggleCollapsed(substance: name) }
+            } label: {
+                HStack(spacing: Spacing.md) {
+                    SubstanceGroupHeader(name: name, count: entries.count, colorMap: colorMap)
+                    Spacer()
+                    SectionDisclosureChevron(isCollapsed: isCollapsed)
+                }
+            }
+            .accessibilityValue(isCollapsed ? Text("Collapsed") : Text("Expanded"))
         }
     }
 }
@@ -144,32 +178,44 @@ struct JournalCategorySections: View {
     let model: JournalModel
 
     var body: some View {
-        ForEach(model.categoryGroups, id: \.category) { group in
-            let isCollapsed = model.collapsedCategories.contains(group.category)
-            Section {
-                if !isCollapsed {
-                    ForEach(group.entries) { entry in
-                        JournalEntryRow(entry: entry, colorMap: model.colorMap)
-                    }
+        let model = model
+        ForEach(model.categoryGroups, id: \.category) { @Sendable group in
+            JournalCategorySection(category: group.category, entries: group.entries, model: model)
+        }
+    }
+}
+
+private nonisolated struct JournalCategorySection: View {
+    let category: SubstanceCategory
+    let entries: [DoseEntry]
+    let model: JournalModel
+
+    @MainActor var body: some View {
+        let isCollapsed = model.collapsedCategories.contains(category)
+        let colorMap = model.colorMap
+        Section {
+            if !isCollapsed {
+                ForEach(entries) { @Sendable entry in
+                    JournalEntryRow(entry: entry, colorMap: colorMap)
                 }
-            } header: {
-                Button {
-                    withAnimation(.snappy) { model.toggleCollapsed(category: group.category) }
-                } label: {
-                    HStack(spacing: Spacing.md) {
-                        Label {
-                            Text("\(String(localized: group.category.displayName)) (\(group.entries.count))")
-                        } icon: {
-                            Image(systemName: group.category.icon)
-                                .foregroundStyle(group.category.labelColor)
-                        }
-                        .sectionLabel()
-                        Spacer()
-                        SectionDisclosureChevron(isCollapsed: isCollapsed)
-                    }
-                }
-                .accessibilityValue(isCollapsed ? Text("Collapsed") : Text("Expanded"))
             }
+        } header: {
+            Button {
+                withAnimation(.snappy) { model.toggleCollapsed(category: category) }
+            } label: {
+                HStack(spacing: Spacing.md) {
+                    Label {
+                        Text("\(String(localized: category.displayName)) (\(entries.count))")
+                    } icon: {
+                        Image(systemName: category.icon)
+                            .foregroundStyle(category.labelColor)
+                    }
+                    .sectionLabel()
+                    Spacer()
+                    SectionDisclosureChevron(isCollapsed: isCollapsed)
+                }
+            }
+            .accessibilityValue(isCollapsed ? Text("Collapsed") : Text("Expanded"))
         }
     }
 }
@@ -190,7 +236,18 @@ private struct SectionDisclosureChevron: View {
 
 /// One dose entry as a tappable card row (chevron-free, pushes to detail).
 /// Shared by the substance- and category-keyed Grouped lists.
-private struct JournalEntryRow: View {
+private nonisolated struct JournalEntryRow: View {
+    let entry: DoseEntry
+    let colorMap: [String: Color]
+
+    @MainActor var body: some View {
+        JournalEntryButton(entry: entry, colorMap: colorMap)
+    }
+}
+
+/// The row's button, apart from ``JournalEntryRow`` because its environment
+/// reads are main-actor: the row itself is built off main.
+private struct JournalEntryButton: View {
     @Environment(\.appNavigator) private var navigator
     @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
 

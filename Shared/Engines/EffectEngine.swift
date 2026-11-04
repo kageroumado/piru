@@ -434,7 +434,11 @@ nonisolated enum EffectEngine {
             let overComp = relu(Cs - elev)
             let crashSoft = 1 / (1 + P.xiSoft * sTrace)
             let collapse = Dep * Dep * Dep / (Dep * Dep * Dep + P.depKnee * P.depKnee * P.depKnee)
-            let crashMag = P.wDep * (Dep + overComp + P.wAnx * anxRPE) * collapse * crashSoft / (1 + P.anxio * (Ogaba + 0.5 * Omu + O2A))
+            // GABA-A and 5-HT2A block divide the crash. µ-opioid drive stays out of
+            // the divisor: its warmth and liking already add to Feeling (contentV,
+            // Lk), and dividing as well let a long-acting opioid beside a stimulant
+            // erase the comedown entirely (amphetamine + kratom read as no crash).
+            let crashMag = P.wDep * (Dep + overComp + P.wAnx * anxRPE) * collapse * crashSoft / (1 + P.anxio * (Ogaba + O2A))
             let contentV = P.lambdaCont * relu(s - Csert) + P.opWarm * Omu
             let euV = (rewardPos + P.kEuCont * contentV + P.kLike * Lk) - crashMag
             let cortex = elevNE + P.wCortDA * elev

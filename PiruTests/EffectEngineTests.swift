@@ -21,6 +21,8 @@ struct EffectEngineTests {
         "bpap": .init(ke: LN2 / 5.0, ka: 1.5, refDoseMg: 1, releaser: false, cae: 1.1),
         "mirtaz": .init(ke: LN2 / 24.0, ka: 1.2, refDoseMg: 30, releaser: false, rec: .init(h1: 0.03, a2: 0.6, c2C: 0.6, c2A: 0.9)),
         "heroin": .init(ke: LN2 / 2.5, ka: 6.0, refDoseMg: 10, releaser: false, mu: 1.0, muEff: 0.97, resp: 1.4),
+        // Dosed in grams, like the JS table's `refUnit: 3`.
+        "kratom": .init(ke: LN2 / 4.0, ka: 1.5, refDoseMg: 3, wNET: 0.25, wSERT: 0.15, releaser: false, mu: 0.55, muEff: 0.5),
     ]
     private static let roa: [String: (Double, Double)] = ["oral": (1, 0), "snort": (3.5, 2.5), "smoke": (10, 6), "rectal": (3, 1.5)]
     private let params = EffectParams()
@@ -57,6 +59,17 @@ struct EffectEngineTests {
         #expect(isClose(peak(o.dangerCV), 1.71))
         #expect(peak(o.dangerResp) == 0)
         #expect(isClose(peak(o.liking), 0, 0.001)) // stimulant = wanting, not liking
+    }
+
+    @Test
+    func `Kratom beside amphetamine leaves the comedown in place`() throws {
+        let amp = try EffectAgent(params: #require(Self.drug["amp"]), doseMg: 30, at: [0, 3.5])
+        let kratom = try EffectAgent(params: #require(Self.drug["kratom"]), doseMg: 3, at: [0, 4])
+        let both = EffectEngine.simulate(params, agents: [amp, kratom], tMax: 14)
+        #expect(isClose(trough(both.eu), -0.21))
+        // Kratom alone has no crash for the divisor to act on.
+        let alone = EffectEngine.simulate(params, agents: [kratom], tMax: 14)
+        #expect(trough(alone.eu) >= 0)
     }
 
     @Test

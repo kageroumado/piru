@@ -163,4 +163,31 @@ struct TimelineCurveScaleTests {
         let landed = dose(daysIn: 0, magnitude: 1)
         #expect(TimelineStripBuilder.drawMinutes(for: landed) >= landed.totalMinutes)
     }
+
+    @Test
+    func `A dose drawn at a quarter of the lane ends where its width falls below the floor`() {
+        let state = dose(daysIn: 0, magnitude: 0.25)
+        let full = TimelineStripBuilder.drawMinutes(for: state)
+        let end = TimelineStripBuilder.visibleDrawMinutes(for: state, weight: 0.25, drawEnd: full)
+        #expect(end < full)
+        // The closed form ignores the crest dome, which only lowers the curve, so
+        // the cut lands at the floor or just under it.
+        let drawn = 0.25 * TimelineCurveModel.intensity(at: end, for: state)
+        #expect(drawn <= 0.02 && drawn > 0.015)
+    }
+
+    @Test
+    func `A dose drawn at the lane's edge ends where the curve lands on the axis`() {
+        let state = dose(daysIn: 0, magnitude: 1)
+        let full = TimelineStripBuilder.drawMinutes(for: state)
+        let end = TimelineStripBuilder.visibleDrawMinutes(for: state, weight: 1, drawEnd: full)
+        #expect(end <= full && full - end < 15)
+    }
+
+    @Test
+    func `A dose too small to clear the floor keeps its full end`() {
+        let state = dose(daysIn: 0, magnitude: 0.01)
+        let full = TimelineStripBuilder.drawMinutes(for: state)
+        #expect(TimelineStripBuilder.visibleDrawMinutes(for: state, weight: 0.01, drawEnd: full) == full)
+    }
 }

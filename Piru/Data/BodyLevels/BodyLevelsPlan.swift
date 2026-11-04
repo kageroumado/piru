@@ -100,9 +100,16 @@ extension BodyLevelsManager {
 
         /// Fold the sampler's per-series amounts back into a trail: normalize each
         /// series to its own peak, drop series that never rose above the floor,
-        /// and order by peak so the heaviest load leads the legend.
+        /// and order by doses logged in the window, so the substances logged most
+        /// lead the legend and are the lines the chart draws by default.
         @MainActor
         func assemble(values: [[Double]]) -> BodyLoadTrail {
+            var doseCounts = [Int](repeating: 0, count: meta.count)
+            if let start = dates.first {
+                for dose in doses where dose.timestamp >= start {
+                    doseCounts[dose.seriesIndex] += 1
+                }
+            }
             var series: [BodyLoadTrail.Series] = []
             for (index, meta) in meta.enumerated() {
                 guard index < values.count else { continue }
@@ -114,10 +121,12 @@ extension BodyLevelsManager {
                 }
                 series.append(BodyLoadTrail.Series(
                     id: index, displayName: meta.displayName,
-                    color: meta.color, unit: meta.unit, peak: peak, points: points,
+                    color: meta.color, unit: meta.unit, peak: peak, doseCount: doseCounts[index], points: points,
                 ))
             }
-            series.sort { $0.peak > $1.peak }
+            series.sort { lhs, rhs in
+                lhs.doseCount != rhs.doseCount ? lhs.doseCount > rhs.doseCount : lhs.peak > rhs.peak
+            }
             return BodyLoadTrail(dates: dates, series: series)
         }
 

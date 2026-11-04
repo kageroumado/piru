@@ -232,16 +232,23 @@ struct EffectEstimatesView: View {
             .listRowBackground(CardBackground())
 
         } header: {
-            HStack(spacing: Spacing.sm) {
-                Image(systemName: lens.symbol)
-                    .foregroundStyle(lens.color)
-                    .imageScale(.small)
-                    .accessibilityHidden(true)
-                Text(lens.label)
-                    .sectionLabel()
-                    .foregroundStyle(.primary)
-                    .textCase(nil)
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                HStack(spacing: Spacing.sm) {
+                    Image(systemName: lens.symbol)
+                        .foregroundStyle(lens.color)
+                        .imageScale(.small)
+                        .accessibilityHidden(true)
+                    Text(lens.label)
+                        .sectionLabel()
+                        .foregroundStyle(.primary)
+                }
+                if let caption = lens.caption {
+                    Text(caption)
+                        .captionSecondary()
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
+            .textCase(nil)
         }
     }
 
@@ -310,6 +317,7 @@ struct EffectModelExplainerView: View {
         List {
             Section("Feeling") {
                 Text("The model combines estimated stimulant, serotonin and opioid effects with an adaptation term. It uses changes in modeled dopamine activity to approximate the shape of the curve.")
+                Text("Above the baseline reads as pleasant, below it as a comedown. An opioid adds warmth of its own but does not cancel a stimulant's comedown.")
             }
             Section("Energy") {
                 Text("The model combines estimated activating and sedating effects over time.")

@@ -23,6 +23,10 @@ Not medical advice→No es consejo médico.
 """
 
 ES = {
+    "The %lld you logged most are drawn. Tap a name to add or remove its line.": "Se dibujan las %lld que más registraste. Toca un nombre para añadir o quitar su línea.",
+    "How pleasant it is likely to feel. Below the baseline is a comedown.": "Lo agradable que probablemente se sienta. Por debajo de la línea base es un bajón.",
+    "How activated or sedated. Below the baseline is sedation.": "Lo activado o sedado. Por debajo de la línea base es sedación.",
+    "Above the baseline reads as pleasant, below it as a comedown. An opioid adds warmth of its own but does not cancel a stimulant's comedown.": "Por encima de la línea base se lee como agradable; por debajo, como un bajón. Un opioide aporta su propia calidez, pero no anula el bajón de un estimulante.",
     "Left abdomen": "Abdomen, lado izquierdo",
     "Right abdomen": "Abdomen, lado derecho",
     "Left thigh": "Muslo izquierdo",

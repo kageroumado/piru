@@ -16,8 +16,15 @@ final class ModeledLevelsFilter {
     var selectedSubstances: Set<String> = []
     /// The category chip picked under the chart, `nil` for All.
     var selectedCategory: SubstanceCategory?
-    /// Display names hidden by tapping their legend chip.
-    var hidden: Set<String> = []
+    /// Lines toggled from the legend, by display name: `true` shown, `false`
+    /// hidden. A name absent here takes its default (``isHiddenByDefault``).
+    private(set) var toggled: [String: Bool] = [:]
+
+    /// Lines the chart draws before the legend starts the rest hidden. A month
+    /// of a varied journal is thirty-odd substances; drawn together they read
+    /// as a wall of color, so the substances logged most come first and the
+    /// rest wait one tap away.
+    static let defaultLineCount = 6
 
     /// Each series' category, by display name. Filled from the library when a
     /// trail arrives; a name missing here files under `.other`.
@@ -56,8 +63,38 @@ final class ModeledLevelsFilter {
     /// never zero the chart out.
     func chartSeries(_ series: [BodyLoadTrail.Series]) -> [BodyLoadTrail.Series] {
         let listed = legendSeries(series)
+        let hidden = hiddenNames(series)
         let shown = listed.filter { !hidden.contains($0.displayName) }
         return shown.isEmpty ? listed : shown
+    }
+
+    /// The legend's display names, one per substance, in trail order.
+    func legendNames(_ series: [BodyLoadTrail.Series]) -> [String] {
+        var seen: Set<String> = []
+        return legendSeries(series).map(\.displayName).filter { seen.insert($0).inserted }
+    }
+
+    /// The legend names whose lines are off the chart: each one's toggle, or
+    /// its default when it has none.
+    func hiddenNames(_ series: [BodyLoadTrail.Series]) -> Set<String> {
+        let names = legendNames(series)
+        return Set(names.enumerated().compactMap { index, name in
+            let shown = toggled[name] ?? !isHiddenByDefault(position: index)
+            return shown ? nil : name
+        })
+    }
+
+    /// Whether the legend's default leaves out the line at `position`: past the
+    /// first ``defaultLineCount``, unless the toolbar filter picked the
+    /// substances, in which case every pick is drawn.
+    func isHiddenByDefault(position: Int) -> Bool {
+        !isFiltering && position >= Self.defaultLineCount
+    }
+
+    /// Whether the default is leaving lines out of the chart, so the card can
+    /// say how to add them.
+    func defaultLeavesLinesOut(_ series: [BodyLoadTrail.Series]) -> Bool {
+        !isFiltering && legendNames(series).count > Self.defaultLineCount
     }
 
     /// The category chips for what the substance filter leaves, most series first.
@@ -102,19 +139,16 @@ final class ModeledLevelsFilter {
 
     // MARK: - Edits
 
-    func toggleHidden(_ displayName: String) {
-        if hidden.contains(displayName) {
-            hidden.remove(displayName)
-        } else {
-            hidden.insert(displayName)
-        }
+    /// Shows a hidden line or hides a shown one.
+    func toggleHidden(_ displayName: String, in series: [BodyLoadTrail.Series]) {
+        toggled[displayName] = hiddenNames(series).contains(displayName)
     }
 
     /// Picks a category chip, or clears it when it is already picked; either
-    /// way the legend starts over with every line shown.
+    /// way the legend starts over from its default lines.
     func selectCategory(_ category: SubstanceCategory?) {
         selectedCategory = selectedCategory == category ? nil : category
-        hidden.removeAll()
+        toggled.removeAll()
     }
 
     /// Drops a picked category the substance filter has since emptied, so the

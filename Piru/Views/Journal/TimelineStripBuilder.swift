@@ -28,7 +28,8 @@ struct TimelineStripBuilder {
     /// keeps its shape at the lane's edge instead of being clipped flat there.
     private let effectWeightsBySubstance: [String: [Double]]
     /// Effect mode: per substance, the minutes after each dose its curve is
-    /// drawn to (``drawMinutes(for:)``), parallel to ``statesBySubstance``.
+    /// drawn to (``visibleDrawMinutes(for:weight:drawEnd:)``), parallel to
+    /// ``statesBySubstance``.
     private let curveEndsBySubstance: [String: [Double]]
     /// Raw entries per substance (lowercased name, ascending) — the PK mode's
     /// input.
@@ -148,13 +149,21 @@ struct TimelineStripBuilder {
         }
         relativeWeightsBySubstance = relative
         let curveEnds = grouped.mapValues { $0.map(Self.drawMinutes(for:)) }
-        curveEndsBySubstance = curveEnds
-        effectWeightsBySubstance = style.pkMode ? [:] : Dictionary(uniqueKeysWithValues: grouped.map { key, substanceStates in
+        let effectWeights: [String: [Double]] = style.pkMode ? [:] : Dictionary(uniqueKeysWithValues: grouped.map { key, substanceStates in
             let base = relative[key] ?? substanceStates.map(\.doseIntensity)
             let ends = curveEnds[key] ?? substanceStates.map(Self.drawMinutes(for:))
             let divisors = Self.stackDivisors(states: substanceStates, weights: base, ends: ends)
             return (key, zip(base, divisors).map { $0 / $1 })
         })
+        effectWeightsBySubstance = effectWeights
+        let drawnEnds: [String: [Double]] = Dictionary(uniqueKeysWithValues: grouped.map { key, substanceStates in
+            let ends = curveEnds[key] ?? substanceStates.map(Self.drawMinutes(for:))
+            guard let weights = effectWeights[key] else { return (key, ends) }
+            return (key, substanceStates.indices.map { i in
+                Self.visibleDrawMinutes(for: substanceStates[i], weight: weights[i], drawEnd: ends[i])
+            })
+        })
+        curveEndsBySubstance = drawnEnds
         var bySubstance = Dictionary(grouping: entries) { $0.substance.lowercased() }
         for k in bySubstance.keys {
             bySubstance[k]?.sort { $0.timestamp < $1.timestamp }
@@ -216,7 +225,11 @@ struct TimelineStripBuilder {
         let currentTime = now
         let modeledCurves: [DateInterval] = style.pkMode
             ? TimelineActivity.pkActivityIntervals(entries: entries)
-            : states.map { DateInterval(start: $0.doseTimestamp, duration: max(0, Self.drawMinutes(for: $0) * 60)) }
+            : grouped.flatMap { key, substanceStates in
+                zip(substanceStates, drawnEnds[key] ?? []).map { state, end in
+                    DateInterval(start: state.doseTimestamp, duration: max(0, end * 60))
+                }
+            }
         let globalEnd = Self.stripEnd(
             now: currentTime,
             modeledCurves: modeledCurves,
@@ -1013,6 +1026,19 @@ struct TimelineStripBuilder {
         max(state.totalMinutes, TimelineCurveModel.curveExtent(for: state))
     }
 
+    /// ``drawMinutes(for:)`` cut short where the curve, drawn at `weight` of the
+    /// lane, falls below ``minimumVisibleIntensity`` of it. A dose drawn at a
+    /// quarter of the lane otherwise spends its last hours as a sliver a point
+    /// wide (20 mg of memantine would trail four hours of it), because the shape
+    /// lands on the axis relative to its own crest, not to the lane. A dose
+    /// that never clears the bar keeps its full end; the slice skips it anyway.
+    nonisolated static func visibleDrawMinutes(for state: ActiveSubstanceState, weight: Double, drawEnd: Double) -> Double {
+        guard weight > 0 else { return drawEnd }
+        let fraction = minimumVisibleIntensity / weight
+        guard fraction < 1 else { return drawEnd }
+        return min(drawEnd, TimelineCurveModel.fallMinutes(for: state, toFraction: fraction))
+    }
+
     /// Per-dose divisors that keep one substance's stacked curve within the
     /// lane, for `states` in ascending time order with their `weights` and
     /// drawn `ends` (minutes).
@@ -1123,7 +1149,7 @@ struct TimelineStripBuilder {
 
     /// A slice skips a substance whose stacked intensity never rises above
     /// this — the last sliver of a curve ending just past the slice's edge.
-    private static let minimumVisibleIntensity = 0.02
+    private nonisolated static let minimumVisibleIntensity = 0.02
 
     // MARK: Static helpers
 
