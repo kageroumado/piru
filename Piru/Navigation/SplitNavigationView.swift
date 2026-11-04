@@ -147,9 +147,15 @@ nonisolated struct SplitPaneGeometry: Equatable {
         #if os(iOS)
             /// The active vertical fold of a partly open device, which the list boundary follows.
             static func fold(in proxy: GeometryProxy) -> CGRect? {
-                guard #available(iOS 27.1, *) else { return nil }
-                return proxy.reservedRegions(kind: .division)
-                    .first { $0.isActive && $0.frame.height > $0.frame.width }?.frame
+                // Reserved regions exist only in the iOS 27.1 SDK; CI's older Xcode
+                // compiles this without them, and its split simply has no fold.
+                #if compiler(>=6.4)
+                    guard #available(iOS 27.1, *) else { return nil }
+                    return proxy.reservedRegions(kind: .division)
+                        .first { $0.isActive && $0.frame.height > $0.frame.width }?.frame
+                #else
+                    return nil
+                #endif
             }
         #endif
     }

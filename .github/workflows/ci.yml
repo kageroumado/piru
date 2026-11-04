@@ -271,6 +271,9 @@ jobs:
       - name: Build & test the app
         run: |
           set -o pipefail
+          # The tail keeps the log short; on failure the compiler errors it cut
+          # are printed from the full log.
           xcodebuild -scheme Piru \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-            test | tail -40
+            test 2>&1 | tee "$RUNNER_TEMP/xcodebuild.log" | tail -40 \
+            || { grep -E "(error|fatal error): " "$RUNNER_TEMP/xcodebuild.log" | sort -u | head -60; exit 1; }
