@@ -236,6 +236,13 @@ struct AreaMark: AndroidMark {
     init(x: PlottableValue<some Plottable>, y: PlottableValue<some Plottable>, series: PlottableValue<some Plottable>, stacking _: MarkStackingMethod = .standard) {
         mark = ChartMark(kind: .area, x: x.value.androidPlotted, y: y.value.androidPlotted, series: series.value.androidPlotted.seriesName)
     }
+
+    init<Y: Plottable>(x: PlottableValue<some Plottable>, yStart: PlottableValue<Y>, yEnd: PlottableValue<Y>, series: PlottableValue<some Plottable>) {
+        mark = ChartMark(
+            kind: .area, x: x.value.androidPlotted, yStart: yStart.value.androidPlotted, yEnd: yEnd.value.androidPlotted,
+            series: series.value.androidPlotted.seriesName,
+        )
+    }
 }
 
 struct RuleMark: AndroidMark {

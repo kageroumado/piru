@@ -1,0 +1,39 @@
+In Your Body names its lanes on Android: the Android chart draws no custom axis labels, so the names are a column beside the plot, and the numeric y axis is hidden
+
+diff --git a/Piru/Views/Insights/BodyLoadChart.swift b/Piru/Views/Insights/BodyLoadChart.swift
+index 77cc5145..22176051 100644
+--- a/Piru/Views/Insights/BodyLoadChart.swift
++++ b/Piru/Views/Insights/BodyLoadChart.swift
+@@ -64,6 +64,32 @@ struct BodyLoadChart: View {
+     var body: some View {
+         let floors = laneFloors
+         let names = laneNames
++        #if os(Android)
++            // The Android chart draws no custom axis labels, so the lane names are a
++            // column of their own, laid on the plot's rows: they start 4 pt down and
++            // end 26 pt above the bottom, where the x axis labels sit.
++            HStack(alignment: .top, spacing: Spacing.sm) {
++                VStack(alignment: .trailing, spacing: 0) {
++                    ForEach(names, id: \.self) { name in
++                        Text(name)
++                            .font(.caption2)
++                            .foregroundStyle(Theme.secondaryLabel)
++                            .lineLimit(1)
++                            .frame(maxWidth: 88, maxHeight: .infinity, alignment: .trailing)
++                    }
++                }
++                .padding(.top, 4)
++                .padding(.bottom, 26)
++                .frame(height: CGFloat(names.count) * Self.laneHeight + Self.axisHeight)
++                chart(floors: floors, names: names)
++                    .chartYAxis(.hidden)
++            }
++        #else
++            chart(floors: floors, names: names)
++        #endif
++    }
++
++    private func chart(floors: [String: Double], names: [String]) -> some View {
+         Chart {
+             ForEach(series) { item in
+                 let floor = floors[item.displayName] ?? 0
