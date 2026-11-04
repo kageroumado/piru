@@ -15,8 +15,8 @@ struct InYourBodyView: View {
 
     @State private var manager = BodyLevelsManager.shared
     @State private var range: UsageTimeRange = .thirtyDays
-    /// The chart's substance/category/legend narrowing. Held for the session
-    /// only, like the Usage screen's substance filter it mirrors.
+    /// Which lanes the chart draws. Held for the session only, like the Usage
+    /// screen's substance filter it mirrors.
     @State private var filter = ModeledLevelsFilter()
     @State private var showingSubstanceSheet = false
 
@@ -67,6 +67,7 @@ struct InYourBodyView: View {
             SubstanceFilterSheet(
                 substances: filter.substanceRefs(manager.trail?.series ?? []),
                 selection: $filter.selectedSubstances,
+                defaultSelection: filter.defaultNames(manager.trail?.series ?? []),
             )
         }
         .task(id: refreshToken) {

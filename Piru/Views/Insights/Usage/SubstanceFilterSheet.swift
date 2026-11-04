@@ -4,13 +4,18 @@ import SwiftUI
 /// and grouped by category with a per-category select-all, so it scales to a large
 /// log — the inline menu became unusable past a handful of substances.
 ///
-/// Writes back to `selection`, where an **empty set — or every substance chosen —
-/// both mean "all" (no filter)**. That keeps the filter's two ends collapsed onto
-/// one canonical state, so the toolbar only reads as filtered for a real subset,
-/// and there is no separate "show nothing" trap.
+/// Writes back to `selection`, where an **empty set — or exactly the default
+/// substances chosen — both mean "the default" (no filter)**. The default is every
+/// substance unless `defaultSelection` names a subset. That keeps the filter's
+/// ends collapsed onto one canonical state, so the toolbar only reads as filtered
+/// for a real pick, and there is no separate "show nothing" trap.
 struct SubstanceFilterSheet: View {
     let substances: [UsageSubstanceRef]
     @Binding var selection: Set<String>
+    /// What an empty `selection` stands for when it is not every substance: In Your
+    /// Body draws the six logged most until the person picks. Choosing every
+    /// substance is then a real pick, stored as such.
+    var defaultSelection: Set<String>?
 
     @Environment(\.dismiss) private var dismiss
     @State private var query = ""
@@ -84,7 +89,7 @@ struct SubstanceFilterSheet: View {
             }
         }
         .presentationDetents([.medium, .large])
-        .onAppear { shown = selection.isEmpty ? allNames : selection }
+        .onAppear { shown = selection.isEmpty ? defaultNames : selection }
         .onChange(of: shown) { applyToBinding() }
     }
 
@@ -128,9 +133,14 @@ struct SubstanceFilterSheet: View {
         }
     }
 
-    /// Both ends — nothing checked or everything checked — collapse to the empty
-    /// "all substances" state; only a genuine subset is stored as a filter.
+    /// What the empty selection shows as checked.
+    private var defaultNames: Set<String> {
+        defaultSelection ?? allNames
+    }
+
+    /// Nothing checked, or exactly the default checked, collapses to the empty
+    /// "default" state; any other pick is stored as a filter.
     private func applyToBinding() {
-        selection = (shown.isEmpty || shown.count == substances.count) ? [] : shown
+        selection = (shown.isEmpty || shown == defaultNames) ? [] : shown
     }
 }

@@ -23,6 +23,8 @@ Not medical advice→No es consejo médico.
 """
 
 ES = {
+    "Times since last dose": "Tiempos desde la última dosis",
+    "Each row as a share of its own peak": "Cada fila como proporción de su propio pico",
     "The %lld you logged most are drawn. Tap a name to add or remove its line.": "Se dibujan las %lld que más registraste. Toca un nombre para añadir o quitar su línea.",
     "How pleasant it is likely to feel. Below the baseline is a comedown.": "Lo agradable que probablemente se sienta. Por debajo de la línea base es un bajón.",
     "How activated or sedated. Below the baseline is sedation.": "Lo activado o sedado. Por debajo de la línea base es sedación.",

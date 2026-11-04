@@ -3,9 +3,9 @@ import SwiftUI
 // MARK: - Entry card (session detail → Effect Estimates)
 
 /// The gateway card shown between the Timeline and the dose list when the engine
-/// can model a session. A small live preview + a one-line caveat that pushes to
-/// the full ``EffectEstimatesView`` — so the timeline stays uncluttered and all
-/// the methodology/disclaimer copy has room to live on its own screen.
+/// can model a session: a small live preview and the title, pushing to the full
+/// ``EffectEstimatesView``, so the timeline stays uncluttered and all the
+/// methodology/disclaimer copy has room to live on its own screen.
 struct EffectEstimatesCard: View {
     let result: MechanisticSessionModel.Result
     let startDate: Date
@@ -30,15 +30,8 @@ struct EffectEstimatesCard: View {
                 HStack(spacing: Spacing.xl) {
                     EffectThumbnail(result: result)
                         .frame(width: 54, height: 44)
-                    VStack(alignment: .leading, spacing: 3) {
-                        HStack(spacing: Spacing.sm) {
-                            Text("Effect Estimates")
-                                .cardTitle()
-                            EstimationTag()
-                        }
-                        Text("Feeling and energy estimated from this session")
-                            .captionSecondary()
-                    }
+                    Text("Effect Estimates")
+                        .cardTitle()
                 }
                 .padding(.vertical, Spacing.xxs)
             }

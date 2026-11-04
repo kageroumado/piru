@@ -3,9 +3,9 @@ import SwiftUI
 import Testing
 @testable import Piru
 
-/// The Modeled Levels chart's narrowing: the toolbar substance filter, the
-/// category chips and the legend's hide toggles, plus the series markers that
-/// keep a line's dash and symbol stable under all three.
+/// Which lanes the Modeled Levels chart draws: the six logged most by default,
+/// or the toolbar's pick, plus the series markers that keep a lane's dash and
+/// symbol stable whatever is picked.
 @MainActor
 @Suite("ModeledLevelsFilter")
 struct ModeledLevelsFilterTests {
@@ -17,15 +17,8 @@ struct ModeledLevelsFilterTests {
         [series(0, "Caffeine"), series(1, "LSD"), series(2, "Methylphenidate"), series(3, "Lorazepam")]
     }
 
-    private func filter() -> ModeledLevelsFilter {
-        let filter = ModeledLevelsFilter()
-        filter.setCategories([
-            "Caffeine": .stimulant,
-            "LSD": .psychedelic,
-            "Methylphenidate": .stimulant,
-            "Lorazepam": .benzodiazepine,
-        ])
-        return filter
+    private var longTrail: [BodyLoadTrail.Series] {
+        (0 ..< 9).map { series($0, "S\($0)") }
     }
 
     private func names(_ series: [BodyLoadTrail.Series]) -> [String] {
@@ -33,112 +26,43 @@ struct ModeledLevelsFilterTests {
     }
 
     @Test
-    func `An empty substance selection shows every series`() {
-        let filter = filter()
+    func `A short trail draws every lane`() {
+        let filter = ModeledLevelsFilter()
         #expect(!filter.isFiltering)
         #expect(names(filter.chartSeries(trail)) == names(trail))
     }
 
     @Test
-    func `A substance selection narrows the chart, the legend and the chips`() {
-        let filter = filter()
-        filter.selectedSubstances = ["Caffeine", "Lorazepam"]
-        #expect(filter.isFiltering)
-        #expect(names(filter.chartSeries(trail)) == ["Caffeine", "Lorazepam"])
-        #expect(names(filter.legendSeries(trail)) == ["Caffeine", "Lorazepam"])
-        #expect(Set(filter.categoryCounts(trail).map(\.category)) == [.stimulant, .benzodiazepine])
-    }
-
-    @Test
-    func `A category chip narrows within the substance selection`() {
-        let filter = filter()
-        filter.selectCategory(.stimulant)
-        #expect(names(filter.legendSeries(trail)) == ["Caffeine", "Methylphenidate"])
-        filter.selectedSubstances = ["Methylphenidate", "LSD"]
-        #expect(names(filter.legendSeries(trail)) == ["Methylphenidate"])
-    }
-
-    @Test
-    func `Picking the selected chip again clears it and shows every line`() {
-        let filter = filter()
-        filter.selectCategory(.stimulant)
-        filter.toggleHidden("Caffeine", in: trail)
-        filter.selectCategory(.stimulant)
-        #expect(filter.selectedCategory == nil)
-        #expect(filter.toggled.isEmpty)
-    }
-
-    @Test
-    func `Hidden lines leave the chart but stay in the legend`() {
-        let filter = filter()
-        filter.toggleHidden("LSD", in: trail)
-        #expect(!names(filter.chartSeries(trail)).contains("LSD"))
-        #expect(names(filter.legendSeries(trail)).contains("LSD"))
-        filter.toggleHidden("LSD", in: trail)
-        #expect(names(filter.chartSeries(trail)).contains("LSD"))
-    }
-
-    @Test
-    func `Hiding every line falls back to showing them all`() {
-        let filter = filter()
-        filter.selectedSubstances = ["LSD"]
-        filter.toggleHidden("LSD", in: trail)
-        #expect(names(filter.chartSeries(trail)) == ["LSD"])
-    }
-
-    private var longTrail: [BodyLoadTrail.Series] {
-        (0 ..< 9).map { series($0, "S\($0)") }
-    }
-
-    @Test
-    func `A long trail draws its first six lines and lists the rest hidden`() {
+    func `A long trail draws its first six lanes`() {
         let filter = ModeledLevelsFilter()
         #expect(names(filter.chartSeries(longTrail)) == ["S0", "S1", "S2", "S3", "S4", "S5"])
-        #expect(filter.legendNames(longTrail).count == 9)
-        #expect(filter.hiddenNames(longTrail) == ["S6", "S7", "S8"])
-        #expect(filter.defaultLeavesLinesOut(longTrail))
-        #expect(!filter.defaultLeavesLinesOut(trail))
+        #expect(filter.defaultNames(longTrail) == ["S0", "S1", "S2", "S3", "S4", "S5"])
     }
 
     @Test
-    func `Tapping a default-hidden name draws it, and a drawn one hides`() {
+    func `A substance drawn in two unit families counts as one lane`() {
+        let doubled = [series(0, "S0"), series(1, "S0")] + (1 ..< 9).map { series($0 + 1, "S\($0)") }
         let filter = ModeledLevelsFilter()
-        filter.toggleHidden("S7", in: longTrail)
-        #expect(names(filter.chartSeries(longTrail)).contains("S7"))
-        filter.toggleHidden("S0", in: longTrail)
-        #expect(!names(filter.chartSeries(longTrail)).contains("S0"))
-        filter.toggleHidden("S7", in: longTrail)
-        #expect(!names(filter.chartSeries(longTrail)).contains("S7"))
+        #expect(filter.defaultNames(doubled).count == 6)
+        #expect(filter.chartSeries(doubled).count == 7)
     }
 
     @Test
-    func `Substances picked in the toolbar are all drawn`() {
+    func `A toolbar pick replaces the default lanes`() {
         let filter = ModeledLevelsFilter()
-        filter.selectedSubstances = Set(longTrail.map(\.displayName))
+        filter.selectedSubstances = ["S7", "S1"]
+        #expect(filter.isFiltering)
+        #expect(names(filter.chartSeries(longTrail)) == ["S1", "S7"])
+        filter.selectedSubstances = Set(names(longTrail))
         #expect(filter.chartSeries(longTrail).count == 9)
-        #expect(!filter.defaultLeavesLinesOut(longTrail))
-    }
-
-    @Test
-    func `A category the substance filter empties is dropped`() {
-        let filter = filter()
-        filter.selectCategory(.psychedelic)
-        filter.selectedSubstances = ["Caffeine"]
-        filter.reconcile(with: trail)
-        #expect(filter.selectedCategory == nil)
-    }
-
-    @Test
-    func `Category counts put the largest category first`() {
-        let counts = filter().categoryCounts(trail)
-        #expect(counts.first?.category == .stimulant)
-        #expect(counts.first?.count == 2)
     }
 
     @Test
     func `Sheet rows are one per substance, keyed by display name`() {
+        let filter = ModeledLevelsFilter()
+        filter.setCategories(["Caffeine": .stimulant, "LSD": .psychedelic])
         let doubled = trail + [series(4, "Caffeine")]
-        let refs = filter().substanceRefs(doubled)
+        let refs = filter.substanceRefs(doubled)
         #expect(refs.map(\.name) == ["Caffeine", "LSD", "Methylphenidate", "Lorazepam"])
         #expect(refs.map(\.displayName) == refs.map(\.name))
         let stimulant = SubstanceCategory.allCases.firstIndex(of: .stimulant)
@@ -146,11 +70,10 @@ struct ModeledLevelsFilterTests {
     }
 
     @Test
-    func `Markers follow trail order and ignore filtering`() {
-        let filter = filter()
+    func `Markers follow trail order and ignore the pick`() {
+        let filter = ModeledLevelsFilter()
         let before = filter.markers(trail)
         filter.selectedSubstances = ["Lorazepam"]
-        filter.toggleHidden("Caffeine", in: trail)
         #expect(filter.markers(trail) == before)
         #expect(Set(before.values).count == trail.count)
         #expect(before["Caffeine"] == ChartSeriesMarker(index: 0))

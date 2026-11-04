@@ -15202,6 +15202,7 @@
       }
     },
     "All of these have passed. Times are measured from your latest dose." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -34090,6 +34091,7 @@
       }
     },
     "Each line as a share of its own peak" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -34113,6 +34115,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每條線按自身峰值的比例顯示"
+          }
+        }
+      }
+    },
+    "Each row as a share of its own peak" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada fila como proporción de su propio pico"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada fila como proporción de su propio pico"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每行按自身峰值的比例显示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每行按自身峰值的比例顯示"
           }
         }
       }
@@ -40015,6 +40046,7 @@
       }
     },
     "Feeling and energy estimated from this session" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -49644,6 +49676,9 @@
           }
         }
       }
+    },
+    "Lane" : {
+
     },
     "Largest Dose Ever" : {
       "localizations" : {
@@ -89032,6 +89067,7 @@
       }
     },
     "The %lld you logged most are drawn. Tap a name to add or remove its line." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -92307,6 +92343,7 @@
       }
     },
     "Times are measured from your latest dose, so logging another moves them." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -92330,6 +92367,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "時間是從你最近一次劑量算起的，所以再記錄一次就會把它們往後推。"
+          }
+        }
+      }
+    },
+    "Times since last dose" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiempos desde la última dosis"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiempos desde la última dosis"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距上次剂量的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距上次劑量的時間"
           }
         }
       }

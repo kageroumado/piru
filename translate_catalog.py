@@ -14,6 +14,8 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    "Times since last dose": ("距上次剂量的时间", "距上次劑量的時間"),
+    "Each row as a share of its own peak": ("每行按自身峰值的比例显示", "每行按自身峰值的比例顯示"),
     "The %lld you logged most are drawn. Tap a name to add or remove its line.": (
         "已绘制你记录最多的 %lld 种。点按名称可添加或移除其曲线。",
         "已繪製你記錄最多的 %lld 種。點按名稱可加入或移除其曲線。",
@@ -8012,6 +8014,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Times since last dose",
+        "Each row as a share of its own peak",
         "The %lld you logged most are drawn. Tap a name to add or remove its line.",
         "How pleasant it is likely to feel. Below the baseline is a comedown.",
         "How activated or sedated. Below the baseline is sedation.",

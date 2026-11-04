@@ -1,36 +1,30 @@
 import SwiftUI
 
-/// What the Modeled Levels chart shows out of a body-load trail: the substance
-/// filter from the toolbar (the same ``SubstanceFilterSheet`` the Usage screen
-/// uses), the category chips under the chart, and the lines hidden from the
-/// legend. Each narrows the one before it.
+/// Which lanes the Modeled Levels chart draws out of a body-load trail: the
+/// substances picked in the toolbar's ``SubstanceFilterSheet``, or with no pick
+/// the ``defaultLineCount`` logged most.
 ///
 /// Substances are keyed by display name, the name the trail's series carry; a
 /// substance drawn as two series (one per unit family) filters as one.
 @Observable
 @MainActor
 final class ModeledLevelsFilter {
-    /// Display names to include; empty means every substance. Edited in
-    /// ``SubstanceFilterSheet``, which collapses "every substance chosen" back
-    /// to empty.
+    /// Display names to draw; empty means the default lanes. Edited in
+    /// ``SubstanceFilterSheet``, which collapses a pick of exactly the default
+    /// lanes back to empty.
     var selectedSubstances: Set<String> = []
-    /// The category chip picked under the chart, `nil` for All.
-    var selectedCategory: SubstanceCategory?
-    /// Lines toggled from the legend, by display name: `true` shown, `false`
-    /// hidden. A name absent here takes its default (``isHiddenByDefault``).
-    private(set) var toggled: [String: Bool] = [:]
 
-    /// Lines the chart draws before the legend starts the rest hidden. A month
-    /// of a varied journal is thirty-odd substances; drawn together they read
-    /// as a wall of color, so the substances logged most come first and the
-    /// rest wait one tap away.
-    static let defaultLineCount = 6
-
-    /// Each series' category, by display name. Filled from the library when a
-    /// trail arrives; a name missing here files under `.other`.
+    /// Each series' category, by display name, for grouping the sheet's rows.
+    /// Filled from the library when a trail arrives; a name missing here files
+    /// under `.other`.
     private(set) var categories: [String: SubstanceCategory] = [:]
 
-    /// Whether the toolbar substance filter narrows the chart.
+    /// Lanes drawn with no pick. A month of a varied journal is thirty-odd
+    /// substances, so the ones logged most come first and the rest wait in the
+    /// toolbar's sheet.
+    static let defaultLineCount = 6
+
+    /// Whether the toolbar pick replaces the default lanes.
     var isFiltering: Bool {
         !selectedSubstances.isEmpty
     }
@@ -43,71 +37,21 @@ final class ModeledLevelsFilter {
         categories[series.displayName] ?? .other
     }
 
-    // MARK: - Narrowing
-
-    /// The trail's series that pass the toolbar substance filter.
-    func substanceFiltered(_ series: [BodyLoadTrail.Series]) -> [BodyLoadTrail.Series] {
-        guard isFiltering else { return series }
-        return series.filter { selectedSubstances.contains($0.displayName) }
+    /// The display names drawn with no pick: the first ``defaultLineCount`` in
+    /// trail order, which leads with the substances logged most.
+    func defaultNames(_ series: [BodyLoadTrail.Series]) -> Set<String> {
+        var seen: [String] = []
+        for item in series where !seen.contains(item.displayName) {
+            seen.append(item.displayName)
+            if seen.count == Self.defaultLineCount { break }
+        }
+        return Set(seen)
     }
 
-    /// The series the legend lists: the substance filter, then the category chip.
-    func legendSeries(_ series: [BodyLoadTrail.Series]) -> [BodyLoadTrail.Series] {
-        let narrowed = substanceFiltered(series)
-        guard let selectedCategory else { return narrowed }
-        return narrowed.filter { category(of: $0) == selectedCategory }
-    }
-
-    /// The series the chart draws: the legend's, less the hidden ones. Hiding
-    /// every line would leave an empty plot with no way back, so the legend can
-    /// never zero the chart out.
+    /// The series the chart draws: the toolbar pick, else the default lanes.
     func chartSeries(_ series: [BodyLoadTrail.Series]) -> [BodyLoadTrail.Series] {
-        let listed = legendSeries(series)
-        let hidden = hiddenNames(series)
-        let shown = listed.filter { !hidden.contains($0.displayName) }
-        return shown.isEmpty ? listed : shown
-    }
-
-    /// The legend's display names, one per substance, in trail order.
-    func legendNames(_ series: [BodyLoadTrail.Series]) -> [String] {
-        var seen: Set<String> = []
-        return legendSeries(series).map(\.displayName).filter { seen.insert($0).inserted }
-    }
-
-    /// The legend names whose lines are off the chart: each one's toggle, or
-    /// its default when it has none.
-    func hiddenNames(_ series: [BodyLoadTrail.Series]) -> Set<String> {
-        let names = legendNames(series)
-        return Set(names.enumerated().compactMap { index, name in
-            let shown = toggled[name] ?? !isHiddenByDefault(position: index)
-            return shown ? nil : name
-        })
-    }
-
-    /// Whether the legend's default leaves out the line at `position`: past the
-    /// first ``defaultLineCount``, unless the toolbar filter picked the
-    /// substances, in which case every pick is drawn.
-    func isHiddenByDefault(position: Int) -> Bool {
-        !isFiltering && position >= Self.defaultLineCount
-    }
-
-    /// Whether the default is leaving lines out of the chart, so the card can
-    /// say how to add them.
-    func defaultLeavesLinesOut(_ series: [BodyLoadTrail.Series]) -> Bool {
-        !isFiltering && legendNames(series).count > Self.defaultLineCount
-    }
-
-    /// The category chips for what the substance filter leaves, most series first.
-    func categoryCounts(_ series: [BodyLoadTrail.Series]) -> [(category: SubstanceCategory, count: Int)] {
-        var counts: [SubstanceCategory: Int] = [:]
-        for item in substanceFiltered(series) {
-            counts[category(of: item), default: 0] += 1
-        }
-        let sorted = counts.sorted { lhs, rhs in
-            if lhs.value != rhs.value { return lhs.value > rhs.value }
-            return String(localized: lhs.key.displayName) < String(localized: rhs.key.displayName)
-        }
-        return sorted.map { (category: $0.key, count: $0.value) }
+        let names = isFiltering ? selectedSubstances : defaultNames(series)
+        return series.filter { names.contains($0.displayName) }
     }
 
     /// One row per substance for ``SubstanceFilterSheet``, in trail order.
@@ -128,36 +72,12 @@ final class ModeledLevelsFilter {
     }
 
     /// A marker per display name from its position in the whole trail, so a
-    /// line keeps its dash and symbol while others are filtered or hidden.
+    /// lane keeps its dash and symbol while others are picked or dropped.
     func markers(_ series: [BodyLoadTrail.Series]) -> [String: ChartSeriesMarker] {
         var markers: [String: ChartSeriesMarker] = [:]
         for item in series where markers[item.displayName] == nil {
             markers[item.displayName] = ChartSeriesMarker(index: markers.count)
         }
         return markers
-    }
-
-    // MARK: - Edits
-
-    /// Shows a hidden line or hides a shown one.
-    func toggleHidden(_ displayName: String, in series: [BodyLoadTrail.Series]) {
-        toggled[displayName] = hiddenNames(series).contains(displayName)
-    }
-
-    /// Picks a category chip, or clears it when it is already picked; either
-    /// way the legend starts over from its default lines.
-    func selectCategory(_ category: SubstanceCategory?) {
-        selectedCategory = selectedCategory == category ? nil : category
-        toggled.removeAll()
-    }
-
-    /// Drops a picked category the substance filter has since emptied, so the
-    /// chips never point at a category with nothing in it.
-    func reconcile(with trail: [BodyLoadTrail.Series]) {
-        guard let picked = selectedCategory else { return }
-        let remaining = categoryCounts(trail).map(\.category)
-        if !remaining.contains(picked) {
-            selectedCategory = nil
-        }
     }
 }

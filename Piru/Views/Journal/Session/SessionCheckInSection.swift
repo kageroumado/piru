@@ -54,14 +54,9 @@ struct SessionCheckInSection: View {
                 }
             }
         } header: {
-            HStack {
-                Text("Check-ins")
-                Spacer()
-                if let cadence {
-                    Text(cadence.title)
-                        .textCase(nil)
-                }
-            }
+            // No cadence name beside the title: the rows already list the times,
+            // and the menu's "Custom…" reads as a button here.
+            Text("Check-ins")
         } footer: {
             Text(footer)
         }
@@ -76,10 +71,8 @@ struct SessionCheckInSection: View {
             "Check-in notifications are off in Settings, so none of these will arrive."
         } else if plan.isEmpty {
             "No times on this schedule yet."
-        } else if upcoming.isEmpty {
-            "All of these have passed. Times are measured from your latest dose."
         } else {
-            "Times are measured from your latest dose, so logging another moves them."
+            "Times since last dose"
         }
     }
 }
