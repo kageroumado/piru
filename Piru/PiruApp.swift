@@ -39,6 +39,9 @@ struct PiruApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
+        // Settings ▸ Language, before anything looks up a string.
+        AppLanguageModel.applyAtLaunch()
+
         // Release every GRDB lock when the app is backgrounded, before the first
         // connection opens (the store probe in `openStore` is one): a lock held
         // into suspension is a 0xdead10cc kill. See DatabaseSuspension.
@@ -62,6 +65,7 @@ struct PiruApp: App {
         // The Log Dose action saves with no view hierarchy; App Intents launch
         // the app before performing, so this is set before any `perform()`.
         DoseIntentLogger.modelContainer = container
+        AppLanguageModel.shared.modelContainer = container
 
         // Reads what this person owns and starts listening for purchases that
         // land outside a purchase call (Ask to Buy, refunds, another device).

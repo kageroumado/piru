@@ -55,6 +55,8 @@ struct InventoryProvider: TimelineProvider {
     }
 
     func getTimeline(in _: Context, completion: @escaping (Timeline<InventoryEntry>) -> Void) {
+        // The app may have switched language since this process started.
+        AppLanguageRuntime.applyMirroredChoice()
         // Stock only changes from in-app actions, which reload the timeline; a
         // daily fallback refresh keeps a long-idle widget from going stale.
         let nextUpdate = Calendar.current.date(byAdding: .hour, value: 12, to: .now)!

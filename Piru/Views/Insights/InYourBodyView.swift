@@ -165,7 +165,7 @@ struct InYourBodyView: View {
                         .frame(width: 10, height: 10)
 
                     VStack(alignment: .leading, spacing: Spacing.xxs) {
-                        Text(active.name)
+                        Text(CustomSubstanceStore.shared.displayName(for: active.name))
                             .sectionLabel()
                             .foregroundStyle(.primary)
                         Text(timeAgoText(active.doses.first?.timestamp))

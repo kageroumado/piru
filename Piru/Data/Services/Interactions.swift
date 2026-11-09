@@ -781,6 +781,11 @@ enum InteractionChecker {
         initialState: nil,
     )
 
+    /// Drop the rule table, whose sentences are localized, after a language switch.
+    static func invalidateRuleCopy() {
+        ruleLookupCache.withLock { $0 = nil }
+    }
+
     /// Every `interaction_rules` row, keyed by its sorted class pair for O(1)
     /// lookup. A pair Piru has adjudicated shows its localized sentence; the rest
     /// show the row's own note, which is TripSit's prose in English.

@@ -149,7 +149,7 @@ private struct InSystemPreview: View {
             } else {
                 VStack(spacing: Spacing.sm) {
                     ForEach(active.prefix(3)) { sub in
-                        GlanceRow(dotColor: sub.color, title: Text(sub.name)) {
+                        GlanceRow(dotColor: sub.color, title: Text(CustomSubstanceStore.shared.displayName(for: sub.name))) {
                             Text("\(Int((1 - sub.eliminatedFraction) * 100))%")
                                 .captionSecondary()
                                 .monospacedDigit()

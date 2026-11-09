@@ -47,12 +47,20 @@ nonisolated enum ContentLanguage: String {
         }
     }
 
-    /// Derive from the app's preferred localization (follows a per-app language
-    /// override, not just the device language). Computed once per process —
-    /// `preferredLocalizations` allocates on every call, this sat on the
-    /// per-row render path, and iOS relaunches the app when its language
-    /// changes, so the value cannot go stale.
-    static let current = ContentLanguage(localization: Bundle.main.preferredLocalizations.first ?? "en")
+    /// The content language of the language the app runs in (``AppLanguageRuntime``,
+    /// which follows Settings ▸ Language and iOS's per-app language). Held rather
+    /// than derived per read: this sits on the per-row render path, and
+    /// ``refresh()`` updates it when the language changes in the running app.
+    static var current: ContentLanguage {
+        held.withLock { $0 }
+    }
+
+    private static let held = OSAllocatedUnfairLock(initialState: ContentLanguage(localization: AppLanguageRuntime.localization))
+
+    /// Re-read the language in effect. Called after ``AppLanguageRuntime/apply(_:)``.
+    static func refresh() {
+        held.withLock { $0 = ContentLanguage(localization: AppLanguageRuntime.localization) }
+    }
 
     /// Map a localization identifier ("es-419", "zh-HK", "Base") to a content
     /// language; anything unrecognized is English.
@@ -265,7 +273,7 @@ struct SubstanceReadModel {
     /// The app's effective UI language, normalized to a content-language tag
     /// ('zh-Hans' | 'zh-Hant' | 'en'). Drives locale-first text resolution so a
     /// Chinese source (FreeOD Wiki) wins for descriptions/effects when the app
-    /// runs in Chinese. Reads `preferredLocalizations` so it follows the app's
+    /// runs in Chinese. Reads ``ContentLanguage/current`` so it follows the app's
     /// per-app language override, not just the device language.
     nonisolated static var contentLanguage: ContentLanguage {
         .current

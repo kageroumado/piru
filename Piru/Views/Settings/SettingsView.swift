@@ -6,6 +6,7 @@ struct SettingsView: View {
     var body: some View {
         List {
             Group {
+                LanguageSection()
                 DetailLevelSection()
                 if LocalizedSubstanceName.isAvailable {
                     SubstanceNamesSection()
@@ -33,10 +34,42 @@ struct SettingsView: View {
     }
 }
 
+// MARK: - Language
+
+/// The app's language, switched in place. Each language is named in itself so it
+/// can be found from any other; System follows iOS.
+private struct LanguageSection: View {
+    @State private var language = AppLanguageModel.shared
+
+    var body: some View {
+        Section {
+            Picker(selection: choiceBinding) {
+                ForEach(AppLanguage.allCases) { choice in
+                    if let name = choice.nativeName {
+                        Text(verbatim: name).tag(choice)
+                    } else {
+                        Text("System").tag(choice)
+                    }
+                }
+            } label: {
+                Label("Language", systemImage: "globe")
+            }
+        } footer: {
+            Text("System uses your device’s language. Widgets switch at their next refresh.")
+        }
+    }
+
+    private var choiceBinding: Binding<AppLanguage> {
+        Binding(
+            get: { language.choice },
+            set: { language.select($0) },
+        )
+    }
+}
+
 // MARK: - Detail level
 
-/// The one setting that lives on this page: a title and a picker, with what it
-/// governs in the footer.
+/// A title and a picker, with what it governs in the footer.
 private struct DetailLevelSection: View {
     @State private var profileStore = UserProfileStore.shared
 

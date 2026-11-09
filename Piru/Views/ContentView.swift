@@ -15,6 +15,10 @@ struct ContentView: View {
     /// tree to redraw them. Navigation state lives in `AppNavigator` and the
     /// sheet stack is presented above this view, so nothing the user was on is lost.
     @AppStorage(LocalizedSubstanceName.englishNamesKey) private var englishSubstanceNames = false
+    /// Settings ▸ Language rebuilds the tab tree the same way, so every string
+    /// computed in a body is read again in the new language; the locale reaches
+    /// the sheets above it through the environment.
+    @State private var language = AppLanguageModel.shared
 
     /// A thin root. `MainTabView` owns its own search state and takes no inputs,
     /// so SwiftUI skips re-evaluating it whenever this body re-runs (a scene-phase
@@ -24,13 +28,14 @@ struct ContentView: View {
     /// out of the tab tree.
     var body: some View {
         rootNavigation
-            .id(englishSubstanceNames)
+            .id(RootIdentity(englishSubstanceNames: englishSubstanceNames, localization: language.localization))
             .sheetStackPresenter(navigator)
             .dismissesKeyboardOnTap()
             .modifier(OnboardingGateModifier())
             .modifier(LaunchSheetModifier())
             .modifier(StoreDiagnosticsModifier())
             .onOpenURL { handleDeepLink($0) }
+            .environment(\.locale, language.locale)
         #if DEBUG
             // `-piruRoute <piru://url>` lands on a screen at launch, for
             // simulator screenshots: `simctl openurl` is blocked by the
@@ -801,4 +806,11 @@ struct SessionAccessoryInfo: View {
 private struct DiagnosticsFile: Identifiable {
     let id = UUID()
     let url: URL
+}
+
+/// What the tab tree is rebuilt on: the inputs a substance title or a looked-up
+/// string reads outside SwiftUI's dependency tracking.
+private struct RootIdentity: Hashable {
+    let englishSubstanceNames: Bool
+    let localization: String
 }

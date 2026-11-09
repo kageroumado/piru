@@ -75,6 +75,10 @@ private struct SheetLayer: ViewModifier {
     private func routeContent(_ route: SheetRoute) -> some View {
         SheetRouteView(route: route, depth: depth)
             .environment(\.appNavigator, navigator)
+            // A language switch from Settings rebuilds the sheet it was made in,
+            // so its navigation title and every string its body computed are
+            // read again; the sheet itself stays up.
+            .id(AppLanguageModel.shared.localization)
     }
 
     /// Whether the route at this depth is currently presented as a

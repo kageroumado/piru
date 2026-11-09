@@ -66,6 +66,8 @@ struct NextDoseProvider: TimelineProvider {
     }
 
     func getTimeline(in _: Context, completion: @escaping (Timeline<NextDoseEntry>) -> Void) {
+        // The app may have switched language since this process started.
+        AppLanguageRuntime.applyMirroredChoice()
         let now = Date.now
         let calendar = Calendar.current
         // One container and one item fetch per timeline; each entry only

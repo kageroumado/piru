@@ -49,6 +49,8 @@ struct RecentDoseProvider: TimelineProvider {
     }
 
     func getTimeline(in _: Context, completion: @escaping (Timeline<RecentDoseEntry>) -> Void) {
+        // The app may have switched language since this process started.
+        AppLanguageRuntime.applyMirroredChoice()
         let entry = fetchEntry()
         // Update every 15 minutes so the "ago" text stays fresh
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: .now)!

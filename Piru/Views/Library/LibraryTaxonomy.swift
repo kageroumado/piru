@@ -99,16 +99,22 @@ extension LibraryFamily {
     /// resolved names is safe; a source reorder that reshuffles them is
     /// cosmetic and refreshes on relaunch.
     @MainActor private static var exemplarsCache: [Source: [String]] = [:]
-    /// The English-names preference `exemplarsCache` was filled under. The names
-    /// are display titles, so flipping it in Settings empties the cache.
-    @MainActor private static var exemplarsCacheUsesEnglishNames = false
+    /// The English-names preference and app language `exemplarsCache` was filled
+    /// under. The names are display titles, so changing either in Settings
+    /// empties the cache.
+    @MainActor private static var exemplarsCacheKey = ExemplarsKey(usesEnglishNames: false, language: .en)
+
+    private struct ExemplarsKey: Equatable {
+        let usesEnglishNames: Bool
+        let language: ContentLanguage
+    }
 
     static func exemplars(for source: Source?, limit: Int = 3) -> [String] {
         guard let source else { return [] }
-        let usesEnglishNames = LocalizedSubstanceName.usesEnglishNames
-        if usesEnglishNames != exemplarsCacheUsesEnglishNames {
+        let key = ExemplarsKey(usesEnglishNames: LocalizedSubstanceName.usesEnglishNames, language: .current)
+        if key != exemplarsCacheKey {
             exemplarsCache.removeAll()
-            exemplarsCacheUsesEnglishNames = usesEnglishNames
+            exemplarsCacheKey = key
         }
         if limit == 3, let cached = exemplarsCache[source] { return cached }
         let list: [Substance] = switch source {
