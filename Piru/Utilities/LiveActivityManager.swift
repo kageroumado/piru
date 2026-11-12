@@ -63,7 +63,9 @@ struct DoseSnapshot {
     /// Singleton owned by the app process. Responsibilities:
     /// - Starts, updates, and ends the `Activity<PiruActivityAttributes>` widget.
     /// - Drives a phase-boundary-aligned refresh `Timer` while a session is active so
-    ///   the widget's phase label, timeline graph, and countdown target stay current.
+    ///   the widget's phase label and countdown target stay current. The graph's
+    ///   now rail, the rings and the Elapsed clock are time-driven views that
+    ///   advance without a push.
     /// - Recovers session state across cold launches by reading the running activity's
     ///   `contentState` (see `recoverEntriesFromActivity`), and re-arms every update
     ///   source for an adopted activity (see `resumeIfRunning`).
@@ -74,8 +76,9 @@ struct DoseSnapshot {
     /// - Takes cards with nothing left to show off the Lock Screen on every wake
     ///   (see `endFinishedActivities(canReplace:releasingDismissed:now:)`).
     ///
-    /// Nothing ends an activity while the app is suspended and no refresh is
-    /// granted: ActivityKit offers a locally driven activity no scheduled end.
+    /// Nothing ends an activity, or changes its phase label, while the app is
+    /// suspended and no refresh is granted: ActivityKit offers a locally driven
+    /// activity no scheduled update or end; only a push server could send one.
     /// Its stale date is the one change that lands without the app, so it is
     /// set at the last dose's end, where the extension collapses the card to a
     /// single "Session complete" row.

@@ -15,18 +15,16 @@ struct TimelineGraphView: View, Equatable {
     /// session accessory and the full detail graph; off for the historical
     /// journal thumbnails, where it's an axis-less artifact.
     var showNowIndicator: Bool = true
-    /// How far ahead of `currentTime` the real "now" may already have drifted, in
-    /// minutes. `0` draws the usual hairline rule.
+    /// Marks "now" with a system time-driven progress rail along the baseline,
+    /// filling from the axis start to the present, in place of the canvas
+    /// now-dots (compact graphs only).
     ///
-    /// For the Live Activity this is non-zero and honest. The graph is a static
-    /// image between renders, and ActivityKit gives an app no way to schedule
-    /// arbitrary repaints — so by the time the Lock Screen is actually looked at,
-    /// true "now" is somewhere between the instant this was drawn and the next
-    /// repaint. A 2.5pt rule claims a precision the platform does not permit.
-    /// Instead the indicator becomes a translucent band running forward from the
-    /// drawn instant, with the crisp edge at the moment we do know: "you are
-    /// somewhere in here."
-    var nowUncertaintyMinutes: Double = 0
+    /// For the Live Activity. Its view is drawn only when the app pushes new
+    /// content or the content goes stale, so anything the canvas derives from
+    /// `currentTime` stays at the instant of the last push while the app is
+    /// suspended. `ProgressView(timerInterval:)` is advanced by the system's
+    /// renderer between renders, so the rail keeps moving without the app.
+    var timeDrivenNow: Bool = false
     /// When set (case-insensitive substance name), that curve renders at full
     /// strength and every other curve is dimmed — drives the fullscreen legend's
     /// tap-to-isolate. Nil means the normal active/worn-off emphasis applies.
@@ -172,7 +170,7 @@ struct TimelineGraphView: View, Equatable {
               lhs.stackRedoses == rhs.stackRedoses,
               lhs.dayBounded == rhs.dayBounded,
               lhs.showNowIndicator == rhs.showNowIndicator,
-              lhs.nowUncertaintyMinutes == rhs.nowUncertaintyMinutes,
+              lhs.timeDrivenNow == rhs.timeDrivenNow,
               lhs.highlighted == rhs.highlighted,
               lhs.presetSpanMinutes == rhs.presetSpanMinutes,
               lhs.markers == rhs.markers,
@@ -201,7 +199,7 @@ struct TimelineGraphView: View, Equatable {
         onNoteTap: ((UUID) -> Void)? = nil,
         stackRedoses: Bool = false,
         showNowIndicator: Bool = true,
-        nowUncertaintyMinutes: Double = 0,
+        timeDrivenNow: Bool = false,
         highlighted: String? = nil,
         presetSpanMinutes: Double? = nil,
         dayBounded: Bool = false,
@@ -220,7 +218,7 @@ struct TimelineGraphView: View, Equatable {
         self.onNoteTap = onNoteTap
         self.stackRedoses = stackRedoses
         self.showNowIndicator = showNowIndicator
-        self.nowUncertaintyMinutes = nowUncertaintyMinutes
+        self.timeDrivenNow = timeDrivenNow
         self.highlighted = highlighted
         self.presetSpanMinutes = presetSpanMinutes
         self.dayBounded = dayBounded
@@ -317,8 +315,8 @@ struct TimelineGraphView: View, Equatable {
             currentTime: currentTime,
             compact: compact,
             stackRedoses: stackRedoses,
-            showNowIndicator: showNowIndicator,
-            nowUncertaintyMinutes: nowUncertaintyMinutes,
+            // The rail stands in for every canvas mark read off `currentTime`.
+            showNowIndicator: showNowIndicator && !timeDrivenNow,
             highlighted: highlighted,
             chartFrame: chartFrame,
             vitals: vitals,
@@ -552,6 +550,9 @@ struct TimelineGraphView: View, Equatable {
             // Thumbnails ride inside card buttons that already speak the
             // session — an unlabeled Canvas would only double-read there.
             graphCanvas
+                .overlay(alignment: .bottom) {
+                    if timeDrivenNow { nowRail }
+                }
                 .accessibilityHidden(true)
         } else {
             GeometryReader { geo in
@@ -822,6 +823,22 @@ struct TimelineGraphView: View, Equatable {
         case .checkIn: "bell.fill"
         case .summary: "text.alignleft"
         }
+    }
+
+    /// The ``timeDrivenNow`` rail: spans the compact axis exactly (inset as
+    /// the canvas plots it), so its filled end sits under the present on the
+    /// curves above.
+    private var nowRail: some View {
+        let axisStart = earliestDose
+        let axisEnd = axisStart.addingTimeInterval(max(visibleSpan, 1) * 60)
+        return ProgressView(timerInterval: axisStart ... axisEnd, countsDown: false) {
+            EmptyView()
+        } currentValueLabel: {
+            EmptyView()
+        }
+        .progressViewStyle(.linear)
+        .tint(.white)
+        .padding(.horizontal, GraphMetrics.compactInset)
     }
 
     private var graphCanvas: some View {
