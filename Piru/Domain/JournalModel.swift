@@ -106,6 +106,10 @@ final class JournalModel {
     /// Same guard for the grouping pass (bucketing + day-card formatting).
     private var lastGroupsSignature: Int?
 
+    /// The search text the buckets were last built for, so the view can tell
+    /// a new query from its search task re-firing on reappearance.
+    @ObservationIgnored private(set) var groupedSearchText: String?
+
     /// Bumped every time `derived` is *published with a change* (the phase-1
     /// prefix resolve, and the phase-2 tail when it resolved anything new). Folded
     /// into ``rebuildGroups``'s signature so a regroup that ran against an empty or
@@ -455,6 +459,7 @@ final class JournalModel {
         revision: Int,
         dayBoundaryHour: Int,
     ) {
+        groupedSearchText = searchText
         rebuildGroups(
             entries: entries,
             grouping: grouping,

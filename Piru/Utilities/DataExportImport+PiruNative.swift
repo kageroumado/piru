@@ -502,9 +502,7 @@ extension DataExportImport {
         // Dedup doses by content against what's already stored and within the
         // file, so a re-import (or merge) stays idempotent.
         let existingDoses = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
-        var seen = Set(existingDoses.map {
-            doseDedupKey(substance: $0.substance, timestamp: $0.timestamp, amount: $0.amount, unit: $0.unit, route: $0.route)
-        })
+        var doseIndex = ImportedDoseIndex(existingDoses)
         // Stable-id bookkeeping, seeded with the store's ids: an imported dose
         // keeps its exported id (so references like ramp-down keys survive a
         // wipe-and-restore) unless that id is already taken — a merge where the
@@ -515,8 +513,10 @@ extension DataExportImport {
 
         func makeDose(_ d: PiruDoseData) -> DoseEntry? {
             let timestamp = Date(ms: d.timestamp)
-            let key = doseDedupKey(substance: d.substance, timestamp: timestamp, amount: d.amount, unit: d.unit, route: d.route)
-            guard seen.insert(key).inserted else { return nil }
+            let key = doseDedupKey(
+                substance: d.substance, timestamp: timestamp, amount: d.isUnknownDose == true ? nil : d.amount, unit: d.unit, route: d.route,
+            )
+            guard case .new = doseIndex.claim(key) else { return nil }
             let entry = DoseEntry(
                 substance: d.substance, amount: d.amount, unit: d.unit, route: d.route,
                 saltForm: d.saltForm,

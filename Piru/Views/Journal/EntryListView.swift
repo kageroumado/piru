@@ -362,8 +362,11 @@ struct EntryListView: View {
         .task(id: searchText) {
             // First appear: the derive task owns the initial regroup, and it
             // regroups with the live `searchText` when it lands — bucketing
-            // now would run against an empty `derived`.
-            guard hasDerivedOnce else { return }
+            // now would run against an empty `derived`. A pop back from a
+            // session re-fires this with the text unchanged, and resetting the
+            // Day window then would cut the list back to its first page under
+            // a reader scrolled into older sessions.
+            guard hasDerivedOnce, searchText != model.groupedSearchText else { return }
             if !searchText.isEmpty {
                 try? await Task.sleep(for: .milliseconds(150))
                 guard !Task.isCancelled else { return }
