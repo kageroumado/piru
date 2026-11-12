@@ -39,10 +39,11 @@ extension ActiveSubstanceState {
             zeroOrder: zeroOrderKinetics,
             // Phase-range widths for the effect curve's spread-aware fit.
             // Synthesized phases are min == max, so they contribute zero
-            // spread automatically; zero-order doses ignore the phase curve.
-            comeupSpreadMinutes: duration.comeup.map { $0.max - $0.min },
-            peakSpreadMinutes: duration.peak.map { $0.max - $0.min },
-            offsetSpreadMinutes: duration.offset.map { $0.max - $0.min },
+            // spread automatically. A zero-order dose draws no phase curve, so
+            // its kinetic boundaries take none: a spread would move its end.
+            comeupSpreadMinutes: zeroOrder != nil ? nil : duration.comeup.map { $0.max - $0.min },
+            peakSpreadMinutes: zeroOrder != nil ? nil : duration.peak.map { $0.max - $0.min },
+            offsetSpreadMinutes: zeroOrder != nil ? nil : duration.offset.map { $0.max - $0.min },
         )
     }
 

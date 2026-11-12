@@ -412,21 +412,15 @@ nonisolated enum TimelineCurveModel {
         static let exponentFloor = 1.6, riseCeiling = 1_000.0, fallCeiling = 6.0
 
         init(for s: ActiveSubstanceState) {
-            let a = s.onsetEndMinutes
-            let c = max(s.peakEndMinutes, a + 2)
-            let d = max(s.offsetEndMinutes, c + 1)
-            let b = TimelineCurveModel.effectiveComeupEnd(for: s, onsetEnd: a, peakEnd: c)
-
-            // A phase's spread widens the feature it bounds: come-up spread
-            // delays the full-effect anchor, offset spread extends the tail
-            // landing. Peak spread broadens the dome scale below instead of
-            // moving the C anchor — moving C right compresses the C→D descent
-            // and manufactures a cliff. The onset spread is deliberately
-            // unused: anchoring the foot at the onset range's early bound drew
-            // 10–30% effect through the onset window.
-            let bAnchor = b + (s.comeupSpreadMinutes ?? 0) / 2
-            let cAnchor = max(c, bAnchor + 1e-3)
-            let dAnchor = max(d + (s.offsetSpreadMinutes ?? 0) / 2, cAnchor + 1)
+            let anchors = TimelineCurveModel.curveAnchors(
+                onsetEnd: s.onsetEndMinutes, comeupEnd: s.comeupEndMinutes,
+                peakEnd: s.peakEndMinutes, offsetEnd: s.offsetEndMinutes,
+                comeupSpread: s.comeupSpreadMinutes, offsetSpread: s.offsetSpreadMinutes,
+            )
+            let a = anchors.onsetEnd
+            let bAnchor = anchors.comeupEnd
+            let cAnchor = anchors.peakEnd
+            let dAnchor = anchors.offsetEnd
             mu = bAnchor + Self.peakBias * (cAnchor - bAnchor)
 
             let rUp = max(mu - bAnchor, 1e-3)
@@ -495,14 +489,59 @@ nonisolated enum TimelineCurveModel {
         }
     }
 
+    /// The four instants a dose's effect curve is fitted through, in minutes
+    /// after the dose: where the onset ends (the foot), where full effect is
+    /// reached, where the plateau ends, and where the tail lands.
+    nonisolated struct CurveAnchors: Equatable {
+        let onsetEnd: Double
+        let comeupEnd: Double
+        let peakEnd: Double
+        let offsetEnd: Double
+    }
+
+    /// The curve's anchors from a profile's phase boundaries and range widths.
+    ///
+    /// ``ActiveSubstanceState`` stores these, never the raw boundaries, so the
+    /// phase word, the milestone marks, the Live Activity countdown and
+    /// "effects end" read the instants the curve is drawn through. A come-up
+    /// the data leaves out is synthesized here (``effectiveComeupEnd``), and a
+    /// phase's spread moves the anchor it bounds:
+    ///
+    /// - come-up spread delays the full-effect anchor;
+    /// - offset spread extends the tail landing;
+    /// - peak spread broadens the crest dome instead of moving the plateau's
+    ///   end — moving it right compresses the descent into a cliff — so it
+    ///   stays on the state for ``EffectCurveParams``;
+    /// - onset spread is unused: anchoring the foot at the onset range's early
+    ///   bound drew 10–30 % effect through the onset window.
+    ///
+    /// A synthesized come-up drops the come-up spread, which described a phase
+    /// the model replaced. That makes the function idempotent: anchors fed back
+    /// in with no spreads come out unchanged, so a state can be rebuilt or
+    /// decoded any number of times.
+    nonisolated static func curveAnchors(
+        onsetEnd: Double, comeupEnd: Double, peakEnd: Double, offsetEnd: Double,
+        comeupSpread: Double?, offsetSpread: Double?,
+    ) -> CurveAnchors {
+        let a = onsetEnd
+        let c = max(peakEnd, a + 2)
+        let d = max(offsetEnd, c + 1)
+        let synthesizes = comeupEnd - a <= 1
+        let b = effectiveComeupEnd(onsetEnd: a, comeupEnd: comeupEnd, peakEnd: c)
+        let bAnchor = b + (synthesizes ? 0 : (comeupSpread ?? 0) / 2)
+        let cAnchor = max(c, bAnchor + 1e-3)
+        let dAnchor = max(d + (offsetSpread ?? 0) / 2, cAnchor + 1)
+        return CurveAnchors(onsetEnd: a, comeupEnd: bAnchor, peakEnd: cAnchor, offsetEnd: dAnchor)
+    }
+
     /// The come-up boundary the rising shoulder is fit to — synthesizing a
     /// plausible climb when the source data carries **no come-up phase**.
     ///
     /// Many profiles list only onset → peak (kratom oral: onset, peak, offset,
-    /// no come-up), so `comeupEndMinutes` collapses onto `onsetEnd`. When the
+    /// no come-up), so the come-up end collapses onto `onsetEnd`. When the
     /// explicit window is essentially empty we instead borrow a come-up from the
-    /// dose's own timing: as long as the onset itself, floored at 12 min, but
-    /// capped at 60 % of the onset→peak gap so a flat peak still remains. Never
+    /// dose's own timing: 60 % of the onset, floored at ``comeupFloorMinutes``,
+    /// capped at half the onset→peak gap so a flat peak still remains. Never
     /// floor this at a bare `onsetEnd + 1`: a 1-minute window makes the curve
     /// shoot up as a near-vertical wall, wrong for an absorbed (oral) dose.
     /// Because it scales off `onsetEnd`, a 30-min oral onset yields a broad
@@ -515,8 +554,8 @@ nonisolated enum TimelineCurveModel {
     /// with a 2-minute onset an absorption shoulder it does not have. This keeps
     /// the slow climb for anything genuinely absorbed while letting a fast route
     /// stay as fast as its data.
-    nonisolated static func effectiveComeupEnd(for s: ActiveSubstanceState, onsetEnd: Double, peakEnd: Double) -> Double {
-        let explicit = s.comeupEndMinutes - onsetEnd
+    nonisolated static func effectiveComeupEnd(onsetEnd: Double, comeupEnd: Double, peakEnd: Double) -> Double {
+        let explicit = comeupEnd - onsetEnd
         let gap = peakEnd - onsetEnd
         let floor = min(Self.comeupFloorMinutes, max(onsetEnd, 0))
         let window = explicit > 1
@@ -527,7 +566,7 @@ nonisolated enum TimelineCurveModel {
 
     /// Longest come-up the model will synthesize when the data lists none — and
     /// only for a dose whose onset is at least this long. See
-    /// ``effectiveComeupEnd(for:onsetEnd:peakEnd:)``.
+    /// ``effectiveComeupEnd(onsetEnd:comeupEnd:peakEnd:)``.
     nonisolated static let comeupFloorMinutes: Double = 8
 
     /// Acute-tolerance (tachyphylaxis) multiplier on the descending limb. For

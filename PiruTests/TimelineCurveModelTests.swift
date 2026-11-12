@@ -134,7 +134,7 @@ struct TimelineCurveModelTests {
         // An explicit come-up in the data is kept exactly as given.
         let explicit = dose()
         let comeup = TimelineCurveModel.effectiveComeupEnd(
-            for: explicit, onsetEnd: explicit.onsetEndMinutes, peakEnd: explicit.peakEndMinutes,
+            onsetEnd: explicit.onsetEndMinutes, comeupEnd: explicit.comeupEndMinutes, peakEnd: explicit.peakEndMinutes,
         )
         #expect(comeup == explicit.comeupEndMinutes)
         #expect(explicit.onsetEndMinutes <= comeup)
@@ -146,23 +146,22 @@ struct TimelineCurveModelTests {
     @Test
     func `Missing come-up phase synthesizes a climb between onset and peak`() {
         // Profile lists only onset → peak (come-up collapses onto the onset).
-        let s = dose(onsetEnd: 30, comeupEnd: 30, peakEnd: 130)
-        let comeup = TimelineCurveModel.effectiveComeupEnd(for: s, onsetEnd: 30, peakEnd: 130)
+        let comeup = TimelineCurveModel.effectiveComeupEnd(onsetEnd: 30, comeupEnd: 30, peakEnd: 130)
         #expect(comeup > 30)
         #expect(comeup < 130)
+        // The state stores the synthesized come-up, so the phase word reads it too.
+        #expect(dose(onsetEnd: 30, comeupEnd: 30, peakEnd: 130).comeupEndMinutes == comeup)
 
         // A slow, absorbed onset earns the synthesized climb: 60 % of the onset,
         // floored at 8 min, capped at half the onset→peak gap.
-        let slow = dose(onsetEnd: 45, comeupEnd: 45, peakEnd: 145)
-        let slowComeup = TimelineCurveModel.effectiveComeupEnd(for: slow, onsetEnd: 45, peakEnd: 145)
+        let slowComeup = TimelineCurveModel.effectiveComeupEnd(onsetEnd: 45, comeupEnd: 45, peakEnd: 145)
         #expect(slowComeup == 45 + 27)
 
         // A fast insufflated onset stays quick — the floor never exceeds the
         // onset itself. This used to assert `2 + 8`: a 2-minute onset was given
         // a 10-minute climb, which drew an absorption shoulder on routes that
         // have no absorption phase at all.
-        let fast = dose(onsetEnd: 2, comeupEnd: 2, peakEnd: 32)
-        let fastComeup = TimelineCurveModel.effectiveComeupEnd(for: fast, onsetEnd: 2, peakEnd: 32)
+        let fastComeup = TimelineCurveModel.effectiveComeupEnd(onsetEnd: 2, comeupEnd: 2, peakEnd: 32)
         #expect(fastComeup == 2 + 2)
         #expect(fastComeup < slowComeup)
     }

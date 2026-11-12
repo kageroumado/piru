@@ -41,11 +41,20 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     let amount: Double
     let unit: String
     let route: String
+    /// The phase boundaries, in minutes after the dose, are the effect curve's
+    /// own anchors (``TimelineCurveModel/curveAnchors(onsetEnd:comeupEnd:peakEnd:offsetEnd:comeupSpread:offsetSpread:)``):
+    /// both initializers pass what they are given through it. A come-up the
+    /// data leaves out is the one the curve synthesizes, and come-up and offset
+    /// spreads are folded into the boundary they move. Every reader — the
+    /// phase word, the milestone marks, the Live Activity countdown — therefore
+    /// names the phase the drawn curve is in.
     let onsetEndMinutes: Double
     let comeupEndMinutes: Double
     let peakEndMinutes: Double
     let offsetEndMinutes: Double
     let afterglowEndMinutes: Double?
+    /// When the dose's effects end: never before the curve's tail lands at
+    /// ``offsetEndMinutes``.
     let totalMinutes: Double
     /// Dose intensity used to scale the timeline curve height, clamped to
     /// `[0.05, 1.0]`.
@@ -120,12 +129,13 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     let zeroOrder: PKModel.ZeroOrderKinetics?
 
     /// Widths (max − min, minutes) of the come-up, peak, and offset phase
-    /// ranges the boundary midpoints came from. The effect curve uses them to
-    /// let a "peak 3–5 h" profile draw broader/softer than a "peak 4 h" one:
-    /// come-up spread delays the full-effect anchor, peak spread broadens the
-    /// crest dome, offset spread extends the tail landing. `nil` (older
-    /// payloads, range-less or synthesized phases) means zero spread — the
-    /// pure midpoint fit.
+    /// ranges the boundary midpoints came from, so a "peak 3–5 h" profile
+    /// draws broader and softer than a "peak 4 h" one. Peak spread broadens the
+    /// crest dome. Come-up and offset spreads move the full-effect and tail
+    /// anchors, so the initializers fold them into ``comeupEndMinutes`` and
+    /// ``offsetEndMinutes`` and store `nil` here; a payload from a build that
+    /// stored the raw boundaries is folded when it is decoded. `nil` means zero
+    /// spread.
     let comeupSpreadMinutes: Double?
     let peakSpreadMinutes: Double?
     let offsetSpreadMinutes: Double?
@@ -137,12 +147,17 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         self.amount = amount
         self.unit = unit
         self.route = route
-        self.onsetEndMinutes = onsetEndMinutes
-        self.comeupEndMinutes = comeupEndMinutes
-        self.peakEndMinutes = peakEndMinutes
-        self.offsetEndMinutes = offsetEndMinutes
-        self.afterglowEndMinutes = afterglowEndMinutes
-        self.totalMinutes = totalMinutes
+        let timing = Self.curveTiming(
+            onsetEnd: onsetEndMinutes, comeupEnd: comeupEndMinutes, peakEnd: peakEndMinutes,
+            offsetEnd: offsetEndMinutes, afterglowEnd: afterglowEndMinutes, total: totalMinutes,
+            comeupSpread: comeupSpreadMinutes, offsetSpread: offsetSpreadMinutes,
+        )
+        self.onsetEndMinutes = timing.anchors.onsetEnd
+        self.comeupEndMinutes = timing.anchors.comeupEnd
+        self.peakEndMinutes = timing.anchors.peakEnd
+        self.offsetEndMinutes = timing.anchors.offsetEnd
+        self.afterglowEndMinutes = timing.afterglowEnd
+        self.totalMinutes = timing.total
         self.doseIntensity = doseIntensity
         self.doseMagnitude = doseMagnitude ?? doseIntensity
         self.heavyThresholdMagnitude = heavyThresholdMagnitude
@@ -150,9 +165,9 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         self.tachyphylaxis = tachyphylaxis
         self.bodyWeightKg = bodyWeightKg
         self.zeroOrder = zeroOrder
-        self.comeupSpreadMinutes = comeupSpreadMinutes
+        self.comeupSpreadMinutes = nil
         self.peakSpreadMinutes = peakSpreadMinutes
-        self.offsetSpreadMinutes = offsetSpreadMinutes
+        self.offsetSpreadMinutes = nil
     }
 
     init(from decoder: Decoder) throws {
@@ -163,12 +178,24 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         amount = try c.decode(Double.self, forKey: .amount)
         unit = try c.decode(String.self, forKey: .unit)
         route = try c.decode(String.self, forKey: .route)
-        onsetEndMinutes = try c.decode(Double.self, forKey: .onsetEndMinutes)
-        comeupEndMinutes = try c.decode(Double.self, forKey: .comeupEndMinutes)
-        peakEndMinutes = try c.decode(Double.self, forKey: .peakEndMinutes)
-        offsetEndMinutes = try c.decode(Double.self, forKey: .offsetEndMinutes)
-        afterglowEndMinutes = try c.decodeIfPresent(Double.self, forKey: .afterglowEndMinutes)
-        totalMinutes = try c.decode(Double.self, forKey: .totalMinutes)
+        // Folded through the curve's anchors like the memberwise init, so a payload
+        // an older build encoded with raw boundaries reads the same as a new one.
+        let timing = try Self.curveTiming(
+            onsetEnd: c.decode(Double.self, forKey: .onsetEndMinutes),
+            comeupEnd: c.decode(Double.self, forKey: .comeupEndMinutes),
+            peakEnd: c.decode(Double.self, forKey: .peakEndMinutes),
+            offsetEnd: c.decode(Double.self, forKey: .offsetEndMinutes),
+            afterglowEnd: c.decodeIfPresent(Double.self, forKey: .afterglowEndMinutes),
+            total: c.decode(Double.self, forKey: .totalMinutes),
+            comeupSpread: c.decodeIfPresent(Double.self, forKey: .comeupSpreadMinutes),
+            offsetSpread: c.decodeIfPresent(Double.self, forKey: .offsetSpreadMinutes),
+        )
+        onsetEndMinutes = timing.anchors.onsetEnd
+        comeupEndMinutes = timing.anchors.comeupEnd
+        peakEndMinutes = timing.anchors.peakEnd
+        offsetEndMinutes = timing.anchors.offsetEnd
+        afterglowEndMinutes = timing.afterglowEnd
+        totalMinutes = timing.total
         doseIntensity = try c.decodeIfPresent(Double.self, forKey: .doseIntensity) ?? 1.0
         doseMagnitude = try c.decodeIfPresent(Double.self, forKey: .doseMagnitude) ?? doseIntensity
         // Absent on an activity started by an older build: no marked region, which
@@ -181,9 +208,28 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         // is what every first-order substance gets and what alcohol got before this field existed.
         zeroOrder = try c.decodeIfPresent(PKModel.ZeroOrderKinetics.self, forKey: .zeroOrder)
         // Absent on an activity started by an older build: zero spread — the pure midpoint fit.
-        comeupSpreadMinutes = try c.decodeIfPresent(Double.self, forKey: .comeupSpreadMinutes)
+        comeupSpreadMinutes = nil
         peakSpreadMinutes = try c.decodeIfPresent(Double.self, forKey: .peakSpreadMinutes)
-        offsetSpreadMinutes = try c.decodeIfPresent(Double.self, forKey: .offsetSpreadMinutes)
+        offsetSpreadMinutes = nil
+    }
+
+    /// The boundaries a state stores: the curve's anchors, the afterglow
+    /// shifted with the tail so it keeps its length, and a total no earlier
+    /// than the tail landing.
+    private static func curveTiming(
+        onsetEnd: Double, comeupEnd: Double, peakEnd: Double, offsetEnd: Double,
+        afterglowEnd: Double?, total: Double, comeupSpread: Double?, offsetSpread: Double?,
+    ) -> (anchors: TimelineCurveModel.CurveAnchors, afterglowEnd: Double?, total: Double) {
+        let anchors = TimelineCurveModel.curveAnchors(
+            onsetEnd: onsetEnd, comeupEnd: comeupEnd, peakEnd: peakEnd, offsetEnd: offsetEnd,
+            comeupSpread: comeupSpread, offsetSpread: offsetSpread,
+        )
+        let tailShift = anchors.offsetEnd - offsetEnd
+        return (
+            anchors,
+            afterglowEnd.map { max($0 + tailShift, anchors.offsetEnd) },
+            max(total, anchors.offsetEnd),
+        )
     }
 }
 

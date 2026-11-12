@@ -1446,20 +1446,16 @@ struct TimelineGraphRenderer {
         guard graphWidth > 0, visibleSpan > 0 else { return }
         let doseOffset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
 
-        // Use the same synthesized come-up the curve is fit to, so the blue
-        // band tracks the rendered rise even when the source data lists no
-        // come-up phase (otherwise the curve climbs through a "peak"-colored
-        // band with no come-up band at all).
-        let peakEndForBands = max(s.peakEndMinutes, s.onsetEndMinutes + 2)
-        let comeupEndForBands = TimelineCurveModel.effectiveComeupEnd(for: s, onsetEnd: s.onsetEndMinutes, peakEnd: peakEndForBands)
+        // The state's boundaries are the curve's anchors, so the come-up band
+        // tracks the rendered rise even when the source data lists no come-up.
         // Bands are non-text marks, so they take the phase scale's `accent`
         // variant. These were inline hexes duplicated across three files; the
         // hues are unchanged, only lightness and chroma moved to clear the
         // contrast gates. See `design-system/color/`.
         let bands: [(start: Double, end: Double, color: Color)] = [
             (0, s.onsetEndMinutes, .Phase.Onset.accent),
-            (s.onsetEndMinutes, comeupEndForBands, .Phase.Comeup.accent),
-            (comeupEndForBands, s.peakEndMinutes, .Phase.Peak.accent),
+            (s.onsetEndMinutes, s.comeupEndMinutes, .Phase.Comeup.accent),
+            (s.comeupEndMinutes, s.peakEndMinutes, .Phase.Peak.accent),
             (s.peakEndMinutes, s.offsetEndMinutes, .Phase.Offset.accent),
         ]
 
