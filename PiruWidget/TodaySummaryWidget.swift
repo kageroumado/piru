@@ -52,6 +52,8 @@ struct TodaySummaryProvider: TimelineProvider {
     }
 
     func getTimeline(in _: Context, completion: @escaping (Timeline<TodaySummaryEntry>) -> Void) {
+        // The app may have switched language since this process started.
+        AppLanguageRuntime.applyMirroredChoice()
         let entry = fetchEntry()
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 30, to: .now)!
         completion(Timeline(entries: [entry], policy: .after(nextUpdate)))

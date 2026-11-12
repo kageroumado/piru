@@ -7752,6 +7752,13 @@ T = {
         "从列表中选择一项，在这里查看。",
         "從列表中選擇一項，在這裡查看。",
     ),
+    # Settings ▸ Language
+    "Language": ("语言", "語言"),
+    "System": ("跟随系统", "跟隨系統"),
+    "System uses your device’s language. Widgets switch at their next refresh.": (
+        "“跟随系统”使用设备的语言。小组件会在下次刷新时切换。",
+        "「跟隨系統」使用裝置的語言。小工具會在下次重新整理時切換。",
+    ),
 }
 
 # Widget translations
@@ -8953,6 +8960,13 @@ if __name__ == "__main__":
     )
     NEW_KEYS.add("^[%lld result](inflect: true)")
     NEW_KEYS.add("Bar: participant range; dot: mean.")
+    NEW_KEYS.update(
+        {
+            "Language",
+            "System",
+            "System uses your device’s language. Widgets switch at their next refresh.",
+        }
+    )
     NEW_KEYS.update({"h", "modeled at %@"})
     NEW_KEYS.update({"%@ min"})
     NEW_KEYS.update({"with %@ %@ · %@ ago", "with %@ · %@ ago"})

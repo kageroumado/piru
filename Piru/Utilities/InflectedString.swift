@@ -9,7 +9,7 @@ extension String {
     /// intact, and VoiceOver reads it out character for character. Only
     /// `AttributedString(localized:)` (and `Text`) parse the markdown and
     /// inflect it, so this resolves through it and keeps the characters.
-    init(inflecting value: String.LocalizationValue, locale: Locale = .current) {
+    init(inflecting value: String.LocalizationValue, locale: Locale = AppLanguageRuntime.locale) {
         self = String(AttributedString(localized: value, locale: locale).characters)
     }
 }

@@ -3588,6 +3588,10 @@ ES = {
     "Shortcuts": "Atajos",
     "Nothing Open": "Nada abierto",
     "Choose something from the list to see it here.": "Elige algo de la lista para verlo aquí.",
+    # Settings ▸ Language
+    "Language": "Idioma",
+    "System": "Sistema",
+    "System uses your device’s language. Widgets switch at their next refresh.": "Sistema usa el idioma de tu dispositivo. Los widgets cambian en su próxima actualización.",
 }
 
 # Spain only: the few strings Spain must see differently — today the iOS Settings

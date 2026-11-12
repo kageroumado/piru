@@ -142,6 +142,8 @@ struct TodayMedsProvider: TimelineProvider {
     }
 
     func getTimeline(in _: Context, completion: @escaping (Timeline<TodayMedsEntry>) -> Void) {
+        // The app may have switched language since this process started.
+        AppLanguageRuntime.applyMirroredChoice()
         // Entries at now + each remaining slot time (so "due"/"next" states
         // roll over on time) + the next journal day's start (so tomorrow
         // starts with a fresh, unchecked list at the Day Starts At hour). Taken states only change through logging, and every

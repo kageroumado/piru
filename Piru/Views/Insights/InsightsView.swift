@@ -278,7 +278,7 @@ struct InsightsView: View {
             } else {
                 VStack(spacing: Spacing.lg) {
                     ForEach(model.active.prefix(3)) { sub in
-                        GlanceRow(dotColor: sub.color, title: Text(sub.name)) {
+                        GlanceRow(dotColor: sub.color, title: Text(CustomSubstanceStore.shared.displayName(for: sub.name))) {
                             Text("\(sub.totalRemaining.doseFormatted) \(sub.unit)")
                                 .sectionLabel()
                                 .foregroundStyle(sub.color)
@@ -317,7 +317,7 @@ struct InsightsView: View {
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Spacer()
-                            Text(Date.now.formatted(.dateTime.month(.wide)))
+                            Text(Date.now, format: .dateTime.month(.wide))
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }

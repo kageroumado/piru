@@ -96,15 +96,17 @@ final class SubstanceStore {
     private(set) var enabledSourceOrder: [String] = []
 
     /// Identity of the data every resolution reads: the substance database
-    /// file in use (path, size, modification date) and the enabled source
-    /// order. A launch cache of resolved values keys on this, so a database
-    /// update or a source reorder misses instead of serving stale rows.
+    /// file in use (path, size, modification date), the enabled source order,
+    /// and the language titles and text resolve in. A launch cache of resolved
+    /// values keys on this, so a database update, a source reorder or a
+    /// language switch misses instead of serving stale rows.
     var dataSignature: String {
         let url = Self.resolveSubstancesDBURL()
         let attributes = (try? FileManager.default.attributesOfItem(atPath: url.path)) ?? [:]
         let size = (attributes[.size] as? NSNumber)?.int64Value ?? 0
         let modified = (attributes[.modificationDate] as? Date)?.timeIntervalSinceReferenceDate ?? 0
-        return "\(url.lastPathComponent)|\(size)|\(modified)|\(enabledSourceOrder.joined(separator: ","))"
+        let names = LocalizedSubstanceName.usesEnglishNames ? "en-names" : "local-names"
+        return "\(url.lastPathComponent)|\(size)|\(modified)|\(enabledSourceOrder.joined(separator: ","))|\(ContentLanguage.current.rawValue)|\(names)"
     }
 
     /// Cached resolved substances keyed by canonical name (case-insensitive).
@@ -612,6 +614,20 @@ final class SubstanceStore {
         benzoEquivalenceCache = nil
         opioidEquivalenceCache = nil
         zeroOrderKineticsCache = nil
+    }
+
+    /// Re-resolve everything cached in the previous app language. The new batch
+    /// is built off the main actor first and swapped in with the caches
+    /// cleared, so no reader between the two finds the catalog cold.
+    func reloadForLanguageChange() async {
+        let db = substancesBatchDB
+        let order = enabledSourceOrder
+        let resolved = await Task.detached(priority: .userInitiated) {
+            SubstanceReadModel.loadAllSubstancesBatch(db: db, order: order)
+        }.value
+        reloadSourceOrder()
+        guard enabledSourceOrder == order else { return }
+        allCache = resolved
     }
 
     /// Set the user's source priority order (highest priority first). Cleared
