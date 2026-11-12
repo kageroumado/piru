@@ -1,13 +1,13 @@
 Skip has no AttributedString(localized:locale:): on Android String(inflecting:) applies AndroidInflection, the grammar-agreement rules for English and Spanish
 
 diff --git a/Piru/Utilities/InflectedString.swift b/Piru/Utilities/InflectedString.swift
-index 222ca583..f48d5022 100644
+index 4484ccfa..3ce4ec5a 100644
 --- a/Piru/Utilities/InflectedString.swift
 +++ b/Piru/Utilities/InflectedString.swift
 @@ -10,6 +10,15 @@ extension String {
      /// `AttributedString(localized:)` (and `Text`) parse the markdown and
      /// inflect it, so this resolves through it and keeps the characters.
-     init(inflecting value: String.LocalizationValue, locale: Locale = .current) {
+     init(inflecting value: String.LocalizationValue, locale: Locale = AppLanguageRuntime.locale) {
 +        #if os(Android)
 +            // Skip has no AttributedString(localized:) and Android no morphology engine: the
 +            // agreement comes from AndroidInflection's rules for the language the catalog was

@@ -60,7 +60,7 @@ index 58432906..0d34885f 100644
              discordShown = true
              return .discordInvite
 diff --git a/Piru/Views/Settings/SettingsView.swift b/Piru/Views/Settings/SettingsView.swift
-index fa0230c0..8ae7971e 100644
+index f2633214..7ecbb007 100644
 --- a/Piru/Views/Settings/SettingsView.swift
 +++ b/Piru/Views/Settings/SettingsView.swift
 @@ -6,6 +6,9 @@ struct SettingsView: View {
@@ -70,10 +70,10 @@ index fa0230c0..8ae7971e 100644
 +                #if os(Android)
 +                    AppUpdateSection()
 +                #endif
+                 LanguageSection()
                  DetailLevelSection()
                  if LocalizedSubstanceName.isAvailable {
-                     SubstanceNamesSection()
-@@ -14,6 +17,7 @@ struct SettingsView: View {
+@@ -15,6 +18,7 @@ struct SettingsView: View {
                  DiscordSection()
                  #if os(Android)
                      ReportProblemSection()
