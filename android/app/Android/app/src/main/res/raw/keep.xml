@@ -1,3 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Resources code reaches only by name, which the release build's resource shrinker cannot see. -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/report_failed" />
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/report_failed,@drawable/ic_notification" />
