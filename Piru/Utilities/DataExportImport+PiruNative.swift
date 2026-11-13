@@ -310,6 +310,11 @@ nonisolated struct PiruInventoryData: Codable {
     var sortOrder: Int?
     var substance: String
     var saltForm: String?
+    /// The item's isomer, product, and form-title snapshot; absent from a file
+    /// written before inventory items could name a form, which is a plain item.
+    var isomer: String?
+    var productName: String?
+    var displayNameSnapshot: String?
     var unit: String
     var trackingStart: Int64
     var lowStockThreshold: Double?
@@ -434,6 +439,9 @@ extension DataExportImport {
                     sortOrder: item.sortOrder,
                     substance: item.substance,
                     saltForm: item.saltForm,
+                    isomer: item.isomer,
+                    productName: item.productName,
+                    displayNameSnapshot: item.displayNameSnapshot,
                     unit: item.unit,
                     trackingStart: item.trackingStart.msSince1970,
                     lowStockThreshold: item.lowStockThreshold,
@@ -623,7 +631,7 @@ extension DataExportImport {
             context.insert(med)
         }
 
-        // Inventory — merge by substance identity + salt (the same key
+        // Inventory — merge by substance identity + salt + form (the same key
         // `InventoryService.find` uses, so an alias and its canonical name are
         // one item): union manual events by id so a re-import is idempotent,
         // keep the earliest trackingStart, and fill any missing scalar
@@ -645,7 +653,10 @@ extension DataExportImport {
                         setsBaseline: event.setsBaseline,
                     )
                 }
-                if let item = InventoryService.find(substance: inv.substance, saltForm: inv.saltForm, among: existingItems) {
+                if let item = InventoryService.find(
+                    substance: inv.substance, saltForm: inv.saltForm,
+                    isomer: inv.isomer, productName: inv.productName, among: existingItems,
+                ) {
                     var byID = Dictionary(item.manualEvents.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
                     for event in importedEvents where byID[event.id] == nil {
                         byID[event.id] = event
@@ -664,6 +675,9 @@ extension DataExportImport {
                         id: id,
                         substance: inv.substance,
                         saltForm: inv.saltForm,
+                        isomer: inv.isomer,
+                        productName: inv.productName,
+                        displayNameSnapshot: inv.displayNameSnapshot,
                         unit: inv.unit,
                         trackingStart: Date(ms: inv.trackingStart),
                         lowStockThreshold: inv.lowStockThreshold,

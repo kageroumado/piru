@@ -123,11 +123,15 @@ final class MyMedsInfoModel {
 
         var projections: [MyMedsInfo.SupplyProjection] = []
         var seen = Set<UUID>()
+        let stockItems = (try? context.fetch(FetchDescriptor<InventoryItem>())) ?? []
         for item in items where !item.isAsNeeded {
-            // A med scheduled without a salt still matches the salt-less
-            // tracked supply; a salted schedule wants its own.
-            guard let stock = InventoryService.find(substance: item.substance, saltForm: item.saltForm, in: context)
-                ?? InventoryService.find(substance: item.substance, saltForm: nil, in: context),
+            // The stock this med's doses draw on: its own form's item when one
+            // is tracked, else the plain supply; a salted schedule falls back
+            // to the salt-less supply.
+            guard let stock = InventoryService.stock(
+                substance: item.substance, saltForm: item.saltForm,
+                isomer: item.isomer, productName: item.productName, among: stockItems,
+            ),
                 seen.insert(stock.id).inserted,
                 let runOut = InventoryMath.runOut(for: stock, in: context)
             else { continue }

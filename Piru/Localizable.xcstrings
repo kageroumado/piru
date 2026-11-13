@@ -32741,6 +32741,34 @@
         }
       }
     },
+    "Doses of the chosen form come off this item. An item set to Any takes the rest." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las dosis de la forma elegida se descuentan de este artículo. Un artículo con Cualquiera recibe el resto."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las dosis de la forma elegida se descuentan de este artículo. Un artículo con Cualquiera recibe el resto."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所选形式的剂量从此项目中扣除。设为“任意”的项目承担其余剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所選形式的劑量從此項目中扣除。設為「任意」的項目承擔其餘劑量。"
+          }
+        }
+      }
+    },
     "Doses Piru couldn't read are imported as unknown doses, with the text kept in their notes: rows %@." : {
       "localizations" : {
         "es" : {
@@ -85637,6 +85665,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拼接圖片"
+          }
+        }
+      }
+    },
+    "Stock of" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existencias de"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existencias de"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "库存类型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "庫存類型"
           }
         }
       }

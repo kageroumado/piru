@@ -1091,6 +1091,8 @@ ES = {
     "Custom milligrams": "Miligramos personalizados",
     "Custom substance (no dose data)": "Sustancia personalizada (sin datos de dosis)",
     "Custom substance. Its doses count by exact name match.": "Sustancia personalizada. Sus dosis se cuentan por coincidencia exacta del nombre.",
+    "Stock of": "Existencias de",
+    "Doses of the chosen form come off this item. An item set to Any takes the rest.": "Las dosis de la forma elegida se descuentan de este artículo. Un artículo con Cualquiera recibe el resto.",
     "Custom Substances": "Sustancias personalizadas",
     "Custom Units": "Unidades personalizadas",
     "Custom…": "Personalizado…",
