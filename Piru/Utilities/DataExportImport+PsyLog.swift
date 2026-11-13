@@ -321,7 +321,7 @@ nonisolated struct PsyLogIngestion: Codable {
         case isHiddenInTimeline
     }
 
-    init(substanceName: String, dose: Double, time: Int64, route: String, notes: String, units: String, location: PsyLogLocation? = nil) {
+    init(substanceName: String, dose: Double?, time: Int64, route: String, notes: String, units: String, location: PsyLogLocation? = nil) {
         self.substanceName = substanceName
         self.customUnitId = nil
         self.dose = dose
@@ -460,7 +460,8 @@ extension DataExportImport {
                 }
                 return PsyLogIngestion(
                     substanceName: entry.substance,
-                    dose: entry.amount,
+                    // PW's own shape for a dose taken without knowing how much.
+                    dose: entry.isUnknownDose ? nil : entry.amount,
                     time: entry.timestamp.msSince1970,
                     route: entry.route.psylogName,
                     notes: noteText,
@@ -490,6 +491,22 @@ extension DataExportImport {
         return PsyLogFile(experiences: experiences, companions: companions)
     }
 
+    /// Adds the experience's timed notes to `session`, skipping any it already
+    /// holds at the same moment, whether as the same text or as the structured
+    /// note that exported as that line.
+    @MainActor
+    private static func importTimedNotes(_ timedNotes: [PsyLogTimedNote], into session: Session, context: ModelContext) {
+        var held = Set((session.notes ?? []).flatMap { note in
+            let ms = note.timestamp.msSince1970
+            return ["\(ms)|\(note.text.trimmingCharacters(in: .whitespacesAndNewlines))", "\(ms)|\(TripReport.flattenedLine(for: note))"]
+        })
+        for timed in timedNotes {
+            let text = timed.note.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !text.isEmpty, held.insert("\(timed.time)|\(text)").inserted else { continue }
+            context.insert(SessionNote(timestamp: Date(ms: timed.time), text: text, session: session))
+        }
+    }
+
     /// A dose's location as the exportable shape, or `nil` if it has no name.
     /// Coordinates are carried when present; a name-only location still
     /// round-trips (PsychonautWiki's shape allows coordinate-less locations).
@@ -511,19 +528,20 @@ extension DataExportImport {
         // idempotent instead of multiplying every dose. `DoseEntry` has no
         // natural id, so the key is its content: substance, time, dose, unit, route.
         let existingDoses = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
-        var seenDoseKeys = Set(existingDoses.map {
-            doseDedupKey(substance: $0.substance, timestamp: $0.timestamp, amount: $0.amount, unit: $0.unit, route: $0.route)
-        })
+        var doseIndex = ImportedDoseIndex(existingDoses)
         // Stored doses on route Other, keyed as if the file's dose were Other too.
         // An earlier build filed PW's SMOKED as Other; when the same file comes
         // in again, its dose names the real route, so the stored copy takes that
         // route instead of a second copy landing beside it.
         var unroutedDoses = Dictionary(grouping: existingDoses.filter { $0.route == .other }) {
-            doseDedupKey(substance: $0.substance, timestamp: $0.timestamp, amount: $0.amount, unit: $0.unit, route: .other)
+            doseDedupKey(for: $0, route: .other)
         }
 
         for experience in file.experiences {
             var sessionDoses: [DoseEntry] = []
+            // The session already holding doses this experience repeats, so a
+            // re-import lands its notes there.
+            var matchedSession: Session?
             for ingestion in experience.ingestions {
                 // Resolve substance name: prefer direct name, fall back to custom unit
                 let name: String
@@ -535,8 +553,10 @@ extension DataExportImport {
                     continue
                 }
 
-                // Skip entries with missing or zero dose
-                guard let dose = ingestion.dose, dose > 0 else { continue }
+                // PW writes `dose: null` for a dose taken without knowing how
+                // much, which lands as an unknown dose. A zero is no dose at all.
+                let dose = ingestion.dose
+                if let dose, dose <= 0 { continue }
 
                 // The shared parser, never a table of this importer's own: PW
                 // writes SMOKED beside INHALED (and PsyLog files carry the same
@@ -545,11 +565,15 @@ extension DataExportImport {
                 let route = RouteOfAdministration.from(string: ingestion.administrationRoute)
                 let timestamp = Date(ms: ingestion.time)
                 let key = doseDedupKey(substance: name, timestamp: timestamp, amount: dose, unit: ingestion.units, route: route)
-                guard seenDoseKeys.insert(key).inserted else { continue }
+                if case let .duplicate(stored) = doseIndex.claim(key) {
+                    matchedSession = matchedSession ?? stored?.session
+                    continue
+                }
                 if route != .other {
                     let unroutedKey = doseDedupKey(substance: name, timestamp: timestamp, amount: dose, unit: ingestion.units, route: .other)
                     if let stored = unroutedDoses[unroutedKey]?.popLast() {
                         stored.route = route
+                        matchedSession = matchedSession ?? stored.session
                         continue
                     }
                 }
@@ -562,7 +586,7 @@ extension DataExportImport {
                 let location = ingestion.location ?? experience.location
                 let entry = DoseEntry(
                     substance: name,
-                    amount: dose,
+                    amount: dose ?? 0,
                     unit: ingestion.units,
                     route: route,
                     timestamp: timestamp,
@@ -572,31 +596,25 @@ extension DataExportImport {
                     locationName: location?.name,
                     latitude: location?.latitude,
                     longitude: location?.longitude,
+                    isUnknownDose: dose == nil,
                 )
                 context.insert(entry)
                 sessionDoses.append(entry)
             }
 
             // Each PsychonautWiki experience becomes a Piru session, preserving
-            // its grouping and carrying the custom title and notes across. Only
-            // when it brought in at least one new (non-duplicate) dose, so a
-            // re-import doesn't accumulate empty sessions.
-            guard !sessionDoses.isEmpty else { continue }
-            let start = sessionDoses.map(\.timestamp).min() ?? Date(ms: experience.sortDate)
-            let session = Session(
-                startDate: start,
+            // its grouping and carrying the custom title and notes across. An
+            // experience whose doses are all already here adds no session; its
+            // notes go to the session holding those doses.
+            let text = experience.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard let session = importedSession(
+                doses: sessionDoses,
+                matched: matchedSession,
                 title: experience.title.isEmpty ? nil : experience.title,
-                note: experience.text.isEmpty ? nil : experience.text,
-            )
-            context.insert(session)
-            for dose in sessionDoses {
-                dose.session = session
-            }
-            session.refreshDoseBounds()
-            for timed in experience.timedNotes where !timed.note.trimmingCharacters(in: .whitespaces).isEmpty {
-                context.insert(SessionNote(timestamp: Date(ms: timed.time), text: timed.note, session: session))
-            }
-            SessionNoteService.ensureSummaryNote(for: session)
+                note: text.isEmpty ? nil : text,
+                context: context,
+            ) else { continue }
+            importTimedNotes(experience.timedNotes, into: session, context: context)
         }
 
         // PsyLog makes every substance carry one of its palette names; those
