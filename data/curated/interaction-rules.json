@@ -688,6 +688,130 @@
       "classB": "alcohol",
       "severity": "caution",
       "note": "Additive impairment. More dizziness, drowsiness, and slower reactions."
+    },
+    {
+      "classA": "alcohol",
+      "classB": "maoi",
+      "severity": "unsafe",
+      "note": "Tap beer can spike blood pressure. In 98 beer samples, every bottled or canned one was low in tyramine; the four high enough to matter on an irreversible MAOI (phenelzine, tranylcypromine) were all on tap.",
+      "citation": "doi:10.1097/00004714-199402000-00002",
+      "citationEvidence": {
+        "quote": "Of these 98 beers, 49 were bottled or canned beers and 49 were beers on tap. All of the bottled beers analyzed had safe tyramine concentrations (< or = 10 mg/liter; range, 0 to 3.16 mg/liter) … Only 4 of 98 beer samples studied were found to have a dangerous (> 10 mg/liter) tyramine concentration … All four of these beers were tap beers … it is recommended that patients on irreversible MAOIs avoid beers on tap.",
+        "section": "Abstract",
+        "identity": "Tailor et al. 1994, J Clin Psychopharmacol 14:5-14 (pmid:8151003): tyramine assay of 98 beer samples prompted by a phenelzine + tap beer hypertensive crisis",
+        "accessed": "2026-11-13",
+        "via": "hand",
+        "evidence": "The full text is a scanned PDF; the quote is the PubMed abstract. Gardner et al. 1996 (pmid:8617704), from the same group, keeps wine and bottled or canned beer in moderation off the restricted list and tap beer on it. The NARDIL label still lists all beer and wine to avoid; the assay is why the note names tap beer rather than restating the blanket rule."
+      },
+      "why": "TripSit's note says tyramine in alcoholic drinks can raise blood pressure. That is true of tap beer and overstated for the rest: the measured risk sits in a few tap beers, and only on irreversible MAOIs. Kept unsafe: the reaction it describes is a hypertensive crisis."
+    },
+    {
+      "classA": "alcohol",
+      "classB": "ssri",
+      "severity": "caution",
+      "note": "Sertraline and escitalopram showed no added impairment in trials. They did not deepen alcohol's effects on thinking or coordination, though the escitalopram label still advises against drinking.",
+      "citation": "DailyMed: ZOLOFT (sertraline) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fda754f6-d0f3-4dce-a17a-927d64f912f7",
+      "citationEvidence": {
+        "quote": "In healthy subjects, the acute cognitive and psychomotor effects of alcohol were not potentiated by ZOLOFT.",
+        "section": "12.2 Pharmacodynamics",
+        "identity": "active ingredient names 'Sertraline' as whole words",
+        "accessed": "2026-11-13",
+        "via": "hand",
+        "evidence": "LEXAPRO label (setid 13bb8267-1cab-43e5-acae-55a4d957630a), 12.3: 'Lexapro did not potentiate the cognitive and motor effects of alcohol in a clinical trial … the use of alcohol by patients taking Lexapro is not recommended.'"
+      },
+      "why": "TripSit's note is a generic CNS-depressant line. The two SSRI labels that tested it found no potentiation, so the note says what was measured and names which drugs it was measured for."
+    },
+    {
+      "classA": "cannabinoid",
+      "classB": "gabapentinoid",
+      "severity": "caution",
+      "note": "Added dizziness and drowsiness. Gabapentinoids cause both on their own, and the dronabinol (THC) label warns that drugs causing them add to its effect.",
+      "citation": "DailyMed: MARINOL (dronabinol) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d0efeeec-640d-43c3-8f0a-d31324a11c68",
+      "citationEvidence": {
+        "quote": "Concomitant use of other drugs that cause dizziness, confusion, sedation, or somnolence such as CNS depressants may increase this effect",
+        "section": "5.1 Neuropsychiatric Adverse Reactions",
+        "identity": "active ingredient names 'Dronabinol' as whole words",
+        "accessed": "2026-11-13",
+        "via": "hand",
+        "evidence": "LYRICA label 5.5: 'dizziness was experienced by 30% of LYRICA-treated patients compared to 8% of placebo-treated patients; somnolence was experienced by 23% of LYRICA-treated patients compared to 8%'."
+      },
+      "why": "TripSit's note also claims raised heart rate and lowered blood pressure from the pair; neither label says so for this combination, so the note keeps the additive sedation the labels do support."
+    },
+    {
+      "classA": "cannabinoid",
+      "classB": "stimulant",
+      "severity": "caution",
+      "note": "Heart rate and blood pressure add up. THC raises heart rate on its own, and the dronabinol (THC) label advises against combining it with amphetamines and similar stimulants.",
+      "citation": "DailyMed: MARINOL (dronabinol) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d0efeeec-640d-43c3-8f0a-d31324a11c68",
+      "citationEvidence": {
+        "quote": "Patients may experience occasional hypotension, possible hypertension, syncope, or tachycardia while taking MARINOL … Avoid concomitant use of other drugs that are also associated with similar cardiac effects (e.g., amphetamines, other sympathomimetic agents, … ). … Dronabinol-induced sympathomimetic activity may result in tachycardia",
+        "section": "5.2 Hemodynamic Instability; 12.2 Pharmacodynamics",
+        "identity": "active ingredient names 'Dronabinol' as whole words",
+        "accessed": "2026-11-13",
+        "via": "hand"
+      },
+      "why": "TripSit's note is about anxiety and thought loops, which nothing cited here measures. The label's cardiovascular warning is the sourced half."
+    },
+    {
+      "classA": "gabapentinoid",
+      "classB": "ghb",
+      "severity": "dangerous",
+      "note": "Severe respiratory depression. The sodium oxybate (GHB) label lists sedating anti-epileptic drugs among the depressants that raise its risk of respiratory depression and death, and the pregabalin label warns of the same.",
+      "citation": "DailyMed: XYREM (sodium oxybate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=926eb076-a4a8-45e4-91ef-411f0aa4f3ca",
+      "citationEvidence": {
+        "quote": "The concurrent use of Xyrem with other CNS depressants, including but not limited to opioid analgesics, benzodiazepines, sedating antidepressants or antipsychotics, sedating anti-epileptic drugs, general anesthetics, muscle relaxants, and/or illicit CNS depressants, may increase the risk of respiratory depression, hypotension, profound sedation, syncope, and death.",
+        "section": "5 Warnings and Precautions",
+        "identity": "the label's active ingredient is sodium oxybate, the sodium salt of GHB; gabapentin and pregabalin are anti-epileptic drugs that sedate",
+        "accessed": "2026-11-13",
+        "via": "hand",
+        "evidence": "LYRICA label 5.4: 'There is evidence from case reports, human studies, and animal studies associating LYRICA with serious, life-threatening, or fatal respiratory depression when co-administered with central nervous system (CNS) depressants'."
+      }
+    },
+    {
+      "classA": "gabapentinoid",
+      "classB": "stimulant",
+      "severity": "caution",
+      "note": "Seizure risk at heavy doses. Pregabalin overdoses have caused seizures, and the amphetamine label warns that stimulants can lower the seizure threshold.",
+      "citation": "DailyMed: LYRICA (pregabalin) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=60185c88-ecfd-46f9-adb9-b97c6b00a553",
+      "citationEvidence": {
+        "quote": "In the postmarketing experience, the most commonly reported adverse events observed with pregabalin when taken in overdose include reduced consciousness, depression/anxiety, confusional state, agitation, and restlessness. Seizures and heart block have also been reported.",
+        "section": "10 Overdosage",
+        "identity": "active ingredient names 'Pregabalin' as whole words",
+        "accessed": "2026-11-13",
+        "via": "hand",
+        "evidence": "Adderall XR label 5.6: 'There is some clinical evidence that stimulants may lower the convulsive threshold'. No study of the pair together was found (PubMed, 2026-11-13)."
+      },
+      "why": "Moved from TripSit's unsafe to caution. TripSit's seizure warning rests on recreational pregabalin doses, and its respiratory-arrest scenario (the stimulant wears off first) has no source behind it for gabapentinoids. Each label describes its half on its own; nothing has measured the two together."
+    },
+    {
+      "classA": "serotonergic",
+      "classB": "stimulant",
+      "severity": "unsafe",
+      "note": "Serotonin syndrome risk. A serotonin-raising drug stacked with a stimulant; the amphetamine label warns about this pairing.",
+      "citation": "DailyMed: Adderall XR (amphetamine, dextroamphetamine) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aff45863-ffe1-4d4f-8acf-c7081512a6c0",
+      "citationEvidence": {
+        "quote": "Serotonin syndrome, a potentially life-threatening reaction, may occur when amphetamines are used in combination with other drugs that affect the serotonergic neurotransmitter systems such as MAOIs, selective serotonin reuptake inhibitors (SSRIs), serotonin norepinephrine reuptake inhibitors (SNRIs), triptans, tricyclic antidepressants, fentanyl, lithium, tramadol, tryptophan, buspirone, and St. John's Wort",
+        "section": "5.8 Serotonin Syndrome",
+        "identity": "active ingredient names 'Amphetamine' as whole words",
+        "accessed": "2026-11-13",
+        "via": "hand"
+      },
+      "why": "Replaces TripSit's tramadol column, which read 'Tramadol and stimulants both increase the risk of seizures' onto DXM, 4-MA and naphyrone too. The serotonin warning is the class-level claim. Moved from dangerous to unsafe to match the other serotonergic pairs (SSRI, SNRI, TCA, lithium). Tramadol and meperidine reach a stimulant through their opioid class first, so this sentence is read for the members that are not opioids."
+    },
+    {
+      "classA": "dissociative",
+      "classB": "ghb",
+      "severity": "dangerous",
+      "note": "Sudden unconsciousness and slowed breathing. The sodium oxybate (GHB) label warns that general anesthetics and other depressants raise its risk of respiratory depression and death.",
+      "citation": "DailyMed: XYREM (sodium oxybate) label; https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=926eb076-a4a8-45e4-91ef-411f0aa4f3ca",
+      "citationEvidence": {
+        "quote": "The concurrent use of Xyrem with other CNS depressants, including but not limited to opioid analgesics, benzodiazepines, sedating antidepressants or antipsychotics, sedating anti-epileptic drugs, general anesthetics, muscle relaxants, and/or illicit CNS depressants, may increase the risk of respiratory depression, hypotension, profound sedation, syncope, and death.",
+        "section": "5 Warnings and Precautions",
+        "identity": "the label's active ingredient is sodium oxybate, the sodium salt of GHB; ketamine and nitrous oxide are general anesthetics",
+        "accessed": "2026-11-13",
+        "via": "hand"
+      },
+      "why": "DXM + GHB was warned about only through TripSit's tramadol column, which no longer maps to `serotonergic`. The danger belongs to the dissociative class, and it covered nothing else: ketamine, PCP or nitrous with GHB returned no rule at all."
     }
   ]
 }

@@ -9,10 +9,11 @@ import Foundation
 /// in, which a database row cannot be. Keeping it here is what stops a data
 /// rebuild from putting an untranslated sentence in front of a reader.
 ///
-/// A pair with no entry renders the row's own English note instead. That is not
-/// a gap to fill mechanically — it is how TripSit's rules have always been
-/// shown, and it is the honest default for a verdict Piru has not adjudicated
-/// itself.
+/// A pair with no entry renders the row's own English note instead, which is
+/// how an unadjudicated TripSit row would reach the reader. Every row in the
+/// bundled database has an entry, and `InteractionCheckerTests` fails on one
+/// that does not: a new TripSit pair needs a verdict and a sentence written for
+/// it, never its note copied in.
 ///
 /// Every sentence is written the same way: the effect, an em dash, then the
 /// elaboration. Compact surfaces show only the part before the dash
@@ -124,5 +125,13 @@ enum InteractionRuleCopy {
         (.cannabinoid, .benzodiazepine, "Additive sedation. Drowsiness and impaired coordination may increase."),
         (.cannabinoid, .opioid, "Additive CNS depression. Sedation and respiratory depression risk may rise."),
         (.cannabinoid, .alcohol, "Additive impairment. More dizziness, drowsiness, and slower reactions."),
+        (.alcohol, .maoi, "Tap beer can spike blood pressure. In 98 beer samples, every bottled or canned one was low in tyramine; the four high enough to matter on an irreversible MAOI (phenelzine, tranylcypromine) were all on tap."),
+        (.alcohol, .ssri, "Sertraline and escitalopram showed no added impairment in trials. They did not deepen alcohol's effects on thinking or coordination, though the escitalopram label still advises against drinking."),
+        (.cannabinoid, .gabapentinoid, "Added dizziness and drowsiness. Gabapentinoids cause both on their own, and the dronabinol (THC) label warns that drugs causing them add to its effect."),
+        (.cannabinoid, .stimulant, "Heart rate and blood pressure add up. THC raises heart rate on its own, and the dronabinol (THC) label advises against combining it with amphetamines and similar stimulants."),
+        (.gabapentinoid, .ghb, "Severe respiratory depression. The sodium oxybate (GHB) label lists sedating anti-epileptic drugs among the depressants that raise its risk of respiratory depression and death, and the pregabalin label warns of the same."),
+        (.gabapentinoid, .stimulant, "Seizure risk at heavy doses. Pregabalin overdoses have caused seizures, and the amphetamine label warns that stimulants can lower the seizure threshold."),
+        (.serotonergic, .stimulant, "Serotonin syndrome risk. A serotonin-raising drug stacked with a stimulant; the amphetamine label warns about this pairing."),
+        (.dissociative, .ghb, "Sudden unconsciousness and slowed breathing. The sodium oxybate (GHB) label warns that general anesthetics and other depressants raise its risk of respiratory depression and death."),
     ]
 }

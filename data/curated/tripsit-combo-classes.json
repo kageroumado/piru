@@ -2,6 +2,7 @@
   "_meta": {
     "what": "Which terms on TripSit's combination axis may be read as one of Piru's DrugClass values.",
     "why": "TripSit's matrix mixes classes with substances. 'benzodiazepines' is a class; 'ketamine', 'lsd' and 'mephedrone' are not, and reading a ketamine-specific note as a claim about every dissociative invents one — TripSit's lithium warning names MXE, its pregabalin seizure warning names NBOMe, and its MAOI warning names αMT. Only a term that IS the class it maps to, or is TripSit's own class term, is listed. Everything else is dropped rather than generalised; the loss is real and it is the honest side to err on.",
+    "tramadol": "Never map 'tramadol' to `serotonergic`. That class also holds DXM, 4-MA and naphyrone, and TripSit's tramadol column is about tramadol: its seizure threshold and its opioid half ('Tramadol and stimulants both increase the risk of seizures' reached DXM + amphetamine). Tramadol's depressant pairings already resolve through its `opioid` class; the class-level serotonin warning against stimulants is a curated rule in interaction-rules.json.",
     "severity": "TripSit's six statuses collapse onto Piru's three. The distinction between 'Low Risk & Synergy' and 'Low Risk & Decrease' — opposite advice at the same severity — survives in `interaction_rules.status`, which is stored verbatim.",
     "curated_wins": "Where a pair already has a hand-written Swift rule, that rule wins. TripSit is community consensus; the Swift rules carry adjudications that deliberately contradict folk ordering (MDMA + SSRI is blockade, not danger)."
   },
@@ -15,8 +16,7 @@
     "ghb/gbl": "ghb",
     "cannabis": "cannabinoid",
     "amphetamines": "stimulant",
-    "pregabalin": "gabapentinoid",
-    "tramadol": "serotonergic"
+    "pregabalin": "gabapentinoid"
   },
   "severity": {
     "Dangerous": "dangerous",
