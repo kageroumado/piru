@@ -32,45 +32,69 @@ private struct MythBustRow: View {
 
     @State private var isExpanded = false
 
+    // A borderless Button toggles, never a DisclosureGroup, and the citation
+    // links are borderless too: the whole Safety block is one List row, and a row
+    // hands a tap anywhere inside it to the first row-activated control, so an
+    // expand tap would open a citation link.
     var body: some View {
-        DisclosureGroup(isExpanded: $isExpanded) {
-            VStack(alignment: .leading, spacing: Spacing.md) {
-                Text(correction)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
+        VStack(alignment: .leading, spacing: 0) {
+            Button {
+                withAnimation(.snappy(duration: 0.25)) { isExpanded.toggle() }
+            } label: {
+                claimRow
+            }
+            .buttonStyle(.borderless)
+            .accessibilityValue(Text(isExpanded ? "Expanded" : "Collapsed"))
 
-                if let quote = myth.pullQuote {
-                    PullQuoteView(quote: quote)
-                }
+            if isExpanded {
+                VStack(alignment: .leading, spacing: Spacing.md) {
+                    Text(correction)
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
 
-                if !myth.citations.isEmpty {
-                    FlowLayout(spacing: Spacing.sm) {
-                        ForEach(Array(myth.citations.enumerated()), id: \.offset) { _, citation in
-                            MythCitationChip(citation: citation, accent: accent)
+                    if let quote = myth.pullQuote {
+                        PullQuoteView(quote: quote)
+                    }
+
+                    if !myth.citations.isEmpty {
+                        FlowLayout(spacing: Spacing.sm) {
+                            ForEach(Array(myth.citations.enumerated()), id: \.offset) { _, citation in
+                                MythCitationChip(citation: citation, accent: accent)
+                            }
                         }
                     }
                 }
-            }
-            .padding(.top, Spacing.sm)
-            .padding(.leading, Self.markerWidth)
-        } label: {
-            HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .frame(width: Self.markerWidth - 8, alignment: .leading)
-                    .accessibilityHidden(true)
-                Text(myth.claim)
-                    .sectionLabel()
-                    .fixedSize(horizontal: false, vertical: true)
-                    // Prefix so VoiceOver never reads the claim as an endorsed
-                    // fact before reaching the correction (the ✕ is silent).
-                    .accessibilityLabel(Text("Myth: \(myth.claim)"))
+                .padding(.top, Spacing.sm)
+                .padding(.leading, Self.markerWidth)
+                .transition(.opacity)
             }
         }
-        .tint(Theme.secondaryLabel)
         .padding(.vertical, Spacing.xxs)
+    }
+
+    private var claimRow: some View {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
+            Image(systemName: "xmark.circle.fill")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(width: Self.markerWidth - 8, alignment: .leading)
+                .accessibilityHidden(true)
+            Text(myth.claim)
+                .sectionLabel()
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                // Prefix so VoiceOver never reads the claim as an endorsed
+                // fact before reaching the correction (the ✕ is silent).
+                .accessibilityLabel(Text("Myth: \(myth.claim)"))
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.right")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+                .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                .accessibilityHidden(true)
+        }
+        .contentShape(.rect)
     }
 
     /// Indent that aligns the expanded correction under the claim text, past the
@@ -116,6 +140,7 @@ private struct MythCitationChip: View {
     var body: some View {
         if let url = citation.citation.resolvedURL {
             Link(destination: url) { chip(linked: true) }
+                .buttonStyle(.borderless)
         } else {
             chip(linked: false)
         }
