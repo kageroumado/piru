@@ -21,7 +21,7 @@
   ],
   "mechanismOfAction": {
     "summary": "Low-Affinity GABA-A Benzodiazepine-Site Ligand",
-    "description": "Apigenin competitively displaces flunitrazepam from the benzodiazepine site of bovine cortical membranes with a Ki of 4 µM, and leaves muscarinic, α1-adrenergic and muscimol binding untouched. Which way it pushes the receptor is unresolved: in mice it was anxiolytic-like without muscle relaxation or anticonvulsant action, while in cultured rat neurons it reduced GABA-activated chloride currents, an effect flumazenil blocked, and its sedative effect in rats was not reversed by flumazenil, pointing to another system. All of these measurements come from animal tissue and animals.",
+    "description": "Apigenin competitively displaces flunitrazepam from the benzodiazepine site of bovine cortical membranes, weakly, and leaves muscarinic, α1-adrenergic and muscimol binding untouched. Which way it pushes the receptor is unresolved: in mice it was anxiolytic-like without muscle relaxation or anticonvulsant action, while in cultured rat neurons it reduced GABA-activated chloride currents, an effect flumazenil blocked, and its sedative effect in rats was not reversed by flumazenil, pointing to another system. All of these measurements come from animal tissue and animals.",
     "references": [
       "doi:10.1055/s-2006-958058",
       "doi:10.1016/s0006-2952(00)00264-1"

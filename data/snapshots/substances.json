@@ -15473,6 +15473,41 @@
     ]
   },
   {
+    "name": "Apigenin",
+    "display_name": "",
+    "aliases": [
+      "4',5,7-Trihydroxyflavone",
+      "5,7,4'-Trihydroxyflavone"
+    ],
+    "category": "Supplement",
+    "display_class": "otc",
+    "tags": [
+      "OTC",
+      "flavonoid",
+      "supplement"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "Low-Affinity GABA-A Benzodiazepine-Site Ligand",
+    "effects": [],
+    "references": [
+      "Apigenin, a component of Matricaria recutita flowers, is a central benzodiazepine receptors-ligand with anxiolytic effects",
+      "Pharmacological profile of apigenin, a flavonoid isolated from Matricaria chamomilla",
+      "Modulating stress and sleep through a multi-compound dietary supplement: a randomized, double-blind, placebo-controlled trial",
+      "Bioavailability of apigenin from apiin-rich parsley in humans"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes"
+    ]
+  },
+  {
     "name": "Apixaban",
     "display_name": "",
     "aliases": [
@@ -21035,6 +21070,46 @@
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=30142-211"
     ],
     "data_gaps": []
+  },
+  {
+    "name": "Chamomile",
+    "display_name": "",
+    "aliases": [
+      "Chamomile Extract",
+      "Chamomile Tea",
+      "German Chamomile",
+      "Matricaria chamomilla",
+      "Matricaria recutita"
+    ],
+    "category": "Supplement",
+    "display_class": "otc",
+    "tags": [
+      "OTC",
+      "herbal",
+      "supplement"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "Apigenin, a component of Matricaria recutita flowers, is a central benzodiazepine receptors-ligand with anxiolytic effects",
+      "A randomized, double-blind, placebo-controlled trial of oral Matricaria recutita (chamomile) extract therapy for generalized anxiety disorder",
+      "Long-term chamomile (Matricaria chamomilla L.) treatment for generalized anxiety disorder: A randomized clinical trial",
+      "Preliminary examination of the efficacy and safety of a standardized chamomile extract for chronic primary insomnia: a randomized placebo-controlled pilot study",
+      "Warfarin interaction with Matricaria chamomilla"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
   },
   {
     "name": "Changa",
@@ -38467,6 +38542,44 @@
     ]
   },
   {
+    "name": "Lemon Balm",
+    "display_name": "",
+    "aliases": [
+      "Melissa",
+      "Melissa officinalis"
+    ],
+    "category": "Supplement",
+    "display_class": "otc",
+    "tags": [
+      "OTC",
+      "herbal",
+      "supplement"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "GABA Transaminase Inhibition by Rosmarinic Acid (In Vitro)",
+    "effects": [],
+    "references": [
+      "Attenuation of laboratory-induced stress in humans after acute administration of Melissa officinalis (Lemon Balm)",
+      "Bioassay-guided fractionation of lemon balm (Melissa officinalis L.) using an in vitro measure of GABA transaminase activity",
+      "Modulation of mood and cognitive performance following acute administration of single doses of Melissa officinalis (Lemon balm) with human CNS nicotinic and muscarinic receptor-binding properties",
+      "The effects of lemon balm (Melissa officinalis L.) on depression and anxiety in clinical trials: A systematic review and meta-analysis"
+    ],
+    "data_gaps": [
+      "duration_by_route",
+      "half_life_minutes"
+    ]
+  },
+  {
     "name": "Lenalidomide",
     "display_name": "",
     "aliases": [
@@ -49871,6 +49984,46 @@
     ]
   },
   {
+    "name": "Passionflower",
+    "display_name": "",
+    "aliases": [
+      "Maypop",
+      "Passiflora incarnata",
+      "Passion Flower",
+      "Purple Passionflower"
+    ],
+    "category": "Supplement",
+    "display_class": "otc",
+    "tags": [
+      "OTC",
+      "herbal",
+      "supplement"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "GABA-System Binding by Whole Extract (In Vitro)",
+    "effects": [],
+    "references": [
+      "Modulation of the γ-aminobutyric acid (GABA) system by Passiflora incarnata L",
+      "Passiflora incarnata L. (Passionflower) extracts elicit GABA currents in hippocampal neurons in vitro, and show anxiogenic and anticonvulsant effects in vivo, varying with extraction method",
+      "<i>Passiflora incarnata</i> in Neuropsychiatric Disorders-A Systematic Review",
+      "Passionflower in the treatment of generalized anxiety: a pilot double-blind randomized controlled trial with oxazepam",
+      "A double-blind, placebo-controlled investigation of the effects of Passiflora incarnata (passionflower) herbal tea on subjective sleep quality",
+      "Effects of Passiflora incarnata Linnaeus on polysomnographic sleep parameters in subjects with insomnia disorder: a double-blind randomized placebo-controlled study",
+      "Toxicity of<i>Passiflora incarnata</i>L"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes"
+    ]
+  },
+  {
     "name": "PCE",
     "display_name": "",
     "aliases": [
@@ -52592,7 +52745,7 @@
       "https://en.wikipedia.org/wiki/Pregabalin",
       "Clinical pharmacokinetics of pregabalin in healthy volunteers",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0071-1012",
-      "DailyMed: Lyrica (pregabalin) label"
+      "DailyMed: LYRICA (pregabalin) label"
     ],
     "data_gaps": []
   },
@@ -61424,6 +61577,48 @@
       "duration_by_route",
       "half_life_minutes",
       "references"
+    ]
+  },
+  {
+    "name": "Valerian",
+    "display_name": "",
+    "aliases": [
+      "Baldrian",
+      "Valerian Extract",
+      "Valerian Root",
+      "Valeriana officinalis"
+    ],
+    "category": "Supplement",
+    "display_class": "otc",
+    "tags": [
+      "OTC",
+      "herbal",
+      "supplement"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "Valerenic Acid: β2/β3-Selective GABA-A Modulator",
+    "effects": [],
+    "references": [
+      "Valerian Root in Treating Sleep Problems and Associated Disorders-A Systematic Review and Meta-Analysis",
+      "GABA A receptors as in vivo substrate for the anxiolytic action of valerenic acid, a major constituent of valerian root extracts",
+      "Valerenic acid potentiates and inhibits GABA(A) receptors: molecular mechanism and subunit specificity",
+      "Valerian for sleep: a systematic review and meta-analysis",
+      "Pharmacokinetics of valerenic acid after administration of valerian in healthy subjects",
+      "Multiple night-time doses of valerian (Valeriana officinalis) had minimal effects on CYP3A4 activity and no effect on CYP2D6 activity in healthy volunteers"
+    ],
+    "data_gaps": [
+      "duration_by_route",
+      "half_life_minutes"
     ]
   },
   {
