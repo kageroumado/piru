@@ -28,7 +28,7 @@
 
 # Apple frameworks with no Android counterpart. The types the shared code names from them
 # are stood in for by app/Sources/Piru/Android/Platform/, one file per framework.
-^[ \t]*import (Charts|WidgetKit|TipKit|UniformTypeIdentifiers|StoreKit|HealthKit|MapKit|ActivityKit|VisionKit|CommonCrypto|PDFKit|QuickLook|CoreMotion|BackgroundTasks)$	
+^[ \t]*import (Charts|WidgetKit|TipKit|UniformTypeIdentifiers|StoreKit|HealthKit|MapKit|ActivityKit|VisionKit|CommonCrypto|PDFKit|QuickLook|CoreMotion|BackgroundTasks|ObjectiveC)$	
 # SkipFuseUI carries its own UserNotifications shim inside its SwiftUI module.
 ^([ \t]*)import UserNotifications$	\1import SwiftUI
 # CGFloat, CGPoint, CGRect and CGSize are Foundation's on Android.
