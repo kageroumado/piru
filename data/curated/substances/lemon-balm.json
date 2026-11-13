@@ -1,0 +1,47 @@
+{
+  "name": "Lemon Balm",
+  "aliases": [
+    "Melissa",
+    "Melissa officinalis"
+  ],
+  "popularAliases": [
+    "Melissa",
+    "Melissa officinalis"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "common": {
+          "lower": 300,
+          "upper": 600
+        }
+      },
+      "notes": "Single doses of a standardized methanol–water leaf extract in a placebo-controlled crossover study; dried leaf has been studied at 600–1,600 mg.",
+      "doseSource": "doi:10.1097/01.psy.0000132877.72833.71"
+    }
+  ],
+  "description": "Lemon balm is Melissa officinalis, a lemon-scented herb of the mint family, taken as tea or leaf extract for calm and sleep.\n\nIn 18 healthy volunteers, a single 600 mg dose of a standardized extract raised self-rated calmness and lowered alertness during a laboratory stressor an hour later; 300 mg left mood unchanged but sped up arithmetic without costing accuracy. Dried leaf depends on the preparation: one batch, given at 600, 1,000 and 1,600 mg, improved memory and calmness at the highest dose and slowed timed memory tasks at the lower ones. A 2021 meta-analysis of randomized trials found lower anxiety and depression scores than placebo without serious side effects, across products taken at 300 to 5,000 mg a day.",
+  "descriptionReferences": [
+    "doi:10.1097/01.psy.0000132877.72833.71",
+    "doi:10.1038/sj.npp.1300230",
+    "doi:10.1002/ptr.7252"
+  ],
+  "mechanismOfAction": {
+    "summary": "GABA Transaminase Inhibition by Rosmarinic Acid (In Vitro)",
+    "description": "In vitro, a methanol extract of lemon balm leaf inhibited rat brain GABA transaminase, the enzyme that breaks GABA down; rosmarinic acid, about 1.5% of the dry leaf, accounted for most of the activity, with ursolic and oleanolic acids also active. Whether this happens after oral use is not known. Some leaf samples also displace ligands from human cortical nicotinic and muscarinic receptors, but the standardized extract that raised calmness in volunteers binds there only weakly, so cholinergic binding is unlikely to explain that effect.",
+    "references": [
+      "doi:10.1002/ptr.2712",
+      "doi:10.1038/sj.npp.1300230",
+      "doi:10.1097/01.psy.0000132877.72833.71"
+    ]
+  },
+  "tags": [
+    "supplement",
+    "herbal",
+    "OTC"
+  ]
+}

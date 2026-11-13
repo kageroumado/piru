@@ -1,0 +1,30 @@
+{
+  "name": "Chamomile",
+  "aliases": [
+    "German Chamomile",
+    "Chamomile Tea",
+    "Chamomile Extract",
+    "Matricaria chamomilla",
+    "Matricaria recutita"
+  ],
+  "popularAliases": [
+    "German Chamomile",
+    "Matricaria chamomilla"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [],
+  "description": "Chamomile here is German chamomile (Matricaria chamomilla, also filed as M. recutita), whose dried flower heads are brewed as a calming tea. One of its flavones, apigenin, binds the benzodiazepine site in vitro and has its own entry; how much of chamomile's effect apigenin accounts for is not known, and an extract standardized to other constituents may give different results.\n\nThe controlled evidence comes from a few small trials of extract capsules. In 57 people with mild to moderate generalized anxiety disorder, an extract standardized to 1.2% apigenin, taken at 220–1,100 mg a day for eight weeks, lowered anxiety scores more than placebo, a modest difference (P = 0.047). In a longer study, people who responded to 12 weeks of 1,500 mg a day were switched to either chamomile or placebo for 26 weeks; fewer relapsed on chamomile (15% against 26%), but the difference was not significant. In 34 adults with chronic insomnia, 270 mg twice a day for four weeks did not change sleep-diary measures compared with placebo.\n\nOne case report describes multiple internal hemorrhages in a woman taking warfarin after she used chamomile tea and lotion.",
+  "descriptionReferences": [
+    "doi:10.1097/JCP.0b013e3181ac935c",
+    "doi:10.1016/j.phymed.2016.10.012",
+    "doi:10.1186/1472-6882-11-78",
+    "doi:10.1503/cmaj.051191",
+    "doi:10.1055/s-2006-958058"
+  ],
+  "tags": [
+    "supplement",
+    "herbal",
+    "OTC"
+  ]
+}

@@ -265,6 +265,12 @@
       "zh-Hant": "茴拉西坦"
     },
     {
+      "substance": "Apigenin",
+      "es": "Apigenina",
+      "zh-Hans": "芹菜素",
+      "zh-Hant": "芹菜素"
+    },
+    {
       "substance": "Apomorphine",
       "es": "Apomorfina",
       "zh-Hans": "阿扑吗啡",
@@ -677,6 +683,12 @@
       "es": "Cetirizina",
       "zh-Hans": "西替利嗪",
       "zh-Hant": "西替利嗪"
+    },
+    {
+      "substance": "Chamomile",
+      "es": "Manzanilla",
+      "zh-Hans": "洋甘菊",
+      "zh-Hant": "洋甘菊"
     },
     {
       "substance": "Chloral Hydrate",
@@ -1738,6 +1750,12 @@
       "zh-Hant": "萊博雷生"
     },
     {
+      "substance": "Lemon Balm",
+      "es": "Melisa",
+      "zh-Hans": "香蜂草",
+      "zh-Hant": "香蜂草"
+    },
+    {
       "substance": "Letrozole",
       "es": "Letrozol",
       "zh-Hans": "来曲唑",
@@ -2417,6 +2435,12 @@
       "es": "Paroxetina",
       "zh-Hans": "帕罗西汀",
       "zh-Hant": "帕羅西汀"
+    },
+    {
+      "substance": "Passionflower",
+      "es": "Pasiflora",
+      "zh-Hans": "西番莲",
+      "zh-Hant": "西番蓮"
     },
     {
       "substance": "Pemoline",
@@ -3257,6 +3281,12 @@
       "es": "Umeclidinio",
       "zh-Hans": "乌美溴铵",
       "zh-Hant": "烏美溴銨"
+    },
+    {
+      "substance": "Valerian",
+      "es": "Valeriana",
+      "zh-Hans": "缬草",
+      "zh-Hant": "纈草"
     },
     {
       "substance": "Valproate",

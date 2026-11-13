@@ -36,6 +36,9 @@ in-code curation dict: one file fully describes one substance.
   `halfLifeMinutes`, and the same pattern elsewhere — and that is what the
   citation gates can actually check. Adding another URL to `sources` looks like
   citing the number and is not.
+- A curated `description` paragraph lists the works it states its facts from in
+  `descriptionReferences`; the first citable one is the description row's
+  citation, the same rule `mechanismOfAction.references` follows.
 - Enforced validator: `build/validate_curated.py` (stdlib, build-consistent route
   normalisation). Run before every build; CI/test gate via `tests/test_sqlite.py`.
 - `build/sqlite.py` ingests this directory **directly** as the `piru-curated`

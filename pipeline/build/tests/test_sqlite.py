@@ -2054,6 +2054,12 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
         e = dict(self._base, halfLifeSource="")
         self.assertTrue(any("halfLifeSource" in x for x in self._check(e, "foo.json")))
 
+    def test_description_references_need_references_and_a_description(self):
+        empty = dict(self._base, description="Foo is a stimulant.", descriptionReferences=[])
+        self.assertTrue(any("descriptionReferences" in x for x in self._check(empty, "foo.json")))
+        orphan = dict(self._base, descriptionReferences=["doi:10.1000/foo"])
+        self.assertTrue(any("no `description`" in x for x in self._check(orphan, "foo.json")))
+
     def test_missing_provenance_is_advisory_only(self):
         # A dosed compound with no references → warning, not error (norm-setting).
         e = dict(
