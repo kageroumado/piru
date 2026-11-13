@@ -256,6 +256,16 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
         isinstance(e["halfLifeSource"], str) and e["halfLifeSource"].strip()
     ):
         err.append(f"{tag}: halfLifeSource must be a non-empty reference string")
+    # The works a curated description paragraph rests on; the first citable one
+    # becomes the description row's citation.
+    if "descriptionReferences" in e:
+        refs = e["descriptionReferences"]
+        if not (
+            isinstance(refs, list) and refs and all(isinstance(r, str) and r.strip() for r in refs)
+        ):
+            err.append(f"{tag}: descriptionReferences must be a non-empty list of references")
+        elif not e.get("description"):
+            err.append(f"{tag}: descriptionReferences has no `description` to cite")
     # A half-life range is both ends or neither, ordered, and cited — the point of storing
     # the range is that it is what a source says, so an uncited one is just a wider guess.
     lo, hi = e.get("halfLifeMinutesMin"), e.get("halfLifeMinutesMax")

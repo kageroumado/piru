@@ -1,0 +1,48 @@
+{
+  "name": "Apigenin",
+  "aliases": [
+    "4',5,7-Trihydroxyflavone",
+    "5,7,4'-Trihydroxyflavone"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [],
+  "inchikey": "KZNIFHPLKGYRTM-UHFFFAOYSA-N",
+  "smiles": "C1=CC(=CC=C1C2=CC(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "formula": "C15H10O5",
+  "pubchemCID": 5280443,
+  "cas": "520-36-5",
+  "description": "Apigenin (5,7,4′-trihydroxyflavone) is a flavone found in chamomile flowers and in parsley, also sold on its own as a supplement.\n\nIts reputation rests on receptor and animal studies. It binds the benzodiazepine site of the GABA-A receptor, but weakly, with a Ki of 4 µM in bovine brain membranes; injected into mice it reduced anxiety-like behavior, with mild sedation only at ten times that dose. A rat study found the opposite direction at the receptor, with apigenin reducing GABA-evoked currents, and sedation that the benzodiazepine antagonist flumazenil did not reverse. What has been shown in people is limited: in a 2026 placebo-controlled trial, an evening capsule combining 50 mg apigenin with magnesium L-threonate and L-theanine did not improve stress, mood or sleep measures over two weeks.\n\nLittle of it reaches the blood. After a large serving of parsley (2 g per kg of body weight), plasma apigenin peaked at about 7 hours at 127 nmol/L, well below the micromolar concentrations at which it binds the receptor, and fell below detection within 28 hours; 0.2% of the amount eaten appeared in urine.",
+  "descriptionReferences": [
+    "doi:10.1055/s-2006-958058",
+    "doi:10.1016/s0006-2952(00)00264-1",
+    "doi:10.1080/15502783.2026.2740227",
+    "doi:10.1159/000090736"
+  ],
+  "mechanismOfAction": {
+    "summary": "Low-Affinity GABA-A Benzodiazepine-Site Ligand",
+    "description": "Apigenin competitively displaces flunitrazepam from the benzodiazepine site of bovine cortical membranes with a Ki of 4 µM, and leaves muscarinic, α1-adrenergic and muscimol binding untouched. Which way it pushes the receptor is unresolved: in mice it was anxiolytic-like without muscle relaxation or anticonvulsant action, while in cultured rat neurons it reduced GABA-activated chloride currents, an effect flumazenil blocked, and its sedative effect in rats was not reversed by flumazenil, pointing to another system. All of these measurements come from animal tissue and animals.",
+    "references": [
+      "doi:10.1055/s-2006-958058",
+      "doi:10.1016/s0006-2952(00)00264-1"
+    ],
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site",
+        "action": "modulator",
+        "affinity": 1,
+        "ki_nm": 4000,
+        "species": "bovine",
+        "tissue_or_cell": "cerebral cortex synaptosomal membranes",
+        "radioligand": "[3H]flunitrazepam",
+        "reference": "doi:10.1055/s-2006-958058",
+        "notes": "direction unresolved: anxiolytic-like in mice, reduced GABA-activated currents in rat neurons"
+      }
+    ]
+  },
+  "tags": [
+    "supplement",
+    "flavonoid",
+    "OTC"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "Valerian",
+  "aliases": [
+    "Valerian Root",
+    "Valerian Extract",
+    "Valeriana officinalis",
+    "Baldrian"
+  ],
+  "popularAliases": [
+    "Valerian Root",
+    "Valeriana officinalis"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "common": {
+          "lower": 400,
+          "upper": 600
+        }
+      },
+      "notes": "Per dose of dry hydroalcoholic root extract, the European Medicines Agency monograph range as the cited review reports it; comminuted dried root is used at 0.3–3 g.",
+      "doseSource": "doi:10.1177/2515690X20967323"
+    }
+  ],
+  "description": "Valerian is the root and rhizome of Valeriana officinalis, taken as dried root, tea or dry extract, mostly for sleep and nervous tension.\n\nThe trial evidence is inconsistent. A 2006 meta-analysis found 16 placebo-controlled trials, most with significant methodological problems; the six that scored sleep quality as improved or not favored valerian (relative risk 1.8), with signs of publication bias in that result. A 2020 meta-analysis of ten trials of repeated dosing found no significant overall effect on subjective sleep quality, and whole-root preparations scored better than extracts. Single doses of standardized extract from 100 to 1,600 mg did not impair cognitive or psychomotor performance, and a minority of people reported agitation or restlessness instead of calm.\n\nValerenic acid, the marker compound valerian products are assayed by, peaked in the blood 1–2 hours after a 600 mg dose in six healthy adults and had an elimination half-life of about an hour. Fourteen nights of 1,000 mg barely changed CYP3A4 activity and left CYP2D6 unchanged.",
+  "descriptionReferences": [
+    "doi:10.1177/2515690X20967323",
+    "doi:10.1016/j.amjmed.2006.02.026",
+    "doi:10.1002/ptr.1742",
+    "doi:10.1124/dmd.104.001164"
+  ],
+  "mechanismOfAction": {
+    "summary": "Valerenic Acid: β2/β3-Selective GABA-A Modulator",
+    "description": "Valerian's best-characterized constituent, valerenic acid, enhances GABA-A receptor currents only when the receptor carries a β2 or β3 subunit, through a site flumazenil does not block (most likely the loreclezole pocket), and inhibits them at high concentrations. It binds rat brain membranes with nanomolar affinity, and its anxiolytic-like effect in mice disappears when the β3 subunit carries the N265M point mutation, while diazepam's remains. Which constituents account for the effects of whole valerian preparations in people has not been established.",
+    "references": [
+      "doi:10.1016/j.neuropharm.2008.06.013",
+      "doi:10.1016/j.neuropharm.2007.04.018"
+    ]
+  },
+  "tags": [
+    "supplement",
+    "herbal",
+    "OTC"
+  ]
+}
