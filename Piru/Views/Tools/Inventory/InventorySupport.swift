@@ -95,13 +95,23 @@ extension InventoryItem {
     /// display we resolve it to the library's presentation name — the same one
     /// the journal and quick-log show (e.g. canonical "Bromoketamine" →
     /// "2-Br-DCK") — falling back to the stored name for custom substances.
+    ///
+    /// An isomer or product item is titled the way a logged dose of that form
+    /// is (``DoseTitle``): "Dextroamphetamine", "Adderall".
     @MainActor
     var displayTitle: String {
         // Batch projection — this property is hit per row in body, per keystroke
         // in the inventory search filter, and inside sort comparators; the heavy
         // per-substance resolve here cost ~21 SQL per uncached name.
-        let resolved = SubstanceLibrary.lookup(substance)?.displayTitle ?? substance
-        if let salt = saltForm, !salt.isEmpty {
+        let resolved = isPlain
+            ? SubstanceLibrary.lookup(substance)?.displayTitle ?? substance
+            : DoseTitle.resolve(
+                substance: substance, productName: InventoryItem.facet(productName),
+                namesForm: InventoryItem.facet(isomer) != nil, isomer: InventoryItem.facet(isomer),
+                releaseForm: nil, saltForm: saltForm, snapshot: displayNameSnapshot,
+            )
+        // DoseTitle folds an injectable ester into the name already.
+        if let salt = saltForm, !salt.isEmpty, isPlain || !resolved.localizedCaseInsensitiveContains(salt) {
             return "\(resolved) · \(salt)"
         }
         return resolved

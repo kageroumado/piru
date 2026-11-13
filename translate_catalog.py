@@ -2456,6 +2456,11 @@ T = {
         "自定义物质。其剂量按名称精确匹配计入。",
         "自訂物質。其劑量按名稱精確匹配計入。",
     ),
+    "Stock of": ("库存类型", "庫存類型"),
+    "Doses of the chosen form come off this item. An item set to Any takes the rest.": (
+        "所选形式的剂量从此项目中扣除。设为“任意”的项目承担其余剂量。",
+        "所選形式的劑量從此項目中扣除。設為「任意」的項目承擔其餘劑量。",
+    ),
     "Restock": ("补充", "補充"),
     "Track": ("追踪", "追蹤"),
     "Not tracked": ("未追踪", "未追蹤"),
@@ -8965,6 +8970,12 @@ if __name__ == "__main__":
             "Language",
             "System",
             "System uses your device’s language. Widgets switch at their next refresh.",
+        }
+    )
+    NEW_KEYS.update(
+        {
+            "Stock of",
+            "Doses of the chosen form come off this item. An item set to Any takes the rest.",
         }
     )
     NEW_KEYS.update({"h", "modeled at %@"})

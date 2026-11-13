@@ -50,25 +50,96 @@ enum InventoryMath {
         return Dictionary(grouping: all) { matchKey(for: $0) }
     }
 
-    /// All doses in `buckets` that count against this item: its identity
-    /// bucket narrowed to salt (strict, `nil == nil`) and the item's **own**
-    /// `trackingStart` — the shared fetch is bounded by the *earliest* start
-    /// across the batch, so this re-filter is what keeps a later-started item
-    /// from counting pre-tracking doses.
-    static func doses(for item: InventoryItem, in buckets: [String: [DoseEntry]]) -> [DoseEntry] {
-        // A dose of unknown amount cannot be drawn down from stock.
-        (buckets[matchKey(for: item.substance)] ?? []).filter {
-            $0.timestamp >= item.trackingStart && $0.saltForm == item.saltForm && !$0.isUnknownDose
+    /// How narrowly an item names its stock: a product (2) outranks an isomer
+    /// (1), which outranks the plain item (0). A product is the user's own word
+    /// for what is in the box, so it is the most specific claim.
+    static func specificity(of item: InventoryItem) -> Int {
+        if InventoryItem.facet(item.productName) != nil { return 2 }
+        if InventoryItem.facet(item.isomer) != nil { return 1 }
+        return 0
+    }
+
+    /// Whether `item`'s form facets admit a dose of this isomer and product,
+    /// given the substance and salt already agree: a named product must equal
+    /// the dose's (case-insensitive), a named isomer must equal the dose's, and
+    /// a facet the item leaves unset admits anything.
+    static func admits(_ item: InventoryItem, isomer: String?, productName: String?) -> Bool {
+        if let product = InventoryItem.facet(item.productName) {
+            guard let logged = InventoryItem.facet(productName),
+                  logged.caseInsensitiveCompare(product) == .orderedSame
+            else { return false }
         }
+        if let itemIsomer = InventoryItem.facet(item.isomer) {
+            guard InventoryItem.facet(isomer) == itemIsomer else { return false }
+        }
+        return true
+    }
+
+    /// The one item among `siblings` — items sharing the dose's substance and
+    /// salt — that `dose` deducts from: of those tracking at the dose's time
+    /// whose facets admit it, the most specific (``specificity(of:)``), then the
+    /// oldest. So a Dexedrine dose goes to a Dextroamphetamine item when one
+    /// exists, else to the plain Amphetamine item, and never to both; a dose
+    /// older than the narrower item's `trackingStart` stays with the plain one.
+    static func owner(of dose: DoseEntry, among siblings: [InventoryItem]) -> InventoryItem? {
+        owner(isomer: dose.isomer, productName: dose.productName, at: dose.timestamp, among: siblings)
+    }
+
+    /// ``owner(of:among:)`` for a dose described by its facets — the item a
+    /// dose of this form taken at `date` would deduct from.
+    static func owner(isomer: String?, productName: String?, at date: Date, among siblings: [InventoryItem]) -> InventoryItem? {
+        siblings
+            .filter { date >= $0.trackingStart && admits($0, isomer: isomer, productName: productName) }
+            .max { lhs, rhs in
+                let left = specificity(of: lhs), right = specificity(of: rhs)
+                if left != right { return left < right }
+                if lhs.createdAt != rhs.createdAt { return lhs.createdAt > rhs.createdAt }
+                return lhs.id.uuidString > rhs.id.uuidString
+            }
+    }
+
+    /// Every item's consumption doses, keyed by `ObjectIdentifier(item)`: each
+    /// dose in `buckets` that matches an item's substance identity and salt
+    /// (strict, `nil == nil`) is handed to exactly one item by
+    /// ``owner(of:among:)``. Routing needs every sibling, so `items` must hold
+    /// all items of each substance it touches. The shared fetch is bounded by
+    /// the *earliest* start across the batch; the owner's own `trackingStart`
+    /// check is what keeps a later-started item from counting pre-tracking doses.
+    static func assignedDoses(for items: [InventoryItem], in buckets: [String: [DoseEntry]]) -> [ObjectIdentifier: [DoseEntry]] {
+        let groups = Dictionary(grouping: items) {
+            SaltedKey(key: matchKey(for: $0.substance), saltForm: $0.saltForm)
+        }
+        var assigned: [ObjectIdentifier: [DoseEntry]] = [:]
+        for (group, siblings) in groups {
+            // A dose of unknown amount cannot be drawn down from stock.
+            for dose in buckets[group.key] ?? [] where dose.saltForm == group.saltForm && !dose.isUnknownDose {
+                guard let owner = owner(of: dose, among: siblings) else { continue }
+                assigned[ObjectIdentifier(owner), default: []].append(dose)
+            }
+        }
+        return assigned
+    }
+
+    /// Substance identity plus salt: the group within which form routing runs.
+    struct SaltedKey: Hashable {
+        let key: String
+        let saltForm: String?
     }
 
     /// All doses that count against this item: same resolved substance identity
     /// (so an alias like "IC-26" matches its canonical "Methiodone") and salt
-    /// (strict, `nil == nil`), on or after `trackingStart`. Single-item
-    /// composition of the two batch helpers above, so the filter semantics
-    /// cannot drift between the per-item and batch paths.
+    /// (strict, `nil == nil`), on or after `trackingStart`, minus the doses a
+    /// more specific sibling item claims. Single-item composition of the batch
+    /// helpers above, so the semantics cannot drift between the two paths.
     static func doses(for item: InventoryItem, in ctx: ModelContext) -> [DoseEntry] {
-        doses(for: item, in: dosesByMatchKey(since: item.trackingStart, in: ctx))
+        let key = matchKey(for: item.substance)
+        let siblings = ((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
+            .filter { $0.saltForm == item.saltForm && matchKey(for: $0.substance) == key }
+        let all = siblings.contains { $0 === item } ? siblings : siblings + [item]
+        // Each dose's owner is decided by that dose alone, so doses older than
+        // this item's own start can never be its.
+        let buckets = dosesByMatchKey(since: item.trackingStart, in: ctx)
+        return assignedDoses(for: all, in: buckets)[ObjectIdentifier(item)] ?? []
     }
 
     /// The units that count pieces rather than measure them — the two the
@@ -235,30 +306,77 @@ enum InventoryMath {
 /// honest so a future dip re-fires.
 @MainActor
 enum InventoryService {
-    /// Existing tracked item for a `(substance, salt)` pair, if any. Identity
-    /// is ``InventoryMath/matchKey(for:)``, so "IC-26" and "Methiodone" are one
-    /// item; salt is strict (`nil == nil`).
-    static func find(substance: String, saltForm: String?, in ctx: ModelContext) -> InventoryItem? {
-        find(substance: substance, saltForm: saltForm, among: (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
+    /// Existing tracked item with exactly this identity, if any. Substance
+    /// identity is ``InventoryMath/matchKey(for:)``, so "IC-26" and
+    /// "Methiodone" are one item; salt is strict (`nil == nil`); isomer and
+    /// product must match too, so with both `nil` this finds the plain item only.
+    static func find(
+        substance: String, saltForm: String?, isomer: String? = nil, productName: String? = nil,
+        in ctx: ModelContext,
+    ) -> InventoryItem? {
+        find(
+            substance: substance, saltForm: saltForm, isomer: isomer, productName: productName,
+            among: (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [],
+        )
     }
 
-    /// ``find(substance:saltForm:in:)`` over an already-fetched list.
-    static func find(substance: String, saltForm: String?, among items: [InventoryItem]) -> InventoryItem? {
+    /// ``find(substance:saltForm:isomer:productName:in:)`` over an already-fetched list.
+    static func find(
+        substance: String, saltForm: String?, isomer: String? = nil, productName: String? = nil,
+        among items: [InventoryItem],
+    ) -> InventoryItem? {
         let key = InventoryMath.matchKey(for: substance)
-        return items.first { InventoryMath.matchKey(for: $0.substance) == key && $0.saltForm == saltForm }
+        let identity = FormIdentity(isomer: isomer, productName: productName)
+        return items.first {
+            InventoryMath.matchKey(for: $0.substance) == key && $0.saltForm == saltForm
+                && FormIdentity(isomer: $0.isomer, productName: $0.productName) == identity
+        }
+    }
+
+    /// The item a dose of this identity logged now would deduct from — the
+    /// stock a scheduled med draws on. A salted dose with no item of its salt
+    /// falls back to the salt-less items, as a med scheduled with a salt still
+    /// draws on the salt-less supply.
+    static func stock(
+        substance: String, saltForm: String?, isomer: String?, productName: String?,
+        among items: [InventoryItem], at date: Date = .now,
+    ) -> InventoryItem? {
+        let key = InventoryMath.matchKey(for: substance)
+        let sameSubstance = items.filter { InventoryMath.matchKey(for: $0.substance) == key }
+        func owner(salt: String?) -> InventoryItem? {
+            InventoryMath.owner(
+                isomer: isomer, productName: productName, at: date,
+                among: sameSubstance.filter { $0.saltForm == salt },
+            )
+        }
+        return owner(salt: saltForm) ?? (saltForm == nil ? nil : owner(salt: nil))
     }
 
     /// The tracked item to *show* for a substance among `items`: the exact salt
-    /// when there is one, else the base form, else any — so a salt-agnostic
+    /// when there is one, else the base form, else any — and within that, the
+    /// plain item before an isomer or product one — so a salt- and form-agnostic
     /// surface (the quick-log card, a substance page) still finds the stock.
-    /// Same identity as ``find(substance:saltForm:in:)``; use that one before a
-    /// write, where the salt must match.
+    /// Same identity as ``find(substance:saltForm:isomer:productName:in:)``;
+    /// use that one before a write, where the identity must match.
     static func find(substance: String, preferringSalt saltForm: String?, among items: [InventoryItem]) -> InventoryItem? {
         let key = InventoryMath.matchKey(for: substance)
         let matches = items.filter { InventoryMath.matchKey(for: $0.substance) == key }
+            .sorted { InventoryMath.specificity(of: $0) < InventoryMath.specificity(of: $1) }
         return matches.first { $0.saltForm == saltForm }
             ?? matches.first { $0.saltForm == nil }
             ?? matches.first
+    }
+
+    /// An item's isomer and product as identity: facets normalized, the
+    /// product compared case-insensitively.
+    private struct FormIdentity: Hashable {
+        let isomer: String?
+        let productName: String?
+
+        init(isomer: String?, productName: String?) {
+            self.isomer = InventoryItem.facet(isomer)
+            self.productName = InventoryItem.facet(productName)?.lowercased()
+        }
     }
 
     /// Start tracking a substance with an optional initial amount — or, when
@@ -270,11 +388,14 @@ enum InventoryService {
     /// moves to the new unit and is recounted to `initial`, since the stock on
     /// hand is what was just stated. With `setBaseline: true`, pins the
     /// post-event total as the baseline (100%). `note` rides on the event
-    /// ("Concerta · 28 tablets").
+    /// ("Concerta · 28 tablets"). `isomer` or `productName` narrows the item to
+    /// one form (see ``InventoryItem/isPlain``); a product wins when both come.
     @discardableResult
     static func create(
         substance: String,
         saltForm: String?,
+        isomer: String? = nil,
+        productName: String? = nil,
         unit: String,
         initial: Double,
         threshold: Double?,
@@ -284,7 +405,11 @@ enum InventoryService {
         in ctx: ModelContext,
     ) -> InventoryItem {
         let strength = InventoryMath.isCountUnit(unit) ? normalizedPositive(unitStrengthMG) : nil
-        if let existing = find(substance: substance, saltForm: saltForm, in: ctx) {
+        // One facet per item: a brand never names an enantiomer here, matching
+        // the quick log's brand picker, which clears the isomer.
+        let productName = InventoryItem.facet(productName)
+        let isomer = productName == nil ? InventoryItem.facet(isomer) : nil
+        if let existing = find(substance: substance, saltForm: saltForm, isomer: isomer, productName: productName, in: ctx) {
             if existing.lowStockThreshold == nil { existing.lowStockThreshold = normalizedPositive(threshold) }
             if existing.unitStrengthMG == nil, existing.unit == unit { existing.unitStrengthMG = strength }
             guard let reconciled = InventoryMath.convert(
@@ -310,6 +435,9 @@ enum InventoryService {
         let item = InventoryItem(
             substance: substance,
             saltForm: saltForm,
+            isomer: isomer,
+            productName: productName,
+            displayNameSnapshot: isomer.flatMap { DoseTitle.snapshot(canonicalName: substance, isomer: $0, releaseForm: nil) },
             unit: unit,
             trackingStart: .now,
             lowStockThreshold: normalizedPositive(threshold),
@@ -343,7 +471,10 @@ enum InventoryService {
     static func mergeDuplicateItems(in ctx: ModelContext) -> [UUID] {
         let all = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
         let groups = Dictionary(grouping: all) {
-            IdentityKey(key: InventoryMath.matchKey(for: $0.substance), saltForm: $0.saltForm)
+            IdentityKey(
+                key: InventoryMath.matchKey(for: $0.substance), saltForm: $0.saltForm,
+                form: FormIdentity(isomer: $0.isomer, productName: $0.productName),
+            )
         }
         var merged: [UUID] = []
         for group in groups.values where group.count > 1 {
@@ -375,6 +506,7 @@ enum InventoryService {
     private struct IdentityKey: Hashable {
         let key: String
         let saltForm: String?
+        let form: FormIdentity
     }
 
     /// Add stock. With `setBaseline: true`, captures the post-restock total as the
@@ -508,19 +640,20 @@ enum InventoryService {
 
     /// The batch core the two synchronous recompute entry points share: ONE
     /// `DoseEntry` fetch bounded by the batch's earliest `trackingStart`,
-    /// bucketed by substance identity, then each item replayed over its own
-    /// bucket (re-filtered to its own start and salt). An empty batch fetches
-    /// nothing. Per-item results match ``recompute(_:in:notify:)`` exactly —
-    /// the bucket filter and the single-item path share one implementation.
+    /// bucketed by substance identity, each dose handed to one item by
+    /// ``InventoryMath/assignedDoses(for:in:)``, then each item replayed over
+    /// its own doses. An empty batch fetches nothing. Per-item results match
+    /// ``recompute(_:in:notify:)`` exactly — both paths route through the same
+    /// implementation.
     private static func recomputeBatch(_ items: [InventoryItem], in ctx: ModelContext, notify: Bool) {
         guard let earliest = items.map(\.trackingStart).min() else { return }
-        let buckets = InventoryMath.dosesByMatchKey(since: earliest, in: ctx)
+        let assigned = InventoryMath.assignedDoses(for: items, in: InventoryMath.dosesByMatchKey(since: earliest, in: ctx))
         for item in items {
             item.currentQuantity = InventoryMath.replayQuantity(
                 unit: item.unit,
                 unitStrengthMG: item.unitStrengthMG,
                 events: item.manualEvents,
-                doses: InventoryMath.doses(for: item, in: buckets).map {
+                doses: (assigned[ObjectIdentifier(item)] ?? []).map {
                     InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
                 },
             )
@@ -545,9 +678,9 @@ enum InventoryService {
         // Snapshot each affected item's unit/events + its matching doses on the
         // actor — one shared bucketed fetch, same as the synchronous batch core.
         guard let earliest = affected.map(\.trackingStart).min() else { return }
-        let buckets = InventoryMath.dosesByMatchKey(since: earliest, in: ctx)
+        let assigned = InventoryMath.assignedDoses(for: affected, in: InventoryMath.dosesByMatchKey(since: earliest, in: ctx))
         let snapshots: [(unit: String, strength: Double?, events: [ManualEvent], doses: [InventoryMath.DoseSnapshot])] = affected.map { item in
-            let doses = InventoryMath.doses(for: item, in: buckets).map {
+            let doses = (assigned[ObjectIdentifier(item)] ?? []).map {
                 InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
             }
             return (item.unit, item.unitStrengthMG, item.manualEvents, doses)
@@ -592,7 +725,7 @@ enum InventoryService {
         item.lowStockNotified = true
         if notify {
             DoseNotificationManager.inventoryLowStock(
-                substance: item.substance,
+                substance: item.isPlain ? item.substance : item.displayTitle,
                 remaining: item.currentQuantity,
                 unit: item.unit,
                 isOut: item.currentQuantity <= 0,

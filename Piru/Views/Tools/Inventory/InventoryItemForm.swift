@@ -171,6 +171,9 @@ struct InventoryItemForm: View {
     /// The library match for the typed name, when one was picked. `nil` for a
     /// custom (off-library) substance — still trackable, just no unit default.
     @State private var selectedSubstance: Substance?
+    /// The isomer or product a new item narrows to; ``InventoryFormChoice/any``
+    /// is the plain item.
+    @State private var formChoice: InventoryFormChoice
 
     init(existingItem: InventoryItem?, prefillSubstance: String?, prefillSalt: String?, prefill: InventoryPrefill? = nil) {
         self.existingItem = existingItem
@@ -180,6 +183,7 @@ struct InventoryItemForm: View {
         _substanceName = State(initialValue: existingItem?.substance ?? prefillSubstance ?? "")
         _draft = State(initialValue: InventoryAmountDraft(prefill: prefill, existingItem: existingItem))
         _note = State(initialValue: prefill?.note ?? "")
+        _formChoice = State(initialValue: .any)
     }
 
     private var isRestock: Bool {
@@ -195,6 +199,14 @@ struct InventoryItemForm: View {
     /// Resolved substance name (no salt) for the nav title.
     private var titleName: String {
         SubstanceLibrary.lookup(substanceName)?.displayTitle ?? substanceName
+    }
+
+    /// The library substance a new item is for: the one picked in search, or
+    /// the prefilled one. `nil` on a restock, whose identity is fixed.
+    private var formSubstance: Substance? {
+        guard existingItem == nil else { return nil }
+        if let selectedSubstance { return selectedSubstance }
+        return prefillSubstance.flatMap { SubstanceLibrary.lookup($0) }
     }
 
     /// "Restock · Caffeine" / "Track · Caffeine" / "Track Substance".
@@ -218,6 +230,12 @@ struct InventoryItemForm: View {
         NavigationStack {
             Form {
                 substanceSection
+                if let formSubstance {
+                    InventoryFormSection(
+                        options: InventoryFormChoice.options(for: formSubstance),
+                        selection: $formChoice,
+                    )
+                }
                 InventoryAmountSection(
                     draft: draft,
                     isRestock: isRestock,
@@ -257,10 +275,11 @@ struct InventoryItemForm: View {
     private var substanceSection: some View {
         if !substanceFixed {
             Section {
-                SubstanceSearchField(text: $substanceName) { selected, _ in
-                    selectSubstance(selected)
+                SubstanceSearchField(text: $substanceName) { selected, matchedAlias in
+                    selectSubstance(selected, matchedAlias: matchedAlias)
                 } onCustom: {
                     selectedSubstance = nil
+                    formChoice = .any
                 }
                 if selectedSubstance == nil, !substanceName.isEmpty {
                     HStack(spacing: Spacing.xs) {
@@ -278,10 +297,13 @@ struct InventoryItemForm: View {
     }
 
     /// Adopt a picked library substance: lock in its canonical name and let the
-    /// draft take its unit and a seed amount. Both stay user-editable.
-    private func selectSubstance(_ substance: Substance) {
+    /// draft take its unit and a seed amount. Both stay user-editable. A search
+    /// that matched a product or an isomer's name ("Adderall", "Dexedrine")
+    /// opens with that form chosen.
+    private func selectSubstance(_ substance: Substance, matchedAlias: String?) {
         selectedSubstance = substance
         substanceName = substance.name
+        formChoice = InventoryFormChoice.matching(matchedAlias, in: InventoryFormChoice.options(for: substance))
         draft.seed(from: substance, saltForm: prefillSalt)
     }
 
@@ -323,9 +345,13 @@ struct InventoryItemForm: View {
             )
         } else {
             let stated = draft.stated
+            // A choice made for a substance the field no longer names is void.
+            let choice = formSubstance == nil ? InventoryFormChoice.any : formChoice
             InventoryService.create(
                 substance: substanceName.trimmingCharacters(in: .whitespaces),
                 saltForm: prefillSalt,
+                isomer: choice.isomer,
+                productName: choice.productName,
                 unit: stated.unit,
                 initial: stated.amount,
                 threshold: nil,
@@ -424,5 +450,100 @@ private struct InventoryAmountSection: View {
             }
         }
         .listRowBackground(CardBackground())
+    }
+}
+
+// MARK: - Form choice
+
+/// The form a new inventory item narrows to — an isomer (Dextroamphetamine) or
+/// a branded product (Adderall) — or ``any``, the plain item. The same facets a
+/// logged dose carries, so the item's doses are the ones logged as that form
+/// (``InventoryMath/owner(of:among:)``).
+struct InventoryFormChoice: Hashable {
+    var isomer: String?
+    var productName: String?
+
+    static let any = InventoryFormChoice()
+
+    struct Option: Identifiable {
+        let choice: InventoryFormChoice
+        /// A proper noun from the catalog, shown verbatim.
+        let title: String
+        var id: InventoryFormChoice {
+            choice
+        }
+    }
+
+    /// What the picker offers, in two groups.
+    struct Options {
+        let isomers: [Option]
+        let products: [Option]
+
+        var isEmpty: Bool {
+            isomers.isEmpty && products.isEmpty
+        }
+    }
+
+    /// The substance's named isomers and its branded products (flagships first,
+    /// the order ``SubstanceLibrary/brandProducts(forUID:)`` gives). Empty for
+    /// the many substances with neither, which then show no picker.
+    @MainActor
+    static func options(for substance: Substance) -> Options {
+        let isomers = substance.availableIsomers.map { code in
+            Option(choice: InventoryFormChoice(isomer: code), title: substance.isomerDisplayName(for: code) ?? "\(substance.name) (\(code))")
+        }
+        var seen = Set<String>()
+        let brands = substance.substanceUID.map(SubstanceLibrary.brandProducts(forUID:)) ?? []
+        let products = brands.compactMap { brand -> Option? in
+            guard seen.insert(brand.name.lowercased()).inserted else { return nil }
+            return Option(choice: InventoryFormChoice(productName: brand.name), title: brand.name)
+        }
+        return Options(isomers: isomers, products: products)
+    }
+
+    /// The choice a search for `alias` names: the product it spells, else the
+    /// isomer it names ("Dexedrine" → D), else ``any``.
+    @MainActor
+    static func matching(_ alias: String?, in options: Options) -> InventoryFormChoice {
+        guard let alias else { return .any }
+        if let product = options.products.first(where: { $0.title.caseInsensitiveCompare(alias) == .orderedSame }) {
+            return product.choice
+        }
+        if let isomer = SubstanceLibrary.isomer(for: alias),
+           let option = options.isomers.first(where: { $0.choice.isomer == isomer }) {
+            return option.choice
+        }
+        return .any
+    }
+}
+
+/// The "Stock of" picker on a new item, for a substance with isomers or
+/// products to choose from. Its own view so a pick re-renders this row only.
+private struct InventoryFormSection: View {
+    let options: InventoryFormChoice.Options
+    @Binding var selection: InventoryFormChoice
+
+    var body: some View {
+        if !options.isEmpty {
+            Section {
+                Picker("Stock of", selection: $selection) {
+                    Text("Any").tag(InventoryFormChoice.any)
+                    if !options.isomers.isEmpty {
+                        Section {
+                            ForEach(options.isomers) { Text($0.title).tag($0.choice) }
+                        }
+                    }
+                    if !options.products.isEmpty {
+                        Section {
+                            ForEach(options.products) { Text($0.title).tag($0.choice) }
+                        }
+                    }
+                }
+                .pickerStyle(.menu)
+            } footer: {
+                Text("Doses of the chosen form come off this item. An item set to Any takes the rest.")
+            }
+            .listRowBackground(CardBackground())
+        }
     }
 }

@@ -97,7 +97,9 @@ struct InventoryProvider: TimelineProvider {
             items: sorted.prefix(4).map { item in
                 InventoryEntry.Item(
                     id: item.id,
-                    name: item.substance,
+                    // The widget cannot reach the catalog, so a narrowed item
+                    // is named by what it stored: its product, else its form title.
+                    name: InventoryItem.facet(item.productName) ?? item.displayNameSnapshot ?? item.substance,
                     quantity: item.currentQuantity,
                     unit: item.unit,
                     tint: SubstancePalette.tint(for: item.substance, tintMap: tintMap),

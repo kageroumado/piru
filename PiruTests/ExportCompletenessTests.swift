@@ -88,6 +88,7 @@ private enum Fields {
 
     static let inventoryItem: [FieldCheck<InventoryItem>] = [
         field("id", \.id), field("substance", \.substance), field("saltForm", \.saltForm), field("unit", \.unit),
+        field("isomer", \.isomer), field("productName", \.productName), field("displayNameSnapshot", \.displayNameSnapshot),
         field("trackingStart", \.trackingStart), field("lowStockThreshold", \.lowStockThreshold),
         field("baselineQuantity", \.baselineQuantity), field("doseSize", \.doseSize),
         field("unitStrengthMG", \.unitStrengthMG),
@@ -465,7 +466,8 @@ struct ExportRoundTripTests {
         ))
 
         context.insert(InventoryItem(
-            id: UUID(), substance: "Caffeine", saltForm: "citrate", unit: "tabs", trackingStart: t0,
+            id: UUID(), substance: "Caffeine", saltForm: "citrate", isomer: "D", productName: "Brand",
+            displayNameSnapshot: "Dexcaffeine", unit: "tabs", trackingStart: t0,
             lowStockThreshold: 5, baselineQuantity: 30, doseSize: 2, unitStrengthMG: 10,
             manualEvents: [ManualEvent(kind: .restock, amount: 12, date: t1, note: "bought", setsBaseline: true)],
             createdAt: t0, sortOrder: 2,
