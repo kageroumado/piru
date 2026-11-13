@@ -3504,6 +3504,21 @@ class TestSignatureGates(unittest.TestCase):
                 wrong.append(f"{'|'.join(key)} is {severity} from {slug}")
         self.assertEqual([], wrong, f"curated rules did not win: {wrong}")
 
+    def test_no_tripsit_term_is_read_as_the_serotonergic_class(self):
+        """`serotonergic` holds tramadol, meperidine, DXM, 4-MA and naphyrone. The
+        only TripSit term ever mapped onto it was 'tramadol', whose column is about
+        tramadol's seizure threshold and opioid half — it put 'Tramadol and
+        stimulants both increase the risk of seizures' on DXM + amphetamine."""
+        classes = _load_curated("tripsit-combo-classes")["classes"]
+        self.assertNotIn("serotonergic", classes.values())
+        leaked = self.db.execute(
+            "SELECT r.class_a, r.class_b FROM interaction_rules r"
+            "  JOIN sources s ON s.id = r.source_id"
+            " WHERE s.slug = 'tripsit'"
+            "   AND (r.class_a = 'serotonergic' OR r.class_b = 'serotonergic')"
+        ).fetchall()
+        self.assertEqual([], leaked, f"TripSit rows on the serotonergic class: {leaked}")
+
     def test_the_serotonergic_ordering_is_by_evidence_not_reputation(self):
         """MDMA + an antidepressant SERT blocker is *blockade*, not danger: the
         replicated human finding is 30–80% effect reduction, and no serotonin

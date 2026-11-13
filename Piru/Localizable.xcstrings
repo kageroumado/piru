@@ -13491,6 +13491,34 @@
         }
       }
     },
+    "Added dizziness and drowsiness. Gabapentinoids cause both on their own, and the dronabinol (THC) label warns that drugs causing them add to its effect." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más mareo y somnolencia. Los gabapentinoides causan ambos por sí solos, y la ficha técnica del dronabinol (THC) advierte que los fármacos que los causan se suman a su efecto."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más mareo y somnolencia. Los gabapentinoides causan ambos por sí solos, y la ficha técnica del dronabinol (THC) advierte que los fármacos que los causan se suman a su efecto."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "头晕和嗜睡叠加。加巴喷丁类本身就会引起这两种反应，屈大麻酚（THC）的说明书也提醒，会引起这些反应的药物会加重它的效果。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "頭暈和嗜睡疊加。加巴噴丁類本身就會引起這兩種反應，屈大麻酚（THC）的說明書也提醒，會引起這些反應的藥物會加重它的效果。"
+          }
+        }
+      }
+    },
     "Added drowsiness and next-day grogginess, with more fall and coordination risk. The labels warn about combining with other CNS depressants, opioids included." : {
       "localizations" : {
         "es" : {
@@ -43849,6 +43877,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "心率 %lld，升至每分鐘 %lld 次"
+          }
+        }
+      }
+    },
+    "Heart rate and blood pressure add up. THC raises heart rate on its own, and the dronabinol (THC) label advises against combining it with amphetamines and similar stimulants." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La frecuencia cardiaca y la presión arterial se suman. El THC acelera el pulso por sí solo, y la ficha técnica del dronabinol (THC) desaconseja combinarlo con anfetaminas y estimulantes similares."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La frecuencia cardiaca y la presión arterial se suman. El THC acelera el pulso por sí solo, y la ficha técnica del dronabinol (THC) desaconseja combinarlo con anfetaminas y estimulantes similares."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率和血压叠加。THC 本身就会让心率加快，屈大麻酚（THC）的说明书也建议避免与苯丙胺类及类似兴奋剂合用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率和血壓疊加。THC 本身就會讓心率加快，屈大麻酚（THC）的說明書也建議避免與安非他命類及類似興奮劑併用。"
           }
         }
       }
@@ -78755,6 +78811,34 @@
         }
       }
     },
+    "Seizure risk at heavy doses. Pregabalin overdoses have caused seizures, and the amphetamine label warns that stimulants can lower the seizure threshold." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesgo de convulsiones a dosis altas. Las sobredosis de pregabalina han causado convulsiones, y la ficha técnica de la anfetamina advierte que los estimulantes pueden bajar el umbral convulsivo."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesgo de convulsiones a dosis altas. Las sobredosis de pregabalina han causado convulsiones, y la ficha técnica de la anfetamina advierte que los estimulantes pueden bajar el umbral convulsivo."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大剂量时有癫痫发作风险。普瑞巴林过量曾引起癫痫发作，苯丙胺的说明书也警告兴奋剂可能降低癫痫发作阈值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大劑量時有癲癇發作風險。普瑞巴林過量曾引起癲癇發作，安非他命的說明書也警告興奮劑可能降低癲癇發作閾值。"
+          }
+        }
+      }
+    },
     "Select" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -79430,6 +79514,34 @@
         }
       }
     },
+    "Serotonin syndrome risk. A serotonin-raising drug stacked with a stimulant; the amphetamine label warns about this pairing." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesgo de síndrome serotoninérgico. Un fármaco que eleva la serotonina combinado con un estimulante; la ficha técnica de la anfetamina advierte sobre esta combinación."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesgo de síndrome serotoninérgico. Un fármaco que eleva la serotonina combinado con un estimulante; la ficha técnica de la anfetamina advierte sobre esta combinación."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素综合征风险。升高血清素的药物与兴奋剂叠加；苯丙胺的说明书对这种组合有警告。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素症候群風險。升高血清素的藥物與興奮劑疊加；安非他命的說明書對這種組合有警告。"
+          }
+        }
+      }
+    },
     "Serotonin syndrome risk. A serotonin-raising drug stacked with a tricyclic antidepressant." : {
       "localizations" : {
         "es" : {
@@ -79734,6 +79846,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素-正腎上腺素再攝取抑制劑"
+          }
+        }
+      }
+    },
+    "Sertraline and escitalopram showed no added impairment in trials. They did not deepen alcohol's effects on thinking or coordination, though the escitalopram label still advises against drinking." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sertralina y el escitalopram no mostraron deterioro añadido en ensayos. No intensificaron los efectos del alcohol sobre el pensamiento ni la coordinación, aunque la ficha técnica del escitalopram sigue desaconsejando beber."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sertralina y el escitalopram no mostraron deterioro añadido en ensayos. No intensificaron los efectos del alcohol sobre el pensamiento ni la coordinación, aunque la ficha técnica del escitalopram sigue desaconsejando beber."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "舍曲林和艾司西酞普兰在试验中没有带来额外损害。两者都没有加重酒精对思维和协调的影响，不过艾司西酞普兰的说明书仍建议不要饮酒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "舍曲林和艾司西酞普蘭在試驗中沒有帶來額外損害。兩者都沒有加重酒精對思考和協調的影響，不過艾司西酞普蘭的說明書仍建議不要飲酒。"
           }
         }
       }
@@ -80441,6 +80581,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "嚴重呼吸抑制。兩種物質都會抑制呼吸。"
+          }
+        }
+      }
+    },
+    "Severe respiratory depression. The sodium oxybate (GHB) label lists sedating anti-epileptic drugs among the depressants that raise its risk of respiratory depression and death, and the pregabalin label warns of the same." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depresión respiratoria grave. La ficha técnica del oxibato de sodio (GHB) incluye los antiepilépticos sedantes entre los depresores que aumentan su riesgo de depresión respiratoria y muerte, y la de la pregabalina advierte lo mismo."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depresión respiratoria grave. La ficha técnica del oxibato de sodio (GHB) incluye los antiepilépticos sedantes entre los depresores que aumentan su riesgo de depresión respiratoria y muerte, y la de la pregabalina advierte lo mismo."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "严重呼吸抑制。羟丁酸钠（GHB）的说明书把镇静性抗癫痫药列为会增加呼吸抑制和死亡风险的中枢抑制药之一，普瑞巴林的说明书也有同样的警告。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "嚴重呼吸抑制。羥丁酸鈉（GHB）的說明書把鎮靜性抗癲癇藥列為會增加呼吸抑制和死亡風險的中樞抑制藥之一，普瑞巴林的說明書也有同樣的警告。"
           }
         }
       }
@@ -86959,6 +87127,34 @@
         }
       }
     },
+    "Sudden unconsciousness and slowed breathing. The sodium oxybate (GHB) label warns that general anesthetics and other depressants raise its risk of respiratory depression and death." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pérdida súbita de conciencia y respiración lenta. La ficha técnica del oxibato de sodio (GHB) advierte que los anestésicos generales y otros depresores aumentan su riesgo de depresión respiratoria y muerte."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pérdida súbita de conciencia y respiración lenta. La ficha técnica del oxibato de sodio (GHB) advierte que los anestésicos generales y otros depresores aumentan su riesgo de depresión respiratoria y muerte."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "突然失去意识和呼吸减慢。羟丁酸钠（GHB）的说明书警告，全身麻醉药和其他中枢抑制药会增加它的呼吸抑制和死亡风险。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "突然失去意識和呼吸減慢。羥丁酸鈉（GHB）的說明書警告，全身麻醉藥和其他中樞抑制藥會增加它的呼吸抑制和死亡風險。"
+          }
+        }
+      }
+    },
     "Suicide & Crisis Lifeline" : {
       "localizations" : {
         "es" : {
@@ -88331,6 +88527,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點一下圓點顯示名稱"
+          }
+        }
+      }
+    },
+    "Tap beer can spike blood pressure. In 98 beer samples, every bottled or canned one was low in tyramine; the four high enough to matter on an irreversible MAOI (phenelzine, tranylcypromine) were all on tap." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cerveza de barril puede disparar la presión arterial. En 98 muestras de cerveza, todas las embotelladas o enlatadas tenían poca tiramina; las cuatro con suficiente para importar con un IMAO irreversible (fenelzina, tranilcipromina) eran de barril."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cerveza de barril puede disparar la presión arterial. En 98 muestras de cerveza, todas las embotelladas o enlatadas tenían poca tiramina; las cuatro con suficiente para importar con un IMAO irreversible (fenelzina, tranilcipromina) eran de barril."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生啤可能让血压骤升。在 98 份啤酒样本中，瓶装和罐装的酪胺含量都很低；高到足以对不可逆 MAOI（苯乙肼、反苯环丙胺）构成风险的 4 份全是生啤。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生啤酒可能讓血壓驟升。在 98 份啤酒樣本中，瓶裝和罐裝的酪胺含量都很低；高到足以對不可逆 MAOI（苯乙肼、反苯環丙胺）構成風險的 4 份全是生啤酒。"
           }
         }
       }
