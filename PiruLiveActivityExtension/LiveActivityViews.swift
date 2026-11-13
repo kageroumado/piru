@@ -35,10 +35,11 @@ enum SessionTiming {
     /// `phase` is the phase being *entered* at `date`, tinted with that
     /// substance's color. `nil` once every substance has fully run its course.
     ///
-    /// Evaluating at `lastUpdated` meant the phase label was frozen to whenever
-    /// the app last pushed. Every render this view gets — a content update, the
-    /// scheduled `staleDate` re-render, a system redraw — now reflects the moment
-    /// it is actually drawn, which is strictly more accurate and costs nothing.
+    /// Chosen when the view renders: a content update, the `staleDate`
+    /// re-render, or a system redraw. ActivityKit has no time-driven way to
+    /// swap a label, so while the app is suspended the choice holds until the
+    /// next render and its countdown rests at 0m once the boundary passes
+    /// (the graph rail, rings and Elapsed keep moving on their own).
     static func nextTransition(
         _ state: PiruActivityAttributes.ContentState, asOf now: Date = .now,
     ) -> PhaseTransition? {
@@ -64,17 +65,6 @@ enum SessionTiming {
         }
         return next
     }
-}
-
-/// Constants describing how far the Lock Screen's picture of "now" can lag.
-enum LiveActivityTiming {
-    /// Width of the "you are somewhere in here" band, in minutes.
-    ///
-    /// Matched to `LiveActivityManager.maximumTick` — the longest the app will go
-    /// between foreground pushes — so the band covers the realistic worst case
-    /// without overstating it. It is not a guess at the OS's delivery latency; it
-    /// is the interval we ourselves guarantee nothing within.
-    static let nowUncertaintyMinutes: Double = 15
 }
 
 /// An upcoming phase change: which phase begins, when, and the color of the
@@ -146,19 +136,26 @@ extension FormatStyle where Self == Date.ComponentsFormatStyle {
 /// latest projected end). Each substance's arc runs from its own dose time to
 /// "now", so the session-opening dose starts at 12 o'clock and a later redose
 /// starts partway around — the ring doubles as a clock of the session.
+///
+/// Each arc is a `ProgressView(timerInterval:)`, which the system advances
+/// between renders, so the rings keep time while the app is suspended. A
+/// widget renders it as the system capacity gauge (custom progress styles are
+/// ignored there), so the gauge supplies the stroke and track; the ring is
+/// turned to start at its dose and masked to end where that dose's curve does.
 struct SessionRingsView: View {
     let state: PiruActivityAttributes.ContentState
-    var lineWidth: CGFloat = 3
+    /// How far each inner ring is inset from the one around it.
+    var ringSpacing: CGFloat = 4.5
 
     private struct Ring: Identifiable {
         let id: Int
         let color: Color
         let startFraction: Double
+        /// Where this dose's own curve runs out; the arc never passes it.
         let endFraction: Double
+        /// The time one full turn takes, starting at this dose.
+        let turn: ClosedRange<Date>
     }
-
-    /// A just-dosed arc still shows a small nub, like a fresh Watch ring.
-    private static let minimumSweep = 0.02
 
     private var rings: [Ring] {
         let sessionStart = SessionTiming.earliestDose(state)
@@ -173,33 +170,53 @@ struct SessionRingsView: View {
             .sorted { $0.doseTimestamp > $1.doseTimestamp }
             .prefix(2)
         return newestFirst.enumerated().map { index, sub in
-            let start = fraction(sub.doseTimestamp)
-            let subEnd = fraction(sub.doseTimestamp.addingTimeInterval(sub.totalMinutes * 60))
-            let now = fraction(.now)
-            let end = min(max(min(now, subEnd), start + Self.minimumSweep), 1)
-            return Ring(id: index, color: sub.tint.color, startFraction: start, endFraction: end)
+            Ring(
+                id: index,
+                color: sub.tint.color,
+                startFraction: fraction(sub.doseTimestamp),
+                endFraction: fraction(sub.endDate),
+                turn: sub.doseTimestamp ... sub.doseTimestamp.addingTimeInterval(span),
+            )
         }
     }
 
     var body: some View {
         ZStack {
             ForEach(rings) { ring in
-                let inset = CGFloat(ring.id) * (lineWidth + 1.5)
-                ZStack {
-                    Circle()
-                        .stroke(ring.color.opacity(0.25), lineWidth: lineWidth)
-                    Circle()
-                        .trim(from: ring.startFraction, to: ring.endFraction)
-                        .stroke(
-                            ring.color,
-                            style: StrokeStyle(lineWidth: lineWidth, lineCap: .round),
-                        )
-                        .rotationEffect(.degrees(-90))
+                ProgressView(timerInterval: ring.turn, countsDown: false) {
+                    EmptyView()
+                } currentValueLabel: {
+                    EmptyView()
                 }
-                .padding(inset + lineWidth / 2)
+                .progressViewStyle(.circular)
+                .tint(ring.color)
+                .mask { SessionWedge(fraction: ring.endFraction - ring.startFraction) }
+                .rotationEffect(.degrees(ring.startFraction * 360))
+                .padding(CGFloat(ring.id) * ringSpacing)
             }
         }
         .accessibilityHidden(true)
+    }
+}
+
+/// A pie slice from 12 o'clock clockwise through `fraction` of a turn,
+/// reaching past the frame's corners so it never clips a ring's stroke.
+private struct SessionWedge: Shape {
+    let fraction: Double
+
+    func path(in rect: CGRect) -> Path {
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        var path = Path()
+        path.move(to: center)
+        path.addArc(
+            center: center,
+            radius: max(rect.width, rect.height),
+            startAngle: .degrees(-90),
+            endAngle: .degrees(-90 + fraction * 360),
+            clockwise: false,
+        )
+        path.closeSubpath()
+        return path
     }
 }
 
@@ -352,15 +369,13 @@ struct LockScreenView: View {
     /// graph 80 + timer row ~29 + spacing 8 + padding 24 ≈ 141.
     private var liveCard: some View {
         VStack(spacing: 8) {
-            // Timeline graph — updates when Live Activity state is pushed.
+            // Curves change only with a push; the now rail advances on its own.
             TimelineGraphView(
                 substances: state.activeSubstances,
                 currentTime: .now,
                 compact: true,
                 stackRedoses: stackRedoses,
-                // ActivityKit won't let us repaint on demand, so the drawn instant
-                // is a lower bound on "now" — say that with a band.
-                nowUncertaintyMinutes: LiveActivityTiming.nowUncertaintyMinutes,
+                timeDrivenNow: true,
                 synchronous: true,
             )
             .frame(height: 80)
@@ -457,7 +472,7 @@ struct ExpandedBottomView: View {
             currentTime: .now,
             compact: true,
             stackRedoses: stackRedoses,
-            nowUncertaintyMinutes: LiveActivityTiming.nowUncertaintyMinutes,
+            timeDrivenNow: true,
             synchronous: true,
         )
         .frame(height: 58)
@@ -475,7 +490,7 @@ struct CompactLeadingView: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            SessionRingsView(state: context.state, lineWidth: 2.5)
+            SessionRingsView(state: context.state, ringSpacing: 4)
                 .frame(width: CompactMetrics.iconSide, height: CompactMetrics.iconSide)
             elapsed
                 .font(.caption.monospacedDigit().weight(.semibold))
@@ -526,7 +541,7 @@ struct MinimalView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        SessionRingsView(state: context.state, lineWidth: 2.5)
+        SessionRingsView(state: context.state, ringSpacing: 4)
             .frame(width: 22, height: 22)
     }
 }
