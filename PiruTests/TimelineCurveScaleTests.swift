@@ -131,8 +131,9 @@ struct TimelineCurveScaleTests {
 
     @Test
     func `A curve is drawn until it has settled onto the axis`() {
-        // A profile whose total sits inside its own offset: the shape there is
-        // still well above baseline, so the drawn end runs past it.
+        // A profile whose stated total sits inside its own offset: the state
+        // moves the end out to where the tail lands, and the drawn end runs to
+        // the axis past it.
         let base = dose(daysIn: 0, magnitude: 1)
         let cut = ActiveSubstanceState(
             substanceName: base.substanceName,
@@ -155,9 +156,10 @@ struct TimelineCurveScaleTests {
             peakSpreadMinutes: nil,
             offsetSpreadMinutes: nil,
         )
-        #expect(TimelineCurveModel.intensity(at: cut.totalMinutes, for: cut) > 0.05)
+        #expect(cut.totalMinutes == cut.offsetEndMinutes)
+        #expect(abs(TimelineCurveModel.intensity(at: cut.totalMinutes, for: cut) - TimelineCurveModel.EffectCurveParams.tailLo) < 1e-6)
         let end = TimelineStripBuilder.drawMinutes(for: cut)
-        #expect(end > cut.totalMinutes)
+        #expect(end >= cut.totalMinutes)
         #expect(TimelineCurveModel.intensity(at: end, for: cut) < 0.02)
         // A profile that already lands by its total keeps it.
         let landed = dose(daysIn: 0, magnitude: 1)

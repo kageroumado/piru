@@ -66,6 +66,9 @@ struct DosePhaseProgressBar: View {
         }
     }
 
+    /// The phase a dose `elapsedMinutes` in is in. The state's boundaries are
+    /// the effect curve's anchors, so this names the stretch of curve drawn at
+    /// that moment: Come-up on the rise, Peak on the crest.
     nonisolated static func phase(_ state: ActiveSubstanceState, elapsedMinutes: Double) -> Phase {
         if elapsedMinutes <= state.onsetEndMinutes { .onset } else if elapsedMinutes <= state.comeupEndMinutes { .comeup } else if elapsedMinutes <= state.peakEndMinutes { .peak } else if elapsedMinutes <= state.offsetEndMinutes { .offset } else { .after }
     }
