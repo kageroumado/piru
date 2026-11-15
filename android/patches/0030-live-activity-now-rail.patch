@@ -1,0 +1,40 @@
+TimelineGraphView: Android draws no Live Activity time rail; SkipUI has no ProgressView(timerInterval:), and only the Live Activity asks for the rail
+
+diff --git a/Shared/TimelineGraphView.swift b/Shared/TimelineGraphView.swift
+index 13864239..e359c976 100644
+--- a/Shared/TimelineGraphView.swift
++++ b/Shared/TimelineGraphView.swift
+@@ -828,17 +828,24 @@ struct TimelineGraphView: View, Equatable {
+     /// The ``timeDrivenNow`` rail: spans the compact axis exactly (inset as
+     /// the canvas plots it), so its filled end sits under the present on the
+     /// curves above.
++    @ViewBuilder
+     private var nowRail: some View {
+-        let axisStart = earliestDose
+-        let axisEnd = axisStart.addingTimeInterval(max(visibleSpan, 1) * 60)
+-        return ProgressView(timerInterval: axisStart ... axisEnd, countsDown: false) {
+-            EmptyView()
+-        } currentValueLabel: {
++        #if os(Android)
++            // Only the Live Activity asks for the rail, and Android has none; SkipUI has no
++            // timer-driven ProgressView.
+             EmptyView()
+-        }
+-        .progressViewStyle(.linear)
+-        .tint(.white)
+-        .padding(.horizontal, GraphMetrics.compactInset)
++        #else
++            let axisStart = earliestDose
++            let axisEnd = axisStart.addingTimeInterval(max(visibleSpan, 1) * 60)
++            ProgressView(timerInterval: axisStart ... axisEnd, countsDown: false) {
++                EmptyView()
++            } currentValueLabel: {
++                EmptyView()
++            }
++            .progressViewStyle(.linear)
++            .tint(.white)
++            .padding(.horizontal, GraphMetrics.compactInset)
++        #endif
+     }
+ 
+     private var graphCanvas: some View {
