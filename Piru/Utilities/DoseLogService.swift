@@ -40,9 +40,12 @@ final class DoseLogService {
     /// fresh ``scheduleDeferredBookkeeping(forSubstances:in:bookkeeping:)`` — see
     /// that method's note on why pending work accumulates rather than dropping.
     @ObservationIgnored private var deferralTask: Task<Void, Never>?
-    /// Substances whose inventory still needs a scoped recompute, unioned across
-    /// every schedule since the last flush.
-    @ObservationIgnored private var pendingSubstances: Set<String> = []
+    /// Each store with deferred work owed, in the order first scheduled: its
+    /// context, the profile it belongs to, and the substances whose inventory
+    /// still needs a scoped recompute, unioned across every schedule since the
+    /// last flush. Kept per store so a dose logged for someone else recomputes
+    /// their inventory, never the active profile's.
+    @ObservationIgnored private var pendingStores: [PendingStore] = []
     /// Per-site notification work (one closure per commit) still owed, run in
     /// order on the next flush. `@MainActor` — they touch `@Model` entries.
     @ObservationIgnored private var pendingBookkeeping: [@MainActor () -> Void] = []
@@ -124,7 +127,11 @@ final class DoseLogService {
             // them; record it loudly instead of vanishing the evidence.
             Logger.doseLog.fault("Batch dose commit save failed for \(doses.count) dose(s): \(error)")
         }
-        ActiveSessionManager.shared.addDoses(entries: doses, allColors: colors)
+        // The live session and its Live Activity are the journal on screen; a
+        // dose logged for someone else stays in their store.
+        if ProfileScope.isActive {
+            ActiveSessionManager.shared.addDoses(entries: doses, allColors: colors)
+        }
         CheckInScheduler.dosesLogged(in: doses.compactMap(\.entry.session))
         changed()
         scheduleDeferredBookkeeping(
@@ -161,7 +168,7 @@ final class DoseLogService {
     func cancelPendingBookkeeping() {
         deferralTask?.cancel()
         deferralTask = nil
-        pendingSubstances = []
+        pendingStores = []
         pendingBookkeeping = []
     }
 
@@ -206,30 +213,48 @@ final class DoseLogService {
         // The profile whose store this is, so work that runs after a switch
         // still schedules under that profile's notification identifiers.
         let profile = ProfileScope.currentID
-        pendingSubstances.formUnion(substances)
+        if let index = pendingStores.firstIndex(where: { $0.context === context }) {
+            pendingStores[index].substances.formUnion(substances)
+        } else {
+            pendingStores.append(PendingStore(context: context, container: container, profile: profile, substances: substances))
+        }
         pendingBookkeeping.append {
             withExtendedLifetime(container) { ProfileScope.$pinned.withValue(profile) { bookkeeping() } }
         }
         deferralTask?.cancel()
         deferralTask = Task(priority: .utility) { [weak self] in
-            defer { withExtendedLifetime(container) {} }
             try? await Task.sleep(for: Self.deferralDelay)
             guard !Task.isCancelled, let self else { return }
-            let substances = self.pendingSubstances
+            let stores = self.pendingStores
             let bookkeeping = self.pendingBookkeeping
-            self.pendingSubstances = []
+            self.pendingStores = []
             self.pendingBookkeeping = []
-            await InventoryService.recompute(forSubstances: substances, replayingOffMainIn: context)
+            defer { withExtendedLifetime(stores) {} }
+            for store in stores {
+                await InventoryService.recompute(forSubstances: store.substances, replayingOffMainIn: store.context)
+            }
             guard !Task.isCancelled else { return }
             for work in bookkeeping {
                 work()
             }
             // Batched commits (quick-log tray, import) may satisfy a routine —
             // reconcile so its remaining follow-up re-asks are cancelled.
-            ProfileScope.$pinned.withValue(profile) {
-                DoseNotificationManager.syncMedReminders(in: context)
+            for store in stores {
+                ProfileScope.$pinned.withValue(store.profile) {
+                    DoseNotificationManager.syncMedReminders(in: store.context)
+                }
             }
             WidgetCenter.shared.reloadAllTimelines()
         }
     }
+}
+
+/// One store's share of the deferred bookkeeping (``DoseLogService/scheduleDeferredBookkeeping(forSubstances:in:bookkeeping:)``).
+/// Holds the container so the context stays readable until the flush.
+@MainActor
+private struct PendingStore {
+    let context: ModelContext
+    let container: ModelContainer
+    let profile: UUID
+    var substances: Set<String>
 }

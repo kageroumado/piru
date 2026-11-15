@@ -158,6 +158,12 @@ nonisolated enum ProfileScope {
         currentID == PiruProfile.ownerID
     }
 
+    /// Whether the code running now works in the journal on screen, as
+    /// opposed to writing into someone else's (a dose logged for them).
+    static var isActive: Bool {
+        pinned.map { $0 == ProfileRegistry.activeProfileID() } ?? true
+    }
+
     static var current: PiruProfile {
         ProfileRegistry.profile(id: currentID) ?? .defaultOwner(name: ProfileRegistry.defaultOwnerName)
     }

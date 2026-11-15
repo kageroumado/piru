@@ -467,6 +467,10 @@ final class DoseTrayModel {
     /// What was eaten before this dose. Tray-wide like the location, but committed
     /// only onto oral doses: it is the stomach an oral dose waits in.
     var meal: MealState?
+    /// The profile this log is for when it is someone other than the active
+    /// one (the For chip); `nil` logs into the active profile's journal. Lasts
+    /// one log: ``takeRecipient()`` clears it at commit.
+    var recipientID: UUID?
     /// Every staged dose the user has opened inline — multiple can stay
     /// expanded at once, so a complex stack can be composed in one pass.
     var expandedItemIDs: Set<UUID> = []
@@ -497,6 +501,13 @@ final class DoseTrayModel {
 
     /// Re-sync the stored ``isEmpty`` after a count change, notifying only on a
     /// real flip (an `@Observable` set always notifies, even for an equal value).
+    /// The profile to log for, handed to the commit and reset to the active
+    /// profile, so a choice of someone else never outlives the log it was for.
+    func takeRecipient() -> UUID? {
+        defer { recipientID = nil }
+        return recipientID
+    }
+
     private func syncEmptiness() {
         let nowEmpty = staged.isEmpty
         if nowEmpty != isEmpty { isEmpty = nowEmpty }
