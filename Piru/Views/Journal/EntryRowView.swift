@@ -56,8 +56,11 @@ struct DayEntryCore: Equatable {
     /// this and drifted — the session's markers still named substances differently
     /// from the journal's. Caches the per-substance lookup so repeated substances
     /// in a day resolve once.
+    ///
+    /// `weightKg` is the body weight the effect window is drawn for; `nil` is
+    /// the active profile's (another person's rows pass theirs).
     @MainActor
-    static func make(from entries: [DoseEntry]) -> [DayEntryCore] {
+    static func make(from entries: [DoseEntry], weightKg: Double? = nil) -> [DayEntryCore] {
         var cache: [String: Substance?] = [:]
         func substance(_ name: String) -> Substance? {
             let key = name.lowercased()
@@ -83,7 +86,7 @@ struct DayEntryCore: Equatable {
                 tags: entry.tags,
                 // Acute effect window (same source as the timeline curve), so the
                 // rail matches the graph — not the long elimination tail.
-                totalMinutes: ActiveSubstanceState.from(entry: entry, tint: .neutral)?.totalMinutes,
+                totalMinutes: ActiveSubstanceState.from(entry: entry, tint: .neutral, weightKg: weightKg)?.totalMinutes,
                 substanceKey: entry.substance.lowercased(),
                 isApproximate: entry.isApproximate,
                 isUnknownDose: entry.isUnknownDose,

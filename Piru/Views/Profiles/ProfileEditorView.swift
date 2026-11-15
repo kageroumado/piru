@@ -11,6 +11,10 @@ final class ProfileDraft {
     var letters: String
     var emoji: String
     var color: ProfileColor
+    /// The owner's name, asked for while adding someone when the owner still
+    /// carries the default "Me", since every other journal shows the owner
+    /// by it ("With Me and Bob"). `nil` when the owner already has a name.
+    var ownerName: String?
 
     init(profile: PiruProfile?, defaultColor: ProfileColor) {
         name = profile?.name ?? ""
@@ -75,9 +79,26 @@ struct ProfileEditorView: View {
         }
         .task {
             if draft == nil {
-                draft = ProfileDraft(profile: editing, defaultColor: .next(after: directory.profiles.map(\.color)))
+                let new = ProfileDraft(profile: editing, defaultColor: .next(after: directory.profiles.map(\.color)))
+                if editing == nil, directory.owner.name == ProfileRegistry.defaultOwnerName {
+                    new.ownerName = ""
+                }
+                draft = new
             }
         }
+    }
+
+    /// Gives the owner the name typed in "Your Name"; the default monogram
+    /// follows the new name, a chosen one stays.
+    private func renameOwner(to name: String?) throws {
+        let trimmed = name?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        guard !trimmed.isEmpty else { return }
+        var owner = directory.owner
+        if owner.avatar == .monogram(for: owner.name) {
+            owner.avatar = .monogram(for: trimmed)
+        }
+        owner.name = trimmed
+        try directory.update(owner)
     }
 
     private func save() {
@@ -89,6 +110,7 @@ struct ProfileEditorView: View {
                 profile.color = draft.color
                 try directory.update(profile)
             } else {
+                try renameOwner(to: draft.ownerName)
                 try directory.addProfile(name: draft.name, avatar: draft.avatar, color: draft.color)
             }
             dismiss()
@@ -123,6 +145,9 @@ private struct ProfileEditorForm: View {
                 }
                 AvatarSection(draft: draft)
                 ColorSection(selection: $draft.color)
+                if draft.ownerName != nil {
+                    OwnerNameSection(draft: draft)
+                }
                 if let editing, !editing.isOwner {
                     DeleteProfileSection(profile: editing, onDeleted: onDeleted)
                 }
@@ -250,6 +275,24 @@ extension ProfileColor {
         case .teal: "Teal"
         case .forest: "Forest"
         case .amber: "Amber"
+        }
+    }
+}
+
+/// "Your Name", shown while adding someone when the owner is still "Me".
+private struct OwnerNameSection: View {
+    @Bindable var draft: ProfileDraft
+
+    var body: some View {
+        Section {
+            TextField("Your Name", text: Binding(
+                get: { draft.ownerName ?? "" }, set: { draft.ownerName = $0 },
+            ))
+            .wordsAutocapitalize()
+        } header: {
+            Text("Your Name")
+        } footer: {
+            Text("Other profiles show you by this name.")
         }
     }
 }

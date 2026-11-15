@@ -4137,6 +4137,34 @@
         }
       }
     },
+    "%@'s" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的"
+          }
+        }
+      }
+    },
     "%@'s journal" : {
       "localizations" : {
         "es" : {
@@ -66767,6 +66795,34 @@
         }
       }
     },
+    "Other profiles show you by this name." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los demás perfiles te muestran con este nombre."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los demás perfiles te muestran con este nombre."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他个人资料会用这个名字显示你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他個人檔案會用這個名字顯示你。"
+          }
+        }
+      }
+    },
     "Other sources are listed above under their own terms, and each substance page names the source of each field." : {
       "localizations" : {
         "es" : {
@@ -82406,6 +82462,62 @@
         }
       }
     },
+    "Shared" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享"
+          }
+        }
+      }
+    },
+    "Shared by %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido por %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido por %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由%@共享"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由%@共享"
+          }
+        }
+      }
+    },
     "Shared kinetics" : {
       "localizations" : {
         "es" : {
@@ -82490,18 +82602,46 @@
         }
       }
     },
-    "Shared with %@" : {
+    "Shared with" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compartida con %@"
+            "value" : "Compartido con"
           }
         },
         "es-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compartida con %@"
+            "value" : "Compartido con"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享对象"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享對象"
+          }
+        }
+      }
+    },
+    "Shared with %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido con %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido con %@"
           }
         },
         "zh-Hans" : {
@@ -82514,6 +82654,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與%@共享"
+          }
+        }
+      }
+    },
+    "Shared with you" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido contigo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido contigo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与你共享"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與你共享"
           }
         }
       }
@@ -92473,6 +92641,34 @@
         }
       }
     },
+    "Their doses come off this stock too. Only you can change who shares it or delete it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sus dosis también se descuentan de este inventario. Solo tú puedes cambiar con quién se comparte o eliminarlo."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sus dosis también se descuentan de este inventario. Solo tú puedes cambiar con quién se comparte o eliminarlo."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "他们的剂量也会从这份库存中扣除。只有你可以更改共享对象或删除它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "他們的劑量也會從這份庫存中扣除。只有你可以更改共享對象或刪除它。"
+          }
+        }
+      }
+    },
     "These appear in the “When” menu when recording an entry, alongside Now and the full date picker. Swipe to remove, drag to reorder." : {
       "localizations" : {
         "es" : {
@@ -101938,6 +102134,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你實測的睪固酮。用雌二醇期間 T 通常會下降；Piru 繪製你的資料點，而不是對抑制建模。"
+          }
+        }
+      }
+    },
+    "Your Name" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu nombre"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu nombre"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的名字"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的名字"
           }
         }
       }

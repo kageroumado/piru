@@ -133,6 +133,13 @@ nonisolated enum ProfileColor: String, Codable, CaseIterable, Sendable {
         oklch.displayP3
     }
 
+    /// The same hue lifted to L 0.70 for a curve stroke and fill, which has to
+    /// read on black as well as on white; the avatar's L ≈ 0.5 sinks into a
+    /// dark background.
+    var curveP3: P3Color {
+        Oklch(l: 0.70, c: oklch.c, h: oklch.h).displayP3
+    }
+
     /// The color the next new profile gets: the first one nobody wears yet.
     static func next(after used: some Sequence<ProfileColor>) -> ProfileColor {
         let taken = Set(used)

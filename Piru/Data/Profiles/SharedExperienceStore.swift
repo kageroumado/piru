@@ -135,11 +135,11 @@ final class SharedExperienceStore {
         // Their weight, or the population default: never the active profile's.
         let weight = snapshot.weightKg ?? UserProfileStore.defaultWeightKg
         let own = ActiveSubstanceState.timeline(for: entries, weightKg: weight) { tints[$0.id] ?? .neutral }
-        let person = ActiveSubstanceState.timeline(for: entries, weightKg: weight) { _ in color.p3 }
-        let cores = DayEntryCore.make(from: entries)
+        let person = ActiveSubstanceState.timeline(for: entries, weightKg: weight) { _ in color.curveP3 }
+        let cores = DayEntryCore.make(from: entries, weightKg: weight)
         let rows = zip(cores, snapshot.doses).map { DayEntryDisplay(core: $0, color: $1.tint.color) }
         let lines = cores.map { core in
-            core.isUnknownDose ? core.displayName : "\(core.displayName) \(core.amount.doseFormatted) \(core.unit)"
+            core.isUnknownDose ? core.displayName : "\(core.displayName) \(core.amount.doseFormatted) \(core.unit.unitDisplay(for: core.amount))"
         }
         return SharedParticipant(
             snapshot: snapshot,

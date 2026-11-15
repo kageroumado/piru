@@ -3656,7 +3656,7 @@ ES = {
     # profiles phase 3
     "With %@": "Con %@",
     "%lld others": "%lld más",
-    "Shared with %@": "Compartida con %@",
+    "Shared with %@": "Compartido con %@",
     "Shows %@'s session": "Muestra la sesión de %@",
     "%@'s Session": "Sesión de %@",
     "Open %@'s Journal": "Abrir el diario de %@",
@@ -3675,6 +3675,8 @@ ES = {
     "%@'s": "De %@",
     "Shared with you": "Compartido contigo",
     "Shared by %@": "Compartido por %@",
+    "Your Name": "Tu nombre",
+    "Other profiles show you by this name.": "Los demás perfiles te muestran con este nombre.",
 }
 
 # Spain only: the few strings Spain must see differently — today the iOS Settings

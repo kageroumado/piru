@@ -23,7 +23,7 @@ struct ProfileAvatarStack: View {
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("Shared with \(profiles.map(\.name).formatted(.list(type: .and)))"))
+        .accessibilityLabel(Text("With \(profiles.map(\.name).formatted(.list(type: .and)))"))
     }
 }
 

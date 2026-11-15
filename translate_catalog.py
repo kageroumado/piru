@@ -7896,6 +7896,11 @@ T = {
     "%@'s": ("%@的", "%@的"),
     "Shared with you": ("与你共享", "與你共享"),
     "Shared by %@": ("由%@共享", "由%@共享"),
+    "Your Name": ("你的名字", "你的名字"),
+    "Other profiles show you by this name.": (
+        "其他个人资料会用这个名字显示你。",
+        "其他個人檔案會用這個名字顯示你。",
+    ),
 }
 
 # Widget translations
@@ -9489,6 +9494,8 @@ if __name__ == "__main__":
             "Shared with you",
             "Shared by %@",
             "Shared with %@",
+            "Your Name",
+            "Other profiles show you by this name.",
         }
     )
     print("--- Piru main app catalog ---")
