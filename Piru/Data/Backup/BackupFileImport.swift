@@ -17,11 +17,15 @@ enum BackupFileImport {
     enum Outcome {
         case imported
         case locked(LockedBackup)
+        /// A PsychonautWiki file naming other people: nothing is imported until
+        /// the people sheet says whose journal each person's doses go into.
+        case needsPeople(PsyLogPendingImport)
         case failed(String)
     }
 
     /// Reads the picked file off the main actor and imports it, or returns it
-    /// locked when it is an encrypted backup.
+    /// locked when it is an encrypted backup, or pending when it is a
+    /// PsychonautWiki file that names other people.
     static func importPicked(_ result: Result<URL, Error>, context: ModelContext) async -> Outcome {
         let url: URL
         switch result {
@@ -33,11 +37,13 @@ enum BackupFileImport {
         }
         defer { url.stopAccessingSecurityScopedResource() }
         do {
-            let data = try await Task.detached {
+            let (data, people) = try await Task.detached {
                 let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
                 guard size <= BackupCrypto.maxEnvelopeBytes else { throw BackupManager.ManagerError.fileTooLarge }
-                return try Data(contentsOf: url)
+                let data = try Data(contentsOf: url)
+                return (data, PsyLogPendingImport.inspect(data))
             }.value
+            if let people { return .needsPeople(people) }
             do {
                 try DataExportImport.importJSON(data: data, context: context)
             } catch ImportFileError.encrypted {

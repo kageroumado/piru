@@ -413,6 +413,9 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Import a CSV or TSV dose log exported from a spreadsheet, mapping its
     /// columns to Piru's fields.
     case spreadsheetImport
+    /// Whose journal each person in a PsychonautWiki file goes into, before
+    /// it imports (``PsyLogImportRequest`` holds the file).
+    case psyLogImport
 
     /// Every source's dose ladder for one route of one substance, on one scale —
     /// opened from the source line under the dose card. Read-only: it explains

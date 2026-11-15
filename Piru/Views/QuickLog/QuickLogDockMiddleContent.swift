@@ -78,6 +78,7 @@ struct DockMiddleContent: View {
                     // ``TrayCommitBar``).
                     if dynamicTypeSize.isAccessibilitySize {
                         TrayWarningBanner(model: tray, content: content)
+                        TrayRecipientRow(model: tray)
                         TrayMetaChips(model: tray, content: content)
                     }
                 }

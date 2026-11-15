@@ -557,6 +557,7 @@ struct QuickLogView: View {
         let context = modelContext
         let recentEntries = Array(allEntries)
         let colors = Array(substanceColors)
+        let recipientID = tray.takeRecipient()
 
         // The success haptic + dismiss fire *first*, on this runloop, so the
         // sheet starts sliding away immediately. (Haptic played directly
@@ -571,6 +572,11 @@ struct QuickLogView: View {
         // dismissal's first frame, but kept prompt so the journal behind the
         // sheet shows the dose as the sheet slides away — no pop-in.
         DispatchQueue.main.async {
+            // The For chip's choice, or the journal on screen. Someone else's
+            // doses join a session linked to the live one here.
+            let recipient = recipientID.flatMap { DoseRecipient.other($0) }
+                ?? .active(context: context, colors: colors, recentEntries: recentEntries)
+            let liveSession = recipient.isActive ? nil : ActiveSessionManager.shared.liveSession(in: context)
             var batch: [(entry: DoseEntry, substance: Substance?)] = []
             var curation: [QuickLogManager.LoggedDose] = []
 
@@ -625,10 +631,9 @@ struct QuickLogView: View {
             }
 
             let createdEntries = batch.map(\.entry)
-            DoseLogService.shared.logBatch(
+            recipient.log(
                 batch,
-                colors: colors,
-                in: context,
+                liveSession: liveSession,
                 beforeSave: {
                     // Curated-list maintenance is a site-specific immediate bit
                     // (it records the chips the user actually tapped), kept
@@ -636,7 +641,7 @@ struct QuickLogView: View {
                     // Mutations only — the batch's single save commits doses
                     // and chips together, so the per-save `@Query` invalidation
                     // storm fires once, not twice.
-                    QuickLogManager.record(curation, fixedOrder: fixedOrder, context: context, save: false)
+                    QuickLogManager.record(curation, fixedOrder: fixedOrder, context: recipient.context, save: false)
                 },
                 // Tier 2 — after the dismissal animation: the wellness
                 // notifications; running them now would drop frames during the
@@ -644,7 +649,7 @@ struct QuickLogView: View {
                 // quick-log open or a widget refresh.
                 deferredBookkeeping: {
                     for entry in createdEntries {
-                        DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
+                        DoseNotificationManager.doseLogged(entry: entry, recentEntries: recipient.recentEntries)
                     }
                 },
             )

@@ -48,6 +48,7 @@ private enum Fields {
         field("checkInOffsetsData") { $0.checkInOffsetMinutes == $1.checkInOffsetMinutes },
         field("checkInOffered", \.checkInOffered),
         field("checkInFollowsDoses", \.checkInFollowsDoses),
+        field("sharedExperienceID", \.sharedExperienceID),
     ]
 
     static let sessionNote: [FieldCheck<SessionNote>] = [
@@ -418,6 +419,7 @@ struct ExportRoundTripTests {
         session.checkInOffsetMinutes = [15, 45]
         session.checkInOffered = true
         session.checkInFollowsDoses = true
+        session.sharedExperienceID = UUID()
         context.insert(session)
 
         let drink = DoseEntry(

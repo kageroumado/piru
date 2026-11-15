@@ -16,6 +16,7 @@ import UniformTypeIdentifiers
 struct DataStorageView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.profileDirectory) private var directory
     @State private var model = DataStorageModel()
 
     /// Asks for a passphrase to seal a new encrypted backup.
@@ -28,6 +29,9 @@ struct DataStorageView: View {
 
     /// The save panel for a plain (unencrypted) Piru or PsychonautWiki export.
     @State private var showingPlainExporter = false
+    /// With more than one profile, a PsychonautWiki export asks whose doses
+    /// it holds: this profile's, or everyone's under their names.
+    @State private var showingPsyLogScope = false
 
     /// The one file picker for every import: the picked file decides whether it
     /// imports as JSON or restores as an encrypted backup.
@@ -91,6 +95,13 @@ struct DataStorageView: View {
         .sheet(item: $model.exported, onDismiss: { model.cleanupExportedFile() }) { item in
             ShareSheet(items: [item.url])
         }
+        .confirmationDialog("PsychonautWiki Format", isPresented: $showingPsyLogScope, titleVisibility: .visible) {
+            Button("This Profile") { generatePlainExport(.psyLog) }
+            Button("Everyone") { generatePlainExport(.psyLogEveryone) }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Everyone puts every profile's doses in one file, each under its person's name.")
+        }
         .confirmationDialog("Restore Backup", isPresented: $showingStrategyDialog, titleVisibility: .visible) {
             Button("Merge With Current Data") { executeRestore(.merge) }
             Button("Replace Everything", role: .destructive) { executeRestore(.replace) }
@@ -135,6 +146,14 @@ struct DataStorageView: View {
     // MARK: - Actions
 
     private func exportPlain(_ format: ExportFormat) {
+        if format == .psyLog, directory.hasMultipleProfiles {
+            showingPsyLogScope = true
+        } else {
+            generatePlainExport(format)
+        }
+    }
+
+    private func generatePlainExport(_ format: ExportFormat) {
         Task {
             if await model.generatePlainExport(format: format, context: modelContext) {
                 showingPlainExporter = true

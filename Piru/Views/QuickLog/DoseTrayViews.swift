@@ -121,11 +121,14 @@ struct TrayCommitBar: View {
     let onCommit: () -> Void
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.profileDirectory) private var directory
 
     var body: some View {
         VStack(spacing: 0) {
             if !dynamicTypeSize.isAccessibilitySize {
                 TrayWarningBanner(model: model, content: content)
+                TrayRecipientRow(model: model)
+                    .padding(.bottom, Spacing.md)
                 TrayMetaChips(model: model, content: content)
                 commitButton
                     .padding(.top, 14)
@@ -152,11 +155,16 @@ struct TrayCommitBar: View {
     }
 
     /// The CTA echoes a backdate ("Log 2 · 1h ago") so a stale time can't be
-    /// committed blind.
+    /// committed blind, and names the person when the For chip picked someone
+    /// other than the active profile.
     private var commitLabel: String {
-        let base = model.staged.count == 1
-            ? String(localized: "Record an entry")
-            : String(localized: "Record \(model.staged.count) Entries")
+        let count = model.staged.count
+        let base = switch (model.recipientID.flatMap(directory.profile(id:)), count == 1) {
+        case let (recipient?, true): String(localized: "Record for \(recipient.name)")
+        case let (recipient?, false): String(localized: "Record \(count) Entries for \(recipient.name)")
+        case (nil, true): String(localized: "Record an entry")
+        case (nil, false): String(localized: "Record \(count) Entries")
+        }
         return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
     }
 }
@@ -197,6 +205,7 @@ struct TrayWarningBanner: View {
                 recheckSleep()
             }
             .onChange(of: content.recentEntriesGeneration) { recheckInteractions() }
+            .onChange(of: model.recipientID) { recheckInteractions() }
             .task {
                 recheckInteractions()
                 recheckSleep()
@@ -276,10 +285,13 @@ struct TrayWarningBanner: View {
     /// Staged doses against each other and against what is already in the
     /// body at the When chip's time. Recomputed on staging, on the chip, and on
     /// a change to the dose log.
+    /// Weighed against the history of whoever the doses are for: a dose
+    /// logged for someone else meets their recent doses, never the active
+    /// profile's.
     private func recheckInteractions() {
         interactions = TrayInteractionCheck.warnings(
             staged: model.staged.map(\.substanceName),
-            history: content.recentEntries,
+            history: model.recipientID.map { DoseRecipient.recentDoses(of: $0) } ?? content.recentEntries,
             at: model.time.resolved,
         )
     }
