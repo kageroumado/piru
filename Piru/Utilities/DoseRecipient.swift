@@ -89,9 +89,9 @@ struct DoseRecipient {
         }
         guard !isActive else { return commit() }
         ProfileScope.$pinned.withValue(profileID, operation: commit)
-        if let liveSession, liveSession.hasChanges {
-            try? liveSession.modelContext?.save()
-        }
+        // The link set on the live session lives in the active store, which the
+        // commit above did not save.
+        try? liveSession?.modelContext?.save()
     }
 }
 
