@@ -102,6 +102,11 @@ final class Session {
     /// it holds: the store cannot tell a suggested list from a hand-built one.
     var checkInFollowsDoses: Bool = false
 
+    /// Links this session to sessions in other profiles' stores that are one
+    /// shared experience: every session with the same id, in any profile, is
+    /// the same night out. `nil` for a session only this profile had.
+    var sharedExperienceID: UUID?
+
     init(id: UUID = UUID(), startDate: Date, title: String? = nil, note: String? = nil) {
         self.id = id
         self.startDate = startDate
