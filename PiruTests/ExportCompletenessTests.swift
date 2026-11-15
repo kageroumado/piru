@@ -207,6 +207,7 @@ private enum ExportCoverage {
 /// `UserDefaults` keys found in the source that deliberately stay on the
 /// device, with the reason. See ``ExportedSettings`` for the ones that travel.
 private let excludedSettingKeys: [String: String] = [
+    "activeProfileID": "which profile is open on this device; a backup carries the profiles themselves",
     "appLanguage": "the app group mirror of AppleLanguages, for the extensions",
     "appLaunchCount": "launch counter",
     "AppleLanguages": "the app's language, which iOS owns and its per-app language page edits too",

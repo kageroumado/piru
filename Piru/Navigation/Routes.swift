@@ -376,6 +376,8 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
         prefillRoute: RouteOfAdministration? = nil,
     )
     case settings
+    /// Settings ▸ Profiles on its own, from the avatar menu's Manage Profiles.
+    case profiles
     case skins
     case help
     case onboarding

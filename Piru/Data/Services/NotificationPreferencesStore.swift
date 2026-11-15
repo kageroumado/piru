@@ -57,8 +57,12 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     /// `DoseEntry.id` for dose-anchored types, the routine name for routine
     /// types, `InventoryItem.id` for inventory — so a retime or delete
     /// cancels cleanly by the same key it scheduled under.
+    ///
+    /// A profile other than the owner adds its id after `piru.notif.`
+    /// (``ProfileScope/notificationNamespace``), so one profile's syncs and
+    /// sweeps never touch another's requests, and a tap knows whose it is.
     nonisolated var identifierPrefix: String {
-        "piru.notif.\(rawValue)."
+        "piru.notif.\(ProfileScope.notificationNamespace)\(rawValue)."
     }
 
     /// Build a request identifier for this type. `ordinal` distinguishes
@@ -86,8 +90,11 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     /// legacy entries are the transition sweep (dose-anchored pending
     /// self-expires within ~2 days, routine repeats rebuild on first sync)
     /// and can be dropped a release or two after the grammar ships.
+    /// The legacy prefixes are the owner's: requests scheduled before
+    /// profiles existed all belong to it.
     var identifierPrefixes: [String] {
-        switch self {
+        guard ProfileScope.isOwner else { return [identifierPrefix] }
+        return switch self {
         // No underscore on legacy hydration: covers `hydration_` and `hydration2_`.
         case .hydration: [identifierPrefix, SessionNotificationScheduler.hydrationCategoryID]
         case .sleep: [identifierPrefix, "\(SessionNotificationScheduler.sleepCategoryID)_"]

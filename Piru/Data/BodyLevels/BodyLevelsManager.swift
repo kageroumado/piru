@@ -176,6 +176,11 @@ final class BodyLevelsManager {
     /// Bind to the shared container and start the debounced background warm loop
     /// (only for the singleton — a test instance must not race the change stream).
     func configure(container: ModelContainer) {
+        if let bound = self.container, bound !== container {
+            // Another profile's store: its trails describe someone else.
+            cache = [:]
+            trail = nil
+        }
         self.container = container
         guard self === Self.shared else { return }
         startBackgroundWarm()

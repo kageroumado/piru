@@ -25,6 +25,8 @@ nonisolated enum BodyLevelsTrailCache {
         let customSignature: Int
         let databaseSignature: String
         let appBuild: String
+        /// Whose store the trail was built from; generations count per profile.
+        var profileID = ProfileScope.currentID
     }
 
     private nonisolated struct Payload: Codable {
@@ -82,7 +84,8 @@ nonisolated enum BodyLevelsTrailCache {
                   let headerData = try? JSONEncoder().encode(key) else { return }
             writeEpoch.withLock { current in
                 guard current == epoch,
-                      key.storeGeneration == UserDefaults(suiteName: AppIdentity.appGroup)?.integer(forKey: "doseLogStoreGeneration") else { return }
+                      key.profileID == ProfileScope.currentID,
+                      key.storeGeneration == DoseLogService.storeGeneration else { return }
                 try? data.write(to: url, options: .atomic)
                 try? headerData.write(to: headerURL, options: .atomic)
             }

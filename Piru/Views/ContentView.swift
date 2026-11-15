@@ -19,6 +19,10 @@ struct ContentView: View {
     /// computed in a body is read again in the new language; the locale reaches
     /// the sheets above it through the environment.
     @State private var language = AppLanguageModel.shared
+    #if DEBUG
+        /// Whether `-piruRoute` / `-piruRouteTour` already ran this process.
+        private static var handledLaunchRoute = false
+    #endif
 
     /// A thin root. `MainTabView` owns its own search state and takes no inputs,
     /// so SwiftUI skips re-evaluating it whenever this body re-runs (a scene-phase
@@ -42,6 +46,9 @@ struct ContentView: View {
             // untappable "Open in Piru?" sheet. `-piruRouteTour` walks a list
             // of them in one session, for profiling (see `RouteTour`).
             .task {
+                // Once per process: a profile switch rebuilds this view.
+                guard !Self.handledLaunchRoute else { return }
+                Self.handledLaunchRoute = true
                 let args = ProcessInfo.processInfo.arguments
                 // A substance route resolves in the pushed view's body; a
                 // cold `SubstanceStore.all` asserts in DEBUG.
@@ -80,12 +87,17 @@ struct ContentView: View {
             handleWebLink(link)
             return
         }
-        guard let outcome = DeepLink.decode(url) else { return }
-        // A `piru://day` link targets the current session; resolving its id
-        // here lets the navigator reveal an already-open session screen
-        // instead of presenting a duplicate sheet over it.
-        let sessionID = outcome.sheet == .sessionDetail ? mostRecentSessionID(in: modelContext) : nil
-        navigator.apply(outcome, currentSessionID: sessionID)
+        // A link naming a profile switches to it first; the switch rebuilds
+        // this view, so the route reads the navigator and store it lands on.
+        ProfileSwitcher.open(url) { url in
+            guard let outcome = DeepLink.decode(url) else { return }
+            // A `piru://day` link targets the current session; resolving its
+            // id here lets the navigator reveal an already-open session screen
+            // instead of presenting a duplicate sheet over it.
+            let context = ProfileDirectory.shared.activeContainer.mainContext
+            let sessionID = outcome.sheet == .sessionDetail ? mostRecentSessionID(in: context) : nil
+            AppNavigator.shared.apply(outcome, currentSessionID: sessionID)
+        }
     }
 
     /// A dose.wiki link names its substance by article slug, which resolves
@@ -298,15 +310,20 @@ struct TabRootView: View {
     @Binding var librarySearchText: String
 
     var body: some View {
-        switch tab {
-        case .stock(.journal): EntryListView(searchText: $searchText)
-        case .stock(.library): SubstanceLibraryView(searchText: $librarySearchText)
-        case .stock(.tools): ToolsView()
-        case .stock(.insights): InsightsView()
-        // Search is its own `role: .search` tab in the bar, never a slot here.
-        case .stock(.search): EmptyView()
-        case let .pinned(screen): PinnedTabRoot(screen: screen)
+        // Applied outside the screen, so its toolbar comes first: the profile
+        // avatar leads the trailing group (``ProfileToolbarItem``).
+        Group {
+            switch tab {
+            case .stock(.journal): EntryListView(searchText: $searchText)
+            case .stock(.library): SubstanceLibraryView(searchText: $librarySearchText)
+            case .stock(.tools): ToolsView()
+            case .stock(.insights): InsightsView()
+            // Search is its own `role: .search` tab in the bar, never a slot here.
+            case .stock(.search): EmptyView()
+            case let .pinned(screen): PinnedTabRoot(screen: screen)
+            }
         }
+        .toolbar { ProfileToolbarItem() }
     }
 }
 
@@ -402,6 +419,11 @@ private struct SearchSurface: View {
             // Large "Search" title at rest; suppressed once focused (the
             // `enabled: false` branch returns the view untouched).
             .appNavigationBar("Search", enabled: phase == .landing)
+            .toolbar {
+                if phase == .landing {
+                    ProfileToolbarItem()
+                }
+            }
             .onChange(of: isSearching) { _, searching in
                 if searching {
                     wasSearching = true

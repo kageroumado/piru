@@ -140,11 +140,23 @@ final class DoseLogService {
     /// Persistent counterpart of ``revision``: bumped on every commit and kept
     /// in the app-group defaults, so a cache written in one launch can be
     /// validated in the next (``revision`` restarts at 0 per process).
+    /// Kept per profile (``ProfileScope``): each store has its own commits.
     nonisolated static var storeGeneration: Int {
         UserDefaults(suiteName: AppIdentity.appGroup)?.integer(forKey: storeGenerationKey) ?? 0
     }
 
-    private nonisolated static let storeGenerationKey = "doseLogStoreGeneration"
+    private nonisolated static var storeGenerationKey: String {
+        ProfileScope.key("doseLogStoreGeneration")
+    }
+
+    /// The active profile changed: everything memoized on ``revision`` is about
+    /// another store now, and every change-stream subscriber re-reads.
+    func storeSwitched() {
+        revision += 1
+        for continuation in changeContinuations.values {
+            continuation.yield(())
+        }
+    }
 
     func cancelPendingBookkeeping() {
         deferralTask?.cancel()
@@ -191,8 +203,13 @@ final class DoseLogService {
         // Each piece of bookkeeping holds its own: a later call replaces the
         // task, and the work queued before it still reads the earlier store.
         let container = context.container
+        // The profile whose store this is, so work that runs after a switch
+        // still schedules under that profile's notification identifiers.
+        let profile = ProfileScope.currentID
         pendingSubstances.formUnion(substances)
-        pendingBookkeeping.append { withExtendedLifetime(container) { bookkeeping() } }
+        pendingBookkeeping.append {
+            withExtendedLifetime(container) { ProfileScope.$pinned.withValue(profile) { bookkeeping() } }
+        }
         deferralTask?.cancel()
         deferralTask = Task(priority: .utility) { [weak self] in
             defer { withExtendedLifetime(container) {} }
@@ -209,7 +226,9 @@ final class DoseLogService {
             }
             // Batched commits (quick-log tray, import) may satisfy a routine —
             // reconcile so its remaining follow-up re-asks are cancelled.
-            DoseNotificationManager.syncMedReminders(in: context)
+            ProfileScope.$pinned.withValue(profile) {
+                DoseNotificationManager.syncMedReminders(in: context)
+            }
             WidgetCenter.shared.reloadAllTimelines()
         }
     }

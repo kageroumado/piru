@@ -26,7 +26,10 @@ nonisolated enum StoreRecovery {
     /// them would undo an intentional delete. They remain visible for *manual*
     /// recovery in the Data & Storage screen. Everything else (``corrupt``,
     /// ``empty-before-recovery``) is an unintended quarantine and IS auto-recovered.
-    static let intentionalReasons: Set<String> = ["predelete", "prerestore", "prepsid"]
+    static let intentionalReasons: Set<String> = ["predelete", "prerestore", "prepsid", profileDeleteReason]
+
+    /// The sidecar reason a deleted profile's store is moved aside under.
+    static let profileDeleteReason = "profiledelete"
 
     // MARK: - Schema-migration policy
 
@@ -55,13 +58,30 @@ nonisolated enum StoreRecovery {
 
     // MARK: - Locations
 
-    /// Canonical store location (shared App Group container), with the same
-    /// fallbacks the app uses so a misconfigured entitlement still launches.
+    /// The store the app has open: the active profile's (``ProfileScope``).
+    /// The owner's is ``ownerStoreURL()``; another profile's is its own file
+    /// beside it.
     nonisolated static func canonicalStoreURL() -> URL {
-        let base = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)
-            ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-            ?? URL(fileURLWithPath: NSTemporaryDirectory())
-        return base.appendingPathComponent(activeStoreName)
+        storeURL(forProfile: ProfileScope.currentID)
+    }
+
+    /// The owner's store, in the shared App Group container (with the same
+    /// fallbacks the app uses so a misconfigured entitlement still launches).
+    /// Every recovery path in this type works on it: the legacy store, the
+    /// handoff and every `default.store.*` sidecar belong to the owner.
+    nonisolated static func ownerStoreURL() -> URL {
+        ProfileRegistry.containerURL.appendingPathComponent(activeStoreName)
+    }
+
+    /// Where a profile's store lives. An id the registry no longer lists
+    /// resolves to the owner's store.
+    nonisolated static func storeURL(forProfile id: UUID) -> URL {
+        guard id != PiruProfile.ownerID, let profile = ProfileRegistry.profile(id: id) else { return ownerStoreURL() }
+        return storeURL(for: profile)
+    }
+
+    nonisolated static func storeURL(for profile: PiruProfile) -> URL {
+        profile.isOwner ? ownerStoreURL() : ProfileRegistry.containerURL.appendingPathComponent(profile.storeFileName)
     }
 
     /// The store file this launch opens: ``storeName``, or for a DEBUG
@@ -96,7 +116,7 @@ nonisolated enum StoreRecovery {
     /// user chose stays empty, while a `corrupt-*` quarantine is always reclaimed.
     @discardableResult
     static func prepareCanonicalStore() -> URL {
-        let canonical = canonicalStoreURL()
+        let canonical = ownerStoreURL()
 
         // Canonical already holds data → nothing to do (the common, fast path).
         // Counted with plain SQL on a read-only connection, so a launch that
@@ -306,7 +326,7 @@ nonisolated enum StoreRecovery {
     }
 
     static func deleteRecoveryCopies() throws {
-        for base in recoveryCandidates(excluding: canonicalStoreURL(), includeIntentional: true) {
+        for base in recoveryCandidates(excluding: ownerStoreURL(), includeIntentional: true) {
             for suffix in storeSuffixes {
                 let url = URL(fileURLWithPath: base.path + suffix)
                 if FileManager.default.fileExists(atPath: url.path) { try FileManager.default.removeItem(at: url) }
@@ -354,9 +374,8 @@ nonisolated enum StoreRecovery {
     /// Copy (not move) the canonical store and its siblings to a timestamped
     /// sidecar, leaving the live store in place. Used before a destructive but
     /// intentional action (Settings → Delete All) so it's always recoverable.
-    static func snapshotStore(reason: String) {
+    static func snapshotStore(reason: String, at store: URL = canonicalStoreURL()) {
         let fm = FileManager.default
-        let store = canonicalStoreURL()
         let dir = store.deletingLastPathComponent()
         let base = store.lastPathComponent
         let stamp = Int(Date().timeIntervalSince1970)
@@ -553,7 +572,7 @@ nonisolated enum StoreRecovery {
     /// Unlike auto-recovery, this lists intentional snapshots too so the user can
     /// deliberately roll back from the Data & Storage screen.
     static func recoverableStores() -> [RecoverableStore] {
-        let canonical = canonicalStoreURL()
+        let canonical = ownerStoreURL()
         return recoveryCandidates(excluding: canonical, includeIntentional: true)
             .map { url in
                 let name = url.lastPathComponent
@@ -577,7 +596,7 @@ nonisolated enum StoreRecovery {
     /// current canonical aside first (never destructive). The app must be
     /// relaunched afterwards so a fresh `ModelContainer` opens the restored store.
     static func restore(from sidecar: URL) throws {
-        let canonical = canonicalStoreURL()
+        let canonical = ownerStoreURL()
         if anyFileExists(at: canonical) {
             backUpStore(at: canonical, reason: "before-manual-restore")
         }

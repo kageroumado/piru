@@ -9,6 +9,10 @@ import Foundation
 /// an unrecognised URL returns `nil` so callers can fall back to default
 /// behavior.
 ///
+/// **Whose journal** — any link takes `profile=<uuid>` (``profileQueryItem``):
+/// the app opens that profile's journal first, then lands where the rest of
+/// the link says.
+///
 /// **Tab selection** — `piru://<tab>` selects the tab and clears any modal:
 /// `piru://journal`, `piru://library`, `piru://tools`, `piru://insights`,
 /// `piru://search`.
@@ -29,6 +33,7 @@ import Foundation
 ///   Every parameter but `substance` is optional; without `amount` the editor
 ///   opens on the reference dose. A link never saves on its own.
 /// - `piru://settings` → present `.settings`
+/// - `piru://profiles` → present `.profiles` (Settings ▸ Profiles)
 /// - `piru://skins` → present `.skins`
 /// - `piru://help` → present `.help`
 ///
@@ -99,6 +104,30 @@ nonisolated struct DeepLinkOutcome: Hashable {
 nonisolated enum DeepLink {
     static let scheme = "piru"
 
+    // MARK: - Profile
+
+    /// The query item naming whose journal a link opens: any `piru://` URL
+    /// takes `profile=<uuid>`, and the app switches to that profile before it
+    /// routes. Absent, the link opens in whichever profile is active.
+    static let profileQueryItem = "profile"
+
+    static func profileID(in url: URL) -> UUID? {
+        URLComponents(url: url, resolvingAgainstBaseURL: false)?
+            .queryItems?
+            .first { $0.name == profileQueryItem }?
+            .value
+            .flatMap(UUID.init(uuidString:))
+    }
+
+    /// `url` with `profile=<id>` set, replacing any profile it named.
+    static func tagging(_ url: URL, profile id: UUID) -> URL {
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return url }
+        var items = (components.queryItems ?? []).filter { $0.name != profileQueryItem }
+        items.append(URLQueryItem(name: profileQueryItem, value: id.uuidString.lowercased()))
+        components.queryItems = items
+        return components.url ?? url
+    }
+
     // MARK: - Decode
 
     /// Parse a `piru://` URL into a navigator outcome. Returns `nil` for
@@ -144,6 +173,9 @@ nonisolated enum DeepLink {
 
         case "settings":
             return DeepLinkOutcome(tab: overrideTab, sheet: .settings)
+
+        case "profiles":
+            return DeepLinkOutcome(tab: overrideTab, sheet: .profiles)
 
         case "skins":
             return DeepLinkOutcome(tab: overrideTab, sheet: .skins)
@@ -488,6 +520,9 @@ nonisolated enum DeepLink {
 
         case .settings:
             components.host = "settings"
+
+        case .profiles:
+            components.host = "profiles"
 
         case .skins:
             components.host = "skins"

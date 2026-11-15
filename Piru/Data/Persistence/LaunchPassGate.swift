@@ -8,6 +8,7 @@ import SwiftData
 /// under the current token found everything it looks for already handled,
 /// so the full-log fetch it would open with is skipped. Every pass keeps its
 /// own idempotent body, so a stale or missing token only costs the scan.
+/// Each profile's store keeps its own tokens (``ProfileScope/key(_:)``).
 ///
 /// The same gate serves a foreground re-activation: the token is read fresh
 /// each time (one `COUNT` query), so a dose logged from the widget while the
@@ -22,7 +23,7 @@ enum LaunchPassGate {
     /// Run `pass` unless it already ran under this launch's token, and record
     /// the token once it has.
     static func run(_ name: String, container: ModelContainer, defaults: UserDefaults = .standard, pass: () -> Void) {
-        let key = "launchPass.\(name).token"
+        let key = ProfileScope.key("launchPass.\(name).token")
         let token = token(container: container)
         guard defaults.string(forKey: key) != token else { return }
         pass()
@@ -34,7 +35,7 @@ enum LaunchPassGate {
     static func runAsync(
         _ name: String, container: ModelContainer, defaults: UserDefaults = .standard, pass: () async -> Void,
     ) async {
-        let key = "launchPass.\(name).token"
+        let key = ProfileScope.key("launchPass.\(name).token")
         let token = token(container: container)
         guard defaults.string(forKey: key) != token else { return }
         await pass()

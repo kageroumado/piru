@@ -271,6 +271,19 @@ struct DoseSnapshot {
             ActiveSessionManager.shared.clearSession()
         }
 
+        /// End every Piru activity as a profile switch begins: the activity
+        /// shows the previous person's doses, and nothing would update it
+        /// again. The next profile's session starts its own the usual way.
+        func endForProfileSwitch() {
+            stopUpdateTimer()
+            BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
+            currentActivity = nil
+            for activity in Activity<PiruActivityAttributes>.activities {
+                nonisolated(unsafe) let ending = activity
+                pendingEnds.append(Task { await ending.end(nil, dismissalPolicy: .immediate) })
+            }
+        }
+
         func deleteJournalActivities() async {
             stopUpdateTimer()
             BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
@@ -664,6 +677,7 @@ struct DoseSnapshot {
         func sessionCleared() {}
         func startLiveActivity() {}
         func hideLiveActivity() {}
+        func endForProfileSwitch() {}
         func deleteJournalActivities() async {}
         func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, tint: P3Color)]? {
             nil

@@ -112,7 +112,7 @@ final class BackupManager {
 
         status = .running
         do {
-            let plaintext = try DataExportImport.exportJSON(context: context)
+            let plaintext = try DataExportImport.exportBackupJSON(context: context)
             let hash = Self.sha256Hex(plaintext)
             if hash == lastBackupHash, lastBackupDate != nil {
                 status = .idle // nothing changed — no needless iCloud write
@@ -147,7 +147,7 @@ final class BackupManager {
     /// temporary `.piruenc` file URL suitable for a `ShareLink`. Key derivation
     /// (600 000 PBKDF2 rounds) and sealing run off the main actor.
     func exportEncrypted(context: ModelContext, passphrase: String) async throws -> URL {
-        let plaintext = try DataExportImport.exportJSON(context: context)
+        let plaintext = try DataExportImport.exportBackupJSON(context: context)
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(DataExportImport.exportFilename)
             .appendingPathExtension(Self.fileExtension)
@@ -183,11 +183,28 @@ final class BackupManager {
         try apply(plaintext: plaintext, strategy: strategy, context: context)
     }
 
-    /// Imports a decrypted backup payload by `strategy`.
-    func apply(plaintext: Data, strategy: RestoreStrategy, context: ModelContext) throws {
+    /// Imports a decrypted backup payload by `strategy`. A backup made with one
+    /// profile restores into the open journal (`context`); one made with
+    /// several brings every profile back (``applyProfiles(_:plaintext:strategy:context:directory:)``).
+    func apply(
+        plaintext: Data, strategy: RestoreStrategy, context: ModelContext, directory: ProfileDirectory = .shared,
+    ) throws {
+        if let section = DataExportImport.profilesSection(in: plaintext) {
+            try applyProfiles(section, plaintext: plaintext, strategy: strategy, context: context, directory: directory)
+        } else {
+            try apply(journal: plaintext, strategy: strategy, context: context, customStore: .shared)
+        }
+        Logger.backupManager.notice("Restore (\(String(describing: strategy), privacy: .public)) completed.")
+    }
+
+    /// One journal's restore into `context`, whose store is the scoped
+    /// profile's (``ProfileScope``).
+    func apply(
+        journal plaintext: Data, strategy: RestoreStrategy, context: ModelContext, customStore: CustomSubstanceStore,
+    ) throws {
         switch strategy {
         case .merge:
-            try DataExportImport.importJSON(data: plaintext, context: context)
+            try DataExportImport.importJSON(data: plaintext, context: context, customStore: customStore)
         case .replace:
             // Decode the whole payload before the wipe: a file that cannot
             // import must leave the journal as it was.
@@ -197,10 +214,9 @@ final class BackupManager {
             try DataExportImport.deleteAll(context: context)
             // The custom-substance cache still lists the deleted rows until it
             // reloads, and the importer skips any custom it already lists.
-            CustomSubstanceStore.shared.resetAfterDeletion()
-            try DataExportImport.importJSON(data: plaintext, context: context, mode: .replace)
+            customStore.resetAfterDeletion()
+            try DataExportImport.importJSON(data: plaintext, context: context, customStore: customStore, mode: .replace)
         }
-        Logger.backupManager.notice("Restore (\(String(describing: strategy), privacy: .public)) completed.")
     }
 
     // MARK: - iCloud backup management
