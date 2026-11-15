@@ -8511,6 +8511,7 @@ class Build:
         # `references`. Every distinct primary ref becomes a tappable citation.
         refs = list(s.get("sources") or [])
         refs += list((s.get("mechanismOfAction") or {}).get("references") or [])
+        refs += list(s.get("descriptionReferences") or [])
         for ref in refs:
             if isinstance(ref, str) and ref.strip():
                 self.add_substance_citation(sid, ref.strip())
@@ -8519,7 +8520,12 @@ class Build:
         # curated layer a way to supply one, for substances where the scrapers left
         # the slot empty (codeine, melatonin).
         if s.get("description"):
-            self.add_description(sid, slug, s["description"])
+            self.add_description(
+                sid,
+                slug,
+                s["description"],
+                citation=first_citable_reference(s.get("descriptionReferences")),
+            )
         for e in s.get("effects") or []:
             self.add_effect(sid, slug, e)
         for se in s.get("subjectiveEffects") or []:

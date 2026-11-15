@@ -293,28 +293,60 @@ struct InteractionCheckerTests {
     // MARK: - Bundled class-pair rules
 
     @Test
-    func `TripSit fills pairs curation does not cover`() throws {
-        // Tramadol is `serotonergic` here, and no curated rule pairs that class
-        // with alcohol, benzodiazepines, GHB or stimulants — every one of which
-        // TripSit covers, on seizure and respiratory grounds. A pair with no
-        // curated copy shows the row's own note, so a non-empty description is
-        // what says the bundled layer reached the reader.
-        #expect(InteractionRuleCopy.note(.serotonergic, .alcohol) == nil, "this pair is curated now")
-        let results = InteractionChecker.checkBatch(["Tramadol", "Alcohol"], against: [])
-        let finding = try #require(results.first)
-        #expect(!finding.description.isEmpty)
+    func `Every rule a reader can reach has Piru's own sentence`() {
+        // A row with no copy shows its English note to every reader, in every
+        // language. TripSit's matrix is the source of such rows, and every pair it
+        // names is now adjudicated, so a row arriving without copy is a new TripSit
+        // pair that needs a sentence and a translation.
+        let uncovered = SubstanceStore.shared.classInteractionRules().compactMap { rule -> String? in
+            guard let a = DrugClass(rawValue: rule.classA),
+                  let b = DrugClass(rawValue: rule.classB) else { return nil }
+            return InteractionRuleCopy.note(a, b) == nil ? InteractionRuleCopy.key(a, b) : nil
+        }
+        #expect(uncovered.isEmpty, "rules shown in untranslated English: \(uncovered.sorted())")
     }
 
     @Test
     func `A curated rule wins over the bundled one`() throws {
-        // TripSit and curation both name serotonergic + SSRI. The curated verdict
+        // TripSit and curation both name alcohol + stimulant. The curated verdict
         // is the one that has been checked, and its sentence is the one shown —
         // which is the observable difference, since a TripSit row would arrive as
         // that source's own prose.
-        let curated = try #require(InteractionRuleCopy.note(.serotonergic, .ssri))
-        let results = InteractionChecker.checkBatch(["Tramadol", "Sertraline"], against: [])
+        let curated = try #require(InteractionRuleCopy.note(.alcohol, .stimulant))
+        let results = InteractionChecker.checkBatch(["Alcohol", "Amphetamine"], against: [])
         let finding = try #require(results.first)
         #expect(finding.description == String(localized: curated))
+    }
+
+    @Test
+    func `Tramadol's depressant pairings come through its opioid class`() throws {
+        // TripSit's tramadol column is about tramadol, and `serotonergic` also
+        // holds DXM, 4-MA and naphyrone, so the column no longer maps onto the
+        // class. Tramadol loses no depressant warning by it: the opioid rule is
+        // the one that answers.
+        let opioidRule = try #require(InteractionRuleCopy.note(.opioid, .alcohol))
+        let finding = try #require(InteractionChecker.checkBatch(["Tramadol", "Alcohol"], against: []).first)
+        #expect(finding.severity == .dangerous)
+        #expect(finding.description == String(localized: opioidRule))
+    }
+
+    @Test
+    func `A serotonergic dissociative never reads tramadol's seizure warning`() throws {
+        // DXM + amphetamine used to read "Tramadol and stimulants both increase the
+        // risk of seizures". The class-level claim is serotonin syndrome.
+        let finding = try #require(InteractionChecker.checkBatch(["DXM", "Amphetamine"], against: []).first)
+        #expect(!finding.description.localizedCaseInsensitiveContains("tramadol"))
+        #expect(finding.description.localizedCaseInsensitiveContains("serotonin"))
+    }
+
+    @Test
+    func `DXM and GHB still warn once tramadol's column is gone`() throws {
+        // That pairing was warned about only through the tramadol column; the
+        // danger belongs to the dissociative class and is curated there.
+        let finding = try #require(InteractionChecker.checkBatch(["DXM", "GHB"], against: []).first)
+        #expect(finding.severity == .dangerous)
+        let ketamine = try #require(InteractionChecker.checkBatch(["Ketamine", "GHB"], against: []).first)
+        #expect(ketamine.severity == .dangerous)
     }
 
     @Test

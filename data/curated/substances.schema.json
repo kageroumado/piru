@@ -179,6 +179,15 @@
       "type": "string",
       "description": "Prose overview, shown on the substance detail page. Supplies the `descriptions` slot where no scraper filled it."
     },
+    "descriptionReferences": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "The works `description` states its facts from — DOIs, PMIDs or URLs, each one read for what the paragraph says. The first citable one becomes the description row's citation; all of them are listed with the substance's references."
+    },
     "subjectiveEffects": {
       "type": "array",
       "description": "Named effects with a sentence each. A bare string is accepted and stores the name alone.",

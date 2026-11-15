@@ -2054,6 +2054,12 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
         e = dict(self._base, halfLifeSource="")
         self.assertTrue(any("halfLifeSource" in x for x in self._check(e, "foo.json")))
 
+    def test_description_references_need_references_and_a_description(self):
+        empty = dict(self._base, description="Foo is a stimulant.", descriptionReferences=[])
+        self.assertTrue(any("descriptionReferences" in x for x in self._check(empty, "foo.json")))
+        orphan = dict(self._base, descriptionReferences=["doi:10.1000/foo"])
+        self.assertTrue(any("no `description`" in x for x in self._check(orphan, "foo.json")))
+
     def test_missing_provenance_is_advisory_only(self):
         # A dosed compound with no references → warning, not error (norm-setting).
         e = dict(
@@ -3503,6 +3509,21 @@ class TestSignatureGates(unittest.TestCase):
             if slug != "piru-curated" or severity != curated[key]:
                 wrong.append(f"{'|'.join(key)} is {severity} from {slug}")
         self.assertEqual([], wrong, f"curated rules did not win: {wrong}")
+
+    def test_no_tripsit_term_is_read_as_the_serotonergic_class(self):
+        """`serotonergic` holds tramadol, meperidine, DXM, 4-MA and naphyrone. The
+        only TripSit term ever mapped onto it was 'tramadol', whose column is about
+        tramadol's seizure threshold and opioid half — it put 'Tramadol and
+        stimulants both increase the risk of seizures' on DXM + amphetamine."""
+        classes = _load_curated("tripsit-combo-classes")["classes"]
+        self.assertNotIn("serotonergic", classes.values())
+        leaked = self.db.execute(
+            "SELECT r.class_a, r.class_b FROM interaction_rules r"
+            "  JOIN sources s ON s.id = r.source_id"
+            " WHERE s.slug = 'tripsit'"
+            "   AND (r.class_a = 'serotonergic' OR r.class_b = 'serotonergic')"
+        ).fetchall()
+        self.assertEqual([], leaked, f"TripSit rows on the serotonergic class: {leaked}")
 
     def test_the_serotonergic_ordering_is_by_evidence_not_reputation(self):
         """MDMA + an antidepressant SERT blocker is *blockade*, not danger: the

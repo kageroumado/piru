@@ -310,6 +310,11 @@ nonisolated struct PiruInventoryData: Codable {
     var sortOrder: Int?
     var substance: String
     var saltForm: String?
+    /// The item's isomer, product, and form-title snapshot; absent from a file
+    /// written before inventory items could name a form, which is a plain item.
+    var isomer: String?
+    var productName: String?
+    var displayNameSnapshot: String?
     var unit: String
     var trackingStart: Int64
     var lowStockThreshold: Double?
@@ -434,6 +439,9 @@ extension DataExportImport {
                     sortOrder: item.sortOrder,
                     substance: item.substance,
                     saltForm: item.saltForm,
+                    isomer: item.isomer,
+                    productName: item.productName,
+                    displayNameSnapshot: item.displayNameSnapshot,
                     unit: item.unit,
                     trackingStart: item.trackingStart.msSince1970,
                     lowStockThreshold: item.lowStockThreshold,
@@ -502,9 +510,7 @@ extension DataExportImport {
         // Dedup doses by content against what's already stored and within the
         // file, so a re-import (or merge) stays idempotent.
         let existingDoses = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
-        var seen = Set(existingDoses.map {
-            doseDedupKey(substance: $0.substance, timestamp: $0.timestamp, amount: $0.amount, unit: $0.unit, route: $0.route)
-        })
+        var doseIndex = ImportedDoseIndex(existingDoses)
         // Stable-id bookkeeping, seeded with the store's ids: an imported dose
         // keeps its exported id (so references like ramp-down keys survive a
         // wipe-and-restore) unless that id is already taken — a merge where the
@@ -515,8 +521,10 @@ extension DataExportImport {
 
         func makeDose(_ d: PiruDoseData) -> DoseEntry? {
             let timestamp = Date(ms: d.timestamp)
-            let key = doseDedupKey(substance: d.substance, timestamp: timestamp, amount: d.amount, unit: d.unit, route: d.route)
-            guard seen.insert(key).inserted else { return nil }
+            let key = doseDedupKey(
+                substance: d.substance, timestamp: timestamp, amount: d.isUnknownDose == true ? nil : d.amount, unit: d.unit, route: d.route,
+            )
+            guard case .new = doseIndex.claim(key) else { return nil }
             let entry = DoseEntry(
                 substance: d.substance, amount: d.amount, unit: d.unit, route: d.route,
                 saltForm: d.saltForm,
@@ -623,7 +631,7 @@ extension DataExportImport {
             context.insert(med)
         }
 
-        // Inventory — merge by substance identity + salt (the same key
+        // Inventory — merge by substance identity + salt + form (the same key
         // `InventoryService.find` uses, so an alias and its canonical name are
         // one item): union manual events by id so a re-import is idempotent,
         // keep the earliest trackingStart, and fill any missing scalar
@@ -645,7 +653,10 @@ extension DataExportImport {
                         setsBaseline: event.setsBaseline,
                     )
                 }
-                if let item = InventoryService.find(substance: inv.substance, saltForm: inv.saltForm, among: existingItems) {
+                if let item = InventoryService.find(
+                    substance: inv.substance, saltForm: inv.saltForm,
+                    isomer: inv.isomer, productName: inv.productName, among: existingItems,
+                ) {
                     var byID = Dictionary(item.manualEvents.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
                     for event in importedEvents where byID[event.id] == nil {
                         byID[event.id] = event
@@ -664,6 +675,9 @@ extension DataExportImport {
                         id: id,
                         substance: inv.substance,
                         saltForm: inv.saltForm,
+                        isomer: inv.isomer,
+                        productName: inv.productName,
+                        displayNameSnapshot: inv.displayNameSnapshot,
                         unit: inv.unit,
                         trackingStart: Date(ms: inv.trackingStart),
                         lowStockThreshold: inv.lowStockThreshold,

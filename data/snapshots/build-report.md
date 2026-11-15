@@ -1,30 +1,30 @@
 # Piru SQLite build report
 
-Built 2026-10-31.10 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sha256 `a43b3cc665a53ccc603b19d40bee0ecdb048945fa5e02b35da4c73388ad4e087`)
+Built 2026-11-13.1 → `Piru/Data/piru-substances.sqlite` (21,598,208 bytes, sha256 `497537a344318faac5daebe0d0e54a8b476ffd496b9f8db2426c2d686b9e58ff`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,675 |
-| aliases | 6,003 |
+| substances | 1,680 |
+| aliases | 6,020 |
 | sources | 18 |
 | source_field_priority | 2 |
-| citations | 2,741 |
-| categories | 1,578 |
-| tags | 7,062 |
-| dose_ranges | 2,729 |
+| citations | 2,765 |
+| categories | 1,583 |
+| tags | 7,077 |
+| dose_ranges | 2,731 |
 | durations | 10,475 |
 | drug_community_timelines | 755 |
 | half_lives | 707 |
-| mechanisms_summary | 1,228 |
+| mechanisms_summary | 1,232 |
 | effects | 2,952 |
 | subjective_effects | 23,653 |
 | subjective_effect_concepts | 506 |
 | subjective_effect_concept_aliases | 1,178 |
 | tolerance | 0 |
 | diazepam_equivalents | 32 |
-| bindings | 1,458 |
+| bindings | 1,459 |
 | functional_assays | 178 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
@@ -40,14 +40,14 @@ Built 2026-10-31.10 → `Piru/Data/piru-substances.sqlite` (21,577,728 bytes, sh
 | substance_classes | 680 |
 | class_warnings | 5 |
 | class_warning_exclusions | 8 |
-| molecule_shapes | 963 |
+| molecule_shapes | 964 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |
 | substance_flags | 11 |
 | regional_names | 5 |
-| localized_names | 1,615 |
+| localized_names | 1,630 |
 | opioid_mme | 11 |
-| interaction_rules | 99 |
+| interaction_rules | 95 |
 | substance_interaction_classes | 213 |
 | category_interaction_classes | 29 |
 | tolerance_modulation | 0 |
@@ -150,7 +150,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 154 | 446 | 651 | 2,272 |
+| piru-curated | 156 | 447 | 656 | 2,287 |
 | peer-review-primary | 0 | 1,000 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 826 | 0 | 0 | 126 |

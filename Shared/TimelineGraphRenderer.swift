@@ -18,7 +18,6 @@ struct TimelineGraphRenderer {
     let compact: Bool
     let stackRedoses: Bool
     let showNowIndicator: Bool
-    let nowUncertaintyMinutes: Double
     let highlighted: String?
     let chartFrame: Bool
     let vitals: SessionVitals?
@@ -547,54 +546,31 @@ struct TimelineGraphRenderer {
         // Only while the session is live. Once every dose's effect window has
         // ended, a bar pinned at "now" is a stray rule in dead space — and the
         // axis no longer stretches out to reach it (see `spanIncludingMarkers`).
-        // Skipped on compact thumbnails, where a full-height line reads as a
-        // glitch, not a "you are here" cue.
-        // The uncertainty band is drawn even on a compact graph — that is the
-        // Live Activity's only honest "you are here", and unlike a full-height
-        // hairline it reads as a region rather than a glitch.
-        let drawsNowRule = !compact
-        let drawsNowBand = nowUncertaintyMinutes > 0
-        if drawsNowRule || drawsNowBand, hasActiveNow, scrubX == nil, nowMinutes >= 0,
+        // Skipped on compact graphs, where a full-height line reads as a
+        // glitch, not a "you are here" cue; the Live Activity marks now with
+        // its own time-driven rail (`TimelineGraphView.timeDrivenNow`).
+        if !compact, hasActiveNow, scrubX == nil, nowMinutes >= 0,
            nowX >= graphInset, nowX <= graphInset + graphWidth {
             let indicatorBottom = graphTop + graphHeight + belowCurvesTotal
-            if drawsNowBand {
-                let bandEnd = min(
-                    graphInset + CGFloat((nowMinutes + nowUncertaintyMinutes - vStart) / vSpan) * graphWidth,
-                    graphInset + graphWidth,
-                )
-                if bandEnd > nowX {
-                    context.fill(
-                        Path(CGRect(x: nowX, y: graphTop, width: bandEnd - nowX, height: indicatorBottom - graphTop)),
-                        with: .color(.primary.opacity(0.16)),
-                    )
-                    // The crisp leading edge is the one instant we do know.
-                    var edge = Path()
-                    edge.move(to: CGPoint(x: nowX, y: graphTop))
-                    edge.addLine(to: CGPoint(x: nowX, y: indicatorBottom))
-                    context.stroke(edge, with: .color(.primary.opacity(0.55)), lineWidth: 1.5)
-                }
+            // The rule breaks around each milestone stack, so it never
+            // strikes through a clock time it passes.
+            var ruleContext = context
+            for frame in milestoneStacks {
+                ruleContext.clip(to: Path(frame.insetBy(dx: -2, dy: -1)), options: .inverse)
             }
-            if drawsNowRule {
-                // The rule breaks around each milestone stack, so it never
-                // strikes through a clock time it passes.
-                var ruleContext = context
-                for frame in milestoneStacks {
-                    ruleContext.clip(to: Path(frame.insetBy(dx: -2, dy: -1)), options: .inverse)
-                }
-                var nowLine = Path()
-                nowLine.move(to: CGPoint(x: nowX, y: graphTop))
-                // Extend through the companion vitals lane so the "you are here"
-                // rule is one continuous line across both curves and the HR band.
-                nowLine.addLine(to: CGPoint(x: nowX, y: indicatorBottom))
-                ruleContext.stroke(nowLine, with: .color(.primary.opacity(0.7)), lineWidth: 2.5)
-                // A small dot centered on the baseline (the origin line), anchoring
-                // the rule to "now" on the time axis rather than floating at the top.
-                let capRadius: CGFloat = 3
-                context.fill(
-                    Path(ellipseIn: CGRect(x: nowX - capRadius, y: graphTop + graphHeight - capRadius, width: capRadius * 2, height: capRadius * 2)),
-                    with: .color(.primary.opacity(0.7)),
-                )
-            }
+            var nowLine = Path()
+            nowLine.move(to: CGPoint(x: nowX, y: graphTop))
+            // Extend through the companion vitals lane so the "you are here"
+            // rule is one continuous line across both curves and the HR band.
+            nowLine.addLine(to: CGPoint(x: nowX, y: indicatorBottom))
+            ruleContext.stroke(nowLine, with: .color(.primary.opacity(0.7)), lineWidth: 2.5)
+            // A small dot centered on the baseline (the origin line), anchoring
+            // the rule to "now" on the time axis rather than floating at the top.
+            let capRadius: CGFloat = 3
+            context.fill(
+                Path(ellipseIn: CGRect(x: nowX - capRadius, y: graphTop + graphHeight - capRadius, width: capRadius * 2, height: capRadius * 2)),
+                with: .color(.primary.opacity(0.7)),
+            )
         }
 
         // Pan-extent indicator — a 2pt track at the very bottom showing the
@@ -1446,20 +1422,16 @@ struct TimelineGraphRenderer {
         guard graphWidth > 0, visibleSpan > 0 else { return }
         let doseOffset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
 
-        // Use the same synthesized come-up the curve is fit to, so the blue
-        // band tracks the rendered rise even when the source data lists no
-        // come-up phase (otherwise the curve climbs through a "peak"-colored
-        // band with no come-up band at all).
-        let peakEndForBands = max(s.peakEndMinutes, s.onsetEndMinutes + 2)
-        let comeupEndForBands = TimelineCurveModel.effectiveComeupEnd(for: s, onsetEnd: s.onsetEndMinutes, peakEnd: peakEndForBands)
+        // The state's boundaries are the curve's anchors, so the come-up band
+        // tracks the rendered rise even when the source data lists no come-up.
         // Bands are non-text marks, so they take the phase scale's `accent`
         // variant. These were inline hexes duplicated across three files; the
         // hues are unchanged, only lightness and chroma moved to clear the
         // contrast gates. See `design-system/color/`.
         let bands: [(start: Double, end: Double, color: Color)] = [
             (0, s.onsetEndMinutes, .Phase.Onset.accent),
-            (s.onsetEndMinutes, comeupEndForBands, .Phase.Comeup.accent),
-            (comeupEndForBands, s.peakEndMinutes, .Phase.Peak.accent),
+            (s.onsetEndMinutes, s.comeupEndMinutes, .Phase.Comeup.accent),
+            (s.comeupEndMinutes, s.peakEndMinutes, .Phase.Peak.accent),
             (s.peakEndMinutes, s.offsetEndMinutes, .Phase.Offset.accent),
         ]
 

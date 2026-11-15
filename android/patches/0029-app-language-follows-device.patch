@@ -1,0 +1,132 @@
+Android follows the device's languages: Bundle.main cannot be re-classed there and Skip's UserDefaults has no domains, so AppLanguageRuntime keeps the device's language, AppLanguageStore reads no AppleLanguages, Settings shows no Language row, and the root sets no locale over SkipUI's
+
+diff --git a/Piru/Views/ContentView.swift b/Piru/Views/ContentView.swift
+index 9b48a12f..59bdbafe 100644
+--- a/Piru/Views/ContentView.swift
++++ b/Piru/Views/ContentView.swift
+@@ -35,7 +35,11 @@ struct ContentView: View {
+             .modifier(LaunchSheetModifier())
+             .modifier(StoreDiagnosticsModifier())
+             .onOpenURL { handleDeepLink($0) }
+-            .environment(\.locale, language.locale)
++        #if !os(Android)
++            // An empty Android branch would end the modifier chain: SkipUI keeps the device's
++            // locale there, where AppLanguageRuntime has no choice to apply.
++            .environment(\.locale, language.locale)
++        #endif
+         #if DEBUG
+             // `-piruRoute <piru://url>` lands on a screen at launch, for
+             // simulator screenshots: `simctl openurl` is blocked by the
+diff --git a/Shared/AppLanguage.swift b/Shared/AppLanguage.swift
+index 66033676..700e62db 100644
+--- a/Shared/AppLanguage.swift
++++ b/Shared/AppLanguage.swift
+@@ -64,8 +64,18 @@ nonisolated enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
+         available: [String],
+     ) -> String {
+         if let localization = choice.localization { return localization }
++        #if os(Android)
++            // Skip's Bundle has no localization matching: the first preferred language whose
++            // language code the app ships, as Bundle.androidPreferredLocalizations picks.
++            func code(_ tag: String) -> Substring {
++                tag.lowercased().split(separator: "-").first ?? ""
++            }
++            let shipped = Set(available.filter { $0 != "Base" }.map(code))
++            return preferred.first { shipped.contains(code($0)) } ?? "en"
++        #else
+         let shipped = available.filter { $0 != "Base" }
+         return Bundle.preferredLocalizations(from: shipped, forPreferences: preferred).first ?? "en"
++        #endif
+     }
+ }
+ 
+@@ -88,16 +98,25 @@ nonisolated enum AppLanguageStore {
+         domain: String? = Bundle.main.bundleIdentifier,
+         launchArgument: [String]? = launchArgumentLanguages(),
+     ) -> AppLanguage {
++        #if os(Android)
++            // Android keeps no app-level AppleLanguages, and Skip's UserDefaults has no domains.
++            return .system
++        #else
+         if let launch = launchArgument {
+             return AppLanguage(appleLanguages: launch)
+         }
+         let own = domain.flatMap { defaults.persistentDomain(forName: $0) }
+         return AppLanguage(appleLanguages: own?[appleLanguagesKey] as? [String])
++        #endif
+     }
+ 
+     /// `AppleLanguages` as passed on the command line, if it was.
+     static func launchArgumentLanguages() -> [String]? {
++        #if os(Android)
++            nil
++        #else
+         UserDefaults.standard.volatileDomain(forName: UserDefaults.argumentDomain)[appleLanguagesKey] as? [String]
++        #endif
+     }
+ 
+     /// The choice as the app group mirror holds it, for the extensions.
+@@ -128,6 +147,9 @@ nonisolated enum AppLanguageStore {
+     /// The device's language list, read from the global domain so the app's own
+     /// `AppleLanguages` does not shadow it; a launch argument stands in for it.
+     static var deviceLanguages: [String] {
++        #if os(Android)
++            AndroidPlatform.languageTags
++        #else
+         if let launch = launchArgumentLanguages() { return launch }
+         let global = CFPreferencesCopyValue(
+             appleLanguagesKey as CFString,
+@@ -136,11 +158,32 @@ nonisolated enum AppLanguageStore {
+             kCFPreferencesAnyHost,
+         ) as? [String]
+         return global ?? Locale.preferredLanguages
++        #endif
+     }
+ }
+ 
+ // MARK: - Runtime
+ 
++#if os(Android)
++    /// The language the app runs in on Android: the device's. Android has no counterpart to
++    /// re-classing `Bundle.main`, so Settings shows no Language row there and the choice is
++    /// always ``AppLanguage/system``.
++    nonisolated enum AppLanguageRuntime {
++        static var choice: AppLanguage {
++            .system
++        }
++
++        /// The device's first language the app ships, read once per process.
++        static let localization = Bundle.androidPreferredLocalizations.first ?? "en"
++
++        static var locale: Locale {
++            .current
++        }
++
++        /// Leaves the device's language in effect: ``choice`` is always ``AppLanguage/system``.
++        static func apply(_: AppLanguage) {}
++    }
++#else
+ /// Applies a language to the running process. `Bundle.main` is re-classed once so
+ /// every localized lookup that goes through it (SwiftUI `Text`, `String(localized:)`,
+ /// `NSLocalizedString`) reads the chosen `.lproj`; ``locale`` is the matching
+@@ -301,3 +344,4 @@ private final nonisolated class LanguageOverrideBundle: Bundle, @unchecked Senda
+         [AppLanguageRuntime.localization]
+     }
+ }
++#endif
+diff --git a/Piru/Views/Settings/SettingsView.swift b/Piru/Views/Settings/SettingsView.swift
+index 7ecbb007..b59da3fa 100644
+--- a/Piru/Views/Settings/SettingsView.swift
++++ b/Piru/Views/Settings/SettingsView.swift
+@@ -9,7 +9,11 @@ struct SettingsView: View {
+                 #if os(Android)
+                     AppUpdateSection()
+                 #endif
++                #if os(Android)
++                    // The app follows the device's languages; AppLanguageRuntime has no in-app switch there.
++                #else
+                 LanguageSection()
++                #endif
+                 DetailLevelSection()
+                 if LocalizedSubstanceName.isAvailable {
+                     SubstanceNamesSection()

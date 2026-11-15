@@ -1,0 +1,38 @@
+{
+  "name": "Passionflower",
+  "aliases": [
+    "Passion Flower",
+    "Passiflora incarnata",
+    "Purple Passionflower",
+    "Maypop"
+  ],
+  "popularAliases": [
+    "Passion Flower",
+    "Passiflora incarnata",
+    "Maypop"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [],
+  "description": "Passionflower is Passiflora incarnata, taken as tea, drops or dry extract for anxiety and sleep.\n\nThe trials are small and each uses a different product. In 36 people with generalized anxiety disorder, 45 drops a day of extract for four weeks did about as well as 30 mg a day of oxazepam and impaired job performance less, but the trial had no placebo arm. A 2020 systematic review of nine trials, most of them single doses before surgery or dental work, found lower anxiety in most, with the effect less clear in people whose anxiety was mild. For sleep, a week of passionflower tea improved one of six sleep-diary measures, sleep quality, over placebo in 41 healthy adults; in 110 adults with insomnia, 60 mg of extract for two weeks added about 23 minutes of total sleep time on polysomnography over placebo and changed no other measure relative to it.\n\nOne case report describes severe nausea, vomiting, drowsiness, a prolonged QT interval and nonsustained ventricular tachycardia in a woman after she took passionflower.",
+  "descriptionReferences": [
+    "doi:10.3390/nu12123894",
+    "doi:10.1046/j.1365-2710.2001.00367.x",
+    "doi:10.1002/ptr.3400",
+    "doi:10.1097/YIC.0000000000000291",
+    "doi:10.1081/clt-100100919"
+  ],
+  "mechanismOfAction": {
+    "summary": "GABA-System Binding by Whole Extract (In Vitro)",
+    "description": "In rat brain membranes, a passionflower dry extract displaced ligands from the GABA-A agonist site and from GABA-B receptors, inhibited GABA uptake into synaptosomes and acted as a GABA-B antagonist in a GTPγS assay, while the benzodiazepine and ethanol sites of GABA-A were essentially unaffected. Applied to hippocampal slices, extract evoked GABA-A currents directly, but those came from GABA contained in the extract itself and disappeared once its amino acids were removed. How these findings relate to effects after a person swallows passionflower has not been established.",
+    "references": [
+      "doi:10.1002/ptr.3352",
+      "doi:10.1016/j.phymed.2010.03.002"
+    ]
+  },
+  "tags": [
+    "supplement",
+    "herbal",
+    "OTC"
+  ]
+}

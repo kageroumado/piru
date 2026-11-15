@@ -2811,6 +2811,31 @@
     "status": 403,
     "checked": "2026-10-31"
   },
+  "https://doi.org/10.1002/ptr.1742": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
+  "https://doi.org/10.1002/ptr.2712": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
+  "https://doi.org/10.1002/ptr.3352": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
+  "https://doi.org/10.1002/ptr.3400": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
+  "https://doi.org/10.1002/ptr.7252": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
   "https://doi.org/10.1002/syn.20647": {
     "verdict": "unknown",
     "status": 403,
@@ -3417,6 +3442,12 @@
     "checked": "2026-10-31",
     "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0002870314007467"
   },
+  "https://doi.org/10.1016/j.amjmed.2006.02.026": {
+    "checked": "2026-11-13",
+    "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0002934306002750",
+    "status": 200,
+    "verdict": "ok"
+  },
   "https://doi.org/10.1016/j.annemergmed.2016.03.042": {
     "verdict": "ok",
     "status": 200,
@@ -3866,6 +3897,18 @@
     "checked": "2026-10-31",
     "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0028390806003789"
   },
+  "https://doi.org/10.1016/j.neuropharm.2007.04.018": {
+    "checked": "2026-11-13",
+    "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S002839080700127X",
+    "status": 200,
+    "verdict": "ok"
+  },
+  "https://doi.org/10.1016/j.neuropharm.2008.06.013": {
+    "checked": "2026-11-13",
+    "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0028390808001950",
+    "status": 200,
+    "verdict": "ok"
+  },
   "https://doi.org/10.1016/j.neuropharm.2013.11.008": {
     "verdict": "ok",
     "status": 200,
@@ -3962,6 +4005,18 @@
     "checked": "2026-10-31",
     "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S1043661809001522"
   },
+  "https://doi.org/10.1016/j.phymed.2010.03.002": {
+    "checked": "2026-11-13",
+    "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0944711310000619",
+    "status": 200,
+    "verdict": "ok"
+  },
+  "https://doi.org/10.1016/j.phymed.2016.10.012": {
+    "checked": "2026-11-13",
+    "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S094471131630188X",
+    "status": 200,
+    "verdict": "ok"
+  },
   "https://doi.org/10.1016/j.pnpbp.2024.110984": {
     "verdict": "ok",
     "status": 200,
@@ -4021,6 +4076,12 @@
     "status": 200,
     "checked": "2026-10-31",
     "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0273230011000031"
+  },
+  "https://doi.org/10.1016/s0006-2952(00)00264-1": {
+    "checked": "2026-11-13",
+    "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0006295200002641",
+    "status": 200,
+    "verdict": "ok"
   },
   "https://doi.org/10.1016/s0006-2952(00)00284-7": {
     "verdict": "ok",
@@ -4998,6 +5059,12 @@
     "checked": "2026-10-31",
     "final_url": "https://www.nature.com/articles/1001391?error=cookies_not_supported&code=e2cab49e-61df-4bae-895f-a0e23ad2b06f"
   },
+  "https://doi.org/10.1038/sj.npp.1300230": {
+    "checked": "2026-11-13",
+    "final_url": "https://www.nature.com/articles/1300230?error=cookies_not_supported&code=310eed3d-4056-4ff7-ab4f-01c663575995",
+    "status": 200,
+    "verdict": "ok"
+  },
   "https://doi.org/10.1038/sj.npp.1300632": {
     "verdict": "ok",
     "status": 200,
@@ -5114,6 +5181,11 @@
     "status": 403,
     "checked": "2026-10-31"
   },
+  "https://doi.org/10.1046/j.1365-2710.2001.00367.x": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
   "https://doi.org/10.1046/j.1528-1157.2001.0420s4024.x": {
     "verdict": "unknown",
     "status": 403,
@@ -5136,6 +5208,12 @@
     "status": 200,
     "checked": "2026-10-31",
     "final_url": "https://www.thieme-connect.de/DOI/DOI?10.1055/s-0043-116492"
+  },
+  "https://doi.org/10.1055/s-2006-958058": {
+    "checked": "2026-11-13",
+    "final_url": "https://www.thieme-connect.de/DOI/DOI?10.1055/s-2006-958058",
+    "status": 200,
+    "verdict": "ok"
   },
   "https://doi.org/10.1056/NEJMoa2017015": {
     "verdict": "unknown",
@@ -5301,6 +5379,11 @@
     "status": 403,
     "checked": "2026-10-31"
   },
+  "https://doi.org/10.1080/15502783.2026.2740227": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
   "https://doi.org/10.1080/17425255.2021.1944099": {
     "verdict": "unknown",
     "status": 403,
@@ -5311,6 +5394,11 @@
     "status": null,
     "checked": "2026-10-31",
     "error": "URLError"
+  },
+  "https://doi.org/10.1081/clt-100100919": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
   },
   "https://doi.org/10.1089/can.2016.0017": {
     "verdict": "ok",
@@ -5586,6 +5674,12 @@
     "checked": "2026-10-31",
     "final_url": "https://www.ovid.com/jnls/psychopharmacology/abstract/10.1097/01.jcp.0000104908.75206.26~comparative-cyp3a4-inhibitory-effects-of-venlafaxine?redirectionsource=fulltextview"
   },
+  "https://doi.org/10.1097/01.psy.0000132877.72833.71": {
+    "checked": "2026-11-13",
+    "final_url": "https://www.ovid.com/jnls/bsam/abstract/10.1097/01.psy.0000132877.72833.71~attenuation-of-laboratory-induced-stress-in-humans-after?redirectionsource=fulltextview",
+    "status": 200,
+    "verdict": "ok"
+  },
   "https://doi.org/10.1097/adm.0000000000001185": {
     "verdict": "ok",
     "status": 200,
@@ -5609,6 +5703,16 @@
     "status": 200,
     "checked": "2026-10-31",
     "final_url": "https://www.ovid.com/jnls/psychopharmacology/fulltext/10.1097/jcp.0000000000001277~randomized-controlled-crossover-trials-of-the"
+  },
+  "https://doi.org/10.1097/jcp.0b013e3181ac935c": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
+  "https://doi.org/10.1097/yic.0000000000000291": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
   },
   "https://doi.org/10.1098/rsob.220355": {
     "verdict": "unknown",
@@ -5966,6 +6070,12 @@
     "status": 403,
     "checked": "2026-10-31"
   },
+  "https://doi.org/10.1124/dmd.104.001164": {
+    "checked": "2026-11-13",
+    "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0090955624030381",
+    "status": 200,
+    "verdict": "ok"
+  },
   "https://doi.org/10.1124/dmd.104.001180": {
     "verdict": "ok",
     "status": 200,
@@ -6297,6 +6407,11 @@
     "status": 403,
     "checked": "2026-10-31"
   },
+  "https://doi.org/10.1159/000090736": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
   "https://doi.org/10.1159/000118458": {
     "verdict": "unknown",
     "status": 403,
@@ -6414,11 +6529,22 @@
     "status": 403,
     "checked": "2026-10-31"
   },
+  "https://doi.org/10.1177/2515690x20967323": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
+  },
   "https://doi.org/10.1186/1471-2210-6-6": {
     "verdict": "ok",
     "status": 200,
     "checked": "2026-10-31",
     "final_url": "https://link.springer.com/article/10.1186/1471-2210-6-6?error=cookies_not_supported&code=ccf6036a-766a-498c-a076-d8ecffa937d2"
+  },
+  "https://doi.org/10.1186/1472-6882-11-78": {
+    "checked": "2026-11-13",
+    "final_url": "https://link.springer.com/article/10.1186/1472-6882-11-78?error=cookies_not_supported&code=02031e51-87c2-4157-a14b-0563b9a7b016",
+    "status": 200,
+    "verdict": "ok"
   },
   "https://doi.org/10.1186/1472-6904-2-4": {
     "verdict": "ok",
@@ -6602,6 +6728,12 @@
     "verdict": "unknown",
     "status": 403,
     "checked": "2026-10-31"
+  },
+  "https://doi.org/10.1503/cmaj.051191": {
+    "checked": "2026-11-13",
+    "final_url": "https://www.cmaj.ca/content/174/9/1281",
+    "status": 200,
+    "verdict": "ok"
   },
   "https://doi.org/10.1515/dmdi.1988.6.3-4.425": {
     "verdict": "ok",
@@ -7167,6 +7299,11 @@
     "verdict": "unknown",
     "status": 403,
     "checked": "2026-10-31"
+  },
+  "https://doi.org/10.3390/nu12123894": {
+    "checked": "2026-11-13",
+    "status": 403,
+    "verdict": "unknown"
   },
   "https://doi.org/10.3390/ph14020116": {
     "verdict": "unknown",

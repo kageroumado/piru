@@ -71,9 +71,25 @@ struct EntryDetailView: View {
         return Date.now < state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60)
     }
 
+    /// A deleted entry's attributes trap on read, and SwiftUI can re-render this
+    /// screen after the delete commits (its own ⋯ Delete, or one from another
+    /// surface) while the pop is still animating. `isDeleted` covers the unsaved
+    /// delete; a saved one leaves `isDeleted` false and detaches the context.
+    private var entryIsGone: Bool {
+        entry.isDeleted || entry.modelContext == nil
+    }
+
     // MARK: - Body
 
     var body: some View {
+        if entryIsGone {
+            Color.clear.skinBackdrop()
+        } else {
+            content
+        }
+    }
+
+    private var content: some View {
         List {
             Group {
                 if isEditing {

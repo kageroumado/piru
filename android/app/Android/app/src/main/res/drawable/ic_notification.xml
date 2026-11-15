@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The status-bar icon of every notification; SkipUI's NotificationWorker looks it up by this
+     name. Android draws a small icon by its alpha alone, so this is the app icon's pill in one
+     color with the heart, the seam and the face cut out, in Piru/Piru.icon's 1024-point
+     coordinates cropped to the 880-point square around the pill. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="880"
+    android:viewportHeight="880">
+    <group android:translateX="-72" android:translateY="-72">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M332,257 Q332,107 512,107 Q692,107 692,257 L692,496 L332,496 Z M332,528 L692,528 L692,767 Q692,917 512,917 Q332,917 332,767 Z M512,362.5 C512,362.5 393,284.3 393,243.5 C393,202.7 440.6,182.3 478,209.5 C498.4,226.5 512,250.3 512,250.3 C512,250.3 525.6,226.5 546,209.5 C583.4,182.3 631,202.7 631,243.5 C631,284.3 512,362.5 512,362.5 Z M396,642 A30,30 0 1,0 456,642 A30,30 0 1,0 396,642 Z M568,642 A30,30 0 1,0 628,642 A30,30 0 1,0 568,642 Z M466,680 Q512,708 558,680 L560,690 Q512,746 464,690 Z" />
+    </group>
+</vector>

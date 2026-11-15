@@ -336,9 +336,51 @@ enum DataExportImport {
 
     /// Content-based identity for a dose entry, used to skip duplicates on
     /// import. Lowercased substance/unit so cosmetic casing differences don't
-    /// defeat it; millisecond timestamp matches the export precision.
-    static func doseDedupKey(substance: String, timestamp: Date, amount: Double, unit: String, route: RouteOfAdministration) -> String {
-        "\(substance.lowercased())|\(timestamp.msSince1970)|\(amount)|\(unit.lowercased())|\(route.rawValue)"
+    /// defeat it; millisecond timestamp matches the export precision. A `nil`
+    /// amount is an unknown dose, which matches only another unknown dose.
+    static func doseDedupKey(substance: String, timestamp: Date, amount: Double?, unit: String, route: RouteOfAdministration) -> String {
+        "\(substance.lowercased())|\(timestamp.msSince1970)|\(amount.map { "\($0)" } ?? "?")|\(unit.lowercased())|\(route.rawValue)"
+    }
+
+    /// ``doseDedupKey(substance:timestamp:amount:unit:route:)`` for a stored dose.
+    static func doseDedupKey(for entry: DoseEntry, route: RouteOfAdministration? = nil) -> String {
+        doseDedupKey(
+            substance: entry.substance, timestamp: entry.timestamp, amount: entry.isUnknownDose ? nil : entry.amount,
+            unit: entry.unit, route: route ?? entry.route,
+        )
+    }
+
+    /// Gives an imported experience its session: the session already holding
+    /// doses the file repeats (`matched`), else a new one when the experience
+    /// brought at least one new dose. A reused session takes the file's title
+    /// and note only where it has none, so an edit made here survives, and a
+    /// re-import still brings in notes an earlier import could not place.
+    /// Returns `nil`, inserting nothing, when there is no session to hold them.
+    @MainActor
+    @discardableResult
+    static func importedSession(
+        doses: [DoseEntry],
+        matched: Session?,
+        title: String?,
+        note: String?,
+        context: ModelContext,
+    ) -> Session? {
+        let session: Session
+        if let matched {
+            session = matched
+            if session.title == nil { session.title = title }
+            if session.note == nil { session.note = note }
+        } else {
+            guard let start = doses.map(\.timestamp).min() else { return nil }
+            session = Session(startDate: start, title: title, note: note)
+            context.insert(session)
+        }
+        for dose in doses {
+            dose.session = session
+        }
+        session.refreshDoseBounds()
+        SessionNoteService.ensureSummaryNote(for: session)
+        return session
     }
 
     static func deleteAll(context: ModelContext) throws {
@@ -349,6 +391,49 @@ enum DataExportImport {
         let f = DateFormatter()
         f.dateFormat = "yyyy-MM-dd'T'HHmmss"
         return "Piru \(f.string(from: .now))"
+    }
+}
+
+// MARK: - Import dedup
+
+/// The journal's doses by ``DataExportImport/doseDedupKey(for:route:)``, so an
+/// importer skips a dose the journal already holds, or one it took earlier in
+/// the same file, and finds the session that holds a repeated dose.
+@MainActor
+struct ImportedDoseIndex {
+    enum Claim {
+        case new
+        /// Already taken; `stored` is the journal's copy, `nil` when the
+        /// first copy came earlier in this file.
+        case duplicate(stored: DoseEntry?)
+    }
+
+    private var stored: [String: DoseEntry] = [:]
+    private var seen: Set<String> = []
+
+    init(_ entries: [DoseEntry]) {
+        for entry in entries {
+            add(DataExportImport.doseDedupKey(for: entry), entry)
+            // The launch backfill files a dose logged as "Estradiol Valerate"
+            // under Estradiol with the ester as its salt form, while the file
+            // it came from still names the ester.
+            if let saltForm = entry.saltForm {
+                add(DataExportImport.doseDedupKey(
+                    substance: "\(entry.substance) \(saltForm)", timestamp: entry.timestamp,
+                    amount: entry.isUnknownDose ? nil : entry.amount, unit: entry.unit, route: entry.route,
+                ), entry)
+            }
+        }
+    }
+
+    private mutating func add(_ key: String, _ entry: DoseEntry) {
+        seen.insert(key)
+        if stored[key] == nil { stored[key] = entry }
+    }
+
+    /// Takes `key` for an incoming dose, or reports it already taken.
+    mutating func claim(_ key: String) -> Claim {
+        seen.insert(key).inserted ? .new : .duplicate(stored: stored[key])
     }
 }
 

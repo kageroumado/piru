@@ -1151,6 +1151,198 @@ struct DataExportImportFormatTests {
     }
 }
 
+// MARK: - Unknown doses, re-import, experience notes
+
+@Suite("DataExportImport — unknown doses and re-import")
+@MainActor
+struct DataExportImportReimportTests {
+    private static let start: Int64 = 1_735_732_800_000
+
+    /// A PsychonautWiki journal file: one experience with notes, a timed note,
+    /// a measured dose and a dose taken without knowing how much (`dose: null`).
+    private static let pwFile = Data("""
+    {
+      "exportSource": "iOS Journal 15.0",
+      "substanceCompanions": [],
+      "customUnits": [],
+      "experiences": [
+        {
+          "title": "Lake day", "text": "Calm, warm, slept well.", "creationDate": \(start), "sortDate": \(start),
+          "isFavorite": false,
+          "timedNotes": [
+            { "creationDate": \(start + 3_600_000), "time": \(start + 3_600_000), "note": "Peak was gentle", "color": "BLUE", "isPartOfTimeline": true }
+          ],
+          "ingestions": [
+            { "substanceName": "MDMA", "dose": 100, "time": \(start), "administrationRoute": "ORAL", "units": "mg", "notes": "", "isHiddenInTimeline": false },
+            { "substanceName": "Cannabis", "dose": null, "time": \(start + 7_200_000), "administrationRoute": "SMOKED", "units": "mg", "notes": "a few hits", "isHiddenInTimeline": false }
+          ]
+        }
+      ]
+    }
+    """.utf8)
+
+    @Test
+    func `A PW dose of null imports as an unknown dose`() throws {
+        let context = try ModelContext(makeTestContainer())
+        try DataExportImport.importJSON(data: Self.pwFile, context: context)
+
+        let entries = try context.fetch(FetchDescriptor<DoseEntry>())
+        #expect(entries.count == 2)
+        let cannabis = try #require(entries.first { $0.substance == "Cannabis" })
+        #expect(cannabis.isUnknownDose)
+        #expect(cannabis.amount == 0)
+        #expect(cannabis.route == .inhalation)
+        #expect(cannabis.notes == "a few hits")
+        let mdma = try #require(entries.first { $0.substance == "MDMA" })
+        #expect(!mdma.isUnknownDose)
+        #expect(mdma.amount == 100)
+        #expect(cannabis.session?.id == mdma.session?.id)
+    }
+
+    /// An experience whose only doses are unknown still becomes a session, so
+    /// its notes land.
+    @Test
+    func `An experience of only unknown doses keeps its notes`() throws {
+        let context = try ModelContext(makeTestContainer())
+        let json = """
+        {
+          "exportSource": "iOS Journal 15.0", "substanceCompanions": [], "customUnits": [],
+          "experiences": [
+            { "title": "", "text": "Not sure how much was in it", "creationDate": \(Self.start), "sortDate": \(Self.start),
+              "ingestions": [
+                { "substanceName": "Ketamine", "dose": null, "time": \(Self.start), "administrationRoute": "INSUFFLATED", "units": "mg", "notes": "" }
+              ] }
+          ]
+        }
+        """
+        try DataExportImport.importJSON(data: Data(json.utf8), context: context)
+        let entry = try #require(try context.fetch(FetchDescriptor<DoseEntry>()).first)
+        #expect(entry.isUnknownDose)
+        #expect(entry.session?.note == "Not sure how much was in it")
+    }
+
+    @Test
+    func `An unknown dose exports to PW as null and comes back unknown`() throws {
+        let source = try ModelContext(makeTestContainer())
+        source.insert(DoseEntry(substance: "Cannabis", amount: 0, unit: "mg", route: .inhalation, timestamp: Date(ms: Self.start), isUnknownDose: true))
+        try source.save()
+
+        let data = try DataExportImport.exportJSON(format: .psyLog, context: source)
+        let json = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let experience = try #require((json["experiences"] as? [[String: Any]])?.first)
+        let ingestion = try #require((experience["ingestions"] as? [[String: Any]])?.first)
+        #expect(ingestion["dose"] is NSNull)
+
+        let target = try ModelContext(makeTestContainer())
+        try DataExportImport.importJSON(data: data, context: target)
+        let entry = try #require(try target.fetch(FetchDescriptor<DoseEntry>()).first)
+        #expect(entry.isUnknownDose)
+    }
+
+    @Test
+    func `Re-importing a PW file adds no doses, sessions or notes`() throws {
+        let context = try ModelContext(makeTestContainer())
+        try DataExportImport.importJSON(data: Self.pwFile, context: context)
+        let notesAfterFirst = try context.fetchCount(FetchDescriptor<SessionNote>())
+        #expect(notesAfterFirst == 2) // the summary and the timed note
+
+        try DataExportImport.importJSON(data: Self.pwFile, context: context)
+        #expect(try context.fetchCount(FetchDescriptor<DoseEntry>()) == 2)
+        #expect(try context.fetchCount(FetchDescriptor<Session>()) == 1)
+        #expect(try context.fetchCount(FetchDescriptor<SessionNote>()) == notesAfterFirst)
+    }
+
+    /// An unknown dose and a measured one at the same moment are two doses.
+    @Test
+    func `An unknown dose never matches a measured one`() throws {
+        let context = try ModelContext(makeTestContainer())
+        context.insert(DoseEntry(substance: "Cannabis", amount: 3, unit: "mg", route: .inhalation, timestamp: Date(ms: Self.start + 7_200_000)))
+        try context.save()
+        try DataExportImport.importJSON(data: Self.pwFile, context: context)
+        let cannabis = try context.fetch(FetchDescriptor<DoseEntry>()).filter { $0.substance == "Cannabis" }
+        #expect(cannabis.count == 2)
+        #expect(cannabis.contains { $0.isUnknownDose })
+    }
+
+    /// The journal already holds the experience's doses, in a session with no
+    /// notes: the import adds no doses, and the experience's title, text and
+    /// timed notes land on that session.
+    @Test
+    func `Experience notes reach the session already holding its doses`() throws {
+        let context = try ModelContext(makeTestContainer())
+        let session = Session(startDate: Date(ms: Self.start))
+        context.insert(session)
+        let mdma = DoseEntry(substance: "MDMA", amount: 100, unit: "mg", route: .oral, timestamp: Date(ms: Self.start))
+        let cannabis = DoseEntry(substance: "Cannabis", amount: 0, unit: "mg", route: .inhalation, timestamp: Date(ms: Self.start + 7_200_000), isUnknownDose: true)
+        context.insert(mdma)
+        context.insert(cannabis)
+        mdma.session = session
+        cannabis.session = session
+        try context.save()
+
+        try DataExportImport.importJSON(data: Self.pwFile, context: context)
+        #expect(try context.fetchCount(FetchDescriptor<DoseEntry>()) == 2)
+        #expect(try context.fetchCount(FetchDescriptor<Session>()) == 1)
+        #expect(session.title == "Lake day")
+        #expect(session.note == "Calm, warm, slept well.")
+        let texts = Set((session.notes ?? []).map(\.text))
+        #expect(texts == ["Calm, warm, slept well.", "Peak was gentle"])
+    }
+
+    /// A session's own title and note win over the file's.
+    @Test
+    func `Re-import keeps the session's own title and note`() throws {
+        let context = try ModelContext(makeTestContainer())
+        try DataExportImport.importJSON(data: Self.pwFile, context: context)
+        let session = try #require(try context.fetch(FetchDescriptor<Session>()).first)
+        session.title = "Renamed here"
+        try context.save()
+
+        try DataExportImport.importJSON(data: Self.pwFile, context: context)
+        #expect(session.title == "Renamed here")
+        #expect(session.note == "Calm, warm, slept well.")
+    }
+
+    /// The launch backfill moves "Estradiol Valerate" onto Estradiol with the
+    /// ester as its salt form; the file that brought it in still says
+    /// "Estradiol Valerate", and importing it again adds nothing.
+    @Test
+    func `A dose the ester backfill renamed still matches its file`() throws {
+        let context = try ModelContext(makeTestContainer())
+        context.insert(DoseEntry(substance: "Estradiol", amount: 5, unit: "mg", route: .intramuscular, saltForm: "Valerate", timestamp: Date(ms: Self.start)))
+        try context.save()
+        let json = """
+        {
+          "exportSource": "iOS Journal 15.0", "substanceCompanions": [], "customUnits": [],
+          "experiences": [
+            { "title": "", "text": "", "creationDate": \(Self.start), "sortDate": \(Self.start),
+              "ingestions": [
+                { "substanceName": "Estradiol Valerate", "dose": 5, "time": \(Self.start), "administrationRoute": "INTRAMUSCULAR", "units": "mg", "notes": "" }
+              ] }
+          ]
+        }
+        """
+        try DataExportImport.importJSON(data: Data(json.utf8), context: context)
+        #expect(try context.fetchCount(FetchDescriptor<DoseEntry>()) == 1)
+    }
+
+    /// A native backup re-imported over its own journal adds nothing, unknown
+    /// doses included.
+    @Test
+    func `Re-importing a native backup with an unknown dose adds nothing`() throws {
+        let context = try ModelContext(makeTestContainer())
+        try DataExportImport.importJSON(data: Self.pwFile, context: context)
+        let suite = "piru.tests.reimport.\(UUID().uuidString)"
+        defer { UserDefaults().removePersistentDomain(forName: suite) }
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        let settings = DataExportImport.SettingsScope(standard: defaults, appGroup: defaults, sources: nil)
+        let customs = CustomSubstanceStore.forTesting(context: context)
+        let backup = try DataExportImport.exportJSON(format: .piru, context: context, customStore: customs, settings: settings)
+        try DataExportImport.importJSON(data: backup, context: context, customStore: customs, settings: settings)
+        #expect(try context.fetchCount(FetchDescriptor<DoseEntry>()) == 2)
+    }
+}
+
 // MARK: - Stable dose ids (schema V4)
 
 @Suite("DataExportImport — stable ids")
@@ -1504,5 +1696,50 @@ struct DataExportImportDrugsProTests {
         try DataExportImport.importJSON(data: data, context: context)
         #expect(try context.fetch(FetchDescriptor<DoseEntry>()).count == 5)
         #expect(try context.fetch(FetchDescriptor<Session>()).count == 3)
+    }
+
+    /// A journal carried from PsychonautWiki into DrugsPRO writes a dose taken
+    /// without an amount as `null`, sometimes as the string "null", on both the
+    /// experience substance and its usage row.
+    private static let nullDoseFile = """
+    {"v":1,"t":1791624478681,"n":{},"x":{},
+     "e":[
+      {"id":"pw-exp-1","date":"2025-12-25","title":"Party","description":"long night",
+       "substance":"MDMA + Ketamine + Cannabis","substances":[
+        {"name":"MDMA","roaIdx":0,"doseMult":null,"minutesAhead":0,"timeHHMM":"22:00","tag":"","goal":""},
+        {"name":"Ketamine","roaIdx":0,"doseMult":"null","minutesAhead":60,"timeHHMM":"23:00","tag":"","goal":""},
+        {"name":"Cannabis","roaIdx":0,"minutesAhead":120,"timeHHMM":"00:00","tag":"","goal":""}]}],
+     "u":[
+      {"dateISO":"2025-12-25","name":"MDMA","classes":[],"dose":null,"roa":"oral","cost":null,"id":"a"},
+      {"dateISO":"2025-12-25","name":"Ketamine","classes":[],"dose":"null mg","roa":"insufflated","cost":null,"id":"b"},
+      {"dateISO":"2025-12-26","name":"Cannabis","classes":[],"dose":"null","roa":"smoked","cost":null,"id":"c"}]}
+    """
+
+    @Test
+    func `a null DrugsPRO dose imports as an unknown dose with its route`() throws {
+        let context = try ModelContext(makeTestContainer())
+        try DataExportImport.importJSON(data: Data(Self.nullDoseFile.utf8), context: context)
+
+        let doses = try context.fetch(FetchDescriptor<DoseEntry>())
+        #expect(doses.count == 3)
+        // Outside the macro: `#expect` rejects a key path into a `@Model` here.
+        let allUnknown = doses.allSatisfy(\.isUnknownDose)
+        #expect(allUnknown)
+        let ketamine = try #require(doses.first { $0.substance == "Ketamine" })
+        #expect(ketamine.route == .insufflation)
+        #expect(ketamine.unit == "mg")
+        #expect(try #require(doses.first { $0.substance == "MDMA" }).route == .oral)
+        #expect(try #require(doses.first { $0.substance == "Cannabis" }).route == .inhalation)
+        #expect(ketamine.session?.note == "long night")
+    }
+
+    @Test
+    func `re-importing null DrugsPRO doses adds nothing`() throws {
+        let context = try ModelContext(makeTestContainer())
+        let data = Data(Self.nullDoseFile.utf8)
+        try DataExportImport.importJSON(data: data, context: context)
+        try DataExportImport.importJSON(data: data, context: context)
+        #expect(try context.fetchCount(FetchDescriptor<DoseEntry>()) == 3)
+        #expect(try context.fetchCount(FetchDescriptor<Session>()) == 1)
     }
 }

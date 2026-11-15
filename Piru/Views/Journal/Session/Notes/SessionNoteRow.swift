@@ -40,7 +40,8 @@ struct SessionNoteDisplay: Equatable, Identifiable {
 }
 
 /// One note in the session's entry list — visually distinct from a dose row: a
-/// quote glyph, muted text, no dose chips. Tap opens the editor; swipe deletes.
+/// quote glyph, muted text, no dose chips. Tap opens the editor; swipe deletes;
+/// a long note's Read more expands it in place.
 struct SessionNoteRow: View, Equatable {
     /// The model — read only by the swipe/menu *actions*, never in `body`, and
     /// excluded from `==` (see `DayEntryRow`).
@@ -139,11 +140,7 @@ struct SessionNoteRow: View, Equatable {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
                 if !display.text.isEmpty {
-                    Text(display.text)
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .lineLimit(6)
-                        .fixedSize(horizontal: false, vertical: true)
+                    ExpandableNoteText(text: display.text)
                 }
                 if !structure.isEmpty {
                     Text(verbatim: structure)
@@ -180,5 +177,56 @@ struct SessionNoteRow: View, Equatable {
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(.isButton)
         .accessibilityHint(Text("Edits the note"))
+    }
+}
+
+/// A note's text, cut at six lines with a Read more / Show less toggle that
+/// appears only when the cut actually hides something.
+///
+/// The toggle is `.borderless`, like ``SessionNoteRow``'s worked link: the rest
+/// of the row is a tap gesture that opens the editor, and a List row hands every
+/// tap to the single row-activated control it finds.
+private struct ExpandableNoteText: View {
+    let text: String
+
+    @State private var isExpanded = false
+    @State private var shownHeight: CGFloat = 0
+    @State private var fullHeight: CGFloat = 0
+
+    private static let collapsedLines = 6
+
+    private var isTruncated: Bool {
+        fullHeight > shownHeight + 1
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            Text(text)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .lineLimit(isExpanded ? nil : Self.collapsedLines)
+                .fixedSize(horizontal: false, vertical: true)
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { shownHeight = $0 }
+                .background(alignment: .topLeading) {
+                    Text(text)
+                        .font(.subheadline)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .hidden()
+                        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { fullHeight = $0 }
+                        .accessibilityHidden(true)
+                }
+            if isExpanded || isTruncated {
+                Button {
+                    withAnimation(.snappy(duration: 0.25)) { isExpanded.toggle() }
+                } label: {
+                    Text(isExpanded ? "Show less" : "Read more")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(Theme.accent)
+                        .padding(.vertical, Spacing.xxs)
+                        .contentShape(.rect)
+                }
+                .buttonStyle(.borderless)
+            }
+        }
     }
 }

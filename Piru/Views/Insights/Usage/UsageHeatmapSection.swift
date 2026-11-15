@@ -22,8 +22,8 @@ struct UsageHeatmapSection: View {
 
     var body: some View {
         UsageSectionCard(title: "Activity") {
-            if categories.count > 1 {
-                UsageCategoryFilterBar(categories: categories, selection: $categoryFilter)
+            if filterCategories.count > 1 {
+                UsageCategoryFilterBar(categories: filterCategories, selection: $categoryFilter)
             }
 
             UsageHeatmapGrid(
@@ -43,6 +43,20 @@ struct UsageHeatmapSection: View {
             )
         }
         .onChange(of: heatmap.weekStarts.first) { selectedDay = nil }
+        .onChange(of: metric) {
+            if let categoryFilter, !filterCategories.contains(where: { $0.categoryIndex == categoryFilter }) {
+                self.categoryFilter = nil
+            }
+        }
+    }
+
+    /// The categories offered as filters in the active metric. Under common doses
+    /// a category whose doses have no common dose (a prescription class shipped
+    /// without a dose ladder, such as endocrine) weighs nothing, and its filter
+    /// would draw an empty grid and histogram, so it is left out of that lens.
+    private var filterCategories: [(categoryIndex: Int, count: Int)] {
+        guard metric == .commonDoses else { return categories }
+        return categories.filter { hours.all.commonBins(category: $0.categoryIndex).contains { $0 > 0 } }
     }
 
     /// The histogram's data in the active metric: the selected day's hours if a

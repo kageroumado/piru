@@ -59,8 +59,10 @@ nonisolated struct DrugsProExperience: Decodable {
 
 nonisolated struct DrugsProSubstance: Decodable {
     var name: String
-    /// The amount, in the unit the matching usage row names.
-    var doseMult: Double
+    /// The amount, in the unit the matching usage row names; `nil` for a dose
+    /// recorded without one, which files carried over from the PsychonautWiki
+    /// journal write as `null` (or the string `"null"`).
+    var doseMult: Double?
     /// Minutes after the experience's zero point. It runs past midnight
     /// (`timeHHMM` "02:23" at 719 minutes after "14:24"), so it is what says
     /// which day a dose fell on.
@@ -85,12 +87,18 @@ nonisolated struct DrugsProSubstance: Decodable {
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         name = try c.decode(String.self, forKey: .name)
-        doseMult = try c.decodeIfPresent(Double.self, forKey: .doseMult) ?? 0
+        doseMult = Self.lenientNumber(c, .doseMult)
         minutesAhead = try c.decodeIfPresent(Int.self, forKey: .minutesAhead) ?? 0
         timeHHMM = try c.decodeIfPresent(String.self, forKey: .timeHHMM)
         roaName = try c.decodeIfPresent(String.self, forKey: .roaName)
         tag = try c.decodeIfPresent(String.self, forKey: .tag) ?? ""
         goal = try c.decodeIfPresent(String.self, forKey: .goal) ?? ""
+    }
+
+    /// A number, or one written as a string; anything else reads as no number.
+    private static func lenientNumber(_ c: KeyedDecodingContainer<CodingKeys>, _ key: CodingKeys) -> Double? {
+        if let number = try? c.decodeIfPresent(Double.self, forKey: key) { return number }
+        return (try? c.decodeIfPresent(String.self, forKey: key)).flatMap { $0.flatMap { Double($0) } }
     }
 }
 
@@ -99,8 +107,24 @@ nonisolated struct DrugsProUsage: Decodable {
     var dateISO: String
     var name: String
     /// Amount and unit separated by a space: "25 mg", "3.6 g", "1 units".
+    /// An unknown dose writes `null`, or "null mg" with its unit kept.
     var dose: String
-    var roa: String
+    var roa: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case dateISO
+        case name
+        case dose
+        case roa
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        dateISO = try c.decode(String.self, forKey: .dateISO)
+        name = try c.decode(String.self, forKey: .name)
+        dose = try c.decodeIfPresent(String.self, forKey: .dose) ?? ""
+        roa = try c.decodeIfPresent(String.self, forKey: .roa)
+    }
 
     var amount: Double? {
         dose.split(separator: " ", maxSplits: 1).first.flatMap { Double($0) }
@@ -135,10 +159,7 @@ extension DataExportImport {
         var ledger = DrugsProLedger(file.usage)
         let calendar = Calendar.current
 
-        let existingDoses = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
-        var seenDoseKeys = Set(existingDoses.map {
-            doseDedupKey(substance: $0.substance, timestamp: $0.timestamp, amount: $0.amount, unit: $0.unit, route: $0.route)
-        })
+        var doseIndex = ImportedDoseIndex((try? context.fetch(FetchDescriptor<DoseEntry>())) ?? [])
 
         for experience in file.experiences {
             guard let day = DrugsProLedger.day(experience.date, calendar: calendar),
@@ -151,7 +172,9 @@ extension DataExportImport {
             let start = ((firstClock - first.minutesAhead) % 1440 + 1440) % 1440
 
             var sessionDoses: [DoseEntry] = []
-            for substance in experience.substances where substance.doseMult > 0 {
+            var matchedSession: Session?
+            // A missing amount is an unknown dose; a zero is no dose at all.
+            for substance in experience.substances where (substance.doseMult ?? 1) > 0 {
                 let elapsed = start + substance.minutesAhead
                 let clock = substance.timeHHMM.flatMap(DrugsProLedger.minutes) ?? ((elapsed % 1440) + 1440) % 1440
                 // The day comes from the offset and the minute from the clock:
@@ -168,40 +191,39 @@ extension DataExportImport {
                 let unit = row?.unit ?? ledger.unit(for: substance.name) ?? "mg"
 
                 let key = doseDedupKey(substance: substance.name, timestamp: timestamp, amount: substance.doseMult, unit: unit, route: route)
-                guard seenDoseKeys.insert(key).inserted else { continue }
+                if case let .duplicate(stored) = doseIndex.claim(key) {
+                    matchedSession = matchedSession ?? stored?.session
+                    continue
+                }
 
                 let tag = substance.tag.trimmingCharacters(in: .whitespaces)
                 let goal = substance.goal.trimmingCharacters(in: .whitespacesAndNewlines)
                 let entry = DoseEntry(
                     substance: substance.name,
-                    amount: substance.doseMult,
+                    amount: substance.doseMult ?? 0,
                     unit: unit,
                     route: route,
                     timestamp: timestamp,
                     timeZoneIdentifier: nil,
                     notes: goal.isEmpty ? nil : goal,
                     tags: tag.isEmpty ? [] : [tag],
+                    isUnknownDose: substance.doseMult == nil,
                 )
                 context.insert(entry)
                 sessionDoses.append(entry)
             }
 
-            guard let sessionStart = sessionDoses.map(\.timestamp).min() else { continue }
             let title = experience.title.trimmingCharacters(in: .whitespaces)
             let description = experience.description.trimmingCharacters(in: .whitespacesAndNewlines)
-            let session = Session(
-                startDate: sessionStart,
+            importedSession(
+                doses: sessionDoses,
+                matched: matchedSession,
                 // DrugsPRO titles an untitled experience with its substance list,
                 // which Piru already draws from the doses.
                 title: title.isEmpty || title == experience.substanceSummary ? nil : title,
                 note: description.isEmpty ? nil : description,
+                context: context,
             )
-            context.insert(session)
-            for dose in sessionDoses {
-                dose.session = session
-            }
-            session.refreshDoseBounds()
-            SessionNoteService.ensureSummaryNote(for: session)
         }
 
         var colorRows = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
@@ -221,15 +243,16 @@ private struct DrugsProLedger {
 
     init(_ usage: [DrugsProUsage]) {
         for row in usage {
-            guard let amount = row.amount else { continue }
-            rows[Self.key(row.dateISO, row.name, amount), default: []].append(row)
+            rows[Self.key(row.dateISO, row.name, row.amount), default: []].append(row)
             if let unit = row.unit {
                 unitByName[row.name.lowercased()] = unitByName[row.name.lowercased()] ?? unit
             }
         }
     }
 
-    mutating func take(day: Date, name: String, amount: Double) -> DrugsProUsage? {
+    /// The usage row for a dose; a `nil` amount pairs with a row whose amount
+    /// is unreadable too.
+    mutating func take(day: Date, name: String, amount: Double?) -> DrugsProUsage? {
         let key = Self.key(Self.isoDay(day), name, amount)
         guard var matches = rows[key], !matches.isEmpty else { return nil }
         let row = matches.removeFirst()
@@ -243,8 +266,8 @@ private struct DrugsProLedger {
         unitByName[name.lowercased()]
     }
 
-    private static func key(_ day: String, _ name: String, _ amount: Double) -> String {
-        "\(day)|\(name.lowercased())|\(amount)"
+    private static func key(_ day: String, _ name: String, _ amount: Double?) -> String {
+        "\(day)|\(name.lowercased())|\(amount.map { "\($0)" } ?? "?")"
     }
 
     static func day(_ iso: String, calendar: Calendar) -> Date? {
