@@ -35,9 +35,11 @@ final class HealthKitVitals {
         HKObjectType.workoutType()
     }
 
-    /// Whether HealthKit exists on this device at all (false on iPad, etc.).
+    /// Whether HealthKit exists on this device at all (false on iPad, etc.),
+    /// and the open journal is the device owner's: the heart rate and blood
+    /// pressure Health holds are the owner's, never another profile's.
     var isAvailable: Bool {
-        HKHealthStore.isHealthDataAvailable()
+        HKHealthStore.isHealthDataAvailable() && ProfileScope.isOwner
     }
 
     private init() {}

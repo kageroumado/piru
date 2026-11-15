@@ -33,7 +33,7 @@ struct SubstanceLibraryView: View {
                 .task(id: searchText) { await search.update(for: searchText) }
             }
         }
-        .appNavigationBar("Library", enabled: !isSearchSurface)
+        .appNavigationBar("Library", enabled: !isSearchSurface, isTabRoot: true)
     }
 }
 

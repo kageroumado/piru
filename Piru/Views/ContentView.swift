@@ -80,12 +80,17 @@ struct ContentView: View {
             handleWebLink(link)
             return
         }
-        guard let outcome = DeepLink.decode(url) else { return }
-        // A `piru://day` link targets the current session; resolving its id
-        // here lets the navigator reveal an already-open session screen
-        // instead of presenting a duplicate sheet over it.
-        let sessionID = outcome.sheet == .sessionDetail ? mostRecentSessionID(in: modelContext) : nil
-        navigator.apply(outcome, currentSessionID: sessionID)
+        // A link naming a profile switches to it first; the switch rebuilds
+        // this view, so the route reads the navigator and store it lands on.
+        ProfileSwitcher.open(url) { url in
+            guard let outcome = DeepLink.decode(url) else { return }
+            // A `piru://day` link targets the current session; resolving its
+            // id here lets the navigator reveal an already-open session screen
+            // instead of presenting a duplicate sheet over it.
+            let context = ProfileDirectory.shared.activeContainer.mainContext
+            let sessionID = outcome.sheet == .sessionDetail ? mostRecentSessionID(in: context) : nil
+            AppNavigator.shared.apply(outcome, currentSessionID: sessionID)
+        }
     }
 
     /// A dose.wiki link names its substance by article slug, which resolves
@@ -401,7 +406,7 @@ private struct SearchSurface: View {
             .scrollEdgeEffectStyle(.soft, for: .top)
             // Large "Search" title at rest; suppressed once focused (the
             // `enabled: false` branch returns the view untouched).
-            .appNavigationBar("Search", enabled: phase == .landing)
+            .appNavigationBar("Search", enabled: phase == .landing, isTabRoot: true)
             .onChange(of: isSearching) { _, searching in
                 if searching {
                     wasSearching = true

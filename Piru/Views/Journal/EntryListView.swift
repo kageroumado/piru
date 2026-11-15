@@ -280,7 +280,8 @@ struct EntryListView: View {
         }
         .id(listIdentity)
         .themedPage()
-        .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
+        .appNavigationBar("Journal", enabled: !isSearchSurface, isTabRoot: true, showsOverflow: false)
+        .journalProfileSubtitle(enabled: !isSearchSurface)
         .toolbar {
             // Two controls, Files/Mail style: the funnel is the single home for
             // narrowing (tags + categories + routes), the ellipsis for everything

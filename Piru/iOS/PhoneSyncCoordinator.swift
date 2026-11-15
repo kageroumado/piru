@@ -110,9 +110,14 @@ final class PhoneSyncCoordinator: NSObject {
 
     // MARK: - Watch → Phone
 
+    /// A watch dose is the owner's, whoever's journal is open: the container is
+    /// the owner's store, and the scope keeps its reminders and store
+    /// generation the owner's too.
     private func receive(_ payload: WatchDosePayload) {
         guard let context = container?.mainContext else { return }
-        let outcome = WatchDoseReceiver.ingest(payload, in: context, journalGeneration: JournalResetGeneration.current())
+        let outcome = ProfileScope.$pinned.withValue(PiruProfile.ownerID) {
+            WatchDoseReceiver.ingest(payload, in: context, journalGeneration: JournalResetGeneration.current())
+        }
         // Count/outcome only — never the substance or amount (this is a device log).
         Logger.watchSync.notice("received watch dose → \(String(describing: outcome), privacy: .public)")
         // The received dose is a new recent; the change signal from `DoseLogService.log`

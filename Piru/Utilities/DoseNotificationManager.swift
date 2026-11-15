@@ -232,9 +232,10 @@ enum DoseNotificationManager {
     /// reminder, `group|<groupSlug>` for a grouped quiet-med reminder (the
     /// group expands to its members' slot keys at action time, so a med edited
     /// after scheduling still resolves correctly). Runs headless (no UI
-    /// launch); needs ``modelContainer`` to have been set at app init.
-    static func skipMedsToday(target: String) {
-        guard let context = modelContainer?.mainContext else { return }
+    /// launch); `container` is the store of the profile the reminder belongs
+    /// to, the active one (``modelContainer``) when `nil`.
+    static func skipMedsToday(target: String, container: ModelContainer? = nil) {
+        guard let context = (container ?? modelContainer)?.mainContext else { return }
         if target.hasPrefix("slot|") {
             RoutineOccurrenceService.skipToday(slotKeys: [String(target.dropFirst(5))], in: context)
         } else if target.hasPrefix("group|"), let group = MedTimeGroup(slug: String(target.dropFirst(6))) {
@@ -541,82 +542,101 @@ enum DoseNotificationManager {
         let generation = JournalResetGeneration.current()
         let primariesToAdd = primaries
         let followUpsToAdd = followUps
+        // Sweep both grammars: the current prefixes plus the legacy sets
+        // (routine-era requests fully self-migrate here on the first sync).
+        // Read now, with the profile, so a switch before the task runs
+        // cannot point the sweep at another profile's requests.
+        let profile = ProfileScope.currentID
+        let sweepPrefixes = NotificationType.routine.identifierPrefixes
+            + NotificationType.routineFollowUp.identifierPrefixes
+            + (ProfileScope.isOwner ? ["dailyDoseReminder"] : [])
         Task {
-            let center = UNUserNotificationCenter.current()
-            // Sweep both grammars: the current prefixes plus the legacy sets
-            // (routine-era requests fully self-migrate here on the first sync).
-            let sweepPrefixes = NotificationType.routine.identifierPrefixes
-                + NotificationType.routineFollowUp.identifierPrefixes
-                + ["dailyDoseReminder"]
-            let pending = await center.pendingNotificationRequests()
+            await ProfileScope.$pinned.withValue(profile) {
+                await replaceMedRequests(
+                    primaries: primariesToAdd, followUps: followUpsToAdd,
+                    sweepPrefixes: sweepPrefixes, generation: generation,
+                )
+            }
+        }
+    }
+
+    /// Swap the pending med requests for `primaries` and `followUps`, bailing
+    /// out the moment Delete Everything moves the journal generation on.
+    private static func replaceMedRequests(
+        primaries primariesToAdd: [PrimaryRequest],
+        followUps followUpsToAdd: [FollowUpRequest],
+        sweepPrefixes: [String],
+        generation: Int,
+    ) async {
+        let center = UNUserNotificationCenter.current()
+        let pending = await center.pendingNotificationRequests()
+        guard JournalResetGeneration.current() == generation else { return }
+        let stale = pending.map(\.identifier).filter { id in
+            sweepPrefixes.contains { id.hasPrefix($0) }
+        }
+        center.removePendingNotificationRequests(withIdentifiers: stale)
+
+        // No permission gate here (an ambient-request site the spec
+        // removes): requests added before the grant simply deliver once
+        // the user allows notifications — the management screen's header
+        // is the honest surface for that state.
+        for primary in primariesToAdd {
             guard JournalResetGeneration.current() == generation else { return }
-            let stale = pending.map(\.identifier).filter { id in
-                sweepPrefixes.contains { id.hasPrefix($0) }
-            }
-            center.removePendingNotificationRequests(withIdentifiers: stale)
-
-            // No permission gate here (an ambient-request site the spec
-            // removes): requests added before the grant simply deliver once
-            // the user allows notifications — the management screen's header
-            // is the honest surface for that state.
-            for primary in primariesToAdd {
-                guard JournalResetGeneration.current() == generation else { return }
-                let content = medReminderContent(
-                    title: primary.title,
-                    body: primary.body,
-                    type: .routine,
-                    category: routineCategoryID,
-                    threadID: primary.threadID,
-                    skipTarget: primary.skipTarget,
-                    deepLink: primary.deepLink,
-                    quiet: primary.quiet,
-                )
-                let trigger: UNNotificationTrigger
-                if let fireDate = primary.fireDate {
-                    let interval = fireDate.timeIntervalSince(.now)
-                    guard interval > 0 else { continue }
-                    trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-                } else {
-                    var components = DateComponents()
-                    components.hour = primary.timeMinutes / 60
-                    components.minute = primary.timeMinutes % 60
-                    trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
-                }
-                try? await center.add(UNNotificationRequest(
-                    identifier: primary.identifier,
-                    content: content,
-                    trigger: trigger,
-                ))
-                if JournalResetGeneration.current() != generation {
-                    center.removePendingNotificationRequests(withIdentifiers: [primary.identifier])
-                    return
-                }
-            }
-
-            for followUp in followUpsToAdd {
-                guard JournalResetGeneration.current() == generation else { return }
-                let interval = followUp.fireDate.timeIntervalSince(.now)
+            let content = medReminderContent(
+                title: primary.title,
+                body: primary.body,
+                type: .routine,
+                category: routineCategoryID,
+                threadID: primary.threadID,
+                skipTarget: primary.skipTarget,
+                deepLink: primary.deepLink,
+                quiet: primary.quiet,
+            )
+            let trigger: UNNotificationTrigger
+            if let fireDate = primary.fireDate {
+                let interval = fireDate.timeIntervalSince(.now)
                 guard interval > 0 else { continue }
-                let content = medReminderContent(
-                    title: followUp.title,
-                    body: followUp.body,
-                    type: .routineFollowUp,
-                    category: routineFollowUpCategoryID,
-                    threadID: followUp.threadID,
-                    skipTarget: followUp.skipTarget,
-                    deepLink: followUp.deepLink,
-                    quiet: followUp.quiet,
-                )
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-                try? await center.add(UNNotificationRequest(
-                    identifier: followUp.identifier,
-                    content: content,
-                    trigger: trigger,
-                ))
-                if JournalResetGeneration.current() != generation {
-                    center.removePendingNotificationRequests(withIdentifiers: [followUp.identifier])
-                    return
-                }
+                trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+            } else {
+                var components = DateComponents()
+                components.hour = primary.timeMinutes / 60
+                components.minute = primary.timeMinutes % 60
+                trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+            }
+            try? await center.add(UNNotificationRequest(
+                identifier: primary.identifier,
+                content: content,
+                trigger: trigger,
+            ))
+            if JournalResetGeneration.current() != generation {
+                center.removePendingNotificationRequests(withIdentifiers: [primary.identifier])
+                return
+            }
+        }
+
+        for followUp in followUpsToAdd {
+            guard JournalResetGeneration.current() == generation else { return }
+            let interval = followUp.fireDate.timeIntervalSince(.now)
+            guard interval > 0 else { continue }
+            let content = medReminderContent(
+                title: followUp.title,
+                body: followUp.body,
+                type: .routineFollowUp,
+                category: routineFollowUpCategoryID,
+                threadID: followUp.threadID,
+                skipTarget: followUp.skipTarget,
+                deepLink: followUp.deepLink,
+                quiet: followUp.quiet,
+            )
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+            try? await center.add(UNNotificationRequest(
+                identifier: followUp.identifier,
+                content: content,
+                trigger: trigger,
+            ))
+            if JournalResetGeneration.current() != generation {
+                center.removePendingNotificationRequests(withIdentifiers: [followUp.identifier])
+                return
             }
         }
     }
@@ -849,18 +869,26 @@ final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
         let userInfo = response.notification.request.content.userInfo
         let link = userInfo[DoseNotificationManager.deepLinkUserInfoKey] as? String
         let skipTarget = userInfo[DoseNotificationManager.skipTargetUserInfoKey] as? String
+        // Whose journal the request is about, from its identifier.
+        let profile = ProfileScope.profileID(fromNotificationIdentifier: response.notification.request.identifier)
 
         DispatchQueue.main.async {
             defer { completionHandler() }
             switch actionIdentifier {
-            // Skip Today runs headless: mark the occurrences, cancel the
-            // remaining re-asks, never launch the UI.
+            // Skip Today runs headless: mark the occurrences in the reminder's
+            // own profile, cancel the remaining re-asks, never launch the UI.
             case DoseNotificationManager.skipTodayActionID:
                 if let skipTarget {
-                    DoseNotificationManager.skipMedsToday(target: skipTarget)
+                    ProfileScope.$pinned.withValue(profile) {
+                        DoseNotificationManager.skipMedsToday(
+                            target: skipTarget,
+                            container: ProfileDirectory.shared.container(for: profile, writable: true),
+                        )
+                    }
                 }
             // The body tap and every foreground action (Log, Restock, Add Note)
-            // land at the notification's deep link; dismissals do nothing.
+            // open that profile's journal, then land at the notification's deep
+            // link; dismissals do nothing.
             case UNNotificationDefaultActionIdentifier,
                  DoseNotificationManager.logActionID,
                  DoseNotificationManager.restockActionID,
@@ -869,7 +897,10 @@ final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
                       let url = URL(string: link),
                       let outcome = DeepLink.decode(url)
                 else { return }
-                AppNavigator.shared.apply(outcome)
+                Task(name: "Open notification") {
+                    await ProfileSwitcher.switchTo(profile)
+                    AppNavigator.shared.apply(outcome)
+                }
             default:
                 break
             }

@@ -1,0 +1,247 @@
+import SwiftUI
+
+/// What the editor is changing, held in one place so the fields below are
+/// separate views that each read only their part.
+@Observable
+@MainActor
+final class ProfileDraft {
+    var name: String
+    var kind: ProfileAvatar.Kind
+    /// The letters typed for a monogram; empty means "from the name".
+    var letters: String
+    var emoji: String
+    var color: ProfileColor
+
+    init(profile: PiruProfile?, defaultColor: ProfileColor) {
+        name = profile?.name ?? ""
+        kind = profile?.avatar.kind ?? .monogram
+        letters = profile?.avatar.kind == .monogram ? profile?.avatar.text ?? "" : ""
+        emoji = profile?.avatar.kind == .emoji ? profile?.avatar.text ?? "" : ""
+        color = profile?.color ?? defaultColor
+    }
+
+    var avatar: ProfileAvatar {
+        switch kind {
+        case .emoji:
+            ProfileAvatar.emoji(emoji) ?? .monogram(for: name)
+        case .monogram:
+            letters.isEmpty ? .monogram(for: name) : .monogram(text: letters)
+        }
+    }
+
+    var canSave: Bool {
+        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}
+
+/// Add a person, or change one: name, monogram or emoji, color. A profile
+/// other than the owner can be deleted here, with its journal.
+struct ProfileEditorView: View {
+    /// `nil` adds a new profile.
+    let editing: PiruProfile?
+
+    @Environment(\.profileDirectory) private var directory
+    @Environment(\.dismiss) private var dismiss
+    @State private var draft: ProfileDraft?
+    @State private var errorMessage: String?
+
+    var body: some View {
+        Group {
+            if let draft {
+                ProfileEditorForm(draft: draft, editing: editing, onDeleted: { dismiss() })
+            }
+        }
+        .themedPage()
+        .navigationTitle(editing == nil ? Text("New Profile") : Text(verbatim: editing?.name ?? ""))
+        .inlineNavigationTitle()
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(action: save) {
+                    editing == nil ? Text("Add") : Text("Save")
+                }
+                .disabled(!(draft?.canSave ?? false))
+            }
+        }
+        .alert("Couldn't Save Profile", isPresented: Binding(
+            get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } },
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(errorMessage ?? "")
+        }
+        .task {
+            if draft == nil {
+                draft = ProfileDraft(profile: editing, defaultColor: .next(after: directory.profiles.map(\.color)))
+            }
+        }
+    }
+
+    private func save() {
+        guard let draft else { return }
+        do {
+            if var profile = editing {
+                profile.name = draft.name
+                profile.avatar = draft.avatar
+                profile.color = draft.color
+                try directory.update(profile)
+            } else {
+                try directory.addProfile(name: draft.name, avatar: draft.avatar, color: draft.color)
+            }
+            dismiss()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+}
+
+/// The editor's sections.
+private struct ProfileEditorForm: View {
+    @Bindable var draft: ProfileDraft
+    let editing: PiruProfile?
+    let onDeleted: () -> Void
+
+    var body: some View {
+        List {
+            Group {
+                Section {
+                    HStack {
+                        Spacer()
+                        ProfileAvatarView(avatar: draft.avatar, color: draft.color, diameter: 72)
+                        Spacer()
+                    }
+                    .listRowBackground(Color.clear)
+                }
+                Section("Name") {
+                    TextField("Name", text: $draft.name)
+                        .wordsAutocapitalize()
+                }
+                AvatarSection(draft: draft)
+                ColorSection(selection: $draft.color)
+                if let editing, !editing.isOwner {
+                    DeleteProfileSection(profile: editing, onDeleted: onDeleted)
+                }
+            }
+            .listRowBackground(CardBackground())
+        }
+    }
+}
+
+private struct AvatarSection: View {
+    @Bindable var draft: ProfileDraft
+
+    var body: some View {
+        Section {
+            Picker("Avatar", selection: $draft.kind) {
+                Text("Letters").tag(ProfileAvatar.Kind.monogram)
+                Text("Emoji").tag(ProfileAvatar.Kind.emoji)
+            }
+            .pickerStyle(.segmented)
+            switch draft.kind {
+            case .monogram:
+                TextField("From the name", text: $draft.letters)
+                    .neverAutocapitalize()
+                    .onChange(of: draft.letters) { _, letters in
+                        let trimmed = String(letters.filter { $0.isLetter || $0.isNumber }.prefix(2))
+                        if trimmed != letters { draft.letters = trimmed }
+                    }
+            case .emoji:
+                TextField("One emoji", text: $draft.emoji)
+                    .onChange(of: draft.emoji) { _, text in
+                        let one = ProfileAvatar.emoji(text)?.text ?? ""
+                        if one != text { draft.emoji = one }
+                    }
+            }
+        } header: {
+            Text("Avatar")
+        }
+    }
+}
+
+/// The eight profile colors as swatches, the chosen one ringed.
+private struct ColorSection: View {
+    @Binding var selection: ProfileColor
+
+    var body: some View {
+        Section("Color") {
+            HStack(spacing: 0) {
+                ForEach(ProfileColor.allCases, id: \.self) { color in
+                    Button {
+                        selection = color
+                    } label: {
+                        Circle()
+                            .fill(color.p3.color)
+                            .frame(width: 28, height: 28)
+                            .padding(Spacing.xs)
+                            .overlay {
+                                if color == selection {
+                                    Circle().strokeBorder(Theme.accent, lineWidth: 2)
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text(color.name))
+                    .accessibilityAddTraits(color == selection ? .isSelected : [])
+                }
+            }
+        }
+    }
+}
+
+private struct DeleteProfileSection: View {
+    let profile: PiruProfile
+    let onDeleted: () -> Void
+    @State private var confirming = false
+    @State private var errorMessage: String?
+
+    var body: some View {
+        Section {
+            Button("Delete Profile", role: .destructive) { confirming = true }
+        }
+        .confirmationDialog(
+            Text("Delete \(profile.name)?"),
+            isPresented: $confirming,
+            titleVisibility: .visible,
+        ) {
+            Button("Delete \(profile.name) and Their Journal", role: .destructive, action: delete)
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("\(profile.name)'s journal goes with the profile: every dose, session, note and med logged for them.")
+        }
+        .alert("Couldn't Delete Profile", isPresented: Binding(
+            get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } },
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(errorMessage ?? "")
+        }
+    }
+
+    private func delete() {
+        Task(name: "Delete profile") {
+            do {
+                try await ProfileSwitcher.delete(profile.id)
+                onDeleted()
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+        }
+    }
+}
+
+extension ProfileColor {
+    /// The color's name, for VoiceOver.
+    var name: LocalizedStringKey {
+        switch self {
+        case .rose: "Rose"
+        case .plum: "Plum"
+        case .violet: "Violet"
+        case .indigo: "Indigo"
+        case .ocean: "Ocean"
+        case .teal: "Teal"
+        case .forest: "Forest"
+        case .amber: "Amber"
+        }
+    }
+}

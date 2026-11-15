@@ -54,10 +54,14 @@ extension View {
     ///
     /// `enabled` mirrors the old custom-header switch: a view used both as a
     /// tab root (chrome on) and embedded in the Search surface (chrome off).
+    /// `isTabRoot` leads the trailing group with the profile avatar
+    /// (``ProfileToolbarItem``) once there is more than one profile; it comes
+    /// before any item the screen adds with its own `.toolbar`.
     @ViewBuilder
     func appNavigationBar(
         _ title: LocalizedStringKey,
         enabled: Bool = true,
+        isTabRoot: Bool = false,
         showsOverflow: Bool = true,
         @ViewBuilder menuExtras: @escaping () -> some View = { EmptyView() },
     ) -> some View {
@@ -66,6 +70,9 @@ extension View {
                 .toolbarTitleDisplayMode(.inlineLarge)
                 .scrollEdgeEffectStyle(.soft, for: .top)
                 .toolbar {
+                    if isTabRoot {
+                        ProfileToolbarItem()
+                    }
                     if showsOverflow {
                         ToolbarItem(placement: .platformTopBarTrailing) {
                             AppOverflowMenu(menuExtras: menuExtras)

@@ -133,7 +133,7 @@ struct ToolsView: View {
             .padding(.bottom, 80)
         }
         .skinBackdrop()
-        .appNavigationBar("Tools")
+        .appNavigationBar("Tools", isTabRoot: true)
     }
 }
 

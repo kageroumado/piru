@@ -35,11 +35,13 @@ enum WidgetStoreAccess {
         openStore(allowsSave: true)
     }
 
+    /// The active profile's store (``ProfileRegistry``): the widgets show, and
+    /// a Take tap writes into, the journal the app has open.
     private static func openStore(allowsSave: Bool) -> ModelContainer? {
         guard let groupURL = FileManager.default.containerURL(
             forSecurityApplicationGroupIdentifier: appGroupID,
         ) else { return nil }
-        let storeURL = groupURL.appendingPathComponent("default.store")
+        let storeURL = ProfileRegistry.activeStoreURL(directory: groupURL)
         guard FileManager.default.fileExists(atPath: storeURL.path) else { return nil }
         let config = ModelConfiguration(url: storeURL, allowsSave: allowsSave, cloudKitDatabase: .none)
         return try? ModelContainer(for: Schema(PiruSchema.models), configurations: config)

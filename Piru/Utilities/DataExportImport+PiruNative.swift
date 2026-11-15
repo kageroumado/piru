@@ -75,7 +75,7 @@ nonisolated struct PiruCustomSubstanceData: Codable {
 /// favorites, picked colors, and daily-dose schedules. Detected on import by
 /// the `piruExportVersion` key. Timestamps are epoch milliseconds, matching the
 /// PsyLog format's convention.
-nonisolated struct PiruFile: Codable {
+nonisolated struct PiruFile: Codable, Sendable {
     var piruExportVersion: Int
     /// The app version that produced the file, e.g. "Piru 1.4 (212)".
     var appVersion: String
@@ -104,6 +104,11 @@ nonisolated struct PiruFile: Codable {
     var notificationPreferences: PiruNotificationPreferencesData?
     /// App preferences kept outside the store — see ``ExportedSettings``.
     var settings: PiruSettingsData?
+    /// In a backup made with more than one profile: who they are, and every
+    /// journal but the owner's, whose journal is this file's own top level
+    /// (so a build without profiles restores the owner's). See
+    /// ``PiruProfilesSection``.
+    var profiles: PiruProfilesSection?
 }
 
 extension PiruFile {
@@ -131,6 +136,7 @@ extension PiruFile {
         profile = try c.decodeIfPresent(PiruProfileData.self, forKey: .profile)
         notificationPreferences = try c.decodeIfPresent(PiruNotificationPreferencesData.self, forKey: .notificationPreferences)
         settings = try c.decodeIfPresent(PiruSettingsData.self, forKey: .settings)
+        profiles = try c.decodeIfPresent(PiruProfilesSection.self, forKey: .profiles)
     }
 }
 

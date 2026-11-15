@@ -30,6 +30,12 @@ struct SheetRouteView: View {
             // SettingsView owns its own xmark toolbar item.
             NavigationStack { SettingsView() }
 
+        case .profiles:
+            NavigationStack {
+                ProfilesSettingsView()
+                    .withCancellationCloseButton()
+            }
+
         case .skins:
             SkinsSheet()
 
