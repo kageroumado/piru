@@ -50,12 +50,20 @@ struct ProfileMenuButton: View {
 struct ProfileToolbarItem: ToolbarContent {
     var body: some ToolbarContent {
         if ProfileDirectory.shared.hasMultipleProfiles {
-            // The avatar is its own round control: no glass capsule around it.
-            ToolbarItem(placement: .platformTopBarTrailing) {
-                ProfileMenuButton()
-            }
-            .sharedBackgroundVisibility(.hidden)
-            ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+            #if os(Android)
+                // Unreachable on Android, which has one profile; SkipUI lacks
+                // the shared-background modifier.
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    ProfileMenuButton()
+                }
+            #else
+                // The avatar is its own round control: no glass capsule around it.
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    ProfileMenuButton()
+                }
+                .sharedBackgroundVisibility(.hidden)
+                ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+            #endif
         }
     }
 }

@@ -22,8 +22,11 @@ private struct JournalProfileSubtitle: ViewModifier {
                         JournalOwnerLabel(profile: profile)
                     }
                 }
-            #else
+            #elseif os(macOS)
                 content.navigationSubtitle(Text("\(profile.name)'s journal"))
+            #else
+                // Android has one profile, so never another's journal.
+                content
             #endif
         } else {
             content

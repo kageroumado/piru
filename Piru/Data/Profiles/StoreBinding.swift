@@ -24,12 +24,15 @@ enum StoreBinding {
             CustomSubstanceStore.self,
             CustomUnitStore.self,
             NotificationPreferencesStore.self,
-            DoseIntentLogger.self,
             AppLanguageModel.self,
             DoseNotificationManager.self,
             ActiveSessionManager.self,
             DayResolveCache.self,
         ]
+        // The App Intents, which Android does not build.
+        #if !os(Android)
+            types.append(DoseIntentLogger.self)
+        #endif
         #if os(iOS)
             types.append(PhoneSyncCoordinator.self)
         #endif
@@ -89,11 +92,13 @@ extension NotificationPreferencesStore: StoreBound {
     }
 }
 
-extension DoseIntentLogger: StoreBound {
-    static func bindStore(_ container: ModelContainer) {
-        modelContainer = container
+#if !os(Android)
+    extension DoseIntentLogger: StoreBound {
+        static func bindStore(_ container: ModelContainer) {
+            modelContainer = container
+        }
     }
-}
+#endif
 
 extension AppLanguageModel: StoreBound {
     static func bindStore(_ container: ModelContainer) {
