@@ -236,6 +236,11 @@ struct SessionDetailView: View {
                         sessionID: session.id, isRecentDay: isRecentDay,
                     )
 
+                    // Who else was here: their doses and curves, never in yours.
+                    if let experienceID = session.sharedExperienceID {
+                        SharedSessionSection(experienceID: experienceID, participants: model.sharedParticipants)
+                    }
+
                     // In Your Body — per-substance session totals merged with the
                     // live elimination model (what's still circulating, clearance
                     // projections, the curve on tap). Replaces the bare cumulative
@@ -284,6 +289,9 @@ struct SessionDetailView: View {
         #endif
             .skinBackdrop()
             .readableWidth()
+            .task(id: session.sharedExperienceID) {
+                await model.followSharedExperience(session.sharedExperienceID)
+            }
             .task(id: colorSignature) {
                 model.loadColorMap(colors: substanceColors)
             }

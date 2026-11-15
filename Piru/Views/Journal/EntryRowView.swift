@@ -143,6 +143,9 @@ struct EntryRowView: View {
     /// the day detail for today/yesterday so every row in a recent day matches;
     /// older days show the clock time alone, keeping the column symmetric.
     var showRelativeTime: Bool = false
+    /// The disclosure chevron, for a row that opens its dose. A read-only row
+    /// (another person's dose in a shared session) leaves it out.
+    var showsChevron = true
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -252,11 +255,14 @@ struct EntryRowView: View {
         .accessibilityLabel(doseAccessibilityLabel)
     }
 
+    @ViewBuilder
     private var chevron: some View {
-        Image(systemName: "chevron.forward")
-            .font(.footnote.weight(.semibold))
-            .foregroundStyle(Theme.tertiaryLabel)
-            .accessibilityHidden(true)
+        if showsChevron {
+            Image(systemName: "chevron.forward")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.tertiaryLabel)
+                .accessibilityHidden(true)
+        }
     }
 
     /// The route badge — a tinted capsule in the route's *own* fixed color (every

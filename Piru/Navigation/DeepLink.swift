@@ -570,7 +570,9 @@ nonisolated enum DeepLink {
              .doseSources,
              .advancedSearch,
              .inventoryItemEdit,
-             .checkInSchedule:
+             .checkInSchedule,
+             .sharedSessionPeek,
+             .addPeople:
             return nil
         }
 

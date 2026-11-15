@@ -3634,6 +3634,21 @@ ES = {
     "Teal": "Verde azulado",
     "Forest": "Bosque",
     "Amber": "Ámbar",
+    # profiles phase 3
+    "With %@": "Con %@",
+    "%lld others": "%lld más",
+    "Shared with %@": "Compartida con %@",
+    "Shows %@'s session": "Muestra la sesión de %@",
+    "%@'s Session": "Sesión de %@",
+    "Open %@'s Journal": "Abrir el diario de %@",
+    "Remove from Shared Session": "Quitar de la sesión compartida",
+    "Couldn't Remove": "No se pudo quitar",
+    "Add People…": "Agregar personas…",
+    "Add People": "Agregar personas",
+    "Links the session each person logged around the same time.": "Vincula la sesión que cada persona registró a la misma hora.",
+    "%@ has no session around this time.": "%@ no tiene ninguna sesión a esta hora.",
+    "In this session": "En esta sesión",
+    "Couldn't Add": "No se pudo agregar",
 }
 
 # Spain only: the few strings Spain must see differently — today the iOS Settings

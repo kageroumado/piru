@@ -392,6 +392,12 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Choose when a session's check-in prompts fire — the custom schedule
     /// behind `Cadence.custom`.
     case checkInSchedule(sessionID: UUID)
+    /// A read-only look at another profile's side of a shared experience,
+    /// from the session screen's "With …" section.
+    case sharedSessionPeek(experienceID: UUID, profileID: UUID)
+    /// Session menu ▸ Add People: link other profiles' sessions from the same
+    /// time into this session's shared experience.
+    case addPeople(sessionID: UUID)
     /// Entry detail sheet. Carries the entry's stable `id` with `timestamp`
     /// as the resolution fallback (see `PushRoute` — same compatibility
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).

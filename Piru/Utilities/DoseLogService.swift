@@ -149,6 +149,21 @@ final class DoseLogService {
         ProfileScope.key("doseLogStoreGeneration")
     }
 
+    /// ``storeGeneration`` of any profile's store, active or not.
+    nonisolated static func storeGeneration(for profileID: UUID) -> Int {
+        UserDefaults(suiteName: AppIdentity.appGroup)?
+            .integer(forKey: ProfileScope.key("doseLogStoreGeneration", for: profileID)) ?? 0
+    }
+
+    /// Record a commit to `profileID`'s store made from outside its own screens
+    /// (linking a shared session from another profile): its generation moves,
+    /// and everything memoized on ``revision`` re-reads.
+    func changed(in profileID: UUID) {
+        ProfileScope.$pinned.withValue(profileID) {
+            changed()
+        }
+    }
+
     /// The active profile changed: everything memoized on ``revision`` is about
     /// another store now, and every change-stream subscriber re-reads.
     func storeSwitched() {

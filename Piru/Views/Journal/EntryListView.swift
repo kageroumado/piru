@@ -337,6 +337,7 @@ struct EntryListView: View {
         // keeps this view from subscribing to every property of every dose.
         // The model's generation guard makes a newer run supersede an in-flight
         // one, so the overlap on first appear can't corrupt state.
+        .refreshesSharedSessionMarks()
         .task(id: DoseLogService.shared.revision) {
             // A `.task(id:)` also fires on re-appearance (a tab switch, a
             // pop back) with the id unchanged; the derived data is still
