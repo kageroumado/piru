@@ -16,8 +16,9 @@ struct InventoryStockSection: View {
     /// salt, then the base form. Matched by resolved substance identity, so an
     /// item stocked under an alias (e.g. "IC-26") still shows on its canonical
     /// substance's page ("Methiodone").
+    /// This profile's own item first, else one another profile shares with it.
     private var trackedItem: InventoryItem? {
-        InventoryService.find(substance: substanceName, preferringSalt: selectedSaltForm, among: inventoryItems)
+        SharedInventory.shared.displayItem(substance: substanceName, preferringSalt: selectedSaltForm, own: inventoryItems)
     }
 
     var body: some View {
@@ -62,7 +63,9 @@ struct InventoryStockSection: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 3) {
                     StockAmountText(item: item, style: .title2)
-                    if let subtitle = stockSubtitle(item) {
+                    if let owner = SharedInventory.shared.owner(of: item) {
+                        SharedOwnerTag(owner: owner, detail: stockSubtitle(item))
+                    } else if let subtitle = stockSubtitle(item) {
                         Text(subtitle)
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)

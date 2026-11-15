@@ -333,6 +333,9 @@ nonisolated struct PiruInventoryData: Codable {
     var unitStrengthMG: Double?
     var createdAt: Int64
     var manualEvents: [PiruManualEventData]
+    /// The other profiles that draw from this item; absent when it is shared
+    /// with nobody, and in files written before profiles.
+    var sharedWith: [UUID]?
 }
 
 nonisolated struct PiruManualEventData: Codable {
@@ -470,6 +473,7 @@ extension DataExportImport {
                             setsBaseline: event.setsBaseline,
                         )
                     },
+                    sharedWith: item.sharedWith.isEmpty ? nil : item.sharedWith,
                 )
             },
             labMeasurements: records.labMeasurements,
@@ -682,6 +686,7 @@ extension DataExportImport {
                     if item.baselineQuantity == nil { item.baselineQuantity = inv.baselineQuantity }
                     if item.doseSize == nil { item.doseSize = inv.doseSize }
                     if item.unitStrengthMG == nil, item.unit == inv.unit { item.unitStrengthMG = inv.unitStrengthMG }
+                    if let sharedWith = inv.sharedWith { item.sharedWith += sharedWith }
                 } else {
                     let id = inv.id.flatMap { takenIDs.contains($0) ? nil : $0 } ?? UUID()
                     takenIDs.insert(id)
@@ -702,6 +707,7 @@ extension DataExportImport {
                         createdAt: Date(ms: inv.createdAt),
                         sortOrder: inv.sortOrder ?? 0,
                     )
+                    item.sharedWith = inv.sharedWith ?? []
                     context.insert(item)
                     existingItems.append(item)
                 }

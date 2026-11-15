@@ -35,6 +35,7 @@ struct InventorySummaryCard: View {
         // Ordered once per body pass, not as three separate computed-property
         // reads (emptiness, rows, count) — each of those would re-sort the
         // inventory.
+        let items = items + SharedInventory.shared.sharedIn.map(\.item)
         let topItems = warmed ? Array(model.ordered(items).prefix(3)) : []
         GlanceCard(icon: Tool.inventory.icon, title: Text(Tool.inventory.name), route: .tool(.inventory)) {
             if topItems.isEmpty {
@@ -87,10 +88,11 @@ private struct InventorySummaryRow: View {
 /// ``InventoryListModel``, and each row is its own `View` so a keystroke in the
 /// search field doesn't re-evaluate 80 rows' worth of library lookups.
 struct InventoryListView: View {
-    @Query private var items: [InventoryItem]
+    @Query private var ownItems: [InventoryItem]
     @Query private var substanceColors: [SubstanceColor]
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.profileDirectory) private var directory
 
     @Bindable private var model = InventoryListModel.shared
     // Scoped to this `List` (not the whole navigation stack) so entering it from
@@ -108,6 +110,20 @@ struct InventoryListView: View {
 
     private var colorMap: [String: Color] {
         Array(substanceColors).colorMap
+    }
+
+    /// This profile's items, then the ones other profiles share with it.
+    private var items: [InventoryItem] {
+        ownItems + SharedInventory.shared.sharedIn.map(\.item)
+    }
+
+    /// The owner of each shared-in row, by item.
+    private var owners: [ObjectIdentifier: PiruProfile] {
+        var owners: [ObjectIdentifier: PiruProfile] = [:]
+        for entry in SharedInventory.shared.sharedIn {
+            owners[ObjectIdentifier(entry.item)] = directory.profile(id: entry.ownerID)
+        }
+        return owners
     }
 
     private var sections: [InventorySectionGroup] {
@@ -224,20 +240,23 @@ struct InventoryListView: View {
     /// other order.
     @ViewBuilder
     private func rows(in section: InventorySectionGroup) -> some View {
+        let owners = owners
         if model.canReorder {
-            ForEach(section.items) { row($0) }
+            ForEach(section.items) { row($0, owner: owners[ObjectIdentifier($0)]) }
                 .onMove(perform: move)
                 .onDelete { delete(at: $0, in: section) }
         } else {
-            ForEach(section.items) { row($0) }
+            ForEach(section.items) { row($0, owner: owners[ObjectIdentifier($0)]) }
                 .onDelete { delete(at: $0, in: section) }
         }
     }
 
-    private func row(_ item: InventoryItem) -> some View {
+    /// A shared-in row is its owner's to delete, so it offers no swipe.
+    private func row(_ item: InventoryItem, owner: PiruProfile?) -> some View {
         RouteLink(PushRoute.inventoryItem(id: item.id)) {
-            InventoryRow(item: item, colorMap: colorMap)
+            InventoryRow(item: item, owner: owner, colorMap: colorMap)
         }
+        .deleteDisabled(owner != nil)
         .listRowBackground(CardBackground())
     }
 
@@ -320,13 +339,16 @@ struct InventoryListView: View {
     private func move(from source: IndexSet, to destination: Int) {
         var ordered = sections.first?.items ?? []
         ordered.move(fromOffsets: source, toOffset: destination)
-        InventoryService.reorder(ordered)
+        // A shared-in item's position is its owner's.
+        let owners = owners
+        InventoryService.reorder(ordered.filter { owners[ObjectIdentifier($0)] == nil })
     }
 
     /// Stop tracking the swiped items. Offsets are section-local, so they're
     /// resolved against that section's rows rather than the flat list.
     private func delete(at offsets: IndexSet, in section: InventorySectionGroup) {
-        for item in offsets.map({ section.items[$0] }) {
+        let owners = owners
+        for item in offsets.map({ section.items[$0] }) where owners[ObjectIdentifier(item)] == nil {
             InventoryService.delete(item, in: modelContext)
         }
     }
@@ -340,6 +362,9 @@ struct InventoryListView: View {
 /// has a baseline, sits under the text column.
 private struct InventoryRow: View {
     let item: InventoryItem
+    /// The profile that shares this item with the active one; `nil` for the
+    /// active profile's own.
+    let owner: PiruProfile?
     let colorMap: [String: Color]
 
     @Environment(\.modelContext) private var modelContext
@@ -356,7 +381,9 @@ private struct InventoryRow: View {
                         .font(.body.weight(.semibold))
                         .foregroundStyle(.primary)
                         .lineLimit(1)
-                    if let subtitle {
+                    if let owner {
+                        SharedOwnerTag(owner: owner, detail: subtitle)
+                    } else if let subtitle {
                         Text(subtitle)
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
@@ -366,7 +393,7 @@ private struct InventoryRow: View {
                 StockAmountText(item: item, style: .body)
             }
             if let fraction = item.fillFraction {
-                InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint, status: item.stockStatus)
+                InventorySupplyBar(fraction: fraction, tint: barTint, status: item.stockStatus)
                     .padding(.leading, 17)
             }
         }
@@ -374,11 +401,18 @@ private struct InventoryRow: View {
         .accessibilityElement(children: .combine)
     }
 
+    /// A healthy shared-in stock wears its owner's color; Low and Out keep
+    /// their warning tints.
+    private var barTint: Color {
+        guard let owner, item.stockStatus == .ok else { return item.stockStatus.barTint }
+        return owner.color.p3.color
+    }
+
     /// "~N doses left" when a dose size is tracked; for an Out item the last-dose
     /// date instead (so we don't repeat "Out"); otherwise nothing.
     private var subtitle: String? {
         if item.stockStatus == .out {
-            guard let last = InventoryMath.doses(for: item, in: modelContext).map(\.timestamp).max() else {
+            guard let last = InventoryMath.consumption(for: item, in: modelContext).map(\.timestamp).max() else {
                 return nil
             }
             let formatted = last.formatted(.dateTime.month().day())

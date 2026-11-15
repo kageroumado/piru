@@ -127,10 +127,14 @@ final class MyMedsInfoModel {
         for item in items where !item.isAsNeeded {
             // The stock this med's doses draw on: its own form's item when one
             // is tracked, else the plain supply; a salted schedule falls back
-            // to the salt-less supply.
+            // to the salt-less supply. An item of this profile's own comes
+            // before one another profile shares with it.
             guard let stock = InventoryService.stock(
                 substance: item.substance, saltForm: item.saltForm,
                 isomer: item.isomer, productName: item.productName, among: stockItems,
+            ) ?? InventoryService.stock(
+                substance: item.substance, saltForm: item.saltForm,
+                isomer: item.isomer, productName: item.productName, among: SharedInventory.shared.sharedIn.map(\.item),
             ),
                 seen.insert(stock.id).inserted,
                 let runOut = InventoryMath.runOut(for: stock, in: context)

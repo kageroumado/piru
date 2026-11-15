@@ -7886,6 +7886,16 @@ T = {
     ),
     "In this session": ("已在此场次中", "已在此場次中"),
     "Couldn't Add": ("无法添加", "無法加入"),
+    # profiles phase 4
+    "Shared with": ("共享对象", "共享對象"),
+    "Their doses come off this stock too. Only you can change who shares it or delete it.": (
+        "他们的剂量也会从这份库存中扣除。只有你可以更改共享对象或删除它。",
+        "他們的劑量也會從這份庫存中扣除。只有你可以更改共享對象或刪除它。",
+    ),
+    "Shared": ("共享", "共享"),
+    "%@'s": ("%@的", "%@的"),
+    "Shared with you": ("与你共享", "與你共享"),
+    "Shared by %@": ("由%@共享", "由%@共享"),
 }
 
 # Widget translations
@@ -9467,6 +9477,18 @@ if __name__ == "__main__":
             "%@ has no session around this time.",
             "In this session",
             "Couldn't Add",
+        }
+    )
+    # profiles phase 4
+    NEW_KEYS.update(
+        {
+            "Shared with",
+            "Their doses come off this stock too. Only you can change who shares it or delete it.",
+            "Shared",
+            "%@'s",
+            "Shared with you",
+            "Shared by %@",
+            "Shared with %@",
         }
     )
     print("--- Piru main app catalog ---")

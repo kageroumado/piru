@@ -91,6 +91,11 @@ import SwiftData
             /// session for the owner and for Alice. Seeds all three stores,
             /// whichever profile is active.
             case sharedNight
+            /// Shared inventory across three profiles: you, Alice and Bob, with
+            /// your 2C-B shared with Alice and Bob's ketamine shared with you
+            /// both (``seedSharedStash(context:now:directory:)``). Creates Alice
+            /// and Bob when absent and wipes their journals too.
+            case sharedStash
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -141,6 +146,7 @@ import SwiftData
             case .transmascT: seedTransmascT(context: context)
             case .tripJournal: seedTripJournal(context: context, now: DebugClock.now)
             case .sharedNight: seedSharedNight(now: DebugClock.now)
+            case .sharedStash: seedSharedStash(context: context, now: DebugClock.now)
             }
 
             // Inventory caches are a replay over doses, so they can only be

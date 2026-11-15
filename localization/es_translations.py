@@ -3668,6 +3668,13 @@ ES = {
     "%@ has no session around this time.": "%@ no tiene ninguna sesión a esta hora.",
     "In this session": "En esta sesión",
     "Couldn't Add": "No se pudo agregar",
+    # profiles phase 4
+    "Shared with": "Compartido con",
+    "Their doses come off this stock too. Only you can change who shares it or delete it.": "Sus dosis también se descuentan de este inventario. Solo tú puedes cambiar con quién se comparte o eliminarlo.",
+    "Shared": "Compartido",
+    "%@'s": "De %@",
+    "Shared with you": "Compartido contigo",
+    "Shared by %@": "Compartido por %@",
 }
 
 # Spain only: the few strings Spain must see differently — today the iOS Settings

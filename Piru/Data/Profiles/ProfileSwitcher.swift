@@ -33,12 +33,14 @@ enum ProfileSwitcher {
 
     /// Delete a profile and set its journal aside (``ProfileDirectory/deleteProfile(id:)``),
     /// switching to the owner first when it is the one open, and withdraw
-    /// every reminder still pending or shown for it.
+    /// every reminder still pending or shown for it and every item still shared
+    /// with it.
     static func delete(_ id: UUID, directory: ProfileDirectory = .shared) async throws {
         if id == directory.activeProfileID {
             await switchTo(PiruProfile.ownerID, directory: directory)
         }
         try directory.deleteProfile(id: id)
+        await SharedInventory.shared.profileDeleted(id)
         let prefix = "piru.notif.\(ProfileScope.notificationNamespace(for: id))"
         let center = UNUserNotificationCenter.current()
         let pending = await center.pendingNotificationRequests().map(\.identifier).filter { $0.hasPrefix(prefix) }
