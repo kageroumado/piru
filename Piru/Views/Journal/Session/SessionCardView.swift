@@ -172,12 +172,17 @@ struct SessionCardView: View, Equatable {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Text(card.title ?? card.timeLabel)
                     .cardTitle()
-                Text(
-                    verbatim: card.title == nil
-                        ? card.doseCountText
-                        : "\(card.timeLabel)  ·  \(card.doseCountText)",
-                )
-                .captionSecondary()
+                HStack(spacing: Spacing.md) {
+                    Text(
+                        verbatim: card.title == nil
+                            ? card.doseCountText
+                            : "\(card.timeLabel)  ·  \(card.doseCountText)",
+                    )
+                    .captionSecondary()
+                    if let session = card.session {
+                        SharedSessionMark(sessionID: session.id, diameter: 16)
+                    }
+                }
                 HStack(spacing: Spacing.sm) {
                     substanceDots
                     Text(card.substanceSummary)

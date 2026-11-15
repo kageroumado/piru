@@ -7865,6 +7865,27 @@ T = {
         "所有人：将每个个人资料的剂量放进同一个文件，并各自标上其名字。",
         "所有人：將每個個人檔案的劑量放進同一個檔案，並各自標上其名字。",
     ),
+    # profiles phase 3
+    "With %@": ("与%@一起", "與%@一起"),
+    "%lld others": ("另外 %lld 人", "另外 %lld 人"),
+    "Shared with %@": ("与%@共享", "與%@共享"),
+    "Shows %@'s session": ("显示%@的场次", "顯示%@的場次"),
+    "%@'s Session": ("%@的场次", "%@的場次"),
+    "Open %@'s Journal": ("打开%@的日记", "打開%@的日記"),
+    "Remove from Shared Session": ("从共享场次中移除", "從共享場次中移除"),
+    "Couldn't Remove": ("无法移除", "無法移除"),
+    "Add People…": ("添加成员…", "加入成員…"),
+    "Add People": ("添加成员", "加入成員"),
+    "Links the session each person logged around the same time.": (
+        "关联每个人在同一时间前后记录的场次。",
+        "連結每個人在同一時間前後記錄的場次。",
+    ),
+    "%@ has no session around this time.": (
+        "%@在这段时间前后没有场次。",
+        "%@在這段時間前後沒有場次。",
+    ),
+    "In this session": ("已在此场次中", "已在此場次中"),
+    "Couldn't Add": ("无法添加", "無法加入"),
 }
 
 # Widget translations
@@ -9427,6 +9448,25 @@ if __name__ == "__main__":
             "This Profile",
             "Everyone",
             "Everyone puts every profile's doses in one file, each under its person's name.",
+        }
+    )
+    # profiles phase 3
+    NEW_KEYS.update(
+        {
+            "With %@",
+            "%lld others",
+            "Shared with %@",
+            "Shows %@'s session",
+            "%@'s Session",
+            "Open %@'s Journal",
+            "Remove from Shared Session",
+            "Couldn't Remove",
+            "Add People…",
+            "Add People",
+            "Links the session each person logged around the same time.",
+            "%@ has no session around this time.",
+            "In this session",
+            "Couldn't Add",
         }
     )
     print("--- Piru main app catalog ---")

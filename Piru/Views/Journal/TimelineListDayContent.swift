@@ -61,7 +61,7 @@ struct TimelineListDayContent: View {
                                 .padding(TimelineDayLayout.envelopePad)
                                 .padding(.bottom, TimelineDayLayout.envelopeFooterHeight)
                                 .background {
-                                    SessionEnvelopeButton(isSelected: selectedRecord == .session(id: sessionID)) { onSessionTap(sessionID) }
+                                    SessionEnvelopeButton(sessionID: sessionID, isSelected: selectedRecord == .session(id: sessionID)) { onSessionTap(sessionID) }
                                 }
                         } else {
                             groupRows(run.groups, notes: notes)

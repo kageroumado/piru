@@ -85,6 +85,12 @@ import SwiftData
             /// accessory reads the wall clock and hides a session that has not
             /// started yet. The dose.wiki About page's screenshots come from this one.
             case tripJournal
+            /// Profiles Alice and Bob (made if missing) and last night shared
+            /// between the three: the owner, Alice and Bob each have a session
+            /// with doses, linked by one `sharedExperienceID`, plus an unshared
+            /// session for the owner and for Alice. Seeds all three stores,
+            /// whichever profile is active.
+            case sharedNight
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -134,6 +140,7 @@ import SwiftData
             case .transfemEsterSwitch: seedTransfemEsterSwitch(context: context)
             case .transmascT: seedTransmascT(context: context)
             case .tripJournal: seedTripJournal(context: context, now: DebugClock.now)
+            case .sharedNight: seedSharedNight(now: DebugClock.now)
             }
 
             // Inventory caches are a replay over doses, so they can only be

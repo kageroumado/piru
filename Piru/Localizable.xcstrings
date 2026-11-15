@@ -2431,6 +2431,34 @@
         }
       }
     },
+    "%@ has no session around this time." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ no tiene ninguna sesión a esta hora."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ no tiene ninguna sesión a esta hora."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@在这段时间前后没有场次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@在這段時間前後沒有場次。"
+          }
+        }
+      }
+    },
     "%@ in · %@ left" : {
       "localizations" : {
         "en" : {
@@ -4161,6 +4189,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@的日記會隨個人檔案一起刪除：為其記錄的所有劑量、場次、筆記和藥物。"
+          }
+        }
+      }
+    },
+    "%@'s Session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesión de %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesión de %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的场次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的場次"
           }
         }
       }
@@ -6032,6 +6088,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld / 3"
+          }
+        }
+      }
+    },
+    "%lld others" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld más"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld más"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另外 %lld 人"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另外 %lld 人"
           }
         }
       }
@@ -13089,6 +13173,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增備註…"
+          }
+        }
+      }
+    },
+    "Add People" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar personas"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar personas"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加成员"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入成員"
+          }
+        }
+      }
+    },
+    "Add People…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar personas…"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar personas…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加成员…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入成員…"
           }
         }
       }
@@ -27734,6 +27874,34 @@
         }
       }
     },
+    "Couldn't Add" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo agregar"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo agregar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法添加"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法加入"
+          }
+        }
+      }
+    },
     "Couldn't decrypt this backup. The passphrase may be wrong, or the file may be damaged." : {
       "localizations" : {
         "es" : {
@@ -27926,6 +28094,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未能清楚辨識任何文字。"
+          }
+        }
+      }
+    },
+    "Couldn't Remove" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo quitar"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo quitar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法移除"
           }
         }
       }
@@ -47862,6 +48058,34 @@
         }
       }
     },
+    "In this session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En esta sesión"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En esta sesión"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在此场次中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在此場次中"
+          }
+        }
+      }
+    },
     "In use" : {
       "comment" : "Badge on the source currently supplying the dose ladder",
       "localizations" : {
@@ -52457,6 +52681,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Linka první psychické pomoci"
+          }
+        }
+      }
+    },
+    "Links the session each person logged around the same time." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vincula la sesión que cada persona registró a la misma hora."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vincula la sesión que cada persona registró a la misma hora."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关联每个人在同一时间前后记录的场次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連結每個人在同一時間前後記錄的場次。"
           }
         }
       }
@@ -65422,6 +65674,34 @@
         }
       }
     },
+    "Open %@'s Journal" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir el diario de %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir el diario de %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开%@的日记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開%@的日記"
+          }
+        }
+      }
+    },
     "Open a GitHub Issue" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -75611,6 +75891,34 @@
         }
       }
     },
+    "Remove from Shared Session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar de la sesión compartida"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar de la sesión compartida"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从共享场次中移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從共享場次中移除"
+          }
+        }
+      }
+    },
     "Remove Last" : {
       "localizations" : {
         "es" : {
@@ -82182,6 +82490,34 @@
         }
       }
     },
+    "Shared with %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartida con %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartida con %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与%@共享"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與%@共享"
+          }
+        }
+      }
+    },
     "Shields!" : {
       "localizations" : {
         "es" : {
@@ -82908,6 +83244,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示「2 項到時間」，只有一種用藥到時間時則顯示藥名。否則顯示下一個適用的標籤。"
+          }
+        }
+      }
+    },
+    "Shows %@'s session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra la sesión de %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra la sesión de %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示%@的场次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示%@的場次"
           }
         }
       }
@@ -100252,6 +100616,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "同服 %@"
+          }
+        }
+      }
+    },
+    "With %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与%@一起"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與%@一起"
           }
         }
       }

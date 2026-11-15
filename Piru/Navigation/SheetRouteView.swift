@@ -58,6 +58,19 @@ struct SheetRouteView: View {
         case let .checkInSchedule(sessionID):
             CheckInScheduleHost(sessionID: sessionID)
 
+        case let .sharedSessionPeek(experienceID, profileID):
+            NavigationStack {
+                SharedSessionPeekView(experienceID: experienceID, profileID: profileID)
+                    .withCancellationCloseButton()
+            }
+
+        case let .addPeople(sessionID):
+            NavigationStack {
+                AddPeopleView(sessionID: sessionID)
+                    .withCancellationCloseButton()
+            }
+            .presentationDetents([.medium, .large])
+
         case let .entryDetail(timestamp, id):
             EntryLookupView(id: id, timestamp: timestamp) { entry in
                 NavigationStack(path: navigator.sheetPathBinding(atDepth: depth)) {
