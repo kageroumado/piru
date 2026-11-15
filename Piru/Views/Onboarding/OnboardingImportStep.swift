@@ -75,6 +75,14 @@ struct OnboardingImportStep: View {
             switch await BackupFileImport.importPicked(result, context: modelContext) {
             case .imported: succeed()
             case let .locked(backup): lockedBackup = backup
+            case let .needsPeople(pending):
+                PsyLogImportRequest.present(pending) { outcome in
+                    switch outcome {
+                    case .imported: succeed()
+                    case .cancelled: break
+                    case let .failed(message): error = message
+                    }
+                }
             case let .failed(message): error = message
             }
         }

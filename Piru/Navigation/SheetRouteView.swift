@@ -91,6 +91,9 @@ struct SheetRouteView: View {
         case .spreadsheetImport:
             SpreadsheetImportSheet()
 
+        case .psyLogImport:
+            PsyLogImportSheet()
+
         case .advancedSearch:
             NavigationStack {
                 AdvancedSearchView()

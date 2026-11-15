@@ -3634,6 +3634,25 @@ ES = {
     "Teal": "Verde azulado",
     "Forest": "Bosque",
     "Amber": "Ámbar",
+    # profiles phase 2
+    "For": "Para",
+    "Goes into %@'s journal": "Va al diario de %@",
+    "Log For": "Registrar para",
+    "Log for: %@": "Registrar para: %@",
+    "Log for": "Registrar para",
+    "Record for %@": "Agregar un registro para %@",
+    "Record %lld Entries for %@": "Agregar %1$lld registros para %2$@",
+    "Put each person's doses in": "Pon las dosis de cada persona en",
+    "Doses taken together become one shared session per person. A person set to Skip is left out.": "Las dosis tomadas juntas se convierten en una sesión compartida por persona. Una persona marcada como Omitir queda fuera.",
+    "This file has doses for one person": "Este archivo tiene dosis de una persona",
+    "This file has doses for %lld people": "Este archivo tiene dosis de %lld personas",
+    "^[%lld experience](inflect: true)": "^[%lld experiencia](inflect: true)",
+    "Unnamed": "Sin nombre",
+    "You": "Tú",
+    "Put %@'s doses in": "Pon las dosis de %@ en",
+    "This Profile": "Este perfil",
+    "Everyone": "Todos",
+    "Everyone puts every profile's doses in one file, each under its person's name.": "Todos pone las dosis de cada perfil en un solo archivo, cada una con el nombre de su persona.",
 }
 
 # Spain only: the few strings Spain must see differently — today the iOS Settings

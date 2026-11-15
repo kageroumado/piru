@@ -338,6 +338,18 @@ import SwiftData
                 return true
             }
             wipeUserData(context: context)
+            // A PsychonautWiki file naming other people opens the people
+            // sheet, as picking it in Data & Backup does.
+            if let people = PsyLogPendingImport.inspect(data) {
+                Task(name: "Import people sheet") {
+                    try? await Task.sleep(for: .seconds(1))
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    PsyLogImportRequest.present(people) { outcome in
+                        print("DemoData: -piruImportFile people sheet finished: \(outcome)")
+                    }
+                }
+                return true
+            }
             do {
                 try DataExportImport.importJSON(data: data, context: context)
             } catch {

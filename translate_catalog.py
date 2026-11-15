@@ -7837,6 +7837,34 @@ T = {
     "Teal": ("青绿", "青綠"),
     "Forest": ("森林绿", "森林綠"),
     "Amber": ("琥珀", "琥珀"),
+    # profiles phase 2
+    "For": ("为", "為"),
+    "Goes into %@'s journal": ("记入%@的日记", "記入%@的日記"),
+    "Log For": ("记录给", "記錄給"),
+    "Log for: %@": ("记录给：%@", "記錄給：%@"),
+    "Log for": ("记录给", "記錄給"),
+    "Record for %@": ("为%@添加记录", "為%@新增記錄"),
+    "Record %lld Entries for %@": ("为%2$@添加 %1$lld 条记录", "為%2$@新增 %1$lld 筆記錄"),
+    "Put each person's doses in": ("将每个人的剂量放入", "將每個人的劑量放入"),
+    "Doses taken together become one shared session per person. A person set to Skip is left out.": (
+        "一起服用的剂量会在每个人的日记中各成为一个共享场次。设为跳过的人不会导入。",
+        "一起服用的劑量會在每個人的日記中各成為一個共享場次。設為跳過的人不會匯入。",
+    ),
+    "This file has doses for one person": ("此文件包含一个人的剂量", "此檔案包含一個人的劑量"),
+    "This file has doses for %lld people": (
+        "此文件包含 %lld 个人的剂量",
+        "此檔案包含 %lld 個人的劑量",
+    ),
+    "^[%lld experience](inflect: true)": ("%lld 次体验", "%lld 次體驗"),
+    "Unnamed": ("未命名", "未命名"),
+    "You": ("你", "你"),
+    "Put %@'s doses in": ("将%@的剂量放入", "將%@的劑量放入"),
+    "This Profile": ("此个人资料", "此個人檔案"),
+    "Everyone": ("所有人", "所有人"),
+    "Everyone puts every profile's doses in one file, each under its person's name.": (
+        "所有人：将每个个人资料的剂量放进同一个文件，并各自标上其名字。",
+        "所有人：將每個個人檔案的劑量放進同一個檔案，並各自標上其名字。",
+    ),
 }
 
 # Widget translations
@@ -9376,6 +9404,29 @@ if __name__ == "__main__":
             "Spreadsheet (CSV)",
             "One row per dose, for Excel, Numbers or Google Sheets. Imports back into Piru",
             "Piru, PsychonautWiki, a spreadsheet, or an encrypted backup",
+        }
+    )
+    # profiles phase 2
+    NEW_KEYS.update(
+        {
+            "For",
+            "Goes into %@'s journal",
+            "Log For",
+            "Log for: %@",
+            "Log for",
+            "Record for %@",
+            "Record %lld Entries for %@",
+            "Put each person's doses in",
+            "Doses taken together become one shared session per person. A person set to Skip is left out.",
+            "This file has doses for one person",
+            "This file has doses for %lld people",
+            "^[%lld experience](inflect: true)",
+            "Unnamed",
+            "You",
+            "Put %@'s doses in",
+            "This Profile",
+            "Everyone",
+            "Everyone puts every profile's doses in one file, each under its person's name.",
         }
     )
     print("--- Piru main app catalog ---")

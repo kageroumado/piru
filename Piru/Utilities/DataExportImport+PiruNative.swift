@@ -159,6 +159,10 @@ nonisolated struct PiruSessionData: Codable {
     /// Whether the times follow the doses (``Session/checkInFollowsDoses``);
     /// optional for the same reason.
     var checkInFollowsDoses: Bool?
+    /// The shared experience this session is part of across profiles
+    /// (``Session/sharedExperienceID``); absent for a session only this
+    /// profile had, and in files written before profiles.
+    var sharedExperienceID: UUID?
 }
 
 /// Wire shape of one ``SessionNote``. `kind` is the raw `SessionNote.Kind`;
@@ -398,6 +402,7 @@ extension DataExportImport {
                 checkInOffsetMinutes: session.checkInOffsetMinutes,
                 checkInOffered: session.checkInOffered,
                 checkInFollowsDoses: session.checkInFollowsDoses,
+                sharedExperienceID: session.sharedExperienceID,
             )
         }
         let orphans = allEntries
@@ -590,6 +595,9 @@ extension DataExportImport {
                 session.checkInOffsetMinutes = offsets
             }
             if sessionData.checkInOffered == true { session.checkInOffered = true }
+            if session.sharedExperienceID == nil {
+                session.sharedExperienceID = sessionData.sharedExperienceID
+            }
         }
 
         // Session-less doses (defensive) are left unassigned; importJSON's
