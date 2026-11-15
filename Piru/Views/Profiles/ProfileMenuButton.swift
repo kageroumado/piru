@@ -30,7 +30,7 @@ struct ProfileMenuButton: View {
                 }
             }
         } label: {
-            ProfileAvatarView(active, diameter: 28)
+            ProfileAvatarView(active, diameter: 36)
         }
         .menuOrder(.fixed)
         .accessibilityLabel(Text("Profile: \(active.name)"))
@@ -50,9 +50,11 @@ struct ProfileMenuButton: View {
 struct ProfileToolbarItem: ToolbarContent {
     var body: some ToolbarContent {
         if ProfileDirectory.shared.hasMultipleProfiles {
+            // The avatar is its own round control: no glass capsule around it.
             ToolbarItem(placement: .platformTopBarTrailing) {
                 ProfileMenuButton()
             }
+            .sharedBackgroundVisibility(.hidden)
             ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
         }
     }

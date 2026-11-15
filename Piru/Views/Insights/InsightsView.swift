@@ -215,7 +215,7 @@ struct InsightsView: View {
             .padding(.bottom, 80)
         }
         .skinBackdrop()
-        .appNavigationBar("Insights", isTabRoot: true)
+        .appNavigationBar("Insights")
         .task(id: model.changeToken(substanceColors: substanceColors, dailyItemCount: dailyItems.count)) {
             await model.recompute(
                 entries: allEntries,

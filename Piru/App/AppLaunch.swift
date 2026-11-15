@@ -279,7 +279,9 @@ enum AppLaunch {
     static func syncOtherProfilesReminders(directory: ProfileDirectory = .shared) async {
         guard directory.hasMultipleProfiles else { return }
         for profile in directory.profiles where profile.id != directory.activeProfileID {
-            guard let container = directory.container(for: profile.id, writable: true) else { continue }
+            // A journal nobody has opened holds no meds; leave its file uncreated.
+            guard FileManager.default.fileExists(atPath: directory.storeURL(for: profile).path),
+                  let container = directory.container(for: profile.id, writable: true) else { continue }
             await ProfileScope.$pinned.withValue(profile.id) {
                 await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
             }

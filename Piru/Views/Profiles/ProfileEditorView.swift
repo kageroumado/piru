@@ -49,6 +49,10 @@ struct ProfileEditorView: View {
         Group {
             if let draft {
                 ProfileEditorForm(draft: draft, editing: editing, onDeleted: { dismiss() })
+            } else {
+                // A view to hang the title and `.task` on: an empty Group
+                // takes neither.
+                Color.clear
             }
         }
         .themedPage()
@@ -99,6 +103,7 @@ private struct ProfileEditorForm: View {
     @Bindable var draft: ProfileDraft
     let editing: PiruProfile?
     let onDeleted: () -> Void
+    @FocusState private var nameFocused: Bool
 
     var body: some View {
         List {
@@ -114,6 +119,7 @@ private struct ProfileEditorForm: View {
                 Section("Name") {
                     TextField("Name", text: $draft.name)
                         .wordsAutocapitalize()
+                        .focused($nameFocused)
                 }
                 AvatarSection(draft: draft)
                 ColorSection(selection: $draft.color)
@@ -123,6 +129,8 @@ private struct ProfileEditorForm: View {
             }
             .listRowBackground(CardBackground())
         }
+        // A new person starts at their name.
+        .task { if editing == nil { nameFocused = true } }
     }
 }
 
