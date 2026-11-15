@@ -129,6 +129,8 @@ enum AppLaunch {
         // already logged.
         await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
         await syncOtherProfilesReminders()
+        // Shared items' stock follows every profile's dose log from here on.
+        SharedInventory.shared.start()
         hooks.passesFinished()
         #if DEBUG
             runDebugFixtures(container: container)
@@ -270,6 +272,7 @@ enum AppLaunch {
             await SubstanceStore.shared.ensureAllLoaded()
             await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
             await syncOtherProfilesReminders()
+            await SharedInventory.shared.refresh()
         }
     }
 

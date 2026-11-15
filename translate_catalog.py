@@ -7837,6 +7837,17 @@ T = {
     "Teal": ("青绿", "青綠"),
     "Forest": ("森林绿", "森林綠"),
     "Amber": ("琥珀", "琥珀"),
+    # profiles phase 4
+    "Shared with": ("共享对象", "共享對象"),
+    "Their doses come off this stock too. Only you can change who shares it or delete it.": (
+        "他们的剂量也会从这份库存中扣除。只有你可以更改共享对象或删除它。",
+        "他們的劑量也會從這份庫存中扣除。只有你可以更改共享對象或刪除它。",
+    ),
+    "Shared": ("共享", "共享"),
+    "%@'s": ("%@的", "%@的"),
+    "Shared with you": ("与你共享", "與你共享"),
+    "Shared by %@": ("由%@共享", "由%@共享"),
+    "Shared with %@": ("与%@共享", "與%@共享"),
 }
 
 # Widget translations
@@ -9376,6 +9387,18 @@ if __name__ == "__main__":
             "Spreadsheet (CSV)",
             "One row per dose, for Excel, Numbers or Google Sheets. Imports back into Piru",
             "Piru, PsychonautWiki, a spreadsheet, or an encrypted backup",
+        }
+    )
+    # profiles phase 4
+    NEW_KEYS.update(
+        {
+            "Shared with",
+            "Their doses come off this stock too. Only you can change who shares it or delete it.",
+            "Shared",
+            "%@'s",
+            "Shared with you",
+            "Shared by %@",
+            "Shared with %@",
         }
     )
     print("--- Piru main app catalog ---")

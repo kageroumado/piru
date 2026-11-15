@@ -94,6 +94,7 @@ private enum Fields {
         field("unitStrengthMG", \.unitStrengthMG),
         field("restocksData") { $0.manualEvents == $1.manualEvents },
         field("createdAt", \.createdAt), field("sortOrder", \.sortOrder),
+        field("sharedWithData") { $0.sharedWith == $1.sharedWith },
     ]
 
     static let profile: [FieldCheck<UserProfileRecord>] = [
@@ -466,13 +467,15 @@ struct ExportRoundTripTests {
             releaseForm: "XR", saltForm: "HCl", productName: "Brand",
         ))
 
-        context.insert(InventoryItem(
+        let stock = InventoryItem(
             id: UUID(), substance: "Caffeine", saltForm: "citrate", isomer: "D", productName: "Brand",
             displayNameSnapshot: "Dexcaffeine", unit: "tabs", trackingStart: t0,
             lowStockThreshold: 5, baselineQuantity: 30, doseSize: 2, unitStrengthMG: 10,
             manualEvents: [ManualEvent(kind: .restock, amount: 12, date: t1, note: "bought", setsBaseline: true)],
             createdAt: t0, sortOrder: 2,
-        ))
+        )
+        stock.sharedWith = [UUID(), UUID()]
+        context.insert(stock)
 
         context.insert(UserProfileRecord(
             disclosureTierRaw: UserProfile.casual.rawValue, bodyWeightKg: 61.5, weightSourceRaw: "manual",

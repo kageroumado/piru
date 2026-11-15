@@ -149,7 +149,9 @@ struct PushRouteView: View {
             // A deleted item renders nothing; the stack pops the dead route on
             // next interaction.
             if let item = lookupInventoryItem(id: id) {
+                // A shared-in item reads and writes its owner's store.
                 InventoryItemDetailView(item: item)
+                    .environment(\.modelContext, item.modelContext ?? modelContext)
             }
         }
     }
@@ -211,9 +213,7 @@ struct PushRouteView: View {
     }
 
     private func lookupInventoryItem(id: UUID) -> InventoryItem? {
-        var descriptor = FetchDescriptor<InventoryItem>(predicate: #Predicate { $0.id == id })
-        descriptor.fetchLimit = 1
-        return try? modelContext.fetch(descriptor).first
+        SharedInventory.shared.item(id: id, in: modelContext)
     }
 
     private func lookupSession(id: UUID) -> Session? {

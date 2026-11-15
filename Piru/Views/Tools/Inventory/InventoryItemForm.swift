@@ -15,18 +15,15 @@ struct InventoryItemFormHost: View {
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
+        let item = itemID.flatMap { SharedInventory.shared.item(id: $0, in: modelContext) }
         InventoryItemForm(
-            existingItem: itemID.flatMap(resolve),
+            existingItem: item,
             prefillSubstance: prefillSubstance,
             prefillSalt: prefillSalt,
             prefill: prefill,
         )
-    }
-
-    private func resolve(_ id: UUID) -> InventoryItem? {
-        var descriptor = FetchDescriptor<InventoryItem>(predicate: #Predicate { $0.id == id })
-        descriptor.fetchLimit = 1
-        return try? modelContext.fetch(descriptor).first
+        // A shared-in item restocks in its owner's store.
+        .environment(\.modelContext, item?.modelContext ?? modelContext)
     }
 }
 
@@ -335,14 +332,16 @@ struct InventoryItemForm: View {
         let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
         let note = trimmedNote.isEmpty ? nil : trimmedNote
         if let item = existingItem {
-            InventoryService.restock(
-                item,
-                amount: draft.restockAmount(for: item) ?? 0,
-                note: note,
-                setBaseline: useBaseline,
-                unitStrengthMG: draft.stated.unitStrengthMG,
-                in: modelContext,
-            )
+            SharedInventory.write(to: item) {
+                InventoryService.restock(
+                    item,
+                    amount: draft.restockAmount(for: item) ?? 0,
+                    note: note,
+                    setBaseline: useBaseline,
+                    unitStrengthMG: draft.stated.unitStrengthMG,
+                    in: modelContext,
+                )
+            }
         } else {
             let stated = draft.stated
             // A choice made for a substance the field no longer names is void.
