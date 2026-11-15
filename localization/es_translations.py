@@ -3677,6 +3677,7 @@ ES = {
     "Shared by %@": "Compartido por %@",
     "Your Name": "Tu nombre",
     "Other profiles show you by this name.": "Los demás perfiles te muestran con este nombre.",
+    "View Options": "Opciones de vista",
 }
 
 # Spain only: the few strings Spain must see differently — today the iOS Settings

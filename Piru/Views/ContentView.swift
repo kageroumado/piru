@@ -310,20 +310,15 @@ struct TabRootView: View {
     @Binding var librarySearchText: String
 
     var body: some View {
-        // Applied outside the screen, so its toolbar comes first: the profile
-        // avatar leads the trailing group (``ProfileToolbarItem``).
-        Group {
-            switch tab {
-            case .stock(.journal): EntryListView(searchText: $searchText)
-            case .stock(.library): SubstanceLibraryView(searchText: $librarySearchText)
-            case .stock(.tools): ToolsView()
-            case .stock(.insights): InsightsView()
-            // Search is its own `role: .search` tab in the bar, never a slot here.
-            case .stock(.search): EmptyView()
-            case let .pinned(screen): PinnedTabRoot(screen: screen)
-            }
+        switch tab {
+        case .stock(.journal): EntryListView(searchText: $searchText)
+        case .stock(.library): SubstanceLibraryView(searchText: $librarySearchText)
+        case .stock(.tools): ToolsView()
+        case .stock(.insights): InsightsView()
+        // Search is its own `role: .search` tab in the bar, never a slot here.
+        case .stock(.search): EmptyView()
+        case let .pinned(screen): PinnedTabRoot(screen: screen)
         }
-        .toolbar { ProfileToolbarItem() }
     }
 }
 

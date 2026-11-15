@@ -4,8 +4,8 @@ import TipKit
 
 /// The Journal's `•••` toolbar button: a Mail-style options popover carrying the
 /// grouping thumbnail picker plus Jump to Date and the app-level Settings/Help,
-/// so the toolbar stays at two controls (three while the Timeline grouping
-/// adds ``JournalTimelineOptionsButton``). A popover rather than a `Menu` because a menu can't host the
+/// so the toolbar stays at two controls (three with the profile avatar). A
+/// popover rather than a `Menu` because a menu can't host the
 /// custom thumbnail views — same pattern as the Tolerance screen's options menu.
 struct JournalOptionsButton: View {
     @Environment(\.appNavigator) private var navigator
@@ -189,45 +189,18 @@ struct JournalOptionsMenu: View {
     }
 }
 
-/// The Journal's third toolbar control, present only while the Timeline
-/// grouping is selected: the strip's display options (``TimelineOptionsMenu``)
-/// behind a sliders glyph, so they stay reachable however far the canvas has
-/// scrolled. The bindings are the Journal's app-group defaults, shared with
-/// the pushed timeline screen's copy of the same menu.
-struct JournalTimelineOptionsButton: View {
-    @Binding var zoom: Double
-    @Binding var compressGaps: Bool
-    @Binding var pkCurves: Bool
-    @Binding var curveScale: TimelineCurveScale
-    @Binding var showsAxis: Bool
-    @Binding var bubbleStyle: TimelineBubbleStyle
-
-    var body: some View {
-        TimelineOptionsMenu(
-            zoom: $zoom,
-            compressGaps: $compressGaps,
-            pkCurves: $pkCurves,
-            curveScale: $curveScale,
-            showsAxis: $showsAxis,
-            bubbleStyle: $bubbleStyle,
-        ) {
-            Image(systemName: "slider.horizontal.3")
-                .font(.sectionTitle)
-        }
-    }
-}
-
-/// The Journal's filter toolbar menu — the single home for narrowing the list.
-/// Reads the model's available facet values (only what's actually present in
-/// the journal) and toggles the parent's filter sets through the bindings (the
-/// parent's `onChange(of:)` drives the regroup + Day-window reset). Tags and
-/// categories are multi-select checkmark sections; routes live one level down
-/// so the top level stays short.
-struct JournalFilterMenu: View {
+/// The Journal's view menu: the Timeline grouping's display options, when
+/// given, then the filters — the single home for narrowing the list. Reads the
+/// model's available facet values (only what's actually present in the
+/// journal) and toggles the parent's filter sets through the bindings (the
+/// parent's `onChange(of:)` drives the regroup + Day-window reset). Each facet
+/// is a submenu of checkmark rows, so the top level stays short.
+struct JournalFilterMenu<Display: View>: View {
     let model: JournalModel
     @Binding var filterTags: Set<String>
     @Binding var filterCategories: Set<SubstanceCategory>
     @Binding var filterRoutes: Set<RouteOfAdministration>
+    @ViewBuilder let display: () -> Display
 
     private var hasActiveFilters: Bool {
         !filterTags.isEmpty || !filterCategories.isEmpty || !filterRoutes.isEmpty
@@ -263,7 +236,7 @@ struct JournalFilterMenu: View {
             .buttonBorderShape(.circle)
             .controlSize(.regular)
             .tint(Theme.accent)
-            .accessibilityLabel(Text("Filter"))
+            .accessibilityLabel(Text("View Options"))
             .accessibilityValue(filterValue)
         } else {
             Menu {
@@ -272,7 +245,7 @@ struct JournalFilterMenu: View {
                 Image(systemName: "line.3.horizontal.decrease")
                     .font(.sectionTitle)
             }
-            .accessibilityLabel(Text("Filter"))
+            .accessibilityLabel(Text("View Options"))
             .accessibilityValue(filterValue)
         }
     }
@@ -286,6 +259,9 @@ struct JournalFilterMenu: View {
     @ViewBuilder
     private var menuContent: some View {
         Section {
+            display()
+        }
+        Section("Filter") {
             if !model.categories.isEmpty {
                 Menu {
                     ForEach(model.categories, id: \.self) { category in

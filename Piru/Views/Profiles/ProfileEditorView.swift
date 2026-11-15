@@ -178,11 +178,15 @@ private struct AvatarSection: View {
                         if trimmed != letters { draft.letters = trimmed }
                     }
             case .emoji:
-                TextField("One emoji", text: $draft.emoji)
-                    .onChange(of: draft.emoji) { _, text in
-                        let one = ProfileAvatar.emoji(text)?.text ?? ""
-                        if one != text { draft.emoji = one }
-                    }
+                #if os(iOS) || os(macOS)
+                    EmojiTextField(text: $draft.emoji, placeholder: String(localized: "One emoji"))
+                #else
+                    TextField("One emoji", text: $draft.emoji)
+                        .onChange(of: draft.emoji) { _, text in
+                            let one = ProfileAvatar.emoji(text)?.text ?? ""
+                            if one != text { draft.emoji = one }
+                        }
+                #endif
             }
         } header: {
             Text("Avatar")

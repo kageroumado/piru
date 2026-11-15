@@ -7901,6 +7901,7 @@ T = {
         "其他个人资料会用这个名字显示你。",
         "其他個人檔案會用這個名字顯示你。",
     ),
+    "View Options": ("显示选项", "顯示選項"),
 }
 
 # Widget translations
@@ -9496,6 +9497,7 @@ if __name__ == "__main__":
             "Shared with %@",
             "Your Name",
             "Other profiles show you by this name.",
+            "View Options",
         }
     )
     print("--- Piru main app catalog ---")

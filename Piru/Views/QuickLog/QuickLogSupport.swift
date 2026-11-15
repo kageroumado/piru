@@ -245,6 +245,10 @@ struct QuickLogCardList: View {
         // now?" is answered on the pills themselves (a due pill wears the
         // slot time and a check circle), never as a second list of the same
         // meds above them.
+        //
+        // Whose journal this log goes into leads the sheet, before anything is
+        // staged, once there is more than one profile.
+        TrayRecipientRow(model: tray)
         dailySection()
 
         let products = customSubstanceStore.all.filter(\.isCombination)

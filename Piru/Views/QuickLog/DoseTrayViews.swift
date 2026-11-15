@@ -127,8 +127,6 @@ struct TrayCommitBar: View {
         VStack(spacing: 0) {
             if !dynamicTypeSize.isAccessibilitySize {
                 TrayWarningBanner(model: model, content: content)
-                TrayRecipientRow(model: model)
-                    .padding(.bottom, Spacing.md)
                 TrayMetaChips(model: model, content: content)
                 commitButton
                     .padding(.top, 14)
