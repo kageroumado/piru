@@ -75,7 +75,16 @@ struct ProfileAvatarView: View {
 
         static func image(named name: String) -> PlatformImage? {
             if let cached = images[name] { return cached }
-            guard let data = ProfilePhotoStore.data(named: name), let image = PlatformImage(data: data) else { return nil }
+            // Decoded at the saved size whatever the file holds: a backup can
+            // carry a file the importer never wrote.
+            guard let data = ProfilePhotoStore.data(named: name),
+                  let decoded = ProfilePhotoImporter.thumbnail(of: data, maxSide: ProfilePhotoImporter.savedSide)
+            else { return nil }
+            #if canImport(UIKit)
+                let image = UIImage(cgImage: decoded)
+            #else
+                let image = NSImage(cgImage: decoded, size: .zero)
+            #endif
             images[name] = image
             return image
         }

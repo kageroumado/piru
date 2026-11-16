@@ -67,6 +67,27 @@ struct ProfilePhotoTests {
         #expect(ProfilePhotoStore.data(named: name, in: restoredDir) == Self.pixels)
     }
 
+    @Test
+    func `A restore writes only photos a profile names, at a photo's size`() throws {
+        let (directory, dir) = try makeScratchProfileDirectory()
+        var owner = directory.owner
+        owner.avatar = owner.avatar.withPhoto("big.heic")
+        let section = PiruProfilesSection(
+            registry: [owner],
+            journals: [],
+            photos: [
+                "big.heic": Data(count: PiruProfilesSection.maxPhotoBytes + 1),
+                "stray.heic": Self.pixels,
+            ],
+        )
+        let data = try DataExportImport.exportBackupJSON(context: directory.activeContainer.mainContext, directory: directory)
+        try BackupManager.shared.applyProfiles(
+            section, plaintext: data, strategy: .merge, context: directory.activeContainer.mainContext, directory: directory,
+        )
+        #expect(ProfilePhotoStore.data(named: "big.heic", in: dir) == nil)
+        #expect(ProfilePhotoStore.data(named: "stray.heic", in: dir) == nil)
+    }
+
     // MARK: - Crop geometry
 
     private let landscape = CropLayout(imageSize: CGSize(width: 1000, height: 500), diameter: 250)

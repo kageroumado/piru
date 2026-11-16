@@ -29,16 +29,21 @@ nonisolated enum ProfilePhotoImporter {
 
     @concurrent
     static func prepare(_ data: Data) async -> ProfilePhotoSource? {
+        guard let image = thumbnail(of: data, maxSide: workingSide) else { return nil }
+        return await ProfilePhotoSource(image: image, face: largestFace(in: image))
+    }
+
+    /// `data` decoded upright at no more than `maxSide` pixels on its long
+    /// side, so an outsized file costs no more memory than a small one.
+    static func thumbnail(of data: Data, maxSide: Int) -> CGImage? {
         let options: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: workingSide,
+            kCGImageSourceThumbnailMaxPixelSize: maxSide,
             kCGImageSourceShouldCacheImmediately: true,
         ]
-        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
-              let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary)
-        else { return nil }
-        return await ProfilePhotoSource(image: image, face: largestFace(in: image))
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else { return nil }
+        return CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary)
     }
 
     /// The largest face, or `nil` when there is none or Vision fails.

@@ -12,6 +12,9 @@ nonisolated struct PiruProfilesSection: Codable, Sendable {
     var journals: [PiruProfileJournal]
     /// Each profile photo by its file name in ``ProfilePhotoStore``.
     var photos: [String: Data]?
+
+    /// The largest photo a restore writes; a saved avatar is ~20 KB.
+    static let maxPhotoBytes = 1_000_000
 }
 
 /// One profile's journal, in the same shape as a whole Piru file.
@@ -93,7 +96,9 @@ extension BackupManager {
         directory: ProfileDirectory,
     ) throws {
         try DataExportImport.validate(plaintext)
-        for (name, data) in section.photos ?? [:] {
+        // Only photos a restored profile names, at a photo's size.
+        let named = Set(section.registry.compactMap(\.avatar.photo))
+        for (name, data) in section.photos ?? [:] where named.contains(name) && data.count <= PiruProfilesSection.maxPhotoBytes {
             try? ProfilePhotoStore.write(data, named: name, in: directory.containerURL)
         }
         for profile in section.registry {
