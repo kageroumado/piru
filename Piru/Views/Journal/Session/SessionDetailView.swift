@@ -181,6 +181,10 @@ struct SessionDetailView: View {
                         description: Text("No substances logged in this session."),
                     )
                 } else {
+                    if let experienceID = session.sharedExperienceID {
+                        SharedSessionHeader(experienceID: experienceID, participants: model.sharedParticipants)
+                    }
+
                     // Timeline graph — only when at least one dose draws a curve.
                     // A day of nothing but markers (long-acting meds, duration-less
                     // doses) would render an empty axis, so we drop the whole

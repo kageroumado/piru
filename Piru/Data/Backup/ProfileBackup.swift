@@ -2,13 +2,16 @@ import Foundation
 import os
 import SwiftData
 
-/// The profiles part of a backup made with more than one profile: who they
-/// are, and each journal but the owner's. The owner's journal is the backup's
-/// own top level, so a build that predates profiles restores the owner's.
+/// The profiles part of a backup made with more than one profile, or with an
+/// owner who has a photo: who they are, their photos, and each journal but
+/// the owner's. The owner's journal is the backup's own top level, so a build
+/// that predates profiles restores the owner's.
 nonisolated struct PiruProfilesSection: Codable, Sendable {
     /// Every profile on the device that made the backup, the owner first.
     var registry: [PiruProfile]
     var journals: [PiruProfileJournal]
+    /// Each profile photo by its file name in ``ProfilePhotoStore``.
+    var photos: [String: Data]?
 }
 
 /// One profile's journal, in the same shape as a whole Piru file.
@@ -24,7 +27,9 @@ extension DataExportImport {
     /// journal's, read in place; the others are read through their own stores.
     @MainActor
     static func exportBackupJSON(context: ModelContext, directory: ProfileDirectory = .shared) throws -> Data {
-        guard directory.hasMultipleProfiles else { return try exportJSON(context: context) }
+        guard directory.hasMultipleProfiles || directory.owner.avatar.photo != nil else {
+            return try exportJSON(context: context)
+        }
         var file = try journalFile(for: directory.owner, context: context, directory: directory)
         var journals: [PiruProfileJournal] = []
         for profile in directory.profiles where !profile.isOwner {
@@ -33,7 +38,12 @@ extension DataExportImport {
             journal.settings = nil
             journals.append(PiruProfileJournal(profileID: profile.id, file: journal))
         }
-        file.profiles = PiruProfilesSection(registry: directory.profiles, journals: journals)
+        let photos = directory.profiles.compactMap(\.avatar.photo).reduce(into: [String: Data]()) { photos, name in
+            photos[name] = ProfilePhotoStore.data(named: name, in: directory.containerURL)
+        }
+        file.profiles = PiruProfilesSection(
+            registry: directory.profiles, journals: journals, photos: photos.isEmpty ? nil : photos,
+        )
         return try encodeJSON(file)
     }
 
@@ -83,6 +93,9 @@ extension BackupManager {
         directory: ProfileDirectory,
     ) throws {
         try DataExportImport.validate(plaintext)
+        for (name, data) in section.photos ?? [:] {
+            try? ProfilePhotoStore.write(data, named: name, in: directory.containerURL)
+        }
         for profile in section.registry {
             try directory.restoreProfile(profile)
         }

@@ -3660,7 +3660,10 @@ ES = {
     "Shows %@'s session": "Muestra la sesión de %@",
     "%@'s Session": "Sesión de %@",
     "Open %@'s Journal": "Abrir el diario de %@",
-    "Remove from Shared Session": "Quitar de la sesión compartida",
+    "Unlink %@'s Session": "Desvincular la sesión de %@",
+    "Every dose stays in both journals. This session stops showing %@ beside yours.": (
+        "Cada dosis se queda en ambos diarios. Esta sesión deja de mostrar a %@ junto a la tuya."
+    ),
     "Couldn't Remove": "No se pudo quitar",
     "Add People…": "Agregar personas…",
     "Add People": "Agregar personas",
@@ -3678,6 +3681,13 @@ ES = {
     "Your Name": "Tu nombre",
     "Other profiles show you by this name.": "Los demás perfiles te muestran con este nombre.",
     "View Options": "Opciones de vista",
+    "Photo": "Foto",
+    "Choose Photo": "Elegir foto",
+    "Choose Another Photo": "Elegir otra foto",
+    "Couldn't Use This Photo": "No se puede usar esta foto",
+    "Move and Scale": "Mover y escalar",
+    "Choose": "Elegir",
+    "Drag to move it, pinch to scale it.": "Arrastra para moverla y pellizca para escalarla.",
 }
 
 # Spain only: the few strings Spain must see differently — today the iOS Settings

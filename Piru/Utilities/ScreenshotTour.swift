@@ -204,6 +204,29 @@
             Screen(name: "hormone-levels") { stage in
                 stage.push(.insight(.hormoneLevels), in: .insights)
             },
+            // The profile screens below need `--persona sharedNight`, which
+            // seeds Alice and Bob and the night the three of them shared.
+            Screen(name: "profiles") { stage in
+                stage.tab(.journal)
+                stage.present(.profiles)
+            },
+            Screen(name: "shared-session") { stage in
+                guard let id = stage.sessionID(titled: "Kitchen disco") else { return }
+                stage.push(.session(id: id), in: .journal)
+            },
+            Screen(name: "shared-peek") { stage in
+                guard let session = stage.session(titled: "Kitchen disco"),
+                      let experience = session.sharedExperienceID,
+                      let other = ProfileDirectory.shared.profiles.first(where: { !$0.isOwner })
+                else { return }
+                stage.push(.session(id: session.id), in: .journal)
+                stage.present(.sharedSessionPeek(experienceID: experience, profileID: other.id))
+            },
+            Screen(name: "add-people") { stage in
+                guard let id = stage.sessionID(titled: "Kitchen disco") else { return }
+                stage.push(.session(id: id), in: .journal)
+                stage.present(.addPeople(sessionID: id))
+            },
         ]
 
         /// The screens captured again in every skin: the ones where a skin
@@ -532,9 +555,13 @@
             }
 
             func sessionID(titled title: String) -> UUID? {
+                session(titled: title)?.id
+            }
+
+            func session(titled title: String) -> Session? {
                 var descriptor = FetchDescriptor<Session>(predicate: #Predicate { $0.title == title })
                 descriptor.fetchLimit = 1
-                return try? context.fetch(descriptor).first?.id
+                return try? context.fetch(descriptor).first
             }
 
             func newestEntry(of substance: String) -> DoseEntry? {

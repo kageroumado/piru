@@ -141,7 +141,9 @@ private struct SharedSessionPeekContent: View {
 
             Section {
                 Button("Open \(profile.name)'s Journal", action: onOpenJournal)
-                Button("Remove from Shared Session", role: .destructive, action: onRemove)
+                Button("Unlink \(profile.name)'s Session", role: .destructive, action: onRemove)
+            } footer: {
+                Text("Every dose stays in both journals. This session stops showing \(profile.name) beside yours.")
             }
         }
         .insetGroupedListStyle()

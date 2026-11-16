@@ -77,8 +77,8 @@ struct ProfileToolbarItem: ToolbarContent {
     }
 }
 
-/// The avatar as a toolbar control: the monogram or emoji on a circle of glass
-/// tinted in the profile's color, the size of a system toolbar button. The
+/// The avatar as a toolbar control: the photo, or the monogram or emoji on a
+/// circle of glass tinted in the profile's color, the size of a system toolbar button. The
 /// glass is the avatar's own, so the image covers the whole control.
 struct ProfileGlassAvatar: View {
     let profile: PiruProfile
@@ -92,6 +92,28 @@ struct ProfileGlassAvatar: View {
     }
 
     var body: some View {
+        #if os(Android)
+            letters
+                .background(profile.color.p3.color, in: Circle())
+                .accessibilityHidden(true)
+        #else
+            Group {
+                if let image = profile.avatar.photo.flatMap(ProfilePhotoCache.image(named:)) {
+                    // The photo is the glass's content and covers it; the
+                    // glass still gives the press response and the rim.
+                    ProfilePhotoCircle(image: image, color: profile.color, diameter: diameter)
+                        .glassEffect(.regular.interactive(), in: .circle)
+                } else {
+                    letters
+                        .glassEffect(.regular.tint(profile.color.p3.color).interactive(), in: .circle)
+                }
+            }
+            .contentShape(.circle)
+            .accessibilityHidden(true)
+        #endif
+    }
+
+    private var letters: some View {
         Text(verbatim: profile.avatar.text)
             .font(.system(
                 size: diameter * (profile.avatar.kind == .emoji ? 0.5 : 0.4),
@@ -102,12 +124,5 @@ struct ProfileGlassAvatar: View {
             .lineLimit(1)
             .minimumScaleFactor(0.5)
             .frame(width: diameter, height: diameter)
-        #if os(Android)
-            .background(profile.color.p3.color, in: Circle())
-        #else
-            .glassEffect(.regular.tint(profile.color.p3.color).interactive(), in: .circle)
-        #endif
-            .contentShape(.circle)
-            .accessibilityHidden(true)
     }
 }

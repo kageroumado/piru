@@ -85,3 +85,59 @@ private struct SharedParticipantRow: View {
         .accessibilityHint(Text("Shows \(profile.name)'s session"))
     }
 }
+
+/// The top of a shared session's screen: who else was there, before the
+/// timeline, so the night reads as shared on the first screen. It opens that
+/// person's side of the night, or a menu of people when there are several.
+struct SharedSessionHeader: View {
+    let experienceID: UUID
+    let participants: [SharedParticipant]?
+
+    @Environment(\.profileDirectory) private var directory
+    @Environment(\.appNavigator) private var navigator
+
+    var body: some View {
+        let shown = participants ?? SharedExperienceStore.shared.cachedParticipants(for: experienceID) ?? []
+        let people = shown.compactMap { directory.profile(id: $0.id) }
+        if let first = people.first {
+            Section {
+                if people.count == 1 {
+                    Button { peek(first) } label: { label(people, symbol: "chevron.right") }
+                } else {
+                    Menu {
+                        ForEach(people) { profile in
+                            Button { peek(profile) } label: {
+                                Label {
+                                    Text(verbatim: profile.name)
+                                } icon: {
+                                    ProfileAvatarImage.image(for: profile)
+                                }
+                            }
+                        }
+                    } label: {
+                        label(people, symbol: "chevron.up.chevron.down")
+                    }
+                }
+            }
+        }
+    }
+
+    private func label(_ people: [PiruProfile], symbol: String) -> some View {
+        HStack(spacing: Spacing.md) {
+            ProfileAvatarStack(profiles: people, diameter: 26)
+            Text(verbatim: SharedExperienceStore.sectionTitle(names: people.map(\.name)))
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.primary)
+            Spacer(minLength: Spacing.md)
+            Image(systemName: symbol)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Theme.tertiaryLabel)
+                .accessibilityHidden(true)
+        }
+        .contentShape(Rectangle())
+    }
+
+    private func peek(_ profile: PiruProfile) {
+        navigator.present(.sharedSessionPeek(experienceID: experienceID, profileID: profile.id))
+    }
+}

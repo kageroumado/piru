@@ -40,6 +40,11 @@ final class ProfileDirectory {
 
     @ObservationIgnored private var openContainers: [OpenKey: ModelContainer] = [:]
     @ObservationIgnored private let directory: URL
+
+    /// The folder holding `profiles.json`, every store and the photos.
+    var containerURL: URL {
+        directory
+    }
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private let opener: (PiruProfile, URL) -> ModelContainer
 
@@ -251,5 +256,8 @@ final class ProfileDirectory {
     private func save(_ next: [PiruProfile]) throws {
         try ProfileRegistry.save(next, to: directory)
         profiles = ProfileRegistry.normalized(next)
+        // Only after a write: a registry that failed to decode reads as the
+        // owner alone, and a sweep then would take everyone else's photo.
+        ProfilePhotoStore.sweep(keeping: profiles, in: directory)
     }
 }

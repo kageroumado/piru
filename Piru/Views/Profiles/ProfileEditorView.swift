@@ -5,11 +5,21 @@ import SwiftUI
 @Observable
 @MainActor
 final class ProfileDraft {
+    /// What the avatar shows; the editor's segmented control.
+    enum Style: Hashable {
+        case monogram
+        case emoji
+        case photo
+    }
+
     var name: String
-    var kind: ProfileAvatar.Kind
+    var style: Style
     /// The letters typed for a monogram; empty means "from the name".
     var letters: String
     var emoji: String
+    /// The photo's file in ``ProfilePhotoStore``, kept while another style
+    /// is chosen so switching back finds it.
+    var photo: String?
     var color: ProfileColor
     /// The owner's name, asked for while adding someone when the owner still
     /// carries the default "Me", since every other journal shows the owner
@@ -17,19 +27,26 @@ final class ProfileDraft {
     var ownerName: String?
 
     init(profile: PiruProfile?, defaultColor: ProfileColor) {
+        let avatar = profile?.avatar
         name = profile?.name ?? ""
-        kind = profile?.avatar.kind ?? .monogram
-        letters = profile?.avatar.kind == .monogram ? profile?.avatar.text ?? "" : ""
-        emoji = profile?.avatar.kind == .emoji ? profile?.avatar.text ?? "" : ""
+        style = avatar?.photo != nil ? .photo : avatar?.kind == .emoji ? .emoji : .monogram
+        letters = avatar?.kind == .monogram ? avatar?.text ?? "" : ""
+        emoji = avatar?.kind == .emoji ? avatar?.text ?? "" : ""
+        photo = avatar?.photo
         color = profile?.color ?? defaultColor
     }
 
+    /// Under a photo, the emoji or letters last chosen, for wherever the
+    /// photo can't draw.
     var avatar: ProfileAvatar {
-        switch kind {
+        let letterAvatar = letters.isEmpty ? ProfileAvatar.monogram(for: name) : .monogram(text: letters)
+        switch style {
         case .emoji:
-            ProfileAvatar.emoji(emoji) ?? .monogram(for: name)
+            return ProfileAvatar.emoji(emoji) ?? .monogram(for: name)
         case .monogram:
-            letters.isEmpty ? .monogram(for: name) : .monogram(text: letters)
+            return letterAvatar
+        case .photo:
+            return (ProfileAvatar.emoji(emoji) ?? letterAvatar).withPhoto(photo)
         }
     }
 
@@ -164,12 +181,19 @@ private struct AvatarSection: View {
 
     var body: some View {
         Section {
-            Picker("Avatar", selection: $draft.kind) {
-                Text("Letters").tag(ProfileAvatar.Kind.monogram)
-                Text("Emoji").tag(ProfileAvatar.Kind.emoji)
+            Picker("Avatar", selection: $draft.style) {
+                Text("Letters").tag(ProfileDraft.Style.monogram)
+                Text("Emoji").tag(ProfileDraft.Style.emoji)
+                #if !os(Android)
+                    Text("Photo").tag(ProfileDraft.Style.photo)
+                #endif
             }
             .pickerStyle(.segmented)
-            switch draft.kind {
+            switch draft.style {
+            case .photo:
+                #if !os(Android)
+                    ProfilePhotoPickerRow(photo: $draft.photo)
+                #endif
             case .monogram:
                 TextField("From the name", text: $draft.letters)
                     .neverAutocapitalize()

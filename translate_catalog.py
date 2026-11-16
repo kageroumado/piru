@@ -7872,7 +7872,11 @@ T = {
     "Shows %@'s session": ("显示%@的场次", "顯示%@的場次"),
     "%@'s Session": ("%@的场次", "%@的場次"),
     "Open %@'s Journal": ("打开%@的日记", "打開%@的日記"),
-    "Remove from Shared Session": ("从共享场次中移除", "從共享場次中移除"),
+    "Unlink %@'s Session": ("取消关联%@的场次", "取消連結%@的場次"),
+    "Every dose stays in both journals. This session stops showing %@ beside yours.": (
+        "每一剂仍保留在双方的日记中。此场次不再把%@和你的并列显示。",
+        "每一劑仍保留在雙方的日記中。此場次不再把%@和你的並列顯示。",
+    ),
     "Couldn't Remove": ("无法移除", "無法移除"),
     "Add People…": ("添加成员…", "加入成員…"),
     "Add People": ("添加成员", "加入成員"),
@@ -7902,6 +7906,16 @@ T = {
         "其他個人檔案會用這個名字顯示你。",
     ),
     "View Options": ("显示选项", "顯示選項"),
+    "Photo": ("照片", "照片"),
+    "Choose Photo": ("选择照片", "選擇照片"),
+    "Choose Another Photo": ("选择其他照片", "選擇其他照片"),
+    "Couldn't Use This Photo": ("无法使用这张照片", "無法使用這張照片"),
+    "Move and Scale": ("移动和缩放", "移動和縮放"),
+    "Choose": ("选取", "選取"),
+    "Drag to move it, pinch to scale it.": (
+        "拖动以移动，双指捏合以缩放。",
+        "拖移以移動，雙指捏合以縮放。",
+    ),
 }
 
 # Widget translations
@@ -9475,7 +9489,8 @@ if __name__ == "__main__":
             "Shows %@'s session",
             "%@'s Session",
             "Open %@'s Journal",
-            "Remove from Shared Session",
+            "Unlink %@'s Session",
+            "Every dose stays in both journals. This session stops showing %@ beside yours.",
             "Couldn't Remove",
             "Add People…",
             "Add People",
@@ -9498,6 +9513,18 @@ if __name__ == "__main__":
             "Your Name",
             "Other profiles show you by this name.",
             "View Options",
+        }
+    )
+    # profile photos
+    NEW_KEYS.update(
+        {
+            "Photo",
+            "Choose Photo",
+            "Choose Another Photo",
+            "Couldn't Use This Photo",
+            "Move and Scale",
+            "Choose",
+            "Drag to move it, pinch to scale it.",
         }
     )
     print("--- Piru main app catalog ---")

@@ -62,7 +62,9 @@ nonisolated struct PiruProfile: Codable, Hashable, Identifiable, Sendable {
     }
 }
 
-/// What a profile's avatar circle shows: one or two letters, or one emoji.
+/// What a profile's avatar circle shows: the photo `photo` names, or else one
+/// or two letters or one emoji. The letters or emoji stay set under a photo,
+/// so a build or screen that can't draw the photo still has an avatar.
 nonisolated struct ProfileAvatar: Codable, Hashable, Sendable {
     enum Kind: String, Codable, Sendable {
         case monogram
@@ -71,6 +73,15 @@ nonisolated struct ProfileAvatar: Codable, Hashable, Sendable {
 
     let kind: Kind
     let text: String
+    /// The photo's file name in ``ProfilePhotoStore``. A new photo always
+    /// gets a new name, so the avatar changes whenever the photo does and
+    /// every cache keyed by the avatar refreshes.
+    var photo: String?
+
+    /// The same letters or emoji with `photo` drawn over them, or without one.
+    func withPhoto(_ photo: String?) -> ProfileAvatar {
+        ProfileAvatar(kind: kind, text: text, photo: photo)
+    }
 
     /// The first letter of `name`, uppercased; "?" for a name with no letter.
     static func monogram(for name: String) -> ProfileAvatar {
