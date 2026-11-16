@@ -176,9 +176,10 @@ struct SubstanceCardView: View, Equatable {
     }
 
     /// The tracked item for this card's substance, by resolved identity (the
-    /// card isn't salt-specific; the base form wins when several are tracked).
+    /// card isn't salt-specific; the base form wins when several are tracked):
+    /// this profile's own, else one another profile shares with it.
     private var inventoryItem: InventoryItem? {
-        InventoryService.find(substance: card.substanceName, preferringSalt: nil, among: inventoryItems)
+        SharedInventory.shared.displayItem(substance: card.substanceName, preferringSalt: nil, own: inventoryItems)
     }
 
     /// Passive stock hint (1B): a supply bar (only when a baseline is set) with
@@ -198,9 +199,13 @@ struct SubstanceCardView: View, Equatable {
         }
     }
 
+    /// "75 mg left", or "Bob's · 75 mg left" for stock another profile shares.
     private func stockHintText(_ item: InventoryItem) -> String {
-        if item.stockStatus == .out { return String(localized: "Out of stock") }
-        return String(localized: "\(item.currentQuantity.inventoryFormatted) \(item.unit) left")
+        let amount = item.stockStatus == .out
+            ? String(localized: "Out of stock")
+            : String(localized: "\(item.currentQuantity.inventoryFormatted) \(item.unit) left")
+        guard let owner = SharedInventory.shared.owner(of: item) else { return amount }
+        return "\(SharedOwnerTag.attribution(for: owner)) · \(amount)"
     }
 
     private func routeSection(_ group: SubstanceGroup) -> some View {

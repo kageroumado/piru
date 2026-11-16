@@ -45,3 +45,7 @@ Piru/Views/Components/ShareSheetPresenter.swift
 # App Intents (the Shortcuts actions); only PiruApp.swift names them. The `piru://quicklog`
 # prefill they share stays in the navigation and quick-log code, which Android compiles.
 Piru/Intents/*
+
+# Profile photos: PhotosPicker, Vision and ImageIO, none of which SkipUI has. The editor offers
+# Letters and Emoji on Android, and a restored photo draws its monogram.
+Piru/Views/Profiles/ProfilePhoto*.swift

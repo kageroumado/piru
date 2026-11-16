@@ -124,6 +124,13 @@ private struct SubstanceNamesSection: View {
 private struct ScreensSection: View {
     var body: some View {
         Section {
+            #if !os(Android)
+                NavigationLink {
+                    ProfilesSettingsView()
+                } label: {
+                    Label("Profiles", systemImage: "person.2")
+                }
+            #endif
             NavigationLink {
                 NotificationSettingsView()
             } label: {

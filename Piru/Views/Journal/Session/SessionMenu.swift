@@ -24,6 +24,7 @@ struct SessionMenu: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
     @Environment(\.sessionEditingService) private var editing
+    @Environment(\.profileDirectory) private var directory
     @AppStorage(SessionGraphDefaults.enlargedKey, store: UserDefaults(suiteName: SessionGraphDefaults.suite))
     private var timelineEnlarged = SessionGraphDefaults.enlargedDefault
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var stackRedoses = true
@@ -47,6 +48,13 @@ struct SessionMenu: View {
             }
             if hasOngoingDose || session.checkInIntervalMinutes != nil {
                 checkInMenu
+            }
+            if directory.hasMultipleProfiles {
+                Button {
+                    navigator.present(.addPeople(sessionID: session.id))
+                } label: {
+                    Label("Add People…", systemImage: "person.2")
+                }
             }
             if hasCurves {
                 Divider()

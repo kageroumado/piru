@@ -35,8 +35,15 @@ import WidgetKit
 /// shared with the Android host; this type adds what only Apple platforms have.
 @main
 struct PiruApp: App {
-    let container: ModelContainer
+    /// Whose journal is open, and its store. The root view reads the store from
+    /// here, so a profile switch rebuilds the tree on the new one.
+    private let profiles = ProfileDirectory.shared
     @Environment(\.scenePhase) private var scenePhase
+
+    /// The active profile's store, for the launch and lifecycle calls.
+    private var container: ModelContainer {
+        profiles.activeContainer
+    }
 
     init() {
         // Settings ▸ Language, before anything looks up a string.
@@ -60,12 +67,12 @@ struct PiruApp: App {
         LegacyHandoff.importIfSuccessor()
         Self.publishLegacyHandoff()
 
-        container = AppLaunch.openStore()
+        // Also binds every store-backed singleton (StoreBinding), among them
+        // the Log Dose action's container — App Intents launch the app before
+        // performing, so it is set before any `perform()` — and the Apple
+        // Watch sync, which always writes into the owner's journal.
+        AppLaunch.openStore()
         storeOpening.end()
-        // The Log Dose action saves with no view hierarchy; App Intents launch
-        // the app before performing, so this is set before any `perform()`.
-        DoseIntentLogger.modelContainer = container
-        AppLanguageModel.shared.modelContainer = container
 
         // Reads what this person owns and starts listening for purchases that
         // land outside a purchase call (Ask to Buy, refunds, another device).
@@ -75,13 +82,6 @@ struct PiruApp: App {
         // link). The center holds its delegate weakly — the shared instance
         // keeps it alive.
         UNUserNotificationCenter.current().delegate = DoseNotificationDelegate.shared
-
-        // Activate the Apple Watch sync: push the favorites/recents manifest to the wrist
-        // and receive watch-logged doses through the canonical insert path. No-op where
-        // WatchConnectivity is unsupported (iPad, Mac). See Specs/apple-watch-companion.md.
-        #if os(iOS)
-            PhoneSyncCoordinator.shared.configure(container: container)
-        #endif
 
         #if os(iOS)
             BGTaskScheduler.shared.register(
@@ -101,11 +101,13 @@ struct PiruApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SkinnedRoot {
-                if AppIdentity.isLegacy {
-                    AppMovedView()
-                } else {
-                    root
+            ProfileRoot {
+                SkinnedRoot {
+                    if AppIdentity.isLegacy {
+                        AppMovedView()
+                    } else {
+                        root
+                    }
                 }
             }
             #if DEBUG && os(iOS)
@@ -117,19 +119,19 @@ struct PiruApp: App {
                 await AppLaunch.finishLaunching(container: container, hooks: Self.launchHooks)
             }
         }
-        .modelContainer(container)
         #if os(macOS)
-            // Room for the sidebar, a journal column and the Log sheet over it.
-            .defaultSize(width: 1100, height: 760)
+        // Room for the sidebar, a journal column and the Log sheet over it.
+        .defaultSize(width: 1100, height: 760)
+        .commands { ProfileCommands(directory: profiles) }
         #endif
-            .onChange(of: scenePhase) { _, phase in
-                if phase == .active, !AppIdentity.isLegacy {
-                    AppLaunch.becameActive(container: container)
-                }
-                if phase == .background {
-                    enterBackground()
-                }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active, !AppIdentity.isLegacy {
+                AppLaunch.becameActive(container: container)
             }
+            if phase == .background {
+                enterBackground()
+            }
+        }
     }
 
     @ViewBuilder

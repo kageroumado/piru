@@ -28,41 +28,23 @@ enum AppLaunch {
 
     // MARK: - Before the first frame
 
-    /// Recover the canonical store, open it, and bind every store-backed
-    /// singleton to it. An open failure runs the app on an in-memory store and
-    /// flags ``StoreLaunchState``; see ``StoreRecovery/openContainer(at:)``.
+    /// Recover and open the active profile's store, and bind every
+    /// store-backed singleton to it. An open failure runs the app on an
+    /// in-memory store and flags ``StoreLaunchState``; see
+    /// ``StoreRecovery/openContainer(at:)``.
+    @discardableResult
     static func openStore() -> ModelContainer {
-        // Recover the canonical store BEFORE opening it: if it is empty/absent
-        // but a legacy or backed-up store holds the user's data, restore it
-        // (backing up the empty store first; never deleting). This covers the
-        // widget-creates-empty-store race. See StoreRecovery.
-        StoreRecovery.prepareCanonicalStore()
+        // The owner's store is recovered BEFORE it opens: if it is empty or
+        // absent but a legacy or backed-up store holds the user's data, that is
+        // restored (backing up the empty store first; never deleting). This
+        // covers the widget-creates-empty-store race. Another profile's store
+        // just opens. See ProfileDirectory and StoreRecovery.
+        let container = ProfileDirectory.shared.openActiveStore()
 
-        let container = StoreRecovery.openCanonicalContainer()
-
-        // Bind the user-profile store to the shared container before any view
-        // reads disclosure tier / body weight, and run the one-time migration of
-        // the legacy GRDB disclosure tier into SwiftData.
-        UserProfileStore.shared.configure(container: container)
-        // Bind the tolerance engine to the store and load its cached per-target snapshot. Recompute
-        // is driven by the dose log when a Stage-2 surface consumes it; configuring here exercises the
-        // additive `ToleranceState` schema and makes the cache available.
-        ToleranceStore.shared.configure(container: container)
-        // Bind the body-load engine and start its debounced background warm, so the
-        // Insights "in your body over time" graph opens on a filled cache.
-        BodyLevelsManager.shared.configure(container: container)
-        // Bind the custom-substance store to the container and run the one-time,
-        // verify-before-delete migration of the legacy App-Group UserDefaults blob
-        // into the store, so user-authored substances are backed up and recovered
-        // with the rest of the data. Before any view reads them.
-        CustomSubstanceStore.shared.configure(container: container)
-        // Load user-defined per-substance units (the "1 capsule = 30 mg" table) so
-        // the library façade can fold them into every substance's unit picker.
-        CustomUnitStore.shared.configure(container: container)
-        // Bind notification preferences to the store (seeding once from the
-        // legacy wellness/phase flags) and refresh the UserDefaults mirror the
-        // schedulers gate on — before any dose can be logged this launch.
-        NotificationPreferencesStore.shared.configure(container: container)
+        // Before any view reads the profile, the tolerance cache, custom
+        // substances and units, or the notification choices the schedulers
+        // gate on. Each binding's one-time migrations run here too.
+        StoreBinding.bindAll(to: container)
         // Point `Skin.current` at the observable store so the semantic-color
         // shorthands in Shared/ follow a skin change, not a UserDefaults snapshot.
         SkinStore.activate()
@@ -76,13 +58,27 @@ enum AppLaunch {
         }
 
         // Register every notification category once, here — not as a side
-        // effect of whichever type happens to schedule first. The container
-        // reference lets the Skip Today background action write occurrence
-        // state without a view hierarchy.
+        // effect of whichever type happens to schedule first.
         DoseNotificationManager.registerCategories()
-        DoseNotificationManager.modelContainer = container
 
         return container
+    }
+
+    /// A profile switch opened `container`: the passes a launch runs over a
+    /// store, for this one, since it may never have been opened in this
+    /// process (or ever). Every pass is idempotent or gated per profile.
+    static func profileOpened(container: ModelContainer) async {
+        LaunchPassGate.run("duplicateEntryIDs", container: container) {
+            StoreRecovery.backfillDuplicateEntryIDs(container: container)
+        }
+        SubstanceColorStore.refreshDefaults(in: container.mainContext)
+        await LaunchPassGate.runAsync("substanceColorMint", container: container) {
+            await SubstanceColorStore.mintMissingRows(
+                container: container, defaults: SubstanceColorStore.backgroundDefaults,
+            )
+        }
+        runStorePasses(container: container)
+        await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
     }
 
     // MARK: - After the first frame
@@ -132,6 +128,9 @@ enum AppLaunch {
         // one-shots over a few days) and drop today's re-asks for routines
         // already logged.
         await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
+        await syncOtherProfilesReminders()
+        // Shared items' stock follows every profile's dose log from here on.
+        SharedInventory.shared.start()
         hooks.passesFinished()
         #if DEBUG
             runDebugFixtures(container: container)
@@ -272,6 +271,23 @@ enum AppLaunch {
         Task(name: "Sync med reminders") {
             await SubstanceStore.shared.ensureAllLoaded()
             await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
+            await syncOtherProfilesReminders()
+            await SharedInventory.shared.refresh()
+        }
+    }
+
+    /// Roll every other profile's med reminders forward too, each in its own
+    /// store and under its own identifiers, so a person's reminders keep
+    /// firing while someone else's journal is open.
+    static func syncOtherProfilesReminders(directory: ProfileDirectory = .shared) async {
+        guard directory.hasMultipleProfiles else { return }
+        for profile in directory.profiles where profile.id != directory.activeProfileID {
+            // A journal nobody has opened holds no meds; leave its file uncreated.
+            guard FileManager.default.fileExists(atPath: directory.storeURL(for: profile).path),
+                  let container = directory.container(for: profile.id, writable: true) else { continue }
+            await ProfileScope.$pinned.withValue(profile.id) {
+                await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
+            }
         }
     }
 

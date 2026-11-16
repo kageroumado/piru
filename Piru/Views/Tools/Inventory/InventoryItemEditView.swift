@@ -12,19 +12,14 @@ struct InventoryItemEditHost: View {
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
-        if let item = resolve() {
+        if let item = SharedInventory.shared.item(id: itemID, in: modelContext) {
+            // A shared-in item is edited in its owner's store.
             InventoryItemEditView(item: item)
+                .environment(\.modelContext, item.modelContext ?? modelContext)
         } else {
             // Item vanished (deleted elsewhere) — close rather than show a blank.
             Color.clear.onAppear { navigator.dismiss() }
         }
-    }
-
-    private func resolve() -> InventoryItem? {
-        let id = itemID
-        var descriptor = FetchDescriptor<InventoryItem>(predicate: #Predicate { $0.id == id })
-        descriptor.fetchLimit = 1
-        return try? modelContext.fetch(descriptor).first
     }
 }
 
@@ -40,12 +35,14 @@ struct InventoryItemEditView: View {
 
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.profileDirectory) private var directory
 
     @State private var unit: String
     @State private var onHand: Double
     @State private var baseline: Double
     @State private var doseSize: Double
     @State private var threshold: Double
+    @State private var sharedWith: Set<UUID>
 
     private static let unitOptions = ["µg", "mg", "g", "mL", "caps", "tabs", "drops"]
 
@@ -72,6 +69,15 @@ struct InventoryItemEditView: View {
         _baseline = State(initialValue: item.baselineQuantity ?? 0)
         _doseSize = State(initialValue: item.doseSize ?? 0)
         _threshold = State(initialValue: item.lowStockThreshold ?? 0)
+        _sharedWith = State(initialValue: Set(item.sharedWith))
+    }
+
+    /// The profiles the owner can share this item with: everyone else, once
+    /// there is anyone. Empty for a shared-in item, whose sharing is its
+    /// owner's to change.
+    private var shareCandidates: [PiruProfile] {
+        guard directory.hasMultipleProfiles, SharedInventory.shared.owner(of: item) == nil else { return [] }
+        return directory.profiles.filter { $0.id != directory.activeProfileID }
     }
 
     var body: some View {
@@ -119,6 +125,11 @@ struct InventoryItemEditView: View {
                     Text("Your remaining amount stands out once it drops below this. Set to 0 to disable.")
                 }
                 .listRowBackground(CardBackground())
+
+                let candidates = shareCandidates
+                if !candidates.isEmpty {
+                    InventorySharingSection(others: candidates, selection: $sharedWith)
+                }
             }
             .scrollDismissesKeyboard(.interactively)
             .themedPage()
@@ -140,24 +151,32 @@ struct InventoryItemEditView: View {
     // MARK: - Commit
 
     private func commit() {
-        // Unit first: converts manual events + any stored derived fields so the
-        // replay stays consistent. The user's typed scalar values below are
-        // already expressed in the (new) unit shown on screen, so they overwrite.
-        if unit != item.unit {
-            InventoryService.changeUnit(item, to: unit, in: modelContext)
+        SharedInventory.write(to: item) {
+            // Unit first: converts manual events + any stored derived fields so the
+            // replay stays consistent. The user's typed scalar values below are
+            // already expressed in the (new) unit shown on screen, so they overwrite.
+            if unit != item.unit {
+                InventoryService.changeUnit(item, to: unit, in: modelContext)
+            }
+
+            // Only log a correction when the on-hand figure actually moved.
+            let current = InventoryMath.quantity(for: item, in: modelContext)
+            if abs(onHand - current) > 0.0001 {
+                InventoryService.correctTo(item, exact: onHand, note: nil, in: modelContext)
+            }
+
+            InventoryService.setBaseline(item, value: baseline, in: modelContext)
+            InventoryService.setDoseSize(item, value: doseSize)
+            item.lowStockThreshold = threshold > 0 ? threshold : nil
+
+            InventoryService.recompute(item, in: modelContext)
         }
-
-        // Only log a correction when the on-hand figure actually moved.
-        let current = InventoryMath.quantity(for: item, in: modelContext)
-        if abs(onHand - current) > 0.0001 {
-            InventoryService.correctTo(item, exact: onHand, note: nil, in: modelContext)
+        if !shareCandidates.isEmpty, sharedWith != Set(item.sharedWith) {
+            let item = item, sharedWith = Array(sharedWith)
+            Task(name: "Share inventory item") {
+                await SharedInventory.shared.setSharing(item, with: sharedWith)
+            }
         }
-
-        InventoryService.setBaseline(item, value: baseline, in: modelContext)
-        InventoryService.setDoseSize(item, value: doseSize)
-        item.lowStockThreshold = threshold > 0 ? threshold : nil
-
-        InventoryService.recompute(item, in: modelContext)
         WidgetCenter.shared.reloadAllTimelines()
         navigator.dismiss()
     }

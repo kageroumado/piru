@@ -152,7 +152,11 @@ struct TimelineStripDayContent: View {
     private func bubbleColumn(width: CGFloat) -> some View {
         ZStack(alignment: .topLeading) {
             ForEach(day.envelopes) { envelope in
-                SessionEnvelopeButton(hiddenDoseCount: envelope.hiddenDoseCount, isSelected: selectedRecord == .session(id: envelope.id)) { onSessionTap(envelope.id) }
+                SessionEnvelopeButton(
+                    sessionID: envelope.id,
+                    hiddenDoseCount: envelope.hiddenDoseCount,
+                    isSelected: selectedRecord == .session(id: envelope.id),
+                ) { onSessionTap(envelope.id) }
                     .frame(width: width, height: envelope.yEnd - envelope.yStart)
                     .offset(y: envelope.yStart)
             }
@@ -168,6 +172,7 @@ struct TimelineStripDayContent: View {
                                     item: item,
                                     style: day.style.bubbleStyle,
                                     pkMode: day.style.pkMode,
+                                    sharedSessionID: group.sessionOpenedByBubble,
                                 ) {
                                     if let sessionID = group.sessionOpenedByBubble {
                                         onSessionTap(sessionID)
@@ -596,6 +601,8 @@ struct TimelineStripDayContent: View {
 /// Material rather than glass: the bubbles are glass already, and glass
 /// stacked on glass smears.
 struct SessionEnvelopeButton: View {
+    /// The session it opens; its footer marks who else was in it.
+    var sessionID: UUID?
     var hiddenDoseCount = 0
     var isSelected = false
     let onTap: () -> Void
@@ -656,6 +663,9 @@ struct SessionEnvelopeButton: View {
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                         Spacer(minLength: 0)
+                        if let sessionID {
+                            SharedSessionMark(sessionID: sessionID, diameter: 16)
+                        }
                         Text("Session")
                             .font(.caption.weight(.medium))
                             .foregroundStyle(Theme.secondaryLabel)

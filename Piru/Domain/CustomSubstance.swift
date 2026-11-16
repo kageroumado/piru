@@ -322,6 +322,19 @@ final class CustomSubstanceStore {
         reload()
     }
 
+    /// A store over a profile's journal other than the open one, for a backup
+    /// that reads or restores every profile. Its mirror is a defaults suite of
+    /// its own: the widgets' display-name mirror and the legacy blob belong to
+    /// the open journal, and this one must neither write the first nor
+    /// migrate the second.
+    static func inactiveProfile(container: ModelContainer) -> CustomSubstanceStore {
+        let store = CustomSubstanceStore(mirrorDefaults: UserDefaults(suiteName: "piru.inactiveProfile") ?? .standard)
+        store.heldContainer = container
+        store.context = container.mainContext
+        store.reload()
+        return store
+    }
+
     /// Test-only factory bound to an explicit (usually in-memory) context. The
     /// mirror/migration defaults default to a throwaway suite so tests never
     /// touch the real App Group; migration tests pass an explicit one carrying a

@@ -1,6 +1,21 @@
 import Foundation
 import SwiftData
 
+// MARK: - Routable identity
+
+/// The facets form routing reads from an item: an ``InventoryItem`` in its
+/// own store, or a snapshot of one read from another profile's
+/// (``SharedInventory``). One routing rule serves both.
+protocol InventoryRoutable {
+    var id: UUID { get }
+    var isomer: String? { get }
+    var productName: String? { get }
+    var trackingStart: Date { get }
+    var createdAt: Date { get }
+}
+
+extension InventoryItem: InventoryRoutable {}
+
 // MARK: - InventoryMath (pure derivation)
 
 /// The read side of inventory: turns an ``InventoryItem``'s embedded manual
@@ -53,7 +68,7 @@ enum InventoryMath {
     /// How narrowly an item names its stock: a product (2) outranks an isomer
     /// (1), which outranks the plain item (0). A product is the user's own word
     /// for what is in the box, so it is the most specific claim.
-    static func specificity(of item: InventoryItem) -> Int {
+    static func specificity(of item: some InventoryRoutable) -> Int {
         if InventoryItem.facet(item.productName) != nil { return 2 }
         if InventoryItem.facet(item.isomer) != nil { return 1 }
         return 0
@@ -63,7 +78,7 @@ enum InventoryMath {
     /// given the substance and salt already agree: a named product must equal
     /// the dose's (case-insensitive), a named isomer must equal the dose's, and
     /// a facet the item leaves unset admits anything.
-    static func admits(_ item: InventoryItem, isomer: String?, productName: String?) -> Bool {
+    static func admits(_ item: some InventoryRoutable, isomer: String?, productName: String?) -> Bool {
         if let product = InventoryItem.facet(item.productName) {
             guard let logged = InventoryItem.facet(productName),
                   logged.caseInsensitiveCompare(product) == .orderedSame
@@ -87,7 +102,9 @@ enum InventoryMath {
 
     /// ``owner(of:among:)`` for a dose described by its facets — the item a
     /// dose of this form taken at `date` would deduct from.
-    static func owner(isomer: String?, productName: String?, at date: Date, among siblings: [InventoryItem]) -> InventoryItem? {
+    static func owner<Item: InventoryRoutable>(
+        isomer: String?, productName: String?, at date: Date, among siblings: [Item],
+    ) -> Item? {
         siblings
             .filter { date >= $0.trackingStart && admits($0, isomer: isomer, productName: productName) }
             .max { lhs, rhs in
@@ -131,7 +148,10 @@ enum InventoryMath {
     /// (strict, `nil == nil`), on or after `trackingStart`, minus the doses a
     /// more specific sibling item claims. Single-item composition of the batch
     /// helpers above, so the semantics cannot drift between the two paths.
+    /// Reads the item's own store when it has one, so an item shared from
+    /// another profile never counts the active journal's doses as its owner's.
     static func doses(for item: InventoryItem, in ctx: ModelContext) -> [DoseEntry] {
+        let ctx = item.modelContext ?? ctx
         let key = matchKey(for: item.substance)
         let siblings = ((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
             .filter { $0.saltForm == item.saltForm && matchKey(for: $0.substance) == key }
@@ -181,6 +201,14 @@ enum InventoryMath {
         let timestamp: Date
     }
 
+    /// Every dose that draws `item` down, as snapshots: the ones in its own
+    /// store (``doses(for:in:)``) and, for a shared item, the ones its other
+    /// profiles logged (``SharedInventory/foreignDoses(for:)``).
+    static func consumption(for item: InventoryItem, in ctx: ModelContext) -> [DoseSnapshot] {
+        doses(for: item, in: ctx).map { DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
+            + SharedInventory.foreignDoses(for: item).map(\.snapshot)
+    }
+
     /// Stock = replay(manual events ∪ converted doses), floored at 0 on the way
     /// down. Restocks/initial add; adjustments and consumption floor at 0 so an
     /// overdraw is forgiven (30 − log 50 → 0; a later +100 → 100).
@@ -189,9 +217,7 @@ enum InventoryMath {
             unit: item.unit,
             unitStrengthMG: item.unitStrengthMG,
             events: item.manualEvents,
-            doses: doses(for: item, in: ctx).map {
-                DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
-            },
+            doses: consumption(for: item, in: ctx),
         )
     }
 
@@ -284,7 +310,7 @@ enum InventoryMath {
     static func runOut(for item: InventoryItem, in ctx: ModelContext, now: Date = .now) -> RunOut? {
         let calendar = Calendar.current
         guard let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) else { return nil }
-        let recent = doses(for: item, in: ctx).filter { $0.timestamp >= weekAgo && $0.timestamp <= now }
+        let recent = consumption(for: item, in: ctx).filter { $0.timestamp >= weekAgo && $0.timestamp <= now }
         let boundaryHour = Calendar.sessionDayBoundaryHour
         let daysWithADose = Set(recent.map { calendar.journalDay(for: $0.timestamp, boundaryHour: boundaryHour) }).count
         guard daysWithADose >= 5 else { return nil }
@@ -630,12 +656,14 @@ enum InventoryService {
     /// work on the commit path. The shared dose fetch is bounded over the
     /// affected subset only, and for the affected items the result is identical
     /// to ``recomputeAll(in:notify:)`` by construction (same batch core).
-    static func recompute(forSubstances names: Set<String>, in ctx: ModelContext, notify: Bool = true) {
-        guard !names.isEmpty else { return }
+    /// Returns the ids of the items whose low-stock alert fired.
+    @discardableResult
+    static func recompute(forSubstances names: Set<String>, in ctx: ModelContext, notify: Bool = true) -> [UUID] {
+        guard !names.isEmpty else { return [] }
         let keys = Set(names.map { InventoryMath.matchKey(for: $0) })
         let items = ((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
             .filter { keys.contains(InventoryMath.matchKey(for: $0.substance)) }
-        recomputeBatch(items, in: ctx, notify: notify)
+        return recomputeBatch(items, in: ctx, notify: notify)
     }
 
     /// The batch core the two synchronous recompute entry points share: ONE
@@ -644,10 +672,13 @@ enum InventoryService {
     /// ``InventoryMath/assignedDoses(for:in:)``, then each item replayed over
     /// its own doses. An empty batch fetches nothing. Per-item results match
     /// ``recompute(_:in:notify:)`` exactly — both paths route through the same
-    /// implementation.
-    private static func recomputeBatch(_ items: [InventoryItem], in ctx: ModelContext, notify: Bool) {
-        guard let earliest = items.map(\.trackingStart).min() else { return }
+    /// implementation. Every item must live in `ctx`'s store. Returns the ids
+    /// of the items whose low-stock alert fired.
+    @discardableResult
+    private static func recomputeBatch(_ items: [InventoryItem], in ctx: ModelContext, notify: Bool) -> [UUID] {
+        guard let earliest = items.map(\.trackingStart).min() else { return [] }
         let assigned = InventoryMath.assignedDoses(for: items, in: InventoryMath.dosesByMatchKey(since: earliest, in: ctx))
+        var fired: [UUID] = []
         for item in items {
             item.currentQuantity = InventoryMath.replayQuantity(
                 unit: item.unit,
@@ -655,10 +686,11 @@ enum InventoryService {
                 events: item.manualEvents,
                 doses: (assigned[ObjectIdentifier(item)] ?? []).map {
                     InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
-                },
+                } + SharedInventory.foreignDoses(for: item).map(\.snapshot),
             )
-            evaluateLowStock(item, notify: notify)
+            if evaluateLowStock(item, notify: notify) { fired.append(item.id) }
         }
+        return fired
     }
 
     /// The scoped recompute used by the deferred log-path bookkeeping. The
@@ -682,7 +714,7 @@ enum InventoryService {
         let snapshots: [(unit: String, strength: Double?, events: [ManualEvent], doses: [InventoryMath.DoseSnapshot])] = affected.map { item in
             let doses = (assigned[ObjectIdentifier(item)] ?? []).map {
                 InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
-            }
+            } + SharedInventory.foreignDoses(for: item).map(\.snapshot)
             return (item.unit, item.unitStrengthMG, item.manualEvents, doses)
         }
 
@@ -708,22 +740,29 @@ enum InventoryService {
 
     /// Fire the low-stock alert at most once per dip, and reset the de-dupe flag
     /// once stock rises back above the threshold so a later dip re-fires.
+    /// Returns whether it fired.
     ///
     /// The flag is set whenever the item is at/below threshold regardless of
     /// `notify`, so a silent import acknowledges the low state (the in-app Low
     /// badge still shows) without re-notifying on the next foreground recompute.
-    private static func evaluateLowStock(_ item: InventoryItem, notify: Bool) {
+    ///
+    /// The alert belongs to the profile whose store holds the item, whoever's
+    /// dose crossed the threshold, so a shared item warns its owner.
+    @discardableResult
+    private static func evaluateLowStock(_ item: InventoryItem, notify: Bool) -> Bool {
         guard let threshold = item.lowStockThreshold, threshold > 0 else {
             item.lowStockNotified = false
-            return
+            return false
         }
         if item.currentQuantity > threshold {
             item.lowStockNotified = false
-            return
+            return false
         }
-        guard !item.lowStockNotified else { return }
+        guard !item.lowStockNotified else { return false }
         item.lowStockNotified = true
-        if notify {
+        guard notify else { return false }
+        let profile = SharedInventory.profileID(owningStoreOf: item) ?? ProfileScope.currentID
+        ProfileScope.$pinned.withValue(profile) {
             DoseNotificationManager.inventoryLowStock(
                 substance: item.isPlain ? item.substance : item.displayTitle,
                 remaining: item.currentQuantity,
@@ -732,6 +771,7 @@ enum InventoryService {
                 itemID: item.id,
             )
         }
+        return true
     }
 
     /// The `sortOrder` for a freshly tracked item. `0` while the list is still

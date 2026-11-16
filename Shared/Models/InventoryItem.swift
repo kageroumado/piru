@@ -124,6 +124,17 @@ final class InventoryItem {
     /// the manager falls back to the status-based auto-sort (out → low → recent).
     var sortOrder: Int = 0
 
+    /// JSON-encoded backing storage for ``sharedWith``. Prefer the accessor.
+    var sharedWithData: Data = Data()
+
+    /// Other profiles that draw from this item. The item lives in its owner's
+    /// store; doses from these profiles that match its identity count against
+    /// its stock too.
+    var sharedWith: [UUID] {
+        get { (try? JSONDecoder().decode([UUID].self, from: sharedWithData)) ?? [] }
+        set { sharedWithData = newValue.isEmpty ? Data() : (try? JSONEncoder().encode(Array(Set(newValue)).sorted { $0.uuidString < $1.uuidString })) ?? Data() }
+    }
+
     /// The manual side of the ledger, decoded from ``restocksData``.
     ///
     /// Backed by a `Data` column (JSON) for the same reason

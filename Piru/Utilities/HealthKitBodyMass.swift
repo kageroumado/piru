@@ -38,9 +38,10 @@ final class HealthKitBodyMass {
     /// Last sync outcome, for the Settings UI. Nil until the user tries.
     private(set) var lastResult: SyncResult?
 
-    /// Whether HealthKit exists on this device at all (false on a device without Health, e.g. iPad).
+    /// Whether HealthKit exists on this device at all (false on a device without Health, e.g. iPad),
+    /// and the open journal is the device owner's: Health's body mass is the owner's.
     var isAvailable: Bool {
-        HKHealthStore.isHealthDataAvailable()
+        HKHealthStore.isHealthDataAvailable() && ProfileScope.isOwner
     }
 
     private init() {}

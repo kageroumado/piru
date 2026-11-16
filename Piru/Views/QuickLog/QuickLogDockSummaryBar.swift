@@ -9,6 +9,8 @@ struct DockSummaryBar: View {
     let onExpand: () -> Void
     let onCommit: () -> Void
 
+    @Environment(\.profileDirectory) private var directory
+
     private static let maxDots = 4
 
     var body: some View {
@@ -40,11 +42,18 @@ struct DockSummaryBar: View {
             .accessibilityHint(Text("Shows the staged doses"))
 
             Button(action: onCommit) {
-                Text("Record")
-                    .font(.subheadline.weight(.semibold))
-                    .padding(.horizontal, Spacing.xxl)
-                    .frame(maxHeight: .infinity)
-                    .skinProminentFill(in: skinChipShape())
+                HStack(spacing: Spacing.sm) {
+                    // The For chip's pick, so the collapsed bar can't commit
+                    // into someone else's journal unseen.
+                    if let recipient = tray.recipientID.flatMap(directory.profile(id:)) {
+                        ProfileAvatarView(recipient, diameter: 18)
+                    }
+                    Text("Record")
+                }
+                .font(.subheadline.weight(.semibold))
+                .padding(.horizontal, Spacing.xxl)
+                .frame(maxHeight: .infinity)
+                .skinProminentFill(in: skinChipShape())
             }
             .buttonStyle(.plain)
             .padding(5)

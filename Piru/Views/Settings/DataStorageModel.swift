@@ -103,10 +103,28 @@ final class DataStorageModel {
             )
         case let .locked(backup):
             return backup
+        case let .needsPeople(pending):
+            PsyLogImportRequest.present(pending) { [weak self] outcome in
+                self?.finishPeopleImport(outcome)
+            }
         case let .failed(message):
             notice = Notice(title: String(localized: "Import Failed"), message: message)
         }
         return nil
+    }
+
+    private func finishPeopleImport(_ outcome: PsyLogImportRequest.Outcome) {
+        switch outcome {
+        case .imported:
+            notice = Notice(
+                title: String(localized: "Import Complete"),
+                message: String(localized: "Your data was imported."),
+            )
+        case .cancelled:
+            break
+        case let .failed(message):
+            notice = Notice(title: String(localized: "Import Failed"), message: message)
+        }
     }
 
     // MARK: - Encrypted export

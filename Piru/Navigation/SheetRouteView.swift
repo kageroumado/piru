@@ -30,6 +30,12 @@ struct SheetRouteView: View {
             // SettingsView owns its own xmark toolbar item.
             NavigationStack { SettingsView() }
 
+        case .profiles:
+            NavigationStack {
+                ProfilesSettingsView()
+                    .withCancellationCloseButton()
+            }
+
         case .skins:
             SkinsSheet()
 
@@ -51,6 +57,19 @@ struct SheetRouteView: View {
 
         case let .checkInSchedule(sessionID):
             CheckInScheduleHost(sessionID: sessionID)
+
+        case let .sharedSessionPeek(experienceID, profileID):
+            NavigationStack {
+                SharedSessionPeekView(experienceID: experienceID, profileID: profileID)
+                    .withCancellationCloseButton()
+            }
+
+        case let .addPeople(sessionID):
+            NavigationStack {
+                AddPeopleView(sessionID: sessionID)
+                    .withCancellationCloseButton()
+            }
+            .presentationDetents([.medium, .large])
 
         case let .entryDetail(timestamp, id):
             EntryLookupView(id: id, timestamp: timestamp) { entry in
@@ -84,6 +103,9 @@ struct SheetRouteView: View {
 
         case .spreadsheetImport:
             SpreadsheetImportSheet()
+
+        case .psyLogImport:
+            PsyLogImportSheet()
 
         case .advancedSearch:
             NavigationStack {

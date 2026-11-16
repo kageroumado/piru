@@ -181,6 +181,10 @@ struct SessionDetailView: View {
                         description: Text("No substances logged in this session."),
                     )
                 } else {
+                    if let experienceID = session.sharedExperienceID {
+                        SharedSessionHeader(experienceID: experienceID, participants: model.sharedParticipants)
+                    }
+
                     // Timeline graph — only when at least one dose draws a curve.
                     // A day of nothing but markers (long-acting meds, duration-less
                     // doses) would render an empty axis, so we drop the whole
@@ -236,6 +240,11 @@ struct SessionDetailView: View {
                         sessionID: session.id, isRecentDay: isRecentDay,
                     )
 
+                    // Who else was here: their doses and curves, never in yours.
+                    if let experienceID = session.sharedExperienceID {
+                        SharedSessionSection(experienceID: experienceID, participants: model.sharedParticipants)
+                    }
+
                     // In Your Body — per-substance session totals merged with the
                     // live elimination model (what's still circulating, clearance
                     // projections, the curve on tap). Replaces the bare cumulative
@@ -284,6 +293,9 @@ struct SessionDetailView: View {
         #endif
             .skinBackdrop()
             .readableWidth()
+            .task(id: session.sharedExperienceID) {
+                await model.followSharedExperience(session.sharedExperienceID)
+            }
             .task(id: colorSignature) {
                 model.loadColorMap(colors: substanceColors)
             }

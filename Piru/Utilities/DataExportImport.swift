@@ -24,6 +24,9 @@ enum ExportFormat: Equatable {
     /// PsychonautWiki's modern interchange format — importable by PW, but lossy
     /// for Piru-only fields.
     case psyLog
+    /// The PsychonautWiki format holding every profile's journal: the active
+    /// profile's doses unnamed, everyone else's under their name.
+    case psyLogEveryone
     /// The journal as one CSV row per dose, in the layout
     /// ``DataExportImport/spreadsheetColumns`` names, which the spreadsheet
     /// importer reads back.
@@ -52,6 +55,7 @@ enum DataExportImport {
         switch format {
         case .piru: try encodeJSON(makePiruFile(context: context, customStore: customStore, settings: settings))
         case .psyLog: try encodeJSON(makePsyLogFile(context: context))
+        case .psyLogEveryone: try encodeJSON(makePsyLogFile(people: everyone(activeContext: context)))
         case .spreadsheet: try spreadsheetCSV(context: context)
         }
     }
@@ -71,6 +75,9 @@ enum DataExportImport {
             return try await Task.detached(priority: .userInitiated) { try encodeJSON(file) }.value
         case .psyLog:
             let file = try makePsyLogFile(context: context)
+            return try await Task.detached(priority: .userInitiated) { try encodeJSON(file) }.value
+        case .psyLogEveryone:
+            let file = try makePsyLogFile(people: everyone(activeContext: context))
             return try await Task.detached(priority: .userInitiated) { try encodeJSON(file) }.value
         case .spreadsheet:
             return try spreadsheetCSV(context: context)
@@ -153,6 +160,11 @@ enum DataExportImport {
     /// the alert can say which app wrote it. `mode` is `.replace` only when the
     /// caller has just emptied the store for this import. Saves the context and
     /// emits the dose-log change tick itself, so a caller adds neither.
+    ///
+    /// `psyLogRouting` sends a PsychonautWiki file's named people to their
+    /// profiles' stores (``PsyLogImportMapping``); without it only the file
+    /// owner's doses import. Each store written into is finished and committed
+    /// under its own profile's scope.
     @MainActor
     static func importJSON(
         data: Data,
@@ -160,8 +172,10 @@ enum DataExportImport {
         customStore: CustomSubstanceStore = .shared,
         mode: ImportMode = .merge,
         settings: SettingsScope = .live,
+        psyLogRouting: PsyLogRouting? = nil,
     ) throws {
         var fileSettings: PiruSettingsData?
+        var otherStores: [PsyLogImportedStore] = []
         switch try classify(data) {
         case let .piruNative(appVersion):
             do {
@@ -170,7 +184,7 @@ enum DataExportImport {
                 throw ImportFileError.malformedNative(appVersion: appVersion, underlying: error)
             }
         case .psyLog:
-            try importPsyLog(data: data, context: context, customStore: customStore)
+            otherStores = try importPsyLog(data: data, context: context, customStore: customStore, routing: psyLogRouting)
         case .drugsPro:
             try importDrugsPro(data: data, context: context)
         case .legacy:
@@ -189,6 +203,14 @@ enum DataExportImport {
         }
 
         try commitImport(context: context)
+
+        for store in otherStores {
+            try ProfileScope.$pinned.withValue(store.profile) {
+                resolveImportedDoses(in: store.context)
+                SubstanceColorStore.mintMissingRows(in: store.context)
+                try commitImport(context: store.context)
+            }
+        }
     }
 
     /// Clusters session-less imported doses into sessions and resolves the PSID

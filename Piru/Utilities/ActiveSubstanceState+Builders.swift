@@ -74,7 +74,10 @@ extension ActiveSubstanceState {
     /// counterpart: ``DoseEntry/isBackgroundMed`` lets the user mute a dose that
     /// *does* have a curve (a daily-med amphetamine), filtered in
     /// ``TimelineWindowModel``.
-    static func from(entry: DoseEntry, tint: P3Color) -> ActiveSubstanceState? {
+    ///
+    /// `weightKg` is the body weight of the person who took the dose; `nil`
+    /// reads the active profile's.
+    static func from(entry: DoseEntry, tint: P3Color, weightKg: Double? = nil) -> ActiveSubstanceState? {
         // A dose of unknown amount has no intensity to draw; it lands as a
         // timestamp marker. This one guard is what keeps it out of Active Now,
         // the Live Activity, the timeline curves, and the session effect models.
@@ -107,7 +110,7 @@ extension ActiveSubstanceState {
         let intensity = Self.computeDoseIntensity(dose: dose, ladder: ladder)
         let magnitude = Self.computeDoseMagnitude(dose: dose, ladder: ladder)
         let isUnscaled = Self.heavyFraction(of: dose, on: ladder) == nil
-        let weightKg = UserProfileStore.shared.effectiveWeightKg
+        let weightKg = weightKg ?? UserProfileStore.shared.effectiveWeightKg
         // Prefer the product envelope; else the form actually logged — a D-isomer
         // dose must not be drawn with the racemic curve the detail card wouldn't show.
         if let duration = entry.applyingMeal(to: productDuration ?? substance.timelineDuration(
@@ -153,11 +156,22 @@ extension ActiveSubstanceState {
         colors: [SubstanceColor],
     ) -> (states: [ActiveSubstanceState], markers: [DoseMarker]) {
         let tintMap = colors.tintMap
+        return timeline(for: entries) { SubstancePalette.tint(for: $0.substance, tintMap: tintMap) }
+    }
+
+    /// ``timeline(for:colors:)`` with each dose's tint chosen by `tint`, for
+    /// `weightKg`'s body (`nil`: the active profile's). A shared session draws
+    /// another person's doses this way, in their colors and on their weight.
+    static func timeline(
+        for entries: [DoseEntry],
+        weightKg: Double? = nil,
+        tint: (DoseEntry) -> P3Color,
+    ) -> (states: [ActiveSubstanceState], markers: [DoseMarker]) {
         var states: [ActiveSubstanceState] = []
         var markers: [DoseMarker] = []
         for entry in entries {
-            let tint = SubstancePalette.tint(for: entry.substance, tintMap: tintMap)
-            if let state = from(entry: entry, tint: tint) {
+            let tint = tint(entry)
+            if let state = from(entry: entry, tint: tint, weightKg: weightKg) {
                 states.append(state)
                 continue
             }

@@ -75,7 +75,7 @@ nonisolated struct PiruCustomSubstanceData: Codable {
 /// favorites, picked colors, and daily-dose schedules. Detected on import by
 /// the `piruExportVersion` key. Timestamps are epoch milliseconds, matching the
 /// PsyLog format's convention.
-nonisolated struct PiruFile: Codable {
+nonisolated struct PiruFile: Codable, Sendable {
     var piruExportVersion: Int
     /// The app version that produced the file, e.g. "Piru 1.4 (212)".
     var appVersion: String
@@ -104,6 +104,11 @@ nonisolated struct PiruFile: Codable {
     var notificationPreferences: PiruNotificationPreferencesData?
     /// App preferences kept outside the store — see ``ExportedSettings``.
     var settings: PiruSettingsData?
+    /// In a backup made with more than one profile: who they are, and every
+    /// journal but the owner's, whose journal is this file's own top level
+    /// (so a build without profiles restores the owner's). See
+    /// ``PiruProfilesSection``.
+    var profiles: PiruProfilesSection?
 }
 
 extension PiruFile {
@@ -131,6 +136,7 @@ extension PiruFile {
         profile = try c.decodeIfPresent(PiruProfileData.self, forKey: .profile)
         notificationPreferences = try c.decodeIfPresent(PiruNotificationPreferencesData.self, forKey: .notificationPreferences)
         settings = try c.decodeIfPresent(PiruSettingsData.self, forKey: .settings)
+        profiles = try c.decodeIfPresent(PiruProfilesSection.self, forKey: .profiles)
     }
 }
 
@@ -153,6 +159,10 @@ nonisolated struct PiruSessionData: Codable {
     /// Whether the times follow the doses (``Session/checkInFollowsDoses``);
     /// optional for the same reason.
     var checkInFollowsDoses: Bool?
+    /// The shared experience this session is part of across profiles
+    /// (``Session/sharedExperienceID``); absent for a session only this
+    /// profile had, and in files written before profiles.
+    var sharedExperienceID: UUID?
 }
 
 /// Wire shape of one ``SessionNote``. `kind` is the raw `SessionNote.Kind`;
@@ -323,6 +333,9 @@ nonisolated struct PiruInventoryData: Codable {
     var unitStrengthMG: Double?
     var createdAt: Int64
     var manualEvents: [PiruManualEventData]
+    /// The other profiles that draw from this item; absent when it is shared
+    /// with nobody, and in files written before profiles.
+    var sharedWith: [UUID]?
 }
 
 nonisolated struct PiruManualEventData: Codable {
@@ -392,6 +405,7 @@ extension DataExportImport {
                 checkInOffsetMinutes: session.checkInOffsetMinutes,
                 checkInOffered: session.checkInOffered,
                 checkInFollowsDoses: session.checkInFollowsDoses,
+                sharedExperienceID: session.sharedExperienceID,
             )
         }
         let orphans = allEntries
@@ -459,6 +473,7 @@ extension DataExportImport {
                             setsBaseline: event.setsBaseline,
                         )
                     },
+                    sharedWith: item.sharedWith.isEmpty ? nil : item.sharedWith,
                 )
             },
             labMeasurements: records.labMeasurements,
@@ -584,6 +599,9 @@ extension DataExportImport {
                 session.checkInOffsetMinutes = offsets
             }
             if sessionData.checkInOffered == true { session.checkInOffered = true }
+            if session.sharedExperienceID == nil {
+                session.sharedExperienceID = sessionData.sharedExperienceID
+            }
         }
 
         // Session-less doses (defensive) are left unassigned; importJSON's
@@ -668,6 +686,7 @@ extension DataExportImport {
                     if item.baselineQuantity == nil { item.baselineQuantity = inv.baselineQuantity }
                     if item.doseSize == nil { item.doseSize = inv.doseSize }
                     if item.unitStrengthMG == nil, item.unit == inv.unit { item.unitStrengthMG = inv.unitStrengthMG }
+                    if let sharedWith = inv.sharedWith { item.sharedWith += sharedWith }
                 } else {
                     let id = inv.id.flatMap { takenIDs.contains($0) ? nil : $0 } ?? UUID()
                     takenIDs.insert(id)
@@ -688,6 +707,7 @@ extension DataExportImport {
                         createdAt: Date(ms: inv.createdAt),
                         sortOrder: inv.sortOrder ?? 0,
                     )
+                    item.sharedWith = inv.sharedWith ?? []
                     context.insert(item)
                     existingItems.append(item)
                 }

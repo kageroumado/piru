@@ -45,6 +45,23 @@ final class ActiveSessionManager {
         }
     }
 
+    /// The session the newest still-running dose belongs to, read from
+    /// `context` (the active profile's store), or `nil` with nothing running.
+    func liveSession(in context: ModelContext) -> Session? {
+        let now = Date.now
+        let running = activeEntries.filter { item in
+            guard let duration = item.duration else { return false }
+            return now <= item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
+        }
+        let ids = running.sorted { $0.snapshot.timestamp > $1.snapshot.timestamp }.compactMap(\.snapshot.id)
+        guard !ids.isEmpty else { return nil }
+        let descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { ids.contains($0.id) },
+            sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
+        )
+        return (try? context.fetch(descriptor))?.lazy.compactMap(\.session).first
+    }
+
     /// Active substance states for UI display (e.g. session accessory view).
     var activeSubstanceStates: [ActiveSubstanceState] {
         let weightKg = UserProfileStore.shared.effectiveWeightKg

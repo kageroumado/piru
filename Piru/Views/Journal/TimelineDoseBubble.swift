@@ -13,6 +13,9 @@ struct TimelineDoseBubble: View {
     let style: TimelineBubbleStyle
     /// Body-load mode: the trailing readout is what remains in the body.
     let pkMode: Bool
+    /// The session this bubble stands for when it draws no envelope (a
+    /// one-dose session); the bubble then marks who else was in it.
+    var sharedSessionID: UUID?
     let onTap: () -> Void
     @Environment(\.selectedRecord) private var selectedRecord
     @Environment(\.colorScheme) private var colorScheme
@@ -103,6 +106,9 @@ struct TimelineDoseBubble: View {
                 trailingReadout
             }
 
+            if let sharedSessionID {
+                SharedSessionMark(sessionID: sharedSessionID, diameter: 16)
+            }
             Image(systemName: "chevron.right")
                 .font(.caption2.weight(.semibold))
                 .foregroundStyle(Theme.tertiaryLabel)

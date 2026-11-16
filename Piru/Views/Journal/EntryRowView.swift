@@ -56,8 +56,11 @@ struct DayEntryCore: Equatable {
     /// this and drifted — the session's markers still named substances differently
     /// from the journal's. Caches the per-substance lookup so repeated substances
     /// in a day resolve once.
+    ///
+    /// `weightKg` is the body weight the effect window is drawn for; `nil` is
+    /// the active profile's (another person's rows pass theirs).
     @MainActor
-    static func make(from entries: [DoseEntry]) -> [DayEntryCore] {
+    static func make(from entries: [DoseEntry], weightKg: Double? = nil) -> [DayEntryCore] {
         var cache: [String: Substance?] = [:]
         func substance(_ name: String) -> Substance? {
             let key = name.lowercased()
@@ -83,7 +86,7 @@ struct DayEntryCore: Equatable {
                 tags: entry.tags,
                 // Acute effect window (same source as the timeline curve), so the
                 // rail matches the graph — not the long elimination tail.
-                totalMinutes: ActiveSubstanceState.from(entry: entry, tint: .neutral)?.totalMinutes,
+                totalMinutes: ActiveSubstanceState.from(entry: entry, tint: .neutral, weightKg: weightKg)?.totalMinutes,
                 substanceKey: entry.substance.lowercased(),
                 isApproximate: entry.isApproximate,
                 isUnknownDose: entry.isUnknownDose,
@@ -143,6 +146,9 @@ struct EntryRowView: View {
     /// the day detail for today/yesterday so every row in a recent day matches;
     /// older days show the clock time alone, keeping the column symmetric.
     var showRelativeTime: Bool = false
+    /// The disclosure chevron, for a row that opens its dose. A read-only row
+    /// (another person's dose in a shared session) leaves it out.
+    var showsChevron = true
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -252,11 +258,14 @@ struct EntryRowView: View {
         .accessibilityLabel(doseAccessibilityLabel)
     }
 
+    @ViewBuilder
     private var chevron: some View {
-        Image(systemName: "chevron.forward")
-            .font(.footnote.weight(.semibold))
-            .foregroundStyle(Theme.tertiaryLabel)
-            .accessibilityHidden(true)
+        if showsChevron {
+            Image(systemName: "chevron.forward")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.tertiaryLabel)
+                .accessibilityHidden(true)
+        }
     }
 
     /// The route badge — a tinted capsule in the route's *own* fixed color (every

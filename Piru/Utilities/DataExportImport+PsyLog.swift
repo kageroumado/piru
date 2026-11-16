@@ -297,6 +297,9 @@ nonisolated struct PsyLogIngestion: Codable {
     var administrationRoute: String
     var notes: String
     var units: String
+    /// Who took the dose: `nil` for the file's owner, otherwise the name the
+    /// journal gave that person. Whitespace-only names read as the owner.
+    var consumerName: String?
     /// Piru extension: per-ingestion location. PsyLog stores location only at
     /// the experience level, so this key is absent in cross-app files and is
     /// encoded only when set — letting a Piru→Piru round-trip preserve a
@@ -321,7 +324,16 @@ nonisolated struct PsyLogIngestion: Codable {
         case isHiddenInTimeline
     }
 
-    init(substanceName: String, dose: Double?, time: Int64, route: String, notes: String, units: String, location: PsyLogLocation? = nil) {
+    init(
+        substanceName: String,
+        dose: Double?,
+        time: Int64,
+        route: String,
+        notes: String,
+        units: String,
+        consumerName: String? = nil,
+        location: PsyLogLocation? = nil,
+    ) {
         self.substanceName = substanceName
         self.customUnitId = nil
         self.dose = dose
@@ -329,6 +341,7 @@ nonisolated struct PsyLogIngestion: Codable {
         self.administrationRoute = route
         self.notes = notes
         self.units = units
+        self.consumerName = consumerName
         self.location = location
     }
 
@@ -341,6 +354,9 @@ nonisolated struct PsyLogIngestion: Codable {
         administrationRoute = try c.decodeIfPresent(String.self, forKey: .administrationRoute) ?? "ORAL"
         notes = try c.decodeIfPresent(String.self, forKey: .notes) ?? ""
         units = try c.decodeIfPresent(String.self, forKey: .units) ?? "mg"
+        let consumer = (try? c.decodeIfPresent(String.self, forKey: .consumerName))?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        consumerName = consumer?.isEmpty == false ? consumer : nil
         location = try c.decodeIfPresent(PsyLogLocation.self, forKey: .location)
     }
 
@@ -348,7 +364,11 @@ nonisolated struct PsyLogIngestion: Codable {
         var c = encoder.container(keyedBy: CodingKeys.self)
         try c.encodeNil(forKey: .customUnitId)
         try c.encode(time, forKey: .creationDate)
-        try c.encodeNil(forKey: .consumerName)
+        if let consumerName {
+            try c.encode(consumerName, forKey: .consumerName)
+        } else {
+            try c.encodeNil(forKey: .consumerName)
+        }
         try c.encode(substanceName, forKey: .substanceName)
         try c.encodeNil(forKey: .estimatedDoseStandardDeviation)
         try c.encode(false, forKey: .isDoseAnEstimate)
@@ -414,83 +434,203 @@ nonisolated struct PsyLogCustomUnit: Codable {
     }
 }
 
-// MARK: - PsyLog Export / Import
+// MARK: - PsyLog Export
+
+/// One journal in a PsyLog export, and the `consumerName` its doses carry:
+/// `nil` for the profile exporting, the person's name for anyone else.
+struct PsyLogPerson {
+    let name: String?
+    let context: ModelContext
+}
+
+/// One PsyLog experience being assembled: a session, a day of session-less
+/// doses, or, across people, every session sharing one `sharedExperienceID`.
+private struct PsyLogExportGroup {
+    /// The first participating session's title; `nil` titles it by its date.
+    var title: String?
+    var note: String
+    var start: Date
+    var doses: [(entry: DoseEntry, consumer: String?)]
+    var notes: [SessionNote]
+
+    mutating func merge(_ other: PsyLogExportGroup) {
+        title = title ?? other.title
+        if note.isEmpty { note = other.note }
+        start = min(start, other.start)
+        doses += other.doses
+        notes += other.notes
+    }
+}
 
 extension DataExportImport {
+    /// This profile's journal as a PsychonautWiki file, every dose unnamed.
+    @MainActor
+    static func makePsyLogFile(context: ModelContext) throws -> PsyLogFile {
+        try makePsyLogFile(people: [PsyLogPerson(name: nil, context: context)])
+    }
+
     /// Build the PsychonautWiki modern file. Doses are grouped by **session** so
     /// a Piru session becomes a PsyLog "experience" carrying its title and note;
     /// session-less doses (defensive) fall back to one experience per day.
+    ///
+    /// With more than one person, each dose names its taker (``PsyLogPerson``),
+    /// and sessions that share a `sharedExperienceID` become one experience
+    /// holding everyone's doses, titled by the first of them that has a title.
     @MainActor
-    static func makePsyLogFile(context: ModelContext) throws -> PsyLogFile {
-        let entries = try context.fetch(FetchDescriptor<DoseEntry>())
-        let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
-
-        let titleFormatter = DateFormatter()
-        titleFormatter.dateFormat = "d MMM yyyy"
-        titleFormatter.locale = Locale(identifier: "en_US")
-        let calendar = Calendar.current
-
-        var groups: [(title: String, note: String, start: Date, doses: [DoseEntry], notes: [SessionNote])] = []
-        for (session, doses) in Dictionary(grouping: entries, by: { $0.session }) {
-            let sorted = doses.sorted { $0.timestamp < $1.timestamp }
-            if let session {
-                groups.append((
-                    title: session.title ?? titleFormatter.string(from: session.startDate),
-                    note: session.note ?? "",
-                    start: session.startDate,
-                    doses: sorted,
-                    // The summary already rides in `text`; PW's timed notes carry the
-                    // rest of the timeline.
-                    notes: session.orderedNotes.filter { $0.kind != .summary },
-                ))
-            } else {
-                for (day, dayDoses) in Dictionary(grouping: sorted, by: { calendar.sessionDayStart(for: $0.timestamp) }) {
-                    groups.append((title: titleFormatter.string(from: day), note: "", start: day, doses: dayDoses, notes: []))
+    static func makePsyLogFile(people: [PsyLogPerson]) throws -> PsyLogFile {
+        var groups: [PsyLogExportGroup] = []
+        var sharedGroups: [UUID: Int] = [:]
+        var companions: [PsyLogCompanion] = []
+        var companionNames: Set<String> = []
+        for person in people {
+            for group in try psyLogGroups(for: person) {
+                if people.count > 1, let shared = group.shared {
+                    if let index = sharedGroups[shared] {
+                        groups[index].merge(group.group)
+                        continue
+                    }
+                    sharedGroups[shared] = groups.count
                 }
+                groups.append(group.group)
+            }
+            for color in try person.context.fetch(FetchDescriptor<SubstanceColor>())
+                where companionNames.insert(color.substance.lowercased()).inserted {
+                companions.append(PsyLogCompanion(color: PsyLogColorMap.name(nearest: color.tint), substanceName: color.substance))
             }
         }
         groups.sort { $0.start < $1.start }
 
-        let experiences = groups.map { group -> PsyLogExperience in
-            let ingestions = group.doses.map { entry -> PsyLogIngestion in
-                var noteText = entry.notes ?? ""
-                if !entry.tags.isEmpty {
-                    let tagStr = entry.tags.map { "#\($0)" }.joined(separator: " ")
-                    noteText = noteText.isEmpty ? tagStr : "\(noteText) \(tagStr)"
-                }
-                return PsyLogIngestion(
-                    substanceName: entry.substance,
-                    // PW's own shape for a dose taken without knowing how much.
-                    dose: entry.isUnknownDose ? nil : entry.amount,
-                    time: entry.timestamp.msSince1970,
-                    route: entry.route.psylogName,
-                    notes: noteText,
-                    units: entry.unit,
-                )
-            }
-            let startMs = (group.doses.first?.timestamp ?? group.start).msSince1970
-            return PsyLogExperience(
-                title: group.title,
-                text: group.note,
-                creationDate: startMs,
-                sortDate: startMs,
-                location: group.doses.lazy.compactMap(psyLogLocation).first,
-                ingestions: ingestions,
-                // PW has one text field per note, so the structure (rating, mood,
-                // energy, descriptors) is flattened into the line — the native
-                // format keeps the fields.
-                timedNotes: group.notes.map { note in
-                    PsyLogTimedNote(time: note.timestamp.msSince1970, note: TripReport.flattenedLine(for: note))
-                },
-            )
-        }
-
-        let companions = colors.map {
-            PsyLogCompanion(color: PsyLogColorMap.name(nearest: $0.tint), substanceName: $0.substance)
-        }
-        return PsyLogFile(experiences: experiences, companions: companions)
+        let titleFormatter = DateFormatter()
+        titleFormatter.dateFormat = "d MMM yyyy"
+        titleFormatter.locale = Locale(identifier: "en_US")
+        return PsyLogFile(
+            experiences: groups.map { psyLogExperience(for: $0, title: $0.title ?? titleFormatter.string(from: $0.start)) },
+            companions: companions,
+        )
     }
 
+    /// One person's doses grouped into experiences, each with the shared
+    /// experience its session belongs to.
+    @MainActor
+    private static func psyLogGroups(for person: PsyLogPerson) throws -> [(group: PsyLogExportGroup, shared: UUID?)] {
+        let calendar = Calendar.current
+        let entries = try person.context.fetch(FetchDescriptor<DoseEntry>())
+        var groups: [(group: PsyLogExportGroup, shared: UUID?)] = []
+        for (session, doses) in Dictionary(grouping: entries, by: { $0.session }) {
+            let sorted = doses.sorted { $0.timestamp < $1.timestamp }
+            if let session {
+                groups.append((PsyLogExportGroup(
+                    title: session.title,
+                    note: session.note ?? "",
+                    start: session.startDate,
+                    doses: sorted.map { ($0, person.name) },
+                    // The summary already rides in `text`; PW's timed notes carry the
+                    // rest of the timeline.
+                    notes: session.orderedNotes.filter { $0.kind != .summary },
+                ), session.sharedExperienceID))
+            } else {
+                for (day, dayDoses) in Dictionary(grouping: sorted, by: { calendar.sessionDayStart(for: $0.timestamp) }) {
+                    groups.append((
+                        PsyLogExportGroup(title: nil, note: "", start: day, doses: dayDoses.map { ($0, person.name) }, notes: []),
+                        nil,
+                    ))
+                }
+            }
+        }
+        return groups
+    }
+
+    @MainActor
+    private static func psyLogExperience(for group: PsyLogExportGroup, title: String) -> PsyLogExperience {
+        let doses = group.doses.sorted { $0.entry.timestamp < $1.entry.timestamp }
+        let ingestions = doses.map { dose -> PsyLogIngestion in
+            let entry = dose.entry
+            var noteText = entry.notes ?? ""
+            if !entry.tags.isEmpty {
+                let tagStr = entry.tags.map { "#\($0)" }.joined(separator: " ")
+                noteText = noteText.isEmpty ? tagStr : "\(noteText) \(tagStr)"
+            }
+            return PsyLogIngestion(
+                substanceName: entry.substance,
+                // PW's own shape for a dose taken without knowing how much.
+                dose: entry.isUnknownDose ? nil : entry.amount,
+                time: entry.timestamp.msSince1970,
+                route: entry.route.psylogName,
+                notes: noteText,
+                units: entry.unit,
+                consumerName: dose.consumer,
+            )
+        }
+        let startMs = (doses.first?.entry.timestamp ?? group.start).msSince1970
+        return PsyLogExperience(
+            title: title,
+            text: group.note,
+            creationDate: startMs,
+            sortDate: startMs,
+            location: doses.lazy.compactMap { psyLogLocation(for: $0.entry) }.first,
+            ingestions: ingestions,
+            // PW has one text field per note, so the structure (rating, mood,
+            // energy, descriptors) is flattened into the line — the native
+            // format keeps the fields.
+            timedNotes: group.notes.sorted { $0.timestamp < $1.timestamp }.map { note in
+                PsyLogTimedNote(time: note.timestamp.msSince1970, note: TripReport.flattenedLine(for: note))
+            },
+        )
+    }
+
+    /// A dose's location as the exportable shape, or `nil` if it has no name.
+    /// Coordinates are carried when present; a name-only location still
+    /// round-trips (PsychonautWiki's shape allows coordinate-less locations).
+    private static func psyLogLocation(for entry: DoseEntry) -> PsyLogLocation? {
+        guard let name = entry.locationName else { return nil }
+        return PsyLogLocation(name: name, latitude: entry.latitude, longitude: entry.longitude)
+    }
+}
+
+// MARK: - PsyLog Import
+
+/// One profile's store during a PsyLog import: what it already holds, so each
+/// store dedups against its own journal and nobody else's.
+@MainActor
+private final class PsyLogStoreImport {
+    let profile: UUID
+    let context: ModelContext
+    var doseIndex: ImportedDoseIndex
+    /// Stored doses on route Other, keyed as if the file's dose were Other too.
+    /// An earlier build filed PW's SMOKED as Other; when the same file comes
+    /// in again, its dose names the real route, so the stored copy takes that
+    /// route instead of a second copy landing beside it.
+    var unroutedDoses: [String: [DoseEntry]]
+
+    init(profile: UUID, context: ModelContext) {
+        self.profile = profile
+        self.context = context
+        let existing = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
+        doseIndex = ImportedDoseIndex(existing)
+        unroutedDoses = Dictionary(grouping: existing.filter { $0.route == .other }) {
+            DataExportImport.doseDedupKey(for: $0, route: .other)
+        }
+    }
+}
+
+/// One profile's part of one experience: the doses it adds, and the session
+/// already holding doses it repeats, so a re-import lands its notes there.
+@MainActor
+private struct PsyLogExperiencePart {
+    var doses: [DoseEntry] = []
+    var matched: Session?
+}
+
+/// A store other than the importing context's that a PsyLog import wrote
+/// into, which ``DataExportImport/importJSON(data:context:customStore:mode:settings:psyLogRouting:)``
+/// finishes and commits under that profile's scope.
+@MainActor
+struct PsyLogImportedStore {
+    let profile: UUID
+    let context: ModelContext
+}
+
+extension DataExportImport {
     /// Adds the experience's timed notes to `session`, skipping any it already
     /// holds at the same moment, whether as the same text or as the structured
     /// note that exported as that line.
@@ -507,114 +647,53 @@ extension DataExportImport {
         }
     }
 
-    /// A dose's location as the exportable shape, or `nil` if it has no name.
-    /// Coordinates are carried when present; a name-only location still
-    /// round-trips (PsychonautWiki's shape allows coordinate-less locations).
-    private static func psyLogLocation(for entry: DoseEntry) -> PsyLogLocation? {
-        guard let name = entry.locationName else { return nil }
-        return PsyLogLocation(name: name, latitude: entry.latitude, longitude: entry.longitude)
-    }
-
+    /// Imports a PsychonautWiki file into `context`'s journal and, with a
+    /// `routing` that maps the file's named people to profiles, each person's
+    /// doses into that profile's store. Without one, only the file owner's
+    /// unnamed doses import. Returns the other stores written into, unsaved.
     @MainActor
-    static func importPsyLog(data: Data, context: ModelContext, customStore: CustomSubstanceStore) throws {
+    @discardableResult
+    static func importPsyLog(
+        data: Data,
+        context: ModelContext,
+        customStore: CustomSubstanceStore,
+        routing: PsyLogRouting? = nil,
+    ) throws -> [PsyLogImportedStore] {
         let file = try JSONDecoder().decode(PsyLogFile.self, from: data)
+        let routing = routing ?? .ownerOnly()
         importCustomSubstances(file.customSubstances, into: customStore)
 
         // Build custom unit lookup: id -> custom unit
         let customUnitMap = Dictionary(file.customUnits.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
 
-        // Dedup dose entries against what's already stored (and within this
-        // import) so a merge restore — or re-importing the same file — stays
-        // idempotent instead of multiplying every dose. `DoseEntry` has no
-        // natural id, so the key is its content: substance, time, dose, unit, route.
-        let existingDoses = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
-        var doseIndex = ImportedDoseIndex(existingDoses)
-        // Stored doses on route Other, keyed as if the file's dose were Other too.
-        // An earlier build filed PW's SMOKED as Other; when the same file comes
-        // in again, its dose names the real route, so the stored copy takes that
-        // route instead of a second copy landing beside it.
-        var unroutedDoses = Dictionary(grouping: existingDoses.filter { $0.route == .other }) {
-            doseDedupKey(for: $0, route: .other)
+        // Dedup dose entries against what each store already holds (and within
+        // this import) so a merge restore — or re-importing the same file —
+        // stays idempotent instead of multiplying every dose. `DoseEntry` has
+        // no natural id, so the key is its content: substance, time, dose,
+        // unit, route.
+        var stores: [UUID: PsyLogStoreImport] = [routing.owner: PsyLogStoreImport(profile: routing.owner, context: context)]
+        var storeOrder: [UUID] = [routing.owner]
+        func store(for profile: UUID) -> PsyLogStoreImport? {
+            if let open = stores[profile] { return open }
+            guard let other = routing.context(for: profile) else { return nil }
+            let opened = PsyLogStoreImport(profile: profile, context: other)
+            stores[profile] = opened
+            storeOrder.append(profile)
+            return opened
         }
 
         for experience in file.experiences {
-            var sessionDoses: [DoseEntry] = []
-            // The session already holding doses this experience repeats, so a
-            // re-import lands its notes there.
-            var matchedSession: Session?
+            var parts: [UUID: PsyLogExperiencePart] = [:]
+            var partOrder: [UUID] = []
             for ingestion in experience.ingestions {
-                // Resolve substance name: prefer direct name, fall back to custom unit
-                let name: String
-                if let directName = ingestion.substanceName {
-                    name = directName
-                } else if let cuId = ingestion.customUnitId, let cu = customUnitMap[cuId] {
-                    name = cu.name
-                } else {
-                    continue
-                }
-
-                // PW writes `dose: null` for a dose taken without knowing how
-                // much, which lands as an unknown dose. A zero is no dose at all.
-                let dose = ingestion.dose
-                if let dose, dose <= 0 { continue }
-
-                // The shared parser, never a table of this importer's own: PW
-                // writes SMOKED beside INHALED (and PsyLog files carry the same
-                // vocabulary), and a local table that missed one filed every
-                // such dose as Other.
-                let route = RouteOfAdministration.from(string: ingestion.administrationRoute)
-                let timestamp = Date(ms: ingestion.time)
-                let key = doseDedupKey(substance: name, timestamp: timestamp, amount: dose, unit: ingestion.units, route: route)
-                if case let .duplicate(stored) = doseIndex.claim(key) {
-                    matchedSession = matchedSession ?? stored?.session
-                    continue
-                }
-                if route != .other {
-                    let unroutedKey = doseDedupKey(substance: name, timestamp: timestamp, amount: dose, unit: ingestion.units, route: .other)
-                    if let stored = unroutedDoses[unroutedKey]?.popLast() {
-                        stored.route = route
-                        matchedSession = matchedSession ?? stored.session
-                        continue
-                    }
-                }
-
-                let extractedTags = TagExtractor.extractTags(from: ingestion.notes)
-                // A dose's own location (a Piru extension, present only in older
-                // Piru PsyLog exports) wins; otherwise inherit the experience's
-                // location. PsychonautWiki stores location per experience, so we
-                // copy it onto every dose to fit Piru's per-dose model.
-                let location = ingestion.location ?? experience.location
-                let entry = DoseEntry(
-                    substance: name,
-                    amount: dose ?? 0,
-                    unit: ingestion.units,
-                    route: route,
-                    timestamp: timestamp,
-                    timeZoneIdentifier: nil,
-                    notes: ingestion.notes.isEmpty ? nil : ingestion.notes,
-                    tags: extractedTags,
-                    locationName: location?.name,
-                    latitude: location?.latitude,
-                    longitude: location?.longitude,
-                    isUnknownDose: dose == nil,
-                )
-                context.insert(entry)
-                sessionDoses.append(entry)
+                guard let profile = routing.profile(forConsumer: ingestion.consumerName),
+                      let target = store(for: profile) else { continue }
+                if parts[profile] == nil { partOrder.append(profile) }
+                var part = parts[profile] ?? PsyLogExperiencePart()
+                importIngestion(ingestion, of: experience, customUnits: customUnitMap, into: target, part: &part)
+                parts[profile] = part
             }
-
-            // Each PsychonautWiki experience becomes a Piru session, preserving
-            // its grouping and carrying the custom title and notes across. An
-            // experience whose doses are all already here adds no session; its
-            // notes go to the session holding those doses.
-            let text = experience.text.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard let session = importedSession(
-                doses: sessionDoses,
-                matched: matchedSession,
-                title: experience.title.isEmpty ? nil : experience.title,
-                note: text.isEmpty ? nil : text,
-                context: context,
-            ) else { continue }
-            importTimedNotes(experience.timedNotes, into: session, context: context)
+            importSessions(of: experience, parts: parts, order: partOrder, owner: routing.owner, stores: stores)
         }
 
         // PsyLog makes every substance carry one of its palette names; those
@@ -627,7 +706,8 @@ extension DataExportImport {
             }
         }
 
-        // Import daily dose items, skip duplicates by substance name
+        // Import daily dose items, skip duplicates by substance name. The
+        // file's routine belongs to its owner.
         if !file.dailyDoseItems.isEmpty {
             let existing = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
             let existingNames = Set(existing.map { $0.substance.lowercased() })
@@ -642,6 +722,117 @@ extension DataExportImport {
                     sortOrder: item.sortOrder,
                 ))
             }
+        }
+        return storeOrder.dropFirst().compactMap { profile in
+            stores[profile].map { PsyLogImportedStore(profile: profile, context: $0.context) }
+        }
+    }
+
+    /// Inserts one ingestion into `store`, unless the store already holds it.
+    @MainActor
+    private static func importIngestion(
+        _ ingestion: PsyLogIngestion,
+        of experience: PsyLogExperience,
+        customUnits: [Int: PsyLogCustomUnit],
+        into store: PsyLogStoreImport,
+        part: inout PsyLogExperiencePart,
+    ) {
+        // Resolve substance name: prefer direct name, fall back to custom unit
+        let name: String
+        if let directName = ingestion.substanceName {
+            name = directName
+        } else if let cuId = ingestion.customUnitId, let cu = customUnits[cuId] {
+            name = cu.name
+        } else {
+            return
+        }
+
+        // PW writes `dose: null` for a dose taken without knowing how
+        // much, which lands as an unknown dose. A zero is no dose at all.
+        let dose = ingestion.dose
+        if let dose, dose <= 0 { return }
+
+        // The shared parser, never a table of this importer's own: PW
+        // writes SMOKED beside INHALED (and PsyLog files carry the same
+        // vocabulary), and a local table that missed one filed every
+        // such dose as Other.
+        let route = RouteOfAdministration.from(string: ingestion.administrationRoute)
+        let timestamp = Date(ms: ingestion.time)
+        let key = doseDedupKey(substance: name, timestamp: timestamp, amount: dose, unit: ingestion.units, route: route)
+        if case let .duplicate(stored) = store.doseIndex.claim(key) {
+            part.matched = part.matched ?? stored?.session
+            return
+        }
+        if route != .other {
+            let unroutedKey = doseDedupKey(substance: name, timestamp: timestamp, amount: dose, unit: ingestion.units, route: .other)
+            if let stored = store.unroutedDoses[unroutedKey]?.popLast() {
+                stored.route = route
+                part.matched = part.matched ?? stored.session
+                return
+            }
+        }
+
+        let extractedTags = TagExtractor.extractTags(from: ingestion.notes)
+        // A dose's own location (a Piru extension, present only in older
+        // Piru PsyLog exports) wins; otherwise inherit the experience's
+        // location. PsychonautWiki stores location per experience, so we
+        // copy it onto every dose to fit Piru's per-dose model.
+        let location = ingestion.location ?? experience.location
+        let entry = DoseEntry(
+            substance: name,
+            amount: dose ?? 0,
+            unit: ingestion.units,
+            route: route,
+            timestamp: timestamp,
+            timeZoneIdentifier: nil,
+            notes: ingestion.notes.isEmpty ? nil : ingestion.notes,
+            tags: extractedTags,
+            locationName: location?.name,
+            latitude: location?.latitude,
+            longitude: location?.longitude,
+            isUnknownDose: dose == nil,
+        )
+        store.context.insert(entry)
+        part.doses.append(entry)
+    }
+
+    /// Each PsychonautWiki experience becomes one Piru session per profile
+    /// taking part, carrying the title and text to each. A store that already
+    /// holds the experience's doses adds no session; its notes go to the
+    /// session holding those doses. Timed notes go to the owner's session, or
+    /// the first profile's when the owner took nothing, and when more than one
+    /// profile took part their sessions share one `sharedExperienceID`.
+    @MainActor
+    private static func importSessions(
+        of experience: PsyLogExperience,
+        parts: [UUID: PsyLogExperiencePart],
+        order: [UUID],
+        owner: UUID,
+        stores: [UUID: PsyLogStoreImport],
+    ) {
+        let text = experience.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        var sessions: [(profile: UUID, session: Session)] = []
+        for profile in order {
+            guard let part = parts[profile], let store = stores[profile] else { continue }
+            let session = ProfileScope.$pinned.withValue(profile) {
+                importedSession(
+                    doses: part.doses,
+                    matched: part.matched,
+                    title: experience.title.isEmpty ? nil : experience.title,
+                    note: text.isEmpty ? nil : text,
+                    context: store.context,
+                )
+            }
+            if let session { sessions.append((profile, session)) }
+        }
+        if let holder = sessions.first(where: { $0.profile == owner }) ?? sessions.first,
+           let store = stores[holder.profile] {
+            importTimedNotes(experience.timedNotes, into: holder.session, context: store.context)
+        }
+        guard sessions.count > 1 else { return }
+        let shared = sessions.lazy.compactMap(\.session.sharedExperienceID).first ?? UUID()
+        for (_, session) in sessions where session.sharedExperienceID != shared {
+            session.sharedExperienceID = shared
         }
     }
 }

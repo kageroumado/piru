@@ -82,6 +82,34 @@ struct TimelineOptionsMenu<Label: View>: View {
     @Binding var bubbleStyle: TimelineBubbleStyle
     @ViewBuilder let label: () -> Label
 
+    var body: some View {
+        Menu {
+            TimelineOptionsMenuContent(
+                zoom: $zoom,
+                compressGaps: $compressGaps,
+                pkCurves: $pkCurves,
+                curveScale: $curveScale,
+                showsAxis: $showsAxis,
+                bubbleStyle: $bubbleStyle,
+            )
+        } label: {
+            label()
+        }
+        .accessibilityLabel(Text("Display Options"))
+        .accessibilityValue(Text(verbatim: TimelineZoom.label(zoom)))
+    }
+}
+
+/// The rows of ``TimelineOptionsMenu``, for a menu that carries them beside
+/// other options (the Journal's filter menu).
+struct TimelineOptionsMenuContent: View {
+    @Binding var zoom: Double
+    @Binding var compressGaps: Bool
+    @Binding var pkCurves: Bool
+    @Binding var curveScale: TimelineCurveScale
+    @Binding var showsAxis: Bool
+    @Binding var bubbleStyle: TimelineBubbleStyle
+
     private var compactEntries: Binding<Bool> {
         Binding(
             get: { bubbleStyle == .compact },
@@ -90,48 +118,42 @@ struct TimelineOptionsMenu<Label: View>: View {
     }
 
     var body: some View {
-        Menu {
-            if showsAxis {
-                Picker(selection: $zoom) {
-                    ForEach(TimelineZoom.presets, id: \.self) { preset in
-                        Text(TimelineZoom.label(preset)).tag(preset)
+        if showsAxis {
+            Picker(selection: $zoom) {
+                ForEach(TimelineZoom.presets, id: \.self) { preset in
+                    Text(TimelineZoom.label(preset)).tag(preset)
+                }
+            } label: {
+                Text("Zoom")
+                Text(TimelineZoom.label(zoom))
+            }
+            .pickerStyle(.menu)
+            Picker(selection: $pkCurves) {
+                Text("Effect curves").tag(false)
+                Text("Body load (PK)").tag(true)
+            } label: {
+                Text("Curves")
+                Text(pkCurves ? "Body load (PK)" : "Effect curves")
+            }
+            .pickerStyle(.menu)
+            // Body-load curves are scaled by concentration, not dose.
+            if !pkCurves {
+                Picker(selection: $curveScale) {
+                    ForEach(TimelineCurveScale.allCases, id: \.self) { scale in
+                        Text(scale.title).tag(scale)
                     }
                 } label: {
-                    Text("Zoom")
-                    Text(TimelineZoom.label(zoom))
+                    Text("Curve Scale")
+                    Text(curveScale.title)
                 }
                 .pickerStyle(.menu)
-                Picker(selection: $pkCurves) {
-                    Text("Effect curves").tag(false)
-                    Text("Body load (PK)").tag(true)
-                } label: {
-                    Text("Curves")
-                    Text(pkCurves ? "Body load (PK)" : "Effect curves")
-                }
-                .pickerStyle(.menu)
-                // Body-load curves are scaled by concentration, not dose.
-                if !pkCurves {
-                    Picker(selection: $curveScale) {
-                        ForEach(TimelineCurveScale.allCases, id: \.self) { scale in
-                            Text(scale.title).tag(scale)
-                        }
-                    } label: {
-                        Text("Curve Scale")
-                        Text(curveScale.title)
-                    }
-                    .pickerStyle(.menu)
-                }
-                Divider()
             }
-            Toggle("Show Timeline Axis", isOn: $showsAxis)
-            Toggle("Compact Entries", isOn: compactEntries)
-            if showsAxis {
-                Toggle("Compress Empty Time", isOn: $compressGaps)
-            }
-        } label: {
-            label()
+            Divider()
         }
-        .accessibilityLabel(Text("Display Options"))
-        .accessibilityValue(Text(verbatim: TimelineZoom.label(zoom)))
+        Toggle("Show Timeline Axis", isOn: $showsAxis)
+        Toggle("Compact Entries", isOn: compactEntries)
+        if showsAxis {
+            Toggle("Compress Empty Time", isOn: $compressGaps)
+        }
     }
 }

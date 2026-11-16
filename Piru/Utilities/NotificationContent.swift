@@ -5,6 +5,9 @@ nonisolated extension UNMutableNotificationContent {
     /// schedulers (`SessionNotificationScheduler`, `DoseNotificationManager`) cannot
     /// drift on the basics. Policy stays with the caller: quiet-hours gating,
     /// quiet-tier delivery, relevance, and `userInfo` are site-specific.
+    ///
+    /// With more than one profile on the device the title names whose
+    /// journal it is about ("Alice · Concerta"; ``ProfileScope``).
     convenience init(
         title: String,
         body: String,
@@ -14,7 +17,7 @@ nonisolated extension UNMutableNotificationContent {
         interruptionLevel: UNNotificationInterruptionLevel = .active,
     ) {
         self.init()
-        self.title = title
+        self.title = ProfileScope.personalized(title)
         self.body = body
         categoryIdentifier = category
         if let threadIdentifier {

@@ -13,8 +13,15 @@ struct InventoryItemDetailView: View {
 
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.profileDirectory) private var directory
 
     @State private var showBasisInfo = false
+
+    /// The profile sharing this item with the active one; `nil` for the
+    /// active profile's own item.
+    private var owner: PiruProfile? {
+        SharedInventory.shared.owner(of: item)
+    }
 
     private var runOut: InventoryMath.RunOut? {
         InventoryMath.runOut(for: item, in: modelContext)
@@ -52,7 +59,9 @@ struct InventoryItemDetailView: View {
             #endif
         }
         // Re-derive when returning from a restock/edit sheet or a dose change.
-        .onAppear { InventoryService.recompute(item, in: modelContext) }
+        .onAppear {
+            SharedInventory.write(to: item) { InventoryService.recompute(item, in: modelContext) }
+        }
         .alert("Run-out estimate", isPresented: $showBasisInfo) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -82,6 +91,8 @@ struct InventoryItemDetailView: View {
             VStack(spacing: 14) {
                 heroAmount
                     .accessibilityLabel(accessibilityAmount)
+
+                SharedStockLine(owner: owner, sharees: owner == nil ? SharedInventory.shared.sharees(of: item) : [])
 
                 if let supplyLine = inventorySupplyLine(for: item, runOut: runOut) {
                     VStack(spacing: Spacing.xs) {
@@ -173,6 +184,19 @@ struct InventoryItemDetailView: View {
     @ViewBuilder
     private func rowView(_ row: HistoryRow) -> some View {
         switch row {
+        case let .shared(dose, profile):
+            // Logged in another journal: shown, never opened or deleted from here.
+            HistoryRowLabel(
+                glyph: "pills",
+                tint: Theme.secondaryLabel,
+                title: String(localized: "Dose"),
+                amount: "−\(dose.amount.inventoryFormatted) \(dose.unit)",
+                amountColor: Theme.secondaryLabel,
+                date: dose.timestamp,
+                note: profile.name,
+                avatar: profile,
+            )
+
         case let .dose(dose):
             RouteLink(PushRoute.entry(timestamp: dose.timestamp, id: dose.id)) {
                 HistoryRowLabel(
@@ -209,10 +233,23 @@ struct InventoryItemDetailView: View {
         }
     }
 
+    /// The item's own store's doses, its sharees' doses (each with their
+    /// avatar), and its manual events, newest first. On a shared-in item the
+    /// owner's doses are another journal's too, so they show as theirs.
     private var historyRows: [HistoryRow] {
-        let doseRows = InventoryMath.doses(for: item, in: modelContext).map { HistoryRow.dose($0) }
+        let own = InventoryMath.doses(for: item, in: modelContext)
+        let doseRows: [HistoryRow] = if let owner {
+            own.map {
+                .shared(ForeignDose(profileID: owner.id, entryID: $0.id, amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp), owner)
+            }
+        } else {
+            own.map { HistoryRow.dose($0) }
+        }
+        let sharedRows = SharedInventory.foreignDoses(for: item).compactMap { dose in
+            directory.profile(id: dose.profileID).map { HistoryRow.shared(dose, $0) }
+        }
         let manualRows = item.manualEvents.map { HistoryRow.manual($0) }
-        return (doseRows + manualRows).sorted { $0.date > $1.date }
+        return (doseRows + sharedRows + manualRows).sorted { $0.date > $1.date }
     }
 
     // MARK: - Mutations
@@ -227,8 +264,10 @@ struct InventoryItemDetailView: View {
     }
 
     private func deleteEvent(_ event: ManualEvent) {
-        item.manualEvents.removeAll { $0.id == event.id }
-        InventoryService.recompute(item, in: modelContext)
+        SharedInventory.write(to: item) {
+            item.manualEvents.removeAll { $0.id == event.id }
+            InventoryService.recompute(item, in: modelContext)
+        }
         WidgetCenter.shared.reloadAllTimelines()
     }
 
@@ -288,11 +327,14 @@ struct InventoryItemDetailView: View {
 /// One merged history entry: a logged dose or a manual event.
 private enum HistoryRow: Identifiable {
     case dose(DoseEntry)
+    /// A dose from another profile's journal, and that profile.
+    case shared(ForeignDose, PiruProfile)
     case manual(ManualEvent)
 
     var id: String {
         switch self {
         case let .dose(dose): "dose-\(dose.id.uuidString)"
+        case let .shared(dose, profile): "shared-\(profile.id.uuidString)-\(dose.entryID.uuidString)"
         case let .manual(event): "manual-\(event.id.uuidString)"
         }
     }
@@ -300,6 +342,7 @@ private enum HistoryRow: Identifiable {
     var date: Date {
         switch self {
         case let .dose(dose): dose.timestamp
+        case let .shared(dose, _): dose.timestamp
         case let .manual(event): event.date
         }
     }
@@ -315,14 +358,22 @@ private struct HistoryRowLabel: View {
     let amountColor: Color
     let date: Date
     let note: String?
+    /// Whose dose this is, drawn in place of the glyph.
+    var avatar: PiruProfile?
 
     var body: some View {
         HStack(spacing: Spacing.xl) {
-            Image(systemName: glyph)
-                .font(.body)
-                .foregroundStyle(tint)
-                .frame(width: 26)
-                .accessibilityHidden(true)
+            Group {
+                if let avatar {
+                    ProfileAvatarView(avatar, diameter: 24)
+                } else {
+                    Image(systemName: glyph)
+                        .font(.body)
+                        .foregroundStyle(tint)
+                }
+            }
+            .frame(width: 26)
+            .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(title)
                     .font(.subheadline.weight(.medium))

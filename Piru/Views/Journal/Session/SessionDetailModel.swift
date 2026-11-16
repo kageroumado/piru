@@ -26,6 +26,24 @@ final class SessionDetailModel {
     /// falling back to the per-call map build after the warm-up frame.
     var colorMapReady = false
 
+    /// The other people in this session's shared experience; `nil` until
+    /// read, empty when the session is not shared.
+    var sharedParticipants: [SharedParticipant]?
+
+    /// Read the shared experience's other people, then again after every
+    /// dose-log commit for as long as the screen is open.
+    func followSharedExperience(_ experienceID: UUID?) async {
+        guard let experienceID else {
+            sharedParticipants = []
+            return
+        }
+        let changes = DoseLogService.shared.changeStream()
+        sharedParticipants = await SharedExperienceStore.shared.participants(for: experienceID)
+        for await _ in changes {
+            sharedParticipants = await SharedExperienceStore.shared.participants(for: experienceID)
+        }
+    }
+
     func loadColorMap(colors: [SubstanceColor]) {
         colorMap = Array(colors).colorMap
         colorMapReady = true

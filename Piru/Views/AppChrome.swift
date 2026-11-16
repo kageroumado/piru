@@ -67,6 +67,7 @@ extension View {
                 .scrollEdgeEffectStyle(.soft, for: .top)
                 .toolbar {
                     if showsOverflow {
+                        ProfileToolbarItem(leadingGap: true)
                         ToolbarItem(placement: .platformTopBarTrailing) {
                             AppOverflowMenu(menuExtras: menuExtras)
                         }

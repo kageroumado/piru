@@ -85,6 +85,17 @@ import SwiftData
             /// accessory reads the wall clock and hides a session that has not
             /// started yet. The dose.wiki About page's screenshots come from this one.
             case tripJournal
+            /// Profiles Alice and Bob (made if missing) and last night shared
+            /// between the three: the owner, Alice and Bob each have a session
+            /// with doses, linked by one `sharedExperienceID`, plus an unshared
+            /// session for the owner and for Alice. Seeds all three stores,
+            /// whichever profile is active.
+            case sharedNight
+            /// Shared inventory across three profiles: you, Alice and Bob, with
+            /// your 2C-B shared with Alice and Bob's ketamine shared with you
+            /// both (``seedSharedStash(context:now:directory:)``). Creates Alice
+            /// and Bob when absent and wipes their journals too.
+            case sharedStash
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -134,6 +145,8 @@ import SwiftData
             case .transfemEsterSwitch: seedTransfemEsterSwitch(context: context)
             case .transmascT: seedTransmascT(context: context)
             case .tripJournal: seedTripJournal(context: context, now: DebugClock.now)
+            case .sharedNight: seedSharedNight(now: DebugClock.now)
+            case .sharedStash: seedSharedStash(context: context, now: DebugClock.now)
             }
 
             // Inventory caches are a replay over doses, so they can only be
@@ -338,6 +351,18 @@ import SwiftData
                 return true
             }
             wipeUserData(context: context)
+            // A PsychonautWiki file naming other people opens the people
+            // sheet, as picking it in Data & Backup does.
+            if let people = PsyLogPendingImport.inspect(data) {
+                Task(name: "Import people sheet") {
+                    try? await Task.sleep(for: .seconds(1))
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    PsyLogImportRequest.present(people) { outcome in
+                        print("DemoData: -piruImportFile people sheet finished: \(outcome)")
+                    }
+                }
+                return true
+            }
             do {
                 try DataExportImport.importJSON(data: data, context: context)
             } catch {

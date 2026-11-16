@@ -48,6 +48,7 @@ private enum Fields {
         field("checkInOffsetsData") { $0.checkInOffsetMinutes == $1.checkInOffsetMinutes },
         field("checkInOffered", \.checkInOffered),
         field("checkInFollowsDoses", \.checkInFollowsDoses),
+        field("sharedExperienceID", \.sharedExperienceID),
     ]
 
     static let sessionNote: [FieldCheck<SessionNote>] = [
@@ -94,6 +95,7 @@ private enum Fields {
         field("unitStrengthMG", \.unitStrengthMG),
         field("restocksData") { $0.manualEvents == $1.manualEvents },
         field("createdAt", \.createdAt), field("sortOrder", \.sortOrder),
+        field("sharedWithData") { $0.sharedWith == $1.sharedWith },
     ]
 
     static let profile: [FieldCheck<UserProfileRecord>] = [
@@ -207,6 +209,7 @@ private enum ExportCoverage {
 /// `UserDefaults` keys found in the source that deliberately stay on the
 /// device, with the reason. See ``ExportedSettings`` for the ones that travel.
 private let excludedSettingKeys: [String: String] = [
+    "activeProfileID": "which profile is open on this device; a backup carries the profiles themselves",
     "appLanguage": "the app group mirror of AppleLanguages, for the extensions",
     "appLaunchCount": "launch counter",
     "AppleLanguages": "the app's language, which iOS owns and its per-app language page edits too",
@@ -417,6 +420,7 @@ struct ExportRoundTripTests {
         session.checkInOffsetMinutes = [15, 45]
         session.checkInOffered = true
         session.checkInFollowsDoses = true
+        session.sharedExperienceID = UUID()
         context.insert(session)
 
         let drink = DoseEntry(
@@ -465,13 +469,15 @@ struct ExportRoundTripTests {
             releaseForm: "XR", saltForm: "HCl", productName: "Brand",
         ))
 
-        context.insert(InventoryItem(
+        let stock = InventoryItem(
             id: UUID(), substance: "Caffeine", saltForm: "citrate", isomer: "D", productName: "Brand",
             displayNameSnapshot: "Dexcaffeine", unit: "tabs", trackingStart: t0,
             lowStockThreshold: 5, baselineQuantity: 30, doseSize: 2, unitStrengthMG: 10,
             manualEvents: [ManualEvent(kind: .restock, amount: 12, date: t1, note: "bought", setsBaseline: true)],
             createdAt: t0, sortOrder: 2,
-        ))
+        )
+        stock.sharedWith = [UUID(), UUID()]
+        context.insert(stock)
 
         context.insert(UserProfileRecord(
             disclosureTierRaw: UserProfile.casual.rawValue, bodyWeightKg: 61.5, weightSourceRaw: "manual",

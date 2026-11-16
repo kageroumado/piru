@@ -281,35 +281,35 @@ struct EntryListView: View {
         .id(listIdentity)
         .themedPage()
         .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
+        .journalProfileSubtitle(enabled: !isSearchSurface)
         .toolbar {
-            // Two controls, Files/Mail style: the funnel is the single home for
-            // narrowing (tags + categories + routes), the ellipsis for everything
-            // view-related (grouping thumbnails, Jump to Date, Settings, Help).
-            // The Timeline grouping adds a third, leading them: the strip's
-            // display options, sharing the funnel's glass group because both
-            // shape what the strip shows.
+            // Files/Mail style, each its own glass at the same gap: the funnel
+            // menu shapes what the list shows (the Timeline's display options,
+            // then the filters), the profile avatar when there is more than one
+            // person, and the ellipsis for everything else (grouping
+            // thumbnails, Jump to Date, Settings, Help).
             if !isSearchSurface {
-                if grouping == .timeline {
-                    ToolbarItem(placement: .platformTopBarTrailing) {
-                        JournalTimelineOptionsButton(
-                            zoom: prefs.$zoom,
-                            compressGaps: prefs.$compressGaps,
-                            pkCurves: prefs.$pkCurves,
-                            curveScale: prefs.$curveScale,
-                            showsAxis: prefs.$showsAxis,
-                            bubbleStyle: prefs.$bubbleStyle,
-                        )
-                    }
-                }
                 ToolbarItem(placement: .platformTopBarTrailing) {
                     JournalFilterMenu(
                         model: model,
                         filterTags: $model.filterTags,
                         filterCategories: $model.filterCategories,
                         filterRoutes: $model.filterRoutes,
-                    )
+                    ) {
+                        if grouping == .timeline {
+                            TimelineOptionsMenuContent(
+                                zoom: prefs.$zoom,
+                                compressGaps: prefs.$compressGaps,
+                                pkCurves: prefs.$pkCurves,
+                                curveScale: prefs.$curveScale,
+                                showsAxis: prefs.$showsAxis,
+                                bubbleStyle: prefs.$bubbleStyle,
+                            )
+                        }
+                    }
                 }
                 ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                ProfileToolbarItem()
                 ToolbarItem(placement: .platformTopBarTrailing) {
                     JournalOptionsButton(grouping: $chosenGrouping, groupKey: $groupKey) { showingCalendar = true }
                 }
@@ -336,6 +336,7 @@ struct EntryListView: View {
         // keeps this view from subscribing to every property of every dose.
         // The model's generation guard makes a newer run supersede an in-flight
         // one, so the overlap on first appear can't corrupt state.
+        .refreshesSharedSessionMarks()
         .task(id: DoseLogService.shared.revision) {
             // A `.task(id:)` also fires on re-appearance (a tab switch, a
             // pop back) with the id unchanged; the derived data is still
@@ -538,7 +539,7 @@ struct EntryListView: View {
     /// The Timeline grouping rendered as list rows — the same continuous
     /// strip the pushed timeline screen draws (day pills float over each
     /// slice), with the meds/Active Now cards above; the strip's display
-    /// options live in the toolbar (``JournalTimelineOptionsButton``).
+    /// options live in the toolbar's ``JournalFilterMenu``.
     private var timelineContent: some View {
         ForEach(timelineModel.days) { day in
             TimelineDayContent(day: day)
