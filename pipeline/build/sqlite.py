@@ -1409,6 +1409,12 @@ CREATE TABLE aliases (
     -- non-brand. Lets the subtitle lead with the iconic base brand instead of the
     -- alphabetically-first product, which alphabetical-among-brands still buried.
     brand_rank       INTEGER,
+    -- 1 when a lookup of `alias_normalized` resolves to this row's substance.
+    -- Always 1 for a key one substance owns. A key several substances claim
+    -- ("k": Ketamine and Clonazepam) resolves to exactly one of them, chosen by
+    -- resolve_alias_owners(); the others keep the row for display and search
+    -- with 0 here. The app's name→substance index reads only the 1 rows.
+    owns_key         INTEGER NOT NULL DEFAULT 1,
     PRIMARY KEY (substance_id, alias)
 );
 CREATE INDEX idx_aliases_normalized ON aliases(alias_normalized);
@@ -14074,34 +14080,110 @@ class Build:
         assert not shared, f"PSIDs naming more than one form: {shared}"
         return {"forms": rows}
 
-    def audit_alias_collisions(self) -> dict[str, int]:
-        """Deferred #2: surface cross-substance alias collisions before Stage A
-        freezes + displays a resolved form via displayNameSnapshot. The resolver /
-        backfill is first-wins on a shared alias_normalized, so a normalized alias
-        owned by >1 substance risks a frozen identity being the wrong sibling. This
-        is a report, not a hard fail (some collisions are legitimate slang the app
-        already tolerates) — it makes them visible for triage."""
-        rows = self.cur.execute(
-            "SELECT alias_normalized, COUNT(DISTINCT substance_id) AS c FROM aliases "
-            "GROUP BY alias_normalized HAVING c > 1 ORDER BY c DESC, alias_normalized"
-        ).fetchall()
-        if rows:
+    def resolve_alias_owners(self, overrides: dict[str, str] | None = None) -> dict[str, int]:
+        """Pick the one substance each contested alias key resolves to, and set
+        `aliases.owns_key` = 0 on every other claimant's rows.
+
+        Dozens of normalized aliases are claimed by more than one substance,
+        mostly street slang that genuinely names several drugs ("k" is Ketamine
+        on TripSit and Clonazepam on dose.wiki; "speed" is three stimulants).
+        The app resolves a logged or typed name to exactly one substance, and an
+        index that kept whichever claimant it met first would answer by table
+        order or alphabet ("K" → Clonazepam). The claim stays on every row (the
+        header lists it, search matches it); only which substance a lookup lands
+        on is decided here, in this order:
+
+        0. ``data/curated/alias-owners.json`` (``overrides``: normalized key →
+           canonical name), for keys the ranking below gets wrong ("cesamet" is
+           nabilone, which THC outranks on popularity). An owner that is not one
+           of the key's claimants fails the build.
+        1. The substance whose curated ``popularAliases`` names it. Those are
+           hand-authored for recognition, so "K" goes to Ketamine and "E" to
+           MDMA. Two curated claims on one key is a curation contradiction and
+           fails the build.
+        2. A substance with data over a dose-less stub (``is_stub``), so
+           "Vicodin" lands on Hydrocodone rather than an empty combination row.
+        3. Higher ``popularity``.
+        4. Canonical name, so the answer never depends on insertion order.
+
+        Runs after the final ``flag_dose_less_stubs`` so rule 2 reads the
+        finished flag."""
+        self.cur.execute("UPDATE aliases SET owns_key = 1")
+        if overrides is None:
+            path = CURATED_DIR.parent / "alias-owners.json"
+            entries = json.loads(path.read_text())["owners"] if path.is_file() else {}
+            overrides = {normalise(k): v["substance"] for k, v in entries.items()}
+        curated: dict[str, set[int]] = {}
+        for sid, raw in self.cur.execute(
+            "SELECT id, popular_aliases FROM substances WHERE popular_aliases IS NOT NULL"
+        ).fetchall():
+            for name in json.loads(raw):
+                curated.setdefault(normalise(name), set()).add(sid)
+        contradictions = {k: v for k, v in curated.items() if len(v) > 1}
+        assert not contradictions, (
+            f"popularAliases claimed by more than one substance: {contradictions}"
+        )
+
+        contested = [
+            r[0]
+            for r in self.cur.execute(
+                "SELECT alias_normalized FROM aliases GROUP BY alias_normalized "
+                "HAVING COUNT(DISTINCT substance_id) > 1 ORDER BY alias_normalized"
+            )
+        ]
+        reasons: dict[str, int] = {}
+        for key in contested:
+            claimants = self.cur.execute(
+                "SELECT DISTINCT s.id, s.canonical_name, s.is_stub, COALESCE(s.popularity, 0) "
+                "FROM aliases a JOIN substances s ON s.id = a.substance_id "
+                "WHERE a.alias_normalized = ?",
+                (key,),
+            ).fetchall()
+            claimed = curated.get(key, set())
+            pinned = overrides.get(key)
+            if pinned is not None:
+                assert any(c[1] == pinned for c in claimants), (
+                    f"alias-owners.json pins {key!r} to {pinned}, which does not claim it: "
+                    f"{sorted(c[1] for c in claimants)}"
+                )
+            ranked = sorted(
+                claimants,
+                key=lambda c: (
+                    c[1] != pinned,
+                    c[0] not in claimed,
+                    c[2] != 0,
+                    -c[3],
+                    c[1].lower(),
+                ),
+            )
+            winner, runner_up = ranked[0], ranked[1]
+            if winner[1] == pinned:
+                reason = "pinned"
+            elif winner[0] in claimed:
+                reason = "curated"
+            elif winner[2] != runner_up[2]:
+                reason = "non-stub"
+            elif winner[3] != runner_up[3]:
+                reason = "popularity"
+            else:
+                reason = "name"
+            reasons[reason] = reasons.get(reason, 0) + 1
+            self.cur.execute(
+                "UPDATE aliases SET owns_key = 0 WHERE alias_normalized = ? AND substance_id != ?",
+                (key, winner[0]),
+            )
+            others = ", ".join(c[1] for c in ranked[1:])
+            print(f"    {key!r} → {winner[1]} ({reason}) over {others}", file=sys.stderr)
+        for key in sorted(set(overrides) - set(contested)):
             print(
-                f"  alias-collision audit: {len(rows)} normalized aliases own >1 substance",
+                f"  WARNING: alias-owners.json pins {key!r}, which is no longer contested",
                 file=sys.stderr,
             )
-            for an, count in rows[:15]:
-                owners = [
-                    r[0]
-                    for r in self.cur.execute(
-                        "SELECT s.canonical_name FROM aliases a JOIN substances s "
-                        "ON s.id=a.substance_id WHERE a.alias_normalized=? "
-                        "ORDER BY s.canonical_name",
-                        (an,),
-                    )
-                ]
-                print(f"    {an!r} ({count}) → {owners}", file=sys.stderr)
-        return {"colliding_aliases": len(rows)}
+        print(
+            f"  alias owners: {len(contested)} contested keys resolved {reasons}",
+            file=sys.stderr,
+        )
+        return {"contested_aliases": len(contested), **reasons}
 
     def flag_dose_less_stubs(self) -> int:
         """Set `substances.is_stub = 1` for every substance with ZERO dose_ranges,
@@ -16269,8 +16351,6 @@ def main() -> int:
     print(f"Ester PK: {ester_pk}", file=sys.stderr)
     coded = build.build_product_codes()
     print(f"Product codes: {coded}", file=sys.stderr)
-    alias_collisions = build.audit_alias_collisions()
-    print(f"Alias-collision audit: {alias_collisions}", file=sys.stderr)
 
     if REJECT_LOG_PATH and build.rejects:
         with open(REJECT_LOG_PATH, "w") as fh:
@@ -16305,6 +16385,8 @@ def main() -> int:
     # badge it drives — reflects the finished database.
     final_stubs = build.flag_dose_less_stubs()
     print(f"Final dose-less stub flag: {final_stubs}", file=sys.stderr)
+    alias_owners = build.resolve_alias_owners()
+    print(f"Alias owners: {alias_owners}", file=sys.stderr)
 
     # After every row exists and every merge has settled, so an entry names the
     # row a reader will see. See pipeline/build/row_citations.py.

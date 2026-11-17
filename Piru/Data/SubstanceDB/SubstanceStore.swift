@@ -231,6 +231,10 @@ final class SubstanceStore {
     /// startup so `lookup` / `lookupByNameOrAlias` / `search` don't pay the
     /// full SQL scan tax.
     private(set) var nameIndex: [String: Int64] = [:]
+    /// Normalized alias → the one substance it resolves to. A key several
+    /// substances claim ("k": Ketamine and Clonazepam) maps to the claimant the
+    /// build chose (`aliases.owns_key`, set by `resolve_alias_owners()`): a
+    /// curated popular alias, then data over a stub, then popularity.
     private(set) var aliasIndex: [String: Int64] = [:]
     /// Row ids the build flagged `is_stub` — no dose, duration, protocol,
     /// half-life or binding data from any source. They stay in the library (their
@@ -239,10 +243,6 @@ final class SubstanceStore {
     /// this catalog, not a verdict on the molecule — the "Limited data" label has
     /// its own gate in `CompoundDisplayClass.mayReportLimitedData`.
     private(set) var stubIDs: Set<Int64> = []
-    /// Every substance owning a given normalized alias, in table order. Only the
-    /// keys owned by more than one substance are kept — 123 of ~5.8k — so this is
-    /// a small side table consulted purely to skip a stub that won first-wins.
-    private(set) var aliasOwners: [String: [Int64]] = [:]
     /// Normalized alias → the alias in its display casing ("concerta" → "Concerta").
     /// `alias_normalized` is the *pipeline's* normalization — Greek-cap folding and
     /// all — which `lowercased()` does not reproduce, so a search hit recovers its
@@ -827,7 +827,9 @@ final class SubstanceStore {
                         guard let uid = row["substance_uid"] as String? else { return nil }
                         return (row["id"] as Int64, uid)
                     }
-                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias, alias_normalized, isomer, release_form, salt_form FROM aliases")
+                    // Only the rows whose substance a key resolves to: a contested key's other
+                    // claimants keep their rows for display and search, never for resolution.
+                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias, alias_normalized, isomer, release_form, salt_form FROM aliases WHERE owns_key = 1")
                     // Localized titles (Ketamina, 氯胺酮) are searchable in every app language, so
                     // they join the search keys — after the aliases, so first-wins leaves every
                     // existing alias with its owner. They are kept out of the `aliases` table,
@@ -896,15 +898,10 @@ final class SubstanceStore {
                 Logger.substanceStore.warning("buildIndexes: collapsed \(names.count - self.nameIndex.count) duplicate lowercased canonical name(s) in nameIndex")
             }
             var ax: [String: Int64] = [:]
-            var owners: [String: [Int64]] = [:]
-            for (alias, sid) in aliases {
-                if ax[alias] == nil { ax[alias] = sid }
-                owners[alias, default: []].append(sid)
+            for (alias, sid) in aliases where ax[alias] == nil {
+                ax[alias] = sid
             }
             self.aliasIndex = ax
-            // Keep only the contested keys; a single-owner alias can never need
-            // the stub-skipping fallback.
-            self.aliasOwners = owners.filter { $0.value.count > 1 }
             // First-wins, matching `aliasIndex`: two aliases normalizing to the same
             // key ("Biphentin"/"biphentin") resolve to one substance, so they must
             // resolve to one display form too.
@@ -913,9 +910,7 @@ final class SubstanceStore {
                 adx[normalized] = display
             }
             self.aliasDisplayIndex = adx
-            // First-wins per facet, matching `aliasIndex` — an alias owned by >1
-            // substance resolves to the first, and `audit_alias_collisions()` in the
-            // build reports any such collision for triage.
+            // First-wins per facet; every row read here belongs to the key's one owner.
             var aix: [String: String] = [:]
             var arx: [String: String] = [:]
             var asx: [String: String] = [:]
@@ -1147,15 +1142,11 @@ final class SubstanceStore {
         // nothing, while the alias "Adderall" resolved to Amphetamine and drew a
         // full curve.
         //
-        // The preference runs both ways round: a *name* hit that is a stub yields
-        // to a non-stub alias hit, and when there is no name hit at all the alias
-        // index is asked for a non-stub owner before falling back to whichever
-        // substance happens to be first. 817 of the 1912 rows are stubs and 123
-        // alias keys are owned by more than one substance, so "first-wins landed
-        // on the empty one" is not a rare shape.
+        // An alias key several substances claim already resolves to a non-stub
+        // owner where one exists: the build ranks data over stubs when it picks
+        // the key's owner.
         if let byName, !stubIDs.contains(byName) { return byName }
         if let byAlias, !stubIDs.contains(byAlias) { return byAlias }
-        if let nonStub = nonStubAliasOwner(for: key) { return nonStub }
         return byName ?? byAlias
     }
 
@@ -1169,14 +1160,6 @@ final class SubstanceStore {
         }
         guard let slug, !slug.isEmpty else { return nil }
         return slug
-    }
-
-    /// A substance owning `key` as an alias that actually carries data, when the
-    /// first-wins ``aliasIndex`` entry is a stub. `nil` when every owner is a stub
-    /// (then the stub is the honest answer).
-    private func nonStubAliasOwner(for key: String) -> Int64? {
-        guard let owners = aliasOwners[key] else { return nil }
-        return owners.first { !stubIDs.contains($0) }
     }
 
     // MARK: - PSID resolution (see SubstanceStore+PSID.swift for the name→uid maps)
@@ -1266,8 +1249,13 @@ final class SubstanceStore {
             // Canonical name wins ties; aliases only fill gaps so a shared alias
             // never shadows a real substance's own row.
             index[row.name.lowercased()] = row
+            let rowID = nameIndex[row.name.lowercased()]
             for alias in row.aliases {
                 let key = alias.lowercased()
+                // A key several substances claim belongs to the one `aliasIndex`
+                // names, never to whichever claimant sorts first ("K" is Ketamine's,
+                // though Clonazepam sorts ahead and also lists it).
+                if let owner = aliasIndex[key], owner != rowID { continue }
                 if index[key] == nil { index[key] = row }
             }
         }

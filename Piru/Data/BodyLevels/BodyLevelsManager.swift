@@ -73,6 +73,9 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
         let id: Int
         /// The name to show the user (relabels applied).
         let displayName: String
+        /// The library's canonical name, for any lookup; ``displayName`` is a
+        /// title and may be an alias another substance also lists.
+        let canonicalName: String
         let color: Color
         let unit: String
         /// Peak in-body amount over the window, in `unit`.
@@ -81,9 +84,10 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
         let doseCount: Int
         let points: [Point]
 
-        init(id: Int, displayName: String, color: Color, unit: String, peak: Double, doseCount: Int, points: [Point]) {
+        init(id: Int, displayName: String, canonicalName: String? = nil, color: Color, unit: String, peak: Double, doseCount: Int, points: [Point]) {
             self.id = id
             self.displayName = displayName
+            self.canonicalName = canonicalName ?? displayName
             self.color = color
             self.unit = unit
             self.peak = peak
@@ -94,6 +98,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
         private enum CodingKeys: String, CodingKey {
             case id
             case displayName
+            case canonicalName
             case tint
             case unit
             case peak
@@ -105,6 +110,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             id = try c.decode(Int.self, forKey: .id)
             displayName = try c.decode(String.self, forKey: .displayName)
+            canonicalName = try c.decodeIfPresent(String.self, forKey: .canonicalName) ?? displayName
             color = try c.decode(P3Color.self, forKey: .tint).color
             unit = try c.decode(String.self, forKey: .unit)
             peak = try c.decode(Double.self, forKey: .peak)
@@ -116,6 +122,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
             var c = encoder.container(keyedBy: CodingKeys.self)
             try c.encode(id, forKey: .id)
             try c.encode(displayName, forKey: .displayName)
+            try c.encode(canonicalName, forKey: .canonicalName)
             try c.encode(color.cacheTint(), forKey: .tint)
             try c.encode(unit, forKey: .unit)
             try c.encode(peak, forKey: .peak)

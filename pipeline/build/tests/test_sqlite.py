@@ -4618,5 +4618,93 @@ class TestNextContentVersion(unittest.TestCase):
         self.assertEqual(_mod.next_content_version("2026-09-01", "2026-09-01.x"), "2026-09-01.0")
 
 
+class TestAliasOwners(unittest.TestCase):
+    """A normalized alias several substances claim resolves to exactly one of
+    them: a curated popularAliases claim, then data over a stub, then
+    popularity, then name. The app's name index reads only `owns_key = 1`."""
+
+    def _build(self):
+        db = sqlite3.connect(":memory:")
+        db.executescript(_mod.SCHEMA_SQL)
+        build = Builder(db)
+        build.seed_sources()
+        return db, build
+
+    def _sub(self, build, name, popularity, stub=0, popular_aliases=None):
+        sid = build.upsert_substance(name, source_slug="piru-curated")
+        build.cur.execute(
+            "UPDATE substances SET popularity=?, is_stub=?, popular_aliases=? WHERE id=?",
+            (popularity, stub, json.dumps(popular_aliases) if popular_aliases else None, sid),
+        )
+        return sid
+
+    def _owner(self, db, key):
+        rows = db.execute(
+            "SELECT DISTINCT s.canonical_name FROM aliases a JOIN substances s ON s.id=a.substance_id "
+            "WHERE a.alias_normalized=? AND a.owns_key=1",
+            (key,),
+        ).fetchall()
+        return [r[0] for r in rows]
+
+    def test_curated_claim_outranks_popularity_and_alphabet(self):
+        db, build = self._build()
+        ket = self._sub(build, "Ketamine", 0.5, popular_aliases=["Ket", "K"])
+        clon = self._sub(build, "Clonazepam", 0.9)
+        build._add_alias(clon, "K", "dosewiki")
+        build._add_alias(ket, "K", "tripsit")
+        build.resolve_alias_owners(overrides={})
+        self.assertEqual(self._owner(db, "k"), ["Ketamine"])
+        # The losing claim stays on its row for display and search.
+        self.assertEqual(
+            db.execute(
+                "SELECT owns_key FROM aliases WHERE substance_id=? AND alias_normalized='k'",
+                (clon,),
+            ).fetchone(),
+            (0,),
+        )
+
+    def test_data_outranks_a_stub_then_popularity_then_name(self):
+        db, build = self._build()
+        hydro = self._sub(build, "Hydrocodone", 0.5)
+        combo = self._sub(build, "Hydrocodone-Acetaminophen", 0.9, stub=1)
+        for sid in (combo, hydro):
+            build._add_alias(sid, "Vicodin", "pyrls")
+        amph = self._sub(build, "Amphetamine", 0.8)
+        meth = self._sub(build, "Methamphetamine", 0.9)
+        for sid in (amph, meth):
+            build._add_alias(sid, "Whiz", "drug.community")
+        a = self._sub(build, "Alpha", 0.5)
+        b = self._sub(build, "Beta", 0.5)
+        for sid in (b, a):
+            build._add_alias(sid, "Shared", "drug.community")
+        build.resolve_alias_owners(overrides={})
+        self.assertEqual(self._owner(db, "vicodin"), ["Hydrocodone"])
+        self.assertEqual(self._owner(db, "whiz"), ["Methamphetamine"])
+        self.assertEqual(self._owner(db, "shared"), ["Alpha"])
+
+    def test_a_pinned_owner_outranks_every_other_rule(self):
+        db, build = self._build()
+        nab = self._sub(build, "Nabilone", 0.6)
+        thc = self._sub(build, "THC", 0.9, popular_aliases=["Cesamet"])
+        for sid in (thc, nab):
+            build._add_alias(sid, "Cesamet", "drug.community")
+        build.resolve_alias_owners(overrides={"cesamet": "Nabilone"})
+        self.assertEqual(self._owner(db, "cesamet"), ["Nabilone"])
+
+    def test_a_pin_naming_a_non_claimant_fails_the_build(self):
+        _db, build = self._build()
+        for name in ("Amphetamine", "Methamphetamine"):
+            build._add_alias(self._sub(build, name, 0.5), "Whiz", "drug.community")
+        with self.assertRaises(AssertionError):
+            build.resolve_alias_owners(overrides={"whiz": "Cocaine"})
+
+    def test_two_curated_claims_on_one_key_fail_the_build(self):
+        _db, build = self._build()
+        self._sub(build, "Amphetamine", 0.8, popular_aliases=["Speed"])
+        self._sub(build, "Methamphetamine", 0.9, popular_aliases=["Speed"])
+        with self.assertRaises(AssertionError):
+            build.resolve_alias_owners(overrides={})
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

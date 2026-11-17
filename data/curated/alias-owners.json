@@ -1,0 +1,29 @@
+{
+  "_comment": "Which substance a contested alias resolves to, when the ranked rule in resolve_alias_owners() (popularAliases claim, data over a stub, popularity, name) picks the wrong one. Keys are normalized aliases (pipeline normalise(): lowercased, salt suffix stripped). The owner must be one of the key's claimants or the build fails; every other claimant keeps the alias for display and search. Each entry says what the name refers to.",
+  "owners": {
+    "cesamet": {
+      "substance": "Nabilone",
+      "why": "Cesamet is the US brand of nabilone capsules (FDA NDA 018677)."
+    },
+    "kat": {
+      "substance": "Khat",
+      "why": "Kat is a spelling of khat (Catha edulis), the plant; methcathinone's street names are cat and jeff."
+    },
+    "monase": {
+      "substance": "a-ET",
+      "why": "Monase was Upjohn's brand of etryptamine (alpha-ethyltryptamine) acetate, marketed as an antidepressant in 1961."
+    },
+    "pepto bismol": {
+      "substance": "Bismuth subsalicylate",
+      "why": "Pepto-Bismol's active ingredient is bismuth subsalicylate."
+    },
+    "wax": {
+      "substance": "Cannabis",
+      "why": "Wax is a butane-extracted cannabis concentrate."
+    },
+    "whiz": {
+      "substance": "Amphetamine",
+      "why": "Whizz is British slang for amphetamine sulfate (speed)."
+    }
+  }
+}

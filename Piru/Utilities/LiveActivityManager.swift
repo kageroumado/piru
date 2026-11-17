@@ -157,7 +157,7 @@ struct DoseSnapshot {
             else { return nil }
             return existing.content.state.activeSubstances.map { state in
                 let snapshot = DoseSnapshot(
-                    substance: state.substanceName,
+                    substance: state.canonicalName,
                     amount: state.amount,
                     unit: state.unit,
                     route: RouteOfAdministration.from(string: state.route),

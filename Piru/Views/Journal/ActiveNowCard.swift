@@ -85,7 +85,7 @@ struct ActiveNowCard: View {
 
     @ViewBuilder
     private func singleDoseContent(state: ActiveSubstanceState, now: Date) -> some View {
-        let color = SubstancePalette.color(for: state.substanceName, colorMap: colorMap)
+        let color = SubstancePalette.color(for: state.canonicalName, colorMap: colorMap)
 
         // Title + substance identity, kept tight as a title/subtitle pair, with
         // the chevron overlaid at the trailing edge.
@@ -93,7 +93,7 @@ struct ActiveNowCard: View {
             titleLabel
             HStack(spacing: Spacing.sm) {
                 LegendDot(color: color, size: .compact)
-                Text(verbatim: CustomSubstanceStore.shared.displayName(for: state.substanceName))
+                Text(verbatim: state.displayLabel())
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .lineLimit(1)
@@ -139,24 +139,21 @@ struct ActiveNowCard: View {
 
     /// Every active substance, comma-joined — no "+N more" truncation. The row
     /// is `lineLimit(1)`, so the system truncates only if the names genuinely
-    /// don't fit. State names are already resolved display titles.
+    /// don't fit.
     private var displayNames: String {
-        uniqueSubstances.joined(separator: ", ")
+        uniqueSubstances.map { $0.displayLabel() }.joined(separator: ", ")
     }
 
-    private var uniqueSubstances: [String] {
+    /// The first dose of each distinct title, in dose order.
+    private var uniqueSubstances: [ActiveSubstanceState] {
         var seen = Set<String>()
-        return states.compactMap { state in
-            let key = state.substanceName.lowercased()
-            guard seen.insert(key).inserted else { return nil }
-            return state.substanceName
-        }
+        return states.filter { seen.insert($0.substanceName.lowercased()).inserted }
     }
 
     private var substanceDots: some View {
         HStack(spacing: 3) {
-            ForEach(uniqueSubstances.prefix(4).enumerated(), id: \.offset) { _, name in
-                LegendDot(color: SubstancePalette.color(for: name, colorMap: colorMap), size: .compact)
+            ForEach(uniqueSubstances.prefix(4).enumerated(), id: \.offset) { _, state in
+                LegendDot(color: SubstancePalette.color(for: state.canonicalName, colorMap: colorMap), size: .compact)
             }
         }
     }

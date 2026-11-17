@@ -80,7 +80,7 @@ struct InYourBodyView: View {
             substanceProjections = Dictionary(uniqueKeysWithValues: allProjections.map { ($0.id, $0) })
             if let trail = manager.trail {
                 filter.setCategories(Dictionary(
-                    trail.series.map { ($0.displayName, SubstanceLibrary.lookup($0.displayName)?.category ?? .other) },
+                    trail.series.map { ($0.displayName, SubstanceLibrary.lookup($0.canonicalName)?.category ?? .other) },
                     uniquingKeysWith: { first, _ in first },
                 ))
             }

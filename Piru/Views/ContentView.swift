@@ -800,7 +800,7 @@ struct SessionAccessoryInfo: View {
             let key = state.substanceName.lowercased()
             guard !seen.contains(key) else { return nil }
             seen.insert(key)
-            return CustomSubstanceStore.shared.displayName(for: state.substanceName)
+            return state.displayLabel()
         }.joined(separator: ", ")
     }
 

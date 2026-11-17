@@ -35,7 +35,21 @@ import Foundation
 #endif
 
 nonisolated struct ActiveSubstanceState: Codable, Hashable {
+    /// What to call the dose: its resolved title (a relabel, the product as
+    /// logged, or the catalog's display title). For showing only — a title is
+    /// not a name the catalog resolves ("K" is a user's relabel of Ketamine and
+    /// also an alias Clonazepam lists), so every lookup reads ``canonicalName``.
     let substanceName: String
+    /// The library's canonical name for the substance, the key for every lookup,
+    /// color and relabel. Equals ``substanceName`` for a substance the catalog
+    /// does not know.
+    var canonicalName: String {
+        canonical ?? substanceName
+    }
+
+    /// ``canonicalName`` when it differs from the title, else `nil` — encoded
+    /// only then, to keep the Live Activity inside ActivityKit's 4 KB budget.
+    private let canonical: String?
     let tint: P3Color
     let doseTimestamp: Date
     let amount: Double
@@ -140,8 +154,9 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     let peakSpreadMinutes: Double?
     let offsetSpreadMinutes: Double?
 
-    init(substanceName: String, tint: P3Color, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, doseIsUnscaled: Bool = false, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil, comeupSpreadMinutes: Double? = nil, peakSpreadMinutes: Double? = nil, offsetSpreadMinutes: Double? = nil) {
+    init(substanceName: String, canonicalName: String? = nil, tint: P3Color, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, doseIsUnscaled: Bool = false, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil, comeupSpreadMinutes: Double? = nil, peakSpreadMinutes: Double? = nil, offsetSpreadMinutes: Double? = nil) {
         self.substanceName = substanceName
+        self.canonical = canonicalName == substanceName ? nil : canonicalName
         self.tint = tint
         self.doseTimestamp = doseTimestamp
         self.amount = amount
@@ -173,6 +188,9 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         substanceName = try c.decode(String.self, forKey: .substanceName)
+        // Absent when the title is the canonical name, and on an activity started
+        // by an older build, whose title was the only name it carried.
+        canonical = try c.decodeIfPresent(String.self, forKey: .canonical)
         tint = try c.decode(P3Color.self, forKey: .tint)
         doseTimestamp = try c.decode(Date.self, forKey: .doseTimestamp)
         amount = try c.decode(Double.self, forKey: .amount)

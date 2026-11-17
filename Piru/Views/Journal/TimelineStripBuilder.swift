@@ -683,7 +683,7 @@ struct TimelineStripBuilder {
             guard alone else { continue }
 
             let doseKey = "\(state.substanceName)|\(Int(state.doseTimestamp.timeIntervalSince1970))"
-            let sleep = affectsSleep(state.substanceName)
+            let sleep = affectsSleep(state.canonicalName)
             let moments: [(TimelineDayLayout.Milestone.Kind, Double)] = [
                 (.comeup, state.onsetEndMinutes),
                 (.peak, state.comeupEndMinutes),
@@ -880,7 +880,7 @@ struct TimelineStripBuilder {
             // reads the amounts themselves, so every curve there is measured.
             let isUnscaled = relativeWeightsBySubstance[key] == nil && states.allSatisfy(\.doseIsUnscaled)
 
-            let color = SubstancePalette.color(for: relevant[0].substanceName, colorMap: colorMap)
+            let color = SubstancePalette.color(for: relevant[0].canonicalName, colorMap: colorMap)
             // The weights already bring every stack within the lane; the clamp
             // only absorbs the residue of sampling the stack at its crests.
             let points = Self.trimmed(zip(grid, zip(values, phases)).map {
@@ -888,7 +888,7 @@ struct TimelineStripBuilder {
             })
             result.append(TimelineDayLayout.CurveSeries(
                 color: color, points: points, isUnscaled: isUnscaled,
-                label: CustomSubstanceStore.shared.displayName(for: relevant[0].substanceName),
+                label: relevant[0].displayLabel(),
             ))
         }
         return result
