@@ -4193,6 +4193,34 @@
         }
       }
     },
+    "%@'s code has changed" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El código de %@ cambió"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El código de %@ cambió"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的配对码已改变"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的配對碼已改變"
+          }
+        }
+      }
+    },
     "%@'s code has changed since you paired. Scan their code again to keep sharing." : {
       "localizations" : {
         "es" : {
@@ -67773,6 +67801,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "配對"
+          }
+        }
+      }
+    },
+    "Pair Again" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a vincular"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a vincular"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新配对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新配對"
+          }
+        }
+      }
+    },
+    "Pair again only if %@ is with you and you scanned this from their phone. A code sent to you could be someone else's." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a vincularte solo si %@ está contigo y escaneaste este código desde su teléfono. Un código que te enviaron podría ser de otra persona."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a vincularte solo si %@ está contigo y escaneaste este código desde su teléfono. Un código que te enviaron podría ser de otra persona."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在%@就在你身边、且你是从对方手机上扫描的情况下，才重新配对。别人发给你的配对码可能属于其他人。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在%@就在你身邊、且你是從對方手機上掃描的情況下，才重新配對。別人傳給你的配對碼可能屬於其他人。"
           }
         }
       }

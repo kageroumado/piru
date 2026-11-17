@@ -58,9 +58,9 @@ final class ShareInbox {
         }
     }
 
-    func pair(_ code: PairingCode) {
+    func pair(_ code: PairingCode, replacingKey: Bool = false) {
         do {
-            item = try .paired(ShareReceiver.pair(with: code))
+            item = try .paired(ShareReceiver.pair(with: code, replacingKey: replacingKey))
         } catch {
             item = .failed(error.localizedDescription)
         }
@@ -76,7 +76,8 @@ final class ShareInbox {
     private static func read(_ url: URL) -> Data? {
         let scoped = url.startAccessingSecurityScopedResource()
         defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-        let data = try? Data(contentsOf: url)
+        let size = (try? url.resourceValues(forKeys: [.fileSizeKey]))?.fileSize ?? 0
+        let data = size <= ShareEnvelope.maxFileBytes ? try? Data(contentsOf: url) : nil
         if url.path.contains("/Inbox/") {
             try? FileManager.default.removeItem(at: url)
         }

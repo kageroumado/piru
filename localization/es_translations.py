@@ -3721,6 +3721,9 @@ ES = {
     "Save Name": "Guardar nombre",
     "Your Name": "Tu nombre",
     "The other person sees this name beside your sessions.": "La otra persona ve este nombre junto a tus sesiones.",
+    "%@'s code has changed": "El código de %@ cambió",
+    "Pair again only if %@ is with you and you scanned this from their phone. A code sent to you could be someone else's.": "Vuelve a vincularte solo si %@ está contigo y escaneaste este código desde su teléfono. Un código que te enviaron podría ser de otra persona.",
+    "Pair Again": "Volver a vincular",
     # profiles phase 4
     "Shared with": "Compartido con",
     "Their doses come off this stock too. Only you can change who shares it or delete it.": "Sus dosis también se descuentan de este inventario. Solo tú puedes cambiar con quién se comparte o eliminarlo.",

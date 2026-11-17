@@ -7997,6 +7997,12 @@ T = {
         "对方会在你的场次旁看到这个名字。",
         "對方會在你的場次旁看到這個名字。",
     ),
+    "%@'s code has changed": ("%@的配对码已改变", "%@的配對碼已改變"),
+    "Pair again only if %@ is with you and you scanned this from their phone. A code sent to you could be someone else's.": (
+        "只有在%@就在你身边、且你是从对方手机上扫描的情况下，才重新配对。别人发给你的配对码可能属于其他人。",
+        "只有在%@就在你身邊、且你是從對方手機上掃描的情況下，才重新配對。別人傳給你的配對碼可能屬於其他人。",
+    ),
+    "Pair Again": ("重新配对", "重新配對"),
     # profiles phase 4
     "Shared with": ("共享对象", "共享對象"),
     "Their doses come off this stock too. Only you can change who shares it or delete it.": (
@@ -9662,6 +9668,13 @@ if __name__ == "__main__":
             "Save Name",
             "Your Name",
             "The other person sees this name beside your sessions.",
+        }
+    )
+    NEW_KEYS.update(
+        {
+            "%@'s code has changed",
+            "Pair again only if %@ is with you and you scanned this from their phone. A code sent to you could be someone else's.",
+            "Pair Again",
         }
     )
     # profiles phase 4

@@ -1,3 +1,4 @@
+import Compression
 import CryptoKit
 import Foundation
 
@@ -14,6 +15,12 @@ nonisolated struct ShareEnvelope: Codable, Equatable, Sendable {
     static let version = 1
     private static let info = Data("piru-share/1".utf8)
     private static let suite = HPKE.Ciphersuite.Curve25519_SHA256_ChachaPoly
+    /// The largest file read as a share. A session's share is a few KB; this
+    /// leaves room for thousands of doses and notes.
+    static let maxFileBytes = 4_000_000
+    /// The most a body may inflate to. Anyone holding a public key can seal to
+    /// it, so the inflated size is capped before it is believed.
+    static let maxBodyBytes = 8_000_000
 
     struct Party: Codable, Equatable, Sendable {
         let id: UUID
@@ -68,6 +75,7 @@ nonisolated struct ShareEnvelope: Codable, Equatable, Sendable {
 
     /// The envelope in `data`, before anything is opened.
     static func decode(_ data: Data) throws -> ShareEnvelope {
+        guard data.count <= maxFileBytes else { throw EnvelopeError.damaged }
         guard let envelope = try? JSONDecoder().decode(ShareEnvelope.self, from: data),
               envelope.format == format
         else { throw EnvelopeError.notAShare }
@@ -94,10 +102,29 @@ nonisolated struct ShareEnvelope: Codable, Equatable, Sendable {
             let keyBytes = try hpke.open(mine.sealedKey, authenticating: aad)
             let box = try ChaChaPoly.SealedBox(combined: body)
             let compressed = try ChaChaPoly.open(box, using: SymmetricKey(data: keyBytes), authenticating: aad)
-            return try (compressed as NSData).decompressed(using: .zlib) as Data
+            guard let plaintext = Self.inflate(compressed, limit: Self.maxBodyBytes) else { throw EnvelopeError.damaged }
+            return plaintext
         } catch {
             throw EnvelopeError.damaged
         }
+    }
+
+    /// Raw-deflate `data` into at most `limit` bytes; `nil` when it is empty,
+    /// malformed, or would inflate past `limit`.
+    private static func inflate(_ data: Data, limit: Int) -> Data? {
+        guard !data.isEmpty else { return nil }
+        var output = Data(count: limit + 1)
+        let written = output.withUnsafeMutableBytes { destination in
+            data.withUnsafeBytes { source in
+                guard let out = destination.bindMemory(to: UInt8.self).baseAddress,
+                      let input = source.bindMemory(to: UInt8.self).baseAddress
+                else { return 0 }
+                return compression_decode_buffer(out, limit + 1, input, data.count, nil, COMPRESSION_ZLIB)
+            }
+        }
+        guard written > 0, written <= limit else { return nil }
+        output.count = written
+        return output
     }
 
     func encoded() throws -> Data {

@@ -263,10 +263,18 @@ enum ShareReceiver {
         return mine.id
     }
 
-    /// Pair with the person a scanned code names.
+    /// Whether `code` names someone already paired under a different key.
+    static func changesKey(_ code: PairingCode, directory: ProfileDirectory = .shared) -> Bool {
+        directory.person(id: code.personID).map { $0.publicKey != code.publicKey } ?? false
+    }
+
+    /// Pair with the person a scanned code names. A code that gives a paired
+    /// person a new key throws ``SessionSharingError/keyChanged(name:)`` unless
+    /// `replacingKey`, which only the explicit re-pair prompt passes.
     @discardableResult
     static func pair(
         with code: PairingCode,
+        replacingKey: Bool = false,
         directory: ProfileDirectory = .shared,
         identities: ShareIdentityStore = .shared,
     ) throws -> PiruPerson {
@@ -274,6 +282,7 @@ enum ShareReceiver {
         guard !own else { throw SessionSharingError.ownCode }
         return try directory.savePerson(
             personID: code.personID, name: code.name, avatar: code.avatar, publicKey: code.publicKey,
+            replacingKey: replacingKey,
         )
     }
 }

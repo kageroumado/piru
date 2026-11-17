@@ -94,6 +94,19 @@ struct SessionSharingTests {
         #expect(throws: ShareEnvelope.EnvelopeError.notAShare) { try ShareEnvelope.decode(Data([0xFF, 0x00])) }
     }
 
+    @Test
+    func `A body that inflates past the cap is refused`() throws {
+        let sender = ShareIdentity.make()
+        let bob = ShareIdentity.make()
+        let bomb = Data(count: ShareEnvelope.maxBodyBytes + 1)
+        let envelope = try ShareEnvelope.seal(bomb, from: sender, to: [(bob.personID, bob.publicKey)])
+        #expect(try envelope.encoded().count < 100_000)
+        #expect(throws: ShareEnvelope.EnvelopeError.damaged) { try envelope.open(with: bob) }
+        #expect(throws: ShareEnvelope.EnvelopeError.damaged) {
+            try ShareEnvelope.decode(Data(count: ShareEnvelope.maxFileBytes + 1))
+        }
+    }
+
     // MARK: - Pairing codes
 
     @Test
@@ -111,6 +124,28 @@ struct SessionSharingTests {
         components.queryItems = components.queryItems?.map { $0.name == "k" ? URLQueryItem(name: "k", value: "AAAA") : $0 }
         #expect(try PairingCode(url: #require(components.url)) == nil)
         #expect(try PairingCode(url: #require(URL(string: "piru://journal"))) == nil)
+    }
+
+    @Test
+    func `A code that gives a paired person a new key needs the explicit re-pair`() throws {
+        let kiri = try Phone(ownerName: "Kiri")
+        let bob = try Phone(ownerName: "Bob")
+        try kiri.pair(with: bob)
+        let original = try #require(kiri.directory.people.first).publicKey
+
+        let real = try bob.code()
+        let impostor = PairingCode(
+            personID: real.personID, publicKey: ShareIdentity.make().publicKey.rawRepresentation,
+            name: "Bob", avatar: real.avatar,
+        )
+        #expect(ShareReceiver.changesKey(impostor, directory: kiri.directory))
+        #expect(throws: SessionSharingError.keyChanged(name: "Bob")) {
+            try ShareReceiver.pair(with: impostor, directory: kiri.directory, identities: kiri.identities)
+        }
+        #expect(kiri.directory.people.first?.publicKey == original)
+
+        try ShareReceiver.pair(with: impostor, replacingKey: true, directory: kiri.directory, identities: kiri.identities)
+        #expect(kiri.directory.people.first?.publicKey == impostor.publicKey)
     }
 
     @Test

@@ -281,10 +281,16 @@ final class ProfileDirectory {
 
     // MARK: - People
 
-    /// Pair with someone, or take a newer key, name and avatar for someone
-    /// already paired. A person keeps the color this device gave them.
+    /// Pair with someone, or take a newer name and avatar for someone already
+    /// paired. A person keeps the color this device gave them.
+    ///
+    /// A paired person's key changes only with `replacingKey`: anyone can make
+    /// a code or a share that claims someone's person id, so a new key for a
+    /// known person needs the user's explicit yes, never a silent overwrite.
     @discardableResult
-    func savePerson(personID: UUID, name: String, avatar: ProfileAvatar, publicKey: Data) throws -> PiruPerson {
+    func savePerson(
+        personID: UUID, name: String, avatar: ProfileAvatar, publicKey: Data, replacingKey: Bool = false,
+    ) throws -> PiruPerson {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { throw DirectoryError.emptyName }
         guard personID != PiruProfile.ownerID, !profiles.contains(where: { $0.id == personID }) else {
@@ -293,6 +299,9 @@ final class ProfileDirectory {
         var next = people
         let person: PiruPerson
         if let index = next.firstIndex(where: { $0.id == personID }) {
+            guard next[index].publicKey == publicKey || replacingKey else {
+                throw SessionSharingError.keyChanged(name: next[index].profile.name)
+            }
             var updated = next[index]
             updated.profile.name = trimmed
             updated.profile.avatar = avatar.withPhoto(nil)

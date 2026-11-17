@@ -52,18 +52,26 @@ private struct PairPrompt: View {
     @Environment(\.profileDirectory) private var directory
 
     var body: some View {
+        let changesKey = ShareReceiver.changesKey(code, directory: directory)
         List {
             Section {
                 InboxHeader(
                     avatar: code.avatar, color: directory.color(forNewPerson: code.personID),
-                    title: Text("Pair with \(code.name)?"),
-                    detail: Text("You'll be able to send each other sessions. Each of you sees only what the other sends."),
+                    title: changesKey ? Text("\(code.name)'s code has changed") : Text("Pair with \(code.name)?"),
+                    detail: changesKey
+                        ? Text("Pair again only if \(code.name) is with you and you scanned this from their phone. A code sent to you could be someone else's.")
+                        : Text("You'll be able to send each other sessions. Each of you sees only what the other sends."),
                 )
             }
             .listRowBackground(Color.clear)
             Section {
-                Button("Pair") { ShareInbox.shared.pair(code) }
-                    .frame(maxWidth: .infinity)
+                if changesKey {
+                    Button("Pair Again", role: .destructive) { ShareInbox.shared.pair(code, replacingKey: true) }
+                        .frame(maxWidth: .infinity)
+                } else {
+                    Button("Pair") { ShareInbox.shared.pair(code) }
+                        .frame(maxWidth: .infinity)
+                }
             }
             .listRowBackground(CardBackground())
         }
