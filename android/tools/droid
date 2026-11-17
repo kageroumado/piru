@@ -2,7 +2,7 @@
 """Drive Piru on the Android emulator the way `axe` drives the iOS simulator.
 
     droid restart                 force-stop and relaunch Piru
-    droid shot [name]             screenshot → $PIRU_ANDROID/build/<name>.png (prints the path)
+    droid shot [name]             screenshot → $PIRU_ANDROID_BUILD/<name>.png (prints the path)
     droid tree [--all]            labeled nodes: label, center x,y (device pixels), bounds
     droid tap --label TEXT        tap the node whose text or description matches TEXT
     droid tap X Y                 tap device pixels
@@ -20,7 +20,7 @@ as `tree` and screenshots report them.
 """
 
 import argparse
-import os
+import functools
 import re
 import subprocess
 import sys
@@ -28,15 +28,21 @@ import time
 import xml.etree.ElementTree as ElementTree
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import android_paths  # noqa: E402
+
 PACKAGE = "glass.kagerou.piru"
 ACTIVITY = f"{PACKAGE}/piru.module.MainActivity"
-PIRU_ANDROID = Path(os.environ.get("PIRU_ANDROID", "/Volumes/Ugreen/Projects/piru-android"))
-ADB = str(PIRU_ANDROID / "android-sdk/platform-tools/adb")
+
+
+@functools.cache
+def adb_path() -> str:
+    return android_paths.adb()
 
 
 def adb(*args, capture=True, check=True, timeout=30):
     result = subprocess.run(
-        [ADB, *args], capture_output=capture, text=True, check=False, timeout=timeout
+        [adb_path(), *args], capture_output=capture, text=True, check=False, timeout=timeout
     )
     if check and result.returncode != 0:
         sys.exit(f"adb {' '.join(args)} failed: {result.stderr.strip()}")
@@ -134,7 +140,7 @@ def lit_display() -> list[str]:
     """`screencap -d` for the screen that is on. A foldable has two physical displays, and
     a bare screencap writes a warning into the PNG stream and may pick the dark one."""
     report = subprocess.run(
-        [ADB, "shell", "dumpsys", "display"], capture_output=True, text=True, check=True
+        [adb_path(), "shell", "dumpsys", "display"], capture_output=True, text=True, check=True
     ).stdout
     displays = re.findall(r"mPhysicalDisplayId=(\d+).*?mState=(\w+)", report, re.DOTALL)
     if len(displays) < 2:
@@ -144,8 +150,9 @@ def lit_display() -> list[str]:
 
 
 def command_shot(args):
-    path = PIRU_ANDROID / "build" / f"{args.name}.png"
-    command = [ADB, "exec-out", "screencap", *lit_display(), "-p"]
+    android_paths.BUILD.mkdir(parents=True, exist_ok=True)
+    path = android_paths.BUILD / f"{args.name}.png"
+    command = [adb_path(), "exec-out", "screencap", *lit_display(), "-p"]
     path.write_bytes(subprocess.run(command, capture_output=True, check=True).stdout)
     print(path)
 

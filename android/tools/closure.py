@@ -7,18 +7,18 @@ not pulled in: they are reported as the boundary, which is the list of seams the
 still crosses. Repeats until a build adds nothing new.
 """
 
-import os
 import re
+import shlex
 import subprocess
 import sys
 from pathlib import Path
 
+from android_paths import BUILD
+
 ROOT = Path(__file__).resolve().parents[2]
 PKG = ROOT / "android/PiruCore"
 SRC = PKG / "Sources/Piru"
-SCRATCH = (
-    os.environ.get("PIRU_ANDROID", "/Volumes/Ugreen/Projects/piru-android") + "/build/PiruCore-mac"
-)
+SCRATCH = BUILD / "PiruCore-mac"
 SEARCH = [ROOT / "Shared", ROOT / "Piru"]
 BLOCKED = {"SwiftUI", "UIKit", "AppKit", "WidgetKit", "ActivityKit", "Charts", "TipKit"}
 MISSING = re.compile(r"cannot find (?:type )?'([A-Za-z_][A-Za-z0-9_]*)' in scope")
@@ -46,7 +46,9 @@ def imports(f: Path) -> set[str]:
 
 
 def build() -> str:
-    cmd = f". {ENV} && swift build --scratch-path {SCRATCH} 2>&1"
+    cmd = (
+        f". {shlex.quote(str(ENV))} && swift build --scratch-path {shlex.quote(str(SCRATCH))} 2>&1"
+    )
     out = subprocess.run(["zsh", "-c", cmd], cwd=PKG, capture_output=True, text=True).stdout
     return re.sub(r"\x1b\[[0-9;]*m", "", out)
 
@@ -89,7 +91,8 @@ def main():
             f"  {f}  [{', '.join(sorted(imports(ROOT / f) & BLOCKED))}]  needed for: {', '.join(sorted(ns))}"
         )
     print("\n== unresolved names:", ", ".join(sorted(unresolved)) or "none")
-    Path(SCRATCH, "last-build.log").write_text(out)
+    SCRATCH.mkdir(parents=True, exist_ok=True)
+    (SCRATCH / "last-build.log").write_text(out)
 
 
 if __name__ == "__main__":

@@ -11,37 +11,41 @@
 # Skip's Gradle task would run phase 2 on its generated package, which resolves an unpatched
 # skipstone because the SwiftPM mirrors belong to this package; package-apk.sh disables it.
 # Writes every distinct compiler error, relative to the staged module, to
-# $PIRU_ANDROID/build/app.errors and prints the count. Extra arguments go to both builds.
+# $PIRU_ANDROID_BUILD/app.errors and prints the count. Extra arguments go to both builds.
 # PIRU_CONFIG=release builds the bridge optimized (the alpha APK); the default is debug.
 set -e
 TOOLS="${0:A:h}"
 . "$TOOLS/env.sh"
-export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+piru_require_java || exit 1
+piru_require_ndk || exit 1
+piru_require_command skip "brew install skiptools/skip/skip" || exit 1
+piru_require_command xcrun "install Xcode" || exit 1
+mkdir -p "$PIRU_ANDROID_BUILD"
 python3 "$TOOLS/stage.py"
-cd "$PIRU_ANDROID/stage"
-LOG="$PIRU_ANDROID/build/app.log"
-BRIDGE="$PIRU_ANDROID/stage/.build/Android/Piru"
+cd "$PIRU_ANDROID_STAGE"
+LOG="$PIRU_ANDROID_BUILD/app.log"
+BRIDGE="$PIRU_ANDROID_STAGE/.build/Android/Piru"
 set +e
-KOTLIN="$PIRU_ANDROID/stage/.build/plugins/outputs/stage/Piru/destination/skipstone/Piru/src/main/kotlin"
+KOTLIN="$PIRU_STAGE_OUTPUTS/Piru/destination/skipstone/Piru/src/main/kotlin"
 # Resolve first: after stage.py purges a moved vendored package, the build alone does not
 # check it out again, and would transpile nothing new.
-xcrun swift package resolve --package-path . > "$PIRU_ANDROID/build/transpile.log" 2>&1
+xcrun swift package resolve --package-path . > "$PIRU_ANDROID_BUILD/transpile.log" 2>&1
 env -u SKIP_BRIDGE xcrun swift build --triple arm64-apple-ios --sdk "$(xcrun --sdk iphoneos --show-sdk-path)" \
-    --package-path . --build-system native >> "$PIRU_ANDROID/build/transpile.log" 2>&1
-if grep -q "because of missing inputs" "$PIRU_ANDROID/build/transpile.log"; then
-    echo "transpile could not read its sources; see $PIRU_ANDROID/build/transpile.log"
+    --package-path . --build-system native >> "$PIRU_ANDROID_BUILD/transpile.log" 2>&1
+if grep -q "because of missing inputs" "$PIRU_ANDROID_BUILD/transpile.log"; then
+    echo "transpile could not read its sources; see $PIRU_ANDROID_BUILD/transpile.log"
     STATUS=1
-elif ! grep -q "/stage/Piru/destination/skipstone/Piru.skipcode.json: note:" "$PIRU_ANDROID/build/transpile.log"; then
+elif ! grep -q "/${PIRU_STAGE_OUTPUTS:t}/Piru/destination/skipstone/Piru.skipcode.json: note:" "$PIRU_ANDROID_BUILD/transpile.log"; then
     # Kotlin left by an earlier run would pass the check below while the plugin never reached
     # Piru, which happens when a dependency fails to compile first (a stale module left in .build
     # can shadow an SDK module).
-    echo "transpile never reached Piru, so its Kotlin is stale; see $PIRU_ANDROID/build/transpile.log"
+    echo "transpile never reached Piru, so its Kotlin is stale; see $PIRU_ANDROID_BUILD/transpile.log"
     STATUS=1
 elif [[ -n $(find "$KOTLIN" -name '*.kt' -print -quit 2>/dev/null) ]]; then
     echo "transpiled $(find "$KOTLIN" -name '*.kt' | wc -l | tr -d ' ') Kotlin files"
     STATUS=0
 else
-    echo "transpile wrote no Kotlin; see $PIRU_ANDROID/build/transpile.log"
+    echo "transpile wrote no Kotlin; see $PIRU_ANDROID_BUILD/transpile.log"
     STATUS=1
 fi
 if [[ $STATUS == 0 ]]; then
@@ -53,6 +57,6 @@ if [[ $STATUS == 0 ]]; then
     STATUS=$?
 fi
 set -e
-sed -E 's/\x1b\[[0-9;]*m//g' "$LOG" | grep -E '^/.*: error: ' | sed -E 's|.*/Sources/Piru/||' | sort -u > "$PIRU_ANDROID/build/app.errors" || true
-echo "build status $STATUS, $(wc -l < "$PIRU_ANDROID/build/app.errors" | tr -d ' ') distinct errors"
+sed -E 's/\x1b\[[0-9;]*m//g' "$LOG" | grep -E '^/.*: error: ' | sed -E 's|.*/Sources/Piru/||' | sort -u > "$PIRU_ANDROID_BUILD/app.errors" || true
+echo "build status $STATUS, $(wc -l < "$PIRU_ANDROID_BUILD/app.errors" | tr -d ' ') distinct errors"
 exit $STATUS
