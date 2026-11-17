@@ -573,7 +573,10 @@ nonisolated enum DeepLink {
              .inventoryItemEdit,
              .checkInSchedule,
              .sharedSessionPeek,
-             .addPeople:
+             .addPeople,
+             .shareSession,
+             .pairing,
+             .shareInbox:
             return nil
         }
 

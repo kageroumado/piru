@@ -33,6 +33,10 @@ final class ProfileDirectory {
 
     /// Every profile, the owner first.
     private(set) var profiles: [PiruProfile]
+    /// People on other devices this one has paired with. Their profiles hold
+    /// what they share and draw like anyone's on a shared session, but they are
+    /// no journal here: the switcher, quick log and inventory list ``profiles``.
+    private(set) var people: [PiruPerson]
     private(set) var activeProfileID: UUID
     /// The active profile's store. Set by ``openActiveStore()`` before any view
     /// reads it.
@@ -65,6 +69,7 @@ final class ProfileDirectory {
         self.defaults = defaults
         self.opener = opener ?? Self.openStore
         profiles = ProfileRegistry.load(from: directory)
+        people = PeopleRegistry.load(from: directory)
         activeProfileID = ProfileRegistry.activeProfileID(defaults: defaults, directory: directory)
     }
 
@@ -89,8 +94,29 @@ final class ProfileDirectory {
         return openedActiveContainer
     }
 
+    /// A journal's profile, or a paired person's.
     func profile(id: UUID) -> PiruProfile? {
-        profiles.first { $0.id == id }
+        profiles.first { $0.id == id } ?? people.first { $0.id == id }?.profile
+    }
+
+    /// Every journal, then every paired person: whose stores a shared
+    /// experience can span.
+    var everyone: [PiruProfile] {
+        profiles + people.map(\.profile)
+    }
+
+    func person(id: UUID) -> PiruPerson? {
+        people.first { $0.id == id }
+    }
+
+    /// The color `personID` wears here: theirs when paired, else the one
+    /// pairing would give them.
+    func color(forNewPerson personID: UUID) -> ProfileColor {
+        person(id: personID)?.profile.color ?? .next(after: everyone.map(\.color))
+    }
+
+    func isPerson(_ id: UUID) -> Bool {
+        people.contains { $0.id == id }
     }
 
     func storeURL(for profile: PiruProfile) -> URL {
@@ -172,7 +198,7 @@ final class ProfileDirectory {
     /// `nil` when `id` is already active or unknown. Binding the singletons and
     /// running the store's passes is ``ProfileSwitcher``'s.
     func activate(_ id: UUID) -> ModelContainer? {
-        guard id != activeProfileID, let profile = profile(id: id) else { return nil }
+        guard id != activeProfileID, let profile = profiles.first(where: { $0.id == id }) else { return nil }
         if let previous = openedActiveContainer {
             try? previous.mainContext.save()
             openContainers[OpenKey(id: activeProfileID, writable: true)] = previous
@@ -218,7 +244,7 @@ final class ProfileDirectory {
     /// from first.
     func deleteProfile(id: UUID) throws {
         guard id != PiruProfile.ownerID else { throw DirectoryError.ownerCannotBeDeleted }
-        guard let profile = profile(id: id) else { throw DirectoryError.unknownProfile }
+        guard let profile = profiles.first(where: { $0.id == id }) else { throw DirectoryError.unknownProfile }
         precondition(id != activeProfileID, "Switch away from a profile before deleting it")
         for writable in [true, false] {
             if let container = openContainers.removeValue(forKey: OpenKey(id: id, writable: writable)) {
@@ -251,6 +277,55 @@ final class ProfileDirectory {
             ))
         }
         try save(next)
+    }
+
+    // MARK: - People
+
+    /// Pair with someone, or take a newer key, name and avatar for someone
+    /// already paired. A person keeps the color this device gave them.
+    @discardableResult
+    func savePerson(personID: UUID, name: String, avatar: ProfileAvatar, publicKey: Data) throws -> PiruPerson {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { throw DirectoryError.emptyName }
+        guard personID != PiruProfile.ownerID, !profiles.contains(where: { $0.id == personID }) else {
+            throw DirectoryError.unknownProfile
+        }
+        var next = people
+        let person: PiruPerson
+        if let index = next.firstIndex(where: { $0.id == personID }) {
+            var updated = next[index]
+            updated.profile.name = trimmed
+            updated.profile.avatar = avatar.withPhoto(nil)
+            person = PiruPerson(profile: updated.profile, publicKey: publicKey, pairedAt: updated.pairedAt)
+            next[index] = person
+        } else {
+            person = PiruPerson.new(
+                personID: personID,
+                name: trimmed,
+                avatar: avatar.withPhoto(nil),
+                color: color(forNewPerson: personID),
+                publicKey: publicKey,
+            )
+            next.append(person)
+        }
+        try PeopleRegistry.save(next, to: directory)
+        people = next
+        return person
+    }
+
+    /// Unpair someone and set aside what they shared, the way a deleted
+    /// profile's store is set aside.
+    func removePerson(id: UUID) throws {
+        guard let person = person(id: id) else { throw DirectoryError.unknownProfile }
+        for writable in [true, false] {
+            if let container = openContainers.removeValue(forKey: OpenKey(id: id, writable: writable)) {
+                try? container.mainContext.save()
+            }
+        }
+        let next = people.filter { $0.id != id }
+        try PeopleRegistry.save(next, to: directory)
+        people = next
+        StoreRecovery.backUpStore(at: storeURL(for: person.profile), reason: StoreRecovery.profileDeleteReason)
     }
 
     private func save(_ next: [PiruProfile]) throws {

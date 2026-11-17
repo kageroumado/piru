@@ -91,8 +91,8 @@ enum SharedExperienceLinker {
     }
 
     /// Move every session carrying `old`, in every profile, to `new`.
-    private static func retag(_ old: UUID, to new: UUID, directory: ProfileDirectory) throws {
-        for profile in directory.profiles {
+    static func retag(_ old: UUID, to new: UUID, directory: ProfileDirectory = .shared) throws {
+        for profile in directory.everyone {
             guard let readable = directory.container(for: profile.id, writable: false),
                   !sessions(in: old, context: readable.mainContext).isEmpty,
                   let writable = directory.container(for: profile.id, writable: true)
@@ -123,7 +123,7 @@ enum SharedExperienceLinker {
         }
 
         let active = directory.activeProfileID
-        let othersRemain = directory.profiles.contains { profile in
+        let othersRemain = directory.everyone.contains { profile in
             guard profile.id != active, let container = directory.container(for: profile.id, writable: false) else { return false }
             return !sessions(in: experienceID, context: container.mainContext).isEmpty
         }

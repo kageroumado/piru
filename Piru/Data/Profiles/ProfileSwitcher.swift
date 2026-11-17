@@ -17,7 +17,7 @@ import WidgetKit
 @MainActor
 enum ProfileSwitcher {
     static func switchTo(_ id: UUID, directory: ProfileDirectory = .shared) async {
-        guard id != directory.activeProfileID, directory.profile(id: id) != nil else { return }
+        guard id != directory.activeProfileID, directory.profiles.contains(where: { $0.id == id }) else { return }
         LiveActivityManager.shared.endForProfileSwitch()
         ActiveSessionManager.shared.clearSession()
         guard let container = directory.activate(id) else { return }
@@ -40,6 +40,9 @@ enum ProfileSwitcher {
             await switchTo(PiruProfile.ownerID, directory: directory)
         }
         try directory.deleteProfile(id: id)
+        #if !os(Android)
+            ShareIdentityStore.shared.forget(profileID: id)
+        #endif
         await SharedInventory.shared.profileDeleted(id)
         let prefix = "piru.notif.\(ProfileScope.notificationNamespace(for: id))"
         let center = UNUserNotificationCenter.current()

@@ -123,7 +123,7 @@ final class SharedExperienceStore {
         let active = directory.activeProfileID
         return ExperienceKey(
             active: active,
-            others: directory.profiles.filter { $0.id != active }.map {
+            others: directory.everyone.filter { $0.id != active }.map {
                 Member(id: $0.id, generation: generation($0.id), color: $0.color)
             },
         )
@@ -158,13 +158,13 @@ final class SharedExperienceStore {
     /// profile list or the active profile changed since the last read. Each
     /// store is re-read only when its own generation moved.
     func refreshIndex() async {
-        guard directory.hasMultipleProfiles else {
+        guard directory.everyone.count > 1 else {
             indexKey = nil
             if !participantsBySession.isEmpty { participantsBySession = [:] }
             return
         }
         let active = directory.activeProfileID
-        let members = directory.profiles.map { Member(id: $0.id, generation: generation($0.id), color: $0.color) }
+        let members = directory.everyone.map { Member(id: $0.id, generation: generation($0.id), color: $0.color) }
         let key = IndexKey(active: active, members: members)
         guard key != indexKey else { return }
 

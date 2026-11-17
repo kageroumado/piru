@@ -20,6 +20,10 @@ struct ProfilesSettingsView: View {
                 Text("Each profile is its own journal. Deleting one deletes its journal.")
             }
             .listRowBackground(CardBackground())
+
+            #if !os(Android)
+                PeopleSection()
+            #endif
         }
         .themedPage()
         .navigationTitle("Profiles")

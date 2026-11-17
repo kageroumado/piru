@@ -19,7 +19,10 @@ struct SharedSessionPeekView: View {
                 SharedSessionPeekContent(
                     profile: profile,
                     participant: participant,
-                    onOpenJournal: { openJournal(profile: profile, sessionID: participant.snapshot.sessionID) },
+                    // A paired person's journal is on their own phone.
+                    onOpenJournal: directory.isPerson(profileID)
+                        ? nil
+                        : { openJournal(profile: profile, sessionID: participant.snapshot.sessionID) },
                     onRemove: { remove() },
                 )
             } else if loaded {
@@ -71,7 +74,7 @@ struct SharedSessionPeekView: View {
 private struct SharedSessionPeekContent: View {
     let profile: PiruProfile
     let participant: SharedParticipant
-    let onOpenJournal: () -> Void
+    let onOpenJournal: (() -> Void)?
     let onRemove: () -> Void
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var stackRedoses = true
@@ -140,7 +143,9 @@ private struct SharedSessionPeekContent: View {
             }
 
             Section {
-                Button("Open \(profile.name)'s Journal", action: onOpenJournal)
+                if let onOpenJournal {
+                    Button("Open \(profile.name)'s Journal", action: onOpenJournal)
+                }
                 Button("Unlink \(profile.name)'s Session", role: .destructive, action: onRemove)
             } footer: {
                 Text("Every dose stays in both journals. This session stops showing \(profile.name) beside yours.")
