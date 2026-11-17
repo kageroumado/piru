@@ -19,7 +19,7 @@
   rewrite it with its line-1 reason, and revert.
 - **The dependency graph is locked** by `android/app/Package.resolved`, vendored clones included
   (their commits are deterministic). After changing a vendor patch or a dependency, build, then
-  copy `$PIRU_ANDROID/stage/Package.resolved` back over it and commit both together.
+  copy `$PIRU_ANDROID_STAGE/Package.resolved` back over it and commit both together.
 - **A vendor patch can leave its Kotlin stale.** skipstone does not re-transpile a dependency
   whose checkout moved, and phase 1 stops before reaching it. After changing a skip-ui or
   skip-fuse-ui patch, run phase 1 for that target (`swift build --triple arm64-apple-ios …
@@ -36,7 +36,7 @@
   the staged manifest, which names `android/Compat` by absolute path; from another checkout
   path SwiftPM treats the file as stale, re-resolves, and moves unvendored packages
   (skip-android-bridge, skip-foundation) to newer releases. After a build, diff
-  `$PIRU_ANDROID/stage/Package.resolved` against the committed one: only vendored revisions
+  `$PIRU_ANDROID_STAGE/Package.resolved` against the committed one: only vendored revisions
   may differ.
 - **Gradle can keep Kotlin from an older transpile.** After a vendor patch or a dependency moves
   a package, `package-apk.sh` may fail in a module the patch never touched (unresolved
@@ -44,8 +44,8 @@
   is not in the source: the incremental compiler recompiles that file alone against the old
   state (skip-model 1.8.1: "Cannot access 'class SubjectHelper': it is internal in file").
   Trash that module's `build/` under
-  `$PIRU_ANDROID/stage/.build/plugins/outputs/<package>/…/skipstone/<Module>/` and package again.
-  The `stage/Piru/destination/skipstone/<Module>` entries are symlinks to those folders, so
+  `$PIRU_ANDROID_STAGE/.build/plugins/outputs/<package>/…/skipstone/<Module>/` and package again.
+  The `$PIRU_STAGE_OUTPUTS/Piru/destination/skipstone/<Module>` entries are symlinks to those folders, so
   trashing one removes only the link.
 - **Keep `/* SKIP @bridge */` a block comment.** skipstone drops a declaration whose marker
   became `/** */` or `//`; `android/.swiftformat` turns off the rules that would do that.

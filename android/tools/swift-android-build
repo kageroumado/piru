@@ -4,6 +4,10 @@
 # private to the platform and absent from the NDK. FoundationMacros comes from Xcode, because
 # the swift.org macOS toolchain ships without the plugin that expands `#Predicate`.
 . "${0:A:h}/env.sh"
+if [[ ! -x "$PIRU_SWIFT_TOOLCHAIN/usr/bin/swift" ]]; then
+  piru_error "no $SWIFT_VERSION_TAG toolchain at $PIRU_SWIFT_TOOLCHAIN: run android/tools/setup.sh, or set PIRU_SWIFT_TOOLCHAIN"
+  exit 1
+fi
 exec swift build --swift-sdks-path "$PIRU_ANDROID/swift-sdks" --swift-sdk "${SWIFT_VERSION_TAG}_android" \
   --triple aarch64-unknown-linux-android28 --static-swift-stdlib \
   -Xcc -I"$PIRU_ANDROID/sqlite/include" -Xlinker -L"$PIRU_ANDROID/sqlite/lib" \

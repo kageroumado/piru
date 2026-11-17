@@ -48,7 +48,7 @@ Piru/ + Shared/ (iOS sources, read-only)
   vendor ── pinned clones of GRDB, skip, skipstone, skip-ui, skip-fuse-ui, each with
            vendor/<name>/*.patch, served through SwiftPM mirrors
         ▼
-$PIRU_ANDROID/stage  (a Skip Fuse package: native Swift on Android, SwiftUI → Compose)
+$PIRU_ANDROID_STAGE  (a Skip Fuse package: native Swift on Android, SwiftUI → Compose)
         │  build-app.sh   phase 1: iOS-triple pre-build → skipstone writes the Kotlin bridge
         │                 phase 2: Android bridge build → jni-libs
         │  package-apk.sh Gradle packages the APK (its own Swift build disabled)
@@ -164,9 +164,29 @@ android/tools/build-app.sh     # stage + both Skip phases
 android/tools/package-apk.sh   # Gradle → APK, installs on a running emulator
 ```
 
-`PIRU_CONFIG=release` on both scripts builds the optimized APK. `$PIRU_ANDROID` (set in
-`tools/env.sh`) holds the toolchains, the stage and the build output, outside the repository.
-`build-app.sh` writes every bridge compiler error to `$PIRU_ANDROID/build/app.errors`.
+`PIRU_CONFIG=release` on both scripts builds the optimized APK. `build-app.sh` writes every
+bridge compiler error to `$PIRU_ANDROID_BUILD/app.errors`.
+
+The build runs on macOS with Xcode. Every path it uses comes from the environment, with the
+defaults below (`tools/env.sh` for the shell tools, `tools/android_paths.py` for the Python
+ones). Export a variable to move that piece; the scripts stop with the variable's name when
+something they need is missing.
+
+| Variable | Holds | Default |
+|---|---|---|
+| `PIRU_ANDROID` | what `setup.sh` installs, downloads, vendored-clone cache | `${XDG_CACHE_HOME:-~/.cache}/piru-android` |
+| `PIRU_ANDROID_STAGE` | the staged Skip package and its build products | `$PIRU_ANDROID/stage` |
+| `PIRU_ANDROID_BUILD` | logs, `app.errors`, screenshots, `PiruCore` scratch | `$PIRU_ANDROID/build` |
+| `PIRU_SWIFT_TOOLCHAIN` | the swift.org 6.4.0 toolchain | `$PIRU_ANDROID/toolchains/swift-6.4.0-RELEASE.xctoolchain` |
+| `ANDROID_HOME` | Android SDK | `$PIRU_ANDROID/android-sdk` |
+| `ANDROID_NDK_HOME` | Android NDK r30 (checked) | `$PIRU_ANDROID/android-ndk-r30` |
+| `ANDROID_AVD_HOME`, `GRADLE_USER_HOME` | emulator images, Gradle caches | `$PIRU_ANDROID/avd`, `$PIRU_ANDROID/gradle-home` |
+| `JAVA_HOME` | JDK 21 | `/usr/libexec/java_home -v 21` when unset or another version |
+
+The default sits outside the checkout so every clone and worktree shares one ~6 GB toolchain
+install. To keep it on another disk, set `PIRU_ANDROID` in the shell profile
+(`export PIRU_ANDROID=/Volumes/External/piru-android`); `skip`, `gradle` and `xcrun` come from
+`PATH`.
 
 To change an upstream file for Android: edit it in place, run
 `android/tools/mkpatch.py <name> <paths> --message "why"`, then `git checkout -- <paths>`.
@@ -181,7 +201,7 @@ android/tools/droid restart                       # force-stop and relaunch Piru
 android/tools/droid wait --label Journal          # until it is up
 android/tools/droid tap --label "Record an entry" # --index N when a label repeats
 android/tools/droid tree                          # labels with center coordinates
-android/tools/droid shot quicklog                 # → $PIRU_ANDROID/build/quicklog.png
+android/tools/droid shot quicklog                 # → $PIRU_ANDROID_BUILD/quicklog.png
 android/tools/droid logs                          # the app's fatal and error lines
 ```
 

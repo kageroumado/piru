@@ -7,13 +7,15 @@ TOOLS="${0:A:h}"
 REPO="${TOOLS:h:h}"
 PKG="$REPO/android/PiruCore"
 DEVICE_DIR=/data/local/tmp/piru
-BUILD="$PIRU_ANDROID/build/PiruCore-android"
+BUILD="$PIRU_ANDROID_BUILD/PiruCore-android"
+piru_require_ndk || exit 1
+mkdir -p "$PIRU_ANDROID_BUILD"
 
 (cd "$PKG" && "$TOOLS/swift-android-build" --scratch-path "$BUILD" --product piru-smoke)
 
 if ! adb get-state > /dev/null 2>&1; then
   emulator -avd piru-spike -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect \
-    > "$PIRU_ANDROID/build/emulator.log" 2>&1 &
+    > "$PIRU_ANDROID_BUILD/emulator.log" 2>&1 &
   adb wait-for-device
   until [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == 1 ]]; do sleep 2; done
 fi

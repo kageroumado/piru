@@ -9,7 +9,8 @@
 set -e
 TOOLS="${0:A:h}"
 . "$TOOLS/env.sh"
-export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+piru_require_java || exit 1
+piru_require_sdk || exit 1
 UNSIGNED="$1"
 SIGNED="$2"
 BUILD_TOOLS=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)

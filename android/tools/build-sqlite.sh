@@ -5,6 +5,7 @@
 # opened as `file:…?immutable=1`, which a default build reads as a literal path.
 set -e
 . "${0:A:h}/env.sh"
+piru_require_ndk || exit 1
 SRC="$PIRU_ANDROID/downloads/$SQLITE_AMALGAMATION"
 CC=$(ls -d $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/*/bin)/aarch64-linux-android28-clang
 AR=$(dirname $CC)/llvm-ar

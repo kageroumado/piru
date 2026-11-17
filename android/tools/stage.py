@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Stage Piru's iOS sources as the Skip Fuse package that builds the Android app.
 
-    stage.py            rebuild the staged package under $PIRU_ANDROID/stage
+    stage.py            rebuild the staged package in $PIRU_ANDROID_STAGE
     stage.py --check    stage into a scratch tree and report patches that no longer apply
 
 The iOS tree is the only source. Every Android difference is one of:
@@ -32,10 +32,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from android_paths import PIRU_ANDROID, STAGE
+
 ANDROID = Path(__file__).resolve().parents[1]
 REPO = ANDROID.parent
-PIRU_ANDROID = Path(os.environ.get("PIRU_ANDROID", "/Volumes/Ugreen/Projects/piru-android"))
-STAGE = PIRU_ANDROID / "stage"
 MODULE = Path("Sources/Piru")
 UPSTREAM_DIRS = ["Piru", "Shared"]
 # Every SwiftPM scratch path build-app.sh builds the stage in: the transpile phase's and the
@@ -844,7 +844,9 @@ def main():
     parser.add_argument("--check", action="store_true", help="only verify that every patch applies")
     args = parser.parse_args()
 
-    with tempfile.TemporaryDirectory(dir=PIRU_ANDROID) as scratch_dir:
+    # The scratch tree sits beside the stage, on its volume, so the sync copies within one disk.
+    STAGE.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=STAGE.parent, prefix=".stage-") as scratch_dir:
         scratch = Path(scratch_dir)
         count = stage_sources(scratch)
         applied = apply_patches(scratch)
