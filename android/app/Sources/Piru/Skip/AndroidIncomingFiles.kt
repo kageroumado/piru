@@ -23,9 +23,24 @@ class AndroidIncomingFiles {
         /// damaged share rather than the file going nowhere.
         @JvmStatic
         fun route(context: Context, intent: Intent): Intent {
+            // Never pass on a file:// URI another app sent: it would make Piru read, and then
+            // delete, a path of the sender's choosing inside Piru's own storage. The one file
+            // URI that may reach onOpenURL is a copy this router made, which MainActivity
+            // forwards to the task's root.
+            intent.data?.takeIf { it.scheme == "file" }?.let { uri ->
+                return if (isOwnCopy(context, uri)) intent else Intent(Intent.ACTION_MAIN)
+            }
             val uri = incomingFile(intent) ?: return intent
             val copy = copy(context, uri)
             return Intent(Intent.ACTION_VIEW, Uri.fromFile(copy))
+        }
+
+        /// Whether `uri` resolves, after `..` and symlinks, to a file inside the Inbox folder.
+        private fun isOwnCopy(context: Context, uri: Uri): Boolean {
+            val path = uri.path ?: return false
+            return runCatching {
+                File(path).canonicalFile.startsWith(File(context.cacheDir, "Inbox").canonicalFile)
+            }.getOrDefault(false)
         }
 
         private fun incomingFile(intent: Intent): Uri? = when (intent.action) {

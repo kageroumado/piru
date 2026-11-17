@@ -118,6 +118,16 @@ struct SessionSharingTests {
     }
 
     @Test
+    func `Only a copy in an Inbox folder is deleted after reading`() throws {
+        #expect(ShareInbox.isInboxCopy(URL(filePath: "/var/app/Documents/Inbox/Piru Session.pirushare")))
+        #expect(ShareInbox.isInboxCopy(URL(filePath: "/var/app/tmp/glass.kagerou.piru-Inbox/a.pirushare")))
+        #expect(ShareInbox.isInboxCopy(URL(filePath: "/data/user/0/app/cache/Inbox/1234/Received.pirushare")))
+        #expect(!ShareInbox.isInboxCopy(URL(filePath: "/data/user/0/app/cache/Inbox/../files/keychain/key.sealed")))
+        #expect(!ShareInbox.isInboxCopy(URL(filePath: "/var/app/Documents/Piru Session.pirushare")))
+        #expect(try !ShareInbox.isInboxCopy(#require(URL(string: "https://example.com/Inbox/a.pirushare"))))
+    }
+
+    @Test
     func `Anything that isn't a share is refused before opening`() {
         #expect(throws: ShareEnvelope.EnvelopeError.notAShare) { try ShareEnvelope.decode(Data("{}".utf8)) }
         #expect(throws: ShareEnvelope.EnvelopeError.notAShare) { try ShareEnvelope.decode(Data([0xFF, 0x00])) }

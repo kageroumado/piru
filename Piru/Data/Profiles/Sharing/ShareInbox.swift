@@ -78,9 +78,18 @@ final class ShareInbox {
         defer { if scoped { url.stopAccessingSecurityScopedResource() } }
         let size = (try? url.resourceValues(forKeys: [.fileSizeKey]))?.fileSize ?? 0
         let data = size <= ShareEnvelope.maxFileBytes ? try? Data(contentsOf: url) : nil
-        if url.path.contains("/Inbox/") {
+        if isInboxCopy(url) {
             try? FileManager.default.removeItem(at: url)
         }
         return data
+    }
+
+    /// Whether `url` is a copy made for the app to read and then delete: a file whose folder,
+    /// or that folder's parent, is an Inbox (iOS `Documents/Inbox`, `tmp/<bundle>-Inbox`,
+    /// Android `cache/Inbox/<id>`). Judged on the resolved path, so `Inbox/..` names nothing.
+    static func isInboxCopy(_ url: URL) -> Bool {
+        guard url.isFileURL else { return false }
+        let folders = url.standardizedFileURL.resolvingSymlinksInPath().pathComponents.dropLast()
+        return folders.suffix(2).contains { $0 == "Inbox" || $0.hasSuffix("-Inbox") }
     }
 }
