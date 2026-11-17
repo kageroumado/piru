@@ -89,6 +89,35 @@ struct SessionSharingTests {
     }
 
     @Test
+    func `A recipient cannot pass another recipient a body of their own`() throws {
+        let alice = ShareIdentity.make()
+        let bob = ShareIdentity.make()
+        let carol = ShareIdentity.make()
+        let envelope = try ShareEnvelope.seal(
+            Data("from alice".utf8), from: alice,
+            to: [(bob.personID, bob.publicKey), (carol.personID, carol.publicKey)],
+        )
+        // Bob opens his own key, as any recipient can, and seals a new body under it.
+        let header = ShareEnvelope.header(sender: envelope.sender, version: envelope.version)
+        let mine = try #require(envelope.recipients.first { $0.id == bob.personID })
+        var hpke = try HPKE.Recipient(
+            privateKey: bob.privateKey, ciphersuite: .Curve25519_SHA256_ChachaPoly, info: Data("piru-share/1".utf8),
+            encapsulatedKey: mine.enc, authenticatedBy: alice.publicKey,
+        )
+        let contentKey = try SymmetricKey(
+            data: hpke.open(mine.sealedKey, authenticating: ShareEnvelope.keyAAD(header: header, body: envelope.body)),
+        )
+        let compressed = try (Data("from bob".utf8) as NSData).compressed(using: .zlib) as Data
+        let body = try ChaChaPoly.seal(compressed, using: contentKey, authenticating: header).combined
+        let forged = ShareEnvelope(
+            format: envelope.format, version: envelope.version, sender: envelope.sender,
+            recipients: envelope.recipients, body: body,
+        )
+        #expect(throws: ShareEnvelope.EnvelopeError.damaged) { try forged.open(with: carol) }
+        #expect(try envelope.open(with: carol) == Data("from alice".utf8))
+    }
+
+    @Test
     func `Anything that isn't a share is refused before opening`() {
         #expect(throws: ShareEnvelope.EnvelopeError.notAShare) { try ShareEnvelope.decode(Data("{}".utf8)) }
         #expect(throws: ShareEnvelope.EnvelopeError.notAShare) { try ShareEnvelope.decode(Data([0xFF, 0x00])) }
