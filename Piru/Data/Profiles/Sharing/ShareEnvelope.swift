@@ -9,10 +9,13 @@ import Foundation
 /// key. That key is sealed to each recipient with HPKE in auth mode
 /// (X25519, SHA-256, ChaChaPoly), so opening it also proves the sender held the
 /// private key for `sender.key`. The header (format, version, sender) is the
-/// associated data of every seal, so none of it can be swapped.
+/// associated data of every seal, so none of it can be swapped. Each sealed key
+/// also authenticates a hash of the body: every recipient learns the content
+/// key, and without that hash one of them could seal a body of their own under
+/// it and pass it to another recipient beside the key the sender sealed to them.
 nonisolated struct ShareEnvelope: Codable, Equatable, Sendable {
     static let format = "piru-share"
-    static let version = 1
+    static let version = 2
     private static let info = Data("piru-share/1".utf8)
     private static let suite = HPKE.Ciphersuite.Curve25519_SHA256_ChachaPoly
     /// The largest file read as a share. A session's share is a few KB; this
@@ -65,7 +68,7 @@ nonisolated struct ShareEnvelope: Codable, Equatable, Sendable {
             var hpke = try HPKE.Sender(
                 recipientKey: recipient.key, ciphersuite: suite, info: info, authenticatedBy: identity.privateKey,
             )
-            let sealedKey = try hpke.seal(keyBytes, authenticating: aad)
+            let sealedKey = try hpke.seal(keyBytes, authenticating: keyAAD(header: aad, body: body))
             return Recipient(id: recipient.id, enc: hpke.encapsulatedKey, sealedKey: sealedKey)
         }
         return ShareEnvelope(format: format, version: version, sender: sender, recipients: sealed, body: body)
@@ -99,7 +102,7 @@ nonisolated struct ShareEnvelope: Codable, Equatable, Sendable {
                 privateKey: identity.privateKey, ciphersuite: Self.suite, info: Self.info,
                 encapsulatedKey: mine.enc, authenticatedBy: senderKey,
             )
-            let keyBytes = try hpke.open(mine.sealedKey, authenticating: aad)
+            let keyBytes = try hpke.open(mine.sealedKey, authenticating: Self.keyAAD(header: aad, body: body))
             let box = try ChaChaPoly.SealedBox(combined: body)
             let compressed = try ChaChaPoly.open(box, using: SymmetricKey(data: keyBytes), authenticating: aad)
             guard let plaintext = Self.inflate(compressed, limit: Self.maxBodyBytes) else { throw EnvelopeError.damaged }
@@ -133,7 +136,13 @@ nonisolated struct ShareEnvelope: Codable, Equatable, Sendable {
         return try encoder.encode(self)
     }
 
-    private static func header(sender: Party, version: Int) -> Data {
+    static func header(sender: Party, version: Int) -> Data {
         Data("\(format)|\(version)|\(sender.id.uuidString.lowercased())|".utf8) + sender.key
+    }
+
+    /// The associated data of a sealed content key: the header and the body's
+    /// SHA-256, which ties the key to the one body the sender sealed with it.
+    static func keyAAD(header: Data, body: Data) -> Data {
+        header + Data(SHA256.hash(data: body))
     }
 }
