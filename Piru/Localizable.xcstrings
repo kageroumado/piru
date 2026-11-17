@@ -93621,6 +93621,7 @@
       }
     },
     "The share sheet could not be opened." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
