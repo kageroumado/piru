@@ -3193,6 +3193,34 @@
         }
       }
     },
+    "%@ shared a session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ compartió una sesión"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ compartió una sesión"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@分享了一个场次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@分享了一個場次"
+          }
+        }
+      }
+    },
     "%@ since %@" : {
       "localizations" : {
         "en" : {
@@ -4161,6 +4189,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@的"
+          }
+        }
+      }
+    },
+    "%@'s code has changed" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El código de %@ cambió"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El código de %@ cambió"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的配对码已改变"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的配對碼已改變"
+          }
+        }
+      }
+    },
+    "%@'s code has changed since you paired. Scan their code again to keep sharing." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El código de %@ cambió desde que se vincularon. Escanea su código otra vez para seguir compartiendo."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El código de %@ cambió desde que se vincularon. Escanea su código otra vez para seguir compartiendo."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自配对以来，%@的配对码已改变。请再次扫描对方的配对码以继续分享。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自配對以來，%@的配對碼已改變。請再次掃描對方的配對碼以繼續分享。"
           }
         }
       }
@@ -13687,6 +13771,34 @@
         }
       }
     },
+    "Add to Your Journal" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar a tu diario"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar a tu diario"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加到你的日记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入你的日記"
+          }
+        }
+      }
+    },
     "Add what you have on hand, or scan the box. Every dose you log comes off it, with days left and a heads-up before you run out." : {
       "localizations" : {
         "es" : {
@@ -13767,6 +13879,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增你的用藥以查看依從性"
+          }
+        }
+      }
+    },
+    "Added %@'s session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se agregó la sesión de %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se agregó la sesión de %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已添加%@的场次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已加入%@的場次"
           }
         }
       }
@@ -24330,6 +24470,34 @@
         }
       }
     },
+    "Choose someone to share with." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige con quién compartir."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige con quién compartir."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择要分享的对象。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇要分享的對象。"
+          }
+        }
+      }
+    },
     "Choose something from the list to see it here." : {
       "localizations" : {
         "es" : {
@@ -28094,6 +28262,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法從通行碼衍生金鑰。"
+          }
+        }
+      }
+    },
+    "Couldn't Open" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo abrir"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo abrir"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法打開"
           }
         }
       }
@@ -47104,6 +47300,34 @@
         }
       }
     },
+    "If %@ hasn't scanned your code yet, show it now so they can send you sessions too." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si %@ todavía no escaneó tu código, muéstraselo ahora para que también pueda enviarte sesiones."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si %@ todavía no escaneó tu código, muéstraselo ahora para que también pueda enviarte sesiones."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果%@还没扫描你的配对码，现在给对方看，让对方也能给你发送场次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果%@還沒掃描你的配對碼，現在給對方看，讓對方也能傳送場次給你。"
+          }
+        }
+      }
+    },
     "If a dose isn't logged, ask again after these intervals. Applies to every med. A med can override or opt out in its own settings." : {
       "localizations" : {
         "es" : {
@@ -49883,6 +50107,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新版本在 GitHub 上，也就是 Piru 的來源；直接安裝在目前版本之上會保留你的日記。"
+          }
+        }
+      }
+    },
+    "It shows beside your session from the same time." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se muestra junto a tu sesión de la misma hora."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se muestra junto a tu sesión de la misma hora."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会显示在你同一时间的场次旁边。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它會顯示在你同一時間的場次旁邊。"
           }
         }
       }
@@ -64071,6 +64323,34 @@
         }
       }
     },
+    "Nothing Here" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay nada aquí"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay nada aquí"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这里什么都没有"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡什麼都沒有"
+          }
+        }
+      }
+    },
     "Nothing in Piru encourages or facilitates the use, acquisition or possession of any substance, and you alone are responsible for complying with the laws that apply to you. Piru is for adults 18 and over. Use of Piru is subject to the Terms of Use." : {
       "localizations" : {
         "es" : {
@@ -66067,6 +66347,34 @@
         }
       }
     },
+    "Open Session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir sesión"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir sesión"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开场次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開場次"
+          }
+        }
+      }
+    },
     "Open Settings" : {
       "localizations" : {
         "es" : {
@@ -67469,6 +67777,258 @@
         }
       }
     },
+    "Pair" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vincular"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vincular"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配對"
+          }
+        }
+      }
+    },
+    "Pair Again" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a vincular"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a vincular"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新配对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新配對"
+          }
+        }
+      }
+    },
+    "Pair again only if %@ is with you and you scanned this from their phone. A code sent to you could be someone else's." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a vincularte solo si %@ está contigo y escaneaste este código desde su teléfono. Un código que te enviaron podría ser de otra persona."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a vincularte solo si %@ está contigo y escaneaste este código desde su teléfono. Un código que te enviaron podría ser de otra persona."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在%@就在你身边、且你是从对方手机上扫描的情况下，才重新配对。别人发给你的配对码可能属于其他人。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在%@就在你身邊、且你是從對方手機上掃描的情況下，才重新配對。別人傳給你的配對碼可能屬於其他人。"
+          }
+        }
+      }
+    },
+    "Pair with %@?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Vincularte con %@?"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Vincularte con %@?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与%@配对？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與%@配對？"
+          }
+        }
+      }
+    },
+    "Pair with Someone" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vincularse con alguien"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vincularse con alguien"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与他人配对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與他人配對"
+          }
+        }
+      }
+    },
+    "Pair with someone first: you each scan the other's code, once, in person." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero vincúlate con alguien: cada uno escanea el código del otro, una vez y en persona."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero vincúlate con alguien: cada uno escanea el código del otro, una vez y en persona."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请先配对：你们当面互相扫描一次对方的配对码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請先配對：你們當面互相掃描一次對方的配對碼。"
+          }
+        }
+      }
+    },
+    "Paired" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinculado"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinculado"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已配对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已配對"
+          }
+        }
+      }
+    },
+    "Paired %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinculado el %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinculado el %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@配对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@配對"
+          }
+        }
+      }
+    },
+    "Paired with %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinculado con %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinculado con %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已与%@配对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已與%@配對"
+          }
+        }
+      }
+    },
     "PAM" : {
       "localizations" : {
         "es" : {
@@ -68333,6 +68893,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鴉片類負荷峰值 %lld MME/天，達到或高於 CDC 50 MME 參考值。"
+          }
+        }
+      }
+    },
+    "People" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personas"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personas"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他人"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他人"
+          }
+        }
+      }
+    },
+    "People on other phones you share sessions with. Unpairing removes the sessions they sent." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personas en otros teléfonos con las que compartes sesiones. Desvincularte elimina las sesiones que te enviaron."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personas en otros teléfonos con las que compartes sesiones. Desvincularte elimina las sesiones que te enviaron."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在其他手机上与你分享场次的人。取消配对会移除他们发来的场次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在其他手機上與你分享場次的人。取消配對會移除他們傳來的場次。"
           }
         }
       }
@@ -69946,6 +70562,34 @@
         }
       }
     },
+    "Piru couldn't make a pairing code: the Keychain is locked or unavailable." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru no pudo crear un código de vinculación: el llavero está bloqueado o no está disponible."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru no pudo crear un código de vinculación: el llavero está bloqueado o no está disponible."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 无法生成配对码：钥匙串已锁定或不可用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 無法產生配對碼：鑰匙圈已鎖定或無法使用。"
+          }
+        }
+      }
+    },
     "Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted.** Your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only, never your dose data." : {
       "localizations" : {
         "es" : {
@@ -70313,6 +70957,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 現在是一個新的 App。在這台裝置上安裝它，第一次打開時，你的日記、用藥和設定會自動搬過去。這裡的內容不會被刪除。"
+          }
+        }
+      }
+    },
+    "Piru Session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesión de Piru"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesión de Piru"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 场次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 場次"
           }
         }
       }
@@ -70818,6 +71490,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "對準藥盒：名稱、規格、條碼"
+          }
+        }
+      }
+    },
+    "Point the Camera app at their code instead. It opens in Piru." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apunta la app Cámara a su código. Se abre en Piru."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apunta la app Cámara a su código. Se abre en Piru."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "改用“相机”App 对准对方的配对码，它会在 Piru 中打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "改用「相機」App 對準對方的配對碼，它會在 Piru 中打開。"
           }
         }
       }
@@ -79342,6 +80042,34 @@
         }
       }
     },
+    "Save Name" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar nombre"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar nombre"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存名字"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存名字"
+          }
+        }
+      }
+    },
     "Saved Copy" : {
       "localizations" : {
         "es" : {
@@ -79563,6 +80291,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "再掃一個"
+          }
+        }
+      }
+    },
+    "Scan Their Code" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear su código"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear su código"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扫描对方的配对码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "掃描對方的配對碼"
+          }
+        }
+      }
+    },
+    "Scanner Unavailable" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escáner no disponible"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escáner no disponible"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扫描器不可用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "掃描器無法使用"
           }
         }
       }
@@ -80858,6 +81642,34 @@
         }
       }
     },
+    "Send" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "傳送"
+          }
+        }
+      }
+    },
     "Send Logs to Developer" : {
       "localizations" : {
         "es" : {
@@ -80938,6 +81750,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "傳送到 dose.wiki？"
+          }
+        }
+      }
+    },
+    "Sends your doses, notes and body weight from this session, sealed so only they can open it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envía tus dosis, notas y peso corporal de esta sesión, cifrados para que solo esa persona pueda abrirlos."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envía tus dosis, notas y peso corporal de esta sesión, cifrados para que solo esa persona pueda abrirlos."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送你在此场次中的剂量、备注和体重，经过加密，只有对方能打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "傳送你在此場次中的劑量、備註和體重，經過加密，只有對方能打開。"
           }
         }
       }
@@ -82687,6 +83527,62 @@
         }
       }
     },
+    "Share With" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir con"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir con"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享给"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享給"
+          }
+        }
+      }
+    },
+    "Share With…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir con…"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir con…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享给…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享給…"
+          }
+        }
+      }
+    },
     "Shared" : {
       "localizations" : {
         "es" : {
@@ -82823,6 +83719,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "共同安全性特徵"
+          }
+        }
+      }
+    },
+    "Shared Session" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesión compartida"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesión compartida"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享场次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享場次"
           }
         }
       }
@@ -83444,6 +84368,34 @@
         }
       }
     },
+    "Show Your Code" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar tu código"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar tu código"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示你的配对码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示你的配對碼"
+          }
+        }
+      }
+    },
     "Showing the first 60 days." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -83693,6 +84645,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在酒精記錄上顯示乙醛蓄積。ALDH2 變異會減慢乙醛清除，導致臉紅。"
+          }
+        }
+      }
+    },
+    "Shows beside your session from the same time. Their doses stay out of your own curves and stats." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se muestra junto a tu sesión de la misma hora. Sus dosis no entran en tus propias curvas ni estadísticas."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se muestra junto a tu sesión de la misma hora. Sus dosis no entran en tus propias curvas ni estadísticas."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会显示在你同一时间的场次旁边。对方的剂量不会进入你自己的曲线和统计。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "會顯示在你同一時間的場次旁邊。對方的劑量不會進入你自己的曲線和統計。"
           }
         }
       }
@@ -91363,6 +92343,34 @@
         }
       }
     },
+    "That's your own code. Scan the other person's." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ese es tu propio código. Escanea el de la otra persona."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ese es tu propio código. Escanea el de la otra persona."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是你自己的配对码。请扫描对方的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是你自己的配對碼。請掃描對方的。"
+          }
+        }
+      }
+    },
     "The %lld you logged most are drawn. Tap a name to add or remove its line." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -92442,6 +93450,34 @@
         }
       }
     },
+    "The other person sees this name beside your sessions." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La otra persona ve este nombre junto a tus sesiones."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La otra persona ve este nombre junto a tus sesiones."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对方会在你的场次旁看到这个名字。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對方會在你的場次旁看到這個名字。"
+          }
+        }
+      }
+    },
     "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data." : {
       "localizations" : {
         "es" : {
@@ -92552,6 +93588,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "同類其他藥物"
+          }
+        }
+      }
+    },
+    "The sessions %@ sent are removed from this phone." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las sesiones que envió %@ se eliminan de este teléfono."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las sesiones que envió %@ se eliminan de este teléfono."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@发来的场次会从这台手机上移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@傳來的場次會從這支手機上移除。"
           }
         }
       }
@@ -93030,6 +94094,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些曲線用於展示模型假設，並不測量你的感受、精力、功能受損程度或身體安全狀況。個體反應和組合效應可能有很大差異。"
+          }
+        }
+      }
+    },
+    "They scan this code, and you scan theirs. After that you can send each other sessions. Nothing is sent until you choose to." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La otra persona escanea este código y tú escaneas el suyo. Después pueden enviarse sesiones. No se envía nada hasta que tú lo decidas."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La otra persona escanea este código y tú escaneas el suyo. Después pueden enviarse sesiones. No se envía nada hasta que tú lo decidas."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对方扫描这个码，你扫描对方的码。之后你们就能互相发送场次。在你选择发送之前，什么都不会发出。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對方掃描這個碼，你掃描對方的碼。之後你們就能互相傳送場次。在你選擇傳送之前，什麼都不會送出。"
           }
         }
       }
@@ -94044,6 +95136,34 @@
         }
       }
     },
+    "This session has no doses to share." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta sesión no tiene dosis para compartir."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta sesión no tiene dosis para compartir."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此场次没有可分享的剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此場次沒有可分享的劑量。"
+          }
+        }
+      }
+    },
     "This session logs %@, which sit outside the model, so these curves stay empty." : {
       "localizations" : {
         "es" : {
@@ -94068,6 +95188,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本場包含 %@，它們不在模型範圍內，因此這些曲線為空。"
+          }
+        }
+      }
+    },
+    "This share came from one of your own journals." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo viene de uno de tus propios diarios."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo viene de uno de tus propios diarios."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这份分享来自你自己的某个日记。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這份分享來自你自己的某個日記。"
+          }
+        }
+      }
+    },
+    "This share is damaged or was changed after it was sent." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo está dañado o se modificó después de enviarse."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo está dañado o se modificó después de enviarse."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这份分享已损坏，或在发送后被改动过。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這份分享已損壞，或在傳送後被改動過。"
+          }
+        }
+      }
+    },
+    "This share was made by a newer Piru. Update to open it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo se hizo con una versión más nueva de Piru. Actualiza para abrirlo."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo se hizo con una versión más nueva de Piru. Actualiza para abrirlo."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这份分享来自更新版本的 Piru。请更新后再打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這份分享來自更新版本的 Piru。請更新後再打開。"
+          }
+        }
+      }
+    },
+    "This share was sent to someone else." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo se envió a otra persona."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo se envió a otra persona."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这份分享是发给别人的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這份分享是傳給別人的。"
           }
         }
       }
@@ -97397,6 +98629,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未命名"
+          }
+        }
+      }
+    },
+    "Unpair" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desvincular"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desvincular"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消配对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消配對"
+          }
+        }
+      }
+    },
+    "Unpair %@?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Desvincularte de %@?"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Desvincularte de %@?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消与%@的配对？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消與%@的配對？"
           }
         }
       }
@@ -101713,6 +103001,62 @@
         }
       }
     },
+    "You haven't paired with %@. Adding pairs you, so you can share back." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no te vinculaste con %@. Al agregarla quedan vinculados y puedes compartir de vuelta."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no te vinculaste con %@. Al agregarla quedan vinculados y puedes compartir de vuelta."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你还没有与%@配对。添加后即完成配对，你也可以回传分享。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你還沒有與%@配對。加入後即完成配對，你也可以回傳分享。"
+          }
+        }
+      }
+    },
+    "You logged nothing around then. Once you do, ask %@ to send it again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No registraste nada a esa hora. Cuando lo hagas, pídele a %@ que te la envíe otra vez."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No registraste nada a esa hora. Cuando lo hagas, pídele a %@ que te la envíe otra vez."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在那段时间前后没有记录。记录后，请%@再发送一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在那段時間前後沒有記錄。記錄後，請%@再傳送一次。"
+          }
+        }
+      }
+    },
     "You may need food and rest after several hours without them." : {
       "localizations" : {
         "es" : {
@@ -101765,6 +103109,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "到明天，你對重要決定和帶有情緒的訊息可能會有不同看法。"
+          }
+        }
+      }
+    },
+    "You'll be able to send each other sessions. Each of you sees only what the other sends." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podrán enviarse sesiones. Cada uno ve solo lo que el otro envía."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podrán enviarse sesiones. Cada uno ve solo lo que el otro envía."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你们将能互相发送场次。每个人只能看到对方发来的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你們將能互相傳送場次。每個人只能看到對方傳來的內容。"
           }
         }
       }
@@ -102419,6 +103791,34 @@
         }
       }
     },
+    "Your name" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu nombre"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu nombre"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的名字"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的名字"
+          }
+        }
+      }
+    },
     "Your Name" : {
       "localizations" : {
         "es" : {
@@ -102527,6 +103927,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "處於解離狀態時，你對自己受影響程度的判斷並不可靠。"
+          }
+        }
+      }
+    },
+    "Your pairing code" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu código de vinculación"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu código de vinculación"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的配对码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的配對碼"
           }
         }
       }

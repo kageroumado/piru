@@ -7890,6 +7890,119 @@ T = {
     ),
     "In this session": ("已在此场次中", "已在此場次中"),
     "Couldn't Add": ("无法添加", "無法加入"),
+    # profiles across devices
+    "This session has no doses to share.": ("此场次没有可分享的剂量。", "此場次沒有可分享的劑量。"),
+    "Choose someone to share with.": ("选择要分享的对象。", "選擇要分享的對象。"),
+    "This share was sent to someone else.": ("这份分享是发给别人的。", "這份分享是傳給別人的。"),
+    "This share is damaged or was changed after it was sent.": (
+        "这份分享已损坏，或在发送后被改动过。",
+        "這份分享已損壞，或在傳送後被改動過。",
+    ),
+    "This share was made by a newer Piru. Update to open it.": (
+        "这份分享来自更新版本的 Piru。请更新后再打开。",
+        "這份分享來自更新版本的 Piru。請更新後再打開。",
+    ),
+    "This share came from one of your own journals.": (
+        "这份分享来自你自己的某个日记。",
+        "這份分享來自你自己的某個日記。",
+    ),
+    "%@'s code has changed since you paired. Scan their code again to keep sharing.": (
+        "自配对以来，%@的配对码已改变。请再次扫描对方的配对码以继续分享。",
+        "自配對以來，%@的配對碼已改變。請再次掃描對方的配對碼以繼續分享。",
+    ),
+    "That's your own code. Scan the other person's.": (
+        "这是你自己的配对码。请扫描对方的。",
+        "這是你自己的配對碼。請掃描對方的。",
+    ),
+    "Your pairing code": ("你的配对码", "你的配對碼"),
+    "They scan this code, and you scan theirs. After that you can send each other sessions. Nothing is sent until you choose to.": (
+        "对方扫描这个码，你扫描对方的码。之后你们就能互相发送场次。在你选择发送之前，什么都不会发出。",
+        "對方掃描這個碼，你掃描對方的碼。之後你們就能互相傳送場次。在你選擇傳送之前，什麼都不會送出。",
+    ),
+    "Scan Their Code": ("扫描对方的配对码", "掃描對方的配對碼"),
+    "Pair": ("配对", "配對"),
+    "Piru couldn't make a pairing code: the Keychain is locked or unavailable.": (
+        "Piru 无法生成配对码：钥匙串已锁定或不可用。",
+        "Piru 無法產生配對碼：鑰匙圈已鎖定或無法使用。",
+    ),
+    "Scanner Unavailable": ("扫描器不可用", "掃描器無法使用"),
+    "Point the Camera app at their code instead. It opens in Piru.": (
+        "改用“相机”App 对准对方的配对码，它会在 Piru 中打开。",
+        "改用「相機」App 對準對方的配對碼，它會在 Piru 中打開。",
+    ),
+    "Pair with someone first: you each scan the other's code, once, in person.": (
+        "请先配对：你们当面互相扫描一次对方的配对码。",
+        "請先配對：你們當面互相掃描一次對方的配對碼。",
+    ),
+    "Sends your doses, notes and body weight from this session, sealed so only they can open it.": (
+        "发送你在此场次中的剂量、备注和体重，经过加密，只有对方能打开。",
+        "傳送你在此場次中的劑量、備註和體重，經過加密，只有對方能打開。",
+    ),
+    "Pair with Someone": ("与他人配对", "與他人配對"),
+    "Share With": ("分享给", "分享給"),
+    "Share With…": ("分享给…", "分享給…"),
+    "Piru Session": ("Piru 场次", "Piru 場次"),
+    "Send": ("发送", "傳送"),
+    "Paired %@": ("%@配对", "%@配對"),
+    "Unpair": ("取消配对", "取消配對"),
+    "People": ("其他人", "其他人"),
+    "People on other phones you share sessions with. Unpairing removes the sessions they sent.": (
+        "在其他手机上与你分享场次的人。取消配对会移除他们发来的场次。",
+        "在其他手機上與你分享場次的人。取消配對會移除他們傳來的場次。",
+    ),
+    "Unpair %@?": ("取消与%@的配对？", "取消與%@的配對？"),
+    "The sessions %@ sent are removed from this phone.": (
+        "%@发来的场次会从这台手机上移除。",
+        "%@傳來的場次會從這支手機上移除。",
+    ),
+    "Couldn't Open": ("无法打开", "無法打開"),
+    "Nothing Here": ("这里什么都没有", "這裡什麼都沒有"),
+    "Pair with %@?": ("与%@配对？", "與%@配對？"),
+    "You'll be able to send each other sessions. Each of you sees only what the other sends.": (
+        "你们将能互相发送场次。每个人只能看到对方发来的内容。",
+        "你們將能互相傳送場次。每個人只能看到對方傳來的內容。",
+    ),
+    "Paired with %@": ("已与%@配对", "已與%@配對"),
+    "If %@ hasn't scanned your code yet, show it now so they can send you sessions too.": (
+        "如果%@还没扫描你的配对码，现在给对方看，让对方也能给你发送场次。",
+        "如果%@還沒掃描你的配對碼，現在給對方看，讓對方也能傳送場次給你。",
+    ),
+    "Show Your Code": ("显示你的配对码", "顯示你的配對碼"),
+    "Paired": ("已配对", "已配對"),
+    "%@ shared a session": ("%@分享了一个场次", "%@分享了一個場次"),
+    "Add to Your Journal": ("添加到你的日记", "加入你的日記"),
+    "You haven't paired with %@. Adding pairs you, so you can share back.": (
+        "你还没有与%@配对。添加后即完成配对，你也可以回传分享。",
+        "你還沒有與%@配對。加入後即完成配對，你也可以回傳分享。",
+    ),
+    "Shows beside your session from the same time. Their doses stay out of your own curves and stats.": (
+        "会显示在你同一时间的场次旁边。对方的剂量不会进入你自己的曲线和统计。",
+        "會顯示在你同一時間的場次旁邊。對方的劑量不會進入你自己的曲線和統計。",
+    ),
+    "Shared Session": ("共享场次", "共享場次"),
+    "Added %@'s session": ("已添加%@的场次", "已加入%@的場次"),
+    "You logged nothing around then. Once you do, ask %@ to send it again.": (
+        "你在那段时间前后没有记录。记录后，请%@再发送一次。",
+        "你在那段時間前後沒有記錄。記錄後，請%@再傳送一次。",
+    ),
+    "It shows beside your session from the same time.": (
+        "它会显示在你同一时间的场次旁边。",
+        "它會顯示在你同一時間的場次旁邊。",
+    ),
+    "Open Session": ("打开场次", "打開場次"),
+    "Your name": ("你的名字", "你的名字"),
+    "Save Name": ("保存名字", "儲存名字"),
+    "Your Name": ("你的名字", "你的名字"),
+    "The other person sees this name beside your sessions.": (
+        "对方会在你的场次旁看到这个名字。",
+        "對方會在你的場次旁看到這個名字。",
+    ),
+    "%@'s code has changed": ("%@的配对码已改变", "%@的配對碼已改變"),
+    "Pair again only if %@ is with you and you scanned this from their phone. A code sent to you could be someone else's.": (
+        "只有在%@就在你身边、且你是从对方手机上扫描的情况下，才重新配对。别人发给你的配对码可能属于其他人。",
+        "只有在%@就在你身邊、且你是從對方手機上掃描的情況下，才重新配對。別人傳給你的配對碼可能屬於其他人。",
+    ),
+    "Pair Again": ("重新配对", "重新配對"),
     # profiles phase 4
     "Shared with": ("共享对象", "共享對象"),
     "Their doses come off this stock too. Only you can change who shares it or delete it.": (
@@ -7900,7 +8013,6 @@ T = {
     "%@'s": ("%@的", "%@的"),
     "Shared with you": ("与你共享", "與你共享"),
     "Shared by %@": ("由%@共享", "由%@共享"),
-    "Your Name": ("你的名字", "你的名字"),
     "Other profiles show you by this name.": (
         "其他个人资料会用这个名字显示你。",
         "其他個人檔案會用這個名字顯示你。",
@@ -9498,6 +9610,71 @@ if __name__ == "__main__":
             "%@ has no session around this time.",
             "In this session",
             "Couldn't Add",
+        }
+    )
+    # profiles across devices
+    NEW_KEYS.update(
+        {
+            "This session has no doses to share.",
+            "Choose someone to share with.",
+            "This share was sent to someone else.",
+            "This share is damaged or was changed after it was sent.",
+            "This share was made by a newer Piru. Update to open it.",
+            "This share came from one of your own journals.",
+            "%@'s code has changed since you paired. Scan their code again to keep sharing.",
+            "That's your own code. Scan the other person's.",
+            "Your pairing code",
+            "They scan this code, and you scan theirs. After that you can send each other sessions. Nothing is sent until you choose to.",
+            "Scan Their Code",
+            "Pair",
+            "Piru couldn't make a pairing code: the Keychain is locked or unavailable.",
+            "Scanner Unavailable",
+            "Point the Camera app at their code instead. It opens in Piru.",
+            "Pair with someone first: you each scan the other's code, once, in person.",
+            "Sends your doses, notes and body weight from this session, sealed so only they can open it.",
+            "Pair with Someone",
+            "Share With",
+            "Share With…",
+            "Piru Session",
+            "Send",
+            "Paired %@",
+            "Unpair",
+            "People",
+            "People on other phones you share sessions with. Unpairing removes the sessions they sent.",
+            "Unpair %@?",
+            "The sessions %@ sent are removed from this phone.",
+            "Couldn't Open",
+            "Nothing Here",
+            "Pair with %@?",
+            "You'll be able to send each other sessions. Each of you sees only what the other sends.",
+            "Paired with %@",
+            "If %@ hasn't scanned your code yet, show it now so they can send you sessions too.",
+            "Show Your Code",
+            "Paired",
+            "%@ shared a session",
+            "Add to Your Journal",
+            "You haven't paired with %@. Adding pairs you, so you can share back.",
+            "Shows beside your session from the same time. Their doses stay out of your own curves and stats.",
+            "Shared Session",
+            "Added %@'s session",
+            "You logged nothing around then. Once you do, ask %@ to send it again.",
+            "It shows beside your session from the same time.",
+            "Open Session",
+        }
+    )
+    NEW_KEYS.update(
+        {
+            "Your name",
+            "Save Name",
+            "Your Name",
+            "The other person sees this name beside your sessions.",
+        }
+    )
+    NEW_KEYS.update(
+        {
+            "%@'s code has changed",
+            "Pair again only if %@ is with you and you scanned this from their phone. A code sent to you could be someone else's.",
+            "Pair Again",
         }
     )
     # profiles phase 4

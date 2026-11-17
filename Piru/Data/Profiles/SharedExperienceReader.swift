@@ -5,7 +5,7 @@ import SwiftData
 
 /// One dose from another profile's shared session, copied out of their store so
 /// it can cross actors and outlive the context that read it.
-nonisolated struct SharedDoseSnapshot: Hashable, Sendable {
+nonisolated struct SharedDoseSnapshot: Hashable, Sendable, Codable {
     let id: UUID
     let substance: String
     let amount: Double
@@ -86,7 +86,7 @@ extension SharedDoseSnapshot {
 }
 
 /// A timestamped note from another profile's shared session.
-nonisolated struct SharedNoteSnapshot: Hashable, Sendable, Identifiable {
+nonisolated struct SharedNoteSnapshot: Hashable, Sendable, Identifiable, Codable {
     let id: UUID
     let timestamp: Date
     let text: String

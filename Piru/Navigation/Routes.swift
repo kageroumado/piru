@@ -398,6 +398,13 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Session menu ▸ Add People: link other profiles' sessions from the same
     /// time into this session's shared experience.
     case addPeople(sessionID: UUID)
+    /// Session menu ▸ Share With: seal this session to paired people as a
+    /// file for the share sheet.
+    case shareSession(sessionID: UUID)
+    /// Your pairing code and the scanner for someone else's.
+    case pairing
+    /// A share or pairing code that just arrived, held by ``ShareInbox``.
+    case shareInbox
     /// Entry detail sheet. Carries the entry's stable `id` with `timestamp`
     /// as the resolution fallback (see `PushRoute` — same compatibility
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).

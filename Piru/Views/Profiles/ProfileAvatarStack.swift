@@ -59,7 +59,7 @@ private struct SharedSessionIndexRefresh: ViewModifier {
         content.task(id: TaskKey(
             revision: DoseLogService.shared.revision,
             active: directory.activeProfileID,
-            profiles: directory.profiles.map(\.id),
+            profiles: directory.everyone.map(\.id),
         )) {
             await SharedExperienceStore.shared.refreshIndex()
         }
