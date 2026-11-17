@@ -354,6 +354,7 @@ final class ActiveSessionManager {
                 // The snapshot's resolved title (the brand as logged), never the
                 // canonical substance name.
                 name: item.snapshot.title,
+                canonicalName: substance?.name ?? item.snapshot.substance,
                 tint: tint,
                 timestamp: item.snapshot.timestamp,
                 amount: item.snapshot.amount,

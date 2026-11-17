@@ -265,6 +265,6 @@ enum CurveMilestonePolicy {
     }
 
     private static func isStimulant(_ state: ActiveSubstanceState) -> Bool {
-        SubstanceLibrary.lookup(state.substanceName)?.category == .stimulant
+        SubstanceLibrary.lookup(state.canonicalName)?.category == .stimulant
     }
 }

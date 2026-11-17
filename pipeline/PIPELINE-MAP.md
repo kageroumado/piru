@@ -139,7 +139,7 @@ table, and then ingests. The order is load-bearing and the comments say why.
     has settled.
 16. The ~25 curated sidecar ingesters (see the table in `README.md`), then
     `build_substance_forms` / `build_product_strengths` / `build_product_durations`
-    / `build_ester_pk` / `build_product_codes` / `audit_alias_collisions`.
+    / `build_ester_pk` / `build_product_codes`; `resolve_alias_owners` runs after the final stub flag.
 17. `is_review` back-fill from `data/sources/pubmed-pubtypes.json`,
     `dedupe_database` (from `build/dedupe.py`), `wal_checkpoint` →
     `journal_mode = DELETE` → `VACUUM` → `ANALYZE`, sha256, manifest, build report.

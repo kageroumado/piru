@@ -1,10 +1,22 @@
 import Foundation
 
+// MARK: - Display
+
+extension ActiveSubstanceState {
+    /// The name to show for this dose: the user's relabel of its canonical
+    /// name, else the title the state was built with. The one path every
+    /// surface takes, so none resolves the title back into a substance — a
+    /// title can be an alias another substance also lists ("K").
+    func displayLabel(customs: CustomSubstanceStore = .shared) -> String {
+        customs.displayName(for: canonicalName, fallback: substanceName)
+    }
+}
+
 // MARK: - ActiveSubstanceState Builders
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, tint: P3Color, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, doseIsUnscaled: Bool = false, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg, zeroOrderKinetics: PKModel.ZeroOrderKinetics? = nil) {
+    init?(name: String, canonicalName: String? = nil, tint: P3Color, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, doseIsUnscaled: Bool = false, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg, zeroOrderKinetics: PKModel.ZeroOrderKinetics? = nil) {
         guard let rawDuration = duration else { return nil }
         // Endpoint-only data (a `total` with no come-up/peak/offset) would
         // otherwise collapse the curve to the onset length; synthesize the
@@ -19,6 +31,7 @@ extension ActiveSubstanceState {
         let zeroOrder = TimelineCurveModel.zeroOrderBoundaries(zeroOrderKinetics, amount: amount, unit: unit)
         self.init(
             substanceName: name,
+            canonicalName: canonicalName,
             tint: tint,
             doseTimestamp: timestamp,
             amount: amount,
@@ -120,6 +133,7 @@ extension ActiveSubstanceState {
                 // Canonical common name, so a dose logged under an alias (e.g. "Lysergic Acid
                 // Diethylamide") labels its curve "LSD" like the rest of the app.
                 name: substance.displayTitle,
+                canonicalName: substance.name,
                 tint: tint,
                 timestamp: entry.timestamp,
                 amount: entry.amount,

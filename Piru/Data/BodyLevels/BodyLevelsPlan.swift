@@ -10,6 +10,7 @@ extension BodyLevelsManager {
         /// Per-series display metadata, parallel to the sampler's outer array.
         struct SeriesMeta {
             let displayName: String
+            let canonicalName: String
             let color: Color
             let unit: String
             /// The series' first dose; every later one is expressed in its unit.
@@ -80,6 +81,7 @@ extension BodyLevelsManager {
                     seriesIndex[key] = index
                     meta.append(SeriesMeta(
                         displayName: CustomSubstanceStore.shared.displayName(for: name, fallback: substance?.displayTitle),
+                        canonicalName: name,
                         color: SubstancePalette.color(for: name, colorMap: colorMap),
                         unit: entry.unit,
                         unitOf: dose,
@@ -120,7 +122,7 @@ extension BodyLevelsManager {
                     BodyLoadTrail.Point(id: i, date: dates[i], amount: amount, fraction: amount / peak)
                 }
                 series.append(BodyLoadTrail.Series(
-                    id: index, displayName: meta.displayName,
+                    id: index, displayName: meta.displayName, canonicalName: meta.canonicalName,
                     color: meta.color, unit: meta.unit, peak: peak, doseCount: doseCounts[index], points: points,
                 ))
             }
