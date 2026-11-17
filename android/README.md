@@ -152,6 +152,14 @@ PortableData must preserve these SwiftData behaviors. Tests use Piru's real `@Mo
   Framework (`app/Sources/Piru/Android/Backup/`). A cloud folder is uploaded by its
   provider's app. The one connection Piru opens is the daily update check, which asks GitHub
   for the newest release, sends nothing about the user, and turns off in Settings.
+  Keychain items (the share identities' private keys) are files sealed under an Android
+  Keystore key (`app/Sources/Piru/Skip/AndroidKeystore.kt`).
+- **Sharing between phones.** A session share is the same `.pirushare` file as on iOS, read
+  and written byte for byte alike: zlib writes the raw DEFLATE Apple's Compression does, and
+  swift-crypto seals the same HPKE suite. A file sent to Piru arrives through the manifest's
+  `application/octet-stream` filters and is copied in by `Skip/AndroidIncomingFiles.kt`.
+  Android shows its pairing QR code but has no scanner: an iPhone scans it and sends a
+  session, and accepting that session pairs the two.
 - **Migration.** Import accepts every format iOS does, including PsychonautWiki Journal's
   (PsyLog), through the Storage Access Framework.
 

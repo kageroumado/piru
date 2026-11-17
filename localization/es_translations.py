@@ -3454,6 +3454,7 @@ ES = {
     "Food": "Comida",
     "Nothing to Share": "Nada que compartir",
     "The file picker could not be opened.": "No se pudo abrir el selector de archivos.",
+    "The share sheet could not be opened.": "No se pudo abrir el menú para compartir.",
     "The Swift runtime, Foundation and Dispatch, which run Piru on Android.": "El entorno de ejecución de Swift, Foundation y Dispatch, que ejecutan Piru en Android.",
     "Skip, which runs Piru's Swift code on Android. Piru's changes to it are in android/vendor in its repository.": "Skip, que ejecuta el código Swift de Piru en Android. Los cambios de Piru están en android/vendor de su repositorio.",
     "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.": "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni y swift-android-native.",

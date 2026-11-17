@@ -102,6 +102,9 @@ extension UTType {
         case "public.png": "image/png"
         case "public.image": "image/*"
         case "net.daringfireball.markdown": "text/markdown"
+        // What Android's file managers report for an extension they don't know, so a received
+        // share opens in Piru (the manifest's file intent filters).
+        case "glass.kagerou.piru.share": "application/octet-stream"
         default: "*/*"
         }
     }
@@ -115,6 +118,7 @@ extension UTType {
         case "tsv": self = .tabSeparatedText
         case "png": self = .png
         case "md": self = UTType(identifier: "net.daringfireball.markdown", preferredFilenameExtension: "md")
+        case "pirushare": self = .piruShare
         default: return nil
         }
     }
@@ -270,4 +274,37 @@ enum ShareSheetPresenter {
     static func present(_ items: [Any]) {
         AndroidDocuments.share(items: items)
     }
+}
+
+// MARK: - ShareLink (Piru/Views/Profiles/Sharing/ShareSessionView.swift)
+
+/// A button that opens the share chooser with the file at `item`. SkipFuseUI's ShareLink sends
+/// a URL as text, which for a file would send its path; this sends the file itself, as a
+/// content:// URI, and says so when the chooser cannot open.
+struct ShareLink<Label: View>: View {
+    let item: URL
+    let label: Label
+
+    @State private var failed = false
+
+    init(item: URL, preview _: SharePreview, @ViewBuilder label: () -> Label) {
+        self.item = item
+        self.label = label()
+    }
+
+    var body: some View {
+        Button {
+            failed = !AndroidDocuments.share(file: item)
+        } label: {
+            label
+        }
+        .alert("The share sheet could not be opened.", isPresented: $failed) {
+            Button("OK", role: .cancel) {}
+        }
+    }
+}
+
+/// The chooser titles itself; the preview's title is not shown on Android.
+struct SharePreview {
+    init(_: Text) {}
 }

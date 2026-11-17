@@ -75,6 +75,11 @@ open class MainActivity: AppCompatActivity {
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
+        // A file sent to Piru becomes a view of a copy the app owns, before it is forwarded or
+        // read (AndroidIncomingFiles). A recreated activity's intent was taken in its first life.
+        if (savedInstanceState == null) {
+            setIntent(AndroidIncomingFiles.route(this, intent))
+        }
         if (!isTaskRoot) {
             forwardToTaskRoot()
             return
@@ -141,8 +146,9 @@ open class MainActivity: AppCompatActivity {
     /// activity recreated after its process was killed before it resumes. onOpenURL handles it
     /// once either way and then clears the intent.
     override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        setIntent(intent)
+        val routed = AndroidIncomingFiles.route(this, intent)
+        super.onNewIntent(routed)
+        setIntent(routed)
     }
 
     override fun onStart() {

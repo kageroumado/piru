@@ -210,6 +210,7 @@ pencil	edit	0
 pencil.tip.crop.circle	draw	0
 pentagon.fill	pentagon	1
 person.2	group	0
+person.2.badge.plus	group_add	0
 person.2.fill	group	1
 person.crop.circle.fill	account_circle	1
 person.fill	person	1
@@ -229,6 +230,7 @@ plus	add	0
 plus.circle	add_circle	0
 plus.circle.fill	add_circle	1
 point.topleft.down.to.point.bottomright.curvepath	route	0
+qrcode	qr_code	0
 questionmark.circle	help	0
 quote.bubble	format_quote	0
 quote.opening	format_quote	0
@@ -278,6 +280,7 @@ timer	timer	0
 tornado	cyclone	0
 trash	delete	0
 trash.fill	delete	1
+tray	inbox	0
 tray.full	inbox	0
 triangle.fill	change_history	1
 viewfinder	center_focus_weak	0

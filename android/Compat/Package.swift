@@ -102,6 +102,29 @@ let package = Package(
                 .enableUpcomingFeature("MemberImportVisibility"),
             ],
         ),
+        // The pairing QR code as Android draws it, read back with Core Image: the app's own file,
+        // linked in from app/Sources/Piru/Android/Platform, which needs only Foundation.
+        .testTarget(
+            name: "QRCodeTests",
+            swiftSettings: [
+                .defaultIsolation(MainActor.self),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances"),
+                .enableUpcomingFeature("MemberImportVisibility"),
+            ],
+        ),
+        // A share's compressed body as Android writes and reads it, against Apple's Compression:
+        // the app's own file, linked in from app/Sources/Piru/Android/Platform, which needs only
+        // Foundation and zlib.
+        .testTarget(
+            name: "ShareCompressionTests",
+            swiftSettings: [
+                .defaultIsolation(MainActor.self),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances"),
+                .enableUpcomingFeature("MemberImportVisibility"),
+            ],
+        ),
         .plugin(name: "StageSources", capability: .buildTool()),
     ],
 )

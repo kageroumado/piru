@@ -29,6 +29,21 @@ struct UTType: Hashable, Sendable {
     static let tabSeparatedText = UTType(identifier: "public.tab-separated-values-text", preferredFilenameExtension: "tsv")
     static let png = UTType(identifier: "public.png", preferredFilenameExtension: "png")
     static let image = UTType(identifier: "public.image", preferredFilenameExtension: nil)
+
+    nonisolated init(identifier: String, preferredFilenameExtension: String?) {
+        self.identifier = identifier
+        self.preferredFilenameExtension = preferredFilenameExtension
+    }
+
+    /// A type the app declares, with the extension Piru/Info.plist's UTExportedTypeDeclarations
+    /// gives it.
+    nonisolated init(exportedAs identifier: String) {
+        self.init(identifier: identifier, preferredFilenameExtension: Self.exportedExtensions[identifier])
+    }
+
+    private nonisolated static let exportedExtensions = [
+        "glass.kagerou.piru.share": "pirushare",
+    ]
 }
 
 // MARK: - HealthKit (Piru/Utilities/HealthKitVitals.swift, HealthKitBodyMass.swift)

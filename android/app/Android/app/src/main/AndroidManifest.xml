@@ -58,6 +58,20 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="piru" />
             </intent-filter>
+            <!-- A session shared from another phone, a `.pirushare` file. Android knows no type for
+                 the extension, so file managers and messengers open and send it as
+                 application/octet-stream; Main.kt copies it in (Skip/AndroidIncomingFiles.kt). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity>
         <!-- The launcher shortcut that writes a problem report (Skip/AndroidDiagnostics.kt). -->

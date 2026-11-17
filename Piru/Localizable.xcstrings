@@ -93620,6 +93620,35 @@
         }
       }
     },
+    "The share sheet could not be opened." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo abrir el menú para compartir."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo abrir el menú para compartir."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法打开分享面板。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法開啟分享面板。"
+          }
+        }
+      }
+    },
     "The share that rides along stuck to blood proteins. Only the unbound rest is free to act." : {
       "localizations" : {
         "es" : {

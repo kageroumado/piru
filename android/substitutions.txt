@@ -27,8 +27,10 @@
 ^(\s*@(?!ViewBuilder\b)\w+(?:\(.*\))?[ \t]*\n\s*)(?:private|fileprivate)\s+((?:static\s+)?(?:var|let)\b)	\1\2
 
 # Apple frameworks with no Android counterpart. The types the shared code names from them
-# are stood in for by app/Sources/Piru/Android/Platform/, one file per framework.
-^[ \t]*import (Charts|WidgetKit|TipKit|UniformTypeIdentifiers|StoreKit|HealthKit|MapKit|ActivityKit|VisionKit|CommonCrypto|PDFKit|QuickLook|CoreMotion|BackgroundTasks|ObjectiveC)$	
+# are stood in for by app/Sources/Piru/Android/Platform/, one file per framework. Core Image
+# draws only the pairing QR code, which Android draws from Platform/QRCode+Android.swift
+# (patch 0031).
+^[ \t]*import (Charts|WidgetKit|TipKit|UniformTypeIdentifiers|StoreKit|HealthKit|MapKit|ActivityKit|VisionKit|CommonCrypto|Compression|Security|CoreImage\.CIFilterBuiltins|CoreImage|PDFKit|QuickLook|CoreMotion|BackgroundTasks|ObjectiveC)$	
 # SkipFuseUI carries its own UserNotifications shim inside its SwiftUI module.
 ^([ \t]*)import UserNotifications$	\1import SwiftUI
 # CGFloat, CGPoint, CGRect and CGSize are Foundation's on Android.

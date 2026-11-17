@@ -49,8 +49,3 @@ Piru/Intents/*
 # Profile photos: PhotosPicker, Vision and ImageIO, none of which SkipUI has. The editor offers
 # Letters and Emoji on Android, and a restored photo draws its monogram.
 Piru/Views/Profiles/ProfilePhoto*.swift
-
-# Sharing between phones: CryptoKit HPKE, VisionKit and Core Image QR codes. Its callers sit
-# under `#if !os(Android)`; PiruPerson.swift (the paired-people registry) stays compiled.
-Piru/Data/Profiles/Sharing/*
-Piru/Views/Profiles/Sharing/*

@@ -1,0 +1,1 @@
+../../../app/Sources/Piru/Android/Platform/QRCode+Android.swift

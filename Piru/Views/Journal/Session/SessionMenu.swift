@@ -56,13 +56,11 @@ struct SessionMenu: View {
                     Label("Add People…", systemImage: "person.2")
                 }
             }
-            #if !os(Android)
-                Button {
-                    navigator.present(.shareSession(sessionID: session.id))
-                } label: {
-                    Label("Share With…", systemImage: "person.2.badge.plus")
-                }
-            #endif
+            Button {
+                navigator.present(.shareSession(sessionID: session.id))
+            } label: {
+                Label("Share With…", systemImage: "person.2.badge.plus")
+            }
             if hasCurves {
                 Divider()
                 Button {
