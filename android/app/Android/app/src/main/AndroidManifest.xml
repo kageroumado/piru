@@ -14,6 +14,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- session and routine reminders (runtime-granted on Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- the pairing scanner (Skip/AndroidQRScanner.kt), asked for when Scan opens; a phone without
+         a camera still installs Piru and pairs by being scanned -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
 
     <application
         android:label="${PRODUCT_NAME}"

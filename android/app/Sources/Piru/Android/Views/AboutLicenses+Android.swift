@@ -18,7 +18,7 @@ extension BundledLicense {
         ),
         BundledLicense(
             name: "Apache License 2.0",
-            covers: "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.",
+            covers: "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.",
             resource: "License-Apache-2.0-Android",
         ),
         BundledLicense(

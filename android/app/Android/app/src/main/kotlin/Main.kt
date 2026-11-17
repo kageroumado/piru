@@ -88,6 +88,7 @@ open class MainActivity: AppCompatActivity {
         UIApplication.launch(this)
         AndroidDocuments.register(this)
         AndroidBackupFolder.register(this)
+        AndroidCamera.register(this)
         enableEdgeToEdge()
 
         setContent {

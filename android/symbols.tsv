@@ -231,6 +231,7 @@ plus.circle	add_circle	0
 plus.circle.fill	add_circle	1
 point.topleft.down.to.point.bottomright.curvepath	route	0
 qrcode	qr_code	0
+qrcode.viewfinder	qr_code_scanner	0
 questionmark.circle	help	0
 quote.bubble	format_quote	0
 quote.opening	format_quote	0

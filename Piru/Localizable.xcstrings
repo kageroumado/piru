@@ -16014,6 +16014,35 @@
         }
       }
     },
+    "Allow Piru to use the camera in Settings to scan their code." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que Piru use la cámara en Ajustes para escanear su código."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que Piru use la cámara en Ajustes para escanear su código."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在设置中允许 Piru 使用相机，以扫描对方的配对码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在設定中允許 Piru 使用相機，以掃描對方的配對碼。"
+          }
+        }
+      }
+    },
     "Alone" : {
       "localizations" : {
         "es" : {
@@ -22498,6 +22527,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要相機權限"
+          }
+        }
+      }
+    },
+    "Camera Off" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cámara desactivada"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cámara desactivada"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相机已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相機已關閉"
           }
         }
       }
@@ -50932,6 +50990,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kotlin、AndroidX、Jetpack Compose、Coil、Material Symbols、swift-crypto、swift-asn1、swift-jni 與 swift-android-native。"
+          }
+        }
+      }
+    },
+    "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni y swift-android-native."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni y swift-android-native."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotlin、AndroidX、Jetpack Compose、Coil、ZXing、Material Symbols、swift-crypto、swift-asn1、swift-jni 和 swift-android-native。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotlin、AndroidX、Jetpack Compose、Coil、ZXing、Material Symbols、swift-crypto、swift-asn1、swift-jni 與 swift-android-native。"
           }
         }
       }
@@ -92514,6 +92601,35 @@
         }
       }
     },
+    "The camera could not be started." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo iniciar la cámara."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo iniciar la cámara."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法启动相机。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法啟動相機。"
+          }
+        }
+      }
+    },
     "The concentration unit these values use. Lower numbers always mean the drug works at smaller amounts." : {
       "localizations" : {
         "es" : {
@@ -95077,6 +95193,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本期"
+          }
+        }
+      }
+    },
+    "This phone has no camera. Let them scan your code, then send you a session." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este teléfono no tiene cámara. Deja que escaneen tu código y luego te envíen una sesión."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este teléfono no tiene cámara. Deja que escaneen tu código y luego te envíen una sesión."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这部手机没有相机。让对方扫描你的配对码，再给你发送一个场次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這支手機沒有相機。讓對方掃描你的配對碼，再傳給你一個場次。"
           }
         }
       }

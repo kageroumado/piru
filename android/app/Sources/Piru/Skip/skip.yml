@@ -2,3 +2,15 @@
 # android/tools/stage.py, with SwiftUI rendered through Jetpack Compose.
 skip:
   mode: 'native'
+
+# The pairing scanner (Skip/AndroidQRScanner.kt): CameraX for the preview and frames, ZXing to
+# read the QR code in them. Both are Apache-2.0 and need no Google Play services, so the scanner
+# works on any phone the APK installs on.
+build:
+  contents:
+    - block: 'dependencies'
+      contents:
+        - 'implementation("androidx.camera:camera-camera2:1.6.2")'
+        - 'implementation("androidx.camera:camera-lifecycle:1.6.2")'
+        - 'implementation("androidx.camera:camera-view:1.6.2")'
+        - 'implementation("com.google.zxing:core:3.5.4")'

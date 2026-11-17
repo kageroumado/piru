@@ -2,14 +2,14 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 import SwiftUI
 
-/// Your pairing code, and on iPhone the scanner for the other person's. Two
+/// Your pairing code, and on a phone the scanner for the other person's. Two
 /// people scan each other's codes once, in person; after that each can send
 /// the other a session.
 struct PairingView: View {
     @Environment(\.profileDirectory) private var directory
     @State private var code: PairingCode?
     @State private var error: String?
-    #if os(iOS)
+    #if os(iOS) || os(Android)
         @State private var scanning = false
         @State private var scanned: URL?
     #endif
@@ -22,7 +22,7 @@ struct PairingView: View {
                 codeSection
             }
 
-            #if os(iOS)
+            #if os(iOS) || os(Android)
                 Section {
                     Button {
                         scanning = true
@@ -37,7 +37,7 @@ struct PairingView: View {
         .navigationTitle("Pair")
         .inlineNavigationTitle()
         .task(id: directory.activeProfile) { makeCode() }
-        #if os(iOS)
+        #if os(iOS) || os(Android)
             // The inbox presents once the scanner is gone, not over its exit.
             .sheet(isPresented: $scanning, onDismiss: {
                 if let url = scanned {

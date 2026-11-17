@@ -158,8 +158,12 @@ PortableData must preserve these SwiftData behaviors. Tests use Piru's real `@Mo
   and written byte for byte alike: zlib writes the raw DEFLATE Apple's Compression does, and
   swift-crypto seals the same HPKE suite. A file sent to Piru arrives through the manifest's
   `application/octet-stream` filters and is copied in by `Skip/AndroidIncomingFiles.kt`.
-  Android shows its pairing QR code but has no scanner: an iPhone scans it and sends a
-  session, and accepting that session pairs the two.
+  The pairing scanner is CameraX with ZXing (`Skip/AndroidQRScanner.kt`), no Play services;
+  the camera permission is asked for when Scan opens, and a phone without a camera installs and
+  pairs by being scanned. Settings ▸ People lists the paired people, since Android keeps one
+  journal. On the emulator, `-camera-back imagefile:<png>` feeds the scanner a code: the
+  emulator draws a 480×640 image rotated and cut off, so a code reads when it sits centered
+  at x 128, y 320, about 260 px across.
 - **Migration.** Import accepts every format iOS does, including PsychonautWiki Journal's
   (PsyLog), through the Storage Access Framework.
 

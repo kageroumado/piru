@@ -7372,6 +7372,16 @@ T = {
     "Nothing to Share": ("没有可分享的内容", "沒有可分享的內容"),
     "The file picker could not be opened.": ("无法打开文件选择器。", "無法開啟檔案選擇器。"),
     "The share sheet could not be opened.": ("无法打开分享面板。", "無法開啟分享面板。"),
+    "Camera Off": ("相机已关闭", "相機已關閉"),
+    "Allow Piru to use the camera in Settings to scan their code.": (
+        "请在设置中允许 Piru 使用相机，以扫描对方的配对码。",
+        "請在設定中允許 Piru 使用相機，以掃描對方的配對碼。",
+    ),
+    "This phone has no camera. Let them scan your code, then send you a session.": (
+        "这部手机没有相机。让对方扫描你的配对码，再给你发送一个场次。",
+        "這支手機沒有相機。讓對方掃描你的配對碼，再傳給你一個場次。",
+    ),
+    "The camera could not be started.": ("无法启动相机。", "無法啟動相機。"),
     "The Swift runtime, Foundation and Dispatch, which run Piru on Android.": (
         "Swift 运行时、Foundation 和 Dispatch，在 Android 上运行 Piru。",
         "Swift 執行環境、Foundation 與 Dispatch，在 Android 上執行 Piru。",
@@ -7380,9 +7390,9 @@ T = {
         "Skip，在 Android 上运行 Piru 的 Swift 代码。Piru 对它的修改位于其代码库的 android/vendor 中。",
         "Skip，在 Android 上執行 Piru 的 Swift 程式碼。Piru 對它的修改位於其程式庫的 android/vendor 中。",
     ),
-    "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.": (
-        "Kotlin、AndroidX、Jetpack Compose、Coil、Material Symbols、swift-crypto、swift-asn1、swift-jni 和 swift-android-native。",
-        "Kotlin、AndroidX、Jetpack Compose、Coil、Material Symbols、swift-crypto、swift-asn1、swift-jni 與 swift-android-native。",
+    "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.": (
+        "Kotlin、AndroidX、Jetpack Compose、Coil、ZXing、Material Symbols、swift-crypto、swift-asn1、swift-jni 和 swift-android-native。",
+        "Kotlin、AndroidX、Jetpack Compose、Coil、ZXing、Material Symbols、swift-crypto、swift-asn1、swift-jni 與 swift-android-native。",
     ),
     "ICU, the Unicode data behind dates, numbers and text on Android.": (
         "ICU，Android 上日期、数字和文本所依赖的 Unicode 数据。",
@@ -8339,9 +8349,13 @@ if __name__ == "__main__":
         "Nothing to Share",
         "The file picker could not be opened.",
         "The share sheet could not be opened.",
+        "Camera Off",
+        "Allow Piru to use the camera in Settings to scan their code.",
+        "This phone has no camera. Let them scan your code, then send you a session.",
+        "The camera could not be started.",
         "The Swift runtime, Foundation and Dispatch, which run Piru on Android.",
         "Skip, which runs Piru's Swift code on Android. Piru's changes to it are in android/vendor in its repository.",
-        "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.",
+        "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.",
         "ICU, the Unicode data behind dates, numbers and text on Android.",
         "curl, part of Foundation's networking on Android.",
         "BoringSSL, part of Foundation's networking on Android.",
