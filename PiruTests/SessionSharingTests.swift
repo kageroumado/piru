@@ -107,6 +107,29 @@ struct SessionSharingTests {
         }
     }
 
+    /// A share sealed on Android by the app's own envelope code (swift-crypto's HPKE over
+    /// BoringSSL, the body deflated by zlib) to a test identity, captured from an Android
+    /// emulator. The format is frozen across both apps, so this file must open here unchanged.
+    @Test
+    func `A share sealed on Android opens on an iPhone`() throws {
+        let iphone = try ShareIdentity(
+            personID: #require(UUID(uuidString: "9F8E7D6C-5B4A-4321-8FED-CBA987654321")),
+            privateKey: Curve25519.KeyAgreement.PrivateKey(
+                rawRepresentation: #require(Data(base64Encoded: "PhmvctO4zQK+1BanqrIQWTQlIGaezDdMbELoiwdsQc8=")),
+            ),
+        )
+        let envelope = try ShareEnvelope.decode(Data(Self.androidShare.utf8))
+        #expect(envelope.sender.id == UUID(uuidString: "0F1E2D3C-4B5A-4978-8695-A4B3C2D1E0F9"))
+        let doses = (0 ..< 80).map { index in
+            #"{"dose":\#(index),"substance":"2C-B","amount":\#(index * 5),"unit":"mg","note":"Colors up at the kitchen disco."}"#
+        }
+        #expect(try envelope.open(with: iphone) == Data("[\(doses.joined(separator: ","))]".utf8))
+    }
+
+    private static let androidShare = #"""
+    {"body":"kFJz0Z9fGW02gHE44xfkGB3hUOstMMxZwUe0xyMtXthHs1exMYxJxV\/ZZgq07bvf4lV5vjM4+85wIqUjfTMsAaewjyBnSbEByU5d3fcPJrEXmov7Fj8Cg34OYBZm5rHMS1bM\/U7mIU8rKL19WpywlGjFct0tG55IUqU4tNL5QYFaGoDWSyEWS9nAq4E3BY2K1nD7gz2SQpGQX53uwvn0bZsgjS7e9Zp\/+ejTYMxtUmDicVzeNJ6lLyxGuSaCcYeeaD9aSRt3fjB+VX6yaal2yh626CxVmpMQ0GphJQBavZjrle24pfpBeN7xRobQ\/+k3bloKgcPbzIyjoGA2tUaxHJREzwxIDnkXS6NP8IosHq+TNMIvob49MO6g\/TBilHjoO3zPDob9SfzPyg3Hpii53Wy5Poc7oG7OVPURxkRpQvrHCMyBHuM5xBvPerk2M73P043d5vg9xqhARoZM0a7V2ERF9r3Jv3M+u82\/\/vhu5bFRT8O0J2N6+cjI\/8MbSUpYZ0ILb8lQ4aGBqByuFVD+j+31LzbyqK8QuXZAeiHuo64zb5ySavBUEGtghpJecFLQ\/xeRgz4IhgsOf6Ye0MowDcZHxlrmPZ4A2z8zB0ysn2Y9cDDjMo+ZTNGDhrmeybtDSJsUKAMCVIpHTwrsQeXg9oU3g++13DXlr+h0pRv6PU0fyd9btDhOLYnpWg==","format":"piru-share","recipients":[{"enc":"yuveFrRjJb7ccWJpXW+ijGHHZ9dKaltEndmKQkyvw0o=","id":"9F8E7D6C-5B4A-4321-8FED-CBA987654321","sealedKey":"KCZaeB3vV2padrLBx+FSGO\/SpSCd838QYGiuLABHUUTvjCnnEnOQxBzV5as+CQBR"}],"sender":{"id":"0F1E2D3C-4B5A-4978-8695-A4B3C2D1E0F9","key":"fCcIuj+UAJqBsz1nCZLbq7biNcv7kkLflIhlRRMc53o="},"version":1}
+    """#
+
     // MARK: - Pairing codes
 
     @Test

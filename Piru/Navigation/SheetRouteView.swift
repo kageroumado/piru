@@ -72,30 +72,24 @@ struct SheetRouteView: View {
             .presentationDetents([.medium, .large])
 
         case let .shareSession(sessionID):
-            #if !os(Android)
-                NavigationStack {
-                    ShareSessionView(sessionID: sessionID)
-                        .withCancellationCloseButton()
-                }
-                .presentationDetents([.medium, .large])
-            #endif
+            NavigationStack {
+                ShareSessionView(sessionID: sessionID)
+                    .withCancellationCloseButton()
+            }
+            .presentationDetents([.medium, .large])
 
         case .pairing:
-            #if !os(Android)
-                NavigationStack {
-                    PairingView()
-                        .withCancellationCloseButton()
-                }
-            #endif
+            NavigationStack {
+                PairingView()
+                    .withCancellationCloseButton()
+            }
 
         case .shareInbox:
-            #if !os(Android)
-                NavigationStack {
-                    ShareInboxView()
-                        .withCancellationCloseButton()
-                }
-                .presentationDetents([.medium, .large])
-            #endif
+            NavigationStack {
+                ShareInboxView()
+                    .withCancellationCloseButton()
+            }
+            .presentationDetents([.medium, .large])
 
         case let .entryDetail(timestamp, id):
             EntryLookupView(id: id, timestamp: timestamp) { entry in

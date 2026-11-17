@@ -21,9 +21,7 @@ struct ProfilesSettingsView: View {
             }
             .listRowBackground(CardBackground())
 
-            #if !os(Android)
-                PeopleSection()
-            #endif
+            PeopleSection()
         }
         .themedPage()
         .navigationTitle("Profiles")

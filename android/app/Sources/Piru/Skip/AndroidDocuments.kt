@@ -6,6 +6,7 @@ package piru.module
 
 import android.app.Activity
 import android.content.ClipData
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -90,7 +91,12 @@ class AndroidDocuments {
                     .putExtra(Intent.EXTRA_STREAM, uri)
                     .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 send.clipData = ClipData.newRawUri(source.name, uri)
-                activity.startActivity(Intent.createChooser(send, null))
+                // Piru takes files sent to it (AndroidIncomingFiles), so it would list itself.
+                val chooser = Intent.createChooser(send, null).putExtra(
+                    Intent.EXTRA_EXCLUDE_COMPONENTS,
+                    arrayOf(ComponentName(activity.packageName, "piru.module.MainActivity")),
+                )
+                activity.startActivity(chooser)
                 true
             } catch (error: Exception) {
                 android.util.Log.e("Piru", "share failed", error)

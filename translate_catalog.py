@@ -7371,6 +7371,7 @@ T = {
     # Android-only strings (android/app/Sources): the document stand-in and About's Android licenses.
     "Nothing to Share": ("没有可分享的内容", "沒有可分享的內容"),
     "The file picker could not be opened.": ("无法打开文件选择器。", "無法開啟檔案選擇器。"),
+    "The share sheet could not be opened.": ("无法打开分享面板。", "無法開啟分享面板。"),
     "The Swift runtime, Foundation and Dispatch, which run Piru on Android.": (
         "Swift 运行时、Foundation 和 Dispatch，在 Android 上运行 Piru。",
         "Swift 執行環境、Foundation 與 Dispatch，在 Android 上執行 Piru。",
@@ -8337,6 +8338,7 @@ if __name__ == "__main__":
         "Shows morning and evening doses as two halves of each day. When off, a dose logged at any time counts toward the whole day.",
         "Nothing to Share",
         "The file picker could not be opened.",
+        "The share sheet could not be opened.",
         "The Swift runtime, Foundation and Dispatch, which run Piru on Android.",
         "Skip, which runs Piru's Swift code on Android. Piru's changes to it are in android/vendor in its repository.",
         "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.",

@@ -40,9 +40,7 @@ enum ProfileSwitcher {
             await switchTo(PiruProfile.ownerID, directory: directory)
         }
         try directory.deleteProfile(id: id)
-        #if !os(Android)
-            ShareIdentityStore.shared.forget(profileID: id)
-        #endif
+        ShareIdentityStore.shared.forget(profileID: id)
         await SharedInventory.shared.profileDeleted(id)
         let prefix = "piru.notif.\(ProfileScope.notificationNamespace(for: id))"
         let center = UNUserNotificationCenter.current()

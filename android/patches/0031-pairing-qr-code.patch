@@ -1,0 +1,30 @@
+PairingView draws its QR code with Core Image, which Android lacks; Android draws QRCodeMatrix (Android/Platform/QRCode+Android.swift) instead.
+
+diff --git a/Piru/Views/Profiles/Sharing/PairingView.swift b/Piru/Views/Profiles/Sharing/PairingView.swift
+index f9e6f92f..fe6dd220 100644
+--- a/Piru/Views/Profiles/Sharing/PairingView.swift
++++ b/Piru/Views/Profiles/Sharing/PairingView.swift
+@@ -95,6 +95,15 @@ struct PairingView: View {
+ struct PairingQRCode: View {
+     let text: String
+ 
++#if os(Android)
++    var body: some View {
++        if let matrix = QRCodeMatrix(text) {
++            AndroidQRCodeView(matrix: matrix)
++                .padding(Spacing.lg)
++                .background(.white, in: RoundedRectangle(cornerRadius: 12))
++        }
++    }
++#else
+     var body: some View {
+         if let image = Self.image(for: text) {
+             Image(decorative: image, scale: 1)
+@@ -113,6 +122,7 @@ struct PairingQRCode: View {
+         guard let output = filter.outputImage else { return nil }
+         return CIContext().createCGImage(output, from: output.extent)
+     }
++#endif
+ }
+ 
+ /// Asks an owner still called by the default name for a real one before a

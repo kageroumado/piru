@@ -50,12 +50,10 @@ struct ContentView: View {
                 guard !Self.handledLaunchRoute else { return }
                 Self.handledLaunchRoute = true
                 let args = ProcessInfo.processInfo.arguments
-                #if !os(Android)
-                    if args.contains(ShareDemo.argument) {
-                        await ShareDemo.run()
-                        return
-                    }
-                #endif
+                if args.contains(ShareDemo.argument) {
+                    await ShareDemo.run()
+                    return
+                }
                 // A substance route resolves in the pushed view's body; a
                 // cold `SubstanceStore.all` asserts in DEBUG.
                 if let i = args.firstIndex(of: "-piruRoute"), args.indices.contains(i + 1),
@@ -89,9 +87,7 @@ struct ContentView: View {
     // MARK: - Deep Linking
 
     private func handleDeepLink(_ url: URL) {
-        #if !os(Android)
-            if ShareInbox.shared.handle(url) { return }
-        #endif
+        if ShareInbox.shared.handle(url) { return }
         if let link = DeepLink.decodeWebLink(url) {
             handleWebLink(link)
             return

@@ -1,6 +1,4 @@
-#if !os(Android)
-    import CryptoKit
-#endif
+import CryptoKit
 import Foundation
 
 /// Someone on another device this one has paired with: their public key, and a
@@ -17,11 +15,9 @@ nonisolated struct PiruPerson: Codable, Hashable, Identifiable, Sendable {
         profile.id
     }
 
-    #if !os(Android)
-        var key: Curve25519.KeyAgreement.PublicKey? {
-            try? Curve25519.KeyAgreement.PublicKey(rawRepresentation: publicKey)
-        }
-    #endif
+    var key: Curve25519.KeyAgreement.PublicKey? {
+        try? Curve25519.KeyAgreement.PublicKey(rawRepresentation: publicKey)
+    }
 
     static func new(
         personID: UUID, name: String, avatar: ProfileAvatar, color: ProfileColor, publicKey: Data, now: Date = .now,
