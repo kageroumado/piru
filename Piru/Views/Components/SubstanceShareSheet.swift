@@ -28,6 +28,7 @@ struct SubstanceShareSheet: View {
     @State private var imageFileURL: URL?
     @State private var imageSourceView: PlatformView?
     @State private var justCopied = false
+    @State private var copiedResetTask: Task<Void, Never>?
     @State private var contentHeight: CGFloat = 460
     @State private var safeAreaBottom: CGFloat = 34
 
@@ -203,8 +204,10 @@ struct SubstanceShareSheet: View {
         guard let currentImage else { return }
         PlatformPasteboard.copy(image: currentImage)
         justCopied = true
-        Task {
+        copiedResetTask?.cancel()
+        copiedResetTask = Task(name: "Reset copied flash") {
             try? await Task.sleep(for: UITiming.copiedFlash)
+            guard !Task.isCancelled else { return }
             justCopied = false
         }
     }

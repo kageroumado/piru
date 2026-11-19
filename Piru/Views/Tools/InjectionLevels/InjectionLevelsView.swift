@@ -48,7 +48,7 @@ struct InjectionLevelsView: View {
                             onAdd: { showingAddLab = true },
                             onToggleExclude: toggleExclude, onDelete: deleteLab,
                         )
-                        InjectionLevelsProvenanceCard(ester: ester)
+                        InjectionLevelsProvenanceCard(analyte: model.analyte, ester: ester)
                     }
                     InjectionLevelsExplanationCard()
                 }

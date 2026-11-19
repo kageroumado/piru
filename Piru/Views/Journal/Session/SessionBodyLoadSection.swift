@@ -178,6 +178,14 @@ struct SessionBodyLoadModel {
     var active: [Active] = []
     var cleared: [Cleared] = []
 
+    /// What a cleared row says beside its total: a substance with no known
+    /// half-life says so, and one that wore off says it only beside rows that
+    /// are still active.
+    func status(of row: Cleared) -> BodyLoadStatus? {
+        if row.unmodeled { return .unmodeled }
+        return active.isEmpty ? nil : .cleared(hasActiveMetabolite: row.hasActiveMetabolite)
+    }
+
     var isEmpty: Bool {
         active.isEmpty && cleared.isEmpty
     }
@@ -407,9 +415,7 @@ struct SessionBodyLoadSection: View {
                         count: row.count,
                         total: row.total,
                         unit: row.unit,
-                        status: row.unmodeled
-                            ? .unmodeled
-                            : (model.active.isEmpty ? nil : .cleared(hasActiveMetabolite: row.hasActiveMetabolite)),
+                        status: model.status(of: row),
                     )
                     .padding(.vertical, Spacing.xxs)
                     .accessibilityElement(children: .combine)

@@ -110,7 +110,6 @@ struct SessionShareCard: View {
     }
 
     private func bodyLoadRows(_ model: SessionBodyLoadModel) -> [BodyLoadRowData] {
-        let hasActive = !model.active.isEmpty
         var rows = model.active.map { row in
             BodyLoadRowData(
                 id: row.id,
@@ -134,7 +133,7 @@ struct SessionShareCard: View {
                 count: row.count,
                 total: row.total,
                 unit: row.unit,
-                status: hasActive ? .cleared(hasActiveMetabolite: row.hasActiveMetabolite) : nil,
+                status: model.status(of: row),
             )
         }
         return rows

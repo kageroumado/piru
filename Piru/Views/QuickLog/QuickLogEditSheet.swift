@@ -22,14 +22,13 @@ struct QuickLogEditSheet: View {
     @Environment(\.appNavigator) private var navigator
     @State private var customStore = CustomSubstanceStore.shared
     @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
-    /// The "Now" pill's quick offsets — the same shared-suite key the pill
-    /// reads and `DoseTimeSettingsView` writes.
+    /// The "Now" pill's quick offsets, under the shared-suite key the pill reads.
     @AppStorage(DoseTimeDefaults.choicesKey, store: UserDefaults(suiteName: DoseTimeDefaults.suite))
     private var doseTimeChoicesRaw = DoseTimeDefaults.defaultRaw
 
     @State private var path = NavigationPath()
-    /// The "Now" pill offsets, edited inline (mirrors ``DoseTimeSettingsView``);
-    /// persisted back to `doseTimeChoicesRaw` on change.
+    /// The "Now" pill offsets, edited inline and persisted back to
+    /// `doseTimeChoicesRaw` on change.
     @State private var doseTimeChoices: [Int] = []
     @State private var showAddDoseTime = false
 
@@ -404,7 +403,7 @@ private struct AddFavoriteView: View {
             return
         }
         let favorite = FavoriteSubstance(substance: substance.name)
-        favorite.sortOrder = favorites.count
+        favorite.sortOrder = (favorites.map(\.sortOrder).max() ?? -1) + 1
         favorite.substanceUID = substance.substanceUID
         modelContext.insert(favorite)
         try? modelContext.save()

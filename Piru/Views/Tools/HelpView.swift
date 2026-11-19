@@ -196,16 +196,25 @@ struct HelpView: View {
     // MARK: - Emergency Services
 
     struct EmergencyService: Identifiable {
-        let id = UUID()
         let title: LocalizedStringResource
         let detail: String
         let systemImage: String
         let url: String
         let tint: Color
+
+        /// A region lists each number once, so the link and its caption name the row.
+        var id: String {
+            "\(url) \(detail)"
+        }
+    }
+
+    /// The region whose services every help surface lists.
+    static var regionCode: String {
+        Locale.current.region?.identifier ?? "US"
     }
 
     private var regionCode: String {
-        Locale.current.region?.identifier ?? "US"
+        Self.regionCode
     }
 
     private var regionName: String? {

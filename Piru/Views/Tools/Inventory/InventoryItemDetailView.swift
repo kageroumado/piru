@@ -255,10 +255,7 @@ struct InventoryItemDetailView: View {
     // MARK: - Mutations
 
     private func deleteDose(_ dose: DoseEntry) {
-        let session = dose.session
-        DoseNotificationManager.doseDeleted(entryID: dose.id, timestamp: dose.timestamp)
-        modelContext.delete(dose)
-        session?.refreshDoseBounds()
+        SessionEditingService.shared.delete(dose, in: modelContext)
         InventoryService.recompute(item, in: modelContext)
         WidgetCenter.shared.reloadAllTimelines()
     }

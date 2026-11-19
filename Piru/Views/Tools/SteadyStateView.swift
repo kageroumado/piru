@@ -415,8 +415,8 @@ private struct SteadyStateChart: View {
                 let tx = x(tickValue * unitMinutes)
                 if tx < leftPad + plotW - axisLabelWidth {
                     let label = tickValue < 10 && tickValue.truncatingRemainder(dividingBy: 1) != 0
-                        ? String(format: "%.1f", tickValue)
-                        : String(format: "%.0f", tickValue)
+                        ? tickValue.formatted(.number.precision(.fractionLength(1)))
+                        : tickValue.formatted(.number.precision(.fractionLength(0)).grouping(.never))
                     let text = context.resolve(
                         Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(Theme.secondaryLabel),
                     )

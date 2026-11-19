@@ -215,15 +215,11 @@ struct CustomSubstanceFormView: View {
             Text(label)
             Spacer()
             TextField("min", value: min, format: .number)
-            #if canImport(UIKit)
-                .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
-            #endif
+                .decimalKeyboard().multilineTextAlignment(.trailing).frame(width: 56)
             Text("–").foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             TextField("max", value: max, format: .number)
-            #if canImport(UIKit)
-                .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
-            #endif
+                .decimalKeyboard().multilineTextAlignment(.trailing).frame(width: 56)
             Text(suffix).foregroundStyle(Theme.secondaryLabel)
         }
     }
@@ -233,9 +229,7 @@ struct CustomSubstanceFormView: View {
             Text(label)
             Spacer()
             TextField("amount", value: value, format: .number)
-            #if canImport(UIKit)
-                .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
-            #endif
+                .decimalKeyboard().multilineTextAlignment(.trailing).frame(width: 56)
             Text(suffix).foregroundStyle(Theme.secondaryLabel)
         }
     }
@@ -343,9 +337,7 @@ struct CustomSubstanceFormView: View {
                 Text("Half-life")
                 Spacer()
                 TextField("minutes", value: $draft.halfLifeMinutes, format: .number)
-                #if canImport(UIKit)
-                    .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 80)
-                #endif
+                    .decimalKeyboard().multilineTextAlignment(.trailing).frame(width: 80)
                 Text("minutes").foregroundStyle(Theme.secondaryLabel)
             }
         } header: {

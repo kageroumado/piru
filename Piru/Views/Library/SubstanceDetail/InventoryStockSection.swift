@@ -125,7 +125,7 @@ struct InventoryStockSection: View {
     /// the card can show a calm "not counted" hint.
     private func hasUnitMismatch(_ item: InventoryItem) -> Bool {
         InventoryMath.doses(for: item, in: modelContext).contains {
-            InventoryMath.convert($0.amount, from: $0.unit, to: item.unit) == nil
+            InventoryMath.convert($0.amount, from: $0.unit, to: item.unit, unitStrengthMG: item.unitStrengthMG) == nil
         }
     }
 }

@@ -318,7 +318,7 @@ struct SubstanceShareCard: View {
 
     private func phaseTrio(_ duration: DurationProfile) -> some View {
         HStack(spacing: 0) {
-            trioCell("arrow.up.forward", "Onset", duration.onset)
+            trioCell(DosePhaseGlyph.comeup, "Onset", duration.onset)
             trioDivider
             trioCell(DosePhaseGlyph.peak, "Peak", duration.peak)
             trioDivider

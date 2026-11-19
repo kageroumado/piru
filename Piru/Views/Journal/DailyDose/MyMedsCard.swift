@@ -345,18 +345,7 @@ struct MyMedsCard: View {
             ?? matching.max(by: { $0.timestamp < $1.timestamp })
         else { return }
 
-        let id = entry.id
-        let timestamp = entry.timestamp
-        let session = entry.session
-        modelContext.delete(entry)
-        session?.refreshDoseBounds()
-        ActiveSessionManager.shared.removeDose(
-            id: id,
-            substanceName: item.substance,
-            timestamp: timestamp,
-            allColors: Array(substanceColors),
-        )
-        DoseLogService.shared.changed()
+        SessionEditingService.shared.delete(entry, in: modelContext)
     }
 
     // MARK: Helpers

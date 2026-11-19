@@ -491,7 +491,10 @@ private struct HormoneLabCalibrationCard: View {
             .accessibilityLabel(lab.excludedFromCalibration ? Text("Excluded from calibration") : Text("Included in calibration"))
         }
         .padding(.vertical, Spacing.xs)
-        .swipeActions {
+        .contentShape(.rect)
+        // A context menu, never .swipeActions: these rows sit in a card's stack,
+        // and a swipe action reaches only List rows, on every platform.
+        .contextMenu {
             Button(role: .destructive) { onDelete(lab) } label: { Label("Delete", systemImage: "trash") }
         }
     }

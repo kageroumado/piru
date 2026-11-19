@@ -29,7 +29,7 @@ final class InsightsModel {
             total > 0
         }
         var perDayText: String {
-            String(format: "%.1f", perDay)
+            perDay.formatted(.number.precision(.fractionLength(1)))
         }
     }
 

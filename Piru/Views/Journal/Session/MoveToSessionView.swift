@@ -119,7 +119,7 @@ struct MoveToSessionView: View {
                 }
             }
             .skinBackdrop()
-            .navigationTitle("Move \(dose.substance)")
+            .navigationTitle("Move \(CustomSubstanceStore.shared.displayName(for: dose.substance))")
             .inlineNavigationTitle()
             .navigationDestination(item: $retimeTarget) { session in
                 RetimeMoveView(dose: dose, session: session) { newDate in

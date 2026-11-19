@@ -204,6 +204,7 @@ struct ReferenceLinesEditor<Model: DepotCalibrating>: View {
 // MARK: - Provenance
 
 struct InjectionLevelsProvenanceCard: View {
+    let analyte: Analyte
     let ester: EsterPKRecord
 
     var body: some View {
@@ -221,6 +222,16 @@ struct InjectionLevelsProvenanceCard: View {
             Text("Older studies used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs the difference.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
+            analyteSources
+        }
+        .padding()
+        .themeCard()
+    }
+
+    @ViewBuilder
+    private var analyteSources: some View {
+        switch analyte {
+        case .estradiol:
             Text("Subcutaneous and intramuscular reach similar levels (196 vs 190 pg/mL head-to-head), so one curve serves both (Herndon 2023; Misakian 2025).")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -234,9 +245,11 @@ struct InjectionLevelsProvenanceCard: View {
                     .font(.caption2)
             }
             .tint(Theme.accent)
+        case .testosterone:
+            Text("Testosterone ester curves are fit from label and primary-literature half-lives. There is no community PK simulator for them, so the band stays wide until your lab results calibrate the model.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding()
-        .themeCard()
     }
 
     private var confidenceBadge: some View {

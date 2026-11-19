@@ -18,7 +18,7 @@ struct TimeAdjustSheet: View {
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button { dismiss() } label: { Image(systemName: "xmark") }
-                    .accessibilityLabel(Text("Cancel"))
+                    .accessibilityLabel(Text("Close"))
             }
         }
         .onAppear { if originalTimestamp == nil { originalTimestamp = entry.timestamp } }
