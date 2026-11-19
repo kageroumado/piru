@@ -58324,6 +58324,34 @@
         }
       }
     },
+    "Moderate effect" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efecto moderado"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efecto moderado"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用中等"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用中等"
+          }
+        }
+      }
+    },
     "moderate swing" : {
       "localizations" : {
         "es" : {
@@ -89202,6 +89230,34 @@
         }
       }
     },
+    "Strong effect" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efecto fuerte"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efecto fuerte"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用强"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用強"
+          }
+        }
+      }
+    },
     "Strong encryption" : {
       "localizations" : {
         "es" : {
@@ -101039,6 +101095,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在你的 iCloud 中發現已有備份。接著上次繼續，或重新開始。"
+          }
+        }
+      }
+    },
+    "Weak effect" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efecto débil"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efecto débil"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用弱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用弱"
           }
         }
       }

@@ -3180,6 +3180,10 @@ T = {
     # Confidence tiers and body-weight UI
     "High confidence": ("高可信度", "高可信度"),
     "Medium confidence": ("中等可信度", "中等可信度"),
+    # Metabolic-modulation banner: how strongly the modulator moves the enzyme
+    "Weak effect": ("作用弱", "作用弱"),
+    "Moderate effect": ("作用中等", "作用中等"),
+    "Strong effect": ("作用强", "作用強"),
     "Low confidence": ("低可信度", "低可信度"),
     "Unverified": ("未核实", "未核實"),
     "Your weight": ("你的体重", "你的體重"),
@@ -9704,6 +9708,8 @@ if __name__ == "__main__":
             "Drag to move it, pinch to scale it.",
         }
     )
+    # Metabolic-modulation strength
+    NEW_KEYS.update({"Weak effect", "Moderate effect", "Strong effect"})
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(
         project_root / "Piru/Localizable.xcstrings",

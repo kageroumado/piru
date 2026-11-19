@@ -124,6 +124,15 @@ nonisolated enum MetabolicModulation {
         static func < (lhs: Strength, rhs: Strength) -> Bool {
             lhs.rank < rhs.rank
         }
+
+        /// The word the banner shows.
+        var label: LocalizedStringResource {
+            switch self {
+            case .weak: "Weak effect"
+            case .moderate: "Moderate effect"
+            case .strong: "Strong effect"
+            }
+        }
     }
 
     // MARK: - Modulator
@@ -168,6 +177,10 @@ nonisolated enum MetabolicModulation {
         let substrate: String
         let enzyme: Enzyme
         let direction: Direction
+        /// `nil` when the source states no strength.
+        let strength: Strength?
+        /// `nil` for a tag-derived interaction, which no source grades.
+        let confidence: ConfidenceTier?
         let modulatorName: String
         let userNote: String
 
@@ -188,6 +201,8 @@ nonisolated enum MetabolicModulation {
             substrate: substrate,
             enzyme: m.enzyme,
             direction: m.direction,
+            strength: m.strength,
+            confidence: m.confidence,
             modulatorName: m.displayName,
             userNote: m.userNote,
         )
@@ -320,6 +335,8 @@ nonisolated enum MetabolicModulation {
                     substrate: victimDisplay,
                     enzyme: enzyme,
                     direction: direction,
+                    strength: hit.strength.flatMap(Strength.init(rawValue:)),
+                    confidence: nil,
                     modulatorName: perpetratorDisplay,
                     userNote: note,
                 ))
