@@ -115,7 +115,7 @@ final class PhoneSyncCoordinator: NSObject {
     /// generation the owner's too.
     private func receive(_ payload: WatchDosePayload) {
         guard let context = container?.mainContext else { return }
-        let outcome = ProfileScope.$pinned.withValue(PiruProfile.ownerID) {
+        let outcome = ProfileScope.$pinned.withValue(ProfileDirectory.shared.owner.id) {
             WatchDoseReceiver.ingest(payload, in: context, journalGeneration: JournalResetGeneration.current())
         }
         // Count/outcome only — never the substance or amount (this is a device log).

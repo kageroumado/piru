@@ -34,6 +34,7 @@ struct OnboardingView: View {
         .tint(Theme.accent)
         .environment(\.onboardingNav, nav)
         .interactiveDismissDisabled()
+        .modifier(OnboardingProfileRestorePresenter())
     }
 
     @ViewBuilder

@@ -135,8 +135,8 @@ struct SharedInventoryTests {
         await shared.refresh(notify: false)
         let entry = try #require(shared.sharedIn.first)
         #expect(shared.sharedIn.count == 1)
-        #expect(entry.ownerID == PiruProfile.ownerID)
-        #expect(shared.owner(of: entry.item)?.id == PiruProfile.ownerID)
+        #expect(entry.ownerID == directory.owner.id)
+        #expect(shared.owner(of: entry.item)?.id == directory.owner.id)
         #expect(shared.item(id: stock.id, in: aliceContainer.mainContext) === entry.item)
         #expect(entry.item.currentQuantity == 900)
 
@@ -147,7 +147,7 @@ struct SharedInventoryTests {
         }
         #expect(item.currentQuantity == 1_150)
 
-        let ownerStore = try #require(directory.container(for: PiruProfile.ownerID, writable: false))
+        let ownerStore = try #require(directory.container(for: directory.owner.id, writable: false))
         let stored = try #require(ModelContext(ownerStore).fetch(FetchDescriptor<InventoryItem>()).first)
         #expect(stored.manualEvents.map(\.note).contains("Alice's top-up"))
         #expect(try aliceContainer.mainContext.fetchCount(FetchDescriptor<InventoryItem>()) == 0)
@@ -167,7 +167,7 @@ struct SharedInventoryTests {
 
         let alerts = await SharedInventory(directory: directory).refresh()
 
-        #expect(alerts == [SharedInventory.Alert(profileID: PiruProfile.ownerID, itemID: stock.id)])
+        #expect(alerts == [SharedInventory.Alert(profileID: directory.owner.id, itemID: stock.id)])
         #expect(stock.lowStockNotified)
     }
 
@@ -203,7 +203,7 @@ struct SharedInventoryTests {
         mine.insert(Self.item("Caffeine", amount: 100, sharedWith: [alice.id, bob.id]))
         try mine.save()
         let bobs = try Self.context(source, bob.id)
-        bobs.insert(Self.item("Ketamine", amount: 100, sharedWith: [PiruProfile.ownerID]))
+        bobs.insert(Self.item("Ketamine", amount: 100, sharedWith: [source.owner.id]))
         try bobs.save()
 
         let data = try DataExportImport.exportBackupJSON(context: mine, directory: source)
@@ -215,6 +215,6 @@ struct SharedInventoryTests {
         let restoredMine = try restored.activeContainer.mainContext.fetch(FetchDescriptor<InventoryItem>())
         #expect(restoredMine.map(\.sharedWith) == [[alice.id, bob.id].sorted { $0.uuidString < $1.uuidString }])
         let restoredBob = try Self.context(restored, bob.id).fetch(FetchDescriptor<InventoryItem>())
-        #expect(restoredBob.map(\.sharedWith) == [[PiruProfile.ownerID]])
+        #expect(restoredBob.map(\.sharedWith) == [[restored.owner.id]])
     }
 }

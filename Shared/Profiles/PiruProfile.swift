@@ -5,13 +5,15 @@ import Foundation
 /// ``PiruSchema``, so a profile's doses, sessions, meds, tolerance and body
 /// weight are separate by construction: a query only ever sees its own store.
 ///
-/// The device owner is the first profile. Its store is the one Piru has always
-/// opened, and its id is the fixed ``ownerID``, so a single-person install has a
-/// profile without any file on disk.
+/// The device owner is the first profile and the one whose store is the one
+/// Piru has always opened. Owning is a role, kept by that store file; the id is
+/// the owner's own, minted on the device like anyone's, so two devices' owners
+/// are two people.
 nonisolated struct PiruProfile: Codable, Hashable, Identifiable, Sendable {
-    /// The owner's id on every install, so a backup made on one device restores
-    /// its owner as the owner of another.
-    static let ownerID = UUID(uuid: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    /// The id every owner had before owners got ids of their own. A registry
+    /// still carrying it is migrated at launch, and a backup, link or shared
+    /// inventory item that names it means this device's owner.
+    static let legacyOwnerID = UUID(uuid: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
     /// The owner's store, beside every other profile's in the App Group container.
     static let ownerStoreFileName = "default.store"
@@ -25,20 +27,38 @@ nonisolated struct PiruProfile: Codable, Hashable, Identifiable, Sendable {
     let createdAt: Date
 
     var isOwner: Bool {
-        id == Self.ownerID
+        storeFileName == Self.ownerStoreFileName
     }
 
     /// The owner as it stands before anyone renames it: "Me", a monogram of
     /// its first letter, on the accent rose.
-    static func defaultOwner(name: String) -> PiruProfile {
+    static func defaultOwner(name: String, id: UUID = legacyOwnerID) -> PiruProfile {
         PiruProfile(
-            id: ownerID,
+            id: id,
             name: name,
             avatar: .monogram(for: name),
             color: .rose,
             storeFileName: ownerStoreFileName,
             createdAt: .distantPast,
         )
+    }
+
+    /// The same person under another id, on the store that id names: the owner
+    /// keeps the owner's store, anyone else gets `profile-<id>.store`.
+    func reidentified(as id: UUID, asOwner: Bool) -> PiruProfile {
+        PiruProfile(
+            id: id,
+            name: name,
+            avatar: avatar,
+            color: color,
+            storeFileName: asOwner ? Self.ownerStoreFileName : Self.storeFileName(for: id),
+            createdAt: createdAt,
+        )
+    }
+
+    /// Whether `other` shows as this profile does: same name, avatar and color.
+    func looksLike(_ other: PiruProfile) -> Bool {
+        name == other.name && avatar == other.avatar && color == other.color
     }
 
     /// A new person, on a store file of its own.

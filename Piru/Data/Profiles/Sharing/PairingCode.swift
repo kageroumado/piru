@@ -53,7 +53,7 @@ nonisolated struct PairingCode: Hashable, Sendable {
             items.first { $0.name == name }?.value
         }
         guard value("v") == "1",
-              let id = value("id").flatMap(UUID.init(uuidString:)), id != PiruProfile.ownerID,
+              let id = value("id").flatMap(UUID.init(uuidString:)), id != PiruProfile.legacyOwnerID,
               let key = value("k").flatMap(Data.init(base64URLEncoded:)),
               (try? Curve25519.KeyAgreement.PublicKey(rawRepresentation: key)) != nil
         else { return nil }

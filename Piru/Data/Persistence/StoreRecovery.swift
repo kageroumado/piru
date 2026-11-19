@@ -71,7 +71,7 @@ nonisolated enum StoreRecovery {
     /// Where a profile's store lives. An id the registry no longer lists
     /// resolves to the owner's store.
     nonisolated static func storeURL(forProfile id: UUID) -> URL {
-        guard id != PiruProfile.ownerID, let profile = ProfileRegistry.profile(id: id) else { return ownerStoreURL() }
+        guard let profile = ProfileRegistry.profile(id: id) else { return ownerStoreURL() }
         return storeURL(for: profile)
     }
 

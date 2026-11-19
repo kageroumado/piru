@@ -161,36 +161,65 @@ final class BackupManager {
     // MARK: - Restore
 
     /// Restore from a user-selected `.piruenc` file (e.g. via the document picker).
-    func restore(fromFileAt url: URL, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) async throws {
+    @discardableResult
+    func restore(fromFileAt url: URL, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) async throws -> Bool {
         let data = try Self.boundedContents(of: url)
-        try await applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
+        return try await applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
     }
 
     /// Restore from the latest automatic iCloud backup, downloading it first if
     /// it's not yet local.
-    func restoreFromICloud(passphrase: String?, strategy: RestoreStrategy, context: ModelContext) async throws {
+    @discardableResult
+    func restoreFromICloud(passphrase: String?, strategy: RestoreStrategy, context: ModelContext) async throws -> Bool {
         guard let data = try await Task.detached(operation: { try Self.readICloud() }).value else {
             throw ManagerError.noBackupFound
         }
-        try await applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
+        return try await applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
     }
 
-    private func applyRestore(envelope data: Data, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) async throws {
+    private func applyRestore(
+        envelope data: Data, passphrase: String?, strategy: RestoreStrategy, context: ModelContext,
+    ) async throws -> Bool {
         // Decrypt off the main actor — passphrase restores run PBKDF2. Crucially
         // this happens *before* any destructive store mutation, so a wrong
         // passphrase or unavailable device key can never wipe data.
         let plaintext = try await Task.detached { try BackupCrypto.decrypt(data, passphrase: passphrase) }.value
-        try apply(plaintext: plaintext, strategy: strategy, context: context)
+        return try await restore(plaintext: plaintext, strategy: strategy, context: context)
+    }
+
+    /// Restores a decrypted backup payload by `strategy`, first asking the
+    /// user about any profile it would change or that came from another
+    /// device's owner (``ProfileRestoreRequest``). `false` when they cancel,
+    /// with nothing restored.
+    @discardableResult
+    func restore(
+        plaintext: Data, strategy: RestoreStrategy, context: ModelContext, directory: ProfileDirectory = .shared,
+    ) async throws -> Bool {
+        let conflicts = profileConflicts(in: plaintext, directory: directory)
+        var choices: [UUID: ProfileRestoreChoice] = [:]
+        if !conflicts.isEmpty {
+            guard let chosen = await ProfileRestoreRequest.shared.ask(conflicts) else { return false }
+            choices = chosen
+        }
+        try apply(plaintext: plaintext, strategy: strategy, context: context, directory: directory, choices: choices)
+        return true
     }
 
     /// Imports a decrypted backup payload by `strategy`. A backup made with one
     /// profile restores into the open journal (`context`); one made with
-    /// several brings every profile back (``applyProfiles(_:plaintext:strategy:context:directory:)``).
+    /// several brings every profile back, settled by `choices`
+    /// (``applyProfiles(_:plaintext:strategy:context:directory:choices:)``).
     func apply(
-        plaintext: Data, strategy: RestoreStrategy, context: ModelContext, directory: ProfileDirectory = .shared,
+        plaintext: Data,
+        strategy: RestoreStrategy,
+        context: ModelContext,
+        directory: ProfileDirectory = .shared,
+        choices: [UUID: ProfileRestoreChoice] = [:],
     ) throws {
         if let section = DataExportImport.profilesSection(in: plaintext) {
-            try applyProfiles(section, plaintext: plaintext, strategy: strategy, context: context, directory: directory)
+            try applyProfiles(
+                section, plaintext: plaintext, strategy: strategy, context: context, directory: directory, choices: choices,
+            )
         } else {
             try apply(journal: plaintext, strategy: strategy, context: context, customStore: .shared)
         }

@@ -6,15 +6,17 @@ import Synchronization
 /// defaults. A file rather than SwiftData because it is read before any store
 /// opens, and by the widgets.
 ///
-/// The owner is implicit: with no file on disk the registry is the owner alone,
-/// so an install where nobody added a person never writes one.
+/// With no file on disk the registry is the owner alone, under the legacy id,
+/// until the app mints the owner's own id (``migrateLegacyOwner(in:newID:)``).
 nonisolated enum ProfileRegistry {
     static let fileName = "profiles.json"
     static let activeProfileKey = "activeProfileID"
 
     /// Bumped when the file changes shape, so an older build reading a newer
-    /// file falls back to the owner instead of half-decoding it.
-    static let formatVersion = 1
+    /// file falls back to the owner instead of half-decoding it. 2: the owner
+    /// has an id of its own, which a version-1 build would read as a second
+    /// profile on the owner's store.
+    static let formatVersion = 2
 
     private struct File: Codable {
         var version: Int
@@ -73,7 +75,8 @@ nonisolated enum ProfileRegistry {
         return normalized(file.profiles)
     }
 
-    /// The owner first and exactly once, every other id once, in file order.
+    /// The owner first and exactly once (the last profile on the owner's store
+    /// wins), every other id once, in file order.
     static func normalized(_ profiles: [PiruProfile]) -> [PiruProfile] {
         var seen = Set<UUID>()
         var others: [PiruProfile] = []
@@ -89,8 +92,23 @@ nonisolated enum ProfileRegistry {
         load(from: directory).count > 1
     }
 
+    /// The owner's id on this device.
+    static func ownerID(in directory: URL = containerURL) -> UUID {
+        load(from: directory)[0].id
+    }
+
+    /// `id`, or the owner's for the legacy owner id.
+    static func canonical(_ id: UUID, in directory: URL = containerURL) -> UUID {
+        id == PiruProfile.legacyOwnerID ? ownerID(in: directory) : id
+    }
+
+    static func isOwner(_ id: UUID, in directory: URL = containerURL) -> Bool {
+        id == PiruProfile.legacyOwnerID || id == ownerID(in: directory)
+    }
+
     static func profile(id: UUID, in directory: URL = containerURL) -> PiruProfile? {
-        load(from: directory).first { $0.id == id }
+        let id = canonical(id, in: directory)
+        return load(from: directory).first { $0.id == id }
     }
 
     // MARK: - Writing
@@ -108,20 +126,47 @@ nonisolated enum ProfileRegistry {
         cache.withLock { $0 = nil }
     }
 
+    /// Gives an owner still on the legacy id an id of its own, writing the
+    /// registry, and returns it. `nil` when the owner already has one, and
+    /// when a file is on disk that doesn't decode: rewriting that would drop
+    /// whoever it lists.
+    static func migrateLegacyOwner(in directory: URL = containerURL, newID: UUID = UUID()) throws -> UUID? {
+        let url = directory.appendingPathComponent(fileName)
+        let profiles: [PiruProfile]
+        if FileManager.default.fileExists(atPath: url.path) {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            guard let data = try? Data(contentsOf: url),
+                  let file = try? decoder.decode(File.self, from: data),
+                  file.version <= formatVersion
+            else { return nil }
+            profiles = normalized(file.profiles)
+        } else {
+            profiles = [.defaultOwner(name: defaultOwnerName)]
+        }
+        guard profiles[0].id == PiruProfile.legacyOwnerID else { return nil }
+        let owner = profiles[0].reidentified(as: newID, asOwner: true)
+        try save([owner] + profiles.dropFirst(), to: directory)
+        return newID
+    }
+
     // MARK: - Active profile
 
     /// The profile the app, the widgets and the watch open; the owner when
     /// nothing is set or the stored id names a profile that no longer exists.
     static func activeProfileID(defaults: UserDefaults = groupDefaults, directory: URL = containerURL) -> UUID {
+        let owner = ownerID(in: directory)
         guard let raw = defaults.string(forKey: activeProfileKey),
               let id = UUID(uuidString: raw),
-              id != PiruProfile.ownerID
-        else { return PiruProfile.ownerID }
-        return profile(id: id, in: directory) == nil ? PiruProfile.ownerID : id
+              let profile = profile(id: id, in: directory)
+        else { return owner }
+        return profile.id
     }
 
-    static func setActiveProfileID(_ id: UUID, defaults: UserDefaults = groupDefaults) {
-        if id == PiruProfile.ownerID {
+    /// Records the active profile; the owner is recorded as no value, so a
+    /// fresh install and one switched back to the owner read alike.
+    static func setActiveProfileID(_ id: UUID, defaults: UserDefaults = groupDefaults, directory: URL = containerURL) {
+        if isOwner(id, in: directory) {
             defaults.removeObject(forKey: activeProfileKey)
         } else {
             defaults.set(id.uuidString, forKey: activeProfileKey)
@@ -155,7 +200,7 @@ nonisolated enum ProfileScope {
     }
 
     static var isOwner: Bool {
-        currentID == PiruProfile.ownerID
+        ProfileRegistry.isOwner(currentID)
     }
 
     /// Whether the code running now works in the journal on screen, as
@@ -174,7 +219,7 @@ nonisolated enum ProfileScope {
     }
 
     static func key(_ base: String, for id: UUID) -> String {
-        id == PiruProfile.ownerID ? base : "\(base).\(id.uuidString.lowercased())"
+        ProfileRegistry.isOwner(id) ? base : "\(base).\(id.uuidString.lowercased())"
     }
 
     /// The segment after `piru.notif.` that keeps one profile's requests apart
@@ -184,7 +229,7 @@ nonisolated enum ProfileScope {
     }
 
     static func notificationNamespace(for id: UUID) -> String {
-        id == PiruProfile.ownerID ? "" : "\(id.uuidString.lowercased())."
+        ProfileRegistry.isOwner(id) ? "" : "\(id.uuidString.lowercased())."
     }
 
     /// Whose journal a notification request belongs to, read back from its
@@ -193,9 +238,9 @@ nonisolated enum ProfileScope {
     /// profiles existed.
     static func profileID(fromNotificationIdentifier identifier: String) -> UUID {
         let prefix = "piru.notif."
-        guard identifier.hasPrefix(prefix) else { return PiruProfile.ownerID }
+        guard identifier.hasPrefix(prefix) else { return ProfileRegistry.ownerID() }
         let segment = identifier.dropFirst(prefix.count).prefix { $0 != "." }
-        return UUID(uuidString: String(segment)) ?? PiruProfile.ownerID
+        return UUID(uuidString: String(segment)) ?? ProfileRegistry.ownerID()
     }
 
     /// A notification title that names the person when more than one profile

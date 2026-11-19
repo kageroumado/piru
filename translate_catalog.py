@@ -7834,6 +7834,46 @@ T = {
         "所有人：将每个个人资料的剂量放进同一个文件，并各自标上其名字。",
         "所有人：將每個個人檔案的劑量放進同一個檔案，並各自標上其名字。",
     ),
+    "Everyone puts every profile's journal in one file. Importing it brings each one back as its own profile.": (
+        "所有人：将每个个人资料的日记放进同一个文件。导入后，每一份都会恢复为各自的个人资料。",
+        "所有人：將每個個人檔案的日記放進同一個檔案。匯入後，每一份都會恢復為各自的個人檔案。",
+    ),
+    "Profiles match by ID, so a renamed profile is still the same person. Pick how each one comes back.": (
+        "个人资料按 ID 匹配，所以改了名的个人资料仍是同一个人。请选择每一个要如何恢复。",
+        "個人檔案依 ID 比對，所以改了名的個人檔案仍是同一個人。請選擇每一個要如何還原。",
+    ),
+    "Restore Profiles": (
+        "恢复个人资料",
+        "還原個人檔案",
+    ),
+    "Here: %@": (
+        "此设备上：%@",
+        "此裝置上：%@",
+    ),
+    "From another device": (
+        "来自另一台设备",
+        "來自另一台裝置",
+    ),
+    "Keep This Device's": (
+        "保留此设备的",
+        "保留此裝置的",
+    ),
+    "Use the Backup's": (
+        "使用备份中的",
+        "使用備份中的",
+    ),
+    "Into Your Journal": (
+        "并入你的日记",
+        "併入你的日記",
+    ),
+    "Into Your Journal as %@": (
+        "并入你的日记，改名为%@",
+        "併入你的日記，改名為%@",
+    ),
+    "As a New Profile": (
+        "作为新的个人资料",
+        "作為新的個人檔案",
+    ),
     # Profiles: shared sessions
     "With %@": ("与%@一起", "與%@一起"),
     "%lld others": ("另外 %lld 人", "另外 %lld 人"),
@@ -9553,6 +9593,16 @@ if __name__ == "__main__":
             "This Profile",
             "Everyone",
             "Everyone puts every profile's doses in one file, each under its person's name.",
+            "Everyone puts every profile's journal in one file. Importing it brings each one back as its own profile.",
+            "Profiles match by ID, so a renamed profile is still the same person. Pick how each one comes back.",
+            "Restore Profiles",
+            "Here: %@",
+            "From another device",
+            "Keep This Device's",
+            "Use the Backup's",
+            "Into Your Journal",
+            "Into Your Journal as %@",
+            "As a New Profile",
         }
     )
     # Profiles: shared sessions

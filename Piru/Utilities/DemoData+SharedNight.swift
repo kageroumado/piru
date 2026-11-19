@@ -33,7 +33,7 @@ import SwiftData
                 .flatMap { cal.date(bySettingHour: 21, minute: 0, second: 0, of: $0) } ?? today
             let experience = UUID()
 
-            seedStore(PiruProfile.ownerID) { context in
+            seedStore(directory.owner.id) { context in
                 let session = sharedSession(
                     title: "Kitchen disco", at: night, experience: experience, context: context,
                     doses: [

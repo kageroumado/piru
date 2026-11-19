@@ -428,6 +428,9 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Whose journal each person in a PsychonautWiki file goes into, before
     /// it imports (``PsyLogImportRequest`` holds the file).
     case psyLogImport
+    /// How a backup's profiles come back, before it restores
+    /// (``ProfileRestoreRequest`` holds the question).
+    case profileRestoreChoices
 
     /// Every source's dose ladder for one route of one substance, on one scale —
     /// opened from the source line under the dose card. Read-only: it explains

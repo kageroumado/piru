@@ -83,6 +83,7 @@ struct OnboardingImportStep: View {
                     case let .failed(message): error = message
                     }
                 }
+            case .cancelled: break
             case let .failed(message): error = message
             }
         }
@@ -90,12 +91,15 @@ struct OnboardingImportStep: View {
 
     /// Merges an unlocked backup: a new journal has nothing to replace.
     private func restore(_ plaintext: Data) {
-        do {
-            try BackupManager.shared.apply(plaintext: plaintext, strategy: .merge, context: modelContext)
-            DataExportImport.refreshLiveStores(container: modelContext.container)
-            succeed()
-        } catch {
-            self.error = DataExportImport.importErrorMessage(for: error)
+        Task {
+            do {
+                guard try await BackupManager.shared.restore(plaintext: plaintext, strategy: .merge, context: modelContext)
+                else { return }
+                DataExportImport.refreshLiveStores(container: modelContext.container)
+                succeed()
+            } catch {
+                self.error = DataExportImport.importErrorMessage(for: error)
+            }
         }
     }
 

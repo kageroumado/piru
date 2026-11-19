@@ -127,6 +127,14 @@ struct SheetRouteView: View {
         case .psyLogImport:
             PsyLogImportSheet()
 
+        case .profileRestoreChoices:
+            if let pending = ProfileRestoreRequest.shared.pending {
+                ProfileRestoreSheet(conflicts: pending.conflicts) { choices in
+                    ProfileRestoreRequest.shared.finish(choices)
+                    navigator.dismiss()
+                }
+            }
+
         case .advancedSearch:
             NavigationStack {
                 AdvancedSearchView()

@@ -363,8 +363,25 @@ import SwiftData
                 }
                 return true
             }
+            // A file whose profiles need a choice asks, as picking it in Data &
+            // Backup does.
+            if !BackupManager.shared.profileConflicts(in: data).isEmpty {
+                Task(name: "Import profiles sheet") {
+                    try? await Task.sleep(for: .seconds(1))
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    do {
+                        guard try await BackupManager.shared.restore(plaintext: data, strategy: .merge, context: context)
+                        else { return print("DemoData: -piruImportFile cancelled at the profiles sheet") }
+                        DataExportImport.refreshLiveStores(container: container)
+                        print("DemoData: -piruImportFile imported '\(path)' after the profiles sheet")
+                    } catch {
+                        print("DemoData: -piruImportFile import failed: \(DataExportImport.importErrorMessage(for: error))")
+                    }
+                }
+                return true
+            }
             do {
-                try DataExportImport.importJSON(data: data, context: context)
+                try BackupFileImport.importJSON(data, context: context)
             } catch {
                 print("DemoData: -piruImportFile import failed: \(DataExportImport.importErrorMessage(for: error))")
                 return true

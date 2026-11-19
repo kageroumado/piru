@@ -6,11 +6,13 @@ import Testing
 /// A directory over a scratch folder whose stores are real files, opened the
 /// way a non-owner store opens (no recovery, which reads the real App Group).
 @MainActor
-func makeScratchProfileDirectory() throws -> (ProfileDirectory, URL) {
+func makeScratchProfileDirectory(
+    identities: ShareIdentityStore = ShareIdentityStore(storage: InMemoryShareIdentityStorage()),
+) throws -> (ProfileDirectory, URL) {
     let dir = FileManager.default.temporaryDirectory.appendingPathComponent("profile-dir-\(UUID().uuidString)")
     try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
     let defaults = try #require(UserDefaults(suiteName: "piru.tests.profile-dir.\(UUID().uuidString)"))
-    let directory = ProfileDirectory(directory: dir, defaults: defaults) { _, url in
+    let directory = ProfileDirectory(directory: dir, defaults: defaults, identities: identities) { _, url in
         StoreRecovery.openContainer(at: url).container
     }
     directory.openActiveStore()
@@ -29,8 +31,8 @@ struct ProfileDirectoryTests {
         #expect(alice.avatar.text == "A")
         #expect(alice.color != directory.owner.color)
         #expect(directory.hasMultipleProfiles)
-        #expect(directory.activeProfileID == PiruProfile.ownerID)
-        #expect(ProfileRegistry.load(from: dir).map(\.id) == [PiruProfile.ownerID, alice.id])
+        #expect(directory.activeProfileID == directory.owner.id)
+        #expect(ProfileRegistry.load(from: dir).map(\.id) == [directory.owner.id, alice.id])
         #expect(throws: ProfileDirectory.DirectoryError.self) { try directory.addProfile(name: "   ") }
     }
 
@@ -49,12 +51,12 @@ struct ProfileDirectoryTests {
         aliceContainer.mainContext.insert(DoseEntry(substance: "Methylphenidate", amount: 10))
         try aliceContainer.mainContext.save()
 
-        let ownerAgain = try #require(directory.activate(PiruProfile.ownerID))
+        let ownerAgain = try #require(directory.activate(directory.owner.id))
         let ownerDoses = try ownerAgain.mainContext.fetch(FetchDescriptor<DoseEntry>())
         #expect(ownerDoses.map(\.substance) == ["Caffeine"])
         let aliceRead = try #require(directory.container(for: alice.id, writable: false))
         #expect(try aliceRead.mainContext.fetch(FetchDescriptor<DoseEntry>()).map(\.substance) == ["Methylphenidate"])
-        #expect(directory.activate(PiruProfile.ownerID) == nil)
+        #expect(directory.activate(directory.owner.id) == nil)
     }
 
     @Test
@@ -86,7 +88,7 @@ struct ProfileDirectoryTests {
         #expect(StoreRecovery.intentionalReasons.contains(StoreRecovery.profileDeleteReason))
         // The owner store's recovery never sees it: every candidate starts `default.store.`.
         #expect(!(aside.first ?? "").hasPrefix(StoreRecovery.storeName + "."))
-        #expect(throws: ProfileDirectory.DirectoryError.self) { try directory.deleteProfile(id: PiruProfile.ownerID) }
+        #expect(throws: ProfileDirectory.DirectoryError.self) { try directory.deleteProfile(id: directory.owner.id) }
     }
 
     @Test

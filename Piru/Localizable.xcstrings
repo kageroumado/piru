@@ -17882,6 +17882,34 @@
         }
       }
     },
+    "As a New Profile" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como perfil nuevo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como perfil nuevo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作为新的个人资料"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作為新的個人檔案"
+          }
+        }
+      }
+    },
     "As an opioid fades, increased pain sensitivity, restlessness and mild nausea are commonly reported." : {
       "localizations" : {
         "es" : {
@@ -39428,6 +39456,34 @@
         }
       }
     },
+    "Everyone puts every profile's journal in one file. Importing it brings each one back as its own profile." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos pone el diario de cada perfil en un solo archivo. Al importarlo, cada uno vuelve como su propio perfil."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos pone el diario de cada perfil en un solo archivo. Al importarlo, cada uno vuelve como su propio perfil."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有人：将每个个人资料的日记放进同一个文件。导入后，每一份都会恢复为各自的个人资料。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有人：將每個個人檔案的日記放進同一個檔案。匯入後，每一份都會恢復為各自的個人檔案。"
+          }
+        }
+      }
+    },
     "Everything from the old Piru app is here: your journal, meds and settings. Once you've looked it over, you can delete the old app." : {
       "localizations" : {
         "es" : {
@@ -42008,6 +42064,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從"
+          }
+        }
+      }
+    },
+    "From another device" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De otro dispositivo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De otro dispositivo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自另一台设备"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自另一台裝置"
           }
         }
       }
@@ -44888,6 +44972,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血紅素"
+          }
+        }
+      }
+    },
+    "Here: %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí: %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此设备上：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此裝置上：%@"
           }
         }
       }
@@ -49076,6 +49188,62 @@
         }
       }
     },
+    "Into Your Journal" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En tu diario"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En tu diario"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "并入你的日记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "併入你的日記"
+          }
+        }
+      }
+    },
+    "Into Your Journal as %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En tu diario, como %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En tu diario, como %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "并入你的日记，改名为%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "併入你的日記，改名為%@"
+          }
+        }
+      }
+    },
     "Intramuscular" : {
       "localizations" : {
         "es" : {
@@ -49889,6 +50057,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隨時掌握你的現有量，庫存不足時提醒你。"
+          }
+        }
+      }
+    },
+    "Keep This Device's" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener lo de este dispositivo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener lo de este dispositivo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留此设备的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留此裝置的"
           }
         }
       }
@@ -71584,6 +71780,34 @@
         }
       }
     },
+    "Profiles match by ID, so a renamed profile is still the same person. Pick how each one comes back." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los perfiles se emparejan por ID, así que un perfil con otro nombre sigue siendo la misma persona. Elige cómo vuelve cada uno."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los perfiles se emparejan por ID, así que un perfil con otro nombre sigue siendo la misma persona. Elige cómo vuelve cada uno."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个人资料按 ID 匹配，所以改了名的个人资料仍是同一个人。请选择每一个要如何恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人檔案依 ID 比對，所以改了名的個人檔案仍是同一個人。請選擇每一個要如何還原。"
+          }
+        }
+      }
+    },
     "Progesterone" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -77236,6 +77460,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還原最新的 iCloud 備份"
+          }
+        }
+      }
+    },
+    "Restore Profiles" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar perfiles"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar perfiles"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复个人资料"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原個人檔案"
           }
         }
       }
@@ -98558,6 +98810,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用平均值（60 kg）"
+          }
+        }
+      }
+    },
+    "Use the Backup's" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar lo de la copia"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar lo de la copia"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用备份中的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用備份中的"
           }
         }
       }

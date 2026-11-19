@@ -256,6 +256,7 @@ private let excludedSettingKeys: [String: String] = [
     "piruShowTips": "debug launch argument",
     "piruShowUpdateNotice": "debug launch argument",
     "piruSpreadsheetFile": "debug launch argument",
+    "profiles.legacyOwnerSharesPending": "a one-time migration marker for this device's stores",
     "psid.curatedBackfill.v1.disabled": "migration bookkeeping",
     "psid.doseBackfill.v1.disabled": "migration bookkeeping",
     "psid.doseBackfill.v1.snapshotTaken": "migration bookkeeping",
