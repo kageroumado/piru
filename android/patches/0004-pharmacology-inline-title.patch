@@ -14,7 +14,7 @@ index 4d017fa0..ef8ffe06 100644
 +        #else
          // Build one styled `AttributedString` rather than interpolating `Text` segments: the
          // interpolation form extracts a bogus `"%@  %@"` key into the string catalog, and `Text + Text`
-         // is deprecated in iOS 26 — the attributed run preserves each segment's font/color with neither.
+         // is deprecated. The attributed run keeps each segment's font and color with neither.
 @@ -87,6 +91,7 @@ struct GroupedReceptorLiterature: View {
          action.foregroundColor = Theme.secondaryLabel
  
