@@ -80,7 +80,6 @@ struct QuickLogView: View {
 
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
-    @Query(sort: \DoseRoutine.sortOrder) private var routines: [DoseRoutine]
     @Query(sort: [SortDescriptor(\FavoriteSubstance.sortOrder), SortDescriptor(\FavoriteSubstance.createdAt, order: .reverse)]) private var favorites: [FavoriteSubstance]
     @Query private var quickLogDoses: [QuickLogDose]
 
@@ -177,7 +176,7 @@ struct QuickLogView: View {
                     // badge work to the *displayed* set (favorites + the 10 recents),
                     // so the card caches must exist before it runs.
                     content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
-                    content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
+                    content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems)
                     content.markLoaded()
                     if let prestagedRoutine {
                         stageRoutine(named: prestagedRoutine)
@@ -203,7 +202,7 @@ struct QuickLogView: View {
                 // `.task` above owns the first rebuild, so skip until it has run.
                 .task(id: DoseLogService.shared.revision) {
                     guard content.hasLoaded, !isCommitted else { return }
-                    content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
+                    content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems)
                 }
                 .onChange(of: substanceColors.count) {
                     content.rebuildColorLookup(substanceColors: substanceColors)
@@ -213,7 +212,7 @@ struct QuickLogView: View {
                 .onChange(of: favorites.map(\.substance)) { content.rebuildFavorites(favorites: favorites) }
                 // Routine pills depend on the routine rows + daily items; refresh
                 // the cache when either is edited (the Manage Routines sheet).
-                .onChange(of: routineSignature) { content.rebuildDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines) }
+                .onChange(of: routineSignature) { content.rebuildDailyGroups(dailyDoseItems: dailyDoseItems) }
                 .task(id: searchText) {
                     guard !searchText.isEmpty else {
                         content.setLibraryResults([])

@@ -135,7 +135,7 @@ struct QuickLogIdentityKeyTests {
         #expect(cardID != nil)
 
         let dose = DoseEntry(substance: "Methylphenidate", amount: 18, route: .oral, releaseForm: "XR", substanceUID: "MPH")
-        content.rebuildEntryDerived(allEntries: [dose], dailyDoseItems: [], routines: [])
+        content.rebuildEntryDerived(allEntries: [dose], dailyDoseItems: [])
 
         // No "≈X active · Yh left" badge for a form whose kinetics we don't model —
         // that would be base-form timing wearing Concerta's name.

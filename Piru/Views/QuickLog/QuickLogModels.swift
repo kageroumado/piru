@@ -468,7 +468,7 @@ final class QuickLogContentModel {
     /// on open and whenever the history changes (a logged dose) — never from
     /// `body`. `allEntries` is newest-first, which every consumer relies on
     /// (today's slice stops at the first non-today row; most-recent wins).
-    func rebuildEntryDerived(allEntries: [DoseEntry], dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) {
+    func rebuildEntryDerived(allEntries: [DoseEntry], dailyDoseItems: [DailyDoseItem]) {
         // The PK badge is only ever read for a *displayed* card (favorites + the
         // capped recents), so resolve `DosePK.status` for those substances only,
         // never the whole recent history. Requires `rebuildCards`
@@ -552,7 +552,7 @@ final class QuickLogContentModel {
         cachedTagSuggestions = Array((used + extras).prefix(8))
         // `makeDailyGroups` reads `cachedTodayEntries` (the "done" and "due"
         // checks), so it must rebuild after that's assigned above.
-        cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
+        cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems)
     }
 
     /// The title a card shows when it names more than the plain substance —
@@ -695,8 +695,8 @@ final class QuickLogContentModel {
 
     /// Rebuild only the routine-pill groups (the settings sheet edited a routine
     /// row or daily item, but history is unchanged).
-    func rebuildDailyGroups(dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) {
-        cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
+    func rebuildDailyGroups(dailyDoseItems: [DailyDoseItem]) {
+        cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems)
     }
 
     /// The group pills: one pill per derived time-of-day
@@ -707,12 +707,12 @@ final class QuickLogContentModel {
     /// gets its own single-med pill (a pre-workout stack is still one tap
     /// per med, never "stage every PRN med I own"). Each group carries the
     /// ``DueNowSlot``s that opened inside it, so the pill can answer "what
-    /// should I take now?" itself. The `routines` parameter is unused.
+    /// should I take now?" itself.
     ///
     /// Every model is read here, once, and copied into ``DailyMedSnapshot``s;
     /// rows deleted since the caller's `@Query` result or since
     /// ``cachedTodayEntries`` was captured are dropped before any read.
-    func makeDailyGroups(dailyDoseItems allItems: [DailyDoseItem], routines _: [DoseRoutine], now: Date = .now) -> [DailyCategoryGroup] {
+    func makeDailyGroups(dailyDoseItems allItems: [DailyDoseItem], now: Date = .now) -> [DailyCategoryGroup] {
         let dailyDoseItems = allItems.filter { !$0.isDeleted }
         guard !dailyDoseItems.isEmpty else { return [] }
 
