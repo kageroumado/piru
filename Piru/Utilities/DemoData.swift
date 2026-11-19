@@ -369,6 +369,10 @@ import SwiftData
                 print("DemoData: -piruImportFile import failed: \(DataExportImport.importErrorMessage(for: error))")
                 return true
             }
+            // The live stores loaded at launch, before the wipe; reload them as
+            // the Data & Backup import does, or the running app keeps the old
+            // tab bar, skin, dock and profile until a relaunch.
+            DataExportImport.refreshLiveStores(container: container)
             // The launch recovery pass ran against the pre-wipe store; re-run
             // it so an imported active dose opens the live session on this
             // launch instead of needing a second one.
