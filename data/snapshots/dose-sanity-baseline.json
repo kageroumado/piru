@@ -13,10 +13,5 @@
  "ROUTE | Estradiol | intramuscular needs #x the oral dose (common tier)",
  "ROUTE | Heroin | insufflation needs #x the oral dose (common tier)",
  "ROUTE | Spirochlorphine | intravenous needs #x the insufflation dose (common tier)",
- "ROUTE | \u03b1-Pyrrolidinopropiophenone | intravenous needs #x the inhalation dose (common tier)",
- "SOURCE | Diphenhydramine | oral: piru-curated is #x the consensus of # sources (common tier)",
- "SOURCE | Doxylamine | oral: piru-curated is #x the consensus of # sources (common tier)",
- "SOURCE | MDPHP | oral: erowid-pihkal is #x the consensus of # sources (common tier)",
- "SOURCE | Met | oral: tripsit is #x the consensus of # sources (common tier)",
- "SOURCE | Methcathinone | oral: drug.community is #x the consensus of # sources (common tier)"
+ "ROUTE | \u03b1-Pyrrolidinopropiophenone | intravenous needs #x the inhalation dose (common tier)"
 ]

@@ -7,14 +7,11 @@ ordinary sentence. It is only wrong next to the *same compound's* oral range of
 times the drug. That contradiction is invisible while reading one card and
 invisible to the pipeline, which never compares a row to its neighbours.
 
-So this cross-checks each substance against itself, three ways:
+So this cross-checks each substance against itself, two ways:
 
     ROUTE     a route that should need LESS drug is asking for more.
               Ordering, most bioavailable first:
               IV < IM/SC < inhaled < insufflated < SL/buccal/rectal < oral.
-    SOURCE    two sources disagree about the same substance+route by more than
-              a factor. Names the outlier against the median of the rest —
-              this is what isolates one bad curated row when the others agree.
     LADDER    a single row contradicts itself: every tier's lower and upper
               bound rising in step, lower ≤ upper, all positive, one unit
               dimension per route.
@@ -22,7 +19,7 @@ So this cross-checks each substance against itself, three ways:
 ROUTE compares what the app actually *shows*: for each route the row from the
 highest-priority enabled source wins, exactly as `SubstanceStore` resolves it.
 A finding therefore means a user can see both numbers, not that some unused row
-disagrees — SOURCE covers that case separately.
+disagrees. Disagreement between sources is `adjudicate.py`'s job.
 
 Within a severity, ROUTE lists the rows the DB **already contradicts** first: if
 the offending row is also far from what this route's other sources say, the
@@ -304,7 +301,7 @@ def resolved_by_route(rows: list[Row]) -> dict[str, Row]:
     """The row the app would display per route: highest-priority source wins.
 
     Sources off by default never surface, so a violation among them is not
-    something a user can see — LADDER and SOURCE still read those rows.
+    something a user can see. LADDER still reads those rows.
     """
     best: dict[str, Row] = {}
     for row in rows:
@@ -411,9 +408,8 @@ def compare_routes(
 
 
 #: How far the offending row must sit from its route's other sources before the
-#: DB counts as contradicting itself. Well below the SOURCE threshold: here it
-#: is corroborating evidence for a violation already found, not a claim on its
-#: own, so it should be sensitive.
+#: DB counts as contradicting itself. Set low: it corroborates a violation
+#: already found rather than making a claim of its own.
 PEER_OUTLIER_RATIO = 1.25
 
 
@@ -446,99 +442,6 @@ def format_dose(value: float) -> str:
     if value >= 1:
         return f"{value:.1f}".rstrip("0").rstrip(".")
     return f"{value:.4g}"
-
-
-# ----------------------------------------------------------------- check SOURCE
-
-
-def check_sources(rows: list[Row], factor: float) -> list[Finding]:
-    findings: list[Finding] = []
-    grouped: dict[tuple[str, str], list[Row]] = defaultdict(list)
-    for row in rows:
-        if row.dimension == "mass":
-            grouped[(row.substance, row.route)].append(row)
-
-    for (substance, route), group in grouped.items():
-        findings.extend(check_source_group(substance, route, group, factor))
-    return findings
-
-
-def check_source_group(
-    substance: str, route: str, group: list[Row], factor: float
-) -> list[Finding]:
-    for tier_name, lower, upper in TIERS:
-        doses = {row.id: row.tier(lower, upper) for row in group}
-        usable = [row for row in group if doses[row.id]]
-        if len(usable) < 2:
-            continue  # this tier is too sparse to compare; try the next one
-        if len(usable) == 2:
-            # With two rows there is no majority to be an outlier from: the pair
-            # simply disagrees, and calling either one wrong would be a coin
-            # flip. Report it only when it is too large to be editorial taste.
-            return check_source_pair(substance, route, usable, tier_name, lower, upper, factor * 2)
-        # The consensus is the median of *everyone*, not of everyone-but-me.
-        # Leave-one-out flips the median on a split group and then reports every
-        # source as the outlier from every other — three lines for one argument.
-        reference = median(doses[row.id] for row in usable)
-        findings = []
-        for row in usable:
-            if reference <= 0:
-                break
-            ratio = max(doses[row.id] / reference, reference / doses[row.id])
-            if ratio <= factor:
-                continue
-            findings.append(
-                Finding(
-                    check="SOURCE",
-                    severity="HIGH" if ratio >= 2 * factor else "MEDIUM",
-                    score=ratio,
-                    substance=substance,
-                    headline=(
-                        f"{route}: {row.source} is {ratio:.1f}x the consensus of "
-                        f"{len(usable)} sources ({tier_name} tier)"
-                    ),
-                    detail=(
-                        f"{row.source} {describe_tier(row, lower, upper)}  vs  median "
-                        f"{format_dose(reference)} mg of "
-                        + ", ".join(
-                            f"{other.source} {describe_tier(other, lower, upper)}"
-                            for other in usable
-                            if other.id != row.id
-                        )
-                    ),
-                    row_ids=[row.id],
-                )
-            )
-        return findings
-    return []
-
-
-def check_source_pair(
-    substance: str,
-    route: str,
-    pair: list[Row],
-    tier_name: str,
-    lower: str,
-    upper: str,
-    threshold: float,
-) -> list[Finding]:
-    first, second = (row.tier(lower, upper) for row in pair)
-    ratio = max(first / second, second / first)
-    if ratio <= threshold:
-        return []
-    return [
-        Finding(
-            check="SOURCE",
-            severity="MEDIUM",
-            score=ratio,
-            substance=substance,
-            headline=f"{route}: two sources disagree {ratio:.1f}x ({tier_name} tier)",
-            detail="  vs  ".join(
-                f"{row.source} {describe_tier(row, lower, upper)}" for row in pair
-            ),
-            row_ids=[row.id for row in pair],
-        )
-    ]
 
 
 # ----------------------------------------------------------------- check LADDER
@@ -664,7 +567,6 @@ def rank(findings: list[Finding]) -> list[Finding]:
 
 CHECK_TITLES = {
     "ROUTE": "ROUTE — a more bioavailable route asking for more drug",
-    "SOURCE": "SOURCE — sources disagreeing about the same substance+route",
     "LADDER": "LADDER — a row contradicting itself",
 }
 
@@ -720,14 +622,8 @@ def main() -> int:
         help="ROUTE: flag when the more bioavailable route exceeds the other by this factor",
     )
     parser.add_argument(
-        "--source-factor",
-        type=float,
-        default=2.0,
-        help="SOURCE: flag a source differing from the median of the others by this factor",
-    )
-    parser.add_argument(
         "--check",
-        choices=("route", "source", "ladder", "all"),
+        choices=("route", "ladder", "all"),
         default="all",
         help="run only one check",
     )
@@ -762,12 +658,10 @@ def main() -> int:
     finally:
         conn.close()
 
-    checks = ["ROUTE", "SOURCE", "LADDER"] if args.check == "all" else [args.check.upper()]
+    checks = ["ROUTE", "LADDER"] if args.check == "all" else [args.check.upper()]
     findings: list[Finding] = []
     if "ROUTE" in checks:
         findings += check_routes(rows, args.ratio)
-    if "SOURCE" in checks:
-        findings += check_sources(rows, args.source_factor)
     if "LADDER" in checks:
         findings += check_ladder(rows)
 
