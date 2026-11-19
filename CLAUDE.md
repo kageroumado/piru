@@ -65,6 +65,12 @@ pipeline/check-weak-imports.py --list Piru.app                  # every weak imp
 - **`Date <=` / `>=` resolve to `Shared/DateComparison.swift`**, which shadows Foundation's back-deployed operators in every target that compiles it. Keep it in each new target that compares dates (the watch app takes it through its `Shared` membership exceptions).
 - A new hazard the interfaces miss goes in the script's `DENYLIST` (mangled substring → reason).
 
+**An edit under `Piru/` or `Shared/` can break the Android build.** `android/patches/` is applied to those files by path, and every context line has to match the source exactly, so a reworded comment or a moved file is enough to stop a patch applying. After changing Swift, run the check; it names the first patch that fails. Fix that patch's context (or its path, and `android/exclude.txt`) in the same commit. The patch workflow is in `android/AGENTS.md`.
+
+```bash
+python3 android/tools/stage.py --check   # "31 patches apply to N upstream files" when clean
+```
+
 ## Screenshots
 
 `pipeline/screenshots.py` captures every screen worth showing — the vertical timeline, each tab, a quick log with the morning meds staged, stats, inventory, three substance pages, the interaction checker with a pair checked, the skins sheet — in English and Simplified Chinese, in the `piru` skin and then a subset in every other skin the picker offers. It runs unattended and prints each file as it lands.
@@ -81,7 +87,7 @@ pipeline/screenshots.py --device "Piru Duo Screenshots" --device-type iPhone-Duo
 ```
 
 - **Output is `Store/shots/` (gitignored):** `en/01-journal.png` for the piru skin, `en/skins/tsuki/01-journal-tsuki.png` per skin, `zh-Hans/…`, `en-dark/…`, plus `index.json`. Numbers are fixed by the catalog, so a re-run of one screen overwrites the same file.
-- **The app does the walking.** `ScreenshotTour` (`Piru/Utilities/ScreenshotTour.swift`, DEBUG) is enabled by `-piruScreenshots <dir>`, seeds the `week` persona, lands on each screen through `AppNavigator`, and asks the host for a capture through `<dir>/.tour/request.json`; the script answers with `simctl io screenshot` so the 9:41 status bar and real pixels are in the picture. **Add a screen by adding a `Screen` to `catalog`**; a new skin is in the pass the moment it is in `Skin.available`.
+- **The app does the walking.** `ScreenshotTour` (`Piru/Utilities/ScreenshotTour.swift`, DEBUG) is enabled by `-piruScreenshots <dir>`, seeds the `week` persona, lands on each screen through `AppNavigator`, and asks the host for a capture through `<dir>/.tour/request.json`; the script answers with `simctl io screenshot` so the 9:41 status bar and real pixels are in the picture. **Add a screen by adding a `Screen` to `catalog`**; a new skin is in the pass the moment it is in `Skin.available`. A screen that only one persona's seed fills names it (`Screen(name:persona:)`) and is left out of every other pass: the shared-session screens need `--persona sharedNight`.
 - **It runs on its own simulator, "Piru Screenshots"** (an iPhone 18 Pro Max created on first use), so the persona reseed never wipes the journal on the simulator you develop on. `--udid booted` uses that one anyway.
 - **`--device-type`, `--pose` and `--orientation` cover the iPhone Duo and iPad.** `--device-type` creates the pass's simulator from another type (`iPhone-Duo`, `iPad-Pro-13-inch-M5-12GB`); give it its own `--device` name so it never reuses the iPhone. `--pose closed|partially-open|open` folds a Duo and captures the display that pose lights; `--orientation portrait|landscape` turns the device for the pass and back after, checking each turn against a probe capture. Both press Device Hub's buttons through `rocuronium`, since simctl has no verb for either.
 - **`--platform macos` runs the same tour in the Mac app** and writes `Store/shots-macos/`. The sandboxed app can write nowhere the script can read, so the tour POSTs each request to a loopback server in the script (`-piruScreenshotHost`), and the window is captured at 1280×820 with `rocuronium screenshot --pid`.
