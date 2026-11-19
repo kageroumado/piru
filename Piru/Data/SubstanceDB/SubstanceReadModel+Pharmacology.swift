@@ -715,6 +715,117 @@ extension SubstanceReadModel {
         return out
     }
 
+    /// One `model_overrides` row, verbatim from the DB — the engine's folded lookup key plus the
+    /// nullable override fields. Converted to ``SubstanceModelDatabase/Overrides`` by that type's
+    /// loader, which owns the felt-half-life → per-hour-ke conversion.
+    nonisolated struct ModelOverrideRow: Sendable {
+        let modelKey: String
+        let feltHalfLifeMinutes: Double?
+        let kaPerHour: Double?
+        let referenceDoseMg: Double?
+        let deplete: Double?
+        let koff: Double?
+        let mu: Double?
+        let muEff: Double?
+        let gaba: Double?
+        let cae: Double?
+        let resp: Double?
+        let recH1: Double?
+        let recA2: Double?
+        let rec2C: Double?
+        let rec2A: Double?
+    }
+
+    /// The whole `model_overrides` table, keyed by the engine's folded lookup name. Read once at index
+    /// build and installed into ``SubstanceModelDatabase``, which resolves it from `nonisolated` code
+    /// with no store reference (the elimination gate runs there).
+    nonisolated static func modelOverrides(db queue: DatabaseQueue) -> [String: ModelOverrideRow] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT model_key, felt_half_life_minutes, ka_per_hour, reference_dose_mg, deplete, koff,
+                       mu, mu_eff, gaba, cae, resp, rec_h1, rec_a2, rec_2c, rec_2a
+                  FROM model_overrides
+            """)
+        }) ?? []
+        var out: [String: ModelOverrideRow] = [:]
+        for row in rows {
+            guard let key: String = row["model_key"] else { continue }
+            out[key] = ModelOverrideRow(
+                modelKey: key,
+                feltHalfLifeMinutes: row["felt_half_life_minutes"],
+                kaPerHour: row["ka_per_hour"],
+                referenceDoseMg: row["reference_dose_mg"],
+                deplete: row["deplete"],
+                koff: row["koff"],
+                mu: row["mu"],
+                muEff: row["mu_eff"],
+                gaba: row["gaba"],
+                cae: row["cae"],
+                resp: row["resp"],
+                recH1: row["rec_h1"],
+                recA2: row["rec_a2"],
+                rec2C: row["rec_2c"],
+                rec2A: row["rec_2a"],
+            )
+        }
+        return out
+    }
+
+    /// The `model_alias` PD-inheritance relation, folded alias key → folded canonical key. A separate
+    /// relation from the naming `aliases` table (lisdexamfetamine is its own substance for naming but
+    /// amphetamine for the model); never merge the two.
+    nonisolated static func modelAliases(db queue: DatabaseQueue) -> [String: String] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: "SELECT alias_key, canonical_key FROM model_alias")
+        }) ?? []
+        var out: [String: String] = [:]
+        for row in rows {
+            guard let alias: String = row["alias_key"], let canonical: String = row["canonical_key"] else { continue }
+            out[alias] = canonical
+        }
+        return out
+    }
+
+    /// One `category_mechanisms` prose row — the per-(category, language) mechanism floor.
+    nonisolated struct CategoryFloorProse: Sendable {
+        let category: String
+        let language: String
+        let summary: String
+        let description: String
+    }
+
+    /// One `category_mechanism_bindings` row — a molecular target the category itself names.
+    nonisolated struct CategoryFloorBinding: Sendable {
+        let category: String
+        let target: String
+        let action: String
+        let tier: Int
+    }
+
+    /// The category floor — prose in every shipped language plus the targets a category names — read
+    /// once at index build and installed into ``MechanismOfActionDatabase``, which composes it at
+    /// runtime (the summary-vs-floor and language choices are the reader's, not the build's).
+    nonisolated static func categoryFloor(db queue: DatabaseQueue)
+        -> (prose: [CategoryFloorProse], bindings: [CategoryFloorBinding]) {
+        let proseRows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: "SELECT category, language, summary, description FROM category_mechanisms")
+        }) ?? []
+        let bindingRows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: "SELECT category, target, action, affinity_tier FROM category_mechanism_bindings")
+        }) ?? []
+        let prose = proseRows.compactMap { row -> CategoryFloorProse? in
+            guard let c: String = row["category"], let l: String = row["language"],
+                  let s: String = row["summary"], let d: String = row["description"] else { return nil }
+            return CategoryFloorProse(category: c, language: l, summary: s, description: d)
+        }
+        let bindings = bindingRows.compactMap { row -> CategoryFloorBinding? in
+            guard let c: String = row["category"], let t: String = row["target"],
+                  let a: String = row["action"], let tier: Int = row["affinity_tier"] else { return nil }
+            return CategoryFloorBinding(category: c, target: t, action: a, tier: tier)
+        }
+        return (prose, bindings)
+    }
+
     /// The lowercased canonical names carrying one `substance_flags` flag — the whole-table read a
     /// gate needs when it asks "is this substance in the set", rather than "does this id have the
     /// flag". `nonisolated static` so it can run at index build off the main actor.

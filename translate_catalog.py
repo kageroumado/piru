@@ -1337,32 +1337,6 @@ T = {
         "下一年",
         "下一年",
     ),
-    # The category floors assert no efficacy or generation for every member they
-    # describe (7-OH would read "Full Agonist" above its own partial-agonist rows).
-    "μ-Opioid Receptor Ligand": (
-        "μ-阿片受体配体",
-        "μ-鴉片受體配體",
-    ),
-    "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release. The result is analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it.": (
-        "作用于 μ-阿片受体（MOR），一类分布于中枢与外周神经系统的 G 蛋白偶联受体。MOR 激活会抑制腺苷酸环化酶、开放内向整流钾通道并关闭电压门控钙通道，降低神经元兴奋性与神经递质释放，产生镇痛、欣快、呼吸抑制以及胃肠蠕动减慢。此处未说明该化合物对受体的激活程度，也未说明它是否同时作用于 κ 或 δ；下方的受体面板列出的是已实测到的数据。",
-        "作用於 μ-鴉片受體（MOR），一類分布於中樞與周邊神經系統的 G 蛋白偶聯受體。MOR 活化會抑制腺苷酸環化酶、開放內向整流鉀通道並關閉電壓閘控鈣通道，降低神經元興奮性與神經傳導物質釋放，產生鎮痛、欣快、呼吸抑制以及胃腸蠕動減慢。此處未說明該化合物對受體的活化程度，也未說明它是否同時作用於 κ 或 δ；下方的受體面板列出的是已實測到的資料。",
-    ),
-    "Antipsychotic (Dopamine Receptor Antagonist)": (
-        "抗精神病药（多巴胺受体拮抗剂）",
-        "抗精神病藥（多巴胺受體拮抗劑）",
-    ),
-    "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing positive psychotic symptoms. Whether this compound also carries the 5-HT2A antagonism that distinguishes the second-generation agents, and the histamine, muscarinic and adrenergic activity that drives sedation and orthostasis, varies across the class and is not characterized here.": (
-        "阻断中脑边缘通路的多巴胺 D2 受体，减轻精神病性阳性症状。该化合物是否同时具有区分第二代药物的 5-HT2A 拮抗作用，以及导致镇静与体位性低血压的组胺、毒蕈碱与肾上腺素能活性，在同类药物中各不相同，此处未作说明。",
-        "阻斷中腦邊緣通路的多巴胺 D2 受體，減輕精神病性陽性症狀。該化合物是否同時具有區分第二代藥物的 5-HT2A 拮抗作用，以及導致鎮靜與姿勢性低血壓的組織胺、蕈毒鹼與腎上腺素能活性，在同類藥物中各不相同，此處未作說明。",
-    ),
-    "Histamine H1 Receptor Antagonist": (
-        "组胺 H1 受体拮抗剂",
-        "組織胺 H1 受體拮抗劑",
-    ),
-    "Blocks histamine H1 receptors, reducing the itching, flare, wheal and vasodilation of the histamine response. Whether this compound crosses into the central nervous system (the difference between a sedating first-generation antihistamine with a muscarinic load and a peripherally selective second-generation one) is not characterized here.": (
-        "阻断组胺 H1 受体，减轻组胺反应中的瘙痒、红晕、风团与血管扩张。该化合物是否进入中枢神经系统（这正是具有毒蕈碱负荷、会引起嗜睡的第一代抗组胺药与外周选择性的第二代抗组胺药之间的区别），此处未作说明。",
-        "阻斷組織胺 H1 受體，減輕組織胺反應中的搔癢、紅暈、風疹塊與血管擴張。該化合物是否進入中樞神經系統（這正是具有蕈毒鹼負荷、會引起嗜睡的第一代抗組織胺藥與周邊選擇性的第二代抗組織胺藥之間的區別），此處未作說明。",
-    ),
     # The methamphetamine class-mechanism description.
     # The opioid converter's picker label for transdermal fentanyl: fentanyl shares
     # one substance row across every route, so the route is what disambiguates it.
@@ -3784,15 +3758,6 @@ T = {
     "Eugeroic": ("促醒剂", "促醒劑"),
     "Depressant": ("抑制剂", "抑制劑"),
     "Orexin Antagonist": ("食欲素拮抗剂", "食慾素拮抗劑"),
-    # DORA (orexin antagonist) mechanism of action + interactions.
-    "Dual Orexin Receptor Antagonist (DORA)": (
-        "双重食欲素受体拮抗剂（DORA）",
-        "雙重食慾素受體拮抗劑（DORA）",
-    ),
-    'Competitively blocks the orexin (hypocretin) receptors OX1R and OX2R, the targets of the wake-promoting neuropeptides orexin-A and orexin-B released from the lateral hypothalamus. Rather than broadly sedating the brain like a GABAergic hypnotic, it withdraws a specific "stay awake" drive that stabilizes arousal, permitting the natural transition into sleep with largely preserved sleep architecture and arousability. Because it does not enhance GABA or depress brainstem respiratory centers, it lacks the respiratory-depression synergy and dependence liability of benzodiazepines, Z-drugs, and other GABAergic sedatives.': (
-        "竞争性阻断食欲素（下丘脑分泌素）受体 OX1R 和 OX2R，这两种受体是外侧下丘脑释放的促醒神经肽食欲素-A 和食欲素-B 的作用靶点。它不像 GABA 能催眠药那样广泛抑制大脑，而是撤除一种维持觉醒的特定“保持清醒”驱动力，让人自然过渡到睡眠，同时基本保留睡眠结构和可唤醒性。由于它既不增强 GABA，也不抑制脑干呼吸中枢，因此没有苯二氮䓬类、Z 类药物及其他 GABA 能镇静剂所特有的呼吸抑制协同作用和依赖风险。",
-        "競爭性阻斷食慾素（下視丘分泌素）受體 OX1R 和 OX2R，這兩種受體是外側下視丘釋放的促醒神經肽食慾素-A 和食慾素-B 的作用標的。它不像 GABA 能催眠藥那樣廣泛抑制大腦，而是撤除一種維持覺醒的特定「保持清醒」驅動力，讓人自然過渡到睡眠，同時基本保留睡眠結構和可喚醒性。由於它既不增強 GABA，也不抑制腦幹呼吸中樞，因此沒有苯二氮平類、Z 類藥物及其他 GABA 能鎮靜劑所特有的呼吸抑制協同作用和依賴風險。",
-    ),
     "Alcohol stacks psychomotor and memory impairment on top of the sleep med (and raises lemborexant's blood levels). Expect worse next-day grogginess and unsteadiness. The labels advise against drinking with these.": (
         "酒精会在这类安眠药之上叠加精神运动和记忆损害（并会升高莱博雷生的血药浓度）。次日昏沉和站立不稳会更明显。药品说明书建议服用期间不要饮酒。",
         "酒精會在這類安眠藥之上疊加精神運動和記憶損害（並會升高萊博雷生的血藥濃度）。隔日昏沉和站立不穩會更明顯。藥品仿單建議服用期間不要飲酒。",
@@ -8669,12 +8634,6 @@ if __name__ == "__main__":
         "%lld sessions as individual images",
         "Sessions in this range as individual images",
         "No sessions yet",
-        "μ-Opioid Receptor Ligand",
-        "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release. The result is analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it.",
-        "Antipsychotic (Dopamine Receptor Antagonist)",
-        "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing positive psychotic symptoms. Whether this compound also carries the 5-HT2A antagonism that distinguishes the second-generation agents, and the histamine, muscarinic and adrenergic activity that drives sedation and orthostasis, varies across the class and is not characterized here.",
-        "Histamine H1 Receptor Antagonist",
-        "Blocks histamine H1 receptors, reducing the itching, flare, wheal and vasodilation of the histamine response. Whether this compound crosses into the central nervous system (the difference between a sedating first-generation antihistamine with a muscarinic load and a peripherally selective second-generation one) is not characterized here.",
         "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
         "When it peaks",
         "Worst around %@",

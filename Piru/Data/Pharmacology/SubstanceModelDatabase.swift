@@ -19,6 +19,11 @@ import os
 ///
 /// A substance with neither DB data nor an override is not modelable — the caller falls back to the
 /// classic duration timeline (Tier 0). No fabricated curves.
+///
+/// **The override layer is data, and it lives in the bundled DB** (`data/curated/model-overrides.json`
+/// → `model_overrides` + `model_alias`), installed here once at index build by ``SubstanceStore``
+/// through ``loadOverrides(_:)`` / ``loadModelAliases(_:)``. This type is the *engine* that reads it,
+/// not the table: edit the curated JSON and rebuild, never add a literal here.
 nonisolated enum SubstanceModelDatabase {
     static func normalize(_ name: String) -> String {
         PharmacologyNameKey.fold(name)
@@ -67,49 +72,53 @@ nonisolated enum SubstanceModelDatabase {
         var rec: ReceptorAffinities?
     }
 
-    /// Keyed by normalized canonical name. Aliases resolve through ``aliases`` first.
-    private static let overrides: [String: Overrides] = [
-        // Releaser stimulants — PK + weights from DB; only the depletion (crash) scalar is curated.
-        "amphetamine": Overrides(refDose: .mg(50), deplete: 1.0),
-        "mdma": Overrides(refDose: .mg(90), deplete: 0.10),
-        "3-mmc": Overrides(refDose: .mg(80), deplete: 0.12),
-        "2-mmc": Overrides(refDose: .mg(250), deplete: 0.12),
-        "mephedrone": Overrides(refDose: .mg(150), deplete: 0.12),
-        "4-fa": Overrides(refDose: .mg(120), deplete: 0.05),
-        // Reuptake-blocker stimulants — no depletion; curated DAT dissociation controls the plateau.
-        "methylphenidate": Overrides(refDose: .mg(60), deplete: 0, koff: 8.0),
-        "mdpv": Overrides(refDose: .mg(15), deplete: 0, koff: 3.0),
-        // No DB PK for 5-APB — refDose + PD weights only; no sourced human PK exists.
-        "5-apb": Overrides(refDose: .mg(70), deplete: 0.08),
-        // Opioids — µ drive/efficacy/respiratory are curated; heroin's 3-min *plasma* half-life is the
-        // prodrug, not the felt duration (6-MAM/morphine), so its ke is patched.
-        "heroin": Overrides(ke: ln2 / 2.5, ka: 6.0, refDose: .mg(10), mu: 1.0, muEff: 0.97, resp: 1.4),
-        "morphine": Overrides(refDose: .mg(30), mu: 1.0, muEff: 0.95, resp: 1.0),
-        "oxycodone": Overrides(refDose: .mg(20), mu: 1.0, muEff: 0.92, resp: 0.9),
-        "kratom": Overrides(refDose: .g(3), mu: 0.55, muEff: 0.5),
-        // Sedatives / enhancers / antagonists — adjuncts (never trigger the view alone).
-        "bromazepam": Overrides(refDose: .mg(6), gaba: 1.0),
-        "ppap": Overrides(refDose: .mg(20), cae: 0.45),
-        "bpap": Overrides(refDose: .mg(1), cae: 1.1),
-        "mirtazapine": Overrides(refDose: .mg(30), rec: ReceptorAffinities(h1: 0.03, a2: 0.6, c2C: 0.6, c2A: 0.9)),
-    ]
+    /// The override layer and its PD-inheritance relation, loaded from the bundled DB at index build
+    /// (``loadOverrides(_:)`` / ``loadModelAliases(_:)``). Held in locks because the builder and the
+    /// elimination gate run from `nonisolated` code with no store reference; empty before the load,
+    /// which simply leaves every substance on the classic timeline until the store is open.
+    private static let overridesTable = OSAllocatedUnfairLock<[String: Overrides]>(initialState: [:])
+    private static let aliasTable = OSAllocatedUnfairLock<[String: String]>(initialState: [:])
 
-    private static let aliases: [String: String] = [
-        "adderall": "amphetamine", "dextroamphetamine": "amphetamine", "lisdexamfetamine": "amphetamine",
-        "speed": "amphetamine", "ritalin": "methylphenidate", "concerta": "methylphenidate",
-        "3mmc": "3-mmc", "2mmc": "2-mmc", "4-mmc": "mephedrone", "4mmc": "mephedrone",
-        "molly": "mdma", "ecstasy": "mdma", "mitragynine": "kratom", "4-fea": "4-fa",
-        "diamorphine": "heroin", "diacetylmorphine": "heroin", "oxycontin": "oxycodone",
-        "remeron": "mirtazapine",
-    ]
+    /// Install the override rows read from `model_overrides`, converting each to an ``Overrides`` —
+    /// the felt-effect `felt_half_life_minutes` (per minute) becomes the per-hour `ke` the engine
+    /// works in, which is the one place that conversion happens. Called once per store init.
+    static func loadOverrides(_ rows: [String: SubstanceReadModel.ModelOverrideRow]) {
+        let table = rows.mapValues { row -> Overrides in
+            let rec: ReceptorAffinities? = {
+                guard row.recH1 != nil || row.recA2 != nil || row.rec2C != nil || row.rec2A != nil else { return nil }
+                return ReceptorAffinities(h1: row.recH1, a2: row.recA2, c2C: row.rec2C, c2A: row.rec2A)
+            }()
+            return Overrides(
+                ke: row.feltHalfLifeMinutes.map { ln2 / ($0 / 60) },
+                ka: row.kaPerHour,
+                refDose: row.referenceDoseMg.map { .mg($0) },
+                deplete: row.deplete,
+                koff: row.koff,
+                mu: row.mu ?? 0,
+                muEff: row.muEff ?? 1,
+                gaba: row.gaba ?? 0,
+                cae: row.cae ?? 0,
+                resp: row.resp ?? 0,
+                rec: rec,
+            )
+        }
+        overridesTable.withLock { $0 = table }
+    }
+
+    /// Install the PD-inheritance relation read from `model_alias`. Called once per store init.
+    static func loadModelAliases(_ aliases: [String: String]) {
+        aliasTable.withLock { $0 = aliases }
+    }
 
     private static func overrides(for name: String) -> Overrides? {
-        PharmacologyNameKey.resolve(name, in: overrides, aliases: aliases)
+        let table = overridesTable.withLock { $0 }
+        let aliases = aliasTable.withLock { $0 }
+        return PharmacologyNameKey.resolve(name, in: table, aliases: aliases)
     }
 
     /// Names carrying a curated override, for the elimination-consistency gate.
     static var curatedOverrideNames: [String] {
-        Array(overrides.keys)
+        Array(overridesTable.withLock { $0 }.keys)
     }
 
     /// The felt-effect half-life a curated `ke` patch encodes, in **minutes**.
@@ -304,6 +313,6 @@ nonisolated enum SubstanceModelDatabase {
     /// Whether `name` — after normalization and alias resolution — is one of the calibrated trigger
     /// substances (``calibratedTriggerSet``). e.g. "Ritalin" → `methylphenidate`, "4-MMC" → `mephedrone`.
     static func isCalibratedTrigger(_ name: String) -> Bool {
-        calibratedTriggerSet.contains(PharmacologyNameKey.canonical(name, aliases: aliases))
+        calibratedTriggerSet.contains(PharmacologyNameKey.canonical(name, aliases: aliasTable.withLock { $0 }))
     }
 }
