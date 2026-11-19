@@ -2,8 +2,7 @@ import Foundation
 import SwiftData
 
 /// Persisted snapshot of the user's **tolerance state for one mechanism class**, derived by replaying
-/// the dose log through `PDModel` (the pharmacology axis — `Specs/pharmacology-axis-meta-plan.md`,
-/// `Specs/tolerance-faithful-model.md`).
+/// the dose log through `PDModel`.
 ///
 /// The authoritative value is *derived*: `ToleranceStore` recomputes the three right-shift layers by
 /// replaying the dose log (deterministic, like `ActiveSubstanceCalculator`). This row is the cached
@@ -48,13 +47,13 @@ final class ToleranceState {
 
     /// Synthesis ln-shift `sSynthesis ≥ 0` — the slow serotonin-synthesis pool (τ ≈ weeks) that only
     /// the synthesis-suppressing SERT releasers (MDMA-type entactogens) drive, so they recover on a
-    /// weeks clock while the cathinone releasers reset in days (`Specs/tolerance-faithful-model.md`
-    /// §3.4). `0` for every class without an active synthesis layer.
+    /// weeks clock while the cathinone releasers reset in days.
+    /// `0` for every class without an active synthesis layer.
     var sSynthesis: Double = 0
 
     /// Chronicity duty-cycle accumulator `∈ [0, 1]` — the leaky time-averaged occupancy (τ ≈ 21 d) that,
-    /// with dose-relative escalation, gates the deep layer (`Specs/tolerance-faithful-model-improvements.md`
-    /// §2). Persisted as part of the **slow-layer checkpoint** (§1): together with `sDeep`/`sSynthesis`
+    /// with dose-relative escalation, gates the deep layer.
+    /// Persisted as part of the **slow-layer checkpoint**: together with `sDeep`/`sSynthesis`
     /// and `lastUpdated` (the checkpoint time), it lets the next replay seed the months-scale state the
     /// 90-day window can't hold, instead of re-integrating it from zero each time. Additive defaulted
     /// double ⇒ automatic lightweight migration, no plan.

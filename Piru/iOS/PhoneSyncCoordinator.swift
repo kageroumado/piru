@@ -3,7 +3,7 @@ import os
 import SwiftData
 import WatchConnectivity
 
-/// The phone half of the Apple Watch sync (`Specs/apple-watch-companion.md`). Owns the
+/// The phone half of the Apple Watch sync. Owns the
 /// `WCSession` on the iPhone: it **pushes** the favorites/recents manifest to the watch via
 /// `updateApplicationContext` (latest-wins, survives the watch sleeping) and **receives**
 /// watch-logged doses via `transferUserInfo`, inserting each through `WatchDoseReceiver` →

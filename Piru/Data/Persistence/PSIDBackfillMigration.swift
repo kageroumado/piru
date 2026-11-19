@@ -3,7 +3,7 @@ import os
 import SwiftData
 
 /// The once-only backfill that remaps every logged ``DoseEntry`` onto its PSID
-/// identity (see `Specs/stereoisomer-and-release-form-axes.md`).
+/// identity.
 ///
 /// `DoseEntry` has always stored its substance **by name**. This resolves each
 /// row's name — via the app's **exact** canonical/alias resolver, *not* the

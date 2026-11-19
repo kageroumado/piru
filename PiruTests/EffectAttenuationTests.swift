@@ -6,7 +6,6 @@ import Testing
 /// against the real substance data: a reuptake blocker onboard blunts a co-present releaser's
 /// transporter-mediated effect (SSRI weakens MDMA), distinct from danger stacking, and — critically —
 /// the lethal MAOI + serotonergic edge is *never* mistaken for blunting.
-/// (`Specs/pharmacology-axis-meta-plan.md`, Stage 3c.)
 @Suite("EffectAttenuation")
 @MainActor
 struct EffectAttenuationTests {

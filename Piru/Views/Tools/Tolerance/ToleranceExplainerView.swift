@@ -5,7 +5,7 @@ import SwiftUI
 /// "receptors used up" picture), explains the three timescales that the engine models, cross-tolerance,
 /// and the conditioned/novel-setting danger, then gives each ``ReceptorClasses`` mechanism a one-line
 /// character and recovery timescale, with the literature the copy draws on listed last. Copy is
-/// mechanism-first and matches the redesigned cards (`Specs/tolerance-faithful-model.md` §6, §8.5).
+/// mechanism-first and matches the redesigned cards.
 struct ToleranceExplainerView: View {
     var body: some View {
         List {

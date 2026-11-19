@@ -4,7 +4,7 @@ import SwiftUI
 /// The **Tolerance** tool (pharmacology axis). It replays the dose log through ``ToleranceStore`` and
 /// renders **one card per mechanism class** (Opioids, Stimulants, Dissociatives, …), on the design
 /// claim that tolerance is *per-mechanism*, never one universal "tolerance %", and never a
-/// per-raw-receptor card (see `Specs/tolerance-tool-audit-and-redesign.md`).
+/// per-raw-receptor card.
 ///
 /// ## Layout (Stage H)
 /// A single flat list of cards — no "Needs attention"/"Active" headers. Safety-critical classes (opioid

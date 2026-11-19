@@ -4,8 +4,7 @@ import Testing
 
 /// The retrospective multi-ester model behind the Hormone Levels insight: it groups
 /// the log per ester, sums each ester's own depot curve into the serum total, keeps
-/// the per-ester contributions, and calibrates the sum to labs
-/// (Specs/injection-levels-v3.md §3–§4).
+/// the per-ester contributions, and calibrates the sum to labs.
 @MainActor
 @Suite("HormoneLevelsModel")
 struct HormoneLevelsModelTests {

@@ -10,8 +10,8 @@ import WidgetKit
 /// ## Why a service, not a notification
 /// SwiftData exposes no public save notification, and the dose-write paths are scattered (quick-log
 /// tray, entry form, daily-dose log, edits and deletes, import, the Watch receiver). Routing them
-/// through one type makes the change signal impossible to forget. The watch is phone-authoritative
-/// (`Specs/apple-watch-companion.md`): its doses arrive over WatchConnectivity and the phone inserts
+/// through one type makes the change signal impossible to forget. The watch is phone-authoritative:
+/// its doses arrive over WatchConnectivity and the phone inserts
 /// them here, so this stays the sole writer and SwiftData History (a cross-process tool) isn't needed.
 ///
 /// ## Canonical vs. batch

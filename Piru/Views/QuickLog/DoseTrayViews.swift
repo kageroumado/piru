@@ -510,7 +510,7 @@ struct TrayRow: View {
     }
 
     var body: some View {
-        // Session-row grammar (Specs/meds-ux-review.md §6): identity leading,
+        // Session-row grammar: identity leading,
         // the *numbers* on the trailing edge — ROA as a pill, the amount bold
         // and large — with the disclosure chevron at the far trailing edge
         // where every system disclosure puts it.

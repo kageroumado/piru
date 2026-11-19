@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// The aggregation behind Insights → Usage (`Specs/usage-graphs-v2.md`).
+/// The aggregation behind Insights → Usage.
 ///
 /// Every function under test is a pure `static` over explicit inputs, so none of
 /// this needs a `ModelContainer`, a simulator, or the bundled substance DB — the

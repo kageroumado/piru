@@ -2,7 +2,7 @@ import Foundation
 
 /// **Combination-generated active species** — the rare case where two co-ingested drugs don't merely
 /// add but *react* to form a third active compound with its own pharmacology and (often) worse
-/// toxicity (`Specs/pharmacology-axis-meta-plan.md`). This is inexpressible in both the
+/// toxicity. This is inexpressible in both the
 /// additive combined-depression index *and* the per-substance active-metabolite path, because the new
 /// species is a property of the **pair**, not of either drug alone.
 ///

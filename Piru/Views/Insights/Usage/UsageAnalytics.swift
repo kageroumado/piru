@@ -41,7 +41,6 @@ nonisolated enum UsageTimeRange: String, CaseIterable, Identifiable, Sendable {
     }
 
     /// Whether the trend / dose-level buckets are one week wide (else one day).
-    /// Matches `Specs/usage-graphs-v2.md` §3's aggregation table.
     var usesWeeklyBuckets: Bool {
         switch self {
         case .sevenDays, .thirtyDays: false

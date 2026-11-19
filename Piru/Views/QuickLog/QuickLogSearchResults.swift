@@ -37,7 +37,7 @@ struct QuickLogStagePayload {
     /// canonical name, so nothing is asserted that they didn't say.
     ///
     /// Never a lookup key: `substance` stays canonical and every resolve keeps
-    /// going through it (`Specs/psid-identity-consumption.md` LB-1).
+    /// going through it.
     var productName: String?
     /// The injectable ester the search matched ("Valerate"), for a dose staged from
     /// an ester alias ("Estradiol Valerate"). Stored on `saltForm`, not `productName`

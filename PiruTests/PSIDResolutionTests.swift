@@ -4,8 +4,7 @@ import Testing
 
 /// Stage 0.2 — the app loads `substance_uid` off the bundled DB and resolves by
 /// it, in parallel with name resolution (no behavior change). Exercises the real
-/// bundled DB through an isolated store. See
-/// `Specs/stereoisomer-and-release-form-axes.md`.
+/// bundled DB through an isolated store.
 @MainActor
 @Suite("PSID resolution")
 struct PSIDResolutionTests {

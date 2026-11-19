@@ -1,7 +1,7 @@
 import Foundation
 
 /// Reads the dose log into **per-ester** injection buckets for the Hormone Levels
-/// insight (Specs/injection-levels-v3.md §4). Where the prediction Tool collapses the
+/// insight. Where the prediction Tool collapses the
 /// log to one dominant ester, this keeps each ester distinct: a valerate → cypionate
 /// switch, or a mix of two esters at different concentrations, is grouped by the ester
 /// named on each dose's `saltForm` so the serum total can sum each ester's own depot

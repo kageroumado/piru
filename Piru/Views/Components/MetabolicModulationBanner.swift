@@ -2,8 +2,8 @@ import SwiftUI
 
 /// One-line predicted **metabolic-modulation** note, surfaced at log time when something onboard (a
 /// co-active drug, a profile flag like smoking, the per-dose grapefruit flag, or the substance's own
-/// auto-modulation) changes how fast the dose is cleared — and therefore its levels
-/// (`Specs/pharmacology-axis-meta-plan.md`, Stage 4c). Calm, informational styling: this is a
+/// auto-modulation) changes how fast the dose is cleared — and therefore its levels.
+/// Calm, informational styling: this is a
 /// "levels run higher/lower" note, not a danger warning. Direction and qualitative strength only — never
 /// a fabricated fold-change.
 struct MetabolicModulationBanner: View {

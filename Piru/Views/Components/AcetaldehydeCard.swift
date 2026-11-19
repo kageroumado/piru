@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Acetaldehyde readout for alcohol (`Specs/pharmacology-axis-meta-plan.md`, Stage 5), shown only when
+/// Acetaldehyde readout for alcohol, shown only when
 /// the user has self-reported the ALDH2 "alcohol flush" variant and the entry is alcohol (the caller
 /// gates it). ALDH2 carriers clear acetaldehyde, ethanol's first and toxic by-product, slowly, so it
 /// accumulates: the flush is the toxicity, and acetaldehyde is an IARC Group 1 carcinogen whose
@@ -13,8 +13,8 @@ struct AcetaldehydeCard: View {
     /// Qualitative acetaldehyde-exposure band — scales with the ethanol oxidised, which all passes
     /// through ADH to acetaldehyde. Ordinal only; never presented as a concentration.
     ///
-    /// **These cut points do not belong in `concentration_effects`,** which
-    /// `Specs/pharma-data-in-swift.md` names as their target. That table holds
+    /// **These cut points do not belong in `concentration_effects`.**
+    /// That table holds
     /// measured concentration→effect rows; these are counts of standard drinks
     /// with an ordinal word attached, and filing them there would give a display
     /// ladder the authority of a measurement — the same fabricated-µM claim the

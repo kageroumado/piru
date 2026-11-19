@@ -5,7 +5,7 @@ import Testing
 /// Stage 4b — the tolerance-modulation graph `μ(t)`. An edge says that one receptor class, while
 /// onboard, scales how fast another builds tolerance; it is concentration/overlap-gated by the
 /// modulator's presence curve and threaded into the **adaptive** right-shift layer as its `drive`
-/// (``PDModel/stepShift``). (`Specs/pharmacology-axis-meta-plan.md`, Stage 4b.)
+/// (``PDModel/stepShift``).
 ///
 /// **The graph ships empty.** Its one edge (NMDA antagonism attenuating opioid tolerance) is
 /// withdrawn: sourcing found no human magnitude behind the 0.5, and the strongest

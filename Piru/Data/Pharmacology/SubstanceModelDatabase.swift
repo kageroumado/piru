@@ -4,7 +4,7 @@ import os
 /// Builds the mechanistic effect engine's per-substance ``SubstanceModelParams`` from **hard data**
 /// (the bundled pharmacology DB) plus a slim curated override layer.
 ///
-/// The split (see `Specs/effect-model-molar-calibration.md`):
+/// The split:
 ///   - **PK + transporter binding come from the resolver** (`PharmacologyParameters`): the elimination
 ///     rate `ke` from the measured half-life, the absorption rate `ka` from the measured Tmax, the
 ///     DAT/NET/SERT weight *ratios* from the measured EC₅₀/Kᵢ, and `releaser` from whether the primary

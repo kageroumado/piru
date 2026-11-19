@@ -8,7 +8,7 @@ import SwiftUI
 /// ``DepotCurveCard`` wraps it in the tool's card; ``DepotLevelsSection`` places it
 /// bare inside a list row, where the row is already the card; ``HormoneLevelsView``
 /// renders the summed serum curve through it. The zoom state is passed as bindings so
-/// the chart is decoupled from any one model (Specs/injection-levels-v3.md §2).
+/// the chart is decoupled from any one model.
 struct DepotCurveChart: View {
     let result: DepotCurveResult
     let analyte: Analyte
@@ -140,8 +140,8 @@ struct DepotCurveChart: View {
 
 /// A legend-less, non-interactive preview of a depot serum curve: the band + line
 /// with the user's reference lines and a "now" marker, axis-hidden at a fixed height.
-/// The Insights "Hormone Levels" card's inline chart (Specs/injection-levels-v3.md
-/// §2.2) — the `usageChart` treatment applied to the depot band, reading the same
+/// The Insights "Hormone Levels" card's inline chart —
+/// the `usageChart` treatment applied to the depot band, reading the same
 /// ``DepotCurveResult`` the full ``DepotCurveChart`` draws so the two never diverge.
 struct DepotCurveMiniChart: View {
     let result: DepotCurveResult

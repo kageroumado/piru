@@ -1,8 +1,8 @@
 import Foundation
 import Observation
 
-/// The retrospective serum-level model behind the Hormone Levels insight
-/// (Specs/injection-levels-v3.md §3–§4). Unlike the prediction Tool it never
+/// The retrospective serum-level model behind the Hormone Levels insight.
+/// Unlike the prediction Tool it never
 /// synthesizes a schedule: it reads the dose log grouped **per ester**, sums each
 /// ester's own depot curve into the serum total, keeps the per-ester contributions
 /// for the "assumed depot levels" display, and calibrates the whole sum to the

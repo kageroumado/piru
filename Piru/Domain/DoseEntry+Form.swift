@@ -19,7 +19,7 @@ extension DoseEntry {
     /// So the app declines. It says *what* the dose was (``productName``) and
     /// *when* it was taken (a timestamp marker), and draws no curve — rather than
     /// answering with the base form's, which is what every fallback would
-    /// otherwise do. See `Specs/psid-identity-consumption.md` LB-5.
+    /// otherwise do.
     ///
     /// **`IR` does not count.** Immediate release *is* the base form's kinetics —
     /// that is what "immediate release" means, and the base ladder every source

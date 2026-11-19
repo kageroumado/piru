@@ -7,8 +7,8 @@ import SwiftUI
 ///
 /// Recents show only here, and only until a family is picked or a query is
 /// typed. Elsewhere the main screen's Your Substances cards are the recents
-/// surface and repeating them one layer down is clutter
-/// (Specs/meds-ux-review.md §5), but focusing the field jumps the dock to
+/// surface and repeating them one layer down is clutter,
+/// but focusing the field jumps the dock to
 /// `.large` and covers those cards, so search would otherwise open on an
 /// empty page.
 ///

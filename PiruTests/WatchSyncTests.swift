@@ -3,7 +3,7 @@ import SwiftData
 import Testing
 @testable import Piru
 
-/// Stage 0 of the Apple Watch companion (`Specs/apple-watch-companion.md`): the sync
+/// Stage 0 of the Apple Watch companion: the sync
 /// substrate, exercised with simulated payloads and no watch. Pins the wire round-trips,
 /// the payload → `DoseEntry` mapping, watch→phone idempotency, and manifest assembly.
 @MainActor

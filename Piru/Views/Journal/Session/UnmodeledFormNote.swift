@@ -3,8 +3,7 @@ import SwiftUI
 /// One line, where the timeline would be, explaining why a dose here draws a dot
 /// instead of a curve: the session names a form the app declines to model
 /// (``DoseEntry/namesUnmodeledForm``). Better to withhold the timing than to draw
-/// the base form's curve under a form that doesn't follow it — see
-/// `Specs/psid-identity-consumption.md` LB-2.
+/// the base form's curve under a form that doesn't follow it.
 struct UnmodeledFormNote: View {
     enum Content: Equatable {
         /// A single form, named for the row: "the Concerta form of Methylphenidate".

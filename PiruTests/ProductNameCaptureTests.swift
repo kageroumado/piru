@@ -7,8 +7,7 @@ import Testing
 /// The bug this pins: a search for "Concerta" resolved to Methylphenidate and
 /// then threw the word away, so the committed dose was byte-identical to a
 /// Ritalin one and the XR was unrecoverable (the `substanceUID == nil` backfill
-/// gate never revisits a dose that already has a uid). See
-/// `Specs/psid-identity-consumption.md` D.1.
+/// gate never revisits a dose that already has a uid).
 @Suite("Product name capture")
 @MainActor
 struct ProductNameCaptureTests {

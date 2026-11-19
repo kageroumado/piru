@@ -6,8 +6,7 @@ import Synchronization
 /// A snapshot of tolerance state for one **mechanism class**, derived by replaying the dose log and
 /// aggregating every engaged target in that class (DAT+NET → Stimulants, all NMDA sites →
 /// Dissociatives, …). The value type the UI reads; the SwiftData ``ToleranceState`` row is
-/// its cached persistence. One card per class — the redesign's unit (see
-/// `Specs/tolerance-tool-audit-and-redesign.md`).
+/// its cached persistence. One card per class.
 nonisolated struct ClassTolerance: Hashable, Identifiable {
     let receptorClass: ReceptorClasses.ReceptorClass
     /// Acute ln-shift `sAcute ≥ 0` — within-session tachyphylaxis (the redose loop).
@@ -153,7 +152,7 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
 }
 
 /// Owns the user's **per-target tolerance state**, recomputed by replaying the dose log through
-/// ``PDModel`` — the lead thread of `Specs/pharmacology-axis-meta-plan.md`.
+/// ``PDModel``.
 ///
 /// ## Why replay, not increment
 /// Tolerance is computed by *integrating the whole dose log* on demand (like
@@ -178,8 +177,8 @@ final class ToleranceStore {
     /// the cost of replaying a long history.
     nonisolated static let defaultTimestepMinutes = 30.0
 
-    /// How far back the replay reaches — **1 year** (`Specs/tolerance-faithful-model-improvements.md`
-    /// §1, the deep carry-forward). The acute (τ ≈ hours) and adaptive (τ ≈ days–2 wk) layers self-forget
+    /// How far back the replay reaches — **1 year**
+    /// (the deep carry-forward). The acute (τ ≈ hours) and adaptive (τ ≈ days–2 wk) layers self-forget
     /// far inside this window — a dose 90 days old contributes < 2 % to adaptive and ~0 to acute — so the
     /// full year leaves them unchanged. The **deep** (τ ≈ 6–9 mo) and **synthesis** (τ ≈ 2 wk) layers need
     /// months of history to reflect real entrenchment, which is what sizes the window to a year: anything
@@ -480,8 +479,8 @@ final class ToleranceStore {
     /// exist. Empty ⇒ genuinely unmodelable (stays "can't predict yet"). Shared by ``buildClassWork``
     /// (which builds the surrogate contributors) and ``incompleteData``.
     ///
-    /// The **category** path is what rescues the RC tail (`Specs/tolerance-faithful-model-improvements.md`
-    /// §7 follow-up): a designer benzo / fluoro-amphetamine / RC opioid that ships no binding rows still
+    /// The **category** path is what rescues the RC tail:
+    /// a designer benzo / fluoro-amphetamine / RC opioid that ships no binding rows still
     /// drives its class, because its category alone identifies the mechanism. It composes with the target
     /// path, so a substance with partial bindings still picks up any category class its targets missed.
     private nonisolated static func fallbackClasses(

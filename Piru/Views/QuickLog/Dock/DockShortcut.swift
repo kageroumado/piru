@@ -3,7 +3,7 @@ import Observation
 
 // MARK: - Shortcut
 
-/// One of the idle dock's leading shortcut slots (`Specs/quick-dock-action-bar.md`).
+/// One of the idle dock's leading shortcut slots.
 /// Every case resolves to an existing route; `favorite` stages that substance
 /// in the Log sheet at its reference dose and never logs on its own.
 nonisolated enum DockShortcut: Hashable, Codable, Identifiable {

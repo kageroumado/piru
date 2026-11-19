@@ -139,8 +139,7 @@ struct UsageSectionCard<Content: View>: View {
 
 /// A Usage section that remembers whether it's open.
 ///
-/// Sections 6–9 of `Specs/usage-graphs-v2.md` are secondary insights, so they
-/// collapse — expanded on first visit, and the choice persists per section.
+/// Secondary insights collapse — expanded on first visit, and the choice persists per section.
 struct UsageCollapsibleCard<Content: View>: View {
     let title: LocalizedStringKey
     var subtitle: LocalizedStringKey?

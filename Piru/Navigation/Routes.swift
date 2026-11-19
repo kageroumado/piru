@@ -223,10 +223,10 @@ nonisolated enum PushRoute: Hashable, Codable {
     case drugClassGroup(SubstanceCategory)
     case insight(Insight)
     /// A group of related insight graphs — the middle level of the Insights
-    /// two-level push (`Specs/insights-stats-architecture.md`). Only groups with
+    /// two-level push. Only groups with
     /// more than one graph route here; a lone graph is pushed directly.
     case insightGroup(InsightGroup)
-    /// The My Meds hub — a *place*, so it pushes (Specs/meds-ux-review.md §2);
+    /// The My Meds hub — a *place*, so it pushes;
     /// `SheetRoute.dailyDoseSettings` remains for deep links and contexts
     /// without a bound stack.
     case myMeds
@@ -278,15 +278,14 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     case adherence
     case usage
     /// Predicted per-mechanism tolerance and recovery — usage statistics derived from the user's own
-    /// logged history (like Adherence and Usage), so it lives in Insights, not Tools
-    /// (`Specs/tolerance-faithful-model-improvements.md` §7).
+    /// logged history (like Adherence and Usage), so it lives in Insights, not Tools.
     case tolerance
     /// What's currently active in the body — the read-only "in your system" view.
     /// Split out from the Half-Life Calculator (`Tool.calculator`) so each screen
     /// has a single responsibility; the two cross-link to each other.
     case inSystem
     /// The historic counterpart to `inSystem`: per-substance body-load traced
-    /// across a time range (`Specs/insights-stats-architecture.md`), fed by
+    /// across a time range, fed by
     /// `BodyLevelsManager`.
     case bodyLoad
     /// The historic counterpart to `tolerance`: per-mechanism receptor load
@@ -298,7 +297,7 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// Estimated serum hormone level (estradiol / testosterone) over time, summed
     /// per logged ester and calibrated to the user's own labs — the first-class,
     /// log-driven counterpart to the prediction Tool (`Tool.injectionLevels`).
-    /// Retrospective, so it lives in Insights (`Specs/injection-levels-v3.md`).
+    /// Retrospective, so it lives in Insights.
     case hormoneLevels
     /// Record-and-model patterns for self or a clinician: days used, cumulative
     /// exposure (clinical equivalents where they exist), dose trend, and
@@ -306,7 +305,7 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     case patterns
     /// What the "did it work?" answers on session notes line up with — dose
     /// hour, amount, day of week, caffeine before it. The interpretive half of
-    /// a note, kept out of the note itself (`Specs/adhd-audience-fit-v2.md` §5).
+    /// a note, kept out of the note itself.
     case feltPatterns
     /// Export hub: multi-select sessions for batch export (images, markdown),
     /// generate a clinical PDF with key findings first and compressed

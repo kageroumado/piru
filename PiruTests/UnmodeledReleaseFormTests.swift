@@ -4,7 +4,7 @@ import Testing
 
 /// D.4 — a dose that names a form we don't model draws a marker, not a curve.
 ///
-/// See `Specs/psid-identity-consumption.md` LB-5/LB-6. The rule: a release form
+/// The rule: a release form
 /// other than the standard one is denied the base curve in
 /// `ActiveSubstanceCalculator.from(entry:)`, because it would answer with the
 /// base form's kinetics. **The exception (adhd-audience-fit):** a named ER

@@ -7,8 +7,8 @@ import Testing
 private let suiteNow = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: .now)!
 @testable import Piru
 
-/// The occurrence test matrix, re-keyed by the Meds redesign
-/// (`Specs/meds-reminders-redesign.md`): per-slot materialization, the §D
+/// The occurrence test matrix, re-keyed by the Meds redesign:
+/// per-slot materialization, the
 /// matching rules with nearest-slot claims, re-derivation (edit/delete
 /// robustness), sticky skips, end-of-day expiry, and the satisfied-slot gate
 /// the follow-ups read.
@@ -147,7 +147,7 @@ struct RoutineOccurrenceTests {
         // The med was scheduled against one PSID family and the dose logged
         // against the family it was re-pinned to. The quick-log chips credit
         // this by name; the checklist must too, or one screen reads 0/1 while
-        // the other shows a tick (`Specs/open-items.md`, b46 batch C).
+        // the other shows a tick.
         addItem("Methylphenidate", uid: "psid:41276", in: context)
         let entry = addEntry("Methylphenidate", uid: "psid:4158", in: context)
 

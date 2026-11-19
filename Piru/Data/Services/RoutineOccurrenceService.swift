@@ -1,9 +1,7 @@
 import Foundation
 import SwiftData
 
-/// The single writer of ``RoutineOccurrence`` state (design:
-/// `Specs/routine-occurrences.md`, re-keyed by the Meds redesign —
-/// `Specs/meds-reminders-redesign.md`).
+/// The single writer of ``RoutineOccurrence`` state.
 ///
 /// One occurrence per (med × time slot × day): a med with 8:00 and 13:00
 /// reminder times has two rows per due day, a med with no set times has one

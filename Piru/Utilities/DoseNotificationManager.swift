@@ -278,7 +278,7 @@ enum DoseNotificationManager {
         var quiet = false
     }
 
-    /// Reconcile the repeating med reminders (Specs/meds-reminders-redesign.md):
+    /// Reconcile the repeating med reminders:
     /// one daily calendar notification per (med × reminder time) for regular
     /// meds, and ONE grouped notification per time-of-day for quiet meds
     /// ("Morning supplements (4)", firing at the group's earliest time) — the
@@ -700,7 +700,7 @@ enum DoseNotificationManager {
     /// they follow, and fire time-sensitive when the user allows it.
     ///
     /// Quiet-tier requests cooperate with the system instead of re-implementing
-    /// it (Specs/meds-ux-review.md §3): `.passive` delivery — silent, no
+    /// it: `.passive` delivery — silent, no
     /// lock-screen wake — is the quiet contract, and it's what iOS's
     /// opt-in Scheduled Summary was built to batch. `relevanceScore` orders a
     /// summary stack: primary reminders outrank re-asks outrank quiet groups.

@@ -3,7 +3,7 @@ import SwiftUI
 
 /// Insights → Usage. A thin coordinator: it owns the time range, the metric
 /// lens, the substance filter, and the analytics model, and hands each section
-/// of `Specs/usage-graphs-v2.md` its own slice of the result.
+/// its own slice of the result.
 ///
 /// The controls live in one toolbar filter menu rather than inline above the
 /// charts, so the screen leads with data. Each section that has churning UI

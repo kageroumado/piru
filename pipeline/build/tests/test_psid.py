@@ -2,7 +2,6 @@
 
 Pure logic — no built DB needed. Covers the ISO 7064 MOD 37,36 check character
 (round-trip + error detection), the name-hash FAMILY format, and compose/parse.
-See Specs/stereoisomer-and-release-form-axes.md (Stage 0.1).
 """
 
 import sys

@@ -156,8 +156,8 @@ extension SubstanceStore {
     }
 
     /// Preparations whose pharmacology lives in an active constituent, mapped to that
-    /// compound and a **content fraction** (mg active ÷ mg preparation). See
-    /// `Specs/tolerance-plant-active-routing.md`. The logged substance keeps its own name
+    /// compound and a **content fraction** (mg active ÷ mg preparation).
+    /// The logged substance keeps its own name
     /// (the "driven by" chip still says "Kratom"); only the pharmacology rows + dose scale
     /// come from the active compound, badged at the routing's confidence because the content
     /// fraction is an estimate.

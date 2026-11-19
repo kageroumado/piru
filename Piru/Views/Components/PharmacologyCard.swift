@@ -4,7 +4,7 @@ import SwiftUI
 /// Order: a one-line headline, the prose description, a class hero (the dopamine↔serotonin slider for
 /// monoamine drugs, a receptor panel for opioids, benzodiazepines and dissociatives), the
 /// target/strength grid, and any warning flag. Receptor evidence, pharmacokinetics, and metabolism stay
-/// in their own sections (see `Specs/pharmacology-card-hybrid.md`).
+/// in their own sections.
 struct PharmacologyCard: View {
     let moa: MechanismOfAction
     let monoamine: MonoamineProfile?

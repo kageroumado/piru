@@ -4,7 +4,7 @@ import Testing
 @testable import Piru
 
 /// The routine→med fold that migrates every shipped (v2.2) user's routines
-/// onto the Meds redesign's per-med fields (`Specs/meds-reminders-redesign.md`).
+/// onto the Meds redesign's per-med fields.
 @Suite("MedsMigrator", .serialized)
 @MainActor
 struct MedsMigratorTests {

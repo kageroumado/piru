@@ -6,7 +6,7 @@ import SwiftUI
 /// between the top and bottom rows *is* the finding: the dose that no longer sedates impairs you exactly
 /// as much as day one.
 ///
-/// Design constraints (from `Specs/prototypes/benzo-tolerance/index.html`): one axis with one meaning, so
+/// Design constraints: one axis with one meaning, so
 /// rows are comparable — and the same meaning as every other tolerance bar in the app, an empty track is
 /// no tolerance; color encodes the effect's *kind* (felt vs impairment), never its rank, so re-sorting
 /// never repaints a row; grouped by outcome, not valence (Piru doesn't know whether a faded effect is a

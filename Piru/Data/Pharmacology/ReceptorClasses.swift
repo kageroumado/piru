@@ -14,8 +14,8 @@ import Foundation
 /// right-shifts the curve, spacing relaxes it; the acute layer moves within a session, the adaptive
 /// layer is the days-to-weeks baseline shift, the deep layer stays off for therapeutic users), never a
 /// precise percentage. The comment above each class's `Parameters` records its controlled-evidence
-/// anchor and grade (`Specs/tolerance-faithful-model.md` §3). The deep layer is gated on the
-/// **product of magnitude and chronicity** (§2): the dose-relative escalation factor (`dose ÷ the
+/// anchor and grade. The deep layer is gated on the
+/// **product of magnitude and chronicity**: the dose-relative escalation factor (`dose ÷ the
 /// substance's heavy ceiling`) times a leaky duty-cycle accumulator, so a one-off binge and a
 /// therapeutic daily dose both stay dark and only sustained heavy use entrenches.
 nonisolated enum ReceptorClasses {
@@ -33,8 +33,8 @@ nonisolated enum ReceptorClasses {
     /// (``deepMagnitudeThreshold``/``deepMagnitudeWidth`` on the escalation factor) × how *sustained* it
     /// is (``deepChronicityThreshold``/``deepChronicityWidth`` on the leaky duty-cycle
     /// ``chronicExposure``). Neither alone suffices: a one-off binge (heavy, not sustained) recovers; a
-    /// therapeutic daily dose (sustained, not heavy) is stable. Deep needs **both**
-    /// (`Specs/tolerance-faithful-model-improvements.md` §2). These are class-shared constants (the field
+    /// therapeutic daily dose (sustained, not heavy) is stable. Deep needs **both**.
+    /// These are class-shared constants (the field
     /// evidence doesn't support per-class chronicity knobs).
     ///
     /// Magnitude: soft-on as dosing approaches the heavy ceiling (escalation ≈ 1), ~0 well below it,
@@ -73,7 +73,7 @@ nonisolated enum ReceptorClasses {
         /// Nicotinic ACh receptors (nicotine): desensitization-driven, fast.
         case nicotinic
         /// α₂-adrenergic agonists (clonidine, guanfacine): little efficacy tolerance — a faint reading
-        /// that *hosts* the discontinuation **rebound** warning (`Specs/tolerance-faithful-model.md` §3.5).
+        /// that *hosts* the discontinuation **rebound** warning.
         case alpha2Agonist
         /// β-adrenergic antagonists (propranolol, metoprolol): little efficacy tolerance — a faint
         /// reading that *hosts* the discontinuation **rebound** warning (§3.5).
@@ -85,8 +85,8 @@ nonisolated enum ReceptorClasses {
         case unknown
 
         /// Whether the class exists only to **host a discontinuation-rebound warning** rather than
-        /// predict a meaningful tolerance curve — the adrenergics (`Specs/tolerance-faithful-model.md`
-        /// §3.5). Such a class has no PK-less class representative *by design* (there is no clean dose
+        /// predict a meaningful tolerance curve — the adrenergics.
+        /// Such a class has no PK-less class representative *by design* (there is no clean dose
         /// equivalence), so a PK-less member must not be surfaced as "incomplete tolerance data": there
         /// is no tolerance to predict, complete PK or not. A PK-complete member still produces its faint
         /// card via the normal occupancy path.
@@ -181,7 +181,7 @@ nonisolated enum ReceptorClasses {
     // MARK: - Differential safety endpoint
 
     /// A **second** effect of a class that tolerizes *differently* from the desired effect — the
-    /// differential-tolerance safety story (`Specs/tolerance-faithful-model.md` §3.1, §3.3). Two
+    /// differential-tolerance safety story. Two
     /// minimal log-space layers (acute and adaptive, without a deep layer or escalation gate) run in parallel
     /// to the primary three, driven by the *same* occupancy, so the gap between the desired effect's
     /// right-shift and this endpoint's is observable:
@@ -301,7 +301,7 @@ nonisolated enum ReceptorClasses {
         /// Deep-layer build/recover time-constant (minutes) — months.
         let tauDeepMinutes: Double
         /// Synthesis-layer ln-shift ceiling — the slow serotonin-synthesis pool that splits the SERT
-        /// releaser class onto two recovery clocks (`Specs/tolerance-faithful-model.md` §3.4). `0` ⇒
+        /// releaser class onto two recovery clocks. `0` ⇒
         /// the class has no synthesis layer, so it never accrues regardless of the per-substance flag.
         /// Only the serotonergic releaser class is non-zero; it engages only for the substances flagged
         /// ``PharmacologyParameters/suppressesSerotoninSynthesis`` (MDMA-type entactogens).
@@ -346,8 +346,8 @@ nonisolated enum ReceptorClasses {
         var occupancyHalfMaxFromTherapeuticRange = false
     }
 
-    /// The curated, literature-anchored right-shift parameters for a class
-    /// (`Specs/tolerance-faithful-model.md` §3), calibrated to the literature's *shape*; see the type
+    /// The curated, literature-anchored right-shift parameters for a class,
+    /// calibrated to the literature's *shape*; see the type
     /// doc for the confidence grading.
     static func parameters(for receptorClass: ReceptorClass) -> Parameters {
         switch receptorClass {

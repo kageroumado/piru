@@ -77,8 +77,8 @@ struct DayAdherence: Identifiable {
 }
 
 enum AdherenceCalculator {
-    /// A dose satisfies a med when the substance identity AND the route match
-    /// (Specs/meds-reminders-redesign.md, boundary semantics) — the same
+    /// A dose satisfies a med when the substance identity AND the route match —
+    /// the same
     /// substance by another route is deliberately a plain journal entry, not
     /// adherence credit. Identity joins by ``DoseEntry/identityKey`` with a
     /// lowercased-name fallback, so a PSID-resolved item still credits a

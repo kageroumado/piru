@@ -227,8 +227,8 @@ nonisolated struct PharmacologyParameters {
     /// how much constitutes "heavy").
     let referenceDoseMg: Double?
     /// Whether this substance suppresses **serotonin synthesis** (TPH), the per-substance data field
-    /// that splits the SERT releaser class onto two recovery clocks (`Specs/tolerance-faithful-model.md`
-    /// §3.4). `true` for the methylenedioxy entactogens (MDMA, MDA, …) whose metabolites down-regulate
+    /// that splits the SERT releaser class onto two recovery clocks.
+    /// `true` for the methylenedioxy entactogens (MDMA, MDA, …) whose metabolites down-regulate
     /// the synthesis machinery — recovery waits weeks (the slow synthesis pool). `false` for the
     /// cathinone releasers (mephedrone/4-MMC) which spare synthesis and reset in days on
     /// receptor/transporter resensitization alone. Resolved from the substance's
@@ -236,7 +236,7 @@ nonisolated struct PharmacologyParameters {
     /// parallel synthesis layer.
     let suppressesSerotoninSynthesis: Bool
     /// **Intrinsic efficacy** relative to a full agonist ∈ (0, 1], scaling how much *tolerance drive*
-    /// a unit of occupancy produces (`Specs/tolerance-faithful-model-improvements.md` §5c). Tolerance
+    /// a unit of occupancy produces. Tolerance
     /// is driven by occupancy, but a partial/low-efficacy agonist entrenches less per unit occupancy —
     /// so the adaptive and synthesis layers' drive is multiplied by this. `1.0` (default) for a full
     /// agonist / when unknown; curated `< 1` for the known partials (mitragynine, buprenorphine,
@@ -245,7 +245,7 @@ nonisolated struct PharmacologyParameters {
     /// Tolerance classes inferred from the substance's **pharmacological category** (benzodiazepine →
     /// GABA, opioid → μ, …), independent of binding data. Lets the missing-PK fallback model a
     /// categorized-but-untargeted substance as its class representative even when the DB ships no
-    /// receptor rows for it (`Specs/tolerance-faithful-model-improvements.md` §7 follow-up). Empty when
+    /// receptor rows for it. Empty when
     /// the substance has no category that maps to a modeled tolerance class.
     let categoryClasses: Set<ReceptorClasses.ReceptorClass>
     /// Fraction of total plasma concentration that is **unbound** (free) — `fu = 1 − proteinBinding/100`.

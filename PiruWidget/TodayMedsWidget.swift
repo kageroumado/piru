@@ -5,7 +5,7 @@ import WidgetKit
 
 // MARK: - Today's Meds Widget (interactive)
 
-/// The ambient, never-buzzing reminder surface (Specs/meds-ux-review.md §8):
+/// The ambient, never-buzzing reminder surface:
 /// today's med slots on the Home Screen, each takeable in place via
 /// ``TakeMedIntent`` — see the schedule and check a med off without opening
 /// the app. Quiet meds collapse into one "Supplements" line (mirroring

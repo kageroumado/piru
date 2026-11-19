@@ -1,8 +1,8 @@
 import Foundation
 
 /// The mechanism families that **additively** drive CNS / respiratory depression, each with a
-/// relative danger weight. This is the contributor vocabulary for the combined-depression index
-/// (`Specs/pharmacology-axis-meta-plan.md`): instead of "two depressant tags co-exist,"
+/// relative danger weight. This is the contributor vocabulary for the combined-depression index:
+/// instead of "two depressant tags co-exist,"
 /// the engine sums a time-resolved load from per-substance engagement and reports the peak and when.
 ///
 /// ## Why these weights
@@ -139,7 +139,7 @@ nonisolated struct CombinedDepressionResult {
 }
 
 /// Computes the combined CNS/respiratory-depression index — the deepest layer of the interaction
-/// de-noising work (`Specs/pharmacology-axis-meta-plan.md`).
+/// de-noising work.
 ///
 /// ## What it is
 /// For the additive depressant mechanisms it computes a **single weighted load over time**

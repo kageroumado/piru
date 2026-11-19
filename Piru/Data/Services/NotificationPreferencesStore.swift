@@ -10,7 +10,7 @@ import UserNotifications
 /// user-togglable row on the Notifications management screen.
 ///
 /// The screen listing exactly these cases *is* the contract
-/// (`Specs/notifications-system.md` §Honesty — no hidden senders): anything a
+/// (no hidden senders): anything a
 /// scheduler can fire must have a case here, and its schedule path must gate
 /// on ``NotificationPreferencesStore/allows(_:defaults:)``.
 nonisolated enum NotificationType: String, CaseIterable, Identifiable {

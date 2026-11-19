@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// D.3 — one resolver, one precedence (`Specs/psid-identity-consumption.md` LB-3):
+/// D.3 — one resolver, one precedence:
 /// relabel → product name → composed form title → snapshot → raw.
 @Suite("Dose title")
 @MainActor

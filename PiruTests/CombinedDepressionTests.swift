@@ -93,7 +93,7 @@ struct CombinedDepressionReducerTests {
 /// ``CombinedDepression/analyze(entries:now:weightKg:timestepMinutes:)``. Proves the index ranks the
 /// already-encoded dangerous pairs (opioid+benzo, opioid+alcohol) into the dangerous band, degrades
 /// gracefully to the effect-shape surrogate for substances without occupancy data, and never fires on
-/// a non-depressant pair. (`Specs/pharmacology-axis-meta-plan.md`, Stage 3b.)
+/// a non-depressant pair.
 @Suite("CombinedDepression end-to-end")
 @MainActor
 struct CombinedDepressionEndToEndTests {

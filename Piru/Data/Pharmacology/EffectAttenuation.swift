@@ -81,8 +81,7 @@ nonisolated struct EffectAttenuationResult: Identifiable {
     }
 }
 
-/// Computes predicted **effect attenuation** — the sign-flipped interaction readout
-/// (`Specs/pharmacology-axis-meta-plan.md`).
+/// Computes predicted **effect attenuation** — the sign-flipped interaction readout.
 ///
 /// ## What it is, and what it is NOT
 /// Some "warnings" in other apps are really *blunting*, not danger: a chronic SSRI competes for SERT

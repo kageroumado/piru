@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Predicted **combination-metabolite** note — surfaced when two onboard substances react to form a
-/// third active species (`Specs/pharmacology-axis-meta-plan.md`, Stage 4d), such as cocaethylene
+/// third active species, such as cocaethylene
 /// (cocaine + alcohol). Caution styling, between calm and danger: the combination puts real extra
 /// strain on the heart and liver, and the copy defuses the "18–25× sudden death" myth the evidence
 /// rejects. Always "predicted (model, confidence)", never a fabricated number.

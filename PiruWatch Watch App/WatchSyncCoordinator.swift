@@ -5,7 +5,7 @@ import WatchConnectivity
 
 private let watchLog = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Piru", category: "WatchSync")
 
-/// The watch half of the sync (`Specs/apple-watch-companion.md`). Reads the favorites/recents
+/// The watch half of the sync. Reads the favorites/recents
 /// manifest the phone pushes (OS-persisted in `receivedApplicationContext`, so it survives the
 /// watch sleeping) and queues each logged dose for **guaranteed** delivery via `transferUserInfo`.
 /// The watch holds no store — WCSession's own OS state is the only persistence it needs.

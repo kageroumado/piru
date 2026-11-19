@@ -2,7 +2,7 @@ import Foundation
 
 /// The **metabolic-modulation graph** — curated edges where something (a co-active drug, a lifestyle
 /// context, or the substance itself) changes how fast another drug is *cleared*, by inhibiting or
-/// inducing the metabolic enzyme that clears it (`Specs/pharmacology-axis-meta-plan.md`). It is the clearance-axis sibling of ``ToleranceModulation`` (which scales tolerance
+/// inducing the metabolic enzyme that clears it. It is the clearance-axis sibling of ``ToleranceModulation`` (which scales tolerance
 /// development `μ`): same idea, but the modulated parameter is metabolism.
 ///
 /// ## Readout-only (v1)

@@ -2,8 +2,8 @@ import Foundation
 
 /// What to call a logged dose.
 ///
-/// The one place the title precedence lives (`Specs/psid-identity-consumption.md`
-/// LB-3). Every in-app surface that renders a dose's name resolves here, so the
+/// The one place the title precedence lives.
+/// Every in-app surface that renders a dose's name resolves here, so the
 /// journal, session detail, entry detail, the Live Activity, and the PDF all
 /// answer the same question the same way.
 ///

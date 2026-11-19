@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 11-OH-THC readout for cannabis (`Specs/pharmacology-axis-meta-plan.md`, Stage 5), shown only on oral
+/// 11-OH-THC readout for cannabis, shown only on oral
 /// entries (edibles, oils, capsules; the caller gates it). First-pass metabolism converts much of the
 /// swallowed Δ9-THC to 11-hydroxy-THC, which enters the brain more readily and binds CB1 more strongly
 /// than the parent (Kᵢ ≈ 0.37 nM vs ≈ 25 nM). That is why an edible feels stronger per milligram than

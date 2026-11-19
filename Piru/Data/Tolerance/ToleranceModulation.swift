@@ -2,7 +2,7 @@ import Foundation
 import os
 
 /// The **tolerance-modulation graph** — curated edges where one substance, while onboard, *changes how
-/// fast another mechanism builds tolerance* (`Specs/pharmacology-axis-meta-plan.md`). This is
+/// fast another mechanism builds tolerance*. This is
 /// the `μ_R(t)` factor in the availability ODE
 /// ```
 /// dA_R/dt = (1 − A_R)/τ_R − κ_R · O_R(t) · A_R · μ_R(t)

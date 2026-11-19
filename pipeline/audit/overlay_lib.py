@@ -415,8 +415,7 @@ def inchikey_duplicates(db: dict) -> list[dict]:
 # its stereo code + display name relative to the racemate/parent. Order matters:
 # longer/more-specific prefixes first. This only SEEDS the curated fold map — a
 # human confirms each family (some connectivity-block twins are regioisomers or
-# false InChIKey collisions, NOT enantiomers to fold). See
-# Specs/stereoisomer-and-release-form-axes.md.
+# false InChIKey collisions, NOT enantiomers to fold).
 _ISOMER_PREFIXES = [
     ("es", "S"),  # Esketamine, Escitalopram, Eszopiclone
     ("ar", "R"),  # Armodafinil

@@ -201,7 +201,7 @@ enum AppLaunch {
         // Meds redesign cutover: fold the routine layer (time,
         // remind, follow-up cadence) into per-med fields once.
         // Runs before the reminder sync so folded state is what
-        // gets scheduled. See Specs/meds-reminders-redesign.md.
+        // gets scheduled.
         MedsMigrator.foldRoutinesIfNeeded(context: container.mainContext)
     }
 

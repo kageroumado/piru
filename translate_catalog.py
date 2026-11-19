@@ -222,8 +222,7 @@ T = {
         "协调性可能在你察觉之前就已下降，增加在楼梯上和厨房里发生意外的风险。",
         "協調性可能在你察覺之前就已下降，增加在樓梯上和廚房裡發生意外的風險。",
     ),
-    # Check-in lenses, the derived ladder, and the "did it work?" scale
-    # (Specs/adhd-audience-fit-v2.md §5).
+    # Check-in lenses, the derived ladder, and the "did it work?" scale.
     "Did it work?": ("起效了吗？", "起效了嗎？"),
     "Is it working?": ("现在起效了吗？", "現在起效了嗎？"),
     "Less than usual": ("比平时弱", "比平時弱"),

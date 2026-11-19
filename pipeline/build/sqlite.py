@@ -137,7 +137,7 @@ MECHANISMS = REPO / "data/curated/mechanisms.json"
 CLASS_MECHANISMS = REPO / "data/curated/class-mechanisms.json"
 # Piru's own one-sentence mechanism line for each Pyrls medication no curated
 # mechanism covers, keyed by Pyrls record name. Pyrls prose is read as evidence
-# and never shipped — its terms forbid copying (Specs/reference/pyrls-licence.md).
+# and never shipped: its terms forbid copying.
 # pipeline/audit/claim_language.py gates the wording.
 MECHANISM_LINES = REPO / "data/curated/mechanism-lines.json"
 #: MedTAP records whose label mechanism prose Piru ships nothing in place of.
@@ -1192,7 +1192,7 @@ CREATE TABLE sources (
 -- pipeline/build/sqlite.py, which is where the reason for each row is written.
 --
 -- Consulted by the descriptions, doses and durations resolvers, each joining on
--- its own field name. A resolver that wants to honour an override has to join
+-- its own field name. A resolver that wants to honor an override has to join
 -- this table deliberately, so adding a row here cannot move a field nobody
 -- meant to move.
 CREATE TABLE source_field_priority (
@@ -1233,13 +1233,11 @@ CREATE TABLE substances (
     smiles          TEXT,
     formula         TEXT,
     molecular_weight REAL,
-    -- Physicochemical / forensic properties (Workstream 1). NULL = unknown.
-    -- Predicted/computed or rodent-assay values, NOT clinical — every populated
-    -- value carries its source/citation elsewhere and the app badges them as
-    -- forensic (logP/pKa often computed, e.g. PubChem XLogP; LD50 is rodent and
+    -- Physicochemical / forensic properties. NULL = unknown.
+    -- Predicted/computed or rodent-assay values, NOT clinical: the app badges
+    -- them as forensic (logP is computed, e.g. PubChem XLogP; LD50 is rodent and
     -- shown order-of-magnitude with species/route, never as a "safe dose").
-    -- Columns are added here (Stage 0); the extractors that fill them land in
-    -- Stage 1 (extend extract_nps() + widen fetch_pubchem_properties.py).
+    -- Filled by ingest_nps() and apply_pubchem_computed().
     logp                  REAL,    -- octanol/water partition coefficient (lipophilicity)
     tpsa                  REAL,    -- topological polar surface area (Å²)
     hba                   INTEGER, -- hydrogen-bond acceptor count
@@ -1264,8 +1262,9 @@ CREATE TABLE substances (
     popularity REAL NOT NULL DEFAULT 0,
     -- 1 when this substance carries NO dose_ranges, NO durations, and NO
     -- protocol_dosing rows from any source — a bare catalog stub (mostly medtap
-    -- regulatory entries). The app can demote/badge these (cf. Substance.has
-    -- NoDoseData). Baked by flag_dose_less_stubs(); 0 = has at least one ladder.
+    -- regulatory entries). The app can demote/badge these (cf.
+    -- Substance.hasNoDoseData). Baked by flag_dose_less_stubs(); 0 = has at least
+    -- one ladder.
     is_stub INTEGER NOT NULL DEFAULT 0,
     -- Canonical drug.community page slug (slugify of that source's drug_name),
     -- captured during ingest. drug.community's /drug/<slug> page resolves ONLY
@@ -1302,9 +1301,8 @@ CREATE TABLE substances (
     pk_reference_name       TEXT,
     pk_reference_fields     TEXT,
     pk_reference_confidence TEXT,
-    -- PSID FAMILY (Piru Substance ID skeleton) — the stable, rebuild-invariant
-    -- identity key (Stage 0.1, Specs/stereoisomer-and-release-form-axes.md). A
-    -- 14-char InChIKey block-1 when that block is unique+trusted, else a
+    -- PSID FAMILY (Piru Substance ID skeleton): the stable, rebuild-invariant
+    -- identity key. A 14-char InChIKey block-1 when that block is unique+trusted, else a
     -- sentinel-digit name-hash (see pipeline/psid.py). NOT unique per row:
     -- stereoisomer-family siblings (Ketamine/Esketamine) share a FAMILY and are
     -- distinguished by the form facets. Assigned by assign_substance_uids() and
@@ -1326,8 +1324,7 @@ CREATE TABLE substances (
     -- from data/curated/drug-classes.json. The free `tags` carry the same idea in
     -- four spellings and two granularities ("SSRI" and "ssri", "TCA" and
     -- "tricyclic antidepressant"), which no card can key off; this is the field
-    -- that can. NULL for everything not yet classified — today, antidepressants
-    -- only. `drug_class_ambiguous` marks the assignments the classifier itself
+    -- that can. NULL where drug-classes.json has no entry. `drug_class_ambiguous` marks the assignments the classifier itself
     -- called contestable (bupropion, mirtazapine, tianeptine, ketamine …), so a
     -- UI can hedge rather than assert.
     drug_class              TEXT,
@@ -1367,7 +1364,7 @@ CREATE TABLE aliases (
     -- every script regardless of app language.
     locale           TEXT,
     source_id        INTEGER REFERENCES sources(id),
-    -- Form-facet annotation (Stage A+): the structured form an alias *names*, so a
+    -- Form-facet annotation: the structured form an alias *names*, so a
     -- resolver (and the once-only DoseEntry backfill) can recover it from a logged
     -- string. "Focalin"/"Dexmethylphenidate" → isomer='D'; "Concerta"/"Adderall XR"
     -- → release_form='XR'; "Focalin XR" → BOTH (isomer='D', release_form='XR'). All
@@ -1384,13 +1381,14 @@ CREATE TABLE aliases (
     isomer           TEXT,
     salt_form        TEXT,
     release_form     TEXT,
-    -- Name provenance (D.1.7): 'brand' for a marketed product name (Vyvanse,
-    -- Ritalin, Concerta), NULL for everything else. Lets the display layer lead
-    -- the "Also known as" subtitle with the names people recognize instead of the
-    -- alphabetically-first chemical synonym. Populated by annotate_alias_facets()
-    -- from the form-map brand lists + curated brands.json; only 'brand' is seeded
-    -- (the full chemical/abbreviation/street/regional taxonomy is deferred). Not a
-    -- facet and not a lookup key — display ordering only.
+    -- What kind of name this is: 'brand' for a marketed product name (Vyvanse,
+    -- Ritalin, Concerta), or street, chemical, generic, product, abbreviation,
+    -- code, combination, distinct_substance and the like; NULL when unclassified.
+    -- Lets the display layer lead the "Also known as" subtitle with the names
+    -- people recognize. 'brand' comes from annotate_alias_facets() (form-map brand
+    -- lists + curated brands.json); the rest from apply_alias_kinds()
+    -- (data/curated/alias-kinds.json). Not a facet and not a lookup key: display
+    -- ordering only.
     kind             TEXT,
     -- Naming authority for generic (nonproprietary) names: INN, USAN, BAN, JAN,
     -- national, historical, common. NULL for non-generic kinds.
@@ -1403,7 +1401,7 @@ CREATE TABLE aliases (
     -- (brands.json — the name people know best, e.g. Ritalin), 1 = an auto-derived
     -- form-map brand (a release/isomer product like Concerta/Focalin), NULL for a
     -- non-brand. Lets the subtitle lead with the iconic base brand instead of the
-    -- alphabetically-first product, which alphabetical-among-brands still buried.
+    -- alphabetically-first product.
     brand_rank       INTEGER,
     -- 1 when a lookup of `alias_normalized` resolves to this row's substance.
     -- Always 1 for a key one substance owns. A key several substances claim
@@ -1415,7 +1413,7 @@ CREATE TABLE aliases (
 );
 CREATE INDEX idx_aliases_normalized ON aliases(alias_normalized);
 
--- Enumerated valid *forms* per substance (Stage A) — one row per distinct
+-- Enumerated valid *forms* per substance: one row per distinct
 -- (substance_uid, stereo, salt, release) facet combination the catalog knows,
 -- with its composed check-valid PSID and the display name to title it. The
 -- single source both the QuickLog named-product picker and the migration's
@@ -1516,11 +1514,10 @@ CREATE TABLE ester_pk (
     caution      TEXT
 );
 
--- Marketed products the box scanner identifies by barcode (Specs/box-scanner-
--- tool.md): a brand + strength + form under a substance the catalog knows, one
--- row per distinct product — every repackager's listing of the same
--- brand/strength/form shares it, which is what keeps 47k registry listings to
--- a third as many rows. `psid` is the substance's base-form PSID (composed from
+-- Marketed products the box scanner identifies by barcode: a brand + strength +
+-- form under a substance the catalog knows, one row per distinct product. Every
+-- repackager's listing of the same brand/strength/form shares it, which keeps
+-- the table a fraction of the registry's size. `psid` is the substance's base-form PSID (composed from
 -- substance_uid; NULL when the row has no uid). `source` and `country` name the
 -- registry ('openfda-ndc'/'US', 'bdpm'/'FR'). Strength/form/route are the
 -- registry's own strings, shown as read; nothing here drives pharmacology,
@@ -1544,7 +1541,7 @@ CREATE INDEX idx_coded_products_substance ON coded_products(substance_id);
 -- key (see pipeline/product_codes.py). `code_kind` says which: 'ndc' | 'upc' |
 -- 'cip13'. `pack_count`/`pack_unit` are the registry's package contents
 -- (30 'tablet', 118 'mL'); NULL when the description names only a container.
--- `code` is the rowid alias, so ~100k rows cost a few MB and no extra index.
+-- `code` is the rowid alias, so the table needs no extra index.
 CREATE TABLE product_codes (
     code        INTEGER PRIMARY KEY,
     code_kind   TEXT NOT NULL,
@@ -1566,7 +1563,7 @@ CREATE INDEX idx_categories_category ON categories(category);
 -- category. Lets an intentionally cross-class compound surface under more than
 -- one family (e.g. Tianeptine under both Antidepressant and Opioid). Curated-
 -- only, written from a file's `extraCategories`. The PRIMARY category (card
--- colour/icon, default home) stays the resolved `categories` winner; these are
+-- color/icon, default home) stays the resolved `categories` winner; these are
 -- purely additive browse membership. Auto-reassigned on merge via substance_id.
 CREATE TABLE browse_extra_categories (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -1606,16 +1603,14 @@ CREATE TABLE dose_ranges (
     salt_form     TEXT,
     -- Curated default-salt ordering for multi-salt families (0 = the default the
     -- app should pre-select; 1, 2, … = the rest). NULL for single-form / non-salt
-    -- rows. Data-driven intent replacing the loader's alphabetical accident; the
-    -- loader consumes it in a later workstream (WS-2b) — until then the app still
-    -- defaults alphabetically, so this column is forward-looking metadata.
+    -- rows. The app's route resolution orders salts by this, then by label.
     salt_rank     INTEGER,
     -- Mass fraction of the elemental metal in this salt (e.g. Magnesium Citrate
     -- ≈ 0.16 means 1000 mg of the citrate salt ≈ 160 mg elemental Mg). NULL for
     -- everything that isn't an elemental-mineral salt row. Lets the app surface
     -- "= ⟨elemental⟩ mg elemental Mg" alongside the salt dose.
     elemental_fraction REAL,
-    -- Stereoisomer facet (Stage A). NULL = racemate/unspecified; else the stored
+    -- Stereoisomer facet. NULL = racemate/unspecified; else the stored
     -- CIP/rotation code that drives dedup + the PSID `<stereo>` field: D, L, R, S.
     -- A folded enantiomer's dose ladder rides under the parent tagged here, so
     -- Focalin (isomer='D') coexists with racemic Methylphenidate (isomer NULL).
@@ -1654,7 +1649,7 @@ CREATE TABLE durations (
     min_minutes   REAL NOT NULL,
     max_minutes   REAL NOT NULL,
     salt_form     TEXT,
-    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer. Lets a resolved
+    -- Stereoisomer facet; see dose_ranges.isomer. Lets a resolved
     -- enantiomer carry its own distinct duration profile (e.g. armodafinil).
     isomer        TEXT,
     citation_id   INTEGER REFERENCES citations(id)
@@ -1699,7 +1694,7 @@ CREATE TABLE durations_of_action (
     min_minutes   REAL NOT NULL,
     max_minutes   REAL NOT NULL,
     salt_form     TEXT,
-    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer.
+    -- Stereoisomer facet; see dose_ranges.isomer.
     isomer        TEXT,
     citation_id   INTEGER REFERENCES citations(id)
 );
@@ -1718,10 +1713,9 @@ CREATE TABLE half_lives (
     half_life_minutes REAL NOT NULL,
     -- The range the source states, when it states one rather than a point
     -- value: "4 to 26 hours" is stored as its own two ends and shown that way.
-    -- A point value leaves both NULL. Picking a single number out of a range
-    -- was how half-lives like clozapine's came to claim a precision no source
-    -- has; `half_life_minutes` carries sqrt(min*max) instead, which is the
-    -- midpoint on the log scale elimination actually runs on.
+    -- A point value leaves both NULL. Never pick one number out of a range: it
+    -- claims a precision no source has. `half_life_minutes` carries
+    -- sqrt(min*max), the midpoint on the log scale elimination runs on.
     half_life_min_minutes REAL,
     half_life_max_minutes REAL,
     notes             TEXT,
@@ -1734,8 +1728,7 @@ CREATE TABLE half_lives (
 -- Text-bearing tables carry a BCP-47 `language` tag ('en' | 'zh-Hans' |
 -- 'zh-Hant' | 'und') and a `machine_translated` flag so the app can resolve
 -- text locale-first (a Chinese source wins when the app runs in Chinese) and
--- mark machine-translated prose. All pre-existing sources are English, so the
--- columns default to ('en', 0). `language` is part of mechanisms_summary's PK
+-- mark machine-translated prose. The columns default to ('en', 0). `language` is part of mechanisms_summary's PK
 -- so one source can hold both a zh original and an en translation.
 CREATE TABLE mechanisms_summary (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -1748,15 +1741,12 @@ CREATE TABLE mechanisms_summary (
     PRIMARY KEY (substance_id, source_id, language)
 );
 
--- Controlled effect vocabulary (Track 1 of the localization workstream). The
--- high-leverage localization win: instead of translating "Anxiety" once per
--- occurrence across hundreds of substances, there is ONE canonical effect with
--- one translated label set, and every raw effects.text points at it via
--- effects.vocab_id (populated by the Stage 2 fuzzy matcher). Kept as DATA (not a
--- closed Swift enum) so adding an effect ships in the DB with no app rebuild.
--- The canonical set seeds from PsychonautWiki's SEI (English labels + the
--- existing PW effect→category map); FreeODwiki 药效 supplies zh-Hans ~1:1;
--- zh-Hant derives from zh-Hans. Tables added Stage 0 (empty); seeded Stage 2.
+-- Controlled effect vocabulary: ONE canonical effect with one translated label
+-- set, instead of translating "Anxiety" once per substance. Raw effects.text
+-- points at it via effects.vocab_id. Kept as data in the DB, so adding an
+-- effect needs no app change. The canonical set comes from PsychonautWiki's SEI
+-- (English labels + the PW effect→category map); FreeODwiki 药效 supplies
+-- zh-Hans; zh-Hant derives from zh-Hans. Seeded by seed_effect_vocab().
 CREATE TABLE effect_vocab (
     vocab_id  TEXT PRIMARY KEY,   -- stable slug, e.g. 'anxiety', 'visual_geometry'
     category  TEXT                 -- PsychonautWiki/SEI grouping (joins the PW category map)
@@ -1784,12 +1774,11 @@ CREATE TABLE effects (
     effect_category TEXT,
     language        TEXT NOT NULL DEFAULT 'en',
     machine_translated INTEGER NOT NULL DEFAULT 0,
-    -- Controlled-vocabulary reference (Track 1). When the build-time fuzzy
-    -- matcher (Stage 2) maps this raw `text` to a canonical effect_vocab entry,
-    -- it records the slug here; the app then renders the localized vocab label
-    -- for the current UI language for EVERY substance, even English-only-source
-    -- ones. NULL when no match clears the threshold — `text` stays the raw
-    -- fallback (no-silent-caps). Column added Stage 0; matcher populates Stage 2.
+    -- Controlled-vocabulary reference: the effect_vocab slug this raw `text`
+    -- normalizes to (effect_vocab.vocab_id_for). The app renders the localized
+    -- vocab label for the current UI language for every substance, even
+    -- English-only-source ones. NULL when nothing matches; `text` then stays the
+    -- raw fallback (no-silent-caps).
     vocab_id        TEXT REFERENCES effect_vocab(vocab_id),
     citation_id     INTEGER REFERENCES citations(id)
 );
@@ -1807,8 +1796,7 @@ CREATE TABLE subjective_effects (
     -- Controlled-vocabulary reference, same role as `effects.vocab_id`: the app
     -- renders the vocab label for the CURRENT ui language and falls back to the
     -- raw `name`. Rows are stored per language, so without this a substance
-    -- whose only source is Chinese has nothing to show an English reader — which
-    -- is exactly what happened to LSD, Psilocybin and 75 others. NULL = the name
+    -- whose only source is Chinese has nothing to show an English reader. NULL = the name
     -- resolved to no canonical effect; it then renders only in its own language.
     vocab_id     TEXT REFERENCES effect_vocab(vocab_id),
     citation_id  INTEGER REFERENCES citations(id)
@@ -1818,8 +1806,8 @@ CREATE INDEX idx_subjective_vocab     ON subjective_effects(vocab_id) WHERE voca
 
 -- SubFxOnEx subjective-effects ontology (drug.community, LGPL-2.1): the
 -- descriptor vocabulary on session notes. Substance-independent, so it has no
--- substance_id. `kind` is 'rollup' (21 top-level groups, one per domain,
--- parent_id NULL) or 'atomic' (485 concepts, each under one rollup). `position`
+-- substance_id. `kind` is 'rollup' (a top-level group, one per domain,
+-- parent_id NULL) or 'atomic' (a concept under one rollup). `position`
 -- is the release's display order. Ids are the release's own UUIDs — a note
 -- stores them, so they must survive every rebuild unchanged.
 CREATE TABLE subjective_effect_concepts (
@@ -1891,8 +1879,8 @@ CREATE TABLE reported_effects (
 CREATE INDEX idx_reported_effects_substance ON reported_effects(substance_id);
 
 -- Long-form substance overview prose ("what it is / history / risk profile"),
--- distinct from mechanisms_summary (pharmacology). Currently fed only by
--- FreeOD Wiki; the app shows it in an "Overview" section, locale-first.
+-- distinct from mechanisms_summary (pharmacology). The app shows it in an
+-- "Overview" section, locale-first.
 CREATE TABLE descriptions (
     id           INTEGER PRIMARY KEY,
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -1939,7 +1927,7 @@ CREATE TABLE bindings (
     -- for hand-curated bindings that carry no numeric Ki. The app's displayed
     -- tier is COALESCE(affinity_tier, tier-derived-from-ki_nm) so curated rows
     -- keep their intended emphasis without faking a numeric Ki. NULL for
-    -- measured rows (those rank by ki_nm). Added with the MOA relocation.
+    -- measured rows (those rank by ki_nm).
     affinity_tier          INTEGER,
     -- Black-Leff operational efficacy (tau) expressed as a ratio to the reference
     -- agonist's tau measured in the SAME experiment. This is intrinsic efficacy
@@ -2072,8 +2060,8 @@ CREATE TABLE concentration_effects (
     substance_id        INTEGER NOT NULL REFERENCES substances(id),
     source_id           INTEGER NOT NULL REFERENCES sources(id),
     effect              TEXT NOT NULL,
-    -- Machine-readable role of the row, or NULL for a descriptive row. The only
-    -- value so far is 'therapeutic_range': the TDM reference range, whose lower
+    -- Machine-readable role of the row, or NULL for a descriptive row.
+    -- 'therapeutic_range' is the TDM reference range, whose lower
     -- bound is the concentration at which the drug's effect is present. The
     -- tolerance engine reads it as the occupancy half-max for classes whose
     -- binding Ki sits far below the concentrations that act (gabapentinoids).
@@ -2090,8 +2078,7 @@ CREATE TABLE metabolism (
     source_id                        INTEGER NOT NULL REFERENCES sources(id),
     enzyme                           TEXT NOT NULL,
     -- The ENZYME's share of the parent's clearance. NOT how much metabolite
-    -- appears — that is formation_fraction_pct below. The two were conflated
-    -- before the metabolite columns existed.
+    -- appears; that is formation_fraction_pct below.
     fraction_of_clearance_pct        REAL,
     metabolite_name                  TEXT,
     -- The metabolite AS A SUBSTANCE, when we already carry it as one. Most of
@@ -2112,9 +2099,9 @@ CREATE TABLE metabolism (
     metabolite_potency_vs_parent_pct REAL,
     -- What metabolite_potency_vs_parent_pct MEANS: 'clinical' | 'receptor_affinity'
     -- | 'in_vitro' | 'unknown'. Required whenever a potency is present, because
-    -- the column silently mixed units: tramadol -> M1 read 20000% from a source
-    -- reporting "~200x higher MOR affinity", which is an affinity ratio, not a
-    -- clinical potency. Any model multiplying by this column must branch on the
+    -- sources mix bases: "~200x higher MOR affinity" for tramadol -> M1 is 20000%
+    -- as an affinity ratio, not a clinical potency. Any model multiplying by
+    -- this column must branch on the
     -- basis (or refuse anything that is not 'clinical').
     metabolite_potency_basis         TEXT,
     -- WHICH TARGET the potency ratio was measured at ('MOR', 'NET', 'SERT',
@@ -2244,7 +2231,7 @@ CREATE TABLE class_citations (
 
 -- A safety warning a class declares for every member, from
 -- data/curated/class-warnings.json. It reaches the substances with no rows of
--- their own: 37 of 54 phenethylamine psychedelics carry no 5-HT2B measurement,
+-- their own: most phenethylamine psychedelics carry no 5-HT2B measurement,
 -- so a warning derived from bindings alone never shows on them.
 --
 -- `kind` is a closed vocabulary the app switches on ('valvulopathy-5ht2b').
@@ -2357,7 +2344,7 @@ CREATE TABLE tolerance_modulation (
 -- Build-only: dropped before the database is sealed, so no indication text
 -- reaches the app. It survives the build because `assign_dose_contexts` uses
 -- "this compound has a label indication" to tell a therapeutic curated dose
--- ladder from a recreational one, and `regulatory_status` alone misses fifteen
+-- ladder from a recreational one, and `regulatory_status` alone misses
 -- compounds that carry a plainly clinical ladder.
 CREATE TABLE indications (
     id           INTEGER PRIMARY KEY,
@@ -2419,7 +2406,7 @@ CREATE TABLE protocol_dosing (
     course_duration TEXT,
     notes           TEXT,
     salt_form       TEXT,
-    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer.
+    -- Stereoisomer facet; see dose_ranges.isomer.
     isomer          TEXT,
     citation_id     INTEGER REFERENCES citations(id)
 );
@@ -2441,13 +2428,13 @@ CREATE TABLE substance_citations (
 CREATE INDEX idx_substance_citations_substance ON substance_citations(substance_id);
 
 -- 2D skeletal-diagram coordinates for the Chemistry card's molecule hero.
--- Generated offline from the substance's `smiles` via OpenBabel (--gen2d);
--- see molecule_shapes.py. Purely derived data (no source_id — it isn't
--- "sourced" from any of our datasources, it's computed by us at build time).
+-- Computed at build from the substance's `smiles` with RDKit's CoordGen
+-- depiction, then reoriented and normalized (pipeline/build/molecule_shapes.py).
+-- Derived data, so it has no source_id.
 -- `atoms_json` = [{"el": "C", "x": .., "y": ..}, ...] (0-indexed, matching
 -- bond indices); `bonds_json` = [{"a": i, "b": j, "order": 1|2|3}, ...].
--- Coordinates already live in a 0..100 screen-space box (Y grows downward) —
--- the renderer draws them directly, no further transform needed.
+-- Coordinates live in a 0..100 screen-space box (Y grows downward), which the
+-- renderer draws directly.
 CREATE TABLE molecule_shapes (
     id           INTEGER PRIMARY KEY,
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -2462,7 +2449,7 @@ CREATE TABLE manifest (
     value TEXT NOT NULL
 );
 
--- The recognisable names a comparison is drawn against, ordered, per family. Every
+-- The recognizable names a comparison is drawn against, ordered, per family. Every
 -- consumer filters by `family`, so a family answers to exactly one screen: the
 -- signature families (muOpioid, serotonin, …) label a binding axis, and
 -- `benzodiazepine` is the duration ladder's rungs.
@@ -2482,7 +2469,7 @@ CREATE TABLE class_reference_compounds (
 -- research-chemical benzo carrying only a dose ladder still accrues GABA tolerance.
 --
 -- Distinct from class_reference_compounds, which is an ordered display list of
--- recognisable names for the signature axis. This is a single canonical surrogate
+-- recognizable names for the signature axis. This is a single canonical surrogate
 -- per class, and its identity changes what the tolerance engine computes. One row
 -- per class: receptor_class is the PRIMARY KEY.
 CREATE TABLE class_representatives (
@@ -2504,15 +2491,6 @@ CREATE TABLE substance_flags (
 );
 CREATE INDEX idx_substance_flags_flag ON substance_flags(flag);
 
--- Which spelling of a substance's name to SHOW, by device region. The database
--- stores one canonical name and keeps the other spelling as a searchable alias;
--- this table only decides presentation, so search recall is identical everywhere.
---
--- The split is genuinely per-drug and cannot be reduced to a global "US vs rest"
--- flag: the US, Canada and Japan all say "acetaminophen", but only the UK and
--- Commonwealth say "oestradiol", and "albuterol" is US-only. It also cannot live
--- in `aliases`: that table is keyed (substance_id, alias) with a single `locale`,
--- so it cannot say that one spelling belongs to three regions at once.
 -- Oral morphine-milligram-equivalent (MME) conversion factors: morphine-mg per
 -- 1 mg of the named opioid. The opioid counterpart of diazepam_equivalents, and
 -- read the same way — by the converter tool and by the tolerance engine's
@@ -2563,6 +2541,15 @@ CREATE TABLE intrinsic_efficacy (
     PRIMARY KEY (substance_id, source_id)
 );
 
+-- Which spelling of a substance's name to SHOW, by device region. The database
+-- stores one canonical name and keeps the other spelling as a searchable alias;
+-- this table only decides presentation, so search recall is identical everywhere.
+--
+-- The split is per-drug and cannot be reduced to a global "US vs rest" flag: the
+-- US, Canada and Japan all say "acetaminophen", but only the UK and Commonwealth
+-- say "oestradiol", and "albuterol" is US-only. It also cannot live in
+-- `aliases`: that table is keyed (substance_id, alias) with a single `locale`,
+-- so it cannot say that one spelling belongs to three regions at once.
 CREATE TABLE regional_names (
     substance_id      INTEGER PRIMARY KEY REFERENCES substances(id),
     -- Shown by default, everywhere outside `alternate_regions`.
@@ -2597,11 +2584,11 @@ CREATE TABLE localized_names (
 -- One curated rule: a perpetrator inhibits or induces one metabolic enzyme, at
 -- one qualitative magnitude. The substrate side is NOT stored — it is derived by
 -- joining `metabolism.enzyme`, so a single row reaches every substance that
--- enzyme clears (152 for CYP3A4) and a newly-added substrate needs no curation.
+-- enzyme clears and a newly-added substrate needs no curation.
 --
 -- That derivation is what separates this from `drug_interactions_pk`, which
 -- records one documented perpetrator/victim pair each carrying its own measured
--- effect. Writing these ten rules as pairs would mean materialising the cross
+-- effect. Writing these rules as pairs would mean materializing the cross
 -- product and re-curating it on every substance import.
 --
 -- `substance_id` is NULL whenever the perpetrator is not a substances row of its
@@ -2657,7 +2644,7 @@ CREATE TABLE combination_metabolites (
 --
 -- `aliases` is keyed (substance_id, alias) and answers "what else is this
 -- compound called". These rows answer a different question and often cannot be
--- keyed on a substance at all: four enzyme modulators have no substances row,
+-- keyed on a substance at all: some enzyme modulators have no substances row,
 -- armodafinil's names sit on Modafinil's row so keying there would merge two
 -- rules, and a combination precursor is a POSITION in a reaction rather than
 -- another name for a drug. `relation` keeps those questions apart; merging them
@@ -2713,7 +2700,7 @@ CREATE INDEX idx_tei_victim      ON tag_enzyme_interactions(victim_id);
 --
 -- `citation_id` is nullable and a NULL is not an oversight: a band whose windows
 -- the cited review does not state must say so in `notes` instead of borrowing a
--- citation from the review's neighbouring claims.
+-- citation from the review's neighboring claims.
 CREATE TABLE withdrawal_timing_bands (
     -- short | intermediate | long
     band                  TEXT PRIMARY KEY,
@@ -2724,7 +2711,7 @@ CREATE TABLE withdrawal_timing_bands (
     -- Nullable on purpose. Onset by half-life class has no source that survives
     -- checking: NAV26 Sec. 5.4's onset figures (2-3 d short, 5-10 d long) are at or
     -- past Rickels' measured PEAK for the same classes, so at least one of the two
-    -- is mislabelled and neither can be shipped as onset. A band with nothing
+    -- is mislabeled and neither can be shipped as onset. A band with nothing
     -- behind a window carries NULL and the screen shows nothing for it.
     onset_min_hours       REAL,
     onset_max_hours       REAL,
@@ -2753,15 +2740,15 @@ CREATE TABLE withdrawal_acting_class (
 
 -- What the clinical-trial literature found for each intervention tried alongside
 -- a benzodiazepine taper. Keyed by an intervention slug rather than a substance:
--- three of the rows (a taper, a therapy, a switch) are not compounds at all.
+-- some interventions (a taper, a therapy, a switch) are not compounds at all.
 --
 -- `verdict` is the whole point of the table and the reason it is a column rather
 -- than prose — the screen's more useful half is the one where the answer is "no
 -- difference", and a row that loses its verdict silently changes sides.
 --
--- No outcome-size column: the three rows carrying an effect size state it as
--- '82.6% vs 37.5%', '79% at week 5' and 'more than 60%', and a REAL would have to
--- store the third as 60 and drop the bound.
+-- No outcome-size column: effect sizes come as '82.6% vs 37.5%', '79% at
+-- week 5' or 'more than 60%', and a REAL would store the last as 60 and drop
+-- the bound.
 CREATE TABLE taper_interventions (
     -- Slug; the raw value of the app's intervention enum.
     intervention TEXT PRIMARY KEY,
@@ -2788,13 +2775,13 @@ CREATE TABLE taper_interventions (
 CREATE TABLE by_volume_dosing (
     substance_id       INTEGER NOT NULL REFERENCES substances(id),
     source_id          INTEGER NOT NULL REFERENCES sources(id),
-    -- How the strength figure maps onto the volume. 'percent_by_volume' (the
-    -- strength field is % ABV) is the only kind the app renders today.
+    -- How the strength figure maps onto the volume. The app renders only
+    -- 'percent_by_volume' (the strength field is % ABV).
     concentration_kind TEXT NOT NULL,
     -- Unit the converted mass is stored in on the logged dose ("g" for alcohol),
     -- and therefore the unit the dose ladder and PK pipeline consume.
     canonical_unit     TEXT NOT NULL,
-    -- Liquid density in GRAMS PER MILLILITRE at 20 C. Required for
+    -- Liquid density in GRAMS PER MILLILITER at 20 C. Required for
     -- 'percent_by_volume'; the conversion is undefined without it. It carries no
     -- citation_id because a reference-table physical constant has no paper behind
     -- it — its provenance is stated in `notes`, and a database landing page is
@@ -11140,14 +11127,12 @@ class Build:
             body = {k: merged[k] for k in sorted(merged)}
             out = {
                 "_comment": (
-                    "Pinned PSID FAMILY registry (Stage 0.1) — canonical_name -> FAMILY. "
-                    "Derive-once, pin-forever: assign_substance_uids() reads this first so "
-                    "an InChIKey correction, rename, or re-fold never moves an existing "
-                    "substance's identity; only genuinely-new substances mint and are "
-                    "appended. A 14-letter value is an InChIKey block 1; a leading-digit "
-                    "value is a name-hash (structure-less row or distinct-collision member). "
-                    "Generated by pipeline/build/sqlite.py; edit only to intentionally "
-                    "re-pin. See pipeline/psid.py and Specs/stereoisomer-and-release-form-axes.md."
+                    "Pinned PSID FAMILY registry: canonical_name -> FAMILY. Derive once, pin forever: "
+                    "assign_substance_uids() reads this first so an InChIKey correction, rename or re-fold "
+                    "never moves an existing substance's identity; only new substances mint and are "
+                    "appended. A 14-letter value is an InChIKey block 1; a leading-digit value is a name "
+                    "hash (a structure-less row or a distinct-collision member). Generated by "
+                    "pipeline/build/sqlite.py; edit only to re-pin on purpose. See pipeline/psid.py."
                 ),
                 **body,
             }
@@ -11228,7 +11213,7 @@ class Build:
         aliases survive as parent aliases, so `Flonase`/`Fluticasone-nasal`
         still resolve. Runs after dedup/forced-merges (operates on survivors)
         and before classify (the merged parent is reclassified from final
-        signals). See Specs/salt-forms-and-route-collapse.md (Part B)."""
+        signals)."""
         collapsed, parents_created, rerouted = 0, 0, 0
         rows = self.cur.execute("SELECT id, canonical_name FROM substances").fetchall()
         for vid, vname in rows:
@@ -11265,7 +11250,7 @@ class Build:
     # listed — single-salt supplements (Iron Bisglycinate, Zinc Picolinate) gain
     # nothing from a one-option picker and stay standalone. Antacid *combos*
     # (Magnesium/Magaldrate, Magnesium/Sodium) are mixtures, not salt forms, and
-    # are deliberately excluded. See Specs/salt-forms-and-route-collapse.md (A.2).
+    # are deliberately excluded.
     _SALT_FAMILIES: dict[str, list[tuple[str, str]]] = {
         "Magnesium": [
             ("Magnesium Citrate", "Citrate"),
@@ -11546,7 +11531,7 @@ class Build:
         chemnoise purge) so "Magnesium Citrate" still searches. The parent
         inherits the max popularity of its variants. Runs after dedup/forced-
         merges/route-collapse and before classify (which sets the parent's final
-        display_class). See Specs/salt-forms-and-route-collapse.md (A.2)."""
+        display_class)."""
         folded, families, parents_created = 0, 0, 0
         salt_tables = ("dose_ranges", "durations", "durations_of_action", "protocol_dosing")
 

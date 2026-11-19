@@ -1,6 +1,6 @@
 """PSID (Piru Substance ID) primitives — the stable substance-identity scheme.
 
-Grammar (see Specs/stereoisomer-and-release-form-axes.md):
+Grammar:
 
     P1-<FAMILY>-<stereo>-<salt>-<release>-<chk>
 

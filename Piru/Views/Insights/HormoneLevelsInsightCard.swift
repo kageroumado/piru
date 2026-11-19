@@ -2,8 +2,8 @@ import SwiftData
 import SwiftUI
 
 /// The first-class "Hormone Levels" card on the Insights landing — a legend-less
-/// 3-month serum preview that pushes to ``HormoneLevelsView``
-/// (Specs/injection-levels-v3.md §1). It appears only for someone who logs an
+/// 3-month serum preview that pushes to ``HormoneLevelsView``.
+/// It appears only for someone who logs an
 /// injectable estradiol or testosterone ester; otherwise it renders nothing.
 struct HormoneLevelsInsightCard: View {
     @Query(sort: \DoseEntry.timestamp) private var doseEntries: [DoseEntry]

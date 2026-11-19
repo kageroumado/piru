@@ -1,7 +1,7 @@
 import Foundation
 
-/// Pins the depot model to a user's own lab results
-/// (Specs/injection-levels-tool.md §3). Pure math, fully testable against the
+/// Pins the depot model to a user's own lab results.
+/// Pure math, fully testable against the
 /// prototype's known-good outputs.
 ///
 /// Two tiers, chosen by how many measurements the user has:
@@ -14,10 +14,9 @@ import Foundation
 /// - **Rate-fit** (≥2 measurements): also fits `k1`, the slow terminal
 ///   depot-release rate, within `[0.5, 2]×` its population value. One point can
 ///   only move the y-axis; two or more constrain the curve's *shape* in time —
-///   which is what an amplitude-only fit structurally cannot do (the Elysia
-///   validation: amplitude-only projected ~84 vs an actual 190 because the rise
-///   between the two draws was steeper than the population shape). k2/k3 stay put
-///   so the fitted k1 never crosses them.
+///   which an amplitude-only fit cannot do when the rise between two draws is
+///   steeper than the population shape. k2/k3 stay put so the fitted k1 never
+///   crosses them.
 enum DepotCalibration {
     struct Result: Equatable, Sendable {
         /// The fitted amplitude `d_cal` (weighted least-squares at the fitted k1).
@@ -82,8 +81,8 @@ enum DepotCalibration {
         return fit.result
     }
 
-    /// Calibrate a **multi-ester** summed serum curve to the user's labs
-    /// (Specs/injection-levels-v3.md §4). The person-wide amplitude `scale` and (with
+    /// Calibrate a **multi-ester** summed serum curve to the user's labs.
+    /// The person-wide amplitude `scale` and (with
     /// ≥2 points and `fitRate`) the terminal-rate `k1Scale` are fitted **globally**,
     /// applied uniformly to every ester's own population parameters — labs cannot
     /// resolve per-ester rates from a mixed log, so a single scale/rate is the honest

@@ -128,7 +128,7 @@ final class DailyDoseItem {
     /// other dose unless the user opts in. See ``SessionClustering``.
     var isBackgroundMed: Bool = false
 
-    // Meds redesign (Specs/meds-reminders-redesign.md) — all additive with
+    // Meds redesign — all additive with
     // defaults, so a pure lightweight migration. Dormant until the My Meds hub
     // ships, except adherence, which reads ``reminderTimesMinutes`` for
     // per-time expectations and ``isAsNeeded`` to exclude PRN meds.

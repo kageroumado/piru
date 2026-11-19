@@ -82,8 +82,7 @@ struct RecentDoseProvider: TimelineProvider {
                 .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],
         ) ?? [:]
         // Titles this dose the way the app would, minus the catalog — a
-        // widget can't reach it. In precedence order
-        // (`Specs/psid-identity-consumption.md` LB-3):
+        // widget can't reach it. In precedence order:
         //
         // 1. the personal display-name override (THC → "joint"), from the
         //    lightweight app-group map the main app maintains;

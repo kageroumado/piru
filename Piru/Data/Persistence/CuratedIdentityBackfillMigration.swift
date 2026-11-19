@@ -5,8 +5,7 @@ import SwiftData
 /// The once-only backfill that gives the **curated** rows — quick-log chips,
 /// favorites, and daily-med items — the same PSID identity every logged
 /// ``DoseEntry`` already carries (``PSIDBackfillMigration``), so recents/
-/// favorites/daily key on substance identity rather than a bare name
-/// (`Specs/psid-identity-consumption.md` D.2.3).
+/// favorites/daily key on substance identity rather than a bare name.
 ///
 /// Without it, a pre-PSID `QuickLogDose` (`substanceUID == nil`, keyed by
 /// `"methylphenidate"`) and a freshly logged one (keyed by the family uid) would

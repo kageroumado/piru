@@ -9,7 +9,7 @@ import SwiftData
 /// Identified by substance **identity** (``id`` = the PSID family + form facets),
 /// not name — so a Concerta card (Methylphenidate·XR) and a Ritalin IR card
 /// (Methylphenidate·IR) are two cards, not one merged history. See
-/// ``QuickLogDose/identityKey`` and `Specs/psid-identity-consumption.md` D.2.
+/// ``QuickLogDose/identityKey``.
 struct SubstanceCard: Identifiable, Equatable {
     /// The substance-identity key — also what favorites/staged-counts join on.
     let id: String
@@ -254,7 +254,7 @@ struct DailyCategoryGroup: Identifiable {
 }
 
 /// One uncovered med slot that is due right now — the "what should I take
-/// *now*?" answer (Specs/meds-ux-review.md §5) behind a My Meds pill's due
+/// *now*?" answer behind a My Meds pill's due
 /// state and the tab-bar accessory badge. Derived per (med × earliest
 /// uncovered slot); a med never has more than one. Carries a
 /// ``DailyMedSnapshot`` because the My Meds pills cache these.

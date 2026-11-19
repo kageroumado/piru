@@ -6,7 +6,7 @@ import Testing
 /// Stage 0.3 acceptance — the once-only PSID backfill remaps logged doses onto
 /// their `substanceUID` + `displayNameSnapshot`, additively and without row
 /// loss, keeping the original name string and leaving the unresolvable
-/// name-only. See `Specs/stereoisomer-and-release-form-axes.md`.
+/// name-only.
 @MainActor
 @Suite("PSID backfill migration")
 struct PSIDBackfillMigrationTests {

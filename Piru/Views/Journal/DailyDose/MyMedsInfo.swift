@@ -1,7 +1,7 @@
 import Foundation
 
 /// One trailing info line under the My Meds card's slot rows — a fact worth a
-/// glance, never an instruction (Specs/journal-home-rework.md §3).
+/// glance, never an instruction.
 enum MyMedsInfoLine: Hashable {
     /// A tracked supply projected to run out inside ``MyMedsInfo/restockHorizonDays``.
     case restock(name: String, daysLeft: Int, itemID: UUID)

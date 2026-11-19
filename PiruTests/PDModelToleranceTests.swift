@@ -2,8 +2,8 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Pure-model gate for the tolerance engine's **right-shift** core (`Specs/tolerance-faithful-model.md`
-/// §1–2, Stage A). These exercise ``PDModel`` in isolation — no store, no DB — so the dynamics are
+/// Pure-model gate for the tolerance engine's **right-shift** core.
+/// These exercise ``PDModel`` in isolation — no store, no DB — so the dynamics are
 /// proven before any wiring: clustered occupancy drives a layer's ln-shift up while spacing/idle decays
 /// it; the deep gate is off below the escalation threshold and on above it; the response-fraction gauge
 /// is 1 at `S = 1` and decreasing in `S`; and the recovery forecast is monotone.

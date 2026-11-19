@@ -3,8 +3,8 @@ import SwiftData
 import Testing
 @testable import Piru
 
-/// The per-ester grouping the Hormone Levels insight reads out of the dose log
-/// (Specs/injection-levels-v3.md §4): each dose is bucketed by its own ester so a
+/// The per-ester grouping the Hormone Levels insight reads out of the dose log:
+/// each dose is bucketed by its own ester so a
 /// switch or a mix sums honestly, catalog-only esters become markers not curves, and
 /// a dose that names no ester falls back to the analyte default.
 @Suite("HormoneLevelsLog")

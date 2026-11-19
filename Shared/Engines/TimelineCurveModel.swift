@@ -375,8 +375,7 @@ nonisolated enum TimelineCurveModel {
     /// rise, one crest, monotone fall — no false cap or slope break at the
     /// crest's edges. Phase-range spreads, when the state carries them, delay
     /// the full-effect anchor, broaden the dome, and extend the tail landing;
-    /// absent spreads degrade exactly to the midpoint fit. Derivation, candidate
-    /// survey, and reference plots: `Specs/prototypes/effect-curves/`.
+    /// absent spreads degrade exactly to the midpoint fit.
     nonisolated static func effectShape(at minutes: Double, for s: ActiveSubstanceState) -> Double {
         guard minutes >= 0 else { return 0 }
         // Zero-order substances (alcohol) ignore the fixed phase windows: their curve is a dose-scaled

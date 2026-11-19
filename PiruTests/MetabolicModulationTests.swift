@@ -5,7 +5,7 @@ import Testing
 /// Stage 4c — the metabolic-modulation readout. Exercises ``MetabolicModulation``: the
 /// `enzyme_modulators` rules (grapefruit/smoking/co-active drugs/MDMA self-edge) joined against the
 /// bundled DB's metabolism table on the substrate side, surfacing direction + qualitative strength
-/// (never a fabricated fold-change). (`Specs/pharmacology-axis-meta-plan.md`, Stage 4c.)
+/// (never a fabricated fold-change).
 ///
 /// The catalog is a database table, so these gate the rows rather than restating their values: that
 /// every rule decodes, that every rule carries display text, that a rule's enzyme is one the metabolism

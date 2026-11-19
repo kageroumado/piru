@@ -5,8 +5,8 @@ import UIKit
 
 /// Build-enforced contrast floors for the app's semantic and encoding colors.
 ///
-/// Safety net for the color system
-/// (`Specs/design-system/color-audit/`). Deliberately **pure computation** — it
+/// Safety net for the color system.
+/// Deliberately **pure computation** — it
 /// resolves colors against a trait collection and does arithmetic, never
 /// renders a view — so it is fast and cannot flake.
 ///
@@ -465,7 +465,7 @@ private extension Double {
 
 /// A resolved sRGB color plus the operations the contrast gates need.
 ///
-/// Mirrors `Specs/design-system/color-audit/colorimetry.py`, the reference
+/// Mirrors `design-system/color/colorimetry.py`, the reference
 /// implementation, which carries the self-tests against published WCAG and
 /// Oklab values.
 struct RGB {

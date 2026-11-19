@@ -86,8 +86,8 @@ private final class MedFormDraft {
     }
 }
 
-/// The 10-second add/edit form of the Meds redesign
-/// (Specs/meds-reminders-redesign.md): what → how much → when → remind me.
+/// The 10-second add/edit form of the Meds redesign:
+/// what → how much → when → remind me.
 /// Replaces `MedicationItemFormView` — no routine to pick, times live on the
 /// med itself (Health-app-style rows), supplements default into the Quiet
 /// tier, and "As needed" is a schedule choice rather than a separate concept.

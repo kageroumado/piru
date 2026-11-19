@@ -1,7 +1,7 @@
 import Foundation
 
 /// A hormone the Injection Levels tool models depot esters for. Hormone-agnostic by
-/// design (Specs/injection-levels-tool.md §6) — the depot math is identical, only
+/// design — the depot math is identical, only
 /// the ester parameters and the canonical unit differ.
 ///
 /// The tool only ever offers an analyte the bundled DB actually has ester PK data
@@ -93,8 +93,8 @@ enum Analyte: String, CaseIterable, Identifiable, Sendable {
     }
 
     /// A clinical monitoring **goal** the user may opt into as their own reference
-    /// lines — labeled "a common clinical goal," never an app-set target
-    /// (Specs/injection-levels-v3.md §9). Testosterone: 400–700 ng/dL, the Endocrine
+    /// lines — labeled "a common clinical goal," never an app-set target.
+    /// Testosterone: 400–700 ng/dL, the Endocrine
     /// Society / WPATH SOC8 masc-HRT monitoring goal. Estradiol: none shipped.
     var labeledGoal: ClosedRange<Double>? {
         switch self {

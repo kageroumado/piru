@@ -4,7 +4,7 @@ import Observation
 /// (`CalibrationControl`, `ReferenceLinesEditor`). Both the prediction Tool's
 /// ``InjectionLevelsModel`` and the retrospective ``HormoneLevelsModel`` conform, so
 /// one implementation of the personal-multiplier knob, the lab-driven state, and the
-/// user's reference lines serves both (Specs/injection-levels-v3.md §2).
+/// user's reference lines serves both.
 @MainActor
 protocol DepotCalibrating: AnyObject, Observable {
     var hasLabs: Bool { get }

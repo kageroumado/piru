@@ -3,7 +3,7 @@ import SwiftData
 import SwiftUI
 
 /// Tools-tab screen projecting serum hormone levels from injectable ester doses,
-/// calibrated to the user's own lab results (Specs/injection-levels-tool.md).
+/// calibrated to the user's own lab results.
 /// Reachable via `PushRoute.tool(.injectionLevels)`.
 ///
 /// Log-first: it reads qualifying IM/SC estradiol/testosterone doses from the dose

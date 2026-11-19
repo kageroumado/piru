@@ -70,8 +70,8 @@ enum PDModel {
     /// both edges — no kink) to `1` once it exceeds `threshold + width`. `smoothstep(t) = t²(3 − 2t)`
     /// with `t = clamp((value − threshold)/width, 0, 1)`.
     ///
-    /// The **deep** tolerance layer's drive is the *product* of two of these
-    /// (`Specs/tolerance-faithful-model-improvements.md` §2): a **magnitude** gate on the dose-relative
+    /// The **deep** tolerance layer's drive is the *product* of two of these:
+    /// a **magnitude** gate on the dose-relative
     /// escalation factor (`dose ÷ heavy ceiling`) × a **chronicity** gate on the leaky duty-cycle
     /// accumulator. Escalation rather than the adaptive shift is the magnitude signal because saturating
     /// occupancy makes therapeutic and heavy dosing indistinguishable at the receptor; chronicity adds
@@ -95,7 +95,7 @@ enum PDModel {
     /// Equals `1` at `S = 1` (naïve), decreasing as `S` grows; at low representative occupancy it is
     /// ≈ `1/S`. This is the tolerance gauge's continuous source.
     ///
-    /// **Mechanism-aware saturation cap** (`Specs/tolerance-faithful-model-improvements.md` §5). The
+    /// **Mechanism-aware saturation cap.** The
     /// uncapped ratio is the *physically exact* usual-dose occupancy ratio `O(D, K·S)/O(D, K)` — correct
     /// for **agonists / PAMs / antagonists**, where usual-dose occupancy is the effect proxy (a heavy
     /// opioid user at their elevated dose then shows realistic *residual* response, e.g. `r ≈ 9, S ≈ 10`
