@@ -37,14 +37,12 @@ final class ReportsModel {
 
     // MARK: - Clinical report fields
 
-    var reportOptionsExpanded = false
     var patientName = ""
     var notes = ""
 
     // MARK: - Export state
 
     var isExporting = false
-    var exportProgress: String?
     var shareItems: [Any]?
 
     // MARK: - Derived state

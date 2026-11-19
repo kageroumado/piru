@@ -188,10 +188,8 @@ private struct EffectRow: View {
 @MainActor
 @Observable
 final class EffectsIntensityModel {
-    var bands: [SpectrumBand] = []
     var reported: [ReportedEffect] = []
     var fallbackGroups: [EffectGroup] = []
-    var bandDoseText: [Int: String] = [:]
     var freeodwikiSlug: String?
     var drugCommunityDeepLink: URL?
 
@@ -208,7 +206,6 @@ final class EffectsIntensityModel {
 
     func load(substanceName: String) {
         let store = SubstanceStore.shared
-        bands = store.spectrumBands(forSubstanceName: substanceName)
         reported = store.reportedEffects(forSubstanceName: substanceName)
         if reported.isEmpty {
             fallbackGroups = store.effectsByCategory(forSubstanceName: substanceName)
@@ -217,10 +214,6 @@ final class EffectsIntensityModel {
         freeodwikiSlug = substance?.freeodwikiSlug
         if let substance {
             drugCommunityDeepLink = SubstanceSourceLinks.deepLink("drug.community", substance: substance)
-            if let route = substance.routes.first(where: { $0.route == substance.defaultRoute })
-                ?? substance.routes.first {
-                bandDoseText = Self.bandDoseText(from: route.doses, unit: route.unit)
-            }
         }
     }
 
