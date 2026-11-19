@@ -175,7 +175,6 @@ nonisolated enum ArcadeRules {
         var dodges = false
     }
 
-    static let cols = 6, rows = 3
     static let spacing = CGSize(width: 26, height: 20)
     static let shotSpeed: CGFloat = 520, bombSpeed: CGFloat = 150
     /// A new fruit cannot be burst for this long: it grows in first, so a
@@ -186,10 +185,6 @@ nonisolated enum ArcadeRules {
     /// drifts around it rather than riding it.
     static func home(in size: CGSize) -> CGFloat {
         size.height * 0.52 - 16
-    }
-
-    static func invaderCenter(origin: CGPoint, col: Int, row: Int) -> CGPoint {
-        CGPoint(x: origin.x + CGFloat(col) * spacing.width + ArcadeSprite.invaderSize.width / 2, y: origin.y + CGFloat(row) * spacing.height)
     }
 
     /// One step of a dive toward `prey`. Returns false when the diver is back

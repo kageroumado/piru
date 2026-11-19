@@ -682,6 +682,5 @@ struct DoseSnapshot {
         func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, tint: P3Color)]? {
             nil
         }
-        func handleBackgroundRefresh(_: Any) {}
     }
 #endif

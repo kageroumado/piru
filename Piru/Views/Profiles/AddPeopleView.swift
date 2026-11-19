@@ -8,7 +8,6 @@ struct AddPeopleView: View {
     let sessionID: UUID
 
     @Environment(\.profileDirectory) private var directory
-    @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
     @State private var model = AddPeopleModel()
 

@@ -292,7 +292,7 @@ The app builds for both iOS and native macOS (not Catalyst) from a single target
 - `openPlatformSettings()` / `openNotificationSettings()`
 - View modifiers that absorb inline `#if`: `.inlineNavigationTitle()`, `.insetGroupedListStyle()`, `.decimalKeyboard()`, `.neverAutocapitalize()`, `.wordsAutocapitalize()`, `.permanentEditMode()`, `.compactListSectionSpacing()`, `.wheelPickerStyle()` (`.wheel` does not exist on macOS; the shim falls back to `.menu`)
 - Toolbar placement: `.platformTopBarTrailing` / `.platformTopBarLeading`
-- System colors: `Color.platformSystemBackground`, `.platformSecondarySystemFill`, `.platformTertiarySystemFill`, `.platformQuaternaryLabel`, `.platformTertiaryLabel`, `.platformSystemGray`, etc.
+- System colors: `Color.platformSystemBackground`, `.platformSecondarySystemFill`, `.platformTertiarySystemFill`, `.platformQuaternaryLabel`, `.platformTertiaryLabel`, etc.
 
 **Rules:**
 - Use the view modifier shims (`.inlineNavigationTitle()` not `#if canImport(UIKit) .navigationBarTitleDisplayMode(.inline) #endif`).

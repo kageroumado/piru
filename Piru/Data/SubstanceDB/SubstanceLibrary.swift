@@ -290,13 +290,9 @@ enum SubstanceLibrary {
         overlaySearch(SubstanceStore.shared.searchMatches(query, limit: limit), query: query)
     }
 
-    /// Off-main ranked search for the interactive search field — ranks + resolves
-    /// on a background task so typing never stalls the keyboard.
-    static func searchAsync(_ query: String, limit: Int = 50) async -> [Substance] {
-        await searchMatchesAsync(query, limit: limit).map(\.substance)
-    }
-
-    /// ``searchAsync(_:limit:)``, keeping the matched alias on each hit.
+    /// Off-main ranked search for the interactive search field: ranks and resolves
+    /// on a background task so typing never stalls the keyboard, keeping the
+    /// matched alias on each hit.
     static func searchMatchesAsync(_ query: String, limit: Int = 50) async -> [SubstanceMatch] {
         await overlaySearch(SubstanceStore.shared.searchMatchesAsync(query, limit: limit), query: query)
     }

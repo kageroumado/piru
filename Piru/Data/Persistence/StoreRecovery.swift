@@ -16,7 +16,6 @@ import SwiftData
 ///
 /// Delete Everything removes recovery copies so they cannot restore erased records.
 nonisolated enum StoreRecovery {
-    static let appGroupID = AppIdentity.appGroup
     static let storeName = "default.store"
     /// Sibling files a SwiftData/SQLite store is made of.
     static let storeSuffixes = ["", "-shm", "-wal"]
@@ -157,19 +156,6 @@ nonisolated enum StoreRecovery {
         var isInMemoryFallback: Bool {
             failureDetail != nil
         }
-    }
-
-    /// Open the canonical store and publish an open failure to
-    /// ``StoreLaunchState``, which the UI watches to show "Your Data Is Safe".
-    /// Run ``prepareCanonicalStore()`` first.
-    @MainActor
-    static func openCanonicalContainer() -> ModelContainer {
-        let opened = openContainer(at: canonicalStoreURL())
-        if let detail = opened.failureDetail {
-            StoreLaunchState.shared.failureDetail = detail
-            StoreLaunchState.shared.storeUnavailable = true
-        }
-        return opened.container
     }
 
     /// Build the SwiftData `ModelContainer` on the store at `storeURL`. The open
@@ -620,7 +606,7 @@ nonisolated enum StoreRecovery {
 // MARK: - Launch state
 
 /// Observable launch-time health of the on-disk store. Set by
-/// ``StoreRecovery/openCanonicalContainer()`` when it cannot open the persistent store and has
+/// the profile directory when it cannot open a persistent store and has
 /// fallen back to a transient in-memory store. The UI watches this to show a
 /// reassuring "data temporarily unavailable" alert — the bytes are preserved on
 /// disk and a later launch / app version restores them; nothing is deleted.

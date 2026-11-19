@@ -169,13 +169,6 @@ extension Color {
         #endif
     }
 
-    static var platformSystemGray: Color {
-        #if canImport(UIKit)
-            Color(.systemGray)
-        #else
-            Color(nsColor: .systemGray)
-        #endif
-    }
 }
 
 // MARK: - View Modifier Shims

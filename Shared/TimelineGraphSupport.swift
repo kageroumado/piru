@@ -19,8 +19,6 @@ enum GraphMetrics {
     /// side frame horizontally, but keep a small gap above/below so the peak and
     /// baseline don't jam the top label band and the origin line.
     static let chartFrameVInset: CGFloat = 8
-    /// Padding inside the hosting card / section.
-    static let cardInset: CGFloat = 12
     /// Height of the clock-time label band below the full graph.
     static let axisLabels: CGFloat = 16
     /// Height of the relative-hour label band above the full graph.

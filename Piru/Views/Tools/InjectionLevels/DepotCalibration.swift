@@ -30,8 +30,6 @@ enum DepotCalibration {
         /// RMS of the calibration residuals in canonical units, or `nil` with fewer
         /// than two included measurements (a single point fits exactly).
         let residualRMS: Double?
-        /// How many measurements the fit used.
-        let usedCount: Int
         /// Whether the fit moved `k1` (a rate-fit ran), not just amplitude.
         var didFitRate: Bool {
             k1Scale != 1.0
@@ -134,7 +132,6 @@ enum DepotCalibration {
             Result(
                 calibratedAmplitude: f.scale, scale: f.scale, k1Scale: k1Scale,
                 residualRMS: f.count >= 2 ? (f.sumOfSquares / Double(f.count)).squareRoot() : nil,
-                usedCount: f.count,
             )
         }
 
@@ -177,7 +174,7 @@ enum DepotCalibration {
         return Fit(
             result: Result(
                 calibratedAmplitude: dCal, scale: dCal / p.d, k1Scale: k1Scale,
-                residualRMS: rms, usedCount: pairs.count,
+                residualRMS: rms,
             ),
             sumOfSquares: ss,
         )

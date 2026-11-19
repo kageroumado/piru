@@ -593,7 +593,6 @@ extension DataExportImport {
 /// store dedups against its own journal and nobody else's.
 @MainActor
 private final class PsyLogStoreImport {
-    let profile: UUID
     let context: ModelContext
     var doseIndex: ImportedDoseIndex
     /// Stored doses on route Other, keyed as if the file's dose were Other too.
@@ -602,8 +601,7 @@ private final class PsyLogStoreImport {
     /// route instead of a second copy landing beside it.
     var unroutedDoses: [String: [DoseEntry]]
 
-    init(profile: UUID, context: ModelContext) {
-        self.profile = profile
+    init(context: ModelContext) {
         self.context = context
         let existing = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
         doseIndex = ImportedDoseIndex(existing)
@@ -671,12 +669,12 @@ extension DataExportImport {
         // stays idempotent instead of multiplying every dose. `DoseEntry` has
         // no natural id, so the key is its content: substance, time, dose,
         // unit, route.
-        var stores: [UUID: PsyLogStoreImport] = [routing.owner: PsyLogStoreImport(profile: routing.owner, context: context)]
+        var stores: [UUID: PsyLogStoreImport] = [routing.owner: PsyLogStoreImport(context: context)]
         var storeOrder: [UUID] = [routing.owner]
         func store(for profile: UUID) -> PsyLogStoreImport? {
             if let open = stores[profile] { return open }
             guard let other = routing.context(for: profile) else { return nil }
-            let opened = PsyLogStoreImport(profile: profile, context: other)
+            let opened = PsyLogStoreImport(context: other)
             stores[profile] = opened
             storeOrder.append(profile)
             return opened

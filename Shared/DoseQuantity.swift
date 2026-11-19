@@ -95,12 +95,6 @@ nonisolated enum DoseQuantity: Hashable, Sendable {
         }
     }
 
-    /// This quantity re-expressed in the written unit `unit`, or `nil` across families.
-    func expressed(in unit: String) -> DoseQuantity? {
-        guard let converted = value(in: unit) else { return nil }
-        return DoseQuantity(converted, unit: unit)
-    }
-
     /// `self ÷ other` as a pure number, or `nil` when they measure different
     /// things or `other` is zero.
     func ratio(to other: DoseQuantity) -> Double? {

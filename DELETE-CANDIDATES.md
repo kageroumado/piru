@@ -75,3 +75,17 @@ and the rest duplicated values the DB already resolved.
 - **Not deleted because**: they are design tokens with paired assets, and the Ephemeris doc comment gives `air` its own token deliberately — the renderer may simply not have caught up with the design
 - **To confirm**: ask whether the Ephemeris sector ticks, Paper Garden grain and Arcade grid are meant to use them; if not, delete the three properties and their colorsets
 - **Found**: 2026-09-24
+
+## DB-row mirror fields that nothing reads
+- **What**: `FoodEffect.cmaxRatio`/`aucRatio` and `TherapeuticRangeHit.id`/`effect`/`peakValue` (`Piru/Data/SubstanceDB/SubstanceReadModel+Pharmacology.swift`), `ProductCodeHit.form`/`source` (`SubstanceReadModel+ProductCodes.swift`), `WikiTimingRecord.releaseID`, `SubjectiveEffectConcept.position`, and `MetabolicModulation.Edge.confidence`, plus the SELECT columns that fill them
+- **Looks dead because**: Periphery 3.8 reports each as assign-only, and `rg` finds no reader in the app, widget, watch, tests or `android/`
+- **Not deleted because**: each mirrors a DB column the pipeline curates and cites, so whether a screen is meant to show it (the Cmax/AUC food ratios, a therapeutic range's peak, an edge's confidence tier) is a product question; `position` also orders the ontology query
+- **To confirm**: decide per field whether a surface should use it; if not, delete the property, its initializer argument and its SELECT column (keep `ORDER BY position`)
+- **Found**: 2026-11-19
+
+## `Shared/PiruActivityAttributes.swift` — `ContentState.startTime`
+- **What**: a Live Activity content-state field that is set and never read
+- **Looks dead because**: Periphery 3.8 reports it assign-only across the app and both extensions
+- **Not deleted because**: `ContentState` is `Codable` and travels to the Live Activity extension, and push-updated activities decode it; dropping a key changes that payload
+- **To confirm**: check that no push payload or older installed extension expects `startTime`; then delete it with its initializer argument
+- **Found**: 2026-11-19
