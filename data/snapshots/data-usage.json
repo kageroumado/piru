@@ -3,11 +3,11 @@
     "attributed_only": false,
     "columns": {
       "alias": {
-        "filled": 6020,
+        "filled": 6019,
         "verdict": "shown"
       },
       "alias_normalized": {
-        "filled": 6020,
+        "filled": 6019,
         "verdict": "shown"
       },
       "authority": {
@@ -34,6 +34,10 @@
         "filled": 229,
         "verdict": "shown"
       },
+      "owns_key": {
+        "filled": 6019,
+        "verdict": "read"
+      },
       "release_form": {
         "filled": 93,
         "verdict": "shown"
@@ -43,16 +47,16 @@
         "verdict": "shown"
       },
       "source_id": {
-        "filled": 5714,
+        "filled": 5713,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 6020,
+        "filled": 6019,
         "verdict": "plumbing"
       }
     },
     "read_in_swift": true,
-    "rows": 6020,
+    "rows": 6019,
     "surface": "identity"
   },
   "attenuation_bands": {
@@ -399,6 +403,54 @@
     "rows": 29,
     "surface": "combinations"
   },
+  "category_mechanism_bindings": {
+    "attributed_only": false,
+    "columns": {
+      "action": {
+        "filled": 2,
+        "verdict": "shown"
+      },
+      "affinity_tier": {
+        "filled": 2,
+        "verdict": "shown"
+      },
+      "category": {
+        "filled": 2,
+        "verdict": "shown"
+      },
+      "target": {
+        "filled": 2,
+        "verdict": "shown"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 2,
+    "surface": null
+  },
+  "category_mechanisms": {
+    "attributed_only": false,
+    "columns": {
+      "category": {
+        "filled": 92,
+        "verdict": "shown"
+      },
+      "description": {
+        "filled": 92,
+        "verdict": "shown"
+      },
+      "language": {
+        "filled": 92,
+        "verdict": "shown"
+      },
+      "summary": {
+        "filled": 92,
+        "verdict": "shown"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 92,
+    "surface": null
+  },
   "citations": {
     "attributed_only": false,
     "columns": {
@@ -423,7 +475,7 @@
         "verdict": "shown"
       },
       "title": {
-        "filled": 1498,
+        "filled": 1499,
         "verdict": "shown"
       },
       "url": {
@@ -431,7 +483,7 @@
         "verdict": "shown"
       },
       "year": {
-        "filled": 1099,
+        "filled": 1100,
         "verdict": "shown"
       }
     },
@@ -624,7 +676,7 @@
       },
       "psid": {
         "filled": 15778,
-        "verdict": "shown"
+        "verdict": "plumbing"
       },
       "route": {
         "filled": 15578,
@@ -976,7 +1028,7 @@
       },
       "release_id": {
         "filled": 755,
-        "verdict": "read"
+        "verdict": "unused"
       },
       "route": {
         "filled": 755,
@@ -1356,7 +1408,7 @@
     "columns": {
       "auc_ratio": {
         "filled": 7,
-        "verdict": "read"
+        "verdict": "unused"
       },
       "citation_id": {
         "filled": 15,
@@ -1364,7 +1416,7 @@
       },
       "cmax_ratio": {
         "filled": 7,
-        "verdict": "read"
+        "verdict": "unused"
       },
       "meal": {
         "filled": 15,
@@ -1738,6 +1790,102 @@
     "read_in_swift": true,
     "rows": 560,
     "surface": "pharmacokinetics"
+  },
+  "model_alias": {
+    "attributed_only": false,
+    "columns": {
+      "alias_key": {
+        "filled": 18,
+        "verdict": "read"
+      },
+      "canonical_key": {
+        "filled": 18,
+        "verdict": "read"
+      },
+      "canonical_substance_id": {
+        "filled": 18,
+        "verdict": "unused"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 18,
+    "surface": null
+  },
+  "model_overrides": {
+    "attributed_only": false,
+    "columns": {
+      "cae": {
+        "filled": 2,
+        "verdict": "read"
+      },
+      "deplete": {
+        "filled": 9,
+        "verdict": "read"
+      },
+      "felt_half_life_minutes": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "gaba": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "ka_per_hour": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "koff": {
+        "filled": 2,
+        "verdict": "read"
+      },
+      "model_key": {
+        "filled": 17,
+        "verdict": "read"
+      },
+      "mu": {
+        "filled": 4,
+        "verdict": "read"
+      },
+      "mu_eff": {
+        "filled": 4,
+        "verdict": "read"
+      },
+      "note": {
+        "filled": 17,
+        "verdict": "shown"
+      },
+      "rec_2a": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "rec_2c": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "rec_a2": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "rec_h1": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "reference_dose_mg": {
+        "filled": 17,
+        "verdict": "read"
+      },
+      "resp": {
+        "filled": 3,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 16,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 17,
+    "surface": null
   },
   "molecule_shapes": {
     "attributed_only": false,
@@ -2700,7 +2848,7 @@
       },
       "psid": {
         "filled": 1743,
-        "verdict": "shown"
+        "verdict": "plumbing"
       },
       "release": {
         "filled": 1743,

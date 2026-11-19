@@ -66,7 +66,7 @@ PROPERTY_NAMES = {
 #: Columns that are plumbing, not content. They are always "used" in the sense
 #: that matters (joins, keys, dedup) and never rendered, so counting them as
 #: silent losses would bury the real ones.
-PLUMBING = {"id", "substance_id", "source_id", "vocab_id", "class_context_id"}
+PLUMBING = {"id", "substance_id", "source_id", "vocab_id", "class_context_id", "psid"}
 
 #: Short camelCase forms that collide with ordinary Swift vocabulary, so a
 #: whole-corpus grep for them proves nothing. These fall back to SQL-proximity
