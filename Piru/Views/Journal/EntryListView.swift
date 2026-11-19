@@ -283,11 +283,10 @@ struct EntryListView: View {
         .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
         .journalProfileSubtitle(enabled: !isSearchSurface)
         .toolbar {
-            // Files/Mail style, each its own glass at the same gap: the funnel
-            // menu shapes what the list shows (the Timeline's display options,
-            // then the filters), the profile avatar when there is more than one
-            // person, and the ellipsis for everything else (grouping
-            // thumbnails, Jump to Date, Settings, Help).
+            // One glass group: the funnel menu shapes what the list shows (the
+            // Timeline's display options, then the filters), and the ellipsis
+            // holds everything else (grouping thumbnails, Jump to Date,
+            // Settings, Help). The profile avatar sits apart at the leading edge.
             if !isSearchSurface {
                 ToolbarItem(placement: .platformTopBarTrailing) {
                     JournalFilterMenu(
@@ -308,7 +307,6 @@ struct EntryListView: View {
                         }
                     }
                 }
-                ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
                 ProfileToolbarItem()
                 ToolbarItem(placement: .platformTopBarTrailing) {
                     JournalOptionsButton(grouping: $chosenGrouping, groupKey: $groupKey) { showingCalendar = true }

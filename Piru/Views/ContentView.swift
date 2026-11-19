@@ -419,11 +419,6 @@ private struct SearchSurface: View {
             // Large "Search" title at rest; suppressed once focused (the
             // `enabled: false` branch returns the view untouched).
             .appNavigationBar("Search", enabled: phase == .landing)
-            .toolbar {
-                if phase == .landing {
-                    ProfileToolbarItem()
-                }
-            }
             .onChange(of: isSearching) { _, searching in
                 if searching {
                     wasSearching = true

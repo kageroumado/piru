@@ -12,7 +12,7 @@ struct PinnedTabRoot: View {
         } else {
             PushRouteView(route: screen.route)
                 .toolbar {
-                    ProfileToolbarItem(leadingGap: true)
+                    ProfileToolbarItem()
                     ToolbarItem(placement: .platformTopBarTrailing) {
                         AppOverflowMenu()
                     }
