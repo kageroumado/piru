@@ -259,6 +259,9 @@ struct TimelineGraphRenderer {
         let color: Color
         /// The clock time under the glyph, with its `~` prefix.
         let label: String
+        /// `false` where a note glyph sits over the time's place: the phase
+        /// glyph alone marks the moment there.
+        let showsLabel: Bool
     }
 
     /// Font sizes and stack metrics shared by the view, which draws the
@@ -273,16 +276,70 @@ struct TimelineGraphRenderer {
         static let liftAboveCurve: CGFloat = 16
         /// Lowest center y, so the glyph never clips at the canvas top.
         static let minimumCenterY: CGFloat = 14
+        /// A label's width per character at ``labelSize``, for placement
+        /// before anything is drawn ("~10:10 PM" measures 49 pt).
+        static let labelAdvance: CGFloat = 5.4
+        /// Clear space kept around a note glyph.
+        static let noteClearance: CGFloat = 2
 
         static func labelFont() -> Font {
             .system(size: labelSize, weight: .medium, design: .rounded).monospacedDigit()
         }
     }
 
+    /// The note glyphs in the band above the curves.
+    nonisolated enum NoteGlyphMetrics {
+        static let size: CGFloat = 16
+
+        static func centerY(geom: GraphGeometry) -> CGFloat {
+            max(size / 2, geom.top - size / 2 - 1)
+        }
+    }
+
+    /// The frame of each visible note glyph, in canvas points.
+    func noteGlyphFrames(geom: GraphGeometry, visibleStart: Double, visibleSpan: Double) -> [CGRect] {
+        guard !noteMarkers.isEmpty, geom.width > 0, visibleSpan > 0 else { return [] }
+        let size = NoteGlyphMetrics.size
+        let y = NoteGlyphMetrics.centerY(geom: geom)
+        return noteMarkers.compactMap { marker in
+            let minute = marker.timestamp.timeIntervalSince(earliestDose) / 60
+            let x = geom.inset + CGFloat((minute - visibleStart) / visibleSpan) * geom.width
+            guard x >= geom.inset - size / 2, x <= geom.inset + geom.width + size / 2 else { return nil }
+            return CGRect(x: x - size / 2, y: y - size / 2, width: size, height: size)
+        }
+    }
+
+    /// What a milestone at (`x`, `y`) keeps beside the note glyphs. A note is
+    /// the person's own record and a button, so the modeled mark gives way: it
+    /// loses its time where the time would print over a note, and is left out
+    /// where its glyph would.
+    nonisolated enum MilestoneYield: Equatable {
+        case whole
+        case glyphOnly
+        case hidden
+    }
+
+    nonisolated static func milestoneYield(
+        x: CGFloat, y: CGFloat, label: String, geom: GraphGeometry, notes: [CGRect],
+    ) -> MilestoneYield {
+        guard !notes.isEmpty else { return .whole }
+        let clearance = MilestoneMetrics.noteClearance
+        let taken = notes.map { $0.insetBy(dx: -clearance, dy: -clearance) }
+        let top = y - MilestoneMetrics.stackHeight / 2
+        let half = MilestoneMetrics.stackHeight / 2
+        let glyph = CGRect(x: x - MilestoneMetrics.glyphSize, y: top, width: MilestoneMetrics.glyphSize * 2, height: half)
+        if taken.contains(where: { $0.intersects(glyph) }) { return .hidden }
+        let labelWidth = CGFloat(label.count) * MilestoneMetrics.labelAdvance
+        let labelCenter = milestoneLabelCenterX(x, labelWidth: labelWidth, geom: geom)
+        let labelFrame = CGRect(x: labelCenter - labelWidth / 2, y: top + half, width: labelWidth, height: half)
+        return taken.contains(where: { $0.intersects(labelFrame) }) ? .glyphOnly : .whole
+    }
+
     /// Every visible milestone, placed: the glyph at the height its own curve
     /// has there, the clock time under it. Empty unless ``showsMilestones``.
     func milestonePlacements(geom: GraphGeometry, visibleStart: Double, visibleSpan: Double) -> [MilestonePlacement] {
         guard showsMilestones, geom.width > 0, visibleSpan > 0 else { return [] }
+        let notes = noteGlyphFrames(geom: geom, visibleStart: visibleStart, visibleSpan: visibleSpan)
         var placements: [MilestonePlacement] = []
         for (doseIndex, dose) in substances.enumerated() {
             let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
@@ -295,16 +352,21 @@ struct TimelineGraphRenderer {
                 // its head can easily belong to the other one.
                 guard let value = scrubSamples(atMinute: global)
                     .first(where: { $0.name == dose.substanceName })?.value else { continue }
+                let y = max(
+                    MilestoneMetrics.minimumCenterY,
+                    geom.top + geom.height * CGFloat(1 - value) - MilestoneMetrics.liftAboveCurve,
+                )
+                let label = "~\(scrubClockTime(atMinute: global))"
+                let yield = Self.milestoneYield(x: x, y: y, label: label, geom: geom, notes: notes)
+                guard yield != .hidden else { continue }
                 placements.append(MilestonePlacement(
                     id: "\(doseIndex)|\(milestone.minutes)",
                     x: x,
-                    y: max(
-                        MilestoneMetrics.minimumCenterY,
-                        geom.top + geom.height * CGFloat(1 - value) - MilestoneMetrics.liftAboveCurve,
-                    ),
+                    y: y,
                     symbol: milestone.symbol,
                     color: dose.tint.color,
-                    label: "~\(scrubClockTime(atMinute: global))",
+                    label: label,
+                    showsLabel: yield == .whole,
                 ))
             }
         }
@@ -330,10 +392,12 @@ struct TimelineGraphRenderer {
                 .measure(in: size).width
             let top = milestone.y - MilestoneMetrics.stackHeight / 2
             let labelCenter = Self.milestoneLabelCenterX(milestone.x, labelWidth: labelWidth, geom: geom)
-            let label = CGRect(
-                x: labelCenter - labelWidth / 2, y: top,
-                width: labelWidth, height: MilestoneMetrics.stackHeight,
-            )
+            let label = milestone.showsLabel
+                ? CGRect(
+                    x: labelCenter - labelWidth / 2, y: top,
+                    width: labelWidth, height: MilestoneMetrics.stackHeight,
+                )
+                : CGRect.null
             let glyph = CGRect(
                 x: milestone.x - MilestoneMetrics.glyphSize, y: top,
                 width: MilestoneMetrics.glyphSize * 2, height: MilestoneMetrics.stackHeight,
@@ -1711,6 +1775,34 @@ struct TimelineGraphRenderer {
             context.stroke(mean, with: .color(Self.hrColor), style: StrokeStyle(lineWidth: 1.6, lineCap: .round, lineJoin: .round))
         }
 
+        // Lane captions split to opposite corners, each by its own axis: heart rate
+        // left (bpm), blood pressure right (mmHg). Lowercased (they read as axis
+        // captions, not titles) and inset from the edges. No heart glyph — the
+        // crimson trace already reads as heart rate, and the lane is tight.
+        // Resolved here and drawn last, so a reading's label can keep clear of them.
+        let captionFont = Font.system(size: 8, weight: .semibold, design: .rounded)
+        let captionPad: CGFloat = 10
+        let captionY = bandTop + 7
+        let hrCaption = context.resolve(
+            Text(verbatim: String(localized: "Heart rate").lowercased()).font(captionFont).foregroundStyle(Self.hrColor),
+        )
+        let bpCaption = vitals.hasBloodPressure
+            ? context.resolve(
+                Text(verbatim: String(localized: "Blood pressure").lowercased()).font(captionFont).foregroundStyle(Self.bpColor),
+            )
+            : nil
+        let hrCaptionSize = hrCaption.measure(in: size)
+        var captionFrames = [CGRect(
+            x: graphInset + captionPad, y: captionY - hrCaptionSize.height / 2,
+            width: hrCaptionSize.width, height: hrCaptionSize.height,
+        )]
+        if let bpCaptionSize = bpCaption?.measure(in: size) {
+            captionFrames.append(CGRect(
+                x: graphInset + graphWidth - captionPad - bpCaptionSize.width, y: captionY - bpCaptionSize.height / 2,
+                width: bpCaptionSize.width, height: bpCaptionSize.height,
+            ))
+        }
+
         // Blood pressure — systolic→diastolic range bars on their own mmHg scale,
         // fitted to every reading rather than the visible ones, so the bars hold
         // still while the graph pans just as the heart-rate axis does.
@@ -1751,15 +1843,26 @@ struct TimelineGraphRenderer {
                     .font(.system(size: 8, weight: .semibold, design: .rounded))
                     .foregroundStyle(Self.bpColor)
                 let resolved = context.resolve(text)
-                let labelWidth = resolved.measure(in: size).width
+                let labelSize = resolved.measure(in: size)
+                let labelWidth = labelSize.width
                 let rightSide = cx + labelWidth + 6 > graphInset + graphWidth
                 let originX = rightSide ? cx - 4 - labelWidth : cx + 4
                 let isLast = index == bp.count - 1
                 guard isLast || originX > lastLabelMaxX + Self.bpLabelGap else { continue }
                 lastLabelMaxX = originX + labelWidth
+                // Beside the bar's upper cap, or just under a lane caption where
+                // a high reading near a corner would print over it.
+                var labelY = ys - 6
+                let labelFrame = CGRect(
+                    x: originX, y: labelY - labelSize.height / 2,
+                    width: labelWidth, height: labelSize.height,
+                )
+                if let caption = captionFrames.first(where: { $0.insetBy(dx: -Self.bpLabelGap, dy: -1).intersects(labelFrame) }) {
+                    labelY = caption.maxY + labelSize.height / 2 + 1
+                }
                 context.draw(
                     resolved,
-                    at: CGPoint(x: rightSide ? cx - 4 : cx + 4, y: ys - 6),
+                    at: CGPoint(x: rightSide ? cx - 4 : cx + 4, y: labelY),
                     anchor: rightSide ? .trailing : .leading,
                 )
             }
@@ -1786,19 +1889,9 @@ struct TimelineGraphRenderer {
             context.stroke(Path(ellipseIn: dot), with: .color(.white.opacity(0.9)), lineWidth: 1)
         }
 
-        // Lane labels split to opposite corners, each by its own axis: heart rate
-        // left (bpm), blood pressure right (mmHg). Lowercased (they read as axis
-        // captions, not titles) and inset from the edges. No heart glyph — the
-        // crimson trace already reads as heart rate, and the lane is tight.
-        let labelFont = Font.system(size: 8, weight: .semibold, design: .rounded)
-        let labelPad: CGFloat = 10
-        let hrText = String(localized: "Heart rate").lowercased()
-        let hrLabel = Text(verbatim: hrText).font(labelFont).foregroundStyle(Self.hrColor)
-        context.draw(context.resolve(hrLabel), at: CGPoint(x: graphInset + labelPad, y: bandTop + 7), anchor: .leading)
-        if vitals.hasBloodPressure {
-            let bpText = String(localized: "Blood pressure").lowercased()
-            let bpLabel = Text(verbatim: bpText).font(labelFont).foregroundStyle(Self.bpColor)
-            context.draw(context.resolve(bpLabel), at: CGPoint(x: graphInset + graphWidth - labelPad, y: bandTop + 7), anchor: .trailing)
+        context.draw(hrCaption, at: CGPoint(x: graphInset + captionPad, y: captionY), anchor: .leading)
+        if let bpCaption {
+            context.draw(bpCaption, at: CGPoint(x: graphInset + graphWidth - captionPad, y: captionY), anchor: .trailing)
         }
     }
 
