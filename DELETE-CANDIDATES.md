@@ -89,3 +89,24 @@ and the rest duplicated values the DB already resolved.
 - **Not deleted because**: `ContentState` is `Codable` and travels to the Live Activity extension, and push-updated activities decode it; dropping a key changes that payload
 - **To confirm**: check that no push payload or older installed extension expects `startTime`; then delete it with its initializer argument
 - **Found**: 2026-11-19
+
+## `Piru/Views/QuickLog/QuickLogModels.swift` — the `routines` parameter of `makeDailyGroups`
+- **What**: the `routines _: [DoseRoutine]` parameter, and with it `rebuildDailyGroups(dailyDoseItems:routines:)`'s argument and whatever `@Query` of routines exists only to feed it
+- **Looks dead because**: the parameter is discarded (`_`); group pills derive from `MedTimeGroup`, never from named routines
+- **Not deleted because**: the cascade reaches view-level `@Query` properties, and dropping one changes what invalidates the Quick Log; that wants its own change and a look at the screen
+- **To confirm**: `rg 'routines:' Piru/Views/QuickLog PiruTests/DueNowSlotTests.swift`, remove the parameter and its callers' arguments, then check that no view still queries routines only for this
+- **Found**: 2026-11-19
+
+## `Piru/Data/SubstanceDB/AppSources.swift` — the EUDA (EMCDDA) search link, and `emcdda` in `pipeline/audit/source_link_check.py`
+- **What**: the `euda` case in `substanceURL(for:)` and the `emcdda` `SourceSpec` that checks it
+- **Looks dead because**: the audit's own comment says the case has no `slugToName` entry, so no shipping call site reaches it
+- **Not deleted because**: EUDA is a listed source (`AppSources.swift:90`), so wiring the link up may be the intent rather than removing it
+- **To confirm**: decide whether substance pages should link to EUDA drug profiles; if not, delete the case and the `SourceSpec`
+- **Found**: 2026-11-19
+
+## `pipeline/build/sqlite.py` — `apply_legible_stereo_names`
+- **What**: the pass that fills an empty `display_name` with a parenthesized stereo name ("(S)-MDMA"), and its stderr count
+- **Looks dead because**: its docstring and build log report that it matches no rows on a full build; curated display names already cover every stereo canonical
+- **Not deleted because**: it is a safety net for a future source that adds a CIP-plus-rotation canonical without a curated display name
+- **To confirm**: keep it only if that net is wanted; otherwise delete the method, `legible_stereo_name` if nothing else calls it, and the log line
+- **Found**: 2026-11-19
