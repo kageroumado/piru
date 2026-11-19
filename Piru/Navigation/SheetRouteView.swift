@@ -235,7 +235,8 @@ private struct PersonalizeSubstanceHost: View {
 private struct TimeAdjustHost: View {
     @Bindable var entry: DoseEntry
     @Environment(\.appNavigator) private var navigator
-    @Query private var substanceColors: [SubstanceColor]
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.sessionEditingService) private var editing
     @State private var originalTimestamp: Date?
 
     var body: some View {
@@ -262,22 +263,9 @@ private struct TimeAdjustHost: View {
         }
         .presentationDetents([.medium])
         .onAppear { if originalTimestamp == nil { originalTimestamp = entry.timestamp } }
-        .onDisappear { syncSessionIfTimeChanged() }
-    }
-
-    /// Editing `entry.timestamp` writes straight through to SwiftData, but the
-    /// session accessory + Live Activity read from `ActiveSessionManager`'s
-    /// snapshot — without this they keep showing the dose's pre-edit time.
-    private func syncSessionIfTimeChanged() {
-        guard let original = originalTimestamp, original != entry.timestamp else { return }
-        ActiveSessionManager.shared.refreshEditedEntry(
-            previousTimestamp: original,
-            entry: entry,
-            allColors: Array(substanceColors),
-        )
-        // Pending reminders are keyed to the old timestamp — a moved dose
-        // must drop them and reschedule from its new time.
-        DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original)
+        .onDisappear {
+            if let originalTimestamp { editing.retimed(entry, from: originalTimestamp, in: modelContext) }
+        }
     }
 }
 
