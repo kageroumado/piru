@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "what": "The mechanistic effect engine's per-substance override layer, relocated from the SubstanceModelDatabase.swift `overrides` and `aliases` literals. `overrides` holds the irreducible PD scalars and the handful of felt-effect PK patches; `inherits` is the PD-inheritance relation (a name borrows another's model calibration).",
+    "key": "Both maps are keyed by the engine's OWN folded lookup names (lowercased, trimmed), the keys the Swift literal used — SubstanceModelDatabase keyed its own relation, not a substance's canonical name (see PharmacologyNameKey). So `4-fa` keys 4-Fluoroamphetamine and `ppap` keys Phenylpropylaminopentane. Each override names its catalog `substance` for the id cross-reference; `null` means the engine knows a key the catalog has no substance for (bpap), whose override is inert (no elimination anchor ⇒ no params) until the substance exists.",
+    "why_no_citation": "These are Tier-C model constants — vesicular store-depletion susceptibility, DAT dissociation koff, µ-opioid drive/efficacy, GABA/CAE/respiratory drive, multi-receptor antagonism, and the DA-normalized reference dose. No pharmacology database carries them: they are a calibration of Piru's own engine, not a reading of a paper, so each row carries a `note` (its basis) rather than a citation. The felt-effect PK patches correct a plasma value the DB ships that is wrong for a felt curve (a prodrug's active-metabolite duration); the human study a substance's curve was fitted to is the `model-calibrated` flag's citation in substance-flags.json, not here.",
+    "units": "`felt_half_life_minutes` is per MINUTE — every elimination path in the build is per minute; the engine converts it to the per-hour ke it works in. `ka_per_hour` is the engine's own per-hour absorption kernel. `reference_dose_mg` is milligrams. The per-hour ke the Swift literal stored directly is gone, and with it the 60× trap of a per-hour value sitting beside per-minute siblings.",
+    "inherits": "A PD-inheritance edge: the left key borrows the whole override of the right key. Lisdexamfetamine is its own substance for NAMING but amphetamine for the MODEL, so it rides here and never in the naming `aliases` table. Most edges (adderall, molly, 4-mmc, …) also happen to be naming aliases of the same substance, but the relation is distinct and kept apart on purpose; the four that cross substances (lisdexamfetamine→amphetamine, mitragynine→kratom, 4-fea→4-fa, 2mmc→2-mmc) are why it must never be folded into naming."
+  },
+  "overrides": {
+    "amphetamine": { "substance": "Amphetamine", "reference_dose_mg": 50, "deplete": 1.0, "note": "Releaser stimulant; the DA-normalized reference dose and the full store-depletion crash scalar. PK and transporter weights come from the DB." },
+    "mdma": { "substance": "MDMA", "reference_dose_mg": 90, "deplete": 0.10, "note": "Serotonin-predominant releaser; mild depletion. Weights and PK from the DB." },
+    "3-mmc": { "substance": "3-MMC", "reference_dose_mg": 80, "deplete": 0.12, "note": "The cathinone-branch anchor; calibrates at 80 mg though its heavy oral dose is ~350 mg. Depletion curated; weights/PK from the DB." },
+    "2-mmc": { "substance": "2-MMC", "reference_dose_mg": 250, "deplete": 0.12, "note": "Held-out ortho isomer; borrows mephedrone's PK through the DB reference pointer and differs only in its measured transporter triple." },
+    "mephedrone": { "substance": "Mephedrone", "reference_dose_mg": 150, "deplete": 0.12, "note": "Cathinone releaser; depletion curated, weights/PK from the DB." },
+    "4-fa": { "substance": "4-FA", "reference_dose_mg": 120, "deplete": 0.05, "note": "Keyed 4-fa (engine name), catalog substance 4-Fluoroamphetamine. Low depletion; weights/PK from the DB." },
+    "methylphenidate": { "substance": "Methylphenidate", "reference_dose_mg": 60, "deplete": 0, "koff": 8.0, "note": "Reuptake blocker; no depletion. Curated DAT dissociation koff sets the plateau (slow off-rate ⇒ drive without the releaser crash)." },
+    "mdpv": { "substance": "MDPV", "reference_dose_mg": 15, "deplete": 0, "koff": 3.0, "note": "DA-selective reuptake blocker; curated koff." },
+    "5-apb": { "substance": "5-APB", "reference_dose_mg": 70, "deplete": 0.08, "note": "No sourced human PK exists, so this carries the reference dose and depletion only; the substance surfaces no params until a half-life is sourced." },
+    "heroin": { "substance": "Heroin", "felt_half_life_minutes": 150, "ka_per_hour": 6.0, "reference_dose_mg": 10, "mu": 1.0, "mu_eff": 0.97, "resp": 1.4, "note": "The ~3-minute plasma half-life is the prodrug diamorphine; the felt duration is 6-MAM then morphine (~2.5 h). felt_half_life + ka patch the felt-metabolite kernel; µ drive/efficacy and respiratory drive are curated." },
+    "morphine": { "substance": "Morphine", "reference_dose_mg": 30, "mu": 1.0, "mu_eff": 0.95, "resp": 1.0, "note": "Full µ agonist reference; PK from the DB." },
+    "oxycodone": { "substance": "Oxycodone", "reference_dose_mg": 20, "mu": 1.0, "mu_eff": 0.92, "resp": 0.9, "note": "µ agonist; curated drive/efficacy/respiratory, PK from the DB." },
+    "kratom": { "substance": "Kratom", "reference_dose_mg": 3000, "mu": 0.55, "mu_eff": 0.5, "note": "Partial µ agonism (mitragynine); reference dose is 3 g of leaf. Weights/PK from the DB." },
+    "bromazepam": { "substance": "Bromazepam", "reference_dose_mg": 6, "gaba": 1.0, "note": "Benzodiazepine GABA-A drive; a sedative adjunct, never a solo trigger." },
+    "ppap": { "substance": "Phenylpropylaminopentane", "reference_dose_mg": 20, "cae": 0.45, "note": "Keyed ppap (engine name), catalog substance Phenylpropylaminopentane; catecholaminergic-activity-enhancer. No sourced PK, so it surfaces no params until a half-life is sourced." },
+    "bpap": { "substance": null, "reference_dose_mg": 1, "cae": 1.1, "note": "No catalog substance; the engine knows it but it is inert (no elimination anchor ⇒ no params). Carried so the engine's key set is unchanged; attaches the moment BPAP enters the catalog." },
+    "mirtazapine": { "substance": "Mirtazapine", "reference_dose_mg": 30, "receptor_affinities": { "h1": 0.03, "a2": 0.6, "c2C": 0.6, "c2A": 0.9 }, "note": "Multi-receptor antagonist adjunct; H1/α2/5-HT2C/5-HT2A occupancy constants for the engine's antagonist stage." }
+  },
+  "inherits": {
+    "adderall": "amphetamine",
+    "dextroamphetamine": "amphetamine",
+    "lisdexamfetamine": "amphetamine",
+    "speed": "amphetamine",
+    "ritalin": "methylphenidate",
+    "concerta": "methylphenidate",
+    "3mmc": "3-mmc",
+    "2mmc": "2-mmc",
+    "4-mmc": "mephedrone",
+    "4mmc": "mephedrone",
+    "molly": "mdma",
+    "ecstasy": "mdma",
+    "mitragynine": "kratom",
+    "4-fea": "4-fa",
+    "diamorphine": "heroin",
+    "diacetylmorphine": "heroin",
+    "oxycontin": "oxycodone",
+    "remeron": "mirtazapine"
+  }
+}

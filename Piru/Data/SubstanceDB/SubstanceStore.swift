@@ -883,6 +883,14 @@ final class SubstanceStore {
                     PharmacologyParameters.Flag.modelCalibrated, db: substancesDB,
                 ),
             )
+            // The mechanistic engine's override layer + PD-inheritance relation, and the mechanism
+            // category floor, all relocated from Swift literals into the bundled DB. Installed here
+            // for the same reason as the calibrated set: they are read from `nonisolated` code with
+            // no store reference (the effect builder, the elimination gate, the off-main Pharma seed).
+            SubstanceModelDatabase.loadOverrides(SubstanceReadModel.modelOverrides(db: substancesDB))
+            SubstanceModelDatabase.loadModelAliases(SubstanceReadModel.modelAliases(db: substancesDB))
+            let floor = SubstanceReadModel.categoryFloor(db: substancesDB)
+            MechanismOfActionDatabase.loadCategoryFloor(prose: floor.prose, bindings: floor.bindings)
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
             // lowercased canonical name (`MDMA`/`mdma` from an imported DB, or an

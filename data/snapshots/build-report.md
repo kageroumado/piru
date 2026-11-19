@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-11-19.1 → `Piru/Data/piru-substances.sqlite` (21,602,304 bytes, sha256 `ae4a236f5d8f9c9fa7068936b2f3d9d35239a451a53a523ed18d006fc4aa6bc6`)
+Built 2026-11-19.2 → `Piru/Data/piru-substances.sqlite` (21,676,032 bytes, sha256 `71e6fa68277af10199432124095126f4244d60a43588175c5651b237d167bc97`)
 
 ## Row counts
 
@@ -50,6 +50,10 @@ Built 2026-11-19.1 → `Piru/Data/piru-substances.sqlite` (21,602,304 bytes, sha
 | interaction_rules | 95 |
 | substance_interaction_classes | 213 |
 | category_interaction_classes | 29 |
+| category_mechanisms | 92 |
+| category_mechanism_bindings | 2 |
+| model_overrides | 17 |
+| model_alias | 18 |
 | tolerance_modulation | 0 |
 | enzyme_modulators | 11 |
 | combination_metabolites | 2 |

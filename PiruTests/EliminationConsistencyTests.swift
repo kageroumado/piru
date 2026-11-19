@@ -160,7 +160,10 @@ struct EliminationConsistencyTests {
     /// stored unit ever changes, this fails loudly instead of every curve
     /// silently going 60× wrong.
     @Test
-    func `Override ke unit boundary converts per-hour to minutes`() {
+    @MainActor
+    func `Override ke unit boundary converts per-hour to minutes`() async {
+        // The override layer is bundled-DB data now; hydrate before reading it.
+        await SubstanceStore.shared.ensureAllLoaded()
         #expect(SubstanceModelDatabase.curatedHalfLifeMinutes(for: "heroin") == 150)
         #expect(SubstanceModelDatabase.curatedHalfLifeMinutes(for: "morphine") == nil)
     }

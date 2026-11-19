@@ -140,6 +140,14 @@ CLASS_MECHANISMS = REPO / "data/curated/class-mechanisms.json"
 # and never shipped: its terms forbid copying.
 # pipeline/audit/claim_language.py gates the wording.
 MECHANISM_LINES = REPO / "data/curated/mechanism-lines.json"
+# The Pharmacology card's per-category floor prose + the targets a category
+# itself names, relocated from the iOS MechanismOfActionDatabase `categoryData`
+# literal. Keyed by SubstanceCategory raw value, prose in en/zh-Hans/zh-Hant/es.
+CATEGORY_MECHANISMS = REPO / "data/curated/category-mechanisms.json"
+# The mechanistic effect engine's per-substance override layer + PD-inheritance
+# relation, relocated from the iOS SubstanceModelDatabase `overrides`/`aliases`
+# literals. Model constants (no citation); keyed by the engine's own fold names.
+MODEL_OVERRIDES = REPO / "data/curated/model-overrides.json"
 #: MedTAP records whose label mechanism prose Piru ships nothing in place of.
 #: Ten already carry a Piru line under another name, so a medtap row would be a
 #: second `piru-curated` summary for one substance; the rest state no molecular
@@ -2320,6 +2328,86 @@ CREATE TABLE category_interaction_classes (
     category   TEXT PRIMARY KEY,   -- SubstanceCategory raw value ("Depressant")
     drug_class TEXT NOT NULL,
     note       TEXT
+);
+
+-- The Pharmacology card's CATEGORY FLOOR: the mechanism prose shown for a
+-- substance no source has described, one row per (SubstanceCategory raw value,
+-- language). Relocated from the MechanismOfActionDatabase.swift `categoryData`
+-- literal. The floor is composed at RUNTIME, not fanned out to substances at
+-- build time (unlike class-mechanisms), because the choice between a substance's
+-- own prose and the floor is language-dependent and the shipped DB carries one
+-- set of rows for every language — a Chinese reader seeing English-only DB prose
+-- must fall to the localized floor, which only the running app can decide.
+-- Carries es as well as en/zh (the floor already shipped in Spanish); no
+-- citation, because a category generalization is not a reading of a paper.
+CREATE TABLE category_mechanisms (
+    category    TEXT NOT NULL,     -- SubstanceCategory raw value ("Stimulant")
+    language    TEXT NOT NULL,     -- en | zh-Hans | zh-Hant | es
+    summary     TEXT NOT NULL,
+    description TEXT NOT NULL,
+    PRIMARY KEY (category, language)
+);
+
+-- The molecular targets a category itself names (only orexinAntagonist's
+-- OX1R/OX2R today). A floor binding is shown only where the substance has no
+-- row of its own; it carries an ordinal `affinity_tier`, never a system, a
+-- pathway or "Various" — each renders as a graded chip claiming a measured
+-- affinity, so a non-target here would fake one.
+CREATE TABLE category_mechanism_bindings (
+    category      TEXT NOT NULL,   -- SubstanceCategory raw value
+    target        TEXT NOT NULL,
+    action        TEXT NOT NULL,
+    affinity_tier INTEGER NOT NULL, -- 1 weak | 2 significant | 3 primary
+    PRIMARY KEY (category, target, action)
+);
+
+-- The mechanistic effect engine's per-substance override layer, relocated from
+-- the SubstanceModelDatabase.swift `overrides` literal. Tier-C model constants
+-- (store-depletion crash, DAT koff, µ-opioid drive/efficacy, GABA/CAE/respiratory
+-- drive, multi-receptor antagonism) plus the DA-normalized reference dose and the
+-- few felt-effect PK patches a prodrug needs. No citation: these calibrate Piru's
+-- own engine rather than read a paper (the calibration STUDY is the
+-- `model-calibrated` flag's citation, not this). `model_key` is the engine's own
+-- folded lookup name (it keys its OWN relation, not the naming aliases — see
+-- PharmacologyNameKey: `4-fa` keys 4-Fluoroamphetamine, `ppap` keys
+-- Phenylpropylaminopentane). `substance_id` cross-references the catalog; NULL
+-- when the engine knows a key the catalog has no substance for (BPAP), whose
+-- override is inert until the substance exists.
+--
+-- `felt_half_life_minutes` is per MINUTE like every other elimination path (the
+-- app converts it to the per-hour ke the engine works in); storing a per-hour ke
+-- beside per-minute siblings was the 60× trap this move closes.
+CREATE TABLE model_overrides (
+    model_key              TEXT PRIMARY KEY,
+    substance_id           INTEGER REFERENCES substances(id),
+    felt_half_life_minutes REAL,   -- NULL ⇒ trust the DB half-life
+    ka_per_hour            REAL,   -- NULL ⇒ derive ka from Tmax/ke
+    reference_dose_mg      REAL,   -- NULL ⇒ DB dose ladder
+    deplete                REAL,
+    koff                   REAL,
+    mu                     REAL,
+    mu_eff                 REAL,
+    gaba                   REAL,
+    cae                    REAL,
+    resp                   REAL,
+    rec_h1                 REAL,   -- multi-receptor antagonist occupancy constants
+    rec_a2                 REAL,
+    rec_2c                 REAL,
+    rec_2a                 REAL,
+    note                   TEXT
+);
+
+-- The engine's PD-inheritance relation, relocated from the
+-- SubstanceModelDatabase.swift `aliases` literal: `alias_key` borrows the whole
+-- model override of `canonical_key`. This is the "same PD calibration" relation
+-- and MUST NOT be merged into `aliases` (the naming relation) — lisdexamfetamine
+-- is its own substance for naming but amphetamine for the model. Both are folded
+-- engine keys; `canonical_substance_id` cross-references the catalog where the
+-- donor is a real substance.
+CREATE TABLE model_alias (
+    alias_key              TEXT PRIMARY KEY,
+    canonical_key          TEXT NOT NULL,
+    canonical_substance_id INTEGER REFERENCES substances(id)
 );
 
 -- Tolerance-modulation edges: while the modulator is onboard, scale the
@@ -12753,6 +12841,113 @@ class Build:
                 stats["inserted"] += 1
         return stats
 
+    def ingest_category_mechanisms(self, path: Path) -> dict[str, int]:
+        """Fill ``category_mechanisms`` + ``category_mechanism_bindings`` from the
+        curated category-floor file, relocated from the iOS
+        ``MechanismOfActionDatabase`` ``categoryData`` literal. Prose per
+        (category, language); bindings per (category, target, action). No
+        substance resolution and no citation — a floor is a category
+        generalization, and the app composes it at runtime (the language choice
+        is the reader's, not the build's)."""
+        stats = {"prose": 0, "bindings": 0}
+        if not path.exists():
+            return stats
+        doc = json.loads(path.read_text())
+        for rec in doc.get("categories", []):
+            cat = rec["category"]
+            for lang, prose in (rec.get("prose") or {}).items():
+                summary = (prose or {}).get("summary")
+                description = (prose or {}).get("description")
+                if not summary or not description:
+                    print(
+                        f"  WARNING: category-mechanisms {cat}/{lang} missing prose",
+                        file=sys.stderr,
+                    )
+                    continue
+                self.cur.execute(
+                    "INSERT OR REPLACE INTO category_mechanisms"
+                    "(category, language, summary, description) VALUES (?, ?, ?, ?)",
+                    (cat, lang, summary, description),
+                )
+                stats["prose"] += 1
+            for b in rec.get("bindings") or []:
+                self.cur.execute(
+                    "INSERT OR REPLACE INTO category_mechanism_bindings"
+                    "(category, target, action, affinity_tier) VALUES (?, ?, ?, ?)",
+                    (cat, b["target"], b["action"], int(b["affinity_tier"])),
+                )
+                stats["bindings"] += 1
+        return stats
+
+    def ingest_model_overrides(self, path: Path) -> dict[str, int]:
+        """Fill ``model_overrides`` + ``model_alias`` from the curated
+        model-override file, relocated from the iOS ``SubstanceModelDatabase``
+        ``overrides`` / ``aliases`` literals. Keys are the engine's own fold
+        names; each override names its catalog ``substance`` for the id
+        cross-reference (NULL for an engine key the catalog has no substance
+        for, e.g. BPAP). The ``inherits`` map is the PD-inheritance relation,
+        kept entirely apart from the naming ``aliases`` table."""
+        stats = {"overrides": 0, "orphan_overrides": 0, "aliases": 0, "unmatched_donor": 0}
+        if not path.exists():
+            return stats
+        doc = json.loads(path.read_text())
+        index = self._alias_index()
+        overrides = doc.get("overrides", {})
+        for key, ov in overrides.items():
+            sub = ov.get("substance")
+            sid = index.get(normalise(sub)) if sub else None
+            if sub and sid is None:
+                print(
+                    f"  WARNING: model-overrides '{key}' names unknown substance {sub!r}",
+                    file=sys.stderr,
+                )
+            if sid is None:
+                stats["orphan_overrides"] += 1
+            rec = ov.get("receptor_affinities") or {}
+            self.cur.execute(
+                "INSERT OR REPLACE INTO model_overrides"
+                "(model_key, substance_id, felt_half_life_minutes, ka_per_hour,"
+                " reference_dose_mg, deplete, koff, mu, mu_eff, gaba, cae, resp,"
+                " rec_h1, rec_a2, rec_2c, rec_2a, note)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    key,
+                    sid,
+                    to_float(ov.get("felt_half_life_minutes")),
+                    to_float(ov.get("ka_per_hour")),
+                    to_float(ov.get("reference_dose_mg")),
+                    to_float(ov.get("deplete")),
+                    to_float(ov.get("koff")),
+                    to_float(ov.get("mu")),
+                    to_float(ov.get("mu_eff")),
+                    to_float(ov.get("gaba")),
+                    to_float(ov.get("cae")),
+                    to_float(ov.get("resp")),
+                    to_float(rec.get("h1")),
+                    to_float(rec.get("a2")),
+                    to_float(rec.get("c2C")),
+                    to_float(rec.get("c2A")),
+                    ov.get("note"),
+                ),
+            )
+            stats["overrides"] += 1
+        for alias_key, canonical_key in doc.get("inherits", {}).items():
+            if canonical_key not in overrides:
+                raise SystemExit(
+                    f"model-overrides: inherits '{alias_key}' -> '{canonical_key}' names no override"
+                )
+            donor = overrides[canonical_key].get("substance")
+            did = index.get(normalise(donor)) if donor else None
+            if donor and did is None:
+                stats["unmatched_donor"] += 1
+            self.cur.execute(
+                "INSERT OR REPLACE INTO model_alias"
+                "(alias_key, canonical_key, canonical_substance_id) VALUES (?, ?, ?)",
+                (alias_key, canonical_key, did),
+            )
+            stats["aliases"] += 1
+        return stats
+
     def ingest_class_warnings(self) -> dict[str, int]:
         """Fill `class_warnings` and its citation / exclusion tables from
         data/curated/class-warnings.json.
@@ -16155,6 +16350,12 @@ def main() -> int:
     substance_flags = build.ingest_substance_flags()
     print(f"Substance flags: {substance_flags}", file=sys.stderr)
 
+    category_mechanisms = build.ingest_category_mechanisms(CATEGORY_MECHANISMS)
+    print(f"Category mechanism floor: {category_mechanisms}", file=sys.stderr)
+
+    model_overrides = build.ingest_model_overrides(MODEL_OVERRIDES)
+    print(f"Model overrides: {model_overrides}", file=sys.stderr)
+
     class_warnings = build.ingest_class_warnings()
     print(f"Class warnings: {class_warnings}", file=sys.stderr)
 
@@ -16494,6 +16695,10 @@ def main() -> int:
         "interaction_rules",
         "substance_interaction_classes",
         "category_interaction_classes",
+        "category_mechanisms",
+        "category_mechanism_bindings",
+        "model_overrides",
+        "model_alias",
         "tolerance_modulation",
         "enzyme_modulators",
         "combination_metabolites",

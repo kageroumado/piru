@@ -12447,62 +12447,6 @@
         }
       }
     },
-    "Acts as an agonist at cannabinoid CB1 receptors in the central nervous system and CB2 receptors in immune tissues. CB1 activation inhibits adenylyl cyclase and modulates ion channels via Gi/Go proteins, reducing neurotransmitter release (particularly GABA and glutamate) in brain regions involved in reward, memory, coordination, and pain perception." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actúa como agonista de los receptores cannabinoides CB1 en el sistema nervioso central y CB2 en tejidos inmunitarios. La activación de CB1 inhibe la adenilato ciclasa y modula canales iónicos a través de proteínas Gi/Go, disminuyendo la liberación de neurotransmisores (sobre todo GABA y glutamato) en regiones cerebrales implicadas en la recompensa, la memoria, la coordinación y la percepción del dolor."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actúa como agonista de los receptores cannabinoides CB1 en el sistema nervioso central y CB2 en tejidos inmunitarios. La activación de CB1 inhibe la adenilato ciclasa y modula canales iónicos a través de proteínas Gi/Go, disminuyendo la liberación de neurotransmisores (sobre todo GABA y glutamato) en regiones cerebrales implicadas en la recompensa, la memoria, la coordinación y la percepción del dolor."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作为中枢神经系统中大麻素 CB1 受体和免疫组织中 CB2 受体的激动剂。CB1 激活抑制腺苷酸环化酶，并通过 Gi/Go 蛋白调节离子通道，减少参与奖赏、记忆、协调和痛觉的脑区中的神经递质释放（尤其是 GABA 和谷氨酸）。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作為中樞神經系統中大麻素 CB1 受體和免疫組織中 CB2 受體的促效劑。CB1 活化抑制腺苷酸環化酶，並透過 Gi/Go 蛋白調節離子通道，減少參與獎賞、記憶、協調和痛覺的腦區中的神經傳導物質釋放（尤其是 GABA 和麩胺酸）。"
-          }
-        }
-      }
-    },
-    "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release. The result is analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actúa sobre los receptores μ-opioides (MOR), receptores acoplados a proteína G distribuidos por todo el sistema nervioso central y periférico. La activación del MOR inhibe la adenilato ciclasa, abre canales de potasio rectificadores de entrada y cierra canales de calcio dependientes de voltaje, disminuyendo la excitabilidad neuronal y la liberación de neurotransmisores. El resultado es analgesia, euforia, depresión respiratoria y tránsito gastrointestinal más lento. Hasta qué punto este compuesto en particular activa el receptor, y si también actúa sobre κ o δ, no está caracterizado aquí; el panel de receptores de abajo recoge lo que se haya medido para él."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actúa sobre los receptores μ-opioides (MOR), receptores acoplados a proteína G distribuidos por todo el sistema nervioso central y periférico. La activación del MOR inhibe la adenilato ciclasa, abre canales de potasio rectificadores de entrada y cierra canales de calcio dependientes de voltaje, disminuyendo la excitabilidad neuronal y la liberación de neurotransmisores. El resultado es analgesia, euforia, depresión respiratoria y tránsito gastrointestinal más lento. Hasta qué punto este compuesto en particular activa el receptor, y si también actúa sobre κ o δ, no está caracterizado aquí; el panel de receptores de abajo recoge lo que se haya medido para él."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作用于 μ-阿片受体（MOR），一类分布于中枢与外周神经系统的 G 蛋白偶联受体。MOR 激活会抑制腺苷酸环化酶、开放内向整流钾通道并关闭电压门控钙通道，降低神经元兴奋性与神经递质释放，产生镇痛、欣快、呼吸抑制以及胃肠蠕动减慢。此处未说明该化合物对受体的激活程度，也未说明它是否同时作用于 κ 或 δ；下方的受体面板列出的是已实测到的数据。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作用於 μ-鴉片受體（MOR），一類分布於中樞與周邊神經系統的 G 蛋白偶聯受體。MOR 活化會抑制腺苷酸環化酶、開放內向整流鉀通道並關閉電壓閘控鈣通道，降低神經元興奮性與神經傳導物質釋放，產生鎮痛、欣快、呼吸抑制以及胃腸蠕動減慢。此處未說明該化合物對受體的活化程度，也未說明它是否同時作用於 κ 或 δ；下方的受體面板列出的是已實測到的資料。"
-          }
-        }
-      }
-    },
     "Acts differently from %@, not simply stronger or weaker." : {
       "localizations" : {
         "es" : {
@@ -17013,34 +16957,6 @@
         }
       }
     },
-    "Analgesic Agent" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente analgésico"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente analgésico"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "镇痛剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "鎮痛劑"
-          }
-        }
-      }
-    },
     "Analyte" : {
       "localizations" : {
         "es" : {
@@ -17349,34 +17265,6 @@
         }
       }
     },
-    "Antidepressant (Monoamine Modulator)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antidepresivo (modulador de monoaminas)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antidepresivo (modulador de monoaminas)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抗抑郁药（单胺调节剂）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抗憂鬱藥（單胺調節劑）"
-          }
-        }
-      }
-    },
     "Antihistamine" : {
       "localizations" : {
         "es" : {
@@ -17433,34 +17321,6 @@
         }
       }
     },
-    "Antimicrobial Agent" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente antimicrobiano"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente antimicrobiano"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抗菌剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抗菌劑"
-          }
-        }
-      }
-    },
     "Antipsychotic" : {
       "localizations" : {
         "es" : {
@@ -17485,34 +17345,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "抗精神病藥"
-          }
-        }
-      }
-    },
-    "Antipsychotic (Dopamine Receptor Antagonist)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antipsicótico (antagonista del receptor de dopamina)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antipsicótico (antagonista del receptor de dopamina)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抗精神病药（多巴胺受体拮抗剂）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抗精神病藥（多巴胺受體拮抗劑）"
           }
         }
       }
@@ -20249,62 +20081,6 @@
         }
       }
     },
-    "Binds to the benzodiazepine site at the interface of α and γ subunits on GABA-A receptors, acting as a positive allosteric modulator. Enhances the effect of GABA by increasing the frequency of chloride channel opening, leading to neuronal hyperpolarization and reduced excitability. Produces anxiolytic, sedative, hypnotic, anticonvulsant, and muscle relaxant effects." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se une al sitio benzodiacepínico en la interfaz de las subunidades α y γ de los receptores GABA-A, actuando como modulador alostérico positivo. Potencia el efecto del GABA al aumentar la frecuencia de apertura del canal de cloruro, lo que produce hiperpolarización neuronal y menor excitabilidad. Produce efectos ansiolíticos, sedantes, hipnóticos, anticonvulsivos y relajantes musculares."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se une al sitio benzodiacepínico en la interfaz de las subunidades α y γ de los receptores GABA-A, actuando como modulador alostérico positivo. Potencia el efecto del GABA al aumentar la frecuencia de apertura del canal de cloruro, lo que produce hiperpolarización neuronal y menor excitabilidad. Produce efectos ansiolíticos, sedantes, hipnóticos, anticonvulsivos y relajantes musculares."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "结合于 GABA-A 受体上 α 和 γ 亚单位界面的苯二氮䓬位点，作为正向变构调节剂。通过增加氯离子通道开放频率增强 GABA 的效应，导致神经元超极化和兴奋性降低。产生抗焦虑、镇静、催眠、抗惊厥和肌肉松弛效应。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "結合於 GABA-A 受體上 α 和 γ 亞單位界面的苯二氮平位點，作為正向變構調節劑。透過增加氯離子通道開放頻率增強 GABA 的效應，導致神經元超極化和興奮性降低。產生抗焦慮、鎮靜、催眠、抗驚厥和肌肉鬆弛效應。"
-          }
-        }
-      }
-    },
-    "Binds to the α2δ-1 subunit of voltage-gated calcium channels (VGCCs), reducing calcium influx at presynaptic nerve terminals. This decreases the release of excitatory neurotransmitters including glutamate, norepinephrine, substance P, and calcitonin gene-related peptide. Despite the name, gabapentinoids do not interact with GABA receptors or GABA metabolism." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se une a la subunidad α2δ-1 de los canales de calcio dependientes de voltaje (VGCC), reduciendo la entrada de calcio en las terminales nerviosas presinápticas. Esto disminuye la liberación de neurotransmisores excitatorios, incluidos glutamato, noradrenalina, sustancia P y péptido relacionado con el gen de la calcitonina. A pesar del nombre, los gabapentinoides no interactúan con los receptores GABA ni con el metabolismo del GABA."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se une a la subunidad α2δ-1 de los canales de calcio dependientes de voltaje (VGCC), reduciendo la entrada de calcio en las terminales nerviosas presinápticas. Esto disminuye la liberación de neurotransmisores excitatorios, incluidos glutamato, noradrenalina, sustancia P y péptido relacionado con el gen de la calcitonina. A pesar del nombre, los gabapentinoides no interactúan con los receptores GABA ni con el metabolismo del GABA."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "结合于电压门控钙通道（VGCC）的 α2δ-1 亚单位，减少突触前神经末梢的钙内流。这减少兴奋性神经递质（包括谷氨酸、去甲肾上腺素、P 物质和降钙素基因相关肽）的释放。尽管名字如此，加巴喷丁类药物并不与 GABA 受体或 GABA 代谢相互作用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "結合於電壓閘控鈣通道（VGCC）的 α2δ-1 亞單位，減少突觸前神經末梢的鈣內流。這減少興奮性神經傳導物質（包括麩胺酸、正腎上腺素、P 物質和降鈣素基因相關肽）的釋放。儘管名字如此，加巴噴丁類藥物並不與 GABA 受體或 GABA 代謝相互作用。"
-          }
-        }
-      }
-    },
     "bioavailability" : {
       "localizations" : {
         "es" : {
@@ -20694,90 +20470,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阻斷5-HT₂A，同時弱抑制血清素再攝取。低劑量時受體阻斷佔主導，這就是曲唑酮作為助眠藥的使用者遠多於作為抗憂鬱藥的原因。"
-          }
-        }
-      }
-    },
-    "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing positive psychotic symptoms. Whether this compound also carries the 5-HT2A antagonism that distinguishes the second-generation agents, and the histamine, muscarinic and adrenergic activity that drives sedation and orthostasis, varies across the class and is not characterized here." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquea los receptores D2 de dopamina en la vía mesolímbica, reduciendo los síntomas psicóticos positivos. Si este compuesto también posee el antagonismo 5-HT2A que distingue a los agentes de segunda generación, y la actividad histaminérgica, muscarínica y adrenérgica que causa sedación e hipotensión ortostática, varía dentro de la clase y no está caracterizado aquí."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquea los receptores D2 de dopamina en la vía mesolímbica, reduciendo los síntomas psicóticos positivos. Si este compuesto también posee el antagonismo 5-HT2A que distingue a los agentes de segunda generación, y la actividad histaminérgica, muscarínica y adrenérgica que causa sedación e hipotensión ortostática, varía dentro de la clase y no está caracterizado aquí."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻断中脑边缘通路的多巴胺 D2 受体，减轻精神病性阳性症状。该化合物是否同时具有区分第二代药物的 5-HT2A 拮抗作用，以及导致镇静与体位性低血压的组胺、毒蕈碱与肾上腺素能活性，在同类药物中各不相同，此处未作说明。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻斷中腦邊緣通路的多巴胺 D2 受體，減輕精神病性陽性症狀。該化合物是否同時具有區分第二代藥物的 5-HT2A 拮抗作用，以及導致鎮靜與姿勢性低血壓的組織胺、蕈毒鹼與腎上腺素能活性，在同類藥物中各不相同，此處未作說明。"
-          }
-        }
-      }
-    },
-    "Blocks histamine H1 receptors, reducing the itching, flare, wheal and vasodilation of the histamine response. Whether this compound crosses into the central nervous system (the difference between a sedating first-generation antihistamine with a muscarinic load and a peripherally selective second-generation one) is not characterized here." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquea los receptores H1 de histamina, reduciendo la picazón, el enrojecimiento, la roncha y la vasodilatación de la respuesta histamínica. Si este compuesto cruza al sistema nervioso central (la diferencia entre un antihistamínico de primera generación sedante con carga muscarínica y uno de segunda generación periféricamente selectivo) no está caracterizado aquí."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquea los receptores H1 de histamina, reduciendo la picazón, el enrojecimiento, la roncha y la vasodilatación de la respuesta histamínica. Si este compuesto cruza al sistema nervioso central (la diferencia entre un antihistamínico de primera generación sedante con carga muscarínica y uno de segunda generación periféricamente selectivo) no está caracterizado aquí."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻断组胺 H1 受体，减轻组胺反应中的瘙痒、红晕、风团与血管扩张。该化合物是否进入中枢神经系统（这正是具有毒蕈碱负荷、会引起嗜睡的第一代抗组胺药与外周选择性的第二代抗组胺药之间的区别），此处未作说明。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻斷組織胺 H1 受體，減輕組織胺反應中的搔癢、紅暈、風疹塊與血管擴張。該化合物是否進入中樞神經系統（這正是具有蕈毒鹼負荷、會引起嗜睡的第一代抗組織胺藥與周邊選擇性的第二代抗組織胺藥之間的區別），此處未作說明。"
-          }
-        }
-      }
-    },
-    "Blocks N-methyl-D-aspartate (NMDA) glutamate receptors, typically by binding within the ion channel pore as a non-competitive antagonist. NMDA receptor blockade reduces excitatory glutamatergic neurotransmission, producing dissociative anesthesia, analgesia, and altered states of consciousness characterized by feelings of detachment from body and environment." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquea los receptores de glutamato N-metil-D-aspartato (NMDA), normalmente uniéndose dentro del poro del canal iónico como antagonista no competitivo. El bloqueo del receptor NMDA reduce la neurotransmisión glutamatérgica excitatoria, produciendo anestesia disociativa, analgesia y estados alterados de consciencia caracterizados por sensaciones de desconexión del cuerpo y del entorno."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquea los receptores de glutamato N-metil-D-aspartato (NMDA), normalmente uniéndose dentro del poro del canal iónico como antagonista no competitivo. El bloqueo del receptor NMDA reduce la neurotransmisión glutamatérgica excitatoria, produciendo anestesia disociativa, analgesia y estados alterados de consciencia caracterizados por sensaciones de desconexión del cuerpo y del entorno."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻断 N-甲基-D-天冬氨酸（NMDA）谷氨酸受体，通常作为非竞争性拮抗剂结合于离子通道孔内。NMDA 受体阻断减少兴奋性谷氨酸能神经传递，产生解离性麻醉、镇痛和以与身体和环境脱离感为特征的意识改变状态。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻斷 N-甲基-D-天門冬胺酸（NMDA）麩胺酸受體，通常作為非競爭性拮抗劑結合於離子通道孔內。NMDA 受體阻斷減少興奮性麩胺酸能神經傳導，產生解離性麻醉、鎮痛和以與身體和環境脫離感為特徵的意識改變狀態。"
           }
         }
       }
@@ -22701,34 +22393,6 @@
         }
       }
     },
-    "Cannabinoid CB1/CB2 Receptor Agonist" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agonista de receptores cannabinoides CB1/CB2"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agonista de receptores cannabinoides CB1/CB2"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "大麻素 CB1/CB2 受体激动剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "大麻素 CB1/CB2 受體促效劑"
-          }
-        }
-      }
-    },
     "Cannabinoids" : {
       "localizations" : {
         "es" : {
@@ -22950,34 +22614,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "心血管藥"
-          }
-        }
-      }
-    },
-    "Cardiovascular Agent" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente cardiovascular"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente cardiovascular"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "心血管药物"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "心血管藥物"
           }
         }
       }
@@ -23230,62 +22866,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "封頂效應"
-          }
-        }
-      }
-    },
-    "Central Nervous System Depressant" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Depresor del sistema nervioso central"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Depresor del sistema nervioso central"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "中枢神经系统抑制剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "中樞神經系統抑制劑"
-          }
-        }
-      }
-    },
-    "Central Nervous System Stimulant" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estimulante del sistema nervioso central"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estimulante del sistema nervioso central"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "中枢神经系统兴奋剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "中樞神經系統興奮劑"
           }
         }
       }
@@ -25402,34 +24982,6 @@
         }
       }
     },
-    "Cognitive-Enhancing Agent (Nootropic)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente potenciador cognitivo (nootrópico)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente potenciador cognitivo (nootrópico)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "认知增强剂（益智药）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "認知增強劑（益智藥）"
-          }
-        }
-      }
-    },
     "Collapse" : {
       "localizations" : {
         "es" : {
@@ -27003,34 +26555,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "比較你評過分的日子"
-          }
-        }
-      }
-    },
-    "Competitively blocks the orexin (hypocretin) receptors OX1R and OX2R, the targets of the wake-promoting neuropeptides orexin-A and orexin-B released from the lateral hypothalamus. Rather than broadly sedating the brain like a GABAergic hypnotic, it withdraws a specific \"stay awake\" drive that stabilizes arousal, permitting the natural transition into sleep with largely preserved sleep architecture and arousability. Because it does not enhance GABA or depress brainstem respiratory centers, it lacks the respiratory-depression synergy and dependence liability of benzodiazepines, Z-drugs, and other GABAergic sedatives." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquea de forma competitiva los receptores de orexina (hipocretina) OX1R y OX2R, sobre los que actúan los neuropéptidos promotores de la vigilia orexina-A y orexina-B, liberados desde el hipotálamo lateral. En lugar de sedar el cerebro de forma amplia como un hipnótico GABAérgico, retira un impulso específico de «mantenerse despierto» que estabiliza el estado de alerta, permitiendo la transición natural al sueño con una arquitectura del sueño y una capacidad de despertar en gran medida preservadas. Como no potencia el GABA ni deprime los centros respiratorios del tronco encefálico, carece de la sinergia de depresión respiratoria y del potencial de dependencia característicos de las benzodiacepinas, los fármacos Z y otros sedantes GABAérgicos."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquea de forma competitiva los receptores de orexina (hipocretina) OX1R y OX2R, sobre los que actúan los neuropéptidos promotores de la vigilia orexina-A y orexina-B, liberados desde el hipotálamo lateral. En lugar de sedar el cerebro de forma amplia como un hipnótico GABAérgico, retira un impulso específico de «mantenerse despierto» que estabiliza el estado de alerta, permitiendo la transición natural al sueño con una arquitectura del sueño y una capacidad de despertar en gran medida preservadas. Como no potencia el GABA ni deprime los centros respiratorios del tronco encefálico, carece de la sinergia de depresión respiratoria y del potencial de dependencia característicos de las benzodiacepinas, los fármacos Z y otros sedantes GABAérgicos."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "竞争性阻断食欲素（下丘脑分泌素）受体 OX1R 和 OX2R，这两种受体是外侧下丘脑释放的促醒神经肽食欲素-A 和食欲素-B 的作用靶点。它不像 GABA 能催眠药那样广泛抑制大脑，而是撤除一种维持觉醒的特定“保持清醒”驱动力，让人自然过渡到睡眠，同时基本保留睡眠结构和可唤醒性。由于它既不增强 GABA，也不抑制脑干呼吸中枢，因此没有苯二氮䓬类、Z 类药物及其他 GABA 能镇静剂所特有的呼吸抑制协同作用和依赖风险。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "競爭性阻斷食慾素（下視丘分泌素）受體 OX1R 和 OX2R，這兩種受體是外側下視丘釋放的促醒神經肽食慾素-A 和食慾素-B 的作用標的。它不像 GABA 能催眠藥那樣廣泛抑制大腦，而是撤除一種維持覺醒的特定「保持清醒」驅動力，讓人自然過渡到睡眠，同時基本保留睡眠結構和可喚醒性。由於它既不增強 GABA，也不抑制腦幹呼吸中樞，因此沒有苯二氮平類、Z 類藥物及其他 GABA 能鎮靜劑所特有的呼吸抑制協同作用和依賴風險。"
           }
         }
       }
@@ -31973,34 +31497,6 @@
         }
       }
     },
-    "Dietary Supplement" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suplemento dietético"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suplemento dietético"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "膳食补充剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "膳食補充劑"
-          }
-        }
-      }
-    },
     "different study" : {
       "comment" : "Hollow marker meaning",
       "localizations" : {
@@ -34622,34 +34118,6 @@
         }
       }
     },
-    "Dual Orexin Receptor Antagonist (DORA)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antagonista dual de los receptores de orexina (DORA)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antagonista dual de los receptores de orexina (DORA)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "双重食欲素受体拮抗剂（DORA）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "雙重食慾素受體拮抗劑（DORA）"
-          }
-        }
-      }
-    },
     "due" : {
       "localizations" : {
         "es" : {
@@ -36660,34 +36128,6 @@
         }
       }
     },
-    "Eliminates or inhibits the growth of microorganisms by targeting microbial-specific processes such as cell wall synthesis, protein synthesis, nucleic acid replication, metabolic pathways, or cell membrane integrity." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina o inhibe el crecimiento de microorganismos actuando sobre procesos específicos de los microbios, como la síntesis de la pared celular, la síntesis de proteínas, la replicación de ácidos nucleicos, las vías metabólicas o la integridad de la membrana celular."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina o inhibe el crecimiento de microorganismos actuando sobre procesos específicos de los microbios, como la síntesis de la pared celular, la síntesis de proteínas, la replicación de ácidos nucleicos, las vías metabólicas o la integridad de la membrana celular."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过靶向微生物特异性过程（如细胞壁合成、蛋白质合成、核酸复制、代谢通路或细胞膜完整性）消除或抑制微生物生长。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過靶向微生物特異性過程（如細胞壁合成、蛋白質合成、核酸複製、代謝通路或細胞膜完整性）消除或抑制微生物生長。"
-          }
-        }
-      }
-    },
     "Elimination" : {
       "localizations" : {
         "es" : {
@@ -37527,34 +36967,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "內分泌藥"
-          }
-        }
-      }
-    },
-    "Endocrine Agent" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente endocrino"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente endocrino"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "内分泌药物"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "內分泌藥物"
           }
         }
       }
@@ -43138,34 +42550,6 @@
         }
       }
     },
-    "GABA-A Positive Allosteric Modulator (Benzodiazepine)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modulador alostérico positivo GABA-A (benzodiacepina)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modulador alostérico positivo GABA-A (benzodiacepina)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GABA-A 正向变构调节剂（苯二氮䓬类）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GABA-A 正向變構調節劑（苯二氮平類）"
-          }
-        }
-      }
-    },
     "GABA-A positive modulator" : {
       "localizations" : {
         "es" : {
@@ -43442,34 +42826,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "胃腸藥"
-          }
-        }
-      }
-    },
-    "Gastrointestinal Agent" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente gastrointestinal"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente gastrointestinal"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "胃肠道药物"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "胃腸道藥物"
           }
         }
       }
@@ -45816,34 +45172,6 @@
         }
       }
     },
-    "Histamine H1 Receptor Antagonist" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antagonista del receptor H1 de histamina"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antagonista del receptor H1 de histamina"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "组胺 H1 受体拮抗剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "組織胺 H1 受體拮抗劑"
-          }
-        }
-      }
-    },
     "History" : {
       "localizations" : {
         "es" : {
@@ -47976,34 +47304,6 @@
         }
       }
     },
-    "Immunomodulatory Agent" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente inmunomodulador"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente inmunomodulador"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免疫调节剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免疫調節劑"
-          }
-        }
-      }
-    },
     "Import" : {
       "localizations" : {
         "es" : {
@@ -49040,62 +48340,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "心率和血壓增加：心血管壓力。"
-          }
-        }
-      }
-    },
-    "Increases central nervous system activity by enhancing monoamine neurotransmission, typically through increased release or reduced reuptake of dopamine and/or norepinephrine. The specific mechanism varies by substance class (releasing agents, reuptake inhibitors, or receptor agonists). Effects include increased alertness, attention, and energy." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aumenta la actividad del sistema nervioso central potenciando la neurotransmisión monoaminérgica, normalmente mediante una mayor liberación o una menor recaptación de dopamina y/o noradrenalina. El mecanismo específico varía según la clase de sustancia (agentes liberadores, inhibidores de la recaptación o agonistas de receptores). Los efectos incluyen mayor alerta, atención y energía."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aumenta la actividad del sistema nervioso central potenciando la neurotransmisión monoaminérgica, normalmente mediante una mayor liberación o una menor recaptación de dopamina y/o noradrenalina. El mecanismo específico varía según la clase de sustancia (agentes liberadores, inhibidores de la recaptación o agonistas de receptores). Los efectos incluyen mayor alerta, atención y energía."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过增强单胺神经传递增加中枢神经系统活性，通常通过增加释放或减少多巴胺和/或去甲肾上腺素的再摄取。具体机制因物质类别（释放剂、再摄取抑制剂或受体激动剂）而异。效应包括警觉度、注意力和能量增加。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過增強單胺神經傳導增加中樞神經系統活性，通常透過增加釋放或減少多巴胺和/或正腎上腺素的再攝取。具體機制因物質類別（釋放劑、再攝取抑制劑或受體促效劑）而異。效應包括警覺度、注意力和能量增加。"
-          }
-        }
-      }
-    },
-    "Increases synaptic serotonin, dopamine, and norepinephrine, with a predominant serotonergic component that distinguishes empathogens from classical stimulants. Many also stimulate the release of oxytocin from the hypothalamus, contributing to prosocial effects, emotional openness, and feelings of empathy and connectedness." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aumenta la serotonina, la dopamina y la noradrenalina sinápticas, con un componente serotoninérgico predominante que distingue a los empatógenos de los estimulantes clásicos. Muchos también estimulan la liberación de oxitocina desde el hipotálamo, lo que contribuye a los efectos prosociales, la apertura emocional y las sensaciones de empatía y conexión."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aumenta la serotonina, la dopamina y la noradrenalina sinápticas, con un componente serotoninérgico predominante que distingue a los empatógenos de los estimulantes clásicos. Muchos también estimulan la liberación de oxitocina desde el hipotálamo, lo que contribuye a los efectos prosociales, la apertura emocional y las sensaciones de empatía y conexión."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "增加突触血清素、多巴胺和去甲肾上腺素，以血清素能成分为主，这使共情剂与经典兴奋剂相区别。许多还刺激下丘脑释放催产素，助长亲社会效应、情感开放及共情和连结感。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "增加突觸血清素、多巴胺和正腎上腺素，以血清素能成分為主，這使共情劑與經典興奮劑相區別。許多還刺激下丘腦釋放催產素，助長親社會效應、情感開放及共情和連結感。"
           }
         }
       }
@@ -58380,174 +57624,6 @@
         }
       }
     },
-    "Modulates airway function through mechanisms including bronchodilation via β2-adrenergic agonism or anticholinergic blockade, anti-inflammatory effects from corticosteroids, mast cell stabilization, or leukotriene receptor antagonism." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la función de las vías respiratorias mediante mecanismos como la broncodilatación por agonismo β2-adrenérgico o bloqueo anticolinérgico, los efectos antiinflamatorios de los corticosteroides, la estabilización de mastocitos o el antagonismo de los receptores de leucotrienos."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la función de las vías respiratorias mediante mecanismos como la broncodilatación por agonismo β2-adrenérgico o bloqueo anticolinérgico, los efectos antiinflamatorios de los corticosteroides, la estabilización de mastocitos o el antagonismo de los receptores de leucotrienos."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过 β2-肾上腺素激动或抗胆碱阻断引起的支气管扩张、皮质激素的抗炎效应、肥大细胞稳定或白三烯受体拮抗等机制调节气道功能。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過 β2-腎上腺素促效或抗膽鹼阻斷引起的支氣管擴張、皮質激素的抗炎效應、肥大細胞穩定或白三烯受體拮抗等機制調節氣道功能。"
-          }
-        }
-      }
-    },
-    "Modulates cardiovascular function through mechanisms including adrenergic receptor blockade, calcium channel inhibition, renin-angiotensin system modulation, or direct vasodilation. The specific mechanism depends on the drug class." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la función cardiovascular mediante mecanismos como el bloqueo de receptores adrenérgicos, la inhibición de canales de calcio, la modulación del sistema renina-angiotensina o la vasodilatación directa. El mecanismo específico depende de la clase del fármaco."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la función cardiovascular mediante mecanismos como el bloqueo de receptores adrenérgicos, la inhibición de canales de calcio, la modulación del sistema renina-angiotensina o la vasodilatación directa. El mecanismo específico depende de la clase del fármaco."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过肾上腺素受体阻断、钙通道抑制、肾素-血管紧张素系统调节或直接血管扩张等机制调节心血管功能。具体机制取决于药物类别。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過腎上腺素受體阻斷、鈣通道抑制、腎素-血管收縮素系統調節或直接血管擴張等機制調節心血管功能。具體機制取決於藥物類別。"
-          }
-        }
-      }
-    },
-    "Modulates digestive function through mechanisms such as acid secretion inhibition, motility modulation, mucosal protection, or neurotransmitter receptor interactions in the enteric nervous system." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la función digestiva mediante mecanismos como la inhibición de la secreción ácida, la modulación de la motilidad, la protección de la mucosa o interacciones con receptores de neurotransmisores en el sistema nervioso entérico."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la función digestiva mediante mecanismos como la inhibición de la secreción ácida, la modulación de la motilidad, la protección de la mucosa o interacciones con receptores de neurotransmisores en el sistema nervioso entérico."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过酸分泌抑制、动力调节、黏膜保护或肠神经系统中的神经递质受体相互作用等机制调节消化功能。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過酸分泌抑制、動力調節、黏膜保護或腸神經系統中的神經傳導物質受體相互作用等機制調節消化功能。"
-          }
-        }
-      }
-    },
-    "Modulates hormonal signaling through receptor agonism or antagonism, enzyme inhibition affecting hormone synthesis or metabolism, or direct hormone replacement. Interacts with the hypothalamic-pituitary-endocrine axes." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la señalización hormonal mediante agonismo o antagonismo de receptores, inhibición enzimática que afecta a la síntesis o el metabolismo hormonal, o reemplazo hormonal directo. Interactúa con los ejes hipotálamo-hipófisis-endocrinos."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la señalización hormonal mediante agonismo o antagonismo de receptores, inhibición enzimática que afecta a la síntesis o el metabolismo hormonal, o reemplazo hormonal directo. Interactúa con los ejes hipotálamo-hipófisis-endocrinos."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过受体激动或拮抗、影响激素合成或代谢的酶抑制，或直接激素替代来调节激素信号。与下丘脑-垂体-内分泌轴相互作用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過受體促效或拮抗、影響激素合成或代謝的酶抑制，或直接激素替代來調節激素訊號。與下丘腦-腦垂體-內分泌軸相互作用。"
-          }
-        }
-      }
-    },
-    "Modulates immune system function through mechanisms such as inhibition of inflammatory cytokine production, suppression of T-cell or B-cell activation, complement system modulation, or targeted inhibition of specific immune pathways." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la función del sistema inmunitario mediante mecanismos como la inhibición de la producción de citocinas inflamatorias, la supresión de la activación de linfocitos T o B, la modulación del sistema del complemento o la inhibición dirigida de vías inmunitarias específicas."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula la función del sistema inmunitario mediante mecanismos como la inhibición de la producción de citocinas inflamatorias, la supresión de la activación de linfocitos T o B, la modulación del sistema del complemento o la inhibición dirigida de vías inmunitarias específicas."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过抑制炎症细胞因子产生、抑制 T 细胞或 B 细胞激活、补体系统调节或对特定免疫通路的靶向抑制等机制调节免疫系统功能。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過抑制發炎細胞因子產生、抑制 T 細胞或 B 細胞活化、補體系統調節或對特定免疫通路的靶向抑制等機制調節免疫系統功能。"
-          }
-        }
-      }
-    },
-    "Modulates monoamine neurotransmitter systems (serotonin, norepinephrine, and/or dopamine) through various mechanisms including reuptake inhibition, enzyme inhibition, or receptor modulation. The specific mechanism depends on the drug class. Therapeutic effects typically develop over 2–6 weeks." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula los sistemas de neurotransmisores monoaminérgicos (serotonina, noradrenalina y/o dopamina) mediante diversos mecanismos, como la inhibición de la recaptación, la inhibición enzimática o la modulación de receptores. El mecanismo específico depende de la clase del fármaco. Los efectos terapéuticos suelen desarrollarse en 2–6 semanas."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modula los sistemas de neurotransmisores monoaminérgicos (serotonina, noradrenalina y/o dopamina) mediante diversos mecanismos, como la inhibición de la recaptación, la inhibición enzimática o la modulación de receptores. El mecanismo específico depende de la clase del fármaco. Los efectos terapéuticos suelen desarrollarse en 2–6 semanas."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过再摄取抑制、酶抑制或受体调节等多种机制调节单胺神经递质系统（血清素、去甲肾上腺素和/或多巴胺）。具体机制取决于药物类别。治疗效应通常在 2–6 周内显现。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過再攝取抑制、酶抑制或受體調節等多種機制調節單胺神經傳導物質系統（血清素、正腎上腺素和/或多巴胺）。具體機制取決於藥物類別。治療效應通常在 2–6 週內顯現。"
-          }
-        }
-      }
-    },
     "Modulator" : {
       "localizations" : {
         "es" : {
@@ -58877,34 +57953,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "單胺釋放劑"
-          }
-        }
-      }
-    },
-    "Monoamine Releasing Agent (Serotonin-Predominant)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente liberador de monoaminas (predominio serotoninérgico)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente liberador de monoaminas (predominio serotoninérgico)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "单胺释放剂（血清素优势）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "單胺釋放劑（血清素優勢）"
           }
         }
       }
@@ -61429,34 +60477,6 @@
         }
       }
     },
-    "NMDA Receptor Antagonist (Dissociative)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antagonista del receptor NMDA (disociativo)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Antagonista del receptor NMDA (disociativo)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "NMDA 受体拮抗剂（解离剂）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "NMDA 受體拮抗劑（解離劑）"
-          }
-        }
-      }
-    },
     "No account" : {
       "localizations" : {
         "es" : {
@@ -63390,34 +62410,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "益智藥"
-          }
-        }
-      }
-    },
-    "Nootropic agents enhance cognitive function through diverse mechanisms which may include modulation of acetylcholine, glutamate, or monoamine neurotransmitter systems; improvement of cerebral blood flow; neuroprotection through antioxidant activity; or modulation of neuroplasticity signaling cascades. Mechanisms vary widely and are substance-specific." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los agentes nootrópicos mejoran la función cognitiva mediante mecanismos diversos, que pueden incluir la modulación de los sistemas de neurotransmisión de acetilcolina, glutamato o monoaminas; la mejora del flujo sanguíneo cerebral; la neuroprotección por actividad antioxidante; o la modulación de las cascadas de señalización de la neuroplasticidad. Los mecanismos varían mucho y son específicos de cada sustancia."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los agentes nootrópicos mejoran la función cognitiva mediante mecanismos diversos, que pueden incluir la modulación de los sistemas de neurotransmisión de acetilcolina, glutamato o monoaminas; la mejora del flujo sanguíneo cerebral; la neuroprotección por actividad antioxidante; o la modulación de las cascadas de señalización de la neuroplasticidad. Los mecanismos varían mucho y son específicos de cada sustancia."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "益智药通过多种机制增强认知功能，可能包括对乙酰胆碱、谷氨酸或单胺神经递质系统的调节；改善脑血流；通过抗氧化活性进行神经保护；或调节神经可塑性信号级联。机制差异很大，且具有物质特异性。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "益智藥透過多種機制增強認知功能，可能包括對乙醯膽鹼、麩胺酸或單胺神經傳導物質系統的調節；改善腦血流；透過抗氧化活性進行神經保護；或調節神經可塑性訊號級聯。機制差異很大，且具有物質特異性。"
           }
         }
       }
@@ -69717,34 +68709,6 @@
         }
       }
     },
-    "Pharmacological Agent" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente farmacológico"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente farmacológico"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "药理学药物"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "藥理學藥物"
-          }
-        }
-      }
-    },
     "pharmacology" : {
       "comment" : "Sources list — what a source supplies",
       "localizations" : {
@@ -72280,34 +71244,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上一年"
-          }
-        }
-      }
-    },
-    "Primarily acts as an agonist or partial agonist at serotonin 5-HT2A receptors, particularly on layer V pyramidal neurons in the prefrontal cortex. 5-HT2A activation increases glutamate release and enhances cortical excitability, leading to altered perception, cognition, and consciousness. Most classical psychedelics also interact with 5-HT2C, 5-HT1A, and other serotonin receptor subtypes." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actúa principalmente como agonista o agonista parcial de los receptores de serotonina 5-HT2A, en particular en las neuronas piramidales de la capa V de la corteza prefrontal. La activación de 5-HT2A aumenta la liberación de glutamato y potencia la excitabilidad cortical, lo que altera la percepción, la cognición y la consciencia. La mayoría de los psicodélicos clásicos también interactúan con 5-HT2C, 5-HT1A y otros subtipos de receptores de serotonina."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actúa principalmente como agonista o agonista parcial de los receptores de serotonina 5-HT2A, en particular en las neuronas piramidales de la capa V de la corteza prefrontal. La activación de 5-HT2A aumenta la liberación de glutamato y potencia la excitabilidad cortical, lo que altera la percepción, la cognición y la consciencia. La mayoría de los psicodélicos clásicos también interactúan con 5-HT2C, 5-HT1A y otros subtipos de receptores de serotonina."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "主要作为血清素 5-HT2A 受体的激动剂或部分激动剂，特别是在前额叶皮质 V 层锥体神经元上。5-HT2A 激活增加谷氨酸释放并增强皮质兴奋性，导致感知、认知和意识改变。大多数经典迷幻剂也与 5-HT2C、5-HT1A 等血清素受体亚型相互作用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "主要作為血清素 5-HT2A 受體的促效劑或部分促效劑，特別是在前額葉皮質 V 層錐體神經元上。5-HT2A 活化增加麩胺酸釋放並增強皮質興奮性，導致感知、認知和意識改變。大多數經典迷幻劑也與 5-HT2C、5-HT1A 等血清素受體亞型相互作用。"
           }
         }
       }
@@ -75629,62 +74565,6 @@
         }
       }
     },
-    "Reduces central nervous system excitability, typically through enhancement of inhibitory GABAergic neurotransmission and/or reduction of excitatory glutamatergic neurotransmission. Produces sedation, anxiolysis, and muscle relaxation in a dose-dependent manner." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reduce la excitabilidad del sistema nervioso central, normalmente potenciando la neurotransmisión GABAérgica inhibitoria y/o disminuyendo la neurotransmisión glutamatérgica excitatoria. Produce sedación, ansiólisis y relajación muscular de forma dependiente de la dosis."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reduce la excitabilidad del sistema nervioso central, normalmente potenciando la neurotransmisión GABAérgica inhibitoria y/o disminuyendo la neurotransmisión glutamatérgica excitatoria. Produce sedación, ansiólisis y relajación muscular de forma dependiente de la dosis."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "降低中枢神经系统兴奋性，通常通过增强抑制性 GABA 能神经传递和/或减少兴奋性谷氨酸能神经传递。以剂量依赖的方式产生镇静、抗焦虑和肌肉松弛。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "降低中樞神經系統興奮性，通常透過增強抑制性 GABA 能神經傳導和/或減少興奮性麩胺酸能神經傳導。以劑量依賴的方式產生鎮靜、抗焦慮和肌肉鬆弛。"
-          }
-        }
-      }
-    },
-    "Reduces pain perception through mechanisms that may include inhibition of prostaglandin synthesis, activation of endogenous opioid pathways, modulation of descending pain inhibitory circuits, or blockade of peripheral nociceptor sensitization. The specific mechanism depends on the drug class." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disminuye la percepción del dolor mediante mecanismos que pueden incluir la inhibición de la síntesis de prostaglandinas, la activación de vías opioides endógenas, la modulación de los circuitos descendentes inhibitorios del dolor o el bloqueo de la sensibilización de los nociceptores periféricos. El mecanismo específico depende de la clase de fármaco."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disminuye la percepción del dolor mediante mecanismos que pueden incluir la inhibición de la síntesis de prostaglandinas, la activación de vías opioides endógenas, la modulación de los circuitos descendentes inhibitorios del dolor o el bloqueo de la sensibilización de los nociceptores periféricos. El mecanismo específico depende de la clase de fármaco."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过抑制前列腺素合成、激活内源性阿片通路、调节下行性痛觉抑制环路或阻断外周伤害感受器敏化等机制减少痛觉。具体机制取决于药物类别。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過抑制前列腺素合成、活化內源性鴉片通路、調節下行性痛覺抑制環路或阻斷周邊傷害感受器敏化等機制減少痛覺。具體機制取決於藥物類別。"
-          }
-        }
-      }
-    },
     "Reference" : {
       "localizations" : {
         "es" : {
@@ -77824,34 +76704,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "呼吸系統藥"
-          }
-        }
-      }
-    },
-    "Respiratory Agent" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente respiratorio"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agente respiratorio"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "呼吸系统药物"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "呼吸系統藥物"
           }
         }
       }
@@ -82006,34 +80858,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素"
-          }
-        }
-      }
-    },
-    "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agonista del receptor de serotonina 5-HT2A (psicodélico clásico)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agonista del receptor de serotonina 5-HT2A (psicodélico clásico)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "血清素 5-HT2A 受体激动剂（经典迷幻剂）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "血清素 5-HT2A 受體促效劑（經典迷幻劑）"
           }
         }
       }
@@ -90491,34 +89315,6 @@
         }
       }
     },
-    "Supports physiological functions through various mechanisms including enzyme cofactor activity, antioxidant effects, neurotransmitter precursor supply, hormonal modulation, or direct receptor interactions. Mechanisms vary widely and are substance-specific." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apoya funciones fisiológicas mediante diversos mecanismos, como la actividad de cofactor enzimático, efectos antioxidantes, el aporte de precursores de neurotransmisores, la modulación hormonal o interacciones directas con receptores. Los mecanismos varían mucho y son específicos de cada sustancia."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apoya funciones fisiológicas mediante diversos mecanismos, como la actividad de cofactor enzimático, efectos antioxidantes, el aporte de precursores de neurotransmisores, la modulación hormonal o interacciones directas con receptores. Los mecanismos varían mucho y son específicos de cada sustancia."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过多种机制支持生理功能，包括酶辅因子活性、抗氧化效应、神经递质前体供应、激素调节或直接的受体相互作用。机制差异很大，且具有物质特异性。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過多種機制支持生理功能，包括酶輔因子活性、抗氧化效應、神經傳導物質前體供應、激素調節或直接的受體相互作用。機制差異很大，且具有物質特異性。"
-          }
-        }
-      }
-    },
     "Swallowed THC passes through your liver first, which turns much of it into 11-hydroxy-THC, an active by-product that reaches the brain more easily and binds the CB1 receptor far more strongly than THC itself. That's why an edible tends to feel stronger, milligram for milligram, than the same amount smoked." : {
       "localizations" : {
         "es" : {
@@ -95590,34 +94386,6 @@
         }
       }
     },
-    "This substance's mechanism may involve several targets or may not be fully known. For detail, see a pharmacology reference." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El mecanismo de esta sustancia puede implicar varios sitios de acción o no conocerse del todo. Para más detalle, consulta una referencia farmacológica."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El mecanismo de esta sustancia puede implicar varios sitios de acción o no conocerse del todo. Para más detalle, consulta una referencia farmacológica."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此物质的作用机制可能涉及多个靶点，或尚未完全明确。详情请参阅药理学参考资料。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此物質的作用機制可能涉及多個靶點，或尚未完全明確。詳情請參閱藥理學參考資料。"
-          }
-        }
-      }
-    },
     "This unusual Phase II conjugate retains the nor-mephedrone core. Whether it has pharmacological activity is unknown, but its long plasma half-life means it lingers well past mephedrone's short duration." : {
       "localizations" : {
         "es" : {
@@ -100677,34 +99445,6 @@
         }
       }
     },
-    "Voltage-Gated Calcium Channel α2δ Subunit Ligand" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligando de la subunidad α2δ del canal de calcio dependiente de voltaje"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligando de la subunidad α2δ del canal de calcio dependiente de voltaje"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "电压门控钙通道 α2δ 亚单位配体"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "電壓閘控鈣通道 α2δ 亞單位配體"
-          }
-        }
-      }
-    },
     "Volume" : {
       "localizations" : {
         "es" : {
@@ -104803,34 +103543,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-鴉片受體（MOR）完全促效劑"
-          }
-        }
-      }
-    },
-    "μ-Opioid Receptor Ligand" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligando del receptor μ-opioide"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligando del receptor μ-opioide"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "μ-阿片受体配体"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "μ-鴉片受體配體"
           }
         }
       }

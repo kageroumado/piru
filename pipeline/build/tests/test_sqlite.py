@@ -4697,5 +4697,111 @@ class TestAliasOwners(unittest.TestCase):
             build.resolve_alias_owners(overrides={})
 
 
+class TestModelOverridesAndFloor(unittest.TestCase):
+    """The effect-engine override layer, its PD-inheritance relation, and the
+    mechanism category floor, all relocated out of iOS Swift literals into the
+    bundled DB. These gate that the move did not silently drop a row or let a
+    floor headline assert what a floor may never assert."""
+
+    @classmethod
+    def setUpClass(cls):
+        root = Path(__file__).resolve().parents[3]
+        sqlite_path = root / "Piru/Data/piru-substances.sqlite"
+        if not sqlite_path.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(sqlite_path)
+        cls.db.row_factory = sqlite3.Row
+        cls.curated = json.loads((root / "data/curated/model-overrides.json").read_text())
+        cls.floor = json.loads((root / "data/curated/category-mechanisms.json").read_text())
+
+    @classmethod
+    def tearDownClass(cls):
+        if hasattr(cls, "db"):
+            cls.db.close()
+
+    def test_every_override_key_ships(self):
+        """Every key in the curated override file reaches the DB — a silent drop
+        would quietly return a substance to the classic timeline."""
+        want = set(self.curated["overrides"])
+        got = {r["model_key"] for r in self.db.execute("SELECT model_key FROM model_overrides")}
+        self.assertEqual(want, got)
+
+    def test_every_override_resolves_a_substance_except_the_catalog_absent_one(self):
+        """Each override cross-references a real catalog substance, except the
+        handful whose curated `substance` is null (BPAP), which the engine knows
+        but the catalog has no row for — those carry a NULL substance_id."""
+        null_subs = {k for k, v in self.curated["overrides"].items() if v.get("substance") is None}
+        for row in self.db.execute("SELECT model_key, substance_id FROM model_overrides"):
+            if row["model_key"] in null_subs:
+                self.assertIsNone(row["substance_id"], row["model_key"])
+            else:
+                self.assertIsNotNone(row["substance_id"], row["model_key"])
+
+    def test_felt_half_life_is_stored_in_minutes(self):
+        """The felt-effect half-life ships per MINUTE (heroin ~150), killing the
+        per-hour-beside-per-minute trap the Swift literal carried. 150 min is a
+        2.5 h felt curve; a value near 2.5 would mean minutes were read as hours."""
+        row = self.db.execute(
+            "SELECT felt_half_life_minutes FROM model_overrides WHERE model_key = 'heroin'"
+        ).fetchone()
+        self.assertIsNotNone(row["felt_half_life_minutes"])
+        self.assertGreater(row["felt_half_life_minutes"], 60)
+
+    def test_every_inheritance_edge_points_at_an_override(self):
+        """A model_alias canonical_key must name a real override row; otherwise a
+        name inherits nothing and silently falls off the engine."""
+        keys = {r["model_key"] for r in self.db.execute("SELECT model_key FROM model_overrides")}
+        for row in self.db.execute("SELECT alias_key, canonical_key FROM model_alias"):
+            self.assertIn(row["canonical_key"], keys, row["alias_key"])
+
+    def test_inheritance_is_not_the_naming_relation(self):
+        """The four cross-substance edges are why this relation cannot be folded
+        into naming `aliases`: the alias resolves to one substance for naming and
+        another for the model (lisdexamfetamine names itself, models amphetamine)."""
+        edges = {
+            r["alias_key"]: r["canonical_substance_id"]
+            for r in self.db.execute("SELECT alias_key, canonical_substance_id FROM model_alias")
+        }
+        for alias in ("lisdexamfetamine", "mitragynine", "4-fea"):
+            self.assertIn(alias, edges)
+            naming = self.db.execute(
+                "SELECT substance_id FROM aliases WHERE lower(alias) = ? LIMIT 1", (alias,)
+            ).fetchone()
+            if naming is not None:
+                self.assertNotEqual(
+                    naming["substance_id"],
+                    edges[alias],
+                    f"{alias}: naming and model resolve to the same substance — the edge is redundant",
+                )
+
+    def test_floor_prose_covers_every_language(self):
+        """Each floored category ships en/zh-Hans/zh-Hant/es — a Chinese or
+        Spanish reader must get the localized floor, never English by omission."""
+        want_langs = {"en", "zh-Hans", "zh-Hant", "es"}
+        by_cat = {}
+        for row in self.db.execute("SELECT category, language FROM category_mechanisms"):
+            by_cat.setdefault(row["category"], set()).add(row["language"])
+        self.assertTrue(by_cat, "category floor shipped no prose")
+        for category, langs in by_cat.items():
+            self.assertEqual(want_langs, langs, f"{category} is missing {want_langs - langs}")
+
+    def test_floor_headline_never_asserts_where_in_a_class_a_member_sits(self):
+        """A floor describes a substance nothing else has; it may name what the
+        class does but never where in it a member sits. 'Full Agonist' over every
+        opioid is how partial agonists came to read as full ones."""
+        forbidden = ("full agonist", "first-generation", "second-generation")
+        for row in self.db.execute("SELECT category, language, summary FROM category_mechanisms"):
+            low = row["summary"].lower()
+            for phrase in forbidden:
+                self.assertNotIn(phrase, low, f"{row['category']}/{row['language']}")
+
+    def test_floor_bindings_name_targets_not_systems(self):
+        """A floor binding renders as a graded chip claiming a measured affinity,
+        so it must name a receptor, never a system, a pathway or 'Various'."""
+        for row in self.db.execute("SELECT category, target FROM category_mechanism_bindings"):
+            self.assertNotIn(" system", row["target"], row["category"])
+            self.assertNotEqual("Various", row["target"], row["category"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
