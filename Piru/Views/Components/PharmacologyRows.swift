@@ -1,9 +1,7 @@
 import SwiftUI
 
-// Pharmacology disclosure rows for the substance detail view — the Receptor
-// Literature, Pharmacokinetics, and Metabolism rows, extracted from
-// `SubstanceLibraryView` so the detail file stays under the length budget and
-// these redesignable cards live in one obvious place.
+// Pharmacology disclosure rows for the substance detail view: the Receptor
+// Literature, Pharmacokinetics, and Metabolism rows.
 
 /// The grouped receptor-literature table for monoamine drugs: one cluster per receptor, laid out on a
 /// `Grid` so the `dots · value · species · ↗` columns line up whether the receptor carries a single
@@ -430,7 +428,7 @@ struct MetabolismRow: View {
             || enzyme.contains("biliary") || enzyme.contains("excret")
     }
 
-    /// Plain-language headline for an elimination line, localised — almost everything here is renal.
+    /// Plain-language headline for an elimination line, localized — almost everything here is renal.
     private var eliminationLabel: LocalizedStringResource {
         let enzyme = hit.enzyme.lowercased()
         if enzyme.contains("biliary") || enzyme.contains("fecal") || enzyme.contains("faecal") {
@@ -488,7 +486,7 @@ struct MetabolismRow: View {
     }
 
     /// The curated "acts differently" one-liner for a divergent metabolite, folded
-    /// into this row (was a separate caption block in ``PharmacologySections``).
+    /// into this row.
     private var divergentNote: LocalizedStringResource? {
         guard showsDivergentNote, let metabolite = hit.metaboliteName, !parentName.isEmpty else { return nil }
         return MetaboliteEditorial.divergentNote(parent: parentName, metabolite: metabolite)

@@ -43,5 +43,3 @@ struct DurationPhaseRows: View {
         .font(.subheadline)
     }
 }
-
-// MARK: - Route Dosing Card

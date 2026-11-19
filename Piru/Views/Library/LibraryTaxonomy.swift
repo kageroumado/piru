@@ -68,7 +68,7 @@ extension SubstanceCategory {
     /// "Sedative-Hypnotic". The catch-all "Other" is a genuine miscellaneous
     /// bucket — *not* "Research Chemicals" (those are surfaced by the
     /// `research-chemical` tag instead, so medical odd-ones like Naloxone don't
-    /// get mislabelled as RCs).
+    /// get mislabeled as RCs).
     var browseTitle: LocalizedStringResource {
         switch self {
         case .depressant: "Sedative-Hypnotic"

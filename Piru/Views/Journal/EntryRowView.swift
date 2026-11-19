@@ -51,11 +51,10 @@ struct DayEntryCore: Equatable {
     /// Resolve each dose row's substance facts once: title, dose level, and the
     /// rail's window.
     ///
-    /// The single builder for both `EntryRowView.make` (journal, share images) and
-    /// `SessionDetailView` (session rows), which carried byte-identical copies of
-    /// this and drifted — the session's markers still named substances differently
-    /// from the journal's. Caches the per-substance lookup so repeated substances
-    /// in a day resolve once.
+    /// The single builder for both ``DayEntryDisplay/make(from:colors:doseHR:)``
+    /// (share images) and ``SessionResolveModel`` (session rows), so the two name
+    /// substances identically. Caches the per-substance lookup so repeated
+    /// substances in a day resolve once.
     ///
     /// `weightKg` is the body weight the effect window is drawn for; `nil` is
     /// the active profile's (another person's rows pass theirs).

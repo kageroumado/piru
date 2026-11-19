@@ -33,7 +33,7 @@ struct GlassPillButton: View {
 
     private var button: some View {
         Button(action: action) {
-            // The style owns the prominent label colour (system glass, or the
+            // The style owns the prominent label color (system glass, or the
             // skin's on-accent ink); only the neutral label sets its own.
             label
                 .frame(maxWidth: .infinity)

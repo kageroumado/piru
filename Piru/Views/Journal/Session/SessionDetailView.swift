@@ -16,14 +16,12 @@ struct SessionDetailView: View {
     /// edit/UI concerns.
     @State private var model = SessionDetailModel()
 
-    /// The session's doses in time order — the view's working set, replacing the
-    /// former calendar-day `@Query` window.
+    /// The session's doses in time order — the view's working set.
     private var entries: [DoseEntry] {
         session.orderedDoses
     }
 
-    /// Alias so the existing day-derived title/recency helpers read the session's
-    /// start instead of a passed-in date.
+    /// The session's start, which the day-derived title and recency helpers read.
     private var date: Date {
         session.startDate
     }
@@ -127,8 +125,7 @@ struct SessionDetailView: View {
     /// because a `.task(id:)` already owns this fetch: returning to the app is
     /// just another reason the answer went stale. There is no HealthKit observer
     /// query anywhere in the app, so a reading taken on the Watch while Piru was
-    /// backgrounded has no other way in — before this, the only cure was leaving
-    /// the screen and coming back.
+    /// backgrounded has no other way in.
     private var vitalsTaskKey: String {
         "\(session.id.uuidString)-\(showSessionVitals)-\(scenePhase == .active)"
     }

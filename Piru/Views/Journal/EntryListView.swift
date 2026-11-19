@@ -485,7 +485,7 @@ struct EntryListView: View {
 
         // No "History" label — the plan/state cards sit above, and the
         // dated day headers below (Today, Yesterday, July 20…) already
-        // read as the record. The header was redundant chrome.
+        // read as the record.
 
         // Main content
         switch grouping {

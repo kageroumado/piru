@@ -471,8 +471,9 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
 
 // MARK: - Payloads
 
-/// Prefill values for the entry form sheet. Lives at the route level so the
-/// route is self-contained — no view-local `@State prefill` indirection.
+/// The substance, route and unit of a custom substance just saved from quick
+/// log's "create custom" form, held by the dock host until the form dismisses
+/// and then staged into the tray.
 ///
 /// Marked `nonisolated` so the type is freely constructible from any actor
 /// context (including the test suite). The default file-level MainActor

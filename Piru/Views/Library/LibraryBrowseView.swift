@@ -252,10 +252,10 @@ private struct LibraryFamilyCard: View {
 
     // MARK: Pieces
 
-    /// `chevron` is the trailing affordance: `chevron.right` on cards that push a
-    /// screen (Apple's "navigates" cue), `chevron.down` (with `rotates`) on the
-    /// expand-in-place umbrellas. The umbrella's pushing sub-rows keep their own
-    /// right chevron.
+    /// `chevron` is the trailing affordance, `chevron.right` on every card: fixed
+    /// on cards that push a screen (Apple's "navigates" cue), turning down (with
+    /// `rotates`) while an expand-in-place umbrella is open. The umbrella's
+    /// pushing sub-rows keep their own right chevron.
     private func header(chevron: String?, rotates: Bool = false, count: Int? = nil) -> some View {
         HStack(alignment: .top, spacing: 0) {
             VStack(alignment: .leading, spacing: Spacing.xs) {

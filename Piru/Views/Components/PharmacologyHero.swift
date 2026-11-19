@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The class-specific **hero** for the unified Pharmacology card (hybrid redesign step 3). Monoamine
+/// The class-specific **hero** for the unified Pharmacology card. Monoamine
 /// drugs keep the dopamine↔serotonin slider; receptor-centric classes get a panel built from their own
 /// binding rows:
 /// - **opioid** → μ / κ / δ / NOP with an agonist / partial / antagonist chip
@@ -223,8 +223,8 @@ struct PharmacologyHero {
 
 // MARK: - Views
 
-/// Shared species + citation trailing cluster used by the panel rows, the potency bars, and the grouped
-/// receptor-literature table — so the "Human" badge + ↗ link read identically across every pharmacology surface.
+/// Shared species + citation trailing cluster used by the panel rows and the potency bars, so the
+/// "Human" badge + ↗ link read identically on both.
 struct SpeciesCite: View {
     let species: String?
     let citation: URL?

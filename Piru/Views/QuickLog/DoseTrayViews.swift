@@ -350,12 +350,8 @@ struct TrayTagsPopover: View {
     }
 }
 
-// MARK: - Swipe Row
+// MARK: - Row Context Menu
 
-/// Swipe-to-delete container for one staged row — collapsed or expanded, the
-/// same leftward swipe reveals the delete capsule (full swipe removes). The
-/// content stays fully interactive at rest; while the delete strip is
-/// revealed, the first tap anywhere on the row closes it again.
 /// The long-press actions on a collapsed staged dose: open it, or remove it —
 /// the same Remove the swipe reveals.
 struct TrayRowContextMenu: View {
@@ -376,6 +372,12 @@ struct TrayRowContextMenu: View {
     }
 }
 
+// MARK: - Swipe Row
+
+/// Swipe-to-delete container for one staged row — collapsed or expanded, the
+/// same leftward swipe reveals the delete capsule (full swipe removes). The
+/// content stays fully interactive at rest; while the delete strip is
+/// revealed, the first tap anywhere on the row closes it again.
 struct TraySwipeRow<Content: View>: View {
     let onDelete: () -> Void
     @ViewBuilder var content: Content

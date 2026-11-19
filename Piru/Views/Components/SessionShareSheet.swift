@@ -12,8 +12,7 @@ import UniformTypeIdentifiers
 /// session screen's share button (and Help / Settings). Offers three artifacts —
 /// a session **Image** (always), a current-state **PDF**, and current-state
 /// **Markdown** (both only while a session is active) — each with a rasterized
-/// preview plus quick Copy and full Share. Replaces the old ⋯-menu export item
-/// + system share sheet.
+/// preview plus quick Copy and full Share.
 struct SessionShareSheet: View {
     let title: String
     let dateText: String

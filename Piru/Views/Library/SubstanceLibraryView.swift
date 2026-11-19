@@ -324,8 +324,7 @@ struct SubstanceCategoryListView: View {
     }
 
     /// Resolved + sorted once per (category/tag/sort/favorites) change, not per
-    /// body. `substances(in:)`/`(taggedWith:)` and the sort were re-running on
-    /// every body pass; the sort is O(n log n) over a full category.
+    /// body: the sort is O(n log n) over a full category.
     @State private var sortedSubstances: [Substance] = []
     /// Favorite name set, cached so the per-row swipe action doesn't rebuild it.
     @State private var favoriteNames: Set<String> = []
@@ -434,8 +433,7 @@ struct SubstanceCategoryListView: View {
                             } label: {
                                 HStack(spacing: Spacing.xs) {
                                     // The label says what is behind the tap and
-                                    // how much of it. "The groups within it"
-                                    // said neither.
+                                    // how much of it.
                                     classLink.label
                                     Image(systemName: "chevron.right")
                                         .font(.caption2.weight(.semibold))
@@ -587,7 +585,7 @@ struct SubstanceRowView: View {
     }
 }
 
-// MARK: - Substance Detail
+// MARK: - Substance Tag Flow
 
 /// Renders a substance's class metadata tags as a wrapping row of small
 /// capsule chips. Tags carry mechanism, chemical family, provenance, and

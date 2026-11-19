@@ -486,7 +486,7 @@ private enum PharmaCellFormat {
         }
     }
 
-    /// Human duration: "35 min", "4.5 h", "3 days". Mirrors `HalfLifeCalculatorView.formatDuration`.
+    /// Human duration: "35 min", "4.5 h", "3 days".
     static func formatDuration(_ minutes: Double) -> String {
         if minutes < 60 {
             return String(localized: "\(Int(minutes.rounded())) min")

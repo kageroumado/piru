@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// Optional first-run import — the heaviest step, so it comes last. Lets a user arriving from
+/// Optional first-run import — the heaviest step, so it comes late in the flow. Lets a user arriving from
 /// another tracker bring their history in from a Piru backup (plain or encrypted), PsychonautWiki,
 /// or PsyLog JSON export. `BackupFileImport` works out which from the file. Skippable via "Start fresh".
 struct OnboardingImportStep: View {

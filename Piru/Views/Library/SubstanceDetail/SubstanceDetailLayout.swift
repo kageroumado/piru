@@ -40,11 +40,11 @@ struct SubstanceDetailLayout: View {
     }
 
     var body: some View {
-        // 1. Header — identity above the fold: name, category chip, alias chips,
-        //    formula.
+        // Header — identity above the fold: name, category chip, alias chips,
+        // formula.
         SubstanceDetailHeader(substance: substance)
 
-        // 3. Your history — the user's own data leads (only when entries exist).
+        // Your history — the user's own data leads (only when entries exist).
         if !historyEntries.isEmpty {
             HistorySection(entries: historyEntries, model: model, defaultUnit: substance.defaultUnit)
             // A hormone with depot ester curves: the serum level those doses add
@@ -54,8 +54,8 @@ struct SubstanceDetailLayout: View {
             }
         }
 
-        // 3. Dose & Duration — the single most-consulted card (proto10). Inline on
-        //    the recreational spine; hidden on the medical one (the matrix decides).
+        // Dose & Duration — the single most-consulted card. Inline on the
+        // recreational spine; hidden on the medical one (the matrix decides).
         if placement(.doseDuration) == .inline {
             DoseDurationSection(
                 routes: routes,
@@ -69,9 +69,9 @@ struct SubstanceDetailLayout: View {
 
         WikiTimingSection(records: model.wikiTimings)
 
-        // 4. Effects — the dose dial and what's reported at each band. The dose
-        //    card above carries the same five tiers as a *grid*: same scale,
-        //    different instrument for a different question.
+        // Effects — the dose dial and what's reported at each band. The dose
+        // card above carries the same five tiers as a *grid*: same scale,
+        // different instrument for a different question.
         if placement(.effects) == .inline {
             EffectsSection(substance: substance, policy: policy, showAllEffects: showAllEffects)
         }
@@ -94,8 +94,8 @@ struct SubstanceDetailLayout: View {
         // reaches for first. Self-hides outside the family.
         BenzoDurationSection(substance: substance, model: model)
 
-        // 5–6. What makes it different / In the body — mechanism · receptor · PK ·
-        //      metabolism, one inline block or one deep-page target.
+        // What makes it different / In the body — mechanism · receptor · PK ·
+        // metabolism, one inline block or one deep-page target.
         pharmacologyInline
 
         // What else it touches — hERG, bladder, taste receptors. Called
@@ -154,7 +154,7 @@ struct SubstanceDetailLayout: View {
             }
         }
 
-        // 10. Reference depth: identity, chemistry and sources, each a collapsed card.
+        // Reference depth: identity, chemistry and sources, each a collapsed card.
         referenceDepth
     }
 

@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Management surface for user-defined per-substance units — the "1 capsule =
-/// 30 mg" table. Pushed from Settings. Each row is one ``CustomUnitPreset``;
+/// 30 mg" table. Pushed from the Library's Yours card. Each row is one ``CustomUnitPreset``;
 /// they're grouped by substance so a person with several pill sizes sees them
 /// together. Adding or editing pushes ``CustomUnitEditorView``.
 ///
@@ -69,7 +69,7 @@ struct CustomUnitsView: View {
         Text(verbatim: "1 \(preset.label) = \(preset.amountPerUnit.doseFormatted) \(preset.unit)")
     }
 
-    /// The substance's personal display name if the user relabelled it, else the
+    /// The substance's personal display name if the user relabeled it, else the
     /// canonical name they defined the unit against.
     private func displayName(for canonicalLowercased: String) -> String {
         CustomSubstanceStore.shared.displayName(for: canonicalLowercased)

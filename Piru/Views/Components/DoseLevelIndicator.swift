@@ -123,10 +123,10 @@ struct DoseLevelBadge: View {
     }
 }
 
-// MARK: - Dose Info View
+// MARK: - Experience Phase
 
 /// Visual identity (label + color) for each phase of an acute experience.
-/// Centralised so the timeline bar and the phase rows stay in lock-step — the
+/// Centralized so the timeline bar and the phase rows stay in lock-step — the
 /// bar is the overview, the rows the detail, and they must agree on hue.
 ///
 /// The palette traces the arc of an experience: cool and quiet before it
@@ -149,7 +149,7 @@ enum ExperiencePhase: CaseIterable {
         }
     }
 
-    /// The mark colour — dots, bar fills, chart bands.
+    /// The mark color — dots, bar fills, chart bands.
     ///
     /// Matches the hex ramp in `TimelineGraphView` / `SessionReportPDF` /
     /// `DosePhaseProgressBar`, which also encode these five phases — hues
@@ -176,14 +176,13 @@ enum ExperiencePhase: CaseIterable {
     }
 }
 
-// MARK: - Duration Timeline Bar
+// MARK: - Dose Level Color
 
 extension DoseLevel {
-    /// Mark colour — dots, discs, bar fills. Text uses ``labelColor``.
+    /// Mark color — dots, discs, bar fills. Text uses ``labelColor``.
     ///
-    /// One scale now. This concept had three encodings with three different
-    /// greens for "light" alone, and `threshold` was a blue sitting outside what
-    /// is otherwise a gray → green → gold → orange → red progression.
+    /// The one scale for a dose level: every surface reads its color here, and
+    /// the levels run gray → green → gold → orange → red.
     var swiftUIColor: Color {
         switch self {
         case .sub: .Dose.Sub.accent

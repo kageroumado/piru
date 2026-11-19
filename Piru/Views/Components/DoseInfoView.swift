@@ -99,9 +99,7 @@ struct DoseInfoView: View {
     }
 }
 
-// MARK: - Volumetric Dosing Disclaimer
-
-// MARK: - Duration Info View
+// MARK: - Route Dosing Card
 
 /// One route's dosage ladder and duration timeline presented together as a
 /// single card — the unit the substance detail screen switches between with
@@ -265,7 +263,7 @@ struct RouteDosingCard: View {
     /// `emphasized` highlights one row (``emphasizedLevel``, Total duration)
     /// with weight and a faint accent wash that bleeds slightly past the content
     /// so the labels/values stay edge-aligned. Every row carries the same
-    /// vertical padding so the emphasised one is no taller than its neighbours.
+    /// vertical padding so the emphasized one is no taller than its neighbors.
     private func levelRow(_ label: LocalizedStringResource, value: String, emphasized: Bool = false) -> some View {
         HStack {
             Text(label).foregroundStyle(emphasized ? Color.primary : Theme.secondaryLabel)
@@ -298,5 +296,3 @@ func elementalPercentCaption(_ fraction: Double) -> Text {
     }
     return Text("\(percent)% elemental", comment: "Elemental fraction of a salt")
 }
-
-// MARK: - Dose Level Color

@@ -562,7 +562,7 @@ private struct OptionRow: View {
 }
 
 /// A list row with an accent icon, a title, a one-line description, and an
-/// optional trailing spinner. Used for the Export/Import and Report entries.
+/// optional trailing spinner. Used for the Export, Import and iCloud-restore entries.
 private struct DataActionRow: View {
     let title: LocalizedStringKey
     let subtitle: LocalizedStringKey
