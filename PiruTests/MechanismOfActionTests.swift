@@ -77,7 +77,8 @@ struct MechanismOfActionTests {
     }
 
     @Test
-    func `A category floor never asserts an efficacy or a generation`() {
+    @MainActor
+    func `A category floor never asserts an efficacy or a generation`() async {
         // The floor describes a substance nothing else has described. It may say what the class
         // does; it may not say where in the class this member sits. "Full Agonist" over every
         // opioid is how pentazocine and butorphanol — whose ceiling effect is the clinically
@@ -85,6 +86,8 @@ struct MechanismOfActionTests {
         // The headline is the claim, so that is what is checked. A description may name a
         // distinction in order to say it is NOT characterized here — which is the honest thing
         // to do and the opposite of asserting it.
+        // The floor is bundled-DB data now, so this gates the curated category-mechanisms rows.
+        await SubstanceStore.shared.ensureAllLoaded()
         let forbidden = ["full agonist", "first-generation", "second-generation"]
         for category in SubstanceCategory.allCases {
             guard let summary = MechanismOfActionDatabase.categoryFallback(for: category)?.summary
@@ -99,11 +102,13 @@ struct MechanismOfActionTests {
     }
 
     @Test
-    func `A class fallback never invents a receptor out of a category name`() {
+    @MainActor
+    func `A class fallback never invents a receptor out of a category name`() async {
         // Never show a category placeholder ("Various", "Pain pathways", "Microbial targets",
         // "Cardiovascular system") as a target: a system is not a target, and a dot beside
         // one claims a measurement that was never made. A substance with nothing measured
         // shows prose and no receptor list.
+        await SubstanceStore.shared.ensureAllLoaded()
         for category in SubstanceCategory.allCases {
             let targets = (MechanismOfActionDatabase.categoryFallback(for: category)?.bindings ?? [])
                 .map(\.target)

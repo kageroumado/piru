@@ -135,7 +135,9 @@ RULES: list[tuple[str, str, str, bool]] = [
     ),
     (
         "meta: note to the next curator",
-        r"\b(TODO|FIXME|XXX|TBD|NOTE:|FIXME:|see above|see below|as noted above|"
+        # The markers are uppercase-only: IGNORECASE below would otherwise
+        # match Spanish `todo` ("all") in every es mechanism sentence.
+        r"\b((?-i:TODO|FIXME|XXX|TBD|NOTE:)|see above|see below|as noted above|"
         r"needs (review|checking|a citation)|verify this|placeholder)\b",
         "Written for whoever edits next, not for a reader.",
         True,
