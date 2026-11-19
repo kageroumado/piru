@@ -62,7 +62,7 @@ nonisolated enum PeopleRegistry {
               file.version <= formatVersion
         else { return [] }
         var seen = Set<UUID>()
-        return file.people.filter { $0.id != PiruProfile.ownerID && seen.insert($0.id).inserted }
+        return file.people.filter { $0.id != PiruProfile.legacyOwnerID && seen.insert($0.id).inserted }
     }
 
     static func save(_ people: [PiruPerson], to directory: URL) throws {

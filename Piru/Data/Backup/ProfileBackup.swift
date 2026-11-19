@@ -90,43 +90,82 @@ extension DataExportImport {
 }
 
 extension BackupManager {
-    /// Restore a backup made with more than one profile: the profiles come
-    /// back with their own ids (so their store files and per-profile keys line
-    /// up), the top level goes into the owner's journal, and each other journal
-    /// into its profile's, each by `strategy`. The whole file is decoded
-    /// before any store is touched.
+    /// What a backup made with more than one profile needs the user to settle
+    /// before it restores here; empty for any other file.
+    func profileConflicts(in plaintext: Data, directory: ProfileDirectory = .shared) -> [ProfileRestoreConflict] {
+        guard let section = DataExportImport.profilesSection(in: plaintext) else { return [] }
+        return plan(for: section, directory: directory, choices: [:]).conflicts
+    }
+
+    func plan(
+        for section: PiruProfilesSection, directory: ProfileDirectory, choices: [UUID: ProfileRestoreChoice],
+    ) -> ProfileRestorePlan {
+        ProfileRestorePlan(
+            registry: section.registry,
+            local: directory.profiles,
+            reserved: Set(directory.people.map(\.id)),
+            choices: choices,
+        )
+    }
+
+    /// Restore a backup made with more than one profile, each profile where
+    /// ``ProfileRestorePlan`` puts it under `choices`: the top level into the
+    /// backup owner's target, each other journal into its profile's, each by
+    /// `strategy`. Inventory shared between the backup's profiles is shared
+    /// between the profiles they land in. The whole file is decoded before any
+    /// store is touched.
     func applyProfiles(
         _ section: PiruProfilesSection,
         plaintext: Data,
         strategy: RestoreStrategy,
         context: ModelContext,
         directory: ProfileDirectory,
+        choices: [UUID: ProfileRestoreChoice] = [:],
     ) throws {
         try DataExportImport.validate(plaintext)
-        // Only photos a restored profile names, at a photo's size.
-        let named = Set(section.registry.compactMap(\.avatar.photo))
+        var top = try JSONDecoder().decode(PiruFile.self, from: plaintext)
+        top.profiles = nil
+        let plan = plan(for: section, directory: directory, choices: choices)
+        let targets = plan.targets.merging([PiruProfile.legacyOwnerID: directory.owner.id]) { mine, _ in mine }
+
+        // Only photos a profile takes from the backup, at a photo's size.
+        let named = Set(plan.steps.filter(\.takesDetails).compactMap(\.incoming.avatar.photo))
         for (name, data) in section.photos ?? [:] where named.contains(name) && data.count <= PiruProfilesSection.maxPhotoBytes {
             try? ProfilePhotoStore.write(data, named: name, in: directory.containerURL)
         }
-        for profile in section.registry {
-            try directory.restoreProfile(profile)
+        for step in plan.steps {
+            try directory.restoreProfile(step.incoming, as: step.target, takingDetails: step.takesDetails)
         }
-        let (ownerContext, ownerCustoms) = try DataExportImport.store(
-            for: directory.owner, openContext: context, directory: directory, writable: true,
-        )
-        try ProfileScope.$pinned.withValue(PiruProfile.ownerID) {
-            try apply(journal: plaintext, strategy: strategy, context: ownerContext, customStore: ownerCustoms)
-        }
+
+        var journals = [(plan.ownerTarget ?? directory.owner.id, top)]
         for journal in section.journals {
-            guard let profile = directory.profile(id: journal.profileID) else { continue }
+            guard let target = targets[journal.profileID] else { continue }
+            journals.append((target, journal.file))
+        }
+        for (target, file) in journals {
+            guard let profile = directory.profile(id: target) else { continue }
             let (journalContext, customs) = try DataExportImport.store(
                 for: profile, openContext: context, directory: directory, writable: true,
             )
-            let data = try DataExportImport.encodeJSON(journal.file)
+            let data = try DataExportImport.encodeJSON(file.remappingProfiles(targets))
             try ProfileScope.$pinned.withValue(profile.id) {
                 try apply(journal: data, strategy: strategy, context: journalContext, customStore: customs)
             }
         }
-        Logger.backupManager.notice("Restored \(section.journals.count + 1, privacy: .public) profiles' journals.")
+        Logger.backupManager.notice("Restored \(journals.count, privacy: .public) profiles' journals.")
+    }
+}
+
+nonisolated extension PiruFile {
+    /// The file with every inventory item's sharing pointed at the profiles
+    /// the backup's profiles restore into; an id with no target stays.
+    func remappingProfiles(_ targets: [UUID: UUID]) -> PiruFile {
+        var file = self
+        file.inventory = inventory?.map { item in
+            var item = item
+            item.sharedWith = item.sharedWith?.map { targets[$0] ?? $0 }
+            return item
+        }
+        return file
     }
 }

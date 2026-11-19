@@ -233,7 +233,7 @@ struct SessionSharingTests {
 
         let sent = try await kiri.send(mine, to: [bobOnKiri])
         let opened = try bob.open(sent)
-        #expect(opened.recipientProfileID == PiruProfile.ownerID)
+        #expect(opened.recipientProfileID == bob.directory.owner.id)
         guard case let .paired(sender) = opened.sender else { Issue.record("Kiri should be paired"); return }
         #expect(sender.profile.name == "Kiri")
         let outcome = try ShareReceiver.accept(opened, directory: bob.directory)
@@ -294,7 +294,7 @@ struct SessionSharingTests {
         let bobOnKiri = try #require(kiri.directory.people.first)
 
         // Kiri's phone forgets its identity and mints a new one under the same person id.
-        let identity = try kiri.identities.identity(for: PiruProfile.ownerID)
+        let identity = try kiri.identities.identity(for: kiri.directory.owner.id)
         let replacement = ShareIdentity(personID: identity.personID, privateKey: Curve25519.KeyAgreement.PrivateKey())
         let envelope = try ShareEnvelope.seal(
             Data("x".utf8), from: replacement, to: [(bobOnKiri.id, #require(bobOnKiri.key))],

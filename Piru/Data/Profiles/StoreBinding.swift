@@ -132,7 +132,7 @@ extension DayResolveCache: StoreBound {
         static func bindStore(_ container: ModelContainer) {
             let owner = ProfileScope.isOwner
                 ? container
-                : ProfileDirectory.shared.container(for: PiruProfile.ownerID, writable: true)
+                : ProfileDirectory.shared.container(for: ProfileDirectory.shared.owner.id, writable: true)
             shared.configure(container: owner ?? container)
         }
     }

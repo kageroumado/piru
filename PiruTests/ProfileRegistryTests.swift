@@ -18,7 +18,7 @@ struct ProfileRegistryTests {
         #expect(profiles.count == 1)
         #expect(profiles.first?.isOwner == true)
         #expect(profiles.first?.storeFileName == PiruProfile.ownerStoreFileName)
-        #expect(ProfileRegistry.activeProfileID(defaults: defaults, directory: dir) == PiruProfile.ownerID)
+        #expect(ProfileRegistry.activeProfileID(defaults: defaults, directory: dir) == PiruProfile.legacyOwnerID)
         #expect(!FileManager.default.fileExists(atPath: dir.appendingPathComponent(ProfileRegistry.fileName).path))
     }
 
@@ -49,19 +49,21 @@ struct ProfileRegistryTests {
         let (dir, defaults) = try Self.scratch()
         let alice = PiruProfile.new(name: "Alice", avatar: .monogram(for: "Alice"), color: .violet)
         try ProfileRegistry.save([.defaultOwner(name: "Me"), alice], to: dir)
-        ProfileRegistry.setActiveProfileID(alice.id, defaults: defaults)
+        ProfileRegistry.setActiveProfileID(alice.id, defaults: defaults, directory: dir)
         #expect(ProfileRegistry.activeProfileID(defaults: defaults, directory: dir) == alice.id)
         #expect(ProfileRegistry.activeStoreURL(defaults: defaults, directory: dir).lastPathComponent == alice.storeFileName)
         defaults.set(UUID().uuidString, forKey: ProfileRegistry.activeProfileKey)
-        #expect(ProfileRegistry.activeProfileID(defaults: defaults, directory: dir) == PiruProfile.ownerID)
-        ProfileRegistry.setActiveProfileID(PiruProfile.ownerID, defaults: defaults)
+        #expect(ProfileRegistry.activeProfileID(defaults: defaults, directory: dir) == ProfileRegistry.ownerID(in: dir))
+        ProfileRegistry.setActiveProfileID(ProfileRegistry.ownerID(in: dir), defaults: defaults, directory: dir)
         #expect(defaults.string(forKey: ProfileRegistry.activeProfileKey) == nil)
     }
 
     @Test
     func `The owner keeps every key and identifier it always had`() {
-        #expect(ProfileScope.key("doseLogStoreGeneration", for: PiruProfile.ownerID) == "doseLogStoreGeneration")
-        #expect(ProfileScope.notificationNamespace(for: PiruProfile.ownerID).isEmpty)
+        for owner in [ProfileRegistry.ownerID(), PiruProfile.legacyOwnerID] {
+            #expect(ProfileScope.key("doseLogStoreGeneration", for: owner) == "doseLogStoreGeneration")
+            #expect(ProfileScope.notificationNamespace(for: owner).isEmpty)
+        }
         let id = UUID()
         #expect(ProfileScope.key("doseLogStoreGeneration", for: id) == "doseLogStoreGeneration.\(id.uuidString.lowercased())")
         #expect(ProfileScope.notificationNamespace(for: id) == "\(id.uuidString.lowercased()).")
@@ -75,18 +77,18 @@ struct ProfileRegistryTests {
         }
         #expect(scoped == "piru.notif.\(id.uuidString.lowercased()).routine.methylphenidate-oral")
         #expect(ProfileScope.profileID(fromNotificationIdentifier: scoped) == id)
-        let owner = ProfileScope.$pinned.withValue(PiruProfile.ownerID) {
+        let owner = ProfileScope.$pinned.withValue(ProfileRegistry.ownerID()) {
             NotificationType.routine.identifier(anchor: "methylphenidate-oral")
         }
         #expect(owner == "piru.notif.routine.methylphenidate-oral")
-        #expect(ProfileScope.profileID(fromNotificationIdentifier: owner) == PiruProfile.ownerID)
-        #expect(ProfileScope.profileID(fromNotificationIdentifier: "routineReminder_x") == PiruProfile.ownerID)
+        #expect(ProfileScope.profileID(fromNotificationIdentifier: owner) == ProfileRegistry.ownerID())
+        #expect(ProfileScope.profileID(fromNotificationIdentifier: "routineReminder_x") == ProfileRegistry.ownerID())
     }
 
     @Test
     func `One profile's sweep never matches another's requests`() {
         let alice = UUID()
-        let ownerPrefixes = ProfileScope.$pinned.withValue(PiruProfile.ownerID) {
+        let ownerPrefixes = ProfileScope.$pinned.withValue(ProfileRegistry.ownerID()) {
             NotificationType.allCases.flatMap(\.identifierPrefixes)
         }
         let alicePrefixes = ProfileScope.$pinned.withValue(alice) {
@@ -95,7 +97,7 @@ struct ProfileRegistryTests {
         let aliceIDs = ProfileScope.$pinned.withValue(alice) {
             NotificationType.allCases.map { $0.identifier(anchor: "x", ordinal: "1") }
         }
-        let ownerIDs = ProfileScope.$pinned.withValue(PiruProfile.ownerID) {
+        let ownerIDs = ProfileScope.$pinned.withValue(ProfileRegistry.ownerID()) {
             NotificationType.allCases.map { $0.identifier(anchor: "x", ordinal: "1") }
         }
         for id in aliceIDs {

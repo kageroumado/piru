@@ -37,7 +37,7 @@ enum ProfileSwitcher {
     /// with it.
     static func delete(_ id: UUID, directory: ProfileDirectory = .shared) async throws {
         if id == directory.activeProfileID {
-            await switchTo(PiruProfile.ownerID, directory: directory)
+            await switchTo(directory.owner.id, directory: directory)
         }
         try directory.deleteProfile(id: id)
         ShareIdentityStore.shared.forget(profileID: id)
@@ -53,7 +53,9 @@ enum ProfileSwitcher {
 
     /// Open `url` in the profile it names (`profile=<uuid>`), switching first.
     static func open(_ url: URL, route: @escaping @MainActor (URL) -> Void) {
-        guard let profile = DeepLink.profileID(in: url), profile != ProfileDirectory.shared.activeProfileID else {
+        guard let profile = DeepLink.profileID(in: url).map(ProfileDirectory.shared.canonical),
+              profile != ProfileDirectory.shared.activeProfileID
+        else {
             route(url)
             return
         }

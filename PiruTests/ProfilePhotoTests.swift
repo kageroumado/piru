@@ -59,9 +59,19 @@ struct ProfilePhotoTests {
         let section = try #require(DataExportImport.profilesSection(in: data))
         #expect(section.photos?[name] == Self.pixels)
 
+        // Another device's owner keeps this device's look unless the user
+        // takes the backup's.
+        let (kept, keptDir) = try makeScratchProfileDirectory()
+        try BackupManager.shared.apply(
+            plaintext: data, strategy: .merge, context: kept.activeContainer.mainContext, directory: kept,
+        )
+        #expect(kept.owner.avatar.photo == nil)
+        #expect(ProfilePhotoStore.data(named: name, in: keptDir) == nil)
+
         let (restored, restoredDir) = try makeScratchProfileDirectory()
         try BackupManager.shared.apply(
             plaintext: data, strategy: .merge, context: restored.activeContainer.mainContext, directory: restored,
+            choices: [source.owner.id: .useBackup],
         )
         #expect(restored.owner.avatar.photo == name)
         #expect(ProfilePhotoStore.data(named: name, in: restoredDir) == Self.pixels)

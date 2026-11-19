@@ -107,6 +107,8 @@ final class DataStorageModel {
             PsyLogImportRequest.present(pending) { [weak self] outcome in
                 self?.finishPeopleImport(outcome)
             }
+        case .cancelled:
+            break
         case let .failed(message):
             notice = Notice(title: String(localized: "Import Failed"), message: message)
         }
@@ -161,12 +163,13 @@ final class DataStorageModel {
         guard let pending = pendingRestore else { return }
         pendingRestore = nil
         do {
-            switch pending {
+            let restored = switch pending {
             case let .plaintext(data):
-                try manager.apply(plaintext: data, strategy: strategy, context: context)
+                try await manager.restore(plaintext: data, strategy: strategy, context: context)
             case .iCloud:
                 try await manager.restoreFromICloud(passphrase: nil, strategy: strategy, context: context)
             }
+            guard restored else { return }
             DataExportImport.refreshLiveStores(container: context.container)
             notice = Notice(
                 title: String(localized: "Restore Complete"),

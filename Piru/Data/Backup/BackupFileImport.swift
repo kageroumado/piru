@@ -20,6 +20,9 @@ enum BackupFileImport {
         /// A PsychonautWiki file naming other people: nothing is imported until
         /// the people sheet says whose journal each person's doses go into.
         case needsPeople(PsyLogPendingImport)
+        /// The user cancelled the question about the file's profiles; nothing
+        /// was imported.
+        case cancelled
         case failed(String)
     }
 
@@ -45,7 +48,9 @@ enum BackupFileImport {
             }.value
             if let people { return .needsPeople(people) }
             do {
-                try importJSON(data, context: context)
+                guard try await BackupManager.shared.restore(plaintext: data, strategy: .merge, context: context) else {
+                    return .cancelled
+                }
             } catch ImportFileError.encrypted {
                 return await locked(data)
             }
@@ -57,13 +62,20 @@ enum BackupFileImport {
     }
 
     /// Adds a plain JSON file to the journals it holds, skipping entries
-    /// already there. A Piru file carrying several profiles brings each back
-    /// under its own id, into this device's profile with that id when there is
-    /// one, as an encrypted backup's Merge does; any other file goes into the
-    /// open journal (`context`).
+    /// already there, without asking anything: a Piru file carrying several
+    /// profiles brings each back as ``ProfileRestorePlan`` places it under
+    /// `choices`, as an encrypted backup's Merge does; any other file goes
+    /// into the open journal (`context`).
     @MainActor
-    static func importJSON(_ data: Data, context: ModelContext, directory: ProfileDirectory = .shared) throws {
-        try BackupManager.shared.apply(plaintext: data, strategy: .merge, context: context, directory: directory)
+    static func importJSON(
+        _ data: Data,
+        context: ModelContext,
+        directory: ProfileDirectory = .shared,
+        choices: [UUID: ProfileRestoreChoice] = [:],
+    ) throws {
+        try BackupManager.shared.apply(
+            plaintext: data, strategy: .merge, context: context, directory: directory, choices: choices,
+        )
     }
 
     /// Decrypts a locked backup off the main actor, returning the plaintext
