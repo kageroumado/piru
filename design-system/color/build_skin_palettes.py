@@ -255,6 +255,7 @@ SKINS = {
         "title/fill": ("#00798A", "#00FFFF"),
         "title/stroke": ("#1A1030", "#0D0221"),
         "title/shadow": ("#FF00FF", "#FF00FF"),
+        "arcade/grid": ("#D9CCFF", "#1A0440"),
         "arcade/wall": ("#B08CFF", "#8800FF"),
         "arcade/border": ("#E066E0", "#FF00FF"),
         "arcade/snake": ("#00A3B8", "#00FFFF"),

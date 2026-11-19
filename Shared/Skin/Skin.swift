@@ -396,7 +396,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .hebi:
             SkinDecorations(
                 scene: .arcade(SkinArcade(
-                    wall: .Skin.Hebi.Arcade.wall, border: .Skin.Hebi.Arcade.border,
+                    grid: .Skin.Hebi.Arcade.grid, wall: .Skin.Hebi.Arcade.wall, border: .Skin.Hebi.Arcade.border,
                     snake: .Skin.Hebi.Arcade.snake, snakeBody: .Skin.Hebi.Arcade.snakeBody,
                     food: .Skin.Hebi.Arcade.food, star: .Skin.Hebi.Arcade.star,
                     invader: .Skin.Hebi.Semantic.Success.accent, raider: .Skin.Hebi.Semantic.Danger.accent,
@@ -1177,6 +1177,8 @@ struct SkinSnow: Sendable {
 }
 
 struct SkinArcade: Sendable {
+    /// The skyline's fill, far and near.
+    let grid: Color
     let wall: Color
     let border: Color
     let snake: Color
