@@ -11,10 +11,6 @@ struct InfoDisclosureSection: View {
     @State private var aliasesExpanded = false
 
     var body: some View {
-        // `tag`, not `info.circle`: a trailing `info.circle` on this screen is the
-        // tap-for-help affordance (``CollapsibleSection/onInfo``), so a *leading*
-        // one on a section that has no help sheet was the same glyph meaning two
-        // things one row apart. This section is category, route, names and tags.
         CollapsibleSection("Additional Info", isExpanded: $infoExpanded) {
             let extras = infoExtraCells
             Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
@@ -214,10 +210,8 @@ struct ChemistrySection: View {
                 if let phys, phys.hasAnyValue {
                     // States where the numbers come from rather than warning the
                     // reader off them. They are computed from the structure, which
-                    // is the best available data for most of these compounds — the
-                    // old "not measured for this preparation" line implied a defect
-                    // that isn't there, and "this preparation" named nothing the
-                    // reader could identify.
+                    // is the best available data for most of these compounds, so
+                    // the line never words that as a defect ("not measured").
                     VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.")
                         if phys.hasLD50 {
@@ -340,11 +334,10 @@ struct SourcesSection: View {
     var body: some View {
         let links = SubstanceSourceLinks.mergedLinks(for: substance, contributions: contributions)
         if showsSources, !links.isEmpty {
-            // Folded, like every other reference card on the page. `DisclosurePolicy`
-            // has said so since it was written (`sourcesDefaultExpanded` is `false`
-            // at every tier, and the placement matrix says `.inlineCollapsed`) —
-            // this section was simply the one that never honored it, and the ledger
-            // is one row per source, which made it the longest block on the screen
+            // Folded, like every other reference card on the page, as
+            // `DisclosurePolicy` says (`sourcesDefaultExpanded` is `false` at every
+            // tier, and the placement matrix says `.inlineCollapsed`): the ledger
+            // is one row per source, which makes it the longest block on the screen
             // for the reader least likely to want it.
             CollapsibleSection(
                 "Sources",

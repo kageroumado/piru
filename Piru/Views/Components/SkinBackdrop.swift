@@ -148,15 +148,6 @@ struct SkinBackdrop: View {
 
 // MARK: - Renderer
 
-/// Draws one frame of a scene. A value, rebuilt per frame; every random
-/// choice comes from `SeededRNG` re-seeded the same way, so the frame is a
-/// pure function of size and time.
-///
-/// `nonisolated`: `Canvas(rendersAsynchronously: true)` draws on a
-/// background thread on hardware (the simulator draws on main), and under
-/// the project's `MainActor` default isolation an implicitly main-actor
-/// renderer traps on its first off-main call — a launch crash the simulator
-/// never showed. Everything it reads is a `Sendable` value.
 /// The real time of day, for scenes that follow it. Read on the main thread
 /// once per frame; a value, so the renderer can carry it off-main.
 nonisolated struct SceneClock: Sendable {
@@ -172,6 +163,15 @@ nonisolated struct SceneClock: Sendable {
     }
 }
 
+/// Draws one frame of a scene. A value, rebuilt per frame; every random
+/// choice comes from `SeededRNG` re-seeded the same way, so the frame is a
+/// pure function of size and time.
+///
+/// `nonisolated`: `Canvas(rendersAsynchronously: true)` draws on a
+/// background thread on hardware (the simulator draws on main), and under
+/// the project's `MainActor` default isolation an implicitly main-actor
+/// renderer traps on its first off-main call — a launch crash the simulator
+/// never shows. Everything it reads is a `Sendable` value.
 nonisolated struct SceneRenderer {
     let decor: SkinDecorations
     /// Every glyph at every size bucket, rendered once — see ``GlyphAtlas``.
@@ -311,7 +311,7 @@ nonisolated struct SceneRenderer {
                 let skip = rng.unit()
                 let x = CGFloat(col) * cellW + 12 + rng.unit() * (cellW - 24)
                 let y = 80 + CGFloat(row) * cellH + 8 + rng.unit() * (cellH - 16)
-                let edge = min(x, size.width - x) / (size.width / 2) // 0 at the edge, 1 at centre
+                let edge = min(x, size.width - x) / (size.width / 2) // 0 at the edge, 1 at center
                 let glyphIndex = Int(rng.next() % UInt64(glyphs.count))
                 let glyph = glyphs[glyphIndex]
                 let fontSize = 12 + rng.unit() * 14 + (1 - edge) * 8
@@ -396,7 +396,7 @@ nonisolated struct SceneRenderer {
     private func drawMoon(_ sky: SkinNightSky, in context: inout GraphicsContext) {
         // Proportions measured off Tsuki's app icon (moon r ≈ 300 px there):
         // the bite opens to the right, and the face is small and clustered on
-        // the thick left body, a little below centre.
+        // the thick left body, a little below center.
         let r: CGFloat = 38
         let shift = parallax(0.9)
         let center = CGPoint(x: size.width - 74 + shift.width, y: size.height * 0.42 + shift.height)

@@ -41,9 +41,8 @@ struct DosePhaseProgressBar: View {
             }
         }
 
-        /// Legible text variant for the phase label, which sits on a capsule
-        /// filled with this phase's own color at 18%. It clears AA against both
-        /// that fill and the bare card.
+        /// Legible text variant for the phase label, which sits on the bare card
+        /// and clears AA against it.
         var labelColor: Color {
             switch self {
             case .onset: .Phase.Onset.text

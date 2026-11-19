@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// One-line predicted **metabolic-modulation** note, surfaced at log time when something onboard (a
+/// One-line predicted **metabolic-modulation** note, shown on the substance page when something onboard (a
 /// co-active drug, a profile flag like smoking, the per-dose grapefruit flag, or the substance's own
 /// auto-modulation) changes how fast the dose is cleared — and therefore its levels.
 /// Calm, informational styling: this is a

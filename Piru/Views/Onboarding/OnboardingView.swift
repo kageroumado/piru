@@ -9,9 +9,6 @@ import SwiftUI
 /// permission is requested, and every step after the intro is skippable so nothing blocks the
 /// user from reaching the app. Permissions are asked *just-in-time*, each next to the value it
 /// unlocks, rather than batched into a wall of toggles.
-///
-/// The type name stays `OnboardingView` so the launch gate (`OnboardingGateModifier`) and the
-/// `.onboarding` sheet route resolve unchanged.
 struct OnboardingView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @Environment(\.dismiss) private var dismiss
@@ -206,14 +203,13 @@ struct OnboardingLayout<Hero: View, Mid: View, Footer: View>: View {
     var body: some View {
         VStack(spacing: 0) {
             // The step's own content scrolls when it over-subscribes the screen;
-            // the footer buttons stay pinned. Before this, the chrome pinned the
-            // whole step to the screen height (`OnboardingStepChrome`, no
-            // `ScrollView`), so an over-tall step — the Health one, which carries
-            // the flow's biggest hero, longest subtitle, and a ~200pt chart — got
-            // a compressed height proposal, and the flexible `Text` children
-            // absorbed it by collapsing to one truncated line ("Connect Apple
-            // Hea…"). `minHeight` keeps short steps looking exactly as before:
-            // centered, not top-aligned, with no scrolling.
+            // the footer buttons stay pinned. Never pin the whole step to the
+            // screen height without a `ScrollView`: an over-tall step — the Health
+            // one, which carries the flow's biggest hero, longest subtitle, and a
+            // ~200pt chart — gets a compressed height proposal, and the flexible
+            // `Text` children absorb it by collapsing to one truncated line
+            // ("Connect Apple Hea…"). `minHeight` keeps short steps centered, not
+            // top-aligned, with no scrolling.
             GeometryReader { proxy in
                 ScrollView {
                     VStack(spacing: 0) {

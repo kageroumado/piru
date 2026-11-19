@@ -90,7 +90,6 @@ struct DoseDurationSection: View {
     @Binding var isomerSelection: String?
     let provenance: SubstanceStore.SubstanceProvenance?
 
-    /// The dialed dose, published up from the card so the Log button can name it.
     /// The branded formulation whose duration envelope redraws the curve, or `nil`
     /// for the substance's own default curve. Card-local: it answers "how long does
     /// Concerta run?" in the moment and resets to the default next visit — or to

@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Model-derived clearance status for a journal row.
 enum BodyLoadStatus {
-    /// Still circulating: "26% eliminated in model · threshold ~5 AM" with a trailing "N mg left".
+    /// Still circulating: "26% eliminated in model · threshold ~5 AM", with "33 / 110 mg" as the trailing readout.
     case eliminating(percent: Int, clear: String, remaining: Double)
     /// Below the model's display threshold; active metabolites may persist.
     case cleared(hasActiveMetabolite: Bool = false)
@@ -100,15 +100,12 @@ struct BodyLoadRowLabel: View {
     }
 
     /// The secondary line, in the dose row's meta size (`.subheadline`, secondary):
-    /// the eliminated share and clear-by time on the left, the still-circulating
-    /// amount trailing — aligned with where a dose row keeps its strength chip.
+    /// the eliminated share and the clear-by projection. The still-circulating
+    /// amount leads the trailing readout on the line above ("33 / 110 mg").
     @ViewBuilder
     private var statusLine: some View {
         switch status {
         case let .eliminating(percent, clear, _):
-            // The still-circulating amount now leads the trailing readout
-            // ("33 / 110 mg"), so this line carries only the eliminated share and
-            // the clear-by projection.
             Text("\(percent)% eliminated in model · threshold ~\(clear)")
                 .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
                 .minimumScaleFactor(0.8)
@@ -145,8 +142,8 @@ struct SessionBodyLoadModel {
         let sessionTotal: Double
         /// Unit `sessionTotal` and `remaining` are denominated in — the unit the
         /// doses were *logged* in, not the library's default for the substance.
-        /// Mirrors `Cleared.unit`; without it this row printed grams with an "mg"
-        /// suffix.
+        /// Mirrors `Cleared.unit`: in the library's unit this row would print grams
+        /// with an "mg" suffix.
         let unit: String
         /// Amount still circulating, converted into `unit`. Held here rather than
         /// read off `active.totalRemaining` so the numerator and the denominator
@@ -355,12 +352,12 @@ struct SessionBodyLoadModel {
     /// Clock time for a same-day milestone; weekday + hour once it crosses into
     /// another day ("Fri 6 AM") — minutes are dropped there both because they're
     /// false precision that far out and because the full "Fri 6:54 AM" overflows
-    /// the meta line next to the trailing "N mg left". Also used by the dose
-    /// detail's "effects ended · cleared" receipt so milestones read alike.
+    /// the meta line. Also used by the dose detail's "effects ended · cleared"
+    /// receipt so milestones read alike.
     ///
     /// Past the coming week the weekday name stops identifying a date and starts
     /// misnaming one: a long-acting drug clearing ~81 days out (fluoxetine's
-    /// 16-day t½) rendered "Sun 1 PM", which reads as *this* Sunday — an
+    /// 16-day t½) would render "Sun 1 PM", which reads as *this* Sunday — an
     /// eleven-week error stated with total confidence. Beyond that horizon the
     /// calendar date is the only honest form, and the hour is dropped with it
     /// (a to-the-hour claim months out is noise).

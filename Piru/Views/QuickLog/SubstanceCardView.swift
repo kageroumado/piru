@@ -179,7 +179,7 @@ struct SubstanceCardView: View, Equatable {
         SharedInventory.shared.displayItem(substance: card.substanceName, preferringSalt: nil, own: inventoryItems)
     }
 
-    /// Passive stock hint (1B): a supply bar (only when a baseline is set) with
+    /// Passive stock hint: a supply bar (only when a baseline is set) with
     /// the "X left" amount on the line below. Nothing for untracked substances —
     /// the quick-log flow stays nudge-free.
     @ViewBuilder

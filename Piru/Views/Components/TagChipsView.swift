@@ -8,7 +8,7 @@ struct TagChipsView: View {
 
     var body: some View {
         if !tags.isEmpty {
-            // Quiet inline treatment (Option C): one tag glyph + the tags joined,
+            // Quiet inline treatment: one tag glyph + the tags joined,
             // kept low-key since they're secondary information, not chips competing
             // with the dose.
             HStack(spacing: Spacing.sm) {

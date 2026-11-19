@@ -170,7 +170,7 @@ struct StagingHaptics: View {
 /// references it needs (`content`, `tray`) and owns its own `@Query`s and
 /// list-mutating actions. Closures can't be compared, so a view holding them
 /// always reads as changed; `QuickLogView`'s body re-runs on every search
-/// keystroke (it reads `searchText`/`dockResults`), and a parent closure here
+/// keystroke (it reads `searchText`), and a parent closure here
 /// would cascade that into every `SubstanceCardView`/`OneRowChips` body. With
 /// only stable references SwiftUI skips this subtree, and the cards still
 /// update through their own observation (the `content` caches, `tray` staging).
@@ -421,10 +421,10 @@ struct QuickLogCardList: View {
         .buttonStyle(.plain)
     }
 
-    /// Staging-only counterpart to `QuickLogView.openLibrarySubstance` — a card
-    /// in the list isn't a search surface, so it stages a draft without the
-    /// search-state reset the dock version performs, and opens the draft at
-    /// the dock's half height without raising the keyboard.
+    /// Stages a draft for a library substance tapped in the card list. A card
+    /// in the list isn't a search surface, so staging skips the search-state
+    /// reset a dock search hit performs, and opens the draft at the dock's
+    /// half height without raising the keyboard.
     private func openLibrarySubstance(_ substance: Substance) {
         withAnimation(.snappy) {
             tray.stageDraft(

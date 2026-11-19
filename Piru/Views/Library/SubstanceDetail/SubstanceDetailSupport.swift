@@ -339,11 +339,3 @@ struct SourceAttributionExplainer: View {
         }
     }
 }
-
-// MARK: - Receptor Literature Row
-
-// Single binding row inside the "Receptor Literature" disclosure.
-// Each row shows the target, action, Ki or EC50 value, optional species,
-// source slug, and a PMID/DOI affordance so the user can verify the claim.
-
-// MARK: - Substance Tag Flow

@@ -34,7 +34,6 @@ struct SubstanceCard: Identifiable, Equatable {
 struct SubstanceGroup: Identifiable, Equatable {
     let id: String
     /// The card this group belongs to — its substance-identity key (== card id).
-    /// Replaces splitting `id` on `"|"` to recover the card grouping.
     let cardKey: String
     let substanceName: String
     let route: RouteOfAdministration
@@ -61,8 +60,8 @@ struct SubstanceGroup: Identifiable, Equatable {
 
     private var chipEntries: [ChipEntry] = []
 
-    /// Hand-written because `chipEntries` is a tuple array (no synthesized
-    /// `Equatable`). Compares the display-relevant surface — identity, color,
+    /// Hand-written because `ChipEntry` isn't `Equatable`, so none is
+    /// synthesized. Compares the display-relevant surface — identity, color,
     /// recency, the resolved library substance, and the rendered chips — which is
     /// exactly what a card's body draws, so two equal groups are visually
     /// interchangeable (and the card's `.equatable()` can skip rebuilding them).
@@ -425,7 +424,7 @@ final class QuickLogContentModel {
 
     /// Gates the empty-state placeholder: it must not show until the first
     /// rebuild has actually run, or the sheet briefly flashes "No Previous
-    /// Substances" on every open before the (now warm-cache, fast) caches fill.
+    /// Substances" on every open before the caches fill.
     private(set) var hasLoaded = false
 
     func markLoaded() {
@@ -528,7 +527,7 @@ final class QuickLogContentModel {
         for (identity, entry) in mostRecentEntry {
             // A form whose kinetics we decline to model (Concerta, a depot) draws
             // no "est. X active" badge — that is base-form timing wearing the
-            // product's name, exactly what D.4 withholds everywhere else.
+            // product's name, exactly what every other surface withholds.
             guard !entry.namesUnmodeledForm else { continue }
             guard let remainingPercent = DosePK.status(
                 substanceName: entry.substance,

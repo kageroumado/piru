@@ -10,7 +10,7 @@ struct AcetaldehydeCard: View {
     /// Grams of ethanol in this dose, when it can be read as a mass (drives the qualitative load band).
     let gramsEthanol: Double?
 
-    /// Qualitative acetaldehyde-exposure band — scales with the ethanol oxidised, which all passes
+    /// Qualitative acetaldehyde-exposure band — scales with the ethanol oxidized, which all passes
     /// through ADH to acetaldehyde. Ordinal only; never presented as a concentration.
     ///
     /// **These cut points do not belong in `concentration_effects`.**
@@ -21,7 +21,7 @@ struct AcetaldehydeCard: View {
     /// card's own doc comment refuses one line up.
     ///
     /// The band is safe to show as a traffic light here, where a daily-total one
-    /// would not be (see the deleted CDC MME bands), because it grades the *dose*
+    /// would not be, because it grades the *dose*
     /// against a mechanism that has no threshold rather than grading the reader
     /// against an authority's line — and the copy beside it says exactly that:
     /// there is no amount that clears as cleanly as it does for others.

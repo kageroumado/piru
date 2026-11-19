@@ -389,7 +389,7 @@ struct InteractionCheckerView: View {
         )
     }
 
-    // MARK: - Combination metabolites (Stage 4d)
+    // MARK: - Combination metabolites
 
     @ViewBuilder
     private var combinationSection: some View {

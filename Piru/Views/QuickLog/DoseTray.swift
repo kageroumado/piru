@@ -157,7 +157,7 @@ struct StagedDose: Identifiable, Equatable {
     var isFromDailySet = false
     /// Carried from `DailyDoseItem.isBackgroundMed` onto the committed entry.
     var isBackgroundMed = false
-    /// Per-dose "had grapefruit" flag (Stage 4c). Only ever toggled for CYP3A4-heavy
+    /// Per-dose "had grapefruit" flag. Only ever toggled for CYP3A4-heavy
     /// substrates when grapefruit logging is enabled; carried onto the committed entry.
     var hadGrapefruit = false
     /// The user took this without knowing how much. The staged components are
@@ -313,9 +313,9 @@ struct StagedDose: Identifiable, Equatable {
     /// What to call this dose while it's staged — the same answer the search row
     /// above it gave, and the journal row below it will give.
     ///
-    /// `substanceName` is canonical, so titling from it made the tray contradict
-    /// the row that fed it: you tapped "Concerta" and a card named
-    /// "Methylphenidate" appeared. Mirrors ``DoseTitle``'s precedence, minus the
+    /// `substanceName` is canonical, so titling from it would make the tray
+    /// contradict the row that fed it: a tap on "Concerta" would stage a card
+    /// named "Methylphenidate". Mirrors ``DoseTitle``'s precedence, minus the
     /// facets a staged dose can't have yet resolved.
     var displayTitle: String {
         if let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: substanceName) { return relabel }
@@ -456,7 +456,8 @@ struct StagedChipCounts: Equatable {
 // MARK: - Tray Model
 
 /// Staging state for the quick-log tray. Owned by `QuickLogView` so dose chips
-/// can reflect what's staged; rendered by `DoseTrayView`.
+/// can reflect what's staged; rendered by ``TrayStagedListCard`` and
+/// ``TrayCommitBar``.
 @Observable
 final class DoseTrayModel {
     var staged: [StagedDose] = []
@@ -494,12 +495,10 @@ final class DoseTrayModel {
     /// and only when the value actually flips, so stepping a dose's amount or
     /// re-tapping a chip, which mutate `staged` but not its count, doesn't
     /// re-run `QuickLogView.body`. `isCommittable` stays computed: it depends on
-    /// per-dose amounts and is read only inside `DoseTrayView`, which must
-    /// re-render on those edits anyway.
+    /// per-dose amounts and the one body that reads it is ``TrayCommitBar``'s,
+    /// which must re-render on those edits anyway.
     private(set) var isEmpty = true
 
-    /// Re-sync the stored ``isEmpty`` after a count change, notifying only on a
-    /// real flip (an `@Observable` set always notifies, even for an equal value).
     /// The profile to log for, handed to the commit and reset to the active
     /// profile, so a choice of someone else never outlives the log it was for.
     func takeRecipient() -> UUID? {
@@ -507,6 +506,8 @@ final class DoseTrayModel {
         return recipientID
     }
 
+    /// Re-sync the stored ``isEmpty`` after a count change, notifying only on a
+    /// real flip (an `@Observable` set always notifies, even for an equal value).
     private func syncEmptiness() {
         let nowEmpty = staged.isEmpty
         if nowEmpty != isEmpty { isEmpty = nowEmpty }
@@ -557,13 +558,13 @@ final class DoseTrayModel {
         return byIdentity.mapValues { StagedChipCounts(counts: $0) }
     }
 
-    /// Match two chip amounts at their *display* resolution, replacing a
-    /// `doseFormatted` **string** comparison that allocated a formatted string
-    /// per component on every staged-chip lookup — this ran inside `body` via
-    /// the card's count badge. Mirrors `doseFormatted`'s magnitude-dependent
-    /// rounding (0 dp ≥100, 1 dp ≥10, else 2 dp) so the perceived chip identity
-    /// is unchanged — the editor's text round-trip of 31.700000000000003 →
-    /// "31.7" → 31.7 still matches its chip — just without the allocation.
+    /// Match two chip amounts at their *display* resolution. A numeric key, never
+    /// a `doseFormatted` **string** comparison: this runs inside `body` via the
+    /// card's count badge, and a string compare allocates a formatted string per
+    /// component on every staged-chip lookup. Mirrors `doseFormatted`'s
+    /// magnitude-dependent rounding (0 dp ≥100, 1 dp ≥10, else 2 dp), so the
+    /// editor's text round-trip of 31.700000000000003 → "31.7" → 31.7 still
+    /// matches its chip.
     private static func sameAmount(_ lhs: Double, _ rhs: Double) -> Bool {
         displayKey(lhs) == displayKey(rhs)
     }
@@ -1111,5 +1112,3 @@ final class DoseTrayModel {
         }
     }
 }
-
-// MARK: - Staged List Card

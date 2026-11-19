@@ -45,7 +45,7 @@ private struct UsageRankingContent: View {
     /// Rows in the active metric's order, truncated to the list length. In
     /// common-dose mode substances with no common-dose value sink below every
     /// substance that has one, in their entry-count order, so the "—" rows read
-    /// as a labelled tail rather than salting the ranking.
+    /// as a labeled tail rather than salting the ranking.
     private var rankedRows: [UsageRouteRow] {
         let sorted: [UsageRouteRow] = switch metric {
         case .entries:

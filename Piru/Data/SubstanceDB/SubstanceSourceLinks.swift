@@ -83,9 +83,9 @@ enum SubstanceSourceLinks {
         return hasIdentifier ? [.chemistry] : []
     }
 
-    /// A tidy display name for a citation that lacks a title — the bare URL
-    /// (the old `Citation.label` fallback) reads as clutter, so name the work
-    /// (TiHKAL / PiHKAL) when recognisable, else show the host.
+    /// A tidy display name for a citation that lacks a title — a bare URL
+    /// reads as clutter, so name the work (TiHKAL / PiHKAL) when recognizable,
+    /// else show the host.
     static func friendlyReferenceLabel(_ ref: Citation) -> String {
         if let title = ref.title, !title.isEmpty { return title }
         if let doi = ref.doi, !doi.isEmpty { return "DOI \(doi)" }

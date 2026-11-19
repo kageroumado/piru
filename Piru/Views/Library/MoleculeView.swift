@@ -14,7 +14,7 @@ struct MoleculeShape: Decodable {
 }
 
 /// Loads and caches the bundled hero-molecule shapes. One molecule per Library
-/// family (plus a stylised peptide backbone — real peptides are far too large
+/// family (plus a stylized peptide backbone — real peptides are far too large
 /// to read at card scale).
 enum MoleculeLibrary {
     static let shapes: [String: MoleculeShape] = {

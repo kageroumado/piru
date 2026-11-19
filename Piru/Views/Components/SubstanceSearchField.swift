@@ -74,8 +74,8 @@ struct SubstanceSearchField: View {
                     }
                     showResults = true
                 }
-                // Hide a beat after focus loss (cancellable, unlike the old
-                // `asyncAfter`) — refocusing within the beat keeps the results.
+                // Hide a beat after focus loss; the task is cancelable, so
+                // refocusing within the beat keeps the results.
                 .task(id: isFocused) {
                     guard !isFocused else { return }
                     try? await Task.sleep(for: .milliseconds(200))

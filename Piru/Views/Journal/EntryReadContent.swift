@@ -251,7 +251,7 @@ struct EntryReadHero: View {
     private var byVolumeDisplayLine: String? {
         guard let ml = entry.volumeML, let abv = entry.abv else { return nil }
         if entry.combinationName != nil {
-            // Fractions of a millilitre are the point of a liquid, so the
+            // Fractions of a milliliter are the point of a liquid, so the
             // volume keeps the dose rounding rather than one decimal.
             return "\(ml.doseFormatted) mL · \(abv.doseFormatted) \(entry.unit)/mL"
         }
