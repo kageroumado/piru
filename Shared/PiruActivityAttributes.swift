@@ -10,7 +10,7 @@ import Foundation
 //
 // - **Static attributes** (this struct's stored properties): set once at
 //   `Activity.request(…)` time and immutable for the lifetime of the activity.
-//   Currently just `startTime`.
+//   It has none.
 // - **`ContentState`**: mutable per-update payload pushed via `activity.update(…)`.
 //   Drives the widget's timeline graph, progress bar, and timer labels.
 //
@@ -29,8 +29,6 @@ import Foundation
             var activeSubstances: [ActiveSubstanceState]
             var lastUpdated: Date
         }
-
-        let startTime: Date
     }
 #endif
 

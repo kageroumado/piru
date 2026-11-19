@@ -366,7 +366,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                     sand1: .Skin.Papergarden.Garden.sand1, sand2: .Skin.Papergarden.Garden.sand2,
                     groove: .Skin.Papergarden.Garden.groove, stone: .Skin.Papergarden.Garden.stone,
                     moss: .Skin.Papergarden.Garden.moss, petal: .Skin.Papergarden.Garden.petal,
-                    firefly: .Skin.Papergarden.Garden.firefly, grain: palette.shadow,
+                    firefly: .Skin.Papergarden.Garden.firefly,
                 )),
                 glyphs: [
                     SkinGlyph("✿", .Skin.Papergarden.Garden.petal), SkinGlyph("❀", .Skin.Papergarden.Garden.petal),
@@ -396,7 +396,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .hebi:
             SkinDecorations(
                 scene: .arcade(SkinArcade(
-                    grid: .Skin.Hebi.Arcade.grid, wall: .Skin.Hebi.Arcade.wall, border: .Skin.Hebi.Arcade.border,
+                    wall: .Skin.Hebi.Arcade.wall, border: .Skin.Hebi.Arcade.border,
                     snake: .Skin.Hebi.Arcade.snake, snakeBody: .Skin.Hebi.Arcade.snakeBody,
                     food: .Skin.Hebi.Arcade.food, star: .Skin.Hebi.Arcade.star,
                     invader: .Skin.Hebi.Semantic.Success.accent, raider: .Skin.Hebi.Semantic.Danger.accent,
@@ -455,7 +455,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 scene: .ephemeris(SkinEphemeris(
                     ink: .Skin.Selenia.Wheel.ink,
                     ring: .Skin.Selenia.Wheel.ring,
-                    air: .Skin.Selenia.Wheel.air,
                     star: .Skin.Selenia.Wheel.star,
                     elements: [
                         semantic(.caution, .accent), semantic(.success, .accent),
@@ -1124,12 +1123,10 @@ struct SkinGilding: Sendable {
 }
 
 /// Selenia's chart wheel: concentric rules, twelve sign sectors and the
-/// aspect chords across the middle. Its four elements are the semantic pairs,
-/// so only air — which is not one — needs its own token.
+/// aspect chords across the middle.
 struct SkinEphemeris: Sendable {
     let ink: Color
     let ring: Color
-    let air: Color
     let star: Color
     /// fire, earth, air, water, in that order, for the sector ticks.
     let elements: [Color]
@@ -1163,7 +1160,6 @@ struct SkinPaperGarden: Sendable {
     let moss: Color
     let petal: Color
     let firefly: Color
-    let grain: Color
 }
 
 struct SkinFireflies: Sendable {
@@ -1181,7 +1177,6 @@ struct SkinSnow: Sendable {
 }
 
 struct SkinArcade: Sendable {
-    let grid: Color
     let wall: Color
     let border: Color
     let snake: Color

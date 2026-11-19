@@ -616,9 +616,7 @@ struct DoseSnapshot {
         private func startActivity(state: PiruActivityAttributes.ContentState) {
             guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
 
-            let session = ActiveSessionManager.shared
-            let earliest = session.activeEntries.map(\.snapshot.timestamp).min() ?? .now
-            let attributes = PiruActivityAttributes(startTime: earliest)
+            let attributes = PiruActivityAttributes()
             let content = ActivityContent(state: state, staleDate: Self.staleDate(for: state))
 
             do {

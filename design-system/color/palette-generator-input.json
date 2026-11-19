@@ -7446,22 +7446,6 @@
     ]
    }
   },
-  "skin/hebi/arcade/grid": {
-   "any": {
-    "oklch": [
-     0.87235,
-     0.07106,
-     296.53114
-    ]
-   },
-   "dark": {
-    "oklch": [
-     0.20207,
-     0.10289,
-     291.23817
-    ]
-   }
-  },
   "skin/hebi/arcade/wall": {
    "any": {
     "oklch": [

@@ -48,7 +48,7 @@ struct PiruLiveActivity: Widget {
 
     extension PiruActivityAttributes {
         static var preview: PiruActivityAttributes {
-            PiruActivityAttributes(startTime: .now)
+            PiruActivityAttributes()
         }
     }
 
