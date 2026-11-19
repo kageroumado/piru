@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The app's colour tokens, resolved through the active ``Skin``.
+/// The app's color tokens, resolved through the active ``Skin``.
 ///
 /// Every accessor is a computed property that reads `SkinStore.shared.current`.
 /// Observation tracks that read wherever it happens during a view's `body`, so
@@ -70,7 +70,7 @@ enum Theme {
 
 // MARK: - Root
 
-/// Wraps the app's root so skin-wide modifiers (`fontDesign`, the colour-scheme
+/// Wraps the app's root so skin-wide modifiers (`fontDesign`, the color-scheme
 /// override) are read inside a `View.body`, where Observation tracks them.
 struct SkinnedRoot<Content: View>: View {
     @State private var skins = SkinStore.shared
@@ -97,8 +97,8 @@ struct SkinnedRoot<Content: View>: View {
 
 /// The skin's card treatment on an arbitrary shape.
 ///
-/// `.glass`: `.ultraThinMaterial` in light, the solid card colour in dark — the
-/// treatment the app shipped with. `.edged`: solid card colour in both schemes,
+/// `.glass`: `.ultraThinMaterial` in light, the solid card color in dark.
+/// `.edged`: solid card color in both schemes,
 /// a stroke, and a hard offset shadow drawn as a second fill behind the shape
 /// (unblurred by design — an edged skin has no soft shadows anywhere).
 struct ThemedBackground<S: Shape>: ViewModifier {
@@ -191,15 +191,15 @@ extension View {
     /// `.concentric(minimum:)` inherits its radius from the enclosing container
     /// shape and only falls back to `minimum` when there is nothing to inherit
     /// from. Concentricity — nested shapes whose radii relate mathematically to
-    /// their container — is a core principle of the iOS 26 design language, and
+    /// their container — is a core principle of the system design language, and
     /// a fixed radius breaks it the moment a card is nested or the container
     /// rounding changes.
     ///
     /// Note: this does not also call `containerShape`, which requires an
     /// `InsettableShape` that `ConcentricRectangle` is not. Cards still derive
     /// from whatever container the system provides (sheet, screen, grouped
-    /// list); they just don't yet re-publish themselves as a container for
-    /// their own children. Nested content still needs an explicit radius.
+    /// list) but do not re-publish themselves as a container for their own
+    /// children, so nested content needs an explicit radius.
     ///
     /// A skin never changes a container's shape — a card's radius is the
     /// caller's, so what nests inside it (the timeline envelope's bubbles, a

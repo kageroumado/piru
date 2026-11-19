@@ -82,7 +82,7 @@ nonisolated struct EffectAttenuationResult: Identifiable {
 }
 
 /// Computes predicted **effect attenuation** — the sign-flipped interaction readout
-/// (`Specs/pharmacology-axis-meta-plan.md`, Stage 3c).
+/// (`Specs/pharmacology-axis-meta-plan.md`).
 ///
 /// ## What it is, and what it is NOT
 /// Some "warnings" in other apps are really *blunting*, not danger: a chronic SSRI competes for SERT
@@ -108,9 +108,9 @@ nonisolated struct EffectAttenuationResult: Identifiable {
 nonisolated enum EffectAttenuation {
     /// Fraction of a blocker's peak level (terminal half-life decay) below which it is treated as no
     /// longer meaningfully onboard. 0.25 ≈ two half-lives — for a chronically-dosed SSRI the most recent
-    /// dose is hours old so presence is ~1, while a one-off dose weeks ago falls away. This is what
-    /// replaces the short subjective-effect window: an antidepressant is *pharmacologically* present far
-    /// longer than its acute effects, which the half-life captures and the effect curve does not.
+    /// dose is hours old so presence is ~1, while a one-off dose weeks ago falls away. It is used
+    /// instead of the short subjective-effect window: an antidepressant is *pharmacologically* present
+    /// far longer than its acute effects, which the half-life captures and the effect curve does not.
     private static let onboardThreshold = 0.25
 
     /// Half-life used for a blocker with no resolvable half-life (a conservative day).

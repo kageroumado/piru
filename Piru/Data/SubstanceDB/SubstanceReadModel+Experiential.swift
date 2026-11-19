@@ -108,9 +108,9 @@ extension SubstanceReadModel {
 
     /// The substance's 2D skeletal-structure diagram, if one was generated at
     /// build time (offline, from `smiles` — see `molecule_shapes.py`). `nil`
-    /// when the substance has no SMILES or the structure failed to parse
-    /// (~860 substances currently have neither). Purely derived data — no
-    /// source-priority gating, unlike most substance queries.
+    /// when the substance has no SMILES or the structure failed to parse.
+    /// Purely derived data, so unlike most substance queries it has no
+    /// source-priority gating.
     func moleculeStructure(substanceID: Int64) -> MoleculeStructure? {
         do {
             let row = try db.read { db in

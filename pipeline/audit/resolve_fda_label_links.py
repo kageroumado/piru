@@ -16,12 +16,12 @@ Each is resolved deterministically:
      whole words — the parenthesized active ingredient, or the brand that opens
      the title (`title_names`) — and the DailyMed page resolves
      (`source_link_check.fetch`). A filename's number is not always the
-     application the PDF belonged to, so this check is load-bearing.
+     application the PDF belonged to, so never skip this check.
 
 Resolutions are cached in `data/sources/fda-label-setids.json` (committed).
 `--write` rewrites each resolved URL in `data/curated/` and
 `data/enrichment/raw/` to `https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=…`,
-labelled with the product when the reference was a bare URL. A link that does
+labeled with the product when the reference was a bare URL. A link that does
 not resolve is left for the build to drop as dead.
 
     python3 pipeline/audit/resolve_fda_label_links.py --fetch          # resolve, report
@@ -207,7 +207,7 @@ def resolve(url: str, names: list[str], throttle: HostThrottle) -> dict:
             break
     if not labels:
         # The application lists no current label, but its brand may: a product
-        # relabelled under a new application keeps its name.
+        # relabeled under a new application keeps its name.
         for brand in sorted(b for b in brands if len("".join(tokens(b))) >= 4):
             found = _json(
                 "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?drug_name="

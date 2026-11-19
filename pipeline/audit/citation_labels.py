@@ -1,40 +1,29 @@
 #!/usr/bin/env python3
 """Check that a citation's human-readable LABEL describes the paper it points at.
 
-The third distinct citation-failure mode this catalog has produced, and the only
-one no existing gate can see:
+One of three citation gates:
 
-1. **Fabricated identifiers** (2026-07) — DOIs that resolve to nothing. Caught by
-   `verify_citations.py`.
-2. **Topical misattribution** (2026-08-01) — a real DOI cited for the wrong
-   molecule. Caught by `citation_topicality.py`.
-3. **A mislabelled identifier** (this) — a real, resolvable, on-topic-*looking*
-   identifier whose human label names a completely different document.
+1. Fabricated identifiers (DOIs that resolve to nothing): `verify_citations.py`.
+2. Topical misattribution (a real DOI cited for the wrong molecule):
+   `citation_topicality.py`.
+3. A mislabeled identifier (this one): a real, resolvable, on-topic-looking
+   identifier whose human label names a different document.
 
-The instance that motivated it: fifteen arylcyclohexylamine entries cited a
-source labelled `"Abelian 2024 SAR paper"` pointing at **PMID 38301014**, which
-is *"In Europe, an early, cold dawn for modern humans"* — an archaeology news
-piece in Science (doi:10.1126/science.ado3858). Both existing gates pass it
-happily: the identifier resolves, and the topicality checker compares the paper
-against a *substance name*, never against the label a curator wrote beside it.
+The other two gates pass a mislabeled identifier: it resolves, and the
+topicality checker compares the paper against a substance name, never against
+the label a curator wrote beside it. So this compares the year in a label like
+`"Wiehle 2013 BJU Int"` against the year of the record the identifier resolves
+to. A label is a curator's claim about what they read; when it disagrees with
+the record, one of the two is wrong.
 
-So this compares something nobody was comparing: the year in a label like
-`"Wiehle 2013 BJU Int"` against the year of the record the accompanying
-identifier actually resolves to. A label is a curator's claim about what they
-read; when it disagrees with the record, one of the two is wrong.
+It cannot catch a label whose year is right and whose surname is wrong (an
+"Abelian 2024" label on PMID 38301014, a 2024 archaeology news piece). That
+needs the author list, and `data/sources/citation-verify-cache.json` stores
+only `{journal, subjects, title, year}`; carrying authors in the cache and
+gating on surname is the fix for that class.
 
-**What this does NOT catch, stated plainly:** the Abelian case itself. The label
-said 2024 and PMID 38301014 *is* 2024 — the fabrication was in the surname, not
-the year. Catching that needs the author list, and
-`data/sources/citation-verify-cache.json` stores only `{journal, subjects,
-title, year}`. Extending the cache to carry authors, then gating on surname, is
-the fix for that class; this gate is the half that is buildable from the
-metadata we already have, and it earns its place by having found a real mismatch
-on first run (emylcamate, labelled 1961, resolves to 1959).
-
-Deliberately narrow: it fires only on a **year**, because a year is unambiguous
-and cheap to compare. A one-year gap is tolerated — online-first and issue dates
-routinely differ.
+It fires only on a year, because a year is unambiguous and cheap to compare. A
+one-year gap is tolerated: online-first and issue dates routinely differ.
 
 Usage:
     python3 pipeline/audit/citation_labels.py
@@ -57,7 +46,7 @@ DB = REPO / "Piru/Data/piru-substances.sqlite"
 #: A DOI or PMID appearing anywhere in a free-text source string.
 _DOI = re.compile(r"10\.\d{4,}/[^\s,;\"')\]]+", re.I)
 _PMID = re.compile(r"(?:pmid[:\s]*|pubmed\.ncbi\.nlm\.nih\.gov/)(\d{6,9})", re.I)
-#: "Wiehle 2013", "Abelian 2024", "Brandt et al. 2012" — a capitalised surname
+#: "Wiehle 2013", "Abelian 2024", "Brandt et al. 2012": a capitalized surname
 #: followed (optionally via "et al.") by a 4-digit year.
 _LABEL = re.compile(r"\b([A-Z][a-zA-ZÀ-ɏ]{2,})\s+(?:et\s+al\.?,?\s*)?((?:1[89]|20)\d{2})\b")
 

@@ -4,16 +4,14 @@ import Synchronization
 import Testing
 @testable import Piru
 
-/// Regression coverage for two App Store / TestFlight crashes triaged from the
-/// build-21/22 Xcode Organizer reports:
+/// Regression coverage for two shipped crashes:
 ///
-///   1. **Launch crash** — `SubstanceStore.init` used to `fatalError` whenever a
-///      database open threw. A corrupt / half-applied OTA substances DB or a
-///      bad-WAL user-prefs DB then crashed the app on *every* launch. The init
-///      now recovers (quarantine the applied update / recreate the prefs store)
-///      instead of trapping.
+///   1. **Launch crash** — `SubstanceStore.init` must never `fatalError` when a
+///      database open throws, or a corrupt / half-applied substances DB or a
+///      bad-WAL user-prefs DB crashes the app on *every* launch. It recovers
+///      (quarantine the applied update / recreate the prefs store) instead.
 ///   2. **AttributeGraph crash** — the memoization caches are `@ObservationIgnored`
-///      so a SwiftUI body that reads a getter no longer writes an observed
+///      so a SwiftUI body that reads a getter never writes an observed
 ///      property mid-`body`. The getters explicitly read `enabledSourceOrder` so
 ///      a warm read still establishes the observation dependency that drives a
 ///      re-render on a source-priority change.

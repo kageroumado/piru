@@ -3,10 +3,10 @@
 
 The citation checks are bounded by how much paper text we hold. `verify_citations`
 resolves DOIs through Crossref and PMIDs through NCBI, and `citation_topicality`
-pulls abstracts from the same two — which leaves 232 attached citations with no
-abstract at all, and *every* absence check silently declines to fire on those.
+pulls abstracts from the same two, which leaves many attached citations with no
+abstract at all, and every absence check silently declines to fire on those.
 
-Europe PMC closes most of that gap for three reasons the other two cannot:
+Europe PMC closes most of that gap, for three reasons:
 
   * it indexes PubMed, Agricola, patents and preprints behind **one** query
     grammar, so a DOI and a PMID take the same code path;
@@ -17,9 +17,9 @@ Europe PMC closes most of that gap for three reasons the other two cannot:
     Kᵢ almost never appears in an abstract, it appears in Table 2.
 
 Everything is cached on disk, keyed by request, so a re-run on a machine that
-already fetched is offline. That cache is deliberately untracked (it reaches
-75 MB and every pass rewrites it whole) — the offline gates do not read it, they
-read the small committed caches, so a clone without it still runs green.
+already fetched is offline. Never track that cache: it is large and every pass
+rewrites it whole. The offline gates read the small committed caches instead,
+so a clone without it still runs green.
 
     from audit.europepmc import client
     rec = client().by_id(pmid=27520396)      # → Record | None

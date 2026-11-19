@@ -146,7 +146,7 @@ nonisolated extension SceneRenderer {
                         prev = p
                         x += 6
                     }
-                    // Each colour owns a quarter of the width, drifting: a
+                    // Each color owns a quarter of the width, drifting: a
                     // horizontal alpha gradient selects it.
                     let phase = ((t3 * 0.1 + layerOffset * 0.5) * 0.5).truncatingRemainder(dividingBy: 1)
                     let start = (Double(c) / 4 + phase).truncatingRemainder(dividingBy: 1)
@@ -605,8 +605,8 @@ nonisolated extension SceneRenderer {
             }
         }
         // The menu's drifting sparks, thinned: the site runs 80, but they sit
-        // behind copy here. Suit-coloured rather than the menu's random hue —
-        // a skin never invents a colour that is not in its palette.
+        // behind copy here. Suit-colored rather than the menu's random hue —
+        // a skin never invents a color that is not in its palette.
         if dark { context.blendMode = .plusLighter }
         for i in 0 ..< 26 {
             let phase = rng.unit()
@@ -667,9 +667,8 @@ nonisolated extension SceneRenderer {
                     }
                     let a = fade * (dark ? 0.7 : 0.4)
                     if a >= 0.02 {
-                        // Each spark is a short radial streak, not a dot — a ring
-                        // of dots reads as a dotted circle, which is what this
-                        // was before the first look at it on a device.
+                        // Each spark is a short radial streak: a ring of dots
+                        // reads as a dotted circle.
                         for n in 0 ..< count {
                             let angle = Double(n) / Double(count) * 6.283185
                             let reach: Double = switch kind {

@@ -2,27 +2,22 @@ import Foundation
 
 /// Routes a receptor/transporter `target` to its **tolerance class** and that class's right-shift
 /// parameters for the ``PDModel`` layered `S(t)`. This is the curated, evidence-tiered table the
-/// engine reads instead of applying one universal "tolerance %" — the load-bearing design claim is
-/// that tolerance is *per-mechanism*, set by the target Piru already stores.
+/// engine reads instead of applying one universal "tolerance %": tolerance is *per-mechanism*, set by
+/// the target Piru already stores.
 ///
 /// ## Honesty
-/// Binding affinities (Kᵢ/EC₅₀/Vd) come from the citation-verified flagship evidence run; the
-/// **tolerance kinetics (the layer ln-shift ceilings and τ) here do not** — that run graded
-/// exposure/affinity, not adaptation rates, which are the field's softest numbers (over-claiming them
-/// is exactly the PsychonautWiki failure the engine refuses). So every class ships its kinetics
-/// flagged ``ConfidenceTier`` — `.medium` only where a controlled-human value anchors it (the
-/// psychedelic subjective-recovery window, flagship-corrected to ~3–4 d), `.low` (class-default,
-/// order-of-magnitude) otherwise. The constants are calibrated to reproduce the *shape* the
-/// literature agrees on (clustered dosing right-shifts the curve, spacing relaxes it; the acute layer
-/// moves within a session while the adaptive layer is the days–weeks baseline shift; the deep layer
-/// stays off for therapeutic users), not a false-precision percentage. These are the **Stage B
-/// literature-anchored** values (`Specs/tolerance-faithful-model.md` §3): the comment above each
-/// class's `Parameters` records the controlled-evidence anchor (e.g. the opioid recovery t½ ≈ 14 d,
-/// PMC1666403; the stimulant vesicular-reserve tachyphylaxis, de Wit 1996) and its grade. The deep
-/// layer is gated on a **product of magnitude × chronicity** (§2): the dose-relative escalation
-/// factor (`dose ÷ the substance's heavy ceiling`) *and* a leaky duty-cycle accumulator, so a heavy
-/// binge (not sustained) and a therapeutic daily dose (not heavy) both stay dark — only sustained
-/// heavy use entrenches.
+/// Binding affinities (Kᵢ/EC₅₀/Vd) are citation-verified; the **tolerance kinetics** here (layer
+/// ln-shift ceilings and τ) are the field's softest numbers and are graded as such. Each class's
+/// kinetics carry a ``ConfidenceTier``: `.medium` only where a controlled-human value anchors it (the
+/// psychedelic subjective-recovery window, ~3–4 d), `.low` (class default, order of magnitude)
+/// otherwise. The constants reproduce the *shape* the literature agrees on (clustered dosing
+/// right-shifts the curve, spacing relaxes it; the acute layer moves within a session, the adaptive
+/// layer is the days-to-weeks baseline shift, the deep layer stays off for therapeutic users), never a
+/// precise percentage. The comment above each class's `Parameters` records its controlled-evidence
+/// anchor and grade (`Specs/tolerance-faithful-model.md` §3). The deep layer is gated on the
+/// **product of magnitude and chronicity** (§2): the dose-relative escalation factor (`dose ÷ the
+/// substance's heavy ceiling`) times a leaky duty-cycle accumulator, so a one-off binge and a
+/// therapeutic daily dose both stay dark and only sustained heavy use entrenches.
 nonisolated enum ReceptorClasses {
     // MARK: - Time-constant vocabulary (minutes)
 
@@ -102,25 +97,16 @@ nonisolated enum ReceptorClasses {
             }
         }
 
-        /// Whether the gauge should evaluate the right-shift at a **capped** representative occupancy
-        /// (the half-saturation / ED50 point) because for this class *occupancy is a poor proxy for felt
-        /// effect* (`Specs/tolerance-faithful-model-improvements.md` §5). `true` only for the
-        /// **release / reuptake** classes, whose transporters saturate at *recreational* doses — there
-        /// felt effect tracks release/reuptake *flux*, not static occupancy, so an uncapped ratio would
-        /// hide real tolerance (a releaser at DAT sits at occupancy ≈ 1, making any `S` read as "no
-        /// tolerance"); evaluating at the sensitive part of the curve is the honest reading. For the
-        /// **agonists / PAMs / antagonists** it is `false` (uncapped): there the usual-dose occupancy
-        /// *is* the effect proxy, and capping it would pretend a heavy opioid/benzo user's escalated dose
-        /// is a half-sat dose — throwing away their escalation and over-reading their tolerance (the
-        /// opioid/GABA over-read). Uncapped, a heavy opioid user shows realistic *residual* response.
-        /// The occupancy the gauge should cap at before forming the response ratio, or `nil` to use the
-        /// true (uncapped) usual-dose occupancy — see ``PDModel/responseFraction(shiftFactor:representativeOccupancy:occupancyCap:)``.
+        /// The occupancy the gauge caps at before forming the response ratio, or `nil` to use the
+        /// true usual-dose occupancy (see
+        /// ``PDModel/responseFraction(shiftFactor:representativeOccupancy:occupancyCap:)``).
         ///
-        /// - **Release / reuptake** classes cap at the ED50 (`0.5`): occupancy saturates at recreational
-        ///   doses and felt effect tracks flux, not static occupancy, so evaluating at the sensitive
-        ///   half-sat point is honest (§5).
+        /// - **Release / reuptake** classes cap at the ED50 (`0.5`): their transporters saturate at
+        ///   recreational doses and felt effect tracks flux, not static occupancy, so an uncapped
+        ///   ratio would hide real tolerance (a releaser at DAT sits at occupancy ≈ 1).
         /// - **Agonists / antagonists / PAMs** (opioid, psychedelic, GABA) are uncapped: usual-dose
-        ///   occupancy *is* the effect proxy, and capping would over-read a heavy user's escalation.
+        ///   occupancy *is* the effect proxy, and capping would treat a heavy user's escalated dose as
+        ///   a half-saturating one and over-read their tolerance.
         ///   Never cap GABA as a stopgap for the `fu = 1` overestimate — the protein-binding correction
         ///   (`PharmacologyParameters.fractionUnbound`) is what corrects it; a cap only masks the symptom.
         var gaugeOccupancyCap: Double? {
@@ -135,7 +121,7 @@ nonisolated enum ReceptorClasses {
         }
 
         /// Short user-facing name for the tolerance class — the Stage-2 Tool card headline, shown to
-        /// the **Curious** (harm-reduction) tier (the "(μ)"-style names with the mechanism in parens).
+        /// the **Curious** tier (the "(μ)"-style names with the mechanism in parens).
         var displayName: LocalizedStringResource {
             switch self {
             case .psychedelic5HT2A: "Psychedelics (5-HT2A)"
@@ -196,7 +182,7 @@ nonisolated enum ReceptorClasses {
 
     /// A **second** effect of a class that tolerizes *differently* from the desired effect — the
     /// differential-tolerance safety story (`Specs/tolerance-faithful-model.md` §3.1, §3.3). Two
-    /// minimal log-space layers (acute + adaptive only — no deep, no escalation gate) run in parallel
+    /// minimal log-space layers (acute and adaptive, without a deep layer or escalation gate) run in parallel
     /// to the primary three, driven by the *same* occupancy, so the gap between the desired effect's
     /// right-shift and this endpoint's is observable:
     /// - **Opioids:** analgesia/euphoria tolerize fast; **respiratory depression tolerizes shallower
@@ -206,8 +192,7 @@ nonisolated enum ReceptorClasses {
     ///   (`adaptiveShiftMax == 0` ⇒ the endpoint shift stays ≡ 1) → a toleranced high pushes redoses
     ///   onto an un-toleranced pressor (redose toxicity, §3.3).
     ///
-    /// The reset-overdose *warning* (peak/gap tracking and copy) is a later stage; Stage C only
-    /// produces the endpoint's shift factor faithfully so the gap is visible.
+    /// This produces the endpoint's shift factor only, so the gap is visible; it raises no warning.
     struct SafetyEndpoint {
         /// Which harm axis this endpoint measures.
         enum Kind: String {
@@ -296,8 +281,7 @@ nonisolated enum ReceptorClasses {
 
     /// Right-shift parameters for one tolerance class: the three log-space layers that sum into
     /// `ln S(t)` (see ``PDModel``), each a leaky integrator toward `shiftMax · occupancy · drive`.
-    /// Everything is now one unified shift — the old availability-multiplier-vs-load split is gone;
-    /// the gauge is the saturating ``PDModel/responseFraction(shiftFactor:representativeOccupancy:)``
+    /// The gauge is the saturating ``PDModel/responseFraction(shiftFactor:representativeOccupancy:)``
     /// at the user's usual dose. The closed-form
     /// ``PDModel/stepShift(current:shiftMax:occupancy:drive:dtMinutes:tauMinutes:)`` keeps integration
     /// stable on any timestep, so these are calibrated by the steady-state ln-shift a saturating dose
@@ -330,20 +314,17 @@ nonisolated enum ReceptorClasses {
         /// Confidence in *these kinetics* (not the affinity data) — see the type doc.
         let confidence: ConfidenceTier
         /// CNS-distribution volume-of-distribution fallback (L/kg), used (flagged ``ConfidenceTier/unverified``)
-        /// when a substance in this class has no graded Vd of its own — the LSD analogs, the synthetic
-        /// cannabinoids, most of the 2C-x and substituted-tryptamine families. 399 substances with
-        /// binding data have no Vd of their own, so this is load-bearing.
+        /// when a substance in this class has no graded Vd of its own: the LSD analogs, the synthetic
+        /// cannabinoids, most of the 2C-x and substituted-tryptamine families. Many substances with
+        /// binding data have no Vd, so occupancy for them depends on this value.
         ///
-        /// **Each value is the class's representative substance's Vd, hand-copied**, and copies drift:
-        /// `class_representatives` names the substance for seven of these classes and the DB carries its
-        /// cited Vd, so the durable fix is to read that row rather than restate it here. Measured
-        /// Derived from each class's representative substance's cited `pk_routes` Vd where one exists;
-        /// `nil` for classes with no representative (the model handles nil Vd gracefully — occupancy
-        /// goes uncomputed, which is correct when no sourced value exists). Updated to the
-        /// representative's own DB value rather than hand-copied literals that could drift.
+        /// **Each value is the class representative's cited `pk_routes` Vd, copied by hand**, and
+        /// copies drift: `class_representatives` names the substance and the DB carries its Vd, so
+        /// reading that row would replace the copy. `nil` for classes with no representative: occupancy
+        /// goes uncomputed, which is correct when no sourced value exists.
         let classDefaultVdLPerKg: Double?
         /// A parallel **differential safety endpoint** (opioid respiratory, stimulant cardiovascular)
-        /// that tolerizes on its own kinetics — `nil` for the eight classes without one (Stage C).
+        /// that tolerizes on its own kinetics, or `nil` for a class without one.
         let safetyEndpoint: SafetyEndpoint?
         /// The **effect ladder** endpoints for a class whose tolerance is effect-selective (GABA, α2δ) —
         /// each an adaptive-only endpoint on its own kinetics, driven by the same occupancy. Empty for
@@ -365,21 +346,18 @@ nonisolated enum ReceptorClasses {
         var occupancyHalfMaxFromTherapeuticRange = false
     }
 
-    /// The curated right-shift parameters for a class — the **Stage B** literature-anchored table
-    /// (`Specs/tolerance-faithful-model.md` §3); calibrated to the literature's *shape*, see the type
-    /// doc for the honesty stance and confidence grading.
+    /// The curated, literature-anchored right-shift parameters for a class
+    /// (`Specs/tolerance-faithful-model.md` §3), calibrated to the literature's *shape*; see the type
+    /// doc for the confidence grading.
     static func parameters(for receptorClass: ReceptorClass) -> Parameters {
         switch receptorClass {
         case .psychedelic5HT2A:
-            // 5-HT2A tolerance has two clocks. A **same-day tachyphylaxis** pool (fast 5-HT2A
-            // internalisation/desensitisation — a same-day LSD re-dose is markedly weaker and largely
-            // gone by the next morning), carried by the acute layer (τ ≈ ¾ d). And the **multi-day
-            // adaptive shift** that builds over consecutive days toward near-total in-class
-            // cross-tolerance and recovers in ~3–4 d (controlled-human; flagship correction 2026-06-21).
-            // No deep layer (psychedelics don't entrench over months).
-            // §3: acute same-day tachyphylaxis (fast 5-HT2A desensitisation, gone by next morning,
-            // τ≈18 h) + adaptive subjective tolerance ~3–4 d (controlled-human, flagship-corrected),
-            // near-total in-class cross-tolerance. No deep layer. Grade medium.
+            // §3: 5-HT2A tolerance has two clocks. A **same-day tachyphylaxis** pool (fast 5-HT2A
+            // internalization and desensitization: a same-day LSD re-dose is markedly weaker, and the
+            // effect is largely gone by the next morning), carried by the acute layer (τ ≈ 18 h). And
+            // the **multi-day adaptive shift** that builds over consecutive days toward near-total
+            // in-class cross-tolerance and recovers in ~3–4 d (controlled-human). No deep layer:
+            // psychedelics don't entrench over months. Grade medium.
             Parameters(
                 acuteShiftMax: 1.2, tauAcuteMinutes: 18 * T.hour,
                 adaptiveShiftMax: 2.5, tauAdaptiveMinutes: 3.5 * T.day,
@@ -390,14 +368,12 @@ nonisolated enum ReceptorClasses {
                 safetyEndpoint: nil,
             )
         case .muOpioid:
-            // Days-to-weeks adaptive shift (recovery t½ ~14 d ⇒ τ≈20 d), a mild within-session acute
-            // pool, and an escalation-gated deep layer: dosing sustained above the heavy ceiling
-            // entrenches over months (the reset-after-break overdose axis is the safety hand-off, Stage C/F).
-            // §3: ED50 right-shift 3–30× (controlled; the folkloric '100–300×' is palliative
-            // end-of-life dosing). Recovery t½ ~14 d → τ≈20 d (PMC1666403). Ceilings recalibrated to
-            // the controlled literature (acute 0.3 + adaptive 1.8 + deep 1.1 → ln ≤ 3.2 → ~25×
-            // worst-case, deep only on chronic escalation). Deep = chronicity+escalation-gated
-            // entrenched tolerance; reset-after-break overdose safety axis. Grade low.
+            // §3: a days-to-weeks adaptive shift (recovery t½ ~14 d → τ≈20 d, PMC1666403), a mild
+            // within-session acute pool, and an escalation-gated deep layer: dosing sustained above
+            // the heavy ceiling entrenches over months. ED50 right-shift 3–30× (controlled; the
+            // folkloric '100–300×' is palliative end-of-life dosing). Ceilings fit the controlled
+            // literature: acute 0.3 + adaptive 1.8 + deep 1.1 → ln ≤ 3.2 → ~25× worst case, deep only
+            // on chronic escalation. Reset-after-break overdose is the safety endpoint. Grade low.
             Parameters(
                 acuteShiftMax: 0.3, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 1.8, tauAdaptiveMinutes: 20 * T.day,
@@ -415,16 +391,14 @@ nonisolated enum ReceptorClasses {
                 ),
             )
         case .catecholamineStimulant:
-            // The flagship three-layer class. STRONG acute layer (vesicular reserve-pool depletion →
-            // the redose loop), recovers overnight. A modest adaptive baseline shift (ADHD response is
-            // stable for years). The deep layer is OFF for therapeutic users — the escalation gate
-            // (dose ÷ heavy ceiling) only opens on heavy chronic escalation, then entrenches over
-            // ~9 months (DAT density recovers slowly), asymptoting at its ceiling.
-            // §3: acute vesicular reserve-pool tachyphylaxis (subjective gone 3–4 h, τ 6–12 h;
-            // de Wit 1996). Adaptive modest (ADHD response stable, ~2.7%/10 y). Deep only on heavy
-            // chronic escalation (DAT recovers +20–26% over 12–17 mo; felt tolerance lags density).
-            // Cardiovascular = TWO mechanisms (§6): the acute within-session pressor does NOT tolerize
-            // (de Wit 1996), the chronic resting response adapts over weeks (CV meta PMC6121294).
+            // §3: the full three-layer class. A strong acute layer (vesicular reserve-pool depletion,
+            // the redose loop; subjective effect gone in 3–4 h, τ 6–12 h; de Wit 1996) that recovers
+            // overnight. A modest adaptive baseline shift (ADHD response is stable for years,
+            // ~2.7%/10 y). The deep layer stays off for therapeutic users: the escalation gate (dose ÷
+            // heavy ceiling) opens only on heavy chronic escalation, then entrenches over ~9 months
+            // and asymptotes at its ceiling (DAT recovers +20–26% over 12–17 mo; felt tolerance lags
+            // density). Cardiovascular has two mechanisms (§6): the acute within-session pressor does
+            // not tolerize (de Wit 1996), the chronic resting response adapts over weeks (PMC6121294).
             // Grade low.
             Parameters(
                 acuteShiftMax: 0.8, tauAcuteMinutes: 9 * T.hour,
@@ -446,18 +420,13 @@ nonisolated enum ReceptorClasses {
                 ),
             )
         case .serotonergicReleaser:
-            // SERT releasers, split per-substance onto two recovery clocks (§3.4). A within-session
-            // acute fade plus a *fast adaptive* pool (τ≈4 d — receptor/transporter resensitisation,
-            // which is the whole story for the cathinone releasers like 4-MMC, days-scale). The slow
-            // **synthesis** pool (τ≈2 wk) engages only for the substances that suppress serotonin
-            // synthesis (MDMA-type entactogens; the per-substance ``suppressesSerotoninSynthesis``
-            // flag) — so MDMA recovers over weeks while mephedrone resets in days, same class.
-            // §3.4: two recovery clocks. Fast adaptive pool (receptor/transporter resensitisation,
-            // τ≈4 d) — the whole story for the cathinone releasers (4-MMC/mephedrone), which spare
-            // synthesis and reset in 2–4 d. Slow synthesis pool (τ≈14 d, single-dose inferred, range
-            // 3–14 d) driven only by the synthesis-suppressing entactogens: MDMA-type TPH suppression
-            // is *metabolite*-mediated, so recovery waits weeks. Rejected Shulgin's untested 3-month
-            // rule and both damage/harmless extremes. Grade low (human L).
+            // §3.4: SERT releasers, split per substance onto two recovery clocks. A within-session
+            // acute fade plus a *fast adaptive* pool (receptor/transporter resensitization, τ≈4 d),
+            // which is the whole story for the cathinone releasers (4-MMC/mephedrone): they spare
+            // synthesis and reset in 2–4 d. The slow **synthesis** pool (τ≈14 d, single-dose inferred,
+            // range 3–14 d) engages only for substances flagged ``suppressesSerotoninSynthesis``
+            // (MDMA-type entactogens, whose TPH suppression is *metabolite*-mediated). Never encode
+            // the untested "3-month rule". Grade low (human L).
             Parameters(
                 acuteShiftMax: 0.5, tauAcuteMinutes: 12 * T.hour,
                 adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 4 * T.day,
@@ -468,18 +437,13 @@ nonisolated enum ReceptorClasses {
                 safetyEndpoint: nil,
             )
         case .gaba:
-            // Benzodiazepines / alcohol: sedative tolerance is fast (near-complete in ~2 weeks,
-            // VINK12) but anxiolytic and cognitive/psychomotor tolerance are absent or negligible.
-            // The primary layer represents the SEDATIVE endpoint alone (§B.cal); the safety endpoint
-            // captures the cognitive impairment that does NOT tolerize — so the dose that no longer
-            // sedates still impairs memory and coordination at full strength.
-            // §3/§B.cal: sedative/hypnotic tolerance near-complete ~2 wk (VINK12: triazolam sleep
-            // parameters back to baseline at 2 wk; alprazolam sedation by day 17); anxiolytic/amnesic
-            // tolerance absent. Primary layer is the SEDATIVE endpoint alone — adaptive de-blended
-            // 1.0→2.0 (the old 1.0 was ~the mean of near-complete sedative and ~0 anxiolytic, now split
-            // out as the cognitive-impairment endpoint). acute 0.4 unchanged (within-session
-            // tachyphylaxis; VINK12's days-scale data does not constrain it). Cognitive impairment
-            // endpoint shift ≡ 1 (no tolerance). Dependence/kindling safety axis. Grade low.
+            // §3/§B.cal: benzodiazepines and alcohol. Sedative tolerance is near-complete in ~2 weeks
+            // (VINK12: triazolam sleep parameters back to baseline at 2 wk; alprazolam sedation by day
+            // 17), while anxiolytic, amnesic and psychomotor tolerance are absent or negligible. The
+            // primary layer is the SEDATIVE endpoint alone; the safety endpoint (shift ≡ 1) carries the
+            // cognitive impairment that does not tolerize, so a dose that has stopped sedating still
+            // impairs memory and coordination at full strength. The acute 0.4 is within-session
+            // tachyphylaxis, which VINK12's days-scale data does not constrain. Grade low.
             Parameters(
                 acuteShiftMax: 0.4, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 2.0, tauAdaptiveMinutes: 14 * T.day,
@@ -505,19 +469,14 @@ nonisolated enum ReceptorClasses {
                 primaryEffectAxis: .sedation,
             )
         case .alpha2Delta:
-            // Gabapentinoids (gabapentin, pregabalin, phenibut, F-phenibut). Single gauge, NOT an effect
-            // ladder: the only evidenced dissociation is binary — sedation/somnolence habituates within
-            // ~weeks (Owen 2007) while anxiolytic efficacy is maintained long-term (Feltner 2008,
-            // relapse-prevention RCT) — and a benzo-style graded per-effect ladder has no direct evidence
-            // for this class. The mechanism is α2δ-1 (voltage-gated Ca²⁺ channel), NOT GABA-A, so the
-            // subtype "why" that drives the GABA ladder does not apply here. The single gauge represents
-            // the sedative tolerance the user actually feels; the occupancy cap (gaugeOccupancyCap) is
-            // required because α2δ saturates.
-            /// Gabapentinoid tolerance, single gauge (α2δ-1 VGCC mechanism, not GABA-A).
-            /// Sedation/somnolence habituates in ~weeks (Owen 2007); anxiolytic efficacy maintained
-            /// long-term (Feltner 2008). No evidence for a graded per-effect ladder — not modeled.
-            /// Phenibut (GABA-B agonist) dependence within weeks. Gauge capped at half-sat occupancy
-            /// because α2δ saturates. Grade low.
+            // Gabapentinoids (gabapentin, pregabalin, phenibut, F-phenibut): a single gauge, never an
+            // effect ladder. The only evidenced dissociation is binary (sedation habituates within
+            // weeks, Owen 2007; anxiolytic efficacy holds long-term, Feltner 2008), and a benzo-style
+            // per-effect ladder has no direct evidence here. The mechanism is α2δ-1 (voltage-gated
+            // Ca²⁺ channel), NOT GABA-A, so the subtype reasoning behind the GABA ladder does not
+            // apply. The gauge is the sedative tolerance the user feels, capped at half-saturating
+            // occupancy because α2δ saturates. Phenibut (GABA-B agonist) dependence develops within
+            // weeks. Grade low.
             Parameters(
                 acuteShiftMax: 0.3, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 0.8, tauAdaptiveMinutes: 10 * T.day,
@@ -555,10 +514,10 @@ nonisolated enum ReceptorClasses {
                 // Huestis 2007 (pmid:17712819) says the Vd "is large, ca. 10 l/kg" and then that "more
                 // recently, with the benefit of advanced analytical techniques, the steady state Vd
                 // value of THC was estimated to be 3.4 l/kg". Lucas 2018 (doi:10.1111/bcp.13710)
-                // reports the same and ties it to inhaled dosing. Do not "correct" this back to 10 —
-                // that is the superseded number, and the DB's Cannabis row carried it until 2026-08-28.
+                // reports the same and ties it to inhaled dosing. Never "correct" this back to 10:
+                // that is the superseded number.
                 //
-                // It has no evidentiary basis for the ~30 synthetic cannabinoids that take it (JWH-,
+                // It has no evidentiary basis for the synthetic cannabinoids that take it (JWH-,
                 // AM-, ADB-, 5F- series): they share CB1 affinity with THC and nothing else — not
                 // scaffold, not lipophilicity, not protein binding. That is an argument for this class
                 // having no default at all, not for a different number.
@@ -590,12 +549,10 @@ nonisolated enum ReceptorClasses {
                 safetyEndpoint: nil,
             )
         case .alpha2Agonist:
-            // §3.5: α₂-agonists develop little efficacy tolerance — a faint adaptive shift only so a
-            // card appears to carry the rebound warning. Everything else inert; the real hazard is the
-            // discontinuation rebound safety axis, not a right-shift.
-            /// α2-agonists show little efficacy tolerance; the hazard is rebound hypertension on
-            /// abrupt/too-fast discontinuation (Geyskes 1979; taper, β-blocker first if co-stopping).
-            /// §3.5.
+            // §3.5: α₂-agonists develop little efficacy tolerance; the faint adaptive shift exists
+            // only so a card appears to carry the rebound warning. The hazard is rebound hypertension
+            // on abrupt or too-fast discontinuation (Geyskes 1979; taper, β-blocker first if
+            // co-stopping).
             Parameters(
                 acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 0.2, tauAdaptiveMinutes: 7 * T.day,
@@ -644,7 +601,7 @@ nonisolated enum ReceptorClasses {
     ///   (memantine) is not nicotine — both are off-mechanism and drop out.
     /// - But caffeine (an adenosine **antagonist**) and ketamine (an NMDA **channel blocker**) are
     ///   correct, because antagonism *is* the tolerance mechanism of those classes.
-    /// Used by the tolerance engine; `classify(target:)` with no action stays target-only (legacy) for
+    /// Used by the tolerance engine; `classify(target:)` with no action stays target-only for
     /// CNS-distribution Vd fallback and cache reload, where direction is irrelevant.
     static func mechanismActions(for receptorClass: ReceptorClass) -> Set<BindingAction> {
         switch receptorClass {
@@ -716,10 +673,9 @@ nonisolated enum ReceptorClasses {
 
     /// Infer a substance's tolerance class from its **pharmacological category**, independent of any
     /// binding data — so a benzodiazepine drives the GABA class and an opioid the μ class *even when the
-    /// bundled DB lists no receptor rows for it* (`Specs/tolerance-faithful-model-improvements.md` §7
-    /// follow-up). This is the class-level analogue of the target-based ``classify(target:action:)``:
-    /// the engine's missing-PK fallback (`ToleranceStore.fallbackClasses`) uses it to model an
-    /// untargeted-but-categorised substance as its class representative, rescuing the long RC tail
+    /// bundled DB lists no receptor rows for it*. This is the class-level analog of the target-based
+    /// ``classify(target:action:)``: the engine's missing-PK fallback (`ToleranceStore.fallbackClasses`)
+    /// uses it to model an untargeted but categorized substance as its class representative, covering the long RC tail
     /// (designer benzos, fluoro-amphetamines, RC opioids) that ships without curated bindings.
     ///
     /// Only categories with a well-defined mechanism class map; the rest (nootropic, supplement,

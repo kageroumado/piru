@@ -181,17 +181,13 @@ private struct HistorySummaryLabel: View {
     }
 }
 
-/// The compound's framing — peptide protocol, research compound, prescription
-/// medication, no-human-data — as **a chip in the header**, not a full-width
-/// banner between the dose data and its meaning.
+/// The compound's framing (peptide protocol, research compound, prescription
+/// medication, no human data) as a chip in the header.
 ///
-/// This was `StatusBanner`, a `Section`-sized `DetailBanner` with a title and a
-/// two-line message. The design review's diagnosis was that three such banners
-/// sat between the dose card and the first sentence that explained it, so the
-/// framing cost a screen of scroll to say one word. Demoted here to a marker: the
-/// title alone is the visible text, and the sentence that used to be the banner
-/// body survives verbatim as the marker's accessibility label — same strings,
-/// same translations, a tenth of the page.
+/// Never make it a full-width banner between the dose data and its meaning:
+/// three such banners before the first sentence that explains the dose card
+/// cost a screen of scroll to say one word. The title is the visible text; the
+/// full sentence is the marker's accessibility label.
 struct SubstanceStatusMarker: View {
     /// The framings a compound can carry, in the order they're tested. Resolving
     /// is a `static` on the enum rather than an optional-returning `body`, so the
@@ -229,8 +225,7 @@ struct SubstanceStatusMarker: View {
             }
         }
 
-        /// The old banner body, kept as the marker's spoken label so nothing that
-        /// was said before is lost — only its share of the screen.
+        /// The full framing sentence, spoken as the marker's accessibility label.
         var detail: LocalizedStringResource {
             switch self {
             case .peptideProtocol:
@@ -288,8 +283,6 @@ struct SubstanceStatusMarker: View {
     }
 }
 
-// `DetailBanner` — the shared full-width framing `Section` — lived here. It had
-// exactly one client, `StatusBanner`, and both are gone: the framing is now
-// ``SubstanceStatusMarker``, a chip in the header. Nothing else on the screen
-// wants a banner, so the component went with its only caller rather than staying
-// behind as an invitation to reintroduce one.
+// No full-width framing banner component on this screen: the framing is
+// ``SubstanceStatusMarker``, a chip in the header, and nothing else here wants a
+// banner.

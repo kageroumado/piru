@@ -3,7 +3,7 @@ import SwiftData
 import Testing
 @testable import Piru
 
-/// Acceptance for the 2026-09-12 family re-pin: a persisted `substanceUID`
+/// Acceptance for the PSID family re-pin: a persisted `substanceUID`
 /// stamped with a corrected-away OLD family is rewritten onto its NEW family in
 /// a single pass, across every `@Model` that stores one, while a non-listed uid
 /// is left alone and the map is applied exactly once (never chained).

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The **effect ladder** — the differential-tolerance replacement for the single gauge on an
+/// The **effect ladder**: differential tolerance, in place of a single gauge, for an
 /// effect-selective class (GABA, α2δ). One row per effect, each a bar of how much tolerance that effect
 /// has built at your usual dose, sorted most-toleranced first. The gap
 /// between the top and bottom rows *is* the finding: the dose that no longer sedates impairs you exactly

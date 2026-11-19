@@ -349,12 +349,11 @@ struct CardPKBadge: Equatable {
 
 // MARK: - Quick Log Content Model
 
-/// Holds every derived dataset the quick-log screen renders. Extracted off
-/// `QuickLogView` because the view-struct previously stored ~12 caches inline —
-/// several of them arrays of the ~40-field `Substance` value type — so every
-/// `body` pass deep-copied the whole dataset (`initializeWithCopy` dominated a
-/// 784 ms first-render trace). Owning them on a reference type drops the view's
-/// stored surface to a handful of references; `body` reads through the model.
+/// Holds every derived dataset the quick-log screen renders, on a reference
+/// type: stored inline on the `QuickLogView` struct, the caches (several of
+/// them arrays of the wide `Substance` value type) would be deep-copied on
+/// every `body` pass, which dominates a first-render trace. Here the view's
+/// stored surface is a handful of references; `body` reads through the model.
 ///
 /// The rebuild methods take the view's `@Query` arrays and search text as
 /// parameters rather than reading view state, so the model stays a pure derived
@@ -471,8 +470,8 @@ final class QuickLogContentModel {
     /// (today's slice stops at the first non-today row; most-recent wins).
     func rebuildEntryDerived(allEntries: [DoseEntry], dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) {
         // The PK badge is only ever read for a *displayed* card (favorites + the
-        // capped recents), so resolve `DosePK.status` for those substances only —
-        // not the whole 120-day history (~50 substances). Requires `rebuildCards`
+        // capped recents), so resolve `DosePK.status` for those substances only,
+        // never the whole recent history. Requires `rebuildCards`
         // to have run first (the `.task` orders it so).
         let displayed = Set(cachedFavoriteCards.map(\.id)).union(cachedNonFavoriteCards.map(\.id))
 
@@ -700,7 +699,7 @@ final class QuickLogContentModel {
         cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
     }
 
-    /// The Meds redesign's group pills: one pill per derived time-of-day
+    /// The group pills: one pill per derived time-of-day
     /// group (`MedTimeGroup`), no named routines. A multi-time med shows in
     /// every group it has a time in; staging is idempotent, so tapping two
     /// groups never double-stages it. As-needed meds are NOT one all-or-
@@ -708,8 +707,7 @@ final class QuickLogContentModel {
     /// gets its own single-med pill (a pre-workout stack is still one tap
     /// per med, never "stage every PRN med I own"). Each group carries the
     /// ``DueNowSlot``s that opened inside it, so the pill can answer "what
-    /// should I take now?" itself. The `routines` parameter is retained for
-    /// call-site stability but no longer read.
+    /// should I take now?" itself. The `routines` parameter is unused.
     ///
     /// Every model is read here, once, and copied into ``DailyMedSnapshot``s;
     /// rows deleted since the caller's `@Query` result or since

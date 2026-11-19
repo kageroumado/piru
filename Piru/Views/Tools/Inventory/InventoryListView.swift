@@ -86,7 +86,7 @@ private struct InventorySummaryRow: View {
 ///
 /// The view is deliberately thin — all the arranging lives in
 /// ``InventoryListModel``, and each row is its own `View` so a keystroke in the
-/// search field doesn't re-evaluate 80 rows' worth of library lookups.
+/// search field doesn't re-run every row's library lookup.
 struct InventoryListView: View {
     @Query private var ownItems: [InventoryItem]
     @Query private var substanceColors: [SubstanceColor]

@@ -4,9 +4,9 @@ import SwiftData
 /// Shared access to the canonical app-group SwiftData store for the widget
 /// timeline providers and the interactive Take-Med intents.
 ///
-/// Two guarantees matter here (both learned from a data-stranding incident
-/// where the widget raced the app on first launch and *created* an empty
-/// store the app then adopted):
+/// Three guarantees, each guarding the user's data. The first exists because a
+/// widget that races the app on first launch could otherwise create an empty
+/// store that the app then adopts.
 /// 1. The store is never created from this process — if the file doesn't
 ///    exist yet, the widget renders its empty state instead. This holds for
 ///    BOTH open modes below.

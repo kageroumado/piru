@@ -167,7 +167,7 @@ final class QuickLogDose {
         // Identity replaces the bare name so a Concerta chip and a Ritalin IR chip
         // (same canonical `substance`) get distinct keys. With no identity args —
         // a pre-PSID chip, or the drink-preset callers — `identityKey` returns the
-        // lowercased name, so the key is byte-identical to the old scheme.
+        // lowercased name, so the key matches the name-only keys already stored.
         let identity = identityKey(
             substanceUID: substanceUID, substance: substance,
             isomer: isomer, releaseForm: releaseForm, saltForm: saltForm,

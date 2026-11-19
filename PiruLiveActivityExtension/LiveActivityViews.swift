@@ -112,9 +112,9 @@ enum SessionPhase {
 /// Compact hours+minutes with no seconds (e.g. `3h 2m`), auto-updating on
 /// minute boundaries via `Text(.dateRange(…), format: .hoursMinutes)`.
 ///
-/// Two constraints picked this exact shape:
-/// - `Text(_:style: .timer)` always shows seconds and is greedy for width
-///   (it's what made the compact island stretch full-width on device).
+/// Two constraints pick this shape:
+/// - `Text(_:style: .timer)` always shows seconds and is greedy for width,
+///   so it stretches the compact island full-width on device.
 /// - The Live Activity render server decodes the format style from the
 ///   archived view, so it must be a *Foundation* type — a custom
 ///   `DiscreteFormatStyle` defined in this extension fails to decode and the
@@ -351,15 +351,13 @@ struct LockScreenView: View {
         // bright wallpaper it loses contrast. Black is also what the Dynamic
         // Island always is and what survives the Always-On display's reduced
         // luminance, so all three presentations read as one surface.
-        // (`containerBackground(.black, for: .widget)` was tried on top of this
-        // and is not worth carrying: the Lock Screen composites the card with
-        // vibrancy either way, so it rendered identically to the tint alone.
-        // A faint wallpaper seam across the card is the system's, not ours.)
+        // Adding `containerBackground(.black, for: .widget)` changes nothing: the
+        // Lock Screen composites the card with vibrancy either way. The faint
+        // wallpaper seam across the card comes from the system.
         .activityBackgroundTint(.black)
         .activitySystemActionForegroundColor(.white)
         // `.secondary` resolves to a *dark* gray in the light color scheme,
-        // which is invisible on black. The translucent tint used to hide this;
-        // an opaque one doesn't, so pin the scheme the content is drawn for.
+        // which is invisible on black, so pin the scheme the content is drawn for.
         .environment(\.colorScheme, .dark)
     }
 

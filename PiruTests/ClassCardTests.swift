@@ -8,7 +8,7 @@ import Testing
 @Suite("Class cards")
 @MainActor
 struct ClassCardTests {
-    /// The ladder's rungs are `class_reference_compounds` rows now, so every ladder test needs the
+    /// The ladder's rungs are `class_reference_compounds` rows, so every ladder test needs the
     /// store up. A rung list that came back empty would make each of them pass vacuously, which is
     /// why the count is gated once here rather than asserted per test.
     private let references: [String]
@@ -201,9 +201,8 @@ struct ActiveIngredientTests {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
         // Read by id, bypassing the ActiveIngredient hop, so this asserts the DB
-        // and not the proxy. The rows it used to carry were THC's (CB1/CB2,
-        // "Original Felder/Showalter measurement") and CBD's (GPR55) — a plant
-        // has no Kᵢ.
+        // and not the proxy. A plant has no Kᵢ: THC's (CB1/CB2) and CBD's (GPR55)
+        // rows belong to those compounds.
         let cannabisID = try #require(store.substanceID(forNameOrAlias: "Cannabis"))
         #expect(SubstanceReadModel.bindingRows(substanceID: cannabisID, db: store.substancesDB).isEmpty)
     }

@@ -5,16 +5,14 @@ Every merge pass in `pipeline/build/sqlite.py` keys on *text* — a canonical
 name, an alias, a `duplicate-of-` tag, or a curated registry. That leaves a
 class untouched: two rows with the same structure whose names look nothing
 alike and whose identifiers don't line up, because one side has no InChIKey at
-all or is stored as the salt. The 2026-08-01 cleanup found six such pairs, two
-of them mass-casualty cathinones (N-Ethylpentylone/Ephylone,
+all or is stored as the salt (N-Ethylpentylone/Ephylone,
 Dimethylpentylone/Dipentylone). A compound split across two rows carries its
 dose ladder on one and its interaction class on the other.
 
 ## Why this reports instead of merging
 
-The first version of this check merged automatically. It was wrong, in two ways
-that are worth writing down because both are invisible until you read the
-output:
+Never merge automatically from this check, for two reasons that are invisible
+until you read the output:
 
 1. **A structural collision is ambiguous.** It means *either* two rows are the
    same compound *or* one of them has a wrong SMILES. Those have opposite
@@ -37,16 +35,15 @@ properties:
 
 - Dropping the counterion folds a hydrochloride onto its freebase. Salt rows are
   stored `[Cl-].<molecule>.[H+]`, which yields a completely different InChIKey
-  from the freebase — precisely why these pairs survived every text-keyed pass.
+  from the freebase, which is why these pairs survive every text-keyed pass.
 - Keeping the **full** key (not the block-1 connectivity prefix) preserves
   stereochemistry, so enantiomers never collapse: Ketamine is
   `YQEZLKZALYSWHR-UHFFFAOYSA-N`, Esketamine `YQEZLKZALYSWHR-CYBMUJFWSA-N`.
   Block-1 matching would fuse them, which is why the identifier-integrity test
   deliberately does not flag connectivity matches.
 
-CAS is deliberately not used as a secondary key: the catalog has nine known
-pairs of *distinct* molecules sharing one CAS (2026-08-01 data audit), so CAS
-cannot currently be merged on.
+CAS is not used as a secondary key: the catalog has known pairs of distinct
+molecules sharing one CAS, so CAS cannot be merged on.
 
 Usage:
     python3 pipeline/audit/structural_dupes.py            # report

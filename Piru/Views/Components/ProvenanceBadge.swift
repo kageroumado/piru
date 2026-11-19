@@ -1,10 +1,9 @@
 import SwiftUI
 
-/// A compact pill that conveys **where a pharmacology value came from** — fusing the *method/species*
-/// (human vs animal vs in-vitro cell line vs an aggregator) with the *trust grade* (the color, from
-/// ``ConfidenceTier``): a glance
-/// distinguishes a human-PK number from a rat-synaptosome EC₅₀ or an aggregator transcription, which is
-/// exactly the faithful-over-comprehensive distinction the evidence pipeline grades on.
+/// A compact pill for where a pharmacology value came from: the method or species (human, animal,
+/// in-vitro cell line, aggregator) with the trust grade as its color, from ``ConfidenceTier``. A glance
+/// tells a human-PK number from a rat-synaptosome EC₅₀ or an aggregator transcription, the distinction
+/// the evidence pipeline grades on.
 ///
 /// Method is inferred from the binding's `species` string and `sourceSlug`:
 /// - **Human** — a human-derived assay (incl. human transporters / HEK-expressed human receptors).

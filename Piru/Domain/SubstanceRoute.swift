@@ -65,9 +65,9 @@ struct DurationOfAction: Codable, Hashable {
 /// and (optionally) duration. Nested under ``SubstanceRoute``: a route's
 /// ``SubstanceRoute/saltForms`` lists all forms, ordered with the default first;
 /// the route's top-level `doses`/`unit`/`duration` mirror that default form so
-/// salt-unaware code keeps working transparently.
-/// A single dose-bearing **form** of a route — historically salt-only, now
-/// multi-axis (Stage A). Each variant carries its own `unit`/`doses`/`duration`
+/// salt-unaware code keeps working.
+///
+/// A single dose-bearing **form** of a route. Each variant carries its own `unit`/`doses`/`duration`
 /// so a resolved enantiomer's distinct pharmacology (armodafinil's longer
 /// exposure, Focalin's ~2× potency) is real per-form data, not a cosmetic label.
 /// The two orthogonal facets are independent: `saltForm` (the counter-ion) and

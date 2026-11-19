@@ -2,23 +2,22 @@
 
 The overlay (`data/curated/substances/*.json`) is ingested as the highest-
 priority source `piru-curated`, so a bad curated file silently overrides good
-upstream data. These tests encode the failure modes found in the 2026-07 overlay
-audit (see `pipeline/audit/survey_curated_overlay.py` and the memory note
-`curated-overlay-audit`) as regression gates:
+upstream data. These tests gate the failure modes the overlay audit
+(`pipeline/audit/survey_curated_overlay.py`) looks for:
 
   1. Every curated file resolves to a real DB substance (no orphaned/dead files).
   2. No curated file name is chemistry-noise (the build drops it at ingest, so
-     the override never lands — a silent no-op file).
-  3. No CROSS-CATEGORY dose/duration clone blocks — an identical ladder shared by
-     substances in different categories is a copy-paste template, not real data
+     the override never lands).
+  3. No CROSS-CATEGORY dose/duration clone blocks: an identical ladder shared by
+     substances in different categories is a copy-paste template
      (2-FDCK≡Lithium orotate, Escitalopram≡Prochlorperazine, …).
-  4. No exact-InChIKey duplicate substance rows — same exact key on two rows is a
-     merge failure or identifier corruption. (Connectivity-block matches are
-     legitimate stereoisomer families and are deliberately NOT flagged.)
+  4. No exact-InChIKey duplicate substance rows: the same exact key on two rows
+     is a merge failure or identifier corruption. Connectivity-block matches are
+     stereoisomer families and are deliberately unflagged.
 
-Each check carries a documented allowlist of *currently-known* debt. The overlay
-cleanup pass (`pipeline/audit/clean_curated_overlay.py`) removes these and the
-allowlists shrink toward empty; meanwhile any NEW violation fails immediately.
+Each check carries an allowlist of known debt, which the overlay cleanup pass
+(`pipeline/audit/clean_curated_overlay.py`) shrinks toward empty. Any violation
+outside it fails.
 
 Run from the repo root (needs the built DB):
     python3 pipeline/build/tests/test_overlay_integrity.py
@@ -42,18 +41,17 @@ is_chemistry_noise = L.is_chemistry_noise
 
 
 # ---------------------------------------------------------------------------
-# Documented known debt (shrink as clean_curated_overlay.py lands). An entry
-# here is a "known, not-yet-fixed" violation, not an approved exception — the
-# goal state is empty sets. New violations outside these sets fail the suite.
+# Known debt, to shrink as clean_curated_overlay.py fixes it. An entry here is a
+# known, unfixed violation, never an approved exception: the goal is empty sets.
+# New violations outside these sets fail the suite.
 # ---------------------------------------------------------------------------
-_KNOWN_UNRESOLVED: set[str] = set()  # cleanup deleted the last one (plus-cpca.json)
+_KNOWN_UNRESOLVED: set[str] = set()
 
 # Cross-category clone clusters (identical dose/duration block spanning ≥2
 # categories). Keyed by frozenset of member substance names.
-# Residual after the 2026-07 cleanup pass (clean_curated_overlay.py stripped the
-# clones that had upstream fallback). These remaining clusters have NO non-curated
-# source for the cloned route, so auto-stripping would lose all dose/duration data
-# — they need a human to supply real per-compound numbers. Shrink as fixed.
+# These clusters have no non-curated source for the cloned route, so stripping
+# them (as clean_curated_overlay.py does when a source exists) would lose all
+# dose/duration data. They need a human to supply per-compound numbers.
 _KNOWN_CROSS_CATEGORY_DOSE = {
     frozenset({"CBN-O", "Delta-8-THC", "HHC", "Zinc Picolinate"}),
     frozenset({"Magnesium Glycinate", "Phosphatidylserine", "Sabroxy"}),
@@ -62,20 +60,15 @@ _KNOWN_CROSS_CATEGORY_DURATION = {
     frozenset({"Alpha-Lipoic Acid", "Guaifenesin", "Sumatriptan"}),
     frozenset({"Gepirone", "Thiothixene"}),
     frozenset({"Methocarbamol", "Vitamin C"}),
-    # The sole-source peak/offset left once every phase a source covers was
-    # dropped; identical in both files, so a suspected template. Both are on the
-    # needs-sourcing baseline (curated-override-baseline.json).
+    # A sole-source peak/offset identical in both files, so a suspected template.
+    # Both are on the needs-sourcing baseline (curated-override-baseline.json).
     frozenset({"N-Acetylcysteine", "Prochlorperazine"}),
 }
 # Exact-InChIKey collisions across distinct rows: merge failures / corruption.
-# Emptied by Stage 0.0a — every cluster that used to appear here is now resolved:
-# the corrupt-key clusters (Ephedrine/Pseudoephedrine, 4F-PHP/a-PHP, Dextro/Levo-
-# methorphan, Butonitazene/Metodesnitazene, 4-HO-DiPT/4-HO-MPT) got distinct
-# PubChem-verified keys via IDENTIFIER_CORRECTIONS; the same-drug dupes (HXE/
-# Hydroxetamine, Ethketamine/Ethylketamine, Marinol) merge via the collision
-# registry's forced merges; and Cannabis's plant structure is nulled so it no
-# longer carries THC's key. See data/curated/inchikey-collisions.json. Any new
-# exact-key collision now fails immediately — this set must stay empty.
+# This set must stay empty. Corrupt-key clusters get distinct PubChem-verified keys
+# via IDENTIFIER_CORRECTIONS, same-drug duplicates merge via the collision
+# registry's forced merges, and Cannabis carries no structure so it cannot share
+# THC's key. See data/curated/inchikey-collisions.json.
 _KNOWN_INCHIKEY_DUPS: set[str] = set()
 
 
@@ -191,13 +184,11 @@ class OverlayIntegrity(unittest.TestCase):
 
     # --- tooling smoke test: the audit lib can read the DB and derive candidates ---
     def test_isomer_families_collapsed_after_fold(self):
-        """Provenance guard, inverted for Stage A. The block-1 auto-deriver clusters
-        *present* rows, and fold_isomer_families() has now collapsed each folded
-        family into a single parent row — so a folded parent (Ketamine, the spec's
-        canonical example) is no longer a derivable multi-row cluster, which is the
-        proof the fold landed. An intentionally-unfolded family (Etiracetam/
-        Levetiracetam — see _ISOMER_FOLD_SKIP) is still two co-familied rows and
-        therefore still derives."""
+        """The block-1 auto-deriver clusters *present* rows, and
+        fold_isomer_families() collapses each folded family into one parent row, so
+        a folded parent (Ketamine) derives no multi-row cluster: proof the fold ran.
+        An intentionally unfolded family (Etiracetam/Levetiracetam, see
+        _ISOMER_FOLD_SKIP) is two co-familied rows and still derives."""
         parents = {f["parent"] for f in L.isomer_families(self.db)}
         self.assertNotIn(
             "Ketamine",

@@ -54,7 +54,7 @@ enum CompoundDisplayClass: String, Codable {
     /// Prescription medication, no recreational value — show mechanism /
     /// warnings, but NEVER dose or duration (a doctor's domain).
     case medicalRx = "medical_rx"
-    /// No recreational value at all (antibiotics, …). Trackable + recognisable
+    /// No recreational value at all (antibiotics, …). Trackable + recognizable
     /// but hidden from recreational browsing; no dose/duration.
     case nonRecreational = "non_recreational"
 

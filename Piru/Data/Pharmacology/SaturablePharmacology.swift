@@ -39,7 +39,7 @@ nonisolated struct BioavailabilityPoint {
     let citation: String
 }
 
-/// Saturable-kinetics profiles for the **Ceiling-Effect** tool (pharmacology axis, Stage 6).
+/// Saturable-kinetics profiles for the **Ceiling-Effect** tool.
 ///
 /// Most substances clear by first-order kinetics — double the dose, double the exposure — which the
 /// closed-form ``PKModel/concentration(at:ke:ka:)`` Bateman path already models. A handful break that

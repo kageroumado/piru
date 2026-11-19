@@ -28,9 +28,9 @@ sys.path.insert(0, str(REPO / "pipeline/build"))  # for the canonical unit helpe
 from sqlite import unit_to_mg_factor  # noqa: E402
 
 # Source priority (lower wins) is loaded from the DB's `sources` table once the
-# connection opens (below), not hard-coded here — a hard-coded copy silently
-# goes stale when a source's default_priority changes, making this audit
-# "resolve" differently from the shipped app it's meant to mirror.
+# connection opens (below). Never hard-code it: a copy goes stale when a
+# source's default_priority changes, and the audit then resolves differently
+# from the app it mirrors.
 
 # Significant divergence thresholds. ≥2× either direction is the bar:
 # values within 0.5×–2× are considered "broadly consistent" given the
@@ -86,8 +86,7 @@ def fmt_dur(phases: dict) -> str:
 db = sqlite3.connect(str(DB))
 db.row_factory = sqlite3.Row
 
-# Source priority from the DB (lower wins) — the single source of truth the
-# resolver uses. Replaces the previously hard-coded copy that could go stale.
+# Source priority from the DB (lower wins), the same table the resolver uses.
 PRIORITY = {
     row["slug"]: row["default_priority"]
     for row in db.execute("SELECT slug, default_priority FROM sources")
@@ -96,7 +95,7 @@ PRIORITY = {
 # ── Popularity score per substance ────────────────────────────────────────
 # Heuristic: aliases (well-known compounds have many street names),
 # source count (popular = in many DBs), and the `common` tag (subset
-# curated as broadly recognised).
+# curated as broadly recognized).
 popularity = {}
 for r in db.execute("""
     SELECT s.id AS sid, s.canonical_name AS name,

@@ -1,8 +1,7 @@
 """Receptor-target name normalization shared by the build and the audits.
 
-Piru carries 22 spellings of the mu-opioid receptor, 17 of GABA-A and 14 of
-NMDA, because every source writes it its own way and half of them append the
-assay. `normalize_target` folds a spelling onto a `TargetName`: `base` is the
+Piru carries many spellings of each receptor (mu-opioid, GABA-A, NMDA), because
+every source writes it its own way and many append the assay. `normalize_target` folds a spelling onto a `TargetName`: `base` is the
 receptor with every qualifier removed (what `bindings.target_base` stores and
 the tolerance engine collapses on), `cell` is `base` plus the entity/subtype
 qualifiers that keep genuinely different measurements apart (what the

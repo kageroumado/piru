@@ -7,15 +7,15 @@ import Testing
 /// modulator's presence curve and threaded into the **adaptive** right-shift layer as its `drive`
 /// (``PDModel/stepShift``). (`Specs/pharmacology-axis-meta-plan.md`, Stage 4b.)
 ///
-/// **The graph ships empty.** Its one edge — NMDA antagonism attenuating opioid tolerance — was
-/// withdrawn in 2026-08 when sourcing found no human magnitude behind the 0.5, and the strongest
+/// **The graph ships empty.** Its one edge (NMDA antagonism attenuating opioid tolerance) is
+/// withdrawn: sourcing found no human magnitude behind the 0.5, and the strongest
 /// positive human trial reported plasma memantine an order of magnitude below the NMDA IC₅₀ and
 /// credited an anti-inflammatory mechanism instead. `tolerance-modulation.json`'s `withdrawn` carries
 /// the full record.
 ///
 /// So these tests exercise the machinery against a **synthetic** edge rather than a shipped one. That
 /// is deliberate: the mechanism is model code and must keep working, and pinning it to whichever row
-/// the curated file happens to hold is what let an unsourced number sit here looking validated.
+/// the curated file happens to hold would let an unsourced number sit here looking validated.
 @Suite("ToleranceModulation")
 @MainActor
 struct ToleranceModulationTests {

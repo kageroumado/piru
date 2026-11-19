@@ -146,7 +146,7 @@ nonisolated enum ProfileRegistry {
 ///
 /// Everything keyed per profile goes through here: notification identifiers,
 /// the dose log's store generation, launch-pass tokens and caches. The owner's
-/// keys are the ones Piru always used, so nothing an owner already has changes.
+/// keys are unscoped, so an owner's existing identifiers and caches keep working.
 nonisolated enum ProfileScope {
     @TaskLocal static var pinned: UUID?
 

@@ -2,8 +2,7 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Stage 3a — interaction de-noising. The checker no longer fires on a binary
-/// "is it within some window" test: on warn surfaces it reads the same effect
+/// Interaction de-noising. On warn surfaces the checker reads the same effect
 /// curves the timeline draws and gates each pair on real temporal overlap and
 /// dose, while the Tools ▸ Interactions explorer still surfaces everything.
 @MainActor

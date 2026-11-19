@@ -156,8 +156,8 @@ enum DoseNotificationManager {
 
     /// The dose moved in time (edit, retime, move-to-session), or its logged meal
     /// changed and moved its phases: wellness and phase reminders are keyed to the
-    /// old timestamp, so cancel those and reschedule from the new time. A dose moved into the past schedules
-    /// nothing — which is the fix for a backdated dose still pinging
+    /// old timestamp, so cancel those and reschedule from the new time. A dose
+    /// moved into the past schedules nothing, so a backdated dose never pings
     /// "Stay hydrated" at its original fire times.
     static func doseRescheduled(
         entry: DoseEntry,
@@ -806,7 +806,7 @@ enum DoseNotificationManager {
     /// Clear any pending or already-delivered low-stock alert for an item —
     /// called when the user stops tracking it, so a stale "running low" banner
     /// doesn't linger on the Lock Screen for something they no longer track.
-    /// Removes both grammars' identifiers during the transition.
+    /// Removes the identifier in both grammars, the legacy prefix included.
     static func cancelInventoryLowStock(itemID: UUID) {
         let identifiers = [
             inventoryNotificationIdentifier(itemID),

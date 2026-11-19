@@ -137,8 +137,8 @@ struct SubstanceLibraryTests {
     func `Search for 'lsd' finds LSD as first hit`() {
         let results = SubstanceLibrary.search("LSD", limit: 5)
         #expect(!results.isEmpty)
-        // "LSD" is now the canonical name (the systematic "Lysergic Acid
-        // Diethylamide" was demoted to an alias), so the exact-name hit ranks first.
+        // "LSD" is the canonical name (the systematic "Lysergic Acid
+        // Diethylamide" is an alias), so the exact-name hit ranks first.
         #expect(results.first?.name.uppercased() == "LSD")
     }
 

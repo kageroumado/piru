@@ -3,7 +3,7 @@
 English catalog key -> Spanish. Update-only: a key here that no catalog carries
 is simply skipped, so this table may be a superset of any one target's catalog.
 
-Register — keep every new line consistent with what is already here:
+Register (keep every new line consistent with the rest):
 - Neutral international Spanish (no vosotros, no voseo, no regionalisms): pick the
   form no region finds marked; where no word is neutral, rephrase around it.
 - Informal *tú*; imperatives in tú form ("Registra una dosis").
@@ -17,7 +17,8 @@ Insights→Tendencias · substance→sustancia · session→sesión · timeline�
 tiempo · half-life→vida media · onset→inicio · come-up→subida · peak→pico ·
 offset→bajada · afterglow→residual · redose→redosis · route→vía ·
 insufflated→insuflada · meds→medicamentos · supplement→suplemento ·
-inventory→inventario · stock→existencias · skin→tema · SSRI→ISRS · MAOI→IMAO · · Settings→Configuración (Ajustes in es-ES) · add→agregar · tablet→pastilla ·
+inventory→inventario · stock→existencias · skin→tema · SSRI→ISRS · MAOI→IMAO ·
+Settings→Configuración (Ajustes in es-ES) · add→agregar · tablet→pastilla ·
 check-in→seguimiento · regimen→esquema · grapefruit→toronja (pomelo) ·
 Not medical advice→No es consejo médico.
 """
@@ -65,7 +66,7 @@ ES = {
     "per %@": "por %@",
     "%@ · per %@": "%@ · por %@",
     "Part of %@": "Parte de %@",
-    # Liquid combination products, logged by volume (2026-10-28).
+    # Liquid combination products, logged by volume.
     "Measured": "Medida",
     "Per unit": "Por unidad",
     "Per mL": "Por mL",
@@ -73,7 +74,7 @@ ES = {
     "Volume of %@": "Volumen de %@",
     "Part of %@ · %@ mL": "Parte de %@ · %@ mL",
     "Leave empty to log the dose with its amount unknown. For a combination product, the number of units taken, or the volume in mL for a liquid.": "Déjalo vacío para registrar la dosis con cantidad desconocida. Para un producto combinado, el número de unidades tomadas o, si es un líquido, el volumen en mL.",
-    # Products made in Add a Med: compounded or liquid (2026-10-28).
+    # Products made in Add a Med: compounded or liquid.
     "Pills": "Pastillas",
     "Tablets": "Comprimidos",
     "Capsules": "Cápsulas",
@@ -3639,7 +3640,7 @@ ES = {
     "Teal": "Verde azulado",
     "Forest": "Bosque",
     "Amber": "Ámbar",
-    # profiles phase 2
+    # Profiles: logging for someone else
     "For": "Para",
     "Goes into %@'s journal": "Va al diario de %@",
     "Log For": "Registrar para",
@@ -3658,7 +3659,7 @@ ES = {
     "This Profile": "Este perfil",
     "Everyone": "Todos",
     "Everyone puts every profile's doses in one file, each under its person's name.": "Todos pone las dosis de cada perfil en un solo archivo, cada una con el nombre de su persona.",
-    # profiles phase 3
+    # Profiles: shared sessions
     "With %@": "Con %@",
     "%lld others": "%lld más",
     "Shared with %@": "Compartido con %@",
@@ -3676,7 +3677,7 @@ ES = {
     "%@ has no session around this time.": "%@ no tiene ninguna sesión a esta hora.",
     "In this session": "En esta sesión",
     "Couldn't Add": "No se pudo agregar",
-    # profiles across devices
+    # Profiles across devices
     "This session has no doses to share.": "Esta sesión no tiene dosis para compartir.",
     "Choose someone to share with.": "Elige con quién compartir.",
     "This share was sent to someone else.": "Este archivo se envió a otra persona.",
@@ -3729,7 +3730,7 @@ ES = {
     "%@'s code has changed": "El código de %@ cambió",
     "Pair again only if %@ is with you and you scanned this from their phone. A code sent to you could be someone else's.": "Vuelve a vincularte solo si %@ está contigo y escaneaste este código desde su teléfono. Un código que te enviaron podría ser de otra persona.",
     "Pair Again": "Volver a vincular",
-    # profiles phase 4
+    # Profiles: shared stock and your name
     "Shared with": "Compartido con",
     "Their doses come off this stock too. Only you can change who shares it or delete it.": "Sus dosis también se descuentan de este inventario. Solo tú puedes cambiar con quién se comparte o eliminarlo.",
     "Shared": "Compartido",
@@ -3747,7 +3748,7 @@ ES = {
     "Drag to move it, pinch to scale it.": "Arrastra para moverla y pellizca para escalarla.",
 }
 
-# Spain only: the few strings Spain must see differently — today the iOS Settings
+# Spain only: the few strings Spain must see differently, such as the iOS Settings
 # app, which is "Ajustes" in Spain and "Configuración" elsewhere. translate_catalog.py
 # writes the es-ES column as ES overlaid with this, because iOS does not fall back
 # per key from es-ES to es.

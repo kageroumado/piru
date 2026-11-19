@@ -16,11 +16,10 @@ Two kinds of answer are allowed:
     then the entry's name must already be in `reason-only-baseline.json`.
 
 That baseline is a **ratchet**: an entry missing from it fails (no new
-uncited exception), and a baseline line that no longer matches anything fails
-too (the list shrinks as entries are sourced or deleted, and never quietly
-grows stale). Nothing here may be relaxed to make a build pass — a gate or an
-exception that cannot be justified gets deleted instead, which is a data change
-with a diff, not a silent weakening.
+uncited exception), and a baseline line that matches nothing fails too (the
+list shrinks as entries are sourced or deleted). Never relax a check here to
+make a build pass: delete the gate or exception that cannot be justified, so the
+change shows as a data diff.
 
 Run from the repo root:
     python3 pipeline/build/tests/test_exception_sourcing.py

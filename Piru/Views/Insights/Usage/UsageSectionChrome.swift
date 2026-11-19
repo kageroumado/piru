@@ -51,7 +51,7 @@ extension View {
 
 /// The default visible window for the Usage screen's scrollable time charts:
 /// roughly a quarter, wide enough to read a season of shape at once and short
-/// enough that a year no longer crushes into a few pixels per week.
+/// enough that a year doesn't crush into a few pixels per week.
 let usageChartWindowSeconds: Double = 120 * 86_400
 
 // MARK: - Index ↔ enum

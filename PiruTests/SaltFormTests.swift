@@ -124,8 +124,7 @@ struct SaltFormTests {
         // Lithium is prescription-only with a narrow therapeutic index, so the
         // build strips its ladder (see `suppress_therapeutic_doses`). Salt forms
         // are derived FROM dose rows, so the Carbonate/Orotate picker goes with
-        // them — a known consequence, not an accident. Magnesium carries the
-        // salt-picker coverage this test used to provide.
+        // them, by design. Magnesium carries the salt-picker coverage.
         #expect(li.availableSaltForms.isEmpty)
         #expect(li.doseRange(for: .oral, saltForm: "Carbonate") == nil)
         #expect(li.doseRange(for: .oral, saltForm: "Orotate") == nil)

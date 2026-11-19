@@ -221,15 +221,12 @@ final class ActiveSessionManager {
     /// Update a tracked dose after the user edits its `DoseEntry`.
     ///
     /// The dose is matched by the entry's stable `id`, which survives edits to
-    /// any field — including the timestamp. The pre-edit substance name +
-    /// timestamp serve only the fallback for snapshots recovered from a running
-    /// Live Activity, which carry no id (see ``DoseSnapshot/id``). When found,
-    /// the snapshot and resolved duration are rebuilt from the edited entry; if
-    /// no match exists — e.g. the dose had expired and been pruned but the edit
-    /// moved it back into an active window — the refreshed snapshot is appended
-    /// instead. Newly-expired results are pruned, keeping the session accessory
-    /// and Live Activity in sync with SwiftData without waiting for an app
-    /// relaunch.
+    /// every field. The pre-edit name and timestamp are the fallback for
+    /// snapshots recovered from a Live Activity, which carry no id (see
+    /// ``DoseSnapshot/id``). With no match (an expired, pruned dose edited back
+    /// into an active window) the refreshed snapshot is appended. Newly expired
+    /// results are pruned, so the accessory and Live Activity stay in sync with
+    /// SwiftData.
     func updateDose(
         previousSubstanceName: String,
         previousTimestamp: Date,

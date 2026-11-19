@@ -42,7 +42,7 @@ struct UsageOverviewSection: View {
         let percent = Int((abs(change) * 100).rounded())
         let rangeLabel = String(localized: range.displayName)
         // Composed as one already-localized `String` rather than concatenated
-        // `Text`s: `Text + Text` is deprecated in iOS 26, and the arrow is a
+        // `Text`s: `Text + Text` is deprecated, and the arrow is a
         // glyph, not a word, so it belongs inside the localized value.
         let composed = change >= 0
             ? String(localized: "↑ \(percent)% vs previous \(rangeLabel)")

@@ -67,7 +67,7 @@ struct SessionServiceTests {
     @Test
     func `resplitOverlongSessions breaks a multi-day session at its rest gaps and keeps the title on the first piece`() throws {
         let context = try makeContext()
-        // Build ONE session that the old flat-ceiling heuristic would have chained:
+        // Build ONE session that a flat-ceiling heuristic would chain:
         // dense 2 h-spaced doses spanning ~30 h with sub-ceiling crash gaps.
         let session = Session(startDate: Date(timeIntervalSince1970: 1_700_000_000), title: "Bender")
         context.insert(session)
@@ -138,8 +138,8 @@ struct SessionServiceTests {
     func `ensureSessionsPopulated clusters session-less doses unconditionally (recovery regression)`() throws {
         // Mirrors the post-recovery state: doses exist with no session (e.g.
         // restored from a pre-session backup). This must cluster them even though
-        // a prior empty-launch may have set the old "already populated" flag —
-        // the flag gating was the bug that left every dose as its own session.
+        // a prior empty launch may have set an "already populated" flag. Never
+        // gate on that flag: it leaves every dose as its own session.
         let context = try makeContext()
         let doses = [0.0, 1, 2, 20, 21, 48].map { insert(context, hoursFromNow: $0) }
         try context.save()

@@ -4,8 +4,8 @@
 The papers cache (``~/Developer/papers/`` by default, ``PAPERS_DIR`` to
 override) holds full-text Markdown, metadata, and identifiers for every paper
 that has been fetched.  This module reads that cache so the citation scripts
-can check a value against the actual paper text rather than relying on the
-~25% that happens to be open access in Europe PMC.
+can check a value against the paper text rather than only the share that is
+open access in Europe PMC.
 
 When the cache does not exist, every function returns its "miss" value and
 the caller falls back to its own HTTP resolution — so nothing here is
@@ -78,7 +78,7 @@ class PapersCache:
     """Lazy, read-only view of the papers cache on disk.
 
     Loads the index once on first access and holds it for the process
-    lifetime.  The index is small (~50 KB for 1,000 papers) so this is cheap.
+    lifetime. The index is small, so this is cheap.
     """
 
     def __init__(self, root: Path | None = None) -> None:

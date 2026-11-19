@@ -81,14 +81,11 @@ final class DoseEntry {
     /// offers no real choice until per-release durations are authored.
     var releaseForm: String?
 
-    /// The PSID FAMILY (`substances.substance_uid`) this dose resolves to — the
-    /// stable, collision-proof substance identity, superseding the fuzzy
-    /// `substance` *name* match. `nil` for a dose whose name doesn't resolve
-    /// (typo, deleted, or an exotic custom substance): such a dose stays
-    /// fully functional via the retained ``substance`` string, per the
-    /// never-drop migration posture. Populated by the once-only PSID backfill
-    /// (``PSIDBackfillMigration``) and, going forward, at log time. Additive/
-    /// optional, so the schema change is a free lightweight migration. See
+    /// The PSID family (`substances.substance_uid`) this dose resolves to: the
+    /// stable substance identity, preferred over the fuzzy `substance` name
+    /// match. `nil` for a dose whose name doesn't resolve (typo, deleted, or an
+    /// exotic custom substance); such a dose stays fully functional via
+    /// ``substance``. Set at log time and by ``PSIDBackfillMigration``. See
     /// `Specs/stereoisomer-and-release-form-axes.md` and ``PSID``.
     var substanceUID: String?
 

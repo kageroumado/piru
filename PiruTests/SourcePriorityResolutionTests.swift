@@ -217,9 +217,9 @@ struct FreeODLocaleResolutionTests {
 
         store.languageOverride = .en
         // LSD and Psilocybin carry ~100 FreeOD effects each and no English ones.
-        // Asserting only "no Han" passed vacuously on an empty list, which is how
-        // 77 substances came to show an empty Effects section; the vocabulary
-        // bridge is what makes them readable, so assert both halves.
+        // Asserting only "no Han" passes vacuously on an empty list, and the
+        // Effects section then shows empty; the vocabulary bridge is what makes
+        // them readable, so assert both halves.
         for name in ["LSD", "Psilocybin"] {
             let effects = store.lookup(name)?.subjectiveEffects ?? []
             #expect(!effects.isEmpty, "\(name) has no English subjective effects")

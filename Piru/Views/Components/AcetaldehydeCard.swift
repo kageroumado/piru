@@ -1,12 +1,11 @@
 import SwiftUI
 
-/// Acetaldehyde readout for the alcohol vertical (`Specs/pharmacology-axis-meta-plan.md`, Stage 5 /
-/// Foundation B). Shown **only** when the user has self-reported the ALDH2 "alcohol flush" variant *and*
-/// the entry is alcohol — gated by the caller. ALDH2 carriers clear acetaldehyde, the first and toxic
-/// by-product of ethanol, slowly, so it accumulates and lingers: the flush itself is the toxicity, and
-/// acetaldehyde is an IARC Group 1 carcinogen whose dose-dependent throat/esophageal-cancer risk is
-/// markedly higher in flush-reactive drinkers. Honest and qualitative — a dose-scaled load band and the
-/// mechanism, never a fabricated µM number (house labeling rule).
+/// Acetaldehyde readout for alcohol (`Specs/pharmacology-axis-meta-plan.md`, Stage 5), shown only when
+/// the user has self-reported the ALDH2 "alcohol flush" variant and the entry is alcohol (the caller
+/// gates it). ALDH2 carriers clear acetaldehyde, ethanol's first and toxic by-product, slowly, so it
+/// accumulates: the flush is the toxicity, and acetaldehyde is an IARC Group 1 carcinogen whose
+/// dose-dependent throat and esophageal cancer risk is markedly higher in flush-reactive drinkers.
+/// Qualitative by the house labeling rule: a dose-scaled load band and the mechanism, never a µM number.
 struct AcetaldehydeCard: View {
     /// Grams of ethanol in this dose, when it can be read as a mass (drives the qualitative load band).
     let gramsEthanol: Double?

@@ -168,7 +168,6 @@ extension Color {
             Color(nsColor: .tertiaryLabelColor)
         #endif
     }
-
 }
 
 // MARK: - View Modifier Shims

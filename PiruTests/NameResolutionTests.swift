@@ -49,8 +49,8 @@ struct NameResolutionTests {
 
     @Test
     func `Search results carry the personal name`() {
-        // The Library list and Search used to show the catalog name while the
-        // detail screen showed the user's — the same substance, two names.
+        // The Library list and Search must show the user's name, as the detail
+        // screen does, or one substance carries two names.
         let matches = SubstanceLibrary.searchMatches("caffeine", limit: 5)
         #expect(!matches.isEmpty)
         // No customs in this run, so the overlay is a pass-through; what is
@@ -74,9 +74,8 @@ struct NameResolutionTests {
 
     @Test
     func `An alias resolves everywhere a canonical name does`() {
-        // piru://substance/4-MMC said "Substance Not Found" while the detail
-        // screen resolved it, because 19 call sites used an exact-only lookup
-        // that no longer exists.
+        // A deep link must resolve every name the detail screen does; an
+        // exact-only lookup makes piru://substance/4-MMC "Substance Not Found".
         for alias in ["4-MMC", "4mmc", "Mephedrone"] {
             #expect(
                 SubstanceLibrary.resolveFull(alias)?.name == "Mephedrone",

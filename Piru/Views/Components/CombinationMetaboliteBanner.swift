@@ -1,10 +1,10 @@
 import SwiftUI
 
 /// Predicted **combination-metabolite** note — surfaced when two onboard substances react to form a
-/// third active species (`Specs/pharmacology-axis-meta-plan.md`, Stage 4d). The only v1 case is
-/// cocaethylene (cocaine + alcohol). Caution styling (not calm, not hard-danger): the combination puts
-/// real extra strain on the heart and liver, but the copy explicitly defuses the "18–25× sudden death"
-/// myth the evidence run rejected. Always "predicted (model, confidence)", never a fabricated number.
+/// third active species (`Specs/pharmacology-axis-meta-plan.md`, Stage 4d), such as cocaethylene
+/// (cocaine + alcohol). Caution styling, between calm and danger: the combination puts real extra
+/// strain on the heart and liver, and the copy defuses the "18–25× sudden death" myth the evidence
+/// rejects. Always "predicted (model, confidence)", never a fabricated number.
 struct CombinationMetaboliteBanner: View {
     let formation: CombinationMetabolite.Formation
 

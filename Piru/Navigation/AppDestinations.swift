@@ -74,9 +74,9 @@ struct PushRouteView: View {
             // The shell is only available once the batch cache is warm (the
             // common case after browsing); otherwise fall back to the full
             // resolve, which also gates the not-found state. If a *stored* name
-            // no longer resolves to a canonical substance (renamed/merged since
-            // it was saved — e.g. "Magnesium" was split into specific salts),
-            // show an explicit not-found state rather than a blank screen. Alias
+            // does not resolve to a canonical substance (renamed, merged or
+            // split into specific salts since it was saved), show an explicit
+            // not-found state rather than a blank screen. Alias
             // fallback is deliberately avoided: some aliases are polluted
             // ("magnesium" → Salicylic acid), so it would mis-resolve.
             if let shell = SubstanceLibrary.shell(name) {

@@ -2,22 +2,19 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Pins the unified set-based route resolver (`SubstanceReadModel.resolveRoutes` +
-/// the detail path's auxiliary fold) that collapsed the former batch-vs-detail
-/// code paths into one. These assert against the **current bundled DB**
-/// (schema v3) via `SubstanceStore.shared.lookup` — the detail/`lookup` path,
-/// which is the resolver under test.
+/// Pins the set-based route resolver (`SubstanceReadModel.resolveRoutes` + the
+/// detail path's auxiliary fold), the one path for batch and detail reads. These
+/// assert against the **current bundled DB** via `SubstanceStore.shared.lookup`,
+/// the detail/`lookup` path under test.
 ///
 /// Two kinds of check:
 ///  1. The **default-salt-mirror invariant** — `makeRoute` is the single point
 ///     that enforces it, so for every produced route with `saltForms`, the
 ///     route's top-level `doses`/`unit`/`duration` must equal `saltForms.first`.
 ///  2. **Structural golden checks** on stable, curated dose values (salt-form
-///     sets and `common` ranges) so a future regression in the resolver — or an
-///     accidental re-introduction of the per-row N+1 / salt SQL branch with
-///     different semantics — is caught. We assert structure/counts and the
-///     curated `common` ranges only; brittle internal durations are *not*
-///     asserted (a sibling workstream may re-audit salt durations).
+///     sets and `common` ranges) so a resolver regression, or a per-row N+1 /
+///     salt SQL branch with different semantics, is caught. Durations are left
+///     unasserted because salt durations get re-audited.
 @MainActor
 @Suite("Substance route resolver")
 struct SubstanceResolverTests {

@@ -2,8 +2,8 @@
 """Catch citations that resolve perfectly but are about the wrong substance.
 
 `verify_citations.py` answers "does this identifier exist, and does the paper
-share *any* vocabulary with the claim?". It cleared the citations that resolved
-to nothing. It cannot catch the next class, because these resolve beautifully:
+share *any* vocabulary with the claim?". It cannot catch a citation that
+resolves cleanly to a paper about something else:
 
     2-FDCK `pk_routes` cites doi:10.1093/jat/bkae003 — a real, well-formed,
     peer-reviewed paper about **fentanyl** in workplace urine screening.
@@ -362,17 +362,14 @@ TARGET_STOPWORDS = {
 #: string matching — and the only one that works with no abstract at all.
 #:
 #: The rule built on them is narrow on purpose: a paper carrying a per-compound
-#: number must be indexed under at least one of these. Measured across every
-#: MEDLINE-indexed citation attached to a numeric row, 16 papers failed it that
-#: nothing else in this pipeline flagged, and all 16 were garbage — "The Ostom-i™
-#: Alert Sensor: a new device to measure stoma output" as the source of
-#: butylone's pharmacology, "ASA Award. Kai Rehder" for ketamine's, "India.
-#: Saving female babies" for alcohol's.
+#: number must be indexed under at least one of these. Every paper that fails it
+#: is unrelated to pharmacology ("The Ostom-i™ Alert Sensor: a new device to
+#: measure stoma output" as the source of butylone's pharmacology).
 #:
-#: It is deliberately NOT a test of whether the paper is about the right drug.
-#: The shark-bite case report passes, because the antibiotics it prescribes are
-#: indexed under `pharmacology`. Catching that one is topicality's job; this
-#: catches the paper that is not about pharmacology at all.
+#: It does not test whether the paper is about the right drug: the shark-bite
+#: case report passes, because the antibiotics it prescribes are indexed under
+#: `pharmacology`. Topicality catches that one; this catches the paper that is
+#: not about pharmacology at all.
 PHARMACOLOGICAL_QUALIFIERS = {
     "administration & dosage",
     "adverse effects",
@@ -859,16 +856,14 @@ def _others_in(
     """Strict: the substances a paper plainly names, other than the citing one.
 
     Exact gram equality only — no fuzz, no containment, no locant stripping.
-    Anything looser and the tail of 5,700 aliases starts matching prose."""
+    Anything looser and the long tail of aliases starts matching prose."""
     hits: list[tuple[str, int]] = []
     seen: set[int] = set()
-    # Both loops iterate SORTED, and that is load-bearing rather than tidiness.
-    # `index.grams` and `ids` are sets, so their iteration order varies with
-    # PYTHONHASHSEED between processes. The caller keeps only one representative
-    # of `hits` as the finding's `other_label`, and the score depends on which —
-    # so unsorted iteration made `--gate` pass or fail on identical data
-    # depending on the run (measured: 1 red in 4, and exactly reproducible per
-    # seed). A gate that flips on its own teaches people to re-run it.
+    # Both loops must iterate sorted. `index.grams` and `ids` are sets, so their
+    # order varies with PYTHONHASHSEED between processes, and the caller keeps
+    # one representative of `hits` as the finding's `other_label`, which the
+    # score depends on. Unsorted, `--gate` passes or fails on identical data
+    # depending on the run.
     for key in sorted(index.grams):
         ids = accusable.get(key)
         if not ids or key in self_names:
@@ -1327,8 +1322,7 @@ def load_abstracts(path: Path) -> dict[str, str]:
     return {}
 
 
-#: Longer than any abstract the cache holds (the longest is ~4,300 characters)
-#: and far shorter than a paper. Anything past it is full text, which is never
+#: Longer than any abstract the cache holds and far shorter than a paper. Anything past it is full text, which is never
 #: written: see the papers-cache comment in `main`.
 ABSTRACT_MAX_CHARS = 6000
 #: The papers cache renders a paper as Markdown — headings, pipe tables, bold
@@ -1536,12 +1530,11 @@ def main() -> int:
                 time.sleep(0.12)
             persist_abstracts()
 
-        # Whatever PubMed and Crossref still have no abstract for, ask Europe PMC.
-        # It is not a third opinion — it is a different corpus: it carries an
-        # abstract for papers Crossref stores none for, and it resolves DOIs and
-        # PMIDs through one query grammar. Coverage is what bounds this whole
+        # Whatever PubMed and Crossref have no abstract for, ask Europe PMC: a
+        # different corpus that carries abstracts Crossref lacks and resolves
+        # DOIs and PMIDs through one query grammar. Coverage bounds this whole
         # check, since a citation with no abstract can never reach a hard
-        # absence, so the last 20% of coverage buys more than any threshold.
+        # absence.
         still_missing = [
             (cid, citations[cid])
             for cid in wanted
@@ -1691,12 +1684,10 @@ def main() -> int:
             for f in buckets.get("WRONG_SUBSTANCE", [])
             if f.score >= args.gate_threshold and f"{f.identifier}|{f.substance}" not in allow
         ]
-        # A hard absence is the shape that shipped a *nursing-ethics bibliography*
-        # (PMID 8632377) as cannabis's CB1 Kᵢ source, and an HIV-cytokine paper
-        # (PMID 9700761) as the half-life of three β-carbolines. Nothing named a
-        # rival compound, so WRONG_SUBSTANCE never fired and the gate stayed green
-        # over both. Off by default only because the standing backlog is large;
-        # see --gate-absent.
+        # A hard absence is the shape of a nursing-ethics bibliography cited as
+        # cannabis's CB1 Kᵢ source: nothing names a rival compound, so
+        # WRONG_SUBSTANCE never fires. Off by default only because the standing
+        # backlog is large; see --gate-absent.
         if args.gate_domain:
             failures += off_domain
         if args.gate_absent:

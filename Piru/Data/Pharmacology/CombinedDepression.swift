@@ -2,7 +2,7 @@ import Foundation
 
 /// The mechanism families that **additively** drive CNS / respiratory depression, each with a
 /// relative danger weight. This is the contributor vocabulary for the combined-depression index
-/// (`Specs/pharmacology-axis-meta-plan.md`, Stage 3b): instead of "two depressant tags co-exist,"
+/// (`Specs/pharmacology-axis-meta-plan.md`): instead of "two depressant tags co-exist,"
 /// the engine sums a time-resolved load from per-substance engagement and reports the peak and when.
 ///
 /// ## Why these weights
@@ -64,7 +64,7 @@ nonisolated enum DepressantMechanism: String, CaseIterable {
         case .gabapentinoid: .gabapentinoid
         case .dissociative: .dissociative
         // Alpha-2 agonists add sedation/hypotension but only modest intrinsic respiratory depression
-        // (opioid-sparing for OIRD) — counted at the low `sedatingOther` weight (evidence run 2026-06-22).
+        // (opioid-sparing for OIRD), so they count at the low `sedatingOther` weight.
         case .antihistamine, .antipsychotic, .alpha2Agonist: .sedatingOther
         default: nil
         }
@@ -139,7 +139,7 @@ nonisolated struct CombinedDepressionResult {
 }
 
 /// Computes the combined CNS/respiratory-depression index — the deepest layer of the interaction
-/// de-noising work (`Specs/pharmacology-axis-meta-plan.md`, Stage 3b).
+/// de-noising work (`Specs/pharmacology-axis-meta-plan.md`).
 ///
 /// ## What it is
 /// For the additive depressant mechanisms it computes a **single weighted load over time**
@@ -153,9 +153,8 @@ nonisolated struct CombinedDepressionResult {
 ///
 /// ## Graceful degradation (mixed per-contributor)
 /// Real receptor occupancy needs a graded Vd + Kᵢ + molar mass — present only for flagship substances.
-/// Most depressants degrade (diazepam ships without a molar mass; ethanol has no meaningful Kᵢ), so
-/// each contributor independently uses occupancy where it can and the 3a effect-curve surrogate where
-/// it can't, combined into one curve. The surrogate is deliberately *conservative* — a known-dose
+/// Most depressants lack one (ethanol has no meaningful Kᵢ), so each contributor independently uses
+/// occupancy where it can and the effect-curve surrogate where it can't, combined into one curve. The surrogate is deliberately *conservative* — a known-dose
 /// substance is treated as fully engaged at its effect peak (effect shape peaks at 1), erring toward
 /// warning, which is the safe bias for a depression readout. The result carries the weakest-link
 /// confidence and an "N of M modeled" count so the UI badges exactly how much to trust it.

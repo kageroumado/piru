@@ -17,8 +17,8 @@ fetch (XLogP/TPSA/HBA/HBD) — for every newly-resolved substance.
 The snapshot also records PubChem's **molecular formula** for the resolved CID.
 This is raw provenance — the build (``apply_pubchem_cids``) gates each fill on
 that formula matching the substance's stored formula (exact, or a clean
-salt→free-base desalt). The gate is essential: a non-trivial slice of upstream
-InChIKeys are themselves *corrupt* — they point at an unrelated compound
+salt→free-base desalt). The gate is needed because some upstream InChIKeys
+are themselves *corrupt* — they point at an unrelated compound
 (carfentanil's stored key → tert-butyl acetate; etizolam's → a freon; many
 benzos/racetams), so resolving them faithfully yields a wrong CID. The formula
 cross-check catches these because the stored formula is right while the

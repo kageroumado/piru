@@ -436,8 +436,7 @@ struct DataExportImportRoundTripTests {
         try DataExportImport.importJSON(data: data, context: freshContext, customStore: freshStore)
 
         let imported = try #require(freshStore.all.first)
-        // These three were silently dropped by the old wire format — they're the
-        // whole point of the backup-fidelity fix.
+        // The wire format must carry these three, or a backup silently loses them.
         #expect(imported.displayName == "joint")
         #expect(imported.doses?.common == 5 ... 10)
         #expect(imported.doses?.heavy == 30)
@@ -860,7 +859,7 @@ struct DataExportImportFormatTests {
     }
 
     /// An *old* PsychonautWiki file (no `exportSource`, carries `customSubstances`)
-    /// still imports — PW old is no longer exportable but remains importable.
+    /// still imports, though Piru doesn't write that format.
     @Test
     func `PW old (legacy) import still brings in doses`() throws {
         let container = try makeTestContainer()
@@ -885,7 +884,7 @@ struct DataExportImportFormatTests {
         #expect(entry.substance == "Ketamine")
         #expect(entry.route == .insufflation)
         #expect(entry.amount == 50)
-        // The companion colour came across too.
+        // The companion color came across too.
         let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
         #expect(colors.contains { $0.substance == "Ketamine" })
     }
@@ -1058,8 +1057,7 @@ struct DataExportImportFormatTests {
         #expect(caffeine.locationName == "Somewhere")
     }
 
-    /// A name-only location survives a Piru→PsyLog export (previously the
-    /// export dropped locations without coordinates entirely).
+    /// A name-only location, with no coordinates, survives a Piru→PsyLog export.
     @Test
     func `PsyLog export keeps a name-only location`() throws {
         let container = try makeTestContainer()

@@ -61,7 +61,7 @@ struct ToleranceRecoveryLegend: View {
 /// parent, so each line keeps its exact family hue.
 ///
 /// A window longer than ``visibleDays`` opens on its first three weeks and pans sideways, the way the
-/// Insights charts do (``ChartXScrollWindow``): a months-long tail no longer squeezes the fast
+/// Insights charts do (``ChartXScrollWindow``), so a months-long tail doesn't squeeze the fast
 /// mechanisms into a single line at the left edge.
 struct ToleranceCombinedRecoveryChart: View {
     let series: [ToleranceRecoverySeries]

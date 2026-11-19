@@ -433,8 +433,8 @@ struct TraySwipeRow<Content: View>: View {
         #endif
     }
 
-    /// The revealed action: a compact red capsule pill, vertically centered —
-    /// the iOS 26 swipe-action button (see Reminders), not a full-height fill.
+    /// The revealed action: a compact red capsule pill, vertically centered,
+    /// like the system swipe-action button (see Reminders).
     private var deleteBackdrop: some View {
         Button {
             onDelete()
@@ -500,8 +500,8 @@ struct TrayRow: View {
     /// Stable reference, not parent closures: the row toggles its own
     /// expansion / removal through the model. With no closures and an
     /// `Equatable` `dose`, SwiftUI can compare `TrayRow` and skip the body of
-    /// a collapsed row whose dose didn't change — so editing one staged
-    /// amount no longer re-evaluates every other row.
+    /// a collapsed row whose dose didn't change, so editing one staged
+    /// amount doesn't re-evaluate every other row.
     let model: DoseTrayModel
     let namespace: Namespace.ID
 

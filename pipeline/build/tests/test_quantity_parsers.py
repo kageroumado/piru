@@ -1,9 +1,9 @@
 """Tests for the quantity parsers and the character normalizer they share.
 
-The failure these guard against is not a refusal. A separator the pattern does
-not know makes the match stop at the leading number, so `10—20 mg` parses as
-`10` with **no unit** — a wrong value that looks like a parsed one. Each
-character below is one a source has actually used.
+These guard against a silent misparse. A separator the pattern does not know
+makes the match stop at the leading number, so `10—20 mg` parses as `10` with
+**no unit**: a wrong value that looks like a parsed one. Each character below is
+one a source has actually used.
 
     python3 pipeline/build/tests/test_quantity_parsers.py
 """

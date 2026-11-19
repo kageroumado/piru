@@ -6,13 +6,12 @@ import SwiftData
 /// Owns the on-disk SwiftData store: where it lives, recovering orphaned data
 /// into it, and backing it up before anything destructive.
 ///
-/// The data-loss this guards against: the App Group store and the widgets
-/// shipped together. A widget timeline refresh can open (and thus CREATE an
-/// empty) App Group store before the app's first launch — so a naive
-/// "migrate only if the destination doesn't exist" check skips the copy and
-/// strands the real data in the old app-sandbox store. This component instead
-/// decides by *whether the destination actually has data*, and recovers from
-/// any data-bearing legacy / backup / quarantined store it can find.
+/// The data loss this guards against: a widget timeline refresh can open (and
+/// so create an empty) App Group store before the app's first launch, so a
+/// "migrate only if the destination doesn't exist" check would skip the copy and
+/// strand the real data in the legacy app-sandbox store. This type decides by
+/// *whether the destination has data*, and recovers from any data-bearing
+/// legacy, backup or quarantined store it can find.
 ///
 /// Delete Everything removes recovery copies so they cannot restore erased records.
 nonisolated enum StoreRecovery {
@@ -35,25 +34,22 @@ nonisolated enum StoreRecovery {
     //
     // The app opens the store with **automatic lightweight migration** and *no*
     // explicit `SchemaMigrationPlan`. SwiftData infers the migration from the
-    // on-disk shape to the current ``PiruSchema/models``, which covers every shipped change
-    // so far — they were all additive (new entities, new optional/defaulted
-    // properties). The one historically non-additive step (per-row `DoseEntry.id`)
-    // is handled *after* open by ``backfillDuplicateEntryIDs(container:)``: a
-    // lightweight migration fills one shared UUID into every existing row, and
-    // the backfill then uniquifies them. This deliberately retires the old
-    // `PiruSchemaV1…V5` + `PiruMigrationPlan`: holding multiple `VersionedSchema`s
-    // that reference the same live `@Model` collides on SwiftData's compiled-shape
-    // checksum ("Duplicate version checksums", uncatchable at launch) and forces
-    // byte-frozen copies of every changed entity — the trap we removed.
+    // on-disk shape to the current ``PiruSchema/models``, which covers every
+    // additive change (new entities, new optional or defaulted properties). The
+    // one non-additive step, per-row `DoseEntry.id`, is finished *after* open by
+    // ``backfillDuplicateEntryIDs(container:)``: lightweight migration fills one
+    // shared UUID into every existing row, and the backfill uniquifies them.
     //
-    // **Reintroduce a plan ONLY for a genuinely non-additive change** — a property
-    // rename, a type change, or a new *required* (non-optional, non-defaulted)
-    // field that lightweight migration cannot infer. When that happens, add a
-    // scoped one-shot `VersionedSchema` pair + a `.custom` `MigrationStage`,
-    // freezing **only the changed entity** (a byte-identical copy of its pre-change
-    // shape), and **retire the stage** once no pre-change store can still exist in
-    // the wild. Do not reconstruct a full V1→Vn ladder; the additive history needs
-    // no plan.
+    // Never hold a full `VersionedSchema` ladder: several `VersionedSchema`s that
+    // reference the same live `@Model` collide on SwiftData's compiled-shape
+    // checksum ("Duplicate version checksums", uncatchable at launch) and force
+    // byte-frozen copies of every changed entity.
+    //
+    // Add a plan only for a non-additive change (a property rename, a type
+    // change, a new required field that lightweight migration cannot infer): a
+    // scoped one-shot `VersionedSchema` pair plus a `.custom` `MigrationStage`
+    // that freezes **only the changed entity**, retired once no pre-change store
+    // can still exist in the wild.
 
     // MARK: - Locations
 
@@ -107,12 +103,12 @@ nonisolated enum StoreRecovery {
     /// recover the richest one (backing up the empty canonical first). Returns the
     /// canonical URL to open.
     ///
-    /// Correctness no longer hinges on a "completed" flag — the earlier flag-gated
-    /// design stranded data when a prior run set the flag and then a later failure
-    /// quarantined the real store behind it. Instead, intent is encoded in the
-    /// sidecar *name*: ``intentionalReasons`` (a deliberate Delete Everything /
-    /// pre-restore snapshot) are excluded from auto-recovery, so an empty store the
-    /// user chose stays empty, while a `corrupt-*` quarantine is always reclaimed.
+    /// Never gate this on a "completed" flag: a flag set by one run strands data
+    /// when a later failure quarantines the real store behind it. Intent is encoded
+    /// in the sidecar *name* instead: ``intentionalReasons`` (a deliberate Delete
+    /// Everything or pre-restore snapshot) are excluded from auto-recovery, so an
+    /// empty store the user chose stays empty, while a `corrupt-*` quarantine is
+    /// always reclaimed.
     @discardableResult
     static func prepareCanonicalStore() -> URL {
         let canonical = ownerStoreURL()
@@ -218,12 +214,12 @@ nonisolated enum StoreRecovery {
     /// Ensure every ``DoseEntry`` carries its own unique `id`, reassigning
     /// duplicates in place. Call once right after the container opens.
     ///
-    /// LEGACY — plan to remove. This only does work for a store upgraded from the **pre-`id`** shape;
-    /// for every store that has already migrated it is a no-op full fetch every launch. Remove it (and
-    /// the disabled `LegacyStoreMigrationTests`) once ASC telemetry confirms no pre-`id` install remains.
-    /// See the legacy-removal tracking note. Until then it stays as a cheap, idempotent safety net.
+    /// This only does work for a store upgraded from the **pre-`id`** shape; for
+    /// every other store it is a no-op fetch. Remove it (and the disabled
+    /// `LegacyStoreMigrationTests`) once ASC telemetry confirms no pre-`id`
+    /// install remains.
     ///
-    /// This is the sole guarantor of per-row `id` uniqueness now that the store
+    /// It is the sole guarantor of per-row `id` uniqueness, because the store
     /// opens via automatic lightweight migration with no explicit plan: a
     /// lightweight migration that adds `DoseEntry.id` evaluates the default
     /// expression **once** and fills the *same* UUID into every pre-existing row,
@@ -440,15 +436,14 @@ nonisolated enum StoreRecovery {
     ///    takes no write lock and never checkpoints the WAL into `url`.
     /// 2. A migrating copy: clone the store to scratch and open it with automatic
     ///    lightweight migration (which a read-only probe cannot do), then count.
-    ///    This absorbs *any* older or intermediate on-disk shape — the case that
-    ///    caused the quarantine bug — so recovery can see its data instead of
-    ///    writing it off as unreadable.
+    ///    This absorbs *any* older or intermediate on-disk shape, so recovery can
+    ///    see its data instead of writing it off as unreadable and quarantining it.
     static func userDataCount(at url: URL) -> Int {
         guard anyFileExists(at: url) else { return 0 }
         // Integrity gate: a corrupt store must never be handed to a SwiftData
         // `ModelContainer` open, which aborts the process *natively* (below the
-        // Swift error layer) on malformed SQLite rather than throwing — the
-        // build-30 launch crash. `quick_check` fails throwably, so corruption
+        // Swift error layer) on malformed SQLite rather than throwing.
+        // `quick_check` fails throwably, so corruption
         // resolves to "unreadable" (-1), which recovery already handles by
         // recovering from a data-bearing candidate instead.
         guard StoreHealth.isReadable(at: url) else {

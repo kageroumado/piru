@@ -46,8 +46,8 @@ from build.sqlite import parse_reference  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
 #: Every place a `reference` may be authored. `data/curated/*.json` is included
-#: at the top level because the flagship pharmacology file lives there, not
-#: under `substances/` — a narrower glob silently skipped four repairs.
+#: at the top level because the main pharmacology file lives there rather than
+#: under `substances/`; a narrower glob silently skips repairs.
 SOURCE_GLOBS = (
     "data/enrichment/raw/*.json",
     "data/curated/*.json",
@@ -161,8 +161,8 @@ def matches_scope(record: dict, fix: dict) -> bool:
     becomes five unadjudicated ones.
     """
     # A `where` clause is matched against the SOURCE file's vocabulary, not the
-    # DB's. The build normalises as it loads — "intranasal" becomes
-    # "insufflation", "smoked" becomes "inhalation" — so a clause copied out of
+    # DB's. The build normalizes as it loads ("intranasal" becomes
+    # "insufflation", "smoked" becomes "inhalation"), so a clause copied out of
     # a SQLite row silently selects nothing.
     for field_name, expected in (fix.get("where") or {}).items():
         if str(record.get(field_name) or "") != str(expected):
@@ -182,9 +182,8 @@ def apply_fix(record: dict, fix: dict) -> str | None:
             return None
         for column in cleared:
             record[column] = None
-        # The reference goes with the value. Leaving a citation behind on a
-        # nulled row leaves a claim that the paper supports something the row no
-        # longer says.
+        # The reference goes with the value: a citation left on a nulled row
+        # claims the paper supports a value the row does not hold.
         record["reference"] = None
         return f"dropped {', '.join(cleared)} and its reference"
     if fix.get("unsource"):

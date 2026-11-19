@@ -201,7 +201,7 @@ struct DoseSnapshot {
         /// returns to the foreground. Without it an adopted activity has no
         /// update source at all — `init` only takes the reference — so the
         /// widget keeps the label and boundary of its last push until the user
-        /// logs another dose: the "time and phase frozen" report.
+        /// logs another dose.
         ///
         /// It is also where a card left behind while the app was suspended
         /// comes off the Lock Screen: one whose doses all ran out, one

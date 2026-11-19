@@ -130,9 +130,9 @@ final class TimelineModelCache {
     private let limit = 120
 
     /// Keys some path has claimed and is computing right now. The journal's
-    /// batch prewarm and each visible card's own load used to race here and
-    /// compute the same models twice; a claim makes the first taker the only
-    /// computer, and everyone else awaits its ``insert(_:for:)``.
+    /// batch prewarm and each visible card's own load race for the same keys;
+    /// a claim makes the first taker the only computer, and everyone else
+    /// awaits its ``insert(_:for:)``.
     private var inFlight: Set<TimelineGraphView.DerivedKey> = []
     private var waiters: [TimelineGraphView.DerivedKey: [CheckedContinuation<TimelineCurveModel.Derived, Never>]] = [:]
 

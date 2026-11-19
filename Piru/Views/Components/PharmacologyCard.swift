@@ -1,13 +1,10 @@
 import SwiftUI
 
-/// The unified **Pharmacology** card — one progressive surface that merges what used to be the
-/// separate *Mechanism of Action* and *Monoamine Profile* cards (the redesign's "A container").
+/// The Pharmacology card: one progressive surface for a substance's mechanism and monoamine profile.
 /// Order: a one-line headline, the prose description, a class hero (the dopamine↔serotonin slider for
-/// monoamine drugs), the target/strength grid, and any harm-reduction flag. Receptor evidence,
-/// pharmacokinetics, and metabolism stay in their own sections.
-///
-/// Step 2 of the hybrid redesign handles the monoamine slider hero; the opioid/benzo/dissociative
-/// receptor-panel heroes arrive in step 3 (see `Specs/pharmacology-card-hybrid.md`).
+/// monoamine drugs, a receptor panel for opioids, benzodiazepines and dissociatives), the
+/// target/strength grid, and any warning flag. Receptor evidence, pharmacokinetics, and metabolism stay
+/// in their own sections (see `Specs/pharmacology-card-hybrid.md`).
 struct PharmacologyCard: View {
     let moa: MechanismOfAction
     let monoamine: MonoamineProfile?
@@ -100,9 +97,8 @@ struct PharmacologyCard: View {
         }
     }
 
-    /// The receptor targets — full-width pills (replacing the old left-clustered
-    /// ``AffinityDots`` grid that wasted ~55% of the row), or the plain
-    /// primary-targets line when there are no graded bindings.
+    /// The receptor targets as full-width pills, or the plain primary-targets
+    /// line when there are no graded bindings.
     @ViewBuilder private var receptorTargets: some View {
         if !moa.bindings.isEmpty {
             receptorPills

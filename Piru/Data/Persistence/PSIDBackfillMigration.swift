@@ -3,7 +3,7 @@ import os
 import SwiftData
 
 /// The once-only backfill that remaps every logged ``DoseEntry`` onto its PSID
-/// identity — Stage 0.3 of `Specs/stereoisomer-and-release-form-axes.md`.
+/// identity (see `Specs/stereoisomer-and-release-form-axes.md`).
 ///
 /// `DoseEntry` has always stored its substance **by name**. This resolves each
 /// row's name — via the app's **exact** canonical/alias resolver, *not* the
@@ -39,7 +39,7 @@ import SwiftData
 /// — the *snapshot* is the one thing worth a flag (repeating it every launch
 /// while stragglers persist would be wasteful); resolution itself needs none.
 ///
-/// **Form facets (Stage A + B):** a form-bearing string resolves to its form too,
+/// **Form facets:** a form-bearing string resolves to its form too,
 /// via ``SubstanceLibrary/isomer(for:)`` / ``SubstanceLibrary/releaseForm(for:)`` —
 /// "Focalin" → `isomer = "D"`, "Concerta" → `releaseForm = "XR"`, "Focalin XR" →
 /// both — titled from the build's composed form title ("Dexmethylphenidate XR") via
@@ -48,11 +48,9 @@ import SwiftData
 /// distinct extended-release dose or duration, so recovering it names the form
 /// logged without implying a different ladder or curve.
 ///
-/// Because the candidate gate is `substanceUID == nil`, a row already given a uid by
-/// an earlier build keeps its (canonical) title and gains no facets — harmless while
-/// Stage 0.3 is unreleased (no store in the field has run this), and new stores
-/// resolve uid + both facets in one pass. If any of this ever ships before a further
-/// facet lands, that facet needs its own gate rather than reusing this one.
+/// Because the candidate gate is `substanceUID == nil`, a row that already has a uid
+/// keeps its canonical title and gains no facets. A further facet therefore needs its
+/// own gate rather than reusing this one.
 @MainActor
 enum PSIDBackfillMigration {
     /// Field kill-switch: when `true`, the backfill is skipped entirely. Clearing

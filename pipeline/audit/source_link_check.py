@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """Verify every per-substance SOURCE LINK lands on a page about that substance.
 
-`validate_links.py` answers "does this URL resolve?". That is not the question a
-user asks — they tap "FreeOD Wiki" under 2-FDCK and expect the 2-FDCK page. Two
-ways that silently fails, both returning HTTP 200:
+`validate_links.py` answers "does this URL resolve?". A user tapping "FreeOD
+Wiki" under 2-FDCK expects the 2-FDCK page. Two ways that silently fails, both
+returning HTTP 200:
 
   1. **Homepage fallback.** The app's URL builder has no per-substance case, so
-     it hands back the source's site root. The row still looks like a working
-     link. (`f11eb78` made both such builders return nil instead — this checker
-     reads which behavior the Swift currently has rather than assuming, so it
-     catches the fallback if it is ever reintroduced.)
+     it hands back the source's site root, and the row still looks like a
+     working link. This checker reads which behavior the Swift has rather than
+     assuming, so it catches the fallback if it is ever reintroduced.
   2. **Soft-404.** The host serves a 200 error page for a slug that doesn't
      exist. Status code alone proves nothing.
 
@@ -23,26 +22,23 @@ So this checker builds the SAME URL the app builds (mirroring
 asserts it is neither the site root nor the host's error page, and that it names
 the substance.
 
-**The soft-404 baseline.** Rather than hardcoding each site's error text, we
-probe every host once with a deliberately nonexistent slug and once with a
+**The soft-404 baseline.** Rather than hardcoding each site's error text, the
+checker probes every host once with a nonexistent slug and once with a
 known-good control. The sentinel response becomes the host's error fingerprint;
-anything closely matching it is a soft-404. The control is what makes the trick
-honest: if sentinel and control are indistinguishable, the host is a
-client-rendered shell and its HTML *cannot* prove anything — we say so
-(UNVERIFIABLE) instead of inventing a verdict. TripSit and drug.community are
-both such shells, so each gets an explicit existence oracle (their own data API)
-rather than a guess from HTML.
+anything closely matching it is a soft-404. If sentinel and control are
+indistinguishable, the host is a client-rendered shell whose HTML cannot prove
+anything, and the verdict is UNVERIFIABLE. TripSit and drug.community are such
+shells, so each gets an explicit existence oracle (its own data API).
 
-Two rules keep that baseline from libelling real pages:
+Two rules keep that baseline from condemning real pages:
 
   * **Compare article bodies, never documents.** A site's chrome is identical on
     every page including its 404, so a whole-document measure describes the
-    template. PsychonautWiki's error page is 189 KB of document and *314
-    characters* of body; a real article is 76,205. Comparing documents scored
-    0.99 against every real article on the host and called them all soft-404s.
+    template. PsychonautWiki's error page is 189 KB of document and 314
+    characters of body; a real article body runs to tens of thousands.
   * **Positive evidence outranks suspicion.** If the body names the compound,
-    the page is real, full stop — the size heuristic never gets to argue. Only
-    a page that never says what it is about is measured against the baseline.
+    the page is real and the size heuristic is never consulted. Only a page that
+    never says what it is about is measured against the baseline.
 
 Verdicts, per (substance, source) pair:
   OK           — page resolves, is not the site root, is not the error page, and
@@ -63,8 +59,8 @@ Verdicts, per (substance, source) pair:
 
 Search-URL sources (DailyMed, PubMed, EMCDDA, Erowid) are a separate category:
 the app builds a query, not a page, so we assert only that the search resolves.
-They are sampled by default — the URL shape doesn't vary per substance, so
-checking all 387 PubMed links would buy nothing.
+They are sampled by default: the URL shape doesn't vary per substance, so
+checking every PubMed link would buy nothing.
 
 Usage:
     python3 pipeline/audit/source_link_check.py                    # full run
@@ -200,10 +196,10 @@ def tripsit_url(sub: Substance) -> str | None:
 
 
 def freeodwiki_url(sub: Substance) -> str | None:
-    # Chinese page titles, so the build captures `freeodwiki_slug`. Since
-    # f11eb78 a missing slug yields nil, not the site root, so this is NO_LINK
-    # rather than HOMEPAGE — the row shows as plain text with no affordance.
-    # Still worth reporting: the source contributed data the user can't trace.
+    # Chinese page titles, so the build captures `freeodwiki_slug`. A missing
+    # slug yields nil, so this is NO_LINK rather than HOMEPAGE: the row shows as
+    # plain text. Still worth reporting: the source contributed data the user
+    # can't trace.
     if not sub.freeodwiki_slug:
         return None
     # MkDocs renders each page as `药物/<title>.html`, not a directory URL.
@@ -634,10 +630,10 @@ def decompress(raw: bytes, headers) -> bytes:
 
 _TAG_RE = re.compile(r"<(script|style)\b.*?</\1>|<[^>]+>", re.S | re.I)
 _WS_RE = re.compile(r"\s+")
-#: Chrome that repeats identically on every page of a site. Removing it is the
-#: whole point: MediaWiki ships ~190 KB of nav/sidebar/footer, which dwarfs the
-#: article and made a whole-document comparison score ~0.99 against the error
-#: page for EVERY article, real or not.
+#: Chrome that repeats identically on every page of a site. MediaWiki ships
+#: ~190 KB of nav/sidebar/footer, which dwarfs the article, so with it left in a
+#: whole-document comparison scores ~0.99 against the error page for every
+#: article, real or not.
 _CHROME_RE = re.compile(
     r"<(script|style|nav|header|footer|aside|noscript|form)\b.*?</\1>", re.S | re.I
 )
@@ -670,8 +666,7 @@ def content_region(html: str) -> str:
         if match:
             # No HTML parser in the stdlib worth using here, and the closing tag
             # can't be found by counting without one — take everything from the
-            # container to the end and let chrome removal handle the tail. The
-            # footer is a fraction of what the header was.
+            # container to the end and let chrome removal handle the tail.
             return html[match.end() :]
     return html
 
@@ -737,10 +732,9 @@ class HostProbe:
     control_similarity: float = 0.0
     base_final: str = ""
     note: str = ""
-    #: True when the host answers a missing page with a hard 4xx — recorded for
-    #: the report. It is no longer used to skip the soft-404 test: now that the
-    #: comparison is body-relative it does not need the escape hatch, and a host
-    #: that 404s for some misses may still soft-404 for others.
+    #: True when the host answers a missing page with a hard 4xx, recorded for
+    #: the report. Never use it to skip the soft-404 test: a host that 404s for
+    #: some misses may still soft-404 for others.
     honest_status: bool = False
 
 
@@ -914,8 +908,8 @@ class Oracles:
         return {normalize_for_match(str(name)) for name in names if name}
 
     def _drug_community(self, sub: Substance) -> tuple[bool | None, str]:
-        # One bootstrap fetch covers every substance, so this costs 1 request
-        # for the whole run instead of 403.
+        # One bootstrap fetch covers every substance, so this costs one request
+        # for the whole run instead of one per substance.
         with self._lock:
             if self._dc_slugs is None:
                 resp = fetch(
@@ -1060,8 +1054,8 @@ def check_page(
     url = spec.build(sub)
     if url is None:
         # The source contributed data for this compound but the build captured
-        # no page slug, so the attribution row is dead text. Not a wrong link —
-        # a pipeline gap — hence its own verdict rather than BROKEN or NO_LINK.
+        # no page slug, so the attribution row is dead text: a pipeline gap,
+        # hence its own verdict rather than BROKEN or NO_LINK.
         return Finding(
             spec.slug,
             sub.name,
@@ -1143,16 +1137,15 @@ def check_page(
             resp.final_url,
         )
 
-    # Everything below reads the ARTICLE BODY, not the document. On a MediaWiki
-    # host the chrome is ~190 KB against a ~50 KB article, so whole-page measures
-    # describe the skin, not the substance.
+    # Everything below reads the article body. On a MediaWiki host the chrome
+    # outweighs the article, so whole-page measures describe the skin.
     body = visible_text(resp.text, body_only=True)
 
     # --- Positive evidence first. -----------------------------------------
     # If the body names the compound, the page is real — say so and stop. A
-    # size- or similarity-based suspicion cannot outrank the page having told us
-    # what it is about, and running the heuristic first is exactly how real
-    # PsychonautWiki articles got called soft-404s.
+    # size- or similarity-based suspicion cannot outrank the page having said
+    # what it is about; running the heuristic first calls real PsychonautWiki
+    # articles soft-404s.
     haystack = normalize_for_match(body)
     for term in sub.mention_terms():
         if normalize_for_match(term) in haystack:

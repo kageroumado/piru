@@ -35,9 +35,8 @@ nonisolated struct SubjectiveEffectHitGroup: Identifiable, Hashable, Sendable {
 }
 
 /// The session-note descriptor vocabulary, loaded once from the bundled DB and
-/// held in memory: 21 rollups, their atomic concepts, and the alias index the
-/// chip search runs over. ~500 concepts + ~1,200 aliases, so the whole thing is
-/// a few hundred kilobytes and two queries.
+/// held in memory: the rollups, their atomic concepts, and the alias index the
+/// chip search runs over. The whole vocabulary is small and costs two queries.
 ///
 /// Loaded lazily on first use, synchronously — the tables are tiny and the
 /// first read is on the note sheet's open, where a spinner would cost more

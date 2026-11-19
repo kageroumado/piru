@@ -175,11 +175,11 @@ struct DueNowSlotTests {
 
     @Test
     func `A dose credits its med even when its PSID resolved differently (accessory desync)`() {
-        // The reported bug: the accessory read "1 due" while My Meds showed
-        // everything taken. A dose whose substanceUID resolved (identityKey
-        // "mph-cid-4158") no longer matched a name-only schedule item
-        // (identityKey "methylphenidate") under the old strict dict lookup, so
-        // it was counted as un-taken. entryMatches's name fallback credits it.
+        // A dose whose substanceUID resolved (identityKey "mph-cid-4158") must
+        // match a name-only schedule item (identityKey "methylphenidate"). A
+        // strict key lookup counts it un-taken, and the accessory reads "1 due"
+        // while My Meds shows everything taken. entryMatches's name fallback
+        // credits it.
         let item = med("Methylphenidate", times: [480])
         let resolved = dose(for: item, substanceUID: "MPH-CID-4158")
         #expect(resolved.identityKey != item.identityKey) // genuinely differing keys

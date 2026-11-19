@@ -1,17 +1,16 @@
 """Integrity + regression tests for substance chemical identifiers in the bundled DB.
 
-Guards the 2026-06 identifier cleanup, which corrected ~280 substances whose
-upstream InChIKey or SMILES was wrong (LLM-fabricated keys in the enrichment
-swarm; wrong-regioisomer SMILES in the NPS vendor dump) and drove the
-InChIKey↔SMILES wrong-skeleton count from 158 → 4.
+Guards the identifier reconciliation, which corrects substances whose upstream
+InChIKey or SMILES is wrong (LLM-fabricated keys in the enrichment swarm;
+wrong-regioisomer SMILES in the NPS vendor dump).
 
 Two complementary checks:
   1. Integrity (needs OpenBabel): no substance's stored InChIKey skeleton may
      disagree with the InChIKey recomputed from its own SMILES, beyond the
      documented allowlist. Catches *new* corruption (e.g. a re-fetched enrichment
      batch). Skipped where obabel is unavailable; CI installs it.
-  2. Regression anchors (no tools): a curated set of substances the cleanup fixed
-     must keep their verified InChIKeys. Always runs — pins the fixes.
+  2. Regression anchors (no tools): a curated set of corrected substances must
+     keep their verified InChIKeys. Always runs.
 
 Run from the repo root:
     python3 pipeline/build/tests/test_identifier_integrity.py
@@ -31,8 +30,7 @@ _spec = importlib.util.spec_from_file_location(
 _cii = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_cii)
 
-# Substances the cleanup fixed (and a few controls), with their verified-correct
-# InChIKey. Mix of both failure modes: wrong-key/right-SMILES (DOB, DET, DPT,
+# Corrected substances (and a few controls), with their verified InChIKey. Mix of both failure modes: wrong-key/right-SMILES (DOB, DET, DPT,
 # Carfentanil, Codeine, Morphine) and right-key/wrong-SMILES (2C-B, LSD); plus
 # the curated manual fixes (Theobromine, Busulfan, Salvinorin B, MXiPr, Cocaine,
 # L-Tryptophan, Tianeptine). A regression in any source or pass that re-breaks
@@ -53,9 +51,8 @@ ANCHORS = {
     "Etizolam": "VMZUTJCNQWMAGF-UHFFFAOYSA-N",
     "LSD": "VAYOSLLFUXYJDT-RDTXWAMCSA-N",
     "MXiPr": "FTQIVDGNGXPEKP-UHFFFAOYSA-N",
-    # Re-anchored 2026-09-11. The previous value, -NOSXKOESSA-N, is isomorphine
-    # (CID 5324287, the 7-epimer); morphine is CID 5288826. Pinned from a
-    # cleanup that fixed the skeleton and kept the wrong stereo layer.
+    # Never -NOSXKOESSA-N: that is isomorphine (CID 5324287, the 7-epimer).
+    # Morphine is CID 5288826.
     "Morphine": "BQJCRHHNABKAKU-KBQPJGBKSA-N",
     "Pregabalin": "AYXYPKUFHZROOJ-ZETCQYMHSA-N",
     "Lisdexamfetamine": "VOBHXZCDAVEXEY-JSGCOSHPSA-N",
@@ -67,15 +64,11 @@ ANCHORS = {
     "Phenmetrazine": "OOBHFESNSZDWIU-UHFFFAOYSA-N",
     "Salvinorin B": "BLTMVAIOAAGYAR-CEFSSPBYSA-N",
     "Theobromine": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
-    # Re-anchored 2026-08-02. The previous value, APNKSKXHMUCNSY, resolves to
-    # NOTHING on PubChem — it was pinned here as "verified" while the SMILES
-    # beside it was missing the dibenzothiazepine ring nitrogen (it computed
-    # C21H24ClNO4S against tianeptine's C21H25ClN2O4S). CID 68870 is the real
-    # compound. An anchor is only as good as the check that produced it.
+    # CID 68870 (C21H25ClN2O4S). Never APNKSKXHMUCNSY: it resolves to nothing on
+    # PubChem and came from a SMILES missing the ring nitrogen (C21H24ClNO4S).
     "Tianeptine": "JICJBGPOMZQUBB-UHFFFAOYSA-N",
-    # Stage 0.0 collision cleanup: distinct keys restored to drugs whose upstream
-    # keys were corrupted to collide (0.0a) and stereo-layer fixes (0.0b). Pinning
-    # these guards against a source re-fetch reintroducing the shared/wrong key.
+    # Drugs whose upstream keys collide with another drug's, or carry the wrong
+    # stereo layer. Pinned so a source re-fetch cannot reintroduce the bad key.
     "4-HO-DiPT": "KBRYKXCBGISXQV-UHFFFAOYSA-N",
     "4F-PHP": "BCJXLSGKMNRRKO-UHFFFAOYSA-N",
     "Butonitazene": "UZZPOLCDCVWLAZ-UHFFFAOYSA-N",
@@ -88,13 +81,10 @@ ANCHORS = {
     "Phenylephrine": "SONNWYBIRXJNDC-VIFPVBQESA-N",
     "Pseudoephedrine": "KWGRBVOPPLSCSI-WCBMZHEXSA-N",
     "RTI-113": "AAEKULYONKUBOZ-NBYUQASBSA-N",
-    # NOTE: `R-(-)-MDMA` / `S-(+)-MDMA` were anchored here by Stage 0.0, but Stage A's
-    # fold_isomer_families() folded both enantiomers INTO `MDMA`, so neither exists as
-    # a canonical_name row any more and the anchors could never match. They are now
-    # facet-annotated aliases of MDMA (isomer='R'/'S') with their own PSID stereo
-    # forms; test_isomer_brand_aliases_carry_facet + test_substance_forms_enumerate_isomers
-    # guard that identity. There is no per-enantiomer InChIKey left to anchor — the
-    # parent's key is anchored via the fold, so nothing is left unguarded.
+    # No `R-(-)-MDMA` / `S-(+)-MDMA` anchors: fold_isomer_families() folds both into
+    # `MDMA` as facet-annotated aliases (isomer='R'/'S'), so neither is a
+    # canonical_name and an anchor could never match. test_isomer_brand_aliases_carry_facet
+    # and test_substance_forms_enumerate_isomers guard that identity.
 }
 
 

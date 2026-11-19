@@ -6,10 +6,9 @@ import SwiftUI
 /// curves while scrolling. Text — time label, substance summary, dose count — is
 /// formatted **once here** rather than on every `SessionCardView` body pass.
 /// Equatable so SwiftUI can skip a `SessionCardView` body re-eval when the parent
-/// hands it a content-identical card — the progressive derive republishes the
-/// card array (prefix paint, then tail), and without this every card re-rendered
-/// on the second pass even when nothing about it changed (confirmed via
-/// `_printChanges`). All stored fields are Equatable (value types, plus `@Model`
+/// hands it a content-identical card: the progressive derive republishes the
+/// card array (prefix paint, then tail), and without this every card would
+/// re-render on the second pass. All stored fields are Equatable (value types, plus `@Model`
 /// `Session`/`DoseEntry` which compare by identity, and `ActiveSubstanceState` /
 /// `DoseMarker` which are `Hashable`).
 struct SessionCard: Identifiable, Equatable {
@@ -123,7 +122,7 @@ struct SessionCardView: View, Equatable {
     /// when the card's content is unchanged. The Journal's progressive derive
     /// re-runs `EntryListView.body` several times on open (the @Query results +
     /// the model's prefix/tail publishes each land separately); without this skip
-    /// every card re-rendered ~6× per open and re-subscribed its @AppStorage.
+    /// every card re-renders on each pass and re-subscribes its @AppStorage.
     static func == (lhs: SessionCardView, rhs: SessionCardView) -> Bool {
         lhs.card == rhs.card && lhs.inGroup == rhs.inGroup && lhs.colorMap == rhs.colorMap
     }

@@ -33,7 +33,7 @@ struct DockMiddleContent: View {
     /// A row (search hit or suggestion) staged a dose. ``QuickLogDock`` uses it
     /// to end an active search — dismiss the keyboard, leave the search state,
     /// and settle onto medium with the new row's editor open — so the results
-    /// list no longer covers the row the user just added.
+    /// list doesn't cover the row the user just added.
     let onDidStage: () -> Void
 
     @State private var customSubstanceStore = CustomSubstanceStore.shared
@@ -180,7 +180,7 @@ struct DockMiddleContent: View {
         let query = searchText.lowercased()
         guard !query.isEmpty else { return [] }
         let recentCards = content.cachedCards
-            // Match the card's names, not its id — the id is now an opaque
+            // Match the card's names, not its id — the id is an opaque
             // substance-identity key (a PSID uid), so filtering on it would miss
             // a resolved card by its own name. Matching the product/form title
             // too makes a Concerta recents chip findable by "concerta" (D.1.6).

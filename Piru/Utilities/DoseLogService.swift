@@ -9,11 +9,10 @@ import WidgetKit
 ///
 /// ## Why a service, not a notification
 /// SwiftData exposes no public save notification, and the dose-write paths are scattered (quick-log
-/// tray, entry form, daily-dose log, edits/deletes, import, and the planned Watch `WCSessionDelegate`).
-/// Routing them through one type makes the change signal impossible to forget and gives a single seam to
-/// optimize later. The watch is *phone-authoritative* (`Specs/apple-watch-companion.md`): its doses
-/// arrive over WatchConnectivity and the phone inserts them here, in-process — so this remains the sole
-/// writer and SwiftData History (a cross-process tool) isn't needed.
+/// tray, entry form, daily-dose log, edits and deletes, import, the Watch receiver). Routing them
+/// through one type makes the change signal impossible to forget. The watch is phone-authoritative
+/// (`Specs/apple-watch-companion.md`): its doses arrive over WatchConnectivity and the phone inserts
+/// them here, so this stays the sole writer and SwiftData History (a cross-process tool) isn't needed.
 ///
 /// ## Canonical vs. batch
 /// ``log(_:in:recentEntries:)`` is the canonical single-dose pipeline (insert → session assignment →
@@ -197,23 +196,20 @@ final class DoseLogService {
         }
     }
 
-    /// Schedule the post-commit bookkeeping that **isn't on screen** — the scoped
-    /// inventory recompute (its stock math runs off-main), the per-entry
-    /// harm-reduction notifications, and one `WidgetCenter` timeline reload — to
-    /// run *after* the UI transition settles. This is the work that, run
-    /// synchronously before `dismiss()`, dropped frames on the dismissal: the
-    /// on-main inventory recompute and the `reloadAllTimelines()` IPC.
+    /// Schedule the post-commit bookkeeping that is off screen (the scoped
+    /// inventory recompute, the per-entry notifications, one `WidgetCenter`
+    /// timeline reload) to run after the UI transition settles. Run before
+    /// `dismiss()`, the on-main inventory recompute and the `reloadAllTimelines()`
+    /// IPC drop frames on the dismissal.
     ///
-    /// Uses the utility-`Task` + `Task.sleep` deferral idiom (not
-    /// `DispatchQueue.main.asyncAfter`): cancellable, and the scheduler can stall
-    /// it further while the main actor is busy — "run it when resources are
-    /// free." A rapid second commit **supersedes** the timer but *accumulates*
-    /// its work: `substances` is unioned and the `bookkeeping` closure is queued,
-    /// so coalescing only ever merges the two flushes (one widget reload, one
-    /// inventory pass over the union) — it never drops a recompute or a
-    /// notification. `bookkeeping` carries the site-specific notification work
-    /// (e.g. `DoseNotificationManager.doseLogged` per created entry); the
-    /// inventory recompute + widget reload are owned here.
+    /// A utility `Task` + `Task.sleep` rather than `DispatchQueue.main.asyncAfter`:
+    /// it is cancellable, and the scheduler can stall it further while the main
+    /// actor is busy. A rapid second commit supersedes the timer but accumulates
+    /// its work (`substances` is unioned, the `bookkeeping` closure is queued), so
+    /// coalescing merges two flushes into one widget reload and one inventory pass
+    /// and never drops a recompute or a notification. `bookkeeping` carries the
+    /// site-specific notification work (e.g. `DoseNotificationManager.doseLogged`
+    /// per created entry); the inventory recompute and widget reload are owned here.
     func scheduleDeferredBookkeeping(
         forSubstances substances: Set<String>,
         in context: ModelContext,

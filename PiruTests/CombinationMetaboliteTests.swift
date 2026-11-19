@@ -25,8 +25,8 @@ struct CombinationMetaboliteTests {
     @Test
     func `Every curated combination decodes and every combination has copy`() {
         // Both directions: a row with no `CombinationID` case is dropped at load and
-        // vanishes silently; a case with no row is copy for something that no longer
-        // ships. The readout is two sentences, so neither half can go missing.
+        // vanishes silently; a case with no row is copy for something that doesn't
+        // ship. The readout is two sentences, so neither half can go missing.
         #expect(Set(catalog.map(\.id)) == Set(CombinationMetabolite.CombinationID.allCases))
     }
 

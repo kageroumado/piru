@@ -38,7 +38,7 @@ def _parse_md(text: str) -> dict:
 
 class TestMicrogramMuVariants(unittest.TestCase):
     def test_greek_mu_is_micrograms_not_grams(self):
-        # The clonidine bug: "25 μg" with a Greek mu used to parse as unit "g".
+        # Clonidine's "25 μg" with a Greek mu must not fall through to unit "g".
         self.assertEqual(parse("25 μg"), ("scalar", 25.0, "µg"))
         self.assertEqual(parse("50 - 75 μg"), ("range", {"min": 50.0, "max": 75.0}, "µg"))
 

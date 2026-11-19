@@ -109,16 +109,15 @@ nonisolated enum DrugClass: String, Codable, CaseIterable {
     /// reuptake inhibitors that are NOT therapeutic antidepressant SERT blockers (which blunt
     /// empathogens). Tramadol, meperidine/pethidine, and dextromethorphan: they *stack* serotonergic
     /// load rather than competing it away, so they get danger rules, not the antidepressant blunting
-    /// readout. Grounded in the Foundation-C serotonergic evidence run (2026-06-22).
+    /// readout.
     case serotonergic
     case lithium
     case antipsychotic
     /// Centrally-acting alpha-2 adrenergic agonists (clonidine, guanfacine, tizanidine, dexmedetomidine,
     /// lofexidine; the xylazine/medetomidine "tranq" adulterants). Additive sedation/bradycardia/
-    /// hypotension; the alpha-2 component is NOT reversed by naloxone. Grounded in the Foundation-C
-    /// alpha-2/beta-blocker run (2026-06-22).
+    /// hypotension; the alpha-2 component is NOT reversed by naloxone.
     case alpha2Agonist
-    /// Beta-adrenergic antagonists (propranolol, metoprolol, atenolol, carvedilol, …). The real
+    /// Beta-adrenergic antagonists (propranolol, metoprolol, atenolol, carvedilol, …). The documented
     /// "unopposed alpha" edge is alpha-2-agonist *withdrawal* while beta-blocked, NOT routine
     /// beta-blocker + stimulant (that contraindication is contested dogma — see the evidence run).
     case betaBlocker
@@ -227,8 +226,8 @@ struct InteractionResult: Equatable {
     /// Relevance-weighted score used to order warnings and, on warn surfaces,
     /// to decide what to hide. Reserves the top of the list — and the red
     /// treatment — for genuinely concurrent, meaningful-dose, dangerous pairs.
-    /// With no temporal/dose data both factors are `1`, so this collapses back
-    /// to the base severity rank and ordering is unchanged.
+    /// With no temporal/dose data both factors are `1`, so this equals the base
+    /// severity rank.
     var displayScore: Double {
         (Double(severity.rawValue) + 1) * relevance
     }
@@ -589,7 +588,7 @@ enum InteractionChecker {
             let key = pairKey(effect.modulatorName, effect.substrate)
             // Remove the generic class rule for this pair — the enzyme interaction
             // is strictly more informative and the class rule is often misleading
-            // (e.g. "stimulant + opioid seizure risk" when the real issue is
+            // (e.g. "stimulant + opioid seizure risk" when the interaction is
             // CYP2D6). A `dangerous` class rule stays: the enzyme result is
             // capped at `unsafe`, and replacing one would downgrade the worst
             // severity the pair shows.
@@ -714,7 +713,7 @@ enum InteractionChecker {
 
     /// Get drug classes for a substance name. Falls back to a `SubstanceLibrary`
     /// lookup (canonical name or alias) when no override names it; the result is
-    /// memoised for subsequent calls. Misses are deliberately NOT memoised: a
+    /// memoized for subsequent calls. Misses are deliberately NOT memoized: a
     /// transient lookup failure (store not yet warm, or a startup race) must not
     /// permanently poison a substance's interactions.
     static func drugClasses(for substanceName: String) -> [DrugClass] {
@@ -790,9 +789,9 @@ enum InteractionChecker {
     /// lookup. A pair Piru has adjudicated shows its localized sentence; the rest
     /// show the row's own note, which is TripSit's prose in English.
     ///
-    /// An empty result is **not** memoised. Every rule the app has now comes from
-    /// one read, so caching a failed one would leave the process with no
-    /// interaction warnings at all — and nothing on screen would say so.
+    /// Never memoize an empty result. Every rule the app has comes from one
+    /// read, so caching a failed one would leave the process with no
+    /// interaction warnings at all, and nothing on screen would say so.
     private static var ruleLookup: [String: InteractionRule] {
         if let cached = ruleLookupCache.withLock({ $0 }) { return cached }
         var dict: [String: InteractionRule] = [:]
@@ -841,8 +840,8 @@ enum InteractionChecker {
     /// `computeDoseMagnitude` clamps to: a substance *with* dose-range data
     /// whose magnitude bottoms out here is ≤5 % of a heavy dose. Substances
     /// with no dose data resolve to ``ActiveSubstanceState/unknownIntensity``
-    /// (0.60) instead, so they are never mistaken for trivial — exactly the
-    /// "only suppress when we have good data" requirement.
+    /// (0.60) instead, so they are never mistaken for trivial: suppression
+    /// needs good data.
     private static let trivialMagnitude = ActiveSubstanceState.minimumIntensity
 
     /// Magnitude window over which dose presence ramps `0 → 1` (smoothstep). At

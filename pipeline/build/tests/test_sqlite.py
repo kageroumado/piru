@@ -1151,7 +1151,7 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             self.assertTrue(salts <= got, f"{parent}: expected salt ladders {salts}, got {got}")
 
     def test_salt_variant_orphans_absent(self):
-        """The folded variant canonicals no longer exist as standalone rows."""
+        """Folded salt variants exist only through their parent, never as standalone rows."""
         orphans = [
             r["canonical_name"]
             for r in self.db.execute(
@@ -1298,7 +1298,7 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
 
     def test_effects_linked_to_vocab(self):
         """The build-time matcher stamps vocab_id on (almost) every whitelisted
-        effect row; the few unmatched keep raw text as the fallback (not blank)."""
+        effect row; the few unmatched keep their raw text as the fallback."""
         linked, total = self.db.execute("select count(vocab_id), count(*) from effects").fetchone()
         # effects.text is already PW-whitelisted, so coverage is near-total.
         self.assertGreater(linked / total, 0.98)
@@ -1378,9 +1378,8 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             "where s.canonical_name='Magnesium' and d.salt_form='Citrate'"
         ).fetchone()["f"]
         self.assertAlmostEqual(mg_citrate, 0.16, places=2)
-        # Lithium carbonate used to be the second pinned value; it ships no dose
-        # row now (prescription-only), so the range invariant below carries the
-        # rest of the check.
+        # Lithium carbonate ships no dose row (prescription-only), so the range
+        # invariant below carries the rest of the check.
         for r in self.db.execute(
             "select elemental_fraction f from dose_ranges where elemental_fraction is not null"
         ):
@@ -1398,8 +1397,8 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
 
     def test_lithium_ships_no_dose_ladder(self):
         """Lithium is prescription-only with a narrow therapeutic index; it must
-        carry no dose ladder, salt-tagged or otherwise. It is the one substance
-        the salt exemption used to protect, so this is the regression guard."""
+        carry no dose ladder, salt-tagged or otherwise. The salt exemption would
+        otherwise keep one, so this guards against it."""
         n = self.db.execute(
             "select count(*) from dose_ranges d join substances s on s.id=d.substance_id "
             "where s.canonical_name='Lithium'"
@@ -1482,11 +1481,10 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         self.assertEqual(n, 0, f"{n} substances carry case/salt-duplicate aliases")
 
     def test_stereoisomers_folded_into_parent(self):
-        """Stage A folds curated enantiomers INTO their racemic parent as the
-        isomer form (inverting the old don't-merge invariant). The variant is no
-        longer a standalone row; it survives as a searchable alias of the parent,
-        and where it carried its own dose ladder the parent now has isomer-tagged
-        dose rows (so per-enantiomer dosing is preserved, never flattened)."""
+        """Curated enantiomers fold INTO their racemic parent as the isomer form.
+        The variant survives as a searchable alias of the parent, and where it
+        carried its own dose ladder the parent has isomer-tagged dose rows, so
+        per-enantiomer dosing is preserved."""
         for parent, variant, code, has_dose in [
             ("Methylphenidate", "Dexmethylphenidate", "D", True),
             ("Amphetamine", "Dextroamphetamine", "D", True),
@@ -1521,8 +1519,8 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         D-form; Ketamine → base + Esketamine (S) + Arketamine (R). The base form is
         marked default. Even dose-less folded enantiomers (Dextromethamphetamine)
         get an identity + title row so a logged form can be displayed."""
-        # Keyed by the table's full PK — (stereo, salt, release) — since Stage B
-        # populates release, so Methylphenidate has both a base and an XR form.
+        # Keyed by the table's full PK — (stereo, salt, release) — because release
+        # is populated, so Methylphenidate has both a base and an XR form.
         forms = {
             (r["stereo"], r["salt"], r["release"]): dict(r)
             for r in self.db.execute(
@@ -1755,8 +1753,8 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
 
     # ---- curated overrides folded into per-substance files ----
     #
-    # display-name / popularity / category / CJK aliases / dose overrides now
-    # live on each compound's own data/curated/substances/<slug>.json. These
+    # display-name / popularity / category / CJK aliases / dose overrides live on
+    # each compound's own data/curated/substances/<slug>.json. These
     # tests assert every folded override still resolves in the built DB — turning
     # a silent "override points at a renamed/merged canonical" rot into a failure.
 
@@ -1787,8 +1785,8 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             )
 
     def test_popularity_from_wikipedia_snapshot(self):
-        # Popularity now comes from the reproducible Wikipedia-pageviews snapshot
-        # (apply_wikipedia_popularity), superseding hand-set curated values.
+        # Popularity comes from the reproducible Wikipedia-pageviews snapshot
+        # (apply_wikipedia_popularity), which outranks hand-set curated values.
         snap_path = _REPO / "data/sources/wikipedia-popularity.json"
         if not snap_path.exists():
             self.skipTest("no wikipedia-popularity snapshot")
@@ -1834,7 +1832,7 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         }
         self.assertEqual(bad, {}, f"curated categories use non-enum values: {bad}")
         # Every curated category must win source-priority resolution (piru-curated
-        # is priority 1). A miss means a dedup merge or normalisation regression.
+        # is priority 1). A miss means a dedup merge or normalization regression.
         misses = {}
         for e in entries:
             resolved = self._resolved_category(e["name"])
@@ -2035,7 +2033,7 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
 
         d = Path(tempfile.mkdtemp())
         (d / "foo.json").write_text(json.dumps(self._base))
-        # Same compound, different file (e.g. "Foo" vs "foo "): normalised collision.
+        # Same compound, different file (e.g. "Foo" vs "foo "): normalized collision.
         (d / "foo-2.json").write_text(json.dumps(dict(self._base, name="foo ")))
         errs = _vmod.validate_dir(d)[0]
         self.assertTrue(any("duplicate compound" in x for x in errs))
@@ -2419,8 +2417,8 @@ class TestApplyWikipediaPopularity(unittest.TestCase):
         n = apply_wikipedia_popularity(con, data)
         self.assertEqual(n, 2)
         got = dict(con.execute("SELECT canonical_name, popularity FROM substances").fetchall())
-        self.assertAlmostEqual(got["MDMA"], 0.99)  # supersedes the old hand value
-        self.assertAlmostEqual(got["6-APB"], 0.69)  # benzofuran now outranks the RC
+        self.assertAlmostEqual(got["MDMA"], 0.99)  # the snapshot outranks the hand value
+        self.assertAlmostEqual(got["6-APB"], 0.69)  # benzofuran outranks the RC
         self.assertAlmostEqual(got["ObscureRC"], 0.0)  # unmapped stays 0
 
 
@@ -3392,10 +3390,10 @@ class TestSignatureGates(unittest.TestCase):
 
     def test_uncited_numbers_outside_the_check_above_only_shrink(self):
         """Half-lives, protocol doses, durations of action and confidence-interval-
-        only Kᵢ rows carry numbers the check above never asked about. Hundreds ship
+        only Kᵢ rows carry numbers the check above never asked about. Many ship
         uncited, so they are ratcheted rather than refused: a row missing from
         UNCITED_NUMBERS_BASELINE fails (no new uncited number), and so does a
-        baseline entry that no longer exists (the list shrinks as rows are sourced)."""
+        baseline entry that matches no row (the list shrinks as rows are sourced)."""
         rows = {
             r[0]
             for r in self.db.execute(
@@ -4482,9 +4480,8 @@ class TestSignatureGates(unittest.TestCase):
 
 class TestClassWarnings(unittest.TestCase):
     """`class_warnings` against `data/curated/class-warnings.json` and the class
-    write-ups. The 5-HT2B warning used to live on the monoamine card only, so 17
-    of the 22 substances whose bindings engage the receptor never showed it; the
-    class declaration is what reaches the members with no rows of their own."""
+    write-ups. The class declaration is what puts the 5-HT2B warning on members
+    whose bindings engage the receptor but who carry no warning row of their own."""
 
     KIND = "valvulopathy-5ht2b"
 

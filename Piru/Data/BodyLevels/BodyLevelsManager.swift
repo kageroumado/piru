@@ -146,7 +146,7 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
 // MARK: - Manager
 
 /// Computes the historic body-load trail from the dose log, sampled over a day
-/// grid, with the same proven shape as ``ToleranceStore``: an `@Observable`
+/// grid, with the same shape as ``ToleranceStore``: an `@Observable`
 /// `@MainActor` singleton that resolves PK params on the main actor, runs the
 /// exponential replay off-main, caches per ``BodyLevelsTrailCache/Key``, and
 /// warms the default range in the background off a debounced dose-log loop so the
@@ -156,11 +156,10 @@ nonisolated struct BodyLoadTrail: Codable, Sendable {
 /// newest timestamp) and the hour, so an unchanged log is a no-op, and by
 /// range so toggling 30D↔90D reuses earlier work. The warmed default range is
 /// also kept on disk (``BodyLevelsTrailCache``), so the warm after a launch
-/// whose log is unchanged reads a file instead of fetching the log. A dose never changes the
-/// past, so a future per-day causal cache could recompute only the tail past an
-/// edit; the whole-trail recompute here mirrors what `ToleranceStore` actually
-/// does today (one signature-gated replay) and is fast enough that the finer
-/// cache is deferred.
+/// whose log is unchanged reads a file instead of fetching the log. Like
+/// `ToleranceStore`, a log change recomputes the whole trail in one
+/// signature-gated replay, which is fast enough that a per-day cache of the
+/// tail past an edit is not worth its complexity.
 @Observable
 @MainActor
 final class BodyLevelsManager {

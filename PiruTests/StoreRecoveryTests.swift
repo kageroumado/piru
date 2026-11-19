@@ -21,7 +21,7 @@ struct StoreRecoveryTests {
     }
 
     /// Seeds a store and lets go of it before returning — see the note on
-    /// `StoreHealthTests.seedStore` for why the pool is load-bearing.
+    /// `StoreHealthTests.seedStore` for why the pool is needed.
     private func seedStore(at url: URL, entries n: Int) throws {
         try autoreleasepool {
             let container = try ModelContainer(
@@ -42,7 +42,7 @@ struct StoreRecoveryTests {
         try seedStore(at: url, entries: 3)
 
         // Reopen the bare current schema with no plan, exactly as the app's
-        // makeContainer now does. A previously-stored file must open cleanly.
+        // makeContainer does. A previously-stored file must open cleanly.
         let container = try ModelContainer(
             for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
@@ -420,7 +420,7 @@ enum _LegacyDoseEntry {
 
 // MARK: - Plan-less migration of a legacy (pre-`id`/`saltForm`) store
 
-/// The store now opens via **automatic lightweight migration** with no explicit
+/// The store opens via **automatic lightweight migration** with no explicit
 /// `SchemaMigrationPlan`. These tests seed an OLD-shape store via the test-local
 /// ``_LegacyDoseEntry`` (no `id`, no `saltForm`), reopen that SAME url with the
 /// current ``PiruSchema/models`` schema, and assert the upgrade preserves
@@ -430,16 +430,11 @@ enum _LegacyDoseEntry {
 /// `@MainActor` is required, not stylistic: ``StoreRecovery/backfillDuplicateEntryIDs(container:)``
 /// is `@MainActor` and mutates the model on the main context.
 ///
-/// DEPRECATED — disabled, slated for removal. This exercises the **pre-`id`/pre-`saltForm`** store
-/// shape, which only ever existed in builds *older than the last shipped TestFlight release*
-/// (`v2.2-b21` / commit c3b79c4). Testers have long since launched a build that migrated those
-/// stores, so the path is effectively dead in the wild. It is disabled now (not merely deprecated)
-/// because seeding the legacy shape requires the test-local ``_LegacyDoseEntry/DoseEntry`` — a second
-/// class registering the **same `"DoseEntry"` entity name** as the live model — which corrupts
-/// CoreData's *process-global* entity registry and makes unrelated SwiftData fetches in parallel
-/// tests crash (e.g. `InventoryItem could not be located`). Remove this suite together with
-/// ``StoreRecovery/backfillDuplicateEntryIDs(container:)`` once ASC confirms no pre-`id` install
-/// remains. See the pharmacology/legacy-removal tracking note.
+/// Disabled: seeding the legacy shape needs ``_LegacyDoseEntry/DoseEntry``, a second class
+/// registering the **same `"DoseEntry"` entity name** as the live model, which corrupts CoreData's
+/// *process-global* entity registry and crashes unrelated SwiftData fetches in parallel tests
+/// (`InventoryItem could not be located`). Remove this suite together with
+/// ``StoreRecovery/backfillDuplicateEntryIDs(container:)`` once no pre-`id` install remains.
 @Suite("Legacy-store lightweight migration", .disabled("Legacy pre-id migration path slated for removal (pre-v2.2-b21); its conflicting _LegacyDoseEntry entity corrupts the shared SwiftData model cache under the parallel runner."))
 @MainActor
 struct LegacyStoreMigrationTests {

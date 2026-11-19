@@ -544,8 +544,8 @@ struct TimelineGraphRenderer {
         let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
         let nowX = graphInset + CGFloat((nowMinutes - vStart) / vSpan) * graphWidth
         // Only while the session is live. Once every dose's effect window has
-        // ended, a bar pinned at "now" is a stray rule in dead space — and the
-        // axis no longer stretches out to reach it (see `spanIncludingMarkers`).
+        // ended, a bar pinned at "now" is a stray rule in dead space, and the
+        // axis doesn't stretch to reach it (see `spanIncludingMarkers`).
         // Skipped on compact graphs, where a full-height line reads as a
         // glitch, not a "you are here" cue; the Live Activity marks now with
         // its own time-driven rail (`TimelineGraphView.timeDrivenNow`).
@@ -1259,12 +1259,10 @@ struct TimelineGraphRenderer {
     /// earliestDose) — the **upper envelope** (max) of the per-dose curves, each
     /// weighted by its `doseIntensity`.
     ///
-    /// This is deliberately *not* a numeric sum. The curve is a coarse subjective
-    /// approximation (a flat-topped plateau, not a precise plasma trace), so
-    /// summing two overlapping doses produced a stepped, far-too-wavy shape — two
-    /// plateaus adding to 2× in the overlap and dropping back on the flanks — that
-    /// read as arithmetic rather than as one sustained effect. The envelope
-    /// instead merges overlapping redoses into a single clean plateau (as smooth
+    /// Never make this a numeric sum: the curve is a coarse subjective
+    /// approximation (a flat-topped plateau), so two overlapping doses would add
+    /// to 2× in the overlap and drop back on the flanks, a stepped shape that
+    /// reads as arithmetic rather than one sustained effect. The envelope merges overlapping redoses into a single clean plateau (as smooth
     /// as one dose, just longer), a bigger redose still rises higher where it
     /// dominates, and well-separated doses keep their distinct humps. The caller
     /// normalizes by the combined peak (`peakCurveValue`); the effect-site
@@ -1645,9 +1643,7 @@ struct TimelineGraphRenderer {
         }
 
         // bpm guide lines every 20 bpm, each labeled at the left inset so the lane
-        // reads as a real bpm axis at a glance — the exact values used to live only
-        // behind a long-press scrub, which is what the "no legend" report was about.
-        // The axis spans the whole series, so a wide range in this short lane would
+        // reads as a bpm axis without a scrub. The axis spans the whole series, so a wide range in this short lane would
         // stack 20-bpm labels on top of each other: the step widens until labels
         // clear one another, and a label that would reach into the lane-label row
         // keeps its line but drops its number.

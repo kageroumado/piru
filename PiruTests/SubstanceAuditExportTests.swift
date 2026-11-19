@@ -46,8 +46,8 @@ struct SubstanceAuditExportTests {
     /// (cathinones, pyrrolidinophenones, fluoroamphetamines, tramadol/O-DSMT, gabapentinoids, eugeroics,
     /// benzofurans) read straight from `data/curated/pharmacology-flagship.json`, unioned with the
     /// Common-20. Scoping to the flagship roster (rather than "any substance with a stray upstream Kᵢ /
-    /// PK row") keeps the audit to the ~50 substances that actually got the expanded receptor / monoamine
-    /// / PK / metabolism treatment — the ones with the tricky issues.
+    /// PK row") keeps the audit to the substances that got the expanded receptor / monoamine / PK /
+    /// metabolism treatment, the ones with the tricky issues.
     @MainActor
     static func enrichedNames() -> [String] {
         var names = Set(commonNames)

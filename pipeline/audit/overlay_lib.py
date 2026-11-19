@@ -10,18 +10,17 @@ for *reading* both sides of that override — used by:
   * ``tests/test_overlay_integrity.py`` — build-pipeline integrity gate
   * ``clean_curated_overlay.py``   — deadweight/false-data removal + flagging
 
-Design notes learned the hard way:
+Design notes:
 
-  * **Chemical identity, not names.** Name/alias matching produces false
-    "duplicate" signals — upstream aliases can point to a *different* canonical
-    entity (e.g. "THC" is an alias of *Cannabis* in PW/TripSit, not the isolated
-    cannabinoid). The robust identity key is the exact InChIKey. Only *exact*
-    InChIKey collisions are merge/corruption bugs; shared connectivity-blocks
-    (first 14 chars) are legitimate stereoisomer/salt families and must be left
-    alone.
+  * **Identity is the InChIKey.** Name/alias matching produces false
+    "duplicate" signals, because upstream aliases can point to a different
+    canonical entity ("THC" is an alias of *Cannabis* in PW/TripSit rather than
+    the isolated cannabinoid). Only exact InChIKey collisions are
+    merge/corruption bugs; shared connectivity blocks (first 14 chars) are
+    stereoisomer/salt families and must be left alone.
   * **Resolve curated→DB via aliases.** A curated file named "3-CMC" merges into
-    canonical "3-Chloromethcathinone" (3-CMC becomes an alias). Looking up by the
-    curated name alone misses ~25 files; the alias index closes that gap.
+    canonical "3-Chloromethcathinone" (3-CMC becomes an alias), so a lookup by
+    the curated name alone misses files; the alias index closes that gap.
 """
 
 from __future__ import annotations
@@ -553,8 +552,8 @@ def clone_clusters(fps: dict, category_of: dict) -> list[dict]:
     """Group dose/duration fingerprints into clone clusters — the build/curation
     smell where ≥2 substances carry an identical dose or duration profile.
 
-    Single source of truth for the survey report, the clean tool, and the
-    overlay-integrity test, which previously each re-derived the same rule.
+    Shared by the survey report, the clean tool, and the overlay-integrity
+    test, so all three apply the same rule.
 
     ``fps`` maps a fingerprint key to a list of ``(substance, route)`` members;
     ``category_of`` maps a substance name to its resolved category. Returns one

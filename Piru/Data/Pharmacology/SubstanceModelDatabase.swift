@@ -8,8 +8,7 @@ import os
 ///   - **PK + transporter binding come from the resolver** (`PharmacologyParameters`): the elimination
 ///     rate `ke` from the measured half-life, the absorption rate `ka` from the measured Tmax, the
 ///     DAT/NET/SERT weight *ratios* from the measured EC₅₀/Kᵢ, and `releaser` from whether the primary
-///     transporter is engaged by release (EC₅₀) or reuptake block (Kᵢ/IC₅₀). These were formerly a
-///     hardcoded table of eyeballed numbers; they are now data.
+///     transporter is engaged by release (EC₅₀) or reuptake block (Kᵢ/IC₅₀).
 ///   - **The irreducible PD scalars stay curated** (`Overrides`): vesicular store-depletion
 ///     susceptibility, DAT dissociation `koff`, µ-opioid drive/efficacy, GABA/CAE drive, respiratory
 ///     drive, and multi-receptor antagonism. No pharmacology DB carries these — they are model
@@ -34,11 +33,11 @@ nonisolated enum SubstanceModelDatabase {
     ///
     /// Verified **non-binding for the calibrated monoamine set** (amphetamine, methylphenidate, 2-/3-MMC,
     /// mephedrone): once the DAT:NET:SERT triple is taken from one coherent assay (`transporterProfile`),
-    /// their off-DA ratios sit below the cap, so the felt mix is fully data-driven. The cap is retained
-    /// only as a safety bound for the general library. The sole case where it still bites — a near-pure
-    /// serotonergic releaser whose DAT is ~1000× weaker than NET/SERT (MDMA) — is a *data* limitation
-    /// (MDMA's SERT release EC₅₀ is understated in the DB), not an engine one; MDMA is outside the
-    /// calibration set and its curve is unaffected by this bound in practice.
+    /// their off-DA ratios sit below the cap, so the felt mix is fully data-driven. The cap is a safety
+    /// bound for the general library. It can bite on a near-pure serotonergic releaser whose DAT is
+    /// ~1000× weaker than NET/SERT (MDMA), which is a *data* limitation (MDMA's SERT release EC₅₀ is
+    /// understated in the DB); MDMA is outside the calibration set and in practice its curve is
+    /// unaffected by this bound.
     private static let maxTransporterWeight = 4.0
 
     /// Per-substance overrides applied on top of the DB-derived base. Every field is optional: a `nil`

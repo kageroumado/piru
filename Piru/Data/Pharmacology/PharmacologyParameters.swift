@@ -114,7 +114,7 @@ nonisolated struct PharmacologyParameters {
     }
 
     /// An active metabolite the parent produces, carried so the tolerance engine can extend a dose's
-    /// occupancy tail past the parent's own elimination (K.5). The load-bearing case is diazepam →
+    /// occupancy tail past the parent's own elimination. The main case is diazepam →
     /// nordazepam (t½ ≈ 100 h, equipotent at GABA-A): without it, diazepam's integrated tolerance and
     /// its withdrawal-onset window are both computed from the parent's ~2-day clock instead of the
     /// metabolite's ~5-day one.
@@ -201,8 +201,8 @@ nonisolated struct PharmacologyParameters {
     /// Time-to-peak (Tmax) in **minutes** for the coherent PK row, when the source carries one — used
     /// to wire a *real* absorption rate `ka` (via ``PKModel/estimateKa(timeToPeak:ke:)``) instead of
     /// the `4·ke` elimination-derived default, so a fast-onset insufflated stimulant and a slow oral
-    /// extended-release no longer share an absorption shape (`Specs/tolerance-faithful-model-improvements.md`
-    /// §3). `nil` ⇒ the engine falls back to ``PKModel/defaultKa(ke:)``.
+    /// extended-release get different absorption shapes. `nil` ⇒ the engine falls back to
+    /// ``PKModel/defaultKa(ke:)``.
     let tmaxMinutes: Double?
     /// Confidence of ``tmaxMinutes`` — the source PK row's grade when a Tmax was read, `.unverified`
     /// (the neutral floor) when none was; folded into the contributor confidence so a guessed onset
@@ -231,7 +231,7 @@ nonisolated struct PharmacologyParameters {
     /// §3.4). `true` for the methylenedioxy entactogens (MDMA, MDA, …) whose metabolites down-regulate
     /// the synthesis machinery — recovery waits weeks (the slow synthesis pool). `false` for the
     /// cathinone releasers (mephedrone/4-MMC) which spare synthesis and reset in days on
-    /// receptor/transporter resensitisation alone. Resolved from the substance's
+    /// receptor/transporter resensitization alone. Resolved from the substance's
     /// `suppresses-serotonin-synthesis` row in the bundled DB's `substance_flags`; gates the engine's
     /// parallel synthesis layer.
     let suppressesSerotoninSynthesis: Bool
@@ -244,7 +244,7 @@ nonisolated struct PharmacologyParameters {
     let intrinsicEfficacy: Double
     /// Tolerance classes inferred from the substance's **pharmacological category** (benzodiazepine →
     /// GABA, opioid → μ, …), independent of binding data. Lets the missing-PK fallback model a
-    /// categorised-but-untargeted substance as its class representative even when the DB ships no
+    /// categorized-but-untargeted substance as its class representative even when the DB ships no
     /// receptor rows for it (`Specs/tolerance-faithful-model-improvements.md` §7 follow-up). Empty when
     /// the substance has no category that maps to a modeled tolerance class.
     let categoryClasses: Set<ReceptorClasses.ReceptorClass>
@@ -255,7 +255,7 @@ nonisolated struct PharmacologyParameters {
     let fractionUnbound: Double
     /// Engaged targets carrying a numeric half-max, **tightest (most potent) first**.
     let targets: [TargetEngagement]
-    /// Active metabolites this substance produces that may extend its occupancy tail (K.5). Empty for
+    /// Active metabolites this substance produces that may extend its occupancy tail. Empty for
     /// substances with no metabolite data (and for every synthetic test-built parameter set).
     let metabolites: [MetaboliteContributor]
     /// **Diazepam-milligram-equivalent** factor — diazepam-mg per 1 mg of this substance, from the
@@ -272,7 +272,7 @@ nonisolated struct PharmacologyParameters {
     /// by a factor that does not exist for them.
     let opioidMMEPerMg: Double?
     /// The tolerance mechanism classes this substance is the **class representative** for — the
-    /// PK-complete stand-in a PK-less member of the class is modeled as (Stage D missing-PK fallback).
+    /// PK-complete stand-in a PK-less member of the class is modeled as.
     /// From the bundled DB's `class_representatives`. Empty for every substance that is not a
     /// representative, which is nearly all of them.
     let representsClasses: Set<ReceptorClasses.ReceptorClass>

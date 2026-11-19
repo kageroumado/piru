@@ -198,7 +198,7 @@ T = {
         "舊版 Piru App 裡的一切都在這裡：你的日記、用藥和設定。確認無誤後，就可以刪除舊 App 了。",
     ),
     # The check-in schedule section on the session screen, the sociability
-    # scale, and the per-class reassurance added with the split lens sets.
+    # scale, and the per-class reassurance.
     "Sociability": ("社交欲", "社交慾"),
     "Alone": ("独处", "獨處"),
     "Passed": ("已过", "已過"),
@@ -318,8 +318,8 @@ T = {
         "第一條提示至少落在服用後 %lld 分鐘。",
     ),
     "%lld m": ("%lld 分钟", "%lld 分鐘"),
-    # Injection Levels v3 / Hormone Levels — the testosterone esters, the
-    # companion series, and the calibration copy.
+    # Hormone Levels: the testosterone esters, the companion series, and the
+    # calibration copy.
     "%@ %@ on %@": ("%@ %@（%@）", "%@ %@（%@）"),
     "%lld %@ injections logged. No serum curve is drawn for it: there is no validated release data.": (
         "已记录 %lld 次 %@ 注射。不为其绘制血清曲线：没有经过验证的释放数据。",
@@ -389,8 +389,8 @@ T = {
         "你实测的睾酮。用雌二醇期间 T 通常会下降；Piru 绘制你的数据点，而不是对抑制建模。",
         "你實測的睪固酮。用雌二醇期間 T 通常會下降；Piru 繪製你的資料點，而不是對抑制建模。",
     ),
-    # ADHD audience fit v2 — curve milestones, word-state glance, the late-dose
-    # sleep clause, and the de-shamed adherence surfaces.
+    # Curve milestones, the word-state glance, the late-dose sleep clause, and
+    # the adherence surfaces.
     "around %@": ("约 %@", "約 %@"),
     "Coming up": (
         "上升中",
@@ -522,7 +522,7 @@ T = {
     "Periwinkle, snow and frost": ("长春花蓝、雪与霜", "長春花藍、雪與霜"),
     "Hebi Arcade": ("Hebi 街机", "Hebi 街機"),
     "Neon City on a CRT": ("CRT 上的霓虹城", "CRT 上的霓虹城"),
-    # Romanised Japanese app names stay as they are, like Tsuki / Yuki / Kumo.
+    # Romanized Japanese app names stay as they are, like Tsuki / Yuki / Kumo.
     "Hanabi": ("Hanabi", "Hanabi"),
     "Selenia": ("Selenia", "Selenia"),
     "Engraved gold, a plum night, a turning wheel": (
@@ -566,7 +566,7 @@ T = {
         "每个皮肤都有浅色和深色两面。跟随系统会随 iOS 切换。",
         "每個皮膚都有淺色和深色兩面。跟隨系統會隨 iOS 切換。",
     ),
-    # Quick-log Edit sheet (2026-09-04)
+    # Quick-log Edit sheet
     "New Drink…": ("新增饮品…", "新增飲品…"),
     "Add Favorite…": ("添加收藏…", "新增收藏…"),
     "Add Favorite": ("添加收藏", "新增收藏"),
@@ -575,17 +575,17 @@ T = {
         "给物质加星，即可保留在快捷记录的收藏中。",
         "為物質加星，即可保留在快捷記錄的收藏中。",
     ),
-    # Brand picker IR/XR grouping (2026-09-04)
+    # Brand picker IR/XR grouping
     "Unbranded": ("无品牌", "無品牌"),
     "Immediate-release": ("速释", "速釋"),
-    # Branded formulations section on substance detail (2026-09-12)
+    # Branded formulations section on substance detail
     "Branded formulations": ("品牌制剂", "品牌製劑"),
     "Substance default": ("物质默认", "物質預設"),
     "Doses stay the substance's own. Only the duration curve changes.": (
         "剂量仍为该物质本身的剂量。只有作用时长曲线会改变。",
         "劑量仍為該物質本身的劑量。只有作用時長曲線會改變。",
     ),
-    # Injection Levels tool (2026-09-04)
+    # Injection Levels tool
     "Injection Levels": (
         "注射后血药水平",
         "注射後血藥水平",
@@ -598,7 +598,7 @@ T = {
     "Ester": ("酯类", "酯類"),
     "No specific ester": ("不指定酯类", "不指定酯類"),
     "From your log": ("来自你的记录", "來自你的記錄"),
-    # Injection Levels copy trim + app-wide missing translations (2026-09-07)
+    # Injection Levels, and strings from across the app
     "%lld mL injections converted at this strength": (
         "已按此浓度换算 %lld 次 mL 注射",
         "已按此濃度換算 %lld 次 mL 注射",
@@ -1007,17 +1007,17 @@ T = {
     ),
     "Included in calibration": ("已纳入校准", "已納入校準"),
     "Excluded from calibration": ("已排除于校准", "已排除於校準"),
-    # Timeline options menu (2026-09-02)
+    # Timeline options menu
     "Compress Empty Time": ("压缩空闲时间", "壓縮空閒時間"),
     "Curves": ("曲线", "曲線"),
-    # Timeline curve scale (2026-09-29)
+    # Timeline curve scale
     "Curve Scale": ("曲线比例", "曲線比例"),
     "Dose Strength": ("剂量强度", "劑量強度"),
     "Largest Dose, 7 Days": ("7 天内最大剂量", "7 天內最大劑量"),
     "Largest Dose, 30 Days": ("30 天内最大剂量", "30 天內最大劑量"),
     "Largest Dose, 90 Days": ("90 天内最大剂量", "90 天內最大劑量"),
     "Largest Dose Ever": ("历来最大剂量", "歷來最大劑量"),
-    # Notes follow-up (2026-09-02)
+    # Session notes
     "Notes at their T+ offsets, descriptors by domain. 1 session with notes": (
         "按 T+ 偏移列出的笔记，按领域分组的描述词。1 个场次有笔记",
         "按 T+ 偏移列出的筆記，按領域分組的描述詞。1 個場次有筆記",
@@ -1035,11 +1035,11 @@ T = {
         "按 T+ 偏移列出的笔记，按领域分组的描述词。所选场次还没有笔记",
         "按 T+ 偏移列出的筆記，按領域分組的描述詞。所選場次還沒有筆記",
     ),
-    # Library "Yours" card (2026-09-02)
+    # Library "Yours" card
     "Yours": ("你的", "你的"),
     "Star a substance to keep it here": ("给物质加星即可收藏在此", "為物質加星即可收藏於此"),
     "Substances you added or customized": ("你添加或自定义的物质", "你新增或自訂的物質"),
-    # b46 feature batches (2026-09-02)
+    # Check-ins, session notes, the Shulgin scale, the effect glossary, dock labels
     '"How is it going?" at set points in a session, each opening a timestamped note. Off unless you turn it on, for one session or for every session.': (
         "在场次中的几个时点提示“现在感觉如何？”，每次打开一条带时间戳的笔记。默认关闭，可为单个场次或所有场次开启。",
         "在場次中的幾個時點提示「現在感覺如何？」，每次開啟一則帶時間戳的筆記。預設關閉，可為單一場次或所有場次開啟。",
@@ -1288,7 +1288,7 @@ T = {
     "confident": ("确定", "確定"),
     "probable": ("可能", "可能"),
     "unrecognized": ("未识别", "未識別"),
-    # b46 feedback batches (2026-09-01)
+    # Settings hints, daily progress, colors, plot labels
     "Backups, export & import are under Tools › Data & Backup; preferences are under Settings.": (
         "备份、导出与导入在“工具 › 数据与备份”；偏好设置在“设置”。",
         "備份、匯出與匯入在「工具 › 資料與備份」；偏好設定在「設定」。",
@@ -1338,9 +1338,8 @@ T = {
         "下一年",
         "下一年",
     ),
-    # The three category floors rewritten so they stop asserting an efficacy or a
-    # generation for every member they describe (7-OH read "Full Agonist" above its own
-    # partial-agonist rows).
+    # The category floors assert no efficacy or generation for every member they
+    # describe (7-OH would read "Full Agonist" above its own partial-agonist rows).
     "μ-Opioid Receptor Ligand": (
         "μ-阿片受体配体",
         "μ-鴉片受體配體",
@@ -1365,8 +1364,7 @@ T = {
         "阻断组胺 H1 受体，减轻组胺反应中的瘙痒、红晕、风团与血管扩张。该化合物是否进入中枢神经系统（这正是具有毒蕈碱负荷、会引起嗜睡的第一代抗组胺药与外周选择性的第二代抗组胺药之间的区别），此处未作说明。",
         "阻斷組織胺 H1 受體，減輕組織胺反應中的搔癢、紅暈、風疹塊與血管擴張。該化合物是否進入中樞神經系統（這正是具有蕈毒鹼負荷、會引起嗜睡的第一代抗組織胺藥與周邊選擇性的第二代抗組織胺藥之間的區別），此處未作說明。",
     ),
-    # The methamphetamine class-mechanism description — the one MOA template literal that was
-    # never translated, found when the class prose moved into the bundled DB.
+    # The methamphetamine class-mechanism description.
     # The opioid converter's picker label for transdermal fentanyl: fentanyl shares
     # one substance row across every route, so the route is what disambiguates it.
     "%@ (transdermal)": (
@@ -1378,7 +1376,7 @@ T = {
     # copy states Piru's choice rather than a claim about CDC.
     # Why transdermal fentanyl cannot share the mg-based table.
     # Why buprenorphine is excluded from MME entirely.
-    # The signalling cascade's own label in the pharmacology card, so it does
+    # The signaling cascade's own label in the pharmacology card, so it does
     # not read as a second mechanism description.
     "Downstream": ("下游", "下游"),
     # Shown in place of "Fully eliminated" when no half-life is known, so an
@@ -1514,7 +1512,7 @@ T = {
     ),
     "%@ now at %@ %@": ("%@ 现为 %@ %@", "%@ 現為 %@ %@"),
     "%@ now at %@": ("%@ 现为 %@", "%@ 現為 %@"),
-    # ---- Steady State tool (Aug 2026) ----
+    # ---- Steady State tool ----
     "Steady State": ("稳态", "穩態"),
     "Where a repeated dose settles, and when": (
         "重复用药最终稳定在何处，以及需要多久",
@@ -1550,7 +1548,7 @@ T = {
         "每天服用？看看会稳定在何处",
         "每天服用？看看會穩定在何處",
     ),
-    # ---- Benzo effect ladder + occupancy / withdrawal (Aug 2026) ----
+    # ---- Benzo effect ladder + occupancy / withdrawal ----
     "%lld days": ("%lld 天", "%lld 天"),
     "Muscle relaxation": ("肌肉松弛", "肌肉鬆弛"),
     "Coordination": ("协调", "協調"),
@@ -1656,13 +1654,11 @@ T = {
     "intermediate": ("中效", "中效"),
     "short-acting": ("短效", "短效"),
     # ---------------------------------------------------------------
-    # Live Activity timer labels — orphaned in PiruLiveActivityExtension's own
-    # catalog, so they shipped English to zh users on the Lock Screen.
-    # Four parallel lanes merged 2026-08-03: class signatures (Lane A),
-    # Insights > Usage v2 (Lane B), med-time consequence + heavy-tier band
-    # + combination metabolites (Lane D), Sources ledger (Lane E).
+    # Live Activity timer labels (PiruLiveActivityExtension has its own catalog),
+    # then class signatures, Insights › Usage, med-time consequence + heavy-tier
+    # band + combination metabolites, and the Sources ledger.
     # ---------------------------------------------------------------
-    # ---- Lane A — class signatures on the substance detail screen ----
+    # ---- Class signatures on the substance detail screen ----
     "Efficacy axis": ("效能轴", "效能軸"),
     "Measurement basis": ("测量基准", "測量基準"),
     "Release EC₅₀": ("释放 EC₅₀", "釋放 EC₅₀"),
@@ -1695,7 +1691,7 @@ T = {
     "%@ vs %@": ("%1$@ 对 %2$@", "%1$@ 對 %2$@"),
     "%@ at %@": ("%1$@ 于 %2$@", "%1$@ 於 %2$@"),
     "Transporter potency share": ("转运体效价占比", "轉運體效價占比"),
-    # ---- Lane B — Insights › Usage, eight analytical sections ----
+    # ---- Insights › Usage, the analytical sections ----
     "This period": ("本期", "本期"),
     "1Y": ("1年", "1年"),
     "Activity heatmap": ("活动热力图", "活動熱力圖"),
@@ -1862,7 +1858,7 @@ T = {
         "有條目的日期會逐一列出。選擇某一天可篩選下方的時段圖表。",
     ),
     "Toggles this substance's line": ("切换该物质的曲线显示", "切換該物質的曲線顯示"),
-    # ---- Lane D — med times, heavy-tier band, combination metabolites ----
+    # ---- Med times, heavy-tier band, combination metabolites ----
     "Kicks in ~%@ · easing off ~%@": (
         "约 %1$@ 起效 · 约 %2$@ 开始消退",
         "約 %1$@ 起效 · 約 %2$@ 開始消退",
@@ -1878,7 +1874,7 @@ T = {
         "你的身体用这次剂量和本场中的另一种物质生成的第三种化合物，单独任何一种都不会产生。",
         "你的身體用這次劑量和本場中的另一種物質生成的第三種化合物，單獨任何一種都不會產生。",
     ),
-    # ---- Lane E — Sources screen ledger ----
+    # ---- Sources screen ledger ----
     "dose": ("剂量", "劑量"),
     "duration": ("持续时间", "持續時間"),
     "effects": ("效应", "效應"),
@@ -1896,9 +1892,8 @@ T = {
         "每一行列出该来源在此提供的内容。链接会打开来源自身的页面。请始终对照原始资料核实。",
         "每一行列出該來源在此提供的內容。連結會開啟來源自身的頁面。請始終對照原始資料核實。",
     ),
-    # Substance-detail round 5 (2026-08-01) — dose/effects split, the dose-source
-    # comparison sheet, the folded Prescribing card, and the Log CTA under the
-    # dose card.
+    # Substance detail: the dose/effects split, the dose-source comparison
+    # sheet, the folded Prescribing card, and the Log button under the dose card.
     "Fewer": ("收起", "收起"),
     "Dose sources": ("剂量来源", "劑量來源"),
     "In use": ("使用中", "使用中"),
@@ -1910,10 +1905,10 @@ T = {
         "所有長條按同一刻度繪製。Piru 顯示你排序最高的來源。",
     ),
     "%@ · %@ · %lld sources": ("%1$@ · %2$@ · %3$lld 个来源", "%1$@ · %2$@ · %3$lld 個來源"),
-    # TestFlight feedback round, build 33 (2026-07-27) — card overflow menu.
+    # Card overflow menu.
     "More actions": ("更多操作", "更多操作"),
-    # Substance-detail redesign v2 (proto8/proto10) — header chips, dose card,
-    # bar-first pharmacology, tappable metabolites (2026-07-24).
+    # Substance detail: header chips, dose card, bar-first pharmacology,
+    # tappable metabolites.
     "+ %lld chemical names": ("+ %lld 个化学名称", "+ %lld 個化學名稱"),
     "Also known as %@.": ("又称 %@。", "又稱 %@。"),
     "Also known as %@, and %lld other names.": (
@@ -1929,7 +1924,7 @@ T = {
     "reuptake": ("再摄取", "再攝取"),
     "via %@": ("经 %@", "經 %@"),
     "Opens %@": ("打开 %@", "打開 %@"),
-    # Inventory manager: collapsible class sections + class arrangement (2026-07-21).
+    # Inventory manager: collapsible class sections + class arrangement.
     "Arrange Classes": ("排列类别", "排列類別"),
     "Arrange Classes…": ("排列类别…", "排列類別…"),
     "Collapse All": ("全部折叠", "全部折疊"),
@@ -1940,7 +1935,7 @@ T = {
         "拖动以设置类别分区的显示顺序。重置后将由当前排序方式决定。",
         "拖動以設定類別分區的顯示順序。重置後將由目前排序方式決定。",
     ),
-    # Inventory manager: search, sort, filter, group-by-class (2026-07-21).
+    # Inventory manager: search, sort, filter, group-by-class.
     "Search Inventory": ("搜索库存", "搜尋庫存"),
     "Sort By": ("排序方式", "排序方式"),
     "Supply Level": ("存量水平", "存量水準"),
@@ -1956,7 +1951,7 @@ T = {
         "没有符合当前搜索和筛选条件的追踪物质。",
         "沒有符合目前搜尋與篩選條件的追蹤物質。",
     ),
-    # Source-priority screen rework (2026-07-19).
+    # Source-priority screen.
     "Reset": ("重置", "重置"),
     "When several sources report the same fact, such as a dose or a duration, Piru shows the one nearest the top. Drag to set which you trust most.": (
         "当多个来源报告同一事实（如剂量、时长）时，Piru 会显示最靠上的那个。拖动以设置你最信任的来源。",
@@ -1966,7 +1961,7 @@ T = {
         "%1$@，优先级 %2$lld",
         "%1$@，優先順序 %2$lld",
     ),
-    # Source-attribution explainer + priority surfacing (2026-07-19).
+    # Source-attribution explainer + priority surfacing.
     "Shown from": ("显示来源", "顯示來源"),
     "Why this source": ("为何选此来源", "為何選此來源"),
     "Shown": ("采用", "採用"),
@@ -1996,7 +1991,7 @@ T = {
         "说明为何采用此来源，并可重新排序来源",
         "說明為何採用此來源，並可重新排序來源",
     ),
-    # Share-card redesign — effects-mode toggle + effects section (2026-07-19).
+    # Share card: effects-mode toggle and effects section.
     "Minimal": ("简约", "簡約"),
     "Standard": ("标准", "標準"),
     "Rich": ("详尽", "詳盡"),
@@ -2006,7 +2001,7 @@ T = {
     "uptake": ("再摄取", "再攝取"),
     "Reported effects": ("报告的效应", "報告的效應"),
     "Most reported": ("最多报告", "最多報告"),
-    # Notifications management screen — unified per-type toggles (2026-07-17).
+    # Notifications management screen: per-type toggles.
     "Pause All Notifications": ("暂停所有通知", "暫停所有通知"),
     "Silences everything without losing your choices below.": (
         "静音全部通知，但保留你在下方的选择。",
@@ -2075,8 +2070,8 @@ T = {
         "當你追蹤的物品所剩不多或已用完時提前提醒，別等到瓶子空了才發現。",
     ),
     "Notification Settings": ("通知设置", "通知設定"),
-    # Notifications Stage 3+4 — occurrences, next-dose, quiet hours, actions,
-    # progressive onboarding (2026-07-18).
+    # Notifications: occurrences, next dose, quiet hours, actions, progressive
+    # onboarding.
     "Quiet Hours": ("勿扰时段", "勿擾時段"),
     "Start time": ("开始时间", "開始時間"),
     "End time": ("结束时间", "結束時間"),
@@ -2106,7 +2101,7 @@ T = {
         "当某一物质的当日总量攀升至大剂量范围，或追踪的库存不足时提醒你。",
         "當某一物質的當日總量攀升至大劑量範圍，或追蹤的庫存不足時提醒你。",
     ),
-    # Snooze-style routine follow-up reminders (2026-07-17).
+    # Snooze-style routine follow-up reminders.
     "Time Sensitive": ("时效性通知", "時效性通知"),
     "Time Sensitive notifications can break through Focus modes and the notification summary. Turn off any you'd rather have wait.": (
         "时效性通知可以突破专注模式和通知摘要。不希望立即送达的可以在这里关闭。",
@@ -2122,7 +2117,7 @@ T = {
     "µ-opioid drive": ("µ-阿片受体驱动", "µ-鴉片受體驅動"),
     "GABA-A drive": ("GABA-A 驱动", "GABA-A 驅動"),
     "start": ("起始", "起始"),
-    # Pill picker — branded fixed-strength meds logged as tablets/capsules (2026-07-17).
+    # Pill picker — branded fixed-strength meds logged as tablets/capsules.
     "extended-release": ("缓释", "緩釋"),
     "immediate-release": ("速释", "速釋"),
     "depot": ("长效", "長效"),
@@ -2134,11 +2129,11 @@ T = {
     "Fewer pills": ("减少药片", "減少藥片"),
     "More pills": ("增加药片", "增加藥片"),
     "Quantity": ("数量", "數量"),
-    # Apple Health vitals overlay — heart rate / blood pressure on sessions (2026-07-06).
+    # Apple Health vitals overlay — heart rate / blood pressure on sessions.
     "Heart rate": ("心率", "心率"),
     "Blood pressure": ("血压", "血壓"),
     "Connect Apple Health": ("连接“健康”App", "連接「健康」App"),
-    # Apple Health onboarding step redesign (2026-07-07).
+    # Apple Health onboarding step.
     "Synced from Apple Health. Check the number looks right.": (
         "已从“健康”同步。请确认数值无误。",
         "已從「健康」同步。請確認數值無誤。",
@@ -2157,11 +2152,11 @@ T = {
         "示例图表：酒精效应曲线，心率随之起伏。",
         "範例圖表：酒精效應曲線，心率隨之起伏。",
     ),
-    # Unified Apple Health settings + session vitals discovery banner (2026-07-07).
+    # Apple Health settings and the session vitals discovery banner.
     "Dismiss": ("关闭", "關閉"),
     "See your heart rate here": ("在这里查看你的心率", "在這裡查看你的心率"),
     "Turn On Apple Health": ("开启“健康”", "開啟「健康」"),
-    # Redesigned unified Apple Health settings — weight footnotes by source (2026-07-07).
+    # Apple Health settings: weight footnotes by source.
     "Synced from Apple Health. Your weight sizes every dose estimate, since the same dose hits harder the less you weigh.": (
         "已从“健康”同步。体重决定每项剂量估算，因为越轻，同样的剂量作用越强。",
         "已從「健康」同步。體重決定每項劑量估算，因為越輕，同樣的劑量作用越強。",
@@ -2206,10 +2201,10 @@ T = {
         "心率每分鐘 %lld 次，無明顯變化",
     ),
     "overlaps %@": ("与 %@ 重叠", "與 %@ 重疊"),
-    # Share sheet previews + session image (2026-07-06).
+    # Share sheet previews + session image.
     "Cumulative": ("累计", "累計"),
     "Image": ("图片", "圖片"),
-    # Export any session (historical) — 2026-07-06.
+    # Export any session (historical).
     "Session Report": (
         "场次报告",
         "場次報告",
@@ -2223,7 +2218,7 @@ T = {
         "查看場次圖片",
     ),
     "Tap to edit": ("轻点编辑", "輕點編輯"),
-    # Consolidated "Share Session" sheet + entry points (2026-07-05).
+    # The "Share Session" sheet and its entry points.
     "Share Session": (
         "分享场次",
         "分享場次",
@@ -2241,7 +2236,7 @@ T = {
     "Share": ("分享", "分享"),
     "Share Current State…": ("分享当前状态…", "分享目前狀態…"),
     "Share Current State": ("分享当前状态", "分享目前狀態"),
-    # Session state export — PDF report + Markdown (2026-07-05).
+    # Session state export — PDF report + Markdown.
     "Session Snapshot": (
         "场次快照",
         "場次快照",
@@ -2266,7 +2261,7 @@ T = {
     "50% eliminated": ("消除 50%", "消除 50%"),
     "90% eliminated": ("消除 90%", "消除 90%"),
     "zero-order": ("零级动力学", "零級動力學"),
-    # Opioid Equivalence + Pharma Table + Insights/Education (2026-07-04) — CLI-added, not yet extracted.
+    # Opioid Equivalence, Pharma Table, and Insights/Education.
     "Loading pharmacology…": ("正在加载药理学数据…", "正在載入藥理學資料…"),
     "Targets": ("靶点", "靶點"),
     "Potency": ("效价", "效價"),
@@ -2343,8 +2338,8 @@ T = {
         "浏览每种物质的药代动力学",
         "瀏覽每種物質的藥物動力學",
     ),
-    # Tolerance improvements (2026-07-02): stimulant CV two-mechanism copy (§6) + Insights card (§7).
-    # Alcohol by-drink logging (2026-07-02) — preset list, steppers, a11y labels.
+    # Tolerance: stimulant CV two-mechanism copy (§6) and the Insights card (§7).
+    # Alcohol by-drink logging — preset list, steppers, a11y labels.
     "Drink": ("饮品", "飲品"),
     "Choose drink": ("选择饮品", "選擇飲品"),
     "Opens your drink presets": ("打开你的饮品预设", "開啟你的飲品預設"),
@@ -2358,8 +2353,8 @@ T = {
     "· %@ std drinks": ("· %@ 标准杯", "· %@ 標準杯"),
     "Drink: %@": ("饮品：%@", "飲品：%@"),
     "Log %@, %@": ("记录 %@，%@", "記錄 %@，%@"),
-    # Tolerance tool toolbar cleanup (2026-07-01) — Mail-style options menu + per-substance mode.
-    # ("By mechanism" already lives in the tolerance-explainer block below — reused here.)
+    # Tolerance tool toolbar: Mail-style options menu and per-substance mode.
+    # "By mechanism" is in the tolerance-explainer block below.
     "By substance": ("按物质", "按物質"),
     "Display options": ("显示选项", "顯示選項"),
     "Log a few doses and each substance's tolerance shows up here.": (
@@ -2375,7 +2370,7 @@ T = {
         "每张卡片是该物质自身的贡献。机制是共享的，所以你的整体水平（上方图表或“按机制”）可能更高。",
         "每張卡片是該物質自身的貢獻。機制是共享的，所以你的整體水平（上方圖表或「按機制」）可能更高。",
     ),
-    # Onboarding redesign (2026-07-01): 8-step first-run flow — welcome, privacy, tour, depth, weight, reminders, import, done, tips.
+    # Onboarding: the first-run flow (welcome, privacy, tour, depth, weight, reminders, import, done, tips).
     "How much detail?": ("想看多少细节？", "想看多少細節？"),
     "Piru can keep it simple or go deep into the pharmacology. Change this anytime in Settings.": (
         "Piru 可以保持简洁，也可以深入药理。随时可在设置中更改。",
@@ -2431,7 +2426,7 @@ T = {
         "随时点这里记录你所摄入的。只需几秒钟。",
         "隨時點這裡記錄你所攝入的。只需幾秒鐘。",
     ),
-    # Substance inventory tracking (2026-06-30): manager, detail, restock/edit forms, stock cards, widget.
+    # Substance inventory tracking: manager, detail, restock/edit forms, stock cards, widget.
     "Inventory": ("库存", "庫存"),
     "No Inventory Yet": ("还没有库存", "尚無庫存"),
     "Track a substance to see how much you have left as you log doses.": (
@@ -2514,9 +2509,9 @@ T = {
         "你的 %@ 已用盡。方便時再補上。",
     ),
     "Nothing tracked": ("未追踪任何物质", "未追蹤任何物質"),
-    # Positional specifiers: EN order is (remaining, unit, substance) but zh
-    # leads with the substance — the old "共 %@" rendered the drug NAME as a
-    # "total" quantity.
+    # Positional specifiers: English orders (remaining, unit, substance) and zh
+    # leads with the substance. Never a bare "共 %@": it renders the drug name
+    # as a "total" quantity.
     "Out of %@": ("%@已用尽", "%@已用盡"),
     "Running low on %@": ("%@所剩不多", "%@所剩不多"),
     "%@ of %@ %@ remaining": ("剩 %1$@，共 %2$@ %3$@", "剩 %1$@，共 %2$@ %3$@"),
@@ -2524,10 +2519,10 @@ T = {
         "Piru 和 PsychonautWiki 文件是纯 JSON。导入会添加到你的日记（重复项跳过）。加密备份可合并或替换。库存包含在 Piru 和加密备份中，但不含 PsychonautWiki 文件。",
         "Piru 和 PsychonautWiki 檔案是純 JSON。匯入會新增到你的日記（重複項略過）。加密備份可合併或取代。庫存包含在 Piru 和加密備份中，但不含 PsychonautWiki 檔案。",
     ),
-    # Pharmacology card hybrid redesign (2026-06-29): nav-bar detail-level (tier) switcher + merged card.
+    # Pharmacology card: the nav-bar detail-level (tier) switcher and merged card.
     "Detail level": ("详细程度", "詳細程度"),
     "Pharmacology": ("药理学", "藥理學"),
-    # Step 3 — class-specific receptor-panel heroes (opioid / benzo / dissociative).
+    # Class-specific receptor-panel heroes (opioid / benzo / dissociative).
     "Minor / off-targets": ("次要／脱靶", "次要／脫靶"),
     "Full μ-opioid agonist": (
         "μ-阿片受体完全激动剂",
@@ -2555,14 +2550,14 @@ T = {
     "Anxiolysis": ("抗焦虑", "抗焦慮"),
     "Muscle": ("肌肉松弛", "肌肉鬆弛"),
     "Memory": ("记忆", "記憶"),
-    # Step 4 — grouped receptor-literature table: short transporter-mechanism row labels.
+    # Grouped receptor-literature table: short transporter-mechanism row labels.
     "Release": ("释放", "釋放"),
     "Reuptake": ("再摄取抑制", "再攝取抑制"),
-    # Navbar consolidation: Share + one overflow "More" menu (Files-app pattern).
+    # Navigation bar: Share and one overflow "More" menu (Files-app pattern).
     "More": ("更多", "更多"),
     "Personalize Substance…": ("个性化此物质…", "個人化此物質…"),
-    # Pharmacology card round-3 phase-2 (2026-06-28): elimination rows in the Metabolism card render as a
-    # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
+    # Metabolism card: an elimination row renders as a plain excretion line, never
+    # as an "→ unchanged parent [active]" metabolite.
     "Renal excretion": ("经肾排泄", "經腎排泄"),
     "Biliary excretion": ("经胆汁排泄", "經膽汁排泄"),
     # The substance page's 5-HT2B heart-valve warning (ValvularWarningBanner). The class
@@ -2584,8 +2579,7 @@ T = {
         "已记录的病例都来自长期或频繁使用：芬氟拉明、麦角类药物培高利特和卡麦角林，以及大量使用 MDMA。",
         "已記錄的病例都來自長期或頻繁使用：芬氟拉明、麥角類藥物培高利特和卡麥角林，以及大量使用 MDMA。",
     ),
-    # Pharmacology card harmony pass — round 3 (2026-06-28): receptor strength help-sheet copy now
-    # spells out the measurement-aware bands.
+    # Receptor-strength help sheet: the measurement-aware bands.
     "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip: under 100 nM is strong, over 1000 nM is weak.": (
         "衡量药物与靶点结合的紧密程度（Ki）。数值越小，结合越紧密：低于 100 nM 为强，高于 1000 nM 为弱。",
         "衡量藥物與靶點結合的緊密程度（Ki）。數值越小，結合越緊密：低於 100 nM 為強，高於 1000 nM 為弱。",
@@ -2594,8 +2588,8 @@ T = {
         "衡量真正激活或阻断靶点（而非仅仅附着其上）所需的剂量。其数值通常比结合亲和力高约 10 倍，因此圆点采用相应的刻度（低于 1 µM 为强，高于 10 µM 为弱）。",
         "衡量真正活化或阻斷靶點（而非僅僅附著其上）所需的劑量。其數值通常比結合親和力高約 10 倍，因此圓點採用相應的刻度（低於 1 µM 為強，高於 10 µM 為弱）。",
     ),
-    # Pharmacology card harmony pass — round 2 (2026-06-28): shorter metabolic-modulation headlines
-    # (drop substrate + period; we're on the substance's own card) + per-card help-sheet "about" text.
+    # Metabolic-modulation headlines (no substrate or period: the reader is on the
+    # substance's own card) and the per-card help-sheet "about" text.
     "Repeated doses build up faster than the dose suggests": (
         "反复用药会比单次剂量所暗示的更快蓄积",
         "反覆用藥會比單次劑量所暗示的更快蓄積",
@@ -2610,9 +2604,9 @@ T = {
         "身体如何分解药物：由哪些肝酶完成、生成哪些副产物（代谢物），以及这些代谢物是否仍具活性。百分比是每种酶在清除中的大致占比。",
         "身體如何分解藥物：由哪些肝酶完成、生成哪些副產物（代謝物），以及這些代謝物是否仍具活性。百分比是每種酶在清除中的大致占比。",
     ),
-    # Pharmacology card harmony pass (2026-06-28) — receptor binding/functional tags, PK + receptor
-    # plain-language help sheet, "Additional Info" rename. Simple-vocabulary register to match the
-    # English (these are the "complex things made understandable" glossary entries).
+    # Pharmacology card: receptor binding/functional tags, the PK and receptor
+    # plain-language help sheet, "Additional Info". Simple-vocabulary register to match
+    # the English (the "complex things made understandable" glossary entries).
     "binding": ("结合", "結合"),
     "functional": ("功能", "功能"),
     "Binding": ("结合", "結合"),
@@ -2677,8 +2671,8 @@ T = {
         "许多数值来自动物或体外（培养皿）实验。来源标签会标明属于哪一种；人体数据最为可靠。",
         "許多數值來自動物或體外（培養皿）實驗。來源標籤會標明屬於哪一種；人體資料最為可靠。",
     ),
-    # Pharmacology axis — RC-expansion UI: monoamine profile / provenance / contraceptive
-    # caution / gabapentinoid ceiling (2026-06-24). Terminology grounded in a Chinese
+    # Pharmacology: monoamine profile / provenance / contraceptive caution /
+    # gabapentinoid ceiling. Terminology follows a Chinese
     # clinical-pharmacology register: 5-羟色胺 (not 血清素), 再摄取 (not 重摄取),
     # 激动剂 (not 兴奋剂), 拮抗剂 for receptors; CYP/DAT/SERT/MDMA/α2δ kept in Latin.
     # MonoamineProfileCard — section header + mechanism labels
@@ -2765,7 +2759,7 @@ T = {
         "可飽和吸收：暴露量的上升慢於劑量",
     ),
     # SaturablePharmacology — gabapentinoid comparison + gabapentin/tramadol profiles
-    # Pharmacology axis Stage 3b — Combined depression index (2026-06-21)
+    # Combined depression index
     "Severe": ("严重", "嚴重"),
     "High": ("高", "高"),
     "Moderate": ("中等", "中等"),
@@ -2777,10 +2771,10 @@ T = {
         "%lld/%lld 种物质来自受体占有率，其余依据效应曲线估算 · %@。",
         "%lld/%lld 種物質來自受體佔有率，其餘依據效應曲線估算 · %@。",
     ),
-    # Pharmacology axis Stage 3c — effect attenuation (2026-06-21)
+    # Effect attenuation
     "serotonin transporter": ("血清素转运体", "血清素轉運體"),
-    # Pharmacology axis Stage 4a — cross-tolerance readout (2026-06-21)
-    # Pharmacology axis Stage 4d — combination metabolite / cocaethylene (2026-06-22)
+    # Cross-tolerance readout
+    # Combination metabolite / cocaethylene
     "Combination Products": (
         "复方制剂",
         "複方製劑",
@@ -2790,7 +2784,7 @@ T = {
         "可卡因与酒精同时使用时，身体会生成可卡乙烯，一种只在两者同时存在时才形成的活性兴奋剂。它的持续时间明显长于可卡因，因此兴奋作用（及其带来的负担）会被拉长。",
         "古柯鹼與酒精同時使用時，身體會生成古柯乙烯，一種只在兩者同時存在時才形成的活性興奮劑。它的持續時間明顯長於古柯鹼，因此興奮作用（及其帶來的負擔）會被拉長。",
     ),
-    # Pharmacology axis Stage 4c — metabolic modulation (2026-06-21)
+    # Metabolic modulation
     "Predicted": (
         "预测",
         "預測",
@@ -2821,11 +2815,10 @@ T = {
     # the binding strength — a bare 高/低 beside a receptor name would read as
     # affinity, which is the one thing this column never means.
     # ---------------------------------------------------------------
-    # 2026-08-04 negative-clause sweep. "Say what it is, never what it isn't":
-    # every ", not X" clause below was cut from the English, so the Chinese loses
-    # its matching 而非／並非／不是 clause. Kept only where the negation is mandated
-    # elsewhere — "not medical advice", "not clinical potency", and the
-    # tolerance-by-receptor title, which name a belief the reader actively holds.
+    # "Say what it is, never what it isn't": the English below carries no
+    # ", not X" clause, so the Chinese carries no 而非／並非／不是 clause. The
+    # negation stays only where it names a belief the reader actively holds:
+    # "not medical advice", "not clinical potency", and the tolerance-by-receptor title.
     "Based on first-pass metabolism of oral THC · educational. Onset and duration vary with dose, product, and tolerance.": (
         "基于口服 THC 的首过代谢 · 仅供教育参考。起效与持续时间因剂量、产品和耐受性而异。",
         "基於口服 THC 的首過代謝 · 僅供教育參考。起效與持續時間因劑量、產品和耐受性而異。",
@@ -2985,12 +2978,12 @@ T = {
         "透過阻斷本來起煞車作用的α₂自身受體來提高正腎上腺素和血清素的釋放，而不是阻斷再攝取。與之並行的H₁阻斷，就是鎮靜和食慾的來源。",
     ),
     "Had grapefruit with this dose": ("此剂量同服了西柚", "此劑量同服了葡萄柚"),
-    # Stage 4c — modulator catalog display names + notes
+    # Modulator catalog display names and notes
     "Grapefruit": ("西柚", "葡萄柚"),
     "Carbamazepine": ("卡马西平", "卡馬西平"),
     "MDMA": ("MDMA", "MDMA"),
-    # Antidepressant + empathogen reframed as myth-buster (blunting, not serotonin syndrome) (2026-06-21)
-    # Serotonergic special cases — evidence-grounded rules (Foundation-C run, 2026-06-22)
+    # Antidepressant + empathogen as a myth-buster: blunting, not serotonin syndrome
+    # Serotonergic special cases: evidence-grounded rules
     "Serotonin syndrome risk. These drugs add serotonin on top of an empathogen's surge. Some (tramadol, meperidine) can also trigger seizures.": (
         "血清素综合征风险。这些药物会在共情剂已升高的血清素之上继续增加。部分药物（曲马多、哌替啶）还可能诱发癫痫发作。",
         "血清素症候群風險。這些藥物會在共情劑已升高的血清素之上繼續增加。部分藥物（曲馬多、哌替啶）還可能誘發癲癇發作。",
@@ -3043,7 +3036,7 @@ T = {
         "血清素综合征风险。升高血清素的药物与三环类抗抑郁药叠加。",
         "血清素症候群風險。升高血清素的藥物與三環類抗憂鬱藥疊加。",
     ),
-    # Alpha-2 agonists + beta-blockers (Foundation-C run, 2026-06-22)
+    # Alpha-2 agonists + beta-blockers
     "Heavy sedation with a dangerously slow heart rate and breathing. Naloxone reverses the opioid but NOT the alpha-2 part. Give rescue breaths and call for help even after naloxone.": (
         "强烈镇静，伴心率和呼吸危险性减慢。纳洛酮能逆转阿片，但无法逆转 alpha-2 的作用。即使用了纳洛酮，也要进行人工呼吸并呼叫求助。",
         "強烈鎮靜，伴心率和呼吸危險性減慢。納洛酮能逆轉鴉片，但無法逆轉 alpha-2 的作用。即使用了納洛酮，也要進行人工呼吸並呼叫求助。",
@@ -3064,7 +3057,7 @@ T = {
         "两者都会降低血压并增加头晕。可能感到眩晕，尤其是起身时。",
         "兩者都會降低血壓並增加頭暈。可能感到眩暈，尤其是起身時。",
     ),
-    # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
+    # Tolerance tool
     "Tolerance": ("耐受性", "耐受性"),
     "Psychedelics (5-HT2A)": ("迷幻剂（5-HT2A）", "迷幻劑（5-HT2A）"),
     "Opioids (μ)": ("阿片类（μ）", "鴉片類（μ）"),
@@ -3080,7 +3073,7 @@ T = {
     "~%lld weeks": ("~%lld 周", "~%lld 週"),
     "~%lld days": ("~%lld 天", "~%lld 天"),
     "~%lld hours": ("~%lld 小时", "~%lld 小時"),
-    # Tolerance tool + explainer rewrite (Stage J, 2026-06-30). Friendly, second-person register
+    # Tolerance tool and explainer. Friendly, second-person register
     # (a knowledgeable friend, not a textbook): 你, plain verbs, no academic 使/之/其, no cutesy particles.
     "Your brain adapts to what you keep giving it": (
         "你一直用，大脑就会去适应它",
@@ -3185,7 +3178,7 @@ T = {
     "%lldmo": ("%lld 个月", "%lld 個月"),
     "%lldwk": ("%lld 周", "%lld 週"),
     "%lldd": ("%lld 天", "%lld 天"),
-    # Pharmacology axis Stage 0 — confidence tiers + body-weight UI (2026-06-21)
+    # Confidence tiers and body-weight UI
     "High confidence": ("高可信度", "高可信度"),
     "Medium confidence": ("中等可信度", "中等可信度"),
     "Low confidence": ("低可信度", "低可信度"),
@@ -3199,11 +3192,11 @@ T = {
         "此裝置不支援 Apple 健康。",
     ),
     "kg": ("kg", "kg"),
-    # Bottom-accessory "Log a dose" CTA 2026-06
+    # Bottom-accessory "Log a dose" button
     "Log a dose": ("记录剂量", "記錄劑量"),
     # Cake (PsychonautWiki 🍰 April-Fools entry) — emoji off the title, joke in detail
-    # Detail-view Design D 2026-06 — merged dose/duration card, Show All effects,
-    # Erowid as its own group, two-column Info/Chemistry grids, merged Sources.
+    # Substance detail: merged dose/duration card, Show All effects, Erowid as its
+    # own group, two-column Info/Chemistry grids, merged Sources.
     "Dose & Duration": ("剂量与时长", "劑量與時長"),
     # FreeOD Wiki overview section (locale-first Chinese substance descriptions).
     "Overview": ("概述", "概述"),
@@ -3214,7 +3207,7 @@ T = {
     "Show All": ("查看全部", "查看全部"),
     "Default route": ("默认途径", "預設途徑"),
     "PubChem CID": ("PubChem CID", "PubChem CID"),
-    # Detail-view restructure 2026-06 — effects merge + chemistry fold + copyable
+    # Substance detail: merged effects, folded chemistry, copyable fields
     "Search experiences on Erowid": ("在 Erowid 上搜索体验报告", "在 Erowid 上搜尋體驗報告"),
     "All effects": ("全部效应", "全部效應"),
     "All effects (%lld)": ("全部效应（%lld）", "全部效應（%lld）"),
@@ -3229,16 +3222,16 @@ T = {
     "Smell and taste": ("嗅觉与味觉", "嗅覺與味覺"),
     "Transpersonal": ("超个人", "超個人"),
     "Disconnective": ("解离", "解離"),
-    # DB cleanup 2026-06 — sources/references merge
+    # Databases (sources and references)
     "Databases": ("数据库", "資料庫"),
-    # DB cleanup 2026-06 — RC taxonomy rename, Other bucket, limited-data badge
+    # RC taxonomy, the Other bucket, the limited-data badge
     "Other / Miscellaneous": ("其他 / 杂项", "其他 / 雜項"),
     "Everything that doesn't fit a class above.": (
         "不属于以上任何类别的物质。",
         "不屬於以上任何類別的物質。",
     ),
     "Limited data": ("数据有限", "資料有限"),
-    # Library redesign — family cards, taxonomy renames, sub-class blurbs
+    # Library: family cards, taxonomy names, sub-class blurbs
     "Stimulants": ("兴奋剂", "興奮劑"),
     "Empathogens": ("共情剂", "共情劑"),
     "Hallucinogens": ("致幻剂", "致幻劑"),
@@ -3354,7 +3347,7 @@ T = {
         "抗癲癇與情緒穩定藥物。",
     ),
     "Highest overdose risk": ("过量风险最高", "過量風險最高"),
-    # Quick-log redesign — dose tray (staging, shared When/Tags/Location, inline editor)
+    # Quick-log dose tray (staging, shared When/Tags/Location, inline editor)
     "%lld min ago": ("%lld 分钟前", "%lld 分鐘前"),
     "Pick date & time…": ("选择日期和时间…", "選擇日期和時間…"),
     "Remove": ("移除", "移除"),
@@ -3365,16 +3358,16 @@ T = {
     "Expands the editor": ("展开编辑器", "展開編輯器"),
     "Log %@ %@ of %@": ("记录 %3$@ %1$@ %2$@", "記錄 %3$@ %1$@ %2$@"),
     "Log %@ of %@": ("记录 %2$@ %1$@", "記錄 %2$@ %1$@"),
-    # Journal state card (2026-07-22 plan/state/log restructure)
+    # Journal state card
     "Active Now": ("当前活跃", "目前活躍"),
-    # My Meds row split + Active Now → session (2026-07-22)
+    # My Meds rows and Active Now → session
     "Opens this session.": (
         "打开这个场次。",
         "開啟這個場次。",
     ),
     "Opens this med": ("打开此用药", "打開此用藥"),
     "%@ details": ("%@ 详情", "%@ 詳情"),
-    # Quick-log VoiceOver audit fixes (2026-07-12)
+    # Quick-log VoiceOver labels
     "Active dose": ("活性剂量", "活性劑量"),
     "Custom dose of %@": ("自定 %@ 剂量", "自訂 %@ 劑量"),
     "Staged %@": ("已暂存 %@", "已暫存 %@"),
@@ -3390,7 +3383,7 @@ T = {
     ),
     "^[%lld tag](inflect: true)": ("%lld 个标签", "%lld 個標籤"),
     "Reminder on": ("提醒已开启", "提醒已開啟"),
-    # App-wide VoiceOver audit — Journal / Library / Tools / Insights / Settings (2026-07-12)
+    # VoiceOver labels: Journal / Library / Tools / Insights / Settings
     "%@ in %@ at %lld percent": ("%@ 处于%@，%lld%%", "%@ 處於%@，%lld%%"),
     "%@ at %lld percent": ("%@ %lld%%", "%@ %lld%%"),
     "Dose level": ("剂量级别", "劑量級別"),
@@ -3446,7 +3439,7 @@ T = {
     "Enantiomer potency": ("对映体效价", "對映體效價"),
     "Dopamine–serotonin lean": ("多巴胺–血清素倾向", "多巴胺–血清素傾向"),
     "About this section": ("关于此部分", "關於此部分"),
-    # Quick-log v2 — morphing dock, Daily routine card
+    # Quick-log morphing dock and Daily routine card
     "Add another…": ("再添加一个…", "再新增一個…"),
     "≈%@ %@ active · %@ ago · %@ left": (
         "体内约 %1$@ %2$@ · %3$@前 · 剩 %4$@",
@@ -3477,7 +3470,7 @@ T = {
     "per %@": ("每%@", "每%@"),
     "%@ · per %@": ("%@ · 每%@", "%@ · 每%@"),
     "Part of %@": ("%@ 的一部分", "%@ 的一部分"),
-    # Liquid combination products, logged by volume (2026-10-28).
+    # Liquid combination products, logged by volume.
     "Measured": ("计量方式", "計量方式"),
     "Per unit": ("按单位", "按單位"),
     "Per mL": ("按毫升", "按毫升"),
@@ -3491,7 +3484,7 @@ T = {
         "留空则以用量未知记录这份剂量。对于复方制剂，填写服用的单位数；液体则填写毫升数。",
         "留空則以用量未知記錄這份劑量。對於複方製劑，填寫服用的單位數；液體則填寫毫升數。",
     ),
-    # Products made in Add a Med: compounded or liquid (2026-10-28).
+    # Products made in Add a Med: compounded or liquid.
     "Pills": ("药片", "藥片"),
     "Tablets": ("片剂", "錠劑"),
     "Capsules": ("胶囊", "膠囊"),
@@ -3549,11 +3542,11 @@ T = {
     "Location: %@": ("位置：%@", "位置：%@"),
     "Dose time: %@": ("剂量时间：%@", "劑量時間：%@"),
     "Recents": ("最近", "最近"),
-    # Routines (multi-routine rework; Routine = 日常, established term)
+    # Routines (Routine = 日常, the established term)
     "Remind Me": ("提醒我", "提醒我"),
     "Clear search": ("清除搜索", "清除搜尋"),
     "Common %@–%@ %@": ("常用 %1$@–%2$@ %3$@", "常用 %1$@–%2$@ %3$@"),
-    # Settings restructure — progressive disclosure cleanup
+    # Settings: progressive disclosure
     "Notifications": ("通知", "通知"),
     "Data": ("数据", "資料"),
     "No Substance Colors": ("暂无物质配色", "暫無物質配色"),
@@ -3788,7 +3781,7 @@ T = {
     "Eugeroic": ("促醒剂", "促醒劑"),
     "Depressant": ("抑制剂", "抑制劑"),
     "Orexin Antagonist": ("食欲素拮抗剂", "食慾素拮抗劑"),
-    # DORA (orexin antagonist) mechanism of action + interactions (2026-07-05).
+    # DORA (orexin antagonist) mechanism of action + interactions.
     "Dual Orexin Receptor Antagonist (DORA)": (
         "双重食欲素受体拮抗剂（DORA）",
         "雙重食慾素受體拮抗劑（DORA）",
@@ -3958,7 +3951,7 @@ T = {
     ),
     "Search entries...": ("搜索记录…", "搜尋記錄…"),
     "Search substances...": ("搜索物质…", "搜尋物質…"),
-    # Quick-log native dock sheet (2026-07-07)
+    # Quick-log native dock sheet
     "Cancel search": ("取消搜索", "取消搜尋"),
     "Edit Drinks…": ("编辑饮品…", "編輯飲品…"),
     "Drinks": ("饮品", "飲品"),
@@ -3969,7 +3962,7 @@ T = {
     "Expanded": ("已展开", "已展開"),
     "Needs an amount": ("需要填写剂量", "需要填寫劑量"),
     "Search": ("搜索", "搜尋"),
-    # Search redesign 2026-06 (landing + class grid + journal→library fallback)
+    # Search (landing, class grid, journal→library fallback)
     "Recently Searched": ("最近搜索", "最近搜尋"),
     "Browse by class": ("按类别浏览", "按類別瀏覽"),
     "Search Library instead": ("改为搜索物质库", "改為搜尋物質庫"),
@@ -4102,7 +4095,7 @@ T = {
     # Profile & Disclosure Tier
     "Casual": ("休闲", "休閒"),
     "Curious": ("好奇", "好奇"),
-    # Mechanistic effect lenses + readouts (2026-07-08).
+    # Mechanistic effect lenses + readouts.
     "Feeling": ("感受", "感受"),
     "Energy": ("精力", "精力"),
     "Euphoric": ("欣快", "欣快"),
@@ -4202,7 +4195,7 @@ T = {
     ),
     # MoA / Pharmacology
     "Mechanism of Action": ("作用机制", "作用機制"),
-    # Stage 4 — chemistry card + pharmacokinetics disclosure
+    # Chemistry card and pharmacokinetics disclosure
     "Pharmacokinetics": ("药代动力学", "藥物動力學"),
     "Metabolism": ("代谢", "代謝"),
     "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.": (
@@ -4233,7 +4226,7 @@ T = {
         "主要作用位點：",
     ),
     "Also known as": ("别名", "別名"),
-    # Substance detail — redesign (misconceptions + "for the curious" launcher)
+    # Substance detail: misconceptions and the "for the curious" launcher
     "Common misconceptions": ("常见误解", "常見誤解"),
     "Combinations": ("组合", "組合"),
     "Water & heat": ("水分与温度", "水分與溫度"),
@@ -4268,10 +4261,9 @@ T = {
         "此物質和途徑暫無效果時間軸。",
     ),
     # "Also Active" — the metabolite surface.
-    # "Also Active" — Xcode extracts these with NON-positional %@ keys, so the
-    # positional %1$@ variants authored earlier went stale and their zh values
-    # never reached a user. Keys must match what the extractor emits; the
-    # translated VALUES still use %1$@/%2$@ to reorder, which is allowed.
+    # Xcode extracts these with non-positional %@ keys, so the keys here use %@
+    # too: a positional %1$@ key never matches and its translation never reaches
+    # a user. The translated values may still use %1$@/%2$@ to reorder.
     "%@ stays active in your body long after %@ itself is gone.": (
         "在 %2$@ 本身已排出后很久，%1$@ 仍在体内保持活性。",
         "在 %2$@ 本身已排出後很久，%1$@ 仍在體內保持活性。",
@@ -4515,7 +4507,7 @@ T = {
     "Recovery tips": ("恢复提示", "恢復提示"),
     "Recovery Tips": ("恢复提示", "恢復提示"),
     "Total in Your Body": ("体内总量", "體內總量"),
-    # Dose detail redesign — session language (2026-07-12).
+    # Dose detail: session language.
     "In Your Body": (
         "体内",
         "體內",
@@ -5183,7 +5175,7 @@ T = {
     "#": ("#", "#"),
     "0": ("0", "0"),
     "--": ("--", "--"),
-    # Misc UI labels not yet covered
+    # Miscellaneous UI labels
     "Your History": (
         "你的历史",
         "你的歷史",
@@ -5212,7 +5204,7 @@ T = {
     "Recovery": ("恢复", "恢復"),
     "Solvent Needed": ("所需溶剂", "所需溶劑"),
     "Usage": ("使用", "使用"),
-    # 2026-06 review fixes — crisis help links (previously plain String, never localized)
+    # Crisis help links
     "Emergency: 911": ("紧急情况：911", "緊急情況：911"),
     "Poison Control: 1-800-222-1222": (
         "中毒控制中心：1-800-222-1222",
@@ -5235,12 +5227,11 @@ T = {
         "1-800-662-4357 · 免费、保密、全天候",
         "1-800-662-4357 · 免費、保密、全天候",
     ),
-    # 2026-06 review fixes — inflected plurals (replace hand-rolled "s"/"ies" suffixes)
+    # Inflected plurals: use these, never a hand-rolled "s"/"ies" suffix
     "^[%lld substance](inflect: true)": ("%lld 种物质", "%lld 種物質"),
     "^[%lld result](inflect: true)": ("%lld 个结果", "%lld 個結果"),
-    # 2026-08 — the deep-pharmacology sections (Genetics, Target Evidence,
-    # concentration thresholds) and the drug-class write-ups moved to
-    # Tools > Education.
+    # The deep-pharmacology sections (Genetics, Target Evidence, concentration
+    # thresholds) and the drug-class write-ups under Tools › Education.
     "^[%lld group](inflect: true)": ("%lld 个分类", "%lld 個分類"),
     "Genetics": ("基因", "基因"),
     "Target Evidence": ("靶点证据", "靶點證據"),
@@ -5259,7 +5250,7 @@ T = {
     "^[%lld more combination](inflect: true)": ("另有 %lld 种组合", "另有 %lld 種組合"),
     "^[%lld entry](inflect: true)": ("%lld 条记录", "%lld 筆記錄"),
     "^[%lld item](inflect: true)": ("%lld 项", "%lld 項"),
-    # 2026-06 Library browse redesign — family blurbs, favorites card, not-found
+    # Library browse: family blurbs, favorites card, not-found state
     "κ-opioid agonists: salvia, salvinorin A.": (
         "κ-阿片受体激动剂：墨西哥鼠尾草、沙维诺林A。",
         "κ-鴉片受體促效劑：墨西哥鼠尾草、沙維諾林A。",
@@ -5273,7 +5264,7 @@ T = {
         "“%@”已不在资料库中，可能已被重命名或合并。",
         "「%@」已不在資料庫中，可能已被重新命名或合併。",
     ),
-    # 2026-06 review fixes — accessibility labels & chart descriptions
+    # Accessibility labels and chart descriptions
     "Previous Month": ("上个月", "上個月"),
     "Next Month": ("下个月", "下個月"),
     "Select Month": ("选择月份", "選擇月份"),
@@ -5289,14 +5280,14 @@ T = {
         "%1$@ 后达到峰值，%3$@ %4$@ 中目前剩余 %2$@",
         "%1$@ 後達到峰值，%3$@ %4$@ 中目前剩餘 %2$@",
     ),
-    # 2026-06 review fixes — color picker validation errors
-    # 2026-06 — stacked-lane (small multiples) timeline preference
+    # Color picker validation errors
+    # Stacked-lane (small multiples) timeline preference
     "Stack Busy Sessions": (
         "拆分繁忙场次图表",
         "拆分繁忙場次圖表",
     ),
     "Stack From": ("拆分阈值", "拆分閾值"),
-    # Pharmacology axis Stage 6 — Ceiling Effect tool (2026-06-22)
+    # Ceiling Effect tool
     "Ceiling Effect": ("封顶效应", "封頂效應"),
     "When dose and exposure aren't proportional": (
         "当剂量与暴露不成正比时",
@@ -5320,7 +5311,7 @@ T = {
     "Alcohol (ethanol)": ("酒精（乙醇）", "酒精（乙醇）"),
     "GHB / GBL": ("GHB / GBL", "GHB / GBL"),
     "Codeine → morphine": ("可待因 → 吗啡", "可待因 → 嗎啡"),
-    # Pharmacology axis Stage 6 — Benzo equivalence converter (2026-06-23)
+    # Benzo equivalence converter
     "mg": ("mg", "mg"),
     "≈ %@ mg": ("≈ %@ mg", "≈ %@ mg"),
     "%@ mg %@ ≈ %@ mg %@": ("%@ mg %@ ≈ %@ mg %@", "%@ mg %@ ≈ %@ mg %@"),
@@ -5328,14 +5319,14 @@ T = {
     "~%lld min": ("~%lld 分钟", "~%lld 分鐘"),
     "~%@ h": ("~%@ 小时", "~%@ 小時"),
     "~%lld h": ("~%lld 小时", "~%lld 小時"),
-    # Pharmacology axis Stage 5 — Cannabis vertical / 11-OH-THC (2026-06-23)
+    # Cannabis / 11-OH-THC
     "11-OH-THC": ("11-OH-THC", "11-OH-THC"),
     "11-OH-THC (edibles)": ("11-OH-THC（食用大麻）", "11-OH-THC（食用大麻）"),
     "Swallowed THC passes through your liver first, which turns much of it into 11-hydroxy-THC, an active by-product that reaches the brain more easily and binds the CB1 receptor far more strongly than THC itself. That's why an edible tends to feel stronger, milligram for milligram, than the same amount smoked.": (
         "口服的 THC 会先经过肝脏，其中大部分被转化为 11-羟基-THC，一种活性代谢物，它更容易进入大脑，并且与 CB1 受体的结合远比 THC 本身更强。这就是为什么按毫克计算，食用大麻通常比吸食同等剂量感觉更强。",
         "口服的 THC 會先經過肝臟，其中大部分被轉化為 11-羥基-THC，一種活性代謝物，它更容易進入大腦，並且與 CB1 受體的結合遠比 THC 本身更強。這就是為什麼按毫克計算，食用大麻通常比吸食同等劑量感覺更強。",
     ),
-    # Alcohol by-volume input (2026-06-22)
+    # Alcohol by-volume input
     "By Volume": ("按体积", "按體積"),
     "By Mass": ("按质量", "按質量"),
     "Session complete": (
@@ -5354,7 +5345,7 @@ T = {
     "%lld g": ("%lld g", "%lld g"),
     "Input": ("输入", "輸入"),
     "Volume unit": ("容量单位", "容量單位"),
-    # Alcohol ALDH2 / acetaldehyde (2026-06-22, Stage 5)
+    # Alcohol ALDH2 / acetaldehyde
     "I get the alcohol flush": ("我喝酒会脸红", "我喝酒會臉紅"),
     "Acetaldehyde": ("乙醛", "乙醛"),
     "Acetaldehyde (ALDH2)": ("乙醛（ALDH2）", "乙醛（ALDH2）"),
@@ -5368,8 +5359,8 @@ T = {
         "避免将酒精与甲硝唑或某些其他抗生素同用。它们会阻断同一步骤，可能使哪怕一小杯也变得严重。",
         "避免將酒精與甲硝唑或某些其他抗生素同用。它們會阻斷同一步驟，可能使哪怕一小杯也變得嚴重。",
     ),
-    # Opioid safety axis — reset-after-break overdose (2026-06-22, Stage 5)
-    # Tolerance-mechanism explainer (2026-06-22, Stage 5)
+    # Opioid safety: overdose after a tolerance reset
+    # Tolerance-mechanism explainer
     "How tolerance works": ("耐受是如何形成的", "耐受是如何形成的"),
     "Cross-tolerance": ("交叉耐受", "交叉耐受"),
     "Tolerance is shared by receptor, not by name": (
@@ -5386,16 +5377,16 @@ T = {
         "又快又真实，但停用后恢复得相当快。",
         "又快又真實，但停用後恢復得相當快。",
     ),
-    # Session detail "In Your Body" section + row redesign (2026-07-09).
+    # Session detail "In Your Body" section and rows.
     "soon": ("很快", "很快"),
     "All recovery tips": ("全部恢复提示", "全部恢復提示"),
     "Shows the elimination curve": ("显示消除曲线", "顯示消除曲線"),
-    # Effect Estimates screen redesign — large title, one model card, taller graphs,
-    # two bottom detail groups, and the "How this works" explainer (2026-07-10).
+    # Effect Estimates screen: large title, one model card, taller graphs, two
+    # bottom detail groups, and the "How this works" explainer.
     "Effect Estimates": ("效应估算", "效應估算"),
     "Experimental": ("实验性", "實驗性"),
-    # US-spelling renames of existing keys (2026-07-10); zh copied verbatim from the
-    # British-spelled originals, which become stale orphans.
+    # US-spelled keys. The British-spelled keys with the same zh stay in the
+    # catalog as stale orphans.
     "No half-life data. Elimination not modeled": (
         "无半衰期数据。未建模消除",
         "無半衰期資料。未建模消除",
@@ -5429,7 +5420,7 @@ T = {
         "多比較曲線的形狀，而非其確切高度。",
     ),
     # Unmodeled release-form explainer on session detail — why a Concerta draws a
-    # dot, not a curve (D.4.4, 2026-07-16). Named form reorders in zh, so the two
+    # dot, not a curve (D.4.4). Named form reorders in zh, so the two
     # drop-ins are positional (%1$@ = product, %2$@ = base substance).
     "Piru doesn't model a timeline for %@ %@. The session shows when each dose was taken, not how long it lasts.": (
         "Piru 无法为 %2$@ 的 %1$@ 绘制时间线。这个场次只显示每次用药的时间，而非其持续时长。",
@@ -5439,7 +5430,7 @@ T = {
         "Piru 无法为这些剂型绘制时间线。这个场次只显示每次用药的时间，而非其持续时长。",
         "Piru 無法為這些劑型繪製時間線。這個場次只顯示每次用藥的時間，而非其持續時長。",
     ),
-    # Meds & reminders redesign — hub, form, detail, card (2026-07-21).
+    # Meds & reminders: hub, form, detail, card.
     "My Meds": ("我的用药", "我的用藥"),
     "Set up your daily medications and supplements": (
         "设置你的每日用药和补充剂",
@@ -5521,7 +5512,7 @@ T = {
     "Not taken yet": ("尚未服用", "尚未服用"),
     "Collapses the list": ("折叠列表", "摺疊列表"),
     "Expands the list": ("展开列表", "展開列表"),
-    # Quick Log: due-now strip, merged substances section (2026-07-21).
+    # Quick Log: due-now strip, merged substances section.
     "Due now": ("现在该服用", "現在該服用"),
     "Due": ("待服用", "待服用"),
     "due": ("待服用", "待服用"),
@@ -5529,21 +5520,21 @@ T = {
     "%lld meds due": ("%lld 项用药待服用", "%lld 項用藥待服用"),
     "Staged": ("已暂存", "已暫存"),
     "Your Substances": ("你的物质", "你的物質"),
-    # Adherence screen (2026-07-21).
+    # Adherence screen.
     "Add your meds to see adherence": ("添加你的用药以查看依从性", "新增你的用藥以查看依從性"),
     "Adherence tracks how consistently you take your scheduled meds. Add one and this screen starts working.": (
         "依从性追踪你按计划服药的稳定程度。添加一项用药，这个页面就会开始工作。",
         "依從性追蹤你按計劃服藥的穩定程度。新增一項用藥，這個頁面就會開始運作。",
     ),
     "%lld of %lld taken": ("已服用 %lld / %lld", "已服用 %lld / %lld"),
-    # Continuous timeline ribbon (2026-07-21).
+    # Continuous timeline ribbon.
     # "Timeline" itself is already translated above (时间轴).
     "Explore the timeline": ("浏览时间线", "瀏覽時間線"),
-    # Substance-detail redesign, feedback round 3 (2026-07-24).
+    # Substance detail.
     "All phases": ("全部阶段", "全部階段"),
-    # PK card: how many distinct studies stand behind one route (2026-07-25).
+    # PK card: how many distinct studies stand behind one route.
     "%lld studies": ("%lld 项研究", "%lld 項研究"),
-    # Intervention ledger — GABA discontinuation evidence (§J, 2026-08-06).
+    # Intervention ledger — GABA discontinuation evidence (§J).
     "Imipramine": ("丙米嗪", "丙米嗪"),
     "%lld–%lld days": ("%lld–%lld 天", "%lld–%lld 天"),
     "%lld–%lld hours": ("%lld–%lld 小时", "%lld–%lld 小時"),
@@ -5561,7 +5552,7 @@ T = {
     "Buspirone": ("丁螺环酮", "丁螺環酮"),
     "Propranolol": ("普萘洛尔", "普萘洛爾"),
     "doi:10.3390/ijms27031430": ("doi:10.3390/ijms27031430", "doi:10.3390/ijms27031430"),
-    # Gabapentinoid α2δ class (§K.6, 2026-08-06).
+    # Gabapentinoid α2δ class (§K.6).
     "Gabapentinoids (α2δ)": (
         "加巴喷丁类（α2δ）",
         "加巴噴丁類（α2δ）",
@@ -5571,8 +5562,8 @@ T = {
         "镇静耐受性会逐渐建立；每日使用数周即可产生依赖。菲尼布特的戒断反应属于最严重的类型之一。",
         "鎮靜耐受性會逐漸建立；每日使用數週即可產生依賴。菲尼布特的戒斷反應屬於最嚴重的類型之一。",
     ),
-    # GABA cognitive impairment safety note (§B, 2026-08-06).
-    # Phenibut protracted-withdrawal warning (§L.2, 2026-08-06).
+    # GABA cognitive impairment safety note (§B).
+    # Phenibut protracted-withdrawal warning (§L.2).
     # Detail level (UserProfile).
     "Detail Level": (
         "详细程度",
@@ -5679,7 +5670,7 @@ T = {
         "CYP2D6 是将 %@ 从体内清除的主要酶。",
         "CYP2D6 是將 %@ 從體內清除的主要酶。",
     ),
-    # b45 feedback — metabolizer variation chart (C1)
+    # Metabolizer variation chart
     "Fast metabolizer": ("快代谢型", "快代謝型"),
     "Slow metabolizer": ("慢代谢型", "慢代謝型"),
     "Genetic variation in %@ formation": (
@@ -5690,15 +5681,15 @@ T = {
         "同样的剂量，不同的转化。效应因基因型而异。",
         "同樣的劑量，不同的轉化。效應因基因型而異。",
     ),
-    # b45 feedback — insight group previews (D6)
+    # Insight group previews
     "substance modeled": ("种物质已建模", "種物質已建模"),
     "substances modeled": ("种物质已建模", "種物質已建模"),
-    # b45 feedback — receptor load zoom (E2)
+    # Receptor load zoom
     "Wide": ("宽", "寬"),
     "Medium": ("中", "中"),
     "Close": ("近", "近"),
     "Zoom": ("缩放", "縮放"),
-    # import file errors (2026-09-18)
+    # import file errors
     "The file is empty. Nothing was saved into it, so export again and wait for the save to finish before importing.": (
         "文件是空的。没有任何内容保存进去，请重新导出，等保存完成后再导入。",
         "檔案是空的。沒有任何內容儲存進去，請重新匯出，等儲存完成後再匯入。",
@@ -5757,7 +5748,7 @@ T = {
         "此檔案使用匯出格式 %lld，目前版本的 Piru 還無法讀取。請更新 Piru 後再匯入。",
     ),
     "%@ The file was written by %@.": ("%@ 此文件由 %@ 导出。", "%@ 此檔案由 %@ 匯出。"),
-    # b53 feedback batches (2026-09-17)
+    # Inventory entry by strength, due times, timeline lanes, grapefruit and ALDH2 settings
     "Open Injection Levels": (
         "打开注射水平",
         "開啟注射水平",
@@ -5802,8 +5793,8 @@ T = {
         "在酒精记录上显示乙醛蓄积。ALDH2 变异会减慢乙醛清除，导致脸红。",
         "在酒精記錄上顯示乙醛蓄積。ALDH2 變異會減慢乙醛清除，導致臉紅。",
     ),
-    # Strings the catalog already carries, restored so the table and the
-    # catalog hold the same set.
+    # Strings the catalog carries, listed so the table and the catalog hold the
+    # same set.
     "%@ %@ of %@ left.": ("%3$@还剩 %1$@ %2$@。", "%3$@還剩 %1$@ %2$@。"),
     "%@ and %@ over time; the model shows no overlapping window.": (
         "%@ 与 %@ 随时间变化；模型显示两者没有重叠的时段。",
@@ -6756,9 +6747,8 @@ T = {
     "· DOI": ("· DOI", "· DOI"),
     "· PMID %lld": ("· PMID %lld", "· PMID %lld"),
     "≈ %@ MME": ("≈ %@ MME", "≈ %@ MME"),
-    # The App Store readiness pass: renamed screens, the modeled-tolerance
-    # wording, the license and privacy copy, and the sources rewritten as
-    # community databases.
+    # Screen names, the modeled-tolerance wording, the license and privacy copy,
+    # and the sources described as community databases.
     "%@ mg %@": ("%@ mg %@", "%@ mg %@"),
     "%@ · modeled (%@).": ("%@ · 模型推算（%@）。", "%@ · 模型推算（%@）。"),
     "%lld mechanisms plotted from their modeled level now.": (
@@ -7848,7 +7838,7 @@ T = {
     "Teal": ("青绿", "青綠"),
     "Forest": ("森林绿", "森林綠"),
     "Amber": ("琥珀", "琥珀"),
-    # profiles phase 2
+    # Profiles: logging for someone else
     "For": ("为", "為"),
     "Goes into %@'s journal": ("记入%@的日记", "記入%@的日記"),
     "Log For": ("记录给", "記錄給"),
@@ -7876,7 +7866,7 @@ T = {
         "所有人：将每个个人资料的剂量放进同一个文件，并各自标上其名字。",
         "所有人：將每個個人檔案的劑量放進同一個檔案，並各自標上其名字。",
     ),
-    # profiles phase 3
+    # Profiles: shared sessions
     "With %@": ("与%@一起", "與%@一起"),
     "%lld others": ("另外 %lld 人", "另外 %lld 人"),
     "Shared with %@": ("与%@共享", "與%@共享"),
@@ -7901,7 +7891,7 @@ T = {
     ),
     "In this session": ("已在此场次中", "已在此場次中"),
     "Couldn't Add": ("无法添加", "無法加入"),
-    # profiles across devices
+    # Profiles across devices
     "This session has no doses to share.": ("此场次没有可分享的剂量。", "此場次沒有可分享的劑量。"),
     "Choose someone to share with.": ("选择要分享的对象。", "選擇要分享的對象。"),
     "This share was sent to someone else.": ("这份分享是发给别人的。", "這份分享是傳給別人的。"),
@@ -8014,7 +8004,7 @@ T = {
         "只有在%@就在你身邊、且你是從對方手機上掃描的情況下，才重新配對。別人傳給你的配對碼可能屬於其他人。",
     ),
     "Pair Again": ("重新配对", "重新配對"),
-    # profiles phase 4
+    # Profiles: shared stock and your name
     "Shared with": ("共享对象", "共享對象"),
     "Their doses come off this stock too. Only you can change who shares it or delete it.": (
         "他们的剂量也会从这份库存中扣除。只有你可以更改共享对象或删除它。",
@@ -8043,7 +8033,7 @@ T = {
 
 # Widget translations
 WT = {
-    # Today's Meds interactive widget (2026-07-21).
+    # Today's Meds interactive widget.
     "Today's Meds": ("今日用药", "今日用藥"),
     "No meds today": ("今日无用药", "今日無用藥"),
     "All taken": (
@@ -8131,7 +8121,7 @@ def serialize_catalog(data: dict) -> str:
     - empty entries (extracted-but-untranslated, English-only keys) are written
       `"key" : {\\n\\n    }`, not the collapsed `{}` json emits.
     - NO trailing newline — Xcode ends the file on the closing brace.
-    Get any of these wrong and the whole 20k-line file reformats.
+    Get any of these wrong and the whole file reformats.
     """
     text = json.dumps(
         data,
@@ -8153,12 +8143,12 @@ def apply_translations(
     then every language in `extra_languages` ({"es": {English: Spanish}}) for
     every catalog key that language covers.
 
-    By default this only UPDATES keys Xcode has already extracted — never adds
-    new ones — so a catalog stays scoped to the strings its target actually
-    references (the widget must not inherit all 1000+ app strings).
+    By default this only updates keys Xcode has already extracted and never
+    adds new ones, so a catalog stays scoped to the strings its target
+    references (the widget must not inherit every app string).
 
     `insert_keys` is an explicit allow-list of brand-new keys to insert when
-    absent — for strings added from the CLI that Xcode hasn't extracted yet.
+    absent: strings added from the CLI that Xcode hasn't extracted yet.
     Keep it to the handful you actually added; Xcode folds them into its
     collation order on the next open.
     """
@@ -8209,18 +8199,14 @@ CANONICAL_LANGUAGES = ("zh-Hans", "zh-Hant", "es", "es-ES")
 def canonicalize_catalogs(project_path: Path, languages=CANONICAL_LANGUAGES) -> bool:
     """Let Xcode re-collate every catalog key into its canonical order.
 
-    Why this exists: `apply_translations` appends brand-new `insert_keys` to the
-    end of the catalog (Python dict insertion order). Xcode's String Catalog
-    editor stores keys in an ICU-collated order that we can't reproduce in
-    Python and that `xcstringstool sync` mangles (it stales/drops live strings
-    when invoked outside the build graph — see CLAUDE.md). So instead of sorting
-    ourselves, we hand the catalog back to Xcode: an `xcodebuild
-    -exportLocalizations` → `-importLocalizations` round-trip rewrites every
-    project `.xcstrings` in Xcode's canonical order, byte-for-byte identical to
-    what opening the catalog in the IDE produces. The round-trip is idempotent
-    (a second pass is a no-op) and non-destructive (no keys dropped, stale marks
-    and untranslated entries preserved), so committing its output stops the IDE
-    from re-ordering the file on the next build.
+    `apply_translations` appends new `insert_keys` at the end of the catalog.
+    Xcode stores keys in an ICU-collated order Python can't reproduce, and
+    `xcstringstool sync` stales or drops live strings outside the build graph
+    (see CLAUDE.md). An `xcodebuild -exportLocalizations` →
+    `-importLocalizations` round-trip rewrites every project `.xcstrings` in
+    the order the IDE itself writes. It is idempotent and non-destructive (no
+    keys dropped, stale marks and untranslated entries kept), so committing its
+    output stops the IDE from reordering the file on the next build.
 
     Returns True on success, False if xcodebuild isn't available or fails (in
     which case the script's own serialization is left in place untouched).
@@ -8527,20 +8513,20 @@ if __name__ == "__main__":
         "Every skin has a light and a dark side. Follow System switches with iOS.",
         "Decorations",
         "Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion.",
-        # Quick-log Edit sheet (2026-09-04)
+        # Quick-log Edit sheet
         "New Drink…",
         "Add Favorite…",
         "Add Favorite",
         "Add Preset…",
         "Star a substance to keep it in your quick-log favorites.",
-        # Brand picker IR/XR grouping (2026-09-04)
+        # Brand picker IR/XR grouping
         "Unbranded",
         "Immediate-release",
-        # Branded formulations section on substance detail (2026-09-12)
+        # Branded formulations section on substance detail
         "Branded formulations",
         "Substance default",
         "Doses stay the substance's own. Only the duration curve changes.",
-        # Injection Levels tool (2026-09-04)
+        # Injection Levels tool
         "Injection Levels",
         "Project hormone levels from injectable esters",
         "Injectable ester data isn't available in this build.",
@@ -8549,13 +8535,13 @@ if __name__ == "__main__":
         "No specific ester",
         "From your log",
         "Manual schedule",
-        # Injection Levels mL conversion + schedule origin (2026-09-07)
+        # Injection Levels mL conversion + schedule origin
         "Vial concentration",
         "%lld injections logged in mL are converted at this strength",
         "%lld injections are logged in mL — enter the vial strength to include them",
         "Projected from today",
         "Projected from today, continuing from your log",
-        # Injection Levels copy trim + start toggle (2026-09-07)
+        # Injection Levels copy trim + start toggle
         "%lld mL injections converted at this strength",
         "%lld injections are in mL. Enter the vial strength to include them.",
         "Start from your log",
@@ -8605,7 +8591,7 @@ if __name__ == "__main__":
         "Where these numbers come from",
         "Older lab data used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs whichever assay your lab uses.",
         "Parameters from estrannaise.js (MIT), cross-checked against primary literature",
-        # Injection Levels calibration + esters (2026-09-06)
+        # Injection Levels calibration + esters
         "Subcutaneous injection reaches levels close to intramuscular for these esters — 196 vs 190 pg/mL in one head-to-head — so the same curve serves both routes (Herndon 2023; Misakian 2025).",
         "More on injectable estradiol dosing (diyhrt.info)",
         "Population curves scatter widely between people, so uncalibrated numbers are a starting point, not a reading. A blood test pins the height to you; two on different days pin the shape as well. Retesting after any change — dose, ester, interval, injection site — keeps the fit honest, because one measurement can't tell a high peak from a slow decline.",
@@ -8637,7 +8623,7 @@ if __name__ == "__main__":
         "Favorites, colors, and the substances you added.",
         "Star a substance to keep it here",
         "Substances you added or customized",
-        # b46 feedback batches
+        # Settings hints, daily progress, colors, plot labels
         "Backups, export & import are under Tools › Data & Backup; preferences are under Settings.",
         "That's everything today — %lld days and counting",
         "Scale by Dose Strength",
@@ -8680,7 +8666,6 @@ if __name__ == "__main__":
         "%lld sessions as individual images",
         "Sessions in this range as individual images",
         "No sessions yet",
-        # (previous keys below)
         "μ-Opioid Receptor Ligand",
         "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release. The result is analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it.",
         "Antipsychotic (Dopamine Receptor Antagonist)",
@@ -8851,12 +8836,12 @@ if __name__ == "__main__":
         "Clears between doses; each peaks around %@",
         "%@ now at %@ %@",
         "%@ now at %@",
-        # Usage toolbar filter + substance sheet (CLI-added; not yet extracted).
+        # Usage toolbar filter + substance sheet.
         "All Substances",
         "Substances (%lld)",
         "Select All",
         "Deselect All",
-        # Custom units (CLI-added; Xcode hasn't extracted them yet).
+        # Custom units.
         "Custom Units",
         "No Custom Units",
         "Add Custom Unit",
@@ -8867,17 +8852,17 @@ if __name__ == "__main__":
         'This substance already has a "%@" unit.',
         "Logs in this unit convert to the mass automatically.",
         'Define a unit like "1 capsule = 30 mg" and it appears in the dose picker for that substance. Log half a capsule, get 15 mg.',
-        # Approximate-dose flag (CLI-added; Xcode hasn't extracted them yet).
+        # Approximate-dose flag.
         "Approximate amount",
         "Shows the dose with a ~; the estimate still drives the curves.",
         "approximately %@ %@",
-        # Unknown-dose flag (CLI-added; Xcode hasn't extracted them yet).
+        # Unknown-dose flag.
         "Unknown amount",
         "unknown amount",
         "Logs the dose with no number; it stays out of curves, totals, and tolerance.",
         "Logged with no number, so it stays out of curves, totals, and tolerance.",
         "Can't tell if this separator marks decimals or thousands. Please retype the amount.",
-        # Label scanner strings (CLI-added; Xcode hasn't extracted them yet).
+        # Label scanner.
         "Scan a label",
         "Close scanner",
         "Point at the medication name or its barcode",
@@ -8891,7 +8876,7 @@ if __name__ == "__main__":
         "Scanning Unavailable",
         "Enable camera access in Settings to scan medication labels.",
         "Label scanning isn't available on this device.",
-        # The 2026-08-04 sweep's two strings the extractor didn't pick up.
+        # Strings the extractor misses.
         "Estimates from primary literature.",
         "Suppresses the enzyme that makes serotonin, so recovery takes weeks.",
         "%@ acts through %@. The pharmacology below is %@'s.",
@@ -9047,14 +9032,14 @@ if __name__ == "__main__":
         "Cleared by CYP2D6",
         "CYP2D6 converts %@ into an active metabolite.",
         "CYP2D6 is the main enzyme clearing %@ from the body.",
-        # Isomer picker racemic-parent label (CLI-added).
+        # Isomer picker racemic-parent label.
         "Regular",
-        # QuickLog "Form" pill accessibility label (CLI-added).
+        # QuickLog "Form" pill accessibility label.
         "Formulation",
-        # QuickLog brand picker (CLI-added).
+        # QuickLog brand picker.
         "Extended-release",
         "More…",
-        # Usage insights: common-dose ranking + trends metric (CLI-added).
+        # Usage insights: common-dose ranking + trends metric.
         "Ranked by how often, or by total common-dose units",
         "Common doses",
         "Entries/wk",
@@ -9084,7 +9069,7 @@ if __name__ == "__main__":
         "Choose at least one minute.",
         "Adds “%@”.",
         "Minutes",
-        # Benzo effect ladder + occupancy / withdrawal (CLI-added; Xcode hasn't extracted them yet).
+        # Benzo effect ladder + occupancy / withdrawal.
         "Faded",
         "Unchanged",
         "strong evidence",
@@ -9121,7 +9106,7 @@ if __name__ == "__main__":
         "Why these effects differ",
         "Prediction",
         "Prediction from a model",
-        # Steady State tool (CLI-added; Xcode hasn't extracted them yet).
+        # Steady State tool.
         "Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and metabolites.",
         "Uses the same one-compartment oral model, assuming a regular schedule and linear kinetics. Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and active metabolites.",
         "Steady State",
@@ -9162,26 +9147,26 @@ if __name__ == "__main__":
         "Taking this daily? See where the level settles",
         "Where a med taken on a schedule settles",
         "Half-life data not available for %@.",
-        # Bupropion enzyme modulator (A1)
+        # Bupropion enzyme modulator
         "Bupropion",
         "Bupropion's reductive metabolites strongly inhibit CYP2D6, raising the levels of drugs cleared by it. For prodrugs activated by CYP2D6 (tramadol, codeine), it blocks the activation pathway instead.",
-        # b45 feedback — metabolizer variation chart (C1)
+        # Metabolizer variation chart
         "Fast metabolizer",
         "Slow metabolizer",
         "Genetic variation in %@ formation",
         "Same dose, different conversion. The effect varies by genotype.",
-        # b45 feedback — insight group previews (D6)
+        # Insight group previews
         "substance modeled",
         "substances modeled",
         "Add regular meds to project steady state",
         "regular med",
         "regular meds",
-        # b45 feedback — receptor load zoom (E2)
+        # Receptor load zoom
         "Wide",
         "Medium",
         "Close",
         "Zoom",
-        # import file errors (2026-09-18)
+        # import file errors
         "The file is empty. Nothing was saved into it, so export again and wait for the save to finish before importing.",
         "This file isn't a Piru export or a PsychonautWiki journal.",
         "This is an encrypted Piru backup. Import it from Tools → Data & Backup, which asks for its passphrase.",
@@ -9198,7 +9183,7 @@ if __name__ == "__main__":
         "A Piru, PsychonautWiki, or DrugsPRO file, or an encrypted backup",
         "This file uses export format %lld, which this version of Piru can't read yet. Update Piru, then import it.",
         "%@ The file was written by %@.",
-        # b53 feedback batches (2026-09-17)
+        # Inventory entry by strength, due times, timeline lanes, grapefruit and ALDH2 settings
         "Open Injection Levels",
         "Entry",
         "Count × strength",
@@ -9344,14 +9329,14 @@ if __name__ == "__main__":
             "Endpoint: modeled “any drug effect” rating on a visual analog scale",
         }
     )
-    # Every-N-days schedule (2026-10-28).
+    # Every-N-days schedule.
     NEW_KEYS.update(
         {
             "Custom interval",
             "Every %lld days",
         }
     )
-    # Help screen crisis lines, verified against operators (2026-10-30).
+    # Help screen crisis lines, verified against operators.
     NEW_KEYS.update(
         {
             "1737 Need to Talk?",
@@ -9396,9 +9381,9 @@ if __name__ == "__main__":
             "Mental Health Hotline",
         }
     )
-    # Effect glossary under Tools ▸ Education (2026-10-28).
+    # Effect glossary under Tools ▸ Education.
     NEW_KEYS.update({"Effect Glossary", "What each effect means, grouped by kind"})
-    # Injection-site rotation (2026-10-28).
+    # Injection-site rotation.
     NEW_KEYS.update(
         {
             "Left abdomen",
@@ -9420,7 +9405,7 @@ if __name__ == "__main__":
             "Time to log %@: %@. Next: %@.",
         }
     )
-    # Check-ins on every session (2026-10-19).
+    # Check-ins on every session.
     NEW_KEYS.update(
         {
             '"How is it going?" at set points in a session, each opening a timestamped note. Off unless you turn it on, for one session or for every session.',
@@ -9428,7 +9413,7 @@ if __name__ == "__main__":
             "A session starts its check-ins as soon as you log a dose with a course to report on. The times follow what you took and move when you take more. Change or stop them from the session's menu.",
         }
     )
-    # Combination products (2026-10-18).
+    # Combination products.
     NEW_KEYS.update(
         {
             "Type",
@@ -9449,7 +9434,7 @@ if __name__ == "__main__":
             "Part of %@",
         }
     )
-    # Liquid combination products, logged by volume (2026-10-28).
+    # Liquid combination products, logged by volume.
     NEW_KEYS.update(
         {
             "Measured",
@@ -9461,7 +9446,7 @@ if __name__ == "__main__":
             "Leave empty to log the dose with its amount unknown. For a combination product, the number of units taken, or the volume in mL for a liquid.",
         }
     )
-    # Products made in Add a Med: compounded or liquid (2026-10-28).
+    # Products made in Add a Med: compounded or liquid.
     NEW_KEYS.update(
         {
             "Pills",
@@ -9499,7 +9484,7 @@ if __name__ == "__main__":
             "Adds it to My Meds",
         }
     )
-    # A single-figure phase duration reads as approximate (2026-10-31).
+    # A single-figure phase duration reads as approximate.
     NEW_KEYS.update(
         {
             "%@ – %@ hours",
@@ -9509,7 +9494,7 @@ if __name__ == "__main__":
             "Reference onset for this route: about %lld minutes.",
         }
     )
-    # Spreadsheet (CSV/TSV) import and export (2026-10-23).
+    # Spreadsheet (CSV/TSV) import and export.
     NEW_KEYS.update(
         {
             "Not Imported",
@@ -9585,7 +9570,7 @@ if __name__ == "__main__":
             "Piru, PsychonautWiki, a spreadsheet, or an encrypted backup",
         }
     )
-    # profiles phase 2
+    # Profiles: logging for someone else
     NEW_KEYS.update(
         {
             "For",
@@ -9608,7 +9593,7 @@ if __name__ == "__main__":
             "Everyone puts every profile's doses in one file, each under its person's name.",
         }
     )
-    # profiles phase 3
+    # Profiles: shared sessions
     NEW_KEYS.update(
         {
             "With %@",
@@ -9628,7 +9613,7 @@ if __name__ == "__main__":
             "Couldn't Add",
         }
     )
-    # profiles across devices
+    # Profiles across devices
     NEW_KEYS.update(
         {
             "This session has no doses to share.",
@@ -9693,7 +9678,7 @@ if __name__ == "__main__":
             "Pair Again",
         }
     )
-    # profiles phase 4
+    # Profiles: shared stock and your name
     NEW_KEYS.update(
         {
             "Shared with",
@@ -9708,7 +9693,7 @@ if __name__ == "__main__":
             "View Options",
         }
     )
-    # profile photos
+    # Profile photos
     NEW_KEYS.update(
         {
             "Photo",
@@ -9757,13 +9742,10 @@ if __name__ == "__main__":
     print()
     print("--- Live Activity catalog ---")
     # The Live Activity target has its own catalog and, like the widget, reuses
-    # Shared strings. It went unhandled until 2026-08-03, when the heavy-tier
-    # threshold band put target-specific strings there and they came back
-    # untranslated: the export/import round-trip cross-fills from project-wide
-    # translations, but only for keys Xcode already resolves elsewhere, so a
-    # string that lives *only* in this catalog was never reached. Same empty
-    # insert set as the widget — the keys are extracted by the build; this pass
-    # only fills them.
+    # Shared strings. The export/import round-trip cross-fills only keys Xcode
+    # resolves elsewhere, so a string that lives only in this catalog is
+    # translated by this pass alone. Same empty insert set as the widget: the
+    # build extracts the keys and this pass fills them.
     ACTIVITY_NEW_KEYS: set[str] = set()
     n, added, missing = apply_translations(
         project_root / "PiruLiveActivityExtension/Localizable.xcstrings",
@@ -9790,11 +9772,11 @@ if __name__ == "__main__":
     for a in added:
         print(f"  + {a!r}")
 
-    # Hand all three catalogs back to Xcode so it re-collates every key into its
-    # canonical order — this is what stops the IDE from churning the file on the
-    # next build. Done last, after all translations are filled, so the export
-    # captures the freshly-inserted keys. Skipped gracefully if xcodebuild is
-    # unavailable (the Python serialization above is still valid, just unsorted).
+    # Hand all three catalogs back to Xcode to re-collate every key into its
+    # canonical order, which stops the IDE from churning the file on the next
+    # build. Runs last so the export captures the inserted keys. Skipped if
+    # xcodebuild is unavailable (the Python serialization above is still valid,
+    # only unsorted).
     print()
     print("--- Canonicalizing key order via Xcode (export/import round-trip) ---")
     if canonicalize_catalogs(project_root / "Piru.xcodeproj"):

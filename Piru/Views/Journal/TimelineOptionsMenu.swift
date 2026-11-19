@@ -72,7 +72,7 @@ nonisolated enum TimelineCurveScale: String, Codable, CaseIterable {
 /// Zoom, curves, and gap compression describe the strip's geometry, so with
 /// the axis off — the bubbles stacked as a plain list — they are left out
 /// rather than offered with no visible effect. (`.disabled` on a menu-style
-/// `Picker` inside a `Menu` renders it fully active on iOS 26.)
+/// `Picker` inside a `Menu` renders it fully active.)
 struct TimelineOptionsMenu<Label: View>: View {
     @Binding var zoom: Double
     @Binding var compressGaps: Bool

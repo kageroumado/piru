@@ -10,10 +10,9 @@ carries one of, per route:
 - `doseReason` / `durationReason` — one line saying why the curated numbers
   override the sources.
 
-Blocks that had neither when this check was introduced are listed in
-`curated-override-baseline.json`. The list may only shrink: a block missing from
-it fails (cite or explain it), and so does a line naming a block that is now
-explained or gone (delete the line).
+Blocks that carry neither are listed in `curated-override-baseline.json`. The
+list may only shrink: a block missing from it fails (cite or explain it), and so
+does a line naming a block that is explained or gone (delete the line).
 
     python3 pipeline/build/tests/test_curated_override_provenance.py
 """

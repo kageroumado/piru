@@ -61,8 +61,8 @@ private final class MedFormDraft {
     /// Several substances in one product (co-codamol), rather than one.
     var isCompounded = false
     var product = MedProductDraft()
-    /// Whether the user picked a schedule, so switching to a product no
-    /// longer moves it to As needed on their behalf.
+    /// Whether the user picked a schedule, so switching to a product keeps it
+    /// rather than moving it to As needed on their behalf.
     var scheduleTouched = false
 
     /// Taken by volume, each component's amount per mL.

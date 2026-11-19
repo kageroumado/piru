@@ -9,16 +9,12 @@ import os
 /// every receptor number ever measured "for cannabis" was measured on Δ9-THC.
 /// Filing those rows under the preparation produces two failures at once:
 ///
-/// 1. **A false attribution.** Cannabis shipped a CB1 Kᵢ of 40.7 nM and 25 %
-///    intrinsic activity whose own note read "Original Felder/Showalter
-///    measurement" — Felder 1995 and Showalter 1996 assayed THC. The citation
-///    on those rows resolved to a *nursing-ethics bibliography*
-///    (PMID 8632377), and nothing caught it because the checker only gates on a
-///    confident wrong-substance match.
-/// 2. **A duplicate on every comparison.** With THC's own efficacy value loaded,
-///    the CB1 ladder drew one molecule twice — 25 % labelled Cannabis and 36.1 %
-///    labelled THC, adjacent and nearly overlapping, reading as two compounds
-///    that disagree.
+/// 1. **A false attribution.** A THC measurement (Felder 1995, Showalter 1996)
+///    reads as a measurement of the plant, and a citation checker that gates
+///    only on a confident wrong-substance match lets it through.
+/// 2. **A duplicate on every comparison.** With THC's own values loaded, a
+///    receptor ladder draws one molecule twice under two names, reading as two
+///    compounds that disagree.
 ///
 /// So the preparation keeps its own entry for dose, duration, effects and
 /// logging, and **borrows** its pharmacology. One molecule, one set of numbers,

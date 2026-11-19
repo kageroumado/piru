@@ -33,13 +33,10 @@ struct WikidataCompound {
 struct WikidataSource {
     let cache: HTTPCache
 
-    /// Seed categories. Each maps to a Wikidata SPARQL "is-instance-of or
-    /// subclass-of" filter against the corresponding meta-item.
-    /// Each maps to a Wikidata class hub used as the `wdt:P279*` filter
-    /// (transitive `subclass-of`). On Wikidata, individual chemical compounds
-    /// are typically modeled as *subclasses* of their class concept, not as
-    /// instances — so P279* finds the actual compound list. QIDs verified
-    /// 2026-08; counts in comments are approximate.
+    /// Seed categories. Each maps to a Wikidata class hub used as the
+    /// `wdt:P279*` filter (transitive `subclass-of`). Wikidata models individual
+    /// compounds as *subclasses* of their class concept rather than instances,
+    /// so P279* finds the compound list. Counts in comments are approximate.
     enum Seed: String, CaseIterable {
         case phenethylamine = "Q422693" // ~1500 compounds
         case tryptamine = "Q10705510" // ~3600 compounds
@@ -48,7 +45,7 @@ struct WikidataSource {
         case syntheticCannabinoid = "Q19904200" // ~5 compounds
         case opioid = "Q427523" // ~10 compounds
         case designerDrug = "Q1200715" // ~5 compounds
-        case hallucinogen = "Q194270" // ~17 compounds (was Q189553 = otolaryngology)
+        case hallucinogen = "Q194270" // ~17 compounds; Q189553 is otolaryngology
 
         var label: String {
             switch self {

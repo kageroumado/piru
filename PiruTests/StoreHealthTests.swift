@@ -19,7 +19,7 @@ struct StoreHealthTests {
 
     /// Seeds a store and lets go of it before returning.
     ///
-    /// The `autoreleasepool` is load-bearing: `ModelContainer` sits on a
+    /// Keep the `autoreleasepool`: `ModelContainer` sits on a
     /// CoreData stack whose objects are ObjC-autoreleased, so without the pool
     /// the coordinator can outlive this call and still hold the `-wal` when the
     /// caller probes the same URL — which `userDataCount` reports as `-1`.
@@ -78,8 +78,8 @@ struct StoreHealthTests {
 
     @Test
     func `The probe leaves the WAL in place — it never checkpoints`() throws {
-        // The read-write probe used to checkpoint and delete the -wal on close,
-        // an fsync on the App Group store that iOS suspended the process in.
+        // The read-write probe must not checkpoint and delete the -wal on close:
+        // that fsyncs the App Group store, and iOS suspends the process in it.
         let url = tmpStoreURL()
         try makeStoreWithUncheckpointedWAL(at: url)
         let footprint = { () -> [String] in

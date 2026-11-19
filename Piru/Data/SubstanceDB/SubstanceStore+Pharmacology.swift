@@ -141,13 +141,12 @@ extension SubstanceStore {
         return value
     }
 
-    /// Resolved inputs for the absolute-exposure → occupancy pipeline (the pharmacology axis's
-    /// Foundation A): the best graded Vd + bioavailability + half-life from `pk_routes`, the molar
+    /// Resolved inputs for the absolute-exposure → occupancy pipeline: the best graded Vd + bioavailability + half-life from `pk_routes`, the molar
     /// mass, and the engaged targets (Kᵢ/EC₅₀/IC₅₀) from `bindings` — each carrying its confidence.
     ///
-    /// This is the single accessor Stage 1's tolerance/PD engine consumes. Stage 0 ships it plus a
-    /// peak-occupancy convenience used by the dose-dependence gate. It deliberately *prefers a graded
-    /// row* (the flagship seed) over an un-graded one for the Vd, so the engine runs on the verified
+    /// This is the single accessor the tolerance/PD engine consumes, alongside a peak-occupancy
+    /// convenience used by the dose-dependence gate. It deliberately *prefers a graded
+    /// row* over an un-graded one for the Vd, so the engine runs on the verified
     /// number when one exists and degrades to whatever is available otherwise.
     func pharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
         if let cached = pharmacologyParamsByName[name] { return cached }
@@ -183,18 +182,15 @@ extension SubstanceStore {
 
     private func resolvePharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
         let routed = Self.routePreparation(name)
-        // Lean single-column read of the SAME authoritative `substances.molecular_weight`
-        // the full `resolveSubstance` returns — not the timeline batch projection (which
-        // omits molecular_weight entirely, so reading it there returned nil and made
-        // occupancy uncomputable; that was f2c2c04's regression). Going through the full
-        // `lookup` here cost a ~18-query + SHA + localization resolve *per unique dosed
-        // substance on the main actor*. The cached instance reads serve interactive callers
-        // (detail view, effect attenuation); the tolerance recompute uses the off-main batch
-        // path below so it never resolves on the main actor.
-        // The escalation reference comes from the **logged** substance's own dose ladder (Kratom's,
-        // not mitragynine's), since the logged dose and the ladder are both in preparation mg.
-        // The escalation reference *and* the category classes come from the **logged** substance's own
-        // row (Kratom's category, not mitragynine's), so a preparation keeps its own tolerance identity.
+        // A single-column read of the same `substances.molecular_weight` the full
+        // `resolveSubstance` returns. Never read it from the timeline batch projection, which
+        // omits molecular_weight and so leaves occupancy uncomputable, and never through the
+        // full `lookup`, which costs a ~18-query resolve per unique dosed substance on the main
+        // actor. These cached instance reads serve interactive callers (detail view, effect
+        // attenuation); the tolerance recompute uses the off-main batch path below.
+        // The escalation reference *and* the category classes come from the **logged**
+        // substance's own row (Kratom's, not mitragynine's): the logged dose and the ladder are
+        // both in preparation mg, and a preparation keeps its own tolerance identity.
         let loggedID = substanceID(forNameOrAlias: name)
         let referenceDoseMg = loggedID.flatMap {
             SubstanceReadModel.referenceDoseMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
@@ -255,11 +251,11 @@ extension SubstanceStore {
 
     /// Resolve pharmacology parameters for several dosed substances **off the main actor**, on the
     /// dedicated batch connection. The background tolerance recompute calls this once per change tick;
-    /// routing the per-substance Kᵢ/PK/molar-mass reads through the main-actor
-    /// ``pharmacologyParameters(forSubstanceName:)`` resolved them in a tight loop on the main actor
-    /// (three GRDB reads each), which competed with interactive rendering. Here the only main-actor work
-    /// is snapshotting the immutable post-init ``nameIndex`` subset; the SQL + assembly run on a detached
-    /// utility task against the read-only batch connection (the same one the launch prewarm uses).
+    /// resolving through the main-actor ``pharmacologyParameters(forSubstanceName:)`` would run three
+    /// GRDB reads per substance in a tight loop that competes with interactive rendering. Here the only
+    /// main-actor work is snapshotting the immutable post-init ``nameIndex`` subset; the SQL and assembly
+    /// run on a detached utility task against the read-only batch connection (the one the launch
+    /// prewarm uses).
     func pharmacologyParametersBatchOffMain(forNames names: [String]) async -> [String: PharmacologyParameters] {
         let ids = Dictionary(
             names.compactMap { name -> (String, Int64)? in
@@ -369,7 +365,7 @@ extension SubstanceStore {
     /// a human apparent-Vd/F always win over scaled animal kinetics (`assemblePharmacologyParameters`
     /// keeps the human row's t½/Tmax when one exists).
     ///
-    /// CAVEAT (load-bearing): single-species allometric scaling systematically **underpredicts cathinone
+    /// CAVEAT: single-species allometric scaling systematically **underpredicts cathinone
     /// half-life by ~2–3×** — validated: mephedrone rat-scaled ≈65 min vs measured human 129 min; 3-MMC
     /// pig-scaled ≈55 min vs measured human 180 min. So a scaled t½ is only a floor-confidence stand-in,
     /// never a substitute for the measured human value where one exists.
@@ -661,8 +657,8 @@ extension SubstanceStore {
         return SubstanceReadModel.metabolismRows(substanceID: substanceID, db: substancesDB, order: enabledSourceOrder)
     }
 
-    /// Distil metabolism rows into the tolerance engine's ``PharmacologyParameters/MetaboliteContributor``s
-    /// (K.5). Only rows that name a metabolite **and** carry a half-life become contributors — the PK
+    /// Distill metabolism rows into the tolerance engine's ``PharmacologyParameters/MetaboliteContributor``s.
+    /// Only rows that name a metabolite **and** carry a half-life become contributors — the PK
     /// shape needs the half-life, and an enzyme-only row (no metabolite) has nothing to fold. Rows are
     /// deduped by metabolite identity, keeping the strongest evidence (a foldable + clinical-basis row
     /// beats a receptor-affinity duplicate — diazepam carries both a `receptor_affinity` and a
@@ -711,10 +707,8 @@ extension SubstanceStore {
             guard let id = substanceID(forNameOrAlias: substance.name) else { return nil }
             // The category floor only — the per-substance label comes from the database in the
             // off-main pass below, resolved under the same priority and language rules the detail
-            // card uses. This column used to read `MechanismOfActionDatabase.mechanism(for:)` and
-            // never consult the DB, so the table and the card could print different mechanisms for
-            // the same substance. The floor still widens the inclusion gate so categorised-but-
-            // PK-less substances appear.
+            // card uses, so the table and the card always print the same mechanism. The floor
+            // widens the inclusion gate so categorized but PK-less substances appear.
             let categoryLabel = MechanismOfActionDatabase.categoryFallback(for: substance.category)
                 .map(\.summary).flatMap { $0.isEmpty ? nil : $0 }
             return PharmaSubstanceSeed(

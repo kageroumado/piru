@@ -88,7 +88,7 @@ nonisolated struct PharmaTableRow: Identifiable {
     }
 
     /// The inclusion gate: a substance earns a row when it carries *some* PK signal **or** a resolvable
-    /// mechanism/class label — the table now leads with receptor/mechanism data, so a categorised drug
+    /// mechanism/class label — the table leads with receptor/mechanism data, so a categorized drug
     /// with no PK study still belongs (its Mechanism/Targets columns carry the story).
     var hasAnyData: Bool {
         hasAnyPK || mechanismLabel != nil
@@ -400,7 +400,7 @@ extension SubstanceReadModel {
     /// The tolerance classes a substance's **pharmacological categories** imply (benzodiazepine → GABA,
     /// opioid → μ, …), read from the `categories` table for one substance id. `nonisolated static` so the
     /// off-main batch resolve can run it on the dedicated batch connection. Drives the category fallback
-    /// that rescues categorised-but-untargeted RC substances (§7 follow-up).
+    /// that rescues categorized-but-untargeted RC substances.
     nonisolated static func toleranceCategoryClasses(substanceID id: Int64, db queue: DatabaseQueue) -> Set<ReceptorClasses.ReceptorClass> {
         let raws: [String] = (try? queue.read { db in
             try String.fetchAll(db, sql: "SELECT category FROM categories WHERE substance_id = ?", arguments: [id])
@@ -567,7 +567,7 @@ extension SubstanceReadModel {
         }
     }
 
-    /// The recognisable names one comparison family is drawn against, most prominent first.
+    /// The recognizable names one comparison family is drawn against, most prominent first.
     nonisolated static func referenceCompounds(db queue: DatabaseQueue, family: String) -> [String] {
         (try? queue.read { db in
             try String.fetchAll(db, sql: """
@@ -1106,9 +1106,8 @@ extension SubstanceReadModel {
     ///
     /// One windowed query rather than a per-substance resolve, and `nonisolated static` so the
     /// Pharma table's off-main pass can run it on the batch connection. It reads the same table
-    /// under the same priority and language rules as the detail card's mechanism, which is the
-    /// point: the two used to disagree, because the table asked the Swift class templates and the
-    /// card asked the database.
+    /// under the same priority and language rules as the detail card's mechanism, so the table and
+    /// the card always agree.
     nonisolated static func mechanismLabelBySubstanceID(
         db queue: DatabaseQueue, order: [String], language: ContentLanguage,
     ) -> [Int64: String] {

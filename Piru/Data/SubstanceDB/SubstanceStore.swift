@@ -48,12 +48,10 @@ final class SubstanceStore {
     /// the heavy off-main batch reads (the launch `prewarmTask`, the lazy
     /// `categorySummary`/`all` materialization). A `DatabaseQueue` serializes
     /// *all* access through one SQLite connection, so the ~500 ms batch resolve
-    /// run on `substancesDB` would block every foreground read behind it — the
-    /// tab-switch / detail-push hangs in the trace. Both connections open the
-    /// file `immutable` (see ``immutableSQLiteURI(for:)``), so they read
-    /// concurrently without ever taking a lock. Keeping the batch on its own
-    /// connection is what lets a detail push resolve immediately while the
-    /// prewarm is still running.
+    /// run on `substancesDB` would block every foreground read (a tab switch, a
+    /// detail push) behind it. Both connections open the file `immutable` (see
+    /// ``immutableSQLiteURI(for:)``), so they read concurrently without taking
+    /// a lock, and a detail push resolves while the prewarm is still running.
     let substancesBatchDB: DatabaseQueue
     /// Source priorities, profile and overrides. WAL mode, observing
     /// ``DatabaseSuspension``: reads keep working while the app is suspended in
@@ -132,19 +130,16 @@ final class SubstanceStore {
 
     /// Memoized ``pharmacologyParameters(forSubstanceName:)`` per substance name.
     /// The tolerance recompute resolves params for *every* unique dosed substance
-    /// on the main actor each time the dose log changes; uncached, that re-ran a
-    /// fresh `pk_routes` + `bindings` SQL fetch **and row decode** per substance
-    /// (~50 for a heavy log) — a multi-second main-thread hang on every post-commit
-    /// replay. Like ``molarMassByID`` the result is a pure function of the bundled
-    /// DB row (by `substance_id`, no source-priority or overlay), stable for the
-    /// DB's lifetime — so it is *not* cleared on a source reorder and is discarded
-    /// naturally when the store is rebuilt for a DB update.
+    /// on the main actor each time the dose log changes; uncached, each one is a
+    /// fresh `pk_routes` + `bindings` SQL fetch **and row decode**, a multi-second
+    /// main-thread hang for a heavy log. Like ``molarMassByID`` the result is a pure
+    /// function of the bundled DB row (by `substance_id`, no source priority or
+    /// overlay), so a source reorder keeps it and a store rebuild discards it.
     @ObservationIgnored var pharmacologyParamsByName: [String: PharmacologyParameters] = [:]
 
-    /// Cached `all`/`substances(in:)` results. Resolving 1600+ substances
-    /// individually on every view body invalidation is what was making the
-    /// Library tab feel laggy on entry. Cleared in lockstep with
-    /// `resolvedCache`.
+    /// Cached `all`/`substances(in:)` results, so the Library tab does not
+    /// resolve the whole catalog on every body invalidation. Cleared in
+    /// lockstep with `resolvedCache`.
     @ObservationIgnored private var allCache: [Substance]?
     @ObservationIgnored private var substancesByCategoryCache: [SubstanceCategory: [Substance]] = [:]
     @ObservationIgnored private var nonEmptyCategoriesCache: [SubstanceCategory]?
@@ -336,7 +331,7 @@ final class SubstanceStore {
         return bundledSubstancesDBURL()
     }
 
-    /// Frees the ~19 MB database copy a TestFlight build may have downloaded into
+    /// Frees the database copy a TestFlight build may have downloaded into
     /// `Documents/`, which is user-visible through file sharing.
     private static func removeDownloadedDatabaseCopy() {
         let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -465,7 +460,7 @@ final class SubstanceStore {
         buildIndexes()
         Logger.substanceStore.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources")
         // Eager-prefill the `all` cache *off the main thread*: a synchronous
-        // resolve of all 1700+ substances on the main actor costs ~660 ms,
+        // resolve of the whole catalog on the main actor costs ~660 ms,
         // which the first Library-tab tap — and, more visibly, the first
         // quick-log open — would otherwise pay. The batch loader is a
         // `nonisolated static` that does its SQL + struct building on this
@@ -677,7 +672,7 @@ final class SubstanceStore {
 
     /// Reset every source to its bundled default priority + enabled state — the
     /// recommended order. Fixes prefs that went stale after a default changed
-    /// (e.g. drug.community was promoted but existing installs kept the old rank).
+    /// (a source promoted in the defaults while an install kept its earlier rank).
     func resetSourcePriorityToDefaults() {
         do {
             let defaults = try substancesDB.read { db in
@@ -1106,8 +1101,8 @@ final class SubstanceStore {
     ///
     /// **Raw library row — bypasses the user's custom-substance overlay.**
     /// App code must resolve through the overlay-aware ``SubstanceLibrary``
-    /// façade (now in its own file, so this is `internal` rather than
-    /// `fileprivate`); the façade remains the only intended resolution path.
+    /// façade, the only intended resolution path (it lives in its own file,
+    /// so this is `internal`).
     func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
         guard let id = substanceID(forNameOrAlias: nameOrAlias) else { return nil }
         return resolveSubstance(id: id, canonicalName: nameOrAlias)
@@ -1126,7 +1121,7 @@ final class SubstanceStore {
     ///
     /// The per-field pharmacology and detail accessors resolve through this rather
     /// than `nameIndex` alone, so a substance dosed or queried by an alias
-    /// (e.g. a dose logged as `"Lysergic Acid Diethylamide"`, now an alias of
+    /// (e.g. a dose logged as `"Lysergic Acid Diethylamide"`, an alias of
     /// canonical `"LSD"`) still resolves its bindings / PK / molar-mass instead of
     /// returning empty. Without it the tolerance engine would see such a dose as
     /// having *no* pharmacology at all and silently drop it.
@@ -1550,7 +1545,7 @@ final class SubstanceStore {
 
     /// The weight-scaled zero-order kinetics for a substance, or `nil` when it eliminates
     /// first-order like everything else — the switch the timeline, the phase bar and the elimination
-    /// readout all consult, replacing what used to be a name comparison in the curve engine.
+    /// readout all consult.
     func zeroOrderKinetics(forSubstanceName name: String, weightKg: Double) -> PKModel.ZeroOrderKinetics? {
         guard let profile = zeroOrderProfiles()[name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()]
         else { return nil }

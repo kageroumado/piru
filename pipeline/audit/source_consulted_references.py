@@ -2,8 +2,8 @@
 """Cite uncited research rows from the papers their enrichment record consulted.
 
 Each enrichment record (`data/enrichment/raw/*.json`) lists the papers it was
-written from in `references_consulted`, and the build never read that list. So
-a record's downstream-signalling paragraph, its pharmacogenetics finding and
+written from in `references_consulted`, and the build does not read that list.
+So a record's downstream-signaling paragraph, its pharmacogenetics finding and
 its qualitative metabolism rows ship with no citation while the papers behind
 them sit one field away.
 
@@ -17,7 +17,7 @@ both hold:
   2. **It names what the row claims.** The row's own key term: the gene for a
      pharmacogenetics row, the enzyme for metabolism, the target for an
      off-target, binding, functional or bias row, the co-drug or enzyme for a
-     drug interaction, the modality for imaging, and for a signalling paragraph
+     drug interaction, the modality for imaging, and for a signaling paragraph
      a target the paragraph itself names. The term must appear in the title or
      abstract, or in a full-text paragraph that also names the substance.
 

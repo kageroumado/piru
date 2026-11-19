@@ -94,10 +94,10 @@ struct PharmacologyParametersTests {
         #expect(light > heavy)
     }
 
-    /// Regression: a substance dosed by an **alias** resolves its full pharmacology. Canonical is now
-    /// "LSD"; the systematic "Lysergic Acid Diethylamide" is the alias. The per-field accessors used to
-    /// resolve via `nameIndex` (canonical only), so a dose logged under the non-canonical name came back
-    /// empty and the tolerance engine silently dropped it. Both names must resolve identically.
+    /// Regression: a substance dosed by an **alias** resolves its full pharmacology. Canonical is
+    /// "LSD"; the systematic "Lysergic Acid Diethylamide" is the alias. A canonical-only lookup
+    /// (`nameIndex`) returns nothing for the alias, and the tolerance engine silently drops the dose.
+    /// Both names must resolve identically.
     @Test
     func `Substance dosed by alias resolves the same pharmacology as its canonical name`() {
         let byAlias = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "LSD")
@@ -152,9 +152,9 @@ struct PharmacologyParametersTests {
         #expect(ReceptorClasses.classify(target: primary.target, action: primary.action) == .cannabinoidCB1)
     }
 
-    /// Regression: the pipeline backfills `molecular_weight` from a present `formula` (it used to only
-    /// *correct* an existing mass, never fill a null one). Diazepam shipped with formula C16H13ClN2O
-    /// but a null MW, which made its GABA tolerance uncomputable.
+    /// Regression: the pipeline backfills a null `molecular_weight` from a present `formula`, as well
+    /// as correcting an existing one. Diazepam carries formula C16H13ClN2O, and a null MW makes its
+    /// GABA tolerance uncomputable.
     @Test
     func `Diazepam resolves a molar mass and computes occupancy`() {
         let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Diazepam")

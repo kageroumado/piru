@@ -74,7 +74,7 @@ struct DoseTitleTests {
     @Test
     func `A resolvable dose ignores a stale snapshot`() {
         // In-app the snapshot is a fallback, not the source — it is canonical and
-        // un-relabelled, so rendering it ahead of the live derive would regress
+        // un-relabeled, so rendering it ahead of the live derive would regress
         // both regionalization and relabels.
         #expect(DoseTitle.resolve(for: entry("Methylphenidate", snapshot: "Something Stale")) == "Methylphenidate")
     }
@@ -118,9 +118,8 @@ struct DoseTitleTests {
 
     @Test
     func `A staged Concerta snapshots its composed title, not nil`() {
-        // Previously nil: `isomerDisplayName` returned nil for the racemic case,
-        // so a newly logged Concerta snapshotted nothing while a backfilled one
-        // got "Methylphenidate XR".
+        // `isomerDisplayName` must answer for the racemic case, or a newly logged
+        // Concerta snapshots nothing while a backfilled one gets "Methylphenidate XR".
         let staged = StagedDose(
             substanceName: "Methylphenidate", amount: 36, unit: "mg", route: .oral,
             productName: "Concerta",
@@ -179,7 +178,7 @@ struct DoseTitleTests {
     func `An unmodeled dose gets no rail`() {
         // `totalMinutes` nil ⇒ EntryRowView omits the elimination rail and its
         // countdown, matching the graph, which marks rather than draws it. A bare XR
-        // naming no known product is the unmodeled case (a *named* Concerta now
+        // naming no known product is the unmodeled case (a *named* Concerta
         // carries its authored envelope — see below).
         let cores = DayEntryCore.make(from: [entry("Methylphenidate", releaseForm: "XR")])
         #expect(cores.first?.totalMinutes == nil)

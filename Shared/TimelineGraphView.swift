@@ -111,10 +111,9 @@ struct TimelineGraphView: View, Equatable {
     /// The ``DerivedKey`` that ``derivedBox`` was computed for. Lets ``loadModel``
     /// tell "already showing the model for *this* key" (skip — the common
     /// re-appear/scroll case) from "showing a *stale* model for a previous key"
-    /// (adopt the new one). Without it, deleting a dose left the old curves drawn
-    /// whenever the smaller post-deletion set was already cached: the `.task`
-    /// re-fired, hit the cache, but the old guard refused to overwrite a non-nil
-    /// box, so the lines persisted while the live-drawn phase background updated.
+    /// (adopt the new one). A guard on a non-nil box alone is wrong: after a
+    /// dose is deleted and the smaller set is already cached, the `.task` hits
+    /// the cache but refuses to overwrite, so the old curves stay drawn.
     @State private var loadedKey: DerivedKey?
 
     /// Benign zero model so the rendering accessors stay total even if a layout
@@ -133,19 +132,12 @@ struct TimelineGraphView: View, Equatable {
     /// The model computed in `init` on the `synchronous:` path, held as a plain
     /// stored property rather than `@State`.
     ///
-    /// This is what unfroze the Live Activity graph. `State(initialValue:)` is
-    /// honored **only on the first construction of a given view identity**; on
-    /// every later evaluation of that same identity the stored value wins and the
-    /// seed is silently discarded. A Live Activity keeps its identity across
-    /// content-state updates, so the curves stayed pinned to whatever dose set
-    /// existed at the first render — and since ``DerivedKey`` deliberately excludes
-    /// `currentTime`, the frozen model also froze `earliestDose`, the graph's
-    /// entire x-axis anchor. Back-dating a dose therefore redrew every curve
-    /// against a stale origin. Restarting the activity was the only fix, because
-    /// `Activity.request` was the only thing that minted a new identity.
-    ///
-    /// A plain `let` is recomputed by `init` on every evaluation, so it always
-    /// reflects the state being rendered. The async path is untouched.
+    /// Never move this into `@State`: `State(initialValue:)` is honored only on
+    /// the first construction of a view identity, and a Live Activity keeps its
+    /// identity across content-state updates. The curves would stay pinned to
+    /// the first render's dose set, and since ``DerivedKey`` excludes
+    /// `currentTime`, so would `earliestDose`, the x-axis anchor. A plain `let`
+    /// is recomputed by `init` on every evaluation.
     private let synchronousDerived: TimelineCurveModel.Derived?
 
     private var derived: TimelineCurveModel.Derived {
@@ -360,7 +352,7 @@ struct TimelineGraphView: View, Equatable {
         // past the last curve (a dose still within its window, but its own curve
         // has peaked and fallen). Gated on `hasActiveNow` so a session where
         // *everything* has worn off doesn't balloon the axis out to a now-line
-        // that no longer draws. Historical days pass a `currentTime` days later,
+        // that isn't drawn. Historical days pass a `currentTime` days later,
         // excluded by the 3 h margin anyway. Skipped for compact thumbnails.
         if !compact, renderer.hasActiveNow {
             let nowMin = currentTime.timeIntervalSince(earliestDose) / 60
@@ -434,7 +426,7 @@ struct TimelineGraphView: View, Equatable {
     /// long elimination tail makes that more than 1.6× the labeled-active
     /// window, we frame just the activity window instead (the tail stays
     /// reachable by panning). This keeps simple days showing everything with no
-    /// scrollbar, while long-acting compounds no longer crush the acute action.
+    /// scrollbar, and keeps long-acting compounds from crushing the acute action.
     private var autoFitSpan: Double {
         let activityInterval = TimelineCurveModel.intervalForSpan(activitySpan)
         let activity = max(ceil(activitySpan / activityInterval) * activityInterval, 1)

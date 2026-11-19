@@ -19,21 +19,16 @@ enum QuickLogManager {
     /// familiar chips. Ranks each (substance, route) group's distinct measurements
     /// by frequency (recency as tiebreak) and keeps the top ``perGroupLimit``.
     ///
-    /// Idempotent and self-healing: it seeds **only when the curated table is
-    /// empty**, and keys off nothing but that emptiness. Deliberately no
-    /// persistent "already seeded" flag: App-Group `UserDefaults` outlives the
-    /// SwiftData store, so a flag stored there would survive a store reset (a
-    /// mid-cycle schema change that recreates a fresh store, "Delete All Data",
-    /// or a backup restore) and permanently suppress re-seeding. Tying seeding
-    /// to the store's own emptiness avoids that. The one state this re-seeds is
-    /// a list the user emptied by hand — an acceptable trade, since the list is
-    /// "seeded from your history" by definition and a removed chip re-floats on
-    /// its next log anyway.
+    /// Seeds only when the curated table is empty, keyed off nothing else.
+    /// Never add a persistent "already seeded" flag: App-Group `UserDefaults`
+    /// outlives the SwiftData store, so the flag would survive a store reset
+    /// (a schema change, "Delete All Data", a backup restore) and suppress
+    /// re-seeding for good. The cost is re-seeding a list the user emptied by
+    /// hand, which is acceptable: a removed chip re-floats on its next log.
     ///
     /// Seeds from the screen's already-loaded recent window (`history`) rather
-    /// than its own full-table fetch — 120 days is plenty to surface a user's
-    /// familiar chips, and lifetime-exhaustive ranking isn't worth a second pass
-    /// over the whole dose table on first open.
+    /// than a full-table fetch; the recent window surfaces familiar chips well
+    /// enough.
     static func seedIfNeeded(history: [DoseEntry], context: ModelContext) {
         let existing = (try? context.fetchCount(FetchDescriptor<QuickLogDose>())) ?? 0
         guard existing == 0, !history.isEmpty else { return }

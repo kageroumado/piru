@@ -72,8 +72,8 @@ final class HealthKitVitals {
         let store = store
         // HealthKit validates the request *synchronously* and raises an ObjC
         // `NSException` (not a Swift error) when it's unhappy — a device-specific
-        // failure mode a `try`/`catch` can't reach, so it would terminate the app
-        // (see the b28–30 TestFlight crashes). Drive the completion-based API and
+        // failure mode a `try`/`catch` can't reach, so it would terminate the app.
+        // Drive the completion-based API and
         // wrap the throwing synchronous call in the ObjC catcher; a raised
         // exception degrades to "access not granted" instead of a crash.
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in

@@ -144,8 +144,7 @@ RULES: list[tuple[str, str, str, bool]] = [
         "meta: first person / the project talking",
         # `us` is lowercase-only and needs a space in front: IGNORECASE below
         # would otherwise match the country in "US market", "US Schedule II" and
-        # "US/EU", which is 47 of the 50 hits this rule used to report — enough
-        # noise to hide the three real ones.
+        # "US/EU", and that noise hides the real hits.
         r"(\bwe |\bour |(?<![-\w])(?-i:us)\b|\bPiru\b|\bthis app\b|\bthe app\b"
         r"|\bthe database\b|\bthe pipeline\b)",
         "The screen is about the substance. A sentence about what the project "

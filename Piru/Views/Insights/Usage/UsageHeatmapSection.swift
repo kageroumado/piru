@@ -309,7 +309,7 @@ private struct UsageHeatmapGrid: View {
 
 // MARK: - Hour histogram
 
-/// Twenty-four bins across the clock. Replaces the old four coarse buckets.
+/// Twenty-four bins across the clock.
 private struct UsageHourHistogram: View {
     let bins: [Double]
     let metric: UsageRankMetric

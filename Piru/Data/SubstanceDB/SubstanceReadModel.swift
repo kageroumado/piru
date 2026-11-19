@@ -810,10 +810,10 @@ struct SubstanceReadModel {
         }
         // Fallback: prose exists, just not from an enabled source — show it
         // rather than a blank section. Only the enabled-source filter is dropped;
-        // the language filter stays. Dropping it too let an English reader fall
-        // through to raw zh prose whenever a compound had a Chinese row but no
-        // English one (ketamine's mechanism, 137 others) — and a Chinese blob is
-        // worse than a blank the bundled English template then fills. The ORDER BY
+        // the language filter stays: dropping it lets an English reader fall
+        // through to raw zh prose whenever a compound has a Chinese row but no
+        // English one, which is worse than a blank the bundled English template
+        // then fills. The ORDER BY
         // still floats the preferred language and the user's source priority. Also
         // covers the empty-source-order launch window (enabledSourceListSQL = ''
         // matches nothing), which would otherwise blank every overview until the
@@ -868,13 +868,11 @@ struct SubstanceReadModel {
         //
         // **A curated `affinity_tier` outranks the derived band.** The derived band is
         // absolute — Kᵢ < 100 nM strong, EC₅₀ < 1 µM strong — and an absolute band
-        // cannot say which of *this* compound's targets is the weak one. Methamphetamine
-        // is the case that proves it: SERT release EC₅₀ 736 nM lands under the 1 µM
-        // cutoff and dots as "strong", beside DAT 24.5 and NET 12.3 nM on the same card
-        // and a ternary reading SERT 1 %. The curator had already written the answer as
-        // `affinity_tier = 1`; the query was discarding it. Do not restore measured-wins
-        // — a hand-set tier is a claim about this drug's own balance, which is the
-        // question the dots ask.
+        // cannot say which of *this* compound's targets is the weak one: methamphetamine's
+        // SERT release EC₅₀ of 736 nM lands under the 1 µM cutoff and would dot as
+        // "strong" beside DAT 24.5 and NET 12.3 nM. Never let the measured band win over
+        // a curated tier: a hand-set tier is a claim about this drug's own balance, which
+        // is the question the dots ask.
         //
         // The derived band still does all the work where nothing is curated. Binding
         // (Kᵢ) and functional (EC₅₀/IC₅₀) keep different cutoffs because a releaser's
@@ -947,10 +945,10 @@ struct SubstanceReadModel {
 
         // Surface measured bindings even when no curated summary row exists —
         // the detail view's mechanism composer fills missing summary text from
-        // the per-name / category fallback, so substances with real receptor
-        // data (e.g. mephedrone: DAT/NET/SERT releasingAgent) no longer fall
-        // through to a generic "Modulator" placeholder. Return nil only when we
-        // have neither a summary nor any binding.
+        // the per-name / category fallback, so a substance with real receptor
+        // data (e.g. mephedrone: DAT/NET/SERT releasingAgent) shows it rather
+        // than a generic "Modulator" placeholder. Return nil only when there is
+        // neither a summary nor any binding.
         guard row != nil || !bindings.isEmpty else { return nil }
 
         return MechanismOfAction(

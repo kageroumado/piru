@@ -1049,8 +1049,8 @@ struct TimelineStripBuilder {
     /// at the come-up end, crest and peak end of every dose overlapping it —
     /// and never by less than 1. Every dose running at a moment is divided by
     /// at least the stack there, so the sum stays at or under the edge; a dose
-    /// that overlaps no other keeps exactly its weight, so a lone dose draws as
-    /// it always has. Dividing per dose, not per moment, keeps the curve
+    /// that overlaps no other keeps exactly its weight. Dividing per dose, not
+    /// per moment, keeps the curve
     /// continuous where the divisor changes.
     nonisolated static func stackDivisors(states: [ActiveSubstanceState], weights: [Double], ends: [Double]) -> [Double] {
         guard weights.count == states.count, ends.count == states.count else {

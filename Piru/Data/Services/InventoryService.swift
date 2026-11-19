@@ -39,7 +39,7 @@ enum InventoryMath {
     /// PSID family the library resolves the name — or an alias like "IC-26" — to,
     /// so an item and a dose stored under different names for the same substance
     /// collapse to one. Falls back to the lowercased name when the library doesn't
-    /// know it (a pure custom substance), preserving the old behavior for those.
+    /// know it (a pure custom substance).
     static func matchKey(for name: String) -> String {
         SubstanceLibrary.substanceUID(for: name) ?? name.lowercased()
     }
@@ -585,7 +585,7 @@ enum InventoryService {
 
     /// Persist a manual list order after a drag: renumber the whole list `0…n`
     /// so ``InventoryItem/sortOrder`` becomes the single source of truth for
-    /// display order (and the status-based auto-sort no longer applies).
+    /// display order, in place of the status-based auto-sort.
     static func reorder(_ orderedItems: [InventoryItem]) {
         for (index, item) in orderedItems.enumerated() {
             item.sortOrder = index

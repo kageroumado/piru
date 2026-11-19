@@ -367,8 +367,8 @@ nonisolated enum TimelineCurveModel {
     ///     shape(t) = exp(−½·(|t−μ|/σ)^p) · dome(|t−μ|/S)
     ///
     /// with `(σ, p)` solved in closed form so the curve passes ``footLo`` at the
-    /// end of onset, ``crestHi`` at the end of come-up (the ``effectiveComeupEnd``
-    /// synthesis is kept verbatim), ``crestHi`` again at the end of peak, and
+    /// end of onset, ``crestHi`` at the end of come-up (see
+    /// ``effectiveComeupEnd``), ``crestHi`` again at the end of peak, and
     /// ``tailLo`` at the end of offset. The dome sags at most ``domeSag`` far
     /// from the crest, so a long peak reads as a gently domed plateau, and the
     /// product is C¹ everywhere (C² for every non-degenerate profile): monotone
@@ -612,12 +612,11 @@ nonisolated enum TimelineCurveModel {
     /// a curve of magnitude `peerMagnitude` — as opposed to ``curveExtent``, which
     /// asks only when the curve reaches its own baseline.
     ///
-    /// The two differ by a lot, and the gap is what left the Active Now card with
-    /// most of its width empty. `curveExtent` is amplitude-blind: it ends each
+    /// The two differ by a lot. `curveExtent` is amplitude-blind: it ends each
     /// curve at ~1–2 % of *its own* peak. A small or heavily-tolerant dose beside
     /// a tall one is drawn against the tall one's scale, so its last hours sit far
-    /// below one device pixel while still sizing the axis — a long-acting
-    /// background dose could hold the window open until 6 AM with nothing on it.
+    /// below one device pixel while still sizing the axis, and a long-acting
+    /// background dose can hold the window open for hours with nothing on it.
     ///
     /// Solved in closed form rather than by sampling: the falling limb's core is
     /// `exp(-½·z^q)` with `z = (t − μ) / σ↓`, so the moment it crosses a

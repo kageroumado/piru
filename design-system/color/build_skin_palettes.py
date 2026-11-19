@@ -3,8 +3,8 @@ them, and write Oklch into palette-skins.json.
 
 Text roles are pushed in L until they clear 4.5:1 on that skin's own card
 (darker in light mode, lighter in dark), marks until 3:1; everything else is
-taken as seeded. ely.pink's tokens are untouched — its sources are the site's
-own values, hand-tuned in the 2026-09-02 session.
+taken as seeded. ely.pink's tokens are the site's own hand-tuned values; only
+its text roles move, so they also clear the page background.
 
     python3 build_skin_palettes.py && python3 build_generator_input.py \
       && python3 generate_colorsets.py palette-generator-input.json --out ../../Shared/Assets.xcassets
@@ -396,15 +396,13 @@ SKINS = {
         "halo/right": ("#7c3aed", "#584d8b"),  # page-halo-right oklch(46% .1 290)
         "halo/bottom": ("#7c3aed", "#d946ef"),  # home-glow-bottom
     },
-    # Hanabi (花火), the co-op card game. Its five card suits ARE the semantic
-    # pairs — the same move dose.wiki makes with its dose-tier ramp, so a Piru
-    # warning reads in the family a Hanabi player already knows. Dark is the
-    # game's own `Theme` (a night sky over a festival); light is invented, a
-    # daytime festival on paper, since the game ships dark-only.
-    # accent stays the game's own blue (0.4/0.6/1.0) rather than the 花火
-    # wordmark's gold: measured 0.131 Oklab dE from the blue suit, clear of the
-    # 0.10 floor, and both hold 3:1 on the card ungated. The wordmark's gold
-    # goes to `title/*`, which is what it is on the menu.
+    # Hanabi (花火), the co-op card game. Its five card suits are the semantic
+    # pairs, as dose.wiki uses its dose-tier ramp, so a Piru warning reads in
+    # colors a Hanabi player already knows. Dark is the game's own `Theme`; light
+    # is invented (a daytime festival on paper), since the game ships dark-only.
+    # The accent is the game's blue (0.4/0.6/1.0): 0.131 Oklab dE from the blue
+    # suit, clear of the 0.10 floor, and 3:1 on the card ungated. The wordmark's
+    # gold goes to `title/*`, as on the menu.
     "hanabi": {
         "surface/background": ("#EFEEF9", "#0F0F1F"),  # Theme.background 0.06/0.06/0.12
         "surface/card": ("#FFFFFF", "#24243D"),  # Theme.cardBackground 0.14/0.14/0.24
@@ -421,13 +419,11 @@ SKINS = {
         "semantic/success/accent": ("#2EA34A", "#2EC752"),
         "semantic/caution/text": ("#8A6A0F", "#F2C72E"),  # yellow 0.95/0.78/0.18
         "semantic/caution/accent": ("#D9A81E", "#F2C72E"),
-        # Light gates both the accent and the blue suit toward the same dark
-        # blue (measured 0.03 Oklab dE — one chip indistinguishable from the
-        # other), so the suit goes a step deeper here. Hue is untouched and the
-        # accent is exactly Theme.accent's light twin; the pair measures 0.135.
-        # The suit itself is too dark for copy on the night card; dark seeds the
-        # lightened twin directly (#5788FB, C .18) rather than letting the gate
-        # push it, which lands 2.5% outside P3 and gets clipped at the catalog.
+        # In light mode the gate pushes the accent and the blue suit to the same
+        # dark blue (0.03 Oklab dE), so the suit goes a step deeper (the pair
+        # measures 0.135). In dark mode the suit is too dark for copy on the
+        # night card, so the lightened twin is seeded directly: letting the gate
+        # push it lands 2.5% outside P3 and the catalog clips it.
         "semantic/info/text": ("#17369E", "#5788FB"),  # blue 0.22/0.42/0.95
         "semantic/info/accent": ("#1943C8", "#386BF2"),
         "semantic/danger/text": ("#C42323", "#EB3838"),  # red 0.92/0.22/0.22
@@ -437,8 +433,8 @@ SKINS = {
         "title/fill": ("#E07A1E", "#FFD24D"),
         "title/stroke": ("#1A1A2E", "#0F0F1F"),
         "title/shadow": ("#FF9E3D", "#FF9E3D"),
-        # Scene only — the bursts are art, at the game's own full saturation,
-        # not UI roles, so they are never gated.
+        # Scene only: the bursts are art at the game's full saturation, never
+        # gated.
         "burst/red": ("#EB3838", "#EB3838"),
         "burst/yellow": ("#F2C72E", "#F2C72E"),
         "burst/green": ("#2EC752", "#2EC752"),
@@ -447,15 +443,13 @@ SKINS = {
         "burst/spark": ("#FFFFFF", "#FFFFFF"),  # the white core every burst ends on
         "burst/star": ("#8C93C4", "#FFFFFF"),  # the menu's static 50-star field
     },
-    # Selenia (the natal-chart app; its folder is still its pre-rename name,
-    # Ecliptica). Dark is its own Theme; light is invented — the chart as an
-    # engraving on vellum, since the app is `.preferredColorScheme(.dark)`.
+    # Selenia (the natal-chart app; its source folder is named Ecliptica). Dark
+    # is its own Theme; light is invented (the chart as an engraving on vellum),
+    # since the app is `.preferredColorScheme(.dark)`.
     #
-    # Its accent is the icon's engraved gold, NOT the periwinkle its Theme
-    # actually uses: Selenia and Astrelia were both ported from Astrolabe and
-    # share periwinkle #8FB8FF, so two skins off the same source would have
-    # been the same skin. Gold is Selenia's own astrology tint and measures
-    # 0.214 from Astrelia's periwinkle.
+    # Its accent is the icon's engraved gold rather than its Theme's periwinkle,
+    # which Astrelia shares (both come from Astrolabe). Gold measures 0.214 from
+    # Astrelia's periwinkle, so the two skins stay distinct.
     #
     # Semantics come from its four elements, with one substitution: air
     # (#F2D980) sits 0.062 from the gold accent, so caution takes fire and
@@ -490,7 +484,7 @@ SKINS = {
         "wheel/air": ("#B08A20", "#F2D980"),  # air, which is not a semantic here
         "wheel/star": ("#9A8C74", "#E8E4F5"),
     },
-    # The vanity skins below are seeded in Oklch (L, C, h), not hex.
+    # The vanity skins below are seeded in Oklch (L, C, h).
     #
     # Gatsby: black lacquer and champagne gold, a night photograph behind
     # everything. The semantics are jewels — emerald, amber, ruby, sapphire —
@@ -558,8 +552,8 @@ SKINS = {
         "gilt/bright": ((0.935, 0.120, 100.0), (0.935, 0.120, 100.0)),
         "gilt/shine": ((0.985, 0.050, 104.0), (0.985, 0.050, 104.0)),
         "gilt/ink": ((0.200, 0.050, 150.0), (0.200, 0.050, 150.0)),
-        # Scene only — the tricolor pinstripe and the embossed leaves. Art at
-        # full saturation, not UI roles, so never gated.
+        # Scene only: the tricolor pinstripe and the embossed leaves, art at full
+        # saturation, never gated.
         "stripe/red": ((0.580, 0.210, 27.0), (0.620, 0.220, 27.0)),
         "stripe/gold": ((0.820, 0.165, 92.0), (0.860, 0.170, 93.0)),
         "stripe/green": ((0.560, 0.160, 148.0), (0.620, 0.180, 148.0)),
@@ -636,7 +630,7 @@ for skin, tokens in SKINS.items():
     out["skins"][skin] = entry
 
 # ely.pink's tokens are the site's own, hand-tuned against the card; push only its text
-# roles' L until they also clear the page background, the way the three above are gated.
+# roles' L until they also clear the page background, as the other skins are gated.
 ely = out["skins"]["elypink"]
 for mode in ("light", "dark"):
     card = oklch_to_rgb(fit_chroma(tuple(ely["surface/card"][mode])))

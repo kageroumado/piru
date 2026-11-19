@@ -12,14 +12,11 @@ import Foundation
 ///
 /// Single-substance lookups (`lookup`, `lookupByNameOrAlias`) consult
 /// ``CustomSubstanceStore`` and overlay any user-defined entry on top of the
-/// library result. This is what makes the timeline / PK pipeline pick up
-/// user-corrected duration profiles for substances where the bundled DB has
-/// nothing useful (e.g. 2-MMC, where neither piru-curated nor TripSit ships
-/// duration data). The collection-level APIs (`all`, `substances(in:)`,
-/// `search`) deliberately stay library-only — the Library tab keeps its
-/// existing "Custom substances" section instead of folding them into the
-/// main listing, which would surprise users who expect that section to be
-/// authoritative.
+/// library result, so the timeline and PK pipeline pick up user-corrected
+/// duration profiles where the bundled DB has none. The collection-level APIs
+/// (`all`, `substances(in:)`, `search`) stay library-only: the Library tab
+/// shows custom substances in their own section, which users expect to be
+/// the one place they appear.
 @MainActor
 enum SubstanceLibrary {
     static var all: [Substance] {
@@ -137,8 +134,7 @@ enum SubstanceLibrary {
 
     /// The PSID FAMILY (`substance_uid`) for the substance named or aliased
     /// `nameOrAlias`, or `nil` when it doesn't resolve. The forward name→uid map
-    /// the Stage 0.3 dose backfill uses. Name resolution still runs in parallel —
-    /// this is additive; it changes no existing behavior.
+    /// the dose backfill uses. Name resolution runs alongside it.
     static func substanceUID(for nameOrAlias: String) -> String? {
         SubstanceStore.shared.substanceUID(forNameOrAlias: nameOrAlias)
     }
@@ -253,7 +249,7 @@ enum SubstanceLibrary {
     ///
     /// Two things the raw store search cannot do, and every surface needs both:
     ///
-    /// 1. **Carry the personal name.** A row for a relabelled substance was
+    /// 1. **Carry the personal name.** A row for a relabeled substance was
     ///    titled with the catalog name, so the Library list and Search showed
     ///    "Mephedrone" while the detail screen showed "4-MMC".
     /// 2. **Match on the personal name.** The store's `nameIndex`/`aliasIndex`
@@ -320,7 +316,7 @@ enum SubstanceLibrary {
         }
 
         // No library row matched the query. Try a custom by its canonical name,
-        // then by its personal display name — so a relabelled substance is
+        // then by its personal display name — so a relabeled substance is
         // resolvable by the name the user gave it ("joint" → the THC override).
         guard let custom = customs.first(whereName: query) ?? customs.first(whereDisplayName: query) else {
             return nil

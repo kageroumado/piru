@@ -11,9 +11,9 @@ import WidgetKit
 ///
 /// ``QuickLogView`` holds a `@Query` over `DoseEntry` for its recency-derived
 /// surfaces (today's active-percent badges, recent tags/locations). That query
-/// must be **bounded** — the full dose table is years of rows the quick-log
-/// screen never needs, yet loading it on every open kept the whole history
-/// resident and made three consumers pay O(history). A `@Query` predicate can't
+/// must be **bounded**: the full dose table is years of rows the quick-log
+/// screen never needs, and loading it on every open would keep the whole
+/// history resident and make each consumer pay O(history). A `@Query` predicate can't
 /// call `Date.now`/`addingTimeInterval`, so the cutoff is computed here as plain
 /// `@State` and handed to the screen, which builds its `@Query` from it in
 /// `init`. (Re-initializing the screen with a new cutoff preserves its `@State`
@@ -150,7 +150,7 @@ struct QuickLogView: View {
     // MARK: - Favorites
 
     /// Pre-`sortOrder` favorites are all 0 — stamp them with their current
-    /// display order (newest first, matching the old query) exactly once, so
+    /// display order (newest first) exactly once, so
     /// reordering has distinct positions to work with.
     private func seedFavoriteOrderIfNeeded() {
         guard favorites.count > 1, favorites.allSatisfy({ $0.sortOrder == 0 }) else { return }
@@ -282,15 +282,10 @@ struct QuickLogView: View {
             )
         #else
             ScrollView {
-                // The scroll content (routines, favorites, recent cards) is a
-                // closure-free child: it takes only the two stable references it
-                // needs (`content`, `tray`) and owns its own `@Query`s/actions,
-                // so a search keystroke — which re-runs *this* body through
-                // `searchText`/`dockResults` — no longer cascades into every
-                // card. With no parent closures to defeat SwiftUI's view-value
-                // comparison, the framework skips this subtree when the parent
-                // re-renders for reasons it doesn't depend on. See
-                // ``QuickLogCardList``.
+                // The scroll content is a closure-free child, so a search
+                // keystroke, which re-runs this body through
+                // `searchText`/`dockResults`, doesn't cascade into every card.
+                // See ``QuickLogCardList``.
                 QuickLogCardList(content: content, tray: tray)
                     .padding(.horizontal)
                     .padding(.top, Spacing.xs)

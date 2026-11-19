@@ -9,17 +9,16 @@ import SwiftUI
 /// charts, so the screen leads with data. Each section that has churning UI
 /// state (the heatmap's day/category selection, the trend legend, the dose-level
 /// substance picker) still owns that state itself, so a tap in one section
-/// doesn't re-evaluate the others — this screen renders eight charts, and one
-/// shared invalidation boundary across all of them was the old design's problem.
+/// doesn't re-evaluate the others.
 struct UsageStatsView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 
     @State private var model = UsageAnalyticsModel()
     @State private var range: UsageTimeRange = .thirtyDays
-    /// Entries vs common-dose units — one global lens for every card that has
-    /// one (they each used to carry their own copy). Common doses by default: it
-    /// weighs each dose by its typical size, the more representative view.
+    /// Entries vs common-dose units: one global lens for every card that has
+    /// one. Common doses by default: it weighs each dose by its typical size,
+    /// the more representative view.
     @State private var metric: UsageRankMetric = .commonDoses
     /// Canonical names to include; empty means every substance. Lets the user
     /// mute a substance that dominates the stats (the "2-MMC swamps everything"

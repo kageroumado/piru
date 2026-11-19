@@ -41,7 +41,7 @@ final class AppNavigator {
 
     /// Modal stack — top of the stack is what's currently presented. Multiple
     /// entries mean nested modals (e.g. form → color picker), though SwiftUI
-    /// only gracefully renders ~3 deep on iOS 26.
+    /// renders only ~3 deep gracefully (``maxSheetDepth``).
     private(set) var sheetStack: [SheetRoute]
 
     /// Push paths for sheets that host their own `NavigationStack`
@@ -266,8 +266,8 @@ final class AppNavigator {
 
     // MARK: - Modals
 
-    /// Maximum sheet stack depth that the presenter can render gracefully on
-    /// iOS 26. Pushing past this limit is silently dropped — sheets in state
+    /// Maximum sheet stack depth that the presenter can render gracefully.
+    /// Pushing past this limit is silently dropped — sheets in state
     /// but not on screen would otherwise create a "ghost stack" where
     /// `dismiss()` removes invisible items before reaching what the user
     /// can actually see.
@@ -293,7 +293,7 @@ final class AppNavigator {
         }
     }
 
-    /// Dismiss the top sheet. No-op when the stack is empty.
+    /// Dismiss the top sheet, if any.
     func dismiss() {
         guard !sheetStack.isEmpty else { return }
         sheetStack.removeLast()
@@ -306,8 +306,8 @@ final class AppNavigator {
         sheetPaths.removeAll()
     }
 
-    /// Dismiss the last occurrence of a specific sheet from the stack (rare;
-    /// usually used to dismiss a known sheet from a sibling context).
+    /// Dismiss the last occurrence of a specific sheet from the stack, for
+    /// dismissing a known sheet from a sibling context.
     func dismiss(_ sheet: SheetRoute) {
         guard let idx = sheetStack.lastIndex(of: sheet) else { return }
         sheetStack.remove(at: idx)

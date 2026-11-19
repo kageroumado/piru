@@ -8,10 +8,10 @@ import WidgetKit
 ///
 /// Split out of `QuickLogView` so the dock's detent churn stays local: the
 /// detent selection and set are rewritten several times per transition (every
-/// stage, search enter/exit, drag settle), and while they were `@State` on
-/// `QuickLogView` each write re-ran the *whole screen's* body — toolbar,
-/// scroll chrome, and this sheet closure — just to re-apply an unchanged
-/// presentation. Owned here, a detent write invalidates only this wrapper.
+/// stage, search enter/exit, drag settle), and as `@State` on `QuickLogView`
+/// each write would re-run the whole screen's body (toolbar, scroll chrome,
+/// this sheet closure) just to re-apply an unchanged presentation. Owned
+/// here, a detent write invalidates only this wrapper.
 /// Localizing the re-application also narrows the window where a SwiftUI
 /// presentation update can rewrite the sheet's detents mid-ramp (the
 /// self-heal in `QuickLogDock.animateHeightDetent` exists for exactly that).
@@ -166,18 +166,14 @@ struct StagingHaptics: View {
 
 /// The quick-log scroll content — routines, favorites, and recent cards.
 ///
-/// Extracted from `QuickLogView` as a **closure-free** child: it takes only the
-/// two stable references it needs (`content`, `tray`) and owns its own `@Query`s
-/// and list-mutating actions, so it passes *no* parent closures. That matters
-/// because closures can't be compared — a view holding them is always treated as
-/// changed, forcing its body to re-run whenever the parent does. `QuickLogView`'s
-/// body re-runs on every search keystroke (it reads `searchText`/`dockResults`),
-/// and a parent closure here would cascade that into every
-/// `SubstanceCardView`/`OneRowChips` body. With only stable references here, SwiftUI's
-/// view-value comparison finds this subtree unchanged and skips it when the
-/// parent re-renders for state the list doesn't depend on. The cards still update
-/// through their own observation (the `content` caches, `tray` staging) — which
-/// is exactly the scope we want.
+/// A closure-free child of `QuickLogView`: it takes only the two stable
+/// references it needs (`content`, `tray`) and owns its own `@Query`s and
+/// list-mutating actions. Closures can't be compared, so a view holding them
+/// always reads as changed; `QuickLogView`'s body re-runs on every search
+/// keystroke (it reads `searchText`/`dockResults`), and a parent closure here
+/// would cascade that into every `SubstanceCardView`/`OneRowChips` body. With
+/// only stable references SwiftUI skips this subtree, and the cards still
+/// update through their own observation (the `content` caches, `tray` staging).
 struct QuickLogCardList: View {
     let content: QuickLogContentModel
     let tray: DoseTrayModel

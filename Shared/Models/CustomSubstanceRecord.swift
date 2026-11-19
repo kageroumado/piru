@@ -3,19 +3,10 @@ import SwiftData
 
 /// Store-resident user-defined substance.
 ///
-/// Custom substances used to live as a JSON blob in App-Group `UserDefaults`
-/// (`CustomSubstanceStore`). That put user-authored data *outside* the SwiftData
-/// store, so it shared none of the store's backup/recovery lifecycle and
-/// survived a store reset that wiped everything else — the same persistence-
-/// domain mismatch that stranded the quick-log seed flag. This `@Model` moves
-/// them into the store, where they're backed up and recovered with the rest of
-/// the user's data.
-///
-/// The original reason for avoiding SwiftData here — auto-migration silently
-/// dropping inserts for late-added `@Model` types — no longer holds:
-/// ``UserProfileRecord`` and ``ToleranceState`` are proven late additions, and
-/// the one-time migration in `CustomSubstanceStore` *verifies* every row landed
-/// in the store before it deletes the legacy `UserDefaults` blob.
+/// Never keep user-authored substances in `UserDefaults`: outside the store
+/// they miss its backup and recovery and survive a store reset that wipes
+/// everything else. `CustomSubstanceStore`'s one-time migration verifies every
+/// legacy row landed here before it deletes the old blob.
 ///
 /// Fields are deliberately primitive (raw strings, JSON `Data?` blobs) so the
 /// model carries no dependency on Piru-only types (`DoseRange`,

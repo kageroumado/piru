@@ -130,8 +130,7 @@ struct DurationProfile: Codable, Hashable {
     /// (the latter keep the half-life synthesis fallback).
     ///
     /// Applied wherever a **curve is drawn** — the journal timeline and the detail
-    /// card alike. (It used to be journal-only, which is why the same dose drew two
-    /// different shapes depending on the screen.) The detail card's numeric trio
+    /// card alike, so a dose draws one shape on every screen. The detail card's numeric trio
     /// and phase disclosure still read the *raw* profile: those are a reference
     /// table and must stay verbatim source data.
     func fillingMissingPhases(for category: SubstanceCategory) -> DurationProfile {

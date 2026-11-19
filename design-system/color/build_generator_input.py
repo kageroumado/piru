@@ -5,11 +5,11 @@
 verification works in. `generate_colorsets.py` wants `oklch` or `p3_hex` per
 appearance. This converts between them; nothing here touches sRGB or hex.
 
-**Oklch, not hex, is deliberate.** Hex round-trips through 8 bits, and that has
-already cost us: two route tints passed contrast in floating point and failed
-after quantisation (4.4988 and 4.5046 against a 4.5 gate). Oklch keeps the
-precision until Xcode's own 3-decimal component format truncates it, which the
-contrast test then re-verifies at shipped precision.
+Oklch, never hex: hex round-trips through 8 bits, and two route tints that
+passed contrast in floating point failed after quantization (4.4988 and 4.5046
+against a 4.5 gate). Oklch keeps the precision until Xcode's 3-decimal
+component format truncates it, which the contrast test re-verifies at shipped
+precision.
 
 Run after editing `palette-L1.json`:
 
@@ -27,17 +27,13 @@ from colorimetry import oklch
 HERE = Path(__file__).parent
 
 # Chrome tokens: neutral, no semantic meaning, so they live outside the L1
-# ladder. Values are Oklch (L, C, H) per the CLAUDE.md colour convention; see
-# the note on each for why it is what it is.
+# ladder. Values are Oklch (L, C, H) per the CLAUDE.md color convention.
 CHROME: dict[str, dict[str, tuple[float, float, float]]] = {
     "text/secondary": {
-        # Was #7A7A80 / #A6A6AD. The light value measured 3.89:1 on the real
-        # card -- a WCAG AA failure across ~566 call sites, and the original
-        # audit missed it by computing against pure white. Darkened to clear
-        # 4.5:1 with headroom past rounding.
+        # Clears 4.5:1 on the real card with headroom past rounding. Measure
+        # against the card, never pure white, which flatters the ratio.
         "light": (0.53990, 0.00776, 285.9),
-        # The old dark override was *worse* than the system colour (7.79 vs
-        # 9.97), so this adopts what iOS ships: systemGray at 60% over the card.
+        # What iOS ships: systemGray at 60% over the card (9.97:1).
         "dark": (0.79764, 0.01126, 285.9),
         # Increase Contrast: >= 7:1 on every light surface (7.26 on the grouped
         # gray) and on every dark one (11.45 on the #1C1C1E sheet). Placeholder
@@ -46,15 +42,14 @@ CHROME: dict[str, dict[str, tuple[float, float, float]]] = {
         "light_hc": (0.43, 0.008, 285.9),
         "dark_hc": (0.87, 0.012, 285.9),
     },
-    # Surfaces. These existed as `UIColor { traits }` closures, which branch on
-    # userInterfaceStyle only and therefore cannot express high contrast at all.
-    # As colorsets they gain the Any+HC / Dark+HC slots.
+    # Surfaces. As colorsets they get the Any+HC / Dark+HC slots, which a
+    # `UIColor { traits }` closure cannot express: it branches on
+    # userInterfaceStyle only.
     #
-    # The light values are the system colours the closures already resolved to
-    # (`systemBackground` white, `systemGray6`, `systemGroupedBackground`) --
-    # fixed published values, so pinning them loses nothing. The dark values
-    # are the app's deliberate OLED choice, which is *why* the closures
-    # existed: the system's own dark surfaces are never true black.
+    # The light values are the system colors (`systemBackground` white,
+    # `systemGray6`, `systemGroupedBackground`), fixed published values, so
+    # pinning them loses nothing. The dark values are the app's OLED choice:
+    # the system's own dark surfaces are never true black.
     "surface/background": {"light": (1.0, 0.0, 260.0), "dark": (0.0, 0.0, 0.0)},
     "surface/card": {"light": (0.96257, 0.00676, 285.8), "dark": (0.17764, 0.00002, 260.0)},
     "surface/grouped": {"light": (0.96257, 0.00676, 285.8), "dark": (0.14479, 0.00002, 260.0)},
@@ -100,11 +95,9 @@ def main() -> None:
                         "any": l2_spec(modes["light"][role]),
                         "dark": l2_spec(modes["dark"][role]),
                     }
-                    # Increase Contrast. The app had no response to this setting
-                    # at all before the catalog migration, and could not have —
-                    # a `UIColor { traits }` closure branches on
-                    # userInterfaceStyle alone and cannot express a contrast
-                    # axis. These slots are the point of the whole migration.
+                    # Increase Contrast. Never move these back into a
+                    # `UIColor { traits }` closure: it branches on
+                    # userInterfaceStyle alone and cannot express a contrast axis.
                     if f"{role}_hc" in modes["light"]:
                         token["any_hc"] = l2_spec(modes["light"][f"{role}_hc"])
                         token["dark_hc"] = l2_spec(modes["dark"][f"{role}_hc"])

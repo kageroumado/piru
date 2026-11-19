@@ -82,7 +82,7 @@ enum AdherenceCalculator {
     /// substance by another route is deliberately a plain journal entry, not
     /// adherence credit. Identity joins by ``DoseEntry/identityKey`` with a
     /// lowercased-name fallback, so a PSID-resolved item still credits a
-    /// legacy name-only dose (and vice versa) exactly as the old name join did.
+    /// name-only dose, and vice versa.
     ///
     /// A med saved as a combination product is satisfied by the product: one
     /// pick logs an entry per component, all carrying its name, so only the

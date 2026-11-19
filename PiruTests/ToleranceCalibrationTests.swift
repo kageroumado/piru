@@ -2,16 +2,15 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Calibration sanity gate for the **dose-relative deep tolerance gate** (Stage B). These pin the
-/// headline behaviours the redesign exists to fix — the framework that "improves the math" — by
-/// running the pure ``ToleranceStore/simulate(doses:params:now:weightKg:timestepMinutes:lookbackDays:)``
+/// Calibration sanity gate for the **dose-relative deep tolerance gate**. These pin its headline
+/// behaviors by running the pure ``ToleranceStore/simulate(doses:params:now:weightKg:timestepMinutes:lookbackDays:)``
 /// core over *synthetic* ``PharmacologyParameters`` with a known `referenceDoseMg`, so the assertions
 /// depend on the model alone (not on bundled-DB numbers that may drift).
 ///
-/// The load-bearing claim: transporter occupancy saturates, so therapeutic and heavy dosing look
+/// The central claim: transporter occupancy saturates, so therapeutic and heavy dosing look
 /// identical at the receptor — only **dose ÷ the substance's heavy ceiling** distinguishes
-/// "significant escalation". The deep layer must therefore stay off for therapeutic dosing (the
-/// Stage-A bug) and engage only on sustained escalation above the heavy ceiling.
+/// "significant escalation". The deep layer must therefore stay off for therapeutic dosing and
+/// engage only on sustained escalation above the heavy ceiling.
 @Suite("Tolerance calibration")
 @MainActor
 struct ToleranceCalibrationTests {
@@ -567,7 +566,7 @@ struct ToleranceCalibrationTests {
         #expect(gaba.confidence == .unverified) // dose-fraction surrogate → unverified floor
         #expect(gaba.contributors == ["RC-Benzo"]) // the user's logged name, not the representative's
 
-        // And it is no longer reported as incomplete data — the fallback can model it.
+        // And it is not reported as incomplete data: the fallback can model it.
         let incomplete = ToleranceStore.incompleteData(
             doses: Self.dailyDoses("RC-Benzo", mg: 10, days: 14), params: params, now: Self.now,
         )
@@ -864,7 +863,7 @@ struct ToleranceCalibrationTests {
         #expect(gaba.shiftFactor > 1)
         #expect(gaba.contributors == ["RC-CategoryBenzo"]) // keeps the logged name
         #expect(gaba.confidence == .unverified) // dose-fraction surrogate floor
-        // No longer stranded: not surfaced as incomplete, because the category fallback models it.
+        // Not surfaced as incomplete, because the category fallback models it.
         #expect(!ToleranceStore.incompleteData(doses: doses, params: params, now: Self.now).contains("RC-CategoryBenzo"))
     }
 
@@ -951,7 +950,7 @@ struct ToleranceCalibrationTests {
         )
         #expect(try #require(guessed[.psychedelic5HT2A]).confidence == .low)
 
-        // With no Tmax at all we fall back to 4·ke (unchanged behaviour), so the onset adds no
+        // With no Tmax at all we fall back to 4·ke, so the onset adds no
         // uncertainty and the class keeps its otherwise-higher confidence (the .medium class kinetics).
         let absent = ToleranceStore.simulate(
             doses: Self.dailyDoses("TestPsychedelic", mg: 1, days: 3),
@@ -966,7 +965,7 @@ struct ToleranceCalibrationTests {
     @Test
     func `Therapeutic alprazolam builds substantial sedative GABA tolerance`() throws {
         // 1 mg daily for 30 d against a 6 mg heavy ceiling → dose ratio 0.17, far below the deep gate.
-        // §B.cal: the primary gauge is now the SEDATIVE endpoint alone (VINK12: sedation tolerizes
+        // §B.cal: the primary gauge is the SEDATIVE endpoint alone (VINK12: sedation tolerizes
         // near-complete), so even at a therapeutic anxiolytic dose the sedative response is roughly
         // halved — the drowsiness fades while the anxiolytic effect (not gauged here) and the
         // cognitive-impairment endpoint (shift ≡ 1) do not tolerize. Baseline ~0.48 response / ~3.9×

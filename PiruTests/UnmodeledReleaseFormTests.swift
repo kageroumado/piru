@@ -11,9 +11,8 @@ import Testing
 /// *product* with an authored `product_durations` envelope (Concerta, Adderall
 /// XR) is modeled per-product and draws its own curve — see `ProductDurationTests`.
 /// So the unmodeled exemplar here is a bare `XR` naming no known product, which we
-/// genuinely can't place. (Curve resolution was two tiers when these tests were
-/// written; the half-life tier has since been removed, so several nets below now
-/// hold for two independent reasons.)
+/// can't place. With no half-life fallback tier, several nets below hold for two
+/// independent reasons.
 @Suite("Unmodeled release forms")
 @MainActor
 struct UnmodeledReleaseFormTests {
@@ -85,11 +84,10 @@ struct UnmodeledReleaseFormTests {
     @Test
     func `Depot aripiprazole does not synthesize a half-life curve`() {
         // Aripiprazole has zero duration rows, so it never reaches the duration
-        // tier. It used to fall through to half-life synthesis — and
-        // `resolveHalfLifeMinutes` searches by name and by every alias, so its
-        // ORAL half-life (4,500 min / 75 h) drew a ~15-day arc under a depot
-        // injection that actually lasts a month. Now nil for two independent
-        // reasons: the unmodeled form, and the absence of any half-life fallback.
+        // tier. Never fall through to half-life synthesis: its ORAL half-life
+        // (75 h) would draw a ~15-day arc under a depot injection that lasts a
+        // month. Nil for two independent reasons: the unmodeled form, and the
+        // absence of any half-life fallback.
         let state = ActiveSubstanceState.from(
             entry: entry("Aripiprazole", releaseForm: "DEP", productName: "Abilify Maintena", amount: 400),
             tint: P3Color(red: 0.917, green: 0.200, blue: 0.139),

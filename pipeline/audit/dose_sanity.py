@@ -74,7 +74,7 @@ ROUTE_RANK: dict[str, int] = {
 
 #: DB / upstream spellings → the canonical route names above. Mirrors
 #: `RouteOfAdministration.from(string:)` in Shared/RouteOfAdministration.swift,
-#: including `buccal`, which is a first-class case there as of 2026-07-28.
+#: including `buccal`, which is a first-class case there.
 ROUTE_ALIASES: dict[str, str] = {
     "oral_ir": "oral",
     "oral_er": "oral",
@@ -103,9 +103,9 @@ ROUTE_ALIASES: dict[str, str] = {
 #: the route really needs more drug; `--gate` fails on an entry without one.
 ROUTE_EXCEPTIONS: dict[tuple[str, str, str], tuple[str, str]] = {}
 
-#: The HIGH findings already present when the CI gate was introduced. `--gate`
-#: fails only on a finding missing from it, so the list can shrink and never
-#: grow; `--write-baseline` rewrites it after a fix.
+#: The HIGH findings the gate tolerates. `--gate` fails only on a finding
+#: missing from it, so the list can shrink and never grow; `--write-baseline`
+#: rewrites it after a fix.
 BASELINE = REPO / "data/snapshots/dose-sanity-baseline.json"
 
 #: Unit → (dimension, multiplier to the dimension's base). Deliberately exact:
@@ -389,7 +389,7 @@ def compare_routes(
         if key in ROUTE_EXCEPTIONS:
             return None
         # A route two or more steps up the ladder overshooting is a stronger
-        # claim than neighbours swapping, which real pharmacology does.
+        # claim than neighbors swapping, which real pharmacology does.
         gap = ROUTE_RANK[slower.route] - ROUTE_RANK[faster.route]
         severity = "HIGH" if ratio >= 2.5 or (ratio >= 1.8 and gap >= 2) else "MEDIUM"
         return Finding(

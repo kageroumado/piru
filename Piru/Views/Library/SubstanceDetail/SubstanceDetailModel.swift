@@ -18,8 +18,8 @@ final class SubstanceDetailModel {
 
     var wikiTimings: [WikiTimingRecord] = []
 
-    /// Measured receptor binding rows — feed both the pharma-nerd "Receptor
-    /// Literature" list and the unified Pharmacology card's class hero.
+    /// Measured receptor binding rows: they feed both the "Receptor Literature"
+    /// list and the unified Pharmacology card's class hero.
     var literatureBindings: [BindingHit] = []
 
     /// The receptor rows worth showing, derived once per `literatureBindings`
@@ -121,7 +121,7 @@ final class SubstanceDetailModel {
 
     /// Resolve every store-backed field for the substance at the current
     /// disclosure tier. Each query is skipped for tiers that don't show its
-    /// surface, matching the old per-tier `.task` gating.
+    /// surface.
     func load(substanceName: String, category: SubstanceCategory, policy: DisclosurePolicy) {
         // Always fetch provenance — per-field source attribution is shown to
         // every tier so users can see where each fact came from.
@@ -153,9 +153,8 @@ final class SubstanceDetailModel {
         )
         valvularWarning = SubstanceLibrary.valvularWarning(for: substanceName)
 
-        // Binding rows feed two surfaces: the pharma-nerd "Receptor Literature"
-        // list AND the broader "Monoamine Profile" card. The card loads for the
-        // mechanism audience, so fetch once when either surface is shown.
+        // Binding rows feed two surfaces, the "Receptor Literature" list and the
+        // "Monoamine Profile" card, so fetch once when either is shown.
         if policy.showsMechanism || policy.showsReceptorLiterature {
             let binds = store.bindings(forSubstanceName: substanceName)
             monoamineProfile = MonoamineProfile.from(
@@ -187,8 +186,7 @@ final class SubstanceDetailModel {
             }
             : nil
 
-        // Pharmacokinetics (per-route PK + CYP metabolism) is a pharma-nerd
-        // surface — skip the two queries for other tiers.
+        // Per-route PK and CYP metabolism.
         if policy.showsPharmacokinetics {
             pkRoutes = SubstanceStore.displayRows(store.pharmacokinetics(forSubstanceName: substanceName))
             metabolismRows = store.metabolism(forSubstanceName: substanceName)
@@ -199,15 +197,8 @@ final class SubstanceDetailModel {
             pkInteractions = []
         }
 
-        // Grapefruit/smoking/self-edge education is harm-reduction-relevant, so
-        // it loads for non-casual tiers from its own metabolism fetch (the full
-        // PK table above stays pharma-nerd).
-        // One fetch feeds both surfaces. "Also Active" is read on **every** tier,
-        // including casual: whether something other than what you took is
-        // producing the effect is a fact about your experience, not reference
-        // data, and the reader least likely to already know it is the one who
-        // never opens the pharmacology tier. The grapefruit/smoking education
-        // below stays harm-reduction-and-up, since that is genuinely advisory.
+        // One metabolism fetch feeds "Also Active", the CYP2D6 note and the
+        // grapefruit/smoking education.
         let rows = policy.showsPharmacokinetics ? metabolismRows : store.metabolism(forSubstanceName: substanceName)
         activeMetabolites = Self.foldActiveMetabolites(from: rows)
         cyp2d6Info = CYP2D6Info.from(metabolismRows: rows)

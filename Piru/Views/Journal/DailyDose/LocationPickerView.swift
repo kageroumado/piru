@@ -61,15 +61,13 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
         }
     }
 
-    /// Both MapKit/Core Location objects are created lazily on first use, not in
-    /// `init`. This model is the default value of a `@State` property, and SwiftUI
-    /// re-evaluates a `@State` default expression on *every* re-render of the
-    /// owning view — keeping the first instance and discarding the rest. If the
-    /// completer and manager were built in `init`, each throwaway model would spin
-    /// up (and tear down) a `CLLocationManager` and `MKLocalSearchCompleter` with
-    /// delegate wiring, dozens of times per session. Deferring them means a
-    /// discarded model costs nothing, and nothing touches Core Location until the
-    /// user actually searches or asks for their current location.
+    /// Both MapKit and Core Location objects are created lazily on first use,
+    /// never in `init`: this model is a `@State` default, which SwiftUI
+    /// re-evaluates on every re-render of the owning view and then discards, so
+    /// each throwaway model would spin up a `CLLocationManager` and an
+    /// `MKLocalSearchCompleter` with delegate wiring. Lazily, a discarded model
+    /// costs nothing and nothing touches Core Location until the user searches
+    /// or asks for their current location.
     @ObservationIgnored private lazy var completer: MKLocalSearchCompleter = {
         let completer = MKLocalSearchCompleter()
         completer.resultTypes = [.address, .pointOfInterest]
@@ -202,7 +200,7 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
 /// A sheet for attaching a place to a dose: tap "Current Location" or search for
 /// an address / point of interest. Picking one calls `onPick` and dismisses.
 struct LocationPickerView: View {
-    /// Previously used places (most recent first), shown while not searching.
+    /// Places the user picked before (most recent first), shown while not searching.
     var recents: [PickedLocation] = []
     let onPick: (PickedLocation) -> Void
 

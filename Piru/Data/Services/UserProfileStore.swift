@@ -13,8 +13,8 @@ import SwiftData
 ///
 /// Wraps the app's shared `ModelContainer` (set once at launch via ``configure(container:)``) and a
 /// single ``UserProfileRecord`` row, created lazily on first write. On first launch it migrates the
-/// legacy disclosure tier out of the old GRDB `piru-user-prefs.sqlite` so existing users keep their
-/// choice.
+/// disclosure tier out of the legacy GRDB `piru-user-prefs.sqlite`, so a user who set it there keeps
+/// that choice.
 @Observable @MainActor
 final class UserProfileStore {
     static let shared = UserProfileStore()
@@ -67,7 +67,7 @@ final class UserProfileStore {
     private(set) var grapefruitLoggingEnabled: Bool = false
 
     /// Whether the user carries an ALDH2 loss-of-function variant ("alcohol flush"). Self-reported,
-    /// off by default; gates the acetaldehyde readout in the alcohol vertical (Stage 5 / Foundation B).
+    /// off by default; gates the acetaldehyde readout in the alcohol vertical.
     private(set) var aldh2Deficient: Bool = false
 
     // MARK: - Configuration

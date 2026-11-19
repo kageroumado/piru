@@ -161,7 +161,7 @@ nonisolated struct ConcentrationThreshold: Identifiable, Hashable {
 ///
 /// Three tables, one row type, because they answer one question — *and what
 /// does that binding actually do?* — and because three separate sections for
-/// 83 rows would cost more screen than the rows are worth.
+/// so few rows would cost more screen than the rows are worth.
 nonisolated struct TargetEvidence: Identifiable, Hashable {
     enum Kind: String, Hashable, Sendable {
         /// Which pathway the agonist favours at one receptor.

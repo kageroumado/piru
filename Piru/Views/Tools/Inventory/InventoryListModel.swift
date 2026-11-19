@@ -66,7 +66,7 @@ struct InventorySectionGroup: Identifiable {
 /// two filter facets — plus the filtering/grouping itself.
 ///
 /// This is a model rather than a pile of `@State` for the usual reason: the
-/// manager would otherwise re-evaluate its whole body (81 rows, each doing a
+/// manager would otherwise re-evaluate its whole body (every row doing a
 /// library lookup) on every keystroke of the search field. Keeping the options
 /// here also makes the sectioning a plain, testable function of its inputs.
 ///
@@ -196,7 +196,7 @@ final class InventoryListModel {
     // MARK: Category resolution
 
     /// Memoized `substance → class` lookups, keyed by the lowercased canonical
-    /// name. Resolving 81 items through ``SubstanceLibrary`` on every body pass
+    /// name. Resolving every item through ``SubstanceLibrary`` on every body pass
     /// is the one genuinely expensive part of grouping. Emptied whenever
     /// ``CustomSubstanceStore/revision`` moves, since a custom edit can change a
     /// class; a name that does not resolve is left unmemoized so a cold catalog
