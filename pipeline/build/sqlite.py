@@ -4819,36 +4819,6 @@ def is_chemistry_noise(name: str) -> bool:
     return bool(_CHEM_NOISE_PREFIX.search(n)) or bool(_CHEM_NOISE_BODY.search(n))
 
 
-# A bare CIP stereo-descriptor followed by a redundant parenthesised optical
-# rotation — "S-(+)-MDMA", "R-(-)-MDMA", "D-(−)-…". These aren't chemistry NOISE
-# (they're real, keepable enantiomers), so is_chemistry_noise() rightly leaves
-# them; but the raw double-descriptor reads badly. legible_stereo_name() cleans
-# them for DISPLAY only.
-_STEREO_ROTATION_PREFIX = re.compile(r"^([DLRS])-\(\s*[+\-−]\s*\)-(.+)$", re.IGNORECASE)
-
-
-def legible_stereo_name(name: str) -> str | None:
-    """Reformat a redundant CIP-plus-rotation prefix into the clean, standard
-    parenthesised-descriptor form for display: "S-(+)-MDMA" → "(S)-MDMA",
-    "R-(-)-MDMA" → "(R)-MDMA". The optical rotation is dropped as redundant with
-    the CIP letter. Returns None when the name doesn't match (leave it alone).
-
-    Sets *display_name* only — the canonical name (the dedup key, and what
-    isomer-families.json / _CATEGORY_OVERRIDES reference) is untouched. Note the
-    clean "(S)-…" form would normalise onto the racemate's key, so it must NEVER
-    become the canonical — display only.
-
-    Every enantiomer in `isomer-families.json` folds into its parent as an isomer
-    variant, so on a full build this matches no rows ("Legible stereo display
-    names: 0"). It is a display safety net for an enantiomer that carries a
-    redundant CIP-plus-rotation prefix but is missing from that file: such a row
-    stays distinct and still reads cleanly until it is folded."""
-    m = _STEREO_ROTATION_PREFIX.match((name or "").strip())
-    if not m:
-        return None
-    return f"({m.group(1).upper()})-{m.group(2)}"
-
-
 # ---------------------------------------------------------------------------
 # Display-policy classification vocab (consumed by Build.classify_compounds)
 # ---------------------------------------------------------------------------
@@ -14839,22 +14809,6 @@ class Build:
                 n += 1
         return n
 
-    def apply_legible_stereo_names(self) -> int:
-        """Give redundant CIP-plus-rotation canonical names ("S-(+)-MDMA") a clean
-        parenthesised display_name ("(S)-MDMA"). Only fills an empty display_name,
-        never overwrites a curated one, and never touches canonical_name."""
-        n = 0
-        for sid, cname in self.cur.execute(
-            "SELECT id, canonical_name FROM substances WHERE display_name IS NULL"
-        ).fetchall():
-            legible = legible_stereo_name(cname)
-            if legible and legible != cname:
-                self.cur.execute(
-                    "UPDATE substances SET display_name = ? WHERE id = ?", (legible, sid)
-                )
-                n += 1
-        return n
-
     # Categories whose prescription (medical_rx) members must carry NO dose /
     # duration data at all — a doctor's domain, shown via the app's Rx-medication
     # card, never a dose ladder. Deleting (not just hiding) keeps clinical doses
@@ -16109,10 +16063,6 @@ def main() -> int:
     # curated file). Runs before classify so display_class uses the fix.
     cat_overrides = build.apply_category_overrides()
     print(f"Category overrides: {cat_overrides}", file=sys.stderr)
-
-    # Clean redundant CIP+rotation names ("S-(+)-MDMA" → display "(S)-MDMA").
-    stereo_named = build.apply_legible_stereo_names()
-    print(f"Legible stereo display names: {stereo_named}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
