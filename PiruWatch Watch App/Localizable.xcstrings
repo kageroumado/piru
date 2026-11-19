@@ -36,6 +36,18 @@
             "state" : "translated",
             "value" : "%@ mL"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 毫升"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 毫升"
+          }
         }
       }
     },
@@ -57,6 +69,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ mL · %@%%"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 毫升 · %2$@%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 毫升 · %2$@%%"
           }
         }
       }

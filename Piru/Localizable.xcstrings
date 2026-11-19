@@ -409,35 +409,6 @@
         }
       }
     },
-    "\"How is it going?\" at set points in a session, each opening a timestamped note. Off unless you turn it on for that session." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "«¿Cómo va?» en puntos fijos de una sesión, cada uno abriendo una nota con marca de tiempo. Desactivado a menos que lo actives para esa sesión."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "«¿Cómo va?» en puntos fijos de una sesión, cada uno abriendo una nota con marca de tiempo. Desactivado a menos que lo actives para esa sesión."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在场次中的几个时点提示“现在感觉如何？”，每次打开一条带时间戳的笔记。默认关闭，需为该场次开启。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在場次中的幾個時點提示「現在感覺如何？」，每次開啟一則帶時間戳的筆記。預設關閉，需為該場次開啟。"
-          }
-        }
-      }
-    },
     "\"How is it going?\" at set points in a session, each opening a timestamped note. Off unless you turn it on, for one session or for every session." : {
       "localizations" : {
         "es" : {
@@ -10253,35 +10224,6 @@
         }
       }
     },
-    "A liquid. Each component's amount is per mL, and logging it asks for the volume you took." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un líquido. La cantidad de cada componente es por mL, y al registrarlo se te pide el volumen que tomaste."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un líquido. La cantidad de cada componente es por mL, y al registrarlo se te pide el volumen que tomaste."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "液体。每种成分的含量按每毫升计，记录时会请你填写服用的容量。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "液體。每種成分的含量按每毫升計，記錄時會請你填寫服用的容量。"
-          }
-        }
-      }
-    },
     "A meal delays **%@** by %@" : {
       "localizations" : {
         "es" : {
@@ -11939,35 +11881,6 @@
         }
       }
     },
-    "Acil Yardim" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acil Yardim"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acil Yardim"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acil Yardim"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acil Yardim"
-          }
-        }
-      }
-    },
     "Acil Yardım" : {
       "localizations" : {
         "es" : {
@@ -12105,35 +12018,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "由 CYP2D6 活化"
-          }
-        }
-      }
-    },
-    "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Activa 5-HT2B, que se asocia con daño en las válvulas cardíacas (valvulopatía) con uso crónico o intenso."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Activa 5-HT2B, que se asocia con daño en las válvulas cardíacas (valvulopatía) con uso crónico o intenso."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "激活 5-HT2B；长期或大量使用与心脏瓣膜损害（瓣膜病变）相关。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "活化 5-HT2B；長期或大量使用與心臟瓣膜損害（瓣膜病變）相關。"
           }
         }
       }
@@ -15617,35 +15501,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部漏服"
-          }
-        }
-      }
-    },
-    "All of these have passed. Times are measured from your latest dose." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todos ya han pasado. Los tiempos se miden desde tu última dosis."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todos ya han pasado. Los tiempos se miden desde tu última dosis."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这些都已经过去了。时间是从你最近一次剂量算起的。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這些都已經過去了。時間是從你最近一次劑量算起的。"
           }
         }
       }
@@ -23039,35 +22894,6 @@
         }
       }
     },
-    "Centro de Asistencia al Suicida" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Centro de Asistencia al Suicida"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Centro de Asistencia al Suicida"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Centro de Asistencia al Suicida"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Centro de Asistencia al Suicida"
-          }
-        }
-      }
-    },
     "Centro de Informação Antivenenos" : {
       "localizations" : {
         "es" : {
@@ -24742,19 +24568,44 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "近"
+            "value" : "关闭"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "近"
+            "value" : "關閉"
           }
         }
       }
     },
     "Close record" : {
-
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar registro"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar registro"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉記錄"
+          }
+        }
+      }
     },
     "Close scanner" : {
       "localizations" : {
@@ -24780,6 +24631,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關閉掃描"
+          }
+        }
+      }
+    },
+    "Close-up" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De cerca"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De cerca"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近"
           }
         }
       }
@@ -31555,7 +31434,32 @@
       }
     },
     "Discard Changes" : {
-
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descartar cambios"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descartar cambios"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放弃更改"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "捨棄變更"
+          }
+        }
+      }
     },
     "Discard Entries" : {
       "localizations" : {
@@ -31586,7 +31490,32 @@
       }
     },
     "Discard your changes?" : {
-
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Descartar los cambios?"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Descartar los cambios?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要放弃更改吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要捨棄變更嗎？"
+          }
+        }
+      }
     },
     "Disconnective" : {
       "extractionState" : "stale",
@@ -34624,35 +34553,6 @@
         }
       }
     },
-    "Each line as a share of its own peak" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cada línea como proporción de su propio pico"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cada línea como proporción de su propio pico"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每条线按自身峰值的比例显示"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每條線按自身峰值的比例顯示"
-          }
-        }
-      }
-    },
     "Each profile is its own journal. Deleting one deletes its journal." : {
       "localizations" : {
         "es" : {
@@ -34677,35 +34577,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每個個人檔案都有自己的日記。刪除個人檔案會一併刪除其日記。"
-          }
-        }
-      }
-    },
-    "Each row as a share of its own peak" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cada fila como proporción de su propio pico"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cada fila como proporción de su propio pico"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每行按自身峰值的比例显示"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每行按自身峰值的比例顯示"
           }
         }
       }
@@ -35098,35 +34969,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯"
-          }
-        }
-      }
-    },
-    "Edit Combination" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editar combinación"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editar combinación"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "编辑复方"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "編輯複方"
           }
         }
       }
@@ -39147,35 +38989,6 @@
         }
       }
     },
-    "Every few days" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cada varios días"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cada varios días"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每隔几天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每隔幾天"
-          }
-        }
-      }
-    },
     "Every hour" : {
       "localizations" : {
         "es" : {
@@ -40687,35 +40500,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "根據模型支援的記錄估計感受與精力曲線。"
-          }
-        }
-      }
-    },
-    "Feeling and energy estimated from this session" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sensación y energía estimadas a partir de esta sesión"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sensación y energía estimadas a partir de esta sesión"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "根据本场记录估计的感受与精力"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "根據本場記錄估計的感受與精力"
           }
         }
       }
@@ -44258,35 +44042,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有半衰期資料"
-          }
-        }
-      }
-    },
-    "Hatanumero" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hatanumero"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hatanumero"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hatanumero"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hatanumero"
           }
         }
       }
@@ -49159,35 +48914,6 @@
         }
       }
     },
-    "Intihar Onleme Hatti" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intihar Onleme Hatti"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intihar Onleme Hatti"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intihar Onleme Hatti"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intihar Onleme Hatti"
-          }
-        }
-      }
-    },
     "Into Your Journal" : {
       "localizations" : {
         "es" : {
@@ -49947,7 +49673,32 @@
       }
     },
     "Keep Editing" : {
-
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguir editando"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguir editando"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续编辑"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繼續編輯"
+          }
+        }
+      }
     },
     "Keep My Colors" : {
       "localizations" : {
@@ -50405,35 +50156,6 @@
         }
       }
     },
-    "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni y swift-android-native."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kotlin, AndroidX, Jetpack Compose, Coil, Material Symbols, swift-crypto, swift-asn1, swift-jni y swift-android-native."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kotlin、AndroidX、Jetpack Compose、Coil、Material Symbols、swift-crypto、swift-asn1、swift-jni 和 swift-android-native。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kotlin、AndroidX、Jetpack Compose、Coil、Material Symbols、swift-crypto、swift-asn1、swift-jni 與 swift-android-native。"
-          }
-        }
-      }
-    },
     "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -50577,7 +50299,32 @@
       }
     },
     "Lane" : {
-
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carril"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carril"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "泳道"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "泳道"
+          }
+        }
+      }
     },
     "Language" : {
       "localizations" : {
@@ -51079,35 +50826,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "留空則以用量未知記錄這份劑量。對於複方製劑，填寫服用的單位數；液體則填寫毫升數。"
-          }
-        }
-      }
-    },
-    "Leave empty to log the dose with its amount unknown. For a combination product, the number of units taken." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Déjalo vacío para registrar la dosis con cantidad desconocida. Para un producto combinado, el número de unidades tomadas."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Déjalo vacío para registrar la dosis con cantidad desconocida. Para un producto combinado, el número de unidades tomadas."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "留空则以用量未知记录这份剂量。对于复方制剂，填写服用的单位数。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "留空則以用量未知記錄這份劑量。對於複方製劑，填寫服用的單位數。"
           }
         }
       }
@@ -51784,35 +51502,6 @@
         }
       }
     },
-    "Lifeline Ukraine" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lifeline Ukraine"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lifeline Ukraine"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "乌克兰生命线"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "烏克蘭生命線"
-          }
-        }
-      }
-    },
     "Light" : {
       "comment" : "Dose band",
       "localizations" : {
@@ -52262,35 +51951,6 @@
         }
       }
     },
-    "Linea 113 Salud" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea 113 Salud"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea 113 Salud"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea 113 Salud"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea 113 Salud"
-          }
-        }
-      }
-    },
     "Línea 113 Salud" : {
       "localizations" : {
         "es" : {
@@ -52315,64 +51975,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Línea 113 Salud"
-          }
-        }
-      }
-    },
-    "Linea de Crisis" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Crisis"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Crisis"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Crisis"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Crisis"
-          }
-        }
-      }
-    },
-    "Linea de Emergencias" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Emergencias"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Emergencias"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Emergencias"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Emergencias"
           }
         }
       }
@@ -52405,35 +52007,6 @@
         }
       }
     },
-    "Linea de la Vida" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Línea de la Vida"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Línea de la Vida"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de la Vida"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de la Vida"
-          }
-        }
-      }
-    },
     "Línea de la Vida" : {
       "localizations" : {
         "es" : {
@@ -52458,35 +52031,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Línea de la Vida"
-          }
-        }
-      }
-    },
-    "Linea de Prevencion del Suicidio" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Prevencion del Suicidio"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Prevencion del Suicidio"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Prevencion del Suicidio"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linea de Prevencion del Suicidio"
           }
         }
       }
@@ -52599,35 +52143,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "也有報告提到殘留的視覺或思維模式，通常會在數小時內消退。"
-          }
-        }
-      }
-    },
-    "Linka bezpeci" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linka bezpeci"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linka bezpeci"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linka bezpeci"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linka bezpeci"
           }
         }
       }
@@ -56416,35 +55931,6 @@
         }
       }
     },
-    "Mind Sjalvmordslinjen" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mind Sjalvmordslinjen"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mind Sjalvmordslinjen"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mind Sjalvmordslinjen"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mind Sjalvmordslinjen"
-          }
-        }
-      }
-    },
     "Mind Självmordslinjen" : {
       "localizations" : {
         "es" : {
@@ -59875,35 +59361,6 @@
         }
       }
     },
-    "New Combination" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nueva combinación"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nueva combinación"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新建复方"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新建複方"
-          }
-        }
-      }
-    },
     "New concentration" : {
       "localizations" : {
         "es" : {
@@ -62324,35 +61781,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有符合目前搜尋與篩選條件的追蹤物質。"
-          }
-        }
-      }
-    },
-    "Nodnummer" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nodnummer"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nodnummer"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nodnummer"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nodnummer"
           }
         }
       }
@@ -68452,35 +67880,6 @@
         }
       }
     },
-    "Per mL" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Por mL"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Por mL"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按毫升"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按毫升"
-          }
-        }
-      }
-    },
     "per pill" : {
       "localizations" : {
         "es" : {
@@ -68533,35 +67932,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每錠"
-          }
-        }
-      }
-    },
-    "Per unit" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Por unidad"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Por unidad"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按单位"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按單位"
           }
         }
       }
@@ -69328,35 +68698,6 @@
         }
       }
     },
-    "Picking this in the quick log stages one dose per component." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Al elegirlo en el registro rápido se prepara una dosis por componente."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Al elegirlo en el registro rápido se prepara una dosis por componente."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在快捷记录中选择它时，每种成分各加入一条剂量。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在快捷記錄中選擇它時，每種成分各加入一筆劑量。"
-          }
-        }
-      }
-    },
     "Pieces" : {
       "localizations" : {
         "es" : {
@@ -69409,35 +68750,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pieta"
-          }
-        }
-      }
-    },
-    "Pieta House" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pieta House"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pieta House"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pieta House"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pieta House"
           }
         }
       }
@@ -70316,35 +69628,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru、PsychonautWiki、試算表或加密備份"
-          }
-        }
-      }
-    },
-    "Piru, PsychonautWiki, or an encrypted backup" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru, PsychonautWiki o una copia cifrada"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru, PsychonautWiki o una copia cifrada"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru、PsychonautWiki 或加密备份"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru、PsychonautWiki 或加密備份"
           }
         }
       }
@@ -76090,35 +75373,6 @@
         }
       }
     },
-    "Remove from Shared Session" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quitar de la sesión compartida"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quitar de la sesión compartida"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "从共享场次中移除"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "從共享場次中移除"
-          }
-        }
-      }
-    },
     "Remove Last" : {
       "localizations" : {
         "es" : {
@@ -79060,35 +78314,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SAMU"
-          }
-        }
-      }
-    },
-    "Sanitatsnotruf" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sanitatsnotruf"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sanitatsnotruf"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sanitatsnotruf"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sanitatsnotruf"
           }
         }
       }
@@ -83587,35 +82812,6 @@
         }
       }
     },
-    "Showing the first 60 days." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se muestran los primeros 60 días."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se muestran los primeros 60 días."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示前 60 天。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示前 60 天。"
-          }
-        }
-      }
-    },
     "Showing the guide for the classes you logged in the last 48 hours. Tap above for the full guide." : {
       "localizations" : {
         "es" : {
@@ -85861,35 +85057,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "降序排列"
-          }
-        }
-      }
-    },
-    "SOS Amitie" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "SOS Amitie"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "SOS Amitie"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "SOS Amitie"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "SOS Amitie"
           }
         }
       }
@@ -91028,35 +90195,6 @@
         }
       }
     },
-    "Telefono de la Esperanza" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telefono de la Esperanza"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telefono de la Esperanza"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telefono de la Esperanza"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telefono de la Esperanza"
-          }
-        }
-      }
-    },
     "Teléfono de la Esperanza" : {
       "localizations" : {
         "es" : {
@@ -91562,35 +90700,6 @@
         }
       }
     },
-    "The %lld you logged most are drawn. Tap a name to add or remove its line." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se dibujan las %lld que más registraste. Toca un nombre para añadir o quitar su línea."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se dibujan las %lld que más registraste. Toca un nombre para añadir o quitar su línea."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已绘制你记录最多的 %lld 种。点按名称可添加或移除其曲线。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已繪製你記錄最多的 %lld 種。點按名稱可加入或移除其曲線。"
-          }
-        }
-      }
-    },
     "The amount that counts as a full supply for the bar. Set to 0 to hide the bar." : {
       "localizations" : {
         "es" : {
@@ -91875,7 +90984,32 @@
       }
     },
     "The entry you are editing has changes that are not saved." : {
-
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El registro que estás editando tiene cambios sin guardar."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El registro que estás editando tiene cambios sin guardar."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你正在编辑的记录有未保存的更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你正在編輯的記錄有未儲存的變更。"
+          }
+        }
+      }
     },
     "The exact amount you have now. Changing it is logged as a correction." : {
       "localizations" : {
@@ -95289,35 +94423,6 @@
         }
       }
     },
-    "Times are measured from your latest dose, so logging another moves them." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los tiempos se miden desde tu última dosis, así que registrar otra los desplaza."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los tiempos se miden desde tu última dosis, así que registrar otra los desplaza."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "时间是从你最近一次剂量算起的，所以再记录一次就会把它们往后推。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "時間是從你最近一次劑量算起的，所以再記錄一次就會把它們往後推。"
-          }
-        }
-      }
-    },
     "Times since last dose" : {
       "localizations" : {
         "es" : {
@@ -95398,35 +94503,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tísňová linka"
-          }
-        }
-      }
-    },
-    "Tisnovka" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tisnovka"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tisnovka"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tisnovka"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tisnovka"
           }
         }
       }
@@ -97452,35 +96528,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "單位（如 mg、ml、µg）"
-          }
-        }
-      }
-    },
-    "Unit (e.g. tablet, capsule)" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unidad (p. ej. pastilla, cápsula)"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unidad (p. ej. pastilla, cápsula)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "单位（如片、粒）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "單位（如片、粒）"
           }
         }
       }
@@ -100451,35 +99498,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這是什麼？"
-          }
-        }
-      }
-    },
-    "What one of these is called. Each component's amount is per unit." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cómo se llama una unidad. La cantidad de cada componente es por unidad."
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cómo se llama una unidad. La cantidad de cada componente es por unidad."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一份的叫法。每种成分的用量按每单位计。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一份的叫法。每種成分的用量按每單位計。"
           }
         }
       }

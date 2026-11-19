@@ -15,11 +15,6 @@ from pathlib import Path
 # Translations: English -> (Simplified, Traditional)
 T = {
     "Times since last dose": ("距上次剂量的时间", "距上次劑量的時間"),
-    "Each row as a share of its own peak": ("每行按自身峰值的比例显示", "每行按自身峰值的比例顯示"),
-    "The %lld you logged most are drawn. Tap a name to add or remove its line.": (
-        "已绘制你记录最多的 %lld 种。点按名称可添加或移除其曲线。",
-        "已繪製你記錄最多的 %lld 種。點按名稱可加入或移除其曲線。",
-    ),
     "How pleasant it is likely to feel. Below the baseline is a comedown.": (
         "大概会有多舒服。低于基线即为下头。",
         "大概會有多舒服。低於基線即為下頭。",
@@ -206,14 +201,6 @@ T = {
     "Quiet hours": ("勿扰时段", "勿擾時段"),
     "Edit times": ("编辑时间", "編輯時間"),
     "No times on this schedule yet.": ("这份计划里还没有时间。", "這份計劃裡還沒有時間。"),
-    "All of these have passed. Times are measured from your latest dose.": (
-        "这些都已经过去了。时间是从你最近一次剂量算起的。",
-        "這些都已經過去了。時間是從你最近一次劑量算起的。",
-    ),
-    "Times are measured from your latest dose, so logging another moves them.": (
-        "时间是从你最近一次剂量算起的，所以再记录一次就会把它们往后推。",
-        "時間是從你最近一次劑量算起的，所以再記錄一次就會把它們往後推。",
-    ),
     "Check-in notifications are off in Settings, so none of these will arrive.": (
         "状态确认通知在设置里是关闭的，所以这些都不会送达。",
         "狀態確認通知在設定裡是關閉的，所以這些都不會送達。",
@@ -771,10 +758,6 @@ T = {
         "劑量僅幾毫克，請用毫克秤（0.001 g）。無法目測或用廚房秤稱量。",
     ),
     "Drug": ("药物", "藥物"),
-    "Each line as a share of its own peak": (
-        "每条线按自身峰值的比例显示",
-        "每條線按自身峰值的比例顯示",
-    ),
     "Effects can outlast the duration above. %@ is still present when %@'s listed duration ends.": (
         "效应可能超过上述时长。%2$@ 的标注时长结束时，%1$@ 仍在体内。",
         "效應可能超過上述時長。%2$@ 的標註時長結束時，%1$@ 仍在體內。",
@@ -901,7 +884,6 @@ T = {
         "分享本场",
         "分享本場",
     ),
-    "Showing the first 60 days.": ("显示前 60 天。", "顯示前 60 天。"),
     "Slide to move, pinch to zoom, and hold to inspect a moment.": (
         "滑动移动，捏合缩放，长按查看某一时刻。",
         "滑動移動，捏合縮放，長按查看某一時刻。",
@@ -3429,32 +3411,15 @@ T = {
     "Compound": ("单一成分", "單一成分"),
     "Combination": ("复方", "複方"),
     "Product name (e.g. Co-codamol)": ("产品名称（如 Co-codamol）", "產品名稱（如 Co-codamol）"),
-    "Unit (e.g. tablet, capsule)": ("单位（如片、粒）", "單位（如片、粒）"),
-    "What one of these is called. Each component's amount is per unit.": (
-        "一份的叫法。每种成分的用量按每单位计。",
-        "一份的叫法。每種成分的用量按每單位計。",
-    ),
     "Components": ("成分", "成分"),
     "Component": ("成分", "成分"),
     "Add Component": ("添加成分", "新增成分"),
-    "Picking this in the quick log stages one dose per component.": (
-        "在快捷记录中选择它时，每种成分各加入一条剂量。",
-        "在快捷記錄中選擇它時，每種成分各加入一筆劑量。",
-    ),
-    "Edit Combination": ("编辑复方", "編輯複方"),
-    "New Combination": ("新建复方", "新建複方"),
     "Amount per %@": ("每%@的用量", "每%@的用量"),
     "per %@": ("每%@", "每%@"),
     "%@ · per %@": ("%@ · 每%@", "%@ · 每%@"),
     "Part of %@": ("%@ 的一部分", "%@ 的一部分"),
     # Liquid combination products, logged by volume.
     "Measured": ("计量方式", "計量方式"),
-    "Per unit": ("按单位", "按單位"),
-    "Per mL": ("按毫升", "按毫升"),
-    "A liquid. Each component's amount is per mL, and logging it asks for the volume you took.": (
-        "液体。每种成分的含量按每毫升计，记录时会请你填写服用的容量。",
-        "液體。每種成分的含量按每毫升計，記錄時會請你填寫服用的容量。",
-    ),
     "Volume of %@": ("%@ 的容量", "%@ 的容量"),
     "Part of %@ · %@ mL": ("%@ 的一部分 · %@ mL", "%@ 的一部分 · %@ mL"),
     "Leave empty to log the dose with its amount unknown. For a combination product, the number of units taken, or the volume in mL for a liquid.": (
@@ -3646,10 +3611,6 @@ T = {
     "Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted.** Your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only, never your dose data.": (
         "Piru 这次未能打开你的日记，目前正以临时存储运行。**没有任何数据被删除。**你的剂量和场次仍安全保存在这台设备上，未来的更新会自动恢复它们。\n\n发送日志能帮助我们更快推出修复。日志只描述存储问题本身，绝不包含你的剂量数据。",
         "Piru 這次未能開啟你的日記，目前正以暫時儲存空間執行。**沒有任何資料被刪除。**你的劑量和場次仍安全保存在這部裝置上，未來的更新會自動還原它們。\n\n傳送記錄檔能幫助我們更快推出修正。記錄檔只描述儲存問題本身，絕不包含你的劑量資料。",
-    ),
-    "Piru, PsychonautWiki, or an encrypted backup": (
-        "Piru、PsychonautWiki 或加密备份",
-        "Piru、PsychonautWiki 或加密備份",
     ),
     "Quick-Log Shortcuts": (
         "快捷记录快捷项",
@@ -5655,7 +5616,7 @@ T = {
     # Receptor load zoom
     "Wide": ("宽", "寬"),
     "Medium": ("中", "中"),
-    "Close": ("近", "近"),
+    "Close-up": ("近", "近"),
     "Zoom": ("缩放", "縮放"),
     # import file errors
     "The file is empty. Nothing was saved into it, so export again and wait for the save to finish before importing.": (
@@ -7086,6 +7047,18 @@ T = {
     ),
     "Record an entry": ("添加记录", "新增記錄"),
     "Discard Entries": ("放弃记录", "捨棄記錄"),
+    # Split view: closing a record with unsaved edits.
+    "Close": ("关闭", "關閉"),
+    "Close record": ("关闭记录", "關閉記錄"),
+    "Discard Changes": ("放弃更改", "捨棄變更"),
+    "Discard your changes?": ("要放弃更改吗？", "要捨棄變更嗎？"),
+    "Keep Editing": ("继续编辑", "繼續編輯"),
+    "The entry you are editing has changes that are not saved.": (
+        "你正在编辑的记录有未保存的更改。",
+        "你正在編輯的記錄有未儲存的變更。",
+    ),
+    # Body-load chart: the y value each substance's band sits on.
+    "Lane": ("泳道", "泳道"),
     "Nothing Staged": ("尚无暂存剂量", "尚無暫存劑量"),
     "Choose a dose on the left, or search for a substance.": (
         "在左侧选择一个剂量，或搜索物质。",
@@ -7231,10 +7204,6 @@ T = {
         "CDC 2022 年參考係數。個體反應存在差異。",
     ),
     "%@ MME per mg": ("每 mg 为 %@ MME", "每 mg 為 %@ MME"),
-    "Feeling and energy estimated from this session": (
-        "根据本场记录估计的感受与精力",
-        "根據本場記錄估計的感受與精力",
-    ),
     "Feeling and energy curves based on the entries this model supports.": (
         "根据模型支持的记录估计感受与精力曲线。",
         "根據模型支援的記錄估計感受與精力曲線。",
@@ -7555,10 +7524,6 @@ T = {
     "Opens Piru with a dose staged in the quick log, ready to review and save.": (
         "打开 Piru，在快速记录中放好一份剂量，供你检查并保存。",
         "開啟 Piru，在快速記錄中放好一份劑量，供你檢查並儲存。",
-    ),
-    "Leave empty to log the dose with its amount unknown. For a combination product, the number of units taken.": (
-        "留空则以用量未知记录这份剂量。对于复方制剂，填写服用的单位数。",
-        "留空則以用量未知記錄這份劑量。對於複方製劑，填寫服用的單位數。",
     ),
     "Leave empty to open the dose editor on the usual dose.": (
         "留空则在常用剂量上打开剂量编辑器。",
@@ -8107,6 +8072,7 @@ WATCH_T = {
             "By Volume",
             "Concentration",
             "Strength",
+            "%@ mL",
         )
     },
     "No Favorites Yet": ("还没有收藏", "還沒有收藏"),
@@ -8117,6 +8083,7 @@ WATCH_T = {
     "Increase ABV": ("提高酒精度", "提高酒精度"),
     "%@%% ABV": ("%@%% 酒精度", "%@%% 酒精度"),
     "≈ %@ g · ≈ %@ drinks": ("≈ %1$@ g · ≈ %2$@ 标准杯", "≈ %1$@ g · ≈ %2$@ 標準杯"),
+    "%@ mL · %@%%": ("%1$@ 毫升 · %2$@%%", "%1$@ 毫升 · %2$@%%"),
 }
 
 
@@ -8328,8 +8295,6 @@ if __name__ == "__main__":
         "Forest",
         "Amber",
         "Times since last dose",
-        "Each row as a share of its own peak",
-        "The %lld you logged most are drawn. Tap a name to add or remove its line.",
         "How pleasant it is likely to feel. Below the baseline is a comedown.",
         "How activated or sedated. Below the baseline is sedation.",
         "Above the baseline reads as pleasant, below it as a comedown. An opioid adds warmth of its own but does not cancel a stimulant's comedown.",
@@ -9422,14 +9387,9 @@ if __name__ == "__main__":
             "Compound",
             "Combination",
             "Product name (e.g. Co-codamol)",
-            "Unit (e.g. tablet, capsule)",
-            "What one of these is called. Each component's amount is per unit.",
             "Components",
             "Component",
             "Add Component",
-            "Picking this in the quick log stages one dose per component.",
-            "Edit Combination",
-            "New Combination",
             "Amount per %@",
             "per %@",
             "%@ · per %@",
@@ -9440,9 +9400,6 @@ if __name__ == "__main__":
     NEW_KEYS.update(
         {
             "Measured",
-            "Per unit",
-            "Per mL",
-            "A liquid. Each component's amount is per mL, and logging it asks for the volume you took.",
             "Volume of %@",
             "Part of %@ · %@ mL",
             "Leave empty to log the dose with its amount unknown. For a combination product, the number of units taken, or the volume in mL for a liquid.",
@@ -9719,6 +9676,8 @@ if __name__ == "__main__":
     )
     # Metabolic-modulation strength
     NEW_KEYS.update({"Weak effect", "Moderate effect", "Strong effect"})
+    # Receptor load zoom: its own key, so the Close buttons are not translated "near"
+    NEW_KEYS.add("Close-up")
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(
         project_root / "Piru/Localizable.xcstrings",

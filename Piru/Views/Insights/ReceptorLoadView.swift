@@ -74,7 +74,7 @@ struct ReceptorLoadView: View {
             switch self {
             case .wide: "Wide"
             case .medium: "Medium"
-            case .close: "Close"
+            case .close: "Close-up"
             }
         }
 
