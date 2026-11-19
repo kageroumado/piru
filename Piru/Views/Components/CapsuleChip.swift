@@ -45,12 +45,11 @@ extension Text {
     /// The shared badge grammar for categorical labels on a row — the route pill
     /// ("oral") and the dose-strength chip ("heavy") render identically so they
     /// read as one visual language: caption2-semibold text on a tinted chip.
-    /// `text` is the gated label colour, `fill` the mark colour the chip is
-    /// tinted from. They are separate because they cannot be the same value:
-    /// a colour drawn on a tint of *itself* tops out around 4.5:1 and fails
-    /// below it, which is what put most of this app's small copy under WCAG AA.
-    /// Every scale in `design-system/color/` ships both variants for exactly
-    /// this call. The form (capsule or blinky) is the skin's — see ``skinChip``.
+    /// `text` is the gated label color, `fill` the mark color the chip is
+    /// tinted from. They must differ: a color drawn on a tint of itself tops out
+    /// around 4.5:1, below WCAG AA for small text. Every scale in
+    /// `design-system/color/` ships both variants for this call. The form
+    /// (capsule or blinky) is the skin's; see ``skinChip``.
     func capsuleChip(text: Color, fill: Color, size: CapsuleChipSize = .compact) -> some View {
         skinChip(
             text: text,
@@ -90,14 +89,14 @@ extension Text {
         capsuleOutlineChip(stroke: Color.secondary.opacity(0.3))
     }
 
-    /// The outline grammar carrying an **identity** colour in its stroke.
+    /// The outline grammar carrying an **identity** color in its stroke.
     ///
-    /// This is how a per-substance colour appears on a chip. It cannot be the
-    /// label colour: identity colours are chosen by the user, or by an FNV-1a
+    /// This is how a per-substance color appears on a chip. It cannot be the
+    /// label color: identity colors are chosen by the user, or by an FNV-1a
     /// hash of the substance name, so nothing constrains their lightness — and
     /// clearing 4.5:1 as 11pt text on a tint of itself needs Oklab L <= 0.50,
     /// which the app's own palette mostly exceeds. A stroke is a non-text mark
-    /// at the 3:1 floor, so the colour still identifies the row while the label
+    /// at the 3:1 floor, so the color still identifies the row while the label
     /// stays readable.
     func capsuleOutlineChip(stroke: Color) -> some View {
         skinOutlineChip(stroke: stroke, style: .caption2, weight: .medium, horizontal: Spacing.md, vertical: 3)

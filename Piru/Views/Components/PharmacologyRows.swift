@@ -5,13 +5,12 @@ import SwiftUI
 // `SubstanceLibraryView` so the detail file stays under the length budget and
 // these redesignable cards live in one obvious place.
 
-/// The **grouped receptor-literature** table for monoamine drugs (the redesign's evidence block, step 4):
-/// one cluster per receptor, laid out on a `Grid` so the `dots · value · species · ↗` columns line up
-/// identically whether the receptor carries a single measurement (rendered inline next to its name) or
-/// several (each its own sub-row, labeled only by what distinguishes it — an enantiomer/site qualifier,
-/// or Release vs Reuptake). The Grid keeps the columns aligned even when a row has no species badge — a
-/// trailing-cluster `HStack` would otherwise shove the dots right on those rows.
-/// Receptor-panel classes (opioid/benzo/dissociative) never reach here — their class hero already carries this.
+/// The grouped receptor-literature table for monoamine drugs: one cluster per receptor, laid out on a
+/// `Grid` so the `dots · value · species · ↗` columns line up whether the receptor carries a single
+/// measurement (inline next to its name) or several (each its own sub-row, labeled by what
+/// distinguishes it: an enantiomer or site qualifier, or Release vs Reuptake). A trailing-cluster
+/// `HStack` would shove the dots right on rows with no species badge; the `Grid` keeps them aligned.
+/// Receptor-panel classes (opioid/benzo/dissociative) never reach here; their class hero carries this.
 struct GroupedReceptorLiterature: View {
     let rows: [BindingHit]
     let accent: Color
@@ -77,7 +76,7 @@ struct GroupedReceptorLiterature: View {
     private func inlineTitle(name: String, hit: BindingHit) -> Text {
         // Build one styled `AttributedString` rather than interpolating `Text` segments: the
         // interpolation form extracts a bogus `"%@  %@"` key into the string catalog, and `Text + Text`
-        // is deprecated in iOS 26 — the attributed run preserves each segment's font/color with neither.
+        // is deprecated. The attributed run keeps each segment's font and color with neither.
         var title = AttributedString(name)
         title.font = .subheadline.weight(.bold)
         title.foregroundColor = .primary
@@ -414,13 +413,12 @@ struct MetabolismRow: View {
 
     @Environment(\.appNavigator) private var navigator
 
-    /// An *elimination* row (renal/biliary excretion of the unchanged parent) is not metabolism — there's
-    /// no enzyme turning the drug into something else, so a "→ unchanged parent [active]" arrow is wrong on
-    /// two counts (it isn't a metabolite, and an unchanged drug isn't an "active metabolite"). Detect those
-    /// rows and render a plain excretion line instead. Robust across the curated encodings: the metabolite
-    /// is literally the unchanged parent, OR there's no metabolite and the enzyme field describes excretion.
-    /// (Phenibut, whose enzyme note mentions excretion but which *does* list real hydroxylation metabolites,
-    /// deliberately stays a metabolism row.)
+    /// An elimination row (renal or biliary excretion of the unchanged parent) renders as a plain
+    /// excretion line: no enzyme turns the drug into anything, so a "→ unchanged parent [active]" arrow
+    /// would call it an active metabolite. The curated data marks one either way: the metabolite is the
+    /// unchanged parent, or there is no metabolite and the enzyme field describes excretion. Phenibut,
+    /// whose enzyme note mentions excretion but which lists real hydroxylation metabolites, stays a
+    /// metabolism row.
     private var isElimination: Bool {
         if let metabolite = hit.metaboliteName?.lowercased(), metabolite.hasPrefix("unchanged") {
             return true

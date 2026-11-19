@@ -41,7 +41,7 @@ struct SubstanceDetailLayout: View {
 
     var body: some View {
         // 1. Header — identity above the fold: name, category chip, alias chips,
-        //    formula. Replaces the old full-width "Also known as" card.
+        //    formula.
         SubstanceDetailHeader(substance: substance)
 
         // 3. Your history — the user's own data leads (only when entries exist).
@@ -124,8 +124,8 @@ struct SubstanceDetailLayout: View {
         // OPRM1, COMT — each with the study. Self-hiding, folded at every tier.
         PharmacogeneticsSection(substance: substance, model: model)
 
-        // Pathway bias, receptor complexes, in-vivo imaging — self-hiding, and
-        // present for about 80 compounds.
+        // Pathway bias, receptor complexes, in-vivo imaging; self-hiding, and
+        // present for only a small share of compounds.
         TargetEvidenceSection(substance: substance, model: model)
 
         // What the family shares. Above Safety because for a research chemical
@@ -154,14 +154,12 @@ struct SubstanceDetailLayout: View {
             }
         }
 
-        // 10. Reference depth: inline collapsed for Pharma Nerd; otherwise reached
-        //     via per-section "Show all" (Curious) or the launcher (Casual).
+        // 10. Reference depth: identity, chemistry and sources, each a collapsed card.
         referenceDepth
     }
 
-    /// The pharmacology cluster, shown inline only when its placement is inline
-    /// (Pharma Nerd). At Curious it becomes a "Show all" target; at Casual it's
-    /// hidden. Keyed on `.mechanism` as the cluster's representative row.
+    /// The pharmacology cluster, keyed on `.mechanism` as its representative
+    /// placement row.
     @ViewBuilder private var pharmacologyInline: some View {
         if placement(.mechanism) != .hidden {
             PharmacologySections(
@@ -177,16 +175,14 @@ struct SubstanceDetailLayout: View {
     @ViewBuilder private var referenceDepth: some View {
         // Identity — category, default route, and the full alias list, collapsed.
         // The header's alias chips only exist for a substance with curated
-        // `popularAliases` (1 of 1912 today), and the fallback deliberately
-        // refuses to dump the raw alias list up there. Without this row the
-        // other 1557 substances that have aliases would have no way to show
-        // them at all, so identity keeps a home at reference depth.
+        // `popularAliases`, and the fallback deliberately refuses to dump the
+        // raw alias list up there. Without this row most substances with
+        // aliases could not show them at all, so identity keeps a home at
+        // reference depth.
         InfoDisclosureSection(substance: substance, model: model)
 
-        // Inline (Pharma Nerd): render each reference section directly — each is
-        // its own collapsed disclosure.
-        // Chemistry and Sources are collapsed cards on the page now, not a
-        // launcher pushing a screen that holds one collapsed card.
+        // Chemistry and Sources are collapsed cards on the page. Never wrap them
+        // in a launcher that pushes a screen holding one collapsed card.
         if placement(.chemistry) != .hidden, hasChemistryData {
             ChemistrySection(substance: substance, showsMechanism: policy.showsMechanism)
         }

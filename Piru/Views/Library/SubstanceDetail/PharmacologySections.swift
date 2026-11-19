@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// The pharmacology cluster: the unified Pharmacology (mechanism) card, the
-/// pharma-nerd Receptor Literature / Pharmacokinetics / Metabolism disclosures,
+/// Receptor Literature / Pharmacokinetics / Metabolism disclosures,
 /// and the metabolic-interaction and contraceptive-caution banners. Grouped into
 /// one subview so the async pharma fields (`literatureBindings`, `pkRoutes`,
 /// `metabolismRows`, …) invalidate only this boundary as they load off the store,
@@ -120,12 +120,10 @@ struct PharmacologySections: View {
                 }
             }
 
-            // "Also Active" moved OUT of this cluster and onto the main screen
-            // (``AlsoActiveSection``): it answers "is something other than what
-            // I took producing this effect?", which is a fact about the user's
-            // experience rather than pharmacology reference data — and this
-            // cluster is hidden entirely below the Pharma Nerd tier, so living
-            // here meant most readers never saw it.
+            // Never put "Also Active" back in this cluster: it answers "is
+            // something other than what I took producing this effect?", a fact
+            // about the user's experience, so it lives open on the main screen
+            // (``AlsoActiveSection``) while these cards start folded.
 
             if policy.showsPharmacokinetics, !model.pkRoutes.isEmpty {
                 CollapsibleSection(
@@ -231,7 +229,7 @@ struct PharmacologySections: View {
 
     /// Per-route PK (bioavailability/tmax/half-life) above the CYP metabolism
     /// pathways, each row carrying its own source/citation. Mirrors the Receptor
-    /// Literature layout — dense, attributed, pharma-nerd-only.
+    /// Literature layout: dense, with a citation on every row.
     private var pharmacokineticsBody: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             ForEach(model.pkRoutes) { row in
@@ -336,7 +334,7 @@ struct ActiveIngredientNote: View {
                     .accessibilityHidden(true)
                 // Both names are proper nouns supplied at runtime, so the sentence
                 // is a catalog key with two substituted names rather than three
-                // concatenated `Text`s (`Text + Text` is deprecated in iOS 26).
+                // concatenated `Text`s (`Text + Text` is deprecated).
                 Text(
                     "\(preparation) acts through \(ingredient). The pharmacology below is \(ingredient)'s.",
                     comment: "Preparation borrowing its active ingredient's pharmacology",

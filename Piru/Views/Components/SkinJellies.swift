@@ -7,9 +7,9 @@ import SwiftUI
 // in its own local units; `SkinBackdrop` places, scales and tilts them. All of
 // it is `nonisolated`: the canvas renders off the main thread on hardware.
 //
-// The mascots' colours are their own, ported verbatim from that project's
+// The mascots' colors are their own, ported verbatim from that project's
 // palette (it tunes them by eye in its HTML prototypes), which is why they are
-// hex literals rather than catalog tokens: they are art, not UI colour roles.
+// hex literals rather than catalog tokens: they are art, not UI color roles.
 
 // MARK: - Motion
 
@@ -173,8 +173,8 @@ nonisolated enum JellyKit {
 }
 
 private nonisolated extension Color {
-    /// `0xRRGGBB`, so a colour tuned by eye in rocuronium's prototypes is
-    /// verbatim the same colour here.
+    /// `0xRRGGBB`, so a color tuned by eye in rocuronium's prototypes is
+    /// verbatim the same color here.
     init(jelly hex: UInt32, opacity: Double = 1) {
         self.init(.sRGB, red: Double((hex >> 16) & 0xFF) / 255, green: Double((hex >> 8) & 0xFF) / 255, blue: Double(hex & 0xFF) / 255, opacity: opacity)
     }
@@ -222,7 +222,7 @@ nonisolated enum JellySpecies: CaseIterable, Sendable {
     }
 
     /// Draws the creature with its bell centred near the origin. `bell` is the
-    /// colour the placer cycles through; species with their own palette use it
+    /// color the placer cycles through; species with their own palette use it
     /// only as a tint.
     func draw(in ctx: inout GraphicsContext, time: TimeInterval, motion: JellyMotion, bell: Color, dark: Bool, showFace: Bool) {
         switch self {
@@ -756,7 +756,7 @@ private nonisolated enum Sparkler {
 
 /// The jelly the skin shipped with: a dome with a scalloped hem, five tapered
 /// ribbons and two frilly oral arms hanging from the hem the bell is drawing
-/// this frame, a rim highlight, sleepy eyes. Bell colour comes from the water.
+/// this frame, a rim highlight, sleepy eyes. Bell color comes from the water.
 private nonisolated enum PiruJelly {
     static func draw(in context: inout GraphicsContext, time: TimeInterval, motion: JellyMotion, bell color: Color, dark: Bool, showFace: Bool) {
         var ctx = context

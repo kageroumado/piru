@@ -262,10 +262,10 @@ extension Substance {
 /// they're backed up and recovered with the rest of the user's data.
 ///
 /// Backed by ``CustomSubstanceRecord`` (in `Shared/`); the value-type
-/// ``CustomSubstanceEntry`` stays the public currency so the ~15 read sites and
-/// the overlay engine are unchanged. They were *formerly* a JSON blob in
-/// App-Group `UserDefaults` (key `piru.customSubstances.v1`); ``configure(container:)``
-/// runs a one-time, verify-before-delete migration of that blob into the store.
+/// ``CustomSubstanceEntry`` is the currency read sites and the overlay engine
+/// use. ``configure(container:)`` runs a one-time, verify-before-delete
+/// migration of the legacy JSON blob in App-Group `UserDefaults` (key
+/// `piru.customSubstances.v1`) into the store.
 ///
 /// A lightweight `[canonicalName.lowercased(): displayName]` map is still
 /// mirrored into the app group (``displayNameMapKey``) so the widget/Live-Activity
@@ -523,7 +523,7 @@ final class CustomSubstanceStore {
     }
 
     /// Find an entry by its personal display name (case-insensitive). Lets a
-    /// relabelled substance be located by the name the user gave it — e.g.
+    /// relabeled substance be located by the name the user gave it — e.g.
     /// "joint" resolving to the entry whose canonical name is "THC".
     func first(whereDisplayName displayName: String) -> CustomSubstanceEntry? {
         let needle = displayName.lowercased()
@@ -563,9 +563,8 @@ final class CustomSubstanceStore {
         // No caller-supplied fallback: resolve the library's display title so the
         // common name reaches every logged-dose surface — journal, sessions,
         // tolerance chips — instead of the long systematic name. Resolve by name OR
-        // ALIAS: a dose logged under a name that is now an alias (e.g. an old
-        // "Lysergic Acid Diethylamide" entry after LSD's canonical was shortened)
-        // still maps to the "LSD" row.
+        // ALIAS: a dose logged under a name that has since become an alias
+        // ("Lysergic Acid Diethylamide") still maps to the "LSD" row.
         //
         // `lookup` — a dict hit over the warm batch cache, keyed on name
         // *and* alias — rather than `lookupByNameOrAlias`, which is ~21 SQL per

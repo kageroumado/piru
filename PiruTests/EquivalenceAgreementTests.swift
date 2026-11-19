@@ -63,7 +63,7 @@ struct EquivalenceAgreementTests {
         #expect(compared >= 6, "only \(compared) linear opioids compared across the two read paths")
     }
 
-    /// Benzodiazepine diazepam-equivalence now has exactly one home: the bundled DB's
+    /// Benzodiazepine diazepam-equivalence has exactly one home: the bundled DB's
     /// `diazepam_equivalents`. Both consumers — the converter tool's batched
     /// ``SubstanceStore/benzoEquivalences()`` and the tolerance fallback's per-substance
     /// ``PharmacologyParameters/diazepamPerMg`` — resolve from it at the user's source priority, so

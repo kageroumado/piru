@@ -3,10 +3,9 @@ import Testing
 @testable import Piru
 
 /// Scenario gate for the α2δ class on the **bundled** pharmacology: pregabalin's presence must follow
-/// its 6 h plasma half-life, not its 32 nM binding Kᵢ. With the Kᵢ as half-max, one 600 mg dose kept
-/// α2δ occupancy at 0.95 two days later and a once-weekly dose read as "mild tolerance" — the
-/// 2026-09-22 Discord report ("~4 days to recover" after three weekly doses). Directional assertions
-/// only; the class kinetics are graded low and these lock the relationships, not the digits.
+/// its 6 h plasma half-life, not its 32 nM binding Kᵢ. With the Kᵢ as half-max, one 600 mg dose keeps
+/// α2δ occupancy at 0.95 two days later and a once-weekly dose reads as "mild tolerance". Directional
+/// assertions only; the class kinetics are graded low and these lock the relationships, not the digits.
 @Suite("Gabapentinoid tolerance scenarios")
 @MainActor
 struct GabapentinoidToleranceScenarioTests {

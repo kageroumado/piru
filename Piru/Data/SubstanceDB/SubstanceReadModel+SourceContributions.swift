@@ -6,7 +6,7 @@ import os
 ///
 /// Deliberately coarse. It labels a caption in a two-column list, not a
 /// schema dump, so ~24 per-substance tables collapse into eleven words the
-/// reader already recognises from the screen they just scrolled through.
+/// reader already recognizes from the screen they just scrolled through.
 nonisolated enum SourceFacet: String, Hashable, Identifiable {
     case dose
     case duration
@@ -147,10 +147,8 @@ extension SubstanceReadModel {
         ("half_lives", .pharmacokinetics),
         ("mechanisms_summary", .pharmacology),
         ("descriptions", .overview),
-        // Added once these tables could carry a citation at all. They ship
-        // 2,700 rows of label and guideline prose, and until the column existed
-        // they were the only substantive claims in the app whose source a
-        // reader could not reach.
+        // Label and guideline prose: substantive claims whose source a reader
+        // must be able to reach.
     ]
 
     /// Builds the contribution ledger for one substance. A cheap local read (a

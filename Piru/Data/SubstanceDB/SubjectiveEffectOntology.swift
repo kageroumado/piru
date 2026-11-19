@@ -11,7 +11,6 @@ nonisolated struct SubjectiveEffectConcept: Identifiable, Hashable, Sendable {
     let domain: String
     let isRollup: Bool
     let parentID: String?
-    let position: Int
     let definition: String?
 }
 
@@ -35,9 +34,8 @@ nonisolated struct SubjectiveEffectHitGroup: Identifiable, Hashable, Sendable {
 }
 
 /// The session-note descriptor vocabulary, loaded once from the bundled DB and
-/// held in memory: 21 rollups, their atomic concepts, and the alias index the
-/// chip search runs over. ~500 concepts + ~1,200 aliases, so the whole thing is
-/// a few hundred kilobytes and two queries.
+/// held in memory: the rollups, their atomic concepts, and the alias index the
+/// chip search runs over. The whole vocabulary is small and costs two queries.
 ///
 /// Loaded lazily on first use, synchronously — the tables are tiny and the
 /// first read is on the note sheet's open, where a spinner would cost more
@@ -184,7 +182,7 @@ final class SubjectiveEffectOntology {
         do {
             let (concepts, aliases) = try SubstanceStore.shared.substancesDB.read { db -> ([SubjectiveEffectConcept], [(String, String, String)]) in
                 let rows = try Row.fetchAll(db, sql: """
-                    SELECT id, name, slug, domain, kind, parent_id, position, definition
+                    SELECT id, name, slug, domain, kind, parent_id, definition
                       FROM subjective_effect_concepts
                      ORDER BY position, name
                 """)
@@ -192,7 +190,7 @@ final class SubjectiveEffectOntology {
                     SubjectiveEffectConcept(
                         id: row["id"], name: row["name"], slug: row["slug"], domain: row["domain"],
                         isRollup: (row["kind"] as String) == "rollup",
-                        parentID: row["parent_id"], position: row["position"], definition: row["definition"],
+                        parentID: row["parent_id"], definition: row["definition"],
                     )
                 }
                 let aliasRows = try Row.fetchAll(db, sql: """

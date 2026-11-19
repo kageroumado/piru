@@ -79,12 +79,8 @@ struct InteractionsSummaryCard: View {
         }
     }
 
-    /// Dot + pair + what actually happens.
-    ///
-    /// The severity word used to sit where the mechanism now does — a coloured
-    /// dot with the word "Dangerous" beside it says the same thing twice and
-    /// leaves the reader no better informed than the colour already did. The
-    /// dot keeps the severity; the line says why.
+    /// Dot + pair + what actually happens. The dot carries the severity, so the
+    /// line says why instead of repeating a severity word the color already gave.
     private func row(_ interaction: ActiveInteraction) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: Spacing.lg) {
             LegendDot(color: interaction.severity.color, size: .large)

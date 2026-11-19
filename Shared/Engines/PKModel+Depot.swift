@@ -145,7 +145,7 @@ extension PKModel {
     /// sampled with its own `DepotParameters` at the same sample dates, then summed
     /// into the serum total. The per-ester arrays are kept for the "assumed depot
     /// levels" display; the total is what a lab measures and what calibration fits
-    /// against (Specs/injection-levels-v3.md §4).
+    /// against.
     ///
     /// The single-ester `depotCurve` is the one-contribution special case — the sum
     /// of one curve is that curve.

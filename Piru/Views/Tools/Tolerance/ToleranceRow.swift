@@ -122,8 +122,8 @@ struct ToleranceRow: Identifiable {
 
     // MARK: - Safety notes
 
-    /// The trimmed one-sentence safety notes for this class, gated by tier where the note is Pharma-Nerd
-    /// depth. Reset-overdose warnings need tolerance to lose; dependence warnings
+    /// The trimmed one-sentence safety notes for this class. Reset-overdose warnings need tolerance
+    /// to lose; dependence warnings
     /// key on chronicity (duration of regular use), not tolerance magnitude —
     /// therapeutic-dose dependence develops without measurable tolerance (NAV26 §5.6).
     /// Adrenergic rebound always shows (it's the whole point of those faint-tolerance cards).

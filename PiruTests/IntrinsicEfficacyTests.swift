@@ -27,10 +27,10 @@ struct IntrinsicEfficacyTests {
 
     @Test
     func `7-hydroxymitragynine does not outrank buprenorphine`() async {
-        // The Swift table this replaced had 7-OH at 0.6 above buprenorphine at 0.5. The only assay
-        // built to read intrinsic efficacy puts them level — Bhowmik 2021 calls 7-OH's efficacy
-        // "comparable to that of buprenorphine" — so the old ordering was an artifact of mixing
-        // amplified and unamplified assays. Gate the correction, not the number.
+        // 7-OH must not rank above buprenorphine. The only assay built to read intrinsic efficacy
+        // puts them level (Bhowmik 2021 calls 7-OH's efficacy "comparable to that of buprenorphine"),
+        // so ranking 7-OH higher is an artifact of mixing amplified and unamplified assays. Gate the
+        // ordering, not the number.
         let sevenOH = await efficacy("7-Hydroxymitragynine")
         let buprenorphine = await efficacy("Buprenorphine")
         #expect(sevenOH > 0 && sevenOH <= buprenorphine, "7-OH \(sevenOH) vs buprenorphine \(buprenorphine)")
@@ -40,7 +40,7 @@ struct IntrinsicEfficacyTests {
     func `The withdrawn substances take the full-agonist default`() async {
         // Both were withdrawn on sourcing, for different reasons, and both must stay withdrawn.
         //
-        // Tianeptine's old 0.5 was wrong in DIRECTION: every source that measures it under standard
+        // A partial value for tianeptine (0.5) is wrong in DIRECTION: every source that measures it under standard
         // conditions calls it a full or supra-efficacious mu agonist, so 1.0 is closer to what is
         // measured than any partial value would be.
         //

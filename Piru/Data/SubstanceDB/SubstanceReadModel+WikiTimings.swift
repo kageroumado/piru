@@ -19,7 +19,7 @@ extension SubstanceReadModel {
                     try WikiTimingRecord(
                         id: row["record_key"], sourceName: row["source_name"],
                         route: row["route"], kind: row["kind"], entryIndex: row["entry_index"],
-                        releaseID: row["release_id"], entryJSON: row["entry_json"],
+                        entryJSON: row["entry_json"],
                         timingTextJSON: row["duration_text_json"],
                         hasSourceException: (row["modeling_exclusion"] as String) == "source_exception",
                     )

@@ -6,8 +6,8 @@ SQLite build ingests into `subjective_effect_concepts` +
 SubFxOnEx (https://github.com/Di-lemma/SubFxOnEx, LGPL-2.1) is the bottom-up
 subjective-effects ontology behind drug.community's effect parser, built from
 Erowid report corpora. Piru uses it as the descriptor vocabulary on session
-notes: the 21 rollups are the chip groups, the 485 atomic concepts are the
-chips, and the 1,178 aliases feed the chip search.
+notes: the rollups are the chip groups, the atomic concepts are the chips, and
+the aliases feed the chip search.
 
 The snapshot is the release file **verbatim** (the license asks that the data
 ship unmodified in shape); the build reads only the `concepts` and `aliases`

@@ -51,7 +51,7 @@ extension View {
 
 /// The default visible window for the Usage screen's scrollable time charts:
 /// roughly a quarter, wide enough to read a season of shape at once and short
-/// enough that a year no longer crushes into a few pixels per week.
+/// enough that a year doesn't crush into a few pixels per week.
 let usageChartWindowSeconds: Double = 120 * 86_400
 
 // MARK: - Index ↔ enum
@@ -139,8 +139,7 @@ struct UsageSectionCard<Content: View>: View {
 
 /// A Usage section that remembers whether it's open.
 ///
-/// Sections 6–9 of `Specs/usage-graphs-v2.md` are secondary insights, so they
-/// collapse — expanded on first visit, and the choice persists per section.
+/// Secondary insights collapse — expanded on first visit, and the choice persists per section.
 struct UsageCollapsibleCard<Content: View>: View {
     let title: LocalizedStringKey
     var subtitle: LocalizedStringKey?

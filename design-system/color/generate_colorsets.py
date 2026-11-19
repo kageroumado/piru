@@ -4,48 +4,38 @@ directories (display-p3, all four appearance slots).
 
     python3 generate_colorsets.py palette.json --out Shared/Assets.xcassets
 
-**Swift accessors are Xcode's job, not this script's.** With
-`ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES`
-(`project.pbxproj:395,463`) Xcode emits `Color.Semantic.Caution.text` plus
-UIColor/NSColor/ColorResource variants, with real nested namespaces, per-target
-bundle resolution, and compile-time checking. A hand-emitted accessor file uses
-string lookup, so a typo compiles and silently resolves to a fallback colour at
-runtime — strictly worse, so this script no longer offers it.
+Swift accessors are Xcode's job. With
+`ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES` Xcode emits
+`Color.Semantic.Caution.text` plus UIColor/NSColor/ColorResource variants, with
+nested namespaces, per-target bundle resolution, and compile-time checking.
+Never hand-emit an accessor file: it uses string lookup, so a typo compiles and
+resolves to a fallback color at runtime.
 
 Design goals:
 
-  * display-p3 in every emitted colorset, always — this tool exists because
-    the app has zero P3 usage today (grep-verified) and 100% sRGB literals.
+  * display-p3 in every emitted colorset.
 
-  * The single biggest P3-migration bug is silently unrepresentable: every
-    appearance value MUST declare its representation (`oklch` or `p3_hex`,
-    both already in P3 terms). sRGB input support was removed once the last
-    sRGB notation left the palette sources — there is deliberately no code
-    path that could copy raw sRGB numbers into a `display-p3` slot
-    unconverted, the reinterpretation (same numbers, a different, more
-    saturated color) that `colorimetry.py`'s module docstring calls "the
-    single biggest trap in a P3 migration."
+  * Every appearance value declares its representation (`oklch` or `p3_hex`,
+    both in P3 terms). There is no sRGB input path, so raw sRGB numbers can
+    never land in a `display-p3` slot unconverted (same numbers, a different
+    and more saturated color: the trap `colorimetry.py`'s module docstring
+    describes).
 
   * Four appearance slots per token: Any, Dark, Any+High-Contrast,
-    Dark+High-Contrast. High-contrast slots are optional per token — Xcode
-    falls back to the non-HC sibling appearance when one is omitted, so a
-    token can ship with just Any/Dark today and grow HC variants later
-    without a structural change.
+    Dark+High-Contrast. High-contrast slots are optional per token: Xcode
+    falls back to the non-HC sibling appearance when one is omitted.
 
-  * Slash-namespaced token names (`semantic/caution/text`) become *real*
-    Xcode namespace folders (`semantic/` and `caution/` each get a
-    `Contents.json` with `"provides-namespace": true`), not flattened
-    filenames — so `Color("semantic/caution/text")` actually resolves. This
-    is the part most hand-written colorset scripts get wrong: without
-    `provides-namespace`, Xcode treats intermediate folders as pure
-    organization and the asset's *name* collapses to just `text`.
+  * Slash-namespaced token names (`semantic/caution/text`) become Xcode
+    namespace folders (`semantic/` and `caution/` each get a `Contents.json`
+    with `"provides-namespace": true`), so `Color("semantic/caution/text")`
+    resolves. Without `provides-namespace`, Xcode treats intermediate folders
+    as organization only and the asset's name collapses to `text`.
 
   * Idempotent: re-running against an unchanged palette produces
-    byte-identical output (sorted keys, fixed-precision float formatting) —
-    safe as a CI "is the catalog stale" check.
+    byte-identical output (fixed key order, fixed-precision floats), so it
+    works as a CI "is the catalog stale" check.
 
-  * Refuses to touch anything named `AccentColor` — the one hand-authored,
-    designer-owned colorset in the app.
+  * Refuses to touch `AccentColor`, the one hand-authored colorset in the app.
 """
 
 from __future__ import annotations
@@ -87,9 +77,9 @@ def resolve_p3_components(spec: dict) -> tuple[float, float, float, float]:
         not silently wrapped).
       - {"p3_hex": "RRGGBB"}   -- already display-p3 components, hex-packed.
 
-    There is intentionally no sRGB input: the palette sources are Oklch/P3
-    throughout, and an sRGB path would be one accident away from copying
-    unconverted numbers into a display-p3 slot.
+    There is no sRGB input: the palette sources are Oklch/P3 throughout, and
+    an sRGB path would be one accident away from copying unconverted numbers
+    into a display-p3 slot.
     """
     keys = {"oklch", "p3_hex"} & spec.keys()
     if len(keys) != 1:
@@ -196,7 +186,6 @@ def write_colorset(out_dir: Path, token_name: str, token_spec: dict) -> Path:
     return colorset_dir
 
 
-# --------------------------------------------------------------------------
 # --------------------------------------------------------------------------
 # CLI
 # --------------------------------------------------------------------------

@@ -26,9 +26,8 @@ import Foundation
 /// - **Deep** (`drive = gate`, τ ≈ months): entrenched neuroadaptation. The gate (see ``deepGate``)
 ///   keeps it **off** until the dose is sustained well **above the substance's heavy ceiling** (the
 ///   *dose-relative escalation* signal — see ``deepGate(escalation:threshold:width:)``), and
-///   `shiftMax_deep` provides the asymptote — so therapeutic users never accrue it. Keying the gate
-///   on escalation rather than on the adaptive shift is the principled fix: transporter occupancy
-///   saturates, so therapeutic and heavy dosing look identical at the receptor — only the dose
+///   `shiftMax_deep` provides the asymptote — so therapeutic users never accrue it. The gate keys
+///   on escalation rather than on the adaptive shift because transporter occupancy saturates, so therapeutic and heavy dosing look identical at the receptor — only the dose
 ///   relative to the heavy ceiling distinguishes "significant escalation".
 ///
 /// The user-facing gauge is the **response fraction** at the usual dose (see ``responseFraction``),
@@ -71,12 +70,12 @@ enum PDModel {
     /// both edges — no kink) to `1` once it exceeds `threshold + width`. `smoothstep(t) = t²(3 − 2t)`
     /// with `t = clamp((value − threshold)/width, 0, 1)`.
     ///
-    /// The **deep** tolerance layer's drive is the *product* of two of these
-    /// (`Specs/tolerance-faithful-model-improvements.md` §2): a **magnitude** gate on the dose-relative
+    /// The **deep** tolerance layer's drive is the *product* of two of these:
+    /// a **magnitude** gate on the dose-relative
     /// escalation factor (`dose ÷ heavy ceiling`) × a **chronicity** gate on the leaky duty-cycle
     /// accumulator. Escalation rather than the adaptive shift is the magnitude signal because saturating
     /// occupancy makes therapeutic and heavy dosing indistinguishable at the receptor; chronicity adds
-    /// the frequency/duration axis a per-dose magnitude cliff was blind to. Both must be high for deep to
+    /// the frequency/duration axis that a per-dose magnitude alone cannot see. Both must be high for deep to
     /// accrue — a heavy one-off binge (chronicity ≈ 0) recovers, a therapeutic daily dose (magnitude ≈ 0)
     /// stays stable.
     nonisolated static func smoothstepGate(_ value: Double, threshold: Double, width: Double) -> Double {
@@ -94,10 +93,9 @@ enum PDModel {
     /// representative peak occupancy at the usual dose.
     ///
     /// Equals `1` at `S = 1` (naïve), decreasing as `S` grows; at low representative occupancy it is
-    /// ≈ `1/S`. This is the honest 5-bucket gauge's continuous source — a saturating output, not a
-    /// false percentage.
+    /// ≈ `1/S`. This is the tolerance gauge's continuous source.
     ///
-    /// **Mechanism-aware saturation cap** (`Specs/tolerance-faithful-model-improvements.md` §5). The
+    /// **Mechanism-aware saturation cap.** The
     /// uncapped ratio is the *physically exact* usual-dose occupancy ratio `O(D, K·S)/O(D, K)` — correct
     /// for **agonists / PAMs / antagonists**, where usual-dose occupancy is the effect proxy (a heavy
     /// opioid user at their elevated dose then shows realistic *residual* response, e.g. `r ≈ 9, S ≈ 10`
@@ -161,9 +159,8 @@ enum PDModel {
     /// each at half-saturation give `2/3 ≈ 0.667`, not the `0.75` the probabilistic union `1 − Π(1 − Oᵢ)`
     /// over-counts (the union treats the site as if each ligand had its own independent copy). It is
     /// order-independent, stays in `[0, 1]`, is *cheaper* than the union (one running sum, no products),
-    /// and — the load-bearing property — reduces **exactly** to a single `Oᵢ` when only one ligand is
-    /// present, so single-substance right-shifts are unchanged; only polydrug co-occupancy at one target
-    /// moves, downward toward the correct value.
+    /// and reduces **exactly** to a single `Oᵢ` when only one ligand is present, so a lone substance's
+    /// right-shift equals what its own occupancy gives.
     nonisolated static func competitiveOccupancy(_ occupancies: [Double]) -> Double {
         let sumRatio = occupancies.reduce(0.0) { acc, occupancy in
             let clamped = min(1, max(0, occupancy))

@@ -78,10 +78,9 @@ _QTY = re.compile(
 #: from the drug name that qualifies it.
 _SENTENCE = re.compile(r"(?<=[.!?])\s+(?=[A-Z(])|\n{2,}")
 
-#: A value measured under a condition is not the population value. Every one of
-#: these was a wrong row in the first run: amiodarone's 100 days is its half-life
-#: *after withdrawal of long-term treatment*, which is why it is 2× the figure
-#: any label carries.
+#: A value measured under a condition is not the population value: amiodarone's
+#: 100 days is its half-life *after withdrawal of long-term treatment*, which is
+#: why it is 2× the figure any label carries.
 _CONDITIONAL = re.compile(
     r"withdrawal|discontinuation|cessation|long[-\s]?term|chronic(?:ally)?|overdose|poisoning",
     re.IGNORECASE,
@@ -105,8 +104,8 @@ _WRONG_PHASE = re.compile(
 )
 
 #: Where the half-life's own clause ends. A quantity past one of these belongs to
-#: a different parameter — mefloquine's "time to peak concentration of 7 to 24
-#: hours" sat two words after a half-life and was read as one.
+#: a different parameter: mefloquine's "time to peak concentration of 7 to 24
+#: hours" sits two words after a half-life and would be read as one.
 _OTHER_PARAMETER = re.compile(
     r"\b(?:t\s*max|c\s*max|auc|mrt|clearance|volume|residence|peak|onset|duration|bioavailab\w*"
     r"|concentration|dose[ds]?|interval|weeks? of|days? of|suggest\w*|indicat\w*)\b",

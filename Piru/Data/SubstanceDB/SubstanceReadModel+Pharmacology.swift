@@ -35,9 +35,6 @@ nonisolated struct ZeroOrderProfile: Equatable, Sendable {
 nonisolated struct FoodEffect: Equatable, Sendable {
     /// Fed Tmax minus fasted Tmax, minutes, for the study's full meal.
     let tmaxDelayMinutes: Double
-    /// Fed / fasted peak and total exposure, when the source states them.
-    let cmaxRatio: Double?
-    let aucRatio: Double?
     /// Whether this is the generic delay standing in for a substance with no row of its own.
     let isGeneric: Bool
 }
@@ -88,7 +85,7 @@ nonisolated struct PharmaTableRow: Identifiable {
     }
 
     /// The inclusion gate: a substance earns a row when it carries *some* PK signal **or** a resolvable
-    /// mechanism/class label — the table now leads with receptor/mechanism data, so a categorised drug
+    /// mechanism/class label — the table leads with receptor/mechanism data, so a categorized drug
     /// with no PK study still belongs (its Mechanism/Targets columns carry the story).
     var hasAnyData: Bool {
         hasAnyPK || mechanismLabel != nil
@@ -132,11 +129,8 @@ nonisolated struct PKRouteHit: Identifiable, Hashable {
 /// occupancy half-max for classes flagged
 /// ``ReceptorClasses/Parameters/occupancyHalfMaxFromTherapeuticRange``.
 nonisolated struct TherapeuticRangeHit: Hashable, Sendable {
-    let id: Int64
-    let effect: String
     let concentrationUnit: String
     let thresholdValue: Double
-    let peakValue: Double?
     let sourceSlug: String
     let doi: String?
     let pmid: Int?
@@ -230,7 +224,7 @@ extension SubstanceReadModel {
         do {
             return try queue.read { db in
                 let rows = try Row.fetchAll(db, sql: """
-                    SELECT e.id, e.effect, e.concentration_unit, e.threshold, e.peak_effect,
+                    SELECT e.concentration_unit, e.threshold,
                            src.slug AS source_slug, c.doi, c.pmid, c.url
                       FROM concentration_effects e
                       JOIN sources src ON src.id = e.source_id
@@ -240,11 +234,8 @@ extension SubstanceReadModel {
                 """, arguments: [substanceID])
                 return rows.map { row in
                     TherapeuticRangeHit(
-                        id: row["id"],
-                        effect: row["effect"],
                         concentrationUnit: row["concentration_unit"],
                         thresholdValue: row["threshold"],
-                        peakValue: row["peak_effect"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: row["pmid"],
@@ -400,7 +391,7 @@ extension SubstanceReadModel {
     /// The tolerance classes a substance's **pharmacological categories** imply (benzodiazepine → GABA,
     /// opioid → μ, …), read from the `categories` table for one substance id. `nonisolated static` so the
     /// off-main batch resolve can run it on the dedicated batch connection. Drives the category fallback
-    /// that rescues categorised-but-untargeted RC substances (§7 follow-up).
+    /// that rescues categorized-but-untargeted RC substances.
     nonisolated static func toleranceCategoryClasses(substanceID id: Int64, db queue: DatabaseQueue) -> Set<ReceptorClasses.ReceptorClass> {
         let raws: [String] = (try? queue.read { db in
             try String.fetchAll(db, sql: "SELECT category FROM categories WHERE substance_id = ?", arguments: [id])
@@ -567,7 +558,7 @@ extension SubstanceReadModel {
         }
     }
 
-    /// The recognisable names one comparison family is drawn against, most prominent first.
+    /// The recognizable names one comparison family is drawn against, most prominent first.
     nonisolated static func referenceCompounds(db queue: DatabaseQueue, family: String) -> [String] {
         (try? queue.read { db in
             try String.fetchAll(db, sql: """
@@ -882,7 +873,7 @@ extension SubstanceReadModel {
         let (rows, aliasRows): ([Row], [Row]) = (try? queue.read { db in
             let rows = try Row.fetchAll(db, sql: """
                 SELECT f.substance_id AS sid, s.canonical_name AS name, f.product,
-                       f.tmax_delay_min, f.cmax_ratio, f.auc_ratio
+                       f.tmax_delay_min
                   FROM food_effects f
                   LEFT JOIN substances s ON s.id = f.substance_id
             """)
@@ -907,8 +898,6 @@ extension SubstanceReadModel {
             let sid: Int64? = row["sid"]
             let effect = FoodEffect(
                 tmaxDelayMinutes: delay,
-                cmaxRatio: row["cmax_ratio"],
-                aucRatio: row["auc_ratio"],
                 isGeneric: sid == nil,
             )
             guard let sid, let name: String = row["name"] else {
@@ -1106,9 +1095,8 @@ extension SubstanceReadModel {
     ///
     /// One windowed query rather than a per-substance resolve, and `nonisolated static` so the
     /// Pharma table's off-main pass can run it on the batch connection. It reads the same table
-    /// under the same priority and language rules as the detail card's mechanism, which is the
-    /// point: the two used to disagree, because the table asked the Swift class templates and the
-    /// card asked the database.
+    /// under the same priority and language rules as the detail card's mechanism, so the table and
+    /// the card always agree.
     nonisolated static func mechanismLabelBySubstanceID(
         db queue: DatabaseQueue, order: [String], language: ContentLanguage,
     ) -> [Int64: String] {

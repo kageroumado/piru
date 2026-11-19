@@ -5,9 +5,9 @@ import UIKit
 
 /// Build-enforced contrast floors for the app's semantic and encoding colors.
 ///
-/// Safety net for the colour-system migration
-/// (`Specs/design-system/color-audit/`). Deliberately **pure computation** — it
-/// resolves colours against a trait collection and does arithmetic, never
+/// Safety net for the color system.
+/// Deliberately **pure computation** — it
+/// resolves colors against a trait collection and does arithmetic, never
 /// renders a view — so it is fast and cannot flake.
 ///
 /// ## What this suite is and is not
@@ -25,7 +25,7 @@ import UIKit
 ///
 /// The light card is **`#f5f5f5`**, not white: the card fill is
 /// `.ultraThinMaterial` (`Theme.ThemedBackground`), and material blends what is
-/// behind it, so its rendered colour cannot be derived from source. `#f5f5f5` is
+/// behind it, so its rendered color cannot be derived from source. `#f5f5f5` is
 /// **measured from 43 screenshots** across every screen (`sampled.json`).
 /// Testing against `#FFFFFF` is optimistic and lets real failures through —
 /// that mistake put a wrong number in the audit's own findings once already.
@@ -44,12 +44,10 @@ struct ColorContrastTests {
 
     // MARK: - Route tints (light) — FIXED, gated
 
-    /// Both appearances now — the dark-mode gap this used to pin is closed.
-    ///
-    /// It was never fixable by retuning hue: at the 0.16 fill alpha the pill
-    /// used, a colour on a tint of itself asymptotes around 4.5:1 whatever its
-    /// lightness, so all 11 routes failed in dark. The fill is now 0.10, and the
-    /// label takes a gated `text` variant separate from the `accent` fill.
+    /// Both appearances. Retuning hue can't fix a self-tinted pill: at a 0.16
+    /// fill alpha a color on a tint of itself tops out around 4.5:1 whatever its
+    /// lightness. Hence the 0.10 fill, and a gated `text` variant for the label
+    /// separate from the `accent` fill.
     @Test
     func `Every route pill is legible as ~11pt text on its own fill`() {
         for route in RouteOfAdministration.allCases {
@@ -109,10 +107,10 @@ struct ColorContrastTests {
     /// The `semantic/*` colorsets resolve **and** clear their gates at the
     /// precision they actually ship at.
     ///
-    /// Resolution is the load-bearing half: `Color("some/missing/name")` does
+    /// Resolution matters most: `Color("some/missing/name")` does
     /// not throw — it silently yields a fallback — so a typo in a namespace
     /// path or a missing `provides-namespace` marker would go unnoticed until
-    /// someone saw the wrong colour on screen. Asserting a real, non-fallback
+    /// someone saw the wrong color on screen. Asserting a real, non-fallback
     /// value catches that at build time.
     ///
     /// Values are Display-P3 and mostly outside the sRGB gamut, which is why
@@ -135,7 +133,7 @@ struct ColorContrastTests {
             //
             // Deliberately not comparing text against accent — in dark mode
             // `caution` and `success` legitimately resolve to the *same* value,
-            // because against near-black the max-chroma colour clearing the 3:1
+            // because against near-black the max-chroma color clearing the 3:1
             // accent gate also clears the 4.5:1 text gate, so both converge.
             #expect(
                 RGB(textColor, style: .light).oklabDistance(to: RGB(textColor, style: .dark)) > 0.01,
@@ -167,13 +165,12 @@ struct ColorContrastTests {
 
     /// The experience-phase scale, gated like the semantic tokens.
     ///
-    /// It renders its colour as `.caption` text on a capsule filled with that
-    /// same colour at 18% (`DosePhaseProgressBar`), which is the self-tint
-    /// pattern — the old hex ramp measured 1.73–2.71:1 in light mode.
+    /// It renders its color as `.caption` text on a capsule filled with that
+    /// same color at 18% (`DosePhaseProgressBar`), which is the self-tint
+    /// pattern.
     ///
-    /// This scale also used to exist **twice** with unrelated values, so editing
-    /// a dose and then reading it flipped "peak" from orange to green. One ramp
-    /// now, hues preserved from the surviving one.
+    /// Keep exactly one ramp: two copies with unrelated values make "peak" flip
+    /// from orange to green between editing a dose and reading it.
     @Test
     func `Experience-phase scale is legible as text and visible as a mark`() {
         let phases: [(String, Color, Color)] = [
@@ -207,10 +204,9 @@ struct ColorContrastTests {
 
     /// Dose tiers and evidence grades, gated across every step.
     ///
-    /// `DoseLevel.labelColor` used to be `self == .common ? legibleYellow :
-    /// swiftUIColor` — a one-tier patch over a fill value, leaving `strong` and
-    /// `heavy` failing as text at 2.04:1 and 3.23:1. Every step has a real text
-    /// variant now, which is what made the patch unnecessary.
+    /// Every step has its own text variant. Never patch one tier over a fill
+    /// value: a legible-yellow patch on `common` left `strong` and `heavy`
+    /// failing as text at 2.04:1 and 3.23:1.
     @Test
     func `Dose and confidence scales are legible at every step`() {
         for style in [UIUserInterfaceStyle.light, .dark] {
@@ -275,7 +271,7 @@ struct ColorContrastTests {
 
     /// Every skin's tokens clear the same floors as the default's, on that
     /// skin's own card. The default skin's light card is the measured material
-    /// colour; an edged skin's card is solid, so it resolves from the token.
+    /// color; an edged skin's card is solid, so it resolves from the token.
     private static func card(for skin: Skin, style: UIUserInterfaceStyle) -> RGB {
         switch skin {
         case .piru: style == .light ? cardLight : cardDark
@@ -467,9 +463,9 @@ private extension Double {
 
 // MARK: - Minimal colour maths
 
-/// A resolved sRGB colour plus the operations the contrast gates need.
+/// A resolved sRGB color plus the operations the contrast gates need.
 ///
-/// Mirrors `Specs/design-system/color-audit/colorimetry.py`, the reference
+/// Mirrors `design-system/color/colorimetry.py`, the reference
 /// implementation, which carries the self-tests against published WCAG and
 /// Oklab values.
 struct RGB {
@@ -487,7 +483,7 @@ struct RGB {
         b = Double(value & 0xFF) / 255
     }
 
-    /// Resolves a (possibly dynamic) SwiftUI colour for one interface style.
+    /// Resolves a (possibly dynamic) SwiftUI color for one interface style.
     init(_ color: Color, style: UIUserInterfaceStyle, contrast: UIAccessibilityContrast = .normal) {
         let traits = UITraitCollection { mutable in
             mutable.userInterfaceStyle = style
@@ -510,7 +506,7 @@ struct RGB {
     /// primaries, but components outside `[0, 1]` to reach the wider gamut. A
     /// naive `pow` on a negative component returns NaN and silently poisons
     /// every ratio downstream. Mirroring the magnitude and restoring the sign
-    /// keeps luminance correct for both plain and wide-gamut colours, because
+    /// keeps luminance correct for both plain and wide-gamut colors, because
     /// extended sRGB shares sRGB's primaries — the luminance coefficients still
     /// apply.
     private static func linear(_ channel: Double) -> Double {
@@ -545,7 +541,7 @@ struct RGB {
     }
 
     /// Perceptual distance in Oklab — the right space for "do these read as
-    /// different colours", which sRGB euclidean distance answers badly.
+    /// different colors", which sRGB euclidean distance answers badly.
     func oklabDistance(to other: RGB) -> Double {
         let a = oklab, b = other.oklab
         return sqrt(pow(a.0 - b.0, 2) + pow(a.1 - b.1, 2) + pow(a.2 - b.2, 2))

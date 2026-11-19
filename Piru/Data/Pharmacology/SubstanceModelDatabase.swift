@@ -4,12 +4,11 @@ import os
 /// Builds the mechanistic effect engine's per-substance ``SubstanceModelParams`` from **hard data**
 /// (the bundled pharmacology DB) plus a slim curated override layer.
 ///
-/// The split (see `Specs/effect-model-molar-calibration.md`):
+/// The split:
 ///   - **PK + transporter binding come from the resolver** (`PharmacologyParameters`): the elimination
 ///     rate `ke` from the measured half-life, the absorption rate `ka` from the measured Tmax, the
 ///     DAT/NET/SERT weight *ratios* from the measured EC₅₀/Kᵢ, and `releaser` from whether the primary
-///     transporter is engaged by release (EC₅₀) or reuptake block (Kᵢ/IC₅₀). These were formerly a
-///     hardcoded table of eyeballed numbers; they are now data.
+///     transporter is engaged by release (EC₅₀) or reuptake block (Kᵢ/IC₅₀).
 ///   - **The irreducible PD scalars stay curated** (`Overrides`): vesicular store-depletion
 ///     susceptibility, DAT dissociation `koff`, µ-opioid drive/efficacy, GABA/CAE drive, respiratory
 ///     drive, and multi-receptor antagonism. No pharmacology DB carries these — they are model
@@ -34,11 +33,11 @@ nonisolated enum SubstanceModelDatabase {
     ///
     /// Verified **non-binding for the calibrated monoamine set** (amphetamine, methylphenidate, 2-/3-MMC,
     /// mephedrone): once the DAT:NET:SERT triple is taken from one coherent assay (`transporterProfile`),
-    /// their off-DA ratios sit below the cap, so the felt mix is fully data-driven. The cap is retained
-    /// only as a safety bound for the general library. The sole case where it still bites — a near-pure
-    /// serotonergic releaser whose DAT is ~1000× weaker than NET/SERT (MDMA) — is a *data* limitation
-    /// (MDMA's SERT release EC₅₀ is understated in the DB), not an engine one; MDMA is outside the
-    /// calibration set and its curve is unaffected by this bound in practice.
+    /// their off-DA ratios sit below the cap, so the felt mix is fully data-driven. The cap is a safety
+    /// bound for the general library. It can bite on a near-pure serotonergic releaser whose DAT is
+    /// ~1000× weaker than NET/SERT (MDMA), which is a *data* limitation (MDMA's SERT release EC₅₀ is
+    /// understated in the DB); MDMA is outside the calibration set and in practice its curve is
+    /// unaffected by this bound.
     private static let maxTransporterWeight = 4.0
 
     /// Per-substance overrides applied on top of the DB-derived base. Every field is optional: a `nil`
@@ -306,28 +305,5 @@ nonisolated enum SubstanceModelDatabase {
     /// substances (``calibratedTriggerSet``). e.g. "Ritalin" → `methylphenidate`, "4-MMC" → `mephedrone`.
     static func isCalibratedTrigger(_ name: String) -> Bool {
         calibratedTriggerSet.contains(PharmacologyNameKey.canonical(name, aliases: aliases))
-    }
-
-    /// Whether this substance can **anchor** a simulation on its own: calibrated *and* actually
-    /// resolvable to model params. Both halves are load-bearing — a name can alias into the
-    /// calibrated set yet still fail to model, because ``params(name:pharmacology:)`` needs a
-    /// mechanism from the substance's *own* DB row. Lisdexamfetamine is the worked example: it
-    /// aliases to `amphetamine` (so it picks up amphetamine's `ke` override) but the prodrug's row
-    /// carries no transporter binding, so `hasMechanism` fails and it models to nothing.
-    static func canAnchor(name: String, pharmacology: PharmacologyParameters?) -> Bool {
-        isCalibratedTrigger(name) && params(name: name, pharmacology: pharmacology) != nil
-    }
-
-    /// Whether the engine can simulate this substance *at all* — as an anchor, or as an adjunct
-    /// that shapes the curves once an anchor is present.
-    static func canParticipate(name: String, pharmacology: PharmacologyParameters?) -> Bool {
-        guard let built = params(name: name, pharmacology: pharmacology) else { return false }
-        return triggersMechanisticView(built)
-    }
-
-    /// Every substance the curated layer knows how to model, as canonical names. Bounded and static,
-    /// so a picker can resolve it without walking the 1100-substance catalog.
-    static var modelableCandidateNames: [String] {
-        Array(Set(calibratedTriggerSet).union(overrides.keys)).sorted()
     }
 }

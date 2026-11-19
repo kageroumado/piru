@@ -1,19 +1,17 @@
 """Generate / verify ``effect_vocab_zh.json`` — the curated zh label crosswalk.
 
-Offline tool (NOT part of the build): holds the authoritative, hand-reviewed
-zh-Hans label for every controlled-vocabulary effect, converts each to zh-Hant
-with OpenCC, and emits the JSON the build reads. The build itself needs no
-dependencies — it just reads the committed JSON.
+Offline tool, run by hand: holds the hand-reviewed zh-Hans label for every
+controlled-vocabulary effect, converts each to zh-Hant with OpenCC, and emits
+the JSON the build reads. The build needs no dependencies; it reads the
+committed JSON.
 
-Why hand-authored, not derived: the FreeODwiki ``药效`` corpus IS the same PW
-taxonomy in Chinese, but extracting the en→zh mapping from co-occurrence is
-unreliable — effects co-occur so densely that a rare effect's most-frequent
-zh neighbour is just the globally-common term (``itchiness``→``镇静`` etc.). Only
-*mutual-best-match* (each is the other's top partner) is trustworthy; that yields
-~76 solid anchors. So ``ZH_HANS`` below is authored against PsychonautWiki's
-Chinese SEI conventions, with those 76 native anchors used verbatim and as an
-automated regression gate (``--verify`` flags any authored value that disagrees
-with the native mutual-best alignment).
+The labels are hand-authored because the FreeODwiki ``药效`` corpus, though it is
+the PW taxonomy in Chinese, cannot be aligned by co-occurrence: effects co-occur
+so densely that a rare effect's most frequent zh neighbor is the globally common
+term (``itchiness``→``镇静``). Only *mutual-best-match* pairs (each the other's
+top partner) are trustworthy. ``ZH_HANS`` below follows PsychonautWiki's Chinese
+SEI conventions, uses those native anchors verbatim, and ``--verify`` flags any
+authored value that disagrees with them.
 
 zh-Hant = OpenCC ``s2twp`` (Simplified → Traditional, Taiwan, phrase-aware) of the
 zh-Hans label. Deterministic; flagged ``machine_translated=1`` in the build.

@@ -5,19 +5,17 @@ import Testing
 
 /// Regression coverage for ``ActiveSessionManager/recoverSession(container:)``.
 ///
-/// The bug these guard: recovery consulted a running Live Activity *first* and
-/// returned unconditionally, so a stale activity replaced the real session
-/// wholesale and SwiftData was never read. Because ActivityKit keeps `.ended`
-/// activities around — with a content state frozen at the moment they ended —
-/// every cold launch resurrected the same long-dead dose list. A session with
-/// five doses rendered as one: the single dose the activity had been started
-/// with, hours earlier.
+/// Recovery must never trust a running Live Activity over SwiftData. ActivityKit
+/// keeps `.ended` activities around with a content state frozen at the moment
+/// they ended, so an activity-first recovery resurrects the same dead dose list
+/// on every cold launch: a five-dose session renders as the one dose the
+/// activity started with.
 ///
 /// The ActivityKit half can't be exercised here (an `Activity` can't be
 /// fabricated in a test process), so these cover the half that can be: SwiftData
 /// is authoritative, recovers *every* still-active dose, and reaches back far
-/// enough to prove it. The activity is now only consulted when the store yields
-/// nothing — see `LiveActivityManager.recoverEntriesFromActivity()`.
+/// enough to prove it. The activity is consulted only when the store yields
+/// nothing; see `LiveActivityManager.recoverEntriesFromActivity()`.
 ///
 /// Serialized: `ActiveSessionManager` is a `@MainActor` singleton, so parallel
 /// cases would race on `activeEntries`.
@@ -41,7 +39,7 @@ struct ActiveSessionRecoveryTests {
     }
 
     /// A substance whose acute oral curve is long enough to still be running
-    /// well past the old 12 h lookback, but inside the 24 h modeling ceiling.
+    /// well past a 12 h lookback, but inside the 24 h modeling ceiling.
     /// Resolved from the bundled DB rather than hardcoded so a data refresh
     /// re-picks instead of silently invalidating the test.
     private func longActingOralSubstance() -> Substance? {
@@ -86,8 +84,8 @@ struct ActiveSessionRecoveryTests {
 
         ActiveSessionManager.shared.recoverSession(container: container)
 
-        // The reported bug collapsed this to 1 — the oldest dose alone, which is
-        // what made the Journal hero fall into its single-dose layout.
+        // Activity-first recovery collapses this to 1, the oldest dose alone, and
+        // the Journal hero falls into its single-dose layout.
         #expect(ActiveSessionManager.shared.activeEntries.count == 3)
         #expect(ActiveSessionManager.shared.hasActiveSession)
         #expect(ActiveSessionManager.shared.activeSubstanceStates.count == 3)

@@ -17,15 +17,6 @@ struct DetailSourceLink: Identifiable {
     var license: String?
 }
 
-/// Small inline badge that names the source that supplied a specific field
-/// after source-priority resolution. Visible to all tiers so users always see
-/// where each fact came from — the per-field counterpart to the
-/// substance-level "Sources" disclosure at the bottom of the detail view.
-///
-/// The displayed source name is resolved from the bundled `sources` table
-/// via ``SubstanceStore/sourceDisplayName(forSlug:)`` so users see the
-/// human-readable name ("TripSit") instead of the wire slug
-/// ("tripsit").
 /// The one folded-section look used across the whole substance screen — a
 /// `DisclosureGroup` with a semibold subheadline label and an optional count
 /// badge. Extracted so Mechanism, Receptor Literature, Info, Chemistry and the
@@ -367,7 +358,7 @@ struct SourceAttributionExplainer: View {
 
 // MARK: - Receptor Literature Row
 
-// Single binding row inside the pharma-nerd "Receptor Literature" disclosure.
+// Single binding row inside the "Receptor Literature" disclosure.
 // Each row shows the target, action, Ki or EC50 value, optional species,
 // source slug, and a PMID/DOI affordance so the user can verify the claim.
 

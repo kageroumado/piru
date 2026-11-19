@@ -8,7 +8,7 @@ import Foundation
 /// pipeline is the source of truth — this port exists so the app can *validate*
 /// and *compose* a PSID at its deep-link / import boundary without a round-trip.
 ///
-/// Grammar (see `Specs/stereoisomer-and-release-form-axes.md`):
+/// Grammar:
 ///
 ///     P1-<FAMILY>-<stereo>-<salt>-<release>-<chk>
 ///

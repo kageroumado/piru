@@ -84,10 +84,9 @@ struct DoseRangeTests {
 
     @Test
     func `All nil ranges place nothing`() {
-        // A ladder with no tiers cannot say where a dose sits. This used to
-        // answer `.sub`, which labeled a custom substance logged with no dose
-        // data "sub-threshold" — a claim about the dose, made from the absence
-        // of one, and indistinguishable from a real sub-threshold reading.
+        // A ladder with no tiers cannot say where a dose sits. Never answer
+        // `.sub` here: it labels a custom substance logged with no dose data
+        // "sub-threshold", a claim about the dose made from the absence of one.
         let empty = DoseRange(threshold: nil, light: nil, common: nil, strong: nil, heavy: nil)
         #expect(empty.mgLevel(for: 1_000) == nil)
     }
@@ -122,12 +121,6 @@ struct DoseRangeTests {
 
 @Suite("DoseLevel")
 struct DoseLevelTests {
-    // `DoseLevel.color` (a `String` of colour *words*) was removed: it had no
-    // production consumer — rendering goes through `DoseLevelIndicator`'s
-    // `swiftUIColor` / `labelColor`. The two tests here only asserted that dead
-    // accessor's own strings, so they were removed with it rather than kept
-    // pinning behaviour nothing depends on.
-
     @Test
     func `Raw values are display strings`() {
         #expect(DoseLevel.sub.rawValue == "Sub-threshold")

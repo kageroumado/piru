@@ -2,18 +2,16 @@ import Foundation
 
 /// The **metabolic-modulation graph** — curated edges where something (a co-active drug, a lifestyle
 /// context, or the substance itself) changes how fast another drug is *cleared*, by inhibiting or
-/// inducing the metabolic enzyme that clears it (`Specs/pharmacology-axis-meta-plan.md`, Foundation B +
-/// Stage 4c). It is the clearance-axis sibling of ``ToleranceModulation`` (which scales tolerance
+/// inducing the metabolic enzyme that clears it. It is the clearance-axis sibling of ``ToleranceModulation`` (which scales tolerance
 /// development `μ`): same idea, but the modulated parameter is metabolism.
 ///
 /// ## Readout-only (v1)
-/// This is a **readout layer**, not a change to the PK/occupancy math. A CYP3A4 inhibitor onboard does
-/// **not** (yet) raise the substrate's concentration curve everywhere; instead we surface the
-/// *direction and qualitative strength* of the effect — "grapefruit raises this drug's levels", "smoking
-/// lowers it" — as education (substance detail), a log-time note (the dose form), and a factor in the
-/// interaction checker. No fabricated fold-change number is ever shown; every figure is
-/// "predicted (model, confidence)". (Threading a time-varying `ke` into the closed-form PK is deferred —
-/// see the meta-plan's Stage-4c "model depth" decision.)
+/// This is a **readout layer** over the PK/occupancy math, which it leaves unchanged: a CYP3A4
+/// inhibitor onboard does not raise the substrate's concentration curve. It surfaces the *direction
+/// and qualitative strength* of the effect ("grapefruit raises this drug's levels", "smoking lowers
+/// it") as education (substance detail), a log-time note (the dose form), and a factor in the
+/// interaction checker. No fold-change number is ever shown; every figure is "predicted (model,
+/// confidence)".
 ///
 /// ## Curated modulator × data-driven substrate
 /// The bundled DB knows *which enzyme clears a substance* (the `metabolism` table → ``majorEnzymes``);
@@ -126,6 +124,15 @@ nonisolated enum MetabolicModulation {
         static func < (lhs: Strength, rhs: Strength) -> Bool {
             lhs.rank < rhs.rank
         }
+
+        /// The word the banner shows.
+        var label: LocalizedStringResource {
+            switch self {
+            case .weak: "Weak effect"
+            case .moderate: "Moderate effect"
+            case .strong: "Strong effect"
+            }
+        }
     }
 
     // MARK: - Modulator
@@ -170,6 +177,10 @@ nonisolated enum MetabolicModulation {
         let substrate: String
         let enzyme: Enzyme
         let direction: Direction
+        /// `nil` when the source states no strength.
+        let strength: Strength?
+        /// `nil` for a tag-derived interaction, which no source grades.
+        let confidence: ConfidenceTier?
         let modulatorName: String
         let userNote: String
 
@@ -190,6 +201,8 @@ nonisolated enum MetabolicModulation {
             substrate: substrate,
             enzyme: m.enzyme,
             direction: m.direction,
+            strength: m.strength,
+            confidence: m.confidence,
             modulatorName: m.displayName,
             userNote: m.userNote,
         )
@@ -204,14 +217,12 @@ nonisolated enum MetabolicModulation {
     /// reduce them. This is a *class property* of being a 3A4 inducer, derived from the catalog rather
     /// than hard-coded per drug. Returns `nil` for everything that is not such an inducer.
     ///
-    /// **There is deliberately no `strength` threshold here, and adding one back is a safety
-    /// regression.** This filtered on `>= .moderate` while modafinil and armodafinil were graded
-    /// moderate; when they were re-graded `weak` against their own FDA labels — which say in as many
-    /// words that modafinil "is a weak inducer of CYP3A activity" — the threshold silently dropped the
-    /// two drugs this caution's own doc comment names. The band and the risk come apart because they
-    /// measure different things: the band grades how hard the inducer pushes, while contraceptive
-    /// failure turns on how little margin the *substrate* has. The same label that grades modafinil weak
-    /// tells patients to use an alternative contraceptive method during treatment and for a month after.
+    /// **Never add a `strength` threshold here.** Modafinil and armodafinil are graded `weak`
+    /// inducers by their own FDA labels, and a `>= .moderate` filter drops the two drugs this caution
+    /// exists for. The band and the risk measure different things: the band grades how hard the
+    /// inducer pushes, while contraceptive failure turns on how little margin the *substrate* has. The
+    /// same label that grades modafinil weak tells patients to use an alternative contraceptive method
+    /// during treatment and for a month after.
     static func contraceptiveEfficacyCaution(forSubstance name: String, in catalog: [Modulator]) -> Modulator? {
         // Canonicalize through the shared alias table so a brand name
         // ("Equetro") matches its compound's catalog entry.
@@ -324,6 +335,8 @@ nonisolated enum MetabolicModulation {
                     substrate: victimDisplay,
                     enzyme: enzyme,
                     direction: direction,
+                    strength: hit.strength.flatMap(Strength.init(rawValue:)),
+                    confidence: nil,
                     modulatorName: perpetratorDisplay,
                     userNote: note,
                 ))

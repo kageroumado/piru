@@ -4,13 +4,13 @@ import Testing
 
 /// The by-volume dose input and the saturable-elimination curve both read the bundled DB
 /// (`by_volume_dosing`, `drink_presets`, `zero_order_kinetics`). These tests gate the properties a
-/// rebuild can break, and — the load-bearing part — that the two declarations of the ethanol
-/// density and the standard-drink mass agree.
+/// rebuild can break, above all that the two declarations of the ethanol density and the
+/// standard-drink mass agree.
 ///
 /// The compiled pair exists because the watch has no database and the shared curve engine runs
-/// inside the widget and Live Activity, which link no GRDB. That is a real constraint, not a
-/// convenience: what it must never become is a second answer. Individual values are not restated
-/// beyond that comparison — the pipeline's `test_by_volume_*` gates the rows against their source.
+/// inside the widget and Live Activity, which link no GRDB. It must never become a second answer.
+/// Individual values are restated only for that comparison; the pipeline's `test_by_volume_*`
+/// gates the rows against their source.
 @Suite("ByVolumeDosingDB")
 struct ByVolumeDosingDBTests {
     /// The store's index build is what installs `ByVolumeCatalog`, so every test here needs it up.

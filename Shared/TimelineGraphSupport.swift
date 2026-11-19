@@ -19,8 +19,6 @@ enum GraphMetrics {
     /// side frame horizontally, but keep a small gap above/below so the peak and
     /// baseline don't jam the top label band and the origin line.
     static let chartFrameVInset: CGFloat = 8
-    /// Padding inside the hosting card / section.
-    static let cardInset: CGFloat = 12
     /// Height of the clock-time label band below the full graph.
     static let axisLabels: CGFloat = 16
     /// Height of the relative-hour label band above the full graph.
@@ -132,9 +130,9 @@ final class TimelineModelCache {
     private let limit = 120
 
     /// Keys some path has claimed and is computing right now. The journal's
-    /// batch prewarm and each visible card's own load used to race here and
-    /// compute the same models twice; a claim makes the first taker the only
-    /// computer, and everyone else awaits its ``insert(_:for:)``.
+    /// batch prewarm and each visible card's own load race for the same keys;
+    /// a claim makes the first taker the only computer, and everyone else
+    /// awaits its ``insert(_:for:)``.
     private var inFlight: Set<TimelineGraphView.DerivedKey> = []
     private var waiters: [TimelineGraphView.DerivedKey: [CheckedContinuation<TimelineCurveModel.Derived, Never>]] = [:]
 

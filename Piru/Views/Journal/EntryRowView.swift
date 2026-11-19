@@ -2,9 +2,9 @@ import SwiftUI
 
 /// The substance-resolved, render-ready facts about one logged dose, computed
 /// **once** when the day's entries change (memoized in `SessionDetailView`'s
-/// `resolvedDay`) — never in a row `body`. Resolving the substance + dose level
-/// is the expensive part the day detail used to repeat per row on every
-/// unrelated screen toggle. Value type + `Equatable` so the row diffs cheaply.
+/// `resolvedDay`), never in a row `body`, where resolving the substance and
+/// dose level would repeat per row on every unrelated screen toggle. Value
+/// type + `Equatable` so the row diffs cheaply.
 struct DayEntryCore: Equatable {
     let entryID: UUID
     let timestamp: Date
@@ -212,10 +212,10 @@ struct EntryRowView: View {
         .padding(.vertical, 1)
     }
 
-    /// Tags on their own line as unfilled, bordered pills — pulled off the meta
-    /// line (where they used to fight the clock time hard enough to wrap "PM"
-    /// mid-token) and given a distinct outlined grammar so a rarely-used tag reads
-    /// as a quiet annotation rather than another filled badge.
+    /// Tags on their own line as unfilled, bordered pills. On the meta line they
+    /// fight the clock time hard enough to wrap "PM" mid-token, and the outline
+    /// lets a rarely-used tag read as a quiet annotation rather than another
+    /// filled badge.
     private var tagRow: some View {
         HStack(spacing: Spacing.sm) {
             ForEach(display.core.tags, id: \.self) { tag in
@@ -276,8 +276,7 @@ struct EntryRowView: View {
 
     /// The strength badge ("light"/"common"/"heavy"…) — same capsule grammar as
     /// the route pill, tinted by the level's color so the tier reads as color
-    /// *and* text at all times. It used to be a gray word that the live countdown
-    /// displaced, hiding the tier exactly while the dose was active.
+    /// *and* text at all times, the live countdown included.
     @ViewBuilder
     private var strengthChip: some View {
         if let level = display.core.doseLevel {

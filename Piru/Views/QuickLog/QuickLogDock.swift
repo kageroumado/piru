@@ -251,22 +251,15 @@ struct QuickLogDock: View {
     @State private var stagedCardEstimate: CGFloat = 0
 
     var body: some View {
-        // The probe hangs off `dockContent` as a **background**, not as a sibling
-        // in a `ZStack`.
-        //
-        // A `ZStack` takes the union of its children, and the probe deliberately
-        // ignores the bottom container *and* keyboard regions — so it reports a
-        // taller size than the sheet proposed, and the stack becomes oversize. An
-        // oversize view is not clipped to its container; SwiftUI *centers* it,
-        // which lifts its top edge by half the overflow. With a 34pt home
-        // indicator that is ~17pt; with a stale keyboard layout guide it is
-        // unbounded. That is the one mechanism in this file that moves the entire
-        // content column rather than just the field — matching the report that
-        // read "the search bar and the whole content shifted up again".
-        //
-        // A background is sized by its primary content and can never push the
-        // host around, while `ignoresSafeArea` inside it still lets the probe
-        // extend past the insets, so the measurement is unchanged.
+        // The probe hangs off `dockContent` as a background, never as a sibling
+        // in a `ZStack`: a `ZStack` takes the union of its children, and the
+        // probe deliberately ignores the bottom container and keyboard regions,
+        // so the stack would come out taller than the sheet proposed. SwiftUI
+        // centers an oversize view rather than clipping it, lifting the whole
+        // content column by half the overflow (~17pt with a 34pt home indicator,
+        // unbounded with a stale keyboard layout guide). A background is sized by
+        // its primary content and never pushes the host around, while
+        // `ignoresSafeArea` inside it still lets the probe extend past the insets.
         dockContent
             .background(alignment: .top) { proposalProbe }
     }
@@ -313,13 +306,11 @@ struct QuickLogDock: View {
             .onChange(of: commitBarHeight) { scheduleFitCheck() }
             .onChange(of: geometry.minimizeRequests) { minimizeToSummary() }
             // Re-apply the detent set on return to the foreground.
-            //
-            // Belt to ``SheetHostBox``'s braces: that fix makes the controller
-            // handle re-resolve itself, and this makes the sheet act on it. The
-            // reported symptom — dock backgrounded a while, Log button below the
-            // visible area until dragged — is a sheet resting at a height its
-            // detents no longer describe, and re-applying them is how it is told
-            // to settle again. A no-op when nothing drifted.
+            // ``SheetHostBox`` makes the controller handle re-resolve itself;
+            // this makes the sheet act on it. A dock backgrounded a while can
+            // rest at a height its detents no longer describe (the Log button
+            // below the visible area until dragged), and re-applying them tells
+            // it to settle. A no-op when nothing drifted.
             .onChange(of: scenePhase) {
                 guard scenePhase == .active else { return }
                 refreshDetents()
@@ -331,16 +322,14 @@ struct QuickLogDock: View {
 
     private var dockLayout: some View {
         VStack(spacing: 0) {
-            // The search bar keeps one identity in every dock state and is simply
-            // pinned to the top — a fixed 16pt below the grabber — in all of them.
-            // The bare pill used to be *centered* by a measured top padding, but
-            // that read the live sheet height, which an orphaned keyboard (left by
-            // an app switch clobbering the shared keyboard) inflates via the
-            // keyboard layout guide, drifting the pill up and cropping it
-            // (TestFlight 2.2 (30), iOS 26.5.2). Top-pinning has no height to
-            // corrupt — and it's already what the taller detents do, correctly.
-            // The peek detent is sized (``peekHeight``) so the pinned pill + the
-            // fixed ``bareFloat`` gap below read as a floating bar.
+            // The search bar keeps one identity in every dock state, pinned to
+            // the top a fixed 16pt below the grabber. Never center the bare pill
+            // with a measured top padding: that reads the live sheet height,
+            // which an orphaned keyboard (left by an app switch clobbering the
+            // shared keyboard) inflates via the keyboard layout guide, drifting
+            // the pill up and cropping it. The peek detent is sized
+            // (``peekHeight``) so the pinned pill and the fixed ``bareFloat`` gap
+            // below read as a floating bar.
             DockSearchBar(
                 searchText: $searchText,
                 searchActive: searchActive,
@@ -424,19 +413,16 @@ struct QuickLogDock: View {
             .frame(minHeight: 0, maxHeight: .infinity, alignment: .top)
         }
         // Fill the sheet and pin to its top edge, in every face. The system
-        // sheet's glass platter is the dock's surface throughout — we draw no
-        // chrome of our own — and the search bar's position is then one
-        // constant (16pt) below the platter. That is the invariant the shear
-        // reports violate: measured on a 17 Pro Max / iOS 26.5, the bar's top
-        // sits 14.2pt below the sheet's at the bare pill (drawn scaled 0.888),
-        // 15.4 at medium (0.964) and 16.0 unscaled at large. Negative means the
-        // field has climbed out of its platter.
+        // sheet's glass platter is the dock's surface throughout (we draw no
+        // chrome of our own), so the search bar sits one constant 16pt below
+        // the platter. Measured, the bar's top sits 14.2pt below the sheet's at
+        // the bare pill (drawn scaled 0.888), 15.4 at medium (0.964) and 16.0
+        // unscaled at large; a negative value means the field has climbed out
+        // of its platter.
         //
-        // This used to be two stacked frames, the inner one dropping to an
-        // intrinsic height while ``isBare``. That made a *measured* value
-        // decide the shape of the region the same measurement is taken from —
-        // height → flag → layout → height — and the two frames then top-aligned
-        // to the same place anyway, so the branch bought nothing but the loop.
+        // Never drop the region to an intrinsic height while ``isBare``: a
+        // measured value would then decide the shape of the region the same
+        // measurement is taken from (height → flag → layout → height).
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         // The summary replaces the whole face at the peek height with doses
         // staged, drawn where the search pill sits; the face underneath keeps
@@ -487,18 +473,16 @@ struct QuickLogDock: View {
         #if canImport(UIKit)
         .background { SheetHostProbe(box: bookkeeping.host) }
         #endif
-        // The empty⇄staged face swap mounts/unmounts dock content with NO
-        // animation: the sheet's detent change is the one animated element,
-        // and the content — laid out at its final frame from the first
-        // moment — just rides under the growing platter (the native sheet
-        // feel). Without this, the call sites' `withAnimation` played the
-        // staged card as a scale-from-center bloom inside the resize. Scoped
-        // to the *emptiness* flip only: adding to or removing from an
-        // already-visible staged list keeps the callers' animation, so the
-        // card grows/shrinks in step with the sheet instead of snapping a
-        // row in before the platter has moved. Sits *inside* the isBare
-        // animation below so it wins for updates where both change (staging
-        // the first dose from the bare pill).
+        // The empty⇄staged face swap mounts and unmounts dock content with no
+        // animation: the sheet's detent change is the one animated element, and
+        // the content, laid out at its final frame, rides under the growing
+        // platter like a native sheet. Without this the call sites'
+        // `withAnimation` plays the staged card as a scale-from-center bloom
+        // inside the resize. Scoped to the emptiness flip only, so adding to or
+        // removing from a visible staged list keeps the callers' animation and
+        // the card grows in step with the sheet. Sits inside the isBare
+        // animation below so it wins when both change (staging the first dose
+        // from the bare pill).
         .transaction(value: tray.isEmpty) { $0.animation = nil }
         .animation(.snappy, value: isBare)
         // Presentation configuration (detents, clear background, background
@@ -580,14 +564,13 @@ struct QuickLogDock: View {
     }
 
     private func handleTrayEmptinessChanged() {
-        // Only arm the suppression when the dock is genuinely *headed* for the
-        // bare pill. ``refreshDetents()`` keeps the current selection whenever
-        // it is already a valid empty-tray detent — and `.medium`/`.large` are
-        // — so deleting the last dose there moved nothing, `detentChanged`
-        // never ran, and the flag that unmounts the browse face never cleared:
+        // Only arm the suppression when the dock is headed for the bare pill.
+        // ``refreshDetents()`` keeps the current selection whenever it is
+        // already a valid empty-tray detent (`.medium` and `.large` are), so
+        // deleting the last dose there moves nothing and `detentChanged` never
+        // runs. A flag armed anyway never clears and unmounts the browse face:
         // a blank half-height sheet with only a search bar, recoverable only by
-        // closing the cover. Reproduced on iOS 26.5 (stage from search, then
-        // delete the row) and it predates the layout simplification above.
+        // closing the cover.
         awaitingBareCollapse = tray.isEmpty && !searchActive
             && !QuickLogDockMetrics.emptyDetents.contains(detent)
         if tray.isEmpty { unrevealedItemIDs.removeAll() }
@@ -804,9 +787,9 @@ struct QuickLogDock: View {
         /// Height→height moves ramp a mutable detent per display frame (see
         /// ``animateHeightDetent(in:from:to:onSettled:)``): both `animateChanges`
         /// and SwiftUI's binding animate the platter as a Core Animation
-        /// interpolation over content laid out ONCE at final size, which
-        /// displaces everything (frame-strip verified: the whole dock, search
-        /// bar to Log button, dips by the height delta and rides back). Only
+        /// interpolation over content laid out once at final size, which
+        /// displaces everything (the whole dock, search bar to Log button, dips
+        /// by the height delta and rides back). Only
         /// per-frame layout — what a real drag does — keeps the bottom-pinned
         /// bar stationary.
         ///
@@ -816,8 +799,8 @@ struct QuickLogDock: View {
         /// The smallest detent's resting look is the floating pill (scaled,
         /// lifted off the bottom edge), which only UIKit can animate into — a
         /// ramp that lands on the logical height leaves UIKit to morph the pill
-        /// treatment afterwards, which read as the search bar drifting to its
-        /// spot after the resize had visibly finished. The displacement artifact
+        /// treatment afterwards, so the search bar drifts to its spot after the
+        /// resize has visibly finished. The displacement artifact
         /// needs *bottom-pinned* visible content, and a dock headed to bare has
         /// none: the commit bar is hidden and the suggestions suppressed — only
         /// the top-pinned search bar rides the platter, which CA animates
@@ -890,10 +873,9 @@ struct QuickLogDock: View {
         /// Each invalidation re-resolves the detent and runs the sheet's full
         /// resize path at the new height — real layout every frame, exactly like
         /// the pan gesture, with none of the controller's bookkeeping bypassed.
-        /// (Direct `presentedView.frame` writes fought the controller: it
-        /// reasserted its own frame — no visible animation — and compensated
-        /// with residual scale transforms that accumulated into permanent layout
-        /// corruption, lldb-verified.)
+        /// Never write `presentedView.frame` directly: the controller reasserts
+        /// its own frame and compensates with residual scale transforms that
+        /// accumulate into permanent layout corruption.
         private func animateHeightDetent(
             in sheet: UISheetPresentationController,
             from fromLogical: CGFloat,
@@ -1113,12 +1095,11 @@ struct QuickLogDock: View {
     /// Ends the search after a result is staged: dismisses the keyboard, drops
     /// the search state, and settles onto medium with the staged rows expanded.
     ///
-    /// Leaving search up (the old behavior) left the results list and keyboard
-    /// covering the row the user had just added — so a stage from search now
-    /// finishes the search the same way picking a result in a search field
-    /// dismisses it. No-op when nothing is searching, which keeps a tap on the
-    /// browse suggestions (dragged tall with the field unfocused) growing the
-    /// dock in place as before.
+    /// Search left up would cover the row the user just added with the results
+    /// list and keyboard, so a stage from search finishes the search the way
+    /// picking a result in a search field dismisses it. No-op when nothing is
+    /// searching, so a tap on the browse suggestions (dragged tall with the
+    /// field unfocused) grows the dock in place.
     ///
     /// The exit is deferred a runloop turn on purpose. Staging fires its *own*
     /// detent bookkeeping this turn — `tray.isEmpty` flipping (first dose) and

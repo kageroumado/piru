@@ -46,10 +46,9 @@ nonisolated struct DoseRange {
 
     /// Where `dose` sits on this ladder, or `nil` when there is no ladder.
     ///
-    /// A range with every tier empty cannot place a dose. It used to answer
-    /// `.sub` — so a custom substance logged with no dose data was labeled
-    /// "sub-threshold", which is a claim about the dose rather than an absence
-    /// of one, and the reader has no way to tell the two apart.
+    /// A range with every tier empty cannot place a dose, so it answers `nil`.
+    /// Never answer `.sub` here: "sub-threshold" is a claim about the dose, and
+    /// the reader could not tell it apart from an absence of dose data.
     fileprivate func level(for dose: Double) -> DoseLevel? {
         guard hasAnyValue else { return nil }
         if let heavy, dose >= heavy { return .heavy }

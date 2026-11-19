@@ -12,15 +12,14 @@ import UIKit
 /// `presentationBackgroundInteraction` leaves it undimmed). Net effect: at rest
 /// the search field, staged doses, and Log Dose are invisible to assistive tech;
 /// at `.large` the dock's transition view turns modal itself, wins as topmost,
-/// and the situation flips (verified via lldb: both transition views, flag by
-/// detent). The full-screen presentation already removes the Journal underneath
+/// and the situation flips. The full-screen presentation already removes the Journal underneath
 /// from the hierarchy, so the cover's modal flag protects nothing — clearing it
 /// exposes cover content and dock together, while the dock's *own* modal flag
 /// still correctly masks the cover at `.large`.
 ///
-/// Public-API superview walk from a hosted leaf, same pattern as the (retired)
-/// `SheetPlatterHider`. Re-asserted from `layoutSubviews` because UIKit can
-/// re-apply the flag across presentation transitions.
+/// Public-API superview walk from a hosted leaf. Re-asserted from
+/// `layoutSubviews` because UIKit can re-apply the flag across presentation
+/// transitions.
 struct CoverAccessibilityUnmasker: UIViewRepresentable {
     func makeUIView(context _: Context) -> UnmaskView {
         UnmaskView()

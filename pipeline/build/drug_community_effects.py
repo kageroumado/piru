@@ -37,9 +37,7 @@ _DC_LEVEL_TO_BAND = {
     "overdose": 5,
 }
 
-# dc tags effects with 21 fine-grained domains; fold them into the 5 UI groups
-# (ordered by how prominently they read on a substance card).
-DOMAIN_ORDER = ["Emotional", "Cognitive", "Sensory", "Physical", "Social"]
+# dc tags effects with 21 fine-grained domains; fold them into the 5 UI groups.
 _DOMAIN_BUCKET = {
     "emotional": "Emotional",
     "cognitive": "Cognitive",

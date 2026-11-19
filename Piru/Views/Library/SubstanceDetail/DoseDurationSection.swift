@@ -81,9 +81,8 @@ struct RouteResolution {
 
 /// Dose ladder + duration for the selected route, behind a segmented route
 /// switcher when more than one route applies. Surfaced near the top of the
-/// detail view — the primary thing people open a substance for. One
-/// consolidated card per route replaces the old two-sections-per-route stack,
-/// so a multi-route compound reads in a single screenful.
+/// detail view, the primary thing people open a substance for. One card per
+/// route, so a multi-route compound reads in a single screenful.
 struct DoseDurationSection: View {
     let routes: RouteResolution
     @Binding var routeSelection: RouteOfAdministration

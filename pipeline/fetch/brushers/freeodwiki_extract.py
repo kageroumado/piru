@@ -103,18 +103,17 @@ DURATION_UNITS = [
 # sign (µ, U+00B5) across FreeOD Wiki pages — sometimes within a single page
 # (e.g. 25N-NBOMe mixes both). Fold every mu variant to the micro sign before
 # unit detection so "μg" reads as micrograms instead of falling through to a
-# bare "g" substring match — the bug that silently relabeled microgram doses
-# (clonidine, fentanyl, sufentanil, several NBOMes) as grams. See parse_dose_value.
+# bare "g" substring match, which would relabel microgram doses (clonidine,
+# fentanyl, sufentanil, NBOMes) as grams. See parse_dose_value.
 # Greek small mu (U+03BC), micro sign (U+00B5), math italic small mu (U+1D707).
 _MU_VARIANTS = "μµ\U0001d707"
 _MU_TABLE = {ord(c): "µ" for c in _MU_VARIANTS}
 
 # Canonical unit per recognized token. The source uses latin (µg/mg/g/ml…) AND
-# native Chinese units (微克/毫克/克/毫升…); the old detector knew neither Greek
-# mu nor any Chinese unit, so those cells defaulted to "mg" — turning a 50 微克
-# dose into 50 mg (1000×) and gram doses into milligrams. Two-character Chinese
-# units (微克/毫克) must precede the one-character ones (克) in the alternation
-# below so the longer, more specific token wins.
+# native Chinese units (微克/毫克/克/毫升…); a cell whose unit goes unrecognized
+# defaults to "mg", turning a 50 微克 dose into 50 mg (1000×). Two-character
+# Chinese units (微克/毫克) must precede the one-character ones (克) in the
+# alternation below so the longer, more specific token wins.
 _UNIT_CANON = {
     "µg": "µg",
     "ug": "µg",
@@ -139,8 +138,7 @@ _UNIT_CANON = {
 # A unit only counts when it is attached to a number, longest/most-specific
 # match first, with a trailing word boundary. Anchoring to a digit and bounding
 # the tail stops a bare "g"/"l" from matching inside "µg"/"mg"/"ml" or a stray
-# latin letter in a prose cell (e.g. a "…fatal…" warning row that used to parse
-# as unit "l").
+# latin letter in a prose cell (the "l" in a "…fatal…" warning row).
 _UNIT_RE = re.compile(r"\d\s*(µg|mcg|ug|mg|ng|kg|ml|µl|微克|毫克|纳克|千克|毫升|微升|g|l|克|升)\b")
 
 _NUM_RE = re.compile(r"\d+(?:\.\d+)?")
@@ -221,9 +219,8 @@ def parse_duration_value(raw: str) -> dict | None:
 # cuts "4-Bromo-2,5-dimethoxyphenethylamine" into "4-Bromo-2" + "5-dimethoxy…".
 # The tell is unambiguous: the left piece ENDS in a digit and the right piece
 # BEGINS with a digit followed by a hyphen. No real pair of separate names looks
-# like that, and both halves are useless alone — the fragment "5-二甲氧基苯乙胺"
-# was an alias of five different 2C-x compounds, and the full name was unsearchable
-# because only the pieces were ever stored.
+# like that, and both halves are useless alone: a fragment like "5-二甲氧基苯乙胺"
+# would alias every 2C-x compound, and the full name would be unsearchable.
 # The right piece may itself be a bare locant — "8-bromo-2,3,6,7-benzo…" splits
 # into four pieces, of which the middle two are just "3" and "6". A bare number is
 # never a name on its own (``_add_alias`` drops those as noise anyway), so folding

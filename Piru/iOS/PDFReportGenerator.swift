@@ -11,7 +11,7 @@ import UIKit
 /// (`UIGraphicsPDFRenderer` is documented thread-safe). The draw passes only
 /// touch nonisolated helpers (`Calendar.sessionDayStart`, `Double.doseFormatted`, `PKModel`) and the
 /// snapshot value types below. The one genuinely MainActor-bound lookup —
-/// `InteractionChecker.drugClasses(for:)`, which memoises into a mutable
+/// `InteractionChecker.drugClasses(for:)`, which memoizes into a mutable
 /// static cache and resolves through the `SubstanceLibrary`/`SubstanceStore`
 /// singleton — is resolved on main at snapshot-build time and carried in
 /// `InteractionSnapshot`, so nothing here re-enters the main actor. See

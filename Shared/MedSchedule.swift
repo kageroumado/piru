@@ -126,8 +126,8 @@ nonisolated enum MedSchedule {
     /// calendar, the widget, and the My Meds checklist's occurrence records —
     /// so a dose can never read as taken on one screen and missing on another.
     ///
-    /// The name arm is load-bearing on both ends of PSID resolution: it credits
-    /// a legacy dose logged before its substance resolved to an id, and a dose
+    /// The name arm covers both ends of PSID resolution: it credits a dose
+    /// logged before its substance resolved to an id, and a dose
     /// whose PSID family was re-pinned after the med was scheduled, where both
     /// sides carry ids that no longer agree.
     static func identityMatches(keyA: String?, nameA: String, keyB: String?, nameB: String) -> Bool {

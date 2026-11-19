@@ -4,15 +4,14 @@ import SwiftUI
 /// are on.
 ///
 /// Findings that have earned an interruption are inline; the quiet ones fold
-/// behind a count — but only once there are enough of them for folding to buy
-/// anything. See ``partitionedForReview``. This is where the quiet ones live:
-/// the QuickLog dock dropped interactions entirely, because a dock is for
-/// recording what has already been taken and a warning there arrives after the
-/// decision it would inform. Rows echo the dose/cumulative rows: a leading glyph (the
-/// severity triangle in place of the color dot) + the involved substances in
-/// normal text, with the severity level as a tinted chip on the right — the only
-/// colored element. Warnings produced by the same rule are grouped so a
-/// stimulant-stack session doesn't repeat one sentence five times.
+/// behind a count once there are enough of them for folding to help (see
+/// ``partitionedForReview``). This is the only home for interactions: the
+/// QuickLog dock records what has already been taken, so a warning there would
+/// arrive after the decision it would inform. Rows echo the dose rows: a
+/// leading severity triangle in place of the color dot, the involved
+/// substances in normal text, and the severity level as a tinted chip on the
+/// right, the only colored element. Warnings from the same rule are grouped so
+/// a stimulant-stack session doesn't repeat one sentence five times.
 struct SessionSafetySection: View {
     let interactions: [InteractionResult]
     /// Measured exposure changes between two things logged here. Rendered under

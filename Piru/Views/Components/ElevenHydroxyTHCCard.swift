@@ -1,14 +1,12 @@
 import SwiftUI
 
-/// 11-OH-THC readout for the cannabis vertical (`Specs/pharmacology-axis-meta-plan.md`, Stage 5).
-/// Shown **only** on **oral** cannabis entries (edibles, oils, capsules) — gated by the caller — where
-/// first-pass hepatic metabolism is the dominant story: swallowed Δ9-THC is largely converted to
-/// 11-hydroxy-THC, an active metabolite that crosses into the brain more readily and binds CB1
-/// markedly more strongly than the parent (flagship data: 11-OH-THC Kᵢ ≈ 0.37 nM vs THC ≈ 25 nM). That
-/// is why an edible feels stronger per milligram than the same dose smoked, comes on slowly, and lasts
-/// far longer. The actionable harm-reduction point is the slow-onset redose trap. Qualitative and
-/// educational — the metabolite's higher receptor affinity is real and cited, but felt potency is never
-/// reduced to a single multiple (house labeling rule).
+/// 11-OH-THC readout for cannabis, shown only on oral
+/// entries (edibles, oils, capsules; the caller gates it). First-pass metabolism converts much of the
+/// swallowed Δ9-THC to 11-hydroxy-THC, which enters the brain more readily and binds CB1 more strongly
+/// than the parent (Kᵢ ≈ 0.37 nM vs ≈ 25 nM). That is why an edible feels stronger per milligram than
+/// the same dose smoked, comes on slowly and lasts far longer; the practical point is the slow-onset
+/// redose trap. Qualitative by the house labeling rule: the affinity gap is cited, but felt potency is
+/// never reduced to a single multiple.
 struct ElevenHydroxyTHCCard: View {
     var body: some View {
         Section {

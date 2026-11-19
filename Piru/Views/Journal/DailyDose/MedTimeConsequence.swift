@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Consequences at pick-time (`Specs/archive/meds-ux-review.md` §9).
+// Consequences at pick-time.
 //
 // A time picker that says only "morning" makes the user do the pharmacology in
 // their head: they choose 4 PM without any way to see that this particular med

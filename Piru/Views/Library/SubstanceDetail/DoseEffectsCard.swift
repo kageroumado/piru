@@ -28,9 +28,9 @@ struct DoseEffectsCard: View {
     /// data. The curve is a shape, and a source that publishes only `onset` and
     /// `total` gives it no shape at all — `phaseBoundaries` then sums the
     /// present phases and collapses a 12 h profile into a ~1 h spike that
-    /// contradicts the "12 h" printed directly beneath it. Measured against the
-    /// bundled DB, 453 of 1,397 resolved route-profiles diverged. So the curve
-    /// fills, and only the trio stays raw.
+    /// contradicts the "12 h" printed directly beneath it. About a third of the
+    /// bundled route profiles diverge this way, so the curve fills and only the
+    /// trio stays raw.
     var curveCategory: SubstanceCategory?
     /// Tier the user tapped, overriding the model's reference tier. Card-local
     /// and deliberately not persisted — it answers "what does Strong mean here?"

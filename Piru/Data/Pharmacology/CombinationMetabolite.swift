@@ -2,21 +2,20 @@ import Foundation
 
 /// **Combination-generated active species** — the rare case where two co-ingested drugs don't merely
 /// add but *react* to form a third active compound with its own pharmacology and (often) worse
-/// toxicity (`Specs/pharmacology-axis-meta-plan.md`, Stage 4d). This is inexpressible in both the
+/// toxicity. This is inexpressible in both the
 /// additive combined-depression index *and* the per-substance active-metabolite path, because the new
 /// species is a property of the **pair**, not of either drug alone.
 ///
 /// The canonical (and essentially only well-evidenced) case is **cocaethylene** from cocaine + ethanol.
 ///
 /// ## Readout-only (v1), faithful to the evidence
-/// The Foundation-C evidence run (`cocaethylene-evidence.json`, 2026-06-22) graded the parameters and
-/// found **no shippable human Vd or clearance** for cocaethylene — only canine numbers, below the human
-/// floor. Without a Vd the species cannot get its own absolute-exposure PK curve, so v1 does **not**
-/// simulate it through the occupancy pipeline (that waits on a human Vd). Instead this is an
-/// evidence-anchored **readout**: when both precursors are onboard, surface that the metabolite forms,
-/// what it does (longer-lived active stimulant), and the real harm-reduction signal (extra cardiac and
-/// hepatic strain) — while explicitly **rejecting the laundered "18–25× sudden death" myth** the same
-/// run debunked (it traces to a single 1997 narrative review with no primary cohort).
+/// The evidence run (`cocaethylene-evidence.json`) found **no usable human Vd or clearance** for
+/// cocaethylene, only canine numbers. Without a Vd the species cannot get its own absolute-exposure PK
+/// curve, so it is not simulated through the occupancy pipeline. This is an evidence-anchored
+/// **readout** instead: when both precursors are onboard, surface that the metabolite forms, what it
+/// does (a longer-lived active stimulant), and the extra cardiac and hepatic strain. The "18–25×
+/// sudden death" figure is a myth (it traces to a single 1997 narrative review with no primary
+/// cohort) and must never appear.
 ///
 /// Formation is **gated on the precursors co-occurring** — the temporal-overlap signal the interaction
 /// engine already computes (`activeEntries`) — because cocaethylene only forms while ethanol is present
@@ -32,8 +31,8 @@ nonisolated enum CombinationMetabolite {
     /// combination with none has nothing to say. `CombinationMetaboliteTests` gates the pairing both
     /// ways so a curated id and its copy cannot drift apart.
     enum CombinationID: String, CaseIterable, Hashable, Sendable {
-        /// Cocaine + ethanol → a longer-lived, DAT-dominant active stimulant metabolite. Copy anchored
-        /// to the gate-clean evidence run (faithful over comprehensive).
+        /// Cocaine + ethanol → a longer-lived, DAT-dominant active stimulant metabolite. The copy says
+        /// only what the evidence run supports.
         case cocaethylene
         /// Methylphenidate + ethanol → a longer-lived, more DAT-selective active stimulant. The exact
         /// structural analogue of cocaethylene: carboxylesterase (CES1) transesterifies the methyl ester

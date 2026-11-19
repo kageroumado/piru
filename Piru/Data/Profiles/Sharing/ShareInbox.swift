@@ -15,7 +15,7 @@ final class ShareInbox {
         case paired(PiruPerson)
         /// A share that opened, waiting for a yes.
         case share(ShareReceiver.Opened)
-        case received(ShareReceiver.Outcome, title: String?, startDate: Date)
+        case received(ShareReceiver.Outcome)
         case failed(String)
     }
 
@@ -52,7 +52,7 @@ final class ShareInbox {
     func accept(_ opened: ShareReceiver.Opened) {
         do {
             let outcome = try ShareReceiver.accept(opened)
-            item = .received(outcome, title: opened.share.side.title, startDate: opened.share.side.startDate)
+            item = .received(outcome)
         } catch {
             item = .failed(error.localizedDescription)
         }

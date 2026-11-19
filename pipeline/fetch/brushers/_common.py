@@ -1,52 +1,12 @@
-"""Shared helpers for brushing external substance datasets into a CSV
-shape that mirrors Piru's `Substance` model.
-
-The CSV schema is intentionally flat (one row per unique substance) so the
-output is easy to scan in a spreadsheet. Per-route fields collapse to
-semicolon-joined strings whose order matches `ROUTES_HEADER`.
-"""
+"""Shared helpers for brushing external substance datasets onto Piru's
+`Substance` model: category and route mapping, HTML stripping, and quantity
+parsing."""
 
 from __future__ import annotations
 
-import csv
 import html
 import re
 from collections.abc import Iterable
-from pathlib import Path
-
-OUTPUT_DIR = Path(__file__).resolve().parents[3] / "data" / "sources" / "brushers"
-
-CSV_COLUMNS: list[str] = [
-    "source",
-    "source_id",
-    "name",
-    "aliases",
-    "raw_classes",
-    "piru_category",
-    "default_route",
-    "routes",
-    "units",
-    "dose_threshold",
-    "dose_light",
-    "dose_common",
-    "dose_strong",
-    "dose_heavy",
-    "onset",
-    "peak",
-    "total_duration",
-    "half_life_min",
-    "mechanism_summary",
-    "effects",
-    "indications",
-    "contraindications",
-    "regulatory_status",
-    "cas_no",
-    "chemical_formula",
-    "tags",
-    "sources_count",
-    "notes",
-]
-
 
 # Piru's `SubstanceCategory` raw values plus the tripsit/openfda strings that
 # `SubstanceCategory.from(tripSitCategory:)` recognises. The mapping is best
@@ -239,18 +199,6 @@ def strip_html(text: str | None) -> str:
     return cleaned
 
 
-def join_unique(items: Iterable[str], sep: str = "; ") -> str:
-    """Stable-order dedupe + join. Empty/None entries are dropped."""
-    seen: dict[str, None] = {}
-    for item in items:
-        if not item:
-            continue
-        cleaned = item.strip()
-        if cleaned and cleaned not in seen:
-            seen[cleaned] = None
-    return sep.join(seen)
-
-
 #: Characters that mean the same thing as an ASCII one the quantity patterns
 #: expect. Sources write a range separator six ways and a micro prefix two, and
 #: a pattern that misses one does not refuse the value — it matches the leading
@@ -311,20 +259,3 @@ def parse_range(text: str | None) -> tuple[str, str, str]:
     if unit in ("ug", "mcg", "\u03bcg"):
         unit = "µg"
     return lo, hi, unit
-
-
-def open_csv(path: Path):
-    """Open `path` in write mode with the standard CSV column header."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fh = path.open("w", newline="", encoding="utf-8")
-    writer = csv.DictWriter(fh, fieldnames=CSV_COLUMNS, extrasaction="ignore")
-    writer.writeheader()
-    return fh, writer
-
-
-def empty_row(source: str) -> dict[str, str]:
-    """A blank row pre-filled with the column keys so any missing column is
-    serialised as an empty string rather than `None`."""
-    row = dict.fromkeys(CSV_COLUMNS, "")
-    row["source"] = source
-    return row

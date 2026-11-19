@@ -2,12 +2,10 @@ import SwiftUI
 
 /// The session's check-in schedule, said out loud.
 ///
-/// Turning prompts on from the ⋯ menu used to leave no trace on the screen: the
-/// schedule existed, would fire, and appeared nowhere. This is the section that
-/// answers "what did I just turn on, and when does it arrive" — and it is the
-/// only place that can say the two things the list would otherwise get wrong: a
-/// prompt whose hour has gone is not coming, and one inside quiet hours is
-/// never scheduled at all.
+/// It answers "what did I just turn on from the ⋯ menu, and when does it
+/// arrive", and it is the only place that says the two things the list would
+/// otherwise get wrong: a prompt whose hour has gone is not coming, and one
+/// inside quiet hours is never scheduled at all.
 struct SessionCheckInSection: View {
     @Bindable var session: Session
     @Environment(\.appNavigator) private var navigator

@@ -453,8 +453,8 @@ struct EntryListView: View {
             .listRowBackground(Color.clear)
         }
 
-        // The daily meds front door — today's checklist, tap to log
-        // (Specs/meds-reminders-redesign.md). Renders nothing while the
+        // The daily meds front door — today's checklist, tap to log.
+        // Renders nothing while the
         // user has no meds, so a recreational-only journal never sees it.
         if !isSearchSurface {
             MyMedsCard(substanceColors: substanceColors)

@@ -3,8 +3,8 @@ import SwiftUI
 
 // MARK: - Time-of-day groups
 
-/// The derived time-of-day buckets of the My Meds hub
-/// (Specs/meds-reminders-redesign.md): a med's reminder times slot it into
+/// The derived time-of-day buckets of the My Meds hub:
+/// a med's reminder times slot it into
 /// Morning/Afternoon/Evening/Night automatically — no named containers to
 /// create. Meds without times are "Anytime"; PRN meds get their own group.
 enum MedTimeGroup: Int, CaseIterable, Identifiable {

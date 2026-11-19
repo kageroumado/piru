@@ -4,11 +4,10 @@ import Testing
 /// The "Also Active" headline resolver.
 ///
 /// Every case here is a **real catalog row**, with the stored values inlined, so
-/// the suite doubles as a record of which claim each substance produces. The
-/// resolver previously fired its duration headline on a bare half-life ratio,
-/// which stated something false for cotinine, desmethylsertraline,
-/// didesmethylcitalopram, psilocin, d-amphetamine, cocaethylene and mCPP; those
-/// are the negative cases below.
+/// the suite doubles as a record of which claim each substance produces. A
+/// duration headline fired on a bare half-life ratio states something false for
+/// cotinine, desmethylsertraline, didesmethylcitalopram, psilocin,
+/// d-amphetamine, cocaethylene and mCPP; those are the negative cases below.
 @Suite("ActiveMetabolite statement")
 struct ActiveMetaboliteStatementTests {
     // MARK: Fixtures
@@ -195,8 +194,8 @@ struct ActiveMetaboliteStatementTests {
 
     @Test
     func `mCPP is described as different, not as trazodone lasting longer`() {
-        // mCPP is anxiogenic. "The same effects, drawn out" inverts it — which
-        // is what the old ordering produced, because it tested duration first.
+        // mCPP is anxiogenic. "The same effects, drawn out" inverts it, which is
+        // what testing duration first produces.
         let mCPP = Self.metabolite(
             "mCPP", halfLifeMinutes: 840, mechanism: .divergent,
             potencies: [Self.potency(100, .receptorAffinity, target: "SERT")],

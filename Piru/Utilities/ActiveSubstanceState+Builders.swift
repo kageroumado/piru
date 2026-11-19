@@ -69,17 +69,14 @@ extension ActiveSubstanceState {
     /// effects). With no such profile the answer is `nil`, and the dose falls
     /// through to a timestamp marker.
     ///
-    /// A half-life is deliberately **not** a fallback. It answers "how much is
-    /// still in you", which is the ``ActiveSubstanceCalculator/compute(from:colorMap:)``
-    /// body-load readout's question, not this one — and the two diverge hardest
-    /// exactly where a fabricated curve does the most damage. Chronic medication
-    /// is the whole population that reached the old synthesized tier: SSRIs,
-    /// antipsychotics, anticonvulsants, thyroid, therapeutic peptides. None has
-    /// an acute curve to draw, and deriving one from t½ drew a flat multi-week
-    /// plateau over every real curve on the graph (fluoxetine's 16-day t½ → a
-    /// 69-day "effect", `1,638h left`). The tier's stated beneficiaries
-    /// (Memantine, Tadalafil, Bromantane) have all since gained real duration
-    /// data and resolve above, so it had no honest users left.
+    /// Never fall back to a half-life. It answers "how much is still in you",
+    /// the ``ActiveSubstanceCalculator/compute(from:colorMap:)`` body-load
+    /// question, and the two diverge most where a fabricated curve does the
+    /// most damage: the doses with a half-life and no acute curve are chronic
+    /// medication (SSRIs, antipsychotics, anticonvulsants, thyroid, therapeutic
+    /// peptides), and a curve derived from t½ draws a flat multi-week plateau
+    /// over every real curve on the graph (fluoxetine's 16-day t½ gives a
+    /// 69-day "effect").
     ///
     /// A substance that genuinely does have acute effects but renders as a bare
     /// marker is a **data** gap — fix it by adding durations in the pipeline, not
@@ -208,26 +205,23 @@ extension ActiveSubstanceState {
         return (states, markers)
     }
 
-    /// Compute dose intensity (0.05...1.0) used to scale timeline curve heights.
-    ///
-    /// Uses `amount / heavy_threshold` directly — matches PsychonautWiki's
-    /// visual behavior: 17g alcohol renders at half the height of 34g, plat-1
-    /// DXM (150mg / 700mg heavy ≈ 0.21) renders much shorter than 75g alcohol
-    /// (75 / 40 = 1.0 saturated). The ratio naturally captures within-substance
-    /// proportionality while the `min(1.0, …)` cap handles overdose cases.
-    ///
-    /// Falls back to looser references (strong upper, common upper × 1.5, etc.)
-    /// when heavy isn't defined, so substances with partial data still produce
-    /// a sensible scale. Returns a neutral 0.60 (mid-common-ish) when no dose
-    /// range information is available at all — we'd rather show "unknown" as
-    /// a moderate curve than peg it at the top of the graph where it would
-    /// wrongly dominate every other dose.
+    /// The intensity of a dose with no dose range at all: a moderate curve,
+    /// because one pegged at the top of the graph would dominate every other
+    /// dose.
     static let unknownIntensity: Double = 0.60
 
-    /// Floor height so sub-threshold doses still show a visible nub rather
-    /// than disappearing.
+    /// Floor height so sub-threshold doses still show a visible nub.
     static let minimumIntensity: Double = 0.05
 
+    /// Dose intensity (0.05...1.0) that scales timeline curve heights.
+    ///
+    /// `amount / heavy_threshold`, matching PsychonautWiki's visual behavior:
+    /// 17 g alcohol renders at half the height of 34 g, plat-1 DXM (150 mg /
+    /// 700 mg heavy ≈ 0.21) much shorter than 75 g alcohol (75 / 40, capped at
+    /// 1.0). The ratio keeps within-substance proportionality and the cap
+    /// handles overdoses. Without a heavy threshold it falls back to looser
+    /// references (strong upper, common upper × 1.5) so partial data still
+    /// scales.
     static func computeDoseIntensity(dose: DoseQuantity?, ladder: DoseLadder?) -> Double {
         min(1.0, computeDoseMagnitude(dose: dose, ladder: ladder))
     }

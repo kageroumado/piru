@@ -82,23 +82,17 @@ enum ActiveSubstanceCalculator {
             // insight. Excluded here to match their suppression on the timeline and
             // in the entry-row rail (see `from`).
             if substance?.modelsBodyLoad == false { continue }
-            // A dose naming a form we don't model contributes no body-load estimate
-            // either. The elimination half-life *is* a property of the molecule and
-            // survives the delivery matrix — but the readout is not pure
-            // elimination: `ka` below comes from the route's duration profile, i.e.
-            // the immediate-release absorption limb, so a dose released over ~10 h
-            // would be modelled as if it landed at once, and "clear ~12:33 PM"
-            // states a time we have no basis for. Better to show nothing than
-            // something misleading.
-            // A per-product envelope (Concerta, Adderall XR) models the extended
-            // release, so its dose contributes a body-load estimate with the right
-            // absorption limb — unlike a bare unmodeled form, which we still skip.
             // No amount, no body load: 0 remaining of 0 dosed is not a fraction.
             guard let dose = substance?.quantity(of: entry) ?? entry.quantity else { continue }
             let productDuration = entry.productDuration
             let isDepot = PKResolver.isDepot(entry: entry)
-            // A depot bypasses the unmodeled-form skip (it has no acute form to model,
-            // but its slow persistence is exactly what a body-load readout is for).
+            // A dose naming a form we don't model gets no body-load estimate: `ka`
+            // comes from the route's immediate-release absorption limb, so an
+            // extended-release dose would be modeled as landing at once and its
+            // clear time would have no basis. A per-product envelope (Concerta,
+            // Adderall XR) models the release, so that dose counts. A depot counts
+            // too: it has no acute form, and its slow persistence is what a
+            // body-load readout is for.
             if !isDepot, productDuration == nil, entry.namesUnmodeledForm { continue }
             guard let halfLife = resolveHalfLife(substance: substance, entry: entry, isDepot: isDepot) else { continue }
 

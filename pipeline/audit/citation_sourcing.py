@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """Does the cited paper contain the number the row claims — and if not, which paper does?
 
-Three checks now stand between a curated number and the app, and they answer
+Three checks stand between a curated number and the app, and they answer
 strictly different questions:
 
     verify_citations.py    does this identifier RESOLVE to a real paper?
     citation_topicality.py is that paper ABOUT the substance citing it?
     citation_sourcing.py   does that paper CONTAIN this row's value?          ← here
 
-The third is the one that catches a citation which passes both earlier gates and
-is still wrong. Ephenidine's NMDA Kᵢ of 66.4 nM is a real measurement from a real
+The third catches a citation that passes both earlier gates and is still wrong. Ephenidine's NMDA Kᵢ of 66.4 nM is a real measurement from a real
 paper (Kang 2017, Neuropharmacology 112:144-149) — but the row cited
 `pmid:27623219`, which resolves perfectly to *"A 'Shark Encounter': Delayed
 Primary Closure of a Great White Shark Bite"*. The identifier was invented at
@@ -24,8 +23,8 @@ not, and a curated Kᵢ that appears nowhere in its own source is a defect with 
 innocent reading available. That is what makes this check deterministic in a way
 name matching cannot be.
 
-Units are the whole difficulty, and they are handled by *canonicalising both
-sides* rather than by string matching. A row holding `ki_nm = 66.4` must match a
+Units are the whole difficulty, and they are handled by canonicalizing both
+sides rather than by string matching. A row holding `ki_nm = 66.4` must match a
 paper writing "66.4 nM", "0.0664 μM", "66.4 ± 3.7 nM", or "pKi 7.18" — so every
 quantity in the text is parsed to a canonical unit and compared numerically.
 Adjacency to a unit is **required**: bare "14" occurs in every full text ever
@@ -188,7 +187,7 @@ def extract_quantities(text: str) -> list[Quantity]:
         except ValueError:
             continue
         unit = _clean_unit(match.group("unit"))
-        # "uM" normalises to "um", which also spells a lowercase micrometre; the
+        # "uM" normalizes to "um", which also spells a lowercase micrometer; the
         # concentration table wins because no PK/binding row is ever in microns.
         for unit_class, table in UNIT_TABLES.items():
             factor = table.get(unit)
@@ -590,12 +589,11 @@ def chembl_sources(row: Row, api: ChEMBL) -> list[dict]:
             )
             if not identifier or identifier in proposals:
                 continue
-            # The target must AGREE, and this was learned the expensive way.
-            # Scoring it and taking the best anyway proposed a CB2 Kᵢ of 39.3 nM
-            # as the source of THC's CB1 row (41 nM), and a sigma-1 Kᵢ of 5070 nM
-            # as the source of dextromethorphan's hERG row (5100 nM). Both are
-            # real measurements of the right compound at the wrong protein, and
-            # a near-miss number made them look like confirmations.
+            # The target must agree. Scoring it and taking the best anyway
+            # proposes a CB2 Kᵢ of 39.3 nM as the source of THC's CB1 row
+            # (41 nM), and a sigma-1 Kᵢ of 5070 nM for dextromethorphan's hERG
+            # row (5100 nM): real measurements of the right compound at the wrong
+            # protein, which a near-miss number makes look like confirmations.
             target_name = activity.get("target_pref_name") or ""
             if row.subject and not target_agrees(row.subject, target_name):
                 continue
@@ -684,7 +682,7 @@ def propose_sources(row: Row, api, limit: int = 6) -> list[tuple[float, Record, 
         score = sum(3.0 if strength == "high" else 0.25 for _, _, strength in matched)
         lowered = f"{record.title} {record.abstract}".lower()
         # A candidate must NAME THE SUBSTANCE IN ITS TITLE. Without that, ranking
-        # by value alone proposed *ACS Macro Letters* on adhesives as the source
+        # by value alone proposes *ACS Macro Letters* on adhesives as the source
         # of MDEA's Tmax, on the strength of a shared "2 h". Search relevance is
         # an opinion; a title is a claim about what the paper is.
         if name.lower() not in record.title.lower():
@@ -712,9 +710,9 @@ def propose_sources(row: Row, api, limit: int = 6) -> list[tuple[float, Record, 
 #: identifier. Author names are constrained to a leading capital and no trailing
 #: possessive so that "Table 1" and "Figure 2A" cannot pass as authors.
 PROSE_CITE_RE = re.compile(
-    # Up to three surnames may precede the year, and capturing ALL of them is
-    # what makes the match checkable. "Wallner, Hanchar, Olsen 2003" parsed to
-    # its LAST surname alone resolved to a Danish cancer cohort — which really
+    # Up to three surnames may precede the year, and capturing all of them is
+    # what makes the match checkable: "Wallner, Hanchar, Olsen 2003" parsed to
+    # its last surname alone resolves to a Danish cancer cohort that really
     # does have an author named Olsen. One surname plus a year identifies a
     # paper far less often than it looks.
     r"\b(?P<authors>[A-Z][A-Za-zÀ-ɏ'-]{2,}"

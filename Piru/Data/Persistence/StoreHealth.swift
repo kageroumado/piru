@@ -93,7 +93,7 @@ enum StoreHealth {
     /// Read-only first: a read-only connection takes no write lock and skips the
     /// WAL checkpoint SQLite otherwise runs when the last connection closes —
     /// that checkpoint, an fsync on the App Group store during launch, is where
-    /// iOS suspended and killed the process (`SerializedDatabase.deinit`
+    /// iOS suspends and kills the process (`SerializedDatabase.deinit`
     /// crashes). SQLite opens a WAL-mode store read-only whenever it can create
     /// the `-shm` beside it, which a sandbox directory always allows; the
     /// read-write open remains as the fallback for the case where it cannot,

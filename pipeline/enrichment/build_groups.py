@@ -943,7 +943,7 @@ def main() -> int:
                 }
             )
 
-    # Dedup by normalised name
+    # Dedup by normalized name
     seen: set[str] = set()
     unique: list[dict] = []
     for s in substances:

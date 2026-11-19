@@ -137,7 +137,7 @@ MECHANISMS = REPO / "data/curated/mechanisms.json"
 CLASS_MECHANISMS = REPO / "data/curated/class-mechanisms.json"
 # Piru's own one-sentence mechanism line for each Pyrls medication no curated
 # mechanism covers, keyed by Pyrls record name. Pyrls prose is read as evidence
-# and never shipped — its terms forbid copying (Specs/reference/pyrls-licence.md).
+# and never shipped: its terms forbid copying.
 # pipeline/audit/claim_language.py gates the wording.
 MECHANISM_LINES = REPO / "data/curated/mechanism-lines.json"
 #: MedTAP records whose label mechanism prose Piru ships nothing in place of.
@@ -179,7 +179,7 @@ PRODUCT_CODE_SNAPSHOTS = (
     ("bdpm", "FR", REPO / "data/sources/product-codes-bdpm.json"),
 )
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
-# drug.community experiential companion datasets (Sept-2025 redesign): the
+# drug.community experiential companion datasets: the
 # intensity spectra + reported effects that power the "Effects & Intensity"
 # screen. Keyed on the canonical dc slug, so ingested AFTER the roster stamps it.
 DRUG_COMMUNITY_SPECTRA = REPO / "data/sources/drug-community-spectra.json"
@@ -254,7 +254,7 @@ TRIPSIT = REPO / "data/sources/tripsit.json"
 #: `substances` column that keeps that name. TripSit keys are its names lowercased.
 _SOURCE_PAGE_COLUMNS = {"psychonautwiki": "psychonautwiki_page", "tripsit": "tripsit_slug"}
 #: TripSit keys whose factsheet TripSit has removed: its own API answers "Drug with
-#: that name not found" (checked 2026-10-18). `tripsit.json` predates the removal,
+#: that name not found". `tripsit.json` predates the removal,
 #: so its data stays attributed but gets no link. Delete when the snapshot is refreshed.
 _TRIPSIT_REMOVED_PAGES = {"2c-g-5", "dimethocaine", "dxme", "ic-26"}
 MEDTAP_PK = REPO / "data/sources/medtap-pk.json"
@@ -270,7 +270,7 @@ ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 #: Which dosing regime a source's dose ladders describe. Several substances have
 #: both a clinical and a recreational regime and they are different quantities —
 #: quetiapine 150-750 mg (schizophrenia label) vs 50-150 mg (recreational). Left
-#: unlabelled, the two read as sources contradicting each other.
+#: unlabeled, the two read as sources contradicting each other.
 #:
 #: The split is by source because it is a property of what each source publishes:
 #: the curated layer and the drug databases transcribe labels; the community wikis
@@ -278,7 +278,7 @@ ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 #: label dosing for medications and recreational figures for everything else — so
 #: it defaults to unknown rather than guessing in either direction.
 #: `piru-curated` is deliberately absent: it is the one source that authors BOTH
-#: regimes (80% of its ladders are recreational), so a flat default is wrong for
+#: regimes (most of its ladders are recreational), so a flat default is wrong for
 #: it whichever way it points. It is resolved per-substance in
 #: ``assign_dose_contexts``.
 DOSE_CONTEXT_BY_SOURCE: dict[str, str] = {
@@ -308,16 +308,13 @@ _THERAPEUTIC_NOTE_MARKERS = (
     "therapeutic ranges based on labeling",
     "therapeutic starting doses",
     "medical dosing",
-    # Deliberately NOT "titrate" or "do not exceed": both are ordinary
-    # harm-reduction phrasing ("start low and titrate up"), and they tagged 80
-    # recreational rows — 1P-LSD, 2C-T-7, 3-MeO-PCP — as clinical ladders.
-    # Deliberately NOT bare "product labeling" either: a note can cite a product's
-    # label as evidence about an unregulated preparation's strength without the
-    # ladder being clinical. It matched two rows and both were wrong — Piru's own
-    # mitragynine ladder, derived from extract-product labeling, and
-    # 7-hydroxymitragynine's, whose note says commercial product labeling is often
-    # inaccurate. Being ranked last is what a `therapeutic` tag costs a ladder, so
-    # the mitragynine page showed a kratom-leaf gram ladder instead of its own.
+    # Never "titrate" or "do not exceed": both are ordinary community phrasing
+    # ("start low and titrate up") and would tag recreational ladders (1P-LSD,
+    # 2C-T-7, 3-MeO-PCP) as clinical. Never bare "product labeling" either: a
+    # note can cite a product's label as evidence about an unregulated
+    # preparation's strength (mitragynine, 7-hydroxymitragynine) without the
+    # ladder being clinical. A `therapeutic` tag ranks a ladder last, so a wrong
+    # one hides the substance's own ladder behind another source's.
 )
 
 
@@ -555,15 +552,15 @@ FREEOD_CATEGORY_MAP = {
 }
 
 
-# Effect links the FreeOD extractor reads from a page's prose that are not the
-# page's own effects. The extractor takes every link into 药效/ on the page, so
-# a page that mentions an effect it counteracts or an etymology claims it.
 # Titles a page carried before upstream renamed it. Journals logged under the old
 # name resolve by alias.
 FREEOD_FORMER_TITLES: dict[str, list[str]] = {
     "IHCH-7113": ["IHCH-711"],
 }
 
+# Effect links the FreeOD extractor reads from a page's prose that are not the
+# page's own effects. The extractor takes every link into 药效/ on the page, so
+# a page that mentions an effect it counteracts or an etymology claims it.
 FREEOD_EFFECT_EXCLUSIONS: dict[str, dict[str, str]] = {
     "8-氯茶碱": {"困倦": "the drowsiness of diphenhydramine it counteracts"},
     "颠茄": {"扩大": "etymology: the eye drops once used to dilate pupils"},
@@ -573,10 +570,9 @@ FREEOD_EFFECT_EXCLUSIONS: dict[str, dict[str, str]] = {
 # Curated zh→English canonical map for FreeOD pages written with a fully
 # Chinese intro (no English name anywhere on the page) where the auto-miner
 # can't recover one. Targets are verified to exist in the bundled DB by an
-# ingest-time check; an unrecognised target is still a valid English canonical
-# (the page just becomes an English-named new substance rather than a Chinese
-# one). Uncertain botanicals/RCs are intentionally omitted — they stay as
-# genuine FreeOD-only entries under their Chinese title.
+# ingest-time check; an unrecognized target is still a valid English canonical
+# (the page becomes an English-named new substance). Uncertain botanicals/RCs are
+# intentionally omitted: they stay FreeOD-only entries under their Chinese title.
 FREEOD_NAME_OVERRIDE = {
     # The page URL is 多拉西敏; its article is about 多西拉敏, doxylamine.
     "多拉西敏": "Doxylamine",
@@ -687,8 +683,8 @@ def _freeod_canonical_name(title: str, names: list[str]) -> str | None:
 
     Candidates that are clearly fragments — a lone letter or a number split out
     of a systematic name like "3,4-dimethoxy…" by comma-splitting — are rejected
-    so they can never become a bogus canonical (which previously created junk
-    substances named "1"/"2"/"H" and a Heroin duplicate)."""
+    so they can never become a bogus canonical (a substance named "1" or "H", or
+    a duplicate of an existing one)."""
 
     def is_fragment(c: str) -> bool:
         # No alpha at all ("1", "3-"), or a single bare letter ("H", "E").
@@ -926,9 +922,9 @@ def dosewiki_identity_corrections(
 
     * ``key_from_own_smiles`` — Piru's InChIKey does not recompute from Piru's
       SMILES, and dose.wiki's key equals that recomputation. The structure was
-      right and the key was the fabrication (the pattern of the 2026-06 cleanup).
+      right and the key was the fabrication.
     * ``smiles_from_own_key`` — Piru's SMILES draws a different skeleton from
-      the one its own key names (2C-B was stored as the 2,4-dimethoxy-5-bromo
+      the one its own key names (2C-B drawn as the 2,4-dimethoxy-5-bromo
       regioisomer under the right key), and dose.wiki's SMILES recomputes to
       exactly that key. The key was right; the drawing is replaced.
     * ``smiles_regains_stereo`` — Piru's SMILES is stereo-flat while its key
@@ -1196,7 +1192,7 @@ CREATE TABLE sources (
 -- pipeline/build/sqlite.py, which is where the reason for each row is written.
 --
 -- Consulted by the descriptions, doses and durations resolvers, each joining on
--- its own field name. A resolver that wants to honour an override has to join
+-- its own field name. A resolver that wants to honor an override has to join
 -- this table deliberately, so adding a row here cannot move a field nobody
 -- meant to move.
 CREATE TABLE source_field_priority (
@@ -1237,13 +1233,11 @@ CREATE TABLE substances (
     smiles          TEXT,
     formula         TEXT,
     molecular_weight REAL,
-    -- Physicochemical / forensic properties (Workstream 1). NULL = unknown.
-    -- Predicted/computed or rodent-assay values, NOT clinical — every populated
-    -- value carries its source/citation elsewhere and the app badges them as
-    -- forensic (logP/pKa often computed, e.g. PubChem XLogP; LD50 is rodent and
+    -- Physicochemical / forensic properties. NULL = unknown.
+    -- Predicted/computed or rodent-assay values, NOT clinical: the app badges
+    -- them as forensic (logP is computed, e.g. PubChem XLogP; LD50 is rodent and
     -- shown order-of-magnitude with species/route, never as a "safe dose").
-    -- Columns are added here (Stage 0); the extractors that fill them land in
-    -- Stage 1 (extend extract_nps() + widen fetch_pubchem_properties.py).
+    -- Filled by ingest_nps() and apply_pubchem_computed().
     logp                  REAL,    -- octanol/water partition coefficient (lipophilicity)
     tpsa                  REAL,    -- topological polar surface area (Å²)
     hba                   INTEGER, -- hydrogen-bond acceptor count
@@ -1268,8 +1262,9 @@ CREATE TABLE substances (
     popularity REAL NOT NULL DEFAULT 0,
     -- 1 when this substance carries NO dose_ranges, NO durations, and NO
     -- protocol_dosing rows from any source — a bare catalog stub (mostly medtap
-    -- regulatory entries). The app can demote/badge these (cf. Substance.has
-    -- NoDoseData). Baked by flag_dose_less_stubs(); 0 = has at least one ladder.
+    -- regulatory entries). The app can demote/badge these (cf.
+    -- Substance.hasNoDoseData). Baked by flag_dose_less_stubs(); 0 = has at least
+    -- one ladder.
     is_stub INTEGER NOT NULL DEFAULT 0,
     -- Canonical drug.community page slug (slugify of that source's drug_name),
     -- captured during ingest. drug.community's /drug/<slug> page resolves ONLY
@@ -1306,9 +1301,8 @@ CREATE TABLE substances (
     pk_reference_name       TEXT,
     pk_reference_fields     TEXT,
     pk_reference_confidence TEXT,
-    -- PSID FAMILY (Piru Substance ID skeleton) — the stable, rebuild-invariant
-    -- identity key (Stage 0.1, Specs/stereoisomer-and-release-form-axes.md). A
-    -- 14-char InChIKey block-1 when that block is unique+trusted, else a
+    -- PSID FAMILY (Piru Substance ID skeleton): the stable, rebuild-invariant
+    -- identity key. A 14-char InChIKey block-1 when that block is unique+trusted, else a
     -- sentinel-digit name-hash (see pipeline/psid.py). NOT unique per row:
     -- stereoisomer-family siblings (Ketamine/Esketamine) share a FAMILY and are
     -- distinguished by the form facets. Assigned by assign_substance_uids() and
@@ -1330,8 +1324,7 @@ CREATE TABLE substances (
     -- from data/curated/drug-classes.json. The free `tags` carry the same idea in
     -- four spellings and two granularities ("SSRI" and "ssri", "TCA" and
     -- "tricyclic antidepressant"), which no card can key off; this is the field
-    -- that can. NULL for everything not yet classified — today, antidepressants
-    -- only. `drug_class_ambiguous` marks the assignments the classifier itself
+    -- that can. NULL where drug-classes.json has no entry. `drug_class_ambiguous` marks the assignments the classifier itself
     -- called contestable (bupropion, mirtazapine, tianeptine, ketamine …), so a
     -- UI can hedge rather than assert.
     drug_class              TEXT,
@@ -1371,7 +1364,7 @@ CREATE TABLE aliases (
     -- every script regardless of app language.
     locale           TEXT,
     source_id        INTEGER REFERENCES sources(id),
-    -- Form-facet annotation (Stage A+): the structured form an alias *names*, so a
+    -- Form-facet annotation: the structured form an alias *names*, so a
     -- resolver (and the once-only DoseEntry backfill) can recover it from a logged
     -- string. "Focalin"/"Dexmethylphenidate" → isomer='D'; "Concerta"/"Adderall XR"
     -- → release_form='XR'; "Focalin XR" → BOTH (isomer='D', release_form='XR'). All
@@ -1388,13 +1381,14 @@ CREATE TABLE aliases (
     isomer           TEXT,
     salt_form        TEXT,
     release_form     TEXT,
-    -- Name provenance (D.1.7): 'brand' for a marketed product name (Vyvanse,
-    -- Ritalin, Concerta), NULL for everything else. Lets the display layer lead
-    -- the "Also known as" subtitle with the names people recognize instead of the
-    -- alphabetically-first chemical synonym. Populated by annotate_alias_facets()
-    -- from the form-map brand lists + curated brands.json; only 'brand' is seeded
-    -- (the full chemical/abbreviation/street/regional taxonomy is deferred). Not a
-    -- facet and not a lookup key — display ordering only.
+    -- What kind of name this is: 'brand' for a marketed product name (Vyvanse,
+    -- Ritalin, Concerta), or street, chemical, generic, product, abbreviation,
+    -- code, combination, distinct_substance and the like; NULL when unclassified.
+    -- Lets the display layer lead the "Also known as" subtitle with the names
+    -- people recognize. 'brand' comes from annotate_alias_facets() (form-map brand
+    -- lists + curated brands.json); the rest from apply_alias_kinds()
+    -- (data/curated/alias-kinds.json). Not a facet and not a lookup key: display
+    -- ordering only.
     kind             TEXT,
     -- Naming authority for generic (nonproprietary) names: INN, USAN, BAN, JAN,
     -- national, historical, common. NULL for non-generic kinds.
@@ -1407,7 +1401,7 @@ CREATE TABLE aliases (
     -- (brands.json — the name people know best, e.g. Ritalin), 1 = an auto-derived
     -- form-map brand (a release/isomer product like Concerta/Focalin), NULL for a
     -- non-brand. Lets the subtitle lead with the iconic base brand instead of the
-    -- alphabetically-first product, which alphabetical-among-brands still buried.
+    -- alphabetically-first product.
     brand_rank       INTEGER,
     -- 1 when a lookup of `alias_normalized` resolves to this row's substance.
     -- Always 1 for a key one substance owns. A key several substances claim
@@ -1419,7 +1413,7 @@ CREATE TABLE aliases (
 );
 CREATE INDEX idx_aliases_normalized ON aliases(alias_normalized);
 
--- Enumerated valid *forms* per substance (Stage A) — one row per distinct
+-- Enumerated valid *forms* per substance: one row per distinct
 -- (substance_uid, stereo, salt, release) facet combination the catalog knows,
 -- with its composed check-valid PSID and the display name to title it. The
 -- single source both the QuickLog named-product picker and the migration's
@@ -1520,11 +1514,10 @@ CREATE TABLE ester_pk (
     caution      TEXT
 );
 
--- Marketed products the box scanner identifies by barcode (Specs/box-scanner-
--- tool.md): a brand + strength + form under a substance the catalog knows, one
--- row per distinct product — every repackager's listing of the same
--- brand/strength/form shares it, which is what keeps 47k registry listings to
--- a third as many rows. `psid` is the substance's base-form PSID (composed from
+-- Marketed products the box scanner identifies by barcode: a brand + strength +
+-- form under a substance the catalog knows, one row per distinct product. Every
+-- repackager's listing of the same brand/strength/form shares it, which keeps
+-- the table a fraction of the registry's size. `psid` is the substance's base-form PSID (composed from
 -- substance_uid; NULL when the row has no uid). `source` and `country` name the
 -- registry ('openfda-ndc'/'US', 'bdpm'/'FR'). Strength/form/route are the
 -- registry's own strings, shown as read; nothing here drives pharmacology,
@@ -1548,7 +1541,7 @@ CREATE INDEX idx_coded_products_substance ON coded_products(substance_id);
 -- key (see pipeline/product_codes.py). `code_kind` says which: 'ndc' | 'upc' |
 -- 'cip13'. `pack_count`/`pack_unit` are the registry's package contents
 -- (30 'tablet', 118 'mL'); NULL when the description names only a container.
--- `code` is the rowid alias, so ~100k rows cost a few MB and no extra index.
+-- `code` is the rowid alias, so the table needs no extra index.
 CREATE TABLE product_codes (
     code        INTEGER PRIMARY KEY,
     code_kind   TEXT NOT NULL,
@@ -1570,7 +1563,7 @@ CREATE INDEX idx_categories_category ON categories(category);
 -- category. Lets an intentionally cross-class compound surface under more than
 -- one family (e.g. Tianeptine under both Antidepressant and Opioid). Curated-
 -- only, written from a file's `extraCategories`. The PRIMARY category (card
--- colour/icon, default home) stays the resolved `categories` winner; these are
+-- color/icon, default home) stays the resolved `categories` winner; these are
 -- purely additive browse membership. Auto-reassigned on merge via substance_id.
 CREATE TABLE browse_extra_categories (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -1610,16 +1603,14 @@ CREATE TABLE dose_ranges (
     salt_form     TEXT,
     -- Curated default-salt ordering for multi-salt families (0 = the default the
     -- app should pre-select; 1, 2, … = the rest). NULL for single-form / non-salt
-    -- rows. Data-driven intent replacing the loader's alphabetical accident; the
-    -- loader consumes it in a later workstream (WS-2b) — until then the app still
-    -- defaults alphabetically, so this column is forward-looking metadata.
+    -- rows. The app's route resolution orders salts by this, then by label.
     salt_rank     INTEGER,
     -- Mass fraction of the elemental metal in this salt (e.g. Magnesium Citrate
     -- ≈ 0.16 means 1000 mg of the citrate salt ≈ 160 mg elemental Mg). NULL for
     -- everything that isn't an elemental-mineral salt row. Lets the app surface
     -- "= ⟨elemental⟩ mg elemental Mg" alongside the salt dose.
     elemental_fraction REAL,
-    -- Stereoisomer facet (Stage A). NULL = racemate/unspecified; else the stored
+    -- Stereoisomer facet. NULL = racemate/unspecified; else the stored
     -- CIP/rotation code that drives dedup + the PSID `<stereo>` field: D, L, R, S.
     -- A folded enantiomer's dose ladder rides under the parent tagged here, so
     -- Focalin (isomer='D') coexists with racemic Methylphenidate (isomer NULL).
@@ -1658,7 +1649,7 @@ CREATE TABLE durations (
     min_minutes   REAL NOT NULL,
     max_minutes   REAL NOT NULL,
     salt_form     TEXT,
-    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer. Lets a resolved
+    -- Stereoisomer facet; see dose_ranges.isomer. Lets a resolved
     -- enantiomer carry its own distinct duration profile (e.g. armodafinil).
     isomer        TEXT,
     citation_id   INTEGER REFERENCES citations(id)
@@ -1703,7 +1694,7 @@ CREATE TABLE durations_of_action (
     min_minutes   REAL NOT NULL,
     max_minutes   REAL NOT NULL,
     salt_form     TEXT,
-    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer.
+    -- Stereoisomer facet; see dose_ranges.isomer.
     isomer        TEXT,
     citation_id   INTEGER REFERENCES citations(id)
 );
@@ -1722,10 +1713,9 @@ CREATE TABLE half_lives (
     half_life_minutes REAL NOT NULL,
     -- The range the source states, when it states one rather than a point
     -- value: "4 to 26 hours" is stored as its own two ends and shown that way.
-    -- A point value leaves both NULL. Picking a single number out of a range
-    -- was how half-lives like clozapine's came to claim a precision no source
-    -- has; `half_life_minutes` carries sqrt(min*max) instead, which is the
-    -- midpoint on the log scale elimination actually runs on.
+    -- A point value leaves both NULL. Never pick one number out of a range: it
+    -- claims a precision no source has. `half_life_minutes` carries
+    -- sqrt(min*max), the midpoint on the log scale elimination runs on.
     half_life_min_minutes REAL,
     half_life_max_minutes REAL,
     notes             TEXT,
@@ -1738,8 +1728,7 @@ CREATE TABLE half_lives (
 -- Text-bearing tables carry a BCP-47 `language` tag ('en' | 'zh-Hans' |
 -- 'zh-Hant' | 'und') and a `machine_translated` flag so the app can resolve
 -- text locale-first (a Chinese source wins when the app runs in Chinese) and
--- mark machine-translated prose. All pre-existing sources are English, so the
--- columns default to ('en', 0). `language` is part of mechanisms_summary's PK
+-- mark machine-translated prose. The columns default to ('en', 0). `language` is part of mechanisms_summary's PK
 -- so one source can hold both a zh original and an en translation.
 CREATE TABLE mechanisms_summary (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -1752,15 +1741,12 @@ CREATE TABLE mechanisms_summary (
     PRIMARY KEY (substance_id, source_id, language)
 );
 
--- Controlled effect vocabulary (Track 1 of the localization workstream). The
--- high-leverage localization win: instead of translating "Anxiety" once per
--- occurrence across hundreds of substances, there is ONE canonical effect with
--- one translated label set, and every raw effects.text points at it via
--- effects.vocab_id (populated by the Stage 2 fuzzy matcher). Kept as DATA (not a
--- closed Swift enum) so adding an effect ships in the DB with no app rebuild.
--- The canonical set seeds from PsychonautWiki's SEI (English labels + the
--- existing PW effect→category map); FreeODwiki 药效 supplies zh-Hans ~1:1;
--- zh-Hant derives from zh-Hans. Tables added Stage 0 (empty); seeded Stage 2.
+-- Controlled effect vocabulary: ONE canonical effect with one translated label
+-- set, instead of translating "Anxiety" once per substance. Raw effects.text
+-- points at it via effects.vocab_id. Kept as data in the DB, so adding an
+-- effect needs no app change. The canonical set comes from PsychonautWiki's SEI
+-- (English labels + the PW effect→category map); FreeODwiki 药效 supplies
+-- zh-Hans; zh-Hant derives from zh-Hans. Seeded by seed_effect_vocab().
 CREATE TABLE effect_vocab (
     vocab_id  TEXT PRIMARY KEY,   -- stable slug, e.g. 'anxiety', 'visual_geometry'
     category  TEXT                 -- PsychonautWiki/SEI grouping (joins the PW category map)
@@ -1788,12 +1774,11 @@ CREATE TABLE effects (
     effect_category TEXT,
     language        TEXT NOT NULL DEFAULT 'en',
     machine_translated INTEGER NOT NULL DEFAULT 0,
-    -- Controlled-vocabulary reference (Track 1). When the build-time fuzzy
-    -- matcher (Stage 2) maps this raw `text` to a canonical effect_vocab entry,
-    -- it records the slug here; the app then renders the localized vocab label
-    -- for the current UI language for EVERY substance, even English-only-source
-    -- ones. NULL when no match clears the threshold — `text` stays the raw
-    -- fallback (no-silent-caps). Column added Stage 0; matcher populates Stage 2.
+    -- Controlled-vocabulary reference: the effect_vocab slug this raw `text`
+    -- normalizes to (effect_vocab.vocab_id_for). The app renders the localized
+    -- vocab label for the current UI language for every substance, even
+    -- English-only-source ones. NULL when nothing matches; `text` then stays the
+    -- raw fallback (no-silent-caps).
     vocab_id        TEXT REFERENCES effect_vocab(vocab_id),
     citation_id     INTEGER REFERENCES citations(id)
 );
@@ -1811,8 +1796,7 @@ CREATE TABLE subjective_effects (
     -- Controlled-vocabulary reference, same role as `effects.vocab_id`: the app
     -- renders the vocab label for the CURRENT ui language and falls back to the
     -- raw `name`. Rows are stored per language, so without this a substance
-    -- whose only source is Chinese has nothing to show an English reader — which
-    -- is exactly what happened to LSD, Psilocybin and 75 others. NULL = the name
+    -- whose only source is Chinese has nothing to show an English reader. NULL = the name
     -- resolved to no canonical effect; it then renders only in its own language.
     vocab_id     TEXT REFERENCES effect_vocab(vocab_id),
     citation_id  INTEGER REFERENCES citations(id)
@@ -1822,8 +1806,8 @@ CREATE INDEX idx_subjective_vocab     ON subjective_effects(vocab_id) WHERE voca
 
 -- SubFxOnEx subjective-effects ontology (drug.community, LGPL-2.1): the
 -- descriptor vocabulary on session notes. Substance-independent, so it has no
--- substance_id. `kind` is 'rollup' (21 top-level groups, one per domain,
--- parent_id NULL) or 'atomic' (485 concepts, each under one rollup). `position`
+-- substance_id. `kind` is 'rollup' (a top-level group, one per domain,
+-- parent_id NULL) or 'atomic' (a concept under one rollup). `position`
 -- is the release's display order. Ids are the release's own UUIDs — a note
 -- stores them, so they must survive every rebuild unchanged.
 CREATE TABLE subjective_effect_concepts (
@@ -1895,8 +1879,8 @@ CREATE TABLE reported_effects (
 CREATE INDEX idx_reported_effects_substance ON reported_effects(substance_id);
 
 -- Long-form substance overview prose ("what it is / history / risk profile"),
--- distinct from mechanisms_summary (pharmacology). Currently fed only by
--- FreeOD Wiki; the app shows it in an "Overview" section, locale-first.
+-- distinct from mechanisms_summary (pharmacology). The app shows it in an
+-- "Overview" section, locale-first.
 CREATE TABLE descriptions (
     id           INTEGER PRIMARY KEY,
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -1943,7 +1927,7 @@ CREATE TABLE bindings (
     -- for hand-curated bindings that carry no numeric Ki. The app's displayed
     -- tier is COALESCE(affinity_tier, tier-derived-from-ki_nm) so curated rows
     -- keep their intended emphasis without faking a numeric Ki. NULL for
-    -- measured rows (those rank by ki_nm). Added with the MOA relocation.
+    -- measured rows (those rank by ki_nm).
     affinity_tier          INTEGER,
     -- Black-Leff operational efficacy (tau) expressed as a ratio to the reference
     -- agonist's tau measured in the SAME experiment. This is intrinsic efficacy
@@ -2076,8 +2060,8 @@ CREATE TABLE concentration_effects (
     substance_id        INTEGER NOT NULL REFERENCES substances(id),
     source_id           INTEGER NOT NULL REFERENCES sources(id),
     effect              TEXT NOT NULL,
-    -- Machine-readable role of the row, or NULL for a descriptive row. The only
-    -- value so far is 'therapeutic_range': the TDM reference range, whose lower
+    -- Machine-readable role of the row, or NULL for a descriptive row.
+    -- 'therapeutic_range' is the TDM reference range, whose lower
     -- bound is the concentration at which the drug's effect is present. The
     -- tolerance engine reads it as the occupancy half-max for classes whose
     -- binding Ki sits far below the concentrations that act (gabapentinoids).
@@ -2094,8 +2078,7 @@ CREATE TABLE metabolism (
     source_id                        INTEGER NOT NULL REFERENCES sources(id),
     enzyme                           TEXT NOT NULL,
     -- The ENZYME's share of the parent's clearance. NOT how much metabolite
-    -- appears — that is formation_fraction_pct below. The two were conflated
-    -- before the metabolite columns existed.
+    -- appears; that is formation_fraction_pct below.
     fraction_of_clearance_pct        REAL,
     metabolite_name                  TEXT,
     -- The metabolite AS A SUBSTANCE, when we already carry it as one. Most of
@@ -2116,9 +2099,9 @@ CREATE TABLE metabolism (
     metabolite_potency_vs_parent_pct REAL,
     -- What metabolite_potency_vs_parent_pct MEANS: 'clinical' | 'receptor_affinity'
     -- | 'in_vitro' | 'unknown'. Required whenever a potency is present, because
-    -- the column silently mixed units: tramadol -> M1 read 20000% from a source
-    -- reporting "~200x higher MOR affinity", which is an affinity ratio, not a
-    -- clinical potency. Any model multiplying by this column must branch on the
+    -- sources mix bases: "~200x higher MOR affinity" for tramadol -> M1 is 20000%
+    -- as an affinity ratio, not a clinical potency. Any model multiplying by
+    -- this column must branch on the
     -- basis (or refuse anything that is not 'clinical').
     metabolite_potency_basis         TEXT,
     -- WHICH TARGET the potency ratio was measured at ('MOR', 'NET', 'SERT',
@@ -2248,7 +2231,7 @@ CREATE TABLE class_citations (
 
 -- A safety warning a class declares for every member, from
 -- data/curated/class-warnings.json. It reaches the substances with no rows of
--- their own: 37 of 54 phenethylamine psychedelics carry no 5-HT2B measurement,
+-- their own: most phenethylamine psychedelics carry no 5-HT2B measurement,
 -- so a warning derived from bindings alone never shows on them.
 --
 -- `kind` is a closed vocabulary the app switches on ('valvulopathy-5ht2b').
@@ -2361,7 +2344,7 @@ CREATE TABLE tolerance_modulation (
 -- Build-only: dropped before the database is sealed, so no indication text
 -- reaches the app. It survives the build because `assign_dose_contexts` uses
 -- "this compound has a label indication" to tell a therapeutic curated dose
--- ladder from a recreational one, and `regulatory_status` alone misses fifteen
+-- ladder from a recreational one, and `regulatory_status` alone misses
 -- compounds that carry a plainly clinical ladder.
 CREATE TABLE indications (
     id           INTEGER PRIMARY KEY,
@@ -2423,7 +2406,7 @@ CREATE TABLE protocol_dosing (
     course_duration TEXT,
     notes           TEXT,
     salt_form       TEXT,
-    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer.
+    -- Stereoisomer facet; see dose_ranges.isomer.
     isomer          TEXT,
     citation_id     INTEGER REFERENCES citations(id)
 );
@@ -2445,13 +2428,13 @@ CREATE TABLE substance_citations (
 CREATE INDEX idx_substance_citations_substance ON substance_citations(substance_id);
 
 -- 2D skeletal-diagram coordinates for the Chemistry card's molecule hero.
--- Generated offline from the substance's `smiles` via OpenBabel (--gen2d);
--- see molecule_shapes.py. Purely derived data (no source_id — it isn't
--- "sourced" from any of our datasources, it's computed by us at build time).
+-- Computed at build from the substance's `smiles` with RDKit's CoordGen
+-- depiction, then reoriented and normalized (pipeline/build/molecule_shapes.py).
+-- Derived data, so it has no source_id.
 -- `atoms_json` = [{"el": "C", "x": .., "y": ..}, ...] (0-indexed, matching
 -- bond indices); `bonds_json` = [{"a": i, "b": j, "order": 1|2|3}, ...].
--- Coordinates already live in a 0..100 screen-space box (Y grows downward) —
--- the renderer draws them directly, no further transform needed.
+-- Coordinates live in a 0..100 screen-space box (Y grows downward), which the
+-- renderer draws directly.
 CREATE TABLE molecule_shapes (
     id           INTEGER PRIMARY KEY,
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -2466,7 +2449,7 @@ CREATE TABLE manifest (
     value TEXT NOT NULL
 );
 
--- The recognisable names a comparison is drawn against, ordered, per family. Every
+-- The recognizable names a comparison is drawn against, ordered, per family. Every
 -- consumer filters by `family`, so a family answers to exactly one screen: the
 -- signature families (muOpioid, serotonin, …) label a binding axis, and
 -- `benzodiazepine` is the duration ladder's rungs.
@@ -2486,7 +2469,7 @@ CREATE TABLE class_reference_compounds (
 -- research-chemical benzo carrying only a dose ladder still accrues GABA tolerance.
 --
 -- Distinct from class_reference_compounds, which is an ordered display list of
--- recognisable names for the signature axis. This is a single canonical surrogate
+-- recognizable names for the signature axis. This is a single canonical surrogate
 -- per class, and its identity changes what the tolerance engine computes. One row
 -- per class: receptor_class is the PRIMARY KEY.
 CREATE TABLE class_representatives (
@@ -2508,15 +2491,6 @@ CREATE TABLE substance_flags (
 );
 CREATE INDEX idx_substance_flags_flag ON substance_flags(flag);
 
--- Which spelling of a substance's name to SHOW, by device region. The database
--- stores one canonical name and keeps the other spelling as a searchable alias;
--- this table only decides presentation, so search recall is identical everywhere.
---
--- The split is genuinely per-drug and cannot be reduced to a global "US vs rest"
--- flag: the US, Canada and Japan all say "acetaminophen", but only the UK and
--- Commonwealth say "oestradiol", and "albuterol" is US-only. It also cannot live
--- in `aliases`: that table is keyed (substance_id, alias) with a single `locale`,
--- so it cannot say that one spelling belongs to three regions at once.
 -- Oral morphine-milligram-equivalent (MME) conversion factors: morphine-mg per
 -- 1 mg of the named opioid. The opioid counterpart of diazepam_equivalents, and
 -- read the same way — by the converter tool and by the tolerance engine's
@@ -2567,6 +2541,15 @@ CREATE TABLE intrinsic_efficacy (
     PRIMARY KEY (substance_id, source_id)
 );
 
+-- Which spelling of a substance's name to SHOW, by device region. The database
+-- stores one canonical name and keeps the other spelling as a searchable alias;
+-- this table only decides presentation, so search recall is identical everywhere.
+--
+-- The split is per-drug and cannot be reduced to a global "US vs rest" flag: the
+-- US, Canada and Japan all say "acetaminophen", but only the UK and Commonwealth
+-- say "oestradiol", and "albuterol" is US-only. It also cannot live in
+-- `aliases`: that table is keyed (substance_id, alias) with a single `locale`,
+-- so it cannot say that one spelling belongs to three regions at once.
 CREATE TABLE regional_names (
     substance_id      INTEGER PRIMARY KEY REFERENCES substances(id),
     -- Shown by default, everywhere outside `alternate_regions`.
@@ -2601,11 +2584,11 @@ CREATE TABLE localized_names (
 -- One curated rule: a perpetrator inhibits or induces one metabolic enzyme, at
 -- one qualitative magnitude. The substrate side is NOT stored — it is derived by
 -- joining `metabolism.enzyme`, so a single row reaches every substance that
--- enzyme clears (152 for CYP3A4) and a newly-added substrate needs no curation.
+-- enzyme clears and a newly-added substrate needs no curation.
 --
 -- That derivation is what separates this from `drug_interactions_pk`, which
 -- records one documented perpetrator/victim pair each carrying its own measured
--- effect. Writing these ten rules as pairs would mean materialising the cross
+-- effect. Writing these rules as pairs would mean materializing the cross
 -- product and re-curating it on every substance import.
 --
 -- `substance_id` is NULL whenever the perpetrator is not a substances row of its
@@ -2661,7 +2644,7 @@ CREATE TABLE combination_metabolites (
 --
 -- `aliases` is keyed (substance_id, alias) and answers "what else is this
 -- compound called". These rows answer a different question and often cannot be
--- keyed on a substance at all: four enzyme modulators have no substances row,
+-- keyed on a substance at all: some enzyme modulators have no substances row,
 -- armodafinil's names sit on Modafinil's row so keying there would merge two
 -- rules, and a combination precursor is a POSITION in a reaction rather than
 -- another name for a drug. `relation` keeps those questions apart; merging them
@@ -2717,7 +2700,7 @@ CREATE INDEX idx_tei_victim      ON tag_enzyme_interactions(victim_id);
 --
 -- `citation_id` is nullable and a NULL is not an oversight: a band whose windows
 -- the cited review does not state must say so in `notes` instead of borrowing a
--- citation from the review's neighbouring claims.
+-- citation from the review's neighboring claims.
 CREATE TABLE withdrawal_timing_bands (
     -- short | intermediate | long
     band                  TEXT PRIMARY KEY,
@@ -2728,7 +2711,7 @@ CREATE TABLE withdrawal_timing_bands (
     -- Nullable on purpose. Onset by half-life class has no source that survives
     -- checking: NAV26 Sec. 5.4's onset figures (2-3 d short, 5-10 d long) are at or
     -- past Rickels' measured PEAK for the same classes, so at least one of the two
-    -- is mislabelled and neither can be shipped as onset. A band with nothing
+    -- is mislabeled and neither can be shipped as onset. A band with nothing
     -- behind a window carries NULL and the screen shows nothing for it.
     onset_min_hours       REAL,
     onset_max_hours       REAL,
@@ -2757,15 +2740,15 @@ CREATE TABLE withdrawal_acting_class (
 
 -- What the clinical-trial literature found for each intervention tried alongside
 -- a benzodiazepine taper. Keyed by an intervention slug rather than a substance:
--- three of the rows (a taper, a therapy, a switch) are not compounds at all.
+-- some interventions (a taper, a therapy, a switch) are not compounds at all.
 --
 -- `verdict` is the whole point of the table and the reason it is a column rather
 -- than prose — the screen's more useful half is the one where the answer is "no
 -- difference", and a row that loses its verdict silently changes sides.
 --
--- No outcome-size column: the three rows carrying an effect size state it as
--- '82.6% vs 37.5%', '79% at week 5' and 'more than 60%', and a REAL would have to
--- store the third as 60 and drop the bound.
+-- No outcome-size column: effect sizes come as '82.6% vs 37.5%', '79% at
+-- week 5' or 'more than 60%', and a REAL would store the last as 60 and drop
+-- the bound.
 CREATE TABLE taper_interventions (
     -- Slug; the raw value of the app's intervention enum.
     intervention TEXT PRIMARY KEY,
@@ -2792,13 +2775,13 @@ CREATE TABLE taper_interventions (
 CREATE TABLE by_volume_dosing (
     substance_id       INTEGER NOT NULL REFERENCES substances(id),
     source_id          INTEGER NOT NULL REFERENCES sources(id),
-    -- How the strength figure maps onto the volume. 'percent_by_volume' (the
-    -- strength field is % ABV) is the only kind the app renders today.
+    -- How the strength figure maps onto the volume. The app renders only
+    -- 'percent_by_volume' (the strength field is % ABV).
     concentration_kind TEXT NOT NULL,
     -- Unit the converted mass is stored in on the logged dose ("g" for alcohol),
     -- and therefore the unit the dose ladder and PK pipeline consume.
     canonical_unit     TEXT NOT NULL,
-    -- Liquid density in GRAMS PER MILLILITRE at 20 C. Required for
+    -- Liquid density in GRAMS PER MILLILITER at 20 C. Required for
     -- 'percent_by_volume'; the conversion is undefined without it. It carries no
     -- citation_id because a reference-table physical constant has no paper behind
     -- it — its provenance is stated in `notes`, and a database landing page is
@@ -3196,11 +3179,10 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     # Wrong InChIKey (CID was correct — the stored key belonged to another molecule):
     "Tropacocaine": {"inchikey": "XQJMXPAEFMWDOZ-UHFFFAOYSA-N"},
     # (−)-cocaine, the natural product and the medication (PubChem CID 446220):
-    # the (1R,2R,3S,5S) enantiomer. The row was previously flattened because
-    # dedup keys on the first-14 skeleton and no other ZPUCINDJVBIVPJ tropane
-    # collides — but a stereo-less SMILES draws the wrong molecule, and the house
-    # rule is to store the stereoisomer that is actually the drug. Both key and
-    # SMILES are the chiral form so they stay self-consistent.
+    # the (1R,2R,3S,5S) enantiomer. No other ZPUCINDJVBIVPJ tropane collides on
+    # the dedup skeleton, but a stereo-less SMILES draws the wrong molecule, and
+    # the house rule is to store the stereoisomer that is the drug. Key and SMILES
+    # are both the chiral form so they stay self-consistent.
     "Cocaine": {
         "inchikey": "ZPUCINDJVBIVPJ-LJISPDSOSA-N",
         "smiles": "CN1[C@H]2CC[C@@H]1[C@H]([C@H](C2)OC(=O)C3=CC=CC=C3)C(=O)OC",
@@ -3217,12 +3199,12 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
         "inchikey": "LMHHFZAXSANGGM-UHFFFAOYSA-N",
         "smiles": "NC1Cc2ccccc2C1",
     },
-    # --- Stage 0.0a: InChIKey collision cleanup (prerequisite to PSID minting).
-    # Each pair below shared a full InChIKey because ONE row was overwritten with
-    # the OTHER's structure. Correct keys/SMILES are re-derived from PubChem and
+    # --- InChIKey collisions (prerequisite to PSID minting). Each pair below
+    # arrives sharing a full InChIKey because ONE row carries the OTHER's
+    # structure. Correct keys/SMILES are re-derived from PubChem and
     # obabel-verified (obabel(smiles) == inchikey); see the collision registry
     # data/curated/inchikey-collisions.json for the classification.
-    # Ephedrine / Pseudoephedrine: both rows had lost their stereo (identical flat
+    # Ephedrine / Pseudoephedrine: both rows arrive without their stereo (identical flat
     # key KWGRBVOPPLSCSI-PSASIEDQSA-N + identical flat SMILES). Restore the two
     # distinct diastereomer keys (1R,2S vs 1S,2S).
     "Ephedrine": {
@@ -3270,17 +3252,16 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
         "formula": "C16H22FNO",
         "molecular_weight": 263.35,
     },
-    # Cannabis is a plant, not a single molecule — it carried delta-9-THC's key,
-    # colliding with THC/Marinol. Null its structure so the plant no longer claims
-    # a molecular identity (its THC/CBD content is modeled elsewhere).
+    # Cannabis is a plant, not a single molecule; upstream gives it delta-9-THC's
+    # key, colliding with THC/Marinol. Null its structure so the plant claims no
+    # molecular identity (its THC/CBD content is modeled elsewhere).
     "Cannabis": {"inchikey": None, "smiles": None},
-    # --- Stage 0.0b: stereo-layer corrections surfaced by the stereo-aware
-    # integrity check. Each row's InChIKey and SMILES disagreed in the STEREO
-    # block (both specified, different) — a wrong-enantiomer/diastereomer error the
-    # old skeleton-only check couldn't see. Corrected to PubChem's name-verified
-    # structure (obabel(smiles) == inchikey confirmed). For most the stored key was
-    # already right and only the SMILES was wrong; Indatraline and RTI-113 had the
-    # key wrong too.
+    # --- Stereo-layer corrections. Each row's upstream InChIKey and SMILES
+    # disagree in the STEREO block (both specified, different): a
+    # wrong-enantiomer/diastereomer error a skeleton-only check can't see.
+    # Corrected to PubChem's name-verified structure (obabel(smiles) == inchikey
+    # confirmed). For most only the SMILES is wrong; Indatraline and RTI-113 also
+    # carry a wrong key.
     "Dasotraline": {
         "inchikey": "SRPXSILJHWNFMK-MEDUHNTESA-N",
         "smiles": "C1C[C@H](C2=CC=CC=C2[C@@H]1C3=CC(=C(C=C3)Cl)Cl)N",
@@ -3350,18 +3331,17 @@ def apply_identifier_reconciliation(con, mapping: dict, *, set_cid: bool = False
             )
             res["cas"] += cur.rowcount
         # `formula` exists because fixing a structure without fixing the formula
-        # leaves the row half-corrected and the MASS wrong: theobromine's SMILES
-        # was corrected here in an earlier pass while its formula stayed the
-        # hydrochloride, so it kept shipping 216.63 g/mol for a 180.16 compound.
+        # leaves the row half-corrected and the MASS wrong: a corrected
+        # theobromine SMILES beside the hydrochloride formula ships 216.63 g/mol
+        # for a 180.16 compound.
         # molecular_weight is not settable directly — reconcile_formula_mass
         # derives it from this, so there is exactly one place a mass comes from.
         if fix.get("formula"):
             # NULL the mass with it. reconcile_formula_mass only *corrects* a
-            # stored mass that is wrong by >2%, so a small correction otherwise
-            # leaves the old value in place — Proscaline's impossible C13H22NO3
-            # became C13H21NO3 and kept 240.32 for a 239.31 compound, a 0.4%
-            # error that sat under the threshold. Nulling routes it through that
-            # function's exact backfill arm instead.
+            # stored mass that is wrong by >2%, so a small correction would
+            # leave the old value in place (Proscaline's C13H22NO3 → C13H21NO3
+            # would keep 240.32 for a 239.31 compound, a 0.4% error). Nulling
+            # routes it through that function's exact backfill arm instead.
             cur.execute(
                 "UPDATE substances SET formula = ?, molecular_weight = NULL "
                 "WHERE canonical_name = ? AND formula IS NOT ?",
@@ -3379,10 +3359,9 @@ def reject_unparseable_smiles(con) -> list[tuple[str, str]]:
     at all, and it fails *silently* at every consumer: ``molecule_shapes`` skips
     it (so the Chemistry card draws nothing), the structural-duplicate pass
     can't key off it (so a real duplicate stays split), and formula/mass
-    reconciliation has nothing to check against. Berberine shipped for months
-    with an isoquinolinium nitrogen written as an aliphatic ``[N+]`` inside an
-    aromatic ring system — one row of 958, invisible because every one of those
-    consumers degrades quietly.
+    reconciliation has nothing to check against. Berberine's isoquinolinium
+    nitrogen written as an aliphatic ``[N+]`` inside an aromatic ring system is
+    the shape, invisible because every one of those consumers degrades quietly.
 
     Runs AFTER identifier reconciliation, so a curated correction gets its
     chance first and only genuinely-broken strings are dropped. Corrections live
@@ -3481,9 +3460,9 @@ def normalize_protonation_smiles(con) -> list[tuple[str, str, str]]:
     The fix is an InChI round-trip, which re-seats the proton canonically. That
     is **identity-preserving by construction** — InChI models protonation in its
     own layer, so the round-tripped molecule has a *byte-identical* InChIKey and
-    the same molecular formula. Verified on every affected row before this was
-    written; a row whose key would move is skipped and reported rather than
-    changed, so a future surprise can't silently re-key a substance.
+    the same molecular formula. A row whose key would move is skipped and
+    reported rather than changed, so a surprise can't silently re-key a
+    substance.
 
     Deliberately NOT a desalting pass. Stripping counterions looks tempting here
     and is wrong: `Nabiximols` is a 1:1 THC/CBD mixture, `Tuinal` is
@@ -3533,20 +3512,19 @@ def reconcile_formula_from_structure(con) -> dict[str, list[tuple[str, str, str]
     """Rewrite ``formula`` from the SMILES wherever the InChIKey corroborates it.
 
     The failure this closes: **a hydrochloride formula sitting on a free-base
-    structure**. Theobromine shipped as ``C7H9ClN4O2`` (MW 216.63) beside a
-    neutral theobromine SMILES; the real compound is ``C7H8N4O2``, 180.16.
-    Ephedrine, α-PVP, Methadone and ~35 others had the same shape. It is not
-    cosmetic: ``reconcile_formula_mass`` derives ``molecular_weight`` **from the
-    formula**, and that mass is what ``PKModel.concentrationMolar`` divides by —
-    so every molar concentration for those substances ran ~15-20% low.
+    structure**: theobromine as ``C7H9ClN4O2`` (MW 216.63) beside a neutral
+    theobromine SMILES, where the real compound is ``C7H8N4O2``, 180.16.
+    Ephedrine, α-PVP and Methadone arrive in the same shape. It is not cosmetic:
+    ``reconcile_formula_mass`` derives ``molecular_weight`` **from the formula**,
+    and that mass is what ``PKModel.concentrationMolar`` divides by, so a salt
+    formula puts every molar concentration ~15-20% low.
 
     ``apply_pubchem_freebase`` already fixes this class *when the CID is in the
     committed PubChem snapshot*. This is the offline complement: the structure we
     already ship, arbitrated by the identifier we already ship.
 
     **"Structure and identifier agree" is NOT sufficient to overrule the
-    formula**, and an earlier version of this function that assumed it was made
-    the data worse. When a SMILES and an InChIKey come from the same bad source
+    formula**: assuming it makes the data worse. When a SMILES and an InChIKey come from the same bad source
     they corroborate each *other* while both being wrong for the compound named
     on the row, and then the formula is the only independent witness left:
     RTI-55 is the **iodo** compound (``C16H20INO2``) beside a fluoro SMILES;
@@ -3556,7 +3534,7 @@ def reconcile_formula_from_structure(con) -> dict[str, list[tuple[str, str, str]
     So this only fires on the two cases where nothing can be destroyed:
 
     1. **Backfill** — the row has no formula at all. Writing one cannot lose
-       information, and ~50 rows arrived without one.
+       information, and some rows arrive without one.
     2. **Clean desalt** — the stored formula is exactly the structure's formula
        plus a nitrogen-free counter-ion, per ``is_clean_desalt``. That is the
        salt-on-free-base defect and nothing else: an I→F swap, a lost nitrogen
@@ -3792,9 +3770,8 @@ def reconcile_formula_mass(con, tolerance: float = 0.1) -> dict:
     A formula has exactly one molecular weight, so:
 
     - a row with a formula but **no** stored mass should get one (e.g. Diazepam
-      C16H13ClN2O → 284.74; ~11 rows arrived from upstream with a formula but a
-      null MW, which silently broke the tolerance/occupancy pipeline that needs a
-      molar mass); and
+      C16H13ClN2O → 284.74): upstream ships some rows with a formula and a null
+      MW, and the tolerance/occupancy pipeline needs a molar mass; and
     - a stored mass that **doesn't match** the formula is wrong — almost always a
       *salt* mass left on a *free-base* formula (amphetamine C9H13N tagged 368.5
       sulfate; MDMA C11H15NO2 tagged 229.71 HCl), because ``apply_pubchem_freebase``
@@ -3804,11 +3781,10 @@ def reconcile_formula_mass(con, tolerance: float = 0.1) -> dict:
     formula contains an element we don't weigh (peptide 3-letter codes) are left
     untouched. Returns the per-substance changes.
 
-    The threshold is **absolute, not relative**. It was 2% relative, which is a
-    wide berth for a quantity that is a pure function of the formula: Bretazenil
-    kept 420.29 against a 418.29 formula and 4-D kept 214.24 against 211.26, both
-    hiding under it. Upstream disagreements are rounding (278.3 vs 278.36); a
-    whole dalton is a different compound, not a rounding artefact."""
+    The threshold is **absolute**. A relative 2% is a wide berth for a quantity
+    that is a pure function of the formula: Bretazenil's 420.29 against a 418.29
+    formula and 4-D's 214.24 against 211.26 both pass it. Upstream disagreements
+    are rounding (278.3 vs 278.36); a whole dalton is a different compound."""
     cur = con.cursor()
     changed: list[str] = []
     filled: list[str] = []
@@ -4049,10 +4025,9 @@ def assert_effects_are_readable_in_english(con) -> dict:
     English reader can be shown.
 
     Rows are stored per language, so a Chinese-only source leaves the English
-    Effects section empty — silently, because the resolver correctly refuses to
-    print Han and there is simply nothing else. That shipped for 77 substances,
-    LSD and Psilocybin among them. The `vocab_id` bridge is what closes it, so
-    this is the assertion that keeps it closed: an unbridgeable name is fine, a
+    Effects section empty, silently, because the resolver refuses to print Han
+    and there is nothing else. The `vocab_id` bridge fills it, and this asserts
+    the bridge reaches every such substance: an unbridgeable name is fine, a
     substance with *no* bridgeable name is not.
     """
     cur = con.cursor()
@@ -4171,7 +4146,7 @@ def ingest_medtap_pk(build, path: Path) -> dict:
             written["unresolved"] += 1
             continue
         # A label for one isomer (Lunesta, Zenzedi, escitalopram) measured that
-        # isomer, and the isomer is folded into this parent by now, so none of
+        # isomer, and the isomer is folded into this parent at this point, so none of
         # its numbers may land on the racemate's row: dropped and reported.
         isomer = medtap_isomer_label(entry, tokens)
         if isomer is not None:
@@ -4294,8 +4269,8 @@ def ingest_tripsit_combos(build, path: Path) -> dict:
 
 #: `BindingAction` in Piru/Domain/Substance.swift. A value outside this set is
 #: not decoded by the app: `BindingAction(rawValue:)` returns nil and the row
-#: renders as an unlabelled affinity, which is how "weak agonist / partial
-#: agonist" came to say nothing at all on screen.
+#: renders as an unlabeled affinity, so "weak agonist / partial agonist" would
+#: say nothing at all on screen.
 BINDING_ACTIONS = {
     "agonist",
     "partialAgonist",
@@ -4504,7 +4479,7 @@ def reconcile_mp_bp(con) -> dict:
     """Null a ``boiling_point_c`` that sits below its own ``melting_point_c``.
 
     A boiling point below the melting point is physically impossible — the value
-    is a *sublimation* point mislabelled as a BP (caffeine: mp 234 °C, "bp"
+    is a *sublimation* point mislabeled as a BP (caffeine: mp 234 °C, "bp"
     178 °C is the sublimation temperature). The MP is the trustworthy figure, so
     drop the bad BP rather than inventing one. Returns the affected substances."""
     cur = con.cursor()
@@ -4689,13 +4664,11 @@ def is_chemnoise_alias(alias: str) -> bool:
     return a.count("-") >= 3 and len(a) > 16
 
 
-# Display-name overrides, popularity scores, category corrections, peptide
-# enrichment, and CJK aliases used to live in separate data/curated/*.json files
-# and in-module dicts. They are now folded into each compound's own
-# data/curated/substances/<slug>.json (display-name override, popularity,
-# category, aliases incl. CJK, dose overrides, peptideProfile, protocol dosing)
-# and ingested by ingest_curated_substances(). One file fully describes one
-# substance; the build has a single curated source.
+# Per-compound curated data (display-name override, popularity, category,
+# aliases incl. CJK, dose overrides, peptideProfile, protocol dosing) lives in
+# that compound's data/curated/substances/<slug>.json, ingested by
+# ingest_curated_substances(). One file fully describes one substance; the build
+# has a single curated source.
 
 
 # Three-letter+ acronyms that should be ALL CAPS even after title-casing.
@@ -4769,7 +4742,7 @@ _ACRONYMS = {
 
 
 # Canonical-name fixups for scraped sources that mislabel a compound — keyed by
-# normalised incoming name. The Swift web collector names some TripSit entries
+# normalized incoming name. The Swift web collector names some TripSit entries
 # from the dataset *key* rather than its `pretty_name`, so paracetamol arrived as
 # "apap" (the US clinical abbreviation, not a name people search). Remapping it to
 # "Acetaminophen" before upsert lets it merge with the curated/pyrls entry instead
@@ -4846,37 +4819,6 @@ def is_chemistry_noise(name: str) -> bool:
     return bool(_CHEM_NOISE_PREFIX.search(n)) or bool(_CHEM_NOISE_BODY.search(n))
 
 
-# A bare CIP stereo-descriptor followed by a redundant parenthesised optical
-# rotation — "S-(+)-MDMA", "R-(-)-MDMA", "D-(−)-…". These aren't chemistry NOISE
-# (they're real, keepable enantiomers), so is_chemistry_noise() rightly leaves
-# them; but the raw double-descriptor reads badly. legible_stereo_name() cleans
-# them for DISPLAY only.
-_STEREO_ROTATION_PREFIX = re.compile(r"^([DLRS])-\(\s*[+\-−]\s*\)-(.+)$", re.IGNORECASE)
-
-
-def legible_stereo_name(name: str) -> str | None:
-    """Reformat a redundant CIP-plus-rotation prefix into the clean, standard
-    parenthesised-descriptor form for display: "S-(+)-MDMA" → "(S)-MDMA",
-    "R-(-)-MDMA" → "(R)-MDMA". The optical rotation is dropped as redundant with
-    the CIP letter. Returns None when the name doesn't match (leave it alone).
-
-    Sets *display_name* only — the canonical name (the dedup key, and what
-    isomer-families.json / _CATEGORY_OVERRIDES reference) is untouched. Note the
-    clean "(S)-…" form would normalise onto the racemate's key, so it must NEVER
-    become the canonical — display only.
-
-    Now that the isomer fold has landed (Stage A), every enantiomer we recognize
-    folds into its parent as an isomer variant, so this matches **zero** rows on a
-    full build ("Legible stereo display names: 0"). It is kept as a display safety
-    net for an enantiomer that carries a redundant CIP-plus-rotation prefix but is
-    not yet in `isomer-families.json` — such a row stays distinct and still reads
-    cleanly until it is folded."""
-    m = _STEREO_ROTATION_PREFIX.match((name or "").strip())
-    if not m:
-        return None
-    return f"({m.group(1).upper()})-{m.group(2)}"
-
-
 # ---------------------------------------------------------------------------
 # Display-policy classification vocab (consumed by Build.classify_compounds)
 # ---------------------------------------------------------------------------
@@ -4926,7 +4868,7 @@ MEDICAL_CATEGORIES = {
     "Peptide",
 }
 # Tags that establish recreational lineage even with no dose data (the RC
-# stubs — novel psychedelics/cathinones/etc. catalogued without human dosing).
+# stubs — novel psychedelics/cathinones/etc. cataloged without human dosing).
 REC_TAGS = {
     "research-chemical",
     "no-human-data",
@@ -4978,12 +4920,6 @@ NON_RECREATIONAL_OTC = {
     "melatonin",
 }
 
-# The mechanism *summary* is a headline slot — the curated 150 run to 320 characters
-# at most, and pyrls to 856. Anything above this bound got there by concatenating a
-# document: medtap's Pharmacology section carried the whole FDA label table (Tenofovir
-# at 26,395 characters, "Figure 1" and all) into a field the detail page renders as one
-# paragraph. The bound is checked at the single insertion point so no source can
-# reintroduce the shape, and `test_sqlite.py` asserts it against the built database.
 #: Class contexts that are research notes rather than classes, and short titles
 #: for the ones whose authored name is a bucket label. See the file's `_meta`.
 _CLASS_CONTEXT_POLICY = json.loads(
@@ -5025,16 +4961,19 @@ def split_class_name(name: str) -> tuple[str, str | None]:
     return name, None
 
 
+# The mechanism *summary* is a headline slot that the detail page renders as one
+# paragraph. Curated and pyrls summaries stay far below this bound; anything above
+# it is a concatenated document (medtap's Pharmacology section can carry a whole
+# FDA label table, "Figure 1" and all). The bound is checked at the single
+# insertion point, and `test_sqlite.py` asserts it against the built database.
 MAX_MECHANISM_SUMMARY_CHARS = 1200
 
-# The Library's "Common" card is a curated entry point — "everyday substances,
-# by the names most people know" — NOT a dump of every compound an aggregator
-# happened to flag `common`. Upstream "common" tags (TripSit et al.) bled ~70
-# research chemicals, designer benzos, and obscure isomers into it (25I-NBOMe,
-# clonazolam, 4-HO-MET, …), which is the opposite of "common". So the build
-# OWNS this tag: every upstream `common` tag is dropped and re-asserted for
-# exactly this hand-picked set (~20). To add/remove a substance from the Common
-# card, edit this set — nothing else. Matched by normalise()d name against the
+# The Library's "Common" card is a curated entry point: "everyday substances, by
+# the names most people know". Upstream "common" tags (TripSit et al.) cover
+# research chemicals, designer benzos and obscure isomers (25I-NBOMe, clonazolam,
+# 4-HO-MET, …), so the build OWNS this tag: every upstream `common` tag is dropped
+# and re-asserted for exactly this hand-picked set. To add/remove a substance from
+# the Common card, edit this set and nothing else. Matched by normalise()d name against the
 # final (post-dedup) survivors; a name that resolves to nothing is reported
 # (no silent drops), so a rename/merge that orphans an entry is caught at build.
 COMMON_CARD_ALLOWLIST = {
@@ -5100,7 +5039,7 @@ def is_dosage_form_tag(tag: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Name normalisation helpers (chirality, chemical-abbreviation casing)
+# Name normalization helpers (chirality, chemical-abbreviation casing)
 # ---------------------------------------------------------------------------
 
 # Leading chirality/optical prefix. Two names equal after stripping it but
@@ -5253,7 +5192,7 @@ _CATEGORY_ENUM = {
 # stimulant/empathogen (per user: 2C-B is psychedelic first, not empathogen).
 _CATEGORY_RULES: list[tuple[re.Pattern, str]] = [
     # --- Highest priority: medication classes ---
-    # Peptide first — GLP-1 agonists, GH secretagogues, etc. are categorised by
+    # Peptide first — GLP-1 agonists, GH secretagogues, etc. are categorized by
     # delivery class, not by the Endocrine effect they have.
     (
         re.compile(
@@ -5453,8 +5392,7 @@ def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None
       - "PMID 12345"                       → a PubMed id (space form, no colon)
       - "Baar 2017 Cell; https://…/FOXO4"  → the URL + "Baar 2017 Cell" as title
       - "Azuma 2026 Drug Test Anal DOI:10.1002/…" → the DOI + label as title
-    Extracting these turns ~1.2k dead-text "references" into tappable, titled
-    links. A pure label with no id (e.g. "Ambien FDA label", "CAS 50-37-3") is
+    Extracting these turns dead-text "references" into tappable, titled links. A pure label with no id (e.g. "Ambien FDA label", "CAS 50-37-3") is
     kept verbatim in ``url`` — it both renders as readable text and keeps the
     (doi,pmid,url) dedup key unique (a bare title in the 4th slot would collapse
     every label onto one citation)."""
@@ -5792,9 +5730,9 @@ def normalise_locus_prefix(name: str | None) -> str | None:
 
     The app groups metabolite rows by ``metaboliteName.lowercased()``, so
     "alpha-hydroxyalprazolam" and "α-hydroxyalprazolam" are two different
-    metabolites as far as it is concerned — and alprazolam, etizolam and
-    triazolam each shipped two cards for one molecule, differing only in how the
-    same letter was typed. One spelling, one card.
+    metabolites as far as it is concerned, and alprazolam, etizolam and
+    triazolam would each show two cards for one molecule, differing only in how
+    the same letter was typed. One spelling, one card.
     """
     if not name:
         return name
@@ -5837,7 +5775,7 @@ def split_compound_name(name: str) -> tuple[str, list[str]]:
 
 # Map source-specific route name spellings onto the canonical
 # RouteOfAdministration raw values used by the iOS app's enum. The query
-# layer relies on these strings matching across rows, so normalise here.
+# layer relies on these strings matching across rows, so normalize here.
 #
 # Inhalation collapse: smoking, vaping, and vaporising are physiologically
 # the same route — the substance enters via the lungs. Sources disagree on
@@ -5972,7 +5910,7 @@ def remapped_record(name: str) -> bool:
 
 
 # Same-compound clusters the structural auto-dedup leaves split because the
-# members carry different/absent InChIKeys (RC analogues catalogued under a code
+# members carry different/absent InChIKeys (RC analogues cataloged under a code
 # name, a code name, AND a trivial name, each holding partial dose/duration
 # data). Unlike _NAME_REMAP these fire AFTER all ingest+dedup, by exact current
 # canonical name, so they consolidate whatever survived. Each tuple is
@@ -5998,7 +5936,7 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     # N-Ethylpentedrone = NEP = ethyl-pentedrone
     ("NEP", "N-Ethylpentedrone", True),
     ("Ethyl-pentedrone", "N-Ethylpentedrone", True),
-    # Aspirin = acetylsalicylic acid (Aspirin is the recognisable canonical)
+    # Aspirin = acetylsalicylic acid (Aspirin is the recognizable canonical)
     ("Acetylsalicylic acid", "Aspirin", True),
     # "Methylphenidate-transdermal" (Daytrana) is a scraped stub for the patch —
     # same molecule as Methylphenidate, delivered transdermally, so it is a ROUTE
@@ -6065,7 +6003,7 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
 # (one record carries a wrong key) and must NEVER fuse in dedup. Derived from the
 # unified collision registry (data/curated/inchikey-collisions.json) so this
 # guard, the forced-merge pass, and the overlay-integrity test share one source
-# of truth instead of drifting apart. Names normalised here; the registry stores
+# of truth instead of drifting apart. Names normalized here; the registry stores
 # raw canonical names.
 _DO_NOT_MERGE: set[frozenset[str]] = {
     frozenset(normalise(n) for n in pair) for pair in collision_registry.do_not_merge_pairs()
@@ -6102,25 +6040,22 @@ _CANONICAL_CASE: dict[str, str] = {
 
 
 # Per-substance tag blocklist: tags a source wrongly attaches to the keyed
-# substance. Keys are normalised canonical names; values are tags to drop.
+# substance. Keys are normalized canonical names; values are tags to drop.
 # Applied AFTER dedup so it catches tags inherited from a merged-in stub
-# (e.g. Wikidata's LSD record tags it "phenethylamine" — it's a tryptamine /
-# lysergamide — and "no-human-data", absurd for the most-studied psychedelic).
-# These are cosmetic, not classification-load-bearing: LSD keeps recreational
-# lineage via its category + lysergamide/tryptamine/TIHKAL/common tags.
+# (e.g. Wikidata's LSD record tags it "phenethylamine", though it is a tryptamine /
+# lysergamide, and "no-human-data", though it is the most-studied psychedelic).
+# Dropping these changes no classification: LSD keeps recreational lineage via
+# its category + lysergamide/tryptamine/TIHKAL/common tags.
 _TAG_BLOCKLIST: dict[str, set[str]] = {
     "lsd": {"no-human-data", "phenethylamine"},
     # An endogenous mu-opioid tetrapeptide (Tyr-Pro-Trp-Phe-NH2), tagged by a bad
-    # wikidata ingest as a 5-HT2A-agonist phenethylamine tryptamine DOx — all
-    # four at once, which is that ingest's signature. It also categorised the row
-    # Psychedelic (pinned back to Peptide in _CATEGORY_OVERRIDES). The 2026-08-01
-    # cleanup removed most of what that query damaged — a chemo conjugate, two
-    # approved peptide drugs, plant lipids, an LHRH photoaffinity probe — and
-    # this is the last row still carrying the full signature.
+    # wikidata ingest as a 5-HT2A-agonist phenethylamine tryptamine DOx, all four
+    # at once. That ingest also categorizes the row Psychedelic (pinned to Peptide
+    # in _CATEGORY_OVERRIDES).
     "endomorphin-1": {"5-HT2A-agonist", "DOx", "phenethylamine", "tryptamine"},
     # An endogenous hormone / OTC sleep aid mis-tagged as a recreational TIHKAL
-    # tryptamine (erowid-tihkal false-match) with "no-human-data" (absurd — it's
-    # among the best-studied supplements). Category pinned to Supplement via
+    # tryptamine (erowid-tihkal false-match) with "no-human-data", though it is
+    # among the best-studied supplements. Category pinned to Supplement via
     # curated; strip the rec/quality tags so it doesn't read as a psychedelic.
     "melatonin": {"no-human-data", "TIHKAL"},
 }
@@ -6133,7 +6068,7 @@ _TAG_BLOCKLIST: dict[str, set[str]] = {
 _REMOVE_NAMES: set[str] = {
     normalise("Tetrakis(2-Methoxyisobutylisocyanide)Copper(I) Tetrafluoroborate"),
     # Periodic-table / biomolecule entries that aren't consumable substances —
-    # this is a substance tracker, not a chemistry catalogue. (Calcium / Iodine /
+    # this is a substance tracker, not a chemistry catalog. (Calcium / Iodine /
     # Lithium / Potassium / Sodium stay: they're real supplements / medications.)
     normalise("DNA"),
     normalise("Silver"),
@@ -6169,8 +6104,8 @@ _INERT_TAGS: set[str] = {
 # them as Cannabis aliases makes the search results misleading and conflates
 # logging a joint with logging a pure-cannabinoid product.
 #
-# Keys are normalised canonical names (lowercase). Values are sets of
-# normalised alias strings to drop on insert.
+# Keys are normalized canonical names (lowercase). Values are sets of
+# normalized alias strings to drop on insert.
 _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     # FreeOD's kava page lists "ava", which is also apovincaminic acid (AVA),
     # vinpocetine's metabolite.
@@ -6270,10 +6205,9 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     "diphenhydramine": {"dimenhydrinate", "fexofenadine", "meclizine"},
     "4-ho-met": {"ethocin"},  # ethocin = 4-HO-DET
     "dextromethorphan": {"duract"},  # bromfenac (an NSAID)
-    # NOTE (Stage A): the former "methylphenidate" anti-alias guard (which kept
-    # dexmethylphenidate / Focalin from cross-aliasing the racemate) is retired —
-    # fold_isomer_families() now folds Dexmethylphenidate INTO Methylphenidate as
-    # the isomer='D' form, with Focalin surviving as a facet-annotated brand alias.
+    # No "methylphenidate" entry: fold_isomer_families() folds Dexmethylphenidate
+    # INTO Methylphenidate as the isomer='D' form, with Focalin surviving as a
+    # facet-annotated brand alias, so both are meant to be its aliases.
     # medtap (FDA product labels) cross-drug contamination: a combo-product or
     # related-drug label leaked another compound's name in as an alias. Each
     # alias below names a DIFFERENT substance that has its own entry — dangerous
@@ -6287,8 +6221,8 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     "aluminum hydroxide": {"calcium"},
     "bismuth subsalicylate": {"bismuth"},
     "docusate/sennosides": {"sennosides"},
-    # TripSit lists "2-phenylacetamide" as an alias of its "2-PA" entry (now
-    # canonicalised to Cathinone, see _NAME_REMAP). Phenylacetamide is C8H9NO,
+    # TripSit lists "2-phenylacetamide" as an alias of its "2-PA" entry
+    # (canonicalized to Cathinone, see _NAME_REMAP). Phenylacetamide is C8H9NO,
     # a non-psychoactive amide — not the C9H11NO β-keto-amphetamine the entry's
     # own summary, dose ladder and InChIKey describe. It is the abbreviation
     # being back-expanded wrongly, and it makes a search for an inert amide land
@@ -6337,18 +6271,13 @@ _CLASS_DOSE_CEILING_MG: dict[str, float] = {
 }
 
 
-# Convert a dose unit string to a milligram multiplier. Returns None
-# for non-mass units (mg/kg, per-day, seeds, IU, sprays, ml, %, etc.)
-# — those rows can't be magnitude-checked against the class ceiling
-# and pass through the invariant gate unchanged.
 # One spelling per mass unit. Upstreams type the micro prefix at least four
-# ways and the app converts on an exact string match, so "μg" (GREEK SMALL
-# LETTER MU, U+03BC) and "µg" (MICRO SIGN, U+00B5) were two different units:
-# LSD's oral ladder, all three fentanyl routes and sufentanil IV converted to
-# nothing, which silently suppressed the sub-milligram precision warning on
-# exactly the drugs that need it. Bare spellings only — a qualified unit
-# ("mg (freebase)") states a basis and a rate ("µg/hr") is not a mass, and
-# folding either onto plain mg would erase the distinction that makes it true.
+# ways and the app converts on an exact string match, so unfolded "μg" (GREEK
+# SMALL LETTER MU, U+03BC) and "µg" (MICRO SIGN, U+00B5) would be two units, and
+# a ladder in the unknown one converts to nothing, suppressing the sub-milligram
+# precision warning on exactly the drugs that need it (LSD, fentanyl). Bare
+# spellings only: a qualified unit ("mg (freebase)") states a basis and a rate
+# ("µg/hr") is not a mass, and folding either onto plain mg erases that.
 _CANONICAL_MASS_UNIT = {
     **dict.fromkeys(("µg", "μg", "ug", "mcg", "microgram", "micrograms", "mcgs", "ugs"), "µg"),
     **dict.fromkeys(("mg", "mgs", "milligram", "milligrams"), "mg"),
@@ -6369,6 +6298,10 @@ def canonical_mass_unit(unit: str | None) -> str | None:
 
 
 def unit_to_mg_factor(unit: str | None) -> float | None:
+    """Milligram multiplier for a dose unit string. None for non-mass units
+    (mg/kg, per-day, seeds, IU, sprays, ml, %): those rows can't be
+    magnitude-checked against the class ceiling and pass the invariant gate
+    unchanged."""
     if unit is None:
         return 1.0
     u = unit.lower().strip()
@@ -6409,11 +6342,11 @@ class Build:
         # Pyrls record name -> substance id, filled by ingest_pyrls so the mechanism
         # lines keyed by that name land on the same row without a second resolve.
         self._pyrls_sids: dict[str, int] = {}
-        # Normalised salt-variant names (Magnesium Citrate, …) folded into a
+        # Normalized salt-variant names (Magnesium Citrate, …) folded into a
         # salt-family parent — protected from the chemnoise alias purge so the
         # variant stays searchable. Populated by fold_salt_families().
         self.salt_alias_protect: set[str] = set()
-        # Normalised isomer-variant names + brands (Dexmethylphenidate, Focalin,
+        # Normalized isomer-variant names + brands (Dexmethylphenidate, Focalin,
         # Esketamine, …) folded into a racemic parent — protected from BOTH the
         # strip_stereo chiral-alias drop and the chemnoise purge so they stay
         # searchable. Populated by fold_isomer_families().
@@ -6425,7 +6358,7 @@ class Build:
         # _drop_variant_half_lives.
         self.isomer_pk_rowids: set[int] = set()
         self.substance_ids: dict[str, int] = {}  # normalised_name -> id
-        # normalised preparation name -> the ingredient name its curated file
+        # normalized preparation name -> the ingredient name its curated file
         # gives, resolved to an id by populate_active_ingredients() once every
         # substance exists.
         self._active_ingredients: dict[str, str] = {}
@@ -6698,7 +6631,7 @@ class Build:
                 )
                 sid = self.cur.lastrowid
             except sqlite3.IntegrityError:
-                # Race on canonical_name — happens when name normalises to existing entry
+                # Race on canonical_name — happens when name normalizes to existing entry
                 row = self.cur.execute(
                     "SELECT id FROM substances WHERE canonical_name = ?", (name,)
                 ).fetchone()
@@ -6721,10 +6654,10 @@ class Build:
     _ALIAS_PAREN_RE = re.compile(r"\s*\([^()]*\)\s*$")
 
     #: Unicode dashes that look identical to a hyphen but are not one. Sources
-    #: mix them freely — Canket shipped "2‑FXE" with U+2011 alongside the ASCII
-    #: spelling, so the two were distinct strings and every dedup, blocklist and
-    #: collision check saw two different aliases. That is how an empty duplicate
-    #: row survived beside a populated one. Folded to ASCII on the way in.
+    #: mix them freely (Canket writes "2‑FXE" with U+2011 beside the ASCII
+    #: spelling), and unfolded, every dedup, blocklist and collision check sees
+    #: two different aliases, so an empty duplicate row survives beside a
+    #: populated one. Folded to ASCII on the way in.
     _DASH_VARIANTS = str.maketrans(
         {
             "‐": "-",  # hyphen
@@ -6810,14 +6743,12 @@ class Build:
                 is_chemnoise_alias(alias) == is_chemnoise_alias(existing_alias)
                 and alias < existing_alias
             ):
-                # Deterministic casing tiebreak. Two spellings that normalise to
+                # Deterministic casing tiebreak. Two spellings that normalize to
                 # the same form but differ only in case ("Alpha-O"/"alpha-O",
-                # "Indian Pipe"/"Indian pipe") used to race: whichever the build
-                # happened to insert FIRST held the slot, and insertion order is
-                # randomized by Python's per-process str hashing (set/dict
-                # iteration). That made the shipped casing nondeterministic. Keep
-                # the lexicographically smaller spelling instead — order-independent
-                # and it prefers the capitalised display form (ASCII upper < lower).
+                # "Indian Pipe"/"Indian pipe") would otherwise race on insertion
+                # order, which Python's per-process str hashing randomizes. Keep
+                # the lexicographically smaller spelling: order-independent, and
+                # it prefers the capitalized display form (ASCII upper < lower).
                 self.cur.execute(
                     "UPDATE aliases SET alias=? WHERE rowid=?", (alias, existing_rowid)
                 )
@@ -6860,7 +6791,7 @@ class Build:
                 self.stats.get("dropped_dosewiki_category", 0) + 1
             )
             return
-        # Normalise to the canonical SubstanceCategory enum at write time so
+        # Normalize to the canonical SubstanceCategory enum at write time so
         # the iOS app's `SubstanceCategory(rawValue:)` decode succeeds for
         # every row. Without this, drug.community's long descriptive
         # categories ("Antidepressant (NaSSA: noradrenergic...)") and the
@@ -7022,9 +6953,9 @@ class Build:
         # A dose row with no tier at all says nothing. It renders as an empty
         # ladder that reads sub-threshold, and it blocks the legitimate curated
         # shape of "this route has durations but no attributable dose". Every
-        # ingester produced these (24 shipped from drug.community alone, plus
-        # Epitalon's curated `"doses": {}`), so the guard belongs here at the
-        # single choke point rather than at each call site.
+        # ingester can produce these (an empty drug.community row, a curated
+        # `"doses": {}`), so the guard belongs here at the single choke point
+        # rather than at each call site.
         if all(v is None for v in (threshold, light, common, strong, heavy)):
             self.stats["dropped_empty_dose"] = self.stats.get("dropped_empty_dose", 0) + 1
             self.note_reject("dropped_empty_dose", unit, sid=sid, route=route, source=source_slug)
@@ -7390,13 +7321,11 @@ class Build:
         knowable from here and guessing gets it backwards: Gaboxadol's PW profile
         reads onset 1–3 min, peak 60–120 min, total 2–5 min, where the ruined
         field is `total`, not the phases. So the whole profile goes and the next
-        source backfills — the dose-source-exception move, applied to durations.
-        41 of 2,263 profiles trip this, including Gaboxadol, Caffeine on two
-        routes, and Phenobarbital.
+        source backfills, as a dose-source exception does for doses. Gaboxadol,
+        Caffeine on two routes, and Phenobarbital trip this.
 
-        `afterglow` is a tail *after* total, so `total` does not bound it and the
-        audit's proposed `afterglow ≤ total` invariant would have deleted correct
-        rows. What is not credible is a multi-day one: 25I-NBOH claimed 288 h of
+        `afterglow` is a tail *after* total, so `total` does not bound it and an
+        `afterglow ≤ total` invariant would delete correct rows. What is not credible is a multi-day one: 25I-NBOH claimed 288 h of
         afterglow on an 8 h experience, which is an elimination half-life written
         into the wrong field. Only the afterglow row goes, and only when it also
         exceeds the total — that spares the long deliriants (EA-3167, 3-quinuclidinyl
@@ -7732,8 +7661,8 @@ class Build:
             return
         # A summary this long is not a summary. Rejecting rather than truncating is the
         # point: the slot then falls through to the next source, or to the Swift class
-        # template, either of which reads better than the opening 1,200 characters of
-        # something that was never written as a headline.
+        # template, either of which reads better than the opening of something that
+        # was never written as a headline.
         if len(summary) > MAX_MECHANISM_SUMMARY_CHARS:
             self.stats["mechanism_summary_too_long"] += 1
             return
@@ -8341,11 +8270,10 @@ class Build:
             inchikey=inchikey or s.get("inchikey"),
             pubchem_cid=pubchem_cid if pubchem_cid is not None else to_int(s.get("pubchemCID")),
             cas=cas or s.get("cas"),
-            # A curated file could pin the InChIKey but NOT the structure, so a
-            # source would back-fill a SMILES that contradicted the identity the
-            # file had just asserted (Cathine got racemic norephedrine·HCl over
-            # its own (1S,2S) free-base key). Curated is ingested first, so this
-            # wins the COALESCE.
+            # Without this, a curated file pins the InChIKey but not the
+            # structure, and a source back-fills a SMILES that contradicts it
+            # (racemic norephedrine·HCl over Cathine's (1S,2S) free-base key).
+            # Curated is ingested first, so this wins the COALESCE.
             smiles=s.get("smiles"),
             formula=s.get("formula"),
             molecular_weight=to_float(s.get("molarMass")),
@@ -8746,9 +8674,8 @@ class Build:
         * **A binding is written ONLY where the substance has no row for that target yet.** The
           app resolves a displayed tier as ``COALESCE(MAX(curated_tier), MAX(derived_tier), 1)``
           per (target, action), so a generic class tier written beside a measured row would
-          override the measurement — the precise inversion the mechanism card was fixed to stop.
-          Skipping keeps "the cited panel wins" true structurally rather than by convention.
-        * **No citation.** These are class generalisations, not readings of a paper. A value-less
+          override the measurement. Skipping keeps "the cited panel wins" true structurally rather than by convention.
+        * **No citation.** These are class generalizations, not readings of a paper. A value-less
           row carrying a ``citation_id`` joins that citation's comparability group and, having no
           value on any basis, makes the whole group unplottable — it would silently delete a
           signature chart.
@@ -8867,7 +8794,7 @@ class Build:
 
         `piru-curated` records here are IGNORED — curated data is ingested
         directly from CURATED_DIR by ingest_curated_substances(). This keeps a
-        single source of truth and is robust even if a stale collector run
+        single source of truth that holds even if a stale collector run
         re-bakes the overlay into this file. `known_names` (the curated names)
         seed the Wikidata-noise allowlist so a noise-named Wikidata variant of a
         curated compound enriches it instead of being dropped.
@@ -9043,9 +8970,8 @@ class Build:
         ``Tools/SubstanceCollector/fetch-psychonautwiki.py``. Each record has
         the same shape as ``sourced-substances.json`` records but is read
         from a separate file so the snapshot is regeneratable and reviewable
-        independently of the SubstanceCollector pipeline. Without this PW
-        contributes zero rows and ~46% of substances lose their duration
-        coverage compared to the pre-merge runtime-fetch era.
+        independently of the SubstanceCollector pipeline. Without it PW
+        contributes zero rows and many substances lose their duration coverage.
         """
         if not path.exists():
             print(
@@ -9117,8 +9043,8 @@ class Build:
 
         A dose exception alone leaves the route present with a timeline and no
         numbers, which reads as "we have no dose for this" rather than "this
-        route does not do anything". Oral naloxone is the case that forced the
-        distinction: ~2% bioavailable, used orally *because* it is systemically
+        route does not do anything". Oral naloxone is the case: ~2%
+        bioavailable, used orally *because* it is systemically
         inactive, and PsychonautWiki still gives it a 5–15 min onset and a 1–2 h
         total. Dropping the ladder and keeping that timeline would still promise
         an opioid reversal that will not happen."""
@@ -9519,7 +9445,7 @@ class Build:
 
     # Inline unit between a number and a range dash ("5 mg - 15 mg").
     # Stripped before the range regex so the trailing unit is the only one
-    # left; without this ~100 drug.community ranges parsed as None.
+    # left; without this such drug.community ranges parse as None.
     _DC_INLINE_UNIT_RE = re.compile(
         r"(\d)\s*(?:mg|µg|ug|mcg|ng|g|ml|l)\s*(?=[-–])",
         re.IGNORECASE,
@@ -9529,7 +9455,7 @@ class Build:
     def _dc_clean(cls, s: str) -> str:
         # drug.community uses three thousand separators: comma ("1,000 mg"),
         # non-breaking space ("1 200 µg"), and regular space
-        # ("1 000 µg"). Without normalising, `\d+` matches "1" and
+        # ("1 000 µg"). Without normalizing, `\d+` matches "1" and
         # silently truncates the value to 1.0.
         cleaned = str(s).replace(",", "").replace(" ", " ")
         # Collapse whitespace BETWEEN digits ("1 000" → "1000") but
@@ -9539,10 +9465,9 @@ class Build:
 
     # Match the FIRST unit token following a digit, tolerating operators
     # (+, >, <, ≥, ≤, ~, =, -) and whitespace between the number and unit.
-    # The original `\d\s*unit` pattern silently failed on "200+ µg",
-    # ">800 µg" etc. — those rows then inherited the row-level unit ("mg")
-    # and stored e.g. Fentanyl oral heavy as 200 mg (lethal) instead of
-    # 200 µg (= 0.2 mg). Using the first match (not last) is important
+    # A bare `\d\s*unit` pattern misses "200+ µg", ">800 µg" etc., and those
+    # rows inherit the row-level unit ("mg"), storing e.g. Fentanyl oral heavy
+    # as 200 mg (lethal) instead of 200 µg. Using the first match (not last) matters
     # because drug.community frequently annotates the primary value with a
     # parenthetical equivalent — "0.01 mg (10 µg)" — and the primary unit
     # is always the first one.
@@ -9680,7 +9605,7 @@ class Build:
             (
                 # NB: `NDRI` deliberately excluded — bupropion is an NDRI but so
                 # are many stimulants (pyrovalerones like MD-PiHP). The NDRI tag
-                # alone is not antidepressant-specific and used to drag stimulants
+                # alone is not antidepressant-specific and would drag stimulants
                 # into Antidepressant. Require an antidepressant-class tag instead.
                 {"antidepressant", "SSRI", "SNRI", "TCA", "MAOI", "SARI", "NaSSA"},
                 "Antidepressant",
@@ -10091,9 +10016,9 @@ class Build:
     def _dosewiki_target_spellings(self) -> dict[str, str]:
         """Fold key -> the spelling Piru already uses most for that target.
 
-        `bindings.target` is free text and 35 of Piru's 137 targets are written
+        `bindings.target` is free text and many of Piru's targets are written
         more than one way, so a dose.wiki row inserted under its own spelling
-        would add a 36th. Folding onto the majority spelling keeps a per-target
+        would add another. Folding onto the majority spelling keeps a per-target
         query reaching every row for that receptor.
         """
         counts: dict[str, Counter[str]] = defaultdict(Counter)
@@ -10116,7 +10041,7 @@ class Build:
         **Every article, drafts included,** contributes chemistry, aliases and
         its page link, because
         an identifier is right or wrong rather than better or worse, and
-        dose.wiki's are internally consistent — across all 577 records every
+        dose.wiki's are internally consistent — across every record, each
         stated InChIKey recomputes from its own SMILES and every CAS passes its
         check digit. That consistency is also what lets it *correct* a Piru row
         that contradicts itself (see ``dosewiki_identity_corrections``); every
@@ -10609,7 +10534,7 @@ class Build:
 
     def ingest_medtap(self, path: Path) -> None:
         """FDA structured product labels. Like pyrls but lower priority and with
-        a junk/combo filter. Category intentionally NOT ingested (322/387 'Other'
+        a junk/combo filter. Category intentionally NOT ingested (mostly 'Other',
         with mislabels). Supplies regulatory status and mechanism."""
         if not path.exists():
             return
@@ -10649,7 +10574,6 @@ class Build:
     # multiplier for them is back-derived folklore (a folklore potency × a clinical anchor
     # → a grade-D product). Ship NONE — honest prose with NO parseable number, so the
     # converter offers no false-precision conversion — rather than the TripSit point.
-    # Faithful-over-comprehensive (RC-expansion B4, 2026-06-23).
     _BENZO_EQUIV_NONE = {
         "flubromazolam",
         "diclazepam",
@@ -10694,7 +10618,7 @@ class Build:
             path = CURATED_DIR.parent / "benzo-equivalence-ashton.json"
             payload = json.loads(path.read_text()) if path.exists() else {"citation": None}
             payload.setdefault("equivalentToTenMgDiazepam", {})
-            # Keyed by the same normalisation the caller resolves with.
+            # Keyed by the same normalization the caller resolves with.
             payload["equivalentToTenMgDiazepam"] = {
                 normalise(k): v for k, v in payload["equivalentToTenMgDiazepam"].items()
             }
@@ -10731,8 +10655,8 @@ class Build:
         slug = "benzos-cited"
         # name/alias → sid index. benzos-cited is 0-novel: every record already
         # exists in Piru (often as an alias, not a canonical name), so we match
-        # against both and NEVER mint a new substance — minting brand-named rows
-        # like "Ativan" was the bug this guards against.
+        # against both and NEVER mint a new substance, which would add
+        # brand-named rows like "Ativan".
         name_to_sid = self._alias_index()
         for rec in json.loads(path.read_text()):
             name = rec.get("name")
@@ -10786,11 +10710,11 @@ class Build:
 
     def ingest_nps(self, path: Path) -> None:
         """IDENTIFIER + PHYSICOCHEMICAL backfill. Matches nps records to EXISTING
-        Piru substances by normalised name/alias and donates chemical identifiers
+        Piru substances by normalized name/alias and donates chemical identifiers
         (CAS/InChIKey/SMILES/formula/MW) and forensic physicochemical properties
         (logP/logD/pKa/TPSA/HBA/HBD, rodent LD50, melting/boiling point) via
         COALESCE — never overwrites an existing value, never mints a new
-        substance (avoids catalog pollution from ~5000 forensic one-off names).
+        substance (avoids catalog pollution from thousands of forensic one-off names).
 
         These physicochemical values are predicted/forensic (logP is typically a
         computed estimate; LD50 is rodent, order-of-magnitude), not clinical —
@@ -11084,7 +11008,7 @@ class Build:
 
     def assign_substance_uids(self) -> dict[str, int]:
         """Assign every substance its PSID FAMILY (``substance_uid``) — the stable,
-        rebuild-invariant identity key (Stage 0.1). Rules:
+        rebuild-invariant identity key. Rules:
 
         * a substance whose InChIKey connectivity block (block 1) is UNIQUE in the
           catalog gets that block 1 as its FAMILY (cross-references PubChem);
@@ -11173,14 +11097,12 @@ class Build:
             body = {k: merged[k] for k in sorted(merged)}
             out = {
                 "_comment": (
-                    "Pinned PSID FAMILY registry (Stage 0.1) — canonical_name -> FAMILY. "
-                    "Derive-once, pin-forever: assign_substance_uids() reads this first so "
-                    "an InChIKey correction, rename, or re-fold never moves an existing "
-                    "substance's identity; only genuinely-new substances mint and are "
-                    "appended. A 14-letter value is an InChIKey block 1; a leading-digit "
-                    "value is a name-hash (structure-less row or distinct-collision member). "
-                    "Generated by pipeline/build/sqlite.py; edit only to intentionally "
-                    "re-pin. See pipeline/psid.py and Specs/stereoisomer-and-release-form-axes.md."
+                    "Pinned PSID FAMILY registry: canonical_name -> FAMILY. Derive once, pin forever: "
+                    "assign_substance_uids() reads this first so an InChIKey correction, rename or re-fold "
+                    "never moves an existing substance's identity; only new substances mint and are "
+                    "appended. A 14-letter value is an InChIKey block 1; a leading-digit value is a name "
+                    "hash (a structure-less row or a distinct-collision member). Generated by "
+                    "pipeline/build/sqlite.py; edit only to re-pin on purpose. See pipeline/psid.py."
                 ),
                 **body,
             }
@@ -11239,9 +11161,8 @@ class Build:
     # the `route` dimension, not the name. Maps each suffix to the enum case the
     # app decodes it to (`RouteOfAdministration.from(string:)`), so any
     # dose/duration rows the variant carries render identically once re-keyed.
-    # (Today these medtap catalog stubs carry no dose rows — the rewrite is a
-    # defensive no-op that keeps the pass correct if dose data ever lands on a
-    # nasal/topical entry.)
+    # The medtap stubs carry no dose rows; re-keying keeps the pass correct if
+    # dose data lands on a nasal/topical entry.
     _ROUTE_SUFFIX_MAP = {
         "inhaled": "inhalation",
         "nasal": "insufflation",
@@ -11262,7 +11183,7 @@ class Build:
         aliases survive as parent aliases, so `Flonase`/`Fluticasone-nasal`
         still resolve. Runs after dedup/forced-merges (operates on survivors)
         and before classify (the merged parent is reclassified from final
-        signals). See Specs/salt-forms-and-route-collapse.md (Part B)."""
+        signals)."""
         collapsed, parents_created, rerouted = 0, 0, 0
         rows = self.cur.execute("SELECT id, canonical_name FROM substances").fetchall()
         for vid, vname in rows:
@@ -11299,7 +11220,7 @@ class Build:
     # listed — single-salt supplements (Iron Bisglycinate, Zinc Picolinate) gain
     # nothing from a one-option picker and stay standalone. Antacid *combos*
     # (Magnesium/Magaldrate, Magnesium/Sodium) are mixtures, not salt forms, and
-    # are deliberately excluded. See Specs/salt-forms-and-route-collapse.md (A.2).
+    # are deliberately excluded.
     _SALT_FAMILIES: dict[str, list[tuple[str, str]]] = {
         "Magnesium": [
             ("Magnesium Citrate", "Citrate"),
@@ -11320,8 +11241,8 @@ class Build:
         "Dopamine": [
             ("3-Hydroxytyramine hydrobromide", "Hydrobromide"),
         ],
-        # Tianeptine shipped only as its two salts (no freebase row): the sulfate
-        # holds the 'tianeptine' normalised slot, the sodium sits beside it. Both
+        # Tianeptine arrives only as its two salts (no freebase row): the sulfate
+        # holds the 'tianeptine' normalized slot, the sodium sits beside it. Both
         # carry real, distinct dose ladders, so fold them under one parent tagged
         # by salt form rather than dropping either ladder.
         "Tianeptine": [
@@ -11384,7 +11305,7 @@ class Build:
         },
     }
 
-    # ---- PSID facet code maps (Stage A; closes spec Deferred #1) --------------
+    # ---- PSID facet code maps --------------------------------------------------
     # The PSID grammar's <stereo>/<salt>/<release> fields are radix-36 (0-9A-Z),
     # but the app stores facets as display strings. `substance_forms` bridges the
     # two: these maps turn a display facet into its stable, collision-free PSID
@@ -11445,13 +11366,13 @@ class Build:
         """One alternation over the curated tokens/phrases, capturing the code.
 
         Release form is spelled out in the product name itself ("Adderall XR",
-        "Morphine Sulfate Extended-release"), so detection beats hand-listing all
-        ~65 token-bearing brands — it is typo-proof and picks up new brands on a
+        "Morphine Sulfate Extended-release"), so detection beats hand-listing the
+        token-bearing brands: it is typo-proof and picks up new brands on a
         rescrape for free. Only *tokenless* brands (Concerta, Kapvay, the depots)
         need the curated `brands` map. Phrases match anywhere; bare abbreviations
         must be a trailing standalone token, so an "er"/"la" inside a word (or an
-        ordinary name) can never fire. Verified zero false positives across all
-        5790 catalog aliases.
+        ordinary name) can never fire. Checked against every catalog alias with
+        zero false positives.
         """
         # Group names must be unique, so each alternative is suffixed with its index;
         # the code is recovered from the matched group name (codes are radix-36, so
@@ -11508,8 +11429,8 @@ class Build:
         """normalise(brand) -> code, for the tokenless brands the detector can't see
         (Concerta, Kapvay, Invega Sustenna, …). Keyed by normalised name, not by
         (parent, brand): a brand is a trademark for one product line, so the mapping
-        is global, and keying it that way stays robust to a parent being renamed or
-        folded (Focalin's rows now live under Methylphenidate). The `parent` field in
+        is global, and keying it that way survives a parent being renamed or
+        folded (Focalin's rows live under Methylphenidate). The `parent` field in
         the JSON is retained for review + the coverage gate below. A brand claiming
         two different codes is a curation bug, so fail rather than silently take one.
         """
@@ -11580,7 +11501,7 @@ class Build:
         chemnoise purge) so "Magnesium Citrate" still searches. The parent
         inherits the max popularity of its variants. Runs after dedup/forced-
         merges/route-collapse and before classify (which sets the parent's final
-        display_class). See Specs/salt-forms-and-route-collapse.md (A.2)."""
+        display_class)."""
         folded, families, parents_created = 0, 0, 0
         salt_tables = ("dose_ranges", "durations", "durations_of_action", "protocol_dosing")
 
@@ -11606,7 +11527,7 @@ class Build:
             parent_norm = normalise(parent_name)
 
             # normalise() strips some salt suffixes (e.g. "Magnesium Citrate" →
-            # "magnesium"), so the parent's normalised key may already be occupied
+            # "magnesium"), so the parent's normalized key may already be occupied
             # by a *variant* row. Promote that row into the parent rather than
             # creating a colliding duplicate.
             occupant = self.substance_ids.get(parent_norm)
@@ -11828,9 +11749,8 @@ class Build:
 
         Neither `half_lives` nor `pk_routes` has an isomer facet — the app reads
         one half-life per substance — so `_merge_into`'s reassignment silently
-        republishes an enantiomer's kinetics as the racemate's. That is how
-        Ketamine came to carry Esketamine's 7 h (the Spravato terminal t½),
-        outranking a peer-review-primary 150 min for a drug whose terminal t½ is
+        republishes an enantiomer's kinetics as the racemate's: Ketamine would
+        carry Esketamine's 7 h (the Spravato terminal t½), outranking a peer-review-primary 150 min for a drug whose terminal t½ is
         2.5–3 h. Salt and release folds are exempt by construction: they share the
         active moiety, so the value transfers honestly.
 
@@ -11842,8 +11762,8 @@ class Build:
         though: `SubstanceStore+Pharmacology` resolves
         `PharmacologyParameters.halfLifeMinutes` from `pk_routes` alone, coupled to
         that same row's Vd and F, and for Amphetamine the coherent row is
-        Dextroamphetamine's. Nulling the column there is not a fix, it is a
-        lobotomy — it took `canComputeOccupancy` to false and broke 12 tests.
+        Dextroamphetamine's. Never null the column there: that sets
+        `canComputeOccupancy` false.
 
         So the rows are left alone and their rowids are recorded in
         `self.isomer_pk_rowids`, which `derive_half_lives_from_pk` excludes when
@@ -11880,13 +11800,12 @@ class Build:
         """Remove aliases that name something other than the substance they sit on.
 
         Driven by `data/curated/alias-kinds.json` rather than a hand-list, but NOT
-        as a blanket sweep — a blanket sweep would have been actively harmful.
-        Of the 37 aliases the classifier marked `distinct_substance`, most are
-        **enantiomers the app already models**: Dexedrine and Dextroamphetamine on
+        as a blanket sweep, which would be harmful: most aliases the classifier
+        marks `distinct_substance` are **enantiomers the app already models**: Dexedrine and Dextroamphetamine on
         Amphetamine, Esketamine and Spravato on Ketamine, Focalin and
         Dexmethylphenidate on Methylphenidate. Those carry an `isomer` facet from
         `annotate_alias_facets`, which is precisely the machinery for "same family,
-        different molecule", and they resolve correctly today. Deleting them would
+        different molecule", and they resolve correctly. Deleting them would
         mean someone searching Spravato or Focalin gets nothing.
 
         So the rule is narrow, and this pass runs *after* the facet annotation so it
@@ -11959,10 +11878,9 @@ class Build:
     def apply_alias_kinds(self) -> dict[str, int]:
         """Fill `aliases.kind` (and `locale`) from data/curated/alias-kinds.json.
 
-        The column already existed with only `brand` seeded on 58 of 5,782 rows, so
-        the header had nothing to rank by and printed "+46 alternative names" —
-        chemical synonyms, product names, junk and, in 37 sampled cases, the names
-        of *different molecules*, all counted as if they were names of this drug.
+        Without it only `brand` is seeded, so the header has nothing to rank by and
+        counts chemical synonyms, product names, junk and the names of *different
+        molecules* as alternative names of this drug.
         """
         path = CURATED_DIR.parent / "alias-kinds.json"
         stats = {"kinds_set": 0, "locales_set": 0, "unmatched_substance": 0, "unmatched_alias": 0}
@@ -11980,7 +11898,7 @@ class Build:
                     (sid, normalise(entry["alias"])),
                 ).fetchone()
                 if row is None:
-                    # Expected for the wrong-molecule aliases the blocklist now drops
+                    # Expected for the wrong-molecule aliases the blocklist drops
                     # before insert — the classification and the blocklist agree.
                     stats["unmatched_alias"] += 1
                     continue
@@ -12115,11 +12033,10 @@ class Build:
         """Fill `class_representatives` from curated JSON — one PK-complete stand-in
         per tolerance mechanism class.
 
-        Resolved by name OR alias, because the recognisable name is often not the
+        Resolved by name OR alias, because the recognizable name is often not the
         canonical one (MDA's canonical row is "3,4-Methylenedioxyamphetamine"). An
         unmatched class is counted, never fatal: the app treats a missing
-        representative as "this class has no fallback", which is the same state it
-        had before the class was listed."""
+        representative as "this class has no fallback"."""
         path = CURATED_DIR.parent / "class-representatives.json"
         stats = {"inserted": 0, "unmatched": 0}
         if not path.exists():
@@ -12281,10 +12198,10 @@ class Build:
         A prodrug's own plasma half-life is the wrong number for an effects
         curve: heroin's diamorphine clears in minutes while what a person feels
         is 6-MAM and morphine, and lisdexamfetamine's 25-minute figure is the
-        intact prodrug, not the dextroamphetamine it liberates. Both were patched
-        for the mechanistic engine in `SubstanceModelDatabase.swift`; this is the
-        same correction for the classic timeline, moved into the data where it is
-        cited and applies to every substance uniformly.
+        intact prodrug, not the dextroamphetamine it liberates. This applies the
+        correction the mechanistic engine (`SubstanceModelDatabase.swift`) makes to
+        the classic timeline, in the data, where it is cited and applies to every
+        substance uniformly.
 
         `data/curated/prodrugs.json` names, per prodrug, the active metabolite and
         the number to use — either an explicit `half_life_minutes` with its own
@@ -13465,10 +13382,10 @@ class Build:
         The app resolves `Substance.halfLifeMinutes` from `half_lives` alone — it is
         what the duration card, the Also Active comparison and the benzodiazepine
         duration ladder all read. But the enrichment layer files its half-lives under
-        per-route pharmacokinetics, so **130 substances** had a perfectly good measured
-        value in `pk_routes` and returned nil to every one of those surfaces. Lorazepam,
-        temazepam, oxazepam, zopiclone, eszopiclone and nordazepam are all in that set:
-        the benzodiazepine class, whose *whole* comparative axis is duration.
+        per-route pharmacokinetics, so without this a substance with a measured value
+        in `pk_routes` returns nil to every one of those surfaces. Lorazepam, temazepam,
+        oxazepam, zopiclone, eszopiclone and nordazepam are such cases: the
+        benzodiazepine class, whose *whole* comparative axis is duration.
 
         Preference order is oral, then the substance's own most-common route, then
         whatever exists — a half-life is a property of the molecule, not the route, but
@@ -13567,7 +13484,7 @@ class Build:
                 continue
             self.cur.execute("UPDATE aliases SET release_form=? WHERE rowid=?", (code, rowid))
             rel += 1
-            # Cross-axis (the Focalin XR case). "Focalin XR" normalises to
+            # Cross-axis (the Focalin XR case). "Focalin XR" normalizes to
             # "focalin xr", which the isomer pass above never matched — so without
             # this it would be tagged release=XR but isomer NULL, asserting that
             # Focalin XR is *racemic* methylphenidate XR. It is the D-enantiomer.
@@ -13581,7 +13498,7 @@ class Build:
                     iso += 1
                     cross += 1
 
-        # Name provenance (D.1.7): tag the marketed brand names so display can lead
+        # Name provenance: tag the marketed brand names so display can lead
         # with the word people recognize instead of the alphabetically-first
         # synonym. Seeded from the brand lists the form axes already enumerate
         # (release XR brands, isomer-variant brands) plus curated flagship base
@@ -14192,11 +14109,11 @@ class Build:
         These are bare catalog entries — a name/indication and nothing else. The
         flag says only how thin THIS catalog's row is; it is not a claim about how
         well the molecule is studied. Do not use it alone to drive a "Limited data"
-        label: 294 of the ~421 rows it flags are approved or OTC drugs (calcium,
+        label: most rows it flags are approved or OTC drugs (calcium,
         omeprazole, testosterone, atorvastatin), and no row count can make that
         phrase true of them. The app gates the label on
         `CompoundDisplayClass.mayReportLimitedData` first, which is where the
-        judgement belongs. Flagging (rather than dropping) lets the app demote the
+        judgment belongs. Flagging (rather than dropping) lets the app demote the
         genuinely thin ones without losing the catalog. Distinct from
         drop_orphan_stubs(), which deletes truly content-less wikidata rows. Runs
         after all ingest + the therapeutic-dose strip, so a drug that lost its
@@ -14229,11 +14146,10 @@ class Build:
 
         **It merges only from the file, never from the computed key**, because a
         structural collision is ambiguous: it means either a genuine duplicate or
-        a wrong SMILES, and those have opposite fixes. The first version of this
-        pass merged on the key directly and would have folded Mephenmetrazine
-        into 4-Methylphenmetrazine — they collide because Mephenmetrazine's row
-        stored the wrong structure (PubChem CID 30487 gives 3,4-dimethyl-2-
-        phenylmorpholine), so the "duplicate" was a real compound with a typo.
+        a wrong SMILES, and those have opposite fixes. Merging on the key would
+        fold Mephenmetrazine into 4-Methylphenmetrazine: they collide because
+        Mephenmetrazine's row can store the wrong structure (PubChem CID 30487
+        gives 3,4-dimethyl-2-phenylmorpholine), a real compound with a typo.
 
         Each pair is **re-verified at build time**: the two rows must still share
         the full InChIKey of their largest SMILES fragment. A pair that no longer
@@ -14314,10 +14230,10 @@ class Build:
           `4-Acetoxy-N,O-Acetylpsilocin`. `O-Acetylpsilocin` is a real
           standalone alias that merely starts with a locant letter.
         - **The pairing must be unambiguous.** Two candidates on either side and
-          the pass reports instead of guessing. That is not a cop-out: 4-HO-DPT
+          the pass reports instead of guessing. 4-HO-DPT
           carries *both* `N-dimethyltryptamine` and `n-dipropyltryptamine`, and
           it is a dipropyl compound — the dimethyl fragment is on the wrong row
-          entirely. Guessing would have written a name asserting the wrong
+          entirely. Guessing would write a name asserting the wrong
           molecule; reporting surfaces the real defect.
         """
         left_re = re.compile(r"^(?:[nos]|.+-[nos])$", re.I)
@@ -14380,7 +14296,7 @@ class Build:
 
         Safety: within a group we only merge a member that is a DATA-POOR STUB
         (no dose/duration/binding/effect of its own — i.e. a brand entry, not an
-        independently-characterised compound). This prevents wrongly merging two
+        independently characterized compound). This prevents wrongly merging two
         real compounds that happen to share a slang alias (e.g. 'speed'). Stubs
         merge into the richest member; their aliases + clinical text + identifiers
         carry over. Non-stub collisions are logged for manual review, not merged.
@@ -14656,7 +14572,7 @@ class Build:
     def drop_orphan_stubs(self, protect_norms: set[str] | None = None) -> dict[str, int]:
         """Delete content-less wikidata long-tail stubs.
 
-        Wikidata contributes ~500 identifier-only rows for obscure chemistry —
+        Wikidata contributes hundreds of identifier-only rows for obscure chemistry —
         tryptophan/tryptamine biosynthesis intermediates, peptide-drug
         conjugates, plant alkaloids, even metabolites — that carry a name (and
         maybe a formula) but NOTHING a dose-tracking app can show: no dose,
@@ -14669,7 +14585,7 @@ class Build:
         (``protect_norms``, the normalised names from ingest_curated_substances).
         The latter preserves deliberate override-only records (a file that just
         sets a displayName or popularity for an otherwise content-less compound).
-        That keeps recognisable name-only research chemicals (2C-H, DBT, NMT, the
+        That keeps recognizable name-only research chemicals (2C-H, DBT, NMT, the
         Shulgin compounds) and every curated entry, while dropping the wikidata
         biochemistry noise. Provenance, not the structural tag name ("tryptamine"
         also tags the junk), is the signal.
@@ -14692,7 +14608,7 @@ class Build:
         # Chloramphenicol, the meth enantiomers all land here).
         # `substance_classes` belongs here for the same reason `categories` does:
         # it says what a compound IS, not what is known about it. Counting it as
-        # content kept ~265 wikidata biochemistry stubs alive — enough
+        # content would keep hundreds of wikidata biochemistry stubs alive, enough
         # tryptophan derivatives to break the PSID family assignment on
         # same-block-1 collisions.
         metadata_tables = {
@@ -14752,7 +14668,7 @@ class Build:
         return {"dropped": len(drop_ids)}
 
     # Per-substance category corrections for rows whose ONLY category came from a
-    # source that miscategorised them, and which have no curated file to outrank
+    # source that miscategorized them, and which have no curated file to outrank
     # it. Keyed by canonical_name → correct category. Substances that DO have a
     # curated file should be fixed in the file, not here. Adds a piru-curated
     # category row (priority 1) so it wins resolution and drives display_class.
@@ -14893,22 +14809,6 @@ class Build:
                 n += 1
         return n
 
-    def apply_legible_stereo_names(self) -> int:
-        """Give redundant CIP-plus-rotation canonical names ("S-(+)-MDMA") a clean
-        parenthesised display_name ("(S)-MDMA"). Only fills an empty display_name,
-        never overwrites a curated one, and never touches canonical_name."""
-        n = 0
-        for sid, cname in self.cur.execute(
-            "SELECT id, canonical_name FROM substances WHERE display_name IS NULL"
-        ).fetchall():
-            legible = legible_stereo_name(cname)
-            if legible and legible != cname:
-                self.cur.execute(
-                    "UPDATE substances SET display_name = ? WHERE id = ?", (legible, sid)
-                )
-                n += 1
-        return n
-
     # Categories whose prescription (medical_rx) members must carry NO dose /
     # duration data at all — a doctor's domain, shown via the app's Rx-medication
     # card, never a dose ladder. Deleting (not just hiding) keeps clinical doses
@@ -14961,7 +14861,7 @@ class Build:
             tuple(f"%{m}%" for m in _THERAPEUTIC_NOTE_MARKERS),
         ).rowcount
         # Every source that ships dose rows has a declared context, so `unknown`
-        # can now only mean a new ingester landed unclassified. That makes it a
+        # can only mean a new ingester landed unclassified. That makes it a
         # tripwire rather than a bucket.
         out["unknown"] = self.cur.execute(
             "SELECT COUNT(*) FROM dose_ranges WHERE dose_context = 'unknown'"
@@ -15016,7 +14916,7 @@ class Build:
         # medical advice; a research peptide's self-administration protocol is
         # not, and it is often the only dosing information that compound has.
         # BPC-157 is display_class='medical_rx' with no regulatory status at all
-        # — using display_class here deleted its protocol and the feature with it.
+        # — using display_class here would delete its protocol and the feature with it.
         protocols = self.cur.execute(
             """DELETE FROM protocol_dosing
                 WHERE salt_form IS NULL
@@ -15208,7 +15108,7 @@ class Build:
 
         # A parenthetical that is just a study code — "(M1)", "(M2)" — names no
         # molecule, and matching on it links to whatever unrelated substance
-        # happens to carry that alias: "N-desmethyltramadol (M1)" resolved to
+        # happens to carry that alias: "N-desmethyltramadol (M1)" would resolve to
         # 3,4-DMMC, and a MDMB-4en-PINACA metabolite to Methylone. Rejected by
         # shape rather than by length, so genuine short names survive (mCPP,
         # HNK, ODV, 6-MAM).
@@ -15247,15 +15147,14 @@ class Build:
     def backfill_citation_metadata(self) -> dict[str, int]:
         """Fill `citations.title` / `.year` from the verify cache.
 
-        The catalog shipped 1,994 citations of which **13 had a title and none
-        had a year**. That is why a real, resolvable DOI cited for the wrong
-        paper survived every check: nothing downstream could see that
-        `10.1002/dta.1389` is a two-page editorial and not the benzofuran assay
-        paper its 28 binding rows claimed. `verify_citations.py` proves an
-        identifier resolves; `citation_topicality.py` asks whether the paper is
-        about the right molecule — and both read the cache directly, so the
-        *app* still had nothing to render and no reviewer reading the DB could
-        spot it.
+        Upstream citations arrive with almost no titles and no years, so a real,
+        resolvable DOI cited for the wrong paper passes every check: nothing
+        downstream can see that `10.1002/dta.1389` is a two-page editorial and
+        not the benzofuran assay paper its binding rows claim.
+        `verify_citations.py` proves an identifier resolves and
+        `citation_topicality.py` asks whether the paper is about the right
+        molecule, but both read the cache directly, so without this the *app*
+        has nothing to render and no reviewer reading the DB can spot it.
 
         Reads the committed snapshot (`data/sources/citation-verify-cache.json`,
         written by verify_citations.py --fetch), so this stays offline and
@@ -15339,13 +15238,12 @@ class Build:
             # pass's `informativeness` weights it above raw field count: it is the
             # gate on whether a metabolite may be folded into the parent's curve,
             # so a row carrying only that says more than one carrying only a
-            # number. Without this the active-metabolite research layer's rows —
-            # which often bring the classification and nothing else — were deleted
+            # number. Without this the active-metabolite research layer's rows,
+            # which often bring the classification and nothing else, are deleted
             # here, *before* the second pass that knows how to value them.
-            # Dextromethorphan → dextrorphan is the case: its cited `divergent`
-            # row was dropped, leaving the bare `scaled` one, and the two surfaces
-            # then disagreed about a metabolite whose whole point is that it acts
-            # on a different axis.
+            # Dextromethorphan → dextrorphan is the case: dropping its cited
+            # `divergent` row leaves the bare `scaled` one, misstating a metabolite
+            # whose whole point is that it acts on a different axis.
             return (
                 row[3] is not None
                 or (row[4] not in (None, "unknown"))
@@ -15452,9 +15350,8 @@ class Build:
         if not path.exists():
             return
         # Loud, not lenient. These files are committed repo data, so a parse error is
-        # a build error — swallowing one drops every substance in the file with no
-        # output, and `serotonergic-phenethylamine-psychedelics.json` sat unparseable
-        # for 107 commits before anyone noticed 92 records were missing.
+        # a build error: swallowing one drops every substance in the file with no
+        # output, and nobody notices the missing records.
         try:
             data = json.loads(path.read_text())
         except json.JSONDecodeError as error:
@@ -15668,7 +15565,7 @@ def main() -> int:
     # keeps a class generalisation from sitting beside a measurement.
     build.ingest_dosewiki(DOSEWIKI)
 
-    # Every source that carries a dose or a timeline has now spoken. The gates
+    # Every source that carries a dose or a timeline has spoken. The gates
     # judge each row on its own terms — a class ceiling, an absorption floor —
     # and delete what fails, so a claim no other source contests cannot ship on
     # the strength of being uncontested. Before dedup, so the survivors are
@@ -15714,8 +15611,8 @@ def main() -> int:
 
     # Tag-fallback pass: any substance currently in (or resolving to) "Other"
     # whose tags identify a specific class gets an additional piru-curated
-    # category row so it leaves the Other bucket. Peptide is the load-bearing
-    # case (28+ entries the agents tagged as 'peptide' but with category=Other).
+    # category row so it leaves the Other bucket. Peptide is the main case
+    # (entries tagged 'peptide' with category=Other).
     promoted = build.promote_via_tags()
     print(f"Tag-fallback promotion: {promoted}", file=sys.stderr)
 
@@ -15746,7 +15643,7 @@ def main() -> int:
 
     # Fold rows hand-tagged `duplicate-of-<X>` by prior enrichment into their
     # target (the structural dedup misses them — stub/clashing InChIKey). Runs
-    # after forced merges so it operates on survivors; honours _DO_NOT_MERGE.
+    # after forced merges so it operates on survivors; honors _DO_NOT_MERGE.
     self_dups = build.merge_self_flagged_duplicates(
         protect_norms={normalise(n) for n in curated_names}
     )
@@ -15786,7 +15683,7 @@ def main() -> int:
     # each variant's dose ladder with its `isomer` code. Same window as the salt
     # fold: after dedup (operate on survivors), before classify (parent classified
     # once). Must precede stub/junk drops so a dose-less enantiomer folds into its
-    # parent as an alias instead of being dropped. See Stage A.
+    # parent as an alias instead of being dropped.
     isomers = build.fold_isomer_families()
     print(f"Isomer-family folding: {isomers}", file=sys.stderr)
 
@@ -15948,8 +15845,7 @@ def main() -> int:
     # misses. Must run AFTER identifier reconciliation: the pairs are verified by
     # recomputing a structural key from the SMILES, and a row whose structure was
     # only just corrected keys off its counterion until that correction lands
-    # (5-BR-DMT's indole SMILES did not sanitize at all before the fix). Still
-    # before PSID assignment, so merges don't churn identities.
+    # Still before PSID assignment, so merges don't churn identities.
     structural = build.apply_structural_duplicate_merges(STRUCTURAL_DUPLICATES)
     print(f"Structural duplicate merges: {structural}", file=sys.stderr)
 
@@ -15979,7 +15875,7 @@ def main() -> int:
     # Replace salt-form formula/MW with the PubChem free base keyed by CID (the
     # stored CID *is* the free base — DMT 6089 = C12H16N2). Sources hand us salts
     # (DMT·HCl, MDMA·HCl, LSD tartrate, amphetamine sulfate); the displayed doses
-    # are free-base-scale, so the salt chemistry was inconsistent. Only verified
+    # are free-base-scale, so salt chemistry is inconsistent with them. Only verified
     # clean desalts are applied — wrong CIDs are skipped. Snapshot:
     # data/sources/pubchem-properties.json (refresh via fetch_pubchem_properties.py).
     if _pubchem_props:
@@ -16013,7 +15909,7 @@ def main() -> int:
     # The offline complement to apply_pubchem_freebase: where the SMILES and the
     # InChIKey agree and only the FORMULA dissents, the formula loses. This is
     # what keeps a hydrochloride mass off a free-base structure when the CID
-    # isn't in the committed PubChem snapshot (theobromine shipped 216.63 for a
+    # isn't in the committed PubChem snapshot (theobromine would carry 216.63 for a
     # compound that weighs 180.16, and that mass feeds PKModel's molar math).
     formula_fixes = reconcile_formula_from_structure(build.cur.connection)
     print(
@@ -16126,18 +16022,18 @@ def main() -> int:
     )
 
     # Drop any boiling point below its melting point (a sublimation temperature
-    # mislabelled as a BP — caffeine 178 < 234).
+    # mislabeled as a BP — caffeine 178 < 234).
     mb = reconcile_mp_bp(build.cur.connection)
     print(f"Boiling-point<melting-point cleared: {mb['cleared']}", file=sys.stderr)
     for c in mb["names"]:
         print(f"  {c}", file=sys.stderr)
 
-    # Display-name overrides, popularity scores, category corrections, CJK search
-    # aliases, curated dose overrides, and peptide enrichment are no longer
-    # applied here — they live on each compound's own data/curated/substances/
-    # file and are ingested by ingest_curated_substances() above (curated runs
-    # first, so its category/identifiers win resolution and a folded category
-    # override beats a later tag-promotion via the PRIMARY KEY conflict).
+    # Per-compound curated data (display names, popularity, categories, CJK
+    # aliases, dose overrides, peptide enrichment) lives in each compound's
+    # data/curated/substances/ file and is ingested by ingest_curated_substances()
+    # above. Curated runs first, so its category/identifiers win resolution and a
+    # folded category override beats a later tag-promotion via the PRIMARY KEY
+    # conflict.
 
     # Scrub chronic/therapeutic durations miscoded as acute curves, and migrate
     # real depot/long-acting windows into durations_of_action. Must run after all
@@ -16153,7 +16049,7 @@ def main() -> int:
     print(f"Dose-less stubs flagged: {stub_count}", file=sys.stderr)
 
     # Reproducible popularity from the committed Wikipedia-pageviews snapshot
-    # (chemical-verified). Authoritative — supersedes hand-set curated values.
+    # (chemical-verified). Authoritative: outranks hand-set curated values.
     # Before classify (which reads popularity for the RC-established threshold)
     # and keyed by the now-final canonical_names. Refresh with
     # fetch_wikipedia_popularity.py (incremental; the build never fetches).
@@ -16163,14 +16059,10 @@ def main() -> int:
         )
         print(f"Wikipedia popularity applied: {pop_n}", file=sys.stderr)
 
-    # Per-substance category corrections (Wikidata-miscategorised rows with no
+    # Per-substance category corrections (Wikidata-miscategorized rows with no
     # curated file). Runs before classify so display_class uses the fix.
     cat_overrides = build.apply_category_overrides()
     print(f"Category overrides: {cat_overrides}", file=sys.stderr)
-
-    # Clean redundant CIP+rotation names ("S-(+)-MDMA" → display "(S)-MDMA").
-    stereo_named = build.apply_legible_stereo_names()
-    print(f"Legible stereo display names: {stereo_named}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
@@ -16214,7 +16106,7 @@ def main() -> int:
     print(f"Re-flagged dose-less stubs after Rx strip: {restub}", file=sys.stderr)
 
     # Curate the Library's "Common" card down to the hand-picked everyday set
-    # (drops the ~70 aggregator-flagged RCs/designer compounds). After classify
+    # (drops aggregator-flagged RCs/designer compounds). After classify
     # so it owns the final `common` tag; the tag only feeds the Common browse
     # card (not in REC_TAGS), so re-curating it changes no display class.
     common_card = build.curate_common_card()
@@ -16237,7 +16129,7 @@ def main() -> int:
 
     # Assign the PSID FAMILY (substance_uid) — the stable identity key — now that
     # all merges/corrections/renames have settled. Fails loudly on an unclassified
-    # same-block-1 collision (Stage 0.1). Pins via data/curated/substance-ids.json.
+    # same-block-1 collision. Pins via data/curated/substance-ids.json.
     uids = build.assign_substance_uids()
     print(
         f"PSID FAMILY assignment: {uids['assigned']} substances "
@@ -16246,7 +16138,7 @@ def main() -> int:
     )
 
     # Annotate the surviving aliases with the form facets they name, enumerate the
-    # per-form PSID table, and surface cross-substance alias collisions (Stage A).
+    # per-form PSID table, and surface cross-substance alias collisions.
     # Order matters: facets first (the resolver map), then substance_forms (which
     # reads those facets), then the collision audit.
     alias_kinds = build.apply_alias_kinds()
@@ -16514,7 +16406,7 @@ def main() -> int:
     db.execute("DROP TABLE IF EXISTS indications")
     db.commit()
 
-    # Vacuum + analyze for deterministic, optimised output. The shipped file
+    # Vacuum + analyze for deterministic, optimized output. The shipped file
     # must be self-contained: a WAL-mode DB opened read-only from the app
     # bundle fails with SQLITE_CANTOPEN unless its -shm/-wal sidecars ship
     # too (they're gitignored, so fresh checkouts would crash at launch).

@@ -161,8 +161,8 @@ struct TimelineActiveSpanTests {
         #expect(abs(after.height(from: amphetamine.doseTimestamp, to: ampEnd) - 359.79 * ppm) < 1)
         let kratomEnd = kratom.doseTimestamp.addingTimeInterval(minutes(200.88))
         #expect(abs(after.height(from: kratom.doseTimestamp, to: kratomEnd) - 200.88 * ppm) < 1)
-        // The memantine tail past 959.9 min is now dead time: one capped gap
-        // up to now, where before it was 193.8 uniform minutes plus the gap.
+        // The memantine tail past 959.9 min is dead time: one capped gap up to
+        // now rather than 193.8 uniform minutes plus the gap.
         let memantineEnd = memantine.doseTimestamp.addingTimeInterval(minutes(959.85))
         #expect(after.height(from: memantineEnd, to: now) <= gap + 0.5)
         #expect(abs(before.height(from: memantineEnd, to: now) - ((1_153.69 - 959.85) * ppm + gap)) < 1)

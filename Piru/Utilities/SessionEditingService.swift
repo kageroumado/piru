@@ -3,13 +3,12 @@ import SwiftUI
 
 /// App-wide per-dose editing actions for the journal's session detail.
 ///
-/// Env-injected so `DayEntryRow` invokes them directly instead of taking a
-/// fistful of parent closures. Closures defeat SwiftUI's view-value comparison,
-/// so the old eight-closure row re-evaluated on *every* unrelated detail-screen
-/// toggle (graph expand, timeline enlarge, interactions expand, any sheet) —
-/// re-running the heavy per-row substance resolve N times. With the actions
-/// behind this stable env reference the row becomes `Equatable` on its display
-/// value alone and SwiftUI skips it when nothing it shows changed.
+/// Env-injected so `DayEntryRow` invokes them directly. Never hand the row
+/// parent closures instead: closures defeat SwiftUI's view-value comparison, so
+/// the row would re-evaluate, and re-run its heavy substance resolve, on every
+/// unrelated detail-screen toggle (graph expand, timeline enlarge, any sheet).
+/// Behind this stable env reference the row is `Equatable` on its display value
+/// alone and SwiftUI skips it when nothing it shows changed.
 ///
 /// The transient `*ToAdjustTime` / `*ToMove` / `*ToRecolor` intents are written
 /// by a row's context-menu action and observed by `SessionDetailView` to drive

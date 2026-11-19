@@ -3,8 +3,7 @@ import Testing
 
 /// Mirrors `pipeline/build/tests/test_psid.py` — the two PSID implementations
 /// (Python pipeline, Swift app) must agree, or a PSID minted by the build fails
-/// to validate here. Pure logic; no built DB needed. See Stage 0.2 of
-/// `Specs/stereoisomer-and-release-form-axes.md`.
+/// to validate here. Pure logic; no built DB needed.
 @Suite("PSID")
 struct PSIDTests {
     static let alphabet = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")

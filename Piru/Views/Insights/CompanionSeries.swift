@@ -3,7 +3,7 @@ import SwiftData
 import SwiftUI
 
 /// A companion lab series shown alongside the modeled serum hormone — **measured
-/// points, never a model** (Specs/injection-levels-v3.md §3, §5). Each side models
+/// points, never a model**. Each side models
 /// its injected hormone and plots the other axis as measured points, because the
 /// relationships (aromatization, HPG suppression) are person-specific with no
 /// citable conversion to hard-code.

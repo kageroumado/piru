@@ -46,7 +46,7 @@ final class DoseEntry {
     /// reassignment in the V3→V4 migration stage, and
     /// `StoreRecovery.backfillDuplicateEntryIDs` as the post-open safety net,
     /// because a lightweight migration fills ONE shared default into every
-    /// existing row). See `Specs/dose-entry-stable-id.md`.
+    /// existing row).
     var id: UUID = UUID()
 
     /// The substance's canonical (non-normalized) display name as logged by the user.
@@ -81,15 +81,12 @@ final class DoseEntry {
     /// offers no real choice until per-release durations are authored.
     var releaseForm: String?
 
-    /// The PSID FAMILY (`substances.substance_uid`) this dose resolves to — the
-    /// stable, collision-proof substance identity, superseding the fuzzy
-    /// `substance` *name* match. `nil` for a dose whose name doesn't resolve
-    /// (typo, deleted, or an exotic custom substance): such a dose stays
-    /// fully functional via the retained ``substance`` string, per the
-    /// never-drop migration posture. Populated by the once-only PSID backfill
-    /// (``PSIDBackfillMigration``) and, going forward, at log time. Additive/
-    /// optional, so the schema change is a free lightweight migration. See
-    /// `Specs/stereoisomer-and-release-form-axes.md` and ``PSID``.
+    /// The PSID family (`substances.substance_uid`) this dose resolves to: the
+    /// stable substance identity, preferred over the fuzzy `substance` name
+    /// match. `nil` for a dose whose name doesn't resolve (typo, deleted, or an
+    /// exotic custom substance); such a dose stays fully functional via
+    /// ``substance``. Set at log time and by ``PSIDBackfillMigration``. See
+    /// ``PSID``.
     var substanceUID: String?
 
     /// The name the user named this dose by, when it wasn't the canonical one —
@@ -105,7 +102,7 @@ final class DoseEntry {
     ///
     /// Populated at log time only. A pre-existing dose has none and cannot get
     /// one: the string it was logged under was canonicalized at staging and is
-    /// gone. See `Specs/psid-identity-consumption.md` LB-1/D.1.
+    /// gone.
     var productName: String?
 
     /// The composite display title captured at resolve time — "Methylphenidate",

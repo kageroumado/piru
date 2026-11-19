@@ -184,8 +184,8 @@ def fetch_extra_datasets(release: Release) -> None:
     its own are dropped to keep the files reviewable. Best-effort: a failure here
     is logged but never aborts the core roster fetch above.
 
-        intensity-spectra  → graded dose→effect model (162 substances)
-        effects            → erowid effect tags by domain + sample quotes (121)
+        intensity-spectra  → graded dose→effect model
+        effects            → erowid effect tags by domain + sample quotes
     """
     # Intensity spectra: a flat list of per-substance documents. Drop the Mongo
     # bookkeeping and sort by slug for a stable ordering.

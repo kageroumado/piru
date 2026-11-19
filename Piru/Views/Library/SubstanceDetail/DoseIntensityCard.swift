@@ -145,15 +145,13 @@ struct DoseIntensityCard: View {
     private var centerReadout: some View {
         let dose = bandDoseText[current.bandIndex]
         // Never wrap the second line in `if` to hide it when the band has no
-        // dose range (Overdose is the only such band): that makes it a
-        // structural insert/remove landing in the *same* animated transaction
-        // as a drag between bands, which can make SwiftUI rebuild part of the
-        // subtree — and a re-created `Shape` loses its in-flight
-        // `animatableData` and snaps to its target while its sibling keeps
-        // interpolating, visibly detaching the dial's pill from its grabber
-        // ridges. Keep this unconditional: the second line is ALWAYS built,
-        // and merely invisible when the band has no dose range — the same
-        // reserve-the-space rule the band summary below follows.
+        // dose range (only Overdose): a structural insert/remove in the same
+        // animated transaction as a drag between bands can make SwiftUI rebuild
+        // part of the subtree, and a re-created `Shape` loses its in-flight
+        // `animatableData` and snaps while its sibling keeps interpolating,
+        // detaching the dial's pill from its grabber ridges. The line is always
+        // built and merely invisible, the reserve-the-space rule the band
+        // summary below follows.
         return VStack(spacing: Spacing.xxs) {
             Text(dose ?? current.localizedBandName)
                 .scaledSystemFont(size: 27, weight: .heavy, design: .rounded, relativeTo: .title2, maximumSize: 40)
@@ -376,8 +374,8 @@ struct IntensityGauge: View {
     /// (`ArcSegment` is a round-capped stroke) whose angle animates as `selected`
     /// changes, so it slides around the arc rather than jumping. Tinted the band
     /// color, raised (thicker + shadowed) more when grabbed, and carrying a
-    /// grabber glyph that rotates to stay upright on the curve — the affordance
-    /// that says "drag me," in place of the old text hint.
+    /// grabber glyph that rotates to stay upright on the curve, the affordance
+    /// that says "drag me."
     private func glassSelector(
         center: CGPoint, radius: Double, startAngle: Double, seg: Double, size: CGSize,
     ) -> some View {

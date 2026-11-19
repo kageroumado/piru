@@ -41,10 +41,9 @@ struct DosePhaseProgressBar: View {
             }
         }
 
-        /// Legible text variant. The phase label sits on a capsule filled with
-        /// this phase's own color at 18% — the self-tint pattern — where the
-        /// old hex ramp measured 1.73–2.71:1 in light mode. This clears AA
-        /// against both that fill and the bare card.
+        /// Legible text variant for the phase label, which sits on a capsule
+        /// filled with this phase's own color at 18%. It clears AA against both
+        /// that fill and the bare card.
         var labelColor: Color {
             switch self {
             case .onset: .Phase.Onset.text

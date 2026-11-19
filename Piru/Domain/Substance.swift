@@ -636,10 +636,9 @@ struct Substance: Identifiable {
     /// Only falls back when a single route has duration data (implying it's generic).
     /// When multiple routes have distinct durations, returns nil rather than guessing.
     ///
-    /// The salt/isomer overload exists because the timeline used to ignore both:
-    /// the detail card picked the variant profile while the journal graph took the
-    /// route's top-level one, so a D-isomer dose was drawn with the racemic curve —
-    /// a visibly different length from the one the card had just shown for it.
+    /// The salt/isomer overload makes the timeline use the same variant profile
+    /// the detail card shows; the route's top-level profile would draw a D-isomer
+    /// dose with the racemic curve, a visibly different length.
     func resolveDuration(
         for route: RouteOfAdministration, saltForm: String?, isomer: String?,
     ) -> DurationProfile? {

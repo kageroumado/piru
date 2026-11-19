@@ -3,20 +3,15 @@ import Foundation
 /// The **category floor** for the substance detail card's Pharmacology section, and the composer
 /// that decides what that section shows.
 ///
-/// This used to be a database: 226 substance names mapped onto 34 hand-written class templates,
-/// each carrying prose and a receptor list. All of it now lives in the bundled SQLite —
-/// per-substance rows in `mechanisms_summary` and `bindings`, class-level ones fanned out from
-/// `data/curated/class-mechanisms.json`. What is left here is the floor beneath them: the
-/// per-category text shown for a substance no source has described, which 1,149 substances reach.
+/// Mechanism data lives in the bundled SQLite: per-substance rows in `mechanisms_summary` and
+/// `bindings`, class-level ones fanned out from `data/curated/class-mechanisms.json`. This type is
+/// the floor beneath them: the per-category text shown for a substance no source has described.
 ///
-/// **Do not rebuild the table.** Two failures came out of having one, and both are cheap to
-/// repeat. Its generic binding lists *replaced* the cited DB panel rather than filling it,
-/// dropping 150 measured targets across 67 substances. And its per-class prose could not say
-/// where in a class a member sat, so the opioid floor called 66 substances full agonists —
-/// 7-hydroxymitragynine's card read "μ-Opioid Receptor (MOR) Full Agonist" directly above its own
-/// rows reading `μ Partial Agonist · Kᵢ 47 nM`. A class-level fact belongs in
-/// `class-mechanisms.json`, whose ingester writes it only where the substance has nothing of its
-/// own; a per-substance one belongs in `mechanisms.json`.
+/// **Never map substances onto class templates here.** A generic binding list *replaces* the cited
+/// DB panel rather than filling it, and per-class prose cannot say where in a class a member sits,
+/// so a partial agonist reads "Full Agonist" directly above its own measured rows. A class-level
+/// fact belongs in `class-mechanisms.json`, whose ingester writes it only where the substance has
+/// nothing of its own; a per-substance one belongs in `mechanisms.json`.
 enum MechanismOfActionDatabase {
     static func categoryFallback(for category: SubstanceCategory) -> MechanismOfAction? {
         categoryData[category]
@@ -77,11 +72,9 @@ enum MechanismOfActionDatabase {
     // MARK: - Category Fallbacks
 
     /// A category floor describes a substance NOTHING has described. It may name what the class
-    /// does; it may never assert where in the class this member sits. Three of these used to do
-    /// exactly that by aliasing a class template — the opioid floor said "Full Agonist" over 66
-    /// substances, and 7-hydroxymitragynine's card carried that sentence directly above its own
-    /// measured rows reading `μ Partial Agonist, Ki 47 nM`. Pentazocine and butorphanol, whose
-    /// ceiling effect is the clinically important fact about them, read as full agonists too.
+    /// does; it may never assert where in the class this member sits. An opioid floor that says
+    /// "Full Agonist" mislabels partial agonists such as 7-hydroxymitragynine, and pentazocine and
+    /// butorphanol, whose ceiling effect is the clinically important fact about them.
     private static let opioidUnspecified = moa(
         "μ-Opioid Receptor Ligand",
         "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release. The result is analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it.",
@@ -104,12 +97,9 @@ enum MechanismOfActionDatabase {
     // names actual molecular targets — orexinAntagonist's OX1R/OX2R, and the entries that reuse
     // a class template above.
     //
-    // No entry here may name a system, a pathway, or "Various" as a receptor. `Pain pathways`,
-    // `Microbial targets`, `Cardiovascular system`, `GI system`, `Immune system` and `Various`
-    // were all rendered as graded chips with filled strength dots — a claim of measured affinity
-    // at something that is not a target, on 42% of the library. A substance with nothing
-    // measured shows its summary and no receptor list; an empty section is the honest answer and
-    // a placeholder is not.
+    // No entry here may name a system, a pathway, or "Various" as a receptor: each renders as a
+    // graded chip with filled strength dots, a claim of measured affinity at something that is
+    // not a target. A substance with nothing measured shows its summary and no receptor list.
 
     private static let categoryData: [SubstanceCategory: MechanismOfAction] = [
         .stimulant: moa(

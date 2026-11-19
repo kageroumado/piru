@@ -170,8 +170,8 @@ struct ChemistrySection: View {
             CollapsibleSection("Chemistry", isExpanded: $chemistryExpanded) {
                 // The molecule hero — omitted entirely when the substance has
                 // no generated structure (no SMILES, or obabel couldn't parse
-                // it; ~860 substances currently). Loaded lazily via a cheap
-                // local SQLite lookup, not baked into `Substance` itself.
+                // it). Loaded lazily via a cheap local SQLite lookup, not baked
+                // into `Substance` itself.
                 if let moleculeStructure {
                     // The view fits its own aspect ratio, so wide molecules stay
                     // short instead of floating in whitespace; cap the height so a
@@ -278,7 +278,7 @@ struct ChemistrySection: View {
     /// in Chemistry (not Info): it's a chemical identifier, same as the rest.
     ///
     /// A borderless `Button` (not a `Link`): a lone `Link` in a Form/List row gets
-    /// promoted to a full-row tap target, so the *whole* Chemistry card opened
+    /// promoted to a full-row tap target, so the whole Chemistry card would open
     /// PubChem. Borderless keeps the hit area to this one cell.
     private func pubChemCell(cid: Int, url: URL) -> some View {
         Button {
@@ -384,8 +384,8 @@ private struct SourceLedgerRow: View {
     let link: DetailSourceLink
     let linked: Bool
 
-    /// " · "-joined rather than `Text` concatenation: `Text + Text` is deprecated
-    /// in iOS 26, and each facet is independently localized.
+    /// " · "-joined rather than `Text` concatenation: `Text + Text` is
+    /// deprecated, and each facet is independently localized.
     private var providesSummary: String {
         link.provides.map { String(localized: $0.label) }.joined(separator: " · ")
     }

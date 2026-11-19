@@ -59,7 +59,7 @@ struct InteractionCheckerTests {
     @Test
     func `Dual-class substance returns multiple classes`() {
         // Tramadol is an opioid AND a serotonin-adder (not a blunting antidepressant), so it rides
-        // .serotonergic, not .snri — see the Foundation-C serotonergic run (2026-06-22).
+        // .serotonergic, not .snri.
         let classes = InteractionChecker.drugClasses(for: "Tramadol")
         #expect(classes.contains(.opioid))
         #expect(classes.contains(.serotonergic))
@@ -269,8 +269,8 @@ struct InteractionCheckerTests {
         #expect(danger.prominence == .blocking)
 
         // Two stimulants is real cardiovascular strain and a real `caution`.
-        // Caffeine no longer stands for the class — it maps to `other`, so a
-        // coffee never fires the commit gate — hence two true stimulants here.
+        // Caffeine maps to `other`, so a coffee never fires the commit gate;
+        // hence two true stimulants here.
         let caution = try #require(
             InteractionChecker.checkBatch(["Cocaine", "Amphetamine"], against: []).first,
         )
@@ -296,7 +296,7 @@ struct InteractionCheckerTests {
     func `Every rule a reader can reach has Piru's own sentence`() {
         // A row with no copy shows its English note to every reader, in every
         // language. TripSit's matrix is the source of such rows, and every pair it
-        // names is now adjudicated, so a row arriving without copy is a new TripSit
+        // names is adjudicated, so a row arriving without copy is a new TripSit
         // pair that needs a sentence and a translation.
         let uncovered = SubstanceStore.shared.classInteractionRules().compactMap { rule -> String? in
             guard let a = DrugClass(rawValue: rule.classA),
@@ -321,7 +321,7 @@ struct InteractionCheckerTests {
     @Test
     func `Tramadol's depressant pairings come through its opioid class`() throws {
         // TripSit's tramadol column is about tramadol, and `serotonergic` also
-        // holds DXM, 4-MA and naphyrone, so the column no longer maps onto the
+        // holds DXM, 4-MA and naphyrone, so the column doesn't map onto the
         // class. Tramadol loses no depressant warning by it: the opioid rule is
         // the one that answers.
         let opioidRule = try #require(InteractionRuleCopy.note(.opioid, .alcohol))
@@ -332,8 +332,8 @@ struct InteractionCheckerTests {
 
     @Test
     func `A serotonergic dissociative never reads tramadol's seizure warning`() throws {
-        // DXM + amphetamine used to read "Tramadol and stimulants both increase the
-        // risk of seizures". The class-level claim is serotonin syndrome.
+        // DXM + amphetamine must not borrow tramadol's seizure sentence. The
+        // class-level claim is serotonin syndrome.
         let finding = try #require(InteractionChecker.checkBatch(["DXM", "Amphetamine"], against: []).first)
         #expect(!finding.description.localizedCaseInsensitiveContains("tramadol"))
         #expect(finding.description.localizedCaseInsensitiveContains("serotonin"))

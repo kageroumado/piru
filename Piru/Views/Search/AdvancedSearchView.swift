@@ -1,12 +1,11 @@
 import SwiftUI
 
-/// Pharma-nerd surface: query the substance store by receptor target, Ki
+/// Query the substance store by receptor target, Ki
 /// threshold, and substance-name fragment. Each result row carries explicit
 /// source attribution (slug + DOI/PMID when known) so users can apply their
 /// own trust filter on top of the global source priority.
 ///
-/// Lives in the Tools tab. Hidden behind a tier check in the entry point so
-/// casual users don't stumble into it.
+/// Presented as the ``SheetRoute/advancedSearch`` sheet.
 struct AdvancedSearchView: View {
     @State private var availableTargets: [(target: String, substanceCount: Int)] = []
     @State private var selectedTarget: String?
@@ -25,8 +24,8 @@ struct AdvancedSearchView: View {
         .task { reloadTargets() }
         // Debounce every filter change through one task so dragging the Ki
         // slider (10 nM steps → up to ~1000 events) doesn't fire a SQLite scan
-        // per step. Skips the scan entirely when no filter is active, preserving
-        // the old behavior of not auto-running an unfiltered query on appear.
+        // per step. Skips the scan entirely when no filter is active, so an
+        // unfiltered query never auto-runs on appear.
         .task(id: queryParams) {
             guard queryParams.isActive else {
                 results = []

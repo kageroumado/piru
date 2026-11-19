@@ -14,12 +14,9 @@ nonisolated struct ProductCodeHit: Hashable {
     let brand: String?
     /// The registry's strength string — `"36 mg/1"` (openFDA), `"54 mg"` (BDPM).
     let strength: String?
-    let form: String?
     let route: String?
     /// ISO country of the registry (`"US"`, `"FR"`).
     let country: String
-    /// Registry slug (`"openfda-ndc"`, `"bdpm"`).
-    let source: String
     let packCount: Double?
     let packUnit: String?
 
@@ -41,7 +38,7 @@ extension SubstanceReadModel {
         return try? db.read { db in
             try Row.fetchOne(db, sql: """
             SELECT pc.code_kind, pc.pack_count, pc.pack_unit,
-                   cp.psid, cp.brand, cp.strength, cp.form, cp.route, cp.country, cp.source,
+                   cp.psid, cp.brand, cp.strength, cp.route, cp.country,
                    s.canonical_name
               FROM product_codes pc
               JOIN coded_products cp ON cp.id = pc.product_id
@@ -56,10 +53,8 @@ extension SubstanceReadModel {
                     psid: row["psid"],
                     brand: row["brand"],
                     strength: row["strength"],
-                    form: row["form"],
                     route: row["route"],
                     country: row["country"],
-                    source: row["source"],
                     packCount: row["pack_count"],
                     packUnit: row["pack_unit"],
                 )

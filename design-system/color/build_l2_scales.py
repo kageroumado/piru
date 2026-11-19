@@ -4,20 +4,18 @@
 L2 scales are multi-valued but still meaning-bearing (experience phases, routes,
 dose tiers). They get the *same* treatment as the L1 semantic tokens — a `text`
 variant gated at WCAG AA against both the card and its own fill, and an `accent`
-variant gated at the 3:1 non-text floor — because they fail the same way. The
-phase ramp, for instance, renders its colour as `.caption` text on a capsule
-filled with that same colour at 18% (`DosePhaseProgressBar.swift:57,72`), which
-is the self-tint pattern that put 21 of 33 measured text pairs below AA.
+variant gated at the 3:1 non-text floor, because they fail the same way. The
+phase ramp, for instance, renders its color as `.caption` text on a capsule
+filled with that same color (`DosePhaseProgressBar`), the self-tint pattern
+that most often falls below AA.
 
-**Hue is held from the existing values.** These scales encode meaning through
-hue, and users have learned them; the job here is to fix lightness and chroma,
-not to redesign what "peak" looks like. Each token keeps its source hue to
-within a degree.
+Hue is held from the source values: these scales encode meaning through hue
+and users have learned them, so only lightness and chroma move. Each token
+keeps its source hue to within a degree.
 
-**Chroma is maximised at each gate**, exactly as `palette-L1.json` is built, so
-`accent` lands at the vivid end rather than merely the first value that clears.
-Deriving these by "first lightness that passes" instead produces a dark-mode
-accent *darker* than its own text, which is backwards.
+Chroma is maximized at each gate, as `palette-L1.json` is built, so `accent`
+lands at the vivid end. Taking the first lightness that passes instead gives a
+dark-mode accent darker than its own text.
 
     python3 build_l2_scales.py
 """
@@ -38,74 +36,61 @@ from colorimetry import (
 HERE = Path(__file__).parent
 CATEGORY_SEEDS_SWIFT = HERE.parents[1] / "Piru" / "Domain" / "SubstanceCategory+OklchSeed.swift"
 
-# Every colour in this file is Oklch (L, C, H) — the perceptual notation the
-# CLAUDE.md colour convention mandates: the numbers mean what a viewer sees,
-# and Oklab dE between two entries is a real perceived distance. Gamut fitting
-# and gate arithmetic happen in Display P3, the panel gamut of every consuming
-# device; nothing anywhere in this file round-trips through sRGB or hex.
+# Every color in this file is Oklch (L, C, H), per the CLAUDE.md color
+# convention: the numbers mean what a viewer sees, and Oklab dE between two
+# entries is a perceived distance. Gamut fitting and gate arithmetic happen in
+# Display P3, the panel gamut of every consuming device.
 SPACE = "p3"
 
-# The app card surfaces (were #F5F5F5 / #111111 — near-neutral, so the gamut
-# is irrelevant, but the gates must compare candidate and surface in the same
-# space).
+# The app card surfaces. They are near-neutral, so the gamut is irrelevant, but
+# the gates must compare candidate and surface in the same space.
 CARD = {"light": (0.97015, 0.00012, 260.0), "dark": (0.17764, 0.00002, 260.0)}
 
 
 def quantize(rgb: tuple) -> tuple:
-    """Round to the precision the catalog actually ships — Xcode's
-    three-decimal P3 components — so the gates verify the shipped value, not a
-    float that rounds the wrong way (see the module note: two route tints once
-    passed in floating point and failed after quantisation)."""
+    """Round to the precision the catalog ships, Xcode's three-decimal P3
+    components, so the gates verify the shipped value rather than a float that
+    rounds the wrong way."""
     return tuple(round(c, 3) for c in rgb)
 
 
 def encode(rgb: tuple) -> dict:
-    """Serialise a gated colour for palette-L2.json: P3 components, the same
+    """Serialize a gated color for palette-L2.json: P3 components, the same
     {"p3": [...]} shape the family scale uses, which build_generator_input
     passes through without ever leaving the P3 gamut."""
     return {"p3": [round(c, 4) for c in rgb]}
 
 
 FILL_ALPHA = 0.10
-TEXT_GATE = 4.55  # headroom over 4.5 so 8-bit quantisation cannot drop under
+TEXT_GATE = 4.55  # headroom over 4.5 so 8-bit quantization cannot drop under
 ACCENT_GATE = 3.05
 
 # High-contrast variants, emitted into the catalog's Any+HC / Dark+HC slots.
 # WCAG AAA for text (7:1) and AA-for-text for marks (4.5:1) -- one full step up
 # from the default gates, which is what "Increase Contrast" should mean.
-#
-# The app had *no* response to that setting before the catalog migration, and
-# could not have: the `UIColor { traits }` closures it used branch on
-# userInterfaceStyle alone and cannot express a contrast axis at all.
 TEXT_GATE_HC = 7.05
 ACCENT_GATE_HC = 4.55
 
 # Source hues, taken from the ramp already shared by TimelineGraphView,
-# SessionReportPDF and DosePhaseProgressBar. The competing ramp in
-# DoseLevelIndicator (.blue/.teal/.orange/.purple) is dropped: it is used in one
-# place against this one's three, and having two meant editing a dose and then
-# reading it flipped "peak" from orange to green.
+# SessionReportPDF and DosePhaseProgressBar. Keep one phase ramp: with two,
+# "peak" changed color between editing a dose and reading it.
 PHASE_SOURCE: dict[str, tuple[float, float, float]] = {
     "onset": (0.691, 0.009, 285.9),
     "comeup": (0.642, 0.167, 254.8),
     "peak": (0.730, 0.194, 147.5),
     "offset": (0.782, 0.171, 67.2),
     # `afterglow` deliberately reuses onset's neutral: the arc opens and closes
-    # quiet. Both source ramps already did this.
+    # quiet.
     "afterglow": (0.691, 0.009, 285.9),
 }
 
 
-# Route tints. Hue comes from the *dark* value of each pair: it is the
-# unadapted, designer-chosen hue, where the light value had already been
-# hand-darkened for contrast and so carries a slightly drifted hue.
+# Route tints. Hue comes from the dark value of each source pair, the
+# designer-chosen hue; the light value was hand-darkened for contrast and its
+# hue drifted.
 #
-# These were the app's only deliberately contrast-tuned scale, and still missed
-# their own documented >=4.5:1 on 5 of 11 routes in light mode and on all 11 in
-# dark. The dark failure is not fixable by retuning hue: at the 0.16 fill alpha
-# the pill used, a colour on a tint of itself asymptotes around 4.5:1 whatever
-# its lightness. Regenerating at the standard 0.10 alpha is what makes dark mode
-# reachable at all.
+# Keep the pill fill at the standard 0.10 alpha. At 0.16, a color on a tint of
+# itself tops out around 4.5:1 whatever its lightness, so dark mode cannot pass.
 ROUTE_SOURCE: dict[str, tuple[float, float, float]] = {
     "oral": (0.624, 0.206, 255.5),
     "sublingual": (0.700, 0.111, 212.8),
@@ -121,25 +106,16 @@ ROUTE_SOURCE: dict[str, tuple[float, float, float]] = {
 }
 
 
-# Dose intensity. Three scales encoded this one concept: `DoseLevel.swiftUIColor`
-# (6 steps, gray/blue/green/yellow/orange/red), `DoseDurationCard` (5, no `sub`),
-# and `DoseIntensityCard` (6, ending in Overdose) -- with three different greens
-# for "light" alone.
+# Dose intensity, one scale for every dose-tier surface.
 #
-# Cold→hot, not traffic-light. The previous ramp went green → teal → orange
-# (teal standing in for gold, because yellow at mid-ramp lightness is
-# gamut-capped into mud) — but that read as a hue detour, not a progression.
-# This ladder encodes intensity as temperature instead: ice → slate →
-# periwinkle → purple → magenta → red. Hue is strictly monotonic and chroma
-# rises with the tier, so "colder = milder" holds at both ends — sub is a
-# barely-there icy blue rather than the old dead gray, which sat oddly under
-# a ramp whose every other step had a temperature. No yellow and no green
-# anywhere, so nothing can go brown and "light ≠ safe" stops being implied.
-# Comparison sheet: dose-ramp.html.
+# Cold to hot: ice → slate → periwinkle → purple → magenta → red. Hue is
+# strictly monotonic and chroma rises with the tier, so "colder = milder" holds
+# at both ends and `sub` is a faint icy blue. Never add yellow or green: yellow
+# at mid-ramp lightness is gamut-capped into mud, and green implies that a
+# light dose is a safe one. Comparison sheet: dose-ramp.html.
 #
-# Seeds are Oklch (L, C, H) and the scale is gamut-fit in Display P3 — see
-# the CLAUDE.md color convention. Only C (the chroma ceiling) and H survive
-# gating; L is where the seed sat when chosen, kept for legibility.
+# Seeds are Oklch (L, C, H), gamut-fit in Display P3. Only C (the chroma
+# ceiling) and H survive gating; L is where the seed sat when chosen.
 DOSE_SOURCE: dict[str, tuple[float, float, float]] = {
     "sub": (0.650, 0.050, 248.0),
     "threshold": (0.653, 0.106, 263.4),
@@ -150,10 +126,9 @@ DOSE_SOURCE: dict[str, tuple[float, float, float]] = {
 }
 
 
-# Evidence quality. `ConfidenceBadge` and `ProvenanceBadge` render the identical
-# green -> yellow -> orange -> gray ramp; ProvenanceBadge's own doc comment says
-# so. It is an ordered trust grade, not a status, which is why it does not fold
-# into `semantic/*` -- "medium confidence" is not a caution.
+# Evidence quality. `ConfidenceBadge` and `ProvenanceBadge` render the same
+# green -> yellow -> orange -> gray ramp. It is an ordered trust grade, so it
+# stays out of `semantic/*`: "medium confidence" is not a caution.
 CONFIDENCE_SOURCE: dict[str, tuple[float, float, float]] = {
     "high": (0.730, 0.194, 147.5),
     "medium": (0.865, 0.177, 90.4),
@@ -165,7 +140,6 @@ CONFIDENCE_SOURCE: dict[str, tuple[float, float, float]] = {
 # Interaction severity. An ordered three-step trust-in-danger ladder, which is
 # why it is a scale and not three `semantic/*` lookups: `.unsafe` sits between
 # caution and danger, and the four-level semantic ladder has no middle tier.
-# Collapsing it into `danger` would erase a real distinction the app makes.
 SEVERITY_SOURCE: dict[str, tuple[float, float, float]] = {
     "caution": (0.865, 0.177, 90.4),
     "unsafe": (0.765, 0.175, 62.6),
@@ -173,14 +147,10 @@ SEVERITY_SOURCE: dict[str, tuple[float, float, float]] = {
 }
 
 
-# Substance categories: a 29-step nominal scale. Sources are the values already
-# shipping -- system hues written as their published hex, and the nine hand-mixed
-# `Color(red:green:blue:)` literals that had **no dark variant at all** and so
-# rendered the same pixel in both appearances.
-#
-# 29 steps cannot all be mutually distinguishable on one hue wheel, and they do
-# not need to be: a category badge always carries its name. This scale is
-# therefore exempt from the distinctness floor the smaller scales hold to.
+# Substance categories: a nominal scale, one step per category. Its steps
+# cannot all be mutually distinguishable on one hue wheel, and they need not
+# be: a category badge always carries its name. So this scale is exempt from
+# the distinctness floor the smaller scales hold to.
 CATEGORY_SOURCE: dict[str, tuple[float, float, float]] = {
     "stimulant": (0.765, 0.175, 62.6),
     "psychedelic": (0.615, 0.213, 312.4),
@@ -215,26 +185,12 @@ CATEGORY_SOURCE: dict[str, tuple[float, float, float]] = {
 
 
 # Library families. These fill `FamilyGradientCard` backgrounds with white text
-# over them, which is why one of them carries the comment "`.teal` is too light
-# for white text on the gradient's near-white end (failed the contrast check)" --
-# a fourth independent rediscovery of the same darken-for-light-mode fix.
-# Eight of the thirteen were `Color(red:green:blue:)` literals with no dark
-# variant.
+# over them. Every pair clears Oklab dE 0.08 (comparison sheet:
+# family-tuning.html); peptides and research use orchid and coral, whose chroma
+# lies outside sRGB.
 #
-# Tuned 2026-07 over five feedback rounds (comparison sheet:
-# family-tuning.html). Round 2: the three muted families sat at Oklab
-# dE 0.02-0.07 of each other, supplement was dE 0.053 from cannabinoid, and
-# common shared sedative's hue at half the chroma — grays split by hue,
-# supplement went jade, common went indigo. Rounds 3-5: pharmaceutical left
-# the sedative→peptide→mind→pharmaceutical blue run for plum, hallucinogens
-# and cannabinoids darkened one step, and peptides/research took orchid and
-# coral, whose chroma lives outside the sRGB gamut. Every pair clears dE 0.08
-# in Oklab.
-#
-# Values are Display P3 components. The catalog is P3 throughout and every
-# consuming device has a P3 panel, so sRGB is not a boundary this scale
-# respects or notates — entries that predate the migration were converted
-# once via srgb_to_p3_same_appearance() and are canonical in P3 now.
+# Values are Display P3 components: the catalog is P3 throughout and every
+# consuming device has a P3 panel.
 FAMILY_SOURCE: dict[str, tuple[float, float, float]] = {
     "common": (0.3433, 0.3526, 0.7355),
     "stimulant": (0.9433, 0.6044, 0.2176),
@@ -253,28 +209,24 @@ FAMILY_SOURCE: dict[str, tuple[float, float, float]] = {
 
 
 def max_chroma(hue: float, gate, background, ceiling: float = 1.0) -> tuple[float, float, tuple]:
-    """Highest-chroma colour at `hue` satisfying `gate(colour)`, up to `ceiling`.
+    """Highest-chroma color at `hue` satisfying `gate(color)`, up to `ceiling`.
 
     Scans every lightness and keeps the best, rather than returning the first
-    that passes -- see the module note on why that distinction matters.
+    that passes (see the module note).
 
     `ceiling` exists because saturation carries meaning *within* a scale. Routes
     include both a vivid orange (inhalation, from `#FF9500`) and a deliberately
     muted brown (rectal, from `#A2845E`) only three degrees of hue apart. Letting
-    both run to the gamut edge collapses them from Oklab dE 0.069 to 0.026 --
-    indistinguishable on a small pill, and a regression the contrast suite
-    catches. Capping each token at its own source chroma keeps a muted step
-    muted and preserves the scale's internal relationships.
+    both run to the gamut edge collapses them from Oklab dE 0.069 to 0.026,
+    indistinguishable on a small pill. Capping each token at its own source
+    chroma keeps a muted step muted.
     """
-    # Chroma outermost, descending: the first hit is therefore the most
-    # saturated value that passes. Lightness scans *toward* the surface, so among
-    # equal-chroma candidates the one nearest the background wins -- the smallest
-    # excursion that still clears the gate.
-    #
-    # Scanning lightness away from the surface instead returns the most extreme
-    # value that passes: `rectal` came out `#3A2300` at 12.31:1 against a 4.55
-    # gate, a near-black brown, because the first passing lightness from the dark
-    # end is as dark as the loop started.
+    # Chroma outermost, descending: the first hit is the most saturated value
+    # that passes. Lightness scans toward the surface, so among equal-chroma
+    # candidates the one nearest the background wins, the smallest excursion
+    # that clears the gate. Never scan away from the surface: that returns the
+    # most extreme passing value (`rectal` becomes a near-black brown at 12:1
+    # against a 4.55 gate).
     dark_surface = wcag_ratio(background, (1.0, 1.0, 1.0), SPACE) > 2.0
     lightness_steps = range(1, 200) if dark_surface else range(199, 0, -1)
 
@@ -287,15 +239,15 @@ def max_chroma(hue: float, gate, background, ceiling: float = 1.0) -> tuple[floa
             lch = fit_chroma((lightness, chroma, hue), SPACE)
             if abs(lch[1] - chroma) > 1e-3:
                 continue  # gamut-clamped at this lightness
-            candidate = quantize(oklch_to_rgb(lch, SPACE))  # quantise, then test
+            candidate = quantize(oklch_to_rgb(lch, SPACE))  # quantize, then test
             if gate(candidate):
                 return (chroma, lightness, candidate)
     raise ValueError(f"no colour at hue {hue} satisfies the gate on {background}")
 
 
-# Below this chroma a colour is a neutral and its hue is meaningless noise --
-# `#9B9BA1` reports 285.9 degrees, and maximising chroma there turns a gray into
-# a vivid purple. Neutrals keep their hue but never gain chroma.
+# Below this chroma a color is a neutral and its hue is noise: a near-gray
+# reports a hue of ~286 degrees, and maximizing chroma there turns it vivid
+# purple. Neutrals keep their hue but never gain chroma.
 NEUTRAL_CHROMA = 0.02
 
 
@@ -333,30 +285,22 @@ def build_neutral(hue: float, chroma: float) -> dict[str, dict]:
 
 
 def build_family(source: dict[str, tuple[float, float, float]]) -> dict[str, dict]:
-    """Library family colours — passed through **unchanged**, by design.
+    """Library family colors, passed through unchanged.
 
     These fill large decorative gradient cards
     (`color -> color.mix(with: .white, by: 0.35)`) with white text over them, so
     the surface is not the app card and the usual gates do not apply.
 
-    Two generated attempts were rejected on sight, and both failed the same way:
-    gating at 3:1 against the app card settles on the palest value that passes
-    (washed out), and gating for white-on-the-gradient forces orange and green
-    almost to black -- because those hues *cannot* be both vivid and dark. Orange
-    sits at Oklab L ~0.78; dropping it to where white text works lands it in
-    brown, definitionally, whatever the chroma.
-
-    The fix is not in the colour. `FamilyGradientCard` lifts its white text off
-    the gradient with a shadow -- the same treatment its count and chevron
-    already used -- which buys legibility without touching hue. So these stay
-    exactly as designed.
-
-    Recorded as a deliberate exemption rather than an oversight: this is the one
+    Do not gate them. Gating at 3:1 against the app card settles on the palest
+    passing value, and gating for white-on-the-gradient forces orange and green
+    almost to black, because those hues cannot be both vivid and dark (orange
+    sits at Oklab L ~0.78; lowered far enough for white text it is brown).
+    `FamilyGradientCard` lifts its white text off the gradient with a shadow
+    instead, which keeps it legible without touching hue. This is the one
     scale in the system whose values are hand-chosen and ungated.
 
-    Source entries are Display P3 component tuples (see FAMILY_SOURCE's note);
-    they serialise as {"p3": [r, g, b]} and reach the catalog without ever
-    passing through an sRGB representation.
+    Source entries are Display P3 component tuples; they serialize as
+    {"p3": [r, g, b]}.
     """
     scale: dict[str, dict] = {}
     for name, src in source.items():

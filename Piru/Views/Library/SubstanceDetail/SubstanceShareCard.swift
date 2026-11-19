@@ -481,8 +481,7 @@ struct SubstanceShareCard: View {
             HStack(alignment: .top, spacing: 26) {
                 bindingTable(mechanism).frame(maxWidth: .infinity, alignment: .leading)
                 // A short, localized "what this drug is" blurb beside the receptor
-                // table — replaces the old caption that just repeated the mechanism
-                // label shown in the chip above.
+                // table, rather than repeating the mechanism label in the chip above.
                 Text(descriptionBlurb ?? mechanism.summary)
                     .font(.caption)
                     .foregroundStyle(.white.opacity(0.62))

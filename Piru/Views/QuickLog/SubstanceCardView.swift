@@ -17,8 +17,7 @@ struct SubstanceCardView: View, Equatable {
     /// Precomputed PK badge for this card's most recent dose, built in
     /// `QuickLogContentModel` when the history-derived caches rebuild — so the
     /// per-card `DosePK.status` call (two `SubstanceLibrary` lookups + PK math)
-    /// and the live-`DoseEntry` reads no longer run inside `body` on every
-    /// render.
+    /// and the live-`DoseEntry` reads never run inside `body`.
     let badge: CardPKBadge?
     /// This card's staged chip counts, as a *value* snapshot — not read via
     /// `tray.quantity(...)` per chip in `body`, which would subscribe the card
@@ -118,12 +117,10 @@ struct SubstanceCardView: View, Equatable {
                 }
                 .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
                 .accessibilityInputLabels([Text("Favorite")])
-                // The card's own menu. Removing a substance from the list used
-                // to mean long-pressing every chip it had — up to eight per
-                // route — because the only delete lived in the chip's context
-                // menu and nothing on screen said that menu existed. This is
-                // also where the per-chip actions become discoverable: a
-                // visible control that admits the card is editable.
+                // The card's own menu: a visible control that admits the card
+                // is editable, so removing a substance never means
+                // long-pressing each of its chips, and the per-chip actions
+                // become discoverable.
                 Menu {
                     Button(role: .destructive, action: onRemoveCard) {
                         Label("Remove from Quick Log", systemImage: "trash")

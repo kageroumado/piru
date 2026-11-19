@@ -3,18 +3,17 @@ import os
 import SwiftData
 
 /// The once-only correction that re-pins persisted PSID **families** whose
-/// `substances.substance_uid` was changed on 2026-09-12 — 15 substances whose
-/// family had been pinned to the wrong structure (see
-/// `data/curated/substance-ids.json`).
+/// `substances.substance_uid` had been pinned to the wrong structure (the
+/// corrections are in `data/curated/substance-ids.json`).
 ///
 /// A logged ``DoseEntry`` (and every curated row: ``QuickLogDose``,
 /// ``FavoriteSubstance``, ``DailyDoseItem``, ``RoutineOccurrence``) stamps its
 /// `substanceUID` at log time and by ``PSIDBackfillMigration`` /
-/// ``CuratedIdentityBackfillMigration``, and that field is in shipped stores
-/// (v2.2-b51 runs the backfill). A row stamped with the OLD family keeps it
-/// forever — the name-gated backfills never revisit a resolved row — so without
-/// this pass old rows keep the old family while new logs get the new one, and
-/// recents/favorites/daily grouping split in two (daily-med credit in
+/// ``CuratedIdentityBackfillMigration``, and that field is in shipped stores.
+/// A row stamped with the old family keeps it forever, because the name-gated
+/// backfills never revisit a resolved row. Without this pass old rows keep the
+/// old family while new logs get the new one, and recents, favorites and daily
+/// grouping split in two (daily-med credit in
 /// ``DoseNotificationManager/itemIdentityMatches`` compares `substanceUID`
 /// first, so it breaks too).
 ///

@@ -30,8 +30,8 @@ struct DepotCurveResult: Equatable, Sendable {
     let timeInRange: Double?
 }
 
-/// The Injection Levels tool's inputs and the curve projected from them
-/// (Specs/injection-levels-tool.md §6). Follows the ``SteadyStateInputs`` pattern:
+/// The Injection Levels tool's inputs and the curve projected from them.
+/// Follows the ``SteadyStateInputs`` pattern:
 /// ``result`` is **stored**, recomputed by ``refresh()`` only when ``recomputeKey``
 /// changes — the superposition loop is O(samples × doses) and must not run in `body`.
 ///
@@ -446,8 +446,8 @@ final class InjectionLevelsModel: DepotCalibrating {
 
     /// Typical-range band as a fraction of the level. Pre-calibration reflects
     /// inter-individual variation (wide on purpose — the invitation to calibrate);
-    /// post-calibration reflects only shape + assay + within-individual noise
-    /// (Specs/injection-levels-tool.md §4). Mapped from the ester's confidence tier.
+    /// post-calibration reflects only shape + assay + within-individual noise.
+    /// Mapped from the ester's confidence tier.
     static func bandFraction(confidence: String, calibrated: Bool) -> Double {
         switch (confidence, calibrated) {
         case ("high", false): 0.25

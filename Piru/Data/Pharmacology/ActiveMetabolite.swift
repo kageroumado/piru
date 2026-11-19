@@ -173,14 +173,12 @@ struct ActiveMetabolite: Identifiable {
         /// when a card may say so — a sibling of the two percentages above, not a
         /// fact table.
         ///
-        /// Gating on `pharmacogenetics` was measured and is worse. 95 substances
-        /// name a polymorphic CYP in `metabolism`; only 69 also carry a matching
-        /// `pharmacogenetics` row, so 26 would lose the line — including
-        /// atomoxetine, eliglustat, pimozide, methadone and pethidine, whose FDA
-        /// labels carry CYP2D6 genotype guidance. That table's coverage is a
-        /// property of what has been curated, not of the pharmacology, so joining
-        /// against it would silence the callout exactly where a label says it
-        /// matters most. `MetaboliteEditorialTests` gates that both names here
+        /// That table's coverage reflects what has been curated, not the
+        /// pharmacology: many substances that name a polymorphic CYP in
+        /// `metabolism` have no matching `pharmacogenetics` row, including
+        /// atomoxetine, pimozide and methadone, whose FDA labels carry CYP2D6
+        /// genotype guidance. Joining against it would silence the callout
+        /// exactly where a label says it matters most. `MetaboliteEditorialTests` gates that both names here
         /// still occur in real `metabolism` cells, so the list cannot go stale.
         static let polymorphicEnzymes = ["CYP2D6", "CYP2C19"]
     }
@@ -247,8 +245,7 @@ extension ActiveMetabolite {
     /// **Divergence is tested first.** A metabolite with different pharmacology
     /// is not the parent lasting longer, and describing it that way is wrong in
     /// the way most likely to be believed — trazodone's mCPP is anxiogenic, so
-    /// "the same effects, drawn out" inverts what it does. The old ordering ran
-    /// the duration test first and produced exactly that sentence.
+    /// "the same effects, drawn out" inverts what it does.
     ///
     /// The duration claim then needs positive evidence on **every** axis, and
     /// degrades to the relationship alone when it cannot get it. It is an
@@ -258,13 +255,11 @@ extension ActiveMetabolite {
     ///   changes nothing no matter how long it lingers. This is what a bare
     ///   `metabolite_active` flag misses.
     /// - Measured against `parentDurationMinutes`, the figure shown above the
-    ///   card, rather than against the parent's half-life. The half-life
-    ///   comparison selected *for* prodrugs — an inert parent has a short
-    ///   half-life by definition, so psilocybin → psilocin and
-    ///   lisdexamfetamine → d-amphetamine always cleared it, while the duration
-    ///   table the sentence points at was already describing the metabolite.
-    ///   Comparing against the displayed number makes the claim self-consistent:
-    ///   it can only fire when there is genuinely something past the end of it.
+    ///   card, never against the parent's half-life: an inert prodrug parent
+    ///   has a short half-life by definition, so psilocybin → psilocin would
+    ///   always clear that test while the duration shown already describes the
+    ///   metabolite. Against the displayed number the claim can only fire when
+    ///   there is something past the end of it.
     func statement(
         parentName: String,
         parentHalfLifeMinutes: Double?,

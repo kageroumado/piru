@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Verify that every citation in the built DB resolves *and* is about its claim.
 
-`validate_links.py` already answers "does this link load?". It cannot answer the
-question that actually caught a fabricated reference: **is the thing on the other
-end the paper this row needed?** A DOI can resolve perfectly and still be a
+`validate_links.py` answers "does this link load?". It cannot answer whether
+the thing on the other end is the paper this row needed. A DOI can resolve perfectly and still be a
 cardiology trial cited for a CYP2D6 metabolism claim, and a whole enrichment
 batch can share one plausible-looking DOI that belongs to none of its rows.
 
@@ -22,7 +21,7 @@ matching, so "CYP2D6" still matches "cytochrome P450 2D6" and "MDMA" matches
 Verdicts, in descending severity:
 
     UNRESOLVED  the identifier resolves to nothing. Fabricated, retracted, or
-                mistyped. This is the class that shipped `dmd.31.4.388`.
+                mistyped.
     OFF_TOPIC   resolves to a real paper with *no* overlap with the claim —
                 a completely different subject. Needs a human.
     WEAK        some overlap, below threshold. Usually fine (a review with a
@@ -110,7 +109,7 @@ KNOWN_HOSTS = {
     "journals.plos.org",
     "www.nature.com",
     "pmc.ncbi.nlm.nih.gov",
-    # Drug-monitoring bodies and forensic centres — primary sources for NPS,
+    # Drug-monitoring bodies and forensic centers: primary sources for NPS,
     # which often have no journal article at all.
     "www.emcdda.europa.eu",
     "emcdda.europa.eu",
@@ -521,9 +520,8 @@ def main() -> int:
             failures.append(f"{len(buckets['UNRESOLVED'])} citation(s) resolve to nothing")
         # An identifier missing from the cache has never been checked by
         # anyone. CI runs --offline, so without this a newly-added fabricated
-        # DOI passes simply by being new — which is the hole this whole audit
-        # came through. Re-run `verify_citations.py` (network) and commit the
-        # refreshed cache to clear it.
+        # DOI passes simply by being new. Re-run `verify_citations.py`
+        # (network) and commit the refreshed cache to clear it.
         if buckets.get("UNCHECKED"):
             failures.append(
                 f"{len(buckets['UNCHECKED'])} citation(s) never verified — run "

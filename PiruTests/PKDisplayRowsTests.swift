@@ -4,7 +4,7 @@ import Testing
 /// ``SubstanceStore/displayRows(_:)`` — the per-route collapse behind the
 /// Pharmacokinetics card. The raw table holds a row per *study*, and the card
 /// renders only the metrics those rows tend to agree on, so an over-researched
-/// route used to print what looked like the same card several times.
+/// route doesn't print what looks like the same card several times.
 @Suite("PK display rows")
 struct PKDisplayRowsTests {
     private func hit(

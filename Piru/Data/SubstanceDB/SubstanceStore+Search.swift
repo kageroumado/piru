@@ -6,8 +6,7 @@ import Foundation
 /// `matchedAlias` is the load-bearing half. A user searching "Concerta" gets
 /// substance 459 (Methylphenidate) — correct, but the typed string matters
 /// too: carrying the alias out lets the search row echo what it matched and
-/// lets a staged dose record the *product* the user actually named
-/// (`Specs/psid-identity-consumption.md` D.1).
+/// lets a staged dose record the *product* the user actually named.
 struct SubstanceMatch: Identifiable {
     let substance: Substance
     /// The catalog alias the query named, in its display casing ("Concerta",

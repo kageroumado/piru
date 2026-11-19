@@ -54,13 +54,12 @@ struct PharmacogeneticRow: View {
 }
 
 /// **Target evidence** — what the binding actually does, where the row is not a
-/// Kᵢ: which signalling pathway an agonist favours, what complex the receptor
+/// Kᵢ: which signaling pathway an agonist favors, what complex the receptor
 /// sits in, and what a scan of a living brain measured.
 ///
 /// One section rather than three, because all three answer the same follow-up
-/// question to an affinity table, and because 83 rows spread over three
-/// self-hiding sections would cost more screen than the rows are worth. The
-/// chip says which kind each row is.
+/// question to an affinity table, and three self-hiding sections would cost
+/// more screen than their rows are worth. The chip says which kind each row is.
 struct TargetEvidenceSection: View {
     let substance: Substance
     let model: SubstanceDetailModel

@@ -155,20 +155,19 @@ enum AppLaunch {
         }
         // One-time: remap every logged dose onto its stable PSID identity
         // (substanceUID + displayNameSnapshot). Backup-first, additive,
-        // never-drop, guarded once — see PSIDBackfillMigration. Runs here
-        // (post-launch, off the critical path) because nothing reads the
-        // new fields yet; the batch cache was awaited warm above.
+        // never-drop, guarded once (see PSIDBackfillMigration). Runs
+        // post-launch, off the critical path; the batch cache was awaited
+        // warm above.
         PSIDBackfillMigration.runIfNeeded(container: container)
         // Same identity onto the curated rows (recents, favorites,
         // daily meds), so they key on substance identity instead of a
         // name — additive, never-drop, guarded once. See D.2.3.
         CuratedIdentityBackfillMigration.runIfNeeded(container: container)
-        // One-time: re-pin the 15 families corrected on 2026-09-12 so a
-        // dose stamped with the OLD family (which the name-gated backfills
-        // never revisit) doesn't split from a freshly logged one — see
-        // PSIDRepinMigration. Runs after the backfills so any row they
-        // just stamped (already the corrected family from this build's DB)
-        // is untouched and only legacy rows are rewritten.
+        // One-time: re-pin the families whose PSID was corrected, so a dose
+        // stamped with the old family (which the name-gated backfills never
+        // revisit) groups with a freshly logged one (see PSIDRepinMigration).
+        // Runs after the backfills, so a row they just stamped already holds
+        // the corrected family and only older rows are rewritten.
         PSIDRepinMigration.runIfNeeded(container: container)
         // One-time: reclassify rows typed as an ester name ("Estradiol
         // Valerate") onto the base substance + ester facet, so they title,
@@ -202,7 +201,7 @@ enum AppLaunch {
         // Meds redesign cutover: fold the routine layer (time,
         // remind, follow-up cadence) into per-med fields once.
         // Runs before the reminder sync so folded state is what
-        // gets scheduled. See Specs/meds-reminders-redesign.md.
+        // gets scheduled.
         MedsMigrator.foldRoutinesIfNeeded(context: container.mainContext)
     }
 

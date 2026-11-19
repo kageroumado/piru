@@ -2,7 +2,7 @@ import Foundation
 
 /// A substance's 2D skeletal-structure diagram: atom positions and the bonds
 /// between them, ready to draw. Generated offline at build time from the
-/// substance's SMILES via OpenBabel (`pipeline/build/molecule_shapes.py`) and
+/// substance's SMILES with RDKit (`pipeline/build/molecule_shapes.py`) and
 /// stored in the bundled DB's `molecule_shapes` table — one row per substance,
 /// keyed on `substance_id`.
 ///

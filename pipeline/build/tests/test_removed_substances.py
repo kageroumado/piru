@@ -6,18 +6,18 @@ failure modes recur: a scraper re-adds a diagnostic analyte or a cosmetic-cream
 peptide, or somebody hand-writes a curated file whose whole payload is the
 sentence "No published human pharmacology". Without a gate the removal silently
 reverts on the next upstream refresh and nobody notices, because the symptom is
-an extra row in a 1,700-row catalog.
+one extra row in a large catalog.
 
 The checks:
 
-  1. Every entry is reviewable — name, a verdict from the fixed vocabulary, a
-     reason, and evidence. A bare name list is what this file exists NOT to be.
+  1. Every entry is reviewable: name, a verdict from the fixed vocabulary, a
+     reason, and evidence.
   2. No removed name is back in the shipped DB.
   3. No removed name still has a curated file. The curated file is usually what
      kept an empty row alive (it protects rows from `drop_orphan_stubs`), so
      leaving one behind resurrects the entry's aliases and category.
-  4. Every `supersededBy` survivor actually exists — a duplicate removal that
-     points at nothing is data loss, not a merge.
+  4. Every `supersededBy` survivor exists: a duplicate removal that points at
+     nothing is data loss, not a merge.
   5. Names are unique, so a second entry can't silently override the first's
      recorded reason.
 

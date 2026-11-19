@@ -385,15 +385,13 @@ struct PKModelTests {
     }
 
     /// **The Stage 0 gate (model property): low-dose vs high-dose of the same substance produce
-    /// DIFFERENT receptor occupancy.** This is the headline correctness requirement of the whole
-    /// pharmacology axis — the normalized-shape model could not express it (every dose normalized to
-    /// the same `[0,1]` curve → identical occupancy → dose-independent tolerance, which is wrong).
-    /// Driving occupancy from the *absolute* molar pathway closes the flaw: occupancy is a strictly
-    /// increasing function of dose, low therapeutic exposure sits in the near-linear low-engagement
-    /// regime, and a recreational multiple climbs toward saturation.
+    /// DIFFERENT receptor occupancy.** A normalized `[0,1]` shape can't express this: every dose gives
+    /// the same occupancy and tolerance comes out dose-independent. On the *absolute* molar pathway
+    /// occupancy is a strictly increasing function of dose, low therapeutic exposure sits in the
+    /// near-linear low-engagement regime, and a recreational multiple climbs toward saturation.
     ///
-    /// Parameters are representative stimulant-like values chosen to exercise the regime, NOT a claim
-    /// about a specific drug's measured EC₅₀ — the real-data version lands with the flagship DB seed.
+    /// Parameters are representative stimulant-like values chosen to exercise the regime, not a claim
+    /// about a specific drug's measured EC₅₀; `PharmacologyParametersTests` covers real data.
     @Test(.tags(.pharmacokinetics))
     func `Occupancy is dose-dependent (the normalized-PK flaw is closed)`() {
         let halfLife = 660.0 // ~11 h, stimulant-like

@@ -94,7 +94,7 @@ struct DueNowSlotTests {
         let later = med("Melatonin", times: [22 * 60])
         let vitamin = med("Vitamin D")
         let content = QuickLogContentModel()
-        let groups = content.makeDailyGroups(dailyDoseItems: [twice, later, vitamin], routines: [], now: noon)
+        let groups = content.makeDailyGroups(dailyDoseItems: [twice, later, vitamin], now: noon)
         let byID = Dictionary(uniqueKeysWithValues: groups.map { ($0.id, $0) })
 
         #expect(byID["morning"]?.due.map(\.item.substance) == ["Methylphenidate"])
@@ -110,7 +110,7 @@ struct DueNowSlotTests {
     func `Staging the due pill's member flips it to staged`() throws {
         let item = med("Sertraline", times: [480])
         let content = QuickLogContentModel()
-        let group = try #require(content.makeDailyGroups(dailyDoseItems: [item], routines: [], now: noon).first)
+        let group = try #require(content.makeDailyGroups(dailyDoseItems: [item], now: noon).first)
         #expect(group.isDue)
 
         let tray = DoseTrayModel()
@@ -142,7 +142,7 @@ struct DueNowSlotTests {
         try context.save()
 
         let content = QuickLogContentModel()
-        let group = try #require(content.makeDailyGroups(dailyDoseItems: [item], routines: [], now: noon).first)
+        let group = try #require(content.makeDailyGroups(dailyDoseItems: [item], now: noon).first)
 
         context.delete(item)
         try context.save()
@@ -169,17 +169,17 @@ struct DueNowSlotTests {
         #expect(gone.isDeleted)
 
         let content = QuickLogContentModel()
-        let groups = content.makeDailyGroups(dailyDoseItems: stale, routines: [], now: noon)
+        let groups = content.makeDailyGroups(dailyDoseItems: stale, now: noon)
         #expect(groups.flatMap(\.items).map(\.substance) == ["Sertraline"])
     }
 
     @Test
     func `A dose credits its med even when its PSID resolved differently (accessory desync)`() {
-        // The reported bug: the accessory read "1 due" while My Meds showed
-        // everything taken. A dose whose substanceUID resolved (identityKey
-        // "mph-cid-4158") no longer matched a name-only schedule item
-        // (identityKey "methylphenidate") under the old strict dict lookup, so
-        // it was counted as un-taken. entryMatches's name fallback credits it.
+        // A dose whose substanceUID resolved (identityKey "mph-cid-4158") must
+        // match a name-only schedule item (identityKey "methylphenidate"). A
+        // strict key lookup counts it un-taken, and the accessory reads "1 due"
+        // while My Meds shows everything taken. entryMatches's name fallback
+        // credits it.
         let item = med("Methylphenidate", times: [480])
         let resolved = dose(for: item, substanceUID: "MPH-CID-4158")
         #expect(resolved.identityKey != item.identityKey) // genuinely differing keys

@@ -2,9 +2,8 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Depot PK math + lab calibration for the Injection Levels tool. The evidence
-/// file (Specs/evidence/estradiol-tool/ester-pk-parameters.json) is the oracle:
-/// it states the estrannaise oil-based cypionate fit peaks at 113 pg/mL at 3.88 d
+/// Depot PK math + lab calibration for the Injection Levels tool. The
+/// estrannaise fits are the oracle: the oil-based cypionate fit peaks at 113 pg/mL at 3.88 d
 /// and the valerate fit at 306 pg/mL at 1.90 d for a 5 mg dose.
 @Suite("Depot PK")
 struct DepotPKTests {

@@ -84,7 +84,7 @@ struct ContestedAliasTests {
 
     @Test
     func `A title naming another substance never re-resolves to it`() throws {
-        // Clonazepam relabelled "K": the title is now Ketamine's alias, so
+        // Clonazepam relabeled "K": the title is now Ketamine's alias, so
         // resolving it would rename the pill to Ketamine.
         let (customs, _) = try makeCustoms()
         customs.add(CustomSubstanceEntry(name: "Clonazepam", displayName: "K"))

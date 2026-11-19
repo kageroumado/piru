@@ -4,8 +4,6 @@ import Testing
 
 @Suite("SummaryFindings")
 struct SummaryFindingsTests {
-    private let base = Date(timeIntervalSince1970: 1_699_920_000) // 2023-11-14 00:00:00 UTC
-
     private func substance(_ name: String, _ currency: ExposureCurrency) -> SummarySubstance {
         SummarySubstance(name: name, displayName: name, tint: P3Color(red: 0.917, green: 0.200, blue: 0.139), unit: "mg", currency: currency)
     }

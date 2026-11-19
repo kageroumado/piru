@@ -1,10 +1,8 @@
 import SwiftUI
 
-/// One labeled cell in the Info / Chemistry two-column grids. Only the *value*
-/// is selectable (long-press to select & copy) — the label isn't, so you can't
-/// accidentally grab the neighbouring cell's value (the old whole-row
-/// contextMenu copied the wrong field and felt confusing). Shared by both the
-/// Info and Chemistry disclosures.
+/// One labeled cell in the Info / Chemistry two-column grids. Only the value
+/// is selectable (long-press to select and copy), so a long-press never grabs
+/// the neighboring cell's value. Shared by the Info and Chemistry disclosures.
 struct GridCell: View {
     let label: LocalizedStringResource
     let value: String

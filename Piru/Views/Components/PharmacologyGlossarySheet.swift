@@ -3,8 +3,8 @@ import SwiftUI
 /// A plain-language "what is this?" bottom sheet for the dense pharmacology cards. Surfaced from an
 /// (i) button in a card's header; explains, in simple vocabulary, what the card shows (generic — never
 /// about the specific drug). Some topics lead with a short "about" paragraph, some add a term glossary,
-/// and most close with a one-line caveat. iOS 26 system sheet — medium detent, drag indicator, an
-/// xmark close on the leading edge (matching the app's other sheets).
+/// and most close with a one-line caveat. A system sheet with a medium detent, a drag indicator and an
+/// xmark close on the leading edge, like the app's other sheets.
 struct PharmacologyGlossarySheet: View {
     enum Topic: String, Identifiable {
         case mechanism

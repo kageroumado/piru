@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 /// Per-type notification enablement — the durable backing of the Notifications
-/// management screen (`Specs/notifications-system.md` §C).
+/// management screen.
 ///
 /// A singleton record (created lazily by `NotificationPreferencesStore`, which
 /// also seeds it once from the legacy `wellnessNotificationsEnabled` /
@@ -38,8 +38,7 @@ final class NotificationPreferences {
     var quietHoursEndMinutes: Int = 7 * 60
 
     /// Per-type Time Sensitive delivery (break through Focus / the summary) —
-    /// the user decides which of the eligible types get it (maintainer decision, 2026-07-18).
-    /// Defaults on, matching the behavior before the setting existed.
+    /// the user decides which of the eligible types get it. Defaults on.
     var routineTimeSensitive: Bool = true
     var routineFollowUpTimeSensitive: Bool = true
     var cumulativeTimeSensitive: Bool = true
@@ -49,7 +48,7 @@ final class NotificationPreferences {
     /// encodes as `"[]"` and round-trips as "no re-asks".
     var askAgainDefaultData: Data = Data()
 
-    /// The global Ask Again cadence (Specs/meds-reminders-redesign.md):
+    /// The global Ask Again cadence:
     /// minutes after a med's reminder time for each "still need to log?"
     /// re-ask. User-editable intervals; a med can override or opt out via
     /// `DailyDoseItem.askAgainOverrideMinutes`.

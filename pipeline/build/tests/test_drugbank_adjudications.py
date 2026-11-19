@@ -8,15 +8,14 @@ work instead of recording a decision.
 
 The checks:
 
-  1. Every entry is reviewable — a substance and a reason. A bare name list is
-     what this file exists NOT to be, because the next reader cannot tell a
-     settled question from an unexamined one.
+  1. Every entry is reviewable: a substance and a reason. From a bare name
+     list the next reader cannot tell a settled question from an unexamined one.
   2. Names are unique within each list, so a second entry can't silently
      override the first's recorded reason.
   3. Every named substance is still in the shipped DB. An entry pointing at
      nothing suppresses nothing and is just rot.
   4. A substance called unresolvable has no half-life row. If one appeared, the
-     claim that no honest value exists is now false and the entry must go.
+     claim that no honest value exists is false and the entry must go.
   5. A divergence entry carries a verdict from the fixed vocabulary and, for a
      value we defend, the source that settles it.
 

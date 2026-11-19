@@ -27,8 +27,7 @@ Checks:
     `metabolism` row names. This one reports an ABSENCE with a user-visible
     consequence: the app joins its modulator catalog (grapefruit/CYP3A4,
     smoking/CYP1A2, ...) against that table on the substrate side, so a
-    substance with no row shows no modulator card at all — silently, with no
-    empty state anyone could notice.
+    substance with no row shows no modulator card and no empty state.
   - genetics coverage: a CYP2D6 substrate with no `pharmacogenetics` row, so
     the Genetics section codeine has is empty for it
   - metabolite coverage: products of a DrugBank reaction FROM the substance
@@ -173,7 +172,7 @@ _REJECT_WORDS = re.compile(
 #: "22 hours (range of 7 to 42 hours)". The number-counting rule below refuses
 #: these for having three numbers, but they are the *clearest* statement a label
 #: makes: a point estimate and the spread it came from. The range is what is
-#: kept, since it is what the mean summarises. A caller that must write ONE
+#: kept, since it is what the mean summarizes. A caller that must write ONE
 #: number wants ``parse_half_life_mean`` instead — never the range's midpoint.
 _MEAN_THEN_RANGE = re.compile(
     r"^\s*(?P<mean>\d+(?:\.\d+)?)\s*(?P<unit>seconds?|minutes?|mins?|min|hours?|hrs?|hr|h|days?|weeks?)\b"
@@ -273,7 +272,7 @@ def parse_half_life_mean(text: str) -> float | None:
         if match:
             # Both patterns name the range's unit `unit`, and in both the mean
             # shares it: _MEAN_THEN_RANGE puts the mean immediately before it,
-            # _RANGE_THEN_MEAN leaves the parenthesised mean's own unit optional.
+            # _RANGE_THEN_MEAN leaves the parenthesized mean's own unit optional.
             mean = float(match.group("mean")) * unit_factor(match.group("unit"))
             return mean if mean > 0 else None
     return None
@@ -600,7 +599,7 @@ def main() -> int:
         elif d["half_life"]:
             hl_prose_gaps.append((s, d))
 
-        # ── Enzyme coverage: what the app can no longer say ──────────────
+        # ── Enzyme coverage: what the app cannot say ─────────────────────
         # Only a DrugBank *substrate* role means this enzyme clears the drug;
         # inhibitor/inducer rows describe what it does to OTHER drugs and would
         # point the modulator readout the wrong way round.
@@ -618,7 +617,7 @@ def main() -> int:
             # Two different findings wear the same shape. A substance naming NO
             # UI enzyme has every modulator readout silently switched off, and
             # that is a defect. One that names some, where DrugBank lists more,
-            # is usually DrugBank cataloguing a minor pathway -- alprazolam is
+            # is usually DrugBank cataloging a minor pathway -- alprazolam is
             # 3A4-cleared and already shows its grapefruit card, so a "2C9
             # substrate" row changes nothing a reader would see. Keep the two
             # apart or the real ones drown.
@@ -652,11 +651,10 @@ def main() -> int:
         # ── Pharmacogenetics the enzyme data implies ──────────────────────
         # CYP2D6 is the enzyme the detail page gives its own note, so a 2D6
         # substrate with no pharmacogenetics row has a note and no study behind
-        # it. Adjudicate
-        # under `metabolizer_coverage` where the substance is a 2D6 substrate only
-        # in the in-vitro sense: many are, and for them the honest row is the one
-        # naming the gene that does move the drug (nicotine's CYP2A6, simvastatin's
-        # SLCO1B1) or none at all.
+        # it. Adjudicate under `metabolizer_coverage` where the substance is a
+        # 2D6 substrate only in the in-vitro sense: many are, and for them the
+        # honest row names the gene that does move the drug (nicotine's CYP2A6,
+        # simvastatin's SLCO1B1), or there is none at all.
         if (
             "CYP2D6" in db_substrate_cyps
             and "CYP2D6" not in pgx_genes.get(s["id"], set())

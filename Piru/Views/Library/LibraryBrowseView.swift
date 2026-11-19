@@ -1,9 +1,9 @@
 import SwiftData
 import SwiftUI
 
-/// The Library tab's browse surface: a flow of bold effect-family cards in
-/// place of the old flat category list. Single cards push straight to a
-/// substance list; umbrella cards expand in place into their sub-classes.
+/// The Library tab's browse surface: a flow of bold effect-family cards.
+/// Single cards push straight to a substance list; umbrella cards expand in
+/// place into their sub-classes.
 struct LibraryBrowseView: View {
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @State private var expanded: Set<String> = []

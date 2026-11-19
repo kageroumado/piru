@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 /// One serum lab result the user enters to calibrate the Injection Levels tool to
-/// their own body (Specs/injection-levels-tool.md §3).
+/// their own body.
 ///
 /// The population depot model gives a wide starting band; each measurement pins the
 /// model's amplitude to *this user's* levels, narrowing it. Stored in the analyte's

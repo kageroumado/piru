@@ -50,7 +50,7 @@ struct MechanismProseLintTests {
     /// one place it cannot be sourced, compared or badged.
     ///
     /// Waived, not accepted: the list exists so new prose cannot join them, and emptying it is
-    /// the point of having it. Tracked in `Specs/found-defects.md`; move the value into its field
+    /// the point of having it. Move the value into its field
     /// rather than deleting the sentence.
     static let knownOffenders: Set<String> = [
         "2-Me-PiHP", "Bretazenil", "Enclomiphene", "Heroin",

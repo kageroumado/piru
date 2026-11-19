@@ -435,9 +435,9 @@ class IdentityCorrectionTests(unittest.TestCase):
         self.assertEqual([], build.dosewiki_identity_corrections(stored, claimed))
 
     def test_two_stereo_layers_are_never_settled(self):
-        # Morphine as stored before 2026-09-11 (isomorphine) against dose.wiki's
-        # morphine: same skeleton, both stereo-specified, consistent on each
-        # side — no rule may pick one.
+        # An isomorphine-stereo morphine row against dose.wiki's morphine: same
+        # skeleton, both stereo-specified, each self-consistent, so no rule may
+        # pick one.
         stored = {
             "smiles": "CN1CC[C@]23c4c5ccc(O)c4O[C@H]2[C@H](O)C=C[C@H]3[C@H]1C5",
             "inchikey": "BQJCRHHNABKAKU-NOSXKOESSA-N",

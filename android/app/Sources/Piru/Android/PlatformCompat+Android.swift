@@ -55,7 +55,6 @@ extension Color {
     static var platformTertiarySystemFill: Color { fillGray.opacity(0.12) }
     static var platformQuaternaryLabel: Color { labelGray.opacity(0.18) }
     static var platformTertiaryLabel: Color { labelGray.opacity(0.3) }
-    static var platformSystemGray: Color { Color(red: 142 / 255, green: 142 / 255, blue: 147 / 255) }
 }
 
 extension View {

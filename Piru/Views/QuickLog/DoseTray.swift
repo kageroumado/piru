@@ -42,7 +42,7 @@ enum DoseTrayMetrics {
         QuickLogDockMetrics.fieldHeight
     }
     /// Corner radius of the grouped cards inside the dock, matching the
-    /// system inset-grouped list on iOS 26.
+    /// system inset-grouped list.
     static let cardCornerRadius: CGFloat = 26
 }
 
@@ -74,11 +74,10 @@ extension View {
     /// `matchedGeometryEffect` for the tray's row⇄editor morph pairs,
     /// degrading to a plain crossfade under Reduce Motion.
     ///
-    /// Exactly one side of each pair must be the source. Both sides used to take
-    /// the default `isSource: true`, which is undefined behavior — two views
-    /// claiming one id in one namespace — and it read as the snap-then-settle
-    /// the expansion animation was reported for. The collapsed row is the source
-    /// because it is the state the tray sits in.
+    /// Exactly one side of each pair must be the source: two views claiming one
+    /// id in one namespace is undefined behavior, and it reads as a
+    /// snap-then-settle on expansion. The collapsed row is the source because it
+    /// is the state the tray sits in.
     func trayMorph(id: String, in namespace: Namespace.ID, isSource: Bool = true) -> some View {
         modifier(TrayMorphEffect(id: id, namespace: namespace, isSource: isSource))
     }
@@ -493,8 +492,8 @@ final class DoseTrayModel {
     /// subscribes to *this* flag rather than the whole `staged` array. Maintained
     /// only at the count-change sites (`stage` append / `stageDraft` / `remove`),
     /// and only when the value actually flips, so stepping a dose's amount or
-    /// re-tapping a chip — which mutate `staged` but not its count — no longer
-    /// re-runs `QuickLogView.body`. `isCommittable` stays computed: it depends on
+    /// re-tapping a chip, which mutate `staged` but not its count, doesn't
+    /// re-run `QuickLogView.body`. `isCommittable` stays computed: it depends on
     /// per-dose amounts and is read only inside `DoseTrayView`, which must
     /// re-render on those edits anyway.
     private(set) var isEmpty = true

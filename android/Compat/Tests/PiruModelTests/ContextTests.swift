@@ -225,7 +225,7 @@ struct ContextTests {
         #expect(try store.generations("DoseEntry") == before)
     }
 
-    /// Probe P13: a non-finite Double used to be written as `null` and poison the entity.
+    /// Probe P13: a non-finite Double fails the save; written as `null`, it would poison the entity.
     @Test
     func `A value that cannot be encoded fails the whole save and writes nothing`() throws {
         try seedJournal(store)

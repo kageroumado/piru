@@ -12,8 +12,8 @@ struct ShareInboxView: View {
                 PairedNotice(person: person)
             case let .share(opened):
                 IncomingShare(opened: opened)
-            case let .received(outcome, title, startDate):
-                ReceivedNotice(outcome: outcome, title: title, startDate: startDate)
+            case let .received(outcome):
+                ReceivedNotice(outcome: outcome)
             case let .failed(message):
                 ContentUnavailableView("Couldn't Open", systemImage: "exclamationmark.triangle", description: Text(verbatim: message))
             case nil:
@@ -151,8 +151,6 @@ private struct IncomingShare: View {
 
 private struct ReceivedNotice: View {
     let outcome: ShareReceiver.Outcome
-    let title: String?
-    let startDate: Date
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {

@@ -46,8 +46,7 @@ final class QuickLogDose {
     /// (Methylphenidate·IR) stay distinct even though `substance` is the same
     /// canonical string. All `nil` for a chip seeded from a pre-PSID history row
     /// (which keys by lowercased name, as before) until the backfill resolves it.
-    /// Additive optionals — a free lightweight migration. See ``identityKey`` and
-    /// `Specs/psid-identity-consumption.md` D.2.
+    /// Additive optionals — a free lightweight migration. See ``identityKey``.
     var substanceUID: String?
     var isomer: String?
     var releaseForm: String?
@@ -167,7 +166,7 @@ final class QuickLogDose {
         // Identity replaces the bare name so a Concerta chip and a Ritalin IR chip
         // (same canonical `substance`) get distinct keys. With no identity args —
         // a pre-PSID chip, or the drink-preset callers — `identityKey` returns the
-        // lowercased name, so the key is byte-identical to the old scheme.
+        // lowercased name, so the key matches the name-only keys already stored.
         let identity = identityKey(
             substanceUID: substanceUID, substance: substance,
             isomer: isomer, releaseForm: releaseForm, saltForm: saltForm,

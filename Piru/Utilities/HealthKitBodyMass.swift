@@ -10,12 +10,10 @@ import os
 /// observe a revocation — the user can turn Piru off in Settings ▸ Health and we'd never be notified,
 /// and on a reinstall / new device our stored weight is gone with no signal.
 ///
-/// The robust pattern, implemented here: never trust a status for reads — just *attempt the query* via
-/// ``syncLatest()``. A successful sample means access is live; an empty result means "no access OR no
-/// data" (we can't tell which), which the UI surfaces with an "open Settings" affordance. Body-weight
-/// authorization is requested only through the single combined Health prompt in
-/// ``HealthKitVitals/requestFullAccess()`` (weight + heart rate + blood pressure at once) — this type
-/// never prompts on its own, so a user always sees one Health sheet, never a weight-only flow.
+/// So reads never trust a status: ``syncLatest()`` attempts the query. A sample means access is live;
+/// an empty result means no access or no data (we can't tell which), which the UI surfaces with an
+/// "open Settings" affordance. Body-weight authorization is requested only through the combined Health
+/// prompt in ``HealthKitVitals/requestFullAccess()``, so a user always sees one Health sheet.
 @MainActor
 @Observable
 final class HealthKitBodyMass {

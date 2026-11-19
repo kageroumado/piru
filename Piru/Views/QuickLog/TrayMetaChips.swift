@@ -105,10 +105,10 @@ struct TrayMetaChips: View {
     // MARK: When
 
     /// The visible chip is plain SwiftUI with the Menu overlaid as an invisible
-    /// tap target. As a `Menu` *label* the chip's width was sized by the
-    /// UIKit-backed menu button, which applies the new size outside the SwiftUI
-    /// transaction — the color crossfaded at the old width, then the frame
-    /// snapped. Decoupled, the whole chip animates in one `.snappy` pass.
+    /// tap target. Never make the chip a `Menu` label: the UIKit-backed menu
+    /// button applies its width outside the SwiftUI transaction, so the color
+    /// crossfades at the old width and then the frame snaps. Decoupled, the
+    /// whole chip animates in one `.snappy` pass.
     private var whenChip: some View {
         HStack(spacing: 5) {
             Image(systemName: "clock")

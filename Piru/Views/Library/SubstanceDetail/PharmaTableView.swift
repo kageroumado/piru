@@ -14,11 +14,11 @@ import SwiftUI
 /// reading the body scroll view's `contentOffset.x` via `onScrollGeometryChange` and shifting its own data
 /// cells by that amount (clipped to the viewport). The frozen name column never moves.
 ///
-/// Performance: the table defaults to the **Common** scope (~20 rows) so it never renders all ~1100
-/// substances on open. The PK base rows resolve once off-main (`pharmaTableRowsOffMain`). The receptor
-/// columns (Targets/Potency) need `PharmacologyParameters`, which is resolved off-main *per scope* via
-/// `pharmacologyParametersBatchOffMain` and cached by name — so Common is instant and only the opt-in
-/// "All substances" scope pays the ~1100-substance batch (once, with a resolving hint on those cells).
+/// Performance: the table defaults to the **Common** scope so it never renders the whole catalog on
+/// open. The PK base rows resolve once off-main (`pharmaTableRowsOffMain`). The receptor columns
+/// (Targets/Potency) need `PharmacologyParameters`, which is resolved off-main *per scope* via
+/// `pharmacologyParametersBatchOffMain` and cached by name, so Common is instant and only the opt-in
+/// "All substances" scope pays the full-catalog batch (once, with a resolving hint on those cells).
 struct PharmaTableView: View {
     @State private var model = PharmaTableModel()
 

@@ -44,16 +44,11 @@ struct PharmacologyNameKeyTests {
     }
 
     /// Brand names and synonyms fold onto the canonical spelling through the shared alias table.
-    ///
-    /// These used to run through `MechanismOfActionDatabase.mechanism(for:)`, which was only ever
-    /// a convenient dictionary to resolve against — the table is gone and the fold is the subject,
-    /// so a fixture says so directly.
+    /// The fold is the subject, so a fixture table stands in for any real lookup.
     @Test
     func `Resolution folds brand names and synonyms onto the canonical key`() {
-        // Only names the shared table actually folds. The old test also paired md-php/mdphp and
-        // 3-chloromethcathinone/3-cmc, which agreed because the deleted Swift dictionary happened
-        // to carry both spellings as direct keys — that was a fact about the table, not about the
-        // fold, and it went with the table.
+        // Only names the shared table actually folds. Never add a pair that agrees only because a
+        // lookup table carries both spellings as keys: that tests the table, not the fold.
         let table = ["alprazolam": "benzo", "mephedrone": "cathinone", "phenylpiracetam": "racetam", "a-php": "pyrovalerone"]
         func resolve(_ name: String) -> String? {
             PharmacologyNameKey.resolve(name, in: table, aliases: PharmacologyNameKey.sharedAliases)

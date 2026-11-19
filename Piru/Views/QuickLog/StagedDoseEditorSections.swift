@@ -37,7 +37,7 @@ struct StagedDoseEditorHeader: View {
             Spacer()
             // Same glyph as the collapsed row, rotated to point down
             // (expanded, per Apple's disclosure convention) — trailing,
-            // where the row's chevron now lives, so the matched-geometry
+            // where the row's chevron sits, so the matched-geometry
             // swap morphs it in place like a rotation.
             Image(systemName: "chevron.right")
                 .font(.footnote.weight(.semibold))

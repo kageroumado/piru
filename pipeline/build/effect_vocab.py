@@ -173,8 +173,8 @@ _ZH_LABELS, _ZH_MT = _load_zh()
 # The reverse index: a Chinese label -> the vocab_id it names. Built from the
 # same curated labels the app renders, so a zh row and an en row of the same
 # effect land on one id and each renders in whichever language is asked for.
-# Without this every effect has to be stored once per language, which is why
-# 77 substances carried a hundred Chinese effects and no English ones.
+# Without it, a substance whose only effects source is Chinese has no English
+# effects.
 _ZH_TO_VOCAB: dict[str, str] = {}
 for _vid, _labels in _ZH_LABELS.items():
     for _lang in ("zh-Hans", "zh-Hant"):

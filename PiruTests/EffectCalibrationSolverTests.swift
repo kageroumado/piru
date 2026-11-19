@@ -2,11 +2,11 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// The **staged calibration solver** for the mechanistic effect model (see
-/// `Specs/effect-model-molar-calibration.md`). It runs the real resolver
+/// The **staged calibration solver** for the mechanistic effect model.
+/// It runs the real resolver
 /// (`SubstanceModelDatabase.params` over the bundled pharmacology DB, with the coherent-assay transporter
-/// profile) and the real `EffectEngine`, encodes the verified subjective anchor table
-/// (`Specs/effect-model-calibration-data.md` §2), and:
+/// profile) and the real `EffectEngine`, encodes the verified subjective anchor table,
+/// and:
 ///
 ///   - **Stage 0/1 (analytic, 0 fit):** reports the data-driven PK + transporter mix each substance
 ///     resolves to, so the inputs are auditable.

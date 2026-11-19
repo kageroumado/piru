@@ -3,17 +3,15 @@
 Several same-skeleton (block-1) or same-full-key InChIKey collisions in the
 catalog are not accidental: some are distinct drugs whose upstream keys were
 corrupted to collide, some are the same drug split across two rows, and some are
-legitimate stereoisomer families. Historically these dispositions were tracked
-in three drifting places — ``_DO_NOT_MERGE`` and ``_FORCE_MERGE`` in the build,
-and the ``_KNOWN_INCHIKEY_DUPS`` allowlist in the overlay-integrity test. This
-module unifies them behind one curated registry
-(``data/curated/inchikey-collisions.json``). The fold families stay in
+legitimate stereoisomer families. This module reads their dispositions from one
+curated registry (``data/curated/inchikey-collisions.json``) for the build's
+merge logic and the overlay-integrity test alike. The fold families stay in
 ``isomer-families.json`` and are referenced there by disposition only.
 
 Each cluster is a set of exact ``canonical_name`` values with a disposition:
 
-* ``distinct`` — different drugs that share (or shared, pre-correction) an
-  InChIKey block; the dedup merge must NEVER fuse them.
+* ``distinct`` — different drugs whose upstream InChIKeys share a block; the
+  dedup merge must NEVER fuse them.
 * ``merge`` — the same drug split across rows; fold every member into ``into``.
 
 Kept stdlib-only and import-light so ``pipeline/build/``, ``pipeline/audit/``,

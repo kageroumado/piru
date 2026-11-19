@@ -2,9 +2,9 @@ import SwiftData
 import SwiftUI
 
 /// The **Tolerance** tool (pharmacology axis). It replays the dose log through ``ToleranceStore`` and
-/// renders **one card per mechanism class** (Opioids, Stimulants, Dissociatives, …) — the load-bearing
-/// design claim that tolerance is *per-mechanism*, never one universal "tolerance %", and never a
-/// per-raw-receptor card (see `Specs/tolerance-tool-audit-and-redesign.md`).
+/// renders **one card per mechanism class** (Opioids, Stimulants, Dissociatives, …), on the design
+/// claim that tolerance is *per-mechanism*, never one universal "tolerance %", and never a
+/// per-raw-receptor card.
 ///
 /// ## Layout (Stage H)
 /// A single flat list of cards — no "Needs attention"/"Active" headers. Safety-critical classes (opioid
@@ -16,9 +16,9 @@ import SwiftUI
 /// ## One visual language per card
 /// A family-color dot + tier-aware class name + a tolerance-level capsule; a five-segment gauge of how
 /// much of a normal dose you'd still feel; a one-sentence lede; a linear recovery chart (sensitivity vs
-/// days, starting at the current level); a trimmed one-sentence safety note where the class has one; and
-/// — for the Pharma Nerd tier — confidence, the shift factor, and the engaged layers. Density scales
-/// with ``UserProfile`` (Casual → Curious → Pharma Nerd). The section subviews live alongside this file.
+/// days, starting at the current level); and a trimmed one-sentence safety note where the class has one.
+/// ``UserProfile`` sets the wording: Casual gets plain class names, Curious receptor-level names plus
+/// contributor chips and the chart legend. The section subviews live alongside this file.
 struct ToleranceToolView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
 

@@ -2,7 +2,7 @@ import Charts
 import SwiftData
 import SwiftUI
 
-/// The first-class "Hormone Levels" insight (Specs/injection-levels-v3.md §1–§3):
+/// The first-class "Hormone Levels" insight:
 /// the estimated **serum** hormone (estradiol or testosterone) the user's logged
 /// injections release, summed per ester and calibrated to their own labs. Purely
 /// retrospective → now → a short projection; the prediction Tool
@@ -231,7 +231,7 @@ private struct SerumCurveCard: View {
 
 /// One series per logged ester — the assumed depot contribution each ester makes,
 /// distinct from the serum sum above, so a switch or a mix reads honestly instead of
-/// being flattened to one dominant ester (Specs/injection-levels-v3.md §3).
+/// being flattened to one dominant ester.
 private struct AssumedDepotLevelsCard: View {
     let analyte: Analyte
     let perEster: [(ester: EsterPKRecord, points: [DepotCurveResult.Point])]

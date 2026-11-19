@@ -9,7 +9,7 @@ import SwiftData
 /// Identified by substance **identity** (``id`` = the PSID family + form facets),
 /// not name — so a Concerta card (Methylphenidate·XR) and a Ritalin IR card
 /// (Methylphenidate·IR) are two cards, not one merged history. See
-/// ``QuickLogDose/identityKey`` and `Specs/psid-identity-consumption.md` D.2.
+/// ``QuickLogDose/identityKey``.
 struct SubstanceCard: Identifiable, Equatable {
     /// The substance-identity key — also what favorites/staged-counts join on.
     let id: String
@@ -254,7 +254,7 @@ struct DailyCategoryGroup: Identifiable {
 }
 
 /// One uncovered med slot that is due right now — the "what should I take
-/// *now*?" answer (Specs/meds-ux-review.md §5) behind a My Meds pill's due
+/// *now*?" answer behind a My Meds pill's due
 /// state and the tab-bar accessory badge. Derived per (med × earliest
 /// uncovered slot); a med never has more than one. Carries a
 /// ``DailyMedSnapshot`` because the My Meds pills cache these.
@@ -349,12 +349,11 @@ struct CardPKBadge: Equatable {
 
 // MARK: - Quick Log Content Model
 
-/// Holds every derived dataset the quick-log screen renders. Extracted off
-/// `QuickLogView` because the view-struct previously stored ~12 caches inline —
-/// several of them arrays of the ~40-field `Substance` value type — so every
-/// `body` pass deep-copied the whole dataset (`initializeWithCopy` dominated a
-/// 784 ms first-render trace). Owning them on a reference type drops the view's
-/// stored surface to a handful of references; `body` reads through the model.
+/// Holds every derived dataset the quick-log screen renders, on a reference
+/// type: stored inline on the `QuickLogView` struct, the caches (several of
+/// them arrays of the wide `Substance` value type) would be deep-copied on
+/// every `body` pass, which dominates a first-render trace. Here the view's
+/// stored surface is a handful of references; `body` reads through the model.
 ///
 /// The rebuild methods take the view's `@Query` arrays and search text as
 /// parameters rather than reading view state, so the model stays a pure derived
@@ -469,10 +468,10 @@ final class QuickLogContentModel {
     /// on open and whenever the history changes (a logged dose) — never from
     /// `body`. `allEntries` is newest-first, which every consumer relies on
     /// (today's slice stops at the first non-today row; most-recent wins).
-    func rebuildEntryDerived(allEntries: [DoseEntry], dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) {
+    func rebuildEntryDerived(allEntries: [DoseEntry], dailyDoseItems: [DailyDoseItem]) {
         // The PK badge is only ever read for a *displayed* card (favorites + the
-        // capped recents), so resolve `DosePK.status` for those substances only —
-        // not the whole 120-day history (~50 substances). Requires `rebuildCards`
+        // capped recents), so resolve `DosePK.status` for those substances only,
+        // never the whole recent history. Requires `rebuildCards`
         // to have run first (the `.task` orders it so).
         let displayed = Set(cachedFavoriteCards.map(\.id)).union(cachedNonFavoriteCards.map(\.id))
 
@@ -553,7 +552,7 @@ final class QuickLogContentModel {
         cachedTagSuggestions = Array((used + extras).prefix(8))
         // `makeDailyGroups` reads `cachedTodayEntries` (the "done" and "due"
         // checks), so it must rebuild after that's assigned above.
-        cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
+        cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems)
     }
 
     /// The title a card shows when it names more than the plain substance —
@@ -696,11 +695,11 @@ final class QuickLogContentModel {
 
     /// Rebuild only the routine-pill groups (the settings sheet edited a routine
     /// row or daily item, but history is unchanged).
-    func rebuildDailyGroups(dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) {
-        cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
+    func rebuildDailyGroups(dailyDoseItems: [DailyDoseItem]) {
+        cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems)
     }
 
-    /// The Meds redesign's group pills: one pill per derived time-of-day
+    /// The group pills: one pill per derived time-of-day
     /// group (`MedTimeGroup`), no named routines. A multi-time med shows in
     /// every group it has a time in; staging is idempotent, so tapping two
     /// groups never double-stages it. As-needed meds are NOT one all-or-
@@ -708,13 +707,12 @@ final class QuickLogContentModel {
     /// gets its own single-med pill (a pre-workout stack is still one tap
     /// per med, never "stage every PRN med I own"). Each group carries the
     /// ``DueNowSlot``s that opened inside it, so the pill can answer "what
-    /// should I take now?" itself. The `routines` parameter is retained for
-    /// call-site stability but no longer read.
+    /// should I take now?" itself.
     ///
     /// Every model is read here, once, and copied into ``DailyMedSnapshot``s;
     /// rows deleted since the caller's `@Query` result or since
     /// ``cachedTodayEntries`` was captured are dropped before any read.
-    func makeDailyGroups(dailyDoseItems allItems: [DailyDoseItem], routines _: [DoseRoutine], now: Date = .now) -> [DailyCategoryGroup] {
+    func makeDailyGroups(dailyDoseItems allItems: [DailyDoseItem], now: Date = .now) -> [DailyCategoryGroup] {
         let dailyDoseItems = allItems.filter { !$0.isDeleted }
         guard !dailyDoseItems.isEmpty else { return [] }
 

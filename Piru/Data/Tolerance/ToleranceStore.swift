@@ -5,9 +5,8 @@ import Synchronization
 
 /// A snapshot of tolerance state for one **mechanism class**, derived by replaying the dose log and
 /// aggregating every engaged target in that class (DAT+NET → Stimulants, all NMDA sites →
-/// Dissociatives, …). The value type the UI reads (Stage 2); the SwiftData ``ToleranceState`` row is
-/// its cached persistence. One card per class — the redesign's unit (see
-/// `Specs/tolerance-tool-audit-and-redesign.md`).
+/// Dissociatives, …). The value type the UI reads; the SwiftData ``ToleranceState`` row is
+/// its cached persistence. One card per class.
 nonisolated struct ClassTolerance: Hashable, Identifiable {
     let receptorClass: ReceptorClasses.ReceptorClass
     /// Acute ln-shift `sAcute ≥ 0` — within-session tachyphylaxis (the redose loop).
@@ -31,8 +30,8 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     /// Combined fractional occupancy across this class's active contributors **right now** (competitive
     /// Gaddum summation, metabolite tails included) — how loaded the receptor actually is at this moment,
     /// distinct from ``representativeOccupancy`` (a per-dose *peak*). `0` when nothing is on board, which
-    /// is the honest signal that a recent-but-cleared drug is no longer *present* even though it may
-    /// still carry residual tolerance. Placeholder `0` on a cache reload; recomputed on the next replay.
+    /// says a recent but cleared drug has left the body even though it may still carry residual
+    /// tolerance. Placeholder `0` on a cache reload; recomputed on the next replay.
     var occupancyNow: Double = 0
     /// Weakest-link confidence across the contributing substances' occupancy inputs and the class
     /// kinetics — the house "predicted (model, confidence)" tier.
@@ -47,7 +46,7 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     /// endpoint** (opioid respiratory, stimulant cardiovascular), or `nil` for the classes without one.
     /// It tolerizes on its own kinetics — shallower and faster-recovering for opioid respiratory, and
     /// `1` always for the stimulant cardiovascular pressor (which does not tolerize) — so the gap to
-    /// ``shiftFactor`` is the safety story (Stage C). Defaults `nil`: the cache reload carries no
+    /// ``shiftFactor`` is the safety story. Defaults `nil`: the cache reload carries no
     /// safety state, and it's `nil` for endpoint-less classes.
     let safetyShiftFactor: Double?
     /// Which harm axis ``safetyShiftFactor`` measures, or `nil` when the class has no endpoint.
@@ -153,7 +152,7 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
 }
 
 /// Owns the user's **per-target tolerance state**, recomputed by replaying the dose log through
-/// ``PDModel`` — the lead thread of `Specs/pharmacology-axis-meta-plan.md` (Stage 1).
+/// ``PDModel``.
 ///
 /// ## Why replay, not increment
 /// Tolerance is computed by *integrating the whole dose log* on demand (like
@@ -178,8 +177,8 @@ final class ToleranceStore {
     /// the cost of replaying a long history.
     nonisolated static let defaultTimestepMinutes = 30.0
 
-    /// How far back the replay reaches — **1 year** (`Specs/tolerance-faithful-model-improvements.md`
-    /// §1, the deep carry-forward). The acute (τ ≈ hours) and adaptive (τ ≈ days–2 wk) layers self-forget
+    /// How far back the replay reaches — **1 year**
+    /// (the deep carry-forward). The acute (τ ≈ hours) and adaptive (τ ≈ days–2 wk) layers self-forget
     /// far inside this window — a dose 90 days old contributes < 2 % to adaptive and ~0 to acute — so the
     /// full year leaves them unchanged. The **deep** (τ ≈ 6–9 mo) and **synthesis** (τ ≈ 2 wk) layers need
     /// months of history to reflect real entrenchment, which is what sizes the window to a year: anything
@@ -199,7 +198,7 @@ final class ToleranceStore {
     /// so the replay needs no second table threaded alongside `params`.
     ///
     /// A class whose representative is absent, or present without usable pharmacology, has **no**
-    /// fallback — its PK-less members stay listed as "can't predict yet", which is the honest state.
+    /// fallback — its PK-less members stay listed as "can't predict yet".
     nonisolated static func representativeIndex(
         _ params: [String: PharmacologyParameters],
     ) -> [ReceptorClasses.ReceptorClass: PharmacologyParameters] {
@@ -347,7 +346,7 @@ final class ToleranceStore {
         // Resolve pharmacology off the main actor: the per-substance Kᵢ/PK/molar-mass reads run on
         // SubstanceStore's batch connection, not in a tight loop on main (the post-commit hang the
         // 1.5 s launch delay only masked). The class representatives are resolved alongside the logged
-        // substances so the PK-less fallback (Stage D) has their PK template in `params`.
+        // substances so the PK-less fallback has their PK template in `params`.
         let uniqueNames = Array(Set(doses.map(\.substance) + SubstanceStore.shared.classRepresentativeNames()))
         let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
 
@@ -438,9 +437,9 @@ final class ToleranceStore {
     /// the heavy-kratom safety case. A substance with no tolerance-bearing target at all (action /
     /// mechanism mismatch only) is *not* incomplete data, just out of scope, so it isn't listed.
     ///
-    /// Stage D: a PK-less substance that a **class representative** *can* model (the missing-PK
-    /// fallback below builds surrogate contributors for at least one of its classes) is no longer
-    /// incomplete — it's predicted, just at a degraded confidence. Only a substance with no
+    /// A PK-less substance that a **class representative** *can* model (the missing-PK fallback below
+    /// builds surrogate contributors for at least one of its classes) counts as complete: it is
+    /// predicted, at a degraded confidence. Only a substance with no
     /// representative-backed fallback for any of its classes stays listed here. The eligibility test
     /// mirrors ``fallbackClasses(for:params:)`` so the two never disagree.
     nonisolated static func incompleteData(
@@ -453,13 +452,11 @@ final class ToleranceStore {
             where dose.timestamp <= now && dose.timestamp >= cutoff {
             guard !seen.contains(dose.substance) else { continue }
             guard let p = params[dose.substance], !p.canComputeOccupancy else { continue }
-            // Only flag substances whose *named* targets include a recognized tolerance mechanism
-            // (so a vitamin with a stray binding row doesn't show up as "incomplete tolerance data").
-            // The rebound-hosting adrenergic classes (§3.5) are excluded: they barely tolerize and have
-            // no PK-less representative by design, so a PK-less clonidine/propranolol is not "missing a
-            // prediction" — there is no tolerance curve to predict. (It just produces no card.)
-            // Tolerance-relevant if a named target classifies to a (non-rebound) mechanism OR the
-            // substance's category alone implies one (a designer benzo with no binding rows still is).
+            // A substance is tolerance-relevant when a named target classifies to a non-rebound
+            // mechanism or its category alone implies one (a designer benzo with no binding rows), so a
+            // vitamin with a stray binding row is never flagged. The rebound-hosting adrenergic classes
+            // (§3.5) are excluded: they barely tolerize and have no tolerance curve to predict, so a
+            // PK-less clonidine or propranolol produces no card rather than an "incomplete" one.
             let yardstick = mechanismYardstickNanomolar(p)
             let hasTargetMechanism = p.targets.contains(where: {
                 let cls = ReceptorClasses.classify(target: $0.target, action: $0.action)
@@ -482,8 +479,8 @@ final class ToleranceStore {
     /// exist. Empty ⇒ genuinely unmodelable (stays "can't predict yet"). Shared by ``buildClassWork``
     /// (which builds the surrogate contributors) and ``incompleteData``.
     ///
-    /// The **category** path is what rescues the RC tail (`Specs/tolerance-faithful-model-improvements.md`
-    /// §7 follow-up): a designer benzo / fluoro-amphetamine / RC opioid that ships no binding rows still
+    /// The **category** path is what rescues the RC tail:
+    /// a designer benzo / fluoro-amphetamine / RC opioid that ships no binding rows still
     /// drives its class, because its category alone identifies the mechanism. It composes with the target
     /// path, so a substance with partial bindings still picks up any category class its targets missed.
     private nonisolated static func fallbackClasses(
@@ -551,13 +548,13 @@ final class ToleranceStore {
 
     // MARK: - Pure replay (the testable core)
 
-    /// Replay a dose log into per-target tolerance state. Pure aside from the injected `resolve`
-    /// closure (production passes `SubstanceStore`), so the gate runs without a container or singleton.
-    ///
-    /// Each substance contributes a time-resolved occupancy curve at every target it engages
-    /// (absolute molar concentration → Hill occupancy, Foundation A); contributions at a *shared*
-    /// target combine via ``PDModel/competitiveOccupancy(_:)``, and that combined occupancy drives the
-    /// per-class three-layer right-shift `S(t)` with the class's ``ReceptorClasses/Parameters``.
+    // The replay turns a dose log into per-target tolerance state. It is pure aside from the injected
+    // `resolve` closure (production passes `SubstanceStore`), so the gate runs without a container or
+    // singleton. Each substance contributes a time-resolved occupancy curve at every target it engages
+    // (absolute molar concentration → Hill occupancy); contributions at a *shared* target combine via
+    // `PDModel.competitiveOccupancy(_:)`, and that combined occupancy drives the per-class three-layer
+    // right-shift `S(t)` with the class's `ReceptorClasses.Parameters`.
+
     /// A `Sendable` snapshot of one logged dose, so the heavy replay can run **off the main actor**
     /// (a SwiftData `DoseEntry` is a non-`Sendable` `@Model` and can't cross an isolation boundary).
     /// The unit→mg conversion is done while building the snapshot (on the actor that owns the entry).
@@ -589,7 +586,7 @@ final class ToleranceStore {
         for dose in doses where resolved.insert(dose.substance).inserted {
             if let p = resolve(dose.substance) { params[dose.substance] = p }
         }
-        // Resolve the class representatives too, so the PK-less fallback (Stage D) can model a logged
+        // Resolve the class representatives too, so the PK-less fallback can model a logged
         // substance as its representative at an equivalent dose.
         for repName in representativeNames where resolved.insert(repName).inserted {
             if let p = resolve(repName) { params[repName] = p }
@@ -603,7 +600,7 @@ final class ToleranceStore {
     /// The pure, `nonisolated` replay core — runs off the main actor over `Sendable` inputs.
     ///
     /// Each substance-dose contributes a time-resolved occupancy curve at every target it engages
-    /// (absolute molar concentration → Hill occupancy, Foundation A); contributions at a *shared* target
+    /// (absolute molar concentration → Hill occupancy); contributions at a *shared* target
     /// combine via ``PDModel/competitiveOccupancy(_:)``, and that combined occupancy drives the per-target
     /// three-layer right-shift `S(t)` with the class's ``ReceptorClasses/Parameters``.
     ///
@@ -731,14 +728,14 @@ final class ToleranceStore {
                     loggedName: dose.substance, restrictToClass: nil, confidenceFloor: .high,
                 ) else { continue }
                 builder.appendModulators(exposure: exposure, onset: onset)
-                // K.5: extend this dose's occupancy tail with its foldable active metabolites
+                // Extend this dose's occupancy tail with its foldable active metabolites
                 // (nordazepam for diazepam, …) — a delayed contributor per parent class.
                 builder.appendMetaboliteContributors(
                     exposure: exposure, metabolites: p.metabolites,
                     parentOnset: onset, escalation: escalation, sourceParams: p,
                 )
             } else if let refSub = p.referenceDoseMg, refSub > 0 {
-                // Stage D missing-PK fallback — model the substance AS its class representative at an
+                // Missing-PK fallback: model the substance AS its class representative at an
                 // equivalent dose, so an RC benzo with only a dose ladder still accrues GABA tolerance.
                 // The deep gate still uses the *substance's own* escalation (dose ÷ its heavy ceiling).
                 let escalation = doseMg / refSub
@@ -790,7 +787,7 @@ final class ToleranceStore {
         // Substance names driving each class, in most-recent-first order (the "driven by" chips). The
         // log is walked oldest→newest, so the most recent dose of a substance wins its position.
         private var substanceRecency: [ReceptorClasses.ReceptorClass: [String: Double]] = [:]
-        // Tolerance-modulation contributors keyed by the *affected* class (Stage 4b): an NMDA
+        // Tolerance-modulation contributors keyed by the *affected* class: an NMDA
         // antagonist onboard lowers μ-opioid tolerance development, etc.
         private var modulatorsByClass: [ReceptorClasses.ReceptorClass: [ModulatorContributor]] = [:]
 
@@ -813,8 +810,8 @@ final class ToleranceStore {
         /// Build per-target ``Contributor``s for one dose from `sourceParams`' PK + targets, grouping
         /// them into the by-class accumulators. The shared path both replay stages run:
         /// - **Direct** — `sourceParams` is the substance's own pharmacology, `restrictToClass` nil,
-        ///   `confidenceFloor` `.high` (a no-op `min`) ⇒ unchanged behavior.
-        /// - **Fallback (Stage D)** — `sourceParams` is a class representative's, `restrictToClass`
+        ///   `confidenceFloor` `.high` (a no-op `min`).
+        /// - **Fallback** — `sourceParams` is a class representative's, `restrictToClass`
         ///   pins it to the one class being surrogate-modeled (so Morphine→MOR only, not its
         ///   off-targets), and `confidenceFloor` (`.low` MME / `.unverified` dose-fraction) is
         ///   `min`-combined into every contributor so the class badges as predicted-not-measured.
@@ -935,7 +932,7 @@ final class ToleranceStore {
         /// Register one dose as a tolerance modulator for any class it modulates. Presence is
         /// the occupancy of its most-potent target *of the modulating class*, so the edge fires
         /// only while the modulator is actually onboard (concentration/overlap-gated). Direct
-        /// path only — a PK-less modulator can't be time-resolved (Stage D).
+        /// path only — a PK-less modulator can't be time-resolved.
         mutating func appendModulators(exposure: DoseExposure, onset: Double) {
             for (modClass, best) in exposure.bestTargetByClass {
                 for edge in ToleranceModulation.edges(forModulatorClass: modClass) {
@@ -956,7 +953,7 @@ final class ToleranceStore {
             }
         }
 
-        /// Spawn additional ``Contributor``s for a dose's **foldable active metabolites** (K.5): each is
+        /// Spawn additional ``Contributor``s for a dose's **foldable active metabolites**: each is
         /// a delayed, formation×potency-scaled echo of the parent at the same mechanism class, decaying
         /// on the metabolite's own (usually slower) half-life — so diazepam's nordazepam tail keeps
         /// GABA occupied for days after the parent itself has cleared. It reuses the parent dose's
@@ -1043,7 +1040,7 @@ final class ToleranceStore {
     /// down-only weight — it never boosts drive above the un-weighted value.
     private nonisolated static func scheduleRegularityFactor(contributors: [Contributor]) -> Double {
         // Distinct dose onsets (a dose spawns one contributor per target at the same onset). Spawned
-        // metabolite contributors (K.5) sit at parent-onset + Tmax, which is not a dosing event, so
+        // metabolite contributors sit at parent-onset + Tmax, which is not a dosing event, so
         // they're excluded — otherwise a regular daily course reads as irregular.
         let onsets = Set(contributors.filter { !$0.isMetabolite }.map(\.onset)).sorted()
         guard onsets.count >= 3 else { return 1 }
@@ -1071,7 +1068,7 @@ final class ToleranceStore {
             regularityFactor: work.regularityFactor,
         )
         let inputConfidence = work.contributors.map(\.confidence).min() ?? .unverified
-        // The differential safety endpoint's right-shift (Stage C) — `exp` of its two parallel ln-shift
+        // The differential safety endpoint's right-shift — `exp` of its two parallel ln-shift
         // layers, or `nil` when the class has no endpoint. Same occupancy, its own kinetics.
         let safetyShiftFactor: Double? = params.safetyEndpoint == nil
             ? nil
@@ -1227,7 +1224,7 @@ final class ToleranceStore {
     // MARK: - Private
 
     /// Dedicated executor for the heavy off-main replay: a concurrent, utility-QoS dispatch queue used
-    /// directly as a `TaskExecutor` (`DispatchQueue: TaskExecutor`, iOS 18.4+). Pinning the replay here
+    /// directly as a `TaskExecutor` (`DispatchQueue: TaskExecutor`). Pinning the replay here
     /// keeps the ~second-long CPU burst off **both** the main actor and Swift's *shared* cooperative
     /// pool, so it can't stall the UI or starve unrelated structured concurrency — and, unlike a plain
     /// `Task.detached`, it isn't pulled back onto the caller's executor by `NonisolatedNonsendingByDefault`
@@ -1318,7 +1315,7 @@ final class ToleranceStore {
         /// tolerance *drive* this contributor produces, so a partial agonist (mitragynine) entrenches
         /// less per unit occupancy. `1` for a full agonist / unknown. Identical across a dose's targets.
         let intrinsicEfficacy: Double
-        /// Whether this contributor is a **spawned active metabolite** (K.5) rather than a real logged
+        /// Whether this contributor is a **spawned active metabolite** rather than a real logged
         /// dose. Its onset is the parent's onset + Tmax, which is not a dosing event — so it must be
         /// excluded from ``scheduleRegularityFactor`` (else a regular daily course reads as irregular,
         /// its cadence halved by the interleaved metabolite onsets).
@@ -1403,14 +1400,14 @@ final class ToleranceStore {
         var sAcute = 0.0
         var sAdaptive = 0.0
         var sDeep = 0.0
-        // The slow serotonin-synthesis pool (Stage E) — gated per-cell on whether any currently-active
+        // The slow serotonin-synthesis pool — gated per-cell on whether any currently-active
         // contributor is a synthesis suppressor (MDMA-type), so the SERT class recovers over weeks for
         // entactogens but only days for the cathinones. `0` for every class with `synthesisShiftMax 0`.
         var sSynthesis = 0.0
         // The chronicity duty-cycle accumulator (§2) — the leaky time-averaged occupancy that gates the
         // deep layer. Reaches months of history via the 1-year replay window (see `defaultLookbackDays`).
         var chronicExposure = 0.0
-        // The differential safety endpoint's two parallel ln-shift layers (Stage C) — acute + adaptive
+        // The differential safety endpoint's two parallel ln-shift layers — acute + adaptive
         // only, no deep, no escalation gate; driven by the same occupancy. Left at 0 when the class has
         // no endpoint (the result then `exp`s to a neutral `1`).
         var sAcuteSafety = 0.0
@@ -1538,7 +1535,7 @@ final class ToleranceStore {
                 // when nothing is bound this cell (no drive accrues then anyway).
                 let efficacyDrive = sumRatio > 0 ? sumEffRatio / sumRatio : 1
 
-                // μ(t): tolerance-modulation factor driving the adaptive layer only (Stage 4b),
+                // μ(t): tolerance-modulation factor driving the adaptive layer only,
                 // same inline-compaction pattern.
                 var modulation = 1.0
                 if !activeModulators.isEmpty {
@@ -1596,7 +1593,7 @@ final class ToleranceStore {
                     current: sDeep, shiftMax: params.deepShiftMax, occupancy: occupancy,
                     drive: gate, dtMinutes: cellLength, tauMinutes: params.tauDeepMinutes,
                 )
-                // The slow synthesis pool (Stage E, §3.4): same occupancy, driven only while a
+                // The slow synthesis pool (§3.4): same occupancy, driven only while a
                 // synthesis-suppressing contributor is active — so MDMA-type entactogens build this
                 // weeks-τ pool while the cathinone releasers (drive 0) never do. Inert for every class
                 // whose `synthesisShiftMax` is 0 (no shift accrues regardless of the drive).
@@ -1606,7 +1603,7 @@ final class ToleranceStore {
                     tauMinutes: params.tauSynthesisMinutes,
                 )
 
-                // The differential safety endpoint's two parallel layers (Stage C) — same occupancy,
+                // The differential safety endpoint's two parallel layers — same occupancy,
                 // its own kinetics, no deep and no escalation gate. The acute layer is `drive: 1`; the
                 // adaptive layer shares the primary's tolerance-modulation `μ`.
                 if let safetyEndpoint {
@@ -1641,7 +1638,7 @@ final class ToleranceStore {
     // MARK: - Persistence (cache)
 
     /// Reload the cached per-class snapshot. The `ToleranceState.target` column stores the
-    /// ``ReceptorClasses/ReceptorClass`` raw value now (the entity is a disposable cache; the column
+    /// ``ReceptorClasses/ReceptorClass`` raw value (the entity is a disposable cache; the column
     /// name is kept to avoid a non-additive rename). Sub-targets aren't persisted — they're recomputed
     /// on the next replay, which the background refresh kicks off at launch anyway.
     private func loadCachedSnapshot() {
@@ -1661,7 +1658,7 @@ final class ToleranceStore {
                 representativeOccupancy: 0.5,
                 confidence: .unverified,
                 subTargets: [], contributors: [],
-                // The cache carries no safety state — recomputed on the first replay (Stage C).
+                // The cache carries no safety state — recomputed on the first replay.
                 safetyShiftFactor: nil, safetyEndpointKind: nil,
             )
         }
@@ -1674,13 +1671,12 @@ final class ToleranceStore {
     /// Write the durable ``ToleranceState`` cache **off the main actor**, on
     /// ``DatabaseActor``.
     ///
-    /// The save flushes to the SQLite store and, at launch, showed up as a ~190 ms main-thread block
-    /// (SwiftData store flush) right after the off-main replay. These rows are a *cache* — written
-    /// only here and re-read only at launch via ``loadCachedSnapshot()``, with the in-memory
-    /// ``states`` being the live source of truth the UI observes. Running the write on the shared
-    /// database actor (instead of the old unstructured `Task.detached` + throwaway context) keeps
-    /// concurrent persists ordered — last writer wins *deterministically* — alongside every other
-    /// background database operation; the 2 s debounce + signature gate already make overlap rare.
+    /// The save is a SwiftData store flush, measured at ~190 ms on the main thread at launch, so it
+    /// runs off main. These rows are a *cache*, written only here and re-read only at
+    /// launch via ``loadCachedSnapshot()``; the in-memory ``states`` are the live source of truth the
+    /// UI observes. Running the write on the shared database actor keeps concurrent persists ordered
+    /// (last writer wins *deterministically*) alongside every other background database operation;
+    /// the 2 s debounce and signature gate make overlap rare.
     ///
     /// The save runs under a ``BackgroundActivity``. A dose-log tick can arrive while the app is in
     /// the background (a notification action, a watch-logged dose, a background launch), and the
@@ -1721,8 +1717,8 @@ final class ToleranceStore {
                 }
                 byKey[key] = nil
             }
-            // Leftover rows: legacy per-receptor cache keys (pre per-class refactor) aren't valid class
-            // raw values — delete them. A class no longer driven by any in-window dose is reset to naïve
+            // Leftover rows: a key that is not a class raw value (a per-receptor key from an older cache
+            // shape) is deleted. A class no longer driven by any in-window dose is reset to naïve
             // (all layers 0 ⇒ S = 1) rather than deleted (stable row set; a recovered class reads rested).
             for (key, stale) in byKey {
                 if ReceptorClasses.ReceptorClass(rawValue: key) == nil {

@@ -191,8 +191,6 @@ digraph piru_pipeline {
   subgraph cluster_dead {
     label="Dead — zero references anywhere";
     style=dashed; color="#cc0000"; fontsize=11;
-    node [shape=ellipse, style=filled, fillcolor="#ffecec", color="#cc0000", fontcolor="#990000"];
-    d_acf  [label="apply_citation_fixes.py"];
     node [shape=box, style="rounded,filled", fillcolor="#ffecec"];
     d_merged [label="data/enrichment/\nmerged.json, class-context.json,\ncoverage.csv"];
   }
@@ -317,6 +315,4 @@ digraph piru_pipeline {
   a_dose -> a_adj [style=dotted, label="import: LADDER,\nROUTE_RANK, units"];
   s_vcache -> g_tests;
 
-  /* ================= EDGES: dead ================= */
-  d_acf   -> e_raw [color="#cc0000", style=dashed];
 }

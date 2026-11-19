@@ -52,8 +52,8 @@ extension View {
     /// toolbar — a trailing ``AppOverflowMenu``. Per-screen toolbar items are
     /// added by the caller with a regular `.toolbar { }`.
     ///
-    /// `enabled` mirrors the old custom-header switch: a view used both as a
-    /// tab root (chrome on) and embedded in the Search surface (chrome off).
+    /// `enabled` serves a view used both as a tab root (chrome on) and embedded
+    /// in the Search surface (chrome off).
     @ViewBuilder
     func appNavigationBar(
         _ title: LocalizedStringKey,

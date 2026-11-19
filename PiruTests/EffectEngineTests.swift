@@ -135,9 +135,9 @@ struct EffectEngineTests {
 
     @Test
     func `Doses outside the window don't crash — before it contributes a tail, after it contributes nothing`() throws {
-        // Regression: editing a dose earlier than the session origin makes its
-        // time negative, which used to index cRaw[negative] and trap. A dose
-        // after tMax must simply contribute nothing.
+        // Editing a dose earlier than the session origin makes its time
+        // negative, and indexing cRaw with it traps. A dose after tMax must
+        // simply contribute nothing.
         let dg = try #require(Self.drug["mdma"])
         // A dose 2h *before* t=0: no crash, and it still leaves a decayed tail in
         // the window (some non-zero euphoria at t=0).

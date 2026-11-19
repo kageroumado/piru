@@ -4,9 +4,9 @@ import Testing
 @testable import Piru
 
 /// The body-load card must call a substance what the dose rows above it call it.
-/// It used to re-derive the label from the canonical name alone, so a dose logged
-/// as 美金刚 (a Chinese alias in the catalog) or Concerta reappeared underneath as
-/// "Memantine" / "Methylphenidate" — the same screen naming one substance two ways.
+/// A label from the canonical name alone turns a dose logged as 美金刚 (a Chinese
+/// alias in the catalog) or Concerta into "Memantine" / "Methylphenidate"
+/// underneath, one screen naming one substance two ways.
 @Suite("Session body load naming")
 @MainActor
 struct SessionBodyLoadNamingTests {

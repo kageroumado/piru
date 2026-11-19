@@ -369,13 +369,13 @@ struct SessionBodyLoadModel {
     }
 }
 
-/// "In your body" — the session's per-substance aggregates. Merges what used to
-/// be the bare cumulative-totals rows with live elimination state: total dosed,
-/// what's still circulating, clearance projections, and the elimination curve
-/// one tap away (a rotating chevron marks every active row as expandable). Totals
-/// are the "dosed" side of the body-load equation, so the two former sections are
-/// one story here. For a past session (everything cleared) it degrades to re-dose
-/// totals alone; a session of single doses that have all worn off shows nothing.
+/// "In your body": the session's per-substance aggregates with their live
+/// elimination state. Total dosed, what's still circulating, clearance
+/// projections, and the elimination curve one tap away (a rotating chevron
+/// marks every active row as expandable). Totals are the "dosed" side of the
+/// body-load equation, so both sides read as one story. For a past session
+/// (everything cleared) it shows re-dose totals alone; a session of single
+/// doses that have all worn off shows nothing.
 struct SessionBodyLoadSection: View {
     let entries: [DoseEntry]
     let colorMap: [String: Color]

@@ -31,8 +31,7 @@ what CI sees rather than to run something weaker:
 
 1. **ruff is scoped to git-tracked files.** CI runs `ruff format --check .` over a
    fresh checkout, so it only ever sees tracked files. Locally that `.` also walks
-   `Specs/`, which is git-IGNORED (this repo is public; the specs are not) and
-   holds 5 unformatted files and 13 lint errors. Run verbatim, this hook would
+   git-ignored folders, which hold unformatted files and lint errors. Run verbatim, this hook would
    fail on every push forever over files CI cannot see.
 2. **Environment setup steps are skipped** — `pip install`, `apt-get`, `brew`. Your
    machine is not a fresh runner and we are not going to install packages behind

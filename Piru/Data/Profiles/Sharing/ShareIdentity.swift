@@ -60,11 +60,6 @@ nonisolated struct ShareIdentityStore: Sendable {
         return ShareIdentity(personID: stored.personID, privateKey: key)
     }
 
-    /// The local profile whose identity is `personID`, among `profileIDs`.
-    func profileID(forPersonID personID: UUID, among profileIDs: [UUID]) -> UUID? {
-        profileIDs.first { existingIdentity(for: $0)?.personID == personID }
-    }
-
     func forget(profileID: UUID) {
         storage.delete(profileID: profileID)
     }

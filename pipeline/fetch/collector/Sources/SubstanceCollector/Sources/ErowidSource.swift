@@ -154,17 +154,14 @@ struct ErowidSource {
         for t in breakTags {
             s = s.replacingOccurrences(of: t, with: "\n", options: .caseInsensitive)
         }
-        // Strip remaining tags. `[^<>]` rather than `[^>]` is load-bearing: the
-        // book text contains bare `<` characters (mass-spec intensities like
+        // Strip remaining tags. Never widen `[^<>]` to `[^>]`: the book text
+        // contains bare `<` characters (mass-spec intensities like
         // "parent ion 218 (<1%)"), and with `[^>]+` such a `<` opens a false tag
-        // whose greedy match runs on to the NEXT `>` — swallowing the newlines
-        // and the `<b>` that follow it. That put `DOSAGE :` in the middle of a
-        // line instead of at the start, so `extractSection`'s `^DOSAGE\s*:`
-        // never matched and the entry shipped with no dose at all. It hit 26 of
-        // 234 PIHKAL/TIHKAL entries — exactly those with a `<` shortly before
-        // their DOSAGE line — including 5-MeO-DiPT, DiPT and 2C-T-21, and it
-        // cost a,N,O-TMS a wrongful deletion in the 2026-08-01 cleanup.
-        // Refusing to cross a `<` confines the damage to the stray character.
+        // whose match runs on to the next `>`, swallowing the newlines and the
+        // `<b>` after it. `DOSAGE :` then lands mid-line, `extractSection`'s
+        // `^DOSAGE\s*:` never matches, and the entry (5-MeO-DiPT, DiPT,
+        // 2C-T-21) ships with no dose. Refusing to cross a `<` confines the
+        // damage to the stray character.
         if let re = try? NSRegularExpression(pattern: "<[^<>]+>") {
             let r = NSRange(s.startIndex ..< s.endIndex, in: s)
             s = re.stringByReplacingMatches(in: s, range: r, withTemplate: " ")

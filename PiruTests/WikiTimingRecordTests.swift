@@ -8,7 +8,7 @@ struct WikiTimingRecordTests {
     private func record(_ json: String, kind: String = "duration_curve", id: String = "fixture") throws -> WikiTimingRecord {
         try WikiTimingRecord(
             id: id, sourceName: "Fictional compound", route: "ophthalmic",
-            kind: kind, entryIndex: 0, releaseID: "fictional-release",
+            kind: kind, entryIndex: 0,
             entryJSON: json, timingTextJSON: "{}",
         )
     }
@@ -71,7 +71,7 @@ struct WikiTimingRecordTests {
     func `source links retain Greek letters and normalized characters`(name: String, slug: String) throws {
         let result = try WikiTimingRecord(
             id: "fictional", sourceName: name, route: nil, kind: "duration_curve",
-            entryIndex: 0, releaseID: nil, entryJSON: "{}", timingTextJSON: "{}",
+            entryIndex: 0, entryJSON: "{}", timingTextJSON: "{}",
         )
         #expect(result.sourceURL?.absoluteString == "https://substance.wiki/drug/\(slug)")
     }

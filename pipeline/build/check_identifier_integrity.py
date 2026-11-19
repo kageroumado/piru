@@ -2,30 +2,28 @@
 """Integrity check: every substance's stored InChIKey must agree with the InChIKey
 recomputed from its own SMILES.
 
-This is the guard against the class of corruption fixed in 2026-06: upstream
-sources shipped InChIKeys that didn't match their structure (the LLM enrichment
-swarm fabricated ~72% of its keys; the NPS vendor dump carried wrong-regioisomer
+Upstream sources ship InChIKeys that don't match their structure (LLM
+enrichment fabricated keys; the NPS vendor dump carried wrong-regioisomer
 SMILES). The reconciliation pass (``reconcile_identifiers_pubchem.py`` +
-``apply_identifier_reconciliation``) drove the wrong-skeleton count from 158 → 4.
-This check keeps it there: any *new* skeleton mismatch (e.g. a re-fetched
-enrichment batch reintroducing bad keys) fails CI.
+``apply_identifier_reconciliation``) repairs them, and this check fails CI on
+any new mismatch, such as a re-fetched enrichment batch reintroducing bad keys.
 
 Two comparisons run:
 
 * **skeleton** — the InChIKey connectivity block (first 14 chars) must match. A
-  mismatch here means a wrong 2D structure (the corruption fixed in 2026-06).
+  mismatch here means a wrong 2D structure.
 * **stereo** — when the skeleton matches AND *both* keys carry a specified stereo
   layer (block 2 != the ``UHFFFAOYSA`` sentinel), those layers must agree. A row
   whose SMILES encodes one enantiomer/diastereomer while its stored key claims
   another is a wrong-3D-structure error the skeleton-only check can't see (e.g.
   the swapped R/S-MDMA SMILES and the dextromethorphan-family stereo mixups). A
-  flat-source SMILES (sentinel block 2) against a stereo key is still tolerated —
-  that is a representation choice, not a wrong molecule.
+  flat-source SMILES (sentinel block 2) against a stereo key is tolerated: it
+  is a representation choice, and the molecule is the same.
 
 ``ALLOWLIST`` holds the known-irreducible mismatches: novel RCs PubChem doesn't
 index (so no external arbiter) and one whose upstream name+CAS both collide with
 an unrelated compound. Each is a substance whose *structure* can't be verified
-externally, not a fixable error — adding to this list is a deliberate act.
+externally, so adding to this list is a deliberate act.
 
 Requires OpenBabel (``obabel``). Usage:
     python3 pipeline/build/check_identifier_integrity.py [path-to.sqlite]
@@ -50,18 +48,13 @@ from chem_ids import (  # noqa: E402
 DEFAULT_DB = Path(__file__).resolve().parents[2] / "Piru/Data/piru-substances.sqlite"
 
 # Substances whose stored InChIKey can't be externally verified (not in PubChem,
-# or upstream identifiers collide with an unrelated compound). Not errors —
-# structures we have no authority to correct against. See module docstring.
+# or upstream identifiers collide with an unrelated compound): structures we have
+# no authority to correct against. See module docstring.
 ALLOWLIST = {
     "4-HO-PiPT",  # novel tryptamine, not in PubChem
-    # Was "5-BR-DMT", which stopped being a canonical name when the row folded
-    # into "5-Bromo-DMT" (5-BR-DMT survives as an alias). This set is matched on
-    # canonical_name, so the old spelling silently allowlisted nothing.
+    # Matched on canonical_name: an alias spelling (5-BR-DMT) allowlists nothing.
     "5-Bromo-DMT",  # novel tryptamine, not in PubChem
     "alpha-N,N-trimethyltryptamine",  # not in PubChem
-    # "Doip" removed 2026-08-02: its stored key was GYEHYVZVTYSXPS, which resolves
-    # nowhere; the SMILES was right all along and now carries the matching
-    # SPKSLAUXKHSASF (CID 44265275). Nothing left to excuse.
 }
 
 

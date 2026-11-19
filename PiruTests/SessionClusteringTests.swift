@@ -142,9 +142,7 @@ struct SessionClusteringTests {
         //
         // The last dose sits at 11 h — past the 9 h clamp, but only 5 h after the
         // previous one, so it is the *clamp* being tested here and not the
-        // ceiling. (This test previously placed it at 8 h, which was past the old
-        // 6 h clamp; the constant moved to 9 h when the flat ceiling was found to
-        // be splitting sessions mid-effect for anything longer-acting than ~5 h.)
+        // ceiling.
         let doses = [
             dose(0, effectHours: 48),
             dose(3, effectHours: 1),

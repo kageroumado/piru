@@ -1,7 +1,7 @@
 import Testing
 @testable import Piru
 
-/// The variants are `regional_names` rows now, installed into ``RegionalSubstanceName`` when the store
+/// The variants are `regional_names` rows, installed into ``RegionalSubstanceName`` when the store
 /// builds its indexes — so every test here needs the store up first. Touching the singleton in `init`
 /// makes that dependency explicit rather than relying on some other suite having warmed it.
 @Suite("RegionalSubstanceName")
@@ -100,7 +100,7 @@ struct RegionalSubstanceNameTests {
 
     /// Every variant must name a substance the bundled DB actually carries, or the entry can never
     /// reach the screen: the only caller is ``Substance/displayTitle``, which is reached with a real
-    /// substance's name. A norepinephrine entry sat in the old Swift table doing exactly this.
+    /// substance's name.
     @Test
     func `Every regional variant names a substance in the bundled DB`() {
         let variants = SubstanceReadModel.regionalNames(db: SubstanceStore.shared.substancesDB)

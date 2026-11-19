@@ -65,12 +65,7 @@ digraph piru_pipeline_overview {
     ci         [label="CI (.github/workflows/ci.yml)\nfetches the DB, runs 9 audit gates + 21 tests\nnever builds", shape=box];
   }
 
-  subgraph cluster_dead {
-    label="Dead — zero references (DELETE-CANDIDATES.md)"; style=dashed; color="#c03030"; fontcolor="#c03030";
-    dead [label="apply_citation_fixes.py\n(no inputs: every batch applied)", shape=box, color="#c03030", fontcolor="#c03030", fillcolor="#fff0f0"];
-  }
-
-  legend [shape=note, fillcolor="#fafafa", label="Legend\nbox = file/data · ellipse = script\nblue = build path · yellow = hand-authored\ngreen = shipped · gray = run by hand · red = dead"];
+  legend [shape=note, fillcolor="#fafafa", label="Legend\nbox = file/data · ellipse = script\nblue = build path · yellow = hand-authored\ngreen = shipped · gray = run by hand"];
 
   // upstream → fetch
   web -> collector; dw_api -> fetch_pw; web -> fetch_pw;

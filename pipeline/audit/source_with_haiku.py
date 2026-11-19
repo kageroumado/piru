@@ -121,7 +121,6 @@ CURATED = REPO / "data/curated"
 RULES = CURATED / "interaction-rules.json"
 SUBSTANCE_FILES = CURATED / "substances"
 POPULARITY = REPO / "data/sources/wikipedia-popularity.json"
-DAILYMED_NDC = REPO / "data/sources/dailymed-labels.json"
 CACHE = Path(os.environ.get("PIRU_SOURCING_CACHE", "/Volumes/Ugreen/Scratch/piru-sourcing"))
 
 MODEL = "claude-haiku-5-5"

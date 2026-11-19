@@ -93,7 +93,7 @@ struct CombinedDepressionReducerTests {
 /// ``CombinedDepression/analyze(entries:now:weightKg:timestepMinutes:)``. Proves the index ranks the
 /// already-encoded dangerous pairs (opioid+benzo, opioid+alcohol) into the dangerous band, degrades
 /// gracefully to the effect-shape surrogate for substances without occupancy data, and never fires on
-/// a non-depressant pair. (`Specs/pharmacology-axis-meta-plan.md`, Stage 3b.)
+/// a non-depressant pair.
 @Suite("CombinedDepression end-to-end")
 @MainActor
 struct CombinedDepressionEndToEndTests {
@@ -153,9 +153,7 @@ struct CombinedDepressionEndToEndTests {
             Self.dose("Morphine", mg: 30), Self.dose("Alcohol", mg: 20_000),
         ]))
         // Morphine resolves real MOR occupancy; alcohol ships no half-life in its pk_routes, so
-        // occupancy is uncomputable and it falls back to the drug-class surrogate curve. (Diazepam
-        // used to be the surrogate example, but it now resolves a backfilled molar mass + GABA-A
-        // occupancy — it's modeled.)
+        // occupancy is uncomputable and it falls back to the drug-class surrogate curve.
         #expect(result.modeledCount == 1)
         #expect(result.totalCount == 2)
         #expect(!result.isFullyModeled)

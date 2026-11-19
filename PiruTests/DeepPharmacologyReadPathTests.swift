@@ -2,14 +2,13 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// The read paths for four tables that shipped in the bundled database with no
-/// query reading them: `pharmacogenetics` (305 rows), `downstream_signalling`
-/// (690), `biased_agonism` + `neuroimaging` + `receptor_oligomers` (83), and
-/// `concentration_effects` (23).
+/// The read paths for `pharmacogenetics`, `downstream_signalling`,
+/// `biased_agonism`, `neuroimaging`, `receptor_oligomers` and
+/// `concentration_effects` in the bundled database.
 ///
-/// Each test asserts a *specific* row reaches the model, not merely that the
-/// query returns something — a coverage-shaped assertion is what let the
-/// effects hole pass for 77 substances.
+/// Each test asserts a *specific* row reaches the model. A coverage-shaped
+/// assertion (the query returns something) passes while a whole table goes
+/// unread for most substances.
 @Suite("Deep pharmacology read paths")
 @MainActor
 struct DeepPharmacologyReadPathTests {

@@ -4,13 +4,13 @@ import SwiftData
 /// Maps a `WatchDosePayload` (arriving over WatchConnectivity) onto a `DoseEntry` and
 /// inserts it through the **canonical** `DoseLogService.log` path — so a watch dose gets
 /// the same session assignment, harm-reduction notifications, and change signal as one
-/// logged on the phone. The phone stays the single writer (`Specs/apple-watch-companion.md`).
+/// logged on the phone. The phone stays the single writer.
 ///
 /// ## Idempotency
 /// `transferUserInfo` guarantees delivery but can re-deliver; the payload's `id` is the
 /// dedup key. `ingest` skips a payload whose id already exists as a `DoseEntry`, so a
-/// re-delivered transfer never double-logs. `DoseEntry.id` is app-level unique
-/// (`Specs/dose-entry-stable-id.md`), which is exactly what this relies on.
+/// re-delivered transfer never double-logs. `DoseEntry.id` is app-level unique,
+/// which is exactly what this relies on.
 ///
 /// The `WCSessionDelegate` calls ``ingest(_:in:)``; it is otherwise a pure seam,
 /// unit-testable with a simulated payload and no watch.

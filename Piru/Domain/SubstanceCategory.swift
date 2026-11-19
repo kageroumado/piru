@@ -95,8 +95,8 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     }
 
     /// Proportions for synthesizing a renderable effect curve from
-    /// endpoint-only duration data (a `total` but no come-up/peak/offset — the
-    /// LSD-oral class, where one source supplied only onset+total). `onset` is a
+    /// endpoint-only duration data (a `total` but no come-up/peak/offset, as when
+    /// a source supplies only onset and total). `onset` is a
     /// fraction of `total`, used only when no onset phase exists; `comeup` /
     /// `peak` / `offset` are *relative weights* that split the remaining active
     /// span into the rising / plateau / falling shoulders of the bell. Shaped by

@@ -23,7 +23,7 @@ enum PKModel {
     /// pure one-compartment shape `(ka/(ka−ke))·(e^{−ke·t} − e^{−ka·t})`, and absolute concentration
     /// is simply `(F · Dose / Vd)` times it, where `Vd = vdPerKg · weightKg`. Unlike the normalized
     /// curve used for the visual timeline, this preserves dose magnitude — so 5 mg and 50 mg of the
-    /// same drug now yield *different* curves, which is what makes dose-dependent tolerance expressible.
+    /// same drug yield *different* curves, which is what makes dose-dependent tolerance expressible.
     ///
     /// - Parameters:
     ///   - dose: administered amount in **milligrams** (convert the logged dose unit before calling).
@@ -220,8 +220,7 @@ extension PKModel {
     ///   and side-effects, not peak effect.
     ///
     /// At `C ≪ Km` both reduce to first-order kinetics, so a substance flagged saturable behaves
-    /// identically to the closed-form Bateman path at low dose — nothing changes for the ~1000
-    /// substances that carry no flag.
+    /// identically to the closed-form Bateman path at low dose.
     nonisolated enum Saturation: Equatable {
         /// No saturation — use the closed-form ``concentration(at:ke:ka:)`` path instead.
         case none

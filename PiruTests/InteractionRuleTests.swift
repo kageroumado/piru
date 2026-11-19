@@ -92,9 +92,9 @@ struct InteractionRuleTests {
 
     @Test
     func `A non-serotonergic opioid does not trigger an SSRI serotonin rule`() {
-        // The old blanket `.opioid + .ssri` rule fired "serotonin syndrome risk" on every opioid, which is
-        // noise: oxycodone/morphine/kratom/heroin aren't serotonergic. The genuinely-serotonergic opioids
-        // ride `.serotonergic` and are covered below — so a plain opioid + SSRI must surface no SS rule.
+        // Never add a blanket `.opioid + .ssri` rule: it fires "serotonin syndrome risk" on every opioid,
+        // and oxycodone/morphine/kratom/heroin aren't serotonergic. The serotonergic opioids ride
+        // `.serotonergic` and are covered below, so a plain opioid + SSRI must surface no SS rule.
         for opioid in ["Oxycodone", "Morphine", "Kratom", "Heroin"] {
             let results = InteractionChecker.check(opioid, against: [makeEntry(substance: "Sertraline")])
             #expect(

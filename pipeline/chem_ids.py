@@ -8,9 +8,9 @@ Kept stdlib-only and side-effect-free on import so both `pipeline/build/` and
 Two concerns live here:
 
 * ``obabel_inchikey`` — the project's structural-identity oracle: recompute an
-  InChIKey from a SMILES via OpenBabel. Previously copied verbatim in three
-  places (the reconciler, the enrichment key-fixer, the CI integrity check);
-  a single copy keeps a flag/invocation change from silently diverging.
+  InChIKey from a SMILES via OpenBabel. The reconciler, the enrichment
+  key-fixer and the CI integrity check share this one copy, so a flag or
+  invocation change reaches all three.
 * InChIKey layer accessors — ``inchikey_block1`` (the 14-char connectivity
   skeleton, the dedup/fold key) and ``inchikey_block2`` (the stereo/isotope
   layer, whose sentinel ``UHFFFAOYSA`` marks "no stereo specified"). These make

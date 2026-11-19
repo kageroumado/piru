@@ -2,8 +2,8 @@ import Foundation
 
 /// What to call a logged dose.
 ///
-/// The one place the title precedence lives (`Specs/psid-identity-consumption.md`
-/// LB-3). Every in-app surface that renders a dose's name resolves here, so the
+/// The one place the title precedence lives.
+/// Every in-app surface that renders a dose's name resolves here, so the
 /// journal, session detail, entry detail, the Live Activity, and the PDF all
 /// answer the same question the same way.
 ///
@@ -18,7 +18,7 @@ import Foundation
 /// **Not for identity-poor surfaces.** The widgets can't reach the catalog, so
 /// they read ``DoseEntry/displayNameSnapshot`` directly instead of resolving
 /// here — see `RecentDoseWidget`. In-app the snapshot is a *fallback*, never the
-/// source: it is deliberately canonical, region-unresolved, and un-relabelled, so
+/// source: it is deliberately canonical, region-unresolved, and un-relabeled, so
 /// rendering it directly would show "Acetaminophen" to a Paracetamol region and
 /// drop the user's relabel.
 enum DoseTitle {
@@ -66,11 +66,10 @@ enum DoseTitle {
         let canonical = substance?.name ?? name
 
         // 1. A relabel is a standing "always call this X" and outranks everything,
-        //    including regionalization — which it loses to today, because the
-        //    overlay injects it into `displayName` and `displayTitle` resolves the
-        //    regional variant ahead of that. Fixing it here rather than in
-        //    `displayTitle` keeps the blast radius to dose titles; the library and
-        //    inventory keep the old order (a noted tension, spec §Non-goals).
+        //    including regionalization. `displayTitle` resolves the regional
+        //    variant ahead of the relabel the overlay injects into `displayName`,
+        //    so the order is enforced here, for dose titles only; the library and
+        //    inventory keep `displayTitle`'s order (a known tension, spec §Non-goals).
         if let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: canonical) {
             return relabel
         }
@@ -83,8 +82,8 @@ enum DoseTitle {
 
         // 3. The catalog's title for the form this dose recorded — "Esketamine"
         //    for a picked isomer, "Methylphenidate XR" for a recovered brand.
-        //    Safe to render only because an unmodeled form no longer draws a
-        //    contradicting curve (D.4/LB-2).
+        //    Safe to render only because an unmodeled form draws no
+        //    contradicting curve.
         let base: String = if namesForm, let composed = SubstanceLibrary.formTitle(
             for: canonical, isomer: isomer, release: releaseForm,
         ) {
@@ -114,7 +113,7 @@ enum DoseTitle {
     /// ``DoseEntry/displayNameSnapshot``.
     ///
     /// Deliberately **canonical**: never region-resolved (Acetaminophen, not
-    /// Paracetamol) and never relabelled. It is what the identity-poor surfaces
+    /// Paracetamol) and never relabeled. It is what the identity-poor surfaces
     /// read (widgets, which can't reach the catalog) and what in-app rendering
     /// falls back to when the catalog no longer knows a substance. Regionalizing
     /// it would also be impossible to undo later — `RegionalSubstanceName` keys on

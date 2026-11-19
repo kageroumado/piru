@@ -466,22 +466,19 @@ private struct SearchSurface: View {
 
 private extension View {
     /// The tab bar's bottom accessory — Piru's "now logging" surface, the analog
-    /// of Music's now-playing bar. It is *always* mounted (iOS 26.0+) and morphs
+    /// of Music's now-playing bar. It is always mounted and morphs
     /// between two faces: the live-session pill when a session is active, and an
     /// idle "Record an entry" call-to-action otherwise. Anchoring the primary action
     /// here (rather than a floating button) keeps it pinned to the tab bar — it
     /// never looks orphaned, and it folds into the bar's inline placement for
     /// free when the tab bar minimizes on scroll.
     ///
-    /// **Do not add a grow-from-button zoom to the sheets launched from here.**
-    /// iOS hosts accessory content in a context separate from the main view tree,
-    /// so a `matchedTransitionSource` placed *inside* the accessory cannot anchor
-    /// a sheet's zoom: the transition silently does nothing and the sheet slides
-    /// up anyway. The navigator carried the plumbing for one — a `zoomSource`
-    /// parameter, a namespace published through the environment — and every piece
-    /// of it was unreachable for exactly this reason. A zoom needs a source
-    /// control in the main view tree; the primary action lives here instead,
-    /// which is the trade this accessory is making.
+    /// Never add a grow-from-button zoom to the sheets launched from here: iOS
+    /// hosts accessory content in a context separate from the main view tree,
+    /// so a `matchedTransitionSource` inside the accessory cannot anchor a
+    /// sheet's zoom. The transition silently does nothing and the sheet slides
+    /// up anyway. A zoom needs a source control in the main view tree, and
+    /// keeping the primary action here is worth giving it up.
     @ViewBuilder
     func withSessionAccessory() -> some View {
         #if os(iOS)
@@ -605,15 +602,13 @@ private extension View {
 // pill and the idle action bar (shortcut slots · label · "+"), configured in
 // the Log sheet's Edit surface (`DockPreferences`).
 //
-// Layout is one full-width **body button** with the "+" **overlaid** on top as
-// its own button. So the whole surface is tappable — a tap anywhere logs a dose
-// (idle) or opens the session (live) — while the "+" still logs directly. The
-// "+" lives outside the crossfading body, pinned trailing, so it stays solid
-// and never moves between the two faces; only the body content crossfades. (We
-// avoid `matchedGeometryEffect` across the swap: iOS hosts accessory content in
-// a context separate from the main view tree — the same boundary that stops a
-// `matchedTransition` from anchoring the sheet zoom — so a geometry match there
-// snaps rather than animates.)
+// Layout is one full-width body button with the "+" overlaid as its own
+// button, so a tap anywhere logs a dose (idle) or opens the session (live)
+// while the "+" still logs directly. The "+" sits outside the crossfading body,
+// pinned trailing, so it stays solid between the two faces. No
+// `matchedGeometryEffect` across the swap: iOS hosts accessory content in a
+// context separate from the main view tree, so a geometry match there snaps
+// rather than animates.
 #if os(iOS)
     private struct BottomAccessoryContent: View {
         @Environment(\.tabViewBottomAccessoryPlacement) private var placement

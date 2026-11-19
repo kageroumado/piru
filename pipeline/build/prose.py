@@ -75,13 +75,12 @@ _MULTINEWLINE = re.compile(r"\n{3,}")
 
 
 #: A sentence addressed to whoever is curating the data rather than to whoever
-#: is reading the app. The enrichment passes that produced the deep-pharmacology
-#: tables left these inline — "MISCATEGORIZED: …", "See deliriants enrichment
-#: file.", "Recategorize as Psychedelic." — and they shipped to the screen.
+#: is reading the app. The enrichment passes that produce the deep-pharmacology
+#: tables leave these inline ("MISCATEGORIZED: …", "See deliriants enrichment
+#: file.", "Recategorize as Psychedelic."), and unmatched they ship to the screen.
 #: `[sz]` throughout: the enrichment files are written in British English and
 #: `americanize` runs later in the build, so a matcher that only knows -ize
-#: never sees these strings — which is how "miscategorised" survived a pass
-#: written to remove exactly it.
+#: never sees the -ise spellings.
 _CURATOR_NOTE = re.compile(
     r"\b(?:miscategori[sz]|misclassif|recategori[sz]|reassign(?:ing|ed)?\b|"
     r"enrichment file|for proper enrichment|recommend reassigning|"
@@ -156,9 +155,8 @@ def clean_wiki_prose(text: str | None) -> str:
 # ---------------------------------------------------------------------------
 
 #: The repo's voice rule names this phrase outright: it implies the reader is
-#: guilty of something needing reducing. Banned in anything a reader sees.
-#: (Scholarship is exempt — in a paper it is a field name — but nothing here is
-#: a paper.)
+#: guilty of something needing reducing. Banned in anything a reader sees; the
+#: scholarship exemption covers papers, and nothing this builds is one.
 BANNED_PHRASE = re.compile(r"harm[- ]reduction", re.IGNORECASE)
 
 #: What each surviving form becomes. Sources use the phrase three ways and each
@@ -169,11 +167,10 @@ BANNED_PHRASE = re.compile(r"harm[- ]reduction", re.IGNORECASE)
 #:    content.
 #: 2. As a lead-in ("For harm reduction, take 1-2 small puffs") — the lead-in
 #:    goes and the instruction stands on its own.
-#: 3. Naming a kind of organisation — replaced with a plain description.
+#: 3. Naming a kind of organization: replaced with a plain description.
 #:
 #: An entry is a (pattern, replacement) pair applied in order. Anything the
-#: table does not cover survives, and `assert_voice_rule` then fails the build —
-#: silence is not an option for this one.
+#: table does not cover survives, and `assert_voice_rule` then fails the build.
 _VOICE_REWRITES: list[tuple[re.Pattern[str], object]] = [
     # ---- whole sentences first -------------------------------------------
     # A sentence whose content IS the exhortation. These run before the

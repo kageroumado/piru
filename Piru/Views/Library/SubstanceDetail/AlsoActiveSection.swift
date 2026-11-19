@@ -2,8 +2,8 @@ import SwiftUI
 
 /// **Also Active** — the metabolites doing some of the work.
 ///
-/// Shown at every disclosure tier, because a reader below Pharma Nerd is the one
-/// least likely to know a metabolite is doing the work.
+/// Shown open at every tier, because the reader who never opens the pharmacology
+/// cards is the one least likely to know a metabolite is doing the work.
 ///
 /// Deliberately not collapsible: it's usually one card, and folding it re-buries
 /// the thing being surfaced.

@@ -4,9 +4,9 @@ import SwiftUI
 // The "Also Active" surface: what your body turns a substance into, when that
 // byproduct is doing some of the work. Distinct from the Metabolism disclosure,
 // which answers "how does my body clear this" — enzymes, clearance shares,
-// citations — and stays pharma-nerd. This answers "is something other than what
-// I took producing the effect", which is a fact about the user's experience
-// rather than reference data, and so is surfaced a tier earlier.
+// citations. This answers "is something other than what I took producing the
+// effect", which is a fact about the user's experience rather than reference
+// data, so it sits on the main page, open at every tier.
 
 // MARK: - Card
 

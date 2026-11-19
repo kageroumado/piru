@@ -10,18 +10,17 @@ for *reading* both sides of that override — used by:
   * ``tests/test_overlay_integrity.py`` — build-pipeline integrity gate
   * ``clean_curated_overlay.py``   — deadweight/false-data removal + flagging
 
-Design notes learned the hard way:
+Design notes:
 
-  * **Chemical identity, not names.** Name/alias matching produces false
-    "duplicate" signals — upstream aliases can point to a *different* canonical
-    entity (e.g. "THC" is an alias of *Cannabis* in PW/TripSit, not the isolated
-    cannabinoid). The robust identity key is the exact InChIKey. Only *exact*
-    InChIKey collisions are merge/corruption bugs; shared connectivity-blocks
-    (first 14 chars) are legitimate stereoisomer/salt families and must be left
-    alone.
+  * **Identity is the InChIKey.** Name/alias matching produces false
+    "duplicate" signals, because upstream aliases can point to a different
+    canonical entity ("THC" is an alias of *Cannabis* in PW/TripSit rather than
+    the isolated cannabinoid). Only exact InChIKey collisions are
+    merge/corruption bugs; shared connectivity blocks (first 14 chars) are
+    stereoisomer/salt families and must be left alone.
   * **Resolve curated→DB via aliases.** A curated file named "3-CMC" merges into
-    canonical "3-Chloromethcathinone" (3-CMC becomes an alias). Looking up by the
-    curated name alone misses ~25 files; the alias index closes that gap.
+    canonical "3-Chloromethcathinone" (3-CMC becomes an alias), so a lookup by
+    the curated name alone misses files; the alias index closes that gap.
 """
 
 from __future__ import annotations
@@ -35,7 +34,6 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 DB = REPO / "Piru/Data/piru-substances.sqlite"
 CURATED_DIR = REPO / "data/curated/substances"
-SOURCES_DIR = REPO / "data/sources"
 
 CURATED_SOURCE = "piru-curated"
 
@@ -417,8 +415,7 @@ def inchikey_duplicates(db: dict) -> list[dict]:
 # its stereo code + display name relative to the racemate/parent. Order matters:
 # longer/more-specific prefixes first. This only SEEDS the curated fold map — a
 # human confirms each family (some connectivity-block twins are regioisomers or
-# false InChIKey collisions, NOT enantiomers to fold). See
-# Specs/stereoisomer-and-release-form-axes.md.
+# false InChIKey collisions, NOT enantiomers to fold).
 _ISOMER_PREFIXES = [
     ("es", "S"),  # Esketamine, Escitalopram, Eszopiclone
     ("ar", "R"),  # Armodafinil
@@ -554,8 +551,8 @@ def clone_clusters(fps: dict, category_of: dict) -> list[dict]:
     """Group dose/duration fingerprints into clone clusters — the build/curation
     smell where ≥2 substances carry an identical dose or duration profile.
 
-    Single source of truth for the survey report, the clean tool, and the
-    overlay-integrity test, which previously each re-derived the same rule.
+    Shared by the survey report, the clean tool, and the overlay-integrity
+    test, so all three apply the same rule.
 
     ``fps`` maps a fingerprint key to a list of ``(substance, route)`` members;
     ``category_of`` maps a substance name to its resolved category. Returns one

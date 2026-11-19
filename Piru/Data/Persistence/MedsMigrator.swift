@@ -3,7 +3,7 @@ import OSLog
 import SwiftData
 
 /// One-time fold of the routine layer into per-med fields for the Meds
-/// redesign (Specs/meds-reminders-redesign.md): each item inherits its
+/// redesign: each item inherits its
 /// routine's reminder time and `remind` flag as `reminderTimesMinutes` /
 /// `remind`, `isBackgroundMed` maps onto the Quiet tier, and the most common
 /// routine follow-up cadence becomes the global Ask Again default.

@@ -102,8 +102,7 @@ enum SubstanceSourceLinks {
 
     /// The merged, de-duplicated provenance list: the databases that contributed
     /// this compound's data followed by any primary literature, each deep-linked
-    /// to the substance's own page where one exists. Used to be two near-identical
-    /// "Databases" / "References" subsections; collapsed into one tappable list.
+    /// to the substance's own page where one exists.
     ///
     /// Pass the substance's ``SubstanceStore/SourceContributions`` to get the
     /// two-column ledger (each row paired with what that source actually

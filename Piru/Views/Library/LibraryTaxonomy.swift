@@ -168,8 +168,8 @@ extension LibraryFamily {
             title: "Common",
             blurb: "Everyday substances, by the names most people know.",
             icon: "flame.fill",
-            // Cool cornflower blue — keeps the meta-cards clear of the warm
-            // Stimulants orange they used to blur into.
+            // Cool cornflower blue keeps the meta-cards clear of the warm
+            // Stimulants orange.
             color: .Family.Common.accent,
             molecule: "caffeine",
             source: .tag("common"),
@@ -301,9 +301,9 @@ extension LibraryFamily {
             icon: "flask.fill",
             color: .Family.Research.accent,
             molecule: "twocb",
-            // Tag-driven, not the catch-all category: only compounds actually
-            // flagged `research-chemical` surface here, so medical odd-ones
-            // (Naloxone, Naltrexone) that resolve to "Other" no longer appear.
+            // Tag-driven, not the catch-all category: only compounds flagged
+            // `research-chemical` surface here, so medical odd-ones (Naloxone,
+            // Naltrexone) that resolve to "Other" stay out.
             source: .tag("research-chemical"),
         ),
         LibraryFamily(

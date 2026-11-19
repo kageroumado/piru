@@ -4,12 +4,12 @@ are probably wrong.
 
 Piru resolves each field by one global source ranking: whichever enabled source
 sits highest in `sources.default_priority` wins, for every substance, every
-route, every value. That ranking encodes an average — and a source that is
-excellent at dose ladders can be poor at receptor affinities, correct about
-morphine and wrong about pregabalin. The ranking cannot express any of that,
-so it silently ships the wrong number whenever the average is not the case.
+route, every value. That ranking encodes an average, and a source that is
+good at dose ladders can be poor at receptor affinities, or right about
+morphine and wrong about pregabalin. The ranking cannot express that, so it
+ships the wrong number wherever the average does not hold.
 
-This replaces the ranking with numbers computed from the data:
+This scores every value with numbers computed from the data:
 
     RELIABILITY   each source gets a weight per column, iterated from its own
                   outlier rate against the consensus it helps form. Uniform
@@ -1109,9 +1109,6 @@ def build_halflife_cells(
             )
         )
     return list(cells.values())
-
-
-BINDING_MEASURES = (("ki_nm", "Ki"), ("ec50_nm", "EC50"), ("ic50_nm", "IC50"))
 
 
 def build_binding_cells(

@@ -5,15 +5,12 @@ import SwiftUI
 /// The pre-typing search surface: effect-family pills, expanding into a
 /// selected family's most known substances, over a short list of recents.
 ///
-/// Recents used to be omitted here on the grounds that the main screen's Your
-/// Substances cards already are the recents surface, and repeating them one
-/// layer down was clutter (Specs/meds-ux-review.md §5). That held while the
-/// dock was a partial-height sheet over a visible main screen. It stopped
-/// holding when focusing the field started jumping the dock to `.large`: the
-/// dock now covers the cards it was deferring to, so tapping search replaced
-/// every recent with an empty page — reported as "No recents are shown". They
-/// come back only in this state, and only until a family is picked or a query
-/// is typed, so the deferral still applies everywhere it was right.
+/// Recents show only here, and only until a family is picked or a query is
+/// typed. Elsewhere the main screen's Your Substances cards are the recents
+/// surface and repeating them one layer down is clutter,
+/// but focusing the field jumps the dock to
+/// `.large` and covers those cards, so search would otherwise open on an
+/// empty page.
 ///
 /// The browse selection (`selectedFamilyID`, `browseResults`) is owned by
 /// ``QuickLogDock`` — its handlers reset it when search exits — so it arrives

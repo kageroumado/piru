@@ -158,9 +158,8 @@ struct TimelineCurveModelTests {
         #expect(slowComeup == 45 + 27)
 
         // A fast insufflated onset stays quick — the floor never exceeds the
-        // onset itself. This used to assert `2 + 8`: a 2-minute onset was given
-        // a 10-minute climb, which drew an absorption shoulder on routes that
-        // have no absorption phase at all.
+        // onset itself. A 2-minute onset with a 10-minute climb would draw an
+        // absorption shoulder on routes that have no absorption phase at all.
         let fastComeup = TimelineCurveModel.effectiveComeupEnd(onsetEnd: 2, comeupEnd: 2, peakEnd: 32)
         #expect(fastComeup == 2 + 2)
         #expect(fastComeup < slowComeup)
@@ -188,10 +187,9 @@ struct TimelineCurveModelTests {
 
     @Test
     func `Effect shape is one smooth arc — monotone each side of a single crest`() {
-        // The old three-piece curve decelerated to a dead stop at the crest's
-        // left edge, then climbed again to the true maximum — the visible
-        // "cap, then up, then down". One monotone rise and one monotone fall
-        // around a single argmax is exactly the property that forbids it.
+        // A piecewise curve can stop dead at the crest's left edge, then climb
+        // again to the true maximum: a visible "cap, then up, then down". One
+        // monotone rise and one monotone fall around a single argmax forbids it.
         let profiles = [
             dose(onsetEnd: 5, comeupEnd: 12, peakEnd: 34, offsetEnd: 108), // insufflated stimulant
             dose(), // typical oral

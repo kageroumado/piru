@@ -70,8 +70,8 @@ nonisolated enum BackupCrypto {
         case unsupportedFormat(Int)
         case malformed
         /// The device backup key isn't on this device (e.g. iCloud Keychain
-        /// hasn't synced it yet, the backup was made on a device you no longer
-        /// have, or a different key won an iCloud-Keychain sync race).
+        /// hasn't synced it yet, the backup was made on a device that is gone,
+        /// or a different key won an iCloud-Keychain sync race).
         case deviceKeyUnavailable
         case keychainFailure(OSStatus)
 

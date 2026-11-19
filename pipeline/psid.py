@@ -1,6 +1,6 @@
 """PSID (Piru Substance ID) primitives — the stable substance-identity scheme.
 
-Grammar (see Specs/stereoisomer-and-release-form-axes.md):
+Grammar:
 
     P1-<FAMILY>-<stereo>-<salt>-<release>-<chk>
 
@@ -13,7 +13,7 @@ Grammar (see Specs/stereoisomer-and-release-form-axes.md):
   **sentinel leading digit** — real block-1s are always 14 letters, so a leading
   digit unambiguously marks "this is a name-hash, not an InChIKey".
 * ``<stereo>`` / ``<salt>`` / ``<release>`` — the three orthogonal form facets;
-  ``0`` = racemic/freebase/standard (unspecified). Populated by Stage A/B.
+  ``0`` = racemic/freebase/standard (unspecified).
 * ``<chk>`` — an ISO 7064 MOD 37,36 hybrid check character over the key body
   (scheme + family + facets, separators stripped). It detects every single-char
   substitution and nearly all adjacent transpositions, so a truncated or mistyped
@@ -21,7 +21,7 @@ Grammar (see Specs/stereoisomer-and-release-form-axes.md):
 
 Kept stdlib-only and side-effect-free so the build, audit, and tests can import
 it. The check-character algorithm is ported verbatim to Swift for the app's
-deep-link / import boundary (Stage 0.2).
+deep-link / import boundary.
 """
 
 from __future__ import annotations

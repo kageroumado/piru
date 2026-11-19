@@ -43,19 +43,17 @@ enum SessionService {
     @discardableResult
     static func assignSession(for entry: DoseEntry, in context: ModelContext) -> Session {
         let target = entry.timestamp
-        // Candidate window: every placement rule requires the joined span to fit
-        // inside `SessionClustering.Constants.horizon` (24 h), so only sessions
-        // whose persisted dose bounds come within one horizon of the target can
-        // matter — rule 1's in-span sessions satisfy both bounds trivially
-        // (merged sessions are bounded on both ends, not by span length), rule 2
-        // needs `lastDoseDate` within a gap ≤ horizon behind the target, rule 3
-        // needs `startDate` within a horizon ahead. The persisted bounds only
-        // bound this fetch; placement below re-derives the true span from the
-        // doses. `lastDoseDate == nil` rows (predating the field) are always
-        // fetched and self-heal. The prefetch then realizes only the candidates'
-        // doses — without it each span check is a lazy per-relationship fault,
-        // and without the window it realized every dose in the store on every
-        // logged dose.
+        // Candidate window: every placement rule needs the joined span to fit
+        // inside `SessionClustering.Constants.horizon`, so only sessions whose
+        // persisted dose bounds come within one horizon of the target can matter
+        // (rule 1's in-span sessions satisfy both bounds, rule 2 needs
+        // `lastDoseDate` within a horizon behind the target, rule 3 needs
+        // `startDate` within a horizon ahead). The persisted bounds only bound
+        // this fetch; placement re-derives the true span from the doses. Rows
+        // with `lastDoseDate == nil` are always fetched and self-heal. Without the
+        // window every logged dose would realize every dose in the store; the
+        // prefetch then realizes only the candidates' doses, so a span check
+        // never takes a lazy per-relationship fault.
         let lower = target.addingTimeInterval(-SessionClustering.Constants.horizon)
         let upper = target.addingTimeInterval(SessionClustering.Constants.horizon)
         // `?? lower` only gives the nil case a value that the first arm already
@@ -248,13 +246,12 @@ enum SessionService {
     /// doses (a no-op once everything is grouped) and never disturbs the user's
     /// manual merges / splits.
     ///
-    /// This deliberately has **no** "already done" flag. The previous flag-gated
-    /// version stranded data: a launch that ran on an empty in-memory store (while
-    /// the persistent store was temporarily unavailable — see StoreRecovery) set
-    /// the flag with zero doses, so when the real data was later recovered every
-    /// dose stayed session-less and rendered as its own session. Sweeping
-    /// unconditionally self-heals that, and any pre-session / imported / recovered
-    /// history, without ever re-clustering doses that already have a session.
+    /// Never gate this on an "already done" flag: a launch on an empty in-memory
+    /// store (the persistent store temporarily unavailable, see StoreRecovery)
+    /// would set it with zero doses, and every dose recovered later would stay
+    /// session-less and render as its own session. Sweeping unconditionally
+    /// heals that and any imported or recovered history, without re-clustering
+    /// doses that already have a session.
     static func ensureSessionsPopulated(in context: ModelContext) {
         assignUnassignedDoses(in: context)
         backfillDoseBounds(in: context)

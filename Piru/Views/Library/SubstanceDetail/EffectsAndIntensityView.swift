@@ -9,8 +9,7 @@ import SwiftUI
 /// PsychonautWiki effects grouped by category (the prior "All effects" view).
 struct EffectsAndIntensityView: View {
     let substanceName: String
-    /// Whether to offer an experience-reports link at all (gated upstream the
-    /// same way the old Erowid link was).
+    /// Whether to offer an experience-reports link at all (gated upstream).
     var showsExperienceReports = false
 
     @State private var model = EffectsIntensityModel()

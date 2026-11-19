@@ -1,7 +1,7 @@
 import Foundation
 
 /// The duration-aware heuristic that groups doses into sessions by temporal
-/// proximity — the replacement for fixed calendar-day bucketing.
+/// proximity.
 ///
 /// Pure value-level logic (no SwiftData, no `SubstanceLibrary`): a caller maps
 /// its `DoseEntry`s to ``Dose`` values — resolving each dose's modeled effect
@@ -42,9 +42,9 @@ import Foundation
 ///     - decays linearly to ``ceilingEnd`` (~1 min) at ``horizon`` (24 h), so
 ///       the last few hours before the cap only absorb back-to-back doses.
 ///   Past ``knee`` the ceiling drops below ``floor`` and *becomes* the binding
-///   constraint (the always-join floor shrinks with it). This is what a flat
-///   ceiling — and PsychonautWiki's flat 15 h window — lacks: heavy users whose
-///   only rest is a sub-ceiling daytime crash used to chain days into one 60 h+
+///   constraint (the always-join floor shrinks with it). Never flatten the
+///   ceiling (PsychonautWiki uses a flat 15 h window): heavy users whose only
+///   rest is a sub-ceiling daytime crash would chain days into one 60 h+
 ///   session.
 /// - **Hard cap** (``horizon``, 24 h): a dose more than 24 h after the session's
 ///   *first* dose always starts a new session, no matter how tightly spaced —

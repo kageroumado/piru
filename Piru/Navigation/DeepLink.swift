@@ -75,9 +75,10 @@ import Foundation
 ///   `piru://substance/<name>`
 ///
 /// The encoder always emits a single URL describing the *top* of the modal
-/// stack (or just the tab when no modal is presented). Multi-level stacks
-/// aren't yet representable as a single URL — that's by design, since deep
-/// links open a specific destination, not arbitrary nav state.
+/// stack (or just the tab when no modal is presented). A multi-level stack has
+/// no URL form by design: a deep link opens a specific destination, not
+/// arbitrary nav state.
+///
 /// The intent of a single deep-link URL: maybe switch to a tab, maybe
 /// present a sheet. Distinct from `NavigatorSnapshot` because deep links
 /// don't speak about *unchanged* state — a URL like `piru://quicklog`

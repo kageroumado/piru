@@ -26,10 +26,9 @@ struct MechanismOfActionTests {
     @MainActor
     func `Cathinone transporter action comes from the DB, never a generic placeholder`() async {
         // The bug this guards: cathinones rendering as an undifferentiated "Modulator".
-        // The claim used to live in a Swift class template that asserted DAT/NET/SERT for
-        // every substituted cathinone; it was a restatement of the summary, so it is gone
-        // and the measured rows carry it. A cathinone the literature never assayed now
-        // shows no receptor list at all, which is the honest result.
+        // The measured rows carry the DAT/NET/SERT claim; never assert it for every
+        // substituted cathinone from a class template. A cathinone the literature never
+        // assayed shows no receptor list at all, which is the honest result.
         await SubstanceStore.shared.ensureAllLoaded()
         for name in ["Mephedrone", "Methylone", "MDPV", "a-PVP"] {
             guard let sub = SubstanceStore.shared.lookup(name) else {
@@ -59,11 +58,9 @@ struct MechanismOfActionTests {
     @Test
     @MainActor
     func `7-hydroxymitragynine reads partial agonist, never full`() async {
-        // Reported from a shipped build: the card's headline said "μ-Opioid Receptor (MOR) Full
-        // Agonist" directly above its own measured rows reading `μ Partial Agonist · Ki 47 nM`.
-        // 7-OH had no mechanism summary of its own, so it fell to the opioid category floor —
-        // which asserted full agonism for every opioid nothing had described. It has a cited
-        // entry now (Kruegel 2019), and the floor no longer makes that claim.
+        // The headline must never contradict the measured rows: a "μ-Opioid Receptor (MOR) Full
+        // Agonist" headline above `μ Partial Agonist · Ki 47 nM`. 7-OH carries a cited entry
+        // (Kruegel 2019), and the opioid category floor makes no agonism claim.
         await SubstanceStore.shared.ensureAllLoaded()
         guard let sub = SubstanceStore.shared.lookup("7-Hydroxymitragynine") else {
             Issue.record("7-Hydroxymitragynine missing from bundled DB"); return
@@ -103,10 +100,10 @@ struct MechanismOfActionTests {
 
     @Test
     func `A class fallback never invents a receptor out of a category name`() {
-        // Every category placeholder ("Various", "Pain pathways", "Microbial targets",
-        // "Cardiovascular system") is gone: a system is not a target, and a dot beside
-        // one claims a measurement that was never made. A substance with nothing
-        // measured now shows prose and no receptor list — an absence, not a placeholder.
+        // Never show a category placeholder ("Various", "Pain pathways", "Microbial targets",
+        // "Cardiovascular system") as a target: a system is not a target, and a dot beside
+        // one claims a measurement that was never made. A substance with nothing measured
+        // shows prose and no receptor list.
         for category in SubstanceCategory.allCases {
             let targets = (MechanismOfActionDatabase.categoryFallback(for: category)?.bindings ?? [])
                 .map(\.target)
@@ -120,9 +117,8 @@ struct MechanismOfActionTests {
     @Test
     @MainActor
     func `Mitragynine and kratom are partial MOR agonists with adrenergic activity`() {
-        // The curated mitragynine/kratom data now lives in the bundled DB
-        // (`piru-curated`), no longer the Swift `substanceData`, so this is an
-        // end-to-end check through the same hydration path the detail view uses.
+        // The curated mitragynine/kratom data lives in the bundled DB
+        // (`piru-curated`), so this is an end-to-end check through the same hydration path the detail view uses.
         for name in ["Mitragynine", "Kratom"] {
             guard let sub = SubstanceStore.shared.lookup(name) else {
                 Issue.record("\(name) missing from bundled DB"); continue
@@ -189,10 +185,9 @@ struct MechanismOfActionTests {
     @Test
     @MainActor
     func `No substance loses a DB binding target end-to-end`() async {
-        // The composer may add to the DB panel; it may never drop from it. This once went false
-        // silently, when a class template's generic list replaced the panel for 67 substances.
-        // It used to walk the Swift table's keys — there is no Swift table now, so it walks the
-        // library, which is the stronger form of the same check.
+        // The composer may add to the DB panel; it may never drop from it. A class template's
+        // generic list replacing the panel breaks this silently, so the check walks the whole
+        // library.
         await SubstanceStore.shared.ensureAllLoaded()
         for name in SubstanceStore.shared.allNames.prefix(400) {
             guard let sub = SubstanceStore.shared.lookup(name),
@@ -212,9 +207,9 @@ struct MechanismOfActionTests {
     @MainActor
     func `The class-level receptor profile now comes from the DB, not from Swift`() async {
         // A tricyclic's H1/M1/α1 profile is the sedation-and-orthostasis story and appears in no
-        // part of the phrase "Tricyclic Antidepressant", so it survived the tautology cull — and
-        // it now lives in `bindings` via data/curated/class-mechanism-bindings.json rather than
-        // in a Swift template. This is the end-to-end proof of that move.
+        // part of the phrase "Tricyclic Antidepressant", so it survived the tautology cull. It
+        // lives in `bindings` via data/curated/class-mechanism-bindings.json; this is the
+        // end-to-end check.
         await SubstanceStore.shared.ensureAllLoaded()
         guard let sub = SubstanceStore.shared.lookup("Amitriptyline") else {
             Issue.record("Amitriptyline missing from bundled DB"); return

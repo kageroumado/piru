@@ -1,4 +1,4 @@
-// iOS 26's tab-bar bottom accessory, which holds Piru's Log button and live-session pill.
+// The iOS tab-bar bottom accessory, which holds Piru's Log button and live-session pill.
 // Compose's navigation bar has no accessory slot, so the content floats just above the bar,
 // always in its expanded placement: the Material bar does not minimize on scroll.
 

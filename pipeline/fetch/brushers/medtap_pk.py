@@ -3,10 +3,10 @@
 
 `extract_medtap` parses the label's Pharmacology block as a header/value table
 and keeps one field, Mechanism Of Action. The rest of that table is half-life,
-protein binding, volume of distribution and clearance for ~250 substances — real
-numbers, US-government public domain, and until now discarded.
+protein binding, volume of distribution and clearance: real numbers, and
+US-government public domain.
 
-They are **not** parsed at build time. The values are prose ("approximately 12
+They are parsed here, never at build time. The values are prose ("approximately 12
 hours in adults and 6 hours in children"), and a build that guesses at prose
 ships a wrong number silently. This writes `data/sources/medtap-pk.json` once;
 that file is committed, reviewable as a diff, and ingested deterministically.
@@ -44,7 +44,7 @@ from sqlite import normalise  # noqa: E402
 
 # The half-life parser from the DrugBank cross-check: clean single values and
 # ranges with explicit units only, everything else refused. Reused rather than
-# rewritten so both paths reject the same shapes, and so its 18 tests cover this.
+# rewritten so both paths reject the same shapes, and so its tests cover this.
 _spec = importlib.util.spec_from_file_location(
     "cdb", REPO / "pipeline" / "audit" / "compare_to_drugbank.py"
 )

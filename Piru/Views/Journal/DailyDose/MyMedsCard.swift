@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 
 /// The Journal tab's "My Meds" card — the daily front door of the Meds
-/// redesign (Specs/meds-reminders-redesign.md): today's checklist at a
+/// redesign: today's checklist at a
 /// glance, tap a circle to log, quiet meds folded into one "Supplements"
 /// row with a one-tap Take All. Hidden entirely while nothing is due today
 /// (no meds at all, only PRN meds, or only off-cycle schedules) — so a

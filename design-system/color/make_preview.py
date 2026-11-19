@@ -9,12 +9,9 @@ import json
 
 from colorimetry import (
     composite,
-    from_xyz,
     hex_to_rgb,
     oklch,
-    rgb_to_hex,
     srgb_to_p3_same_appearance,
-    to_xyz,
 )
 
 with open("palette-L1.json") as _palette_file:
@@ -31,10 +28,6 @@ ACCENT = {"light": (0.898, 0.497, 0.591), "dark": (0.920, 0.268, 0.441)}
 
 def p3(rgb):
     return f"color(display-p3 {rgb[0]:.4f} {rgb[1]:.4f} {rgb[2]:.4f})"
-
-
-def srgb_of(rgb_p3):
-    return rgb_to_hex(from_xyz(to_xyz(rgb_p3, "p3"), "srgb"))
 
 
 def swatch_row(name, mode):

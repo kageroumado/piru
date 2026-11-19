@@ -8,7 +8,6 @@ struct WikiTimingRecord: Identifiable {
     let route: String?
     let kind: String
     let entryIndex: Int
-    let releaseID: String?
     let hasSourceException: Bool
     let formulation: String?
     let curve: WikiTimingCurve?
@@ -18,7 +17,7 @@ struct WikiTimingRecord: Identifiable {
 
     init(
         id: String, sourceName: String, route: String?, kind: String,
-        entryIndex: Int, releaseID: String?, entryJSON: String, timingTextJSON: String,
+        entryIndex: Int, entryJSON: String, timingTextJSON: String,
         hasSourceException: Bool = false,
     ) throws {
         self.id = id
@@ -26,7 +25,6 @@ struct WikiTimingRecord: Identifiable {
         self.route = route
         self.kind = kind
         self.entryIndex = entryIndex
-        self.releaseID = releaseID
         self.hasSourceException = hasSourceException
         let decoder = JSONDecoder()
         let data = Data(entryJSON.utf8)
