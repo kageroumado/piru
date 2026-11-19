@@ -1111,9 +1111,6 @@ def build_halflife_cells(
     return list(cells.values())
 
 
-BINDING_MEASURES = (("ki_nm", "Ki"), ("ec50_nm", "EC50"), ("ic50_nm", "IC50"))
-
-
 def build_binding_cells(
     conn: sqlite3.Connection,
     substances: dict[int, Substance],

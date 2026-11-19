@@ -197,15 +197,6 @@ def srgb_to_p3_same_appearance(rgb: Vec3) -> Vec3:
     return from_xyz(to_xyz(rgb, "srgb"), "p3")
 
 
-def srgb_to_p3_same_numbers(rgb: Vec3) -> Vec3:
-    """Reinterpretation: numbers kept, the color SHIFTS (more saturated).
-
-    This is what you get by pasting sRGB components into a `display-p3`
-    colorset -- almost always an accident. Returned for comparison so the
-    audit can quantify the shift rather than hand-wave about it."""
-    return rgb
-
-
 def p3_shift_delta(rgb: Vec3) -> float:
     """Oklab dE between an sRGB color and the same numbers read as P3.
 

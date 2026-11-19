@@ -1760,12 +1760,6 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
     # tests assert every folded override still resolves in the built DB — turning
     # a silent "override points at a renamed/merged canonical" rot into a failure.
 
-    def _canonical_set(self) -> set[str]:
-        return {
-            r["canonical_name"].lower()
-            for r in self.db.execute("select canonical_name from substances")
-        }
-
     @staticmethod
     def _curated_entries():
         import json

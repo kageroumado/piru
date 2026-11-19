@@ -1,27 +1,11 @@
-"""Generate 2D skeletal-diagram coordinates for substances, offline, via
-OpenBabel — no network, fully deterministic given a committed SMILES.
+"""Generate 2D skeletal-diagram coordinates for substances, offline and
+deterministic given a committed SMILES.
 
 Piru's Chemistry card draws a labeled skeletal structure (bonds as sticks,
 double/triple bonds as parallel lines, heteroatoms labeled) for every
-substance that has a SMILES. OpenBabel's ``--gen2d`` produces the 2D layout;
-this module turns that into the flat, normalized rows
+substance that has a SMILES. RDKit's CoordGen depiction produces the 2D
+layout; this module reorients it and turns it into the flat, normalized rows
 ``pipeline/build/sqlite.py`` stores in the ``molecule_shapes`` table.
-
-Batching, not one-process-per-molecule: with 1000+ substances, shelling out to
-``obabel`` once per SMILES is far too slow. Instead every SMILES is written to
-one ``.smi`` file (one molecule per line, titled with its substance id) and
-``obabel`` is invoked ONCE with ``--gen2d``, which streams back one
-``$$$$``-delimited SDF record per successfully-parsed molecule.
-
-The catch: OpenBabel's line-oriented ``.smi`` reader aborts the *entire read*
-at the first malformed SMILES — everything after it in the file is silently
-dropped, not just the bad line (verified empirically; there is no "skip and
-continue" flag). ``generate_molecule_shapes`` works around this by re-driving
-the batch: whenever the output has fewer records than the input batch, the
-next un-produced item is the culprit — it's marked failed and excluded, and
-the remainder of the batch is retried. Each retry drops at least one bad
-input, so the loop is guaranteed to terminate, and in the common case (few or
-no bad SMILES) it costs a single subprocess call.
 """
 
 from __future__ import annotations
@@ -36,92 +20,6 @@ DEFAULT_BOX = 100.0
 # renderer draws element-symbol labels at the atom positions — a label needs
 # more edge headroom than a bare dot to avoid clipping near the canvas border.
 DEFAULT_MARGIN = 9.0
-
-# Generous but bounded — a single obabel invocation over ~1000 SMILES
-# completes in well under a minute locally; this just guards a hang.
-_OBABEL_TIMEOUT_S = 600
-
-
-def _fixed_int(text: str, start: int, width: int) -> int | None:
-    """Parse an MDL-spec fixed-width integer field, or ``None`` if blank/short.
-
-    The V2000 counts and bond lines are fixed-column, NOT whitespace-delimited
-    (`"aaabbb...  "` — a 3-char atom count immediately followed by a 3-char
-    bond count, no separator). Molecules with 100+ atoms/bonds — real for
-    peptides — push those fields to their full 3 digits, so adjacent fields
-    butt up against each other with zero whitespace between them
-    (``"118123"`` = 118 atoms, 123 bonds). A naive ``.split()`` merges them
-    into one bogus token and silently corrupts or drops the record.
-    """
-    field = text[start : start + width]
-    if not field.strip():
-        return None
-    try:
-        return int(field)
-    except ValueError:
-        return None
-
-
-def _parse_sdf_records(sdf_text: str) -> list[dict]:
-    """Split a multi-molecule SDF stream into per-molecule records.
-
-    Each record: ``{"title": str, "atoms": [(element, x, y)], "bonds": [(a0,
-    b0, order)]}`` — atom indices already converted to 0-based. Malformed
-    records (short/garbled counts or atom lines) are silently dropped; the
-    caller detects which input keys never got a record and treats those as
-    failed (see ``generate_molecule_shapes``).
-    """
-    records: list[dict] = []
-    for block in sdf_text.split("$$$$"):
-        lines = block.strip("\n").split("\n")
-        if len(lines) < 4:
-            continue
-        title = lines[0].strip()
-        # Counts line is fixed-width (see _fixed_int) — NOT `.split()`.
-        n_atoms = _fixed_int(lines[3], 0, 3)
-        n_bonds = _fixed_int(lines[3], 3, 3)
-        if n_atoms is None or n_bonds is None:
-            continue
-        atom_lines = lines[4 : 4 + n_atoms]
-        bond_lines = lines[4 + n_atoms : 4 + n_atoms + n_bonds]
-        if len(atom_lines) != n_atoms or len(bond_lines) != n_bonds:
-            continue
-
-        # Atom lines are also fixed-width in the spec, but each coordinate
-        # field is 10 chars wide — obabel's 2D layouts never approach that
-        # magnitude, so there's always real whitespace between fields in
-        # practice and plain `.split()` is safe (and more forgiving of the
-        # trailing property columns, whose exact widths we don't care about).
-        atoms: list[tuple[str, float, float]] = []
-        ok = True
-        for al in atom_lines:
-            parts = al.split()
-            if len(parts) < 4:
-                ok = False
-                break
-            try:
-                x, y = float(parts[0]), float(parts[1])
-            except ValueError:
-                ok = False
-                break
-            atoms.append((parts[3], x, y))
-        if not ok or not atoms:
-            continue
-
-        # Bond lines ARE fixed-width in practice for large molecules (atom
-        # indices >= 100 collide with their neighbor field under `.split()`),
-        # so use the same fixed-column parse as the counts line.
-        bonds: list[tuple[int, int, int]] = []
-        for bl in bond_lines:
-            a = _fixed_int(bl, 0, 3)
-            b = _fixed_int(bl, 3, 3)
-            order = _fixed_int(bl, 6, 3)
-            if a is None or b is None or order is None:
-                continue
-            bonds.append((a - 1, b - 1, order))
-
-        records.append({"title": title, "atoms": atoms, "bonds": bonds})
-    return records
 
 
 def _ring_atoms(n: int, bonds: list[tuple[int, int, int]]) -> set[int]:
@@ -151,7 +49,7 @@ def _orient(
     (principal) axis horizontal, and — when it has a ring system — the ring on
     the LEFT with the chain/substituent tail trailing to the RIGHT. This matches
     how chemists draw amines (ring left, N tail right) and keeps every card's
-    molecule reading consistently instead of at obabel's arbitrary angle.
+    molecule reading consistently instead of at the depiction's arbitrary angle.
     """
     n = len(atoms)
     if n < 3:

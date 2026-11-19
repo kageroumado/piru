@@ -35,7 +35,6 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 DB = REPO / "Piru/Data/piru-substances.sqlite"
 CURATED_DIR = REPO / "data/curated/substances"
-SOURCES_DIR = REPO / "data/sources"
 
 CURATED_SOURCE = "piru-curated"
 

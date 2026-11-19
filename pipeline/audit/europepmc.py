@@ -64,7 +64,6 @@ class Record:
     #: returned is actually by that author.
     authors: str = ""
     abstract: str = ""
-    is_open_access: bool = False
     #: MEDLINE's own indexing of what the paper is about — descriptor names and
     #: the qualifiers attached to them ("Ketamine" / "pharmacokinetics"). A
     #: controlled vocabulary applied by a human indexer, which makes it the one
@@ -144,7 +143,6 @@ def _record_from(raw: dict) -> Record:
         first_author=authors.split(",")[0].strip(),
         authors=authors,
         abstract=_strip_markup(raw.get("abstractText")),
-        is_open_access=(raw.get("isOpenAccess") == "Y"),
     )
 
 
