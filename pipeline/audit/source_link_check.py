@@ -57,7 +57,7 @@ Verdicts, per (substance, source) pair:
                  deep link (PiHKAL/TiHKAL chapters, the curated overlay).
                  Informational.
 
-Search-URL sources (DailyMed, PubMed, EMCDDA, Erowid) are a separate category:
+Search-URL sources (DailyMed, PubMed, Erowid) are a separate category:
 the app builds a query, not a page, so we assert only that the search resolves.
 They are sampled by default: the URL shape doesn't vary per substance, so
 checking every PubMed link would buy nothing.
@@ -234,12 +234,6 @@ def pubmed_url(sub: Substance) -> str:
     return "https://pubmed.ncbi.nlm.nih.gov/?term=" + swift_query_encode(sub.name) + "+pharmacology"
 
 
-def emcdda_url(sub: Substance) -> str:
-    return "https://www.euda.europa.eu/publications/drug-profiles_en?search=" + swift_query_encode(
-        sub.name
-    )
-
-
 def erowid_url(sub: Substance) -> str:
     return "https://www.erowid.org/search.php?q=" + swift_query_encode(sub.name)
 
@@ -311,18 +305,6 @@ SOURCES: dict[str, SourceSpec] = {
         SourceSpec(
             "peer-review-primary", "PubMed", "https://pubmed.ncbi.nlm.nih.gov", "search", pubmed_url
         ),
-        # EMCDDA has a case in substanceURL(for:) but no slugToName entry, so no
-        # shipping call site reaches it. Kept so `--source emcdda` can check the
-        # builder if it is ever wired up.
-        SourceSpec(
-            "emcdda",
-            "EMCDDA",
-            "https://www.euda.europa.eu",
-            "search",
-            emcdda_url,
-            from_db=False,
-            enumerate_default=False,
-        ),
         SourceSpec(
             "erowid", "Erowid", "https://www.erowid.org", "search", erowid_url, from_db=False
         ),
@@ -357,11 +339,10 @@ NO_LINK_SOURCES = {
 # --------------------------------------------------------------------------- #
 
 #: Display names `AppSources.substanceURL(for:substance:)` handles with a real
-#: per-substance case. Everything else falls through to `default:` and returns
-#: the site root — the homepage-fallback trap. Kept here so a new
-#: `slugToName` entry without a matching case is a reported finding, not a
-#: silently-200 link a user has to notice.
-SWITCH_CASES = {"DailyMed", "PubMed", "EMCDDA"}
+#: per-substance case. Everything else falls through to `default:` and gets no
+#: link, so a new `slugToName` entry without a matching case is a reported
+#: finding here rather than a source that silently shows no link.
+SWITCH_CASES = {"DailyMed", "PubMed"}
 
 #: Sources whose deep link is built by a dedicated function elsewhere, so
 #: falling through `substanceURL`'s switch is harmless *as long as* every caller

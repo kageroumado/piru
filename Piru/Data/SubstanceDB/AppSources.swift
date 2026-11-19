@@ -234,10 +234,6 @@ enum AppSources {
             let query = substance
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? substance
             return URL(string: "https://pubmed.ncbi.nlm.nih.gov/?term=\(query)+pharmacology")
-        case euda:
-            let query = substance
-                .addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? substance
-            return URL(string: "https://www.euda.europa.eu/publications/drug-profiles_en?search=\(query)")
         default:
             // No per-substance page for this source. Never fall back to the
             // source homepage: it renders as a substance-specific link that
