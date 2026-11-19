@@ -11,7 +11,6 @@ nonisolated struct SubjectiveEffectConcept: Identifiable, Hashable, Sendable {
     let domain: String
     let isRollup: Bool
     let parentID: String?
-    let position: Int
     let definition: String?
 }
 
@@ -183,7 +182,7 @@ final class SubjectiveEffectOntology {
         do {
             let (concepts, aliases) = try SubstanceStore.shared.substancesDB.read { db -> ([SubjectiveEffectConcept], [(String, String, String)]) in
                 let rows = try Row.fetchAll(db, sql: """
-                    SELECT id, name, slug, domain, kind, parent_id, position, definition
+                    SELECT id, name, slug, domain, kind, parent_id, definition
                       FROM subjective_effect_concepts
                      ORDER BY position, name
                 """)
@@ -191,7 +190,7 @@ final class SubjectiveEffectOntology {
                     SubjectiveEffectConcept(
                         id: row["id"], name: row["name"], slug: row["slug"], domain: row["domain"],
                         isRollup: (row["kind"] as String) == "rollup",
-                        parentID: row["parent_id"], position: row["position"], definition: row["definition"],
+                        parentID: row["parent_id"], definition: row["definition"],
                     )
                 }
                 let aliasRows = try Row.fetchAll(db, sql: """
