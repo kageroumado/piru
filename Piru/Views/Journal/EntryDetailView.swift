@@ -230,120 +230,15 @@ struct EntryDetailView: View {
         isEditing = true
     }
 
-    /// Commit drafts to the entry and re-sync the active session / Live Activity
-    /// + widgets.
     private func commitEdits() {
-        guard draft.canCommit else { return }
-        let sub = substanceInfo
-
-        // Normalize a colloquial alias (e.g. "drink") to its canonical physical
-        // unit so cumulative dose, level chips, and PK scaling see the right number.
-        // An unknown dose has no number to normalize: it stores 0 in the draft unit.
-        let (storedAmount, storedUnit): (Double, String) = {
-            guard !draft.isUnknownDose, let parsed = draft.parsedAmount else { return (0, draft.unit) }
-            if let sub, let alias = sub.unitAliases.first(where: { $0.label == draft.unit }) {
-                return (parsed * alias.amountPerUnit, alias.unit)
-            }
-            return (parsed, draft.unit)
-        }()
-
-        let previousTimestamp = entry.timestamp
-        let previousSubstanceName = entry.substance
-        let previousMeal = entry.meal
-        // A component of a liquid combination, or a solution of a substance
-        // with no by-volume editor here, keeps its recorded volume while its
-        // amount and unit stand; once either changes, the volume no longer
-        // describes the dose.
-        let keepsCombinationVolume = (entry.combinationName != nil || byVolumeCapability == nil) && entry.volumeML != nil
-            && !draft.isUnknownDose && storedAmount == entry.amount && storedUnit == entry.unit
-        let combinationVolume = (volumeML: entry.volumeML, perML: entry.abv)
-
-        entry.amount = storedAmount
-        entry.unit = storedUnit
-        entry.route = draft.route
-        entry.saltForm = draft.saltForm
-        entry.isomer = draft.isomer
-        entry.substanceUID = substanceInfo?.substanceUID
-        // The edit can't rename the substance, so the dose keeps its release form
-        // and only the isomer is in play — but the snapshot still composes across
-        // both, so a Focalin XR dose stays "Dexmethylphenidate XR" after an edit.
-        entry.displayNameSnapshot = DoseTitle.snapshot(canonicalName: entry.substance, isomer: draft.isomer, releaseForm: entry.releaseForm)
-        entry.timestamp = draft.timestamp
-        entry.session?.refreshDoseBounds()
-        entry.isUnknownDose = draft.isUnknownDose
-        entry.isApproximate = draft.isApproximate && !draft.isUnknownDose
-        entry.notes = draft.notes.isEmpty ? nil : draft.notes
-        // By-volume metadata, set when logged as a drink, cleared otherwise — and
-        // cleared for an unknown dose, whose volume and strength are the unknowns.
-        let keepsVolume = draft.byVolumeMode && !draft.isUnknownDose
-        if keepsCombinationVolume {
-            entry.volumeML = combinationVolume.volumeML
-            entry.abv = combinationVolume.perML
-        } else {
-            entry.volumeML = keepsVolume ? draft.enteredVolumeML : nil
-            entry.abv = keepsVolume ? draft.enteredABV : nil
-            entry.drinkName = keepsVolume ? draft.trimmedDrinkName : nil
-        }
-        entry.tags = Array(Set(draft.tags + TagExtractor.extractTags(from: draft.notes)))
-        entry.locationName = draft.location?.name
-        entry.latitude = draft.location?.latitude
-        entry.longitude = draft.location?.longitude
-        entry.meal = draft.route == .oral ? draft.meal : nil
-        entry.injectionSite = draft.injectionSite.flatMap { site in
-            InjectionSite.Area.offered(for: draft.route).contains(site.area) ? site : nil
-        }
-
-        // The session accessory & Live Activity read ActiveSessionManager's
-        // snapshot, not SwiftData — sync it so they reflect the edit immediately.
-        let tint = SubstancePalette.tint(for: entry.substance, tintMap: Array(substanceColors).tintMap)
-        ActiveSessionManager.shared.updateDose(
-            previousSubstanceName: previousSubstanceName,
-            previousTimestamp: previousTimestamp,
-            entry: entry,
-            substance: sub,
-            tint: tint,
-            allColors: Array(substanceColors),
-        )
-
-        // Pending reminders are keyed to the old timestamp — a moved dose must
-        // drop them and reschedule from its new time.
-        DoseNotificationManager.doseRescheduled(
-            entry: entry, previousTimestamp: previousTimestamp, mealChanged: previousMeal != entry.meal,
-        )
-
-        // The tick every derived surface keys its rebuild on — the timeline
-        // strip lays a moved dose out at its new time only after this.
-        DoseLogService.shared.changed()
-        // Inventory recompute (scoped to the old + new substance) and the widget
-        // reload are deferred off the edit-commit path — neither is on screen.
-        DoseLogService.shared.scheduleDeferredBookkeeping(
-            forSubstances: [entry.substance, previousSubstanceName],
-            in: modelContext,
-        )
+        guard editing.commit(draft, to: entry, substance: substanceInfo, in: modelContext) else { return }
         isEditing = false
     }
 
     private func deleteEntry() {
-        // Capture before delete — the entry is invalid afterwards.
+        // Read before the delete: the entry is invalid afterwards.
         let id = entry.id
-        let name = entry.substance
-        let timestamp = entry.timestamp
-        let session = entry.session
-        DoseNotificationManager.doseDeleted(entryID: id, timestamp: timestamp)
-        modelContext.delete(entry)
-        session?.refreshDoseBounds()
-        // Tear the dose out of the active session / Live Activity too; otherwise a
-        // deleted "taking now" dose leaves the Live Activity and progress accessory
-        // stuck on screen, uncancellable even after the app is quit.
-        ActiveSessionManager.shared.removeDose(
-            id: id,
-            substanceName: name,
-            timestamp: timestamp,
-            allColors: Array(substanceColors),
-        )
-        DoseLogService.shared.changed()
-        // Scoped inventory recompute + widget reload deferred past the dismissal.
-        DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: [name], in: modelContext)
+        editing.delete(entry, in: modelContext)
         // Beside a list, `dismiss()` cannot reach the open record: take its route out instead.
         let removed = navigator.removeDeletedRecord {
             if case let .entry(_, routeID) = $0 { routeID == id } else { false }

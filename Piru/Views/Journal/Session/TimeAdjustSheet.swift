@@ -6,7 +6,8 @@ import SwiftUI
 struct TimeAdjustSheet: View {
     @Bindable var entry: DoseEntry
     @Environment(\.dismiss) private var dismiss
-    @Query private var substanceColors: [SubstanceColor]
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.sessionEditingService) private var editing
     @State private var originalTimestamp: Date?
 
     var body: some View {
@@ -23,19 +24,7 @@ struct TimeAdjustSheet: View {
         }
         .onAppear { if originalTimestamp == nil { originalTimestamp = entry.timestamp } }
         .onDisappear {
-            // Keep the session accessory + Live Activity in sync with the edited
-            // time (they read ActiveSessionManager's snapshot, not SwiftData).
-            guard let original = originalTimestamp, original != entry.timestamp else { return }
-            entry.session?.refreshDoseBounds()
-            ActiveSessionManager.shared.refreshEditedEntry(
-                previousTimestamp: original,
-                entry: entry,
-                allColors: Array(substanceColors),
-            )
-            // Pending reminders are keyed to the old timestamp — a moved dose
-            // must drop them and reschedule from its new time.
-            DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original)
-            DoseLogService.shared.changed()
+            if let originalTimestamp { editing.retimed(entry, from: originalTimestamp, in: modelContext) }
         }
     }
 }

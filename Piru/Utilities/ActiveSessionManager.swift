@@ -266,28 +266,6 @@ final class ActiveSessionManager {
         }
     }
 
-    /// Convenience for inline edits where only the entry's own fields change
-    /// and the substance name is unchanged — e.g. the "Adjust Time" sheets.
-    /// Resolves the substance + color and forwards to ``updateDose(previousSubstanceName:previousTimestamp:entry:substance:tint:allColors:)``
-    /// so the session accessory and Live Activity stay in sync with SwiftData.
-    func refreshEditedEntry(
-        previousTimestamp: Date,
-        entry: DoseEntry,
-        allColors: [SubstanceColor],
-    ) {
-        let tint = allColors.first {
-            $0.substance.lowercased() == entry.substance.lowercased()
-        }?.tint ?? SubstancePalette.fallback(for: entry.substance)
-        updateDose(
-            previousSubstanceName: entry.substance,
-            previousTimestamp: previousTimestamp,
-            entry: entry,
-            substance: SubstanceLibrary.lookup(entry.substance),
-            tint: tint,
-            allColors: allColors,
-        )
-    }
-
     /// Rebuild session from a set of existing day entries (e.g. after restart from SessionDetailView).
     func restartFromEntries(
         _ doseEntries: [DoseEntry],
