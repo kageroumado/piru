@@ -40016,6 +40016,34 @@
         }
       }
     },
+    "Everyone puts every profile's journal in one file. Importing it brings each one back as its own profile." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos pone el diario de cada perfil en un solo archivo. Al importarlo, cada uno vuelve como su propio perfil."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos pone el diario de cada perfil en un solo archivo. Al importarlo, cada uno vuelve como su propio perfil."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有人：将每个个人资料的日记放进同一个文件。导入后，每一份都会恢复为各自的个人资料。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有人：將每個個人檔案的日記放進同一個檔案。匯入後，每一份都會恢復為各自的個人檔案。"
+          }
+        }
+      }
+    },
     "Everything from the old Piru app is here: your journal, meds and settings. Once you've looked it over, you can delete the old app." : {
       "localizations" : {
         "es" : {

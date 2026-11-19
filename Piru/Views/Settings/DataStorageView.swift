@@ -29,9 +29,9 @@ struct DataStorageView: View {
 
     /// The save panel for a plain (unencrypted) Piru or PsychonautWiki export.
     @State private var showingPlainExporter = false
-    /// With more than one profile, a PsychonautWiki export asks whose doses
-    /// it holds: this profile's, or everyone's under their names.
-    @State private var showingPsyLogScope = false
+    /// With more than one profile, a Piru or PsychonautWiki export asks whose
+    /// journal it holds: this profile's, or everyone's.
+    @State private var scopeChoice: ExportScopeChoice?
 
     /// The one file picker for every import: the picked file decides whether it
     /// imports as JSON or restores as an encrypted backup.
@@ -95,12 +95,17 @@ struct DataStorageView: View {
         .sheet(item: $model.exported, onDismiss: { model.cleanupExportedFile() }) { item in
             ShareSheet(items: [item.url])
         }
-        .confirmationDialog("PsychonautWiki Format", isPresented: $showingPsyLogScope, titleVisibility: .visible) {
-            Button("This Profile") { generatePlainExport(.psyLog) }
-            Button("Everyone") { generatePlainExport(.psyLogEveryone) }
+        .confirmationDialog(
+            scopeChoice?.title ?? "",
+            isPresented: scopeChoiceBinding,
+            titleVisibility: .visible,
+            presenting: scopeChoice,
+        ) { choice in
+            Button("This Profile") { generatePlainExport(choice.thisProfile) }
+            Button("Everyone") { generatePlainExport(choice.everyone) }
             Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Everyone puts every profile's doses in one file, each under its person's name.")
+        } message: { choice in
+            Text(choice.message)
         }
         .confirmationDialog("Restore Backup", isPresented: $showingStrategyDialog, titleVisibility: .visible) {
             Button("Merge With Current Data") { executeRestore(.merge) }
@@ -139,6 +144,10 @@ struct DataStorageView: View {
         Binding(get: { pendingRestore != nil }, set: { if !$0 { pendingRestore = nil } })
     }
 
+    private var scopeChoiceBinding: Binding<Bool> {
+        Binding(get: { scopeChoice != nil }, set: { if !$0 { scopeChoice = nil } })
+    }
+
     private var noticeBinding: Binding<Bool> {
         Binding(get: { model.notice != nil }, set: { if !$0 { model.notice = nil } })
     }
@@ -146,8 +155,8 @@ struct DataStorageView: View {
     // MARK: - Actions
 
     private func exportPlain(_ format: ExportFormat) {
-        if format == .psyLog, directory.hasMultipleProfiles {
-            showingPsyLogScope = true
+        if directory.hasMultipleProfiles, let choice = ExportScopeChoice(format) {
+            scopeChoice = choice
         } else {
             generatePlainExport(format)
         }
@@ -179,6 +188,49 @@ struct DataStorageView: View {
     private func restore(_ store: RecoverableStore) {
         pendingRestore = nil
         restoreComplete = model.restoreRecoverable(store)
+    }
+}
+
+/// The This Profile / Everyone choice a JSON export asks for when the device
+/// has more than one profile.
+private enum ExportScopeChoice {
+    case piru
+    case psyLog
+
+    init?(_ format: ExportFormat) {
+        switch format {
+        case .piru: self = .piru
+        case .psyLog: self = .psyLog
+        case .piruEveryone, .psyLogEveryone, .spreadsheet: return nil
+        }
+    }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .piru: "Piru Backup"
+        case .psyLog: "PsychonautWiki Format"
+        }
+    }
+
+    var message: LocalizedStringKey {
+        switch self {
+        case .piru: "Everyone puts every profile's journal in one file. Importing it brings each one back as its own profile."
+        case .psyLog: "Everyone puts every profile's doses in one file, each under its person's name."
+        }
+    }
+
+    var thisProfile: ExportFormat {
+        switch self {
+        case .piru: .piru
+        case .psyLog: .psyLog
+        }
+    }
+
+    var everyone: ExportFormat {
+        switch self {
+        case .piru: .piruEveryone
+        case .psyLog: .psyLogEveryone
+        }
     }
 }
 

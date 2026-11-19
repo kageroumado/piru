@@ -364,7 +364,7 @@ import SwiftData
                 return true
             }
             do {
-                try DataExportImport.importJSON(data: data, context: context)
+                try BackupFileImport.importJSON(data, context: context)
             } catch {
                 print("DemoData: -piruImportFile import failed: \(DataExportImport.importErrorMessage(for: error))")
                 return true

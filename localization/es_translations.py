@@ -3662,6 +3662,7 @@ ES = {
     "This Profile": "Este perfil",
     "Everyone": "Todos",
     "Everyone puts every profile's doses in one file, each under its person's name.": "Todos pone las dosis de cada perfil en un solo archivo, cada una con el nombre de su persona.",
+    "Everyone puts every profile's journal in one file. Importing it brings each one back as its own profile.": "Todos pone el diario de cada perfil en un solo archivo. Al importarlo, cada uno vuelve como su propio perfil.",
     # Profiles: shared sessions
     "With %@": "Con %@",
     "%lld others": "%lld más",

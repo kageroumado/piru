@@ -21,6 +21,9 @@ extension Date {
 enum ExportFormat: Equatable {
     /// Piru-native, lossless (sessions, per-dose location, background flags, …).
     case piru
+    /// The Piru-native format holding every profile: the owner's journal at
+    /// the top level, every other profile's in ``PiruFile/profiles``.
+    case piruEveryone
     /// PsychonautWiki's modern interchange format — importable by PW, but lossy
     /// for Piru-only fields.
     case psyLog
@@ -54,6 +57,7 @@ enum DataExportImport {
     ) throws -> Data {
         switch format {
         case .piru: try encodeJSON(makePiruFile(context: context, customStore: customStore, settings: settings))
+        case .piruEveryone: try exportBackupJSON(context: context)
         case .psyLog: try encodeJSON(makePsyLogFile(context: context))
         case .psyLogEveryone: try encodeJSON(makePsyLogFile(people: everyone(activeContext: context)))
         case .spreadsheet: try spreadsheetCSV(context: context)
@@ -72,6 +76,9 @@ enum DataExportImport {
         switch format {
         case .piru:
             let file = try makePiruFile(context: context, customStore: customStore, settings: .live)
+            return try await Task.detached(priority: .userInitiated) { try encodeJSON(file) }.value
+        case .piruEveryone:
+            let file = try makeBackupFile(context: context)
             return try await Task.detached(priority: .userInitiated) { try encodeJSON(file) }.value
         case .psyLog:
             let file = try makePsyLogFile(context: context)

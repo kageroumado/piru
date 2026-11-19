@@ -45,7 +45,7 @@ enum BackupFileImport {
             }.value
             if let people { return .needsPeople(people) }
             do {
-                try DataExportImport.importJSON(data: data, context: context)
+                try importJSON(data, context: context)
             } catch ImportFileError.encrypted {
                 return await locked(data)
             }
@@ -54,6 +54,16 @@ enum BackupFileImport {
         } catch {
             return .failed(DataExportImport.importErrorMessage(for: error))
         }
+    }
+
+    /// Adds a plain JSON file to the journals it holds, skipping entries
+    /// already there. A Piru file carrying several profiles brings each back
+    /// under its own id, into this device's profile with that id when there is
+    /// one, as an encrypted backup's Merge does; any other file goes into the
+    /// open journal (`context`).
+    @MainActor
+    static func importJSON(_ data: Data, context: ModelContext, directory: ProfileDirectory = .shared) throws {
+        try BackupManager.shared.apply(plaintext: data, strategy: .merge, context: context, directory: directory)
     }
 
     /// Decrypts a locked backup off the main actor, returning the plaintext

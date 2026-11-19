@@ -92,6 +92,72 @@ struct ProfileBackupTests {
         #expect(try Self.doses(in: target.container(for: PiruProfile.ownerID, writable: false)).isEmpty)
         #expect(target.profiles.count == 2)
     }
+
+    // MARK: Plain JSON export and import
+
+    @Test
+    func `An Everyone export imports as two profiles, each journal under its own id`() throws {
+        let (source, _) = try makeScratchProfileDirectory()
+        let alice = try source.addProfile(name: "Alice", avatar: .emoji("🦊"), color: .forest)
+        let ownerContext = source.activeContainer.mainContext
+        ownerContext.insert(DoseEntry(substance: "Caffeine", amount: 100))
+        try ownerContext.save()
+        let aliceContext = try #require(source.container(for: alice.id, writable: true)).mainContext
+        aliceContext.insert(DoseEntry(substance: "Methylphenidate", amount: 10))
+        try aliceContext.save()
+        let data = try DataExportImport.exportBackupJSON(context: ownerContext, directory: source)
+
+        let (target, _) = try makeScratchProfileDirectory()
+        #expect(!target.hasMultipleProfiles)
+        try BackupFileImport.importJSON(data, context: target.activeContainer.mainContext, directory: target)
+        #expect(target.hasMultipleProfiles)
+        #expect(target.profiles.map(\.id) == [PiruProfile.ownerID, alice.id])
+        #expect(target.profile(id: alice.id)?.name == "Alice")
+        #expect(try Self.doses(in: target.activeContainer) == ["Caffeine"])
+        #expect(try Self.doses(in: target.container(for: alice.id, writable: false)) == ["Methylphenidate"])
+
+        // A second import merges into the profiles it made, adding nothing.
+        try BackupFileImport.importJSON(data, context: target.activeContainer.mainContext, directory: target)
+        #expect(target.profiles.count == 2)
+        #expect(try Self.doses(in: target.activeContainer) == ["Caffeine"])
+        #expect(try Self.doses(in: target.container(for: alice.id, writable: false)) == ["Methylphenidate"])
+    }
+
+    @Test
+    func `A This Profile export still imports into the open journal alone`() throws {
+        let (source, _) = try makeScratchProfileDirectory()
+        let alice = try source.addProfile(name: "Alice")
+        let aliceContainer = try #require(source.activate(alice.id))
+        aliceContainer.mainContext.insert(DoseEntry(substance: "Methylphenidate", amount: 10))
+        try aliceContainer.mainContext.save()
+        let data = try DataExportImport.exportJSON(format: .piru, context: aliceContainer.mainContext)
+        #expect(DataExportImport.profilesSection(in: data) == nil)
+
+        let (target, _) = try makeScratchProfileDirectory()
+        try BackupFileImport.importJSON(data, context: target.activeContainer.mainContext, directory: target)
+        #expect(target.profiles.map(\.id) == [PiruProfile.ownerID])
+        #expect(try Self.doses(in: target.activeContainer) == ["Methylphenidate"])
+    }
+
+    @Test
+    func `A file without a profiles section goes into whichever journal is open`() throws {
+        let (source, _) = try makeScratchProfileDirectory()
+        source.activeContainer.mainContext.insert(DoseEntry(substance: "Caffeine", amount: 100))
+        try source.activeContainer.mainContext.save()
+        var json = try #require(try JSONSerialization.jsonObject(
+            with: DataExportImport.exportJSON(context: source.activeContainer.mainContext),
+        ) as? [String: Any])
+        json["profiles"] = nil
+        let oldFile = try JSONSerialization.data(withJSONObject: json)
+
+        let (target, _) = try makeScratchProfileDirectory()
+        let bob = try target.addProfile(name: "Bob")
+        let bobContainer = try #require(target.activate(bob.id))
+        try BackupFileImport.importJSON(oldFile, context: bobContainer.mainContext, directory: target)
+        #expect(target.profiles.map(\.id) == [PiruProfile.ownerID, bob.id])
+        #expect(try Self.doses(in: bobContainer) == ["Caffeine"])
+        #expect(try Self.doses(in: target.container(for: PiruProfile.ownerID, writable: false)).isEmpty)
+    }
 }
 
 @Suite("Profiles — deep links")

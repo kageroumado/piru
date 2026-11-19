@@ -30,8 +30,15 @@ extension DataExportImport {
     /// journal's, read in place; the others are read through their own stores.
     @MainActor
     static func exportBackupJSON(context: ModelContext, directory: ProfileDirectory = .shared) throws -> Data {
+        try encodeJSON(makeBackupFile(context: context, directory: directory))
+    }
+
+    /// The file ``exportBackupJSON(context:directory:)`` encodes, gathered on
+    /// the main actor so the encode can run off it.
+    @MainActor
+    static func makeBackupFile(context: ModelContext, directory: ProfileDirectory = .shared) throws -> PiruFile {
         guard directory.hasMultipleProfiles || directory.owner.avatar.photo != nil else {
-            return try exportJSON(context: context)
+            return try makePiruFile(context: context, customStore: .shared, settings: .live)
         }
         var file = try journalFile(for: directory.owner, context: context, directory: directory)
         var journals: [PiruProfileJournal] = []
@@ -47,7 +54,7 @@ extension DataExportImport {
         file.profiles = PiruProfilesSection(
             registry: directory.profiles, journals: journals, photos: photos.isEmpty ? nil : photos,
         )
-        return try encodeJSON(file)
+        return file
     }
 
     @MainActor
