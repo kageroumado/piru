@@ -2,7 +2,7 @@
 
 Piru puts doses, timestamped notes and estimated drug-level curves on one timeline. Its offline substance reference shows where each field comes from and lets you choose which sources take priority.
 
-<a href="https://kagerou.glass/get/piru/ios?from=readme"><img src=".github/download-iphone.svg" alt="Get Piru for iPhone on TestFlight" width="270" height="60"></a>
+<a href="https://kagerou.glass/get/piru/ios?from=readme"><img src=".github/download-iphone.svg" alt="Get Piru for iPhone on the App Store" width="270" height="60"></a>
 <a href="https://kagerou.glass/get/piru/mac?from=readme"><img src=".github/download-mac.svg" alt="Download Piru for Mac" width="270" height="60"></a>
 <a href="https://kagerou.glass/get/piru/android?from=readme"><img src=".github/download-android.svg" alt="Download Piru for Android" width="270" height="60"></a>
 <a href="https://discord.gg/hbpMZhPSdx"><img src=".github/discord.svg" alt="Join Discord" width="270" height="60"></a>
@@ -49,6 +49,7 @@ piru://quicklog?substance=Concerta&amount=27&unit=mg&route=oral&time=2026-10-18T
 ## Notes
 
 - iOS/watchOS/macOS 26+; Android 9+ on 64-bit ARM. Mac supports Apple silicon and Intel. Apple Watch comes with the iPhone app.
+- The iPhone app is on the App Store. In the EU, where it has no App Store listing, the iPhone button opens TestFlight.
 - Android updates: add this repository to [Obtainium](https://github.com/ImranR98/Obtainium), filtering releases by `android-`.
 - [Website](https://kagerou.glass/piru/) · [Bug reports](BUG-REPORTS.md) · [Contributing](CONTRIBUTING.md) · [简体中文](README.zh-Hans.md).
 
