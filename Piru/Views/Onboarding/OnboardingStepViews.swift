@@ -113,8 +113,10 @@ struct OnboardingWelcomeStep: View {
         defer { restoring = false }
         let manager = BackupManager.shared
         do {
+            // Restores only. Never turn automatic backup on from here: a restore
+            // is no consent to keep uploading, and that switch belongs to Data &
+            // Backup.
             try await manager.restoreFromICloud(passphrase: nil, strategy: .merge, context: modelContext)
-            manager.autoICloudEnabled = true
         } catch {
             // Fall through — the user can try again from Data & Backup later.
         }
