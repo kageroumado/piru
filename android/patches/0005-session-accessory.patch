@@ -1,10 +1,10 @@
 ContentView: the session accessory (Log / live session) and the onboarding cover are iOS-only upstream; Android shows them too, through Android/SwiftUI/TabAccessory+Android.swift.
 
 diff --git a/Piru/Views/ContentView.swift b/Piru/Views/ContentView.swift
-index 0580db10..24916e29 100644
+index c284821b..434c1e92 100644
 --- a/Piru/Views/ContentView.swift
 +++ b/Piru/Views/ContentView.swift
-@@ -92,7 +92,7 @@ private struct OnboardingGateModifier: ViewModifier {
+@@ -137,7 +137,7 @@ private struct OnboardingGateModifier: ViewModifier {
      @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
  
      func body(content: Content) -> some View {
@@ -13,8 +13,8 @@ index 0580db10..24916e29 100644
              content.fullScreenCover(isPresented: .init(
                  get: { !hasCompletedOnboarding },
                  set: { if !$0 { hasCompletedOnboarding = true } },
-@@ -435,7 +435,7 @@ private extension View {
-     /// which is the trade this accessory is making.
+@@ -481,7 +481,7 @@ private extension View {
+     /// keeping the primary action here is worth giving it up.
      @ViewBuilder
      func withSessionAccessory() -> some View {
 -        #if os(iOS)
@@ -22,7 +22,7 @@ index 0580db10..24916e29 100644
              tabViewBottomAccessory {
                  SessionAccessoryHost()
              }
-@@ -447,7 +447,7 @@ private extension View {
+@@ -493,7 +493,7 @@ private extension View {
  
  // MARK: - Session Accessory Host
  
@@ -31,10 +31,10 @@ index 0580db10..24916e29 100644
      /// Decides the accessory's face and wires its two actions. Reading the
      /// journal's path and the live session here, inside the accessory, is what
      /// keeps a push, a pop or a session update from re-rendering the tab tree.
-@@ -565,7 +565,7 @@ private extension View {
- // a context separate from the main view tree — the same boundary that stops a
- // `matchedTransition` from anchoring the sheet zoom — so a geometry match there
- // snaps rather than animates.)
+@@ -609,7 +609,7 @@ private extension View {
+ // `matchedGeometryEffect` across the swap: iOS hosts accessory content in a
+ // context separate from the main view tree, so a geometry match there snaps
+ // rather than animates.
 -#if os(iOS)
 +#if os(iOS) || os(Android)
      private struct BottomAccessoryContent: View {
