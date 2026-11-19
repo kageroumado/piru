@@ -516,9 +516,7 @@ excluded.
 
 ### f.1 Whole orphan scripts — nothing anywhere references them
 
-| Path | What it does | Evidence | Safe to delete? |
-|---|---|---|---|
-| `pipeline/audit/apply_citation_fixes.py` (290 lines) | Applies adjudicated citation repairs (replace/drop) to `data/enrichment/raw/*.json` and `data/curated/`, with a byte-preserving serializer. | `rg -n --hidden 'apply_citation_fixes.py' . --glob '!pipeline/audit/apply_citation_fixes.py'` → **zero hits**. | Scope unclear. It is the only writer path for citation repairs, and it has no input files: every batch it was written for is applied. Listed in `DELETE-CANDIDATES.md`. |
+None.
 
 ### f.2 Manual-but-load-bearing — the script is never invoked, its output *is* on the build path
 
@@ -584,7 +582,7 @@ offline).
 
 | Class | Count |
 |---|---|
-| Whole orphan scripts (zero references) | 1 (`apply_citation_fixes.py`, no inputs) |
+| Whole orphan scripts (zero references) | 0 |
 | Dead data files (zero readers) | 4 citation-fix inputs (+3 `.meta.json` sidecars by design) |
 | Manual-but-load-bearing fetchers | 13 |
 | Manual audit tools (docs-only references) | 14 |
