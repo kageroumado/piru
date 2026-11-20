@@ -148,7 +148,7 @@ private struct SubstanceSearchResultsList: View {
                         .sectionLabel()
                         .accessibilityAddTraits(.isHeader)
 
-                    ForEach(HelpView.services(for: HelpView.regionCode)) { service in
+                    ForEach(EmergencyServices.services(for: EmergencyServices.regionCode)) { service in
                         helpLink(service)
                     }
                 }
@@ -174,7 +174,7 @@ private struct SubstanceSearchResultsList: View {
     }
 
     @ViewBuilder
-    private func helpLink(_ service: HelpView.EmergencyService) -> some View {
+    private func helpLink(_ service: EmergencyServices.Service) -> some View {
         if let destination = URL(string: service.url) {
             Link(destination: destination) {
                 HStack(spacing: Spacing.lg) {
