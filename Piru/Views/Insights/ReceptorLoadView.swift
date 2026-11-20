@@ -323,33 +323,17 @@ private struct ReceptorLoadReadout: View {
         .filter { $0.load > 0.005 }
         .sorted { $0.load > $1.load }
 
-        VStack(alignment: .leading, spacing: 3) {
-            Text(date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated)))
-                .font(.caption.weight(.semibold))
-            ForEach(rows, id: \.series.id) { row in
-                HStack(spacing: 5) {
-                    Circle()
-                        .fill(row.series.color)
-                        .frame(width: 6, height: 6)
-                    Text(row.series.name)
-                        .font(.caption2)
-                    Spacer(minLength: 8)
-                    Text(row.load.formatted(.percent.precision(.fractionLength(0))))
-                        .font(.caption2.weight(.medium))
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-            if rows.isEmpty {
-                Text("Nothing driven at this time")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+        ChartScrubReadout(
+            title: date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated)),
+            items: rows, id: \.series.id,
+            emptyText: Text("Nothing driven at this time"),
+            name: { $0.series.name },
+            value: { Text($0.load.formatted(.percent.precision(.fractionLength(0)))) },
+        ) { row in
+            Circle()
+                .fill(row.series.color)
+                .frame(width: 6, height: 6)
         }
-        .padding(Spacing.md)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard(cornerRadius: Theme.CornerRadius.inner)
-        .accessibilityElement(children: .combine)
-        .transition(.opacity)
     }
 
     private func nearestPoint(in item: ReceptorLoadSeries) -> ReceptorLoadSeries.Point? {

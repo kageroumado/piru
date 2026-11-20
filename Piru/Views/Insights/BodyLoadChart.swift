@@ -166,35 +166,19 @@ struct BodyLoadReadout: View {
         .filter { $0.amount > 0 }
         .sorted { $0.amount > $1.amount }
 
-        VStack(alignment: .leading, spacing: 3) {
-            Text(date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated).hour()))
-                .font(.caption.weight(.semibold))
-            ForEach(rows, id: \.series.id) { row in
-                HStack(spacing: 5) {
-                    ChartSeriesKey(
-                        color: row.series.color,
-                        marker: markers[row.series.displayName] ?? ChartSeriesMarker(index: 0),
-                        size: .compact,
-                    )
-                    Text(row.series.displayName)
-                        .font(.caption2)
-                    Spacer(minLength: 8)
-                    Text("\(row.amount.doseFormatted) \(row.series.unit)")
-                        .font(.caption2.weight(.medium))
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-            if rows.isEmpty {
-                Text("Nothing in your body at this time")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+        ChartScrubReadout(
+            title: date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated).hour()),
+            items: rows, id: \.series.id,
+            emptyText: Text("Nothing in your body at this time"),
+            name: { $0.series.displayName },
+            value: { Text("\($0.amount.doseFormatted) \($0.series.unit)") },
+        ) { row in
+            ChartSeriesKey(
+                color: row.series.color,
+                marker: markers[row.series.displayName] ?? ChartSeriesMarker(index: 0),
+                size: .compact,
+            )
         }
-        .padding(Spacing.md)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard(cornerRadius: Theme.CornerRadius.inner)
-        .accessibilityElement(children: .combine)
-        .transition(.opacity)
     }
 
     private func nearestPoint(in item: BodyLoadTrail.Series) -> BodyLoadTrail.Point? {
