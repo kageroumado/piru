@@ -62,6 +62,11 @@ extension View {
         navigationBarTitleDisplayMode(.inline)
     }
 
+    /// The screen keeps SkipFuseUI's default title, as the macOS build keeps AppKit's.
+    func largeNavigationTitle() -> some View {
+        self
+    }
+
     func alwaysVisibleSearch(text: Binding<String>, prompt: Text) -> some View {
         searchable(text: text, prompt: prompt)
     }
