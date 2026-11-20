@@ -4,15 +4,28 @@ import SwiftUI
 /// §1 — four cards answering "what does my usage look like right now, compared
 /// to recently?": the period's entry count against the one before it, how many
 /// distinct substances (and how many are new), the daily average with the
-/// busiest weekday, and where the period's doses sit on the ladder.
+/// busiest weekday, and where the period's doses sit on the ladder. The window
+/// they cover is named once above them, since the range itself lives in the
+/// toolbar menu.
 struct UsageOverviewSection: View {
     let overview: UsageOverview
     let range: UsageTimeRange
 
     var body: some View {
-        VStack(spacing: Spacing.xl) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
+            Text(windowName)
+                .cardTitle()
+                .accessibilityAddTraits(.isHeader)
             row { periodCard; substancesCard }
             row { averageCard; intensityCard }
+        }
+    }
+
+    private var windowName: LocalizedStringResource {
+        if let days = range.days {
+            "Last \(days) days"
+        } else {
+            "All time"
         }
     }
 
@@ -23,11 +36,11 @@ struct UsageOverviewSection: View {
             .fixedSize(horizontal: false, vertical: true)
     }
 
-    // MARK: This period
+    // MARK: Entries
 
     private var periodCard: some View {
         UsageOverviewCard(
-            title: "This period",
+            title: "Entries",
             value: "\(overview.entryCount)",
             caption: changeText,
             captionColor: changeColor,
@@ -37,11 +50,10 @@ struct UsageOverviewSection: View {
         }
     }
 
+    /// The change against the previous period, or nothing when that period
+    /// is empty: a comparison with nothing says nothing.
     private var changeText: Text? {
-        guard let change = overview.percentChange else {
-            guard overview.previousEntryCount != nil else { return nil }
-            return Text("No entries in the previous period")
-        }
+        guard let change = overview.percentChange else { return nil }
         let percent = Int((abs(change) * 100).rounded())
         let rangeLabel = String(localized: range.displayName)
         // Composed as one already-localized `String` rather than concatenated
@@ -73,13 +85,20 @@ struct UsageOverviewSection: View {
 
     // MARK: Unique substances
 
+    /// "N first recorded this period" only when some of the period's
+    /// substances were also recorded before it; when every one is new the
+    /// caption would repeat the headline number.
+    private var showsNewSubstances: Bool {
+        overview.newSubstances > 0 && overview.newSubstances < overview.uniqueSubstances
+    }
+
     private var substancesCard: some View {
         UsageOverviewCard(
             title: "Substances",
             value: "\(overview.uniqueSubstances)",
-            caption: overview.newSubstances > 0 ? Text("\(overview.newSubstances) first recorded this period") : nil,
+            caption: showsNewSubstances ? Text("\(overview.newSubstances) first recorded this period") : nil,
             captionColor: Theme.secondaryLabel,
-            accessibilityValue: overview.newSubstances > 0
+            accessibilityValue: showsNewSubstances
                 ? String(localized: "\(overview.uniqueSubstances) distinct substances, \(overview.newSubstances) first recorded this period")
                 : String(localized: "\(overview.uniqueSubstances) distinct substances"),
         ) {
@@ -123,7 +142,6 @@ struct UsageOverviewSection: View {
             caption: intensityCaption,
             captionColor: Theme.secondaryLabel,
             accessibilityValue: intensityAccessibility,
-            badge: overview.doseIntensity.map(intensityColor),
         ) {
             EmptyView()
         }
@@ -153,41 +171,24 @@ struct UsageOverviewSection: View {
             localized: "\(percent) percent of \(overview.doseResolvedCount) placed doses were common or above, \(overview.heavyCount) heavy",
         )
     }
-
-    /// Where the period's doses sit on the ladder, as a three-step encoding.
-    /// This is a description of the record, not a verdict on it.
-    private func intensityColor(_ intensity: Double) -> Color {
-        switch intensity {
-        case ..<0.25: .Dose.Light.accent
-        case ..<0.5: .Dose.Common.accent
-        default: .Dose.Heavy.accent
-        }
-    }
 }
 
 // MARK: - One card
 
-/// One overview tile: a headline number, an optional caption, an optional
-/// status dot, and optional inline art (the sparkline).
+/// One overview tile: a headline number, an optional caption, and optional
+/// inline art (the sparkline).
 private struct UsageOverviewCard<Art: View>: View {
     let title: LocalizedStringKey
     let value: String
     var caption: Text?
     var captionColor: Color = Theme.secondaryLabel
     let accessibilityValue: String
-    var badge: Color?
     @ViewBuilder var art: () -> Art
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            HStack(spacing: 5) {
-                Text(title)
-                    .captionSecondary()
-                if let badge {
-                    LegendDot(color: badge, size: .compact)
-                }
-                Spacer(minLength: 0)
-            }
+            Text(title)
+                .captionSecondary()
             Text(value)
                 .font(.piru(.title2, design: .rounded, weight: .semibold))
                 .lineLimit(1)

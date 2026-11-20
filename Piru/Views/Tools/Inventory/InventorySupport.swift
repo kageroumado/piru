@@ -268,7 +268,7 @@ struct InventoryStepperRow: View {
             ) {
                 Text(label)
             }
-            .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(unit)"))
+            .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(displayUnit)"))
         }
     }
 
@@ -341,7 +341,7 @@ struct InventoryStepperRow: View {
                 }
             } label: {
                 HStack(alignment: .firstTextBaseline, spacing: Spacing.xxs) {
-                    Text(unit)
+                    Text(displayUnit)
                     Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
                         .accessibilityHidden(true)
                 }
@@ -350,10 +350,16 @@ struct InventoryStepperRow: View {
             }
             .buttonStyle(.plain)
         } else {
-            Text(unit)
+            Text(displayUnit)
                 .font(.body.weight(.medium))
                 .foregroundStyle(Theme.secondaryLabel)
         }
+    }
+
+    /// The unit beside the amount: "1 tab", "2 tabs". The menu's choices
+    /// and the comparison against them keep the stored unit.
+    private var displayUnit: String {
+        unit.unitDisplay(for: value)
     }
 
     private func stepButton(systemImage: String, action: @escaping () -> Void) -> some View {

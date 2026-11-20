@@ -103,11 +103,17 @@ struct PharmacologyHero {
     private static func dissociative(_ bindings: [BindingHit]) -> PharmacologyHero? {
         let nmda = bindings.filter { $0.target.uppercased().contains("NMDA") }
         guard !nmda.isEmpty else { return nil }
+        // The label is the bar's on-screen title, so it is the localized name;
+        // it also groups the rows, one per form.
         func enantiomer(_ target: String) -> (label: String, order: Int) {
             let t = target.lowercased()
-            if t.contains("s-enantiomer") || t.contains("s-ket") || t.contains("esket") { return ("S-enantiomer", 0) }
-            if t.contains("r-enantiomer") || t.contains("r-ket") || t.contains("arket") { return ("R-enantiomer", 2) }
-            return ("racemate", 1)
+            if t.contains("s-enantiomer") || t.contains("s-ket") || t.contains("esket") {
+                return (String(localized: "S-enantiomer"), 0)
+            }
+            if t.contains("r-enantiomer") || t.contains("r-ket") || t.contains("arket") {
+                return (String(localized: "R-enantiomer"), 2)
+            }
+            return (String(localized: "racemate"), 1)
         }
         var byEnantiomer: [String: BindingHit] = [:]
         var order: [String: Int] = [:]

@@ -277,7 +277,7 @@ struct MedFormView: View {
     private var scheduleSection: some View {
         @Bindable var draft = draft
         return Section {
-            Picker("Schedule", selection: scheduleBinding) {
+            Picker("Repeats", selection: scheduleBinding) {
                 ForEach(DoseFrequency.allCases) { freq in
                     Text(freq.displayName).tag(MedScheduleChoice.frequency(freq))
                 }

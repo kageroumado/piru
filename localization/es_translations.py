@@ -3703,6 +3703,12 @@ ES = {
     "Move and Scale": "Mover y escalar",
     "Choose": "Elegir",
     "Drag to move it, pinch to scale it.": "Arrastra para moverla y pellizca para escalarla.",
+    "Last %lld days": "Últimos %lld días",
+    "All time": "Todo el tiempo",
+    "Repeats": "Repetir",
+    "S-enantiomer": "Enantiómero S",
+    "R-enantiomer": "Enantiómero R",
+    "racemate": "racemato",
 }
 
 # Spain only: the few strings Spain must see differently, such as the iOS Settings

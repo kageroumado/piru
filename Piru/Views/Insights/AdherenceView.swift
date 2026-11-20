@@ -434,12 +434,12 @@ struct AdherenceCalendarCell: View {
         case .partial:
             Image(systemName: "circle.lefthalf.filled")
                 .scaledSystemFont(size: 8, relativeTo: .caption2)
-                .foregroundStyle(Color.Semantic.Caution.text)
+                .foregroundStyle(Color.successText)
                 .accessibilityHidden(true)
         case .missed:
             Image(systemName: "xmark")
                 .scaledSystemFont(size: 8, weight: .bold, relativeTo: .caption2)
-                .foregroundStyle(Color.Semantic.Danger.text)
+                .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
         case .noData:
             Color.clear
@@ -451,11 +451,15 @@ struct AdherenceCalendarCell: View {
         Self.fill(for: status)
     }
 
+    /// One code with the Insights tab's month grid: taken in the success
+    /// color, partly taken a lighter step of it, an unlogged day a neutral
+    /// fill. The glyph under the day number carries the same three states
+    /// without color.
     private static func fill(for status: AdherenceStatus) -> Color {
         switch status {
-        case .complete: Color.successAccent.opacity(Theme.Opacity.tint)
-        case .partial: Color.Semantic.Caution.accent.opacity(Theme.Opacity.tint)
-        case .missed: Color.Semantic.Danger.accent.opacity(Theme.Opacity.tint)
+        case .complete: Color.successAccent.opacity(Theme.Opacity.emphasis)
+        case .partial: Color.successAccent.opacity(Theme.Opacity.tint)
+        case .missed: Color.platformTertiarySystemFill
         case .noData: Color.platformSecondarySystemBackground.opacity(Theme.Opacity.dimmed)
         }
     }
@@ -511,8 +515,8 @@ struct AdherenceDayDetailSheet: View {
                 Section("Meds due") {
                     ForEach(day.items) { itemAdherence in
                         HStack(spacing: Spacing.xl) {
-                            Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                .foregroundStyle(itemAdherence.taken ? Color.successAccent : Color.Semantic.Danger.accent)
+                            Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(itemAdherence.taken ? Color.successAccent : Color.platformTertiaryLabel)
                                 .font(.piru(.title3))
                                 .accessibilityHidden(true)
 
@@ -565,9 +569,9 @@ struct AdherenceDayDetailSheet: View {
     private var statusColor: Color {
         switch day.status {
         case .complete: Color.successAccent
-        case .partial: Color.Semantic.Caution.accent
-        case .missed: Color.Semantic.Danger.accent
-        case .noData: .secondary
+        case .partial: Color.successAccent
+        case .missed: Theme.secondaryLabel
+        case .noData: Theme.secondaryLabel
         }
     }
 

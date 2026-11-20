@@ -459,15 +459,17 @@ private struct MyMedsHeader: View {
         .accessibilityHint("Opens your meds")
     }
 
+    /// Plain caption text: the progress is a fact about today, and a filled
+    /// chip here read as a control.
     @ViewBuilder
     private var progressChip: some View {
         if isComplete {
             Text(chipText)
-                .capsuleChip(text: Theme.accent, fill: Theme.accent)
+                .captionSecondary()
         } else {
             Text("\(takenCount)/\(total)")
                 .monospacedDigit()
-                .capsuleChip(text: Theme.secondaryLabel, fill: Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 
@@ -541,49 +543,18 @@ private struct SupplementsRowView: View {
     private var circle: some View {
         ZStack {
             if takenCount == total {
-                CheckCircle(state: .taken, due: false)
+                MedSlotCheck(state: .taken, due: false)
             } else {
                 Circle()
                     .stroke(Color.platformTertiarySystemFill, lineWidth: 2)
                 Circle()
                     .trim(from: 0, to: total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total))
-                    .stroke(Theme.accent, style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                    .stroke(Color.successAccent, style: StrokeStyle(lineWidth: 2, lineCap: .round))
                     .rotationEffect(.degrees(-90))
             }
         }
         .frame(width: 18, height: 18)
         .accessibilityHidden(true)
-    }
-}
-
-/// The checked/unchecked/skipped circle shared by slot rows and the collapsed
-/// Supplements row.
-private struct CheckCircle: View {
-    let state: MyMedsCard.SlotState
-    let due: Bool
-
-    var body: some View {
-        image
-            .font(.system(size: 16))
-            .foregroundStyle(foregroundColor)
-            .frame(width: 18, height: 18)
-            .accessibilityHidden(true)
-    }
-
-    private var image: Image {
-        switch state {
-        case .taken: Image(systemName: "circle.fill")
-        case .skipped: Image(systemName: "minus.circle")
-        case .pending: Image(systemName: "circle")
-        }
-    }
-
-    private var foregroundColor: Color {
-        switch state {
-        case .taken: Theme.accent
-        case .skipped: Theme.secondaryLabel.opacity(Theme.Opacity.muted)
-        case .pending: due ? Theme.accent : Color.platformTertiarySystemFill
-        }
     }
 }
 
@@ -623,7 +594,7 @@ private struct SlotRowView: View {
                     onToggle()
                 }
             } label: {
-                CheckCircle(state: slotState, due: due)
+                MedSlotCheck(state: slotState, due: due)
                     .minimumHitTarget()
             }
             .buttonStyle(.plain)
@@ -692,7 +663,6 @@ private struct SlotRowView: View {
         Text(title)
             .font(.subheadline.weight(dismissed ? .regular : .medium))
             .foregroundStyle(dismissed ? Theme.secondaryLabel : .primary)
-            .strikethrough(taken, color: Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
     }
 
     @ViewBuilder
