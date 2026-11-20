@@ -192,7 +192,7 @@ struct QuickLogCardList: View {
 
     /// The amount each product's med is saved at, by lowercased product name,
     /// so its card offers that amount as a chip too.
-    private var medAmounts: [String: Double] {
+    private var productMedAmounts: [String: Double] {
         let products = customSubstanceStore.productMeds
         var amounts: [String: Double] = [:]
         for group in content.cachedDailyGroups {
@@ -248,6 +248,7 @@ struct QuickLogCardList: View {
         dailySection()
 
         let products = customSubstanceStore.all.filter(\.isCombination)
+        let medAmounts = productMedAmounts
 
         if content.cachedCards.isEmpty, content.cachedDailyGroups.isEmpty, products.isEmpty {
             ContentUnavailableView(

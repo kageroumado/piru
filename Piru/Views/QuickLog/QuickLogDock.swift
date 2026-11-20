@@ -317,6 +317,7 @@ struct QuickLogDock: View {
             // A routine prestaged before the sheet mounted (notification deep
             // link) should land already showing the tray.
             .onAppear(perform: handleAppear)
+            .task { await content.loadBrowseFamilies() }
     }
 
     private var dockLayout: some View {
@@ -577,7 +578,6 @@ struct QuickLogDock: View {
     }
 
     private func handleAppear() {
-        Task { await content.loadBrowseFamilies() }
         guard !tray.isEmpty else { return }
         refreshDetents()
         if tray.expandedItemIDs.isEmpty, let compactDetent = bookkeeping.compactDetent {

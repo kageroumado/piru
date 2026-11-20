@@ -292,7 +292,8 @@ struct QuickLogSearchResults: View {
         // An injectable ester ("Estradiol Valerate") stages on its declared route
         // (IM/SC from ester_pk), not the base substance's default (oral) — logging
         // a depot ester by mouth is meaningless.
-        let route = esterRoute(for: substance, saltForm: saltForm) ?? substance.defaultRoute
+        let named = NamedSubstance(substance: substance, productName: productName, saltForm: saltForm)
+        let route = named.esterRoute ?? substance.defaultRoute
         let unit = substance.unit(for: route, saltForm: saltForm, isomer: nil)
         return QuickLogStagePayload(
             // Canonical, always — `substance` is the lookup key every downstream
@@ -307,19 +308,6 @@ struct QuickLogSearchResults: View {
             productName: productName,
             saltForm: saltForm,
         )
-    }
-
-    /// The injection route a searched ester should stage on — its declared
-    /// `ester_pk` route (IM/SC), or `nil` when `saltForm` names no ester.
-    private func esterRoute(for substance: Substance, saltForm: String?) -> RouteOfAdministration? {
-        guard let saltForm, let uid = substance.substanceUID else { return nil }
-        let route = SubstanceStore.shared.esters(forParentUID: uid)
-            .first { $0.label == saltForm }?.routes.first
-        switch route {
-        case "SC": return .subcutaneous
-        case "IM": return .intramuscular
-        default: return nil
-        }
     }
 
     private func createCustomRow(_ action: @escaping () -> Void) -> some View {
