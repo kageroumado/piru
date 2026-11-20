@@ -2,78 +2,6 @@ import SwiftData
 import SwiftUI
 import TipKit
 
-// MARK: - Journal Grouping
-
-/// The Journal's three views. `grouped` buckets entries under a secondary key
-/// (``JournalGroupKey``) picked in the options popover.
-enum JournalGrouping: String, CaseIterable {
-    // Order drives the grouping menu.
-    case byDay = "Days"
-    case timeline = "Timeline"
-    case grouped = "Grouped"
-
-    var displayName: LocalizedStringResource {
-        switch self {
-        case .byDay: "Days"
-        case .timeline: "Timeline"
-        case .grouped: "Grouped"
-        }
-    }
-}
-
-/// What the Grouped view buckets by — the popover's segmented control under
-/// the thumbnails. Remembered across launches.
-enum JournalGroupKey: String, CaseIterable {
-    case substance = "Substance"
-    case category = "Category"
-
-    var displayName: LocalizedStringResource {
-        switch self {
-        case .substance: "By Substance"
-        case .category: "By Category"
-        }
-    }
-}
-
-/// Rewrites a persisted grouping from the five-thumbnail picker into the
-/// three-view one, so nobody's saved choice snaps back to Days. Recent was the
-/// Timeline's bubbles without the hour axis, so it becomes Timeline with the
-/// axis off; Substance and Category become Grouped with the matching key.
-enum JournalGroupingMigration {
-    static let groupingKey = "journalGrouping"
-    static let groupKeyKey = "journalGroupKey"
-    static let timelineAxisKey = "timelineShowsAxis"
-
-    enum Outcome: Equatable {
-        case unchanged
-        case recentToTimeline
-        case substanceToGrouped
-        case categoryToGrouped
-    }
-
-    @discardableResult
-    static func migrate(in defaults: UserDefaults) -> Outcome {
-        switch defaults.string(forKey: groupingKey) {
-        case "Recent":
-            defaults.set(JournalGrouping.timeline.rawValue, forKey: groupingKey)
-            defaults.set(false, forKey: timelineAxisKey)
-            return .recentToTimeline
-        case "Substance":
-            defaults.set(JournalGrouping.grouped.rawValue, forKey: groupingKey)
-            defaults.set(JournalGroupKey.substance.rawValue, forKey: groupKeyKey)
-            return .substanceToGrouped
-        case "Category":
-            defaults.set(JournalGrouping.grouped.rawValue, forKey: groupingKey)
-            defaults.set(JournalGroupKey.category.rawValue, forKey: groupKeyKey)
-            return .categoryToGrouped
-        default:
-            return .unchanged
-        }
-    }
-}
-
-// MARK: - Entry List View
-
 struct EntryListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
@@ -185,18 +113,6 @@ struct EntryListView: View {
     /// observable model so recomputation happens off `body` and the view diffs a
     /// single source of truth.
     @State private var model = JournalModel()
-
-    /// First-appear gate: the initial derive paints without animation; later
-    /// revision-driven re-runs animate the diff in.
-    @State private var hasLoadedOnce = false
-
-    /// Set once the first derive has actually completed (`hasLoadedOnce` flips
-    /// at the *start* of that task). Until then, the search task's regroup
-    /// would bucket against an empty `derived` and paint every day card
-    /// graph-less — the cold-launch no-graphs flash.
-    @State private var hasDerivedOnce = false
-    /// The dose-log revision the derived data was last built from.
-    @State private var derivedRevision: Int?
 
     /// Content fingerprint of the color assignments. Drives the recolor derive
     /// on *edits*, not just adds and removes: recoloring an existing substance
@@ -319,7 +235,7 @@ struct EntryListView: View {
             // warm-up, and flashing "No Entries" at a user who has entries
             // reads as a blink of data loss. Until then, a spinner.
             if model.filtered.isEmpty {
-                if hasDerivedOnce {
+                if model.hasDerivedOnce {
                     emptyState
                 } else {
                     ProgressView()
@@ -340,9 +256,9 @@ struct EntryListView: View {
             // pop back) with the id unchanged; the derived data is still
             // current then, and re-deriving it costs a ~400 ms hang.
             let revision = DoseLogService.shared.revision
-            if hasDerivedOnce, derivedRevision == revision { return }
-            let isFirst = !hasLoadedOnce
-            hasLoadedOnce = true
+            if model.isDerived(atLogRevision: revision) { return }
+            let isFirst = !model.hasStartedLoading
+            model.hasStartedLoading = true
             if !isFirst {
                 // Animate the diff so a newly-logged session slides in and pushes
                 // the others down instead of snapping.
@@ -351,8 +267,7 @@ struct EntryListView: View {
             }
             await rebuildAll(animated: !isFirst)
             guard !Task.isCancelled else { return }
-            hasDerivedOnce = true
-            derivedRevision = revision
+            model.markDerived(logRevision: revision)
         }
         // Debounce the search filter: re-filtering the whole history runs on the
         // main actor, so doing it on every keystroke stalled typing. An empty
@@ -365,7 +280,7 @@ struct EntryListView: View {
             // session re-fires this with the text unchanged, and resetting the
             // Day window then would cut the list back to its first page under
             // a reader scrolled into older sessions.
-            guard hasDerivedOnce, searchText != model.groupedSearchText else { return }
+            guard model.hasDerivedOnce, searchText != model.groupedSearchText else { return }
             if !searchText.isEmpty {
                 try? await Task.sleep(for: .milliseconds(150))
                 guard !Task.isCancelled else { return }

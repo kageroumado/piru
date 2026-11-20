@@ -34,6 +34,31 @@ final class JournalModel {
     private(set) var routes: [RouteOfAdministration] = []
     private(set) var colorMap: [String: Color] = [:]
 
+    // MARK: - Load state
+
+    /// Set when the first derive *starts*: that one paints without animation,
+    /// later revision-driven re-runs animate the diff in.
+    var hasStartedLoading = false
+    /// Set once the first derive has actually completed. Until then, the search
+    /// task's regroup would bucket against an empty `derived` and paint every
+    /// day card graph-less (the cold-launch no-graphs flash), and the empty
+    /// state shows a spinner rather than "No Entries".
+    private(set) var hasDerivedOnce = false
+    /// The dose-log revision (`DoseLogService.revision`) the derived data was
+    /// last built from.
+    private(set) var builtLogRevision: Int?
+
+    /// Records a completed derive of the dose log at `revision`.
+    func markDerived(logRevision revision: Int) {
+        hasDerivedOnce = true
+        builtLogRevision = revision
+    }
+
+    /// Whether the derived data is already current for the dose log at `revision`.
+    func isDerived(atLogRevision revision: Int) -> Bool {
+        hasDerivedOnce && builtLogRevision == revision
+    }
+
     // MARK: - Selection
 
     // The funnel menu's three facets: tag, category, route. Within a facet the
