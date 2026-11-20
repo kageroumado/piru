@@ -77,6 +77,9 @@ PROPERTY_NAMES = {
     # A releaser signature's provenance carries its assay's species, printed by
     # ClassSignatureView as `provenance.species`.
     ("functional_assays", "species"): "provenance",
+    # `rank` orders the rows `SubstanceStore.enzymeModulators()` returns; the
+    # substance page lists the modulators it reads through that call in that order.
+    ("enzyme_modulators", "rank"): "enzymeModulators",
 }
 
 #: Columns that are plumbing, not content. They are always "used" in the sense
