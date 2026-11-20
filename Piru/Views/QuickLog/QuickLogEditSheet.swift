@@ -171,11 +171,12 @@ struct QuickLogEditSheet: View {
     // MARK: Favorites
 
     private var favoritesSection: some View {
-        Section {
+        let colorMap = Array(substanceColors).colorMap
+        return Section {
             ForEach(favorites) { favorite in
                 HStack(spacing: Spacing.lg) {
                     Circle()
-                        .fill(color(for: favorite.substance))
+                        .fill(SubstancePalette.color(for: favorite.substance, colorMap: colorMap))
                         .frame(width: 10, height: 10)
                     Text(customStore.displayName(for: favorite.substance))
                 }
@@ -193,10 +194,6 @@ struct QuickLogEditSheet: View {
                 .textCase(nil)
         }
         .listRowBackground(CardBackground())
-    }
-
-    private func color(for substance: String) -> Color {
-        SubstancePalette.color(for: substance, colorMap: Array(substanceColors).colorMap)
     }
 
     private func moveFavorites(from source: IndexSet, to destination: Int) {

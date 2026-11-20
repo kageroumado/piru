@@ -15,13 +15,14 @@ struct DockShortcutSlots: View {
     @Query private var substanceColors: [SubstanceColor]
 
     var body: some View {
+        let tints = Array(substanceColors).tintMap
         HStack(spacing: 0) {
             ForEach(preferences.shortcuts.prefix(Self.visibleCount(of: preferences.shortcuts.count, compact: compact))) { shortcut in
                 DockShortcutButton(
                     shortcut: shortcut,
                     compact: compact,
                     controlSide: controlSide,
-                    tint: shortcut.favoriteSubstance.flatMap { tint(for: $0) },
+                    tint: shortcut.favoriteSubstance.flatMap { tints[$0.lowercased()] },
                     sessionActive: sessionActive,
                 )
             }
@@ -33,10 +34,6 @@ struct DockShortcutSlots: View {
     private var sessionActive: Bool {
         _ = currentTime
         return ActiveSessionManager.shared.hasActiveSession
-    }
-
-    private func tint(for substance: String) -> P3Color? {
-        Array(substanceColors).tintMap[substance.lowercased()]
     }
 }
 
@@ -247,8 +244,7 @@ extension DockLabelContext {
         }
         var today: [(item: DailyDoseItem, minutes: Int)] = []
         for item in items where AdherenceCalculator.isDue(item, on: todayKey) {
-            let taken = todayEntries.count { AdherenceCalculator.entryMatches(entry: $0, item: item) }
-            let times = item.reminderTimesMinutes.sorted { journal($0) < journal($1) }
+            let (taken, times) = DueNowSlot.coverage(of: item, todayEntries: todayEntries, boundaryHour: boundaryHour)
             guard taken < times.count else { continue }
             if let slot = times[taken...].first(where: { journal($0) > nowMinutes }) {
                 today.append((item, slot))

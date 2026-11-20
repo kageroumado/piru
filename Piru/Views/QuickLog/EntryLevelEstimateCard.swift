@@ -1,57 +1,5 @@
 import SwiftUI
 
-/// Shared "how much of the last dose is still active" computation, used by the
-/// full `EntryLevelEstimateCard` and the compact `DosePKBadge`.
-enum DosePK {
-    static func status(substanceName: String, route: RouteOfAdministration, lastDoseTimestamp: Date) -> Double? {
-        // Only half-life + duration are needed, both carried by the lightweight batch
-        // cache — resolve **once** through it rather than two full overlay-aware
-        // `lookupByNameOrAlias` calls (≈18 SQL + chem/mechanism decode each). This runs
-        // per unique recent substance when the quick-log card list rebuilds.
-        let substance = SubstanceLibrary.lookup(substanceName)
-        let halfLife: Double
-        guard let hl = substance?.halfLifeMinutes, hl > 0 else { return nil }
-        halfLife = hl
-
-        let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-        guard ke > 0 else { return nil }
-
-        let duration = substance?.resolveDuration(for: route)
-
-        let ka: Double
-        if let duration {
-            let ttp = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
-            ka = ttp > 0 ? PKModel.estimateKa(timeToPeak: ttp, ke: ke) : PKModel.defaultKa(ke: ke)
-        } else {
-            ka = PKModel.defaultKa(ke: ke)
-        }
-
-        let elapsed = Date.now.timeIntervalSince(lastDoseTimestamp) / 60
-        guard elapsed >= 0 else { return nil }
-
-        return PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka) * 100
-    }
-
-    /// Bare elapsed-time label for the badge ("23m", "5.9h", "2d").
-    static func shortElapsed(since date: Date) -> String {
-        let minutes = Date.now.timeIntervalSince(date) / 60
-        if minutes < 60 { return "\(Int(minutes))m" }
-        let hours = minutes / 60
-        if hours < 24 {
-            return hours == hours.rounded(.toNearestOrEven) ? "\(Int(hours))h" : String(format: "%.1fh", hours)
-        }
-        return "\(Int(hours / 24))d"
-    }
-
-    /// Bare duration label ("23m", "3.7h", "10d").
-    static func shortDuration(minutes: Double) -> String {
-        if minutes < 60 { return "\(Int(minutes))m" }
-        let hours = minutes / 60
-        if hours >= 48 { return "\(Int((hours / 24).rounded()))d" }
-        return hours == hours.rounded(.toNearestOrEven) ? "\(Int(hours))h" : String(format: "%.1fh", hours)
-    }
-}
-
 /// Compact "≈110 mg active · 3.7h left" capsule shown in a quick-log
 /// substance header — the estimated amount still in the body, in the dose's
 /// own unit, rather than a bare percentage. Hidden below the same 5% floor as
@@ -144,20 +92,15 @@ struct EntryLevelEstimateCard: View {
     }
 
     private var timeAgo: String {
-        let minutes = Date.now.timeIntervalSince(lastDoseTimestamp) / 60
-        if minutes < 60 {
-            let m = Int(minutes)
-            return String(localized: "\(m)m ago")
+        switch DosePK.Elapsed(since: lastDoseTimestamp) {
+        case let .minutes(m):
+            String(localized: "\(m)m ago")
+        case let .wholeHours(h):
+            String(localized: "\(h)h ago")
+        case let .hours(hours):
+            String(localized: "\(hours.formatted(.number.precision(.fractionLength(1))))h ago")
+        case let .days(d):
+            String(localized: "\(d)d ago")
         }
-        let hours = minutes / 60
-        if hours < 24 {
-            if hours == hours.rounded(.toNearestOrEven) {
-                let h = Int(hours)
-                return String(localized: "\(h)h ago")
-            }
-            return String(localized: "\(hours.formatted(.number.precision(.fractionLength(1))))h ago")
-        }
-        let d = Int(hours / 24)
-        return String(localized: "\(d)d ago")
     }
 }

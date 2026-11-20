@@ -49,3 +49,4 @@ Piru/Intents/*
 # Profile photos: PhotosPicker, Vision and ImageIO, none of which SkipUI has. The editor offers
 # Letters and Emoji on Android, and a restored photo draws its monogram.
 Piru/Views/Profiles/ProfilePhoto*.swift
+Piru/Data/Profiles/ProfilePhotoImporter.swift
