@@ -115,6 +115,14 @@ struct DoseRangeTests {
     func `Negative dose`() {
         #expect(range.mgLevel(for: -5) == .sub)
     }
+
+    @Test
+    func `Band dose text keys each tier the ladder has by its dial band`() {
+        let ladder = DoseRange(threshold: 30, light: 40 ... 75, common: nil, strong: 125 ... 175, heavy: 175)
+        #expect(ladder.bandDoseText(unit: "mg") == [
+            0: "30 mg", 1: "40–75 mg", 3: "125–175 mg", 4: "175+ mg",
+        ])
+    }
 }
 
 // MARK: - DoseLevel

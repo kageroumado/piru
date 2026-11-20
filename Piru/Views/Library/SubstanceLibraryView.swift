@@ -148,7 +148,7 @@ private struct SubstanceSearchResultsList: View {
                         .sectionLabel()
                         .accessibilityAddTraits(.isHeader)
 
-                    ForEach(HelpView.services(for: HelpView.regionCode)) { service in
+                    ForEach(EmergencyServices.services(for: EmergencyServices.regionCode)) { service in
                         helpLink(service)
                     }
                 }
@@ -174,7 +174,7 @@ private struct SubstanceSearchResultsList: View {
     }
 
     @ViewBuilder
-    private func helpLink(_ service: HelpView.EmergencyService) -> some View {
+    private func helpLink(_ service: EmergencyServices.Service) -> some View {
         if let destination = URL(string: service.url) {
             Link(destination: destination) {
                 HStack(spacing: Spacing.lg) {
@@ -445,24 +445,22 @@ struct SubstanceCategoryListView: View {
             await rebuildList()
         }
         .navigationTitle(Text(title))
-        #if canImport(UIKit)
-            .navigationBarTitleDisplayMode(.large)
-        #endif
-            .toolbar {
-                if isBrowse {
-                    ToolbarItem(placement: .platformTopBarTrailing) {
-                        Menu {
-                            Picker("Sort", selection: $sortMode) {
-                                Label("Popularity", systemImage: "chart.bar.fill").tag(SortMode.popularity)
-                                Label("Name", systemImage: "textformat").tag(SortMode.name)
-                            }
-                        } label: {
-                            Image(systemName: "arrow.up.arrow.down")
-                                .accessibilityLabel(Text("Sort"))
+        .largeNavigationTitle()
+        .toolbar {
+            if isBrowse {
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    Menu {
+                        Picker("Sort", selection: $sortMode) {
+                            Label("Popularity", systemImage: "chart.bar.fill").tag(SortMode.popularity)
+                            Label("Name", systemImage: "textformat").tag(SortMode.name)
                         }
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                            .accessibilityLabel(Text("Sort"))
                     }
                 }
             }
+        }
     }
 }
 

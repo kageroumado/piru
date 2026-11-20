@@ -89,7 +89,7 @@ private struct BalanceArc: View {
                     tickMark(tick, center: center, radius: radius, width: size.width)
                 }
 
-                handle(center: center, radius: radius, width: size.width)
+                handle(center: center, radius: radius)
 
                 VStack(spacing: 1) {
                     Text(model.ratioText)
@@ -153,7 +153,7 @@ private struct BalanceArc: View {
         }
     }
 
-    private func handle(center: CGPoint, radius: CGFloat, width _: CGFloat) -> some View {
+    private func handle(center: CGPoint, radius: CGFloat) -> some View {
         let position = point(center: center, radius: radius, angle: angle(focus.position))
         return Circle()
             .fill(Color.platformSystemBackground)

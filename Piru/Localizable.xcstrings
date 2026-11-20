@@ -6964,6 +6964,7 @@
       }
     },
     "%lld%% load" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -8909,6 +8910,7 @@
       }
     },
     "1-800-222-1222 (US)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -8937,6 +8939,7 @@
       }
     },
     "1-800-662-4357 · Free, confidential, 24/7" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -9665,6 +9668,7 @@
       }
     },
     "988 Suicide & Crisis Lifeline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -14889,6 +14893,7 @@
       }
     },
     "Aggregated" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -14917,6 +14922,7 @@
       }
     },
     "aggregator source" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -15753,6 +15759,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部已服用"
+          }
+        }
+      }
+    },
+    "All time" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo el tiempo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo el tiempo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部時間"
           }
         }
       }
@@ -16925,6 +16959,7 @@
       }
     },
     "Animal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -16953,6 +16988,7 @@
       }
     },
     "animal assay" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -21967,6 +22003,7 @@
       }
     },
     "Call 911 (US) or your local emergency number" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -22023,6 +22060,7 @@
       }
     },
     "Call or text 988" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -28262,6 +28300,7 @@
       }
     },
     "Crisis Lifeline: 988" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -28375,6 +28414,7 @@
       }
     },
     "Crisis Text: HOME to 741741" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -28543,6 +28583,7 @@
       }
     },
     "Curated" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -28571,6 +28612,7 @@
       }
     },
     "curated entry" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -36364,6 +36406,7 @@
       }
     },
     "Emergency: 911" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -39410,6 +39453,7 @@
       }
     },
     "Evidence source: %@, %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -46105,6 +46149,7 @@
       }
     },
     "Human" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -46133,6 +46178,7 @@
       }
     },
     "human assay" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -47904,6 +47950,7 @@
       }
     },
     "In-vitro" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -47932,6 +47979,7 @@
       }
     },
     "in-vitro assay" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -50490,6 +50538,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "雷射！"
+          }
+        }
+      }
+    },
+    "Last %lld days" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Últimos %lld días"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Últimos %lld días"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 %lld 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 %lld 天"
           }
         }
       }
@@ -58322,6 +58398,7 @@
       }
     },
     "Mouse" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -58350,6 +58427,7 @@
       }
     },
     "mouse assay" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -60721,6 +60799,7 @@
       }
     },
     "No entries in the previous period" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -70193,6 +70272,7 @@
       }
     },
     "Poison Control: 1-800-222-1222" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -72300,6 +72380,62 @@
         }
       }
     },
+    "R-enantiomer" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enantiómero R"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enantiómero R"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "R-对映体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "R-對映體"
+          }
+        }
+      }
+    },
+    "racemate" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "racemato"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "racemato"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外消旋体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外消旋體"
+          }
+        }
+      }
+    },
     "Racetams, choline, and cognitive aids." : {
       "localizations" : {
         "es" : {
@@ -72531,6 +72667,7 @@
       }
     },
     "Rat" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -72559,6 +72696,7 @@
       }
     },
     "rat assay" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -75709,6 +75847,34 @@
         }
       }
     },
+    "Repeats" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repetir"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repetir"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重複"
+          }
+        }
+      }
+    },
     "Replace Everything" : {
       "localizations" : {
         "es" : {
@@ -76103,6 +76269,7 @@
       }
     },
     "Reset to Defaults" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -77950,6 +78117,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "S"
+          }
+        }
+      }
+    },
+    "S-enantiomer" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enantiómero S"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enantiómero S"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "S-对映体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "S-對映體"
           }
         }
       }
@@ -90504,6 +90699,7 @@
       }
     },
     "Text HOME to 741741" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -92342,6 +92538,7 @@
       }
     },
     "These appear in the “When” menu when recording an entry, alongside Now and the full date picker. Swipe to remove, drag to reorder." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -93408,6 +93605,7 @@
       }
     },
     "This period" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {

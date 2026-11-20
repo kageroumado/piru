@@ -23,6 +23,7 @@ struct InYourBodyView: View {
     @State private var projections: [SteadyStateProjection] = []
     @State private var expandedSubstance: String?
     @State private var substanceProjections: [String: SteadyStateProjection] = [:]
+    @State private var hasInjectableHormone = false
 
     private let compactColumns = [
         GridItem(.flexible(), spacing: Spacing.xl),
@@ -45,7 +46,7 @@ struct InYourBodyView: View {
                 // "what's in me": the same card the Insights landing shows, pushing to
                 // the same Hormone Levels detail.
                 // Gated on an injectable ester being logged.
-                if HormoneLevelsLog.hasInjectableHormone(in: allEntries) {
+                if hasInjectableHormone {
                     HormoneLevelsInsightCard()
                 }
                 activeSection
@@ -71,6 +72,7 @@ struct InYourBodyView: View {
         }
         .task(id: refreshToken) {
             await SubstanceStore.shared.ensureAllLoaded()
+            hasInjectableHormone = HormoneLevelsLog.hasInjectableHormone(in: allEntries)
             await manager.refresh(entries: allEntries, colors: substanceColors, range: range)
             let colorMap = substanceColors.colorMap
             activeSubstances = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: colorMap)
@@ -285,13 +287,13 @@ struct InYourBodyView: View {
                 .padding(.leading, Spacing.xs)
 
             LazyVGrid(columns: compactColumns, spacing: Spacing.xl) {
-                relatedCard(
+                CompactRouteCard(
                     icon: "function",
                     title: "Half-Life Calculator",
                     subtitle: "Model a single dose's decay over time",
                     route: .tool(.calculator),
                 )
-                relatedCard(
+                CompactRouteCard(
                     icon: "chart.line.flattrend.xyaxis",
                     title: "Steady State",
                     subtitle: "Model a fixed dose schedule's plateau",
@@ -304,32 +306,6 @@ struct InYourBodyView: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.horizontal, Spacing.xs)
         }
-    }
-
-    private func relatedCard(icon: String, title: LocalizedStringKey, subtitle: LocalizedStringKey, route: PushRoute) -> some View {
-        RouteLink(route) {
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                Image(systemName: icon)
-                    .font(.piru(.title3))
-                    .foregroundStyle(Theme.accent)
-                    .accessibilityHidden(true)
-                Text(title)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text(subtitle)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(14)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .themeCard()
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
     }
 
     // MARK: - Helpers

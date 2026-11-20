@@ -296,7 +296,7 @@
             try? FileManager.default.createDirectory(at: tourDirectory, withIntermediateDirectories: true)
 
             // No onboarding cover, no launch sheet on top of a capture.
-            UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+            UserDefaults.standard.set(true, forKey: OnboardingState.completedKey)
             try? await Task.sleep(for: .seconds(1.5))
             await SubstanceStore.shared.ensureAllLoaded()
             await waitForOwnership()

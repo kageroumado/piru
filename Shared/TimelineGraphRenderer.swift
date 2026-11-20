@@ -203,16 +203,11 @@ struct TimelineGraphRenderer {
         let phase: LocalizedStringResource?
     }
 
-    /// Localized phase label for a dose `elapsed` minutes in. Mirrors
-    /// ``DosePhaseProgressBar/phase(_:elapsedMinutes:)`` boundary-for-boundary so
-    /// the scrub readout names the same phase the dose-detail hero would.
+    /// Localized phase label for a dose `elapsed` minutes in: the phase the
+    /// dose-detail hero names at that moment.
     private func scrubPhaseName(elapsed: Double, for s: ActiveSubstanceState) -> LocalizedStringResource? {
         guard elapsed >= 0, elapsed <= s.totalMinutes else { return nil }
-        if elapsed <= s.onsetEndMinutes { return "Onset" }
-        if elapsed <= s.comeupEndMinutes { return "Come-up" }
-        if elapsed <= s.peakEndMinutes { return "Peak" }
-        if elapsed <= s.offsetEndMinutes { return "Offset" }
-        return "Afterglow"
+        return DosePhase.at(s, elapsedMinutes: elapsed).name
     }
 
     /// Every curve present at `global` minutes (since `earliestDose`), sorted

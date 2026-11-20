@@ -77,6 +77,23 @@ PROPERTY_NAMES = {
     # A releaser signature's provenance carries its assay's species, printed by
     # ClassSignatureView as `provenance.species`.
     ("functional_assays", "species"): "provenance",
+    # PKModel.DepotParameters (Shared/Engines) carries an ester's release and
+    # clearance rates into the serum curve that DepotCurveChart draws.
+    ("ester_pk", "k2"): "DepotCurveChart",
+    ("ester_pk", "k3"): "DepotCurveChart",
+    # A combination metabolite's matchers are grouped by slot, one slot per
+    # precursor (SubstanceReadModel+MetabolicModulation); a combination fires
+    # when every slot has a logged dose, and CombinationMetaboliteBanner shows
+    # the `formation` that yields.
+    ("pharmacology_matchers", "slot"): "formation",
+    # `rank` orders the rows `SubstanceStore.enzymeModulators()` returns; the
+    # substance page lists the modulators it reads through that call in that order.
+    ("enzyme_modulators", "rank"): "enzymeModulators",
+    # CYP2D6Info (Data/Pharmacology) reads a CYP2D6 step's mechanism and potency
+    # to tell a prodrug from a cleared parent; CYP2D6NoteSection shows the
+    # `cyp2d6Info` it yields.
+    ("metabolism", "metabolite_mechanism_vs_parent"): "cyp2d6Info",
+    ("metabolism", "metabolite_potency_vs_parent_pct"): "cyp2d6Info",
 }
 
 #: Columns that are plumbing, not content. They are always "used" in the sense

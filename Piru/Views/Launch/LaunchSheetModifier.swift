@@ -23,7 +23,7 @@ enum LaunchSheet: Identifiable {
 /// engaged — past the first couple of sessions (`appLaunchCount >= 3`) with at
 /// least one dose logged — a single time, never in the first session.
 struct LaunchSheetModifier: ViewModifier {
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage(OnboardingState.completedKey) private var hasCompletedOnboarding = false
     @AppStorage("discordPromptShown") private var discordShown = false
     @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
     @AppStorage("appLaunchCount") private var appLaunchCount = 0

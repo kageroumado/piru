@@ -20,63 +20,12 @@ struct DosePhaseProgressBar: View {
         case compact
     }
 
-    /// Phase bands, mirroring the timeline graph's hues so the bar reads
-    /// coherently with a curve drawn near it.
-    enum Phase {
-        case onset
-        case comeup
-        case peak
-        case offset
-        case after
-
-        /// Mark color — the bar fill and the dot. Gated at the 3:1 non-text
-        /// floor. Text uses ``labelColor``.
-        var color: Color {
-            switch self {
-            case .onset: .Phase.Onset.accent
-            case .comeup: .Phase.Comeup.accent
-            case .peak: .Phase.Peak.accent
-            case .offset: .Phase.Offset.accent
-            case .after: .Phase.Afterglow.accent
-            }
-        }
-
-        /// Legible text variant for the phase label, which sits on the bare card
-        /// and clears AA against it.
-        var labelColor: Color {
-            switch self {
-            case .onset: .Phase.Onset.text
-            case .comeup: .Phase.Comeup.text
-            case .peak: .Phase.Peak.text
-            case .offset: .Phase.Offset.text
-            case .after: .Phase.Afterglow.text
-            }
-        }
-
-        var name: LocalizedStringResource {
-            switch self {
-            case .onset: "Onset"
-            case .comeup: "Come-up"
-            case .peak: "Peak"
-            case .offset: "Offset"
-            case .after: "Afterglow"
-            }
-        }
-    }
-
-    /// The phase a dose `elapsedMinutes` in is in. The state's boundaries are
-    /// the effect curve's anchors, so this names the stretch of curve drawn at
-    /// that moment: Come-up on the rise, Peak on the crest.
-    nonisolated static func phase(_ state: ActiveSubstanceState, elapsedMinutes: Double) -> Phase {
-        if elapsedMinutes <= state.onsetEndMinutes { .onset } else if elapsedMinutes <= state.comeupEndMinutes { .comeup } else if elapsedMinutes <= state.peakEndMinutes { .peak } else if elapsedMinutes <= state.offsetEndMinutes { .offset } else { .after }
-    }
-
     var body: some View {
         let start = state.doseTimestamp
         let end = start.addingTimeInterval(state.totalMinutes * 60)
         let elapsedMinutes = now.timeIntervalSince(start) / 60
         let fraction = state.totalMinutes > 0 ? min(1, max(0, elapsedMinutes / state.totalMinutes)) : 0
-        let phase = Self.phase(state, elapsedMinutes: elapsedMinutes)
+        let phase = DosePhase.at(state, elapsedMinutes: elapsedMinutes)
 
         switch style {
         case .full:
@@ -86,7 +35,7 @@ struct DosePhaseProgressBar: View {
         }
     }
 
-    private func bar(phase: Phase, fraction: Double, height: CGFloat) -> some View {
+    private func bar(phase: DosePhase, fraction: Double, height: CGFloat) -> some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
                 Capsule().fill(phase.color.opacity(Theme.Opacity.tint))
@@ -98,7 +47,7 @@ struct DosePhaseProgressBar: View {
         .frame(height: height)
     }
 
-    private func compactReadout(phase: Phase, fraction: Double) -> some View {
+    private func compactReadout(phase: DosePhase, fraction: Double) -> some View {
         VStack(alignment: .trailing, spacing: 3) {
             Text(phase.name)
                 .font(.caption2.weight(.semibold))
@@ -111,7 +60,7 @@ struct DosePhaseProgressBar: View {
         .accessibilityElement(children: .combine)
     }
 
-    private func fullReadout(phase: Phase, fraction: Double, start: Date, end: Date) -> some View {
+    private func fullReadout(phase: DosePhase, fraction: Double, start: Date, end: Date) -> some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             bar(phase: phase, fraction: fraction, height: 6)
 

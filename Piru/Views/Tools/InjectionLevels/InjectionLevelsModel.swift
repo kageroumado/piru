@@ -428,20 +428,12 @@ final class InjectionLevelsModel: DepotCalibrating {
         let dates = injections.map(\.date).sorted()
         let first = dates.first ?? now
         let last = dates.last ?? now
-        let cycleDays = medianIntervalDays(dates) ?? intervalDays ?? 14
+        let cycleDays = HormoneLevelsLog.medianIntervalDays(dates) ?? intervalDays ?? 14
         let end = max(last.addingTimeInterval(cycleDays * PKModel.secondsPerDay), now)
         let start = effectiveVisibleDays.map { days in
             max(first, end.addingTimeInterval(-days * PKModel.secondsPerDay))
         } ?? first
         return (start, end, cycleDays)
-    }
-
-    private func medianIntervalDays(_ dates: [Date]) -> Double? {
-        guard dates.count >= 2 else { return nil }
-        let gaps = zip(dates.dropFirst(), dates).map { ($0.timeIntervalSince($1)) / PKModel.secondsPerDay }
-            .filter { $0 > 0 }.sorted()
-        guard !gaps.isEmpty else { return nil }
-        return gaps[gaps.count / 2]
     }
 
     /// Typical-range band as a fraction of the level. Pre-calibration reflects

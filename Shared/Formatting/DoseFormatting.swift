@@ -38,13 +38,18 @@ nonisolated extension Double {
 }
 
 nonisolated extension String {
-    /// Display nicety for the data-driven unit string "units" (legacy/imported
-    /// alcohol doses): exactly one reads "unit", not "1 units". Unit strings are
-    /// unlocalized data ("mg", "g", "units"), so this is plain English surgery —
-    /// every other unit passes through untouched.
+    /// The plural count units that read singular at exactly one: "units"
+    /// (legacy/imported alcohol doses) and the inventory's counted pieces,
+    /// which must match `InventoryMath.countUnits` (a test pins the two).
+    static let singularizableCountUnits: Set<String> = ["units", "tabs", "caps"]
+
+    /// Display nicety for a data-driven count unit: exactly one reads "1 tab",
+    /// "1 unit", not "1 tabs". Unit strings are unlocalized data ("mg", "tabs"),
+    /// so this is plain English surgery that keeps the stored casing. Mass,
+    /// volume and every other unit pass through untouched.
     func unitDisplay(for amount: Double) -> String {
-        guard amount == 1, caseInsensitiveCompare("units") == .orderedSame else { return self }
-        return "unit"
+        guard amount == 1, Self.singularizableCountUnits.contains(lowercased()) else { return self }
+        return String(dropLast())
     }
 }
 

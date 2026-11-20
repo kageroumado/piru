@@ -20,11 +20,11 @@ struct InjectionLevelsLogTests {
             entry("Estradiol Enanthate", amount: 0.1, unit: "ml", route: .subcutaneous, daysAgo: 7),
             entry("Estradiol Valerate", amount: 1, unit: "mg", route: .sublingual, daysAgo: 3),
         ]
-        let unset = InjectionLevelsView.injections(from: entries, analyte: .estradiol)
+        let unset = HormoneLevelsLog.injections(from: entries, analyte: .estradiol)
         #expect(unset.injections.isEmpty)
         #expect(unset.volumeLoggedCount == 2)
 
-        let converted = InjectionLevelsView.injections(from: entries, analyte: .estradiol, volumeConcentrationMgPerML: 40)
+        let converted = HormoneLevelsLog.injections(from: entries, analyte: .estradiol, volumeConcentrationMgPerML: 40)
         #expect(converted.injections.count == 2)
         #expect(converted.volumeLoggedCount == 2)
         #expect(converted.injections.allSatisfy { abs($0.doseMg - 4) < 0.0001 })
@@ -33,7 +33,7 @@ struct InjectionLevelsLogTests {
     @Test
     func `A mg dose joins without any concentration`() async {
         await SubstanceStore.shared.ensureAllLoaded()
-        let log = InjectionLevelsView.injections(
+        let log = HormoneLevelsLog.injections(
             from: [entry("Estradiol Valerate", amount: 4, unit: "mg", route: .intramuscular, daysAgo: 5)],
             analyte: .estradiol,
         )
@@ -49,6 +49,6 @@ struct InjectionLevelsLogTests {
             entry("Estradiol Enanthate", amount: 0.1, unit: "ml", route: .subcutaneous, daysAgo: 14),
             entry("Estradiol Enanthate", amount: 0.1, unit: "ml", route: .subcutaneous, daysAgo: 7),
         ]
-        #expect(InjectionLevelsView.dominantEsterID(from: entries, analyte: .estradiol) == "estradiol_enanthate")
+        #expect(HormoneLevelsLog.dominantEsterID(from: entries, analyte: .estradiol) == "estradiol_enanthate")
     }
 }

@@ -136,9 +136,7 @@ struct EffectEstimatesView: View {
         .skinBackdrop()
         .readableWidth()
         .navigationTitle("Effect Estimates")
-        #if canImport(UIKit)
-            .navigationBarTitleDisplayMode(.large)
-        #endif
+        .largeNavigationTitle()
     }
 
     // MARK: Intro — one short model card

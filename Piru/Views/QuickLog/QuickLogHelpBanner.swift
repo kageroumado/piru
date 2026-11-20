@@ -24,7 +24,7 @@ struct QuickLogHelpBanner: View {
             Divider()
 
             VStack(alignment: .leading, spacing: Spacing.sm) {
-                ForEach(HelpView.services(for: HelpView.regionCode)) { service in
+                ForEach(EmergencyServices.services(for: EmergencyServices.regionCode)) { service in
                     helpBannerLink(service)
                 }
             }
@@ -38,7 +38,7 @@ struct QuickLogHelpBanner: View {
     }
 
     @ViewBuilder
-    private func helpBannerLink(_ service: HelpView.EmergencyService) -> some View {
+    private func helpBannerLink(_ service: EmergencyServices.Service) -> some View {
         if let destination = URL(string: service.url) {
             Link(destination: destination) {
                 HStack(spacing: Spacing.sm) {

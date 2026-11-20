@@ -43,3 +43,42 @@ struct DoseFormattedTests {
         #expect((-0.677).doseFormatted == "-0.68")
     }
 }
+
+@Suite("String.unitDisplay")
+struct UnitDisplayTests {
+    @Test
+    func `A count unit reads singular at exactly one`() {
+        #expect("tabs".unitDisplay(for: 1) == "tab")
+        #expect("caps".unitDisplay(for: 1) == "cap")
+        #expect("units".unitDisplay(for: 1) == "unit")
+    }
+
+    @Test
+    func `A count unit stays plural at zero and two`() {
+        #expect("tabs".unitDisplay(for: 0) == "tabs")
+        #expect("tabs".unitDisplay(for: 2) == "tabs")
+        #expect("caps".unitDisplay(for: 0.5) == "caps")
+    }
+
+    @Test
+    func `The stored casing is kept`() {
+        #expect("Tabs".unitDisplay(for: 1) == "Tab")
+        #expect("CAPS".unitDisplay(for: 1) == "CAP")
+    }
+
+    @Test
+    func `Mass, volume and other units pass through`() {
+        #expect("mg".unitDisplay(for: 1) == "mg")
+        #expect("g".unitDisplay(for: 1) == "g")
+        #expect("mL".unitDisplay(for: 1) == "mL")
+        #expect("drops".unitDisplay(for: 1) == "drops")
+    }
+
+    @Test
+    func `Every inventory count unit is singularized`() {
+        #expect(InventoryMath.countUnits.isSubset(of: String.singularizableCountUnits))
+        for unit in InventoryMath.countUnits {
+            #expect(unit.unitDisplay(for: 1) == String(unit.dropLast()))
+        }
+    }
+}

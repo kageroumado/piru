@@ -114,7 +114,7 @@ struct TargetEvidenceRow: View {
 /// The cascade a substance sets off after it binds, rendered inside the
 /// Pharmacology card rather than as a section of its own: it is the second half
 /// of the sentence the card's first half started.
-struct SignallingCascadeRow: View {
+struct SignalingCascadeRow: View {
     let cascade: SubstanceStore.SignallingCascade
     let accent: Color
 
@@ -185,11 +185,11 @@ struct ConcentrationThresholdRow: View {
 
     private var rangeText: String {
         guard let threshold = hit.threshold else {
-            return hit.peak.map { "\(SubstanceDetailView.chemNumber($0)) \(hit.unit)" } ?? ""
+            return hit.peak.map { "\(chemNumber($0)) \(hit.unit)" } ?? ""
         }
         guard let peak = hit.peak, peak > threshold else {
-            return "\(SubstanceDetailView.chemNumber(threshold)) \(hit.unit)"
+            return "\(chemNumber(threshold)) \(hit.unit)"
         }
-        return "\(SubstanceDetailView.chemNumber(threshold))–\(SubstanceDetailView.chemNumber(peak)) \(hit.unit)"
+        return "\(chemNumber(threshold))–\(chemNumber(peak)) \(hit.unit)"
     }
 }

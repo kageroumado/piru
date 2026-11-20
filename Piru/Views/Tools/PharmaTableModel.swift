@@ -51,6 +51,22 @@ final class PharmaTableModel {
     var sortKey: SortKey = .name
     var sortAscending = true
 
+    /// Bumped whenever the base rows or the resolved parameters change, so the
+    /// ``visibleRows`` cache can tell its inputs apart without comparing arrays.
+    private var dataGeneration = 0
+
+    /// The last ``visibleRows`` result and the inputs it was derived from.
+    @ObservationIgnored private var visibleRowsCache: (key: VisibleRowsKey, rows: [PharmaTableRow])?
+
+    private struct VisibleRowsKey: Equatable {
+        let dataGeneration: Int
+        let scope: Scope
+        let searchText: String
+        let halfLifeOnly: Bool
+        let sortKey: SortKey
+        let sortAscending: Bool
+    }
+
     // MARK: - Loading
 
     func load() async {
@@ -62,6 +78,7 @@ final class PharmaTableModel {
         commonNames = Set(SubstanceLibrary.substances(taggedWith: "common").map { $0.name.lowercased() })
         let resolved = await SubstanceStore.shared.pharmaTableRowsOffMain()
         allRows = resolved
+        dataGeneration += 1
         isLoading = false
     }
 
@@ -74,6 +91,7 @@ final class PharmaTableModel {
         for (key, value) in resolved {
             pharmacologyByName[key] = value
         }
+        dataGeneration += 1
     }
 
     // MARK: - Derived data
@@ -88,7 +106,24 @@ final class PharmaTableModel {
         }
     }
 
+    /// The rows the table shows: the scope slice, narrowed by the search and the
+    /// half-life filter, then sorted. Cached until one of those inputs changes.
     var visibleRows: [PharmaTableRow] {
+        let key = VisibleRowsKey(
+            dataGeneration: dataGeneration,
+            scope: scope,
+            searchText: searchText,
+            halfLifeOnly: halfLifeOnly,
+            sortKey: sortKey,
+            sortAscending: sortAscending,
+        )
+        if let cached = visibleRowsCache, cached.key == key { return cached.rows }
+        let rows = filteredSortedRows()
+        visibleRowsCache = (key, rows)
+        return rows
+    }
+
+    private func filteredSortedRows() -> [PharmaTableRow] {
         var rows = scopeFilteredRows
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !query.isEmpty {

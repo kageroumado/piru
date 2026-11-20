@@ -12,7 +12,7 @@ struct MenuPhoneThumbnail: View {
 
     var body: some View {
         Canvas { context, size in
-            let color: Color = selected ? Theme.accent : .secondary
+            let color: Color = selected ? Theme.accent : Theme.secondaryLabel
             let line = max(1.6, size.width * 0.03)
 
             // Phone body — inset so the stroke sits fully inside the frame. Corner radius 0.16·width

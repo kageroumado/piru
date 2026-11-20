@@ -29,7 +29,7 @@ final class ProfileRestoreRequest {
         finish(nil)
         return await withCheckedContinuation { continuation in
             self.continuation = continuation
-            let inOnboarding = !UserDefaults.standard.bool(forKey: "hasCompletedOnboarding")
+            let inOnboarding = !UserDefaults.standard.bool(forKey: OnboardingState.completedKey)
             pending = Pending(conflicts: conflicts, presentsInOnboarding: inOnboarding)
             if !inOnboarding { navigator.present(.profileRestoreChoices) }
         }

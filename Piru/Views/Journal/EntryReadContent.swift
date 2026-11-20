@@ -281,7 +281,7 @@ struct EntryReadHero: View {
     private var clearedDate: Date? {
         guard let halfLife = substance?.halfLifeMinutes, halfLife > 0 else { return nil }
         let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-        let ka = SubstanceEliminationCurve.estimateKa(for: entry.substance, ke: ke)
+        let ka = PKResolver.ka(forSubstance: entry.substance, ke: ke)
         let step = max(1.0, halfLife / 200)
         var minutes = 0.0
         var absorbed = false

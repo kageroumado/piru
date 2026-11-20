@@ -60,7 +60,7 @@ struct PhaseCurveAgreementTests {
     @Test
     func `A dose 56 minutes into 4-FEA is coming up, on the rise the curve draws`() {
         let s = fourFEA
-        let phase = DosePhaseProgressBar.phase(s, elapsedMinutes: 56)
+        let phase = DosePhase.at(s, elapsedMinutes: 56)
         #expect(phase == .comeup)
         #expect(TimelineCurveModel.effectShape(at: 56, for: s) < Fit.crestHi)
         // Onset ends at 50 min, the synthesized come-up runs 30 min to 80.
@@ -74,7 +74,7 @@ struct PhaseCurveAgreementTests {
         let tolerance = 1e-6
         for minutes in stride(from: 0.5, through: s.totalMinutes, by: 0.5) {
             let shape = TimelineCurveModel.effectShape(at: minutes, for: s)
-            switch DosePhaseProgressBar.phase(s, elapsedMinutes: minutes) {
+            switch DosePhase.at(s, elapsedMinutes: minutes) {
             case .onset:
                 #expect(shape <= Fit.footLo + tolerance, "onset at \(minutes) min draws \(shape)")
             case .comeup:
@@ -83,7 +83,7 @@ struct PhaseCurveAgreementTests {
                 #expect(shape >= Fit.crestHi - tolerance, "peak at \(minutes) min draws \(shape)")
             case .offset:
                 #expect(shape >= Fit.tailLo - tolerance && shape <= Fit.crestHi + tolerance, "offset at \(minutes) min draws \(shape)")
-            case .after:
+            case .afterglow:
                 #expect(shape <= Fit.tailLo + tolerance, "afterglow at \(minutes) min draws \(shape)")
             }
         }

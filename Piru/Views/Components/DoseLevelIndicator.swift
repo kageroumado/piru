@@ -32,8 +32,8 @@ struct DoseLevelIndicator: View {
             }
 
             HStack(spacing: 0) {
-                ForEach(Array(segments.enumerated()), id: \.offset) { index, segment in
-                    segmentView(segment, index: index)
+                ForEach(Array(segments.enumerated()), id: \.offset) { _, segment in
+                    segmentView(segment)
                 }
             }
             .frame(height: 6)
@@ -91,7 +91,7 @@ struct DoseLevelIndicator: View {
     }
 
     @ViewBuilder
-    private func segmentView(_ segment: Segment, index _: Int) -> some View {
+    private func segmentView(_ segment: Segment) -> some View {
         let isActive = level == segment.level
         Rectangle()
             .fill(segment.level.swiftUIColor.opacity(isActive ? 1.0 : 0.3))
@@ -120,59 +120,6 @@ struct DoseLevelBadge: View {
         Text("(\(String(localized: level.displayName)))")
             .font(.caption.weight(.semibold))
             .foregroundStyle(level.swiftUIColor)
-    }
-}
-
-// MARK: - Experience Phase
-
-/// Visual identity (label + color) for each phase of an acute experience.
-/// Centralized so the timeline bar and the phase rows stay in lock-step — the
-/// bar is the overview, the rows the detail, and they must agree on hue.
-///
-/// The palette traces the arc of an experience: cool and quiet before it
-/// begins (blue), rising (teal), warm at the height (orange), cooling on the
-/// way down (purple), then neutral residue (gray).
-enum ExperiencePhase: CaseIterable {
-    case onset
-    case comeup
-    case peak
-    case offset
-    case afterglow
-
-    var label: LocalizedStringResource {
-        switch self {
-        case .onset: "Onset"
-        case .comeup: "Come-up"
-        case .peak: "Peak"
-        case .offset: "Offset"
-        case .afterglow: "Afterglow"
-        }
-    }
-
-    /// The mark color — dots, bar fills, chart bands.
-    ///
-    /// Matches the hex ramp in `TimelineGraphView` / `SessionReportPDF` /
-    /// `DosePhaseProgressBar`, which also encode these five phases — hues
-    /// agree to within a degree; only lightness and chroma differ, to clear
-    /// the contrast gates.
-    var color: Color {
-        switch self {
-        case .onset: .Phase.Onset.accent
-        case .comeup: .Phase.Comeup.accent
-        case .peak: .Phase.Peak.accent
-        case .offset: .Phase.Offset.accent
-        case .afterglow: .Phase.Afterglow.accent
-        }
-    }
-
-    func range(in profile: DurationProfile) -> DurationRange? {
-        switch self {
-        case .onset: profile.onset
-        case .comeup: profile.comeup
-        case .peak: profile.peak
-        case .offset: profile.offset
-        case .afterglow: profile.afterglow
-        }
     }
 }
 

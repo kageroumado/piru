@@ -163,7 +163,6 @@ struct SubstanceDetailView: View {
 
     private func toggleFavorite() {
         FavoriteService.toggle(substance: substance.name, substanceUID: substance.substanceUID, in: modelContext)
-        try? modelContext.save()
     }
 
     /// Resolve the full per-field record (mechanism, chemistry identifiers, molar
@@ -358,12 +357,5 @@ struct SubstanceDetailView: View {
     private struct TaskKey: Hashable {
         let substanceName: String
         let profile: UserProfile
-    }
-
-    /// Compact numeric formatter for chemistry values: drops a trailing `.0`
-    /// (so `45.0` → `45`) but keeps real decimals (`2.34` → `2.34`). Shared with
-    /// the pharmacology rows in `Components`.
-    static func chemNumber(_ value: Double) -> String {
-        value == value.rounded() ? String(format: "%.0f", value) : String(format: "%g", value)
     }
 }

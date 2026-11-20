@@ -181,6 +181,14 @@ extension View {
         #endif
     }
 
+    func largeNavigationTitle() -> some View {
+        #if canImport(UIKit)
+            self.navigationBarTitleDisplayMode(.large)
+        #else
+            self
+        #endif
+    }
+
     /// A search field that stays in view. The automatic placement hides it
     /// until the list is pulled down, which reads as "there is no search here".
     func alwaysVisibleSearch(text: Binding<String>, prompt: Text) -> some View {

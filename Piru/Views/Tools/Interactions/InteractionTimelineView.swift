@@ -146,25 +146,13 @@ private final class InteractionTimelineModel {
     }
 
     private static func resolveParams(for name: String) -> PKParams? {
-        let substance = SubstanceLibrary.lookup(name)
-        guard let halfLife = substance?.halfLifeMinutes, halfLife > 0 else { return nil }
-
-        let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-        let ka: Double
-        if let substance,
-           let duration = substance.resolveDuration(for: substance.defaultRoute) {
-            let timeToPeak = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
-            if timeToPeak > 0 {
-                ka = PKModel.estimateKa(timeToPeak: timeToPeak, ke: ke)
-            } else {
-                ka = PKModel.defaultKa(ke: ke)
-            }
-        } else {
-            ka = PKModel.defaultKa(ke: ke)
-        }
-
-        let tmax = PKModel.tmax(ke: ke, ka: ka)
-        return PKParams(ke: ke, ka: ka, halfLifeMinutes: halfLife, timeToPeakMinutes: tmax)
+        guard let substance = SubstanceLibrary.lookup(name),
+              let params = PKResolver.params(substance: substance, route: substance.defaultRoute)
+        else { return nil }
+        return PKParams(
+            ke: params.ke, ka: params.ka, halfLifeMinutes: params.halfLifeMinutes,
+            timeToPeakMinutes: PKModel.tmax(ke: params.ke, ka: params.ka),
+        )
     }
 
     private static func generateCurveData(
@@ -218,7 +206,24 @@ private final class InteractionTimelineModel {
     }
 }
 
+/// The overlap timeline for one interacting pair. Its init stores four values and
+/// builds nothing, so a result list can construct one per row as a link destination;
+/// the model is built when the screen is shown.
 struct InteractionTimelineView: View {
+    let substanceA: String
+    let substanceB: String
+    let severity: InteractionSeverity
+    let mechanism: String
+
+    var body: some View {
+        InteractionTimelineScreen(
+            substanceA: substanceA, substanceB: substanceB,
+            severity: severity, mechanism: mechanism,
+        )
+    }
+}
+
+private struct InteractionTimelineScreen: View {
     let substanceA: String
     let substanceB: String
     let severity: InteractionSeverity
@@ -246,17 +251,31 @@ struct InteractionTimelineView: View {
         ScrollView {
             VStack(spacing: Spacing.xxl) {
                 if !model.missingData.isEmpty {
-                    missingDataSection
+                    TimelineMissingDataCard(names: model.missingData)
                 }
 
                 if let data = model.chartData {
-                    chartSection(data: data)
-                    detailsCard(data: data)
+                    TimelineChartCard(
+                        data: data, substanceA: substanceA, substanceB: substanceB,
+                        referenceTime: model.referenceTime,
+                    )
+                    TimelineDetailsCard(
+                        data: data, severity: severity,
+                        substanceA: substanceA, substanceB: substanceB,
+                        timeA: $model.ingestTimeA, timeB: $model.ingestTimeB,
+                        hasRecentEntryA: hasRecentEntryA, hasRecentEntryB: hasRecentEntryB,
+                        paramsA: model.paramsA, paramsB: model.paramsB,
+                    )
                 }
 
-                analysisCard
+                TimelineAnalysisCard(
+                    substanceA: substanceA, substanceB: substanceB,
+                    severity: severity, mechanism: mechanism,
+                    depression: model.depression, attenuations: model.attenuations,
+                    referenceTime: model.referenceTime,
+                )
 
-                disclaimerFooter
+                TimelineDisclaimer()
             }
             .padding()
         }
@@ -278,16 +297,20 @@ struct InteractionTimelineView: View {
             $0.substance.lowercased() == substanceB.lowercased()
         }
     }
+}
 
-    // MARK: - Missing Data
+// MARK: - Missing Data
 
-    private var missingDataSection: some View {
+private struct TimelineMissingDataCard: View {
+    let names: [String]
+
+    var body: some View {
         VStack(spacing: Spacing.lg) {
             Image(systemName: "clock.badge.questionmark")
                 .font(.piru(.title2))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
-            ForEach(model.missingData, id: \.self) { name in
+            ForEach(names, id: \.self) { name in
                 Text("Half-life data unavailable for \(name)")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -298,14 +321,21 @@ struct InteractionTimelineView: View {
         .frame(maxWidth: .infinity)
         .themeCard()
     }
+}
 
-    // MARK: - Chart
+// MARK: - Chart
 
-    private let colorA = Color.blue
-    private let colorB = Color.orange
+private let colorA = Color.blue
+private let colorB = Color.orange
 
-    private func chartSection(data: ChartData) -> some View {
-        let nowHours = Date.now.timeIntervalSince(model.referenceTime) / 3_600
+private struct TimelineChartCard: View {
+    let data: ChartData
+    let substanceA: String
+    let substanceB: String
+    let referenceTime: Date
+
+    var body: some View {
+        let nowHours = Date.now.timeIntervalSince(referenceTime) / 3_600
         let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
 
         return VStack(alignment: .leading, spacing: Spacing.md) {
@@ -384,41 +414,48 @@ struct InteractionTimelineView: View {
         .themeCard()
     }
 
-    private func legendItem(color: Color, label: String, filled: Bool = false) -> some View {
+    private func legendItem(color: Color, label: String) -> some View {
         HStack(spacing: Spacing.xs) {
-            if filled {
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(color)
-                    .frame(width: 12, height: 8)
-            } else {
-                RoundedRectangle(cornerRadius: 1)
-                    .fill(color)
-                    .frame(width: 12, height: 2)
-            }
+            RoundedRectangle(cornerRadius: 1)
+                .fill(color)
+                .frame(width: 12, height: 2)
             Text(label)
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
         }
     }
+}
 
-    // MARK: - Details (time controls + PK info + overlap — one card)
+// MARK: - Details (time controls + PK info + overlap — one card)
+
+private struct TimelineDetailsCard: View {
+    let data: ChartData
+    let severity: InteractionSeverity
+    let substanceA: String
+    let substanceB: String
+    @Binding var timeA: Date
+    @Binding var timeB: Date
+    let hasRecentEntryA: Bool
+    let hasRecentEntryB: Bool
+    let paramsA: PKParams?
+    let paramsB: PKParams?
 
     private var timePickerRange: ClosedRange<Date> {
         Date.now.addingTimeInterval(-48 * 3_600) ... Date.now.addingTimeInterval(12 * 3_600)
     }
 
-    private func detailsCard(data: ChartData) -> some View {
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             substanceDetailRow(
-                name: substanceA, color: colorA, time: $model.ingestTimeA,
-                hasRecentEntry: hasRecentEntryA, params: model.paramsA,
+                name: substanceA, color: colorA, time: $timeA,
+                hasRecentEntry: hasRecentEntryA, params: paramsA,
             )
 
             Divider().padding(.leading, 22)
 
             substanceDetailRow(
-                name: substanceB, color: colorB, time: $model.ingestTimeB,
-                hasRecentEntry: hasRecentEntryB, params: model.paramsB,
+                name: substanceB, color: colorB, time: $timeB,
+                hasRecentEntry: hasRecentEntryB, params: paramsB,
             )
 
             let window = overlapWindow(in: data)
@@ -478,10 +515,20 @@ struct InteractionTimelineView: View {
         .padding(.horizontal, Spacing.xxl)
         .padding(.vertical, Spacing.md)
     }
+}
 
-    // MARK: - Analysis (warning + depression + attenuation — one card)
+// MARK: - Analysis (warning + depression + attenuation — one card)
 
-    private var analysisCard: some View {
+private struct TimelineAnalysisCard: View {
+    let substanceA: String
+    let substanceB: String
+    let severity: InteractionSeverity
+    let mechanism: String
+    let depression: CombinedDepressionResult?
+    let attenuations: [EffectAttenuationResult]
+    let referenceTime: Date
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Warning
             HStack(alignment: .top, spacing: Spacing.lg) {
@@ -501,14 +548,14 @@ struct InteractionTimelineView: View {
             .padding(Spacing.xxl)
 
             // Combined depression
-            if let depression = model.depression, depression.hasMeaningfulLoad {
+            if let depression, depression.hasMeaningfulLoad {
                 Divider().padding(.leading, 36)
                 depressionSection(depression)
                     .padding(Spacing.xxl)
             }
 
             // Effect attenuation
-            ForEach(model.attenuations) { attenuation in
+            ForEach(attenuations) { attenuation in
                 Divider().padding(.leading, 36)
                 attenuationSection(attenuation)
                     .padding(Spacing.xxl)
@@ -521,7 +568,7 @@ struct InteractionTimelineView: View {
     private func depressionSection(_ d: CombinedDepressionResult) -> some View {
         let bandColor = d.band?.labelColor ?? Theme.secondaryLabel
         let bandFill = d.band?.color ?? Theme.secondaryLabel
-        let peakHours = max(0, d.peakDate.timeIntervalSince(model.referenceTime) / 3_600)
+        let peakHours = max(0, d.peakDate.timeIntervalSince(referenceTime) / 3_600)
         let yMax = max(CombinedDepression.dangerousThreshold * 1.1, d.peakLoad * 1.1)
 
         return VStack(alignment: .leading, spacing: Spacing.md) {
@@ -614,52 +661,54 @@ struct InteractionTimelineView: View {
                 .captionSecondary()
         }
     }
+}
 
-    // MARK: - Overlap Window
+// MARK: - Overlap Window
 
-    private func overlapWindow(in data: ChartData) -> (start: Double, end: Double)? {
-        guard let first = data.overlap.first, let last = data.overlap.last else { return nil }
-        return (first.hours, last.hours)
-    }
+private func overlapWindow(in data: ChartData) -> (start: Double, end: Double)? {
+    guard let first = data.overlap.first, let last = data.overlap.last else { return nil }
+    return (first.hours, last.hours)
+}
 
-    // MARK: - Disclaimer (footer text, no card)
+// MARK: - Disclaimer (footer text, no card)
 
-    private var disclaimerFooter: some View {
+private struct TimelineDisclaimer: View {
+    var body: some View {
         Text("A one-compartment model with population-average half-lives. Real overlap depends on your metabolism, dose, route, and tolerance.")
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, Spacing.xs)
     }
+}
 
-    // MARK: - Formatting
+// MARK: - Formatting
 
-    private func formatDuration(_ minutes: Double) -> String {
-        if minutes < 60 {
-            let m = Int(minutes)
-            return String(localized: "\(m) min")
-        }
-        let hours = minutes / 60
-        if hours < 24 {
-            if hours == hours.rounded(.toNearestOrEven) {
-                let h = Int(hours)
-                return String(localized: "\(h)h")
-            }
-            return String(localized: "\(hours.formatted(.number.precision(.fractionLength(1))))h")
-        }
-        let days = hours / 24
-        return String(localized: "\(days.formatted(.number.precision(.fractionLength(1)))) days")
+private func formatDuration(_ minutes: Double) -> String {
+    if minutes < 60 {
+        let m = Int(minutes)
+        return String(localized: "\(m) min")
     }
-
-    private func formatHours(_ hours: Double) -> String {
-        if hours < 1 {
-            let m = Int(hours * 60)
-            return String(localized: "\(m)min")
-        }
+    let hours = minutes / 60
+    if hours < 24 {
         if hours == hours.rounded(.toNearestOrEven) {
             let h = Int(hours)
             return String(localized: "\(h)h")
         }
         return String(localized: "\(hours.formatted(.number.precision(.fractionLength(1))))h")
     }
+    let days = hours / 24
+    return String(localized: "\(days.formatted(.number.precision(.fractionLength(1)))) days")
+}
+
+private func formatHours(_ hours: Double) -> String {
+    if hours < 1 {
+        let m = Int(hours * 60)
+        return String(localized: "\(m)min")
+    }
+    if hours == hours.rounded(.toNearestOrEven) {
+        let h = Int(hours)
+        return String(localized: "\(h)h")
+    }
+    return String(localized: "\(hours.formatted(.number.precision(.fractionLength(1))))h")
 }

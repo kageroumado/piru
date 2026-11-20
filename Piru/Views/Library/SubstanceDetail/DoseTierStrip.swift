@@ -19,7 +19,7 @@ struct DoseTierStripModel {
     private static let names: [LocalizedStringKey] = ["Threshold", "Light", "Common", "Strong", "Heavy"]
 
     init(doses: DoseRange, unit: String) {
-        let full = EffectsIntensityModel.bandDoseText(from: doses, unit: unit)
+        let full = doses.bandDoseText(unit: unit)
         tiers = (0 ... 4).map { index in
             let value = full[index]
             return Tier(

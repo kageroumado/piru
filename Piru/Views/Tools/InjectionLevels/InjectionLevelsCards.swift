@@ -3,12 +3,16 @@ import SwiftUI
 
 // MARK: - Lab calibration
 
-struct LabCalibrationSection: View {
-    @Bindable var model: InjectionLevelsModel
+/// The user's lab results for one analyte, the calibration chip, and the add button,
+/// shared by the Injection Levels tool and the Hormone Levels insight. Each screen
+/// supplies its own calibration controls below the divider.
+struct LabCalibrationCard<Controls: View>: View {
+    let analyte: Analyte
     let labs: [LabMeasurement]
     let onAdd: () -> Void
     let onToggleExclude: (LabMeasurement) -> Void
     let onDelete: (LabMeasurement) -> Void
+    @ViewBuilder let controls: Controls
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
@@ -38,9 +42,7 @@ struct LabCalibrationSection: View {
             .controlSize(.small)
 
             Divider()
-            CalibrationControl(model: model)
-
-            ReferenceLinesEditor(model: model, unit: model.analyte.canonicalUnit)
+            controls
         }
         .padding()
         .themeCard()
@@ -67,7 +69,7 @@ struct LabCalibrationSection: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(lab.date, format: .dateTime.year().month(.abbreviated).day())
                     .font(.subheadline)
-                Text("\(model.analyte.fromCanonical(lab.value, to: lab.inputUnit).formatted(.number.precision(.fractionLength(1)))) \(lab.inputUnit)")
+                Text("\(analyte.fromCanonical(lab.value, to: lab.inputUnit).formatted(.number.precision(.fractionLength(1)))) \(lab.inputUnit)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -203,9 +205,22 @@ struct ReferenceLinesEditor<Model: DepotCalibrating>: View {
 
 // MARK: - Provenance
 
-struct InjectionLevelsProvenanceCard: View {
+/// The "Sources" card: where each ester's release parameters come from, the assay
+/// caveat, and the analyte's own sources. Shared by the Injection Levels tool and the
+/// Hormone Levels insight.
+struct DepotProvenanceCard: View {
+    /// How the esters are listed.
+    enum Layout {
+        /// One ester: its confidence in the header, its provenance unlabeled, and the
+        /// route note for estradiol.
+        case single
+        /// Every logged ester, each under its own label.
+        case perEster
+    }
+
     let analyte: Analyte
-    let ester: EsterPKRecord
+    let esters: [EsterPKRecord]
+    let layout: Layout
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
@@ -213,17 +228,35 @@ struct InjectionLevelsProvenanceCard: View {
                 Text("Sources")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
-                Spacer()
-                confidenceBadge
+                if layout == .single, let ester = esters.first {
+                    Spacer()
+                    confidenceBadge(ester)
+                }
             }
-            Text(ester.provenance)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+            switch layout {
+            case .single:
+                ForEach(esters) { ester in
+                    Text(ester.provenance)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            case .perEster:
+                ForEach(esters) { ester in
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(ester.label)
+                            .font(.caption.weight(.semibold))
+                        Text(ester.provenance)
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+            }
             Text("Older studies used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs the difference.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             analyteSources
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .themeCard()
     }
@@ -232,9 +265,11 @@ struct InjectionLevelsProvenanceCard: View {
     private var analyteSources: some View {
         switch analyte {
         case .estradiol:
-            Text("Subcutaneous and intramuscular reach similar levels (196 vs 190 pg/mL head-to-head), so one curve serves both (Herndon 2023; Misakian 2025).")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
+            if layout == .single {
+                Text("Subcutaneous and intramuscular reach similar levels (196 vs 190 pg/mL head-to-head), so one curve serves both (Herndon 2023; Misakian 2025).")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
             Link(destination: URL(string: "https://github.com/WHSAH/estrannaise.js")!) {
                 Text("Parameters from estrannaise.js (MIT), checked against the literature")
                     .font(.caption2)
@@ -252,7 +287,7 @@ struct InjectionLevelsProvenanceCard: View {
         }
     }
 
-    private var confidenceBadge: some View {
+    private func confidenceBadge(_ ester: EsterPKRecord) -> some View {
         let label = switch ester.confidence {
         case "high": String(localized: "High confidence")
         case "medium": String(localized: "Medium confidence")

@@ -12,6 +12,48 @@ struct InventoryStockSection: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
 
+    /// The lines read from the item's doses, derived once per change to the
+    /// dose log or the item rather than on every body pass: each read is a
+    /// SwiftData fetch.
+    @State private var readout = StockReadout()
+
+    private struct StockReadout {
+        var subtitle: String?
+        var hasUnitMismatch = false
+    }
+
+    /// Everything the readout reads: the dose log, and the tracked item's
+    /// fields together with its siblings (which can claim its doses).
+    private struct ReadoutKey: Hashable {
+        let revision: Int
+        let itemIDs: [UUID]
+        let item: UUID?
+        let substance: String?
+        let saltForm: String?
+        let unit: String?
+        let currentQuantity: Double?
+        let lowStockThreshold: Double?
+        let doseSize: Double?
+        let unitStrengthMG: Double?
+        let trackingStart: Date?
+    }
+
+    private func readoutKey(for item: InventoryItem?) -> ReadoutKey {
+        ReadoutKey(
+            revision: DoseLogService.shared.revision,
+            itemIDs: inventoryItems.map(\.id),
+            item: item?.id,
+            substance: item?.substance,
+            saltForm: item?.saltForm,
+            unit: item?.unit,
+            currentQuantity: item?.currentQuantity,
+            lowStockThreshold: item?.lowStockThreshold,
+            doseSize: item?.doseSize,
+            unitStrengthMG: item?.unitStrengthMG,
+            trackingStart: item?.trackingStart,
+        )
+    }
+
     /// The tracked item for this substance, preferring the currently-selected
     /// salt, then the base form. Matched by resolved substance identity, so an
     /// item stocked under an alias (e.g. "IC-26") still shows on its canonical
@@ -22,8 +64,9 @@ struct InventoryStockSection: View {
     }
 
     var body: some View {
+        let item = trackedItem
         Section {
-            if let item = trackedItem {
+            if let item {
                 trackedStockCard(item)
             } else {
                 HStack {
@@ -56,6 +99,17 @@ struct InventoryStockSection: View {
                 .buttonStyle(.borderless)
             }
         }
+        .task(id: readoutKey(for: item)) {
+            guard let item else {
+                readout = StockReadout()
+                return
+            }
+            let doses = InventoryMath.doses(for: item, in: modelContext)
+            readout = StockReadout(
+                subtitle: stockSubtitle(item, doses: doses),
+                hasUnitMismatch: hasUnitMismatch(item, doses: doses),
+            )
+        }
     }
 
     private func trackedStockCard(_ item: InventoryItem) -> some View {
@@ -64,8 +118,8 @@ struct InventoryStockSection: View {
                 VStack(alignment: .leading, spacing: 3) {
                     StockAmountText(item: item, style: .title2)
                     if let owner = SharedInventory.shared.owner(of: item) {
-                        SharedOwnerTag(owner: owner, detail: stockSubtitle(item))
-                    } else if let subtitle = stockSubtitle(item) {
+                        SharedOwnerTag(owner: owner, detail: readout.subtitle)
+                    } else if let subtitle = readout.subtitle {
                         Text(subtitle)
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
@@ -79,7 +133,7 @@ struct InventoryStockSection: View {
             if let fraction = item.fillFraction {
                 InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint, status: item.stockStatus)
             }
-            if hasUnitMismatch(item) {
+            if readout.hasUnitMismatch {
                 Label("Doses in other units aren't counted.", systemImage: "info.circle")
                     .captionSecondary()
             }
@@ -104,9 +158,9 @@ struct InventoryStockSection: View {
     /// Subtitle under the amount: "Citrate · ~24 doses · ~3 weeks left" when
     /// stocked (salt + the combined supply line), or "last dose <date>" when out
     /// (so we don't echo "Out").
-    private func stockSubtitle(_ item: InventoryItem) -> String? {
+    private func stockSubtitle(_ item: InventoryItem, doses: [DoseEntry]) -> String? {
         if item.stockStatus == .out {
-            guard let last = InventoryMath.doses(for: item, in: modelContext).map(\.timestamp).max() else {
+            guard let last = doses.map(\.timestamp).max() else {
                 return nil
             }
             let formatted = last.formatted(.dateTime.month().day())
@@ -123,8 +177,8 @@ struct InventoryStockSection: View {
 
     /// True when any matching dose can't be converted into the item's unit, so
     /// the card can show a calm "not counted" hint.
-    private func hasUnitMismatch(_ item: InventoryItem) -> Bool {
-        InventoryMath.doses(for: item, in: modelContext).contains {
+    private func hasUnitMismatch(_ item: InventoryItem, doses: [DoseEntry]) -> Bool {
+        doses.contains {
             InventoryMath.convert($0.amount, from: $0.unit, to: item.unit, unitStrengthMG: item.unitStrengthMG) == nil
         }
     }

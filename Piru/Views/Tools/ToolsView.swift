@@ -124,7 +124,12 @@ struct ToolsView: View {
 
                 LazyVGrid(columns: gridColumns, spacing: Spacing.xl) {
                     ForEach(compactTools) { tool in
-                        ToolCompactCard(tool: tool)
+                        CompactRouteCard(
+                            icon: tool.icon,
+                            title: Text(tool.name),
+                            subtitle: Text(tool.subtitle),
+                            route: .tool(tool),
+                        )
                     }
                 }
             }
@@ -134,38 +139,6 @@ struct ToolsView: View {
         }
         .skinBackdrop()
         .appNavigationBar("Tools")
-    }
-}
-
-/// A half-width tool card: tinted icon, title, and subtitle in a compact
-/// `themeCard`, matching the Search tab's class browse grid density.
-private struct ToolCompactCard: View {
-    let tool: Tool
-
-    var body: some View {
-        RouteLink(PushRoute.tool(tool)) {
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                Image(systemName: tool.icon)
-                    .font(.piru(.title3))
-                    .foregroundStyle(Theme.accent)
-                    .accessibilityHidden(true)
-                Text(tool.name)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text(tool.subtitle)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(14)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .themeCard()
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
     }
 }
 
@@ -278,12 +251,10 @@ private struct MyMedsToolCard: View {
 
     private func medsRow(_ slot: MyMedsCard.MedSlot) -> some View {
         HStack(spacing: Spacing.lg) {
-            slotCircle(slot)
-                .frame(width: 18, height: 18)
+            MedSlotCheck(state: slot.state, due: slot.isDueNow)
             Text(displayName(for: slot.med))
                 .font(.subheadline.weight(slot.taken ? .regular : .medium))
                 .foregroundStyle(slot.taken ? Theme.secondaryLabel : .primary)
-                .strikethrough(slot.taken, color: Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 .lineLimit(1)
             Spacer(minLength: 4)
             HStack(spacing: Spacing.xs) {
@@ -299,24 +270,6 @@ private struct MyMedsToolCard: View {
             .lineLimit(1)
         }
         .padding(.vertical, Spacing.xs)
-    }
-
-    @ViewBuilder
-    private func slotCircle(_ slot: MyMedsCard.MedSlot) -> some View {
-        switch slot.state {
-        case .taken:
-            Image(systemName: "circle.fill")
-                .font(.system(size: 16))
-                .foregroundStyle(Theme.accent)
-        case .skipped:
-            Image(systemName: "minus.circle")
-                .font(.system(size: 16))
-                .foregroundStyle(Theme.secondaryLabel.legibleOpacity(Theme.Opacity.muted))
-        case .pending:
-            Image(systemName: "circle")
-                .font(.system(size: 16))
-                .foregroundStyle(slot.isDueNow ? Theme.accent : Color.platformTertiarySystemFill)
-        }
     }
 
     /// The quiet line under the rows: the next timed dose, or today's state

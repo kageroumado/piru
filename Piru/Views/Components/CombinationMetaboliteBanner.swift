@@ -9,22 +9,11 @@ struct CombinationMetaboliteBanner: View {
     let formation: CombinationMetabolite.Formation
 
     var body: some View {
-        HStack(alignment: .top, spacing: Spacing.lg) {
-            Image(systemName: "heart.text.square")
-                .foregroundStyle(.cautionAccent)
-                .font(.piru(.title3))
-                .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(formation.displayName)
-                    .sectionLabel()
-                Text(formation.formationNote)
-                    .captionSecondary()
-                Text(caution)
-                    .captionSecondary()
-            }
-            .accessibilityElement(children: .combine)
-            Spacer(minLength: 0)
+        InfoBanner(icon: "heart.text.square", iconTint: .cautionAccent, title: Text(formation.displayName)) {
+            Text(formation.formationNote)
+                .captionSecondary()
+            Text(caution)
+                .captionSecondary()
         }
     }
 

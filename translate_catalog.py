@@ -8002,6 +8002,15 @@ T = {
         "拖动以移动，双指捏合以缩放。",
         "拖移以移動，雙指捏合以縮放。",
     ),
+    # Insights and Usage: the window a count covers
+    "Last %lld days": ("最近 %lld 天", "最近 %lld 天"),
+    "All time": ("全部时间", "全部時間"),
+    # Med form: what the schedule picker picks
+    "Repeats": ("重复", "重複"),
+    # Pharmacology hero: NMDA enantiomer potency bars
+    "S-enantiomer": ("S-对映体", "S-對映體"),
+    "R-enantiomer": ("R-对映体", "R-對映體"),
+    "racemate": ("外消旋体", "外消旋體"),
 }
 
 # Widget translations
@@ -9678,6 +9687,10 @@ if __name__ == "__main__":
     NEW_KEYS.update({"Weak effect", "Moderate effect", "Strong effect"})
     # Receptor load zoom: its own key, so the Close buttons are not translated "near"
     NEW_KEYS.add("Close-up")
+    # Windows, the schedule picker, and the enantiomer bars
+    NEW_KEYS.update(
+        {"Last %lld days", "All time", "Repeats", "S-enantiomer", "R-enantiomer", "racemate"}
+    )
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(
         project_root / "Piru/Localizable.xcstrings",

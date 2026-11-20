@@ -138,37 +138,47 @@ struct InfoDisclosureSection: View {
 struct ChemistrySection: View {
     let substance: Substance
     let showsMechanism: Bool
+    /// The 2D skeleton ``SubstanceDetailModel`` loaded for this substance.
+    let moleculeStructure: MoleculeStructure?
 
     @State private var chemistryExpanded: Bool
-    @State private var moleculeStructure: MoleculeStructure?
     @Environment(\.openURL) private var openURL
 
     /// `initiallyExpanded` seeds the disclosure open — the deep-data page passes
     /// `true` so a "Show all / Chemistry" tap lands on the numbers, not on a
     /// second collapsed row the user has to open again (the double-collapse void).
-    init(substance: Substance, showsMechanism: Bool, initiallyExpanded: Bool = false) {
+    init(
+        substance: Substance,
+        showsMechanism: Bool,
+        moleculeStructure: MoleculeStructure?,
+        initiallyExpanded: Bool = false,
+    ) {
         self.substance = substance
         self.showsMechanism = showsMechanism
+        self.moleculeStructure = moleculeStructure
         _chemistryExpanded = State(initialValue: initiallyExpanded)
     }
 
+    /// Whether the substance holds any chemistry to show. Gates on data we
+    /// actually hold: `pubChemURL` cannot be part of this test, since it falls
+    /// back to a name-search URL, is non-nil for every substance in the
+    /// library, and would render the card for all of them — as an empty grid
+    /// whenever nothing else resolved.
+    static func hasData(for substance: Substance) -> Bool {
+        substance.formula != nil || substance.cas != nil || substance.inchikey != nil
+            || substance.molarMass != nil || substance.pubchemCID != nil || substance.smiles != nil
+            || substance.iupacName != nil || (substance.physicochemical?.hasAnyValue ?? false)
+    }
+
     var body: some View {
-        // Gate on data we actually hold. `pubChemURL` cannot be part of this test:
-        // it falls back to a name-search URL, so it is non-nil for every substance
-        // in the library and would make this card render for all of them — as an
-        // empty grid whenever nothing else resolved.
         let hasPubChem = substance.pubchemCID != nil
         let phys = substance.physicochemical
-        let hasChem = substance.formula != nil || substance.cas != nil || substance.inchikey != nil
-            || substance.molarMass != nil || hasPubChem || substance.smiles != nil
-            || substance.iupacName != nil || (phys?.hasAnyValue ?? false)
-        if showsMechanism, hasChem {
+        if showsMechanism, Self.hasData(for: substance) {
             CollapsibleSection("Chemistry", isExpanded: $chemistryExpanded) {
                 // The molecule hero — omitted entirely when the substance has
                 // no generated structure (no SMILES, or obabel couldn't parse
-                // it). Loaded lazily via a cheap local SQLite lookup, not baked
-                // into `Substance` itself.
-                if let moleculeStructure {
+                // it).
+                if substance.smiles != nil, let moleculeStructure {
                     // The view fits its own aspect ratio, so wide molecules stay
                     // short instead of floating in whitespace; cap the height so a
                     // tall/near-square one doesn't dominate the card.
@@ -223,11 +233,6 @@ struct ChemistrySection: View {
                     .padding(.top, Spacing.xxs)
                 }
             }
-            .task(id: substance.name) {
-                moleculeStructure = substance.smiles != nil
-                    ? SubstanceStore.shared.moleculeStructure(forSubstanceName: substance.name)
-                    : nil
-            }
         }
     }
 
@@ -265,7 +270,7 @@ struct ChemistrySection: View {
     }
 
     private func chem(_ value: Double) -> String {
-        SubstanceDetailView.chemNumber(value)
+        chemNumber(value)
     }
 
     /// PubChem cell — a tappable link out to the curated chemistry record. Lives
@@ -307,12 +312,12 @@ struct ChemistrySection: View {
 /// columns (``SubstanceStore/sourceContributions(forSubstanceName:)``), not from
 /// a hand-written table — what a source supplies differs per substance.
 struct SourcesSection: View {
-    let substance: Substance
     let showsSources: Bool
-    /// Which source supplied which field. Owned by ``SubstanceDetailModel`` —
-    /// a `.task` of this section's own would sit inside a collapsed disclosure
-    /// and not run until the reader opened it.
-    let contributions: SubstanceStore.SourceContributions
+    /// The merged ledger, each row paired with what it supplied. Built by
+    /// ``SubstanceDetailModel/sourceLinks(for:)`` — a `.task` of this
+    /// section's own would sit inside a collapsed disclosure and not run until
+    /// the reader opened it.
+    let links: [DetailSourceLink]
 
     @State private var isExpanded: Bool
 
@@ -320,19 +325,16 @@ struct SourcesSection: View {
     /// `true` so a "Sources" tap lands on the ledger rather than on a second
     /// collapsed row, the same double-collapse void ``ChemistrySection`` avoids.
     init(
-        substance: Substance,
         showsSources: Bool,
-        contributions: SubstanceStore.SourceContributions,
+        links: [DetailSourceLink],
         initiallyExpanded: Bool = false,
     ) {
-        self.substance = substance
         self.showsSources = showsSources
-        self.contributions = contributions
+        self.links = links
         _isExpanded = State(initialValue: initiallyExpanded)
     }
 
     var body: some View {
-        let links = SubstanceSourceLinks.mergedLinks(for: substance, contributions: contributions)
         if showsSources, !links.isEmpty {
             // Folded, like every other reference card on the page, as
             // `DisclosurePolicy` says (`sourcesDefaultExpanded` is `false` at every

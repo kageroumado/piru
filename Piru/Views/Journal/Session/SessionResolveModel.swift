@@ -231,7 +231,7 @@ enum SessionResolveModel {
         var result: [SubstanceCategory] = []
         for entry in entries {
             guard let category = SubstanceLibrary.lookup(entry.substance)?.category,
-                  ComedownGuideView.guidedCategories.contains(category),
+                  ComedownGuide.guidedCategories.contains(category),
                   seen.insert(category).inserted else { continue }
             result.append(category)
         }

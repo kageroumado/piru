@@ -1,15 +1,6 @@
 import SwiftData
 import SwiftUI
 
-/// The schedule choice offered by the med form: a recurring cadence, or
-/// as-needed (PRN) — which is a separate axis from `DoseFrequency` in the
-/// model (`isAsNeeded`), folded into one picker here so the form stays one
-/// decision.
-private enum FormSchedule: Hashable {
-    case frequency(DoseFrequency)
-    case asNeeded
-}
-
 /// One reminder time on the med, carried with a stable identity. The times
 /// list is edited by row (add, delete, drag) while a DatePicker in each row
 /// reads its own value — an index-keyed `ForEach` crashes here, because a
@@ -33,7 +24,7 @@ private final class MedFormDraft {
     var route: RouteOfAdministration = .oral
 
     // Schedule
-    var schedule: FormSchedule = .frequency(.daily)
+    var schedule: MedScheduleChoice = .frequency(.daily)
     var selectedWeekdays: Set<Int> = []
     var intervalDays = DoseFrequency.defaultIntervalDays
     var startDate: Date = .now
@@ -140,12 +131,6 @@ struct MedFormView: View {
     private var askAgainCadence: [Int] {
         notificationPreferences.first?.askAgainDefaultMinutes ?? [10]
     }
-
-    private static let weekdaySymbols: [(index: Int, short: String, full: String)] = {
-        let cal = Calendar.current
-        // 1=Sunday .. 7=Saturday
-        return (1 ... 7).map { ($0, cal.shortWeekdaySymbols[$0 - 1], cal.weekdaySymbols[$0 - 1]) }
-    }()
 
     var body: some View {
         NavigationStack {
@@ -292,11 +277,11 @@ struct MedFormView: View {
     private var scheduleSection: some View {
         @Bindable var draft = draft
         return Section {
-            Picker("Schedule", selection: scheduleBinding) {
+            Picker("Repeats", selection: scheduleBinding) {
                 ForEach(DoseFrequency.allCases) { freq in
-                    Text(freq.displayName).tag(FormSchedule.frequency(freq))
+                    Text(freq.displayName).tag(MedScheduleChoice.frequency(freq))
                 }
-                Text("As needed").tag(FormSchedule.asNeeded)
+                Text("As needed").tag(MedScheduleChoice.asNeeded)
             }
 
             if draft.isAsNeeded {
@@ -310,7 +295,7 @@ struct MedFormView: View {
             }
 
             if draft.frequency == .specificDays, !draft.isAsNeeded {
-                weekdayPicker
+                WeekdayPicker(selection: $draft.selectedWeekdays)
             }
 
             if draft.frequency == .everyNDays, !draft.isAsNeeded {
@@ -402,38 +387,6 @@ struct MedFormView: View {
         }
     }
 
-    private var weekdayPicker: some View {
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            Text("Days")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .accessibilityAddTraits(.isHeader)
-            HStack(spacing: Spacing.sm) {
-                ForEach(Self.weekdaySymbols, id: \.index) { day in
-                    let isSelected = draft.selectedWeekdays.contains(day.index)
-                    Button {
-                        if isSelected {
-                            draft.selectedWeekdays.remove(day.index)
-                        } else {
-                            draft.selectedWeekdays.insert(day.index)
-                        }
-                    } label: {
-                        Text(String(day.short.prefix(2)))
-                            .font(.caption.weight(.semibold))
-                            .selectableChip(isSelected: isSelected)
-                    }
-                    .buttonStyle(.plain)
-                    // Cancels the chip's hit-target frame back to the visible
-                    // circle so the row's layout is unchanged.
-                    .padding(-5)
-                    .accessibilityLabel(day.full)
-                    .accessibilityAddTraits(isSelected ? .isSelected : [])
-                }
-            }
-        }
-        .padding(.vertical, Spacing.xs)
-    }
-
     @ViewBuilder
     private var scheduleFooter: some View {
         if draft.isAsNeeded {
@@ -446,7 +399,7 @@ struct MedFormView: View {
     // MARK: Bindings & helpers
 
     /// The schedule picker, recording that the user chose one.
-    private var scheduleBinding: Binding<FormSchedule> {
+    private var scheduleBinding: Binding<MedScheduleChoice> {
         Binding(
             get: { draft.schedule },
             set: { newValue in

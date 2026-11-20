@@ -220,8 +220,8 @@ struct ReconstitutionCalculatorView: View {
 
             if let c = concentrationMgPerML, let mL = drawVolumeML, let units = insulinUnits {
                 resultRow(label: "Concentration", value: "\(c.doseFormatted) mg/mL")
-                resultRow(label: "Draw", value: "\(mL.doseFormatted) mL", emphasised: true)
-                resultRow(label: "On a U-100 syringe", value: "\(units.doseFormatted) units", emphasised: true)
+                resultRow(label: "Draw", value: "\(mL.doseFormatted) mL", emphasized: true)
+                resultRow(label: "On a U-100 syringe", value: "\(units.doseFormatted) units", emphasized: true)
             } else {
                 Text("Enter a vial amount, diluent volume, and target dose.")
                     .captionSecondary()
@@ -249,11 +249,11 @@ struct ReconstitutionCalculatorView: View {
         }
     }
 
-    private func resultRow(label: LocalizedStringResource, value: String, emphasised: Bool = false) -> some View {
+    private func resultRow(label: LocalizedStringResource, value: String, emphasized: Bool = false) -> some View {
         LabeledContent {
             Text(value)
-                .font(emphasised ? .subheadline.weight(.semibold) : .subheadline)
-                .foregroundStyle(emphasised ? Color.accentColor : .primary)
+                .font(emphasized ? .subheadline.weight(.semibold) : .subheadline)
+                .foregroundStyle(emphasized ? Theme.accent : .primary)
         } label: {
             Text(label).font(.subheadline)
         }

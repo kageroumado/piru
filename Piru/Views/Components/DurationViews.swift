@@ -9,9 +9,9 @@ struct DurationPhaseRows: View {
     let duration: DurationProfile
 
     var body: some View {
-        ForEach(ExperiencePhase.allCases, id: \.self) { phase in
+        ForEach(DosePhase.allCases, id: \.self) { phase in
             if let range = phase.range(in: duration) {
-                row(phase.label, value: range.displayString, color: phase.color)
+                row(phase.name, value: range.displayString, color: phase.color)
             }
         }
         if let total = duration.total {
@@ -41,5 +41,18 @@ struct DurationPhaseRows: View {
                 .foregroundStyle(.primary)
         }
         .font(.subheadline)
+    }
+}
+
+extension DosePhase {
+    /// This phase's span in a substance's duration profile.
+    func range(in profile: DurationProfile) -> DurationRange? {
+        switch self {
+        case .onset: profile.onset
+        case .comeup: profile.comeup
+        case .peak: profile.peak
+        case .offset: profile.offset
+        case .afterglow: profile.afterglow
+        }
     }
 }

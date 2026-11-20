@@ -95,13 +95,13 @@ extension TimelineDayLayout {
 
         /// The band this state belongs to, so the gutter word takes the same
         /// tint the dose hero's phase bar would give it.
-        var band: DosePhaseProgressBar.Phase {
+        var band: DosePhase {
             switch phase {
             case .onset: .onset
             case .comingUp: .comeup
             case .peak: .peak
             case .wearingOff: .offset
-            case .afterglow: .after
+            case .afterglow: .afterglow
             }
         }
 
@@ -111,15 +111,15 @@ extension TimelineDayLayout {
         }
 
         /// The state a dose `elapsedMinutes` in is in, on the same boundaries
-        /// ``DosePhaseProgressBar/phase(_:elapsedMinutes:)`` uses, so the
+        /// ``DosePhase/at(_:elapsedMinutes:)`` uses, so the
         /// gutter word and the dose hero's phase bar can never disagree.
         init(state: ActiveSubstanceState, elapsedMinutes: Double, y: CGFloat) {
-            let phase: Phase = switch DosePhaseProgressBar.phase(state, elapsedMinutes: elapsedMinutes) {
+            let phase: Phase = switch DosePhase.at(state, elapsedMinutes: elapsedMinutes) {
             case .onset: .onset
             case .comeup: .comingUp
             case .peak: .peak
             case .offset: .wearingOff
-            case .after: .afterglow
+            case .afterglow: .afterglow
             }
             self.init(phase: phase, y: y)
         }

@@ -16,8 +16,6 @@ struct SubstanceShareSheet: View {
     let substance: Substance
     let route: SubstanceRoute?
 
-    @Environment(\.dismiss) private var dismiss
-
     @State private var detail: ShareDetailLevel = .standard
     @State private var molecule: MoleculeStructure?
     @State private var reportedEffects: [ReportedEffect] = []
@@ -29,44 +27,21 @@ struct SubstanceShareSheet: View {
     @State private var imageSourceView: PlatformView?
     @State private var justCopied = false
     @State private var copiedResetTask: Task<Void, Never>?
-    @State private var contentHeight: CGFloat = 460
-    @State private var safeAreaBottom: CGFloat = 34
-
-    private static let chromeAllowance: CGFloat = 64
-    private var fittedHeight: CGFloat {
-        contentHeight + Self.chromeAllowance + safeAreaBottom
-    }
 
     private var currentImage: PlatformImage? {
         images[detail]
     }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: Spacing.xxl) {
-                    detailPicker
-                    imageCard
-                    actions
-                }
-                .padding(.horizontal, Spacing.xxl)
-                .padding(.bottom, Spacing.xxl)
-                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
+        FittedShareSheet("Share Substance", estimatedHeight: 460) {
+            VStack(spacing: Spacing.xxl) {
+                detailPicker
+                imageCard
+                actions
             }
-            .navigationTitle("Share Substance")
-            .inlineNavigationTitle()
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: {
-                        Image(systemName: "xmark").font(.body.weight(.semibold))
-                    }
-                    .accessibilityLabel(Text("Close"))
-                }
-            }
-            .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.bottom } action: { safeAreaBottom = max(0, $0) }
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.bottom, Spacing.xxl)
         }
-        .presentationDetents([.height(fittedHeight), .large])
-        .presentationDragIndicator(.visible)
         .task { await loadData() }
         .onChange(of: detail) { _, _ in renderIfNeeded() }
     }
@@ -97,13 +72,7 @@ struct SubstanceShareSheet: View {
                         .overlay { ZoomSourceView { imageSourceView = $0 } }
                         .overlay(alignment: .bottomTrailing) {
                             Label("Tap to view", systemImage: "arrow.up.left.and.arrow.down.right")
-                                .font(.caption2.weight(.semibold))
-                                .labelStyle(.titleAndIcon)
-                                .padding(.horizontal, 9)
-                                .padding(.vertical, 5)
-                                .background(.regularMaterial, in: Capsule())
-                                .padding(Spacing.xxl)
-                                .allowsHitTesting(false)
+                                .shareHintPill(inset: Spacing.xxl)
                         }
                         .onTapGesture { openViewer() }
                         .accessibilityAddTraits(.isButton)

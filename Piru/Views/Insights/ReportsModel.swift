@@ -35,15 +35,17 @@ final class ReportsModel {
     /// Empty = all included (no filter). Non-empty = only those substances.
     var substanceFilter: Set<String> = []
 
-    // MARK: - Clinical report fields
-
-    var patientName = ""
-    var notes = ""
-
     // MARK: - Export state
 
     var isExporting = false
-    var shareItems: [Any]?
+    var shareRequest: ShareRequest?
+
+    /// What the share sheet presents. Each export makes a new request, so the
+    /// sheet's identity holds for as long as that request is shown.
+    struct ShareRequest: Identifiable {
+        let id = UUID()
+        let items: [Any]
+    }
 
     // MARK: - Derived state
 
@@ -207,7 +209,109 @@ final class ReportsModel {
         }
     }
 
-    // MARK: - Export actions (wired in a later pass)
+    // MARK: - Export actions
+
+    #if canImport(UIKit)
+        /// The Journal Summary PDF for the scope: the entries in range that pass the
+        /// substance filter, the daily meds, and the interactions among them, written
+        /// to a temporary file whose URL is returned.
+        func exportJournalSummary(
+            entries: [DoseEntry], dailyItems: [DailyDoseItem], colors: [SubstanceColor],
+        ) async -> URL {
+            let range = reportDateRange
+            let filteredEntries = entries.filter {
+                $0.timestamp >= range.start && $0.timestamp <= range.end
+                    && isSubstanceIncluded($0.substance)
+            }
+
+            let entrySnapshots = filteredEntries.map { entry in
+                PDFReportGenerator.EntrySnapshot(
+                    substance: entry.substance,
+                    amount: entry.amount,
+                    unit: entry.unit,
+                    route: entry.route.displayName,
+                    timestamp: entry.timestamp,
+                    notes: entry.notes,
+                    isUnknownDose: entry.isUnknownDose,
+                    identityKey: entry.identityKey,
+                    routeRaw: entry.route.rawValue,
+                    substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),
+                    halfLifeMinutes: SubstanceLibrary.lookup(entry.substance)?.halfLifeMinutes,
+                    combinationName: entry.combinationName,
+                )
+            }
+
+            let products = CustomSubstanceStore.shared.productMeds
+            let doseSnapshots = dailyItems.map { item in
+                PDFReportGenerator.DailyDoseSnapshot(
+                    substance: item.substance,
+                    amount: item.amount,
+                    unit: item.unit,
+                    route: item.route.displayName,
+                    sortOrder: item.sortOrder,
+                    identityKey: item.identityKey,
+                    routeRaw: item.route.rawValue,
+                    product: products[item.substance.lowercased()],
+                )
+            }
+
+            let substances = Array(Set(filteredEntries.map(\.substance)))
+            let interactions = InteractionChecker.checkBatch(substances, against: filteredEntries, policy: .warn)
+            let interactionSnapshots = interactions.map { i in
+                PDFReportGenerator.InteractionSnapshot(
+                    severity: i.severity,
+                    substanceA: i.substanceA,
+                    substanceB: i.substanceB,
+                    description: i.description,
+                    drugClassesA: InteractionChecker.drugClasses(for: i.substanceA),
+                    drugClassesB: InteractionChecker.drugClasses(for: i.substanceB),
+                )
+            }
+
+            let tintMap = colors.tintMap
+            let journalSummary = SummaryStatsResolver.report(
+                entries: filteredEntries, tintMap: tintMap, start: range.start, end: range.end,
+            )
+
+            let compressedRaw = interactionSnapshots.map {
+                (
+                    severity: $0.severity,
+                    substanceA: $0.substanceA,
+                    substanceB: $0.substanceB,
+                    description: $0.description,
+                    drugClassesA: $0.drugClassesA,
+                    drugClassesB: $0.drugClassesB,
+                )
+            }
+            let compressed = SummaryStats.compressInteractions(compressedRaw)
+            let findings = SummaryStats.findings(report: journalSummary, interactions: compressed)
+
+            var data = PDFReportGenerator.ReportData(
+                entries: entrySnapshots,
+                dailyDoseItems: doseSnapshots,
+                interactions: interactionSnapshots,
+                startDate: range.start,
+                endDate: range.end,
+                notes: "",
+                patientName: "",
+            )
+            data.clinical = journalSummary
+            data.findings = findings
+            data.compressedInteractions = compressed
+
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let filename = "Piru Report \(formatter.string(from: .now)).pdf"
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+
+            await Task.detached {
+                let pdfData = PDFReportGenerator.generate(from: data)
+                try? pdfData.write(to: url)
+            }.value
+
+            return url
+        }
+    #endif
 
     func exportSessionImages(
         sessions: [Session], colors: [SubstanceColor], scheme: ColorScheme,

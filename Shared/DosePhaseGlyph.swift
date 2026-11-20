@@ -29,7 +29,7 @@ nonisolated enum DosePhaseGlyph {
 /// The phase a dose is in, said in the words someone asks the question in:
 /// "is it working yet", not "which limb of the curve is this".
 ///
-/// The nouns (Onset, Come-up, Offset) live on ``DosePhaseProgressBar/Phase``
+/// The nouns (Onset, Come-up, Offset) live on ``DosePhase``
 /// and name the *phase*; these name the *state the person is in*, which is what
 /// a glance at the timeline gutter is for.
 nonisolated enum DosePhaseWord {

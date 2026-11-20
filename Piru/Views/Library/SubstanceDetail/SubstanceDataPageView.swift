@@ -58,12 +58,16 @@ struct SubstanceDataPageView: View {
     private func sections(for substance: Substance) -> some View {
         switch section {
         case .chemistry:
-            ChemistrySection(substance: substance, showsMechanism: true, initiallyExpanded: true)
+            ChemistrySection(
+                substance: substance,
+                showsMechanism: true,
+                moleculeStructure: model.moleculeStructure,
+                initiallyExpanded: true,
+            )
         case .sources:
             SourcesSection(
-                substance: substance,
                 showsSources: true,
-                contributions: model.sourceContributions,
+                links: model.sourceLinks(for: substance),
                 initiallyExpanded: true,
             )
         case .pharmacology:
