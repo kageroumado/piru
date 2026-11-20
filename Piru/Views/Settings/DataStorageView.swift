@@ -237,29 +237,35 @@ private enum ExportScopeChoice {
 // MARK: - On this device
 
 private struct LocalStorageSection: View {
-    @Query private var doses: [DoseEntry]
-    @Query private var sessions: [Session]
-    @Query private var dailyItems: [DailyDoseItem]
-    @Query private var favorites: [FavoriteSubstance]
-    @Query private var substanceColors: [SubstanceColor]
-    @Query private var quickLogDoses: [QuickLogDose]
-    @Query private var inventoryItems: [InventoryItem]
+    @Environment(\.modelContext) private var modelContext
+
+    /// Counted on appearance and after each dose-log commit (an import, a
+    /// restore or Delete Everything bumps it), so a body pass reads stored
+    /// numbers instead of fetching seven tables and statting the store.
+    @State private var counts = StoredCounts()
+
+    private struct StoredCounts {
+        var doses = 0
+        var sessions = 0
+        var dailyItems = 0
+        var quickLogDoses = 0
+        var favorites = 0
+        var inventoryItems = 0
+        var customColors = 0
+        var storeBytes: Int64 = 0
+    }
 
     var body: some View {
         Section {
-            CountRow(title: "Entries", systemImage: "pills", count: doses.count)
-            CountRow(title: "Sessions", systemImage: "calendar.day.timeline.left", count: sessions.count)
-            CountRow(title: "Daily Medications", systemImage: "cross.case", count: dailyItems.count)
-            CountRow(title: "Quick-Log Shortcuts", systemImage: "bolt", count: quickLogDoses.count)
-            CountRow(title: "Favorites", systemImage: "star", count: favorites.count)
-            CountRow(title: "Inventory", systemImage: "shippingbox", count: inventoryItems.count)
-            CountRow(
-                title: "Custom Colors",
-                systemImage: "paintpalette",
-                count: substanceColors.count { !$0.usesDefault || $0.isLegacy },
-            )
+            CountRow(title: "Entries", systemImage: "pills", count: counts.doses)
+            CountRow(title: "Sessions", systemImage: "calendar.day.timeline.left", count: counts.sessions)
+            CountRow(title: "Daily Medications", systemImage: "cross.case", count: counts.dailyItems)
+            CountRow(title: "Quick-Log Shortcuts", systemImage: "bolt", count: counts.quickLogDoses)
+            CountRow(title: "Favorites", systemImage: "star", count: counts.favorites)
+            CountRow(title: "Inventory", systemImage: "shippingbox", count: counts.inventoryItems)
+            CountRow(title: "Custom Colors", systemImage: "paintpalette", count: counts.customColors)
             LabeledContent {
-                Text(DataStorageFormat.byteString(StoreRecovery.canonicalStoreBytes()))
+                Text(DataStorageFormat.byteString(counts.storeBytes))
                     .foregroundStyle(Theme.secondaryLabel)
             } label: {
                 Label("Store Size", systemImage: "internaldrive")
@@ -270,6 +276,30 @@ private struct LocalStorageSection: View {
         } footer: {
             Text("Everything Piru stores in the app on this device. Device and iCloud backups made by your settings include it.")
         }
+        .task(id: DoseLogService.shared.revision) {
+            counts = countStored()
+        }
+    }
+
+    private func countStored() -> StoredCounts {
+        func count(_ descriptor: FetchDescriptor<some PersistentModel>) -> Int {
+            (try? modelContext.fetchCount(descriptor)) ?? 0
+        }
+        // A color the user picked, or one still carrying its pre-class-colors
+        // hex (``SubstanceColor/isLegacy``).
+        let customColors = FetchDescriptor<SubstanceColor>(
+            predicate: #Predicate { !$0.usesDefault || !$0.hexColor.isEmpty },
+        )
+        return StoredCounts(
+            doses: count(FetchDescriptor<DoseEntry>()),
+            sessions: count(FetchDescriptor<Session>()),
+            dailyItems: count(FetchDescriptor<DailyDoseItem>()),
+            quickLogDoses: count(FetchDescriptor<QuickLogDose>()),
+            favorites: count(FetchDescriptor<FavoriteSubstance>()),
+            inventoryItems: count(FetchDescriptor<InventoryItem>()),
+            customColors: count(customColors),
+            storeBytes: StoreRecovery.canonicalStoreBytes(),
+        )
     }
 }
 
@@ -387,7 +417,7 @@ private struct ICloudBackupSection: View {
 
     private func checkForExistingBackup() async {
         guard manager.iCloudAvailable, !manager.autoICloudEnabled else { return }
-        existingBackupFound = await Task.detached { BackupManager.iCloudBackupExists() }.value
+        existingBackupFound = await BackupManager.iCloudBackupExists()
     }
 }
 
@@ -503,7 +533,7 @@ private struct ExportImportSection: View {
 
     private func checkForICloudBackup() async {
         guard manager.iCloudAvailable else { return }
-        iCloudBackupFound = await Task.detached { BackupManager.iCloudBackupExists() }.value
+        iCloudBackupFound = await BackupManager.iCloudBackupExists()
     }
 
     /// Dismisses the Export popover, then runs `action` once the
@@ -798,13 +828,9 @@ struct PassphraseSheet: View {
             List {
                 Section {
                     SecureField("Passphrase", text: $passphrase)
-                    #if canImport(UIKit)
-                        .textContentType(.password).autocorrectionDisabled().textInputAutocapitalization(.never)
-                    #endif
+                        .passphraseEntry()
                     SecureField("Confirm Passphrase", text: $confirmation)
-                    #if canImport(UIKit)
-                        .textContentType(.password).autocorrectionDisabled().textInputAutocapitalization(.never)
-                    #endif
+                        .passphraseEntry()
                 } footer: {
                     strengthFooter
                 }
@@ -845,5 +871,17 @@ struct PassphraseSheet: View {
         } else {
             Label("Passphrases match.", systemImage: "checkmark.circle.fill").foregroundStyle(Color.successText)
         }
+    }
+}
+
+private extension View {
+    /// A passphrase field: offered to the system as a password, with no
+    /// autocorrection or autocapitalization.
+    func passphraseEntry() -> some View {
+        autocorrectionDisabled()
+            .neverAutocapitalize()
+        #if !os(Android)
+            .textContentType(.password)
+        #endif
     }
 }

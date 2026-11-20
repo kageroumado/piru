@@ -24,7 +24,7 @@ final class SubstanceDetailModel {
 
     /// The receptor rows worth showing, derived once per `literatureBindings`
     /// assignment (the filter/dedup/sort pipeline is too heavy to re-run per
-    /// body pass). See ``visibleBindings(from:)`` for the relevance rules.
+    /// body pass). See ``ReceptorLiterature/visibleBindings(from:)`` for the relevance rules.
     var visibleLiteratureBindings: [BindingHit] = []
 
     /// Per-route pharmacokinetics (bioavailability / tmax / half-life), one row
@@ -56,7 +56,7 @@ final class SubstanceDetailModel {
     var targetEvidence: [SubstanceStore.TargetEvidence] = []
 
     /// What happens after the receptor binds.
-    var signallingCascade: SubstanceStore.SignallingCascade?
+    var signalingCascade: SubstanceStore.SignallingCascade?
 
     /// The plasma concentrations at which named effects appear — what makes the
     /// PK curve readable rather than merely shaped.
@@ -106,6 +106,15 @@ final class SubstanceDetailModel {
     /// O(n) dose-history aggregates for the history card.
     var historyStats = HistoryStats()
 
+    /// Ladder counts per route for the substance last asked about, filled on
+    /// first read: each count is a SQL query, and the dose card reads it on
+    /// every route, salt or brand pick.
+    @ObservationIgnored private var ladderSourceCounts: (substanceName: String, byRoute: [RouteOfAdministration: Int])?
+
+    /// The merged Sources ledger and the inputs it was built from. Rebuilt
+    /// only when one of those inputs changes.
+    @ObservationIgnored private var sourceLinksCache: (key: SourceLinksKey, links: [DetailSourceLink])?
+
     struct HistoryStats: Equatable {
         var minDose: Double = 0
         var maxDose: Double = 0
@@ -132,7 +141,7 @@ final class SubstanceDetailModel {
         offTargets = store.offTargets(forSubstanceName: substanceName)
         pharmacogenetics = store.pharmacogenetics(forSubstanceName: substanceName)
         targetEvidence = store.targetEvidence(forSubstanceName: substanceName)
-        signallingCascade = store.signallingCascade(forSubstanceName: substanceName)
+        signalingCascade = store.signallingCascade(forSubstanceName: substanceName)
         concentrationThresholds = store.concentrationThresholds(forSubstanceName: substanceName)
         classContext = store.classContext(forSubstanceName: substanceName)
         sourceContributions = store.sourceContributions(forSubstanceName: substanceName)
@@ -154,7 +163,7 @@ final class SubstanceDetailModel {
                 isSoldAsMDMA: store.hasFlag(PharmacologyParameters.Flag.missoldAsMDMA, forSubstanceName: substanceName),
             )
             literatureBindings = binds
-            visibleLiteratureBindings = Self.visibleBindings(from: binds)
+            visibleLiteratureBindings = ReceptorLiterature.visibleBindings(from: binds)
         } else {
             monoamineProfile = nil
             literatureBindings = []
@@ -250,6 +259,70 @@ final class SubstanceDetailModel {
         )
     }
 
+    /// The metabolites worth an "Also Active" card — the ones that outlive the
+    /// dose. See ``ActiveMetabolite/earnsOwnSection(parentHalfLifeMinutes:parentDurationMinutes:)``;
+    /// the rest stay in the Metabolism disclosure rather than being promoted to
+    /// a headline that implies news.
+    func durationChangingMetabolites(for substance: Substance) -> [ActiveMetabolite] {
+        activeMetabolites.filter {
+            $0.earnsOwnSection(
+                parentHalfLifeMinutes: substance.halfLifeMinutes,
+                parentDurationMinutes: substance.longestRouteDurationMinutes,
+            )
+        }
+    }
+
+    /// How many sources carry a dose ladder for `route`.
+    func ladderSourceCount(substanceName: String, route: RouteOfAdministration) -> Int {
+        var byRoute = ladderSourceCounts?.substanceName == substanceName ? ladderSourceCounts?.byRoute ?? [:] : [:]
+        if let count = byRoute[route] { return count }
+        let count = store.doseLadders(forSubstanceName: substanceName, route: route).count
+        byRoute[route] = count
+        ladderSourceCounts = (substanceName, byRoute)
+        return count
+    }
+
+    /// The merged, de-duplicated Sources ledger for `substance`
+    /// (``SubstanceSourceLinks/mergedLinks(for:contributions:)``), paired with
+    /// the loaded ``sourceContributions``. Reading it observes the
+    /// contributions and the user's source order, so the ledger follows both.
+    func sourceLinks(for substance: Substance) -> [DetailSourceLink] {
+        let key = SourceLinksKey(
+            substance: substance, contributions: sourceContributions, sourceOrder: store.enabledSourceOrder,
+        )
+        if let cached = sourceLinksCache, cached.key == key { return cached.links }
+        let links = SubstanceSourceLinks.mergedLinks(for: substance, contributions: sourceContributions)
+        sourceLinksCache = (key, links)
+        return links
+    }
+
+    /// Every input ``SubstanceSourceLinks/mergedLinks(for:contributions:)``
+    /// reads, so a cached ledger is reused only while all of them hold.
+    struct SourceLinksKey: Equatable {
+        let name: String
+        let sources: [String]
+        let references: [Citation]
+        let pageSlugs: [String?]
+        let identifiers: [String?]
+        let pubchemCID: Int?
+        let contributions: SubstanceStore.SourceContributions
+        let sourceOrder: [String]
+
+        init(substance: Substance, contributions: SubstanceStore.SourceContributions, sourceOrder: [String]) {
+            name = substance.name
+            sources = substance.sources
+            references = substance.references
+            pageSlugs = [
+                substance.drugCommunitySlug, substance.freeodwikiSlug, substance.dosewikiSlug,
+                substance.psychonautwikiPage, substance.tripsitSlug,
+            ]
+            identifiers = [substance.formula, substance.cas, substance.inchikey, substance.smiles]
+            pubchemCID = substance.pubchemCID
+            self.contributions = contributions
+            self.sourceOrder = sourceOrder
+        }
+    }
+
     // MARK: - Literature derivations
 
     /// The class-specific hero for the unified Pharmacology card (opioid / benzo
@@ -257,104 +330,5 @@ final class SubstanceDetailModel {
     /// which fall back to the slider/target grid.
     func pharmacologyHero(category: SubstanceCategory) -> PharmacologyHero? {
         PharmacologyHero.resolve(category: category, bindings: visibleLiteratureBindings)
-    }
-
-    /// The receptor rows worth showing: the 10 µM relevance cap. Drops a **Kᵢ-based** off-target binding
-    /// ≥ 10,000 nM (the standard "no meaningful affinity" cutoff) — ketamine's σ/µ/κ, meth's σ2, MDMA's
-    /// 12–15 µM modulators — *unless* it sits within 10× of the substance's tightest binding, so a
-    /// substance whose primary targets are all weak (caffeine's matched A1/A2A adenosine pair) keeps them.
-    /// EC₅₀/IC₅₀ functional transporter rows are never capped: a releaser's DAT EC₅₀ is legitimately tens
-    /// of µM yet is the primary mechanism.
-    private static func visibleBindings(from literatureBindings: [BindingHit]) -> [BindingHit] {
-        let floor = literatureBindings
-            .compactMap { [$0.kiNm, $0.ec50Nm, $0.ic50Nm].compactMap(\.self).min() }
-            .min()
-        let capped = literatureBindings.filter { hit in
-            // Drop curated tier-only rows (no measured value) — they drive the MOA dot table, not this
-            // literature list, and would otherwise render as empty rows.
-            guard hit.kiNm != nil || hit.ec50Nm != nil || hit.ic50Nm != nil else { return false }
-            guard let ki = hit.kiNm, ki >= 10_000 else { return true }
-            if let floor, ki <= floor * 10 { return true }
-            return false
-        }
-        // Strongest receptors first: by strength tier desc, then more-potent-first within a tier.
-        return Self.dedupedLiterature(capped).sorted { lhs, rhs in
-            let lt = Self.strengthTier(for: lhs) ?? 0
-            let rt = Self.strengthTier(for: rhs) ?? 0
-            if lt != rt { return lt > rt }
-            let lv = lhs.kiNm ?? lhs.ec50Nm ?? lhs.ic50Nm ?? .greatestFiniteMagnitude
-            let rv = rhs.kiNm ?? rhs.ec50Nm ?? rhs.ic50Nm ?? .greatestFiniteMagnitude
-            return lv < rv
-        }
-    }
-
-    /// Collapse the literature list: when a (target, action) has any **human** row, drop its non-human
-    /// (in-vitro / animal) rows — "who cares about in vitro when we have human data" — then remove exact
-    /// duplicate measurements (same target+action+value across sources), so MDMA's 5-HT2A 7800 ×2 and
-    /// DAT 22000 ×2 collapse to one. Order is preserved (the store already sorts Kᵢ-tightest first, then
-    /// functional EC₅₀/IC₅₀), so binding affinities still lead the functional transporter rows.
-    static func dedupedLiterature(_ rows: [BindingHit]) -> [BindingHit] {
-        func isHuman(_ s: String?) -> Bool {
-            (s ?? "").lowercased().contains("human")
-        }
-        let humanTAs = Set(rows.filter { isHuman($0.species) }.map { "\($0.target)|\($0.action)" })
-        let preferred = rows.filter { hit in
-            humanTAs.contains("\(hit.target)|\(hit.action)") ? isHuman(hit.species) : true
-        }
-        var seen = Set<String>()
-        return preferred.filter { hit in
-            let value = if let ki = hit.kiNm {
-                "ki\(ki)"
-            } else if let ec = hit.ec50Nm {
-                "ec\(ec)"
-            } else if let ic = hit.ic50Nm {
-                "ic\(ic)"
-            } else {
-                "na"
-            }
-            return seen.insert("\(hit.target)|\(hit.action)|\(value)").inserted
-        }
-    }
-
-    /// Strength tier (1–3) for a literature row's dots — the single, systematic `ReceptorStrength`
-    /// model (measurement-aware bands). The Mechanism card computes the *same* bands from the *same*
-    /// measured values in SQL, so the two cards agree by construction (no per-target inheritance hack).
-    static func strengthTier(for hit: BindingHit) -> Int? {
-        ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm)
-    }
-}
-
-// MARK: - CYP2D6 substrate classification
-
-/// A substance whose primary (first-listed or sole) metabolic pathway is CYP2D6, and whether that
-/// metabolism creates a qualitatively different drug (prodrug pattern) or just clears the parent.
-nonisolated struct CYP2D6Info {
-    /// The CYP2D6 step produces a divergent metabolite — the parent is a prodrug and the
-    /// metabolite is the active species (codeine→morphine, tramadol→M1). When true the note says
-    /// CYP2D6 activates the substance; when false, that it clears it.
-    let hasProdrugPattern: Bool
-
-    static func from(metabolismRows rows: [SubstanceStore.MetabolismHit]) -> CYP2D6Info? {
-        let cyp2d6Rows = rows.filter { isCYP2D6Primary($0.enzyme) }
-        guard !cyp2d6Rows.isEmpty else { return nil }
-        // A CYP2D6 step is a prodrug pattern when the metabolite is active AND
-        // either divergent-mechanism OR ≥5× more potent than the parent. The
-        // potency gate catches codeine→morphine (scaled, 200×) and
-        // oxycodone→oxymorphone (scaled, 10–40×), where the parent is a weak
-        // opioid and the metabolite is the real drug.
-        let hasProdrugPattern = cyp2d6Rows.contains { row in
-            row.metaboliteActive == true
-                && (row.metaboliteMechanismVsParent == .divergent
-                    || (row.metabolitePotencyVsParentPct ?? 100) >= 500)
-        }
-        return CYP2D6Info(hasProdrugPattern: hasProdrugPattern)
-    }
-
-    /// CYP2D6 is a primary pathway when it appears at the leading position of the
-    /// freeform enzyme string — "CYP2D6", "CYP2D6 (major)", "CYP2D6 / CYP3A4".
-    /// A string like "CYP3A4 / CYP2D6" lists it as a minor contributor.
-    private static func isCYP2D6Primary(_ enzyme: String) -> Bool {
-        let trimmed = enzyme.trimmingCharacters(in: .whitespaces)
-        return trimmed.hasPrefix("CYP2D6")
     }
 }

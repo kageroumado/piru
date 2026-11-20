@@ -153,6 +153,24 @@ nonisolated struct DoseLadder: Hashable {
 
 nonisolated extension DoseRange: Hashable {}
 
+nonisolated extension DoseRange {
+    /// The ladder as text per dose-dial band, keyed by band index (0 Threshold
+    /// … 4 Heavy). Overdose has no range, and a tier the ladder lacks has no
+    /// entry.
+    func bandDoseText(unit: String) -> [Int: String] {
+        var out: [Int: String] = [:]
+        func range(_ r: ClosedRange<Double>) -> String {
+            "\(r.lowerBound.doseFormatted)–\(r.upperBound.doseFormatted) \(unit)"
+        }
+        if let t = threshold { out[0] = "\(t.doseFormatted) \(unit)" }
+        if let l = light { out[1] = range(l) }
+        if let c = common { out[2] = range(c) }
+        if let s = strong { out[3] = range(s) }
+        if let h = heavy { out[4] = "\(h.doseFormatted)+ \(unit)" }
+        return out
+    }
+}
+
 nonisolated extension DoseRange: Codable {
     enum CodingKeys: String, CodingKey {
         case threshold

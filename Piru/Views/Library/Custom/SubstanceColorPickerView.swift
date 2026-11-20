@@ -59,7 +59,11 @@ struct SubstanceColorPickerView: View {
             .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.bottom } action: { safeAreaBottom = max(0, $0) }
         }
         .presentationDetents([.height(contentHeight + Self.chromeAllowance + safeAreaBottom)])
-        .task { load() }
+        .task {
+            // `load` resolves every row's category through the batch cache.
+            await SubstanceStore.shared.ensureAllLoaded()
+            load()
+        }
     }
 
     private func load() {

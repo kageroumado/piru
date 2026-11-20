@@ -13,7 +13,7 @@ enum OnboardingTips {
             .displayFrequency(.immediate),
             .datastoreLocation(.applicationDefault),
         ])
-        if UserDefaults.standard.bool(forKey: "hasCompletedOnboarding") {
+        if UserDefaults.standard.bool(forKey: OnboardingState.completedKey) {
             markOnboardingComplete()
         }
         #if DEBUG

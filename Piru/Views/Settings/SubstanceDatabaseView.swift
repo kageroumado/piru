@@ -1,6 +1,4 @@
-import SwiftData
 import SwiftUI
-import UniformTypeIdentifiers
 
 /// The controls for the bundled substance dataset: which sources win when they
 /// disagree, and how many substances ship. Attribution

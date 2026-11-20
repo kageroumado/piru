@@ -37,14 +37,33 @@ private struct JournalArrivedNoticeView: View {
     }
 }
 
-/// An icon, a title, a message and a stack of buttons, sized to its content.
-private struct NoticePage<Title: View, Message: View, Actions: View>: View {
+/// An icon, a title, a message, any further detail and a stack of buttons,
+/// sized to its content.
+private struct NoticePage<Title: View, Message: View, Detail: View, Actions: View>: View {
     let systemImage: String
     @ViewBuilder let title: Title
     @ViewBuilder let message: Message
+    @ViewBuilder let detail: Detail
     @ViewBuilder let actions: Actions
-    @State private var contentHeight: CGFloat = 480
+    @State private var contentHeight: CGFloat
     @State private var safeAreaBottom: CGFloat = 34
+
+    /// `estimatedHeight` sizes the sheet until the content has been measured.
+    init(
+        systemImage: String,
+        estimatedHeight: CGFloat = 480,
+        @ViewBuilder title: () -> Title,
+        @ViewBuilder message: () -> Message,
+        @ViewBuilder detail: () -> Detail,
+        @ViewBuilder actions: () -> Actions,
+    ) {
+        self.systemImage = systemImage
+        self.title = title()
+        self.message = message()
+        self.detail = detail()
+        self.actions = actions()
+        _contentHeight = State(initialValue: estimatedHeight)
+    }
 
     var body: some View {
         ScrollView {
@@ -66,6 +85,8 @@ private struct NoticePage<Title: View, Message: View, Actions: View>: View {
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
 
+                detail
+
                 VStack(spacing: Spacing.md) {
                     actions
                 }
@@ -81,6 +102,17 @@ private struct NoticePage<Title: View, Message: View, Actions: View>: View {
     }
 }
 
+extension NoticePage where Detail == EmptyView {
+    init(
+        systemImage: String,
+        @ViewBuilder title: () -> Title,
+        @ViewBuilder message: () -> Message,
+        @ViewBuilder actions: () -> Actions,
+    ) {
+        self.init(systemImage: systemImage, title: title, message: message, detail: { EmptyView() }, actions: actions)
+    }
+}
+
 // MARK: - Class colors
 
 /// Tells an existing user that substance colors follow class, shows what that
@@ -93,8 +125,6 @@ private struct ClassColorsNoticeView: View {
     @State private var samples: [Sample] = []
     @State private var legacyCount = 0
     @State private var hasChosen = false
-    @State private var contentHeight: CGFloat = 640
-    @State private var safeAreaBottom: CGFloat = 34
 
     private static let sampleLimit = 6
 
@@ -106,48 +136,24 @@ private struct ClassColorsNoticeView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: Spacing.xxl) {
-                Image(systemName: "paintpalette.fill")
-                    .font(.system(size: 48))
-                    .foregroundStyle(.tint)
-                    .padding(.top, Spacing.xxxl)
-                    .accessibilityHidden(true)
-
-                Text("Colors now follow class")
-                    .font(.piru(.title2, weight: .bold))
-                    .multilineTextAlignment(.center)
-                    .accessibilityAddTraits(.isHeader)
-
-                Text("Every substance now gets a color from its class (stimulants share one family, psychedelics another) so a timeline reads at a glance. You can still give any substance a color of your own.")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                if !samples.isEmpty {
-                    ClassColorsSampleCard(samples: samples)
-                }
-
-                Text("You have \(legacyCount) substances with colors from before. Move them to class colors, or keep them exactly as they are.")
-                    .font(.footnote)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                VStack(spacing: Spacing.md) {
-                    GlassPillButton(title: "Use Class Colors") { resolve(adoptClassColors: true) }
-                    GlassPillButton(title: "Keep My Colors", prominence: .neutral) { resolve(adoptClassColors: false) }
-                }
+        NoticePage(systemImage: "paintpalette.fill", estimatedHeight: 640) {
+            Text("Colors now follow class")
+        } message: {
+            Text("Every substance now gets a color from its class (stimulants share one family, psychedelics another) so a timeline reads at a glance. You can still give any substance a color of your own.")
+        } detail: {
+            if !samples.isEmpty {
+                ClassColorsSampleCard(samples: samples)
             }
-            .padding(.horizontal, Spacing.xxxl)
-            .padding(.bottom, Spacing.xxl)
-            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
+
+            Text("You have \(legacyCount) substances with colors from before. Move them to class colors, or keep them exactly as they are.")
+                .font(.footnote)
+                .foregroundStyle(Theme.secondaryLabel)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+        } actions: {
+            GlassPillButton(title: "Use Class Colors") { resolve(adoptClassColors: true) }
+            GlassPillButton(title: "Keep My Colors", prominence: .neutral) { resolve(adoptClassColors: false) }
         }
-        .scrollBounceBehavior(.basedOnSize)
-        .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.bottom } action: { safeAreaBottom = max(0, $0) }
-        .presentationDetents([.height(contentHeight + safeAreaBottom)])
-        .presentationDragIndicator(.visible)
         .task { load() }
         .onDisappear {
             if !hasChosen { resolve(adoptClassColors: false) }

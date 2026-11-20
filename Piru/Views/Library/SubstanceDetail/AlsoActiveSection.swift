@@ -15,20 +15,8 @@ struct AlsoActiveSection: View {
 
     @Environment(\.appNavigator) private var navigator
 
-    /// The metabolites worth a section — the ones that outlive the dose. See
-    /// ``ActiveMetabolite/earnsOwnSection(parentHalfLifeMinutes:parentDurationMinutes:)``;
-    /// the rest stay in the Metabolism disclosure rather than being promoted to a
-    /// headline that implies news.
-    private var durationChangingMetabolites: [ActiveMetabolite] {
-        model.activeMetabolites.filter {
-            $0.earnsOwnSection(
-                parentHalfLifeMinutes: substance.halfLifeMinutes,
-                parentDurationMinutes: substance.longestRouteDurationMinutes,
-            )
-        }
-    }
-
     var body: some View {
+        let durationChangingMetabolites = model.durationChangingMetabolites(for: substance)
         if !durationChangingMetabolites.isEmpty {
             Section {
                 ForEach(durationChangingMetabolites) { metabolite in

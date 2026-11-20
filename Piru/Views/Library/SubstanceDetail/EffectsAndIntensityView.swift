@@ -216,20 +216,6 @@ final class EffectsIntensityModel {
             drugCommunityDeepLink = SubstanceSourceLinks.deepLink("drug.community", substance: substance)
         }
     }
-
-    /// Map Piru's dose ladder onto the dial's six bands (Overdose has no range).
-    static func bandDoseText(from doses: DoseRange, unit: String) -> [Int: String] {
-        var out: [Int: String] = [:]
-        func range(_ r: ClosedRange<Double>) -> String {
-            "\(r.lowerBound.doseFormatted)–\(r.upperBound.doseFormatted) \(unit)"
-        }
-        if let t = doses.threshold { out[0] = "\(t.doseFormatted) \(unit)" }
-        if let l = doses.light { out[1] = range(l) }
-        if let c = doses.common { out[2] = range(c) }
-        if let s = doses.strong { out[3] = range(s) }
-        if let h = doses.heavy { out[4] = "\(h.doseFormatted)+ \(unit)" }
-        return out
-    }
 }
 
 extension ReportedEffect {

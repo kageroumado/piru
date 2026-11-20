@@ -445,24 +445,22 @@ struct SubstanceCategoryListView: View {
             await rebuildList()
         }
         .navigationTitle(Text(title))
-        #if canImport(UIKit)
-            .navigationBarTitleDisplayMode(.large)
-        #endif
-            .toolbar {
-                if isBrowse {
-                    ToolbarItem(placement: .platformTopBarTrailing) {
-                        Menu {
-                            Picker("Sort", selection: $sortMode) {
-                                Label("Popularity", systemImage: "chart.bar.fill").tag(SortMode.popularity)
-                                Label("Name", systemImage: "textformat").tag(SortMode.name)
-                            }
-                        } label: {
-                            Image(systemName: "arrow.up.arrow.down")
-                                .accessibilityLabel(Text("Sort"))
+        .largeNavigationTitle()
+        .toolbar {
+            if isBrowse {
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    Menu {
+                        Picker("Sort", selection: $sortMode) {
+                            Label("Popularity", systemImage: "chart.bar.fill").tag(SortMode.popularity)
+                            Label("Name", systemImage: "textformat").tag(SortMode.name)
                         }
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                            .accessibilityLabel(Text("Sort"))
                     }
                 }
             }
+        }
     }
 }
 

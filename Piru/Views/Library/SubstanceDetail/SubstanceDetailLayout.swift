@@ -63,6 +63,7 @@ struct SubstanceDetailLayout: View {
                 saltSelection: saltSelection,
                 isomerSelection: isomerSelection,
                 provenance: model.provenance,
+                model: model,
                 initialBrand: initialBrand,
             )
         }
@@ -183,31 +184,19 @@ struct SubstanceDetailLayout: View {
 
         // Chemistry and Sources are collapsed cards on the page. Never wrap them
         // in a launcher that pushes a screen holding one collapsed card.
-        if placement(.chemistry) != .hidden, hasChemistryData {
-            ChemistrySection(substance: substance, showsMechanism: policy.showsMechanism)
-        }
-        if placement(.sources) != .hidden, hasSourcesData {
-            SourcesSection(
+        if placement(.chemistry) != .hidden, ChemistrySection.hasData(for: substance) {
+            ChemistrySection(
                 substance: substance,
-                showsSources: true,
-                contributions: model.sourceContributions,
+                showsMechanism: policy.showsMechanism,
+                moleculeStructure: model.moleculeStructure,
             )
         }
-    }
-
-    /// Light presence check mirroring ``ChemistrySection``'s own gate, so a
-    /// "Chemistry" launcher/row never leads to an empty page.
-    private var hasChemistryData: Bool {
-        substance.formula != nil || substance.cas != nil || substance.inchikey != nil
-            || substance.molarMass != nil || substance.smiles != nil || substance.iupacName != nil
-            || substance.pubchemCID != nil || (substance.physicochemical?.hasAnyValue ?? false)
-    }
-
-    /// Same call the section makes, contributions included — a gate computed
-    /// from a narrower set than the section renders would hide a ledger that
-    /// does have rows.
-    private var hasSourcesData: Bool {
-        !SubstanceSourceLinks.mergedLinks(for: substance, contributions: model.sourceContributions).isEmpty
+        if placement(.sources) != .hidden {
+            let links = model.sourceLinks(for: substance)
+            if !links.isEmpty {
+                SourcesSection(showsSources: true, links: links)
+            }
+        }
     }
 }
 

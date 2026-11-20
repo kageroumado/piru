@@ -197,22 +197,13 @@ private struct HelpCard: View {
                     .offset(x: 26, y: -4)
                     .accessibilityHidden(true)
             } content: {
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    Image(systemName: "lifepreserver")
-                        .font(.system(size: 21, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .frame(height: 28, alignment: .leading)
-                        .accessibilityHidden(true)
-                    Text("Help & Safety")
-                        .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
-                        .foregroundStyle(.white)
-                    Text("Crisis resources, safety basics, and what's active right now.")
-                        .font(.footnote)
-                        .foregroundStyle(.white.legibleOpacity(0.93))
-                        .fixedSize(horizontal: false, vertical: true)
-                        .cardBlurbWidth(240)
-                        .padding(.top, 5)
-                }
+                FamilyCardTitle(
+                    icon: "lifepreserver",
+                    title: Text("Help & Safety"),
+                    blurb: Text("Crisis resources, safety basics, and what's active right now."),
+                    blurbWidth: 240,
+                    blurbTopPadding: 5,
+                )
             }
         }
         .buttonStyle(.plain)

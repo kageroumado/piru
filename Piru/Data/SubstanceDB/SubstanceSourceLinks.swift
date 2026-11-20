@@ -106,9 +106,7 @@ enum SubstanceSourceLinks {
     ///
     /// Pass the substance's ``SubstanceStore/SourceContributions`` to get the
     /// two-column ledger (each row paired with what that source actually
-    /// supplied). Without it — the presence check in ``SubstanceDetailLayout``,
-    /// which runs on every `body` and must stay free of DB reads — the same rows
-    /// come back with an empty `provides`.
+    /// supplied). Without it the same rows come back with an empty `provides`.
     static func mergedLinks(
         for substance: Substance,
         contributions: SubstanceStore.SourceContributions = .empty,

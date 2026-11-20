@@ -104,7 +104,7 @@ struct OnboardingWelcomeStep: View {
         .task {
             let available = FileManager.default.ubiquityIdentityToken != nil
             guard available else { return }
-            hasICloudBackup = await Task.detached { BackupManager.iCloudBackupExists() }.value
+            hasICloudBackup = await BackupManager.iCloudBackupExists()
         }
     }
 

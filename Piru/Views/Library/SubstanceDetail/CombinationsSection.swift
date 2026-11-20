@@ -59,7 +59,7 @@ private struct CombinationRow: View {
     }
 
     private var description: AttributedString {
-        (try? AttributedString(markdown: combination.description)) ?? AttributedString(combination.description)
+        AttributedString(markdownOrPlain: combination.description)
     }
 
     private var accessibilityLabel: String {

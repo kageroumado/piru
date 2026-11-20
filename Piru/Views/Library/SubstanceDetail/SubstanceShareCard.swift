@@ -36,10 +36,30 @@ struct SubstanceShareCard: View {
     let substance: Substance
     let route: SubstanceRoute?
     let molecule: MoleculeStructure?
-    var reportedEffects: [ReportedEffect] = []
-    var mechanism: MechanismOfAction?
-    var monoamineProfile: MonoamineProfile?
+    /// The reported effects, merged once here (see ``merged(_:)``) rather than
+    /// on each of the several reads per render.
+    let dedupedReportedEffects: [ReportedEffect]
+    let mechanism: MechanismOfAction?
+    let monoamineProfile: MonoamineProfile?
     let detail: ShareDetailLevel
+
+    init(
+        substance: Substance,
+        route: SubstanceRoute?,
+        molecule: MoleculeStructure?,
+        reportedEffects: [ReportedEffect] = [],
+        mechanism: MechanismOfAction? = nil,
+        monoamineProfile: MonoamineProfile? = nil,
+        detail: ShareDetailLevel,
+    ) {
+        self.substance = substance
+        self.route = route
+        self.molecule = molecule
+        dedupedReportedEffects = Self.merged(reportedEffects)
+        self.mechanism = mechanism
+        self.monoamineProfile = monoamineProfile
+        self.detail = detail
+    }
 
     private var cardWidth: CGFloat {
         detail == .rich ? 680 : 440
@@ -52,7 +72,7 @@ struct SubstanceShareCard: View {
 
     private var doseText: [Int: String] {
         guard let route else { return [:] }
-        return EffectsIntensityModel.bandDoseText(from: route.doses, unit: route.unit)
+        return route.doses.bandDoseText(unit: route.unit)
     }
 
     private var topEffects: [String] {
@@ -63,7 +83,7 @@ struct SubstanceShareCard: View {
     /// often lists the same effect under several phrasings that collapse to one
     /// localized vocab term (e.g. "increased sociability" + "emotional bonding").
     /// Merging sums the report counts and keeps the earliest emergence band.
-    private var dedupedReportedEffects: [ReportedEffect] {
+    private static func merged(_ reportedEffects: [ReportedEffect]) -> [ReportedEffect] {
         var byName: [String: ReportedEffect] = [:]
         for effect in reportedEffects {
             if let existing = byName[effect.displayName] {

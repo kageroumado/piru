@@ -101,10 +101,9 @@ private struct MythBustRow: View {
     /// neutral marker glyph.
     private static let markerWidth: CGFloat = 28
 
-    /// Renders the correction's Markdown emphasis (`**bold**`), falling back to
-    /// plain text if the string somehow fails to parse.
+    /// The correction with its Markdown emphasis (`**bold**`) rendered.
     private var correction: AttributedString {
-        (try? AttributedString(markdown: myth.correction)) ?? AttributedString(myth.correction)
+        AttributedString(markdownOrPlain: myth.correction)
     }
 }
 
