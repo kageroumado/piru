@@ -101,17 +101,6 @@ struct SessionDetailView: View {
         model.colorMapReady || !model.colorMap.isEmpty ? model.colorMap : Array(substanceColors).colorMap
     }
 
-    private var dateTitle: String {
-        // The current year is implicit — only show it for past/future years.
-        let base = Date.FormatStyle.dateTime.day().month(.wide)
-        let sameYear = Calendar.current.isDate(date, equalTo: .now, toGranularity: .year)
-        return date.formatted(sameYear ? base : base.year())
-    }
-
-    private var dayOfWeek: String {
-        date.formatted(.dateTime.weekday(.wide))
-    }
-
     private var isToday: Bool {
         Calendar.current.isDateInToday(date)
     }
@@ -312,7 +301,7 @@ struct SessionDetailView: View {
                     signature: mechanisticSignature,
                 )
             }
-            .navigationTitle(session.title ?? "\(dayOfWeek), \(dateTitle)")
+            .navigationTitle(session.title ?? SessionDateTitle.full(date))
             .inlineNavigationTitle()
             .toolbar {
                 if !entries.isEmpty {
@@ -367,7 +356,7 @@ struct SessionDetailView: View {
             .sheet(isPresented: $showShareSession) {
                 SessionShareSheet(
                     title: session.title ?? "",
-                    dateText: "\(dayOfWeek), \(dateTitle)",
+                    dateText: SessionDateTitle.full(date),
                     entries: entries,
                     colors: Array(substanceColors),
                     stackRedoses: stackRedoses,
