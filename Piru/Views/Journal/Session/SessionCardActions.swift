@@ -106,21 +106,12 @@ private struct SessionCardActionsModifier: ViewModifier {
             .sheet(item: $model.shareTarget) { session in
                 SessionShareSheet(
                     title: session.title ?? "",
-                    dateText: Self.dateText(for: session.startDate),
+                    dateText: SessionDateTitle.full(session.startDate),
                     entries: session.orderedDoses,
                     colors: colors,
                     stackRedoses: stackRedoses,
                 )
             }
-    }
-
-    /// "Saturday, August 30" — the session detail's navigation title, so the
-    /// report shared from the card reads the same as one shared from inside.
-    private static func dateText(for date: Date) -> String {
-        let base = Date.FormatStyle.dateTime.day().month(.wide)
-        let sameYear = Calendar.current.isDate(date, equalTo: .now, toGranularity: .year)
-        let dateTitle = date.formatted(sameYear ? base : base.year())
-        return "\(date.formatted(.dateTime.weekday(.wide))), \(dateTitle)"
     }
 }
 

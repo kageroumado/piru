@@ -15,6 +15,15 @@ struct MoveToSessionView: View {
     @Query(sort: \Session.startDate, order: .reverse) private var sessions: [Session]
     @Query private var substanceColors: [SubstanceColor]
     @State private var retimeTarget: Session?
+    /// The dose's title as the journal shows it (a Concerta dose reads
+    /// "Concerta"), resolved once in `.task`.
+    @State private var resolvedName: String?
+
+    /// The resolved title, or the substance's display name for the frames
+    /// before `.task` lands.
+    private var doseName: String {
+        resolvedName ?? CustomSubstanceStore.shared.displayName(for: dose.substance)
+    }
 
     private var currentSessionID: PersistentIdentifier? {
         dose.session?.persistentModelID
@@ -64,7 +73,7 @@ struct MoveToSessionView: View {
                                 Circle()
                                     .fill(doseColor)
                                     .frame(width: 12, height: 12)
-                                Text(CustomSubstanceStore.shared.displayName(for: dose.substance))
+                                Text(doseName)
                                     .cardTitle()
                                 Spacer()
                                 Text("\(dose.amountDisplay) \(dose.unit)")
@@ -120,10 +129,14 @@ struct MoveToSessionView: View {
                 }
             }
             .skinBackdrop()
-            .navigationTitle("Move \(CustomSubstanceStore.shared.displayName(for: dose.substance))")
+            .navigationTitle("Move \(doseName)")
             .inlineNavigationTitle()
+            .task(id: dose.persistentModelID) {
+                await SubstanceStore.shared.ensureAllLoaded()
+                resolvedName = DoseTitle.resolve(for: dose)
+            }
             .navigationDestination(item: $retimeTarget) { session in
-                RetimeMoveView(dose: dose, session: session) { newDate in
+                RetimeMoveView(dose: dose, doseName: doseName, session: session) { newDate in
                     let previousTimestamp = dose.timestamp
                     dose.timestamp = newDate
                     editing.retimed(dose, from: previousTimestamp, in: modelContext)
@@ -249,12 +262,14 @@ private struct SessionTargetRow: View {
 /// choice.
 private struct RetimeMoveView: View {
     let dose: DoseEntry
+    let doseName: String
     let session: Session
     let onConfirm: (Date) -> Void
     @State private var draft: Date
 
-    init(dose: DoseEntry, session: Session, onConfirm: @escaping (Date) -> Void) {
+    init(dose: DoseEntry, doseName: String, session: Session, onConfirm: @escaping (Date) -> Void) {
         self.dose = dose
+        self.doseName = doseName
         self.session = session
         self.onConfirm = onConfirm
         let cal = Calendar.current
@@ -287,7 +302,7 @@ private struct RetimeMoveView: View {
             } header: {
                 Text("New time on \(dayLabel)")
             } footer: {
-                Text("\(CustomSubstanceStore.shared.displayName(for: dose.substance)) is logged on a different day. Pick a time within this session's day so the session stays a single day.")
+                Text("\(doseName) is logged on a different day. Pick a time within this session's day so the session stays a single day.")
             }
         }
         .navigationTitle("Set Time")

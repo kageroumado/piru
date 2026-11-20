@@ -37,7 +37,7 @@ struct EntrySessionSection: View {
     @ViewBuilder
     private func sessionRow(_ session: Session) -> some View {
         let label = EntrySessionRowLabel(
-            title: session.title ?? Self.formattedSessionDate(session.startDate),
+            title: session.title ?? SessionDateTitle.full(session.startDate),
             subtitle: Self.sessionSubtitle(session),
         )
         if sessionInNavigationPath(session) {
@@ -54,15 +54,6 @@ struct EntrySessionSection: View {
     /// links and search land here without the session, and get the link.
     private func sessionInNavigationPath(_ session: Session) -> Bool {
         navigator.path(for: navigator.selectedTab).contains(.session(id: session.id))
-    }
-
-    /// "Saturday, July 11" — the session screen's untitled-session title, so the
-    /// link previews exactly what pushing it shows.
-    static func formattedSessionDate(_ date: Date) -> String {
-        let base = Date.FormatStyle.dateTime.day().month(.wide)
-        let sameYear = Calendar.current.isDate(date, equalTo: .now, toGranularity: .year)
-        let dateTitle = date.formatted(sameYear ? base : base.year())
-        return "\(date.formatted(.dateTime.weekday(.wide))), \(dateTitle)"
     }
 
     /// "2 doses · 3h 21m" for an ended session; "2 doses · 44m ago" (since the

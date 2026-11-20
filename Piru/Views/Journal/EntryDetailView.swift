@@ -133,9 +133,7 @@ struct EntryDetailView: View {
                 draft.volumeText = ByVolumeDefaults.format(Measurement(value: value, unit: old).converted(to: new).value)
             }
             .navigationTitle(DoseTitle.resolve(for: entry))
-        #if canImport(UIKit)
-            .navigationBarTitleDisplayMode(.large)
-        #endif
+            .largeNavigationTitle()
             .animation(.snappy(duration: 0.28), value: isEditing)
             // Opening another record beside the list would drop the draft; the
             // navigator asks first while this is set.
