@@ -77,6 +77,10 @@ PROPERTY_NAMES = {
     # A releaser signature's provenance carries its assay's species, printed by
     # ClassSignatureView as `provenance.species`.
     ("functional_assays", "species"): "provenance",
+    # PKModel.DepotParameters (Shared/Engines) carries an ester's release and
+    # clearance rates into the serum curve that DepotCurveChart draws.
+    ("ester_pk", "k2"): "DepotCurveChart",
+    ("ester_pk", "k3"): "DepotCurveChart",
 }
 
 #: Columns that are plumbing, not content. They are always "used" in the sense
