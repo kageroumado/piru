@@ -61,6 +61,22 @@ PROPERTY_NAMES = {
     # ActiveMetaboliteCard shows as `potency.basis` and `potency.target`.
     ("metabolism", "metabolite_potency_basis"): "basis",
     ("metabolism", "metabolite_potency_target"): "target",
+    # SubstanceSourceLinks (Data/SubstanceDB) builds each source's page link
+    # from its slug; the substance page shows the link, never the slug.
+    ("substances", "dosewiki_slug"): "SubstanceSourceLinks",
+    ("substances", "drug_community_slug"): "SubstanceSourceLinks",
+    ("substances", "psychonautwiki_page"): "SubstanceSourceLinks",
+    ("substances", "tripsit_slug"): "SubstanceSourceLinks",
+    # ValvularWarning (Data/Pharmacology) reads the 5-HT2B affinity tier; the
+    # Safety section shows the warning it yields.
+    ("bindings", "affinity_tier"): "valvularWarning",
+    ("category_mechanism_bindings", "affinity_tier"): "valvularWarning",
+    # TargetEvidence carries the bias row's target; the deep-pharmacology
+    # section lists `model.targetEvidence`.
+    ("biased_agonism", "target"): "targetEvidence",
+    # A releaser signature's provenance carries its assay's species, printed by
+    # ClassSignatureView as `provenance.species`.
+    ("functional_assays", "species"): "provenance",
 }
 
 #: Columns that are plumbing, not content. They are always "used" in the sense
