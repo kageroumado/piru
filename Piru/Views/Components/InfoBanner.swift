@@ -12,9 +12,22 @@ struct InfoBanner<Content: View>: View {
     /// Glyph color; the only thing that encodes tone.
     let iconTint: Color
     /// The banner's headline.
-    let title: LocalizedStringKey
+    let title: Text
     /// The body beneath the title — usually one or more captions.
-    @ViewBuilder var content: Content
+    let content: Content
+
+    init(icon: String, iconTint: Color, title: LocalizedStringKey, @ViewBuilder content: () -> Content) {
+        self.init(icon: icon, iconTint: iconTint, title: Text(title), content: content)
+    }
+
+    /// For a headline that is already a `Text`: a resolved resource or a name
+    /// from the database, which must not be looked up as a catalog key.
+    init(icon: String, iconTint: Color, title: Text, @ViewBuilder content: () -> Content) {
+        self.icon = icon
+        self.iconTint = iconTint
+        self.title = title
+        self.content = content()
+    }
 
     var body: some View {
         HStack(alignment: .top, spacing: Spacing.lg) {
@@ -24,7 +37,7 @@ struct InfoBanner<Content: View>: View {
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
-                Text(title)
+                title
                     .sectionLabel()
                 content
             }
