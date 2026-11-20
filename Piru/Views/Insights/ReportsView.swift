@@ -44,8 +44,8 @@ struct ReportsView: View {
         .sheet(isPresented: $showingSessionPicker) {
             SessionPickerSheet(model: model, sessions: model.sessionSummaries)
         }
-        .sheet(item: shareItemBinding) { item in
-            ShareSheet(items: item.items)
+        .sheet(item: $model.shareRequest) { request in
+            ShareSheet(items: request.items)
         }
     }
 
@@ -135,7 +135,7 @@ struct ReportsView: View {
                 description: "Your entries, your meds and dose trends, as one document",
             ) {
                 #if canImport(UIKit)
-                    await generateJournalSummary()
+                    await exportJournalSummaryAction()
                 #endif
             }
 
@@ -274,102 +274,13 @@ struct ReportsView: View {
     // MARK: - Export actions
 
     #if canImport(UIKit)
-        private func generateJournalSummary() async {
+        private func exportJournalSummaryAction() async {
             model.isExporting = true
             defer { model.isExporting = false }
-
-            let range = model.reportDateRange
-            let filteredEntries = allEntries.filter {
-                $0.timestamp >= range.start && $0.timestamp <= range.end
-                    && model.isSubstanceIncluded($0.substance)
-            }
-
-            let entrySnapshots = filteredEntries.map { entry in
-                PDFReportGenerator.EntrySnapshot(
-                    substance: entry.substance,
-                    amount: entry.amount,
-                    unit: entry.unit,
-                    route: entry.route.displayName,
-                    timestamp: entry.timestamp,
-                    notes: entry.notes,
-                    isUnknownDose: entry.isUnknownDose,
-                    identityKey: entry.identityKey,
-                    routeRaw: entry.route.rawValue,
-                    substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),
-                    halfLifeMinutes: SubstanceLibrary.lookup(entry.substance)?.halfLifeMinutes,
-                    combinationName: entry.combinationName,
-                )
-            }
-
-            let products = CustomSubstanceStore.shared.productMeds
-            let doseSnapshots = dailyItems.map { item in
-                PDFReportGenerator.DailyDoseSnapshot(
-                    substance: item.substance,
-                    amount: item.amount,
-                    unit: item.unit,
-                    route: item.route.displayName,
-                    sortOrder: item.sortOrder,
-                    identityKey: item.identityKey,
-                    routeRaw: item.route.rawValue,
-                    product: products[item.substance.lowercased()],
-                )
-            }
-
-            let substances = Array(Set(filteredEntries.map(\.substance)))
-            let interactions = InteractionChecker.checkBatch(substances, against: filteredEntries, policy: .warn)
-            let interactionSnapshots = interactions.map { i in
-                PDFReportGenerator.InteractionSnapshot(
-                    severity: i.severity,
-                    substanceA: i.substanceA,
-                    substanceB: i.substanceB,
-                    description: i.description,
-                    drugClassesA: InteractionChecker.drugClasses(for: i.substanceA),
-                    drugClassesB: InteractionChecker.drugClasses(for: i.substanceB),
-                )
-            }
-
-            let tintMap = Array(substanceColors).tintMap
-            let journalSummary = SummaryStatsResolver.report(
-                entries: filteredEntries, tintMap: tintMap, start: range.start, end: range.end,
+            let url = await model.exportJournalSummary(
+                entries: allEntries, dailyItems: dailyItems, colors: substanceColors,
             )
-
-            let compressedRaw = interactionSnapshots.map {
-                (
-                    severity: $0.severity,
-                    substanceA: $0.substanceA,
-                    substanceB: $0.substanceB,
-                    description: $0.description,
-                    drugClassesA: $0.drugClassesA,
-                    drugClassesB: $0.drugClassesB,
-                )
-            }
-            let compressed = SummaryStats.compressInteractions(compressedRaw)
-            let findings = SummaryStats.findings(report: journalSummary, interactions: compressed)
-
-            var data = PDFReportGenerator.ReportData(
-                entries: entrySnapshots,
-                dailyDoseItems: doseSnapshots,
-                interactions: interactionSnapshots,
-                startDate: range.start,
-                endDate: range.end,
-                notes: model.notes,
-                patientName: model.patientName,
-            )
-            data.clinical = journalSummary
-            data.findings = findings
-            data.compressedInteractions = compressed
-
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            let filename = "Piru Report \(formatter.string(from: .now)).pdf"
-            let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
-
-            await Task.detached {
-                let pdfData = PDFReportGenerator.generate(from: data)
-                try? pdfData.write(to: url)
-            }.value
-
-            model.shareItems = [url]
+            model.shareRequest = .init(items: [url])
         }
     #endif
 
@@ -385,9 +296,9 @@ struct ReportsView: View {
         guard !images.isEmpty else { return }
 
         if stitched, let composite = model.exportStitchedImage(images) {
-            model.shareItems = [composite]
+            model.shareRequest = .init(items: [composite])
         } else {
-            model.shareItems = images
+            model.shareRequest = .init(items: images)
         }
     }
 
@@ -397,13 +308,13 @@ struct ReportsView: View {
 
         let md = await model.exportMarkdown(sessions: selectedSessionObjects, colors: substanceColors)
         guard !md.isEmpty else { return }
-        model.shareItems = [md]
+        model.shareRequest = .init(items: [md])
     }
 
     private func exportTripReportsAction() async {
         let md = model.exportTripReports(sessions: selectedSessionObjects)
         guard !md.isEmpty else { return }
-        model.shareItems = [md]
+        model.shareRequest = .init(items: [md])
     }
 
     // MARK: - Helpers
@@ -411,20 +322,6 @@ struct ReportsView: View {
     private var selectedSessionObjects: [Session] {
         sessions.filter { model.selectedSessions.contains($0.id) }
     }
-
-    private var shareItemBinding: Binding<ShareableItems?> {
-        Binding(
-            get: { model.shareItems.map { ShareableItems(items: $0) } },
-            set: { _ in model.shareItems = nil },
-        )
-    }
-}
-
-// MARK: - ShareableItems
-
-private struct ShareableItems: Identifiable {
-    let id = UUID()
-    let items: [Any]
 }
 
 // MARK: - Session Picker Sheet
