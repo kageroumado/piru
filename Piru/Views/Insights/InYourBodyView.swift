@@ -2,8 +2,7 @@ import Charts
 import SwiftData
 import SwiftUI
 
-/// Unified "In Your Body" screen — merges the former two-screen split ("In your
-/// system" + "In your body over time") into one scrollable view:
+/// The "In Your Body" screen, one scrollable view:
 ///
 /// 1. Body-load chart (historic PK curves per substance)
 /// 2. Currently active substance cards (remaining amount + decay bar)

@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Effects — curated subjective effects read as a short summary; the full
-/// PsychonautWiki taxonomy lives one tap away on `AllEffectsView`. Its own
+/// PsychonautWiki taxonomy lives one tap away on `EffectsAndIntensityView`. Its own
 /// invalidation boundary keyed on the substance, the disclosure policy, and the
 /// "show all" navigation flag.
 struct EffectsSection: View {

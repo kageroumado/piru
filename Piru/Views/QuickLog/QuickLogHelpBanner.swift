@@ -24,10 +24,9 @@ struct QuickLogHelpBanner: View {
             Divider()
 
             VStack(alignment: .leading, spacing: Spacing.sm) {
-                helpBannerLink(title: "Emergency: 911", url: "tel:911")
-                helpBannerLink(title: "Poison Control: 1-800-222-1222", url: "tel:18002221222")
-                helpBannerLink(title: "Crisis Lifeline: 988", url: "tel:988")
-                helpBannerLink(title: "Crisis Text: HOME to 741741", url: "sms:741741&body=HOME")
+                ForEach(HelpView.services(for: HelpView.regionCode)) { service in
+                    helpBannerLink(service)
+                }
             }
 
             Text("Breathe slowly. 4 seconds in, hold for 4, out for 4.")
@@ -39,15 +38,15 @@ struct QuickLogHelpBanner: View {
     }
 
     @ViewBuilder
-    private func helpBannerLink(title: LocalizedStringKey, url: String) -> some View {
-        if let destination = URL(string: url) {
+    private func helpBannerLink(_ service: HelpView.EmergencyService) -> some View {
+        if let destination = URL(string: service.url) {
             Link(destination: destination) {
                 HStack(spacing: Spacing.sm) {
-                    Image(systemName: "phone.fill")
+                    Image(systemName: service.systemImage)
                         .font(.caption)
                         .foregroundStyle(.infoText)
                         .accessibilityHidden(true)
-                    Text(title)
+                    Text(verbatim: "\(String(localized: service.title)): \(service.detail)")
                         .font(.subheadline.weight(.medium))
                         .foregroundStyle(.primary)
                 }

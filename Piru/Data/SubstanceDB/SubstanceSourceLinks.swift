@@ -83,9 +83,9 @@ enum SubstanceSourceLinks {
         return hasIdentifier ? [.chemistry] : []
     }
 
-    /// A tidy display name for a citation that lacks a title — the bare URL
-    /// (the old `Citation.label` fallback) reads as clutter, so name the work
-    /// (TiHKAL / PiHKAL) when recognisable, else show the host.
+    /// A tidy display name for a citation that lacks a title — a bare URL
+    /// reads as clutter, so name the work (TiHKAL / PiHKAL) when recognizable,
+    /// else show the host.
     static func friendlyReferenceLabel(_ ref: Citation) -> String {
         if let title = ref.title, !title.isEmpty { return title }
         if let doi = ref.doi, !doi.isEmpty { return "DOI \(doi)" }
@@ -196,5 +196,26 @@ enum SubstanceSourceLinks {
         if lhs.isEmpty { return rhs }
         let combined = Set(lhs).union(rhs)
         return SubstanceStore.SourceFacet.displayOrder.filter(combined.contains)
+    }
+}
+
+/// One row in the merged "Sources" list — a contributing database or a piece of
+/// primary literature, deep-linked to this substance's page where one exists,
+/// paired with what it actually supplied for *this* compound.
+struct DetailSourceLink: Identifiable {
+    let label: String
+    var url: URL?
+    /// Which parts of the page this row is behind, most substantive first.
+    /// Empty when the caller didn't load the contribution ledger, and for
+    /// literature attached to the compound in general rather than to one fact.
+    var provides: [SubstanceStore.SourceFacet] = []
+    /// Content license for a copyleft source (CC BY-SA 4.0), shown beside the
+    /// name. `nil` for sources that carry no such obligation.
+    var license: String?
+
+    /// The merged list holds one row per label, compared without case, so the
+    /// label names the row across rebuilds.
+    var id: String {
+        label.lowercased()
     }
 }

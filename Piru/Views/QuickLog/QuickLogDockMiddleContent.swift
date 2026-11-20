@@ -183,7 +183,7 @@ struct DockMiddleContent: View {
             // Match the card's names, not its id — the id is an opaque
             // substance-identity key (a PSID uid), so filtering on it would miss
             // a resolved card by its own name. Matching the product/form title
-            // too makes a Concerta recents chip findable by "concerta" (D.1.6).
+            // too makes a Concerta recents chip findable by "concerta".
             .filter { card in
                 card.substanceName.lowercased().contains(query)
                     || card.title?.lowercased().contains(query) == true
@@ -216,7 +216,7 @@ struct DockMiddleContent: View {
     }
 
     /// The custom entries whose canonical name OR personal display name holds
-    /// the query, so a relabelled substance is findable by the name the user
+    /// the query, so a relabeled substance is findable by the name the user
     /// gave it. Entries already covered by a recent card or a library hit are
     /// left out.
     private var matchingCustomEntries: [CustomSubstanceEntry] {

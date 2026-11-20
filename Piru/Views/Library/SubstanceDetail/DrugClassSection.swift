@@ -6,7 +6,7 @@ import SwiftUI
 /// The card exists because the classes are the most-used and least-explained
 /// words in this corner of pharmacology. Naming this drug's class alone would be
 /// a dictionary entry; the family beside it is what makes it an answer, because
-/// every class is defined by what the neighbouring ones do differently.
+/// every class is defined by what the neighboring ones do differently.
 ///
 /// Gated on the compound being an antidepressant as well as on carrying a
 /// curated class. The curated column is antidepressants-only today, and the gate
@@ -56,7 +56,7 @@ struct DrugClassSection: View {
 }
 
 /// One class: the acronym, what it expands to, and the line that separates it
-/// from its neighbours. The substance's own class is tinted and marked; the rest
+/// from its neighbors. The substance's own class is tinted and marked; the rest
 /// carry the same content at secondary weight, because the comparison is the
 /// point and a collapsed sibling would defeat it.
 private struct DrugClassRow: View {

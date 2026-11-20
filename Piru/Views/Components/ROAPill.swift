@@ -1,12 +1,10 @@
 import SwiftUI
 
 /// The route-of-administration badge — a fixed-per-route tinted capsule ("oral")
-/// that reads identically everywhere it appears. Extracted so the casing, padding,
-/// and font can't drift between call sites (they had: the dose row lowercased at
-/// `.caption2`/8·3, while the detail hero and the Journal active-session row
-/// capitalized at `.caption`/10·5).
+/// that reads identically everywhere it appears: one place owns the casing,
+/// padding, and font for every call site.
 ///
-/// Casing is unified **lowercase** to match the row's sibling chips (the strength
+/// Casing is **lowercase** to match the row's sibling chips (the strength
 /// tier "common"/"sub-threshold" and the interaction-severity chip), so route,
 /// strength, and severity read as one lowercase badge grammar. Size is
 /// configurable for dense rows vs. standalone hero placements.

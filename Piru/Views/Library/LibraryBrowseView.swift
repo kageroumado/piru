@@ -81,12 +81,11 @@ struct LibraryBrowseView: View {
     }
 
     private func rebuildFavorites() {
-        // Exact canonical lookup only. Alias fallback was tempting (so a favorite
-        // under a since-merged name like "Magnesium" still resolves), but some
-        // aliases are polluted in the data — "magnesium" is also an alias of
-        // Salicylic acid — so it mis-resolves. Paired with `total =
-        // favoriteSubstances.count` this keeps the card's count honest instead.
-        favoriteSubstances = favorites.compactMap { SubstanceLibrary.resolveFull($0.substance) }
+        // The card shows titles and a count, so the batch shell serves it; the
+        // full resolve covers custom-only favorites the batch cache lacks.
+        favoriteSubstances = favorites.compactMap {
+            SubstanceLibrary.shell($0.substance) ?? SubstanceLibrary.resolveFull($0.substance)
+        }
     }
 
     private func toggle(_ id: String) {
@@ -252,10 +251,10 @@ private struct LibraryFamilyCard: View {
 
     // MARK: Pieces
 
-    /// `chevron` is the trailing affordance: `chevron.right` on cards that push a
-    /// screen (Apple's "navigates" cue), `chevron.down` (with `rotates`) on the
-    /// expand-in-place umbrellas. The umbrella's pushing sub-rows keep their own
-    /// right chevron.
+    /// `chevron` is the trailing affordance, `chevron.right` on every card: fixed
+    /// on cards that push a screen (Apple's "navigates" cue), turning down (with
+    /// `rotates`) while an expand-in-place umbrella is open. The umbrella's
+    /// pushing sub-rows keep their own right chevron.
     private func header(chevron: String?, rotates: Bool = false, count: Int? = nil) -> some View {
         HStack(alignment: .top, spacing: 0) {
             VStack(alignment: .leading, spacing: Spacing.xs) {

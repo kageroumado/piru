@@ -283,7 +283,7 @@ struct QuickLogView: View {
             ScrollView {
                 // The scroll content is a closure-free child, so a search
                 // keystroke, which re-runs this body through
-                // `searchText`/`dockResults`, doesn't cascade into every card.
+                // `searchText`, doesn't cascade into every card.
                 // See ``QuickLogCardList``.
                 QuickLogCardList(content: content, tray: tray)
                     .padding(.horizontal)
@@ -439,7 +439,7 @@ struct QuickLogView: View {
         if let combination = CustomSubstanceStore.shared.combination(named: name) {
             // A combination stages one row per component; the amount counts
             // units of the product (two co-codamol), never milligrams — or,
-            // for a liquid, millilitres of it. A liquid opened with no amount
+            // for a liquid, milliliters of it. A liquid opened with no amount
             // lands on its volume field.
             withAnimation(.snappy) {
                 if combination.isLiquidCombination {
@@ -650,5 +650,3 @@ struct QuickLogView: View {
         }
     }
 }
-
-// MARK: - Dock Sheet Host

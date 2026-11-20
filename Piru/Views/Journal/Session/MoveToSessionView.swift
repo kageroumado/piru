@@ -11,6 +11,7 @@ struct MoveToSessionView: View {
     let dose: DoseEntry
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.sessionEditingService) private var editing
     @Query(sort: \Session.startDate, order: .reverse) private var sessions: [Session]
     @Query private var substanceColors: [SubstanceColor]
     @State private var retimeTarget: Session?
@@ -119,13 +120,13 @@ struct MoveToSessionView: View {
                 }
             }
             .skinBackdrop()
-            .navigationTitle("Move \(dose.substance)")
+            .navigationTitle("Move \(CustomSubstanceStore.shared.displayName(for: dose.substance))")
             .inlineNavigationTitle()
             .navigationDestination(item: $retimeTarget) { session in
                 RetimeMoveView(dose: dose, session: session) { newDate in
                     let previousTimestamp = dose.timestamp
                     dose.timestamp = newDate
-                    DoseNotificationManager.doseRescheduled(entry: dose, previousTimestamp: previousTimestamp)
+                    editing.retimed(dose, from: previousTimestamp, in: modelContext)
                     move(to: session)
                 }
             }

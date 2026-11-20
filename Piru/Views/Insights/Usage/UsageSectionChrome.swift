@@ -86,7 +86,7 @@ enum UsageAxes {
     static let doseLevelOrder: [Int] = [0, 1, 2, 3, 4, 5]
 }
 
-// MARK: - Substance labelling
+// MARK: - Substance labeling
 
 /// Resolves a substance index to the name and color every section needs.
 ///

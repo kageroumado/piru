@@ -336,8 +336,7 @@ struct MyMedsCard: View {
     /// Undo a logged dose: delete the dose that ticked this slot (else
     /// today's most-recent one matching its med) and drop it from the live
     /// session. The check-circle toggles, so an accidental tap-to-log is
-    /// reversed by tapping the circle again — the whole-row log with no undo
-    /// was the reported surprise.
+    /// reversed by tapping the circle again.
     private func unlog(_ slot: MedSlot) {
         guard let item = liveItem(for: slot) else { return }
         let matching = todayEntries.filter { AdherenceCalculator.entryMatches(entry: $0, item: item) }
@@ -345,18 +344,7 @@ struct MyMedsCard: View {
             ?? matching.max(by: { $0.timestamp < $1.timestamp })
         else { return }
 
-        let id = entry.id
-        let timestamp = entry.timestamp
-        let session = entry.session
-        modelContext.delete(entry)
-        session?.refreshDoseBounds()
-        ActiveSessionManager.shared.removeDose(
-            id: id,
-            substanceName: item.substance,
-            timestamp: timestamp,
-            allColors: Array(substanceColors),
-        )
-        DoseLogService.shared.changed()
+        SessionEditingService.shared.delete(entry, in: modelContext)
     }
 
     // MARK: Helpers

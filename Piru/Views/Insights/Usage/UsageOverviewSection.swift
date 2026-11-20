@@ -9,15 +9,18 @@ struct UsageOverviewSection: View {
     let overview: UsageOverview
     let range: UsageTimeRange
 
-    private let columns = [GridItem(.flexible(), spacing: Spacing.xl), GridItem(.flexible(), spacing: Spacing.xl)]
-
     var body: some View {
-        LazyVGrid(columns: columns, spacing: Spacing.xl) {
-            periodCard
-            substancesCard
-            averageCard
-            intensityCard
+        VStack(spacing: Spacing.xl) {
+            row { periodCard; substancesCard }
+            row { averageCard; intensityCard }
         }
+    }
+
+    /// Two cards side by side at one height: the row takes its tallest card's
+    /// height and the other stretches to it, so their titles share a baseline.
+    private func row(@ViewBuilder _ cards: () -> some View) -> some View {
+        HStack(alignment: .top, spacing: Spacing.xl) { cards() }
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     // MARK: This period
@@ -198,7 +201,7 @@ private struct UsageOverviewCard<Art: View>: View {
             }
             art()
         }
-        .frame(maxWidth: .infinity, minHeight: 92, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: 92, maxHeight: .infinity, alignment: .topLeading)
         .padding(Spacing.xl)
         .themeCard(cornerRadius: Theme.CornerRadius.container)
         .accessibilityElement(children: .ignore)

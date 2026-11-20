@@ -4,8 +4,8 @@ import SwiftUI
 /// `.sheet(item:)` modifier per depth level. Each level binds to its own
 /// stack index so SwiftUI's identity-preserving sheet diffing works normally.
 ///
-/// We cap the visible depth at ``maxDepth`` to avoid pathological deep stacks
-/// that iOS doesn't render reliably anyway.
+/// The visible depth is capped at ``AppNavigator/maxSheetDepth``: iOS doesn't
+/// render deeper stacks reliably.
 struct SheetStackPresenter: ViewModifier {
     @Bindable var navigator: AppNavigator
 

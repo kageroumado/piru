@@ -55,7 +55,7 @@ struct TransporterTernaryView: View {
                 //
                 // Per-transporter percentages are deliberately absent. The triangle's
                 // point is the *position*: which corner a compound leans to and how
-                // far it sits from its neighbours. "DAT 33% · NET 66% · SERT 1%"
+                // far it sits from its neighbors. "DAT 33% · NET 66% · SERT 1%"
                 // reads as a measured composition when it is a normalized reciprocal
                 // of three half-max concentrations, and that much precision invites
                 // arithmetic the numbers cannot support.

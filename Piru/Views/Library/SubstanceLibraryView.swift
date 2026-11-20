@@ -148,41 +148,9 @@ private struct SubstanceSearchResultsList: View {
                         .sectionLabel()
                         .accessibilityAddTraits(.isHeader)
 
-                    helpLink(
-                        icon: "phone.fill",
-                        color: .red,
-                        title: "Emergency Services",
-                        detail: "Call 911 (US) or your local emergency number",
-                        url: "tel:911",
-                    )
-                    helpLink(
-                        icon: "cross.case.fill",
-                        color: .orange,
-                        title: "Poison Control",
-                        detail: "1-800-222-1222 (US)",
-                        url: "tel:18002221222",
-                    )
-                    helpLink(
-                        icon: "phone.badge.waveform.fill",
-                        color: .purple,
-                        title: "988 Suicide & Crisis Lifeline",
-                        detail: "Call or text 988",
-                        url: "tel:988",
-                    )
-                    helpLink(
-                        icon: "message.fill",
-                        color: .green,
-                        title: "Crisis Text Line",
-                        detail: "Text HOME to 741741",
-                        url: "sms:741741&body=HOME",
-                    )
-                    helpLink(
-                        icon: "heart.fill",
-                        color: .pink,
-                        title: "SAMHSA Helpline",
-                        detail: "1-800-662-4357 · Free, confidential, 24/7",
-                        url: "tel:18006624357",
-                    )
+                    ForEach(HelpView.services(for: HelpView.regionCode)) { service in
+                        helpLink(service)
+                    }
                 }
 
                 Divider()
@@ -206,19 +174,19 @@ private struct SubstanceSearchResultsList: View {
     }
 
     @ViewBuilder
-    private func helpLink(icon: String, color: Color, title: LocalizedStringKey, detail: LocalizedStringKey, url: String) -> some View {
-        if let destination = URL(string: url) {
+    private func helpLink(_ service: HelpView.EmergencyService) -> some View {
+        if let destination = URL(string: service.url) {
             Link(destination: destination) {
                 HStack(spacing: Spacing.lg) {
-                    Image(systemName: icon)
-                        .foregroundStyle(color)
+                    Image(systemName: service.systemImage)
+                        .foregroundStyle(service.tint)
                         .frame(width: 24)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 1) {
-                        Text(title)
+                        Text(service.title)
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(.primary)
-                        Text(detail)
+                        Text(verbatim: service.detail)
                             .captionSecondary()
                     }
                     Spacer()
@@ -324,8 +292,7 @@ struct SubstanceCategoryListView: View {
     }
 
     /// Resolved + sorted once per (category/tag/sort/favorites) change, not per
-    /// body. `substances(in:)`/`(taggedWith:)` and the sort were re-running on
-    /// every body pass; the sort is O(n log n) over a full category.
+    /// body: the sort is O(n log n) over a full category.
     @State private var sortedSubstances: [Substance] = []
     /// Favorite name set, cached so the per-row swipe action doesn't rebuild it.
     @State private var favoriteNames: Set<String> = []
@@ -434,8 +401,7 @@ struct SubstanceCategoryListView: View {
                             } label: {
                                 HStack(spacing: Spacing.xs) {
                                     // The label says what is behind the tap and
-                                    // how much of it. "The groups within it"
-                                    // said neither.
+                                    // how much of it.
                                     classLink.label
                                     Image(systemName: "chevron.right")
                                         .font(.caption2.weight(.semibold))
@@ -587,7 +553,7 @@ struct SubstanceRowView: View {
     }
 }
 
-// MARK: - Substance Detail
+// MARK: - Substance Tag Flow
 
 /// Renders a substance's class metadata tags as a wrapping row of small
 /// capsule chips. Tags carry mechanism, chemical family, provenance, and

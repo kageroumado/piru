@@ -645,10 +645,10 @@ struct InteractionTimelineView: View {
                 let h = Int(hours)
                 return String(localized: "\(h)h")
             }
-            return String(localized: "\(String(format: "%.1f", hours))h")
+            return String(localized: "\(hours.formatted(.number.precision(.fractionLength(1))))h")
         }
         let days = hours / 24
-        return String(localized: "\(String(format: "%.1f", days)) days")
+        return String(localized: "\(days.formatted(.number.precision(.fractionLength(1)))) days")
     }
 
     private func formatHours(_ hours: Double) -> String {
@@ -660,6 +660,6 @@ struct InteractionTimelineView: View {
             let h = Int(hours)
             return String(localized: "\(h)h")
         }
-        return String(localized: "\(String(format: "%.1f", hours))h")
+        return String(localized: "\(hours.formatted(.number.precision(.fractionLength(1))))h")
     }
 }

@@ -155,7 +155,7 @@ struct EntryLevelEstimateCard: View {
                 let h = Int(hours)
                 return String(localized: "\(h)h ago")
             }
-            return String(localized: "\(String(format: "%.1f", hours))h ago")
+            return String(localized: "\(hours.formatted(.number.precision(.fractionLength(1))))h ago")
         }
         let d = Int(hours / 24)
         return String(localized: "\(d)d ago")

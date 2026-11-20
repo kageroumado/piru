@@ -18,7 +18,7 @@ but the build captured no page slug, so the attribution row is dead text
 
 So this checker builds the SAME URL the app builds (mirroring
 `Piru/Data/SubstanceDB/AppSources.swift` +
-`Piru/Views/Library/SubstanceDetail/SubstanceSourceLinks.swift`), fetches it, and
+`Piru/Data/SubstanceDB/SubstanceSourceLinks.swift`), fetches it, and
 asserts it is neither the site root nor the host's error page, and that it names
 the substance.
 

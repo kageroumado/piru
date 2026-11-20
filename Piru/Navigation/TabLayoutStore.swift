@@ -90,7 +90,7 @@ final class TabLayoutStore {
         }
     }
 
-    /// Names the user gave tabs, by storage key. A tab without one is labelled
+    /// Names the user gave tabs, by storage key. A tab without one is labeled
     /// with its own title. Some titles are long for a tab bar ("Modeled
     /// Tolerance"), and the titles themselves stay as they are, so the user
     /// can shorten them here instead.

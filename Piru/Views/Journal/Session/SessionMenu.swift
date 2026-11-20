@@ -129,16 +129,8 @@ struct SessionMenu: View {
             }
         }
         guard pivotIndex > 0, widest > SessionClustering.Constants.floor else { return nil }
-        return (doses[pivotIndex], gapFormatter.string(from: widest) ?? "")
+        return (doses[pivotIndex], widest.durationHM)
     }
-
-    /// Compact "3h 10m" style formatter for the longest-break label.
-    private static let gapFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
-        formatter.unitsStyle = .abbreviated
-        return formatter
-    }()
 
     /// Per-session check-in cadence: off, or one of the cadences. Changing it
     /// reschedules from the latest dose.

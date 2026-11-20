@@ -28,9 +28,7 @@ struct DockSearchBar: View {
                 TextField(text: $searchText, prompt: prompt) { Text("Search") }
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
-                #if canImport(UIKit)
-                    .textInputAutocapitalization(.never)
-                #endif
+                    .neverAutocapitalize()
                     .focused($searchFocused)
                     .accessibilityLabel("Search substances")
                 if !searchText.isEmpty {

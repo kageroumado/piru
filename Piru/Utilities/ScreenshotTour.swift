@@ -69,6 +69,9 @@
         /// in ``catalog``, so a name is stable when only a subset is captured.
         struct Screen {
             let name: String
+            /// The persona whose seed this screen shows; `nil` for a screen every
+            /// persona fills. A pass under another persona leaves it out.
+            var persona: String?
             let stage: @MainActor (Stage) async -> Void
         }
 
@@ -204,17 +207,17 @@
             Screen(name: "hormone-levels") { stage in
                 stage.push(.insight(.hormoneLevels), in: .insights)
             },
-            // The profile screens below need `--persona sharedNight`, which
-            // seeds Alice and Bob and the night the three of them shared.
             Screen(name: "profiles") { stage in
                 stage.tab(.journal)
                 stage.present(.profiles)
             },
-            Screen(name: "shared-session") { stage in
+            // `sharedNight` seeds Alice and Bob and the night the three of them
+            // shared: `pipeline/screenshots.py --persona sharedNight`.
+            Screen(name: "shared-session", persona: "sharedNight") { stage in
                 guard let id = stage.sessionID(titled: "Kitchen disco") else { return }
                 stage.push(.session(id: id), in: .journal)
             },
-            Screen(name: "shared-peek") { stage in
+            Screen(name: "shared-peek", persona: "sharedNight") { stage in
                 guard let session = stage.session(titled: "Kitchen disco"),
                       let experience = session.sharedExperienceID,
                       let other = ProfileDirectory.shared.profiles.first(where: { !$0.isOwner })
@@ -222,7 +225,7 @@
                 stage.push(.session(id: session.id), in: .journal)
                 stage.present(.sharedSessionPeek(experienceID: experience, profileID: other.id))
             },
-            Screen(name: "add-people") { stage in
+            Screen(name: "add-people", persona: "sharedNight") { stage in
                 guard let id = stage.sessionID(titled: "Kitchen disco") else { return }
                 stage.push(.session(id: id), in: .journal)
                 stage.present(.addPeople(sessionID: id))
@@ -323,6 +326,11 @@
                 } else {
                     "skins/\(skin.rawValue)/\(stem)-\(skin.rawValue).png"
                 }
+                if let needed = screen.persona, needed != argument(after: "-piruPersona") {
+                    report.skipped.append(file)
+                    print("ScreenshotTour: [\(index)/\(total)] \(file) skipped — needs -piruPersona \(needed)")
+                    return
+                }
                 await stage.reset()
                 await screen.stage(stage)
                 try? await Task.sleep(for: .seconds(settle))
@@ -371,8 +379,13 @@
             print("ScreenshotTour: done — \(report.captured.count) captured, \(report.failed.count) failed, \(report.skipped.count) skipped")
         }
 
+        /// The screens a pass captures: the named ones, or every screen the
+        /// running persona fills.
         private static func select(_ names: [String]?, from catalog: [Screen]) -> [Screen] {
-            guard let names, names != ["all"] else { return catalog }
+            guard let names, names != ["all"] else {
+                let persona = argument(after: "-piruPersona")
+                return catalog.filter { $0.persona == nil || $0.persona == persona }
+            }
             let unknown = names.filter { name in !catalog.contains { $0.name == name } }
             if !unknown.isEmpty {
                 print("ScreenshotTour: unknown screens \(unknown) — known: \(catalog.map(\.name).joined(separator: ", "))")

@@ -8,7 +8,7 @@ import SwiftUI
 // per-substance fold (``SubstanceDetailModel/foldActiveMetabolites(from:)``
 // skips every row carrying a `conditional_combination_id`) and surface only
 // here, where the co-drug can be seen in the same session and named in the
-// copy. One fact, one place; before this the two features disagreed on screen.
+// copy. One fact, one place.
 
 /// Resolves the combination metabolites forming around one logged dose, off the
 /// render path.

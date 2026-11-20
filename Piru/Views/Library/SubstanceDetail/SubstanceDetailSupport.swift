@@ -1,22 +1,6 @@
 import SwiftData
 import SwiftUI
 
-/// One row in the merged "Sources" list — a contributing database or a piece of
-/// primary literature, deep-linked to this substance's page where one exists,
-/// paired with what it actually supplied for *this* compound.
-struct DetailSourceLink: Identifiable {
-    let id = UUID()
-    let label: String
-    var url: URL?
-    /// Which parts of the page this row is behind, most substantive first.
-    /// Empty when the caller didn't load the contribution ledger, and for
-    /// literature attached to the compound in general rather than to one fact.
-    var provides: [SubstanceStore.SourceFacet] = []
-    /// Content license for a copyleft source (CC BY-SA 4.0), shown beside the
-    /// name. `nil` for sources that carry no such obligation.
-    var license: String?
-}
-
 /// The one folded-section look used across the whole substance screen — a
 /// `DisclosureGroup` with a semibold subheadline label and an optional count
 /// badge. Extracted so Mechanism, Receptor Literature, Info, Chemistry and the
@@ -355,11 +339,3 @@ struct SourceAttributionExplainer: View {
         }
     }
 }
-
-// MARK: - Receptor Literature Row
-
-// Single binding row inside the "Receptor Literature" disclosure.
-// Each row shows the target, action, Ki or EC50 value, optional species,
-// source slug, and a PMID/DOI affordance so the user can verify the claim.
-
-// MARK: - Substance Tag Flow

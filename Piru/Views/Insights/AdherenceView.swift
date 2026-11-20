@@ -462,7 +462,7 @@ struct AdherenceCalendarCell: View {
 }
 
 /// One half of the day's disc, cut vertically. Two of these fill the same
-/// square, so the seam lands dead centre and the halves never drift apart.
+/// square, so the seam lands dead center and the halves never drift apart.
 private nonisolated struct HalfDisc: Shape {
     enum Side {
         case leading

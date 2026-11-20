@@ -108,7 +108,7 @@ enum SessionResolveModel {
             // is the immediate-release one — so an extended-release dose would be
             // simulated as if it landed all at once, and the whole session's
             // estimate would inherit that. A dose whose form we decline to model
-            // is left out rather than modelled wrong.
+            // is left out rather than modeled wrong.
             guard !entry.namesUnmodeledForm else { return nil }
             // Only a known mass drives the model: no amount, or an mL / IU amount, is no simulated dose.
             guard case let .mass(dose)? = entry.quantity else { return nil }

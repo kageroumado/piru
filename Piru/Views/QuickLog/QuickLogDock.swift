@@ -185,7 +185,9 @@ struct QuickLogDock: View {
     /// Height of the quick-log cover — caps the compact detent so a tall
     /// stack never pushes it past medium.
     var containerHeight: CGFloat
-    /// Owned by the cover, which clears the cards behind the dock by its height.
+    /// Live sheet geometry, owned by the cover, which clears the cards behind
+    /// the dock by its height. An `@Observable` box so per-frame drag updates
+    /// don't re-evaluate this whole body (see ``DockSheetGeometry``).
     let geometry: DockSheetGeometry
     @Binding var searchText: String
     @Binding var searchActive: Bool
@@ -210,9 +212,6 @@ struct QuickLogDock: View {
         tray.isEmpty && geometry.isHeightBare
     }
 
-    // Live sheet geometry — an `@Observable` box so per-frame drag updates
-    // don't re-evaluate this whole body (see ``DockSheetGeometry``).
-
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -228,7 +227,7 @@ struct QuickLogDock: View {
     /// ``DockDetentBookkeeping``.
     @State private var bookkeeping = DockDetentBookkeeping()
     /// The dock is animating down to the bare pill after its content emptied
-    /// (last dose deleted, search cancelled with nothing staged). While set,
+    /// (last dose deleted, search canceled with nothing staged). While set,
     /// the browse suggestions stay unmounted: the shrink passes through
     /// "empty tray, still tall" — exactly the resting *browse* shape — and
     /// letting the family pills pop in for those few frames read as a flash
@@ -486,7 +485,7 @@ struct QuickLogDock: View {
         .transaction(value: tray.isEmpty) { $0.animation = nil }
         .animation(.snappy, value: isBare)
         // Presentation configuration (detents, clear background, background
-        // interaction) is applied by `QuickLogView` at the sheet closure's
+        // interaction) is applied by `DockSheetHost` at the sheet closure's
         // root — attached in here it competes with the nested `.sheet`/
         // `.fullScreenCover` wrappers layered on top of this view. The
         // onChange/onAppear behavior handlers live on `dockContent`.
@@ -1056,17 +1055,16 @@ struct QuickLogDock: View {
 
     /// Animate a pure selection move on the next runloop turn. In-update
     /// moves share the triggering content mutation's transaction and snap —
-    /// see ``swapDetents(to:selecting:)``. The target must already be a
-    /// member of ``detents``.
+    /// see ``applyDetents(_:selecting:height:onSettled:)``. The target must
+    /// already be a member of ``detents``.
     private func moveDetent(to selection: PresentationDetent, height: CGFloat? = nil) {
         applyDetents(detents, selecting: selection, height: height)
     }
 
     private func settleDetent() {
         if tray.isEmpty {
-            // Full empty set as the target — search may have capped the set
-            // at medium (see ``enterSearchDetents()``), and the resting bare
-            // dock must offer `.large` again for browse drags.
+            // Full empty set as the target: the resting bare dock must offer
+            // `.large` for browse drags.
             applyDetents(
                 QuickLogDockMetrics.emptyDetents,
                 selecting: QuickLogDockMetrics.peekDetent,

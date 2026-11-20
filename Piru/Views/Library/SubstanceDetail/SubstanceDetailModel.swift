@@ -103,11 +103,6 @@ final class SubstanceDetailModel {
     /// The substance's 2D skeleton, drawn faint behind the whole screen.
     var moleculeStructure: MoleculeStructure?
 
-    /// drug.community intensity bands. Loaded here rather than in the Effects
-    /// section because the **dose card** now owns the dial: dose and effect are
-    /// one control, so they must read one copy of the data.
-    var spectrumBands: [SpectrumBand] = []
-
     /// O(n) dose-history aggregates for the history card.
     var historyStats = HistoryStats()
 
@@ -128,9 +123,6 @@ final class SubstanceDetailModel {
         provenance = store.provenance(forSubstanceName: substanceName)
         wikiTimings = store.wikiTimings(forSubstanceName: substanceName)
 
-        // The dial is the dose control, so its bands load for every tier that
-        // sees a dose ladder — not just the ones that see the pharmacology.
-        spectrumBands = store.spectrumBands(forSubstanceName: substanceName)
         moleculeStructure = store.moleculeStructure(forSubstanceName: substanceName)
 
         // Ungated by tier. A row here is a consequence ("ulcerative cystitis in

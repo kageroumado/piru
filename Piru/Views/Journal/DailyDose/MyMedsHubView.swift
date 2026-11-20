@@ -136,7 +136,7 @@ struct MyMedsHubView: View {
                                 .accessibilityHidden(true)
                             Text(group.label)
                             Text(group.rangeLabel)
-                                .font(.caption2.monospaced())
+                                .font(.caption2.monospacedDigit())
                                 .textCase(nil)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }

@@ -367,8 +367,8 @@ struct ComedownGuideView: View {
 
 /// A single comedown category as a fold-open row: the category icon + name, its
 /// per-category recovery tips revealed on tap. Shared by ``ComedownGuideView``'s
-/// "Relevant to you" list and the session detail's Recovery section so both show
-/// the identical rows. Owns its own expansion state.
+/// category lists and the session detail's Recovery section so both show the
+/// identical rows. Owns its own expansion state.
 struct ComedownCategoryDisclosure: View {
     let category: SubstanceCategory
     @State private var isExpanded = false

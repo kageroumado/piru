@@ -1,7 +1,7 @@
 import Charts
 import SwiftUI
 
-/// The **Ceiling Effect** tool (pharmacology axis, Stage 6). It surfaces the handful of substances
+/// The **Ceiling Effect** tool. It surfaces the handful of substances
 /// whose kinetics are *non-linear* — where doubling the dose does not double the exposure — using the
 /// curated ``SaturablePharmacology`` profiles and the ``PKModel/saturableCurve`` integrator.
 ///

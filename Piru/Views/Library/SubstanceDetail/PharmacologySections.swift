@@ -61,9 +61,8 @@ struct PharmacologySections: View {
         let hero = model.pharmacologyHero(category: substance.category)
 
         Group {
-            // Unified Pharmacology card — merges the former Mechanism-of-Action and
-            // Monoamine-Profile sections (hybrid redesign step 2). The monoamine slider
-            // hero appears inline when the substance has a monoamine profile.
+            // The Pharmacology card: mechanism of action, with the monoamine slider
+            // hero inline when the substance has a monoamine profile.
             if policy.showsMechanism, let moa = composedMechanism {
                 CollapsibleSection(
                     "Pharmacology",
@@ -150,7 +149,7 @@ struct PharmacologySections: View {
                 }
             }
 
-            // Metabolic modulation (Stage 4c) — grapefruit/smoking/self-edge education for
+            // Metabolic modulation — grapefruit/smoking/self-edge education for
             // substances with a major clearance route through a modulated enzyme.
             if !model.metabolicEducation.isEmpty {
                 Section {
@@ -250,9 +249,6 @@ struct PharmacologySections: View {
         .padding(.vertical, Spacing.xs)
     }
 
-    /// The CYP/enzyme clearance pathways and their metabolites — its own section
-    /// now, sitting next to the grapefruit/smoking interaction banners (which act
-    /// on these same enzymes).
     /// The single row that should carry each curated divergent note. Several raw
     /// rows can name one metabolite family (MDMA lists MDA, S-MDA and R-MDA, all
     /// matching the MDA note), so the note is pinned to the first matching row —
@@ -269,13 +265,16 @@ struct PharmacologySections: View {
         return out
     }
 
+    /// The CYP/enzyme clearance pathways and their metabolites: its own section,
+    /// sitting next to the grapefruit/smoking interaction banners (which act on
+    /// these same enzymes).
     private var metabolismBody: some View {
         let noteRows = divergentNoteRowIDs
         return VStack(alignment: .leading, spacing: Spacing.md) {
             ForEach(model.metabolismRows) { hit in
-                // The metabolite row now folds its own curated "acts differently"
+                // The metabolite row folds its own curated "acts differently"
                 // one-liner in (parentName keys ``MetaboliteEditorial``), deduped to
-                // one row, so the separate divergent-notes block below is gone.
+                // one row.
                 MetabolismRow(
                     hit: hit,
                     accent: substance.category.color,

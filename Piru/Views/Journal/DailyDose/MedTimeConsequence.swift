@@ -163,7 +163,7 @@ struct MedTimeConsequenceLine: View {
                 Label {
                     sleepText
                 } icon: {
-                    Image(systemName: "moon.zzz")
+                    Image(systemName: DosePhaseGlyph.sleep)
                         .foregroundStyle(landsInNight ? .orange : Theme.secondaryLabel)
                         .accessibilityHidden(true)
                 }

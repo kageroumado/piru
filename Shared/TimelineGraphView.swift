@@ -760,7 +760,7 @@ struct TimelineGraphView: View, Equatable {
     @ViewBuilder
     private func noteGlyphs(geom: TimelineGraphRenderer.GraphGeometry) -> some View {
         if !noteMarkers.isEmpty, geom.width > 0, visibleSpan > 0 {
-            let size: CGFloat = 16
+            let size = TimelineGraphRenderer.NoteGlyphMetrics.size
             ForEach(noteMarkers) { marker in
                 let minute = marker.timestamp.timeIntervalSince(earliestDose) / 60
                 let x = geom.inset + CGFloat((minute - visibleStart) / visibleSpan) * geom.width
@@ -778,7 +778,7 @@ struct TimelineGraphView: View, Equatable {
                     .buttonStyle(.plain)
                     .contentShape(Circle().inset(by: -6))
                     .accessibilityLabel(Text("Note"))
-                    .position(x: x, y: max(size / 2, geom.top - size / 2 - 1))
+                    .position(x: x, y: TimelineGraphRenderer.NoteGlyphMetrics.centerY(geom: geom))
                 }
             }
         }
@@ -798,9 +798,12 @@ struct TimelineGraphView: View, Equatable {
                 Image(systemName: milestone.symbol)
                     .font(.system(size: TimelineGraphRenderer.MilestoneMetrics.glyphSize, weight: .semibold))
                     .foregroundStyle(milestone.color)
+                // Hidden rather than left out: the stack lays out two children,
+                // and the glyph keeps its height above the curve either way.
                 Text(verbatim: milestone.label)
                     .font(TimelineGraphRenderer.MilestoneMetrics.labelFont())
                     .foregroundStyle(.secondary)
+                    .opacity(milestone.showsLabel ? 1 : 0)
             }
             .allowsHitTesting(false)
             .accessibilityHidden(true)

@@ -614,7 +614,7 @@ private extension View {
         @Environment(\.tabViewBottomAccessoryPlacement) private var placement
 
         let showSessionPill: Bool
-        /// Whether to offer the first-run "log a dose" tip — true only on the Journal
+        /// Whether to offer the first-run "log a dose" tip — true only on the home
         /// root. See ``LogTipAnchor``.
         let showLogTip: Bool
         var onShowSessionDetail: () -> Void
@@ -664,7 +664,7 @@ private extension View {
                 .animation(.snappy, value: showSessionPill)
             }
             // Attached outside the periodic closure, because re-creating the anchor on
-            // the 60 s tick resurrects a dismissed tip; and only while on the Journal
+            // the 60 s tick resurrects a dismissed tip; and only while on the home
             // root, so leaving tears the popover down.
             .modifier(LogTipAnchor(active: showLogTip))
         }
@@ -730,7 +730,7 @@ private extension View {
     }
 #endif
 
-/// Attaches the first-run "log a dose" popover only while `active` (the Journal
+/// Attaches the first-run "log a dose" popover only while `active` (the home
 /// root). Removing the `.popoverTip` modifier — rather than gating the tip with a
 /// TipKit rule — is what dismisses the popover when the user navigates away:
 /// TipKit gates when a tip may first appear, but won't retract one already on

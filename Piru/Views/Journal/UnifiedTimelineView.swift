@@ -176,7 +176,7 @@ struct UnifiedTimelineView: View {
 @MainActor @Observable
 final class UnifiedTimelineModel {
     private(set) var days: [TimelineDayLayout] = []
-    /// Key the current `days` were fully built from; partial (cancelled)
+    /// Key the current `days` were fully built from; partial (canceled)
     /// builds never set it, so they are redone on next appearance.
     private var builtKey: String?
 

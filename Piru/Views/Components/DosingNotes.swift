@@ -47,5 +47,3 @@ struct PreciseScaleNote: View {
         }
     }
 }
-
-// MARK: - Experience Phase

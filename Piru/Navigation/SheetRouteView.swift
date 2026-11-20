@@ -220,9 +220,9 @@ private struct PersonalizeSubstanceHost: View {
     @State private var customStore = CustomSubstanceStore.shared
 
     var body: some View {
-        // Shell resolve — an index hit by exact canonical name. `all.first(where:)`
-        // was an O(catalog) scan in body, with the cold-cache synchronous batch
-        // build behind it.
+        // Shell resolve — an index hit by exact canonical name. Never
+        // `all.first(where:)` here: that is an O(catalog) scan in body, with the
+        // cold-cache synchronous batch build behind it.
         if let base = SubstanceLibrary.shell(name) {
             CustomSubstanceFormView(existing: customStore.first(whereName: name), personalizing: base)
         } else {
@@ -235,7 +235,8 @@ private struct PersonalizeSubstanceHost: View {
 private struct TimeAdjustHost: View {
     @Bindable var entry: DoseEntry
     @Environment(\.appNavigator) private var navigator
-    @Query private var substanceColors: [SubstanceColor]
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.sessionEditingService) private var editing
     @State private var originalTimestamp: Date?
 
     var body: some View {
@@ -262,22 +263,9 @@ private struct TimeAdjustHost: View {
         }
         .presentationDetents([.medium])
         .onAppear { if originalTimestamp == nil { originalTimestamp = entry.timestamp } }
-        .onDisappear { syncSessionIfTimeChanged() }
-    }
-
-    /// Editing `entry.timestamp` writes straight through to SwiftData, but the
-    /// session accessory + Live Activity read from `ActiveSessionManager`'s
-    /// snapshot — without this they keep showing the dose's pre-edit time.
-    private func syncSessionIfTimeChanged() {
-        guard let original = originalTimestamp, original != entry.timestamp else { return }
-        ActiveSessionManager.shared.refreshEditedEntry(
-            previousTimestamp: original,
-            entry: entry,
-            allColors: Array(substanceColors),
-        )
-        // Pending reminders are keyed to the old timestamp — a moved dose
-        // must drop them and reschedule from its new time.
-        DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original)
+        .onDisappear {
+            if let originalTimestamp { editing.retimed(entry, from: originalTimestamp, in: modelContext) }
+        }
     }
 }
 
@@ -320,8 +308,8 @@ private struct SessionNoteEditorHost: View {
 }
 
 /// Resolves the most recent session and shows its detail — the target of the
-/// `piru://day` deep link, now "open the current session." Falls back to a clear
-/// empty state when there are no sessions yet.
+/// `piru://day` deep link, which opens the current session. Falls back to a
+/// clear empty state when there are no sessions yet.
 private struct CurrentSessionHost: View {
     @Query(sort: \Session.startDate, order: .reverse) private var sessions: [Session]
 
