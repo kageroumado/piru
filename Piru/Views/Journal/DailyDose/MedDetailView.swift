@@ -1,13 +1,6 @@
 import SwiftData
 import SwiftUI
 
-/// The schedule choice, folding `DoseFrequency` and the separate `isAsNeeded`
-/// axis into one picker value (mirrors the add form).
-private enum MedScheduleChoice: Hashable {
-    case frequency(DoseFrequency)
-    case asNeeded
-}
-
 /// The per-med detail screen, pushed from the My Meds hub
 /// (`PushRoute.medDetail`). Everything is editable in place — dose, schedule,
 /// times, reminders, quiet tier — binding straight to the `@Model`, so there
@@ -25,11 +18,6 @@ struct MedDetailView: View {
     @State private var showingProductEditor = false
 
     private let defaultUnits = ["mg", "g", "µg", "mL", "IU", "drops", "puffs"]
-
-    private static let weekdaySymbols: [(index: Int, short: String, full: String)] = {
-        let cal = Calendar.current
-        return (1 ... 7).map { ($0, cal.shortWeekdaySymbols[$0 - 1], cal.weekdaySymbols[$0 - 1]) }
-    }()
 
     /// The Ask Again override choices. `nil` = follow the global default;
     /// `[]` = opted out.
@@ -202,7 +190,7 @@ struct MedDetailView: View {
                     }
                 }
             } else if item.frequency == .specificDays {
-                weekdayPicker
+                WeekdayPicker(selection: weekdays)
             } else if item.frequency != .daily {
                 if item.frequency == .everyNDays {
                     Stepper(value: $item.frequencyIntervalDays, in: DoseFrequency.intervalRange) {
@@ -300,34 +288,12 @@ struct MedDetailView: View {
         .listRowBackground(CardBackground())
     }
 
-    private var weekdayPicker: some View {
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            Text("Days")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .accessibilityAddTraits(.isHeader)
-            HStack(spacing: Spacing.sm) {
-                ForEach(Self.weekdaySymbols, id: \.index) { day in
-                    let isSelected = item.frequencyDays.contains(day.index)
-                    Button {
-                        var days = Set(item.frequencyDays)
-                        if isSelected { days.remove(day.index) } else { days.insert(day.index) }
-                        item.frequencyDays = Array(days)
-                    } label: {
-                        Text(String(day.short.prefix(2)))
-                            .font(.caption.weight(.semibold))
-                            .selectableChip(isSelected: isSelected)
-                    }
-                    .buttonStyle(.plain)
-                    // Cancels the chip's hit-target frame back to the visible
-                    // circle so the row's layout is unchanged.
-                    .padding(-5)
-                    .accessibilityLabel(day.full)
-                    .accessibilityAddTraits(isSelected ? .isSelected : [])
-                }
-            }
-        }
-        .padding(.vertical, Spacing.xs)
+    /// The model stores the days as an array; the picker edits them as a set.
+    private var weekdays: Binding<Set<Int>> {
+        Binding(
+            get: { Set(item.frequencyDays) },
+            set: { item.frequencyDays = Array($0) },
+        )
     }
 
     @ViewBuilder
