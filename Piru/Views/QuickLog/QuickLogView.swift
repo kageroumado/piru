@@ -575,33 +575,7 @@ struct QuickLogView: View {
             var curation: [QuickLogManager.LoggedDose] = []
 
             for item in stagedItems {
-                let entry = DoseEntry(
-                    substance: item.substanceName,
-                    amount: item.isUnknownAmount ? 0 : item.totalAmount,
-                    unit: item.unit,
-                    route: item.route,
-                    saltForm: item.saltForm,
-                    isomer: item.isomer,
-                    releaseForm: item.releaseForm,
-                    productName: item.productName,
-                    substanceUID: item.substanceUID,
-                    displayNameSnapshot: item.displayNameSnapshot,
-                    timestamp: sharedTime,
-                    notes: item.note.isEmpty ? nil : item.note,
-                    tags: tags,
-                    isBackgroundMed: item.isBackgroundMed,
-                    locationName: location?.name,
-                    latitude: location?.latitude,
-                    longitude: location?.longitude,
-                    hadGrapefruit: item.hadGrapefruit ? true : nil,
-                    meal: item.route == .oral ? meal : nil,
-                    isUnknownDose: item.isUnknownAmount,
-                    volumeML: item.isUnknownAmount ? nil : item.volumeML,
-                    abv: item.isUnknownAmount ? nil : item.abv,
-                    drinkName: item.isUnknownAmount ? nil : item.drinkName,
-                    combinationName: item.combinationName,
-                    injectionSite: InjectionSite.applies(to: item.route) ? item.injectionSite : nil,
-                )
+                let entry = item.makeEntry(timestamp: sharedTime, tags: tags, meal: meal, location: location)
                 batch.append((entry, item.librarySubstance))
 
                 // Record each component's chip amount (not the merged total) so

@@ -76,9 +76,8 @@ enum DoseIntentLogger {
         }
         guard !staged.isEmpty else { throw Failure.unknownSubstance(request.name) }
 
-        let tags = request.tags.map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
         let timestamp = request.time ?? .now
-        let entries = staged.map { entry(from: $0, request: request, timestamp: timestamp, tags: tags) }
+        let entries = staged.map { $0.makeEntry(timestamp: timestamp, tags: request.tags, meal: request.meal) }
 
         // Prior entries feed the redose and cumulative-dose checks, as the tray
         // passes them; fetched before the insert so the new doses are not in them.
@@ -107,30 +106,6 @@ enum DoseIntentLogger {
             },
         )
         return entries
-    }
-
-    /// The entry the tray's Log button would write for `staged`.
-    private static func entry(from staged: StagedDose, request: Request, timestamp: Date, tags: [String]) -> DoseEntry {
-        DoseEntry(
-            substance: staged.substanceName,
-            amount: staged.isUnknownAmount ? 0 : staged.totalAmount,
-            unit: staged.unit,
-            route: staged.route,
-            saltForm: staged.saltForm,
-            isomer: staged.isomer,
-            releaseForm: staged.releaseForm,
-            productName: staged.productName,
-            substanceUID: staged.substanceUID,
-            displayNameSnapshot: staged.displayNameSnapshot,
-            timestamp: timestamp,
-            notes: staged.note.isEmpty ? nil : staged.note,
-            tags: tags,
-            meal: staged.route == .oral ? request.meal : nil,
-            isUnknownDose: staged.isUnknownAmount,
-            volumeML: staged.isLiquidCombinationRow ? staged.volumeML : nil,
-            abv: staged.isLiquidCombinationRow ? staged.abv : nil,
-            combinationName: staged.combinationName,
-        )
     }
 
     /// A combination product as the tray stages it: one row per component,
