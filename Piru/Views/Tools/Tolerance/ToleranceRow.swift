@@ -68,14 +68,10 @@ struct ToleranceRow: Identifiable {
     /// exactly one place.
     func recoveryCurve(overMinutes window: Double, sampleCount: Int = 24) -> [ToleranceChartPoint] {
         let span = max(window, 1)
+        let layers = recoveryLayers()
         return (0 ..< sampleCount).map { index in
             let minutes = span * Double(index) / Double(sampleCount - 1)
-            let shift = exp(
-                snapshot.sAcute * exp(-minutes / params.tauAcuteMinutes)
-                    + snapshot.sAdaptive * exp(-minutes / params.tauAdaptiveMinutes)
-                    + snapshot.sDeep * exp(-minutes / params.tauDeepMinutes)
-                    + snapshot.sSynthesis * exp(-minutes / params.tauSynthesisMinutes),
-            )
+            let shift = ToleranceRecovery.shiftFactor(layers: layers, afterMinutes: minutes)
             let tolerance = 1 - PDModel.responseFraction(
                 shiftFactor: shift, representativeOccupancy: snapshot.representativeOccupancy,
                 occupancyCap: snapshot.receptorClass.gaugeOccupancyCap,
@@ -104,20 +100,21 @@ struct ToleranceRow: Identifiable {
     /// shift `S` at which that response is reached, then all four layers decay on their own time-constants
     /// to it. The cap must match the curve/bar or the axis span and the plotted line would disagree.
     func recoveryMinutes(toTolerance target: Double, shiftScale: Double = 1) -> Double? {
-        // The cap must stay strictly below 1: occupancy == 1 makes the ratio
-        // divide by zero and floods the axis math with infinity.
-        let cap = min(snapshot.receptorClass.gaugeOccupancyCap ?? 0.999_999, 0.999_999)
-        let occupancy = min(cap, max(0, snapshot.representativeOccupancy))
-        let ratio = occupancy / (1 - occupancy)
-        let responseTarget = max(0.000_001, 1 - target)
-        let targetShift = max(1, (ratio + 1) / responseTarget - ratio)
-        let layers = [
+        ToleranceRecovery.minutes(
+            toTolerance: target, layers: recoveryLayers(shiftScale: shiftScale),
+            occupancy: snapshot.representativeOccupancy,
+            occupancyCap: snapshot.receptorClass.gaugeOccupancyCap,
+        )
+    }
+
+    /// The four recovery layers in fast → slow order, each ln-shift scaled by `shiftScale`.
+    private func recoveryLayers(shiftScale: Double = 1) -> [ToleranceRecovery.Layer] {
+        [
             (s: snapshot.sAcute * shiftScale, tau: params.tauAcuteMinutes),
             (s: snapshot.sAdaptive * shiftScale, tau: params.tauAdaptiveMinutes),
             (s: snapshot.sDeep * shiftScale, tau: params.tauDeepMinutes),
             (s: snapshot.sSynthesis * shiftScale, tau: params.tauSynthesisMinutes),
         ]
-        return PDModel.shiftDecayMinutes(layers: layers, toShift: targetShift)
     }
 
     // MARK: - Safety notes
