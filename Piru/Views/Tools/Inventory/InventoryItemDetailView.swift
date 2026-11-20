@@ -16,11 +16,25 @@ struct InventoryItemDetailView: View {
     @Environment(\.profileDirectory) private var directory
 
     @State private var showBasisInfo = false
+    /// The merged history, derived in `.task(id: historyToken)`; `nil` until the first pass.
+    @State private var historyRows: [HistoryRow]?
 
     /// The profile sharing this item with the active one; `nil` for the
     /// active profile's own item.
     private var owner: PiruProfile? {
         SharedInventory.shared.owner(of: item)
+    }
+
+    /// What the history depends on: the dose log, the item's events, its quantity (which every
+    /// refresh of other profiles' doses against it rewrites), its owner and the profiles.
+    private var historyToken: Int {
+        var hasher = Hasher()
+        hasher.combine(DoseLogService.shared.revision)
+        hasher.combine(item.manualEvents)
+        hasher.combine(item.currentQuantity)
+        hasher.combine(owner)
+        hasher.combine(directory.profiles)
+        return hasher.finalize()
     }
 
     private var runOut: InventoryMath.RunOut? {
@@ -61,6 +75,9 @@ struct InventoryItemDetailView: View {
         // Re-derive when returning from a restock/edit sheet or a dose change.
         .onAppear {
             SharedInventory.write(to: item) { InventoryService.recompute(item, in: modelContext) }
+        }
+        .task(id: historyToken) {
+            historyRows = buildHistoryRows()
         }
         .alert("Run-out estimate", isPresented: $showBasisInfo) {
             Button("OK", role: .cancel) {}
@@ -164,13 +181,12 @@ struct InventoryItemDetailView: View {
 
     private var historySection: some View {
         Section {
-            let rows = historyRows
-            if rows.isEmpty {
+            if let rows = historyRows, rows.isEmpty {
                 Text("No restocks or entries yet.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .listRowBackground(CardBackground())
-            } else {
+            } else if let rows = historyRows {
                 ForEach(rows) { row in
                     rowView(row)
                         .listRowBackground(CardBackground())
@@ -236,7 +252,7 @@ struct InventoryItemDetailView: View {
     /// The item's own store's doses, its sharees' doses (each with their
     /// avatar), and its manual events, newest first. On a shared-in item the
     /// owner's doses are another journal's too, so they show as theirs.
-    private var historyRows: [HistoryRow] {
+    private func buildHistoryRows() -> [HistoryRow] {
         let own = InventoryMath.doses(for: item, in: modelContext)
         let doseRows: [HistoryRow] = if let owner {
             own.map {
@@ -255,6 +271,8 @@ struct InventoryItemDetailView: View {
     // MARK: - Mutations
 
     private func deleteDose(_ dose: DoseEntry) {
+        // Drop the row before the entry is deleted, so no pass reads a deleted model.
+        historyRows?.removeAll { $0.id == HistoryRow.dose(dose).id }
         SessionEditingService.shared.delete(dose, in: modelContext)
         InventoryService.recompute(item, in: modelContext)
         WidgetCenter.shared.reloadAllTimelines()
