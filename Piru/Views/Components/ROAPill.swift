@@ -18,34 +18,17 @@ struct ROAPill: View {
         /// Standalone placements: the entry-detail hero, the active-session row.
         case regular
 
-        /// The text style, not a `Font`: the skin's chip primitive sets the face.
-        var textStyle: Font.TextStyle {
+        var chipSize: CapsuleChipSize {
             switch self {
-            case .compact: .caption2
-            case .regular: .caption
+            case .compact: .compact
+            case .regular: .hero
             }
-        }
-
-        var horizontalPadding: CGFloat {
-            self == .compact ? 8 : 10
-        }
-
-        var verticalPadding: CGFloat {
-            self == .compact ? 3 : 5
         }
     }
 
     var body: some View {
-        // The label takes the gated text variant, the fill the accent; the
-        // skin draws the form (see `skinChip`, which owns the tint rule).
+        // The label takes the gated text variant, the fill the accent.
         Text(String(localized: route.localizedName).lowercased())
-            .skinChip(
-                text: route.tintTextColor,
-                fill: route.tintColor,
-                style: size.textStyle,
-                weight: .semibold,
-                horizontal: size.horizontalPadding,
-                vertical: size.verticalPadding,
-            )
+            .capsuleChip(text: route.tintTextColor, fill: route.tintColor, size: size.chipSize)
     }
 }

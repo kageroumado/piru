@@ -20,7 +20,6 @@ struct EntryAboutSection: View {
             if doses?.hasAnyValue == true || duration != nil || releaseWindow != nil {
                 Section {
                     RouteDosingCard(
-                        route: entry.route,
                         unit: info.unit(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer),
                         doses: doses,
                         duration: duration,
@@ -28,7 +27,6 @@ struct EntryAboutSection: View {
                         elementalFraction: info.elementalFraction(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer),
                         showsDoseLadder: showsLadder,
                         showsDuration: duration != nil,
-                        showsTitle: false,
                         // The classifier behind the hero's strength chip, so the
                         // washed row and the chip always name the same tier.
                         emphasizedLevel: showsLadder ? entry.doseLevel(on: info) : nil,

@@ -46,7 +46,7 @@ struct SessionStateExport {
         let descriptors: [String]
     }
 
-    /// Subjective effect phase, mirroring ``DosePhaseProgressBar/Phase``.
+    /// Subjective effect phase, mirroring ``DosePhase``.
     enum Phase: String, CaseIterable {
         case onset
         case comeup
@@ -257,7 +257,7 @@ extension SessionStateExport {
             unit: entry.unit,
             route: curve.route,
             doseTimestamp: curve.doseTimestamp,
-            phase: mapPhase(DosePhaseProgressBar.phase(curve, elapsedMinutes: elapsed)),
+            phase: mapPhase(DosePhase.at(curve, elapsedMinutes: elapsed)),
             intensity: min(1, max(0, TimelineCurveModel.intensity(at: elapsed, for: curve))),
             progress: min(1, max(0, elapsed / total)),
             totalMinutes: total,
@@ -268,13 +268,13 @@ extension SessionStateExport {
         )
     }
 
-    private static func mapPhase(_ phase: DosePhaseProgressBar.Phase) -> Phase {
+    private static func mapPhase(_ phase: DosePhase) -> Phase {
         switch phase {
         case .onset: .onset
         case .comeup: .comeup
         case .peak: .peak
         case .offset: .offset
-        case .after: .after
+        case .afterglow: .after
         }
     }
 

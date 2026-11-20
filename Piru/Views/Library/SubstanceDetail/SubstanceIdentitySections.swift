@@ -265,7 +265,7 @@ struct ChemistrySection: View {
     }
 
     private func chem(_ value: Double) -> String {
-        SubstanceDetailView.chemNumber(value)
+        chemNumber(value)
     }
 
     /// PubChem cell — a tappable link out to the curated chemistry record. Lives

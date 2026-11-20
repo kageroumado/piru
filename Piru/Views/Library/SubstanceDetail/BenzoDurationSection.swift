@@ -99,7 +99,7 @@ private struct BenzoRungRow: View {
     /// days. On a ladder whose only job is comparison, "2.9 days" beside "46 h"
     /// makes the reader do the conversion the bars already did for them.
     private func hoursLabel(_ minutes: Double) -> String {
-        "\(SubstanceDetailView.chemNumber((minutes / 6).rounded() / 10)) h"
+        "\(chemNumber((minutes / 6).rounded() / 10)) h"
     }
 
     private var barStyle: AnyShapeStyle {

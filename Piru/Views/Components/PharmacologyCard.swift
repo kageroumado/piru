@@ -83,7 +83,7 @@ struct PharmacologyCard: View {
         if !moa.summary.isEmpty {
             Text(moa.summary)
                 .font(summaryIsHeadline ? .subheadline.weight(.semibold) : .subheadline)
-                .foregroundStyle(summaryIsHeadline ? accent : Color.secondary)
+                .foregroundStyle(summaryIsHeadline ? accent : Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }

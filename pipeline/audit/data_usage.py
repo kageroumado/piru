@@ -86,6 +86,9 @@ PROPERTY_NAMES = {
     # when every slot has a logged dose, and CombinationMetaboliteBanner shows
     # the `formation` that yields.
     ("pharmacology_matchers", "slot"): "formation",
+    # `rank` orders the rows `SubstanceStore.enzymeModulators()` returns; the
+    # substance page lists the modulators it reads through that call in that order.
+    ("enzyme_modulators", "rank"): "enzymeModulators",
 }
 
 #: Columns that are plumbing, not content. They are always "used" in the sense

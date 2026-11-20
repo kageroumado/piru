@@ -185,11 +185,11 @@ struct ConcentrationThresholdRow: View {
 
     private var rangeText: String {
         guard let threshold = hit.threshold else {
-            return hit.peak.map { "\(SubstanceDetailView.chemNumber($0)) \(hit.unit)" } ?? ""
+            return hit.peak.map { "\(chemNumber($0)) \(hit.unit)" } ?? ""
         }
         guard let peak = hit.peak, peak > threshold else {
-            return "\(SubstanceDetailView.chemNumber(threshold)) \(hit.unit)"
+            return "\(chemNumber(threshold)) \(hit.unit)"
         }
-        return "\(SubstanceDetailView.chemNumber(threshold))–\(SubstanceDetailView.chemNumber(peak)) \(hit.unit)"
+        return "\(chemNumber(threshold))–\(chemNumber(peak)) \(hit.unit)"
     }
 }

@@ -136,7 +136,7 @@ struct ActiveMetaboliteCard: View {
                 if let fraction = metabolite.formationFractionPct {
                     PKMetricChip(
                         label: "Share of dose",
-                        value: "~\(SubstanceDetailView.chemNumber(fraction))%",
+                        value: "~\(chemNumber(fraction))%",
                     )
                 }
             }
@@ -177,7 +177,7 @@ struct ActiveMetaboliteCard: View {
             if ratio == 1 {
                 String(localized: "About as strong as \(parent), dose for dose.")
             } else {
-                String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent), dose for dose.")
+                String(localized: "About \(chemNumber(ratio))× as strong as \(parent), dose for dose.")
             }
         case let .strongerMolecule(ratio, parent, metabolite, convertedPct):
             // A prodrug converting one-for-one lands here whenever its formation
@@ -190,17 +190,17 @@ struct ActiveMetaboliteCard: View {
                 // the ratio is only half the story, and the other half is on the
                 // row. Naming it is what stops "10× as strong" being read as a
                 // dose claim.
-                String(localized: "Molecule for molecule, \(metabolite) is about \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent), but only about \(SubstanceDetailView.chemNumber(convertedPct))% of a dose becomes it.")
+                String(localized: "Molecule for molecule, \(metabolite) is about \(chemNumber(ratio))× as strong as \(parent), but only about \(chemNumber(convertedPct))% of a dose becomes it.")
             } else {
-                String(localized: "Molecule for molecule, \(metabolite) is about \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent), but how much of a dose converts isn't recorded here.")
+                String(localized: "Molecule for molecule, \(metabolite) is about \(chemNumber(ratio))× as strong as \(parent), but how much of a dose converts isn't recorded here.")
             }
         case let .qualified(ratio, parent, _, target):
             if let target = metaboliteTargetName(target), ratio == 1 {
                 String(localized: "About as strong as \(parent) at the \(target).")
             } else if let target = metaboliteTargetName(target) {
-                String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× \(parent)'s activity at the \(target).")
+                String(localized: "About \(chemNumber(ratio))× \(parent)'s activity at the \(target).")
             } else {
-                String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× \(parent)'s activity, by one measurement.")
+                String(localized: "About \(chemNumber(ratio))× \(parent)'s activity, by one measurement.")
             }
         case let .divergent(parent):
             String(localized: "Acts differently from \(parent), not simply stronger or weaker.")
@@ -224,7 +224,7 @@ struct ActiveMetaboliteCard: View {
     /// flatly untrue, and that is exactly what a single shared phrasing did to
     /// diazepam → nordazepam. Only affinity/in-vitro figures get hedged.
     private func measurementText(_ potency: ActiveMetabolite.Potency, prefix: Bool) -> String {
-        let ratio = SubstanceDetailView.chemNumber(potency.pct / 100)
+        let ratio = chemNumber(potency.pct / 100)
         if potency.basis == .clinical {
             // Same rule as the headline: "dose for dose" needs the share of the
             // dose that converts, or it is a molecule ratio wearing a dose
