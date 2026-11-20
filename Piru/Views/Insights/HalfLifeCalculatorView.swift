@@ -55,8 +55,6 @@ private struct HalfLifeHeader: View {
 
     var body: some View {
         HStack {
-            Text("Calculator")
-                .cardTitle()
             Spacer()
             Text("\(count) with half-life data")
                 .captionSecondary()
@@ -256,7 +254,7 @@ private struct HalfLifeDecayChart: View {
             }
             .frame(height: 200)
             .accessibilityLabel(Text("Concentration curve"))
-            .accessibilityValue(Text("Peak after \(halfLifeFormatDuration(peakTime)), \(remainingAmount().doseFormatted) of \(dose.doseFormatted) \(doseUnit) remaining now"))
+            .accessibilityValue(Text("Peak after \(SubstanceEliminationCurve.formatDuration(peakTime)), \(remainingAmount().doseFormatted) of \(dose.doseFormatted) \(doseUnit) remaining now"))
         }
         .padding()
         .themeCard()
@@ -339,7 +337,7 @@ private struct HalfLifePeakRow: View {
             VStack(alignment: .leading) {
                 Text("Peak concentration")
                     .font(.subheadline.weight(.medium))
-                Text("Reached after \(halfLifeFormatDuration(peakTime))")
+                Text("Reached after \(SubstanceEliminationCurve.formatDuration(peakTime))")
                     .captionSecondary()
             }
             Spacer()
@@ -368,7 +366,7 @@ private struct HalfLifeMilestoneRow: View {
             VStack(alignment: .leading) {
                 Text("\(Int(eliminatedPct))% eliminated")
                     .font(.subheadline.weight(.medium))
-                Text("\(remaining.doseFormatted) \(unit) remaining after \(halfLifeFormatDuration(milestone.minutes))")
+                Text("\(remaining.doseFormatted) \(unit) remaining after \(SubstanceEliminationCurve.formatDuration(milestone.minutes))")
                     .captionSecondary()
             }
             Spacer()
@@ -447,17 +445,4 @@ private struct HalfLifeRelatedLinks: View {
             }
         }
     }
-}
-
-// MARK: - Shared Helper
-
-private func halfLifeFormatDuration(_ minutes: Double) -> String {
-    if minutes < 60 {
-        let m = Int(minutes)
-        return String(localized: "\(m) min")
-    }
-    let hours = Int(round(minutes / 60))
-    if hours < 24 { return String(localized: "\(hours) hours") }
-    let days = Int(round(minutes / 1_440))
-    return String(localized: "\(days) days")
 }
