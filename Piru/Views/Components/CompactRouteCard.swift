@@ -1,7 +1,8 @@
 import SwiftUI
 
 /// A half-width card that pushes a route: tinted icon, a title and a subtitle of
-/// at most two lines each, in a compact `themeCard`. Sized for a two-column grid.
+/// at most two lines each, in a compact `themeCard`. The Tools and Insights tabs
+/// and In Your Body lay these out in a two-column grid.
 struct CompactRouteCard: View {
     let icon: String
     let tint: Color

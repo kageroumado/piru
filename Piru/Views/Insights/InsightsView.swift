@@ -186,7 +186,7 @@ struct InsightsView: View {
                 InsightsToleranceCard()
 
                 LazyVGrid(columns: compactColumns, spacing: Spacing.xl) {
-                    CompactLinkCard(
+                    CompactRouteCard(
                         icon: "list.clipboard",
                         tint: .brown,
                         title: Text("Patterns"),
@@ -194,7 +194,7 @@ struct InsightsView: View {
                         route: .insight(.patterns),
                     )
                     if hasRatedNotes {
-                        CompactLinkCard(
+                        CompactRouteCard(
                             icon: "checkmark.bubble",
                             tint: .teal,
                             title: Text("Did it work?"),
@@ -202,7 +202,7 @@ struct InsightsView: View {
                             route: .insight(.feltPatterns),
                         )
                     }
-                    CompactLinkCard(
+                    CompactRouteCard(
                         icon: "square.and.arrow.up.on.square",
                         tint: .indigo,
                         title: Text("Reports"),

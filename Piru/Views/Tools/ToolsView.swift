@@ -124,7 +124,7 @@ struct ToolsView: View {
 
                 LazyVGrid(columns: gridColumns, spacing: Spacing.xl) {
                     ForEach(compactTools) { tool in
-                        CompactLinkCard(
+                        CompactRouteCard(
                             icon: tool.icon,
                             title: Text(tool.name),
                             subtitle: Text(tool.subtitle),
