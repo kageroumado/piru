@@ -342,6 +342,9 @@ struct InsightsView: View {
                                 if Calendar.current.isDateInToday(cell.date) {
                                     RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
                                         .stroke(Theme.accent, lineWidth: 1.5)
+                                } else if isMissed(cell) {
+                                    RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
+                                        .strokeBorder(Theme.tertiaryLabel, lineWidth: 1)
                                 }
                             }
                     } else {
@@ -354,19 +357,22 @@ struct InsightsView: View {
         .accessibilityLabel(Text("This month's adherence calendar"))
     }
 
+    /// The Adherence calendar's code: taken in the success color, partly
+    /// taken a lighter step of it. An unlogged day is an empty outline, never
+    /// a warning color: in a thin month those are most of the grid, and a
+    /// dose is not a confession. The three read apart by lightness alone.
     private func adherenceDotColor(_ day: DayAdherence) -> Color {
         if day.date > .now { return Color.platformTertiarySystemFill }
         switch day.status {
-        // The dose scale's hues rather than the semantic green and red: a
-        // month of those reads as a report card, and these sit quietly beside
-        // the other cards while still running light → heavy.
-        // Missed days are held back further still: in a thin month they are
-        // most of the grid, and at full strength the card is a red wall.
-        case .complete: return .Dose.Light.accent
-        case .partial: return .Dose.Common.accent
-        case .missed: return .Dose.Heavy.accent.opacity(Theme.Opacity.strong)
+        case .complete: return .successAccent
+        case .partial: return .successAccent.opacity(Theme.Opacity.muted)
+        case .missed: return .clear
         case .noData: return Color.platformSecondarySystemFill
         }
+    }
+
+    private func isMissed(_ day: DayAdherence) -> Bool {
+        day.date <= .now && day.status == .missed
     }
 
     private func emptyContent(_ message: LocalizedStringKey) -> some View {
