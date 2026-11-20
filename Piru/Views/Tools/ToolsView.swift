@@ -124,7 +124,12 @@ struct ToolsView: View {
 
                 LazyVGrid(columns: gridColumns, spacing: Spacing.xl) {
                     ForEach(compactTools) { tool in
-                        ToolCompactCard(tool: tool)
+                        CompactLinkCard(
+                            icon: tool.icon,
+                            title: Text(tool.name),
+                            subtitle: Text(tool.subtitle),
+                            route: .tool(tool),
+                        )
                     }
                 }
             }
@@ -134,38 +139,6 @@ struct ToolsView: View {
         }
         .skinBackdrop()
         .appNavigationBar("Tools")
-    }
-}
-
-/// A half-width tool card: tinted icon, title, and subtitle in a compact
-/// `themeCard`, matching the Search tab's class browse grid density.
-private struct ToolCompactCard: View {
-    let tool: Tool
-
-    var body: some View {
-        RouteLink(PushRoute.tool(tool)) {
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                Image(systemName: tool.icon)
-                    .font(.piru(.title3))
-                    .foregroundStyle(Theme.accent)
-                    .accessibilityHidden(true)
-                Text(tool.name)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text(tool.subtitle)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(14)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .themeCard()
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
     }
 }
 
