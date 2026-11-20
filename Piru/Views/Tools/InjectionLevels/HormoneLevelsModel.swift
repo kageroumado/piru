@@ -197,19 +197,11 @@ final class HormoneLevelsModel: DepotCalibrating {
         let sorted = dates.sorted()
         let first = sorted.first ?? now
         let last = sorted.last ?? now
-        let cycleDays = medianIntervalDays(sorted) ?? 14
+        let cycleDays = HormoneLevelsLog.medianIntervalDays(sorted) ?? 14
         let end = max(last.addingTimeInterval(cycleDays * PKModel.secondsPerDay), now)
         let start = effectiveVisibleDays.map { days in
             max(first, end.addingTimeInterval(-days * PKModel.secondsPerDay))
         } ?? first
         return (start, end, cycleDays)
-    }
-
-    private func medianIntervalDays(_ dates: [Date]) -> Double? {
-        guard dates.count >= 2 else { return nil }
-        let gaps = zip(dates.dropFirst(), dates).map { $0.timeIntervalSince($1) / PKModel.secondsPerDay }
-            .filter { $0 > 0 }.sorted()
-        guard !gaps.isEmpty else { return nil }
-        return gaps[gaps.count / 2]
     }
 }

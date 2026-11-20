@@ -65,15 +65,22 @@ struct HormoneLevelsView: View {
                         )
                     }
 
-                    HormoneLabCalibrationCard(
-                        model: model,
+                    LabCalibrationCard(
+                        analyte: model.analyte,
                         labs: analyteLabs,
                         onAdd: { showingAddLab = true },
                         onToggleExclude: toggleExclude,
                         onDelete: deleteLab,
-                    )
+                    ) {
+                        CalibrationControl(model: model)
+                        ReferenceLinesEditor(model: model, unit: model.analyte.canonicalUnit)
+                        HormoneLabGuidance(analyte: model.analyte) { goal in
+                            model.referenceLow = goal.lowerBound
+                            model.referenceHigh = goal.upperBound
+                        }
+                    }
 
-                    HormoneLevelsProvenanceCard(analyte: model.analyte, esters: model.perEster.map(\.ester))
+                    DepotProvenanceCard(analyte: model.analyte, esters: model.perEster.map(\.ester), layout: .perEster)
                     HormoneLevelsExplanationCard()
                 }
             }
@@ -92,7 +99,7 @@ struct HormoneLevelsView: View {
         }
         .onChange(of: model.recomputeKey) { model.refresh() }
         .onChange(of: model.analyte) { syncAndRefresh() }
-        .onChange(of: doseEntries.count) { syncAndRefresh() }
+        .onChange(of: DoseLogService.shared.revision) { syncAndRefresh() }
         .onChange(of: labs.count) { syncAndRefresh() }
         .onChange(of: model.personalMultiplier) { storedMultiplier = model.personalMultiplier }
         .onChange(of: model.autoCalibrateFromLabs) { storedAutoCalibrate = model.autoCalibrateFromLabs }
@@ -379,173 +386,37 @@ private struct CatalogEsterNote: View {
     }
 }
 
-// MARK: - Lab calibration
+// MARK: - Lab guidance
 
-private struct HormoneLabCalibrationCard: View {
-    @Bindable var model: HormoneLevelsModel
-    let labs: [LabMeasurement]
-    let onAdd: () -> Void
-    let onToggleExclude: (LabMeasurement) -> Void
-    let onDelete: (LabMeasurement) -> Void
+/// The insight's additions to the lab calibration card: the opt-in guideline range
+/// as reference lines, and when to draw blood for the analyte.
+private struct HormoneLabGuidance: View {
+    let analyte: Analyte
+    let onAddGoal: (ClosedRange<Double>) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.lg) {
-            HStack {
-                Text("Lab calibration")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                Spacer()
-                calibrationChip
+        if let goal = analyte.labeledGoal {
+            Button {
+                onAddGoal(goal)
+            } label: {
+                Text("Add the guideline reference range (\(Int(goal.lowerBound))–\(Int(goal.upperBound)) \(analyte.canonicalUnit))")
+                    .font(.caption.weight(.medium))
             }
-
-            if labs.isEmpty {
-                Text("Add a blood test to fit the curve to you. The band narrows.")
-                    .captionSecondary()
-            } else {
-                ForEach(labs) { lab in
-                    labRow(lab)
-                }
-            }
-
-            Button(action: onAdd) {
-                Label("Add lab result", systemImage: "plus.circle")
-                    .font(.subheadline.weight(.medium))
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(Theme.accent)
+            .buttonStyle(.bordered)
             .controlSize(.small)
-
-            Divider()
-            CalibrationControl(model: model)
-            ReferenceLinesEditor(model: model, unit: model.analyte.canonicalUnit)
-
-            if let goal = model.analyte.labeledGoal {
-                Button {
-                    model.referenceLow = goal.lowerBound
-                    model.referenceHigh = goal.upperBound
-                } label: {
-                    Text("Add the guideline reference range (\(Int(goal.lowerBound))–\(Int(goal.upperBound)) \(model.analyte.canonicalUnit))")
-                        .font(.caption.weight(.medium))
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
-                .tint(Theme.accent)
-                Text("The Endocrine Society / WPATH SOC8 monitoring range for adults on masculinizing testosterone, drawn as reference lines. The range from your clinician or laboratory report takes precedence.")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-
-            drawTimingNote
+            .tint(Theme.accent)
+            Text("The Endocrine Society / WPATH SOC8 monitoring range for adults on masculinizing testosterone, drawn as reference lines. The range from your clinician or laboratory report takes precedence.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding()
-        .themeCard()
-    }
 
-    @ViewBuilder
-    private var drawTimingNote: some View {
-        switch model.analyte {
+        switch analyte {
         case .testosterone:
             Text("A level only means something with its draw time: for cypionate and enanthate, measure midway between injections; for undecanoate, measure at trough, just before the next dose.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         case .estradiol:
             Text("Note the time since your last injection when you draw. A peak and a trough tell different stories, and the curve reads both against your dose times.")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
-    }
-
-    private var calibrationChip: some View {
-        let count = labs.filter { !$0.excludedFromCalibration }.count
-        let label = count == 0
-            ? String(localized: "Uncalibrated")
-            : count == 1 ? String(localized: "1 result") : String(localized: "Calibrated · \(count) results")
-        return Text(label)
-            .font(.caption2.weight(.semibold))
-            .padding(.horizontal, Spacing.md)
-            .padding(.vertical, Spacing.xxs)
-            .background(
-                (count == 0 ? Theme.secondaryLabel : Theme.accent).opacity(Theme.Opacity.tint),
-                in: Capsule(),
-            )
-            .foregroundStyle(count == 0 ? Theme.secondaryLabel : Theme.accent)
-    }
-
-    private func labRow(_ lab: LabMeasurement) -> some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(lab.date, format: .dateTime.year().month(.abbreviated).day())
-                    .font(.subheadline)
-                Text("\(model.analyte.fromCanonical(lab.value, to: lab.inputUnit).formatted(.number.precision(.fractionLength(1)))) \(lab.inputUnit)")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            Spacer()
-            Button {
-                onToggleExclude(lab)
-            } label: {
-                Image(systemName: lab.excludedFromCalibration ? "circle" : "checkmark.circle.fill")
-                    .foregroundStyle(lab.excludedFromCalibration ? Theme.secondaryLabel : Theme.accent)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(lab.excludedFromCalibration ? Text("Excluded from calibration") : Text("Included in calibration"))
-        }
-        .padding(.vertical, Spacing.xs)
-        .contentShape(.rect)
-        // A context menu, never .swipeActions: these rows sit in a card's stack,
-        // and a swipe action reaches only List rows, on every platform.
-        .contextMenu {
-            Button(role: .destructive) { onDelete(lab) } label: { Label("Delete", systemImage: "trash") }
-        }
-    }
-}
-
-// MARK: - Provenance
-
-private struct HormoneLevelsProvenanceCard: View {
-    let analyte: Analyte
-    let esters: [EsterPKRecord]
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            Text("Sources")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-            ForEach(esters) { ester in
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(ester.label)
-                        .font(.caption.weight(.semibold))
-                    Text(ester.provenance)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-            Text("Older studies used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs the difference.")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-            footer
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .themeCard()
-    }
-
-    @ViewBuilder
-    private var footer: some View {
-        switch analyte {
-        case .estradiol:
-            Link(destination: URL(string: "https://github.com/WHSAH/estrannaise.js")!) {
-                Text("Parameters from estrannaise.js (MIT), checked against the literature")
-                    .font(.caption2)
-            }
-            .tint(Theme.accent)
-            Link(destination: URL(string: "https://diyhrt.info/transfem/dosing/")!) {
-                Text("More on injectable estradiol dosing (diyhrt.info)")
-                    .font(.caption2)
-            }
-            .tint(Theme.accent)
-        case .testosterone:
-            Text("Testosterone ester curves are fit from label and primary-literature half-lives. There is no community PK simulator for them, so the band stays wide until your lab results calibrate the model.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         }

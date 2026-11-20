@@ -66,7 +66,7 @@ struct HormoneLevelsInsightCard: View {
             model.fitRates = storedFitRates
             recompute()
         }
-        .onChange(of: doseEntries.count) { recompute() }
+        .onChange(of: DoseLogService.shared.revision) { recompute() }
         .onChange(of: labs.count) { recompute() }
     }
 

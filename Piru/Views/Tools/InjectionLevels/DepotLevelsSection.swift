@@ -89,13 +89,13 @@ struct DepotLevelsSection: View {
             sync()
         }
         .onChange(of: model.recomputeKey) { model.refresh() }
-        .onChange(of: doseEntries.count) { sync() }
+        .onChange(of: DoseLogService.shared.revision) { sync() }
         .onChange(of: labs.count) { sync() }
     }
 
     /// Feed the model from the log and labs the way the tool does, then draw.
     private func sync() {
-        let log = InjectionLevelsView.injections(
+        let log = HormoneLevelsLog.injections(
             from: doseEntries, analyte: analyte,
             volumeConcentrationMgPerML: model.volumeConcentrationMgPerML,
         )
@@ -107,7 +107,7 @@ struct DepotLevelsSection: View {
             volumeLoggedCount: log.volumeLoggedCount,
             suggestedConcentration: log.latestLoggedConcentration,
             measurements: measurements,
-            preferredEsterID: InjectionLevelsView.dominantEsterID(from: doseEntries, analyte: analyte),
+            preferredEsterID: HormoneLevelsLog.dominantEsterID(from: doseEntries, analyte: analyte),
         )
         model.selectDefaultsIfNeeded()
         model.refresh()
