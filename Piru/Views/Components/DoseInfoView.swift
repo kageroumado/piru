@@ -220,9 +220,9 @@ struct RouteDosingCard: View {
         VStack(alignment: .leading, spacing: 14) {
             eyebrow("Duration")
             VStack(spacing: 0) {
-                ForEach(ExperiencePhase.allCases, id: \.self) { phase in
+                ForEach(DosePhase.allCases, id: \.self) { phase in
                     if let range = phase.range(in: duration) {
-                        levelRow(phase.label, value: range.displayString)
+                        levelRow(phase.name, value: range.displayString)
                     }
                 }
                 if let total = duration.total {

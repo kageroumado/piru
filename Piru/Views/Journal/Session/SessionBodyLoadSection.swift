@@ -323,7 +323,7 @@ struct SessionBodyLoadModel {
     /// dosed — a forward scan matching the curve's superposition math.
     static func clearText(for active: ActiveSubstance) -> String {
         let ke = PKModel.ke(fromHalfLifeMinutes: active.halfLifeMinutes)
-        let ka = SubstanceEliminationCurve.estimateKa(for: active.name, ke: ke)
+        let ka = PKResolver.ka(forSubstance: active.name, ke: ke)
         guard let clear = projectedDate(remainingFraction: 0.03, active: active, ke: ke, ka: ka) else {
             return String(localized: "soon")
         }

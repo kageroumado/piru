@@ -207,17 +207,6 @@ struct SubstanceEliminationCurve: View {
         return String(localized: "~\(Int(days.rounded())) days")
     }
 
-    static func estimateKa(for substanceName: String, ke: Double) -> Double {
-        if let substance = SubstanceLibrary.lookup(substanceName.lowercased()),
-           let duration = substance.resolveDuration(for: .oral) {
-            let timeToPeak = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
-            if timeToPeak > 0 {
-                return PKModel.estimateKa(timeToPeak: timeToPeak, ke: ke)
-            }
-        }
-        return PKModel.defaultKa(ke: ke)
-    }
-
     static func formatDuration(_ minutes: Double) -> String {
         if minutes < 60 {
             let m = Int(minutes)
@@ -245,7 +234,7 @@ private struct CurveData {
     init(active: ActiveSubstance, projection: SteadyStateProjection?) {
         let halfLife = active.halfLifeMinutes
         let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-        let ka = SubstanceEliminationCurve.estimateKa(for: active.name, ke: ke)
+        let ka = PKResolver.ka(forSubstance: active.name, ke: ke)
         let peakConc = PKModel.cmax(ke: ke, ka: ka)
 
         let sortedDoses = active.doses.sorted { $0.timestamp < $1.timestamp }
