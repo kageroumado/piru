@@ -77,6 +77,11 @@ PROPERTY_NAMES = {
     # A releaser signature's provenance carries its assay's species, printed by
     # ClassSignatureView as `provenance.species`.
     ("functional_assays", "species"): "provenance",
+    # A combination metabolite's matchers are grouped by slot, one slot per
+    # precursor (SubstanceReadModel+MetabolicModulation); a combination fires
+    # when every slot has a logged dose, and CombinationMetaboliteBanner shows
+    # the `formation` that yields.
+    ("pharmacology_matchers", "slot"): "formation",
 }
 
 #: Columns that are plumbing, not content. They are always "used" in the sense
