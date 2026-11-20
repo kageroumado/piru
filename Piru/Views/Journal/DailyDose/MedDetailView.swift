@@ -174,7 +174,7 @@ struct MedDetailView: View {
 
     private var scheduleSection: some View {
         Section {
-            Picker("Schedule", selection: scheduleBinding) {
+            Picker("Repeats", selection: scheduleBinding) {
                 ForEach(DoseFrequency.allCases) { freq in
                     Text(freq.displayName).tag(MedScheduleChoice.frequency(freq))
                 }
