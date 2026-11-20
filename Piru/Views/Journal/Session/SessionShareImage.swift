@@ -120,7 +120,7 @@ struct SessionShareCard: View {
                 unit: row.unit,
                 status: .eliminating(
                     percent: Int(row.active.eliminatedFraction * 100),
-                    clear: SessionBodyLoadModel.clearText(for: row.active),
+                    clear: row.clearText,
                     remaining: row.remaining,
                 ),
             )
@@ -156,19 +156,38 @@ struct SessionShareCard: View {
     }
 
     private func bodyLoadCard(_ rows: [BodyLoadRowData]) -> some View {
-        VStack(spacing: 0) {
-            ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
-                if index > 0 { Divider().padding(.leading, 16) }
-                BodyLoadRowLabel(
-                    dotColor: row.dotColor,
-                    name: row.name,
-                    count: row.count,
-                    total: row.total,
-                    unit: row.unit,
-                    status: row.status,
-                )
-                .padding(.horizontal, 16)
-                .padding(.vertical, 11)
+        rowsCard(rows, id: \.id) { row in
+            BodyLoadRowLabel(
+                dotColor: row.dotColor,
+                name: row.name,
+                count: row.count,
+                total: row.total,
+                unit: row.unit,
+                status: row.status,
+            )
+        }
+    }
+
+    private struct IndexedRow<Item, ID: Hashable>: Identifiable {
+        let index: Int
+        let id: ID
+        let item: Item
+    }
+
+    /// One card of rows split by inset hairlines, the shape both the body-load
+    /// totals and the entry list take.
+    private func rowsCard<Item>(
+        _ items: [Item],
+        id: KeyPath<Item, some Hashable>,
+        @ViewBuilder row: @escaping (Item) -> some View,
+    ) -> some View {
+        let indexed = items.enumerated().map { IndexedRow(index: $0.offset, id: $0.element[keyPath: id], item: $0.element) }
+        return VStack(spacing: 0) {
+            ForEach(indexed) { entry in
+                if entry.index > 0 { Divider().padding(.leading, 16) }
+                row(entry.item)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 11)
             }
         }
         .background { CardBackground().clipShape(RoundedRectangle(cornerRadius: 12)) }
@@ -229,16 +248,9 @@ struct SessionShareCard: View {
     }
 
     private func groupedCard(_ items: [DayEntryDisplay]) -> some View {
-        VStack(spacing: 0) {
-            ForEach(Array(items.enumerated()), id: \.element.core.entryID) { index, display in
-                if index > 0 { Divider().padding(.leading, 16) }
-                EntryRowView(display: display, showRelativeTime: false)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 11)
-            }
+        rowsCard(items, id: \.core.entryID) { display in
+            EntryRowView(display: display, showRelativeTime: false)
         }
-        .background { CardBackground().clipShape(RoundedRectangle(cornerRadius: 12)) }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var watermark: some View {
