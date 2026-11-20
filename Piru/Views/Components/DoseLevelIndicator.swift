@@ -32,8 +32,8 @@ struct DoseLevelIndicator: View {
             }
 
             HStack(spacing: 0) {
-                ForEach(Array(segments.enumerated()), id: \.offset) { index, segment in
-                    segmentView(segment, index: index)
+                ForEach(Array(segments.enumerated()), id: \.offset) { _, segment in
+                    segmentView(segment)
                 }
             }
             .frame(height: 6)
@@ -91,7 +91,7 @@ struct DoseLevelIndicator: View {
     }
 
     @ViewBuilder
-    private func segmentView(_ segment: Segment, index _: Int) -> some View {
+    private func segmentView(_ segment: Segment) -> some View {
         let isActive = level == segment.level
         Rectangle()
             .fill(segment.level.swiftUIColor.opacity(isActive ? 1.0 : 0.3))

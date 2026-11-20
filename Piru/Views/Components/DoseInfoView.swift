@@ -102,15 +102,12 @@ struct DoseInfoView: View {
 // MARK: - Route Dosing Card
 
 /// One route's dosage ladder and duration timeline presented together as a
-/// single card — the unit the substance detail screen switches between with
-/// its route picker, and the body of the shareable drug-info image.
+/// single card, in a dose entry's About section, whose header names the route.
 ///
 /// Unlike ``DurationPhaseRows`` (which emits bare rows that only lay out
 /// correctly when a `List` flattens them), this card builds its rows with
-/// explicit stacks so it renders identically on-List *and* off-List through
-/// `ImageRenderer`.
+/// explicit stacks, so the whole card is one list cell.
 struct RouteDosingCard: View {
-    let route: RouteOfAdministration
     let unit: String
     let doses: DoseRange?
     let duration: DurationProfile?
@@ -121,14 +118,7 @@ struct RouteDosingCard: View {
     var elementalFraction: Double?
     var showsDoseLadder = true
     var showsDuration = true
-    /// Volumetric / precise-scale / THC safety notes — shown in the app, hidden
-    /// in the compact share image.
-    var showDisclaimers = true
-    /// The route name as a card title. Off in the detail list (the section
-    /// header and the route picker already name it); on in the share image.
-    var showsTitle = true
-    /// The dosage row carrying the emphasis wash: the typical tier on the
-    /// substance page and share image, the dose's own tier on an entry (the
+    /// The dosage row carrying the emphasis wash: the dose's own tier (the
     /// tier its strength chip names), `nil` for no row.
     var emphasizedLevel: DoseLevel? = .common
 
@@ -141,10 +131,6 @@ struct RouteDosingCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            if showsTitle {
-                Text(route.localizedName)
-                    .cardTitle()
-            }
             if hasDosage, let doses {
                 dosageBlock(doses)
             }
@@ -191,9 +177,7 @@ struct RouteDosingCard: View {
                 }
                 .captionSecondary()
             }
-            if showDisclaimers {
-                disclaimer(for: doses)
-            }
+            disclaimer(for: doses)
         }
     }
 
