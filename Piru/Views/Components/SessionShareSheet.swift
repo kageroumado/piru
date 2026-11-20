@@ -27,7 +27,6 @@ struct SessionShareSheet: View {
     /// have only entries (Help / Settings).
     var session: Session?
 
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var image: PlatformImage?
@@ -39,8 +38,6 @@ struct SessionShareSheet: View {
     @State private var preparing = true
     @State private var justCopied: CopyTarget?
     @State private var copiedResetTask: Task<Void, Never>?
-    @State private var contentHeight: CGFloat = 420
-    @State private var safeAreaBottom: CGFloat = 34
     /// A transparent view over the image thumbnail — the source of QuickLook's
     /// zoom transition.
     @State private var imageSourceView: PlatformView?
@@ -50,49 +47,23 @@ struct SessionShareSheet: View {
 
     private enum CopyTarget: Equatable { case image, pdf, markdown, tripReport }
 
-    /// Inline nav bar + grabber allowance — the chrome above the scroll content
-    /// that `.height` detents must include but `contentHeight` (the VStack) omits.
-    private static let chromeAllowance: CGFloat = 64
-
-    /// The detent that shows everything: measured content + nav-bar chrome +
-    /// the bottom safe-area inset (home indicator), so it doesn't come up short.
-    private var fittedHeight: CGFloat {
-        contentHeight + Self.chromeAllowance + safeAreaBottom
-    }
-
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 14) {
-                    imageCard
-                    if markdown != nil {
-                        HStack(alignment: .top, spacing: 14) {
-                            pdfCard
-                            markdownCard
-                        }
-                    }
-                    if tripReport != nil {
-                        tripReportCard
+        FittedShareSheet("Share Session", estimatedHeight: 420) {
+            VStack(spacing: 14) {
+                imageCard
+                if markdown != nil {
+                    HStack(alignment: .top, spacing: 14) {
+                        pdfCard
+                        markdownCard
                     }
                 }
-                .padding(.horizontal, Spacing.xxl)
-                .padding(.bottom, Spacing.xxl)
-                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
-            }
-            .navigationTitle("Share Session")
-            .inlineNavigationTitle()
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: {
-                        Image(systemName: "xmark").font(.body.weight(.semibold))
-                    }
-                    .accessibilityLabel(Text("Close"))
+                if tripReport != nil {
+                    tripReportCard
                 }
             }
-            .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.bottom } action: { safeAreaBottom = max(0, $0) }
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.bottom, Spacing.xxl)
         }
-        .presentationDetents([.height(fittedHeight), .large])
-        .presentationDragIndicator(.visible)
         .task { await prepare() }
     }
 
@@ -143,14 +114,7 @@ struct SessionShareSheet: View {
                 .overlay(alignment: .bottomTrailing) {
                     if image != nil {
                         Label("Tap to edit", systemImage: "pencil.tip.crop.circle")
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(.primary)
-                            .labelStyle(.titleAndIcon)
-                            .padding(.horizontal, 9)
-                            .padding(.vertical, 5)
-                            .background(.regularMaterial, in: Capsule())
-                            .padding(Spacing.md)
-                            .allowsHitTesting(false)
+                            .shareHintPill(inset: Spacing.md)
                     }
                 }
                 .onTapGesture { openImageViewer() }
