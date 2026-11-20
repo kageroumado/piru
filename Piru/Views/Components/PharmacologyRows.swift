@@ -104,13 +104,8 @@ struct GroupedReceptorLiterature: View {
     /// the Grid still reserves the column so the citation arrow stays aligned across rows.
     @ViewBuilder
     private func speciesCell(_ hit: BindingHit) -> some View {
-        if let species = hit.species, !species.isEmpty, species != "—" {
-            let isHuman = species.lowercased() == "human"
-            Text(species.prefix(1).uppercased() + species.dropFirst())
-                .capsuleChip(
-                    text: isHuman ? Color.successText : Theme.secondaryLabel,
-                    fill: isHuman ? Color.successAccent : Theme.secondaryLabel,
-                )
+        if let badge = SpeciesBadge(hit.species) {
+            badge
         } else {
             Color.clear.frame(width: 0, height: 0)
         }
@@ -388,16 +383,21 @@ struct MetabolismRow: View {
                     .sectionLabel()
                 Spacer()
                 if let frac = hit.fractionOfClearancePct {
-                    Text("\(chemNumber(frac))%")
-                        .font(.caption2.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, Spacing.xxs)
-                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
+                    clearanceChip(frac)
                 }
             }
             sourceLine(slug: hit.sourceSlug, detail: nil, citation: hit.citation, accent: accent)
         }
+    }
+
+    /// The share of clearance this row accounts for, as a quiet tinted chip.
+    private func clearanceChip(_ fraction: Double) -> some View {
+        Text("\(chemNumber(fraction))%")
+            .font(.caption2.monospacedDigit())
+            .foregroundStyle(Theme.secondaryLabel)
+            .padding(.horizontal, 7)
+            .padding(.vertical, Spacing.xxs)
+            .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
     }
 
     // MARK: metabolite resolution
@@ -473,12 +473,7 @@ struct MetabolismRow: View {
                     .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
                 if let frac = hit.fractionOfClearancePct {
-                    Text("\(chemNumber(frac))%")
-                        .font(.caption2.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, Spacing.xxs)
-                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
+                    clearanceChip(frac)
                 }
             }
 
@@ -509,7 +504,7 @@ struct MetabolismRow: View {
             if let active = hit.metaboliteActive {
                 Text(active ? "active" : "inactive")
                     .font(.caption2.weight(.medium))
-                    .foregroundStyle(active ? accent : .secondary)
+                    .foregroundStyle(active ? accent : Theme.secondaryLabel)
                     .padding(.horizontal, Spacing.sm)
                     .padding(.vertical, 1)
                     .background((active ? accent : Theme.secondaryLabel).opacity(Theme.Opacity.tint), in: skinChipShape())
@@ -540,12 +535,7 @@ struct MetabolismRow: View {
                     .sectionLabel()
                 Spacer()
                 if let frac = hit.fractionOfClearancePct {
-                    Text("\(chemNumber(frac))%")
-                        .font(.caption2.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, Spacing.xxs)
-                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
+                    clearanceChip(frac)
                 }
             }
             sourceLine(slug: hit.sourceSlug, detail: nil, citation: hit.citation, accent: accent)

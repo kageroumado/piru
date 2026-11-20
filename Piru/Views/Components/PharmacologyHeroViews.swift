@@ -7,18 +7,34 @@ struct SpeciesCite: View {
     let citation: URL?
 
     var body: some View {
-        if let species, species != "—", !species.isEmpty {
-            let isHuman = species.lowercased() == "human"
-            Text(species.prefix(1).uppercased() + species.dropFirst())
-                .capsuleChip(
-                    text: isHuman ? Color.successText : Theme.secondaryLabel,
-                    fill: isHuman ? Color.successAccent : Theme.secondaryLabel,
-                )
+        if let badge = SpeciesBadge(species) {
+            badge
                 .fixedSize(horizontal: true, vertical: false)
         }
         if let citation {
             CitationLink(url: citation, size: 9)
         }
+    }
+}
+
+/// The species a binding was measured in, as a chip: green for human, gray
+/// otherwise. Shared by the class-hero rows and the receptor-literature grid.
+struct SpeciesBadge: View {
+    let species: String
+
+    /// `nil` for a row that names no species (empty or "—").
+    init?(_ species: String?) {
+        guard let species, species != "—", !species.isEmpty else { return nil }
+        self.species = species
+    }
+
+    var body: some View {
+        let isHuman = species.lowercased() == "human"
+        Text(species.prefix(1).uppercased() + species.dropFirst())
+            .capsuleChip(
+                text: isHuman ? Color.successText : Theme.secondaryLabel,
+                fill: isHuman ? Color.successAccent : Theme.secondaryLabel,
+            )
     }
 }
 
