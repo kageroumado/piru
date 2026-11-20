@@ -23,9 +23,16 @@ struct SubstanceEliminationCurve: View {
         return projection.result.accumulationRatio >= 1.15
     }
 
-    /// All precomputed data the Canvas and stats need.
+    /// Holds the last curve built, so a `body` pass whose inputs match it
+    /// reuses it instead of re-sampling every dose.
+    @State private var memo = CurveMemo()
+
+    /// All precomputed data the Canvas and stats need, rebuilt when the doses,
+    /// the half-life, the projection or the wall-clock minute change.
     private var curve: CurveData {
-        CurveData(active: active, projection: showsProjection ? projection : nil)
+        let projected = showsProjection ? projection : nil
+        let key = CurveKey(active: active, projection: projected, now: .now)
+        return memo.data(for: key) { CurveData(active: active, projection: projected) }
     }
 
     var body: some View {
@@ -220,6 +227,46 @@ struct SubstanceEliminationCurve: View {
 }
 
 // MARK: - Precomputed curve data
+
+/// Everything ``CurveData`` reads. The clock enters at minute resolution, so the
+/// "now" dot advances on the first `body` pass of each new minute.
+private struct CurveKey: Equatable {
+    struct Dose: Equatable {
+        let amount: Double
+        let timestamp: Date
+    }
+
+    let name: String
+    let halfLifeMinutes: Double
+    let doses: [Dose]
+    let projectionIntervalHours: Double?
+    let projectionMedianDose: Double?
+    let minute: Int
+
+    init(active: ActiveSubstance, projection: SteadyStateProjection?, now: Date) {
+        name = active.name
+        halfLifeMinutes = active.halfLifeMinutes
+        doses = active.doses.map { Dose(amount: $0.amount, timestamp: $0.timestamp) }
+        projectionIntervalHours = projection?.intervalHours
+        projectionMedianDose = projection?.medianDose
+        minute = Int(now.timeIntervalSinceReferenceDate / 60)
+    }
+}
+
+/// A one-slot cache for the curve. A reference type held in `@State`, so
+/// filling it from `body` invalidates nothing.
+private final class CurveMemo {
+    private var key: CurveKey?
+    private var data: CurveData?
+
+    func data(for key: CurveKey, build: () -> CurveData) -> CurveData {
+        if let data, self.key == key { return data }
+        let built = build()
+        self.key = key
+        data = built
+        return built
+    }
+}
 
 /// Extracted so ``SubstanceEliminationCurve/body`` stays a pure `@ViewBuilder`
 /// with no `var` mutation.
