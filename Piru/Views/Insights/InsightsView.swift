@@ -388,8 +388,8 @@ struct InsightsView: View {
     private func adherenceDotColor(_ day: DayAdherence) -> Color {
         if day.date > .now { return Color.platformTertiarySystemFill }
         switch day.status {
-        case .complete: return .successAccent
-        case .partial: return .successAccent.opacity(Theme.Opacity.muted)
+        case .complete: return .successAccent.opacity(Theme.Opacity.dimmed)
+        case .partial: return .successAccent.opacity(Theme.Opacity.tintActive)
         case .missed: return .clear
         case .noData: return Color.platformSecondarySystemFill
         }
