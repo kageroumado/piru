@@ -163,7 +163,6 @@ struct SubstanceDetailView: View {
 
     private func toggleFavorite() {
         FavoriteService.toggle(substance: substance.name, substanceUID: substance.substanceUID, in: modelContext)
-        try? modelContext.save()
     }
 
     /// Resolve the full per-field record (mechanism, chemistry identifiers, molar

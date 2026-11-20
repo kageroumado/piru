@@ -28,19 +28,6 @@ struct PharmacologySections: View {
     /// defaults applied the first time the section was rendered).
     @State private var expanded: [Disclosure: Bool] = [:]
 
-    /// The metabolites worth a section — the ones that outlive the dose. See
-    /// ``ActiveMetabolite/earnsOwnSection(parentHalfLifeMinutes:parentDurationMinutes:)``;
-    /// the rest stay in the Metabolism disclosure below rather than being
-    /// promoted to a headline that implies news.
-    private var durationChangingMetabolites: [ActiveMetabolite] {
-        model.activeMetabolites.filter {
-            $0.earnsOwnSection(
-                parentHalfLifeMinutes: substance.halfLifeMinutes,
-                parentDurationMinutes: substance.longestRouteDurationMinutes,
-            )
-        }
-    }
-
     /// Metabolites whose formation runs through a polymorphic enzyme
     /// (CYP2D6/CYP2C19) *and* that carry real effect — the codeine → morphine,
     /// tramadol → M1, oxycodone → oxymorphone, atomoxetine, aripiprazole set.
@@ -51,7 +38,7 @@ struct PharmacologySections: View {
     /// that already earns an "Also Active" card — its own card states it — so the
     /// note never appears twice on one screen.
     private var polymorphicConversionMetabolites: [ActiveMetabolite] {
-        let carded = Set(durationChangingMetabolites.map(\.id))
+        let carded = Set(model.durationChangingMetabolites(for: substance).map(\.id))
         return model.activeMetabolites.filter {
             $0.conversionVariesByGenetics && $0.isMateriallyActive && !carded.contains($0.id)
         }
@@ -91,8 +78,8 @@ struct PharmacologySections: View {
                             signature: model.classSignature,
                             onMonoamineInfo: { onGlossary(.monoamine) },
                         )
-                        if let cascade = model.signallingCascade {
-                            SignallingCascadeRow(cascade: cascade, accent: substance.category.color)
+                        if let cascade = model.signalingCascade {
+                            SignalingCascadeRow(cascade: cascade, accent: substance.category.color)
                         }
                         if let slug = model.provenance?.mechanismSource {
                             SourceAttributionRow(

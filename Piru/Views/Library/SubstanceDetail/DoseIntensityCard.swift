@@ -19,8 +19,15 @@ struct DoseIntensityCard: View {
     /// so it's clear which ROA the dial's dose bands refer to.
     var routeName: String?
 
-    @State private var selected: Int = 0
+    /// The band the user dragged to. `nil` until they do, so the dial opens on
+    /// ``defaultBand`` and keeps a chosen band when the row scrolls away and
+    /// back (a lazy list re-runs `onAppear` on each return).
+    @State private var picked: Int?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    private var selected: Int {
+        picked ?? defaultBand
+    }
 
     /// Six bands over the shared `dose` scale.
     ///
@@ -109,7 +116,6 @@ struct DoseIntensityCard: View {
         // background and insets as every other card on the screen. Drawing its
         // own card inside a row that already has one put its content 32pt from
         // the section edge while its siblings sat at the system default.
-        .onAppear { selected = defaultBand }
     }
 
     /// Open on the "Common" band when present, else the middle band.
@@ -138,7 +144,7 @@ struct DoseIntensityCard: View {
         ) { newIndex in
             let clamped = max(0, min(bands.count - 1, newIndex))
             guard clamped != selected else { return }
-            selected = clamped
+            picked = clamped
         }
     }
 
@@ -267,7 +273,7 @@ struct IntensityGauge: View {
 
             ZStack {
                 Canvas { context, _ in
-                    drawTrack(in: context, center: center, radius: radius, seg: seg)
+                    drawTrack(in: context, center: center, radius: radius)
                 }
 
                 glassSelector(center: center, radius: radius, startAngle: selStart, seg: seg, size: size)
@@ -337,7 +343,7 @@ struct IntensityGauge: View {
     /// semicircle are cleanly rounded. The glass selector rides on top of it; the
     /// line is not carved, so it reads as a single beautiful arc rather than a row
     /// of segments.
-    private func drawTrack(in context: GraphicsContext, center: CGPoint, radius: Double, seg _: Double) {
+    private func drawTrack(in context: GraphicsContext, center: CGPoint, radius: Double) {
         let faint = scheme == .dark ? 0.5 : 0.42
         var path = Path()
         path.addArc(

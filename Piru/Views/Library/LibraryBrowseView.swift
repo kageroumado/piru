@@ -201,7 +201,7 @@ private struct LibraryFamilyCard: View {
             RouteLink(source.route) {
                 surface {
                     VStack(alignment: .leading, spacing: Spacing.xs) {
-                        header(chevron: "chevron.right", count: groupCount)
+                        header(count: groupCount)
                         if family.highlightsRisk {
                             riskBadge.padding(.top, 5)
                         } else {
@@ -218,7 +218,7 @@ private struct LibraryFamilyCard: View {
         surface {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 Button(action: toggle) {
-                    header(chevron: "chevron.right", rotates: true)
+                    header(chevronPointsDown: isExpanded)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -228,7 +228,12 @@ private struct LibraryFamilyCard: View {
                     VStack(spacing: Spacing.md) {
                         ForEach(family.subclasses) { sub in
                             RouteLink(sub.route) {
-                                LibrarySubclassRow(sub: sub)
+                                FamilySubRow(
+                                    icon: sub.category.icon,
+                                    title: Text(sub.title),
+                                    blurb: Text(sub.blurb),
+                                    count: SubstanceLibrary.categorySummary()[sub.category] ?? 0,
+                                )
                             }
                             .buttonStyle(.plain)
                         }
@@ -251,49 +256,12 @@ private struct LibraryFamilyCard: View {
 
     // MARK: Pieces
 
-    /// `chevron` is the trailing affordance, `chevron.right` on every card: fixed
-    /// on cards that push a screen (Apple's "navigates" cue), turning down (with
-    /// `rotates`) while an expand-in-place umbrella is open. The umbrella's
-    /// pushing sub-rows keep their own right chevron.
-    private func header(chevron: String?, rotates: Bool = false, count: Int? = nil) -> some View {
-        HStack(alignment: .top, spacing: 0) {
-            VStack(alignment: .leading, spacing: Spacing.xs) {
-                Image(systemName: family.icon)
-                    .font(.system(size: 21, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(height: 28, alignment: .leading)
-                    .accessibilityHidden(true)
-                Text(family.title)
-                    .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
-                    .foregroundStyle(.white)
-                Text(family.blurb)
-                    .font(.footnote)
-                    .foregroundStyle(.white.legibleOpacity(0.93))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .cardBlurbWidth(210)
-            }
-            Spacer(minLength: 8)
-            HStack(spacing: Spacing.sm) {
-                // Group size, like the inner sub-rows show. Only on navigating
-                // cards — umbrellas expand to reveal their sub-rows' own counts.
-                if let count {
-                    Text("\(count)")
-                        .sectionLabel()
-                        .monospacedDigit()
-                        .foregroundStyle(.white.legibleOpacity(0.9))
-                }
-                if let chevron {
-                    Image(systemName: chevron)
-                        .font(.subheadline.weight(.bold))
-                        .foregroundStyle(.white.legibleOpacity(0.9))
-                        .rotationEffect(.degrees(rotates && isExpanded ? 90 : 0))
-                        .accessibilityHidden(true)
-                }
-            }
-            .padding(.top, Spacing.xs)
-            // Lift the count/chevron off the molecule skeleton behind them.
-            .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
-        }
+    private func header(count: Int? = nil, chevronPointsDown: Bool = false) -> some View {
+        FamilyCardHeader(
+            title: FamilyCardTitle(icon: family.icon, title: Text(family.title), blurb: Text(family.blurb)),
+            count: count,
+            chevronPointsDown: chevronPointsDown,
+        )
     }
 
     /// Substance count for a single navigating card (nil for umbrellas). Reads
@@ -351,30 +319,98 @@ private struct LibraryFamilyCard: View {
     }
 }
 
-// MARK: - Sub-class Row
+// MARK: - Card Header
 
-/// An expanded umbrella's sub-class: icon, name, one-line description, the
-/// substance count, and a trailing chevron so it reads as tappable.
-private struct LibrarySubclassRow: View {
-    let sub: LibrarySubclass
+/// The title block that opens a gradient card: glyph, title and, when the card
+/// has one, a blurb held clear of the hero graphic.
+struct FamilyCardTitle: View {
+    let icon: String
+    let title: Text
+    var blurb: Text?
+    var blurbWidth: CGFloat = 210
+    var blurbTopPadding: CGFloat = 0
 
-    private var count: Int {
-        SubstanceLibrary.categorySummary()[sub.category] ?? 0
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            Image(systemName: icon)
+                .font(.system(size: 21, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(height: 28, alignment: .leading)
+                .accessibilityHidden(true)
+            title
+                .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
+                .foregroundStyle(.white)
+            if let blurb {
+                blurb
+                    .font(.footnote)
+                    .foregroundStyle(.white.legibleOpacity(0.93))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .cardBlurbWidth(blurbWidth)
+                    .padding(.top, blurbTopPadding)
+            }
+        }
     }
+}
+
+/// A Library card's header: the title block, then the trailing count and
+/// chevron. The chevron points right on every card — fixed on cards that push
+/// a screen (Apple's "navigates" cue), turning down while an expand-in-place
+/// card is open. The expanded card's pushing sub-rows keep their own right
+/// chevron.
+private struct FamilyCardHeader: View {
+    let title: FamilyCardTitle
+    /// Group size, like the inner sub-rows show. Only on navigating cards:
+    /// expand-in-place cards reveal their sub-rows' own counts.
+    var count: Int?
+    var chevronPointsDown = false
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 0) {
+            title
+            Spacer(minLength: 8)
+            HStack(spacing: Spacing.sm) {
+                if let count {
+                    Text("\(count)")
+                        .sectionLabel()
+                        .monospacedDigit()
+                        .foregroundStyle(.white.legibleOpacity(0.9))
+                }
+                Image(systemName: "chevron.right")
+                    .font(.subheadline.weight(.bold))
+                    .foregroundStyle(.white.legibleOpacity(0.9))
+                    .rotationEffect(.degrees(chevronPointsDown ? 90 : 0))
+                    .accessibilityHidden(true)
+            }
+            .padding(.top, Spacing.xs)
+            // Lift the count/chevron off the hero graphic behind them.
+            .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
+        }
+    }
+}
+
+// MARK: - Sub-row
+
+/// One row of an expanded card: an icon tile, title and one-line blurb, the
+/// count, and a trailing chevron so it reads as tappable.
+private struct FamilySubRow: View {
+    let icon: String
+    let title: Text
+    let blurb: Text
+    let count: Int
 
     var body: some View {
         HStack(spacing: Spacing.xl) {
-            Image(systemName: sub.category.icon)
+            Image(systemName: icon)
                 .font(.system(size: 15, weight: .semibold))
                 .foregroundStyle(.white)
                 .frame(width: 32, height: 32)
                 .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: Spacing.xxs) {
-                Text(sub.title)
+                title
                     .sectionLabel()
                     .foregroundStyle(.white)
-                Text(sub.blurb)
+                blurb
                     .font(.caption2)
                     .foregroundStyle(.white.legibleOpacity(0.85))
                     .lineLimit(2)
@@ -399,6 +435,7 @@ private struct LibrarySubclassRow: View {
                 .strokeBorder(.white.opacity(Theme.Opacity.tintActive), lineWidth: 0.5),
         )
         .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -423,7 +460,7 @@ private struct LibraryYoursCard: View {
         CustomSubstanceStore.shared.all.count
     }
 
-    private var rows: [LibraryYoursSubRow.Model] {
+    private var rows: [YoursRow] {
         [
             .init(
                 id: "favorites",
@@ -473,7 +510,11 @@ private struct LibraryYoursCard: View {
         } content: {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 Button(action: toggle) {
-                    header.contentShape(Rectangle())
+                    FamilyCardHeader(
+                        title: FamilyCardTitle(icon: "person.crop.circle.fill", title: Text("Yours")),
+                        chevronPointsDown: isExpanded,
+                    )
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityValue(isExpanded ? Text("Expanded") : Text("Collapsed"))
@@ -482,7 +523,7 @@ private struct LibraryYoursCard: View {
                     VStack(spacing: Spacing.md) {
                         ForEach(rows) { row in
                             RouteLink(row.route) {
-                                LibraryYoursSubRow(model: row)
+                                FamilySubRow(icon: row.icon, title: Text(row.title), blurb: row.blurb, count: row.count)
                             }
                             .buttonStyle(.plain)
                         }
@@ -500,35 +541,7 @@ private struct LibraryYoursCard: View {
         }
     }
 
-    private var header: some View {
-        HStack(alignment: .top, spacing: 0) {
-            VStack(alignment: .leading, spacing: Spacing.xs) {
-                Image(systemName: "person.crop.circle.fill")
-                    .font(.system(size: 21, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(height: 28, alignment: .leading)
-                    .accessibilityHidden(true)
-                Text("Yours")
-                    .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
-                    .foregroundStyle(.white)
-                Text("Favorites, colors, units, and the substances you added.")
-                    .font(.footnote)
-                    .foregroundStyle(.white.legibleOpacity(0.93))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .cardBlurbWidth(210)
-            }
-            Spacer(minLength: 8)
-            Image(systemName: "chevron.right")
-                .font(.subheadline.weight(.bold))
-                .foregroundStyle(.white.legibleOpacity(0.9))
-                .rotationEffect(.degrees(isExpanded ? 90 : 0))
-                .accessibilityHidden(true)
-                .padding(.top, Spacing.xs)
-                .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
-        }
-    }
-
-    private func chip(_ row: LibraryYoursSubRow.Model) -> some View {
+    private func chip(_ row: YoursRow) -> some View {
         HStack(spacing: 5) {
             Text(row.title)
             Text("\(row.count)")
@@ -543,57 +556,12 @@ private struct LibraryYoursCard: View {
     }
 }
 
-/// One expanded row of the Yours card, in the family sub-row recipe: an icon
-/// tile, title and blurb, the count, and the push chevron.
-private struct LibraryYoursSubRow: View {
-    struct Model: Identifiable {
-        let id: String
-        let icon: String
-        let title: LocalizedStringKey
-        let blurb: Text
-        let count: Int
-        let route: PushRoute
-    }
-
-    let model: Model
-
-    var body: some View {
-        HStack(spacing: Spacing.xl) {
-            Image(systemName: model.icon)
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 32, height: 32)
-                .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
-                .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: Spacing.xxs) {
-                Text(model.title)
-                    .sectionLabel()
-                    .foregroundStyle(.white)
-                model.blurb
-                    .font(.caption2)
-                    .foregroundStyle(.white.legibleOpacity(0.85))
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            Spacer(minLength: 6)
-            Text("\(model.count)")
-                .sectionLabel()
-                .foregroundStyle(.white.legibleOpacity(0.92))
-                .monospacedDigit()
-            Image(systemName: "chevron.right")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.white.legibleOpacity(Theme.Opacity.strong))
-                .accessibilityHidden(true)
-        }
-        .padding(.horizontal, 13)
-        .padding(.vertical, 11)
-        .frame(maxWidth: .infinity)
-        .background(.white.opacity(0.17), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .strokeBorder(.white.opacity(Theme.Opacity.tintActive), lineWidth: 0.5),
-        )
-        .contentShape(Rectangle())
-        .accessibilityElement(children: .combine)
-    }
+/// One row of the Yours card: its chip when folded, its sub-row when open.
+private struct YoursRow: Identifiable {
+    let id: String
+    let icon: String
+    let title: LocalizedStringKey
+    let blurb: Text
+    let count: Int
+    let route: PushRoute
 }

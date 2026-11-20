@@ -10,7 +10,7 @@ import SwiftUI
 /// user from reaching the app. Permissions are asked *just-in-time*, each next to the value it
 /// unlocks, rather than batched into a wall of toggles.
 struct OnboardingView: View {
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage(OnboardingState.completedKey) private var hasCompletedOnboarding = false
     @Environment(\.dismiss) private var dismiss
 
     /// The pushed steps after the root welcome screen. Using a real `NavigationStack` gives us the

@@ -399,14 +399,7 @@ private struct AddFavoriteView: View {
             dismiss()
             return
         }
-        let favorite = FavoriteSubstance(substance: substance.name)
-        favorite.sortOrder = (favorites.map(\.sortOrder).max() ?? -1) + 1
-        favorite.substanceUID = substance.substanceUID
-        modelContext.insert(favorite)
-        try? modelContext.save()
-        #if os(iOS)
-            PhoneSyncCoordinator.shared.pushManifest()
-        #endif
+        FavoriteService.add(substance: substance.name, substanceUID: substance.substanceUID, in: modelContext)
         dismiss()
     }
 }

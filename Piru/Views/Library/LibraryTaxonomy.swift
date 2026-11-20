@@ -109,25 +109,28 @@ extension LibraryFamily {
         let language: ContentLanguage
     }
 
-    static func exemplars(for source: Source?, limit: Int = 3) -> [String] {
+    static func exemplars(for source: Source?) -> [String] {
         guard let source else { return [] }
         let key = ExemplarsKey(usesEnglishNames: LocalizedSubstanceName.usesEnglishNames, language: .current)
         if key != exemplarsCacheKey {
             exemplarsCache.removeAll()
             exemplarsCacheKey = key
         }
-        if limit == 3, let cached = exemplarsCache[source] { return cached }
+        if let cached = exemplarsCache[source] { return cached }
         let list: [Substance] = switch source {
         case let .category(category): SubstanceLibrary.substances(in: category)
         case let .tag(tag): SubstanceLibrary.substances(taggedWith: tag)
         }
         let result = list
             .sorted { $0.popularity > $1.popularity }
-            .prefix(limit)
+            .prefix(exemplarCount)
             .map(\.displayTitle)
-        if limit == 3 { exemplarsCache[source] = result }
+        exemplarsCache[source] = result
         return result
     }
+
+    /// How many names a card's exemplar line shows.
+    private static let exemplarCount = 3
 
     /// Families with their empty sub-classes (and empty single cards) pruned, so
     /// a class with nothing browsable never shows a dead card. Shared by the

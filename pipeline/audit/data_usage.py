@@ -89,6 +89,11 @@ PROPERTY_NAMES = {
     # `rank` orders the rows `SubstanceStore.enzymeModulators()` returns; the
     # substance page lists the modulators it reads through that call in that order.
     ("enzyme_modulators", "rank"): "enzymeModulators",
+    # CYP2D6Info (Data/Pharmacology) reads a CYP2D6 step's mechanism and potency
+    # to tell a prodrug from a cleared parent; CYP2D6NoteSection shows the
+    # `cyp2d6Info` it yields.
+    ("metabolism", "metabolite_mechanism_vs_parent"): "cyp2d6Info",
+    ("metabolism", "metabolite_potency_vs_parent_pct"): "cyp2d6Info",
 }
 
 #: Columns that are plumbing, not content. They are always "used" in the sense

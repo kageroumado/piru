@@ -112,7 +112,7 @@ struct EffectsSection: View {
         bands = loaded
         if let route = substance.routes.first(where: { $0.route == substance.defaultRoute })
             ?? substance.routes.first {
-            bandDoseText = EffectsIntensityModel.bandDoseText(from: route.doses, unit: route.unit)
+            bandDoseText = route.doses.bandDoseText(unit: route.unit)
             doseRouteName = route.route.displayName
         }
         dcDeepLink = SubstanceSourceLinks.deepLink("drug.community", substance: substance)

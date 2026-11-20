@@ -89,6 +89,9 @@ struct DoseDurationSection: View {
     @Binding var saltSelection: String?
     @Binding var isomerSelection: String?
     let provenance: SubstanceStore.SubstanceProvenance?
+    /// Holds the per-route source counts, so the compare row costs one query
+    /// per route rather than one per body pass.
+    let model: SubstanceDetailModel
 
     /// The branded formulation whose duration envelope redraws the curve, or `nil`
     /// for the substance's own default curve. Card-local: it answers "how long does
@@ -102,6 +105,7 @@ struct DoseDurationSection: View {
         saltSelection: Binding<String?>,
         isomerSelection: Binding<String?>,
         provenance: SubstanceStore.SubstanceProvenance?,
+        model: SubstanceDetailModel,
         initialBrand: String? = nil,
     ) {
         self.routes = routes
@@ -109,6 +113,7 @@ struct DoseDurationSection: View {
         _saltSelection = saltSelection
         _isomerSelection = isomerSelection
         self.provenance = provenance
+        self.model = model
         _selectedBrandProduct = State(
             initialValue: Self.preselectedBrand(initialBrand, substanceUID: routes.substance.substanceUID),
         )
@@ -280,7 +285,7 @@ struct DoseDurationSection: View {
     /// one — and counting the total rather than the *others* keeps the string
     /// plural in every case it can appear, so it needs no plural rule.
     private func ladderSourceCount(for route: RouteOfAdministration) -> Int {
-        SubstanceStore.shared.doseLadders(forSubstanceName: substance.name, route: route).count
+        model.ladderSourceCount(substanceName: substance.name, route: route)
     }
 }
 

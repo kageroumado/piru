@@ -250,8 +250,11 @@ final class BackupManager {
 
     // MARK: - iCloud backup management
 
-    /// Whether an iCloud backup file exists (downloaded or cloud-only placeholder).
-    nonisolated static func iCloudBackupExists() -> Bool {
+    /// Whether an iCloud backup file exists (downloaded or cloud-only
+    /// placeholder). Runs off the main actor: the iCloud container lookup and
+    /// the file checks can block.
+    @concurrent
+    nonisolated static func iCloudBackupExists() async -> Bool {
         guard let docs = try? iCloudDocumentsURL() else { return false }
         let file = docs.appendingPathComponent(backupFilename)
         if FileManager.default.fileExists(atPath: file.path) { return true }

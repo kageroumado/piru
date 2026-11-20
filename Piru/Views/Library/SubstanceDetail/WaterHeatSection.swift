@@ -28,6 +28,6 @@ struct WaterHeatCard: View {
     }
 
     private var bodyText: AttributedString {
-        (try? AttributedString(markdown: guidance.body)) ?? AttributedString(guidance.body)
+        AttributedString(markdownOrPlain: guidance.body)
     }
 }
