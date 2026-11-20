@@ -145,12 +145,6 @@ struct MyMedsHubView: View {
                 }
 
                 Section {
-                    addMedButton
-                }
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-
-                Section {
                     NavigationLink {
                         NotificationSettingsView()
                     } label: {
@@ -166,25 +160,23 @@ struct MyMedsHubView: View {
         }
         .themedPage()
         .navigationTitle("My Meds")
-        #if canImport(UIKit)
-            .navigationBarTitleDisplayMode(.large)
-        #endif
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        showingAddMed = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                    .accessibilityLabel("Add a Med")
+        .largeNavigationTitle()
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    showingAddMed = true
+                } label: {
+                    Image(systemName: "plus")
                 }
+                .accessibilityLabel("Add a Med")
             }
-            .sheet(isPresented: $showingAddMed) {
-                MedFormView()
-            }
-            .sheet(item: $adoptingProduct) { product in
-                MedFormView(product: product)
-            }
+        }
+        .sheet(isPresented: $showingAddMed) {
+            MedFormView()
+        }
+        .sheet(item: $adoptingProduct) { product in
+            MedFormView(product: product)
+        }
     }
 
     private var emptyState: some View {
