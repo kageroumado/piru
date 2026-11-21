@@ -49,7 +49,6 @@ piru://quicklog?substance=Concerta&amount=27&unit=mg&route=oral&time=2026-10-18T
 ## Notes
 
 - iOS/watchOS/macOS 26+; Android 9+ on 64-bit ARM. Mac supports Apple silicon and Intel. Apple Watch comes with the iPhone app.
-- The iPhone app is on the App Store. In the EU, where it has no App Store listing, the iPhone button opens TestFlight.
 - Android updates: add this repository to [Obtainium](https://github.com/ImranR98/Obtainium), filtering releases by `android-`.
 - [Website](https://kagerou.glass/piru/) · [Bug reports](BUG-REPORTS.md) · [Contributing](CONTRIBUTING.md) · [简体中文](README.zh-Hans.md).
 
