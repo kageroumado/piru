@@ -72,6 +72,28 @@ struct DoseEntryTests {
         #expect(entry.route == .insufflation)
     }
 
+    @Test
+    func `A deviation marks the dose approximate`() {
+        let entry = DoseEntry(substance: "Ketamine", amount: 10, unit: "mg", route: .insufflation, amountDeviation: 1)
+        #expect(entry.amountDeviation == 1)
+        #expect(entry.isApproximate)
+        #expect(entry.amount == 10)
+    }
+
+    @Test(arguments: [0, -2, Double.nan, Double.infinity])
+    func `A deviation that is not a positive number is not stored`(value: Double) {
+        let entry = DoseEntry(substance: "Ketamine", amount: 10, unit: "mg", amountDeviation: value)
+        #expect(entry.amountDeviation == nil)
+        #expect(!entry.isApproximate)
+    }
+
+    @Test
+    func `An unknown dose carries no deviation`() {
+        let entry = DoseEntry(substance: "Ketamine", amount: 10, unit: "mg", amountDeviation: 1, isUnknownDose: true)
+        #expect(entry.amountDeviation == nil)
+        #expect(!entry.isApproximate)
+    }
+
     // MARK: - Location
 
     @Test

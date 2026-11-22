@@ -125,6 +125,10 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
         let unit: String
         /// Whether the dose has no amount — the bubble prints `?` for it.
         let isUnknownDose: Bool
+        /// Whether the amount is an estimate, and how far off it may be — the
+        /// bubble prints `~10` or `10 ± 1` for it.
+        let isApproximate: Bool
+        let amountDeviation: Double?
         let route: RouteOfAdministration
         /// The dose's title, resolved once here (a derive layer) through the shared
         /// ``DoseTitle/resolve(for:)`` — so the bubble shows the brand ("Medikinet")
@@ -146,6 +150,8 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             amount = entry.amount
             unit = entry.unit
             isUnknownDose = entry.isUnknownDose
+            isApproximate = entry.isApproximate
+            amountDeviation = entry.amountDeviation
             route = entry.route
             self.displayName = displayName
             substance = entry.substance
@@ -160,6 +166,8 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             case amount
             case unit
             case isUnknownDose
+            case isApproximate
+            case amountDeviation
             case route
             case displayName
             case substance
@@ -175,6 +183,8 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             amount = try c.decode(Double.self, forKey: .amount)
             unit = try c.decode(String.self, forKey: .unit)
             isUnknownDose = try c.decodeIfPresent(Bool.self, forKey: .isUnknownDose) ?? false
+            isApproximate = try c.decodeIfPresent(Bool.self, forKey: .isApproximate) ?? false
+            amountDeviation = try c.decodeIfPresent(Double.self, forKey: .amountDeviation)
             route = try c.decode(RouteOfAdministration.self, forKey: .route)
             displayName = try c.decode(String.self, forKey: .displayName)
             substance = try c.decode(String.self, forKey: .substance)
@@ -190,6 +200,8 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
             try c.encode(amount, forKey: .amount)
             try c.encode(unit, forKey: .unit)
             try c.encode(isUnknownDose, forKey: .isUnknownDose)
+            try c.encode(isApproximate, forKey: .isApproximate)
+            try c.encodeIfPresent(amountDeviation, forKey: .amountDeviation)
             try c.encode(route, forKey: .route)
             try c.encode(displayName, forKey: .displayName)
             try c.encode(substance, forKey: .substance)

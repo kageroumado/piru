@@ -148,6 +148,8 @@ enum SessionResolveModel {
             hasher.combine(entry.amount)
             hasher.combine(entry.unit)
             hasher.combine(entry.isUnknownDose)
+            hasher.combine(entry.isApproximate)
+            hasher.combine(entry.amountDeviation)
             hasher.combine(entry.substance)
             hasher.combine(entry.substanceUID)
             hasher.combine(entry.route)

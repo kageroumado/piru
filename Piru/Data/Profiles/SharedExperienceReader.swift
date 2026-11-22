@@ -24,6 +24,7 @@ nonisolated struct SharedDoseSnapshot: Hashable, Sendable, Codable {
     let abv: Double?
     let drinkName: String?
     let isApproximate: Bool
+    let amountDeviation: Double?
     let isUnknownDose: Bool
     let isBackgroundMed: Bool
     /// The substance's color in their journal.
@@ -48,6 +49,7 @@ nonisolated struct SharedDoseSnapshot: Hashable, Sendable, Codable {
         abv = entry.abv
         drinkName = entry.drinkName
         isApproximate = entry.isApproximate
+        amountDeviation = entry.amountDeviation
         isUnknownDose = entry.isUnknownDose
         isBackgroundMed = entry.isBackgroundMed
         self.tint = tint
@@ -74,6 +76,7 @@ extension SharedDoseSnapshot {
             isBackgroundMed: isBackgroundMed,
             meal: mealRaw.flatMap(MealState.init(rawValue:)),
             isApproximate: isApproximate,
+            amountDeviation: amountDeviation,
             isUnknownDose: isUnknownDose,
             volumeML: volumeML,
             abv: abv,

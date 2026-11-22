@@ -66,7 +66,10 @@ struct TimelineDoseBubble: View {
     }
 
     private var doseText: String {
-        "\(item.isUnknownDose ? "?" : item.amount.doseFormatted) \(item.unit)"
+        if item.isUnknownDose { return "? \(item.unit)" }
+        return DoseReadout.text(
+            amount: item.amount, unit: item.unit, isApproximate: item.isApproximate, deviation: item.amountDeviation,
+        )
     }
 
     private var isSelected: Bool {

@@ -27,6 +27,8 @@ struct DayEntryCore: Equatable {
     let substanceKey: String
     /// Whether the logged amount is the user's estimate — draws a leading `~`.
     let isApproximate: Bool
+    /// How far off that estimate may be — draws `± 1` after the amount.
+    let amountDeviation: Double?
     /// Whether the dose has no amount at all — draws `?`, no level, no rail.
     let isUnknownDose: Bool
     /// The dose's class, carried so the row can state a sleep clause without a
@@ -88,6 +90,7 @@ struct DayEntryCore: Equatable {
                 totalMinutes: ActiveSubstanceState.from(entry: entry, tint: .neutral, weightKg: weightKg)?.totalMinutes,
                 substanceKey: entry.substance.lowercased(),
                 isApproximate: entry.isApproximate,
+                amountDeviation: entry.amountDeviation,
                 isUnknownDose: entry.isUnknownDose,
                 category: resolved?.category,
                 combinationName: entry.combinationName,
@@ -252,6 +255,7 @@ struct EntryRowView: View {
             amount: display.core.amount,
             unit: display.core.unit,
             isApproximate: display.core.isApproximate,
+            deviation: display.core.amountDeviation,
             isUnknown: display.core.isUnknownDose,
         )
         .accessibilityLabel(doseAccessibilityLabel)
@@ -379,10 +383,10 @@ struct EntryRowView: View {
     /// only by color on screen.
     private var doseAccessibilityLabel: Text {
         if display.core.isUnknownDose { return Text("unknown amount") }
-        let formatted = display.core.amount.doseFormatted
-        let dose = display.core.isApproximate
-            ? String(localized: "approximately \(formatted) \(display.core.unit)")
-            : "\(formatted) \(display.core.unit)"
+        let dose = MeasurementLabel.spoken(
+            amount: display.core.amount, unit: display.core.unit,
+            isApproximate: display.core.isApproximate, deviation: display.core.amountDeviation,
+        )
         guard let level = display.core.doseLevel else { return Text(dose) }
         return Text("\(dose), \(String(localized: level.displayName))")
     }

@@ -1571,6 +1571,11 @@ T = {
         "劑量會顯示為 ~；這個估計值仍會用於繪製曲線。",
     ),
     "approximately %@ %@": ("大约 %@ %@", "大約 %@ %@"),
+    # The ± on an estimated amount: the field's label, then VoiceOver's reading
+    # of a dose ("10 mg, give or take 1") and of the quick-log pill.
+    "Might be off by": ("误差范围", "誤差範圍"),
+    "%@ %@, give or take %@": ("%@ %@，误差 %@", "%@ %@，誤差 %@"),
+    "give or take %@ %@": ("误差 %@ %@", "誤差 %@ %@"),
     # ---- Label scanner (camera → QuickLog) ----
     "Regular": ("常规", "常規"),
     # QuickLog "Form" pill accessibility label — the isomer × release form selector.
@@ -9691,6 +9696,8 @@ if __name__ == "__main__":
     NEW_KEYS.update(
         {"Last %lld days", "All time", "Repeats", "S-enantiomer", "R-enantiomer", "racemate"}
     )
+    # The ± on an estimated dose.
+    NEW_KEYS.update({"Might be off by", "%@ %@, give or take %@", "give or take %@ %@"})
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(
         project_root / "Piru/Localizable.xcstrings",

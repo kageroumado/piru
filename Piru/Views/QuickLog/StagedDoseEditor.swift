@@ -55,6 +55,7 @@ struct StagedDoseEditor: View {
 
     @FocusState private var amountFocused: Bool
     @FocusState private var noteFocused: Bool
+    @FocusState private var deviationFocused: Bool
     @FocusState private var abvFocused: Bool
     @FocusState private var volumeFocused: Bool
 
@@ -78,10 +79,10 @@ struct StagedDoseEditor: View {
 
             inputBlock
 
-            // Pills wrap onto further rows as they run out of width — eight of
+            // Pills wrap onto further rows as they run out of width — nine of
             // them can be live at once (drink, route, salt, ester, brand,
-            // isomer, note, grapefruit), and at accessibility sizes even two
-            // won't share a row without truncating each other.
+            // isomer, approximate, note, grapefruit), and at accessibility sizes
+            // even two won't share a row without truncating each other.
             FlowLayout(spacing: Spacing.md) {
                 if byVolumeCapability != nil, byDrinkPreferred, !isSolution {
                     drinkTypeChip
@@ -120,6 +121,21 @@ struct StagedDoseEditor: View {
                         style: .menuPill(namespace: namespace, id: "isomer-\(item.id)", height: pillHeight),
                     )
                 }
+                // An unknown amount has no number to be approximate about.
+                if !item.isUnknownAmount {
+                    StagedDoseApproximatePill(
+                        isOn: item.isApproximate,
+                        deviation: item.amountDeviation,
+                        unit: item.unit,
+                        pillHeight: pillHeight,
+                    ) {
+                        withAnimation(.snappy) {
+                            item.isApproximate.toggle()
+                            if !item.isApproximate { item.amountDeviation = nil }
+                        }
+                        if item.isApproximate { deviationFocused = true }
+                    }
+                }
                 StagedDoseNotePill(note: item.note, pillHeight: pillHeight) {
                     withAnimation(.snappy) { noteExpanded.toggle() }
                     if noteExpanded { noteFocused = true }
@@ -127,6 +143,10 @@ struct StagedDoseEditor: View {
                 if profileStore.grapefruitLoggingEnabled, model.isGrapefruitSubstrate {
                     StagedDoseGrapefruitPill(isOn: $item.hadGrapefruit, pillHeight: pillHeight)
                 }
+            }
+
+            if item.isApproximate, !item.isUnknownAmount {
+                StagedDoseDeviationEditor(deviation: $item.amountDeviation, unit: item.unit, focus: $deviationFocused)
             }
 
             if noteExpanded {

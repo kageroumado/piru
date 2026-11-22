@@ -25,6 +25,23 @@ struct DoseTrayModelTests {
         #expect(!tray.isCommittable)
     }
 
+    @Test
+    func `The tray row prints an estimate as ~ or with its deviation`() {
+        let tray = DoseTrayModel()
+        stage(tray, "Ketamine", amount: 10)
+        #expect(tray.staged[0].amountLabel == "10 mg")
+
+        tray.staged[0].isApproximate = true
+        #expect(tray.staged[0].amountLabel == "~10 mg")
+
+        tray.staged[0].amountDeviation = 1.5
+        #expect(tray.staged[0].amountLabel == "10 ± 1.5 mg")
+
+        // Clearing the amount field outranks the estimate: there is no number.
+        tray.staged[0].isUnknownAmount = true
+        #expect(tray.staged[0].amountLabel == "? mg")
+    }
+
     /// The crux of the perf fix: editing a staged dose's *amount* (stepping it up
     /// or down) must not flip `isEmpty` — it's the stored flag staying put through
     /// in-place edits that keeps `QuickLogView.body` from re-running per step.

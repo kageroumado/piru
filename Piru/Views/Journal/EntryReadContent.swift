@@ -207,6 +207,7 @@ struct EntryReadHero: View {
             amount: entry.amount,
             unit: entry.unit,
             isApproximate: entry.isApproximate,
+            deviation: entry.amountDeviation,
             isUnknown: entry.isUnknownDose,
             numberStyle: .largeTitle,
             numberWeight: .bold,
