@@ -7,8 +7,6 @@ struct HalfLifeCalculatorView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                HalfLifeHeader(count: model.halfLifeCount)
-
                 HalfLifeInputSection(model: model)
 
                 if let halfLife = model.effectiveHalfLife, model.dose > 0 {
@@ -44,21 +42,7 @@ struct HalfLifeCalculatorView: View {
             .padding()
         }
         .skinBackdrop()
-        .task { await model.loadHalfLifeCount() }
-    }
-}
-
-// MARK: - Header
-
-private struct HalfLifeHeader: View {
-    let count: Int
-
-    var body: some View {
-        HStack {
-            Spacer()
-            Text("\(count) with half-life data")
-                .captionSecondary()
-        }
+        .task { await SubstanceStore.shared.ensureAllLoaded() }
     }
 }
 
@@ -69,8 +53,12 @@ private struct HalfLifeInputSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
-            SubstanceSearchField(text: $model.substanceName) { substance, _ in
-                model.select(substance)
+            VStack(alignment: .leading) {
+                Text("Substance")
+                    .captionSecondary()
+                SubstanceSearchField(text: $model.substanceName) { substance, _ in
+                    model.select(substance)
+                }
             }
 
             if let sub = model.selectedSubstance, sub.routes.count > 1 {
@@ -438,10 +426,8 @@ private struct HalfLifeRelatedLinks: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
 
-            GlanceCard(icon: "hourglass", title: Text("Modeled as Active"), route: .insight(.inSystem)) {
-                Text("See the model's estimate of what is still active")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
+            GlanceCard(icon: "hourglass", title: Text("In Your Body"), route: .insight(.inSystem)) {
+                EmptyView()
             }
         }
     }

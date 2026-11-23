@@ -111,9 +111,6 @@ final class HalfLifeCalculatorModel {
     var customHalfLifeHours: Double?
     var selectedRoute: RouteOfAdministration = .oral
 
-    /// How many substances in the library carry a half-life, for the header.
-    private(set) var halfLifeCount = 0
-
     var dose: Double {
         doseAmount ?? 0
     }
@@ -158,10 +155,5 @@ final class HalfLifeCalculatorModel {
         substanceName = substance.name
         doseUnit = substance.defaultUnit
         selectedRoute = substance.defaultRoute
-    }
-
-    func loadHalfLifeCount() async {
-        await SubstanceStore.shared.ensureAllLoaded()
-        halfLifeCount = SubstanceLibrary.all.count(where: { $0.halfLifeMinutes != nil })
     }
 }
