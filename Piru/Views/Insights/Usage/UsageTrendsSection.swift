@@ -83,6 +83,9 @@ struct UsageTrendsSection: View {
             selectedDate = nil
             hidden = []
         }
+        #if DEBUG
+        .task { selectedDate = ScreenshotTour.takeStagedSelection(.usageTrends) ?? selectedDate }
+        #endif
     }
 
     private var subtitle: LocalizedStringKey {

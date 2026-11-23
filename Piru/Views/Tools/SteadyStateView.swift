@@ -32,6 +32,14 @@ struct SteadyStateView: View {
         .scrollDismissesKeyboard(.interactively)
         .skinBackdrop()
         .onChange(of: inputs.recomputeKey) { inputs.refresh() }
+        #if DEBUG
+            .task {
+                await SubstanceStore.shared.ensureAllLoaded()
+                if let name = ScreenshotTour.takeStagedChart(\.calculatorSubstance), let substance = SubstanceLibrary.lookup(name) {
+                    inputs.select(substance)
+                }
+            }
+        #endif
     }
 }
 

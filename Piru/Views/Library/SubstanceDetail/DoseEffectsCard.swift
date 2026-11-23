@@ -67,6 +67,9 @@ struct DoseEffectsCard: View {
             }
         }
         .padding(.vertical, Spacing.xs)
+        #if DEBUG
+            .task { selected = ScreenshotTour.takeStagedChart(\.doseTier) ?? selected }
+        #endif
     }
 
     // MARK: - Dose (the tier grid)

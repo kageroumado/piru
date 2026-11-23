@@ -33,7 +33,10 @@
     ///
     /// Arguments, all optional after the first:
     /// - `-piruScreenshots <dir>` — output directory; enables the tour.
-    /// - `-piruScreenshotScreens all|<name,…>` — which screens (default all).
+    /// - `-piruScreenshotScreens all|charts|charts-static|<name,…>` — which
+    ///   screens (default all). `charts` is every chart screen that draws the
+    ///   journal, to run once per persona; `charts-static` the chart screens
+    ///   that draw only the substance catalog, to run once.
     /// - `-piruScreenshotSkins all|none|<skin,…>` — which skins beyond `piru`.
     /// - `-piruScreenshotSkinScreens all|<name,…>` — screens per skin.
     /// - `-piruScreenshotSettle <seconds>` — wait after navigating (default 1.2).
@@ -72,11 +75,26 @@
             /// The persona whose seed this screen shows; `nil` for a screen every
             /// persona fills. A pass under another persona leaves it out.
             var persona: String?
+            /// The named set this screen belongs to, selectable as a whole.
+            var set: ScreenSet?
+            /// The control state the screen is staged in, in words: the range,
+            /// filter or mode selected and how far it is scrolled.
+            var state: String?
             let stage: @MainActor (Stage) async -> Void
         }
 
+        /// Screens selectable by one name in `-piruScreenshotScreens`.
+        enum ScreenSet: String {
+            /// Chart screens whose content comes from the journal: one pass per persona.
+            case charts
+            /// Chart screens drawn from the substance catalog alone: one pass.
+            case chartsStatic = "charts-static"
+        }
+
         /// Every screen, in capture order. Names are the file names.
-        static let catalog: [Screen] = [
+        static let catalog: [Screen] = screens + chartScreens
+
+        private static let screens: [Screen] = [
             Screen(name: "journal") { stage in
                 stage.grouping(.timeline)
                 stage.tab(.journal)
@@ -236,6 +254,155 @@
             },
         ]
 
+        /// Every chart surface, in each state a reviewer must see: each range,
+        /// filter and mode, the parts below the fold (`-pN` is N − 1 screens
+        /// down), and a selected point where the chart offers one.
+        private static let chartScreens: [Screen] = [
+            chart("chart-journal-timeline", state: "Journal, Timeline grouping, curves off") { stage in
+                stage.grouping(.timeline)
+                stage.tab(.journal)
+            },
+            chart("chart-journal-timeline-curves", state: "Journal, Timeline grouping, Show Curves on") { stage in
+                stage.grouping(.timeline)
+                stage.setShared("timelinePKCurves", true)
+                stage.tab(.journal)
+            },
+            chart("chart-journal-days", state: "Journal, Days grouping (Active Now graph when a dose is active)") { stage in
+                stage.grouping(.byDay)
+                stage.tab(.journal)
+            },
+            chart("chart-session", pages: 4, state: "the session with the most doses") { stage in
+                guard let id = stage.busiestSession()?.id else { return }
+                stage.push(.session(id: id), in: .journal)
+            },
+            chart("chart-entry", pages: 2, state: "the newest entry's detail sheet") { stage in
+                guard let entry = stage.newestEntry() else { return }
+                stage.tab(.journal)
+                stage.present(.entryDetail(timestamp: entry.timestamp, id: entry.id))
+            },
+            chart("chart-insights", pages: 3, state: "Insights tab") { stage in
+                stage.tab(.insights)
+            },
+            chart("chart-stats-7d", state: "Usage, range 7D, Common doses, all substances") { stage in
+                stage.usage(range: .sevenDays)
+            },
+            chart("chart-stats-30d", pages: 6, state: "Usage, range 30D, Common doses, all substances") { stage in
+                stage.usage(range: .thirtyDays)
+            },
+            chart("chart-stats-90d", state: "Usage, range 90D, Common doses, all substances") { stage in
+                stage.usage(range: .ninetyDays)
+            },
+            chart("chart-stats-1y", state: "Usage, range 1Y, Common doses, all substances") { stage in
+                stage.usage(range: .oneYear)
+            },
+            chart("chart-stats-all", pages: 6, state: "Usage, range All, Common doses, all substances") { stage in
+                stage.usage(range: .all)
+            },
+            chart("chart-stats-entries", pages: 3, state: "Usage, range 30D, Measure Entries, all substances") { stage in
+                stage.usage(range: .thirtyDays, metric: .entries)
+            },
+            chart(
+                "chart-stats-filtered", pages: 3,
+                state: "Usage, range 30D, Common doses, substance filter set to the two most-logged substances of the last 30 days",
+            ) { stage in
+                stage.usage(range: .thirtyDays, substances: Set(stage.mostLoggedSubstances(2, days: 30)))
+            },
+            chart("chart-stats-trend-selected", pages: 2, state: "Usage, range 30D, the day ten days ago selected on Substance trends") { stage in
+                stage.select(.usageTrends, at: Calendar.current.startOfDay(for: DebugClock.now.addingTimeInterval(-10 * 86_400)))
+                stage.usage(range: .thirtyDays)
+            },
+            chart("chart-modeled-levels", pages: 4, state: "In Your Body, range 30D, all substances") { stage in
+                stage.push(.insightGroup(.inYourBody), in: .insights)
+            },
+            chart("chart-modeled-levels-selected", state: "In Your Body, range 30D, the point one day ago selected") { stage in
+                stage.select(.modeledLevels, at: DebugClock.now.addingTimeInterval(-86_400))
+                stage.push(.insightGroup(.inYourBody), in: .insights)
+            },
+            chart("chart-tolerance", pages: 4, state: "Modeled Tolerance, Show By mechanism, Detail Level Curious") { stage in
+                stage.push(.insight(.tolerance), in: .insights)
+            },
+            chart("chart-tolerance-substance", pages: 3, state: "Modeled Tolerance, Show By substance, Detail Level Curious") { stage in
+                stage.toleranceMode(.perSubstance)
+                stage.push(.insight(.tolerance), in: .insights)
+            },
+            chart("chart-tolerance-casual", pages: 3, state: "Modeled Tolerance, Show By mechanism, Detail Level Casual") { stage in
+                stage.disclosure(.casual)
+                stage.push(.insight(.tolerance), in: .insights)
+            },
+            chart("chart-receptor-load", pages: 2, state: "Receptor Load, range 7D") { stage in
+                stage.push(.insight(.receptorLoad), in: .insights)
+            },
+            chart("chart-receptor-load-selected", state: "Receptor Load, range 7D, the point one day ago selected") { stage in
+                stage.select(.receptorLoad, at: DebugClock.now.addingTimeInterval(-86_400))
+                stage.push(.insight(.receptorLoad), in: .insights)
+            },
+            chart("chart-hormone-levels", pages: 3, state: "Hormone Levels, its default range") { stage in
+                stage.push(.insight(.hormoneLevels), in: .insights)
+            },
+            chart("chart-patterns", pages: 3, state: "Patterns, range 90D") { stage in
+                stage.push(.insight(.patterns), in: .insights)
+            },
+            chart("chart-adherence", pages: 2, state: "Adherence, this month") { stage in
+                stage.push(.insight(.adherence), in: .insights)
+            },
+            chart("chart-substance-estradiol", persona: "transfemHRT", pages: 3, state: "Estradiol page: History and Depot levels") { stage in
+                stage.push(.substance(name: "Estradiol"), in: .library)
+            },
+            chart("chart-half-life", .chartsStatic, pages: 2, state: "Half-life calculator, Caffeine, its default dose and route, taken now") { stage in
+                stage.calculator("Caffeine")
+                stage.push(.tool(.calculator), in: .tools)
+            },
+            chart("chart-steady-state", .chartsStatic, pages: 2, state: "Steady State, Sertraline, its default dose every 24 h") { stage in
+                stage.calculator("Sertraline")
+                stage.push(.tool(.steadyState), in: .tools)
+            },
+            chart("chart-injection-levels", .chartsStatic, pages: 3, state: "Injection Levels, its default hormone, ester and source") { stage in
+                stage.push(.tool(.injectionLevels), in: .tools)
+            },
+            chart("chart-ceiling", .chartsStatic, pages: 4, state: "Ceiling Effect tool") { stage in
+                stage.push(.tool(.ceiling), in: .tools)
+            },
+            chart("chart-interaction-timeline", .chartsStatic, pages: 2, state: "Interaction timeline, Alcohol + Lorazepam, both at their default times") { stage in
+                stage.hostInteractionTimeline("Alcohol", "Lorazepam")
+            },
+            chart("chart-interaction-timeline-codeine", .chartsStatic, pages: 2, state: "Interaction timeline, Codeine + Diazepam, both at their default times") { stage in
+                stage.hostInteractionTimeline("Codeine", "Diazepam")
+            },
+            chart("chart-substance-mdma", .chartsStatic, pages: 3, state: "MDMA page, its default route and tier") { stage in
+                stage.push(.substance(name: "MDMA"), in: .library)
+            },
+            chart("chart-substance-mdma-tier", .chartsStatic, pages: 2, state: "MDMA page, the fourth dose tier tapped") { stage in
+                stage.doseTier(3)
+                stage.push(.substance(name: "MDMA"), in: .library)
+            },
+            chart("chart-substance-codeine", .chartsStatic, pages: 5, state: "Codeine page (its Also active section charts metabolizer variation)") { stage in
+                stage.push(.substance(name: "Codeine"), in: .library)
+            },
+            chart("chart-pharmacology-mdma", .chartsStatic, pages: 3, state: "MDMA Pharmacology section") { stage in
+                stage.push(.substanceData(name: "MDMA", section: .pharmacology), in: .library)
+            },
+            chart("chart-pharmacology-ketamine", .chartsStatic, pages: 2, state: "Ketamine Pharmacology section") { stage in
+                stage.push(.substanceData(name: "Ketamine", section: .pharmacology), in: .library)
+            },
+        ].flatMap(\.self)
+
+        /// One chart screen, plus a screen per page below the fold.
+        private static func chart(
+            _ name: String, _ set: ScreenSet = .charts, persona: String? = nil, pages: Int = 1, state: String,
+            stage: @escaping @MainActor (Stage) async -> Void,
+        ) -> [Screen] {
+            (0 ..< pages).map { page in
+                Screen(
+                    name: page == 0 ? name : "\(name)-p\(page + 1)", persona: persona, set: set,
+                    state: page == 0 ? state : "\(state); scrolled \(page) screen\(page == 1 ? "" : "s") down",
+                ) { screen in
+                    await stage(screen)
+                    await screen.waitWhileLoading()
+                    if page > 0 { await screen.scroll(pages: page) }
+                }
+            }
+        }
+
         /// The screens captured again in every skin: the ones where a skin
         /// shows — the strip, the sheets, the cards.
         static let skinScreenNames = [
@@ -264,12 +431,43 @@
             return stagedDockSearch
         }
 
+        /// Chart control state with no route to carry it, each read once by the
+        /// view that owns the control (`takeStagedChart(_:)`).
+        struct ChartStage {
+            var usageRange: UsageTimeRange?
+            var usageMetric: UsageRankMetric?
+            var usageSubstances: Set<String>?
+            var toleranceMode: ToleranceDetailMode?
+            var calculatorSubstance: String?
+            var doseTier: Int?
+        }
+
+        /// A chart with a selectable point the tour can preselect.
+        enum ChartSelection: Hashable {
+            case usageTrends
+            case modeledLevels
+            case receptorLoad
+        }
+
+        fileprivate static var stagedChart = ChartStage()
+        fileprivate static var stagedSelections: [ChartSelection: Date] = [:]
+
+        static func takeStagedChart<Value>(_ field: WritableKeyPath<ChartStage, Value?>) -> Value? {
+            defer { stagedChart[keyPath: field] = nil }
+            return stagedChart[keyPath: field]
+        }
+
+        static func takeStagedSelection(_ chart: ChartSelection) -> Date? {
+            stagedSelections.removeValue(forKey: chart)
+        }
+
         // MARK: - Run
 
         /// What the tour writes for one capture.
         private struct Request: Codable {
             let file: String
             let screen: String
+            let state: String?
             let skin: String
             let index: Int
             let total: Int
@@ -280,12 +478,19 @@
             var skipped: [String] = []
             var failed: [String] = []
             var seconds: Double = 0
+            /// What the persona seeded, as counts and dates.
+            var data: [String: String] = [:]
         }
+
+        private static var hasStarted = false
 
         /// Runs the whole tour. Call once the store is seeded and the substance
         /// batch cache is warm; returns when `done.json` is on disk.
         static func run(container: ModelContainer) async {
-            guard let root = argument(after: "-piruScreenshots") else { return }
+            // The launch hook re-runs when the root view reappears, as it does
+            // after a full-screen presentation is dismissed; one tour per launch.
+            guard let root = argument(after: "-piruScreenshots"), !hasStarted else { return }
+            hasStarted = true
             let started = Date.now
             print("ScreenshotTour: now is \(DebugClock.now.formatted(date: .abbreviated, time: .shortened))\(DebugClock.override == nil ? " (wall clock)" : " (pinned)")")
             let settle = argument(after: "-piruScreenshotSettle").flatMap(Double.init) ?? 1.2
@@ -338,7 +543,7 @@
                 await stage.reset()
                 await screen.stage(stage)
                 try? await Task.sleep(for: .seconds(settle))
-                let request = Request(file: file, screen: screen.name, skin: skin.rawValue, index: index, total: total)
+                let request = Request(file: file, screen: screen.name, state: screen.state, skin: skin.rawValue, index: index, total: total)
                 print("ScreenshotTour: [\(index)/\(total)] \(file)")
                 switch await handshake(request, in: tourDirectory, host: host) {
                 case .captured: report.captured.append(file)
@@ -371,6 +576,7 @@
             }
             await wear(originalSkin)
             await stage.reset()
+            report.data = stage.journalFacts()
             stage.restoreGrouping(originalGrouping)
             TabLayoutStore.shared.setEphemeral(nil)
 
@@ -386,9 +592,12 @@
         /// The screens a pass captures: the named ones, or every screen the
         /// running persona fills.
         private static func select(_ names: [String]?, from catalog: [Screen]) -> [Screen] {
+            let persona = argument(after: "-piruPersona")
             guard let names, names != ["all"] else {
-                let persona = argument(after: "-piruPersona")
-                return catalog.filter { $0.persona == nil || $0.persona == persona }
+                return catalog.filter { $0.set == nil && ($0.persona == nil || $0.persona == persona) }
+            }
+            if names.count == 1, let set = ScreenSet(rawValue: names[0]) {
+                return catalog.filter { $0.set == set && ($0.persona == nil || $0.persona == persona) }
             }
             let unknown = names.filter { name in !catalog.contains { $0.name == name } }
             if !unknown.isEmpty {
@@ -513,13 +722,224 @@
                 self.context = context
             }
 
-            /// Every sheet down, every stack popped to root.
+            /// Every sheet down, every stack popped to root, and the state a
+            /// chart screen changed put back.
             func reset() async {
-                let hadSheet = !navigator.sheetStack.isEmpty
+                var hadSheet = !navigator.sheetStack.isEmpty
+                #if canImport(UIKit)
+                    if let hosted = Self.hosted {
+                        hosted.dismiss(animated: false)
+                        Self.hosted = nil
+                        hadSheet = true
+                    }
+                #endif
                 navigator.dismissAll()
                 navigator.resetAllPaths()
+                ScreenshotTour.stagedChart = ChartStage()
+                ScreenshotTour.stagedSelections = [:]
+                restoreTouchedState()
                 try? await Task.sleep(for: .seconds(hadSheet ? 0.6 : 0.2))
             }
+
+            // MARK: Chart state
+
+            /// App Group defaults a screen changed, each with the value it had
+            /// before (`nil` when it was unset).
+            private static var touchedDefaults: [String: Any?] = [:]
+            private static var originalDisclosure: UserProfile?
+
+            func setShared(_ key: String, _ value: Any) {
+                if Self.touchedDefaults.index(forKey: key) == nil {
+                    Self.touchedDefaults[key] = .some(groupDefaults?.object(forKey: key))
+                }
+                groupDefaults?.set(value, forKey: key)
+            }
+
+            func disclosure(_ tier: UserProfile) {
+                if Self.originalDisclosure == nil {
+                    Self.originalDisclosure = UserProfileStore.shared.disclosureTier
+                }
+                UserProfileStore.shared.setDisclosureTier(tier)
+            }
+
+            func restoreTouchedState() {
+                for (key, original) in Self.touchedDefaults {
+                    groupDefaults?.set(original, forKey: key)
+                }
+                Self.touchedDefaults = [:]
+                if let tier = Self.originalDisclosure {
+                    UserProfileStore.shared.setDisclosureTier(tier)
+                    Self.originalDisclosure = nil
+                }
+            }
+
+            /// Opens Usage with its range, measure and substance filter set.
+            func usage(range: UsageTimeRange, metric: UsageRankMetric = .commonDoses, substances: Set<String> = []) {
+                ScreenshotTour.stagedChart.usageRange = range
+                ScreenshotTour.stagedChart.usageMetric = metric
+                ScreenshotTour.stagedChart.usageSubstances = substances
+                push(.insight(.usage), in: .insights)
+            }
+
+            func select(_ chart: ChartSelection, at date: Date) {
+                ScreenshotTour.stagedSelections[chart] = date
+            }
+
+            func toleranceMode(_ mode: ToleranceDetailMode) {
+                ScreenshotTour.stagedChart.toleranceMode = mode
+            }
+
+            func calculator(_ substance: String) {
+                ScreenshotTour.stagedChart.calculatorSubstance = substance
+            }
+
+            func doseTier(_ tier: Int) {
+                ScreenshotTour.stagedChart.doseTier = tier
+            }
+
+            func busiestSession() -> Session? {
+                let sessions = (try? context.fetch(FetchDescriptor<Session>())) ?? []
+                return sessions.max { lhs, rhs in
+                    let left = lhs.doses?.count ?? 0
+                    let right = rhs.doses?.count ?? 0
+                    return left == right ? lhs.startDate < rhs.startDate : left < right
+                }
+            }
+
+            func newestEntry() -> DoseEntry? {
+                var descriptor = FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp, order: .reverse)])
+                descriptor.fetchLimit = 1
+                return try? context.fetch(descriptor).first
+            }
+
+            /// The `count` substances with the most entries in the last `days` days.
+            func mostLoggedSubstances(_ count: Int, days: Int) -> [String] {
+                let since = DebugClock.now.addingTimeInterval(-Double(days) * 86_400)
+                let entries = (try? context.fetch(FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= since }))) ?? []
+                let tally = Dictionary(grouping: entries, by: \.substance).mapValues(\.count)
+                return tally.sorted { $0.value == $1.value ? $0.key < $1.key : $0.value > $1.value }
+                    .prefix(count).map(\.key)
+            }
+
+            /// What the journal holds, for the capture index.
+            func journalFacts() -> [String: String] {
+                let entries = (try? context.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp)]))) ?? []
+                let calendar = Calendar.current
+                var facts = [
+                    "entries": "\(entries.count)",
+                    "substances": "\(Set(entries.map(\.substance)).count)",
+                    "sessions": "\((try? context.fetchCount(FetchDescriptor<Session>())) ?? 0)",
+                    "myMeds": "\((try? context.fetchCount(FetchDescriptor<DailyDoseItem>())) ?? 0)",
+                    "labs": "\((try? context.fetchCount(FetchDescriptor<LabMeasurement>())) ?? 0)",
+                    "daysWithEntries": "\(Set(entries.map { calendar.startOfDay(for: $0.timestamp) }).count)",
+                    "now": DebugClock.now.formatted(.iso8601),
+                ]
+                if let first = entries.first?.timestamp, let last = entries.last?.timestamp {
+                    facts["first"] = first.formatted(.iso8601)
+                    facts["last"] = last.formatted(.iso8601)
+                    facts["spanDays"] = "\(Int((DebugClock.now.timeIntervalSince(first) / 86_400).rounded(.up)))"
+                }
+                return facts
+            }
+
+            /// Scrolls the frontmost screen's main scroll view down `pages`
+            /// screens, one at a time so lazy content lays out on the way.
+            func scroll(pages: Int) async {
+                #if canImport(UIKit)
+                    try? await Task.sleep(for: .seconds(1.2))
+                    for _ in 0 ..< pages {
+                        guard let scrollView = Self.mainScrollView() else {
+                            print("ScreenshotTour: no scroll view on screen")
+                            return
+                        }
+                        let inset = scrollView.adjustedContentInset
+                        let step = (scrollView.bounds.height - inset.top - inset.bottom) * 0.85
+                        let bottom = max(-inset.top, scrollView.contentSize.height - scrollView.bounds.height + inset.bottom)
+                        let y = min(scrollView.contentOffset.y + step, bottom)
+                        scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: y), animated: false)
+                        try? await Task.sleep(for: .seconds(0.5))
+                    }
+                #endif
+            }
+
+            /// Waits (up to 60 s) until the frontmost screen shows no spinning
+            /// progress indicator, so a slow model is captured with its result.
+            func waitWhileLoading() async {
+                #if canImport(UIKit)
+                    try? await Task.sleep(for: .seconds(0.8))
+                    for _ in 0 ..< 120 {
+                        guard let root = Self.topViewController()?.view, Self.hasSpinner(in: root) else { return }
+                        try? await Task.sleep(for: .milliseconds(500))
+                    }
+                    print("ScreenshotTour: still loading after 60 s")
+                #endif
+            }
+
+            #if canImport(UIKit)
+                private static func hasSpinner(in view: UIView) -> Bool {
+                    guard !view.isHidden, view.alpha > 0.01, view.window != nil else { return false }
+                    if let spinner = view as? UIActivityIndicatorView, spinner.isAnimating { return true }
+                    return view.subviews.contains(where: hasSpinner(in:))
+                }
+
+                /// A screen with no route of its own, presented over the app.
+                private static var hosted: UIViewController?
+
+                /// The interaction timeline for a pair, as the checker opens it
+                /// from a warning row.
+                func hostInteractionTimeline(_ first: String, _ second: String) {
+                    guard let warning = InteractionChecker.checkBatch([first, second], against: [], policy: .explore).first,
+                          let top = Self.topViewController()
+                    else {
+                        print("ScreenshotTour: no interaction between \(first) and \(second)")
+                        return
+                    }
+                    let root = NavigationStack {
+                        InteractionTimelineView(
+                            substanceA: warning.substanceA, substanceB: warning.substanceB,
+                            severity: warning.severity, mechanism: warning.description,
+                        )
+                    }
+                    .modelContainer(context.container)
+                    let host = UIHostingController(rootView: root)
+                    host.modalPresentationStyle = .overFullScreen
+                    top.present(host, animated: false)
+                    Self.hosted = host
+                }
+
+                private static func topViewController() -> UIViewController? {
+                    let window = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+                        .flatMap(\.windows).first(where: \.isKeyWindow)
+                    var top = window?.rootViewController
+                    while let presented = top?.presentedViewController, !presented.isBeingDismissed {
+                        top = presented
+                    }
+                    return top
+                }
+
+                /// The largest vertically scrolling view on screen in the
+                /// frontmost view controller.
+                private static func mainScrollView() -> UIScrollView? {
+                    guard let root = topViewController()?.view, let window = root.window else { return nil }
+                    var best: UIScrollView?
+                    var bestArea: CGFloat = 0
+                    func visit(_ view: UIView) {
+                        guard !view.isHidden, view.alpha > 0.01 else { return }
+                        if let scroll = view as? UIScrollView,
+                           scroll.contentSize.height > scroll.bounds.height + 20, scroll.bounds.height > 300 {
+                            let frame = scroll.convert(scroll.bounds, to: window).intersection(window.bounds)
+                            let area = frame.isNull ? 0 : frame.width * frame.height
+                            if area > bestArea {
+                                best = scroll
+                                bestArea = area
+                            }
+                        }
+                        view.subviews.forEach(visit)
+                    }
+                    visit(root)
+                    return best
+                }
+            #endif
 
             func tab(_ tab: TabID) {
                 navigator.select(tab)
