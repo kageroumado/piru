@@ -12,6 +12,9 @@ struct HelpView: View {
     /// Resolved once per data change in `.task`, not on every `body` pass — the
     /// computation does a `SubstanceLibrary` (GRDB) lookup per recent dose.
     @State private var activeCategories: [SubstanceCategory] = []
+    /// Each recent dose's title (``DoseTitle``), keyed by dose id, so a branded
+    /// dose reads "Concerta" in the list.
+    @State private var entryTitles: [UUID: String] = [:]
 
     init() {
         let cutoff = Date.now.addingTimeInterval(-72 * 3_600)
@@ -76,6 +79,10 @@ struct HelpView: View {
                 activeCategories = ComedownGuide.recentGuidedCategories(
                     in: recentEntries,
                     cutoff: Date.now.addingTimeInterval(-48 * 3_600),
+                )
+                entryTitles = Dictionary(
+                    recentEntries.map { ($0.id, DoseTitle.resolve(for: $0)) },
+                    uniquingKeysWith: { first, _ in first },
                 )
             }
             .toolbar {
@@ -285,7 +292,7 @@ struct HelpView: View {
                         .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(CustomSubstanceStore.shared.displayName(for: entry.substance))
+                        Text(entryTitles[entry.id] ?? CustomSubstanceStore.shared.displayName(for: entry.substance))
                             .sectionLabel()
 
                         HStack(spacing: Spacing.xs) {
