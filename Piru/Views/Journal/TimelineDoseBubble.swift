@@ -75,6 +75,16 @@ struct TimelineDoseBubble: View {
     }
 
     var body: some View {
+        // An offscreen render draws a `Menu`, a UIKit control on iOS, as a
+        // yellow placeholder; the picture needs only the bubble.
+        if rendersFlat {
+            bubbleLabel
+        } else {
+            interactiveBubble
+        }
+    }
+
+    private var interactiveBubble: some View {
         Menu {
             TimelineDoseMenu(item: item)
         } label: {
