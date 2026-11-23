@@ -13,7 +13,9 @@ import SwiftUI
 struct ReceptorLoadView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
 
-    @State private var range: UsageTimeRange = .opening
+    /// Opens on a week: the curves rise and fall within a day, and a month of them
+    /// in one card's width is a solid block.
+    @State private var range: UsageTimeRange = .sevenDays
     @State private var series: [ReceptorLoadSeries] = []
     @State private var loaded = false
     @State private var hidden: Set<String> = []

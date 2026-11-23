@@ -21,7 +21,7 @@ extension Insight {
         case .tolerance: "Modeled Tolerance"
         case .inSystem: "Modeled as active"
         case .bodyLoad: "Modeled levels over time"
-        case .receptorLoad: "Receptor load over time"
+        case .receptorLoad: "Receptor Load"
         case .steadyStateProjection: "Steady state"
         case .hormoneLevels: "Hormone Levels"
         case .patterns: "Patterns"
