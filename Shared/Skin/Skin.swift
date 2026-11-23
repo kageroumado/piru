@@ -104,6 +104,13 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         allCases.filter { !shelved.contains($0) }
     }
 
+    /// Every skin on offer, the ones with the most to look at first: the order
+    /// of a strip that shows a few of them and has to be noticed.
+    static var showcase: [Skin] {
+        let front: [Skin] = [.hebi, .kumo, .gatsby, .tsuki, .jellyfish, .selenia, .hanabi, .irie, .yuki]
+        return front.filter { !shelved.contains($0) } + available.filter { !front.contains($0) }
+    }
+
     // MARK: - Tier
 
     /// What a skin costs. Set per case rather than derived from `decorations`:
@@ -149,31 +156,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .selenia: "Selenia"
         case .gatsby: "Gatsby"
         case .irie: "Irie"
-        }
-    }
-
-    /// One line under the name in the picker.
-    var tagline: LocalizedStringResource {
-        switch self {
-        case .piru: "Soft pink, hot pink, liquid glass"
-        case .graphite: "Neutral grays, nothing moving"
-        case .linen: "Warm paper and charcoal, quiet"
-        case .slate: "Cool blue-gray, quiet"
-        case .elyPink: "Night and pink, stickers and pixels"
-        case .tsuki: "Deep purple night, a sleeping moon"
-        case .astrelia: "Steel blue and gold under a thousand stars"
-        case .jellyfish: "Deep water, bioluminescence, jellyfish"
-        case .paperGarden: "Washi, raked sand, sakura"
-        case .hotaru: "Fireflies over a dark meadow"
-        case .yuki: "Periwinkle, snow and frost"
-        case .hebi: "Neon City on a CRT"
-        case .kumo: "A sky that follows the day"
-        case .doseWiki: "Plum and fuchsia, from the open encyclopedia"
-        case .substanceWiki: "Black, paper and signal cyan, from the effects index"
-        case .hanabi: "A night sky, five suits, fireworks"
-        case .selenia: "Engraved gold, a plum night, a turning wheel"
-        case .gatsby: "Black lacquer, gold leaf, a city after dark"
-        case .irie: "Emerald velvet, gold foil, red, gold and green"
         }
     }
 

@@ -24,13 +24,20 @@ struct SkinPreviewCard: View {
 
     private enum Metrics {
         static let defaultWidth: CGFloat = 176
-        static let cornerRadius: CGFloat = 24
+        /// A phone's corner radius over its width.
+        static let cornerRatio: CGFloat = 0.14
+    }
+
+    /// The card's corner radius at `width`: it is the picture of a phone, so
+    /// its corners keep a phone's proportion at every size.
+    static func cornerRadius(width: CGFloat) -> CGFloat {
+        width * Metrics.cornerRatio
     }
 
     var body: some View {
         let screen = SkinPreviewTimeline.screenSize
         let scale = width / screen.width
-        let shape = RoundedRectangle(cornerRadius: Metrics.cornerRadius, style: .continuous)
+        let shape = RoundedRectangle(cornerRadius: Self.cornerRadius(width: width), style: .continuous)
         ZStack {
             SkinBackdrop(skin: skin, animates: animates)
             // The card in front wears the skin the app is trying on, so there —
@@ -53,6 +60,9 @@ struct SkinPreviewCard: View {
         .frame(width: width, height: screen.height * scale, alignment: .topLeading)
         .clipShape(shape)
         .overlay { shape.strokeBorder(.separator, lineWidth: 1) }
+        // The backdrop takes no touches and the picture arrives late, so the
+        // card states its own shape for the button it sits in.
+        .contentShape(shape)
         // Rendered from a task, never from `body`: a render evaluates a whole
         // view tree of its own. Keyed on the scheme, which changes the picture.
         .task(id: colorScheme) {

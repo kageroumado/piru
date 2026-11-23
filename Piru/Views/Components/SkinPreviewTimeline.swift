@@ -42,15 +42,19 @@ final class SkinPreviewTimeline {
         let minute: Int
     }
 
-    /// An evening, because the strip runs newest-first and the card shows its
-    /// top seven hours or so: every dose here lands inside the frame.
+    /// An evening, because the strip runs newest-first from the end of the last
+    /// dose's effect, hours after the dose itself. At ``zoom`` the card holds
+    /// about ten hours, which takes in that tail and every dose here.
     private static let doses: [Dose] = [
-        Dose(substance: "Caffeine", amount: 100, hour: 16, minute: 30),
-        Dose(substance: "L-Theanine", amount: 200, hour: 16, minute: 45),
-        Dose(substance: "Caffeine", amount: 80, hour: 19, minute: 0),
-        Dose(substance: "Magnesium", amount: 300, hour: 20, minute: 30),
+        Dose(substance: "Caffeine", amount: 100, hour: 18, minute: 0),
+        Dose(substance: "L-Theanine", amount: 200, hour: 18, minute: 15),
+        Dose(substance: "Caffeine", amount: 80, hour: 19, minute: 30),
+        Dose(substance: "Magnesium", amount: 300, hour: 20, minute: 45),
         Dose(substance: "Melatonin", amount: 1, hour: 22, minute: 15),
     ]
+
+    /// The strip's time scale: a miniature has to show a whole evening.
+    private static let zoom = 0.6
 
     /// Lays the fixed day out, once. The entries live in a throwaway in-memory
     /// store that is gone when this returns; the layouts are plain values.
@@ -83,7 +87,7 @@ final class SkinPreviewTimeline {
             entries: entries,
             colors: [],
             colorMap: [:],
-            zoom: 1,
+            zoom: Self.zoom,
             compressGaps: true,
             style: TimelineDayLayout.Style(showsAxis: true, bubbleStyle: .full, pkMode: false),
         ) else { return }

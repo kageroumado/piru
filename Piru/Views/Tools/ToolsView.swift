@@ -119,6 +119,7 @@ struct ToolsView: View {
                 MyMedsToolCard()
                 InventorySummaryCard()
                 InteractionsSummaryCard()
+                SkinsToolCard()
                 DataBackupToolCard()
                 EducationCard()
 
@@ -139,6 +140,49 @@ struct ToolsView: View {
         }
         .skinBackdrop()
         .appNavigationBar("Tools")
+    }
+}
+
+/// Skins, shown rather than named: a strip of the Journal in one skin after
+/// another. A miniature opens the picker with the app already wearing it.
+private struct SkinsToolCard: View {
+    @Environment(\.appNavigator) private var navigator
+
+    private enum Metrics {
+        static let previewWidth: CGFloat = 72
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
+            Button {
+                navigator.present(.skins)
+            } label: {
+                GlanceCardHeader(icon: "paintbrush", title: Text("Skins")) { GlanceCardChevron() }
+                    .padding(.horizontal, Spacing.xxl)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: Spacing.lg) {
+                    ForEach(Skin.showcase) { skin in
+                        Button {
+                            SkinStore.shared.tryOn(skin)
+                            navigator.present(.skins)
+                        } label: {
+                            SkinPreviewCard(skin: skin, width: Metrics.previewWidth)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal, Spacing.xxl)
+            }
+            .scrollIndicators(.hidden)
+        }
+        .padding(.vertical, Spacing.xxl)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .themeCard()
+        .skinFrameCorners()
     }
 }
 

@@ -14,24 +14,40 @@ enum LaunchSheet: Identifiable {
     }
 }
 
-/// The one presenter for every self-raised launch sheet. Candidates are tried
-/// in priority order — an update notice, then the Discord invite — and at most
-/// one is shown per launch, so they never stack or race each other's
-/// presentation. Nothing shows until onboarding is done.
+/// The one presenter for everything the app raises on its own at launch.
+/// Candidates are tried in priority order — an update notice, the Skins picker,
+/// then the Discord invite — and at most one is shown per launch, so they never
+/// stack or race each other's presentation. Nothing shows until onboarding is
+/// done.
 ///
-/// The Discord invite keeps its own bar: only once the user is genuinely
-/// engaged — past the first couple of sessions (`appLaunchCount >= 3`) with at
-/// least one dose logged — a single time, never in the first session.
+/// The Skins picker and the Discord invite each show a single time, never in
+/// the first sessions and only to someone with a dose logged. The picker comes
+/// first (`appLaunchCount >= 3`), because a skin is found by being seen; the
+/// invite waits a few launches more.
 struct LaunchSheetModifier: ViewModifier {
     @AppStorage(OnboardingState.completedKey) private var hasCompletedOnboarding = false
     @AppStorage("discordPromptShown") private var discordShown = false
     @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
     @AppStorage("appLaunchCount") private var appLaunchCount = 0
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appNavigator) private var navigator
     @State private var sheet: LaunchSheet?
+
+    /// What a launch may raise: a sheet of its own, or the Skins picker, which
+    /// goes up through the navigator like any hand-opened one so it keeps its
+    /// panel height and the app stays in view behind it.
+    private enum Candidate {
+        case sheet(LaunchSheet)
+        case skinsPicker
+    }
 
     /// Lets the first frame and the launch passes settle before a sheet rises.
     private static let settleDelay: Duration = .seconds(1)
+
+    private enum Threshold {
+        static let skinsPickerLaunches = 3
+        static let discordLaunches = 6
+    }
 
     func body(content: Content) -> some View {
         content
@@ -45,38 +61,70 @@ struct LaunchSheetModifier: ViewModifier {
                 InstallRecord.recordIfNeeded(hasCompletedOnboarding: hasCompletedOnboarding)
                 guard hasCompletedOnboarding else { return }
                 try? await Task.sleep(for: Self.settleDelay)
-                guard sheet == nil else { return }
-                sheet = nextSheet()
+                guard sheet == nil, navigator.sheetStack.isEmpty else { return }
+                switch nextCandidate() {
+                case let .sheet(next): sheet = next
+                case .skinsPicker: navigator.present(.skins)
+                case nil: break
+                }
             }
     }
 
-    private func nextSheet() -> LaunchSheet? {
+    private func nextCandidate() -> Candidate? {
         #if DEBUG
             // `-piruShowUpdateNotice <id>` raises a notice regardless of
             // eligibility, to look at a page on a store that no longer owes it.
             if let forced = UserDefaults.standard.string(forKey: "piruShowUpdateNotice").flatMap(UpdateNotice.init) {
-                return .updateNotice(forced)
+                return .sheet(.updateNotice(forced))
             }
             // A notice would cover the screens the screenshot tour captures.
             if ScreenshotTour.isRequested { return nil }
+            // `-piruShowSkinsPicker YES` raises the picker regardless of eligibility.
+            if UserDefaults.standard.bool(forKey: "piruShowSkinsPicker") { return .skinsPicker }
         #endif
         if let notice = UpdateNotice.next(in: modelContext) {
-            return .updateNotice(notice)
+            return .sheet(.updateNotice(notice))
+        }
+        if skinsPickerIsDue {
+            return .skinsPicker
         }
         if discordInviteIsDue {
             discordShown = true
-            return .discordInvite
+            return .sheet(.discordInvite)
         }
         return nil
     }
 
-    private var discordInviteIsDue: Bool {
-        #if DEBUG
-            // Same opt-in as the tips: a reset simulator would otherwise
-            // re-invite on every third launch.
-            guard UserDefaults.standard.bool(forKey: "piruShowTips") else { return false }
+    /// Someone who has never had the picker in front of them, wears the skin
+    /// the app came in and owns none: everyone else has found it already.
+    private var skinsPickerIsDue: Bool {
+        #if os(iOS)
+            guard promptsAreEnabled, !SkinsPickerRecord.seen, appLaunchCount >= Threshold.skinsPickerLaunches else { return false }
+            guard SkinStore.shared.chosen == SkinDefaults.skinDefault, SkinShop.shared.owned.isEmpty else { return false }
+            return hasLoggedDose
+        #else
+            // On a Mac the picker is a dialog over the window, with no app in
+            // view behind it to watch change.
+            return false
         #endif
-        guard !discordShown, !discordDismissed, appLaunchCount >= 3 else { return false }
-        return ((try? modelContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0) > 0
+    }
+
+    private var discordInviteIsDue: Bool {
+        guard promptsAreEnabled, !discordShown, !discordDismissed, appLaunchCount >= Threshold.discordLaunches else { return false }
+        return hasLoggedDose
+    }
+
+    /// Debug builds raise these only on request, the same opt-in as the tips:
+    /// a reset simulator would otherwise be prompted again every few launches.
+    private var promptsAreEnabled: Bool {
+        #if DEBUG
+            UserDefaults.standard.bool(forKey: "piruShowTips")
+        #else
+            true
+        #endif
+    }
+
+    private var hasLoggedDose: Bool {
+        ((try? modelContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0) > 0
     }
 }

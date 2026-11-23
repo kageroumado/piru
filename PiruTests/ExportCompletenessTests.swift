@@ -253,6 +253,7 @@ private let excludedSettingKeys: [String: String] = [
     "piruNow": "debug launch argument",
     "piruPersona": "debug launch argument",
     "piruScanFixture": "debug launch argument",
+    "piruShowSkinsPicker": "debug launch argument",
     "piruShowTips": "debug launch argument",
     "piruShowUpdateNotice": "debug launch argument",
     "piruSpreadsheetFile": "debug launch argument",
@@ -264,6 +265,7 @@ private let excludedSettingKeys: [String: String] = [
     "quickLogManifest": "watch sync payload",
     "watchDosePayload": "watch sync payload",
     "skinOwnedProducts": "StoreKit re-establishes ownership on the new install",
+    "skinsPickerSeen": "prompt flag",
     "ternaryTapHintSeen": "hint flag",
 ]
 

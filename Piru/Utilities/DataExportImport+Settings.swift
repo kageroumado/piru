@@ -49,7 +49,7 @@ nonisolated struct ExportedSetting: Sendable {
 ///   `piru.sourceOrderMigrationVersion`, `dockLabelsMigrated_v1`,
 ///   `journalResetGeneration`, `journalResetDate`, launch-pass tokens);
 /// - onboarding, prompt and hint flags and counters (`hasCompletedOnboarding`,
-///   `discordPrompt*`, `didOfferSessionVitals`, `ternaryTapHintSeen`,
+///   `discordPrompt*`, `skinsPickerSeen`, `didOfferSessionVitals`, `ternaryTapHintSeen`,
 ///   `checkInOfferDeclines`, `appLaunchCount`, update-notice seen flags,
 ///   `myMedsMissedNoticeDismissedDays`);
 /// - `skinOwnedProducts`, which StoreKit re-establishes on the new install;
@@ -84,6 +84,7 @@ enum ExportedSettings {
     ]
 
     static let standard: [ExportedSetting] = [
+        .init(key: SkinGridLayout.storageKey, domain: .standard, kind: .string),
         .init(key: "injLevelsPersonalMultiplier", domain: .standard, kind: .double),
         .init(key: "injLevelsAutoCalibrate", domain: .standard, kind: .bool),
         .init(key: "injLevelsFitRates", domain: .standard, kind: .bool),

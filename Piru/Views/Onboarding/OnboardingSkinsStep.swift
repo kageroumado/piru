@@ -9,16 +9,17 @@ import SwiftUI
 /// when onboarding finishes.
 struct OnboardingSkinsStep: View {
     @Environment(\.onboardingNav) private var nav
+    @State private var focused: Skin = SkinStore.shared.current
 
     var body: some View {
         OnboardingLayout(
             title: "Make it yours",
-            subtitle: "Skins pay for Piru's development. The journal, the library, and every tool are free.",
+            subtitle: "Buy once, keep forever. Skins keep Piru independent: no ads, no subscription, and every feature free.",
         ) {
             EmptyView()
         } mid: {
             VStack(spacing: Spacing.xxl) {
-                SkinWardrobe()
+                SkinWardrobe(focused: $focused)
                 VStack(alignment: .leading, spacing: 18) {
                     SkinShopOffers()
                 }
