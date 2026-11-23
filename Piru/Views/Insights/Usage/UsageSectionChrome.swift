@@ -104,7 +104,7 @@ struct UsageSubstanceStyle {
 
     func color(_ index: Int) -> Color {
         guard substances.indices.contains(index) else { return Theme.accent }
-        return SubstancePalette.color(for: substances[index].name, colorMap: colorMap)
+        return SubstancePalette.color(for: substances[index].colorKey, colorMap: colorMap)
     }
 }
 

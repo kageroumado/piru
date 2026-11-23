@@ -203,16 +203,13 @@ struct SessionDetailView: View {
                     // (preview + caveat) pushing to the dedicated multi-lens
                     // screen, shown only once the engine has modeled the session.
                     if day.mechanisticSupported, let mechanisticResult = model.mechanisticResult {
-                        let partition = SessionResolveModel.mechanisticPartition(
-                            entries: entries, pharmacology: day.mechanisticPharmacology,
-                        )
                         EffectEstimatesCard(
                             result: mechanisticResult,
                             startDate: session.startDate,
                             nowHours: nowHours,
                             doseMarks: mechanisticDoseMarks(day),
-                            modeled: partition.modeled,
-                            ignored: partition.ignored,
+                            modeled: day.mechanisticModeled,
+                            ignored: day.mechanisticIgnored,
                         )
                     }
 

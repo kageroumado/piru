@@ -125,6 +125,7 @@ final class UsageAnalyticsModel {
         var substanceIndices: [String: Int] = [:]
         var substances: [UsageSubstanceRef] = []
         var resolvedSubstances: [String: Substance?] = [:]
+        var titles: [TitleKey: String] = [:]
         var ladders: [LadderKey: DoseLadder?] = [:]
 
         var snapshots: [UsageEntrySnapshot] = []
@@ -140,17 +141,32 @@ final class UsageAnalyticsModel {
                 resolvedSubstances[key] = substance
             }
 
+            // A row per dose title, so a branded med ("Concerta") is its own row.
+            let titleKey = TitleKey(
+                substance: key, productName: entry.productName, namesForm: entry.namesAForm,
+                isomer: entry.isomer, releaseForm: entry.releaseForm, saltForm: entry.saltForm,
+            )
+            let title: String
+            if let cached = titles[titleKey] {
+                title = cached
+            } else {
+                title = DoseTitle.resolve(for: entry)
+                titles[titleKey] = title
+            }
+
             let categoryIndex = substance.flatMap { categoryIndices[$0.category] } ?? otherCategoryIndex
+            let rowKey = title.lowercased()
             let substanceIndex: Int
-            if let existing = substanceIndices[key] {
+            if let existing = substanceIndices[rowKey] {
                 substanceIndex = existing
             } else {
                 substanceIndex = substances.count
-                substanceIndices[key] = substanceIndex
+                substanceIndices[rowKey] = substanceIndex
                 substances.append(UsageSubstanceRef(
-                    name: entry.substance,
-                    displayName: CustomSubstanceStore.shared.displayName(for: entry.substance),
+                    name: title,
+                    displayName: title,
                     categoryIndex: categoryIndex,
+                    colorKey: entry.substance,
                 ))
             }
 
@@ -182,6 +198,17 @@ final class UsageAnalyticsModel {
         }
 
         return (snapshots, substances)
+    }
+
+    /// Every field ``DoseTitle/resolve(for:)`` reads, so a thousand Concerta
+    /// doses resolve their title once.
+    private struct TitleKey: Hashable {
+        let substance: String
+        let productName: String?
+        let namesForm: Bool
+        let isomer: String?
+        let releaseForm: String?
+        let saltForm: String?
     }
 
     /// Identity of one dose ladder: a substance's tiers for a route, narrowed to

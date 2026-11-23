@@ -53,12 +53,14 @@ struct SessionCard: Identifiable, Equatable {
         // showed up in first-render profiles.
         var seen = Set<String>()
         var unique: [String] = []
-        // Canonical display names, deduped independently so two aliases of the same drug collapse to one.
+        // Dose titles ("Concerta" for a Concerta dose), deduped independently so
+        // two aliases of the same drug collapse to one.
         var seenDisplay = Set<String>()
         var display: [String] = []
-        for name in entries.map(\.substance) {
+        for entry in entries {
+            let name = entry.substance
             if seen.insert(name).inserted { unique.append(name) }
-            let shown = SubstanceLibrary.lookup(name)?.displayTitle ?? name
+            let shown = DoseTitle.resolve(for: entry)
             if seenDisplay.insert(shown.lowercased()).inserted { display.append(shown) }
         }
         uniqueSubstances = unique
