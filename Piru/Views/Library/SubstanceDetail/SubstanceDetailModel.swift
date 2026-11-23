@@ -106,10 +106,12 @@ final class SubstanceDetailModel {
     /// O(n) dose-history aggregates for the history card.
     var historyStats = HistoryStats()
 
-    /// Ladder counts per route for the substance last asked about, filled on
-    /// first read: each count is a SQL query, and the dose card reads it on
-    /// every route, salt or brand pick.
-    @ObservationIgnored private var ladderSourceCounts: (substanceName: String, byRoute: [RouteOfAdministration: Int])?
+    /// Comparison source counts per route for the substance last asked about,
+    /// filled on first read: each count is two SQL queries, and the dose card
+    /// reads it on every route, salt or brand pick.
+    @ObservationIgnored private var comparisonSourceCounts: (
+        substanceName: String, byRoute: [RouteOfAdministration: Int],
+    )?
 
     /// The merged Sources ledger and the inputs it was built from. Rebuilt
     /// only when one of those inputs changes.
@@ -272,13 +274,14 @@ final class SubstanceDetailModel {
         }
     }
 
-    /// How many sources carry a dose ladder for `route`.
-    func ladderSourceCount(substanceName: String, route: RouteOfAdministration) -> Int {
-        var byRoute = ladderSourceCounts?.substanceName == substanceName ? ladderSourceCounts?.byRoute ?? [:] : [:]
+    /// How many sources carry a dose ladder or durations for `route`.
+    func comparisonSourceCount(substanceName: String, route: RouteOfAdministration) -> Int {
+        var byRoute = comparisonSourceCounts?.substanceName == substanceName
+            ? comparisonSourceCounts?.byRoute ?? [:] : [:]
         if let count = byRoute[route] { return count }
-        let count = store.doseLadders(forSubstanceName: substanceName, route: route).count
+        let count = store.comparisonSourceCount(forSubstanceName: substanceName, route: route)
         byRoute[route] = count
-        ladderSourceCounts = (substanceName, byRoute)
+        comparisonSourceCounts = (substanceName, byRoute)
         return count
     }
 

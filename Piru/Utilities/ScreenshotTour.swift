@@ -230,6 +230,10 @@
                 stage.push(.session(id: id), in: .journal)
                 stage.present(.addPeople(sessionID: id))
             },
+            Screen(name: "dose-sources-mdma") { stage in
+                stage.push(.substance(name: "MDMA"), in: .library)
+                stage.present(.doseSources(substance: "MDMA", route: .oral))
+            },
         ]
 
         /// The screens captured again in every skin: the ones where a skin

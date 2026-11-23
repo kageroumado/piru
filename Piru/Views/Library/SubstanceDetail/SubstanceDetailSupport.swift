@@ -140,6 +140,9 @@ struct SourceAttributionRow: View {
     /// sense. Omitted call sites still get the generic explanation.
     var substanceName: String?
     var field: SubstanceStore.AttributableField?
+    /// False when the line shares its row with a trailing link, which then
+    /// sits right after the source name.
+    var fillsWidth = true
 
     @State private var showExplainer = false
 
@@ -200,7 +203,7 @@ struct SourceAttributionRow: View {
             Text(displayName)
                 .font(.caption2)
                 .foregroundStyle(Theme.accent)
-            Spacer()
+            if fillsWidth { Spacer() }
         }
         .padding(.vertical, Self.lineVerticalPadding)
         .contentShape(Rectangle())

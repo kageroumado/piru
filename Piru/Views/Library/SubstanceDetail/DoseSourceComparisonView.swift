@@ -1,11 +1,13 @@
 import SwiftUI
 
-/// Every source's dose ladder for one route, on one scale.
+/// Every source's dose ladder for one route, on one scale, and every source's
+/// duration phases.
 ///
 /// The dose card resolves a single ladder by source priority and shows one set of
 /// numbers, which hides how far the sources spread. Here each source gets a row:
 /// its tiers as a bar on a scale all the rows share, and the figures under a
-/// legend that names each tier's color.
+/// legend that names each tier's color. Durations spread the same way, so each
+/// source that states them gets a row of its phases below.
 ///
 /// Reached by tapping the source line under the dose card. Read-only: changing
 /// which source wins is a global preference (Settings → Source Priority), and
@@ -17,6 +19,7 @@ struct DoseSourceComparisonView: View {
     let accent: Color
 
     @State private var ladders: [SubstanceStore.SourceDoseLadder] = []
+    @State private var durations: [SourceDurationProfile] = []
     @Environment(\.appNavigator) private var navigator
 
     /// Share of the bar kept past the largest figure, so the open-ended Heavy
@@ -49,35 +52,8 @@ struct DoseSourceComparisonView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    DoseTierLegend()
-                    ForEach(ladders) { ladder in
-                        LadderRow(
-                            ladder: ladder,
-                            scaleMax: scaleMax,
-                            accent: accent,
-                            showsUnit: sharedUnit == nil,
-                        )
-                    }
-                } header: {
-                    if let sharedUnit {
-                        Text("\(route.localizedName) · \(sharedUnit) · \(ladders.count) sources")
-                    } else {
-                        Text("\(route.localizedName) · \(ladders.count) sources")
-                    }
-                } footer: {
-                    // This footer says how to read the bars and nothing else. Do not add
-                    // a sentence explaining why the ladders differ — nothing in the
-                    // data records who a source measured or what for, so any such
-                    // reason is invented. "These sources disagree" is equally
-                    // unsupported: for many substances the ladders above are
-                    // identical. The reader can see the numbers.
-                    Text(
-                        "Every bar is drawn on the same scale. Piru shows the source you rank highest.",
-                        comment: "Dose source comparison footer",
-                    )
-                }
-
+                if !ladders.isEmpty { doseSection }
+                durationSection
                 Section {
                     Button {
                         navigator.present(.sourcePriority)
@@ -86,7 +62,7 @@ struct DoseSourceComparisonView: View {
                     }
                 }
             }
-            .navigationTitle(Text("Dose sources", comment: "Screen title"))
+            .navigationTitle(Text("Sources"))
             .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -98,6 +74,53 @@ struct DoseSourceComparisonView: View {
         }
         .task(id: substanceName) {
             ladders = SubstanceStore.shared.doseLadders(forSubstanceName: substanceName, route: route)
+            durations = SubstanceStore.shared.durationProfiles(forSubstanceName: substanceName, route: route)
+        }
+    }
+
+    private var doseSection: some View {
+        Section {
+            DoseTierLegend()
+            ForEach(ladders) { ladder in
+                LadderRow(
+                    ladder: ladder,
+                    scaleMax: scaleMax,
+                    accent: accent,
+                    showsUnit: sharedUnit == nil,
+                )
+            }
+        } header: {
+            if let sharedUnit {
+                Text("\(route.localizedName) · \(sharedUnit) · \(ladders.count) sources")
+            } else {
+                Text("\(route.localizedName) · \(ladders.count) sources")
+            }
+        } footer: {
+            // This footer says how to read the bars and nothing else. Do not add
+            // a sentence explaining why the ladders differ — nothing in the
+            // data records who a source measured or what for, so any such
+            // reason is invented. "These sources disagree" is equally
+            // unsupported: for many substances the ladders above are
+            // identical. The reader can see the numbers.
+            Text(
+                "Every bar is drawn on the same scale. Piru shows the source you rank highest.",
+                comment: "Dose source comparison footer",
+            )
+        }
+    }
+
+    /// Each source's phases as it states them. A source with no durations for
+    /// this route has no row.
+    @ViewBuilder
+    private var durationSection: some View {
+        if !durations.isEmpty {
+            Section {
+                ForEach(durations) { profile in
+                    DurationSourceRow(profile: profile, accent: accent)
+                }
+            } header: {
+                Text("Duration")
+            }
         }
     }
 }
@@ -202,11 +225,8 @@ private struct LadderRow: View {
         )
     }
 
-    /// The source's human name, not its slug — the same resolution the
-    /// attribution rows use, so "psychonautwiki" reads as "PsychonautWiki".
     private var displayName: String {
-        AppSources.slugToName[ladder.sourceSlug]
-            ?? SubstanceStore.shared.sourceDisplayName(forSlug: ladder.sourceSlug)
+        SourceNameLine.displayName(forSlug: ladder.sourceSlug)
     }
 
     /// "Threshold 5, Light 5–15, …" — the row's figures, spoken with their tiers.
@@ -220,16 +240,7 @@ private struct LadderRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             HStack(spacing: Spacing.md) {
-                Text(displayName)
-                    .sectionLabel()
-                if ladder.isActive {
-                    Text("In use", comment: "Badge on the source currently supplying the dose ladder")
-                        .font(.caption2.weight(.bold))
-                        .textCase(.uppercase)
-                        .foregroundStyle(accent)
-                        .padding(.horizontal, 7).padding(.vertical, Spacing.xxs)
-                        .background(accent.opacity(Theme.Opacity.tint), in: skinChipShape())
-                }
+                SourceNameLine(name: displayName, isActive: ladder.isActive, accent: accent)
                 Spacer(minLength: 8)
                 if showsUnit {
                     Text(verbatim: ladder.unit)
@@ -263,5 +274,88 @@ private struct LadderRow: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(displayName))
         .accessibilityValue(Text(spokenLadder))
+    }
+}
+
+/// A source's name, with the "In use" badge on the one the card shows.
+private struct SourceNameLine: View {
+    let name: String
+    let isActive: Bool
+    let accent: Color
+
+    /// The source's human name, not its slug — the same resolution the
+    /// attribution rows use, so "psychonautwiki" reads as "PsychonautWiki".
+    static func displayName(forSlug slug: String) -> String {
+        AppSources.slugToName[slug] ?? SubstanceStore.shared.sourceDisplayName(forSlug: slug)
+    }
+
+    var body: some View {
+        HStack(spacing: Spacing.md) {
+            Text(name)
+                .sectionLabel()
+            if isActive {
+                Text("In use", comment: "Badge on the source currently supplying the dose ladder")
+                    .font(.caption2.weight(.bold))
+                    .textCase(.uppercase)
+                    .foregroundStyle(accent)
+                    .padding(.horizontal, 7).padding(.vertical, Spacing.xxs)
+                    .background(accent.opacity(Theme.Opacity.tint), in: skinChipShape())
+            }
+        }
+    }
+}
+
+/// One source's duration phases, in curve order with Total last: each phase it
+/// states as a value over the phase's name, three to a line.
+private struct DurationSourceRow: View {
+    let profile: SourceDurationProfile
+    let accent: Color
+
+    private struct Cell: Identifiable {
+        let name: LocalizedStringResource
+        let range: DurationRange
+        var id: String {
+            String(localized: name)
+        }
+    }
+
+    private var cells: [Cell] {
+        let duration = profile.duration
+        let phases = DosePhase.allCases.compactMap { phase in
+            phase.range(in: duration).map { Cell(name: phase.name, range: $0) }
+        }
+        let total = duration.total.map { Cell(name: "Total", range: $0) }
+        return phases + [total].compactMap(\.self)
+    }
+
+    private static let columns = Array(repeating: GridItem(.flexible(), alignment: .leading), count: 3)
+
+    private var displayName: String {
+        SourceNameLine.displayName(forSlug: profile.sourceSlug)
+    }
+
+    private var spokenPhases: String {
+        cells.map { "\(String(localized: $0.name)) \($0.range.displayString)" }.joined(separator: ", ")
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            SourceNameLine(name: displayName, isActive: profile.isActive, accent: accent)
+            LazyVGrid(columns: Self.columns, alignment: .leading, spacing: Spacing.md) {
+                ForEach(cells) { cell in
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
+                        Text(verbatim: cell.range.compactString)
+                            .font(.subheadline.weight(.semibold).monospacedDigit())
+                        Text(cell.name)
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+            }
+        }
+        .padding(.vertical, Spacing.xs)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(displayName))
+        .accessibilityValue(Text(spokenPhases))
     }
 }
