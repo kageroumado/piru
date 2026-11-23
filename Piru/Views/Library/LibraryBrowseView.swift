@@ -218,7 +218,7 @@ private struct LibraryFamilyCard: View {
         surface {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 Button(action: toggle) {
-                    header(chevronPointsDown: isExpanded)
+                    header(count: umbrellaCount, chevronPointsDown: isExpanded)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -256,12 +256,21 @@ private struct LibraryFamilyCard: View {
 
     // MARK: Pieces
 
-    private func header(count: Int? = nil, chevronPointsDown: Bool = false) -> some View {
+    /// The class cards carry no blurb: the title and the example names say what
+    /// the class holds.
+    private func header(count: Int?, chevronPointsDown: Bool = false) -> some View {
         FamilyCardHeader(
-            title: FamilyCardTitle(icon: family.icon, title: Text(family.title), blurb: Text(family.blurb)),
+            title: FamilyCardTitle(icon: family.icon, title: Text(family.title)),
             count: count,
             chevronPointsDown: chevronPointsDown,
         )
+    }
+
+    /// An umbrella's size: the sum of its sub-classes' counts, the same numbers
+    /// its sub-rows show when open.
+    private var umbrellaCount: Int {
+        let summary = SubstanceLibrary.categorySummary()
+        return family.subclasses.reduce(0) { $0 + (summary[$1.category] ?? 0) }
     }
 
     /// Substance count for a single navigating card (nil for umbrellas). Reads
@@ -275,12 +284,23 @@ private struct LibraryFamilyCard: View {
         }
     }
 
+    /// Two example names, or one when the pair would not fit whole beside the
+    /// hero graphic: a name is never cut mid-word.
     private var exemplarsLine: some View {
-        Text(LibraryFamily.exemplars(for: family.source).joined(separator: " · "))
+        let names = LibraryFamily.exemplars(for: family.source)
+        return ViewThatFits(in: .horizontal) {
+            exemplarText(names)
+            exemplarText(Array(names.prefix(1)))
+        }
+        .frame(maxWidth: 240, alignment: .leading)
+    }
+
+    private func exemplarText(_ names: [String]) -> some View {
+        Text(verbatim: names.joined(separator: " · "))
             .font(.caption.weight(.semibold))
             .foregroundStyle(.white.legibleOpacity(0.92))
             .lineLimit(1)
-            .frame(maxWidth: 220, alignment: .leading)
+            .fixedSize()
     }
 
     private var riskBadge: some View {
@@ -529,30 +549,26 @@ private struct LibraryYoursCard: View {
                         }
                     }
                     .transition(.scale(scale: 0.92, anchor: .top).combined(with: .opacity))
-                } else {
-                    FlowLayout(spacing: Spacing.sm) {
-                        ForEach(rows) { row in
-                            chip(row)
-                        }
-                    }
-                    .transition(.scale(scale: 0.96, anchor: .top).combined(with: .opacity))
+                } else if let summary {
+                    // One line of text: the folded card is a single button, so
+                    // its counts must not look like separate ones.
+                    Text(summary)
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.white.legibleOpacity(0.92))
+                        .transition(.opacity)
                 }
             }
         }
     }
 
-    private func chip(_ row: YoursRow) -> some View {
-        HStack(spacing: 5) {
-            Text(row.title)
-            Text("\(row.count)")
-                .monospacedDigit()
-                .foregroundStyle(.white.legibleOpacity(0.75))
+    /// "4 favorites · 8 colors", leaving out every row at zero; nil when all are.
+    private var summary: AttributedString? {
+        let parts = rows.filter { $0.count > 0 }.map(\.countPhrase)
+        guard var line = parts.first else { return nil }
+        for part in parts.dropFirst() {
+            line += AttributedString(" · ") + part
         }
-        .font(.caption.weight(.semibold))
-        .foregroundStyle(.white)
-        .padding(.horizontal, Spacing.lg)
-        .padding(.vertical, 5)
-        .background(.white.opacity(0.22), in: skinChipShape())
+        return line
     }
 }
 
@@ -564,4 +580,14 @@ private struct YoursRow: Identifiable {
     let blurb: Text
     let count: Int
     let route: PushRoute
+
+    /// The count with its noun, inflected: "1 favorite", "8 colors".
+    var countPhrase: AttributedString {
+        switch id {
+        case "favorites": AttributedString(localized: "^[\(count) favorite](inflect: true)")
+        case "colors": AttributedString(localized: "^[\(count) color](inflect: true)")
+        case "custom": AttributedString(localized: "^[\(count) custom substance](inflect: true)")
+        default: AttributedString(localized: "^[\(count) custom unit](inflect: true)")
+        }
+    }
 }

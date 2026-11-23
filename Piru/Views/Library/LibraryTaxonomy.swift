@@ -27,7 +27,6 @@ struct LibraryFamily: Identifiable {
 
     let id: String
     let title: LocalizedStringResource
-    let blurb: LocalizedStringResource
     let icon: String
     let color: Color
     let molecule: String
@@ -130,7 +129,7 @@ extension LibraryFamily {
     }
 
     /// How many names a card's exemplar line shows.
-    private static let exemplarCount = 3
+    private static let exemplarCount = 2
 
     /// Families with their empty sub-classes (and empty single cards) pruned, so
     /// a class with nothing browsable never shows a dead card. Shared by the
@@ -169,7 +168,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "common",
             title: "Common",
-            blurb: "Everyday substances, by the names most people know.",
             icon: "flame.fill",
             // Cool cornflower blue keeps the meta-cards clear of the warm
             // Stimulants orange.
@@ -180,7 +178,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "stimulant",
             title: "Stimulants",
-            blurb: "Energy, focus, and wakefulness.",
             icon: "bolt.fill",
             color: .Family.Stimulant.accent,
             molecule: "amphetamine",
@@ -189,7 +186,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "empathogen",
             title: "Empathogens",
-            blurb: "Warmth, empathy, and emotional openness.",
             icon: "heart.fill",
             color: .Family.Empathogen.accent,
             molecule: "mdma",
@@ -198,7 +194,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "hallucinogen",
             title: "Hallucinogens",
-            blurb: "Alter perception, thought, and sense of reality.",
             icon: "eye.fill",
             color: .Family.Hallucinogen.accent,
             molecule: "mescaline",
@@ -213,7 +208,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "cannabinoid",
             title: "Cannabinoids",
-            blurb: "Relaxation, euphoria, and altered senses.",
             icon: "leaf.fill",
             color: .Family.Cannabinoid.accent,
             molecule: "thc",
@@ -222,7 +216,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "opioid",
             title: "Opioids",
-            blurb: "Pain relief, euphoria, and sedation.",
             icon: "cross.fill",
             color: .Family.Opioid.accent,
             molecule: "morphine",
@@ -232,7 +225,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "sedative",
             title: "Sedatives & Depressants",
-            blurb: "Calm and slow the central nervous system.",
             icon: "moon.fill",
             color: .Family.Sedative.accent,
             molecule: "diazepam",
@@ -246,7 +238,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "peptide",
             title: "Peptides",
-            blurb: "GLP-1, healing, and research peptides.",
             icon: "link.circle.fill",
             color: .Family.Peptide.accent,
             molecule: "peptide",
@@ -255,7 +246,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "mind",
             title: "Mind & Cognition",
-            blurb: "Mood, psychiatric, and cognitive medications.",
             icon: "brain.fill",
             color: .Family.Mind.accent,
             molecule: "fluoxetine",
@@ -271,7 +261,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "pharmaceutical",
             title: "Pharmaceuticals",
-            blurb: "Meds, by class.",
             icon: "cross.case.fill",
             color: .Family.Pharmaceutical.accent,
             molecule: "aspirin",
@@ -291,7 +280,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "supplement",
             title: "Supplements",
-            blurb: "Vitamins, minerals, and nutrients.",
             icon: "drop.fill",
             color: .Family.Supplement.accent,
             molecule: "ascorbic",
@@ -300,7 +288,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "research",
             title: "Research Chemicals",
-            blurb: "Novel and lesser-characterized compounds.",
             icon: "flask.fill",
             color: .Family.Research.accent,
             molecule: "twocb",
@@ -312,7 +299,6 @@ extension LibraryFamily {
         LibraryFamily(
             id: "other",
             title: "Other / Miscellaneous",
-            blurb: "Everything that doesn't fit a class above.",
             icon: "ellipsis.circle.fill",
             color: .Family.Other.accent,
             molecule: "twocb",
