@@ -78,6 +78,9 @@ struct EntryListView: View {
     /// rebuilds leave the reader where they scrolled.
     @State private var hasOpenedAtNow = false
     @State private var viewportHeight = TimelineViewportHeight()
+    /// The pinned My Meds card's fold, moved by the timeline's scrolling and
+    /// read only by the card, so a scroll tick never re-evaluates this body.
+    @State private var headerFold = JournalHeaderFold()
 
     /// The strip's display options plus the day cards' redose stacking, read
     /// live from the app-group defaults the rest of the app writes.
@@ -198,8 +201,17 @@ struct EntryListView: View {
         return container {
             rows(activeStates: activeStates, activeID: activeID)
         }
+        .drivesHeaderFold(pinsHeader ? headerFold : nil)
         .id(listIdentity)
-        .onGeometryChange(for: CGFloat.self) { TimelineViewportHeight.visible(in: $0) } action: { viewportHeight.value = $0 }
+        // Held once the strip has opened at Now: the split it sets cuts the Now
+        // slice, and the pinned header folding or the tab bar minimizing
+        // mid-scroll would otherwise move the cut and jump the rows under the
+        // finger.
+        .onGeometryChange(for: CGFloat.self) { TimelineViewportHeight.visible(in: $0) } action: { height in
+            if !hasOpenedAtNow {
+                viewportHeight.value = height
+            }
+        }
         .safeAreaBar(edge: .top) { pinnedHeader }
         .themedPage()
         .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
@@ -293,7 +305,10 @@ struct EntryListView: View {
             }
             resetWindowAndRegroup()
         }
-        .onChange(of: grouping) { resetWindowAndRegroup() }
+        .onChange(of: grouping) {
+            headerFold.reset()
+            resetWindowAndRegroup()
+        }
         .onChange(of: groupKey) { resetWindowAndRegroup() }
         .onChange(of: model.filterSignature) { resetWindowAndRegroup() }
         .onChange(of: dayBoundaryHour) { regroup() }
@@ -347,6 +362,9 @@ struct EntryListView: View {
             hasOpenedAtNow = true
             if TimelineOpeningTarget.split(timelineModel.days, viewportHeight: viewportHeight.value) != nil {
                 proxy.scrollTo(TimelineOpeningTarget.nowRowID, anchor: .top)
+                // The card opens full: a Mac moves the fold on a phaseless
+                // scroll, and this one lands after the scroll's offset change.
+                Task { headerFold.reset() }
             }
         }
         .onChange(of: colorSignature) {
@@ -376,7 +394,7 @@ struct EntryListView: View {
                 if model.hasActiveFilters {
                     filterBar
                 }
-                MyMedsCard(substanceColors: substanceColors)
+                MyMedsCard(substanceColors: substanceColors, fold: headerFold)
                     .padding(.rowStandard)
             }
         }

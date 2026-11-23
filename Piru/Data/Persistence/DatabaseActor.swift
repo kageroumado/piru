@@ -20,56 +20,6 @@ actor DatabaseActor {
     static let shared = DatabaseActor()
 }
 
-/// Streak computation over the store's committed dose log, entirely off the
-/// main actor: the 365-day fetch (narrowed to the fields the snapshot reads),
-/// the snapshot mapping, and the calendar walk all run on ``DatabaseActor`` —
-/// the callers' old shape fetched and mapped a year of rows on the main actor
-/// before detaching just the arithmetic.
-enum AdherenceStreakFetcher {
-    @DatabaseActor
-    static func currentStreak(
-        spanningDays: Int = 365,
-        endingAt end: Date = .now,
-        container: ModelContainer,
-    ) -> Int {
-        let context = ModelContext(container)
-
-        // One day more than the span, so the oldest day's doses logged in a
-        // zone east of this one are still in the fetch.
-        let cutoff = Calendar.current.date(byAdding: .day, value: -(spanningDays + 2), to: end) ?? .distantPast
-        // Whole rows, deliberately: `propertiesToFetch` leaves every object a
-        // partial fault that fires on the first access of any property, which
-        // cost one fault per dose (3,569 in a launch trace) — more than the
-        // columns it saved.
-        let entryDescriptor = FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= cutoff },
-            sortBy: [SortDescriptor(\.timestamp)],
-        )
-        let entries = (try? context.fetch(entryDescriptor)) ?? []
-        let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
-
-        let entrySnaps = entries.map {
-            AdherenceCalculator.EntrySnapshot(
-                substance: $0.substance, identityKey: $0.identityKey,
-                route: $0.route, timestamp: $0.timestamp, combinationName: $0.combinationName,
-                timeZoneIdentifier: $0.timeZoneIdentifier,
-            )
-        }
-        let products = MedSchedule.productMeds()
-        let itemSnaps = items.map {
-            AdherenceCalculator.DailyItemSnapshot(
-                substance: $0.substance, identityKey: $0.identityKey, route: $0.route,
-                expectedPerDay: max(1, $0.reminderTimesMinutes.count), isAsNeeded: $0.isAsNeeded,
-                startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays,
-                intervalDays: $0.frequencyIntervalDays, product: products[$0.substance.lowercased()],
-            )
-        }
-        return AdherenceCalculator.currentStreak(
-            spanningDays: spanningDays, endingAt: end, entries: entrySnaps, items: itemSnaps,
-        )
-    }
-}
-
 /// The dose log's identity for a launch cache key — its row count, newest
 /// timestamp, and the color assignments — read off the main actor, so a
 /// cache lookup never has to materialize the log to know whether it hits.
