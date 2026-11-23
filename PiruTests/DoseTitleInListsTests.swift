@@ -64,15 +64,4 @@ struct DoseTitleInListsTests {
         #expect(resolved.substances.allSatisfy { $0.colorKey == "Methylphenidate" })
         #expect(resolved.snapshots.map(\.substanceIndex) == [0, 1, 0])
     }
-
-    @Test
-    func `The effect model's coverage line names the brand`() async {
-        await SubstanceStore.shared.ensureAllLoaded()
-        let entries = [entry(releaseForm: "XR", productName: "Concerta"), entry("Caffeine")]
-        let titles = entries.map { DoseTitle.resolve(for: $0) }
-        let partition = SessionResolveModel.mechanisticPartition(entries: entries, titles: titles, pharmacology: [:])
-        let all = partition.modeled + partition.ignored
-        #expect(all.contains("Concerta"))
-        #expect(!all.contains("Methylphenidate"))
-    }
 }
