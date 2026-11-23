@@ -21,9 +21,6 @@ struct ToleranceCombinedRecoverySection: View {
     var body: some View {
         Section {
             VStack(alignment: .leading, spacing: Spacing.xl) {
-                Text("Modeled tolerance over time")
-                    .cardTitle()
-
                 if series.isEmpty {
                     Text("Nothing modeled.")
                         .font(.subheadline)

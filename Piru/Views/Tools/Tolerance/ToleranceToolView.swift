@@ -17,8 +17,8 @@ import SwiftUI
 /// A family-color dot + tier-aware class name + a tolerance-level capsule; a five-segment gauge of how
 /// much of a normal dose you'd still feel; a one-sentence lede; a linear recovery chart (sensitivity vs
 /// days, starting at the current level); and a trimmed one-sentence safety note where the class has one.
-/// ``UserProfile`` sets the wording: Casual gets plain class names, Curious receptor-level names plus
-/// contributor chips and the chart legend. The section subviews live alongside this file.
+/// Every series is named by its plain class name; ``UserProfile`` adds the receptor to each card's title
+/// (Curious) along with contributor chips. The section subviews live alongside this file.
 struct ToleranceToolView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
 
@@ -26,11 +26,8 @@ struct ToleranceToolView: View {
     @State private var profile = UserProfileStore.shared
 
     /// What sits **below** the always-on combined recovery chart — mechanism cards or per-substance
-    /// rows. Chosen from the Mail-style options menu; the combined chart shows in both.
+    /// rows. Chosen from the toolbar menu; the combined chart shows in both.
     @State private var detailMode: ToleranceDetailMode = .perReceptor
-
-    /// Drives the Mail-style options popover anchored on the single toolbar button.
-    @State private var showsOptions = false
 
     /// Per-substance rows whose full dose history is expanded (keyed by logged substance name).
     @State private var expandedSubstances: Set<String> = []
@@ -75,7 +72,6 @@ struct ToleranceToolView: View {
                     case .perSubstance:
                         TolerancePerSubstanceSection(
                             groups: substanceGroups,
-                            tier: tier,
                             isReplayRunning: tolerance.perSubstanceStates.isEmpty && !rows.isEmpty,
                             expandedSubstances: $expandedSubstances,
                         )
@@ -121,23 +117,26 @@ struct ToleranceToolView: View {
 
     // MARK: - Toolbar
 
-    /// The single, Mail-style options button: one glyph opening a popover that carries both the
-    /// display-mode thumbnail picker and the detail-tier list.
+    /// One menu, the glyph the other Insights screens use for theirs: what the list below the chart shows,
+    /// and the app-wide detail level, each a named row showing its current value.
     @ToolbarContentBuilder
     private var optionsButton: some ToolbarContent {
         ToolbarItem(placement: .platformTopBarTrailing) {
-            Button {
-                showsOptions = true
+            Menu {
+                Picker("Show", selection: $detailMode) {
+                    ForEach(ToleranceDetailMode.allCases) { option in
+                        Text(option.title).tag(option)
+                    }
+                }
+                .pickerStyle(.menu)
+                Picker("Detail Level", selection: tierBinding) {
+                    ForEach(UserProfile.allCases) { option in
+                        Text(option.displayName).tag(option)
+                    }
+                }
+                .pickerStyle(.menu)
             } label: {
-                // The current tier's glyph, so the button both opens the menu and advertises the active
-                // detail level (leaf / heart / atom) rather than a generic ellipsis.
-                Image(systemName: tier.icon)
-                    .foregroundStyle(Theme.accent)
-            }
-            .accessibilityLabel("Display options")
-            .popover(isPresented: $showsOptions) {
-                ToleranceOptionsMenu(mode: $detailMode, tier: tierBinding)
-                    .presentationCompactAdaptation(.popover)
+                Label("Display Options", systemImage: "line.3.horizontal.decrease")
             }
         }
     }
@@ -223,7 +222,7 @@ struct ToleranceToolView: View {
             ToleranceRecoverySeries(
                 id: row.snapshot.receptorClass,
                 legendKey: String(reflecting: row.snapshot.receptorClass),
-                name: toleranceClassName(row.snapshot.receptorClass, tier: tier),
+                name: row.snapshot.receptorClass.casualName,
                 color: row.familyColor,
                 points: row.recoveryCurve(overMinutes: window, sampleCount: sampleCount),
             )

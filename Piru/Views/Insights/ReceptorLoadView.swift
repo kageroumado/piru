@@ -2,7 +2,7 @@ import Charts
 import SwiftData
 import SwiftUI
 
-/// Insights → Tolerance & Receptors → Receptor load over time. The historic
+/// Insights → Receptor Load. The historic
 /// counterpart to the "now"-only Tolerance tool: one line per mechanism class
 /// tracing how hard the receptors have been driven across the range, so drug
 /// holidays read as troughs and sustained heavy use as a high plateau.
@@ -13,12 +13,13 @@ import SwiftUI
 struct ReceptorLoadView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
 
-    @State private var range: UsageTimeRange = .ninetyDays
+    @State private var range: UsageTimeRange = .opening
     @State private var series: [ReceptorLoadSeries] = []
     @State private var loaded = false
     @State private var hidden: Set<String> = []
     @State private var selectedDate: Date?
-    @State private var zoomLevel: ZoomLevel = .medium
+    /// The span the chart draws: the whole selected range, ending now.
+    @State private var span: ClosedRange<Date> = Date.now ... Date.now
 
     var body: some View {
         ScrollView {
@@ -59,34 +60,6 @@ struct ReceptorLoadView: View {
         return hasher.finalize()
     }
 
-    // MARK: - Zoom
-
-    enum ZoomLevel: String, CaseIterable, Identifiable {
-        case wide = "Wide"
-        case medium = "Medium"
-        case close = "Close"
-
-        var id: String {
-            rawValue
-        }
-
-        var label: LocalizedStringKey {
-            switch self {
-            case .wide: "Wide"
-            case .medium: "Medium"
-            case .close: "Close-up"
-            }
-        }
-
-        var windowSeconds: Double {
-            switch self {
-            case .wide: 180 * 86_400
-            case .medium: 90 * 86_400
-            case .close: 30 * 86_400
-            }
-        }
-    }
-
     // MARK: - Load
 
     private func load() async {
@@ -107,6 +80,7 @@ struct ReceptorLoadView: View {
             now.timeIntervalSince(allEntries.map(\.timestamp).min() ?? now.addingTimeInterval(-90 * 86_400))
         }
         let step = Self.step(forWindow: pastHorizon)
+        span = now.addingTimeInterval(-pastHorizon) ... now
 
         var built: [ReceptorLoadSeries] = []
         for receptorClass in classes.prefix(6) {
@@ -144,26 +118,16 @@ struct ReceptorLoadView: View {
     // MARK: - Chart
 
     private var chartCard: some View {
-        UsageSectionCard(title: "Receptor load over time", subtitle: "Relative to your recent baseline") {
+        // The title names the span, the one thing the toolbar menu changes.
+        UsageSectionCard(title: Text(range.windowName), subtitle: "Relative to your recent baseline") {
             let visible = series.filter { !hidden.contains($0.id) }
             let shown = visible.isEmpty ? series : visible
-            ReceptorLoadChart(series: shown, selectedDate: $selectedDate, windowSeconds: zoomLevel.windowSeconds)
+            ReceptorLoadChart(series: shown, selectedDate: $selectedDate, span: span)
             if let selectedDate {
                 ReceptorLoadReadout(series: shown, date: selectedDate)
             }
-            zoomPicker
             legend
         }
-    }
-
-    private var zoomPicker: some View {
-        Picker("Zoom", selection: $zoomLevel) {
-            ForEach(ZoomLevel.allCases) { level in
-                Text(level.label).tag(level)
-            }
-        }
-        .pickerStyle(.segmented)
-        .onChange(of: zoomLevel) { selectedDate = nil }
     }
 
     private var legend: some View {
@@ -194,18 +158,11 @@ struct ReceptorLoadView: View {
 
     // MARK: - Chrome
 
+    /// The Usage screen's filter menu, holding only the time range here: the
+    /// legend below the chart already shows and hides each mechanism.
     private var rangeMenu: some View {
-        Menu {
-            Picker("Time Range", selection: $range) {
-                ForEach(UsageTimeRange.allCases) { option in
-                    Text(option.displayName).tag(option)
-                }
-            }
-        } label: {
-            Text(range.displayName)
-                .sectionLabel()
-        }
-        .onChange(of: range) { selectedDate = nil }
+        InsightsFilterMenu(range: $range, selectedCount: 0, offersSubstances: false, showSubstances: {})
+            .onChange(of: range) { selectedDate = nil }
     }
 
     private func empty(_ title: LocalizedStringKey, _ description: LocalizedStringKey) -> some View {
@@ -214,7 +171,7 @@ struct ReceptorLoadView: View {
     }
 
     private var disclaimer: some View {
-        Text("A modeled relative load from your logged doses. It models receptor drive, not how you feel.")
+        Text("Modeled from your logged doses: receptor drive, not how you feel.")
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -243,13 +200,7 @@ struct ReceptorLoadSeries: Identifiable {
 private struct ReceptorLoadChart: View {
     let series: [ReceptorLoadSeries]
     @Binding var selectedDate: Date?
-    var windowSeconds: Double = usageChartWindowSeconds
-
-    private var span: (length: Double, windowStart: Date?) {
-        let dates = series.flatMap { $0.points.map(\.date) }
-        guard let first = dates.min(), let last = dates.max(), last > first else { return (1, nil) }
-        return (last.timeIntervalSince(first), last.addingTimeInterval(-windowSeconds))
-    }
+    let span: ClosedRange<Date>
 
     var body: some View {
         Chart {
@@ -273,7 +224,7 @@ private struct ReceptorLoadChart: View {
         }
         .frame(height: 200)
         .chartXSelection(value: $selectedDate)
-        .chartXScrollWindow(fullLength: span.length, window: windowSeconds, initialX: span.windowStart)
+        .chartXScale(domain: span)
         .chartYScale(domain: 0 ... 1)
         .chartYAxis {
             AxisMarks(position: .leading, values: [0, 0.5, 1]) { value in
@@ -295,7 +246,7 @@ private struct ReceptorLoadChart: View {
                     .font(.caption2)
             }
         }
-        .chartSummaryAccessibility(label: Text("Receptor load over time"), value: Text(summary))
+        .chartSummaryAccessibility(label: Text("Receptor Load"), value: Text(summary))
     }
 
     private var summary: String {

@@ -198,13 +198,8 @@ private struct AdherenceMonthCard: View {
                 .font(.piru(.title2))
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: Spacing.xxs) {
-                Text("\(taken) of \(due) scheduled doses")
-                    .font(.piru(.body, design: .rounded, weight: .semibold))
-                Text(Date.now.formatted(.dateTime.month(.wide)))
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+            Text("\(taken) of \(due) scheduled doses")
+                .font(.piru(.body, design: .rounded, weight: .semibold))
             Spacer()
         }
         .padding()

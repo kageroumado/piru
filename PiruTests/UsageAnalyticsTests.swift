@@ -168,24 +168,55 @@ struct UsageAnalyticsTests {
     }
 
     @Test
-    func `The sparkline splits the window into seven equal buckets`() {
+    func `The window count splits the window into equal buckets`() {
         let start = date(2_026, 6, 1, 0)
         let end = date(2_026, 6, 8, 0)
         let window = bounds(start, end)
         // One entry per day for seven days → one per bucket.
-        let entries = (0 ..< 7).map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400 + 3_600)) }
+        let stamps = (0 ..< 7).map { start.addingTimeInterval(Double($0) * 86_400 + 3_600) }
 
-        #expect(UsageAnalytics.sparkline(entries, bounds: window) == [1, 1, 1, 1, 1, 1, 1])
+        #expect(UsageAnalytics.windowCount(stamps, bounds: window).buckets == [1, 1, 1, 1, 1, 1, 1])
     }
 
     @Test
-    func `An entry at the very end of the window lands in the last sparkline bucket`() {
+    func `An entry at the very end of the window lands in the last bucket`() {
         let start = date(2_026, 6, 1, 0)
         let end = date(2_026, 6, 8, 0)
         let window = bounds(start, end)
 
-        #expect(UsageAnalytics.sparkline([snapshot(at: end)], bounds: window) == [0, 0, 0, 0, 0, 0, 1])
-        #expect(UsageAnalytics.sparkline([snapshot(at: start)], bounds: window) == [1, 0, 0, 0, 0, 0, 0])
+        #expect(UsageAnalytics.windowCount([end], bounds: window).buckets == [0, 0, 0, 0, 0, 0, 1])
+        #expect(UsageAnalytics.windowCount([start], bounds: window).buckets == [1, 0, 0, 0, 0, 0, 0])
+    }
+
+    @Test
+    func `The window count leaves out entries past now and before the window`() {
+        let now = date(2_026, 6, 15, 9, 41)
+        let stamps = [
+            now.addingTimeInterval(-31 * 86_400), // before a 30-day window
+            now.addingTimeInterval(-29 * 86_400),
+            now.addingTimeInterval(-3_600),
+            now.addingTimeInterval(1_140), // 10:00, later than now
+        ]
+        let count = UsageAnalytics.windowCount(stamps, range: .thirtyDays, now: now, buckets: 30)
+
+        #expect(count.entryCount == 2)
+        #expect(count.buckets.count == 30)
+        #expect(count.buckets.reduce(0, +) == 2)
+        #expect(count.averagePerDay == 2.0 / 30)
+    }
+
+    @Test
+    func `The Insights card and the Usage screen count the same entries`() {
+        let now = date(2_026, 6, 15, 9, 41)
+        let entries = (0 ..< 40).map { snapshot(at: now.addingTimeInterval(Double($0) * -86_400 * 0.9 + 1_800)) }
+        let screen = UsageAnalytics.compute(
+            entries: entries, substances: [UsageSubstanceRef(name: "A", displayName: "A", categoryIndex: 0)],
+            range: UsageTimeRange.opening, calendar: utc, now: now,
+        )
+        let card = UsageAnalytics.windowCount(entries.map(\.timestamp), range: UsageTimeRange.opening, now: now, buckets: 30)
+
+        #expect(card.entryCount == screen.overview.entryCount)
+        #expect(card.averagePerDay == screen.overview.averagePerDay)
     }
 
     // MARK: - Bucketing (§3, §4)
@@ -850,7 +881,7 @@ struct UsageAnalyticsTests {
 
         #expect(result.entryCount == 21)
         #expect(result.overview.uniqueSubstances == 2)
-        #expect(result.overview.sparkline.reduce(0, +) == 21)
+        #expect(result.overview.window.buckets.reduce(0, +) == 21)
         #expect(result.trends.count == 2)
         #expect(result.doseLevels.resolvedEntries == 14)
         #expect(result.routes.routesAreMeaningful)

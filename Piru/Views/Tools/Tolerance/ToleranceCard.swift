@@ -1,7 +1,7 @@
 import Charts
 import SwiftUI
 
-/// One mechanism class's card: a family-color dot + tier-aware name + "Modeled" capsule, an optional
+/// One mechanism class's card: a family-color dot + tier-aware name, an optional
 /// contributor row, the segmented tolerance bar, the recovery chart, and trimmed safety notes.
 /// Density scales with `tier`. The level has no word: the bar is the whole readout.
 struct ToleranceCard: View {
@@ -49,9 +49,6 @@ struct ToleranceCardHeader: View {
             Text(name)
                 .cardTitle()
             Spacer(minLength: 8)
-            Text("Modeled")
-                .capsuleChip(text: Theme.secondaryLabel, fill: .secondary, size: .regular)
-                .textCase(.uppercase)
         }
     }
 }

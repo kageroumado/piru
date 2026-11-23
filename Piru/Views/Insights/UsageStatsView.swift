@@ -15,7 +15,7 @@ struct UsageStatsView: View {
     @Query private var substanceColors: [SubstanceColor]
 
     @State private var model = UsageAnalyticsModel()
-    @State private var range: UsageTimeRange = .thirtyDays
+    @State private var range: UsageTimeRange = .opening
     /// Entries vs common-dose units: one global lens for every card that has
     /// one. Common doses by default: it weighs each dose by its typical size,
     /// the more representative view.
@@ -118,6 +118,7 @@ struct UsageStatsView: View {
             hours: result.hours,
             categories: result.categories,
             metric: metric,
+            range: result.range,
         )
 
         UsageTrendsSection(trends: result.trends, style: style, range: result.range, metric: metric)
