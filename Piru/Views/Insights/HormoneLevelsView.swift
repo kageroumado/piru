@@ -442,16 +442,24 @@ private struct HormoneLevelsExplanationCard: View {
 }
 
 private struct HormoneLevelsNoDataCard: View {
+    @Environment(\.appNavigator) private var navigator
+
     var body: some View {
         VStack(spacing: Spacing.lg) {
             Image(systemName: "waveform.path.ecg")
                 .font(.title2)
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
-            Text("Log an injectable estradiol or testosterone ester to see your estimated hormone levels here.")
+            Text("Log an injectable estradiol or testosterone ester to see estimated levels.")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
                 .multilineTextAlignment(.center)
+            Button("Log an Injection") {
+                navigator.present(.quickLog(routine: nil))
+            }
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(Theme.accent)
+            .buttonStyle(.plain)
         }
         .padding()
         .frame(maxWidth: .infinity)
