@@ -46,6 +46,13 @@ extension View {
     ) -> some View { self }
 
     func onScrollPhaseChange(_: @escaping (ScrollPhase, ScrollPhase) -> Void) -> some View { self }
+    func onScrollVisibilityChange(threshold _: Double = 0.5, _: @escaping (Bool) -> Void) -> some View { self }
+
+    /// Every item draws as it does at rest: a scroll-linked transition is an iOS flourish.
+    func scrollTransition(
+        _: ScrollTransitionConfiguration = .interactive, axis _: Axis? = nil,
+        transition _: @escaping (ScrollTransitionEffect, ScrollTransitionPhase) -> ScrollTransitionEffect,
+    ) -> some View { self }
 
     /// The bar stacked at the edge it names. SkipFuseUI has no safe-area inset, so the bar takes
     /// its own space instead of floating over the content's edge.
@@ -80,6 +87,13 @@ extension View {
             }
         }
     }
+}
+
+/// What a scroll transition's closure styles; every effect returns it unchanged.
+struct ScrollTransitionEffect {
+    func scaleEffect(_: CGFloat) -> ScrollTransitionEffect { self }
+    func opacity(_: Double) -> ScrollTransitionEffect { self }
+    func offset(x _: CGFloat = 0, y _: CGFloat = 0) -> ScrollTransitionEffect { self }
 }
 
 struct AndroidNamespaceID: Hashable, Sendable {}
