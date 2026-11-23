@@ -211,7 +211,7 @@ To change an upstream file for Android: edit it in place, run
 ```bash
 android/tools/droid restart                       # force-stop and relaunch Piru
 android/tools/droid wait --label Journal          # until it is up
-android/tools/droid tap --label "Record an entry" # --index N when a label repeats
+android/tools/droid tap --label "Record an Entry" # --index N when a label repeats
 android/tools/droid tree                          # labels with center coordinates
 android/tools/droid shot quicklog                 # → $PIRU_ANDROID_BUILD/quicklog.png
 android/tools/droid logs                          # the app's fatal and error lines

@@ -733,6 +733,7 @@
       }
     },
     "%@ – %@ %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2188,6 +2189,7 @@
       }
     },
     "%@ entries across seven equal slices of the period." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2244,6 +2246,7 @@
       }
     },
     "%@ entries per day, most active on %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4958,6 +4961,7 @@
       }
     },
     "%lld doses" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -5296,6 +5300,7 @@
       }
     },
     "%lld first recorded this period" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -5437,6 +5442,7 @@
       }
     },
     "%lld in the last 14 days" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -6662,6 +6668,7 @@
       }
     },
     "%lld with half-life data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -6963,6 +6970,34 @@
         }
       }
     },
+    "%lld%% left" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queda un %lld%%"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queda un %lld%%"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余 %lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩餘 %lld%%"
+          }
+        }
+      }
+    },
     "%lld%% load" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6993,6 +7028,7 @@
       }
     },
     "%lld%% remaining" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -7077,6 +7113,7 @@
       }
     },
     "%lld× daily" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -7440,6 +7477,90 @@
         }
       }
     },
+    "^[%lld color](inflect: true)" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld color](inflect: true)"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld color](inflect: true)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 种颜色"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 種顏色"
+          }
+        }
+      }
+    },
+    "^[%lld custom substance](inflect: true)" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld sustancia personalizada](inflect: true)"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld sustancia personalizada](inflect: true)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 种自定义物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 種自訂物質"
+          }
+        }
+      }
+    },
+    "^[%lld custom unit](inflect: true)" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld unidad personalizada](inflect: true)"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld unidad personalizada](inflect: true)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个自定义单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個自訂單位"
+          }
+        }
+      }
+    },
     "^[%lld dose](inflect: true)" : {
       "localizations" : {
         "es" : {
@@ -7549,6 +7670,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 次體驗"
+          }
+        }
+      }
+    },
+    "^[%lld favorite](inflect: true)" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld favorito](inflect: true)"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld favorito](inflect: true)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个收藏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個收藏"
           }
         }
       }
@@ -7834,6 +7983,7 @@
       }
     },
     "↑ %lld%% vs previous %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7868,6 +8018,7 @@
       }
     },
     "↓ %lld%% vs previous %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8826,6 +8977,7 @@
       }
     },
     "1 Interaction Found" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -9304,6 +9456,35 @@
       }
     },
     "11-OH-THC (edibles)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11-OH-THC (comestibles)"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11-OH-THC (comestibles)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11-OH-THC（食用大麻）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11-OH-THC（食用大麻）"
+          }
+        }
+      }
+    },
+    "11-OH-THC (Edibles)" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -9332,6 +9513,7 @@
       }
     },
     "12:00 – 17:00" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -9388,6 +9570,7 @@
       }
     },
     "17:00 – 21:00" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -10313,6 +10496,7 @@
       }
     },
     "A modeled relative load from your logged doses. It models receptor drive, not how you feel." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -10902,6 +11086,7 @@
       }
     },
     "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay as they are." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -12307,6 +12492,34 @@
         }
       }
     },
+    "Activity · %lld weeks" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad · %lld semanas"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad · %lld semanas"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动 · %lld 周"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活動 · %lld 週"
+          }
+        }
+      }
+    },
     "Activity heatmap" : {
       "localizations" : {
         "es" : {
@@ -12364,6 +12577,7 @@
       }
     },
     "Acts on" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -12589,6 +12803,7 @@
       }
     },
     "Add a time" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -14611,7 +14826,36 @@
         }
       }
     },
+    "after %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "después de las %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "después de las %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 之后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 之後"
+          }
+        }
+      }
+    },
     "after 21:00" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -14752,6 +14996,35 @@
       }
     },
     "After your latest dose" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Después de tu última dosis"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Después de tu última dosis"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你最近一次剂量之后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你最近一次劑量之後"
+          }
+        }
+      }
+    },
+    "After Your Latest Dose" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -15371,6 +15644,35 @@
       }
     },
     "All categories" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las categorías"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las categorías"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部類別"
+          }
+        }
+      }
+    },
+    "All Categories" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -15764,6 +16066,35 @@
       }
     },
     "All time" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo el tiempo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo el tiempo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部時間"
+          }
+        }
+      }
+    },
+    "All Time" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -16203,6 +16534,7 @@
       }
     },
     "Alter perception, thought, and sense of reality." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -17830,6 +18162,7 @@
       }
     },
     "as needed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -17858,6 +18191,34 @@
       }
     },
     "As needed" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según necesidad"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según necesidad"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按需"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按需"
+          }
+        }
+      }
+    },
+    "As Needed" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -18082,6 +18443,7 @@
       }
     },
     "at common or above · %lld heavy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -18669,6 +19031,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "備份到資料夾…"
+          }
+        }
+      }
+    },
+    "Backed up to iCloud %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia en iCloud %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia en iCloud %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 已备份到 iCloud"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 已備份到 iCloud"
           }
         }
       }
@@ -19270,6 +19660,7 @@
       }
     },
     "Baseline (100%)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -19353,6 +19744,34 @@
         }
       }
     },
+    "before %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antes de %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antes de %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 之前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 之前"
+          }
+        }
+      }
+    },
     "Before %@" : {
       "localizations" : {
         "es" : {
@@ -19382,6 +19801,7 @@
       }
     },
     "before 12:00" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -21074,6 +21494,35 @@
       }
     },
     "Branded formulations" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formulaciones de marca"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formulaciones de marca"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品牌制剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品牌製劑"
+          }
+        }
+      }
+    },
+    "Branded Formulations" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -21242,6 +21691,35 @@
       }
     },
     "Browse by class" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explorar por clase"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explorar por clase"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按类别浏览"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按類別瀏覽"
+          }
+        }
+      }
+    },
+    "Browse by Class" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -21354,6 +21832,7 @@
       }
     },
     "Bucket" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -21665,6 +22144,34 @@
         }
       }
     },
+    "By Mechanism" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por mecanismo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por mecanismo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按机制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按機制"
+          }
+        }
+      }
+    },
     "By substance" : {
       "localizations" : {
         "es" : {
@@ -21918,6 +22425,7 @@
       }
     },
     "Calculator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -22089,6 +22597,7 @@
       }
     },
     "Calm and slow the central nervous system." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -23128,6 +23637,34 @@
         }
       }
     },
+    "Changing On hand is logged as a correction. 0 turns a row off." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar Disponible se registra como una corrección. 0 desactiva una fila."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar Disponible se registra como una corrección. 0 desactiva una fila."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修改“现有量”会记为一次校正。设为 0 即关闭该项。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修改「現有量」會記為一次校正。設為 0 即關閉該項。"
+          }
+        }
+      }
+    },
     "Channel Blocker" : {
       "localizations" : {
         "es" : {
@@ -23214,6 +23751,7 @@
       }
     },
     "Check how substances interact" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -24674,6 +25212,7 @@
       }
     },
     "Close-up" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -27206,6 +27745,7 @@
       }
     },
     "Connect Apple Health to show your heart rate on the graph beside your entries." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -28443,6 +28983,35 @@
       }
     },
     "Cross-tolerance" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolerancia cruzada"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolerancia cruzada"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交叉耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交叉耐受"
+          }
+        }
+      }
+    },
+    "Cross-Tolerance" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -31673,6 +32242,35 @@
       }
     },
     "Display name" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre para mostrar"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre para mostrar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示名稱"
+          }
+        }
+      }
+    },
+    "Display Name" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -31701,6 +32299,7 @@
       }
     },
     "Display options" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -32855,6 +33454,7 @@
     },
     "Dose sources" : {
       "comment" : "Screen title",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -35604,6 +36204,35 @@
       }
     },
     "Effect-selective tolerance" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolerancia selectiva por efecto"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolerancia selectiva por efecto"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效应选择性耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效應選擇性耐受"
+          }
+        }
+      }
+    },
+    "Effect-Selective Tolerance" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -36941,6 +37570,7 @@
       }
     },
     "Energy, focus, and wakefulness." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -37472,7 +38102,36 @@
         }
       }
     },
+    "Entries recorded per day" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registros anotados por día"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registros anotados por día"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天添加的记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天新增的記錄"
+          }
+        }
+      }
+    },
     "Entries recorded per day over the past two weeks" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -39229,6 +39888,7 @@
       }
     },
     "Everyday substances, by the names most people know." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -39397,6 +40057,7 @@
       }
     },
     "Everything that doesn't fit a class above." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -39986,6 +40647,7 @@
       }
     },
     "Export, import, and encrypted backups" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -40465,6 +41127,7 @@
       }
     },
     "Favorites, colors, units, and the substances you added." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -41589,6 +42252,7 @@
       }
     },
     "Formulation" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -41757,6 +42421,35 @@
       }
     },
     "Frequently used" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uso frecuente"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uso frecuente"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常用"
+          }
+        }
+      }
+    },
+    "Frequently Used" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -41981,6 +42674,35 @@
       }
     },
     "From your last 48 hours" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De tus últimas 48 horas"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De tus últimas 48 horas"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自你最近 48 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自你最近 48 小時"
+          }
+        }
+      }
+    },
+    "From Your Last 48 Hours" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -42174,6 +42896,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "吃過正餐"
+          }
+        }
+      }
+    },
+    "Full supply" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suministro completo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suministro completo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "满量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滿量"
           }
         }
       }
@@ -42996,6 +43746,7 @@
       }
     },
     "Get help with the app or send your suggestions on our Discord server." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -43305,6 +44056,7 @@
       }
     },
     "GLP-1, healing, and research peptides." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -44035,6 +44787,35 @@
       }
     },
     "Handling & storage" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manejo y almacenamiento"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manejo y almacenamiento"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "处理与储存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "處理與儲存"
+          }
+        }
+      }
+    },
+    "Handling & Storage" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -44237,6 +45018,35 @@
       }
     },
     "Heart data" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datos cardíacos"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datos cardíacos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心脏数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心臟資料"
+          }
+        }
+      }
+    },
+    "Heart Data" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -44406,6 +45216,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "心率和血壓疊加。THC 本身就會讓心率加快，屈大麻酚（THC）的說明書也建議避免與安非他命類及類似興奮劑併用。"
+          }
+        }
+      }
+    },
+    "Heart rate on this graph" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frecuencia cardíaca en este gráfico"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frecuencia cardíaca en este gráfico"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此图表上显示心率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此圖表上顯示心率"
           }
         }
       }
@@ -44687,6 +45525,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "幫助與安全"
+          }
+        }
+      }
+    },
+    "Help and suggestions" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayuda y sugerencias"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayuda y sugerencias"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帮助与建议"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "協助與建議"
           }
         }
       }
@@ -50204,6 +51070,34 @@
         }
       }
     },
+    "Known risks for any combination" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesgos conocidos de cualquier combinación"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesgos conocidos de cualquier combinación"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "任意组合的已知风险"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "任意組合的已知風險"
+          }
+        }
+      }
+    },
     "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -50543,6 +51437,35 @@
       }
     },
     "Last %lld days" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Últimos %lld días"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Últimos %lld días"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 %lld 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 %lld 天"
+          }
+        }
+      }
+    },
+    "Last %lld Days" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -52961,7 +53884,36 @@
         }
       }
     },
+    "Log an injectable estradiol or testosterone ester to see estimated levels." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra un éster inyectable de estradiol o testosterona para ver los niveles estimados."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra un éster inyectable de estradiol o testosterona para ver los niveles estimados."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一次注射用雌二醇或睾酮酯，即可查看估算水平。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄一次注射用雌二醇或睪固酮酯，即可查看估算濃度。"
+          }
+        }
+      }
+    },
     "Log an injectable estradiol or testosterone ester to see your estimated hormone levels here." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -52985,6 +53937,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄一次可注射的雌二醇或睪固酮酯，就能在這裡看到你的荷爾蒙水平估計。"
+          }
+        }
+      }
+    },
+    "Log an Injection" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar una inyección"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar una inyección"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录注射"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄注射"
           }
         }
       }
@@ -55191,6 +56171,7 @@
       }
     },
     "Medium" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -55247,6 +56228,7 @@
       }
     },
     "Meds due" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -55303,6 +56285,7 @@
       }
     },
     "Meds, by class." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -56487,6 +57470,35 @@
       }
     },
     "Model boundary" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límite del modelo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límite del modelo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型边界"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型邊界"
+          }
+        }
+      }
+    },
+    "Model Boundary" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -56683,6 +57695,7 @@
       }
     },
     "Modeled" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -57018,6 +58031,34 @@
         }
       }
     },
+    "Modeled from your logged doses: receptor drive, not how you feel." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelado a partir de tus dosis registradas: impulso sobre el receptor, no cómo te sientes."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelado a partir de tus dosis registradas: impulso sobre el receptor, no cómo te sientes."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你记录的剂量推算：是受体驱动，不是你的感受。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根據你記錄的劑量推算：是受體驅動，不是你的感受。"
+          }
+        }
+      }
+    },
     "modeled in body" : {
       "localizations" : {
         "es" : {
@@ -57075,6 +58116,7 @@
       }
     },
     "Modeled Levels" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -57800,6 +58842,7 @@
       }
     },
     "Mood, psychiatric, and cognitive medications." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -58229,6 +59272,7 @@
       }
     },
     "Most entries: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -58312,8 +59356,38 @@
         }
       }
     },
+    "Most reported at this dose" : {
+      "comment" : "Intensity dial effects heading",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MÁS MENCIONADOS A ESTA DOSIS"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MÁS MENCIONADOS A ESTA DOSIS"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此剂量下最常报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此劑量下最常報告"
+          }
+        }
+      }
+    },
     "MOST REPORTED AT THIS DOSE" : {
       "comment" : "Intensity dial effects heading",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -59636,6 +60710,35 @@
       }
     },
     "New time on %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva hora el %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva hora el %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的新时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的新時間"
+          }
+        }
+      }
+    },
+    "New Time on %@" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -59720,6 +60823,35 @@
       }
     },
     "Next in rotation" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente en la rotación"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente en la rotación"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一个轮换部位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一個輪換部位"
+          }
+        }
+      }
+    },
+    "Next in Rotation" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -60631,6 +61763,7 @@
       }
     },
     "No dose ladders matched" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -61416,6 +62549,7 @@
       }
     },
     "no schedule" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -61472,6 +62606,7 @@
       }
     },
     "no set time" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -63133,6 +64268,34 @@
         }
       }
     },
+    "Nothing flagged for what's active now" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada señalado en lo que está activo ahora"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada señalado en lo que está activo ahora"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前起效的物质之间未发现标记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前起效的物質之間未發現標記"
+          }
+        }
+      }
+    },
     "Nothing Here" : {
       "localizations" : {
         "es" : {
@@ -63863,6 +65026,7 @@
       }
     },
     "Novel and lesser-characterized compounds." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -64729,6 +65893,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "昂丹司瓊"
+          }
+        }
+      }
+    },
+    "One dose" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una dosis"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una dosis"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单次剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "單次劑量"
           }
         }
       }
@@ -66560,6 +67752,7 @@
       }
     },
     "Pain relief, euphoria, and sedation." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -67903,7 +69096,36 @@
         }
       }
     },
+    "per day" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por día"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por día"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日"
+          }
+        }
+      }
+    },
     "Per day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -69768,6 +70990,35 @@
       }
     },
     "PK columns" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Columnas PK"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Columnas PK"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药代动力学列"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物動力學欄"
+          }
+        }
+      }
+    },
+    "PK Columns" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -72212,6 +73463,7 @@
       }
     },
     "quiet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -72628,6 +73880,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "範圍"
+          }
+        }
+      }
+    },
+    "Range: %@ – %@ %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango: %@–%@ %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango: %@–%@ %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "范围：%@–%@ %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "範圍：%@–%@ %@"
+          }
+        }
+      }
+    },
+    "Range: %@ %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango: %@ %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango: %@ %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "范围：%@ %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "範圍：%@ %@"
           }
         }
       }
@@ -73342,6 +74650,7 @@
       }
     },
     "Receptor load over time" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -73482,6 +74791,35 @@
       }
     },
     "Reconstitution calculator" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculadora de reconstitución"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculadora de reconstitución"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复溶计算器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "復溶計算器"
+          }
+        }
+      }
+    },
+    "Reconstitution Calculator" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -73594,6 +74932,35 @@
       }
     },
     "Record an entry" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar un registro"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar un registro"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增記錄"
+          }
+        }
+      }
+    },
+    "Record an Entry" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -74498,6 +75865,35 @@
       }
     },
     "Reference table" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tabla de referencia"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tabla de referencia"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参考表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "參考表"
+          }
+        }
+      }
+    },
+    "Reference Table" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -74779,6 +76175,7 @@
       }
     },
     "Relaxation, euphoria, and altered senses." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -79832,6 +81229,7 @@
       }
     },
     "See the model's estimate of what is still active" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -79860,6 +81258,7 @@
       }
     },
     "See your heart rate here" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -82363,6 +83762,35 @@
       }
     },
     "Shared with" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido con"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartido con"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享对象"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享對象"
+          }
+        }
+      }
+    },
+    "Shared With" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -83092,6 +84520,35 @@
       }
     },
     "Shown from" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrado desde"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrado desde"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示來源"
+          }
+        }
+      }
+    },
+    "Shown From" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -83540,6 +84997,35 @@
       }
     },
     "Shulgin scale" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escala de Shulgin"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escala de Shulgin"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "舒尔金量表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "舒爾金量表"
+          }
+        }
+      }
+    },
+    "Shulgin Scale" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -83736,6 +85222,7 @@
       }
     },
     "Single dose" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -87471,6 +88958,34 @@
         }
       }
     },
+    "Storage, exports, and recovery snapshots" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Almacenamiento, exportaciones e instantáneas de recuperación"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Almacenamiento, exportaciones e instantáneas de recuperación"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存储、导出与恢复快照"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存空間、匯出與復原快照"
+          }
+        }
+      }
+    },
     "Store Size" : {
       "localizations" : {
         "es" : {
@@ -88172,6 +89687,34 @@
         }
       }
     },
+    "Substance colors, the timeline and charts stay the same." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los colores de las sustancias, la línea de tiempo y los gráficos no cambian."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los colores de las sustancias, la línea de tiempo y los gráficos no cambian."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物质颜色、时间轴和图表保持不变。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物質顏色、時間軸和圖表保持不變。"
+          }
+        }
+      }
+    },
     "Substance contains…" : {
       "localizations" : {
         "es" : {
@@ -88449,6 +89992,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "substance.wiki 時間軸"
+          }
+        }
+      }
+    },
+    "substances" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sustancias"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sustancias"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物質"
           }
         }
       }
@@ -89156,6 +90727,7 @@
       }
     },
     "System uses your device’s language. Widgets switch at their next refresh." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -90897,6 +92469,7 @@
       }
     },
     "The amount that counts as a full supply for the bar. Set to 0 to hide the bar." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -91208,6 +92781,7 @@
       }
     },
     "The exact amount you have now. Changing it is logged as a correction." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -91603,6 +93177,35 @@
       }
     },
     "The idea" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La idea"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La idea"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原理"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原理"
+          }
+        }
+      }
+    },
+    "The Idea" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -91715,6 +93318,35 @@
       }
     },
     "The learned part of tolerance" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La parte aprendida de la tolerancia"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La parte aprendida de la tolerancia"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受中学习来的部分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受中學習來的部分"
+          }
+        }
+      }
+    },
+    "The Learned Part of Tolerance" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -93043,6 +94675,34 @@
         }
       }
     },
+    "This device" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dispositivo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dispositivo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本设备"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本裝置"
+          }
+        }
+      }
+    },
     "This device · Apple Health" : {
       "localizations" : {
         "es" : {
@@ -93999,6 +95659,35 @@
       }
     },
     "Three timescales" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tres escalas de tiempo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tres escalas de tiempo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三种时间尺度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三種時間尺度"
+          }
+        }
+      }
+    },
+    "Three Timescales" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -94594,6 +96283,7 @@
       }
     },
     "Times" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -95830,6 +97520,7 @@
       }
     },
     "Trend" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -96196,7 +97887,36 @@
         }
       }
     },
+    "Turn On" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activar"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟"
+          }
+        }
+      }
+    },
     "Turn On Apple Health" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -96815,6 +98535,35 @@
       }
     },
     "Universal recovery basics" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bases universales de recuperación"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bases universales de recuperación"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用恢复基础"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用恢復基礎"
+          }
+        }
+      }
+    },
+    "Universal Recovery Basics" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -98325,6 +100074,7 @@
       }
     },
     "Used to show how many doses you have left. Set to 0 to disable." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -98943,6 +100693,7 @@
       }
     },
     "Vitamins, minerals, and nutrients." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -99197,6 +100948,7 @@
       }
     },
     "Warmth, empathy, and emotional openness." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -99224,7 +100976,36 @@
         }
       }
     },
+    "Warn below" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avisar por debajo de"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avisar por debajo de"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低于此值提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低於此值提醒"
+          }
+        }
+      }
+    },
     "Warn when below" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -100599,6 +102380,35 @@
       }
     },
     "Why this source" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por qué esta fuente"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por qué esta fuente"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为何选此来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為何選此來源"
+          }
+        }
+      }
+    },
+    "Why This Source" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -100655,6 +102465,7 @@
       }
     },
     "Wide" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -100735,6 +102546,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更廣！"
+          }
+        }
+      }
+    },
+    "Widgets switch at their next refresh." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los widgets cambian en su próxima actualización."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los widgets cambian en su próxima actualización."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小组件会在下次刷新时切换。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小工具會在下次重新整理時切換。"
           }
         }
       }
@@ -102510,6 +104349,7 @@
       }
     },
     "Your remaining amount stands out once it drops below this. Set to 0 to disable." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -102538,6 +104378,7 @@
       }
     },
     "Your Substances" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -102594,6 +104435,35 @@
       }
     },
     "Your weight" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu peso"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu peso"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的体重"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的體重"
+          }
+        }
+      }
+    },
+    "Your Weight" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
