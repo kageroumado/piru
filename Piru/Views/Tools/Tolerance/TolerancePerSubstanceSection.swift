@@ -24,7 +24,6 @@ struct ToleranceSubstanceGroup: Identifiable {
 /// (expandable) dose history. Shows a spinner while the heavier per-substance replay is still running.
 struct TolerancePerSubstanceSection: View {
     let groups: [ToleranceSubstanceGroup]
-    let tier: UserProfile
     /// The per-substance replay is still running (first entry into this view) — show a spinner rather
     /// than the "log a few doses" empty copy.
     let isReplayRunning: Bool
@@ -56,7 +55,7 @@ struct TolerancePerSubstanceSection: View {
             }
             ForEach(groups) { group in
                 Section {
-                    ToleranceSubstanceCard(group: group, tier: tier, expandedSubstances: $expandedSubstances)
+                    ToleranceSubstanceCard(group: group, expandedSubstances: $expandedSubstances)
                 }
             }
         }
@@ -65,7 +64,6 @@ struct TolerancePerSubstanceSection: View {
 
 struct ToleranceSubstanceCard: View {
     let group: ToleranceSubstanceGroup
-    let tier: UserProfile
     @Binding var expandedSubstances: Set<String>
 
     /// Most doses shown when a card is expanded — enough to see the recent pattern without a
@@ -91,7 +89,7 @@ struct ToleranceSubstanceCard: View {
                 ForEach(group.classes) { snapshot in
                     ToleranceMechanismRow(
                         color: snapshot.receptorClass.familyColor,
-                        name: toleranceClassName(snapshot.receptorClass, tier: tier),
+                        name: snapshot.receptorClass.casualName,
                         severity: snapshot.severity,
                     )
                 }
