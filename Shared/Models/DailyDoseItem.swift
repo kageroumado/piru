@@ -148,7 +148,7 @@ final class DailyDoseItem {
     /// creation (by library category); user-overridable per med.
     var isQuiet: Bool = false
     /// As-needed (PRN) schedule: no reminder times, no adherence expectation,
-    /// never "missed". Shown in the hub's "As needed" group.
+    /// never "missed". Shown in the hub's "As Needed" group.
     var isAsNeeded: Bool = false
     /// Optional PRN daily cap ("up to N× daily") surfaced to the cumulative
     /// dose warning engine. Only meaningful while ``isAsNeeded`` is `true`.

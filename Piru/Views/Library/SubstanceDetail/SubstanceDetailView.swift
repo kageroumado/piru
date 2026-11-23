@@ -335,7 +335,7 @@ struct SubstanceDetailView: View {
                     }
                 }
 
-                Section("Detail level") {
+                Section("Detail Level") {
                     Picker("Detail level", selection: Binding(
                         get: { profile },
                         set: { profileStore.setDisclosureTier($0) },

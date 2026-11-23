@@ -18,12 +18,12 @@ struct SubstancePeptideSection: View {
 
         if let pp = substance.peptideProfile {
             if pp.suppliedForm?.isReconstituted == true {
-                Section("Reconstitution calculator") {
+                Section("Reconstitution Calculator") {
                     ReconstitutionCalculatorView(defaultVialMg: pp.typicalVialMg)
                 }
             }
             if pp.hasAnyValue {
-                Section("Handling & storage") {
+                Section("Handling & Storage") {
                     PeptideHandlingCard(profile: pp, molarMass: substance.molarMass)
                     if let solvent = pp.reconstitutionSolvent {
                         LabeledContent("Reconstitute with") { Text(solvent) }

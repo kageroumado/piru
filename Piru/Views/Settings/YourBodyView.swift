@@ -59,7 +59,7 @@ struct YourBodyView: View {
                 }
             }
         } header: {
-            Text("Your weight")
+            Text("Your Weight")
         } footer: {
             Text(weightFootnote)
         }
@@ -133,7 +133,7 @@ struct YourBodyView: View {
                 if isOn, !isConnecting, connectWouldPrompt == true { Task { await connect() } }
             }
         } header: {
-            Text("Heart data")
+            Text("Heart Data")
         } footer: {
             Text("Shows your heart rate and blood pressure on each session's timeline. If something didn't connect (blood pressure especially, which iOS doesn't always prompt for), open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.")
         }

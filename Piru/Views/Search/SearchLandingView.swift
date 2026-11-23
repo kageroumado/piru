@@ -119,7 +119,7 @@ private struct RecentActivityGroups: View {
         if !activity.searched.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 HStack {
-                    SectionLabel("Recently Searched")
+                    Text("Recently Searched").sectionHeader()
                     Spacer()
                     Button("Clear") { history.clear() }
                         .sectionLabel()
@@ -130,7 +130,7 @@ private struct RecentActivityGroups: View {
         }
         if !activity.taken.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.md) {
-                SectionLabel("Recent").padding(.horizontal, Spacing.xs)
+                Text("Recent").sectionHeader().padding(.horizontal, Spacing.xs)
                 SubstanceRowsCard(substances: activity.taken)
             }
         }
@@ -168,19 +168,6 @@ private struct SubstanceRowsCard: View {
     }
 }
 
-private struct SectionLabel: View {
-    let title: LocalizedStringKey
-    init(_ title: LocalizedStringKey) {
-        self.title = title
-    }
-    var body: some View {
-        Text(title)
-            .sectionLabel()
-            .foregroundStyle(Theme.secondaryLabel)
-            .accessibilityAddTraits(.isHeader)
-    }
-}
-
 // MARK: - Help card
 
 /// Full-width gradient card opening the Help sheet — same surface recipe as the
@@ -210,7 +197,7 @@ private struct HelpCard: View {
     }
 }
 
-// MARK: - Browse by class
+// MARK: - Browse by Class
 
 /// Two-per-row mini class cards reusing the Library family palette. Umbrella
 /// families expand *in place*: the umbrella card is replaced by a fold-back
@@ -229,7 +216,7 @@ private struct ClassBrowseGroup: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
-            SectionLabel("Browse by class").padding(.horizontal, Spacing.xs)
+            Text("Browse by Class").sectionHeader().padding(.horizontal, Spacing.xs)
             LazyVGrid(columns: columns, spacing: Spacing.xl) {
                 ForEach(families) { family in
                     if family.id == expandedID {

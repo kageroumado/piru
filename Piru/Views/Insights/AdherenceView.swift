@@ -507,7 +507,7 @@ struct AdherenceDayDetailSheet: View {
                     }
                 }
 
-                Section("Meds due") {
+                Section("Meds Due") {
                     ForEach(day.items) { itemAdherence in
                         HStack(spacing: Spacing.xl) {
                             Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "circle")

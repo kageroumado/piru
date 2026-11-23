@@ -10,7 +10,7 @@ struct DiazepamReferenceView: View {
                 Text("Published equivalences are approximate and vary between sources. A prescriber must assess any medication change.")
                     .font(.subheadline)
             }
-            Section("Reference table") {
+            Section("Reference Table") {
                 ForEach(entries) { entry in
                     VStack(alignment: .leading, spacing: Spacing.sm) {
                         Text(entry.displayName).font(.headline)

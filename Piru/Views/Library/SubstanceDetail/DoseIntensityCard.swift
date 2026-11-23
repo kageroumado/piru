@@ -177,8 +177,9 @@ struct DoseIntensityCard: View {
     private func mostReported(_ band: SpectrumBand) -> some View {
         let maxFreq = max(band.topEffects.map(\.frequency).max() ?? 1, 1)
         return VStack(alignment: .leading, spacing: Spacing.sm) {
-            Text("MOST REPORTED AT THIS DOSE", comment: "Intensity dial effects heading")
+            Text("Most reported at this dose", comment: "Intensity dial effects heading")
                 .font(.caption2.weight(.bold))
+                .textCase(.uppercase)
                 .tracking(0.4)
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.bottom, Spacing.xxs)

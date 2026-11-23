@@ -11,8 +11,7 @@ struct UsageOverviewSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
             Text(range.windowName)
-                .cardTitle()
-                .accessibilityAddTraits(.isHeader)
+                .sectionHeader()
             ViewThatFits(in: .horizontal) {
                 HStack(alignment: .firstTextBaseline, spacing: Spacing.xl) {
                     figures

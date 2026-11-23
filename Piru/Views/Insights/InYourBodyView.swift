@@ -133,9 +133,8 @@ struct InYourBodyView: View {
     private var activeSection: some View {
         if !activeSubstances.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.lg) {
-                Text("Modeled as active")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
+                Text("Modeled as Active")
+                    .sectionHeader()
                     .padding(.leading, Spacing.xs)
 
                 TimelineView(.periodic(from: .now, by: 60)) { _ in
@@ -259,13 +258,9 @@ struct InYourBodyView: View {
     private var steadyStateSection: some View {
         if !projections.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.xl) {
-                HStack(spacing: Spacing.sm) {
-                    Image(systemName: "arrow.up.forward.circle")
-                        .foregroundStyle(.mint)
-                        .font(.subheadline)
-                    Text("Projected Steady State")
-                        .sectionLabel()
-                }
+                Text("Projected Steady State")
+                    .sectionHeader()
+                    .padding(.leading, Spacing.xs)
 
                 Text("Where each regularly dosed substance settles, based on your log's cadence")
                     .captionSecondary()
@@ -282,8 +277,7 @@ struct InYourBodyView: View {
     private var relatedSection: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             Text("Related")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
+                .sectionHeader()
                 .padding(.leading, Spacing.xs)
 
             LazyVGrid(columns: compactColumns, spacing: Spacing.xl) {

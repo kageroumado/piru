@@ -641,7 +641,7 @@ struct StagedDoseInjectionSiteMenu: View {
         .overlay {
             Menu {
                 if let suggested {
-                    Section("Next in rotation") {
+                    Section("Next in Rotation") {
                         choice(suggested)
                     }
                 }

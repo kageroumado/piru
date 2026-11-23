@@ -307,8 +307,7 @@ private struct SteadyStateRelatedLinks: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Related")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
+                .sectionHeader()
                 .padding(.leading, Spacing.xs)
 
             GlanceCard(icon: "hourglass", title: Text("Half-Life Calculator"), route: .tool(.calculator)) {

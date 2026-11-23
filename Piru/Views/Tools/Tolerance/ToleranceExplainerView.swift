@@ -43,7 +43,7 @@ struct ToleranceExplainerView: View {
                 body: "When you stop, that push-back is briefly left unopposed, which is why withdrawal or a comedown often feels like the mirror of the drug's effects (a stimulant's flatness, an opioid's aches).",
             )
         } header: {
-            Text("The idea")
+            Text("The Idea")
         }
     }
 
@@ -70,7 +70,7 @@ struct ToleranceExplainerView: View {
                 body: "This can entrench a deeper change that takes months to relax. It shows up only well past everyday or therapeutic doses.",
             )
         } header: {
-            Text("Three timescales")
+            Text("Three Timescales")
         }
     }
 
@@ -85,7 +85,7 @@ struct ToleranceExplainerView: View {
                 body: "Two different drugs that hit the same receptor share tolerance. Recent LSD blunts a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance is tracked per receptor here, and why a \u{201C}new\u{201D} drug in the same family can still feel weak.",
             )
         } header: {
-            Text("Cross-tolerance")
+            Text("Cross-Tolerance")
         }
     }
 
@@ -106,7 +106,7 @@ struct ToleranceExplainerView: View {
                 body: "GABA-A is built from several \u{03B1}-subtypes that adapt at different rates. \u{03B1}1 carries sedation and desensitizes (it uncouples, then the receptors are pulled from the synapse); \u{03B1}5 is required for that sedative tolerance to develop at all; \u{03B1}2 and \u{03B1}3, which carry the anxiety relief, don't adapt. So the dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one, which is how tolerance quietly drives the dose up.",
             )
         } header: {
-            Text("Effect-selective tolerance")
+            Text("Effect-Selective Tolerance")
         }
     }
 
@@ -139,7 +139,7 @@ struct ToleranceExplainerView: View {
                 body: "Tolerance to amphetamine's appetite suppression does not build at all unless food is available while intoxicated. The tolerance is an instrumental response, not a receptor count (Carlton & Wolgin 1971). This means tolerance to one effect of a drug can exist while tolerance to another has never started.",
             )
         } header: {
-            Text("The learned part of tolerance")
+            Text("The Learned Part of Tolerance")
         }
     }
 
@@ -154,7 +154,7 @@ struct ToleranceExplainerView: View {
                 body: "Every layer above is computed from your dose log and the clock. Much of real tolerance is associative: it attaches to the setting, the ritual and the cues around a dose. That is why tolerance in a familiar context can be much higher than in an unfamiliar one, and why the cues without the dose can produce the opposite of the drug's effect. Piru does not record where you were or what you were doing, so treat the shift as a pharmacological estimate, not a total.",
             )
         } header: {
-            Text("Model boundary")
+            Text("Model Boundary")
         }
     }
 
@@ -166,7 +166,7 @@ struct ToleranceExplainerView: View {
                 mechanismRow(cls)
             }
         } header: {
-            Text("By mechanism")
+            Text("By Mechanism")
         }
     }
 

@@ -64,12 +64,12 @@ nonisolated enum UsageTimeRange: String, CaseIterable, Identifiable, Sendable {
     /// card counts over, so the card and the screen show the same numbers.
     static let opening: UsageTimeRange = .thirtyDays
 
-    /// The window's name as a heading: "Last 30 days", or "All time".
+    /// The window's name as a heading: "Last 30 Days", or "All Time".
     var windowName: LocalizedStringResource {
         if let days {
-            "Last \(days) days"
+            "Last \(days) Days"
         } else {
-            "All time"
+            "All Time"
         }
     }
 
