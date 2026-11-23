@@ -257,8 +257,8 @@ struct SubstanceShareCard: View {
         HStack(spacing: Spacing.md) {
             categoryChip
             if let formula = substance.formula {
-                Text(formula)
-                    .font(.caption.weight(.semibold).monospaced())
+                Text(verbatim: ChemicalFormula.typeset(formula))
+                    .font(.caption.weight(.semibold))
                     .foregroundStyle(.white.opacity(0.6))
                     .lineLimit(1)
             }
