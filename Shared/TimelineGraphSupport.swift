@@ -37,15 +37,18 @@ enum GraphMetrics {
     }
     static let vitalsBandGap: CGFloat = 8
     static func vitalsBandTotal(enlarged: Bool) -> CGFloat {
-        vitalsBand(enlarged: enlarged) + vitalsBandGap
+        vitalsBandGap + laneCaption + vitalsBand(enlarged: enlarged)
     }
+    /// Height of the caption row above each lane under the curves ("intensity",
+    /// "heart rate", "blood pressure"), so no caption prints over a lane's marks.
+    nonisolated static let laneCaption: CGFloat = 16
     /// Height of the Shulgin-rating step lane drawn under the effect curves
-    /// (above the vitals lane when both are present), plus its gap. Added to
-    /// the canvas only when a session note carries a rating.
-    static let shulginLane: CGFloat = 30
+    /// (above the vitals lane when both are present), plus its gap and caption
+    /// row. Added to the canvas only when a session note carries a rating.
+    static let shulginLane: CGFloat = 40
     static let shulginLaneGap: CGFloat = 6
     static var shulginLaneTotal: CGFloat {
-        shulginLane + shulginLaneGap
+        shulginLaneGap + laneCaption + shulginLane
     }
 
     /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
