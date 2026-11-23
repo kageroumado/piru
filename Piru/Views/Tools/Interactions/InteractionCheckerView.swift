@@ -190,22 +190,19 @@ struct InteractionCheckerView: View {
                 .themeCard()
             } else {
                 VStack(alignment: .leading, spacing: 0) {
-                    Group {
-                        if results.count == 1 {
-                            Text("1 Interaction Found")
-                        } else {
-                            Text("\(results.count) Interactions Found")
-                        }
+                    // A count only says something from two up; one card is one.
+                    if results.count > 1 {
+                        Text("\(results.count) Interactions Found")
+                            .font(.caption.weight(.semibold))
+                            // Max severity, not the first row's: results are ordered by
+                            // relevance score, which can rank a caution above a danger.
+                            .foregroundStyle((results.map(\.severity).max() ?? .caution).labelColor)
+                            .textCase(.uppercase)
+                            .accessibilityAddTraits(.isHeader)
+                            .padding(.horizontal, Spacing.xxl)
+                            .padding(.top, Spacing.xl)
+                            .padding(.bottom, Spacing.md)
                     }
-                    .font(.caption.weight(.semibold))
-                    // Max severity, not the first row's: results are ordered by
-                    // relevance score, which can rank a caution above a danger.
-                    .foregroundStyle((results.map(\.severity).max() ?? .caution).labelColor)
-                    .textCase(.uppercase)
-                    .accessibilityAddTraits(.isHeader)
-                    .padding(.horizontal, Spacing.xxl)
-                    .padding(.top, Spacing.xl)
-                    .padding(.bottom, Spacing.md)
 
                     ForEach(Array(results.enumerated()), id: \.offset) { index, warning in
                         if index > 0 {
@@ -235,6 +232,7 @@ struct InteractionCheckerView: View {
                     }
                     .padding(.bottom, Spacing.xs)
                 }
+                .padding(.top, results.count > 1 ? 0 : Spacing.xs)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .themeCard()
             }
