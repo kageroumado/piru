@@ -151,6 +151,42 @@ struct AdherenceCalculatorTests {
         #expect(!AdherenceCalculator.isDue(item, on: dayOffset(-1)))
     }
 
+    // MARK: - Before a schedule begins
+
+    @Test
+    func `A day before a med's start date is no data, never a missed day`() {
+        let item = makeItem(substance: "Concerta", startDate: dayOffset(-3))
+        let before = AdherenceCalculator.adherence(for: dayOffset(-4), entries: [], dailyItems: [item])
+        #expect(before.status == .noData)
+        #expect(before.totalCount == 0)
+
+        let first = AdherenceCalculator.adherence(for: dayOffset(-3), entries: [], dailyItems: [item])
+        #expect(first.status == .missed)
+        #expect(first.totalCount == 1)
+    }
+
+    @Test
+    func `Days before a med began add nothing to the scheduled count`() {
+        // Started three days ago, taken every day since: 4 of 4, however far back the month reaches.
+        let item = makeItem(substance: "Concerta", startDate: dayOffset(-3))
+        let entries = (-3 ... 0).map { makeEntry(substance: "Concerta", timestamp: dayOffset($0).addingTimeInterval(9 * 3_600)) }
+        let days = (-20 ... 0).map { AdherenceCalculator.adherence(for: dayOffset($0), entries: entries, dailyItems: [item]) }
+
+        #expect(days.reduce(0) { $0 + $1.totalCount } == 4)
+        #expect(days.reduce(0) { $0 + $1.takenCount } == 4)
+        #expect(days.count { $0.status == .missed } == 0)
+    }
+
+    @Test
+    func `The off-main day status treats a day before the start date as no data`() {
+        let snapshot = AdherenceCalculator.DailyItemSnapshot(
+            substance: "Concerta", identityKey: "concerta", route: .oral, expectedPerDay: 1,
+            isAsNeeded: false, startDate: dayOffset(-3), frequency: .daily, frequencyDays: [],
+        )
+        #expect(AdherenceCalculator.dayStatus(for: dayOffset(-4), dayEntries: [], items: [snapshot]) == .noData)
+        #expect(AdherenceCalculator.dayStatus(for: dayOffset(-3), dayEntries: [], items: [snapshot]) == .missed)
+    }
+
     // MARK: - adherence()
 
     @Test
