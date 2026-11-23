@@ -19,6 +19,9 @@ struct MyMedsCard: View {
     @Query private var recentEntries: [DoseEntry]
     /// The Journal already holds the color query; one subscription serves both.
     let substanceColors: [SubstanceColor]
+    /// Set where the card is pinned over the timeline: the card folds into one
+    /// row as the timeline scrolls down and unfolds as it scrolls up.
+    let fold: JournalHeaderFold?
     /// Yesterday's and today's occurrences — today's drive the slot states,
     /// yesterday's `missed` rows the missed-yesterday info line.
     @Query private var recentOccurrences: [RoutineOccurrence]
@@ -26,16 +29,16 @@ struct MyMedsCard: View {
     @State private var supplementsExpanded = false
     @State private var showInteractionSheet = false
 
-    /// Today's slots, the adherence streak, and the interaction warnings a tap
-    /// has to clear — see ``MyMedsModel``.
+    /// The interaction warnings a tap has to clear — see ``MyMedsModel``.
     @State private var model = MyMedsModel()
 
     /// The info lines' fetched facts (supply projections) and the dismissed
     /// missed-day keys, refreshed off `body`.
     @State private var info = MyMedsInfoModel()
 
-    init(substanceColors: [SubstanceColor]) {
+    init(substanceColors: [SubstanceColor], fold: JournalHeaderFold? = nil) {
         self.substanceColors = substanceColors
+        self.fold = fold
         let yesterdayStart = Self.yesterdayStart
         let cutoff = Date.now.addingTimeInterval(-72 * 3_600)
         _recentEntries = Query(
@@ -186,42 +189,23 @@ struct MyMedsCard: View {
             let collapseQuiet = slots.count(where: \.med.isQuiet) >= 2
             let loudSlots = collapseQuiet ? slots.filter { !$0.med.isQuiet } : slots
             let quietSlots = collapseQuiet ? slots.filter(\.med.isQuiet) : []
-            VStack(alignment: .leading, spacing: Spacing.lg) {
-                header(slots: slots)
-
-                VStack(spacing: 0) {
-                    ForEach(loudSlots) { slot in
-                        slotRow(slot, indented: false)
-                    }
-                    if !quietSlots.isEmpty {
-                        supplementsRow(quietSlots: quietSlots)
-                        if supplementsExpanded {
-                            ForEach(quietSlots) { slot in
-                                slotRow(slot, indented: true)
-                            }
+            Group {
+                if let fold {
+                    HeaderFoldStack(fold: fold) {
+                        fullCard(slots: slots, loudSlots: loudSlots, quietSlots: quietSlots)
+                    } folded: {
+                        MyMedsFoldedRow(slots: slots.map { FoldedSlot(name: $0.med.displayName, state: $0.state, due: $0.isDueNow) }) {
+                            fold.unfold()
                         }
                     }
-                }
-
-                let lines = infoLines(slots: slots)
-                if !lines.isEmpty {
-                    VStack(spacing: 0) {
-                        ForEach(lines, id: \.self) { line in
-                            infoLine(line)
-                        }
-                    }
+                } else {
+                    fullCard(slots: slots, loudSlots: loudSlots, quietSlots: quietSlots)
                 }
             }
-            .padding(.top, Spacing.lg)
-            .padding(.bottom, Spacing.lg)
-            .padding(.horizontal, Spacing.xxl)
             .themeCard()
-            // Both keyed on the commit counter: an id-less `.task` re-fires on
-            // every appearance, and a List recycles this row while scrolling,
-            // which would run the year-scale streak fetch mid-scroll.
-            .task(id: DoseLogService.shared.revision) {
-                await model.refreshStreak(items: items, container: modelContext.container)
-            }
+            // Keyed on the commit counter: an id-less `.task` re-fires on every
+            // appearance, and a List recycles this row while scrolling, which
+            // would rerun the supply fetches mid-scroll.
             .task(id: DoseLogService.shared.revision) {
                 info.refresh(items: items, in: modelContext)
             }
@@ -242,11 +226,41 @@ struct MyMedsCard: View {
         }
     }
 
+    private func fullCard(slots: [MedSlot], loudSlots: [MedSlot], quietSlots: [MedSlot]) -> some View {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
+            header(slots: slots)
+
+            VStack(spacing: 0) {
+                ForEach(loudSlots) { slot in
+                    slotRow(slot, indented: false)
+                }
+                if !quietSlots.isEmpty {
+                    supplementsRow(quietSlots: quietSlots)
+                    if supplementsExpanded {
+                        ForEach(quietSlots) { slot in
+                            slotRow(slot, indented: true)
+                        }
+                    }
+                }
+            }
+
+            let lines = infoLines(slots: slots)
+            if !lines.isEmpty {
+                VStack(spacing: 0) {
+                    ForEach(lines, id: \.self) { line in
+                        infoLine(line)
+                    }
+                }
+            }
+        }
+        .padding(.vertical, Spacing.lg)
+        .padding(.horizontal, Spacing.xxl)
+    }
+
     private func header(slots: [MedSlot]) -> some View {
         MyMedsHeader(
             takenCount: slots.count(where: \.taken),
             total: slots.count,
-            streak: model.streak,
             onTap: { navigator.openRecord(.myMeds, besideList: opensRecordsBesideList) },
         )
     }
@@ -421,25 +435,21 @@ struct MyMedsCard: View {
 
 // MARK: - Header
 
-/// The card's tappable header: the title and the progress chip. No due hint
-/// here: a pending row and its "due" chip already say it. Value inputs only,
-/// so a row logging elsewhere in the card doesn't re-evaluate the chip.
+/// The card's tappable header: the title and today's taken count while any
+/// slot is still pending. No due hint here: a pending row and its "due" chip
+/// already say it. Value inputs only, so a row logging elsewhere in the card
+/// doesn't re-evaluate the header.
 private struct MyMedsHeader: View {
     let takenCount: Int
     let total: Int
-    let streak: Int?
     let onTap: () -> Void
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    private var isComplete: Bool {
-        total > 0 && takenCount == total
-    }
-
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: Spacing.lg) {
-                // The chip drops under the title at accessibility sizes,
+                // The count drops under the title at accessibility sizes,
                 // where beside it both truncated.
                 let titleLayout = dynamicTypeSize.isAccessibilitySize
                     ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.sm))
@@ -447,7 +457,14 @@ private struct MyMedsHeader: View {
                 titleLayout {
                     Text("My Meds")
                         .cardTitle()
-                    progressChip
+                    // Plain caption text: the progress is a fact about today,
+                    // and a filled chip here read as a control. A finished day
+                    // says it with its checks.
+                    if takenCount < total {
+                        Text("\(takenCount)/\(total)")
+                            .monospacedDigit()
+                            .captionSecondary()
+                    }
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
@@ -460,26 +477,75 @@ private struct MyMedsHeader: View {
         .accessibilityValue("\(takenCount) of \(total) taken")
         .accessibilityHint("Opens your meds")
     }
+}
 
-    /// Plain caption text: the progress is a fact about today, and a filled
-    /// chip here read as a control.
-    @ViewBuilder
-    private var progressChip: some View {
-        if isComplete {
-            Text(chipText)
-                .captionSecondary()
-        } else {
-            Text("\(takenCount)/\(total)")
-                .monospacedDigit()
-                .captionSecondary()
-        }
+// MARK: - Folded row
+
+/// What the folded row shows of one slot.
+private struct FoldedSlot: Equatable {
+    let name: String
+    let state: MyMedsCard.SlotState
+    let due: Bool
+}
+
+/// The card folded into one row over the scrolled timeline: the title, the
+/// meds still to take today, and a check per slot. A tap unfolds the card,
+/// where each slot can be checked off.
+private struct MyMedsFoldedRow: View {
+    let slots: [FoldedSlot]
+    let onTap: () -> Void
+
+    /// Beyond this many slots the checks give way to the taken count.
+    private static let maxChecks = 6
+
+    private var pendingNames: [String] {
+        var seen = Set<String>()
+        return slots.filter { $0.state == .pending }.map(\.name).filter { seen.insert($0).inserted }
     }
 
-    private var chipText: String {
-        if let streak, streak > 1 {
-            String(localized: "\(streak) days logged")
+    private var takenCount: Int {
+        slots.count { $0.state == .taken }
+    }
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: Spacing.md) {
+                Text("My Meds")
+                    .cardTitle()
+                    .layoutPriority(1)
+                Text(pendingNames.formatted(.list(type: .and)))
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(1)
+                Spacer(minLength: 0)
+                checks
+            }
+            // The full card's header row is as tall as its chevron slot; at
+            // the same height the two titles sit on one line as they cross-fade.
+            .frame(minHeight: IconSize.iconCompact)
+            .padding(.vertical, Spacing.lg)
+            .padding(.horizontal, Spacing.xxl)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("My Meds")
+        .accessibilityValue("\(takenCount) of \(slots.count) taken")
+        .accessibilityHint("Shows today's meds")
+    }
+
+    @ViewBuilder
+    private var checks: some View {
+        if slots.count <= Self.maxChecks {
+            HStack(spacing: Spacing.xs) {
+                ForEach(slots.indices, id: \.self) { index in
+                    MedSlotCheck(state: slots[index].state, due: slots[index].due)
+                }
+            }
+            .fixedSize()
         } else {
-            String(localized: "Done")
+            Text("\(takenCount)/\(slots.count)")
+                .monospacedDigit()
+                .captionSecondary()
         }
     }
 }

@@ -1,16 +1,13 @@
 import SwiftData
 import SwiftUI
 
-/// The My Meds card's derived and fetched state: today's checkable slots, the
-/// adherence streak, and the interaction warnings a tap has to clear before it
-/// logs. Held apart from the card so a streak landing or a warning check doesn't
-/// re-evaluate every row, and so the card's own `@State` stays limited to UI
-/// toggles.
+/// The My Meds card's derived state: today's checkable slots and the
+/// interaction warnings a tap has to clear before it logs. Held apart from the
+/// card so a warning check doesn't re-evaluate every row, and so the card's own
+/// `@State` stays limited to UI toggles.
 @MainActor
 @Observable
 final class MyMedsModel {
-    /// The past-year adherence streak — nil until fetched.
-    private(set) var streak: Int?
     /// The warnings blocking `pendingSlots`, shown in the confirmation sheet.
     private(set) var interactionWarnings: [InteractionResult] = []
     /// The slots a blocked tap wants to log once the sheet is cleared — value
@@ -63,13 +60,6 @@ final class MyMedsModel {
             slot.time.map { Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour) } ?? .max
         }
         return slots.sorted { order($0) < order($1) }
-    }
-
-    /// The past-year streak, from the shared ``AdherenceStreakStore`` — a cache
-    /// hit unless the dose log or the schedule changed since it was last walked.
-    func refreshStreak(items: [DailyDoseItem], container: ModelContainer) async {
-        guard !items.isEmpty else { return }
-        streak = await AdherenceStreakStore.shared.currentStreak(items: items, container: container)
     }
 
     /// Whether the tapped slots may log straight away. When they may not, the
