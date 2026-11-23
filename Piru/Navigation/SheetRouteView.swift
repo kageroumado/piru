@@ -109,10 +109,12 @@ struct SheetRouteView: View {
             LogMedicationsView(category: category)
 
         case let .doseSources(substance, route):
+            let category = SubstanceLibrary.lookup(substance)?.category
             DoseSourceComparisonView(
                 substanceName: substance,
                 route: route,
-                accent: SubstanceLibrary.lookup(substance)?.category.color ?? Theme.accent,
+                accent: category?.color ?? Theme.accent,
+                curveCategory: category,
             )
 
         case .sourcePriority:

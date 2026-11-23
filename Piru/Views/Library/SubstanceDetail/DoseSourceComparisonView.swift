@@ -7,8 +7,9 @@ import SwiftUI
 /// numbers, which hides how far the sources spread. Here each source gets a row:
 /// its tiers as a bar on a scale all the rows share, and the figures under a
 /// legend that names each tier's color. Durations spread the same way, so each
-/// source's phases sit on a line under its figures; a source with durations and
-/// no ladder gets a row of its own below.
+/// source's phases are drawn with the dose card's curve under its figures, every
+/// curve on one time scale, with the phases as a line of text below; a source
+/// with durations and no ladder gets a row of its own below.
 ///
 /// Reached by tapping the source line under the dose card. Read-only: changing
 /// which source wins is a global preference (Settings → Source Priority), and
@@ -18,6 +19,9 @@ struct DoseSourceComparisonView: View {
     let substanceName: String
     let route: RouteOfAdministration
     let accent: Color
+    /// Shapes phases a source leaves out, as the dose card does, so the source in
+    /// use draws the card's own curve.
+    let curveCategory: SubstanceCategory?
 
     @State private var ladders: [SubstanceStore.SourceDoseLadder] = []
     @State private var durations: [SourceDurationProfile] = []
@@ -42,6 +46,20 @@ struct DoseSourceComparisonView: View {
             ].compactMap(\.self)
         }
         return max(values.max() ?? 1, 0.0001) / (1 - Self.heavyHeadroom)
+    }
+
+    /// Each source's curve, by source slug. A source whose phases make no shaped
+    /// curve has no entry and draws no chart.
+    private var curves: [String: PhaseBoundaries] {
+        durations.reduce(into: [:]) { out, profile in
+            out[profile.sourceSlug] = DurationCurveView.boundaries(for: profile.duration, category: curveCategory)
+        }
+    }
+
+    /// The minutes the full row width stands for: the longest curve on screen.
+    /// Every chart is drawn against it, so an hour is the same width in each.
+    private func timeScale(_ curves: [String: PhaseBoundaries]) -> Double {
+        curves.values.map(\.offsetEnd).max() ?? 1
     }
 
     /// The unit every ladder shares, or nil when the sources state different ones.
@@ -80,12 +98,15 @@ struct DoseSourceComparisonView: View {
     }
 
     private var doseSection: some View {
-        Section {
+        let curves = curves
+        let scale = timeScale(curves)
+        return Section {
             DoseTierLegend()
             ForEach(ladders) { ladder in
                 LadderRow(
                     ladder: ladder,
                     duration: durations.first { $0.sourceSlug == ladder.sourceSlug }?.duration,
+                    curve: curves[ladder.sourceSlug].map { SourceCurve(boundaries: $0, timeScale: scale) },
                     scaleMax: scaleMax,
                     accent: accent,
                     showsUnit: sharedUnit == nil,
@@ -121,9 +142,15 @@ struct DoseSourceComparisonView: View {
     @ViewBuilder
     private var durationSection: some View {
         if !durationOnly.isEmpty {
+            let curves = curves
+            let scale = timeScale(curves)
             Section {
                 ForEach(durationOnly) { profile in
-                    DurationSourceRow(profile: profile, accent: accent)
+                    DurationSourceRow(
+                        profile: profile,
+                        curve: curves[profile.sourceSlug].map { SourceCurve(boundaries: $0, timeScale: scale) },
+                        accent: accent,
+                    )
                 }
             } header: {
                 Text("Duration")
@@ -151,6 +178,33 @@ private struct DurationPhaseLine: View {
             .font(.caption.monospacedDigit())
             .foregroundStyle(Theme.secondaryLabel)
             .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+/// One source's curve and the time scale every curve on the screen shares.
+private struct SourceCurve {
+    let boundaries: PhaseBoundaries
+    /// Minutes across the full row width.
+    let timeScale: Double
+}
+
+/// The dose card's duration curve for one source, as wide as its acute span on
+/// the shared time scale: a shorter source draws a shorter chart, and an hour
+/// is the same width in every row.
+private struct SourceDurationChart: View {
+    let curve: SourceCurve
+    let accent: Color
+
+    private static let height: CGFloat = 60
+
+    var body: some View {
+        GeometryReader { geo in
+            let fraction = min(curve.boundaries.offsetEnd / max(curve.timeScale, 1), 1)
+            DurationCurveView(boundaries: curve.boundaries, accent: accent)
+                .frame(width: geo.size.width * fraction, height: Self.height)
+                .clipped()
+        }
+        .frame(height: Self.height)
     }
 }
 
@@ -216,6 +270,8 @@ private struct LadderRow: View {
     let ladder: SubstanceStore.SourceDoseLadder
     /// This source's phases for the route; nil when it states none.
     let duration: DurationProfile?
+    /// This source's curve on the shared time scale; nil when it draws none.
+    let curve: SourceCurve?
     let scaleMax: Double
     let accent: Color
     /// Set when the sources state different units, so each row has to name its own.
@@ -302,6 +358,9 @@ private struct LadderRow: View {
                     .minimumScaleFactor(0.6)
             }
 
+            if let curve {
+                SourceDurationChart(curve: curve, accent: accent)
+            }
             if let duration {
                 DurationPhaseLine(duration: duration)
             }
@@ -346,9 +405,11 @@ private struct SourceNameLine: View {
     }
 }
 
-/// A source with durations and no dose ladder: its name and its phase line.
+/// A source with durations and no dose ladder: its name, its curve and its
+/// phase line.
 private struct DurationSourceRow: View {
     let profile: SourceDurationProfile
+    let curve: SourceCurve?
     let accent: Color
 
     private var displayName: String {
@@ -358,6 +419,9 @@ private struct DurationSourceRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             SourceNameLine(name: displayName, isActive: profile.isActive, accent: accent)
+            if let curve {
+                SourceDurationChart(curve: curve, accent: accent)
+            }
             DurationPhaseLine(duration: profile.duration)
         }
         .padding(.vertical, Spacing.xs)

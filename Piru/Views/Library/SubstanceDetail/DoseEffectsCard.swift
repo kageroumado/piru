@@ -142,12 +142,9 @@ struct DoseEffectsCard: View {
 
     // MARK: - Duration (curve + growing phase table)
 
-    @ViewBuilder
     private func durationBlock(_ duration: DurationProfile) -> some View {
-        let curveProfile = curveCategory.map { duration.fillingMissingPhases(for: $0) } ?? duration
-        let boundaries = curveProfile.phaseBoundaries
         VStack(alignment: .leading, spacing: Spacing.lg) {
-            if DurationCurveView.canRender(boundaries) {
+            if let boundaries = DurationCurveView.boundaries(for: duration, category: curveCategory) {
                 DurationCurveView(boundaries: boundaries, accent: accent)
                     .frame(height: 74)
                     .frame(maxWidth: .infinity)
