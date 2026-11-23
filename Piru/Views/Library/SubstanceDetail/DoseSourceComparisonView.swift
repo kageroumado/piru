@@ -7,7 +7,8 @@ import SwiftUI
 /// numbers, which hides how far the sources spread. Here each source gets a row:
 /// its tiers as a bar on a scale all the rows share, and the figures under a
 /// legend that names each tier's color. Durations spread the same way, so each
-/// source that states them gets a row of its phases below.
+/// source's phases sit on a line under its figures; a source with durations and
+/// no ladder gets a row of its own below.
 ///
 /// Reached by tapping the source line under the dose card. Read-only: changing
 /// which source wins is a global preference (Settings → Source Priority), and
@@ -84,6 +85,7 @@ struct DoseSourceComparisonView: View {
             ForEach(ladders) { ladder in
                 LadderRow(
                     ladder: ladder,
+                    duration: durations.first { $0.sourceSlug == ladder.sourceSlug }?.duration,
                     scaleMax: scaleMax,
                     accent: accent,
                     showsUnit: sharedUnit == nil,
@@ -109,19 +111,46 @@ struct DoseSourceComparisonView: View {
         }
     }
 
-    /// Each source's phases as it states them. A source with no durations for
-    /// this route has no row.
+    /// Sources that state durations for this route but no dose ladder: their
+    /// phases have no ladder row to sit under, so they get rows of their own.
+    private var durationOnly: [SourceDurationProfile] {
+        let withLadder = Set(ladders.map(\.sourceSlug))
+        return durations.filter { !withLadder.contains($0.sourceSlug) }
+    }
+
     @ViewBuilder
     private var durationSection: some View {
-        if !durations.isEmpty {
+        if !durationOnly.isEmpty {
             Section {
-                ForEach(durations) { profile in
+                ForEach(durationOnly) { profile in
                     DurationSourceRow(profile: profile, accent: accent)
                 }
             } header: {
                 Text("Duration")
             }
         }
+    }
+}
+
+/// One source's phases on a line, each phase it states named before its span:
+/// "Onset 20–70m · Peak 2–3.5h · Total 3–6h". A phase the source leaves out is
+/// left out here too.
+private struct DurationPhaseLine: View {
+    let duration: DurationProfile
+
+    static func parts(_ duration: DurationProfile) -> [String] {
+        let phases = DosePhase.allCases.compactMap { phase in
+            phase.range(in: duration).map { "\(String(localized: phase.name)) \($0.compactString)" }
+        }
+        let total = duration.total.map { "\(String(localized: "Total")) \($0.compactString)" }
+        return phases + [total].compactMap(\.self)
+    }
+
+    var body: some View {
+        Text(verbatim: Self.parts(duration).joined(separator: " · "))
+            .font(.caption.monospacedDigit())
+            .foregroundStyle(Theme.secondaryLabel)
+            .fixedSize(horizontal: false, vertical: true)
     }
 }
 
@@ -181,9 +210,12 @@ private struct DoseTierLegend: View {
 }
 
 /// One source: its name, the five tiers drawn as a stacked bar on the shared
-/// scale, and each tier's figures under the legend's matching column.
+/// scale, each tier's figures under the legend's matching column, and the
+/// durations the same source states for the route.
 private struct LadderRow: View {
     let ladder: SubstanceStore.SourceDoseLadder
+    /// This source's phases for the route; nil when it states none.
+    let duration: DurationProfile?
     let scaleMax: Double
     let accent: Color
     /// Set when the sources state different units, so each row has to name its own.
@@ -269,11 +301,20 @@ private struct LadderRow: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
             }
+
+            if let duration {
+                DurationPhaseLine(duration: duration)
+            }
         }
         .padding(.vertical, Spacing.xs)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(displayName))
-        .accessibilityValue(Text(spokenLadder))
+        .accessibilityValue(Text(verbatim: spokenRow))
+    }
+
+    private var spokenRow: String {
+        guard let duration else { return spokenLadder }
+        return ([spokenLadder] + DurationPhaseLine.parts(duration)).joined(separator: ", ")
     }
 }
 
@@ -305,57 +346,23 @@ private struct SourceNameLine: View {
     }
 }
 
-/// One source's duration phases, in curve order with Total last: each phase it
-/// states as a value over the phase's name, three to a line.
+/// A source with durations and no dose ladder: its name and its phase line.
 private struct DurationSourceRow: View {
     let profile: SourceDurationProfile
     let accent: Color
-
-    private struct Cell: Identifiable {
-        let name: LocalizedStringResource
-        let range: DurationRange
-        var id: String {
-            String(localized: name)
-        }
-    }
-
-    private var cells: [Cell] {
-        let duration = profile.duration
-        let phases = DosePhase.allCases.compactMap { phase in
-            phase.range(in: duration).map { Cell(name: phase.name, range: $0) }
-        }
-        let total = duration.total.map { Cell(name: "Total", range: $0) }
-        return phases + [total].compactMap(\.self)
-    }
-
-    private static let columns = Array(repeating: GridItem(.flexible(), alignment: .leading), count: 3)
 
     private var displayName: String {
         SourceNameLine.displayName(forSlug: profile.sourceSlug)
     }
 
-    private var spokenPhases: String {
-        cells.map { "\(String(localized: $0.name)) \($0.range.displayString)" }.joined(separator: ", ")
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             SourceNameLine(name: displayName, isActive: profile.isActive, accent: accent)
-            LazyVGrid(columns: Self.columns, alignment: .leading, spacing: Spacing.md) {
-                ForEach(cells) { cell in
-                    VStack(alignment: .leading, spacing: Spacing.xxs) {
-                        Text(verbatim: cell.range.compactString)
-                            .font(.subheadline.weight(.semibold).monospacedDigit())
-                        Text(cell.name)
-                            .font(.caption2)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                }
-            }
+            DurationPhaseLine(duration: profile.duration)
         }
         .padding(.vertical, Spacing.xs)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(displayName))
-        .accessibilityValue(Text(spokenPhases))
+        .accessibilityValue(Text(verbatim: DurationPhaseLine.parts(profile.duration).joined(separator: ", ")))
     }
 }
