@@ -113,14 +113,24 @@ struct UsageSubstanceStyle {
 /// The standard Usage section card: a headline, an optional one-line
 /// explanation of what the section answers, and its content.
 struct UsageSectionCard<Content: View>: View {
-    let title: LocalizedStringKey
+    let title: Text
     var subtitle: LocalizedStringKey?
     @ViewBuilder var content: () -> Content
+
+    init(title: Text, subtitle: LocalizedStringKey? = nil, @ViewBuilder content: @escaping () -> Content) {
+        self.title = title
+        self.subtitle = subtitle
+        self.content = content
+    }
+
+    init(title: LocalizedStringKey, subtitle: LocalizedStringKey? = nil, @ViewBuilder content: @escaping () -> Content) {
+        self.init(title: Text(title), subtitle: subtitle, content: content)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             VStack(alignment: .leading, spacing: Spacing.xxs) {
-                Text(title)
+                title
                     .cardTitle()
                     .accessibilityAddTraits(.isHeader)
                 if let subtitle {
