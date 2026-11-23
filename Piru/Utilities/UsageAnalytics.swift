@@ -60,6 +60,19 @@ nonisolated enum UsageTimeRange: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
+    /// The range the Usage screen opens on, and the window the Insights Usage
+    /// card counts over, so the card and the screen show the same numbers.
+    static let opening: UsageTimeRange = .thirtyDays
+
+    /// The window's name as a heading: "Last 30 days", or "All time".
+    var windowName: LocalizedStringResource {
+        if let days {
+            "Last \(days) days"
+        } else {
+            "All time"
+        }
+    }
+
     /// Whether the trend line reads as a per-week rate. 7D reads as raw per-day
     /// buckets instead — a weekly rate across a single week is meaningless.
     var trendPerWeek: Bool {
@@ -127,21 +140,31 @@ nonisolated struct UsageSubstanceRef: Sendable, Hashable {
 
 // MARK: - Outputs
 
-/// §1 — the four overview cards.
-nonisolated struct UsageOverview: Sendable {
+/// How many entries a window holds, per day and across equal slices of it.
+/// The Insights Usage card and the Usage screen both read this one count.
+nonisolated struct UsageWindowCount: Sendable, Equatable {
     let entryCount: Int
+    let averagePerDay: Double
+    /// Equal-width slices of the window, oldest first; they sum to ``entryCount``.
+    let buckets: [Int]
+
+    var averagePerDayText: String {
+        averagePerDay.formatted(.number.precision(.fractionLength(0 ... 1)))
+    }
+}
+
+/// §1 — the overview figures.
+nonisolated struct UsageOverview: Sendable {
+    let window: UsageWindowCount
     /// Entry count in the same-length window immediately before the selected
     /// range; `nil` for "All" (there is nothing before it).
     let previousEntryCount: Int?
     /// Signed fractional change vs. the previous period (`0.12` = +12%).
     /// `nil` when there is no previous period, or it was empty.
     let percentChange: Double?
-    /// Seven equal buckets across the selected range, oldest first.
-    let sparkline: [Int]
     let uniqueSubstances: Int
     /// Substances whose first-ever logged dose falls inside the selected range.
     let newSubstances: Int
-    let averagePerDay: Double
     /// Weekday component (1 = Sunday) that carries the most entries; `nil` when
     /// there are none.
     let busiestWeekday: Int?
@@ -151,6 +174,14 @@ nonisolated struct UsageOverview: Sendable {
     let commonOrAboveCount: Int
     /// Of those, how many landed at Heavy.
     let heavyCount: Int
+
+    var entryCount: Int {
+        window.entryCount
+    }
+
+    var averagePerDay: Double {
+        window.averagePerDay
+    }
 
     /// Share of *resolvable* entries at Common or above, `0…1`. `nil` when
     /// nothing resolved, so the card can say so instead of showing a fake 0%.
@@ -616,8 +647,13 @@ nonisolated enum UsageAnalytics {
         entries: [UsageEntrySnapshot],
         now: Date,
     ) -> Bounds {
+        bounds(for: range, firstTimestamp: entries.first?.timestamp, now: now)
+    }
+
+    /// The selected window, given the earliest entry ("All" starts there).
+    static func bounds(for range: UsageTimeRange, firstTimestamp: Date?, now: Date) -> Bounds {
         guard let days = range.days else {
-            let start = entries.first?.timestamp ?? now
+            let start = firstTimestamp ?? now
             let length = max(1, now.timeIntervalSince(start) / 86_400)
             return Bounds(start: start, end: now, lengthDays: length, hasPreviousPeriod: false)
         }
@@ -691,13 +727,11 @@ nonisolated enum UsageAnalytics {
             .first?.key
 
         return UsageOverview(
-            entryCount: inRange.count,
+            window: windowCount(inRange.map(\.timestamp), bounds: bounds),
             previousEntryCount: previousCount,
             percentChange: change,
-            sparkline: sparkline(inRange, bounds: bounds),
             uniqueSubstances: seen.count,
             newSubstances: newCount,
-            averagePerDay: Double(inRange.count) / max(1, bounds.lengthDays),
             busiestWeekday: busiest,
             doseResolvedCount: resolved,
             commonOrAboveCount: commonOrAbove,
@@ -705,20 +739,33 @@ nonisolated enum UsageAnalytics {
         )
     }
 
-    /// Seven equal-width buckets across the window, oldest first (§1).
-    static func sparkline(_ entries: [UsageEntrySnapshot], bounds: Bounds, buckets: Int = 7) -> [Int] {
-        var counts = Array(repeating: 0, count: buckets)
+    /// The count every Usage surface shows: entries inside `bounds` (both ends
+    /// included), their average per day of the window, and `buckets`
+    /// equal-width slices of it, oldest first.
+    static func windowCount(_ timestamps: [Date], bounds: Bounds, buckets: Int = 7) -> UsageWindowCount {
+        var counts = Array(repeating: 0, count: max(1, buckets))
         let span = bounds.end.timeIntervalSince(bounds.start)
-        guard span > 0 else {
-            counts[buckets - 1] = entries.count
-            return counts
+        var total = 0
+        for timestamp in timestamps where timestamp >= bounds.start && timestamp <= bounds.end {
+            total += 1
+            guard span > 0 else {
+                counts[counts.count - 1] += 1
+                continue
+            }
+            let offset = timestamp.timeIntervalSince(bounds.start) / span
+            counts[min(counts.count - 1, max(0, Int(offset * Double(counts.count))))] += 1
         }
-        for entry in entries {
-            let offset = entry.timestamp.timeIntervalSince(bounds.start) / span
-            let index = min(buckets - 1, max(0, Int(offset * Double(buckets))))
-            counts[index] += 1
-        }
-        return counts
+        return UsageWindowCount(
+            entryCount: total,
+            averagePerDay: Double(total) / max(1, bounds.lengthDays),
+            buckets: counts,
+        )
+    }
+
+    /// ``windowCount(_:bounds:buckets:)`` over `range` ending `now`, from every
+    /// logged timestamp — the Insights card's entry point.
+    static func windowCount(_ timestamps: [Date], range: UsageTimeRange, now: Date, buckets: Int) -> UsageWindowCount {
+        windowCount(timestamps, bounds: bounds(for: range, firstTimestamp: timestamps.min(), now: now), buckets: buckets)
     }
 
     // MARK: §2 Heatmap + hours

@@ -12,16 +12,21 @@ struct UsageHeatmapSection: View {
     let categories: [(categoryIndex: Int, count: Int)]
     /// The Entries/Common-doses lens, owned globally by the Usage toolbar filter.
     let metric: UsageRankMetric
+    /// The selected range, which the hour histogram covers (the grid covers
+    /// every logged day).
+    let range: UsageTimeRange
 
     @State private var categoryFilter: Int?
     @State private var selectedDay: Date?
+    /// How many weeks the grid draws, padding included: the span its title names.
+    @State private var drawnWeeks = 0
 
     private var accent: Color {
         categoryFilter.map { UsageAxes.category($0).color } ?? Theme.accent
     }
 
     var body: some View {
-        UsageSectionCard(title: "Activity") {
+        UsageSectionCard(title: drawnWeeks > 0 ? "Activity · \(drawnWeeks) weeks" : "Activity") {
             if filterCategories.count > 1 {
                 UsageCategoryFilterBar(categories: filterCategories, selection: $categoryFilter)
             }
@@ -32,6 +37,7 @@ struct UsageHeatmapSection: View {
                 metric: metric,
                 accent: accent,
                 selectedDay: $selectedDay,
+                drawnWeeks: $drawnWeeks,
             )
 
             UsageHourHistogram(
@@ -39,6 +45,7 @@ struct UsageHeatmapSection: View {
                 metric: metric,
                 accent: accent,
                 selectedDay: selectedDay,
+                range: range,
                 onClearDay: { selectedDay = nil },
             )
         }
@@ -86,6 +93,7 @@ private struct UsageHeatmapGrid: View {
     let metric: UsageRankMetric
     let accent: Color
     @Binding var selectedDay: Date?
+    @Binding var drawnWeeks: Int
 
     /// Width of the whole grid area (card content width). Measured on the outer
     /// container — not the ScrollView, whose width feeds back through its content.
@@ -137,7 +145,13 @@ private struct UsageHeatmapGrid: View {
             .scrollBounceBehavior(.basedOnSize)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { containerWidth = $0 }
+        .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width in
+            containerWidth = width
+            drawnWeeks = self.layout(for: width).weekStarts.count
+        }
+        .onChange(of: heatmap.weekStarts.count) {
+            drawnWeeks = self.layout(for: containerWidth).weekStarts.count
+        }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text("Activity heatmap"))
         .accessibilityHint(Text("Days with entries are listed one by one. Select a day to filter the hour chart below."))
@@ -315,6 +329,7 @@ private struct UsageHourHistogram: View {
     let metric: UsageRankMetric
     let accent: Color
     let selectedDay: Date?
+    let range: UsageTimeRange
     let onClearDay: () -> Void
 
     private struct Bin: Identifiable {
@@ -354,6 +369,10 @@ private struct UsageHourHistogram: View {
                         .foregroundStyle(Theme.secondaryLabel)
                     }
                     .accessibilityLabel(Text("Clear selected day"))
+                } else {
+                    Text(range.windowName)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
 

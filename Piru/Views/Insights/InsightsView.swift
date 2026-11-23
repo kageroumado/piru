@@ -7,14 +7,6 @@ import SwiftUI
 @Observable
 @MainActor
 final class InsightsModel {
-    struct DailyCount: Identifiable {
-        let date: Date
-        let count: Int
-        var id: Date {
-            date
-        }
-    }
-
     struct AdherenceSummary {
         /// Scheduled doses taken so far this month, and how many were due.
         let taken: Int
@@ -22,24 +14,14 @@ final class InsightsModel {
         let hasData: Bool
     }
 
-    /// The Usage card's figures, over the same days its bars draw.
-    struct UsageSummary {
-        let total: Int
-        let perDay: Double
-        /// Whether the journal holds any entry at all, in or out of the window.
-        let hasEntries: Bool
-        var perDayText: String {
-            perDay.formatted(.number.precision(.fractionLength(1)))
-        }
-    }
-
-    /// The days the Usage card's bars and figures cover, ending today.
-    static let usageWindowDays = 14
+    /// The Usage card's window: the range the Usage screen opens on, counted
+    /// by the screen's own rule, one bar per day of it.
+    static let usageRange = UsageTimeRange.opening
 
     private(set) var adherence: AdherenceSummary?
-    private(set) var usage: UsageSummary?
+    /// The Usage card's count, or `nil` while the journal holds no entry at all.
+    private(set) var usage: UsageWindowCount?
     private(set) var active: [ActiveSubstance] = []
-    private(set) var dailyCounts: [DailyCount] = []
     private(set) var monthCells: [DayAdherence?] = []
 
     private let calendar = Calendar.current
@@ -95,23 +77,10 @@ final class InsightsModel {
         adherence = Self.monthAdherence(fromCells: cells)
         active = ActiveSubstanceCalculator.compute(from: entries, colorMap: substanceColors.colorMap)
         activeComputedAt = .now
-        let counts = computeDailyCounts(cal: cal, entriesByDay: entriesByDay)
-        dailyCounts = counts
-        let windowTotal = counts.reduce(0) { $0 + $1.count }
-        usage = UsageSummary(
-            total: windowTotal,
-            perDay: Double(windowTotal) / Double(Self.usageWindowDays),
-            hasEntries: !entries.isEmpty,
+        usage = entries.isEmpty ? nil : UsageAnalytics.windowCount(
+            entries.map(\.timestamp), range: Self.usageRange, now: .now, buckets: Self.usageRange.days ?? 30,
         )
         computedToken = token
-    }
-
-    private func computeDailyCounts(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> [DailyCount] {
-        let today = cal.journalDay(for: .now)
-        return (0 ..< Self.usageWindowDays).reversed().compactMap { offset in
-            guard let day = cal.date(byAdding: .day, value: -offset, to: today) else { return nil }
-            return DailyCount(date: day, count: entriesByDay[day]?.count ?? 0)
-        }
     }
 
     private func computeMonthCells(cal: Calendar, entriesByDay: [Date: [DoseEntry]], dailyItems: [DailyDoseItem]) -> [DayAdherence?] {
@@ -184,6 +153,11 @@ struct InsightsView: View {
                 }
                 inYourBodyCard
                 InsightsToleranceCard()
+                largeCard(icon: "chart.xyaxis.line", tint: .pink, title: "Receptor Load", route: .insight(.receptorLoad)) {
+                    Text("How hard each mechanism has been driven over time")
+                        .captionSecondary()
+                        .fixedSize(horizontal: false, vertical: true)
+                }
 
                 LazyVGrid(columns: compactColumns, spacing: Spacing.xl) {
                     CompactRouteCard(
@@ -233,20 +207,20 @@ struct InsightsView: View {
 
     private var usageCard: some View {
         largeCard(icon: "chart.bar.fill", tint: .blue, title: "Usage", route: .insight(.usage)) {
-            if let u = model.usage, u.hasEntries {
+            if let usage = model.usage {
                 VStack(alignment: .leading, spacing: Spacing.xl) {
                     ViewThatFits(in: .horizontal) {
                         HStack(alignment: .firstTextBaseline, spacing: Spacing.lg) {
-                            usageFigures(u)
+                            UsageCardFigures(usage: usage)
                             Spacer(minLength: Spacing.sm)
                             usageWindowLabel
                         }
                         VStack(alignment: .leading, spacing: Spacing.xs) {
-                            usageFigures(u)
+                            UsageCardFigures(usage: usage)
                             usageWindowLabel
                         }
                     }
-                    usageChart
+                    UsageCardBars(usage: usage)
                 }
             } else {
                 emptyContent("No entries recorded yet")
@@ -254,49 +228,16 @@ struct InsightsView: View {
         }
     }
 
-    private func usageFigures(_ u: InsightsModel.UsageSummary) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
-            Text("\(u.total)")
-                .font(.piru(.title2, design: .rounded, weight: .bold))
-            Text("entries")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-            Text("\(u.perDayText)")
-                .font(.piru(.title2, design: .rounded, weight: .bold))
-                .padding(.leading, Spacing.lg)
-            Text("/day")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
-    }
-
     private var usageWindowLabel: some View {
-        Text("Last \(InsightsModel.usageWindowDays) days")
+        Text(InsightsModel.usageRange.windowName)
             .font(.subheadline)
             .foregroundStyle(Theme.secondaryLabel)
-    }
-
-    private var usageChart: some View {
-        Chart(model.dailyCounts) { item in
-            BarMark(
-                x: .value("Day", item.date, unit: .day),
-                y: .value("Entries", item.count),
-                width: .fixed(7),
-            )
-            .foregroundStyle(Color.blue.gradient)
-            .cornerRadius(2)
-        }
-        .chartXAxis(.hidden)
-        .chartYAxis(.hidden)
-        .frame(height: 76)
-        .accessibilityLabel(Text("Entries recorded per day over the past two weeks"))
-        .accessibilityValue(Text("\(model.usage?.total ?? 0) in the last 14 days"))
     }
 
     // MARK: - In Your Body
 
     private var inYourBodyCard: some View {
-        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "Modeled Levels", route: .insightGroup(.inYourBody), isEstimation: true) {
+        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "In Your Body", route: .insightGroup(.inYourBody)) {
             if model.active.isEmpty {
                 emptyContent("Nothing active right now")
             } else {
@@ -306,7 +247,6 @@ struct InsightsView: View {
                             Text("\(sub.totalRemaining.doseFormatted) \(sub.unit)")
                                 .sectionLabel()
                                 .foregroundStyle(sub.color)
-                            RemainingBar(fraction: 1 - sub.eliminatedFraction, color: sub.color)
                         }
                         .accessibilityElement(children: .combine)
                     }
@@ -407,25 +347,61 @@ struct InsightsView: View {
     }
 }
 
-// MARK: - Remaining bar
+// MARK: - Usage card
 
-/// A small capsule progress bar showing the remaining fraction of a substance,
-/// matching the compact `DosePhaseProgressBar` style from timeline dose pills.
-private struct RemainingBar: View {
-    let fraction: Double
-    let color: Color
+private struct UsageCardFigures: View {
+    let usage: UsageWindowCount
 
     var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .leading) {
-                Capsule().fill(color.opacity(Theme.Opacity.tint))
-                Capsule()
-                    .fill(color)
-                    .frame(width: max(0, geo.size.width * fraction))
-            }
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
+            Text("\(usage.entryCount)")
+                .font(.piru(.title2, design: .rounded, weight: .bold))
+            Text("entries")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+            Text(usage.averagePerDayText)
+                .font(.piru(.title2, design: .rounded, weight: .bold))
+                .padding(.leading, Spacing.lg)
+            Text("/day")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
         }
-        .frame(width: 40, height: 3)
-        .accessibilityLabel(Text("\(Int(fraction * 100))% remaining"))
+    }
+}
+
+/// One bar per day-long slice of the window, across the card's full width, in
+/// the accent the Usage screen draws its entry counts in.
+private struct UsageCardBars: View {
+    let usage: UsageWindowCount
+
+    private struct Bar: Identifiable {
+        let id: Int
+        let count: Int
+    }
+
+    var body: some View {
+        let bars = usage.buckets.enumerated().map { Bar(id: $0.offset, count: $0.element) }
+        Chart {
+            // A categorical x, so the bars share the width out evenly.
+            ForEach(bars) { bar in
+                BarMark(
+                    x: .value("Day", String(bar.id)),
+                    y: .value("Entries", bar.count),
+                )
+                .foregroundStyle(Theme.accent)
+                .cornerRadius(2)
+            }
+            // The baseline spans the whole window, so a quiet stretch reads as
+            // days with nothing logged.
+            RuleMark(y: .value("Entries", 0))
+                .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
+                .lineStyle(StrokeStyle(lineWidth: 1))
+        }
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
+        .frame(height: 76)
+        .accessibilityLabel(Text("Entries recorded per day"))
+        .accessibilityValue(Text("\(usage.entryCount) entries"))
     }
 }
 
@@ -438,10 +414,9 @@ private func largeCard(
     tint: Color,
     title: LocalizedStringKey,
     route: PushRoute,
-    isEstimation: Bool = false,
     @ViewBuilder content: @escaping () -> some View,
 ) -> some View {
-    GlanceCard(icon: icon, tint: tint, title: Text(title), route: route, isEstimation: isEstimation, content: content)
+    GlanceCard(icon: icon, tint: tint, title: Text(title), route: route, content: content)
 }
 
 /// Tolerance states worth surfacing on a glance card, worst first.
@@ -453,56 +428,16 @@ private var notableToleranceStates: [ClassTolerance] {
 
 // MARK: - Tolerance card
 
-/// Modeled Tolerance and Receptor Load in one card: both screens read the same
-/// per-class states, so the card draws those bars once and links to each
-/// screen. Receptor Load's own data is a history (load over weeks), which
-/// costs a full replay per class and stays on its screen.
+/// The Modeled Tolerance card: the per-class states the screen draws, worst
+/// first.
 private struct InsightsToleranceCard: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            RouteLink(.insight(.tolerance)) {
-                VStack(alignment: .leading, spacing: Spacing.xl) {
-                    GlanceCardHeader(icon: "chart.line.downtrend.xyaxis", iconTint: .purple, title: Text("Modeled Tolerance")) {
-                        EstimationTag()
-                        GlanceCardChevron()
-                    }
-                    ToleranceBars(states: Array(notableToleranceStates.prefix(4)))
-                }
-                .padding(Spacing.xxl)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-
-            Divider()
-                .padding(.leading, Spacing.xxl)
-
-            RouteLink(.insight(.receptorLoad)) {
-                HStack(spacing: Spacing.lg) {
-                    Image(systemName: "chart.xyaxis.line")
-                        .cardTitle()
-                        .foregroundStyle(.pink)
-                        .frame(width: GlanceCardHeader<EmptyView>.iconWidth)
-                        .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: Spacing.xxs) {
-                        Text("Receptor Load")
-                            .font(.subheadline.weight(.semibold))
-                        Text("How hard each mechanism has been driven over time")
-                            .captionSecondary()
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    Spacer(minLength: Spacing.md)
-                    GlanceCardChevron()
-                }
-                .padding(.horizontal, Spacing.xxl)
-                .padding(.vertical, Spacing.xl)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
+        GlanceCard(
+            icon: "chart.line.downtrend.xyaxis", tint: .purple,
+            title: Text("Modeled Tolerance"), route: .insight(.tolerance),
+        ) {
+            ToleranceBars(states: Array(notableToleranceStates.prefix(4)))
         }
-        .themeCard()
-        .skinFrameCorners()
     }
 }
 
