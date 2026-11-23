@@ -50,3 +50,7 @@ Piru/Intents/*
 # Letters and Emoji on Android, and a restored photo draws its monogram.
 Piru/Views/Profiles/ProfilePhoto*.swift
 Piru/Data/Profiles/ProfilePhotoImporter.swift
+
+# The perf pipeline's in-app half (pipeline/perf/): Mach task and thread readings, run-loop
+# observers and UIKit scroll views. Android is measured from outside the process instead.
+Piru/Utilities/Perf/*

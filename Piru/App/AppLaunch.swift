@@ -208,6 +208,14 @@ enum AppLaunch {
     #if DEBUG
         /// Launch-argument fixtures for development and UI capture.
         private static func runDebugFixtures(container: ModelContainer) {
+            // `-piruPerf <dir>` is a pipeline/perf run: it seeds its own
+            // fixture (PerfFixtures) and drives its own flows (PerfTour).
+            #if !os(Android)
+                if PerfTour.isRequested {
+                    PerfTour.start(container: container)
+                    return
+                }
+            #endif
             // A `-piruImportFile <path>` launch wipes + imports an
             // exported JSON; a `-piruPersona <name>` launch wipes +
             // reseeds a user archetype for UI-state testing;

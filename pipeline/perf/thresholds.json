@@ -1,0 +1,82 @@
+{
+  "_doc": "Levels for pipeline/perf/analyze.py. Each metric has a warn (a finding) and a fail (exit 1) level; per-step values unless named otherwise. README.md explains each one.",
+  "main_thread": {
+    "hitch_ms": 100,
+    "hang_ms": 250,
+    "total_stall_ms_per_step": { "warn": 500, "fail": 2000 }
+  },
+  "cpu": {
+    "main_cpu_share": { "warn": 0.6, "fail": 0.9 },
+    "main_cpu_ms_per_step": { "warn": 1500, "fail": 6000 }
+  },
+  "launch": {
+    "to_interactive_ms": { "warn": 2500, "fail": 6000 },
+    "to_catalog_warm_ms": { "warn": 2000, "fail": 5000 }
+  },
+  "memory": {
+    "peak_mb": { "warn": 700, "fail": 1400 },
+    "step_growth_mb": { "warn": 60, "fail": 250 },
+    "loop_growth_mb": { "warn": 25, "fail": 100 }
+  },
+  "thread": {
+    "involuntary_switches_per_s": { "warn": 400, "fail": 2000 },
+    "main_wait_share": { "warn": 0.25, "fail": 0.6 }
+  },
+  "counters": {
+    "resolveFull": { "warn": 40, "fail": 400 },
+    "lookup.batchMiss": { "warn": 1, "fail": 50 },
+    "lookup": { "warn": 20000, "fail": 200000 },
+    "sql.piru-substances": { "warn": 300, "fail": 3000 },
+    "sql.piru-substances-batch": { "warn": 300, "fail": 3000 },
+    "sql.piru-user-prefs": { "warn": 100, "fail": 1000 }
+  },
+  "data": {
+    "fetches_per_step": { "warn": 200, "fail": 2000 },
+    "saves_per_step": { "warn": 20, "fail": 200 },
+    "faults_per_step": { "warn": 20000, "fail": 200000 }
+  },
+  "repeated_work": {
+    "_doc": "A symbol entered many times in one step (separate bursts of main-thread samples with it on the stack) at real cost: a missing or bypassed cache.",
+    "min_entries": 15,
+    "min_total_ms": 40,
+    "fail_total_ms": 400,
+    "watch": [
+      "SubstanceLibrary.resolveFull",
+      "SubstanceStore.lookupByNameOrAlias",
+      "SubstanceReadModel",
+      "GRDB.Statement",
+      "sqlite3_step",
+      "ImageRenderer",
+      "ModelContext.fetch",
+      "NSManagedObjectContext executeFetchRequest",
+      "DateFormatter",
+      "Date.FormatStyle",
+      "ISO8601DateFormatter",
+      "PKModel",
+      "TimelineCurveModel",
+      "EffectEngine",
+      "JSONEncoder",
+      "JSONDecoder"
+    ]
+  },
+  "swiftui": {
+    "body_updates_per_step": { "warn": 3000, "fail": 30000 },
+    "single_view_updates_per_step": { "warn": 500, "fail": 5000 }
+  },
+  "android": {
+    "slow_frame_share": { "warn": 0.15, "fail": 0.4 },
+    "frozen_frame_share": { "warn": 0.01, "fail": 0.05 },
+    "launch_ms": { "warn": 2500, "fail": 6000 }
+  },
+  "baseline": {
+    "_doc": "A metric regresses when new > base * (1 + relative) + absolute.",
+    "count": { "relative": 0.1, "absolute": 2 },
+    "time_ms": { "relative": 0.3, "absolute": 30 },
+    "memory_mb": { "relative": 0.2, "absolute": 15 }
+  },
+  "ci": {
+    "_doc": "The CI gate reads only machine-speed-independent counts; wall-clock numbers are reported, never gated.",
+    "gate_counters": ["resolveFull", "lookup.batchMiss", "sql.piru-substances", "sql.piru-substances-batch", "sql.piru-user-prefs"],
+    "hang_ms": 2000
+  }
+}
