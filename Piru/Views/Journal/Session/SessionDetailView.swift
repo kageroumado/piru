@@ -45,7 +45,7 @@ struct SessionDetailView: View {
     /// Opt-in: overlay Apple Health heart rate / blood pressure on the session.
     /// Stored in the app-group suite so it's consistent app-wide. Drives the vitals
     /// task and the discovery-banner gate.
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
+    @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore)
     private var showSessionVitals = false
     /// One-time discovery: whether the vitals overlay has already been offered
     /// (turned on or dismissed). Gates the discovery banner.
@@ -128,12 +128,13 @@ struct SessionDetailView: View {
         return isToday ? max(effectEnd, .now) : effectEnd
     }
 
-    /// Show the one-time Apple Health promo only when it can actually pay off: the
-    /// device has Health, the overlay isn't already on, there's a timeline to lay
-    /// vitals over, and we haven't already offered (turned on or dismissed).
+    /// Show the one-time Apple Health offer only when it can pay off: the device has
+    /// Health, Health is off, the graph draws no heart rate, there's a timeline to lay
+    /// vitals over, and it hasn't been offered before (turned on or dismissed).
     private func shouldOfferVitals(_ states: [ActiveSubstanceState]) -> Bool {
         HealthKitVitals.shared.isAvailable
-            && !showSessionVitals
+            && !HealthKitVitals.shared.isOn(overlay: showSessionVitals)
+            && model.sessionVitals?.heartRate.isEmpty != false
             && !didOfferSessionVitals
             && !states.isEmpty
     }

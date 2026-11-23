@@ -45,6 +45,8 @@ struct ProfilesSettingsView: View {
 /// One person: avatar, name, and for the owner what only the owner has.
 private struct ProfileRow: View {
     let profile: PiruProfile
+    @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore)
+    private var showSessionVitals = false
 
     var body: some View {
         HStack(spacing: Spacing.lg) {
@@ -52,8 +54,13 @@ private struct ProfileRow: View {
             VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(verbatim: profile.name)
                 if profile.isOwner {
-                    Text("This device · Apple Health")
-                        .captionSecondary()
+                    if HealthKitVitals.shared.isOn(overlay: showSessionVitals) {
+                        Text("This device · Apple Health")
+                            .captionSecondary()
+                    } else {
+                        Text("This device")
+                            .captionSecondary()
+                    }
                 }
             }
         }

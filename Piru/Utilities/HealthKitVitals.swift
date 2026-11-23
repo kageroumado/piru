@@ -42,6 +42,33 @@ final class HealthKitVitals {
         HKHealthStore.isHealthDataAvailable() && ProfileScope.isOwner
     }
 
+    /// The `@AppStorage` key of the switch that puts Health heart data on sessions. Every view
+    /// that asks whether Apple Health is on reads this key from ``settingsStore`` and passes the
+    /// value to ``isOn(overlay:)``.
+    static let overlayKey = "showSessionVitals"
+    /// The app-group suite ``overlayKey`` lives in, shared with the widgets.
+    static var settingsStore: UserDefaults? {
+        UserDefaults(suiteName: AppIdentity.appGroup)
+    }
+
+    /// The one answer to "is Apple Health on": the user switched the overlay on, and this device
+    /// can read Health for the open journal. The session offer, the profile list and every
+    /// vitals read go through here, so no two screens disagree.
+    func isOn(overlay: Bool) -> Bool {
+        #if DEBUG
+            // The screenshot tour's synthetic vitals stand in for a connected Health.
+            if Self.usesFakeVitals { return true }
+        #endif
+        return overlay && isAvailable
+    }
+
+    #if DEBUG
+        /// `-piruFakeVitals`: synthetic heart rate and blood pressure for on-simulator checks.
+        static var usesFakeVitals: Bool {
+            ProcessInfo.processInfo.arguments.contains("-piruFakeVitals")
+        }
+    #endif
+
     private init() {}
 
     /// The read set every request/status check uses. Blood pressure is requested

@@ -56,7 +56,7 @@ struct EntrySessionSection: View {
         navigator.path(for: navigator.selectedTab).contains(.session(id: session.id))
     }
 
-    /// "2 doses · 3h 21m" for an ended session; "2 doses · 44m ago" (since the
+    /// "2 entries · 3h 21m" for an ended session; "2 entries · 44m ago" (since the
     /// first dose) while it's still running.
     static func sessionSubtitle(_ session: Session) -> String {
         let doses = session.orderedDoses

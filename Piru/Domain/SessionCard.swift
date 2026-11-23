@@ -70,7 +70,7 @@ struct SessionCard: Identifiable, Equatable {
         }
         doseCountText = entries.count == 1
             ? String(localized: "1 entry")
-            : String(localized: "\(entries.count) doses")
+            : String(localized: "\(entries.count) entries")
     }
 }
 

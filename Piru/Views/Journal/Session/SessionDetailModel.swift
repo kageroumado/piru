@@ -87,11 +87,11 @@ final class SessionDetailModel {
     private func fetchVitals(session: Session, entries: [DoseEntry], from start: Date, to end: Date, showSessionVitals: Bool) async -> SessionVitals {
         #if DEBUG
             // On-simulator visual verification without Health data. Never ships.
-            if ProcessInfo.processInfo.arguments.contains("-piruFakeVitals") {
+            if HealthKitVitals.usesFakeVitals {
                 return DebugVitals.synthetic(doses: entries.map(\.timestamp), start: session.startDate, end: end)
             }
         #endif
-        guard showSessionVitals, HealthKitVitals.shared.isAvailable else { return .empty }
+        guard HealthKitVitals.shared.isOn(overlay: showSessionVitals) else { return .empty }
         // Pure read — authorization is requested only at the opt-in points (the
         // Apple Health onboarding step, the Apple Health settings screen, and the
         // discovery banner), never here. Presenting the HealthKit system sheet from

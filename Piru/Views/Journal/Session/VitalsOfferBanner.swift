@@ -1,14 +1,13 @@
 import SwiftUI
 
-/// A dismissible info card (styled like the note row) that introduces the vitals
-/// overlay to users who never opted in — its "Turn On" surfaces the same single
-/// combined Health sheet as everywhere else. Owns its own opt-in state: flipping
+/// A dismissible one-row offer of the vitals overlay to users who never opted in —
+/// its "Turn On" surfaces the same single combined Health sheet as everywhere else. Owns its own opt-in state: flipping
 /// `showSessionVitals` (an app-group `@AppStorage` the detail view also reads)
 /// re-runs the detail's vitals task, and `didOfferSessionVitals` retires the banner.
 struct VitalsOfferBanner: View {
     /// Opt-in: overlay Apple Health heart rate / blood pressure on the session.
     /// Stored in the app-group suite so it's consistent app-wide.
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
+    @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore)
     private var showSessionVitals = false
     /// One-time discovery flag: set once the user turns the overlay on OR dismisses
     /// the banner, after which it never reappears. Main-app UI state, so the default
@@ -19,44 +18,30 @@ struct VitalsOfferBanner: View {
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: Spacing.xl) {
-                HStack(alignment: .top, spacing: Spacing.xl) {
-                    Image(systemName: "heart.text.square")
-                        .font(.piru(.title2))
-                        .foregroundStyle(VitalsPalette.heart)
-                        .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: Spacing.xs) {
-                        Text("See your heart rate here")
-                            .sectionLabel()
-                        Text("Connect Apple Health to show your heart rate on the graph beside your entries.")
-                            .captionSecondary()
-                            .fixedSize(horizontal: false, vertical: true)
+            HStack(spacing: Spacing.lg) {
+                Image(systemName: "heart.text.square")
+                    .foregroundStyle(VitalsPalette.heart)
+                    .accessibilityHidden(true)
+                Text("Heart rate on this graph")
+                Spacer(minLength: Spacing.md)
+                if isConnectingVitals {
+                    ProgressView().controlSize(.mini)
+                } else {
+                    Button("Turn On") {
+                        Task { await enableVitalsFromOffer() }
                     }
-                    Spacer(minLength: 0)
-                    Button(action: dismissVitalsOffer) {
-                        Image(systemName: "xmark")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .minimumHitTarget()
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text("Dismiss"))
+                    .buttonStyle(.borderless)
+                    .foregroundStyle(Theme.accent)
                 }
-                Button {
-                    Task { await enableVitalsFromOffer() }
-                } label: {
-                    HStack(spacing: Spacing.md) {
-                        if isConnectingVitals { ProgressView().controlSize(.mini) }
-                        Text(isConnectingVitals ? "Connecting…" : "Turn On Apple Health")
-                    }
-                    .frame(maxWidth: .infinity)
+                Button(action: dismissVitalsOffer) {
+                    Image(systemName: "xmark")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .minimumHitTarget()
                 }
-                .skinButtonStyle(.prominent)
-                .controlSize(.regular)
-                .tint(Theme.accent)
-                .disabled(isConnectingVitals)
+                .buttonStyle(.borderless)
+                .accessibilityLabel(Text("Dismiss"))
             }
-            .padding(.vertical, Spacing.xs)
         }
     }
 

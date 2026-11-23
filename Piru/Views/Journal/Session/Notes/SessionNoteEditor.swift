@@ -25,7 +25,7 @@ struct SessionNoteEditor: View {
     @State private var showSideEffects = false
     @State private var form = CheckInForm.unresolved
     @FocusState private var textFocused: Bool
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
+    @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore)
     private var showSessionVitals = false
 
     init(session: Session, note: SessionNote? = nil, kind: SessionNote.Kind = .observation, vitals: SessionVitals? = nil) {

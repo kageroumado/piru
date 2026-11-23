@@ -90,7 +90,7 @@ final class SessionNoteDraft {
         if let provided {
             samples = provided.heartRate
         } else {
-            guard showSessionVitals, HealthKitVitals.shared.isAvailable else { return }
+            guard HealthKitVitals.shared.isOn(overlay: showSessionVitals) else { return }
             let end = max(Date.now, timestamp).addingTimeInterval(Self.heartRateWindow)
             let start = session.startDate.addingTimeInterval(-VitalsAnalysis.baselineLookback)
             samples = await HealthKitVitals.shared.vitals(from: start, to: end).heartRate
