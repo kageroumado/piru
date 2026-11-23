@@ -21,6 +21,15 @@ struct DurationCurveView: View {
         boundaries.offsetEnd > boundaries.onsetEnd + 1
     }
 
+    /// The boundaries to draw for `duration`, or nil when they make no shaped
+    /// curve. With a `category`, phases the profile leaves out are shaped the way
+    /// the journal shapes them, so every chart of the same profile agrees.
+    static func boundaries(for duration: DurationProfile, category: SubstanceCategory?) -> PhaseBoundaries? {
+        let profile = category.map { duration.fillingMissingPhases(for: $0) } ?? duration
+        let boundaries = profile.phaseBoundaries
+        return canRender(boundaries) ? boundaries : nil
+    }
+
     private struct Band: Identifiable {
         let id: Int
         let start: Double
@@ -64,7 +73,7 @@ struct DurationCurveView: View {
                         .offset(y: plotTop)
                 }
                 // Hour gridlines + labels.
-                ForEach(hourMarks(total), id: \.self) { hour in
+                ForEach(hourMarks(total, width: width), id: \.self) { hour in
                     let hx = xf(Double(hour) * 60)
                     Rectangle().fill(Color.primary.opacity(Theme.Opacity.hairline))
                         .frame(width: 1, height: plotH).offset(x: hx, y: plotTop)
@@ -90,11 +99,18 @@ struct DurationCurveView: View {
         .accessibilityLabel("Effect over time: rises over the come-up, plateaus at peak, then falls.")
     }
 
-    private func hourMarks(_ total: Double) -> [Int] {
+    /// Room a label needs right of its gridline: the 3-pt gap plus "12h" at 8 pt.
+    private static let hourLabelRoom: CGFloat = 18
+
+    /// Whole hours inside the curve whose label fits before the chart's end, so
+    /// a short chart never draws a label cut off by its own edge.
+    private func hourMarks(_ total: Double, width: CGFloat) -> [Int] {
         var out: [Int] = []
         var hour = 1
         while Double(hour) * 60 < total {
-            out.append(hour)
+            if CGFloat(Double(hour) * 60 / total) * width + Self.hourLabelRoom <= width {
+                out.append(hour)
+            }
             hour += 1
         }
         return out
