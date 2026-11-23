@@ -224,6 +224,7 @@ private let excludedSettingKeys: [String: String] = [
     "legacyHandoff.importedJournalEntries": "this install's handoff bookkeeping",
     "legacyHandoff.successorImportedAt": "the legacy install's handoff bookkeeping",
     "deepLink": "notification userInfo key, not a default",
+    "reveal": "Core Animation key, not a default",
     "skipTarget": "notification userInfo key, not a default",
     "didOfferSessionVitals": "prompt flag",
     "didResplitOverlongSessionsV1": "migration bookkeeping",
@@ -266,7 +267,6 @@ private let excludedSettingKeys: [String: String] = [
     "watchDosePayload": "watch sync payload",
     "skinOwnedProducts": "StoreKit re-establishes ownership on the new install",
     "skinsPickerSeen": "prompt flag",
-    "ternaryTapHintSeen": "hint flag",
 ]
 
 // MARK: - Coverage tests

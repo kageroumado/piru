@@ -49,7 +49,7 @@ nonisolated struct ExportedSetting: Sendable {
 ///   `piru.sourceOrderMigrationVersion`, `dockLabelsMigrated_v1`,
 ///   `journalResetGeneration`, `journalResetDate`, launch-pass tokens);
 /// - onboarding, prompt and hint flags and counters (`hasCompletedOnboarding`,
-///   `discordPrompt*`, `skinsPickerSeen`, `didOfferSessionVitals`, `ternaryTapHintSeen`,
+///   `discordPrompt*`, `skinsPickerSeen`, `didOfferSessionVitals`,
 ///   `checkInOfferDeclines`, `appLaunchCount`, update-notice seen flags,
 ///   `myMedsMissedNoticeDismissedDays`);
 /// - `skinOwnedProducts`, which StoreKit re-establishes on the new install;
