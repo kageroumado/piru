@@ -1,15 +1,15 @@
 The amount stepper's field on Android: Compose's text field fills its row and draws an outline, so the unit stacked over the number and the outline ran under the minus button; the number and unit split the row and the field is plain, as on iOS
 
 diff --git a/Piru/Views/Tools/Inventory/InventorySupport.swift b/Piru/Views/Tools/Inventory/InventorySupport.swift
-index 11276d6d..60fd3a16 100644
+index 73cb2f35..92f20538 100644
 --- a/Piru/Views/Tools/Inventory/InventorySupport.swift
 +++ b/Piru/Views/Tools/Inventory/InventorySupport.swift
-@@ -282,6 +282,30 @@ struct InventoryStepperRow: View {
+@@ -327,6 +327,30 @@ struct InventoryStepperRow: View {
      /// fixed-size `TextField` takes its ideal width from the "0" placeholder and
      /// truncates "20" to "2…". While focused it holds one digit of slack, so the
      /// digit being typed has room before the binding catches up.
 +    #if os(Android)
-+        private var amountField: some View {
++        private func amountField(fills _: Bool) -> some View {
 +            // Compose's text field fills its row and has no intrinsic width to fix, so the number
 +            // takes the left half, right-aligned, and the unit the right half: the pair meets in
 +            // the middle as it does on iOS. The plain style drops Material's outline.
@@ -32,10 +32,10 @@ index 11276d6d..60fd3a16 100644
 +            .onTapGesture { focused = true }
 +        }
 +    #else
-     private var amountField: some View {
+     private func amountField(fills: Bool) -> some View {
          HStack(alignment: .firstTextBaseline, spacing: 5) {
              Text(verbatim: amountSizingText)
-@@ -306,6 +330,7 @@ struct InventoryStepperRow: View {
+@@ -351,6 +375,7 @@ struct InventoryStepperRow: View {
          .accessibilityAddTraits(.isButton)
          .onTapGesture { focused = true }
      }

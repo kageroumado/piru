@@ -25,9 +25,10 @@ struct InventoryItemEditHost: View {
 
 // MARK: - Edit screen
 
-/// Edit an item's exact amount, baseline, single-dose size, and low-stock
-/// threshold. On-hand and Baseline are independent fields (a recount vs. the
-/// "full" reference). `0` disables baseline, single dose, and the threshold.
+/// Edit an item's exact amount, full supply, single-dose size, and low-stock
+/// threshold, titled with the item's name. On hand and Full supply are
+/// independent fields (a recount vs. the "full" reference). `0` disables full
+/// supply, one dose, and the threshold.
 ///
 /// Uses ✕ / ✓ nav icons with the ✓ as the commit — no bottom button.
 struct InventoryItemEditView: View {
@@ -91,38 +92,19 @@ struct InventoryItemEditView: View {
                         stepBasis: stepBasis,
                         unitChoices: unitChoices,
                         onUnitChange: { unit = $0 },
+                        showsLabel: true,
                     )
-                } header: {
-                    Text("On hand")
+                    InventoryStepperRow(
+                        value: $baseline, unit: unit, label: "Full supply", stepBasis: stepBasis, showsLabel: true,
+                    )
+                    InventoryStepperRow(
+                        value: $doseSize, unit: unit, label: "One dose", stepBasis: stepBasis, showsLabel: true,
+                    )
+                    InventoryStepperRow(
+                        value: $threshold, unit: unit, label: "Warn below", stepBasis: stepBasis, showsLabel: true,
+                    )
                 } footer: {
-                    Text("The exact amount you have now. Changing it is logged as a correction.")
-                }
-                .listRowBackground(CardBackground())
-
-                Section {
-                    InventoryStepperRow(value: $baseline, unit: unit, label: "Baseline (100%)", stepBasis: stepBasis)
-                } header: {
-                    Text("Baseline (100%)")
-                } footer: {
-                    Text("The amount that counts as a full supply for the bar. Set to 0 to hide the bar.")
-                }
-                .listRowBackground(CardBackground())
-
-                Section {
-                    InventoryStepperRow(value: $doseSize, unit: unit, label: "Single dose", stepBasis: stepBasis)
-                } header: {
-                    Text("Single dose")
-                } footer: {
-                    Text("Used to show how many doses you have left. Set to 0 to disable.")
-                }
-                .listRowBackground(CardBackground())
-
-                Section {
-                    InventoryStepperRow(value: $threshold, unit: unit, label: "Warn when below", stepBasis: stepBasis)
-                } header: {
-                    Text("Warn when below")
-                } footer: {
-                    Text("Your remaining amount stands out once it drops below this. Set to 0 to disable.")
+                    Text("Changing On hand is logged as a correction. 0 turns a row off.")
                 }
                 .listRowBackground(CardBackground())
 
@@ -133,7 +115,7 @@ struct InventoryItemEditView: View {
             }
             .scrollDismissesKeyboard(.interactively)
             .themedPage()
-            .navigationTitle("Edit")
+            .navigationTitle(item.displayTitle)
             .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
