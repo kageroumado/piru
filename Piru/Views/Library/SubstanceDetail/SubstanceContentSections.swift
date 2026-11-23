@@ -168,10 +168,10 @@ private struct HistorySummaryLabel: View {
             }
             VStack(alignment: isStacked ? .leading : .trailing, spacing: Spacing.xxs) {
                 if stats.minDose == stats.maxDose {
-                    Text("\(stats.minDose.doseFormatted) \(unit)")
+                    Text("Range: \(stats.minDose.doseFormatted) \(unit)")
                         .font(.subheadline.weight(.medium))
                 } else {
-                    Text("\(stats.minDose.doseFormatted) – \(stats.maxDose.doseFormatted) \(unit)")
+                    Text("Range: \(stats.minDose.doseFormatted) – \(stats.maxDose.doseFormatted) \(unit)")
                         .font(.subheadline.weight(.medium))
                 }
                 Text("Most common: \(stats.mostCommon.doseFormatted) \(unit)")
