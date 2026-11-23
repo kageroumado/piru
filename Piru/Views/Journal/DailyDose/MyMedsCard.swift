@@ -153,8 +153,10 @@ struct MyMedsCard: View {
     /// resolves its display name through `CustomSubstanceStore` → the batch
     /// index, and on the Journal's cold first frame that built the whole batch
     /// synchronously on the main actor (caught by the DEBUG tripwire in
-    /// `SubstanceStore.all`). One empty frame in the warm case.
-    @State private var warmed = false
+    /// `SubstanceStore.all`). Starts warm when the cache already is: the pinned
+    /// header re-creates this card as the navigation bar collapses, and a card
+    /// that waited for `.task` again would sit empty over the timeline.
+    @State private var warmed = SubstanceStore.shared.isBatchCacheWarm
 
     var body: some View {
         Group {
