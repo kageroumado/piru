@@ -3710,7 +3710,7 @@ ES = {
     "R-enantiomer": "Enantiómero R",
     "racemate": "racemato",
     # Skins picker and Tools card.
-    "Wearing this skin": "Usando este tema",
+    "Current skin": "Tema actual",
     "All Skins": "Todos los temas",
     "Layout": "Disposición",
     "Grid": "Cuadrícula",

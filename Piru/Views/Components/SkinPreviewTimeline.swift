@@ -1,18 +1,20 @@
 import SwiftData
 import SwiftUI
 
-/// The journal's real vertical timeline, drawn in any skin, for ``SkinPreviewCard``.
+/// A picture of the Journal in any skin, for ``SkinPreviewCard``.
 ///
 /// One fixed day of made-up doses goes through ``TimelineStripBuilder`` — the
 /// builder the Journal uses — so the preview is the app's own timeline rather
-/// than a drawing of one, and every card shows the same day. Each skin's copy is
-/// then rendered once, offscreen, at the phone's own width and pixel scale, and
-/// the card scales that picture down over its live backdrop.
+/// than a drawing of one, and every card shows the same day. Each skin's card
+/// is then rendered once, offscreen: its backdrop held on one frame, and the
+/// timeline over it.
 ///
 /// It has to be a picture. The timeline's views read the skin the app is
 /// wearing through `Theme`, so a row of live timelines would all wear the same
 /// one; ``SkinStore/rendering(as:_:)`` scopes a skin to one synchronous render,
-/// which is exactly what an `ImageRenderer` is.
+/// which is exactly what an `ImageRenderer` is. And a grid of eighteen cards
+/// has to scroll: one small image each, where a live backdrop is a canvas the
+/// size of a phone.
 @Observable
 @MainActor
 final class SkinPreviewTimeline {
@@ -27,6 +29,8 @@ final class SkinPreviewTimeline {
 
     @ObservationIgnored private var snapshots: [SnapshotKey: Image] = [:]
     @ObservationIgnored private var preparation: Task<Void, Never>?
+    /// The newest render in the queue; the next one waits on it.
+    @ObservationIgnored private var lastRender: Task<Void, Never>?
 
     private struct SnapshotKey: Hashable {
         let skin: Skin
@@ -56,6 +60,13 @@ final class SkinPreviewTimeline {
     /// The strip's time scale: a miniature has to show a whole evening.
     private static let zoom = 0.6
 
+    /// The picture's size against the screen it is a picture of. No card is
+    /// drawn wider than this share of a phone's width, and a full-size picture
+    /// of every skin would hold four times the memory.
+    private static let pictureScale: CGFloat = 0.5
+    /// One frame, left between two renders.
+    private static let renderSpacing: Duration = .milliseconds(16)
+
     /// Lays the fixed day out, once. The entries live in a throwaway in-memory
     /// store that is gone when this returns; the layouts are plain values.
     /// Every card asks; they all wait on the one build.
@@ -83,10 +94,18 @@ final class SkinPreviewTimeline {
             context.insert(entry)
             return entry
         }
+        // Each substance's class color, named here: the app publishes its
+        // catalog of them at launch, and a picker opened in the first second
+        // would otherwise draw every curve in the neutral gray.
+        var colorMap: [String: Color] = [:]
+        for dose in Self.doses {
+            guard let substance = SubstanceLibrary.lookup(dose.substance) else { continue }
+            colorMap[dose.substance.lowercased()] = SubstanceColorGenerator.color(for: substance).displayP3.color
+        }
         guard var builder = TimelineStripBuilder(
             entries: entries,
             colors: [],
-            colorMap: [:],
+            colorMap: colorMap,
             zoom: Self.zoom,
             compressGaps: true,
             style: TimelineDayLayout.Style(showsAxis: true, bubbleStyle: .full, pkMode: false),
@@ -98,19 +117,48 @@ final class SkinPreviewTimeline {
             .filter { !$0.cardGroups.isEmpty }
     }
 
-    /// The timeline in `skin`, rendered on first request and kept.
-    func snapshot(for skin: Skin, dark: Bool, scale: CGFloat) -> Image? {
+    /// The card in `skin`, rendered on first request and kept. `nil` when the
+    /// render produced nothing; asking again tries again.
+    ///
+    /// Renders run one at a time with a frame between them, so a screen that
+    /// shows many cards at once fills them in over a few frames while it stays
+    /// under the finger.
+    func snapshot(for skin: Skin, dark: Bool, scale: CGFloat) async -> Image? {
         let key = SnapshotKey(skin: skin, dark: dark)
         if let cached = snapshots[key] { return cached }
+        await prepare()
+        let previous = lastRender
+        let render = Task(name: "Skin preview render") { () -> Image? in
+            await previous?.value
+            if let cached = self.snapshots[key] { return cached }
+            try? await Task.sleep(for: Self.renderSpacing)
+            return self.render(key, scale: scale)
+        }
+        lastRender = Task(name: "Skin preview queue") { _ = await render.value }
+        return await render.value
+    }
+
+    /// Renders every skin's card ahead of the screen that will show them all.
+    func warm(dark: Bool, scale: CGFloat) async {
+        for skin in Skin.available {
+            _ = await snapshot(for: skin, dark: dark, scale: scale)
+        }
+    }
+
+    private func render(_ key: SnapshotKey, scale: CGFloat) -> Image? {
         guard !days.isEmpty else { return nil }
-        let content = SkinPreviewScreen(days: days, skin: skin)
-            .environment(\.colorScheme, dark ? .dark : .light)
-            .environment(\.rendersTimelineFlat, true)
+        let content = ZStack {
+            SkinBackdrop(skin: key.skin, animates: false)
+            SkinPreviewScreen(days: days, skin: key.skin)
+        }
+        .frame(width: Self.screenSize.width, height: Self.screenSize.height)
+        .environment(\.colorScheme, key.dark ? .dark : .light)
+        .environment(\.rendersTimelineFlat, true)
         let renderer = ImageRenderer(content: content)
-        renderer.scale = scale
+        renderer.scale = scale * Self.pictureScale
         renderer.proposedSize = ProposedViewSize(Self.screenSize)
-        guard let rendered = SkinStore.shared.rendering(as: skin, { renderer.cgImage }) else { return nil }
-        let image = Image(decorative: rendered, scale: scale)
+        guard let rendered = SkinStore.shared.rendering(as: key.skin, { renderer.cgImage }) else { return nil }
+        let image = Image(decorative: rendered, scale: renderer.scale)
         snapshots[key] = image
         return image
     }

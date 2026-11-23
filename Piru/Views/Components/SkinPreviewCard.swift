@@ -1,14 +1,14 @@
 import SwiftUI
 
-/// A miniature of the Journal wearing `skin`, in two layers: the skin's live
-/// animated backdrop, and over it a picture of the real vertical timeline drawn
-/// in that skin (``SkinPreviewTimeline``).
+/// A miniature of the Journal wearing `skin`: a picture of the skin's backdrop
+/// with the real vertical timeline drawn over it (``SkinPreviewTimeline``). The
+/// card in front, once the app is wearing its skin, is the live thing instead:
+/// the moving scene with the timeline's own views over it.
 ///
-/// Both layers are laid out at a phone's size and scaled down, rather than drawn
+/// Both are laid out at a phone's size and scaled down, rather than drawn
 /// small, so the scene keeps the density it has on a real screen and the
 /// timeline keeps its real proportions — a skin looks here the way it will look
-/// once worn. Nothing in it can be tapped: the timeline is a picture and the
-/// backdrop takes no touches.
+/// once worn. Nothing in it can be tapped.
 struct SkinPreviewCard: View {
     let skin: Skin
     /// Only the card in front should tick; the rest hold one still frame, so a
@@ -26,6 +26,9 @@ struct SkinPreviewCard: View {
         static let defaultWidth: CGFloat = 176
         /// A phone's corner radius over its width.
         static let cornerRatio: CGFloat = 0.14
+        /// A render can come back empty while the system is busy.
+        static let renderAttempts = 3
+        static let retryDelay: Duration = .seconds(1)
     }
 
     /// The card's corner radius at `width`: it is the picture of a phone, so
@@ -39,18 +42,20 @@ struct SkinPreviewCard: View {
         let scale = width / screen.width
         let shape = RoundedRectangle(cornerRadius: Self.cornerRadius(width: width), style: .continuous)
         ZStack {
-            SkinBackdrop(skin: skin, animates: animates)
-            // The card in front wears the skin the app is trying on, so there —
-            // and only there — the timeline can be the live views: real glass
-            // over the moving scene. Everywhere else it is the picture.
+            // Live only where it can be: the app is wearing this skin, so the
+            // timeline's views resolve to it, with real glass over the moving
+            // scene. Every other card is one picture.
             if animates, skin == skins.current, !timeline.days.isEmpty {
+                SkinBackdrop(skin: skin, animates: true)
                 SkinPreviewScreen(days: timeline.days, skin: skin)
                     .allowsHitTesting(false)
                     // Its rows are real journal buttons; in a picture of a
                     // journal they would read as controls that do nothing.
                     .accessibilityHidden(true)
+            } else if let picture {
+                picture.resizable()
             } else {
-                picture?.resizable()
+                skin.background
             }
         }
         .frame(width: screen.width, height: screen.height)
@@ -66,8 +71,14 @@ struct SkinPreviewCard: View {
         // Rendered from a task, never from `body`: a render evaluates a whole
         // view tree of its own. Keyed on the scheme, which changes the picture.
         .task(id: colorScheme) {
-            await timeline.prepare()
-            picture = timeline.snapshot(for: skin, dark: colorScheme == .dark, scale: displayScale)
+            for _ in 0 ..< Metrics.renderAttempts {
+                if let rendered = await timeline.snapshot(for: skin, dark: colorScheme == .dark, scale: displayScale) {
+                    picture = rendered
+                    return
+                }
+                try? await Task.sleep(for: Metrics.retryDelay)
+                if Task.isCancelled { return }
+            }
         }
         .accessibilityElement()
         .accessibilityLabel(Text(skin.displayName))

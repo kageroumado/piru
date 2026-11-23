@@ -8012,7 +8012,7 @@ T = {
     "R-enantiomer": ("R-对映体", "R-對映體"),
     "racemate": ("外消旋体", "外消旋體"),
     # Skins picker and Tools card.
-    "Wearing this skin": ("正在使用此皮肤", "正在使用此皮膚"),
+    "Current skin": ("当前皮肤", "目前的皮膚"),
     "All Skins": ("所有皮肤", "所有皮膚"),
     "Layout": ("布局", "版面"),
     "Grid": ("网格", "網格"),
@@ -9351,7 +9351,7 @@ if __name__ == "__main__":
     NEW_KEYS.add("Bar: participant range; dot: mean.")
     NEW_KEYS.update(
         {
-            "Wearing this skin",
+            "Current skin",
             "All Skins",
             "Layout",
             "Grid",

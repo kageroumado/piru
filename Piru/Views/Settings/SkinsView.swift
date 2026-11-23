@@ -10,6 +10,8 @@ import SwiftUI
 /// skin at once.
 struct SkinsSheet: View {
     @State private var detent: PresentationDetent = Self.panel
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.displayScale) private var displayScale
 
     /// Tall enough for the carousel, its caption, its dots and its button.
     private static let panel: PresentationDetent = .height(486)
@@ -21,6 +23,11 @@ struct SkinsSheet: View {
         .presentationDetents([Self.panel, .large], selection: $detent)
         .presentationBackgroundInteraction(.enabled(upThrough: Self.panel))
         .onAppear { SkinsPickerRecord.markSeen() }
+        // The grid under the panel shows every skin at once; their pictures
+        // are made while the panel is being looked at.
+        .task(id: colorScheme) {
+            await SkinPreviewTimeline.shared.warm(dark: colorScheme == .dark, scale: displayScale)
+        }
         // A skin that was only being looked at comes off when the sheet goes.
         .onDisappear { SkinStore.shared.tryOn(nil) }
     }
@@ -427,7 +434,7 @@ private struct SkinListRow: View {
                     Image(systemName: "checkmark")
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
-                        .accessibilityLabel(Text("Wearing this skin"))
+                        .accessibilityLabel(Text("Current skin"))
                 }
                 SkinStatus(skin: skin)
             }

@@ -244,7 +244,7 @@ struct SkinPrimaryAction: View {
                         Image(systemName: "checkmark")
                             .font(.footnote.weight(.bold))
                             .accessibilityHidden(true)
-                        Text("Wearing this skin")
+                        Text("Current skin")
                             .font(.piruLabel(.subheadline, weight: .semibold))
                     }
                     .foregroundStyle(Theme.secondaryLabel)

@@ -835,6 +835,7 @@ private struct TapTrail: ViewModifier {
                 // that only *observes* (and always fails) never competes.
                 .background {
                     TouchObserver { point in
+                        SkinTransition.lastTouch = point
                         ArcadeCabinet.shared.touched(at: point, reduceMotion: reduceMotion)
                         guard glyph != nil, !ArcadeCabinet.shared.isPlaying else { return }
                         puffs.append(Puff(point: point))

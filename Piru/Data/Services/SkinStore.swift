@@ -100,11 +100,22 @@ final class SkinStore {
     func setSkin(_ skin: Skin) {
         guard SkinDefaults.usable(skin, in: defaults) else { return }
         defaults.set(skin.rawValue, forKey: SkinDefaults.skinKey)
-        if tryingOn != nil { tryingOn = nil }
-        if skin != chosen {
-            chosen = skin
-            // Widgets read the persisted choice; they only re-render on reload.
-            WidgetCenter.shared.reloadAllTimelines()
+        let isNewChoice = skin != chosen
+        changingLook(to: skin) {
+            if tryingOn != nil { tryingOn = nil }
+            if isNewChoice { chosen = skin }
+        }
+        // Widgets read the persisted choice; they only re-render on reload.
+        if isNewChoice { WidgetCenter.shared.reloadAllTimelines() }
+    }
+
+    /// Runs `change`, which leaves the app wearing `skin`. When that is another
+    /// skin than the one it has on, the change is shown (``SkinTransition``).
+    private func changingLook(to skin: Skin, _ change: () -> Void) {
+        if skin == current {
+            change()
+        } else {
+            SkinTransition.perform(change)
         }
     }
 
@@ -112,7 +123,8 @@ final class SkinStore {
     /// try-on.
     func tryOn(_ skin: Skin?) {
         let next = skin == chosen ? nil : skin
-        if next != tryingOn { tryingOn = next }
+        guard next != tryingOn else { return }
+        changingLook(to: next ?? chosen) { tryingOn = next }
     }
 
     /// Ends a try-on for good: a skin this person may wear becomes their choice,

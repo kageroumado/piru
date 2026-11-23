@@ -20,7 +20,8 @@ struct SkinPreviewTimelineTests {
         await timeline.prepare()
         for skin in Skin.available {
             for dark in [false, true] {
-                #expect(timeline.snapshot(for: skin, dark: dark, scale: 2) != nil, "\(skin.rawValue), dark: \(dark)")
+                let picture = await timeline.snapshot(for: skin, dark: dark, scale: 2)
+                #expect(picture != nil, "\(skin.rawValue), dark: \(dark)")
             }
         }
     }
@@ -31,7 +32,7 @@ struct SkinPreviewTimelineTests {
         await timeline.prepare()
         let before = SkinStore.shared.current
         let other = Skin.available.first { $0 != before } ?? before
-        _ = timeline.snapshot(for: other, dark: false, scale: 2)
+        _ = await timeline.snapshot(for: other, dark: false, scale: 2)
         #expect(SkinStore.shared.current == before)
         #expect(SkinStore.shared.rendering(as: other) { SkinStore.shared.current } == other)
     }
