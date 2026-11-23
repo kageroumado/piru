@@ -276,6 +276,8 @@ struct TimelineGraphRenderer {
         static let labelAdvance: CGFloat = 5.4
         /// Clear space kept around a note glyph.
         static let noteClearance: CGFloat = 2
+        /// Clear space kept between a milestone's time and its curve.
+        static let labelClearance: CGFloat = 3
 
         static func labelFont() -> Font {
             .system(size: labelSize, weight: .medium, design: .rounded).monospacedDigit()
@@ -345,13 +347,19 @@ struct TimelineGraphRenderer {
                 // The sample for *this* curve, not the tallest one there: with
                 // two doses drawn, `scrubSamples` is sorted strongest-first and
                 // its head can easily belong to the other one.
-                guard let value = scrubSamples(atMinute: global)
-                    .first(where: { $0.name == dose.substanceName })?.value else { continue }
-                let y = max(
-                    MilestoneMetrics.minimumCenterY,
-                    geom.top + geom.height * CGFloat(1 - value) - MilestoneMetrics.liftAboveCurve,
-                )
                 let label = "~\(scrubClockTime(atMinute: global))"
+                let labelWidth = CGFloat(label.count) * MilestoneMetrics.labelAdvance
+                let curveValue: (CGFloat) -> Double? = { px in
+                    let minute = visibleStart + Double((px - geom.inset) / geom.width) * visibleSpan
+                    return scrubSamples(atMinute: minute).first(where: { $0.name == dose.substanceName })?.value
+                }
+                guard let y = Self.milestoneCenterY(
+                    x: x,
+                    labelCenterX: Self.milestoneLabelCenterX(x, labelWidth: labelWidth, geom: geom),
+                    labelWidth: labelWidth,
+                    geom: geom,
+                    curveValue: curveValue,
+                ) else { continue }
                 let yield = Self.milestoneYield(x: x, y: y, label: label, geom: geom, notes: notes)
                 guard yield != .hidden else { continue }
                 placements.append(MilestonePlacement(
@@ -366,6 +374,33 @@ struct TimelineGraphRenderer {
             }
         }
         return placements
+    }
+
+    /// The center y of a milestone's glyph-and-time stack: lifted above its own
+    /// curve at `x`, and higher still where the curve climbs under the time's
+    /// width, so the stroke never runs through the time. `curveValue` is the
+    /// curve's normalized height at a canvas x, nil where it is not drawn. Nil
+    /// when the curve is not drawn at `x`.
+    nonisolated static func milestoneCenterY(
+        x: CGFloat,
+        labelCenterX: CGFloat,
+        labelWidth: CGFloat,
+        geom: GraphGeometry,
+        curveValue: (CGFloat) -> Double?,
+    ) -> CGFloat? {
+        guard let here = curveValue(x) else { return nil }
+        let half = MilestoneMetrics.stackHeight / 2
+        let left = min(labelCenterX - labelWidth / 2, x - MilestoneMetrics.glyphSize)
+        let right = max(labelCenterX + labelWidth / 2, x + MilestoneMetrics.glyphSize)
+        let samples = 8
+        var peak = here
+        for step in 0 ... samples {
+            let px = left + (right - left) * CGFloat(step) / CGFloat(samples)
+            if let value = curveValue(px) { peak = max(peak, value) }
+        }
+        let lifted = geom.top + geom.height * CGFloat(1 - here) - MilestoneMetrics.liftAboveCurve
+        let clearOfSpan = geom.top + geom.height * CGFloat(1 - peak) - MilestoneMetrics.labelClearance - half
+        return max(MilestoneMetrics.minimumCenterY, min(lifted, clearOfSpan))
     }
 
     /// Where a milestone's clock time is centered: under its glyph, slid
