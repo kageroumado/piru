@@ -73,8 +73,10 @@ struct MonoamineProfile {
         if let d = dat, d > 0, let s = sert, s > 0 {
             let r = s / d
             ratio = r
-            // Map log₁₀(ratio) from −1 (serotonin-leaning) … +3 (strongly dopaminergic) onto 0…1.
-            position = min(max((log10(r) + 1) / 4, 0), 1)
+            // Map log₁₀(ratio) from −2 (100 : 1 serotonin) … +2 (1 : 100 dopamine) onto 0…1, so a
+            // 1 : 1 ratio sits mid-bar under the line that states it. The ends match the ratio
+            // line, which clamps at 100.
+            position = min(max((log10(r) + 2) / 4, 0), 1)
         }
 
         let misSold = mechanism != .releaser && isSoldAsMDMA

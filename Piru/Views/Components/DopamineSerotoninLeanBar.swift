@@ -25,15 +25,14 @@ struct DopamineSerotoninLeanBar: View {
         SubstanceCategory.stimulant.color
     }
 
-    /// Half the knob; the ratio label centers on this and is clamped by it.
-    private static let knobRadius: CGFloat = 8
+    private static let markerWidth: CGFloat = 3
     private static let ratioLabelWidth: CGFloat = 190
     /// Vertical room reserved above the track for the ratio label.
     private static let ratioRowHeight: CGFloat = 18
 
-    /// Centered on the knob, then clamped so neither end escapes the track. At the
+    /// Centered on the marker, then clamped so neither end escapes the track. At the
     /// extremes the text also switches its own alignment, so a clamped label hugs
-    /// the edge it belongs to instead of drifting away from the knob.
+    /// the edge it belongs to instead of drifting away from the marker.
     private func ratioOffset(knobX: CGFloat, width: CGFloat) -> CGFloat {
         let ideal = knobX - Self.ratioLabelWidth / 2
         return min(max(ideal, 0), max(0, width - Self.ratioLabelWidth))
@@ -48,19 +47,22 @@ struct DopamineSerotoninLeanBar: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             GeometryReader { geo in
-                let knobX = geo.size.width * (leanPosition ?? 0.5)
+                let knobX = min(
+                    max(geo.size.width * (leanPosition ?? 0.5), Self.markerWidth / 2),
+                    geo.size.width - Self.markerWidth / 2,
+                )
                 ZStack(alignment: .leading) {
                     Capsule()
                         .fill(LinearGradient(colors: [serotoninColor, dopamineColor], startPoint: .leading, endPoint: .trailing))
                         .frame(height: 8)
                         .offset(y: Self.ratioRowHeight)
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 16, height: 16)
-                        .overlay(Circle().strokeBorder(.black.opacity(Theme.Opacity.hairline), lineWidth: 0.5))
-                        .shadow(color: .black.opacity(Theme.Opacity.emphasis), radius: 2, y: 1)
-                        .offset(x: knobX - Self.knobRadius, y: Self.ratioRowHeight)
-                    // The ratio rides directly above the knob, so it reads as that
+                    // A tick through the bar, never a round thumb: this marks a
+                    // value, and a thumb reads as a slider to drag.
+                    Capsule()
+                        .fill(Color.primary)
+                        .frame(width: Self.markerWidth, height: 16)
+                        .offset(x: knobX - Self.markerWidth / 2, y: Self.ratioRowHeight - 4)
+                    // The ratio rides directly above the marker, so it reads as that
                     // position's value rather than a caption about the whole bar —
                     // far left when a compound is serotonin-dominant, far right when
                     // it is dopamine-dominant. Clamped so it stays inside the track

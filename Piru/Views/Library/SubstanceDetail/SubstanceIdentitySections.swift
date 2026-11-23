@@ -188,10 +188,14 @@ struct ChemistrySection: View {
                         .padding(.bottom, Spacing.xs)
                 }
                 let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
-                Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
+                // Top-aligned so a row's two labels share a line when their
+                // values differ in size (a monospaced CAS beside a PubChem link).
+                Grid(alignment: .topLeading, horizontalSpacing: 18, verticalSpacing: 14) {
                     if substance.formula != nil || showMW {
                         GridRow {
-                            if let f = substance.formula { GridCell("Formula", f) } else { Color.clear }
+                            if let f = substance.formula {
+                                GridCell("Formula", ChemicalFormula.typeset(f))
+                            } else { Color.clear }
                             if showMW, let mw = substance.molarMass {
                                 GridCell("Molar mass", "\(mw.doseFormatted) g/mol")
                             } else { Color.clear }

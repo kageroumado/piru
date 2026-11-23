@@ -48,10 +48,10 @@ struct TransporterTernaryView: View {
                 TernaryShareList(triple: triple, accent: accent)
             } else {
                 // Both pieces of provenance live in the plot's top-trailing corner
-                // rather than on lines of their own. The basis has to stay visible — a
-                // release EC₅₀ and a blocker's IC₅₀ are different axes, and that is
-                // the whole reason this view has a basis switch — but it is a label
-                // on the picture, not a sentence about it.
+                // rather than on lines of their own: the study link, named as one,
+                // and the basis. The basis has to stay visible — a release EC₅₀ and
+                // a blocker's IC₅₀ are different axes — so it prints here only when
+                // there is no basis switch above already saying it.
                 //
                 // Per-transporter percentages are deliberately absent. The triangle's
                 // point is the *position*: which corner a compound leans to and how
@@ -66,11 +66,24 @@ struct TransporterTernaryView: View {
                     .overlay(alignment: .topTrailing) {
                         VStack(alignment: .trailing, spacing: 3) {
                             if let url = triple.provenance.citationURL {
-                                CitationLink(url: url, size: 10)
+                                Link(destination: url) {
+                                    HStack(spacing: Spacing.xxs) {
+                                        Text("Source")
+                                        Image(systemName: "arrow.up.right")
+                                            .accessibilityHidden(true)
+                                    }
+                                    .font(.caption2.weight(.semibold))
+                                    .foregroundStyle(Theme.accent)
+                                }
+                                // A bare Link claims its whole List row's taps.
+                                .buttonStyle(.plain)
+                                .accessibilityLabel(Text("View citation"))
                             }
-                            Text(Self.captionBasis(triple))
-                                .font(.caption2)
-                                .foregroundStyle(Theme.secondaryLabel)
+                            if model.triples.count == 1 {
+                                Text(Self.captionBasis(triple))
+                                    .font(.caption2)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
                         }
                         .padding(.trailing, Spacing.xxs)
                     }
@@ -143,6 +156,9 @@ private struct TernaryPlot: View {
     /// How far from a dot a tap still counts as hitting it. Dots cluster along
     /// the NET–SERT edge, so the nearest one within this radius wins.
     private static let tapRadius: CGFloat = 22
+    private static let ghostRadius: CGFloat = 3
+    private static let peerRadius: CGFloat = 4.5
+    private static let focusRadius: CGFloat = 8
 
     /// The best-known context compounds, skipping any that would print on top of
     /// a peer or the focus — those already carry their own label.
@@ -185,28 +201,27 @@ private struct TernaryPlot: View {
                     .accessibilityHidden(true)
 
                 ForEach(triple.ghosts) { ghost in
-                    dot(ghost, box: box, radius: 3, filled: false)
-                }
-                // Name the best-known few. The context cloud only means something
-                // if the reader recognizes what is in it — landmarks, not a count.
-                // Kept to `namedGhostLimit` so labels stay legible; the plot is
-                // ~300pt wide and every label is a 92pt box.
-                ForEach(namedGhosts) { ghost in
-                    if ghost.id != selectedID {
-                        label(ghost, box: box)
-                    }
+                    dot(ghost, box: box, radius: Self.ghostRadius, filled: false)
                 }
                 ForEach(triple.peers) { peer in
-                    dot(peer, box: box, radius: 4.5, filled: true)
-                    if peer.id != selectedID {
-                        label(peer, box: box)
+                    dot(peer, box: box, radius: Self.peerRadius, filled: true)
+                }
+                dot(triple.focus, box: box, radius: Self.focusRadius, filled: true)
+
+                // Name the focus, the peers and the best-known few landmarks. The
+                // context cloud only means something if the reader recognizes what
+                // is in it — landmarks, not a count. Each label takes the first slot
+                // around its dot that covers no dot and no label placed before it;
+                // a landmark with no clear slot stays unnamed.
+                let placed = placedLabels(box: box)
+                ForEach(labeledPoints) { point in
+                    if point.id != selectedID, let frame = placed[point.id] {
+                        label(point, frame: frame)
                     }
                 }
-                dot(triple.focus, box: box, radius: 8, filled: true)
-                label(triple.focus, box: box)
 
                 if let selected {
-                    selectedLabel(selected, box: box)
+                    selectedLabel(selected, box: box, placed: placed)
                 }
 
                 vertexLabel(SignatureTarget.dat.label, at: vertices(box).apex, box: box, anchor: .center, dy: -15)
@@ -322,9 +337,8 @@ private struct TernaryPlot: View {
         }
     }
 
-    private func label(_ point: TransporterTernaryModel.Point, box: CGSize) -> some View {
-        let frame = labelFrame(point, box: box)
-        return Text(point.name)
+    private func label(_ point: TransporterTernaryModel.Point, frame: CGRect) -> some View {
+        Text(point.name)
             .font(.system(size: 9.5, weight: point.isFocus ? .bold : .medium))
             // Context names sit a step back from the gated peers so the triangle
             // still reads focus → same-study peers → landmarks, not one flat list.
@@ -342,8 +356,10 @@ private struct TernaryPlot: View {
     /// other label; when that slot is anywhere but the default one, a leader line
     /// ties the name back to its dot.
     @ViewBuilder
-    private func selectedLabel(_ point: TransporterTernaryModel.Point, box: CGSize) -> some View {
-        let placement = selectedPlacement(point, box: box)
+    private func selectedLabel(
+        _ point: TransporterTernaryModel.Point, box: CGSize, placed: [String: CGRect],
+    ) -> some View {
+        let placement = selectedPlacement(point, box: box, placed: placed)
         if let leader = placement.leader {
             Path { path in
                 path.move(to: leader.from)
@@ -370,15 +386,68 @@ private struct TernaryPlot: View {
         let leader: (from: CGPoint, to: CGPoint)?
     }
 
-    /// The label's 92pt frame in its default slot: above the dot, or underneath
-    /// it near the DAT apex, kept inside the plot horizontally.
-    private func labelFrame(_ point: TransporterTernaryModel.Point, box: CGSize) -> CGRect {
-        let center = position(point.shares, box: box)
-        return labelFrame(around: center, dx: 0, dy: defaultLabelDY(center, box: box), box: box)
+    /// The points that carry a name, in the order they claim space: the focus,
+    /// then the same-study peers, then the landmarks.
+    private var labeledPoints: [TransporterTernaryModel.Point] {
+        [triple.focus] + triple.peers + namedGhosts
+    }
+
+    /// Every dot's disc, padded a point, so no label prints over a mark.
+    private func dotBounds(box: CGSize) -> [CGRect] {
+        func disc(_ point: TransporterTernaryModel.Point, _ radius: CGFloat) -> CGRect {
+            let center = position(point.shares, box: box)
+            let r = radius + 1
+            return CGRect(x: center.x - r, y: center.y - r, width: r * 2, height: r * 2)
+        }
+        return triple.ghosts.map { disc($0, Self.ghostRadius) }
+            + triple.peers.map { disc($0, Self.peerRadius) }
+            + [disc(triple.focus, Self.focusRadius)]
+    }
+
+    private func vertexLabelBounds(box: CGSize) -> [CGRect] {
+        let v = vertices(box)
+        return [
+            vertexLabelFrame(at: v.apex, box: box, anchor: .center, dy: -15),
+            vertexLabelFrame(at: v.leading, box: box, anchor: .leading, dy: 11),
+            vertexLabelFrame(at: v.trailing, box: box, anchor: .trailing, dy: 11),
+        ]
+    }
+
+    /// The slots tried around a dot: the default side, the opposite side, beside
+    /// the dot on either hand, then one step further out.
+    private func slots(defaultDY: CGFloat) -> [(dx: CGFloat, dy: CGFloat)] {
+        [
+            (0, defaultDY), (0, defaultDY < 0 ? 12 : -22),
+            (56, -6), (-56, -6),
+            (0, -36), (0, 30),
+            (0, -54), (0, 48),
+        ]
+    }
+
+    /// Each labeled point's frame, by `Point.id`. The focus and the peers always
+    /// get a frame (their default slot when nothing is clear); a landmark with no
+    /// clear slot gets none.
+    private func placedLabels(box: CGSize) -> [String: CGRect] {
+        var blocked = dotBounds(box: box) + vertexLabelBounds(box: box)
+        var placed: [String: CGRect] = [:]
+        for point in labeledPoints {
+            let center = position(point.shares, box: box)
+            let frames = slots(defaultDY: defaultLabelDY(center, box: box))
+                .map { labelFrame(around: center, dx: $0.dx, dy: $0.dy, box: box) }
+            let clear = frames.first { frame in
+                let text = textBounds(point.name, in: frame)
+                return !blocked.contains { $0.intersects(text) }
+            }
+            let isLandmark = !point.isFocus && !point.isGated
+            guard let frame = clear ?? (isLandmark ? nil : frames.first) else { continue }
+            placed[point.id] = frame
+            blocked.append(textBounds(point.name, in: frame))
+        }
+        return placed
     }
 
     private func defaultLabelDY(_ center: CGPoint, box: CGSize) -> CGFloat {
-        center.y >= box.height * 0.45 ? -18 : 12
+        center.y >= box.height * 0.45 ? -22 : 12
     }
 
     private func labelFrame(around center: CGPoint, dx: CGFloat, dy: CGFloat, box: CGSize) -> CGRect {
@@ -395,33 +464,21 @@ private struct TernaryPlot: View {
     }
 
     /// Everything a selected label must not print over: every label that is
-    /// showing, the focus dot, and the three vertex names.
-    private func obstacles(box: CGSize) -> [CGRect] {
-        var rects = ([triple.focus] + triple.peers + namedGhosts)
+    /// showing, every dot, and the three vertex names.
+    private func obstacles(box: CGSize, placed: [String: CGRect]) -> [CGRect] {
+        let labels = labeledPoints
             .filter { $0.id != selectedID }
-            .map { textBounds($0.name, in: labelFrame($0, box: box)) }
-        let focus = position(triple.focus.shares, box: box)
-        rects.append(CGRect(x: focus.x - 8, y: focus.y - 8, width: 16, height: 16))
-        let v = vertices(box)
-        rects.append(vertexLabelFrame(at: v.apex, box: box, anchor: .center, dy: -15))
-        rects.append(vertexLabelFrame(at: v.leading, box: box, anchor: .leading, dy: 11))
-        rects.append(vertexLabelFrame(at: v.trailing, box: box, anchor: .trailing, dy: 11))
-        return rects
+            .compactMap { point in placed[point.id].map { textBounds(point.name, in: $0) } }
+        return labels + dotBounds(box: box) + vertexLabelBounds(box: box)
     }
 
-    private func selectedPlacement(_ point: TransporterTernaryModel.Point, box: CGSize) -> Placement {
+    private func selectedPlacement(
+        _ point: TransporterTernaryModel.Point, box: CGSize, placed: [String: CGRect],
+    ) -> Placement {
         let center = position(point.shares, box: box)
-        let defaultDY = defaultLabelDY(center, box: box)
-        // Default slot first, then the opposite side, then one step further out,
-        // then beside the dot, then two steps out.
-        let slots: [(dx: CGFloat, dy: CGFloat)] = [
-            (0, defaultDY), (0, defaultDY < 0 ? 12 : -18),
-            (0, -36), (0, 30),
-            (56, -6), (-56, -6),
-            (0, -54), (0, 48),
-        ]
-        let blocked = obstacles(box: box)
-        let frames = slots.map { labelFrame(around: center, dx: $0.dx, dy: $0.dy, box: box) }
+        let blocked = obstacles(box: box, placed: placed)
+        let frames = slots(defaultDY: defaultLabelDY(center, box: box))
+            .map { labelFrame(around: center, dx: $0.dx, dy: $0.dy, box: box) }
         let index = frames.firstIndex { frame in
             let text = textBounds(point.name, in: frame)
             return !blocked.contains { $0.intersects(text) }

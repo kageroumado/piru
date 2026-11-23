@@ -40,9 +40,9 @@ struct PharmacologyCard: View {
         }
     }
 
-    /// The summary is a short *title* ("Monoamine-Releasing Stimulant") — color it as a headline.
-    /// Some substances carry a multi-sentence essay in the summary field; render that as calm body
-    /// text, not a scary category-colored wall.
+    /// The summary is a short *title* ("Monoamine-Releasing Stimulant") — set it as a headline, in
+    /// the label color: color on this page means "you can act on this". Some substances carry a
+    /// multi-sentence essay in the summary field; render that as calm body text.
     private var summaryIsHeadline: Bool {
         !moa.summary.isEmpty && moa.summary.count <= 90 && !moa.summary.contains(". ")
     }
@@ -83,7 +83,7 @@ struct PharmacologyCard: View {
         if !moa.summary.isEmpty {
             Text(moa.summary)
                 .font(summaryIsHeadline ? .subheadline.weight(.semibold) : .subheadline)
-                .foregroundStyle(summaryIsHeadline ? accent : Theme.secondaryLabel)
+                .foregroundStyle(summaryIsHeadline ? Color.primary : Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -149,20 +149,14 @@ struct PharmacologyCard: View {
 
     // MARK: - Receptor target pills (full-width)
 
-    /// Each target as a full-width pill — target · action on the left, the graded
-    /// ``StrengthMeter`` pinned right (the same segmented glyph the share card
-    /// uses) — so the row uses the whole screen instead of clustering the meter at
-    /// ~45% and leaving dead space. "Acts on" leads the group.
+    /// Each target as a plain full-width row between hairlines — target · action
+    /// on the left, the graded ``StrengthMeter`` pinned right (the same segmented
+    /// glyph the share card uses). The meter carries the class tint; the rows
+    /// carry no fill and no group header.
     private var receptorPills: some View {
-        VStack(alignment: .leading, spacing: Spacing.sm) {
-            Text("Acts on")
-                .font(.caption2.weight(.semibold))
-                .textCase(.uppercase)
-                .tracking(0.4)
-                .foregroundStyle(Theme.secondaryLabel)
-                .accessibilityAddTraits(.isHeader)
-
-            ForEach(moa.bindings) { binding in
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(Array(moa.bindings.enumerated()), id: \.element.id) { index, binding in
+                if index > 0 { Divider() }
                 HStack(spacing: Spacing.lg) {
                     Text(binding.target)
                         .sectionLabel()
@@ -174,10 +168,8 @@ struct PharmacologyCard: View {
                     Spacer(minLength: 8)
                     StrengthMeter(filled: binding.affinity.rawValue, tint: accent)
                 }
-                .padding(.horizontal, Spacing.xl)
-                .padding(.vertical, 9)
+                .padding(.vertical, Spacing.lg)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(accent.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
                 .accessibilityElement(children: .combine)
             }
         }
@@ -188,7 +180,7 @@ struct PharmacologyCard: View {
     private func monoamineHero(_ profile: MonoamineProfile) -> some View {
         // No mechanism-label pill here. The ratio line below says
         // `DAT : SERT release ≈ 30 : 1`, the signature caption says
-        // `release EC₅₀`, and every ACTS ON row says "Releasing Agent" — a pill
+        // `release EC₅₀`, and every target row says "Releasing Agent" — a pill
         // would be a fourth statement of the same word with the most visual
         // weight of the four.
         VStack(alignment: .leading, spacing: Spacing.lg) {

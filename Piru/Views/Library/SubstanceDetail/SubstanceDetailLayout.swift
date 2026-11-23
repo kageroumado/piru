@@ -263,8 +263,8 @@ private struct SubstanceDetailHeader: View {
                 bylineLayout {
                     CategoryChip(category: substance.category)
                     if let formula = substance.formula {
-                        Text(formula)
-                            .font(.caption.monospaced())
+                        Text(verbatim: ChemicalFormula.typeset(formula))
+                            .font(.footnote)
                             .foregroundStyle(Theme.secondaryLabel)
                             .lineLimit(1)
                     }
@@ -278,23 +278,14 @@ private struct SubstanceDetailHeader: View {
                     SubstanceStatusMarker(kind: kind)
                 }
 
+                // Plain text, never capsules: a gray capsule on this page is a
+                // route button, and the names are not buttons.
                 if !shownAliases.isEmpty {
-                    FlowLayout(spacing: 7) {
-                        ForEach(shownAliases, id: \.self) { alias in
-                            Text(alias)
-                                .sectionLabel()
-                                .padding(.horizontal, Spacing.lg)
-                                .padding(.vertical, 5)
-                                .background(Color.platformTertiarySystemFill, in: skinChipShape())
-                        }
-                        if overflowCount > 0 {
-                            Text("+ \(overflowCount) chemical names", comment: "Alias overflow count")
-                                .font(.footnote)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                    }
-                    .accessibilityElement(children: .ignore)
-                    .accessibilityLabel(aliasAccessibilityLabel)
+                    Text(verbatim: aliasLine)
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityLabel(aliasAccessibilityLabel)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -305,6 +296,15 @@ private struct SubstanceDetailHeader: View {
         #if canImport(UIKit)
         .listSectionSpacing(8)
         #endif
+    }
+
+    /// "Ecstasy · Molly · E · + 31 chemical names".
+    private var aliasLine: String {
+        var parts = shownAliases
+        if overflowCount > 0 {
+            parts.append(String(localized: "+ \(overflowCount) chemical names", comment: "Alias overflow count"))
+        }
+        return parts.joined(separator: " · ")
     }
 
     private var aliasAccessibilityLabel: String {

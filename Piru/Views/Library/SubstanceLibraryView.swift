@@ -507,7 +507,9 @@ struct SubstanceRowView: View {
             VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(match.displayName)
                     .font(.body.weight(.medium))
-                    .foregroundStyle(.primary)
+                    // `Color.primary`, never the hierarchical `.primary`: inside
+                    // the search results' links that resolves to the accent tint.
+                    .foregroundStyle(Color.primary)
                 // When personalized, show the canonical name as the subtitle so
                 // the user can tell what "joint" actually maps to. One line —
                 // long alias lists shouldn't blow a row up to three lines.

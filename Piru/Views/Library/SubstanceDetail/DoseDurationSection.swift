@@ -225,8 +225,6 @@ struct DoseDurationSection: View {
                         .padding(.top, Spacing.xxxl)
                 }
                 .listRowSeparator(.hidden)
-            } header: {
-                Text("Dose & Duration")
             }
 
             if !options.isEmpty {
@@ -239,58 +237,80 @@ struct DoseDurationSection: View {
         }
     }
 
-    /// One source line: dose + duration usually share a source (and a deep
-    /// link), so collapse to a single row when they match.
+    /// One attribution line on the card's source list.
+    private struct Attribution {
+        let slug: String
+        let label: LocalizedStringResource
+        let field: SubstanceStore.AttributableField
+    }
+
+    /// Dose + duration usually share a source (and a deep link), so they
+    /// collapse to a single line when they match.
+    private func attributions(for route: SubstanceRoute) -> [Attribution] {
+        let sources = provenance?.routesBySource[route.route]
+        let doseSlug = routes.showsDoseLadder && route.doses.hasAnyValue ? sources?.doseSource : nil
+        let durSlug = routes.durationVisible && route.duration != nil ? sources?.durationSource : nil
+        if let doseSlug, doseSlug == durSlug {
+            return [Attribution(slug: doseSlug, label: "Dose & Duration", field: .dose(route.route))]
+        }
+        return [
+            doseSlug.map { Attribution(slug: $0, label: "Dose data", field: .dose(route.route)) },
+            durSlug.map { Attribution(slug: $0, label: "Duration data", field: .duration(route.route)) },
+        ].compactMap(\.self)
+    }
+
     @ViewBuilder
     private func sourceRows(for route: SubstanceRoute) -> some View {
-        let doseSlug = routes.showsDoseLadder && route.doses.hasAnyValue ? provenance?.routesBySource[route.route]?.doseSource : nil
-        let durSlug = routes.durationVisible && route.duration != nil ? provenance?.routesBySource[route.route]?.durationSource : nil
-        if let doseSlug, doseSlug == durSlug {
-            SourceAttributionRow(
-                slug: doseSlug, label: "Dose & Duration",
-                deepLink: SubstanceSourceLinks.deepLink(doseSlug, substance: substance),
-                substanceName: substance.name, field: .dose(route.route),
-            )
-        } else {
-            if let doseSlug {
-                SourceAttributionRow(
-                    slug: doseSlug, label: "Dose data",
-                    deepLink: SubstanceSourceLinks.deepLink(doseSlug, substance: substance),
-                    substanceName: substance.name, field: .dose(route.route),
-                )
-            }
-            if let durSlug {
-                SourceAttributionRow(
-                    slug: durSlug, label: "Duration data",
-                    deepLink: SubstanceSourceLinks.deepLink(durSlug, substance: substance),
-                    substanceName: substance.name, field: .duration(route.route),
-                )
-            }
-        }
+        let lines = attributions(for: route)
         // The sources disagree, often materially — meth's oral "Common" runs
         // 10–20 mg to one source and 15–30 to another. The card has to pick one;
-        // this says so and shows the spread rather than letting the chosen
-        // number read as the only number.
-        let sourceCount = ladderSourceCount(for: route.route)
-        if doseSlug != nil, sourceCount > 1 {
-            CompareSourcesRow(
-                substanceName: substance.name,
-                route: route.route,
-                sourceCount: sourceCount,
-            )
+        // the compare link says so and shows the spread rather than letting the
+        // chosen number read as the only number. Pointless at one source, and
+        // counting the total rather than the *others* keeps the string plural
+        // in every case it can appear, so it needs no plural rule.
+        let sourceCount = lines.isEmpty
+            ? 0 : model.comparisonSourceCount(substanceName: substance.name, route: route.route)
+        let compare = sourceCount > 1
+            ? CompareSourcesLink(substanceName: substance.name, route: route.route, sourceCount: sourceCount)
+            : nil
+        ForEach(Array(lines.enumerated()), id: \.offset) { index, line in
+            if index == lines.count - 1, let compare {
+                // The link rides on the last source line when both fit, and
+                // drops to its own line on the label column when they don't.
+                ViewThatFits(in: .horizontal) {
+                    HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
+                        attributionRow(line, fillsWidth: false)
+                        compare
+                        Spacer(minLength: 0)
+                    }
+                    VStack(alignment: .leading, spacing: 0) {
+                        attributionRow(line, fillsWidth: true)
+                        HStack(spacing: SourceAttributionRow.glyphSpacing) {
+                            SourceAttributionGlyph().hidden()
+                            compare
+                            Spacer(minLength: 0)
+                        }
+                        .padding(.top, SourceAttributionRow.topGap)
+                    }
+                }
+            } else {
+                attributionRow(line, fillsWidth: true)
+            }
         }
     }
 
-    /// How many sources carry a ladder for this route. The row is pointless at
-    /// one — and counting the total rather than the *others* keeps the string
-    /// plural in every case it can appear, so it needs no plural rule.
-    private func ladderSourceCount(for route: RouteOfAdministration) -> Int {
-        model.ladderSourceCount(substanceName: substance.name, route: route)
+    private func attributionRow(_ line: Attribution, fillsWidth: Bool) -> SourceAttributionRow {
+        SourceAttributionRow(
+            slug: line.slug, label: line.label,
+            deepLink: SubstanceSourceLinks.deepLink(line.slug, substance: substance),
+            substanceName: substance.name, field: line.field,
+            fillsWidth: fillsWidth,
+        )
     }
 }
 
 /// "Compare all N sources ›" — the entry point to ``DoseSourceComparisonView``.
-private struct CompareSourcesRow: View {
+private struct CompareSourcesLink: View {
     let substanceName: String
     let route: RouteOfAdministration
     let sourceCount: Int
@@ -301,26 +321,17 @@ private struct CompareSourcesRow: View {
         Button {
             navigator.present(.doseSources(substance: substanceName, route: route))
         } label: {
-            // Built as one more line of the source list: the same glyph column
-            // (its glyph hidden), gap, text size and spacing as the source rows,
-            // so the text starts on their label column at every text size.
-            HStack(spacing: SourceAttributionRow.glyphSpacing) {
-                SourceAttributionGlyph()
-                    .hidden()
-                HStack(spacing: Spacing.xs) {
-                    Text("Compare all \(sourceCount) sources", comment: "Opens the dose-source comparison")
-                    Image(systemName: "chevron.right")
-                        .accessibilityHidden(true)
-                }
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(Theme.accent)
-                Spacer(minLength: 0)
+            HStack(spacing: Spacing.xs) {
+                Text("Compare all \(sourceCount) sources", comment: "Opens the dose-source comparison")
+                Image(systemName: "chevron.right")
+                    .accessibilityHidden(true)
             }
+            .font(.caption2.weight(.semibold))
+            .foregroundStyle(Theme.accent)
             .padding(.vertical, SourceAttributionRow.lineVerticalPadding)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .padding(.top, SourceAttributionRow.topGap)
     }
 }
 

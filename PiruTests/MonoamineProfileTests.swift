@@ -39,10 +39,21 @@ struct MonoamineProfileTests {
         // DAT:SERT = 118.3 / 49.1 ≈ 2.41 → balanced/empathogen band.
         let ratio = try #require(p.datSertRatio)
         #expect(abs(ratio - 2.41) < 0.05)
-        // Mid spectrum, not at an extreme.
+        // Just right of center, not at an extreme.
         let pos = try #require(p.leanPosition)
-        #expect(pos > 0.25 && pos < 0.6)
+        #expect(pos > 0.5 && pos < 0.7)
         #expect(!p.misSoldAsMDMA)
+    }
+
+    @Test
+    func `A 1 to 1 ratio sits in the middle of the bar`() throws {
+        let rows = [
+            bind("DAT", "releasingAgent", ec50: 100),
+            bind("SERT", "releasingAgent", ec50: 100),
+        ]
+        let p = try #require(MonoamineProfile.from(bindings: rows, isSoldAsMDMA: false))
+        let pos = try #require(p.leanPosition)
+        #expect(abs(pos - 0.5) < 0.001)
     }
 
     @Test
@@ -71,7 +82,7 @@ struct MonoamineProfileTests {
         let p = try #require(MonoamineProfile.from(bindings: rows, isSoldAsMDMA: false))
         // DAT:SERT = 19/31 ≈ 0.61 < 0.8 → serotonin-leaning, left of center.
         let pos = try #require(p.leanPosition)
-        #expect(pos < 0.25)
+        #expect(pos < 0.5)
         #expect(ValvularWarning.engagesAntitarget(rows))
     }
 

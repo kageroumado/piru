@@ -149,20 +149,13 @@ struct DoseEffectsCard: View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             if DurationCurveView.canRender(boundaries) {
                 DurationCurveView(boundaries: boundaries, accent: accent)
-                    // Equal optical padding: the curve's baseline sits on the
-                    // bottom inset and its peak clears the top by the same
-                    // amount, so the plate doesn't read as top-heavy.
-                    .padding(.vertical, 9)
-                    .frame(height: 92)
+                    .frame(height: 74)
                     .frame(maxWidth: .infinity)
-                    .background(Color.platformTertiarySystemFill, in: Self.curveShape)
-                    .clipShape(Self.curveShape)
+                    .clipped()
             }
             phaseTable(duration)
         }
     }
-
-    private static let curveShape = RoundedRectangle(cornerRadius: Theme.CornerRadius.medium)
 
     /// Phases beyond onset/peak/total: come-up, offset, afterglow.
     private func foldedPhases(_ duration: DurationProfile) -> Bool {
@@ -205,7 +198,7 @@ struct DoseEffectsCard: View {
                             .accessibilityHidden(true)
                     }
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(accent)
+                    .foregroundStyle(Theme.accent)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 9)
                     .contentShape(Rectangle())
@@ -213,7 +206,6 @@ struct DoseEffectsCard: View {
                 .buttonStyle(.plain)
             }
         }
-        .background(Color.platformTertiarySystemFill, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
     }
 
     private var trioDivider: some View {
