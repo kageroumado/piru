@@ -66,6 +66,13 @@ struct UsageStatsView: View {
                 range: range, substanceFilter: selectedSubstances,
             )
         }
+        #if DEBUG
+        .task {
+            range = ScreenshotTour.takeStagedChart(\.usageRange) ?? range
+            metric = ScreenshotTour.takeStagedChart(\.usageMetric) ?? metric
+            selectedSubstances = ScreenshotTour.takeStagedChart(\.usageSubstances) ?? selectedSubstances
+        }
+        #endif
     }
 
     /// One token covering every input that changes the aggregation — the

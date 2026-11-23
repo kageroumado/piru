@@ -6,7 +6,7 @@ import SwiftData
     enum DemoData {
         // MARK: - Reproducible RNG (SplitMix64)
 
-        private struct SeededRNG: RandomNumberGenerator {
+        struct SeededRNG: RandomNumberGenerator {
             private var state: UInt64
 
             init(seed: UInt64) {
@@ -96,6 +96,17 @@ import SwiftData
             /// both (``seedSharedStash(context:now:directory:)``). Creates Alice
             /// and Bob when absent and wipes their journals too.
             case sharedStash
+            /// Two hundred days, 28 substances, daily meds, weekend parties with
+            /// redoses, a burst and a three-week gap
+            /// (``seedHeavyLogging(context:now:)``).
+            case heavyLogging
+            /// Sertraline every morning for 180 days and nothing else.
+            case singleDaily
+            /// Two entries today, nothing before.
+            case firstDay
+            /// A live session with eight substances active at once, plus one
+            /// finished party (``seedCrowdedSession(context:now:)``).
+            case crowdedSession
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -147,6 +158,10 @@ import SwiftData
             case .tripJournal: seedTripJournal(context: context, now: DebugClock.now)
             case .sharedNight: seedSharedNight(now: DebugClock.now)
             case .sharedStash: seedSharedStash(context: context, now: DebugClock.now)
+            case .heavyLogging: seedHeavyLogging(context: context, now: DebugClock.now)
+            case .singleDaily: seedSingleDaily(context: context, now: DebugClock.now)
+            case .firstDay: seedFirstDay(context: context, now: DebugClock.now)
+            case .crowdedSession: seedCrowdedSession(context: context, now: DebugClock.now)
             }
 
             // Inventory caches are a replay over doses, so they can only be
@@ -162,7 +177,7 @@ import SwiftData
 
         /// A seeded substance's color row, as logging it would have minted.
         @MainActor
-        private static func insertClassColor(_ name: String, in context: ModelContext) {
+        static func insertClassColor(_ name: String, in context: ModelContext) {
             context.insert(SubstanceColor(substance: name, tint: SubstanceColorStore.defaultTint(for: name), usesDefault: true))
         }
 

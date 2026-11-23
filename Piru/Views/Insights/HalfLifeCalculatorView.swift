@@ -43,6 +43,14 @@ struct HalfLifeCalculatorView: View {
         }
         .skinBackdrop()
         .task { await SubstanceStore.shared.ensureAllLoaded() }
+        #if DEBUG
+            .task {
+                await SubstanceStore.shared.ensureAllLoaded()
+                if let name = ScreenshotTour.takeStagedChart(\.calculatorSubstance), let substance = SubstanceLibrary.lookup(name) {
+                    model.select(substance)
+                }
+            }
+        #endif
     }
 }
 

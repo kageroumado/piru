@@ -27,5 +27,8 @@ struct ModeledLevelsChartCard: View {
             }
         }
         .onChange(of: range) { selectedDate = nil }
+        #if DEBUG
+            .task { selectedDate = ScreenshotTour.takeStagedSelection(.modeledLevels) ?? selectedDate }
+        #endif
     }
 }

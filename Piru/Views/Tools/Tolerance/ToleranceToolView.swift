@@ -97,6 +97,9 @@ struct ToleranceToolView: View {
             guard detailMode == .perSubstance else { return }
             await tolerance.recomputePerSubstance(from: entries)
         }
+        #if DEBUG
+        .task { detailMode = ScreenshotTour.takeStagedChart(\.toleranceMode) ?? detailMode }
+        #endif
     }
 
     /// Task id for the per-substance replay: recomputes when the log/weight changes *or* when the user

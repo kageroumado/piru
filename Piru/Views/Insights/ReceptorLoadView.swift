@@ -130,6 +130,9 @@ struct ReceptorLoadView: View {
             }
             legend
         }
+        #if DEBUG
+        .task { selectedDate = ScreenshotTour.takeStagedSelection(.receptorLoad) ?? selectedDate }
+        #endif
     }
 
     private var legend: some View {

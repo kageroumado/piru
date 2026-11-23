@@ -110,8 +110,20 @@ def simctl(*args: str, check: bool = True) -> str:
 # MARK: - Catalog (parsed from the Swift, so --list never drifts)
 
 
+SCREEN_SETS = ("charts", "charts-static")
+
+
 def catalog_screens() -> list[str]:
-    return re.findall(r'Screen\(name: "([^"]+)"\)', TOUR_SOURCE.read_text())
+    """Every screen name, the chart screens by their first page: `chart-x-p2`
+    is the screen `chart-x` scrolled one screen down."""
+    source = TOUR_SOURCE.read_text()
+    return re.findall(r'Screen\(name: "([^"]+)"', source) + re.findall(
+        r'chart\(\s*"([^"]+)"', source
+    )
+
+
+def known_screen(name: str, screens: list[str]) -> bool:
+    return name in SCREEN_SETS or re.sub(r"-p\d+$", "", name) in screens
 
 
 def catalog_skins() -> list[str]:
@@ -481,7 +493,11 @@ def parse_args() -> argparse.Namespace:
         "--locales", default="en,zh-Hans", help="comma list of en, zh-Hans, zh-Hant, es"
     )
     parser.add_argument("--appearance", choices=["light", "dark", "both"], default="light")
-    parser.add_argument("--screens", default="all", help="comma list of screen names, or all")
+    parser.add_argument(
+        "--screens",
+        default="all",
+        help="comma list of screen names, all, or a set: charts (per persona), charts-static (once)",
+    )
     parser.add_argument("--skins", default="all", help="all, none, or a comma list of skin ids")
     parser.add_argument(
         "--skin-screens",
@@ -558,10 +574,11 @@ def main() -> None:
     screens, skins = catalog_screens(), catalog_skins()
     if args.list:
         print("screens:", ", ".join(screens))
+        print("sets:   ", ", ".join(SCREEN_SETS))
         print("skins:  ", ", ".join(skins))
         return
     for name in [] if args.screens == "all" else args.screens.split(","):
-        if name not in screens:
+        if not known_screen(name, screens):
             sys.exit(f"✗ unknown screen {name!r} — see --list")
     for name in [] if args.skins in ("all", "none") else args.skins.split(","):
         if name not in skins:
@@ -638,8 +655,17 @@ def main() -> None:
                 result = capture_pass_macos(app, leaf, launch_args, args.timeout, label)
             else:
                 result = capture_pass(udid, leaf, launch_args, args.timeout, label, display)
+            data = result["report"].get("data", {})
             for entry in result["files"]:
-                index.append({"locale": locale, "appearance": appearance, **entry})
+                index.append(
+                    {
+                        "locale": locale,
+                        "appearance": appearance,
+                        "persona": args.persona,
+                        "data": data,
+                        **entry,
+                    }
+                )
             failed += [f"{label}/{file}" for file in result["report"]["failed"]]
             failed += [f"{label}/{file}" for file in result["report"]["skipped"]]
 
