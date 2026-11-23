@@ -332,6 +332,7 @@
       }
     },
     "A night sky, five suits, fireworks" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -360,6 +361,7 @@
       }
     },
     "A sky that follows the day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -556,6 +558,7 @@
       }
     },
     "Black lacquer, gold leaf, a city after dark" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -584,6 +587,7 @@
       }
     },
     "Black, paper and signal cyan, from the effects index" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -837,6 +841,7 @@
       }
     },
     "Cool blue-gray, quiet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -977,6 +982,7 @@
       }
     },
     "Deep purple night, a sleeping moon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -1005,6 +1011,7 @@
       }
     },
     "Deep water, bioluminescence, jellyfish" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -1145,6 +1152,7 @@
       }
     },
     "Emerald velvet, gold foil, red, gold and green" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -1201,6 +1209,7 @@
       }
     },
     "Engraved gold, a plum night, a turning wheel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -1398,6 +1407,7 @@
       }
     },
     "Fireflies over a dark meadow" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -1734,7 +1744,32 @@
       }
     },
     "Intensity" : {
-
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intensidad"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intensidad"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "强度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "強度"
+          }
+        }
+      }
     },
     "Intramuscular" : {
       "localizations" : {
@@ -2353,6 +2388,7 @@
       }
     },
     "Neon City on a CRT" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2381,6 +2417,7 @@
       }
     },
     "Neutral grays, nothing moving" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2409,6 +2446,7 @@
       }
     },
     "Night and pink, stickers and pixels" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2695,6 +2733,7 @@
       }
     },
     "Periwinkle, snow and frost" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2779,6 +2818,7 @@
       }
     },
     "Plum and fuchsia, from the open encyclopedia" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -3172,6 +3212,7 @@
       }
     },
     "Soft pink, hot pink, liquid glass" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -3256,6 +3297,7 @@
       }
     },
     "Steel blue and gold under a thousand stars" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -3536,6 +3578,7 @@
       }
     },
     "Warm paper and charcoal, quiet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -3564,6 +3607,7 @@
       }
     },
     "Washi, raked sand, sakura" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {

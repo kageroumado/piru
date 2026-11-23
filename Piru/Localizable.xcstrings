@@ -4802,6 +4802,7 @@
       }
     },
     "%lld days logged" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -10525,6 +10526,7 @@
       }
     },
     "A night sky, five suits, fireworks" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -11115,6 +11117,7 @@
       }
     },
     "A sky that follows the day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -15953,6 +15956,34 @@
         }
       }
     },
+    "All Skins" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los temas"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los temas"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有皮膚"
+          }
+        }
+      }
+    },
     "All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact." : {
       "localizations" : {
         "es" : {
@@ -18415,6 +18446,7 @@
       }
     },
     "at common or above" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -20561,6 +20593,7 @@
       }
     },
     "Black lacquer, gold leaf, a city after dark" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -20589,6 +20622,7 @@
       }
     },
     "Black, paper and signal cyan, from the effects index" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -21970,6 +22004,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "丁螺環酮"
+          }
+        }
+      }
+    },
+    "Buy once, keep forever. Skins keep Piru independent: no ads, no subscription, and every feature free." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra una vez y es tuyo para siempre. Los temas mantienen Piru independiente: sin anuncios, sin suscripción y con todas las funciones gratis."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra una vez y es tuyo para siempre. Los temas mantienen Piru independiente: sin anuncios, sin suscripción y con todas las funciones gratis."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次购买，永久拥有。皮肤让 Piru 保持独立：没有广告，没有订阅，所有功能免费。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次購買，永久擁有。皮膚讓 Piru 保持獨立：沒有廣告，沒有訂閱，所有功能免費。"
           }
         }
       }
@@ -24286,6 +24348,7 @@
       }
     },
     "Choose a dose on the left, or search for a substance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -24567,6 +24630,7 @@
       }
     },
     "Choose something from the list to see it here." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -26475,6 +26539,34 @@
         }
       }
     },
+    "common or more" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Común o más"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Común o más"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等或以上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等或以上"
+          }
+        }
+      }
+    },
     "Common-dose units by weekday, most on %@" : {
       "localizations" : {
         "es" : {
@@ -27858,6 +27950,7 @@
       }
     },
     "Cool blue-gray, quiet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -31036,6 +31129,7 @@
       }
     },
     "Deep purple night, a sleeping moon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -31064,6 +31158,7 @@
       }
     },
     "Deep water, bioluminescence, jellyfish" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -36811,6 +36906,7 @@
       }
     },
     "Emerald velvet, gold foil, red, gold and green" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -37627,6 +37723,7 @@
       }
     },
     "Engraved gold, a plum night, a turning wheel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -41604,6 +41701,7 @@
       }
     },
     "Fireflies over a dark meadow" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -44276,6 +44374,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "GRDB.swift。版權所有 © Gwendal Roué。"
+          }
+        }
+      }
+    },
+    "Grid" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuadrícula"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuadrícula"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "网格"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "網格"
           }
         }
       }
@@ -51296,6 +51422,34 @@
         }
       }
     },
+    "Large" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grande"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grande"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大图"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大圖"
+          }
+        }
+      }
+    },
     "Largest Dose Ever" : {
       "localizations" : {
         "es" : {
@@ -51713,6 +51867,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緯度和經度按相反順序讀取。"
+          }
+        }
+      }
+    },
+    "Layout" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposición"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposición"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "布局"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版面"
           }
         }
       }
@@ -53226,6 +53408,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "液體"
+          }
+        }
+      }
+    },
+    "List" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "列表"
           }
         }
       }
@@ -58032,6 +58242,7 @@
       }
     },
     "Modeled from your logged doses: receptor drive, not how you feel." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -60374,6 +60585,7 @@
       }
     },
     "Neon City on a CRT" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -60402,6 +60614,7 @@
       }
     },
     "Neutral grays, nothing moving" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -61201,6 +61414,7 @@
       }
     },
     "Night and pink, stickers and pixels" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -64549,6 +64763,7 @@
       }
     },
     "Nothing Open" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -64605,6 +64820,7 @@
       }
     },
     "Nothing Staged" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -69324,6 +69540,7 @@
       }
     },
     "Periwinkle, snow and frost" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -71243,6 +71460,7 @@
       }
     },
     "Plum and fuchsia, from the open encyclopedia" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -83988,6 +84206,7 @@
       }
     },
     "Shortcuts" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -84884,6 +85103,34 @@
         }
       }
     },
+    "Shows today's meds" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra los medicamentos de hoy"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra los medicamentos de hoy"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示今天的药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示今天的藥物"
+          }
+        }
+      }
+    },
     "Shows your body weight, heart rate, blood pressure and workouts from Health alongside your journal. Change what Piru can see in the Health app's settings." : {
       "localizations" : {
         "es" : {
@@ -85368,6 +85615,34 @@
         }
       }
     },
+    "Skin" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚"
+          }
+        }
+      }
+    },
     "Skins" : {
       "localizations" : {
         "es" : {
@@ -85397,6 +85672,7 @@
       }
     },
     "Skins pay for Piru's development. The journal, the library, and every tool are free." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -86156,6 +86432,7 @@
       }
     },
     "Soft pink, hot pink, liquid glass" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -88427,6 +88704,7 @@
       }
     },
     "Steel blue and gold under a thousand stars" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -91542,6 +91820,7 @@
     },
     "Tap a dot to name it" : {
       "comment" : "Hint under the transporter ternary plot",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -100920,6 +101199,7 @@
       }
     },
     "Warm paper and charcoal, quiet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -101034,6 +101314,7 @@
       }
     },
     "Washi, raked sand, sakura" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -101201,7 +101482,36 @@
         }
       }
     },
+    "Wearing this skin" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usando este tema"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usando este tema"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在使用此皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在使用此皮膚"
+          }
+        }
+      }
+    },
     "Wearing This Skin" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {

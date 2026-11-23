@@ -8011,6 +8011,20 @@ T = {
     "S-enantiomer": ("S-对映体", "S-對映體"),
     "R-enantiomer": ("R-对映体", "R-對映體"),
     "racemate": ("外消旋体", "外消旋體"),
+    # Skins picker and Tools card.
+    "Wearing this skin": ("正在使用此皮肤", "正在使用此皮膚"),
+    "All Skins": ("所有皮肤", "所有皮膚"),
+    "Layout": ("布局", "版面"),
+    "Grid": ("网格", "網格"),
+    "Large": ("大图", "大圖"),
+    "List": ("列表", "列表"),
+    "Skin": ("皮肤", "皮膚"),
+    "Buy once, keep forever. Skins keep Piru independent: no ads, no subscription, and every feature free.": (
+        "一次购买，永久拥有。皮肤让 Piru 保持独立：没有广告，没有订阅，所有功能免费。",
+        "一次購買，永久擁有。皮膚讓 Piru 保持獨立：沒有廣告，沒有訂閱，所有功能免費。",
+    ),
+    "common or more": ("中等或以上", "中等或以上"),
+    "Shows today's meds": ("显示今天的药物", "顯示今天的藥物"),
     # UI review fixes, 2026-11-23 (Specs/ui-review-2026-11-20).
     "Entries recorded per day": ("每天添加的记录", "每天新增的記錄"),
     "substances": ("物质", "物質"),
@@ -9335,6 +9349,20 @@ if __name__ == "__main__":
     )
     NEW_KEYS.add("^[%lld result](inflect: true)")
     NEW_KEYS.add("Bar: participant range; dot: mean.")
+    NEW_KEYS.update(
+        {
+            "Wearing this skin",
+            "All Skins",
+            "Layout",
+            "Grid",
+            "Large",
+            "List",
+            "Skin",
+            "Buy once, keep forever. Skins keep Piru independent: no ads, no subscription, and every feature free.",
+            "common or more",
+            "Shows today's meds",
+        }
+    )
     NEW_KEYS.update(
         {
             "Entries recorded per day",

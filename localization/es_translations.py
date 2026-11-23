@@ -3709,6 +3709,17 @@ ES = {
     "S-enantiomer": "Enantiómero S",
     "R-enantiomer": "Enantiómero R",
     "racemate": "racemato",
+    # Skins picker and Tools card.
+    "Wearing this skin": "Usando este tema",
+    "All Skins": "Todos los temas",
+    "Layout": "Disposición",
+    "Grid": "Cuadrícula",
+    "Large": "Grande",
+    "List": "Lista",
+    "Skin": "Tema",
+    "Buy once, keep forever. Skins keep Piru independent: no ads, no subscription, and every feature free.": "Compra una vez y es tuyo para siempre. Los temas mantienen Piru independiente: sin anuncios, sin suscripción y con todas las funciones gratis.",
+    "common or more": "Común o más",
+    "Shows today's meds": "Muestra los medicamentos de hoy",
     # UI review fixes, 2026-11-23.
     "Entries recorded per day": "Registros anotados por día",
     "substances": "Sustancias",
