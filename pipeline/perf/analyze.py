@@ -286,8 +286,13 @@ def analyze_run(run_dir: Path, th: dict, ci: bool) -> dict:
         gate = set(th["ci"]["gate_counters"])
         for item in findings.items:
             gated = (
-                item["metric"].startswith("counter.") and item["metric"][len("counter.") :] in gate
-            ) or (item["metric"] == "longest_stall_ms" and item["value"] >= th["ci"]["hang_ms"])
+                item["kind"] == "crash"
+                or (
+                    item["metric"].startswith("counter.")
+                    and item["metric"][len("counter.") :] in gate
+                )
+                or (item["metric"] == "longest_stall_ms" and item["value"] >= th["ci"]["hang_ms"])
+            )
             if not gated:
                 item["level"] = "info"
 
@@ -338,6 +343,7 @@ def flatten(report: dict) -> dict[str, tuple[str, float]]:
                 not isinstance(value, (int, float))
                 or name.endswith("_share")
                 or name.endswith("_per_s")
+                or name.endswith("_switches")
             ):
                 continue
             cls = (
@@ -357,7 +363,7 @@ def compare(report: dict, baseline: dict, th: dict) -> list[dict]:
             continue
         base = old[key][1]
         tolerance = th["baseline"][cls]
-        limit = base * (1 + tolerance["relative"]) + tolerance["absolute"]
+        limit = base + abs(base) * tolerance["relative"] + tolerance["absolute"]
         if value > limit:
             regressions.append(
                 {

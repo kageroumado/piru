@@ -111,7 +111,8 @@ FLOWS = {
         time.sleep(1.0),
         d.type("methylphenidate", 0.08),
         time.sleep(1.0),
-        d.shell("input keyevent KEYCODE_BACK"),
+        # Escape closes the keyboard; Back at a tab root would leave the app.
+        d.shell("input keyevent KEYCODE_ESCAPE"),
     ],
     "reversed-flings": lambda d: [
         (d.swipe(0.8, 0.2, 60), time.sleep(0.12), d.swipe(0.3, 0.8, 60), time.sleep(0.12))
@@ -182,21 +183,35 @@ def run(run_dir: Path, args, thresholds: dict) -> dict:
         match = re.search(r"TotalTime:\s+(\d+)", result)
         launches.append(int(match.group(1)) if match else None)
         time.sleep(6)
-    pid = device.pid()
     simpleperf = getattr(args, "simpleperf", False)
+    if simpleperf:
+        # simpleperf sees the CPU clock events only as root.
+        subprocess.run([device.adb, "root"], capture_output=True)
+        subprocess.run([device.adb, "wait-for-device"], capture_output=True)
+        time.sleep(2)
+    pid = device.pid()
     names = list(FLOWS) if args.flows == "all" else [f for f in args.flows.split(",") if f in FLOWS]
     if simpleperf and pid:
-        device.shell("rm -f /data/local/tmp/piru-perf.data")
         recorder = subprocess.Popen(
             [
                 device.adb,
                 "shell",
-                f"simpleperf record -p {pid} -e cpu-clock -g -o /data/local/tmp/piru-perf.data --duration 600",
+                # Frame-pointer call graphs at 500 Hz: DWARF unwinding (-g) fills an
+                # emulator's /data in a minute.
+                f"simpleperf record -p {pid} -e task-clock -f 500 --call-graph fp -o /data/local/tmp/piru-perf.data --duration 600",
             ]
         )
     steps = []
+    restarted: list[str] = []
     for name in names:
+        # Every flow starts with the app in front: a flow that left it is not
+        # charged to the next one.
+        device.shell(f"am start -n {ACTIVITY}")
+        time.sleep(1.0)
         device.shell(f"dumpsys gfxinfo {PACKAGE} reset")
+        if device.pid() != pid:
+            pid = device.pid()
+            restarted.append(name)
         cpu = device.main_cpu_ms(pid)
         started = time.time()
         FLOWS[name](device)
@@ -219,13 +234,17 @@ def run(run_dir: Path, args, thresholds: dict) -> dict:
     stacks = []
     if simpleperf and pid:
         subprocess.run([device.adb, "shell", "pkill -INT simpleperf"], capture_output=True)
-        recorder.wait(timeout=60)
+        try:
+            recorder.wait(timeout=60)
+        except subprocess.TimeoutExpired:
+            recorder.kill()
         report = device.shell(
             "simpleperf report -i /data/local/tmp/piru-perf.data --sort symbol -n --percent-limit 0.5",
             timeout=300,
         )
         stacks = [line.strip() for line in report.splitlines() if "%" in line][:30]
     data = {
+        "restarted_before": restarted,
         "launch_ms": launches,
         "steps": steps,
         "stacks": stacks,
@@ -291,6 +310,20 @@ def analyze(run_dir: Path, meta: dict, th: dict) -> dict:
                 "step": step["flow"],
                 "loop": 1,
                 "metrics": metrics,
+            }
+        )
+    for flow in data.get("restarted_before", []):
+        findings.items.append(
+            {
+                "level": "fail",
+                "kind": "crash",
+                "step": flow,
+                "metric": "process_restarted",
+                "value": 1,
+                "threshold": 1,
+                "ratio": 99.0,
+                "detail": "the app's process changed before this flow: it died during the previous one",
+                "stacks": [],
             }
         )
     ordered = findings.sorted()

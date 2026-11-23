@@ -37,8 +37,9 @@ not finish.
    `xctrace record --template "Time Profiler"` plus Hangs, Points of Interest,
    Data Fetches, Data Saves and Data Faults (`--swiftui` adds the SwiftUI
    instrument, which records only on a device or the Mac). The app runs the
-   flows and writes `app/steps.json`, then `app/done.json`. A step that makes
-   no progress for 240 s ends the run.
+   flows and writes `app/steps.json`, then `app/done.json`. A crash report for
+   the app on that simulator ends the run at once and becomes a `crash`
+   finding with its frames; a step that makes no progress for 240 s ends it too.
 5. **Analyze** (`analyze.py`, `tracelane.py`), then move the trace to the Trash
    unless `--keep-trace`.
 
@@ -145,6 +146,16 @@ inclusive time. `report.json` has the same under stable keys: `steps[].key` is
 Timings taken while other builds or simulators run are noisy: compare runs
 taken under the same load, and read counts before times.
 
+Stacks under a finding are the app code under the main thread's CPU time:
+per sample the leaf-most app frame and its two callers, weighted by time (the
+harness's own `Perf*` frames are skipped, so the work a step triggers is
+charged to the app code it reached). A hang also says how much of it the main
+thread spent on the CPU: Time Profiler samples a thread only while it runs, so
+a hang that was mostly off the CPU was blocked, or starved by a loaded host.
+Launch under a trace is measured from the app's first sample, because a
+process launched by `xctrace` sits suspended before it runs; "store open to
+interactive" is measured in the app from the launch hook.
+
 The trace lane uses the `swiftui-specialist` skill's `instruments_parser`
 (found through `$PIRU_INSTRUMENTS_PARSER` or the skill's install path). The
 main thread's time is classified by its leaf frame, because the thread-state
@@ -155,8 +166,9 @@ leaves unsymbolicated are resolved with `atos` against the build's dSYM.
 ## Baselines
 
 `--baseline <report.json>` compares every step metric by key: a metric
-regresses when `new > base × (1 + relative) + absolute` (`baseline` in
+regresses when `new > base + |base| × relative + absolute` (`baseline` in
 `thresholds.json`: counts 10 % + 2, times 30 % + 30 ms, memory 20 % + 15 MB).
+Context-switch counts follow host load and are left out.
 
 ## CI
 
@@ -176,8 +188,19 @@ has no DEBUG hooks, so `--platform android` measures from outside the process
 over `adb`: three cold starts (`am start -W -S`), then per flow
 (`journal-scroll`, `tab-storm`, `library-search`, `reversed-flings`, driven by
 `adb shell input`) the frames from `dumpsys gfxinfo framestats`, main-thread CPU
-from `/proc`, and PSS; `--simpleperf` adds `simpleperf record -g` stacks (needs
-`adb root`). It drives whatever store the app holds: install a fixture store
-first (the 2k–12k matrix recipe pushes one with `su 0`). Measure a release APK
-re-signed with the debug key, on a headless emulator (`-no-window -gpu host`),
-with no build running on the host.
+from `/proc`, and PSS; `--simpleperf` restarts adbd as root and adds
+`simpleperf record -g` stacks. Every flow brings the app to the front first,
+and a process that changed between flows is a `crash` finding. It drives
+whatever store the app holds; `--android-store <file>` installs one first
+(rooted emulator, `su 0`; the replaced files are moved aside, not deleted).
+Measure a release APK re-signed with the debug key, on a headless emulator
+(`-no-window -gpu host`), with no build or simulator running on the host:
+
+```bash
+emulator -avd piru-spike -no-window -gpu host -no-audio -no-boot-anim -read-only -no-snapshot-save &
+pipeline/perf/run.py --platform android --apk app-release-debugsigned.apk --android-store large-4000.store --simpleperf
+```
+
+The frame time is `FrameCompleted − IntendedVsync` per frame; on an emulator
+starved by host load every frame reads slow, so compare Android runs only
+against Android runs taken on the same idle host.
