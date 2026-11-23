@@ -160,7 +160,7 @@ struct TrayCommitBar: View {
         let base = switch (model.recipientID.flatMap(directory.profile(id:)), count == 1) {
         case let (recipient?, true): String(localized: "Record for \(recipient.name)")
         case let (recipient?, false): String(localized: "Record \(count) Entries for \(recipient.name)")
-        case (nil, true): String(localized: "Record an entry")
+        case (nil, true): String(localized: "Record an Entry")
         case (nil, false): String(localized: "Record \(count) Entries")
         }
         return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"

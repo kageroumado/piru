@@ -305,7 +305,7 @@ struct SubstanceDetailView: View {
                 Button {
                     navigator.present(.quickLog(routine: nil, prefillSubstance: substance.name))
                 } label: {
-                    Label("Record an entry", systemImage: "plus.circle")
+                    Label("Record an Entry", systemImage: "plus.circle")
                 }
 
                 Button {

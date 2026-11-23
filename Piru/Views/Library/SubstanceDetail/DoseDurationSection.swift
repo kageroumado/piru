@@ -378,7 +378,7 @@ private struct RecordEntryButton: View {
         Button {
             navigator.present(.quickLog(routine: nil, prefillSubstance: substanceName))
         } label: {
-            Text("Record an entry")
+            Text("Record an Entry")
                 .font(.piru(.subheadline, weight: .semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 3)
