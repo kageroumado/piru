@@ -346,6 +346,9 @@ struct InteractionCheckerView: View {
                 if removable {
                     Image(systemName: "xmark")
                         .font(.caption.weight(.bold))
+                        .foregroundStyle(color)
+                } else {
+                    SubstanceChipDot(color: color)
                 }
                 Text(name)
                     .font(.subheadline.weight(.medium))
@@ -353,7 +356,9 @@ struct InteractionCheckerView: View {
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, 7)
             .background(color.opacity(Theme.Opacity.tint))
-            .foregroundStyle(color)
+            // `Color.primary`, because the hierarchical `.primary` inside a
+            // button label resolves to the button's tint.
+            .foregroundStyle(Color.primary)
             .clipShape(skinChipShape())
         }
         .accessibilityLabel(removable ? Text("Remove \(name)") : Text(name))
