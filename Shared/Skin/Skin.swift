@@ -122,7 +122,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// noticed: the two the picker opens on go to the end.
     static var showcase: [Skin] {
         let opening = available.prefix(2)
-        return available.dropFirst(2) + opening
+        return Array(available.dropFirst(2) + opening)
     }
 
     // MARK: - Tier
