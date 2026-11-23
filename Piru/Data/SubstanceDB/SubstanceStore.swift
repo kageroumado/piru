@@ -416,6 +416,9 @@ final class SubstanceStore {
         var bundleConfig = Configuration()
         bundleConfig.readonly = true
         bundleConfig.label = "piru-substances"
+        #if DEBUG && !os(Android)
+            PerfProbe.install(on: &bundleConfig)
+        #endif
         // A database at any other URL (a test fixture) that fails to open falls
         // back to the bundled resource. A bundled-DB failure stays fatal (see
         // ``bundledSubstancesDBURL``).
@@ -443,6 +446,9 @@ final class SubstanceStore {
         // verified openable above.
         var batchConfig = bundleConfig
         batchConfig.label = "piru-substances-batch"
+        #if DEBUG && !os(Android)
+            PerfProbe.install(on: &batchConfig)
+        #endif
         do {
             self.substancesBatchDB = try DatabaseQueue(path: Self.immutableSQLiteURI(for: openedSubstancesURL), configuration: batchConfig)
         } catch {
@@ -451,6 +457,9 @@ final class SubstanceStore {
 
         var prefsConfig = Configuration()
         prefsConfig.label = "piru-user-prefs"
+        #if DEBUG && !os(Android)
+            PerfProbe.install(on: &prefsConfig)
+        #endif
         prefsConfig.journalMode = .wal
         prefsConfig.observesSuspensionNotifications = true
         self.userPrefsDB = Self.openUserPrefs(at: userPrefsDBURL, configuration: prefsConfig)

@@ -93,7 +93,10 @@ enum SubstanceLibrary {
     /// Canonical-then-alias precedence, so a name that *is* canonical resolves
     /// exactly as before; the alias arm only runs when the canonical one misses.
     static func resolveFull(_ nameOrAlias: String) -> Substance? {
-        overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
+        #if DEBUG && !os(Android)
+            PerfProbe.count("resolveFull")
+        #endif
+        return overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
     }
 
     /// The canonical name of the substance a dose.wiki article slug names
@@ -124,9 +127,15 @@ enum SubstanceLibrary {
     /// never fires cold; reach for ``resolveFull(_:)`` only when a detail
     /// screen needs mechanism/bindings/chemistry.
     static func lookup(_ nameOrAlias: String) -> Substance? {
+        #if DEBUG && !os(Android)
+            PerfProbe.count("lookup")
+        #endif
         if let row = SubstanceStore.shared.timelineRow(nameOrAlias) {
             return overlayCustom(library: row, query: nameOrAlias)
         }
+        #if DEBUG && !os(Android)
+            PerfProbe.count("lookup.batchMiss")
+        #endif
         return overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
     }
 

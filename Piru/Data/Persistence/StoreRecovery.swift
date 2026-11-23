@@ -80,12 +80,13 @@ nonisolated enum StoreRecovery {
     }
 
     /// The store file this launch opens: ``storeName``, or for a DEBUG
-    /// screenshot tour a store of its own beside it. The tour reseeds a persona,
-    /// which wipes whatever store it opens — and on a Mac the debug build shares
+    /// screenshot tour or perf run a store of its own beside it. Both reseed,
+    /// which wipes whatever store they open — and on a Mac the debug build shares
     /// its App Group container with the installed app's real journal.
     nonisolated static var activeStoreName: String {
         #if DEBUG
             if ProcessInfo.processInfo.arguments.contains("-piruScreenshots") { return "screenshots.store" }
+            if ProcessInfo.processInfo.arguments.contains("-piruPerf") { return "perf.store" }
         #endif
         return storeName
     }

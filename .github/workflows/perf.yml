@@ -1,0 +1,43 @@
+name: Perf
+
+# Manual only: a short, fixed subset of pipeline/perf/ on the simulator. The gate
+# is the counts that do not depend on machine speed (full catalog resolves,
+# batch-cache misses, SQL statements, main-thread stalls over 2 s); wall-clock
+# and CPU numbers are in the report but never fail the job.
+on:
+  workflow_dispatch:
+    inputs:
+      fixture:
+        description: Fixture
+        type: choice
+        default: heavy
+        options: [heavy, dailyMeds, customData, profiles, hormones, stress]
+
+jobs:
+  perf:
+    name: Perf (simulator, CI subset)
+    runs-on: macos-latest
+    timeout-minutes: 75
+    env:
+      PIRU_PERF_DEVICE_TYPE: com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro
+      PIRU_PERF_RUNTIME: com.apple.CoreSimulator.SimRuntime.iOS
+    steps:
+      - uses: actions/checkout@v5
+      - name: Fetch the bundled substance DB
+        run: pipeline/fetch-db.sh
+      - name: Select latest Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+      - name: Run the CI subset
+        env:
+          FIXTURE: ${{ inputs.fixture }}
+          PIRU_PERF_ROOT: ${{ runner.temp }}/piru-perf
+        run: python3 pipeline/perf/run.py --ci --fixture "$FIXTURE" --timeout 1500
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: piru-perf-report
+          path: |
+            ${{ runner.temp }}/piru-perf/*/report.md
+            ${{ runner.temp }}/piru-perf/*/report.json
+            ${{ runner.temp }}/piru-perf/*/app/steps.json
