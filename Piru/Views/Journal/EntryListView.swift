@@ -74,6 +74,10 @@ struct EntryListView: View {
     @State private var timelineModel = UnifiedTimelineModel()
     /// Advanced by ``TimelineClockTick`` so the strip's "now" follows the clock.
     @State private var clockTick = 0
+    /// Set once the first built strip has been scrolled to Now, so later
+    /// rebuilds leave the reader where they scrolled.
+    @State private var hasOpenedAtNow = false
+    @State private var viewportHeight = TimelineViewportHeight()
 
     /// The strip's display options plus the day cards' redose stacking, read
     /// live from the app-group defaults the rest of the app writes.
@@ -195,6 +199,7 @@ struct EntryListView: View {
             rows(activeStates: activeStates, activeID: activeID)
         }
         .id(listIdentity)
+        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { viewportHeight.value = $0 }
         .themedPage()
         .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
         .journalProfileSubtitle(enabled: !isSearchSurface)
@@ -336,6 +341,17 @@ struct EntryListView: View {
             )
         }
         .timelineClockTick($clockTick)
+        .onChange(of: timelineModel.days.isEmpty) { _, isEmpty in
+            guard !isEmpty, !hasOpenedAtNow, grouping == .timeline, !isSearchSurface else { return }
+            hasOpenedAtNow = true
+            if let target = TimelineOpeningTarget.resolve(
+                timelineModel.days,
+                viewportHeight: viewportHeight.value,
+                anchors: TimelineOpeningTarget.rowAnchors,
+            ) {
+                proxy.scrollTo(target.id, anchor: target.anchor)
+            }
+        }
         .onChange(of: colorSignature) {
             Task { await rebuildAll(animated: true) }
         }

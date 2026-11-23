@@ -29,6 +29,10 @@ struct UnifiedTimelineView: View {
     @State private var showingCalendar = false
     /// Advanced by ``TimelineClockTick`` so the strip's "now" follows the clock.
     @State private var clockTick = 0
+    /// Set once the first built strip has been scrolled to Now, so later
+    /// rebuilds leave the reader where they scrolled.
+    @State private var hasOpenedAtNow = false
+    @State private var viewportHeight = TimelineViewportHeight()
     @GestureState private var pinchScale: CGFloat = 1
     @AppStorage("timelineZoom", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var zoom = 1.0
     @AppStorage("timelineCompression", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var compressGaps = true
@@ -36,7 +40,7 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelineCurveScale", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var curveScale = TimelineCurveScale.doseStrength
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var bubbleStyle = TimelineBubbleStyle.full
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsVitals = false
+    @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore) private var showsVitals = false
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -58,6 +62,7 @@ struct UnifiedTimelineView: View {
                 .padding(.bottom, 40)
                 .scaleEffect(x: 1, y: pinchScale, anchor: .top)
             }
+            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { viewportHeight.value = $0 }
             .skinBackdrop()
             .simultaneousGesture(magnification)
             .toolbar {
@@ -88,6 +93,13 @@ struct UnifiedTimelineView: View {
                     .presentationBackground(.regularMaterial)
             }
             .timelineClockTick($clockTick)
+            .onChange(of: model.days.isEmpty) { _, isEmpty in
+                guard !isEmpty, !hasOpenedAtNow else { return }
+                hasOpenedAtNow = true
+                if let target = TimelineOpeningTarget.resolve(model.days, viewportHeight: viewportHeight.value) {
+                    proxy.scrollTo(target.id, anchor: target.anchor)
+                }
+            }
             .task(id: rebuildKey) {
                 await model.rebuild(
                     entries: entries,

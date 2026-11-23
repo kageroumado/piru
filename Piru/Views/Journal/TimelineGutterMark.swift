@@ -50,7 +50,7 @@ enum TimelineGutterMarkMetrics {
     static let singleLineHeight: CGFloat = 22
     /// Height of a two-line mark (the day tag) at the default text size.
     static let twoLineHeight: CGFloat = 40
-    /// Diameter of the dot a mark carries on the axis (Today, Now).
+    /// Diameter of the dot the Now mark carries on the axis.
     static let dotSize: CGFloat = 6
     /// Extra leading padding, inside the recipe's own, that centers a mark's
     /// dot on the axis: the mark starts at ``TimelineGutter/edgeInset`` and
@@ -134,8 +134,7 @@ struct TimelineNowMark: View {
 // MARK: - Day tag
 
 /// The day marker at the top of each slice — the relative day or weekday
-/// over the date, on the shared mark recipe one type step up. Today carries
-/// the accent dot on the axis.
+/// over the date, on the shared mark recipe one type step up.
 struct TimelineDayHeader: View {
     let date: Date
     let isToday: Bool
@@ -143,21 +142,13 @@ struct TimelineDayHeader: View {
     var body: some View {
         TimelineGutterMark(lines: .two) {
             VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: TimelineGutterMarkMetrics.dotSpacing) {
-                    if isToday {
-                        Circle()
-                            .fill(Theme.accent)
-                            .frame(width: TimelineGutterMarkMetrics.dotSize, height: TimelineGutterMarkMetrics.dotSize)
-                    }
-                    Text(primaryText)
-                        .timelineGutterFont(.dayPrimary)
-                        .foregroundStyle(isToday ? .primary : Theme.secondaryLabel)
-                }
+                Text(primaryText)
+                    .timelineGutterFont(.dayPrimary)
+                    .foregroundStyle(isToday ? .primary : Theme.secondaryLabel)
                 Text(Self.dateText(date))
                     .timelineGutterFont(.daySecondary)
                     .foregroundStyle(Theme.secondaryLabel)
             }
-            .padding(.leading, isToday ? TimelineGutterMarkMetrics.dotLeadingPadding : 0)
         }
         .accessibilityElement(children: .combine)
     }

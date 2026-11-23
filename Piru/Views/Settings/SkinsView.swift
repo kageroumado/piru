@@ -39,7 +39,7 @@ struct SkinsView: View {
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
                 } footer: {
-                    Text("A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay as they are.")
+                    Text("Substance colors, the timeline and charts stay the same.")
                 }
 
                 Section {

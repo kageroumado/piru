@@ -18,7 +18,7 @@ struct DiscordSection: View {
                         VStack(alignment: .leading, spacing: Spacing.xs) {
                             Text("Discord")
                                 .foregroundStyle(Color.primary)
-                            Text("Get help with the app or send your suggestions on our Discord server.")
+                            Text("Help and suggestions")
                                 .captionSecondary()
                                 .fixedSize(horizontal: false, vertical: true)
                         }

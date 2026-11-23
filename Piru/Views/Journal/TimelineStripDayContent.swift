@@ -253,18 +253,23 @@ struct TimelineStripDayContent: View {
             context.clip(to: Path(CGRect(x: 0, y: day.breakAbove, width: size.width, height: size.height - day.breakAbove)))
         }
 
-        // Hour gridlines across the lane, stopping short of the bubbles; in
-        // a compressed gap they bunch together, which is what says "time is
-        // squeezed here".
-        let gridlineEnd = max(axisX, bubbleLeft - Self.gridlineInset)
+        // Hour gridlines across the strip, stopping short of the bubbles where
+        // a card stands at that hour and running to the trailing edge where
+        // none does; in a compressed gap they bunch together, which is what
+        // says "time is squeezed here".
+        let cardGridlineEnd = max(axisX, bubbleLeft - Self.gridlineInset)
+        let openGridlineEnd = max(axisX, size.width - TimelineGutter.edgeInset)
         for tick in day.hourTicks where visibleY.contains(tick.y) {
+            let inset = Self.gridlineInset
+            let besideCard = day.cardGroups.contains { $0.topY - inset < tick.y && $0.bottomY + inset > tick.y }
+                || day.envelopes.contains { $0.yStart - inset < tick.y && $0.yEnd + inset > tick.y }
             var line = Path()
             line.move(to: CGPoint(x: axisX, y: tick.y))
-            line.addLine(to: CGPoint(x: gridlineEnd, y: tick.y))
+            line.addLine(to: CGPoint(x: besideCard ? cardGridlineEnd : openGridlineEnd, y: tick.y))
             context.stroke(line, with: .color(Color.primary.opacity(0.06)), lineWidth: 0.5)
         }
 
-        drawAxis(in: &context, size: size, visibleY: visibleY, axisX: axisX)
+        drawAxis(in: &context, size: size, axisX: axisX)
         drawHeartRate(in: &context, axisX: axisX, laneWidth: curveWidth)
 
         // Per-substance curves, as wide as the dose is strong (see
@@ -531,8 +536,6 @@ struct TimelineStripDayContent: View {
         }
     }
 
-    /// Distance between the axis's up-chevrons.
-    private static let chevronSpacing: CGFloat = 130
     /// Length of the axis fade into a break below the slice.
     private static let axisFadeLength: CGFloat = 40
 
@@ -541,10 +544,10 @@ struct TimelineStripDayContent: View {
     /// reads as unbroken). The newest slice carries an arrowhead at the top —
     /// the axis runs past "now" to where the active doses wind down, and the
     /// arrow says it keeps going up from there. Above a break the axis fades
-    /// to transparent, so skipped days read as a gap rather than a line.
-    /// Faint up-chevrons along it are the ambient reminder that time on this
-    /// strip flows upward.
-    private func drawAxis(in context: inout GraphicsContext, size: CGSize, visibleY: ClosedRange<CGFloat>, axisX: CGFloat) {
+    /// to transparent, so skipped days read as a gap rather than a line. The
+    /// hour marks along it already say which way time runs, so the axis
+    /// carries no direction marks of its own.
+    private func drawAxis(in context: inout GraphicsContext, size: CGSize, axisX: CGFloat) {
         let axisTop: CGFloat = day.breakAbove + (day.showsLiveEdge ? 16 : 0)
         let axisColor = Color.primary.opacity(day.showsLiveEdge ? 0.22 : 0.12)
         var axisLine = Path()
@@ -570,24 +573,6 @@ struct TimelineStripDayContent: View {
             arrow.addLine(to: CGPoint(x: axisX, y: axisTop - 2))
             arrow.addLine(to: CGPoint(x: axisX + 4.5, y: axisTop + 6))
             context.stroke(arrow, with: .color(Color.primary.opacity(0.3)), style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
-        }
-
-        // Chevrons sit every `chevronSpacing` up from the bottom; start at the
-        // first one inside this tile rather than walking the whole slice.
-        let bottomChevron = size.height - 60
-        let skipped = max(0, ((bottomChevron - visibleY.upperBound) / Self.chevronSpacing).rounded(.up))
-        var chevronY = bottomChevron - skipped * Self.chevronSpacing
-        while chevronY > max(axisTop + 40, visibleY.lowerBound) {
-            let clearOfDots = day.doseDots.allSatisfy { abs($0.y - chevronY) > 14 }
-            let clearOfNow = day.nowY.map { abs($0 - chevronY) > 14 } ?? true
-            if clearOfDots, clearOfNow {
-                var chevron = Path()
-                chevron.move(to: CGPoint(x: axisX - 3.5, y: chevronY + 3))
-                chevron.addLine(to: CGPoint(x: axisX, y: chevronY - 2.5))
-                chevron.addLine(to: CGPoint(x: axisX + 3.5, y: chevronY + 3))
-                context.stroke(chevron, with: .color(Color.primary.opacity(0.16)), style: StrokeStyle(lineWidth: 1.2, lineCap: .round, lineJoin: .round))
-            }
-            chevronY -= Self.chevronSpacing
         }
     }
 }

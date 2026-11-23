@@ -1,18 +1,22 @@
 Opening My Meds crashed on Android once a med had times in two groups: the hub's list is one LazyColumn, which takes a key once, so rows are keyed by group and med
 
 diff --git a/Piru/Views/Journal/DailyDose/MyMedsHubView.swift b/Piru/Views/Journal/DailyDose/MyMedsHubView.swift
-index f957f24a..92553630 100644
+index eaea496d..7b2cca61 100644
 --- a/Piru/Views/Journal/DailyDose/MyMedsHubView.swift
 +++ b/Piru/Views/Journal/DailyDose/MyMedsHubView.swift
-@@ -122,6 +122,18 @@ struct MyMedsHubView: View {
-             } else {
+@@ -133,6 +133,22 @@ struct MyMedsHubView: View {
+                 let colorMap = substanceColors.colorMap
                  ForEach(groups, id: \.group) { group, members in
                      Section {
 +                        #if os(Android)
 +                            // The list is one LazyColumn, which takes a key once: a med with times in
 +                            // two groups is keyed per group, or opening the hub crashes.
 +                            ForEach(members.map { MedGroupRow(group: group, item: $0) }) { row in
-+                                MedRow(item: row.item, group: group) {
++                                MedRow(
++                                    item: row.item,
++                                    group: group,
++                                    color: SubstancePalette.color(for: row.item.substance, colorMap: colorMap),
++                                ) {
 +                                    navigator.openRecord(
 +                                        .medDetail(identityKey: row.item.identityKey, sortOrder: row.item.sortOrder),
 +                                        besideList: opensRecordsBesideList,
@@ -21,18 +25,18 @@ index f957f24a..92553630 100644
 +                            }
 +                        #else
                          ForEach(members) { item in
-                             MedRow(item: item, group: group) {
-                                 navigator.openRecord(
-@@ -130,6 +142,7 @@ struct MyMedsHubView: View {
+                             MedRow(
+                                 item: item,
+@@ -145,6 +161,7 @@ struct MyMedsHubView: View {
                                  )
                              }
                          }
 +                        #endif
                      } header: {
                          HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
-                             Image(systemName: group.symbol)
-@@ -349,3 +362,13 @@ private struct MedRow: View {
-         return date.formatted(date: .omitted, time: .shortened)
+                             Text(group.label)
+@@ -345,3 +362,13 @@ private struct MedRow: View {
+         return text
      }
  }
 +

@@ -1,21 +1,76 @@
 import SwiftData
 import SwiftUI
 
-/// The per-med detail screen, pushed from the My Meds hub
-/// (`PushRoute.medDetail`). Everything is editable in place — dose, schedule,
-/// times, reminders, quiet tier — binding straight to the `@Model`, so there
-/// is no separate Edit modal. The substance itself is fixed once created (to
-/// change it, delete and re-add), so its identity — and the "done today" join
-/// — never drifts out from under logged doses.
+/// The med's editable fields as they were when the editor opened, so Cancel
+/// can put them back.
+private struct MedEditSnapshot {
+    let amount: Double
+    let unit: String
+    let route: RouteOfAdministration
+    let isAsNeeded: Bool
+    let frequency: DoseFrequency
+    let frequencyDays: [Int]
+    let frequencyIntervalDays: Int
+    let startDate: Date
+    let maxPerDay: Int?
+    let reminderTimesMinutes: [Int]
+    let remind: Bool
+    let askAgainOverrideMinutes: [Int]?
+    let isQuiet: Bool
+    let isBackgroundMed: Bool
+
+    init(_ item: DailyDoseItem) {
+        amount = item.amount
+        unit = item.unit
+        route = item.route
+        isAsNeeded = item.isAsNeeded
+        frequency = item.frequency
+        frequencyDays = item.frequencyDays
+        frequencyIntervalDays = item.frequencyIntervalDays
+        startDate = item.startDate
+        maxPerDay = item.maxPerDay
+        reminderTimesMinutes = item.reminderTimesMinutes
+        remind = item.remind
+        askAgainOverrideMinutes = item.askAgainOverrideMinutes
+        isQuiet = item.isQuiet
+        isBackgroundMed = item.isBackgroundMed
+    }
+
+    func restore(to item: DailyDoseItem) {
+        item.amount = amount
+        item.unit = unit
+        item.route = route
+        item.isAsNeeded = isAsNeeded
+        item.frequency = frequency
+        item.frequencyDays = frequencyDays
+        item.frequencyIntervalDays = frequencyIntervalDays
+        item.startDate = startDate
+        item.maxPerDay = maxPerDay
+        item.reminderTimesMinutes = reminderTimesMinutes
+        item.remind = remind
+        item.askAgainOverrideMinutes = askAgainOverrideMinutes
+        item.isQuiet = isQuiet
+        item.isBackgroundMed = isBackgroundMed
+    }
+}
+
+/// The per-med editor, pushed from the My Meds hub (`PushRoute.medDetail`).
+/// Every row binds straight to the `@Model` — dose, schedule, times,
+/// reminders, quiet tier — and the toolbar's ✕ puts back the values the
+/// editor opened with, ✓ keeps them. The substance itself is fixed once
+/// created (to change it, delete and re-add), so its identity — and the
+/// "done today" join — never drifts out from under logged doses.
 struct MedDetailView: View {
     @Bindable var item: DailyDoseItem
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appNavigator) private var navigator
+    @Query private var substanceColors: [SubstanceColor]
 
     @State private var showingDeleteConfirmation = false
     @State private var showingProductEditor = false
+    @State private var snapshot: MedEditSnapshot?
 
     private let defaultUnits = ["mg", "g", "µg", "mL", "IU", "drops", "puffs"]
 
@@ -73,7 +128,6 @@ struct MedDetailView: View {
             scheduleSection
 
             if !item.isAsNeeded {
-                timesSection
                 remindersSection
             }
 
@@ -95,11 +149,7 @@ struct MedDetailView: View {
                     Button("Delete Med", role: .destructive) {
                         let identityKey = item.identityKey, sortOrder = item.sortOrder
                         modelContext.delete(item)
-                        // Beside a list, `dismiss()` cannot reach the open record: take its route out instead.
-                        let removed = navigator.removeDeletedRecord {
-                            $0 == .medDetail(identityKey: identityKey, sortOrder: sortOrder)
-                        }
-                        if !removed { dismiss() }
+                        close(identityKey: identityKey, sortOrder: sortOrder)
                     }
                 } message: {
                     Text("Reminders and adherence tracking stop. Existing entries stay in your journal.")
@@ -117,6 +167,25 @@ struct MedDetailView: View {
         // med, and a bare page read as a static summary to testers.
         .navigationTitle("Edit Med")
         .inlineNavigationTitle()
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                    snapshot?.restore(to: item)
+                    close(identityKey: item.identityKey, sortOrder: item.sortOrder)
+                } label: { Image(systemName: "xmark") }
+                    .accessibilityLabel("Cancel")
+            }
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    close(identityKey: item.identityKey, sortOrder: item.sortOrder)
+                } label: { Image(systemName: "checkmark") }
+                    .accessibilityLabel("Save")
+            }
+        }
+        .onAppear {
+            if snapshot == nil { snapshot = MedEditSnapshot(item) }
+        }
         .tabAccessoryClearance()
         // Every field edits the model directly; one resync on close reschedules
         // reminders from the saved state (times, cadence, quiet grouping).
@@ -125,24 +194,26 @@ struct MedDetailView: View {
         }
     }
 
+    /// Leaves the editor: beside a list, `dismiss()` cannot reach the open
+    /// record, so its route is taken out instead.
+    private func close(identityKey: String, sortOrder: Int) {
+        let removed = navigator.removeDeletedRecord {
+            $0 == .medDetail(identityKey: identityKey, sortOrder: sortOrder)
+        }
+        if !removed { dismiss() }
+    }
+
     // MARK: Sections
 
     private var headerSection: some View {
         Section {
             HStack(spacing: Spacing.xl) {
-                Image(systemName: "pill")
-                    .screenTitle()
-                    .foregroundStyle(.white)
-                    .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
-                    .background(Theme.accent, in: Circle())
+                Circle()
+                    .fill(SubstancePalette.color(for: item.substance, colorMap: substanceColors.colorMap))
+                    .frame(width: 10, height: 10)
                     .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
-                        .cardTitle()
-                    Text(scheduleSummary)
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
+                Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
+                    .cardTitle()
             }
         }
         .listRowBackground(CardBackground())
@@ -199,6 +270,10 @@ struct MedDetailView: View {
                 }
                 DatePicker("Starting from", selection: startDateBinding, displayedComponents: .date)
             }
+
+            if !item.isAsNeeded {
+                timeRows
+            }
         } header: {
             Text("Schedule")
         } footer: {
@@ -207,45 +282,37 @@ struct MedDetailView: View {
         .listRowBackground(CardBackground())
     }
 
-    private var timesSection: some View {
-        Section {
-            ForEach(item.reminderTimesMinutes.indices, id: \.self) { index in
-                let minutes = item.reminderTimesMinutes[index]
-                DatePicker(
-                    selection: timeBinding(at: index),
-                    displayedComponents: .hourAndMinute,
-                ) {
-                    Text(MedTimeGroup.group(forMinutes: minutes).label)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                // Deletes the row's own time, never an offset: on Android the
-                // swipe can report a delete twice, and a second offset into
-                // the shortened list removes the next time or traps.
-                .swipeActions(edge: .trailing) {
-                    Button("Delete", role: .destructive) {
-                        withAnimation(.snappy) { item.reminderTimesMinutes.removeAll { $0 == minutes } }
-                    }
-                }
+    /// One row per reminder time, then the button that adds one.
+    @ViewBuilder
+    private var timeRows: some View {
+        ForEach(item.reminderTimesMinutes.indices, id: \.self) { index in
+            let minutes = item.reminderTimesMinutes[index]
+            DatePicker(
+                selection: timeBinding(at: index),
+                displayedComponents: .hourAndMinute,
+            ) {
+                Text(MedTimeGroup.group(forMinutes: minutes).label)
             }
-
-            Button {
-                var times = item.reminderTimesMinutes
-                times.append(nextSuggestedTime(after: times))
-                withAnimation(.snappy) { item.reminderTimesMinutes = times.sorted() }
-            } label: {
-                Label(
-                    item.reminderTimesMinutes.isEmpty ? "Add a Time" : "Add Another Time",
-                    systemImage: "plus.circle.fill",
-                )
-            }
-        } header: {
-            Text("Times")
-        } footer: {
-            if item.reminderTimesMinutes.isEmpty {
-                Text("No set time. This med still counts toward adherence once per due day.")
+            // Deletes the row's own time, never an offset: on Android the
+            // swipe can report a delete twice, and a second offset into
+            // the shortened list removes the next time or traps.
+            .swipeActions(edge: .trailing) {
+                Button("Delete", role: .destructive) {
+                    withAnimation(.snappy) { item.reminderTimesMinutes.removeAll { $0 == minutes } }
+                }
             }
         }
-        .listRowBackground(CardBackground())
+
+        Button {
+            var times = item.reminderTimesMinutes
+            times.append(nextSuggestedTime(after: times))
+            withAnimation(.snappy) { item.reminderTimesMinutes = times.sorted() }
+        } label: {
+            Label(
+                item.reminderTimesMinutes.isEmpty ? "Add a Time" : "Add Another Time",
+                systemImage: "plus.circle.fill",
+            )
+        }
     }
 
     private var remindersSection: some View {
@@ -253,7 +320,7 @@ struct MedDetailView: View {
             // Never `.disabled` on an empty time list: `remind` defaults on, so
             // a med with no set time would sit lit and ignore every tap.
             Toggle(isOn: remindBinding) {
-                Label("Remind Me", systemImage: "bell")
+                Text("Remind Me")
             }
 
             if item.remind, !item.reminderTimesMinutes.isEmpty {
@@ -262,7 +329,7 @@ struct MedDetailView: View {
                         Text(choice.label).tag(choice)
                     }
                 } label: {
-                    Label("Ask Again", systemImage: "clock.arrow.circlepath")
+                    Text("Ask Again")
                 }
             }
         } header: {
@@ -276,7 +343,7 @@ struct MedDetailView: View {
     private var quietSection: some View {
         Section {
             Toggle(isOn: $item.isQuiet) {
-                Label("Quiet med", systemImage: "leaf")
+                Text("Quiet med")
             }
             .onChange(of: item.isQuiet) {
                 // Quiet meds are also background meds (session folding).
@@ -302,6 +369,8 @@ struct MedDetailView: View {
             Text("Never marked missed. A daily limit feeds the cumulative dose warnings.")
         } else if item.frequency == .specificDays, item.frequencyDays.isEmpty {
             Text("Select at least one day.")
+        } else if item.reminderTimesMinutes.isEmpty {
+            Text("No set time. This med still counts toward adherence once per due day.")
         }
     }
 
@@ -413,20 +482,5 @@ struct MedDetailView: View {
     private func nextSuggestedTime(after times: [Int]) -> Int {
         guard let latest = times.max() else { return 9 * 60 }
         return min(latest + 6 * 60, 22 * 60)
-    }
-
-    private var scheduleSummary: String {
-        let dose = "\(item.doseLabel) · \(String(localized: item.route.localizedName))"
-        if item.isAsNeeded {
-            if let limit = item.maxPerDay {
-                return "\(dose) · \(String(localized: "up to \(limit)× daily"))"
-            }
-            return "\(dose) · \(String(localized: "as needed"))"
-        }
-        let count = item.reminderTimesMinutes.count
-        if count > 1 {
-            return "\(dose) · \(String(localized: "\(count)× daily"))"
-        }
-        return "\(dose) · \(item.frequencyShortLabel)"
     }
 }
