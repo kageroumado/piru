@@ -153,9 +153,6 @@ struct MedFormView: View {
                         dosageSection
                     }
                     scheduleSection
-                    if !draft.isAsNeeded {
-                        timesSection
-                    }
                     quietSection
                 }
                 .listRowBackground(CardBackground())
@@ -307,6 +304,10 @@ struct MedFormView: View {
             if draft.frequency != .daily, draft.frequency != .specificDays, !draft.isAsNeeded {
                 DatePicker("Starting from", selection: $draft.startDate, displayedComponents: .date)
             }
+
+            if !draft.isAsNeeded {
+                timeRows
+            }
         } header: {
             Text("Schedule")
         } footer: {
@@ -314,9 +315,10 @@ struct MedFormView: View {
         }
     }
 
-    private var timesSection: some View {
+    /// One row per time, the button that adds one, and the reminder switch.
+    private var timeRows: some View {
         @Bindable var draft = draft
-        return Section {
+        return Group {
             ForEach($draft.times) { $time in
                 VStack(alignment: .leading, spacing: 0) {
                     DatePicker(
@@ -324,7 +326,6 @@ struct MedFormView: View {
                         displayedComponents: .hourAndMinute,
                     ) {
                         Text(MedTimeGroup.group(forMinutes: time.minutes).label)
-                            .foregroundStyle(Theme.secondaryLabel)
                     }
                     // What that time actually does — onset, easing off, and (for
                     // the wake-promoting classes) how it sits against sleep.
@@ -353,19 +354,6 @@ struct MedFormView: View {
                     Label("Remind Me", systemImage: "bell")
                 }
             }
-        } header: {
-            Text("Times")
-        } footer: {
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                if draft.times.isEmpty {
-                    Text("No set time. This med still counts toward adherence once per due day.")
-                } else if draft.remind {
-                    Text("A reminder at each time. If you don't log it, Piru asks again \(askAgainListText) later.")
-                }
-                if !draft.times.isEmpty, consequence != nil {
-                    Text("Kick-in and wear-off come from this med's own duration data, the same model the timeline draws. An estimate.")
-                }
-            }
         }
     }
 
@@ -391,8 +379,20 @@ struct MedFormView: View {
     private var scheduleFooter: some View {
         if draft.isAsNeeded {
             Text("Never marked missed. A daily limit feeds the cumulative dose warnings.")
-        } else if draft.frequency == .specificDays, draft.selectedWeekdays.isEmpty {
-            Text("Select at least one day.")
+        } else {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                if draft.frequency == .specificDays, draft.selectedWeekdays.isEmpty {
+                    Text("Select at least one day.")
+                }
+                if draft.times.isEmpty {
+                    Text("No set time. This med still counts toward adherence once per due day.")
+                } else if draft.remind {
+                    Text("A reminder at each time. If you don't log it, Piru asks again \(askAgainListText) later.")
+                }
+                if !draft.times.isEmpty, consequence != nil {
+                    Text("Kick-in and wear-off come from this med's own duration data, the same model the timeline draws. An estimate.")
+                }
+            }
         }
     }
 
