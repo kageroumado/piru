@@ -11,6 +11,10 @@ struct OnboardingSkinsStep: View {
     @Environment(\.onboardingNav) private var nav
     @State private var focused: Skin = SkinStore.shared.current
 
+    /// Wide enough to read the journal in the card, narrow enough that the
+    /// picker and the offers under it fit a tall phone without scrolling.
+    private static let cardWidth: CGFloat = 152
+
     var body: some View {
         OnboardingLayout(
             title: "Make it yours",
@@ -19,7 +23,7 @@ struct OnboardingSkinsStep: View {
             EmptyView()
         } mid: {
             VStack(spacing: Spacing.xxl) {
-                SkinWardrobe(focused: $focused)
+                SkinWardrobe(focused: $focused, cardWidth: Self.cardWidth)
                 VStack(alignment: .leading, spacing: 18) {
                     SkinShopOffers()
                 }
