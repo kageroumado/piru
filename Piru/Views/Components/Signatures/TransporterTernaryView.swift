@@ -18,9 +18,6 @@ struct TransporterTernaryView: View {
     @State private var selection = 0
     /// The comparison dot the reader tapped to name, by `Point.id`; `nil` when none.
     @State private var selectedPointID: String?
-    /// Whether the reader has ever named a dot by tapping — the one-line hint under the plot
-    /// shows until then.
-    @AppStorage("ternaryTapHintSeen") private var tapHintSeen = false
 
     private var triple: TransporterTernaryModel.Triple {
         model.triples[min(selection, model.triples.count - 1)]
@@ -87,18 +84,9 @@ struct TransporterTernaryView: View {
                         }
                         .padding(.trailing, Spacing.xxs)
                     }
-
-                if !tapHintSeen {
-                    Text("Tap a dot to name it", comment: "Hint under the transporter ternary plot")
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .onChange(of: selectedPointID) { _, selected in
-            if selected != nil { tapHintSeen = true }
-        }
         // Point ids are substance ids, so one can exist on both bases; a selection
         // still clears on a basis switch because the dot moves and the reader's
         // eye has lost it.

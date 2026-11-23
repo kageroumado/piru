@@ -2,8 +2,10 @@ import SwiftUI
 
 /// §1 — "what does my usage look like in this window?": four figures in one
 /// card — how many entries, how many distinct substances, the daily average,
-/// and the share of placed doses at common or above. The window is named once
-/// above the card, since the range itself lives in the toolbar menu.
+/// and the share of placed doses at common or above. The figures spread across
+/// the card's width, each right-aligned so its number sits flush over its label.
+/// The window is named once above the card, since the range itself lives in the
+/// toolbar menu.
 struct UsageOverviewSection: View {
     let overview: UsageOverview
     let range: UsageTimeRange
@@ -13,10 +15,16 @@ struct UsageOverviewSection: View {
             Text(range.windowName)
                 .sectionHeader()
             ViewThatFits(in: .horizontal) {
-                HStack(alignment: .firstTextBaseline, spacing: Spacing.xl) {
-                    figures
+                HStack(alignment: .firstTextBaseline, spacing: 0) {
+                    entries
+                    Spacer(minLength: Spacing.lg)
+                    substances
+                    Spacer(minLength: Spacing.lg)
+                    perDay
+                    Spacer(minLength: Spacing.lg)
+                    intensity
                 }
-                Grid(alignment: .leading, horizontalSpacing: Spacing.xl, verticalSpacing: Spacing.lg) {
+                Grid(alignment: .trailing, horizontalSpacing: Spacing.xl, verticalSpacing: Spacing.lg) {
                     GridRow { entries; substances }
                     GridRow { perDay; intensity }
                 }
@@ -25,14 +33,6 @@ struct UsageOverviewSection: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .themeCard(cornerRadius: Theme.CornerRadius.container)
         }
-    }
-
-    @ViewBuilder
-    private var figures: some View {
-        entries
-        substances
-        perDay
-        intensity
     }
 
     private var entries: some View {
@@ -51,7 +51,7 @@ struct UsageOverviewSection: View {
     }
 
     private var intensity: some View {
-        UsageFigure(value: intensityValue, label: "at common or above")
+        UsageFigure(value: intensityValue, label: "common or more")
             .accessibilityValue(Text(intensityAccessibility))
     }
 
@@ -88,13 +88,14 @@ struct UsageOverviewSection: View {
     }
 }
 
-/// One figure in the overview card: the number, its unit under it.
+/// One figure in the overview card: the number, its unit under it, both
+/// right-aligned.
 private struct UsageFigure: View {
     let value: String
     let label: LocalizedStringKey
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.xxs) {
+        VStack(alignment: .trailing, spacing: Spacing.xxs) {
             Text(value)
                 .font(.piru(.title2, design: .rounded, weight: .semibold))
                 .lineLimit(1)

@@ -427,7 +427,10 @@ struct StagedDosePillBlock: View {
                         action: { model.selectFreeForm(item: item) },
                     )
                 }
+                // The selected chip's border straddles its edge; the inset keeps
+                // the scroll view's clip off its top and bottom.
                 .padding(.horizontal, Spacing.xxs)
+                .padding(.vertical, Spacing.xxs)
             }
             if model.pillStrength != nil {
                 StagedDosePillCountRow(item: $item, model: model, product: product)

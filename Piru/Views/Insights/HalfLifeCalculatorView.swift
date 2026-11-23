@@ -51,6 +51,8 @@ struct HalfLifeCalculatorView: View {
 private struct HalfLifeInputSection: View {
     @Bindable var model: HalfLifeCalculatorModel
 
+    private static let doseUnits = ["mg", "g", "µg", "mL", "IU", "drops", "puffs"]
+
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
             VStack(alignment: .leading) {
@@ -69,37 +71,16 @@ private struct HalfLifeInputSection: View {
                 }
             }
 
-            HStack(spacing: Spacing.xl) {
-                VStack(alignment: .leading) {
-                    Text("Dose")
-                        .captionSecondary()
-                    HStack(spacing: 0) {
-                        TextField("Amount", value: $model.doseAmount, format: .number)
-                            .accessibilityLabel(Text("Amount"))
-                            .decimalKeyboard()
-                            .padding(Spacing.md)
-                        Divider()
-                            .frame(height: 20)
-                        Menu {
-                            ForEach(["mg", "g", "µg", "mL", "IU", "drops", "puffs"], id: \.self) { u in
-                                Button(u) { model.doseUnit = u }
-                            }
-                        } label: {
-                            Text(model.doseUnit)
-                                .padding(Spacing.md)
-                                .foregroundStyle(.primary)
-                        }
-                    }
-                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.input))
-                }
+            InventoryStepperRow(
+                value: $model.doseAmount,
+                unit: model.doseUnit,
+                label: "Dose",
+                unitChoices: Self.doseUnits,
+                onUnitChange: { model.doseUnit = $0 },
+                showsLabel: true,
+            )
 
-                VStack(alignment: .leading) {
-                    Text("Time Taken")
-                        .captionSecondary()
-                    DatePicker("Time Taken", selection: $model.timeTaken)
-                        .labelsHidden()
-                }
-            }
+            DatePicker("Time Taken", selection: $model.timeTaken)
 
             // What the source says, which is usually a range. The curve below it is drawn
             // from one number — `HalfLife.representative` — and saying both keeps the curve

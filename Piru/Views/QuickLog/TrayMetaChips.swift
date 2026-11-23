@@ -4,7 +4,7 @@ import SwiftUI
 
 /// The tray-wide chips, ordered by how often they're used: When, Food (only while an
 /// oral dose is staged — the stomach is where an oral dose waits), Location, and
-/// Tags as a trailing icon. Rendered inside ``TrayCommitBar`` normally; at
+/// Tags. Rendered inside ``TrayCommitBar`` normally; at
 /// accessibility sizes the dock hosts them in the scroll content, stacked.
 ///
 /// An unset chip names its category ("Food", "Location"); a set one shows its
@@ -75,9 +75,9 @@ struct TrayMetaChips: View {
                 TrayMealChip(model: model, showsLabel: TrayChipFit.mealShowsLabel(tier: tier, isSet: model.meal != nil))
             }
             locationChip(showsLabel: TrayChipFit.locationShowsLabel(tier: tier, isSet: model.location != nil))
-            Spacer(minLength: 0)
             tagsChip
                 .onGeometryChange(for: CGFloat.self, of: \.size.width) { fit.tags = $0 }
+            Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
         .onGeometryChange(for: CGFloat.self, of: \.size.width) { fit.available = $0 }
@@ -196,13 +196,13 @@ struct TrayMetaChips: View {
 
     // MARK: Tags
 
-    /// The least-used chip, so an icon at the trailing edge, badged with the count
-    /// once tags are set. Toggles live in an anchored popover.
+    /// The least-used chip, last in the row and badged with the count once tags
+    /// are set. Toggles live in an anchored popover.
     private var tagsChip: some View {
         Button {
             showTagsPopover = true
         } label: {
-            TrayChipFace(systemImage: "tag", title: nil, isSet: !model.tags.isEmpty)
+            TrayChipFace(systemImage: "tag", title: String(localized: "Tags"), isSet: !model.tags.isEmpty)
                 .overlay(alignment: .topTrailing) {
                     if !model.tags.isEmpty {
                         Text(verbatim: "\(model.tags.count)")
