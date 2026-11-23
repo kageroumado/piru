@@ -229,6 +229,10 @@ struct InventoryStepperRow: View {
     /// Open with the keyboard up on the amount — for a form that arrived with
     /// everything but the number filled in.
     var focusOnAppear = false
+    /// Print `label` at the leading edge with the stepper trailing, for a group
+    /// of several steppers in one card. At sizes where the pair can't share a
+    /// line, the label sits above the stepper.
+    var showsLabel = false
 
     @State private var stepTick = 0
     @FocusState private var focused: Bool
@@ -239,36 +243,67 @@ struct InventoryStepperRow: View {
     }
 
     var body: some View {
-        HStack(spacing: Spacing.xl) {
+        content
+            .phaseAnimator([1.0, 1.03], trigger: stepTick) { content, scale in
+                content.scaleEffect(scale)
+            } animation: { _ in
+                .snappy(duration: 0.15)
+            }
+            .sensoryFeedback(.increase, trigger: stepTick)
+            .padding(.vertical, Spacing.xs)
+            .onAppear { if focusOnAppear { focused = true } }
+            // One slider for the whole row: swipes step by `accessibleStep`, the
+            // spoken value is the amount with its unit, and assistive tech gets a
+            // numeric position. The range grows with the value, so it never caps
+            // the amount.
+            .accessibilityRepresentation {
+                Slider(
+                    value: Binding(get: { value }, set: { bump(to: max(0, $0)) }),
+                    in: 0 ... max(value + accessibleStep * Self.accessibleStepsAhead, accessibleStep),
+                    step: accessibleStep,
+                ) {
+                    Text(label)
+                }
+                .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(displayUnit)"))
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        if showsLabel {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: Spacing.md) {
+                    labelText
+                    Spacer(minLength: Spacing.md)
+                    stepper(amountFills: false)
+                }
+                VStack(alignment: .leading, spacing: Spacing.xs) {
+                    labelText
+                    stepper(amountFills: true)
+                }
+            }
+        } else {
+            stepper(amountFills: true)
+        }
+    }
+
+    private var labelText: some View {
+        Text(label)
+            .lineLimit(1)
+            .fixedSize()
+    }
+
+    /// The two step buttons around the amount. `amountFills` spreads them to
+    /// the row's edges; otherwise the cluster hugs the amount.
+    private func stepper(amountFills: Bool) -> some View {
+        HStack(spacing: amountFills ? Spacing.xl : Spacing.md) {
             stepButton(systemImage: "minus") {
                 bump(to: max(0, value - step))
             }
-            amountField
+            amountField(fills: amountFills)
             stepButton(systemImage: "plus") {
                 bump(to: value + step)
             }
-        }
-        .phaseAnimator([1.0, 1.03], trigger: stepTick) { content, scale in
-            content.scaleEffect(scale)
-        } animation: { _ in
-            .snappy(duration: 0.15)
-        }
-        .sensoryFeedback(.increase, trigger: stepTick)
-        .padding(.vertical, Spacing.xs)
-        .onAppear { if focusOnAppear { focused = true } }
-        // One slider for the whole row: swipes step by `accessibleStep`, the
-        // spoken value is the amount with its unit, and assistive tech gets a
-        // numeric position. The range grows with the value, so it never caps
-        // the amount.
-        .accessibilityRepresentation {
-            Slider(
-                value: Binding(get: { value }, set: { bump(to: max(0, $0)) }),
-                in: 0 ... max(value + accessibleStep * Self.accessibleStepsAhead, accessibleStep),
-                step: accessibleStep,
-            ) {
-                Text(label)
-            }
-            .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(displayUnit)"))
         }
     }
 
@@ -292,7 +327,7 @@ struct InventoryStepperRow: View {
     /// fixed-size `TextField` takes its ideal width from the "0" placeholder and
     /// truncates "20" to "2…". While focused it holds one digit of slack, so the
     /// digit being typed has room before the binding catches up.
-    private var amountField: some View {
+    private func amountField(fills: Bool) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 5) {
             Text(verbatim: amountSizingText)
                 .font(.piru(.title2, weight: .semibold))
@@ -310,7 +345,7 @@ struct InventoryStepperRow: View {
                 }
             unitView
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: fills ? .infinity : nil)
         .frame(minHeight: 38)
         .contentShape(Rectangle())
         .accessibilityAddTraits(.isButton)

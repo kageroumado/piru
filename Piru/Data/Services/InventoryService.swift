@@ -249,7 +249,7 @@ enum InventoryMath {
 
     /// Whole doses remaining. Uses the user's explicit `doseSize` when set, else
     /// falls back to the library's reference dose for the substance — so a tracked
-    /// item shows "~N doses left" out of the box, before any "Single dose" is
+    /// item shows "~N doses left" out of the box, before any "One dose" is
     /// entered. `nil` only for an off-library custom substance with no dose size.
     @MainActor
     static func dosesLeft(for item: InventoryItem) -> Int? {

@@ -316,10 +316,8 @@ private struct SteadyStateRelatedLinks: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
-            GlanceCard(icon: "hourglass", title: Text("Modeled as Active"), route: .insight(.inSystem)) {
-                Text("See the model's estimate of what is still active")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
+            GlanceCard(icon: "hourglass", title: Text("In Your Body"), route: .insight(.inSystem)) {
+                EmptyView()
             }
         }
     }

@@ -2,7 +2,8 @@ import SwiftUI
 
 /// A list section header for one substance class that folds its section. The
 /// whole header is the fold control — a small chevron alone would be a poor
-/// target, and there's nothing else in a header to tap.
+/// target, and there's nothing else in a header to tap. The count shows only
+/// while the section is folded, when its rows can't be counted by eye.
 struct CollapsibleCategoryHeader: View {
     let category: SubstanceCategory
     let count: Int
@@ -18,8 +19,9 @@ struct CollapsibleCategoryHeader: View {
                     .font(.caption2)
                     .accessibilityHidden(true)
                 Text(category.displayName)
-                Text(verbatim: "\(count)")
-                    .foregroundStyle(Theme.tertiaryLabel)
+                if !isExpanded {
+                    Text(verbatim: "\(count)")
+                }
                 Spacer(minLength: 8)
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.semibold))

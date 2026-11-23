@@ -210,7 +210,7 @@ struct InventoryListView: View {
             List {
                 ForEach(sections) { section in
                     Section {
-                        // A collapsed section keeps its header (and its count) but
+                        // A collapsed section keeps its header (with its count) but
                         // renders no rows — folding it away entirely would lose the
                         // handle to get it back.
                         if section.category.map(model.isExpanded) ?? true {
@@ -369,13 +369,14 @@ private struct InventoryRow: View {
 
     @Environment(\.modelContext) private var modelContext
 
+    /// The status dot; the supply bar's inset is its width plus the gap after
+    /// it, so the bar starts at the name's leading edge.
+    private static let dotSize = LegendDot.Size.large
+
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             HStack(spacing: Spacing.md) {
-                Image(systemName: "circle.fill")
-                    .font(.chartAnnotation)
-                    .foregroundStyle(SubstancePalette.color(for: item.substance, colorMap: colorMap))
-                    .accessibilityHidden(true)
+                LegendDot(color: SubstancePalette.color(for: item.substance, colorMap: colorMap), size: Self.dotSize)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(item.displayTitle)
                         .font(.body.weight(.semibold))
@@ -394,7 +395,7 @@ private struct InventoryRow: View {
             }
             if let fraction = item.fillFraction {
                 InventorySupplyBar(fraction: fraction, tint: barTint, status: item.stockStatus)
-                    .padding(.leading, 17)
+                    .padding(.leading, Self.dotSize.diameter + Spacing.md)
             }
         }
         .padding(.vertical, Spacing.xxs)

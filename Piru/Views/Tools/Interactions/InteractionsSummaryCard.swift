@@ -3,8 +3,9 @@ import SwiftUI
 
 /// The Interactions entry on the Tools tab: when substances are currently
 /// active together, it surfaces the two or three most important interactions
-/// between them, ranked worst-first; otherwise it's a plain hub row. Tapping
-/// opens the full ``InteractionCheckerView``.
+/// between them, ranked worst-first; otherwise one line says that nothing is
+/// flagged among them, or what the checker covers. Tapping opens the
+/// full ``InteractionCheckerView``.
 struct InteractionsSummaryCard: View {
     @Query private var entries: [DoseEntry]
 
@@ -28,6 +29,9 @@ struct InteractionsSummaryCard: View {
     @State private var top: [ActiveInteraction] = []
     /// How many ranked interactions beyond the shown ones exist.
     @State private var moreCount = 0
+    /// How many substances are active now: from two up, an empty result
+    /// means nothing was flagged between them.
+    @State private var activeCount = 0
     /// The dose-log revision `top` was computed from. The task below also
     /// fires on every re-appearance of the Tools tab with the id unchanged,
     /// and just reading `entries` then materializes the whole 120-day window
@@ -53,9 +57,16 @@ struct InteractionsSummaryCard: View {
             route: .tool(.interactions),
         ) {
             if top.isEmpty {
-                Text(Tool.interactions.subtitle)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
+                Group {
+                    if activeCount >= 2 {
+                        Text("Nothing flagged for what's active now")
+                    } else {
+                        Text(Tool.interactions.subtitle)
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 VStack(spacing: Spacing.lg) {
                     ForEach(top) { interaction in
@@ -107,6 +118,7 @@ struct InteractionsSummaryCard: View {
         await SubstanceStore.shared.ensureAllLoaded()
         let active = InteractionChecker.activeEntries(from: entries)
         let names = Array(Set(active.map(\.substance)))
+        activeCount = names.count
         guard names.count >= 2 else {
             top = []
             moreCount = 0

@@ -59,7 +59,13 @@ struct DemoDataWeekTests {
         #expect(beers.allSatisfy { $0.unit == "g" && $0.volumeML == 330 && $0.abv == 5 && $0.drinkName != nil })
 
         #expect(try context.fetchCount(FetchDescriptor<DailyDoseItem>()) == 3)
-        #expect(try context.fetchCount(FetchDescriptor<InventoryItem>()) == 5)
+        let stock = try context.fetch(FetchDescriptor<InventoryItem>())
+        #expect(stock.count == 5)
+        // The Concerta box is named by its product, the way the med and its
+        // doses are, and counts those doses down to 21 tablets.
+        let concerta = try #require(stock.first { $0.substance == "Methylphenidate" })
+        #expect(concerta.displayTitle == "Concerta")
+        #expect(InventoryMath.quantity(for: concerta, in: context) == 21)
         #expect(try context.fetchCount(FetchDescriptor<FavoriteSubstance>()) == 4)
         #expect(try context.fetchCount(FetchDescriptor<SubstanceColor>()) == 8)
         #expect(try context.fetchCount(FetchDescriptor<QuickLogDose>()) >= 8)

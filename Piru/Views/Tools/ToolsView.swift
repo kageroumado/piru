@@ -52,7 +52,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     /// One-line description shown under the name in the hub list.
     var subtitle: LocalizedStringResource {
         switch self {
-        case .interactions: "Check how substances interact"
+        case .interactions: "Known risks for any combination"
         case .calculator: "Estimate active levels over time"
         case .volumetric: "Concentration and solvent volume for a solution"
         case .recovery: "Comedown and aftercare tips"
@@ -145,13 +145,28 @@ struct ToolsView: View {
 /// Pushes `DataStorageView` — the record's own tool: what is stored on the
 /// device, iCloud backup, export and import, recovery snapshots, and the
 /// substance database. The same screen stays reachable from Settings.
+///
+/// The second line says when the last iCloud backup ran, or what the screen
+/// holds while automatic backup is off.
 private struct DataBackupToolCard: View {
+    @State private var lastBackup: Date?
+
     var body: some View {
         GlanceCard(icon: "externaldrive", title: Text("Data & Backup"), route: .dataStorage) {
-            Text("Export, import, and encrypted backups")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            Group {
+                if let lastBackup {
+                    Text("Backed up to iCloud \(lastBackup.formatted(.relative(presentation: .named)))")
+                } else {
+                    Text("Storage, exports, and recovery snapshots")
+                }
+            }
+            .font(.subheadline)
+            .foregroundStyle(Theme.secondaryLabel)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .task {
+            let manager = BackupManager.shared
+            lastBackup = manager.autoICloudEnabled ? manager.lastBackupDate : nil
         }
     }
 }
@@ -215,9 +230,7 @@ private struct MyMedsToolCard: View {
                             systemImage: "clock",
                             text: Text("Next: \(displayName(for: nextSlot.med)) at \(Self.timeText(time))"),
                         )
-                    } else if slots.allSatisfy({ $0.state == .taken }) {
-                        footerLine(systemImage: "checkmark.circle", text: Text("All taken"))
-                    } else if !slots.contains(where: { $0.state == .pending }) {
+                    } else if !slots.contains(where: { $0.state == .pending }), !slots.allSatisfy({ $0.state == .taken }) {
                         footerLine(systemImage: "checkmark.circle", text: Text("Nothing due"))
                     }
                 }

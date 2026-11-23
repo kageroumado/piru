@@ -985,16 +985,18 @@ import SwiftData
             // magnesium caps. Concerta is counted in tablets at its 36 mg
             // strength, the way a scanned box adds it.
             let fill = at(7, 9, 0)
-            let stock: [(name: String, unit: String, strength: Double?, doseSize: Double, initial: Double, threshold: Double, note: String)] = [
-                (concertaSubstance, "tabs", 36, 1, 28, 7, "\(concerta) · 28 tablets"),
-                ("L-Theanine", "mg", nil, 200, 67 * 200, 10 * 200, "new bottle"),
-                ("Lorazepam", "mg", nil, 1, 9.5, 2, "pharmacy refill"),
-                ("Caffeine", "mg", nil, 90, 47 * 90 + 60, 5 * 90, "new bottle"),
-                ("Magnesium", "mg", nil, 350, 91 * 350, 10 * 350, "new bottle"),
+            // The Concerta box is its own item, named by its product, so it
+            // counts only Concerta doses and reads "Concerta" in every list.
+            let stock: [(name: String, product: String?, unit: String, strength: Double?, doseSize: Double, initial: Double, threshold: Double, note: String)] = [
+                (concertaSubstance, concerta, "tabs", 36, 1, 28, 7, "\(concerta) · 28 tablets"),
+                ("L-Theanine", nil, "mg", nil, 200, 67 * 200, 10 * 200, "new bottle"),
+                ("Lorazepam", nil, "mg", nil, 1, 9.5, 2, "pharmacy refill"),
+                ("Caffeine", nil, "mg", nil, 90, 47 * 90 + 60, 5 * 90, "new bottle"),
+                ("Magnesium", nil, "mg", nil, 350, 91 * 350, 10 * 350, "new bottle"),
             ]
             for (order, item) in stock.enumerated() {
                 context.insert(InventoryItem(
-                    substance: item.name, unit: item.unit, trackingStart: fill,
+                    substance: item.name, productName: item.product, unit: item.unit, trackingStart: fill,
                     lowStockThreshold: item.threshold, baselineQuantity: item.initial, doseSize: item.doseSize,
                     unitStrengthMG: item.strength,
                     manualEvents: [ManualEvent(kind: .initial, amount: item.initial, date: fill, note: item.note, setsBaseline: true)],
