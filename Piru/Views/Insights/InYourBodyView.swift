@@ -184,7 +184,7 @@ struct InYourBodyView: View {
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
-                        Text("\(Int(active.eliminatedFraction * 100))% eliminated")
+                        Text("\(remainingPercent(active))% left")
                             .font(.caption2)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
@@ -206,7 +206,7 @@ struct InYourBodyView: View {
                         .frame(height: 4)
                     Capsule()
                         .fill(active.color)
-                        .frame(width: geo.size.width * (1 - active.eliminatedFraction), height: 4)
+                        .frame(width: geo.size.width * Double(remainingPercent(active)) / 100, height: 4)
                 }
             }
             .frame(height: 4)
@@ -309,6 +309,11 @@ struct InYourBodyView: View {
     }
 
     // MARK: - Helpers
+
+    /// The share still in the body, as the label prints it and the bar fills.
+    private func remainingPercent(_ active: ActiveSubstance) -> Int {
+        Int(((1 - active.eliminatedFraction) * 100).rounded())
+    }
 
     private static func doseTimestampText(_ date: Date) -> String {
         if Calendar.current.isDateInToday(date) {

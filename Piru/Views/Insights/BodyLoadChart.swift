@@ -121,8 +121,10 @@ struct BodyLoadChart: View {
                        let name = names.first(where: { floors[$0].map { $0 + 0.5 } == position }) {
                         Text(name)
                             .font(.caption2)
-                            .lineLimit(1)
-                            .frame(maxWidth: 88, alignment: .leading)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.trailing)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(width: 88, alignment: .trailing)
                     }
                 }
             }
