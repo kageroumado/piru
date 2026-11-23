@@ -35,7 +35,7 @@ struct TimelinePreferences: DynamicProperty {
     var bubbleStyle = TimelineBubbleStyle.full
 
     /// Overlay heart rate from HealthKit.
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup))
+    @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore)
     var showsVitals = false
 
     /// The day cards' redose-stacking preference. Read here so the timeline

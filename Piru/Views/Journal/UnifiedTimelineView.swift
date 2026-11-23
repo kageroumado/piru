@@ -36,7 +36,7 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelineCurveScale", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var curveScale = TimelineCurveScale.doseStrength
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var bubbleStyle = TimelineBubbleStyle.full
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsVitals = false
+    @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore) private var showsVitals = false
 
     var body: some View {
         ScrollViewReader { proxy in

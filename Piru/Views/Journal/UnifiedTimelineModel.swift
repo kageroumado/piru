@@ -45,7 +45,7 @@ final class UnifiedTimelineModel {
         guard !Task.isCancelled else { return }
         let sessions = Self.sessionsByID(of: entries)
 
-        let heartRate = showsAxis && showsVitals ? await Self.recentHeartRate(entries: entries) : []
+        let heartRate = showsAxis && HealthKitVitals.shared.isOn(overlay: showsVitals) ? await Self.recentHeartRate(entries: entries) : []
         guard !Task.isCancelled else { return }
 
         guard var builder = TimelineStripBuilder(
@@ -145,7 +145,8 @@ final class UnifiedTimelineModel {
 
     /// The recent stretch's heart rate, read the way the session detail reads
     /// it: a plain query with no authorization prompt, empty when there is no
-    /// access or nothing recorded.
+    /// access or nothing recorded. The caller has already asked
+    /// ``HealthKitVitals/isOn(overlay:)``.
     private static func recentHeartRate(entries: [DoseEntry]) async -> [HeartRateSample] {
         let now = DebugClock.now
         guard let oldest = entries.map(\.timestamp).min() else { return [] }
@@ -154,12 +155,11 @@ final class UnifiedTimelineModel {
 
         #if DEBUG
             // On-simulator visual verification without Health data.
-            if ProcessInfo.processInfo.arguments.contains("-piruFakeVitals") {
+            if HealthKitVitals.usesFakeVitals {
                 let doses = entries.map(\.timestamp).filter { $0 >= start && $0 <= now }
                 return DebugVitals.synthetic(doses: doses, start: start, end: now).heartRate
             }
         #endif
-        guard HealthKitVitals.shared.isAvailable else { return [] }
         return await HealthKitVitals.shared.vitals(from: start, to: now).heartRate
     }
 }
