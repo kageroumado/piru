@@ -39,15 +39,24 @@ enum MedTimeGroup: Int, CaseIterable, Identifiable {
         }
     }
 
-    var rangeLabel: LocalizedStringResource {
+    /// The clock range a time-of-day group covers, in the device's clock
+    /// format; `nil` for the groups without one, whose name already says it.
+    var rangeLabel: String? {
         switch self {
-        case .morning: "before 12:00"
-        case .afternoon: "12:00 – 17:00"
-        case .evening: "17:00 – 21:00"
-        case .night: "after 21:00"
-        case .anytime: "no set time"
-        case .asNeeded: "no schedule"
+        case .morning: String(localized: "before \(Self.clockText(720))")
+        case .afternoon: "\(Self.clockText(720)) – \(Self.clockText(1_020))"
+        case .evening: "\(Self.clockText(1_020)) – \(Self.clockText(1_260))"
+        case .night: String(localized: "after \(Self.clockText(1_260))")
+        case .anytime, .asNeeded: nil
         }
+    }
+
+    /// Minutes from midnight as a time of day in the device's clock format.
+    static func clockText(_ minutes: Int) -> String {
+        let date = Calendar.current.date(
+            bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: .now,
+        ) ?? .now
+        return date.formatted(date: .omitted, time: .shortened)
     }
 
     var symbol: String {
@@ -103,6 +112,7 @@ struct MyMedsHubView: View {
     @Environment(\.appNavigator) private var navigator
     @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
+    @Query private var substanceColors: [SubstanceColor]
 
     @State private var showingAddMed = false
     /// A saved product no med names yet, opened in the add form to become one.
@@ -120,10 +130,15 @@ struct MyMedsHubView: View {
             if items.isEmpty {
                 emptyState
             } else {
+                let colorMap = substanceColors.colorMap
                 ForEach(groups, id: \.group) { group, members in
                     Section {
                         ForEach(members) { item in
-                            MedRow(item: item, group: group) {
+                            MedRow(
+                                item: item,
+                                group: group,
+                                color: SubstancePalette.color(for: item.substance, colorMap: colorMap),
+                            ) {
                                 navigator.openRecord(
                                     .medDetail(identityKey: item.identityKey, sortOrder: item.sortOrder),
                                     besideList: opensRecordsBesideList,
@@ -135,10 +150,12 @@ struct MyMedsHubView: View {
                             Image(systemName: group.symbol)
                                 .accessibilityHidden(true)
                             Text(group.label)
-                            Text(group.rangeLabel)
-                                .font(.caption2.monospacedDigit())
-                                .textCase(nil)
-                                .foregroundStyle(Theme.secondaryLabel)
+                            if let range = group.rangeLabel {
+                                Text(range)
+                                    .font(.caption2.monospacedDigit())
+                                    .textCase(nil)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
                         }
                     }
                     .listRowBackground(CardBackground())
@@ -267,28 +284,22 @@ private struct UnlistedProductsSection: View {
 private struct MedRow: View {
     let item: DailyDoseItem
     let group: MedTimeGroup
+    /// The substance's color, for the leading dot.
+    let color: Color
     let onTap: () -> Void
 
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: Spacing.xl) {
-                Image(systemName: "pill")
-                    .sectionLabel()
-                    .foregroundStyle(.white)
-                    .frame(width: 30, height: 30)
-                    .background(Theme.accent, in: Circle())
+                Circle()
+                    .fill(color)
+                    .frame(width: 10, height: 10)
                     .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
-                    HStack(spacing: Spacing.sm) {
-                        Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
-                            .font(.body)
-                            .foregroundStyle(.primary)
-                        if item.isQuiet {
-                            Text("quiet")
-                                .capsuleChip(text: Theme.secondaryLabel, fill: Theme.secondaryLabel)
-                        }
-                    }
+                    Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
+                        .font(.body)
+                        .foregroundStyle(.primary)
                     Text(subtitle)
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -316,7 +327,7 @@ private struct MedRow: View {
             if let limit = item.maxPerDay {
                 return "\(dose) · \(String(localized: "up to \(limit)× daily"))"
             }
-            return "\(dose) · \(String(localized: "as needed"))"
+            return dose
         }
         let times = item.reminderTimesMinutes
         guard !times.isEmpty else {
@@ -324,20 +335,13 @@ private struct MedRow: View {
         }
         let inGroup = times.filter { MedTimeGroup.group(forMinutes: $0) == group }
         let others = times.filter { MedTimeGroup.group(forMinutes: $0) != group }
-        var text = "\(dose) · \(inGroup.map(Self.timeText).joined(separator: " · "))"
+        var text = "\(dose) · \(inGroup.map(MedTimeGroup.clockText).joined(separator: " · "))"
         if !others.isEmpty {
-            text += " · \(String(localized: "also \(others.map(Self.timeText).joined(separator: ", "))"))"
+            text += " · \(String(localized: "also \(others.map(MedTimeGroup.clockText).joined(separator: ", "))"))"
         }
         if item.frequency != .daily {
             text += " · \(item.frequencyShortLabel)"
         }
         return text
-    }
-
-    private static func timeText(_ minutes: Int) -> String {
-        let date = Calendar.current.date(
-            bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: .now,
-        ) ?? .now
-        return date.formatted(date: .omitted, time: .shortened)
     }
 }
