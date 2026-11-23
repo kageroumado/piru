@@ -29,3 +29,10 @@ Looks dead; scope or origin unverified. Kiri confirms → it goes.
 - **Not deleted because**: they read as the navigator's intended public surface, and the tests assert their behavior
 - **To confirm**: `grep -rnE '\.pop\(|popToRoot|\.dismiss\(\.' Piru Shared`
 - **Found**: 2026-11-20
+
+## `Piru/Utilities/AdherenceCalculator.swift` — the streak walk and its off-main snapshot path
+- **What**: `currentStreak(adherenceData:now:)`, `streak(fromDays:now:boundaryHour:)`, `currentStreak(spanningDays:endingAt:entries:items:boundaryHour:)`, the `EntrySnapshot` and `DailyItemSnapshot` types and both snapshot `dayStatus` overloads
+- **Looks dead because**: the My Meds card's "N days logged" chip was their only app caller, through `AdherenceStreakStore` and `AdherenceStreakFetcher`, which went with the chip
+- **Not deleted because**: suites in `AdherenceCalculatorTests`, `CombinationProductTests` and `DoseTimeZoneTests` assert them, and a streak may come back on another surface
+- **To confirm**: `grep -rnE 'currentStreak|streak\(fromDays|EntrySnapshot\(|DailyItemSnapshot\(|dayStatus\(' Piru Shared | grep -v RoutineOccurrence`
+- **Found**: 2026-11-23
