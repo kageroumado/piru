@@ -56,9 +56,11 @@ struct BrandPicker: View {
         return brands.first { $0.name.caseInsensitiveCompare(productName) == .orderedSame }
     }
 
-    /// The pill's collapsed label: the chosen brand if any (even one not in the
-    /// menu, so a searched niche brand still reads correctly), else the base form.
-    private var label: String {
+    /// The current choice, spoken as the pill's value: the chosen brand if any
+    /// (even one not in the menu, so a searched niche brand still reads
+    /// correctly), else the base form. The pill itself always reads "Brand",
+    /// because the card above it already titles the dose by its brand.
+    private var selectionName: String {
         if let productName, !productName.isEmpty { return productName }
         return String(localized: "Unbranded", comment: "Brand picker: no specific brand — the plain substance")
     }
@@ -93,12 +95,12 @@ struct BrandPicker: View {
     private func menuPill(namespace: Namespace.ID, id: String, height: CGFloat) -> some View {
         MenuPillLabel(
             systemImage: "pills",
-            text: label,
+            text: String(localized: "Brand"),
             namespace: namespace,
             geometryID: id,
             height: height,
-            accessibilityLabel: Text("Formulation"),
-            accessibilityValue: label,
+            accessibilityLabel: Text("Brand"),
+            accessibilityValue: selectionName,
         ) {
             menuContent
         }
