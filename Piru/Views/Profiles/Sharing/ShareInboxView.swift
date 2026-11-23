@@ -141,11 +141,11 @@ private struct IncomingShare: View {
 
     private func summary(_ side: SessionShare.Side) -> String {
         let when = side.startDate.formatted(.dateTime.weekday(.wide).hour().minute())
-        let doses = String(localized: "\(side.doses.count) doses")
+        let entries = String(localized: "\(side.doses.count) entries")
         if let title = side.title, !title.isEmpty {
-            return "\(title) · \(when) · \(doses)"
+            return "\(title) · \(when) · \(entries)"
         }
-        return "\(when) · \(doses)"
+        return "\(when) · \(entries)"
     }
 }
 
