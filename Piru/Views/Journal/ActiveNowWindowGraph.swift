@@ -126,13 +126,13 @@ struct ActiveNowWindowGraph: View {
         return floor == date ? date : floor.addingTimeInterval(3_600)
     }
 
-    /// Wall-clock hours between axis labels, chosen so the band holds ~5–8
-    /// labels at card width regardless of the window's span.
-    private func labelStepHours(spanHours: Double) -> Int {
+    /// Wall-clock hours between axis labels, a fixed step per span so the band
+    /// holds ~4–6 evenly spaced labels at card width.
+    static func labelStepHours(spanHours: Double) -> Int {
         switch spanHours {
-        case ..<9: 1
-        case ..<17: 2
-        case ..<27: 3
+        case ..<7: 1
+        case ..<13: 2
+        case ..<25: 4
         default: 6
         }
     }
@@ -150,7 +150,7 @@ struct ActiveNowWindowGraph: View {
         context.stroke(baseline, with: .color(Theme.secondaryLabel.opacity(0.12)), lineWidth: 1)
 
         let calendar = Calendar.current
-        let step = labelStepHours(spanHours: span / 3_600)
+        let step = Self.labelStepHours(spanHours: span / 3_600)
         var mark = hourCeil(start)
         while mark <= end {
             defer { mark = mark.addingTimeInterval(3_600) }
@@ -178,11 +178,12 @@ struct ActiveNowWindowGraph: View {
             }
             let resolved = context.resolve(label.foregroundStyle(Theme.secondaryLabel))
             let textSize = resolved.measure(in: CGSize(width: 100, height: Self.labelBand))
-            // Clamp edge labels inside the canvas instead of slicing them.
-            let clampedX = min(max(x, textSize.width / 2), size.width - textSize.width / 2)
+            // A label that would not fit centered under its gridline is left off:
+            // pushed inward it would sit off its hour and crowd its neighbor.
+            guard x - textSize.width / 2 >= 0, x + textSize.width / 2 <= size.width else { continue }
             context.draw(
                 resolved,
-                at: CGPoint(x: clampedX, y: baselineY + Self.labelBand / 2 + 1),
+                at: CGPoint(x: x, y: baselineY + Self.labelBand / 2 + 1),
                 anchor: .center,
             )
         }
