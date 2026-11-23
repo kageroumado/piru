@@ -1,9 +1,10 @@
 import SwiftUI
 
 /// A dismissible one-row offer of the vitals overlay to users who never opted in —
-/// its "Turn On" surfaces the same single combined Health sheet as everywhere else. Owns its own opt-in state: flipping
-/// `showSessionVitals` (an app-group `@AppStorage` the detail view also reads)
-/// re-runs the detail's vitals task, and `didOfferSessionVitals` retires the banner.
+/// its "Turn On" surfaces the same single combined Health sheet as everywhere
+/// else. Owns its own opt-in state: flipping `showSessionVitals` (an app-group
+/// `@AppStorage` the detail view also reads) re-runs the detail's vitals task,
+/// and `didOfferSessionVitals` retires the banner.
 struct VitalsOfferBanner: View {
     /// Opt-in: overlay Apple Health heart rate / blood pressure on the session.
     /// Stored in the app-group suite so it's consistent app-wide.

@@ -126,11 +126,13 @@ struct SessionNoteRow: View, Equatable {
 
     private var noteContent: some View {
         HStack(alignment: .top, spacing: Spacing.xl) {
+            // The same glyph in the same filled circle as this note's marker
+            // above the graph, so a marker reads as this row.
             Image(systemName: glyph)
-                .font(.caption.weight(.bold))
-                .foregroundStyle(Theme.accent)
+                .font(.caption2.weight(.bold))
+                .foregroundStyle(.white)
                 .frame(width: IconSize.iconMini, height: IconSize.iconMini)
-                .background(Theme.accent.opacity(Theme.Opacity.tint), in: Circle())
+                .background(Theme.accent, in: Circle())
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 if display.kind != .observation {
