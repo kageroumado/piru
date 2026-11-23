@@ -147,8 +147,6 @@ struct MyMedsHubView: View {
                         }
                     } header: {
                         HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
-                            Image(systemName: group.symbol)
-                                .accessibilityHidden(true)
                             Text(group.label)
                             if let range = group.rangeLabel {
                                 Text(range)

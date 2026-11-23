@@ -351,7 +351,7 @@ struct MedFormView: View {
 
             if !draft.times.isEmpty {
                 Toggle(isOn: $draft.remind) {
-                    Label("Remind Me", systemImage: "bell")
+                    Text("Remind Me")
                 }
             }
         }
@@ -368,7 +368,7 @@ struct MedFormView: View {
     private var quietSection: some View {
         Section {
             Toggle(isOn: quietBinding) {
-                Label("Quiet med", systemImage: "leaf")
+                Text("Quiet med")
             }
         } footer: {
             Text("Grouped under Supplements, off the timeline graphs. Reminders are silent.")

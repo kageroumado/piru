@@ -55,7 +55,7 @@ private struct LanguageSection: View {
                 Label("Language", systemImage: "globe")
             }
         } footer: {
-            Text("System uses your device’s language. Widgets switch at their next refresh.")
+            Text("Widgets switch at their next refresh.")
         }
     }
 
@@ -77,13 +77,7 @@ private struct DetailLevelSection: View {
         Section {
             Picker(selection: profileBinding) {
                 ForEach(UserProfile.allCases) { profile in
-                    Label {
-                        Text(profile.displayName)
-                    } icon: {
-                        Image(systemName: profile.icon)
-                            .accessibilityHidden(true)
-                    }
-                    .tag(profile)
+                    Text(profile.displayName).tag(profile)
                 }
             } label: {
                 Label("Detail Level", systemImage: "slider.horizontal.3")
@@ -157,7 +151,7 @@ private struct ScreensSection: View {
             NavigationLink {
                 YourBodyView()
             } label: {
-                Label("Your Body", systemImage: "figure.stand")
+                Label("Your Body", systemImage: "scalemass")
             }
             NavigationLink {
                 SourcePriorityView()

@@ -320,7 +320,7 @@ struct MedDetailView: View {
             // Never `.disabled` on an empty time list: `remind` defaults on, so
             // a med with no set time would sit lit and ignore every tap.
             Toggle(isOn: remindBinding) {
-                Label("Remind Me", systemImage: "bell")
+                Text("Remind Me")
             }
 
             if item.remind, !item.reminderTimesMinutes.isEmpty {
@@ -329,7 +329,7 @@ struct MedDetailView: View {
                         Text(choice.label).tag(choice)
                     }
                 } label: {
-                    Label("Ask Again", systemImage: "clock.arrow.circlepath")
+                    Text("Ask Again")
                 }
             }
         } header: {
@@ -343,7 +343,7 @@ struct MedDetailView: View {
     private var quietSection: some View {
         Section {
             Toggle(isOn: $item.isQuiet) {
-                Label("Quiet med", systemImage: "leaf")
+                Text("Quiet med")
             }
             .onChange(of: item.isQuiet) {
                 // Quiet meds are also background meds (session folding).

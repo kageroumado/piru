@@ -34,7 +34,7 @@ index eaea496d..7b2cca61 100644
 +                        #endif
                      } header: {
                          HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
-                             Image(systemName: group.symbol)
+                             Text(group.label)
 @@ -345,3 +362,13 @@ private struct MedRow: View {
          return text
      }
