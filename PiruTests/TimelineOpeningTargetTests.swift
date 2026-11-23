@@ -46,11 +46,27 @@ struct TimelineOpeningTargetTests {
     }
 
     @Test
-    func `Row anchors pick the one landing Now nearest a third of the way down`() throws {
+    func `A list splits the Now slice so its lower row opens with Now a third of the way down`() throws {
+        // A long-acting dose: ~13 h of projection above Now on a short screen
+        // under the pinned meds card.
+        let days = [slice(day: 2, nowY: 1_640, height: 2_200), slice(day: 1, nowY: nil, height: 2_000)]
+        let viewport: CGFloat = 418
+        let split = try #require(TimelineOpeningTarget.split(days, viewportHeight: viewport))
+        #expect(split.id == days[0].id)
+        // The lower row's top is at the screen's top, so Now sits nowY − y down.
+        #expect(abs((1_640 - split.y) - viewport * TimelineOpeningTarget.screenFraction) < 1)
+    }
+
+    @Test
+    func `Nothing active leaves the slice whole`() {
+        let days = [slice(day: 2, nowY: 40, height: 1_200)]
+        #expect(TimelineOpeningTarget.split(days, viewportHeight: 418) == nil)
+    }
+
+    @Test
+    func `An unmeasured screen leaves the slice whole`() {
         let days = [slice(day: 2, nowY: 1_400, height: 3_000)]
-        let target = try #require(TimelineOpeningTarget.resolve(days, viewportHeight: 900, anchors: TimelineOpeningTarget.rowAnchors))
-        #expect(TimelineOpeningTarget.rowAnchors.contains(target.anchor.y))
-        #expect(target.anchor.y == 0.5)
+        #expect(TimelineOpeningTarget.split(days, viewportHeight: 0) == nil)
     }
 
     @Test

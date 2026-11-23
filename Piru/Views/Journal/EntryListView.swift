@@ -199,7 +199,8 @@ struct EntryListView: View {
             rows(activeStates: activeStates, activeID: activeID)
         }
         .id(listIdentity)
-        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { viewportHeight.value = $0 }
+        .onGeometryChange(for: CGFloat.self) { TimelineViewportHeight.visible(in: $0) } action: { viewportHeight.value = $0 }
+        .safeAreaBar(edge: .top) { pinnedHeader }
         .themedPage()
         .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
         .journalProfileSubtitle(enabled: !isSearchSurface)
@@ -344,12 +345,8 @@ struct EntryListView: View {
         .onChange(of: timelineModel.days.isEmpty) { _, isEmpty in
             guard !isEmpty, !hasOpenedAtNow, grouping == .timeline, !isSearchSurface else { return }
             hasOpenedAtNow = true
-            if let target = TimelineOpeningTarget.resolve(
-                timelineModel.days,
-                viewportHeight: viewportHeight.value,
-                anchors: TimelineOpeningTarget.rowAnchors,
-            ) {
-                proxy.scrollTo(target.id, anchor: target.anchor)
+            if TimelineOpeningTarget.split(timelineModel.days, viewportHeight: viewportHeight.value) != nil {
+                proxy.scrollTo(TimelineOpeningTarget.nowRowID, anchor: .top)
             }
         }
         .onChange(of: colorSignature) {
@@ -363,31 +360,57 @@ struct EntryListView: View {
         .sessionCardActions(cardActions, colors: substanceColors)
     }
 
+    /// Over the timeline, the filter bar and My Meds stay pinned under the
+    /// navigation bar while the strip scrolls beneath them, the way Calendar
+    /// pins its all-day events over the hours: the strip opens at Now, and
+    /// the projected hours above Now would otherwise push the card off the
+    /// first screen. The day list keeps them as its first rows.
+    private var pinsHeader: Bool {
+        grouping == .timeline && !isSearchSurface
+    }
+
+    @ViewBuilder
+    private var pinnedHeader: some View {
+        if pinsHeader {
+            VStack(spacing: 0) {
+                if model.hasActiveFilters {
+                    filterBar
+                }
+                MyMedsCard(substanceColors: substanceColors)
+                    .padding(.rowStandard)
+            }
+        }
+    }
+
+    private var filterBar: some View {
+        @Bindable var model = self.model
+        return JournalActiveFilterBar(
+            tags: $model.filterTags,
+            categories: $model.filterCategories,
+            routes: $model.filterRoutes,
+            onClear: { model.clearFilters() },
+        )
+    }
+
     /// The Journal's rows, shared by both containers.
     @ViewBuilder
     private func rows(activeStates: [ActiveSubstanceState], activeID: UUID?) -> some View {
-        @Bindable var model = self.model
-
         // Active-filter summary — the funnel's accent fill alone says *that*
         // something is filtered; this strip says *what*, chip-per-value, each
         // removable in place. It only exists while filtering, so the common
-        // (unfiltered) case pays no standing row for it.
-        if !isSearchSurface, model.hasActiveFilters {
-            JournalActiveFilterBar(
-                tags: $model.filterTags,
-                categories: $model.filterCategories,
-                routes: $model.filterRoutes,
-                onClear: { model.clearFilters() },
-            )
-            .listRowInsets(.rowFlush)
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
+        // (unfiltered) case pays no standing row for it. Over the timeline it
+        // is pinned instead (``pinnedHeader``).
+        if !isSearchSurface, !pinsHeader, model.hasActiveFilters {
+            filterBar
+                .listRowInsets(.rowFlush)
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
         }
 
         // The daily meds front door — today's checklist, tap to log.
         // Renders nothing while the
         // user has no meds, so a recreational-only journal never sees it.
-        if !isSearchSurface {
+        if !isSearchSurface, !pinsHeader {
             MyMedsCard(substanceColors: substanceColors)
                 .listRowInsets(.rowStandard)
                 .listRowSeparator(.hidden)
@@ -467,17 +490,36 @@ struct EntryListView: View {
 
     /// The Timeline grouping rendered as list rows — the same continuous
     /// strip the pushed timeline screen draws (day pills float over each
-    /// slice), with the meds/Active Now cards above; the strip's display
-    /// options live in the toolbar's ``JournalFilterMenu``.
+    /// slice), under the pinned meds card; the strip's display options live
+    /// in the toolbar's ``JournalFilterMenu``. The slice holding Now is drawn
+    /// as two rows cut above Now, so the list can open at Now
+    /// (``TimelineOpeningTarget/split(_:viewportHeight:)``); each row draws
+    /// the whole slice and shows its own part.
     private var timelineContent: some View {
-        ForEach(timelineModel.days) { day in
-            TimelineDayContent(day: day)
-                .equatable()
-                .id(day.date)
-                .listRowInsets(.rowFlush)
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+        let split = isSearchSurface ? nil : TimelineOpeningTarget.split(timelineModel.days, viewportHeight: viewportHeight.value)
+        return ForEach(timelineModel.days) { day in
+            if let split, split.id == day.id {
+                timelineRow(day)
+                    .frame(height: split.y, alignment: .top)
+                    .clipped()
+                    .id(day.date)
+                timelineRow(day)
+                    .frame(height: day.totalHeight - split.y, alignment: .bottom)
+                    .clipped()
+                    .id(TimelineOpeningTarget.nowRowID)
+            } else {
+                timelineRow(day)
+                    .id(day.date)
+            }
         }
+    }
+
+    private func timelineRow(_ day: TimelineDayLayout) -> some View {
+        TimelineDayContent(day: day)
+            .equatable()
+            .listRowInsets(.rowFlush)
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
     }
 
     /// Scroll the day list to the selected calendar date. Switches to the Days

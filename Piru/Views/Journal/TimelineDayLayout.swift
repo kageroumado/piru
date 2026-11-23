@@ -375,12 +375,13 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
 /// first screen: Now ``screenFraction`` of the way down, with the projection
 /// above it and the latest doses below.
 ///
-/// The target is the slice holding Now plus an anchor. `scrollTo(_:anchor:)`
-/// lines the anchor's point in the slice up with the same point of the
-/// screen, so the anchor that puts Now at the fraction depends on the screen's
-/// height: a scroll target inside the slice would be simpler, but a `List`
-/// scrolls only to its rows, and only to their top, center or bottom
-/// (`rowAnchors`): there the anchor that lands Now nearest the fraction wins.
+/// A `ScrollView` (the Timeline screen) gets the slice holding Now plus an
+/// anchor: `scrollTo(_:anchor:)` lines the anchor's point in the slice up with
+/// the same point of the screen, so the anchor that puts Now at the fraction
+/// depends on the screen's height. A `List` (the Journal) scrolls only to a
+/// row's top, center or bottom, and to no point offset, so there the slice
+/// holding Now is drawn as two rows cut above Now (``split(_:viewportHeight:)``)
+/// and the strip opens at the lower row's top, ``nowRowID``.
 nonisolated struct TimelineOpeningTarget: Equatable {
     let id: Date
     let anchor: UnitPoint
@@ -390,29 +391,41 @@ nonisolated struct TimelineOpeningTarget: Equatable {
     /// Now closer than this to the strip's top already shows on the first
     /// screen, so the strip opens at its top.
     static let nowClearance: CGFloat = 160
-    /// The anchors a `List` honors.
-    static let rowAnchors: [CGFloat] = [0, 0.5, 1]
+    /// The lower row of a split slice.
+    static let nowRowID = "timeline-now"
 
     /// The target for `days` (newest first) on a screen `viewportHeight`
     /// tall, or `nil` when the strip opens at its top: it has no Now, or Now
-    /// is within ``nowClearance`` of the top. `anchors` limits the anchor to
-    /// those values; `nil` allows any.
-    static func resolve(_ days: [TimelineDayLayout], viewportHeight: CGFloat, anchors: [CGFloat]? = nil) -> Self? {
-        guard let index = days.firstIndex(where: { $0.nowY != nil }), let nowY = days[index].nowY else { return nil }
-        let precedingHeight = days[..<index].reduce(0) { $0 + $1.totalHeight }
-        guard precedingHeight + nowY > nowClearance, viewportHeight > 0 else { return nil }
+    /// is within ``nowClearance`` of the top.
+    static func resolve(_ days: [TimelineDayLayout], viewportHeight: CGFloat) -> Self? {
+        guard let (index, nowY) = now(in: days, viewportHeight: viewportHeight) else { return nil }
         // Slice top on screen: a·V − a·H. Now on screen: that + nowY = f·V.
         let sliceHeight = days[index].totalHeight
         let span = viewportHeight - sliceHeight
-        let target = screenFraction * viewportHeight
-        let fraction: CGFloat = if let anchors {
-            anchors.min { abs($0 * span + nowY - target) < abs($1 * span + nowY - target) } ?? 0
-        } else if abs(span) < 1 {
-            nowY / sliceHeight
-        } else {
-            min(max((target - nowY) / span, 0), 1)
-        }
+        let fraction = abs(span) < 1
+            ? nowY / sliceHeight
+            : min(max((screenFraction * viewportHeight - nowY) / span, 0), 1)
         return Self(id: days[index].id, anchor: UnitPoint(x: 0.5, y: fraction))
+    }
+
+    /// Where to cut the slice holding Now into two rows, in slice coordinates:
+    /// ``screenFraction`` of a screen above Now, so opening at the lower row's
+    /// top lands Now there. `nil` when the strip opens at its top.
+    static func split(_ days: [TimelineDayLayout], viewportHeight: CGFloat) -> (id: Date, y: CGFloat)? {
+        guard let (index, nowY) = now(in: days, viewportHeight: viewportHeight) else { return nil }
+        let y = (nowY - screenFraction * viewportHeight).rounded()
+        guard y > 0 else { return nil }
+        return (days[index].id, y)
+    }
+
+    /// The slice holding Now and Now's height in it, when Now sits further
+    /// down the strip than ``nowClearance``.
+    private static func now(in days: [TimelineDayLayout], viewportHeight: CGFloat) -> (index: Int, nowY: CGFloat)? {
+        guard viewportHeight > 0, let index = days.firstIndex(where: { $0.nowY != nil }),
+              let nowY = days[index].nowY, days[index].totalHeight > 0 else { return nil }
+        let precedingHeight = days[..<index].reduce(0) { $0 + $1.totalHeight }
+        guard precedingHeight + nowY > nowClearance else { return nil }
+        return (index, nowY)
     }
 }
 
@@ -420,4 +433,11 @@ nonisolated struct TimelineOpeningTarget: Equatable {
 /// class in `@State`: writing it on every size change re-evaluates nothing.
 final class TimelineViewportHeight {
     var value: CGFloat = 0
+
+    /// The height content is seen through: the scroll view less the bars over
+    /// it (navigation bar, a pinned header, the tab bar), which is the span a
+    /// scroll anchor measures.
+    nonisolated static func visible(in proxy: GeometryProxy) -> CGFloat {
+        max(0, proxy.size.height - proxy.safeAreaInsets.top - proxy.safeAreaInsets.bottom)
+    }
 }

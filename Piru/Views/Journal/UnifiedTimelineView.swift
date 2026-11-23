@@ -62,7 +62,7 @@ struct UnifiedTimelineView: View {
                 .padding(.bottom, 40)
                 .scaleEffect(x: 1, y: pinchScale, anchor: .top)
             }
-            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { viewportHeight.value = $0 }
+            .onGeometryChange(for: CGFloat.self) { TimelineViewportHeight.visible(in: $0) } action: { viewportHeight.value = $0 }
             .skinBackdrop()
             .simultaneousGesture(magnification)
             .toolbar {
