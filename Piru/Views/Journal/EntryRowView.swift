@@ -279,7 +279,7 @@ struct EntryRowView: View {
     @ViewBuilder
     private var strengthChip: some View {
         if let level = display.core.doseLevel {
-            Text(String(localized: level.displayName).lowercased())
+            Text(level.displayName)
                 .capsuleChip(text: level.labelColor, fill: level.swiftUIColor)
                 // VoiceOver already gets the level through the dose's label.
                 .accessibilityHidden(true)

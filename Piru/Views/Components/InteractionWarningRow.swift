@@ -17,7 +17,7 @@ struct InteractionWarningRow: View {
                     .font(.chartLabel)
                     .foregroundStyle(warning.severity.labelColor)
                     .accessibilityHidden(true)
-                Text(String(localized: warning.severity.label).lowercased())
+                Text(warning.severity.label)
                     .capsuleChip(text: warning.severity.labelColor, fill: warning.severity.color)
             }
             Text(warning.description)

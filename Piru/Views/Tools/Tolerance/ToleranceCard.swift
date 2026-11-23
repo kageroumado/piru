@@ -62,7 +62,7 @@ struct ToleranceContributorChips: View {
             HStack(spacing: Spacing.sm) {
                 ForEach(contributors, id: \.self) { name in
                     Text(CustomSubstanceStore.shared.displayName(for: name))
-                        .capsuleChip(text: color, fill: color)
+                        .capsuleChip(text: color, fill: color, label: .name)
                 }
             }
         }

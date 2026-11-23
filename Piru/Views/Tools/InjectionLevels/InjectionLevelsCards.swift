@@ -55,6 +55,7 @@ struct LabCalibrationCard<Controls: View>: View {
             : count == 1 ? String(localized: "1 result") : String(localized: "Calibrated · \(count) results")
         return Text(label)
             .font(.caption2.weight(.semibold))
+            .textCase(CapsuleChipSize.compact.wordCase)
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, Spacing.xxs)
             .background(
@@ -295,6 +296,7 @@ struct DepotProvenanceCard: View {
         }
         return Text(label)
             .font(.caption2.weight(.semibold))
+            .textCase(CapsuleChipSize.compact.wordCase)
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, Spacing.xxs)
             .background(Theme.accent.opacity(Theme.Opacity.tint), in: skinChipShape())

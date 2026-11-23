@@ -217,9 +217,8 @@ struct EntryReadHero: View {
     private var chips: some View {
         HStack(spacing: Spacing.sm) {
             if let saltForm = entry.saltForm {
-                // Chemical proper noun — not localized. Lowercased like the
-                // route pill beside it: one badge grammar.
-                Text(saltForm.lowercased())
+                // A chemical name, not localized, shown as written (``ChipLabel/name``).
+                Text(verbatim: saltForm)
                     .heroOutlineChip(stroke: substanceColor)
             }
             ROAPill(route: entry.route, size: .regular)
@@ -305,7 +304,7 @@ struct EntryStrengthChip: View {
 
     var body: some View {
         if let level {
-            Text(String(localized: level.displayName).lowercased())
+            Text(level.displayName)
                 .heroChip(text: level.labelColor, fill: level.swiftUIColor)
         }
     }
