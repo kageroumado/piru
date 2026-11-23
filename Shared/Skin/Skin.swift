@@ -99,16 +99,30 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// in place so un-shelving is one line.
     nonisolated static let shelved: Set<Skin> = [.paperGarden]
 
-    /// What the picker offers.
+    /// What the picker offers, in the order it offers them. A skin that is not
+    /// in ``shelf`` yet follows the ones that are.
     static var available: [Skin] {
-        allCases.filter { !shelved.contains($0) }
+        let offered = allCases.filter { !shelved.contains($0) }
+        return shelf.filter(offered.contains) + offered.filter { !shelf.contains($0) }
     }
 
-    /// Every skin on offer, the ones with the most to look at first: the order
-    /// of a strip that shows a few of them and has to be noticed.
+    /// The picker's order. It opens on the app's own look with the partner's
+    /// beside it; then the skins with the most to look at, because most people
+    /// see the first few cards and take them for what a skin is; a gilded one
+    /// early, so the price beside the others reads against it; the still
+    /// palettes last.
+    private static let shelf: [Skin] = [
+        .piru, .doseWiki,
+        .tsuki, .hebi, .gatsby, .kumo, .jellyfish, .selenia, .hanabi, .yuki, .astrelia, .hotaru, .irie,
+        .elyPink, .substanceWiki,
+        .graphite, .linen, .slate,
+    ]
+
+    /// The same skins for a strip that shows a few of them and has to be
+    /// noticed: the two the picker opens on go to the end.
     static var showcase: [Skin] {
-        let front: [Skin] = [.hebi, .kumo, .gatsby, .tsuki, .jellyfish, .selenia, .hanabi, .irie, .yuki]
-        return front.filter { !shelved.contains($0) } + available.filter { !front.contains($0) }
+        let opening = available.prefix(2)
+        return available.dropFirst(2) + opening
     }
 
     // MARK: - Tier

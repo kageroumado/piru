@@ -55,6 +55,16 @@ struct SkinShopTests {
     }
 
     @Test
+    func `The picker offers every skin that is not shelved, once, and the still palettes last`() {
+        let offered = Set(Skin.allCases).subtracting(Skin.shelved)
+        #expect(Set(Skin.available) == offered)
+        #expect(Skin.available.count == offered.count)
+        #expect(Array(Skin.available.suffix(3)) == [.graphite, .linen, .slate])
+        #expect(Set(Skin.showcase) == offered)
+        #expect(Skin.showcase.first == Skin.available[2])
+    }
+
+    @Test
     func `A paid skin's product is named after it`() {
         #expect(Skin.jellyfish.productID == "\(AppIdentity.bundleID).skin.jellyfish")
         #expect(!paidSkins.isEmpty)
