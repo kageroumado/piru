@@ -222,17 +222,6 @@ struct QuickLogCardList: View {
         }
     }
 
-    /// One header style for every section: sentence case, no icon, no caps —
-    /// matching how the rest of the app titles things. The extra top padding
-    /// separates sections; header → content is the stack's own 12pt.
-    private func sectionHeader(_ title: LocalizedStringKey) -> some View {
-        Text(title)
-            .sectionLabel()
-            .foregroundStyle(Theme.secondaryLabel)
-            .padding(.top, Spacing.md)
-            .accessibilityAddTraits(.isHeader)
-    }
-
     @ViewBuilder
     private func scrollContentInner(staged: [String: StagedChipCounts]) -> some View {
         // Meds are always surfaced (discoverability) — with none defined
@@ -258,12 +247,9 @@ struct QuickLogCardList: View {
             )
         }
 
-        // ONE substances section — favorites pinned first (their saved order),
-        // recents filling behind. Two headers ("Favorites" / "Recent") made
-        // three competing lists on one screen; the split is still visible
-        // through the star, without costing a second decision.
+        // One run of substance cards under no header: favorites first in their
+        // saved order, recents behind, the star telling them apart.
         if !content.cachedCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty || !products.isEmpty {
-            sectionHeader("Your Substances")
             // A combination product is one card of its own, whatever its
             // components' cards show: it is what the user takes.
             ForEach(products) { product in

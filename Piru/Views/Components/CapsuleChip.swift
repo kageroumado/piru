@@ -102,3 +102,21 @@ extension Text {
         skinOutlineChip(stroke: stroke, style: .caption2, weight: .medium, horizontal: Spacing.md, vertical: 3)
     }
 }
+
+/// A substance's identity color as a dot leading a chip's label.
+///
+/// A chip that stands for a substance carries its color here and keeps its text
+/// in the label color: identity colors are unconstrained in lightness, so the
+/// color as text on a tint of itself falls to about 2:1 in light mode. The dot
+/// only identifies; the label beside it is what is read.
+struct SubstanceChipDot: View {
+    let color: Color
+    @ScaledMetric(relativeTo: .subheadline) private var diameter: CGFloat = 8
+
+    var body: some View {
+        Circle()
+            .fill(color)
+            .frame(width: diameter, height: diameter)
+            .accessibilityHidden(true)
+    }
+}

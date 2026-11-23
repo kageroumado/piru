@@ -6,7 +6,7 @@ import SwiftUI
 /// selected family's most known substances, over a short list of recents.
 ///
 /// Recents show only here, and only until a family is picked or a query is
-/// typed. Elsewhere the main screen's Your Substances cards are the recents
+/// typed. Elsewhere the main screen's substance cards are the recents
 /// surface and repeating them one layer down is clutter,
 /// but focusing the field jumps the dock to
 /// `.large` and covers those cards, so search would otherwise open on an

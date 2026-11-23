@@ -300,12 +300,12 @@ struct SubstanceCardView: View, Equatable {
                 )
             #endif
         } label: {
-            chipLabel(chip)
+            chipLabel(chip, isStaged: stagedCount > 0)
                 .font(OneRowChipMetrics.font)
                 .padding(.horizontal, OneRowChipMetrics.horizontalPadding)
                 .padding(.vertical, chip.hasDrinkDetail ? 8 : OneRowChipMetrics.verticalPadding)
                 .background(stagedCount > 0 ? color : color.opacity(Theme.Opacity.tint))
-                .foregroundStyle(stagedCount > 0 ? .white : color)
+                .foregroundStyle(stagedCount > 0 ? Color.white : Color.primary)
                 .clipShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.container, style: .continuous)) : AnyShape(Capsule()))
                 .contentShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.container, style: .continuous)) : AnyShape(Capsule()))
                 .overlay(alignment: .topTrailing) {
@@ -335,12 +335,15 @@ struct SubstanceCardView: View, Equatable {
     }
 
     /// Drink chips (alcohol recents) show emoji · name over a "volume · % · grams"
-    /// subtitle; ordinary chips show the bare gram/mg amount.
+    /// subtitle; ordinary chips show the bare gram/mg amount. Both lead with the
+    /// substance's dot, white once the chip is staged and filled with that color.
     @ViewBuilder
-    private func chipLabel(_ chip: DoseChip) -> some View {
+    private func chipLabel(_ chip: DoseChip, isStaged: Bool) -> some View {
+        let dot = SubstanceChipDot(color: isStaged ? .white : color)
         if chip.hasDrinkDetail {
             VStack(alignment: .leading, spacing: 1) {
                 HStack(spacing: 5) {
+                    dot
                     if let emoji = chip.emoji { Text(emoji) }
                     if let name = chip.drinkName, !name.isEmpty {
                         Text(name).fontWeight(.semibold)
@@ -352,7 +355,10 @@ struct SubstanceCardView: View, Equatable {
                     .font(.caption.weight(.semibold))
             }
         } else {
-            Text("\(chip.formattedAmount) \(chip.unit.unitDisplay(for: chip.amount))")
+            HStack(spacing: Spacing.sm) {
+                dot
+                Text("\(chip.formattedAmount) \(chip.unit.unitDisplay(for: chip.amount))")
+            }
         }
     }
 
