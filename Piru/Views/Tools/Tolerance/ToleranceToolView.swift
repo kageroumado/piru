@@ -118,27 +118,23 @@ struct ToleranceToolView: View {
     // MARK: - Toolbar
 
     /// One menu, the glyph the other Insights screens use for theirs: what the list below the chart shows,
-    /// and the app-wide detail level, each under its own heading.
+    /// and the app-wide detail level, each a named row showing its current value.
     @ToolbarContentBuilder
     private var optionsButton: some ToolbarContent {
         ToolbarItem(placement: .platformTopBarTrailing) {
             Menu {
-                Section("Show") {
-                    Picker("Show", selection: $detailMode) {
-                        ForEach(ToleranceDetailMode.allCases) { option in
-                            Text(option.title).tag(option)
-                        }
+                Picker("Show", selection: $detailMode) {
+                    ForEach(ToleranceDetailMode.allCases) { option in
+                        Text(option.title).tag(option)
                     }
-                    .pickerStyle(.inline)
                 }
-                Section("Detail Level") {
-                    Picker("Detail Level", selection: tierBinding) {
-                        ForEach(UserProfile.allCases) { option in
-                            Text(option.displayName).tag(option)
-                        }
+                .pickerStyle(.menu)
+                Picker("Detail Level", selection: tierBinding) {
+                    ForEach(UserProfile.allCases) { option in
+                        Text(option.displayName).tag(option)
                     }
-                    .pickerStyle(.inline)
                 }
+                .pickerStyle(.menu)
             } label: {
                 Label("Display Options", systemImage: "line.3.horizontal.decrease")
             }
