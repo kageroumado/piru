@@ -37,12 +37,14 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var bubbleStyle = TimelineBubbleStyle.full
     @AppStorage("showSessionVitals", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsVitals = false
+    @AppStorage(JournalVisibility.hidesSupplementsKey, store: UserDefaults(suiteName: JournalVisibility.suite)) private var hidesSupplements = false
+    @AppStorage(JournalVisibility.hidesMedsKey, store: UserDefaults(suiteName: JournalVisibility.suite)) private var hidesMeds = false
 
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    if entries.isEmpty {
+                    if entries.isEmpty || (model.days.isEmpty && model.hasBuilt) {
                         emptyState
                     } else if model.days.isEmpty {
                         ProgressView()
@@ -101,13 +103,14 @@ struct UnifiedTimelineView: View {
                     showsAxis: showsAxis,
                     bubbleStyle: bubbleStyle,
                     showsVitals: showsVitals,
+                    hiding: JournalVisibility.hiddenCategories(supplements: hidesSupplements, meds: hidesMeds),
                 )
             }
         }
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(dynamicTypeSize)|\(clockTick)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(hidesSupplements)|\(hidesMeds)|\(dynamicTypeSize)|\(clockTick)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers

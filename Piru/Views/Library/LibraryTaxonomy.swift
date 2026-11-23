@@ -41,6 +41,13 @@ struct LibraryFamily: Identifiable {
     var isUmbrella: Bool {
         !subclasses.isEmpty
     }
+
+    /// Every category the card reaches: its own for a single card, its
+    /// sub-classes' for an umbrella. Empty for a tag-backed card.
+    var categories: [SubstanceCategory] {
+        if case let .category(category) = source { return [category] }
+        return subclasses.map(\.category)
+    }
 }
 
 /// One sub-class chip/row inside an umbrella family. Always backed by a real

@@ -121,4 +121,44 @@ struct JournalModelTests {
         regroup(0)
         #expect(model.sessionDays.map(\.date) == [calendar.startOfDay(for: small), calendar.startOfDay(for: evening)])
     }
+
+    /// Settings ▸ Journal ▸ Hidden Classes: a hidden class drops out of the
+    /// list and the facet menu. The test substance is unknown to the library,
+    /// so it resolves to `.other`, which the meds switch covers.
+    @Test
+    func `A hidden class leaves the list and the category facet`() async throws {
+        let context = try makeContext()
+        let entries = try makeEntries(context)
+        let model = JournalModel()
+        model.refreshColorMap([])
+        await model.rebuildDerived(entries: entries, colors: [])
+        let regroup = { (hidden: Set<SubstanceCategory>) in
+            model.setHiddenCategories(hidden, entries: entries)
+            model.rebuildGroups(
+                entries: entries, grouping: .byDay, searchText: "",
+                filterTags: [], filterCategories: [], filterRoutes: [],
+                hiddenCategories: model.hiddenCategories,
+                stackRedoses: true, revision: 0,
+            )
+        }
+
+        regroup(JournalVisibility.hiddenCategories(supplements: true, meds: false))
+        #expect(model.filtered.count == entries.count)
+        #expect(model.categories == [.other])
+
+        regroup(JournalVisibility.hiddenCategories(supplements: false, meds: true))
+        #expect(model.filtered.isEmpty)
+        #expect(model.sessionDays.isEmpty)
+        #expect(model.categories.isEmpty)
+        #expect(!model.hasActiveFilters)
+    }
+
+    @Test
+    func `Each Hidden Classes switch covers its Library families`() {
+        #expect(JournalVisibility.hiddenCategories(supplements: false, meds: false).isEmpty)
+        #expect(JournalVisibility.hiddenCategories(supplements: true, meds: false) == [.supplement])
+        let meds = JournalVisibility.hiddenCategories(supplements: false, meds: true)
+        #expect(meds.isSuperset(of: [.peptide, .antidepressant, .nootropic, .analgesic, .anticonvulsant, .other]))
+        #expect(meds.isDisjoint(with: [.supplement, .stimulant, .psychedelic, .opioid, .benzodiazepine, .cannabinoid]))
+    }
 }

@@ -8,6 +8,8 @@ struct JournalSettingsView: View {
     @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: AppIdentity.appGroup)) private var dayBoundaryHour = 4
     @AppStorage(AdherenceCalculator.splitsDayKey) private var adherenceSplitsDay = true
     @AppStorage(SessionGraphDefaults.enlargedKey, store: UserDefaults(suiteName: SessionGraphDefaults.suite)) private var sessionGraphEnlarged = SessionGraphDefaults.enlargedDefault
+    @AppStorage(JournalVisibility.hidesSupplementsKey, store: UserDefaults(suiteName: JournalVisibility.suite)) private var hidesSupplements = false
+    @AppStorage(JournalVisibility.hidesMedsKey, store: UserDefaults(suiteName: JournalVisibility.suite)) private var hidesMeds = false
 
     var body: some View {
         List {
@@ -70,6 +72,30 @@ struct JournalSettingsView: View {
                     .tint(Theme.accent)
                 } header: {
                     Text("Timeline")
+                }
+
+                Section {
+                    Toggle(isOn: $hidesSupplements) {
+                        CaptionedRowLabel(
+                            title: "Hide Supplements",
+                            systemImage: "pill",
+                            caption: Text("Keeps supplement entries out of the Journal."),
+                        )
+                    }
+                    .tint(Theme.accent)
+
+                    Toggle(isOn: $hidesMeds) {
+                        CaptionedRowLabel(
+                            title: "Hide Meds & Other Classes",
+                            systemImage: "cross.case",
+                            caption: Text("Keeps Peptides, Mind & Cognition, Pharmaceuticals, and Other / Miscellaneous entries out of the Journal."),
+                        )
+                    }
+                    .tint(Theme.accent)
+                } header: {
+                    Text("Hidden Classes")
+                } footer: {
+                    Text("Hidden entries stay recorded. Search, Insights, and exports still include them.")
                 }
 
                 Section {

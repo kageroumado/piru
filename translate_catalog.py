@@ -7091,6 +7091,22 @@ T = {
     ),
     "Combine Repeated Entries": ("合并重复记录", "合併重複記錄"),
     "Split Days at Noon": ("以中午划分每天", "以中午劃分每天"),
+    # Settings ▸ Journal ▸ Hidden Classes
+    "Hidden Classes": ("隐藏类别", "隱藏類別"),
+    "Hide Supplements": ("隐藏膳食补充剂", "隱藏膳食補充劑"),
+    "Keeps supplement entries out of the Journal.": (
+        "膳食补充剂的记录不在日记中显示。",
+        "膳食補充劑的記錄不在日記中顯示。",
+    ),
+    "Hide Meds & Other Classes": ("隐藏药品及其他类别", "隱藏藥品及其他類別"),
+    "Keeps Peptides, Mind & Cognition, Pharmaceuticals, and Other / Miscellaneous entries out of the Journal.": (
+        "肽类、精神与认知、药品以及其他 / 杂项的记录不在日记中显示。",
+        "肽類、精神與認知、藥品以及其他 / 雜項的記錄不在日記中顯示。",
+    ),
+    "Hidden entries stay recorded. Search, Insights, and exports still include them.": (
+        "隐藏的记录仍会保留，搜索、洞察和导出中依然包含它们。",
+        "隱藏的記錄仍會保留，搜尋、洞察和匯出中依然包含它們。",
+    ),
     "Shows morning and evening doses as two halves of each day. When off, a dose logged at any time counts toward the whole day.": (
         "把早间和晚间剂量显示为每天的两半。关闭后，当天任何时间记录的剂量都计入整天。",
         "把早間和晚間劑量顯示為每天的兩半。關閉後，當天任何時間記錄的劑量都計入整天。",
@@ -8312,6 +8328,12 @@ if __name__ == "__main__":
         "Taken at %@",
         "Taken at",
         "When did you take %@?",
+        "Hidden Classes",
+        "Hide Supplements",
+        "Keeps supplement entries out of the Journal.",
+        "Hide Meds & Other Classes",
+        "Keeps Peptides, Mind & Cognition, Pharmaceuticals, and Other / Miscellaneous entries out of the Journal.",
+        "Hidden entries stay recorded. Search, Insights, and exports still include them.",
         "Split Days at Noon",
         "Shows morning and evening doses as two halves of each day. When off, a dose logged at any time counts toward the whole day.",
         "Nothing to Share",
