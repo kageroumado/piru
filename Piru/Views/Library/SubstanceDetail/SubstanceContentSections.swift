@@ -271,6 +271,7 @@ struct SubstanceStatusMarker: View {
     var body: some View {
         Label(kind.title, systemImage: kind.systemImage)
             .font(.caption2.weight(.semibold))
+            .textCase(CapsuleChipSize.compact.wordCase)
             .foregroundStyle(kind.labelColor)
             .padding(.horizontal, 9)
             .padding(.vertical, Spacing.xs)

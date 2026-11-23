@@ -468,7 +468,7 @@ private extension View {
     /// The tab bar's bottom accessory — Piru's "now logging" surface, the analog
     /// of Music's now-playing bar. It is always mounted and morphs
     /// between two faces: the live-session pill when a session is active, and an
-    /// idle "Record an entry" call-to-action otherwise. Anchoring the primary action
+    /// idle "Record an Entry" call-to-action otherwise. Anchoring the primary action
     /// here (rather than a floating button) keeps it pinned to the tab bar — it
     /// never looks orphaned, and it folds into the bar's inline placement for
     /// free when the tab bar minimizes on scroll.
@@ -543,7 +543,7 @@ private extension View {
         }
 
         /// Whether the accessory shows the live-session pill rather than the idle
-        /// "Record an entry" call-to-action. The accessory is always mounted; this only
+        /// "Record an Entry" call-to-action. The accessory is always mounted; this only
         /// chooses its content. It falls back to the CTA while the journal already
         /// surfaces the live session — its day detail, or the journal root, where
         /// the hero card carries it — since the pill would only duplicate them.
@@ -724,8 +724,8 @@ private extension View {
                     }
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(Text("Record an entry"))
-            .accessibilityInputLabels([Text("Record an entry"), Text("Record"), Text("Add")])
+            .accessibilityLabel(Text("Record an Entry"))
+            .accessibilityInputLabels([Text("Record an Entry"), Text("Record"), Text("Add")])
         }
     }
 #endif

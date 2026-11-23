@@ -45,6 +45,7 @@ struct ExperimentalTag: View {
     var body: some View {
         Text("Experimental")
             .font(.caption2.weight(.semibold))
+            .textCase(CapsuleChipSize.compact.wordCase)
             .foregroundStyle(Theme.secondaryLabel)
             .padding(.horizontal, 7)
             .padding(.vertical, Spacing.xxs)

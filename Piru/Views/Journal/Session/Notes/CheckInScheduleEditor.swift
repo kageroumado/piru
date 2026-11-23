@@ -86,7 +86,7 @@ struct CheckInScheduleEditor: View {
                 }
             }
         } header: {
-            Text("After your latest dose")
+            Text("After Your Latest Dose")
         } footer: {
             Text("Up to \(CheckInOffsets.maximumCount) prompts, from \(CheckInOffsets.minimumMinutes) minutes to 24 hours after the dose. The suggested times come from the modeled phases of what you logged. Each one opens a timestamped note; none of them is required.")
         }
@@ -119,7 +119,7 @@ struct CheckInScheduleEditor: View {
             }
             .disabled(!CheckInOffsets.canAdd(draftMinutes, to: offsets))
         } header: {
-            Text("Add a time")
+            Text("Add a Time")
         } footer: {
             addFooter
         }

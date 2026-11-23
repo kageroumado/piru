@@ -41,7 +41,6 @@ struct BenzoDurationSection: View {
                 .padding(.vertical, Spacing.xs)
             } header: {
                 Text("How Long It Stays")
-                    .sectionLabel()
             }
         }
     }

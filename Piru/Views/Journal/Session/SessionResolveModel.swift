@@ -29,6 +29,10 @@ struct ResolvedDay {
     /// params (`ke`/`ka`/transporter weights/`releaser`) are data-driven. The off-main
     /// simulation and the support gate both read this.
     var mechanisticPharmacology: [String: PharmacologyParameters] = [:]
+    /// The doses the effect engine models and the ones it drops, by dose title
+    /// (``SessionResolveModel/mechanisticPartition(entries:titles:pharmacology:)``).
+    var mechanisticModeled: [String] = []
+    var mechanisticIgnored: [String] = []
 }
 
 /// Every substance-store resolve the session detail needs, as pure functions —
@@ -74,6 +78,10 @@ enum SessionResolveModel {
             .subtracting(curveNames)
         let mechanisticDoses = computeMechanisticDoses(entries, startDate: startDate)
         let mechanisticPharmacology = resolveMechanisticPharmacology(mechanisticDoses)
+        let entryCores = DayEntryCore.make(from: entries)
+        let partition = mechanisticPartition(
+            entries: entries, titles: entryCores.map(\.displayName), pharmacology: mechanisticPharmacology,
+        )
         return ResolvedDay(
             states: t.states,
             markers: t.markers,
@@ -81,10 +89,12 @@ enum SessionResolveModel {
             pkFindings: pkFindings,
             curveLaneCount: curveNames.count,
             markerLaneCount: markerNames.count,
-            entryCores: DayEntryCore.make(from: entries),
+            entryCores: entryCores,
             mechanisticDoses: mechanisticDoses,
             mechanisticSupported: MechanisticSessionModel.supportsMechanisticView(mechanisticDoses, pharmacology: mechanisticPharmacology),
             mechanisticPharmacology: mechanisticPharmacology,
+            mechanisticModeled: partition.modeled,
+            mechanisticIgnored: partition.ignored,
         )
     }
 
@@ -197,19 +207,20 @@ enum SessionResolveModel {
         return .generic
     }
 
-    /// Split the session's distinct substances into those the engine models
+    /// Split the session's distinct doses into those the engine models
     /// (they shape the curves) and those it can't (silently dropped) — the
-    /// coverage disclaimer's data. Display names, in first-seen order.
+    /// coverage disclaimer's data. Dose titles (`titles`, parallel to `entries`:
+    /// "Concerta", not "Methylphenidate"), deduped, in first-seen order.
     static func mechanisticPartition(
         entries: [DoseEntry],
+        titles: [String],
         pharmacology: [String: PharmacologyParameters],
     ) -> (modeled: [String], ignored: [String]) {
         var seen = Set<String>()
         var modeled: [String] = []
         var ignored: [String] = []
-        for entry in entries {
-            guard seen.insert(entry.substance.lowercased()).inserted else { continue }
-            let display = CustomSubstanceStore.shared.displayName(for: entry.substance)
+        for (entry, display) in zip(entries, titles) {
+            guard seen.insert(display.lowercased()).inserted else { continue }
             let key = SubstanceModelDatabase.normalize(entry.substance)
             // "Modeled" == what `compute` actually simulates: any substance whose params
             // resolve (DB-derived or curated-override-only, e.g. PPAP/BPAP), not just those

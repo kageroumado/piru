@@ -154,7 +154,7 @@ private struct PharmaFilterMenu: View {
                     }
                 }
             } header: {
-                Text("PK columns")
+                Text("PK Columns")
             }
         } label: {
             Image(systemName: "line.3.horizontal.decrease.circle")

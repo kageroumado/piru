@@ -305,7 +305,7 @@ struct SubstanceDetailView: View {
                 Button {
                     navigator.present(.quickLog(routine: nil, prefillSubstance: substance.name))
                 } label: {
-                    Label("Record an entry", systemImage: "plus.circle")
+                    Label("Record an Entry", systemImage: "plus.circle")
                 }
 
                 Button {
@@ -335,7 +335,7 @@ struct SubstanceDetailView: View {
                     }
                 }
 
-                Section("Detail level") {
+                Section("Detail Level") {
                     Picker("Detail level", selection: Binding(
                         get: { profile },
                         set: { profileStore.setDisclosureTier($0) },

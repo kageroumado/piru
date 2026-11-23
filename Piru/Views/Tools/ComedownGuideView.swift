@@ -23,14 +23,14 @@ struct ComedownGuideView: View {
                 aboutSection
 
                 if !recentCategories.isEmpty {
-                    Section("From your last 48 hours") {
+                    Section("From Your Last 48 Hours") {
                         ForEach(recentCategories, id: \.self) { cat in
                             ComedownCategoryDisclosure(category: cat)
                         }
                     }
                 }
 
-                Section("All categories") {
+                Section("All Categories") {
                     ForEach(ComedownGuide.guidedCategories.filter { !recentCategories.contains($0) }, id: \.self) { cat in
                         ComedownCategoryDisclosure(category: cat)
                     }
@@ -68,7 +68,7 @@ struct ComedownGuideView: View {
     // MARK: - General Tips
 
     private var generalSection: some View {
-        Section("Universal recovery basics") {
+        Section("Universal Recovery Basics") {
             VStack(alignment: .leading, spacing: Spacing.lg) {
                 tipRow(icon: "drop.fill", color: .blue, text: "Hydrate: water or electrolyte drinks, sip steadily")
                 tipRow(icon: "fork.knife", color: .orange, text: "Eat something nutritious: protein, carbs, and fruit")

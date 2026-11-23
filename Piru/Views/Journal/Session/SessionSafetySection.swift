@@ -88,7 +88,7 @@ struct SessionSafetySection: View {
                                 .font(.chartLabel)
                                 .foregroundStyle(group.severity.labelColor)
                                 .accessibilityHidden(true)
-                            Text(String(localized: group.severity.label).lowercased())
+                            Text(group.severity.label)
                                 .capsuleChip(text: group.severity.labelColor, fill: group.severity.color)
                         }
                     }

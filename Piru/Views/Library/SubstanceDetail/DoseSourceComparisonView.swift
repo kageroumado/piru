@@ -337,7 +337,7 @@ private struct SourceNameLine: View {
             if isActive {
                 Text("In use", comment: "Badge on the source currently supplying the dose ladder")
                     .font(.caption2.weight(.bold))
-                    .textCase(.uppercase)
+                    .textCase(CapsuleChipSize.compact.wordCase)
                     .foregroundStyle(accent)
                     .padding(.horizontal, 7).padding(.vertical, Spacing.xxs)
                     .background(accent.opacity(Theme.Opacity.tint), in: skinChipShape())

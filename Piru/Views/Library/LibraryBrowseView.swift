@@ -306,6 +306,7 @@ private struct LibraryFamilyCard: View {
     private var riskBadge: some View {
         Label("Highest overdose risk", systemImage: "exclamationmark.triangle.fill")
             .font(.caption2.weight(.bold))
+            .textCase(CapsuleChipSize.compact.wordCase)
             .foregroundStyle(.white)
             .padding(.horizontal, 9)
             .padding(.vertical, 5)
@@ -315,6 +316,7 @@ private struct LibraryFamilyCard: View {
     private func chip(_ sub: LibrarySubclass) -> some View {
         Text(sub.title)
             .font(.caption.weight(.semibold))
+            .textCase(CapsuleChipSize.compact.wordCase)
             .foregroundStyle(.white)
             .padding(.horizontal, Spacing.lg)
             .padding(.vertical, 5)

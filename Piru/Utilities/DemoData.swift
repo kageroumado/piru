@@ -160,16 +160,16 @@ import SwiftData
             ActiveSessionManager.shared.recoverSession(container: container)
         }
 
-        /// Wipe every model that surfaces in the UI — a fixture must not
-        /// inherit the previous store's state. (QuickLogDose is the recents
-        /// store behind the Log sheet's "Your Substances"; leaving it made
-        /// a meds-only persona offer the dev store's research chemicals.)
         /// A seeded substance's color row, as logging it would have minted.
         @MainActor
         private static func insertClassColor(_ name: String, in context: ModelContext) {
             context.insert(SubstanceColor(substance: name, tint: SubstanceColorStore.defaultTint(for: name), usesDefault: true))
         }
 
+        /// Wipe every model that surfaces in the UI — a fixture must not
+        /// inherit the previous store's state. (QuickLogDose is the recents
+        /// store behind the Log sheet's substance cards; leaving it made
+        /// a meds-only persona offer the dev store's research chemicals.)
         @MainActor
         static func wipeUserData(context: ModelContext) {
             try? context.delete(model: DoseEntry.self)
@@ -419,7 +419,7 @@ import SwiftData
             insertClassColor("methylphenidate", in: context)
             insertClassColor("vitamin d", in: context)
             // Quick-log recents mirror what this user actually logs, so the
-            // Log sheet's "Your Substances" shows their two meds — not the
+            // Log sheet's substance cards show their two meds — not the
             // empty state (chips are normally minted at log time; seeded
             // entries bypass that path).
             context.insert(QuickLogDose(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", sortOrder: 0))

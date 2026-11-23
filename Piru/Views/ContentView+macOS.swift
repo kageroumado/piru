@@ -5,7 +5,7 @@ import SwiftUI
 
 extension View {
     /// The actions the iOS tab bar's bottom accessory carries, in the window
-    /// toolbar: the live session, the dock's shortcut slots and "Record an entry".
+    /// toolbar: the live session, the dock's shortcut slots and "Record an Entry".
     /// macOS has no bottom accessory, and the tabs sit in the toolbar's center.
     func macWindowActions() -> some View {
         modifier(MacWindowActions())
@@ -30,7 +30,7 @@ private struct MacWindowActions: ViewModifier {
 // MARK: - Dock Status
 
 /// What the accessory's idle face derives — the due meds behind the "+" badge
-/// and the center label — held for the toolbar's "Record an entry" button.
+/// and the center label — held for the toolbar's "Record an Entry" button.
 @Observable @MainActor
 private final class MacDockStatus {
     var context = DockLabelContext()
@@ -79,7 +79,7 @@ private struct MacDockStatusUpdater: View {
 // MARK: - Toolbar Actions
 
 /// The accessory's actions in its own order: the live session (its pill face),
-/// the shortcut slots, then "Record an entry" (its "+").
+/// the shortcut slots, then "Record an Entry" (its "+").
 private struct MacToolbarActions: View {
     let status: MacDockStatus
 
@@ -105,11 +105,11 @@ private struct MacToolbarActions: View {
             }
         }
 
-        Button("Record an entry", systemImage: "plus", action: record)
+        Button("Record an Entry", systemImage: "plus", action: record)
             .badge(status.dueCount)
             .keyboardShortcut("n", modifiers: .command)
-            .help(status.label(preferences.labels).map { Text(verbatim: $0) } ?? Text("Record an entry"))
-            .accessibilityInputLabels([Text("Record an entry"), Text("Record"), Text("Add")])
+            .help(status.label(preferences.labels).map { Text(verbatim: $0) } ?? Text("Record an Entry"))
+            .accessibilityInputLabels([Text("Record an Entry"), Text("Record"), Text("Add")])
     }
 
     private func record() {

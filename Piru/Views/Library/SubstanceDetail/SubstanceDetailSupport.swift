@@ -93,10 +93,10 @@ struct CollapsibleSection<Content: View>: View {
 }
 
 /// The status pill in the top-right corner of an editorial card — a
-/// combination's severity (DANGER / CAUTION / NOTE) or the water/heat takeaway
-/// ("Sip to thirst", "≈ 1 glass / hour"). One Capsule style so the two cards
+/// combination's severity ("danger", "caution", "note") or the water/heat takeaway
+/// ("sip to thirst", "≈ 1 glass / hour"). One Capsule style so the two cards
 /// read as a set. The caller supplies a resolved `Text` (localized key or
-/// verbatim data string) and the tint.
+/// verbatim data string) and the tint; the case is a small chip's (``ChipLabel``).
 struct EditorialPill: View {
     let label: Text
     let foreground: Color
@@ -105,7 +105,7 @@ struct EditorialPill: View {
     var body: some View {
         label
             .font(.system(.caption2, design: .rounded, weight: .bold))
-            .textCase(.uppercase)
+            .textCase(CapsuleChipSize.compact.wordCase)
             .foregroundStyle(foreground)
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, 3)
@@ -281,7 +281,7 @@ struct SourceAttributionExplainer: View {
                     }
                     .padding(.vertical, Spacing.xxs)
                 } header: {
-                    Text("Shown from")
+                    Text("Shown From")
                 }
 
                 Section {
@@ -302,7 +302,7 @@ struct SourceAttributionExplainer: View {
                         }
                     }
                 } header: {
-                    Text("Why this source")
+                    Text("Why This Source")
                 } footer: {
                     if field != nil {
                         Text("Higher-priority sources that don't list this field are skipped.")

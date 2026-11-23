@@ -31,7 +31,7 @@ struct SharedOwnerTag: View {
     }
 }
 
-/// The editor's "Shared with" section: every other profile, each with its
+/// The editor's "Shared With" section: every other profile, each with its
 /// avatar and a checkmark when it draws from this stock. Shown to the owner
 /// only, and only once there is someone to share with.
 struct InventorySharingSection: View {
@@ -65,7 +65,7 @@ struct InventorySharingSection: View {
                 .accessibilityAddTraits(selection.contains(profile.id) ? .isSelected : [])
             }
         } header: {
-            Text("Shared with")
+            Text("Shared With")
         } footer: {
             Text("Their doses come off this stock too. Only you can change who shares it or delete it.")
         }

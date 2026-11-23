@@ -77,6 +77,7 @@ struct AcetaldehydeCard: View {
                         if let load {
                             Text(load.label)
                                 .font(.caption.weight(.semibold))
+                                .textCase(CapsuleChipSize.compact.wordCase)
                                 .foregroundStyle(load.tint)
                                 .padding(.horizontal, Spacing.md)
                                 .padding(.vertical, 3)

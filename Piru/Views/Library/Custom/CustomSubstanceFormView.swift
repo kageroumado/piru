@@ -245,7 +245,7 @@ struct CustomSubstanceFormView: View {
                         TextField("Display as (e.g. joint)", text: $draft.displayName)
                             .autocorrectionDisabled()
                     } header: {
-                        Text("Display name")
+                        Text("Display Name")
                     } footer: {
                         Text("Shown everywhere in place of \"\(draft.name)\". Leave blank to keep the original name. Your dose history is unaffected.")
                     }
@@ -341,7 +341,7 @@ struct CustomSubstanceFormView: View {
                 Text("minutes").foregroundStyle(Theme.secondaryLabel)
             }
         } header: {
-            Text("Half-life")
+            Text("Half-Life")
         } footer: {
             Text("Optional. Feeds the active-substance and clearance estimates.")
         }

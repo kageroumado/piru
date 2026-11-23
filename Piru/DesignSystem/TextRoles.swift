@@ -1,5 +1,36 @@
 import SwiftUI
 
+// MARK: - Section header
+
+extension View {
+    /// The one section header: text that names a group of content below it,
+    /// standing outside the group or at its top ("Modeled as Active",
+    /// "Frequently Used", "Part of Session", "Dosage").
+    ///
+    /// It is the look iOS 26 gives a grouped `List`'s `Section` header —
+    /// headline size, semibold, secondary label color, in the system face — so
+    /// a header hand-built over a `ScrollView` matches a native one. A native
+    /// `Section { } header: { Text(…) }` already renders this way and needs no
+    /// modifier.
+    ///
+    /// Case: iOS 26 applies no case transform to a section header, and neither
+    /// does this role. The English string is written in title-style
+    /// capitalization, the HIG's style for headings (`writing.md`: one
+    /// capitalization per element type; `lists-and-tables.md`); the other
+    /// languages keep their own convention (Spanish sentence case, Chinese has
+    /// none), which no case modifier could produce. Never write a header in
+    /// capitals, and never put `.textCase(.uppercase)` on one.
+    ///
+    /// Not for a card's title inside the card (``cardTitle()``), the small
+    /// caption under a number (THRESHOLD, ONSET: uppercased by its own
+    /// modifier), row titles, or chart labels.
+    func sectionHeader() -> some View {
+        font(.headline)
+            .foregroundStyle(Theme.secondaryLabel)
+            .accessibilityAddTraits(.isHeader)
+    }
+}
+
 // MARK: - Type roles
 
 extension View {

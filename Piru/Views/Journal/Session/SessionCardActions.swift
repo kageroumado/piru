@@ -124,6 +124,8 @@ private struct MoveDosesSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var substanceColors: [SubstanceColor]
     @State private var doseToMove: DoseEntry?
+    /// Each dose's title ("Concerta"), by dose id, resolved off the row bodies.
+    @State private var titles: [UUID: String] = [:]
 
     private static let clock = Date.FormatStyle.dateTime.hour().minute()
 
@@ -140,7 +142,7 @@ private struct MoveDosesSheet: View {
                                     .fill(Array(substanceColors).colorMap[dose.substance.lowercased()] ?? Theme.accent)
                                     .frame(width: 12, height: 12)
                                 VStack(alignment: .leading, spacing: Spacing.xxs) {
-                                    Text(CustomSubstanceStore.shared.displayName(for: dose.substance))
+                                    Text(titles[dose.id] ?? CustomSubstanceStore.shared.displayName(for: dose.substance))
                                         .cardTitle()
                                     Text(dose.timestamp.formatted(Self.clock))
                                         .captionSecondary()
@@ -176,6 +178,13 @@ private struct MoveDosesSheet: View {
         .sheet(item: $doseToMove) { dose in
             MoveToSessionView(dose: dose)
                 .presentationDetents([.medium, .large])
+        }
+        .task(id: DoseLogService.shared.revision) {
+            guard !session.isDeleted else { return }
+            titles = Dictionary(
+                session.orderedDoses.map { ($0.id, DoseTitle.resolve(for: $0)) },
+                uniquingKeysWith: { first, _ in first },
+            )
         }
         .onChange(of: DoseLogService.shared.revision) {
             if session.isDeleted || (session.doses ?? []).isEmpty {

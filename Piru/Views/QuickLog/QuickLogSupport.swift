@@ -286,7 +286,7 @@ struct QuickLogCardList: View {
         } label: {
             HStack(spacing: Spacing.sm) {
                 Text("My Meds")
-                    .sectionLabel()
+                    .sectionHeader()
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .rotationEffect(.degrees(routinesCollapsed ? 0 : 90))

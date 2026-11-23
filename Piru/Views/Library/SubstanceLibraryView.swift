@@ -542,6 +542,7 @@ struct SubstanceRowView: View {
         if substance.isStub, substance.displayClass.mayReportLimitedData {
             Text("Limited data")
                 .font(.caption2)
+                .textCase(CapsuleChipSize.compact.wordCase)
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.horizontal, Spacing.md)
                 .padding(.vertical, 3)

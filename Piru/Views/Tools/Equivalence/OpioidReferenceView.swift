@@ -12,7 +12,7 @@ struct OpioidReferenceView: View {
                 Text("CDC 2022 reference factors. Individual response varies.")
                     .captionSecondary()
             }
-            Section("Reference table") {
+            Section("Reference Table") {
                 ForEach(entries) { entry in
                     VStack(alignment: .leading, spacing: Spacing.sm) {
                         HStack(alignment: .firstTextBaseline) {

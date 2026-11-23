@@ -210,7 +210,7 @@ private nonisolated struct JournalCategorySection: View {
                         Image(systemName: category.icon)
                             .foregroundStyle(category.labelColor)
                     }
-                    .sectionLabel()
+                    .sectionHeader()
                     Spacer()
                     SectionDisclosureChevron(isCollapsed: isCollapsed)
                 }
@@ -313,7 +313,7 @@ private struct SubstanceGroupHeader: View {
         HStack(spacing: Spacing.md) {
             LegendDot(color: SubstancePalette.color(for: name, colorMap: colorMap))
             Text("\(name) (\(count))")
-                .sectionLabel()
+                .sectionHeader()
         }
     }
 }

@@ -245,11 +245,8 @@ struct InteractionCheckerView: View {
     private var frequentlyUsedSection: some View {
         if !mostUsed.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.xl) {
-                Text("Frequently used")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
-                    .accessibilityAddTraits(.isHeader)
+                Text("Frequently Used")
+                    .sectionHeader()
 
                 FlowLayout(spacing: Spacing.md) {
                     ForEach(mostUsed, id: \.name) { item in
@@ -291,6 +288,7 @@ struct InteractionCheckerView: View {
                         Spacer()
                         Text(substance.category.displayName)
                             .font(.caption2)
+                            .textCase(CapsuleChipSize.compact.wordCase)
                             .padding(.horizontal, Spacing.sm)
                             .padding(.vertical, Spacing.xxs)
                             .background(.fill.secondary, in: skinChipShape())
@@ -319,6 +317,7 @@ struct InteractionCheckerView: View {
                         Spacer()
                         Text("Custom")
                             .font(.caption2)
+                            .textCase(CapsuleChipSize.compact.wordCase)
                             .padding(.horizontal, Spacing.sm)
                             .padding(.vertical, Spacing.xxs)
                             .background(Theme.accent.opacity(Theme.Opacity.emphasis), in: skinChipShape())

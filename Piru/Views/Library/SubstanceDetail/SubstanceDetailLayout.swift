@@ -316,23 +316,14 @@ private struct SubstanceDetailHeader: View {
     }
 }
 
-/// A compact category tag — the accent-tinted "what kind of thing is this" chip
-/// shown in the detail header (e.g. `EMPATHOGEN`, `STIMULANT`).
+/// The category tag in the detail header ("Empathogen", "Stimulant"): the hero
+/// chip, so it is capitalized (``ChipLabel``).
 struct CategoryChip: View {
     let category: SubstanceCategory
 
     var body: some View {
         Text(category.displayName)
-            .font(.caption2.weight(.bold))
-            .textCase(.uppercase)
-            .tracking(0.6)
-            .foregroundStyle(category.labelColor)
-            .padding(.horizontal, 9)
-            .padding(.vertical, Spacing.xs)
-            // 0.10 is the alpha every scale's `text` variant is gated against. At
-            // 0.14 this measured 4.40:1 on device — a fill a few percent darker
-            // than the one a token was derived for is enough to fail its gate.
-            .background(category.color.opacity(Theme.Opacity.tint), in: skinChipShape())
+            .heroChip(text: category.labelColor, fill: category.color)
             .accessibilityLabel(Text(category.displayName))
     }
 }

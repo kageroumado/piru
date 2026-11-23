@@ -64,12 +64,12 @@ nonisolated enum UsageTimeRange: String, CaseIterable, Identifiable, Sendable {
     /// card counts over, so the card and the screen show the same numbers.
     static let opening: UsageTimeRange = .thirtyDays
 
-    /// The window's name as a heading: "Last 30 days", or "All time".
+    /// The window's name as a heading: "Last 30 Days", or "All Time".
     var windowName: LocalizedStringResource {
         if let days {
-            "Last \(days) days"
+            "Last \(days) Days"
         } else {
-            "All time"
+            "All Time"
         }
     }
 
@@ -128,14 +128,26 @@ nonisolated struct UsageEntrySnapshot: Sendable {
     }
 }
 
-/// A distinct substance in the snapshot: index → names + category.
+/// A distinct substance in the snapshot: index → names + category. A branded
+/// product is a row of its own ("Concerta" apart from "Ritalin"), since
+/// people on a branded med track the brand.
 nonisolated struct UsageSubstanceRef: Sendable, Hashable {
-    /// The canonical name as logged (also the `colorMap` key, lowercased).
+    /// The row's identity and the substance filter's key.
     let name: String
-    /// The name to show the user (user relabels applied).
+    /// The name to show the user: the dose title (product name or relabel applied).
     let displayName: String
     /// Index into `SubstanceCategory.allCases`.
     let categoryIndex: Int
+    /// The substance name as logged, the `colorMap` key (lowercased): a
+    /// product row takes its substance's color.
+    let colorKey: String
+
+    init(name: String, displayName: String, categoryIndex: Int, colorKey: String? = nil) {
+        self.name = name
+        self.displayName = displayName
+        self.categoryIndex = categoryIndex
+        self.colorKey = colorKey ?? name
+    }
 }
 
 // MARK: - Outputs

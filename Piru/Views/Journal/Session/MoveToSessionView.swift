@@ -300,7 +300,7 @@ private struct RetimeMoveView: View {
                     displayedComponents: [.hourAndMinute],
                 )
             } header: {
-                Text("New time on \(dayLabel)")
+                Text("New Time on \(dayLabel)")
             } footer: {
                 Text("\(doseName) is logged on a different day. Pick a time within this session's day so the session stays a single day.")
             }

@@ -126,7 +126,7 @@ private struct AdherenceTodayCard: View {
                 }
                 if today.takenCount < today.totalCount {
                     Button(action: onLogDose) {
-                        Label("Record an entry", systemImage: "plus")
+                        Label("Record an Entry", systemImage: "plus")
                             .sectionLabel()
                             .frame(maxWidth: .infinity)
                     }
@@ -507,7 +507,7 @@ struct AdherenceDayDetailSheet: View {
                     }
                 }
 
-                Section("Meds due") {
+                Section("Meds Due") {
                     ForEach(day.items) { itemAdherence in
                         HStack(spacing: Spacing.xl) {
                             Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "circle")

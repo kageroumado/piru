@@ -220,7 +220,7 @@ struct SessionNoteEditor: View {
             .labelsHidden()
         } header: {
             HStack {
-                Text("Shulgin scale")
+                Text("Shulgin Scale")
                 if let tag = form.tag(form.intensityNames) {
                     Text(tag)
                         .font(.caption2)

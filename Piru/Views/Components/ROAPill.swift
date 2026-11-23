@@ -1,12 +1,11 @@
 import SwiftUI
 
 /// The route-of-administration badge — a fixed-per-route tinted capsule ("oral")
-/// that reads identically everywhere it appears: one place owns the casing,
-/// padding, and font for every call site.
+/// that reads identically everywhere it appears: one place owns the padding and
+/// font for every call site.
 ///
-/// Casing is **lowercase** to match the row's sibling chips (the strength
-/// tier "common"/"sub-threshold" and the interaction-severity chip), so route,
-/// strength, and severity read as one lowercase badge grammar. Size is
+/// The case is the chip's (``ChipLabel``): lowercase on a dense row, like its
+/// sibling strength and severity chips, capitalized at the hero size. Size is
 /// configurable for dense rows vs. standalone hero placements.
 struct ROAPill: View {
     let route: RouteOfAdministration
@@ -28,7 +27,7 @@ struct ROAPill: View {
 
     var body: some View {
         // The label takes the gated text variant, the fill the accent.
-        Text(String(localized: route.localizedName).lowercased())
+        Text(route.localizedName)
             .capsuleChip(text: route.tintTextColor, fill: route.tintColor, size: size.chipSize)
     }
 }

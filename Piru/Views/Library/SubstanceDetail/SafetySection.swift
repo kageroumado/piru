@@ -58,7 +58,6 @@ struct SafetySection: View {
                 .padding(.vertical, Spacing.xs)
             } header: {
                 Text("Safety")
-                    .sectionLabel()
             }
         }
     }

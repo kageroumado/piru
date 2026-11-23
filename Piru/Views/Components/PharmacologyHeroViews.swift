@@ -30,7 +30,7 @@ struct SpeciesBadge: View {
 
     var body: some View {
         let isHuman = species.lowercased() == "human"
-        Text(species.prefix(1).uppercased() + species.dropFirst())
+        Text(verbatim: species)
             .capsuleChip(
                 text: isHuman ? Color.successText : Theme.secondaryLabel,
                 fill: isHuman ? Color.successAccent : Theme.secondaryLabel,

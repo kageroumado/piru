@@ -35,7 +35,7 @@ enum MedTimeGroup: Int, CaseIterable, Identifiable {
         case .evening: "Evening"
         case .night: "Night"
         case .anytime: "Anytime"
-        case .asNeeded: "As needed"
+        case .asNeeded: "As Needed"
         }
     }
 

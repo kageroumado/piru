@@ -1,5 +1,30 @@
 import SwiftUI
 
+/// What a chip's text is, which decides its case.
+///
+/// **The rule for pill text.** A chip that carries a word the app supplies — a
+/// route, a strength, a severity, a class, a state — is lowercase when the chip
+/// is small (``CapsuleChipSize/compact``, ``CapsuleChipSize/regular``: "oral",
+/// "strong", "dangerous", "stimulant") and capitalized when it is the larger hero
+/// chip ("Oral", "Strong", "Empathogen"). A chip that carries a name or a value
+/// keeps it exactly as written: a substance, a product, a person, a tag the
+/// person typed ("trip"), a count. Never all capitals.
+///
+/// The case comes from the chip, through `textCase`, so every source string is
+/// authored in its normal (capitalized) form and reads correctly where the same
+/// value is printed in a sentence or a list. Never `.lowercased()` a chip's text
+/// at a call site. `textCase` does nothing to Chinese.
+///
+/// The HIG sets no case for badges or tags; its rule is to pick one
+/// capitalization per element type and apply it everywhere (`writing.md`). The
+/// size split is the owner's call within that rule.
+enum ChipLabel {
+    /// A word the app supplies; cased by the chip's size.
+    case word
+    /// A name or value; shown as written.
+    case name
+}
+
 /// The three sizes the filled capsule chip comes in.
 ///
 /// Size here is optical, not semantic: the same badge is `.compact` on a dense
@@ -13,6 +38,15 @@ enum CapsuleChipSize {
     /// caption-semibold, 10·5 — a badge standing alone beside a hero value,
     /// matching `ROAPill`'s `.regular` metrics.
     case hero
+
+    /// The case a ``ChipLabel/word`` takes at this size: lowercase on the small
+    /// chips, as written (capitalized) on the hero chip.
+    var wordCase: Text.Case? {
+        switch self {
+        case .compact, .regular: .lowercase
+        case .hero: nil
+        }
+    }
 
     /// The text style, not a `Font`: the skin's chip primitive sets the face.
     var textStyle: Font.TextStyle {
@@ -49,8 +83,11 @@ extension Text {
     /// tinted from. They must differ: a color drawn on a tint of itself tops out
     /// around 4.5:1, below WCAG AA for small text. Every scale in
     /// `design-system/color/` ships both variants for this call. The form
-    /// (capsule or blinky) is the skin's; see ``skinChip``.
-    func capsuleChip(text: Color, fill: Color, size: CapsuleChipSize = .compact) -> some View {
+    /// (capsule or blinky) is the skin's; see ``skinChip``. `label` sets the
+    /// case (``ChipLabel``).
+    func capsuleChip(
+        text: Color, fill: Color, size: CapsuleChipSize = .compact, label: ChipLabel = .word,
+    ) -> some View {
         skinChip(
             text: text,
             fill: fill,
@@ -59,13 +96,14 @@ extension Text {
             horizontal: size.horizontalPadding,
             vertical: size.verticalPadding,
         )
+        .textCase(label == .word ? size.wordCase : nil)
     }
 
     /// The chip at the larger **hero** size — same grammar as ``capsuleChip``
     /// but matching ``ROAPill``'s `.regular` metrics so a strength or salt badge
     /// sits the same height as the route pill in a standalone hero.
-    func heroChip(text: Color, fill: Color) -> some View {
-        capsuleChip(text: text, fill: fill, size: .hero)
+    func heroChip(text: Color, fill: Color, label: ChipLabel = .word) -> some View {
+        capsuleChip(text: text, fill: fill, size: .hero, label: label)
     }
 
     /// The outline grammar at the **hero** size: ``capsuleOutlineChip(stroke:)``'s
