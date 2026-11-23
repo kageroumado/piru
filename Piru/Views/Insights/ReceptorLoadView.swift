@@ -40,7 +40,6 @@ struct ReceptorLoadView: View {
                     )
                 } else {
                     chartCard
-                    disclaimer
                 }
             }
             .padding()
@@ -170,14 +169,6 @@ struct ReceptorLoadView: View {
     private func empty(_ title: LocalizedStringKey, _ description: LocalizedStringKey) -> some View {
         ContentUnavailableView(title, systemImage: "chart.xyaxis.line", description: Text(description))
             .padding(.top, 40)
-    }
-
-    private var disclaimer: some View {
-        Text("Modeled from your logged doses: receptor drive, not how you feel.")
-            .font(.caption2)
-            .foregroundStyle(Theme.secondaryLabel)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, Spacing.xs)
     }
 }
 

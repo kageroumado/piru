@@ -104,7 +104,7 @@ enum HalfLifeCalculation {
 final class HalfLifeCalculatorModel {
     var substanceName = ""
     var selectedSubstance: Substance?
-    var doseAmount: Double? = 100
+    var doseAmount: Double = 100
     var doseUnit: String = "mg"
     var timeTaken: Date = .now
     var useCustomHalfLife = false
@@ -112,7 +112,7 @@ final class HalfLifeCalculatorModel {
     var selectedRoute: RouteOfAdministration = .oral
 
     var dose: Double {
-        doseAmount ?? 0
+        doseAmount
     }
 
     var effectiveHalfLife: Double? {

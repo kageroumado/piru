@@ -208,6 +208,24 @@ enum InventoryStep {
     }
 }
 
+/// The amount widths of a group of labeled ``InventoryStepperRow``s, so the
+/// group can size every amount to the widest one. Owned by the form that lays
+/// the rows out, one per group.
+@Observable
+@MainActor
+final class StepperColumn {
+    private var widths: [String: CGFloat] = [:]
+
+    /// The widest amount in the group; `0` until a row has been measured.
+    var width: CGFloat {
+        widths.values.max() ?? 0
+    }
+
+    func report(_ width: CGFloat, for row: String) {
+        if widths[row] != width { widths[row] = width }
+    }
+}
+
 /// The amount editor used across the inventory forms, styled to match the
 /// quick-log dose stepper: two neutral circular step buttons flanking a centered
 /// capsule field with a trailing unit. The value is a real text field, so people
@@ -233,6 +251,9 @@ struct InventoryStepperRow: View {
     /// of several steppers in one card. At sizes where the pair can't share a
     /// line, the label sits above the stepper.
     var showsLabel = false
+    /// The group this labeled row belongs to: every row's amount takes the
+    /// widest amount's width, so the − and + buttons stand in two columns.
+    var column: StepperColumn?
 
     @State private var stepTick = 0
     @FocusState private var focused: Bool
@@ -300,7 +321,13 @@ struct InventoryStepperRow: View {
             stepButton(systemImage: "minus") {
                 bump(to: max(0, value - step))
             }
-            amountField(fills: amountFills)
+            if amountFills {
+                amountField(fills: true)
+            } else {
+                amountField(fills: false)
+                    .onGeometryChange(for: CGFloat.self, of: \.size.width) { column?.report($0, for: label.key) }
+                    .frame(minWidth: column?.width)
+            }
             stepButton(systemImage: "plus") {
                 bump(to: value + step)
             }

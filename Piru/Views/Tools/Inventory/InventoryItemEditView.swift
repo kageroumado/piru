@@ -44,6 +44,7 @@ struct InventoryItemEditView: View {
     @State private var doseSize: Double
     @State private var threshold: Double
     @State private var sharedWith: Set<UUID>
+    @State private var stepperColumn = StepperColumn()
 
     private static let unitOptions = ["µg", "mg", "g", "mL", "caps", "tabs", "drops"]
 
@@ -93,15 +94,19 @@ struct InventoryItemEditView: View {
                         unitChoices: unitChoices,
                         onUnitChange: { unit = $0 },
                         showsLabel: true,
+                        column: stepperColumn,
                     )
                     InventoryStepperRow(
                         value: $baseline, unit: unit, label: "Full supply", stepBasis: stepBasis, showsLabel: true,
+                        column: stepperColumn,
                     )
                     InventoryStepperRow(
                         value: $doseSize, unit: unit, label: "One dose", stepBasis: stepBasis, showsLabel: true,
+                        column: stepperColumn,
                     )
                     InventoryStepperRow(
                         value: $threshold, unit: unit, label: "Warn below", stepBasis: stepBasis, showsLabel: true,
+                        column: stepperColumn,
                     )
                 } footer: {
                     Text("Changing On hand is logged as a correction. 0 turns a row off.")
