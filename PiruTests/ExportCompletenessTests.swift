@@ -254,6 +254,7 @@ private let excludedSettingKeys: [String: String] = [
     "piruNow": "debug launch argument",
     "piruPersona": "debug launch argument",
     "piruScanFixture": "debug launch argument",
+    "piruPerfFixture": "debug launch argument",
     "piruShowSkinsPicker": "debug launch argument",
     "piruShowTips": "debug launch argument",
     "piruShowUpdateNotice": "debug launch argument",
