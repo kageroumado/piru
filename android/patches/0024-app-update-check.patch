@@ -1,7 +1,7 @@
 Android installs come from GitHub releases, which tell no one about a new version: a daily check raises one launch sheet per new release and a Settings row while the app is out of date, with a toggle to turn it off (Android/Update/AppUpdateCheck+Android.swift, Android/Views/AppUpdate+Android.swift). Applies after 0017, whose Settings lines it extends.
 
 diff --git a/Piru/Views/Launch/LaunchSheetModifier.swift b/Piru/Views/Launch/LaunchSheetModifier.swift
-index 58432906..0d34885f 100644
+index 826b2dd3..62512129 100644
 --- a/Piru/Views/Launch/LaunchSheetModifier.swift
 +++ b/Piru/Views/Launch/LaunchSheetModifier.swift
 @@ -5,11 +5,17 @@ import SwiftUI
@@ -22,7 +22,7 @@ index 58432906..0d34885f 100644
          }
      }
  }
-@@ -39,6 +45,9 @@ struct LaunchSheetModifier: ViewModifier {
+@@ -55,6 +61,9 @@ struct LaunchSheetModifier: ViewModifier {
                  switch sheet {
                  case let .updateNotice(notice): UpdateNoticeView(notice: notice)
                  case .discordInvite: DiscordPromptView()
@@ -32,33 +32,33 @@ index 58432906..0d34885f 100644
                  }
              }
              .task {
-@@ -47,6 +56,13 @@ struct LaunchSheetModifier: ViewModifier {
-                 try? await Task.sleep(for: Self.settleDelay)
-                 guard sheet == nil else { return }
-                 sheet = nextSheet()
+@@ -67,6 +76,13 @@ struct LaunchSheetModifier: ViewModifier {
+                 case .skinsPicker: navigator.present(.skins)
+                 case nil: break
+                 }
 +                #if os(Android)
 +                    // The release check can answer after the settle, and its sheet is still this launch's one.
-+                    if sheet == nil {
++                    if sheet == nil, navigator.sheetStack.isEmpty {
 +                        await AppUpdateCheck.shared.finishLaunchCheck()
-+                        if sheet == nil { sheet = nextSheet() }
++                        if sheet == nil, case let .sheet(next)? = nextCandidate() { sheet = next }
 +                    }
 +                #endif
              }
      }
  
-@@ -63,6 +79,12 @@ struct LaunchSheetModifier: ViewModifier {
+@@ -85,6 +101,12 @@ struct LaunchSheetModifier: ViewModifier {
          if let notice = UpdateNotice.next(in: modelContext) {
-             return .updateNotice(notice)
+             return .sheet(.updateNotice(notice))
          }
 +        #if os(Android)
 +            if let release = AppUpdateCheck.shared.releaseToAnnounce {
 +                AppUpdateCheck.shared.markAnnounced(release)
-+                return .appUpdate(release)
++                return .sheet(.appUpdate(release))
 +            }
 +        #endif
-         if discordInviteIsDue {
-             discordShown = true
-             return .discordInvite
+         if skinsPickerIsDue {
+             return .skinsPicker
+         }
 diff --git a/Piru/Views/Settings/SettingsView.swift b/Piru/Views/Settings/SettingsView.swift
 index f2633214..7ecbb007 100644
 --- a/Piru/Views/Settings/SettingsView.swift
