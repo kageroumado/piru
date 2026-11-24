@@ -1,10 +1,10 @@
 UNUserNotificationCenter's pending requests and delivered notifications come back as this module's types: SkipUI's projections failed every cast to them, so a caller filtering pending requests by identifier found none and removed nothing. Proposed upstream.
 
 diff --git a/Sources/SkipSwiftUI/UIKit/UserNotifications.swift b/Sources/SkipSwiftUI/UIKit/UserNotifications.swift
-index 1532615..61ff9a4 100644
+index dc4effb..873c9fb 100644
 --- a/Sources/SkipSwiftUI/UIKit/UserNotifications.swift
 +++ b/Sources/SkipSwiftUI/UIKit/UserNotifications.swift
-@@ -94,8 +94,13 @@ public final class UNUserNotificationCenter {
+@@ -93,8 +93,13 @@ public final class UNUserNotificationCenter {
          try await SkipUI.UNUserNotificationCenter.current().add(request.Java_request)
      }
  
@@ -20,7 +20,7 @@ index 1532615..61ff9a4 100644
      }
  
      public func removePendingNotificationRequests(withIdentifiers: [String]) {
-@@ -106,8 +111,11 @@ public final class UNUserNotificationCenter {
+@@ -105,8 +110,11 @@ public final class UNUserNotificationCenter {
          SkipUI.UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
      }
  

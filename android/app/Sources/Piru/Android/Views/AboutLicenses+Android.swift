@@ -12,8 +12,13 @@ extension BundledLicense {
             resource: "License-Apache-2.0-SwiftRuntime",
         ),
         BundledLicense(
+            name: "Apache License 2.0 with Runtime Library Exception",
+            covers: "SkipUI and SkipFuseUI, the parts of Skip that draw Piru's screens on Android. Piru's changes to them are in android/vendor in its repository.",
+            resource: "License-Apache-2.0-Skip",
+        ),
+        BundledLicense(
             name: "Mozilla Public License 2.0",
-            covers: "Skip, which runs Piru's Swift code on Android. Piru's changes to it are in android/vendor in its repository.",
+            covers: "Skip's other modules, which run Piru's Swift code on Android. Piru's changes to them are in android/vendor in its repository.",
             resource: "License-MPL-2.0-Skip",
         ),
         BundledLicense(

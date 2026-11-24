@@ -1,10 +1,10 @@
 onOpenURL: a relaunched activity's launch intent (restored from saved state, or relaunched from Recents) is not opened again; UIApplication.launch records it, told apart by FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY or a marker saved in the activity's state, and a link set as the activity's intent afterwards still opens. Proposed upstream.
 
 diff --git a/Sources/SkipUI/SkipUI/System/UserActivity.swift b/Sources/SkipUI/SkipUI/System/UserActivity.swift
-index 663998c..6d2ef3f 100644
+index c63e3cb..f2986f6 100644
 --- a/Sources/SkipUI/SkipUI/System/UserActivity.swift
 +++ b/Sources/SkipUI/SkipUI/System/UserActivity.swift
-@@ -48,7 +48,9 @@ extension View {
+@@ -47,7 +47,9 @@ extension View {
                  }
              }
  
@@ -16,10 +16,10 @@ index 663998c..6d2ef3f 100644
              }
              newIntent.value = nil
 diff --git a/Sources/SkipUI/SkipUI/UIKit/UIApplication.swift b/Sources/SkipUI/SkipUI/UIKit/UIApplication.swift
-index d67e5fc..24bdfb1 100644
+index 24b2485..8310440 100644
 --- a/Sources/SkipUI/SkipUI/UIKit/UIApplication.swift
 +++ b/Sources/SkipUI/SkipUI/UIKit/UIApplication.swift
-@@ -76,6 +76,7 @@ let logger: Logger = Logger(subsystem: "skip.ui", category: "SkipUI") // adb log
+@@ -75,6 +75,7 @@ let logger: Logger = Logger(subsystem: "skip.ui", category: "SkipUI") // adb log
      public static func launch(_ activity: androidx.activity.ComponentActivity) {
          if activity !== shared.androidActivity {
              shared.androidActivity = activity
@@ -27,7 +27,7 @@ index d67e5fc..24bdfb1 100644
  
              // Must registerForActivityResult on or before Activity.onCreate
              do {
-@@ -97,6 +98,29 @@ let logger: Logger = Logger(subsystem: "skip.ui", category: "SkipUI") // adb log
+@@ -96,6 +97,29 @@ let logger: Logger = Logger(subsystem: "skip.ui", category: "SkipUI") // adb log
          }
      }
  
@@ -57,7 +57,7 @@ index d67e5fc..24bdfb1 100644
      func onActivityDestroy() {
          // The permission launcher appears to hold a strong reference to the activity, so we must nil it to avoid memory leaks
          self.requestPermissionLauncher = nil
-@@ -487,5 +511,12 @@ struct UIApplicationLifecycleEventObserver: LifecycleEventObserver, DefaultLifec
+@@ -486,5 +510,12 @@ struct UIApplicationLifecycleEventObserver: LifecycleEventObserver, DefaultLifec
          }
      }
  }
@@ -72,12 +72,11 @@ index d67e5fc..24bdfb1 100644
  #endif
 diff --git a/Tests/SkipUITests/LaunchIntentReplayTests.swift b/Tests/SkipUITests/LaunchIntentReplayTests.swift
 new file mode 100644
-index 0000000..7461ade
+index 0000000..c4e9e19
 --- /dev/null
 +++ b/Tests/SkipUITests/LaunchIntentReplayTests.swift
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,30 @@
 +// Copyright 2026 Skip
-+// SPDX-License-Identifier: MPL-2.0
 +import Foundation
 +import SwiftUI
 +import XCTest

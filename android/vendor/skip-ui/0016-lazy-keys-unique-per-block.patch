@@ -1,10 +1,10 @@
 Lazy keys unique per ForEach block and section: SkipUI keys a lazy ForEach row by its raw ID and section chrome by the enclosing ForEach tag, so an ID repeated across sections, an ID repeated within one ForEach, or one ForEach element yielding two Sections throws Compose's "Key ... was already used" once those rows near the visible range, where SwiftUI accepts all three; LazyItemCollector now builds each row key as <block>|<escaped id>#<occurrence> from a ForEach identity remembered where the ForEach is evaluated, counts occurrences in data order so a key is the same however Compose asks for it, keys sections by a remembered Section identity with #n for repeats, evaluates lazy ForEach elements in groups keyed by identity so nested identities follow a reorder, and leaves scrollTo on the original IDs (List, LazyVStack, LazyHStack, the lazy grids, Table).
 
 diff --git a/Sources/SkipUI/SkipUI/Containers/ForEach.swift b/Sources/SkipUI/SkipUI/Containers/ForEach.swift
-index 16c37ab..01db5bc 100644
+index d3fb448..81949f4 100644
 --- a/Sources/SkipUI/SkipUI/Containers/ForEach.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/ForEach.swift
-@@ -5,6 +5,7 @@ import Foundation
+@@ -4,6 +4,7 @@ import Foundation
  #if SKIP
  import androidx.compose.runtime.Composable
  import androidx.compose.runtime.remember
@@ -12,7 +12,7 @@ index 16c37ab..01db5bc 100644
  #endif
  
  // SKIP @bridge
-@@ -19,6 +20,8 @@ public final class ForEach : View, Renderable, LazyItemFactory {
+@@ -18,6 +19,8 @@ public final class ForEach : View, Renderable, LazyItemFactory {
      let editActions: EditActions
      var onDeleteAction: ((IndexSet) -> Void)?
      var onMoveAction: ((IndexSet, Int) -> Void)?
@@ -21,7 +21,7 @@ index 16c37ab..01db5bc 100644
  
      init(identifier: ((Any) -> AnyHashable?)? = nil, indexRange: (() -> Range<Int>)? = nil, indexedContent: ((Int) -> any View)? = nil, objects: (any RandomAccessCollection<Any>)? = nil, objectContent: ((Any) -> any View)? = nil, objectsBinding: Binding<any RandomAccessCollection<Any>>? = nil, objectsBindingContent: ((Binding<any RandomAccessCollection<Any>>, Int) -> any View)? = nil, editActions: EditActions = []) {
          self.identifier = identifier
-@@ -84,37 +87,54 @@ public final class ForEach : View, Renderable, LazyItemFactory {
+@@ -83,37 +86,54 @@ public final class ForEach : View, Renderable, LazyItemFactory {
          }
          let identityNamespace = remember { ForEachIdentityNamespace() }
          let isLazy = EvaluateOptions(options).lazyItemLevel != nil
@@ -84,7 +84,7 @@ index 16c37ab..01db5bc 100644
                  if isLazy, !isUnrollRequired(renderables: renderables, isFirst: isFirst, context: context) {
                      collected.add(self)
                      break
-@@ -131,7 +151,9 @@ public final class ForEach : View, Renderable, LazyItemFactory {
+@@ -130,7 +150,9 @@ public final class ForEach : View, Renderable, LazyItemFactory {
          } else if let objectsBinding {
              let objects = objectsBinding.wrappedValue
              for i in 0..<objects.count {
@@ -95,7 +95,7 @@ index 16c37ab..01db5bc 100644
                  if isLazy, !isUnrollRequired(renderables: renderables, isFirst: isFirst, context: context) {
                      collected.add(self)
                      break
-@@ -227,7 +249,7 @@ public final class ForEach : View, Renderable, LazyItemFactory {
+@@ -226,7 +248,7 @@ public final class ForEach : View, Renderable, LazyItemFactory {
                  }
                  return taggedRenderable(for: renderable, defaultTag: tag)
              }
@@ -104,7 +104,7 @@ index 16c37ab..01db5bc 100644
          } else if let objects {
              let factory: @Composable (Any, ComposeContext) -> Renderable = { object, context in
                  let renderables = ModifiedContent.apply(modifiers: modifiers, to: objectContent!(object)).Evaluate(context: context, options: 0)
-@@ -237,7 +259,7 @@ public final class ForEach : View, Renderable, LazyItemFactory {
+@@ -236,7 +258,7 @@ public final class ForEach : View, Renderable, LazyItemFactory {
                  }
                  return taggedRenderable(for: renderable, defaultTag: tag)
              }
@@ -113,7 +113,7 @@ index 16c37ab..01db5bc 100644
          } else if let objectsBinding {
              let factory: @Composable (Binding<any RandomAccessCollection<Any>>, Int, ComposeContext) -> Renderable = { objects, index, context in
                  let renderables = ModifiedContent.apply(modifiers: modifiers, to: objectsBindingContent!(objects, index)).Evaluate(context: context, options: 0)
-@@ -247,7 +269,7 @@ public final class ForEach : View, Renderable, LazyItemFactory {
+@@ -246,7 +268,7 @@ public final class ForEach : View, Renderable, LazyItemFactory {
                  }
                  return taggedRenderable(for: renderable, defaultTag: tag)
              }
@@ -123,10 +123,10 @@ index 16c37ab..01db5bc 100644
      }
  
 diff --git a/Sources/SkipUI/SkipUI/Containers/LazyHGrid.swift b/Sources/SkipUI/SkipUI/Containers/LazyHGrid.swift
-index e83b497..d93bb82 100644
+index d5c1833..527b9bd 100644
 --- a/Sources/SkipUI/SkipUI/Containers/LazyHGrid.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/LazyHGrid.swift
-@@ -124,9 +124,9 @@ public struct LazyHGrid: View, Renderable {
+@@ -106,9 +106,9 @@ public struct LazyHGrid: View, Renderable {
                                  }
                              }
                          },
@@ -138,7 +138,7 @@ index e83b497..d93bb82 100644
                              items(count: count, key: key) { index in
                                  Box(contentAlignment: boxAlignment) {
                                      let scopedContext = context.content(scope: self)
-@@ -134,8 +134,8 @@ public struct LazyHGrid: View, Renderable {
+@@ -116,8 +116,8 @@ public struct LazyHGrid: View, Renderable {
                                  }
                              }
                          },
@@ -149,7 +149,7 @@ index e83b497..d93bb82 100644
                              items(count: objects.count, key: key) { index in
                                  let scopedContext = context.content(scope: self)
                                  Box(contentAlignment: boxAlignment) {
-@@ -143,8 +143,8 @@ public struct LazyHGrid: View, Renderable {
+@@ -125,8 +125,8 @@ public struct LazyHGrid: View, Renderable {
                                  }
                              }
                          },
@@ -161,10 +161,10 @@ index e83b497..d93bb82 100644
                                  let scopedContext = context.content(scope: self)
                                  Box(contentAlignment: boxAlignment) {
 diff --git a/Sources/SkipUI/SkipUI/Containers/LazyHStack.swift b/Sources/SkipUI/SkipUI/Containers/LazyHStack.swift
-index 7071b4d..8fac949 100644
+index 0a58a54..2d8f25b 100644
 --- a/Sources/SkipUI/SkipUI/Containers/LazyHStack.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/LazyHStack.swift
-@@ -119,21 +119,21 @@ public struct LazyHStack : View, Renderable {
+@@ -101,21 +101,21 @@ public struct LazyHStack : View, Renderable {
                                  renderable.Render(context: context.content(scope: self))
                              }
                          },
@@ -193,7 +193,7 @@ index 7071b4d..8fac949 100644
                                  factory(objectsBinding, index, context.content(scope: self)).Render(context: context.content(scope: self))
                              }
 diff --git a/Sources/SkipUI/SkipUI/Containers/LazySupport.swift b/Sources/SkipUI/SkipUI/Containers/LazySupport.swift
-index 5f95870..1742ff2 100644
+index b2d3277..e631389 100644
 --- a/Sources/SkipUI/SkipUI/Containers/LazySupport.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/LazySupport.swift
 @@ -77,9 +77,12 @@ final class LazyLevelRenderable: Renderable, LazyItemFactory {
@@ -228,7 +228,7 @@ index 5f95870..1742ff2 100644
      }
  }
  
-@@ -120,19 +123,116 @@ extension ModifiedContent: LazyItemFactory {
+@@ -120,14 +123,58 @@ extension ModifiedContent: LazyItemFactory {
      }
  }
  
@@ -289,7 +289,9 @@ index 5f95870..1742ff2 100644
 -    private(set) var sectionFooter: (kotlin.collections.List<Renderable>, Any?) -> Int = { _, _ in 0 }
 +    private(set) var sectionFooter: (kotlin.collections.List<Renderable>) -> Int = { _ in 0 }
      private var currentSectionItemCount: Int? = nil
-     private var startItemIndex = 0
+     private let emptyItemIndices = mutableStateMapOf<Int, Bool>()
+     private var currentSectionFirstItemIndex: Int? = nil
+@@ -138,6 +185,59 @@ public final class LazyItemCollector {
      private var collectedItemCount = 0
      private var containsBindingItems = false
  
@@ -348,8 +350,8 @@ index 5f95870..1742ff2 100644
 +
      /// Track emitted body items for the current section, excluding section header/footer chrome.
      private func incrementCurrentSectionItemCount(by count: Int) {
-         if let countInSection = currentSectionItemCount {
-@@ -142,16 +242,18 @@ public final class LazyItemCollector {
+         if count > 0 {
+@@ -153,16 +253,18 @@ public final class LazyItemCollector {
  
      /// Initialize the content factories.
      ///
@@ -375,10 +377,10 @@ index 5f95870..1742ff2 100644
      ) {
          self.startItemIndex = startItemIndex
  
-@@ -159,6 +261,10 @@ public final class LazyItemCollector {
-         collectedItemCount = 0
-         containsBindingItems = false
-         currentSectionItemCount = nil
+@@ -174,6 +276,10 @@ public final class LazyItemCollector {
+         sectionLastItemIndices.removeAll()
+         currentSectionFirstItemIndex = nil
+         sectionFirstItemIndices.removeAll()
 +        keyOccurrences.clear()
 +        sectionIndex = -1
 +        currentSectionKey = nil
@@ -386,9 +388,9 @@ index 5f95870..1742ff2 100644
  
          self.item = { renderable, level in
              // If this is an item after a section, add a header before it
-@@ -171,30 +277,33 @@ public final class LazyItemCollector {
+@@ -186,30 +292,33 @@ public final class LazyItemCollector {
              collectedItemCount += 1
-             incrementCurrentSectionItemCount(by: 1)
+             incrementCurrentSectionItemCount(by: renderable.isSwiftUIEmptyView ? 0 : 1)
          }
 -        self.indexedItems = { range, identifier, onDelete, onMove, level, factory in
 +        self.indexedItems = { range, identifier, blockIdentity, onDelete, onMove, level, factory in
@@ -426,7 +428,7 @@ index 5f95870..1742ff2 100644
              content.add(Content.objectBindingItems(binding, identifier, onMove))
              containsBindingItems = true
              incrementCurrentSectionItemCount(by: binding.wrappedValue.count)
-@@ -205,16 +314,17 @@ public final class LazyItemCollector {
+@@ -220,9 +329,10 @@ public final class LazyItemCollector {
              case .sectionFooter, nil:
                  break
              default:
@@ -439,20 +441,29 @@ index 5f95870..1742ff2 100644
              content.add(Content.sectionHeader(renderedCount))
              collectedItemCount += renderedCount
              currentSectionItemCount = 0
+@@ -230,7 +340,7 @@ public final class LazyItemCollector {
+             currentSectionLastItemIndex = nil
              return renderedCount
          }
 -        self.sectionFooter = { renderables, sectionIdentity in
--            let renderedCount = max(1, sectionFooter(renderables, sectionIdentity, currentSectionItemCount))
 +        self.sectionFooter = { renderables in
+             if let firstIndex = currentSectionFirstItemIndex {
+                 sectionFirstItemIndices.insert(firstIndex)
+             }
+@@ -239,7 +349,7 @@ public final class LazyItemCollector {
+                 sectionLastItemIndices.insert(lastIndex)
+             }
+             currentSectionLastItemIndex = nil
+-            let renderedCount = max(1, sectionFooter(renderables, sectionIdentity, currentSectionItemCount))
 +            let renderedCount = max(1, sectionFooter(renderables, endSection(), currentSectionItemCount))
              content.add(Content.sectionFooter(renderedCount))
              collectedItemCount += renderedCount
              currentSectionItemCount = nil
 diff --git a/Sources/SkipUI/SkipUI/Containers/LazyVGrid.swift b/Sources/SkipUI/SkipUI/Containers/LazyVGrid.swift
-index 37179bb..a991611 100644
+index 3f47b51..fc47524 100644
 --- a/Sources/SkipUI/SkipUI/Containers/LazyVGrid.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/LazyVGrid.swift
-@@ -141,9 +141,9 @@ public struct LazyVGrid: View, Renderable {
+@@ -123,9 +123,9 @@ public struct LazyVGrid: View, Renderable {
                                      }
                                  }
                              },
@@ -464,7 +475,7 @@ index 37179bb..a991611 100644
                                  items(count: count, key: key) { index in
                                      Box(contentAlignment: boxAlignment) {
                                          let scopedContext = context.content(scope: self)
-@@ -151,8 +151,8 @@ public struct LazyVGrid: View, Renderable {
+@@ -133,8 +133,8 @@ public struct LazyVGrid: View, Renderable {
                                      }
                                  }
                              },
@@ -475,7 +486,7 @@ index 37179bb..a991611 100644
                                  items(count: objects.count, key: key) { index in
                                      Box(contentAlignment: boxAlignment) {
                                          let scopedContext = context.content(scope: self)
-@@ -160,8 +160,8 @@ public struct LazyVGrid: View, Renderable {
+@@ -142,8 +142,8 @@ public struct LazyVGrid: View, Renderable {
                                      }
                                  }
                              },
@@ -487,10 +498,10 @@ index 37179bb..a991611 100644
                                      Box(contentAlignment: boxAlignment) {
                                          let scopedContext = context.content(scope: self)
 diff --git a/Sources/SkipUI/SkipUI/Containers/LazyVStack.swift b/Sources/SkipUI/SkipUI/Containers/LazyVStack.swift
-index 567a8e3..582faa4 100644
+index 40827e4..a3c4f9f 100644
 --- a/Sources/SkipUI/SkipUI/Containers/LazyVStack.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/LazyVStack.swift
-@@ -132,23 +132,23 @@ public struct LazyVStack : View, Renderable {
+@@ -114,23 +114,23 @@ public struct LazyVStack : View, Renderable {
                                      renderable.Render(context: context.content(scope: self))
                                  }
                              },
@@ -521,18 +532,19 @@ index 567a8e3..582faa4 100644
                                      let scopedContext = context.content(scope: self)
                                      factory(objectsBinding, index, scopedContext).Render(context: scopedContext)
 diff --git a/Sources/SkipUI/SkipUI/Containers/List.swift b/Sources/SkipUI/SkipUI/Containers/List.swift
-index df38971..63b6ce5 100644
+index 8c113e2..01fe6e6 100644
 --- a/Sources/SkipUI/SkipUI/Containers/List.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/List.swift
-@@ -352,7 +352,6 @@ public final class List : View, Renderable {
+@@ -365,8 +365,6 @@ public final class List : View, Renderable {
                  return "\(baseKey)#\(occurrence)"
              }
  
--            var sectionIndex = -1
+-            var implicitSectionIndex = 0
+-            var currentSectionKey: String? = nil
              var startItemIndex = hasHeader ? 1 : 0 // Header inset
              if isSearchable {
                  startItemIndex += 1 // Search field
-@@ -379,9 +378,9 @@ public final class List : View, Renderable {
+@@ -397,9 +395,9 @@ public final class List : View, Renderable {
                          }
                      }
                  },
@@ -544,7 +556,7 @@ index df38971..63b6ce5 100644
                      items(count: count, key: key) { index in
                          let keyValue = key?(index) // Key closure already remaps index
                          let index = itemCollector.value.remapIndex(index, from: offset)
-@@ -403,8 +402,8 @@ public final class List : View, Renderable {
+@@ -427,8 +425,8 @@ public final class List : View, Renderable {
                          }
                      }
                  },
@@ -555,7 +567,7 @@ index df38971..63b6ce5 100644
                      items(count: objects.count, key: key) { index in
                          let keyValue = key(index) // Key closure already remaps index
                          let index = itemCollector.value.remapIndex(index, from: offset)
-@@ -426,8 +425,8 @@ public final class List : View, Renderable {
+@@ -456,8 +454,8 @@ public final class List : View, Renderable {
                          }
                      }
                  },
@@ -566,31 +578,37 @@ index df38971..63b6ce5 100644
                      items(count: objectsBinding.wrappedValue.count, key: key) { index in
                          let keyValue = key(index) // Key closure already remaps index
                          let index = itemCollector.value.remapIndex(index, from: offset)
-@@ -449,10 +448,7 @@ public final class List : View, Renderable {
+@@ -485,13 +483,7 @@ public final class List : View, Renderable {
                          }
                      }
                  },
 -                sectionHeader: { content, sectionIdentity in
--                    sectionIndex += 1
--                    let currentSectionIndex = sectionIndex
--                    let sectionKey = Self.sectionKey(for: sectionIdentity, fallbackIndex: currentSectionIndex)
+-                    // Anonymous sections keep their identity when explicit ForEach sections change.
+-                    let sectionKey = Self.sectionKey(for: sectionIdentity, fallbackIndex: implicitSectionIndex)
+-                    if sectionIdentity == nil {
+-                        implicitSectionIndex += 1
+-                    }
+-                    currentSectionKey = sectionKey
 +                sectionHeader: { content, sectionKey in
                      let headerRenderables = content.size == 0 ? listOf(EmptyView()) : content
                      let firstRenderable = (renderables.firstOrNull() as? LazySectionHeader)?.content.firstOrNull()
                      let isTop = firstRenderable === headerRenderables.firstOrNull()
-@@ -493,9 +489,7 @@ public final class List : View, Renderable {
+@@ -532,12 +524,7 @@ public final class List : View, Renderable {
                      }
                      return renderedCount
                  },
--                sectionFooter: { content, sectionIdentity, sectionItemCount in
--                    let currentSectionIndex = sectionIndex
--                    let sectionKey = Self.sectionKey(for: sectionIdentity, fallbackIndex: currentSectionIndex)
-+                sectionFooter: { content, sectionKey, sectionItemCount in
+-                sectionFooter: { content, sectionIdentity, _ in
+-                    let sectionKey = currentSectionKey ?? Self.sectionKey(for: sectionIdentity, fallbackIndex: implicitSectionIndex)
+-                    if currentSectionKey == nil {
+-                        implicitSectionIndex += 1
+-                        currentSectionKey = sectionKey
+-                    }
++                sectionFooter: { content, sectionKey, _ in
                      let footerRenderables = content.size == 0 ? listOf(EmptyView()) : content
-                     let currentSectionItemCount = sectionItemCount ?? 0
-                     currentSectionBodyItemCounts[sectionKey] = currentSectionItemCount
-@@ -603,18 +597,6 @@ public final class List : View, Renderable {
-         content(animate ? animatedModifier : Modifier)
+                     var renderedCount = 0
+                     for renderableIndex in 0..<footerRenderables.size {
+@@ -632,18 +619,6 @@ public final class List : View, Renderable {
+         content(modifier, decorationModifier)
      }
  
 -    /// Build a stable key for section chrome animation state.
@@ -605,14 +623,14 @@ index df38971..63b6ce5 100644
 -        return "id-\(composeBundleString(for: sectionIdentity))"
 -    }
 -
-     /// Tracks section chrome placement separately from row animation state.
-     final class SectionChromeAnimationState {
-         var sectionBodyItemCounts: kotlin.collections.Map<String, Int> = mapOf()
+     /// Keeps a layout's animation decision stable through follow-up recompositions.
+     final class ListAnimationState {
+         var itemKeys: [AnyHashable?] = []
 diff --git a/Sources/SkipUI/SkipUI/Containers/Section.swift b/Sources/SkipUI/SkipUI/Containers/Section.swift
-index 143cc55..0da6455 100644
+index cf6f169..e607182 100644
 --- a/Sources/SkipUI/SkipUI/Containers/Section.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/Section.swift
-@@ -4,6 +4,7 @@
+@@ -3,6 +3,7 @@
  import Foundation
  #if SKIP
  import androidx.compose.runtime.Composable
@@ -620,7 +638,7 @@ index 143cc55..0da6455 100644
  #endif
  
  // SKIP @bridge
-@@ -87,7 +88,9 @@ public struct Section : View {
+@@ -86,7 +87,9 @@ public struct Section : View {
          var renderables: kotlin.collections.MutableList<Renderable> = mutableListOf()
          let headerRenderables = header?.Evaluate(context: context, options: 0)
          if isLazy {
@@ -632,10 +650,10 @@ index 143cc55..0da6455 100644
              renderables.addAll(headerRenderables)
          }
 diff --git a/Sources/SkipUI/SkipUI/Containers/Table.swift b/Sources/SkipUI/SkipUI/Containers/Table.swift
-index cbb877b..856eec3 100644
+index bac89f2..3a8fcc0 100644
 --- a/Sources/SkipUI/SkipUI/Containers/Table.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/Table.swift
-@@ -114,7 +114,8 @@ public final class Table<ObjectType, ID> : View, Renderable where ObjectType: Id
+@@ -113,7 +113,8 @@ public final class Table<ObjectType, ID> : View, Renderable where ObjectType: Id
              }
          }
  
@@ -646,10 +664,10 @@ index cbb877b..856eec3 100644
          LazyColumn(state: listState, modifier: modifier) {
              if headerSafeAreaHeight.value > 0 {
 diff --git a/Tests/SkipUITests/LazyItemCollectorTests.swift b/Tests/SkipUITests/LazyItemCollectorTests.swift
-index 5d75ea2..d9ff321 100644
+index 687b189..8e29a00 100644
 --- a/Tests/SkipUITests/LazyItemCollectorTests.swift
 +++ b/Tests/SkipUITests/LazyItemCollectorTests.swift
-@@ -20,10 +20,11 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -19,10 +19,11 @@ final class LazyItemCollectorTests: XCTestCase {
                  { index in section * 10 + (index as! Int) },
                  nil,
                  nil,
@@ -662,7 +680,65 @@ index 5d75ea2..d9ff321 100644
          }
  
          // Assert
-@@ -48,7 +49,7 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -42,11 +43,11 @@ final class LazyItemCollectorTests: XCTestCase {
+ 
+         // Act
+         _ = fixture.collector.sectionHeader(listOf(), "first")
+-        fixture.collector.indexedItems(0..<3, nil, nil, nil, 0, { _, _ in EmptyView() })
+-        _ = fixture.collector.sectionFooter(listOf(), "first")
++        fixture.collector.indexedItems(0..<3, nil, nil, nil, nil, 0, { _, _ in EmptyView() })
++        _ = fixture.collector.sectionFooter(listOf())
+         _ = fixture.collector.sectionHeader(listOf(), "second")
+-        fixture.collector.indexedItems(0..<1, nil, nil, nil, 0, { _, _ in EmptyView() })
+-        _ = fixture.collector.sectionFooter(listOf(), "second")
++        fixture.collector.indexedItems(0..<1, nil, nil, nil, nil, 0, { _, _ in EmptyView() })
++        _ = fixture.collector.sectionFooter(listOf())
+ 
+         // Assert
+         XCTAssertTrue(fixture.collector.isFirstInSection(3))
+@@ -66,8 +67,8 @@ final class LazyItemCollectorTests: XCTestCase {
+         let fixture = CollectorFixture()
+         fixture.initialize()
+         _ = fixture.collector.sectionHeader(listOf(), "section")
+-        fixture.collector.indexedItems(0..<5, nil, nil, nil, 0, { _, _ in EmptyView() })
+-        _ = fixture.collector.sectionFooter(listOf(), "section")
++        fixture.collector.indexedItems(0..<5, nil, nil, nil, nil, 0, { _, _ in EmptyView() })
++        _ = fixture.collector.sectionFooter(listOf())
+ 
+         // Act
+         for index in [3, 4, 6, 7] {
+@@ -94,8 +95,8 @@ final class LazyItemCollectorTests: XCTestCase {
+         let fixture = CollectorFixture()
+         fixture.initialize()
+         _ = fixture.collector.sectionHeader(listOf(), "section")
+-        fixture.collector.indexedItems(0..<3, nil, nil, nil, 0, { _, _ in EmptyView() })
+-        _ = fixture.collector.sectionFooter(listOf(), "section")
++        fixture.collector.indexedItems(0..<3, nil, nil, nil, nil, 0, { _, _ in EmptyView() })
++        _ = fixture.collector.sectionFooter(listOf())
+         fixture.collector.recordEmptyItem(3, isEmpty: true)
+         fixture.collector.recordEmptyItem(5, isEmpty: true)
+         XCTAssertTrue(fixture.collector.isFirstInSection(4))
+@@ -116,15 +117,15 @@ final class LazyItemCollectorTests: XCTestCase {
+         let fixture = CollectorFixture()
+         fixture.initialize()
+         _ = fixture.collector.sectionHeader(listOf(), "section")
+-        fixture.collector.indexedItems(0..<3, nil, nil, nil, 0, { _, _ in EmptyView() })
+-        _ = fixture.collector.sectionFooter(listOf(), "section")
++        fixture.collector.indexedItems(0..<3, nil, nil, nil, nil, 0, { _, _ in EmptyView() })
++        _ = fixture.collector.sectionFooter(listOf())
+         XCTAssertTrue(fixture.collector.isLastInSection(5))
+ 
+         // Act
+         fixture.initialize()
+         _ = fixture.collector.sectionHeader(listOf(), "section")
+-        fixture.collector.indexedItems(0..<1, nil, nil, nil, 0, { _, _ in EmptyView() })
+-        _ = fixture.collector.sectionFooter(listOf(), "section")
++        fixture.collector.indexedItems(0..<1, nil, nil, nil, nil, 0, { _, _ in EmptyView() })
++        _ = fixture.collector.sectionFooter(listOf())
+ 
+         // Assert
+         XCTAssertTrue(fixture.collector.isFirstInSection(3))
+@@ -144,7 +145,7 @@ final class LazyItemCollectorTests: XCTestCase {
          fixture.initialize()
          let resetCount = fixture.collector.count
  
@@ -671,7 +747,7 @@ index 5d75ea2..d9ff321 100644
  
          // Assert
          XCTAssertEqual(initialCount, 1)
-@@ -71,6 +72,7 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -167,6 +168,7 @@ final class LazyItemCollectorTests: XCTestCase {
          fixture.collector.objectBindingItems(
              binding,
              { $0 as? Int },
@@ -679,7 +755,7 @@ index 5d75ea2..d9ff321 100644
              EditActions(rawValue: 0),
              nil,
              nil,
-@@ -80,7 +82,7 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -176,7 +178,7 @@ final class LazyItemCollectorTests: XCTestCase {
  
          let initialCount = fixture.collector.count
          values = [1, 2, 3, 4]
@@ -688,7 +764,7 @@ index 5d75ea2..d9ff321 100644
  
          // Assert
          XCTAssertEqual(initialCount, 2)
-@@ -101,6 +103,7 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -197,6 +199,7 @@ final class LazyItemCollectorTests: XCTestCase {
              10..<13,
              { $0 as? Int },
              nil,
@@ -696,7 +772,7 @@ index 5d75ea2..d9ff321 100644
              { indexes, destination in
                  movedFrom = indexes.first
                  movedTo = destination
-@@ -108,8 +111,8 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -204,8 +207,8 @@ final class LazyItemCollectorTests: XCTestCase {
              0,
              { _, _ in EmptyView() }
          )
@@ -707,7 +783,7 @@ index 5d75ea2..d9ff321 100644
  
          let count = fixture.collector.count
          let objectIndex = fixture.collector.index(for: "a")
-@@ -143,7 +146,7 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -239,7 +242,7 @@ final class LazyItemCollectorTests: XCTestCase {
          var values: any RandomAccessCollection<Any> = [1, 2, 3]
          let binding = Binding<any RandomAccessCollection<Any>>(get: { values }, set: { values = $0 })
          fixture.collector.objectBindingItems(
@@ -716,7 +792,7 @@ index 5d75ea2..d9ff321 100644
              { _, _, _ in EmptyView() }
          )
  
-@@ -156,7 +159,7 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -252,7 +255,7 @@ final class LazyItemCollectorTests: XCTestCase {
          let removedIndex = fixture.collector.index(for: 2)
  
          fixture.initialize()
@@ -725,7 +801,7 @@ index 5d75ea2..d9ff321 100644
          values = []
  
          // Assert
-@@ -168,26 +171,358 @@ final class LazyItemCollectorTests: XCTestCase {
+@@ -264,26 +267,358 @@ final class LazyItemCollectorTests: XCTestCase {
      }
  }
  
@@ -1091,12 +1167,11 @@ index 5d75ea2..d9ff321 100644
  #endif
 diff --git a/Tests/SkipUITests/LazyKeyTests.swift b/Tests/SkipUITests/LazyKeyTests.swift
 new file mode 100644
-index 0000000..0c6faf9
+index 0000000..47c6214
 --- /dev/null
 +++ b/Tests/SkipUITests/LazyKeyTests.swift
-@@ -0,0 +1,336 @@
+@@ -0,0 +1,335 @@
 +// Copyright 2026 Skip
-+// SPDX-License-Identifier: MPL-2.0
 +import SwiftUI
 +import XCTest
 +

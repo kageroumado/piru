@@ -32,7 +32,6 @@ extension View {
 
     func buttonBorderShape(_: ButtonBorderShape) -> some View { self }
     func layoutPriority(_: Double) -> some View { self }
-    func alignmentGuide(_: HorizontalAlignment, computeValue _: @escaping (ViewDimensions) -> CGFloat) -> some View { self }
     func alignmentGuide(_: VerticalAlignment, computeValue _: @escaping (ViewDimensions) -> CGFloat) -> some View { self }
     func gridColumnAlignment(_: HorizontalAlignment) -> some View { self }
     func gridCellColumns(_: Int) -> some View { self }
@@ -110,6 +109,9 @@ struct PlaceholderContentView<Content: View>: View {
     var body: some View { content }
 }
 
+/// What a vertical alignment guide's closure reads. Declared at module scope, it is the
+/// `ViewDimensions` every file here means: SkipFuseUI's own answers horizontal guides only,
+/// and its `alignmentGuide` takes list-row separator guides and traps on any other.
 struct ViewDimensions {
     let width: CGFloat
     let height: CGFloat

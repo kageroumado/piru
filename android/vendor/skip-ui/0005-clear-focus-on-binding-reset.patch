@@ -1,10 +1,10 @@
 Clearing a focus binding releases Compose focus in a SideEffect; recheck ownership inside the effect, so a transfer to a field composed earlier keeps its new target.
 
 diff --git a/Sources/SkipUI/SkipUI/System/Focus.swift b/Sources/SkipUI/SkipUI/System/Focus.swift
-index a195133..3b7cf2c 100644
+index 9573f74..8b80593 100644
 --- a/Sources/SkipUI/SkipUI/System/Focus.swift
 +++ b/Sources/SkipUI/SkipUI/System/Focus.swift
-@@ -56,7 +56,13 @@ extension View {
+@@ -55,7 +55,13 @@ extension View {
                      }
                  }
              } else if isFocused.value {

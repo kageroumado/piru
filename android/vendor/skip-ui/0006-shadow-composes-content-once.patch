@@ -1,9 +1,9 @@
 diff --git a/Sources/SkipUI/Skip/Shadowed.kt b/Sources/SkipUI/Skip/Shadowed.kt
-index e57d4fa..5170f16 100644
+index 2f65372..ad15f61 100644
 --- a/Sources/SkipUI/Skip/Shadowed.kt
 +++ b/Sources/SkipUI/Skip/Shadowed.kt
-@@ -2,63 +2,60 @@
- // SPDX-License-Identifier: MPL-2.0
+@@ -1,63 +1,60 @@
+ // Copyright 2023–2026 Skip
  package skip.ui
  
 -import androidx.compose.foundation.layout.padding

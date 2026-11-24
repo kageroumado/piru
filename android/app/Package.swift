@@ -22,7 +22,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/skiptools/skip.git", exact: "1.9.13"),
-        .package(url: "https://github.com/skiptools/skip-fuse-ui.git", exact: "1.19.1"),
+        .package(url: "https://github.com/skiptools/skip-fuse-ui.git", exact: "1.19.4"),
         .package(url: "https://github.com/groue/GRDB.swift.git", exact: "7.11.1"),
         .package(url: "https://github.com/apple/swift-crypto.git", exact: "4.5.2"),
         .package(url: "https://github.com/apple/swift-async-algorithms.git", exact: "1.1.4"),

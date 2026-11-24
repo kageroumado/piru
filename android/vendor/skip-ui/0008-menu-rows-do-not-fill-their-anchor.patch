@@ -1,8 +1,8 @@
 diff --git a/Sources/SkipUI/SkipUI/Commands/ContextMenu.swift b/Sources/SkipUI/SkipUI/Commands/ContextMenu.swift
-index a927f02..7219520 100644
+index b3d8667..1689951 100644
 --- a/Sources/SkipUI/SkipUI/Commands/ContextMenu.swift
 +++ b/Sources/SkipUI/SkipUI/Commands/ContextMenu.swift
-@@ -104,6 +104,12 @@ class ContextMenuModifier: RenderModifier {
+@@ -103,6 +103,12 @@ class ContextMenuModifier: RenderModifier {
                  EnvironmentValues.shared.setValues {
                      placement.remove(ViewPlacement.toolbar)
                      $0.set_placement(placement)
@@ -16,10 +16,10 @@ index a927f02..7219520 100644
                  } in: {
                      let renderables = nestedMenu.value?.content.Evaluate(context: contentContext, options: 0) ?? primaryMenuItems
 diff --git a/Sources/SkipUI/SkipUI/Commands/Menu.swift b/Sources/SkipUI/SkipUI/Commands/Menu.swift
-index b387798..139524b 100644
+index 8829998..a493351 100644
 --- a/Sources/SkipUI/SkipUI/Commands/Menu.swift
 +++ b/Sources/SkipUI/SkipUI/Commands/Menu.swift
-@@ -146,6 +146,12 @@ public final class Menu : View, Renderable {
+@@ -145,6 +145,12 @@ public final class Menu : View, Renderable {
              EnvironmentValues.shared.setValues {
                  placement.remove(ViewPlacement.toolbar) // Menus popovers are displayed outside the toolbar context
                  $0.set_placement(placement)

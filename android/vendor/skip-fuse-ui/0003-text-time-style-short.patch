@@ -1,8 +1,8 @@
 diff --git a/Sources/SkipSwiftUI/Text/Text.swift b/Sources/SkipSwiftUI/Text/Text.swift
-index 91ec3bb..c7b89e3 100644
+index e9444c5..effeb93 100644
 --- a/Sources/SkipSwiftUI/Text/Text.swift
 +++ b/Sources/SkipSwiftUI/Text/Text.swift
-@@ -153,7 +153,8 @@ extension Text {
+@@ -157,7 +157,8 @@ extension Text {
      public struct DateStyle : Equatable, Sendable {
          public static let time: DateStyle = {
              let formatter = DateFormatter()

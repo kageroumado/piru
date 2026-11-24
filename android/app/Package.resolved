@@ -1,5 +1,5 @@
 {
-  "originHash" : "2123dc36c886c96221293b068585f213cd55cd98d5ba42bb8dbb3e4e57238565",
+  "originHash" : "08e5d937249fd8aca117f28704ec9fedec0ebb6a6bf35586263e2930bf5a1ebb",
   "pins" : [
     {
       "identity" : "elfkit",
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/skiptools/skip-foundation.git",
       "state" : {
-        "revision" : "c5d74ef694ba21a0d42542ef58b598b638f2b7fc",
-        "version" : "1.4.7"
+        "revision" : "ba10460923b9e495bbd54ad494b8b0cb3dd7ba26",
+        "version" : "1.4.9"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/skiptools/skip-fuse-ui.git",
       "state" : {
-        "revision" : "a463da1cfc524da857d346199119c26e49a86b2b",
-        "version" : "1.19.1"
+        "revision" : "e605528257816d7d1b65a48e05035b594f185850",
+        "version" : "1.19.4"
       }
     },
     {
@@ -96,8 +96,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/skiptools/skip-ui.git",
       "state" : {
-        "revision" : "9f87864413e107a2fedb86abcfe620d048867b94",
-        "version" : "1.64.0"
+        "revision" : "7371db7ba7cb87fcc0223c8a660aa3dbeb16d3fb",
+        "version" : "1.66.4"
       }
     },
     {
