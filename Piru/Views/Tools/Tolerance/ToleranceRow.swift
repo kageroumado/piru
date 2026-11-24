@@ -280,12 +280,17 @@ func toleranceListPhrase(_ names: [String]) -> String {
 }
 
 /// The line for a class a scheduled My Meds item projects: where the modeled curve settles on that
-/// schedule, or that it is still rising at the end of the window. States what the model shows, no more.
-func toleranceSettleText(settlesPercent: Double?) -> String {
-    if let settlesPercent {
-        return String(localized: "Settles near \(tolerancePercentText(settlesPercent)) on your My Meds schedule")
+/// schedule, or whether it is still rising or falling at the end of the window. States what the model
+/// shows, no more.
+func toleranceProjectionText(_ outcome: ToleranceStore.ToleranceProjection.Outcome) -> String {
+    switch outcome {
+    case let .settles(percent, _):
+        String(localized: "Settles near \(tolerancePercentText(percent)) on your My Meds schedule")
+    case .rising:
+        String(localized: "Still rising at the end of the window on your My Meds schedule")
+    case .falling:
+        String(localized: "Still falling at the end of the window on your My Meds schedule")
     }
-    return String(localized: "Still rising at the end of the window on your My Meds schedule")
 }
 
 /// The secondary line under a projected class: where the model reads near baseline with no more doses.

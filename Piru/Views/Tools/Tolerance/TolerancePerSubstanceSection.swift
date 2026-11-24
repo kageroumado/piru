@@ -171,8 +171,8 @@ struct ToleranceMechanismRow: View {
                 }
             }
             .frame(height: 7)
-            if projection != nil {
-                Text(toleranceSettleText(settlesPercent: projection?.settlesPercent))
+            if let projection {
+                Text(toleranceProjectionText(projection.outcome))
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             } else if let minutes = row.minutesToNearBaseline, minutes > 0 {
@@ -188,8 +188,8 @@ struct ToleranceMechanismRow: View {
 
     private var accessibilityValue: String {
         let level = tolerancePercentText(severity * 100)
-        if projection != nil {
-            return "\(level), \(toleranceSettleText(settlesPercent: projection?.settlesPercent))"
+        if let projection {
+            return "\(level), \(toleranceProjectionText(projection.outcome))"
         }
         guard let minutes = row.minutesToNearBaseline, minutes > 0 else { return level }
         return "\(level), \(toleranceNearBaselineText(minutes: minutes))"

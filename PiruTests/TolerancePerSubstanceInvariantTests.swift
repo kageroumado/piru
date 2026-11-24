@@ -64,6 +64,34 @@ struct TolerancePerSubstanceInvariantTests {
     }
 
     @Test
+    func `A scheduled full agonist's projection never reads above its class's`() async throws {
+        let params = [
+            "Full": Cal.opioid(referenceDoseMg: 30),
+            "Partial": Cal.opioid(referenceDoseMg: 30, intrinsicEfficacy: 0.3),
+        ]
+        let past = Cal.dailyDoses("Full", mg: 10, days: 30) + Cal.dailyDoses("Partial", mg: 20, days: 30, endingHoursBeforeNow: 7)
+        let med = ToleranceStore.ScheduledMedSnapshot(
+            substance: "Full", doseMg: 10, startDate: Self.now.addingTimeInterval(-60 * 86_400), frequency: .daily,
+            frequencyDays: [], intervalDays: 2, reminderTimesMinutes: [9 * 60],
+        )
+        let future = ToleranceStore.futureDoses([med], from: Self.now, horizonMinutes: ToleranceStore.projectionHorizonMinutes)
+
+        let projected = await ToleranceStore.projections(
+            past: past, future: future, params: params, now: Self.now, weightKg: Self.weightKg,
+        )
+        let whole = try #require(projected.joint[.muOpioid])
+        let part = try #require(projected.perSubstance["Full"]?[.muOpioid])
+        #expect(part.points.count == whole.points.count)
+        for (alone, joint) in zip(part.points, whole.points) {
+            #expect(alone.minutesFromNow == joint.minutesFromNow)
+            #expect(alone.percent <= joint.percent, "alone \(alone.percent)% > class \(joint.percent)% at \(alone.minutesFromNow) min")
+        }
+        if let alone = part.settlesPercent, let joint = whole.settlesPercent {
+            #expect(alone <= joint)
+        }
+    }
+
+    @Test
     func `Over the heavyLogging journal, no substance alone exceeds its class`() async throws {
         await SubstanceStore.shared.ensureAllLoaded()
         let container = try ModelContainer(

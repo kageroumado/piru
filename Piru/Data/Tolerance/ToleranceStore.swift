@@ -255,6 +255,9 @@ final class ToleranceStore {
     /// class combination is non-linear (`1 − ∏(1−occ)`), these do **not** sum to the joint ``states``.
     private(set) var perSubstanceStates: [String: [ReceptorClasses.ReceptorClass: ClassTolerance]] = [:]
     @ObservationIgnored private var perSubstanceSignature: String?
+    /// The dose log and weight behind ``perSubstanceStates`` (``logKey(entries:weightKg:now:)``), so a
+    /// projection seeds from them only when they were replayed from the log it projects.
+    @ObservationIgnored private var perSubstanceLogKey: String?
 
     /// Per-class **forward projection** of the tolerance curve when a scheduled My Meds item feeds the
     /// class: the trajectory with its future doses kept coming across the chart window, instead of the
@@ -265,12 +268,17 @@ final class ToleranceStore {
     /// Per-substance forward projections, keyed by logged substance name → its scheduled classes, for the
     /// By-substance view. Only a substance that is itself a scheduled med appears.
     private(set) var perSubstanceProjections: [String: [ReceptorClasses.ReceptorClass: ToleranceProjection]] = [:]
+    /// The log, weight, hour and schedule behind ``projections`` and behind ``perSubstanceProjections``.
     @ObservationIgnored private var projectionSignature: String?
+    @ObservationIgnored private var perSubstanceProjectionSignature: String?
 
     /// Signature of the inputs behind the current ``states`` (dose-log content + body weight + an hourly
     /// time bucket). A repeat ``recompute(from:now:)`` with the same signature is a no-op, so re-opening
     /// the tool or returning to it serves the warm snapshot instead of replaying the whole log again.
     @ObservationIgnored private var lastSignature: String?
+    /// The dose log and weight behind ``states``, without the hour: what a projection checks before it
+    /// seeds from them.
+    @ObservationIgnored private var stateLogKey: String?
 
     /// The pharmacology last read by ``parameters(for:)``, with the logged names and source order it
     /// was read for.
@@ -400,6 +408,7 @@ final class ToleranceStore {
         states = computed
         incompleteDataSubstances = Self.incompleteData(doses: doses, params: params, now: now)
         lastSignature = signature
+        stateLogKey = Self.logKey(entries: entries, weightKg: weightKg, now: now)
         persist(computed, now: now)
     }
 
@@ -438,8 +447,11 @@ final class ToleranceStore {
         // One pharmacology read shared across the per-substance replays, as the joint recompute does.
         let params = await parameters(for: doses)
 
-        perSubstanceStates = await Self.computePerSubstanceOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
+        let computed = await Self.computePerSubstanceOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
+        guard !Task.isCancelled else { return }
+        perSubstanceStates = computed
         perSubstanceSignature = signature
+        perSubstanceLogKey = Self.logKey(entries: snapshots, weightKg: weightKg, now: now)
     }
 
     /// Partition the log by substance and replay each partition through the pure ``simulate`` core, so
@@ -484,30 +496,101 @@ final class ToleranceStore {
 
     /// A My Meds item reduced to what the projection reads — a `Sendable` snapshot so the forward
     /// replay runs off the main actor. `doseMg` is the item's amount already converted to milligrams
-    /// (the view skips an item whose unit does not convert). As-needed and archived items are never
-    /// snapshotted: they carry no schedule to project.
-    nonisolated struct ScheduledMedSnapshot: Sendable {
+    /// (the view skips an item whose unit does not convert). As-needed items are never snapshotted:
+    /// they carry no schedule to project.
+    nonisolated struct ScheduledMedSnapshot: Sendable, Hashable {
         let substance: String
         let doseMg: Double
+        /// The day the schedule counts from: the item's start date, or, for an item saved without one,
+        /// the day its schedule opens (``AdherenceCalculator/scheduleOpens(for:entries:now:calendar:boundaryHour:)``).
         let startDate: Date
         let frequency: DoseFrequency
         let frequencyDays: [Int]
         let intervalDays: Int
         /// Minutes-from-midnight of each scheduled dose; empty means one morning dose a day.
         let reminderTimesMinutes: [Int]
+        /// Today's slots that a dose logged today already satisfies; the projection doses them no more.
+        var takenTodaySlots: Set<Int> = []
+
+        /// The minutes-from-midnight a due day is dosed at.
+        var slots: [Int] {
+            reminderTimesMinutes.isEmpty ? [ToleranceStore.defaultProjectionSlotMinutes] : reminderTimesMinutes.sorted()
+        }
+
+        /// Days after which the schedule repeats itself.
+        var cycleDays: Int {
+            switch frequency {
+            case .daily: 1
+            case .specificDays: 7
+            case .monthly: 31
+            case .everyOtherDay, .weekly, .biweekly, .everyNDays: frequency.intervalDays(custom: intervalDays) ?? 1
+            }
+        }
     }
 
     /// The projection snapshot for a My Meds item, or `nil` when it must not be projected: an as-needed
     /// item carries no schedule, and an amount whose unit does not convert to milligrams (IU, drops)
     /// cannot drive an occupancy curve. There is no archived flag — a removed item is deleted — so an
-    /// item that still exists is active.
-    static func scheduledMed(from item: DailyDoseItem) -> ScheduledMedSnapshot? {
+    /// item that still exists is active. `startDate` replaces the item's own when given.
+    static func scheduledMed(
+        from item: DailyDoseItem, startDate: Date? = nil, takenTodaySlots: Set<Int> = [],
+    ) -> ScheduledMedSnapshot? {
         guard !item.isAsNeeded, let milligrams = DoseQuantity(item.amount, unit: item.unit).milligrams else { return nil }
         return ScheduledMedSnapshot(
-            substance: item.substance, doseMg: milligrams, startDate: item.startDate,
+            substance: item.substance, doseMg: milligrams, startDate: startDate ?? item.startDate,
             frequency: item.frequency, frequencyDays: item.frequencyDays,
             intervalDays: item.frequencyIntervalDays, reminderTimesMinutes: item.reminderTimesMinutes,
+            takenTodaySlots: takenTodaySlots,
         )
+    }
+
+    /// The projection snapshots for the My Meds list, read against the journal the way adherence reads
+    /// it: an item saved without a start date counts its schedule from the day it opens, and a slot a
+    /// dose logged today already satisfies is not dosed again.
+    static func scheduledMeds(
+        from items: [DailyDoseItem], entries: [DoseEntry], now: Date = .now, calendar: Calendar = .current,
+    ) -> [ScheduledMedSnapshot] {
+        let scheduled = items.filter { !$0.isAsNeeded }
+        guard !scheduled.isEmpty else { return [] }
+        let opens = AdherenceCalculator.scheduleOpens(for: scheduled, entries: entries, now: now, calendar: calendar)
+        let products = CustomSubstanceStore.shared.productMeds
+        let today = calendar.startOfDay(for: now)
+        let todayEntries = entries.filter { $0.timestamp >= today && $0.timestamp <= now }
+        return scheduled.compactMap { item in
+            let doses = todayEntries
+                .filter { AdherenceCalculator.entryMatches(entry: $0, item: item, products: products) }
+                .map { entry in
+                    let parts = calendar.dateComponents([.hour, .minute], from: entry.timestamp)
+                    return (minutes: (parts.hour ?? 0) * 60 + (parts.minute ?? 0), slot: entry.medSlotMinutes)
+                }
+            let slots = item.reminderTimesMinutes.isEmpty ? [defaultProjectionSlotMinutes] : item.reminderTimesMinutes
+            return scheduledMed(
+                from: item, startDate: opens[ObjectIdentifier(item)],
+                takenTodaySlots: takenSlots(slots, doses: doses),
+            )
+        }
+    }
+
+    /// Which of a day's `slots` the logged `doses` satisfy, by the rule My Meds ticks them off with: a
+    /// dose checked off for a slot claims that slot, and every other dose claims the nearest open slot,
+    /// in time order. `minutes` and `slots` are minutes from midnight.
+    nonisolated static func takenSlots(_ slots: [Int], doses: [(minutes: Int, slot: Int?)]) -> Set<Int> {
+        var open = Set(slots)
+        var taken: Set<Int> = []
+        var unplaced: [Int] = []
+        for dose in doses.sorted(by: { $0.minutes < $1.minutes }) {
+            if let slot = dose.slot, open.remove(slot) != nil {
+                taken.insert(slot)
+            } else {
+                unplaced.append(dose.minutes)
+            }
+        }
+        for minutes in unplaced {
+            guard let nearest = open.sorted().min(by: { abs($0 - minutes) < abs($1 - minutes) }) else { break }
+            open.remove(nearest)
+            taken.insert(nearest)
+        }
+        return taken
     }
 
     /// One sampled point of a projected curve: minutes from `now`, and the modeled level (percent,
@@ -519,102 +602,151 @@ final class ToleranceStore {
 
     /// A class's forward projection under its My Meds schedule.
     nonisolated struct ToleranceProjection: Sendable {
+        /// What the projected curve does by the end of the window.
+        enum Outcome: Sendable, Equatable {
+            /// It holds steady near `percent` from `atMinutes` on, over several schedule cycles.
+            case settles(percent: Double, atMinutes: Double)
+            /// It has not settled, and climbs at the end of the window.
+            case rising
+            /// It has not settled, and comes down at the end of the window.
+            case falling
+        }
+
         /// The projected curve from `now` across ``projectionHorizonMinutes``, with the scheduled doses
         /// kept coming. The chart clips it to its own window.
         let points: [ProjectionPoint]
-        /// The level the curve settles near (percent) once it reaches steady oscillation, or `nil` when
-        /// it is still rising at the horizon.
-        let settlesPercent: Double?
-        /// Minutes from `now` by which the curve has settled, or `nil` when it is still rising — the
-        /// chart span reaches this so the settling is on screen.
-        let settleMinutes: Double?
+        let outcome: Outcome
+
+        /// The level the curve settles near (percent), when it settles inside the window.
+        var settlesPercent: Double? {
+            if case let .settles(percent, _) = outcome { percent } else { nil }
+        }
+
+        /// Minutes from `now` by which the curve has settled, when it does — the chart span reaches this
+        /// so the settling is on screen.
+        var settleMinutes: Double? {
+            if case let .settles(_, minutes) = outcome { minutes } else { nil }
+        }
     }
 
     /// The horizon the projection is computed over (8 weeks) — the longest span a chart frame takes, so
     /// a frame always has points to draw after clipping to its own, shorter window.
     nonisolated static let projectionHorizonMinutes = 56.0 * 1_440
 
+    /// Integration steps between drawn projection points: two hours, so a dose's daily ripple is drawn
+    /// whole at any hour the tool is opened.
+    private nonisolated static let projectionPointStride = 4
+
     /// Minute-of-day a scheduled med with no reminder time is projected at (a morning dose) — the
     /// time-of-day barely moves a days-scale tolerance curve, so one stable slot suffices.
-    private nonisolated static let defaultProjectionSlotMinutes = 9 * 60
+    nonisolated static let defaultProjectionSlotMinutes = 9 * 60
+
+    /// When a projected curve counts as settled (``projectionOutcome(levels:stepMinutes:cycleMinutes:)``).
+    private nonisolated enum SettleRule {
+        /// The steady stretch at the end of the window spans at least this many schedule cycles…
+        static let minimumCycles = 3
+        /// …and at least this many days.
+        static let minimumDays = 7.0
+        /// Over it, every cycle's mean level stays within this share of the settled level, or within
+        /// `minimumBand` percentage points when that is wider…
+        static let relativeBand = 0.05
+        static let minimumBand = 1.0
+        /// …and the cycle means' trend would move the level by less than that band over this many days.
+        static let driftDays = 28.0
+    }
 
     /// Replay each class's tolerance forward with its scheduled My Meds doses kept coming, so a daily
     /// medication's curve settles instead of decaying to baseline. Signature-gated on the dose log,
-    /// weight and the schedule (editing a My Meds item refreshes it), off-main. Seeds from the current
-    /// ``states``/``perSubstanceStates``, so call after ``recompute(from:now:)`` (and, for the
-    /// By-substance projections, after ``recomputePerSubstance(from:now:)``).
+    /// weight, hour and the schedule (editing a My Meds item refreshes it), off-main.
+    ///
+    /// Seeds from ``states`` and ``perSubstanceStates``, each only once it was replayed from this same
+    /// dose log: call after ``recompute(from:now:)`` and, for the By-substance projections, after
+    /// ``recomputePerSubstance(from:now:)``. A call that finds a seed from another log leaves that part to
+    /// the call following the replay that refreshes it.
     func recomputeProjections(
         from entries: [DoseEntry], scheduledMeds: [ScheduledMedSnapshot], now: Date = .now,
     ) async {
         let weightKg = UserProfileStore.shared.effectiveWeightKg
         let snapshots = Self.snapshots(of: entries)
-        // The per-substance snapshot's readiness is in the signature so the By-substance task's call
-        // (after ``recomputePerSubstance`` fills it) recomputes instead of deduping against the
-        // per-mechanism task's earlier run.
-        let signature = "\(Self.signature(entries: snapshots, weightKg: weightKg, now: now))|\(Self.scheduleSignature(scheduledMeds))|\(perSubstanceStates.isEmpty)"
-        if signature == projectionSignature { return }
+        let logKey = Self.logKey(entries: snapshots, weightKg: weightKg, now: now)
+        guard stateLogKey == logKey else { return }
+        let signature = "\(Self.signature(entries: snapshots, weightKg: weightKg, now: now))|\(Self.scheduleSignature(scheduledMeds))"
+        let needsPerSubstance = perSubstanceLogKey == logKey && signature != perSubstanceProjectionSignature
+        guard signature != projectionSignature || needsPerSubstance else { return }
 
         let future = Self.futureDoses(scheduledMeds, from: now, horizonMinutes: Self.projectionHorizonMinutes)
-        guard !future.isEmpty else {
-            projections = [:]
-            perSubstanceProjections = [:]
-            projectionSignature = signature
-            return
+        var computed: Projections = ([:], [:])
+        if !future.isEmpty {
+            let doses = snapshots.map {
+                SimDose(substance: $0.substance, amountMg: $0.dose.milligrams, timestamp: $0.timestamp)
+            }
+            let uniqueNames = Array(Set(
+                doses.map(\.substance) + future.map(\.substance) + SubstanceStore.shared.classRepresentativeNames(),
+            ))
+            let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
+            computed = await Self.computeProjectionsOffMain(
+                doses: doses, future: future, cycleDays: Self.cycleDays(of: scheduledMeds), params: params,
+                now: now, weightKg: weightKg,
+                jointSnapshot: states, perSubstanceSnapshot: needsPerSubstance ? perSubstanceStates : [:],
+            )
         }
-        let doses = snapshots.map {
-            SimDose(substance: $0.substance, amountMg: $0.dose.milligrams, timestamp: $0.timestamp)
-        }
-        let uniqueNames = Array(Set(
-            doses.map(\.substance) + future.map(\.substance) + SubstanceStore.shared.classRepresentativeNames(),
-        ))
-        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
-        let jointSnapshot = states
-        let aloneSnapshot = perSubstanceStates
-        let computed = await Self.computeProjectionsOffMain(
-            doses: doses, future: future, params: params, now: now, weightKg: weightKg,
-            jointSnapshot: jointSnapshot, perSubstanceSnapshot: aloneSnapshot,
-        )
+        // A newer log's replay may have landed during the awaits; its own projection call follows.
+        guard !Task.isCancelled, stateLogKey == logKey else { return }
         projections = computed.joint
-        perSubstanceProjections = computed.perSub
         projectionSignature = signature
+        if needsPerSubstance, perSubstanceLogKey == logKey {
+            perSubstanceProjections = computed.perSubstance
+            perSubstanceProjectionSignature = signature
+        }
     }
 
     /// Order-independent fingerprint of the scheduled-med set, so a My Meds edit changes the projection
-    /// signature and nothing else does.
-    private static func scheduleSignature(_ meds: [ScheduledMedSnapshot]) -> String {
-        var combined: UInt64 = 0
-        for m in meds {
-            var hasher = Hasher()
-            hasher.combine(m.substance)
-            hasher.combine(m.doseMg)
-            hasher.combine(m.startDate)
-            hasher.combine(m.frequency)
-            hasher.combine(m.frequencyDays)
-            hasher.combine(m.intervalDays)
-            hasher.combine(m.reminderTimesMinutes)
-            combined ^= UInt64(bitPattern: Int64(hasher.finalize()))
+    /// signature and nothing else does. Repeated items count once each.
+    nonisolated static func scheduleSignature(_ meds: [ScheduledMedSnapshot]) -> String {
+        var hasher = Hasher()
+        for value in meds.map(\.hashValue).sorted() {
+            hasher.combine(value)
         }
-        return "\(meds.count)|\(combined)"
+        return "\(meds.count)|\(hasher.finalize())"
+    }
+
+    /// Each scheduled substance's cycle in days; two items of one substance repeat together on the least
+    /// common multiple of theirs.
+    private nonisolated static func cycleDays(of meds: [ScheduledMedSnapshot]) -> [String: Int] {
+        meds.reduce(into: [:]) { cycles, med in
+            cycles[med.substance] = cycles[med.substance].map { leastCommonCycle($0, med.cycleDays) } ?? med.cycleDays
+        }
+    }
+
+    /// The least common multiple of two cycles, capped at a year so mismatched intervals stay finite.
+    private nonisolated static func leastCommonCycle(_ a: Int, _ b: Int) -> Int {
+        var x = a
+        var y = b
+        while y != 0 {
+            (x, y) = (y, x % y)
+        }
+        return Swift.min(a / Swift.max(1, x) * b, 366)
     }
 
     /// Expand scheduled meds into their future dose events across `[now, now + horizon]` — a forward
     /// day scan gated by ``MedSchedule/isDue(startDate:frequency:frequencyDays:intervalDays:on:)``, one
-    /// ``SimDose`` per due day × scheduled time (or one morning dose where no time is set).
+    /// ``SimDose`` per due day × scheduled time (or one morning dose where no time is set). Today's
+    /// slots a logged dose already satisfies are left out.
     nonisolated static func futureDoses(
         _ meds: [ScheduledMedSnapshot], from now: Date, horizonMinutes: Double,
     ) -> [SimDose] {
         guard !meds.isEmpty, horizonMinutes > 0 else { return [] }
         let calendar = Calendar.current
         let end = now.addingTimeInterval(horizonMinutes * 60)
+        let today = calendar.startOfDay(for: now)
         var out: [SimDose] = []
-        var day = calendar.startOfDay(for: now)
+        var day = today
         while day <= end {
             for med in meds where MedSchedule.isDue(
                 startDate: med.startDate, frequency: med.frequency,
                 frequencyDays: med.frequencyDays, intervalDays: med.intervalDays, on: day,
             ) {
-                let slots = med.reminderTimesMinutes.isEmpty ? [defaultProjectionSlotMinutes] : med.reminderTimesMinutes
-                for minutes in slots {
+                for minutes in med.slots where day != today || !med.takenTodaySlots.contains(minutes) {
                     let timestamp = calendar.date(
                         bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: day,
                     ) ?? day.addingTimeInterval(Double(minutes) * 60)
@@ -629,89 +761,143 @@ final class ToleranceStore {
         return out
     }
 
+    /// The joint projections by class, and the By-substance ones by substance and class.
+    typealias Projections = (
+        joint: [ReceptorClasses.ReceptorClass: ToleranceProjection],
+        perSubstance: [String: [ReceptorClasses.ReceptorClass: ToleranceProjection]],
+    )
+
     private nonisolated static func computeProjectionsOffMain(
-        doses: [SimDose], future: [SimDose], params: [String: PharmacologyParameters],
+        doses: [SimDose], future: [SimDose], cycleDays: [String: Int], params: [String: PharmacologyParameters],
         now: Date, weightKg: Double,
         jointSnapshot: [ReceptorClasses.ReceptorClass: ClassTolerance],
         perSubstanceSnapshot: [String: [ReceptorClasses.ReceptorClass: ClassTolerance]],
-    ) async -> (joint: [ReceptorClasses.ReceptorClass: ToleranceProjection], perSub: [String: [ReceptorClasses.ReceptorClass: ToleranceProjection]]) {
+    ) async -> Projections {
         await withTaskExecutorPreference(replayExecutor) {
-            let joint = projectClasses(
-                past: doses, future: future, params: params, now: now, weightKg: weightKg, snapshot: jointSnapshot,
+            let jointTrails = projectTrails(
+                past: doses, future: future, cycleDays: cycleDays, params: params,
+                now: now, weightKg: weightKg, snapshot: jointSnapshot,
             )
             // By-substance: a scheduled med projected with only its own doses + its own future doses,
             // seeded from its alone snapshot (already rescaled onto the class gauge).
-            var perSub: [String: [ReceptorClasses.ReceptorClass: ToleranceProjection]] = [:]
+            var perSubstance: [String: [ReceptorClasses.ReceptorClass: ToleranceProjection]] = [:]
             let futureBySubstance = Dictionary(grouping: future, by: \.substance)
             let pastBySubstance = Dictionary(grouping: doses, by: \.substance)
             for (name, subFuture) in futureBySubstance {
                 guard let aloneSnapshot = perSubstanceSnapshot[name] else { continue }
-                let proj = projectClasses(
-                    past: pastBySubstance[name] ?? [], future: subFuture, params: params,
+                let trails = projectTrails(
+                    past: pastBySubstance[name] ?? [], future: subFuture, cycleDays: cycleDays, params: params,
                     now: now, weightKg: weightKg, snapshot: aloneSnapshot,
                 )
-                if !proj.isEmpty { perSub[name] = proj }
+                // A part never reads above its class, so each point is held at or under the class's
+                // projection at the same minute; the two are integrated on one grid.
+                let capped = trails.reduce(into: [ReceptorClasses.ReceptorClass: ToleranceProjection]()) { out, pair in
+                    let trail = jointTrails[pair.key].map(pair.value.capped(by:)) ?? pair.value
+                    out[pair.key] = makeProjection(trail)
+                }
+                if !capped.isEmpty { perSubstance[name] = capped }
             }
-            return (joint, perSub)
+            return (jointTrails.mapValues(makeProjection), perSubstance)
         }
     }
 
-    /// Build the per-class forward projection for every class that both (1) has a current snapshot to
-    /// seed from and (2) a *future* scheduled dose contributes to. Classes with only past doses are not
+    /// A class's projected level (percent) at every integration step from `now` — index 0 is `now` — and
+    /// the cycle its schedules repeat on.
+    private nonisolated struct ProjectedTrail {
+        let levels: [Double]
+        let cycleDays: Int
+
+        /// This trail held at or under `whole`, step by step.
+        func capped(by whole: ProjectedTrail) -> ProjectedTrail {
+            ProjectedTrail(levels: zip(levels, whole.levels).map { Swift.min($0, $1) }, cycleDays: cycleDays)
+        }
+    }
+
+    /// The drawn points (every ``projectionPointStride`` steps, and the last) and the outcome of a trail.
+    private nonisolated static func makeProjection(_ trail: ProjectedTrail) -> ToleranceProjection {
+        let step = defaultTimestepMinutes
+        let last = trail.levels.count - 1
+        var indices = Array(stride(from: 0, through: last, by: projectionPointStride))
+        if let final = indices.last, final != last { indices.append(last) }
+        let points = indices.map {
+            ProjectionPoint(minutesFromNow: Swift.min(Double($0) * step, projectionHorizonMinutes), percent: trail.levels[$0])
+        }
+        return ToleranceProjection(
+            points: points,
+            outcome: projectionOutcome(levels: trail.levels, stepMinutes: step, cycleMinutes: Double(trail.cycleDays) * 1_440),
+        )
+    }
+
+    /// Build the per-class forward trail for every class that both (1) has a current snapshot to seed
+    /// from and (2) a *future* scheduled dose contributes to. Classes with only past doses are not
     /// projected — their card keeps the decay-only curve.
-    private nonisolated static func projectClasses(
-        past: [SimDose], future: [SimDose], params: [String: PharmacologyParameters],
+    private nonisolated static func projectTrails(
+        past: [SimDose], future: [SimDose], cycleDays: [String: Int], params: [String: PharmacologyParameters],
         now: Date, weightKg: Double, snapshot: [ReceptorClasses.ReceptorClass: ClassTolerance],
-    ) -> [ReceptorClasses.ReceptorClass: ToleranceProjection] {
+    ) -> [ReceptorClasses.ReceptorClass: ProjectedTrail] {
         let horizon = projectionHorizonMinutes
         guard let prepared = buildClassWork(
             doses: past + future, params: params, now: now, weightKg: weightKg,
             lookbackDays: defaultLookbackDays, inclusionEnd: now.addingTimeInterval(horizon * 60),
         ) else { return [:] }
 
-        var out: [ReceptorClasses.ReceptorClass: ToleranceProjection] = [:]
+        var out: [ReceptorClasses.ReceptorClass: ProjectedTrail] = [:]
         for work in prepared.work {
             guard let seed = snapshot[work.receptorClass] else { continue }
             // A future dose lands past `totalMinutes`; without one this class is pure decay, not a projection.
             guard work.contributors.contains(where: { $0.onset > prepared.totalMinutes }) else { continue }
             let params = ReceptorClasses.parameters(for: work.receptorClass)
-            let points = forwardToleranceTrail(
+            let levels = forwardToleranceTrail(
                 work: work, params: params, seed: seed, totalMinutes: prepared.totalMinutes,
                 horizonMinutes: horizon, step: defaultTimestepMinutes,
                 representativeOccupancy: seed.representativeOccupancy,
                 occupancyCap: work.receptorClass.gaugeOccupancyCap,
             )
-            let summary = summarizeProjection(points, horizonMinutes: horizon)
-            out[work.receptorClass] = ToleranceProjection(
-                points: points, settlesPercent: summary.settlesPercent, settleMinutes: summary.settleMinutes,
-            )
+            let cycle = work.contributorSubstances.compactMap { cycleDays[$0] }.reduce(1, leastCommonCycle)
+            out[work.receptorClass] = ProjectedTrail(levels: levels, cycleDays: cycle)
         }
         return out
     }
 
     /// Testable seam: the per-class projection from a past log plus future doses, seeded from the past
     /// log's own joint snapshot — what ``recomputeProjections(from:scheduledMeds:now:)`` does, without
-    /// the store or the bundled DB.
+    /// the store or the bundled DB. `cycleDays` gives a scheduled substance's cycle; one day otherwise.
     nonisolated static func projection(
-        past: [SimDose], future: [SimDose], params: [String: PharmacologyParameters],
+        past: [SimDose], future: [SimDose], cycleDays: [String: Int] = [:], params: [String: PharmacologyParameters],
         now: Date, weightKg: Double,
     ) -> [ReceptorClasses.ReceptorClass: ToleranceProjection] {
         let snapshot = simulate(doses: past, params: params, now: now, weightKg: weightKg)
-        return projectClasses(past: past, future: future, params: params, now: now, weightKg: weightKg, snapshot: snapshot)
+        return projectTrails(
+            past: past, future: future, cycleDays: cycleDays, params: params, now: now, weightKg: weightKg, snapshot: snapshot,
+        ).mapValues(makeProjection)
+    }
+
+    /// Testable seam: the joint and By-substance projections, each seeded as the store seeds it — the
+    /// joint snapshot of the past log, and each substance's alone snapshot on its class's gauge.
+    nonisolated static func projections(
+        past: [SimDose], future: [SimDose], cycleDays: [String: Int] = [:], params: [String: PharmacologyParameters],
+        now: Date, weightKg: Double,
+    ) async -> Projections {
+        let joint = simulate(doses: past, params: params, now: now, weightKg: weightKg)
+        let alone = await computePerSubstanceOffMain(doses: past, params: params, now: now, weightKg: weightKg)
+        return await computeProjectionsOffMain(
+            doses: past, future: future, cycleDays: cycleDays, params: params, now: now, weightKg: weightKg,
+            jointSnapshot: joint, perSubstanceSnapshot: alone,
+        )
     }
 
     /// Integrate one class's gauge forward from `now` (seeded from its current snapshot) across the
     /// horizon, with the class's past tails **and** future scheduled contributors driving occupancy,
-    /// sampling the level along the way. The per-cell dynamics mirror
+    /// returning the level after every step. The per-cell dynamics mirror
     /// ``integrateTarget(contributors:modulators:params:totalMinutes:step:regularityFactor:)`` for the
     /// four primary ln-shift layers (the gauge reads these; the safety/effect endpoints do not change
-    /// it); seeding at `totalMinutes` makes the first sample equal the snapshot level, so the projected
+    /// it); seeding at `totalMinutes` makes the first level equal the snapshot level, so the projected
     /// line meets the "now" dot. Bounded to the horizon, so no active-window optimization is needed.
     private nonisolated static func forwardToleranceTrail(
         work: ClassWork, params: ReceptorClasses.Parameters, seed: ClassTolerance,
         totalMinutes: Double, horizonMinutes: Double, step: Double,
         representativeOccupancy: Double, occupancyCap: Double?,
-    ) -> [ProjectionPoint] {
+    ) -> [Double] {
         var sAcute = seed.sAcute
         var sAdaptive = seed.sAdaptive
         var sDeep = seed.sDeep
@@ -721,21 +907,19 @@ final class ToleranceStore {
         let contributors = work.contributors.filter { $0.expiry >= totalMinutes }.sorted { $0.onset < $1.onset }
         let modulators = work.modulators.filter { $0.expiry >= totalMinutes }.sorted { $0.onset < $1.onset }
         let end = totalMinutes + horizonMinutes
-        let totalCells = Swift.max(1, Int((horizonMinutes / step).rounded(.up)))
-        let emitStride = Swift.max(1, totalCells / 160)
 
-        var points: [ProjectionPoint] = []
-        func record(_ t: Double) {
+        var levels: [Double] = []
+        levels.reserveCapacity(Int((horizonMinutes / step).rounded(.up)) + 1)
+        func record() {
             let shift = Foundation.exp(sAcute + sAdaptive + sDeep + sSynthesis)
             let response = PDModel.responseFraction(
                 shiftFactor: shift, representativeOccupancy: representativeOccupancy, occupancyCap: occupancyCap,
             )
-            points.append(ProjectionPoint(minutesFromNow: t - totalMinutes, percent: Swift.max(0, Swift.min(100, (1 - response) * 100))))
+            levels.append(Swift.max(0, Swift.min(100, (1 - response) * 100)))
         }
-        record(totalMinutes)
+        record()
 
         var t = totalMinutes
-        var cell = 0
         while t < end {
             let cellLength = Swift.min(step, end - t)
             if cellLength <= 0 { break }
@@ -797,33 +981,71 @@ final class ToleranceStore {
             )
 
             t += cellLength
-            cell += 1
-            if cell % emitStride == 0 || t >= end { record(t) }
+            record()
         }
-        return points
+        return levels
     }
 
-    /// Where a projected curve settles: its end level (averaged over the last stretch to see past the
-    /// daily ripple) and the first time its trailing mean stays within tolerance of that level. Returns
-    /// `(nil, nil)` when the curve is still rising at the horizon.
-    private nonisolated static func summarizeProjection(
-        _ points: [ProjectionPoint], horizonMinutes: Double,
-    ) -> (settlesPercent: Double?, settleMinutes: Double?) {
-        guard points.count >= 8 else { return (nil, nil) }
-        let tailCount = Swift.max(3, points.count / 8)
-        let endLevel = points.suffix(tailCount).map(\.percent).reduce(0, +) / Double(tailCount)
-        let tolerance = Swift.max(1.0, 0.06 * endLevel)
-        let window = Swift.max(1, points.count / 20)
-        for index in points.indices {
-            let hi = Swift.min(points.count, index + window)
-            let mean = points[index ..< hi].map(\.percent).reduce(0, +) / Double(hi - index)
-            if abs(mean - endLevel) <= tolerance {
-                let settleMinutes = points[index].minutesFromNow
-                guard settleMinutes < horizonMinutes * 0.92 else { return (nil, nil) }
-                return (endLevel.rounded(), settleMinutes)
+    /// What a projected curve does by the end of the window, read from whole schedule cycles counted back
+    /// from its end, so the daily (or weekly) ripple averages out at whatever hour the projection starts.
+    ///
+    /// It settles when the last stretch of at least ``SettleRule`` `minimumCycles` cycles and
+    /// `minimumDays` days holds steady: every cycle's mean within the band of the stretch's level, and
+    /// the cycle means' trend too flat to leave the band within `driftDays`. It settles at the start of
+    /// the earliest cycle from which every later cycle mean stays inside the band. A curve that does not
+    /// settle is rising or falling by the trend of its last cycles, or, with under two cycles in the
+    /// window, by where it ends against where it starts.
+    ///
+    /// `levels` are percentages sampled every `stepMinutes`, index 0 at `now`.
+    nonisolated static func projectionOutcome(
+        levels: [Double], stepMinutes: Double, cycleMinutes: Double,
+    ) -> ToleranceProjection.Outcome {
+        guard let start = levels.first, let end = levels.last else { return .rising }
+        let steps = levels.count - 1
+        let cycleSteps = Swift.max(1, Int((cycleMinutes / stepMinutes).rounded()))
+        let cycleCount = steps / cycleSteps
+        // Level index i is the end of step i; cycle k (oldest first) holds steps firstStep + k·cycleSteps ….
+        let firstStep = steps - cycleCount * cycleSteps + 1
+        let means = (0 ..< cycleCount).map { cycle in
+            let lower = firstStep + cycle * cycleSteps
+            return levels[lower ..< lower + cycleSteps].reduce(0, +) / Double(cycleSteps)
+        }
+        let cycleDays = Double(cycleSteps) * stepMinutes / 1_440
+        let holdCycles = Swift.max(SettleRule.minimumCycles, Int((SettleRule.minimumDays / cycleDays).rounded(.up)))
+        let tail = Array(means.suffix(holdCycles))
+        let trendPerCycle = slope(tail)
+
+        if means.count >= holdCycles {
+            let level = tail.reduce(0, +) / Double(tail.count)
+            let band = Swift.max(SettleRule.minimumBand, SettleRule.relativeBand * level)
+            let drift = abs(trendPerCycle / cycleDays) * SettleRule.driftDays
+            if drift <= band, tail.allSatisfy({ abs($0 - level) <= band }) {
+                var first = means.count - 1
+                while first > 0, abs(means[first - 1] - level) <= band {
+                    first -= 1
+                }
+                let settleMinutes = Double(firstStep - 1 + first * cycleSteps) * stepMinutes
+                return .settles(percent: level.rounded(), atMinutes: settleMinutes)
             }
         }
-        return (nil, nil)
+        if tail.count >= 2, trendPerCycle != 0 { return trendPerCycle > 0 ? .rising : .falling }
+        return end < start ? .falling : .rising
+    }
+
+    /// The least-squares slope of `values` against their index; `0` for fewer than two values.
+    private nonisolated static func slope(_ values: [Double]) -> Double {
+        guard values.count >= 2 else { return 0 }
+        let n = Double(values.count)
+        let meanX = (n - 1) / 2
+        let meanY = values.reduce(0, +) / n
+        var covariance = 0.0
+        var variance = 0.0
+        for (index, value) in values.enumerated() {
+            let dx = Double(index) - meanX
+            covariance += dx * (value - meanY)
+            variance += dx * dx
+        }
+        return covariance / variance
     }
 
     /// Logged substances inside the window that *would* drive a tolerance class but can't be modeled
@@ -924,6 +1146,12 @@ final class ToleranceStore {
     /// so the tool (which passes the whole `@Query`) and the background refresh (which fetches a
     /// lookback-filtered set) produce the *same* signature and dedupe against each other's work.
     private static func signature(entries: [DoseSnapshot], weightKg: Double, now: Date) -> String {
+        "\(logKey(entries: entries, weightKg: weightKg, now: now))|\(Int(now.timeIntervalSince1970 / 3_600))"
+    }
+
+    /// ``signature(entries:weightKg:now:)`` without the hourly bucket: the in-window dose log and the
+    /// weight a replay was run from.
+    private static func logKey(entries: [DoseSnapshot], weightKg: Double, now: Date) -> String {
         let cutoff = now.addingTimeInterval(-defaultLookbackDays * 86_400)
         // Order-independent: the tool passes a reverse-chron `@Query` while the background path fetches in
         // store order, so combine per-entry hashes with XOR (commutative) rather than a sequential
@@ -938,7 +1166,7 @@ final class ToleranceStore {
             hasher.combine(entry.timestamp)
             combined ^= UInt64(bitPattern: Int64(hasher.finalize()))
         }
-        return "\(count)|\(combined)|\(Int(now.timeIntervalSince1970 / 3_600))|\(weightKg)"
+        return "\(count)|\(combined)|\(weightKg)"
     }
 
     // MARK: - Pure replay (the testable core)

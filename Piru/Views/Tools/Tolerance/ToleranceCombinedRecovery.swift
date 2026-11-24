@@ -11,10 +11,8 @@ struct ToleranceRecoverySeries: Identifiable {
     /// The curve with the scheduled med's future doses kept coming, when one feeds this class. Drawn as
     /// the main solid line; `nil` when no scheduled med contributes (then ``points`` is the main line).
     let projectedPoints: [ToleranceChartPoint]?
-    /// The level the projection settles near (percent), when it settles inside the window.
-    let settlesPercent: Double?
-    /// The projection is still rising at the end of the window.
-    let stillRising: Bool
+    /// What the projection does by the end of the window, when a scheduled med feeds this class.
+    let projectionOutcome: ToleranceStore.ToleranceProjection.Outcome?
     /// Days from now at which the line reads near baseline, when that point lies ahead and on the axis.
     let nearBaselineDay: Double?
 
@@ -58,12 +56,10 @@ struct ToleranceRecoverySeries: Identifiable {
                 .filter { $0.minutesFromNow <= window + 1 }
                 .enumerated()
                 .map { ToleranceChartPoint(id: $0.offset, day: $0.element.minutesFromNow / 1_440, percent: $0.element.percent) }
-            settlesPercent = projection.settlesPercent
-            stillRising = projection.settlesPercent == nil
+            projectionOutcome = projection.outcome
         } else {
             projectedPoints = nil
-            settlesPercent = nil
-            stillRising = false
+            projectionOutcome = nil
         }
         let crossing = row.minutesToNearBaseline.map { $0 / 1_440 }
         nearBaselineDay = crossing.flatMap { $0 > 0 && $0 <= frame.time.endDays ? $0 : nil }
@@ -77,8 +73,8 @@ struct ToleranceChartFrame: Equatable {
     let value: ToleranceChartScale.ValueAxis
 
     init(rows: [ToleranceRow], projections: [ReceptorClasses.ReceptorClass: ToleranceStore.ToleranceProjection] = [:]) {
-        // A projected class reaches its settle point (or the horizon, if still rising) so the settling is
-        // on screen; the peak of each projected curve also lifts the value axis.
+        // A projected class reaches its settle point (or the horizon, when it does not settle) so the
+        // settling is on screen; the peak of each projected curve also lifts the value axis.
         let settleMinutes = rows.compactMap { projections[$0.id] }
             .map { $0.settleMinutes ?? ToleranceStore.projectionHorizonMinutes }
         let span = ToleranceChartScale.spanMinutes(

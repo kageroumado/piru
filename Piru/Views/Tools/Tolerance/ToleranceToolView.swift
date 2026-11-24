@@ -108,19 +108,22 @@ struct ToleranceToolView: View {
         // Lazy replay: the year-long integration runs only while this tool is open, and re-runs when
         // the dose log or body weight changes — kept off the launch / dose-write hot path. The schedule
         // signature is in the id too, so editing a My Meds item refreshes the projection (the inner
-        // `recompute` no-ops when only the schedule changed).
+        // `recompute` no-ops when only the schedule changed). One `now` serves the replay and the
+        // projection seeded from it.
         .task(id: "\(recomputeSignature)|\(scheduleSignature)") {
-            await tolerance.recompute(from: entries)
+            let now = Date.now
+            await tolerance.recompute(from: entries, now: now)
             hasReplayed = true
-            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds)
+            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds, now: now)
         }
         // The per-substance "alone" replay is heavier still (one replay per substance), so it runs only
         // once the per-substance view is actually selected — the default per-mechanism view never pays.
         // Its projections follow, seeded from the alone snapshot it just filled.
         .task(id: perSubstanceTaskID) {
             guard detailMode == .perSubstance else { return }
-            await tolerance.recomputePerSubstance(from: entries)
-            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds)
+            let now = Date.now
+            await tolerance.recomputePerSubstance(from: entries, now: now)
+            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds, now: now)
         }
         #if DEBUG
         .task { detailMode = ScreenshotTour.takeStagedChart(\.toleranceMode) ?? detailMode }
@@ -144,17 +147,16 @@ struct ToleranceToolView: View {
     }
 
     /// The scheduled My Meds the projection replays forward: items that are not as-needed and whose
-    /// amount converts to milligrams (a non-mass unit like IU can't drive an occupancy curve). There is
+    /// amount converts to milligrams (a non-mass unit like IU can't drive an occupancy curve), read
+    /// against the journal for an undated item's first day and today's slots already taken. There is
     /// no archived flag — an item removed from My Meds is deleted, so presence here *is* "active".
     private var scheduledMeds: [ToleranceStore.ScheduledMedSnapshot] {
-        medItems.compactMap(ToleranceStore.scheduledMed(from:))
+        ToleranceStore.scheduledMeds(from: medItems, entries: entries)
     }
 
     /// Changes when a My Meds schedule edit would change the projection, so the replay task re-runs.
     private var scheduleSignature: String {
-        scheduledMeds.map {
-            "\($0.substance):\($0.doseMg):\($0.frequency.rawValue):\($0.intervalDays):\($0.frequencyDays):\($0.reminderTimesMinutes):\($0.startDate.timeIntervalSinceReferenceDate)"
-        }.joined(separator: "|")
+        ToleranceStore.scheduleSignature(scheduledMeds)
     }
 
     // MARK: - Toolbar
