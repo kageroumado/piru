@@ -21,6 +21,7 @@ jobs:
   python:
     name: Python (lint + data + tests)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       # The substance DB is not tracked in git (see .gitignore). Fetch it before
@@ -214,6 +215,7 @@ jobs:
   swift-lint:
     name: Swift (format + lint)
     runs-on: macos-latest
+    timeout-minutes: 10
     # Pinned release binaries, never `brew install`: brew serves whichever
     # version is current that day, and each SwiftFormat release turns on new
     # default rules, so an unpinned CI goes red on a tree that is clean locally.
@@ -254,6 +256,10 @@ jobs:
   swift-build:
     name: Swift (build + test)
     runs-on: macos-latest
+    # Every limit here turns a hang into a failure. A run that wedges (the test
+    # host never pairs with testmanagerd) prints nothing and would otherwise sit
+    # until GitHub's 6-hour default.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v5
       # The substance DB is not tracked in git (see .gitignore). Fetch it before
@@ -268,12 +274,27 @@ jobs:
       # Requires a runner Xcode with the iOS 26 SDK + an iPhone 17 Pro simulator.
       # `pipefail`: without it the step's status is `tail`'s, and a failing
       # test run reads green.
-      - name: Build & test the app
+      - name: Build the app for testing
+        timeout-minutes: 30
         run: |
           set -o pipefail
           # The tail keeps the log short; on failure the compiler errors it cut
           # are printed from the full log.
           xcodebuild -scheme Piru \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-            test 2>&1 | tee "$RUNNER_TEMP/xcodebuild.log" | tail -40 \
-            || { grep -E "(error|fatal error): " "$RUNNER_TEMP/xcodebuild.log" | sort -u | head -60; exit 1; }
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            build-for-testing 2>&1 | tee "$RUNNER_TEMP/build.log" | tail -20 \
+            || { grep -E "(error|fatal error): " "$RUNNER_TEMP/build.log" | sort -u | head -60; exit 1; }
+      # A test over its allowance fails on its own and the run continues; the
+      # step limit catches a run in which nothing starts at all.
+      - name: Test the app
+        timeout-minutes: 10
+        run: |
+          set -o pipefail
+          xcodebuild -scheme Piru \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            -test-timeouts-enabled YES \
+            -default-test-execution-time-allowance 60 \
+            -maximum-test-execution-time-allowance 120 \
+            test-without-building 2>&1 | tee "$RUNNER_TEMP/test.log" | tail -40
