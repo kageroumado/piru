@@ -1007,18 +1007,19 @@
         },
         {
           "target": "DAT",
-          "ki_nm": 25,
+          "ki_nm": null,
           "ki_ci_nm": null,
-          "kd_nm": null,
+          "kd_nm": 25,
           "ec50_nm": null,
-          "ic50_nm": null,
+          "ic50_nm": 315,
           "intrinsic_activity_pct": null,
           "reference_agonist": null,
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "hDAT-expressing cells",
-          "radioligand_or_probe": "[3H]-WIN35,428",
-          "reference": "pmid:9400006"
+          "radioligand_or_probe": "[3H]-dopamine uptake",
+          "reference": "pmid:11543737",
+          "notes": "Functional DA-uptake inhibition IC50 315 nM (Owens 2001). The binding affinity (Kd ~25 nM, retained for reference) is ~13x tighter than the functional uptake potency; for a reuptake mechanism the functional IC50 is the occupancy-relevant constant, so the binding value overstated modeled DAT occupancy at antidepressant doses."
         },
         {
           "target": "NET",

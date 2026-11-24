@@ -22,6 +22,7 @@ import SwiftUI
 /// quantity everywhere: how much less a usual dose does than with no tolerance, in percent.
 struct ToleranceToolView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
+    @Query(sort: \DailyDoseItem.sortOrder) private var medItems: [DailyDoseItem]
 
     @State private var tolerance = ToleranceStore.shared
     @State private var profile = UserProfileStore.shared
@@ -39,8 +40,9 @@ struct ToleranceToolView: View {
     var body: some View {
         let rows = rows
         let plotted = rows.filter { $0.snapshot.severity > Self.minimumPlottedSeverity }
-        let frame = ToleranceChartFrame(rows: plotted)
-        let series = plotted.map { ToleranceRecoverySeries(row: $0, tier: tier, frame: frame) }
+        let projections = tolerance.projections
+        let frame = ToleranceChartFrame(rows: plotted, projections: projections)
+        let series = plotted.map { ToleranceRecoverySeries(row: $0, tier: tier, frame: frame, projection: projections[$0.id]) }
         let nearBaseline = nearBaselineItems
         List {
             Group {
@@ -86,6 +88,7 @@ struct ToleranceToolView: View {
                         TolerancePerSubstanceSection(
                             groups: substanceGroups,
                             tier: tier,
+                            projections: tolerance.perSubstanceProjections,
                             isReplayRunning: tolerance.perSubstanceStates.isEmpty && !tolerance.states.isEmpty,
                             expandedSubstances: $expandedSubstances,
                         )
@@ -103,16 +106,21 @@ struct ToleranceToolView: View {
             optionsButton
         }
         // Lazy replay: the year-long integration runs only while this tool is open, and re-runs when
-        // the dose log or body weight changes — kept off the launch / dose-write hot path.
-        .task(id: recomputeSignature) {
+        // the dose log or body weight changes — kept off the launch / dose-write hot path. The schedule
+        // signature is in the id too, so editing a My Meds item refreshes the projection (the inner
+        // `recompute` no-ops when only the schedule changed).
+        .task(id: "\(recomputeSignature)|\(scheduleSignature)") {
             await tolerance.recompute(from: entries)
             hasReplayed = true
+            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds)
         }
         // The per-substance "alone" replay is heavier still (one replay per substance), so it runs only
         // once the per-substance view is actually selected — the default per-mechanism view never pays.
+        // Its projections follow, seeded from the alone snapshot it just filled.
         .task(id: perSubstanceTaskID) {
             guard detailMode == .perSubstance else { return }
             await tolerance.recomputePerSubstance(from: entries)
+            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds)
         }
         #if DEBUG
         .task { detailMode = ScreenshotTour.takeStagedChart(\.toleranceMode) ?? detailMode }
@@ -133,6 +141,20 @@ struct ToleranceToolView: View {
         // The log revision catches edits to existing doses, which count + newest
         // timestamp alone would miss.
         "\(DoseLogService.shared.revision)|\(entries.count)|\(profile.effectiveWeightKg)"
+    }
+
+    /// The scheduled My Meds the projection replays forward: items that are not as-needed and whose
+    /// amount converts to milligrams (a non-mass unit like IU can't drive an occupancy curve). There is
+    /// no archived flag — an item removed from My Meds is deleted, so presence here *is* "active".
+    private var scheduledMeds: [ToleranceStore.ScheduledMedSnapshot] {
+        medItems.compactMap(ToleranceStore.scheduledMed(from:))
+    }
+
+    /// Changes when a My Meds schedule edit would change the projection, so the replay task re-runs.
+    private var scheduleSignature: String {
+        scheduledMeds.map {
+            "\($0.substance):\($0.doseMg):\($0.frequency.rawValue):\($0.intervalDays):\($0.frequencyDays):\($0.reminderTimesMinutes):\($0.startDate.timeIntervalSinceReferenceDate)"
+        }.joined(separator: "|")
     }
 
     // MARK: - Toolbar
