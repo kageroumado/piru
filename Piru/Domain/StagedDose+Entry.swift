@@ -35,6 +35,8 @@ extension StagedDose {
             longitude: location?.longitude,
             hadGrapefruit: hadGrapefruit ? true : nil,
             meal: route == .oral ? meal : nil,
+            isApproximate: isApproximate,
+            amountDeviation: isApproximate ? amountDeviation : nil,
             isUnknownDose: isUnknownAmount,
             volumeML: isUnknownAmount ? nil : volumeML,
             abv: isUnknownAmount ? nil : abv,

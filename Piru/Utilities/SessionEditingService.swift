@@ -144,6 +144,7 @@ final class SessionEditingService {
         entry.timestamp = draft.timestamp
         entry.isUnknownDose = draft.isUnknownDose
         entry.isApproximate = draft.isApproximate && !draft.isUnknownDose
+        entry.amountDeviation = draft.parsedDeviation
         entry.notes = draft.notes.isEmpty ? nil : draft.notes
         // By-volume metadata is set for a dose logged as a drink and cleared
         // otherwise, including for an unknown dose, whose volume and strength

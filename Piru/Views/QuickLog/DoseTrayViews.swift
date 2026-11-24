@@ -565,12 +565,13 @@ struct TrayRow: View {
                 // "subling…". Pin it to its intrinsic width for the animation.
                 .fixedSize()
                 .trayMorph(id: "route-\(dose.id)", in: namespace)
-            Text(verbatim: dose.isUnknownAmount
-                ? "? \(dose.unit)"
-                : "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
+            Text(verbatim: dose.amountLabel)
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
-                .accessibilityLabel(dose.isUnknownAmount ? Text("unknown amount") : Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))"))
+                .accessibilityLabel(dose.isUnknownAmount ? Text("unknown amount") : Text(MeasurementLabel.spoken(
+                    amount: dose.totalAmount, unit: dose.unit.unitDisplay(for: dose.totalAmount),
+                    isApproximate: dose.isApproximate, deviation: dose.isApproximate ? dose.amountDeviation : nil,
+                )))
                 // During the collapse morph the matched siblings carry
                 // inflated mid-flight frames, squeezing this text into a
                 // momentary "37.…" ellipsis. Fixed-size keeps it at its

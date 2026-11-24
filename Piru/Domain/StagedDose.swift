@@ -80,6 +80,12 @@ struct StagedDose: Identifiable, Equatable {
     /// breakdown is shown, and the dose commits as ``DoseEntry/isUnknownDose``
     /// with `amount = 0`.
     var isUnknownAmount = false
+    /// The amount is the user's estimate, set by the editor's Approximate pill
+    /// and carried onto the committed entry (``DoseEntry/isApproximate``).
+    var isApproximate = false
+    /// How far off that estimate may be, in ``unit``, carried onto the committed
+    /// entry (``DoseEntry/amountDeviation``). `nil` for a plain `~` estimate.
+    var amountDeviation: Double?
     /// By-volume metadata recorded when a custom drink is logged (alcohol),
     /// carried onto the committed entry's structured fields so it round-trips on
     /// edit. `nil` for preset/grams doses.
@@ -150,6 +156,16 @@ struct StagedDose: Identifiable, Equatable {
     /// equivalent to a single 332 mg dose.
     var totalAmount: Double {
         components.reduce(0) { $0 + $1.amount * Double($1.count) }
+    }
+
+    /// The amount as the tray row prints it: "? mg" for an unknown amount,
+    /// "10 ± 1 mg" or "~10 mg" for an estimate, else the bare figure.
+    var amountLabel: String {
+        if isUnknownAmount { return "? \(unit)" }
+        return DoseReadout.text(
+            amount: totalAmount, unit: unit.unitDisplay(for: totalAmount),
+            isApproximate: isApproximate, deviation: isApproximate ? amountDeviation : nil,
+        )
     }
 
     /// Editor-facing amount: reads the merged total; writing collapses the

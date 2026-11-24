@@ -238,6 +238,9 @@ nonisolated struct PiruDoseData: Codable {
     /// written before either flag existed import with both `false`.
     var isApproximate: Bool?
     var isUnknownDose: Bool?
+    /// ``DoseEntry/amountDeviation``: the ± on an estimated amount. Optional on
+    /// both sides: omitted for a dose without one, absent from older files.
+    var amountDeviation: Double?
     /// The grapefruit flag and a by-volume drink's detail. Optional on both
     /// sides: omitted for an ordinary dose, absent from older files.
     var hadGrapefruit: Bool?
@@ -388,6 +391,7 @@ extension DataExportImport {
                 isBackgroundMed: e.isBackgroundMed,
                 locationName: e.locationName, latitude: e.latitude, longitude: e.longitude,
                 isApproximate: e.isApproximate, isUnknownDose: e.isUnknownDose,
+                amountDeviation: e.amountDeviation,
                 hadGrapefruit: e.hadGrapefruit, meal: e.mealRaw,
                 volumeML: e.volumeML, abv: e.abv, drinkName: e.drinkName,
                 combinationName: e.combinationName, injectionSite: e.injectionSiteRaw,
@@ -548,7 +552,8 @@ extension DataExportImport {
                 locationName: d.locationName, latitude: d.latitude, longitude: d.longitude,
                 hadGrapefruit: d.hadGrapefruit,
                 meal: d.meal.flatMap(MealState.init(rawValue:)),
-                isApproximate: d.isApproximate ?? false, isUnknownDose: d.isUnknownDose ?? false,
+                isApproximate: d.isApproximate ?? false, amountDeviation: d.amountDeviation,
+                isUnknownDose: d.isUnknownDose ?? false,
                 volumeML: d.volumeML, abv: d.abv, drinkName: d.drinkName,
                 combinationName: d.combinationName,
                 injectionSite: d.injectionSite.flatMap(InjectionSite.init(rawValue:)),

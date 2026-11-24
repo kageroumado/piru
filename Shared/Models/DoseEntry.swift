@@ -187,12 +187,22 @@ final class DoseEntry {
     /// have. Defaults `false`, keeping the field-add a lightweight migration.
     var isApproximate: Bool = false
 
+    /// How far off the ``amount`` may be, in the dose's own ``unit``: the `1` of
+    /// "10 ± 1 mg", for an eyeballed dose whose spread the user can put a number
+    /// on. PsychonautWiki Journal's `estimatedDoseStandardDeviation`, and
+    /// exported under that key. Set only on an ``isApproximate`` dose, whose
+    /// readouts then print `10 ± 1` in place of `~10`; the curves still run on
+    /// ``amount`` alone. `nil` for every other dose, keeping the field-add a
+    /// lightweight migration.
+    var amountDeviation: Double?
+
     /// Whether the dose was taken without knowing how much — a line, a pill of
     /// unknown strength, some of someone's drink. The dose is a record (substance,
     /// route, time, notes, tags) with no number: ``amount`` is `0`, the readouts
     /// print `?`, and every numeric engine — curves, body load, tolerance,
     /// cumulative totals, statistics, inventory — leaves it out. Supersedes
-    /// ``isApproximate``, which is a claim about a number this dose does not have.
+    /// ``isApproximate`` and ``amountDeviation``, which are claims about a number
+    /// this dose does not have.
     /// Defaults `false`, keeping the field-add a lightweight migration.
     var isUnknownDose: Bool = false
 
@@ -293,6 +303,7 @@ final class DoseEntry {
         hadGrapefruit: Bool? = nil,
         meal: MealState? = nil,
         isApproximate: Bool = false,
+        amountDeviation: Double? = nil,
         isUnknownDose: Bool = false,
         volumeML: Double? = nil,
         abv: Double? = nil,
@@ -321,7 +332,10 @@ final class DoseEntry {
         self.longitude = longitude
         self.hadGrapefruit = hadGrapefruit
         self.mealRaw = meal?.rawValue
-        self.isApproximate = isApproximate && !isUnknownDose
+        // A deviation is itself the claim that the amount is an estimate.
+        let deviation = isUnknownDose ? nil : DoseReadout.validDeviation(amountDeviation)
+        self.isApproximate = (isApproximate || deviation != nil) && !isUnknownDose
+        self.amountDeviation = deviation
         self.isUnknownDose = isUnknownDose
         self.volumeML = volumeML
         self.abv = abv

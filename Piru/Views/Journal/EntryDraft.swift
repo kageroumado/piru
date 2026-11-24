@@ -22,6 +22,9 @@ final class EntryDraft {
     /// The amount is an estimate, not a measured figure — carried onto the entry
     /// and shown as a `~` prefix.
     var isApproximate = false
+    /// How far off the approximate amount may be, as typed: the `1` of
+    /// "10 ± 1". Empty when none is given.
+    var deviation = ""
     /// The dose has no amount at all — committed as `amount = 0` with
     /// ``DoseEntry/isUnknownDose`` set, and the amount field is irrelevant.
     var isUnknownDose = false
@@ -45,6 +48,13 @@ final class EntryDraft {
     var parsedAmount: Double? {
         guard let value = DecimalInput.parse(amount), value > 0 else { return nil }
         return value
+    }
+
+    /// The deviation Done commits: a positive number on an approximate amount,
+    /// else none.
+    var parsedDeviation: Double? {
+        guard isApproximate, !isUnknownDose else { return nil }
+        return DoseReadout.validDeviation(DecimalInput.parse(deviation))
     }
 
     var enteredVolumeML: Double? {
@@ -90,6 +100,7 @@ final class EntryDraft {
         notes = entry.notes ?? ""
         tags = entry.tags
         isApproximate = entry.isApproximate
+        deviation = entry.amountDeviation.map { DecimalInput.editingText($0) } ?? ""
         isUnknownDose = entry.isUnknownDose
         if entry.isUnknownDose { amount = "" }
         meal = entry.meal

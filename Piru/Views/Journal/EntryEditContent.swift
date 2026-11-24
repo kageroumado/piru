@@ -66,6 +66,9 @@ struct EntryEditContent: View {
                 }
             }
             .disabled(draft.isUnknownDose)
+            if draft.isApproximate, !draft.isUnknownDose {
+                DoseDeviationRow(text: $draft.deviation, unit: draft.unit)
+            }
             Toggle(isOn: $draft.isUnknownDose) {
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text("Unknown amount")
@@ -297,5 +300,23 @@ struct EntryEditContent: View {
     private var previewState: ActiveSubstanceState? {
         guard !draft.isUnknownDose else { return nil }
         return ActiveSubstanceState.from(entry: previewEntry ?? entry, tint: tint)
+    }
+}
+
+/// The form row under "Approximate amount" that takes the estimate's spread:
+/// "Might be off by ± 1 mg".
+private struct DoseDeviationRow: View {
+    @Binding var text: String
+    let unit: String
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        HStack(spacing: Spacing.md) {
+            Text("Might be off by")
+            Spacer(minLength: Spacing.md)
+            DoseDeviationField(text: $text, unit: unit, focus: $focused)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture { focused = true }
     }
 }

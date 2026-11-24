@@ -1451,6 +1451,34 @@
         }
       }
     },
+    "%@ %@, give or take %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@, más o menos %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@, más o menos %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@，误差 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@，誤差 %@"
+          }
+        }
+      }
+    },
     "%@ %lld percent" : {
       "localizations" : {
         "en" : {
@@ -44611,6 +44639,34 @@
         }
       }
     },
+    "give or take %@ %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "más o menos %@ %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "más o menos %@ %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "误差 %@ %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "誤差 %@ %@"
+          }
+        }
+      }
+    },
     "Give yourself time." : {
       "localizations" : {
         "es" : {
@@ -57600,6 +57656,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MIELI Kriisipuhelin"
+          }
+        }
+      }
+    },
+    "Might be off by" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Margen de error"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Margen de error"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "误差范围"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "誤差範圍"
           }
         }
       }

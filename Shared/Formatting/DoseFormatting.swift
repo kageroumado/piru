@@ -20,6 +20,12 @@ nonisolated extension Double {
         return formatted(.number.precision(.fractionLength(0 ... fraction)).grouping(.automatic))
     }
 
+    /// A dose's deviation as its readout, "± 1": it trails the amount it
+    /// qualifies ("10 ± 1 mg").
+    var deviationFormatted: String {
+        "± \(doseFormatted)"
+    }
+
     private func trimZeros(format: String) -> String {
         let s = String(format: format, self)
         guard s.contains(".") else { return s }
@@ -34,6 +40,25 @@ nonisolated extension Double {
             end = s.index(before: end)
         }
         return String(s[s.startIndex ..< end])
+    }
+}
+
+/// How a logged amount reads when it is an estimate.
+nonisolated enum DoseReadout {
+    /// A deviation worth storing or printing: a positive, finite number.
+    /// Anything else (zero, a negative, an unparsed field) means none was given.
+    static func validDeviation(_ value: Double?) -> Double? {
+        guard let value, value.isFinite, value > 0 else { return nil }
+        return value
+    }
+
+    /// The amount as one line of text: "10 mg", "~10 mg" for an estimate,
+    /// "10 ± 1 mg" for an estimate with its deviation.
+    static func text(amount: Double, unit: String, isApproximate: Bool, deviation: Double?) -> String {
+        if let deviation = validDeviation(deviation) {
+            return "\(amount.doseFormatted) \(deviation.deviationFormatted) \(unit)"
+        }
+        return "\(isApproximate ? "~" : "")\(amount.doseFormatted) \(unit)"
     }
 }
 

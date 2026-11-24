@@ -21,9 +21,14 @@ struct MeasurementLabel: View {
     /// like a measured figure. Off for the cumulative "In Your Body" totals,
     /// which are computed, not guessed.
     var isApproximate: Bool = false
+    /// How far off an estimated amount may be (``DoseEntry/amountDeviation``).
+    /// Trails the numeral in the unit's quieter style, "10 ± 1 mg", and takes
+    /// the place of the `~`: the ± already says the amount is an estimate.
+    var deviation: Double?
     /// Whether the amount is unknown (``DoseEntry/isUnknownDose``) — the numeral
     /// is a `?` in the same rounded face, the unit still trails it, and VoiceOver
-    /// reads "unknown amount". Takes precedence over ``isApproximate``.
+    /// reads "unknown amount". Takes precedence over ``isApproximate`` and
+    /// ``deviation``.
     var isUnknown: Bool = false
     /// The numeral's text style — the tunable "size" of the readout.
     var numberStyle: Font.TextStyle = .title3
@@ -37,7 +42,7 @@ struct MeasurementLabel: View {
             Text(verbatim: numeral)
                 .font(.system(numberStyle, design: .rounded).weight(numberWeight))
                 .foregroundStyle(.primary)
-            Text(displayUnit)
+            Text(verbatim: trailing)
                 .font(.system(unitStyle))
                 .foregroundStyle(Theme.secondaryLabel)
         }
@@ -48,14 +53,31 @@ struct MeasurementLabel: View {
 
     private var numeral: String {
         if isUnknown { return "?" }
-        return "\(isApproximate ? "~" : "")\(amount.doseFormatted)"
+        return "\(isApproximate && shownDeviation == nil ? "~" : "")\(amount.doseFormatted)"
+    }
+
+    private var trailing: String {
+        guard let shownDeviation else { return displayUnit }
+        return "\(shownDeviation.deviationFormatted) \(displayUnit)"
+    }
+
+    private var shownDeviation: Double? {
+        isUnknown ? nil : DoseReadout.validDeviation(deviation)
     }
 
     private var accessibilityText: Text {
         if isUnknown { return Text("unknown amount") }
-        return isApproximate
-            ? Text("approximately \(amount.doseFormatted) \(displayUnit)")
-            : Text(verbatim: "\(amount.doseFormatted) \(displayUnit)")
+        return Text(Self.spoken(amount: amount, unit: displayUnit, isApproximate: isApproximate, deviation: shownDeviation))
+    }
+
+    /// The dose as VoiceOver says it: "10 mg, give or take 1" with a deviation,
+    /// "approximately 10 mg" for an estimate without one, else the bare figure.
+    static func spoken(amount: Double, unit: String, isApproximate: Bool, deviation: Double?) -> String {
+        let formatted = amount.doseFormatted
+        if let deviation = DoseReadout.validDeviation(deviation) {
+            return String(localized: "\(formatted) \(unit), give or take \(deviation.doseFormatted)")
+        }
+        return isApproximate ? String(localized: "approximately \(formatted) \(unit)") : "\(formatted) \(unit)"
     }
 
     /// "1 units" → "1 unit" and any other singular/plural fixups the shared helper

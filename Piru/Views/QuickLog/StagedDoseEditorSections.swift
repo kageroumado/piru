@@ -585,6 +585,50 @@ struct StagedDoseNotePill: View {
     }
 }
 
+/// Marks the amount as eyeballed rather than measured. Neutral when off;
+/// tinted when on, and once a spread is typed it reads it back ("± 1 mg").
+struct StagedDoseApproximatePill: View {
+    let isOn: Bool
+    let deviation: Double?
+    let unit: String
+    let pillHeight: CGFloat
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 5) {
+                Image(systemName: "plusminus")
+                    .imageScale(.small)
+                    .accessibilityHidden(true)
+                Text(label)
+                    .lineLimit(1)
+            }
+            .font(.footnote.weight(.semibold))
+            .padding(.horizontal, 11)
+            .frame(height: pillHeight)
+            .background(
+                isOn ? AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)) : AnyShapeStyle(Color.platformSecondarySystemFill),
+                in: Capsule(),
+            )
+            .foregroundStyle(isOn ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.primary))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Approximate amount"))
+        .accessibilityValue(shownDeviation.map { Text("give or take \($0.doseFormatted) \(unit)") } ?? Text(verbatim: ""))
+        .accessibilityAddTraits(isOn ? [.isSelected] : [])
+    }
+
+    private var shownDeviation: Double? {
+        isOn ? DoseReadout.validDeviation(deviation) : nil
+    }
+
+    /// The glyph is the ±, so a typed spread reads "± 1 mg" off the pill.
+    private var label: String {
+        guard let shownDeviation else { return String(localized: "Approximate") }
+        return "\(shownDeviation.doseFormatted) \(unit)"
+    }
+}
+
 /// Per-dose "had grapefruit" toggle — shown only for CYP3A4-heavy substrates when
 /// grapefruit logging is enabled in Settings. Tinted when on; recorded on the
 /// committed dose.
@@ -749,6 +793,39 @@ struct StagedDoseRouteMenu: View {
             .accessibilityValue(item.route.localizedName)
         }
         .trayMorph(id: "route-\(item.id)", in: namespace, isSource: false)
+    }
+}
+
+// MARK: - Deviation editor
+
+/// The estimate's spread, typed under the pills: "Might be off by ± 1 mg". Shown
+/// while the Approximate pill is on.
+struct StagedDoseDeviationEditor: View {
+    @Binding var deviation: Double?
+    let unit: String
+    var focus: FocusState<Bool>.Binding
+
+    /// The field's text. The staged dose holds the parsed number, so the text
+    /// lives here and seeds from it when the row appears.
+    @State private var text = ""
+
+    var body: some View {
+        HStack(spacing: Spacing.md) {
+            Text("Might be off by")
+                .foregroundStyle(Theme.secondaryLabel)
+            Spacer(minLength: Spacing.md)
+            DoseDeviationField(text: $text, unit: unit, focus: focus)
+        }
+        .font(.footnote.weight(.medium))
+        .padding(.horizontal, Spacing.xl)
+        .padding(.vertical, Spacing.md)
+        // The amount field's own fill and shape: the two are one number, typed
+        // in two parts, and must not read as different kinds of control.
+        .background(Color.platformSecondarySystemFill, in: skinChipShape())
+        .contentShape(skinChipShape())
+        .onTapGesture { focus.wrappedValue = true }
+        .onAppear { text = deviation.map { DecimalInput.editingText($0) } ?? "" }
+        .onChange(of: text) { deviation = DoseReadout.validDeviation(DecimalInput.parse(text)) }
     }
 }
 

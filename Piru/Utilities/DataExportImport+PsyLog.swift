@@ -300,6 +300,11 @@ nonisolated struct PsyLogIngestion: Codable {
     /// Who took the dose: `nil` for the file's owner, otherwise the name the
     /// journal gave that person. Whitespace-only names read as the owner.
     var consumerName: String?
+    /// PsychonautWiki's estimate pair: the dose is eyeballed, and optionally by
+    /// how much it may be off, in ``units``. Piru's ``DoseEntry/isApproximate``
+    /// and ``DoseEntry/amountDeviation``.
+    var isDoseAnEstimate = false
+    var estimatedDoseStandardDeviation: Double?
     /// Piru extension: per-ingestion location. PsyLog stores location only at
     /// the experience level, so this key is absent in cross-app files and is
     /// encoded only when set — letting a Piru→Piru round-trip preserve a
@@ -332,6 +337,8 @@ nonisolated struct PsyLogIngestion: Codable {
         notes: String,
         units: String,
         consumerName: String? = nil,
+        isDoseAnEstimate: Bool = false,
+        estimatedDoseStandardDeviation: Double? = nil,
         location: PsyLogLocation? = nil,
     ) {
         self.substanceName = substanceName
@@ -342,6 +349,8 @@ nonisolated struct PsyLogIngestion: Codable {
         self.notes = notes
         self.units = units
         self.consumerName = consumerName
+        self.isDoseAnEstimate = isDoseAnEstimate
+        self.estimatedDoseStandardDeviation = estimatedDoseStandardDeviation
         self.location = location
     }
 
@@ -357,6 +366,9 @@ nonisolated struct PsyLogIngestion: Codable {
         let consumer = (try? c.decodeIfPresent(String.self, forKey: .consumerName))?
             .trimmingCharacters(in: .whitespacesAndNewlines)
         consumerName = consumer?.isEmpty == false ? consumer : nil
+        // Lenient: a malformed estimate must not cost the user the whole file.
+        isDoseAnEstimate = (try? c.decodeIfPresent(Bool.self, forKey: .isDoseAnEstimate)) ?? false
+        estimatedDoseStandardDeviation = (try? c.decodeIfPresent(Double.self, forKey: .estimatedDoseStandardDeviation)) ?? nil
         location = try c.decodeIfPresent(PsyLogLocation.self, forKey: .location)
     }
 
@@ -370,8 +382,12 @@ nonisolated struct PsyLogIngestion: Codable {
             try c.encodeNil(forKey: .consumerName)
         }
         try c.encode(substanceName, forKey: .substanceName)
-        try c.encodeNil(forKey: .estimatedDoseStandardDeviation)
-        try c.encode(false, forKey: .isDoseAnEstimate)
+        if let estimatedDoseStandardDeviation {
+            try c.encode(estimatedDoseStandardDeviation, forKey: .estimatedDoseStandardDeviation)
+        } else {
+            try c.encodeNil(forKey: .estimatedDoseStandardDeviation)
+        }
+        try c.encode(isDoseAnEstimate, forKey: .isDoseAnEstimate)
         try c.encodeNil(forKey: .stomachFullness)
         try c.encode(dose, forKey: .dose)
         try c.encodeNil(forKey: .endTime)
@@ -559,6 +575,8 @@ extension DataExportImport {
                 notes: noteText,
                 units: entry.unit,
                 consumerName: dose.consumer,
+                isDoseAnEstimate: entry.isApproximate,
+                estimatedDoseStandardDeviation: entry.amountDeviation,
             )
         }
         let startMs = (doses.first?.entry.timestamp ?? group.start).msSince1970
@@ -788,6 +806,8 @@ extension DataExportImport {
             locationName: location?.name,
             latitude: location?.latitude,
             longitude: location?.longitude,
+            isApproximate: ingestion.isDoseAnEstimate,
+            amountDeviation: ingestion.estimatedDoseStandardDeviation,
             isUnknownDose: dose == nil,
         )
         store.context.insert(entry)

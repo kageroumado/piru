@@ -35,7 +35,8 @@ private enum Fields {
         field("session") { $0.session?.id == $1.session?.id },
         field("isBackgroundMed", \.isBackgroundMed), field("locationName", \.locationName),
         field("latitude", \.latitude), field("longitude", \.longitude), field("hadGrapefruit", \.hadGrapefruit), field("mealRaw", \.mealRaw),
-        field("isApproximate", \.isApproximate), field("isUnknownDose", \.isUnknownDose),
+        field("isApproximate", \.isApproximate), field("amountDeviation", \.amountDeviation),
+        field("isUnknownDose", \.isUnknownDose),
         field("volumeML", \.volumeML), field("abv", \.abv), field("drinkName", \.drinkName),
         field("combinationName", \.combinationName), field("injectionSiteRaw", \.injectionSiteRaw),
     ]
@@ -433,7 +434,7 @@ struct ExportRoundTripTests {
             timestamp: t0, timeZoneIdentifier: "Pacific/Chatham", medSlotMinutes: 480,
             notes: "dose notes", tags: ["a", "b"], isBackgroundMed: true,
             locationName: "Park", latitude: 51.5, longitude: -0.12, hadGrapefruit: true, meal: .light, isApproximate: true,
-            volumeML: 330, abv: 5, drinkName: "IPA", combinationName: "Shandy",
+            amountDeviation: 1.5, volumeML: 330, abv: 5, drinkName: "IPA", combinationName: "Shandy",
             injectionSite: InjectionSite(area: .glute, side: .left),
         )
         drink.session = session
