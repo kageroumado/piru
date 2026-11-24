@@ -201,13 +201,24 @@ struct UnifiedTimelineView: View {
         }
     }
 
-    private var emptyState: some View {
-        ContentUnavailableView(
-            "No Entries Yet",
-            systemImage: "clock",
-            description: Text("Your timeline will appear here after your first entry."),
-        )
-        .padding(.top, 60)
+    /// "No Entries Yet" for an empty log; a log whose every entry is in a
+    /// hidden class says where they went.
+    @ViewBuilder private var emptyState: some View {
+        if entries.isEmpty || !(hidesSupplements || hidesMeds) {
+            ContentUnavailableView(
+                "No Entries Yet",
+                systemImage: "clock",
+                description: Text("Your timeline will appear here after your first entry."),
+            )
+            .padding(.top, 60)
+        } else {
+            ContentUnavailableView(
+                "No Entries",
+                systemImage: "clock",
+                description: Text("Every entry is in a class hidden in Settings ▸ Journal."),
+            )
+            .padding(.top, 60)
+        }
     }
 }
 

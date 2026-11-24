@@ -647,6 +647,12 @@ struct EntryListView: View {
 
     // MARK: - Empty State
 
+    /// The list is empty only because Hidden Classes hides what was logged.
+    /// Read only while the empty state shows.
+    private var hidesEveryEntry: Bool {
+        !hiddenCategories.isEmpty && !entries.isEmpty
+    }
+
     private var emptyState: some View {
         ContentUnavailableView {
             Label(
@@ -656,8 +662,9 @@ struct EntryListView: View {
         } description: {
             Text(
                 model.hasActiveFilters ? "Try adjusting your filters." :
-                    searchText.isEmpty ? "Tap + to log your first entry." :
-                    "Try a different search term.",
+                    !searchText.isEmpty ? "Try a different search term." :
+                    hidesEveryEntry ? "Every entry is in a class hidden in Settings ▸ Journal." :
+                    "Tap + to log your first entry.",
             )
         } actions: {
             if isSearchSurface, !searchText.isEmpty, let onSwitchToLibrary {
