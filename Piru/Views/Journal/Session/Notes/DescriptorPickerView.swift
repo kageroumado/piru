@@ -1,5 +1,33 @@
 import SwiftUI
 
+/// The descriptor picker as a sheet over the note editor, with its own stack
+/// and a Done button. Every tap writes straight to the note's draft, so Done
+/// and a pull-down both keep what was picked.
+struct DescriptorPickerSheet: View {
+    @Binding var selection: [String]
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            DescriptorPickerView(selection: $selection)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "checkmark").font(.body.weight(.semibold))
+                        }
+                        .skinButtonStyle(.prominent)
+                        .tint(Theme.accent)
+                        .accessibilityLabel(Text("Done"))
+                    }
+                }
+        }
+        .presentationDetents([.large])
+        .presentationDragIndicator(.visible)
+    }
+}
+
 /// Multi-select over the SubFxOnEx vocabulary: the 21 rollups as collapsible
 /// groups, each expanding to its atomic concepts as chips; a search field
 /// matching names and aliases flattens the list into hits. Selection is by

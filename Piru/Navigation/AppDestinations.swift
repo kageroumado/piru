@@ -136,11 +136,7 @@ struct PushRouteView: View {
             MyMedsHubView()
 
         case let .medDetail(identityKey, sortOrder):
-            // If the med was deleted since the route was pushed, render
-            // nothing — the stack pops the dead route on next interaction.
-            if let item = lookupMed(identityKey: identityKey, sortOrder: sortOrder) {
-                MedDetailView(item: item)
-            }
+            MedDetailRoute(identityKey: identityKey, sortOrder: sortOrder)
 
         case let .substanceData(name, section):
             SubstanceDataPageView(name: name, section: section)
@@ -206,12 +202,6 @@ struct PushRouteView: View {
     /// memory — the meds list is small by construction. `sortOrder`
     /// disambiguates same-identity schedules; identity-only is the fallback
     /// when a reorder happened between push and render.
-    private func lookupMed(identityKey: String, sortOrder: Int) -> DailyDoseItem? {
-        let items = (try? modelContext.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
-        return items.first { $0.identityKey == identityKey && $0.sortOrder == sortOrder }
-            ?? items.first { $0.identityKey == identityKey }
-    }
-
     private func lookupInventoryItem(id: UUID) -> InventoryItem? {
         SharedInventory.shared.item(id: id, in: modelContext)
     }

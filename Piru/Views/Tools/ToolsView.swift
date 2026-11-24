@@ -268,14 +268,14 @@ private struct MyMedsToolCard: View {
                         }
                     }
 
+                    // The rows' checks already say what is done today; the
+                    // line under them only says what comes next.
                     let nextSlot = slots.first { $0.state == .pending && !$0.isDueNow && $0.time != nil }
                     if let nextSlot, let time = nextSlot.time {
                         footerLine(
                             systemImage: "clock",
                             text: Text("Next: \(displayName(for: nextSlot.med)) at \(Self.timeText(time))"),
                         )
-                    } else if !slots.contains(where: { $0.state == .pending }), !slots.allSatisfy({ $0.state == .taken }) {
-                        footerLine(systemImage: "checkmark.circle", text: Text("Nothing due"))
                     }
                 }
             }
@@ -329,8 +329,8 @@ private struct MyMedsToolCard: View {
         .padding(.vertical, Spacing.xs)
     }
 
-    /// The quiet line under the rows: the next timed dose, or today's state
-    /// when nothing is left to come.
+    /// The quiet line under the rows: the next timed dose, or the next due day
+    /// when nothing is due today. The card's header carries its one chevron.
     private func footerLine(systemImage: String, text: Text) -> some View {
         HStack(spacing: Spacing.lg) {
             Image(systemName: systemImage)
@@ -343,9 +343,6 @@ private struct MyMedsToolCard: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
             Spacer(minLength: 4)
-            Image(systemName: "chevron.right")
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(Theme.tertiaryLabel)
         }
         .padding(.vertical, Spacing.sm)
     }

@@ -54,6 +54,33 @@ private struct MedEditSnapshot {
     }
 }
 
+/// The med a `PushRoute.medDetail` names, resolved from the store on every
+/// change. The editor below binds to the live row, and this view drops it the
+/// moment the row is deleted or replaced (Delete Med, Delete Everything, a
+/// restore), so the editor never reads a deleted model. A route whose med is
+/// gone shows nothing.
+struct MedDetailRoute: View {
+    let identityKey: String
+    let sortOrder: Int
+
+    @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
+
+    var body: some View {
+        if let item = Self.resolve(identityKey: identityKey, sortOrder: sortOrder, in: items) {
+            MedDetailView(item: item)
+        }
+    }
+
+    /// The live med the route names: the one with its identity and position,
+    /// else the one with its identity (a reorder moves `sortOrder`). A med
+    /// deleted from its context, saved or not, never matches.
+    static func resolve(identityKey: String, sortOrder: Int, in items: [DailyDoseItem]) -> DailyDoseItem? {
+        let live = items.filter { $0.modelContext != nil && !$0.isDeleted }
+        return live.first { $0.identityKey == identityKey && $0.sortOrder == sortOrder }
+            ?? live.first { $0.identityKey == identityKey }
+    }
+}
+
 /// The per-med editor, pushed from the My Meds hub (`PushRoute.medDetail`).
 /// Every row binds straight to the `@Model` — dose, schedule, times,
 /// reminders, quiet tier — and the toolbar's ✕ puts back the values the

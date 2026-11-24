@@ -23,6 +23,7 @@ struct SessionNoteEditor: View {
     @State private var showShulginInfo = false
     @State private var confirmDelete = false
     @State private var showSideEffects = false
+    @State private var showDescriptors = false
     @State private var form = CheckInForm.unresolved
     @FocusState private var textFocused: Bool
     @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore)
@@ -101,6 +102,12 @@ struct SessionNoteEditor: View {
         }
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
+        // A sheet of its own over the note, so pulling it down returns to the
+        // note being written. Never push it inside the note's stack: there the
+        // same pull closes the note with everything in it.
+        .sheet(isPresented: $showDescriptors) {
+            DescriptorPickerSheet(selection: $draft.descriptors)
+        }
         .task {
             await SubstanceStore.shared.ensureAllLoaded()
             form = CheckInForm.build(for: session)
@@ -266,18 +273,25 @@ struct SessionNoteEditor: View {
 
     private var descriptorSection: some View {
         Section {
-            NavigationLink {
-                DescriptorPickerView(selection: $draft.descriptors)
+            Button {
+                showDescriptors = true
             } label: {
                 HStack {
                     Text("Descriptors")
+                        .foregroundStyle(.primary)
                     Spacer()
                     if !draft.descriptors.isEmpty {
                         Text("\(draft.descriptors.count)")
                             .foregroundStyle(Theme.secondaryLabel)
                     }
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Theme.tertiaryLabel)
+                        .accessibilityHidden(true)
                 }
+                .contentShape(Rectangle())
             }
+            .buttonStyle(.plain)
             if !draft.descriptors.isEmpty {
                 DescriptorChips(ids: draft.descriptors) { id in
                     draft.descriptors.removeAll { $0 == id }

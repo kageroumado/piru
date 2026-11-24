@@ -248,6 +248,21 @@ nonisolated enum PushRoute: Hashable, Codable {
     case substanceData(name: String, section: DataSection)
 }
 
+extension PushRoute {
+    /// Whether the route shows one row of the journal store (a session, a
+    /// dose, a med, an inventory item), which a wipe or a restore deletes.
+    nonisolated var namesJournalRow: Bool {
+        switch self {
+        case .session, .entry, .medDetail, .inventoryItem:
+            true
+        case .comedownGuide, .timeline, .substance, .libraryCategory, .libraryTag, .libraryFavorites,
+             .libraryCustom, .libraryUnits, .libraryColors, .tool, .dataStorage, .drugClass, .drugClassGroup,
+             .insight, .insightGroup, .myMeds, .substanceData:
+            false
+        }
+    }
+}
+
 /// A deep-data section reachable from a substance's detail. Excludes Effects —
 /// that keeps its existing in-view "Show all" sheet (`showAllEffects`); only the
 /// reference sections push a page.

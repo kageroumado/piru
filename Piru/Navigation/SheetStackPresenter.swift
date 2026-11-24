@@ -110,10 +110,11 @@ private struct SheetLayer: ViewModifier {
     }
 }
 
-private extension SheetRoute {
+extension SheetRoute {
     /// Routes presented as a `fullScreenCover` rather than a sheet. Quick log
     /// is full-screen so its staging dock can layer on top as the *only*
     /// detented sheet (Apple Maps model: browse behind, resizable dock over).
+    /// It presents only at depth 0 (``AppNavigator/present(_:replacingTop:)``).
     var presentsAsFullScreenCover: Bool {
         if case .quickLog = self { return true }
         return false

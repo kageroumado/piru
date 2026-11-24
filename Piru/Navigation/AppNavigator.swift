@@ -216,6 +216,23 @@ final class AppNavigator {
         return true
     }
 
+    /// Cuts every tab's and every sheet's path at its first route naming a
+    /// journal row (``PushRoute/namesJournalRow``), for a wipe or a restore
+    /// that replaces the journal: the screens before it, Data & Backup
+    /// included, stay where they are.
+    func closeJournalRecords() {
+        for (tab, path) in paths {
+            if let first = path.firstIndex(where: \.namesJournalRow) {
+                paths[tab] = Array(path[..<first])
+            }
+        }
+        for (depth, path) in sheetPaths {
+            if let first = path.firstIndex(where: \.namesJournalRow) {
+                sheetPaths[depth] = Array(path[..<first])
+            }
+        }
+    }
+
     /// Whether the record open beside a tab's list has an edit in progress.
     func isEditingRecord(in tab: TabID) -> Bool {
         recordsBeingEdited.values.contains(tab)
@@ -283,13 +300,30 @@ final class AppNavigator {
     ///
     /// Pushes beyond `maxSheetDepth` are dropped; replacements always succeed.
     ///
+    /// Quick log presents only at the root: see ``presentAtRoot(_:)``.
     func present(_ sheet: SheetRoute, replacingTop: Bool = false) {
-        if replacingTop, !sheetStack.isEmpty {
+        if sheet.presentsAsFullScreenCover {
+            presentAtRoot(sheet)
+        } else if replacingTop, !sheetStack.isEmpty {
             sheetStack[sheetStack.count - 1] = sheet
             sheetPaths[sheetStack.count - 1] = nil
         } else if sheetStack.count < Self.maxSheetDepth {
             sheetStack.append(sheet)
             sheetPaths[sheetStack.count - 1] = nil
+        }
+    }
+
+    /// Present quick log as the only sheet. Its dock hosts the nested layer at
+    /// depth 1 (``View/hostsNestedNavigatorSheets(_:)``), so a quick log at any
+    /// deeper depth would be presented again by its own dock, without end. An
+    /// open quick log stays, with its staged tray, and the sheets over it
+    /// close; any other sheet closes first.
+    private func presentAtRoot(_ sheet: SheetRoute) {
+        if sheetStack.first?.presentsAsFullScreenCover == true {
+            truncateSheetStack(to: 1)
+        } else {
+            dismissAll()
+            sheetStack = [sheet]
         }
     }
 

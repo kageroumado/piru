@@ -144,7 +144,7 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog(routine: nil))
+        nav.present(.profiles)
         nav.dismissAll()
         #expect(nav.sheetStack.isEmpty)
     }
@@ -154,9 +154,9 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog(routine: nil))
+        nav.present(.profiles)
         nav.dismiss(.help)
-        #expect(nav.sheetStack == [.settings, .quickLog(routine: nil)])
+        #expect(nav.sheetStack == [.settings, .profiles])
     }
 
     @Test
@@ -180,7 +180,7 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog(routine: nil))
+        nav.present(.profiles)
         nav.truncateSheetStack(to: 1)
         #expect(nav.sheetStack == [.settings])
     }
@@ -198,11 +198,11 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog(routine: nil))
+        nav.present(.profiles)
         // We're at the cap (3). A fourth append must be dropped.
         nav.present(.sessionDetail)
         #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
-        #expect(nav.sheetStack.last == .quickLog(routine: nil))
+        #expect(nav.sheetStack.last == .profiles)
     }
 
     @Test
@@ -210,10 +210,50 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog(routine: nil))
+        nav.present(.profiles)
         nav.present(.sessionDetail, replacingTop: true)
         #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
         #expect(nav.sheetStack.last == .sessionDetail)
+    }
+
+    @Test
+    func `closeJournalRecords cuts every path at its first journal row`() {
+        let nav = makeNavigator(selectedTab: .tools)
+        nav.setPath([.dataStorage], in: .tools)
+        nav.setPath([.myMeds, .medDetail(identityKey: "x", sortOrder: 0), .substance(name: "X")], in: .journal)
+        nav.setPath([.tool(.inventory), .inventoryItem(id: UUID())], in: .library)
+        nav.closeJournalRecords()
+        #expect(nav.path(for: .tools) == [.dataStorage])
+        #expect(nav.path(for: .journal) == [.myMeds])
+        #expect(nav.path(for: .library) == [.tool(.inventory)])
+    }
+
+    @Test
+    func `Quick log over another sheet replaces the stack`() {
+        let nav = makeNavigator()
+        nav.present(.settings)
+        nav.present(.help)
+        nav.present(.quickLog(routine: "morning"))
+        #expect(nav.sheetStack == [.quickLog(routine: "morning")])
+    }
+
+    @Test
+    func `Quick log requested over an open quick log keeps it and closes what is above`() {
+        let nav = makeNavigator()
+        nav.present(.quickLog(routine: nil))
+        nav.present(.dailyDoseSettings)
+        nav.present(.quickLog(routine: "morning"))
+        #expect(nav.sheetStack == [.quickLog(routine: nil)])
+    }
+
+    @Test
+    func `A reminder's quick-log link over an open sheet lands at the root`() throws {
+        let nav = makeNavigator()
+        nav.present(.settings)
+        let url = try #require(URL(string: "piru://quicklog?routine=morning"))
+        let outcome = try #require(DeepLink.decode(url))
+        nav.apply(outcome)
+        #expect(nav.sheetStack == [.quickLog(routine: "morning")])
     }
 
     @Test

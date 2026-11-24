@@ -412,7 +412,10 @@ enum DataExportImport {
         return session
     }
 
+    /// Deletes every row of `context`'s store. The screens open on one of those
+    /// rows close first, so none is left reading a deleted model.
     static func deleteAll(context: ModelContext) throws {
+        AppNavigator.shared.closeJournalRecords()
         try PiruSchema.deleteAll(in: context)
         DoseLogEntries.shared.invalidate()
     }

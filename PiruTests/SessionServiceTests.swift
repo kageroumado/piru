@@ -415,4 +415,35 @@ struct SessionServiceTests {
         #expect(session.lastDoseDate != nil) // launch sweep backfills
         #expect(session.lastDoseDate == session.orderedDoses.last?.timestamp)
     }
+
+    // MARK: - Sessions on different days
+
+    @Test
+    func `A dose days after an earlier session opens its own session`() throws {
+        let context = try makeContext()
+        let earlier = [0.0, 1.5, 3].map { insert(context, hoursFromNow: $0) }
+        try context.save()
+        SessionService.assignUnassignedDoses(in: context)
+
+        let current = insert(context, hoursFromNow: 72)
+        let session = SessionService.assignSession(for: current, in: context)
+        #expect(session !== earlier[0].session)
+        #expect(try sessions(context).count == 2)
+    }
+
+    @Test
+    func `Daily background meds between two days never join the days' sessions`() throws {
+        let context = try makeContext()
+        let earlier = [0.0, 1.5].map { insert(context, hoursFromNow: $0) }
+        let meds = [10.0, 34, 58].map { insert(context, hoursFromNow: $0, background: true) }
+        try context.save()
+        SessionService.assignUnassignedDoses(in: context)
+
+        let current = insert(context, hoursFromNow: 72)
+        let session = SessionService.assignSession(for: current, in: context)
+        #expect(session !== earlier[0].session)
+        for med in meds {
+            #expect(med.session !== session)
+        }
+    }
 }
