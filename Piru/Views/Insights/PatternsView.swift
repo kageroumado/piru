@@ -8,7 +8,12 @@ import SwiftUI
 /// substances were active at once. All four are one ``JournalSummary`` — the same
 /// value the PDF clinician report renders, so the app and the print-out agree.
 struct PatternsView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``), shared with every other screen that reads it.
+    private var allEntries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
     @Query private var substanceColors: [SubstanceColor]
 
     @State private var range: UsageTimeRange = .ninetyDays

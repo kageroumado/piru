@@ -32,8 +32,11 @@ not finish.
 2. **Simulator** "Piru Perf" (iPhone 18 Pro Max, iOS 27), created on first use.
    `PIRU_PERF_DEVICE_TYPE` and `PIRU_PERF_RUNTIME` override both.
 3. **Seed** (`-piruPerfSeedOnly`): one launch wipes the perf store and writes the
-   fixture, then writes `app/seeded.json` and is terminated. The perf store is
-   `perf.store`, its own file, so a run never touches a development journal.
+   fixture, selects the Journal tab in its Days grouping, then writes
+   `app/seeded.json` and is terminated. The perf store is `perf.store`, its own
+   file, so a run never touches a development journal; the measured launch
+   always opens on the same screen, so launch work lands in the same step from
+   run to run.
 4. **Record**: a second, cold launch under
    `xctrace record --template "Time Profiler"` plus Hangs, Points of Interest,
    Data Fetches, Data Saves and Data Faults (`--swiftui` adds the SwiftUI

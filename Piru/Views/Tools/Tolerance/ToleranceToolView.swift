@@ -21,7 +21,12 @@ import SwiftUI
 /// recovery chart; and a trimmed one-sentence safety note where the class has one. The level is one
 /// quantity everywhere: how much less a usual dose does than with no tolerance, in percent.
 struct ToleranceToolView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision (``DoseLogEntries``), shared with
+    /// every other screen that reads it.
+    private var entries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
     @Query(sort: \DailyDoseItem.sortOrder) private var medItems: [DailyDoseItem]
 
     @State private var tolerance = ToleranceStore.shared
@@ -106,15 +111,15 @@ struct ToleranceToolView: View {
             optionsButton
         }
         // Lazy replay: the year-long integration runs only while this tool is open, and re-runs when
-        // the dose log or body weight changes — kept off the launch / dose-write hot path. The schedule
-        // signature is in the id too, so editing a My Meds item refreshes the projection (the inner
-        // `recompute` no-ops when only the schedule changed). One `now` serves the replay and the
-        // projection seeded from it.
-        .task(id: "\(recomputeSignature)|\(scheduleSignature)") {
+        // the dose log or body weight changes — kept off the launch / dose-write hot path. The My Meds
+        // fields are in the id too, so editing an item refreshes the projection (the inner `recompute`
+        // no-ops when only the schedule changed). One `now` serves the replay and the projection seeded
+        // from it.
+        .task(id: "\(recomputeSignature)|\(medItemsSignature)") {
             let now = Date.now
             await tolerance.recompute(from: entries, now: now)
             hasReplayed = true
-            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds, now: now)
+            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds(now: now), now: now)
         }
         // The per-substance "alone" replay is heavier still (one replay per substance), so it runs only
         // once the per-substance view is actually selected — the default per-mechanism view never pays.
@@ -123,7 +128,7 @@ struct ToleranceToolView: View {
             guard detailMode == .perSubstance else { return }
             let now = Date.now
             await tolerance.recomputePerSubstance(from: entries, now: now)
-            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds, now: now)
+            await tolerance.recomputeProjections(from: entries, scheduledMeds: scheduledMeds(now: now), now: now)
         }
         #if DEBUG
         .task { detailMode = ScreenshotTour.takeStagedChart(\.toleranceMode) ?? detailMode }
@@ -150,13 +155,31 @@ struct ToleranceToolView: View {
     /// amount converts to milligrams (a non-mass unit like IU can't drive an occupancy curve), read
     /// against the journal for an undated item's first day and today's slots already taken. There is
     /// no archived flag — an item removed from My Meds is deleted, so presence here *is* "active".
-    private var scheduledMeds: [ToleranceStore.ScheduledMedSnapshot] {
-        ToleranceStore.scheduledMeds(from: medItems, entries: entries)
+    /// A scan of the whole journal: read once per replay task, never from `body`.
+    private func scheduledMeds(now: Date) -> [ToleranceStore.ScheduledMedSnapshot] {
+        ToleranceStore.scheduledMeds(from: medItems, entries: entries, now: now)
     }
 
-    /// Changes when a My Meds schedule edit would change the projection, so the replay task re-runs.
-    private var scheduleSignature: String {
-        ToleranceStore.scheduleSignature(scheduledMeds)
+    /// Changes when a My Meds edit could change the projection, so the replay task re-runs: every item
+    /// field a schedule snapshot reads, and the day, whose slots a dose already taken leaves out. The
+    /// journal side is in ``recomputeSignature``.
+    private var medItemsSignature: Int {
+        var hasher = Hasher()
+        hasher.combine(Calendar.current.startOfDay(for: .now))
+        for item in medItems {
+            hasher.combine(item.substance)
+            hasher.combine(item.identityKey)
+            hasher.combine(item.route)
+            hasher.combine(item.amount)
+            hasher.combine(item.unit)
+            hasher.combine(item.isAsNeeded)
+            hasher.combine(item.startDate)
+            hasher.combine(item.frequency)
+            hasher.combine(item.frequencyDays)
+            hasher.combine(item.frequencyIntervalDays)
+            hasher.combine(item.reminderTimesMinutes)
+        }
+        return hasher.finalize()
     }
 
     // MARK: - Toolbar

@@ -280,12 +280,13 @@ final class ToleranceStore {
     /// seeds from them.
     @ObservationIgnored private var stateLogKey: String?
 
-    /// The pharmacology last read by ``parameters(for:)``, with the logged names and source order it
-    /// was read for.
+    /// The pharmacology last read by ``parameters(for:alsoResolving:)``: the names it was read for (the
+    /// class representatives among them), the source order, and the read itself, which a caller that
+    /// arrives while it is still running awaits rather than starting a second.
     private struct ParametersMemo {
         let names: Set<String>
         let sourceOrder: [String]
-        let parameters: [String: PharmacologyParameters]
+        let read: Task<[String: PharmacologyParameters], Never>
     }
 
     @ObservationIgnored private var parametersMemo: ParametersMemo?
@@ -412,23 +413,28 @@ final class ToleranceStore {
         persist(computed, now: now)
     }
 
-    /// The pharmacology every replay of `doses` reads: each logged substance and each class
-    /// representative, resolved off the main actor on SubstanceStore's batch connection. The last
-    /// read is held while the logged names and the source order stay the same, so the tool, Receptor
-    /// Load and the loading card replay one log on one read.
-    func parameters(for doses: [SimDose]) async -> [String: PharmacologyParameters] {
-        let logged = Set(doses.map(\.substance))
+    /// The pharmacology every replay of `doses` reads: each logged substance, each name in `extra` (a
+    /// projection's scheduled meds), and each class representative, resolved off the main actor on
+    /// SubstanceStore's batch connection. The last read serves every call whose names it covers under
+    /// the same source order, so the tool, its projection, Receptor Load and the loading card replay
+    /// one log on one read; a call made while that read is running awaits it.
+    func parameters(
+        for doses: [SimDose], alsoResolving extra: [String] = [],
+    ) async -> [String: PharmacologyParameters] {
+        let wanted = Set(doses.map(\.substance)).union(extra)
         let order = SubstanceStore.shared.enabledSourceOrder
-        if let memo = parametersMemo, memo.names == logged, memo.sourceOrder == order {
-            return memo.parameters
+        if let memo = parametersMemo, memo.sourceOrder == order, wanted.isSubset(of: memo.names) {
+            return await memo.read.value
         }
         // The class representatives are resolved alongside the logged substances so the PK-less
         // fallback has their PK template in `params`.
-        let names = Array(logged.union(SubstanceStore.shared.classRepresentativeNames()))
-        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: names)
+        let names = wanted.union(SubstanceStore.shared.classRepresentativeNames())
+        let read = Task(name: "Tolerance pharmacology read") {
+            await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: Array(names))
+        }
         parameterReadCount += 1
-        parametersMemo = ParametersMemo(names: logged, sourceOrder: order, parameters: params)
-        return params
+        parametersMemo = ParametersMemo(names: names, sourceOrder: order, read: read)
+        return await read.value
     }
 
     /// Replay **each logged substance independently** — its own doses only — to populate
@@ -557,8 +563,9 @@ final class ToleranceStore {
         let today = calendar.startOfDay(for: now)
         let todayEntries = entries.filter { $0.timestamp >= today && $0.timestamp <= now }
         return scheduled.compactMap { item in
+            let matcher = AdherenceCalculator.MedMatcher(item, products: products)
             let doses = todayEntries
-                .filter { AdherenceCalculator.entryMatches(entry: $0, item: item, products: products) }
+                .filter { matcher.matches($0) }
                 .map { entry in
                     let parts = calendar.dateComponents([.hour, .minute], from: entry.timestamp)
                     return (minutes: (parts.hour ?? 0) * 60 + (parts.minute ?? 0), slot: entry.medSlotMinutes)
@@ -680,10 +687,7 @@ final class ToleranceStore {
             let doses = snapshots.map {
                 SimDose(substance: $0.substance, amountMg: $0.dose.milligrams, timestamp: $0.timestamp)
             }
-            let uniqueNames = Array(Set(
-                doses.map(\.substance) + future.map(\.substance) + SubstanceStore.shared.classRepresentativeNames(),
-            ))
-            let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
+            let params = await parameters(for: doses, alsoResolving: future.map(\.substance))
             computed = await Self.computeProjectionsOffMain(
                 doses: doses, future: future, cycleDays: Self.cycleDays(of: scheduledMeds), params: params,
                 now: now, weightKg: weightKg,

@@ -11,7 +11,12 @@ import SwiftUI
 /// substance picker) still owns that state itself, so a tap in one section
 /// doesn't re-evaluate the others.
 struct UsageStatsView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``), shared with every other screen that reads it.
+    private var allEntries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
     @Query private var substanceColors: [SubstanceColor]
 
     @State private var model = UsageAnalyticsModel()

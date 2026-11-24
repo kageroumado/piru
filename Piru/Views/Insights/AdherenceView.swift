@@ -3,7 +3,12 @@ import SwiftUI
 
 struct AdherenceView: View {
     @Environment(\.appNavigator) private var navigator
-    @Query(sort: \DoseEntry.timestamp) private var allEntries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``), shared with every other screen that reads it.
+    private var allEntries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
 
     @State private var model = AdherenceModel()

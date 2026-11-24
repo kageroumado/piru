@@ -11,7 +11,12 @@ import SwiftUI
 /// against the drive peak of its own surrounding weeks — so it reads as
 /// "intensity relative to your recent baseline", not an absolute occupancy.
 struct ReceptorLoadView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``), shared with every other screen that reads it.
+    private var allEntries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
 
     /// Opens on a week: the curves rise and fall within a day, and a month of them
     /// in one card's width is a solid block.
