@@ -245,6 +245,10 @@ extension View {
     func androidAccessibilityAction(named _: LocalizedStringKey, _: @escaping () -> Void) -> some View { self }
     func androidAccessibilityAction(_: AndroidAccessibilityActionKind = .default, _: @escaping () -> Void) -> some View { self }
     func androidScrollClipDisabled(_: Bool = true) -> some View { self }
+    /// Compose's scroll indicators appear while scrolling and have no flash to request.
+    func androidScrollIndicatorsFlash(onAppear _: Bool) -> some View { self }
+    /// SkipFuseUI's bridge has no adjustable action; TalkBack keeps the view's own semantics.
+    func androidAccessibilityAdjustableAction(_: @escaping (AccessibilityAdjustmentDirection) -> Void) -> some View { self }
     func androidSymbolEffect(_: AndroidSymbolEffect, options _: Any? = nil, value _: some Equatable) -> some View { self }
     func androidSymbolEffect(_: AndroidSymbolEffect, options _: Any? = nil, isActive _: Bool = true) -> some View { self }
     func androidTransaction(value _: some Equatable, _: @escaping (inout Transaction) -> Void) -> some View { self }

@@ -157,6 +157,9 @@ extension AndroidMark {
     func symbolSize(_ size: CGFloat) -> Self { with { $0.symbolSize = size } }
     func symbolSize(_ size: CGSize) -> Self { with { $0.symbolSize = size.width * size.height } }
     func symbol(_: some Any) -> Self { self }
+    /// A built-in shape by its implicit member (`.circle.strokeBorder(lineWidth:)`); points draw
+    /// as filled circles.
+    func symbol(_: BasicChartSymbolShape) -> Self { self }
     func symbol(by _: PlottableValue<some Plottable>) -> Self { self }
     func opacity(_ value: Double) -> Self { with { $0.opacity = value } }
     func cornerRadius(_: CGFloat, style _: RoundedCornerStyle = .continuous) -> Self { self }
