@@ -5,7 +5,16 @@ import SwiftUI
 struct ToleranceRecoverySeries: Identifiable {
     let row: ToleranceRow
     let name: LocalizedStringResource
+    /// The "no further doses" decay curve — drawn solid when nothing is scheduled, thin and dashed
+    /// beneath the projection when a scheduled med feeds this class.
     let points: [ToleranceChartPoint]
+    /// The curve with the scheduled med's future doses kept coming, when one feeds this class. Drawn as
+    /// the main solid line; `nil` when no scheduled med contributes (then ``points`` is the main line).
+    let projectedPoints: [ToleranceChartPoint]?
+    /// The level the projection settles near (percent), when it settles inside the window.
+    let settlesPercent: Double?
+    /// The projection is still rising at the end of the window.
+    let stillRising: Bool
     /// Days from now at which the line reads near baseline, when that point lies ahead and on the axis.
     let nearBaselineDay: Double?
 
@@ -17,10 +26,45 @@ struct ToleranceRecoverySeries: Identifiable {
         row.familyColor
     }
 
-    init(row: ToleranceRow, tier: UserProfile, frame: ToleranceChartFrame) {
+    /// Whether a scheduled med projects this class's curve.
+    var isProjected: Bool {
+        projectedPoints != nil
+    }
+
+    /// The level the line reads `day` days from now — the projected curve when a scheduled med feeds
+    /// this class (so the scrub readout follows the solid line), otherwise the decay curve.
+    func percent(atDay day: Double) -> Double {
+        guard let projected = projectedPoints, let first = projected.first, let last = projected.last else {
+            return row.tolerancePercent(afterMinutes: max(0, day) * 1_440)
+        }
+        if day <= first.day { return first.percent }
+        if day >= last.day { return last.percent }
+        for index in 1 ..< projected.count where projected[index].day >= day {
+            let a = projected[index - 1]
+            let b = projected[index]
+            let t = (day - a.day) / max(1e-9, b.day - a.day)
+            return a.percent + (b.percent - a.percent) * t
+        }
+        return last.percent
+    }
+
+    init(row: ToleranceRow, tier: UserProfile, frame: ToleranceChartFrame, projection: ToleranceStore.ToleranceProjection?) {
         self.row = row
         name = toleranceClassName(row.snapshot.receptorClass, tier: tier)
-        points = row.recoveryCurve(overMinutes: frame.time.endDays * 1_440)
+        let window = frame.time.endDays * 1_440
+        points = row.recoveryCurve(overMinutes: window)
+        if let projection {
+            projectedPoints = projection.points
+                .filter { $0.minutesFromNow <= window + 1 }
+                .enumerated()
+                .map { ToleranceChartPoint(id: $0.offset, day: $0.element.minutesFromNow / 1_440, percent: $0.element.percent) }
+            settlesPercent = projection.settlesPercent
+            stillRising = projection.settlesPercent == nil
+        } else {
+            projectedPoints = nil
+            settlesPercent = nil
+            stillRising = false
+        }
         let crossing = row.minutesToNearBaseline.map { $0 / 1_440 }
         nearBaselineDay = crossing.flatMap { $0 > 0 && $0 <= frame.time.endDays ? $0 : nil }
     }
@@ -32,12 +76,19 @@ struct ToleranceChartFrame: Equatable {
     let time: ToleranceChartScale.TimeAxis
     let value: ToleranceChartScale.ValueAxis
 
-    init(rows: [ToleranceRow]) {
+    init(rows: [ToleranceRow], projections: [ReceptorClasses.ReceptorClass: ToleranceStore.ToleranceProjection] = [:]) {
+        // A projected class reaches its settle point (or the horizon, if still rising) so the settling is
+        // on screen; the peak of each projected curve also lifts the value axis.
+        let settleMinutes = rows.compactMap { projections[$0.id] }
+            .map { $0.settleMinutes ?? ToleranceStore.projectionHorizonMinutes }
         let span = ToleranceChartScale.spanMinutes(
             nearBaselineMinutes: rows.map(\.minutesToNearBaseline), fadeMinutes: rows.map(\.fadeMinutes),
+            settleMinutes: settleMinutes,
         )
         time = ToleranceChartScale.timeAxis(spanDays: span / 1_440)
-        value = ToleranceChartScale.valueAxis(peakPercent: rows.map { $0.snapshot.severity * 100 }.max() ?? 0)
+        let decayPeak = rows.map { $0.snapshot.severity * 100 }.max() ?? 0
+        let projectedPeak = rows.compactMap { projections[$0.id]?.points.map(\.percent).max() }.max() ?? 0
+        value = ToleranceChartScale.valueAxis(peakPercent: max(decayPeak, projectedPeak))
     }
 }
 
@@ -61,7 +112,7 @@ struct ToleranceCombinedRecoverySection: View {
                     .frame(height: 170)
                     .chartSummaryAccessibility(label: Text("Recovery by mechanism"), value: Text(summary))
                 ToleranceRecoveryLegend(series: series, selectedDay: selectedDay, timeUnit: frame.time.unit)
-                Text("Compared with no tolerance, in the model. The curves assume nothing more is logged. Under \(tolerancePercentText(ToleranceRow.nearBaselineSeverity * 100)) counts as near baseline.")
+                Text(scaleFootnote)
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -80,6 +131,16 @@ struct ToleranceCombinedRecoverySection: View {
         ListFormatter.localizedString(byJoining: series.map { item in
             String(localized: "\(String(localized: item.name)) \(tolerancePercentText(item.row.snapshot.severity * 100)) now")
         })
+    }
+
+    /// The one statement of what the scale is, with a line about the projection when a scheduled med
+    /// drives any plotted curve.
+    private var scaleFootnote: String {
+        let baseline = tolerancePercentText(ToleranceRow.nearBaselineSeverity * 100)
+        if series.contains(where: \.isProjected) {
+            return String(localized: "Compared with no tolerance, in the model. The solid line projects your scheduled My Meds doses; the dashed line is the model with no further doses. Under \(baseline) counts as near baseline.")
+        }
+        return String(localized: "Compared with no tolerance, in the model. The curves assume nothing more is logged. Under \(baseline) counts as near baseline.")
     }
 }
 
@@ -100,7 +161,7 @@ struct ToleranceRecoveryLegend: View {
                     Text(item.name)
                         .font(.caption.weight(.medium))
                     Spacer(minLength: 8)
-                    Text(tolerancePercentText(item.row.tolerancePercent(afterMinutes: (selectedDay ?? 0) * 1_440)))
+                    Text(tolerancePercentText(item.percent(atDay: selectedDay ?? 0)))
                         .font(.caption.weight(.medium))
                         .monospacedDigit()
                         .foregroundStyle(Theme.secondaryLabel)
@@ -146,15 +207,32 @@ struct ToleranceCurvesChart: View {
                 .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
                 .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 3]))
             ForEach(series) { item in
+                // The no-further-doses decay: the main line normally, thin and dashed beneath the
+                // projection when a scheduled med feeds this class.
                 ForEach(item.points) { point in
                     LineMark(
                         x: .value("Days", point.day),
                         y: .value("Tolerance", point.percent),
-                        series: .value("Mechanism", String(reflecting: item.id)),
+                        series: .value("Mechanism", "\(String(reflecting: item.id))-decay"),
                     )
-                    .foregroundStyle(item.color)
-                    .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                    .foregroundStyle(item.color.opacity(item.isProjected ? Theme.Opacity.dimmed : 1))
+                    .lineStyle(item.isProjected
+                        ? StrokeStyle(lineWidth: 1, lineCap: .round, dash: [4, 3])
+                        : StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
                     .interpolationMethod(.monotone)
+                }
+                // The projection following the My Meds schedule — the main solid line when present.
+                if let projected = item.projectedPoints {
+                    ForEach(projected) { point in
+                        LineMark(
+                            x: .value("Days", point.day),
+                            y: .value("Tolerance", point.percent),
+                            series: .value("Mechanism", "\(String(reflecting: item.id))-projected"),
+                        )
+                        .foregroundStyle(item.color)
+                        .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                        .interpolationMethod(.monotone)
+                    }
                 }
                 if let crossing = item.nearBaselineDay {
                     RuleMark(

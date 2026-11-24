@@ -7,7 +7,7 @@ import Synchronization
 /// aggregating every engaged target in that class (DAT+NET → Stimulants, all NMDA sites →
 /// Dissociatives, …). The value type the UI reads; the SwiftData ``ToleranceState`` row is
 /// its cached persistence. One card per class.
-nonisolated struct ClassTolerance: Hashable, Identifiable {
+nonisolated struct ClassTolerance: Hashable, Identifiable, Sendable {
     let receptorClass: ReceptorClasses.ReceptorClass
     /// Acute ln-shift `sAcute ≥ 0` — within-session tachyphylaxis (the redose loop).
     let sAcute: Double
@@ -110,6 +110,32 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
         return PDModel.responseFraction(
             shiftFactor: shift, representativeOccupancy: representativeOccupancy,
             occupancyCap: receptorClass.gaugeOccupancyCap,
+        )
+    }
+
+    /// This per-substance **"alone" snapshot rescaled onto its class's shared gauge**: the class's
+    /// representative occupancy, and each ln-shift layer capped at the class's own. A substance's own
+    /// contribution to a shared mechanism is a *part* of what the whole class reached, so it must read at
+    /// or below the class — the By-substance invariant. Putting the alone shift on the class's reference
+    /// occupancy makes the two numbers comparable (both answer "less effect from the *class's* usual
+    /// dose"); the layer cap closes the residual inversions the schedule-regularity and efficacy weights
+    /// can open, so the part never exceeds the whole at `now` or anywhere along the recovery curve.
+    func rescaledToClass(_ cls: ClassTolerance) -> ClassTolerance {
+        ClassTolerance(
+            receptorClass: receptorClass,
+            sAcute: Swift.min(sAcute, cls.sAcute),
+            sAdaptive: Swift.min(sAdaptive, cls.sAdaptive),
+            sDeep: Swift.min(sDeep, cls.sDeep),
+            sSynthesis: Swift.min(sSynthesis, cls.sSynthesis),
+            chronicExposure: chronicExposure,
+            representativeOccupancy: cls.representativeOccupancy,
+            occupancyNow: occupancyNow,
+            confidence: confidence,
+            subTargets: subTargets,
+            contributors: contributors,
+            safetyShiftFactor: safetyShiftFactor,
+            safetyEndpointKind: safetyEndpointKind,
+            effectShifts: effectShifts,
         )
     }
 
@@ -229,6 +255,17 @@ final class ToleranceStore {
     /// class combination is non-linear (`1 − ∏(1−occ)`), these do **not** sum to the joint ``states``.
     private(set) var perSubstanceStates: [String: [ReceptorClasses.ReceptorClass: ClassTolerance]] = [:]
     @ObservationIgnored private var perSubstanceSignature: String?
+
+    /// Per-class **forward projection** of the tolerance curve when a scheduled My Meds item feeds the
+    /// class: the trajectory with its future doses kept coming across the chart window, instead of the
+    /// default "nothing more is logged" decay. Keyed by mechanism class; a class with no scheduled
+    /// contributor has no entry (its card stays the decay-only curve). Populated lazily by
+    /// ``recomputeProjections(from:scheduledMeds:now:)`` while the tool is shown; off-main.
+    private(set) var projections: [ReceptorClasses.ReceptorClass: ToleranceProjection] = [:]
+    /// Per-substance forward projections, keyed by logged substance name → its scheduled classes, for the
+    /// By-substance view. Only a substance that is itself a scheduled med appears.
+    private(set) var perSubstanceProjections: [String: [ReceptorClasses.ReceptorClass: ToleranceProjection]] = [:]
+    @ObservationIgnored private var projectionSignature: String?
 
     /// Signature of the inputs behind the current ``states`` (dose-log content + body weight + an hourly
     /// time bucket). A repeat ``recompute(from:now:)`` with the same signature is a no-op, so re-opening
@@ -416,10 +453,21 @@ final class ToleranceStore {
         }
 
         return await withTaskExecutorPreference(replayExecutor) {
-            await withTaskGroup(of: (String, [ReceptorClasses.ReceptorClass: ClassTolerance]).self) { group in
+            // The joint class replay (every dose), so each substance's alone snapshot can be rescaled
+            // onto its class's shared gauge — the part-to-whole fix.
+            let joint = simulate(doses: doses, params: params, now: now, weightKg: weightKg)
+            return await withTaskGroup(of: (String, [ReceptorClasses.ReceptorClass: ClassTolerance]).self) { group in
                 for (name, subDoses) in dosesByName {
                     group.addTask {
-                        (name, simulate(doses: subDoses, params: params, now: now, weightKg: weightKg))
+                        let alone = simulate(doses: subDoses, params: params, now: now, weightKg: weightKg)
+                        // Each class a substance drives alone onto its class's gauge: the joint class's
+                        // reference occupancy, and the alone shift capped at the class's. A class the
+                        // alone replay produces is always present in the joint one (the alone doses are a
+                        // subset), but fall back to the alone snapshot if it somehow is not.
+                        let rescaled = alone.mapValues { state in
+                            joint[state.receptorClass].map(state.rescaledToClass) ?? state
+                        }
+                        return (name, rescaled)
                     }
                 }
                 var result: [String: [ReceptorClasses.ReceptorClass: ClassTolerance]] = [:]
@@ -429,6 +477,352 @@ final class ToleranceStore {
                 return result
             }
         }
+    }
+
+    // MARK: - Scheduled-med projection
+
+    /// A My Meds item reduced to what the projection reads — a `Sendable` snapshot so the forward
+    /// replay runs off the main actor. `doseMg` is the item's amount already converted to milligrams
+    /// (the view skips an item whose unit does not convert). As-needed and archived items are never
+    /// snapshotted: they carry no schedule to project.
+    nonisolated struct ScheduledMedSnapshot: Sendable {
+        let substance: String
+        let doseMg: Double
+        let startDate: Date
+        let frequency: DoseFrequency
+        let frequencyDays: [Int]
+        let intervalDays: Int
+        /// Minutes-from-midnight of each scheduled dose; empty means one morning dose a day.
+        let reminderTimesMinutes: [Int]
+    }
+
+    /// The projection snapshot for a My Meds item, or `nil` when it must not be projected: an as-needed
+    /// item carries no schedule, and an amount whose unit does not convert to milligrams (IU, drops)
+    /// cannot drive an occupancy curve. There is no archived flag — a removed item is deleted — so an
+    /// item that still exists is active.
+    static func scheduledMed(from item: DailyDoseItem) -> ScheduledMedSnapshot? {
+        guard !item.isAsNeeded, let milligrams = DoseQuantity(item.amount, unit: item.unit).milligrams else { return nil }
+        return ScheduledMedSnapshot(
+            substance: item.substance, doseMg: milligrams, startDate: item.startDate,
+            frequency: item.frequency, frequencyDays: item.frequencyDays,
+            intervalDays: item.frequencyIntervalDays, reminderTimesMinutes: item.reminderTimesMinutes,
+        )
+    }
+
+    /// One sampled point of a projected curve: minutes from `now`, and the modeled level (percent,
+    /// 0–100) at that point with the schedule's future doses included.
+    nonisolated struct ProjectionPoint: Sendable, Hashable {
+        let minutesFromNow: Double
+        let percent: Double
+    }
+
+    /// A class's forward projection under its My Meds schedule.
+    nonisolated struct ToleranceProjection: Sendable {
+        /// The projected curve from `now` across ``projectionHorizonMinutes``, with the scheduled doses
+        /// kept coming. The chart clips it to its own window.
+        let points: [ProjectionPoint]
+        /// The level the curve settles near (percent) once it reaches steady oscillation, or `nil` when
+        /// it is still rising at the horizon.
+        let settlesPercent: Double?
+        /// Minutes from `now` by which the curve has settled, or `nil` when it is still rising — the
+        /// chart span reaches this so the settling is on screen.
+        let settleMinutes: Double?
+    }
+
+    /// The horizon the projection is computed over (8 weeks) — the longest span a chart frame takes, so
+    /// a frame always has points to draw after clipping to its own, shorter window.
+    nonisolated static let projectionHorizonMinutes = 56.0 * 1_440
+
+    /// Minute-of-day a scheduled med with no reminder time is projected at (a morning dose) — the
+    /// time-of-day barely moves a days-scale tolerance curve, so one stable slot suffices.
+    private nonisolated static let defaultProjectionSlotMinutes = 9 * 60
+
+    /// Replay each class's tolerance forward with its scheduled My Meds doses kept coming, so a daily
+    /// medication's curve settles instead of decaying to baseline. Signature-gated on the dose log,
+    /// weight and the schedule (editing a My Meds item refreshes it), off-main. Seeds from the current
+    /// ``states``/``perSubstanceStates``, so call after ``recompute(from:now:)`` (and, for the
+    /// By-substance projections, after ``recomputePerSubstance(from:now:)``).
+    func recomputeProjections(
+        from entries: [DoseEntry], scheduledMeds: [ScheduledMedSnapshot], now: Date = .now,
+    ) async {
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
+        let snapshots = Self.snapshots(of: entries)
+        // The per-substance snapshot's readiness is in the signature so the By-substance task's call
+        // (after ``recomputePerSubstance`` fills it) recomputes instead of deduping against the
+        // per-mechanism task's earlier run.
+        let signature = "\(Self.signature(entries: snapshots, weightKg: weightKg, now: now))|\(Self.scheduleSignature(scheduledMeds))|\(perSubstanceStates.isEmpty)"
+        if signature == projectionSignature { return }
+
+        let future = Self.futureDoses(scheduledMeds, from: now, horizonMinutes: Self.projectionHorizonMinutes)
+        guard !future.isEmpty else {
+            projections = [:]
+            perSubstanceProjections = [:]
+            projectionSignature = signature
+            return
+        }
+        let doses = snapshots.map {
+            SimDose(substance: $0.substance, amountMg: $0.dose.milligrams, timestamp: $0.timestamp)
+        }
+        let uniqueNames = Array(Set(
+            doses.map(\.substance) + future.map(\.substance) + SubstanceStore.shared.classRepresentativeNames(),
+        ))
+        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
+        let jointSnapshot = states
+        let aloneSnapshot = perSubstanceStates
+        let computed = await Self.computeProjectionsOffMain(
+            doses: doses, future: future, params: params, now: now, weightKg: weightKg,
+            jointSnapshot: jointSnapshot, perSubstanceSnapshot: aloneSnapshot,
+        )
+        projections = computed.joint
+        perSubstanceProjections = computed.perSub
+        projectionSignature = signature
+    }
+
+    /// Order-independent fingerprint of the scheduled-med set, so a My Meds edit changes the projection
+    /// signature and nothing else does.
+    private static func scheduleSignature(_ meds: [ScheduledMedSnapshot]) -> String {
+        var combined: UInt64 = 0
+        for m in meds {
+            var hasher = Hasher()
+            hasher.combine(m.substance)
+            hasher.combine(m.doseMg)
+            hasher.combine(m.startDate)
+            hasher.combine(m.frequency)
+            hasher.combine(m.frequencyDays)
+            hasher.combine(m.intervalDays)
+            hasher.combine(m.reminderTimesMinutes)
+            combined ^= UInt64(bitPattern: Int64(hasher.finalize()))
+        }
+        return "\(meds.count)|\(combined)"
+    }
+
+    /// Expand scheduled meds into their future dose events across `[now, now + horizon]` — a forward
+    /// day scan gated by ``MedSchedule/isDue(startDate:frequency:frequencyDays:intervalDays:on:)``, one
+    /// ``SimDose`` per due day × scheduled time (or one morning dose where no time is set).
+    nonisolated static func futureDoses(
+        _ meds: [ScheduledMedSnapshot], from now: Date, horizonMinutes: Double,
+    ) -> [SimDose] {
+        guard !meds.isEmpty, horizonMinutes > 0 else { return [] }
+        let calendar = Calendar.current
+        let end = now.addingTimeInterval(horizonMinutes * 60)
+        var out: [SimDose] = []
+        var day = calendar.startOfDay(for: now)
+        while day <= end {
+            for med in meds where MedSchedule.isDue(
+                startDate: med.startDate, frequency: med.frequency,
+                frequencyDays: med.frequencyDays, intervalDays: med.intervalDays, on: day,
+            ) {
+                let slots = med.reminderTimesMinutes.isEmpty ? [defaultProjectionSlotMinutes] : med.reminderTimesMinutes
+                for minutes in slots {
+                    let timestamp = calendar.date(
+                        bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: day,
+                    ) ?? day.addingTimeInterval(Double(minutes) * 60)
+                    if timestamp > now, timestamp <= end {
+                        out.append(SimDose(substance: med.substance, amountMg: med.doseMg, timestamp: timestamp))
+                    }
+                }
+            }
+            guard let next = calendar.date(byAdding: .day, value: 1, to: day) else { break }
+            day = next
+        }
+        return out
+    }
+
+    private nonisolated static func computeProjectionsOffMain(
+        doses: [SimDose], future: [SimDose], params: [String: PharmacologyParameters],
+        now: Date, weightKg: Double,
+        jointSnapshot: [ReceptorClasses.ReceptorClass: ClassTolerance],
+        perSubstanceSnapshot: [String: [ReceptorClasses.ReceptorClass: ClassTolerance]],
+    ) async -> (joint: [ReceptorClasses.ReceptorClass: ToleranceProjection], perSub: [String: [ReceptorClasses.ReceptorClass: ToleranceProjection]]) {
+        await withTaskExecutorPreference(replayExecutor) {
+            let joint = projectClasses(
+                past: doses, future: future, params: params, now: now, weightKg: weightKg, snapshot: jointSnapshot,
+            )
+            // By-substance: a scheduled med projected with only its own doses + its own future doses,
+            // seeded from its alone snapshot (already rescaled onto the class gauge).
+            var perSub: [String: [ReceptorClasses.ReceptorClass: ToleranceProjection]] = [:]
+            let futureBySubstance = Dictionary(grouping: future, by: \.substance)
+            let pastBySubstance = Dictionary(grouping: doses, by: \.substance)
+            for (name, subFuture) in futureBySubstance {
+                guard let aloneSnapshot = perSubstanceSnapshot[name] else { continue }
+                let proj = projectClasses(
+                    past: pastBySubstance[name] ?? [], future: subFuture, params: params,
+                    now: now, weightKg: weightKg, snapshot: aloneSnapshot,
+                )
+                if !proj.isEmpty { perSub[name] = proj }
+            }
+            return (joint, perSub)
+        }
+    }
+
+    /// Build the per-class forward projection for every class that both (1) has a current snapshot to
+    /// seed from and (2) a *future* scheduled dose contributes to. Classes with only past doses are not
+    /// projected — their card keeps the decay-only curve.
+    private nonisolated static func projectClasses(
+        past: [SimDose], future: [SimDose], params: [String: PharmacologyParameters],
+        now: Date, weightKg: Double, snapshot: [ReceptorClasses.ReceptorClass: ClassTolerance],
+    ) -> [ReceptorClasses.ReceptorClass: ToleranceProjection] {
+        let horizon = projectionHorizonMinutes
+        guard let prepared = buildClassWork(
+            doses: past + future, params: params, now: now, weightKg: weightKg,
+            lookbackDays: defaultLookbackDays, inclusionEnd: now.addingTimeInterval(horizon * 60),
+        ) else { return [:] }
+
+        var out: [ReceptorClasses.ReceptorClass: ToleranceProjection] = [:]
+        for work in prepared.work {
+            guard let seed = snapshot[work.receptorClass] else { continue }
+            // A future dose lands past `totalMinutes`; without one this class is pure decay, not a projection.
+            guard work.contributors.contains(where: { $0.onset > prepared.totalMinutes }) else { continue }
+            let params = ReceptorClasses.parameters(for: work.receptorClass)
+            let points = forwardToleranceTrail(
+                work: work, params: params, seed: seed, totalMinutes: prepared.totalMinutes,
+                horizonMinutes: horizon, step: defaultTimestepMinutes,
+                representativeOccupancy: seed.representativeOccupancy,
+                occupancyCap: work.receptorClass.gaugeOccupancyCap,
+            )
+            let summary = summarizeProjection(points, horizonMinutes: horizon)
+            out[work.receptorClass] = ToleranceProjection(
+                points: points, settlesPercent: summary.settlesPercent, settleMinutes: summary.settleMinutes,
+            )
+        }
+        return out
+    }
+
+    /// Testable seam: the per-class projection from a past log plus future doses, seeded from the past
+    /// log's own joint snapshot — what ``recomputeProjections(from:scheduledMeds:now:)`` does, without
+    /// the store or the bundled DB.
+    nonisolated static func projection(
+        past: [SimDose], future: [SimDose], params: [String: PharmacologyParameters],
+        now: Date, weightKg: Double,
+    ) -> [ReceptorClasses.ReceptorClass: ToleranceProjection] {
+        let snapshot = simulate(doses: past, params: params, now: now, weightKg: weightKg)
+        return projectClasses(past: past, future: future, params: params, now: now, weightKg: weightKg, snapshot: snapshot)
+    }
+
+    /// Integrate one class's gauge forward from `now` (seeded from its current snapshot) across the
+    /// horizon, with the class's past tails **and** future scheduled contributors driving occupancy,
+    /// sampling the level along the way. The per-cell dynamics mirror
+    /// ``integrateTarget(contributors:modulators:params:totalMinutes:step:regularityFactor:)`` for the
+    /// four primary ln-shift layers (the gauge reads these; the safety/effect endpoints do not change
+    /// it); seeding at `totalMinutes` makes the first sample equal the snapshot level, so the projected
+    /// line meets the "now" dot. Bounded to the horizon, so no active-window optimization is needed.
+    private nonisolated static func forwardToleranceTrail(
+        work: ClassWork, params: ReceptorClasses.Parameters, seed: ClassTolerance,
+        totalMinutes: Double, horizonMinutes: Double, step: Double,
+        representativeOccupancy: Double, occupancyCap: Double?,
+    ) -> [ProjectionPoint] {
+        var sAcute = seed.sAcute
+        var sAdaptive = seed.sAdaptive
+        var sDeep = seed.sDeep
+        var sSynthesis = seed.sSynthesis
+        var chronicExposure = seed.chronicExposure
+        let regularityFactor = work.regularityFactor
+        let contributors = work.contributors.filter { $0.expiry >= totalMinutes }.sorted { $0.onset < $1.onset }
+        let modulators = work.modulators.filter { $0.expiry >= totalMinutes }.sorted { $0.onset < $1.onset }
+        let end = totalMinutes + horizonMinutes
+        let totalCells = Swift.max(1, Int((horizonMinutes / step).rounded(.up)))
+        let emitStride = Swift.max(1, totalCells / 160)
+
+        var points: [ProjectionPoint] = []
+        func record(_ t: Double) {
+            let shift = Foundation.exp(sAcute + sAdaptive + sDeep + sSynthesis)
+            let response = PDModel.responseFraction(
+                shiftFactor: shift, representativeOccupancy: representativeOccupancy, occupancyCap: occupancyCap,
+            )
+            points.append(ProjectionPoint(minutesFromNow: t - totalMinutes, percent: Swift.max(0, Swift.min(100, (1 - response) * 100))))
+        }
+        record(totalMinutes)
+
+        var t = totalMinutes
+        var cell = 0
+        while t < end {
+            let cellLength = Swift.min(step, end - t)
+            if cellLength <= 0 { break }
+            let midpoint = t + cellLength / 2
+
+            var sumRatio = 0.0
+            var sumEffRatio = 0.0
+            var maxEscalation = 0.0
+            var anySynthesisSuppressor = false
+            for contributor in contributors where contributor.onset <= midpoint && contributor.expiry >= midpoint {
+                if contributor.escalation > maxEscalation { maxEscalation = contributor.escalation }
+                if contributor.suppressesSynthesis { anySynthesisSuppressor = true }
+                let concentration = contributor.concentrationNanomolar(afterMinutes: midpoint - contributor.onset)
+                if concentration > 0, contributor.halfMaxNanomolar > 0 {
+                    let ratio = concentration / contributor.halfMaxNanomolar
+                    sumRatio += ratio
+                    sumEffRatio += contributor.intrinsicEfficacy * ratio
+                }
+            }
+            let occupancy = sumRatio / (1 + sumRatio)
+            let efficacyDrive = sumRatio > 0 ? sumEffRatio / sumRatio : 1
+
+            var modulation = 1.0
+            for modulator in modulators where modulator.onset <= midpoint && modulator.expiry >= midpoint {
+                let freeConcentration = modulator.concentrationNanomolar(afterMinutes: midpoint - modulator.onset)
+                if freeConcentration > 0 {
+                    let presence = freeConcentration / (modulator.halfMaxNanomolar + freeConcentration)
+                    modulation *= (1 - (1 - modulator.muFactor) * presence)
+                }
+            }
+
+            chronicExposure = PDModel.stepShift(
+                current: chronicExposure, shiftMax: 1, occupancy: occupancy, drive: 1,
+                dtMinutes: cellLength, tauMinutes: ReceptorClasses.tauChronicExposureMinutes,
+            )
+            sAcute = PDModel.stepShift(
+                current: sAcute, shiftMax: params.acuteShiftMax, occupancy: occupancy, drive: 1,
+                dtMinutes: cellLength, tauMinutes: params.tauAcuteMinutes,
+            )
+            let magnitude = PDModel.smoothstepGate(
+                maxEscalation, threshold: ReceptorClasses.deepMagnitudeThreshold, width: ReceptorClasses.deepMagnitudeWidth,
+            )
+            let chronicity = PDModel.smoothstepGate(
+                chronicExposure, threshold: ReceptorClasses.deepChronicityThreshold, width: ReceptorClasses.deepChronicityWidth,
+            )
+            sAdaptive = PDModel.stepShift(
+                current: sAdaptive, shiftMax: params.adaptiveShiftMax, occupancy: occupancy,
+                drive: modulation * efficacyDrive * regularityFactor, dtMinutes: cellLength,
+                tauMinutes: params.tauAdaptiveMinutes,
+            )
+            sDeep = PDModel.stepShift(
+                current: sDeep, shiftMax: params.deepShiftMax, occupancy: occupancy,
+                drive: magnitude * chronicity, dtMinutes: cellLength, tauMinutes: params.tauDeepMinutes,
+            )
+            sSynthesis = PDModel.stepShift(
+                current: sSynthesis, shiftMax: params.synthesisShiftMax, occupancy: occupancy,
+                drive: (anySynthesisSuppressor ? 1 : 0) * efficacyDrive, dtMinutes: cellLength,
+                tauMinutes: params.tauSynthesisMinutes,
+            )
+
+            t += cellLength
+            cell += 1
+            if cell % emitStride == 0 || t >= end { record(t) }
+        }
+        return points
+    }
+
+    /// Where a projected curve settles: its end level (averaged over the last stretch to see past the
+    /// daily ripple) and the first time its trailing mean stays within tolerance of that level. Returns
+    /// `(nil, nil)` when the curve is still rising at the horizon.
+    private nonisolated static func summarizeProjection(
+        _ points: [ProjectionPoint], horizonMinutes: Double,
+    ) -> (settlesPercent: Double?, settleMinutes: Double?) {
+        guard points.count >= 8 else { return (nil, nil) }
+        let tailCount = Swift.max(3, points.count / 8)
+        let endLevel = points.suffix(tailCount).map(\.percent).reduce(0, +) / Double(tailCount)
+        let tolerance = Swift.max(1.0, 0.06 * endLevel)
+        let window = Swift.max(1, points.count / 20)
+        for index in points.indices {
+            let hi = Swift.min(points.count, index + window)
+            let mean = points[index ..< hi].map(\.percent).reduce(0, +) / Double(hi - index)
+            if abs(mean - endLevel) <= tolerance {
+                let settleMinutes = points[index].minutesFromNow
+                guard settleMinutes < horizonMinutes * 0.92 else { return (nil, nil) }
+                return (endLevel.rounded(), settleMinutes)
+            }
+        }
+        return (nil, nil)
     }
 
     /// Logged substances inside the window that *would* drive a tolerance class but can't be modeled
@@ -706,10 +1100,16 @@ final class ToleranceStore {
         now: Date,
         weightKg: Double,
         lookbackDays: Double,
+        inclusionEnd: Date? = nil,
     ) -> (work: [ClassWork], totalMinutes: Double)? {
         let cutoff = now.addingTimeInterval(-lookbackDays * 86_400)
+        // `inclusionEnd` lets the projection keep *future* scheduled doses (timestamp > now) as
+        // contributors: their onsets land past `totalMinutes`, so the now-anchored snapshot
+        // integrator (which stops at `totalMinutes`) ignores them, while the forward projector steps
+        // through them. Defaults to `now`, the replay's own cutoff.
+        let end = inclusionEnd ?? now
         let relevant = doses
-            .filter { $0.timestamp <= now && $0.timestamp >= cutoff }
+            .filter { $0.timestamp <= end && $0.timestamp >= cutoff }
             .sorted { $0.timestamp < $1.timestamp }
         guard let start = relevant.first?.timestamp, weightKg > 0 else { return nil }
 

@@ -19,7 +19,15 @@ struct ToleranceCard: View {
                     name: toleranceClassName(row.snapshot.receptorClass, tier: tier),
                     level: row.snapshot.severity,
                 )
-                if let minutes = row.minutesToNearBaseline {
+                if let series, series.isProjected {
+                    Text(toleranceSettleText(settlesPercent: series.settlesPercent))
+                        .captionSecondary()
+                    if let minutes = row.minutesToNearBaseline {
+                        Text(toleranceNoFurtherText(minutes: minutes))
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                } else if let minutes = row.minutesToNearBaseline {
                     Text(toleranceNearBaselineText(minutes: minutes))
                         .captionSecondary()
                 }

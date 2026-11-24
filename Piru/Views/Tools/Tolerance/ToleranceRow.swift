@@ -278,3 +278,22 @@ func toleranceNearBaselineText(minutes: Double, now: Date = .now) -> String {
 func toleranceListPhrase(_ names: [String]) -> String {
     ListFormatter.localizedString(byJoining: names)
 }
+
+/// The line for a class a scheduled My Meds item projects: where the modeled curve settles on that
+/// schedule, or that it is still rising at the end of the window. States what the model shows, no more.
+func toleranceSettleText(settlesPercent: Double?) -> String {
+    if let settlesPercent {
+        return String(localized: "Settles near \(tolerancePercentText(settlesPercent)) on your My Meds schedule")
+    }
+    return String(localized: "Still rising at the end of the window on your My Meds schedule")
+}
+
+/// The secondary line under a projected class: where the model reads near baseline with no more doses.
+func toleranceNoFurtherText(minutes: Double, now: Date = .now) -> String {
+    guard minutes > 0 else { return String(localized: "Near baseline now with no further doses") }
+    let date = ToleranceBaselineDate.text(
+        for: now.addingTimeInterval(minutes * 60),
+        precision: ToleranceBaselineDate.precision(minutesAhead: minutes),
+    )
+    return String(localized: "With no further doses, near baseline around \(date)")
+}

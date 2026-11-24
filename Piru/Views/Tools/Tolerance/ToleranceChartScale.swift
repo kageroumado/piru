@@ -127,11 +127,20 @@ nonisolated enum ToleranceChartScale {
     /// a plotted mechanism reads near baseline, so each crossing is on screen; a mechanism with no such
     /// point inside the forecast (`nil`) takes the longest span. When every mechanism already reads near
     /// baseline, the span is the longest of `fadeMinutes`, the time each takes to fade out.
-    static func spanMinutes(nearBaselineMinutes: [Double?], fadeMinutes: [Double]) -> Double {
-        guard !nearBaselineMinutes.contains(where: { $0 == nil }) else { return maximumSpanMinutes }
+    ///
+    /// `settleMinutes` carries, for each projected (scheduled-med) class, when its curve settles — so the
+    /// span also reaches far enough for the settling to be on screen. A projection still rising at the
+    /// projection horizon passes that horizon here and pins the span to its maximum.
+    static func spanMinutes(
+        nearBaselineMinutes: [Double?], fadeMinutes: [Double], settleMinutes: [Double] = [],
+    ) -> Double {
+        let settleBasis = settleMinutes.map { $0 / crossingPosition }.max() ?? 0
+        guard !nearBaselineMinutes.contains(where: { $0 == nil }) else {
+            return min(max(settleBasis, maximumSpanMinutes), maximumSpanMinutes)
+        }
         let latest = nearBaselineMinutes.compactMap(\.self).max() ?? 0
-        let basis = latest > 0 ? latest / crossingPosition : fadeMinutes.max() ?? 0
-        return min(max(basis, minimumSpanMinutes), maximumSpanMinutes)
+        let decayBasis = latest > 0 ? latest / crossingPosition : fadeMinutes.max() ?? 0
+        return min(max(max(decayBasis, settleBasis), minimumSpanMinutes), maximumSpanMinutes)
     }
 }
 

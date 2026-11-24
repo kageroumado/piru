@@ -25,6 +25,8 @@ struct ToleranceSubstanceGroup: Identifiable {
 struct TolerancePerSubstanceSection: View {
     let groups: [ToleranceSubstanceGroup]
     let tier: UserProfile
+    /// Forward projections for scheduled meds, keyed by substance name → class.
+    let projections: [String: [ReceptorClasses.ReceptorClass: ToleranceStore.ToleranceProjection]]
     /// The per-substance replay is still running (first entry into this view).
     let isReplayRunning: Bool
     @Binding var expandedSubstances: Set<String>
@@ -38,7 +40,11 @@ struct TolerancePerSubstanceSection: View {
             }
             ForEach(groups) { group in
                 Section {
-                    ToleranceSubstanceCard(group: group, tier: tier, expandedSubstances: $expandedSubstances)
+                    ToleranceSubstanceCard(
+                        group: group, tier: tier,
+                        projections: projections[group.name] ?? [:],
+                        expandedSubstances: $expandedSubstances,
+                    )
                 }
             }
         } else if isReplayRunning {
@@ -58,6 +64,8 @@ struct TolerancePerSubstanceSection: View {
 struct ToleranceSubstanceCard: View {
     let group: ToleranceSubstanceGroup
     let tier: UserProfile
+    /// This substance's forward projections, keyed by class — present when it is a scheduled med.
+    let projections: [ReceptorClasses.ReceptorClass: ToleranceStore.ToleranceProjection]
     @Binding var expandedSubstances: Set<String>
 
     /// Most doses shown when a card is expanded — enough to see the recent pattern without a
@@ -84,6 +92,7 @@ struct ToleranceSubstanceCard: View {
                     ToleranceMechanismRow(
                         row: ToleranceRow(snapshot: snapshot, params: ReceptorClasses.parameters(for: snapshot.receptorClass)),
                         name: toleranceClassName(snapshot.receptorClass, tier: tier),
+                        projection: projections[snapshot.receptorClass],
                     )
                 }
             }
@@ -135,6 +144,8 @@ struct ToleranceMechanismRow: View {
     /// The substance's own contribution to one class, replayed alone.
     let row: ToleranceRow
     let name: LocalizedStringResource
+    /// This substance's forward projection for the class, when it is a scheduled med.
+    var projection: ToleranceStore.ToleranceProjection?
 
     private var severity: Double {
         min(1, max(0, row.snapshot.severity))
@@ -160,7 +171,11 @@ struct ToleranceMechanismRow: View {
                 }
             }
             .frame(height: 7)
-            if let minutes = row.minutesToNearBaseline, minutes > 0 {
+            if projection != nil {
+                Text(toleranceSettleText(settlesPercent: projection?.settlesPercent))
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            } else if let minutes = row.minutesToNearBaseline, minutes > 0 {
                 Text(toleranceNearBaselineText(minutes: minutes))
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -173,6 +188,9 @@ struct ToleranceMechanismRow: View {
 
     private var accessibilityValue: String {
         let level = tolerancePercentText(severity * 100)
+        if projection != nil {
+            return "\(level), \(toleranceSettleText(settlesPercent: projection?.settlesPercent))"
+        }
         guard let minutes = row.minutesToNearBaseline, minutes > 0 else { return level }
         return "\(level), \(toleranceNearBaselineText(minutes: minutes))"
     }
