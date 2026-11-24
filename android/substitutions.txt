@@ -81,6 +81,9 @@
 \btextSelection\(	androidTextSelection(
 \baccessibilityAction\(	androidAccessibilityAction(
 \bscrollClipDisabled\(	androidScrollClipDisabled(
+\bscrollIndicatorsFlash\(	androidScrollIndicatorsFlash(
+\.accessibilityAdjustableAction\s*\{	.androidAccessibilityAdjustableAction {
+\.safeAreaInset\(edge:	.androidSafeAreaInset(edge:
 \bsymbolEffect\(	androidSymbolEffect(
 \.transaction\s*\{	.androidTransaction {
 \.transaction\(value:	.androidTransaction(value:
@@ -112,13 +115,12 @@
 # UserDefaults(suiteName:) is a second SharedPreferences file, so the Settings UI and the code
 # reading the group suite would disagree. The .standard and app-group key sets are disjoint, so
 # one store holds both. @AppStorage drops its suite (a store: argument beside @Bindable fails to
-# compile); every other construction reads the twin, which is .standard.
+# compile, and beside an explicit init it is "not initialized by init accessor"); every other
+# construction reads the twin, which is .standard.
 @AppStorage\(([^,()]+), store: UserDefaults\(suiteName: [^()]+\)\)	@AppStorage(\1)
+@AppStorage\(([^,()]+), store: HealthKitVitals\.settingsStore\)	@AppStorage(\1)
 \bUserDefaults\(suiteName: [^()]+\)	UserDefaults.androidAppGroup
 
-# Markdown in an AttributedString: Android's Foundation cannot parse it and SkipFuseUI cannot
-# show one. The property becomes the text with its markers removed (emphasis is lost).
-^([ \t]*)(private )?var (\w+): AttributedString \{\n([ \t]*)\(try\? AttributedString\(markdown: ([^)]+)\)\) \?\? AttributedString\(\5\)	\1\2var \3: String {\n\4androidPlainMarkdown(\5)
 # semantic: what a counted phrase reads as. SkipUI resolves a Text or Label key with Apple's
 # grammar-agreement markup and shows `^[2 dose](inflect: true)` as written; String(inflecting:)
 # resolves the same key and agrees the phrase with its count (patch 0021, Inflection+Android.swift,

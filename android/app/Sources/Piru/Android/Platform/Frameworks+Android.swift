@@ -59,9 +59,10 @@ final class HealthKitVitals {
 
     /// The `@AppStorage` key of the Health-on-sessions switch, the same key the iOS build reads.
     static let overlayKey = "showSessionVitals"
-    /// The suite ``overlayKey`` lives in.
+    /// The suite ``overlayKey`` lives in: `.standard`, where every setting lives on Android
+    /// (`substitutions.txt`, the app-group rule).
     static var settingsStore: UserDefaults? {
-        UserDefaults(suiteName: AppIdentity.appGroup)
+        .standard
     }
 
     /// Health is never on here, whatever the stored switch says.
