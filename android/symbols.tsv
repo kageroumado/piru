@@ -229,6 +229,7 @@ pin	push_pin	0
 plus	add	0
 plus.circle	add_circle	0
 plus.circle.fill	add_circle	1
+plusminus	exposure	0
 point.topleft.down.to.point.bottomright.curvepath	route	0
 qrcode	qr_code	0
 qrcode.viewfinder	qr_code_scanner	0
