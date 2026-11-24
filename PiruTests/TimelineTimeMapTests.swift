@@ -365,4 +365,82 @@ struct TimelineTimeMapTests {
         #expect(merged[0] == DateInterval(start: t0, duration: minutes(90)))
         #expect(merged[1] == DateInterval(start: t0.addingTimeInterval(minutes(100)), duration: minutes(50)))
     }
+
+    // MARK: - Compressed runs and slice floors
+
+    @Test
+    func `Squeezed empty time is reported as one run and active time never is`() {
+        let dose = now.addingTimeInterval(-12 * 86_400)
+        let curveEnd = dose.addingTimeInterval(minutes(720))
+        let start = dose.addingTimeInterval(-minutes(5))
+        let end = now.addingTimeInterval(minutes(10))
+        let map = TimelineTimeMap(
+            start: start, end: end, now: now,
+            slices: [.init(bottomTime: start, topTime: end, breakAbove: false, minimumHeight: 0)],
+            anchors: [dose, dose.addingTimeInterval(4 * 86_400)],
+            activeIntervals: [DateInterval(start: dose, end: curveEnd)],
+            pointsPerMinute: ppm, compressGaps: true,
+        )
+        // The anchor four days in splits the empty stretch in two; both halves
+        // are squeezed and merge into one run, from the curve's end to now.
+        #expect(map.compressedRuns == [DateInterval(start: curveEnd, end: now)])
+        #expect(!map.compressedRuns.contains { $0.intersects(DateInterval(start: dose, end: curveEnd.addingTimeInterval(-1))) })
+    }
+
+    @Test
+    func `Empty time short enough to keep its scale is not reported`() {
+        let dose = now.addingTimeInterval(-minutes(90))
+        let start = dose.addingTimeInterval(-minutes(5))
+        let end = now.addingTimeInterval(minutes(10))
+        let map = TimelineTimeMap(
+            start: start, end: end, now: now,
+            slices: [.init(bottomTime: start, topTime: end, breakAbove: false, minimumHeight: 0)],
+            anchors: [dose],
+            activeIntervals: [DateInterval(start: dose, duration: minutes(30))],
+            pointsPerMinute: ppm, compressGaps: true,
+        )
+        #expect(map.compressedRuns.isEmpty)
+    }
+
+    @Test
+    func `A slice grown to fit its cards takes the room from its empty time`() {
+        // Two hours active, then an hour empty before now; the cards need far
+        // more than the slice's height. The active hours keep their uniform
+        // height and the empty hour absorbs the rest.
+        let dose = now.addingTimeInterval(-minutes(180))
+        let curveEnd = dose.addingTimeInterval(minutes(120))
+        let start = dose.addingTimeInterval(-minutes(5))
+        let end = now.addingTimeInterval(minutes(10))
+        let map = TimelineTimeMap(
+            start: start, end: end, now: now,
+            slices: [.init(bottomTime: start, topTime: end, breakAbove: false, minimumHeight: 1_200)],
+            anchors: [dose, dose.addingTimeInterval(minutes(40))],
+            activeIntervals: [DateInterval(start: dose, end: curveEnd)],
+            pointsPerMinute: ppm, compressGaps: true,
+        )
+        #expect(map.totalHeight >= 1_200 - 0.5)
+        #expect(abs(map.height(from: dose, to: curveEnd) - 120 * ppm) < 0.5)
+        let first = map.height(from: dose, to: dose.addingTimeInterval(minutes(40)))
+        let second = map.height(from: dose.addingTimeInterval(minutes(40)), to: dose.addingTimeInterval(minutes(80)))
+        #expect(abs(first - second) < 0.5)
+    }
+
+    @Test
+    func `A slice active throughout grows evenly`() {
+        // Now lies an hour past the slice, so none of it is future time.
+        let dose = now.addingTimeInterval(-minutes(120))
+        let start = dose
+        let end = now
+        let map = TimelineTimeMap(
+            start: start, end: end, now: now.addingTimeInterval(minutes(60)),
+            slices: [.init(bottomTime: start, topTime: end, breakAbove: false, minimumHeight: 600)],
+            anchors: [dose.addingTimeInterval(minutes(30))],
+            activeIntervals: [DateInterval(start: start, end: end)],
+            pointsPerMinute: ppm, compressGaps: true,
+        )
+        #expect(abs(map.totalHeight - 600) < 0.5)
+        let short = map.height(from: dose, to: dose.addingTimeInterval(minutes(30)))
+        let long = map.height(from: dose.addingTimeInterval(minutes(30)), to: end)
+        #expect(abs(long - 3 * short) < 0.5)
+    }
 }

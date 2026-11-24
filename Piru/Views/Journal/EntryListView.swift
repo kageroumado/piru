@@ -376,6 +376,14 @@ struct EntryListView: View {
                 Task { headerFold.reset() }
             }
         }
+        .onChange(of: timelineModel.builtPreferences) { old, _ in
+            // A display option re-laid the strip and moved Now on it: open at
+            // Now again, as on first appearance.
+            guard old != nil, hasOpenedAtNow, grouping == .timeline, !isSearchSurface,
+                  TimelineOpeningTarget.split(timelineModel.days, viewportHeight: viewportHeight.value) != nil
+            else { return }
+            proxy.scrollTo(TimelineOpeningTarget.nowRowID, anchor: .top)
+        }
         .onChange(of: colorSignature) {
             Task {
                 await rebuildAll(animated: true)

@@ -155,6 +155,37 @@ struct JournalModelTests {
         #expect(rows.map(\.route) == [.insufflation, .oral])
     }
 
+    /// The app's own order: the derive regroups as soon as the visible prefix
+    /// is resolved, then once more under the same dose-log revision when it
+    /// finishes. An edit inside the prefix must show from that first regroup,
+    /// since the second has nothing new to bucket and skips.
+    @Test
+    func `An edit in the visible prefix shows from the derive's own regroup`() async throws {
+        let context = try makeContext()
+        let entries = try makeEntries(context)
+        let model = JournalModel()
+        model.refreshColorMap([])
+        let regroup = { (revision: Int) in
+            model.rebuildGroups(
+                entries: entries, grouping: .grouped, groupKey: .substance, searchText: "",
+                filterTags: [], filterCategories: [], filterRoutes: [],
+                stackRedoses: true, revision: revision,
+            )
+        }
+
+        await model.rebuildDerived(entries: entries, colors: []) { regroup(1) }
+        regroup(1)
+        #expect(model.substanceGroups.first?.rows.map(\.amountDisplay) == ["100", "100"])
+
+        entries[0].amount = 250
+        entries[0].route = .insufflation
+        await model.rebuildDerived(entries: entries, colors: []) { regroup(2) }
+        regroup(2)
+        let rows = try #require(model.substanceGroups.first?.rows)
+        #expect(rows.map(\.amountDisplay) == ["250", "100"])
+        #expect(rows.map(\.route) == [.insufflation, .oral])
+    }
+
     /// Choosing a skin re-creates the app's root, and the Journal with it. The
     /// new Journal starts from what the last one resolved, and owes a derive
     /// only when the log or the colors moved since, or the store is another.

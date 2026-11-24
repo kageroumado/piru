@@ -12,6 +12,10 @@ final class UnifiedTimelineModel {
     /// Key the current `days` were fully built from; partial (canceled)
     /// builds never set it, so they are redone on next appearance.
     private var builtKey: String?
+    /// The display options the finished `days` were laid out under. A change
+    /// moves Now on the strip (body-load curves hold the live edge open a day
+    /// ahead, effect curves a few hours), so the screens re-open at Now on it.
+    private(set) var builtPreferences: String?
 
     /// `cacheable` is true only for the unfiltered journal strip: the launch
     /// cache (``TimelineStripCache``) is keyed by the whole log, so a filtered
@@ -33,6 +37,14 @@ final class UnifiedTimelineModel {
         let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(TimelineDoseBubble.heightScale)"
         let key = "\(revision)|\(preferences)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
+        // The build reads `entries` across suspension points. A commit meanwhile
+        // (a wipe, a restore) can delete them underneath it, and a deleted
+        // dose's fields trap on read once the deletion is saved: past any
+        // await, a moved log revision ends the build, and a newer one follows.
+        let logRevision = DoseLogService.shared.revision
+        func logMoved() -> Bool {
+            Task.isCancelled || DoseLogService.shared.revision != logRevision
+        }
         let now = DebugClock.now
         let cacheKey = TimelineStripCache.key(
             storeGeneration: DoseLogService.storeGeneration,
@@ -42,15 +54,16 @@ final class UnifiedTimelineModel {
             now: now,
         )
         await SubstanceStore.shared.ensureAllLoaded()
-        guard !Task.isCancelled else { return }
+        guard !logMoved() else { return }
         let sessions = Self.sessionsByID(of: entries)
 
         let heartRate = showsAxis && HealthKitVitals.shared.isOn(overlay: showsVitals) ? await Self.recentHeartRate(entries: entries) : []
-        guard !Task.isCancelled else { return }
+        guard !logMoved() else { return }
         // The per-dose work (catalog, bubbles, days, sessions), in yielding
         // chunks: one pass over a multi-year log is too long to hold the main
         // actor for.
-        guard let resolved = await TimelineStripBuilder.resolve(entries, colors: colors, colorMap: colorMap, sessions: sessions) else { return }
+        guard let resolved = await TimelineStripBuilder.resolve(entries, colors: colors, colorMap: colorMap, sessions: sessions),
+              !logMoved() else { return }
 
         guard var builder = TimelineStripBuilder(
             entries: entries,
@@ -90,11 +103,12 @@ final class UnifiedTimelineModel {
                 let frontier = built[built.count - 1].date
                 days = built + previous.filter { $0.date < frontier }
                 await Task.yield()
-                guard !Task.isCancelled else { return }
+                guard !logMoved() else { return }
             }
         }
         days = built
         builtKey = key
+        builtPreferences = preferences
         if cacheable {
             TimelineStripCache.save(built, key: cacheKey, now: now)
         }
@@ -132,6 +146,7 @@ final class UnifiedTimelineModel {
         guard let cached = await TimelineStripCache.load(matching: cacheKey, now: now), !Task.isCancelled else { return false }
         days = cached
         builtKey = "\(revision)|\(preferences)|\(identity.entryCount)"
+        builtPreferences = preferences
         return true
     }
 

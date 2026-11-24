@@ -9,8 +9,8 @@ import SwiftUI
 ///
 /// The scale is uniform (points per minute, adjustable by zoom); only
 /// doseless stretches are compressed, capped so an empty night costs a
-/// bounded strip — and the compression is visible as hour ticks bunching
-/// together, not as a symbol. Compression can be turned off entirely for a
+/// bounded strip — and each compressed stretch breaks the axis, its hours
+/// left unlabeled. Compression can be turned off entirely for a
 /// stable 1:1 scale.
 ///
 /// The strip shows absolute time labels on the left (hour ruler + per-dose
@@ -105,6 +105,12 @@ struct UnifiedTimelineView: View {
                 if let target = TimelineOpeningTarget.resolve(model.days, viewportHeight: viewportHeight.value) {
                     proxy.scrollTo(target.id, anchor: target.anchor)
                 }
+            }
+            .onChange(of: model.builtPreferences) { old, _ in
+                guard old != nil, hasOpenedAtNow,
+                      let target = TimelineOpeningTarget.resolve(model.days, viewportHeight: viewportHeight.value)
+                else { return }
+                proxy.scrollTo(target.id, anchor: target.anchor)
             }
             .task(id: rebuildKey) {
                 // The launch cache first, as the Journal's strip does: a hit

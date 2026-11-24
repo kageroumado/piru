@@ -1,9 +1,11 @@
+import SwiftData
 import SwiftUI
 
 /// Model-derived clearance status for a journal row.
 enum BodyLoadStatus {
     /// Still circulating: "26% eliminated in model · threshold ~5 AM", with "33 / 110 mg" as the trailing readout.
-    case eliminating(percent: Int, clear: String, remaining: Double)
+    /// `clear` is nil when a scheduled dose comes first, so the date is not when the substance leaves.
+    case eliminating(percent: Int, clear: String?, remaining: Double)
     /// Below the model's display threshold; active metabolites may persist.
     case cleared(hasActiveMetabolite: Bool = false)
     /// Insufficient half-life information to estimate clearance.
@@ -32,9 +34,10 @@ struct SessionBodyLoadModel {
         /// of the readout can never be in different units.
         let remaining: Double
         /// When the summed curve drops below the clear threshold
-        /// (``SessionBodyLoadModel/clearText(for:)``), scanned once when the
-        /// model is built rather than on every row render.
-        let clearText: String
+        /// (``SessionBodyLoadModel/clearText(for:meds:)``), scanned once when the
+        /// model is built rather than on every row render. `nil` when My Meds
+        /// schedules another dose of the substance before then.
+        let clearText: String?
 
         var id: String {
             "\(active.name)|\(unit)"
@@ -143,6 +146,7 @@ struct SessionBodyLoadModel {
             return PKResolver.halfLifeMinutes(substance: substance) != nil
         }
 
+        let scheduled = scheduledMeds(in: entries.first?.modelContext)
         var model = SessionBodyLoadModel()
         var covered = Set<GroupKey>()
         for active in ActiveSubstanceCalculator.compute(from: entries, colorMap: colorMap) {
@@ -175,7 +179,7 @@ struct SessionBodyLoadModel {
                     sessionTotal: group?.total ?? active.totalDosed,
                     unit: unit,
                     remaining: remaining,
-                    clearText: clearText(for: active),
+                    clearText: clearText(for: active, meds: scheduled[active.name.lowercased()] ?? []),
                 ))
             }
         }
@@ -207,14 +211,43 @@ struct SessionBodyLoadModel {
     private static let clearedThreshold = 0.95
 
     /// Clock/weekday time the summed multi-dose curve drops to ~3% of the total
-    /// dosed — a forward scan matching the curve's superposition math.
-    private static func clearText(for active: ActiveSubstance) -> String {
+    /// dosed — a forward scan matching the curve's superposition math. `nil`
+    /// when one of `meds` is due before then: the projection covers only the
+    /// doses logged so far, so for a regimen it is not when the substance leaves.
+    private static func clearText(for active: ActiveSubstance, meds: [DailyDoseItem]) -> String? {
         let ke = PKModel.ke(fromHalfLifeMinutes: active.halfLifeMinutes)
         let ka = PKResolver.ka(forSubstance: active.name, ke: ke)
         guard let clear = projectedDate(remainingFraction: 0.03, active: active, ke: ke, ka: ka) else {
             return String(localized: "soon")
         }
+        if scheduledDose(of: meds, before: clear, now: .now) { return nil }
         return milestoneText(clear)
+    }
+
+    /// My Meds' scheduled (not as-needed) items, keyed by lowercased canonical
+    /// substance name, the calculator's own keying.
+    @MainActor
+    private static func scheduledMeds(in context: ModelContext?) -> [String: [DailyDoseItem]] {
+        guard let context, let items = try? context.fetch(FetchDescriptor<DailyDoseItem>()) else { return [:] }
+        return Dictionary(grouping: items.filter { !$0.isAsNeeded }) { item in
+            (SubstanceLibrary.lookup(item.substance)?.name ?? item.substance).lowercased()
+        }
+    }
+
+    /// Whether one of `meds` is due after today and before `date`, at its
+    /// earliest reminder time on a due day (the day's start when it has none).
+    /// Today is left out: its dose is most often the one already logged.
+    static func scheduledDose(of meds: [DailyDoseItem], before date: Date, now: Date, calendar: Calendar = .current) -> Bool {
+        guard !meds.isEmpty, var day = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: now)) else { return false }
+        while day < date {
+            for med in meds where AdherenceCalculator.isDue(med, on: day) {
+                let minutes = med.reminderTimesMinutes.min() ?? 0
+                if day.addingTimeInterval(Double(minutes) * 60) < date { return true }
+            }
+            guard let next = calendar.date(byAdding: .day, value: 1, to: day) else { break }
+            day = next
+        }
+        return false
     }
 
     private static func projectedDate(remainingFraction target: Double, active: ActiveSubstance, ke: Double, ka: Double) -> Date? {

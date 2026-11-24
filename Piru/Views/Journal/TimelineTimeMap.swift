@@ -13,8 +13,8 @@ import Foundation
 ///   keeps the uniform scale. Compression squeezes only dead time, never the
 ///   inside of an event's curve.
 /// - **Dead time** in the past is capped per segment (`gapCap`), so an empty
-///   night costs a bounded strip; the hour ticks bunching together is the
-///   compression cue.
+///   night costs a bounded strip. Each squeezed run is reported in
+///   ``compressedRuns``, and the strip breaks its axis there.
 /// - **Skipped whole days** between two dosed days collapse to one fixed
 ///   ``breakHeight`` run that draws no axis — a visible break, not a ruler.
 ///
@@ -39,6 +39,11 @@ nonisolated struct TimelineTimeMap {
     let times: [Date]
     /// Cumulative height at each breakpoint; `ys[0] == 0`.
     let ys: [CGFloat]
+
+    /// Dead-time runs drawn shorter than the uniform scale, merged where they
+    /// touch. The strip marks each with a break on its axis, so a squeezed
+    /// stretch never reads as a short one.
+    let compressedRuns: [DateInterval]
 
     var totalHeight: CGFloat {
         ys.last ?? 0
@@ -125,12 +130,16 @@ nonisolated struct TimelineTimeMap {
 
         var heights: [CGFloat] = []
         heights.reserveCapacity(max(times.count - 1, 0))
+        var compressed: [DateInterval] = []
+        var kinds: [SegmentKind] = []
+        kinds.reserveCapacity(max(times.count - 1, 0))
         var activeIndex = 0
         for i in 0 ..< max(times.count - 1, 0) {
             let segmentStart = times[i]
             let segmentEnd = times[i + 1]
             if breakStarts.contains(segmentStart) {
                 heights.append(Self.breakHeight)
+                kinds.append(.skippedDays)
                 continue
             }
             let minutes = CGFloat(segmentEnd.timeIntervalSince(segmentStart) / 60)
@@ -140,11 +149,18 @@ nonisolated struct TimelineTimeMap {
                 activeIndex += 1
             }
             let isActive = activeIndex < active.count && active[activeIndex].start < segmentEnd
+            kinds.append(isActive ? .active : .empty)
             // Active time keeps the uniform scale on both sides of now: a cap
             // inside a running curve would shear its decay flat at the Now line.
             if isActive {
                 heights.append(max(minutes * ppm, Self.pastMinimumHeight))
-            } else if segmentStart >= now {
+                continue
+            }
+            let cap = segmentStart >= now ? futureCap : gapCap
+            if minutes * ppm > cap {
+                compressed.append(DateInterval(start: segmentStart, end: segmentEnd))
+            }
+            if segmentStart >= now {
                 heights.append(max(min(minutes * ppm, futureCap), Self.liveEdgeMinimumHeight))
             } else {
                 heights.append(max(min(minutes * ppm, gapCap), Self.pastMinimumHeight))
@@ -160,16 +176,26 @@ nonisolated struct TimelineTimeMap {
             }
         }
 
-        // Slice floors: stretch the largest segment inside an undersized
-        // slice so its cards fit without spilling into the next day.
+        // Slice floors: an undersized slice grows until its cards fit without
+        // spilling into the next day. The room goes to its largest empty
+        // segment, so active time keeps the uniform scale; a slice active
+        // throughout grows evenly, which keeps its curves in proportion.
         for slice in slices {
             let lo = Self.firstIndex(in: times) { $0 >= slice.bottomTime }
             let hi = Self.firstIndex(in: times) { $0 > slice.topTime } - 1
             guard lo < times.count, hi > lo else { continue }
             let sliceHeight = heights[lo ..< hi].reduce(0, +)
-            if sliceHeight < slice.minimumHeight,
-               let biggest = (lo ..< hi).max(by: { heights[$0] < heights[$1] }) {
-                heights[biggest] += slice.minimumHeight - sliceHeight
+            guard sliceHeight < slice.minimumHeight else { continue }
+            let deficit = slice.minimumHeight - sliceHeight
+            if let emptiest = (lo ..< hi).filter({ kinds[$0] == .empty }).max(by: { heights[$0] < heights[$1] }) {
+                heights[emptiest] += deficit
+            } else {
+                let active = (lo ..< hi).filter { kinds[$0] == .active }
+                let activeHeight = active.reduce(0) { $0 + heights[$1] }
+                guard activeHeight > 0 else { continue }
+                for i in active {
+                    heights[i] += deficit * heights[i] / activeHeight
+                }
             }
         }
 
@@ -180,6 +206,7 @@ nonisolated struct TimelineTimeMap {
         }
         self.times = times
         self.ys = ys
+        compressedRuns = Self.merged(compressed)
     }
 
     /// Height between two moments on the strip (`from` older than `to`).
@@ -221,6 +248,13 @@ nonisolated struct TimelineTimeMap {
             if isAtOrPast(times[mid]) { high = mid } else { low = mid + 1 }
         }
         return low
+    }
+
+    /// What a segment between two breakpoints holds.
+    private enum SegmentKind {
+        case active
+        case empty
+        case skippedDays
     }
 
     /// Sorted, disjoint union of `intervals`.

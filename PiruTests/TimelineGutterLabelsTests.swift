@@ -22,25 +22,55 @@ struct TimelineGutterLabelsTests {
         #expect(!a.collides(with: b))
     }
 
-    // MARK: - Dose capsules vs Now
+    // MARK: - Dose capsules vs Now and each other
 
     @Test
-    func `Without a Now tag every dose capsule draws`() {
-        let visible = TimelineGutterLabels.doseLabelsVisible(doseYs: [20, 21, 22], nowY: nil)
-        #expect(visible == [true, true, true])
+    func `Capsules clear of each other and of Now sit at their doses`() {
+        let centers = TimelineGutterLabels.doseLabelCenters(doseYs: [100, 140, 200], nowY: 40)
+        #expect(centers == [100, 140, 200])
     }
 
     @Test
-    func `A dose capsule on the Now tag yields to it`() {
-        let visible = TimelineGutterLabels.doseLabelsVisible(doseYs: [40, 44, 120], nowY: 40)
-        #expect(visible == [false, false, true])
+    func `A capsule on the newer one is stacked just under it`() {
+        // 22 pt capsules with a 2 pt gap: the second sits 24 pt under the first.
+        let centers = TimelineGutterLabels.doseLabelCenters(doseYs: [100, 115], nowY: nil)
+        #expect(centers == [100, 124])
     }
 
     @Test
-    func `A dose capsule just clear of the Now tag survives`() {
-        // Capsule 22/2 + Now 22/2 = 22, plus the 6 pt gap → 28 pt is the first clear spacing.
-        let visible = TimelineGutterLabels.doseLabelsVisible(doseYs: [68, 67], nowY: 40)
-        #expect(visible == [true, false])
+    func `A capsule too far from its dot once stacked is left off and takes no room`() {
+        // 104 → pushed to 124 is 20 pt off its dot, past the 11 pt limit; the
+        // next one stacks under the first, not the dropped one.
+        let centers = TimelineGutterLabels.doseLabelCenters(doseYs: [100, 104, 120], nowY: nil)
+        #expect(centers[0] == 100)
+        #expect(centers[1] == nil)
+        #expect(centers[2] == 124)
+    }
+
+    @Test
+    func `The newest dose under Now is pushed clear of the Now tag rather than hidden`() {
+        // Now's frame ends at 51; with the 6 pt gap a capsule starts at 57 → center 68.
+        let centers = TimelineGutterLabels.doseLabelCenters(doseYs: [60, 200], nowY: 40)
+        #expect(centers == [68, 200])
+    }
+
+    @Test
+    func `A dose on the Now tag is left off`() {
+        let centers = TimelineGutterLabels.doseLabelCenters(doseYs: [40, 44, 120], nowY: 40)
+        #expect(centers == [nil, nil, 120])
+    }
+
+    @Test
+    func `No two drawn capsules overlap`() {
+        let doseYs: [CGFloat] = [60, 75, 89, 110, 131, 152, 180, 181, 230]
+        let drawn = TimelineGutterLabels.doseLabelCenters(doseYs: doseYs, nowY: 40).compactMap(\.self)
+        for (a, b) in zip(drawn, drawn.dropFirst()) {
+            #expect(b - a >= TimelineGutterLabels.doseLabelHeight + TimelineGutterLabels.doseStackGap)
+        }
+        for (y, center) in zip(doseYs, TimelineGutterLabels.doseLabelCenters(doseYs: doseYs, nowY: 40)) {
+            guard let center else { continue }
+            #expect(center - y >= 0 && center - y <= TimelineGutterLabels.maximumDoseLabelDrift)
+        }
     }
 
     @Test

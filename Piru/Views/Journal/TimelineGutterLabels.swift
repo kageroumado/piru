@@ -43,12 +43,36 @@ nonisolated enum TimelineGutterLabels {
         }
     }
 
-    /// Which dose capsules draw, aligned with `doseYs`: a capsule whose frame
-    /// touches the Now tag yields to it.
-    static func doseLabelsVisible(doseYs: [CGFloat], nowY: CGFloat?) -> [Bool] {
-        guard let nowY else { return doseYs.map { _ in true } }
-        let now = Frame(center: nowY, height: nowLabelHeight)
-        return doseYs.map { !Frame(center: $0, height: doseLabelHeight).collides(with: now) }
+    /// Clear space between two stacked dose capsules.
+    static let doseStackGap: CGFloat = 2
+    /// How far below its dose a capsule may be pushed: half its height, so the
+    /// dot on the axis still lies within the capsule's extent.
+    static let maximumDoseLabelDrift: CGFloat = doseLabelHeight / 2
+
+    /// Where each dose capsule's center goes, aligned with `doseYs` (ascending,
+    /// newest first), or `nil` for a capsule left off. Capsules are stacked
+    /// newest first: a capsule that would overlap the one above it, or the Now
+    /// tag, is pushed down until clear, by at most ``maximumDoseLabelDrift``;
+    /// past that it is left off and takes no room. A capsule above Now (a dose
+    /// logged ahead) that touches the Now tag yields to it.
+    static func doseLabelCenters(doseYs: [CGFloat], nowY: CGFloat?) -> [CGFloat?] {
+        let half = doseLabelHeight / 2
+        var lowestBottom = -CGFloat.infinity
+        var passedNow = false
+        let now = nowY.map { Frame(center: $0, height: nowLabelHeight) }
+        return doseYs.map { y in
+            if let now, let nowY, y >= nowY, !passedNow {
+                passedNow = true
+                lowestBottom = max(lowestBottom, now.maxY + gap - doseStackGap)
+            }
+            let center = max(y, lowestBottom + doseStackGap + half)
+            guard center - y <= maximumDoseLabelDrift else { return nil }
+            if let now, let nowY, y < nowY, Frame(center: center, height: doseLabelHeight).collides(with: now) {
+                return nil
+            }
+            lowestBottom = center + half
+            return center
+        }
     }
 
     /// Whether an hour label at `y` is clear of every visible dose capsule,

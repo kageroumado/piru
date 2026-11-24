@@ -71,7 +71,9 @@ struct TimelineGraphRenderer {
 
     /// Vertical space the vitals lane consumes below the effect curves, or 0.
     var vitalsBandTotal: CGFloat {
-        vitalsBandActive ? GraphMetrics.vitalsBandTotal(enlarged: vitalsBandEnlarged) : 0
+        vitalsBandActive
+            ? GraphMetrics.vitalsBandTotal(enlarged: vitalsBandEnlarged, bloodPressure: vitals?.hasBloodPressure == true)
+            : 0
     }
 
     /// Whether the Shulgin-rating lane is drawn — the full graph only, and only
@@ -221,7 +223,7 @@ struct TimelineGraphRenderer {
                 guard let first = group.first else { continue }
                 let (gStart, gEnd) = stackedGroupRange(group)
                 guard global >= gStart, global <= gEnd else { continue }
-                let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group) * yNorm))
+                let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group) * yNorm * stackedAmplitudeFactor(group)))
                 guard v > 0.01 else { continue }
                 out.append(ScrubSample(id: gi, name: first.substanceName, color: first.tint.color, value: v, phase: scrubPhaseName(elapsed: global - gStart, for: first)))
             }
@@ -1369,6 +1371,23 @@ struct TimelineGraphRenderer {
         TimelineCurveModel.stackedGroupRange(group, earliestDose: derived.earliestDose)
     }
 
+    /// What ``drawStackedCurves(context:visibleStart:visibleSpan:graphWidth:graphHeight:graphInset:graphTop:)``
+    /// scales `group`'s sampled curve by: its peak compressed the way a lone
+    /// curve's is. The scrub dots and the milestones read heights through it, so
+    /// they sit on the line as drawn.
+    private func stackedAmplitudeFactor(_ group: [ActiveSubstanceState]) -> Double {
+        let (gStart, gEnd) = stackedGroupRange(group)
+        let span = gEnd - gStart
+        guard span > 0 else { return 1 }
+        let steps = compact ? 60 : 200
+        var peak = 0.0
+        for i in 0 ... steps {
+            let t = gStart + Double(i) / Double(steps) * span
+            peak = max(peak, stackedIntensity(atGlobalMinutes: t, group: group) * yNormalization)
+        }
+        return peak > 0 ? TimelineCurveModel.compressedAmplitude(peak) / peak : 1
+    }
+
     private func drawStackedCurves(
         context: GraphicsContext,
         visibleStart: Double,
@@ -1622,12 +1641,30 @@ struct TimelineGraphRenderer {
     /// Lane colors (shared with the entry-row chips via ``VitalsPalette``).
     private static let hrColor = VitalsPalette.heart
     private static let bpColor = VitalsPalette.bloodPressure
-    /// bpm guide spacings, finest first; the lane uses the first one whose lines
-    /// sit at least ``bpmGuideMinSpacing`` apart.
-    private static let bpmGuideSteps: [Double] = [20, 40, 50, 100]
-    private static let bpmGuideMinSpacing: CGFloat = 14
+    /// bpm guide spacings, finest first; ``bpmGuides(axis:plotHeight:)`` takes the
+    /// finest whose lines sit at least ``bpmGuideMinSpacing`` apart.
+    nonisolated static let bpmGuideSteps: [Double] = [10, 20, 25, 50, 100]
+    nonisolated static let bpmGuideMinSpacing: CGFloat = 12
     /// Clear space kept on each side of a drawn blood-pressure label.
     private static let bpLabelGap: CGFloat = 6
+
+    /// The bpm values the heart-rate lane labels: every multiple of the finest step
+    /// in ``bpmGuideSteps`` that keeps neighbors ``bpmGuideMinSpacing`` apart on a
+    /// plot `plotHeight` tall, from the axis floor to its top. Round values on one
+    /// ladder, so sessions with similar rates carry the same ticks.
+    nonisolated static func bpmGuides(axis: ClosedRange<Double>, plotHeight: CGFloat) -> [Double] {
+        let span = axis.upperBound - axis.lowerBound
+        guard span > 0, plotHeight > 0 else { return [] }
+        let step = bpmGuideSteps.first { CGFloat($0 / span) * plotHeight >= bpmGuideMinSpacing }
+            ?? bpmGuideSteps[bpmGuideSteps.count - 1]
+        var guides: [Double] = []
+        var value = (axis.lowerBound / step).rounded(.up) * step
+        while value <= axis.upperBound {
+            guides.append(value)
+            value += step
+        }
+        return guides
+    }
 
     /// A lane's caption, in the row above the lane: lowercased, since it reads
     /// as an axis caption rather than a title.
@@ -1728,51 +1765,41 @@ struct TimelineGraphRenderer {
         let bandTop = vitalsBandTop(graphTop: graphTop, graphHeight: graphHeight)
         let rect = CGRect(x: graphInset, y: bandTop, width: graphWidth, height: vitalsBandHeight)
         context.fill(Path(roundedRect: rect, cornerRadius: 9), with: .color(Self.hrColor.opacity(0.06)))
+        if vitals?.hasBloodPressure == true {
+            let row = Self.bloodPressureRowRect(band: rect)
+            context.fill(Path(roundedRect: row, cornerRadius: 6), with: .color(Self.bpColor.opacity(0.06)))
+        }
     }
 
-    /// Where a blood-pressure reading's label goes: beside its bar's upper cap,
-    /// else beside its lower cap, right of the bar before left of it. The first
-    /// spot that stays inside `band` and clear of the heart-rate `lines` and of
-    /// everything in `taken` wins; nil when none is clear, and the bar stands
+    /// The blood-pressure row under the heart-rate band `band`.
+    nonisolated static func bloodPressureRowRect(band: CGRect) -> CGRect {
+        CGRect(
+            x: band.minX, y: band.maxY + GraphMetrics.bloodPressureRowGap,
+            width: band.width, height: GraphMetrics.bloodPressureRow,
+        )
+    }
+
+    /// Where a blood-pressure reading's label goes in its row: right of its marker,
+    /// else left of it. The first side that stays inside `row` and clear of
+    /// everything in `taken` wins; nil when neither is, and the marker stands
     /// unlabeled.
     nonisolated static func bloodPressureLabelFrame(
-        barX: CGFloat, systolicY: CGFloat, diastolicY: CGFloat, labelSize: CGSize,
-        band: CGRect, lines: [[CGPoint]], taken: [CGRect],
+        markerX: CGFloat, labelSize: CGSize, row: CGRect, taken: [CGRect],
     ) -> CGRect? {
-        let rows = [systolicY - 2 - labelSize.height / 2, diastolicY + 2 + labelSize.height / 2]
-        let origins = [barX + 4, barX - 4 - labelSize.width]
-        for centerY in rows {
-            for originX in origins {
-                let frame = CGRect(x: originX, y: centerY - labelSize.height / 2, width: labelSize.width, height: labelSize.height)
-                guard band.contains(frame) else { continue }
-                if taken.contains(where: { $0.intersects(frame) }) { continue }
-                if lines.contains(where: { polyline($0, crosses: frame.insetBy(dx: -1, dy: -1)) }) { continue }
-                return frame
-            }
+        let originY = row.midY - labelSize.height / 2
+        for originX in [markerX + 5, markerX - 5 - labelSize.width] {
+            let frame = CGRect(x: originX, y: originY, width: labelSize.width, height: labelSize.height)
+            guard row.contains(frame), !taken.contains(where: { $0.intersects(frame) }) else { continue }
+            return frame
         }
         return nil
     }
 
-    /// Whether the polyline through `points` passes through `rect`.
-    nonisolated static func polyline(_ points: [CGPoint], crosses rect: CGRect) -> Bool {
-        guard let first = points.first else { return false }
-        if rect.contains(first) { return true }
-        for (a, b) in zip(points, points.dropFirst()) {
-            guard max(a.x, b.x) >= rect.minX, min(a.x, b.x) <= rect.maxX else { continue }
-            let length = hypot(b.x - a.x, b.y - a.y)
-            let steps = max(1, Int(length / 1.5))
-            for step in 1 ... steps {
-                let t = CGFloat(step) / CGFloat(steps)
-                if rect.contains(CGPoint(x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t)) { return true }
-            }
-        }
-        return false
-    }
-
-    /// The companion cardio lane: HR as a min–max envelope + mean line on a bpm
-    /// scale, BP as systolic→diastolic range bars on their own mmHg scale, plus a
-    /// caption row above it and the HR dot. Shares the effect graph's time axis, so
-    /// it pans / zooms / scrubs in lockstep; both scales span the whole session.
+    /// The companion cardio lane: HR as a min–max envelope + mean line on a
+    /// labeled bpm scale, and under it a row of blood-pressure readings as labeled
+    /// markers at their times, on no vertical scale. Shares the effect graph's time
+    /// axis, so it pans / zooms / scrubs in lockstep; the bpm scale spans the whole
+    /// session.
     private func drawVitalsLane(
         context: GraphicsContext, size: CGSize, vitals: SessionVitals,
         visibleStart: Double, visibleSpan: Double,
@@ -1789,18 +1816,17 @@ struct TimelineGraphRenderer {
             graphInset + CGFloat((minute - visibleStart) / visibleSpan) * graphWidth
         }
 
-        // Captions in the row above the band, each by its own axis: heart rate
-        // left (bpm), blood pressure right (mmHg), in the color of what they name.
+        // The heart-rate caption in the row above the band, in the color of the line.
         let captionY = Self.laneCaptionCenterY(bandTop: bandTop)
         let hrCaption = context.resolve(
             Text(verbatim: String(localized: "Heart rate").lowercased()).font(Self.laneCaptionFont).foregroundStyle(Self.hrColor),
         )
         context.draw(hrCaption, at: CGPoint(x: graphInset + 2, y: captionY), anchor: .leading)
         if vitals.hasBloodPressure {
-            let bpCaption = context.resolve(
-                Text(verbatim: String(localized: "Blood pressure").lowercased()).font(Self.laneCaptionFont).foregroundStyle(Self.bpColor),
+            drawBloodPressureRow(
+                context: context, size: size, readings: vitals.bloodPressure,
+                row: Self.bloodPressureRowRect(band: band), x: { x($0.timeIntervalSince(earliest) / 60) },
             )
-            context.draw(bpCaption, at: CGPoint(x: graphInset + graphWidth - 2, y: captionY), anchor: .trailing)
         }
 
         // Heart rate comes pre-bucketed in absolute time (see ``HeartRateTrace``):
@@ -1820,52 +1846,32 @@ struct TimelineGraphRenderer {
             plotTop + (1 - CGFloat((bpm - lo) / (hi - lo))) * plotH
         }
 
-        // Blood pressure — systolic→diastolic range bars on their own mmHg scale,
-        // fitted to every reading rather than the visible ones, so the bars hold
-        // still while the graph pans just as the heart-rate axis does.
-        let bp = vitals.bloodPressure.filter {
-            let m = $0.date.timeIntervalSince(earliest) / 60
-            return m >= visibleStart && m <= visEnd
-        }
-        var bpLo = ((vitals.bloodPressure.map(\.diastolic).min() ?? 60) / 10).rounded(.down) * 10 - 10
-        var bpHi = ((vitals.bloodPressure.map(\.systolic).max() ?? 130) / 10).rounded(.up) * 10 + 10
-        if bpHi - bpLo < 30 { bpHi = bpLo + 30 }
-        bpLo = max(0, bpLo)
-        func yBP(_ v: Double) -> CGFloat {
-            plotTop + (1 - CGFloat((min(bpHi, max(bpLo, v)) - bpLo) / (bpHi - bpLo))) * plotH
-        }
-        let bars = bp.map { reading in
-            (x: x(reading.date.timeIntervalSince(earliest) / 60), ys: yBP(reading.systolic), yd: yBP(reading.diastolic))
-        }
-        let barFrames = bars.map { CGRect(x: $0.x - 3, y: $0.ys - 1, width: 6, height: $0.yd - $0.ys + 2) }
-
-        // bpm guide lines, each labeled at the left inset so the lane reads as a
-        // bpm axis without a scrub. The axis spans the whole series, so a wide range
-        // in this short lane would stack labels on top of each other: the step widens
-        // until labels clear one another. A label that would leave the band or sit
-        // under a blood-pressure bar keeps its line but drops its number.
-        let guideStep = Self.bpmGuideSteps.first { CGFloat($0 / (hi - lo)) * plotH >= Self.bpmGuideMinSpacing }
-            ?? Self.bpmGuideSteps.last!
-        var guideBpm = (lo / guideStep).rounded(.down) * guideStep
-        if guideBpm <= lo { guideBpm += guideStep }
-        let guideFont = Font.system(size: 7, weight: .medium, design: .rounded).monospacedDigit()
+        // bpm guide lines on round values, each labeled at the left inset and
+        // centered on its line; the top one carries the unit. The heart-rate line
+        // breaks around the labels, so no number is struck through.
+        let guideFont = Font.system(size: 8, weight: .medium, design: .rounded).monospacedDigit()
+        let guides = Self.bpmGuides(axis: axis, plotHeight: plotH)
         var guideLabelFrames: [CGRect] = []
-        while guideBpm < hi {
-            let gy = yH(guideBpm)
-            var line = Path()
-            line.move(to: CGPoint(x: graphInset, y: gy))
-            line.addLine(to: CGPoint(x: graphInset + graphWidth, y: gy))
-            context.stroke(line, with: .color(.secondary.opacity(0.18)), style: StrokeStyle(lineWidth: 0.5, dash: [1, 4]))
+        for guide in guides {
+            let gy = yH(guide)
+            let text = guide == guides.last ? String(localized: "\(Int(guide)) bpm") : "\(Int(guide))"
             let tick = context.resolve(
-                Text(verbatim: "\(Int(guideBpm))").font(guideFont).foregroundStyle(Self.hrColor.legibleOpacity(0.75)),
+                Text(verbatim: text).font(guideFont).foregroundStyle(Self.hrColor.legibleOpacity(0.8)),
             )
             let tickSize = tick.measure(in: size)
-            let tickFrame = CGRect(x: graphInset + 2, y: gy - 1 - tickSize.height, width: tickSize.width, height: tickSize.height)
-            if tickFrame.minY >= bandTop, !barFrames.contains(where: { $0.insetBy(dx: -2, dy: 0).intersects(tickFrame) }) {
-                context.draw(tick, in: tickFrame)
-                guideLabelFrames.append(tickFrame)
-            }
-            guideBpm += guideStep
+            let tickY = min(max(gy - tickSize.height / 2, bandTop + 1), band.maxY - 1 - tickSize.height)
+            let tickFrame = CGRect(x: graphInset + 3, y: tickY, width: tickSize.width, height: tickSize.height)
+            var line = Path()
+            line.move(to: CGPoint(x: tickFrame.maxX + 3, y: gy))
+            line.addLine(to: CGPoint(x: graphInset + graphWidth, y: gy))
+            context.stroke(line, with: .color(.secondary.opacity(0.18)), style: StrokeStyle(lineWidth: 0.5, dash: [1, 4]))
+            context.draw(tick, in: tickFrame)
+            guideLabelFrames.append(tickFrame)
+        }
+        var traceContext = context
+        for frame in guideLabelFrames {
+            let clear = CGRect(x: graphInset - 2, y: frame.minY - 1, width: frame.maxX + 2 - (graphInset - 2), height: frame.height + 2)
+            traceContext.clip(to: Path(clear), options: .inverse)
         }
 
         // Each run: the min–max envelope, then the mean as the monotone cubic the
@@ -1874,7 +1880,6 @@ struct TimelineGraphRenderer {
         // plot column rather than stopping short of its edge).
         let visibleStartTime = earliestTime + visibleStart * 60
         let visibleEndTime = earliestTime + visEnd * 60
-        var meanLines: [[CGPoint]] = []
         for run in level.runs {
             guard let first = run.first, let last = run.last,
                   last.time >= visibleStartTime - level.bucket,
@@ -1899,7 +1904,7 @@ struct TimelineGraphRenderer {
                 envelope.addLine(to: CGPoint(x: xTime(point.time), y: yH(point.low)))
             }
             envelope.closeSubpath()
-            context.fill(envelope, with: .color(Self.hrColor.opacity(0.16)))
+            traceContext.fill(envelope, with: .color(Self.hrColor.opacity(0.16)))
 
             var mean = Path()
             mean.move(to: CGPoint(x: xTime(run[lower].time), y: yH(run[lower].mean)))
@@ -1912,41 +1917,7 @@ struct TimelineGraphRenderer {
                     control2: CGPoint(x: xTime(b.time - third), y: yH(b.mean - b.slope * third)),
                 )
             }
-            context.stroke(mean, with: .color(Self.hrColor), style: StrokeStyle(lineWidth: 1.6, lineCap: .round, lineJoin: .round))
-            // The polyline through the samples stands in for the stroke when
-            // placing labels.
-            meanLines.append(slice.map { CGPoint(x: xTime($0.time), y: yH($0.mean)) })
-        }
-
-        // Every reading keeps its bar — the marks are the data. A label goes
-        // where it is clear of the heart-rate line, the bpm numbers, the other
-        // bars and the labels already placed, or is left off. The newest reading
-        // is placed first: it is the one being asked about.
-        for bar in bars {
-            var path = Path()
-            path.move(to: CGPoint(x: bar.x, y: bar.ys))
-            path.addLine(to: CGPoint(x: bar.x, y: bar.yd))
-            for cy in [bar.ys, bar.yd] {
-                path.move(to: CGPoint(x: bar.x - 2.5, y: cy))
-                path.addLine(to: CGPoint(x: bar.x + 2.5, y: cy))
-            }
-            context.stroke(path, with: .color(Self.bpColor), lineWidth: 1.4)
-        }
-        var taken = guideLabelFrames + barFrames
-        for index in bp.indices.reversed() {
-            let reading = bp[index], bar = bars[index]
-            let resolved = context.resolve(
-                Text(verbatim: "\(Int(reading.systolic))/\(Int(reading.diastolic))")
-                    .font(.system(size: 8, weight: .semibold, design: .rounded))
-                    .foregroundStyle(Self.bpColor),
-            )
-            let labelSize = resolved.measure(in: size)
-            guard let frame = Self.bloodPressureLabelFrame(
-                barX: bar.x, systolicY: bar.ys, diastolicY: bar.yd, labelSize: labelSize,
-                band: band, lines: meanLines, taken: taken.filter { $0 != barFrames[index] },
-            ) else { continue }
-            context.draw(resolved, in: frame)
-            taken.append(frame.insetBy(dx: -Self.bpLabelGap, dy: 0))
+            traceContext.stroke(mean, with: .color(Self.hrColor), style: StrokeStyle(lineWidth: 1.6, lineCap: .round, lineJoin: .round))
         }
 
         // The HR dot. While scrubbing it sits on the stroked curve under the rule
@@ -1968,6 +1939,53 @@ struct TimelineGraphRenderer {
             let dot = CGRect(x: cx - 3, y: cy - 3, width: 6, height: 6)
             context.fill(Path(ellipseIn: dot), with: .color(Self.hrColor))
             context.stroke(Path(ellipseIn: dot), with: .color(.white.opacity(0.9)), lineWidth: 1)
+        }
+    }
+
+    /// The blood-pressure row: each reading as a marker at its time with its
+    /// "129/83 mmHg" label beside it, and the row's caption at the trailing edge
+    /// where no marker sits (else the leading edge, else none: the labels carry the
+    /// unit). Every marker is drawn; a label that would overlap the caption, another
+    /// marker or a placed label is left off, the newest reading placed first.
+    private func drawBloodPressureRow(
+        context: GraphicsContext, size: CGSize, readings: [BloodPressureReading],
+        row: CGRect, x: (Date) -> CGFloat,
+    ) {
+        let markers = readings
+            .map { (reading: $0, x: x($0.date)) }
+            .filter { $0.x >= row.minX - 3 && $0.x <= row.maxX + 3 }
+        let markerFrames = markers.map { CGRect(x: $0.x - 3, y: row.midY - 3, width: 6, height: 6) }
+        var taken = markerFrames
+
+        let caption = context.resolve(
+            Text(verbatim: String(localized: "Blood pressure").lowercased()).font(Self.laneCaptionFont).foregroundStyle(Self.bpColor),
+        )
+        let captionSize = caption.measure(in: size)
+        let captionY = row.midY - captionSize.height / 2
+        let captionFrame = [row.maxX - 4 - captionSize.width, row.minX + 4]
+            .map { CGRect(x: $0, y: captionY, width: captionSize.width, height: captionSize.height) }
+            .first { frame in !markerFrames.contains { $0.insetBy(dx: -Self.bpLabelGap, dy: 0).intersects(frame) } }
+        if let captionFrame {
+            context.draw(caption, in: captionFrame)
+            taken.append(captionFrame.insetBy(dx: -Self.bpLabelGap, dy: 0))
+        }
+
+        for frame in markerFrames {
+            context.fill(Path(ellipseIn: frame), with: .color(Self.bpColor))
+        }
+        for index in markers.indices.reversed() {
+            let marker = markers[index]
+            let resolved = context.resolve(
+                Text(verbatim: "\(Int(marker.reading.systolic))/\(Int(marker.reading.diastolic)) mmHg")
+                    .font(.system(size: 9, weight: .semibold, design: .rounded).monospacedDigit())
+                    .foregroundStyle(Self.bpColor),
+            )
+            guard let frame = Self.bloodPressureLabelFrame(
+                markerX: marker.x, labelSize: resolved.measure(in: size), row: row,
+                taken: taken.filter { $0 != markerFrames[index] },
+            ) else { continue }
+            context.draw(resolved, in: frame)
+            taken.append(frame.insetBy(dx: -Self.bpLabelGap, dy: 0))
         }
     }
 
