@@ -65,6 +65,17 @@ android {
         includeInBundle = false
     }
 
+    // A release built to be measured on a phone, never published (package-apk.sh refuses to
+    // sign one): PIRU_PROFILE=profileable lets simpleperf attach from the shell, and
+    // PIRU_PROFILE=debuggable also opens the app's data to `run-as`.
+    val profileBuild = providers.environmentVariable("PIRU_PROFILE").orNull
+    if (profileBuild != null) {
+        require(profileBuild == "profileable" || profileBuild == "debuggable") {
+            "PIRU_PROFILE is profileable or debuggable, not $profileBuild"
+        }
+        sourceSets.getByName("release").manifest.srcFile("src/profile/AndroidManifest.xml")
+    }
+
     buildTypes {
         release {
             // Unsigned: package-apk.sh signs the release APK with the key from the macOS
@@ -72,7 +83,7 @@ android {
             signingConfig = null
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = false // can be set to true for debugging release build, but needs to be false when uploading to store
+            isDebuggable = profileBuild == "debuggable"
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }

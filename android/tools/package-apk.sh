@@ -10,6 +10,11 @@ piru_require_java || exit 1
 piru_require_command gradle "brew install gradle" || exit 1
 mkdir -p "$PIRU_ANDROID_BUILD"
 CONFIG="${PIRU_CONFIG:-debug}"
+# A measuring build (PIRU_PROFILE, app/build.gradle.kts) is never signed with the release key.
+if [[ -n "${PIRU_PROFILE:-}" && $CONFIG == release && -z "${PIRU_UNSIGNED:-}" ]]; then
+    piru_error "PIRU_PROFILE builds are for measuring: set PIRU_UNSIGNED=1 and sign with a debug key"
+    exit 1
+fi
 # The app depends on the included skipstone build's Piru project, which packages
 # <its build dir>/jni-libs; build-app.sh compiled into the root build's copy. A release
 # packages a stripped copy: the symbols triple the APK and help no one on a device.

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Merged into the release only for a measuring build (PIRU_PROFILE, build.gradle.kts):
+     simpleperf and gfxinfo can then attach from the shell on an unrooted phone. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <profileable android:shell="true" tools:targetApi="29" />
+    </application>
+</manifest>

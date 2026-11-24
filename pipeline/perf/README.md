@@ -205,6 +205,37 @@ emulator -avd piru-spike -no-window -gpu host -no-audio -no-boot-anim -read-only
 pipeline/perf/run.py --platform android --apk app-release-debugsigned.apk --android-store large-4000.store --simpleperf
 ```
 
+### On a phone
+
+A published release is neither profileable nor open to `run-as`, and an unrooted
+phone has no `su`. Two measuring builds of the release configuration cover it,
+selected by `PIRU_PROFILE` at packaging (`android/app/Android/app/build.gradle.kts`,
+`src/profile/AndroidManifest.xml`); unset, the build is the release, and
+`package-apk.sh` refuses to sign either with the release key:
+
+- `PIRU_PROFILE=profileable` adds `<profileable android:shell="true"/>`, so
+  `simpleperf record --app` attaches from the shell;
+- `PIRU_PROFILE=debuggable` also makes the APK debuggable, which `run-as` needs
+  to put a store in place.
+
+```bash
+export PIRU_CONFIG=release PIRU_UNSIGNED=1
+PIRU_PROFILE=debuggable android/tools/package-apk.sh    # sign both with ~/.android/debug.keystore
+PIRU_PROFILE=profileable android/tools/package-apk.sh
+adb install --user 0 piru-debuggable.apk                # launch once, then the store:
+pipeline/perf/run.py --platform android --android-store large-4000.store --flows insights   # places it through run-as
+adb install -r --user 0 piru-profileable.apk            # same key, so the journal stays
+pipeline/perf/run.py --platform android --simpleperf --flows all
+```
+
+A debuggable app runs its Kotlin without ART's optimizations: measure only the
+profileable one. The phone set of flows adds `journal-days`, `journal-timeline`,
+`quicklog` (four opens, then one dose from a favorite), `insights`,
+`tolerance`, `substance-page` and `session`; their navigation taps by label
+through `uiautomator`, which costs the app a little accessibility work inside
+`quicklog` and `session`. Uninstall the measuring build afterwards: the store
+goes with it.
+
 The frame time is `FrameCompleted − IntendedVsync` per frame; on an emulator
 starved by host load every frame reads slow, so compare Android runs only
 against Android runs taken on the same idle host.

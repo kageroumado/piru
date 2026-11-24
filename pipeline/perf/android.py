@@ -9,11 +9,13 @@ flow hooks out. So this side drives the app with `adb shell input`, and reads:
   (frame time = FrameCompleted - IntendedVsync; slow > 16.7 ms, frozen > 700 ms);
 - main-thread CPU: `/proc/<pid>/task/<pid>/stat` utime + stime per flow;
 - memory: `dumpsys meminfo` TOTAL PSS after each flow;
-- stacks: `simpleperf record -g` over the flows when `--simpleperf` is set
-  (needs `adb root`), reported by self time.
+- stacks: `simpleperf record` over the flows when `--simpleperf` is set, reported
+  by self time: by pid as root on an emulator, `--app` on a phone (a profileable
+  build); the recording is pulled to `android/perf.data`.
 
 Measure a release APK re-signed with the debug key, on a headless emulator
-started with `-no-window -gpu host`, with no build running on the host.
+started with `-no-window -gpu host`, with no build running on the host, or on a
+phone with the `PIRU_PROFILE` builds (`pipeline/perf/README.md`).
 """
 
 from __future__ import annotations
@@ -50,11 +52,20 @@ def adb_path() -> str:
 class Device:
     def __init__(self) -> None:
         self.adb = adb_path()
-        out = self.shell("wm size")
-        match = re.search(r"(\d+)x(\d+)", out)
-        self.width, self.height = (
-            (int(match.group(1)), int(match.group(2))) if match else (1080, 2400)
+        self.width, self.height = self.screen_size()
+        # A rooted emulator answers `su 0`; a phone does not, and is reached through
+        # `run-as` (the store) and `simpleperf --app` (stacks) instead.
+        self.rooted = "uid=0" in self.shell("su 0 id 2>/dev/null")
+        self._tabs: dict[str, tuple[int, int]] = {}
+
+    def screen_size(self) -> tuple[int, int]:
+        # `wm size` reports the folded screen on a foldable; the app window is the truth.
+        match = re.search(
+            r"mAppBounds=Rect\(0, 0 - (\d+), (\d+)\)", self.shell("dumpsys window displays")
         )
+        if not match:
+            match = re.search(r"(\d+)x(\d+)", self.shell("wm size"))
+        return (int(match.group(1)), int(match.group(2))) if match else (1080, 2400)
 
     def shell(self, command: str, timeout: float = 120) -> str:
         proc = subprocess.run(
@@ -68,6 +79,43 @@ class Device:
 
     def tap(self, fx: float, fy: float) -> None:
         self.shell(f"input tap {int(fx * self.width)} {int(fy * self.height)}")
+
+    def nodes(self) -> list[tuple[str, int, int]]:
+        """Labeled on-screen nodes: (text or content description, center x, center y)."""
+        self.shell("uiautomator dump /sdcard/piru-perf-ui.xml", timeout=30)
+        xml = self.shell("cat /sdcard/piru-perf-ui.xml")
+        found = []
+        for label_a, label_b, x1, y1, x2, y2 in re.findall(
+            r'text="([^"]*)"[^>]*?content-desc="([^"]*)"[^>]*?bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"',
+            xml,
+        ):
+            label = label_a or label_b
+            if label:
+                found.append((label, (int(x1) + int(x2)) // 2, (int(y1) + int(y2)) // 2))
+        return found
+
+    def tap_label(self, pattern: str, last: bool = False) -> bool:
+        """Taps the node whose label matches `pattern` (a regex, whole label); navigation only,
+        outside a measured window, because the hierarchy dump itself costs the app work."""
+        matches = [(x, y) for label, x, y in self.nodes() if re.fullmatch(pattern, label)]
+        if not matches:
+            return False
+        x, y = matches[-1] if last else matches[0]
+        self.shell(f"input tap {x} {y}")
+        return True
+
+    def open_link(self, url: str) -> None:
+        # The URL is quoted for the device shell: an unquoted `&` would end the command there.
+        self.shell(f"am start -a android.intent.action.VIEW -d '{url}' {PACKAGE}")
+
+    def tab_position(self, name: str) -> tuple[int, int]:
+        if not self._tabs:
+            names = ("Journal", "Library", "Tools", "Insights", "Search")
+            for label, x, y in self.nodes():
+                # The tab bar's labels are the lowest ones with these names.
+                if label in names and (label not in self._tabs or y > self._tabs[label][1]):
+                    self._tabs[label] = (x, y)
+        return self._tabs.get(name, (0, 0))
 
     def swipe(self, fy0: float, fy1: float, ms: int) -> None:
         x = self.width // 2
@@ -92,15 +140,112 @@ class Device:
         return int(match.group(1)) / 1024 if match else None
 
 
-# Tab bar: five tabs across the bottom; Journal, Library, Tools, Insights, Search.
-TAB_Y = 0.947
+TAB_NAMES = ("Journal", "Library", "Tools", "Insights", "Search")
 
 
 def tab(device: Device, index: int) -> None:
-    device.tap((index + 0.5) / 5, TAB_Y)
+    x, y = device.tab_position(TAB_NAMES[index])
+    if x and y:
+        device.shell(f"input tap {x} {y}")
+    else:
+        # No labels read (a hung UI): the five tabs across the bottom of a phone screen.
+        device.tap((index + 0.5) / 5, 0.947)
 
+
+def scroll_page(device: Device, times: int) -> None:
+    for _ in range(times):
+        device.swipe(0.75, 0.35, 250)
+        time.sleep(0.35)
+
+
+def journal_layout(device: Device, name: str) -> None:
+    """Switches the Journal to a layout from its ••• menu (navigation, before the measure)."""
+    tab(device, 0)
+    time.sleep(1.0)
+    if device.tap_label("More"):
+        time.sleep(1.5)
+        device.tap_label(name)
+        time.sleep(0.8)
+        device.shell("input keyevent KEYCODE_BACK")
+        time.sleep(1.5)
+
+
+def quicklog(device: Device) -> None:
+    # Opened and closed four times, then one dose staged from a favorite and recorded.
+    tab(device, 0)
+    time.sleep(1.0)
+    for _ in range(4):
+        device.tap_label("Record an Entry")
+        time.sleep(1.5)
+        device.shell("input keyevent KEYCODE_BACK")
+        time.sleep(1.0)
+    device.tap_label("Record an Entry")
+    time.sleep(1.5)
+    if device.tap_label(r"Log [0-9.]+ [µm]?g of .+"):
+        time.sleep(1.0)
+        device.tap_label("Record an Entry", last=True)
+        time.sleep(2.0)
+    else:
+        device.shell("input keyevent KEYCODE_BACK")
+
+
+def insights(device: Device) -> None:
+    for insight in ("usage", "inSystem", "receptorLoad", "bodyLoad", "adherence"):
+        device.open_link(f"piru://insight/{insight}")
+        time.sleep(2.5)
+        scroll_page(device, 3)
+        device.shell("input keyevent KEYCODE_BACK")
+        time.sleep(1.0)
+
+
+def tolerance(device: Device) -> None:
+    device.open_link("piru://insight/tolerance")
+    time.sleep(3.0)
+    scroll_page(device, 4)
+    device.shell("input keyevent KEYCODE_BACK")
+
+
+def substance_page(device: Device) -> None:
+    device.open_link("piru://substance/MDMA")
+    time.sleep(3.0)
+    scroll_page(device, 12)
+    device.shell("input keyevent KEYCODE_BACK")
+
+
+def session_charts(device: Device) -> None:
+    # The newest session, from the Days layout's first card.
+    journal_layout(device, "Days")
+    if device.tap_label(r"\d.*entr(y|ies)"):
+        time.sleep(3.0)
+        scroll_page(device, 5)
+        device.shell("input keyevent KEYCODE_BACK")
+        time.sleep(1.0)
+    journal_layout(device, "Timeline")
+
+
+def journal_scroll(device: Device) -> None:
+    [device.swipe(0.75, 0.25, 120) or time.sleep(0.15) for _ in range(40)]
+    [device.swipe(0.25, 0.85, 80) or time.sleep(0.1) for _ in range(40)]
+
+
+# Navigation a flow needs before its measured window opens.
+PREPARE = {
+    "journal-days": lambda d: journal_layout(d, "Days"),
+    "journal-timeline": lambda d: journal_layout(d, "Timeline"),
+}
+
+# The flows the emulator runs have measured the same four since 2026-11-23; the phone set adds
+# the screens a person opens most.
+EMULATOR_FLOWS = ("journal-scroll", "tab-storm", "library-search", "reversed-flings")
 
 FLOWS = {
+    "journal-days": journal_scroll,
+    "journal-timeline": journal_scroll,
+    "quicklog": quicklog,
+    "insights": insights,
+    "tolerance": tolerance,
+    "substance-page": substance_page,
+    "session": session_charts,
     "journal-scroll": lambda d: (
         [d.swipe(0.75, 0.25, 120) or time.sleep(0.15) for _ in range(40)]
         + [d.swipe(0.25, 0.85, 80) or time.sleep(0.1) for _ in range(40)]
@@ -150,9 +295,27 @@ def parse_framestats(text: str) -> list[float]:
 
 
 def install_store(device: Device, store: Path) -> None:
-    """Replaces the app's store with `store` (a rooted emulator: `su 0`). The
-    replaced files are moved aside under /data/local/tmp, never deleted."""
+    """Replaces the app's store with `store`. On a rooted emulator through `su 0`, the
+    replaced files moved aside under /data/local/tmp; on a phone through `run-as`, which
+    needs a debuggable build, streamed straight into the app's files (no copy anywhere else
+    on the device) and the replaced files moved aside there. Nothing is deleted."""
     device.shell(f"am force-stop {PACKAGE}")
+    if not device.rooted:
+        files = f"/data/data/{PACKAGE}/files"
+        with store.open("rb") as source:
+            subprocess.run(
+                [device.adb, "exec-in", f"run-as {PACKAGE} sh -c 'cat > {files}/fixture.incoming'"],
+                stdin=source,
+                check=True,
+                capture_output=True,
+            )
+        aside = f"{files}/replaced-{int(time.time())}"
+        device.shell(
+            f"run-as {PACKAGE} sh -c 'mkdir -p {aside}; "
+            f'for s in "" -wal -shm; do [ -e {files}/default.store$s ] && mv {files}/default.store$s {aside}/; done; '
+            f"mv {files}/fixture.incoming {files}/default.store'"
+        )
+        return
     subprocess.run(
         [device.adb, "push", str(store), "/data/local/tmp/fixture.store"],
         check=True,
@@ -184,7 +347,7 @@ def run(run_dir: Path, args, thresholds: dict) -> dict:
         launches.append(int(match.group(1)) if match else None)
         time.sleep(6)
     simpleperf = getattr(args, "simpleperf", False)
-    if simpleperf:
+    if simpleperf and device.rooted:
         # simpleperf sees the CPU clock events only as root.
         subprocess.run([device.adb, "root"], capture_output=True)
         subprocess.run([device.adb, "wait-for-device"], capture_output=True)
@@ -192,15 +355,22 @@ def run(run_dir: Path, args, thresholds: dict) -> dict:
     pid = device.pid()
     names = list(FLOWS) if args.flows == "all" else [f for f in args.flows.split(",") if f in FLOWS]
     if simpleperf and pid:
+        # Frame-pointer call graphs: DWARF unwinding (-g) fills an emulator's /data in a minute.
+        # A phone is profiled through the app (a profileable build) at 1 kHz; the emulator by
+        # pid as root at 500 Hz.
+        target = (
+            f"-p {pid} -e task-clock -f 500"
+            if device.rooted
+            else f"--app {PACKAGE} -e cpu-clock -f 1000"
+        )
         recorder = subprocess.Popen(
             [
                 device.adb,
                 "shell",
-                # Frame-pointer call graphs at 500 Hz: DWARF unwinding (-g) fills an
-                # emulator's /data in a minute.
-                f"simpleperf record -p {pid} -e task-clock -f 500 --call-graph fp -o /data/local/tmp/piru-perf.data --duration 600",
+                f"simpleperf record {target} --call-graph fp -o /data/local/tmp/piru-perf.data --duration 900",
             ]
         )
+        time.sleep(2)
     steps = []
     restarted: list[str] = []
     for name in names:
@@ -208,6 +378,8 @@ def run(run_dir: Path, args, thresholds: dict) -> dict:
         # charged to the next one.
         device.shell(f"am start -n {ACTIVITY}")
         time.sleep(1.0)
+        if name in PREPARE:
+            PREPARE[name](device)
         device.shell(f"dumpsys gfxinfo {PACKAGE} reset")
         if device.pid() != pid:
             pid = device.pid()
@@ -243,6 +415,11 @@ def run(run_dir: Path, args, thresholds: dict) -> dict:
             timeout=300,
         )
         stacks = [line.strip() for line in report.splitlines() if "%" in line][:30]
+        # The recording itself, for caller graphs on the host (`simpleperf report -g`).
+        subprocess.run(
+            [device.adb, "pull", "/data/local/tmp/piru-perf.data", str(out / "perf.data")],
+            capture_output=True,
+        )
     data = {
         "restarted_before": restarted,
         "launch_ms": launches,
