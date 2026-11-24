@@ -1,10 +1,10 @@
 TextField(value:format:) parses with try!, which kills the app on the first keystroke that empties a numeric field or leaves a lone "-"; text that does not parse keeps the last value, and every value that parses is written, including one that formats like the current value ("1.2" and 1.1 both read "1" with no fraction digits), as SwiftUI does. Proposed upstream.
 
 diff --git a/Sources/SkipSwiftUI/Text/TextField.swift b/Sources/SkipSwiftUI/Text/TextField.swift
-index 154e740..6f8b799 100644
+index 21fe5c5..31f65fd 100644
 --- a/Sources/SkipSwiftUI/Text/TextField.swift
 +++ b/Sources/SkipSwiftUI/Text/TextField.swift
-@@ -41,8 +41,15 @@ extension TextField {
+@@ -40,8 +40,15 @@ extension TextField {
  
      private static func text<F>(from value: Binding<F.FormatInput>, format: F) -> Binding<String> where F : ParseableFormatStyle, F.FormatOutput == String {
          let getText: (F.FormatInput) -> String = { format.format($0) }

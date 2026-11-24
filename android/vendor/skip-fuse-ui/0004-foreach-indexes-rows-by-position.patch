@@ -1,10 +1,10 @@
 SkipUI's bridged ForEach walks rows by Int index, and the bridge cast the collection's own index to Int, which aborts for ClosedRange, enumerated() and reversed(); rows are indexed by position from firstIndex (a Range's lower bound), and the data's index never crosses the bridge (the fix proposed upstream).
 
 diff --git a/Sources/SkipSwiftUI/Containers/ForEach.swift b/Sources/SkipSwiftUI/Containers/ForEach.swift
-index 88ac034..1e7474d 100644
+index 45c30bc..e9bbab5 100644
 --- a/Sources/SkipSwiftUI/Containers/ForEach.swift
 +++ b/Sources/SkipSwiftUI/Containers/ForEach.swift
-@@ -8,6 +8,8 @@ public struct ForEach<Data, ID, Content> : ForEachProtocol where Data : RandomAc
+@@ -7,6 +7,8 @@ public struct ForEach<Data, ID, Content> : ForEachProtocol where Data : RandomAc
      public let data: Data
      public let content : (Data.Element) -> Content
      private let id: ((Data.Element) -> SwiftHashable)?
@@ -13,7 +13,7 @@ index 88ac034..1e7474d 100644
  
      var onDelete: ((IndexSet) -> Void)?
      var onMove: ((IndexSet, Int) -> Void)?
-@@ -15,14 +17,23 @@ public struct ForEach<Data, ID, Content> : ForEachProtocol where Data : RandomAc
+@@ -14,14 +16,23 @@ public struct ForEach<Data, ID, Content> : ForEachProtocol where Data : RandomAc
  
  extension ForEach : SkipUIBridging {
      public var Java_view: any SkipUI.View {
@@ -40,7 +40,7 @@ index 88ac034..1e7474d 100644
              return (view as? SkipUIBridging)?.Java_view ?? SkipUI.EmptyView()
          })
          if let onDelete {
-@@ -90,6 +101,7 @@ extension ForEach where Data == Range<Int>, ID == Int, Content : View {
+@@ -89,6 +100,7 @@ extension ForEach where Data == Range<Int>, ID == Int, Content : View {
          self.data = data
          self.content = content
          self.id = nil
@@ -49,10 +49,10 @@ index 88ac034..1e7474d 100644
          self.onMove = nil
      }
 diff --git a/Sources/SkipSwiftUI/System/IndexedIdentifierCollection.swift b/Sources/SkipSwiftUI/System/IndexedIdentifierCollection.swift
-index 8936a5c..2009796 100644
+index 05f1ae4..5d27a65 100644
 --- a/Sources/SkipSwiftUI/System/IndexedIdentifierCollection.swift
 +++ b/Sources/SkipSwiftUI/System/IndexedIdentifierCollection.swift
-@@ -41,4 +41,11 @@ extension IndexedIdentifierCollection : BidirectionalCollection where Base : Bid
+@@ -40,4 +40,11 @@ extension IndexedIdentifierCollection : BidirectionalCollection where Base : Bid
  }
  
  extension IndexedIdentifierCollection : RandomAccessCollection where Base : RandomAccessCollection {

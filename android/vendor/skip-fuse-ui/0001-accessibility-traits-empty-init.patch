@@ -1,8 +1,8 @@
 diff --git a/Sources/SkipSwiftUI/System/Accessibility.swift b/Sources/SkipSwiftUI/System/Accessibility.swift
-index bdf1afe..23b48c0 100644
+index 003475f..5ad4e88 100644
 --- a/Sources/SkipSwiftUI/System/Accessibility.swift
 +++ b/Sources/SkipSwiftUI/System/Accessibility.swift
-@@ -896,7 +896,9 @@ public struct AccessibilityTraits : SetAlgebra, OptionSet /* Added OptionSet con
+@@ -895,7 +895,9 @@ public struct AccessibilityTraits : SetAlgebra, OptionSet /* Added OptionSet con
      }
  
      public init() {

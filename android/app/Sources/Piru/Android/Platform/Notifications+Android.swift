@@ -199,15 +199,11 @@ final nonisolated class AndroidNotificationQueue: Sendable {
     }
 }
 
-/// The notification delegate on Android. SkipUI schedules a notification only when a delegate
-/// asks to present it, so `willPresent` answers as iOS shows a reminder in the foreground. A tap
-/// lands at the notification's deep link, as `DoseNotificationDelegate` does on iOS.
+/// The notification delegate on Android. A tap lands at the notification's deep link, as
+/// `DoseNotificationDelegate` does on iOS. SkipUI posts every scheduled notification, in the
+/// foreground too, and never asks `willPresent`.
 final class AndroidNotificationDelegate: UNUserNotificationCenterDelegate, @unchecked Sendable {
     static let shared = AndroidNotificationDelegate()
-
-    func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification) async -> UNNotificationPresentationOptions {
-        [.banner, .sound, .list]
-    }
 
     func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let link = response.notification.request.content.userInfo[DoseNotificationManager.deepLinkUserInfoKey] as? String

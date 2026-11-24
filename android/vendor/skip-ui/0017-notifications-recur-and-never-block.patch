@@ -1,10 +1,31 @@
 UNUserNotificationCenter needs a live Activity to schedule, list or remove a request, and records a permission request made without one as denied; it lists pending requests with no trigger or content; a repeating trigger fires once, because NotificationWorker never enqueues the next occurrence; a calendar trigger keeps the instant it was enqueued for when the zone or clock changes; every add looks up earlier versions' work; and every notification posts to one default-importance channel whatever its interruption level or sound. Requests now use the application context; each saves its work data, from which it is listed with its trigger and content, repeated by the worker (calendar triggers at their next wall-clock time) and re-armed by a manifest receiver on TIMEZONE_CHANGED and TIME_SET; replacement and removal end a repeating chain; add returns once WorkManager has queued the work, and when the enqueue fails it throws and leaves no saved request, while a delivered notification it would have replaced stays listed and removable; earlier versions' work is looked up once per process until none is left; and each interruption level and sound has its own channel. Proposed upstream.
 
+diff --git a/Sources/SkipUI/Skip/AndroidManifest.xml b/Sources/SkipUI/Skip/AndroidManifest.xml
+new file mode 100644
+index 0000000..28a7759
+--- /dev/null
++++ b/Sources/SkipUI/Skip/AndroidManifest.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android">
++    <application>
++        <!-- Re-arms calendar notification requests at their wall-clock time when the zone or clock changes
++             (UserNotifications.swift). Both broadcasts reach manifest receivers of apps that are not running. -->
++        <receiver
++            android:name="skip.ui.NotificationTimeChangeReceiver"
++            android:exported="false">
++            <intent-filter>
++                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
++                <action android:name="android.intent.action.TIME_SET" />
++            </intent-filter>
++        </receiver>
++    </application>
++</manifest>
 diff --git a/Sources/SkipUI/SkipUI/UIKit/UserNotifications.swift b/Sources/SkipUI/SkipUI/UIKit/UserNotifications.swift
-index f0551ff3..e011e87a 100644
+index 3487c37..6abe33f 100644
 --- a/Sources/SkipUI/SkipUI/UIKit/UserNotifications.swift
 +++ b/Sources/SkipUI/SkipUI/UIKit/UserNotifications.swift
-@@ -7,8 +7,10 @@ import android.Manifest
+@@ -6,8 +6,10 @@ import android.Manifest
  import android.app.NotificationChannel
  import android.app.NotificationManager
  import android.app.PendingIntent
@@ -15,7 +36,7 @@ index f0551ff3..e011e87a 100644
  import android.content.pm.PackageManager
  import android.os.Build
  import androidx.core.app.ActivityCompat
-@@ -27,6 +29,7 @@ import androidx.work.WorkManager
+@@ -26,6 +28,7 @@ import androidx.work.WorkManager
  import androidx.work.WorkerParameters
  import androidx.work.ListenableWorker
  import androidx.work.OneTimeWorkRequestBuilder
@@ -23,7 +44,7 @@ index f0551ff3..e011e87a 100644
  import java.util.HashSet
  import java.util.concurrent.TimeUnit
  import kotlin.random.Random
-@@ -52,8 +55,7 @@ public final class UNUserNotificationCenter {
+@@ -51,8 +54,7 @@ public final class UNUserNotificationCenter {
              return UNNotificationSettings(authorizationStatus: .authorized)
          }
          let status: UNAuthorizationStatus
@@ -33,7 +54,7 @@ index f0551ff3..e011e87a 100644
              status = .authorized
          } else if UserDefaults.standard.bool(forKey: "UNNotificationPermissionDenied") {
              status = .denied
-@@ -75,8 +77,16 @@ public final class UNUserNotificationCenter {
+@@ -74,8 +76,16 @@ public final class UNUserNotificationCenter {
          guard Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU else {
              return true
          }
@@ -51,10 +72,10 @@ index f0551ff3..e011e87a 100644
          if granted {
              defaults.removeObject(forKey: "UNNotificationPermissionDenied")
          } else {
-@@ -116,8 +126,8 @@ public final class UNUserNotificationCenter {
-         guard options.contains(.banner) || options.contains(.alert) else { return }
- 
-         #if SKIP
+@@ -113,8 +123,8 @@ public final class UNUserNotificationCenter {
+         // notification fires while the app is in the foreground. Gating enqueue on it
+         // drops every request from an app that never set a delegate, and drops
+         // background notifications whose presentation options are empty.
 -        guard let activity = UIApplication.shared.androidActivity else { return }
 -        
 +        let context = ProcessInfo.processInfo.androidContext
@@ -62,7 +83,7 @@ index f0551ff3..e011e87a 100644
          // Build the data which should be displayed in the notification.
          let dataBuilder = Data.Builder()
              .putString("title", request.content.title)
-@@ -142,14 +152,17 @@ public final class UNUserNotificationCenter {
+@@ -139,14 +149,17 @@ public final class UNUserNotificationCenter {
                  dataBuilder.putString(key.toString(), value.toString())
              }
          }
@@ -84,7 +105,7 @@ index f0551ff3..e011e87a 100644
          #endif
      }
  
-@@ -157,11 +170,11 @@ public final class UNUserNotificationCenter {
+@@ -154,11 +167,11 @@ public final class UNUserNotificationCenter {
      public func pendingNotificationRequests() async -> [Any /* UNNotificationRequest */] {
          #if SKIP
          // The queued work is what will fire. A saved date can say otherwise: WorkManager can run a request after its date.
@@ -99,7 +120,7 @@ index f0551ff3..e011e87a 100644
          }
          #else
          fatalError()
-@@ -171,8 +184,7 @@ public final class UNUserNotificationCenter {
+@@ -168,8 +181,7 @@ public final class UNUserNotificationCenter {
      // SKIP @bridge
      public func removePendingNotificationRequests(withIdentifiers identifiers: [String]) {
          #if SKIP
@@ -109,7 +130,7 @@ index f0551ff3..e011e87a 100644
          #else
          fatalError()
          #endif
-@@ -181,10 +193,7 @@ public final class UNUserNotificationCenter {
+@@ -178,10 +190,7 @@ public final class UNUserNotificationCenter {
      // SKIP @bridge
      public func removeAllPendingNotificationRequests() {
          #if SKIP
@@ -121,7 +142,7 @@ index f0551ff3..e011e87a 100644
          #else
          fatalError()
          #endif
-@@ -202,24 +211,25 @@ public final class UNUserNotificationCenter {
+@@ -199,24 +208,25 @@ public final class UNUserNotificationCenter {
      // SKIP @bridge
      public func removeDeliveredNotifications(withIdentifiers identifiers: [String]) {
          #if SKIP
@@ -154,7 +175,7 @@ index f0551ff3..e011e87a 100644
                  ids.remove(identifier)
                  editor.remove("date_" + identifier)
              }
-@@ -263,35 +273,258 @@ public final class UNUserNotificationCenter {
+@@ -260,35 +270,258 @@ public final class UNUserNotificationCenter {
          return workNamePrefix + identifier
      }
  
@@ -426,7 +447,7 @@ index f0551ff3..e011e87a 100644
      }
  
      /// The identifiers of the notifications whose work has not run yet.
-@@ -305,24 +538,63 @@ public final class UNUserNotificationCenter {
+@@ -302,24 +535,63 @@ public final class UNUserNotificationCenter {
          return identifiers
      }
  
@@ -500,7 +521,7 @@ index f0551ff3..e011e87a 100644
          // SKIP NOWARN
          let workInfos = await workManager.getWorkInfosByTagFlow(tag).first()
          let iterator = workInfos.iterator()
-@@ -333,34 +605,143 @@ public final class UNUserNotificationCenter {
+@@ -330,34 +602,143 @@ public final class UNUserNotificationCenter {
              while tags.hasNext() {
                  let tag = tags.next() as! String
                  if tag.hasPrefix(workNamePrefix) {
@@ -653,7 +674,7 @@ index f0551ff3..e011e87a 100644
              if preferences.getLong("date_" + identifier, 0) > now {
                  ids.remove(identifier)
                  editor.remove("date_" + identifier)
-@@ -368,11 +749,11 @@ public final class UNUserNotificationCenter {
+@@ -365,11 +746,11 @@ public final class UNUserNotificationCenter {
          }
          editor.putStringSet("ids", ids)
          editor.apply()
@@ -667,7 +688,7 @@ index f0551ff3..e011e87a 100644
          let ids = preferences.getStringSet("ids", nil) ?? java.util.HashSet<String>()
          
          var all: [(id: String, timestamp: Long)] = []
-@@ -558,7 +939,15 @@ public final class UNNotificationRequest : @unchecked Sendable {
+@@ -555,7 +936,15 @@ public final class UNNotificationRequest : @unchecked Sendable {
      // SKIP @bridge
      public let content: UNNotificationContent
      public let trigger: UNNotificationTrigger?
@@ -684,7 +705,7 @@ index f0551ff3..e011e87a 100644
      // SKIP @bridge
      public init(identifier: String, content: UNNotificationContent, trigger: UNNotificationTrigger?) {
          self.identifier = identifier
-@@ -650,6 +1039,17 @@ public class UNNotificationContent {
+@@ -647,6 +1036,17 @@ public class UNNotificationContent {
      public var summaryArgumentCount: Int
      // SKIP @bridge
      public var filterCriteria: String?
@@ -702,7 +723,7 @@ index f0551ff3..e011e87a 100644
  
      public init(title: String = "", subtitle: String = "", body: String = "", badge: NSNumber? = nil, sound: UNNotificationSound? = UNNotificationSound.default, launchImageName: String = "", userInfo: [AnyHashable: Any] = [:], attachments: [UNNotificationAttachment] = [], categoryIdentifier: String = "", threadIdentifier: String = "", targetContentIdentifier: String? = nil, summaryArgument: String = "", summaryArgumentCount: Int = 0, filterCriteria: String? = nil) {
          self.title = title
-@@ -731,6 +1131,17 @@ public final class UNMutableNotificationContent : UNNotificationContent {
+@@ -728,6 +1128,17 @@ public final class UNMutableNotificationContent : UNNotificationContent {
          get { super.filterCriteria }
          set { super.filterCriteria = newValue }
      }
@@ -720,7 +741,7 @@ index f0551ff3..e011e87a 100644
  }
  
  // SKIP @bridge
-@@ -827,6 +1238,12 @@ public final class UNTimeIntervalNotificationTrigger: UNNotificationTrigger {
+@@ -824,6 +1235,12 @@ public final class UNTimeIntervalNotificationTrigger: UNNotificationTrigger {
      
      // SKIP @bridge
      public let timeInterval: TimeInterval
@@ -733,7 +754,7 @@ index f0551ff3..e011e87a 100644
  
      // SKIP @bridge
      public init(timeInterval: TimeInterval, repeats: Bool) {
-@@ -837,7 +1254,14 @@ public final class UNTimeIntervalNotificationTrigger: UNNotificationTrigger {
+@@ -834,7 +1251,14 @@ public final class UNTimeIntervalNotificationTrigger: UNNotificationTrigger {
      // SKIP @bridge
      public func nextTriggerDate() -> Date? {
          let now = Date()
@@ -749,7 +770,7 @@ index f0551ff3..e011e87a 100644
      }
  }
  
-@@ -853,27 +1277,94 @@ public final class UNCalendarNotificationTrigger: UNNotificationTrigger {
+@@ -850,27 +1274,94 @@ public final class UNCalendarNotificationTrigger: UNNotificationTrigger {
          super.init(repeats: repeats)
      }
  
@@ -855,7 +876,7 @@ index f0551ff3..e011e87a 100644
  }
  
  public final class UNLocationNotificationTrigger: UNNotificationTrigger {
-@@ -1041,7 +1532,7 @@ public class NotificationWorker : Worker {
+@@ -1038,7 +1529,7 @@ public class NotificationWorker : Worker {
          
          let bundle = android.os.Bundle()
          let allData = inputData.keyValueMap
@@ -864,7 +885,7 @@ index f0551ff3..e011e87a 100644
              if let s = value as? String {
                  bundle.putString(key, s)
              } else if let b = value as? Bool {
-@@ -1061,20 +1552,23 @@ public class NotificationWorker : Worker {
+@@ -1058,20 +1549,23 @@ public class NotificationWorker : Worker {
          intent?.putExtras(bundle)
          
          // Create the notification channel.
@@ -893,7 +914,7 @@ index f0551ff3..e011e87a 100644
          
          // Update the notification icon.
          if let url = imageAttachmentUrl {
-@@ -1094,8 +1588,94 @@ public class NotificationWorker : Worker {
+@@ -1100,8 +1594,94 @@ public class NotificationWorker : Worker {
          
          // Display the notification.
          notificationManager.notify(id, builder.build())
@@ -988,32 +1009,11 @@ index f0551ff3..e011e87a 100644
  }
  #endif
  #endif
-diff --git a/Sources/SkipUI/Skip/AndroidManifest.xml b/Sources/SkipUI/Skip/AndroidManifest.xml
-new file mode 100644
-index 00000000..28a77593
---- /dev/null
-+++ b/Sources/SkipUI/Skip/AndroidManifest.xml
-@@ -0,0 +1,15 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-+    <application>
-+        <!-- Re-arms calendar notification requests at their wall-clock time when the zone or clock changes
-+             (UserNotifications.swift). Both broadcasts reach manifest receivers of apps that are not running. -->
-+        <receiver
-+            android:name="skip.ui.NotificationTimeChangeReceiver"
-+            android:exported="false">
-+            <intent-filter>
-+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-+                <action android:name="android.intent.action.TIME_SET" />
-+            </intent-filter>
-+        </receiver>
-+    </application>
-+</manifest>
 diff --git a/Tests/SkipUITests/NotificationRequestTests.swift b/Tests/SkipUITests/NotificationRequestTests.swift
-index 0c7fe841..1a5b3746 100644
+index 1bdd40c..b2ebfd7 100644
 --- a/Tests/SkipUITests/NotificationRequestTests.swift
 +++ b/Tests/SkipUITests/NotificationRequestTests.swift
-@@ -6,6 +6,7 @@ import XCTest
+@@ -5,6 +5,7 @@ import XCTest
  
  #if SKIP
  import android.content.Context
@@ -1021,7 +1021,7 @@ index 0c7fe841..1a5b3746 100644
  import androidx.work.Configuration
  import androidx.work.Data
  import androidx.work.ListenableWorker
-@@ -14,6 +15,8 @@ import androidx.work.WorkInfo
+@@ -13,6 +14,8 @@ import androidx.work.WorkInfo
  import androidx.work.WorkManager
  import androidx.work.Worker
  import androidx.work.WorkerParameters
@@ -1030,7 +1030,7 @@ index 0c7fe841..1a5b3746 100644
  import java.util.concurrent.TimeUnit
  #endif
  
-@@ -34,6 +37,8 @@ final class NotificationRequestTests: SkipUITestCase {
+@@ -33,6 +36,8 @@ final class NotificationRequestTests: SkipUITestCase {
          workManager.cancelAllWork().result.get()
          workManager.pruneWork().result.get()
          context.getSharedPreferences("__skip_usernotifications", Context.MODE_PRIVATE).edit().clear().commit()
@@ -1039,7 +1039,7 @@ index 0c7fe841..1a5b3746 100644
          return workManager
      }
  
-@@ -54,8 +59,452 @@ final class NotificationRequestTests: SkipUITestCase {
+@@ -53,8 +58,452 @@ final class NotificationRequestTests: SkipUITestCase {
      private func savedDate(_ identifier: String) -> Int64 {
          return context.getSharedPreferences("__skip_usernotifications", Context.MODE_PRIVATE).getLong("date_" + identifier, 0)
      }
@@ -1492,7 +1492,7 @@ index 0c7fe841..1a5b3746 100644
      func testRequestReplacesOnlyItsOwnWork() async throws {
          #if !SKIP
          throw XCTSkip("Notification requests are WorkManager work on Android")
-@@ -95,7 +544,7 @@ final class NotificationRequestTests: SkipUITestCase {
+@@ -94,7 +543,7 @@ final class NotificationRequestTests: SkipUITestCase {
  
          // What `add` does: enqueue the request, then sweep the earlier versions' work for its identifier.
          enqueue("reminder", inDays: 1)
@@ -1501,7 +1501,7 @@ index 0c7fe841..1a5b3746 100644
  
          XCTAssertEqual(states(tag: "reminder", workManager), ["CANCELLED", "CANCELLED"])
          XCTAssertEqual(states(tag: UNUserNotificationCenter.workName("reminder"), workManager), ["ENQUEUED"])
-@@ -122,6 +571,12 @@ final class NotificationRequestTests: SkipUITestCase {
+@@ -121,6 +570,12 @@ final class NotificationRequestTests: SkipUITestCase {
  }
  
  #if SKIP

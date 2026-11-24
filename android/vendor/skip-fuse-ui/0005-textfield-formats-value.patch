@@ -1,10 +1,10 @@
 TextField(value:format:) tells SkipUI it formats a value, so the field keeps the typed text while it has focus ("7.", an emptied field, "1.2" in a whole-number format) and shows and writes back the formatted value when focus leaves; needs skip-ui 0010. Proposed upstream.
 
 diff --git a/Sources/SkipSwiftUI/Text/TextField.swift b/Sources/SkipSwiftUI/Text/TextField.swift
-index 6f8b799..7f32047 100644
+index 31f65fd..f77fa60 100644
 --- a/Sources/SkipSwiftUI/Text/TextField.swift
 +++ b/Sources/SkipSwiftUI/Text/TextField.swift
-@@ -10,6 +10,10 @@ public struct TextField<Label> where Label : View {
+@@ -9,6 +9,10 @@ public struct TextField<Label> where Label : View {
      private let label: Label
      private var selection: Binding<TextSelection?>? = nil
      private var axis = Axis.horizontal
@@ -15,7 +15,7 @@ index 6f8b799..7f32047 100644
  }
  
  extension TextField : View {
-@@ -18,7 +22,7 @@ extension TextField : View {
+@@ -17,7 +21,7 @@ extension TextField : View {
  
  extension TextField : SkipUIBridging {
      public var Java_view: any SkipUI.View {
@@ -24,7 +24,7 @@ index 6f8b799..7f32047 100644
      }
  }
  
-@@ -70,36 +74,42 @@ extension TextField {
+@@ -69,36 +73,42 @@ extension TextField {
  extension TextField where Label == Text {
      public init<F>(_ titleKey: LocalizedStringKey, value: Binding<F.FormatInput?>, format: F, prompt: Text? = nil) where F : ParseableFormatStyle, F.FormatOutput == String {
          self.text = Self.text(from: value, format: format)
@@ -67,7 +67,7 @@ index 6f8b799..7f32047 100644
          self.label = Text(title)
          self.prompt = prompt
      }
-@@ -108,12 +118,14 @@ extension TextField where Label == Text {
+@@ -107,12 +117,14 @@ extension TextField where Label == Text {
  extension TextField {
      public init<F>(value: Binding<F.FormatInput?>, format: F, prompt: Text? = nil, @ViewBuilder label: () -> Label) where F : ParseableFormatStyle, F.FormatOutput == String {
          self.text = Self.text(from: value, format: format)

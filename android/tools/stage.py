@@ -52,8 +52,8 @@ VENDORED = {
     "GRDB.swift": ("https://github.com/groue/GRDB.swift.git", "v7.11.1", "7.11.1"),
     "skip": ("https://github.com/skiptools/skip.git", "1.9.13", "1.9.13"),
     "skipstone": ("https://github.com/skiptools/skipstone.git", "1.9.13", "1.9.13"),
-    "skip-fuse-ui": ("https://github.com/skiptools/skip-fuse-ui.git", "1.19.1", "1.19.1"),
-    "skip-ui": ("https://github.com/skiptools/skip-ui.git", "1.64.0", "1.64.0"),
+    "skip-fuse-ui": ("https://github.com/skiptools/skip-fuse-ui.git", "1.19.4", "1.19.4"),
+    "skip-ui": ("https://github.com/skiptools/skip-ui.git", "1.66.4", "1.66.4"),
     "skip-android-bridge": (
         "https://github.com/skiptools/skip-android-bridge.git",
         "0.7.4",

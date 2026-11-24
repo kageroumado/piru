@@ -1,16 +1,16 @@
 diff --git a/Sources/SkipUI/SkipUI/Containers/List.swift b/Sources/SkipUI/SkipUI/Containers/List.swift
-index 5b0058c..df38971 100644
+index cfbd11b..8c113e2 100644
 --- a/Sources/SkipUI/SkipUI/Containers/List.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/List.swift
-@@ -58,6 +58,7 @@ import androidx.compose.runtime.rememberCoroutineScope
+@@ -63,6 +63,7 @@ import androidx.compose.runtime.remember
+ import androidx.compose.runtime.rememberCoroutineScope
  import androidx.compose.runtime.rememberUpdatedState
- import androidx.compose.runtime.withFrameNanos
  import androidx.compose.ui.Modifier
 +import androidx.compose.ui.draw.alpha
  import androidx.compose.ui.draw.clip
  import androidx.compose.ui.draw.clipToBounds
- import androidx.compose.ui.draw.shadow
-@@ -845,9 +846,11 @@ public final class List : View, Renderable {
+ import androidx.compose.ui.draw.drawBehind
+@@ -868,9 +869,11 @@ public final class List : View, Renderable {
  
              itemContent = {
                  SwipeToDismissBox(state: dismissState, enableDismissFromEndToStart: true, enableDismissFromStartToEnd: false, modifier: $0, backgroundContent: {

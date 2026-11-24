@@ -1,10 +1,10 @@
 A field focused in its first frame has no text layout yet and requestFocus throws; catch it and retry on the next frame, up to ten frames in a row, resetting while the field isn't the focus target (the fix proposed upstream).
 
 diff --git a/Sources/SkipUI/SkipUI/System/Focus.swift b/Sources/SkipUI/SkipUI/System/Focus.swift
-index 7c26a5c..a195133 100644
+index 8d651f9..9573f74 100644
 --- a/Sources/SkipUI/SkipUI/System/Focus.swift
 +++ b/Sources/SkipUI/SkipUI/System/Focus.swift
-@@ -9,6 +9,11 @@ import androidx.compose.ui.focus.FocusRequester
+@@ -8,6 +8,11 @@ import androidx.compose.ui.focus.FocusRequester
  import androidx.compose.ui.platform.LocalFocusManager
  #endif
  
@@ -16,7 +16,7 @@ index 7c26a5c..a195133 100644
  extension View {
      public func focused<Value>(_ binding: Binding<Value>, equals value: Value) -> any View {
          #if SKIP
-@@ -16,6 +21,7 @@ extension View {
+@@ -15,6 +20,7 @@ extension View {
              let focusRequester = remember { FocusRequester() }
              let focusManager = LocalFocusManager.current
              let isFocused = remember { mutableStateOf(false) }
@@ -24,7 +24,7 @@ index 7c26a5c..a195133 100644
              var context = context
              context.modifier = context.modifier
                  .focusRequester(focusRequester)
-@@ -31,7 +37,19 @@ extension View {
+@@ -30,7 +36,19 @@ extension View {
                          }
                      }
                  }
@@ -46,12 +46,11 @@ index 7c26a5c..a195133 100644
                          focusRequester.requestFocus()
 diff --git a/Tests/SkipUITests/FocusTests.swift b/Tests/SkipUITests/FocusTests.swift
 new file mode 100644
-index 0000000..da69394
+index 0000000..aece11f
 --- /dev/null
 +++ b/Tests/SkipUITests/FocusTests.swift
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,45 @@
 +// Copyright 2026 Skip
-+// SPDX-License-Identifier: MPL-2.0
 +import SwiftUI
 +import XCTest
 +

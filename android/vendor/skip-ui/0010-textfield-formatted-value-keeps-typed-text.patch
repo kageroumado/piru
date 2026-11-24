@@ -1,18 +1,10 @@
 A TextField(value:format:) shows the binding's formatted value on every recomposition, so "7." can't be typed and an emptied field refills; a field created with formatsValue keeps the typed text while it has focus, shows a value changed from outside the field, and when focus leaves (submit included) shows the formatted value and writes it back, as SwiftUI on iOS does, so a field cleared and left shows the value it still holds. skip-fuse-ui 0005 passes the flag. Proposed upstream.
 
 diff --git a/Sources/SkipUI/SkipUI/Text/TextField.swift b/Sources/SkipUI/SkipUI/Text/TextField.swift
-index 3ec09be..e602019 100644
+index 189c3c0..9b574a2 100644
 --- a/Sources/SkipUI/SkipUI/Text/TextField.swift
 +++ b/Sources/SkipUI/SkipUI/Text/TextField.swift
-@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextField
- import androidx.compose.material3.OutlinedTextFieldDefaults
- import androidx.compose.material3.TextFieldColors
- import androidx.compose.runtime.Composable
-+import androidx.compose.runtime.SideEffect
- import androidx.compose.runtime.mutableStateOf
- import androidx.compose.runtime.remember
- import androidx.compose.ui.Modifier
-@@ -44,6 +45,13 @@ public struct TextField : View, Renderable {
+@@ -64,6 +64,13 @@ public struct TextField : View, Renderable {
      let prompt: Text?
      let isSecure: Bool
      let axis: Axis
@@ -26,7 +18,7 @@ index 3ec09be..e602019 100644
  
      public init(text: Binding<String>, selection: Binding<TextSelection?>? = nil, prompt: Text? = nil, isSecure: Bool = false, axis: Axis = Axis.horizontal, @ViewBuilder label: () -> any View) {
          self.text = text
-@@ -52,16 +60,23 @@ public struct TextField : View, Renderable {
+@@ -72,16 +79,23 @@ public struct TextField : View, Renderable {
          self.prompt = prompt
          self.isSecure = isSecure
          self.axis = axis
@@ -50,7 +42,7 @@ index 3ec09be..e602019 100644
      }
  
      public init(_ title: String, text: Binding<String>, selection: Binding<TextSelection?>? = nil, prompt: Text? = nil, axis: Axis = Axis.horizontal) {
-@@ -92,13 +107,26 @@ public struct TextField : View, Renderable {
+@@ -112,13 +126,26 @@ public struct TextField : View, Renderable {
          let currentSelection = selection?.wrappedValue?.asComposeTextRange()
          let defaultTextFieldValue = TextFieldValue(text: currentText, selection: TextRange(currentText.count))
          let textFieldValue = remember { mutableStateOf(defaultTextFieldValue) }
@@ -78,7 +70,7 @@ index 3ec09be..e602019 100644
          }
          
          // If the selection has been updated externally, update just the selection value.
-@@ -125,6 +153,17 @@ public struct TextField : View, Renderable {
+@@ -145,6 +172,17 @@ public struct TextField : View, Renderable {
                  listItemTextInputFocused.value = $0.hasFocus
              }
          }
@@ -96,8 +88,8 @@ index 3ec09be..e602019 100644
          if !isVertical {
              baseModifier = baseModifier.onPreviewKeyEvent { keyEvent in
                  if keyEvent.type == KeyEventType.KeyDown &&
-@@ -144,6 +183,9 @@ public struct TextField : View, Renderable {
-         let minLines = isVertical && EnvironmentValues.shared._lineLimitReservesSpace == true ? (lineLimit ?? 1) : 1
+@@ -166,6 +204,9 @@ public struct TextField : View, Renderable {
+         let emptyCursorX = remember { mutableStateOf(Float(0.0)) }
          var options = Material3TextFieldOptions(value: currentTextFieldValue, onValueChange: { value in
              text.wrappedValue = value.text
 +            if formatsValue {

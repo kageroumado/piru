@@ -1,10 +1,10 @@
 A bridged @Observable reports each read and write from whichever thread makes it, and the provenance hook fed them into the animation stack and read cursor, which belong to the main actor: a model read on a background thread raced the main thread's appends and trapped in Array's copy. The hook now records the thread the first withAnimation scope runs on and ignores bridged accesses on any other, where no scope can be open and no modifier's arguments are being read.
 
 diff --git a/Sources/SkipSwiftUI/Animation/StateProvenance.swift b/Sources/SkipSwiftUI/Animation/StateProvenance.swift
-index 67a9e92..52eaa0b 100644
+index 5e87a31..14b52f4 100644
 --- a/Sources/SkipSwiftUI/Animation/StateProvenance.swift
 +++ b/Sources/SkipSwiftUI/Animation/StateProvenance.swift
-@@ -3,6 +3,13 @@
+@@ -2,6 +2,13 @@
  import Foundation
  import SkipAndroidBridge
  import SkipUI
@@ -18,7 +18,7 @@ index 67a9e92..52eaa0b 100644
  
  /// One animated write, shared by its readers until a consuming composition is applied.
  /// Identity matters: a later write using an equal animation must receive a fresh stamp.
-@@ -44,9 +51,15 @@ struct CapturedAnimationProvenance {
+@@ -43,9 +50,15 @@ struct CapturedAnimationProvenance {
  ///
  /// All members are main-thread confined: body evaluation and Java materialization run on the
  /// main actor (the generated `Swift_composableBody` bridges through `assumeMainActorUnchecked`).
@@ -34,7 +34,7 @@ index 67a9e92..52eaa0b 100644
  
      /// Push the animation of an entered `withAnimation` scope.
      ///
-@@ -65,18 +78,36 @@ enum StateProvenance {
+@@ -64,18 +77,36 @@ enum StateProvenance {
      /// Installed lazily at the first `withAnimation` — stamps can only exist after an
      /// animation-scoped write, so earlier reads have nothing to record.
      private static let installObservationHook: Void = {
@@ -76,10 +76,10 @@ index 67a9e92..52eaa0b 100644
      static func popAnimation() {
          if !animationStack.isEmpty {
 diff --git a/Tests/SkipSwiftUITests/StateProvenanceTests.swift b/Tests/SkipSwiftUITests/StateProvenanceTests.swift
-index 0ce6788..bae4f5f 100644
+index 227e2e8..4b29a1c 100644
 --- a/Tests/SkipSwiftUITests/StateProvenanceTests.swift
 +++ b/Tests/SkipSwiftUITests/StateProvenanceTests.swift
-@@ -34,6 +34,24 @@ import XCTest
+@@ -33,6 +33,24 @@ import XCTest
          XCTAssertNil(StateProvenance.currentAnimation)
      }
  

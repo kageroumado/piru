@@ -1,10 +1,10 @@
 UNCalendarNotificationTrigger hands its DateComponents to SkipUI as `Any`, which the bridge cannot carry to Kotlin, so scheduling one is a fatal error; pending requests come back with a push trigger instead of their own; and the interruption level is missing. The components now cross as named Int values with their time zone (`dateComponents` is typed, as on iOS), pending requests carry their time-interval or calendar trigger with the date it fires, and the interruption level reaches SkipUI. Needs skip-ui 0017. Proposed upstream.
 
 diff --git a/Sources/SkipSwiftUI/UIKit/UserNotifications.swift b/Sources/SkipSwiftUI/UIKit/UserNotifications.swift
-index 61ff9a43..245d4a8b 100644
+index 873c9fb..b747745 100644
 --- a/Sources/SkipSwiftUI/UIKit/UserNotifications.swift
 +++ b/Sources/SkipSwiftUI/UIKit/UserNotifications.swift
-@@ -201,7 +201,13 @@ public final class UNNotificationRequest: @unchecked Sendable {
+@@ -200,7 +200,13 @@ public final class UNNotificationRequest: @unchecked Sendable {
      init(Java_request: SkipUI.UNNotificationRequest) {
          self.identifier = Java_request.identifier
          self.content = UNNotificationContent(Java_content: Java_request.content)
@@ -19,7 +19,7 @@ index 61ff9a43..245d4a8b 100644
      }
  
      var Java_request: SkipUI.UNNotificationRequest {
-@@ -261,6 +267,7 @@ public class UNNotificationContent {
+@@ -260,6 +266,7 @@ public class UNNotificationContent {
      public internal(set) var summaryArgument: String
      public internal(set) var summaryArgumentCount: Int
      public internal(set) var filterCriteria: String?
@@ -27,7 +27,7 @@ index 61ff9a43..245d4a8b 100644
  
      public init(title: String = "", subtitle: String = "", body: String = "", badge: Int? = nil, sound: UNNotificationSound? = UNNotificationSound.default, launchImageName: String = "", userInfo: [AnyHashable: Any] = [:], attachments: [UNNotificationAttachment] = [], categoryIdentifier: String = "", threadIdentifier: String = "", targetContentIdentifier: String? = nil, summaryArgument: String = "", summaryArgumentCount: Int = 0, filterCriteria: String? = nil) {
          self.title = title
-@@ -294,10 +301,13 @@ public class UNNotificationContent {
+@@ -293,10 +300,13 @@ public class UNNotificationContent {
          self.summaryArgument = Java_content.summaryArgument
          self.summaryArgumentCount = Java_content.summaryArgumentCount
          self.filterCriteria = Java_content.filterCriteria
@@ -42,7 +42,7 @@ index 61ff9a43..245d4a8b 100644
      }
  }
  
-@@ -358,6 +368,17 @@ public final class UNMutableNotificationContent : UNNotificationContent {
+@@ -357,6 +367,17 @@ public final class UNMutableNotificationContent : UNNotificationContent {
          get { super.filterCriteria }
          set { super.filterCriteria = newValue }
      }
@@ -60,7 +60,7 @@ index 61ff9a43..245d4a8b 100644
  }
  
  public final class UNNotificationSound {
-@@ -455,14 +476,18 @@ public class UNNotificationTrigger {
+@@ -454,14 +475,18 @@ public class UNNotificationTrigger {
  
  public final class UNTimeIntervalNotificationTrigger: UNNotificationTrigger {
      public let timeInterval: TimeInterval
@@ -79,7 +79,7 @@ index 61ff9a43..245d4a8b 100644
          super.init(Java_trigger: Java_trigger)
      }
  
-@@ -471,25 +496,68 @@ public final class UNTimeIntervalNotificationTrigger: UNNotificationTrigger {
+@@ -470,25 +495,68 @@ public final class UNTimeIntervalNotificationTrigger: UNNotificationTrigger {
      }
  
      public func nextTriggerDate() -> Date? {

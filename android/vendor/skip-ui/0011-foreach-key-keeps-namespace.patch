@@ -1,10 +1,10 @@
 Key ForEach elements by namespace and identity again: keyed by identity alone, sibling ForEach blocks that hold the same ID share Compose keys, and a row's saveable state comes back empty (a bridged view's syncState then traps on the missing StateSupport).
 
 diff --git a/Sources/SkipUI/SkipUI/Containers/ForEach.swift b/Sources/SkipUI/SkipUI/Containers/ForEach.swift
-index 7e4e6e0..16c37ab 100644
+index 6dd1292..d3fb448 100644
 --- a/Sources/SkipUI/SkipUI/Containers/ForEach.swift
 +++ b/Sources/SkipUI/SkipUI/Containers/ForEach.swift
-@@ -297,7 +297,7 @@ final class ForEachIdentityModifier: RenderModifier {
+@@ -296,7 +296,7 @@ final class ForEachIdentityModifier: RenderModifier {
          self.namespace = namespace
          self.identity = identity
          super.init(action: { renderable, context in
