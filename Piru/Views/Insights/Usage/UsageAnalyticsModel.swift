@@ -39,6 +39,8 @@ final class UsageAnalyticsModel {
     /// Stage-1 output, kept so a range change doesn't re-walk SwiftData.
     private var snapshots: [UsageEntrySnapshot] = []
     private var substances: [UsageSubstanceRef] = []
+    /// The journal's first entry, whatever the substance filter narrows to.
+    private var journalStart: Date?
     private var snapshotFingerprint: Int?
     private var resultKey: Int?
 
@@ -62,6 +64,7 @@ final class UsageAnalyticsModel {
             let resolved = Self.resolve(entries: entries)
             snapshots = resolved.snapshots
             substances = resolved.substances
+            journalStart = resolved.snapshots.map(\.timestamp).min()
             snapshotFingerprint = fingerprint
         }
 
@@ -86,10 +89,11 @@ final class UsageAnalyticsModel {
         } ?? snapshots
         let refs = substances
         let calendar = Calendar.current
+        let journalStart = journalStart
         let computed = await Task.detached(priority: .userInitiated) {
             UsageAnalytics.compute(
                 entries: payload, substances: refs, range: range,
-                calendar: calendar, now: now,
+                calendar: calendar, now: now, journalStart: journalStart,
             )
         }.value
         // The key is committed only once the result is actually published: a

@@ -161,7 +161,7 @@ nonisolated struct UsageWindowCount: Sendable, Equatable {
     let buckets: [Int]
 
     var averagePerDayText: String {
-        averagePerDay.formatted(.number.precision(.fractionLength(0 ... 1)))
+        UsageAnalytics.rateText(averagePerDay)
     }
 }
 
@@ -215,8 +215,11 @@ nonisolated struct UsageHeatmapCell: Sendable, Hashable, Identifiable {
     /// Category index → Σ commonDoses on this day.
     let byCategoryCommon: [Int: Double]
     /// `false` for the leading/trailing cells that pad the first and last week
-    /// columns outside the selected range — drawn blank, never colored.
+    /// columns outside the journal's history — drawn blank, never colored.
     let inRange: Bool
+    /// Whether the day falls inside the selected range: the grid spans the
+    /// whole history and draws the range's days at full strength.
+    let inWindow: Bool
 
     var id: Date {
         date
@@ -442,23 +445,25 @@ nonisolated struct UsageCoUsePair: Sendable, Hashable, Identifiable {
 nonisolated struct UsageRegularity: Sendable, Identifiable {
     let substanceIndex: Int
     let entryCount: Int
-    /// Mean gap, in days, between consecutive *days* on which the substance was
-    /// logged.
-    let meanIntervalDays: Double
-    /// Coefficient of variation of those gaps — lower is more regular.
-    let coefficientOfVariation: Double
+    /// The typical gap, in days, between consecutive *days* on which the
+    /// substance was logged: the median, so one long pause in a daily routine
+    /// leaves it at a day.
+    let typicalIntervalDays: Double
+    /// How far the gaps stray from the typical one, as a share of it (see
+    /// ``UsageAnalytics/intervalStatistics(_:)``) — lower is more regular.
+    let gapVariation: Double
 
     var id: Int {
         substanceIndex
     }
 
-    /// Bar fill, `0…1`: `1 - min(CV, 1.5) / 1.5` per §7.
+    /// Bar fill, `0…1`: `1 - min(variation, 1.5) / 1.5` per §7.
     var fill: Double {
-        1 - min(coefficientOfVariation, 1.5) / 1.5
+        1 - min(gapVariation, 1.5) / 1.5
     }
 
     var tier: UsageRegularityTier {
-        UsageRegularityTier(coefficientOfVariation: coefficientOfVariation)
+        UsageRegularityTier(gapVariation: gapVariation)
     }
 }
 
@@ -469,8 +474,8 @@ nonisolated enum UsageRegularityTier: Sendable, CaseIterable {
     case irregular
     case sporadic
 
-    init(coefficientOfVariation cv: Double) {
-        switch cv {
+    init(gapVariation variation: Double) {
+        switch variation {
         case ..<0.3: self = .veryRegular
         case ..<0.6: self = .somewhatRegular
         case ..<1.0: self = .irregular
@@ -522,6 +527,13 @@ nonisolated struct UsageAnalyticsResult: Sendable {
     let range: UsageTimeRange
     let substances: [UsageSubstanceRef]
     let entryCount: Int
+    /// Entries in the range that carry a common-dose value: what the
+    /// common-dose lens can weigh. Zero means that lens has nothing to draw.
+    let commonDoseEntryCount: Int
+    /// The span every time-axis chart draws: the range's first bucket through
+    /// the end of its last, so a young journal sits at the right of the range
+    /// it was asked for.
+    let timeAxis: ClosedRange<Date>
     let overview: UsageOverview
     let heatmap: UsageHeatmap
     let hours: UsageHourProfile
@@ -582,9 +594,13 @@ nonisolated enum UsageAnalytics {
         range: UsageTimeRange,
         calendar: Calendar,
         now: Date,
+        journalStart: Date? = nil,
     ) -> UsageAnalyticsResult {
         let sorted = entries.sorted { $0.timestamp < $1.timestamp }
-        let bounds = self.bounds(for: range, entries: sorted, now: now)
+        // The journal's first entry: `entries` may be narrowed to a substance
+        // filter, and a rate over days counts the days the journal existed.
+        let journalStart = journalStart ?? sorted.first?.timestamp
+        let bounds = self.bounds(for: range, entries: sorted, now: now, journalStart: journalStart)
         let inRange = sorted.filter { $0.timestamp >= bounds.start && $0.timestamp <= bounds.end }
 
         let dayIndex = groupByDay(inRange, calendar: calendar)
@@ -604,17 +620,26 @@ nonisolated enum UsageAnalytics {
         )
         let heatmap = self.heatmap(
             dayIndex: groupByDay(sorted, calendar: calendar),
-            bounds: historyBounds, calendar: calendar,
+            bounds: historyBounds, window: bounds, calendar: calendar,
         )
         let hours = hourProfile(inRange, calendar: calendar)
         let bucketStarts = self.bucketStarts(bounds: bounds, weekly: range.usesWeeklyBuckets, calendar: calendar)
         let ranking = substanceRanking(inRange)
+        let bucketDays = range.usesWeeklyBuckets ? 7 : 1
+        // The whole history, so a point near the range's start averages the
+        // days before it rather than an empty stretch.
         let trends = self.trends(
-            inRange, ranking: ranking, bucketStarts: bucketStarts,
-            bucketDays: range.usesWeeklyBuckets ? 7 : 1,
+            sorted.filter { $0.timestamp <= bounds.end }, ranking: ranking, bucketStarts: bucketStarts,
+            bucketDays: bucketDays,
             windowDays: range.rollingWindowDays,
             rangeEnd: bounds.end,
+            journalStart: journalStart.map { calendar.sessionDayStart(for: $0) },
             ratePerWeek: range.trendPerWeek,
+        )
+        let axisStart = bucketStarts.first ?? bounds.start
+        let axisEnd = max(
+            bounds.end,
+            (bucketStarts.last ?? bounds.end).addingTimeInterval(Double(bucketDays) * 86_400),
         )
         let doseLevels = self.doseLevels(inRange, ranking: ranking, bucketStarts: bucketStarts, calendar: calendar)
         let routes = routeBreakdown(inRange, ranking: ranking)
@@ -627,6 +652,8 @@ nonisolated enum UsageAnalytics {
             range: range,
             substances: substances,
             entryCount: inRange.count,
+            commonDoseEntryCount: inRange.count { $0.commonDoses != nil },
+            timeAxis: axisStart ... axisEnd,
             overview: overview,
             heatmap: heatmap,
             hours: hours,
@@ -650,27 +677,49 @@ nonisolated enum UsageAnalytics {
         let lengthDays: Double
         /// `false` for "All", where there is no earlier window to compare to.
         let hasPreviousPeriod: Bool
+        /// Where the journal begins inside the window: the journal's first
+        /// entry when the window opens before it, else the window's start.
+        let loggedStart: Date
+
+        init(start: Date, end: Date, lengthDays: Double, hasPreviousPeriod: Bool, loggedStart: Date? = nil) {
+            self.start = start
+            self.end = end
+            self.lengthDays = lengthDays
+            self.hasPreviousPeriod = hasPreviousPeriod
+            self.loggedStart = max(start, loggedStart ?? start)
+        }
+
+        /// Days of the window the journal covers, at least one — the
+        /// denominator for every per-day rate, so a week-old journal read over
+        /// "Last 30 Days" is averaged over its week.
+        var loggedDays: Double {
+            max(1, end.timeIntervalSince(loggedStart) / 86_400)
+        }
     }
 
     /// The selected window. "All" spans the first entry to now; every other
-    /// range is a fixed-length window ending now.
+    /// range is a fixed-length window ending now. `journalStart` is the
+    /// journal's first entry when `entries` is a narrowed subset of it.
     static func bounds(
         for range: UsageTimeRange,
         entries: [UsageEntrySnapshot],
         now: Date,
+        journalStart: Date? = nil,
     ) -> Bounds {
-        bounds(for: range, firstTimestamp: entries.first?.timestamp, now: now)
+        bounds(for: range, firstTimestamp: entries.first?.timestamp, now: now, journalStart: journalStart)
     }
 
-    /// The selected window, given the earliest entry ("All" starts there).
-    static func bounds(for range: UsageTimeRange, firstTimestamp: Date?, now: Date) -> Bounds {
+    /// The selected window, given the earliest entry ("All" starts there) and
+    /// the journal's first entry (`firstTimestamp` when not given).
+    static func bounds(for range: UsageTimeRange, firstTimestamp: Date?, now: Date, journalStart: Date? = nil) -> Bounds {
+        let loggedStart = journalStart ?? firstTimestamp
         guard let days = range.days else {
             let start = firstTimestamp ?? now
             let length = max(1, now.timeIntervalSince(start) / 86_400)
-            return Bounds(start: start, end: now, lengthDays: length, hasPreviousPeriod: false)
+            return Bounds(start: start, end: now, lengthDays: length, hasPreviousPeriod: false, loggedStart: loggedStart)
         }
         let start = now.addingTimeInterval(-Double(days) * 86_400)
-        return Bounds(start: start, end: now, lengthDays: Double(days), hasPreviousPeriod: true)
+        return Bounds(start: start, end: now, lengthDays: Double(days), hasPreviousPeriod: true, loggedStart: loggedStart)
     }
 
     /// Session-day start → the entries logged that day. Session days (not
@@ -752,8 +801,8 @@ nonisolated enum UsageAnalytics {
     }
 
     /// The count every Usage surface shows: entries inside `bounds` (both ends
-    /// included), their average per day of the window, and `buckets`
-    /// equal-width slices of it, oldest first.
+    /// included), their average per day the journal covers of the window, and
+    /// `buckets` equal-width slices of the whole window, oldest first.
     static func windowCount(_ timestamps: [Date], bounds: Bounds, buckets: Int = 7) -> UsageWindowCount {
         var counts = Array(repeating: 0, count: max(1, buckets))
         let span = bounds.end.timeIntervalSince(bounds.start)
@@ -769,7 +818,7 @@ nonisolated enum UsageAnalytics {
         }
         return UsageWindowCount(
             entryCount: total,
-            averagePerDay: Double(total) / max(1, bounds.lengthDays),
+            averagePerDay: Double(total) / bounds.loggedDays,
             buckets: counts,
         )
     }
@@ -780,11 +829,24 @@ nonisolated enum UsageAnalytics {
         windowCount(timestamps, bounds: bounds(for: range, firstTimestamp: timestamps.min(), now: now), buckets: buckets)
     }
 
+    /// A rate to one decimal. A rate that is above zero and would round to
+    /// zero reads "<0.1": a zero beside a count of entries says none were logged.
+    static func rateText(_ rate: Double) -> String {
+        let floor = 0.1
+        if rate > 0, rate < floor / 2 {
+            return "<" + floor.formatted(.number.precision(.fractionLength(1)))
+        }
+        return rate.formatted(.number.precision(.fractionLength(0 ... 1)))
+    }
+
     // MARK: §2 Heatmap + hours
 
+    /// The grid over `bounds` (the history), with each cell marked for whether
+    /// it falls in `window`, the selected range (`bounds` itself when not given).
     static func heatmap(
         dayIndex: [Date: [UsageEntrySnapshot]],
         bounds: Bounds,
+        window: Bounds? = nil,
         calendar: Calendar,
     ) -> UsageHeatmap {
         let rowWeekdays = (0 ..< 7).map { (calendar.firstWeekday - 1 + $0) % 7 + 1 }
@@ -804,6 +866,7 @@ nonisolated enum UsageAnalytics {
 
         let startDay = calendar.sessionDayStart(for: bounds.start)
         let endDay = calendar.sessionDayStart(for: bounds.end)
+        let windowStartDay = calendar.sessionDayStart(for: max(bounds.start, (window ?? bounds).start))
 
         var cells: [UsageHeatmapCell] = []
         cells.reserveCapacity(weekStarts.count * 7)
@@ -835,6 +898,7 @@ nonisolated enum UsageAnalytics {
                     byCategory: byCategory,
                     byCategoryCommon: byCategoryCommon,
                     inRange: day >= startDay && day <= endDay,
+                    inWindow: day >= windowStartDay && day <= endDay,
                 ))
             }
         }
@@ -966,6 +1030,13 @@ nonisolated enum UsageAnalytics {
     ///
     /// The value is always normalized to entries **per week**, whatever the
     /// window is, so the y-axis means the same thing on 7D and on All.
+    ///
+    /// `entries` is the history up to `rangeEnd`, reaching back past the first
+    /// bucket, so a point at the range's start holds a true average of the days
+    /// before it. `journalStart` is the day the journal begins: a bucket whose
+    /// window would open before it is left out, since an average over days
+    /// with no journal draws a climb from zero that never happened. A journal
+    /// younger than the window has no points at all.
     static func trends(
         _ entries: [UsageEntrySnapshot],
         ranking: [(substanceIndex: Int, count: Int)],
@@ -973,6 +1044,7 @@ nonisolated enum UsageAnalytics {
         bucketDays: Int,
         windowDays: Int,
         rangeEnd: Date,
+        journalStart: Date? = nil,
         ratePerWeek: Bool = true,
     ) -> [UsageTrendSeries] {
         guard !bucketStarts.isEmpty, windowDays > 0 else { return [] }
@@ -991,10 +1063,23 @@ nonisolated enum UsageAnalytics {
                 .append((entry.timestamp, entry.commonDoses))
         }
 
+        // Measured on the bucket's own end rather than the clamped close, so
+        // the youngest bucket is judged like the others.
+        let drawnStarts = bucketStarts.filter { start in
+            guard let journalStart else { return true }
+            return start.addingTimeInterval(bucketSpan - window) >= journalStart
+        }
+        guard let earliest = drawnStarts.first else {
+            return top.map { UsageTrendSeries(substanceIndex: $0.substanceIndex, points: [], hasCommonDoses: false) }
+        }
+        let reach = earliest.addingTimeInterval(bucketSpan - window)
+
         return top.map { item in
-            let events = (eventsBySubstance[item.substanceIndex] ?? []).sorted { $0.date < $1.date }
+            let events = (eventsBySubstance[item.substanceIndex] ?? [])
+                .filter { $0.date > reach }
+                .sorted { $0.date < $1.date }
             let hasCommon = events.contains { $0.common != nil }
-            let points = bucketStarts.map { start in
+            let points = drawnStarts.map { start in
                 let close = min(start.addingTimeInterval(bucketSpan), rangeEnd)
                 let lower = close.addingTimeInterval(-window)
                 var count = 0
@@ -1186,27 +1271,34 @@ nonisolated enum UsageAnalytics {
             return UsageRegularity(
                 substanceIndex: index,
                 entryCount: entryCount,
-                meanIntervalDays: stats.mean,
-                coefficientOfVariation: stats.coefficientOfVariation,
+                typicalIntervalDays: stats.median,
+                gapVariation: stats.variation,
             )
         }
         .sorted {
-            if $0.coefficientOfVariation != $1.coefficientOfVariation {
-                return $0.coefficientOfVariation < $1.coefficientOfVariation
+            if $0.gapVariation != $1.gapVariation {
+                return $0.gapVariation < $1.gapVariation
             }
             return $0.substanceIndex < $1.substanceIndex
         }
     }
 
-    /// Mean, population standard deviation, and CV of a set of gaps. `nil` when
-    /// there is nothing to describe (no gaps, or a mean of zero).
-    static func intervalStatistics(_ intervals: [Double]) -> (mean: Double, standardDeviation: Double, coefficientOfVariation: Double)? {
+    /// The typical gap and how far the gaps stray from it: the median, and the
+    /// mean absolute deviation from the median as a share of it. `nil` when
+    /// there is nothing to describe (no gaps, or a median of zero).
+    ///
+    /// Measured around the median, NOT as standard deviation over mean: one
+    /// three-week pause in a daily routine gives 180 one-day gaps a
+    /// coefficient of variation of 1.4, which grades the steadiest substance
+    /// in a journal "Sporadic".
+    static func intervalStatistics(_ intervals: [Double]) -> (median: Double, variation: Double)? {
         guard !intervals.isEmpty else { return nil }
-        let mean = intervals.reduce(0, +) / Double(intervals.count)
-        guard mean > 0 else { return nil }
-        let variance = intervals.reduce(0) { $0 + ($1 - mean) * ($1 - mean) } / Double(intervals.count)
-        let deviation = variance.squareRoot()
-        return (mean, deviation, deviation / mean)
+        let sorted = intervals.sorted()
+        let middle = sorted.count / 2
+        let median = sorted.count.isMultiple(of: 2) ? (sorted[middle - 1] + sorted[middle]) / 2 : sorted[middle]
+        guard median > 0 else { return nil }
+        let deviation = sorted.reduce(0) { $0 + abs($1 - median) } / Double(sorted.count)
+        return (median, deviation / median)
     }
 
     // MARK: §8 Day of week
@@ -1240,11 +1332,12 @@ nonisolated enum UsageAnalytics {
         }
     }
 
-    /// How many times each weekday falls inside the window — so §8's "average
-    /// per weekday" divides by the right denominator on a partial range.
+    /// How many times each weekday falls inside the part of the window the
+    /// journal covers — so §8's "average per weekday" divides by the right
+    /// denominator on a partial range and on a journal younger than the range.
     static func weekdayOccurrences(bounds: Bounds, calendar: Calendar) -> [Int: Int] {
         var counts: [Int: Int] = [:]
-        var cursor = calendar.startOfDay(for: bounds.start)
+        var cursor = calendar.startOfDay(for: bounds.loggedStart)
         let end = bounds.end
         var guardRail = 0
         while cursor <= end, guardRail < 4_000 {

@@ -2,7 +2,9 @@ import Charts
 import SwiftUI
 
 /// §8 — "which days of the week am I most active?" Seven bars, one per weekday,
-/// with the per-weekday average underneath.
+/// each the average for that weekday, with the same figure printed underneath.
+/// An average, since a 30-day range holds five of some weekdays and four of
+/// others, and totals would rank the days by how often they came around.
 ///
 /// Deliberately a single color, not stacked by class: the class split had no
 /// legend, so the stack of a dozen category colors read as noise rather than
@@ -13,13 +15,14 @@ struct UsageWeekdaySection: View {
     let buckets: [UsageWeekdayBucket]
     /// The Entries/Common-doses lens, owned globally by the Usage toolbar filter.
     let metric: UsageRankMetric
+    let coverage: UsageCommonDoseCoverage
 
     var body: some View {
         UsageSectionCard(title: "Day of week") {
             Chart(buckets) { bucket in
                 BarMark(
                     x: .value("Day", label(for: bucket.weekday)),
-                    y: .value("Amount", value(bucket)),
+                    y: .value("Amount", average(bucket)),
                 )
                 .foregroundStyle(Theme.accent)
                 .cornerRadius(3)
@@ -44,13 +47,9 @@ struct UsageWeekdaySection: View {
             .chartSummaryAccessibility(label: Text("Day of week"), value: Text(summary))
 
             averagesRow
-        }
-    }
 
-    /// The active metric's total for a weekday — its entry count, or the
-    /// common-dose units logged on it (0 when it carries none).
-    private func value(_ bucket: UsageWeekdayBucket) -> Double {
-        metric == .commonDoses ? (bucket.commonTotal ?? 0) : Double(bucket.total)
+            UsageCommonDoseCoverageNote(coverage: coverage)
+        }
     }
 
     /// The per-occurrence average of the active metric — divided by how many
@@ -81,7 +80,7 @@ struct UsageWeekdaySection: View {
     }
 
     private var summary: String {
-        guard let peak = buckets.max(by: { value($0) < value($1) }), value(peak) > 0 else {
+        guard let peak = buckets.max(by: { average($0) < average($1) }), average(peak) > 0 else {
             return String(localized: "No entries in this window")
         }
         if metric == .commonDoses {

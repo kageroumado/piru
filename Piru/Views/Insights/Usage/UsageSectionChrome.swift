@@ -54,6 +54,61 @@ extension View {
 /// enough that a year doesn't crush into a few pixels per week.
 let usageChartWindowSeconds: Double = 120 * 86_400
 
+/// The x axis the Usage screen's time charts share: the selected range's own
+/// span, so a chart with one day of data sits at the right of the range it was
+/// asked for, and each tick names a different date.
+struct UsageTimeAxis {
+    let domain: ClosedRange<Date>
+
+    var length: Double {
+        domain.upperBound.timeIntervalSince(domain.lowerBound)
+    }
+
+    /// The start of the most-recent visible window, where a chart that
+    /// scrolls opens.
+    var windowStart: Date {
+        domain.upperBound.addingTimeInterval(-usageChartWindowSeconds)
+    }
+
+    /// Ticks name the month alone only when a screenful holds several months;
+    /// under that, two ticks would land in one month and print it twice.
+    var tickFormat: Date.FormatStyle {
+        min(length, usageChartWindowSeconds) > 100 * 86_400
+            ? .dateTime.month(.abbreviated)
+            : .dateTime.month(.abbreviated).day()
+    }
+}
+
+// MARK: - Common-dose coverage
+
+/// How much of the range the common-dose lens can weigh. An entry whose
+/// substance has no common dose counts for nothing in that lens, so each
+/// common-dose chart says how many it stands on.
+struct UsageCommonDoseCoverage {
+    let metric: UsageRankMetric
+    let covered: Int
+    let total: Int
+
+    /// Whether the active lens leaves entries out.
+    var isPartial: Bool {
+        metric == .commonDoses && covered < total
+    }
+}
+
+/// The line under a common-dose chart that is drawn from part of the range's
+/// entries. Draws nothing when every entry is counted.
+struct UsageCommonDoseCoverageNote: View {
+    let coverage: UsageCommonDoseCoverage
+
+    var body: some View {
+        if coverage.isPartial {
+            Text("Based on \(coverage.covered) of \(coverage.total) entries with a common dose")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+    }
+}
+
 // MARK: - Index ↔ enum
 
 /// Maps the plain indices the off-main aggregation works in back to the

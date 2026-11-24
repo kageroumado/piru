@@ -12,21 +12,23 @@ struct UsageHeatmapSection: View {
     let categories: [(categoryIndex: Int, count: Int)]
     /// The Entries/Common-doses lens, owned globally by the Usage toolbar filter.
     let metric: UsageRankMetric
-    /// The selected range, which the hour histogram covers (the grid covers
-    /// every logged day).
+    /// The selected range, which the hour histogram covers. The grid covers
+    /// every logged day and draws the range's days at full strength.
     let range: UsageTimeRange
+    let coverage: UsageCommonDoseCoverage
 
     @State private var categoryFilter: Int?
     @State private var selectedDay: Date?
-    /// How many weeks the grid draws, padding included: the span its title names.
-    @State private var drawnWeeks = 0
 
     private var accent: Color {
         categoryFilter.map { UsageAxes.category($0).color } ?? Theme.accent
     }
 
     var body: some View {
-        UsageSectionCard(title: drawnWeeks > 0 ? "Activity · \(drawnWeeks) weeks" : "Activity") {
+        // The weeks the journal spans; the columns padding a short journal
+        // out to the card's width hold no history and are not counted. The
+        // key has no singular form, so a one-week journal shows the bare title.
+        UsageSectionCard(title: heatmap.weekStarts.count > 1 ? "Activity · \(heatmap.weekStarts.count) weeks" : "Activity") {
             if filterCategories.count > 1 {
                 UsageCategoryFilterBar(categories: filterCategories, selection: $categoryFilter)
             }
@@ -37,7 +39,6 @@ struct UsageHeatmapSection: View {
                 metric: metric,
                 accent: accent,
                 selectedDay: $selectedDay,
-                drawnWeeks: $drawnWeeks,
             )
 
             UsageHourHistogram(
@@ -48,6 +49,8 @@ struct UsageHeatmapSection: View {
                 range: range,
                 onClearDay: { selectedDay = nil },
             )
+
+            UsageCommonDoseCoverageNote(coverage: coverage)
         }
         .onChange(of: heatmap.weekStarts.first) { selectedDay = nil }
         .onChange(of: metric) {
@@ -80,20 +83,21 @@ struct UsageHeatmapSection: View {
 
 /// The contribution grid itself: one column per week, seven rows per column.
 ///
-/// GitHub-style: the grid **fills the card width**. A short range (a few weeks of
-/// data) is padded on the left with earlier week columns so the block spans the
-/// card instead of floating in the top-left; a long range keeps a fixed cell and
-/// scrolls, anchored to the most recent week. Every past day is a square —
-/// colored by intensity when something was logged, gray when nothing was — so an
-/// empty stretch reads as a real quiet run, not a hole. Only future days (the
-/// rest of the current week) stay blank.
+/// GitHub-style: the grid **fills the card width**. A short history (a few weeks
+/// of data) is padded on the left with earlier week columns so the block spans
+/// the card instead of floating in the top-left; a long one sizes its cells so
+/// whole columns fill the viewport and scrolls, anchored to the most recent
+/// week. Every past day is a square — colored by intensity when something was
+/// logged, gray when nothing was — so an empty stretch reads as a real quiet
+/// run, not a hole. Days outside the selected range, and the padding before
+/// the journal began, draw faded. Only future days (the rest of the current
+/// week) stay blank.
 private struct UsageHeatmapGrid: View {
     let heatmap: UsageHeatmap
     let categoryFilter: Int?
     let metric: UsageRankMetric
     let accent: Color
     @Binding var selectedDay: Date?
-    @Binding var drawnWeeks: Int
 
     /// Width of the whole grid area (card content width). Measured on the outer
     /// container — not the ScrollView, whose width feeds back through its content.
@@ -106,6 +110,8 @@ private struct UsageHeatmapGrid: View {
     /// Width of the leading weekday-label sidebar — wide enough for a three-letter
     /// abbreviation ("Wed") rather than an ambiguous single letter.
     private let labelWidth: CGFloat = 30
+    /// How strongly a day outside the selected range draws.
+    private static let outsideRangeOpacity = 0.4
 
     var body: some View {
         let layout = layout(for: containerWidth)
@@ -117,7 +123,7 @@ private struct UsageHeatmapGrid: View {
         HStack(alignment: .top, spacing: cellSpacing) {
             weekdayLabels(cellSize: layout.cell)
                 .frame(width: labelWidth)
-            ScrollView(.horizontal, showsIndicators: false) {
+            ScrollView(.horizontal) {
                 ScrollViewReader { proxy in
                     HStack(alignment: .top, spacing: cellSpacing) {
                         ForEach(Array(layout.weekStarts.enumerated()), id: \.offset) { column, weekStart in
@@ -143,14 +149,13 @@ private struct UsageHeatmapGrid: View {
             // the grid past the card and floated the sidebar inward.
             .frame(width: max(0, containerWidth - labelWidth - cellSpacing))
             .scrollBounceBehavior(.basedOnSize)
+            // A history wider than the card opens on its newest weeks; the
+            // indicator's flash says there is more to the left.
+            .scrollIndicatorsFlash(onAppear: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width in
             containerWidth = width
-            drawnWeeks = self.layout(for: width).weekStarts.count
-        }
-        .onChange(of: heatmap.weekStarts.count) {
-            drawnWeeks = self.layout(for: containerWidth).weekStarts.count
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text("Activity heatmap"))
@@ -160,8 +165,9 @@ private struct UsageHeatmapGrid: View {
     // MARK: Layout
 
     /// The columns to draw and the cell size, resolved against the available
-    /// width. Short ranges gain leading gray weeks and a slightly larger cell to
-    /// fill the card; long ranges keep ``baseCell`` and scroll.
+    /// width. Short histories gain leading gray weeks and a slightly larger cell
+    /// to fill the card; long ones stretch ``baseCell`` so a whole number of
+    /// columns fills the viewport, and scroll.
     private struct GridLayout {
         let weekStarts: [Date]
         let cell: CGFloat
@@ -186,9 +192,12 @@ private struct UsageHeatmapGrid: View {
 
         let available = width - labelWidth - cellSpacing
         let fit = max(1, Int((available + cellSpacing) / (baseCell + cellSpacing)))
+        // Sized so `fit` whole columns fill the viewport: scrolled to the
+        // newest week, the leading edge falls between two columns rather than
+        // through one.
+        let fitted = (available - CGFloat(fit - 1) * cellSpacing) / CGFloat(fit)
         guard actual.count < fit, let first = actual.first else {
-            // Already fills (or overflows) the width — fixed cell, scrollable.
-            return GridLayout(weekStarts: actual, cell: baseCell, cellByDate: cellByDate, lastInRange: lastInRange)
+            return GridLayout(weekStarts: actual, cell: fitted, cellByDate: cellByDate, lastInRange: lastInRange)
         }
 
         // Pad on the left with empty earlier weeks to reach the fill count, and
@@ -196,9 +205,7 @@ private struct UsageHeatmapGrid: View {
         let calendar = Calendar.current
         let padded = stride(from: fit - actual.count, through: 1, by: -1)
             .compactMap { calendar.date(byAdding: .weekOfYear, value: -$0, to: first) }
-        let weekStarts = padded + actual
-        let cell = (available - CGFloat(weekStarts.count - 1) * cellSpacing) / CGFloat(weekStarts.count)
-        return GridLayout(weekStarts: weekStarts, cell: cell, cellByDate: cellByDate, lastInRange: lastInRange)
+        return GridLayout(weekStarts: padded + actual, cell: fitted, cellByDate: cellByDate, lastInRange: lastInRange)
     }
 
     // MARK: Cells
@@ -207,10 +214,15 @@ private struct UsageHeatmapGrid: View {
         let day = dayDate(weekStart: weekStart, row: row)
         let cellData = layout.cellByDate[day]
         let value = displayValue(cellData)
+        let isLogged = entryCount(cellData) > 0
+        // The hour chart below covers the selected range, so only a logged
+        // day inside it can narrow the chart.
+        let isSelectable = isLogged && cellData?.inWindow == true
         let isFuture = day > layout.lastInRange
-        let isSelected = cellData.map { selectedDay == $0.date && value > 0 } ?? false
+        let isSelected = cellData.map { selectedDay == $0.date && isSelectable } ?? false
         return RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
-            .fill(fill(value: value, isFuture: isFuture))
+            .fill(fill(value: value, isLogged: isLogged, isFuture: isFuture))
+            .opacity(cellData?.inWindow == true ? 1 : Self.outsideRangeOpacity)
             .frame(width: layout.cell, height: layout.cell)
             .overlay {
                 if isSelected {
@@ -220,12 +232,12 @@ private struct UsageHeatmapGrid: View {
             }
             .contentShape(Rectangle())
             .onTapGesture {
-                guard let cellData, value > 0 else { return }
+                guard let cellData, isSelectable else { return }
                 withAnimation(.easeInOut(duration: 0.2)) {
                     selectedDay = selectedDay == cellData.date ? nil : cellData.date
                 }
             }
-            .accessibilityHidden(value == 0)
+            .accessibilityHidden(!isSelectable)
             .accessibilityLabel(cellData.map { Text($0.date.formatted(.dateTime.weekday(.wide).day().month(.abbreviated))) } ?? Text(""))
             .accessibilityValue(Text(valueLabel(cellData)))
             .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
@@ -309,12 +321,21 @@ private struct UsageHeatmapGrid: View {
         }
     }
 
-    private func fill(value: Double, isFuture: Bool) -> Color {
+    /// Entries logged on the cell's day, narrowed to the filtered category:
+    /// what decides whether the day is gray, whatever the lens weighs.
+    private func entryCount(_ cell: UsageHeatmapCell?) -> Int {
+        guard let cell, cell.inRange else { return 0 }
+        return categoryFilter.map { cell.byCategory[$0] ?? 0 } ?? cell.total
+    }
+
+    private func fill(value: Double, isLogged: Bool, isFuture: Bool) -> Color {
         // Future days (the rest of the current week) haven't happened — blank,
         // not gray. Every past day is a square: gray when empty, so a quiet run
-        // reads as a real absence rather than a gap in the grid.
+        // reads as a real absence rather than a gap in the grid. Gray means
+        // nothing was logged: a day whose entries have no common dose takes
+        // the lightest step of the ramp under that lens.
         if isFuture { return .clear }
-        guard value > 0 else { return Color.platformTertiarySystemFill }
+        guard isLogged else { return Color.platformTertiarySystemFill }
         let peak = max(metric == .commonDoses ? heatmap.maxCommon : Double(heatmap.maxCount), 0.0001)
         let fraction = min(1, value / peak)
         return accent.opacity(0.28 + 0.72 * fraction)

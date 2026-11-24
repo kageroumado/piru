@@ -123,24 +123,68 @@ enum AdherenceCalculator {
         )
     }
 
+    /// The journal day each undated med's schedule opens on, for
+    /// ``adherence(for:entries:dailyItems:calendar:boundaryHour:scheduleOpens:)``.
+    ///
+    /// A med saved in the app carries the day it was added as its start date.
+    /// An imported one, or one saved before meds had a start date, carries
+    /// ``Foundation/Date/distantPast``, and read literally that makes every day
+    /// before its first dose a missed one. Such a med opens on the day of the
+    /// first dose that satisfies it, or today when none has been logged: the
+    /// days before that hold no record either way.
+    ///
+    /// `entries` is the whole journal. Meds with a start date are left out;
+    /// their schedule opens where ``isDue(_:on:)`` already says.
+    static func scheduleOpens(
+        for dailyItems: [DailyDoseItem],
+        entries: [DoseEntry],
+        now: Date = .now,
+        calendar: Calendar = .current,
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+    ) -> [ObjectIdentifier: Date] {
+        let undated = dailyItems.filter { $0.startDate == .distantPast && !$0.isAsNeeded }
+        guard !undated.isEmpty else { return [:] }
+        let products = CustomSubstanceStore.shared.productMeds
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        var opens: [ObjectIdentifier: Date] = [:]
+        for item in undated {
+            var first: DoseEntry?
+            for entry in entries where entryMatches(entry: entry, item: item, products: products) {
+                if let current = first, current.timestamp <= entry.timestamp { continue }
+                first = entry
+            }
+            let firstDay = first?.journalDay(in: calendar, boundaryHour: boundaryHour)
+            opens[ObjectIdentifier(item)] = min(firstDay ?? today, today)
+        }
+        return opens
+    }
+
     /// One journal day's adherence. `date` names the day (any instant on its
     /// calendar date; pass ``Foundation/Calendar/journalDay(for:boundaryHour:)``
     /// of an instant to ask about the day that instant falls in), and a dose
     /// counts toward it when its own journal day, read on the clock of the zone
     /// it was logged in, is that day.
+    ///
+    /// `scheduleOpens` is ``scheduleOpens(for:entries:now:calendar:boundaryHour:)``:
+    /// a med listed there is due only from its day on.
     static func adherence(
         for date: Date,
         entries: [DoseEntry],
         dailyItems: [DailyDoseItem],
         calendar: Calendar = .current,
         boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+        scheduleOpens: [ObjectIdentifier: Date] = [:],
     ) -> DayAdherence {
         let day = calendar.startOfDay(for: date)
         let dayEntries = entries.filter { $0.journalDay(in: calendar, boundaryHour: boundaryHour) == day }
 
         // Filter to only items due on this date. As-needed (PRN) meds carry
         // no expectation and are never counted (or marked missed).
-        let dueItems = dailyItems.filter { !$0.isAsNeeded && isDue($0, on: day) }
+        let dueItems = dailyItems.filter { item in
+            guard !item.isAsNeeded, isDue(item, on: day) else { return false }
+            guard let opens = scheduleOpens[ObjectIdentifier(item)] else { return true }
+            return day >= opens
+        }
 
         guard !dueItems.isEmpty else {
             return DayAdherence(date: date, status: .noData, takenCount: 0, totalCount: 0, items: [])

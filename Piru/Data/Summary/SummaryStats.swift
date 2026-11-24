@@ -196,9 +196,13 @@ nonisolated enum SummaryStats {
 
     // MARK: Holidays
 
-    /// Days are journal days (`Calendar.journalDay`).
+    /// Days are journal days (`Calendar.journalDay`). `doses` is the journal
+    /// up to `end`, and the count opens on its first day when the window
+    /// opens before it: a day before the journal began is neither a day used
+    /// nor a break.
     private static func holidays(doses: [SummaryDose], start: Date, end: Date, calendar: Calendar, boundaryHour: Int) -> HolidayStats {
-        let startDay = calendar.journalDay(for: start, boundaryHour: boundaryHour)
+        let journalStart = doses.map(\.timestamp).min() ?? start
+        let startDay = calendar.journalDay(for: max(start, min(journalStart, end)), boundaryHour: boundaryHour)
         let endDay = calendar.journalDay(for: end, boundaryHour: boundaryHour)
         let totalDays = max(1, (calendar.dateComponents([.day], from: startDay, to: endDay).day ?? 0) + 1)
 

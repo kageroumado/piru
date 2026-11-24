@@ -166,6 +166,58 @@ struct AdherenceCalculatorTests {
     }
 
     @Test
+    func `A med with no start date opens on the day of its first dose`() {
+        // Imported with no start date, taken on each of the last four days.
+        let item = makeItem(substance: "Concerta")
+        let entries = (-3 ... 0).map { makeEntry(substance: "Concerta", timestamp: dayOffset($0).addingTimeInterval(9 * 3_600)) }
+        let opens = AdherenceCalculator.scheduleOpens(for: [item], entries: entries, now: suiteNow)
+        #expect(opens[ObjectIdentifier(item)] == dayOffset(-3))
+
+        let days = (-20 ... 0).map {
+            AdherenceCalculator.adherence(for: dayOffset($0), entries: entries, dailyItems: [item], scheduleOpens: opens)
+        }
+        // 4 of 4: the sixteen days before the first dose are no data, never missed.
+        #expect(days.reduce(0) { $0 + $1.totalCount } == 4)
+        #expect(days.reduce(0) { $0 + $1.takenCount } == 4)
+        #expect(days.count { $0.status == .missed } == 0)
+        #expect(days.count { $0.status == .noData } == 17)
+    }
+
+    @Test
+    func `A med with no start date and no dose yet is due from today`() {
+        let item = makeItem(substance: "Concerta")
+        let opens = AdherenceCalculator.scheduleOpens(for: [item], entries: [], now: suiteNow)
+        #expect(opens[ObjectIdentifier(item)] == today)
+
+        let yesterday = AdherenceCalculator.adherence(for: dayOffset(-1), entries: [], dailyItems: [item], scheduleOpens: opens)
+        #expect(yesterday.status == .noData)
+        let now = AdherenceCalculator.adherence(for: today, entries: [], dailyItems: [item], scheduleOpens: opens)
+        #expect(now.status == .missed)
+        #expect(now.totalCount == 1)
+    }
+
+    @Test
+    func `A missed day after an undated med's first dose still counts`() {
+        // First dose five days ago, then nothing until today.
+        let item = makeItem(substance: "Concerta")
+        let entries = [-5, 0].map { makeEntry(substance: "Concerta", timestamp: dayOffset($0).addingTimeInterval(9 * 3_600)) }
+        let opens = AdherenceCalculator.scheduleOpens(for: [item], entries: entries, now: suiteNow)
+        let days = (-10 ... 0).map {
+            AdherenceCalculator.adherence(for: dayOffset($0), entries: entries, dailyItems: [item], scheduleOpens: opens)
+        }
+
+        #expect(days.reduce(0) { $0 + $1.totalCount } == 6)
+        #expect(days.count { $0.status == .missed } == 4)
+    }
+
+    @Test
+    func `A med with a start date keeps it, whatever was logged before`() {
+        let item = makeItem(substance: "Concerta", startDate: dayOffset(-3))
+        let entries = [makeEntry(substance: "Concerta", timestamp: dayOffset(-9).addingTimeInterval(9 * 3_600))]
+        #expect(AdherenceCalculator.scheduleOpens(for: [item], entries: entries, now: suiteNow).isEmpty)
+    }
+
+    @Test
     func `Days before a med began add nothing to the scheduled count`() {
         // Started three days ago, taken every day since: 4 of 4, however far back the month reaches.
         let item = makeItem(substance: "Concerta", startDate: dayOffset(-3))

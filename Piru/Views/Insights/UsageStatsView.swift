@@ -105,11 +105,15 @@ struct UsageStatsView: View {
         }
     }
 
+    /// With a substance filter on, the filter is why the range is empty, so
+    /// the line names it; a longer range is the answer only without one.
     private var emptyRange: some View {
         ContentUnavailableView(
             "Nothing in This Range",
             systemImage: "calendar",
-            description: Text("Pick a longer time range to see your history."),
+            description: selectedSubstances.isEmpty
+                ? Text("Pick a longer time range to see your history.")
+                : Text("No entries match the substance filter in this range."),
         )
         .padding(.top, 40)
     }
@@ -117,6 +121,12 @@ struct UsageStatsView: View {
     @ViewBuilder
     private func sections(_ result: UsageAnalyticsResult) -> some View {
         let style = UsageSubstanceStyle(substances: result.substances, colorMap: model.colorMap)
+        // A range where no entry has a common dose reads in entries: weighed
+        // by common doses, every chart on the screen would be empty.
+        let metric: UsageRankMetric = result.commonDoseEntryCount == 0 ? .entries : self.metric
+        let coverage = UsageCommonDoseCoverage(
+            metric: metric, covered: result.commonDoseEntryCount, total: result.entryCount,
+        )
 
         UsageOverviewSection(overview: result.overview, range: result.range)
 
@@ -126,16 +136,21 @@ struct UsageStatsView: View {
             categories: result.categories,
             metric: metric,
             range: result.range,
+            coverage: coverage,
         )
 
-        UsageTrendsSection(trends: result.trends, style: style, range: result.range, metric: metric)
+        UsageTrendsSection(
+            trends: result.trends, style: style, range: result.range, metric: metric,
+            timeAxis: result.timeAxis, coverage: coverage,
+        )
 
-        UsageWeekdaySection(buckets: result.weekdays, metric: metric)
+        UsageWeekdaySection(buckets: result.weekdays, metric: metric, coverage: coverage)
 
         UsageDoseLevelSection(
             breakdown: result.doseLevels,
             style: style,
             weekly: result.range.usesWeeklyBuckets,
+            timeAxis: result.timeAxis,
         )
 
         UsageCoUseSection(pairs: result.coUse, style: style, categories: result.categories)

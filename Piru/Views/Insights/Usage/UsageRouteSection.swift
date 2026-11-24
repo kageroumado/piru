@@ -42,25 +42,8 @@ private struct UsageRankingContent: View {
     let style: UsageSubstanceStyle
     let metric: UsageRankMetric
 
-    /// Rows in the active metric's order, truncated to the list length. In
-    /// common-dose mode substances with no common-dose value sink below every
-    /// substance that has one, in their entry-count order, so the "—" rows read
-    /// as a labeled tail rather than salting the ranking.
     private var rankedRows: [UsageRouteRow] {
-        let sorted: [UsageRouteRow] = switch metric {
-        case .entries:
-            breakdown.rows
-        case .commonDoses:
-            breakdown.rows.sorted { lhs, rhs in
-                switch (lhs.commonTotal, rhs.commonTotal) {
-                case let (l?, r?): l > r
-                case (nil, _?): false
-                case (_?, nil): true
-                case (nil, nil): lhs.total > rhs.total
-                }
-            }
-        }
-        return Array(sorted.prefix(UsageAnalytics.maximumRouteRows))
+        breakdown.rankedRows(metric: metric)
     }
 
     /// The largest active-metric value in the shown rows — the denominator every
@@ -143,8 +126,8 @@ private struct UsageRankRowView: View {
     let name: String
 
     /// `true` when the active metric is common-dose units and this substance has
-    /// none — drawn as an empty track and a dash, dimmed, so it reads as
-    /// "not measurable this way", not "never taken".
+    /// none — drawn as an empty track beside its entry count, dimmed, so it
+    /// reads as "logged, with no common dose to weigh it by".
     private var isUnavailable: Bool {
         metric == .commonDoses && row.commonTotal == nil
     }
@@ -204,7 +187,7 @@ private struct UsageRankRowView: View {
         case .entries:
             "\(row.total)"
         case .commonDoses:
-            row.commonTotal.map(UsageRankRowView.formatCommon) ?? "—"
+            row.commonTotal.map(UsageRankRowView.formatCommon) ?? String(localized: "\(row.total) entries")
         }
     }
 
@@ -223,9 +206,30 @@ private struct UsageRankRowView: View {
             return String(localized: "\(row.total) entries: \(parts.joined(separator: ", "))")
         case .commonDoses:
             guard let total = row.commonTotal else {
-                return String(localized: "No common dose defined")
+                return String(localized: "\(row.total) entries") + ", " + String(localized: "No common dose defined")
             }
             return String(localized: "\(UsageRankRowView.formatCommon(total)) common-dose units across \(row.total) entries")
+        }
+    }
+}
+
+extension UsageRouteBreakdown {
+    /// Rows in `metric`'s order, truncated to `limit`. Under common doses,
+    /// substances with no common-dose value follow every substance that has
+    /// one, in their entry-count order, each showing its entry count, so they
+    /// read as a labeled tail rather than salting the ranking. The tail has its
+    /// own allowance: cut from the common-dose ranking's end, a daily
+    /// medication would vanish from the list.
+    nonisolated func rankedRows(metric: UsageRankMetric, limit: Int = UsageAnalytics.maximumRouteRows) -> [UsageRouteRow] {
+        switch metric {
+        case .entries:
+            return Array(rows.prefix(limit))
+        case .commonDoses:
+            let weighed = rows
+                .filter { $0.commonTotal != nil }
+                .sorted { ($0.commonTotal ?? 0) > ($1.commonTotal ?? 0) }
+            let unweighed = rows.filter { $0.commonTotal == nil }
+            return Array(weighed.prefix(limit)) + Array(unweighed.prefix(limit))
         }
     }
 }

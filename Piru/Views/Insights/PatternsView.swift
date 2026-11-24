@@ -141,7 +141,7 @@ private struct ExposureCard: View {
     let report: JournalSummary
 
     var body: some View {
-        UsageSectionCard(title: "Cumulative exposure", subtitle: "Total taken this range, in each substance's common-dose unit") {
+        UsageSectionCard(title: "Cumulative exposure", subtitle: "Total taken this range") {
             if report.opioidPeakDayMME != nil || report.benzoDiazepamPerDay != nil {
                 summaryCallout
             }
@@ -197,7 +197,7 @@ private struct MMEBand: View {
             VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text("Opioids: peak day ≈ \(peakDayMME.formatted(.number.precision(.fractionLength(0)))) MME")
                     .sectionLabel()
-                Text("Average \(dailyMean.formatted(.number.precision(.fractionLength(0 ... 1)))) MME/day over the range")
+                Text("Average \(UsageAnalytics.rateText(dailyMean)) MME/day over the range")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             }

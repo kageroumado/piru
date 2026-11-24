@@ -179,6 +179,53 @@ struct UsageAnalyticsTests {
     }
 
     @Test
+    func `Per day divides by the days the journal covers, not the whole range`() {
+        // A journal that began a week ago: 28 entries, four a day.
+        let now = date(2_026, 6, 15, 12)
+        let first = now.addingTimeInterval(-7 * 86_400)
+        let stamps = (0 ..< 28).map { first.addingTimeInterval(Double($0) * 6 * 3_600) }
+
+        // The same four a day on every range, All included.
+        for range in UsageTimeRange.allCases {
+            let count = UsageAnalytics.windowCount(stamps, range: range, now: now, buckets: 7)
+            #expect(count.entryCount == 28)
+            #expect(count.averagePerDay == 4)
+        }
+    }
+
+    @Test
+    func `Per day divides by the range once the journal is older than it`() {
+        let now = date(2_026, 6, 15, 12)
+        // One entry a day for 100 days: 30 of them fall in the 30-day range.
+        let stamps = (0 ..< 100).map { now.addingTimeInterval(-Double($0) * 86_400 - 3_600) }
+        let count = UsageAnalytics.windowCount(stamps, range: .thirtyDays, now: now, buckets: 30)
+
+        #expect(count.entryCount == 30)
+        #expect(count.averagePerDay == 1)
+    }
+
+    @Test
+    func `A substance filter leaves per day on the journal's days`() {
+        // The journal began 20 days ago; the filtered substance was logged twice, yesterday.
+        let now = date(2_026, 6, 15, 12)
+        let filtered = [snapshot(at: now.addingTimeInterval(-86_400)), snapshot(at: now.addingTimeInterval(-80_000))]
+        let result = UsageAnalytics.compute(
+            entries: filtered, substances: [], range: .thirtyDays, calendar: utc, now: now,
+            journalStart: now.addingTimeInterval(-20 * 86_400),
+        )
+
+        #expect(result.overview.averagePerDay == 0.1)
+    }
+
+    @Test
+    func `A rate above zero never reads as zero`() {
+        #expect(UsageAnalytics.rateText(0) == "0")
+        #expect(UsageAnalytics.rateText(0.02) == "<" + 0.1.formatted(.number.precision(.fractionLength(1))))
+        #expect(UsageAnalytics.rateText(0.06) == 0.1.formatted(.number.precision(.fractionLength(1))))
+        #expect(UsageAnalytics.rateText(4) == "4")
+    }
+
+    @Test
     func `An entry at the very end of the window lands in the last bucket`() {
         let start = date(2_026, 6, 1, 0)
         let end = date(2_026, 6, 8, 0)
@@ -278,6 +325,93 @@ struct UsageAnalyticsTests {
         // From day 6 on, a full week of daily dosing sits inside the window.
         #expect(points[6].value == 7)
         #expect(points[9].value == 7)
+    }
+
+    @Test
+    func `A trend point at the range's start averages the days before the range`() {
+        // One dose a day for 40 days; the chart shows the last 10.
+        let start = date(2_026, 6, 1, 0)
+        let entries = (0 ..< 40).map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400 + 3_600)) }
+        let starts = (30 ..< 40).map { start.addingTimeInterval(Double($0) * 86_400) }
+
+        let series = UsageAnalytics.trends(
+            entries, ranking: [(substanceIndex: 0, count: 10)], bucketStarts: starts,
+            bucketDays: 1, windowDays: 7, rangeEnd: start.addingTimeInterval(40 * 86_400),
+            journalStart: start,
+        )
+
+        // Seven a week from the first point on: no climb from zero at the left edge.
+        #expect(series[0].points.count == 10)
+        #expect(series[0].points.allSatisfy { $0.value == 7 })
+    }
+
+    @Test
+    func `A trend line begins once a full window of journal lies behind it`() {
+        // The journal began on day 0 with a dose a day; the range shows days 0 to 9.
+        let start = date(2_026, 6, 1, 0)
+        let entries = (0 ..< 10).map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400 + 3_600)) }
+        let starts = (0 ..< 10).map { start.addingTimeInterval(Double($0) * 86_400) }
+
+        let series = UsageAnalytics.trends(
+            entries, ranking: [(substanceIndex: 0, count: 10)], bucketStarts: starts,
+            bucketDays: 1, windowDays: 7, rangeEnd: start.addingTimeInterval(10 * 86_400),
+            journalStart: start,
+        )
+
+        // Days 0 to 5 have under a week behind them and are left out.
+        #expect(series[0].points.map(\.date) == Array(starts[6...]))
+        #expect(series[0].points.allSatisfy { $0.value == 7 })
+    }
+
+    @Test
+    func `A journal younger than the rolling window draws no trend line`() {
+        // Five days of entries against a four-week window.
+        let now = date(2_026, 6, 15, 12)
+        let entries = (0 ..< 5).map { snapshot(at: now.addingTimeInterval(-Double($0) * 86_400 - 3_600)) }
+        let result = UsageAnalytics.compute(
+            entries: entries, substances: [], range: .ninetyDays, calendar: utc, now: now,
+        )
+
+        #expect(result.trends.count == 1)
+        #expect(result.trends[0].points.isEmpty)
+    }
+
+    @Test
+    func `Raw daily buckets include the journal's first day`() {
+        // 7D draws each day's own count, so the first day has a full window behind it.
+        let now = date(2_026, 6, 15, 12)
+        let entries = (0 ..< 3).map { snapshot(at: now.addingTimeInterval(-Double($0) * 86_400 - 3_600)) }
+        let result = UsageAnalytics.compute(
+            entries: entries, substances: [], range: .sevenDays, calendar: utc, now: now,
+        )
+
+        #expect(result.trends[0].points.count == 3)
+    }
+
+    @Test
+    func `The time axis spans the selected range, however little of it is logged`() {
+        let now = date(2_026, 6, 15, 12)
+        let result = UsageAnalytics.compute(
+            entries: [snapshot(at: now.addingTimeInterval(-3_600))], substances: [],
+            range: .thirtyDays, calendar: utc, now: now,
+        )
+
+        #expect(result.timeAxis.lowerBound == utc.sessionDayStart(for: now.addingTimeInterval(-30 * 86_400)))
+        #expect(result.timeAxis.upperBound == utc.sessionDayStart(for: now).addingTimeInterval(86_400))
+    }
+
+    @Test
+    func `The common-dose entry count says how much the lens can weigh`() {
+        let now = date(2_026, 6, 15, 12)
+        let entries = [
+            snapshot(commonDoses: 1, at: now.addingTimeInterval(-3_600)),
+            snapshot(substance: 1, at: now.addingTimeInterval(-7_200)),
+            snapshot(substance: 1, at: now.addingTimeInterval(-90_000)),
+        ]
+        let result = UsageAnalytics.compute(entries: entries, substances: [], range: .sevenDays, calendar: utc, now: now)
+
+        #expect(result.entryCount == 3)
+        #expect(result.commonDoseEntryCount == 1)
     }
 
     @Test
@@ -592,19 +726,35 @@ struct UsageAnalyticsTests {
     // MARK: - Regularity (§7)
 
     @Test
-    func `Interval statistics report mean, deviation, and CV`() {
+    func `Interval statistics report the median gap and the spread around it`() {
         let stats = UsageAnalytics.intervalStatistics([1, 1, 1, 1])
-        #expect(stats?.mean == 1)
-        #expect(stats?.standardDeviation == 0)
-        #expect(stats?.coefficientOfVariation == 0)
+        #expect(stats?.median == 1)
+        #expect(stats?.variation == 0)
 
+        // Median 2; each gap is 1 away from it, half the median.
         let uneven = UsageAnalytics.intervalStatistics([1, 3])
-        #expect(uneven?.mean == 2)
-        #expect(uneven?.standardDeviation == 1)
-        #expect(uneven?.coefficientOfVariation == 0.5)
+        #expect(uneven?.median == 2)
+        #expect(uneven?.variation == 0.5)
 
         #expect(UsageAnalytics.intervalStatistics([]) == nil)
         #expect(UsageAnalytics.intervalStatistics([0, 0]) == nil)
+    }
+
+    @Test
+    func `A daily med with one long pause still reads as very regular, every day`() {
+        // Sixty mornings, three weeks off, sixty more: 118 one-day gaps and one
+        // of 22 days. Standard deviation over mean grades this "Sporadic".
+        let start = date(2_026, 1, 1, 9)
+        let days = Array(0 ..< 60) + Array(81 ..< 141)
+        let entries = days.map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400)) }
+        let rows = UsageAnalytics.regularity(
+            dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc),
+            counts: [(substanceIndex: 0, count: entries.count)],
+        )
+
+        #expect(rows[0].typicalIntervalDays == 1)
+        #expect(abs(rows[0].gapVariation - 21.0 / 119.0) < 0.0001)
+        #expect(rows[0].tier == .veryRegular)
     }
 
     @Test
@@ -616,8 +766,8 @@ struct UsageAnalyticsTests {
         )
 
         #expect(rows.count == 1)
-        #expect(abs(rows[0].meanIntervalDays - 1) < 0.0001)
-        #expect(rows[0].coefficientOfVariation == 0)
+        #expect(abs(rows[0].typicalIntervalDays - 1) < 0.0001)
+        #expect(rows[0].gapVariation == 0)
         #expect(rows[0].tier == .veryRegular)
         #expect(rows[0].fill == 1)
     }
@@ -638,20 +788,23 @@ struct UsageAnalyticsTests {
         )
 
         #expect(rows[0].tier == .veryRegular)
-        #expect(abs(rows[0].meanIntervalDays - 1) < 0.0001)
+        #expect(abs(rows[0].typicalIntervalDays - 1) < 0.0001)
     }
 
     @Test
     func `A bursty history reads as sporadic`() {
-        // Two clusters far apart: tiny gaps, then a huge one.
-        let days = [1, 2, 3, 4, 28]
-        let entries = days.map { snapshot(at: date(2_026, 6, $0, 9)) }
+        // Bursts and droughts in turn: gaps of 1, 1, 12, 1, 15, 2 days.
+        let days = [1, 2, 3, 15, 16, 31, 33]
+        let start = date(2_026, 6, 1, 9)
+        let entries = days.map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400)) }
         let rows = UsageAnalytics.regularity(
             dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc),
-            counts: [(substanceIndex: 0, count: 5)],
+            counts: [(substanceIndex: 0, count: 7)],
         )
 
-        #expect(rows[0].coefficientOfVariation > 1)
+        // Median gap 1.5 days; the gaps sit 26 days from it in all, 4.33 each.
+        #expect(rows[0].typicalIntervalDays == 1.5)
+        #expect(rows[0].gapVariation > 1)
         #expect(rows[0].tier == .sporadic)
         #expect(rows[0].fill < 0.35)
     }
@@ -682,13 +835,13 @@ struct UsageAnalyticsTests {
     }
 
     @Test
-    func `Regularity tiers follow the spec's CV cut points`() {
-        #expect(UsageRegularityTier(coefficientOfVariation: 0.2) == .veryRegular)
-        #expect(UsageRegularityTier(coefficientOfVariation: 0.3) == .somewhatRegular)
-        #expect(UsageRegularityTier(coefficientOfVariation: 0.59) == .somewhatRegular)
-        #expect(UsageRegularityTier(coefficientOfVariation: 0.6) == .irregular)
-        #expect(UsageRegularityTier(coefficientOfVariation: 0.99) == .irregular)
-        #expect(UsageRegularityTier(coefficientOfVariation: 1.0) == .sporadic)
+    func `Regularity tiers follow the spec's cut points`() {
+        #expect(UsageRegularityTier(gapVariation: 0.2) == .veryRegular)
+        #expect(UsageRegularityTier(gapVariation: 0.3) == .somewhatRegular)
+        #expect(UsageRegularityTier(gapVariation: 0.59) == .somewhatRegular)
+        #expect(UsageRegularityTier(gapVariation: 0.6) == .irregular)
+        #expect(UsageRegularityTier(gapVariation: 0.99) == .irregular)
+        #expect(UsageRegularityTier(gapVariation: 1.0) == .sporadic)
     }
 
     // MARK: - Routes (§5)
@@ -759,6 +912,23 @@ struct UsageAnalyticsTests {
         #expect(breakdown.rows.count == 12)
     }
 
+    @Test
+    func `Under common doses a substance without one stays in Most logged, below the weighed ones`() {
+        // Twelve weighed substances fill the row cap; substance 12, logged most
+        // often, has no common dose.
+        var entries = (0 ..< 12).map { snapshot(substance: $0, commonDoses: Double(12 - $0), at: date(2_026, 6, 1, 9)) }
+        entries += (0 ..< 20).map { _ in snapshot(substance: 12, at: date(2_026, 6, 1, 10)) }
+        let ranking = [(substanceIndex: 12, count: 20)] + (0 ..< 12).map { (substanceIndex: $0, count: 1) }
+        let breakdown = UsageAnalytics.routeBreakdown(entries, ranking: ranking)
+
+        let rows = breakdown.rankedRows(metric: .commonDoses, limit: 10)
+        #expect(rows.count == 11)
+        #expect(rows.first?.substanceIndex == 0)
+        #expect(rows.last?.substanceIndex == 12)
+        #expect(rows.last?.total == 20)
+        #expect(breakdown.rankedRows(metric: .entries, limit: 10).first?.substanceIndex == 12)
+    }
+
     // MARK: - Heatmap (§2)
 
     @Test
@@ -783,6 +953,27 @@ struct UsageAnalyticsTests {
         let busiest = heatmap.cells.first { $0.total == 2 }
         #expect(busiest?.inRange == true)
         #expect(busiest?.date == utc.sessionDayStart(for: date(2_026, 6, 3, 10)))
+    }
+
+    @Test
+    func `The heatmap spans the history and marks the selected range's days`() {
+        // History from Wednesday 2026-06-03; "Last 7 Days" ends 06-16 09:00.
+        let history = bounds(date(2_026, 6, 3, 9), date(2_026, 6, 16, 9))
+        let window = bounds(date(2_026, 6, 9, 9), date(2_026, 6, 16, 9))
+        let entries = [snapshot(at: date(2_026, 6, 3, 10)), snapshot(at: date(2_026, 6, 15, 10))]
+        let heatmap = UsageAnalytics.heatmap(
+            dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc), bounds: history, window: window, calendar: utc,
+        )
+        let windowDays = heatmap.cells.filter(\.inWindow).map(\.date)
+
+        // 06-09 (the window's partial first day) through 06-16.
+        #expect(windowDays.count == 8)
+        #expect(windowDays.first == utc.sessionDayStart(for: date(2_026, 6, 9, 12)))
+        // The older logged day is still drawn, outside the range.
+        let older = heatmap.cells.first { $0.date == utc.sessionDayStart(for: date(2_026, 6, 3, 10)) }
+        #expect(older?.total == 1)
+        #expect(older?.inRange == true)
+        #expect(older?.inWindow == false)
     }
 
     @Test
@@ -856,6 +1047,21 @@ struct UsageAnalyticsTests {
         #expect(occurrences.values.reduce(0, +) == 10)
         #expect(occurrences[2] == 2) // Mondays: the 1st and the 8th
         #expect(occurrences[5] == 1) // Thursday: only the 4th
+    }
+
+    @Test
+    func `A journal younger than the range averages each weekday over the ones it has seen`() {
+        // A 30-day range over a journal that began on Monday June 8: one Monday so far.
+        let window = UsageAnalytics.Bounds(
+            start: date(2_026, 5, 10, 12), end: date(2_026, 6, 9, 12), lengthDays: 30,
+            hasPreviousPeriod: true, loggedStart: date(2_026, 6, 8, 9),
+        )
+        let entries = [snapshot(at: date(2_026, 6, 8, 9)), snapshot(at: date(2_026, 6, 8, 18))]
+        let buckets = UsageAnalytics.weekdayBreakdown(entries, bounds: window, calendar: utc)
+        let monday = buckets.first { $0.weekday == 2 }
+
+        #expect(monday?.occurrences == 1)
+        #expect(monday?.average == 2)
     }
 
     // MARK: - End to end

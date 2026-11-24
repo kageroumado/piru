@@ -42,6 +42,30 @@ struct SummaryStatsTests {
         #expect(h.currentBreakDays == 19)
     }
 
+    @Test
+    func `Days before the journal's first entry are neither days used nor a break`() {
+        // A 90-day window over a journal that began on its 87th day: used on days 86 and 88.
+        let subs = [substance("X", .milligrams)]
+        let doses = [86, 88].map { SummaryDose(substanceIndex: 0, timestamp: day($0).addingTimeInterval(3_600), exposure: 5, ke: nil, ka: nil) }
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(89), calendar: cal, dayBoundaryHour: 0)
+        let h = report.holidays
+        #expect(h.totalDays == 4)
+        #expect(h.daysUsed == 2)
+        // One unused day between the two entries; the 86 days before the first are not a break.
+        #expect(h.longestBreakDays == 1)
+        #expect(h.currentBreakDays == 1)
+    }
+
+    @Test
+    func `A journal that began before the window is counted over the whole window`() {
+        let subs = [substance("X", .milligrams)]
+        let doses = [-40, 5].map { SummaryDose(substanceIndex: 0, timestamp: day($0).addingTimeInterval(3_600), exposure: 5, ke: nil, ka: nil) }
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(29), calendar: cal, dayBoundaryHour: 0)
+        #expect(report.holidays.totalDays == 30)
+        #expect(report.holidays.daysUsed == 1)
+        #expect(report.holidays.longestBreakDays == 24)
+    }
+
     /// With a 4 AM day start, a 22:00 dose and a 02:00 dose after it are one day used.
     @Test
     func `Days used count journal days`() {

@@ -16,17 +16,27 @@ struct UsageTrendsSection: View {
     /// view of use over time than how often it was logged — which is why the
     /// filter defaults to it.
     let metric: UsageRankMetric
+    /// The selected range's span, which the x axis draws in full.
+    let timeAxis: ClosedRange<Date>
+    let coverage: UsageCommonDoseCoverage
 
     /// Substance indices the user has hidden by tapping the legend.
     @State private var hidden: Set<Int> = []
     @State private var showsAll = false
     @State private var selectedDate: Date?
 
+    /// The lines with enough points to be a line. A journal younger than the
+    /// rolling window has none: every average would lean on days before the
+    /// journal began.
+    private var drawableTrends: [UsageTrendSeries] {
+        trends.filter { $0.points.count >= 2 }
+    }
+
     /// The lines eligible in the active metric. In common-dose mode a substance
     /// with no common-dose data would draw flat on zero and read as "unused", so
     /// it drops out of both the chart and the legend rather than lying.
     private var metricTrends: [UsageTrendSeries] {
-        metric == .commonDoses ? trends.filter(\.hasCommonDoses) : trends
+        metric == .commonDoses ? drawableTrends.filter(\.hasCommonDoses) : drawableTrends
     }
 
     /// Each line's dash and symbol by its rank among the eligible lines, so it
@@ -51,7 +61,7 @@ struct UsageTrendsSection: View {
 
     var body: some View {
         UsageSectionCard(title: "Substance trends", subtitle: subtitle) {
-            if trends.isEmpty {
+            if drawableTrends.isEmpty {
                 Text("Not enough history yet")
                     .captionSecondary()
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -67,7 +77,7 @@ struct UsageTrendsSection: View {
                         series: visibleSeries,
                         style: style,
                         markers: markers,
-                        weekly: range.usesWeeklyBuckets,
+                        axis: UsageTimeAxis(domain: timeAxis),
                         metric: metric,
                         perWeek: range.trendPerWeek,
                         selectedDate: $selectedDate,
@@ -76,6 +86,7 @@ struct UsageTrendsSection: View {
                         UsageTrendsReadout(series: visibleSeries, style: style, markers: markers, metric: metric, perWeek: range.trendPerWeek, date: selectedDate)
                     }
                     legend
+                    UsageCommonDoseCoverageNote(coverage: coverage)
                 }
             }
         }
@@ -157,7 +168,7 @@ private struct UsageTrendsChart: View {
     let series: [UsageTrendSeries]
     let style: UsageSubstanceStyle
     let markers: [Int: ChartSeriesMarker]
-    let weekly: Bool
+    let axis: UsageTimeAxis
     let metric: UsageRankMetric
     /// Whether values read as a per-week rate (else per-day buckets on 7D).
     let perWeek: Bool
@@ -178,17 +189,9 @@ private struct UsageTrendsChart: View {
         let indices = ChartSeriesMarker.symbolIndices(
             dates: item.points.map(\.date),
             values: item.points.map(value),
-            window: min(usageChartWindowSeconds, span.length),
+            window: min(usageChartWindowSeconds, axis.length),
         )
         return indices.map { item.points[$0] }
-    }
-
-    /// The chart's full x-span in seconds, and the start of the most-recent
-    /// visible window, so a windowed chart opens on the newest data.
-    private var span: (length: Double, windowStart: Date?) {
-        let dates = series.flatMap { $0.points.map(\.date) }
-        guard let first = dates.min(), let last = dates.max(), last > first else { return (1, nil) }
-        return (last.timeIntervalSince(first), last.addingTimeInterval(-usageChartWindowSeconds))
     }
 
     var body: some View {
@@ -202,7 +205,10 @@ private struct UsageTrendsChart: View {
                     )
                     .foregroundStyle(style.color(item.substanceIndex))
                     .lineStyle(marker(item).stroke(lineWidth: 2, differentiate: differentiate))
-                    .interpolationMethod(.catmullRom)
+                    // Monotone: the curve stays between the values it joins. A
+                    // looser spline swings past them and draws peaks and dips
+                    // that no bucket holds.
+                    .interpolationMethod(.monotone)
                 }
                 ForEach(symbolPoints(item)) { point in
                     PointMark(x: .value("Date", point.date), y: .value("Per week", value(point)))
@@ -212,14 +218,17 @@ private struct UsageTrendsChart: View {
                 }
             }
             if let selectedDate {
+                // Solid, in the text color: the dashed gray of the gridlines
+                // would hide which date the readout describes.
                 RuleMark(x: .value("Selected", selectedDate))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
+                    .foregroundStyle(Color.primary)
+                    .lineStyle(StrokeStyle(lineWidth: 1))
             }
         }
         .frame(height: 190)
         .chartXSelection(value: $selectedDate)
-        .chartXScrollWindow(fullLength: span.length, window: usageChartWindowSeconds, initialX: span.windowStart)
+        .chartXScale(domain: axis.domain)
+        .chartXScrollWindow(fullLength: axis.length, window: usageChartWindowSeconds, initialX: axis.windowStart)
         .chartLegend(.hidden)
         .chartYAxis {
             AxisMarks(position: .leading) { _ in
@@ -230,10 +239,10 @@ private struct UsageTrendsChart: View {
             }
         }
         .chartXAxis {
-            AxisMarks(values: .automatic(desiredCount: 4)) { _ in
+            AxisMarks(preset: .aligned, values: .automatic(desiredCount: 4)) { _ in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
                     .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
-                AxisValueLabel(format: weekly ? .dateTime.month(.abbreviated) : .dateTime.month(.abbreviated).day())
+                AxisValueLabel(format: axis.tickFormat)
                     .font(.caption2)
             }
         }
@@ -282,17 +291,19 @@ private struct UsageTrendsReadout: View {
     let date: Date
 
     var body: some View {
+        // Every line on the chart, zeros included, so a substance at nothing
+        // that day still reads as tracked.
         let rows = series.compactMap { item -> (index: Int, value: Double)? in
             guard let point = nearestPoint(in: item) else { return nil }
             return (item.substanceIndex, metric == .commonDoses ? point.commonValue : point.value)
         }
-        .filter { $0.value > 0 }
-        .sorted { $0.value > $1.value }
+        .sorted { $0.value != $1.value ? $0.value > $1.value : $0.index < $1.index }
+        let anyLogged = rows.contains { $0.value > 0 }
 
         VStack(alignment: .leading, spacing: 3) {
             Text(date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated)))
                 .font(.caption.weight(.semibold))
-            ForEach(rows, id: \.index) { row in
+            ForEach(anyLogged ? rows : [], id: \.index) { row in
                 HStack(spacing: 5) {
                     ChartSeriesKey(
                         color: style.color(row.index),
@@ -309,7 +320,7 @@ private struct UsageTrendsReadout: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-            if rows.isEmpty {
+            if !anyLogged {
                 Text("Nothing logged in this window")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)

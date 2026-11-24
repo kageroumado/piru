@@ -812,11 +812,13 @@
                 return try? context.fetch(descriptor).first
             }
 
-            /// The `count` substances with the most entries in the last `days` days.
+            /// The `count` substances with the most entries in the last `days`
+            /// days, each by its dose title: the name Usage's substance filter
+            /// keys on ("Estradiol Valerate", "Concerta").
             func mostLoggedSubstances(_ count: Int, days: Int) -> [String] {
                 let since = DebugClock.now.addingTimeInterval(-Double(days) * 86_400)
                 let entries = (try? context.fetch(FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= since }))) ?? []
-                let tally = Dictionary(grouping: entries, by: \.substance).mapValues(\.count)
+                let tally = Dictionary(grouping: entries) { DoseTitle.resolve(for: $0) }.mapValues(\.count)
                 return tally.sorted { $0.value == $1.value ? $0.key < $1.key : $0.value > $1.value }
                     .prefix(count).map(\.key)
             }

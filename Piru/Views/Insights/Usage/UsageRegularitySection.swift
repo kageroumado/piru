@@ -2,9 +2,9 @@ import SwiftUI
 
 /// §7 — "do I use on a schedule, or sporadically?"
 ///
-/// Per substance: the mean gap between the days it was logged, and the
-/// coefficient of variation of those gaps. Low CV means the gaps are all about
-/// the same length — a routine. High CV means bursts and droughts.
+/// Per substance: the typical gap between the days it was logged, and how far
+/// the gaps stray from it. Low variation means the gaps are all about the same
+/// length — a routine. High variation means bursts and droughts.
 ///
 /// Only substances with at least ``UsageAnalytics/minimumRegularityEntries``
 /// entries appear; below that the statistic is describing noise.
@@ -37,7 +37,7 @@ private struct UsageRegularityRow: View {
         // Always one decimal: "every 1.0 days" is both the spec's own wording
         // and the only way to keep the phrase grammatical without inflecting a
         // fractional noun ("every 1 days").
-        let interval = row.meanIntervalDays.formatted(.number.precision(.fractionLength(1)))
+        let interval = row.typicalIntervalDays.formatted(.number.precision(.fractionLength(1)))
         let tier = row.tier
 
         // Two columns: name over its evenness bar on the left, the interval over

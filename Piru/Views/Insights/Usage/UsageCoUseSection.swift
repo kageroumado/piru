@@ -42,9 +42,12 @@ struct UsageCoUseSection: View {
                         Text("No pairs in this class")
                             .captionSecondary()
                     } else {
+                        // Every bar against the list's longest, so equal day
+                        // counts draw equal bars.
+                        let mostDays = filtered.map(\.days).max() ?? 1
                         VStack(spacing: Spacing.lg) {
                             ForEach(filtered) { pair in
-                                UsageCoUseRow(pair: pair, style: style)
+                                UsageCoUseRow(pair: pair, mostDays: mostDays, style: style)
                             }
                         }
                     }
@@ -54,10 +57,12 @@ struct UsageCoUseSection: View {
     }
 }
 
-/// One pair: two color dots, the two names, the day count, and a bar showing
-/// what share of the days *either* was logged both were.
+/// One pair: two color dots, the two names, the day count, and a bar of that
+/// count against the longest in the list.
 private struct UsageCoUseRow: View {
     let pair: UsageCoUsePair
+    /// The largest day count among the rows shown.
+    let mostDays: Int
     let style: UsageSubstanceStyle
 
     var body: some View {
@@ -87,7 +92,7 @@ private struct UsageCoUseRow: View {
                         .frame(height: 4)
                     Capsule()
                         .fill(style.color(pair.firstIndex).opacity(0.75))
-                        .frame(width: max(3, geometry.size.width * pair.overlap), height: 4)
+                        .frame(width: max(3, geometry.size.width * Double(pair.days) / Double(max(mostDays, 1))), height: 4)
                 }
                 .frame(maxHeight: .infinity, alignment: .center)
             }

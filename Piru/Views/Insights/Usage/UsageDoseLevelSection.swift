@@ -16,6 +16,8 @@ struct UsageDoseLevelSection: View {
     let breakdown: UsageDoseLevelBreakdown
     let style: UsageSubstanceStyle
     let weekly: Bool
+    /// The selected range's span, which the x axis draws in full.
+    let timeAxis: ClosedRange<Date>
 
     var body: some View {
         if breakdown.resolvedEntries == 0 {
@@ -36,7 +38,7 @@ struct UsageDoseLevelSection: View {
     }
 
     private var content: some View {
-        UsageDoseLevelContent(breakdown: breakdown, style: style, weekly: weekly)
+        UsageDoseLevelContent(breakdown: breakdown, style: style, weekly: weekly, axis: UsageTimeAxis(domain: timeAxis))
     }
 }
 
@@ -48,6 +50,7 @@ private struct UsageDoseLevelContent: View {
     let breakdown: UsageDoseLevelBreakdown
     let style: UsageSubstanceStyle
     let weekly: Bool
+    let axis: UsageTimeAxis
 
     /// `nil` = all substances pooled.
     @State private var selectedSubstance: Int?
@@ -136,7 +139,8 @@ private struct UsageDoseLevelContent: View {
         }
         .chartForegroundStyleScale(domain: styleDomain, range: styleRange)
         .frame(height: 170)
-        .chartXScrollWindow(fullLength: span.length, window: usageChartWindowSeconds, initialX: span.windowStart)
+        .chartXScale(domain: axis.domain)
+        .chartXScrollWindow(fullLength: axis.length, window: usageChartWindowSeconds, initialX: axis.windowStart)
         .chartYAxis {
             AxisMarks(position: .leading) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
@@ -153,23 +157,15 @@ private struct UsageDoseLevelContent: View {
             }
         }
         .chartXAxis {
-            AxisMarks(values: .automatic(desiredCount: 4)) { _ in
+            AxisMarks(preset: .aligned, values: .automatic(desiredCount: 4)) { _ in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
                     .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
-                AxisValueLabel(format: weekly ? .dateTime.month(.abbreviated) : .dateTime.month(.abbreviated).day())
+                AxisValueLabel(format: axis.tickFormat)
                     .font(.caption2)
             }
         }
         .chartLegend(.hidden)
         .chartSummaryAccessibility(label: Text("Dose levels over time"), value: Text(summary))
-    }
-
-    /// The stacked area's full x-span in seconds, and the start of the
-    /// most-recent visible window so a windowed chart opens on the newest data.
-    private var span: (length: Double, windowStart: Date?) {
-        let dates = buckets.map(\.date)
-        guard let first = dates.min(), let last = dates.max(), last > first else { return (1, nil) }
-        return (last.timeIntervalSince(first), last.addingTimeInterval(-usageChartWindowSeconds))
     }
 
     private var slices: [Slice] {

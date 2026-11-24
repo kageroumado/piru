@@ -48,6 +48,7 @@ final class AdherenceModel {
         today = AdherenceCalculator.adherence(
             for: calendar.journalDay(for: .now, boundaryHour: boundaryHour), entries: entries, dailyItems: dailyItems,
             boundaryHour: boundaryHour,
+            scheduleOpens: AdherenceCalculator.scheduleOpens(for: dailyItems, entries: entries, boundaryHour: boundaryHour),
         )
     }
 
@@ -60,6 +61,8 @@ final class AdherenceModel {
             entriesByDay[entry.journalDay(in: calendar, boundaryHour: boundaryHour), default: []].append(entry)
         }
 
+        let scheduleOpens = AdherenceCalculator.scheduleOpens(for: dailyItems, entries: entries, boundaryHour: boundaryHour)
+
         let start = calendar.date(from: calendar.dateComponents([.year, .month], from: month))!
         let range = calendar.range(of: .day, in: .month, for: start)!
 
@@ -70,6 +73,7 @@ final class AdherenceModel {
             let dayStart = calendar.startOfDay(for: date)
             let adherence = AdherenceCalculator.adherence(
                 for: dayStart, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems, boundaryHour: boundaryHour,
+                scheduleOpens: scheduleOpens,
             )
             data.append(adherence)
             byDay[dayStart] = adherence

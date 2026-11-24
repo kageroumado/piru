@@ -72,7 +72,10 @@ final class InsightsModel {
             entriesByDay[entry.journalDay(in: cal, boundaryHour: boundaryHour), default: []].append(entry)
         }
 
-        let cells = computeMonthCells(cal: cal, entriesByDay: entriesByDay, dailyItems: dailyItems)
+        let cells = computeMonthCells(
+            cal: cal, entriesByDay: entriesByDay, dailyItems: dailyItems,
+            scheduleOpens: AdherenceCalculator.scheduleOpens(for: dailyItems, entries: entries, boundaryHour: boundaryHour),
+        )
         monthCells = cells
         adherence = Self.monthAdherence(fromCells: cells)
         active = ActiveSubstanceCalculator.compute(from: entries, colorMap: substanceColors.colorMap)
@@ -83,7 +86,10 @@ final class InsightsModel {
         computedToken = token
     }
 
-    private func computeMonthCells(cal: Calendar, entriesByDay: [Date: [DoseEntry]], dailyItems: [DailyDoseItem]) -> [DayAdherence?] {
+    private func computeMonthCells(
+        cal: Calendar, entriesByDay: [Date: [DoseEntry]], dailyItems: [DailyDoseItem],
+        scheduleOpens: [ObjectIdentifier: Date],
+    ) -> [DayAdherence?] {
         guard !dailyItems.isEmpty,
               let start = cal.date(from: cal.dateComponents([.year, .month], from: .now)),
               let range = cal.range(of: .day, in: .month, for: start) else { return [] }
@@ -94,7 +100,9 @@ final class InsightsModel {
         for dayOffset in range {
             guard let date = cal.date(byAdding: .day, value: dayOffset - 1, to: start) else { continue }
             let dayStart = cal.startOfDay(for: date)
-            cells.append(AdherenceCalculator.adherence(for: dayStart, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems))
+            cells.append(AdherenceCalculator.adherence(
+                for: dayStart, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems, scheduleOpens: scheduleOpens,
+            ))
         }
         return cells
     }
