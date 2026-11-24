@@ -112,7 +112,7 @@
  "doi:10.1002/cpdd.928": {
   "journal": "Clinical Pharmacology in Drug Development",
   "subjects": [],
-  "title": "Model‐Informed Drug Development for Long‐Acting Injectable Products: Summary of American College of Clinical Pharmacology Symposium",
+  "title": "Model\u2010Informed Drug Development for Long\u2010Acting Injectable Products: Summary of American College of Clinical Pharmacology Symposium",
   "year": 2021
  },
  "doi:10.1002/cpt.1306": {
@@ -124,7 +124,7 @@
  "doi:10.1002/cpt.1417": {
   "journal": "Clinical Pharmacology &amp; Therapeutics",
   "subjects": [],
-  "title": "Dose‐Response Pharmacological Study of Mephedrone and Its Metabolites: Pharmacokinetics, Serotoninergic Effects, and Impact of <i>CYP2D6</i> Genetic Variation",
+  "title": "Dose\u2010Response Pharmacological Study of Mephedrone and Its Metabolites: Pharmacokinetics, Serotoninergic Effects, and Impact of <i>CYP2D6</i> Genetic Variation",
   "year": 2019
  },
  "doi:10.1002/cpt.147": {
@@ -167,19 +167,19 @@
  "doi:10.1002/cpt.2956": {
   "journal": "Clinical Pharmacology &amp; Therapeutics",
   "subjects": [],
-  "title": "Response‐Based Dosing for Ponatinib: Model‐Based Analyses of the Dose‐Ranging OPTIC Study",
+  "title": "Response\u2010Based Dosing for Ponatinib: Model\u2010Based Analyses of the Dose\u2010Ranging OPTIC Study",
   "year": 2023
  },
  "doi:10.1002/cpt.3351": {
   "journal": "Clinical pharmacology and therapeutics",
   "subjects": [],
-  "title": "Clinical Pharmacogenetics Implementation Consortium Guideline (CPIC) for CYP2D6, ADRB1, ADRB2, ADRA2C, GRK4, and GRK5 Genotypes and Beta-Blocker Therapy",
+  "title": "Clinical Pharmacogenetics Implementation Consortium Guideline (CPIC)\u00a0for CYP2D6, ADRB1, ADRB2, ADRA2C, GRK4, and GRK5 Genotypes and Beta-Blocker Therapy",
   "year": "2024"
  },
  "doi:10.1002/cpt.3391": {
   "journal": "Clinical Pharmacology &amp; Therapeutics",
   "subjects": [],
-  "title": "A Phase 1 Assessment of the Safety, Tolerability, Pharmacokinetics and Pharmacodynamics of (2<i>R</i>,6<i>R</i>)‐Hydroxynorketamine in Healthy Volunteers",
+  "title": "A Phase 1 Assessment of the Safety, Tolerability, Pharmacokinetics and Pharmacodynamics of (2<i>R</i>,6<i>R</i>)\u2010Hydroxynorketamine in Healthy Volunteers",
   "year": 2024
  },
  "doi:10.1002/cpt.598": {
@@ -240,13 +240,13 @@
  "doi:10.1002/dta.1668": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Characterization of a novel and potentially lethal designer drug <i>(±)‐cis‐para</i>‐methyl‐4‐methylaminorex (4,4'‐DMAR, or ‘Serotoni’)",
+  "title": "Characterization of a novel and potentially lethal designer drug <i>(\u00b1)\u2010cis\u2010para</i>\u2010methyl\u20104\u2010methylaminorex (4,4'\u2010DMAR, or \u2018Serotoni\u2019)",
   "year": 2014
  },
  "doi:10.1002/dta.1707": {
   "journal": "Drug testing and analysis",
   "subjects": [],
-  "title": "Pharmacokinetics of cytisine, an α4 β2 nicotinic receptor partial agonist, in healthy smokers following a single dose",
+  "title": "Pharmacokinetics of cytisine, an \u03b14 \u03b22 nicotinic receptor partial agonist, in healthy smokers following a single dose",
   "year": "2015"
  },
  "doi:10.1002/dta.1771": {
@@ -270,25 +270,25 @@
  "doi:10.1002/dta.1985": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Return of the lysergamides. Part II: Analytical and behavioural characterization of <i>N</i><sup>6</sup>‐allyl‐6‐norlysergic acid diethylamide (AL‐LAD) and (2’<i>S</i>,4’<i>S</i>)‐lysergic acid 2,4‐dimethylazetidide (LSZ)",
+  "title": "Return of the lysergamides. Part II: Analytical and behavioural characterization of <i>N</i><sup>6</sup>\u2010allyl\u20106\u2010norlysergic acid diethylamide (AL\u2010LAD) and (2\u2019<i>S</i>,4\u2019<i>S</i>)\u2010lysergic acid 2,4\u2010dimethylazetidide (LSZ)",
   "year": 2016
  },
  "doi:10.1002/dta.2031": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Characterization of the hepatic cytochrome P450 enzymes involved in the metabolism of 25I‐NBOMe and 25I‐NBOH",
+  "title": "Characterization of the hepatic cytochrome P450 enzymes involved in the metabolism of 25I\u2010NBOMe and 25I\u2010NBOH",
   "year": 2016
  },
  "doi:10.1002/dta.2044": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "25C‐NBOMe and 25I‐NBOMe metabolite studies in human hepatocytes, <i>in vivo</i> mouse and human urine with high‐resolution mass spectrometry",
+  "title": "25C\u2010NBOMe and 25I\u2010NBOMe metabolite studies in human hepatocytes, <i>in vivo</i> mouse and human urine with high\u2010resolution mass spectrometry",
   "year": 2016
  },
  "doi:10.1002/dta.2053": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Synthesis, characterization and monoamine transporter activity of the new psychoactive substance mexedrone and its <i>N</i>‐methoxy positional isomer, <i>N</i>‐methoxymephedrone",
+  "title": "Synthesis, characterization and monoamine transporter activity of the new psychoactive substance mexedrone and its <i>N</i>\u2010methoxy positional isomer, <i>N</i>\u2010methoxymephedrone",
   "year": 2016
  },
  "doi:10.1002/dta.2111": {
@@ -300,13 +300,13 @@
  "doi:10.1002/dta.2167": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Analytical characterization and pharmacological evaluation of the new psychoactive substance 4‐fluoromethylphenidate (4F‐MPH) and differentiation between the (±)‐<i>threo</i> and (±)‐<i>erythro</i> diastereomers",
+  "title": "Analytical characterization and pharmacological evaluation of the new psychoactive substance 4\u2010fluoromethylphenidate (4F\u2010MPH) and differentiation between the (\u00b1)\u2010<i>threo</i> and (\u00b1)\u2010<i>erythro</i> diastereomers",
   "year": 2017
  },
  "doi:10.1002/dta.2203": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Flubromazolam – Basic pharmacokinetic evaluation of a highly potent designer benzodiazepine",
+  "title": "Flubromazolam \u2013 Basic pharmacokinetic evaluation of a highly potent designer benzodiazepine",
   "year": 2017
  },
  "doi:10.1002/dta.2229": {
@@ -330,13 +330,13 @@
  "doi:10.1002/dta.2358": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Sensitive and rapid determination of pyrethroids in human blood by gas chromatography–tandem mass spectrometry with ultrasound‐assisted dispersive liquid‐liquid microextraction",
+  "title": "Sensitive and rapid determination of pyrethroids in human blood by gas chromatography\u2013tandem mass spectrometry with ultrasound\u2010assisted dispersive liquid\u2010liquid microextraction",
   "year": 2018
  },
  "doi:10.1002/dta.2396": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Synthesis, analytical characterization, and monoamine transporter activity of the new psychoactive substance 4‐methylphenmetrazine (4‐MPM), with differentiation from its <i>ortho</i>‐ and <i>meta</i>‐ positional isomers",
+  "title": "Synthesis, analytical characterization, and monoamine transporter activity of the new psychoactive substance 4\u2010methylphenmetrazine (4\u2010MPM), with differentiation from its <i>ortho</i>\u2010 and <i>meta</i>\u2010 positional isomers",
   "year": 2018
  },
  "doi:10.1002/dta.2595": {
@@ -360,7 +360,7 @@
  "doi:10.1002/dta.2821": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "Pharmacokinetics and subjective effects of 1P‐LSD in humans after oral and intravenous administration",
+  "title": "Pharmacokinetics and subjective effects of 1P\u2010LSD in humans after oral and intravenous administration",
   "year": 2020
  },
  "doi:10.1002/dta.2822": {
@@ -390,7 +390,7 @@
  "doi:10.1002/dta.3238": {
   "journal": "Drug testing and analysis",
   "subjects": [],
-  "title": "Investigation of the μ- and κ-opioid receptor activation by eight new synthetic opioids using the [<sup>35</sup> S]-GTPγS assay: U-47700, isopropyl U-47700, U-49900, U-47931E, N-methyl U-47931E, U-51754, U-48520, and U-48800",
+  "title": "Investigation of the \u03bc- and \u03ba-opioid receptor activation by eight new synthetic opioids using the [<sup>35</sup> S]-GTP\u03b3S assay: U-47700, isopropyl U-47700, U-49900, U-47931E, N-methyl U-47931E, U-51754, U-48520, and U-48800",
   "year": "2022"
  },
  "doi:10.1002/dta.3592": {
@@ -402,7 +402,7 @@
  "doi:10.1002/dta.3657": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "ADB‐HEXINACA—a novel synthetic cannabinoid with a hexyl substituent: phase I metabolism in authentic urine samples, a case report and prevalence on the German market",
+  "title": "ADB\u2010HEXINACA\u2014a novel synthetic cannabinoid with a hexyl substituent: phase I metabolism in authentic urine samples, a case report and prevalence on the German market",
   "year": 2024
  },
  "doi:10.1002/dta.3722": {
@@ -420,19 +420,19 @@
  "doi:10.1002/dta.70042": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
-  "title": "In Vitro Metabolism of 1‐Benzoyl‐Lysergic Acid Diethylamide (1Bz‐LSD) and Identification of a Deethylated Metabolite (1Bz‐LAE) Using a Synthesized Reference Standard",
+  "title": "In Vitro Metabolism of 1\u2010Benzoyl\u2010Lysergic Acid Diethylamide (1Bz\u2010LSD) and Identification of a Deethylated Metabolite (1Bz\u2010LAE) Using a Synthesized Reference Standard",
   "year": 2026
  },
  "doi:10.1002/hup.2298": {
   "journal": "Human Psychopharmacology: Clinical and Experimental",
   "subjects": [],
-  "title": "MDAI (5,6‐methylenedioxy‐2‐aminoindane; 6,7‐dihydro‐5H‐cyclopenta[f][1,3]benzodioxol‐6‐amine; ‘sparkle’; ‘mindy’) toxicity: a brief overview and update",
+  "title": "MDAI (5,6\u2010methylenedioxy\u20102\u2010aminoindane; 6,7\u2010dihydro\u20105H\u2010cyclopenta[f][1,3]benzodioxol\u20106\u2010amine; \u2018sparkle\u2019; \u2018mindy\u2019) toxicity: a brief overview and update",
   "year": 2013
  },
  "doi:10.1002/hup.2621": {
   "journal": "Human Psychopharmacology: Clinical and Experimental",
   "subjects": [],
-  "title": "Patterns of use and toxicity of new para‐halogenated substituted cathinones: 4‐<scp>CMC</scp> (clephedrone), 4‐<scp>CEC</scp> (4‐chloroethcatinone) and 4‐<scp>BMC</scp> (brephedrone)",
+  "title": "Patterns of use and toxicity of new para\u2010halogenated substituted cathinones: 4\u2010<scp>CMC</scp> (clephedrone), 4\u2010<scp>CEC</scp> (4\u2010chloroethcatinone) and 4\u2010<scp>BMC</scp> (brephedrone)",
   "year": 2017
  },
  "doi:10.1002/j.1552-4604.1982.tb02662.x": {
@@ -468,7 +468,7 @@
  "doi:10.1002/jcph.305": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
-  "title": "The effect of UGT2B7*2 polymorphism on the pharmacokinetics of OROS® hydromorphone in Taiwanese subjects",
+  "title": "The effect of UGT2B7*2 polymorphism on the pharmacokinetics of OROS\u00ae hydromorphone in Taiwanese subjects",
   "year": "2014"
  },
  "doi:10.1002/jcph.404": {
@@ -480,7 +480,7 @@
  "doi:10.1002/jcph.471": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
-  "title": "Influence of CYP2D6 activity on the pharmacokinetics and pharmacodynamics of a single 20 mg dose of ibogaine in healthy volunteers",
+  "title": "Influence of CYP2D6 activity on the pharmacokinetics and pharmacodynamics of a single 20\u2009mg dose of ibogaine in healthy volunteers",
   "year": "2015"
  },
  "doi:10.1002/jcph.742": {
@@ -558,25 +558,25 @@
  "doi:10.1002/prp2.205": {
   "journal": "Pharmacology research & perspectives",
   "subjects": [],
-  "title": "Mechanisms of the gabapentinoids and α 2 δ-1 calcium channel subunit in neuropathic pain",
+  "title": "Mechanisms of the gabapentinoids and \u03b1 2 \u03b4-1 calcium channel subunit in neuropathic pain",
   "year": "2016"
  },
  "doi:10.1002/prp2.511": {
   "journal": "Pharmacology Research &amp; Perspectives",
   "subjects": [],
-  "title": "Synthesis and pharmacological characterization of ethylenediamine synthetic opioids in human μ‐opiate receptor 1 (OPRM1) expressing cells",
+  "title": "Synthesis and pharmacological characterization of ethylenediamine synthetic opioids in human \u03bc\u2010opiate receptor 1 (OPRM1) expressing cells",
   "year": 2019
  },
  "doi:10.1002/prp2.921": {
   "journal": "Pharmacology research & perspectives",
   "subjects": [],
-  "title": "Tapentadol shows lower intrinsic efficacy at µ receptor than morphine and oxycodone.",
+  "title": "Tapentadol shows lower intrinsic efficacy at \u00b5 receptor than morphine and oxycodone.",
   "year": 2022
  },
  "doi:10.1002/psp4.12776": {
   "journal": "CPT: Pharmacometrics &amp; Systems Pharmacology",
   "subjects": [],
-  "title": "Physiologically‐based pharmacokinetic modeling of dextromethorphan to investigate interindividual variability within CYP2D6 activity score groups",
+  "title": "Physiologically\u2010based pharmacokinetic modeling of dextromethorphan to investigate interindividual variability within CYP2D6 activity score groups",
   "year": 2022
  },
  "doi:10.1002/psp4.13282": {
@@ -584,6 +584,36 @@
   "subjects": [],
   "title": "MDMA pharmacokinetics: A population and physiologically based pharmacokinetics model-informed analysis",
   "year": "2025"
+ },
+ "doi:10.1002/ptr.1742": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "Pharmacokinetics of valerenic acid after administration of valerian in healthy subjects",
+  "year": "2005"
+ },
+ "doi:10.1002/ptr.2712": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "Bioassay-guided fractionation of lemon balm (Melissa officinalis L.) using an in vitro measure of GABA transaminase activity",
+  "year": "2009"
+ },
+ "doi:10.1002/ptr.3352": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "Modulation of the \u03b3-aminobutyric acid (GABA) system by Passiflora incarnata L",
+  "year": "2011"
+ },
+ "doi:10.1002/ptr.3400": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "A double-blind, placebo-controlled investigation of the effects of Passiflora incarnata (passionflower) herbal tea on subjective sleep quality",
+  "year": "2011"
+ },
+ "doi:10.1002/ptr.7252": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "The effects of lemon balm (Melissa officinalis L.) on depression and anxiety in clinical trials: A systematic review and meta-analysis",
+  "year": "2021"
  },
  "doi:10.1002/syn.20647": {
   "journal": "Synapse (New York, N.Y.)",
@@ -594,7 +624,7 @@
  "doi:10.1002/syn.22310": {
   "journal": "Synapse",
   "subjects": [],
-  "title": "High Impact AMPAkines Induce a Gq‐Protein Coupled Endoplasmic Calcium Release in Cortical Neurons: A Possible Mechanism for Explaining the Toxicity of High Impact AMPAkines",
+  "title": "High Impact AMPAkines Induce a Gq\u2010Protein Coupled Endoplasmic Calcium Release in Cortical Neurons: A Possible Mechanism for Explaining the Toxicity of High Impact AMPAkines",
   "year": 2024
  },
  "doi:10.1002/syn.890120104": {
@@ -653,7 +683,7 @@
   "year": 1991
  },
  "doi:10.1007/bf00373920": {
-  "journal": "Pfl�gers Archiv European Journal of Physiology",
+  "journal": "Pfl\ufffdgers Archiv European Journal of Physiology",
   "subjects": [],
   "title": "Interaction of the antiepileptic drug lamotrigine with recombinant rat brain type IIA Na+ channels and with native Na+ channels in rat hippocampal neurones",
   "year": 1995
@@ -757,7 +787,7 @@
  "doi:10.1007/s00204-021-03207-9": {
   "journal": "Archives of Toxicology",
   "subjects": [],
-  "title": "Characterization of recent non-fentanyl synthetic opioids via three different in vitro µ-opioid receptor activation assays",
+  "title": "Characterization of recent non-fentanyl synthetic opioids via three different in vitro \u00b5-opioid receptor activation assays",
   "year": 2022
  },
  "doi:10.1007/s00204-022-03332-z": {
@@ -847,13 +877,13 @@
  "doi:10.1007/s00213-016-4237-6": {
   "journal": "Psychopharmacology",
   "subjects": [],
-  "title": "Δ9-Tetrahydrocannabinol-like effects of novel synthetic cannabinoids in mice and rats",
+  "title": "\u03949-Tetrahydrocannabinol-like effects of novel synthetic cannabinoids in mice and rats",
   "year": 2016
  },
  "doi:10.1007/s00213-017-4637-2": {
   "journal": "Psychopharmacology",
   "subjects": [],
-  "title": "The C-2 derivatives of salvinorin A, ethoxymethyl ether Sal B and β-tetrahydropyran Sal B, have anti-cocaine properties with minimal side effects",
+  "title": "The C-2 derivatives of salvinorin A, ethoxymethyl ether Sal B and \u03b2-tetrahydropyran Sal B, have anti-cocaine properties with minimal side effects",
   "year": 2017
  },
  "doi:10.1007/s00213-017-4710-x": {
@@ -865,7 +895,7 @@
  "doi:10.1007/s00213-017-4812-5": {
   "journal": "Psychopharmacology",
   "subjects": [],
-  "title": "(±)-MDMA and its enantiomers: potential therapeutic advantages of R(−)-MDMA",
+  "title": "(\u00b1)-MDMA and its enantiomers: potential therapeutic advantages of R(\u2212)-MDMA",
   "year": 2017
  },
  "doi:10.1007/s00213-018-5059-5": {
@@ -961,13 +991,13 @@
  "doi:10.1007/s00702-020-02189-9": {
   "journal": "Journal of neural transmission (Vienna, Austria : 1996)",
   "subjects": [],
-  "title": "9-Methyl-β-carboline inhibits monoamine oxidase activity and stimulates the expression of neurotrophic factors by astrocytes",
+  "title": "9-Methyl-\u03b2-carboline inhibits monoamine oxidase activity and stimulates the expression of neurotrophic factors by astrocytes",
   "year": "2020"
  },
  "doi:10.1007/s10151-018-1846-6": {
   "journal": "Techniques in coloproctology",
   "subjects": [],
-  "title": "The Ostom-i™ Alert Sensor: a new device to measure stoma output",
+  "title": "The Ostom-i\u2122 Alert Sensor: a new device to measure stoma output",
   "year": "2018"
  },
  "doi:10.1007/s10571-021-01078-3": {
@@ -1027,19 +1057,19 @@
  "doi:10.1007/s11419-018-0428-7": {
   "journal": "Forensic Toxicology",
   "subjects": [],
-  "title": "Metabolism of α-PHP and α-PHPP in humans and the effects of alkyl chain lengths on the metabolism of α-pyrrolidinophenone-type designer drugs",
+  "title": "Metabolism of \u03b1-PHP and \u03b1-PHPP in humans and the effects of alkyl chain lengths on the metabolism of \u03b1-pyrrolidinophenone-type designer drugs",
   "year": 2018
  },
  "doi:10.1007/s11419-018-0454-5": {
   "journal": "Forensic Toxicology",
   "subjects": [],
-  "title": "The search for the “next” euphoric non-fentanil novel synthetic opioids on the illicit drugs market: current status and horizon scanning",
+  "title": "The search for the \u201cnext\u201d euphoric non-fentanil novel synthetic opioids on the illicit drugs market: current status and horizon scanning",
   "year": 2018
  },
  "doi:10.1007/s11419-019-00475-0": {
   "journal": "Forensic Toxicology",
   "subjects": [],
-  "title": "Comments on the paper entitled “Rapid tentative identification of synthetic cathinones in seized products taking advantage of the full capabilities of triple quadrupole analyzer”",
+  "title": "Comments on the paper entitled \u201cRapid tentative identification of synthetic cathinones in seized products taking advantage of the full capabilities of triple quadrupole analyzer\u201d",
   "year": 2019
  },
  "doi:10.1007/s11419-022-00616-y": {
@@ -1057,7 +1087,7 @@
  "doi:10.1007/s12640-020-00227-8": {
   "journal": "Neurotoxicity Research",
   "subjects": [],
-  "title": "Four Synthetic Cathinones: 3-Chloromethcathinone, 4-Chloromethcathinone, 4-Fluoro-α-Pyrrolidinopentiophenone, and 4-Methoxy-α-Pyrrolidinopentiophenone Produce Changes in the Spontaneous Locomotor Activity and Motor Performance in Mice with Varied Profiles",
+  "title": "Four Synthetic Cathinones: 3-Chloromethcathinone, 4-Chloromethcathinone, 4-Fluoro-\u03b1-Pyrrolidinopentiophenone, and 4-Methoxy-\u03b1-Pyrrolidinopentiophenone Produce Changes in the Spontaneous Locomotor Activity and Motor Performance in Mice with Varied Profiles",
   "year": 2020
  },
  "doi:10.1007/s13181-014-0442-z": {
@@ -1093,7 +1123,7 @@
  "doi:10.1007/s40261-024-01356-0": {
   "journal": "Clinical Drug Investigation",
   "subjects": [],
-  "title": "Impact of Viloxazine Extended-Release Capsules (Qelbree®) on Select Cytochrome P450 Enzyme Activity and Evaluation of CYP2D6 Genetic Polymorphisms on Viloxazine Pharmacokinetics",
+  "title": "Impact of Viloxazine Extended-Release Capsules (Qelbree\u00ae) on Select Cytochrome P450 Enzyme Activity and Evaluation of CYP2D6 Genetic Polymorphisms on Viloxazine Pharmacokinetics",
   "year": 2024
  },
  "doi:10.1007/s40262-016-0370-y": {
@@ -1311,7 +1341,7 @@
  "doi:10.1016/j.aca.2014.04.015": {
   "journal": "Analytica Chimica Acta",
   "subjects": [],
-  "title": "3,4-Methylenedioxypyrovalerone (MDPV) and metabolites quantification in human and rat plasma by liquid chromatography–high resolution mass spectrometry",
+  "title": "3,4-Methylenedioxypyrovalerone (MDPV) and metabolites quantification in human and rat plasma by liquid chromatography\u2013high resolution mass spectrometry",
   "year": 2014
  },
  "doi:10.1016/j.ahj.2014.12.009": {
@@ -1332,6 +1362,12 @@
   "title": "Possible association between 3,4-methylenedioxymethamphetamine abuse and valvular heart disease",
   "year": "2007"
  },
+ "doi:10.1016/j.amjmed.2006.02.026": {
+  "journal": "The American journal of medicine",
+  "subjects": [],
+  "title": "Valerian for sleep: a systematic review and meta-analysis",
+  "year": "2006"
+ },
  "doi:10.1016/j.annemergmed.2016.03.042": {
   "journal": "Annals of Emergency Medicine",
   "subjects": [],
@@ -1347,13 +1383,13 @@
  "doi:10.1016/j.bbr.2018.07.020": {
   "journal": "Behavioural brain research",
   "subjects": [],
-  "title": "5-Methoxy-α-methyltryptamine (5-MeO-AMT), a tryptamine derivative, induces head-twitch responses in mice through the activation of serotonin receptor 2a in the prefrontal cortex",
+  "title": "5-Methoxy-\u03b1-methyltryptamine (5-MeO-AMT), a tryptamine derivative, induces head-twitch responses in mice through the activation of serotonin receptor 2a in the prefrontal cortex",
   "year": "2019"
  },
  "doi:10.1016/j.bbr.2021.113380": {
   "journal": "Behavioural Brain Research",
   "subjects": [],
-  "title": "Effects of propofol on sleep architecture and sleep–wake systems in rats",
+  "title": "Effects of propofol on sleep architecture and sleep\u2013wake systems in rats",
   "year": 2021
  },
  "doi:10.1016/j.bcp.2004.07.020": {
@@ -1401,13 +1437,13 @@
  "doi:10.1016/j.bcp.2018.10.025": {
   "journal": "Biochemical Pharmacology",
   "subjects": [],
-  "title": "Corrigendum to ‘Anti-thrombotic efficacy of S007-867: Pre-clinical evaluation in experimental models of thrombosis in vivo and in vitro’ [Biochem. Pharmacol. 148 (2018) 288–297]",
+  "title": "Corrigendum to \u2018Anti-thrombotic efficacy of S007-867: Pre-clinical evaluation in experimental models of thrombosis in vivo and in vitro\u2019 [Biochem. Pharmacol. 148 (2018) 288\u2013297]",
   "year": 2018
  },
  "doi:10.1016/j.bcp.2024.116191": {
   "journal": "Biochemical pharmacology",
   "subjects": [],
-  "title": "CYP2C9, CYP3A and CYP2C19 metabolize Δ9-tetrahydrocannabinol to multiple metabolites but metabolism is affected by human liver fatty acid binding protein (FABP1)",
+  "title": "CYP2C9, CYP3A and CYP2C19 metabolize \u03949-tetrahydrocannabinol to multiple metabolites but metabolism is affected by human liver fatty acid binding protein (FABP1)",
   "year": "2024"
  },
  "doi:10.1016/j.biopsych.2010.06.017": {
@@ -1480,7 +1516,7 @@
  "doi:10.1016/j.bmcl.2022.128637": {
   "journal": "Bioorganic & medicinal chemistry letters",
   "subjects": [],
-  "title": "Rationalizing the binding and α subtype selectivity of synthesized imidazodiazepines and benzodiazepines at GABAA receptors by using molecular docking studies",
+  "title": "Rationalizing the binding and \u03b1 subtype selectivity of synthesized imidazodiazepines and benzodiazepines at GABAA receptors by using molecular docking studies",
   "year": "2022"
  },
  "doi:10.1016/j.brainres.2012.10.024": {
@@ -1628,7 +1664,7 @@
  "doi:10.1016/j.ebiom.2017.05.009": {
   "journal": "EBioMedicine",
   "subjects": [],
-  "title": "Does Krüppel Like Factor 15 Play an Important Role in the Left Ventricular Hypertrophy of Patients with Type 2 Diabetes?",
+  "title": "Does Kr\u00fcppel Like Factor 15 Play an Important Role in the Left Ventricular Hypertrophy of Patients with Type 2 Diabetes?",
   "year": "2017"
  },
  "doi:10.1016/j.ejmech.2024.116164": {
@@ -1682,7 +1718,7 @@
  "doi:10.1016/j.ejphar.2011.05.054": {
   "journal": "European journal of pharmacology",
   "subjects": [],
-  "title": "Pregabalin is a potent and selective ligand for α(2)δ-1 and α(2)δ-2 calcium channel subunits",
+  "title": "Pregabalin is a potent and selective ligand for \u03b1(2)\u03b4-1 and \u03b1(2)\u03b4-2 calcium channel subunits",
   "year": "2011"
  },
  "doi:10.1016/j.ejphar.2011.10.045": {
@@ -1755,7 +1791,7 @@
  "doi:10.1016/j.euroneuro.2011.08.002": {
   "journal": "European Neuropsychopharmacology",
   "subjects": [],
-  "title": "Evaluation of sigma (σ) receptors in the antidepressant-like effects of ketamine in vitro and in vivo",
+  "title": "Evaluation of sigma (\u03c3) receptors in the antidepressant-like effects of ketamine in vitro and in vivo",
   "year": 2012
  },
  "doi:10.1016/j.euroneuro.2014.12.012": {
@@ -1779,7 +1815,7 @@
  "doi:10.1016/j.euroneuro.2022.09.005": {
   "journal": "European Neuropsychopharmacology",
   "subjects": [],
-  "title": "Corrigendum to ‘No evidence for clinical efficacy of adjunctive celecoxib with vortioxetine in the treatment of depression: A 6-week double-blind placebo controlled randomized trial’ [European Neuropsychopharmacology 53 (2021) 34–46]",
+  "title": "Corrigendum to \u2018No evidence for clinical efficacy of adjunctive celecoxib with vortioxetine in the treatment of depression: A 6-week double-blind placebo controlled randomized trial\u2019 [European Neuropsychopharmacology 53 (2021) 34\u201346]",
   "year": 2022
  },
  "doi:10.1016/j.expneurol.2021.113836": {
@@ -1963,7 +1999,19 @@
   "title": "Pharmacological profile of the alpha4beta2 nicotinic acetylcholine receptor partial agonist varenicline, an effective smoking cessation aid",
   "year": "2007"
  },
+ "doi:10.1016/j.neuropharm.2007.04.018": {
+  "journal": "Neuropharmacology",
+  "subjects": [],
+  "title": "Valerenic acid potentiates and inhibits GABA(A) receptors: molecular mechanism and subunit specificity",
+  "year": "2007"
+ },
  "doi:10.1016/j.neuropharm.2007.04.022": null,
+ "doi:10.1016/j.neuropharm.2008.06.013": {
+  "journal": "Neuropharmacology",
+  "subjects": [],
+  "title": "GABA A receptors as in vivo substrate for the anxiolytic action of valerenic acid, a major constituent of valerian root extracts",
+  "year": "2009"
+ },
  "doi:10.1016/j.neuropharm.2013.11.008": {
   "journal": "Neuropharmacology",
   "subjects": [],
@@ -1979,7 +2027,7 @@
  "doi:10.1016/j.neuropharm.2015.08.032": {
   "journal": "Neuropharmacology",
   "subjects": [],
-  "title": "Noribogaine is a G-protein biased κ-opioid receptor agonist",
+  "title": "Noribogaine is a G-protein biased \u03ba-opioid receptor agonist",
   "year": "2015"
  },
  "doi:10.1016/j.neuropharm.2015.08.034": {
@@ -2009,7 +2057,7 @@
  "doi:10.1016/j.neuropharm.2017.10.006": {
   "journal": "Neuropharmacology",
   "subjects": [],
-  "title": "Fluorinated phenmetrazine “legal highs” act as substrates for high-affinity monoamine transporters of the SLC6 family",
+  "title": "Fluorinated phenmetrazine \u201clegal highs\u201d act as substrates for high-affinity monoamine transporters of the SLC6 family",
   "year": 2018
  },
  "doi:10.1016/j.neuropharm.2018.06.020": {
@@ -2065,7 +2113,7 @@
  "doi:10.1016/j.pbb.2015.07.014": {
   "journal": "Pharmacology, biochemistry, and behavior",
   "subjects": [],
-  "title": "R-phenibut binds to the α2-δ subunit of voltage-dependent calcium channels and exerts gabapentin-like anti-nociceptive effects",
+  "title": "R-phenibut binds to the \u03b12-\u03b4 subunit of voltage-dependent calcium channels and exerts gabapentin-like anti-nociceptive effects",
   "year": "2015"
  },
  "doi:10.1016/j.pbb.2020.172949": {
@@ -2092,6 +2140,18 @@
   "title": "H1 antihistamine drug promethazine directly blocks hERG K+ channel",
   "year": 2009
  },
+ "doi:10.1016/j.phymed.2010.03.002": {
+  "journal": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
+  "subjects": [],
+  "title": "Passiflora incarnata L. (Passionflower) extracts elicit GABA currents in hippocampal neurons in vitro, and show anxiogenic and anticonvulsant effects in vivo, varying with extraction method",
+  "year": "2010"
+ },
+ "doi:10.1016/j.phymed.2016.10.012": {
+  "journal": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
+  "subjects": [],
+  "title": "Long-term chamomile (Matricaria chamomilla L.) treatment for generalized anxiety disorder: A randomized clinical trial",
+  "year": "2016"
+ },
  "doi:10.1016/j.pnpbp.2024.110984": {
   "journal": "Progress in Neuro-Psychopharmacology and Biological Psychiatry",
   "subjects": [],
@@ -2113,7 +2173,7 @@
  "doi:10.1016/j.taap.2017.02.004": {
   "journal": "Toxicology and Applied Pharmacology",
   "subjects": [],
-  "title": "Potential transfer of neurotoxic amino acid β- N -methylamino-alanine (BMAA) from mother to infant during breast-feeding: Predictions from human cell lines",
+  "title": "Potential transfer of neurotoxic amino acid \u03b2- N -methylamino-alanine (BMAA) from mother to infant during breast-feeding: Predictions from human cell lines",
   "year": 2017
  },
  "doi:10.1016/j.taap.2020.115056": {
@@ -2168,19 +2228,25 @@
  "doi:10.1016/j.yebeh.2011.03.009": {
   "journal": "Epilepsy &amp; Behavior",
   "subjects": [],
-  "title": "γ-Hydroxybutyric acid-induced psychosis and seizures",
+  "title": "\u03b3-Hydroxybutyric acid-induced psychosis and seizures",
   "year": 2011
  },
  "doi:10.1016/j.yrtph.2010.12.007": {
   "journal": "Regulatory toxicology and pharmacology : RTP",
   "subjects": [],
-  "title": "Uniform assessment and ranking of opioid μ receptor binding constants for selected opioid drugs.",
+  "title": "Uniform assessment and ranking of opioid \u03bc receptor binding constants for selected opioid drugs.",
   "year": 2011
+ },
+ "doi:10.1016/s0006-2952(00)00264-1": {
+  "journal": "Biochemical pharmacology",
+  "subjects": [],
+  "title": "Pharmacological profile of apigenin, a flavonoid isolated from Matricaria chamomilla",
+  "year": "2000"
  },
  "doi:10.1016/s0006-2952(00)00284-7": {
   "journal": "Biochemical Pharmacology",
   "subjects": [],
-  "title": "Identification of the human cytochromes P450 involved in the oxidative metabolism of “Ecstasy”-related designer drugs",
+  "title": "Identification of the human cytochromes P450 involved in the oxidative metabolism of \u201cEcstasy\u201d-related designer drugs",
   "year": 2000
  },
  "doi:10.1016/s0006-2952(01)00689-x": {
@@ -2194,6 +2260,12 @@
   "subjects": [],
   "title": "Inhibition of aldehyde dehydrogenase by disulfiram and its metabolite methyl diethylthiocarbamoyl-sulfoxide",
   "year": "1997"
+ },
+ "doi:10.1016/s0006-3223(01)01145-3": {
+  "journal": "Biological psychiatry",
+  "subjects": [],
+  "title": "Second-generation SSRIs: human monoamine transporter binding profile of escitalopram and R-fluoxetine",
+  "year": "2001"
  },
  "doi:10.1016/s0006-3223(02)01692-1": null,
  "doi:10.1016/s0006-3223(99)00298-2": null,
@@ -2474,7 +2546,7 @@
  "doi:10.1016/s0960-894x(02)00512-7": {
   "journal": "Bioorganic &amp; Medicinal Chemistry Letters",
   "subjects": [],
-  "title": "Identification and Structure–Activity Studies of Novel Ultrashort-Acting Benzodiazepine Receptor Agonists",
+  "title": "Identification and Structure\u2013Activity Studies of Novel Ultrashort-Acting Benzodiazepine Receptor Agonists",
   "year": 2002
  },
  "doi:10.1016/s1286-4579(01)01432-0": {
@@ -2498,13 +2570,13 @@
  "doi:10.1021/acs.jmedchem.0c00257": {
   "journal": "Journal of Medicinal Chemistry",
   "subjects": [],
-  "title": "Halo and Pseudohalo Gold(I)–NHC Complexes Derived from 4,5-Diarylimidazoles with Excellent <i>In Vitro</i> and <i>In Vivo</i> Anticancer Activities Against HCC",
+  "title": "Halo and Pseudohalo Gold(I)\u2013NHC Complexes Derived from 4,5-Diarylimidazoles with Excellent <i>In Vitro</i> and <i>In Vivo</i> Anticancer Activities Against HCC",
   "year": 2020
  },
  "doi:10.1021/acs.jmedchem.1c00442": {
   "journal": "Journal of Medicinal Chemistry",
   "subjects": [],
-  "title": "Synthesis, Molecular Pharmacology, and Structure–Activity Relationships of 3-(Indanoyl)indoles as Selective Cannabinoid Type 2 Receptor Antagonists",
+  "title": "Synthesis, Molecular Pharmacology, and Structure\u2013Activity Relationships of 3-(Indanoyl)indoles as Selective Cannabinoid Type 2 Receptor Antagonists",
   "year": 2021
  },
  "doi:10.1021/acs.jmedchem.1c01273": {
@@ -2516,13 +2588,13 @@
  "doi:10.1021/acs.jmedchem.2c00702": {
   "journal": "Journal of Medicinal Chemistry",
   "subjects": [],
-  "title": "Discovery of β-Arrestin-Biased 25CN-NBOH-Derived 5-HT<sub>2A</sub>Receptor Agonists",
+  "title": "Discovery of \u03b2-Arrestin-Biased 25CN-NBOH-Derived 5-HT<sub>2A</sub>Receptor Agonists",
   "year": 2022
  },
  "doi:10.1021/acs.jmedchem.6b00748": {
   "journal": "Journal of medicinal chemistry",
   "subjects": [],
-  "title": "Mitragynine/Corynantheidine Pseudoindoxyls As Opioid Analgesics with Mu Agonism and Delta Antagonism, Which Do Not Recruit β-Arrestin-2",
+  "title": "Mitragynine/Corynantheidine Pseudoindoxyls As Opioid Analgesics with Mu Agonism and Delta Antagonism, Which Do Not Recruit \u03b2-Arrestin-2",
   "year": "2016"
  },
  "doi:10.1021/acs.jnatprod.5b00065": {
@@ -2564,7 +2636,7 @@
  "doi:10.1021/acschemneuro.2c00772": {
   "journal": "ACS Chemical Neuroscience",
   "subjects": [],
-  "title": "Structure–Activity Relationship of <i>N</i>-Ethyl-Hexedrone Analogues: Role of the α-Carbon Side-Chain Length in the Mechanism of Action, Cytotoxicity, and Behavioral Effects in Mice",
+  "title": "Structure\u2013Activity Relationship of <i>N</i>-Ethyl-Hexedrone Analogues: Role of the \u03b1-Carbon Side-Chain Length in the Mechanism of Action, Cytotoxicity, and Behavioral Effects in Mice",
   "year": 2023
  },
  "doi:10.1021/acschemneuro.3c00088": {
@@ -2648,7 +2720,7 @@
  "doi:10.1021/acschemneuro.8b00524": {
   "journal": "ACS Chemical Neuroscience",
   "subjects": [],
-  "title": "Systematic Structure–Activity Studies on Selected 2-, 3-, and 4-Monosubstituted Synthetic Methcathinone Analogs as Monoamine Transporter Releasing Agents",
+  "title": "Systematic Structure\u2013Activity Studies on Selected 2-, 3-, and 4-Monosubstituted Synthetic Methcathinone Analogs as Monoamine Transporter Releasing Agents",
   "year": 2018
  },
  "doi:10.1021/acschemneuro.9b00305": {
@@ -2672,7 +2744,7 @@
  "doi:10.1021/acsptsci.2c00177": {
   "journal": "ACS Pharmacology &amp; Translational Science",
   "subjects": [],
-  "title": "Structure–Activity Relationships for Psilocybin, Baeocystin, Aeruginascin, and Related Analogues to Produce Pharmacological Effects in Mice",
+  "title": "Structure\u2013Activity Relationships for Psilocybin, Baeocystin, Aeruginascin, and Related Analogues to Produce Pharmacological Effects in Mice",
   "year": 2022
  },
  "doi:10.1021/acsptsci.2c00222": {
@@ -2690,7 +2762,7 @@
  "doi:10.1021/acsptsci.4c00157": {
   "journal": "ACS Pharmacology &amp; Translational Science",
   "subjects": [],
-  "title": "1-(2,5-Dimethoxy-4-iodophenyl)-2-aminopropane (DOI): From an Obscure to Pivotal Member of the DOX Family of Serotonergic Psychedelic Agents – A Review",
+  "title": "1-(2,5-Dimethoxy-4-iodophenyl)-2-aminopropane (DOI): From an Obscure to Pivotal Member of the DOX Family of Serotonergic Psychedelic Agents \u2013 A Review",
   "year": 2024
  },
  "doi:10.1021/acsptsci.9b00069": {
@@ -2703,7 +2775,7 @@
  "doi:10.1021/bi900605n": {
   "journal": "Biochemistry",
   "subjects": [],
-  "title": "Structure-Based Design, Synthesis, and Biochemical and Pharmacological Characterization of Novel Salvinorin A Analogues as Active State Probes of the κ-Opioid Receptor",
+  "title": "Structure-Based Design, Synthesis, and Biochemical and Pharmacological Characterization of Novel Salvinorin A Analogues as Active State Probes of the \u03ba-Opioid Receptor",
   "year": 2009
  },
  "doi:10.1021/cn5000524": {
@@ -2782,7 +2854,7 @@
  "doi:10.1021/jm049438q": {
   "journal": "Journal of Medicinal Chemistry",
   "subjects": [],
-  "title": "Studies toward the Pharmacophore of Salvinorin A, a Potent κ Opioid Receptor Agonist",
+  "title": "Studies toward the Pharmacophore of Salvinorin A, a Potent \u03ba Opioid Receptor Agonist",
   "year": 2004
  },
  "doi:10.1021/jm049762l": {
@@ -2844,7 +2916,7 @@
  "doi:10.1021/jm800889m": {
   "journal": "Journal of Medicinal Chemistry",
   "subjects": [],
-  "title": "Structural Requirements for Eszopiclone and Zolpidem Binding to the γ-Aminobutyric Acid Type-A (GABA<sub>A</sub>) Receptor Are Different",
+  "title": "Structural Requirements for Eszopiclone and Zolpidem Binding to the \u03b3-Aminobutyric Acid Type-A (GABA<sub>A</sub>) Receptor Are Different",
   "year": 2008
  },
  "doi:10.1021/jm801055h": {
@@ -2868,20 +2940,20 @@
  "doi:10.1021/jm970078z": {
   "journal": "Journal of Medicinal Chemistry",
   "subjects": [],
-  "title": "1-[1-(2-Benzo[<i>b</i>]thiopheneyl)cyclohexyl]piperidine Hydrochloride (BTCP) Yields Two Active Primary Metabolites in Vitro:  Synthesis, Identification from Rat Liver Microsome Extracts, and Affinity for the Neuronal Dopamine Transporter",
+  "title": "1-[1-(2-Benzo[<i>b</i>]thiopheneyl)cyclohexyl]piperidine Hydrochloride (BTCP) Yields Two Active Primary Metabolites in Vitro:\u2009 Synthesis, Identification from Rat Liver Microsome Extracts, and Affinity for the Neuronal Dopamine Transporter",
   "year": 1997
  },
  "doi:10.1021/jm9803875": {
   "journal": "Journal of Medicinal Chemistry",
   "subjects": [],
-  "title": "Potent Cyano and Carboxamido Side-Chain Analogues of 1‘,1‘-Dimethyl-Δ<sup>8</sup>-Tetrahydrocannabinol",
+  "title": "Potent Cyano and Carboxamido Side-Chain Analogues of 1\u2018,1\u2018-Dimethyl-\u0394<sup>8</sup>-Tetrahydrocannabinol",
   "year": 1998
  },
  "doi:10.1021/jm980394k": null,
  "doi:10.1021/jm990341r": {
   "journal": "Journal of Medicinal Chemistry",
   "subjects": [],
-  "title": "Pharmacophore/Receptor Models for GABA<sub>A</sub>/BzR Subtypes (α1β3γ2, α5β3γ2, and α6β3γ2) via a Comprehensive Ligand-Mapping Approach",
+  "title": "Pharmacophore/Receptor Models for GABA<sub>A</sub>/BzR Subtypes (\u03b11\u03b23\u03b32, \u03b15\u03b23\u03b32, and \u03b16\u03b23\u03b32) via a Comprehensive Ligand-Mapping Approach",
   "year": 1999
  },
  "doi:10.1021/ml200184w": {
@@ -2899,13 +2971,13 @@
  "doi:10.1021/np0205699": {
   "journal": "Journal of Natural Products",
   "subjects": [],
-  "title": "Salvinorins D−F, New Neoclerodane Diterpenoids from <i>Salvia </i><i>d</i><i>ivinorum,</i> and an Improved Method for the Isolation of Salvinorin A",
+  "title": "Salvinorins D\u2212F, New Neoclerodane Diterpenoids from <i>Salvia </i><i>d</i><i>ivinorum,</i> and an Improved Method for the Isolation of Salvinorin A",
   "year": 2003
  },
  "doi:10.1021/np030313i": {
   "journal": "Journal of Natural Products",
   "subjects": [],
-  "title": "Divinatorins A−C, New Neoclerodane Diterpenoids from the Controlled Sage <i>Salvia </i><i>d</i><i>ivinorum</i>",
+  "title": "Divinatorins A\u2212C, New Neoclerodane Diterpenoids from the Controlled Sage <i>Salvia </i><i>d</i><i>ivinorum</i>",
   "year": 2003
  },
  "doi:10.1021/np50094a001": {
@@ -2965,7 +3037,7 @@
  "doi:10.1038/386499a0": {
   "journal": "Nature",
   "subjects": [],
-  "title": "A potent and selective endogenous agonist for the µ-opiate receptor",
+  "title": "A potent and selective endogenous agonist for the \u00b5-opiate receptor",
   "year": 1997
  },
  "doi:10.1038/386827a0": {
@@ -3067,7 +3139,7 @@
  "doi:10.1038/clpt.2009.198": {
   "journal": "Clinical Pharmacology &amp; Therapeutics",
   "subjects": [],
-  "title": "Comparison of Critical Drug–Drug Interaction Listings: The Department of Veterans Affairs Medical System and Standard Reference Compendia",
+  "title": "Comparison of Critical Drug\u2013Drug Interaction Listings: The Department of Veterans Affairs Medical System and Standard Reference Compendia",
   "year": 2009
  },
  "doi:10.1038/clpt.2011.177": {
@@ -3194,7 +3266,7 @@
  "doi:10.1038/s41380-023-02353-z": {
   "journal": "Molecular Psychiatry",
   "subjects": [],
-  "title": "Unique pharmacodynamic properties and low abuse liability of the µ-opioid receptor ligand (S)-methadone",
+  "title": "Unique pharmacodynamic properties and low abuse liability of the \u00b5-opioid receptor ligand (S)-methadone",
   "year": 2023
  },
  "doi:10.1038/s41380-024-02506-8": {
@@ -3272,7 +3344,7 @@
  "doi:10.1038/s41398-024-02744-y": {
   "journal": "Translational Psychiatry",
   "subjects": [],
-  "title": "Hydroxynorketamine, but not ketamine, acts via α7 nicotinic acetylcholine receptor to control presynaptic function and gene expression",
+  "title": "Hydroxynorketamine, but not ketamine, acts via \u03b17 nicotinic acetylcholine receptor to control presynaptic function and gene expression",
   "year": 2024
  },
  "doi:10.1038/s41431-023-01347-3": {
@@ -3314,7 +3386,7 @@
  "doi:10.1038/s41598-019-56785-1": {
   "journal": "Scientific reports",
   "subjects": [],
-  "title": "A novel phytocannabinoid isolated from Cannabis sativa L. with an in vivo cannabimimetic activity higher than Δ<sup>9</sup>-tetrahydrocannabinol: Δ<sup>9</sup>-Tetrahydrocannabiphorol",
+  "title": "A novel phytocannabinoid isolated from Cannabis sativa L. with an in vivo cannabimimetic activity higher than \u0394<sup>9</sup>-tetrahydrocannabinol: \u0394<sup>9</sup>-Tetrahydrocannabiphorol",
   "year": "2019"
  },
  "doi:10.1038/s41598-021-02078-5": {
@@ -3356,7 +3428,7 @@
  "doi:10.1038/sj.bjp.0707399": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "Meta‐analysis of cannabinoid ligand binding affinity and receptor distribution: interspecies differences",
+  "title": "Meta\u2010analysis of cannabinoid ligand binding affinity and receptor distribution: interspecies differences",
   "year": 2007
  },
  "doi:10.1038/sj.bjp.0707430": {
@@ -3401,10 +3473,16 @@
   "title": "The new oral angiotensin II antagonist olmesartan medoxomil: a concise overview",
   "year": "2002"
  },
+ "doi:10.1038/sj.npp.1300230": {
+  "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
+  "subjects": [],
+  "title": "Modulation of mood and cognitive performance following acute administration of single doses of Melissa officinalis (Lemon balm) with human CNS nicotinic and muscarinic receptor-binding properties",
+  "year": "2003"
+ },
  "doi:10.1038/sj.npp.1300242": {
   "journal": "Neuropsychopharmacology",
   "subjects": [],
-  "title": "Harm Avoidance, Anxiety, and Response to Novelty in the Adolescent S-100β Transgenic Mouse: Role of Serotonin and Relevance to Down Syndrome",
+  "title": "Harm Avoidance, Anxiety, and Response to Novelty in the Adolescent S-100\u03b2 Transgenic Mouse: Role of Serotonin and Relevance to Down Syndrome",
   "year": 2003
  },
  "doi:10.1038/sj.npp.1300266": {
@@ -3440,13 +3518,13 @@
  "doi:10.1038/sj.npp.1301452": {
   "journal": "Neuropsychopharmacology",
   "subjects": [],
-  "title": "Increased Leptin Permeation across the Blood–Brain Barrier after Chronic Alcohol Ingestion",
+  "title": "Increased Leptin Permeation across the Blood\u2013Brain Barrier after Chronic Alcohol Ingestion",
   "year": 2007
  },
  "doi:10.1038/sj.npp.1301456": {
   "journal": "Neuropsychopharmacology",
   "subjects": [],
-  "title": "Markers in the 5′-Region of GABRG1 Associate to Alcohol Dependence and are in Linkage Disequilibrium with Markers in the Adjacent GABRA2 Gene",
+  "title": "Markers in the 5\u2032-Region of GABRG1 Associate to Alcohol Dependence and are in Linkage Disequilibrium with Markers in the Adjacent GABRA2 Gene",
   "year": 2007
  },
  "doi:10.1038/sj.npp.1301520": {
@@ -3490,7 +3568,7 @@
  "doi:10.1038/srep28674": {
   "journal": "Scientific Reports",
   "subjects": [],
-  "title": "Zolpidem is a potent stoichiometry-selective modulator of α1β3 GABAA receptors: evidence of a novel benzodiazepine site in the α1-α1 interface",
+  "title": "Zolpidem is a potent stoichiometry-selective modulator of \u03b11\u03b23 GABAA receptors: evidence of a novel benzodiazepine site in the \u03b11-\u03b11 interface",
   "year": 2016
  },
  "doi:10.1038/srep31385": {
@@ -3508,7 +3586,7 @@
  "doi:10.1038/tp.2014.30": {
   "journal": "Translational Psychiatry",
   "subjects": [],
-  "title": "The atypical antidepressant and neurorestorative agent tianeptine is a μ-opioid receptor agonist",
+  "title": "The atypical antidepressant and neurorestorative agent tianeptine is a \u03bc-opioid receptor agonist",
   "year": 2014
  },
  "doi:10.1042/bj20070797": {
@@ -3538,7 +3616,7 @@
  "doi:10.1046/j.1365-2125.1998.00727.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
-  "title": "The visceral and somatic antinociceptive effects of dihydrocodeine and its metabolite, dihydromorphine. A cross‐over study with extensive and quinidine‐induced poor metabolizers",
+  "title": "The visceral and somatic antinociceptive effects of dihydrocodeine and its metabolite, dihydromorphine. A cross\u2010over study with extensive and quinidine\u2010induced poor metabolizers",
   "year": 1998
  },
  "doi:10.1046/j.1365-2125.1999.00898.x": {
@@ -3550,13 +3628,13 @@
  "doi:10.1046/j.1365-2125.2000.00121.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
-  "title": "Non‐linear pharmacokinetics of MDMA (‘ecstasy’) in humans",
+  "title": "Non\u2010linear pharmacokinetics of MDMA (\u2018ecstasy\u2019) in humans",
   "year": 2000
  },
  "doi:10.1046/j.1365-2125.2000.00194.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
-  "title": "Within‐ and between‐subject variations in pharmacokinetic parameters of ethanol by analysis of breath, venous blood and urine",
+  "title": "Within\u2010 and between\u2010subject variations in pharmacokinetic parameters of ethanol by analysis of breath, venous blood and urine",
   "year": 2000
  },
  "doi:10.1046/j.1365-2125.2002.01578.x": {
@@ -3576,6 +3654,12 @@
   "subjects": [],
   "title": "CYP2D6 and CYP3A4 involvement in the primary oxidative metabolism of hydrocodone by human liver microsomes",
   "year": 2004
+ },
+ "doi:10.1046/j.1365-2710.2001.00367.x": {
+  "journal": "Journal of clinical pharmacy and therapeutics",
+  "subjects": [],
+  "title": "Passionflower in the treatment of generalized anxiety: a pilot double-blind randomized controlled trial with oxazepam",
+  "year": "2001"
  },
  "doi:10.1046/j.1528-1157.2001.0420s4024.x": {
   "journal": "Epilepsia",
@@ -3600,6 +3684,12 @@
   "subjects": [],
   "title": "Consensus Guidelines for Therapeutic Drug Monitoring in Neuropsychopharmacology: Update 2017",
   "year": "2018"
+ },
+ "doi:10.1055/s-2006-958058": {
+  "journal": "Planta medica",
+  "subjects": [],
+  "title": "Apigenin, a component of Matricaria recutita flowers, is a central benzodiazepine receptors-ligand with anxiolytic effects",
+  "year": "1995"
  },
  "doi:10.1056/nejm197605132942005": {
   "journal": "New England Journal of Medicine",
@@ -3629,7 +3719,7 @@
  "doi:10.1056/nejmoa1610300": {
   "journal": "New England Journal of Medicine",
   "subjects": [],
-  "title": "“Zombie” Outbreak Caused by the Synthetic Cannabinoid AMB-FUBINACA in New York",
+  "title": "\u201cZombie\u201d Outbreak Caused by the Synthetic Cannabinoid AMB-FUBINACA in New York",
   "year": 2017
  },
  "doi:10.1056/nejmoa2017015": {
@@ -3641,7 +3731,7 @@
  "doi:10.1056/nejmoa2301972": {
   "journal": "New England Journal of Medicine",
   "subjects": [],
-  "title": "Triple–Hormone-Receptor Agonist Retatrutide for Obesity — A Phase 2 Trial",
+  "title": "Triple\u2013Hormone-Receptor Agonist Retatrutide for Obesity \u2014 A Phase 2 Trial",
   "year": 2023
  },
  "doi:10.1056/nejmra1604339": {
@@ -3732,7 +3822,7 @@
  "doi:10.1073/pnas.182234399": {
   "journal": "Proceedings of the National Academy of Sciences",
   "subjects": [],
-  "title": "Salvinorin A: A potent naturally occurring nonnitrogenous κ opioid selective agonist",
+  "title": "Salvinorin A: A potent naturally occurring nonnitrogenous \u03ba opioid selective agonist",
   "year": 2002
  },
  "doi:10.1073/pnas.1902566116": {
@@ -3756,7 +3846,7 @@
  "doi:10.1073/pnas.2435171100": {
   "journal": "Proceedings of the National Academy of Sciences",
   "subjects": [],
-  "title": "Ethanol enhances α\n                    <sub>4</sub>\n                    β\n                    <sub>3</sub>\n                    δ and α\n                    <sub>6</sub>\n                    β\n                    <sub>3</sub>\n                    δ γ-aminobutyric acid type A receptors at low concentrations known to affect humans",
+  "title": "Ethanol enhances \u03b1\n                    <sub>4</sub>\n                    \u03b2\n                    <sub>3</sub>\n                    \u03b4 and \u03b1\n                    <sub>6</sub>\n                    \u03b2\n                    <sub>3</sub>\n                    \u03b4 \u03b3-aminobutyric acid type A receptors at low concentrations known to affect humans",
   "year": 2003
  },
  "doi:10.1073/pnas.74.9.3805": {
@@ -3804,7 +3894,7 @@
  "doi:10.1080/00498250400028239": {
   "journal": "Xenobiotica",
   "subjects": [],
-  "title": "Identification of cytochrome P450 enzymes involved in the metabolism of 3′,4′-methylenedioxy-<b>α</b>-pyrrolidinopropiophenone (MDPPP), a designer drug, in human liver microsomes",
+  "title": "Identification of cytochrome P450 enzymes involved in the metabolism of 3\u2032,4\u2032-methylenedioxy-<b>\u03b1</b>-pyrrolidinopropiophenone (MDPPP), a designer drug, in human liver microsomes",
   "year": 2005
  },
  "doi:10.1080/00498254.2019.1599465": {
@@ -3852,6 +3942,12 @@
  },
  "doi:10.1080/13880209.2023.2200613": null,
  "doi:10.1080/15389580701552510": null,
+ "doi:10.1080/15502783.2026.2740227": {
+  "journal": "Journal of the International Society of Sports Nutrition",
+  "subjects": [],
+  "title": "Modulating stress and sleep through a multi-compound dietary supplement: a randomized, double-blind, placebo-controlled trial",
+  "year": 2026
+ },
  "doi:10.1080/17425255.2021.1944099": {
   "journal": "Expert Opinion on Drug Metabolism &amp; Toxicology",
   "subjects": [],
@@ -3864,6 +3960,12 @@
   "title": "Determination of 3-MeO-PCP in human blood and urine in a fatal intoxication case, with a specific focus on metabolites identification",
   "year": 2021
  },
+ "doi:10.1081/clt-100100919": {
+  "journal": "Journal of Toxicology: Clinical Toxicology",
+  "subjects": [],
+  "title": "Toxicity of<i>Passiflora incarnata</i>L",
+  "year": 2000
+ },
  "doi:10.1086/527566": {
   "journal": "Clinical Infectious Diseases",
   "subjects": [],
@@ -3873,13 +3975,13 @@
  "doi:10.1089/can.2016.0017": {
   "journal": "Cannabis and Cannabinoid Research",
   "subjects": [],
-  "title": "Cannabis: From Cultivar to Chemovar II—A Metabolomics Approach to Cannabis Classification",
+  "title": "Cannabis: From Cultivar to Chemovar II\u2014A Metabolomics Approach to Cannabis Classification",
   "year": 2016
  },
  "doi:10.1089/can.2023.0212": {
   "journal": "Cannabis &amp; Cannabinoid Research",
   "subjects": [],
-  "title": "Activation of CB2 Receptors by (−)-Cannabichromene but Not (+)-Cannabichromene",
+  "title": "Activation of CB2 Receptors by (\u2212)-Cannabichromene but Not (+)-Cannabichromene",
   "year": 2024
  },
  "doi:10.1089/cap.2007.0084": {
@@ -4121,13 +4223,13 @@
  "doi:10.1093/jat/bky072": {
   "journal": "Journal of Analytical Toxicology",
   "subjects": [],
-  "title": "Characterization of Bromethalin and its Degradation Products in Veterinary Toxicology Samples by GC–MS-MS",
+  "title": "Characterization of Bromethalin and its Degradation Products in Veterinary Toxicology Samples by GC\u2013MS-MS",
   "year": 2018
  },
  "doi:10.1093/jat/bkz022": {
   "journal": "Journal of Analytical Toxicology",
   "subjects": [],
-  "title": "Cocaine Hydroxy Metabolites in Hair: Indicators for Cocaine Use Versus External Contamination☆",
+  "title": "Cocaine Hydroxy Metabolites in Hair: Indicators for Cocaine Use Versus External Contamination\u2606",
   "year": 2019
  },
  "doi:10.1093/jat/bkz048": {
@@ -4139,7 +4241,7 @@
  "doi:10.1093/qjmed/hcg143": {
   "journal": "QJM: An International Journal of Medicine",
   "subjects": [],
-  "title": "Intensified treatment of type 2 diabetes—positive effects on blood pressure, but not glycaemic control",
+  "title": "Intensified treatment of type 2 diabetes\u2014positive effects on blood pressure, but not glycaemic control",
   "year": 2003
  },
  "doi:10.1093/qjmed/hcw112": {
@@ -4187,13 +4289,13 @@
  "doi:10.1097/00000542-198202000-00007": {
   "journal": "Anesthesiology",
   "subjects": [],
-  "title": "Ketamine—Its Pharmacology and Therapeutic Uses",
+  "title": "Ketamine\u2014Its Pharmacology and Therapeutic Uses",
   "year": 1982
  },
  "doi:10.1097/00000542-198209000-00008": {
   "journal": "Anesthesiology",
   "subjects": [],
-  "title": "Halothane and the Carotid Sinus Reflex: Evidence for Multiple Sites of Action ",
+  "title": "Halothane and the Carotid Sinus Reflex: Evidence for Multiple Sites of Action\u00a0",
   "year": 1982
  },
  "doi:10.1097/00000542-198304000-00010": {
@@ -4279,6 +4381,12 @@
   "subjects": [],
   "title": "Pharmacokinetics and pharmacodynamics of adinazolam and N-desmethyladinazolam after oral and intravenous dosing in healthy young and elderly volunteers",
   "year": "1992"
+ },
+ "doi:10.1097/00004714-199402000-00002": {
+  "journal": "Journal of Clinical Psychopharmacology",
+  "subjects": [],
+  "title": "Hypertensive Episode Associated with Phenelzine and Tap Beer???A Reanalysis of the Role of Pressor Amines in Beer",
+  "year": 1994
  },
  "doi:10.1097/00004714-199508000-00005": {
   "journal": "Journal of Clinical Psychopharmacology",
@@ -4367,6 +4475,12 @@
   "year": "2004"
  },
  "doi:10.1097/01.jcp.0000125685.34117.30": null,
+ "doi:10.1097/01.psy.0000132877.72833.71": {
+  "journal": "Psychosomatic medicine",
+  "subjects": [],
+  "title": "Attenuation of laboratory-induced stress in humans after acute administration of Melissa officinalis (Lemon Balm)",
+  "year": "2004"
+ },
  "doi:10.1097/adm.0000000000001185": {
   "journal": "Journal of Addiction Medicine",
   "subjects": [],
@@ -4408,6 +4522,12 @@
   "title": "Randomized Controlled Crossover Trials of the Pharmacokinetics of PRC-063, a Novel Multilayer Extended-Release Formulation of Methylphenidate, in Healthy Adults",
   "year": "2020"
  },
+ "doi:10.1097/jcp.0b013e3181ac935c": {
+  "journal": "Journal of clinical psychopharmacology",
+  "subjects": [],
+  "title": "A randomized, double-blind, placebo-controlled trial of oral Matricaria recutita (chamomile) extract therapy for generalized anxiety disorder",
+  "year": "2009"
+ },
  "doi:10.1097/jcp.0b013e3181c34c34": null,
  "doi:10.1097/mjt.0000000000000275": {
   "journal": "American Journal of Therapeutics",
@@ -4428,6 +4548,12 @@
   "subjects": [],
   "title": "Microbleeds in moyamoya disease: susceptibility-weighted imaging versus T2*-weighted imaging at 3 Tesla",
   "year": "2008"
+ },
+ "doi:10.1097/yic.0000000000000291": {
+  "journal": "International clinical psychopharmacology",
+  "subjects": [],
+  "title": "Effects of Passiflora incarnata Linnaeus on polysomnographic sleep parameters in subjects with insomnia disorder: a double-blind randomized placebo-controlled study",
+  "year": "2020"
  },
  "doi:10.1098/rsob.220355": {
   "journal": "Open Biology",
@@ -4462,7 +4588,7 @@
  "doi:10.1111/add.13059": {
   "journal": "Addiction",
   "subjects": [],
-  "title": "Prevalence of and motives for pharmacological neuroenhancement in Switzerland—results from a national internet panel",
+  "title": "Prevalence of and motives for pharmacological neuroenhancement in Switzerland\u2014results from a national internet panel",
   "year": 2015
  },
  "doi:10.1111/add.13502": {
@@ -4480,13 +4606,13 @@
  "doi:10.1111/add.70319": {
   "journal": "Addiction",
   "subjects": [],
-  "title": "Rare but relevant: Ibogaine and cardiovascular complications—prolonged QT interval and ventricular arrhythmias",
+  "title": "Rare but relevant: Ibogaine and cardiovascular complications\u2014prolonged QT interval and ventricular arrhythmias",
   "year": 2026
  },
  "doi:10.1111/bcp.12984": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
-  "title": "Pharmacokinetics of lamotrigine and its metabolite N‐2‐glucuronide: Influence of polymorphism of UDP‐glucuronosyltransferases and drug transporters",
+  "title": "Pharmacokinetics of lamotrigine and its metabolite N\u20102\u2010glucuronide: Influence of polymorphism of UDP\u2010glucuronosyltransferases and drug transporters",
   "year": 2016
  },
  "doi:10.1111/bcp.13710": {
@@ -4504,13 +4630,13 @@
  "doi:10.1111/bcpt.12399": {
   "journal": "Basic &amp; Clinical Pharmacology &amp; Toxicology",
   "subjects": [],
-  "title": "4,4′‐<scp>DMAR</scp>: Chemistry, Pharmacology and Toxicology of a New Synthetic Stimulant of Abuse",
+  "title": "4,4\u2032\u2010<scp>DMAR</scp>: Chemistry, Pharmacology and Toxicology of a New Synthetic Stimulant of Abuse",
   "year": 2015
  },
  "doi:10.1111/bcpt.12584": {
   "journal": "Basic &amp; Clinical Pharmacology &amp; Toxicology",
   "subjects": [],
-  "title": "Fenethylline (Captagon) Abuse – Local Problems from an Old Drug Become Universal",
+  "title": "Fenethylline (Captagon) Abuse \u2013 Local Problems from an Old Drug Become Universal",
   "year": 2016
  },
  "doi:10.1111/bdi.12609": {
@@ -4528,7 +4654,7 @@
  "doi:10.1111/bph.12222": {
   "journal": "British journal of pharmacology",
   "subjects": [],
-  "title": "Efficacy and ligand bias at the μ-opioid receptor.",
+  "title": "Efficacy and ligand bias at the \u03bc-opioid receptor.",
   "year": 2013
  },
  "doi:10.1111/bph.12409": {
@@ -4540,7 +4666,7 @@
  "doi:10.1111/bph.12827": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "S‐nitrosation and neuronal plasticity",
+  "title": "S\u2010nitrosation and neuronal plasticity",
   "year": 2014
  },
  "doi:10.1111/bph.13128": {
@@ -4564,19 +4690,19 @@
  "doi:10.1111/bph.15004": {
   "journal": "British journal of pharmacology",
   "subjects": [],
-  "title": "Morphine-induced respiratory depression is independent of β-arrestin2 signalling",
+  "title": "Morphine-induced respiratory depression is independent of \u03b2-arrestin2 signalling",
   "year": "2020"
  },
  "doi:10.1111/bph.15064": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "Activation of μ‐opioid receptors by <scp>MT‐45</scp> (1‐cyclohexyl‐4‐(1,2‐diphenylethyl)piperazine) and its fluorinated derivatives",
+  "title": "Activation of \u03bc\u2010opioid receptors by <scp>MT\u201045</scp> (1\u2010cyclohexyl\u20104\u2010(1,2\u2010diphenylethyl)piperazine) and its fluorinated derivatives",
   "year": 2020
  },
  "doi:10.1111/bph.15103": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "Adenosine A<sub>2A</sub> receptor antagonists: from caffeine to selective non‐xanthines",
+  "title": "Adenosine A<sub>2A</sub> receptor antagonists: from caffeine to selective non\u2010xanthines",
   "year": 2020
  },
  "doi:10.1111/bph.15117": {
@@ -4600,13 +4726,13 @@
  "doi:10.1111/bph.16084": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "Carfentanil is a β‐arrestin‐biased agonist at the μ opioid receptor",
+  "title": "Carfentanil is a \u03b2\u2010arrestin\u2010biased agonist at the \u03bc opioid receptor",
   "year": 2023
  },
  "doi:10.1111/bph.70109": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "Evidence that 5‐HT\n                    <sub>2A</sub>\n                    receptor signalling efficacy and not biased agonism differentiates serotonergic psychedelic from non‐psychedelic drugs",
+  "title": "Evidence that 5\u2010HT\n                    <sub>2A</sub>\n                    receptor signalling efficacy and not biased agonism differentiates serotonergic psychedelic from non\u2010psychedelic drugs",
   "year": 2025
  },
  "doi:10.1111/cts.12724": {
@@ -4624,7 +4750,7 @@
  "doi:10.1111/dar.12882": {
   "journal": "Drug and Alcohol Review",
   "subjects": [],
-  "title": "Prevalence of reagent test‐kit use and perceptions of purity among ecstasy users in an electronic dance music scene in New York City",
+  "title": "Prevalence of reagent test\u2010kit use and perceptions of purity among ecstasy users in an electronic dance music scene in New York City",
   "year": 2018
  },
  "doi:10.1111/epi.13433": {
@@ -4756,19 +4882,19 @@
  "doi:10.1111/j.1365-2125.2010.03683.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
-  "title": "Absence of large intragenic rearrangements in the <i>DPYD</i> gene in a large cohort of colorectal cancer patients treated with 5‐FU‐based chemotherapy",
+  "title": "Absence of large intragenic rearrangements in the <i>DPYD</i> gene in a large cohort of colorectal cancer patients treated with 5\u2010FU\u2010based chemotherapy",
   "year": 2010
  },
  "doi:10.1111/j.1365-2125.2010.03835.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
-  "title": "Trends in co‐prescribing of angiotensin converting enzyme inhibitors and angiotensin receptor blockers in Ireland",
+  "title": "Trends in co\u2010prescribing of angiotensin converting enzyme inhibitors and angiotensin receptor blockers in Ireland",
   "year": 2011
  },
  "doi:10.1111/j.1365-2125.2011.03936.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
-  "title": "Pharmacokinetic–pharmacodynamic relationships of central nervous system effects of scopolamine in healthy subjects",
+  "title": "Pharmacokinetic\u2013pharmacodynamic relationships of central nervous system effects of scopolamine in healthy subjects",
   "year": 2011
  },
  "doi:10.1111/j.1365-2125.2012.04261.x": {
@@ -4849,19 +4975,19 @@
  "doi:10.1111/j.1476-5381.2008.00035.x": {
   "journal": "British journal of pharmacology",
   "subjects": [],
-  "title": "Neutral antagonist activity of naltrexone and 6beta-naltrexol in naïve and opioid-dependent C6 cells expressing a mu-opioid receptor",
+  "title": "Neutral antagonist activity of naltrexone and 6beta-naltrexol in na\u00efve and opioid-dependent C6 cells expressing a mu-opioid receptor",
   "year": "2009"
  },
  "doi:10.1111/j.1476-5381.2008.00109.x": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "The dual PPARα/γ agonist tesaglitazar blocks progression of pre‐existing atherosclerosis in <i>APOE*3Leiden.CETP</i> transgenic mice",
+  "title": "The dual PPAR\u03b1/\u03b3 agonist tesaglitazar blocks progression of pre\u2010existing atherosclerosis in <i>APOE*3Leiden.CETP</i> transgenic mice",
   "year": 2009
  },
  "doi:10.1111/j.1476-5381.2009.00467.x": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "Characterization of the oestrogenic activity of non‐aromatic steroids: are there male‐specific endogenous oestrogen receptor modulators?",
+  "title": "Characterization of the oestrogenic activity of non\u2010aromatic steroids: are there male\u2010specific endogenous oestrogen receptor modulators?",
   "year": 2009
  },
  "doi:10.1111/j.1476-5381.2009.00515.x": {
@@ -4873,13 +4999,13 @@
  "doi:10.1111/j.1476-5381.2010.00682.x": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "Pre‐clinical properties of the α4β2 nicotinic acetylcholine receptor partial agonists varenicline, cytisine and dianicline translate to clinical efficacy for nicotine dependence",
+  "title": "Pre\u2010clinical properties of the \u03b14\u03b22 nicotinic acetylcholine receptor partial agonists varenicline, cytisine and dianicline translate to clinical efficacy for nicotine dependence",
   "year": 2010
  },
  "doi:10.1111/j.1476-5381.2010.00744.x": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "GPR55‐dependent and ‐independent ion signalling in response to lysophosphatidylinositol in endothelial cells",
+  "title": "GPR55\u2010dependent and \u2010independent ion signalling in response to lysophosphatidylinositol in endothelial cells",
   "year": 2010
  },
  "doi:10.1111/j.1476-5381.2010.01166.x": {
@@ -4892,7 +5018,7 @@
  "doi:10.1111/j.1476-5381.2012.02058.x": {
   "journal": "British Journal of Pharmacology",
   "subjects": [],
-  "title": "Pharmacological comparison of novel synthetic fenamate analogues with econazole and 2‐APB on the inhibition of TRPM2 channels",
+  "title": "Pharmacological comparison of novel synthetic fenamate analogues with econazole and 2\u2010APB on the inhibition of TRPM2 channels",
   "year": 2012
  },
  "doi:10.1111/j.1476-5381.2012.02145.x": {
@@ -4904,7 +5030,7 @@
  "doi:10.1111/j.1527-3458.1996.tb00305.x": {
   "journal": "CNS Drug Reviews",
   "subjects": [],
-  "title": "Nefiracetam (DM‐9384): A Novel Antiamnesic Drug",
+  "title": "Nefiracetam (DM\u20109384): A Novel Antiamnesic Drug",
   "year": 1996
  },
  "doi:10.1111/j.1528-1157.1996.tb00021.x": {
@@ -4946,7 +5072,7 @@
  "doi:10.1111/j.1600-0773.1995.tb01041.x": {
   "journal": "Pharmacology &amp; Toxicology",
   "subjects": [],
-  "title": "Interaction of the Chiral Forms of Ketamine with Opioid, Phencyclidine, σ and Muscarinic Receptors",
+  "title": "Interaction of the Chiral Forms of Ketamine with Opioid, Phencyclidine, \u03c3 and Muscarinic Receptors",
   "year": 1995
  },
  "doi:10.1111/j.2042-7158.1982.tb04197.x": {
@@ -4976,7 +5102,7 @@
  "doi:10.1111/jnc.15587": {
   "journal": "Journal of Neurochemistry",
   "subjects": [],
-  "title": "The clinical pharmacology and potential therapeutic applications of 5‐methoxy‐N,N‐dimethyltryptamine (5‐MeO‐DMT)",
+  "title": "The clinical pharmacology and potential therapeutic applications of 5\u2010methoxy\u2010N,N\u2010dimethyltryptamine (5\u2010MeO\u2010DMT)",
   "year": 2022
  },
  "doi:10.1111/pcn.13888": {
@@ -4990,6 +5116,12 @@
   "subjects": [],
   "title": "Nicotine is highly effective at producing desensitization of rat alpha4beta2 neuronal nicotinic receptors",
   "year": "2003"
+ },
+ "doi:10.1124/dmd.104.001164": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Multiple night-time doses of valerian (Valeriana officinalis) had minimal effects on CYP3A4 activity and no effect on CYP2D6 activity in healthy volunteers",
+  "year": "2004"
  },
  "doi:10.1124/dmd.104.001180": {
   "journal": "Drug Metabolism and Disposition",
@@ -5090,7 +5222,7 @@
  "doi:10.1124/dmd.112.050591": {
   "journal": "Drug Metabolism and Disposition",
   "subjects": [],
-  "title": "Absorption, Elimination, and Metabolism of CS-1036, a Novel α-Amylase Inhibitor in Rats and Monkeys, and the Relationship between Gastrointestinal Distribution and Suppression of Glucose Absorption",
+  "title": "Absorption, Elimination, and Metabolism of CS-1036, a Novel \u03b1-Amylase Inhibitor in Rats and Monkeys, and the Relationship between Gastrointestinal Distribution and Suppression of Glucose Absorption",
   "year": 2013
  },
  "doi:10.1124/dmd.113.051656": {
@@ -5102,7 +5234,7 @@
  "doi:10.1124/dmd.113.052936": {
   "journal": "Drug metabolism and disposition: the biological fate of chemicals",
   "subjects": [],
-  "title": "Formation of threohydrobupropion from bupropion is dependent on 11β-hydroxysteroid dehydrogenase 1",
+  "title": "Formation of threohydrobupropion from bupropion is dependent on 11\u03b2-hydroxysteroid dehydrogenase 1",
   "year": "2013"
  },
  "doi:10.1124/dmd.113.055400": {
@@ -5270,7 +5402,7 @@
  "doi:10.1124/jpet.112.194852": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
-  "title": "Varenicline is a potent partial agonist at α6β2* nicotinic acetylcholine receptors in rat and monkey striatum",
+  "title": "Varenicline is a potent partial agonist at \u03b16\u03b22* nicotinic acetylcholine receptors in rat and monkey striatum",
   "year": "2012"
  },
  "doi:10.1124/jpet.112.198887": {
@@ -5295,7 +5427,7 @@
  "doi:10.1124/jpet.114.216820": {
   "journal": "The Journal of Pharmacology and Experimental Therapeutics",
   "subjects": [],
-  "title": "The G Protein–Biased κ-Opioid Receptor Agonist RB-64 Is Analgesic with a Unique Spectrum of Activities In Vivo",
+  "title": "The G Protein\u2013Biased \u03ba-Opioid Receptor Agonist RB-64 Is Analgesic with a Unique Spectrum of Activities In Vivo",
   "year": 2015
  },
  "doi:10.1124/jpet.114.218735": {
@@ -5313,7 +5445,7 @@
  "doi:10.1124/jpet.115.225326": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
-  "title": "AB-CHMINACA, AB-PINACA, and FUBIMINA: Affinity and Potency of Novel Synthetic Cannabinoids in Producing Δ9-Tetrahydrocannabinol-Like Effects in Mice",
+  "title": "AB-CHMINACA, AB-PINACA, and FUBIMINA: Affinity and Potency of Novel Synthetic Cannabinoids in Producing \u03949-Tetrahydrocannabinol-Like Effects in Mice",
   "year": "2015"
  },
  "doi:10.1124/jpet.115.229765": {
@@ -5325,7 +5457,7 @@
  "doi:10.1124/jpet.116.235952": {
   "journal": "The Journal of Pharmacology and Experimental Therapeutics",
   "subjects": [],
-  "title": "Reveglucosidase alfa (BMN 701), an IGF2-Tagged rhAcid α-Glucosidase, Improves Respiratory Functional Parameters in a Murine Model of Pompe Disease",
+  "title": "Reveglucosidase alfa (BMN 701), an IGF2-Tagged rhAcid \u03b1-Glucosidase, Improves Respiratory Functional Parameters in a Murine Model of Pompe Disease",
   "year": 2017
  },
  "doi:10.1124/jpet.117.245019": {
@@ -5339,7 +5471,7 @@
  "doi:10.1124/jpet.123.002052": {
   "journal": "The Journal of Pharmacology and Experimental Therapeutics",
   "subjects": [],
-  "title": "Pharmacologic Characterization of Substituted Nitazenes at μ, κ, and Δ Opioid Receptors Suggests High Potential for Toxicity",
+  "title": "Pharmacologic Characterization of Substituted Nitazenes at \u03bc, \u03ba, and \u0394 Opioid Receptors Suggests High Potential for Toxicity",
   "year": 2024
  },
  "doi:10.1124/jpet.300.3.1093": {
@@ -5384,13 +5516,13 @@
  "doi:10.1124/mol.108.046847": {
   "journal": "Molecular Pharmacology",
   "subjects": [],
-  "title": "Protection against Hydrogen Peroxide-Mediated Cytotoxicity in Friedreich’s Ataxia Fibroblasts Using Novel Iron Chelators of the 2-Pyridylcarboxaldehyde Isonicotinoyl Hydrazone Class",
+  "title": "Protection against Hydrogen Peroxide-Mediated Cytotoxicity in Friedreich\u2019s Ataxia Fibroblasts Using Novel Iron Chelators of the 2-Pyridylcarboxaldehyde Isonicotinoyl Hydrazone Class",
   "year": 2008
  },
  "doi:10.1124/mol.110.066613": {
   "journal": "Molecular pharmacology",
   "subjects": [],
-  "title": "μ-opioid receptors: correlation of agonist efficacy for signalling with ability to activate internalization.",
+  "title": "\u03bc-opioid receptors: correlation of agonist efficacy for signalling with ability to activate internalization.",
   "year": 2010
  },
  "doi:10.1124/mol.58.4.802": {
@@ -5482,7 +5614,7 @@
  "doi:10.1155/2019/4981420": {
   "journal": "Journal of Toxicology",
   "subjects": [],
-  "title": "A Toxicological Evaluation of Methylliberine (Dynamine®)",
+  "title": "A Toxicological Evaluation of Methylliberine (Dynamine\u00ae)",
   "year": 2019
  },
  "doi:10.1155/2021/2887773": {
@@ -5496,6 +5628,12 @@
   "subjects": [],
   "title": "Binding properties of dipropyltryptamine at the human 5-HT1a receptor",
   "year": "2005"
+ },
+ "doi:10.1159/000090736": {
+  "journal": "Annals of nutrition & metabolism",
+  "subjects": [],
+  "title": "Bioavailability of apigenin from apiin-rich parsley in humans",
+  "year": "2006"
  },
  "doi:10.1159/000118458": {
   "journal": "Neuropsychobiology",
@@ -5536,7 +5674,7 @@
  "doi:10.1172/jci134892": {
   "journal": "Journal of Clinical Investigation",
   "subjects": [],
-  "title": "The β3-adrenergic receptor agonist mirabegron improves glucose homeostasis in obese humans",
+  "title": "The \u03b23-adrenergic receptor agonist mirabegron improves glucose homeostasis in obese humans",
   "year": 2020
  },
  "doi:10.1176/ajp.151.9.1312": {
@@ -5646,7 +5784,7 @@
  "doi:10.1177/02698811261430492": {
   "journal": "Journal of Psychopharmacology",
   "subjects": [],
-  "title": "Pharmacological characterization of 4-F-3-Me-α-PVP: A novel synthetic cathinone with psychostimulant effects and abuse liability in rodents",
+  "title": "Pharmacological characterization of 4-F-3-Me-\u03b1-PVP: A novel synthetic cathinone with psychostimulant effects and abuse liability in rodents",
   "year": 2026
  },
  "doi:10.1177/1060028015620800": {
@@ -5667,11 +5805,23 @@
   "title": "The role of hyaluronidase in the treatment of complications from hyaluronic acid dermal fillers",
   "year": "2013"
  },
+ "doi:10.1177/2515690x20967323": {
+  "journal": "Journal of evidence-based integrative medicine",
+  "subjects": [],
+  "title": "Valerian Root in Treating Sleep Problems and Associated Disorders-A Systematic Review and Meta-Analysis",
+  "year": "2020"
+ },
  "doi:10.1186/1471-2210-6-6": {
   "journal": "BMC Pharmacology",
   "subjects": [],
   "title": "Comparison of the monoamine transporters from human and mouse in their sensitivities to psychostimulant drugs",
   "year": 2006
+ },
+ "doi:10.1186/1472-6882-11-78": {
+  "journal": "BMC complementary and alternative medicine",
+  "subjects": [],
+  "title": "Preliminary examination of the efficacy and safety of a standardized chamomile extract for chronic primary insomnia: a randomized placebo-controlled pilot study",
+  "year": "2011"
  },
  "doi:10.1186/1472-6904-2-4": {
   "journal": "BMC clinical pharmacology",
@@ -5840,7 +5990,7 @@
  "doi:10.1371/journal.pone.0036476": {
   "journal": "PLoS ONE",
   "subjects": [],
-  "title": "Duloxetine Inhibits Effects of MDMA (“Ecstasy\") In Vitro and in Humans in a Randomized Placebo-Controlled Laboratory Study",
+  "title": "Duloxetine Inhibits Effects of MDMA (\u201cEcstasy\") In Vitro and in Humans in a Randomized Placebo-Controlled Laboratory Study",
   "year": 2012
  },
  "doi:10.1371/journal.pone.0059334": {
@@ -5858,7 +6008,7 @@
  "doi:10.1371/journal.pone.0088456": {
   "journal": "PloS one",
   "subjects": [],
-  "title": "Clobazam and its active metabolite N-desmethylclobazam display significantly greater affinities for α₂- versus α₁-GABA(A)-receptor complexes",
+  "title": "Clobazam and its active metabolite N-desmethylclobazam display significantly greater affinities for \u03b1\u2082- versus \u03b1\u2081-GABA(A)-receptor complexes",
   "year": "2014"
  },
  "doi:10.1371/journal.pone.0089985": {
@@ -5882,14 +6032,20 @@
  "doi:10.1371/journal.pone.0157021": {
   "journal": "PLOS ONE",
   "subjects": [],
-  "title": "Pharmacological Investigations of the Dissociative ‘Legal Highs’ Diphenidine, Methoxphenidine and Analogues",
+  "title": "Pharmacological Investigations of the Dissociative \u2018Legal Highs\u2019 Diphenidine, Methoxphenidine and Analogues",
   "year": 2016
  },
  "doi:10.1373/clinchem.2008.122119": {
   "journal": "Clinical Chemistry",
   "subjects": [],
-  "title": "Δ9-Tetrahydrocannabinol (THC), 11-Hydroxy-THC, and 11-Nor-9-carboxy-THC Plasma Pharmacokinetics during and after Continuous High-Dose Oral THC",
+  "title": "\u03949-Tetrahydrocannabinol (THC), 11-Hydroxy-THC, and 11-Nor-9-carboxy-THC Plasma Pharmacokinetics during and after Continuous High-Dose Oral THC",
   "year": 2009
+ },
+ "doi:10.1503/cmaj.051191": {
+  "journal": "CMAJ : Canadian Medical Association journal = journal de l'Association medicale canadienne",
+  "subjects": [],
+  "title": "Warfarin interaction with Matricaria chamomilla",
+  "year": "2006"
  },
  "doi:10.1515/dmdi.1988.6.3-4.425": {
   "journal": "Drug metabolism and drug interactions",
@@ -6404,7 +6560,7 @@
  "doi:10.3389/fphar.2021.760671": {
   "journal": "Frontiers in Pharmacology",
   "subjects": [],
-  "title": "A Phase 1, Dose-Ranging Study to Assess Safety and Psychoactive Effects of a Vaporized 5-Methoxy-N, N-Dimethyltryptamine Formulation (GH001) in Healthy Volunteers",
+  "title": "A Phase 1, Dose-Ranging Study to Assess Safety and Psychoactive Effects of a Vaporized 5-Methoxy-N,\u00a0N-Dimethyltryptamine Formulation (GH001) in Healthy Volunteers",
   "year": 2021
  },
  "doi:10.3389/fphar.2022.668065": {
@@ -6447,7 +6603,7 @@
  "doi:10.3389/fphar.2025.1728824": {
   "journal": "Frontiers in Pharmacology",
   "subjects": [],
-  "title": "Disposition and effects of alpha-pyrrolidinoisohexanophenone (α-PHiP) in comparison with cocaine: an observational study",
+  "title": "Disposition and effects of alpha-pyrrolidinoisohexanophenone (\u03b1-PHiP) in comparison with cocaine: an observational study",
   "year": 2026
  },
  "doi:10.3389/fpsyg.2015.01520": {
@@ -6507,7 +6663,7 @@
  "doi:10.3390/ijms22010230": {
   "journal": "International Journal of Molecular Sciences",
   "subjects": [],
-  "title": "Pyrrolidinyl Synthetic Cathinones α-PHP and 4F-α-PVP Metabolite Profiling Using Human Hepatocyte Incubations",
+  "title": "Pyrrolidinyl Synthetic Cathinones \u03b1-PHP and 4F-\u03b1-PVP Metabolite Profiling Using Human Hepatocyte Incubations",
   "year": 2020
  },
  "doi:10.3390/ijms22158277": {
@@ -6567,7 +6723,7 @@
  "doi:10.3390/jcm11030858": {
   "journal": "Journal of Clinical Medicine",
   "subjects": [],
-  "title": "Single and Multiple Dose PK–PD Characterization for Carisoprodol. Part I: Pharmacokinetics, Metabolites, and 2C19 Phenotype Influence. Double-Blind, Placebo-Controlled Clinical Trial in Healthy Volunteers",
+  "title": "Single and Multiple Dose PK\u2013PD Characterization for Carisoprodol. Part I: Pharmacokinetics, Metabolites, and 2C19 Phenotype Influence. Double-Blind, Placebo-Controlled Clinical Trial in Healthy Volunteers",
   "year": 2022
  },
  "doi:10.3390/jpm7040018": {
@@ -6579,7 +6735,7 @@
  "doi:10.3390/life14040429": {
   "journal": "Life",
   "subjects": [],
-  "title": "α-Pyrrolidinohexanophenone (α-PHP) and α-Pyrrolidinoisohexanophenone (α-PiHP): A Review",
+  "title": "\u03b1-Pyrrolidinohexanophenone (\u03b1-PHP) and \u03b1-Pyrrolidinoisohexanophenone (\u03b1-PiHP): A Review",
   "year": 2024
  },
  "doi:10.3390/medicina60030466": {
@@ -6618,6 +6774,12 @@
   "title": "Human Mitragynine and 7-Hydroxymitragynine Pharmacokinetics after Single and Multiple Daily Doses of Oral Encapsulated Dried Kratom Leaf Powder",
   "year": 2024
  },
+ "doi:10.3390/nu12123894": {
+  "journal": "Nutrients",
+  "subjects": [],
+  "title": "<i>Passiflora incarnata</i> in Neuropsychiatric Disorders-A Systematic Review",
+  "year": "2020"
+ },
  "doi:10.3390/ph13040098": null,
  "doi:10.3390/ph14020116": {
   "journal": "Pharmaceuticals (Basel, Switzerland)",
@@ -6628,7 +6790,7 @@
  "doi:10.3390/ph14080732": {
   "journal": "Pharmaceuticals",
   "subjects": [],
-  "title": "Exploring the Early Stages of the Amyloid Aβ(1–42) Peptide Aggregation Process: An NMR Study",
+  "title": "Exploring the Early Stages of the Amyloid A\u03b2(1\u201342) Peptide Aggregation Process: An NMR Study",
   "year": 2021
  },
  "doi:10.3390/ph18050721": {
@@ -6658,7 +6820,7 @@
  "doi:10.3390/pharmaceutics17010001": {
   "journal": "Pharmaceutics",
   "subjects": [],
-  "title": "Inhibition of Aβ Aggregation by Cholesterol-End-Modified PEG Vesicles and Micelles",
+  "title": "Inhibition of A\u03b2 Aggregation by Cholesterol-End-Modified PEG Vesicles and Micelles",
   "year": 2024
  },
  "doi:10.3390/pharmaceutics17040411": {
@@ -6712,7 +6874,7 @@
  "doi:10.5414/cp203276": {
   "journal": "International journal of clinical pharmacology and therapeutics",
   "subjects": [],
-  "title": "\"A phase I, randomized, open-label, single-dose, 3-period crossover study to evaluate the drug-drug interaction between ZX008 (fenfluramine HCl oral solution) and a regimen of stiripentol, clobazam, and valproate in healthy subjects",
+  "title": "\"A phase I, randomized, open-label, single-dose, 3-period crossover study to evaluate the\u00a0drug-drug interaction between ZX008 (fenfluramine HCl oral solution) and a regimen of stiripentol, clobazam, and valproate in healthy subjects",
   "year": "2019"
  },
  "doi:10.5664/jcsm.6462": {
@@ -6887,6 +7049,12 @@
   "journal": "British journal of pharmacology",
   "subjects": [],
   "title": "Pharmacological characterization of human recombinant melatonin mt(1) and MT(2) receptors.",
+  "year": "2000"
+ },
+ "pmid:10751547": {
+  "journal": "Biochemical pharmacology",
+  "subjects": [],
+  "title": "Pharmacological profile of apigenin, a flavonoid isolated from Matricaria chamomilla.",
   "year": "2000"
  },
  "pmid:10754635": {
@@ -7200,6 +7368,12 @@
   "journal": "Clinical pharmacology and therapeutics",
   "subjects": [],
   "title": "The effects of St John's wort (Hypericum perforatum) on human cytochrome P450 activity.",
+  "year": "2001"
+ },
+ "pmid:11679026": {
+  "journal": "Journal of clinical pharmacy and therapeutics",
+  "subjects": [],
+  "title": "Passionflower in the treatment of generalized anxiety: a pilot double-blind randomized controlled trial with oxazepam.",
   "year": "2001"
  },
  "pmid:11717363": {
@@ -7521,6 +7695,12 @@
   "title": "Characterization of the oxidative metabolites of 17beta-estradiol and estrone formed by 15 selectively expressed human cytochrome p450 isoforms.",
   "year": "2003"
  },
+ "pmid:12888775": {
+  "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
+  "subjects": [],
+  "title": "Modulation of mood and cognitive performance following acute administration of single doses of Melissa officinalis (Lemon balm) with human CNS nicotinic and muscarinic receptor-binding properties.",
+  "year": "2003"
+ },
  "pmid:12895126": {
   "journal": "Inorganic chemistry",
   "subjects": [],
@@ -7839,6 +8019,12 @@
   "title": "Preferential formation of MT1/MT2 melatonin receptor heterodimers with distinct ligand interaction properties compared with MT2 homodimers.",
   "year": "2004"
  },
+ "pmid:15272110": {
+  "journal": "Psychosomatic medicine",
+  "subjects": [],
+  "title": "Attenuation of laboratory-induced stress in humans after acute administration of Melissa officinalis (Lemon Balm).",
+  "year": "2004"
+ },
  "pmid:15298492": {
   "journal": "Toxicological reviews",
   "subjects": [],
@@ -7849,6 +8035,12 @@
   "journal": "Drug metabolism and disposition: the biological fate of chemicals",
   "subjects": [],
   "title": "CYP2B6, CYP3A4, and CYP2C19 are responsible for the in vitro N-demethylation of meperidine in human liver microsomes.",
+  "year": "2004"
+ },
+ "pmid:15328251": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Multiple night-time doses of valerian (Valeriana officinalis) had minimal effects on CYP3A4 activity and no effect on CYP2D6 activity in healthy volunteers.",
   "year": "2004"
  },
  "pmid:15328252": {
@@ -8146,6 +8338,12 @@
   "title": "Pharmacokinetics and pharmacodynamics in clinical use of scopolamine.",
   "year": "2005"
  },
+ "pmid:16220575": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "Pharmacokinetics of valerenic acid after administration of valerian in healthy subjects.",
+  "year": "2005"
+ },
  "pmid:16239362": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
@@ -8174,6 +8372,12 @@
   "journal": "British journal of clinical pharmacology",
   "subjects": [],
   "title": "Effects of cytochrome P450 3A modulators ketoconazole and carbamazepine on quetiapine pharmacokinetics.",
+  "year": "2006"
+ },
+ "pmid:16407641": {
+  "journal": "Annals of nutrition & metabolism",
+  "subjects": [],
+  "title": "Bioavailability of apigenin from apiin-rich parsley in humans.",
   "year": "2006"
  },
  "pmid:16413248": {
@@ -8210,6 +8414,12 @@
   "journal": "Journal of neurochemistry",
   "subjects": [],
   "title": "Semax, an analogue of adrenocorticotropin (4-10), binds specifically and increases levels of brain-derived neurotrophic factor protein in rat basal forebrain.",
+  "year": "2006"
+ },
+ "pmid:16636327": {
+  "journal": "CMAJ : Canadian Medical Association journal = journal de l'Association medicale canadienne",
+  "subjects": [],
+  "title": "Warfarin interaction with Matricaria chamomilla.",
   "year": "2006"
  },
  "pmid:16678548": {
@@ -8315,6 +8525,12 @@
   "title": "Multiple-dose pharmacokinetics of the selective nicotinic receptor partial agonist, varenicline, in healthy smokers.",
   "year": "2006"
  },
+ "pmid:17145239": {
+  "journal": "The American journal of medicine",
+  "subjects": [],
+  "title": "Valerian for sleep: a systematic review and meta-analysis.",
+  "year": "2006"
+ },
  "pmid:17157884": {
   "journal": "Neuropharmacology",
   "subjects": [],
@@ -8331,6 +8547,12 @@
   "journal": "Neurotherapeutics : the journal of the American Society for Experimental NeuroTherapeutics",
   "subjects": [],
   "title": "Seletracetam (UCB 44212).",
+  "year": "2007"
+ },
+ "pmid:17202453": {
+  "journal": "The New England journal of medicine",
+  "subjects": [],
+  "title": "Dopamine agonists and the risk of cardiac-valve regurgitation.",
   "year": "2007"
  },
  "pmid:17223101": {
@@ -8391,6 +8613,12 @@
   "journal": "Anaesthesia",
   "subjects": [],
   "title": "Propofol infusion syndrome.",
+  "year": "2007"
+ },
+ "pmid:17585957": {
+  "journal": "Neuropharmacology",
+  "subjects": [],
+  "title": "Valerenic acid potentiates and inhibits GABA(A) receptors: molecular mechanism and subunit specificity.",
   "year": "2007"
  },
  "pmid:17641667": {
@@ -8475,6 +8703,12 @@
   "journal": "Chemical research in toxicology",
   "subjects": [],
   "title": "Bioactivation of phencyclidine in rat and human liver microsomes and recombinant P450 2B enzymes: evidence for the formation of a novel quinone methide intermediate.",
+  "year": "2007"
+ },
+ "pmid:17950805": {
+  "journal": "The American journal of cardiology",
+  "subjects": [],
+  "title": "Possible association between 3,4-methylenedioxymethamphetamine abuse and valvular heart disease.",
   "year": "2007"
  },
  "pmid:17979512": {
@@ -8645,6 +8879,12 @@
   "title": "Cannabidiolic acid as a selective cyclooxygenase-2 inhibitory component in cannabis.",
   "year": "2008"
  },
+ "pmid:18602406": {
+  "journal": "Neuropharmacology",
+  "subjects": [],
+  "title": "GABA A receptors as in vivo substrate for the anxiolytic action of valerenic acid, a major constituent of valerian root extracts.",
+  "year": "2009"
+ },
  "pmid:18648257": {
   "journal": "Investigative radiology",
   "subjects": [],
@@ -8747,6 +8987,12 @@
   "title": "HCN1 channel subunits are a molecular substrate for hypnotic actions of ketamine.",
   "year": "2009"
  },
+ "pmid:19165747": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "Bioassay-guided fractionation of lemon balm (Melissa officinalis L.) using an in vitro measure of GABA transaminase activity.",
+  "year": "2009"
+ },
  "pmid:19171772": {
   "journal": "The Journal of general physiology",
   "subjects": [],
@@ -8768,7 +9014,7 @@
  "pmid:19220294": {
   "journal": "British journal of pharmacology",
   "subjects": [],
-  "title": "Neutral antagonist activity of naltrexone and 6beta-naltrexol in naïve and opioid-dependent C6 cells expressing a mu-opioid receptor.",
+  "title": "Neutral antagonist activity of naltrexone and 6beta-naltrexol in na\u00efve and opioid-dependent C6 cells expressing a mu-opioid receptor.",
   "year": "2009"
  },
  "pmid:19223664": {
@@ -8841,6 +9087,12 @@
   "journal": "Biochemistry",
   "subjects": [],
   "title": "Structure-based design, synthesis, and biochemical and pharmacological characterization of novel salvinorin A analogues as active state probes of the kappa-opioid receptor.",
+  "year": "2009"
+ },
+ "pmid:19593179": {
+  "journal": "Journal of clinical psychopharmacology",
+  "subjects": [],
+  "title": "A randomized, double-blind, placebo-controlled trial of oral Matricaria recutita (chamomile) extract therapy for generalized anxiety disorder.",
   "year": "2009"
  },
  "pmid:1964224": {
@@ -8993,6 +9245,12 @@
   "title": "Pre-clinical properties of the alpha4beta2 nicotinic acetylcholine receptor partial agonists varenicline, cytisine and dianicline translate to clinical efficacy for nicotine dependence.",
   "year": "2010"
  },
+ "pmid:20382514": {
+  "journal": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
+  "subjects": [],
+  "title": "Passiflora incarnata L. (Passionflower) extracts elicit GABA currents in hippocampal neurons in vitro, and show anxiogenic and anticonvulsant effects in vivo, varying with extraction method.",
+  "year": "2010"
+ },
  "pmid:2044329": {
   "journal": "Clinical pharmacokinetics",
   "subjects": [],
@@ -9032,7 +9290,7 @@
  "pmid:20647394": {
   "journal": "Molecular pharmacology",
   "subjects": [],
-  "title": "μ-opioid receptors: correlation of agonist efficacy for signalling with ability to activate internalization.",
+  "title": "\u03bc-opioid receptors: correlation of agonist efficacy for signalling with ability to activate internalization.",
   "year": "2010"
  },
  "pmid:20647592": {
@@ -9125,6 +9383,12 @@
   "title": "Two fatal intoxications with the new designer drug methedrone (4-methoxymethcathinone).",
   "year": "2010"
  },
+ "pmid:21089181": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "Modulation of the \u03b3-aminobutyric acid (GABA) system by Passiflora incarnata L.",
+  "year": "2011"
+ },
  "pmid:21175579": {
   "journal": "British journal of pharmacology",
   "subjects": [],
@@ -9134,7 +9398,7 @@
  "pmid:21215785": {
   "journal": "Regulatory toxicology and pharmacology : RTP",
   "subjects": [],
-  "title": "Uniform assessment and ranking of opioid μ receptor binding constants for selected opioid drugs.",
+  "title": "Uniform assessment and ranking of opioid \u03bc receptor binding constants for selected opioid drugs.",
   "year": "2011"
  },
  "pmid:21227703": {
@@ -9153,6 +9417,12 @@
   "journal": "British journal of clinical pharmacology",
   "subjects": [],
   "title": "Trends in co-prescribing of angiotensin converting enzyme inhibitors and angiotensin receptor blockers in Ireland.",
+  "year": "2011"
+ },
+ "pmid:21294203": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "A double-blind, placebo-controlled investigation of the effects of Passiflora incarnata (passionflower) herbal tea on subjective sleep quality.",
   "year": "2011"
  },
  "pmid:21306419": {
@@ -9194,7 +9464,7 @@
  "pmid:21651903": {
   "journal": "European journal of pharmacology",
   "subjects": [],
-  "title": "Pregabalin is a potent and selective ligand for α(2)δ-1 and α(2)δ-2 calcium channel subunits.",
+  "title": "Pregabalin is a potent and selective ligand for \u03b1(2)\u03b4-1 and \u03b1(2)\u03b4-2 calcium channel subunits.",
   "year": "2011"
  },
  "pmid:21692585": {
@@ -9243,6 +9513,12 @@
   "journal": "Current neuropharmacology",
   "subjects": [],
   "title": "Inhibition of g protein-activated inwardly rectifying k channels by phencyclidine.",
+  "year": "2011"
+ },
+ "pmid:21939549": {
+  "journal": "BMC complementary and alternative medicine",
+  "subjects": [],
+  "title": "Preliminary examination of the efficacy and safety of a standardized chamomile extract for chronic primary insomnia: a randomized placebo-controlled pilot study.",
   "year": "2011"
  },
  "pmid:21975349": {
@@ -9320,7 +9596,7 @@
  "pmid:22354460": {
   "journal": "European cells & materials",
   "subjects": [],
-  "title": "Improvement of tendon repair using muscle grafts transduced with TGF-β1 cDNA.",
+  "title": "Improvement of tendon repair using muscle grafts transduced with TGF-\u03b21 cDNA.",
   "year": "2012"
  },
  "pmid:22359337": {
@@ -9350,7 +9626,7 @@
  "pmid:22550286": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
-  "title": "Varenicline is a potent partial agonist at α6β2* nicotinic acetylcholine receptors in rat and monkey striatum.",
+  "title": "Varenicline is a potent partial agonist at \u03b16\u03b22* nicotinic acetylcholine receptors in rat and monkey striatum.",
   "year": "2012"
  },
  "pmid:22574166": {
@@ -9476,7 +9752,7 @@
  "pmid:23378626": {
   "journal": "Drug metabolism and disposition: the biological fate of chemicals",
   "subjects": [],
-  "title": "Absorption, elimination, and metabolism of CS-1036, a novel α-amylase inhibitor in rats and monkeys, and the relationship between gastrointestinal distribution and suppression of glucose absorption.",
+  "title": "Absorption, elimination, and metabolism of CS-1036, a novel \u03b1-amylase inhibitor in rats and monkeys, and the relationship between gastrointestinal distribution and suppression of glucose absorption.",
   "year": "2013"
  },
  "pmid:2341111": {
@@ -9542,13 +9818,13 @@
  "pmid:23625188": {
   "journal": "Clinical drug investigation",
   "subjects": [],
-  "title": "Role of cytochrome p450 isoenzymes 3A and 2D6 in the in vivo metabolism of mirabegron, a β3-adrenoceptor agonist.",
+  "title": "Role of cytochrome p450 isoenzymes 3A and 2D6 in the in vivo metabolism of mirabegron, a \u03b23-adrenoceptor agonist.",
   "year": "2013"
  },
  "pmid:23646826": {
   "journal": "British journal of pharmacology",
   "subjects": [],
-  "title": "Efficacy and ligand bias at the μ-opioid receptor.",
+  "title": "Efficacy and ligand bias at the \u03bc-opioid receptor.",
   "year": "2013"
  },
  "pmid:2365786": {
@@ -9572,7 +9848,7 @@
  "pmid:23804523": {
   "journal": "Drug metabolism and disposition: the biological fate of chemicals",
   "subjects": [],
-  "title": "Formation of threohydrobupropion from bupropion is dependent on 11β-hydroxysteroid dehydrogenase 1.",
+  "title": "Formation of threohydrobupropion from bupropion is dependent on 11\u03b2-hydroxysteroid dehydrogenase 1.",
   "year": "2013"
  },
  "pmid:23861338": {
@@ -9650,7 +9926,7 @@
  "pmid:24126017": {
   "journal": "Nitric oxide : biology and chemistry",
   "subjects": [],
-  "title": "Enzymatic generation of the NO/HNO-releasing IPA/NO anion at controlled rates in physiological media using β-galactosidase.",
+  "title": "Enzymatic generation of the NO/HNO-releasing IPA/NO anion at controlled rates in physiological media using \u03b2-galactosidase.",
   "year": "2013"
  },
  "pmid:24142203": {
@@ -9668,7 +9944,7 @@
  "pmid:24199712": {
   "journal": "European urology",
   "subjects": [],
-  "title": "Myths and mysteries surrounding bacillus Calmette-Guérin therapy for bladder cancer.",
+  "title": "Myths and mysteries surrounding bacillus Calmette-Gu\u00e9rin therapy for bladder cancer.",
   "year": "2014"
  },
  "pmid:24244317": {
@@ -9740,7 +10016,7 @@
  "pmid:24533090": {
   "journal": "PloS one",
   "subjects": [],
-  "title": "Clobazam and its active metabolite N-desmethylclobazam display significantly greater affinities for α₂- versus α₁-GABA(A)-receptor complexes.",
+  "title": "Clobazam and its active metabolite N-desmethylclobazam display significantly greater affinities for \u03b1\u2082- versus \u03b1\u2081-GABA(A)-receptor complexes.",
   "year": "2014"
  },
  "pmid:24557107": {
@@ -9800,7 +10076,7 @@
  "pmid:24706503": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
-  "title": "The effect of UGT2B7*2 polymorphism on the pharmacokinetics of OROS® hydromorphone in Taiwanese subjects.",
+  "title": "The effect of UGT2B7*2 polymorphism on the pharmacokinetics of OROS\u00ae hydromorphone in Taiwanese subjects.",
   "year": "2014"
  },
  "pmid:2476831": {
@@ -9824,7 +10100,7 @@
  "pmid:24841869": {
   "journal": "Drug testing and analysis",
   "subjects": [],
-  "title": "Characterization of a novel and potentially lethal designer drug (±)-cis-para-methyl-4-methylaminorex (4,4'-DMAR, or 'Serotoni').",
+  "title": "Characterization of a novel and potentially lethal designer drug (\u00b1)-cis-para-methyl-4-methylaminorex (4,4'-DMAR, or 'Serotoni').",
   "year": "2014"
  },
  "pmid:24900368": {
@@ -9842,7 +10118,7 @@
  "pmid:25026323": {
   "journal": "Translational psychiatry",
   "subjects": [],
-  "title": "The atypical antidepressant and neurorestorative agent tianeptine is a μ-opioid receptor agonist.",
+  "title": "The atypical antidepressant and neurorestorative agent tianeptine is a \u03bc-opioid receptor agonist.",
   "year": "2014"
  },
  "pmid:25029033": {
@@ -9902,7 +10178,7 @@
  "pmid:25231024": {
   "journal": "Drug testing and analysis",
   "subjects": [],
-  "title": "Pharmacokinetics of cytisine, an α4 β2 nicotinic receptor partial agonist, in healthy smokers following a single dose.",
+  "title": "Pharmacokinetics of cytisine, an \u03b14 \u03b22 nicotinic receptor partial agonist, in healthy smokers following a single dose.",
   "year": "2015"
  },
  "pmid:25239817": {
@@ -9932,7 +10208,7 @@
  "pmid:25320048": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
-  "title": "The G protein-biased κ-opioid receptor agonist RB-64 is analgesic with a unique spectrum of activities in vivo.",
+  "title": "The G protein-biased \u03ba-opioid receptor agonist RB-64 is analgesic with a unique spectrum of activities in vivo.",
   "year": "2015"
  },
  "pmid:25339374": {
@@ -10010,7 +10286,7 @@
  "pmid:25651476": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
-  "title": "Influence of CYP2D6 activity on the pharmacokinetics and pharmacodynamics of a single 20 mg dose of ibogaine in healthy volunteers.",
+  "title": "Influence of CYP2D6 activity on the pharmacokinetics and pharmacodynamics of a single 20\u2009mg dose of ibogaine in healthy volunteers.",
   "year": "2015"
  },
  "pmid:25664636": {
@@ -10178,13 +10454,13 @@
  "pmid:26101061": {
   "journal": "European journal of pharmacology",
   "subjects": [],
-  "title": "Carbon monoxide-releasing molecule-3 suppresses Prevotella intermedia lipopolysaccharide-induced production of nitric oxide and interleukin-1β in murine macrophages.",
+  "title": "Carbon monoxide-releasing molecule-3 suppresses Prevotella intermedia lipopolysaccharide-induced production of nitric oxide and interleukin-1\u03b2 in murine macrophages.",
   "year": "2015"
  },
  "pmid:26105953": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
-  "title": "AB-CHMINACA, AB-PINACA, and FUBIMINA: Affinity and Potency of Novel Synthetic Cannabinoids in Producing Δ9-Tetrahydrocannabinol-Like Effects in Mice.",
+  "title": "AB-CHMINACA, AB-PINACA, and FUBIMINA: Affinity and Potency of Novel Synthetic Cannabinoids in Producing \u03949-Tetrahydrocannabinol-Like Effects in Mice.",
   "year": "2015"
  },
  "pmid:26108222": {
@@ -10208,7 +10484,7 @@
  "pmid:26217965": {
   "journal": "ACS chemical neuroscience",
   "subjects": [],
-  "title": "Structural Modification of the Designer Stimulant α-Pyrrolidinovalerophenone (α-PVP) Influences Potency at Dopamine Transporters.",
+  "title": "Structural Modification of the Designer Stimulant \u03b1-Pyrrolidinovalerophenone (\u03b1-PVP) Influences Potency at Dopamine Transporters.",
   "year": "2015"
  },
  "pmid:26218440": {
@@ -10226,13 +10502,13 @@
  "pmid:26234470": {
   "journal": "Pharmacology, biochemistry, and behavior",
   "subjects": [],
-  "title": "R-phenibut binds to the α2-δ subunit of voltage-dependent calcium channels and exerts gabapentin-like anti-nociceptive effects.",
+  "title": "R-phenibut binds to the \u03b12-\u03b4 subunit of voltage-dependent calcium channels and exerts gabapentin-like anti-nociceptive effects.",
   "year": "2015"
  },
  "pmid:26302653": {
   "journal": "Neuropharmacology",
   "subjects": [],
-  "title": "Noribogaine is a G-protein biased κ-opioid receptor agonist.",
+  "title": "Noribogaine is a G-protein biased \u03ba-opioid receptor agonist.",
   "year": "2015"
  },
  "pmid:26316187": {
@@ -10298,7 +10574,7 @@
  "pmid:26659543": {
   "journal": "British journal of clinical pharmacology",
   "subjects": [],
-  "title": "Pharmacokinetics and pharmacodynamics of γ-hydroxybutyrate in healthy subjects.",
+  "title": "Pharmacokinetics and pharmacodynamics of \u03b3-hydroxybutyrate in healthy subjects.",
   "year": "2016"
  },
  "pmid:26669514": {
@@ -10394,7 +10670,7 @@
  "pmid:27069626": {
   "journal": "Pharmacology research & perspectives",
   "subjects": [],
-  "title": "Mechanisms of the gabapentinoids and α 2 δ-1 calcium channel subunit in neuropathic pain.",
+  "title": "Mechanisms of the gabapentinoids and \u03b1 2 \u03b4-1 calcium channel subunit in neuropathic pain.",
   "year": "2016"
  },
  "pmid:27096250": {
@@ -10472,7 +10748,7 @@
  "pmid:27346730": {
   "journal": "Scientific reports",
   "subjects": [],
-  "title": "Zolpidem is a potent stoichiometry-selective modulator of α1β3 GABAA receptors: evidence of a novel benzodiazepine site in the α1-α1 interface.",
+  "title": "Zolpidem is a potent stoichiometry-selective modulator of \u03b11\u03b23 GABAA receptors: evidence of a novel benzodiazepine site in the \u03b11-\u03b11 interface.",
   "year": "2016"
  },
  "pmid:27351678": {
@@ -10556,7 +10832,7 @@
  "pmid:27556704": {
   "journal": "Journal of medicinal chemistry",
   "subjects": [],
-  "title": "Mitragynine/Corynantheidine Pseudoindoxyls As Opioid Analgesics with Mu Agonism and Delta Antagonism, Which Do Not Recruit β-Arrestin-2.",
+  "title": "Mitragynine/Corynantheidine Pseudoindoxyls As Opioid Analgesics with Mu Agonism and Delta Antagonism, Which Do Not Recruit \u03b2-Arrestin-2.",
   "year": "2016"
  },
  "pmid:27580162": {
@@ -10601,6 +10877,12 @@
   "title": "Melatonin Natural Health Products and Supplements: Presence of Serotonin and Significant Variability of Melatonin Content.",
   "year": "2017"
  },
+ "pmid:27912875": {
+  "journal": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
+  "subjects": [],
+  "title": "Long-term chamomile (Matricaria chamomilla L.) treatment for generalized anxiety disorder: A randomized clinical trial.",
+  "year": "2016"
+ },
  "pmid:27973993": {
   "journal": "The New England journal of medicine",
   "subjects": [],
@@ -10628,7 +10910,7 @@
  "pmid:28103426": {
   "journal": "Drug testing and analysis",
   "subjects": [],
-  "title": "Analytical characterization and pharmacological evaluation of the new psychoactive substance 4-fluoromethylphenidate (4F-MPH) and differentiation between the (±)-threo and (±)-erythro diastereomers.",
+  "title": "Analytical characterization and pharmacological evaluation of the new psychoactive substance 4-fluoromethylphenidate (4F-MPH) and differentiation between the (\u00b1)-threo and (\u00b1)-erythro diastereomers.",
   "year": "2017"
  },
  "pmid:28129538": {
@@ -10712,7 +10994,7 @@
  "pmid:28499925": {
   "journal": "EBioMedicine",
   "subjects": [],
-  "title": "Does Krüppel Like Factor 15 Play an Important Role in the Left Ventricular Hypertrophy of Patients with Type 2 Diabetes?",
+  "title": "Does Kr\u00fcppel Like Factor 15 Play an Important Role in the Left Ventricular Hypertrophy of Patients with Type 2 Diabetes?",
   "year": "2017"
  },
  "pmid:28511953": {
@@ -10736,7 +11018,7 @@
  "pmid:28536865": {
   "journal": "Psychopharmacology",
   "subjects": [],
-  "title": "The C-2 derivatives of salvinorin A, ethoxymethyl ether Sal B and β-tetrahydropyran Sal B, have anti-cocaine properties with minimal side effects.",
+  "title": "The C-2 derivatives of salvinorin A, ethoxymethyl ether Sal B and \u03b2-tetrahydropyran Sal B, have anti-cocaine properties with minimal side effects.",
   "year": "2017"
  },
  "pmid:2854609": {
@@ -10952,7 +11234,7 @@
  "pmid:29248945": {
   "journal": "Psychopharmacology",
   "subjects": [],
-  "title": "(±)-MDMA and its enantiomers: potential therapeutic advantages of R(-)-MDMA.",
+  "title": "(\u00b1)-MDMA and its enantiomers: potential therapeutic advantages of R(-)-MDMA.",
   "year": "2018"
  },
  "pmid:29271734": {
@@ -11048,7 +11330,7 @@
  "pmid:29963212": {
   "journal": "Forensic toxicology",
   "subjects": [],
-  "title": "Metabolism of α-PHP and α-PHPP in humans and the effects of alkyl chain lengths on the metabolism of α-pyrrolidinophenone-type designer drugs.",
+  "title": "Metabolism of \u03b1-PHP and \u03b1-PHPP in humans and the effects of alkyl chain lengths on the metabolism of \u03b1-pyrrolidinophenone-type designer drugs.",
   "year": "2018"
  },
  "pmid:30001118": {
@@ -11066,13 +11348,13 @@
  "pmid:30053461": {
   "journal": "Behavioural brain research",
   "subjects": [],
-  "title": "5-Methoxy-α-methyltryptamine (5-MeO-AMT), a tryptamine derivative, induces head-twitch responses in mice through the activation of serotonin receptor 2a in the prefrontal cortex.",
+  "title": "5-Methoxy-\u03b1-methyltryptamine (5-MeO-AMT), a tryptamine derivative, induces head-twitch responses in mice through the activation of serotonin receptor 2a in the prefrontal cortex.",
   "year": "2019"
  },
  "pmid:30219933": {
   "journal": "Techniques in coloproctology",
   "subjects": [],
-  "title": "The Ostom-i™ Alert Sensor: a new device to measure stoma output.",
+  "title": "The Ostom-i\u2122 Alert Sensor: a new device to measure stoma output.",
   "year": "2018"
  },
  "pmid:30248994": {
@@ -11102,7 +11384,7 @@
  "pmid:30336805": {
   "journal": "International journal of clinical pharmacology and therapeutics",
   "subjects": [],
-  "title": "A phase I, randomized, open-label, single-dose, 3-period crossover study to evaluate the drug-drug interaction between ZX008 (fenfluramine HCl oral solution) and a regimen of stiripentol, clobazam, and valproate in healthy subjects .",
+  "title": "A phase I, randomized, open-label, single-dose, 3-period crossover study to evaluate the\u00a0drug-drug interaction between ZX008 (fenfluramine HCl oral solution) and a regimen of stiripentol, clobazam, and valproate in healthy subjects\u2029.",
   "year": "2019"
  },
  "pmid:30354055": {
@@ -11330,7 +11612,7 @@
  "pmid:31463067": {
   "journal": "Pharmacology research & perspectives",
   "subjects": [],
-  "title": "Synthesis and pharmacological characterization of ethylenediamine synthetic opioids in human μ-opiate receptor 1 (OPRM1) expressing cells.",
+  "title": "Synthesis and pharmacological characterization of ethylenediamine synthetic opioids in human \u03bc-opiate receptor 1 (OPRM1) expressing cells.",
   "year": "2019"
  },
  "pmid:31483": {
@@ -11355,6 +11637,12 @@
   "journal": "Toxicology letters",
   "subjects": [],
   "title": "Exploration of cytochrome P450 inhibition mediated drug-drug interaction potential of kratom alkaloids.",
+  "year": "2020"
+ },
+ "pmid:31714321": {
+  "journal": "International clinical psychopharmacology",
+  "subjects": [],
+  "title": "Effects of Passiflora incarnata Linnaeus on polysomnographic sleep parameters in subjects with insomnia disorder: a double-blind randomized placebo-controlled study.",
   "year": "2020"
  },
  "pmid:31756337": {
@@ -11384,13 +11672,13 @@
  "pmid:31889124": {
   "journal": "Scientific reports",
   "subjects": [],
-  "title": "A novel phytocannabinoid isolated from Cannabis sativa L. with an in vivo cannabimimetic activity higher than Δ(9)-tetrahydrocannabinol: Δ(9)-Tetrahydrocannabiphorol.",
+  "title": "A novel phytocannabinoid isolated from Cannabis sativa L. with an in vivo cannabimimetic activity higher than \u0394(9)-tetrahydrocannabinol: \u0394(9)-Tetrahydrocannabiphorol.",
   "year": "2019"
  },
  "pmid:31911801": {
   "journal": "Journal of toxicology",
   "subjects": [],
-  "title": "A Toxicological Evaluation of Methylliberine (Dynamine®).",
+  "title": "A Toxicological Evaluation of Methylliberine (Dynamine\u00ae).",
   "year": "2019"
  },
  "pmid:31951804": {
@@ -11402,7 +11690,7 @@
  "pmid:31961829": {
   "journal": "The Journal of clinical investigation",
   "subjects": [],
-  "title": "The β3-adrenergic receptor agonist mirabegron improves glucose homeostasis in obese humans.",
+  "title": "The \u03b23-adrenergic receptor agonist mirabegron improves glucose homeostasis in obese humans.",
   "year": "2020"
  },
  "pmid:32035426": {
@@ -11420,7 +11708,7 @@
  "pmid:32052419": {
   "journal": "British journal of pharmacology",
   "subjects": [],
-  "title": "Morphine-induced respiratory depression is independent of β-arrestin2 signalling.",
+  "title": "Morphine-induced respiratory depression is independent of \u03b2-arrestin2 signalling.",
   "year": "2020"
  },
  "pmid:32102803": {
@@ -11456,7 +11744,7 @@
  "pmid:32246840": {
   "journal": "British journal of pharmacology",
   "subjects": [],
-  "title": "Activation of μ-opioid receptors by MT-45 (1-cyclohexyl-4-(1,2-diphenylethyl)piperazine) and its fluorinated derivatives.",
+  "title": "Activation of \u03bc-opioid receptors by MT-45 (1-cyclohexyl-4-(1,2-diphenylethyl)piperazine) and its fluorinated derivatives.",
   "year": "2020"
  },
  "pmid:32279069": {
@@ -11468,7 +11756,7 @@
  "pmid:32285253": {
   "journal": "Journal of neural transmission (Vienna, Austria : 1996)",
   "subjects": [],
-  "title": "9-Methyl-β-carboline inhibits monoamine oxidase activity and stimulates the expression of neurotrophic factors by astrocytes.",
+  "title": "9-Methyl-\u03b2-carboline inhibits monoamine oxidase activity and stimulates the expression of neurotrophic factors by astrocytes.",
   "year": "2020"
  },
  "pmid:32296768": {
@@ -11510,7 +11798,7 @@
  "pmid:32506339": {
   "journal": "Neurotoxicity research",
   "subjects": [],
-  "title": "Four Synthetic Cathinones: 3-Chloromethcathinone, 4-Chloromethcathinone, 4-Fluoro-α-Pyrrolidinopentiophenone, and 4-Methoxy-α-Pyrrolidinopentiophenone Produce Changes in the Spontaneous Locomotor Activity and Motor Performance in Mice with Varied Profiles.",
+  "title": "Four Synthetic Cathinones: 3-Chloromethcathinone, 4-Chloromethcathinone, 4-Fluoro-\u03b1-Pyrrolidinopentiophenone, and 4-Methoxy-\u03b1-Pyrrolidinopentiophenone Produce Changes in the Spontaneous Locomotor Activity and Motor Performance in Mice with Varied Profiles.",
   "year": "2020"
  },
  "pmid:32542207": {
@@ -11585,6 +11873,12 @@
   "title": "Randomized Controlled Crossover Trials of the Pharmacokinetics of PRC-063, a Novel Multilayer Extended-Release Formulation of Methylphenidate, in Healthy Adults.",
   "year": "2020"
  },
+ "pmid:33086877": {
+  "journal": "Journal of evidence-based integrative medicine",
+  "subjects": [],
+  "title": "Valerian Root in Treating Sleep Problems and Associated Disorders-A Systematic Review and Meta-Analysis.",
+  "year": "2020"
+ },
  "pmid:33142953": {
   "journal": "International journal of molecular sciences",
   "subjects": [],
@@ -11621,10 +11915,16 @@
   "title": "Eutylone Intoxications-An Emerging Synthetic Stimulant in Forensic Investigations.",
   "year": "2021"
  },
+ "pmid:33352740": {
+  "journal": "Nutrients",
+  "subjects": [],
+  "title": "Passiflora incarnata in Neuropsychiatric Disorders-A Systematic Review.",
+  "year": "2020"
+ },
  "pmid:33379373": {
   "journal": "International journal of molecular sciences",
   "subjects": [],
-  "title": "Pyrrolidinyl Synthetic Cathinones α-PHP and 4F-α-PVP Metabolite Profiling Using Human Hepatocyte Incubations.",
+  "title": "Pyrrolidinyl Synthetic Cathinones \u03b1-PHP and 4F-\u03b1-PVP Metabolite Profiling Using Human Hepatocyte Incubations.",
   "year": "2020"
  },
  "pmid:33387367": {
@@ -11789,10 +12089,16 @@
   "title": "Investigation of Bemethyl Biotransformation Pathways by Combination of LC-MS/HRMS and In Silico Methods.",
   "year": "2021"
  },
+ "pmid:34449930": {
+  "journal": "Phytotherapy research : PTR",
+  "subjects": [],
+  "title": "The effects of lemon balm (Melissa officinalis L.) on depression and anxiety in clinical trials: A systematic review and meta-analysis.",
+  "year": "2021"
+ },
  "pmid:34451828": {
   "journal": "Pharmaceuticals (Basel, Switzerland)",
   "subjects": [],
-  "title": "Exploring the Early Stages of the Amyloid Aβ(1-42) Peptide Aggregation Process: An NMR Study.",
+  "title": "Exploring the Early Stages of the Amyloid A\u03b2(1-42) Peptide Aggregation Process: An NMR Study.",
   "year": "2021"
  },
  "pmid:34493601": {
@@ -11888,7 +12194,7 @@
  "pmid:34912222": {
   "journal": "Frontiers in pharmacology",
   "subjects": [],
-  "title": "A Phase 1, Dose-Ranging Study to Assess Safety and Psychoactive Effects of a Vaporized 5-Methoxy-N, N-Dimethyltryptamine Formulation (GH001) in Healthy Volunteers.",
+  "title": "A Phase 1, Dose-Ranging Study to Assess Safety and Psychoactive Effects of a Vaporized 5-Methoxy-N,\u00a0N-Dimethyltryptamine Formulation (GH001) in Healthy Volunteers.",
   "year": "2021"
  },
  "pmid:34960435": {
@@ -11900,13 +12206,13 @@
  "pmid:35072756": {
   "journal": "Archives of toxicology",
   "subjects": [],
-  "title": "Characterization of recent non-fentanyl synthetic opioids via three different in vitro µ-opioid receptor activation assays.",
+  "title": "Characterization of recent non-fentanyl synthetic opioids via three different in vitro \u00b5-opioid receptor activation assays.",
   "year": "2022"
  },
  "pmid:35084120": {
   "journal": "Pharmacology research & perspectives",
   "subjects": [],
-  "title": "Tapentadol shows lower intrinsic efficacy at µ receptor than morphine and oxycodone.",
+  "title": "Tapentadol shows lower intrinsic efficacy at \u00b5 receptor than morphine and oxycodone.",
   "year": "2022"
  },
  "pmid:35084960": {
@@ -11924,7 +12230,7 @@
  "pmid:35142070": {
   "journal": "Drug testing and analysis",
   "subjects": [],
-  "title": "Investigation of the μ- and κ-opioid receptor activation by eight new synthetic opioids using the [(35) S]-GTPγS assay: U-47700, isopropyl U-47700, U-49900, U-47931E, N-methyl U-47931E, U-51754, U-48520, and U-48800.",
+  "title": "Investigation of the \u03bc- and \u03ba-opioid receptor activation by eight new synthetic opioids using the [(35) S]-GTP\u03b3S assay: U-47700, isopropyl U-47700, U-49900, U-47931E, N-methyl U-47931E, U-51754, U-48520, and U-48800.",
   "year": "2022"
  },
  "pmid:35149998": {
@@ -11942,7 +12248,7 @@
  "pmid:35218882": {
   "journal": "Bioorganic & medicinal chemistry letters",
   "subjects": [],
-  "title": "Rationalizing the binding and α subtype selectivity of synthesized imidazodiazepines and benzodiazepines at GABAA receptors by using molecular docking studies.",
+  "title": "Rationalizing the binding and \u03b1 subtype selectivity of synthesized imidazodiazepines and benzodiazepines at GABAA receptors by using molecular docking studies.",
   "year": "2022"
  },
  "pmid:35257505": {
@@ -12026,7 +12332,7 @@
  "pmid:36099411": {
   "journal": "Journal of medicinal chemistry",
   "subjects": [],
-  "title": "Discovery of β-Arrestin-Biased 25CN-NBOH-Derived 5-HT(2A) Receptor Agonists.",
+  "title": "Discovery of \u03b2-Arrestin-Biased 25CN-NBOH-Derived 5-HT(2A) Receptor Agonists.",
   "year": "2022"
  },
  "pmid:3615341": {
@@ -12104,7 +12410,7 @@
  "pmid:36734852": {
   "journal": "ACS chemical neuroscience",
   "subjects": [],
-  "title": "Structure-Activity Relationship of N-Ethyl-Hexedrone Analogues: Role of the α-Carbon Side-Chain Length in the Mechanism of Action, Cytotoxicity, and Behavioral Effects in Mice.",
+  "title": "Structure-Activity Relationship of N-Ethyl-Hexedrone Analogues: Role of the \u03b1-Carbon Side-Chain Length in the Mechanism of Action, Cytotoxicity, and Behavioral Effects in Mice.",
   "year": "2023"
  },
  "pmid:36873994": {
@@ -12140,7 +12446,7 @@
  "pmid:37005796": {
   "journal": "British journal of pharmacology",
   "subjects": [],
-  "title": "Carfentanil is a β-arrestin-biased agonist at the μ opioid receptor.",
+  "title": "Carfentanil is a \u03b2-arrestin-biased agonist at the \u03bc opioid receptor.",
   "year": "2023"
  },
  "pmid:37052231": {
@@ -12233,6 +12539,12 @@
   "title": "Quantitative assessment of caffeine partial clearances in man.",
   "year": "1986"
  },
+ "pmid:37572027": {
+  "journal": "Journal of psychopharmacology (Oxford, England)",
+  "subjects": [],
+  "title": "The risk of chronic psychedelic and MDMA microdosing for valvular heart disease.",
+  "year": "2023"
+ },
  "pmid:3760245": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
@@ -12278,7 +12590,7 @@
  "pmid:38145984": {
   "journal": "Molecular psychiatry",
   "subjects": [],
-  "title": "Unique pharmacodynamic properties and low abuse liability of the µ-opioid receptor ligand (S)-methadone.",
+  "title": "Unique pharmacodynamic properties and low abuse liability of the \u00b5-opioid receptor ligand (S)-methadone.",
   "year": "2024"
  },
  "pmid:38154512": {
@@ -12296,7 +12608,7 @@
  "pmid:38253622": {
   "journal": "Translational psychiatry",
   "subjects": [],
-  "title": "Hydroxynorketamine, but not ketamine, acts via α7 nicotinic acetylcholine receptor to control presynaptic function and gene expression.",
+  "title": "Hydroxynorketamine, but not ketamine, acts via \u03b17 nicotinic acetylcholine receptor to control presynaptic function and gene expression.",
   "year": "2024"
  },
  "pmid:38264637": {
@@ -12320,7 +12632,7 @@
  "pmid:38453524": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
-  "title": "Pharmacologic Characterization of Substituted Nitazenes at μ, κ, and Δ Opioid Receptors Suggests High Potential for Toxicity.",
+  "title": "Pharmacologic Characterization of Substituted Nitazenes at \u03bc, \u03ba, and \u0394 Opioid Receptors Suggests High Potential for Toxicity.",
   "year": "2024"
  },
  "pmid:38474495": {
@@ -12362,13 +12674,13 @@
  "pmid:38583809": {
   "journal": "Biochemical pharmacology",
   "subjects": [],
-  "title": "CYP2C9, CYP3A and CYP2C19 metabolize Δ9-tetrahydrocannabinol to multiple metabolites but metabolism is affected by human liver fatty acid binding protein (FABP1).",
+  "title": "CYP2C9, CYP3A and CYP2C19 metabolize \u03949-tetrahydrocannabinol to multiple metabolites but metabolism is affected by human liver fatty acid binding protein (FABP1).",
   "year": "2024"
  },
  "pmid:38598106": {
   "journal": "Clinical drug investigation",
   "subjects": [],
-  "title": "Impact of Viloxazine Extended-Release Capsules (Qelbree(®)) on Select Cytochrome P450 Enzyme Activity and Evaluation of CYP2D6 Genetic Polymorphisms on Viloxazine Pharmacokinetics.",
+  "title": "Impact of Viloxazine Extended-Release Capsules (Qelbree(\u00ae)) on Select Cytochrome P450 Enzyme Activity and Evaluation of CYP2D6 Genetic Polymorphisms on Viloxazine Pharmacokinetics.",
   "year": "2024"
  },
  "pmid:38616411": {
@@ -12392,7 +12704,7 @@
  "pmid:38672701": {
   "journal": "Life (Basel, Switzerland)",
   "subjects": [],
-  "title": "α-Pyrrolidinohexanophenone (α-PHP) and α-Pyrrolidinoisohexanophenone (α-PiHP): A Review.",
+  "title": "\u03b1-Pyrrolidinohexanophenone (\u03b1-PHP) and \u03b1-Pyrrolidinoisohexanophenone (\u03b1-PiHP): A Review.",
   "year": "2024"
  },
  "pmid:38741590": {
@@ -12440,7 +12752,7 @@
  "pmid:38951961": {
   "journal": "Clinical pharmacology and therapeutics",
   "subjects": [],
-  "title": "Clinical Pharmacogenetics Implementation Consortium Guideline (CPIC) for CYP2D6, ADRB1, ADRB2, ADRA2C, GRK4, and GRK5 Genotypes and Beta-Blocker Therapy.",
+  "title": "Clinical Pharmacogenetics Implementation Consortium Guideline (CPIC)\u00a0for CYP2D6, ADRB1, ADRB2, ADRA2C, GRK4, and GRK5 Genotypes and Beta-Blocker Therapy.",
   "year": "2024"
  },
  "pmid:39050746": {
@@ -12560,7 +12872,7 @@
  "pmid:40381809": {
   "journal": "Neurotoxicology",
   "subjects": [],
-  "title": "Pharmacological effects and pharmacokinetics of the novel synthetic cathinone α-pyrrolidinoisohexanophenone (α-PiHP) compared with α-pyrrolidinovalerophenone (α-PVP) in mice.",
+  "title": "Pharmacological effects and pharmacokinetics of the novel synthetic cathinone \u03b1-pyrrolidinoisohexanophenone (\u03b1-PiHP) compared with \u03b1-pyrrolidinovalerophenone (\u03b1-PVP) in mice.",
   "year": "2025"
  },
  "pmid:40382747": {
@@ -12692,7 +13004,7 @@
  "pmid:41614071": {
   "journal": "Frontiers in pharmacology",
   "subjects": [],
-  "title": "Disposition and effects of alpha-pyrrolidinoisohexanophenone (α-PHiP) in comparison with cocaine: an observational study.",
+  "title": "Disposition and effects of alpha-pyrrolidinoisohexanophenone (\u03b1-PHiP) in comparison with cocaine: an observational study.",
   "year": "2025"
  },
  "pmid:41667893": {
@@ -12710,7 +13022,7 @@
  "pmid:41825934": {
   "journal": "Journal of psychopharmacology (Oxford, England)",
   "subjects": [],
-  "title": "Pharmacological characterization of 4-F-3-Me-α-PVP: A novel synthetic cathinone with psychostimulant effects and abuse liability in rodents.",
+  "title": "Pharmacological characterization of 4-F-3-Me-\u03b1-PVP: A novel synthetic cathinone with psychostimulant effects and abuse liability in rodents.",
   "year": "2026"
  },
  "pmid:418433": {
@@ -12879,6 +13191,12 @@
   "journal": "Drug metabolism and disposition: the biological fate of chemicals",
   "subjects": [],
   "title": "Disposition and metabolism of (+)-5-methyl-10,11-dihydro-5H-dibenzo[a,d] cyclohepten-5,10-imine in rats, dogs, and monkeys.",
+  "year": "1983"
+ },
+ "pmid:6135228": {
+  "journal": "Pharmacology, biochemistry, and behavior",
+  "subjects": [],
+  "title": "Benzodiazepine hypnotics: time course and potency of benzodiazepine receptor occupation after oral application.",
   "year": "1983"
  },
  "pmid:6136526": {
@@ -13113,6 +13431,12 @@
   "journal": "Journal of clinical psychopharmacology",
   "subjects": [],
   "title": "Pharmacokinetics of dextromethorphan and metabolites in humans: influence of the CYP2D6 phenotype and quinidine inhibition.",
+  "year": "1995"
+ },
+ "pmid:7617761": {
+  "journal": "Planta medica",
+  "subjects": [],
+  "title": "Apigenin, a component of Matricaria recutita flowers, is a central benzodiazepine receptors-ligand with anxiolytic effects.",
   "year": "1995"
  },
  "pmid:7654478": {
@@ -13966,323 +14290,5 @@
   "subjects": [],
   "title": "Male monozygotic twins discordant for periventricular nodular heterotopia and epilepsy.",
   "year": "1999"
- },
- "doi:10.1002/ptr.1742": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "Pharmacokinetics of valerenic acid after administration of valerian in healthy subjects",
-  "year": "2005"
- },
- "doi:10.1002/ptr.2712": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "Bioassay-guided fractionation of lemon balm (Melissa officinalis L.) using an in vitro measure of GABA transaminase activity",
-  "year": "2009"
- },
- "doi:10.1002/ptr.3352": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "Modulation of the γ-aminobutyric acid (GABA) system by Passiflora incarnata L",
-  "year": "2011"
- },
- "doi:10.1002/ptr.3400": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "A double-blind, placebo-controlled investigation of the effects of Passiflora incarnata (passionflower) herbal tea on subjective sleep quality",
-  "year": "2011"
- },
- "doi:10.1002/ptr.7252": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "The effects of lemon balm (Melissa officinalis L.) on depression and anxiety in clinical trials: A systematic review and meta-analysis",
-  "year": "2021"
- },
- "doi:10.1016/j.amjmed.2006.02.026": {
-  "journal": "The American journal of medicine",
-  "subjects": [],
-  "title": "Valerian for sleep: a systematic review and meta-analysis",
-  "year": "2006"
- },
- "doi:10.1016/j.neuropharm.2007.04.018": {
-  "journal": "Neuropharmacology",
-  "subjects": [],
-  "title": "Valerenic acid potentiates and inhibits GABA(A) receptors: molecular mechanism and subunit specificity",
-  "year": "2007"
- },
- "doi:10.1016/j.neuropharm.2008.06.013": {
-  "journal": "Neuropharmacology",
-  "subjects": [],
-  "title": "GABA A receptors as in vivo substrate for the anxiolytic action of valerenic acid, a major constituent of valerian root extracts",
-  "year": "2009"
- },
- "doi:10.1016/j.phymed.2010.03.002": {
-  "journal": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
-  "subjects": [],
-  "title": "Passiflora incarnata L. (Passionflower) extracts elicit GABA currents in hippocampal neurons in vitro, and show anxiogenic and anticonvulsant effects in vivo, varying with extraction method",
-  "year": "2010"
- },
- "doi:10.1016/j.phymed.2016.10.012": {
-  "journal": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
-  "subjects": [],
-  "title": "Long-term chamomile (Matricaria chamomilla L.) treatment for generalized anxiety disorder: A randomized clinical trial",
-  "year": "2016"
- },
- "doi:10.1016/s0006-2952(00)00264-1": {
-  "journal": "Biochemical pharmacology",
-  "subjects": [],
-  "title": "Pharmacological profile of apigenin, a flavonoid isolated from Matricaria chamomilla",
-  "year": "2000"
- },
- "doi:10.1038/sj.npp.1300230": {
-  "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
-  "subjects": [],
-  "title": "Modulation of mood and cognitive performance following acute administration of single doses of Melissa officinalis (Lemon balm) with human CNS nicotinic and muscarinic receptor-binding properties",
-  "year": "2003"
- },
- "doi:10.1046/j.1365-2710.2001.00367.x": {
-  "journal": "Journal of clinical pharmacy and therapeutics",
-  "subjects": [],
-  "title": "Passionflower in the treatment of generalized anxiety: a pilot double-blind randomized controlled trial with oxazepam",
-  "year": "2001"
- },
- "doi:10.1055/s-2006-958058": {
-  "journal": "Planta medica",
-  "subjects": [],
-  "title": "Apigenin, a component of Matricaria recutita flowers, is a central benzodiazepine receptors-ligand with anxiolytic effects",
-  "year": "1995"
- },
- "doi:10.1080/15502783.2026.2740227": {
-  "journal": "Journal of the International Society of Sports Nutrition",
-  "subjects": [],
-  "title": "Modulating stress and sleep through a multi-compound dietary supplement: a randomized, double-blind, placebo-controlled trial",
-  "year": 2026
- },
- "doi:10.1081/clt-100100919": {
-  "journal": "Journal of Toxicology: Clinical Toxicology",
-  "subjects": [],
-  "title": "Toxicity of<i>Passiflora incarnata</i>L",
-  "year": 2000
- },
- "doi:10.1097/01.psy.0000132877.72833.71": {
-  "journal": "Psychosomatic medicine",
-  "subjects": [],
-  "title": "Attenuation of laboratory-induced stress in humans after acute administration of Melissa officinalis (Lemon Balm)",
-  "year": "2004"
- },
- "doi:10.1097/jcp.0b013e3181ac935c": {
-  "journal": "Journal of clinical psychopharmacology",
-  "subjects": [],
-  "title": "A randomized, double-blind, placebo-controlled trial of oral Matricaria recutita (chamomile) extract therapy for generalized anxiety disorder",
-  "year": "2009"
- },
- "doi:10.1097/yic.0000000000000291": {
-  "journal": "International clinical psychopharmacology",
-  "subjects": [],
-  "title": "Effects of Passiflora incarnata Linnaeus on polysomnographic sleep parameters in subjects with insomnia disorder: a double-blind randomized placebo-controlled study",
-  "year": "2020"
- },
- "doi:10.1124/dmd.104.001164": {
-  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
-  "subjects": [],
-  "title": "Multiple night-time doses of valerian (Valeriana officinalis) had minimal effects on CYP3A4 activity and no effect on CYP2D6 activity in healthy volunteers",
-  "year": "2004"
- },
- "doi:10.1159/000090736": {
-  "journal": "Annals of nutrition & metabolism",
-  "subjects": [],
-  "title": "Bioavailability of apigenin from apiin-rich parsley in humans",
-  "year": "2006"
- },
- "doi:10.1177/2515690x20967323": {
-  "journal": "Journal of evidence-based integrative medicine",
-  "subjects": [],
-  "title": "Valerian Root in Treating Sleep Problems and Associated Disorders-A Systematic Review and Meta-Analysis",
-  "year": "2020"
- },
- "doi:10.1186/1472-6882-11-78": {
-  "journal": "BMC complementary and alternative medicine",
-  "subjects": [],
-  "title": "Preliminary examination of the efficacy and safety of a standardized chamomile extract for chronic primary insomnia: a randomized placebo-controlled pilot study",
-  "year": "2011"
- },
- "doi:10.1503/cmaj.051191": {
-  "journal": "CMAJ : Canadian Medical Association journal = journal de l'Association medicale canadienne",
-  "subjects": [],
-  "title": "Warfarin interaction with Matricaria chamomilla",
-  "year": "2006"
- },
- "doi:10.3390/nu12123894": {
-  "journal": "Nutrients",
-  "subjects": [],
-  "title": "<i>Passiflora incarnata</i> in Neuropsychiatric Disorders-A Systematic Review",
-  "year": "2020"
- },
- "pmid:10751547": {
-  "journal": "Biochemical pharmacology",
-  "subjects": [],
-  "title": "Pharmacological profile of apigenin, a flavonoid isolated from Matricaria chamomilla.",
-  "year": "2000"
- },
- "pmid:11679026": {
-  "journal": "Journal of clinical pharmacy and therapeutics",
-  "subjects": [],
-  "title": "Passionflower in the treatment of generalized anxiety: a pilot double-blind randomized controlled trial with oxazepam.",
-  "year": "2001"
- },
- "pmid:12888775": {
-  "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
-  "subjects": [],
-  "title": "Modulation of mood and cognitive performance following acute administration of single doses of Melissa officinalis (Lemon balm) with human CNS nicotinic and muscarinic receptor-binding properties.",
-  "year": "2003"
- },
- "pmid:15272110": {
-  "journal": "Psychosomatic medicine",
-  "subjects": [],
-  "title": "Attenuation of laboratory-induced stress in humans after acute administration of Melissa officinalis (Lemon Balm).",
-  "year": "2004"
- },
- "pmid:15328251": {
-  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
-  "subjects": [],
-  "title": "Multiple night-time doses of valerian (Valeriana officinalis) had minimal effects on CYP3A4 activity and no effect on CYP2D6 activity in healthy volunteers.",
-  "year": "2004"
- },
- "pmid:16220575": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "Pharmacokinetics of valerenic acid after administration of valerian in healthy subjects.",
-  "year": "2005"
- },
- "pmid:16407641": {
-  "journal": "Annals of nutrition & metabolism",
-  "subjects": [],
-  "title": "Bioavailability of apigenin from apiin-rich parsley in humans.",
-  "year": "2006"
- },
- "pmid:16636327": {
-  "journal": "CMAJ : Canadian Medical Association journal = journal de l'Association medicale canadienne",
-  "subjects": [],
-  "title": "Warfarin interaction with Matricaria chamomilla.",
-  "year": "2006"
- },
- "pmid:17145239": {
-  "journal": "The American journal of medicine",
-  "subjects": [],
-  "title": "Valerian for sleep: a systematic review and meta-analysis.",
-  "year": "2006"
- },
- "pmid:17585957": {
-  "journal": "Neuropharmacology",
-  "subjects": [],
-  "title": "Valerenic acid potentiates and inhibits GABA(A) receptors: molecular mechanism and subunit specificity.",
-  "year": "2007"
- },
- "pmid:18602406": {
-  "journal": "Neuropharmacology",
-  "subjects": [],
-  "title": "GABA A receptors as in vivo substrate for the anxiolytic action of valerenic acid, a major constituent of valerian root extracts.",
-  "year": "2009"
- },
- "pmid:19165747": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "Bioassay-guided fractionation of lemon balm (Melissa officinalis L.) using an in vitro measure of GABA transaminase activity.",
-  "year": "2009"
- },
- "pmid:19593179": {
-  "journal": "Journal of clinical psychopharmacology",
-  "subjects": [],
-  "title": "A randomized, double-blind, placebo-controlled trial of oral Matricaria recutita (chamomile) extract therapy for generalized anxiety disorder.",
-  "year": "2009"
- },
- "pmid:20382514": {
-  "journal": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
-  "subjects": [],
-  "title": "Passiflora incarnata L. (Passionflower) extracts elicit GABA currents in hippocampal neurons in vitro, and show anxiogenic and anticonvulsant effects in vivo, varying with extraction method.",
-  "year": "2010"
- },
- "pmid:21089181": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "Modulation of the γ-aminobutyric acid (GABA) system by Passiflora incarnata L.",
-  "year": "2011"
- },
- "pmid:21294203": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "A double-blind, placebo-controlled investigation of the effects of Passiflora incarnata (passionflower) herbal tea on subjective sleep quality.",
-  "year": "2011"
- },
- "pmid:21939549": {
-  "journal": "BMC complementary and alternative medicine",
-  "subjects": [],
-  "title": "Preliminary examination of the efficacy and safety of a standardized chamomile extract for chronic primary insomnia: a randomized placebo-controlled pilot study.",
-  "year": "2011"
- },
- "pmid:27912875": {
-  "journal": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
-  "subjects": [],
-  "title": "Long-term chamomile (Matricaria chamomilla L.) treatment for generalized anxiety disorder: A randomized clinical trial.",
-  "year": "2016"
- },
- "pmid:31714321": {
-  "journal": "International clinical psychopharmacology",
-  "subjects": [],
-  "title": "Effects of Passiflora incarnata Linnaeus on polysomnographic sleep parameters in subjects with insomnia disorder: a double-blind randomized placebo-controlled study.",
-  "year": "2020"
- },
- "pmid:33086877": {
-  "journal": "Journal of evidence-based integrative medicine",
-  "subjects": [],
-  "title": "Valerian Root in Treating Sleep Problems and Associated Disorders-A Systematic Review and Meta-Analysis.",
-  "year": "2020"
- },
- "pmid:33352740": {
-  "journal": "Nutrients",
-  "subjects": [],
-  "title": "Passiflora incarnata in Neuropsychiatric Disorders-A Systematic Review.",
-  "year": "2020"
- },
- "pmid:34449930": {
-  "journal": "Phytotherapy research : PTR",
-  "subjects": [],
-  "title": "The effects of lemon balm (Melissa officinalis L.) on depression and anxiety in clinical trials: A systematic review and meta-analysis.",
-  "year": "2021"
- },
- "pmid:7617761": {
-  "journal": "Planta medica",
-  "subjects": [],
-  "title": "Apigenin, a component of Matricaria recutita flowers, is a central benzodiazepine receptors-ligand with anxiolytic effects.",
-  "year": "1995"
- },
- "doi:10.1097/00004714-199402000-00002": {
-  "journal": "Journal of Clinical Psychopharmacology",
-  "subjects": [],
-  "title": "Hypertensive Episode Associated with Phenelzine and Tap Beer???A Reanalysis of the Role of Pressor Amines in Beer",
-  "year": 1994
- },
- "pmid:17202453": {
-  "journal": "The New England journal of medicine",
-  "subjects": [],
-  "title": "Dopamine agonists and the risk of cardiac-valve regurgitation.",
-  "year": "2007"
- },
- "pmid:17950805": {
-  "journal": "The American journal of cardiology",
-  "subjects": [],
-  "title": "Possible association between 3,4-methylenedioxymethamphetamine abuse and valvular heart disease.",
-  "year": "2007"
- },
- "pmid:37572027": {
-  "journal": "Journal of psychopharmacology (Oxford, England)",
-  "subjects": [],
-  "title": "The risk of chronic psychedelic and MDMA microdosing for valvular heart disease.",
-  "year": "2023"
- },
- "pmid:6135228": {
-  "journal": "Pharmacology, biochemistry, and behavior",
-  "subjects": [],
-  "title": "Benzodiazepine hypnotics: time course and potency of benzodiazepine receptor occupation after oral application.",
-  "year": "1983"
  }
 }
