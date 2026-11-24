@@ -393,18 +393,28 @@ struct QuickLogView: View {
         let fields: String
     }
 
+    /// The doses of today's journal day, the day My Meds checks slots off on.
+    private var todayEntries: [DoseEntry] {
+        let calendar = Calendar.current
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        let today = calendar.journalDay(for: .now, boundaryHour: boundaryHour)
+        // Newest first, so the scan stops at the first dose before today.
+        return Array(allEntries.prefix { $0.journalDay(in: calendar, boundaryHour: boundaryHour) >= today })
+    }
+
     private func stagedQuantity(_ item: DailyDoseItem) -> Int {
         tray.quantity(substance: item.substance, productName: item.productName, route: item.route, amount: item.amount, unit: item.unit)
     }
 
-    /// Stage every item of the named routine, exactly as if its pill were
-    /// tapped (idempotent) — the landing state for a reminder-notification tap.
+    /// Stage the named routine's items not yet taken today (idempotent) — the
+    /// landing state for a reminder-notification tap. With every one taken,
+    /// quick log opens with nothing new staged.
     private func stageRoutine(named name: String) {
-        // `name` is a MedTimeGroup slug ("morning") from a group pill or a
-        // reminder deep link; legacy routine-name links fall back to the
-        // dormant category field so old notifications still land somewhere.
+        // `name` is a MedTimeGroup slug ("morning") from a reminder deep link;
+        // legacy routine-name links fall back to the dormant category field so
+        // old notifications still land somewhere.
         let items: [DailyDoseItem] = if let group = MedTimeGroup(slug: name) {
-            dailyDoseItems.filter { MedTimeGroup.belongs($0, to: group) }
+            MedTimeGroup.membersToStage(of: group, items: dailyDoseItems, todayEntries: todayEntries)
         } else {
             dailyDoseItems.filter { $0.category == name }
         }

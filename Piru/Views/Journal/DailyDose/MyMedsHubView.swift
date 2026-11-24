@@ -99,6 +99,35 @@ enum MedTimeGroup: Int, CaseIterable, Identifiable {
         guard !times.isEmpty else { return group == .anytime }
         return times.contains { Self.group(forMinutes: $0) == group }
     }
+
+    /// The one slot of a med with no set time: any dose that day fills it.
+    private static let anytimeSlotMinutes = 0
+
+    /// The members of `group` a reminder stages in quick log: every member
+    /// except a scheduled med whose slots in this group today's doses already
+    /// satisfy, by the rule My Meds ticks slots off with
+    /// (``ToleranceStore/takenSlots(_:doses:)``). An as-needed med always
+    /// stays. `todayEntries` are the doses of today's journal day.
+    static func membersToStage(
+        of group: MedTimeGroup, items: [DailyDoseItem], todayEntries: [DoseEntry], calendar: Calendar = .current,
+    ) -> [DailyDoseItem] {
+        let products = CustomSubstanceStore.shared.productMeds
+        return items.filter { item in
+            guard belongs(item, to: group) else { return false }
+            guard !item.isAsNeeded else { return true }
+            let doses = todayEntries
+                .filter { AdherenceCalculator.entryMatches(entry: $0, item: item, products: products) }
+                .map { entry in
+                    let parts = calendar.dateComponents([.hour, .minute], from: entry.timestamp)
+                    return (minutes: (parts.hour ?? 0) * 60 + (parts.minute ?? 0), slot: entry.medSlotMinutes)
+                }
+            let times = item.reminderTimesMinutes
+            let slots = times.isEmpty ? [anytimeSlotMinutes] : times
+            let slotsInGroup = times.isEmpty ? slots : times.filter { Self.group(forMinutes: $0) == group }
+            let taken = ToleranceStore.takenSlots(slots, doses: doses)
+            return !slotsInGroup.allSatisfy(taken.contains)
+        }
+    }
 }
 
 // MARK: - Hub
