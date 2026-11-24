@@ -8037,6 +8037,10 @@ T = {
     "R-enantiomer": ("R-对映体", "R-對映體"),
     "racemate": ("外消旋体", "外消旋體"),
     # Charts, tolerance and Android About, 2026-11-24.
+    "Every entry is in a class hidden in Settings ▸ Journal.": (
+        "所有记录都属于在“设置 ▸ 日记”中隐藏的类别。",
+        "所有記錄都屬於在「設定 ▸ 日記」中隱藏的類別。",
+    ),
     "%@ · active until %@": ("%@ · 活性持续至 %@", "%@ · 活性持續至 %@"),
     "%@ %@ now": ("%@ 现在 %@", "%@ 現在 %@"),
     "%@ runs past the chart, to ~%@.": ("%@ 超出图表范围，约至 %@。", "%@ 超出圖表範圍，約至 %@。"),
@@ -9475,6 +9479,7 @@ if __name__ == "__main__":
     NEW_KEYS.update(
         {
             "Current skin",
+            "Every entry is in a class hidden in Settings ▸ Journal.",
             "%@ · active until %@",
             "%@ %@ now",
             "%@ runs past the chart, to ~%@.",

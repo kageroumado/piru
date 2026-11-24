@@ -40274,6 +40274,34 @@
         }
       }
     },
+    "Every entry is in a class hidden in Settings ▸ Journal." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los registros son de una clase oculta en Ajustes ▸ Diario."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los registros son de una clase oculta en Ajustes ▸ Diario."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有记录都属于在“设置 ▸ 日记”中隐藏的类别。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有記錄都屬於在「設定 ▸ 日記」中隱藏的類別。"
+          }
+        }
+      }
+    },
     "Every hour" : {
       "localizations" : {
         "es" : {

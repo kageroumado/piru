@@ -3720,6 +3720,7 @@ ES = {
     "R-enantiomer": "Enantiómero R",
     "racemate": "racemato",
     # Charts, tolerance and Android About, 2026-11-24.
+    "Every entry is in a class hidden in Settings ▸ Journal.": "Todos los registros son de una clase oculta en Ajustes ▸ Diario.",
     "%@ · active until %@": "%@ · activo hasta %@",
     "%@ %@ now": "%@ %@ ahora",
     "%@ runs past the chart, to ~%@.": "%@ sigue más allá del gráfico, hasta ~%@.",
