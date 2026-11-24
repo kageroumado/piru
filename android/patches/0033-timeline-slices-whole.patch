@@ -1,0 +1,20 @@
+SkipUI's frame clamps a taller row from its top, so the Journal strip's slice holding Now, cut into two rows to open at Now, showed its top part twice and hid the doses below Now: on Android each slice is drawn whole and the strip opens at its top
+
+diff --git a/Piru/Views/Journal/EntryListView.swift b/Piru/Views/Journal/EntryListView.swift
+index 1f98f57e..984ec468 100644
+--- a/Piru/Views/Journal/EntryListView.swift
++++ b/Piru/Views/Journal/EntryListView.swift
+@@ -534,7 +534,13 @@ struct EntryListView: View {
+     /// (``TimelineOpeningTarget/split(_:viewportHeight:)``); each row draws
+     /// the whole slice and shows its own part.
+     private var timelineContent: some View {
++        #if os(Android)
++            // SkipUI's frame clamps a taller row from its top, so a slice cut in two would show
++            // its top part twice and never the part below Now: each slice is drawn whole.
++            let split: (id: Date, y: CGFloat)? = nil
++        #else
+         let split = isSearchSurface ? nil : TimelineOpeningTarget.split(timelineModel.days, viewportHeight: viewportHeight.value)
++        #endif
+         return ForEach(timelineModel.days) { day in
+             if let split, split.id == day.id {
+                 timelineRow(day)
