@@ -24,7 +24,12 @@ public struct ModelObservationRegistrar: Sendable {
 
     public init() {}
 
+    /// A read inside one of PortableData's own passes reports to neither registrar: a fetch
+    /// sorting thousands of models reads each sort key a dozen times, and a reported read is a
+    /// call into the bridge (Skip's registrar, over JNI) per comparison. A fetch's result is no
+    /// view's dependency; a ``Query`` re-reads on the context's revision instead.
     public func access<Subject: Observable>(_ subject: Subject, keyPath: KeyPath<Subject, some Any>) {
+        guard !ModelObservation.isTraversingOnMainThread else { return }
         slot.bridge(making: true)?.access(subject, keyPath: keyPath)
         native.access(subject, keyPath: keyPath)
     }
@@ -70,6 +75,12 @@ public enum ModelObservation {
     /// Whether a main-thread read now may make a model's bridge.
     static var makesBridges: Bool {
         traversals == 0
+    }
+
+    /// Whether the caller is a PortableData pass on the main thread; other threads never count
+    /// one, so their reads keep reporting.
+    static var isTraversingOnMainThread: Bool {
+        traversals > 0 && isMainThread()
     }
 
     /// Runs `body`, one of PortableData's own passes over models (loading, merging another

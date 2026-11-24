@@ -70,6 +70,32 @@ struct BridgeTests {
     }
 
     @Test
+    func `A fetch's filter and sort report no read to the bridges views made`() throws {
+        let store = TestStore()
+        try seedJournal(store)
+        let context = try ModelContext(store.container())
+        let bridges = BridgeLog()
+        ModelObservation.makeBridge = { CountingBridge(log: bridges) }
+        defer { ModelObservation.makeBridge = nil }
+
+        let shown = try context.doses()
+        for dose in shown {
+            _ = dose.timestamp
+        }
+        #expect(bridges.made == shown.count)
+        let calls = bridges.calls
+
+        let sorted = try context.fetch(FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.amount > 0 },
+            sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
+        ))
+        #expect(sorted.count == shown.count)
+        #expect(bridges.calls == calls)
+        _ = sorted.first?.amount
+        #expect(bridges.calls == calls + 1)
+    }
+
+    @Test
     func `Another context's save reaches the bridge of a model a view read, and bridges nothing else`() throws {
         let store = TestStore()
         let seeded = try seedJournal(store)

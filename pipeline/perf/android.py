@@ -59,9 +59,11 @@ class Device:
         self._tabs: dict[str, tuple[int, int]] = {}
 
     def screen_size(self) -> tuple[int, int]:
-        # `wm size` reports the folded screen on a foldable; the app window is the truth.
+        # `wm size` reports one screen of a foldable whichever is lit; the hierarchy's root is
+        # the screen in use.
+        self.shell("uiautomator dump /sdcard/piru-perf-ui.xml", timeout=30)
         match = re.search(
-            r"mAppBounds=Rect\(0, 0 - (\d+), (\d+)\)", self.shell("dumpsys window displays")
+            r'bounds="\[0,0\]\[(\d+),(\d+)\]"', self.shell("cat /sdcard/piru-perf-ui.xml")
         )
         if not match:
             match = re.search(r"(\d+)x(\d+)", self.shell("wm size"))
@@ -118,6 +120,10 @@ class Device:
         return self._tabs.get(name, (0, 0))
 
     def swipe(self, fy0: float, fy1: float, ms: int) -> None:
+        # A landscape screen (an unfolded phone) has its scrolling content in a narrow band
+        # between the pinned header and the bottom bars: the gesture is mapped into it.
+        if self.width > self.height:
+            fy0, fy1 = (0.42 + (f - 0.2) / 0.7 * 0.26 for f in (fy0, fy1))
         x = self.width // 2
         self.shell(f"input swipe {x} {int(fy0 * self.height)} {x} {int(fy1 * self.height)} {ms}")
 
@@ -174,10 +180,12 @@ def quicklog(device: Device) -> None:
     # Opened and closed four times, then one dose staged from a favorite and recorded.
     tab(device, 0)
     time.sleep(1.0)
+    # Closed with its own Close button: Back with nothing open would leave the app, and a
+    # window that left takes its frame record with it.
     for _ in range(4):
         device.tap_label("Record an Entry")
         time.sleep(1.5)
-        device.shell("input keyevent KEYCODE_BACK")
+        device.tap_label("Close")
         time.sleep(1.0)
     device.tap_label("Record an Entry")
     time.sleep(1.5)
@@ -186,30 +194,27 @@ def quicklog(device: Device) -> None:
         device.tap_label("Record an Entry", last=True)
         time.sleep(2.0)
     else:
-        device.shell("input keyevent KEYCODE_BACK")
+        device.tap_label("Close")
 
 
 def insights(device: Device) -> None:
     for insight in ("usage", "inSystem", "receptorLoad", "bodyLoad", "adherence"):
         device.open_link(f"piru://insight/{insight}")
         time.sleep(2.5)
+        # The next link replaces the screen; no Back, which on a split layout leaves the app.
         scroll_page(device, 3)
-        device.shell("input keyevent KEYCODE_BACK")
-        time.sleep(1.0)
 
 
 def tolerance(device: Device) -> None:
     device.open_link("piru://insight/tolerance")
     time.sleep(3.0)
     scroll_page(device, 4)
-    device.shell("input keyevent KEYCODE_BACK")
 
 
 def substance_page(device: Device) -> None:
     device.open_link("piru://substance/MDMA")
     time.sleep(3.0)
     scroll_page(device, 12)
-    device.shell("input keyevent KEYCODE_BACK")
 
 
 def session_charts(device: Device) -> None:
@@ -218,9 +223,6 @@ def session_charts(device: Device) -> None:
     if device.tap_label(r"\d.*entr(y|ies)"):
         time.sleep(3.0)
         scroll_page(device, 5)
-        device.shell("input keyevent KEYCODE_BACK")
-        time.sleep(1.0)
-    journal_layout(device, "Timeline")
 
 
 def journal_scroll(device: Device) -> None:
@@ -228,10 +230,18 @@ def journal_scroll(device: Device) -> None:
     [device.swipe(0.25, 0.85, 80) or time.sleep(0.1) for _ in range(40)]
 
 
+def back_to_journal(device: Device, layout: str) -> None:
+    # A screen the previous flow pushed is closed by its own back button first.
+    device.tap_label("Back")
+    time.sleep(1.0)
+    journal_layout(device, layout)
+
+
 # Navigation a flow needs before its measured window opens.
 PREPARE = {
-    "journal-days": lambda d: journal_layout(d, "Days"),
-    "journal-timeline": lambda d: journal_layout(d, "Timeline"),
+    "journal-days": lambda d: back_to_journal(d, "Days"),
+    "journal-timeline": lambda d: back_to_journal(d, "Timeline"),
+    "journal-scroll": lambda d: back_to_journal(d, "Timeline"),
 }
 
 # The flows the emulator runs have measured the same four since 2026-11-23; the phone set adds
@@ -388,7 +398,9 @@ def run(run_dir: Path, args, thresholds: dict) -> dict:
         started = time.time()
         FLOWS[name](device)
         time.sleep(1.0)
-        frames = parse_framestats(device.shell(f"dumpsys gfxinfo {PACKAGE} framestats"))
+        raw_frames = device.shell(f"dumpsys gfxinfo {PACKAGE} framestats")
+        (out / f"framestats-{name}.txt").write_text(raw_frames)
+        frames = parse_framestats(raw_frames)
         steps.append(
             {
                 "flow": name,

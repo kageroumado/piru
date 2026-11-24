@@ -25,3 +25,5 @@ Shared/Formatting/P3Color.swift
 Shared/Formatting/Oklch.swift
 Shared/Formatting/Oklch+DisplayP3.swift
 Shared/Formatting/DoseFormatting.swift
+Shared/InjectionSite.swift
+Shared/CalendarSessionDay.swift

@@ -56,6 +56,14 @@ struct TestStore {
 
 let origin = Date(timeIntervalSinceReferenceDate: 812_345_678.123_456)
 
+extension UserDefaults {
+    /// The app's twin (Android/Platform/Foundation+Android.swift), which the staged sources'
+    /// app-group reads name.
+    nonisolated static var androidAppGroup: UserDefaults? {
+        .standard
+    }
+}
+
 /// A journal: one session holding three doses an hour apart, a note in that session, a
 /// tolerance cache row and the notification preferences singleton.
 @discardableResult
