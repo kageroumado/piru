@@ -66,8 +66,8 @@ private struct UsageCoUseRow: View {
     let style: UsageSubstanceStyle
 
     var body: some View {
-        let firstName = style.name(pair.firstIndex)
-        let secondName = style.name(pair.secondIndex)
+        let firstName = pair.firstSpansRows ? style.moleculeName(pair.firstIndex) : style.name(pair.firstIndex)
+        let secondName = pair.secondSpansRows ? style.moleculeName(pair.secondIndex) : style.name(pair.secondIndex)
         let overlapPercent = Int((pair.overlap * 100).rounded())
 
         VStack(alignment: .leading, spacing: Spacing.xs) {

@@ -1007,9 +1007,24 @@
         },
         {
           "target": "DAT",
+          "ki_nm": 25,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "hDAT-expressing cells",
+          "radioligand_or_probe": "[3H]-WIN35,428",
+          "reference": "pmid:9400006"
+        },
+        {
+          "target": "DAT",
           "ki_nm": null,
           "ki_ci_nm": null,
-          "kd_nm": 25,
+          "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": 315,
           "intrinsic_activity_pct": null,
@@ -1019,7 +1034,7 @@
           "tissue_or_cell": "hDAT-expressing cells",
           "radioligand_or_probe": "[3H]-dopamine uptake",
           "reference": "pmid:11543737",
-          "notes": "Functional DA-uptake inhibition IC50 315 nM (Owens 2001). The binding affinity (Kd ~25 nM, retained for reference) is ~13x tighter than the functional uptake potency; for a reuptake mechanism the functional IC50 is the occupancy-relevant constant, so the binding value overstated modeled DAT occupancy at antidepressant doses."
+          "notes": "Functional DA-uptake inhibition IC50 315 nM (Owens 2001). The binding affinity (Ki 25 nM at [3H]-WIN35,428, the row above, from the same Tatsumi 1997 panel as SERT and NET) is ~13x tighter. Tolerance to a transporter follows its uptake function, so the tolerance engine drives DAT occupancy from this functional IC50; the binding Ki feeds the comparative transporter signature and the affinity tiers."
         },
         {
           "target": "NET",

@@ -128,9 +128,18 @@ struct TimelineStripBuilder {
 
     /// ``Resolved`` for `entries` under `colors`, in chunks with a yield
     /// between them, so a long log is resolved without holding the main
-    /// actor. `nil` when the task was cancelled meanwhile.
+    /// actor. `nil` when `shouldStop` answers true after a yield.
+    ///
+    /// `shouldStop` runs after every yield, before the next chunk reads a
+    /// model: a commit during the yield (a wipe, a restore) can delete the
+    /// doses still to be read, and the task is cancelled only once SwiftUI
+    /// next evaluates the view, which can be after this continuation runs.
     static func resolve(
-        _ entries: [DoseEntry], colors: [SubstanceColor], colorMap: [String: Color], sessions: [PersistentIdentifier: Session],
+        _ entries: [DoseEntry],
+        colors: [SubstanceColor],
+        colorMap: [String: Color],
+        sessions: [PersistentIdentifier: Session],
+        shouldStop: () -> Bool = { Task.isCancelled },
     ) async -> Resolved? {
         var resolver = Resolver(tintMap: colors.tintMap, colorMap: colorMap, sessionsByID: sessions)
         var index = 0
@@ -140,7 +149,7 @@ struct TimelineStripBuilder {
             index = end
             if index < entries.count {
                 await Task.yield()
-                if Task.isCancelled { return nil }
+                if shouldStop() { return nil }
             }
         }
         return resolver.resolved
@@ -166,7 +175,9 @@ struct TimelineStripBuilder {
         }
 
         mutating func resolve(_ entries: ArraySlice<DoseEntry>) {
-            for entry in entries where !entry.isDeleted {
+            // A dose deleted and saved keeps `isDeleted` false; its detached
+            // context is what marks it.
+            for entry in entries where !entry.isDeleted && entry.modelContext != nil {
                 let id = entry.persistentModelID
                 let substance = substance(named: entry.substance)
                 let tint = SubstancePalette.tint(for: entry.substance, tintMap: tintMap)

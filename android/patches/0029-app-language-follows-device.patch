@@ -18,7 +18,7 @@ index 9b48a12f..59bdbafe 100644
              // `-piruRoute <piru://url>` lands on a screen at launch, for
              // simulator screenshots: `simctl openurl` is blocked by the
 diff --git a/Shared/AppLanguage.swift b/Shared/AppLanguage.swift
-index 66033676..700e62db 100644
+index 66033676..bb83cd70 100644
 --- a/Shared/AppLanguage.swift
 +++ b/Shared/AppLanguage.swift
 @@ -64,8 +64,18 @@ nonisolated enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
@@ -76,7 +76,7 @@ index 66033676..700e62db 100644
          if let launch = launchArgumentLanguages() { return launch }
          let global = CFPreferencesCopyValue(
              appleLanguagesKey as CFString,
-@@ -136,11 +158,32 @@ nonisolated enum AppLanguageStore {
+@@ -136,11 +158,37 @@ nonisolated enum AppLanguageStore {
              kCFPreferencesAnyHost,
          ) as? [String]
          return global ?? Locale.preferredLanguages
@@ -102,6 +102,11 @@ index 66033676..700e62db 100644
 +            .current
 +        }
 +
++        /// `base`: the device's language is the only one the app runs in.
++        static func locale(for _: String, base: Locale) -> Locale {
++            base
++        }
++
 +        /// Leaves the device's language in effect: ``choice`` is always ``AppLanguage/system``.
 +        static func apply(_: AppLanguage) {}
 +    }
@@ -109,7 +114,7 @@ index 66033676..700e62db 100644
  /// Applies a language to the running process. `Bundle.main` is re-classed once so
  /// every localized lookup that goes through it (SwiftUI `Text`, `String(localized:)`,
  /// `NSLocalizedString`) reads the chosen `.lproj`; ``locale`` is the matching
-@@ -301,3 +344,4 @@ private final nonisolated class LanguageOverrideBundle: Bundle, @unchecked Senda
+@@ -301,3 +349,4 @@ private final nonisolated class LanguageOverrideBundle: Bundle, @unchecked Senda
          [AppLanguageRuntime.localization]
      }
  }

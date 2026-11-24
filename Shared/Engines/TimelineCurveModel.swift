@@ -22,6 +22,10 @@ nonisolated enum TimelineCurveModel {
         let earliestDose: Date
         let maxDoseBySubstance: [String: Double]
         let stackedGroups: [[ActiveSubstanceState]]
+        /// Per ``stackedGroups`` entry, what its sampled curve is scaled by
+        /// (``stackedAmplitudeFactor(_:earliestDose:yNorm:)``): the drawn
+        /// curve, the scrub dots and the milestones all read this one value.
+        let stackedAmplitudeFactors: [Double]
         let peakCurveValue: Double
         let yNormalization: Double
         /// `renderedTail(threshold: 0.04)` — the full scrollable extent.
@@ -92,6 +96,7 @@ nonisolated enum TimelineCurveModel {
             earliestDose: earliest,
             maxDoseBySubstance: maxDose,
             stackedGroups: groups,
+            stackedAmplitudeFactors: groups.map { stackedAmplitudeFactor($0, earliestDose: earliest, yNorm: yNorm) },
             peakCurveValue: peak,
             yNormalization: yNorm,
             rawDataTail: dataTail,
@@ -718,6 +723,25 @@ nonisolated enum TimelineCurveModel {
         guard magnitude > 0 else { return 0 }
         let m = pow(magnitude, hillExponent)
         return m / (pow(hillEC50, hillExponent) + m)
+    }
+
+    /// Samples across a stacked group's range when its curve is drawn and
+    /// when its peak is found.
+    nonisolated static let stackedCurveSteps = 200
+
+    /// The factor a stacked group's sampled curve is scaled by: its peak
+    /// compressed the way a lone curve's is (``compressedAmplitude(_:)``), so a
+    /// light group lifts off the axis without changing shape.
+    nonisolated static func stackedAmplitudeFactor(_ group: [ActiveSubstanceState], earliestDose: Date, yNorm: Double) -> Double {
+        let (start, end) = stackedGroupRange(group, earliestDose: earliestDose)
+        let span = end - start
+        guard span > 0 else { return 1 }
+        var peak = 0.0
+        for i in 0 ... stackedCurveSteps {
+            let t = start + Double(i) / Double(stackedCurveSteps) * span
+            peak = max(peak, stackedIntensity(atGlobalMinutes: t, group: group, earliestDose: earliestDose) * yNorm)
+        }
+        return peak > 0 ? compressedAmplitude(peak) / peak : 1
     }
 
     nonisolated static func stackedGroupRange(_ group: [ActiveSubstanceState], earliestDose: Date) -> (start: Double, end: Double) {

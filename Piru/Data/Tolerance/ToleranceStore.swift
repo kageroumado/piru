@@ -1075,7 +1075,7 @@ final class ToleranceStore {
             // (§3.5) are excluded: they barely tolerize and have no tolerance curve to predict, so a
             // PK-less clonidine or propranolol produces no card rather than an "incomplete" one.
             let yardstick = mechanismYardstickNanomolar(p)
-            let hasTargetMechanism = p.targets.contains(where: {
+            let hasTargetMechanism = toleranceTargets(p).contains(where: {
                 let cls = ReceptorClasses.classify(target: $0.target, action: $0.action)
                 return cls != .unknown && !cls.hostsReboundWarningOnly
                     && withinSelectivityWindow($0, yardstick: yardstick)
@@ -1111,7 +1111,7 @@ final class ToleranceStore {
         }
         var classes: Set<ReceptorClasses.ReceptorClass> = []
         let yardstick = mechanismYardstickNanomolar(substanceParams)
-        for engagement in substanceParams.targets {
+        for engagement in toleranceTargets(substanceParams) {
             let cls = ReceptorClasses.classify(target: engagement.target, action: engagement.action)
             guard cls != .unknown, withinSelectivityWindow(engagement, yardstick: yardstick),
                   hasRepresentative(cls) else { continue }
@@ -1504,7 +1504,7 @@ final class ToleranceStore {
             // engagement per base the one to keep.
             var seenReceptors = Set<String>()
             let yardstick = ToleranceStore.mechanismYardstickNanomolar(sourceParams)
-            for engagement in sourceParams.targets {
+            for engagement in ToleranceStore.toleranceTargets(sourceParams) {
                 // Mechanism-direction gate: off-mechanism engagements (a 5-HT2A antagonist, an α7
                 // antagonist) classify to `.unknown` and are skipped — no card.
                 let cls = ReceptorClasses.classify(target: engagement.target, action: engagement.action)
@@ -1936,16 +1936,56 @@ final class ToleranceStore {
     /// Rebound-only classes are excluded from being the yardstick — see ``mechanismYardstickNanomolar(_:)``.
     nonisolated static let mechanismSelectivityWindow = 100.0
 
+    /// A substance's engaged targets **as the tolerance engine reads them**, with each reuptake
+    /// transporter reduced to its uptake-function potency. Everything else passes through untouched; it
+    /// is the one place the engine narrows a substance's engagements, so the yardstick, the selectivity
+    /// gate, the "can't predict yet" list and the contributor builder all agree on the half-max.
+    ///
+    /// Tolerance to a transporter is tolerance to its *function*: how much reuptake the drug blocks at
+    /// the concentrations it reaches. For a receptor measured both ways — a binding affinity (Kᵢ/Kd) and
+    /// a functional uptake-inhibition IC₅₀ — the IC₅₀ is therefore the occupancy-relevant constant, even
+    /// when it is the weaker number. So when a reuptake-inhibitor receptor carries a functional IC₅₀
+    /// engagement, its binding-affinity engagements are dropped from the tolerance view; the receptor is
+    /// represented by the IC₅₀ alone. A receptor with only a binding Kᵢ keeps it (the IC₅₀ was never
+    /// measured, not measured and discarded), and the binding Kᵢ still feeds the comparative class
+    /// signature and the affinity tiers, which read the full engagement set directly.
+    ///
+    /// The rule is mechanism-general, not substance-specific. Sertraline is the case it was written for
+    /// — its DAT binding Kᵢ (25 nM) is ~13× tighter than its DA-uptake IC₅₀ (315 nM, Owens 2001), and
+    /// reading the binding value made an SSRI model a stimulant-tolerance curve at an antidepressant
+    /// dose. Across the library it also switches methylphenidate's NET and naphyrone's DAT/SERT to their
+    /// functional constants; neither loses a tolerance class (the functional values stay well inside the
+    /// selectivity window of each drug's primary transporter), so the only class-level effect is
+    /// sertraline shedding the spurious stimulant card.
+    nonisolated static func toleranceTargets(
+        _ p: PharmacologyParameters,
+    ) -> [PharmacologyParameters.TargetEngagement] {
+        let functionalUptakeBases = Set(
+            p.targets
+                .filter { $0.action == .reuptakeInhibitor && $0.kind == .ic50 }
+                .map(\.targetBase),
+        )
+        guard !functionalUptakeBases.isEmpty else { return p.targets }
+        // Preserves the tightest-first order (a filter never reorders), which the yardstick's
+        // first-match scan and the contributor builder's per-receptor dedup both depend on.
+        return p.targets.filter { engagement in
+            !(engagement.action == .reuptakeInhibitor
+                && engagement.kind != .ic50
+                && functionalUptakeBases.contains(engagement.targetBase))
+        }
+    }
+
     /// The half-max constant of a substance's **tightest tolerance-bearing engagement** — the
     /// denominator of the selectivity gate above. `nil` when the substance engages no tolerance class.
     ///
-    /// `targets` is tightest-first, so this is a first-match scan. A rebound-only class
-    /// (``ReceptorClasses/ReceptorClass/hostsReboundWarningOnly``) cannot be the yardstick: those model
-    /// a discontinuation rebound rather than a tolerance curve, and a sub-nanomolar adrenergic affinity
-    /// would otherwise disqualify every real mechanism the substance has (CBG binds α₂ at 0.2 nM and
-    /// CB1 at 380 nM — CB1 is still what CBG does).
+    /// Reads ``toleranceTargets(_:)`` (still tightest-first), so a reuptake transporter contributes its
+    /// uptake-function IC₅₀, not its tighter binding affinity — and this is a first-match scan. A
+    /// rebound-only class (``ReceptorClasses/ReceptorClass/hostsReboundWarningOnly``) cannot be the
+    /// yardstick: those model a discontinuation rebound rather than a tolerance curve, and a
+    /// sub-nanomolar adrenergic affinity would otherwise disqualify every real mechanism the substance
+    /// has (CBG binds α₂ at 0.2 nM and CB1 at 380 nM — CB1 is still what CBG does).
     private nonisolated static func mechanismYardstickNanomolar(_ p: PharmacologyParameters) -> Double? {
-        p.targets.first {
+        toleranceTargets(p).first {
             let cls = ReceptorClasses.classify(target: $0.target, action: $0.action)
             return cls != .unknown && !cls.hostsReboundWarningOnly && $0.halfMaxNanomolar > 0
         }?.halfMaxNanomolar

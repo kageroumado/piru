@@ -403,6 +403,34 @@ struct TimelineTimeMapTests {
     }
 
     @Test
+    func `A capped run a slice grows back past its uniform height loses its break`() {
+        // An hour's curve, then eleven empty hours before now: 924 pt at the
+        // uniform scale, capped to 90. A slice needing 2 000 pt gives the room
+        // to that run, which is then taller than uniform and no longer squeezed;
+        // one needing 600 pt leaves it short of uniform and still squeezed.
+        let dose = now.addingTimeInterval(-minutes(720))
+        let curveEnd = dose.addingTimeInterval(minutes(60))
+        let start = dose.addingTimeInterval(-minutes(5))
+        let end = now.addingTimeInterval(minutes(10))
+        func map(minimumHeight: CGFloat) -> TimelineTimeMap {
+            TimelineTimeMap(
+                start: start, end: end, now: now,
+                slices: [.init(bottomTime: start, topTime: end, breakAbove: false, minimumHeight: minimumHeight)],
+                anchors: [dose],
+                activeIntervals: [DateInterval(start: dose, end: curveEnd)],
+                pointsPerMinute: ppm, compressGaps: true,
+            )
+        }
+        let grownPast = map(minimumHeight: 2_000)
+        #expect(grownPast.height(from: curveEnd, to: now) > 660 * ppm)
+        #expect(grownPast.compressedRuns.isEmpty)
+
+        let grownShort = map(minimumHeight: 600)
+        #expect(grownShort.height(from: curveEnd, to: now) < 660 * ppm)
+        #expect(grownShort.compressedRuns == [DateInterval(start: curveEnd, end: now)])
+    }
+
+    @Test
     func `A slice grown to fit its cards takes the room from its empty time`() {
         // Two hours active, then an hour empty before now; the cards need far
         // more than the slice's height. The active hours keep their uniform

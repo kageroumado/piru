@@ -62,8 +62,9 @@ final class UnifiedTimelineModel {
         // The per-dose work (catalog, bubbles, days, sessions), in yielding
         // chunks: one pass over a multi-year log is too long to hold the main
         // actor for.
-        guard let resolved = await TimelineStripBuilder.resolve(entries, colors: colors, colorMap: colorMap, sessions: sessions),
-              !logMoved() else { return }
+        guard let resolved = await TimelineStripBuilder.resolve(
+            entries, colors: colors, colorMap: colorMap, sessions: sessions, shouldStop: logMoved,
+        ), !logMoved() else { return }
 
         guard var builder = TimelineStripBuilder(
             entries: entries,

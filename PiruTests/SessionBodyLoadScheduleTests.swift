@@ -39,9 +39,34 @@ struct SessionBodyLoadScheduleTests {
     }
 
     @Test
-    func `Today's dose is never the one that comes first`() throws {
+    func `A dose due later today comes before a clear-by date tonight`() throws {
+        // 10 AM now, a 10 PM dose, clearing at 11 PM.
         let clear = try #require(calendar.date(bySettingHour: 23, minute: 0, second: 0, of: now))
-        #expect(!SessionBodyLoadModel.scheduledDose(of: [med(reminderMinutes: [22 * 60])], before: clear, now: now))
+        #expect(SessionBodyLoadModel.scheduledDose(of: [med(reminderMinutes: [22 * 60])], before: clear, now: now))
+    }
+
+    @Test
+    func `Today's dose taken early fills its slot`() throws {
+        let clear = try #require(calendar.date(bySettingHour: 23, minute: 0, second: 0, of: now))
+        #expect(!SessionBodyLoadModel.scheduledDose(
+            of: [med(reminderMinutes: [22 * 60])], before: clear, now: now, loggedToday: 1,
+        ))
+    }
+
+    @Test
+    func `The second slot of a twice-daily med is due after the first is taken`() throws {
+        // 9 AM and 9 PM slots; the 9 AM dose is logged.
+        let twice = med(reminderMinutes: [9 * 60, 21 * 60])
+        let clear = try #require(calendar.date(bySettingHour: 23, minute: 0, second: 0, of: now))
+        #expect(SessionBodyLoadModel.scheduledDose(of: [twice], before: clear, now: now, loggedToday: 1))
+        #expect(!SessionBodyLoadModel.scheduledDose(of: [twice], before: clear, now: now, loggedToday: 2))
+    }
+
+    @Test
+    func `A slot already past today is not due`() throws {
+        // The 9 AM dose was missed; nothing else is due before 11 PM.
+        let clear = try #require(calendar.date(bySettingHour: 23, minute: 0, second: 0, of: now))
+        #expect(!SessionBodyLoadModel.scheduledDose(of: [med()], before: clear, now: now))
     }
 
     @Test

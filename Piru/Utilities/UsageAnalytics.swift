@@ -148,12 +148,16 @@ nonisolated struct UsageSubstanceRef: Sendable, Hashable {
     /// The substance name as logged, the `colorMap` key (lowercased): a
     /// product row takes its substance's color.
     let colorKey: String
+    /// The name to show for the row's molecule, where a figure counts every
+    /// product of it as one ("Methylphenidate" for a "Concerta" row).
+    let moleculeName: String
 
-    init(name: String, displayName: String, categoryIndex: Int, colorKey: String? = nil) {
+    init(name: String, displayName: String, categoryIndex: Int, colorKey: String? = nil, moleculeName: String? = nil) {
         self.name = name
         self.displayName = displayName
         self.categoryIndex = categoryIndex
         self.colorKey = colorKey ?? name
+        self.moleculeName = moleculeName ?? displayName
     }
 }
 
@@ -443,12 +447,19 @@ nonisolated struct UsageRouteBreakdown: Sendable {
 
 /// One §6 co-use pair.
 nonisolated struct UsageCoUsePair: Sendable, Hashable, Identifiable {
+    /// The first molecule's row: its most-logged one over the counted days.
     let firstIndex: Int
+    /// The second molecule's row, picked the same way.
     let secondIndex: Int
     /// Days on which both appear.
     let days: Int
     /// Days on which *either* appears — the denominator for ``overlap``.
     let unionDays: Int
+    /// The first molecule was logged under several rows (Concerta and
+    /// Ritalin), so the pair names it by its molecule rather than one row.
+    var firstSpansRows = false
+    /// The same for the second molecule.
+    var secondSpansRows = false
 
     var id: Int {
         firstIndex &* 1_000_003 &+ secondIndex
@@ -1232,40 +1243,60 @@ nonisolated enum UsageAnalytics {
 
     // MARK: §6 Co-use
 
-    /// Substance pairs logged on the same session day, ranked by how many days
+    /// Molecule pairs logged on the same session day, ranked by how many days
     /// they co-occur. Below ``minimumCoUseDays`` a pair is a coincidence, not a
-    /// habit, so it never surfaces. Two rows of one molecule (a branded product
-    /// and a booster of the same drug) are one substance, never a pair.
+    /// habit, so it never surfaces. Every row of one molecule counts as that
+    /// molecule (``UsageEntrySnapshot/moleculeIndex``): Concerta and a Ritalin
+    /// booster are one substance, never a pair, and their days with Adderall
+    /// add up to one methylphenidate pair.
     static func coUsePairs(dayIndex: [Date: [UsageEntrySnapshot]]) -> [UsageCoUsePair] {
         var pairDays: [PairKey: Int] = [:]
         var soloDays: [Int: Int] = [:]
-        var moleculeOf: [Int: Int] = [:]
+        // Per molecule, the days each of its rows was logged on.
+        var rowDays: [Int: [Int: Int]] = [:]
 
         for (_, dayEntries) in dayIndex {
             var present = Set<Int>()
+            var rowsPresent = Set<Int>()
             for entry in dayEntries {
-                present.insert(entry.substanceIndex)
-                moleculeOf[entry.substanceIndex] = entry.moleculeIndex
+                present.insert(entry.moleculeIndex)
+                if rowsPresent.insert(entry.substanceIndex).inserted {
+                    rowDays[entry.moleculeIndex, default: [:]][entry.substanceIndex, default: 0] += 1
+                }
             }
-            for index in present {
-                soloDays[index, default: 0] += 1
+            for molecule in present {
+                soloDays[molecule, default: 0] += 1
             }
             let ordered = present.sorted()
             guard ordered.count >= 2 else { continue }
             for i in 0 ..< (ordered.count - 1) {
-                for j in (i + 1) ..< ordered.count where moleculeOf[ordered[i]] != moleculeOf[ordered[j]] {
+                for j in (i + 1) ..< ordered.count {
                     pairDays[PairKey(first: ordered[i], second: ordered[j]), default: 0] += 1
                 }
             }
+        }
+
+        // A molecule's most-logged row, the lower index on a tie.
+        func row(of molecule: Int) -> Int {
+            let rows = rowDays[molecule] ?? [:]
+            return rows.min { $0.value == $1.value ? $0.key < $1.key : $0.value > $1.value }?.key ?? molecule
+        }
+        func spansRows(_ molecule: Int) -> Bool {
+            (rowDays[molecule]?.count ?? 0) > 1
         }
 
         let ranked = pairDays
             .filter { $0.value >= minimumCoUseDays }
             .map { key, days in
                 let union = (soloDays[key.first] ?? 0) + (soloDays[key.second] ?? 0) - days
+                let sides = [
+                    (row: row(of: key.first), spans: spansRows(key.first)),
+                    (row: row(of: key.second), spans: spansRows(key.second)),
+                ].sorted { $0.row < $1.row }
                 return UsageCoUsePair(
-                    firstIndex: key.first, secondIndex: key.second,
+                    firstIndex: sides[0].row, secondIndex: sides[1].row,
                     days: days, unionDays: max(union, days),
+                    firstSpansRows: sides[0].spans, secondSpansRows: sides[1].spans,
                 )
             }
             .sorted {

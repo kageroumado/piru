@@ -123,6 +123,7 @@ struct TimelineGraphView: View, Equatable {
         earliestDose: .distantPast,
         maxDoseBySubstance: [:],
         stackedGroups: [],
+        stackedAmplitudeFactors: [],
         peakCurveValue: 0.0001,
         yNormalization: 20,
         rawDataTail: 1,
