@@ -177,17 +177,24 @@ nonisolated enum SummaryStats {
     /// Overlap sample spacing (minutes) — hourly is fine for co-exposure hours.
     private static let overlapStepMinutes: Double = 60
 
+    /// - Parameter journalStart: the first dose in the whole journal, whatever
+    ///   range or filter cut `doses`; `nil` when the journal began at or before
+    ///   `start`. A day before it is neither a day used nor a break.
     static func report(
         substances: [SummarySubstance],
         doses: [SummaryDose],
         start: Date,
         end: Date,
+        journalStart: Date?,
         calendar: Calendar,
         dayBoundaryHour: Int = Calendar.sessionDayBoundaryHour,
     ) -> JournalSummary {
         JournalSummary(
             substances: substances,
-            holidays: holidays(doses: doses, start: start, end: end, calendar: calendar, boundaryHour: dayBoundaryHour),
+            holidays: holidays(
+                doses: doses, start: start, end: end, journalStart: journalStart,
+                calendar: calendar, boundaryHour: dayBoundaryHour,
+            ),
             exposure: exposure(substances: substances, doses: doses, start: start, end: end, calendar: calendar, boundaryHour: dayBoundaryHour),
             escalation: escalation(substances: substances, doses: doses, start: start, end: end),
             overlaps: overlaps(substances: substances, doses: doses, start: start, end: end),
@@ -196,13 +203,14 @@ nonisolated enum SummaryStats {
 
     // MARK: Holidays
 
-    /// Days are journal days (`Calendar.journalDay`). `doses` is the journal
-    /// up to `end`, and the count opens on its first day when the window
-    /// opens before it: a day before the journal began is neither a day used
-    /// nor a break.
-    private static func holidays(doses: [SummaryDose], start: Date, end: Date, calendar: Calendar, boundaryHour: Int) -> HolidayStats {
-        let journalStart = doses.map(\.timestamp).min() ?? start
-        let startDay = calendar.journalDay(for: max(start, min(journalStart, end)), boundaryHour: boundaryHour)
+    /// Days are journal days (`Calendar.journalDay`). The count opens on the
+    /// journal's first day when the window opens before it.
+    private static func holidays(
+        doses: [SummaryDose], start: Date, end: Date, journalStart: Date?,
+        calendar: Calendar, boundaryHour: Int,
+    ) -> HolidayStats {
+        let opens = journalStart.map { max(start, min($0, end)) } ?? start
+        let startDay = calendar.journalDay(for: opens, boundaryHour: boundaryHour)
         let endDay = calendar.journalDay(for: end, boundaryHour: boundaryHour)
         let totalDays = max(1, (calendar.dateComponents([.day], from: startDay, to: endDay).day ?? 0) + 1)
 

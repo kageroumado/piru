@@ -105250,6 +105250,34 @@
           }
         }
       }
+    },
+    "%lld entries, busiest on %@, %@ on average" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 条条目，%2$@最多，平均 %3$@ 条"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 筆條目，%2$@最多，平均 %3$@ 筆"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld registros, mayor actividad el %@, %@ de media"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld registros, mayor actividad el %@, %@ de media"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

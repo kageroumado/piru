@@ -32,7 +32,7 @@ struct SummaryStatsTests {
         let subs = [substance("X", .milligrams)]
         let usedDays = [0, 1, 2, 10]
         let doses = usedDays.map { SummaryDose(substanceIndex: 0, timestamp: day($0).addingTimeInterval(3_600), exposure: 5, ke: nil, ka: nil) }
-        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(29), calendar: cal, dayBoundaryHour: 0)
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(29), journalStart: nil, calendar: cal, dayBoundaryHour: 0)
         let h = report.holidays
         #expect(h.totalDays == 30)
         #expect(h.daysUsed == 4)
@@ -47,7 +47,7 @@ struct SummaryStatsTests {
         // A 90-day window over a journal that began on its 87th day: used on days 86 and 88.
         let subs = [substance("X", .milligrams)]
         let doses = [86, 88].map { SummaryDose(substanceIndex: 0, timestamp: day($0).addingTimeInterval(3_600), exposure: 5, ke: nil, ka: nil) }
-        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(89), calendar: cal, dayBoundaryHour: 0)
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(89), journalStart: day(86), calendar: cal, dayBoundaryHour: 0)
         let h = report.holidays
         #expect(h.totalDays == 4)
         #expect(h.daysUsed == 2)
@@ -60,10 +60,25 @@ struct SummaryStatsTests {
     func `A journal that began before the window is counted over the whole window`() {
         let subs = [substance("X", .milligrams)]
         let doses = [-40, 5].map { SummaryDose(substanceIndex: 0, timestamp: day($0).addingTimeInterval(3_600), exposure: 5, ke: nil, ka: nil) }
-        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(29), calendar: cal, dayBoundaryHour: 0)
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(29), journalStart: day(-40), calendar: cal, dayBoundaryHour: 0)
         #expect(report.holidays.totalDays == 30)
         #expect(report.holidays.daysUsed == 1)
         #expect(report.holidays.longestBreakDays == 24)
+    }
+
+    /// The PDF report hands over doses already cut to its range and substance
+    /// filter; the journal's own start, passed apart, decides where the count opens.
+    @Test
+    func `Doses cut to the range still count the whole range of an older journal`() {
+        // A 90-day report on a journal begun 400 days earlier, used on days 80–89 only.
+        let subs = [substance("X", .milligrams)]
+        let doses = (80 ... 89).map { SummaryDose(substanceIndex: 0, timestamp: day($0).addingTimeInterval(3_600), exposure: 5, ke: nil, ka: nil) }
+        let end = day(89).addingTimeInterval(23 * 3_600)
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: end, journalStart: day(-400), calendar: cal, dayBoundaryHour: 0)
+        #expect(report.holidays.totalDays == 90)
+        #expect(report.holidays.daysUsed == 10)
+        #expect(report.holidays.longestBreakDays == 80)
+        #expect(report.holidays.currentBreakDays == 0)
     }
 
     /// With a 4 AM day start, a 22:00 dose and a 02:00 dose after it are one day used.
@@ -72,9 +87,9 @@ struct SummaryStatsTests {
         let subs = [substance("X", .milligrams)]
         let doses = [day(1).addingTimeInterval(22 * 3_600), day(2).addingTimeInterval(2 * 3_600)]
             .map { SummaryDose(substanceIndex: 0, timestamp: $0, exposure: 5, ke: nil, ka: nil) }
-        let journal = SummaryStats.report(substances: subs, doses: doses, start: day(0).addingTimeInterval(12 * 3_600), end: day(4), calendar: cal, dayBoundaryHour: 4)
+        let journal = SummaryStats.report(substances: subs, doses: doses, start: day(0).addingTimeInterval(12 * 3_600), end: day(4), journalStart: nil, calendar: cal, dayBoundaryHour: 4)
         #expect(journal.holidays.daysUsed == 1)
-        let calendarDays = SummaryStats.report(substances: subs, doses: doses, start: day(0).addingTimeInterval(12 * 3_600), end: day(4), calendar: cal, dayBoundaryHour: 0)
+        let calendarDays = SummaryStats.report(substances: subs, doses: doses, start: day(0).addingTimeInterval(12 * 3_600), end: day(4), journalStart: nil, calendar: cal, dayBoundaryHour: 0)
         #expect(calendarDays.holidays.daysUsed == 2)
     }
 
@@ -89,7 +104,7 @@ struct SummaryStatsTests {
             SummaryDose(substanceIndex: 0, timestamp: day(0).addingTimeInterval(7_200), exposure: 15, ke: nil, ka: nil),
             SummaryDose(substanceIndex: 0, timestamp: day(4).addingTimeInterval(3_600), exposure: 45, ke: nil, ka: nil),
         ]
-        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(9), calendar: cal, dayBoundaryHour: 0)
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(9), journalStart: nil, calendar: cal, dayBoundaryHour: 0)
         let e = try #require(report.exposure.first)
         #expect(e.total == 90)
         #expect(e.peakDay == 45) // day 0 summed to 45; day 4 also 45 — tie
@@ -108,7 +123,7 @@ struct SummaryStatsTests {
         let rising = [10.0, 11, 20, 22, 30, 31].enumerated().map { i, v in
             SummaryDose(substanceIndex: 0, timestamp: day(i * 8).addingTimeInterval(3_600), exposure: v, ke: nil, ka: nil)
         }
-        var report = SummaryStats.report(substances: [substance("X", .milligrams)], doses: rising, start: day(0), end: day(41), calendar: cal, dayBoundaryHour: 0)
+        var report = SummaryStats.report(substances: [substance("X", .milligrams)], doses: rising, start: day(0), end: day(41), journalStart: nil, calendar: cal, dayBoundaryHour: 0)
         var s = try #require(report.escalation.first)
         #expect(s.direction == .rising)
         #expect(s.change > 0.15)
@@ -117,7 +132,7 @@ struct SummaryStatsTests {
         let flat = (0 ..< 6).map { i in
             SummaryDose(substanceIndex: 0, timestamp: day(i * 8).addingTimeInterval(3_600), exposure: 20, ke: nil, ka: nil)
         }
-        report = SummaryStats.report(substances: [substance("X", .milligrams)], doses: flat, start: day(0), end: day(41), calendar: cal, dayBoundaryHour: 0)
+        report = SummaryStats.report(substances: [substance("X", .milligrams)], doses: flat, start: day(0), end: day(41), journalStart: nil, calendar: cal, dayBoundaryHour: 0)
         s = try #require(report.escalation.first)
         #expect(s.direction == .steady)
     }
@@ -128,7 +143,7 @@ struct SummaryStatsTests {
         let few = (0 ..< 4).map { i in
             SummaryDose(substanceIndex: 0, timestamp: day(i * 10).addingTimeInterval(3_600), exposure: Double(10 + i * 10), ke: nil, ka: nil)
         }
-        let report = SummaryStats.report(substances: [substance("X", .milligrams)], doses: few, start: day(0), end: day(41), calendar: cal, dayBoundaryHour: 0)
+        let report = SummaryStats.report(substances: [substance("X", .milligrams)], doses: few, start: day(0), end: day(41), journalStart: nil, calendar: cal, dayBoundaryHour: 0)
         #expect(report.escalation.isEmpty)
     }
 
@@ -144,7 +159,7 @@ struct SummaryStatsTests {
             SummaryDose(substanceIndex: 0, timestamp: day(1), exposure: 100, ke: ke, ka: ka),
             SummaryDose(substanceIndex: 1, timestamp: day(1), exposure: 100, ke: ke, ka: ka),
         ]
-        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(3), calendar: cal, dayBoundaryHour: 0)
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(3), journalStart: nil, calendar: cal, dayBoundaryHour: 0)
         let o = try #require(report.overlaps.first)
         #expect(o.hours > 2) // both active together for several hours after the shared dose
         #expect(Set([o.a, o.b]) == Set([0, 1]))
@@ -159,7 +174,7 @@ struct SummaryStatsTests {
             SummaryDose(substanceIndex: 0, timestamp: day(0), exposure: 100, ke: ke, ka: ka),
             SummaryDose(substanceIndex: 1, timestamp: day(2), exposure: 100, ke: ke, ka: ka),
         ]
-        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(3), calendar: cal, dayBoundaryHour: 0)
+        let report = SummaryStats.report(substances: subs, doses: doses, start: day(0), end: day(3), journalStart: nil, calendar: cal, dayBoundaryHour: 0)
         #expect(report.overlaps.isEmpty)
     }
 }

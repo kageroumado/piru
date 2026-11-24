@@ -5,6 +5,8 @@ import SwiftUI
 struct ActiveSubstance: Identifiable {
     let name: String
     let unit: String
+    /// A quantity in ``unit``, for converting ``totalRemaining`` to another unit of its family.
+    let unitOf: DoseQuantity
     let color: Color
     let halfLifeMinutes: Double
     let totalDosed: Double
@@ -166,6 +168,7 @@ enum ActiveSubstanceCalculator {
             return ActiveSubstance(
                 name: info.name,
                 unit: info.unit,
+                unitOf: info.unitOf,
                 color: color,
                 halfLifeMinutes: info.halfLife,
                 totalDosed: info.totalDosed,

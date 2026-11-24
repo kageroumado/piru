@@ -15,21 +15,23 @@ struct ModeledChartWindow: Equatable {
     /// Below this length the axis names hours rather than dates.
     static let hourAxisLimit: TimeInterval = 2 * 86_400
 
-    init(range: UsageTimeRange, firstDose: Date?, now: Date) {
+    /// - Parameter reach: how far back from `now` the model behind the chart replays the log, for a
+    ///   model that stops short of the first dose; the window starts no earlier than that.
+    init(range: UsageTimeRange, firstDose: Date?, now: Date, reach: TimeInterval? = nil) {
         end = now
+        let opens = Self.start(range: range, firstDose: firstDose, now: now)
+        start = reach.map { max(opens, now.addingTimeInterval(-$0)) } ?? opens
+    }
+
+    private static func start(range: UsageTimeRange, firstDose: Date?, now: Date) -> Date {
         let rangeStart = range.days.map { now.addingTimeInterval(-Double($0) * 86_400) }
         guard let firstDose, firstDose < now else {
-            start = rangeStart ?? now.addingTimeInterval(-365 * 86_400)
-            return
+            return rangeStart ?? now.addingTimeInterval(-365 * 86_400)
         }
         let age = now.timeIntervalSince(firstDose)
-        let margin = min(max(age / 10, Self.marginBounds.lowerBound), Self.marginBounds.upperBound)
+        let margin = min(max(age / 10, marginBounds.lowerBound), marginBounds.upperBound)
         let logStart = firstDose.addingTimeInterval(-margin)
-        if let rangeStart {
-            start = max(rangeStart, logStart)
-        } else {
-            start = logStart
-        }
+        return rangeStart.map { max($0, logStart) } ?? logStart
     }
 
     var length: TimeInterval {

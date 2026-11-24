@@ -271,6 +271,7 @@ final class ReportsModel {
             let tintMap = colors.tintMap
             let journalSummary = SummaryStatsResolver.report(
                 entries: filteredEntries, tintMap: tintMap, start: range.start, end: range.end,
+                journalStart: entries.map(\.timestamp).min(),
             )
 
             let compressedRaw = interactionSnapshots.map {

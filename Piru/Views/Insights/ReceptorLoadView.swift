@@ -69,13 +69,18 @@ struct ReceptorLoadView: View {
         let classes = Set(ToleranceStore.shared.states.keys)
 
         let now = Date.now
-        let window = ModeledChartWindow(range: range, firstDose: allEntries.last?.timestamp, now: now)
-        self.window = window
+        // The trails replay the last `defaultLookbackDays`, so an older log's "All" starts there.
+        let window = ModeledChartWindow(
+            range: range, firstDose: allEntries.last?.timestamp, now: now,
+            reach: ToleranceStore.defaultLookbackDays * 86_400,
+        )
 
         let trails = await ToleranceStore.shared.loadTrails(
             for: classes, from: allEntries, now: now,
             pastHorizon: window.length, step: window.receptorLoadStep,
         )
+        // A newer range or log revision has started its own load; this one's result is stale.
+        guard !Task.isCancelled else { return }
         var built: [ReceptorLoadSeries] = []
         for (receptorClass, trail) in trails {
             guard let peak = trail.map(\.load).max(), peak > 0.02 else { continue }
@@ -92,6 +97,7 @@ struct ReceptorLoadView: View {
         }
         // Highest peak first; the class order breaks ties so the legend holds still between loads.
         series = built.sorted { $0.peak != $1.peak ? $0.peak > $1.peak : $0.id < $1.id }
+        self.window = window
         loaded = true
     }
 
@@ -112,7 +118,7 @@ struct ReceptorLoadView: View {
                 let shown = visible.isEmpty ? series : visible
                 ReceptorLoadChart(series: shown, selectedDate: $selectedDate, window: window)
                 if let selectedDate {
-                    ReceptorLoadReadout(series: shown, date: selectedDate)
+                    ReceptorLoadReadout(series: shown, date: selectedDate, step: window.receptorLoadStep)
                 }
                 legend
             }
@@ -264,6 +270,8 @@ private struct ReceptorLoadChart: View {
 private struct ReceptorLoadReadout: View {
     let series: [ReceptorLoadSeries]
     let date: Date
+    /// The trails' sample spacing: a sample further than this from `date` belongs to another time.
+    let step: TimeInterval
 
     var body: some View {
         let rows = series.compactMap { item -> (series: ReceptorLoadSeries, load: Double)? in
@@ -287,6 +295,8 @@ private struct ReceptorLoadReadout: View {
     }
 
     private func nearestPoint(in item: ReceptorLoadSeries) -> ReceptorLoadSeries.Point? {
-        item.points.min { abs($0.date.timeIntervalSince(date)) < abs($1.date.timeIntervalSince(date)) }
+        let nearest = item.points.min { abs($0.date.timeIntervalSince(date)) < abs($1.date.timeIntervalSince(date)) }
+        guard let nearest, abs(nearest.date.timeIntervalSince(date)) <= step else { return nil }
+        return nearest
     }
 }

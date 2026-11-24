@@ -87,7 +87,9 @@ struct UsageWeekdaySection: View {
             return String(localized: "Common-dose units by weekday, most on \(fullLabel(for: peak.weekday))")
         }
         let total = buckets.reduce(0) { $0 + $1.total }
-        return String(localized: "\(total) entries, busiest on \(fullLabel(for: peak.weekday)) with \(peak.total)")
+        // The bars rank weekdays by their average, so the peak is named with its average.
+        let peakAverage = average(peak).formatted(.number.precision(.fractionLength(0 ... 1)))
+        return String(localized: "\(total) entries, busiest on \(fullLabel(for: peak.weekday)), \(peakAverage) on average")
     }
 
     private func label(for weekday: Int) -> String {

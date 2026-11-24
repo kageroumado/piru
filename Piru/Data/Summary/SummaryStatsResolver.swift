@@ -6,7 +6,7 @@ import SwiftUI
 ///
 /// One resolver, two consumers: the Insights patterns screen and the PDF clinician
 /// report both call ``resolve(entries:tintMap:start:end:)`` and hand the result to
-/// ``SummaryStats/report(substances:doses:start:end:calendar:)``, so they can
+/// ``SummaryStats/report(substances:doses:start:end:journalStart:calendar:dayBoundaryHour:)``, so they can
 /// never show different numbers.
 enum SummaryStatsResolver {
     @MainActor
@@ -81,10 +81,17 @@ enum SummaryStatsResolver {
         return (substances, doses)
     }
 
+    /// `journalStart` is the first dose in the whole journal, which `entries`
+    /// may not hold when a range or substance filter cut them.
     @MainActor
-    static func report(entries: [DoseEntry], tintMap: [String: P3Color], start: Date, end: Date) -> JournalSummary {
+    static func report(
+        entries: [DoseEntry], tintMap: [String: P3Color], start: Date, end: Date, journalStart: Date?,
+    ) -> JournalSummary {
         let (substances, doses) = resolve(entries: entries, tintMap: tintMap, start: start, end: end)
-        return SummaryStats.report(substances: substances, doses: doses, start: start, end: end, calendar: .current)
+        return SummaryStats.report(
+            substances: substances, doses: doses, start: start, end: end,
+            journalStart: journalStart, calendar: .current,
+        )
     }
 
     // MARK: - Currency

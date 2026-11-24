@@ -81,7 +81,7 @@ final class InsightsModel {
         active = ActiveSubstanceCalculator.compute(from: entries, colorMap: substanceColors.colorMap)
         activeComputedAt = .now
         usage = entries.isEmpty ? nil : UsageAnalytics.windowCount(
-            entries.map(\.timestamp), range: Self.usageRange, now: .now, buckets: Self.usageRange.days ?? 30,
+            entries.map(\.timestamp), range: Self.usageRange, now: .now, calendar: cal, boundaryHour: boundaryHour,
         )
         computedToken = token
     }
@@ -382,7 +382,7 @@ private struct UsageCardFigures: View {
     }
 }
 
-/// One bar per day-long slice of the window, across the card's full width, in
+/// One bar per journal day of the window, across the card's full width, in
 /// the accent the Usage screen draws its entry counts in.
 private struct UsageCardBars: View {
     let usage: UsageWindowCount

@@ -67,10 +67,11 @@ struct PatternsView: View {
 
     private func load() async {
         let now = Date.now
+        let journalStart = allEntries.map(\.timestamp).min()
         let start: Date = if let days = range.days {
             now.addingTimeInterval(-Double(days) * 86_400)
         } else {
-            allEntries.map(\.timestamp).min() ?? now.addingTimeInterval(-90 * 86_400)
+            journalStart ?? now.addingTimeInterval(-90 * 86_400)
         }
         // Resolve on the main actor (equivalence / ladder lookups), then run the
         // aggregation — the overlap pass is a per-hour body-load sample — off main.
@@ -78,7 +79,10 @@ struct PatternsView: View {
             entries: allEntries, tintMap: substanceColors.tintMap, start: start, end: now,
         )
         report = await Task.detached {
-            SummaryStats.report(substances: substances, doses: doses, start: start, end: now, calendar: .current)
+            SummaryStats.report(
+                substances: substances, doses: doses, start: start, end: now,
+                journalStart: journalStart, calendar: .current,
+            )
         }.value
         loaded = true
     }

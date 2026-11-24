@@ -122,6 +122,19 @@ struct ModeledChartWindowTests {
         #expect(window.length == 11 * 86_400)
     }
 
+    /// Receptor Load's model replays only the last year, so "All" on an older log starts there
+    /// rather than drawing the years before it as empty.
+    @Test
+    func `All on a log older than the replay starts where the replay does`() {
+        let reach = ToleranceStore.defaultLookbackDays * 86_400
+        let all = ModeledChartWindow(range: .all, firstDose: now.addingTimeInterval(-3 * 365 * 86_400), now: now, reach: reach)
+        #expect(all.start == now.addingTimeInterval(-reach))
+        let young = ModeledChartWindow(range: .all, firstDose: now.addingTimeInterval(-10 * 86_400), now: now, reach: reach)
+        #expect(young.length == 11 * 86_400)
+        let week = ModeledChartWindow(range: .sevenDays, firstDose: now.addingTimeInterval(-3 * 365 * 86_400), now: now, reach: reach)
+        #expect(week.length == 7 * 86_400)
+    }
+
     @Test
     func `Receptor Load samples a week finely enough to keep a session's shape`() {
         let week = ModeledChartWindow(range: .sevenDays, firstDose: now.addingTimeInterval(-30 * 86_400), now: now)

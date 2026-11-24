@@ -93,6 +93,10 @@ nonisolated enum UsageTimeRange: String, CaseIterable, Identifiable, Sendable {
 nonisolated struct UsageEntrySnapshot: Sendable {
     /// Index into ``UsageAnalyticsResult/substances``.
     let substanceIndex: Int
+    /// The molecule behind the row: equal for every row of one substance
+    /// ("Concerta", "Ritalin" and "Methylphenidate"), so co-use and the
+    /// distinct-substance counts see one drug where the rows show its products.
+    let moleculeIndex: Int
     /// Index into `SubstanceCategory.allCases`.
     let categoryIndex: Int
     /// Index into `RouteOfAdministration.allCases`.
@@ -111,8 +115,10 @@ nonisolated struct UsageEntrySnapshot: Sendable {
     let commonDoses: Double?
     let timestamp: Date
 
+    /// `moleculeIndex` defaults to `substanceIndex`: a row that is its own molecule.
     init(
         substanceIndex: Int,
+        moleculeIndex: Int? = nil,
         categoryIndex: Int,
         routeIndex: Int,
         doseLevelIndex: Int?,
@@ -120,6 +126,7 @@ nonisolated struct UsageEntrySnapshot: Sendable {
         timestamp: Date,
     ) {
         self.substanceIndex = substanceIndex
+        self.moleculeIndex = moleculeIndex ?? substanceIndex
         self.categoryIndex = categoryIndex
         self.routeIndex = routeIndex
         self.doseLevelIndex = doseLevelIndex
@@ -152,12 +159,13 @@ nonisolated struct UsageSubstanceRef: Sendable, Hashable {
 
 // MARK: - Outputs
 
-/// How many entries a window holds, per day and across equal slices of it.
+/// How many entries a window holds, per day and across buckets of it.
 /// The Insights Usage card and the Usage screen both read this one count.
 nonisolated struct UsageWindowCount: Sendable, Equatable {
     let entryCount: Int
     let averagePerDay: Double
-    /// Equal-width slices of the window, oldest first; they sum to ``entryCount``.
+    /// The window in buckets, oldest first (equal slices, or journal days on
+    /// the Insights card); they sum to ``entryCount``.
     let buckets: [Int]
 
     var averagePerDayText: String {
@@ -322,6 +330,18 @@ nonisolated struct UsageTrendSeries: Sendable, Identifiable {
 
     var id: Int {
         substanceIndex
+    }
+
+    /// The point nearest `date`, for the scrub readout; `nil` more than half a
+    /// bucket before the first point, where the line has not begun and no
+    /// average exists.
+    func point(nearest date: Date) -> UsageTrendPoint? {
+        guard let first = points.first else { return nil }
+        if points.count > 1 {
+            let halfBucket = points[1].date.timeIntervalSince(first.date) / 2
+            if date < first.date.addingTimeInterval(-halfBucket) { return nil }
+        }
+        return points.min { abs($0.date.timeIntervalSince(date)) < abs($1.date.timeIntervalSince(date)) }
     }
 }
 
@@ -755,15 +775,16 @@ nonisolated enum UsageAnalytics {
             nil
         }
 
+        // Counted by molecule: a branded product and its substance are one.
         var seen = Set<Int>()
         for entry in inRange {
-            seen.insert(entry.substanceIndex)
+            seen.insert(entry.moleculeIndex)
         }
         // "New" = first-ever dose falls inside the window. `all` is sorted, so
-        // the first sighting of a substance is its debut.
+        // the first sighting of a substance, under any of its products, is its debut.
         var debuts: [Int: Date] = [:]
-        for entry in all where debuts[entry.substanceIndex] == nil {
-            debuts[entry.substanceIndex] = entry.timestamp
+        for entry in all where debuts[entry.moleculeIndex] == nil {
+            debuts[entry.moleculeIndex] = entry.timestamp
         }
         let newCount = seen.count { index in
             guard let debut = debuts[index] else { return false }
@@ -823,10 +844,28 @@ nonisolated enum UsageAnalytics {
         )
     }
 
-    /// ``windowCount(_:bounds:buckets:)`` over `range` ending `now`, from every
-    /// logged timestamp — the Insights card's entry point.
-    static func windowCount(_ timestamps: [Date], range: UsageTimeRange, now: Date, buckets: Int) -> UsageWindowCount {
-        windowCount(timestamps, bounds: bounds(for: range, firstTimestamp: timestamps.min(), now: now), buckets: buckets)
+    /// The count and rate of ``windowCount(_:bounds:buckets:)`` over `range`
+    /// ending `now`, from every logged timestamp, with one bucket per journal
+    /// day the window touches, oldest first: the Insights card's per-day bars.
+    /// The first day holds only its part inside the window, so the buckets
+    /// still sum to the count.
+    static func windowCount(
+        _ timestamps: [Date], range: UsageTimeRange, now: Date,
+        calendar: Calendar, boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+    ) -> UsageWindowCount {
+        let bounds = bounds(for: range, firstTimestamp: timestamps.min(), now: now)
+        let firstDay = calendar.journalDay(for: bounds.start, boundaryHour: boundaryHour)
+        let lastDay = calendar.journalDay(for: bounds.end, boundaryHour: boundaryHour)
+        let dayCount = max(1, (calendar.dateComponents([.day], from: firstDay, to: lastDay).day ?? 0) + 1)
+        var counts = Array(repeating: 0, count: dayCount)
+        var total = 0
+        for timestamp in timestamps where timestamp >= bounds.start && timestamp <= bounds.end {
+            total += 1
+            let day = calendar.journalDay(for: timestamp, boundaryHour: boundaryHour)
+            let offset = calendar.dateComponents([.day], from: firstDay, to: day).day ?? 0
+            counts[min(dayCount - 1, max(0, offset))] += 1
+        }
+        return UsageWindowCount(entryCount: total, averagePerDay: Double(total) / bounds.loggedDays, buckets: counts)
     }
 
     /// A rate to one decimal. A rate that is above zero and would round to
@@ -1195,15 +1234,18 @@ nonisolated enum UsageAnalytics {
 
     /// Substance pairs logged on the same session day, ranked by how many days
     /// they co-occur. Below ``minimumCoUseDays`` a pair is a coincidence, not a
-    /// habit, so it never surfaces.
+    /// habit, so it never surfaces. Two rows of one molecule (a branded product
+    /// and a booster of the same drug) are one substance, never a pair.
     static func coUsePairs(dayIndex: [Date: [UsageEntrySnapshot]]) -> [UsageCoUsePair] {
         var pairDays: [PairKey: Int] = [:]
         var soloDays: [Int: Int] = [:]
+        var moleculeOf: [Int: Int] = [:]
 
         for (_, dayEntries) in dayIndex {
             var present = Set<Int>()
             for entry in dayEntries {
                 present.insert(entry.substanceIndex)
+                moleculeOf[entry.substanceIndex] = entry.moleculeIndex
             }
             for index in present {
                 soloDays[index, default: 0] += 1
@@ -1211,7 +1253,7 @@ nonisolated enum UsageAnalytics {
             let ordered = present.sorted()
             guard ordered.count >= 2 else { continue }
             for i in 0 ..< (ordered.count - 1) {
-                for j in (i + 1) ..< ordered.count {
+                for j in (i + 1) ..< ordered.count where moleculeOf[ordered[i]] != moleculeOf[ordered[j]] {
                     pairDays[PairKey(first: ordered[i], second: ordered[j]), default: 0] += 1
                 }
             }
