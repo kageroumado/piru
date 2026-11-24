@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-11-24.0 → `Piru/Data/piru-substances.sqlite` (21,676,032 bytes, sha256 `c3a4c16093d50782955867044cb842be361f3e68f017de2b626f2fe0a7d805e8`)
+Built 2026-11-24.1 → `Piru/Data/piru-substances.sqlite` (21,676,032 bytes, sha256 `9b9d14ea2a36a34983bdf50d2d57597cd56611477408547b33f373acaf1b59e2`)
 
 ## Row counts
 
@@ -24,7 +24,7 @@ Built 2026-11-24.0 → `Piru/Data/piru-substances.sqlite` (21,676,032 bytes, sha
 | subjective_effect_concept_aliases | 1,178 |
 | tolerance | 0 |
 | diazepam_equivalents | 32 |
-| bindings | 1,459 |
+| bindings | 1,460 |
 | functional_assays | 178 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
@@ -155,7 +155,7 @@ Identifier columns a source was allowed to overwrite because the stored row cont
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
 | piru-curated | 156 | 447 | 656 | 2,287 |
-| peer-review-primary | 0 | 1,000 | 0 | 1,580 |
+| peer-review-primary | 0 | 1,001 | 0 | 1,580 |
 | dosewiki | 292 | 12 | 0 | 0 |
 | drug.community | 826 | 0 | 0 | 126 |
 | psychonautwiki | 376 | 0 | 63 | 316 |
