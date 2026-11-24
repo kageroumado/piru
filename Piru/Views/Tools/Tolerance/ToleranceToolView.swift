@@ -6,19 +6,20 @@ import SwiftUI
 /// claim that tolerance is *per-mechanism*, never one universal "tolerance %", and never a
 /// per-raw-receptor card.
 ///
-/// ## Layout (Stage H)
-/// A single flat list of cards — no "Needs attention"/"Active" headers. Safety-critical classes (opioid
-/// reset-after-break, GABA dependence, the adrenergic discontinuation-rebound hosts) sort to the top,
-/// then the rest by ``ClassTolerance/severity``. A "Can't predict yet" section surfaces logged
-/// substances the model can't score (missing PK), so a class never silently reads "rested" (the
-/// heavy-kratom → "Opioids recovered" trap).
+/// ## Layout
+/// The overview chart leads: every plotted mechanism's curve from now, with no further dosing, on one
+/// time axis and one value axis (``ToleranceChartFrame``) that every card's chart shares. Below it, a
+/// flat list of cards in one order, which the overview's key follows: safety-critical classes (opioid
+/// reset-after-break, GABA dependence, the adrenergic discontinuation-rebound hosts) first, then the
+/// rest by ``ClassTolerance/severity``. Classes that read near baseline fold into one line, and a
+/// "Not modeled" section names logged substances the model can't score (missing PK), so a class never
+/// silently reads "rested" (the heavy-kratom → "Opioids recovered" trap).
 ///
 /// ## One visual language per card
-/// A family-color dot + tier-aware class name + a tolerance-level capsule; a five-segment gauge of how
-/// much of a normal dose you'd still feel; a one-sentence lede; a linear recovery chart (sensitivity vs
-/// days, starting at the current level); and a trimmed one-sentence safety note where the class has one.
-/// Every series is named by its plain class name; ``UserProfile`` adds the receptor to each card's title
-/// (Curious) along with contributor chips. The section subviews live alongside this file.
+/// A family-color dot + tier-aware class name with the modeled level beside it; the date the class
+/// reads near baseline; contributor chips (Curious); the segmented bar or the effect ladder; the
+/// recovery chart; and a trimmed one-sentence safety note where the class has one. The level is one
+/// quantity everywhere: how much less a usual dose does than with no tolerance, in percent.
 struct ToleranceToolView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
 
@@ -32,24 +33,35 @@ struct ToleranceToolView: View {
     /// Per-substance rows whose full dose history is expanded (keyed by logged substance name).
     @State private var expandedSubstances: Set<String> = []
 
+    /// The replay has run for the log on screen, so an empty result is the model's answer.
+    @State private var hasReplayed = false
+
     var body: some View {
+        let rows = rows
+        let plotted = rows.filter { $0.snapshot.severity > Self.minimumPlottedSeverity }
+        let frame = ToleranceChartFrame(rows: plotted)
+        let series = plotted.map { ToleranceRecoverySeries(row: $0, tier: tier, frame: frame) }
+        let nearBaseline = nearBaselineItems
         List {
             Group {
-                if rows.isEmpty, tolerance.incompleteDataSubstances.isEmpty {
-                    ToleranceEmptyState()
+                if rows.isEmpty, nearBaseline.isEmpty, tolerance.incompleteDataSubstances.isEmpty {
+                    if hasReplayed || entries.isEmpty {
+                        ToleranceEmptyState(hasEntries: !entries.isEmpty)
+                    }
                 } else {
-                    // The combined recovery chart is the always-on hero — a small card that fits in
-                    // either mode; the detail below it is what the options menu switches.
-                    ToleranceCombinedRecoverySection(
-                        series: recoverySeries(),
-                        axisDays: sharedAxisDays,
-                        windowDays: sharedRecoveryWindowMinutes / 1_440,
-                    )
+                    // The combined recovery chart is the always-on hero; the detail below it is what
+                    // the options menu switches.
+                    if !series.isEmpty {
+                        ToleranceCombinedRecoverySection(series: series, frame: frame)
+                    }
                     switch detailMode {
                     case .perReceptor:
                         ForEach(rows) { row in
                             Section {
-                                ToleranceCard(row: row, tier: tier)
+                                ToleranceCard(
+                                    row: row, tier: tier,
+                                    series: series.first { $0.id == row.id }, frame: frame,
+                                )
                                 // Effect-selective classes (GABA, α2δ) link out to the receptor/subtype
                                 // explanation rather than carrying the education on the card itself.
                                 if !row.snapshot.effectShifts.isEmpty {
@@ -69,10 +81,12 @@ struct ToleranceToolView: View {
                                 }
                             }
                         }
+                        ToleranceNearBaselineSection(items: nearBaseline)
                     case .perSubstance:
                         TolerancePerSubstanceSection(
                             groups: substanceGroups,
-                            isReplayRunning: tolerance.perSubstanceStates.isEmpty && !rows.isEmpty,
+                            tier: tier,
+                            isReplayRunning: tolerance.perSubstanceStates.isEmpty && !tolerance.states.isEmpty,
                             expandedSubstances: $expandedSubstances,
                         )
                     }
@@ -88,9 +102,12 @@ struct ToleranceToolView: View {
         .toolbar {
             optionsButton
         }
-        // Lazy replay: the 90-day integration runs only while this tool is open, and re-runs when
+        // Lazy replay: the year-long integration runs only while this tool is open, and re-runs when
         // the dose log or body weight changes — kept off the launch / dose-write hot path.
-        .task(id: recomputeSignature) { await tolerance.recompute(from: entries) }
+        .task(id: recomputeSignature) {
+            await tolerance.recompute(from: entries)
+            hasReplayed = true
+        }
         // The per-substance "alone" replay is heavier still (one replay per substance), so it runs only
         // once the per-substance view is actually selected — the default per-mechanism view never pays.
         .task(id: perSubstanceTaskID) {
@@ -151,19 +168,35 @@ struct ToleranceToolView: View {
     // MARK: - Rows (per-mechanism)
 
     /// Flat, safety-first ordering: the safety-critical classes (sorted by severity) lead, then the rest
-    /// by severity. A safety-critical class is shown even when its right-shift is negligible (the
-    /// adrenergic rebound hosts) so its discontinuation warning is never dropped.
+    /// by severity. A safety-critical class with a note to carry is shown even when its right-shift is
+    /// negligible (the adrenergic rebound hosts) so its discontinuation warning is never dropped.
     private var rows: [ToleranceRow] {
-        let all = tolerance.states.values.compactMap { snapshot -> ToleranceRow? in
-            let params = ReceptorClasses.parameters(for: snapshot.receptorClass)
-            let row = ToleranceRow(snapshot: snapshot, params: params)
-            guard snapshot.severity > ToleranceRow.minimumCardSeverity || row.isSafetyCritical else { return nil }
-            return row
-        }
+        let all = allRows.filter(\.earnsCard)
         let critical = all.filter(\.isSafetyCritical).sorted { $0.snapshot.severity > $1.snapshot.severity }
         let rest = all.filter { !$0.isSafetyCritical }.sorted { $0.snapshot.severity > $1.snapshot.severity }
         return critical + rest
     }
+
+    private var allRows: [ToleranceRow] {
+        tolerance.states.values.map { snapshot in
+            ToleranceRow(snapshot: snapshot, params: ReceptorClasses.parameters(for: snapshot.receptorClass))
+        }
+    }
+
+    /// The classes without a card that still read above zero, highest first, each as its name and level
+    /// ("Adenosine (caffeine) 4%"): the near-baseline line's content.
+    private var nearBaselineItems: [String] {
+        allRows
+            .filter { !$0.earnsCard && $0.snapshot.severity >= ToleranceRow.minimumListedSeverity }
+            .sorted { $0.snapshot.severity > $1.snapshot.severity }
+            .map { row in
+                let name = String(localized: toleranceClassName(row.snapshot.receptorClass, tier: tier))
+                return "\(name) \(tolerancePercentText(row.snapshot.severity * 100))"
+            }
+    }
+
+    /// Lowest level a card's class is plotted at: under it the line would lie on the axis.
+    private static let minimumPlottedSeverity = 0.03
 
     // MARK: - Per-substance groups
 
@@ -194,52 +227,6 @@ struct ToleranceToolView: View {
                 ? lhs.topSeverity > rhs.topSeverity
                 : (lhs.doses.first?.timestamp ?? .distantPast) > (rhs.doses.first?.timestamp ?? .distantPast)
         }
-    }
-
-    // MARK: - Combined recovery chart data
-
-    /// Mechanisms worth plotting on the shared axis: meaningfully toleranced (same `severity > 0.03`
-    /// gate as the cards, so a class can never be a card yet missing from the chart), sorted by severity
-    /// so the deepest reset is read first. Rested mechanisms would be flat lines pinned to the top —
-    /// clutter — so they're omitted.
-    private var recoveryRows: [ToleranceRow] {
-        rows.filter { $0.snapshot.severity > 0.03 }
-            .sorted { $0.snapshot.severity > $1.snapshot.severity }
-    }
-
-    /// The shared X window (minutes) — the widest per-row recovery window, capped at 60 days: past that
-    /// a deep tail is a flat line, and the chart pans sideways in three-week pages anyway.
-    private var sharedRecoveryWindowMinutes: Double {
-        let widest = recoveryRows.map(\.recoveryWindowMinutes).max() ?? 0
-        return min(max(widest, Self.minimumSharedWindowMinutes), Self.maximumSharedWindowMinutes)
-    }
-
-    private static let maximumSharedWindowMinutes: Double = 60 * 1_440
-    private static let minimumSharedWindowMinutes: Double = 120
-
-    private func recoverySeries() -> [ToleranceRecoverySeries] {
-        let window = sharedRecoveryWindowMinutes
-        // One sample per day of a long window, so a three-week page still bends.
-        let sampleCount = max(28, Int(window / 1_440) + 1)
-        return recoveryRows.map { row in
-            ToleranceRecoverySeries(
-                id: row.snapshot.receptorClass,
-                legendKey: String(reflecting: row.snapshot.receptorClass),
-                name: row.snapshot.receptorClass.casualName,
-                color: row.familyColor,
-                points: row.recoveryCurve(overMinutes: window, sampleCount: sampleCount),
-            )
-        }
-    }
-
-    /// Day ticks across the shared window — `now` at the origin, then four evenly-spaced gridlines to
-    /// the window edge, or one a week once the window is long enough to pan.
-    private var sharedAxisDays: [Double] {
-        let windowDays = sharedRecoveryWindowMinutes / 1_440
-        if windowDays > ToleranceCombinedRecoveryChart.visibleDays * 1.05 {
-            return Array(stride(from: 0, through: windowDays, by: 7))
-        }
-        return [0, windowDays * 0.25, windowDays * 0.5, windowDays * 0.75, windowDays]
     }
 }
 

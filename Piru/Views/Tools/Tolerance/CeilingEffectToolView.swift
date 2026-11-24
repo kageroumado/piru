@@ -109,9 +109,13 @@ struct CeilingEffectToolView: View {
 
     private var gabapentinoidComparisonCard: some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
-            Text("Same class, opposite behavior")
-                .cardTitle()
-                .accessibilityAddTraits(.isHeader)
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Text("Same class, opposite behavior")
+                    .cardTitle()
+                    .accessibilityAddTraits(.isHeader)
+                Text("Share of the dose absorbed")
+                    .captionSecondary()
+            }
 
             gabapentinoidComparisonChart
 
@@ -119,8 +123,20 @@ struct CeilingEffectToolView: View {
                 comparisonLegend(color: .blue, label: "Gabapentin")
                 comparisonLegend(color: .green, label: "Pregabalin")
             }
+
+            if let gabaBase = comparisonBase(SaturablePharmacology.GabapentinoidComparison.gabapentin),
+               let preBase = comparisonBase(SaturablePharmacology.GabapentinoidComparison.pregabalin) {
+                Text("Daily dose, in multiples of the lowest one measured: \(gabaBase) mg gabapentin, \(preBase) mg pregabalin.")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
         }
         .padding(.vertical, Spacing.sm)
+    }
+
+    /// The lowest daily dose on a drug's line, the dose its "1×" stands for, as whole milligrams.
+    private func comparisonBase(_ points: [SaturablePharmacology.GabapentinoidComparison.Point]) -> String? {
+        points.map(\.doseMgPerDay).min().map { $0.formatted(.number.precision(.fractionLength(0))) }
     }
 
     /// Bioavailability (%) vs dose, normalized to each drug's starting dose so the *shape* contrast —
@@ -132,7 +148,7 @@ struct CeilingEffectToolView: View {
         let gabaBase = gaba.map(\.doseMgPerDay).min() ?? 900
         let preBase = pre.map(\.doseMgPerDay).min() ?? 150
         let allMultiples = gaba.map { $0.doseMgPerDay / gabaBase } + pre.map { $0.doseMgPerDay / preBase }
-        let maxMultiple = (allMultiples.max() ?? 5) + 0.3
+        let doseTicks = CeilingChartScale.wholeMultiples(from: 1, through: (allMultiples.max() ?? 5).rounded(.up))
         return Chart {
             ForEach(gaba) { p in
                 LineMark(
@@ -174,12 +190,12 @@ struct CeilingEffectToolView: View {
                 }
             }
         }
-        .chartXScale(domain: 1 ... maxMultiple)
+        .chartXScale(domain: 1 ... (doseTicks.last ?? 5))
         .chartXAxis {
-            AxisMarks(values: [1, 2, 3, 4, 5]) { value in
+            AxisMarks(values: doseTicks) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
-                AxisValueLabel {
-                    if let v = value.as(Int.self) { Text("\(v)×").font(.caption2) }
+                AxisValueLabel(centered: false, anchor: axisTickLabelAnchor(index: value.index, count: value.count)) {
+                    if let v = value.as(Double.self) { Text("\(Int(v))×").font(.caption2) }
                 }
             }
         }
@@ -224,16 +240,20 @@ struct CeilingEffectToolView: View {
     // MARK: - Quantitative chart (concentration over time, one curve per example dose)
 
     private func concentrationChart(_ chart: SaturablePharmacology.ConcentrationChart, tint: Color) -> some View {
-        let windowHours = chart.windowMinutes / 60
-        let yMax = (chart.curves.flatMap { $0.points.map(\.level) }.max() ?? 1) * 1.08
-        let usesDays = windowHours > 48
         let curves = chart.curves
+        let time = CeilingChartScale.timeTicks(windowMinutes: chart.windowMinutes)
+        let peak = curves.flatMap { $0.points.map(\.level) }.max() ?? 1
+        let levelTicks = CeilingChartScale.wholeMultiples(from: 1, through: peak.rounded(.down))
         return VStack(alignment: .leading, spacing: Spacing.sm) {
+            if let reference = curves.first {
+                Text("Blood level, in multiples of the peak after \(String(localized: reference.label))")
+                    .captionSecondary()
+            }
             Chart {
                 ForEach(Array(curves.enumerated()), id: \.element.id) { index, dose in
-                    ForEach(dose.points) { point in
+                    ForEach(dose.points.filter { $0.minutes <= time.endMinutes }) { point in
                         LineMark(
-                            x: .value("Time", point.minutes / 60),
+                            x: .value("Time", point.minutes / time.unitMinutes),
                             y: .value("Level", point.level),
                             series: .value("Dose", dose.doseMultiple),
                         )
@@ -244,19 +264,28 @@ struct CeilingEffectToolView: View {
                 }
             }
             .chartXAxis {
-                AxisMarks(values: .automatic(desiredCount: 5)) { value in
+                AxisMarks(values: time.ticks) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
-                    AxisValueLabel {
-                        if let h = value.as(Double.self) {
-                            Text(usesDays ? "\(Int((h / 24).rounded()))d" : "\(Int(h.rounded()))h")
+                    AxisValueLabel(centered: false, anchor: axisTickLabelAnchor(index: value.index, count: value.count)) {
+                        if let count = value.as(Double.self) {
+                            Text(time.usesDays ? "\(Int(count))d" : "\(Int(count))h")
                                 .font(.caption2)
                         }
                     }
                 }
             }
-            .chartYAxis(.hidden)
-            .chartYScale(domain: 0 ... max(yMax, 1))
-            .chartXScale(domain: 0 ... windowHours)
+            .chartYAxis {
+                AxisMarks(values: [0] + levelTicks) { value in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
+                    AxisValueLabel {
+                        if let multiple = value.as(Double.self), multiple > 0 {
+                            Text("\(Int(multiple))×").font(.caption2)
+                        }
+                    }
+                }
+            }
+            .chartYScale(domain: 0 ... max(peak * 1.08, levelTicks.last ?? 1))
+            .chartXScale(domain: 0 ... (time.ticks.last ?? 1))
             .chartLegend(.hidden)
             .frame(height: 170)
             .chartSummaryAccessibility(
@@ -338,5 +367,52 @@ private struct ProfileRun {
         let split = profiles.firstIndex { $0.substanceName == "Gabapentin" }.map { $0 + 1 } ?? profiles.count
         throughGabapentin = Array(profiles[..<split])
         afterGabapentin = Array(profiles[split...])
+    }
+}
+
+/// Tick choices for the Ceiling Effect charts.
+nonisolated enum CeilingChartScale {
+    /// Most labels a multiples axis prints, so neighbors stay apart at phone width.
+    private static let maxMultipleLabels = 6
+
+    /// Whole multiples from `first` to at least `last`: `first`, then every multiple of the smallest
+    /// step (1, 2, 5, 10…) that keeps the labels to six, ending on the first one at or past `last`.
+    static func wholeMultiples(from first: Int, through last: Double) -> [Double] {
+        let target = max(Double(first), last)
+        var ticks: [Int] = []
+        for step in [1, 2, 5, 10, 20, 50, 100] {
+            let end = Int((target / Double(step)).rounded(.up)) * step
+            ticks = [first] + stride(from: step, through: end, by: step).filter { $0 > first }
+            if ticks.count <= maxMultipleLabels { break }
+        }
+        return ticks.map(Double.init)
+    }
+
+    /// The time ticks of a concentration chart: a count per tick in one unit, hours or days.
+    struct TimeTicks: Equatable {
+        /// Tick positions, in the axis's unit, from 0.
+        let ticks: [Double]
+        let usesDays: Bool
+
+        /// Minutes in one unit of the axis.
+        var unitMinutes: Double {
+            usesDays ? 1_440 : 60
+        }
+
+        /// The end of the axis: the last tick, in minutes.
+        var endMinutes: Double {
+            (ticks.last ?? 0) * unitMinutes
+        }
+    }
+
+    /// Round ticks across a window of `windowMinutes` from the dose, ending on the last whole step
+    /// inside the window so the final gridline is the labeled end of the plot.
+    static func timeTicks(windowMinutes: Double) -> TimeTicks {
+        let axis = ToleranceChartScale.timeAxis(spanDays: windowMinutes / 1_440)
+        let usesDays = axis.unit != .hours
+        let unitMinutes: Double = usesDays ? 1_440 : 60
+        let step = Double(axis.step) * axis.unit.days * 1_440 / unitMinutes
+        let whole = max(1, ((windowMinutes / unitMinutes) / step + 1e-9).rounded(.down))
+        return TimeTicks(ticks: (0 ... Int(whole)).map { Double($0) * step }, usesDays: usesDays)
     }
 }
