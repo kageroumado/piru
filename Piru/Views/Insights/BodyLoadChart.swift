@@ -61,6 +61,16 @@ struct BodyLoadChart: View {
         return (last.timeIntervalSince(first), last.addingTimeInterval(-usageChartWindowSeconds))
     }
 
+    /// The sampled span, which the axis draws edge to edge.
+    private var domain: ClosedRange<Date> {
+        guard let first = dates.first, let last = dates.last, last > first else { return Date.now ... Date.now }
+        return first ... last
+    }
+
+    private var axisFormat: Date.FormatStyle {
+        ModeledChartWindow.axisFormat(for: domain)
+    }
+
     var body: some View {
         let floors = laneFloors
         let names = laneNames
@@ -106,6 +116,7 @@ struct BodyLoadChart: View {
         }
         .frame(height: CGFloat(names.count) * Self.laneHeight + Self.axisHeight)
         .chartXSelection(value: $selectedDate)
+        .chartXScale(domain: domain)
         .chartXScrollWindow(fullLength: span.length, window: usageChartWindowSeconds, initialX: span.windowStart)
         .chartYScale(domain: 0 ... Double(max(names.count, 1)))
         .chartYAxis {
@@ -130,11 +141,26 @@ struct BodyLoadChart: View {
             }
         }
         .chartXAxis {
-            AxisMarks(values: .automatic(desiredCount: 4)) { _ in
-                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
-                AxisValueLabel(format: .dateTime.month(.abbreviated).day())
-                    .font(.caption2)
+            if let ticks = ModeledChartWindow.hourTicks(in: domain) {
+                AxisMarks(values: ticks) { value in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
+                    AxisValueLabel {
+                        if let date = value.as(Date.self) {
+                            Text(verbatim: date.formatted(axisFormat)).font(.caption2)
+                        }
+                    }
+                }
+            } else {
+                AxisMarks(values: .automatic(desiredCount: 4)) { value in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
+                    AxisValueLabel {
+                        if let date = value.as(Date.self) {
+                            Text(verbatim: date.formatted(axisFormat)).font(.caption2)
+                        }
+                    }
+                }
             }
         }
         .chartSummaryAccessibility(label: Text("Modeled levels over time"), value: Text(summary))
@@ -160,13 +186,23 @@ struct BodyLoadReadout: View {
     let markers: [String: ChartSeriesMarker]
     let date: Date
 
-    var body: some View {
-        let rows = series.compactMap { item -> (series: BodyLoadTrail.Series, amount: Double)? in
-            guard let point = nearestPoint(in: item) else { return nil }
+    /// Below this share of its own peak in the range a substance is left out of
+    /// the readout: a trace that small prints as "0 mg".
+    static let traceShare = 0.005
+
+    /// The substances in the body at `date`, most first, each above
+    /// ``traceShare`` of its peak.
+    static func rows(_ series: [BodyLoadTrail.Series], at date: Date) -> [(series: BodyLoadTrail.Series, amount: Double)] {
+        series.compactMap { item -> (series: BodyLoadTrail.Series, amount: Double)? in
+            let point = item.points.min { abs($0.date.timeIntervalSince(date)) < abs($1.date.timeIntervalSince(date)) }
+            guard let point, point.amount > item.peak * traceShare else { return nil }
             return (item, point.amount)
         }
-        .filter { $0.amount > 0 }
         .sorted { $0.amount > $1.amount }
+    }
+
+    var body: some View {
+        let rows = Self.rows(series, at: date)
 
         ChartScrubReadout(
             title: date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated).hour()),
@@ -181,9 +217,5 @@ struct BodyLoadReadout: View {
                 size: .compact,
             )
         }
-    }
-
-    private func nearestPoint(in item: BodyLoadTrail.Series) -> BodyLoadTrail.Point? {
-        item.points.min { abs($0.date.timeIntervalSince(date)) < abs($1.date.timeIntervalSince(date)) }
     }
 }

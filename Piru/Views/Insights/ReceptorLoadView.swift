@@ -20,8 +20,9 @@ struct ReceptorLoadView: View {
     @State private var loaded = false
     @State private var hidden: Set<String> = []
     @State private var selectedDate: Date?
-    /// The span the chart draws: the whole selected range, ending now.
-    @State private var span: ClosedRange<Date> = Date.now ... Date.now
+    /// The span the chart draws, ending now: the selected range, or from the first dose when the
+    /// log is younger than the range.
+    @State private var window = ModeledChartWindow(range: .sevenDays, firstDose: nil, now: .now)
 
     var body: some View {
         ScrollView {
@@ -33,11 +34,6 @@ struct ReceptorLoadView: View {
                     )
                 } else if !loaded {
                     ProgressView().padding(.top, 60)
-                } else if series.isEmpty {
-                    empty(
-                        "Nothing to Model",
-                        "None of your logged substances in this range drive a modeled mechanism.",
-                    )
                 } else {
                     chartCard
                 }
@@ -70,25 +66,18 @@ struct ReceptorLoadView: View {
             return
         }
         await ToleranceStore.shared.recompute(from: allEntries)
-        let classes = ToleranceStore.shared.states.values
-            .sorted { $0.severity > $1.severity }
-            .map(\.receptorClass)
+        let classes = Set(ToleranceStore.shared.states.keys)
 
         let now = Date.now
-        let pastHorizon: TimeInterval = if let days = range.days {
-            Double(days) * 86_400
-        } else {
-            now.timeIntervalSince(allEntries.map(\.timestamp).min() ?? now.addingTimeInterval(-90 * 86_400))
-        }
-        let step = Self.step(forWindow: pastHorizon)
-        span = now.addingTimeInterval(-pastHorizon) ... now
+        let window = ModeledChartWindow(range: range, firstDose: allEntries.last?.timestamp, now: now)
+        self.window = window
 
+        let trails = await ToleranceStore.shared.loadTrails(
+            for: classes, from: allEntries, now: now,
+            pastHorizon: window.length, step: window.receptorLoadStep,
+        )
         var built: [ReceptorLoadSeries] = []
-        for receptorClass in classes.prefix(6) {
-            let trail = await ToleranceStore.shared.loadTrail(
-                for: receptorClass, from: allEntries, now: now,
-                pastHorizon: pastHorizon, horizon: 0, step: step,
-            )
+        for (receptorClass, trail) in trails {
             guard let peak = trail.map(\.load).max(), peak > 0.02 else { continue }
             let points = trail.enumerated().map { index, sample in
                 ReceptorLoadSeries.Point(id: index, date: sample.date, load: sample.load)
@@ -101,19 +90,9 @@ struct ReceptorLoadView: View {
                 points: points,
             ))
         }
-        series = built.sorted { $0.peak > $1.peak }
+        // Highest peak first; the class order breaks ties so the legend holds still between loads.
+        series = built.sorted { $0.peak != $1.peak ? $0.peak > $1.peak : $0.id < $1.id }
         loaded = true
-    }
-
-    /// Sample spacing for the trail: coarser as the window widens, so a year's
-    /// trace isn't an unreadable comb. `loadTrail` defaults to 3 h.
-    private static func step(forWindow seconds: TimeInterval) -> TimeInterval {
-        switch seconds {
-        case ..<(31 * 86_400): 3 * 3_600
-        case ..<(91 * 86_400): 6 * 3_600
-        case ..<(366 * 86_400): 12 * 3_600
-        default: max(12 * 3_600, seconds / 1_000)
-        }
     }
 
     // MARK: - Chart
@@ -121,13 +100,22 @@ struct ReceptorLoadView: View {
     private var chartCard: some View {
         // The title names the span, the one thing the toolbar menu changes.
         UsageSectionCard(title: Text(range.windowName), subtitle: "Relative to your recent baseline") {
-            let visible = series.filter { !hidden.contains($0.id) }
-            let shown = visible.isEmpty ? series : visible
-            ReceptorLoadChart(series: shown, selectedDate: $selectedDate, span: span)
-            if let selectedDate {
-                ReceptorLoadReadout(series: shown, date: selectedDate)
+            if series.isEmpty {
+                // The card keeps its range title, so the reader sees which span was searched.
+                ContentUnavailableView(
+                    "Nothing to Model",
+                    systemImage: "chart.xyaxis.line",
+                    description: Text("None of your logged substances in this range drive a modeled mechanism."),
+                )
+            } else {
+                let visible = series.filter { !hidden.contains($0.id) }
+                let shown = visible.isEmpty ? series : visible
+                ReceptorLoadChart(series: shown, selectedDate: $selectedDate, window: window)
+                if let selectedDate {
+                    ReceptorLoadReadout(series: shown, date: selectedDate)
+                }
+                legend
             }
-            legend
         }
         #if DEBUG
         .task { selectedDate = ScreenshotTour.takeStagedSelection(.receptorLoad) ?? selectedDate }
@@ -196,7 +184,7 @@ struct ReceptorLoadSeries: Identifiable {
 private struct ReceptorLoadChart: View {
     let series: [ReceptorLoadSeries]
     @Binding var selectedDate: Date?
-    let span: ClosedRange<Date>
+    let window: ModeledChartWindow
 
     var body: some View {
         Chart {
@@ -220,7 +208,7 @@ private struct ReceptorLoadChart: View {
         }
         .frame(height: 200)
         .chartXSelection(value: $selectedDate)
-        .chartXScale(domain: span)
+        .chartXScale(domain: window.span)
         .chartYScale(domain: 0 ... 1)
         .chartYAxis {
             AxisMarks(position: .leading, values: [0, 0.5, 1]) { value in
@@ -235,11 +223,26 @@ private struct ReceptorLoadChart: View {
             }
         }
         .chartXAxis {
-            AxisMarks(values: .automatic(desiredCount: 4)) { _ in
-                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
-                AxisValueLabel(format: .dateTime.month(.abbreviated).day())
-                    .font(.caption2)
+            if let ticks = window.axisTicks {
+                AxisMarks(values: ticks) { value in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
+                    AxisValueLabel {
+                        if let date = value.as(Date.self) {
+                            Text(verbatim: date.formatted(window.axisFormat)).font(.caption2)
+                        }
+                    }
+                }
+            } else {
+                AxisMarks(values: .automatic(desiredCount: 4)) { value in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
+                    AxisValueLabel {
+                        if let date = value.as(Date.self) {
+                            Text(verbatim: date.formatted(window.axisFormat)).font(.caption2)
+                        }
+                    }
+                }
             }
         }
         .chartSummaryAccessibility(label: Text("Receptor Load"), value: Text(summary))
@@ -271,7 +274,7 @@ private struct ReceptorLoadReadout: View {
         .sorted { $0.load > $1.load }
 
         ChartScrubReadout(
-            title: date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated)),
+            title: date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated).hour()),
             items: rows, id: \.series.id,
             emptyText: Text("Nothing driven at this time"),
             name: { $0.series.name },

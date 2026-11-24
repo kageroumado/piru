@@ -2,7 +2,8 @@ import SwiftUI
 
 /// Which lanes the Modeled Levels chart draws out of a body-load trail: the
 /// substances picked in the toolbar's ``SubstanceFilterSheet``, or with no pick
-/// the ``defaultLineCount`` logged most.
+/// every substance listed under Modeled as Active plus the ones logged most, up
+/// to ``defaultLineCount`` lanes.
 ///
 /// Substances are keyed by display name, the name the trail's series carry; a
 /// substance drawn as two series (one per unit family) filters as one.
@@ -19,6 +20,11 @@ final class ModeledLevelsFilter {
     /// under `.other`.
     private(set) var categories: [String: SubstanceCategory] = [:]
 
+    /// Lowercased canonical names of the substances listed under Modeled as
+    /// Active. Each gets a lane with no pick, past ``defaultLineCount`` if need be,
+    /// so the chart never leaves out a substance the screen calls active.
+    private(set) var activeNames: Set<String> = []
+
     /// Lanes drawn with no pick. A month of a varied journal is thirty-odd
     /// substances, so the ones logged most come first and the rest wait in the
     /// toolbar's sheet.
@@ -33,19 +39,32 @@ final class ModeledLevelsFilter {
         self.categories = categories
     }
 
+    func setActiveNames(_ names: Set<String>) {
+        activeNames = Set(names.map { $0.lowercased() })
+    }
+
     func category(of series: BodyLoadTrail.Series) -> SubstanceCategory {
         categories[series.displayName] ?? .other
     }
 
-    /// The display names drawn with no pick: the first ``defaultLineCount`` in
-    /// trail order, which leads with the substances logged most.
+    /// The display names drawn with no pick: every active substance, then the
+    /// rest in trail order (most logged first) until ``defaultLineCount`` lanes.
     func defaultNames(_ series: [BodyLoadTrail.Series]) -> Set<String> {
-        var seen: [String] = []
-        for item in series where !seen.contains(item.displayName) {
-            seen.append(item.displayName)
-            if seen.count == Self.defaultLineCount { break }
+        var names = Set(series.filter { activeNames.contains($0.canonicalName.lowercased()) }.map(\.displayName))
+        for item in series where names.count < Self.defaultLineCount {
+            names.insert(item.displayName)
         }
-        return Set(seen)
+        return names
+    }
+
+    /// How many substances the trail holds, counting a two-unit substance once.
+    func substanceCount(_ series: [BodyLoadTrail.Series]) -> Int {
+        Set(series.map(\.displayName)).count
+    }
+
+    /// Draw every substance in the trail.
+    func showAll(_ series: [BodyLoadTrail.Series]) {
+        selectedSubstances = Set(series.map(\.displayName))
     }
 
     /// The series the chart draws: the toolbar pick, else the default lanes.

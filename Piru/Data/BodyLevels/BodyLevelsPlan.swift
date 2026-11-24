@@ -132,21 +132,16 @@ extension BodyLevelsManager {
             return BodyLoadTrail(dates: dates, series: series)
         }
 
-        /// The ascending sample grid: the window `[start, now]` at a range-appropriate
+        /// The ascending sample grid: ``ModeledChartWindow``'s span at a range-appropriate
         /// step. Steps are chosen so a short-half-life sawtooth stays legible on the
-        /// tighter ranges while a year renders its envelope without a 17k-point comb.
+        /// tighter ranges while a year renders its envelope without a 17k-point comb,
+        /// and a span shorter than its range (a young log) gets at least ~480 samples.
         @MainActor
-        private static func sampleDates(range: UsageTimeRange, entries: [BodyLoadEntry], now: Date) -> [Date] {
-            let start: Date
-            if let days = range.days {
-                start = now.addingTimeInterval(-Double(days) * 86_400)
-            } else {
-                // "All": from the earliest logged dose (a day's margin so its own
-                // rise is visible), falling back to a year when the log is empty.
-                let earliest = entries.map(\.timestamp).min() ?? now.addingTimeInterval(-365 * 86_400)
-                start = min(earliest.addingTimeInterval(-86_400), now.addingTimeInterval(-86_400))
-            }
-            let span = now.timeIntervalSince(start)
+        static func sampleDates(range: UsageTimeRange, entries: [BodyLoadEntry], now: Date) -> [Date] {
+            let firstDose = entries.lazy.map(\.timestamp).filter { $0 <= now }.min()
+            let window = ModeledChartWindow(range: range, firstDose: firstDose, now: now)
+            let start = window.start
+            let span = window.length
             guard span > 0 else { return [] }
 
             var step: Double = switch range {
@@ -156,6 +151,7 @@ extension BodyLevelsManager {
             case .oneYear: 12 * 3_600
             case .all: max(6 * 3_600, span / 1_000)
             }
+            step = min(step, max(60, span / 480))
             // Never exceed ~2000 points regardless of range/span.
             if span / step > 2_000 { step = span / 2_000 }
 

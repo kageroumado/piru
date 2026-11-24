@@ -63,6 +63,27 @@ struct SteadyStateProjectionCard: View {
             RuleMark(y: .value("Plateau", result.averageAmount))
                 .foregroundStyle(projection.color.opacity(Theme.Opacity.dimmed))
                 .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
+            // Where the log stands today: on a settled schedule, the modeled amount
+            // now across the plateau; on a younger one, how far along the climb it is.
+            if accumulates, projection.isSettled {
+                RuleMark(y: .value("Now", projection.currentAmount))
+                    .foregroundStyle(Theme.accent)
+                    .lineStyle(StrokeStyle(lineWidth: 1.5))
+                    .annotation(position: .top, alignment: .leading, spacing: 2) {
+                        Text("Now \(projection.currentAmount.doseFormatted) \(projection.unit)")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(Theme.accent)
+                    }
+            } else if accumulates {
+                RuleMark(x: .value("Now", projection.elapsedMinutes / 1_440))
+                    .foregroundStyle(Theme.accent)
+                    .lineStyle(StrokeStyle(lineWidth: 1.5))
+                    .annotation(position: .top, alignment: .center, spacing: 2) {
+                        Text("Now")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(Theme.accent)
+                    }
+            }
         }
         .frame(height: 130)
         .chartYAxis {
@@ -93,7 +114,11 @@ struct SteadyStateProjectionCard: View {
             stat("Peak", "\(result.peakAmount.doseFormatted) \(projection.unit)")
             if accumulates {
                 stat("Buildup", "\(result.accumulationRatio.formatted(.number.precision(.fractionLength(1))))×")
-                stat("Reaches", daysToSteadyText)
+                if projection.isSettled {
+                    stat("Reached", settledText)
+                } else {
+                    stat("Reaches", daysToSteadyText)
+                }
             } else {
                 stat("Between doses", clearsText)
             }
@@ -128,6 +153,13 @@ struct SteadyStateProjectionCard: View {
         return String(localized: "~\(Int(days.rounded())) days")
     }
 
+    /// The plateau was reached by this date at the latest: the log's cadence starts
+    /// no later than its first dose in the lookback window.
+    private var settledText: String {
+        let date = projection.settledBy.formatted(.dateTime.month(.abbreviated).day())
+        return String(localized: "by \(date)")
+    }
+
     private var clearsText: String {
         String(localized: "clears, no buildup")
     }
@@ -136,6 +168,10 @@ struct SteadyStateProjectionCard: View {
         let plateau = "\(result.averageAmount.doseFormatted) \(projection.unit)"
         if accumulates {
             let ratio = result.accumulationRatio.formatted(.number.precision(.fractionLength(1)))
+            if projection.isSettled {
+                let now = "\(projection.currentAmount.doseFormatted) \(projection.unit)"
+                return String(localized: "Plateaus around \(plateau), \(ratio)× one dose, reached \(settledText); now \(now)")
+            }
             return String(localized: "Plateaus around \(plateau), \(ratio)× one dose, reached in \(daysToSteadyText)")
         }
         return String(localized: "Clears between doses; each peaks around \(plateau)")
@@ -153,10 +189,28 @@ struct SteadyStateProjection: Identifiable {
     let medianDose: Double
     let intervalHours: Double
     let result: SteadyStateModel.Result
+    /// The group's earliest dose in the builder's lookback window.
+    let firstDose: Date
+    /// Minutes from ``firstDose`` to the moment the projection was built.
+    let elapsedMinutes: Double
+    /// The modeled amount in the body when the projection was built, summed over the
+    /// logged doses still above ``ActiveSubstanceCalculator/activeFloor`` with the
+    /// projection's own rate constants, in `unit`.
+    let currentAmount: Double
 
     /// Days to ~95% of steady state.
     var daysToSteady: Double {
         result.time95 / 1_440
+    }
+
+    /// Whether the logged schedule has run long enough to reach ~95% of its plateau.
+    var isSettled: Bool {
+        elapsedMinutes >= result.time95
+    }
+
+    /// The latest date the plateau was reached by, counting from ``firstDose``.
+    var settledBy: Date {
+        firstDose.addingTimeInterval(result.time95 * 60)
     }
 }
 
@@ -184,8 +238,8 @@ enum SteadyStateProjectionBuilder {
     }
 
     @MainActor
-    static func compute(entries: [DoseEntry], colorMap: [String: Color]) -> [SteadyStateProjection] {
-        let cutoff = Date.now.addingTimeInterval(-lookbackDays * 86_400)
+    static func compute(entries: [DoseEntry], colorMap: [String: Color], now: Date = .now) -> [SteadyStateProjection] {
+        let cutoff = now.addingTimeInterval(-lookbackDays * 86_400)
 
         var groups: [String: Group] = [:]
         var substanceCache: [String: Substance?] = [:]
@@ -197,7 +251,7 @@ enum SteadyStateProjectionBuilder {
             return result
         }
 
-        for entry in entries where entry.timestamp >= cutoff {
+        for entry in entries where entry.timestamp >= cutoff && entry.timestamp <= now {
             let substance = lookup(entry.substance)
             guard let dose = substance?.quantity(of: entry) ?? entry.quantity else { continue }
             if entry.productDuration == nil, entry.namesUnmodeledForm { continue }
@@ -218,7 +272,7 @@ enum SteadyStateProjectionBuilder {
 
         var out: [SteadyStateProjection] = []
         for (_, group) in groups {
-            guard let projection = build(group, colorMap: colorMap, substance: lookup(group.name)) else { continue }
+            guard let projection = build(group, colorMap: colorMap, substance: lookup(group.name), now: now) else { continue }
             out.append(projection)
         }
         // Most-accumulating first — the buildup is the headline.
@@ -226,7 +280,7 @@ enum SteadyStateProjectionBuilder {
     }
 
     @MainActor
-    private static func build(_ group: Group, colorMap: [String: Color], substance: Substance?) -> SteadyStateProjection? {
+    private static func build(_ group: Group, colorMap: [String: Color], substance: Substance?, now: Date) -> SteadyStateProjection? {
         guard group.timestamps.count >= minimumDoses else { return nil }
         let sorted = group.timestamps.sorted()
         let intervals = zip(sorted, sorted.dropFirst()).map { $1.timeIntervalSince($0) / 3_600 }
@@ -242,6 +296,13 @@ enum SteadyStateProjectionBuilder {
               )
         else { return nil }
 
+        // Counted as the Modeled as Active card counts it, so the two print one number.
+        let currentAmount = zip(group.amounts, group.timestamps).reduce(0.0) { total, dose in
+            let fraction = PKModel.fractionRemainingInBody(at: now.timeIntervalSince(dose.1) / 60, ke: params.ke, ka: params.ka)
+            return fraction > ActiveSubstanceCalculator.activeFloor ? total + dose.0 * fraction : total
+        }
+        let firstDose = sorted[0]
+
         return SteadyStateProjection(
             id: group.name.lowercased(),
             displayName: CustomSubstanceStore.shared.displayName(for: group.name, fallback: substance?.displayTitle),
@@ -250,6 +311,9 @@ enum SteadyStateProjectionBuilder {
             medianDose: medianDose,
             intervalHours: medianInterval,
             result: result,
+            firstDose: firstDose,
+            elapsedMinutes: now.timeIntervalSince(firstDose) / 60,
+            currentAmount: currentAmount,
         )
     }
 

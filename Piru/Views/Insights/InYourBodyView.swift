@@ -76,6 +76,7 @@ struct InYourBodyView: View {
             await manager.refresh(entries: allEntries, colors: substanceColors, range: range)
             let colorMap = substanceColors.colorMap
             activeSubstances = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: colorMap)
+            filter.setActiveNames(Set(activeSubstances.map(\.name)))
             let allProjections = SteadyStateProjectionBuilder.compute(entries: allEntries, colorMap: colorMap)
             projections = allProjections
             substanceProjections = Dictionary(uniqueKeysWithValues: allProjections.map { ($0.id, $0) })
@@ -168,7 +169,7 @@ struct InYourBodyView: View {
                         Text(CustomSubstanceStore.shared.displayName(for: active.name))
                             .sectionLabel()
                             .foregroundStyle(.primary)
-                        Text(timeAgoText(active.doses.first?.timestamp))
+                        Text(activeSubtitle(active))
                             .captionSecondary()
                     }
 
@@ -183,7 +184,7 @@ struct InYourBodyView: View {
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
-                        Text("\(remainingPercent(active))% left")
+                        Text("\(remainingPercent(active))% of \(active.totalDosed.doseFormatted) \(active.unit) left")
                             .font(.caption2)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
@@ -307,6 +308,26 @@ struct InYourBodyView: View {
     /// The share still in the body, as the label prints it and the bar fills.
     private func remainingPercent(_ active: ActiveSubstance) -> Int {
         Int(((1 - active.eliminatedFraction) * 100).rounded())
+    }
+
+    /// How long ago the newest dose was, and until when the model keeps the
+    /// substance active: "2h ago · active until 11:40 PM".
+    private func activeSubtitle(_ active: ActiveSubstance) -> String {
+        let ago = timeAgoText(active.doses.first?.timestamp)
+        guard let until = active.activeUntil else { return ago }
+        let time = Self.activeUntilText(until)
+        return String(localized: "\(ago) · active until \(time)")
+    }
+
+    /// A time today, a weekday and time within the week, a date beyond.
+    private static func activeUntilText(_ date: Date) -> String {
+        if Calendar.current.isDateInToday(date) {
+            return date.formatted(date: .omitted, time: .shortened)
+        }
+        if date.timeIntervalSinceNow < 6 * 86_400 {
+            return date.formatted(.dateTime.weekday(.abbreviated).hour().minute())
+        }
+        return date.formatted(.dateTime.month(.abbreviated).day())
     }
 
     private static func doseTimestampText(_ date: Date) -> String {

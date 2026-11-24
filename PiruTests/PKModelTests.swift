@@ -23,6 +23,25 @@ struct PKModelTests {
         #expect(PKModel.ke(fromHalfLifeMinutes: -100) == 0)
     }
 
+    // MARK: - minutesUntilRemaining
+
+    @Test
+    func `The time a dose falls to 3% inverts the remaining fraction`() throws {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 300)
+        let ka = PKModel.defaultKa(ke: ke)
+        let minutes = try #require(PKModel.minutesUntilRemaining(0.03, ke: ke, ka: ka))
+        // Past five half-lives, since absorption delays the fall.
+        #expect(minutes > 5 * 300)
+        #expect(abs(PKModel.fractionRemainingInBody(at: minutes, ke: ke, ka: ka) - 0.03) < 1e-4)
+        #expect(PKModel.fractionRemainingInBody(at: minutes - 5, ke: ke, ka: ka) > 0.03)
+    }
+
+    @Test
+    func `No time without positive rates or a fraction inside zero and one`() {
+        #expect(PKModel.minutesUntilRemaining(0.03, ke: 0, ka: 0.01) == nil)
+        #expect(PKModel.minutesUntilRemaining(1.2, ke: 0.01, ka: 0.04) == nil)
+    }
+
     // MARK: - defaultKa
 
     @Test
