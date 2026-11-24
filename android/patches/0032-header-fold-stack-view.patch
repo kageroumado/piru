@@ -1,0 +1,52 @@
+SkipFuseUI hosts no custom Layout: on Android the Journal header's full and folded forms stack in a ZStack framed to the height between the two the forms last reported
+
+diff --git a/Piru/Views/Journal/JournalHeaderFold.swift b/Piru/Views/Journal/JournalHeaderFold.swift
+index 9e38a0ea..ae9ce938 100644
+--- a/Piru/Views/Journal/JournalHeaderFold.swift
++++ b/Piru/Views/Journal/JournalHeaderFold.swift
+@@ -126,6 +126,28 @@ private struct HeaderFoldScrollTracker: ViewModifier {
+ /// Lays the header's full and folded forms over each other at the top and
+ /// takes a height between theirs, `progress` of the way to the folded one.
+ /// Animatable, so a settle animates the height along with the fades.
++#if os(Android)
++    /// SkipFuseUI hosts no custom `Layout`: the two forms stack at the top, and the stack takes
++    /// the height between the two they last reported, `progress` of the way to the folded one.
++    struct HeaderFoldLayout<Content: View>: View {
++        let progress: CGFloat
++        let fullHeight: CGFloat
++        let foldedHeight: CGFloat
++        let content: Content
++
++        init(progress: CGFloat, fullHeight: CGFloat, foldedHeight: CGFloat, @ViewBuilder content: () -> Content) {
++            self.progress = progress
++            self.fullHeight = fullHeight
++            self.foldedHeight = foldedHeight
++            self.content = content()
++        }
++
++        var body: some View {
++            ZStack(alignment: .topLeading) { content }
++                .frame(height: progress == 0 ? nil : fullHeight + (foldedHeight - fullHeight) * progress, alignment: .top)
++        }
++    }
++#else
+ struct HeaderFoldLayout: Layout {
+     var progress: CGFloat
+ 
+@@ -149,6 +171,7 @@ struct HeaderFoldLayout: Layout {
+         }
+     }
+ }
++#endif
+ 
+ /// The header's two forms morphing on one progress value: the full form fades
+ /// out, the folded row fades in over it, and the height between them follows
+@@ -166,7 +189,7 @@ struct HeaderFoldStack<Full: View, Folded: View>: View {
+         // One cross-fade over the middle of the fold, at complementary
+         // opacities, so the shared title never fades far.
+         let fade = min(1, max(0, (progress - 0.2) / 0.6))
+-        HeaderFoldLayout(progress: progress) {
++        HeaderFoldLayout(progress: progress, fullHeight: fold.fullHeight, foldedHeight: fold.foldedHeight) {
+             full
+                 .opacity(1 - fade)
+                 .allowsHitTesting(progress < 0.5)

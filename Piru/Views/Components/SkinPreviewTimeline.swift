@@ -24,17 +24,39 @@ final class SkinPreviewTimeline {
     /// height the card's proportions give it.
     static let screenSize = CGSize(width: 390, height: 674)
 
-    /// The fixed day, laid out. Empty until ``prepare()`` has run.
+    /// The fixed day, laid out. Empty until ``prepare(in:)`` has run.
     private(set) var days: [TimelineDayLayout] = []
+
+    /// The words the pictures are drawn in: the language every string and
+    /// clock time is looked up in, and whether substance titles are the
+    /// English ones. The day is laid out, and every picture taken, in one
+    /// wording; a different one lays the day out again.
+    nonisolated struct Wording: Hashable, Sendable {
+        let localization: String
+        let englishNames: Bool
+
+        /// The wording the app is in now.
+        static var current: Wording {
+            Wording(localization: AppLanguageRuntime.localization, englishNames: LocalizedSubstanceName.usesEnglishNames)
+        }
+    }
 
     @ObservationIgnored private var snapshots: [SnapshotKey: Image] = [:]
     @ObservationIgnored private var preparation: Task<Void, Never>?
+    /// The wording ``days`` and ``snapshots`` are in, once a preparation started.
+    @ObservationIgnored private(set) var preparedWording: Wording?
     /// The newest render in the queue; the next one waits on it.
     @ObservationIgnored private var lastRender: Task<Void, Never>?
+
+    /// How many pictures are kept.
+    var snapshotCount: Int {
+        snapshots.count
+    }
 
     private struct SnapshotKey: Hashable {
         let skin: Skin
         let dark: Bool
+        let wording: Wording
     }
 
     /// The made-up day, as offsets into yesterday so no dose is still active and
@@ -67,22 +89,31 @@ final class SkinPreviewTimeline {
     /// One frame, left between two renders.
     private static let renderSpacing: Duration = .milliseconds(16)
 
-    /// Lays the fixed day out, once. The entries live in a throwaway in-memory
-    /// store that is gone when this returns; the layouts are plain values.
-    /// Every card asks; they all wait on the one build.
-    func prepare() async {
-        if preparation == nil {
-            preparation = Task(name: "Skin preview timeline") { await self.build() }
+    /// Lays the fixed day out, once per wording. The entries live in a
+    /// throwaway in-memory store that is gone when this returns; the layouts
+    /// are plain values. Every card asks; they all wait on the one build. A
+    /// new wording drops the pictures taken in the old one.
+    func prepare(in wording: Wording = .current) async {
+        if preparation == nil || preparedWording != wording {
+            preparedWording = wording
+            snapshots.removeAll()
+            preparation = Task(name: "Skin preview timeline") {
+                let built = await self.build()
+                // A later wording's build owns `days` once it has started.
+                if self.preparedWording == wording {
+                    self.days = built
+                }
+            }
         }
         await preparation?.value
     }
 
-    private func build() async {
+    private func build() async -> [TimelineDayLayout] {
         await SubstanceStore.shared.ensureAllLoaded()
         guard let container = try? ModelContainer(
             for: Schema(PiruSchema.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
-        ) else { return }
+        ) else { return [] }
         let context = ModelContext(container)
         let calendar = Calendar.current
         // The journal day before the current one, which is still running at 02:00.
@@ -109,10 +140,10 @@ final class SkinPreviewTimeline {
             zoom: Self.zoom,
             compressGaps: true,
             style: TimelineDayLayout.Style(showsAxis: true, bubbleStyle: .full, pkMode: false),
-        ) else { return }
+        ) else { return [] }
         // Only the day that holds the doses: today's slice is an empty live
         // edge, and it would push the day worth looking at out of the card.
-        days = (0 ..< builder.sliceCount)
+        return (0 ..< builder.sliceCount)
             .map { builder.layout(sliceAt: $0) }
             .filter { !$0.cardGroups.isEmpty }
     }
@@ -122,37 +153,49 @@ final class SkinPreviewTimeline {
     ///
     /// Renders run one at a time with a frame between them, so a screen that
     /// shows many cards at once fills them in over a few frames while it stays
-    /// under the finger.
-    func snapshot(for skin: Skin, dark: Bool, scale: CGFloat) async -> Image? {
-        let key = SnapshotKey(skin: skin, dark: dark)
+    /// under the finger. A caller cancelled while its render waits in the
+    /// queue gets `nil`, and its render never runs.
+    func snapshot(for skin: Skin, dark: Bool, scale: CGFloat, in wording: Wording = .current) async -> Image? {
+        let key = SnapshotKey(skin: skin, dark: dark, wording: wording)
         if let cached = snapshots[key] { return cached }
-        await prepare()
+        await prepare(in: wording)
+        guard !Task.isCancelled else { return nil }
         let previous = lastRender
         let render = Task(name: "Skin preview render") { () -> Image? in
             await previous?.value
             if let cached = self.snapshots[key] { return cached }
             try? await Task.sleep(for: Self.renderSpacing)
+            guard !Task.isCancelled else { return nil }
             return self.render(key, scale: scale)
         }
         lastRender = Task(name: "Skin preview queue") { _ = await render.value }
-        return await render.value
+        return await withTaskCancellationHandler {
+            await render.value
+        } onCancel: {
+            render.cancel()
+        }
     }
 
-    /// Renders every skin's card ahead of the screen that will show them all.
+    /// Renders every skin's card ahead of the screen that will show them all,
+    /// until the screen goes away.
     func warm(dark: Bool, scale: CGFloat) async {
         for skin in Skin.available {
+            guard !Task.isCancelled else { return }
             _ = await snapshot(for: skin, dark: dark, scale: scale)
         }
     }
 
     private func render(_ key: SnapshotKey, scale: CGFloat) -> Image? {
-        guard !days.isEmpty else { return nil }
+        // The day laid out in another wording would put that wording's words
+        // in this picture.
+        guard !days.isEmpty, preparedWording == key.wording else { return nil }
         let content = ZStack {
             SkinBackdrop(skin: key.skin, animates: false)
             SkinPreviewScreen(days: days, skin: key.skin)
         }
         .frame(width: Self.screenSize.width, height: Self.screenSize.height)
         .environment(\.colorScheme, key.dark ? .dark : .light)
+        .environment(\.locale, AppLanguageRuntime.locale(for: key.wording.localization, base: .current))
         .environment(\.rendersTimelineFlat, true)
         let renderer = ImageRenderer(content: content)
         renderer.scale = scale * Self.pictureScale

@@ -57,6 +57,21 @@ final class HealthKitVitals {
 
     var isAvailable: Bool { false }
 
+    /// The `@AppStorage` key of the Health-on-sessions switch, the same key the iOS build reads.
+    static let overlayKey = "showSessionVitals"
+    /// The suite ``overlayKey`` lives in.
+    static var settingsStore: UserDefaults? {
+        UserDefaults(suiteName: AppIdentity.appGroup)
+    }
+
+    /// Health is never on here, whatever the stored switch says.
+    func isOn(overlay _: Bool) -> Bool { false }
+
+    #if DEBUG
+        /// The synthetic vitals of the iOS screenshot tour; the Android build has none.
+        static var usesFakeVitals: Bool { false }
+    #endif
+
     func requestFullAccess() async {}
 
     func connectWouldPrompt() async -> Bool { false }

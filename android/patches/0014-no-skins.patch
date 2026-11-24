@@ -1,7 +1,7 @@
-Android ships without skins for now: no Skins menu entries, and every screen wears the piru skin; onboarding leaves out the skins step
+Android ships without skins for now: no Skins menu entries, Tools card or piru://skins link, and every screen wears the piru skin; onboarding leaves out the skins step
 
 diff --git a/Piru/Data/Services/SkinStore.swift b/Piru/Data/Services/SkinStore.swift
-index a23d4c9e..eec598f1 100644
+index eaf56959..8a737479 100644
 --- a/Piru/Data/Services/SkinStore.swift
 +++ b/Piru/Data/Services/SkinStore.swift
 @@ -23,7 +23,12 @@ final class SkinStore {
@@ -18,8 +18,25 @@ index a23d4c9e..eec598f1 100644
      }
  
      /// Set only for the length of one synchronous offscreen render — see
+diff --git a/Piru/Navigation/DeepLink.swift b/Piru/Navigation/DeepLink.swift
+index c435e23a..5b53f898 100644
+--- a/Piru/Navigation/DeepLink.swift
++++ b/Piru/Navigation/DeepLink.swift
+@@ -179,7 +179,11 @@ nonisolated enum DeepLink {
+             return DeepLinkOutcome(tab: overrideTab, sheet: .profiles)
+ 
+         case "skins":
+-            return DeepLinkOutcome(tab: overrideTab, sheet: .skins)
++            #if os(Android)
++                return nil
++            #else
++                return DeepLinkOutcome(tab: overrideTab, sheet: .skins)
++            #endif
+ 
+         case "help":
+             return DeepLinkOutcome(tab: overrideTab, sheet: .help)
 diff --git a/Piru/Views/AppChrome.swift b/Piru/Views/AppChrome.swift
-index 99c27f7d..fc03c837 100644
+index be9b389c..789e8ffe 100644
 --- a/Piru/Views/AppChrome.swift
 +++ b/Piru/Views/AppChrome.swift
 @@ -24,9 +24,11 @@ struct AppOverflowMenu<Extras: View>: View {
@@ -38,10 +55,10 @@ index 99c27f7d..fc03c837 100644
                      Label("Settings", systemImage: "gearshape")
                  }
 diff --git a/Piru/Views/Journal/JournalMenus.swift b/Piru/Views/Journal/JournalMenus.swift
-index d04d496f..7bbe848c 100644
+index 4923386d..564bb37a 100644
 --- a/Piru/Views/Journal/JournalMenus.swift
 +++ b/Piru/Views/Journal/JournalMenus.swift
-@@ -111,7 +111,9 @@ struct JournalOptionsMenu: View {
+@@ -112,7 +112,9 @@ struct JournalOptionsMenu: View {
              sectionDivider
  
              VStack(spacing: 0) {
@@ -53,10 +70,10 @@ index d04d496f..7bbe848c 100644
              }
              .padding(.bottom, Spacing.md)
 diff --git a/Piru/Views/Onboarding/OnboardingView.swift b/Piru/Views/Onboarding/OnboardingView.swift
-index d9582b92..369388de 100644
+index ed17b0ec..3a5affd6 100644
 --- a/Piru/Views/Onboarding/OnboardingView.swift
 +++ b/Piru/Views/Onboarding/OnboardingView.swift
-@@ -129,7 +129,11 @@ enum OnboardingStep: Int, CaseIterable {
+@@ -127,7 +127,11 @@ enum OnboardingStep: Int, CaseIterable {
      }
  
      /// This device's flow.
@@ -68,3 +85,18 @@ index d9582b92..369388de 100644
  
      /// The step after this one in `flow`, or `nil` at the end.
      func next(in flow: [OnboardingStep] = deviceFlow) -> OnboardingStep? {
+diff --git a/Piru/Views/Tools/ToolsView.swift b/Piru/Views/Tools/ToolsView.swift
+index 2411f5d1..73921c05 100644
+--- a/Piru/Views/Tools/ToolsView.swift
++++ b/Piru/Views/Tools/ToolsView.swift
+@@ -119,7 +119,9 @@ struct ToolsView: View {
+                 MyMedsToolCard()
+                 InventorySummaryCard()
+                 InteractionsSummaryCard()
+-                SkinsToolCard()
++                #if !os(Android)
++                    SkinsToolCard()
++                #endif
+                 DataBackupToolCard()
+                 EducationCard()
+ 

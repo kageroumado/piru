@@ -19,7 +19,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-SSD = Path("/Volumes/Ugreen")
+# Where the build writes, when set: DerivedData, SourcePackages and CompilationCache go
+# under it, with `PIRU_PERF_DERIVED_DATA` naming the DerivedData folder in it. Unset,
+# xcodebuild's own defaults apply.
+BUILD_ROOT = os.environ.get("PIRU_PERF_BUILD_ROOT")
+DERIVED_DATA = os.environ.get("PIRU_PERF_DERIVED_DATA", "DerivedData")
 
 SIMULATOR_NAME = "Piru Perf"
 # A CI runner's Xcode can be a release behind; both are overridable there.
@@ -60,11 +64,11 @@ def run(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
 
 def build_settings_args(destination: str) -> list[str]:
     args = ["-scheme", "Piru", "-configuration", "Debug", "-destination", destination]
-    if SSD.is_dir():
-        build = SSD / "Build" / "piru"
+    if BUILD_ROOT:
+        build = Path(BUILD_ROOT)
         args += [
             "-derivedDataPath",
-            str(build / "DerivedData-6"),
+            str(build / DERIVED_DATA),
             "-clonedSourcePackagesDirPath",
             str(build / "SourcePackages"),
             "COMPILATION_CACHE_ENABLE_CACHING=YES",

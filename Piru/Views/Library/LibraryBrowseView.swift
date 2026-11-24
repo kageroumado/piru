@@ -564,13 +564,9 @@ private struct LibraryYoursCard: View {
     }
 
     /// "4 favorites · 8 colors", leaving out every row at zero; nil when all are.
-    private var summary: AttributedString? {
+    private var summary: String? {
         let parts = rows.filter { $0.count > 0 }.map(\.countPhrase)
-        guard var line = parts.first else { return nil }
-        for part in parts.dropFirst() {
-            line += AttributedString(" · ") + part
-        }
-        return line
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 }
 
@@ -584,12 +580,12 @@ private struct YoursRow: Identifiable {
     let route: PushRoute
 
     /// The count with its noun, inflected: "1 favorite", "8 colors".
-    var countPhrase: AttributedString {
+    var countPhrase: String {
         switch id {
-        case "favorites": AttributedString(localized: "^[\(count) favorite](inflect: true)")
-        case "colors": AttributedString(localized: "^[\(count) color](inflect: true)")
-        case "custom": AttributedString(localized: "^[\(count) custom substance](inflect: true)")
-        default: AttributedString(localized: "^[\(count) custom unit](inflect: true)")
+        case "favorites": String(inflecting: "^[\(count) favorite](inflect: true)")
+        case "colors": String(inflecting: "^[\(count) color](inflect: true)")
+        case "custom": String(inflecting: "^[\(count) custom substance](inflect: true)")
+        default: String(inflecting: "^[\(count) custom unit](inflect: true)")
         }
     }
 }

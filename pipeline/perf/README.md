@@ -14,9 +14,8 @@ pipeline/perf/run.py --platform android --apk app-release-debugsigned.apk
 ```
 
 The report lands in `<root>/<date>-<platform>-<fixture>/report.md` and
-`report.json`. `<root>` is `/Volumes/Ugreen/Scratch/piru-perf` when that disk is
-mounted, else `$PIRU_PERF_ROOT`, else `$TMPDIR/piru-perf`; nothing is written in
-the repo. The exit status is 1 when a finding reaches failure level, or with
+`report.json`. `<root>` is `$PIRU_PERF_ROOT`, else `$TMPDIR/piru-perf`; nothing
+is written in the repo. The exit status is 1 when a finding reaches failure level, or with
 `--baseline` when a metric regressed past its tolerance; 2 when the flows did
 not finish.
 
@@ -26,8 +25,10 @@ not finish.
    Release** (`-O`, whole module, no testability, no coverage, dSYM). Debug
    keeps the `#if DEBUG` hooks the flows need; `-Onone` numbers say nothing
    about CPU cost and Release compiles the hooks out. What remains different
-   from a shipped build is DEBUG-only code (assertions, the fixtures). On the
-   Mac Studio the build goes to `/Volumes/Ugreen/Build/piru/DerivedData-6`.
+   from a shipped build is DEBUG-only code (assertions, the fixtures). With
+   `PIRU_PERF_BUILD_ROOT` set, the build writes `DerivedData` (or the folder
+   `PIRU_PERF_DERIVED_DATA` names), `SourcePackages` and `CompilationCache`
+   under it; otherwise xcodebuild's defaults apply.
 2. **Simulator** "Piru Perf" (iPhone 18 Pro Max, iOS 27), created on first use.
    `PIRU_PERF_DEVICE_TYPE` and `PIRU_PERF_RUNTIME` override both.
 3. **Seed** (`-piruPerfSeedOnly`): one launch wipes the perf store and writes the

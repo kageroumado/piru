@@ -3,12 +3,11 @@
 
     pipeline/perf/run.py                                   # heavy fixture, every flow, iOS simulator
     pipeline/perf/run.py --fixture stress --flows journal-scroll,quicklog --loops 3
-    pipeline/perf/run.py --no-build --baseline /Volumes/Ugreen/Scratch/piru-perf/<run>/report.json
+    pipeline/perf/run.py --no-build --baseline <root>/<run>/report.json
     pipeline/perf/run.py --ci                              # the CI subset and gate (see README)
     pipeline/perf/run.py --platform android --apk app-release.apk
 
 Writes `<root>/<run>/report.md` and `report.json`; `<root>` is
-`/Volumes/Ugreen/Scratch/piru-perf` when that disk is mounted, else
 `$PIRU_PERF_ROOT`, else `$TMPDIR/piru-perf`. Exits 1 when a finding reaches
 failure level (or, with `--baseline`, a metric regressed past its tolerance).
 """
@@ -34,8 +33,6 @@ CI_FLOWS = ["journal-scroll", "open-close", "quicklog", "library-search", "tab-s
 def output_root() -> Path:
     if os.environ.get("PIRU_PERF_ROOT"):
         return Path(os.environ["PIRU_PERF_ROOT"])
-    if Path("/Volumes/Ugreen/Scratch").is_dir():
-        return Path("/Volumes/Ugreen/Scratch/piru-perf")
     return Path(tempfile.gettempdir()) / "piru-perf"
 
 

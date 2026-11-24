@@ -14,6 +14,22 @@ enum LaunchSheet: Identifiable {
     }
 }
 
+/// The launch's one turn at raising a sheet. It outlives the root view, which a
+/// skin, language or profile change re-creates along with every `@State` in it.
+@MainActor
+final class LaunchPick {
+    static let shared = LaunchPick()
+
+    private(set) var isTaken = false
+
+    /// True the first time it is asked, false every time after.
+    func claim() -> Bool {
+        guard !isTaken else { return false }
+        isTaken = true
+        return true
+    }
+}
+
 /// The one presenter for everything the app raises on its own at launch.
 /// Candidates are tried in priority order — an update notice, the Skins picker,
 /// then the Discord invite — and at most one is shown per launch, so they never
@@ -61,7 +77,10 @@ struct LaunchSheetModifier: ViewModifier {
                 InstallRecord.recordIfNeeded(hasCompletedOnboarding: hasCompletedOnboarding)
                 guard hasCompletedOnboarding else { return }
                 try? await Task.sleep(for: Self.settleDelay)
-                guard sheet == nil, navigator.sheetStack.isEmpty else { return }
+                guard !Task.isCancelled, sheet == nil, navigator.sheetStack.isEmpty else { return }
+                // The root is re-created by a skin, language or profile change, which runs this
+                // task again; the pick itself happens once per process.
+                guard LaunchPick.shared.claim() else { return }
                 switch nextCandidate() {
                 case let .sheet(next): sheet = next
                 case .skinsPicker: navigator.present(.skins)
