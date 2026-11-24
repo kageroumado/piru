@@ -49,6 +49,36 @@ struct InYourBodyModelTests {
         #expect(projection.currentAmount < projection.result.peakAmount * 1.1)
     }
 
+    /// Five daily doses a month ago: the schedule stopped before it could settle, so nothing
+    /// claims the plateau was reached.
+    @Test
+    func `A schedule that stopped is never read as settled`() async throws {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let stopped = daily("Sertraline", mg: 100, days: 5).map {
+            DoseEntry(substance: $0.substance, amount: $0.amount, unit: $0.unit, route: $0.route, timestamp: $0.timestamp.addingTimeInterval(-30 * 86_400))
+        }
+        let projection = try #require(SteadyStateProjectionBuilder.compute(entries: stopped, colorMap: [:], now: now).first)
+        #expect(projection.elapsedMinutes > projection.result.time95)
+        #expect(!projection.isOngoing)
+        #expect(!projection.isSettled)
+    }
+
+    /// The card's "Now" amount is the In Your Body figure: an extended-release product's
+    /// doses are counted with the product's own release.
+    @Test
+    func `The current amount matches the active card's`() async throws {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let entries = (0 ..< 10).map { day in
+            DoseEntry(
+                substance: "Methylphenidate", amount: 36, unit: "mg", route: .oral, productName: "Concerta",
+                timestamp: now.addingTimeInterval(-Double(day) * 86_400 - 2 * 3_600),
+            )
+        }
+        let active = try #require(ActiveSubstanceCalculator.compute(from: entries, colorMap: [:], now: now).first)
+        let projection = try #require(SteadyStateProjectionBuilder.compute(entries: entries, colorMap: [:], now: now).first)
+        #expect(abs(projection.currentAmount - active.totalRemaining) < 1e-9)
+    }
+
     @Test
     func `A schedule younger than its settling time is still climbing`() async throws {
         await SubstanceStore.shared.ensureAllLoaded()

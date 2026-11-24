@@ -82,7 +82,9 @@ struct InYourBodyView: View {
             let colorMap = substanceColors.colorMap
             activeSubstances = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: colorMap)
             filter.setActiveNames(Set(activeSubstances.map(\.name)))
-            let allProjections = SteadyStateProjectionBuilder.compute(entries: allEntries, colorMap: colorMap)
+            let allProjections = SteadyStateProjectionBuilder.compute(
+                entries: allEntries, colorMap: colorMap, active: activeSubstances,
+            )
             projections = allProjections
             substanceProjections = Dictionary(uniqueKeysWithValues: allProjections.map { ($0.id, $0) })
             if let trail = manager.trail {

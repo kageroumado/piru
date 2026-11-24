@@ -64,7 +64,7 @@ struct SteadyStateProjectionCard: View {
                 .foregroundStyle(projection.color.opacity(Theme.Opacity.dimmed))
                 .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
             // Where the log stands today: on a settled schedule, the modeled amount
-            // now across the plateau; on a younger one, how far along the climb it is.
+            // now across the plateau; on a younger one still dosed, how far along the climb it is.
             if accumulates, projection.isSettled {
                 RuleMark(y: .value("Now", projection.currentAmount))
                     .foregroundStyle(Theme.accent)
@@ -74,7 +74,7 @@ struct SteadyStateProjectionCard: View {
                             .font(.caption2.weight(.semibold))
                             .foregroundStyle(Theme.accent)
                     }
-            } else if accumulates {
+            } else if accumulates, projection.isOngoing {
                 RuleMark(x: .value("Now", projection.elapsedMinutes / 1_440))
                     .foregroundStyle(Theme.accent)
                     .lineStyle(StrokeStyle(lineWidth: 1.5))
@@ -193,9 +193,11 @@ struct SteadyStateProjection: Identifiable {
     let firstDose: Date
     /// Minutes from ``firstDose`` to the moment the projection was built.
     let elapsedMinutes: Double
-    /// The modeled amount in the body when the projection was built, summed over the
-    /// logged doses still above ``ActiveSubstanceCalculator/activeFloor`` with the
-    /// projection's own rate constants, in `unit`.
+    /// Whether the schedule is still being kept: the last dose is no more than two
+    /// median intervals old.
+    let isOngoing: Bool
+    /// The modeled amount in the body when the projection was built, in `unit`: the
+    /// In Your Body card's figure for this substance (``ActiveSubstance/totalRemaining``).
     let currentAmount: Double
 
     /// Days to ~95% of steady state.
@@ -203,9 +205,11 @@ struct SteadyStateProjection: Identifiable {
         result.time95 / 1_440
     }
 
-    /// Whether the logged schedule has run long enough to reach ~95% of its plateau.
+    /// Whether the logged schedule has reached ~95% of its plateau and is still being
+    /// kept, so the plateau holds now. A schedule that stopped before or after that point
+    /// reads as a projection.
     var isSettled: Bool {
-        elapsedMinutes >= result.time95
+        isOngoing && elapsedMinutes >= result.time95
     }
 
     /// The latest date the plateau was reached by, counting from ``firstDose``.
@@ -226,6 +230,8 @@ enum SteadyStateProjectionBuilder {
     private static let maximumIntervalCV = 0.8
     /// A cadence outside human dosing rhythm (hours) is noise, not a schedule.
     private static let intervalBounds = 3.0 ... 96.0
+    /// A schedule whose last dose is older than this many median intervals has stopped.
+    private static let ongoingIntervals = 2.0
 
     private struct Group {
         var name: String
@@ -237,9 +243,15 @@ enum SteadyStateProjectionBuilder {
         var timestamps: [Date] = []
     }
 
+    /// `active` is ``ActiveSubstanceCalculator/compute(from:colorMap:now:)`` over the same
+    /// entries at `now`, when the caller already holds it; each projection's ``SteadyStateProjection/currentAmount``
+    /// is read from it.
     @MainActor
-    static func compute(entries: [DoseEntry], colorMap: [String: Color], now: Date = .now) -> [SteadyStateProjection] {
+    static func compute(
+        entries: [DoseEntry], colorMap: [String: Color], active: [ActiveSubstance]? = nil, now: Date = .now,
+    ) -> [SteadyStateProjection] {
         let cutoff = now.addingTimeInterval(-lookbackDays * 86_400)
+        let active = active ?? ActiveSubstanceCalculator.compute(from: entries, colorMap: colorMap, now: now)
 
         var groups: [String: Group] = [:]
         var substanceCache: [String: Substance?] = [:]
@@ -272,7 +284,9 @@ enum SteadyStateProjectionBuilder {
 
         var out: [SteadyStateProjection] = []
         for (_, group) in groups {
-            guard let projection = build(group, colorMap: colorMap, substance: lookup(group.name), now: now) else { continue }
+            guard let projection = build(
+                group, colorMap: colorMap, substance: lookup(group.name), active: active, now: now,
+            ) else { continue }
             out.append(projection)
         }
         // Most-accumulating first — the buildup is the headline.
@@ -280,7 +294,9 @@ enum SteadyStateProjectionBuilder {
     }
 
     @MainActor
-    private static func build(_ group: Group, colorMap: [String: Color], substance: Substance?, now: Date) -> SteadyStateProjection? {
+    private static func build(
+        _ group: Group, colorMap: [String: Color], substance: Substance?, active: [ActiveSubstance], now: Date,
+    ) -> SteadyStateProjection? {
         guard group.timestamps.count >= minimumDoses else { return nil }
         let sorted = group.timestamps.sorted()
         let intervals = zip(sorted, sorted.dropFirst()).map { $1.timeIntervalSince($0) / 3_600 }
@@ -296,12 +312,13 @@ enum SteadyStateProjectionBuilder {
               )
         else { return nil }
 
-        // Counted as the Modeled as Active card counts it, so the two print one number.
-        let currentAmount = zip(group.amounts, group.timestamps).reduce(0.0) { total, dose in
-            let fraction = PKModel.fractionRemainingInBody(at: now.timeIntervalSince(dose.1) / 60, ke: params.ke, ka: params.ka)
-            return fraction > ActiveSubstanceCalculator.activeFloor ? total + dose.0 * fraction : total
-        }
+        // The Modeled as Active card's own figure, with each dose's product, meal and
+        // formulation, so the two print one number.
+        let currentAmount = active
+            .first { $0.name == group.name && $0.unitOf.family == group.unitOf.family }
+            .flatMap { $0.unitOf.with(value: $0.totalRemaining).value(inUnitOf: group.unitOf) } ?? 0
         let firstDose = sorted[0]
+        let lastDose = sorted[sorted.count - 1]
 
         return SteadyStateProjection(
             id: group.name.lowercased(),
@@ -313,6 +330,7 @@ enum SteadyStateProjectionBuilder {
             result: result,
             firstDose: firstDose,
             elapsedMinutes: now.timeIntervalSince(firstDose) / 60,
+            isOngoing: now.timeIntervalSince(lastDose) <= ongoingIntervals * medianInterval * 3_600,
             currentAmount: currentAmount,
         )
     }

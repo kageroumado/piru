@@ -127,6 +127,7 @@ final class UsageAnalyticsModel {
         let otherCategoryIndex = categoryIndices[.other] ?? 0
 
         var substanceIndices: [String: Int] = [:]
+        var moleculeIndices: [String: Int] = [:]
         var substances: [UsageSubstanceRef] = []
         var resolvedSubstances: [String: Substance?] = [:]
         var titles: [TitleKey: String] = [:]
@@ -174,6 +175,16 @@ final class UsageAnalyticsModel {
                 ))
             }
 
+            // The molecule is the library's canonical substance, which a brand row shares.
+            let moleculeKey = (substance?.name ?? entry.substance).lowercased()
+            let moleculeIndex: Int
+            if let existing = moleculeIndices[moleculeKey] {
+                moleculeIndex = existing
+            } else {
+                moleculeIndex = moleculeIndices.count
+                moleculeIndices[moleculeKey] = moleculeIndex
+            }
+
             let ladderKey = LadderKey(
                 substance: key, route: entry.route,
                 saltForm: entry.saltForm, isomer: entry.isomer, releaseForm: entry.releaseForm,
@@ -193,6 +204,7 @@ final class UsageAnalyticsModel {
 
             snapshots.append(UsageEntrySnapshot(
                 substanceIndex: substanceIndex,
+                moleculeIndex: moleculeIndex,
                 categoryIndex: categoryIndex,
                 routeIndex: routeIndices[entry.route] ?? 0,
                 doseLevelIndex: dose.flatMap { ladder?.level(of: $0) }.map(Self.index(of:)),

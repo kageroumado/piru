@@ -292,6 +292,7 @@ ES = {
     "%lld entries, %@ versus the previous period": "%lld registros, %@ frente al periodo anterior",
     "%lld entries, busiest around %@": "%lld registros, mayor actividad hacia %@",
     "%lld entries, busiest on %@ with %lld": "%lld registros, mayor actividad el %@ con %lld",
+    "%lld entries, busiest on %@, %@ on average": "%lld registros, mayor actividad el %@, %@ de media",
     "%lld entries: %@": "%lld registros: %@",
     "%lld first recorded this period": "%lld registradas por primera vez este periodo",
     "%lld g": "%lld g",

@@ -1779,6 +1779,10 @@ T = {
         "%1$lld 条条目，%2$@最多，共 %3$lld 条",
         "%1$lld 筆條目，%2$@最多，共 %3$lld 筆",
     ),
+    "%lld entries, busiest on %@, %@ on average": (
+        "%1$lld 条条目，%2$@最多，平均 %3$@ 条",
+        "%1$lld 筆條目，%2$@最多，平均 %3$@ 筆",
+    ),
     "%lld entries: %@": ("%1$lld 条条目：%2$@", "%1$lld 筆條目：%2$@"),
     "%lld percent of %lld placed doses were common or above, %lld heavy": (
         "在 %2$lld 次可定位的剂量中，百分之 %1$lld 达到中等或以上，其中 %3$lld 次为大剂量",
@@ -9298,6 +9302,7 @@ if __name__ == "__main__":
         "Shortcuts",
         "Nothing Open",
         "Choose something from the list to see it here.",
+        "%lld entries, busiest on %@, %@ on average",
     }
 
     NEW_KEYS.update(

@@ -136,6 +136,25 @@ struct UsageAnalyticsTests {
         #expect(overview.newSubstances == 1)
     }
 
+    /// A new product of a substance already in the journal is not a new substance, and the
+    /// two rows count as one.
+    @Test
+    func `Products of one molecule count as one substance`() {
+        let now = date(2_026, 6, 15)
+        let window = bounds(now.addingTimeInterval(-7 * 86_400), now)
+        let all = [
+            // Ritalin since long ago; Concerta, the same molecule, first logged this week.
+            UsageEntrySnapshot(substanceIndex: 1, moleculeIndex: 0, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: now.addingTimeInterval(-40 * 86_400)),
+            UsageEntrySnapshot(substanceIndex: 1, moleculeIndex: 0, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: now.addingTimeInterval(-2 * 86_400)),
+            UsageEntrySnapshot(substanceIndex: 0, moleculeIndex: 0, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: now.addingTimeInterval(-86_400)),
+        ]
+        let inRange = all.filter { $0.timestamp >= window.start }
+        let overview = UsageAnalytics.overview(all: all, inRange: inRange, bounds: window, calendar: utc)
+
+        #expect(overview.uniqueSubstances == 1)
+        #expect(overview.newSubstances == 0)
+    }
+
     @Test
     func `Dose intensity counts only entries that landed on a ladder`() {
         let now = date(2_026, 6, 15)
@@ -187,7 +206,7 @@ struct UsageAnalyticsTests {
 
         // The same four a day on every range, All included.
         for range in UsageTimeRange.allCases {
-            let count = UsageAnalytics.windowCount(stamps, range: range, now: now, buckets: 7)
+            let count = UsageAnalytics.windowCount(stamps, range: range, now: now, calendar: utc, boundaryHour: 0)
             #expect(count.entryCount == 28)
             #expect(count.averagePerDay == 4)
         }
@@ -198,7 +217,7 @@ struct UsageAnalyticsTests {
         let now = date(2_026, 6, 15, 12)
         // One entry a day for 100 days: 30 of them fall in the 30-day range.
         let stamps = (0 ..< 100).map { now.addingTimeInterval(-Double($0) * 86_400 - 3_600) }
-        let count = UsageAnalytics.windowCount(stamps, range: .thirtyDays, now: now, buckets: 30)
+        let count = UsageAnalytics.windowCount(stamps, range: .thirtyDays, now: now, calendar: utc, boundaryHour: 0)
 
         #expect(count.entryCount == 30)
         #expect(count.averagePerDay == 1)
@@ -244,12 +263,29 @@ struct UsageAnalyticsTests {
             now.addingTimeInterval(-3_600),
             now.addingTimeInterval(1_140), // 10:00, later than now
         ]
-        let count = UsageAnalytics.windowCount(stamps, range: .thirtyDays, now: now, buckets: 30)
+        let count = UsageAnalytics.windowCount(stamps, range: .thirtyDays, now: now, calendar: utc, boundaryHour: 0)
 
         #expect(count.entryCount == 2)
-        #expect(count.buckets.count == 30)
+        // 30 days ending at 09:41 touch 31 calendar days.
+        #expect(count.buckets.count == 31)
         #expect(count.buckets.reduce(0, +) == 2)
         #expect(count.averagePerDay == 2.0 / 30)
+    }
+
+    /// The Insights card's bars are journal days: at 10:00, a dose at 23:00
+    /// yesterday and one at 08:00 today are two bars, and with a 4 AM day start
+    /// a 02:00 dose belongs to the evening before it.
+    @Test
+    func `The Insights card buckets by journal day`() throws {
+        let now = date(2_026, 6, 15, 10)
+        let stamps = [date(2_026, 6, 14, 23), date(2_026, 6, 15, 8), date(2_026, 6, 14, 2)]
+        let count = UsageAnalytics.windowCount(stamps, range: .thirtyDays, now: now, calendar: utc, boundaryHour: 4)
+        #expect(count.entryCount == 3)
+        let today = try #require(count.buckets.last)
+        #expect(today == 1)
+        #expect(count.buckets[count.buckets.count - 2] == 1)
+        #expect(count.buckets[count.buckets.count - 3] == 1)
+        #expect(count.buckets.reduce(0, +) == 3)
     }
 
     @Test
@@ -260,7 +296,7 @@ struct UsageAnalyticsTests {
             entries: entries, substances: [UsageSubstanceRef(name: "A", displayName: "A", categoryIndex: 0)],
             range: UsageTimeRange.opening, calendar: utc, now: now,
         )
-        let card = UsageAnalytics.windowCount(entries.map(\.timestamp), range: UsageTimeRange.opening, now: now, buckets: 30)
+        let card = UsageAnalytics.windowCount(entries.map(\.timestamp), range: UsageTimeRange.opening, now: now, calendar: utc)
 
         #expect(card.entryCount == screen.overview.entryCount)
         #expect(card.averagePerDay == screen.overview.averagePerDay)
@@ -361,6 +397,11 @@ struct UsageAnalyticsTests {
         // Days 0 to 5 have under a week behind them and are left out.
         #expect(series[0].points.map(\.date) == Array(starts[6...]))
         #expect(series[0].points.allSatisfy { $0.value == 7 })
+
+        // The scrub readout finds no value before the line begins, rather than the first point's.
+        #expect(series[0].point(nearest: starts[2]) == nil)
+        #expect(series[0].point(nearest: starts[6].addingTimeInterval(-6 * 3_600))?.date == starts[6])
+        #expect(series[0].point(nearest: starts[9].addingTimeInterval(20 * 3_600))?.date == starts[9])
     }
 
     @Test
@@ -680,6 +721,22 @@ struct UsageAnalyticsTests {
             snapshot(substance: 0, at: date(2_026, 6, 2, 18)),
         ]
         #expect(UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc)).isEmpty)
+    }
+
+    /// Concerta in the morning and a Ritalin booster are one drug, methylphenidate: their rows
+    /// never pair, while each still pairs with a different substance.
+    @Test
+    func `Two products of one molecule are not a pair`() {
+        let concerta = 0, ritalin = 1, caffeine = 2
+        let entries = (1 ... 3).flatMap { day in
+            [
+                UsageEntrySnapshot(substanceIndex: concerta, moleculeIndex: 0, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: date(2_026, 6, day, 8)),
+                UsageEntrySnapshot(substanceIndex: ritalin, moleculeIndex: 0, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: date(2_026, 6, day, 14)),
+                UsageEntrySnapshot(substanceIndex: caffeine, moleculeIndex: 1, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: date(2_026, 6, day, 9)),
+            ]
+        }
+        let pairs = UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc))
+        #expect(Set(pairs.map { [$0.firstIndex, $0.secondIndex] }) == [[concerta, caffeine], [ritalin, caffeine]])
     }
 
     @Test

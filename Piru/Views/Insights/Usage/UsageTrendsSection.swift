@@ -294,7 +294,7 @@ private struct UsageTrendsReadout: View {
         // Every line on the chart, zeros included, so a substance at nothing
         // that day still reads as tracked.
         let rows = series.compactMap { item -> (index: Int, value: Double)? in
-            guard let point = nearestPoint(in: item) else { return nil }
+            guard let point = item.point(nearest: date) else { return nil }
             return (item.substanceIndex, metric == .commonDoses ? point.commonValue : point.value)
         }
         .sorted { $0.value != $1.value ? $0.value > $1.value : $0.index < $1.index }
@@ -320,7 +320,12 @@ private struct UsageTrendsReadout: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-            if !anyLogged {
+            if rows.isEmpty {
+                // Before the lines begin: too little journal behind this date for an average.
+                Text("Not enough history yet")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            } else if !anyLogged {
                 Text("Nothing logged in this window")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -331,11 +336,5 @@ private struct UsageTrendsReadout: View {
         .themeCard(cornerRadius: Theme.CornerRadius.inner)
         .accessibilityElement(children: .combine)
         .transition(.opacity)
-    }
-
-    private func nearestPoint(in item: UsageTrendSeries) -> UsageTrendPoint? {
-        item.points.min { lhs, rhs in
-            abs(lhs.date.timeIntervalSince(date)) < abs(rhs.date.timeIntervalSince(date))
-        }
     }
 }
