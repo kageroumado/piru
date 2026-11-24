@@ -323,4 +323,55 @@ struct ToleranceScheduledProjectionTests {
         await store.recomputeProjections(from: entries, scheduledMeds: meds, now: noon)
         #expect(!store.projections.isEmpty)
     }
+
+    // MARK: - 9. One pharmacology read per log
+
+    @Test
+    func `The projection of a logged med reads no pharmacology beyond its replay's`() async throws {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let noon = try #require(Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: .now))
+        let item = DailyDoseItem(substance: "Methylphenidate", amount: 20, unit: "mg", startDate: noon.addingTimeInterval(-60 * 86_400))
+        let meds = [item].compactMap { ToleranceStore.scheduledMed(from: $0) }
+        let entries = (1 ... 30).map {
+            DoseEntry(substance: "Methylphenidate", amount: 20, timestamp: noon.addingTimeInterval(-Double($0) * 86_400 - 3 * 3_600))
+        }
+
+        let store = ToleranceStore()
+        await store.recompute(from: entries, now: noon)
+        await store.recomputeProjections(from: entries, scheduledMeds: meds, now: noon)
+        #expect(!store.projections.isEmpty)
+        #expect(store.parameterReadCount == 1)
+    }
+
+    @Test
+    func `A projection of a med not yet logged reads it`() async throws {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let noon = try #require(Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: .now))
+        let item = DailyDoseItem(substance: "Clonazepam", amount: 1, unit: "mg", startDate: noon.addingTimeInterval(-60 * 86_400))
+        let meds = [item].compactMap { ToleranceStore.scheduledMed(from: $0) }
+        let entries = (1 ... 30).map {
+            DoseEntry(substance: "Methylphenidate", amount: 20, timestamp: noon.addingTimeInterval(-Double($0) * 86_400 - 3 * 3_600))
+        }
+
+        let store = ToleranceStore()
+        await store.recompute(from: entries, now: noon)
+        await store.recomputeProjections(from: entries, scheduledMeds: meds, now: noon)
+        #expect(store.parameterReadCount == 2)
+    }
+
+    @Test
+    func `Replays of one log started together share one pharmacology read`() async throws {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let noon = try #require(Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: .now))
+        let entries = (1 ... 30).map {
+            DoseEntry(substance: "Methylphenidate", amount: 20, timestamp: noon.addingTimeInterval(-Double($0) * 86_400 - 3 * 3_600))
+        }
+
+        let store = ToleranceStore()
+        let replay = Task { await store.recompute(from: entries, now: noon) }
+        let trail = Task { await store.loadTrail(for: .catecholamineStimulant, from: entries, now: noon) }
+        await replay.value
+        _ = await trail.value
+        #expect(store.parameterReadCount == 1)
+    }
 }

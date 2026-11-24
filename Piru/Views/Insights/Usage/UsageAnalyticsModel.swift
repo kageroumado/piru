@@ -131,6 +131,8 @@ final class UsageAnalyticsModel {
         var substances: [UsageSubstanceRef] = []
         var resolvedSubstances: [String: Substance?] = [:]
         var titles: [TitleKey: String] = [:]
+        /// A molecule's plain title by its canonical name, shared by its brand rows.
+        var moleculeNames: [String: String] = [:]
         var ladders: [LadderKey: DoseLadder?] = [:]
 
         var snapshots: [UsageEntrySnapshot] = []
@@ -170,15 +172,22 @@ final class UsageAnalyticsModel {
             } else {
                 substanceIndex = substances.count
                 substanceIndices[rowKey] = substanceIndex
+                let moleculeName: String
+                if let cached = moleculeNames[canonical] {
+                    moleculeName = cached
+                } else {
+                    moleculeName = DoseTitle.resolve(
+                        substance: canonical, productName: nil, namesForm: false,
+                        isomer: nil, releaseForm: nil, saltForm: nil,
+                    )
+                    moleculeNames[canonical] = moleculeName
+                }
                 substances.append(UsageSubstanceRef(
                     name: title,
                     displayName: title,
                     categoryIndex: categoryIndex,
                     colorKey: entry.substance,
-                    moleculeName: DoseTitle.resolve(
-                        substance: canonical, productName: nil, namesForm: false,
-                        isomer: nil, releaseForm: nil, saltForm: nil,
-                    ),
+                    moleculeName: moleculeName,
                 ))
             }
 

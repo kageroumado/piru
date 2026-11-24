@@ -43,25 +43,43 @@ final class AdherenceModel {
     }
 
     func recompute(entries: [DoseEntry], dailyItems: [DailyDoseItem], month: Date) {
-        recomputeMonth(entries: entries, dailyItems: dailyItems, month: month)
         let boundaryHour = Calendar.sessionDayBoundaryHour
+        let entriesByDay = Self.entriesByDay(entries, calendar: calendar, boundaryHour: boundaryHour)
+        let scheduleOpens = AdherenceCalculator.scheduleOpens(for: dailyItems, entries: entries, boundaryHour: boundaryHour)
+        recomputeMonth(entriesByDay: entriesByDay, dailyItems: dailyItems, month: month, scheduleOpens: scheduleOpens)
+        let todayStart = calendar.journalDay(for: .now, boundaryHour: boundaryHour)
         today = AdherenceCalculator.adherence(
-            for: calendar.journalDay(for: .now, boundaryHour: boundaryHour), entries: entries, dailyItems: dailyItems,
-            boundaryHour: boundaryHour,
-            scheduleOpens: AdherenceCalculator.scheduleOpens(for: dailyItems, entries: entries, boundaryHour: boundaryHour),
+            for: todayStart, entries: entriesByDay[todayStart] ?? [], dailyItems: dailyItems,
+            boundaryHour: boundaryHour, scheduleOpens: scheduleOpens,
         )
     }
 
     func recomputeMonth(entries: [DoseEntry], dailyItems: [DailyDoseItem], month: Date) {
-        // Bucketed by each dose's own journal day, read on the clock of the
-        // zone it was logged in — the same test `adherence(for:)` applies.
         let boundaryHour = Calendar.sessionDayBoundaryHour
+        recomputeMonth(
+            entriesByDay: Self.entriesByDay(entries, calendar: calendar, boundaryHour: boundaryHour),
+            dailyItems: dailyItems, month: month,
+            scheduleOpens: AdherenceCalculator.scheduleOpens(for: dailyItems, entries: entries, boundaryHour: boundaryHour),
+        )
+    }
+
+    /// Doses bucketed by each one's own journal day, read on the clock of the
+    /// zone it was logged in — the same test `adherence(for:)` applies.
+    private static func entriesByDay(
+        _ entries: [DoseEntry], calendar: Calendar, boundaryHour: Int,
+    ) -> [Date: [DoseEntry]] {
         var entriesByDay: [Date: [DoseEntry]] = [:]
         for entry in entries {
             entriesByDay[entry.journalDay(in: calendar, boundaryHour: boundaryHour), default: []].append(entry)
         }
+        return entriesByDay
+    }
 
-        let scheduleOpens = AdherenceCalculator.scheduleOpens(for: dailyItems, entries: entries, boundaryHour: boundaryHour)
+    private func recomputeMonth(
+        entriesByDay: [Date: [DoseEntry]], dailyItems: [DailyDoseItem], month: Date,
+        scheduleOpens: [ObjectIdentifier: Date],
+    ) {
+        let boundaryHour = Calendar.sessionDayBoundaryHour
 
         let start = calendar.date(from: calendar.dateComponents([.year, .month], from: month))!
         let range = calendar.range(of: .day, in: .month, for: start)!

@@ -211,6 +211,24 @@ struct AdherenceCalculatorTests {
     }
 
     @Test
+    func `Each undated med opens on its earliest matching dose, whatever order the journal is in`() {
+        let concerta = makeItem(substance: "Concerta")
+        let melatonin = makeItem(substance: "Melatonin")
+        let at9 = 9.0 * 3_600
+        var entries = [-6, -2, -9, 0].map { makeEntry(substance: "Concerta", timestamp: dayOffset($0).addingTimeInterval(at9)) }
+        entries += [-4, -1].map { makeEntry(substance: "Melatonin", timestamp: dayOffset($0).addingTimeInterval(at9)) }
+        // Melatonin by another route is a plain journal entry, so it opens nothing.
+        entries.append(makeEntry(substance: "Melatonin", route: .sublingual, timestamp: dayOffset(-8).addingTimeInterval(at9)))
+
+        let orders = [entries, entries.reversed(), entries.sorted { $0.timestamp < $1.timestamp }, entries.sorted { $0.timestamp > $1.timestamp }]
+        for order in orders {
+            let opens = AdherenceCalculator.scheduleOpens(for: [concerta, melatonin], entries: order, now: suiteNow)
+            #expect(opens[ObjectIdentifier(concerta)] == dayOffset(-9))
+            #expect(opens[ObjectIdentifier(melatonin)] == dayOffset(-4))
+        }
+    }
+
+    @Test
     func `A med with a start date keeps it, whatever was logged before`() {
         let item = makeItem(substance: "Concerta", startDate: dayOffset(-3))
         let entries = [makeEntry(substance: "Concerta", timestamp: dayOffset(-9).addingTimeInterval(9 * 3_600))]

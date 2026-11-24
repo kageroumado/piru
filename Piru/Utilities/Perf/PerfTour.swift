@@ -59,6 +59,7 @@
                     await SubstanceStore.shared.ensureAllLoaded()
                     let fixture = PerfFixtures.requested ?? .heavy
                     let summary = PerfFixtures.seed(fixture, container: container)
+                    pinLaunchScreen()
                     write(summary, to: directory.appending(path: "seeded.json"))
                     print("PerfTour: seeded \(fixture.rawValue) — \(summary.doses) doses in \(String(format: "%.1f", summary.seconds)) s")
                 }
@@ -67,6 +68,18 @@
             Task(name: "Perf tour") {
                 await run(container: container, monitor: monitor, directory: directory)
             }
+        }
+
+        /// The measured launch opens where a fresh install does, the Journal in
+        /// its Days grouping, whatever an earlier run on the simulator left
+        /// selected: a launch onto the Timeline grouping builds the whole
+        /// strip before the first step, and one onto Insights computes its
+        /// cards there, which moves that work and its memory from step to
+        /// step between runs.
+        private static func pinLaunchScreen() {
+            AppNavigator.shared.select(.journal)
+            UserDefaults(suiteName: AppIdentity.appGroup)?
+                .set(JournalGrouping.byDay.rawValue, forKey: JournalGroupingMigration.groupingKey)
         }
 
         // MARK: - Results

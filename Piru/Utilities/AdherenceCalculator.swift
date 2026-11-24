@@ -146,17 +146,95 @@ enum AdherenceCalculator {
         guard !undated.isEmpty else { return [:] }
         let products = CustomSubstanceStore.shared.productMeds
         let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
-        var opens: [ObjectIdentifier: Date] = [:]
-        for item in undated {
-            var first: DoseEntry?
-            for entry in entries where entryMatches(entry: entry, item: item, products: products) {
-                if let current = first, current.timestamp <= entry.timestamp { continue }
-                first = entry
+        let matchers = undated.map { MedMatcher($0, products: products) }
+        // One pass over the journal for every med, oldest end first: the
+        // journal arrives newest first, so a med meets its first dose early
+        // and every later dose is passed over on its timestamp alone. Among
+        // doses at one instant, the one nearest the front of `entries` wins.
+        var first: [(entry: DoseEntry, timestamp: Date)?] = Array(repeating: nil, count: matchers.count)
+        for entry in entries.reversed() {
+            let timestamp = entry.timestamp
+            var dose = MedMatcher.Dose(entry)
+            for index in matchers.indices {
+                if let current = first[index], current.timestamp < timestamp { continue }
+                if matchers[index].matches(&dose) {
+                    first[index] = (entry, timestamp)
+                }
             }
-            let firstDay = first?.journalDay(in: calendar, boundaryHour: boundaryHour)
+        }
+        var opens: [ObjectIdentifier: Date] = [:]
+        for (item, found) in zip(undated, first) {
+            let firstDay = found?.entry.journalDay(in: calendar, boundaryHour: boundaryHour)
             opens[ObjectIdentifier(item)] = min(firstDay ?? today, today)
         }
         return opens
+    }
+
+    /// A med's side of ``entryMatches(entry:item:products:)``, read off the
+    /// `@Model` once for a scan over a whole journal: every `DailyDoseItem`
+    /// property is a SwiftData getter, and reading them per dose costs more
+    /// than the comparison itself. Matches exactly as ``MedSchedule/matches(entryKey:entryName:entryCombination:entryRoute:itemKey:itemName:itemRoute:products:)``.
+    struct MedMatcher {
+        private let product: MedSchedule.ProductMed?
+        private let key: String
+        private let name: String
+        private let route: RouteOfAdministration
+
+        init(_ item: DailyDoseItem, products: [String: MedSchedule.ProductMed]) {
+            name = item.substance
+            product = products[name.lowercased()]
+            key = item.identityKey
+            route = item.route
+        }
+
+        /// A dose's side, each field read from the `@Model` the first time a
+        /// med asks for it.
+        struct Dose {
+            let entry: DoseEntry
+            private var routeValue: RouteOfAdministration?
+            private var nameValue: String?
+            private var keyValue: String?
+
+            init(_ entry: DoseEntry) {
+                self.entry = entry
+            }
+
+            mutating func route() -> RouteOfAdministration {
+                if let routeValue { return routeValue }
+                let value = entry.route
+                routeValue = value
+                return value
+            }
+
+            mutating func name() -> String {
+                if let nameValue { return nameValue }
+                let value = entry.substance
+                nameValue = value
+                return value
+            }
+
+            mutating func key() -> String {
+                if let keyValue { return keyValue }
+                let value = entry.identityKey
+                keyValue = value
+                return value
+            }
+        }
+
+        func matches(_ dose: inout Dose) -> Bool {
+            if let product {
+                return MedSchedule.productMatches(
+                    entryName: dose.name(), entryCombination: dose.entry.combinationName, product: product,
+                )
+            }
+            guard dose.route() == route else { return false }
+            return MedSchedule.identityMatches(keyA: dose.key(), nameA: dose.name(), keyB: key, nameB: name)
+        }
+
+        func matches(_ entry: DoseEntry) -> Bool {
+            var dose = Dose(entry)
+            return matches(&dose)
+        }
     }
 
     /// One journal day's adherence. `date` names the day (any instant on its
@@ -204,7 +282,9 @@ enum AdherenceCalculator {
         for item in dueItems {
             // A multi-time med expects one dose slot per reminder time.
             let itemExpected = max(1, item.reminderTimesMinutes.count)
-            let hits = dayEntries.count { entryMatches(entry: $0, item: item, products: products) }
+            let matcher = MedMatcher(item, products: products)
+            let itemDoses = dayEntries.filter { matcher.matches($0) }
+            let hits = itemDoses.count
             let itemTaken = min(hits, itemExpected)
             itemResults.append(ItemAdherence(item: item, takenCount: itemTaken, totalCount: itemExpected))
             matched += itemTaken
@@ -220,7 +300,6 @@ enum AdherenceCalculator {
             guard !times.isEmpty else { splittable = false; continue }
             let morningSlots = times.count { Calendar.journalMinutes(ofSlot: $0, boundaryHour: boundaryHour) < noonMinutes }
             let eveningSlots = times.count - morningSlots
-            let itemDoses = dayEntries.filter { entryMatches(entry: $0, item: item, products: products) }
             let morningHits = itemDoses.count { $0.journalMinutes(in: calendar, boundaryHour: boundaryHour) < noonMinutes }
             morningTotal += morningSlots
             eveningTotal += eveningSlots
