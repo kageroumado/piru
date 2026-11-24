@@ -1,19 +1,29 @@
-import Charts
 import SwiftUI
 
-/// One mechanism class's card: a family-color dot + tier-aware name, an optional
-/// contributor row, the segmented tolerance bar, the recovery chart, and trimmed safety notes.
-/// Density scales with `tier`. The level has no word: the bar is the whole readout.
+/// One mechanism class's card: a family-color dot + tier-aware name with the modeled level beside it,
+/// when the class reads near baseline, an optional contributor row, the segmented tolerance bar (or the
+/// effect ladder), the recovery chart on the screen's shared frame, and trimmed safety notes. Density
+/// scales with `tier`.
 struct ToleranceCard: View {
     let row: ToleranceRow
     let tier: UserProfile
+    /// The row's line on the shared frame, when the class is plotted.
+    let series: ToleranceRecoverySeries?
+    let frame: ToleranceChartFrame
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
-            ToleranceCardHeader(
-                color: row.familyColor,
-                name: toleranceClassName(row.snapshot.receptorClass, tier: tier),
-            )
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                ToleranceCardHeader(
+                    color: row.familyColor,
+                    name: toleranceClassName(row.snapshot.receptorClass, tier: tier),
+                    level: row.snapshot.severity,
+                )
+                if let minutes = row.minutesToNearBaseline {
+                    Text(toleranceNearBaselineText(minutes: minutes))
+                        .captionSecondary()
+                }
+            }
 
             if tier != .casual, !row.snapshot.contributors.isEmpty {
                 ToleranceContributorChips(contributors: row.snapshot.contributors, color: row.familyColor)
@@ -31,7 +41,14 @@ struct ToleranceCard: View {
                 EffectLadderView(snapshot: row.snapshot)
             }
 
-            ToleranceRecoveryChart(row: row)
+            if let series {
+                ToleranceCurvesChart(series: [series], frame: frame)
+                    .frame(height: 110)
+                    .chartSummaryAccessibility(
+                        label: Text("Modeled tolerance over time"),
+                        value: Text("The modeled level from now, fading over the time shown."),
+                    )
+            }
 
             ToleranceSafetyNotesView(notes: row.safetyNotes())
         }
@@ -42,6 +59,8 @@ struct ToleranceCard: View {
 struct ToleranceCardHeader: View {
     let color: Color
     let name: LocalizedStringResource
+    /// The modeled level now, 0–1, printed beside the name.
+    let level: Double
 
     var body: some View {
         HStack(spacing: Spacing.md) {
@@ -49,6 +68,10 @@ struct ToleranceCardHeader: View {
             Text(name)
                 .cardTitle()
             Spacer(minLength: 8)
+            Text(tolerancePercentText(level * 100))
+                .cardTitle()
+                .monospacedDigit()
+                .foregroundStyle(Theme.secondaryLabel)
         }
     }
 }
@@ -114,66 +137,6 @@ struct ToleranceBar: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Modeled tolerance"))
         .accessibilityValue(Text(min(1, max(0, level)), format: .percent.precision(.fractionLength(0))))
-    }
-}
-
-/// The per-card recovery chart (linear, gridded, starts at the current level, days). Skipped when
-/// essentially rested (nothing to plot) or when the recovery window is under a couple of hours — too
-/// short to plot without a degenerate, repeated-tick axis.
-struct ToleranceRecoveryChart: View {
-    let row: ToleranceRow
-
-    var body: some View {
-        if row.snapshot.severity > 0.03, row.recoveryWindowMinutes >= 120 {
-            let points = row.recoveryCurve(overMinutes: row.recoveryWindowMinutes)
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                Chart {
-                    ForEach(points) { point in
-                        LineMark(
-                            x: .value("Days", point.day),
-                            y: .value("Tolerance", point.percent),
-                        )
-                        .foregroundStyle(row.familyColor)
-                        .interpolationMethod(.monotone)
-                    }
-                    if let start = points.first {
-                        PointMark(
-                            x: .value("Days", start.day),
-                            y: .value("Tolerance", start.percent),
-                        )
-                        .foregroundStyle(row.familyColor)
-                        .symbolSize(45)
-                    }
-                }
-                .chartYScale(domain: 0 ... 100)
-                .chartYAxis {
-                    AxisMarks(values: [0, 100]) { value in
-                        AxisGridLine()
-                        AxisValueLabel {
-                            if let percent = value.as(Int.self) {
-                                Text(percent >= 100 ? "high" : "low")
-                            }
-                        }
-                    }
-                }
-                .chartXAxis {
-                    AxisMarks(values: row.xAxisDays) { value in
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel {
-                            if let days = value.as(Double.self) {
-                                Text(axisDayLabel(days: days))
-                            }
-                        }
-                    }
-                }
-                .frame(height: 92)
-                .chartSummaryAccessibility(
-                    label: Text("Modeled tolerance over time"),
-                    value: Text("The modeled level from now, fading over the days shown."),
-                )
-            }
-        }
     }
 }
 

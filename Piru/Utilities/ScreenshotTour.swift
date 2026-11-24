@@ -384,6 +384,15 @@
             chart("chart-pharmacology-ketamine", .chartsStatic, pages: 2, state: "Ketamine Pharmacology section") { stage in
                 stage.push(.substanceData(name: "Ketamine", section: .pharmacology), in: .library)
             },
+            chart("chart-tolerance-substance-casual", pages: 3, state: "Modeled Tolerance, Show By substance, Detail Level Casual") { stage in
+                stage.disclosure(.casual)
+                stage.toleranceMode(.perSubstance)
+                stage.push(.insight(.tolerance), in: .insights)
+            },
+            chart("chart-tolerance-selected", state: "Modeled Tolerance, the point two days ahead selected") { stage in
+                stage.select(.tolerance, at: DebugClock.now.addingTimeInterval(2 * 86_400))
+                stage.push(.insight(.tolerance), in: .insights)
+            },
         ].flatMap(\.self)
 
         /// One chart screen, plus a screen per page below the fold.
@@ -447,6 +456,7 @@
             case usageTrends
             case modeledLevels
             case receptorLoad
+            case tolerance
         }
 
         fileprivate static var stagedChart = ChartStage()

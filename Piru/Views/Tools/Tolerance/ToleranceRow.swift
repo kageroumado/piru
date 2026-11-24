@@ -12,11 +12,25 @@ struct ToleranceRow: Identifiable {
         snapshot.receptorClass
     }
 
-    /// Minimum severity for a non-safety class to earn a card — the rested / mild bucket
-    /// boundary (``ToleranceBucket``: rested at responseFraction ≥ 0.90 ⇒ severity ≤ 0.10). Below it a
-    /// card would render for a level the gauge draws as empty, which is noise — it's how a drug with only trace activity at the class's target (e.g.
-    /// amphetamine's weak SERT release) slipped into the chart. Safety-critical classes bypass it.
-    static let minimumCardSeverity = 0.10
+    /// The level at or under which a class reads **near baseline**: the rested / mild boundary of
+    /// ``ToleranceBucket`` (rested at responseFraction ≥ 0.90 ⇒ severity ≤ 0.10). It is the line the
+    /// charts draw, the point the "near baseline" date names, and the floor for a card.
+    static let nearBaselineSeverity = 0.10
+
+    /// Minimum severity for a class to earn a card on its level alone. Below it a card would render for
+    /// a level the gauge draws as empty, which is noise: a drug with only trace activity at the class's
+    /// target (amphetamine's weak SERT release) would otherwise bring its own card and chart line.
+    static let minimumCardSeverity = nearBaselineSeverity
+
+    /// Lowest level the near-baseline list names: one that prints as at least 1%.
+    static let minimumListedSeverity = 0.005
+
+    /// A class earns a card when its level is above near baseline, or when it is safety-critical and has
+    /// a note to carry (the adrenergic rebound hosts, a chronically used GABAergic), so a
+    /// discontinuation warning always has a card to sit on.
+    var earnsCard: Bool {
+        snapshot.severity > Self.minimumCardSeverity || (isSafetyCritical && !safetyNotes().isEmpty)
+    }
 
     /// Classes pinned to the top of the flat list — the reset-overdose, dependence-kindling, and
     /// adrenergic discontinuation-rebound hosts. They lead regardless of how faint the right-shift is.
@@ -52,47 +66,60 @@ struct ToleranceRow: Identifiable {
         ]
         return raw.enumerated().compactMap { index, band in
             let (label, shift, color) = band
-            guard shift > 0 else { return nil }
-            return ToleranceBand(id: index, label: label, widthFraction: severity * shift / totalShift, color: color)
+            let width = severity * shift / totalShift
+            guard width >= Self.minimumBandWidth else { return nil }
+            return ToleranceBand(id: index, label: label, widthFraction: width, color: color)
         }
     }
+
+    /// Narrowest band the bar draws and its legend names, as a share of the track: about 3 pt at phone
+    /// width, the least a reader can see.
+    static let minimumBandWidth = 0.01
 
     // MARK: - Recovery curve / windows
 
-    /// Forward-decay the engaged layers over `[0, window]` and convert each `S(t)` to a **tolerance
-    /// percentage** — the curve starts at the **current** tolerance (t = 0) and *descends* toward 0 as
-    /// the layers relax, matching the bar's orientation (full = strong tolerance). Uses the same
-    /// saturating ``PDModel/responseFraction`` with the class's mechanism-aware cap (§5 — ½ for
-    /// release/reuptake proxies, uncapped for agonists) as the gauge, so the graph and the bar can never
-    /// disagree. Shared by the per-card chart and the combined chart, so the sampling math lives in
-    /// exactly one place.
-    func recoveryCurve(overMinutes window: Double, sampleCount: Int = 24) -> [ToleranceChartPoint] {
+    /// The class's tolerance `minutes` from now with no further dosing, as a percentage: every layer
+    /// decays on its own time constant and the shift is read through the same saturating
+    /// ``PDModel/responseFraction`` and mechanism-aware cap as the gauge, so a curve, a readout and the
+    /// bar can never disagree.
+    func tolerancePercent(afterMinutes minutes: Double) -> Double {
+        let shift = ToleranceRecovery.shiftFactor(layers: recoveryLayers(), afterMinutes: max(0, minutes))
+        let tolerance = 1 - PDModel.responseFraction(
+            shiftFactor: shift, representativeOccupancy: snapshot.representativeOccupancy,
+            occupancyCap: snapshot.receptorClass.gaugeOccupancyCap,
+        )
+        return max(0, min(100, tolerance * 100))
+    }
+
+    /// The curve from the **current** tolerance (t = 0) down toward 0 across `[0, window]`. Samples sit
+    /// closer together near now, where the acute layer drops within hours, so a weeks-long window still
+    /// draws that first fall as a curve.
+    func recoveryCurve(overMinutes window: Double, sampleCount: Int = 48) -> [ToleranceChartPoint] {
         let span = max(window, 1)
-        let layers = recoveryLayers()
         return (0 ..< sampleCount).map { index in
-            let minutes = span * Double(index) / Double(sampleCount - 1)
-            let shift = ToleranceRecovery.shiftFactor(layers: layers, afterMinutes: minutes)
-            let tolerance = 1 - PDModel.responseFraction(
-                shiftFactor: shift, representativeOccupancy: snapshot.representativeOccupancy,
-                occupancyCap: snapshot.receptorClass.gaugeOccupancyCap,
-            )
-            return ToleranceChartPoint(id: index, day: minutes / 1_440, percent: max(0, min(100, tolerance * 100)))
+            let position = Double(index) / Double(sampleCount - 1)
+            let minutes = span * position * position
+            return ToleranceChartPoint(id: index, day: minutes / 1_440, percent: tolerancePercent(afterMinutes: minutes))
         }
     }
 
-    /// Linear day ticks across this row's recovery window — `now` at the origin, four evenly-spaced
-    /// gridlines to the window edge.
-    var xAxisDays: [Double] {
-        let windowDays = recoveryWindowMinutes / 1_440
-        return [0, windowDays * 0.25, windowDays * 0.5, windowDays * 0.75, windowDays]
-    }
-
-    /// Recovery window `W` (minutes) for the chart's X axis — time for tolerance to fade to ~5% if
-    /// dosing stops now, capped at 180 days so the deep months-scale tail stays readable.
-    var recoveryWindowMinutes: Double {
+    /// Time for tolerance to fade to ~5% if dosing stops now, in minutes, capped at 180 days: the span a
+    /// chart takes when every plotted class already reads near baseline.
+    var fadeMinutes: Double {
         let minutes = recoveryMinutes(toTolerance: 0.05) ?? 0
         return min(max(minutes, 0), 180 * 1_440)
     }
+
+    /// Minutes until the class reads near baseline (``nearBaselineSeverity``) with no further dosing:
+    /// `0` when it already does, `nil` when the model places no such point inside its five-year forecast.
+    var minutesToNearBaseline: Double? {
+        guard let minutes = recoveryMinutes(toTolerance: Self.nearBaselineSeverity),
+              minutes < Self.forecastHorizonMinutes else { return nil }
+        return minutes
+    }
+
+    /// The reach of ``PDModel/shiftDecayMinutes(layers:toShift:)``'s search: five years of minutes.
+    private static let forecastHorizonMinutes: Double = 2_628_000
 
     /// Minutes for **tolerance** to decay to `target` (∈ [0,1]) if dosing stops now. Tolerance is
     /// `1 − responseFraction`, so the target response fraction is `1 − target`; inverting the saturating
@@ -221,22 +248,30 @@ func toleranceClassName(
     }
 }
 
-/// A compact X-axis tick label. Ticks sit at 0·W … 1·W in quarter-window steps, so a coarse
-/// (whole-hour / whole-day) unit collides on adjacent ticks for short windows — the "1h · 2h · 2h" bug.
-/// Each magnitude drops to the next-finer unit (minutes < 2 h, hours < 4 d, days < 4 wk) so neighboring
-/// ticks always round apart.
-func axisDayLabel(days: Double) -> String {
-    let value = max(0, days)
-    if value <= 0 { return String(localized: "now") }
-    let hours = value * 24
-    if hours < 2 {
-        let mins = max(5, Int((hours * 60 / 5).rounded()) * 5)
-        return String(localized: "\(mins)m")
+/// A time axis tick: "now" at the origin, then the tick's count in the axis's one unit.
+func toleranceTimeTickLabel(_ axis: ToleranceChartScale.TimeAxis, days: Double) -> String {
+    let count = axis.count(atDays: days)
+    if count <= 0 { return String(localized: "now") }
+    switch axis.unit {
+    case .hours: return String(localized: "\(count)h")
+    case .days: return String(localized: "\(count)d")
+    case .weeks: return String(localized: "\(count)wk")
     }
-    if value < 4 { return String(localized: "\(Int(hours.rounded()))h") }
-    if value < 28 { return String(localized: "\(Int(value.rounded()))d") }
-    if value < 120 { return String(localized: "\(Int((value / 7).rounded()))wk") }
-    return String(localized: "\(Int((value / 30).rounded()))mo")
+}
+
+/// A modeled level as whole percent ("27%").
+func tolerancePercentText(_ percent: Double) -> String {
+    (max(0, min(100, percent)) / 100).formatted(.percent.precision(.fractionLength(0)))
+}
+
+/// When a class reads near baseline, as a sentence: a date `minutes` from `now`, or "now" at zero.
+func toleranceNearBaselineText(minutes: Double, now: Date = .now) -> String {
+    guard minutes > 0 else { return String(localized: "Near baseline now") }
+    let date = ToleranceBaselineDate.text(
+        for: now.addingTimeInterval(minutes * 60),
+        precision: ToleranceBaselineDate.precision(minutesAhead: minutes),
+    )
+    return String(localized: "Near baseline around \(date)")
 }
 
 /// "A, B and C" style join for the incomplete-data list.

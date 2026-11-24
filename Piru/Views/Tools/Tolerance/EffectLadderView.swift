@@ -59,8 +59,17 @@ private struct EffectLadderRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(row.axis.displayName)
-                .font(.subheadline)
+            // The level is printed beside the name, so an empty track reads as a modeled zero.
+            HStack(spacing: Spacing.md) {
+                Text(row.axis.displayName)
+                    .font(.subheadline)
+                Spacer(minLength: 8)
+                Text(tolerancePercentText(row.toleranceFraction * 100))
+                    .font(.subheadline)
+                    .monospacedDigit()
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
+            }
             track
         }
     }
@@ -69,9 +78,12 @@ private struct EffectLadderRowView: View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
                 Capsule().fill(Color.secondary.opacity(Theme.Opacity.tintActive))
-                Capsule()
-                    .fill(row.color.opacity(Theme.Opacity.dimmed))
-                    .frame(width: geo.size.width * row.toleranceFraction)
+                // A level that prints as 0% draws no fill, so the track and its number agree.
+                if row.toleranceFraction >= 0.005 {
+                    Capsule()
+                        .fill(row.color.opacity(Theme.Opacity.dimmed))
+                        .frame(width: geo.size.width * row.toleranceFraction)
+                }
             }
         }
         .frame(height: 9)

@@ -24,30 +24,13 @@ struct ToleranceSubstanceGroup: Identifiable {
 /// (expandable) dose history. Shows a spinner while the heavier per-substance replay is still running.
 struct TolerancePerSubstanceSection: View {
     let groups: [ToleranceSubstanceGroup]
-    /// The per-substance replay is still running (first entry into this view) — show a spinner rather
-    /// than the "log a few doses" empty copy.
+    let tier: UserProfile
+    /// The per-substance replay is still running (first entry into this view).
     let isReplayRunning: Bool
     @Binding var expandedSubstances: Set<String>
 
     var body: some View {
-        if groups.isEmpty {
-            Section {
-                if isReplayRunning {
-                    HStack(spacing: Spacing.md) {
-                        ProgressView()
-                        Text("Calculating each substance's contribution…")
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    .padding(.vertical, Spacing.xs)
-                } else {
-                    Text("Log a few doses and each substance's tolerance shows up here.")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.vertical, Spacing.xs)
-                }
-            }
-        } else {
+        if !groups.isEmpty {
             Section {
                 Label("Each card is that substance's own contribution. Mechanisms are shared, so your overall level (the chart above, or By mechanism) can be higher.", systemImage: "person.fill.viewfinder")
                     .captionSecondary()
@@ -55,8 +38,18 @@ struct TolerancePerSubstanceSection: View {
             }
             ForEach(groups) { group in
                 Section {
-                    ToleranceSubstanceCard(group: group, expandedSubstances: $expandedSubstances)
+                    ToleranceSubstanceCard(group: group, tier: tier, expandedSubstances: $expandedSubstances)
                 }
+            }
+        } else if isReplayRunning {
+            Section {
+                HStack(spacing: Spacing.md) {
+                    ProgressView()
+                    Text("Calculating each substance's contribution…")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                .padding(.vertical, Spacing.xs)
             }
         }
     }
@@ -64,6 +57,7 @@ struct TolerancePerSubstanceSection: View {
 
 struct ToleranceSubstanceCard: View {
     let group: ToleranceSubstanceGroup
+    let tier: UserProfile
     @Binding var expandedSubstances: Set<String>
 
     /// Most doses shown when a card is expanded — enough to see the recent pattern without a
@@ -88,9 +82,8 @@ struct ToleranceSubstanceCard: View {
             VStack(alignment: .leading, spacing: Spacing.lg) {
                 ForEach(group.classes) { snapshot in
                     ToleranceMechanismRow(
-                        color: snapshot.receptorClass.familyColor,
-                        name: snapshot.receptorClass.casualName,
-                        severity: snapshot.severity,
+                        row: ToleranceRow(snapshot: snapshot, params: ReceptorClasses.parameters(for: snapshot.receptorClass)),
+                        name: toleranceClassName(snapshot.receptorClass, tier: tier),
                     )
                 }
             }
@@ -136,33 +129,52 @@ struct ToleranceSubstanceCard: View {
     }
 }
 
-/// One mechanism line inside a per-substance card: the class name over a slim family-colored level
-/// bar.
+/// One mechanism line inside a per-substance card: the class name and this substance's own level over
+/// a slim family-colored bar, then the date that level reads near baseline when it is above it.
 struct ToleranceMechanismRow: View {
-    let color: Color
+    /// The substance's own contribution to one class, replayed alone.
+    let row: ToleranceRow
     let name: LocalizedStringResource
-    let severity: Double
+
+    private var severity: Double {
+        min(1, max(0, row.snapshot.severity))
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(spacing: Spacing.md) {
-                LegendDot(color: color, size: .compact)
+                LegendDot(color: row.familyColor, size: .compact)
                 Text(name)
                     .font(.subheadline)
                 Spacer(minLength: 8)
+                Text(tolerancePercentText(severity * 100))
+                    .font(.subheadline)
+                    .monospacedDigit()
+                    .foregroundStyle(Theme.secondaryLabel)
             }
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule().fill(Color.secondary.opacity(Theme.Opacity.tintActive))
-                    Capsule().fill(color)
-                        .frame(width: max(0, geo.size.width * min(1, max(0, severity))))
+                    Capsule().fill(row.familyColor)
+                        .frame(width: max(0, geo.size.width * severity))
                 }
             }
             .frame(height: 7)
+            if let minutes = row.minutesToNearBaseline, minutes > 0 {
+                Text(toleranceNearBaselineText(minutes: minutes))
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(name))
-        .accessibilityValue(Text(min(1, max(0, severity)), format: .percent.precision(.fractionLength(0))))
+        .accessibilityValue(Text(accessibilityValue))
+    }
+
+    private var accessibilityValue: String {
+        let level = tolerancePercentText(severity * 100)
+        guard let minutes = row.minutesToNearBaseline, minutes > 0 else { return level }
+        return "\(level), \(toleranceNearBaselineText(minutes: minutes))"
     }
 }
 
