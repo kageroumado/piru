@@ -925,6 +925,40 @@
         }
       }
     },
+    "%@ · active until %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · active until %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · activo hasta %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · activo hasta %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 活性持续至 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 活性持續至 %@"
+          }
+        }
+      }
+    },
     "%@ · modeled (%@)." : {
       "localizations" : {
         "en" : {
@@ -1215,6 +1249,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "剩 %@ %@"
+          }
+        }
+      }
+    },
+    "%@ %@ now" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ now"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@ ahora"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@ ahora"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 现在 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 現在 %@"
           }
         }
       }
@@ -3163,6 +3231,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 上升至每週 %2$@"
+          }
+        }
+      }
+    },
+    "%@ runs past the chart, to ~%@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ runs past the chart, to ~%2$@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sigue más allá del gráfico, hasta ~%@."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sigue más allá del gráfico, hasta ~%@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 超出图表范围，约至 %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 超出圖表範圍，約至 %@。"
           }
         }
       }
@@ -5233,6 +5335,7 @@
       }
     },
     "%lld entries, busiest on %@ with %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5262,6 +5365,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld 筆條目，%2$@最多，共 %3$lld 筆"
+          }
+        }
+      }
+    },
+    "%lld entries, busiest on %@, %@ on average" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld registros, mayor actividad el %@, %@ de media"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld registros, mayor actividad el %@, %@ de media"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 条条目，%2$@最多，平均 %3$@ 条"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 筆條目，%2$@最多，平均 %3$@ 筆"
           }
         }
       }
@@ -5647,6 +5778,7 @@
       }
     },
     "%lld mechanisms plotted from their modeled level now." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -6943,6 +7075,34 @@
         }
       }
     },
+    "%lld%% eliminated in model" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% eliminado en el modelo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% eliminado en el modelo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型中已清除 %lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型中已清除 %lld%%"
+          }
+        }
+      }
+    },
     "%lld%% eliminated in model · threshold ~%@" : {
       "localizations" : {
         "es" : {
@@ -6972,6 +7132,7 @@
       }
     },
     "%lld%% left" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -7024,6 +7185,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "負荷 %lld%%"
+          }
+        }
+      }
+    },
+    "%lld%% of %@ %@ left" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld%% of %2$@ %3$@ left"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queda un %lld%% de %@ %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queda un %lld%% de %@ %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%3$@ 剩余 %1$lld%%（共 %2$@）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%3$@ 剩餘 %1$lld%%（共 %2$@）"
           }
         }
       }
@@ -7395,6 +7590,7 @@
       }
     },
     "%lldmo" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -19545,6 +19741,40 @@
         }
       }
     },
+    "Based on %lld of %lld entries with a common dose" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Based on %1$lld of %2$lld entries with a common dose"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basado en %lld de %lld registros con dosis común"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basado en %lld de %lld registros con dosis común"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基于 %2$lld 条记录中有常用剂量的 %1$lld 条"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基於 %2$lld 筆記錄中有常用劑量的 %1$lld 筆"
+          }
+        }
+      }
+    },
     "Based on %lld of %lld entries with dose data" : {
       "localizations" : {
         "en" : {
@@ -21043,6 +21273,34 @@
         }
       }
     },
+    "Blood level, in multiples of the peak after %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nivel en sangre, en múltiplos del pico tras %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nivel en sangre, en múltiplos del pico tras %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血药浓度，以 %@ 后峰值的倍数表示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血中濃度，以 %@ 後峰值的倍數表示"
+          }
+        }
+      }
+    },
     "Blood pressure" : {
       "localizations" : {
         "es" : {
@@ -22032,6 +22290,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一次購買，永久擁有。皮膚讓 Piru 保持獨立：沒有廣告，沒有訂閱，所有功能免費。"
+          }
+        }
+      }
+    },
+    "by %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "para el %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "para el %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最迟 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最遲 %@"
           }
         }
       }
@@ -23334,6 +23620,34 @@
         }
       }
     },
+    "Ceiling" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Techo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Techo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上限"
+          }
+        }
+      }
+    },
     "Ceiling Effect" : {
       "localizations" : {
         "es" : {
@@ -24348,7 +24662,6 @@
       }
     },
     "Choose a dose on the left, or search for a substance." : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -24630,7 +24943,6 @@
       }
     },
     "Choose something from the list to see it here." : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -27135,6 +27447,62 @@
         }
       }
     },
+    "Compared with no tolerance, in the model. The curves assume nothing more is logged. Under %@ counts as near baseline." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparado con no tener tolerancia, en el modelo. Las curvas suponen que no se registra nada más. Por debajo de %@ cuenta como cerca de la línea base."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparado con no tener tolerancia, en el modelo. Las curvas suponen que no se registra nada más. Por debajo de %@ cuenta como cerca de la línea base."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与无耐受相比，按模型计算。曲线假设不再记录任何剂量。低于 %@ 视为接近基线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與無耐受相比，按模型計算。曲線假設不再記錄任何劑量。低於 %@ 視為接近基線。"
+          }
+        }
+      }
+    },
+    "Compared with no tolerance, in the model. The solid line projects your scheduled My Meds doses; the dashed line is the model with no further doses. Under %@ counts as near baseline." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparado con no tener tolerancia, en el modelo. La línea continua proyecta tus dosis programadas en Mis medicamentos; la discontinua es el modelo sin más dosis. Por debajo de %@ cuenta como cerca de la línea base."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparado con no tener tolerancia, en el modelo. La línea continua proyecta tus dosis programadas en Mis medicamentos; la discontinua es el modelo sin más dosis. Por debajo de %@ cuenta como cerca de la línea base."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与无耐受相比，按模型计算。实线按“我的药物”中的计划剂量推算；虚线为不再服用任何剂量时的模型。低于 %@ 视为接近基线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與無耐受相比，按模型計算。實線按「我的藥物」中的排程劑量推算；虛線為不再服用任何劑量時的模型。低於 %@ 視為接近基線。"
+          }
+        }
+      }
+    },
     "Component" : {
       "localizations" : {
         "es" : {
@@ -29472,6 +29840,34 @@
         }
       }
     },
+    "Current skin" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema actual"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema actual"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前的皮膚"
+          }
+        }
+      }
+    },
     "Curve Scale" : {
       "localizations" : {
         "es" : {
@@ -30084,6 +30480,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日均 %@"
+          }
+        }
+      }
+    },
+    "Daily dose, in multiples of the lowest one measured: %@ mg gabapentin, %@ mg pregabalin." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Daily dose, in multiples of the lowest one measured: %1$@ mg gabapentin, %2$@ mg pregabalin."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosis diaria, en múltiplos de la más baja medida: %@ mg de gabapentina, %@ mg de pregabalina."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosis diaria, en múltiplos de la más baja medida: %@ mg de gabapentina, %@ mg de pregabalina."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日剂量，以测得最低剂量的倍数表示：加巴喷丁 %@ mg，普瑞巴林 %@ mg。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日劑量，以測得最低劑量的倍數表示：加巴噴丁 %@ mg，普瑞巴林 %@ mg。"
           }
         }
       }
@@ -35230,6 +35660,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每種成分的含量按每單位計。"
+          }
+        }
+      }
+    },
+    "Each curve is a percentage of its own peak." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada curva es un porcentaje de su propio pico."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada curva es un porcentaje de su propio pico."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条曲线以其自身峰值的百分比表示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每條曲線以其自身峰值的百分比表示。"
           }
         }
       }
@@ -41898,6 +42356,34 @@
         }
       }
     },
+    "Floor" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suelo"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suelo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下限"
+          }
+        }
+      }
+    },
     "Fluctuation" : {
       "localizations" : {
         "es" : {
@@ -45880,6 +46366,7 @@
       }
     },
     "high" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -52291,6 +52778,34 @@
         }
       }
     },
+    "Less effect from a usual dose" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menos efecto de una dosis habitual"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menos efecto de una dosis habitual"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常用剂量的效果减弱程度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常用劑量的效果減弱程度"
+          }
+        }
+      }
+    },
     "Less than usual" : {
       "localizations" : {
         "es" : {
@@ -54039,6 +54554,7 @@
       }
     },
     "Log a few doses and each substance's tolerance shows up here." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -54770,6 +55286,7 @@
       }
     },
     "low" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -60556,6 +61073,118 @@
         }
       }
     },
+    "Near baseline" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de la línea base"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de la línea base"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接近基线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接近基線"
+          }
+        }
+      }
+    },
+    "Near baseline around %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de la línea base hacia %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de la línea base hacia %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约在 %@ 接近基线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約在 %@ 接近基線"
+          }
+        }
+      }
+    },
+    "Near baseline now" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de la línea base ahora"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de la línea base ahora"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在已接近基线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在已接近基線"
+          }
+        }
+      }
+    },
+    "Near baseline now with no further doses" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de la línea base ahora sin más dosis"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de la línea base ahora sin más dosis"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再服用的话，现在已接近基线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再服用的話，現在已接近基線"
+          }
+        }
+      }
+    },
     "Needs an amount" : {
       "localizations" : {
         "es" : {
@@ -62202,6 +62831,34 @@
         }
       }
     },
+    "No entries match the substance filter in this range." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ningún registro coincide con el filtro de sustancias en este rango."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ningún registro coincide con el filtro de sustancias en este rango."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内没有符合物质筛选条件的记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內沒有符合物質篩選條件的記錄。"
+          }
+        }
+      }
+    },
     "No entries recorded yet" : {
       "localizations" : {
         "es" : {
@@ -62422,6 +63079,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚無庫存"
+          }
+        }
+      }
+    },
+    "No logged dose still counts toward a mechanism this model follows. The model sees only what is logged, so an empty screen says nothing about your actual tolerance." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguna dosis registrada cuenta ya para un mecanismo que sigue este modelo. El modelo solo ve lo que se registra, así que una pantalla vacía no dice nada sobre tu tolerancia real."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguna dosis registrada cuenta ya para un mecanismo que sigue este modelo. El modelo solo ve lo que se registra, así que una pantalla vacía no dice nada sobre tu tolerancia real."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已记录的剂量中没有仍计入本模型所追踪机制的。模型只能看到已记录的内容，因此这里为空并不代表你的实际耐受情况。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已記錄的劑量中沒有仍計入本模型所追蹤機制的。模型只能看到已記錄的內容，因此這裡為空並不代表你的實際耐受情況。"
           }
         }
       }
@@ -64341,6 +65026,34 @@
         }
       }
     },
+    "Nothing above baseline" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada por encima de la línea base"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada por encima de la línea base"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有高于基线的项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有高於基線的項目"
+          }
+        }
+      }
+    },
     "Nothing active now" : {
       "localizations" : {
         "es" : {
@@ -64707,6 +65420,7 @@
       }
     },
     "Nothing modeled." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -64763,7 +65477,6 @@
       }
     },
     "Nothing Open" : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -64820,7 +65533,6 @@
       }
     },
     "Nothing Staged" : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -65322,6 +66034,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "現在"
+          }
+        }
+      }
+    },
+    "Now %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Now %1$@ %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahora %@ %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahora %@ %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在 %@ %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在 %@ %@"
           }
         }
       }
@@ -67766,6 +68512,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "過量"
+          }
+        }
+      }
+    },
+    "Overlap end" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin de la superposición"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin de la superposición"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重叠结束"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重疊結束"
+          }
+        }
+      }
+    },
+    "Overlap start" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio de la superposición"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio de la superposición"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重叠开始"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重疊開始"
           }
         }
       }
@@ -71403,6 +72205,40 @@
         }
       }
     },
+    "Plateaus around %@, %@× one dose, reached %@; now %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Plateaus around %1$@, %2$@× one dose, reached %3$@; now %4$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se estabiliza en torno a %@, %@× una dosis, alcanzado %@; ahora %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se estabiliza en torno a %@, %@× una dosis, alcanzado %@; ahora %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %1$@ 左右达到平台期，为单次剂量的 %2$@ 倍，%3$@ 达到；现在 %4$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %1$@ 左右達到平台期，為單次劑量的 %2$@ 倍，%3$@ 達到；現在 %4$@"
+          }
+        }
+      }
+    },
     "Plateaus around %@, %@× one dose, reached in %@" : {
       "localizations" : {
         "es" : {
@@ -74302,6 +75138,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如果感到無法承受，向信任的人傾訴"
+          }
+        }
+      }
+    },
+    "Reached" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alcanzado"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alcanzado"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已达到"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已達到"
           }
         }
       }
@@ -83278,6 +84142,34 @@
         }
       }
     },
+    "Settles near %@ on your My Meds schedule" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se estabiliza cerca de %@ con tu pauta de Mis medicamentos"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se estabiliza cerca de %@ con tu pauta de Mis medicamentos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按“我的药物”的计划，稳定在 %@ 左右"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按「我的藥物」的排程，穩定在 %@ 左右"
+          }
+        }
+      }
+    },
     "Severe" : {
       "localizations" : {
         "es" : {
@@ -83611,6 +84503,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "佔劑量比例"
+          }
+        }
+      }
+    },
+    "Share of the dose absorbed" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fracción de la dosis absorbida"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fracción de la dosis absorbida"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量被吸收的比例"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量被吸收的比例"
           }
         }
       }
@@ -84206,7 +85126,6 @@
       }
     },
     "Shortcuts" : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -84650,6 +85569,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示你的配對碼"
+          }
+        }
+      }
+    },
+    "Showing %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Showing %1$lld of %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrando %lld de %lld"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrando %lld de %lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示 %2$lld 项中的 %1$lld 项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示 %2$lld 項中的 %1$lld 項"
           }
         }
       }
@@ -85869,6 +86822,35 @@
         }
       }
     },
+    "Skip's other modules, which run Piru's Swift code on Android. Piru's changes to them are in android/vendor in its repository." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los demás módulos de Skip, que ejecutan el código Swift de Piru en Android. Los cambios de Piru están en android/vendor de su repositorio."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los demás módulos de Skip, que ejecutan el código Swift de Piru en Android. Los cambios de Piru están en android/vendor de su repositorio."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip 的其他模块，在 Android 上运行 Piru 的 Swift 代码。Piru 对它们的修改位于其代码库的 android/vendor 中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip 的其他模組，在 Android 上執行 Piru 的 Swift 程式碼。Piru 對它們的修改位於其程式庫的 android/vendor 中。"
+          }
+        }
+      }
+    },
     "Skipped" : {
       "localizations" : {
         "es" : {
@@ -85921,6 +86903,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天已跳過"
+          }
+        }
+      }
+    },
+    "SkipUI and SkipFuseUI, the parts of Skip that draw Piru's screens on Android. Piru's changes to them are in android/vendor in its repository." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SkipUI y SkipFuseUI, las partes de Skip que dibujan las pantallas de Piru en Android. Los cambios de Piru están en android/vendor de su repositorio."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SkipUI y SkipFuseUI, las partes de Skip que dibujan las pantallas de Piru en Android. Los cambios de Piru están en android/vendor de su repositorio."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SkipUI 和 SkipFuseUI，Skip 中在 Android 上绘制 Piru 界面的部分。Piru 对它们的修改位于其代码库的 android/vendor 中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SkipUI 與 SkipFuseUI，Skip 中在 Android 上繪製 Piru 畫面的部分。Piru 對它們的修改位於其程式庫的 android/vendor 中。"
           }
         }
       }
@@ -88760,6 +89771,34 @@
         }
       }
     },
+    "Still falling at the end of the window on your My Meds schedule" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigue bajando al final del intervalo con tu pauta de Mis medicamentos"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigue bajando al final del intervalo con tu pauta de Mis medicamentos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按“我的药物”的计划，到时间窗结束时仍在下降"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按「我的藥物」的排程，到時間窗結束時仍在下降"
+          }
+        }
+      }
+    },
     "Still need to log %@?" : {
       "localizations" : {
         "es" : {
@@ -88812,6 +89851,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還需要服用 %@ 的補劑嗎？"
+          }
+        }
+      }
+    },
+    "Still rising at the end of the window on your My Meds schedule" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigue subiendo al final del intervalo con tu pauta de Mis medicamentos"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigue subiendo al final del intervalo con tu pauta de Mis medicamentos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按“我的药物”的计划，到时间窗结束时仍在上升"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按「我的藥物」的排程，到時間窗結束時仍在上升"
           }
         }
       }
@@ -93828,6 +94895,7 @@
       }
     },
     "The modeled level from now, fading over the days shown." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -93851,6 +94919,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從現在起的模型推算水平，在所示的天數內逐漸衰減。"
+          }
+        }
+      }
+    },
+    "The modeled level from now, fading over the time shown." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El nivel modelado desde ahora, que se atenúa a lo largo del tiempo mostrado."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El nivel modelado desde ahora, que se atenúa a lo largo del tiempo mostrado."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从现在起的模型水平，在所示时间内逐渐减弱。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從現在起的模型水平，在所示時間內逐漸減弱。"
           }
         }
       }
@@ -97039,6 +98135,34 @@
         }
       }
     },
+    "Tomorrow" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mañana"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mañana"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明天"
+          }
+        }
+      }
+    },
     "Too short. Use at least %lld characters." : {
       "localizations" : {
         "es" : {
@@ -97207,7 +98331,36 @@
         }
       }
     },
+    "Total taken this range" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total tomado en este rango"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total tomado en este rango"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内的总摄入量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內的總攝入量"
+          }
+        }
+      }
+    },
     "Total taken this range, in each substance's common-dose unit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -98613,6 +99766,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "低於 %@"
+          }
+        }
+      }
+    },
+    "Under %@ in the model now: %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Under %1$@ in the model now: %2$@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por debajo de %@ en el modelo ahora: %@."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por debajo de %@ en el modelo ahora: %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型中现在低于 %@：%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型中現在低於 %@：%@。"
           }
         }
       }
@@ -101483,6 +102670,7 @@
       }
     },
     "Wearing this skin" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -103164,6 +104352,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "長期大量使用之後"
+          }
+        }
+      }
+    },
+    "With no further doses, near baseline around %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin más dosis, cerca de la línea base hacia %@"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin más dosis, cerca de la línea base hacia %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再服用的话，约在 %@ 接近基线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再服用的話，約在 %@ 接近基線"
           }
         }
       }
@@ -105219,62 +106435,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-鴉片受體（MOR）完全促效劑"
-          }
-        }
-      }
-    },
-    "Current skin" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当前皮肤"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "目前的皮膚"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tema actual"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tema actual"
-          }
-        }
-      }
-    },
-    "%lld entries, busiest on %@, %@ on average" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld 条条目，%2$@最多，平均 %3$@ 条"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld 筆條目，%2$@最多，平均 %3$@ 筆"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld registros, mayor actividad el %@, %@ de media"
-          }
-        },
-        "es-ES" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld registros, mayor actividad el %@, %@ de media"
           }
         }
       }
