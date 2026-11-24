@@ -319,9 +319,6 @@ struct InsightsView: View {
                                 if Calendar.current.isDateInToday(cell.date) {
                                     RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
                                         .stroke(Theme.accent, lineWidth: 1.5)
-                                } else if isMissed(cell) {
-                                    RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
-                                        .strokeBorder(Theme.tertiaryLabel, lineWidth: 1)
                                 }
                             }
                     } else {
@@ -334,22 +331,18 @@ struct InsightsView: View {
         .accessibilityLabel(Text("This month's adherence calendar"))
     }
 
-    /// The Adherence calendar's code: taken in the success color, partly
-    /// taken a lighter step of it. An unlogged day is an empty outline, never
-    /// a warning color: in a thin month those are most of the grid, and a
-    /// dose is not a confession. The three read apart by lightness alone.
+    /// The month grid's code: taken in the success color, partly taken a
+    /// lighter step of it, a missed day filled in the dose scale's heavy red
+    /// held back to `strong`. Every past day is a filled cell; an outline
+    /// marks only today.
     private func adherenceDotColor(_ day: DayAdherence) -> Color {
         if day.date > .now { return Color.platformTertiarySystemFill }
         switch day.status {
         case .complete: return .successAccent.opacity(Theme.Opacity.dimmed)
         case .partial: return .successAccent.opacity(Theme.Opacity.tintActive)
-        case .missed: return .clear
+        case .missed: return .Dose.Heavy.accent.opacity(Theme.Opacity.strong)
         case .noData: return Color.platformSecondarySystemFill
         }
-    }
-
-    private func isMissed(_ day: DayAdherence) -> Bool {
-        day.date <= .now && day.status == .missed
     }
 
     private func emptyContent(_ message: LocalizedStringKey) -> some View {
