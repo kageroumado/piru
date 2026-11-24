@@ -363,6 +363,36 @@ struct InventoryTests {
         #expect(result.daysLeft == 63)
     }
 
+    /// `runOut` reads the item's doses from a week back, where the stock
+    /// replay reads them from the start of tracking. The narrower read has to
+    /// hold exactly the doses the full one holds in that week.
+    @Test
+    func `runOut reads the last week, and the same doses the full read holds there`() throws {
+        let ctx = try makeContext()
+        let item = makeItem(ctx, unit: "mg", trackingStart: now.addingTimeInterval(-60 * 86_400), initial: 5_000)
+        // 41 days of one 10 mg dose a day, the newest an hour before `now`.
+        for day in 0 ... 40 {
+            logDose(ctx, amount: 10, at: Double(-day) * 24 - 1)
+        }
+        // Another substance's doses in the same week stay out of both reads.
+        logDose(ctx, substance: "ZZTestInventoryOther", amount: 99, at: -2)
+        InventoryService.recompute(item, in: ctx)
+
+        let result = try #require(InventoryMath.runOut(for: item, in: ctx, now: now))
+        #expect(result.dailyAvg == 10)
+        // current = 5000 - 410 = 4590 -> 459 days left.
+        #expect(result.daysLeft == 459)
+
+        let weekAgo = try #require(Calendar.current.date(byAdding: .day, value: -7, to: now))
+        let all = InventoryMath.doses(for: item, in: ctx)
+        let recent = InventoryMath.doses(for: item, in: ctx, since: weekAgo)
+        #expect(all.count == 41)
+        #expect(recent.count == 7)
+        #expect(Set(recent.map(\.id)) == Set(all.filter { $0.timestamp >= weekAgo }.map(\.id)))
+        // A start before tracking began reads from tracking's start.
+        #expect(InventoryMath.doses(for: item, in: ctx, since: .distantPast).count == 41)
+    }
+
     // MARK: - Scoped recompute (log-path optimization)
 
     /// The log path's `recompute(forSubstances:)` must land the **affected**

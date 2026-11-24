@@ -96,7 +96,15 @@ extension ActiveSubstanceState {
         // (category, dose-ranges, durations, half-life, aliases) without the
         // heavy per-substance chem/mechanism SQL. Falls back to the full lookup
         // when the batch cache is cold or the substance is custom-only.
-        guard let substance = SubstanceLibrary.lookup(entry.substance) else { return nil }
+        return from(entry: entry, substance: SubstanceLibrary.lookup(entry.substance), tint: tint, weightKg: weightKg)
+    }
+
+    /// ``from(entry:tint:weightKg:)`` with the dose's substance already
+    /// resolved (``SubstanceLibrary/lookup(_:)`` of `entry.substance`), for a
+    /// caller resolving many doses of a few substances.
+    static func from(entry: DoseEntry, substance: Substance?, tint: P3Color, weightKg: Double? = nil) -> ActiveSubstanceState? {
+        if entry.isUnknownDose { return nil }
+        guard let substance else { return nil }
         // A depot administration (an injectable ester; a formulation flagged depot)
         // releases over days-to-weeks and has no acute psychoactive curve — the same
         // reasoning as an unmodeled form below, so it shows as a bare marker rather

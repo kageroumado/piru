@@ -8,19 +8,14 @@ struct EntryListView: View {
     @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
     /// Bubble heights grow with the text size, so a change re-lays the strip.
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @Query(Self.entriesDescriptor, transaction: .init(animation: nil)) private var entries: [DoseEntry]
-
-    /// Newest-first, **prefetching the `session` relationship**. Grouping and the
-    /// entries signature both read `entry.session`; without prefetch that's a
-    /// per-entry CoreData fault (N+1) on the main thread — hundreds of blocking
-    /// round-trips at launch. Prefetch batches them into the initial fetch.
-    private static var entriesDescriptor: FetchDescriptor<DoseEntry> {
-        var descriptor = FetchDescriptor<DoseEntry>(
-            sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
-        )
-        descriptor.relationshipKeyPathsForPrefetching = [\.session]
-        return descriptor
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``); reading it subscribes this view to the revision.
+    /// Never an unbounded `@Query` here: that re-fetches and re-sorts the
+    /// whole log on the main actor after every save.
+    private var entries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
     }
+
     @Query private var substanceColors: [SubstanceColor]
 
     @Binding var searchText: String
@@ -105,7 +100,7 @@ struct EntryListView: View {
         guard showActiveHero, let anchor = states.map(\.doseTimestamp).max() else { return nil }
         for day in model.sessionDays {
             for card in day.sessions
-                where card.entries.contains(where: { abs($0.timestamp.timeIntervalSince(anchor)) < 1 }) {
+                where card.doseTimestamps.contains(where: { abs($0.timeIntervalSince(anchor)) < 1 }) {
                 return card
             }
         }
@@ -277,6 +272,15 @@ struct EntryListView: View {
             if model.isDerived(atLogRevision: revision) { return }
             let isFirst = !model.hasStartedLoading
             model.hasStartedLoading = true
+            // A Journal made after another has derived this store (the Search
+            // tab's, or every Journal once a chosen skin re-creates the app's
+            // root) starts from what that one resolved; when it is current,
+            // only the buckets are left to build.
+            if isFirst, model.takeOver(in: modelContext, revision: revision, colors: substanceColors) {
+                model.refreshColorMap(substanceColors)
+                applyRegroup(animated: false)
+                return
+            }
             if !isFirst {
                 // Animate the diff so a newly-logged session slides in and pushes
                 // the others down instead of snapping.
@@ -286,6 +290,7 @@ struct EntryListView: View {
             await rebuildAll(animated: !isFirst)
             guard !Task.isCancelled else { return }
             model.markDerived(logRevision: revision)
+            model.handOver(in: modelContext)
         }
         // Debounce the search filter: re-filtering the whole history runs on the
         // main actor, so doing it on every keystroke stalled typing. An empty
@@ -340,7 +345,11 @@ struct EntryListView: View {
             // instead of once per keystroke.
             try? await Task.sleep(for: .milliseconds(isSearchSurface ? 600 : 200))
             guard !Task.isCancelled else { return }
-            let source = (model.hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
+            let isFiltered = model.hasActiveFilters || !searchText.isEmpty
+            // Re-filter against this revision's doses first: a filter result
+            // left from before the commit can hold a dose it deleted.
+            if isFiltered { regroup() }
+            let source = isFiltered ? model.filtered : entries
             await timelineModel.rebuild(
                 entries: source,
                 colors: substanceColors,
@@ -368,7 +377,10 @@ struct EntryListView: View {
             }
         }
         .onChange(of: colorSignature) {
-            Task { await rebuildAll(animated: true) }
+            Task {
+                await rebuildAll(animated: true)
+                model.handOver(in: modelContext)
+            }
         }
         .sheet(isPresented: $showingCalendar) {
             calendarSheet(proxy: proxy)

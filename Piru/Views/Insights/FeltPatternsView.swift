@@ -9,7 +9,12 @@ import SwiftUI
 /// than your later ones"*, never *"take it before 8."*
 struct FeltPatternsView: View {
     @Query private var sessions: [Session]
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``), shared with every other screen that reads it.
+    private var entries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
 
     @State private var model = FeltPatternsModel()
 

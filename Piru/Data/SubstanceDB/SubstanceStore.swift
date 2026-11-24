@@ -137,6 +137,12 @@ final class SubstanceStore {
     /// overlay), so a source reorder keeps it and a store rebuild discards it.
     @ObservationIgnored var pharmacologyParamsByName: [String: PharmacologyParameters] = [:]
 
+    /// Memoized ``pkInteractions(forSubstanceName:)`` per substance row id. A
+    /// session's detail checks every logged substance, and the same few
+    /// substances recur across sessions. Ranked by source priority, so a
+    /// source reorder clears it with the other source-derived caches.
+    @ObservationIgnored var pkInteractionsByID: [Int64: [PKInteractionHit]] = [:]
+
     /// Cached `all`/`substances(in:)` results, so the Library tab does not
     /// resolve the whole catalog on every body invalidation. Cleared in
     /// lockstep with `resolvedCache`.
@@ -618,6 +624,7 @@ final class SubstanceStore {
         benzoEquivalenceCache = nil
         opioidEquivalenceCache = nil
         zeroOrderKineticsCache = nil
+        pkInteractionsByID.removeAll(keepingCapacity: true)
     }
 
     /// Re-resolve everything cached in the previous app language. The new batch

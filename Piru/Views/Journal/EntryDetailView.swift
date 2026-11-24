@@ -161,13 +161,15 @@ struct EntryDetailView: View {
                 LocationPickerView { picked in draft.location = picked }
             }
             .task {
-                // Resolve the full substance record once — it feeds the dose ladder,
-                // unit/route/salt lists, and live preview. The `substanceInfo == nil`
-                // guard below skips re-resolving when the screen reappears (e.g. after
-                // a pushed child pops) — `resolveFull` is a blocking lookup.
+                // Resolve the substance once — it feeds the dose ladder, unit/route/salt
+                // lists, and live preview, all of which the batch projection carries:
+                // this screen shows no mechanism, bindings or chemistry, so it never
+                // pays the full record's per-substance SQL. The `substanceInfo == nil`
+                // guard skips re-resolving when the screen reappears (e.g. after a
+                // pushed child pops).
                 await SubstanceStore.shared.ensureAllLoaded()
                 if substanceInfo == nil {
-                    substanceInfo = SubstanceLibrary.resolveFull(entry.substance)
+                    substanceInfo = SubstanceLibrary.lookup(entry.substance)
                 }
                 // A row's Edit action opens this screen straight into edit mode.
                 // Consumed only after `substanceInfo` resolves — the draft's

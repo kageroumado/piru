@@ -14,8 +14,16 @@ struct SessionCard: Identifiable, Equatable {
     /// The session's stable id, used for navigation. For a (rare) session-less
     /// straggler this is a fresh UUID and the card is non-navigable.
     let id: UUID
+    /// The models the card was built from, for an action taken on the card (a
+    /// tap's route, the context menu). A view's `body` reads the card's own
+    /// fields instead: the card outlives a commit by one debounced regroup,
+    /// and a deleted model's attributes trap on read.
     let session: Session?
     let entries: [DoseEntry]
+    /// ``Session/id``, `nil` for a session-less straggler.
+    let sessionID: UUID?
+    /// Each dose's timestamp, in `entries` order.
+    let doseTimestamps: [Date]
     let states: [ActiveSubstanceState]
     let markers: [DoseMarker]
     let isMaintenance: Bool
@@ -36,13 +44,15 @@ struct SessionCard: Identifiable, Equatable {
         self.entries = entries
         self.states = states
         self.markers = markers
-        id = session?.id ?? UUID()
+        sessionID = session?.id
+        id = sessionID ?? UUID()
+        doseTimestamps = entries.map(\.timestamp)
         title = session?.title
         isMaintenance = session?.isMaintenance ?? (!entries.isEmpty && entries.allSatisfy(\.isBackgroundMed))
 
-        let start = entries.first?.timestamp ?? session?.startDate ?? .now
+        let start = doseTimestamps.first ?? session?.startDate ?? .now
         startDate = start
-        if let end = entries.last?.timestamp, end.timeIntervalSince(start) >= 60 {
+        if let end = doseTimestamps.last, end.timeIntervalSince(start) >= 60 {
             timeLabel = "\(start.formatted(Self.clock)) – \(end.formatted(Self.clock))"
         } else {
             timeLabel = start.formatted(Self.clock)

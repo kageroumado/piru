@@ -9,7 +9,12 @@ import SwiftUI
 /// 3. Projected steady state for regularly dosed substances
 /// 4. Related calculators (half-width compact cards)
 struct InYourBodyView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``), shared with every other screen that reads it.
+    private var allEntries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
     @Query private var substanceColors: [SubstanceColor]
 
     @State private var manager = BodyLevelsManager.shared

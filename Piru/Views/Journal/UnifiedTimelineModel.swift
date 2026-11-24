@@ -47,6 +47,10 @@ final class UnifiedTimelineModel {
 
         let heartRate = showsAxis && HealthKitVitals.shared.isOn(overlay: showsVitals) ? await Self.recentHeartRate(entries: entries) : []
         guard !Task.isCancelled else { return }
+        // The per-dose work (catalog, bubbles, days, sessions), in yielding
+        // chunks: one pass over a multi-year log is too long to hold the main
+        // actor for.
+        guard let resolved = await TimelineStripBuilder.resolve(entries, colors: colors, colorMap: colorMap, sessions: sessions) else { return }
 
         guard var builder = TimelineStripBuilder(
             entries: entries,
@@ -62,6 +66,7 @@ final class UnifiedTimelineModel {
             curveScale: curveScale,
             heartRate: heartRate,
             sessions: sessions,
+            resolved: resolved,
         ) else {
             days = []
             builtKey = key
