@@ -7313,13 +7313,9 @@ T = {
         "Swift 运行时、Foundation 和 Dispatch，在 Android 上运行 Piru。",
         "Swift 執行環境、Foundation 與 Dispatch，在 Android 上執行 Piru。",
     ),
-    "SkipUI and SkipFuseUI, the parts of Skip that draw Piru's screens on Android. Piru's changes to them are in android/vendor in its repository.": (
-        "SkipUI 和 SkipFuseUI，Skip 中在 Android 上绘制 Piru 界面的部分。Piru 对它们的修改位于其代码库的 android/vendor 中。",
-        "SkipUI 與 SkipFuseUI，Skip 中在 Android 上繪製 Piru 畫面的部分。Piru 對它們的修改位於其程式庫的 android/vendor 中。",
-    ),
-    "Skip's other modules, which run Piru's Swift code on Android. Piru's changes to them are in android/vendor in its repository.": (
-        "Skip 的其他模块，在 Android 上运行 Piru 的 Swift 代码。Piru 对它们的修改位于其代码库的 android/vendor 中。",
-        "Skip 的其他模組，在 Android 上執行 Piru 的 Swift 程式碼。Piru 對它們的修改位於其程式庫的 android/vendor 中。",
+    "Skip, which runs Piru's Swift code on Android. Piru's changes to it are in android/vendor in its repository.": (
+        "Skip，在 Android 上运行 Piru 的 Swift 代码。Piru 对它的修改位于其代码库的 android/vendor 中。",
+        "Skip，在 Android 上執行 Piru 的 Swift 程式碼。Piru 對它的修改位於其程式庫的 android/vendor 中。",
     ),
     "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.": (
         "Kotlin、AndroidX、Jetpack Compose、Coil、ZXing、Material Symbols、swift-crypto、swift-asn1、swift-jni 和 swift-android-native。",
@@ -8425,8 +8421,7 @@ if __name__ == "__main__":
         "This phone has no camera. Let them scan your code, then send you a session.",
         "The camera could not be started.",
         "The Swift runtime, Foundation and Dispatch, which run Piru on Android.",
-        "SkipUI and SkipFuseUI, the parts of Skip that draw Piru's screens on Android. Piru's changes to them are in android/vendor in its repository.",
-        "Skip's other modules, which run Piru's Swift code on Android. Piru's changes to them are in android/vendor in its repository.",
+        "Skip, which runs Piru's Swift code on Android. Piru's changes to it are in android/vendor in its repository.",
         "Kotlin, AndroidX, Jetpack Compose, Coil, ZXing, Material Symbols, swift-crypto, swift-asn1, swift-jni and swift-android-native.",
         "ICU, the Unicode data behind dates, numbers and text on Android.",
         "curl, part of Foundation's networking on Android.",

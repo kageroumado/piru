@@ -85840,6 +85840,35 @@
         }
       }
     },
+    "Skip, which runs Piru's Swift code on Android. Piru's changes to it are in android/vendor in its repository." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip, que ejecuta el código Swift de Piru en Android. Los cambios de Piru están en android/vendor de su repositorio."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip, que ejecuta el código Swift de Piru en Android. Los cambios de Piru están en android/vendor de su repositorio."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip，在 Android 上运行 Piru 的 Swift 代码。Piru 对它的修改位于其代码库的 android/vendor 中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip，在 Android 上執行 Piru 的 Swift 程式碼。Piru 對它的修改位於其程式庫的 android/vendor 中。"
+          }
+        }
+      }
+    },
     "Skipped" : {
       "localizations" : {
         "es" : {
